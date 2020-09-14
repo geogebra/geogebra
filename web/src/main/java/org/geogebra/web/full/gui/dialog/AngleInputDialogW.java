@@ -35,13 +35,13 @@ public class AngleInputDialogW extends ComponentInputDialog {
 		super(app, data, true, false, handler,
 				app.getLocalization().getMenu(message), initString,
 				1, -1, false);
+		addStyleName("angleInputDialog");
 		super.setModal(modal);
 		setInputHandler(handler);
 		extendGUI();
 	}
 
 	private void extendGUI() {
-		//setInitString(initString);
 		Localization loc = app.getLocalization();
 		// create radio buttons for "clockwise" and "counter clockwise"
 		String id = DOM.createUniqueId();
@@ -54,25 +54,27 @@ public class AngleInputDialogW extends ComponentInputDialog {
 		rbPanel.setStyleName("DialogRbPanel");
 		rbPanel.add(rbCounterClockWise);
 		rbPanel.add(rbClockWise);
-
-		/*createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1,
-				true, false);*/
-
-		/*VerticalPanel centerPanel = new VerticalPanel();
-		centerPanel.add(messagePanel);
-		centerPanel.add(inputPanel);
-		centerPanel.add(errorPanel);
-		centerPanel.add(rbPanel);
-		((VerticalPanel) wrappedPopup.getWidget()).insert(centerPanel, 0);*/
-
-		//wrappedPopup.center();
 		addDialogContent(rbPanel);
 		getTextComponent().setFocus(true);
 	}
 
-	/*public boolean isCounterClockWise() {
+	public boolean isCounterClockWise() {
 		return rbCounterClockWise.getValue();
-	}*/
+	}
+
+	@Override
+	public void processInput() {
+		String inputTextWithSign = getInputText();
+		getTextComponent().hideTablePopup();
+
+		// negative orientation ?
+		if (rbClockWise.getValue()) {
+			inputTextWithSign = "-(" + inputTextWithSign + ")";
+		}
+
+		getInputHandler().processInput(inputTextWithSign, this,
+				ok -> hide());
+	}
 
 	/*@Override
 	protected void actionPerformed(DomEvent<?> e) {

@@ -206,9 +206,9 @@ public class DialogManagerW extends DialogManager
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
 		DialogData data = new DialogData(title);
-		AngleInputDialogW id = new AngleInputDialogW(((AppW) app), message,
+		AngleInputDialogW angleInputDialog = new AngleInputDialogW(((AppW) app), message,
 				data, initText, handler, true);
-		id.setVisible(true);
+		angleInputDialog.show();
 	}
 
 	@Override
@@ -387,9 +387,9 @@ public class DialogManagerW extends DialogManager
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		InputDialogRotateW id = new InputDialogRotatePointW(((AppW) app), data,
+		InputDialogRotateW rotatePointInputDialog = new InputDialogRotatePointW(((AppW) app), data,
 				handler, polys, points, selGeos, ec);
-		id.setVisible(true);
+		rotatePointInputDialog.show();
 	}
 
 	@Override
@@ -399,9 +399,9 @@ public class DialogManagerW extends DialogManager
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		InputDialogAngleFixedW id = new InputDialogAngleFixedW(((AppW) app),
+		InputDialogAngleFixedW angleInputDialog = new InputDialogAngleFixedW(((AppW) app),
 				data, handler, segments, points, app.getKernel(), ec);
-		id.setVisible(true);
+		angleInputDialog.show();
 	}
 
 	@Override

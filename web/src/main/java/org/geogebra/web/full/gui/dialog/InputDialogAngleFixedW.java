@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
@@ -54,47 +53,16 @@ public class InputDialogAngleFixedW extends AngleInputDialogW implements KeyPres
 		this.segments = segments;
 		this.points = points;
 		this.kernel = kernel;
-		
 		this.ec = ec;
 		
 	}
-
-	/*@Override
-	protected void actionPerformed(DomEvent<?> e) {
-		Object source = e.getSource();
-		try {
-			if (source == btOK || sourceShouldHandleOK(source)) {
-				processInput();
-				//setVisibleForTools(!processInput());
-			//} else if (source == btApply) {
-			//	processInput();
-			} else if (source == btCancel) {
-				//setVisibleForTools(false);
-				wrappedPopup.hide();
-				inputPanel.getTextComponent().hideTablePopup();
-				app.getActiveEuclidianView().requestFocusInWindow();
-			} 
-		} catch (Exception ex) {
-			// do nothing on uninitializedValue		
-			//setVisibleForTools(false);
-			wrappedPopup.hide();
-			inputPanel.getTextComponent().hideTablePopup();
-			app.getActiveEuclidianView().requestFocusInWindow();
-		}
-	}*/
 
 	@Override
 	public void processInput() {
 		final String inputText = getInputText();
 		DialogManager.createAngleFixed(kernel, inputText,
 				rbClockWise.getValue(), this, segments, points,
-				new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean ok) {
-						doProcessInput(ok, inputText);
-					}
-				}, ec);
+				ok -> doProcessInput(ok, inputText), ec);
 	}
 
 	/**
@@ -120,14 +88,10 @@ public class InputDialogAngleFixedW extends AngleInputDialogW implements KeyPres
 	 *            whether dialog should stay visible
 	 */
 	protected void setVisibleForTools(boolean visible) {
-		if (visible) {
-			// wrappedPopup.show();
-			getTextComponent().hideTablePopup();
-		} else {
-			//wrappedPopup.hide();
-			getTextComponent().hideTablePopup();
+		if (!visible) {
 			app.getActiveEuclidianView().requestFocusInWindow();
 		}
+		getTextComponent().hideTablePopup();
 	}
 
 	/*

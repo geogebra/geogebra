@@ -54,37 +54,16 @@ public abstract class InputDialogRotateW extends AngleInputDialogW implements Ke
 		getTextComponent().getTextField().getValueBox().addKeyUpHandler(this);
 	}
 
-	/*@Override
-	protected void actionPerformed(DomEvent<?> e) {
-		Object source = e.getSource();
-
-		try {
-			if (source == btOK || sourceShouldHandleOK(source)) {
-				//
-				processInput(new AsyncOperation<String>() {
-
-					@Override
-					public void callback(String obj) {
-						// FIXME setVisibleForTools(!processInput());
-						if (obj == null) {
-							// wrappedPopup.show();
-							getTextComponent().hideTablePopup();
-						} else {
-							setVisible(false);
-
-						}
-					}
-				});
-
-			} /*else if (source == btCancel) {
-				setVisible(false);
-
-			}*/
-	/*} catch (Exception ex) {
-			// do nothing on uninitializedValue
-			setVisible(false);
-		}
-	}*/
+	@Override
+	public void processInput() {
+		processInput(obj -> {
+			if (obj == null) {
+				getTextComponent().hideTablePopup();
+			} else {
+				hide();
+			}
+		});
+	}
 
 	/**
 	 * @param op
