@@ -4135,10 +4135,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return isExam() && getExam().isStarted();
 	}
 
-	public void setExam(ExamEnvironment exam) {
-	}
-
-	public void setNewExam() {
+	public void setupNewExam() {
 	}
 
 	/**

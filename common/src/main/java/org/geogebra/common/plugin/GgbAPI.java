@@ -1703,7 +1703,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		if ("exam".equals(code)) {
-			app.setNewExam();
+			app.setupNewExam();
 			app.examWelcome();
 			return;
 		}

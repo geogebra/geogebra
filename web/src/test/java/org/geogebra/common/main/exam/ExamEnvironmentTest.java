@@ -8,7 +8,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.web.test.AppMocker;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -16,8 +15,6 @@ import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.WithClassesToStub;
 
-// TODO Implement ExamEnvironmentW
-@Ignore
 @RunWith(GwtMockitoTestRunner.class)
 @WithClassesToStub({ TextAreaElement.class })
 public class ExamEnvironmentTest {
@@ -29,7 +26,7 @@ public class ExamEnvironmentTest {
 	@Before
 	public void setUp() {
 		App app = AppMocker.mockCas(getClass());
-//		examEnvironment = new ExamEnvironment(app);
+		examEnvironment = new ExamEnvironment(app.getLocalization());
 		casSettings = app.getSettings().getCasSettings();
 		commandDispatcher = app.getKernel().getAlgebraProcessor().getCommandDispatcher();
 	}

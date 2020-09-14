@@ -19,7 +19,6 @@ import org.geogebra.test.commands.ErrorAccumulator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -31,11 +30,6 @@ public class RedefineTest extends Assert {
 	@Before
 	public void resetSyntaxes() {
 		app.getKernel().clearConstruction(true);
-		if (app.getExam() != null) {
-			app.getExam().closeExam();
-			app.fileNew();
-			app.setExam(null);
-		}
 	}
 
 	/**
@@ -378,14 +372,11 @@ public class RedefineTest extends Assert {
 		t("f'(x)", "(2 * x)");
 	}
 
-	// TODO Implement ExamEnvironmentW
-	@Ignore
 	@Test
 	public void redefinitionShouldNotMakeUnfixed() {
 		add("b:Circle(O,1)");
 		add("c:xx+yy=2");
 		add("d:xx+yy");
-		app.setNewExam();
 		app.startExam();
 		Assert.assertFalse(get("b").isLocked());
 		Assert.assertTrue(get("c").isLocked());
