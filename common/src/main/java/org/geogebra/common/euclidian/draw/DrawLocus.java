@@ -21,8 +21,8 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.plot.CurvePlotterUtils;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
-import org.geogebra.common.euclidian.plot.CurveSegmentPlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -198,7 +198,7 @@ public class DrawLocus extends Drawable {
 		}
 
 		// Use the last plotted point for positioning the label:
-		labelPosition = CurveSegmentPlotter.draw(gp, pointList, transformSys);
+		labelPosition = CurvePlotterUtils.draw(gp, pointList, transformSys);
 		/*
 		 * Due to numerical instability of the curve plotter algorithm this
 		 * position may be changing too quickly which results in an annoying

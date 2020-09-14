@@ -23,8 +23,8 @@ public class PathPlotterMock implements PathPlotter {
 		addLog("LINETO", pos);
 	}
 
-	protected boolean addLog(String message, double[] pos) {
-		return log.add(message + " " + pos[0] + ", " + pos[1]);
+	protected void addLog(String message, double[] pos) {
+		log.add(message + " " + pos[0] + ", " + pos[1]);
 	}
 
 	@Override

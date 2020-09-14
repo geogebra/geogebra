@@ -19,12 +19,17 @@ public class CurvePlotterTest extends BaseUnitTest {
 
 	@Test
 	public void testPlotSinX4() {
-		resultShouldBeTheSame(add("sin(x^4)"), -5, 5);
+		resultShouldBeTheSame(add("sin(x^4)"), -5, 0);
 	}
 
 	@Test
 	public void testPlot1perx() {
 		resultShouldBeTheSame(add("1/x"), -5, 5);
+	}
+
+	@Test
+	public void testSingularity() {
+		resultShouldBeTheSame(add("If(x==0, ?, sin(x))"), -5, 5);
 	}
 
 	@Test
