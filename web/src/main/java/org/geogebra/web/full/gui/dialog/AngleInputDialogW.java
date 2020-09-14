@@ -32,7 +32,7 @@ public class AngleInputDialogW extends ComponentInputDialog {
 	 */
 	public AngleInputDialogW(AppW app, String message, DialogData data,
 			String initString, InputHandler handler, boolean modal) {
-		super(app, data, true, false, handler,
+		super(app, data, false, false, handler,
 				app.getLocalization().getMenu(message), initString,
 				1, -1, false);
 		addStyleName("angleInputDialog");
@@ -75,37 +75,4 @@ public class AngleInputDialogW extends ComponentInputDialog {
 		getInputHandler().processInput(inputTextWithSign, this,
 				ok -> hide());
 	}
-
-	/*@Override
-	protected void actionPerformed(DomEvent<?> e) {
-		Object source = e.getSource();
-
-		try {
-
-			if (source == btOK || sourceShouldHandleOK(source)) {
-				String inputTextWithSign = getInputText();
-				getTextComponent().hideTablePopup();
-
-				// negative orientation ?
-				if (rbClockWise.getValue()) {
-					inputTextWithSign = "-(" + inputTextWithSign + ")";
-				}
-
-				getInputHandler().processInput(inputTextWithSign, this,
-						ok -> hide());
-			}
-		} catch (Exception ex) {
-			//afterActionPerformed(false);
-			// do nothing on uninitializedValue
-		}
-	}
-
-	/*void afterActionPerformed(boolean finished) {
-		if (finished) {
-			wrappedPopup.hide();
-			app.getActiveEuclidianView().requestFocusInWindow();
-		} else {
-			wrappedPopup.show();
-		}
-	}*/
 }

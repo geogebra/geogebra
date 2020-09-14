@@ -26,8 +26,7 @@ public class DialogData {
 	 * @param titleTransKey - ggb trans key for the dialog title
 	 */
 	public DialogData(String titleTransKey) {
-		setTitleTransKey(titleTransKey);
-		setButtonTransKeys("Cancel", "OK");
+		this(titleTransKey, "Cancel", "OK");
 	}
 
 	/**

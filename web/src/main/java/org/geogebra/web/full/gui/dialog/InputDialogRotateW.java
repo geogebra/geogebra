@@ -46,11 +46,9 @@ public abstract class InputDialogRotateW extends AngleInputDialogW implements Ke
 			GeoElement[] selGeos, EuclidianController ec) {
 		super(app, app.getLocalization().getMenu("Angle"), data,
 				DEFAULT_ROTATE_ANGLE, handler, false);
-
 		this.polys = polys;
 		this.selGeos = selGeos;
 		this.ec = ec;
-
 		getTextComponent().getTextField().getValueBox().addKeyUpHandler(this);
 	}
 

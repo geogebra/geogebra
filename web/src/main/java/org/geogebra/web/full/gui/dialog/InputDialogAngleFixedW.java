@@ -49,12 +49,10 @@ public class InputDialogAngleFixedW extends AngleInputDialogW implements KeyPres
 			EuclidianController ec) {
 		super(app, app.getLocalization().getMenu("Angle"), data,
 				defaultRotateAngle, handler, false);
-
 		this.segments = segments;
 		this.points = points;
 		this.kernel = kernel;
 		this.ec = ec;
-		
 	}
 
 	@Override
@@ -89,6 +87,7 @@ public class InputDialogAngleFixedW extends AngleInputDialogW implements KeyPres
 	 */
 	protected void setVisibleForTools(boolean visible) {
 		if (!visible) {
+			hide();
 			app.getActiveEuclidianView().requestFocusInWindow();
 		}
 		getTextComponent().hideTablePopup();
