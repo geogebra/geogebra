@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.commands.CmdGetTime;
@@ -12,6 +13,7 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
+import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.Translation;
 import org.geogebra.common.main.exam.event.CheatingEvent;
@@ -85,8 +87,12 @@ public class ExamEnvironment {
 		return copyPaste;
 	}
 
-	public void setAppName(String appName) {
-		this.localizedAppName = localization.getMenu(appName);
+	public void setAppNameWith(AppConfig config) {
+		String appNameShort =
+				config.getAppCode().equals(GeoGebraConstants.SUITE_APPCODE)
+						? GeoGebraConstants.SUITE_SHORT_NAME
+						: config.getAppNameShort();
+		this.localizedAppName = localization.getMenu(appNameShort);
 	}
 
 	/**
