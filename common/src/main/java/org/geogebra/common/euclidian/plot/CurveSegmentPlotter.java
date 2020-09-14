@@ -31,9 +31,6 @@ public class CurveSegmentPlotter {
 	// ln(x)+sin(x), it could lead to piecewise functions joining up.
 	private static final int MAX_CONTINUITY_BISECTIONS = 8;
 
-	// maximum number of times to loop when xDiff, yDiff are both zero
-	// eg Curve[0sin(t), 0t, t, 0, 6]
-	private static final int MAX_ZERO_COUNT = 1000;
 
 	// the curve is sampled at least at this many positions to plot it
 	private static final int MIN_SAMPLE_POINTS = 80;
@@ -126,7 +123,7 @@ public class CurveSegmentPlotter {
 		// init previous slope using (tMin, tMin + min_step)
 		curve.evaluateCurve(tMin + divisors[length - 1], eval);
 
-		SegmentParams params = new SegmentParams(tMin, tMin,
+		SegmentParams params = new SegmentParams(tMin, tMax, divisors,
 				view.getOnScreenDiff(evalLeft, evalRight),
 				view.getOnScreenDiff(evalLeft, eval));
 
@@ -141,13 +138,10 @@ public class CurveSegmentPlotter {
 			info.update(evalLeft, evalRight, params.diff, params.prevDiff);
 
 			// bisect interval as long as max bisection depth not reached & ...
-			while (!params.isMaxDepthReached()
-					// ... distance not ok or angle not ok or step too big
+			while (params.hasMaxDepthNotReached()
 					&& (info.isDistanceOrAngleInvalid()
-							|| divisors[params.depth] > maxParamStep)
-
-					// 0, 6]
-					&& params.countDiffZeros < MAX_ZERO_COUNT) {
+							|| params.isStepTooBig(maxParamStep))
+					&& params.isDiffZerosLimitNotReached()) {
 				// push stacks
 				stack.push(params.dyad, params.depth, onScreen, evalRight);
 				params.dyad = 2 * params.dyad - 1;
