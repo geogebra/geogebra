@@ -62,6 +62,9 @@ public class ExamEnvironment {
 	private boolean temporaryBlur;
 	private boolean wasCasEnabled;
 
+	/**
+	 * @param localization localization
+	 */
 	public ExamEnvironment(Localization localization) {
 		this.localization = localization;
 		cheatingEvents = new CheatingEvents();
@@ -87,6 +90,12 @@ public class ExamEnvironment {
 		return copyPaste;
 	}
 
+	/**
+	 * Gets the short app name key based on the app config's app code
+	 * and stores the translated short app name in the localizedAppName field.
+	 *
+	 * @param config config
+	 */
 	public void setAppNameWith(AppConfig config) {
 		String appNameShort =
 				config.getAppCode().equals(GeoGebraConstants.SUITE_APPCODE)

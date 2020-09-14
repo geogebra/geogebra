@@ -5171,6 +5171,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// nothing here
 	}
 
+	/**
+	 * Updates the objects that depend on the command dispatcher.
+	 *
+	 * @param commandDispatcher command dispatcher
+	 */
 	public void onCommandDispatcherSet(CommandDispatcher commandDispatcher) {
 		ExamEnvironment examEnvironment = getExam();
 		if (examEnvironment != null) {
