@@ -3,21 +3,13 @@ package org.geogebra.common.main.exam;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.CASSettings;
-import org.geogebra.web.test.AppMocker;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.google.gwt.dom.client.TextAreaElement;
-import com.google.gwtmockito.GwtMockitoTestRunner;
-import com.google.gwtmockito.WithClassesToStub;
-
-@RunWith(GwtMockitoTestRunner.class)
-@WithClassesToStub({ TextAreaElement.class })
-public class ExamEnvironmentTest {
+public class ExamEnvironmentTest extends BaseUnitTest {
 
 	private ExamEnvironment examEnvironment;
 	private CASSettings casSettings;
@@ -25,18 +17,10 @@ public class ExamEnvironmentTest {
 
 	@Before
 	public void setUp() {
-		App app = AppMocker.mockCas(getClass());
-		examEnvironment = new ExamEnvironment(app.getLocalization());
-		casSettings = app.getSettings().getCasSettings();
-		commandDispatcher = app.getKernel().getAlgebraProcessor().getCommandDispatcher();
-	}
-
-	@Test
-	public void exit() {
-		boolean casDefaultState = isCasEnabled();
-		examEnvironment.setupExamEnvironment();
-		examEnvironment.exit();
-		assertThat(isCasEnabled(), is(casDefaultState));
+		examEnvironment = new ExamEnvironment(getLocalization());
+		casSettings = getApp().getSettings().getCasSettings();
+		commandDispatcher = getKernel().getAlgebraProcessor().getCommandDispatcher();
+		examEnvironment.setCommandDispatcher(commandDispatcher);
 	}
 
 	@Test
