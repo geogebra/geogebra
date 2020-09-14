@@ -84,7 +84,7 @@ public class AppConfigGeometry extends AbstractAppConfig {
 
 	@Override
 	public String getTutorialKey() {
-		return "TutorialGeometry";
+		return getSubAppCode() == null ? "TutorialGeometry" : "TutorialSuite";
 	}
 
 	@Override
