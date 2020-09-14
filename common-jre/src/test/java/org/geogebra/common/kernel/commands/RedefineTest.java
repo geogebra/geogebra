@@ -373,11 +373,10 @@ public class RedefineTest extends Assert {
 	}
 
 	@Test
-	public void redefinitionShouldNotMakeUnfixed() {
+	public void testLockedState() {
 		add("b:Circle(O,1)");
 		add("c:xx+yy=2");
 		add("d:xx+yy");
-		app.startExam();
 		Assert.assertFalse(get("b").isLocked());
 		Assert.assertTrue(get("c").isLocked());
 		Assert.assertFalse(get("d").isLocked());
