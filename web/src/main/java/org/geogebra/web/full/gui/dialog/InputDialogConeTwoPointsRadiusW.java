@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.DialogData;
 
 /**
  * Dialog for cone given by two points and radius
@@ -20,8 +21,8 @@ public class InputDialogConeTwoPointsRadiusW extends InputDialogRadiusW {
 	 * 
 	 * @param app
 	 *            app
-	 * @param title
-	 *            dialog title
+	 * @param data
+	 *           dialog data
 	 * @param handler
 	 *            input handler
 	 * @param a
@@ -31,9 +32,9 @@ public class InputDialogConeTwoPointsRadiusW extends InputDialogRadiusW {
 	 * @param kernel
 	 *            kernel
 	 */
-	public InputDialogConeTwoPointsRadiusW(AppW app, String title,
+	public InputDialogConeTwoPointsRadiusW(AppW app, DialogData data,
             InputHandler handler, GeoPointND a, GeoPointND b, Kernel kernel) {
-	    super(app, title, handler, kernel);
+	    super(app, data, handler, kernel);
 	    this.a = a;
 	    this.b = b;
     }

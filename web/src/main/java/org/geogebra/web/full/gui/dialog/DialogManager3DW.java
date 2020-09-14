@@ -36,9 +36,11 @@ public class DialogManager3DW extends DialogManagerW {
 			GeoPointND center, EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogW id = new InputDialogSpherePointW((AppW) app, title,
+		DialogData data = new DialogData(title);
+		ComponentInputDialog spherePointInputDialog =
+				new InputDialogSpherePointW((AppW) app, data,
 				handler, center, app.getKernel());
-		id.setVisible(true);
+		spherePointInputDialog.show();
 
 	}
 
@@ -57,9 +59,10 @@ public class DialogManager3DW extends DialogManagerW {
 			GeoPointND a, GeoPointND b, EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogW id = new InputDialogConeTwoPointsRadiusW((AppW) app, title,
+		DialogData data = new DialogData(title);
+		ComponentInputDialog coneTwoPointsInputDialog = new InputDialogConeTwoPointsRadiusW((AppW) app, data,
 				handler, a, b, app.getKernel());
-		id.setVisible(true);
+		coneTwoPointsInputDialog.show();
 	}
 
 	@Override
@@ -67,9 +70,11 @@ public class DialogManager3DW extends DialogManagerW {
 			GeoPointND a, GeoPointND b, EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogW id = new InputDialogCylinderTwoPointsRadiusW((AppW) app,
-				title, handler, a, b, app.getKernel());
-		id.setVisible(true);
+		DialogData data = new DialogData(title);
+		ComponentInputDialog cylinderTwoPointsInputDialog
+				= new InputDialogCylinderTwoPointsRadiusW((AppW) app,
+				data, handler, a, b, app.getKernel());
+		cylinderTwoPointsInputDialog.show();
 	}
 
 	@Override
@@ -78,10 +83,11 @@ public class DialogManager3DW extends DialogManagerW {
 			EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogW id = new InputDialogCirclePointDirectionRadiusW((AppW) app,
-				title, handler, geoPoint, forAxis, app.getKernel());
-		id.setVisible(true);
-
+		DialogData data = new DialogData(title);
+		ComponentInputDialog circlePointRadiusInputDialog
+				= new InputDialogCirclePointDirectionRadiusW((AppW) app,
+				data, handler, geoPoint, forAxis, app.getKernel());
+		circlePointRadiusInputDialog.show();
 	}
 
 	@Override

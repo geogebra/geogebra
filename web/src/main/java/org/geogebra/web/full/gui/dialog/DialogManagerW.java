@@ -190,9 +190,11 @@ public class DialogManagerW extends DialogManager
 			GeoPointND geoPoint1, EuclidianView view) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogW id = new InputDialogCirclePointRadiusW(((AppW) app), title,
+		DialogData data = new DialogData(title);
+		ComponentInputDialog circlePointRadiusInputDialog
+				= new InputDialogCirclePointRadiusW(((AppW) app), data,
 				handler, (GeoPoint) geoPoint1, app.getKernel());
-		id.setVisible(true);
+		circlePointRadiusInputDialog.show();
 	}
 
 	@Override
