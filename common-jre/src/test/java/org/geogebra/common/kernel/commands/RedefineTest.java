@@ -30,6 +30,10 @@ public class RedefineTest extends Assert {
 	@Before
 	public void resetSyntaxes() {
 		app.getKernel().clearConstruction(true);
+		if (app.getExam() != null) {
+			app.getExam().closeExam();
+			app.setExam(null);
+		}
 	}
 
 	/**
@@ -373,10 +377,12 @@ public class RedefineTest extends Assert {
 	}
 
 	@Test
-	public void testLockedState() {
+	public void redefinitionShouldNotMakeUnfixed() {
 		add("b:Circle(O,1)");
 		add("c:xx+yy=2");
 		add("d:xx+yy");
+		app.setNewExam();
+		app.startExam();
 		Assert.assertFalse(get("b").isLocked());
 		Assert.assertTrue(get("c").isLocked());
 		Assert.assertFalse(get("d").isLocked());

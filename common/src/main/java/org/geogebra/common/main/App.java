@@ -4141,7 +4141,17 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public void setNewExam() {
-		setExam(new ExamEnvironment(getLocalization()));
+		ExamEnvironment examEnvironment = newExamEnvironment();
+		setExam(examEnvironment);
+		examEnvironment.setAppNameWith(getConfig());
+		CommandDispatcher commandDispatcher =
+				getKernel().getAlgebraProcessor().getCommandDispatcher();
+		examEnvironment.setCommandDispatcher(commandDispatcher);
+		updateExam(examEnvironment);
+	}
+
+	protected ExamEnvironment newExamEnvironment() {
+		return new ExamEnvironment(getLocalization());
 	}
 
 	/**
