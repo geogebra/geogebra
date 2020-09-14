@@ -98,16 +98,17 @@ public final class LocalizationW extends Localization {
 			return "";
 		}
 
-		return getPropertyWithFallback(getCommandLocaleString(), key, "command");
+		return getPropertyWithFallback(getCommandLocaleString(), key, key, "command");
 	}
 
-	private String getPropertyWithFallback(String lang, String key, String command) {
-		String ret = getPropertyNative(lang, key, command);
+	private String getPropertyWithFallback(String lang, String key,
+			String fallback, String category) {
+		String ret = getPropertyNative(lang, key, category);
 		if (ret == null || "".equals(ret)) {
 			if (DomGlobal.console != null) { // no error message in test
-				Log.debug(command + " key not found: " + key);
+				Log.debug(category + " key not found: " + key);
 			}
-			return key;
+			return fallback;
 		}
 
 		return ret;
@@ -118,7 +119,7 @@ public final class LocalizationW extends Localization {
 		if (key == null) {
 			return "";
 		}
-		return getPropertyWithFallback("en", key, "command");
+		return getPropertyWithFallback("en", key, key, "command");
 	}
 
 	// TODO: implement getCommandLocale()
@@ -169,17 +170,17 @@ public final class LocalizationW extends Localization {
 			return "";
 		}
 
-		return getPropertyWithFallback(localeStr, key, "error");
+		return getPropertyWithFallback(localeStr, key, key, "error");
 	}
 
 	@Override
 	public String getSymbol(int key) {
-		return getPropertyWithFallback(localeStr, "S_" + key, "symbols");
+		return getPropertyWithFallback(localeStr, "S_" + key, null, "symbols");
 	}
 
 	@Override
 	public String getSymbolTooltip(int key) {
-		return getPropertyWithFallback(localeStr, "T_" + key, "symbols");
+		return getPropertyWithFallback(localeStr, "T_" + key, null, "symbols");
 	}
 
 	@Override
@@ -216,7 +217,7 @@ public final class LocalizationW extends Localization {
 			return StringUtil.getGrayString(key.charAt(4), this);
 		}
 
-		return getPropertyWithFallback(localeStr, key, "colors");
+		return getPropertyWithFallback(localeStr, key, key, "colors");
 	}
 
 	/**
