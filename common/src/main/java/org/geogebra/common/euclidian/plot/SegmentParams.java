@@ -71,4 +71,11 @@ public class SegmentParams {
 	public void updatePreviousDiff() {
 		prevDiff = Cloner.clone(diff);
 	}
+
+	public void updateFromStack(CurvePlotterStackItem item) {
+		depth = item.depth + 1; // pop stack and go to right
+		dyad = item.dyadic * 2;
+		updatePreviousDiff();
+		updateT();
+	}
 }
