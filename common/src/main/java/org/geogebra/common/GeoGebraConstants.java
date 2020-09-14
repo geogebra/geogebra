@@ -114,7 +114,9 @@ public interface GeoGebraConstants {
 
 	}
 
-	enum MenuType {DEFAULT, EXAM}
+	enum MenuType {
+		DEFAULT, EXAM
+	}
 
 	String GRAPHING_APPCODE = "graphing";
 	String GEOMETRY_APPCODE = "geometry";
