@@ -588,7 +588,6 @@ public abstract class DialogManager {
 	public void showNumberInputDialogSpherePointRadius(String title,
 			GeoPointND geoPoint, EuclidianController ec) {
 		// 3D stuff
-
 	}
 
 	/**
@@ -606,7 +605,6 @@ public abstract class DialogManager {
 	public void showNumberInputDialogConeTwoPointsRadius(String title,
 			GeoPointND a, GeoPointND b, EuclidianController ec) {
 		// 3D stuff
-
 	}
 
 	/**
