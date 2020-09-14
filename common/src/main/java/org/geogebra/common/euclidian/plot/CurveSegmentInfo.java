@@ -1,9 +1,7 @@
 package org.geogebra.common.euclidian.plot;
 
-import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.util.DoubleUtil;
 
 public class CurveSegmentInfo {
 	public static final int MAX_PIXEL_DISTANCE = 10; // pixels
@@ -19,24 +17,12 @@ public class CurveSegmentInfo {
 	private boolean distanceOK;
 	private boolean angleOK;
 	private boolean offScreen;
-	private double[] diff;
-	private double[] prevDiff;
 
 	public CurveSegmentInfo(EuclidianView view, double[] evalLeft, double[] evalRight,
 			double[] prevDiff) {
 		this.view = view;
 		this.evalLeft = evalLeft;
 		this.evalRight = evalRight;
-		this.diff = view.getOnScreenDiff(evalLeft, evalRight);
-		this.prevDiff = prevDiff;
-	}
-
-	public boolean isDistanceOK() {
-		return distanceOK;
-	}
-
-	public boolean isAngleOK() {
-		return angleOK;
 	}
 
 	public boolean isOffScreen() {
@@ -46,8 +32,6 @@ public class CurveSegmentInfo {
 	public void update(double[] evalLeft, double[] evalRight, double[] diff, double[] prevDiff) {
 		this.evalLeft = evalLeft;
 		this.evalRight = evalRight;
-		this.diff = diff;
-		this.prevDiff = prevDiff;
 		offScreen = view.isSegmentOffView(evalLeft, evalRight);
 		distanceOK = offScreen || isDistanceOK(diff);
 		angleOK = isAngleOK(prevDiff, diff, offScreen
@@ -109,22 +93,5 @@ public class CurveSegmentInfo {
 			}
 			return det < bend * innerProduct;
 		}
-	}
-
-	public void updateDiff() {
-		diff = view.getOnScreenDiff(evalLeft, evalRight);
-	}
-
-	public void updateDiffs() {
-		prevDiff = Cloner.clone(diff);
-		updateDiff();
-	}
-
-	public boolean isDiffZero() {
-		return DoubleUtil.isZero(diff[0]) && DoubleUtil.isZero(diff[1]);
-	}
-
-	public void setEvalRight(double[] evalRight) {
-		this.evalRight = evalRight;
 	}
 }

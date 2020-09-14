@@ -1,15 +1,10 @@
 package org.geogebra.common.euclidian.plot;
 
-import java.util.ArrayList;
-
 import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.MyPoint;
-import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
-import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -107,21 +102,14 @@ public class CurveSegmentPlotter {
 	}
 
 	public GPoint plot() {
-		// evaluate for tMin
-		curve.evaluateCurve(tMin, eval);
-		if (isUndefined(eval)) {
-			return plotProblemInterval(curve, tMin, tMax, intervalDepth,
-					maxParamStep, view, gp, needLabelPos, moveToAllowed,
-					labelPoint);
+		if (isCurveUndefinedAt(tMin)) {
+			return plotProblemInterval(tMin);
 		}
+
 		evalLeft = Cloner.clone(eval);
 
-		// evaluate for tMax
-		curve.evaluateCurve(tMax, eval);
-		if (isUndefined(eval)) {
-			return plotProblemInterval(curve, tMin, tMax, intervalDepth,
-					maxParamStep, view, gp, needLabelPos, moveToAllowed,
-					labelPoint);
+		if (isCurveUndefinedAt(tMax)) {
+			return plotProblemInterval(tMin);
 		}
 		boolean onScreen = view.isOnView(eval);
 		evalRight = Cloner.clone(eval);
@@ -182,9 +170,7 @@ public class CurveSegmentPlotter {
 
 					// split interval: f(t+eps) or f(t-eps) not defined
 					if (!singularity) {
-						return plotProblemInterval(curve, left, tMax,
-								intervalDepth, maxParamStep, view, gp,
-								needLabelPos, moveToAllowed, labelPoint);
+						return plotProblemInterval(left);
 					}
 					Log.debug("SINGULARITY AT" + t);
 				}
@@ -229,6 +215,10 @@ public class CurveSegmentPlotter {
 		return labelPoint;
 	}
 
+	private boolean isCurveUndefinedAt(double x) {
+		curve.evaluateCurve(x, eval);
+		return isUndefined(eval);
+	}
 	protected void drawSegment(double t, double left, CurveSegmentInfo info) {
 		if (isLineTo(t, left, info)) {
 			// handle previous moveTo first
@@ -322,13 +312,10 @@ public class CurveSegmentPlotter {
 	/**
 	 * Plots an interval where f(tMin) or f(tMax) is undefined.
 	 */
-	private static GPoint plotProblemInterval(CurveEvaluable curve, double tMin,
-			double tMax, int intervalDepth, double maxParamStep,
-			EuclidianView view, PathPlotter gp, boolean calcLabelPos,
-			Gap moveToAllowed, GPoint labelPoint) {
-		boolean calcLabel = calcLabelPos;
+	private GPoint plotProblemInterval(double left) {
+		boolean calcLabel = needLabelPos;
 		// stop recursion for too many intervals
-		if (intervalDepth > MAX_PROBLEM_BISECTIONS || tMin == tMax) {
+		if (intervalDepth > MAX_PROBLEM_BISECTIONS || left == tMax) {
 			return labelPoint;
 		}
 
@@ -338,16 +325,16 @@ public class CurveSegmentPlotter {
 		// If we run into a problem, i.e. an undefined point f(t), we bisect
 		// the interval and plot both intervals [t, (t+tMax)/2] and [(t+tMax)/2],
 		// tMax]
-		double splitParam = (tMin + tMax) / 2.0;
+		double splitParam = (left + tMax) / 2.0;
 
 		// make sure that we first bisect down to intervals with a max size of
 		// maxParamStep
-		boolean intervalsTooLarge = Math.abs(tMin - splitParam) > maxParamStep;
+		boolean intervalsTooLarge = Math.abs(left - splitParam) > maxParamStep;
 		if (intervalsTooLarge) {
 			// bisect interval
 			calcLabel = calcLabel && labelPoint == null;
 			CurveSegmentPlotter
-					plotterMin = new CurveSegmentPlotter(curve, tMin, splitParam, intervalDepth + 1,
+					plotterMin = new CurveSegmentPlotter(curve, left, splitParam, intervalDepth + 1,
 					maxParamStep, view, gp, calcLabel, moveToAllowed);
 			labelPointMin = plotterMin.plot();
 
@@ -368,7 +355,7 @@ public class CurveSegmentPlotter {
 
 			// plot interval [tMin, (tMin+tMax)/2]
 			double[] borders = new double[2];
-			getDefinedInterval(curve, tMin, splitParam, borders);
+			getDefinedInterval(curve, left, splitParam, borders);
 			calcLabel = calcLabel && labelPoint == null;
 			CurveSegmentPlotter plotterMin = new CurveSegmentPlotter(curve, borders[0], borders[1],
 					intervalDepth + 1, maxParamStep, view, gp, calcLabel,
@@ -532,74 +519,4 @@ public class CurveSegmentPlotter {
 		}
 	}
 
-	/**
-	 * draw list of points
-	 * 
-	 * @param gp
-	 *            path plotter that actually draws the points list
-	 * @param pointList
-	 *            list of points
-	 * @param transformSys
-	 *            coordinte system to be applied on 2D points
-	 * @return last point drawn
-	 */
-	static public double[] draw(PathPlotter gp,
-			ArrayList<? extends MyPoint> pointList, CoordSys transformSys) {
-		double[] coords = gp.newDoubleArray();
-		int size = pointList.size();
-		if (!gp.supports(transformSys) || size == 0) {
-			return coords;
-		}
-		// this is for making sure that there is no lineto from nothing
-		// and there is no lineto if there is an infinite point between the
-		// points
-		boolean linetofirst = true;
-		double[] lastMove = null;
-		for (MyPoint p : pointList) {
-			// don't add infinite points
-			// otherwise hit-testing doesn't work
-			if (p.isFinite() && gp.copyCoords(p, coords, transformSys)) {
-				if (isArcOrCurvePart(p) && !linetofirst) {
-					gp.drawTo(coords, p.getSegmentType());
-					lastMove = null;
-				} else if (p.getLineTo() && !linetofirst) {
-					gp.lineTo(coords);
-					lastMove = null;
-				} else {
-					lastMove = moveTo(gp, coords, lastMove);
-				}
-				linetofirst = false;
-			} else {
-				linetofirst = true;
-			}
-		}
-		if (lastMove != null) {
-			gp.lineTo(lastMove);
-		}
-
-		gp.endPlot();
-
-		return coords;
-	}
-
-	private static double[] moveTo(PathPlotter gp, double[] coords,
-			double[] previousLastMove) {
-		double[] lastMove;
-		if (previousLastMove != null) {
-			gp.lineTo(previousLastMove);
-			lastMove = previousLastMove;
-		} else {
-			lastMove = new double[coords.length];
-		}
-		gp.moveTo(coords);
-		Cloner.cloneTo(coords, lastMove);
-		return lastMove;
-	}
-
-	private static boolean isArcOrCurvePart(MyPoint p) {
-		return p.getSegmentType() == SegmentType.CURVE_TO
-				|| p.getSegmentType() == SegmentType.CONTROL
-				|| p.getSegmentType() == SegmentType.ARC_TO
-				|| p.getSegmentType() == SegmentType.AUXILIARY;
-	}
 }
