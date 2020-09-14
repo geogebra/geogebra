@@ -43,7 +43,7 @@ public class CurveSegmentPlotter {
 	private double tMax;
 	private int intervalDepth;
 	private double maxParamStep;
-	private EuclidianView view;
+	private final EuclidianView view;
 	private PathPlotter gp;
 	private boolean needLabelPos;
 	private Gap moveToAllowed;
@@ -123,7 +123,7 @@ public class CurveSegmentPlotter {
 		// init previous slope using (tMin, tMin + min_step)
 		curve.evaluateCurve(tMin + divisors[length - 1], eval);
 
-		SegmentParams params = new SegmentParams(tMin, tMax, divisors,
+		SegmentParams params = new SegmentParams(tMin, tMax, divisors, view,
 				view.getOnScreenDiff(evalLeft, evalRight),
 				view.getOnScreenDiff(evalLeft, eval));
 
@@ -143,10 +143,11 @@ public class CurveSegmentPlotter {
 							|| params.isStepTooBig(maxParamStep))
 					&& params.isDiffZerosLimitNotReached()) {
 				// push stacks
+
 				stack.push(params.dyad, params.depth, onScreen, evalRight);
-				params.dyad = 2 * params.dyad - 1;
-				params.depth++;
-				params.t = tMin + params.dyad * divisors[params.depth]; // t=tMin+(tMax-tMin)*(dyad/2^depth)
+
+				params.update();
+
 				// evaluate curve for parameter t
 				curve.evaluateCurve(params.t, eval);
 				onScreen = view.isOnView(eval);
@@ -158,7 +159,6 @@ public class CurveSegmentPlotter {
 				evalRight = Cloner.clone(eval);
 				params.diff = view.getOnScreenDiff(evalLeft, evalRight);
 				params.countDiffZeros = isDiffZero(params.diff) ? params.countDiffZeros +1: 0;
-
 
 				info.update(evalLeft, evalRight, params.diff, params.prevDiff);
 
@@ -183,13 +183,13 @@ public class CurveSegmentPlotter {
 			 */
 
 			CurvePlotterStackItem item = stack.pop();
-			evalRight = item.pos;
 			onScreen = item.onScreen;
+			evalRight = item.pos;
 			params.depth = item.depth + 1; // pop stack and go to right
 			params.dyad = item.dyadic * 2;
-			params.prevDiff = Cloner.clone(params.diff);
-			params.diff = view.getOnScreenDiff(evalLeft, evalRight);
-			params.t = tMin + params.dyad * divisors[params.depth];
+			params.updatePreviousDiff();
+			params.updateDiff(evalLeft, evalRight);
+			params.updateT();
 		} while (stack.hasItems()); // end of do-while loop for bisection stack
 		gp.endPlot();
 		return labelPoint;
