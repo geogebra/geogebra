@@ -157,7 +157,7 @@ public class CurveSegmentPlotter {
 				}
 
 				evalRight = Cloner.clone(eval);
-				params.diff = view.getOnScreenDiff(evalLeft, evalRight);
+				params.updateDiff(evalLeft, evalRight);
 				params.countDiffZeros = isDiffZero(params.diff) ? params.countDiffZeros +1: 0;
 
 				info.update(evalLeft, evalRight, params.diff, params.prevDiff);
@@ -185,12 +185,10 @@ public class CurveSegmentPlotter {
 			CurvePlotterStackItem item = stack.pop();
 			onScreen = item.onScreen;
 			evalRight = item.pos;
-			params.depth = item.depth + 1; // pop stack and go to right
-			params.dyad = item.dyadic * 2;
-			params.updatePreviousDiff();
+			params.updateFromStack(item);
 			params.updateDiff(evalLeft, evalRight);
-			params.updateT();
 		} while (stack.hasItems()); // end of do-while loop for bisection stack
+
 		gp.endPlot();
 		return labelPoint;
 	}
