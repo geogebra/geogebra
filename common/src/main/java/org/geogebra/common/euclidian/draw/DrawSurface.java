@@ -39,9 +39,11 @@ public class DrawSurface extends Drawable {
 		private double val;
 		private boolean fixed;
 
-		public SurfaceCurve(GeoSurfaceCartesian2D surface, double i,
-				boolean fixed) {
+		public SurfaceCurve(GeoSurfaceCartesian2D surface) {
 			this.surface = surface;
+		}
+
+		public void set(double i, boolean fixed) {
 			this.val = i;
 			this.fixed = fixed;
 		}
@@ -66,8 +68,7 @@ public class DrawSurface extends Drawable {
 
 		@Override
 		public double distanceMax(double[] p1, double[] p2) {
-			// TODO Auto-generated method stub
-			return 0;
+			return Math.max(Math.abs(p1[0] - p2[0]), Math.abs(p1[1] - p2[1]));
 		}
 
 		@Override
@@ -121,19 +122,20 @@ public class DrawSurface extends Drawable {
 			gp = new GeneralPathClippedForCurvePlotter(view);
 		}
 		gp.reset();
-		if (!geo.isEuclidianVisible()) {
+		if (!geo.isEuclidianVisible() || !geo.isDefined()) {
 			return;
 		}
+		SurfaceCurve curve = new SurfaceCurve(surface);
 		for (double i = surface.getMinParameter(0); i <= surface
 				.getMaxParameter(0); i += 1) {
-			SurfaceCurve curve = new SurfaceCurve(surface, i, false);
+			curve.set(i, false);
 			CurvePlotter.plotCurve(curve, surface.getMinParameter(1),
 					surface.getMaxParameter(1), view, gp, labelVisible,
 					CurvePlotter.Gap.MOVE_TO);
 		}
 		for (double i = surface.getMinParameter(1); i <= surface
 				.getMaxParameter(1); i++) {
-			SurfaceCurve curve = new SurfaceCurve(surface, i, true);
+			curve.set(i, true);
 			CurvePlotter.plotCurve(curve, surface.getMinParameter(0),
 					surface.getMaxParameter(0), view, gp, labelVisible,
 				CurvePlotter.Gap.MOVE_TO);

@@ -38,7 +38,6 @@ import org.geogebra.common.util.StringUtil;
 
 /**
  * Symbolic geo for CAS computations in AV
- *
  * @author Zbynek
  */
 public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
@@ -68,16 +67,14 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	/**
-	 * @param value
-	 *            output expression
+	 * @param value output expression
 	 */
 	private void setValue(ExpressionValue value) {
 		this.value = value;
 	}
 
 	/**
-	 * @param c
-	 *            construction
+	 * @param c construction
 	 */
 	public GeoSymbolic(Construction c) {
 		super(c);
@@ -172,13 +169,17 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		ExpressionValue casInputArg = getDefinition().deepCopy(kernel)
 				.traverse(FunctionExpander.getCollector());
 		Command casInput = getCasInput(casInputArg);
-		String s = evaluateGeoGebraCAS(casInput.wrap());
+
+		MyArbitraryConstant constant = getArbitraryConstant();
+		constant.setSymbolic(!shouldBeEuclidianVisible(casInput));
+
+		String s = evaluateGeoGebraCAS(casInput.wrap(), constant);
 
 		if (Commands.Solve.name().equals(casInput.getName()) && GeoFunction.isUndefined(s)) {
 			getDefinition().getTopLevelCommand().setName(Commands.NSolve.name());
 			casInput = getCasInput(getDefinition().deepCopy(kernel)
 					.traverse(FunctionExpander.getCollector()));
-			s = evaluateGeoGebraCAS(casInput.wrap());
+			s = evaluateGeoGebraCAS(casInput.wrap(), constant);
 		}
 
 		this.casOutputString = s;
@@ -202,15 +203,16 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		return casInput;
 	}
 
-	private String evaluateGeoGebraCAS(ValidExpression exp) {
+	private String evaluateGeoGebraCAS(ValidExpression exp, MyArbitraryConstant constant) {
 		return kernel.getGeoGebraCAS().evaluateGeoGebraCAS(
-				exp, getArbitraryConstant(), StringTemplate.prefixedDefault, null, kernel);
+				exp, constant, StringTemplate.prefixedDefault, null, kernel);
 	}
 
 	private boolean shouldBeEuclidianVisible(Command input) {
 		String inputName = input.getName();
 		return !Commands.Solve.name().equals(inputName)
 				&& !Commands.NSolve.name().equals(inputName)
+				&& !Commands.IntegralSymbolic.name().equals(inputName)
 				&& !Commands.IsInteger.name().equals(inputName);
 	}
 
@@ -289,8 +291,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	/**
-	 * @param functionVariables
-	 *            function variables
+	 * @param functionVariables function variables
 	 */
 	public void setVariables(FunctionVariable[] functionVariables) {
 		fVars.clear();
@@ -314,7 +315,6 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		if (isTwinUpToDate) {
 			return twinGeo;
 		}
-
 		GeoElementND newTwin = createTwinGeo();
 
 		if (newTwin instanceof EquationValue) {

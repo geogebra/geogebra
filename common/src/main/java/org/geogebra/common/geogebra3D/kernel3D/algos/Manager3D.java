@@ -1127,20 +1127,6 @@ public class Manager3D implements Manager3DInterface {
 	// 3D SURFACE (2 VARS)
 
 	@Override
-	public GeoElement surfaceCartesian3D(String label, ExpressionNode point,
-			GeoNumberValue[] coords,
-			GeoNumeric uVar, GeoNumberValue uFrom, GeoNumberValue uTo,
-			GeoNumeric vVar, GeoNumberValue vFrom, GeoNumberValue vTo) {
-
-		AlgoSurfaceCartesian3D algo = new AlgoSurfaceCartesian3D(cons, label,
-				point, coords,
-				new GeoNumeric[] { uVar, vVar },
-				new GeoNumberValue[] { uFrom, vFrom },
-				new GeoNumberValue[] { uTo, vTo });
-		return algo.getSurface();
-	}
-
-	@Override
 	public GeoElement surfaceOfRevolution(Path function,
 			GeoNumberValue angle, GeoLineND line) {
 		AlgoSurfaceOfRevolution algo = new AlgoSurfaceOfRevolution(cons,

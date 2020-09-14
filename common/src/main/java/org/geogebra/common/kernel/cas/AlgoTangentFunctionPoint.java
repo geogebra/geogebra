@@ -209,15 +209,15 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 			double offset = 0;
 
 			// adjust if the sample goes outside the domain of the function
-			if (a + step * (0 - steps / 2) < min) {
-				offset = min - (a + step * (0 - steps / 2));
-			} else if (a + step * (points.length - 1 - steps / 2) > max) {
-				offset = max - (a + step * (points.length - 1 - steps / 2));
+			if (a - step * steps / 2 < min) {
+				offset = min - (a - step * steps / 2);
+			} else if (a + step * (steps / 2d - 1) > max) {
+				offset = max - (a + step * (steps / 2d - 1));
 			}
 
 			geoList.clear();
 			for (int i = 0; i < points.length; i++) {
-				points[i] = newPoint(a + step * (i - steps / 2) + offset);
+				points[i] = newPoint(a + step * (i - steps / 2d) + offset);
 				geoList.add(points[i]);
 			}
 
