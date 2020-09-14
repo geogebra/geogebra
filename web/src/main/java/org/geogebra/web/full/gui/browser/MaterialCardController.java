@@ -16,7 +16,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.RenameCard;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.BackendAPIFactory;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
@@ -206,7 +205,7 @@ public class MaterialCardController implements OpenFileListener {
 	 * @param oldTitle
 	 *            old title
 	 */
-	public void rename(final String text, final RenameCard card,
+	public void rename(final String text, final MaterialCardI card,
 			final String oldTitle) {
 		if (app.getNetworkOperation().isOnline()
 				&& onlineFile(getMaterial())) {
@@ -222,7 +221,7 @@ public class MaterialCardController implements OpenFileListener {
 										ArrayList<Chapter> meta) {
 									if (parseResponse.size() != 1) {
 										app.showError(Errors.RenameFailed);
-										card.setCardTitle(oldTitle);
+										card.rename(oldTitle);
 									} else {
 										Log.debug("RENAME local");
 										getMaterial().setModified(parseResponse
