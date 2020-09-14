@@ -122,20 +122,15 @@ public class CurveSegmentPlotter {
 		int length = MAX_DEFINED_BISECTIONS + 1;
 		CurvePlotterStack stack = new CurvePlotterStack(length, onScreen, evalRight);
 		double[] divisors = createDivisors(tMin, tMax, length);
-		int dyad = 1;
-
-		// slope between (tMin, tMax)
-		double[] diff = view.getOnScreenDiff(evalLeft, evalRight);
-		int countDiffZeros = 0;
 
 		// init previous slope using (tMin, tMin + min_step)
 		curve.evaluateCurve(tMin + divisors[length - 1], eval);
-		double[] prevDiff = view.getOnScreenDiff(evalLeft, eval);
 
-		int depth = 0;
-		double t = tMin;
-		double left = tMin;
-		CurveSegmentInfo info = new CurveSegmentInfo(view, evalLeft, evalRight, prevDiff);
+		SegmentParams params = new SegmentParams(tMin, tMin,
+				view.getOnScreenDiff(evalLeft, evalRight),
+				view.getOnScreenDiff(evalLeft, eval));
+
+		CurveSegmentInfo info = new CurveSegmentInfo(view, evalLeft, evalRight, params.prevDiff);
 		// Actual plotting algorithm:
 		// use bisection for interval until we reach
 		// a small pixel distance between two points and
@@ -143,43 +138,43 @@ public class CurveSegmentPlotter {
 		// The evaluated curve points are stored on a stack
 		// to avoid multiple evaluations at the same position.
 		do {
-			info.update(evalLeft, evalRight, diff, prevDiff);
+			info.update(evalLeft, evalRight, params.diff, params.prevDiff);
 
 			// bisect interval as long as max bisection depth not reached & ...
-			while (depth < MAX_DEFINED_BISECTIONS
+			while (params.depth < MAX_DEFINED_BISECTIONS
 					// ... distance not ok or angle not ok or step too big
 					&& (info.isDistanceOrAngleInvalid()
-							|| divisors[depth] > maxParamStep)
+							|| divisors[params.depth] > maxParamStep)
 
 					// 0, 6]
-					&& countDiffZeros < MAX_ZERO_COUNT) {
+					&& params.countDiffZeros < MAX_ZERO_COUNT) {
 				// push stacks
-				stack.push(dyad, depth, onScreen, evalRight);
-				dyad = 2 * dyad - 1;
-				depth++;
-				t = tMin + dyad * divisors[depth]; // t=tMin+(tMax-tMin)*(dyad/2^depth)
+				stack.push(params.dyad, params.depth, onScreen, evalRight);
+				params.dyad = 2 * params.dyad - 1;
+				params.depth++;
+				params.t = tMin + params.dyad * divisors[params.depth]; // t=tMin+(tMax-tMin)*(dyad/2^depth)
 				// evaluate curve for parameter t
-				curve.evaluateCurve(t, eval);
+				curve.evaluateCurve(params.t, eval);
 				onScreen = view.isOnView(eval);
 
-				if (hasNoSingularity(t, divisors[length - 1])) {
-					return plotProblemInterval(left);
+				if (isUndefined(eval) && hasNoSingularity(params.t, divisors[length - 1])) {
+					return plotProblemInterval(params.left);
 				}
 
 				evalRight = Cloner.clone(eval);
-				diff = view.getOnScreenDiff(evalLeft, evalRight);
-				countDiffZeros = isDiffZero(diff) ? countDiffZeros +1: 0;
+				params.diff = view.getOnScreenDiff(evalLeft, evalRight);
+				params.countDiffZeros = isDiffZero(params.diff) ? params.countDiffZeros +1: 0;
 
 
-				info.update(evalLeft, evalRight, diff, prevDiff);
+				info.update(evalLeft, evalRight, params.diff, params.prevDiff);
 
 			} // end of while-loop for interval bisections
 
-			drawSegment(t, left, info);
+			drawSegment(params.t, params.left, info);
 
 			// remember last point in general path
 			evalLeft = Cloner.clone(evalRight);
-			left = t;
+			params.left = params.t;
 
 			// remember first point on screen for label position
 			if (onScreen) {
@@ -196,29 +191,27 @@ public class CurveSegmentPlotter {
 			CurvePlotterStackItem item = stack.pop();
 			evalRight = item.pos;
 			onScreen = item.onScreen;
-			depth = item.depth + 1; // pop stack and go to right
-			dyad = item.dyadic * 2;
-			prevDiff = Cloner.clone(diff);
-			diff = view.getOnScreenDiff(evalLeft, evalRight);
-			t = tMin + dyad * divisors[depth];
+			params.depth = item.depth + 1; // pop stack and go to right
+			params.dyad = item.dyadic * 2;
+			params.prevDiff = Cloner.clone(params.diff);
+			params.diff = view.getOnScreenDiff(evalLeft, evalRight);
+			params.t = tMin + params.dyad * divisors[params.depth];
 		} while (stack.hasItems()); // end of do-while loop for bisection stack
 		gp.endPlot();
 		return labelPoint;
 	}
 
 	private boolean hasNoSingularity(double t, double interval) {
-		if (isUndefined(eval)) {
-			// check if c(t-eps) and c(t+eps) are both defined
-			boolean singularity = isContinuousAround(curve, t,
-					interval, view, eval);
+		// check if c(t-eps) and c(t+eps) are both defined
+		boolean singularity = isContinuousAround(curve, t,
+				interval, view, eval);
 
-			// split interval: f(t+eps) or f(t-eps) not defined
-			if (!singularity) {
-				return true;
-			}
-			Log.debug("SINGULARITY AT" + t);
+		// split interval: f(t+eps) or f(t-eps) not defined
+		if (!singularity) {
+			return true;
 		}
-		return true;
+		Log.debug("SINGULARITY AT" + t);
+		return false;
 	}
 
 	private boolean isCurveUndefinedAt(double x) {
