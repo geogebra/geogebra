@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.view.spreadsheet;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectListener;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
-import org.geogebra.web.full.gui.dialog.InputDialogW;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.view.algebra.DOMIndexHTMLBuilder;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -11,10 +11,10 @@ import org.geogebra.web.html5.gui.util.CardPanel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -27,8 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
  * Dialog to create GeoElements (lists, matrices, tabletext, etc.) from
  * spreadsheet cell selections
  */
-public class CreateObjectDialogW extends InputDialogW implements
-		 ICreateObjectListener {
+public class CreateObjectDialogW extends ComponentDialog implements ICreateObjectListener {
 
 	private CreateObjectModel coModel;
 	private Label lblObject;
@@ -55,11 +54,11 @@ public class CreateObjectDialogW extends InputDialogW implements
 	private CardPanel cards;
 	private Label lblPreview;
 	private FlowPanel optionPane;
-	//private DefaultListModel model;
 	private ListBox typeList;
 	private Label lblPreviewHeader;
 	private Label lblOptions;
-	private FlowPanel centerPanel;
+	private FlowPanel centerPanel = new FlowPanel();
+	private Localization loc;
 	
 	/**
 	 * @param app
@@ -69,28 +68,27 @@ public class CreateObjectDialogW extends InputDialogW implements
 	 * @param objectType
 	 *            resulting object type
 	 */
-	public CreateObjectDialogW(AppW app, SpreadsheetViewW view, int objectType) {
-		super(false, app, false);
+	public CreateObjectDialogW(AppW app, SpreadsheetViewW view, int objectType,
+			DialogData data) {
+		super(app, data, false, false);
+		addStyleName("createObjDialog");
 		MyTableW table = view.getSpreadsheetTable();
 		coModel = new CreateObjectModel(app, objectType, this);
 		coModel.setCellRangeProcessor(table.getCellRangeProcessor());
 		coModel.setSelectedCellRanges(table.getSelectedCellRanges());
-
-		createGUI(coModel.getTitle(), coModel.getTitle(), false,
-				16, 1, false, false);
+		loc = app.getLocalization();
 
 		createAdditionalGUI();
 
 		isIniting = false;
 		setLabels();
 
-		// optionPane.add(inputPanel, BorderLayout.CENTER);
 		typeList.setSelectedIndex(objectType);
 		objectTypeChanged();
-		
-		centerAndFocus(false);
-	
+
 		updateGUI();
+		setOnNegativeAction(() -> coModel.cancel());
+		setOnPositiveAction(() -> coModel.ok());
 	}
 
 	/**
@@ -168,6 +166,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		pp.add(previewPanel);
 		pp.setStyleName("createObjectsPreview");
 		centerPanel.add(LayoutUtilW.panelRow(optionPane, pp));
+		addDialogContent(centerPanel);
 	}
 
 	private void buildOptionsPanel() {
@@ -177,7 +176,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 		FlowPanel copyPanel = new FlowPanel();
 		copyPanel.add(btnObject);
 		copyPanel.add(btnValue);
-		// copyPanel.add(cbTake);
 
 		FlowPanel northPanel = new FlowPanel();
 		
@@ -192,12 +190,9 @@ public class CreateObjectDialogW extends InputDialogW implements
 		FlowPanel xySwitchPanel = new FlowPanel();
 		xySwitchPanel.add(cbLeftRightOrder);
 
-		//pointListPanel.add(Box.createRigidArea(lblName.getSize()));
-
 		// TODO: this is not a good way to manage visibility of option panels
 		// ..fix it if we need more options in the future
 		cards = new CardPanel();
-		//cards.getTabBar().setVisible(false);
 		cards.setStyleName("panelIndent");
 		cards.add(orderPanel);
 		cards.add(xySwitchPanel);
@@ -210,16 +205,10 @@ public class CreateObjectDialogW extends InputDialogW implements
 		optionsPanel.add(cards);
 	}
 
-	@Override
 	public void setLabels() {
 		if (isIniting) {
 			return;
 		}
-
-		// TODO: using buttons incorrectly for now
-		// btnOK = cancel, cancel = create
-		btOK.setText(loc.getMenu("Create"));
-		btCancel.setText(loc.getMenu("Cancel"));
 
 		// object/value checkboxes
 		btnObject.setText(loc.getMenu("DependentObjects"));
@@ -228,7 +217,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		// transpose checkbox
 		ckTranspose.setText(loc.getMenu("Transpose"));
 		ckSort.setText(loc.getMenu("Sort"));
-		
+
 		lblName.setText(loc.getMenu("Name") + ": ");
 
 		cbScanOrder.clear();
@@ -245,12 +234,8 @@ public class CreateObjectDialogW extends InputDialogW implements
 		}
 
 		lblObject.setText(loc.getMenu("Object") + ":");
-
 		lblPreviewHeader.setText(loc.getMenu("Preview") + ":");
-
 		lblOptions.setText(loc.getMenu("Options"));
-		wrappedPopup.getCaption().setText(coModel.getTitle());
-		
 	}
 
 	private void updateGUI() {
@@ -284,10 +269,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 	void apply(Widget source) {
 		if (source == fldName) {
 			doTextFieldActionPerformed();
-		}  else if (source == btCancel) {
-			coModel.cancel();
-		} else if (source == btOK) {
-			coModel.ok();
 		} else if (source == btnObject) {
 			btnValue.setValue(!btnObject.getValue());
 			coModel.createNewGeo(fldName.getText());
@@ -298,12 +279,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 				|| source == ckTranspose) {
 			coModel.createNewGeo(fldName.getText());
 		}
-	}
-
-	@Override
-	protected void actionPerformed(DomEvent<?> event) {
-		Widget source = (Widget) event.getSource();
-		apply(source);
 	}
 	
 	private void doTextFieldActionPerformed() {
@@ -316,8 +291,8 @@ public class CreateObjectDialogW extends InputDialogW implements
 		// visible
 		if (!isVisible) {
 			coModel.cleanUp();
+			hide();
 		}
-		wrappedPopup.setVisible(isVisible);
 	}
 
 	@Override
@@ -332,7 +307,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 	@Override
 	public boolean isVisible() {
-		return wrappedPopup != null && wrappedPopup.isVisible();
+		return super.isVisible();
 	}
 
 	@Override
@@ -353,35 +328,5 @@ public class CreateObjectDialogW extends InputDialogW implements
 	@Override
 	public boolean isTranspose() {
 		return ckTranspose.getValue();
-	}
-
-	@Override
-	protected void createGUI(String title, String message,
-	        boolean autoComplete, int columns, int rows,
-	        boolean showSymbolPopupIcon, boolean selectInitText) {
-
-		centerPanel = new FlowPanel();
-		
-		btOK = new Button();
-		btOK.addClickHandler(this);
-
-		btCancel = new Button();
-		btCancel.addStyleName("cancelBtn");
-		btCancel.addClickHandler(this);
-	
-		// create button panel
-		btPanel = new FlowPanel();
-		btPanel.addStyleName("DialogButtonPanel");
-		btPanel.add(btOK);
-		btPanel.add(btCancel);
-
-		setLabels();
-
-		FlowPanel mainPanel = new FlowPanel();
-		mainPanel.addStyleName("Dialog-content");
-		mainPanel.add(centerPanel);
-		mainPanel.add(btPanel);
-
-		wrappedPopup.setWidget(mainPanel);
 	}
 }

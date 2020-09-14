@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.DialogData;
 
 /**
  * Utility class to handle toolbar menu mode changes
@@ -18,7 +19,12 @@ public class SpreadsheetToolbarManagerW {
 	private SpreadsheetViewW view;
 	private MyTableW table;
 
-	private CreateObjectDialogW id;
+	private CreateObjectDialogW createObjectDialog;
+	public static final int TYPE_LIST = 0;
+	public static final int TYPE_MATRIX = 2;
+	public static final int TYPE_LISTOFPOINTS = 1;
+	public static final int TYPE_TABLETEXT = 3;
+	public static final int TYPE_POLYLINE = 4;
 
 	/**
 	 * @param app
@@ -96,8 +102,33 @@ public class SpreadsheetToolbarManagerW {
 	}
 
 	private void openDialog(int type) {
-		id = new CreateObjectDialogW(app, view, type);
-		id.setVisible(true);
+		DialogData data = new DialogData(getTitle(type));
+		createObjectDialog = new CreateObjectDialogW(app, view, type, data);
+		createObjectDialog.show();
 	}
 
+	/**
+	 * @return title
+	 */
+	public String getTitle(int objectType) {
+		switch (objectType) {
+		default:
+			return null;
+
+		case TYPE_LIST:
+			return "CreateList";
+
+		case TYPE_LISTOFPOINTS:
+			return "CreateListOfPoints";
+
+		case TYPE_TABLETEXT:
+			return "CreateTable";
+
+		case TYPE_POLYLINE:
+			return "CreatePolyLine";
+
+		case TYPE_MATRIX:
+			return "CreateMatrix";
+		}
+	}
 }
