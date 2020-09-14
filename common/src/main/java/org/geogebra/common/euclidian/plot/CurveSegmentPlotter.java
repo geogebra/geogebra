@@ -150,7 +150,7 @@ public class CurveSegmentPlotter {
 					// ... distance not ok or angle not ok or step too big
 					&& (info.isDistanceOrAngleInvalid()
 							|| divisors[depth] > maxParamStep)
-					// make sure we don't get stuck on eg Curve[0sin(t), 0t, t,
+
 					// 0, 6]
 					&& countDiffZeros < MAX_ZERO_COUNT) {
 				// push stacks
@@ -161,18 +161,9 @@ public class CurveSegmentPlotter {
 				// evaluate curve for parameter t
 				curve.evaluateCurve(t, eval);
 				onScreen = view.isOnView(eval);
-				// check for singularity:
-				// c(t) undefined; c(t-eps) and c(t+eps) both defined
-				if (isUndefined(eval)) {
-					// check if c(t-eps) and c(t+eps) are both defined
-					boolean singularity = isContinuousAround(curve, t,
-							divisors[length - 1], view, eval);
 
-					// split interval: f(t+eps) or f(t-eps) not defined
-					if (!singularity) {
-						return plotProblemInterval(left);
-					}
-					Log.debug("SINGULARITY AT" + t);
+				if (hasNoSingularity(t, divisors[length - 1])) {
+					return plotProblemInterval(left);
 				}
 
 				evalRight = Cloner.clone(eval);
@@ -213,6 +204,21 @@ public class CurveSegmentPlotter {
 		} while (stack.hasItems()); // end of do-while loop for bisection stack
 		gp.endPlot();
 		return labelPoint;
+	}
+
+	private boolean hasNoSingularity(double t, double interval) {
+		if (isUndefined(eval)) {
+			// check if c(t-eps) and c(t+eps) are both defined
+			boolean singularity = isContinuousAround(curve, t,
+					interval, view, eval);
+
+			// split interval: f(t+eps) or f(t-eps) not defined
+			if (!singularity) {
+				return true;
+			}
+			Log.debug("SINGULARITY AT" + t);
+		}
+		return true;
 	}
 
 	private boolean isCurveUndefinedAt(double x) {
