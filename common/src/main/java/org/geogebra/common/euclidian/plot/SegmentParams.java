@@ -22,9 +22,8 @@ public class SegmentParams {
 	private EuclidianView view;
 
 
-	public SegmentParams(double tMin, double tMax, double[] divisors,
-			EuclidianView view, double[] diff,
-			double[] prevDiff) {
+	public SegmentParams(double tMin, double tMax, double[] divisors, EuclidianView view,
+			double[] evalLeft, double[] evalRight, double[] eval) {
 		this.tMin = tMin;
 		this.tMax = tMax;
 		this.divisors = divisors;
@@ -33,9 +32,10 @@ public class SegmentParams {
 		depth = 0;
 		this.t = tMin;
 		this.left = tMin;
-		this.diff = diff;
-		this.prevDiff = prevDiff;
+		this.diff = view.getOnScreenDiff(evalLeft, evalRight);
+		this.prevDiff = view.getOnScreenDiff(evalLeft, eval);
 	}
+
 
 	public boolean hasMaxDepthNotReached() {
 		return depth < MAX_DEFINED_BISECTIONS;

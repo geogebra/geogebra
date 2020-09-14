@@ -124,8 +124,7 @@ public class CurveSegmentPlotter {
 		curve.evaluateCurve(tMin + divisors[length - 1], eval);
 
 		SegmentParams params = new SegmentParams(tMin, tMax, divisors, view,
-				view.getOnScreenDiff(evalLeft, evalRight),
-				view.getOnScreenDiff(evalLeft, eval));
+				evalLeft, evalRight, eval);
 
 		CurveSegmentInfo info = new CurveSegmentInfo(view, evalLeft, evalRight, params.prevDiff);
 		// Actual plotting algorithm:
