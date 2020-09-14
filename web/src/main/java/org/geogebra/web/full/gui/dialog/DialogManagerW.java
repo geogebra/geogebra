@@ -420,9 +420,10 @@ public class DialogManagerW extends DialogManager
 			GeoPointND geoPoint1) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogW id = new InputDialogSegmentFixedW(((AppW) app), title,
+		DialogData data = new DialogData(title);
+		ComponentInputDialog segmentInputDialog = new InputDialogSegmentFixedW(((AppW) app), data,
 				handler, geoPoint1, app.getKernel());
-		id.setVisible(true);
+		segmentInputDialog.show();
 	}
 
 	/**
