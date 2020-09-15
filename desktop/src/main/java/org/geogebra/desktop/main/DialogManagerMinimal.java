@@ -44,8 +44,6 @@ public class DialogManagerMinimal extends DialogManager {
 	 */
 	public DialogManagerMinimal(App app) {
 		this.app = app;
-		this.loc = app.getLocalization();
-
 	}
 
 	/**
@@ -196,7 +194,8 @@ public class DialogManagerMinimal extends DialogManager {
 	public void showNumberInputDialogRegularPolygon(String menu,
 			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,
 			GeoCoordSys2D direction) {
-		String inputString = prompt(menu + " " + loc.getMenu("Points"), "4");
+		String inputString = prompt(menu + " " +
+				getLocalization().getMenu("Points"), "4");
 
 		makeRegularPolygon(app, ec, inputString, geoPoint1, geoPoint2,
 				direction,
@@ -214,7 +213,7 @@ public class DialogManagerMinimal extends DialogManager {
 	@Override
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint,
 			boolean rw) {
-		return new TextInputDialogD(app, loc.getMenu("Text"), text, startPoint,
+		return new TextInputDialogD(app, getLocalization().getMenu("Text"), text, startPoint,
 				rw, 30, 6, app.getMode() == EuclidianConstants.MODE_TEXT);
 	}
 
@@ -296,7 +295,7 @@ public class DialogManagerMinimal extends DialogManager {
 	public void showNumberInputDialogRotate(String menu,
 			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec) {
-		String inputString = prompt(menu + " " + loc.getMenu("Angle"),
+		String inputString = prompt(menu + " " + getLocalization().getMenu("Angle"),
 				defaultAngle);
 
 		rotateObject(app, inputString, false, selectedPolygons,

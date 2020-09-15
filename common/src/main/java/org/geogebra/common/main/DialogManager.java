@@ -46,7 +46,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public abstract class DialogManager {
 	protected App app;
-	protected Localization loc;
+	private Localization loc;
 
 	/**
 	 * Dialog for styling text objects.
@@ -63,6 +63,14 @@ public abstract class DialogManager {
 	public DialogManager(App app) {
 		this.app = app;
 		this.loc = app.getLocalization();
+	}
+
+	/**
+	 *
+	 * @return localization
+	 */
+	public Localization getLocalization() {
+		return loc;
 	}
 
 	public abstract boolean showFunctionInspector(GeoFunction geoFunction);

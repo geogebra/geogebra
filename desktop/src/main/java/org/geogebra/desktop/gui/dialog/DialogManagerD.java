@@ -219,7 +219,8 @@ public class DialogManagerD extends DialogManagerMinimal {
 																		// <b>Segment
 																		// a</b>
 						"</html>",
-				loc.getMenu("Rename"), initText, false, handler, false,
+				getLocalization().getMenu("Rename"),
+				initText, false, handler, false,
 				selectInitText, null);
 
 		/*
@@ -253,8 +254,8 @@ public class DialogManagerD extends DialogManagerMinimal {
 	@Override
 	public void createRedefineDialog(GeoElement geo, String str, InputHandler handler) {
 		InputDialogD id = new InputDialogD(((AppD) app),
-				geo.getNameDescription(), loc.getMenu("Redefine"), str, true,
-				handler, geo);
+				geo.getNameDescription(), getLocalization().getMenu("Redefine"),
+				str, true, handler, geo);
 		id.showSymbolTablePopup(true);
 		id.setVisible(true);
 	}
@@ -488,9 +489,11 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 	@Override
 	public void showLogOutDialog() {
-		Object[] options = { loc.getMenu("SignOut"), loc.getMenu("Cancel") };
+		Object[] options = { getLocalization().getMenu("SignOut"),
+				getLocalization().getMenu("Cancel") };
 		int n = JOptionPane.showOptionDialog(((AppD) app).getMainComponent(),
-				loc.getMenu("ReallySignOut"), loc.getMenu("Question"),
+				getLocalization().getMenu("ReallySignOut"),
+				getLocalization().getMenu("Question"),
 				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
 				options, options[0]);
 		if (n == 0) {
@@ -688,7 +691,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 	@Override
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint,
 			boolean rw) {
-		return new TextInputDialogD(app, loc.getMenu("Text"), text, startPoint,
+		return new TextInputDialogD(app, getLocalization().getMenu("Text"), text, startPoint,
 				rw, 30, 6, app.getMode() == EuclidianConstants.MODE_TEXT);
 	}
 }
