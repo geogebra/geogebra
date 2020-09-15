@@ -70,4 +70,13 @@ public class PathPlotterMock implements PathPlotter {
 	String result() {
 		return StringUtil.join(",", log);
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof PathPlotterMock) {
+			PathPlotterMock that = (PathPlotterMock) obj;
+			return that.result().equals(result());
+		}
+		return super.equals(obj);
+	}
 }

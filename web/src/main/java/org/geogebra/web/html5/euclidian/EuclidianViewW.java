@@ -17,6 +17,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.PenPreviewLine;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.background.BackgroundType;
+import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
@@ -559,6 +560,12 @@ public class EuclidianViewW extends EuclidianView implements
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
 			waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
 		}
+	}
+
+	@Override
+	public void updateCurve(DrawParametricCurve d) {
+		Log.debug("updateCurve");
+		repaintScheduler.requestAnimationFrame(timestamp -> d.update());
 	}
 
 	/**

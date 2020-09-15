@@ -36,6 +36,7 @@ public class CurveSegmentPlotter {
 	private static final int MIN_SAMPLE_POINTS = 80;
 
 	private static final double MAX_JUMP = 5;
+	private static final int MAX_STEPS_PER_PLOT = 500;
 	private boolean ready;
 
 
@@ -155,7 +156,7 @@ public class CurveSegmentPlotter {
 	// The evaluated curve points are stored on a stack
 	// to avoid multiple evaluations at the same position.
 	public boolean plotBisectorAlgo() {
-			int maxStepsAtOnce = 5;
+		int maxStepsAtOnce = MAX_STEPS_PER_PLOT;
 		do {
 			info.update(evalLeft, evalRight, params.diff, params.prevDiff);
 
@@ -540,6 +541,6 @@ public class CurveSegmentPlotter {
 	}
 
 	public GPoint getLabelPoint() {
-		return null;
+		return labelPoint;
 	}
 }
