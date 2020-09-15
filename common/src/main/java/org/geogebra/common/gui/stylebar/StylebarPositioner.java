@@ -17,7 +17,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.SelectionManager;
 
 /**
@@ -246,13 +245,6 @@ public class StylebarPositioner {
 			}
 		}
 
-		if (app.getMode() == EuclidianConstants.MODE_SELECT) {
-			if (!app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
-				return getPositionForSelection(stylebarHeight, stylebarWidth,
-						canvasRect);
-			}
-		}
-
 		GeoElement geo = activeGeoList.get(0);
 		if (geo.isEuclidianVisible()) {
 			if (geo instanceof GeoFunction) {
@@ -355,8 +347,7 @@ public class StylebarPositioner {
 			// function, and then
 			// the user select another geo (e.g. a point). Then we still want to
 			// show style bar.
-			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)
-					&& app.getMode() == EuclidianConstants.MODE_SELECT) {
+			if (app.getMode() == EuclidianConstants.MODE_SELECT) {
 				DrawableND dr = euclidianView.getDrawableND(geo);
 				if (dr != null) {
 					GPoint position = getStylebarPositionForDrawable(
