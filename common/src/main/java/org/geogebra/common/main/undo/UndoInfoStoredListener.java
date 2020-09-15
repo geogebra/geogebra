@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.undoredo;
+package org.geogebra.common.main.undo;
 
 /**
  * This listener can be set to listen to the event when undo info is stored.

@@ -1,8 +1,8 @@
 package org.geogebra.web.full.main.embed;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.UndoManager;
-import org.geogebra.common.kernel.undoredo.UndoInfoStoredListener;
+import org.geogebra.common.main.undo.UndoInfoStoredListener;
+import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;

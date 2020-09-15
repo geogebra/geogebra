@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel;
+package org.geogebra.common.main.undo;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -6,12 +6,11 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.geogebra.common.euclidian.EmbedManager;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.undoredo.UndoInfoStoredListener;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Undo manager common to Desktop and Web
@@ -33,6 +32,7 @@ public abstract class UndoManager {
 	private ListIterator<UndoCommand> iterator;
 	private boolean storeUndoInfoNeededForProperties = false;
 	private List<UndoInfoStoredListener> undoInfoStoredListeners;
+	private final List<ActionExecutor> executors = new ArrayList<>();
 
 	/**
 	 * @param cons
@@ -44,6 +44,7 @@ public abstract class UndoManager {
 		undoInfoList = new LinkedList<>();
 		iterator = undoInfoList.listIterator();
 		undoInfoStoredListeners = new ArrayList<>();
+		executors.add(new ConstructionActionExecutor(app));
 	}
 
 	/**
@@ -121,14 +122,10 @@ public abstract class UndoManager {
 	 */
 	public void executeAction(EventType action, AppState state,
 			String... args) {
-		if (action == EventType.REMOVE) {
-			app.getGgbApi().deleteObject(args[0]);
-		} else if (action == EventType.ADD) {
-			app.getGgbApi().evalXML(args[1]);
-		} else if (action == EventType.UPDATE) {
-			app.getGgbApi().evalXML(args[2]);
-		} else {
-			app.executeAction(action, state, args);
+		for (ActionExecutor executor: executors) {
+			if (executor.executeAction(action, state, args)) {
+				return;
+			}
 		}
 	}
 
@@ -427,24 +424,6 @@ public abstract class UndoManager {
 	}
 
 	/**
-	 * @param action
-	 *            action to be executed
-	 * @param id
-	 *            embed ID
-	 */
-	public void embeddedAction(EventType action, String id) {
-		EmbedManager embedManager = app.getEmbedManager();
-		if (embedManager != null) {
-			try {
-				int embedId = Integer.parseInt(id);
-				embedManager.executeAction(action, embedId);
-			} catch (RuntimeException e) {
-				Log.warn("No undo possible for embed " + id);
-			}
-		}
-	}
-
-	/**
 	 * Store action and notify listeners
 	 * @param type action type
 	 * @param args arguments
@@ -452,5 +431,21 @@ public abstract class UndoManager {
 	public void storeUndoableAction(EventType type, String... args) {
 		storeAction(type, args);
 		app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO));
+	}
+
+	public void addActionExecutor(ActionExecutor executor) {
+		executors.add(executor);
+	}
+
+	/**
+	 * @param action action type
+	 * @param args action arguments
+	 */
+	public void undoAction(EventType action, String[] args) {
+		for (ActionExecutor executor: executors) {
+			if (executor.undoAction(action, args)) {
+				return;
+			}
+		}
 	}
 }

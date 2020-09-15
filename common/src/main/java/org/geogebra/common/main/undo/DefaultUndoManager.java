@@ -1,7 +1,8 @@
-package org.geogebra.common.kernel;
+package org.geogebra.common.main.undo;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 

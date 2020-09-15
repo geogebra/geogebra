@@ -56,4 +56,14 @@ public interface CardListInterface {
 	 * @return the scrollPanel
 	 */
 	ScrollPanel getScrollPanel();
+
+	/**
+	 * resets the page control panel
+	 */
+	void reset();
+
+	/**
+	 * opens the page control panel
+	 */
+	void open();
 }

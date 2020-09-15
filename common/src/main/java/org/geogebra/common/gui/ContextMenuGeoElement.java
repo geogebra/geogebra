@@ -97,7 +97,7 @@ public abstract class ContextMenuGeoElement {
 				geo1.updateRepaint();
 			}
 		}
-		app.getKernel().getConstruction().getUndoManager().storeUndoInfo(true);
+		app.getUndoManager().storeUndoInfo(true);
 	}
 
 	/**
@@ -114,7 +114,7 @@ public abstract class ContextMenuGeoElement {
 				geo1.updateRepaint();
 			}
 		}
-		app.getKernel().getConstruction().getUndoManager().storeUndoInfo(true);
+		app.getUndoManager().storeUndoInfo(true);
 	}
 
 	/**
@@ -131,7 +131,7 @@ public abstract class ContextMenuGeoElement {
 				geo1.updateRepaint();
 			}
 		}
-		app.getKernel().getConstruction().getUndoManager().storeUndoInfo(true);
+		app.getUndoManager().storeUndoInfo(true);
 	}
 
 	/**
@@ -148,7 +148,7 @@ public abstract class ContextMenuGeoElement {
 				geo1.updateRepaint();
 			}
 		}
-		app.getKernel().getConstruction().getUndoManager().storeUndoInfo(true);
+		app.getUndoManager().storeUndoInfo(true);
 	}
 
 	/**

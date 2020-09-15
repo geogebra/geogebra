@@ -176,7 +176,9 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		minX = Integer.MAX_VALUE;
 		maxX = Integer.MIN_VALUE;
-		app.storeUndoInfo();
+		if (shape != null) {
+			app.storeUndoInfo();
+		}
 	}
 
 	@Override
