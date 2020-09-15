@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.kernel.Construction;
@@ -83,9 +84,8 @@ public abstract class UndoManager {
 	/**
 	 * @param slideID
 	 *            slide ID
-	 * @return command that created this slide (DUPLICATE or ADD)
 	 */
-	public UndoCommand getCreationCommand(String slideID) {
+	public void redoCreationCommand(String slideID) {
 		UndoCommand state = null;
 		int steps = 0;
 		while (iterator.hasPrevious()) {
@@ -108,8 +108,6 @@ public abstract class UndoManager {
 		for (int i = 0; i < steps; i++) {
 			iterator.next();
 		}
-
-		return state;
 	}
 
 	/**
@@ -297,6 +295,22 @@ public abstract class UndoManager {
 	 */
 	protected abstract void loadUndoInfo(AppState state, String slideID);
 
+	protected void loadUndoInfo(AppState state, String slideID, UndoCommand until) {
+		loadUndoInfo(state, slideID);
+		boolean afterCheckpoint = false;
+		for (UndoCommand cmd: undoInfoList) {
+			if (cmd == until) {
+				return;
+			}
+			if (afterCheckpoint && cmd.getAction() != null
+					&& Objects.equals(slideID, cmd.getSlideID())) {
+				executeAction(cmd.getAction(),null, cmd.getArgs());
+			} else if (cmd.getAppState() == state) {
+				afterCheckpoint = true;
+			}
+		}
+	}
+
 	/**
 	 * Clears all undo information
 	 */
@@ -394,7 +408,11 @@ public abstract class UndoManager {
 	 *            action arguments
 	 */
 	public void storeAction(EventType action, String... args) {
-		iterator.add(new UndoCommand(action, args));
+		storeActionWithSlideId(action, null, args);
+	}
+
+	private void storeActionWithSlideId(EventType action, String slideID, String[] args){
+		iterator.add(new UndoCommand(action, slideID, args));
 		this.pruneStateList();
 		updateUndoActions();
 	}
@@ -429,7 +447,7 @@ public abstract class UndoManager {
 	 * @param args arguments
 	 */
 	public void storeUndoableAction(EventType type, String... args) {
-		storeAction(type, args);
+		storeActionWithSlideId(type, app.getSlideID(), args);
 		app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO));
 	}
 

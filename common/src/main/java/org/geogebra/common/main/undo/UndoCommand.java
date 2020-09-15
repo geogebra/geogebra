@@ -42,9 +42,10 @@ public class UndoCommand {
 	 * @param args
 	 *            action arguments
 	 */
-	public UndoCommand(EventType action, String[] args) {
+	public UndoCommand(EventType action, String slideId, String[] args) {
 		this.action = action;
 		this.args = args;
+		this.slideID = slideId;
 	}
 
 	/**
@@ -111,9 +112,9 @@ public class UndoCommand {
 		} else {
 			AppState checkpoint = undoManager.getCheckpoint(slideID);
 			if (checkpoint != null) {
-				undoManager.loadUndoInfo(checkpoint, slideID);
+				undoManager.loadUndoInfo(checkpoint, slideID, this);
 			} else {
-				undoManager.getCreationCommand(slideID);
+				undoManager.redoCreationCommand(slideID);
 			}
 		}
 	}

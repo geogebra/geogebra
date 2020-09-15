@@ -4233,6 +4233,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// implemented in AppW
 	}
 
+	public String getSlideID() {
+		return null;
+	}
+
 	/**
 	 * possible positions for the inputBar (respective inputBox)
 	 */
