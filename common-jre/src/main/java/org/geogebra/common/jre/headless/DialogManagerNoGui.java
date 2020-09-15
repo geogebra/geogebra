@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.gui.InputHandler;
-import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.dialog.TextInputDialog;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.gui.dialog.handler.SegmentHandler;
@@ -55,13 +53,6 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 	@Override
 	public void showDataSourceDialog(int mode, boolean doAutoLoadSelectedGeos) {
 		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public InputDialog newInputDialog(App app1, String message, String title,
-			String initString, InputHandler handler, GeoElement geo) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -240,5 +231,4 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 	private String getInput() {
 		return inputs[position++];
 	}
-
 }

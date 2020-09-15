@@ -9,7 +9,6 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.Export3dDialogInterface;
-import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.dialog.TextInputDialog;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
@@ -166,6 +165,15 @@ public class DialogManagerW extends DialogManager
 			});
 		}
 		autoSavedDialog.show();
+	}
+
+	@Override
+	public void createRedefineDialog(GeoElement geo, String str, InputHandler handler) {
+		DialogData data = new DialogData("Redefine");
+		ComponentInputDialog redefineInputDialog = new ComponentInputDialog((AppW) app, data,
+				false, false, handler, geo.getNameDescription(), str,
+				1, -1, true);
+		redefineInputDialog.show();
 	}
 
 	@Override
@@ -605,13 +613,6 @@ public class DialogManagerW extends DialogManager
 			boolean rw) {
 		return new TextInputDialogW((AppW) app, loc.getMenu("Text"), text, startPoint,
 				rw, 30, 6, app.getMode() == EuclidianConstants.MODE_TEXT);
-	}
-
-	@Override
-	public InputDialog newInputDialog(App app1, String message, String title,
-			String initString, InputHandler handler, GeoElement geo) {
-		return new InputDialogW((AppW) app1, message, title, initString,
-				handler, geo);
 	}
 
 	/**

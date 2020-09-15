@@ -19,7 +19,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.InputHandler;
-import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.dialog.TextInputDialog;
 import org.geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
@@ -247,16 +246,18 @@ public class DialogManagerD extends DialogManagerMinimal {
 		}
 
 		String str = geo.getRedefineString(false, true);
-
 		InputHandler handler = new RedefineInputHandler(app, geo, str);
+		createRedefineDialog(geo, str, handler);
+	}
 
+	@Override
+	public void createRedefineDialog(GeoElement geo, String str, InputHandler handler) {
 		InputDialogD id = new InputDialogD(((AppD) app),
 				geo.getNameDescription(), loc.getMenu("Redefine"), str, true,
 				handler, geo);
 		id.showSymbolTablePopup(true);
 		id.setVisible(true);
 	}
-
 	/**
 	 * Shows the function inspector dialog. If none exists, a new inspector is
 	 * created.
@@ -690,12 +691,4 @@ public class DialogManagerD extends DialogManagerMinimal {
 		return new TextInputDialogD(app, loc.getMenu("Text"), text, startPoint,
 				rw, 30, 6, app.getMode() == EuclidianConstants.MODE_TEXT);
 	}
-
-	@Override
-	public InputDialog newInputDialog(App app, String message, String title,
-			String initString, InputHandler handler, GeoElement geo) {
-		return new InputDialogD((AppD) app, message, title, initString,
-				true, handler, geo);
-	}
-
 }

@@ -20,7 +20,6 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.Export3dDialogInterface;
-import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.dialog.TextInputDialog;
 import org.geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import org.geogebra.common.kernel.Construction;
@@ -84,16 +83,13 @@ public abstract class DialogManager {
 		}
 
 		String str = geo.getRedefineString(false, true);
-
 		InputHandler handler = new RedefineInputHandler(app, geo, str);
-
-		newInputDialog(app, geo.getNameDescription(), loc.getMenu("Redefine"),
-				str, handler, geo);
+		createRedefineDialog(geo, str, handler);
 	}
 
-	public abstract InputDialog newInputDialog(App app1, String message,
-			String title, String initString, InputHandler handler,
-			GeoElement geo);
+	public void createRedefineDialog(GeoElement geo, String str, InputHandler handler) {
+		// overridden in the classes
+	}
 
 	public abstract void showNumberInputDialogSegmentFixed(String menu,
 			GeoPointND geoPoint2);

@@ -8,8 +8,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.gui.InputHandler;
-import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.dialog.TextInputDialog;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -30,7 +28,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.desktop.gui.dialog.InputDialogD;
 import org.geogebra.desktop.gui.dialog.TextInputDialogD;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -219,13 +216,6 @@ public class DialogManagerMinimal extends DialogManager {
 			boolean rw) {
 		return new TextInputDialogD(app, loc.getMenu("Text"), text, startPoint,
 				rw, 30, 6, app.getMode() == EuclidianConstants.MODE_TEXT);
-	}
-
-	@Override
-	public InputDialog newInputDialog(App app1, String message, String title,
-			String initString, InputHandler handler, GeoElement geo) {
-		return new InputDialogD((AppD) app1, message, title, initString,
-				true, handler, geo);
 	}
 
 	@Override
