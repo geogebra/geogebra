@@ -67,10 +67,11 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 	 *            spreadsheet
 	 * @param objectType
 	 *            resulting object type
+	 * @param title
+	 * 			  dialog title
 	 */
-	public CreateObjectDialogW(AppW app, SpreadsheetViewW view, int objectType,
-			DialogData data) {
-		super(app, data, false, false);
+	public CreateObjectDialogW(AppW app, SpreadsheetViewW view, int objectType, String title) {
+		super(app, new DialogData(title), false, false);
 		addStyleName("createObjDialog");
 		MyTableW table = view.getSpreadsheetTable();
 		coModel = new CreateObjectModel(app, objectType, this);
@@ -89,6 +90,25 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 		updateGUI();
 		setOnNegativeAction(() -> coModel.cancel());
 		setOnPositiveAction(() -> coModel.ok());
+	}
+	/**
+	 * @return title
+	 */
+	public String getTitle(int objectType) {
+		switch (objectType) {
+		default:
+			return null;
+		case 0:
+			return "CreateList";
+		case 1:
+			return "CreateListOfPoints";
+		case 3:
+			return "CreateTable";
+		case 4:
+			return "CreatePolyLine";
+		case 2:
+			return "CreateMatrix";
+		}
 	}
 
 	/**

@@ -75,7 +75,31 @@ public class CreateObjectModel {
 		this.loc = app.getLocalization();
 		this.objectType = objectType;
 		this.listener = listener;
+	}
 
+	/**
+	 * @return title
+	 */
+	public String getTitle() {
+		switch (getObjectType()) {
+		default:
+			return null;
+
+		case TYPE_LIST:
+			return loc.getMenu("CreateList");
+
+		case TYPE_LISTOFPOINTS:
+			return loc.getMenu("CreateListOfPoints");
+
+		case TYPE_TABLETEXT:
+			return loc.getMenu("CreateTable");
+
+		case TYPE_POLYLINE:
+			return loc.getMenu("CreatePolyLine");
+
+		case TYPE_MATRIX:
+			return loc.getMenu("CreateMatrix");
+		}
 	}
 
 	/**

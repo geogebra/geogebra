@@ -16,7 +16,7 @@ import com.google.gwt.core.client.Scheduler;
  * dialog component for dialogs with one input text field
  * e.g. regular polygon tool dialog
  */
-public abstract class ComponentInputDialog extends ComponentDialog
+public class ComponentInputDialog extends ComponentDialog
 		implements ErrorHandler, HasKeyboardPopup {
 	private InputHandler inputHandler;
 	private ComponentInputField inputTextField;

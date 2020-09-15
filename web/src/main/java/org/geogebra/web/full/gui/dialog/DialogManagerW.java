@@ -244,13 +244,11 @@ public class DialogManagerW extends DialogManager
 		geo.updateRepaint();
 
 		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
-
-		InputDialogW id = new InputDialogW((AppW) app, app.getLocalization()
-				.getPlain("NewNameForA", geo.getNameDescription()),
-				loc.getMenu("Rename"), initText, false, handler, false,
-				selectInitText);
-
-		id.setVisible(true);
+		DialogData data = new DialogData("Rename");
+		ComponentInputDialog renameDialog = new RenameInputDialog((AppW) app, data, false, false,
+				handler, app.getLocalization().getPlain("NewNameForA", geo.getNameDescription()),
+				initText, 1, -1, false);
+		renameDialog.show();
 	}
 
 	/**
