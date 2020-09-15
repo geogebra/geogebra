@@ -14,42 +14,64 @@ public class CurvePlotter {
 
 	// the curve is sampled at least at this many positions to plot it
 	private static final int MIN_SAMPLE_POINTS = 80;
+	private final CurveSegmentPlotter curveSegmentPlotter;
+	private PathPlotter gp;
+	private Gap moveToAllowed;
 
 	/**
 	 * Draws a parametric curve (x(t), y(t)) for t in [tMin, tMax].
-	 * 
-	 * @param tMin
-	 *            min value of parameter
-	 * @param tMax
-	 *            max value of parameter
-	 * @param curve
-	 *            curve to be drawn
-	 * @param view
-	 *            Euclidian view to be used
-	 * @param gp
-	 *            generalpath that can be drawn afterwards
-	 * @param calcLabelPos
-	 *            whether label position should be calculated and returned
-	 * @param moveToAllowed
-	 *            whether moveTo() may be used for gp
+	 * @param tMin min value of parameter
+	 * @param tMax max value of parameter
+	 * @param curve curve to be drawn
+	 * @param view Euclidian view to be used
+	 * @param gp generalpath that can be drawn afterwards
+	 * @param calcLabelPos whether label position should be calculated and returned
+	 * @param moveToAllowed whether moveTo() may be used for gp
 	 * @return label position as Point
 	 * @author Markus Hohenwarter, based on an algorithm by John Gillam
 	 */
-	public static GPoint plotCurve(CurveEvaluable curve, double tMin,
+	public CurvePlotter(CurveEvaluable curve, double tMin,
 			double tMax, EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
+		this.gp = gp;
+		this.moveToAllowed = moveToAllowed;
 
 		// ensure MIN_PLOT_POINTS
 		double minSamplePoints = Math.max(MIN_SAMPLE_POINTS, view.getWidth() / 6);
 		double maxParamStep = Math.abs(tMax - tMin) / minSamplePoints;
 		// plot Interval [tMin, tMax]
-		CurveSegmentPlotter curveSegmentPlotter =
-				new CurveSegmentPlotter(curve, tMin, tMax, 0, maxParamStep, view,
-						gp, calcLabelPos, moveToAllowed);
-		if (moveToAllowed == Gap.CORNER) {
+		curveSegmentPlotter = new CurveSegmentPlotter(curve, tMin, tMax, 0, maxParamStep, view,
+				gp, calcLabelPos, moveToAllowed);
+	}
+
+	public void plot() {
+		curveSegmentPlotter.plotBisectorAlgo();
+
+		if (isReady()) {
+			gp.endPlot();
+		}
+		if (curveSegmentPlotter.isReady() && moveToAllowed == Gap.CORNER) {
 			gp.corner();
 		}
+	}
 
-		return curveSegmentPlotter.plot();
+	public boolean isReady() {
+		return curveSegmentPlotter.isReady();
+	}
+
+	public static GPoint plotCurve(CurveEvaluable curve, double tMin,
+			double tMax, EuclidianView view, PathPlotter gp, boolean calcLabelPos,
+			Gap moveToAllowed) {
+		CurvePlotter plotter = new CurvePlotter(curve, tMin, tMax, view,
+				gp, true, Gap.MOVE_TO);
+		while (!plotter.isReady()) {
+			plotter.plot();
+		}
+		return plotter.getLabelPoint();
+
+	}
+
+	private GPoint getLabelPoint() {
+		return curveSegmentPlotter.getLabelPoint();
 	}
 }
