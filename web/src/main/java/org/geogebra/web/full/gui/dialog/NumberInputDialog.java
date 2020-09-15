@@ -5,7 +5,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.ComponentInputDialog;
 import org.geogebra.web.shared.components.DialogData;
 
-public class RenameInputDialog extends ComponentInputDialog {
+public class NumberInputDialog extends ComponentInputDialog {
 
 	/**
 	 * dialog constructor
@@ -20,21 +20,20 @@ public class RenameInputDialog extends ComponentInputDialog {
 	 * @param columns - columns
 	 * @param showSymbolPopupIcon - true if should show
 	 */
-	public RenameInputDialog(AppW app,
-			DialogData dialogData, boolean autoHide,
-			boolean hasScrim, InputHandler inputHandler,
-			String labelText, String initText, int rows, int columns, boolean showSymbolPopupIcon) {
-		super(app, dialogData, autoHide, hasScrim, inputHandler, labelText, initText, rows, columns,
-				showSymbolPopupIcon);
+	public NumberInputDialog(AppW app, DialogData dialogData,
+			boolean autoHide, boolean hasScrim, InputHandler inputHandler,
+			String labelText, String initText, int rows, int columns,
+			boolean showSymbolPopupIcon) {
+		super(app, dialogData, autoHide, hasScrim, inputHandler, labelText, initText, rows,
+				columns, showSymbolPopupIcon);
+		setOnNegativeAction(() -> {
+			app.getKernel().getConstruction().setSuppressLabelCreation(false);
+			hide();
+		});
 	}
 
 	@Override
 	public void processInput() {
-		getInputHandler().processInput(getInputText(), this,
-				ok -> {
-					if (ok) {
-						hide();
-					}
-		});
+		processInputHandler(getInputText(), ok -> setVisible(!ok));
 	}
 }

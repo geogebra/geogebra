@@ -137,15 +137,10 @@ public class DialogManagerW extends DialogManager
 
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
-		InputDialogW id = new InputDialogW(((AppW) app), message, title,
-				initText, false, handler, true, false) {
-			@Override
-			protected void cancel() {
-				cons.setSuppressLabelCreation(false);
-				super.cancel();
-			}
-		};
-		id.setVisible(true);
+		ComponentInputDialog inputDialog = new NumberInputDialog((AppW) app,
+			new DialogData(title), false, true, handler, message,
+				initText, 1, -1, false);
+		inputDialog.show();
 	}
 
 	/**
