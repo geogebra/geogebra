@@ -109,6 +109,15 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 		dialogButtonPanel.add(posButton);
 	}
 
+	/**
+	 * @param posLabel new label for positive button
+	 * @param negLabel new label for negative button
+	 */
+	public void updateBtnLabels(String posLabel, String negLabel) {
+		posButton.setLabel(app.getLocalization().getMenu(posLabel));
+		negButton.setLabel(app.getLocalization().getMenu(negLabel));
+	}
+
 	public void setPosBtnDisabled(boolean disabled) {
 		setBtnDisabled(posButton, disabled);
 	}
@@ -130,6 +139,15 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 	 * @param content - content of the dialog
 	 */
 	public void addDialogContent(IsWidget content) {
+		dialogContent.add(content);
+	}
+
+	/**
+	 * clears dialog content and fills with this widget
+	 * @param content - content of the dialog
+	 */
+	public void setDialogContent(IsWidget content) {
+		dialogContent.clear();
 		dialogContent.add(content);
 	}
 

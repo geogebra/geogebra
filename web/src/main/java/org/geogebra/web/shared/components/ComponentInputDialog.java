@@ -47,6 +47,22 @@ public class ComponentInputDialog extends ComponentDialog
 		});
 	}
 
+	public ComponentInputDialog(AppW app, DialogData dialogData,
+			boolean autoHide, boolean hasScrim, InputHandler inputHandler) {
+		super(app, dialogData, autoHide, hasScrim);
+		addStyleName("inputDialogComponent");
+		setPreventHide(true);
+		setInputHandler(inputHandler);
+		setOnPositiveAction(this::processInput);
+		if (!app.isWhiteboardActive()) {
+			app.registerPopup(this);
+		}
+		this.addCloseHandler(event -> {
+			app.unregisterPopup(this);
+			app.hideKeyboard();
+		});
+	}
+
 	private void createGUI(String labelText, String initText, int rows, int columns,
 			boolean showSymbolPopupIcon) {
 		inputTextField = new ComponentInputField((AppW) app,
@@ -97,7 +113,9 @@ public class ComponentInputDialog extends ComponentDialog
 	@Override
 	public void show() {
 		super.show();
-		inputTextField.focusDeferred();
+		if (inputTextField != null) {
+			inputTextField.focusDeferred();
+		}
 	}
 
 	@Override
@@ -136,7 +154,8 @@ public class ComponentInputDialog extends ComponentDialog
 
 	@Override
 	public void showError(String msg) {
-		if (!inputTextField.hasError()) {
+		if (inputTextField != null
+			&& !inputTextField.hasError()) {
 			inputTextField.setError(msg);
 		}
 	}

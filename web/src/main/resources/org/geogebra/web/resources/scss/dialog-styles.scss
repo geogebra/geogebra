@@ -1773,44 +1773,44 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
         }
     }
 
-    .dialogComponent.sliderDialog {
-        max-width: 504px;
-        max-height: 450px;
+	.dialogComponent.sliderDialog {
+		max-width: 504px;
+		max-height: 450px;
 
-        .gwt-RadioButton [type="radio"]+label {
-            padding-left: 35px;
+		.gwt-RadioButton [type="radio"]+label {
+			padding-left: 35px;
 
-            &:after {
-            	background-color: $teal-default;
-            }
-        }
+			&:after {
+				background-color: $teal-default;
+			}
+		}
 
-        .AutoCompleteTextFieldW {
-        	// ignore this for now, we need new design
-        	border-bottom: 1px solid $teal-default !important;
-        }
+		.AutoCompleteTextFieldW {
+			// ignore this for now, we need new design
+			border-bottom: 1px solid $teal-default !important;
+		}
 
 		.gwt-TabPanelBottom {
-            padding: 0px 15px;
-        }
-    }
+			padding: 0px 15px;
+		}
+	}
 
-    .inputDialogComponent {
-    	max-height: 196px;
-    	.inputTextField {
-    	 	max-width: 456px;
-    	 	width: 100%;
+	.inputDialogComponent {
+		max-height: 196px;
+		.inputTextField {
+			max-width: 456px;
+			width: 100%;
 
-        	.AutoCompleteTextFieldW {
-        		margin-right: 0px;
-        	}
-        }
-    }
+			.AutoCompleteTextFieldW {
+				margin-right: 0px;
+			}
+		}
+	}
 
-    .inputDialogComponent.angleInputDialog {
-    	max-height: 237px;
+	.inputDialogComponent.angleInputDialog {
+		max-height: 237px;
 
-    	.gwt-RadioButton {
+		.gwt-RadioButton {
 			margin-right: 20px;
 			padding-right: 60px;
 
@@ -1818,22 +1818,37 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				padding-left: 35px;
 			}
 		}
-    }
+	}
 
-    .dialogComponent.createObjDialog {
-    	max-height: 275px;
-    	max-width: 579px;
+	.dialogComponent.createObjDialog {
+		max-height: 275px;
+		max-width: 579px;
 
-    	.dialogContent {
-    		padding-right: 0px;
-    	}
+		.dialogContent {
+			padding-right: 0px;
+		}
 
-    	.gwt-RadioButton {
-    		margin-right: 20px;
+		.gwt-RadioButton {
+			margin-right: 20px;
 
 			label {
 				padding-left: 26px;
-        	}
-        }
-    }
+			}
+		}
+	}
+
+	.inputDialogComponent.TextInputDialog {
+		max-height: 457px;
+		max-width: 430px;
+		height: auto;
+
+		.textEditorDisclosurePanelContent .gwt-Label {
+			font-size: 100%;
+			margin-top: 0px;
+		}
+
+		.gwt-TabLayoutPanelTab-selected .gwt-Label {
+			color: $mow_primary;
+		}
+	}
 }

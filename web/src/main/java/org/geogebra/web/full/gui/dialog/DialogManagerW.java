@@ -608,7 +608,7 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint,
 			boolean rw) {
-		return new TextInputDialogW(app, loc.getMenu("Text"), text, startPoint,
+		return new TextInputDialogW((AppW) app, loc.getMenu("Text"), text, startPoint,
 				rw, 30, 6, app.getMode() == EuclidianConstants.MODE_TEXT);
 	}
 
