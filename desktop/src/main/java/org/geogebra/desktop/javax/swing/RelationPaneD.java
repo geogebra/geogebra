@@ -31,9 +31,6 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Desktop implementation of the Relation Tool information window.
- * 
- * @author Zoltan "of Swing" Kovacs
- * 
  */
 public class RelationPaneD implements RelationPane, ActionListener {
 
@@ -78,7 +75,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 	public void showDialog(String title, final RelationRow[] relations,
 			App app) {
 
-		frame = new JFrame(title);
+		frame = new JFrame(app.getLocalization().getMenu(title));
 
 		JPanel panel = new JPanel(new BorderLayout(MARGIN, MARGIN));
 

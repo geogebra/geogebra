@@ -32,21 +32,18 @@ public class ComponentInputDialog extends ComponentDialog
 	public ComponentInputDialog(AppW app, DialogData dialogData,
 			boolean autoHide, boolean hasScrim, InputHandler inputHandler, String labelText,
 			String initText, int rows, int columns, boolean showSymbolPopupIcon) {
-		super(app, dialogData, autoHide, hasScrim);
+		this(app, dialogData, autoHide, hasScrim, inputHandler);
 		createGUI(labelText, initText, rows, columns, showSymbolPopupIcon);
-		addStyleName("inputDialogComponent");
-		setPreventHide(true);
-		setInputHandler(inputHandler);
-		setOnPositiveAction(this::processInput);
-		if (!app.isWhiteboardActive()) {
-			app.registerPopup(this);
-		}
-		this.addCloseHandler(event -> {
-			app.unregisterPopup(this);
-			app.hideKeyboard();
-		});
 	}
 
+	/**
+	 *
+	 * @param app - see {@link AppW}
+	 * @param dialogData - contains trans keys for title and buttons
+	 * @param autoHide - if the dialog should be closed on click outside
+	 * @param hasScrim - background should be greyed out
+	 * @param inputHandler - input handler
+	 */
 	public ComponentInputDialog(AppW app, DialogData dialogData,
 			boolean autoHide, boolean hasScrim, InputHandler inputHandler) {
 		super(app, dialogData, autoHide, hasScrim);

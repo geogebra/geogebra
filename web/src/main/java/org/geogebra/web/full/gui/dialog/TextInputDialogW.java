@@ -34,7 +34,6 @@ public class TextInputDialogW extends ComponentInputDialog implements TextInputD
 	private TextEditPanel editor;
 	private int cols;
 	private int rows;
-	private String dialogTitle;
 	private boolean isTextMode;
 	private InputPanelW inputPanel;
 
@@ -61,7 +60,6 @@ public class TextInputDialogW extends ComponentInputDialog implements TextInputD
 		super(app2, new DialogData(title), false, false, null);
 		this.startPoint = startPoint;
 		this.rw = rw;
-		dialogTitle = title;
 		this.cols = cols;
 		this.rows = rows;
 		this.isTextMode = isTextMode;
