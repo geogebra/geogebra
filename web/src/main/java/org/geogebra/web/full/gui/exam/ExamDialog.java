@@ -4,7 +4,6 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
-import org.geogebra.web.full.gui.dialog.InputDialogW.DialogBoxKbW;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.LayoutW;
@@ -30,7 +29,7 @@ public class ExamDialog implements ClickHandler {
 	/** Application */
 	protected AppW app;
 	/** Wrapped box */
-	protected DialogBoxKbW box;
+	protected DialogBoxW box;
 	private CheckBox cas;
 	private Button btnCancel;
 
@@ -51,7 +50,7 @@ public class ExamDialog implements ClickHandler {
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
 		final boolean hasGraphing = app.getAppletParameters()
 				.hasDataParamEnableGraphing();
-		box = new DialogBoxKbW(false, true, null, app.getPanel(), app) {
+		box = new DialogBoxW(false, true, null, app.getPanel(), app) {
 			@Override
 			protected void onCancel() {
 				if (!hasGraphing) {
@@ -69,7 +68,6 @@ public class ExamDialog implements ClickHandler {
 		Button btnOk = new Button();
 		btnCancel = new Button();
 		Button btnHelp = new Button();
-		// mainWidget.add(btnPanel);
 
 		btnPanel.add(btnOk);
 		// we don't need cancel and help buttons for tablet exam apps
@@ -109,12 +107,9 @@ public class ExamDialog implements ClickHandler {
 			app.getSettings().getEuclidian(-1).setEnabled(true);
 
 			cbxPanel.add(allow3D);
-			allow3D.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					app.getSettings().getEuclidian(-1).setEnabled(allow3D.getValue());
-					guiManager.updateToolbarActions();
-				}
+			allow3D.addClickHandler(event -> {
+				app.getSettings().getEuclidian(-1).setEnabled(allow3D.getValue());
+				guiManager.updateToolbarActions();
 			});
 		}
 		guiManager.updateToolbarActions();
@@ -164,12 +159,7 @@ public class ExamDialog implements ClickHandler {
 		// start exam button
 		startPanel.setVisible(true);
 		btnOk.setText(loc.getMenu("exam_start_button"));
-		btnOk.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				startExam(box, app);
-			}
-		});
+		btnOk.addClickHandler(event -> startExam(box, app));
 
 		mainWidget.add(btnPanel);
 		box.setWidget(mainWidget);
@@ -177,24 +167,15 @@ public class ExamDialog implements ClickHandler {
 		if ((app.getAppletParameters().hasDataParamEnableGraphing())) {
 			btnOk.addStyleName("ExamTabletStartButton");
 		}
-		app.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				box.center();
-			}
-		});
+		app.invokeLater(() -> box.center());
 
 		// Cancel button
 		btnCancel.addStyleName("cancelBtn");
 		btnCancel.addClickHandler(this);
 		// Help button
 		btnHelp.addStyleName("cancelBtn");
-		btnHelp.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				app.getFileManager().open("https://www.geogebra.org/tutorial/exam");
-			}
-		});
+		btnHelp.addClickHandler(
+				event -> app.getFileManager().open("https://www.geogebra.org/tutorial/exam"));
 	}
 
 	/**
