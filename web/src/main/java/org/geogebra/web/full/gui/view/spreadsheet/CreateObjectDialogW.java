@@ -91,7 +91,9 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 		setOnNegativeAction(() -> coModel.cancel());
 		setOnPositiveAction(() -> coModel.ok());
 	}
+
 	/**
+	 * @param  objectType - type of object
 	 * @return title
 	 */
 	public String getTitle(int objectType) {
@@ -225,6 +227,9 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 		optionsPanel.add(cards);
 	}
 
+	/**
+	 * update labels
+	 */
 	public void setLabels() {
 		if (isIniting) {
 			return;

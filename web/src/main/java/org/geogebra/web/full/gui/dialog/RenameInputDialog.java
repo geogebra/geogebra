@@ -14,11 +14,11 @@ public class RenameInputDialog extends ComponentInputDialog {
 	 * @param autoHide - if the dialog should be closed on click outside
 	 * @param hasScrim - background should be greyed out
 	 * @param inputHandler - input handler
-	 * @param labelText
-	 * @param initText
-	 * @param rows
-	 * @param columns
-	 * @param showSymbolPopupIcon
+	 * @param labelText - label of input text field
+	 * @param initText - initial text of the field
+	 * @param rows - rows
+	 * @param columns - columns
+	 * @param showSymbolPopupIcon - true if should show
 	 */
 	public RenameInputDialog(AppW app,
 			DialogData dialogData, boolean autoHide,
