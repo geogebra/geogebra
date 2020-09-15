@@ -72,8 +72,8 @@ public class Relation {
 	 * Show relation dialog. Shouldn't be here, but shouldn't be in App either.
 	 */
 	public void showDialog() {
-		RelationPane tablePane = app.getFactory().newRelationPane("Relation");
-		tablePane.showDialog("Relation", getRows(), app);
+		RelationPane tablePane = app.getFactory().newRelationPane();
+		tablePane.showDialog(app.getLocalization().getCommand("Relation"), getRows(), app);
 	}
 
 	/**

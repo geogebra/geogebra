@@ -6,7 +6,7 @@ public abstract class Factory {
 	private static final Object lock = new Object();
 	private static volatile Factory prototype;
 
-	public abstract RelationPane newRelationPane(String title);
+	public abstract RelationPane newRelationPane();
 
 	/**
 	 * @return might return null. Use App.getFactory()
@@ -26,4 +26,5 @@ public abstract class Factory {
 			}
 		}
 	}
+
 }

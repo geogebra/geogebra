@@ -4,7 +4,6 @@ import org.geogebra.common.factories.Factory;
 import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.web.html5.javax.swing.RelationPaneW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.DialogData;
 
 public class FactoryW extends Factory {
 
@@ -15,9 +14,8 @@ public class FactoryW extends Factory {
 	}
 
 	@Override
-	public RelationPane newRelationPane(String title) {
-		DialogData data = new DialogData(title, null, "OK");
-		return new RelationPaneW(false, app, data);
+	public RelationPane newRelationPane() {
+		return new RelationPaneW(false, app.getPanel(), app);
 	}
 
 }
