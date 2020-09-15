@@ -292,19 +292,23 @@ public class ExpressionNode extends ValidExpression
 
 		if (lev != null) {
 			newNode = new ExpressionNode(kernel1, lev, operation, rev);
-			newNode.leaf = leaf;
 		} else {
 			// something went wrong
 			return null;
 		}
 
-		// set member vars that are not set by constructors
-		newNode.forceVector = forceVector;
-		newNode.forcePoint = forcePoint;
-		newNode.forceFunction = forceFunction;
-		newNode.brackets = brackets;
-		newNode.secretMaskingAlgo = secretMaskingAlgo;
+		copyFlagsTo(newNode);
+
 		// Application.debug("getCopy() output: " + newNode);
+		return newNode;
+	}
+
+	/**
+	 * @return copy of this, keeping left and right subtrees
+	 */
+	public ExpressionNode shallowCopy() {
+		ExpressionNode newNode = new ExpressionNode(kernel, left, operation, right);
+		copyFlagsTo(newNode);
 		return newNode;
 	}
 
@@ -3748,5 +3752,14 @@ public class ExpressionNode extends ValidExpression
 
 	public boolean isForceSurface() {
 		return forceSurface;
+	}
+
+	private void copyFlagsTo(ExpressionNode newNode) {
+		newNode.leaf = leaf;
+		newNode.forceVector = forceVector;
+		newNode.forcePoint = forcePoint;
+		newNode.forceFunction = forceFunction;
+		newNode.brackets = brackets;
+		newNode.secretMaskingAlgo = secretMaskingAlgo;
 	}
 }
