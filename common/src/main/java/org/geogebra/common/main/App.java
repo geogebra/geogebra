@@ -4140,6 +4140,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		this.exam = exam;
 	}
 
+	/**
+	 * Initializes a new ExamEnvironment instance.
+	 */
 	public void setNewExam() {
 		ExamEnvironment examEnvironment = newExamEnvironment();
 		setExam(examEnvironment);
