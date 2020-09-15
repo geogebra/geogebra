@@ -7932,8 +7932,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (app.getMaskWidgets() != null) {
 			app.getMaskWidgets().clearMasks();
 		}
-		String currentMethod = "EuclidianController.widgetsToBackground()";
-		for (Drawable dr : view.getAllDrawableList(currentMethod)) {
+		for (Drawable dr : view.getAllDrawableList()) {
 			if (dr instanceof DrawInline) {
 				((DrawInline) dr).toBackground();
 			}
