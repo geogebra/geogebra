@@ -67,7 +67,7 @@ public class TextInputDialogW extends ComponentInputDialog implements TextInputD
 		setInputHandler(new TextInputHandler());
 
 		addStyleName("TextInputDialog");
-		createTextGUI(false, true);
+		createTextGUI(true);
 		addCloseHandler(event -> {
 			resetEditor();
 			resetMode();
@@ -75,7 +75,7 @@ public class TextInputDialogW extends ComponentInputDialog implements TextInputD
 		show();
 	}
 
-	private void createTextGUI(boolean autoComplete, boolean showSymbolPopupIcon) {
+	private void createTextGUI(boolean showSymbolPopupIcon) {
 		inputPanel = new InputPanelW("", app, rows, cols,
 				showSymbolPopupIcon);
 		((AppW) app).unregisterPopup(this);
@@ -380,7 +380,7 @@ public class TextInputDialogW extends ComponentInputDialog implements TextInputD
 	public void reInitEditor(GeoText text, GeoPointND startPoint2,
 			boolean rw1) {
 		if (editor == null) {
-			createTextGUI(false, true);
+			createTextGUI(true);
 		}
 		isTextMode = app.getMode() == EuclidianConstants.MODE_TEXT;
 		this.startPoint = startPoint2;
