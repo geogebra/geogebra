@@ -545,17 +545,19 @@ public class EuclidianStyleBarW extends StyleBarW2
 					}
 				}
 			};
+			btnCrop.addStyleName("btnCrop");
+			ClickStartHandler.init(btnCrop, new ClickStartHandler(true, true) {
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					toggleCrop(!getBtncrop().isDown());
+				}
+			});
 		}
-		btnCrop.addStyleName("btnCrop");
+
 		btnCrop.setDown(ev.getBoundingBox() != null
 				&& ev.getBoundingBox().isCropBox());
-		ClickStartHandler.init(btnCrop, new ClickStartHandler(true, true) {
 
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				toggleCrop(!getBtncrop().isDown());
-			}
-		});
 		btnCrop.setTitle(loc.getMenu("stylebar.Crop"));
 		add(btnCrop);
 	}
