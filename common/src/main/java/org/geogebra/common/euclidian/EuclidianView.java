@@ -92,7 +92,7 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.common.util.debug.crashlytics.CrashlyticsHelper;
+import org.geogebra.common.util.debug.crashlytics.CrashlyticsLogger;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -1700,7 +1700,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	private DrawableList getAllDrawableList(String callingFrom) {
 		if (shouldLogListAccess) {
-			CrashlyticsHelper.log("getAllDrawableList(...) called from " + callingFrom);
+			CrashlyticsLogger.log("getAllDrawableList(...) called from " + callingFrom);
 		}
 		return allDrawableList;
 	}
@@ -1736,7 +1736,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				d.updateForView();
 			}
 		} catch (ConcurrentModificationException e) {
-			CrashlyticsHelper.recordException(e);
+			CrashlyticsLogger.recordException(e);
 			return;
 		} finally {
 			shouldLogListAccess = false;
@@ -1762,7 +1762,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	private DrawableList getBgImageList(String callingFrom) {
 		if (shouldLogListAccess) {
-			CrashlyticsHelper.log("getBgImageList(...) called from " + callingFrom);
+			CrashlyticsLogger.log("getBgImageList(...) called from " + callingFrom);
 		}
 		return bgImageList;
 	}

@@ -3,12 +3,12 @@ package org.geogebra.common.util.debug.crashlytics;
 /**
  * Helps using Crashlytics features in common.
  */
-public class CrashlyticsHelper {
+public class CrashlyticsLogger {
 
     private static CrashlyticsInterface crashlytics;
 
     public static void setCrashlytics(CrashlyticsInterface crashlytics) {
-        CrashlyticsHelper.crashlytics = crashlytics;
+        CrashlyticsLogger.crashlytics = crashlytics;
     }
 
     /**
