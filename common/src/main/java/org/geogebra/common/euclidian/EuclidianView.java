@@ -1694,8 +1694,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	private void logAllDrawableListModification(String placeOfModification) {
 		if (shouldLogListAccess) {
-			CrashlyticsLogger.log("allDrawableList is getting modified at " + placeOfModification);
+			CrashlyticsLogger.log(getLogMessage() + placeOfModification);
 		}
+	}
+
+	protected String getLogMessage() {
+		return "EuclidianView.allDrawableList is getting modified at ";
 	}
 
 	public DrawableList getAllDrawableList() {
