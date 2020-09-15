@@ -74,7 +74,7 @@ public class UndoCommand {
 		if (appState != null) {
 			undoManager.loadUndoInfo(appState, slideID);
 		} else {
-			undoManager.executeAction(action, null, args);
+			undoManager.executeAction(action, args);
 		}
 	}
 
@@ -127,7 +127,7 @@ public class UndoCommand {
 	 */
 	public void loadStateAfter(UndoManager mgr) {
 		if (action == EventType.ADD_SLIDE) {
-			mgr.executeAction(EventType.CLEAR_SLIDE, null, args[1]);
+			mgr.executeAction(EventType.CLEAR_SLIDE, args[1]);
 		}
 	}
 

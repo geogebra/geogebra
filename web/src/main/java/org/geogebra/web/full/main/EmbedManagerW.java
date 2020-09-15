@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.undo.ActionExecutor;
-import org.geogebra.common.main.undo.AppState;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
@@ -567,7 +566,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	@Override
-	public boolean executeAction(EventType action, AppState state, String[] args) {
+	public boolean executeAction(EventType action, String[] args) {
 		if (action == EventType.EMBEDDED_STORE_UNDO) {
 			embeddedAction(EventType.REDO, args[0]);
 			return true;

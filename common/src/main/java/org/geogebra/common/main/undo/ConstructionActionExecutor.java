@@ -13,7 +13,7 @@ public class ConstructionActionExecutor
 	}
 	
 	@Override
-	public boolean executeAction(EventType action, AppState state, String... args) {
+	public boolean executeAction(EventType action, String... args) {
 		if (action == EventType.REMOVE) {
 			app.getGgbApi().deleteObject(args[0]);
 		} else if (action == EventType.ADD) {
@@ -29,10 +29,10 @@ public class ConstructionActionExecutor
 	@Override
 	public boolean undoAction(EventType action, String... args) {
 		if (action == EventType.ADD) {
-			executeAction(EventType.REMOVE, null, args[0]);
+			executeAction(EventType.REMOVE, args[0]);
 			return true;
 		} else if (action == EventType.UPDATE) {
-			executeAction(EventType.UPDATE, null, args[0], args[2], args[1]);
+			executeAction(EventType.UPDATE, args[0], args[2], args[1]);
 			return true;
 		}
 		return false;

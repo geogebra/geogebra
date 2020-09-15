@@ -9,13 +9,11 @@ public interface ActionExecutor {
 	 *
 	 * @param action
 	 *            action type
-	 * @param state
-	 *            state to restore
 	 * @param args
 	 *            action parameters
 	 * @return whether action was handled by this executor
 	 */
-	boolean executeAction(EventType action, AppState state, String... args);
+	boolean executeAction(EventType action, String... args);
 
 	boolean undoAction(EventType action, String... args);
 }

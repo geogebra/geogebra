@@ -624,36 +624,10 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	@Override
-	public boolean executeAction(EventType action, AppState state, String... args) {
+	public boolean executeAction(EventType action,  String... args) {
 		switch (action) {
 		case ADD_SLIDE:
-			int idx = args.length > 0 ? Integer.parseInt(args[0])
-					: getSlideCount();
-			GgbFile file = args.length < 2 ? new GgbFile()
-					: new GgbFile(args[1]);
-			if (state != null) {
-				file.put("geogebra.xml", state.getXml());
-			}
-			if (idx >= 0) {
-				addNewPreviewCard(false, idx, file);
-			} else {
-				slides.get(0).setFile(file);
-			}
-			idx = Math.max(idx, 0);
-			if (file.isEmpty()) {
-				// new file
-				app.loadEmptySlide();
-
-			} else {
-				String perspXML = app.getGgbApi().getPerspectiveXML();
-				// load last status of file
-				changeSlide(slides.get(idx));
-				app.getGgbApi().setPerspective(perspXML);
-			}
-
-			setCardSelected(idx);
-			updatePreviewImage();
-
+			executeAddSlideAction(null, args);
 			break;
 		case REMOVE_SLIDE:
 			if (getSlideCount() > 1) {
@@ -685,30 +659,58 @@ public class PageListController implements PageListControllerInterface,
 		return true;
 	}
 
+	private void executeAddSlideAction(AppState state, String... args) {
+		int idx = args.length > 0 ? Integer.parseInt(args[0])
+				: getSlideCount();
+		GgbFile file = args.length < 2 ? new GgbFile()
+				: new GgbFile(args[1]);
+		if (state != null) {
+			file.put("geogebra.xml", state.getXml());
+		}
+		if (idx >= 0) {
+			addNewPreviewCard(false, idx, file);
+		} else {
+			slides.get(0).setFile(file);
+		}
+		idx = Math.max(idx, 0);
+		if (file.isEmpty()) {
+			// new file
+			app.loadEmptySlide();
+
+		} else {
+			String perspXML = app.getGgbApi().getPerspectiveXML();
+			// load last status of file
+			changeSlide(slides.get(idx));
+			app.getGgbApi().setPerspective(perspXML);
+		}
+
+		setCardSelected(idx);
+		updatePreviewImage();
+	}
+
 	@Override
 	public boolean undoAction(EventType action, String... args) {
 		switch (action) {
 		case ADD_SLIDE:
-			executeAction(EventType.REMOVE_SLIDE, null, args[0]);
+			executeAction(EventType.REMOVE_SLIDE, args[0]);
 			break;
 		case PASTE_SLIDE:
-			executeAction(EventType.REMOVE_SLIDE, null,
-					(Integer.parseInt(args[0]) + 1) + "");
+			executeAction(EventType.REMOVE_SLIDE, (Integer.parseInt(args[0]) + 1) + "");
 			break;
 		case REMOVE_SLIDE:
-			executeAction(EventType.ADD_SLIDE, undoManager.getCheckpoint(args[1]),
+			executeAddSlideAction(undoManager.getCheckpoint(args[1]),
 					args[0], args[1]);
 			break;
 		case CLEAR_SLIDE:
-			executeAction(EventType.ADD_SLIDE, undoManager.getCheckpoint(args[0]),
+			executeAddSlideAction(undoManager.getCheckpoint(args[0]),
 					"-1", args[0]);
 			break;
 		case MOVE_SLIDE:
-			executeAction(EventType.MOVE_SLIDE, null,
+			executeAction(EventType.MOVE_SLIDE,
 					args[1], args[0]);
 			break;
 		case RENAME_SLIDE:
-			executeAction(EventType.RENAME_SLIDE, null,
+			executeAction(EventType.RENAME_SLIDE,
 					args[0], args[2], args[1]);
 			break;
 		default:

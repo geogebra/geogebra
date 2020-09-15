@@ -113,15 +113,12 @@ public abstract class UndoManager {
 	/**
 	 * @param action
 	 *            action type
-	 * @param state
-	 *            state to restore if applicable
 	 * @param args
-	 *            action arguments
 	 */
-	public void executeAction(EventType action, AppState state,
+	public void executeAction(EventType action,
 			String... args) {
 		for (ActionExecutor executor: executors) {
-			if (executor.executeAction(action, state, args)) {
+			if (executor.executeAction(action, args)) {
 				return;
 			}
 		}
@@ -304,7 +301,7 @@ public abstract class UndoManager {
 			}
 			if (afterCheckpoint && cmd.getAction() != null
 					&& Objects.equals(slideID, cmd.getSlideID())) {
-				executeAction(cmd.getAction(),null, cmd.getArgs());
+				executeAction(cmd.getAction(), cmd.getArgs());
 			} else if (cmd.getAppState() == state) {
 				afterCheckpoint = true;
 			}
