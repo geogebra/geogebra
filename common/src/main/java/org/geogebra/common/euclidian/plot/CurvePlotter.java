@@ -71,7 +71,7 @@ public class CurvePlotter {
 
 	}
 
-	private GPoint getLabelPoint() {
+	public GPoint getLabelPoint() {
 		return curveSegmentPlotter.getLabelPoint();
 	}
 }

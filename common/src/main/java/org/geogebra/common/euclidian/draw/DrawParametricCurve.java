@@ -84,6 +84,7 @@ public class DrawParametricCurve extends Drawable {
 			return false;
 		}
 	};
+	private CurvePlotter plotter = null;
 
 	/**
 	 * Creates graphical representation of the curve
@@ -102,6 +103,10 @@ public class DrawParametricCurve extends Drawable {
 
 	@Override
 	final public void update() {
+		if (plotCurve()) {
+			return;
+		}
+
 		isVisible = geo.isEuclidianVisible();
 		if (!isVisible) {
 			return;
@@ -157,63 +162,52 @@ public class DrawParametricCurve extends Drawable {
 				max = maxView;
 			}
 		}
-		GPoint labelPoint;
+		GPoint labelPoint = new GPoint();
 		if (DoubleUtil.isEqual(min, max)) {
 			double[] eval = new double[2];
 			curve.evaluateCurve(min, eval);
 			view.toScreenCoords(eval);
 			labelPoint = new GPoint((int) eval[0], (int) eval[1]);
 		} else {
-			labelPoint = CurvePlotter.plotCurve(toPlot, min, max, view, gp,
-					labelVisible, fillCurve ? Gap.CORNER
-							: Gap.MOVE_TO);
+			if (plotter == null) {
+				plotter = new CurvePlotter(toPlot, min, max, view, gp,
+						labelVisible, fillCurve ? Gap.CORNER
+						: Gap.MOVE_TO);
+			}
+//			labelPoint = CurvePlotter.plotCurve(toPlot, min, max, view, gp,
+//					labelVisible, fillCurve ? Gap.CORNER
+//							: Gap.MOVE_TO);
 		}
 
+	}
+
+	protected boolean plotCurve() {
+		if (plotter == null) {
+			return false;
+		}
+
+		if (plotter.isReady()) {
+			onPlotterFinished(plotter.getLabelPoint());
+		} else {
+			plotter.plot();
+			draw(view.getGraphicsForPen());
+		}
+		view.updateCurve(this);
+		return true;
+	}
+
+	protected void onPlotterFinished(GPoint labelPoint) {
 		// gp on screen?
 		if (!view.intersects(gp)) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
 		}
-
 		if (labelPoint != null) {
-			xLabel = labelPoint.x;
-			yLabel = labelPoint.y;
-			switch (geo.getLabelMode()) {
-			case GeoElementND.LABEL_NAME_VALUE:
-				StringTemplate tpl = StringTemplate.latexTemplate;
-				labelSB.setLength(0);
-				labelSB.append('$');
-				String label = getTopLevelGeo().getLabel(tpl);
-				if (LabelManager.isShowableLabel(label)) {
-					labelSB.append(label);
-					labelSB.append('(');
-					labelSB.append(((VarString) geo).getVarString(tpl));
-					labelSB.append(")\\;=\\;");
-				}
-				labelSB.append(geo.getLaTeXdescription());
-				labelSB.append('$');
-
-				labelDesc = labelSB.toString();
-				break;
-
-			case GeoElementND.LABEL_VALUE:
-				labelSB.setLength(0);
-				labelSB.append('$');
-				labelSB.append(geo.getLaTeXdescription());
-				labelSB.append('$');
-
-				labelDesc = labelSB.toString();
-				break;
-
-			case GeoElementND.LABEL_CAPTION:
-			default: // case LABEL_NAME:
-				labelDesc = getTopLevelGeo().getLabelDescription();
-			}
-			addLabelOffsetEnsureOnScreen(view.getFontConic());
+			constructLabel(labelPoint);
 		}
-		// shape for filling
 
+		// shape for filling
 		if (geo.isInverseFill()) {
 			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
@@ -231,6 +225,43 @@ public class DrawParametricCurve extends Drawable {
 				// view.updateBackground();
 			}
 		}
+	}
+
+	private void constructLabel(GPoint labelPoint) {
+		xLabel = labelPoint.x;
+		yLabel = labelPoint.y;
+		switch (geo.getLabelMode()) {
+		case GeoElementND.LABEL_NAME_VALUE:
+			StringTemplate tpl = StringTemplate.latexTemplate;
+			labelSB.setLength(0);
+			labelSB.append('$');
+			String label = getTopLevelGeo().getLabel(tpl);
+			if (LabelManager.isShowableLabel(label)) {
+				labelSB.append(label);
+				labelSB.append('(');
+				labelSB.append(((VarString) geo).getVarString(tpl));
+				labelSB.append(")\\;=\\;");
+			}
+			labelSB.append(geo.getLaTeXdescription());
+			labelSB.append('$');
+
+			labelDesc = labelSB.toString();
+			break;
+
+		case GeoElementND.LABEL_VALUE:
+			labelSB.setLength(0);
+			labelSB.append('$');
+			labelSB.append(geo.getLaTeXdescription());
+			labelSB.append('$');
+
+			labelDesc = labelSB.toString();
+			break;
+
+		case GeoElementND.LABEL_CAPTION:
+		default: // case LABEL_NAME:
+			labelDesc = getTopLevelGeo().getLabelDescription();
+		}
+		addLabelOffsetEnsureOnScreen(view.getFontConic());
 	}
 
 	private void updatePointwise() {

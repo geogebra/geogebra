@@ -44,17 +44,20 @@ public class CurvePlotterTest extends BaseUnitTest {
 	}
 
 	protected void resultShouldBeTheSame(CurveEvaluable f, int tMin, int tMax) {
-		PathPlotterMock gp1 = new PathPlotterMock();
-		PathPlotterMock gp2 = new PathPlotterMock();
+		PathPlotterMock gp = new PathPlotterMock();
+		PathPlotterMock gpExpected = new PathPlotterMock();
 		EuclidianView view = getApp().getActiveEuclidianView();
+
+		GPoint pointExpected = CurvePlotterOriginal.plotCurve(f, tMin, tMax, view,
+				gpExpected, true, Gap.MOVE_TO);
+
 		CurvePlotter plotter = new CurvePlotter(f, tMin, tMax, view,
-				gp1, true, Gap.MOVE_TO);
+				gp, true, Gap.MOVE_TO);
 		while (!plotter.isReady()) {
 			plotter.plot();
 		}
-		GPoint p2 = CurvePlotterOriginal.plotCurve(f, tMin, tMax, view,
-				gp2, true, Gap.MOVE_TO);
-		assertEquals(gp2.result(), gp1.result());
-//		assertEquals(p1, p2);
+
+		assertEquals(gpExpected, gp);
+		assertEquals(pointExpected, plotter.getLabelPoint());
 	}
 }
