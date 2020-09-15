@@ -36,6 +36,7 @@ public class CurveSegmentPlotter {
 	private static final int MIN_SAMPLE_POINTS = 80;
 
 	private static final double MAX_JUMP = 5;
+	private boolean ready;
 
 
 	private CurveEvaluable curve;
@@ -53,6 +54,12 @@ public class CurveSegmentPlotter {
 	private double[] eval;
 	private double[] evalLeft;
 	private double[] evalRight;
+	private CurveSegmentInfo info;
+	private SegmentParams params;
+	public static final int LENGTH = MAX_DEFINED_BISECTIONS + 1;
+	private CurvePlotterStack stack;
+	private boolean onScreen;
+	private double[] divisors;
 
 	/**
 	 * Draws a parametric curve (x(t), y(t)) for t in [tMin, tMax].
@@ -96,19 +103,22 @@ public class CurveSegmentPlotter {
 		move = curve.newDoubleArray();
 		nextLineToNeedsMoveToFirst = false;
 		eval = curve.newDoubleArray();
+		start();
 	}
 
-	public GPoint plot() {
+	private void start() {
 		if (isCurveUndefinedAt(tMin)) {
-			return plotProblemInterval(tMin);
+			plotProblemInterval(tMin);
 		}
 
 		evalLeft = Cloner.clone(eval);
 
 		if (isCurveUndefinedAt(tMax)) {
-			return plotProblemInterval(tMin);
+			plotProblemInterval(tMin);
 		}
-		boolean onScreen = view.isOnView(eval);
+
+		ready = false;
+		onScreen = view.isOnView(eval);
 		evalRight = Cloner.clone(eval);
 
 		// first point
@@ -116,23 +126,36 @@ public class CurveSegmentPlotter {
 
 		// TODO
 		// INIT plotting algorithm
-		int length = MAX_DEFINED_BISECTIONS + 1;
-		CurvePlotterStack stack = new CurvePlotterStack(length, onScreen, evalRight);
-		double[] divisors = createDivisors(tMin, tMax, length);
+		stack = new CurvePlotterStack(LENGTH, onScreen, evalRight);
+		divisors = createDivisors(tMin, tMax, LENGTH);
 
 		// init previous slope using (tMin, tMin + min_step)
-		curve.evaluateCurve(tMin + divisors[length - 1], eval);
+		curve.evaluateCurve(tMin + divisors[LENGTH - 1], eval);
 
-		SegmentParams params = new SegmentParams(tMin, tMax, divisors, view,
+		params = new SegmentParams(tMin, tMax, divisors, view,
 				evalLeft, evalRight, eval);
 
-		CurveSegmentInfo info = new CurveSegmentInfo(view, evalLeft, evalRight, params.prevDiff);
-		// Actual plotting algorithm:
-		// use bisection for interval until we reach
-		// a small pixel distance between two points and
-		// a small angle between two segments.
-		// The evaluated curve points are stored on a stack
-		// to avoid multiple evaluations at the same position.
+		info = new CurveSegmentInfo(view, evalLeft, evalRight, params.prevDiff);
+	}
+
+	public GPoint plot() {
+
+		if (plotBisectorAlgo()) {
+			return plotProblemInterval(params.left);
+		}
+
+		gp.endPlot();
+		return labelPoint;
+	}
+
+	// Actual plotting algorithm:
+	// use bisection for interval until we reach
+	// a small pixel distance between two points and
+	// a small angle between two segments.
+	// The evaluated curve points are stored on a stack
+	// to avoid multiple evaluations at the same position.
+	public boolean plotBisectorAlgo() {
+			int maxStepsAtOnce = 5;
 		do {
 			info.update(evalLeft, evalRight, params.diff, params.prevDiff);
 
@@ -141,18 +164,17 @@ public class CurveSegmentPlotter {
 					&& (info.isDistanceOrAngleInvalid()
 							|| params.isStepTooBig(maxParamStep))
 					&& params.isDiffZerosLimitNotReached()) {
+
 				// push stacks
-
 				stack.push(params.dyad, params.depth, onScreen, evalRight);
-
 				params.update();
 
-				// evaluate curve for parameter t
+        		// evaluate curve for parameter t
 				curve.evaluateCurve(params.t, eval);
 				onScreen = view.isOnView(eval);
 
-				if (isUndefined(eval) && hasNoSingularity(params.t, divisors[length - 1])) {
-					return plotProblemInterval(params.left);
+				if (isUndefined(eval) && hasNoSingularity(params.t, divisors[LENGTH - 1])) {
+					return true;
 				}
 
 				evalRight = Cloner.clone(eval);
@@ -163,6 +185,10 @@ public class CurveSegmentPlotter {
 
 			} // end of while-loop for interval bisections
 
+			maxStepsAtOnce--;
+			if (maxStepsAtOnce == 0) {
+				return false;
+			}
 			drawSegment(params.t, params.left, info);
 
 			// remember last point in general path
@@ -187,9 +213,12 @@ public class CurveSegmentPlotter {
 			params.updateFromStack(item);
 			params.updateDiff(evalLeft, evalRight);
 		} while (stack.hasItems()); // end of do-while loop for bisection stack
+		ready = true;
+		return false;
+	}
 
-		gp.endPlot();
-		return labelPoint;
+	public boolean isReady() {
+		return ready;
 	}
 
 	private boolean hasNoSingularity(double t, double interval) {
@@ -304,6 +333,7 @@ public class CurveSegmentPlotter {
 	 */
 	private GPoint plotProblemInterval(double left) {
 		boolean calcLabel = needLabelPos;
+		ready=true;
 		// stop recursion for too many intervals
 		if (intervalDepth > MAX_PROBLEM_BISECTIONS || left == tMax) {
 			return labelPoint;
@@ -509,4 +539,7 @@ public class CurveSegmentPlotter {
 		}
 	}
 
+	public GPoint getLabelPoint() {
+		return null;
+	}
 }
