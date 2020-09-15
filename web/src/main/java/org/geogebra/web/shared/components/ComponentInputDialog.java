@@ -10,8 +10,6 @@ import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.core.client.Scheduler;
-
 /**
  * dialog component for dialogs with one input text field
  * e.g. regular polygon tool dialog
@@ -65,7 +63,7 @@ public class ComponentInputDialog extends ComponentDialog
 		inputTextField = new ComponentInputField((AppW) app,
 				"", labelText, "", initText, columns, rows,
 				showSymbolPopupIcon, "");
-		super.addDialogContent(inputTextField);
+		addDialogContent(inputTextField);
 	}
 
 	protected InputHandler getInputHandler() {
@@ -79,19 +77,6 @@ public class ComponentInputDialog extends ComponentDialog
 	protected void processInputHandler(String inputText,
 			AsyncOperation<Boolean> callback) {
 		getInputHandler().processInput(inputText, this, callback);
-	}
-
-	protected void centerAndFocus(final boolean selectInitText) {
-		Scheduler.get().scheduleDeferred(() -> {
-			if (getTextComponent() != null) {
-				getTextComponent().setFocus(true);
-				// Firefox: correct cursor position #5419
-				if (!selectInitText) {
-					getTextComponent().setCaretPosition(
-							getInputText().length());
-				}
-			}
-		});
 	}
 
 	public String getInputText() {
