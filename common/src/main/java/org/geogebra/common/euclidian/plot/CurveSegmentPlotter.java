@@ -19,10 +19,7 @@ public class CurveSegmentPlotter {
 
 	// maximum angle between two line segments
 	private static final double MAX_ANGLE = 10; // degrees
-	private static final double MAX_ANGLE_OFF_SCREEN = 45; // degrees
 	public static final double MAX_BEND = Math.tan(MAX_ANGLE * Kernel.PI_180);
-	private static final double MAX_BEND_OFF_SCREEN = Math
-			.tan(MAX_ANGLE_OFF_SCREEN * Kernel.PI_180);
 
 	// maximum number of bisections (max number of plot points = 2^MAX_DEPTH)
 	private static final int MAX_DEFINED_BISECTIONS = 16;
@@ -31,28 +28,24 @@ public class CurveSegmentPlotter {
 	// ln(x)+sin(x), it could lead to piecewise functions joining up.
 	private static final int MAX_CONTINUITY_BISECTIONS = 8;
 
-
-	// the curve is sampled at least at this many positions to plot it
-	private static final int MIN_SAMPLE_POINTS = 80;
-
 	private static final double MAX_JUMP = 5;
 	private static final int MAX_STEPS_PER_PLOT = 500;
 	private boolean ready;
 
 
-	private CurveEvaluable curve;
-	private double tMin;
-	private double tMax;
-	private int intervalDepth;
-	private double maxParamStep;
+	private final CurveEvaluable curve;
+	private final double tMin;
+	private final double tMax;
+	private final int intervalDepth;
+	private final double maxParamStep;
 	private final EuclidianView view;
-	private PathPlotter gp;
+	private final PathPlotter gp;
 	private boolean needLabelPos;
-	private Gap moveToAllowed;
+	private final Gap moveToAllowed;
 	private GPoint labelPoint;
 	private double[] move;
 	private boolean nextLineToNeedsMoveToFirst;
-	private double[] eval;
+	private final double[] eval;
 	private double[] evalLeft;
 	private double[] evalRight;
 	private CurveSegmentInfo info;
@@ -73,7 +66,6 @@ public class CurveSegmentPlotter {
 	 *            whether label position should be calculated and returned
 	 * @param moveToAllowed
 	 *            whether moveTo() may be used for gp
-	 * @return label position as Point
 	 * @author Markus Hohenwarter, based on an algori5thm by John Gillam
 	 */
 	public CurveSegmentPlotter(CurveEvaluable curve, double tMin,
@@ -128,15 +120,15 @@ public class CurveSegmentPlotter {
 		// TODO
 		// INIT plotting algorithm
 		stack = new CurvePlotterStack(LENGTH, onScreen, evalRight);
-		divisors = createDivisors(tMin, tMax, LENGTH);
+		divisors = createDivisors(tMin, tMax);
 
 		// init previous slope using (tMin, tMin + min_step)
 		curve.evaluateCurve(tMin + divisors[LENGTH - 1], eval);
 
-		params = new SegmentParams(tMin, tMax, divisors, view,
+		params = new SegmentParams(tMin, divisors, view,
 				evalLeft, evalRight, eval);
 
-		info = new CurveSegmentInfo(view, evalLeft, evalRight, params.prevDiff);
+		info = new CurveSegmentInfo(view, evalLeft, evalRight);
 	}
 
 	public GPoint plot() {
@@ -301,10 +293,10 @@ public class CurveSegmentPlotter {
 		return DoubleUtil.isZero(diff[0]) && DoubleUtil.isZero(diff[1]);
 	}
 
-	private static double[] createDivisors(double tMin, double tMax, int length) {
-		double[] divisors = new double[length];
+	private static double[] createDivisors(double tMin, double tMax) {
+		double[] divisors = new double[LENGTH];
 		divisors[0] = tMax - tMin;
-		for (int i = 1; i < length; i++) {
+		for (int i = 1; i < LENGTH; i++) {
 			divisors[i] = divisors[i - 1] / 2;
 		}
 		return divisors;

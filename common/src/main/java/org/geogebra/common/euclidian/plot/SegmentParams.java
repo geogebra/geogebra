@@ -10,22 +10,20 @@ public class SegmentParams {
 	// eg Curve[0sin(t), 0t, t, 0, 6]
 	private static final int MAX_ZERO_COUNT = 1000;
 	int dyad;
-	int depth = 0;
+	int depth;
 	double[] diff;
 	double[] prevDiff;
-	int countDiffZeros = 0;
+	int countDiffZeros;
 	double t;
 	double left;
 	private final double tMin;
-	private double tMax;
 	double[] divisors;
-	private EuclidianView view;
+	private final EuclidianView view;
 
 
-	public SegmentParams(double tMin, double tMax, double[] divisors, EuclidianView view,
+	public SegmentParams(double tMin, double[] divisors, EuclidianView view,
 			double[] evalLeft, double[] evalRight, double[] eval) {
 		this.tMin = tMin;
-		this.tMax = tMax;
 		this.divisors = divisors;
 		this.view = view;
 		dyad = 1;
@@ -34,6 +32,7 @@ public class SegmentParams {
 		this.left = tMin;
 		this.diff = view.getOnScreenDiff(evalLeft, evalRight);
 		this.prevDiff = view.getOnScreenDiff(evalLeft, eval);
+		countDiffZeros = 0;
 	}
 
 

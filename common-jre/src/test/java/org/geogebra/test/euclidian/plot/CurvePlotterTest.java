@@ -39,6 +39,21 @@ public class CurvePlotterTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testSinX() {
+		resultShouldBeTheSame(add("sin(x)"), -5, 5);
+	}
+
+	@Test
+	public void testSinXSquared() {
+		resultShouldBeTheSame(add("sin(x^2)"), -50, 50);
+	}
+
+	@Test
+	public void testSinXPowerOf4() {
+		resultShouldBeTheSame(add("sin(x^4)"), -50, 50);
+	}
+
+	@Test
 	public void testCurve() {
 		resultShouldBeTheSame(add("Curve( t+abs(t), t+abs(t), t, -5, 0)"), -5, 5);
 	}

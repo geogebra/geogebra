@@ -15,8 +15,8 @@ public class CurvePlotter {
 	// the curve is sampled at least at this many positions to plot it
 	private static final int MIN_SAMPLE_POINTS = 80;
 	private final CurveSegmentPlotter curveSegmentPlotter;
-	private PathPlotter gp;
-	private Gap moveToAllowed;
+	private final PathPlotter gp;
+	private final Gap moveToAllowed;
 
 	/**
 	 * Draws a parametric curve (x(t), y(t)) for t in [tMin, tMax].
@@ -27,7 +27,6 @@ public class CurvePlotter {
 	 * @param gp generalpath that can be drawn afterwards
 	 * @param calcLabelPos whether label position should be calculated and returned
 	 * @param moveToAllowed whether moveTo() may be used for gp
-	 * @return label position as Point
 	 * @author Markus Hohenwarter, based on an algorithm by John Gillam
 	 */
 	public CurvePlotter(CurveEvaluable curve, double tMin,
@@ -59,11 +58,25 @@ public class CurvePlotter {
 		return curveSegmentPlotter.isReady();
 	}
 
+	/**
+	 * Emulates the old behaviour.
+	 *
+	 * Draws a parametric curve (x(t), y(t)) for t in [tMin, tMax].
+	 * @param tMin min value of parameter
+	 * @param tMax max value of parameter
+	 * @param curve curve to be drawn
+	 * @param view Euclidian view to be used
+	 * @param gp generalpath that can be drawn afterwards
+	 * @param calcLabelPos whether label position should be calculated and returned
+	 * @param moveToAllowed whether moveTo() may be used for gp
+	 * @return point of the label.
+	 * @author Markus Hohenwarter, based on an algorithm by John Gillam
+	 */
 	public static GPoint plotCurve(CurveEvaluable curve, double tMin,
 			double tMax, EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
 		CurvePlotter plotter = new CurvePlotter(curve, tMin, tMax, view,
-				gp, true, Gap.MOVE_TO);
+				gp, calcLabelPos, moveToAllowed);
 		while (!plotter.isReady()) {
 			plotter.plot();
 		}
