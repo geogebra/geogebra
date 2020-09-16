@@ -7552,6 +7552,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				&& event.isRightClick()) {
 			return;
 		}
+		view.setPlottersEnabled(false);
 		// handle rotation
 		if (view.getHitHandler() == EuclidianBoundingBoxHandler.ROTATION) {
 			splitSelectedStrokes(true);

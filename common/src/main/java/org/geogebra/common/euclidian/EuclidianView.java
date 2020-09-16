@@ -32,7 +32,6 @@ import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawLine.PreviewType;
-import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
@@ -41,6 +40,7 @@ import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.euclidian.plot.IncrementalPlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.SetLabels;
@@ -508,6 +508,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private BoundingBox<? extends GShape> focusedGroupGeoBoundingBox;
 
 	protected SymbolicEditor symbolicEditor = null;
+	private boolean plottersEnabled;
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -4112,7 +4113,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	public void updateCurve(DrawParametricCurve d) {
+	public void updateCurve(IncrementalPlotter plotter) {
 
 	}
 	/**
@@ -6472,5 +6473,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				((DrawInline) drawable).saveContent();
 			}
 		}
+	}
+
+	public boolean isPlottersEnabled() {
+		return plottersEnabled;
+	}
+
+	public void setPlottersEnabled(boolean plottersEnabled) {
+		this.plottersEnabled = plottersEnabled;
 	}
 }

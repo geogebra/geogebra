@@ -19,9 +19,9 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.PenPreviewLine;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.background.BackgroundType;
-import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.euclidian.plot.IncrementalPlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -552,9 +552,15 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void updateCurve(DrawParametricCurve d) {
-		Log.debug("updateCurve");
-		repaintScheduler.requestAnimationFrame(timestamp -> d.update());
+	public void updateCurve(IncrementalPlotter plotter) {
+		if (isPlottersEnabled() && !plotter.isReady()) {
+			Log.debug("updateCurve");
+			repaintScheduler.requestAnimationFrame(timestamp -> plotter.nextPlot());
+		}
+
+		if (!isPlottersEnabled()) {
+			plotter.reset();
+		}
 	}
 
 	/**
