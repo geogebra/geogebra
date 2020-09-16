@@ -25,7 +25,7 @@ public class UndoManagerW extends DefaultUndoManager {
 
 	@Override
 	protected UndoCommand createUndoCommand(AppState appState) {
-		return new UndoCommand(appState, ((AppW) app).getSlideID());
+		return new UndoCommand(appState, app.getSlideID());
 	}
 
 	@Override

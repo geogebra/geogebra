@@ -113,10 +113,9 @@ public abstract class UndoManager {
 	/**
 	 * @param action
 	 *            action type
-	 * @param args
+	 * @param args event arguments
 	 */
-	public void executeAction(EventType action,
-			String... args) {
+	public void executeAction(EventType action,	String... args) {
 		for (ActionExecutor executor: executors) {
 			if (executor.executeAction(action, args)) {
 				return;
@@ -408,7 +407,7 @@ public abstract class UndoManager {
 		storeActionWithSlideId(action, null, args);
 	}
 
-	private void storeActionWithSlideId(EventType action, String slideID, String[] args){
+	private void storeActionWithSlideId(EventType action, String slideID, String[] args) {
 		iterator.add(new UndoCommand(action, slideID, args));
 		this.pruneStateList();
 		updateUndoActions();

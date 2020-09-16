@@ -3432,12 +3432,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	}
 
-	/**
-	 * When multiple slides are present give ID of the current one, otherwise
-	 * give default slide ID
-	 *
-	 * @return the string ID of current slide
-	 */
+	@Override
 	public String getSlideID() {
 		return getPageController() == null
 				? GgbFile.SLIDE_PREFIX + GgbFile.getCounter()

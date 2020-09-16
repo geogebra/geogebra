@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.Kernel;
  * The startListeningToTriggerEvents() method has to be called in order add the actions and set the
  * listener.
  */
-public class UndoRedoButtonsController implements UndoInfoStoredListener{
+public class UndoRedoButtonsController implements UndoInfoStoredListener {
 
 	private Kernel kernel;
 	private ActionView undoWidget;
@@ -98,6 +98,7 @@ public class UndoRedoButtonsController implements UndoInfoStoredListener{
 			ActionView undoWidget, ActionView redoWidget,
 			Kernel kernel) {
 
-		new UndoRedoButtonsController(kernel, undoWidget, redoWidget).startListeningToTriggerEvents();
+		new UndoRedoButtonsController(kernel, undoWidget, redoWidget)
+				.startListeningToTriggerEvents();
 	}
 }

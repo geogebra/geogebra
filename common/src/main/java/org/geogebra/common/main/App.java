@@ -4233,8 +4233,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// implemented in AppW
 	}
 
+	/**
+	 * When multiple slides are present give ID of the current one, otherwise
+	 * give default slide ID when slides supported or empty string if not.
+	 *
+	 * @return the string ID of current slide
+	 */
 	public String getSlideID() {
-		return null;
+		return "";
 	}
 
 	/**
