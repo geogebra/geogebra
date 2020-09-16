@@ -5178,4 +5178,26 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void closeMenuHideKeyboard() {
 		// nothing here
 	}
+
+	@Override
+	public void setXML(String xml, boolean clearAll) {
+		if (xml == null) {
+			return;
+		}
+		if (clearAll) {
+			resetCurrentFile();
+		}
+
+		try {
+			// make sure objects are displayed in the correct View
+			setActiveView(App.VIEW_EUCLIDIAN);
+			getXMLio().processXMLString(xml, clearAll, false);
+		} catch (MyError err) {
+			err.printStackTrace();
+			showError(err);
+		} catch (Exception e) {
+			e.printStackTrace();
+			showError(Errors.LoadFileFailed);
+		}
+	}
 }

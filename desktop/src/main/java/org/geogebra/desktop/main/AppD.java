@@ -155,7 +155,6 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.HTML5Export;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.main.SingularWSSettings;
@@ -3501,30 +3500,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			showError(Errors.SaveFileFailed);
 			e.printStackTrace();
 			return false;
-		}
-	}
-
-	@Override
-	public void setXML(String xml, boolean clearAll) {
-		if (xml == null) {
-			return;
-		}
-		if (clearAll) {
-			setCurrentFile(null);
-		}
-
-		try {
-
-			// make sure objects are displayed in the correct View
-			setActiveView(App.VIEW_EUCLIDIAN);
-
-			getXMLio().processXMLString(xml, clearAll, false);
-		} catch (MyError err) {
-			err.printStackTrace();
-			showError(err);
-		} catch (Exception e) {
-			e.printStackTrace();
-			showError(Errors.LoadFileFailed);
 		}
 	}
 
