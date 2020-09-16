@@ -101,6 +101,8 @@ import com.himamis.retex.editor.share.util.Unicode;
 public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		SetLabels {
 
+	private boolean isCrashlyticsLoggingEnabled;
+
 	/** says if the view has the mouse */
 	protected boolean hasMouse;
 	/** View other than EV1 and EV2 **/
@@ -506,8 +508,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	protected SymbolicEditor symbolicEditor = null;
 
-	private boolean isCrashlyticsLoggingEnabled;
-
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
 		Integer[] ret = new Integer[lineTypes.length];
@@ -595,7 +595,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		GeoPriorityComparator cmp = app.getGeoPriorityComparator();
 		logToCrashlytics("EuclidianView.allDrawableList reinitialized at EuclidianView.init("
 				+ "EuclidianController ec, int viewNo, EuclidianSettings settings)"
-				+ " on thread " + Thread.currentThread());
+				+ " on thread " + getThreadId());
 		allDrawableList = new DrawableList(cmp);
 		bgImageList = new DrawableList(cmp);
 
@@ -1699,6 +1699,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
+	protected String getThreadId() {
+		return "[main thread]";
+	}
+
 	public DrawableList getAllDrawableList() {
 		return allDrawableList;
 	}
@@ -1972,7 +1976,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			if (!bgImageList.contains(d)) {
 				logToCrashlytics("EuclidianView.allDrawableList modified at "
 						+ "EuclidianView.createAndAddDrawable(GeoElement geo)"
-						+ " on thread " + Thread.currentThread());
+						+ " on thread " + getThreadId());
 				allDrawableList.add((Drawable) d);
 			}
 			return true;
@@ -2116,7 +2120,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		logToCrashlytics(
 				"EuclidianView.allDrawableList modified at EuclidianView.remove(GeoElement geo)"
-						+ " on thread " + Thread.currentThread());
+						+ " on thread " + getThreadId());
 		allDrawableList.remove(d);
 		resetBoundingBoxes();
 
@@ -4271,7 +4275,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		logToCrashlytics(
 				"EuclidianView.allDrawableList modified at "
 						+ "EuclidianView.addBackgroundImage(DrawImage img)"
-						+ " on thread " + Thread.currentThread());
+						+ " on thread " + getThreadId());
 		allDrawableList.remove(img);
 	}
 
@@ -4284,7 +4288,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		logToCrashlytics(
 				"EuclidianView.allDrawableList modified at "
 						+ "EuclidianView.removeBackgroundImage(DrawImage img)"
-						+ " on thread " + Thread.currentThread());
+						+ " on thread " + getThreadId());
 		allDrawableList.add(img);
 	}
 
@@ -4295,7 +4299,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		drawableMap.clear();
 		stickyPointList.clear();
 		logToCrashlytics("EuclidianView.allDrawableList modified at EuclidianView.resetLists()"
-				+ " on thread " + Thread.currentThread());
+				+ " on thread " + getThreadId());
 		allDrawableList.clear();
 		bgImageList.clear();
 		previewFromInputBarGeos = null;
