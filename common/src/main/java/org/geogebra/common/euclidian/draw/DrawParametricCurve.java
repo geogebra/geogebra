@@ -174,11 +174,7 @@ public class DrawParametricCurve extends Drawable {
 						labelVisible, fillCurve ? Gap.CORNER
 						: Gap.MOVE_TO);
 			}
-//			labelPoint = CurvePlotter.plotCurve(toPlot, min, max, view, gp,
-//					labelVisible, fillCurve ? Gap.CORNER
-//							: Gap.MOVE_TO);
 		}
-
 	}
 
 	protected boolean plotCurve() {

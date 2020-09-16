@@ -11,15 +11,14 @@ public class CurveSegmentInfo {
 	private static final double MAX_BEND_OFF_SCREEN = Math
 			.tan(MAX_ANGLE_OFF_SCREEN * Kernel.PI_180);
 
-	private EuclidianView view;
+	private final EuclidianView view;
 	double[] evalLeft;
 	double[] evalRight;
 	private boolean distanceOK;
 	private boolean angleOK;
 	private boolean offScreen;
 
-	public CurveSegmentInfo(EuclidianView view, double[] evalLeft, double[] evalRight,
-			double[] prevDiff) {
+	public CurveSegmentInfo(EuclidianView view, double[] evalLeft, double[] evalRight) {
 		this.view = view;
 		this.evalLeft = evalLeft;
 		this.evalRight = evalRight;
