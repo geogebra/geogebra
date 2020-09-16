@@ -581,7 +581,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 	/**
 	 *
 	 */
-	protected static interface XMLStreamJre extends XMLStream {
+	public interface XMLStreamJre extends XMLStream {
 		/**
 		 * @return reader
 		 * @throws Exception
@@ -632,7 +632,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 	/**
 	 *
 	 */
-	protected static class XMLStreamInputStream implements XMLStreamJre {
+	public static class XMLStreamInputStream implements XMLStreamJre {
 
 		private InputStream is;
 		private InputStreamReader reader;
