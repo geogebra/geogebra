@@ -24,8 +24,8 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
-import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
+import org.geogebra.common.euclidian.plot.IncrementalPlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
@@ -85,6 +85,7 @@ public class DrawParametricCurve extends Drawable {
 		}
 	};
 	private CurvePlotter plotter = null;
+	private IncrementalPlotter incrementalPlotter;
 
 	/**
 	 * Creates graphical representation of the curve
@@ -103,7 +104,7 @@ public class DrawParametricCurve extends Drawable {
 
 	@Override
 	final public void update() {
-		if (plotCurve()) {
+		if (incrementalPlotter != null && incrementalPlotter.plotCurve()) {
 			return;
 		}
 
@@ -168,31 +169,15 @@ public class DrawParametricCurve extends Drawable {
 			curve.evaluateCurve(min, eval);
 			view.toScreenCoords(eval);
 			labelPoint = new GPoint((int) eval[0], (int) eval[1]);
-		} else {
-			if (plotter == null) {
-				plotter = new CurvePlotter(toPlot, min, max, view, gp,
-						labelVisible, fillCurve ? Gap.CORNER
-						: Gap.MOVE_TO);
-			}
+		} else if (incrementalPlotter == null) {
+			incrementalPlotter = new IncrementalPlotter(this, view, gp, labelVisible, fillCurve);
+			incrementalPlotter.start(min, max, toPlot);
 		}
 	}
 
-	protected boolean plotCurve() {
-		if (plotter == null) {
-			return false;
-		}
 
-		if (plotter.isReady()) {
-			onPlotterFinished(plotter.getLabelPoint());
-		} else {
-			plotter.plot();
-			draw(view.getGraphicsForPen());
-		}
-		view.updateCurve(this);
-		return true;
-	}
-
-	protected void onPlotterFinished(GPoint labelPoint) {
+	public void onPlotterFinished(GPoint labelPoint) {
+		Log.debug("PLOTTER FINISHED");
 		// gp on screen?
 		if (!view.intersects(gp)) {
 			isVisible = false;

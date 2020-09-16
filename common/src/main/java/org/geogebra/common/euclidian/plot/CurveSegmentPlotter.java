@@ -29,7 +29,7 @@ public class CurveSegmentPlotter {
 	private static final int MAX_CONTINUITY_BISECTIONS = 8;
 
 	private static final double MAX_JUMP = 5;
-	private static final int MAX_STEPS_PER_PLOT = 500;
+	private static final int MAX_STEPS_PER_PLOT = 3;
 	private boolean ready;
 
 
