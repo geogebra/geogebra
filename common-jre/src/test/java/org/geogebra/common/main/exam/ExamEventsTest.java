@@ -11,7 +11,7 @@ public class ExamEventsTest extends BaseUnitTest {
 	
 	@Before
 	public void setupExam() {
-		exam = new ExamEnvironment(getApp());
+		exam = new ExamEnvironment(getApp().getLocalization());
 	}
 
 	@Test

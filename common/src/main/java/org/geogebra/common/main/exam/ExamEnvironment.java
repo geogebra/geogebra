@@ -2,6 +2,9 @@ package org.geogebra.common.main.exam;
 
 import java.util.Date;
 
+import javax.annotation.CheckForNull;
+
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.commands.CmdGetTime;
@@ -10,7 +13,7 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
-import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.Translation;
 import org.geogebra.common.main.exam.event.CheatingEvent;
@@ -34,39 +37,71 @@ public class ExamEnvironment {
 	/** exam start timestamp (milliseconds) */
 	private long examStartTime = EXAM_START_TIME_NOT_STARTED;
 
+	private final Localization localization;
+	private boolean isIncludingSettingsInLog;
+	private String localizedAppName;
+	private CommandDispatcher commandDispatcher;
+
+	@CheckForNull
+	private CopyPaste copyPaste;
+
+	@CheckForNull
+	private CASSettings casSettings;
+
 	private final CheatingEvents cheatingEvents;
 	private long closed = -1;
 
 	private boolean hasGraph = false;
 
 	private TimeFormatAdapter timeFormatter;
-	private CommandArgumentFilter examCommandFilter = new ExamCommandFilter();
+	private final CommandArgumentFilter examCommandFilter = new ExamCommandFilter();
 	private static final CommandFilter noCASFilter = CommandFilterFactory
 			.createNoCasCommandFilter();
 
-	/**
-	 * application
-	 */
-	protected App app;
-	private Localization localization;
-
 	private long ignoreBlurUntil = -1;
 	private boolean temporaryBlur;
-
-	private CommandDispatcher commandDispatcher;
 	private boolean wasCasEnabled;
 
 	/**
-	 *
-	 * @param app
-	 *            application
+	 * @param localization localization
 	 */
-	public ExamEnvironment(App app) {
-		this.app = app;
-		this.localization = app.getLocalization();
+	public ExamEnvironment(Localization localization) {
+		this.localization = localization;
 		cheatingEvents = new CheatingEvents();
-		commandDispatcher = app.getKernel().getAlgebraProcessor().getCommandDispatcher();
-		wasCasEnabled = app.getSettings().getCasSettings().isEnabled();
+	}
+
+	public void setIncludingSettingsInLog(boolean includingSettingsInLog) {
+		isIncludingSettingsInLog = includingSettingsInLog;
+	}
+
+	public void setCommandDispatcher(CommandDispatcher commandDispatcher) {
+		this.commandDispatcher = commandDispatcher;
+	}
+
+	protected Localization getLocalization() {
+		return localization;
+	}
+
+	public void setCopyPaste(CopyPaste copyPaste) {
+		this.copyPaste = copyPaste;
+	}
+
+	protected CopyPaste getCopyPaste() {
+		return copyPaste;
+	}
+
+	/**
+	 * Gets the short app name key based on the app config's app code
+	 * and stores the translated short app name in the localizedAppName field.
+	 *
+	 * @param config config
+	 */
+	public void setAppNameWith(AppConfig config) {
+		String appNameShort =
+				config.getAppCode().equals(GeoGebraConstants.SUITE_APPCODE)
+						? GeoGebraConstants.SUITE_SHORT_NAME
+						: config.getAppNameShort();
+		this.localizedAppName = localization.getMenu(appNameShort);
 	}
 
 	/**
@@ -342,7 +377,7 @@ public class ExamEnvironment {
 	 *            log builder
 	 */
 	public void getLog(Localization loc, Settings settings, ExamLogBuilder sb) {
-		if (!app.isUnbundled()) {
+		if (isIncludingSettingsInLog) {
 			appendSettings(loc, settings, sb);
 		}
 		appendStartEnd(loc, sb, true);
@@ -434,11 +469,11 @@ public class ExamEnvironment {
 	}
 
 	private void clearClipboard() {
-		CopyPaste copyPaste = app.getCopyPaste();
+		CopyPaste copyPaste = getCopyPaste();
 		if (copyPaste != null) {
 			copyPaste.clearClipboard();
+			copyPaste.copyTextToSystemClipboard("");
 		}
-		app.copyTextToSystemClipboard("");
 	}
 
 	/**
@@ -449,13 +484,10 @@ public class ExamEnvironment {
 		examStartTime = EXAM_START_TIME_NOT_STARTED;
 		disableExamCommandFilter();
 		setShowSyntax(true);
-
-		app.fileNew();
 	}
 
 	private void setShowSyntax(boolean showSyntax) {
-		CommandErrorMessageBuilder builder = localization
-				.getCommandErrorMessageBuilder();
+		CommandErrorMessageBuilder builder = localization.getCommandErrorMessageBuilder();
 		builder.setShowingSyntax(showSyntax);
 	}
 
@@ -463,14 +495,14 @@ public class ExamEnvironment {
 	 * @return calculator name for status bar
 	 */
 	public String getCalculatorNameForStatusBar() {
-		return localization.getMenu(app.getConfig().getAppNameShort());
+		return localizedAppName;
 	}
 
 	/**
 	 * @return calculator name for exam log header
 	 */
 	public String getCalculatorNameForHeader() {
-		return localization.getMenu(app.getConfig().getAppNameShort());
+		return localizedAppName;
 	}
 
 	/**
@@ -643,11 +675,13 @@ public class ExamEnvironment {
 
 	/**
 	 * Enables/disables CAS commands.
-	 * 
-	 * @param casEnabled
-	 *            whether CAS is enabled
+	 *
+	 * @param casEnabled  if true, enable, otherwise disable
+	 * @param casSettings cas settings
 	 */
-	public void setCasEnabled(boolean casEnabled) {
+	public void setCasEnabled(boolean casEnabled, CASSettings casSettings) {
+		this.casSettings = casSettings;
+		wasCasEnabled = casSettings.isEnabled();
 		if (casEnabled) {
 			enableCAS();
 		} else {
@@ -656,16 +690,16 @@ public class ExamEnvironment {
 	}
 
 	private void enableCAS() {
-		getCasSettings().setEnabled(true);
+		if (casSettings != null) {
+			casSettings.setEnabled(true);
+		}
 		commandDispatcher.removeCommandFilter(noCASFilter);
 	}
 
 	private void disableCAS() {
-		getCasSettings().setEnabled(false);
+		if (casSettings != null) {
+			casSettings.setEnabled(false);
+		}
 		commandDispatcher.addCommandFilter(noCASFilter);
-	}
-
-	private CASSettings getCasSettings() {
-		return app.getSettings().getCasSettings();
 	}
 }
