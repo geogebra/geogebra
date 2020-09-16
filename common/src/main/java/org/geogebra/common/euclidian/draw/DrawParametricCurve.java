@@ -104,9 +104,9 @@ public class DrawParametricCurve extends Drawable {
 
 	@Override
 	final public void update() {
-		if (incrementalPlotter != null && incrementalPlotter.plotCurve()) {
-			return;
-		}
+//		if (incrementalPlotter != null && incrementalPlotter.nextPlot()) {
+//			return;
+//		}
 
 		isVisible = geo.isEuclidianVisible();
 		if (!isVisible) {
@@ -169,10 +169,15 @@ public class DrawParametricCurve extends Drawable {
 			curve.evaluateCurve(min, eval);
 			view.toScreenCoords(eval);
 			labelPoint = new GPoint((int) eval[0], (int) eval[1]);
-		} else if (incrementalPlotter == null) {
-			incrementalPlotter = new IncrementalPlotter(this, view, gp, labelVisible, fillCurve);
+		} else {
+			if (incrementalPlotter == null) {
+				incrementalPlotter =
+						new IncrementalPlotter(this, view, gp, labelVisible, fillCurve);
+			}
+
 			incrementalPlotter.start(min, max, toPlot);
-		}
+			}
+
 	}
 
 

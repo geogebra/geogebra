@@ -29,7 +29,7 @@ public class CurveSegmentPlotter {
 	private static final int MAX_CONTINUITY_BISECTIONS = 8;
 
 	private static final double MAX_JUMP = 5;
-	private static final int MAX_STEPS_PER_PLOT = 3;
+	private static final int MAX_LOOPS_PER_PLOT = 128;
 	private boolean ready;
 
 
@@ -148,7 +148,7 @@ public class CurveSegmentPlotter {
 	// The evaluated curve points are stored on a stack
 	// to avoid multiple evaluations at the same position.
 	public boolean plotBisectorAlgo() {
-		int maxStepsAtOnce = MAX_STEPS_PER_PLOT;
+		int maxStepsAtOnce = MAX_LOOPS_PER_PLOT;
 		do {
 			info.update(evalLeft, evalRight, params.diff, params.prevDiff);
 
@@ -178,10 +178,6 @@ public class CurveSegmentPlotter {
 
 			} // end of while-loop for interval bisections
 
-			maxStepsAtOnce--;
-			if (maxStepsAtOnce == 0) {
-				return false;
-			}
 			drawSegment(params.t, params.left, info);
 
 			// remember last point in general path
@@ -205,6 +201,10 @@ public class CurveSegmentPlotter {
 			evalRight = item.pos;
 			params.updateFromStack(item);
 			params.updateDiff(evalLeft, evalRight);
+			maxStepsAtOnce--;
+			if (maxStepsAtOnce == 0) {
+				return false;
+			}
 		} while (stack.hasItems()); // end of do-while loop for bisection stack
 		ready = true;
 		return false;
