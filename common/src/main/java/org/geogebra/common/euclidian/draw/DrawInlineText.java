@@ -23,7 +23,7 @@ public class DrawInlineText extends Drawable implements DrawInline {
 
 	public static final int PADDING = 8;
 
-	private GeoInlineText text;
+	private final GeoInlineText text;
 	private InlineTextController textController;
 
 	private final TransformableRectangle rectangle;

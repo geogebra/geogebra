@@ -33,6 +33,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.tooltip.TooltipChipView;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.AnimationExporter;
 import org.geogebra.web.html5.util.ImageManagerW;
@@ -54,6 +55,7 @@ import jsinterop.base.JsPropertyMap;
  */
 public class GgbAPIW extends GgbAPI {
 	private MathEditorAPI editor;
+	private TooltipChipView tooltipChips;
 
 	/**
 	 * @param app
@@ -1099,6 +1101,19 @@ public class GgbAPIW extends GgbAPI {
 				(AppW) app);
 	}
 
+	/**
+	 * @param tooltip tooltip content
+	 * @param label label of an object to use as anchor
+	 * @param color color CSS string
+	 */
+	public void showTooltip(Object tooltip, Object label, Object color) {
+		if (tooltipChips == null) {
+			tooltipChips = new TooltipChipView();
+		}
+		tooltipChips.showMessage(tooltip == null ? null : String.valueOf(tooltip),
+				String.valueOf(label), String.valueOf(color), (AppW) app);
+	}
+
 	public void asyncEvalCommand(String command, JavaScriptObject onSuccess,
 			JavaScriptObject onFailure) {
 		((AppW) app).getAsyncManager().asyncEvalCommand(command, onSuccess, onFailure);
@@ -1499,6 +1514,10 @@ public class GgbAPIW extends GgbAPI {
 
 	@Override
 	public void previewRefresh() {
-		((AppW) app).getPageController().updatePreviewImage();
+		PageListControllerInterface pageController = ((AppW) app).getPageController();
+		if (pageController != null) {
+			pageController.updatePreviewImage();
+		}
 	}
+
 }

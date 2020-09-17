@@ -687,8 +687,12 @@ public class ApiExporter {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLanguage(Ljava/lang/String;)(lang + "");
 		};
 
-		api.showTooltip = function(lang) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::showTooltip(Ljava/lang/String;)(lang + "");
+		api.showTooltip = function(content, label, color) {
+			if (label) {
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::showTooltip(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)(content, label, color);
+			} else {
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::showTooltip(Ljava/lang/String;)(content + "");
+			}
 		};
 
 		// APPS-646 deprecated, needs changing to getValue("correct")
@@ -904,7 +908,7 @@ public class ApiExporter {
 		};
 
 		api.unregisterRenameListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerRenameListener(Ljava/lang/String;)(getId(JSFunctionName));
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterRenameListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.registerUpdateListener = function(JSFunctionName) {

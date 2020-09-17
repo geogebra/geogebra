@@ -1,23 +1,30 @@
 (function() {
-    function LiveApp(parentClientId, embedLabel) {
+    function LiveApp(parentClientId, embedLabel, users) {
         this.api = null;
-        this.eventCallback;
-        this.clientId = parentClientId || btoa(Math.random()).substring(0, 8);
+        this.users = users || {};
+        this.clientId = parentClientId;
         this.embeds = {};
-        this.sendEvent = function() {
-            var type = arguments[0];
-            var content = arguments[1];
+        this.createEvent = function(type, content, label) {
             var event = {
                 "type": type,
                 "content": content,
                 "embedLabel": embedLabel,
-                "client": this.clientId
+                "clientId": this.clientId
             }
-            if (arguments[2]) {
-                event.label = arguments[2];
+            if (label) {
+                event.label = label;
             }
-            this.eventCallback(event);
+            event.fire = function(callbacks) {
+                callbacks.forEach(function(callback) {
+                    callback(event);
+                });
+            }
+            return event;
         };
+        this.sendEvent = function(type, content, label) {
+            var event = this.createEvent(type, content, label);
+            event.fire(this.eventCallbacks['construction']);
+        }
         this.evalCommand = function(command) {
             this.unregisterListeners();
             this.api.evalCommand(command);
@@ -49,9 +56,9 @@
             var calc = (this.api.getEmbeddedCalculators() || {})[label];
             if (calc) {
                 if (calc.registerClientListener) {
-                    var calcLive = new LiveApp(this.clientId, label);
+                    var calcLive = new LiveApp(this.clientId, label, this.users);
                     calcLive.api = calc;
-                    calcLive.eventCallback = this.eventCallback;
+                    calcLive.eventCallbacks = this.eventCallbacks;
                     calcLive.registerListeners();
                     this.embeds[label] = calcLive;
                 }
@@ -70,7 +77,8 @@
 
                     for (let i = 0; i < tempObjects.length; i++) {
                         const label = tempObjects[i];
-                        const embed = that.api.getEmbeddedCalculators()[label];
+                        const calculators= that.api.getEmbeddedCalculators();
+                        const embed = calculators && calculators[label];
 
                         if (embed && embed.controller) {
                             that.sendEvent("evalGMContent", embed.toJSON(), label);
@@ -78,12 +86,11 @@
 
                         let commandString = that.api.getCommandString(label, false);
                         if (commandString) {
-                            that.sendEvent("evalCommand", label + " = " + commandString);
+                            that.sendEvent("evalCommand", label + " = " + commandString, label);
                         } else {
                             let xml = that.api.getXML(label);
-                            that.sendEvent("evalXML", xml);
+                            that.sendEvent("evalXML", xml, label);
                         }
-                        that.sendEvent("previewRefresh");
                     }
 
                     updateCallback = null;
@@ -94,6 +101,7 @@
         // *** UPDATE LISTENERS ***
         let updateListener = (function(label) {
             console.log("update event for " + label);
+            this.api.showTooltip(null, label);
             if (!objectsInWaiting.includes(label)) {
                 objectsInWaiting.push(label);
                 dispatchUpdates();
@@ -108,7 +116,8 @@
             if (image) {
                 var json = this.api.getFileJSON();
                 json.archive.forEach(function(item) {
-                    if (item.fileName == image) {
+                    if (item.fileName.indexOf(image) > -1) {
+                        item.fileName = image;
                         that.sendEvent("addImage", JSON.stringify(item));
                     }
                 })
@@ -117,11 +126,10 @@
 
             var definition = this.api.getCommandString(label);
             if (definition) {
-                this.sendEvent("evalXML", this.api.getAlgorithmXML(label));
+                this.sendEvent("evalXML", this.api.getAlgorithmXML(label), label);
             } else {
-                this.sendEvent("evalXML", xml);
+                this.sendEvent("evalXML", xml, label);
             }
-            this.sendEvent("previewRefresh");
             window.setTimeout(function(){
                 that.initEmbed(label);
             },500); //TODO avoid timeout
@@ -133,9 +141,15 @@
             console.log(label + " is removed");
             this.sendEvent("deleteObject", label);
         }).bind(this);
+        
+        var renameListener = (function(oldName, newName) {
+            this.sendEvent("renameObject", oldName, newName);
+        }).bind(this);
 
         // *** CLIENT LISTENERS ***
-        var clientListener = (function(event){
+        var clientListener = (function(event) {
+            var editorEventBus = this.eventCallbacks["editor"];
+            var selectionEventBus = this.eventCallbacks["selection"];
             switch (event[0]) {
                 case "updateStyle":
                     var label = event[1];
@@ -145,26 +159,29 @@
                     this.sendEvent("evalXML", xml);
                     break;
 
-                case "setMode":
-                    console.log("setMode(" + event[2] + ")");
-                    break;
-
                 case "editorKeyTyped":
-                    var state = this.api.getEditorState();
-                    console.log(state);
-                    this.sendEvent("setEditorState", state, event[1]);
+                    if (editorEventBus) {
+                        var state = this.api.getEditorState();
+                        this.createEvent("setEditorState", state, event[1]).fire(editorEventBus);
+                    }
                     break;
 
                 case "editorStop":
-                    this.sendEvent("setEditorState", "{content:\"\"}");
+                    if (editorEventBus) {
+                          this.createEvent("setEditorState", "{content:\"\"}").fire(editorEventBus);
+                    }
                     break;
 
                 case "deselect":
-                    this.sendEvent("evalCommand", "SelectObjects[]");
+                    if (selectionEventBus) {
+                        this.createEvent("evalCommand", "SelectObjects[]").fire(selectionEventBus);
+                    }
                     break;
 
                 case "select":
-                    this.sendEvent("evalCommand", "SelectObjects[" + event[1] + "]");
+                    if (selectionEventBus) {
+                        this.sendEvent("evalCommand", "SelectObjects[" + event[1] + "]").fire(selectionEventBus);
+                    }
                     break;
 
                 case "undo":
@@ -203,6 +220,7 @@
             this.api.registerRemoveListener(removeListener);
             this.api.registerAddListener(addListener);
             this.api.registerClientListener(clientListener);
+            this.api.registerRenameListener(renameListener);
         };
 
         this.unregisterListeners = function() {
@@ -210,17 +228,27 @@
             this.api.unregisterRemoveListener(removeListener);
             this.api.unregisterAddListener(addListener);
             this.api.unregisterClientListener(clientListener);
+            this.api.unregisterRenameListener(renameListener);
         };
 
+        this.showHint = function(event) {
+            var user = this.users[event.clientId];
+            if (user && event.label) {
+                this.api.showTooltip(user.name, event.label, user.color);
+            }
+        }
+
         this.dispatch = function(last) {
-            if (last && last.client != this.clientId) {
+            if (last && last.clientId != this.clientId) {
                 target = last.embedLabel ? this.embeds[last.embedLabel] : this;
                 if (last.type == "evalXML") {
                     target.evalXML(last.content);
+                    target.api.previewRefresh();
                 } else if (last.type == "setXML") {
                     target.setXML(last.content);
                 } else if (last.type == "evalCommand") {
                     target.evalCommand(last.content);
+                    target.api.previewRefresh();
                 } else if (last.type == "deleteObject") {
                     target.api.deleteObject(last.content);
                 } else if (last.type == "setEditorState") {
@@ -239,8 +267,10 @@
                     target.unregisterListeners();
                     target.api.selectSlide(last.content);
                     target.registerListeners();
-                } else if (last.type == "previewRefresh") {
-                    target.api.previewRefresh();
+                } else if (last.type == "renameObject") {
+                    target.unregisterListeners();
+                    target.api.renameObject(last.content, last.label);
+                    target.registerListeners();
                 } else if (last.type == "pasteSlide") {
                     target.api.handleSlideAction(last.type, last.content, last.label);
                 } else if (last.type == "evalGMContent") {
@@ -249,23 +279,31 @@
                         gmApi.loadFromJSON(last.content);
                     }
                 }
+                if (last.type != "pasteSlide") { // for slides the label slide label => no hint
+                    target.showHint(last);
+                }
             }
         };
    }
 
-    var mainSession = new LiveApp();
+    window.GeoGebraLive = function(api, id) {
+        var mainSession = new LiveApp(id);
+        mainSession.api = api;
+        mainSession.eventCallbacks = {"construction": []}
+        mainSession.registerListeners();
 
-    window.GeoGebraLive = {
-        dispatch: function(last) {
+        this.dispatch = function(last) {
             mainSession.dispatch(last);
         },
-        start: function(api, callback) {
-           if (mainSession.api) {
-               return;
-           }
-           mainSession.api = api;
-           mainSession.eventCallback = callback;
-           mainSession.registerListeners();
+        this.addUser = function(user) {
+            mainSession.users[user.id] = user;
+        }
+        this.addEventListener = function(eventCategory, callback) {
+           var eventCategories = typeof eventCategory == "string" ? [eventCategory] : eventCategory;
+           eventCategories.forEach(function(category) {
+               mainSession.eventCallbacks[category] = mainSession.eventCallbacks[category] || [];
+               mainSession.eventCallbacks[category].push(callback);
+           });
        }
     }
 })();
