@@ -45,8 +45,8 @@ if(hasProperty("eclipse")){
 }
 
 dependencies {
-    compile project(path: ':carota-web', configuration: 'gwt')
-    compile project(':web:dev'),
+    compile project(path: ':carota-web'),
+        project(':web:dev'),
         project(':common'),
         project(':renderer-base'),
         project(':editor-base'),
@@ -54,6 +54,7 @@ dependencies {
         project(':editor-web'),
         project(':keyboard-web'),
         project(':ggbjdk'),
+        files(project(':carota-web').sourceSets.main.allSource.srcDirs),
         files(project(':web:dev').sourceSets.main.allSource.srcDirs),
         files(project(':common').sourceSets.main.allSource.srcDirs),
         files(project(':ggbjdk').sourceSets.main.java.srcDirs),

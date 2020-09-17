@@ -376,6 +376,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	private boolean showResetIcon = false;
 	private ParserFunctions pf;
+	private ParserFunctions pfInputBox;
 	private SpreadsheetTraceManager traceManager;
 	private ExamEnvironment exam;
 
@@ -2932,13 +2933,26 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return parser extension for functions
 	 */
-	public ParserFunctions getParserFunctions() {
+	public ParserFunctions getParserFunctions(boolean inputBox) {
 		if (pf == null) {
 			pf = getConfig().createParserFunctions();
+			pf.addTrigShorthandFunctions();
+			pfInputBox = getConfig().createParserFunctions();
 		}
 		pf.setInverseTrig(
 				kernel.getLoadingMode() && kernel.getInverseTrigReturnsAngle());
-		return pf;
+		pfInputBox.setInverseTrig(
+				kernel.getLoadingMode() && kernel.getInverseTrigReturnsAngle());
+
+		if (inputBox) {
+			return pfInputBox;
+		} else {
+			return pf;
+		}
+	}
+
+	public ParserFunctions getParserFunctions() {
+		return getParserFunctions(false);
 	}
 
 	/**
