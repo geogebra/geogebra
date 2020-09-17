@@ -337,11 +337,8 @@ public class StylebarPositioner {
 	private GPoint getPositionForFunction(GeoElement geo, int stylebarHeight,
 			int stylebarWidth, GRectangle canvasRect) {
 		if (euclidianView.getHits().contains(geo)) {
-			GPoint position = getStylebarPositionForDrawable(null, true, false,
+			return getStylebarPositionForDrawable(null, true, false,
 					true, stylebarHeight, stylebarWidth, canvasRect);
-			if (position != null) {
-				return position;
-			}
 		} else {
 			// with select tool, it happens that first selected geo is a
 			// function, and then
@@ -350,25 +347,12 @@ public class StylebarPositioner {
 			if (app.getMode() == EuclidianConstants.MODE_SELECT) {
 				DrawableND dr = euclidianView.getDrawableND(geo);
 				if (dr != null) {
-					GPoint position = getStylebarPositionForDrawable(
+					return getStylebarPositionForDrawable(
 							dr.getBoundsForStylebarPosition(),
 							!(dr instanceof DrawLine), false, true,
 							stylebarHeight, stylebarWidth, canvasRect);
-					if (position != null) {
-						return position;
-					}
 				}
 			}
-		}
-		return null;
-	}
-
-	private GPoint getPositionForSelection(int stylebarHeight,
-			int stylebarWidth, GRectangle canvasRect) {
-		GRectangle selectionRectangle = euclidianView.getSelectionRectangle();
-		if (selectionRectangle != null) {
-			return getStylebarPositionForDrawable(selectionRectangle, true,
-					false, false, stylebarHeight, stylebarWidth, canvasRect);
 		}
 		return null;
 	}
