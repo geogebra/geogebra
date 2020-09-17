@@ -151,6 +151,7 @@ public class OpenFileView extends MyHeaderPanel
 				MaterialDesignResources.INSTANCE.mow_pdf_open_folder()
 						.getSafeUri().asString(),
 				localize("mow.offlineMyFiles"));
+		openFileBtn.setAcceptedFileType(".ggs");
 		buttonPanel.add(openFileBtn);
 		buttonPanel.add(newFileBtn);
 	}
