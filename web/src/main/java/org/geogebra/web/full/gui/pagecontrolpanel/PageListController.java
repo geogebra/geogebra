@@ -483,6 +483,17 @@ public class PageListController implements PageListControllerInterface,
 		}
 	}
 
+	@Override
+	public void updatePreviewImage(String slideID) {
+		int index = indexOfId(slideID, -1);
+		if (index > -1) {
+			PagePreviewCard card = slides.get(index);
+			if (card != null) {
+				card.updatePreviewImage();
+			}
+		}
+	}
+
 	/**
 	 * load existing page
 	 * 
@@ -640,7 +651,7 @@ public class PageListController implements PageListControllerInterface,
 			}
 			break;
 		case CLEAR_SLIDE:
-			loadNewPage(indexOfId(args[0]));
+			loadNewPage(indexOfId(args[0], 0));
 			break;
 		case PASTE_SLIDE:
 			pasteSlide(slides.get(Integer.parseInt(args[0])), args[1], args[2]);
@@ -723,21 +734,21 @@ public class PageListController implements PageListControllerInterface,
 		cardAt(pageIndex).setCardTitle(title);
 	}
 
-	private int indexOfId(String slideID) {
+	private int indexOfId(String slideID, int fallback) {
 		if (slideID == null) {
-			return 0;
+			return fallback;
 		}
 		for (int i = 0; i < slides.size(); i++) {
 			if (slideID.equals(slides.get(i).getFile().getID())) {
 				return i;
 			}
 		}
-		return 0;
+		return fallback;
 	}
 
 	@Override
 	public void setActiveSlide(String slideID) {
-		selectCard(slides.get(indexOfId(slideID)));
+		selectCard(slides.get(indexOfId(slideID, 0)));
 	}
 
 	@Override
@@ -776,6 +787,15 @@ public class PageListController implements PageListControllerInterface,
 	public void rename(RenameCard card, String title) {
 		storeRenameAction((PagePreviewCard) card, title);
 		card.setCardTitle(title);
+	}
+
+	@Override
+	public void clickPage(String slideID) {
+		int pageIdx = indexOfId(slideID, -1);
+		if (pageIdx > -1) {
+			clickPage(pageIdx, true);
+		}
+		listener.open();
 	}
 
 	private void storeRenameAction(PagePreviewCard card, String oldTitle) {

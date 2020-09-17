@@ -462,4 +462,14 @@ public abstract class UndoManager {
 			}
 		}
 	}
+
+	/**
+	 * Runs the callback synchronously if the target slide is already active
+	 * (or slides are not supported).
+	 * If the app needs to load the slide, the callback will run asynchronously.
+	 * @param slideID slide ID
+	 */
+	public void runAfterSlideLoaded(String slideID, Runnable run) {
+		run.run();
+	}
 }

@@ -2,6 +2,7 @@ package org.geogebra.web.html5.kernel;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.undo.AppState;
 import org.geogebra.common.main.undo.DefaultUndoManager;
 import org.geogebra.common.main.undo.StringAppState;
@@ -72,5 +73,21 @@ public class UndoManagerW extends DefaultUndoManager {
 			Log.debug(t);
 			restoreCurrentUndoInfo();
 		}
+	}
+
+	@Override
+	public void runAfterSlideLoaded(String slideID, Runnable run) {
+		OpenFileListener callback = () -> {
+			run.run();
+			((AppW) app).getPageController().updatePreviewImage(slideID);
+			return true;
+		};
+		if (slideID != null && !slideID.equals(app.getSlideID())) {
+			app.registerOpenFileListener(callback);
+			((AppW) app).getPageController().clickPage(slideID);
+		} else {
+			callback.onOpenFile();
+		}
+
 	}
 }

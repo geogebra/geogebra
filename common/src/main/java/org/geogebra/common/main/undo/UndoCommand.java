@@ -70,11 +70,25 @@ public class UndoCommand {
 	 * @param undoManager
 	 *            undo manager
 	 */
-	public void redo(UndoManager undoManager) {
+	public void redo(final UndoManager undoManager) {
 		if (appState != null) {
 			undoManager.loadUndoInfo(appState, slideID);
 		} else {
-			undoManager.executeAction(action, args);
+			withCurrentSlide(undoManager, new Runnable() {
+
+				@Override
+				public void run() {
+					undoManager.executeAction(action, args);
+				}
+			});
+		}
+	}
+
+	private void withCurrentSlide(final UndoManager undoManager, Runnable runnable) {
+		if (action == EventType.ADD || action == EventType.UPDATE) {
+			undoManager.runAfterSlideLoaded(slideID, runnable);
+		} else {
+			runnable.run();
 		}
 	}
 
@@ -105,10 +119,16 @@ public class UndoCommand {
 	 * @param iterator
 	 *            pointer to current undo point in manager
 	 */
-	public void undo(UndoManager undoManager,
+	public void undo(final UndoManager undoManager,
 			ListIterator<UndoCommand> iterator) {
 		if (getAction() != null) {
-			undoManager.undoAction(action, args);
+			withCurrentSlide(undoManager, new Runnable() {
+				@Override
+				public void run() {
+					undoManager.undoAction(action, args);
+				}
+			});
+
 		} else {
 			AppState checkpoint = undoManager.getCheckpoint(slideID);
 			if (checkpoint != null) {

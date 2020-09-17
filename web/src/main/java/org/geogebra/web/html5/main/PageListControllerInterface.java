@@ -86,6 +86,8 @@ public interface PageListControllerInterface {
 	 */
 	void updatePreviewImage();
 
+	void updatePreviewImage(String slideID);
+
 	/**
 	 * export all sliders as PDF
 	 * 
@@ -99,4 +101,6 @@ public interface PageListControllerInterface {
 	 * @param title the new title.
 	 */
 	void rename(RenameCard card, String title);
+
+	void clickPage(String slideID);
 }
