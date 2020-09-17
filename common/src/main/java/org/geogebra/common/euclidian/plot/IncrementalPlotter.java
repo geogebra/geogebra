@@ -65,6 +65,7 @@ public class IncrementalPlotter {
 		if( d != null) {
 			d.onPlotterFinished(plotter.getLabelPoint());
 		}
+
 	}
 
 	protected void drawOutput() {

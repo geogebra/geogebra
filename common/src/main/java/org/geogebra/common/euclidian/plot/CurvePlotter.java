@@ -43,6 +43,9 @@ public class CurvePlotter {
 				gp, calcLabelPos, moveToAllowed);
 	}
 
+	/**
+	 * plots an iteration
+	 */
 	public void plot() {
 		curveSegmentPlotter.plotBisectorAlgo();
 
@@ -54,6 +57,10 @@ public class CurvePlotter {
 		}
 	}
 
+	/**
+	 *
+	 * @return if the plotter is finished.
+	 */
 	public boolean isReady() {
 		return curveSegmentPlotter.isReady();
 	}
@@ -84,6 +91,10 @@ public class CurvePlotter {
 
 	}
 
+	/**
+	 *
+	 * @return the point of the curve label
+	 */
 	public GPoint getLabelPoint() {
 		return curveSegmentPlotter.getLabelPoint();
 	}

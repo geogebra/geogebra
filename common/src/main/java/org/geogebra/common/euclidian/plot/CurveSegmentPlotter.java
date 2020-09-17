@@ -198,7 +198,7 @@ public class CurveSegmentPlotter {
 
 			CurvePlotterStackItem item = stack.pop();
 			onScreen = item.onScreen;
-			evalRight = item.pos;
+			evalRight = item.eval;
 			params.updateFromStack(item);
 			params.updateDiff(evalLeft, evalRight);
 			maxStepsAtOnce--;

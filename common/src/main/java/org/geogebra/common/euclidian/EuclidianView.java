@@ -4116,6 +4116,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void updateCurve(IncrementalPlotter plotter) {
 
 	}
+
 	/**
 	 * Switch antialiasing to true for given graphics
 	 * 

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
@@ -27,6 +28,7 @@ import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.euclidian.plot.IncrementalPlotter;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.advanced.AlgoFunctionInvert;
@@ -70,6 +72,7 @@ public class DrawParametricCurve extends Drawable {
 	private ExpressionNode dataExpression;
 	private FunctionVariable invFV;
 	private ExpressionNode invert;
+	private List<MyPoint> gpCache;
 
 	private static final Inspecting containsLog = new Inspecting() {
 		@Override
@@ -99,6 +102,7 @@ public class DrawParametricCurve extends Drawable {
 		this.view = view;
 		this.curve = curve;
 		geo = curve.toGeoElement();
+		gpCache = new ArrayList<>();
 		update();
 	}
 
@@ -125,7 +129,7 @@ public class DrawParametricCurve extends Drawable {
 			return;
 		}
 		if (gp == null) {
-			gp = new GeneralPathClippedForCurvePlotter(view);
+			gp = new GeneralPathClippedForCurvePlotter(view, gpCache);
 		}
 		gp.reset();
 
@@ -175,15 +179,21 @@ public class DrawParametricCurve extends Drawable {
 						new IncrementalPlotter(this, view, gp, labelVisible, fillCurve);
 			}
 
+			gpCache.clear();
 			incrementalPlotter.start(min, max, toPlot);
 			}
 
 	}
 
-
+	/**
+	 * Runs when plotter has finished its work.
+	 *
+	 * @param labelPoint point of the curve label.
+	 */
 	public void onPlotterFinished(GPoint labelPoint) {
 		Log.debug("PLOTTER FINISHED");
-		// gp on screen?
+		flushCache();
+	// gp on screen?
 		if (!view.intersects(gp)) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
@@ -382,6 +392,7 @@ public class DrawParametricCurve extends Drawable {
 				drawPoints(g2);
 				return;
 			}
+
 			if (isHighlighted()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
@@ -408,6 +419,13 @@ public class DrawParametricCurve extends Drawable {
 				drawLabel(g2);
 			}
 		}
+	}
+
+	private void flushCache() {
+		for (MyPoint p: gpCache) {
+			gp.drawTo(p.x, p.y, p.getSegmentType());
+		}
+			
 	}
 
 	private void drawPoints(GGraphics2D g2) {
