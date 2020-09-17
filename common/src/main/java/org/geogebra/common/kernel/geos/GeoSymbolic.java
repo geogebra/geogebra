@@ -178,7 +178,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		MyArbitraryConstant constant = getArbitraryConstant();
 		constant.setSymbolic(!shouldBeEuclidianVisible(casInput));
 		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(),
-				constant, StringTemplate.prefixedDefault, null, kernel);
+				constant, getStringTemplate(casInput), null, kernel);
 		this.casOutputString = s;
 		ExpressionValue casOutput = parseOutputString(s);
 
@@ -195,6 +195,12 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 				&& !Commands.NSolve.name().equals(inputName)
 				&& !Commands.IntegralSymbolic.name().equals(inputName)
 				&& !Commands.IsInteger.name().equals(inputName);
+	}
+
+	private StringTemplate getStringTemplate(Command input) {
+		String inputName = input.getName();
+		return Commands.Numeric.name().equals(inputName) && input.getArgumentNumber() == 2
+				? StringTemplate.numericNoLocal : StringTemplate.prefixedDefault;
 	}
 
 	private ExpressionValue parseOutputString(String output) {
