@@ -100,8 +100,7 @@ public final class CommandFilterFactory {
 		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(true);
 		commandNameFilter.addCommands(
 				// CAS specific command
-				Commands.Delete, Commands.Max,
-				Commands.Min, Commands.Poisson,
+				Commands.Delete, Commands.Poisson,
 				// Function Commands
 				Commands.Asymptote, Commands.CurvatureVector, Commands.DataFunction,
 				Commands.Function, Commands.ImplicitCurve, Commands.IterationList,
