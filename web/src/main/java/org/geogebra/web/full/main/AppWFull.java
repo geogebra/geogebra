@@ -739,11 +739,22 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public final void openSearch(String query) {
 		hideMenu();
 		if (isWhiteboardActive()
+				&& !getLoginOperation().isLoggedIn()) {
+			getGuiManager().listenToLogin();
+			getLoginOperation().showLoginDialog();
+			getGuiManager().setRunAfterLogin(() -> {
+				((OpenFileView) getGuiManager()
+						.getBrowseView()).updateMaterials();
+				showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
+			});
+			return;
+		}
+		if (isWhiteboardActive()
 				&& getGuiManager().browseGUIwasLoaded()
 				&& StringUtil.emptyTrim(query)
 				&& getGuiManager().getBrowseView() instanceof OpenFileView) {
-				((OpenFileView) getGuiManager().getBrowseView())
-						.updateMaterials();
+			((OpenFileView) getGuiManager().getBrowseView())
+					.updateMaterials();
 		}
 		showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
 		if (getAppletParameters().getDataParamPerspective()

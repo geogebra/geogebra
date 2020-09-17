@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import javax.annotation.CheckForNull;
 
@@ -37,6 +38,7 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.TextStyle;
 import org.geogebra.common.kernel.geos.properties.BorderType;
 import org.geogebra.common.kernel.geos.properties.FillType;
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -124,6 +126,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private MyToggleButtonW btnUnderline;
 
 	private BorderStylePopup btnBorderStyle;
+	private PopupMenuButtonW btnHorizontalAlignment;
 	private PopupMenuButtonW btnVerticalAlignment;
 
 	private MyToggleButtonW btnFixPosition;
@@ -461,6 +464,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		if (app.isWhiteboardActive()) {
 			add(btnUnderline);
 
+			add(btnHorizontalAlignment);
 			add(btnVerticalAlignment);
 			add(btnBorderStyle);
 		}
@@ -689,7 +693,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(),
 				btnColor, btnBgColor, btnTextColor, btnTextBgColor, btnFilling,
 				btnLineStyle, btnPointStyle, btnTextSize, btnAngleInterval, btnBorderStyle,
-				btnVerticalAlignment, btnLabelStyle, btnPointCapture, btnChangeView };
+				btnHorizontalAlignment, btnVerticalAlignment, btnLabelStyle, btnPointCapture,
+				btnChangeView
+		};
 	}
 
 	// =====================================================
@@ -718,6 +724,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		createTextItalicBtn();
 		createTextUnderlineBtn();
 		createTableBorderStyleBtn();
+		createTableHorizontalAlignmentBtn();
 		createTableVerticalAlignmentBtn();
 		createFixPositionBtn();
 		createFixObjectBtn();
@@ -1401,6 +1408,44 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnBorderStyle.addStyleName("withIcon");
 	}
 
+	private void createTableHorizontalAlignmentBtn() {
+		MaterialDesignResources resources = MaterialDesignResources.INSTANCE;
+		ImageOrText[] verticalAlignments = new ImageOrText[] {
+				getImgResource(resources.horizontal_align_left()),
+				getImgResource(resources.horizontal_align_center()),
+				getImgResource(resources.horizontal_align_right()),
+		};
+
+		btnHorizontalAlignment = new PopupMenuButtonW(app, verticalAlignments, 1, 3,
+				SelectionTable.MODE_ICON, false) {
+
+			@Override
+			public void update(List<GeoElement> geos) {
+				boolean geosOK = checkGeoTable(geos);
+				super.setVisible(geosOK);
+
+				if (geosOK) {
+					InlineTableController formatter
+							= ((GeoInlineTable) geos.get(0)).getFormatter();
+
+					HorizontalAlignment alignment = formatter != null
+							? formatter.getHorizontalAlignment() : null;
+					setSelectedIndex(alignment != null ? alignment.ordinal() : -1);
+					if (btnHorizontalAlignment.getSelectedIndex() == -1) {
+						btnHorizontalAlignment.setIcon(new ImageOrText(
+								MaterialDesignResources.INSTANCE.horizontal_align_left(), 24));
+					}
+				}
+			}
+		};
+		btnHorizontalAlignment.addPopupHandler(this);
+		btnHorizontalAlignment.setKeepVisible(false);
+		btnHorizontalAlignment.setIcon(new ImageOrText(
+				MaterialDesignResources.INSTANCE.vertical_align_top(), 24));
+		btnHorizontalAlignment.addStyleName("withIcon");
+		btnHorizontalAlignment.getMyPopup().addStyleName("mowPopup");
+	}
+
 	private void createTableVerticalAlignmentBtn() {
 		MaterialDesignResources resources = MaterialDesignResources.INSTANCE;
 		ImageOrText[] verticalAlignments = new ImageOrText[] {
@@ -1625,10 +1670,28 @@ public class EuclidianStyleBarW extends StyleBarW2
 		} else if (source == btnBorderStyle) {
 			needUndo = applyBorderStyle(targetGeos, btnBorderStyle.getBorderType(),
 					btnBorderStyle.getBorderThickness());
+		} else if (source == btnHorizontalAlignment) {
+			HorizontalAlignment alignment
+					= HorizontalAlignment.values()[btnHorizontalAlignment.getSelectedIndex()];
+			needUndo = applyInlineTableFormatting(targetGeos, (formatter) -> {
+				if (alignment != null && !alignment.equals(formatter.getHorizontalAlignment())) {
+					formatter.setHorizontalAlignment(alignment);
+					return true;
+				}
+
+				return false;
+			});
 		} else if (source == btnVerticalAlignment) {
 			VerticalAlignment alignment
 					= VerticalAlignment.values()[btnVerticalAlignment.getSelectedIndex()];
-			needUndo = applyVerticalAlignment(targetGeos, alignment);
+			needUndo = applyInlineTableFormatting(targetGeos, (formatter) -> {
+				if (alignment != null && !alignment.equals(formatter.getVerticalAlignment())) {
+					formatter.setVerticalAlignment(alignment);
+					return true;
+				}
+
+				return false;
+			});
 		} else if (source == btnTextSize) {
 			needUndo = applyTextSize(targetGeos,
 					btnTextSize.getSelectedIndex());
@@ -1690,16 +1753,13 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return changed;
 	}
 
-	private boolean applyVerticalAlignment(ArrayList<GeoElement> targetGeos,
-			VerticalAlignment alignment) {
+	private boolean applyInlineTableFormatting(ArrayList<GeoElement> targetGeos,
+			Function<InlineTableController, Boolean> formatFn) {
 		boolean changed = false;
 		for (GeoElement geo : targetGeos) {
 			if (geo instanceof GeoInlineTable) {
 				InlineTableController formatter = ((GeoInlineTable) geo).getFormatter();
-				if (alignment != null && !alignment.equals(formatter.getVerticalAlignment())) {
-					formatter.setVerticalAlignment(alignment);
-					changed = true;
-				}
+				changed = formatFn.apply(formatter) || changed;
 			}
 		}
 
@@ -1990,6 +2050,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 				"OuterBorders", "ClearBorders" });
 		btnBorderStyle.getBorderThicknessBtn()
 				.setTitle(app.getLocalization().getMenu("stylebar.BorderStyle"));
+
+		setToolTipText(btnHorizontalAlignment, "stylebar.HorizontalAlign");
+		setPopupTooltips(btnHorizontalAlignment, new String[] { "Left", "Center", "Right" });
 
 		setToolTipText(btnVerticalAlignment, "stylebar.VerticalAlign");
 		setPopupTooltips(btnVerticalAlignment, new String[] { "Top", "Middle", "Bottom" });
