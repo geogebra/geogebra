@@ -48,11 +48,13 @@
             }
             var calc = (this.api.getEmbeddedCalculators() || {})[label];
             if (calc) {
-                var calcLive = new LiveApp(this.clientId, label);
-                calcLive.api = calc;
-                calcLive.eventCallback = this.eventCallback;
-                calcLive.registerListeners();
-                this.embeds[label] = calcLive;
+                if (calc.registerClientListener) {
+                    var calcLive = new LiveApp(this.clientId, label);
+                    calcLive.api = calc;
+                    calcLive.eventCallback = this.eventCallback;
+                    calcLive.registerListeners();
+                    this.embeds[label] = calcLive;
+                }
             }
         }
 
@@ -68,6 +70,12 @@
 
                     for (let i = 0; i < tempObjects.length; i++) {
                         const label = tempObjects[i];
+                        const embed = that.api.getEmbeddedCalculators()[label];
+
+                        if (embed && embed.controller) {
+                            that.sendEvent("evalGMContent", embed.toJSON(), label);
+                        }
+
                         let commandString = that.api.getCommandString(label, false);
                         if (commandString) {
                             that.sendEvent("evalCommand", label + " = " + commandString);
@@ -75,6 +83,7 @@
                             let xml = that.api.getXML(label);
                             that.sendEvent("evalXML", xml);
                         }
+                        that.sendEvent("previewRefresh");
                     }
 
                     updateCallback = null;
@@ -108,10 +117,11 @@
 
             var definition = this.api.getCommandString(label);
             if (definition) {
-                this.sendEvent("evalXML", this.api.getAlgorithmXML(label) );
+                this.sendEvent("evalXML", this.api.getAlgorithmXML(label));
             } else {
                 this.sendEvent("evalXML", xml);
             }
+            this.sendEvent("previewRefresh");
             window.setTimeout(function(){
                 that.initEmbed(label);
             },500); //TODO avoid timeout
@@ -166,9 +176,24 @@
                     //console.log(xml);
                     this.sendEvent("setXML", xml);
                     break;
-                default:
-                    console.log("unhandled event ", event[0], event);
 
+                case "addSlide":
+                    this.sendEvent(event[0]);
+                    break;
+
+                case "removeSlide":
+                case "moveSlide":
+                case "selectSlide":
+                case "clearSlide":
+                    this.sendEvent(event[0], event[2]);
+                    break;
+
+                case "pasteSlide":
+                    this.sendEvent(event[0], event.cardIdx, event.ggbFile);
+                    break;
+
+                default:
+                    // console.log("unhandled event ", event[0], event);
             }
 
         }).bind(this);
@@ -202,9 +227,27 @@
                     target.unregisterListeners();
                     target.api.setEditorState(last.content, last.label);
                     target.registerListeners();
-                } else  if (last.type == "addImage") {
+                } else if (last.type == "addImage") {
                     var file = JSON.parse(last.content);
                     target.api.addImage(file.fileName, file.fileContent);
+                } else if (last.type == "addSlide"
+                    || last.type == "removeSlide"
+                    || last.type == "moveSlide"
+                    || last.type == "clearSlide") {
+                    target.api.handleSlideAction(last.type, last.content);
+                } else if (last.type == "selectSlide") {
+                    target.unregisterListeners();
+                    target.api.selectSlide(last.content);
+                    target.registerListeners();
+                } else if (last.type == "previewRefresh") {
+                    target.api.previewRefresh();
+                } else if (last.type == "pasteSlide") {
+                    target.api.handleSlideAction(last.type, last.content, last.label);
+                } else if (last.type == "evalGMContent") {
+                    var gmApi = target.api.getEmbeddedCalculators()[last.label];
+                    if (gmApi) {
+                        gmApi.loadFromJSON(last.content);
+                    }
                 }
             }
         };
@@ -217,6 +260,9 @@
             mainSession.dispatch(last);
         },
         start: function(api, callback) {
+           if (mainSession.api) {
+               return;
+           }
            mainSession.api = api;
            mainSession.eventCallback = callback;
            mainSession.registerListeners();

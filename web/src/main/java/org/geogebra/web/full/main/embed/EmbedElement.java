@@ -2,6 +2,7 @@ package org.geogebra.web.full.main.embed;
 
 import org.geogebra.common.plugin.EventType;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -89,5 +90,13 @@ public class EmbedElement {
 
 	public void setJsEnabled(boolean b) {
 		// only for ggb
+	}
+
+	/**
+	 * Only for GGB and GM embeds
+	 * @return the javascript api object for the embedded element
+	 */
+	public JavaScriptObject getApi() {
+		return null;
 	}
 }
