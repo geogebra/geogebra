@@ -25,7 +25,7 @@ public class CommandNameFilterSetTest {
 	}
 
 	@Test
-	public void minShouldBeDisabled() {
-		Assert.assertFalse(filter.isCommandAllowed(Commands.Min));
+	public void minShouldBeEnabled() {
+		Assert.assertTrue(filter.isCommandAllowed(Commands.Min));
 	}
 }

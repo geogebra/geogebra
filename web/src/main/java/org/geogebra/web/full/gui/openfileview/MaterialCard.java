@@ -68,8 +68,8 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		visibilityPanel.setStyleName("visibilityPanel");
 		updateVisibility(getMaterial().getVisibility());
 		infoPanel = isOwnMaterial()
-				? new CardInfoPanel(getMaterial().getTitle(), getCardAuthor())
-				: new CardInfoPanel(getMaterial().getTitle(), visibilityPanel);
+				? new CardInfoPanel(getMaterial().getTitle(), visibilityPanel)
+				: new CardInfoPanel(getMaterial().getTitle(), getCardAuthor());
 
 		infoPanel.add(moreBtn);
 		this.add(infoPanel);
@@ -188,7 +188,7 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		}
 		visibilityPanel.clear();
 		visibilityPanel
-				.add(LayoutUtilW.panelRowIndent(visibiltyImg, visibilityTxt));
+				.add(LayoutUtilW.panelRow(visibiltyImg, visibilityTxt));
 	}
 
 	private void showSharedIcon(List<String> strings) {

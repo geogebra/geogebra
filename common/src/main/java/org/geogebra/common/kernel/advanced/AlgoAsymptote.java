@@ -126,8 +126,7 @@ public class AlgoAsymptote extends AlgoElement {
 	@Override
 	public final void compute() {
 		// only hyperbolas have asymptotes
-		switch (c.type) {
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
+		if (c.isDefined() && c.type == GeoConicNDConstants.CONIC_HYPERBOLA) {
 			// direction0 = a * eigenvec1 + b * eigenvec2
 			// direction1 = -a * eigenvec1 + b * eigenvec2
 			// lines through midpoint b
@@ -149,9 +148,7 @@ public class AlgoAsymptote extends AlgoElement {
 
 			// point on lines
 			P.setCoords(b.getX(), b.getY(), 1.0);
-			break;
-
-		default:
+		} else {
 			asymptotes[0].setUndefined();
 			asymptotes[1].setUndefined();
 		}

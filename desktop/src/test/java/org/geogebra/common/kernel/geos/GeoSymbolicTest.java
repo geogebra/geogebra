@@ -1219,4 +1219,30 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				derivative.toValueString(StringTemplate.defaultTemplate),
 				equalTo("1 / 200 ℯ^((-1) / 40 x)"));
 	}
+
+	@Test
+	public void testMin() {
+		t("Min({-2, 12, -23, 17, 15})", "-23");
+		t("Min(2 < x < 3)", "2");
+		t("Min(12, 15)", "12");
+		t("Min(ℯ^x*x^3,-4,-2)", "(-3, (-27) / ℯ^(3))");
+		t("Min({1, 2, 3, 4, 5}, {0, 3, 4, 2, 3})", "2");
+		t("Min(1, 2)", "1");
+		t("Min(2, 1, 3)", "1");
+		t("Min(1, 2, -1, 4)", "-1");
+		t("Min(1/2 < x < " + pi + ")", "1 / 2");
+	}
+
+	@Test
+	public void testMax() {
+		t("Max({-2, 12, -23, 17, 15})", "17");
+		t("Max(2 < x < 3)", "3");
+		t("Max(12, 15)", "15");
+		t("Max(exp(x)x^2,-3,-1)", "(-2, 4 / ℯ^(2))");
+		t("Max({1, 2, 3, 4, 5}, {5, 3, 4, 2, 0})", "4");
+		t("Max(1, 2)", "2");
+		t("Max(2, 3, 1)", "3");
+		t("Max(1, 2, 4, -2)", "4");
+		t("Max(1/2 < x < " + pi + ")", pi + "");
+	}
 }
