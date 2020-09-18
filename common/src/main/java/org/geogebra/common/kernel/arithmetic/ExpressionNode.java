@@ -296,10 +296,8 @@ public class ExpressionNode extends ValidExpression
 			// something went wrong
 			return null;
 		}
-
-		copyFlagsTo(newNode);
-
-		// Application.debug("getCopy() output: " + newNode);
+		newNode.leaf = leaf;
+		copyAttributesTo(newNode);
 		return newNode;
 	}
 
@@ -308,7 +306,8 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public ExpressionNode shallowCopy() {
 		ExpressionNode newNode = new ExpressionNode(kernel, left, operation, right);
-		copyFlagsTo(newNode);
+		newNode.leaf = leaf;
+		copyAttributesTo(newNode);
 		return newNode;
 	}
 
@@ -3754,12 +3753,20 @@ public class ExpressionNode extends ValidExpression
 		return forceSurface;
 	}
 
-	private void copyFlagsTo(ExpressionNode newNode) {
-		newNode.leaf = leaf;
+	/**
+	 * Copy all attributes except for those set in constructor and the leaf flag
+	 *
+	 * @param newNode node that should receive the attributes
+	 */
+	public void copyAttributesTo(ExpressionNode newNode) {
 		newNode.forceVector = forceVector;
 		newNode.forcePoint = forcePoint;
 		newNode.forceFunction = forceFunction;
+		newNode.forceInequality = forceInequality;
+		newNode.forceSurface = forceSurface;
 		newNode.brackets = brackets;
 		newNode.secretMaskingAlgo = secretMaskingAlgo;
+		newNode.wasInterval = wasInterval;
+		newNode.holdsLaTeXtext = holdsLaTeXtext;
 	}
 }
