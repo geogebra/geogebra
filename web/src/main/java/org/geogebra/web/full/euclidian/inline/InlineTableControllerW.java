@@ -12,6 +12,7 @@ import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.properties.BorderType;
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
@@ -20,9 +21,11 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.FontLoader;
 import org.geogebra.web.html5.util.CopyPasteW;
+import org.geogebra.web.richtext.EditorChangeListener;
 import org.geogebra.web.richtext.impl.Carota;
 import org.geogebra.web.richtext.impl.CarotaTable;
 import org.geogebra.web.richtext.impl.CarotaUtil;
+import org.geogebra.web.richtext.impl.EventThrottle;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -147,7 +150,7 @@ public class InlineTableControllerW implements InlineTableController {
 	public void format(String key, Object val) {
 		tableImpl.setFormatting(key, val);
 		table.setContent(getContent());
-		table.updateRepaint();
+		table.updateVisualStyleRepaint(GProperty.COMBINED);
 		if ("font".equals(key)) {
 			FontLoader.loadFont(String.valueOf(val), getCallback());
 		}
@@ -280,6 +283,17 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
+	public HorizontalAlignment getHorizontalAlignment() {
+		return HorizontalAlignment.fromString(tableImpl.getCellProperty("halign"));
+	}
+
+	@Override
+	public void setHorizontalAlignment(HorizontalAlignment alignment) {
+		tableImpl.setCellProperty("halign", alignment.toString());
+		table.updateRepaint();
+	}
+
+	@Override
 	public void setLocation(int x, int y) {
 		style.setLeft(x, Style.Unit.PX);
 		style.setTop(y, Style.Unit.PX);
@@ -333,25 +347,37 @@ public class InlineTableControllerW implements InlineTableController {
 		tableImpl.init(2, 2);
 
 		updateContent();
-
-		tableImpl.contentChanged(() -> {
-			if (tableImpl.getTotalWidth() < 1 || tableImpl.getTotalHeight() < 1) {
-				table.remove();
-			} else {
-				table.setContent(getContent());
+		new EventThrottle(tableImpl).setListener(new EditorChangeListener() {
+			@Override
+			public void onContentChanged(String content) {
+				if (tableImpl.getTotalWidth() < 1 || tableImpl.getTotalHeight() < 1) {
+					table.remove();
+					view.getApplication().storeUndoInfo();
+				} else {
+					onEditorChanged(content);
+				}
 			}
-			view.getApplication().storeUndoInfo();
+
+			@Override
+			public void onInput() {
+				// not needed
+			}
+
+			@Override
+			public void onSelectionChanged() {
+				table.getKernel().notifyUpdateVisualStyle(table, GProperty.TEXT_SELECTION);
+			}
 		});
-
-		tableImpl.sizeChanged(() -> {
-			table.setContent(getContent());
-		});
-
-		tableImpl.selectionChanged(() ->
-			table.getKernel().notifyUpdateVisualStyle(table, GProperty.FONT)
-		);
-
+		tableImpl.sizeChanged(() -> onEditorChanged(getContent()));
 		update();
+	}
+
+	private void onEditorChanged(String content) {
+		if (!content.equals(table.getContent())) {
+			table.setContent(content);
+			view.getApplication().storeUndoInfo();
+			table.notifyUpdate();
+		}
 	}
 
 	private Runnable getCallback() {

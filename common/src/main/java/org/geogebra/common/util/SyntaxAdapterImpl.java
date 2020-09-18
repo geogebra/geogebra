@@ -79,7 +79,7 @@ public class SyntaxAdapterImpl implements SyntaxAdapter {
 
 	@Override
 	public boolean isFunction(String casName) {
-		Operation operation = kernel.getApplication().getParserFunctions().get(casName, 1);
+		Operation operation = kernel.getApplication().getParserFunctions(true).get(casName, 1);
 		return operation != null && casName.length() > 1;
 	}
 

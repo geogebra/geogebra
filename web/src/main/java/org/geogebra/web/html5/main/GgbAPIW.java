@@ -22,6 +22,7 @@ import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OpenFileListener;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -32,6 +33,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.tooltip.TooltipChipView;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.AnimationExporter;
 import org.geogebra.web.html5.util.ImageManagerW;
@@ -45,6 +47,7 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 
 import elemental2.core.Global;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * HTML5 version of API. The methods are exported in ScriptManagerW
@@ -52,6 +55,7 @@ import elemental2.core.Global;
  */
 public class GgbAPIW extends GgbAPI {
 	private MathEditorAPI editor;
+	private TooltipChipView tooltipChips;
 
 	/**
 	 * @param app
@@ -104,13 +108,9 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void setBase64(String base64, final JavaScriptObject callback) {
 		if (callback != null) {
-			OpenFileListener listener = new OpenFileListener() {
-
-				@Override
-				public boolean onOpenFile() {
-					ScriptManagerW.runCallback(callback);
-					return true;
-				}
+			OpenFileListener listener = () -> {
+				ScriptManagerW.runCallback(callback);
+				return true;
 			};
 			app.registerOpenFileListener(listener);
 		}
@@ -125,13 +125,9 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void openFile(String filename, final JavaScriptObject callback) {
 		if (callback != null) {
-			OpenFileListener listener = new OpenFileListener() {
-
-				@Override
-				public boolean onOpenFile() {
-					ScriptManagerW.runCallback(callback);
-					return true;
-				}
+			OpenFileListener listener = () -> {
+				ScriptManagerW.runCallback(callback);
+				return true;
 			};
 			app.registerOpenFileListener(listener);
 		}
@@ -261,17 +257,14 @@ public class GgbAPIW extends GgbAPI {
 		final boolean oldWorkers = setWorkerURL(zipJSworkerURL(), false);
 		final JavaScriptObject arch = getFileJSON(includeThumbnail);
 		getGGBZipJs(arch, callback,
-				nativeCallback(new AsyncOperation<String>() {
-			@Override
-					public void callback(String s) {
-				if (oldWorkers && !isUsingWebWorkers()) {
-					Log.warn(
-							"Saving with workers failed, trying without workers.");
-							ResourcesInjector.loadCodecs();
-					getGGBZipJs(arch, callback, null);
-				}
-			}
-		}));
+				nativeCallback(s -> {
+					if (oldWorkers && !isUsingWebWorkers()) {
+						Log.warn(
+								"Saving with workers failed, trying without workers.");
+								ResourcesInjector.loadCodecs();
+						getGGBZipJs(arch, callback, null);
+					}
+				}));
 	}
 
 	/**
@@ -798,17 +791,14 @@ public class GgbAPIW extends GgbAPI {
 	void getBase64ZipJs(final JavaScriptObject arch, final JavaScriptObject clb,
 			String workerUrls, boolean sync) {
 		final boolean oldWorkers = setWorkerURL(workerUrls, sync);
-		getBase64ZipJs(arch, clb, nativeCallback(new AsyncOperation<String>() {
-			@Override
-			public void callback(String s) {
-				if (oldWorkers && !isUsingWebWorkers()) {
-					Log.warn(
-							"Saving with workers failed, trying without workers.");
-					ResourcesInjector.loadCodecs();
-					getBase64ZipJs(arch, clb, "false", false);
-				}
-
+		getBase64ZipJs(arch, clb, nativeCallback(s -> {
+			if (oldWorkers && !isUsingWebWorkers()) {
+				Log.warn(
+						"Saving with workers failed, trying without workers.");
+				ResourcesInjector.loadCodecs();
+				getBase64ZipJs(arch, clb, "false", false);
 			}
+
 		}));
 	}
 
@@ -954,13 +944,8 @@ public class GgbAPIW extends GgbAPI {
 	 *            material ID
 	 */
 	public void openMaterial(final String material) {
-		((AppW) app).openMaterial(material, new AsyncOperation<String>() {
-
-			@Override
-			public void callback(String err) {
-				Log.debug("Loading failed for id" + material + ": " + err);
-			}
-		});
+		((AppW) app).openMaterial(material,
+				err -> Log.debug("Loading failed for id" + material + ": " + err));
 	}
 
 	/**
@@ -1114,6 +1099,19 @@ public class GgbAPIW extends GgbAPI {
 	public void showTooltip(String tooltip) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(tooltip, false,
 				(AppW) app);
+	}
+
+	/**
+	 * @param tooltip tooltip content
+	 * @param label label of an object to use as anchor
+	 * @param color color CSS string
+	 */
+	public void showTooltip(Object tooltip, Object label, Object color) {
+		if (tooltipChips == null) {
+			tooltipChips = new TooltipChipView();
+		}
+		tooltipChips.showMessage(tooltip == null ? null : String.valueOf(tooltip),
+				String.valueOf(label), String.valueOf(color), (AppW) app);
 	}
 
 	public void asyncEvalCommand(String command, JavaScriptObject onSuccess,
@@ -1386,25 +1384,15 @@ public class GgbAPIW extends GgbAPI {
 			final JavaScriptObject callback) {
 		final Localization loc = app.getLocalization();
 		if (callback != null) {
-			((AppW) app).afterLocalizationLoaded(new Runnable() {
-				@Override
-				public void run() {
-					JsEval.callNativeJavaScript(callback, loc.getMenu(key));
-				}
-			});
+			((AppW) app).afterLocalizationLoaded(
+					() -> JsEval.callNativeJavaScript(callback, loc.getMenu(key)));
 		}
 		return loc.getMenu(key);
 	}
 
 	private static AsyncOperation<String> asyncOperation(
 			final JavaScriptObject callback) {
-		return new AsyncOperation<String>() {
-
-			@Override
-			public void callback(String obj) {
-				JsEval.callNativeJavaScript(callback, obj);
-			}
-		};
+		return obj -> JsEval.callNativeJavaScript(callback, obj);
 	}
 
 	/**
@@ -1460,7 +1448,7 @@ public class GgbAPIW extends GgbAPI {
 	 *
 	 * @return then embedded calculator apis.
 	 */
-	public JavaScriptObject getEmbeddedCalculators() {
+	public JsPropertyMap<Object> getEmbeddedCalculators() {
 		return ((AppW) app).getEmbeddedCalculators();
 	}
 
@@ -1475,4 +1463,61 @@ public class GgbAPIW extends GgbAPI {
 	public void newConstruction() {
 		((AppW) app).tryLoadTemplatesOnFileNew();
 	}
+
+	@Override
+	public void handleSlideAction(String eventType, String pageIdx, String appState) {
+		EventType event = null;
+		String[] args = new String[] {};
+		switch (eventType) {
+			case "addSlide":
+				event = EventType.ADD_SLIDE;
+				break;
+
+			case "removeSlide":
+				event = EventType.REMOVE_SLIDE;
+				args = !"undefined".equals(pageIdx) ? new String[] { pageIdx }
+						: new String[] {};
+				break;
+
+			case "moveSlide":
+				event = EventType.MOVE_SLIDE;
+				args = pageIdx.split(",");
+				break;
+
+			case "pasteSlide":
+				event = EventType.PASTE_SLIDE;
+				args = new String[] { pageIdx, null, appState };
+				break;
+
+			case "clearSlide":
+				event = EventType.CLEAR_SLIDE;
+				args = new String[] { pageIdx };
+				break;
+
+			default:
+				Log.error("No event type sent");
+				break;
+		}
+		if (event != null) {
+			((AppW) app).getPageController().executeAction(event,
+					null, args);
+		}
+	}
+
+	@Override
+	public void selectSlide(String pageIdx) {
+		int page = "undefined".equals(pageIdx) ? -1 : Integer.parseInt(pageIdx);
+		if (page > -1) {
+			((AppW) app).getPageController().selectSlide(page);
+		}
+	}
+
+	@Override
+	public void previewRefresh() {
+		PageListControllerInterface pageController = ((AppW) app).getPageController();
+		if (pageController != null) {
+			pageController.updatePreviewImage();
+		}
+	}
+
 }

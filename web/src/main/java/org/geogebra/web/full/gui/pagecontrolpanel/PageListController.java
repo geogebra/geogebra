@@ -531,10 +531,25 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void clickPage(int pageIdx, boolean select) {
+		if (select) {
+			app.dispatchEvent(new Event(EventType.SELECT_SLIDE,
+					null, pageIdx + ""));
+		}
 		loadSlide(pageIdx);
 		if (select) {
 			setCardSelected(pageIdx);
 		}
+	}
+
+	@Override
+	public void selectSlide(int pageIdx) {
+		saveSelected();
+		if (getCard(pageIdx).getFile().isEmpty()) {
+			app.loadEmptySlide();
+		} else {
+			loadSlide(pageIdx);
+		}
+		setCardSelected(pageIdx);
 	}
 
 	@Override
@@ -577,7 +592,6 @@ public class PageListController implements PageListControllerInterface,
 			event.stopPropagation();
 			listener.getScrollPanel().setTouchScrollingDisabled(true);
 		}
-			 
 	}
 
 	@Override

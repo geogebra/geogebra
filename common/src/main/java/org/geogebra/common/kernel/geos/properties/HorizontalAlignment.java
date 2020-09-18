@@ -2,9 +2,7 @@ package org.geogebra.common.kernel.geos.properties;
 
 import java.util.Locale;
 
-import org.geogebra.common.util.debug.Log;
-
-public enum TextAlignment {
+public enum HorizontalAlignment {
 	LEFT, CENTER, RIGHT;
 
 	@Override
@@ -17,12 +15,12 @@ public enum TextAlignment {
 	 *            string from XML
 	 * @return alignment value
 	 */
-	public static TextAlignment fromString(String align) {
+	public static HorizontalAlignment fromString(String align) {
 		try {
 			return valueOf(align.toUpperCase(Locale.US));
 		} catch (RuntimeException e) {
-			Log.warn("Invalid alignment");
+			// Invalid alignment
+			return null;
 		}
-		return TextAlignment.LEFT;
 	}
 }

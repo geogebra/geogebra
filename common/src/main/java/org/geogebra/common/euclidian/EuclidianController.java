@@ -7932,7 +7932,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (app.getMaskWidgets() != null) {
 			app.getMaskWidgets().clearMasks();
 		}
-		for (Drawable dr : view.allDrawableList) {
+		for (Drawable dr : view.getAllDrawableList()) {
 			if (dr instanceof DrawInline) {
 				((DrawInline) dr).toBackground();
 			}

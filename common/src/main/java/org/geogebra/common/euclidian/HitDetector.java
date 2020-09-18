@@ -39,7 +39,7 @@ public class HitDetector {
 		}
 		boolean hitMask = false;
 
-		for (Drawable d : view.allDrawableList) {
+		for (Drawable d : view.getAllDrawableList()) {
 			if (d.isEuclidianVisible()) {
 				if (d.hit(p.x, p.y, hitThreshold)) {
 					GeoElement geo = d.getGeoElement();
@@ -167,7 +167,7 @@ public class HitDetector {
 			return;
 		}
 
-		for (Drawable d : view.allDrawableList) {
+		for (Drawable d : view.getAllDrawableList()) {
 			GeoElement geo = d.getGeoElement();
 			if (geo.isEuclidianVisible() && filter.check(geo) && !hits.contains(geo)
 					&& d.intersectsRectangle(rect)) {
@@ -197,7 +197,7 @@ public class HitDetector {
 			return;
 		}
 
-		for (Drawable d : view.allDrawableList) {
+		for (Drawable d : view.getAllDrawableList()) {
 			GeoElement geo = d.getGeoElement();
 			if (geo.isEuclidianVisible() && d.isInside(rect)) {
 				hits.add(geo);

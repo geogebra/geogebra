@@ -239,6 +239,7 @@
 		cursor: pointer;
 		position: absolute;
 		border-radius: 50%;
+		will-change: transform;
 		z-index: 99;
 
 		background-color: $mow_primary;
@@ -375,6 +376,7 @@
 			.cardTitle {
 				padding-bottom: 4px;
 				height: 20px;
+				line-height: 20px;
 			}
 
 			.cardAuthor {

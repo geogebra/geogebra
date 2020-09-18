@@ -57,7 +57,7 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
 import org.geogebra.common.kernel.geos.properties.FillType;
-import org.geogebra.common.kernel.geos.properties.TextAlignment;
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -1205,10 +1205,10 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleTextAlign(LinkedHashMap<String, String> attrs) {
-		String align = attrs.get("val");
+		HorizontalAlignment align = HorizontalAlignment.fromString(attrs.get("val"));
 
-		if (geo instanceof HasAlignment) {
-			((HasAlignment) geo).setAlignment(TextAlignment.fromString(align));
+		if (align != null && geo instanceof HasAlignment) {
+			((HasAlignment) geo).setAlignment(align);
 		} else {
 			Log.error("Text alignment not supported for " + geo.getGeoClassType());
 		}

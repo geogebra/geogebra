@@ -138,7 +138,6 @@ import org.geogebra.web.shared.components.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
@@ -152,6 +151,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.dom.File;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * App with all the GUI
@@ -737,11 +737,22 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public final void openSearch(String query) {
 		hideMenu();
 		if (isWhiteboardActive()
+				&& !getLoginOperation().isLoggedIn()) {
+			getGuiManager().listenToLogin();
+			getLoginOperation().showLoginDialog();
+			getGuiManager().setRunAfterLogin(() -> {
+				((OpenFileView) getGuiManager()
+						.getBrowseView()).updateMaterials();
+				showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
+			});
+			return;
+		}
+		if (isWhiteboardActive()
 				&& getGuiManager().browseGUIwasLoaded()
 				&& StringUtil.emptyTrim(query)
 				&& getGuiManager().getBrowseView() instanceof OpenFileView) {
-				((OpenFileView) getGuiManager().getBrowseView())
-						.updateMaterials();
+			((OpenFileView) getGuiManager().getBrowseView())
+					.updateMaterials();
 		}
 		showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
 		if (getAppletParameters().getDataParamPerspective()
@@ -2017,7 +2028,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public JavaScriptObject getEmbeddedCalculators() {
+	public JsPropertyMap<Object> getEmbeddedCalculators() {
 		getEmbedManager();
 		return embedManager != null ? embedManager.getEmbeddedCalculators() : null;
 	}
