@@ -68,9 +68,7 @@ public class CalcEmbedElement extends EmbedElement {
 				frame.getApp().getGgbApi().getFileJSON(false));
 	}
 
-	/**
-	 * @return API
-	 */
+	@Override
 	public JavaScriptObject getApi() {
 		ScriptManagerW sm = (ScriptManagerW) frame.getApp()
 				.getScriptManager();

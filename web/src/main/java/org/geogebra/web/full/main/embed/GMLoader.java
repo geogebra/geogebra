@@ -11,6 +11,8 @@ import org.geogebra.web.html5.util.ScriptLoadCallback;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ScriptElement;
 
+import jsinterop.base.JsPropertyMap;
+
 /**
  * 
  * Loader for Graspable Math
@@ -55,16 +57,10 @@ public class GMLoader {
 		});
 	}
 
-	protected native void loadLatest() /*-{
-		$wnd.loadGM(loadFromQueue, {
-			version : 'latest',
-			build : 'ggb'
-		});
-		var that = this;
-		function loadFromQueue() {
-			that.@org.geogebra.web.full.main.embed.GMLoader::loadFromQueue()();
-		}
-	}-*/;
+	protected void loadLatest() {
+		NativeGMLoader.loadGM(this::loadFromQueue,
+				JsPropertyMap.of("version", "latest", "build", "ggb"));
+	}
 
 	/**
 	 * Load all elements in the queue

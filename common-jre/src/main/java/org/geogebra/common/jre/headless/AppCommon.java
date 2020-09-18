@@ -431,6 +431,21 @@ public class AppCommon extends App {
 			}
 
 			@Override
+			public void handleSlideAction(String eventType, String pageIdx, String appStat) {
+				// stub
+			}
+
+			@Override
+			public void selectSlide(String pageIdx) {
+				// stub
+			}
+
+			@Override
+			public void previewRefresh() {
+				// stub
+			}
+
+			@Override
 			protected void exportPNGClipboard(boolean transparent, int DPI,
 					double exportScale, EuclidianView ev) {
 				// stub

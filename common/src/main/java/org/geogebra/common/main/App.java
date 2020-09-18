@@ -5218,4 +5218,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		examEnvironment.setIncludingSettingsInLog(!isUnbundled());
 		examEnvironment.setCopyPaste(getCopyPaste());
 	}
+
+	public String getThreadId() {
+		return "[main thread]";
+	}
 }

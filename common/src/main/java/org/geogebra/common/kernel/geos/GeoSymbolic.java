@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -167,18 +168,20 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	public void computeOutput() {
 		ExpressionValue casInputArg = getDefinition().deepCopy(kernel)
 				.traverse(FunctionExpander.getCollector());
-		Command casInput;
-		if (casInputArg.unwrap() instanceof Command) {
-			// don't wrap commands in additional Evaluate
-			casInput = (Command) casInputArg.unwrap();
-		} else {
-			casInput = new Command(kernel, "Evaluate", false);
-			casInput.addArgument(casInputArg.wrap());
-		}
+		Command casInput = getCasInput(casInputArg);
+
 		MyArbitraryConstant constant = getArbitraryConstant();
 		constant.setSymbolic(!shouldBeEuclidianVisible(casInput));
-		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(),
-				constant, StringTemplate.prefixedDefault, null, kernel);
+
+		String s = evaluateGeoGebraCAS(casInput.wrap(), constant);
+
+		if (Commands.Solve.name().equals(casInput.getName()) && GeoFunction.isUndefined(s)) {
+			getDefinition().getTopLevelCommand().setName(Commands.NSolve.name());
+			casInput = getCasInput(getDefinition().deepCopy(kernel)
+					.traverse(FunctionExpander.getCollector()));
+			s = evaluateGeoGebraCAS(casInput.wrap(), constant);
+		}
+
 		this.casOutputString = s;
 		ExpressionValue casOutput = parseOutputString(s);
 
@@ -187,6 +190,22 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 
 		isTwinUpToDate = false;
 		isEuclidianShowable = shouldBeEuclidianVisible(casInput);
+	}
+
+	private Command getCasInput(ExpressionValue casInputArg) {
+		Command casInput;
+		if (casInputArg.unwrap() instanceof  Command) {
+			casInput = (Command) casInputArg.unwrap();
+		} else {
+			casInput = new Command(kernel, "Evaluate", false);
+			casInput.addArgument(casInputArg.wrap());
+		}
+		return casInput;
+	}
+
+	private String evaluateGeoGebraCAS(ValidExpression exp, MyArbitraryConstant constant) {
+		return kernel.getGeoGebraCAS().evaluateGeoGebraCAS(
+				exp, constant, StringTemplate.prefixedDefault, null, kernel);
 	}
 
 	private boolean shouldBeEuclidianVisible(Command input) {

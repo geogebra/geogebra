@@ -12,6 +12,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
@@ -495,24 +496,21 @@ public class EuclidianPen implements GTimerListener {
 			return;
 		}
 
-		AlgoLocusStroke newPolyLine = new AlgoLocusStroke(cons, newPts);
+		AlgoLocusStroke strokeAlgo = new AlgoLocusStroke(cons, newPts);
 		// set label
-		newPolyLine.getOutput(0).setLabel(null);
-		newPolyLine.getOutput(0).setTooltipMode(GeoElementND.TOOLTIP_OFF);
-		lastAlgo = newPolyLine;
+		strokeAlgo.getOutput(0).setLabel(null);
+		strokeAlgo.getOutput(0).setTooltipMode(GeoElementND.TOOLTIP_OFF);
+		lastAlgo = strokeAlgo;
 
-		GeoElement poly = newPolyLine.getOutput(0);
+		GeoElement stroke = strokeAlgo.getOutput(0);
 
-		poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
-		poly.setLineType(penLineStyle);
-		poly.setLineOpacity(lineOpacity);
-		poly.setObjColor(penColor);
+		stroke.setLineThickness(penSize * PEN_SIZE_FACTOR);
+		stroke.setLineType(penLineStyle);
+		stroke.setLineOpacity(lineOpacity);
+		stroke.setObjColor(penColor);
+		stroke.updateVisualStyle(GProperty.COMBINED);
 
-		app.getSelectionManager().clearSelectedGeos(false);
-		app.getSelectionManager().addSelectedGeo(poly);
-
-		poly.setSelected(false);
-		poly.updateRepaint();
+		stroke.updateRepaint();
 
 		// app.storeUndoInfo() will be called from wrapMouseReleasedND
 	}
