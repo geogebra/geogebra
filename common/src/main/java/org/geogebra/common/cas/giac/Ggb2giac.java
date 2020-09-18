@@ -1178,6 +1178,9 @@ public class Ggb2giac {
 		// p("Prog.1","<<%0>>");
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
 
+		p("Q1.1","quartile1(%0)");
+		p("Q3.1","quartile3(%0)");
+
 		p("RandomUniform.2", "exact(%0+rand(0,1)*(%1-%0))");
 		p("Random.2", "(%0+rand(%1-(%0)+1))"); // "RandomBetween"
 		p("RandomBinomial.2", "binomial_icdf(%0,%1,rand(0,1))");
