@@ -12,7 +12,6 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -563,15 +562,8 @@ public class CopyPasteW extends CopyPaste {
 			ArrayList<GeoElement> shapes = new ArrayList<>();
 			for (GeoElement created : createdElements) {
 				if (created.isShape() || created instanceof GeoLocusStroke
-						|| created instanceof GeoWidget || created instanceof GeoImage) {
-					shapes.add(created);
-				}
-
-				if (created instanceof GeoInline) {
-					DrawableND drawInline = ev.getDrawableFor(created);
-					if (drawInline != null) {
-						((DrawInline) drawInline).updateContent();
-					}
+						|| created instanceof GeoWidget || created instanceof GeoImage
+						|| created instanceof GeoInline) {
 					shapes.add(created);
 				}
 			}
