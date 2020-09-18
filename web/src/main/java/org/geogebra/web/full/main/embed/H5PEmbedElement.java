@@ -2,6 +2,7 @@ package org.geogebra.web.full.main.embed;
 
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.main.App;
 import org.geogebra.web.html5.util.h5pviewer.H5P;
 import org.geogebra.web.html5.util.h5pviewer.H5PPaths;
 
@@ -17,8 +18,7 @@ public class H5PEmbedElement extends EmbedElement {
 	public static final int BOTTOM_BAR = 48;
 	private final int embedId;
 	public static final int SCALE = 3;
-	private double initialHeight;
-	private double initialRatio;
+	private final App app;
 	private final EuclidianController euclidianController;
 	private String url;
 
@@ -30,7 +30,8 @@ public class H5PEmbedElement extends EmbedElement {
 		this.widget = widget;
 		this.geoEmbed = geoEmbed;
 		embedId = geoEmbed.getEmbedID();
-		euclidianController = geoEmbed.getApp().getActiveEuclidianView().getEuclidianController();
+		app = geoEmbed.getApp();
+		euclidianController = app.getActiveEuclidianView().getEuclidianController();
 		load();
 	}
 
@@ -52,16 +53,21 @@ public class H5PEmbedElement extends EmbedElement {
 		H5P h5P = new H5P(Js.cast(element), url,
 				getOptions(), getDisplayOptions());
 		h5P.then(p -> {
-			double w = widget.getOffsetWidth();
-			double h = widget.getOffsetHeight() ;
-			initialRatio = h / w;
-			initialHeight = SCALE * initialRatio * w + BOTTOM_BAR;
-			geoEmbed.setSize(SCALE * w, initialHeight);
+			update();
 			geoEmbed.initPosition(euclidianController.getView());
+			app.storeUndoInfo();
 			euclidianController.getView().getDrawableFor(geoEmbed).update();
 			euclidianController.selectAndShowSelectionUI(geoEmbed);
 			return null;
 		});
+	}
+
+	private void update() {
+		double w = widget.getOffsetWidth();
+		double h = widget.getOffsetHeight() ;
+		double initialRatio = h / w;
+		double initialHeight = SCALE * initialRatio * w + BOTTOM_BAR;
+		geoEmbed.setSize(SCALE * w, initialHeight);
 	}
 
 	private JsPropertyMap<Object> getOptions() {

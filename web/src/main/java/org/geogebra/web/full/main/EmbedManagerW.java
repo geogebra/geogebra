@@ -97,18 +97,17 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 				widgets.get(drawEmbed)
 						.setContent(content.get(embedID));
 			}
-		} else if ("h5p".equals(appName)) {
-			addHP5Viewer(drawEmbed);
 		} else {
-			addCalcEmbed(drawEmbed);
+			addEmbed(drawEmbed);
 		}
 	}
 
-	private void addHP5Viewer(DrawEmbed drawEmbed) {
+	private H5PEmbedElement createH5PEmbed(DrawEmbed drawEmbed) {
 		int embedID = drawEmbed.getEmbedID();
 		FlowPanel container = createH5PContainer(embedID);
 		addWidgetToCache(drawEmbed, container);
 		widgets.get(drawEmbed).setContent(H5PPaths.SAMPLE_CONTENT);
+		return (H5PEmbedElement) widgets.get(drawEmbed);
 	}
 
 	@Override
@@ -127,21 +126,19 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 		}
 	}
 
-	private void addCalcEmbed(DrawEmbed drawEmbed) {
-		CalcEmbedElement element = getCalcEmbed(drawEmbed);
-		widgets.put(drawEmbed, element);
-	}
-
-	private CalcEmbedElement getCalcEmbed(DrawEmbed drawEmbed) {
-		CalcEmbedElement element;
+	private void addEmbed(DrawEmbed drawEmbed) {
+		EmbedElement element;
 		if (cache.containsKey(drawEmbed.getEmbedID())) {
-			element = (CalcEmbedElement) cache.get(drawEmbed.getEmbedID());
+			element = cache.remove(drawEmbed.getEmbedID());
 			element.setVisible(true);
-			cache.remove(drawEmbed.getEmbedID());
 		} else {
-			element = createCalcEmbed(drawEmbed);
+			if ("h5p".equals(drawEmbed.getGeoEmbed().getAppName())) {
+				element = createH5PEmbed(drawEmbed);
+			} else {
+				element = createCalcEmbed(drawEmbed);
+			}
 		}
-		return element;
+		widgets.put(drawEmbed, element);
 	}
 
 	private CalcEmbedElement createCalcEmbed(DrawEmbed drawEmbed) {
@@ -552,7 +549,6 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 		geoEmbed.setEmbedId(embedId);
 		geoEmbed.setAppName("h5p");
 		geoEmbed.setLabel(null);
-		app.storeUndoInfo();
 	}
 
 	@Override
