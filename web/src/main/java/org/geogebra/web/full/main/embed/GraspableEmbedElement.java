@@ -1,21 +1,23 @@
 package org.geogebra.web.full.main.embed;
 
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.main.ScriptManagerW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
+
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * Embedded element GM element for Notes
  */
 public class GraspableEmbedElement extends EmbedElement {
 
-	private JavaScriptObject api;
+	private GMCanvas api;
 	private String content;
 	private EmbedManagerW embedManager;
 
@@ -31,59 +33,39 @@ public class GraspableEmbedElement extends EmbedElement {
 		this.embedManager = embedManager;
 	}
 
-	private native void setContentNative(JavaScriptObject canvas,
-			String string) /*-{
-		canvas.loadFromJSON(string);
-	}-*/;
-
 	/**
 	 * Set API, execute waiting actions
 	 * 
 	 * @param core
 	 *            core API
 	 */
-	protected void setAPI(JavaScriptObject core) {
+	protected void setAPI(GMCanvas core) {
 		this.api = core;
 		if (content != null) {
-			setContentNative(api, content);
+			api.loadFromJSON(content);
 			content = null;
 		}
 	}
 
-	private static native boolean isGraspableMathLoaded() /*-{
-		return !!$wnd.gmath;
-	}-*/;
+	void initCanvas(int id) {
+		JavaScriptObject ggbApi = embedManager.getScriptManager().getApi();
+		GMCanvas canvas = new GMCanvas("#gm-div" + id,
+				JsPropertyMap.of("ggbNotesAPI", ggbApi));
 
-	native void initCanvas(int id) /*-{
-		var that = this;
-		var apiObject = that.@org.geogebra.web.full.main.embed.GraspableEmbedElement::getApi()();
-		var canvas = new $wnd.gmath.Canvas('#gm-div' + id, {
-			ggbNotesAPI : apiObject
+		canvas.controller.on("undoable-action", () -> {
+			embedManager.createUndoAction(id);
+			GeoElement embed = embedManager.findById(id);
+			if (embed != null) {
+				embed.notifyUpdate();
+			}
 		});
-
-		var storeContent = function() {
-			that.@org.geogebra.web.full.main.embed.GraspableEmbedElement::createUndoAction(I)(id);
-		};
-
-		canvas.controller.on('undoable-action', storeContent);
-		that.@org.geogebra.web.full.main.embed.GraspableEmbedElement::setAPI(*)(canvas);
-	}-*/;
-
-	@ExternalAccess
-	private void createUndoAction(int id) {
-		embedManager.createUndoAction(id);
-	}
-
-	@ExternalAccess
-	private JavaScriptObject getApi() {
-		ScriptManagerW scriptManager = embedManager.getScriptManager();
-		return scriptManager.getApi();
+		setAPI(canvas);
 	}
 
 	@Override
 	public void setContent(String string) {
 		if (api != null) {
-			setContentNative(api, string);
+			api.loadFromJSON(string);
 		} else {
 			content = string;
 		}
@@ -91,7 +73,7 @@ public class GraspableEmbedElement extends EmbedElement {
 
 	@Override
 	public void addListeners(final int embedID) {
-		if (isGraspableMathLoaded()) {
+		if (GMApi.get() != null) {
 			initCanvas(embedID);
 			return;
 		}
@@ -111,26 +93,19 @@ public class GraspableEmbedElement extends EmbedElement {
 	@Override
 	public void executeAction(EventType action) {
 		if (action == EventType.UNDO) {
-			undoNative(api);
+			api.controller.undo();
 		} else if (action == EventType.REDO) {
-			redoNative(api);
+			api.controller.redo();
 		}
 	}
 
-	private native void undoNative(JavaScriptObject canvas) /*-{
-		canvas.controller.undo();
-	}-*/;
-
-	private native void redoNative(JavaScriptObject canvas) /*-{
-		canvas.controller.redo();
-	}-*/;
+	@Override
+	public JavaScriptObject getApi() {
+		return Js.cast(api);
+	}
 
 	@Override
 	public String getContentSync() {
-		return getContentByCanvas(api);
+		return api.toJSON();
 	}
-
-	private native String getContentByCanvas(JavaScriptObject canvas) /*-{
-		return canvas.toJSON();
-	}-*/;
 }

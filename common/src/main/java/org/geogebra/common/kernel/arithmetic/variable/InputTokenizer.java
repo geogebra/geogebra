@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 
@@ -17,9 +18,13 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @author Laszlo
  */
 public class InputTokenizer {
+
 	public static final String IMAGINARY_STRING = Unicode.IMAGINARY + "";
-	private final List<String> varStrings;
+
 	private final Kernel kernel;
+	private final ParserFunctions parserFunctions;
+
+	private final List<String> varStrings;
 	private String input;
 
 	/**
@@ -27,8 +32,9 @@ public class InputTokenizer {
 	 * @param kernel the kernel.
 	 * @param input to split to tokens
 	 */
-	public InputTokenizer(Kernel kernel, String input) {
+	public InputTokenizer(Kernel kernel, ParserFunctions parserFunctions, String input) {
 		this.kernel = kernel;
+		this.parserFunctions = parserFunctions;
 		this.input = input;
 		varStrings = getVarStrings();
 	}
@@ -95,10 +101,9 @@ public class InputTokenizer {
 			int end = input.startsWith("log_{") ? input.indexOf('}') : "log_1".length();
 			return input.substring(0, end);
 		}
-		for (int i = 0; i < input.length(); i++) {
-			String prefix = input.substring(0, i);
-			Operation op = kernel.getApplication().getParserFunctions()
-					.getSingleArgumentOp(prefix);
+		for (int prefixLength = input.length(); prefixLength > 0; prefixLength--) {
+			String prefix = input.substring(0, prefixLength);
+			Operation op = parserFunctions.getSingleArgumentOp(prefix);
 			if (op != null) {
 				return prefix;
 			}

@@ -57,11 +57,11 @@
 	    padding: 8px 4px 8px 16px;
 	    background-color: $white;
 	    box-shadow: 0 0 2px 1px $popup-shadow;
-	    
+
 	    &.noContextBtn {
 	    	padding: 8px 0px 8px 8px;
 	    }
-	    
+
 	    /*stylebar btn*/
 	    .MyCanvasButton {
 			text-align: center;
@@ -73,9 +73,9 @@
 			margin-left: 0px;
 			margin-right: 8px;
 			cursor: pointer;
-			
+
 			img , .buttonContent {
-				opacity: 0.7;	
+				opacity: 0.7;
 			}
 
 			&:hover {
@@ -85,61 +85,61 @@
 			&.active {
 				border: $purple-default solid 1px;
 			}
-		
+
 			&.withIcon {
 				border: $tool-border solid 1px;
-				
+
 				.buttonContent {
-					opacity: 0.7;	
+					opacity: 0.7;
 				}
-			
+
 				&:hover {
 					border: $purple-default solid 1px;
 				}
 			}
 		}
-	
+
 		.btnBold,.btnItalic {
 			border-radius: 2px;
 			margin-left: 0px;
 			margin-right: 8px;
-			
+
 			img {
 				opacity: 0.7;
-			}	
-		
+			}
+
 			&:hover, &:focus {
 				border: $purple-default solid 1px;
 			}
-		
+
 			&.gwt-ToggleButton-down {
 				border: $purple-default solid 1px;
 			}
 		}
 
-		.matDynStyleContextButton { 
+		.matDynStyleContextButton {
 			margin-right: 0px !important;
 			margin-left: 0px !important;
 			border: none !important;
-			
+
 			&.noOpacity, &.noOpacity:hover {
 				.buttonContent.stylebarButton {
-					opacity: 1 !important;	
+					opacity: 1 !important;
 				}
 			}
-		
+
 			&:hover {
 				.buttonContent.stylebarButton {
-					opacity: 1 !important;		
+					opacity: 1 !important;
 				}
 			}
-		
+
 		}
 	}
 
 	.mowDynStyleBar.matDynStyleBar.noContextBtn{
 	    padding: 8px 0px 8px 8px;
-	    
+
 	    .MyCanvasButton.delete{
 	    	margin-right: -12px;
 	    }
@@ -150,34 +150,34 @@
 		border-radius: 2px;
 		padding: 8px 0px 8px 0px;
 		margin: 0px;
-		
+
 		.matSelectionTable {
     		border-collapse: separate;
 			border-spacing: 0px 0px;
-    			
+
     		.gwt-Label {
     			padding: 0px 16px 0px 16px;
     			height: 24px;
     			line-height: 24px;
-    			
+
     			&:hover {
     				background-color: $selected-menuitem-background;
     				color: $black;
     				/*background-color: $white-90;*/
     				/*color: $toolbar-header-54;	*/
     			}
-    		
+
     			&.selected {
     				/*border: 1px solid $purple-default;*/
     				color: $purple-default;
-    				
+
     				&:hover {
     					color: $purple-default !important;
     				}
     			}
     		}
     	}
-    
+
 	}
 
 	/*dyn stylebar popup panel*/
@@ -186,7 +186,7 @@
     	padding: 0px 8px 0px 8px;
     	background-color: $white;
     	box-shadow: 0 0 2px 1px $tool-border;
-    	z-index: 500000;	
+    	z-index: 500000;
         min-height: 30px;
 
         .ButtonPopupMenu .panelRow2.showSlider {
@@ -197,12 +197,12 @@
         .ButtonPopupMenu .panelRow2.hideSlider {
             display: none;
         }
-    	
+
     	/*slider panel*/
-    	.ButtonPopupMenu .panelRow2 { 
+    	.ButtonPopupMenu .panelRow2 {
     		padding-bottom: 8px;
             padding-top: 8px;
-    		
+
     		/*slider label*/
     		.popupSliderLabel {
     		    margin: 0px 10px;
@@ -239,11 +239,11 @@
 		    	margin: 3px 0px 3px 12px;
 			}
     	}
-    
+
     	.labelPopupPanel {
     		padding: 8px 8px;
     		width: 192px;
-    		
+
     		.panelRow {
     			height: 32px !important;
     			display: flex;
@@ -251,12 +251,12 @@
     				line-height: 30px;
     				cursor: default;
 				}
-    			
+
     			.AutoCompleteTextFieldW {
     				width: 134px;
     				margin: 0px !important;
-    				border-radius: 2px;	
-    				
+    				border-radius: 2px;
+
     				.TextField {
     					padding: 2px;
    						padding-left: 8px;
@@ -269,7 +269,7 @@
     				}
     			}
     		}
-    		
+
     		.checkMarkMenuItem {
                 cursor: pointer;
                 line-height: 32px;
@@ -277,55 +277,55 @@
                 .gwt-HTML {
                     margin-left: -24px;
                 }
-    		
+
     			img {
     				opacity: 0.54;
     				margin-top: -4px;
-    			}	    				
+    			}
     		}
     	}
 	}
 
 	/*point/line style table*/
 	.matSelectionTable {
-		
+
 			border-collapse: separate;
 			border-spacing: 8px 8px;
-    		
+
     		td {
     		    padding: 0px;
-    		}	
-    	
+    		}
+
     		.gwt-Label {
     			margin: 0px;
     		}
-    	
+
     		.gwt-Label.border {
     			border-radius: 2px;
-    			
+
     			&:hover {
     				border: 1px solid $purple-default;
     			}
     		}
-    	
+
     		.gwt-Label.border.selected,.gwt-Label.border.selected:hover {
     			border: 1px solid $purple-default;
     		}
-    	
+
     		 .gwt-Label.borderButton {
     		 	border: 1px solid;
     			border-radius: 2px;
     			height: 24px;
     			width: 24px;
-    			
+
     			&:hover {
     				opacity: 0.65;
     			}
-    			
+
     			&.plusButton {
     				border: $black-30 solid 1px;
-    				opacity: 0.54;	
-    				
+    				opacity: 0.54;
+
     				&:hover {
     					opacity: 1;
     					border: 1px solid $purple-default;
@@ -333,14 +333,14 @@
     				}
     			}
     		 }
-	}	
+	}
 
 	.matPopupPanel.tealBorder {
-		padding: 0px !important; 
-		
+		padding: 0px !important;
+
    		.matSelectionTable {
    		 	.gwt-Label.border:hover,
-   		 		.gwt-Label.border.selected, 
+   		 		.gwt-Label.border.selected,
 					.gwt-Label.border.selected:hover {
    		 		border: 1px solid $teal-default !important;
    		 	}
@@ -354,7 +354,7 @@
     	left: auto !important;
     	z-index: $always_on_top;
 		will-change: transform;
-		
+
     	.zoomPanelBtn {
     		position: relative;
     		width: 36px;
@@ -365,21 +365,21 @@
     		box-shadow: 0 1px 3px 0 $black-20, 0 1px 1px 0 $black-14, 0 2px 1px -1px $black-12;
     		cursor: pointer;
     		transition: background-color 150ms ease 0ms;
-    		
+
     		img {
     			padding: 6px;
     			opacity: 0.54;
-    		}	
-    	
+    		}
+
     		&:hover {
     			/*background-color: #666;*/
     			background-color: $selected-menuitem-background;
-    			
+
     			img {
-    				opacity: 1;	
+    				opacity: 1;
     			}
     		}
-    	
+
     		&.keyboardFocus:focus {
     			img {
     				opacity: 1;
@@ -387,34 +387,34 @@
     			}
     		}
     	}
-		.zoomPanelBtnSmall img { 
- 	        padding: 8px; 
- 	    } 
+		.zoomPanelBtnSmall img {
+ 	        padding: 8px;
+ 	    }
 		.zoomPanelHomeIn {
 			opacity: 1;
 			visibility: visible;
 			transition: all 0.2s ease;
 		}
-	
+
 		.zoomPanelHomeOut {
 			cursor: default;
-			opacity: 0;	
+			opacity: 0;
 			visibility: hidden;
 			transition: all 0.2s ease;
-	
+
 			img {
     			opacity: 0;
     		}
-    	
+
     		&:hover, &:focus {
     			/*background-color: #666;*/
     			background-color: $selected-menuitem-background;
-    			
+
     			img {
-    				opacity: 0;	
+    				opacity: 0;
     			}
     		}
-    	
+
 		}
 	}
 	.zoomPanelPosition {
@@ -426,7 +426,7 @@
 	    left: auto !important;
 	    z-index: 60;
 	    right: 4px !important;
-	    
+
 	    .zoomPanelBtn {
 	    	position: relative;
 		    margin: 6px;
@@ -436,26 +436,26 @@
 		    width: 24px;
     		height: 24px;
     		transition: background-color 150ms ease 0ms;
-		    
+
 		    &.zoomPanelBtnSmall {
-		    	padding: 8px;	
+		    	padding: 8px;
 		    	width: 20px;
     			height: 20px;
-		    	
+
 		    	img {
 		    		width: 20px;
-					height: 20px;		    			
+					height: 20px;
 		    	}
 		    }
-		   
+
 		   img {
 		   		width: 24px;
-				height: 24px;	
-				opacity: 0.54;	    	
+				height: 24px;
+				opacity: 0.54;
 		   }
-		  
+
 		  	&:hover, &:focus, &.selected {
-		  		img { 
+		  		img {
 		  			opacity: 1;
 		  		}
 		  		background-color: $mow_card_background_hover;
@@ -463,28 +463,28 @@
 		}
 		.zoomPanelHomeIn {
 			opacity: 1;
-			visibility: visible;	 
+			visibility: visible;
 			transition: all 0.2s ease;
 		}
-	
+
 		.zoomPanelHomeOut {
 			cursor: default;
-			opacity: 0;	
-			visibility: hidden;	 
+			opacity: 0;
+			visibility: hidden;
 			transition: all 0.2s ease;
-	
+
 			img {
     			opacity: 0;
     		}
-    	
+
     		&:hover, &:focus {
     			background-color: $mow_card_background_hover;
-    			
+
     			img {
-    				opacity: 1;	
+    				opacity: 1;
     			}
     		}
-    	
+
 		}
     }
 	.zoomPanelWithPageControl {
@@ -493,7 +493,7 @@
 	}
 
 	.speechBtnPanel {
-	    
+
 	    .speechBtn {
 		 	height: 36px;
 		    width: 36px;
@@ -507,25 +507,25 @@
 		    bottom: 52px;
     		margin: 0px 0px 16px 16px;
 		    display: inline-block;
-				    
+
 			img {
 			   padding: 6px;
 			   opacity: 0.54;
-			}	
-			    	
+			}
+
 			&:hover {
 				background-color: $selected-menuitem-background;
-			    			
+
 			    img {
-			    	opacity: 1;	
+			    	opacity: 1;
 				}
 			}
-			    	
+
 			&:focus {
 			    img {
 			    	opacity: 1;
-			    	outline: $focus-black 5px auto;	
-			    }	
+			    	outline: $focus-black 5px auto;
+			    }
 			}
 		}
 	}
@@ -536,11 +536,11 @@
 		padding-left: 12px;
 		position: absolute;
 		z-index: $always_on_top;
-		
+
 		.flatButton {
 			display: inline-block;
 		}
-		
+
 		.hideButton {
 			display: none;
 		}
@@ -549,11 +549,11 @@
 	.undoRedoPosition {
 		top: 0px;
 		.flatButton {
-			border-radius: 50%;	
+			border-radius: 50%;
 			transition: background-color 150ms ease 0ms;
-			
+
 			&.buttonActive:hover {
-				img { 
+				img {
 		  			opacity: 1;
 		  		}
 		  		background-color: $mow_card_background_hover;
@@ -747,26 +747,39 @@
 		}
 	}
 
-    .evInputEditor {
-            padding-top: 2px;
-            padding-left: 2px;
-            position: absolute;
-            border: 1px solid blue;
-            border-radius: 4px 4px;
-            overflow: hidden;
-         }
+	.evInputEditor {
+		padding-top: 2px;
+		padding-left: 2px;
+		position: absolute;
+		border: 1px solid blue;
+		border-radius: 4px 4px;
+		overflow: hidden;
+	 }
 
-         .accessibilityView {
-            opacity: 0.01;
-            position: fixed;
-            width: 1px;
-            height: 1px;
-            overflow: scroll;
-         }
+	 .accessibilityView {
+		opacity: 0.01;
+		position: fixed;
+		width: 1px;
+		height: 1px;
+		overflow: scroll;
+	 }
 
-        .invisible {
-            visibility: hidden;
-        }
+	.invisible {
+		visibility: hidden;
+	}
+
+	.tooltipChip {
+		position: absolute;
+		display: inline-flex;
+		padding: 7px 12px;
+		border-radius: 16px;
+		align-items: center;
+		cursor: default;
+		min-height: 32px;
+		height: 1px;
+		box-sizing: border-box;
+		z-index: 100;
+	}
 }
 
 /* Outside of GeoGebraFrame */
