@@ -130,15 +130,11 @@ public class RelationPaneW extends GDialogBox
 		}
 
 		((AppW) app).getAsyncManager().asyncEvalCommand("Delete(Prove(true))",
-				new Runnable() {
-
-					@Override
-					public void run() {
-						LoggerW.loaded("prover");
-						for (int i = 0; i < rels; ++i) {
-							if (source == btnCallbacks[i]) {
-								expandRow(i);
-							}
+				(_unused) -> {
+					LoggerW.loaded("prover");
+					for (int i = 0; i < rels; ++i) {
+						if (source == btnCallbacks[i]) {
+							expandRow(i);
 						}
 					}
 				}, null);
