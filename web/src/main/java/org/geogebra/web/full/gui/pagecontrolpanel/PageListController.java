@@ -494,12 +494,7 @@ public class PageListController implements PageListControllerInterface,
 		}
 	}
 
-	/**
-	 * load existing page
-	 * 
-	 * @param index
-	 *            index of page to load
-	 */
+	@Override
 	public void loadPage(int index) {
 		savePreviewCard(selectedCard);
 		loadSlide(index);

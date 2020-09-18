@@ -1,11 +1,12 @@
 package org.geogebra.web.html5.main;
 
+import org.geogebra.common.main.undo.ActionExecutor;
 import org.geogebra.web.html5.gui.RenameCard;
 
 /**
  * Controller for multipage files
  */
-public interface PageListControllerInterface {
+public interface PageListControllerInterface extends ActionExecutor {
 	/**
 	 * resets the page control panel
 	 */
@@ -110,7 +111,6 @@ public interface PageListControllerInterface {
 	 * @param title the new title.
 	 */
 	void rename(RenameCard card, String title);
-
 
 	void clickPage(String slideID);
 

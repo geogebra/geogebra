@@ -1499,8 +1499,7 @@ public class GgbAPIW extends GgbAPI {
 				break;
 		}
 		if (event != null) {
-			((AppW) app).getPageController().executeAction(event,
-					null, args);
+			((AppW) app).getPageController().executeAction(event, args);
 		}
 	}
 
