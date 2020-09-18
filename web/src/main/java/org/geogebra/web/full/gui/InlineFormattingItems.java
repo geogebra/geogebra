@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
@@ -14,13 +15,16 @@ import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.contextmenu.FontSubMenu;
 import org.geogebra.web.full.gui.dialog.HyperlinkDialog;
+import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.javax.swing.InlineTextToolbar;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.core.client.Scheduler;
@@ -92,6 +96,7 @@ public class InlineFormattingItems {
 		addFontSubmenu();
 		addHyperlinkItems();
 		addTextWrappingItem();
+		addHeadingItem();
 		menu.addSeparator();
 	}
 
@@ -131,6 +136,39 @@ public class InlineFormattingItems {
 
 		AriaMenuItem item = factory.newAriaMenuItem(loc.getMenu("ContextMenu.textWrapping"),
 				false, wrappingSubmenu);
+		item.addStyleName("no-image");
+		menu.addItem(item);
+	}
+
+	private void addHeadingItem() {
+		if (!inlines.stream().allMatch(f -> f instanceof InlineTableController)) {
+			return;
+		}
+
+		GColor color = app.isMebis() ? GColor.MOW_TABLE_HEADING_COLOR : GColor.TABLE_HEADING_COLOR;
+
+		AriaMenuBar headingSubmenu = new AriaMenuBar();
+
+		SVGResource row = MaterialDesignResources.INSTANCE.table_heading_row();
+		AriaMenuItem rowItem = factory.newAriaMenuItem(
+				MainMenu.getMenuBarHtml(row, loc.getMenu("ContextMenu.Row")), true, () -> {
+			for (HasTextFormat formatter : inlines) {
+				((InlineTableController) formatter).setHeading(color, true);
+			}
+		});
+		headingSubmenu.addItem(rowItem);
+
+		SVGResource column = MaterialDesignResources.INSTANCE.table_heading_column();
+		AriaMenuItem columnItem = factory.newAriaMenuItem(
+				MainMenu.getMenuBarHtml(column, loc.getMenu("ContextMenu.Column")), true, () -> {
+					for (HasTextFormat formatter : inlines) {
+						((InlineTableController) formatter).setHeading(color, false);
+					}
+				});
+		headingSubmenu.addItem(columnItem);
+
+		AriaMenuItem item = factory.newAriaMenuItem(loc.getMenu("ContextMenu.Heading"),
+				false, headingSubmenu);
 		item.addStyleName("no-image");
 		menu.addItem(item);
 	}
