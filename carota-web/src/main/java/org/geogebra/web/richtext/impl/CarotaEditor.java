@@ -1,10 +1,10 @@
 package org.geogebra.web.richtext.impl;
 
 import org.geogebra.web.richtext.Editor;
+import org.geogebra.web.richtext.EditorChangeListener;
 
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -53,7 +53,7 @@ public class CarotaEditor implements Editor {
 	@Override
 	public void setWidth(int width) {
 		editor.setWidth(width);
-		listener.onSizeChanged(editor.getFrame().getHeight());
+		listener.onInput();
 	}
 
 	@Override
@@ -102,20 +102,7 @@ public class CarotaEditor implements Editor {
 	@Override
 	public void setListener(final EditorChangeListener listener) {
 		this.listener = listener;
-		final Timer updateTimer = new Timer() {
-			@Override
-			public void run() {
-				listener.onContentChanged(getContent());
-			}
-		};
-
-		editor.contentChanged(() -> {
-			listener.onSizeChanged(editor.getFrame().getHeight());
-			updateTimer.cancel();
-			updateTimer.schedule(500);
-		});
-
-		editor.selectionChanged(listener::onSelectionChanged);
+		new EventThrottle(editor).setListener(listener);
 	}
 
 	@Override
@@ -155,6 +142,11 @@ public class CarotaEditor implements Editor {
 	@Override
 	public String getListStyle() {
 		return getRange().getListStyle();
+	}
+
+	@Override
+	public int getMinHeight() {
+		return editor.getFrame().getHeight();
 	}
 
 	private CarotaRange getRange() {

@@ -12,6 +12,7 @@ import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
@@ -1245,5 +1246,22 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Max(2, 3, 1)", "3");
 		t("Max(1, 2, 4, -2)", "4");
 		t("Max(1/2 < x < " + pi + ")", pi + "");
+	}
+
+	@Test
+	public void testSolveNotReturnUndefined() {
+		add("eq1: (x^2)(e^x)= 5");
+		GeoSymbolic function = add("Solve(eq1, x)");
+		assertNotEquals(function.getValue().toString(StringTemplate.defaultTemplate), "{?}");
+		assertThat(function.getValue().toString(StringTemplate.defaultTemplate),
+				equalTo("{x = 1.2168714889}"));
+	}
+
+	@Test
+	public void testSolveChangedToNSolve() {
+		add("eq1: (x^2)(e^x)= 5");
+		GeoSymbolic function = add("Solve(eq1, x)");
+		assertThat(function.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("NSolve(eq1,x)"));
 	}
 }

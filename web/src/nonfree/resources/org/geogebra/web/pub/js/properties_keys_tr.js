@@ -1133,7 +1133,7 @@ __GGB__keysVar["tr"].command = {
     "nCr.Syntax": "[ <Say\u0131 n>, <Say\u0131 r> ]",
     "stdev": "stsap",
     "stdev.Syntax": "[ <Ham Veri Listesi> ]\n[ <Say\u0131 Listesi>, <Frekans Listesi> ]",
-    "stdevp": "stsapm",
+    "stdevp": "stsapp",
     "stdevp.Syntax": "[ <Ham Veri Listesi> ]\n[ <Say\u0131 Listesi>, <Frekans Listesi> ]",
     "stdevp.SyntaxCAS": "[ <Say\u0131 Listesi> ]",
 };
