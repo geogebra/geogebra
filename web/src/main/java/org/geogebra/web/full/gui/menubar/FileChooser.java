@@ -33,8 +33,9 @@ public class FileChooser extends FileUpload implements ChangeHandler {
 	}
 
 	private native JavaScriptObject getSelectedFile()/*-{
-			var file = $doc.querySelector('input[type=file]').files[0];
-			$doc.querySelector('input[type=file]').value=[];
-			return file;
+			var files = $doc.querySelector('input[type=file]');
+			var fileToHandle = files.files[0];
+			files.value=[];
+			return fileToHandle;
 		}-*/;
 }
