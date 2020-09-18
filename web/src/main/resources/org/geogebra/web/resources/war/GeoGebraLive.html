@@ -5,7 +5,7 @@
     <meta name=viewport content="width=device-width,initial-scale=1">
     <meta charset="utf-8"/>
     <script src="https://cdn.geogebra.org/apps/deployggb.js"></script>
-    <script src="./liveggb.js"></script>
+    <script src="./geogebra-live.js"></script>
 </head>
 
 <body>
@@ -13,10 +13,19 @@
 <button onclick="window.open(location.href)" style="margin-top:56px">Local test</button>
 
 <script>
+        var userDatabase = [
+            {id:7, name:'Hypatia', color: '#2E7D3280'},
+            {id:13, name:'Ada', color: '#1565C080'},
+            {id:17, name:'Sophie', color: '#D32F2F80'},
+            {id:23, name:'Emmy', color: '#DB611480'},
+            {id:29, name:'Helge', color: '#6557D280'},
+            {id:31, name:'Florence', color: '#61616180'},
+            {id:37, name:'Maryam', color: '#D81B6080'},
+        ]
         var updatingOn = true;
 
         var dispatchNext = 0;
-        var api1;
+        var api1, live;
         function getUrlParam(param) {
             var parts = location.href.split("?");
             if(parts.length<2){
@@ -35,7 +44,7 @@
                 var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
                 for (var index = dispatchNext; index < events.length; index++) {
                     var last = events[index];
-                    GeoGebraLive.dispatch(last);
+                    live.dispatch(last);
                 }
                 if (events.length > 0) {
                     api1.setUndoPoint();
@@ -59,6 +68,7 @@
             "customToolBar": "0 39 73 62 | 1 501 67 , 5 19 , 72 75 76 | 2 15 45 , 18 65 , 7 37 | 4 3 8 9 , 13 44 , 58 , 47 | 16 51 64 , 70 | 10 34 53 11 , 24  20 22 , 21 23 | 55 56 57 , 12 | 36 46 , 38 49  50 , 71  14  68 | 30 29 54 32 31 33 | 25 17 26 60 52 61 | 40 41 42 , 27 28 35 , 6",
             "showToolBarHelp": false,
             "showResetIcon": false,
+            "enableFileFeatures": false,
             "enableLabelDrags": false,
             "enableShiftDragZoom": true,
             "enableRightClick": false,
@@ -71,15 +81,24 @@
             "showFullscreenButton": true,
             "appName": getUrlParam("app") || "classic",
             "language": "en",
+            "multiuserApplet": true,
         };
-
 
 
         parameters1.id = "ggbApplet1";
         parameters1.appletOnLoad = function(api) {
+            if (api1) {
+               return;
+            }
+            var userCount = parseInt(localStorage.getItem('ggbUserCount') || '0');
+            localStorage.setItem('ggbUserCount', userCount + 1);
             console.log("applet1 loaded");
             api1 = api;
-            GeoGebraLive.start(api, storageEventBus);
+            live = new GeoGebraLive(api, userDatabase[userCount % userDatabase.length].id);
+            userDatabase.forEach(function(user) {
+                live.addUser(user);
+            });
+            live.addEventListener("construction", storageEventBus);
         }
 
         var applet1 = new GGBApplet(parameters1, '5.0');
@@ -89,7 +108,7 @@
         }
 
         window.onload = function() {
-            localStorage.clear();
+            localStorage.removeItem('ggbEvents');
             applet1.inject('ggbApplet1');
         };
 

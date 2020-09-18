@@ -1033,7 +1033,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			int currentLayer = 0;
 
 			g.startGroup("layer" + currentLayer);
-			for (Drawable d : ev.allDrawableList) {
+			for (Drawable d : ev.getAllDrawableList()) {
 				if (d.getGeoElement().getLayer() != currentLayer) {
 					g.endGroup("layer" + currentLayer);
 					currentLayer = d.getGeoElement().getLayer();

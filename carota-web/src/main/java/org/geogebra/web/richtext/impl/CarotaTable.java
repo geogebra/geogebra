@@ -8,7 +8,7 @@ import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true)
-public class CarotaTable {
+public class CarotaTable implements HasContent {
 
 	@JsProperty
 	public native int getTotalWidth();
