@@ -25,4 +25,6 @@ public interface InlineFormulaController {
 	boolean isInForeground();
 
 	void discard();
+
+	String getText();
 }

@@ -83,4 +83,6 @@ public interface InlineTableController extends HasTextFormat {
 	HorizontalAlignment getHorizontalAlignment();
 
 	void setHorizontalAlignment(HorizontalAlignment alignment);
+
+	void saveContent();
 }
