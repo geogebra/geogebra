@@ -318,7 +318,7 @@ public abstract class CanvasDrawable extends Drawable {
 	}
 
 	private void setLabelSize(GPoint labelSize) {
-		this.labelSize = labelSize != null ? labelSize : new GPoint();
+		this.labelSize = labelSize;
 	}
 
 	/**
