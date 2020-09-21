@@ -110,6 +110,16 @@ public class InlineTextControllerMock implements InlineTextController {
 	}
 
 	@Override
+	public void updateContentIfChanged() {
+
+	}
+
+	@Override
+	public void saveContent() {
+
+	}
+
+	@Override
 	public boolean copySelection() {
 		return false;
 	}
