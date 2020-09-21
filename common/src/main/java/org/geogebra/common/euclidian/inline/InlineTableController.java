@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.properties.BorderType;
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 
 public interface InlineTableController extends HasTextFormat {
@@ -78,4 +79,8 @@ public interface InlineTableController extends HasTextFormat {
 	VerticalAlignment getVerticalAlignment();
 
 	void setVerticalAlignment(VerticalAlignment alignment);
+
+	HorizontalAlignment getHorizontalAlignment();
+
+	void setHorizontalAlignment(HorizontalAlignment alignment);
 }

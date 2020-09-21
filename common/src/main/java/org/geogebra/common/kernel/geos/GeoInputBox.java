@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxProcessor;
-import org.geogebra.common.kernel.geos.properties.TextAlignment;
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
@@ -39,7 +39,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	protected boolean symbolicMode = false;
 
-	private TextAlignment textAlignment = TextAlignment.LEFT;
+	private HorizontalAlignment textAlignment = HorizontalAlignment.LEFT;
 
 	private @Nonnull GeoElementND linkedGeo;
 
@@ -48,6 +48,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private String tempUserDisplayInput;
 	private GeoText dynamicCaption;
 	private static GeoText emptyText;
+	private boolean serifContent = true;
 
 	/**
 	 * Creates new text field
@@ -58,7 +59,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public GeoInputBox(Construction cons) {
 		super(cons);
 		linkedGeo = new GeoText(cons, "");
-		setSerifFont(true);
 		createEmptyText(cons);
 		inputBoxRenderer = new InputBoxRenderer(this);
 		inputBoxProcessor = new InputBoxProcessor(this, linkedGeo);
@@ -236,6 +236,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 		if (isSymbolicMode()) {
 			sb.append("\t<symbolic val=\"true\" />\n");
+			sb.append("\t<contentSerif val=\"" + serifContent + "\" />\n");
 		}
 
 		if (getLength() != defaultLength) {
@@ -244,7 +245,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			sb.append("\"");
 			sb.append("/>\n");
 		}
-		if (getAlignment() != TextAlignment.LEFT) {
+		if (getAlignment() != HorizontalAlignment.LEFT) {
 			sb.append("\t<textAlign val=\"");
 			sb.append(getAlignment().toString());
 			sb.append("\"/>\n");
@@ -467,12 +468,12 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	@Override
-	public void setAlignment(TextAlignment alignment) {
+	public void setAlignment(HorizontalAlignment alignment) {
 		textAlignment = alignment;
 	}
 
 	@Override
-	public TextAlignment getAlignment() {
+	public HorizontalAlignment getAlignment() {
 		return textAlignment;
 	}
 
@@ -530,6 +531,14 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public void clearTempUserInput() {
 		this.tempUserDisplayInput = null;
 		inputBoxRenderer.tempUserEvalInput = null;
+	}
+
+	public boolean isSerifContent() {
+		return serifContent;
+	}
+
+	public void setSerifContent(boolean serifContent) {
+		this.serifContent = serifContent;
 	}
 
 	@Override

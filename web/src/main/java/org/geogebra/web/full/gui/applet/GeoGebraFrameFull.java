@@ -693,9 +693,13 @@ public class GeoGebraFrameFull
 		if (app1.isWhiteboardActive()) {
 			attachToolbarMow(app1);
 
-			if (app1.getVendorSettings().isMainMenuExternal()) {
+			if (app1.getVendorSettings().isMainMenuExternal()
+					&& !app1.isApplet()) {
 				app1.getGuiManager().menuToGlobalHeader();
-			} else {
+			} else if ((app1.isApplet()
+						&& app1.getAppletParameters().getDataParamShowMenuBar(false))
+					|| app1.isMebis()) {
+				toolbarMow.getUndoRedoButtons().addStyleName("undoRedoPositionMebis");
 				attachMowMainMenu(app1);
 			}
 			app1.getGuiManager().initShareActionInGlobalHeader();
@@ -750,7 +754,9 @@ public class GeoGebraFrameFull
 			insert(toolbarMow, 0);
 		}
 		add(toolbarMow.getUndoRedoButtons());
-		add(toolbarMow.getPageControlButton());
+		if (!app.isApplet()) {
+			add(toolbarMow.getPageControlButton());
+		}
 	}
 
 	private void initToolbarMowIfNull(AppW app) {

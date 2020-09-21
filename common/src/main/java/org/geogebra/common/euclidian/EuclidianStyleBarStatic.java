@@ -216,22 +216,15 @@ public class EuclidianStyleBarStatic {
 	 *            to fill.
 	 * @param fillType
 	 *            Type of the filling pattern;
-	 * @return geo modified.
 	 */
-	public static GeoElement applyFillType(ArrayList<GeoElement> geos,
+	public static void applyFillType(ArrayList<GeoElement> geos,
 			FillType fillType) {
-		GeoElement ret = geos.get(0);
-
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-
+		for (GeoElement geo : geos) {
 			if (geo.isFillable()) {
 				geo.setFillType(fillType);
-
+				geo.updateVisualStyle(GProperty.HATCHING);
 			}
 		}
-		ret.updateRepaint();
-		return ret;
 	}
 
 	private static String getDefinitonString(GeoElement geo) {

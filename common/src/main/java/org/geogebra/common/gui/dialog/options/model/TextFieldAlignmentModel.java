@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.geos.properties.TextAlignment;
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
@@ -32,7 +32,7 @@ public class TextFieldAlignmentModel extends MultipleOptionsModel {
 	@Override
 	protected void apply(int index, int value) {
 		GeoInputBox inputBox = (GeoInputBox) getGeoAt(index);
-		TextAlignment alignment = TextAlignment.values()[value];
+		HorizontalAlignment alignment = HorizontalAlignment.values()[value];
 		inputBox.setAlignment(alignment);
 		inputBox.updateRepaint();
 	}
@@ -40,7 +40,7 @@ public class TextFieldAlignmentModel extends MultipleOptionsModel {
 	@Override
 	protected int getValueAt(int index) {
 		GeoInputBox inputBox = (GeoInputBox) getGeoAt(index);
-		TextAlignment alignment = inputBox.getAlignment();
+		HorizontalAlignment alignment = inputBox.getAlignment();
 		return alignment.ordinal();
 	}
 
