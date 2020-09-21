@@ -5193,4 +5193,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void closeMenuHideKeyboard() {
 		// nothing here
 	}
+
+	public String getThreadId() {
+		return "[main thread]";
+	}
 }
