@@ -961,7 +961,7 @@ public class GeoList extends GeoElement
 		XMLBuilder.appendPointProperties(sb, this);
 
 		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false,
-				kernel.getApplication(), false);
+				kernel.getApplication());
 
 		// print decimals
 		if ((printDecimals >= 0) && !useSignificantFigures) {
