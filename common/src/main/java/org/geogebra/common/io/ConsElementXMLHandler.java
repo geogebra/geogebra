@@ -610,6 +610,19 @@ public class ConsElementXMLHandler {
 		}
 	}
 
+	private boolean handleSerifContent(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoInputBox)) {
+			Log.error("wrong element type for <contentSerif>: " + geo.getClass());
+			return false;
+		}
+		String serif = attrs.get("val");
+
+		if (serif != null) {
+			((GeoInputBox) geo).setSerifContent(MyXMLHandler.parseBoolean(serif));
+		}
+		return true;
+	}
+
 	// <font serif="false" size="12" style="0">
 	private boolean handleTextFont(LinkedHashMap<String, String> attrs) {
 		this.fontTagProcessed = true;
@@ -617,7 +630,6 @@ public class ConsElementXMLHandler {
 			Log.error("wrong element type for <font>: " + geo.getClass());
 			return false;
 		}
-
 		Object serif = attrs.get("serif");
 		Object style = attrs.get("style");
 
@@ -1887,8 +1899,6 @@ public class ConsElementXMLHandler {
 			((TextProperties) geo).setFontSizeMultiplier(1);
 			((TextProperties) geo).setSerifFont(false);
 			((TextProperties) geo).setFontStyle(GFont.PLAIN);
-		} else if (!fontTagProcessed && geo.isGeoInputBox()) {
-			((TextProperties) geo).setSerifFont(true);
 		} else if (!lineStyleTagProcessed && ((geo.isGeoFunctionNVar()
 				&& ((GeoFunctionNVar) geo).isFun2Var())
 				|| geo.isGeoSurfaceCartesian())) {
@@ -2054,6 +2064,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "comboBox":
 				handleComboBox(attrs);
+				break;
+			case "contentSerif":
+				handleSerifContent(attrs);
 				break;
 			case "cropBox":
 				handleCropBox(attrs);

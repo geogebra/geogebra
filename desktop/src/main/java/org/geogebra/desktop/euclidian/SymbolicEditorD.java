@@ -94,6 +94,8 @@ public class SymbolicEditorD extends SymbolicEditor {
 		setInputBox(geoInputBox);
 		getDrawInputBox().setEditing(true);
 
+		mathField.getInternal().setType(getGeoInputBox().isSerifContent()
+				? TeXFont.SERIF	:  TeXFont.SANSSERIF);
 		mathField.getInternal().parse(getGeoInputBox().getTextForEditor());
 		mathField.setBounds(GRectangleD.getAWTRectangle(bounds));
 		mathField.getInternal().setSize(geoInputBox.getFontSizeMultiplier()
@@ -129,7 +131,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 	public void onKeyTyped(String key) {
 		String text = serializer.serialize(getMathFieldInternal().getFormula());
 		double currentHeight = app.getDrawEquation().measureEquation(app, null, text,
-				getDrawInputBox().getTextFont(text, getGeoInputBox().isSerifFont()), false).getHeight() + 2 * DrawInputBox.TF_MARGIN_VERTICAL;
+				getDrawInputBox().getTextFont(text), false).getHeight() + 2 * DrawInputBox.TF_MARGIN_VERTICAL;
 		box.setBounds(box.getX(), box.getY(), box.getWidth(), (int) currentHeight);
 		box.revalidate();
 		view.repaintView();

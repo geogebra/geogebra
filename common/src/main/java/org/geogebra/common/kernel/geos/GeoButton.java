@@ -454,7 +454,7 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 
 		// font settings
 		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false,
-				kernel.getApplication(), isGeoInputBox());
+				kernel.getApplication());
 
 		// name of image file
 		if (getFillImage() != null) {

@@ -48,6 +48,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private String tempUserDisplayInput;
 	private GeoText dynamicCaption;
 	private static GeoText emptyText;
+	private boolean serifContent = true;
 
 	/**
 	 * Creates new text field
@@ -58,7 +59,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public GeoInputBox(Construction cons) {
 		super(cons);
 		linkedGeo = new GeoText(cons, "");
-		setSerifFont(true);
 		createEmptyText(cons);
 		inputBoxRenderer = new InputBoxRenderer(this);
 		inputBoxProcessor = new InputBoxProcessor(this, linkedGeo);
@@ -236,6 +236,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 		if (isSymbolicMode()) {
 			sb.append("\t<symbolic val=\"true\" />\n");
+			sb.append("\t<contentSerif val=\"" + serifContent + "\" />\n");
 		}
 
 		if (getLength() != defaultLength) {
@@ -530,6 +531,14 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public void clearTempUserInput() {
 		this.tempUserDisplayInput = null;
 		inputBoxRenderer.tempUserEvalInput = null;
+	}
+
+	public boolean isSerifContent() {
+		return serifContent;
+	}
+
+	public void setSerifContent(boolean serifContent) {
+		this.serifContent = serifContent;
 	}
 
 	@Override
