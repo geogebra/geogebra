@@ -34,7 +34,7 @@ public class PenPreview extends StylePreview {
 	 */
 	public void update() {
 		clear();
-		pen.drawStylePreview(g2, pen.getPenColor(), pen.getLineThickness(),
+		pen.drawStylePreview(g2, pen.getPenColor(), pen.getPenSize(),
 				getMarginX(), getMarginY(), 30);
 	}
 
