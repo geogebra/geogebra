@@ -90,7 +90,10 @@ public class SuggestionStatistics extends Suggestion {
 	private static boolean[] getNeededAlgos(GeoElementND geo) {
 		boolean[] neededAlgos = {true, true, true, true, true};
 
-		if (geo instanceof GeoList && ((GeoList) geo).size() < 2) {
+		GeoElementND statGeoElement = geo instanceof GeoSymbolic
+				? ((GeoSymbolic) geo).getTwinGeo() : geo;
+
+		if ((statGeoElement instanceof GeoList && ((GeoList) statGeoElement).size() < 2)) {
 			neededAlgos[Q1] = false;
 			neededAlgos[Q3] = false;
 		}
@@ -110,14 +113,12 @@ public class SuggestionStatistics extends Suggestion {
 		return null;
 	}
 
-	private static boolean isListOfNumbers(GeoElement geoElement) {
-		GeoElement geo = geoElement;
-		if(geoElement instanceof GeoSymbolic && ((GeoSymbolic) geoElement).getTwinGeo() != null) {
-			geo = ((GeoSymbolic) geoElement).getTwinGeo().toGeoElement();
-		}
+	private static boolean isListOfNumbers(GeoElementND geoElement) {
+		GeoElementND statGeoElement = geoElement instanceof GeoSymbolic
+				? ((GeoSymbolic) geoElement).getTwinGeo() : geoElement;
 
-		if (geo instanceof GeoList && ((GeoList) geo).size() > 0) {
-			GeoList geoList = (GeoList) geo;
+		if (statGeoElement instanceof GeoList && ((GeoList) statGeoElement).size() > 0) {
+			GeoList geoList = (GeoList) statGeoElement;
 			for (GeoElement geoItem : geoList.elementsAsArray()) {
 				if (!(geoItem instanceof GeoNumeric)) {
 					return false;
