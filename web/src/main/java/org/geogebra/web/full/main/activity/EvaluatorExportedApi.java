@@ -27,6 +27,7 @@ public class EvaluatorExportedApi implements ExportedApi {
 	 * @param evaluatorActivity
 	 *            evaluator activity
 	 */
+	@SuppressWarnings("unusable-by-js")
 	public EvaluatorExportedApi(EvaluatorActivity evaluatorActivity) {
 		this.evaluatorActivity = evaluatorActivity;
 	}
