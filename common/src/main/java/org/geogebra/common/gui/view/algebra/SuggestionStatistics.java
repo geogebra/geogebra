@@ -80,8 +80,10 @@ public class SuggestionStatistics extends Suggestion {
 	protected void processCommand(AlgebraProcessor algebraProcessor, String cmd,
 			boolean isSymbolicMode) {
 		if (isSymbolicMode) {
+			LabelHiderCallback callback = new LabelHiderCallback();
+			callback.setStoreUndo(false);
 			algebraProcessor.processAlgebraCommand(
-					cmd, false, new LabelHiderCallback());
+					cmd, false, callback);
 		} else {
 			algebraProcessor.processAlgebraCommand(cmd, false);
 		}
