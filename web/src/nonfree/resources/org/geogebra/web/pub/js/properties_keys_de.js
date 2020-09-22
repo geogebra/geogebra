@@ -1719,7 +1719,7 @@ __GGB__keysVar["de"].menu = {
     "DoubleLineEquation": "(a x + b y + c)\xb2 = 0",
     "Down": "Nach unten",
     "Download": "Download",
-    "Download.3DPrint": "3D print (.stl)",
+    "Download.3DPrint": "3D Druck(.stl)",
     "Download.ColladaDae": "Collada (.dae)",
     "Download.ColladaHtml": "Collada (.html)",
     "Download.GeoGebraFile": "GeoGebra Datei (.ggb)",
