@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.main.App.ExportType;
-import org.geogebra.common.main.undo.ActionExecutor;
 import org.geogebra.common.main.undo.AppState;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.move.events.BaseEvent;
@@ -58,7 +57,7 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
  *
  */
 public class PageListController implements PageListControllerInterface,
-		MouseDownHandler, MouseMoveHandler, MouseUpHandler, TouchStartHandler, ActionExecutor,
+		MouseDownHandler, MouseMoveHandler, MouseUpHandler, TouchStartHandler,
 		TouchMoveHandler, TouchEndHandler, ScrollHandler, Cards, EventListener, EventRenderable {
 	/**
 	 * application {@link AppW}
