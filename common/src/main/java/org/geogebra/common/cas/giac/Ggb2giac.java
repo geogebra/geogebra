@@ -1178,8 +1178,12 @@ public class Ggb2giac {
 		// p("Prog.1","<<%0>>");
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
 
-		p("Q1.1","quartile1(%0)");
-		p("Q3.1","quartile3(%0)");
+
+		// return the median of that part of the list which fall at or below the list median
+		p("Q1.1","[[ggblist:=%0],when(length(ggblist) == 1,undef,when(min(ggblist)==median(ggblist),median(ggblist) ,median(select(x->x<median(ggblist),ggblist))))][1]");
+
+		// return the number q3 such that three-fourths of the list numbers fall at or below q3.
+		p("Q3.1","[[ggblist:=%0],when(length(ggblist) == 1,undef,when(max(ggblist)==median(ggblist),median(ggblist) ,median(select(x->x>median(ggblist),ggblist))))][1]");
 
 		p("RandomUniform.2", "exact(%0+rand(0,1)*(%1-%0))");
 		p("Random.2", "(%0+rand(%1-(%0)+1))"); // "RandomBetween"
