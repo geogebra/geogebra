@@ -16,8 +16,10 @@ import org.geogebra.common.util.debug.Log;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 
+import elemental2.core.Function;
 import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * Provides JavaScript scripting for objects and initializes the public API.
@@ -37,7 +39,22 @@ public class ScriptManagerW extends ScriptManager {
 		exporter.setGgbAPI(app.getGgbApi());
 		exporter.setScriptManager(this);
 
-		export(exporter);
+		export(bindMethods(exporter));
+	}
+
+	private JsPropertyMap<Object> bindMethods(ExportedApi exporter) {
+		JsPropertyMap<Object> toExport = JsPropertyMap.of();
+		JsPropertyMap<Object> exporterMap = Js.asPropertyMap(exporter);
+
+		exporterMap.forEach(key -> {
+			Object current = exporterMap.get(key);
+
+			if ("function".equals(Js.typeof(current))) {
+				toExport.set(key, Js.<Function>cast(current).bind(exporterMap));
+			}
+		});
+
+		return toExport;
 	}
 
 	public static native void runCallback(JavaScriptObject onLoadCallback) /*-{
@@ -214,7 +231,7 @@ public class ScriptManagerW extends ScriptManager {
 	/**
 	 * @param toExport API object
 	 */
-	public void export(ExportedApi toExport) {
+	public void export(JsPropertyMap<Object> toExport) {
 		String appletId = ((AppW) app).getAppletId();
 		Js.asPropertyMap(DomGlobal.window).set(appletId, toExport);
 		Js.asPropertyMap(DomGlobal.document).set(appletId, toExport);
