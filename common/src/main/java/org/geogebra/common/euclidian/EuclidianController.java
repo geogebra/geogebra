@@ -366,8 +366,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private ModeShape shapeMode;
 	private GPoint2D startPoint = new GPoint2D();
 	private boolean externalHandling;
-	private long lastMouseRelease;
-	private long lastTouchRelease;
+	private long lastPointerRelease;
 	private boolean animationButtonPressed = false;
 	private boolean textfieldHasFocus = false;
 	private MyButton pressedButton;
@@ -9137,21 +9136,21 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		widgetsToBackground();
 		view.hideSymbolicEditor();
-		if (penMode(mode)) {
-			getPen().handleMousePressedForPenMode(event);
-			return;
-		}
 
-		long last = event.getType() == PointerEventType.MOUSE
-				? this.lastMouseRelease : this.lastTouchRelease;
-		if (last + EuclidianConstants.DOUBLE_CLICK_DELAY > System
-				.currentTimeMillis() && lastMouseUpLoc != null
+		if (lastPointerRelease + EuclidianConstants.DOUBLE_CLICK_DELAY
+				> System.currentTimeMillis() && lastMouseUpLoc != null
 				&& MyMath.length(event.getX() - lastMouseUpLoc.x,
 						event.getY() - lastMouseUpLoc.y) <= 3) {
 			this.doubleClickStarted = true;
 		}
 
 		setMouseLocation(event);
+
+		if (penMode(mode)) {
+			getPen().handleMousePressedForPenMode(event);
+			return;
+		}
+
 		updateHits(event);
 
 		setMoveModeForFurnitures();
@@ -10140,11 +10139,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			wrapMouseclicked(control, 2, type);
 		}
 		this.doubleClickStarted = false;
-		if (type == PointerEventType.MOUSE) {
-			this.lastMouseRelease = System.currentTimeMillis();
-		} else {
-			this.lastTouchRelease = System.currentTimeMillis();
-		}
+		this.lastPointerRelease = System.currentTimeMillis();
+
 		int x = event.getX();
 		int y = event.getY();
 		this.setLastMouseUpLoc(new GPoint(x, y));
