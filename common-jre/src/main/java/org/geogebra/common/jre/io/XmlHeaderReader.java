@@ -14,6 +14,8 @@ import org.geogebra.common.jre.io.trasnformer.XmlExtractor;
  */
 public class XmlHeaderReader {
 
+    private InputStreamTransformer transformer;
+
     /**
      * Contains the extracted attributes.
      */
@@ -32,8 +34,6 @@ public class XmlHeaderReader {
             return subAppCode;
         }
     }
-
-    private InputStreamTransformer transformer;
 
     public XmlHeaderReader(XmlExtractor xmlExtractor) {
         this.transformer = new InputStreamTransformer(xmlExtractor);
