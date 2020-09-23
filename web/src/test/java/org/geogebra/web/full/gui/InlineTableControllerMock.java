@@ -14,4 +14,13 @@ public final class InlineTableControllerMock {
 		Mockito.when(mock.isInEditMode()).thenReturn(editMode);
 		return mock;
 	}
+
+	/**
+	 * @return controller in editing mode, with multiple cells selected
+	 */
+	public static InlineTableController getWithMultiCellSelection() {
+		InlineTableController mock = get(true);
+		Mockito.when(mock.isMultipleCellsSelection()).thenReturn(true);
+		return mock;
+	}
 }

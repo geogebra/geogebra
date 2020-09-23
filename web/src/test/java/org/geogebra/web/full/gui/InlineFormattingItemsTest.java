@@ -91,6 +91,17 @@ public class InlineFormattingItemsTest {
 	}
 
 	@Test
+	public void testMultiCellEditContextMenu() {
+		ArrayList<GeoElement> geos = new ArrayList<>();
+		geos.add(createTableInline(InlineTableControllerMock.getWithMultiCellSelection()));
+		List<String> expected = Arrays.asList(
+				"TEXTTOOLBAR", "ContextMenu.Font", "Link", "ContextMenu.textWrapping"
+		);
+
+		assertEquals(expected, contextMenu.getEntriesFor(geos));
+	}
+
+	@Test
 	public void testSingleInlineTableContextMenu() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTableInline(InlineTableControllerMock.get(false)));

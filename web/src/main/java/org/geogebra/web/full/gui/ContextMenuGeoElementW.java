@@ -181,7 +181,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		geos.add(getFocusedGroupElement());
 		InlineFormattingItems textitems = addInlineTextItems(geos);
 		textitems.addFormatItems();
-		textitems.addTableItemsIfNeeded();
+		if (!textitems.isMultipleCellSelection()) {
+			textitems.addTableItemsIfNeeded();
+		}
 		addLayerItem(geos);
 	}
 
@@ -198,6 +200,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		} else if (app.isWhiteboardActive()) {
 			InlineFormattingItems textItems = addInlineTextItems(getGeos());
 			textItems.addFormatItems();
+			if (textItems.isMultipleCellSelection()) {
+				return;
+			}
 			addCutCopyPaste();
 			textItems.addTableItemsIfNeeded();
 			if (editModeTable()) {

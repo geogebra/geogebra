@@ -92,7 +92,9 @@ public class InlineFormattingItems {
 		addFontSubmenu();
 		addHyperlinkItems();
 		addTextWrappingItem();
-		menu.addSeparator();
+		if (!isMultipleCellSelection()) {
+			menu.addSeparator();
+		}
 	}
 
 	private void addTextWrappingItem() {
@@ -141,7 +143,7 @@ public class InlineFormattingItems {
 		}
 	}
 
-	private void addTableItems() {
+	void addTableItems() {
 		final GeoInlineTable table = (GeoInlineTable) geos.get(0);
 		final InlineTableController controller = table.getFormatter();
 
@@ -199,6 +201,12 @@ public class InlineFormattingItems {
 	private boolean editModeTable(HasTextFormat hasTextFormat) {
 		return hasTextFormat instanceof InlineTableController
 				&& ((InlineTableController) hasTextFormat).isInEditMode();
+	}
+
+	boolean isMultipleCellSelection() {
+		return !inlines.isEmpty()
+				&& inlines.get(0) instanceof InlineTableController
+				&& ((InlineTableController) inlines.get(0)).isMultipleCellsSelection();
 	}
 
 	private void addHyperlinkItem(String labelTransKey) {
