@@ -443,6 +443,7 @@ public abstract class UndoManager {
 	 * @param args arguments
 	 */
 	public void storeUndoableAction(EventType type, String... args) {
+		app.setUnsaved();
 		storeActionWithSlideId(type, app.getSlideID(), args);
 		app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO));
 	}
