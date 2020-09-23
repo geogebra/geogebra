@@ -1566,18 +1566,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			// Application.debug("hasFixedDescendent, not deleting");
 			setUndefined();
 			updateRepaint();
-		} else if (!lockedObjectForDelete()) {
+		} else {
 			remove();
 			kernel.notifyRemoveGroup();
 		}
-	}
-
-	private boolean lockedObjectForDelete() {
-		// see APPS-2271 + APPS-1982
-		boolean isObjFixed = this instanceof GeoBoolean
-				? ((GeoBoolean) this).isCheckboxFixed()
-				: isLocked();
-		return (app.isApplet() && isObjFixed) || !selectionAllowed;
 	}
 
 	@Override
@@ -6393,6 +6385,15 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	public boolean hasGroup() {
 		return parentGroup != null;
+	}
+
+	/**
+	 * Check for moving and (in applets) deleting by tool.
+	 * Locked position may still allow changing value (checkbox, slider)
+	 * @return whether the element position is locked
+	 */
+	public boolean isLockedPosition() {
+		return isLocked();
 	}
 
 	/** Used by TraceDialog for "Trace as... value of/copy of */

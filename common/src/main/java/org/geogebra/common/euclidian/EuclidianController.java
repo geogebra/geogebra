@@ -2891,18 +2891,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return null;
 	}
 
-	/**
-	 * Delete all hit objects.
-	 * 
-	 * @param hits
-	 *            selected objects
-	 */
-	public void deleteAll(Hits hits) {
-		for (GeoElement hit : hits) {
-			hit.removeOrSetUndefinedIfHasFixedDescendent();
-		}
-	}
-
 	protected final GeoElementND[] polarLine(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
@@ -7413,7 +7401,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// or right-hand mouse button
 
 		boolean hitSliderNotBlob = ds.hitSliderNotBlob(mouseLoc.x, mouseLoc.y, hitThreshold);
-		return ((tempRightClick()) || !movedGeoNumeric.isSliderFixed()) && hitSliderNotBlob;
+		return ((tempRightClick()) || !movedGeoNumeric.isLockedPosition()) && hitSliderNotBlob;
 	}
 
 	protected boolean isMoveAudioSlider(int hitThreshold) {
@@ -7428,7 +7416,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected boolean isMoveCheckboxExpected() {
-		return (tempRightClick() || !movedGeoBoolean.isCheckboxFixed()
+		return (tempRightClick() || !movedGeoBoolean.isLockedPosition()
 				|| app.getMode() == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
 	}
 
@@ -7460,7 +7448,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * Also for iPads etc HTML5: don't allow dragging unless we have a GUI
 	 */
 	private boolean isCheckboxFixed(GeoBoolean geoBool) {
-		return geoBool.isCheckboxFixed()
+		return geoBool.isLockedPosition()
 				|| (app.isHTML5Applet() && app.isApplet());
 	}
 
