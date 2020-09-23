@@ -3,6 +3,8 @@ package org.geogebra.common.jre.io;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.CheckForNull;
 
@@ -71,12 +73,9 @@ public class XmlHeaderReader {
 
     @CheckForNull
     private String getHeader(String xml) {
-        int headerStartIndex = xml.indexOf("geogebra") - 1;
-        if (headerStartIndex >= 0) {
-            int headerEndIndex = xml.indexOf('>', headerStartIndex) + 1;
-            return xml.substring(headerStartIndex, headerEndIndex);
-        }
-        return null;
+        Pattern regex = Pattern.compile("<geogebra (.*?)>");
+        Matcher matcher = regex.matcher(xml);
+        return matcher.find() ? matcher.group(1) : null;
     }
 
     HeaderAttributes getHeaderAttributes(String header) {
@@ -88,13 +87,8 @@ public class XmlHeaderReader {
 
     @CheckForNull
     private String getAttributeValue(String attributeName, String header) {
-        String searchedExpression = attributeName + "=\"";
-        int attributeNameIndex = header.indexOf(searchedExpression);
-        if (attributeNameIndex >= 0) {
-            int attributeValueStartIndex = attributeNameIndex + searchedExpression.length();
-            int attributeValueEndIndex = header.indexOf('"', attributeValueStartIndex);
-            return header.substring(attributeValueStartIndex, attributeValueEndIndex);
-        }
-        return null;
+        Pattern regex = Pattern.compile(attributeName + "=\"(.*?)\"");
+        Matcher matcher = regex.matcher(header);
+        return matcher.find() ? matcher.group(1) : null;
     }
 }
