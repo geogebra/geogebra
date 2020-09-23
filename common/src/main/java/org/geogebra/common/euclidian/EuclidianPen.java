@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
@@ -502,6 +503,17 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	public boolean isFreehand() {
 		return false;
+	}
+
+	/**
+	 * Set the correct stroke style, and repaint if needed
+	 * @param g2 graphics
+	 */
+	public void setStyleAndRepaint(GGraphics2D g2) {
+		g2.setStroke(EuclidianStatic.getStroke(getPenSize(),
+				getPenLineStyle(), GBasicStroke.JOIN_ROUND));
+		g2.setColor(getPenColor());
+		repaintIfNeeded(g2);
 	}
 
 	/**

@@ -1508,7 +1508,7 @@ public class EuclidianViewW extends EuclidianView implements
 		EuclidianPen pen = getEuclidianController().getPen();
 		penCanvas.setCoordinateSpaceSize(getWidth(), getHeight());
 		penCanvas.setStroke(EuclidianStatic.getStroke(pen.getPenSize(),
-				GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND));
+				pen.getPenLineStyle(), GBasicStroke.JOIN_ROUND));
 		penCanvas.setColor(pen.getPenColor());
 	}
 }
