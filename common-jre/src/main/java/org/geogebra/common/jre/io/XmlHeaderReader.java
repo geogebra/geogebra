@@ -9,9 +9,15 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.jre.io.trasnformer.InputStreamTransformer;
 import org.geogebra.common.jre.io.trasnformer.XmlExtractor;
 
+/**
+ * Extracts attribute values from the header tag of the geogebra.xml
+ */
 public class XmlHeaderReader {
 
-    public class HeaderAttributes {
+    /**
+     * Contains the extracted attributes.
+     */
+    public static class HeaderAttributes {
 
         private String appCode;
         private String subAppCode;
@@ -33,6 +39,10 @@ public class XmlHeaderReader {
         this.transformer = new InputStreamTransformer(xmlExtractor);
     }
 
+    /**
+     * @param inputStream InputStream of the .ggb file
+     * @return new HeaderAttributes instance containing the app code of the app and sub-app
+     */
     @CheckForNull
     public HeaderAttributes getHeaderAttributes(InputStream inputStream) {
         Reader reader = transformer.getReader(inputStream);

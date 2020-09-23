@@ -11,6 +11,9 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.jre.io.MyXMLioJre;
 import org.geogebra.common.jre.io.file.InputStreamZipFile;
 
+/**
+ * Transforms the .ggb file's InputStream into a Reader
+ */
 public class InputStreamTransformer {
 
     private XmlExtractor xmlExtractor;
