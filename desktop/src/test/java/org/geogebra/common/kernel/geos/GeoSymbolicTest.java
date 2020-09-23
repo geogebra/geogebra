@@ -1273,7 +1273,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("l5 = {1,4,2,6,4}");
 		add("l6 = {2,4,4,7}");
 
-
 		t("Quartile1(l1)", "-12.5");
 		t("Quartile3(l1)", "16");
 		t("Quartile1(l2)", "1.5");
@@ -1286,7 +1285,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Quartile3(l5)", "5");
 		t("Quartile1(l6)", "3");
 		t("Quartile3(l6)", "5.5");
-
 
 		t("Quartile1({6,4,6})", "4");
 		t("Quartile3({6,4,6})", "6");
