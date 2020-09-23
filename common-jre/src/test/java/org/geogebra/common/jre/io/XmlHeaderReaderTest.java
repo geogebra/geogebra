@@ -15,6 +15,8 @@ public class XmlHeaderReaderTest {
                 + " subApp=\"cas\" platform=\"a\" id=\"5d4d7fa5-d91c-4019-8218-c02d5789c3aa\""
                 + "  xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/apps/xsd/ggb.xsd\""
                 + " xmlns=\"\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >";
-        assertThat(xmlHeaderReader.getSubAppCode(header), equalTo("cas"));
+        XmlHeaderReader.HeaderAttributes attributes = xmlHeaderReader.getHeaderAttributes(header);
+        assertThat(attributes.getAppCode(), equalTo("suite"));
+        assertThat(attributes.getSubAppCode(), equalTo("cas"));
     }
 }
