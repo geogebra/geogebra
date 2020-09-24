@@ -161,6 +161,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.GPredicate;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
@@ -10929,7 +10930,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (view != kernel.getLastAttachedEV()) {
 				return previewDrawable;
 			}
-			app.deleteSelectedObjects(false);
+			app.deleteSelectedObjects(false, new GPredicate<GeoElement>() {
+				@Override
+				public boolean test(GeoElement geo) {
+					return !app.isApplet() || !geo.isLockedPosition();
+				}
+			});
 			break;
 
 		default:
