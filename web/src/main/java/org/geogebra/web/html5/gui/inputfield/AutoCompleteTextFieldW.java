@@ -1633,6 +1633,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return null;
 	}
 
+	@Override
 	public boolean isInInputDialogRotate() {
 		return isInInputDialogRotate;
 	}

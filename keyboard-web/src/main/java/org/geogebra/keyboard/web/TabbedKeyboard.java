@@ -876,14 +876,17 @@ public class TabbedKeyboard extends FlowPanel
 				processAccent(text);
 			} else {
 
-				AutoCompleteTextField originalTextField = (AutoCompleteTextField) processField.getField();
+				AutoCompleteTextField originalTextField =
+						(AutoCompleteTextField) processField.getField();
 				if (originalTextField.isInInputDialogRotate()) {
 					String originalText = originalTextField.getText();
 					int caretPos = originalTextField.getCaretPosition();
-					if (originalText.contains(Unicode.DEGREE_STRING) || text.contains(Unicode.DEGREE_STRING)) {
+					if (originalText.contains(Unicode.DEGREE_STRING) || text
+							.contains(Unicode.DEGREE_STRING)) {
 						originalTextField.setText(originalTextField.getText());
 					} else {
-						originalTextField.setText(originalTextField.getText() + Unicode.DEGREE_STRING);
+						originalTextField
+								.setText(originalTextField.getText() + Unicode.DEGREE_STRING);
 					}
 					originalTextField.setCaretPosition(caretPos);
 				}
