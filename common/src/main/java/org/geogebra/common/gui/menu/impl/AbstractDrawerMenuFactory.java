@@ -27,6 +27,10 @@ abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 	}
 
 	String getMenuTitle() {
+		if(enableSwitchCalculator) {
+			return "GeoGebraCalculatorSuite";
+		}
+
 		switch (version) {
 		case GRAPHING:
 			return "GeoGebraGraphingCalculator";
