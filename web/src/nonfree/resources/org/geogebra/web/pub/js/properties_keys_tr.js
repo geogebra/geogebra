@@ -541,6 +541,8 @@ __GGB__keysVar["tr"].command = {
     "LineBisector": "OrtaDikme",
     "LineBisector.Syntax": "[ <Do\u011fru Par\xe7as\u0131> ]\n[ <Nokta>, <Nokta> ]",
     "LineBisector.Syntax3D": "[ <Do\u011fru Par\xe7as\u0131> ]\n[ <Nokta>, <Nokta> ]\n[ <Nokta>, <Nokta>, <Y\xf6n> ]",
+    "LineGraph": "LineGraph",
+    "LineGraph.Syntax": "LineGraph(<List of x-coordinates>, <List of y-coordinates>)",
     "Locus": "GeometrikYer",
     "Locus.Syntax": "[ <Geometrik Yer Do\u011frusu Olu\u015fturan Nokta>, <Nokta> ]\n[ <Geometrik Yer Do\u011frusu Olu\u015fturan Nokta>, <S\xfcrg\xfc> ]\n[ <E\u011fim Alan\u0131>, <Nokta> ]\n[ <f(x y)>, <Nokta> ]",
     "LocusEquation": "GeometrikYerDenklemi",

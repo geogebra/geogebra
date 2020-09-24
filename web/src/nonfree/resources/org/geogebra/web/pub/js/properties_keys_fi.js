@@ -541,6 +541,8 @@ __GGB__keysVar["fi"].command = {
     "LineBisector": "Keskinormaali",
     "LineBisector.Syntax": "[ <Jana> ]\n[ <Piste>, <Piste> ]",
     "LineBisector.Syntax3D": "[ <Jana> ]\n[ <Piste>, <Piste> ]\n[ <Piste>, <Piste>, <Suunta> ]",
+    "LineGraph": "Viivakaavio",
+    "LineGraph.Syntax": "LineGraph(<List of x-coordinates>, <List of y-coordinates>)",
     "Locus": "Ura",
     "Locus.Syntax": "[ <Uran piirt\xe4v\xe4 piste>, <Piste> ]\n[ <Uran piirt\xe4v\xe4 piste>, <Liukus\xe4\xe4din> ]\n[ <Kulmakerroinkentt\xe4>, <Piste> ]\n[ <f(x, y)>, <Piste> ]",
     "LocusEquation": "UraYht\xe4l\xf6",

@@ -541,6 +541,8 @@ __GGB__keysVar["pl"].command = {
     "LineBisector": "SymetralnaOdcinka",
     "LineBisector.Syntax": "[ <Odcinek> ]\n[ <Punkt>, <Punkt> ]",
     "LineBisector.Syntax3D": "[ <Odcinek> ]\n[ <Punkt>, <Punkt> ]\n[ <Punkt>, <Punkt>, <Kierunek> ]",
+    "LineGraph": "LineGraph",
+    "LineGraph.Syntax": "LineGraph(<List of x-coordinates>, <List of y-coordinates>)",
     "Locus": "MiejsceGeometryczne",
     "Locus.Syntax": "[ <Punkt Krzywej Domy\u015blnej>, <Punkt> ]\n[ <Punkt Krzywej Domy\u015blnej>, <Suwak> ]\n[ <Pole Kierunk\xf3w>, <Punkt> ]\n[ <f(x y)>, <Punkt> ]",
     "LocusEquation": "LocusEquation",

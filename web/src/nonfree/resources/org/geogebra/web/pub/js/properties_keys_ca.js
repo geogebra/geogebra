@@ -541,6 +541,8 @@ __GGB__keysVar["ca"].command = {
     "LineBisector": "Mediatriu",
     "LineBisector.Syntax": "[ <Segment> ]\n[ <Punt>, <Punt> ]",
     "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Punt>, <Punt> ]\n[ <Punt>, <Punt>, <Direcci\xf3> ]",
+    "LineGraph": "LineGraph",
+    "LineGraph.Syntax": "LineGraph(<List of x-coordinates>, <List of y-coordinates>)",
     "Locus": "LlocGeom\xe8tric",
     "Locus.Syntax": "[ <Punt del lloc geom\xe8tric>, <Punt base de la construcci\xf3> ]\n[ <Punt del lloc geom\xe8tric>, <Punt lliscant> ]\n[ <Camp de pendents>, <Punt> ]\n[ <f(x, y)>, <Punt> ]",
     "LocusEquation": "Equaci\xf3LlocGeom\xe8tric",

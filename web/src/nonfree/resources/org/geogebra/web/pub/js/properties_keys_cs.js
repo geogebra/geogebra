@@ -541,6 +541,8 @@ __GGB__keysVar["cs"].command = {
     "LineBisector": "OsaUsecky",
     "LineBisector.Syntax": "[ <\xdase\u010dka> ]\n[ <Bod>, <Bod> ]",
     "LineBisector.Syntax3D": "[ <\xdase\u010dka> ]\n[ <Bod>, <Bod> ]\n[ <Bod>, <Bod>, <Sm\u011br> ]",
+    "LineGraph": "SpojnicovyGraf",
+    "LineGraph.Syntax": "LineGraph(<List of x-coordinates>, <List of y-coordinates>)",
     "Locus": "MnozinaBodu",
     "Locus.Syntax": "[ <Bod tvo\u0159\xedc\xed mno\u017einu>, <Bod na objektu> ]\n[ <Bod tvo\u0159\xedc\xed mno\u017einu>, <Posuvn\xedk> ]\n[ <Sm\u011brov\xe9 pole>, <Bod> ]\n[ <f(x, y)>, <Bod> ]",
     "LocusEquation": "RovniceMnozinyBodu",
