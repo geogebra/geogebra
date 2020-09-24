@@ -382,7 +382,7 @@ public class PageListController implements PageListControllerInterface,
 				slides.add(createCardFromArchive(archive, pages, i));
 			}
 
-			app.loadFileWithoutErrorHandling(slides.get(0).getFile(), false);
+			app.loadGgbFile(slides.get(0).getFile(), false);
 			/// TODO this breaks MVC
 			app.getAppletFrame().getPageControlPanel()
 					.update();
