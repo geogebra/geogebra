@@ -92,6 +92,7 @@ public class InputPanelD extends JPanel
 				textComponent = new DynamicTextInputPane(app);
 				break;
 			case GeoGebraEditor:
+			case Rotate:
 				textComponent = new GeoGebraEditorPane(app, rows, columns);
 				((GeoGebraEditorPane) textComponent).setEditorKit("geogebra");
 				break;

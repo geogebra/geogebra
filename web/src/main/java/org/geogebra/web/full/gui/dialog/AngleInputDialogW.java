@@ -33,7 +33,7 @@ public class AngleInputDialogW extends InputDialogW {
 	 */
 	public AngleInputDialogW(AppW app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
-			boolean modal) {
+			boolean modal, boolean isInputDialogRotate) {
 		super(modal, app, true);
 		setInputHandler(handler);
 		setInitString(initString);
@@ -50,8 +50,13 @@ public class AngleInputDialogW extends InputDialogW {
 		rbPanel.add(rbCounterClockWise);
 		rbPanel.add(rbClockWise);
 
-		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false,
-				false, false, DialogType.GeoGebraEditor);
+		if (isInputDialogRotate) {
+			createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false,
+					false, false, DialogType.Rotate);
+		} else {
+			createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false,
+					false, false, DialogType.GeoGebraEditor);
+		}
 
 		VerticalPanel centerPanel = new VerticalPanel();
 		centerPanel.add(messagePanel);
@@ -62,6 +67,15 @@ public class AngleInputDialogW extends InputDialogW {
 
 		wrappedPopup.center();
 		inputPanel.getTextComponent().setFocus(true);
+	}
+
+	/**
+	 * Input Dialog for a GeoAngle object.
+	 */
+	public AngleInputDialogW(AppW app, String message, String title,
+			String initString, boolean autoComplete, InputHandler handler,
+			boolean modal) {
+		this(app, message, title, initString, autoComplete, handler, modal, false);
 	}
 
 	public boolean isCounterClockWise() {

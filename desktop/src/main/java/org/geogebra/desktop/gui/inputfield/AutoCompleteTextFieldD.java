@@ -1107,4 +1107,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 	public void setInputMode(InputMode type) {
 		// not needed
 	}
+
+	@Override
+	public boolean isInInputDialogRotate() {
+		return false;
+	}
 }

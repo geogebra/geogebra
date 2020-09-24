@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.Localization;
@@ -874,6 +875,18 @@ public class TabbedKeyboard extends FlowPanel
 			if (Accents.isAccent(text)) {
 				processAccent(text);
 			} else {
+
+				AutoCompleteTextField originalTextField = (AutoCompleteTextField) processField.getField();
+				if (originalTextField.isInInputDialogRotate()) {
+					String originalText = originalTextField.getText();
+					int caretPos = originalTextField.getCaretPosition();
+					if (originalText.contains(Unicode.DEGREE_STRING) || text.contains(Unicode.DEGREE_STRING)) {
+						originalTextField.setText(originalTextField.getText());
+					} else {
+						originalTextField.setText(originalTextField.getText() + Unicode.DEGREE_STRING);
+					}
+					originalTextField.setCaretPosition(caretPos);
+				}
 
 				// translate commands and functions as appropriate
 				if ("Integral".equals(text) || "Derivative".equals(text)) {

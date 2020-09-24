@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.dialog.TextEditPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -50,9 +51,11 @@ public class InputPanelW extends FlowPanel {
 	 *            number of rows
 	 * @param showSymbolPopupIcon
 	 *            whether to show symbol icon
+	 * @param type
+	 * 			  dialog type
 	 */
 	public InputPanelW(String initText, App app, int rows, int columns,
-			boolean showSymbolPopupIcon) {
+			boolean showSymbolPopupIcon, DialogType type) {
 
 		this.showSymbolPopup = showSymbolPopupIcon;
 
@@ -65,7 +68,11 @@ public class InputPanelW extends FlowPanel {
 			}
 			add(textAreaComponent);
 		} else {
-			textComponent = new AutoCompleteTextFieldW(columns, app);
+			if (type == DialogType.Rotate) {
+				textComponent = new AutoCompleteTextFieldW(columns, app, true);
+			} else {
+				textComponent = new AutoCompleteTextFieldW(columns, app);
+			}
 			textComponent.prepareShowSymbolButton(showSymbolPopup);
 			if (initText != null) {
 				textComponent.setText(initText);
@@ -81,6 +88,23 @@ public class InputPanelW extends FlowPanel {
 				atf.enableGGBKeyboard();
 			}
 		}
+	}
+
+	/**
+	 * @param initText
+	 *            initial text
+	 * @param app
+	 *            application
+	 * @param columns
+	 *            number of columns
+	 * @param rows
+	 *            number of rows
+	 * @param showSymbolPopupIcon
+	 *            whether to show symbol icon
+	 */
+	public InputPanelW(String initText, App app, int rows, int columns,
+			boolean showSymbolPopupIcon) {
+		this(initText, app, rows, columns, showSymbolPopupIcon, null);
 	}
 
 	/**
