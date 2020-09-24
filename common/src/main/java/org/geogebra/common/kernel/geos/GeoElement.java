@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
@@ -112,7 +113,7 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 
-import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.ZeroingWeak;
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -285,9 +286,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	private ExpressionNode definition;
 
 	private int defaultGeoType = -1;
+
 	/** parent algorithm */
-	@Weak
+	@ZeroingWeak
+	@Nullable
 	protected AlgoElement algoParent = null;
+
 	/** draw algorithm */
 	protected AlgoElement algoDraw = null;
 	/** directly dependent algos */
