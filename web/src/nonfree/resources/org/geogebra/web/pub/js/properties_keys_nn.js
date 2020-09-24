@@ -542,7 +542,7 @@ __GGB__keysVar["nn"].command = {
     "LineBisector.Syntax": "[ <Linjestykke> ]\n[ <Punkt>, <Punkt> ]",
     "LineBisector.Syntax3D": "[ <Linjestykke> ]\n[ <Punkt>, <Punkt> ]\n[ <Punkt>, <Punkt>, <Retning> ]",
     "LineGraph": "LineGraph",
-    "LineGraph.Syntax": "LineGraph(<List of x-coordinates>, <List of y-coordinates>)",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "GeometriskStad",
     "Locus.Syntax": "[ <Punkt p\xe5 geometrisk stad>, <Punkt> ]\n[ <Punkt p\xe5 geometrisk stad>, <Glidar> ]\n[ <Retningsdiagram>, <Punkt> ]\n[ <f(x, y)>, <Punkt> ]",
     "LocusEquation": "LikningForGeometriskStad",

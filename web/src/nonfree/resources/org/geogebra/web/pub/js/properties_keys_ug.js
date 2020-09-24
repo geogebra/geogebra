@@ -542,7 +542,7 @@ __GGB__keysVar["ug"].command = {
     "LineBisector.Syntax": "[ <Segment> ]\n[ <Point>, <Point> ]",
     "LineBisector.Syntax3D": "[ <\u0643\u06d0\u0633\u0649\u0643> ]\n[ <\u0646\u06c7\u0642\u062a\u0627>, <\u0646\u06c7\u0642\u062a\u0627> ]\n[ <\u0646\u06c7\u0642\u062a\u0627>, <\u0646\u06c7\u0642\u062a\u0627>, <\u064a\u06c6\u0646\u0649\u0644\u0649\u0634 \u06cb\u06d0\u0643\u062a\u0648\u0631> ]",
     "LineGraph": "LineGraph",
-    "LineGraph.Syntax": "LineGraph(<List of x-coordinates>, <List of y-coordinates>)",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "Locus",
     "Locus.Syntax": "[ <Point Creating Locus Line>, <Point> ]\n[ <Point Creating Locus Line>, <Slider> ]\n[ <Slopefield>, <Point> ]\n[ <f(x, y)>, <Point> ]",
     "LocusEquation": "LocusEquation",

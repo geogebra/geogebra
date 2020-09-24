@@ -542,7 +542,7 @@ __GGB__keysVar["zh-CN"].command = {
     "LineBisector.Syntax": "[ <\u7ebf\u6bb5> ]\n[ <\u70b91>, <\u70b92> ]",
     "LineBisector.Syntax3D": "[ <\u7ebf\u6bb5> ]\n[ <\u70b91>, <\u70b92> ]\n[ <\u70b91>, <\u70b92>, <\u65b9\u5411\u5411\u91cf> ]",
     "LineGraph": "LineGraph",
-    "LineGraph.Syntax": "LineGraph(<List of x-coordinates>, <List of y-coordinates>)",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "\u8f68\u8ff9",
     "Locus.Syntax": "[ <\u6784\u9020\u8f68\u8ff9\u7684\u70b9>, <\u63a7\u5236\u70b9> ]\n[ <\u6784\u9020\u8f68\u8ff9\u7684\u70b9>, <\u6ed1\u52a8\u6761> ]\n[ <\u659c\u7387\u573a>, <\u70b9> ]\n[ <f(x, y)>, <\u70b9> ]",
     "LocusEquation": "\u8f68\u8ff9\u65b9\u7a0b",

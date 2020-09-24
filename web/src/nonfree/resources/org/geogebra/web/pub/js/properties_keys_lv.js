@@ -542,7 +542,7 @@ __GGB__keysVar["lv"].command = {
     "LineBisector.Syntax": "[ <Nogrieznis> ]\n[ <Punkts>, <Punkts> ]",
     "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "LineGraph": "LineGraph",
-    "LineGraph.Syntax": "LineGraph(<List of x-coordinates>, <List of y-coordinates>)",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "Koordin\u0101ta",
     "Locus.Syntax": "[ <S\u0101kumpunkts>, <Punkts> ]\n[ <S\u0101kumpunkts>, <Sl\u012bdnis> ]\n[ <Virziena koeficients>, <Punkts> ]\n[ <f(x, y)>, <Punkts> ]",
     "LocusEquation": "LocusEquation",

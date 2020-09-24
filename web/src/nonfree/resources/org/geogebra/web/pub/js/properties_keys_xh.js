@@ -542,7 +542,7 @@ __GGB__keysVar["xh"].command = {
     "LineBisector.Syntax": "[ <IsijungquSomgca> ]\n[ <ichaphaza>, <ichaphaza> ]",
     "LineBisector.Syntax3D": "[ <isiqithi> ]\n[ <iChaphaza>, <iChaphaza> ]\n[ <iChaphaza>, <iChaphaza>, <iyangaphi> ]",
     "LineGraph": "LineGraph",
-    "LineGraph.Syntax": "LineGraph(<List of x-coordinates>, <List of y-coordinates>)",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "Indawo",
     "Locus.Syntax": "[ <IChaphaza elenza umgca weLocus>, <chaphaza> ]\n[ <IChaphaza elenza umgca weLocus>, <iSlider> ]\n[ <iSlopefield>, <Chaphaza> ]\n[ <f(x, y)>, <Chaphaza> ]",
     "LocusEquation": "IsivakalisiSendawo",

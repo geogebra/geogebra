@@ -542,7 +542,7 @@ __GGB__keysVar["es"].command = {
     "LineBisector.Syntax": "[ <Segmento> ]\n[ <Punto>, <Punto> ]",
     "LineBisector.Syntax3D": "[ <Segmento> ]\n[ <Punto>, <Punto> ]\n[ <Punto>, <Punto>, <Direcci\xf3n> ]",
     "LineGraph": "LineGraph",
-    "LineGraph.Syntax": "LineGraph(<List of x-coordinates>, <List of y-coordinates>)",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "LugarGeom\xe9trico",
     "Locus.Syntax": "[ <Punto que trazar\xe1 el lugar>, <Punto> ]\n[ <Punto que trazar\xe1 el lugar>, <Deslizador> ]\n[ <Campo de direcciones>, <Punto> ]\n[ <f(x, y)>, <Punto> ]",
     "LocusEquation": "Ecuaci\xf3nLugar",

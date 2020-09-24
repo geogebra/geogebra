@@ -542,7 +542,7 @@ __GGB__keysVar["et"].command = {
     "LineBisector.Syntax": "[ <L\xf5ik> ]\n[ <Punkt>, <Punkt> ]",
     "LineBisector.Syntax3D": "[ <L\xf5ik> ]\n[ <Punkt>, <Punkt> ]\n[ <Punkt>, <Punkt>, <Suund> ]",
     "LineGraph": "Kriipsdiagramm",
-    "LineGraph.Syntax": "LineGraph(<List of x-coordinates>, <List of y-coordinates>)",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "Lookus",
     "Locus.Syntax": "[ <Lookust tekitav punkt>, <Punkt> ]\n[ <Lookust tekitav punkt>, <Liugur> ]\n[ <T\xf5usuv\xe4li>, <Punkt> ]\n[ <f(x, y)>, <Punkt> ]",
     "LocusEquation": "LookuseV\xf5rrand",

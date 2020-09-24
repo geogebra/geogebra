@@ -542,7 +542,7 @@ __GGB__keysVar["ms"].command = {
     "LineBisector.Syntax": "[ <Segmen> ]\n[ <Titik>, <Titik> ]",
     "LineBisector.Syntax3D": "[ <Segmen> ]\n[ <Titik>, <Titik> ]\n[ <Titik>, <Titik>, <Arah> ]",
     "LineGraph": "LineGraph",
-    "LineGraph.Syntax": "LineGraph(<List of x-coordinates>, <List of y-coordinates>)",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "Lokus",
     "Locus.Syntax": "[ <Titik Mencipta Garis Lokus>, <Titik> ]\n[ <Titik Mencipta Garis Lokus>, <Gelongsor> ]\n[ <ArahLereng>, <Titik> ]\n[ <f(x, y)>, <Titik> ]",
     "LocusEquation": "PersamaanLokus",

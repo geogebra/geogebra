@@ -542,7 +542,7 @@ __GGB__keysVar["bs"].command = {
     "LineBisector.Syntax": "[ <Du\u017e> ]\n[ <Ta\u010dka>, <Ta\u010dka> ]",
     "LineBisector.Syntax3D": "[ <Du\u017e> ]\n[ <Ta\u010dka>, <Ta\u010dka> ]\n[ <Ta\u010dka>, <Ta\u010dka>, <Smjer> ]",
     "LineGraph": "LineGraph",
-    "LineGraph.Syntax": "LineGraph(<List of x-coordinates>, <List of y-coordinates>)",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "Lokus",
     "Locus.Syntax": "[ <Ta\u010dka  koja odre\u0111uje crtu lokusa>, <Ta\u010dka> ]\n[ <Ta\u010dka  koja odre\u0111uje crtu lokusa>, <Kliza\u010d> ]\n[ <Polje nagiba>, <Ta\u010dka> ]\n[ <f(x, y)>, <Ta\u010dka> ]",
     "LocusEquation": "Jedna\u010dinaLokusa",
