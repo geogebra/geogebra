@@ -113,6 +113,7 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 
+import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.ZeroingWeak;
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -138,6 +139,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	/** maximal line width */
 	public static final int MAX_LINE_WIDTH = 13;
 
+	@Weak
 	protected App app;
 	protected AppConfig appConfig;
 
