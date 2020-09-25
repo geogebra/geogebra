@@ -541,6 +541,8 @@ __GGB__keysVar["mr"].command = {
     "LineBisector": "\u0932\u0902\u092c\u0926\u0941\u092d\u093e\u091c\u0915",
     "LineBisector.Syntax": "[ <\u0930\u0947\u0937\u093e\u0916\u0902\u0921> ]\n[ <\u092c\u093f\u0902\u0926\u0942>, <\u092c\u093f\u0902\u0926\u0942> ]",
     "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
+    "LineGraph": "LineGraph",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "\u092c\u093f\u0902\u0926\u0942\u092a\u0925",
     "Locus.Syntax": "[ <Point Creating Locus Line>, <Point> ]\n[ <Point Creating Locus Line>, <Slider> ]\n[ <Slopefield>, <Point> ]\n[ <f(x, y)>, <Point> ]",
     "LocusEquation": "LocusEquation",

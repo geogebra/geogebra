@@ -541,6 +541,8 @@ __GGB__keysVar["de-AT"].command = {
     "LineBisector": "Streckensymmetrale",
     "LineBisector.Syntax": "[ <Strecke> ]\n[ <Punkt>, <Punkt> ]",
     "LineBisector.Syntax3D": "[ <Strecke> ]\n[ <Punkt>, <Punkt> ]\n[ <Punkt>, <Punkt>, <Richtung> ]",
+    "LineGraph": "Streckendiagramm",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "Ortslinie",
     "Locus.Syntax": "[ <Punkt Q der die Ortslinie erzeugt>, <Punkt P> ]\n[ <Punkt Q der die Ortslinie erzeugt>, <Schieberegler> ]\n[ <Richtungsfeld>, <Punkt> ]\n[ <f(x, y)>, <Punkt> ]",
     "LocusEquation": "Ortsliniengleichung",

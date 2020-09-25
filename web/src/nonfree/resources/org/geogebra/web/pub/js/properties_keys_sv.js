@@ -541,6 +541,8 @@ __GGB__keysVar["sv"].command = {
     "LineBisector": "Mittpunktsnormal",
     "LineBisector.Syntax": "[ <Str\xe4cka> ]\n[ <Punkt>, <Punkt> ]",
     "LineBisector.Syntax3D": "[ <Str\xe4cka> ]\n[ <Punkt>, <Punkt> ]\n[ <Punkt>, <Punkt>, <Riktning> ]",
+    "LineGraph": "LineGraph",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "GeometriskOrt",
     "Locus.Syntax": "[ <Punkt som ska skapa orten>, <Punkt> ]\n[ <Punkt som ska skapa orten>, <Glidare> ]\n[ <Riktningsf\xe4lt>, <Punkt> ]\n[ <f(x, y)>, <Punkt> ]",
     "LocusEquation": "GeometriskOrtEkvation",

@@ -541,6 +541,8 @@ __GGB__keysVar["vi"].command = {
     "LineBisector": "\u0110\u01b0\u1eddngTrungTr\u1ef1c",
     "LineBisector.Syntax": "[ <\u0110o\u1ea1n th\u1eb3ng> ]\n[ <\u0110i\u1ec3m>, <\u0110i\u1ec3m> ]",
     "LineBisector.Syntax3D": "[ <\u0111o\u1ea1n th\u1eb3ng> ]\n[ <\u0111i\u1ec3m>, <\u0111i\u1ec3m> ]\n[ <\u0111i\u1ec3m>, <\u0111i\u1ec3m>, <h\u01b0\u1edbng> ]",
+    "LineGraph": "LineGraph",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "QuyTich",
     "Locus.Syntax": "[ <\u0110i\u1ec3m t\u1ea1o qu\u1ef9 t\xedch \u0111\u01b0\u1eddng th\u1eb3ng>, <\u0110i\u1ec3m> ]\n[ <\u0110i\u1ec3m t\u1ea1o qu\u1ef9 t\xedch \u0111\u01b0\u1eddng th\u1eb3ng>, <Thanh tr\u01b0\u1ee3t> ]\n[ <H\u1ec7 s\u1ed1 g\xf3c>, <\u0110i\u1ec3m> ]\n[ <f(x, y)>, <\u0110i\u1ec3m> ]",
     "LocusEquation": "Ph\u01b0\u01a1ngTr\xecnhQu\u1ef9T\xedch",

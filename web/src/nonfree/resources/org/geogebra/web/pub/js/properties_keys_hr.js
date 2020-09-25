@@ -541,6 +541,8 @@ __GGB__keysVar["hr"].command = {
     "LineBisector": "SimetralaDu\u017eine",
     "LineBisector.Syntax": "[ <du\u017eina> ]\n[ <to\u010dka>, <to\u010dka> ]",
     "LineBisector.Syntax3D": "[ <du\u017eina> ]\n[ <to\u010dka>, <to\u010dka> ]\n[ <to\u010dka>, <to\u010dka>, <smjer> ]",
+    "LineGraph": "LineGraph",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "Lokus",
     "Locus.Syntax": "[ <to\u010dka koja odre\u0111uje crtu lokusa>, <to\u010dka> ]\n[ <to\u010dka koja odre\u0111uje crtu lokusa>, <kliza\u010d> ]\n[ <polje nagiba>, <to\u010dka> ]\n[ <f(x, y)>, <to\u010dka> ]",
     "LocusEquation": "Jednad\u017ebaLokusa",

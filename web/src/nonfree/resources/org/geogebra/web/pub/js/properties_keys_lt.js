@@ -541,6 +541,8 @@ __GGB__keysVar["lt"].command = {
     "LineBisector": "StatmenaKirstin\u0117",
     "LineBisector.Syntax": "[ <Atkarpa> ]\n[ <Ta\u0161kas>, <Ta\u0161kas> ]",
     "LineBisector.Syntax3D": "[ <Atkarpa> ]\n[ <Ta\u0161kas>, <Ta\u0161kas> ]\n[ <Ta\u0161kas>, <Ta\u0161kas>, <Kryptis> ]",
+    "LineGraph": "LineGraph",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "Hodografas",
     "Locus.Syntax": "[ <Ta\u0161kas apibr\u0117\u017eiantis hodograf\u0105>, <Ta\u0161kas> ]\n[ <Ta\u0161kas apibr\u0117\u017eiantis hodograf\u0105>, <Slankjuost\u0117> ]\n[ <Posvyrio laukas>, <Ta\u0161kas> ]\n[ <f(x, y)>, <Ta\u0161kas> ]",
     "LocusEquation": "HodografoLygtis",

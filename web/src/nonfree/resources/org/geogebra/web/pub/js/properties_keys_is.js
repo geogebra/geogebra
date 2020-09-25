@@ -541,6 +541,8 @@ __GGB__keysVar["is"].command = {
     "LineBisector": "Mi\xf0\xfeverill",
     "LineBisector.Syntax": "[ <L\xednustrik> ]\n[ <Punktur>, <Punktur> ]",
     "LineBisector.Syntax3D": "[ <L\xednustrik> ]\n[ <Punktur>, <Punktur> ]\n[ <Punktur>, <Punktur>, <\xc1tt> ]",
+    "LineGraph": "Leggjanet",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "Leg",
     "Locus.Syntax": "[ <Punktur sem b\xfdr til l\xednu legs>, <Punktur> ]\n[ <Punktur sem b\xfdr til l\xednu legs>, <Rennistika> ]\n[ <Stefnusvi\xf0>, <Punktur> ]\n[ <f(x, y)>, <Punktur> ]",
     "LocusEquation": "JafnaLegs",
