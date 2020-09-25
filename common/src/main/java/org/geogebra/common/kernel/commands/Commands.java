@@ -474,6 +474,8 @@ public enum Commands implements CommandsConstants,
 
 	StepGraph(TABLE_CHARTS),
 
+	LineGraph(TABLE_CHARTS),
+
 	ContingencyTable(TABLE_CHARTS),
 
 	// =============================================================

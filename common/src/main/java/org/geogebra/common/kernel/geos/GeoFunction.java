@@ -51,6 +51,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.cas.AlgoDerivative;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.properties.TableProperties;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
@@ -2606,7 +2607,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					ret = "?";
 				} else {
 					ret = substituteNumbers ? getFunction().toValueString(tpl)
-							: getFunction().toString(tpl);
+							: getParentAlgorithm().getDefinition(tpl);
 				}
 			}
 		} else {
@@ -2624,9 +2625,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		 */
 
 		if (tpl.hasType(StringType.LATEX)) {
-			if ("?".equals(ret)) {
-				ret = "?";
-			} else if ((Unicode.INFINITY + "").equals(ret)) {
+			if ((Unicode.INFINITY + "").equals(ret)) {
 				ret = "\\infty";
 			} else if ((Unicode.MINUS_INFINITY_STRING).equals(ret)) {
 				ret = "-\\infty";
@@ -2883,6 +2882,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
+		if (algoParent != null && algoParent.getClassName() == Commands.LineGraph) {
+			return DescriptionMode.DEFINITION;
+		}
 		if (hideDefinitionInAlgebra(getFunctionExpression())) {
 			return DescriptionMode.VALUE;
 		}

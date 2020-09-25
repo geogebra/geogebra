@@ -1831,6 +1831,21 @@ public class CommandsTest {
 		checkSize("tablesplit", 3, 2);
 	}
 
+	@Test
+	public void cmdLineGraph() {
+		t("f=LineGraph({1,2},{3,4})", "DataFunction[{1, 2}, {3, 4},x]");
+		t("Point(f)", "(1, 3)");
+		t("Tangent(f, (1,3))", "?");
+	}
+
+	@Test
+	public void cmdLineGraphInvalid() {
+		t("LineGraph({3,2},{3,4})", "?");
+		t("LineGraph({3,(4,5)},{3,4})", "?");
+		t("LineGraph({1,2},{3,?})", "?");
+		t("LineGraph({1,2},{3,Infinity})", "?");
+	}
+
 	private static void checkSize(String string, int cols, int rows) {
 		GDimension d = ((AlgoTableText) get(string).getParentAlgorithm())
 				.getSize();

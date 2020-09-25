@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.view.algebra.contextmenu.action;
 
-import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -18,12 +18,7 @@ public class DuplicateInputAction extends DefaultMenuAction<GeoElement> {
 	@Override
 	public void execute(GeoElement item, AppWFull app) {
 		RadioTreeItem input = algebraView.getInputTreeItem();
-		String dup;
-		if ("".equals(item.getDefinition(StringTemplate.defaultTemplate))) {
-			dup = item.getValueForInputBar();
-		} else {
-			dup = item.getDefinitionNoLabel(StringTemplate.editorTemplate);
-		}
+		String dup = AlgebraItem.getDuplicateFormulaForGeoElement(item);
 		RadioTreeItem currentNode = algebraView.getNode(item);
 		if (currentNode != null) {
 			currentNode.selectItem(false);

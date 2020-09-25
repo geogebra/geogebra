@@ -107,7 +107,7 @@ class InputBoxRenderer {
 
 	private StringTemplate getStringTemplateForLaTeX() {
 		if (stringTemplateForLaTeX == null) {
-			stringTemplateForLaTeX = StringTemplate.latexTemplate.makeStrTemplateForEditing();
+			stringTemplateForLaTeX = StringTemplate.latexTemplate;
 		}
 		return stringTemplateForLaTeX;
 	}

@@ -57,6 +57,7 @@ import org.geogebra.common.kernel.statistics.CmdInversePoisson;
 import org.geogebra.common.kernel.statistics.CmdInverseTDistribution;
 import org.geogebra.common.kernel.statistics.CmdInverseWeibull;
 import org.geogebra.common.kernel.statistics.CmdInverseZipf;
+import org.geogebra.common.kernel.statistics.CmdLineGraph;
 import org.geogebra.common.kernel.statistics.CmdLogNormal;
 import org.geogebra.common.kernel.statistics.CmdLogistic;
 import org.geogebra.common.kernel.statistics.CmdMAD;
@@ -159,6 +160,8 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 			return new CmdStickGraph(kernel);
 		case StepGraph:
 			return new CmdStepGraph(kernel);
+		case LineGraph:
+			return new CmdLineGraph(kernel);
 		case ResidualPlot:
 			return new CmdResidualPlot(kernel);
 		case FrequencyPolygon:
