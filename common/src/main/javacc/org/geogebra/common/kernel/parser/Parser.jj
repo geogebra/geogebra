@@ -42,6 +42,11 @@ the Free Software Foundation; either version 2 of the License, or
  * @version 10.4.2004
  */
 
+options {
+   STATIC = false;
+   JAVA_TEMPLATE_TYPE = "modern";
+}
+
 PARSER_BEGIN(Parser)
 package org.geogebra.common.kernel.parser;
 
