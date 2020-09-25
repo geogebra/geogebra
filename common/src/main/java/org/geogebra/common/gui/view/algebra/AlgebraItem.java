@@ -285,7 +285,8 @@ public class AlgebraItem {
 			if (!geo1.isAllowedToShowValue()) {
 				buildDefinitionString(geo1, builder, stringTemplate);
 			} else {
-				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
+				builder.clear();
+				builder.append(geo1.getAlgebraDescriptionPublic(stringTemplate));
 			}
 			return true;
 
@@ -293,8 +294,8 @@ public class AlgebraItem {
 			if (needsPacking(geo1)) {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
 			} else {
-				geo1.addLabelTextOrHTML(
-						geo1.getDefinitionDescription(stringTemplate), builder);
+				builder.clear();
+				builder.append(geo1.getAlgebraDescriptionPublic(stringTemplate));
 			}
 			return true;
 

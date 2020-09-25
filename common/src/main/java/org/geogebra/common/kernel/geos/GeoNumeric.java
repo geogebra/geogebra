@@ -1962,7 +1962,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	protected boolean mayShowDescriptionInsteadOfDefinitionNoAlgoParent() {
-		return false;
+		return true;
 	}
 
 	private void addAuralSliderValue(ScreenReaderBuilder sb) {
