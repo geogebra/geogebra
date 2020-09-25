@@ -541,6 +541,8 @@ __GGB__keysVar["hu"].command = {
     "LineBisector": "Szakaszfelez\u0151",
     "LineBisector.Syntax": "[ <Szakasz> ]\n[ <Pont>, <Pont> ]",
     "LineBisector.Syntax3D": "[ <Szakasz> ]\n[ <Pont>, <Pont> ]\n[ <Pont>, <Pont>, <Ir\xe1ny> ]",
+    "LineGraph": "LineGraph",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "M\xe9rtaniHely",
     "Locus.Syntax": "[ <Pont a m\xe9rtani hely kirajzol\xe1s\xe1hoz>, <Pont> ]\n[ <Pont a m\xe9rtani hely kirajzol\xe1s\xe1hoz>, <Cs\xfaszka> ]\n[ <Ir\xe1nymez\u0151>, <Pont> ]\n[ <f(x, y)>, <Pont> ]",
     "LocusEquation": "M\xe9rtanihelyEgyenlete",
