@@ -121,8 +121,13 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
-	public boolean isMultipleCellsSelection() {
-		return tableImpl.getSelection() != null && Js.isTruthy(tableImpl.getSelection().row1);
+	public boolean isSingleCellSelection() {
+		return tableImpl.getSelection() != null && Js.isFalsy(tableImpl.getSelection().row1);
+	}
+
+	@Override
+	public boolean hasSelection() {
+		return tableImpl.getSelection() != null;
 	}
 
 	@Override
