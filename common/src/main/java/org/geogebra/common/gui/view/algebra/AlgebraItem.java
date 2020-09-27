@@ -294,8 +294,13 @@ public class AlgebraItem {
 			if (needsPacking(geo1)) {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
 			} else {
-				builder.clear();
-				builder.append(geo1.getAlgebraDescriptionPublic(stringTemplate));
+				String appName =  geo1.getApp().getConfig().getAppName();
+				if (appName == "GeoGebraCASCalculator") {
+					builder.clear();
+					builder.append(geo1.getDefinitionDescription(stringTemplate));
+				} else {
+					geo1.addLabelTextOrHTML(geo1.getDefinitionDescription(stringTemplate), builder);
+				}
 			}
 			return true;
 
