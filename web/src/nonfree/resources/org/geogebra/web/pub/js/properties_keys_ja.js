@@ -542,7 +542,7 @@ __GGB__keysVar["ja"].command = {
     "LineBisector.Syntax": "[ <\u7dda\u5206> ]\n[ <\u70b9>, <\u70b9> ]",
     "LineBisector.Syntax3D": "[ <\u7dda\u5206> ]\n[ <\u70b9>, <\u70b9> ]\n[ <\u70b9>, <\u70b9>, <\u5411\u304d> ]",
     "LineGraph": "LineGraph",
-    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
+    "LineGraph.Syntax": "[ <x\u5ea7\u6a19\u306e\u30ea\u30b9\u30c8>, <y\u5ea7\u6a19\u306e\u30ea\u30b9\u30c8> ]",
     "Locus": "Locus",
     "Locus.Syntax": "[ <\u8ecc\u8de1\u306e\u70b9>, <\u70b9> ]\n[ <\u8ecc\u8de1\u306e\u70b9>, <\u30b9\u30e9\u30a4\u30c0\u30fc> ]\n[ <\u30d9\u30af\u30c8\u30eb\u5834>, <\u70b9> ]\n[ <f(x, y)>, <\u70b9> ]",
     "LocusEquation": "LocusEquation",
