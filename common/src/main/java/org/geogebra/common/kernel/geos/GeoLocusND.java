@@ -337,14 +337,16 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		// might occur if locus has changed no of segments/points
 		if (myPointList.size() == 0) {
 			P.setUndefined();
+			return;
 		} else if (myPointList.size() == 1) {
 			P.set((GeoPointND) myPointList.get(0));
+			return;
 		} else if (n >= myPointList.size() || n < 0) {
 			n = (n < 0) ? 0 : myPointList.size() - 1;
-			MyPoint locusPoint = myPointList.get(n);
-			MyPoint locusPoint2 = myPointList.get((n + 1) % myPointList.size());
-			P.set(t, 1 - t, locusPoint, locusPoint2);
 		}
+		MyPoint locusPoint = myPointList.get(n);
+		MyPoint locusPoint2 = myPointList.get((n + 1) % myPointList.size());
+		P.set(t, 1 - t, locusPoint, locusPoint2);
 	}
 
 	/**
