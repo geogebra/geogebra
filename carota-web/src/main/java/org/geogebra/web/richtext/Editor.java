@@ -8,28 +8,6 @@ public interface Editor {
 
 	void reload();
 
-	interface EditorChangeListener {
-
-		/**
-		 * Called 0.5s after the last change in the editor state
-		 * @param content the JSON encoded content of the editor
-		 */
-		void onContentChanged(String content);
-
-		/**
-		 * Called instantly on editor state change
-		 *
-		 * @param minHeight
-		 *            minimum height in pixels
-		 */
-		void onSizeChanged(int minHeight);
-
-		/**
-		 * Called on selection change
-		 */
-		void onSelectionChanged();
-	}
-
 	/**
 	 * Return the GWT widget that represents the editor.
 	 *
@@ -98,6 +76,10 @@ public interface Editor {
 
 	String getHyperlinkRangeText();
 
+	String getSelectionRangeText();
+
+	void setSelection(String text);
+
 	void setHyperlinkUrl(String input);
 
 	String urlByCoordinate(int x, int y);
@@ -105,4 +87,6 @@ public interface Editor {
 	void switchListTo(String listType);
 
 	String getListStyle();
+
+	int getMinHeight();
 }

@@ -42,8 +42,6 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
-import org.geogebra.common.kernel.parser.FunctionParser;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
@@ -78,6 +76,9 @@ public class ExpressionNode extends ValidExpression
 	private boolean forceVector = false;
 	private boolean forcePoint = false;
 	private boolean forceFunction = false;
+	private boolean forceInequality = false;
+	private boolean forceSurface = false;
+	private boolean wasInterval = false;
 
 	/** true if this holds text and the text is in LaTeX format */
 	public boolean holdsLaTeXtext = false;
@@ -111,6 +112,7 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public ExpressionNode(Kernel kernel, ExpressionValue left,
 			Operation operation, ExpressionValue right) {
+
 		this.kernel = kernel;
 		loc = kernel.getLocalization();
 		this.operation = operation;
@@ -290,19 +292,22 @@ public class ExpressionNode extends ValidExpression
 
 		if (lev != null) {
 			newNode = new ExpressionNode(kernel1, lev, operation, rev);
-			newNode.leaf = leaf;
 		} else {
 			// something went wrong
 			return null;
 		}
+		newNode.leaf = leaf;
+		copyAttributesTo(newNode);
+		return newNode;
+	}
 
-		// set member vars that are not set by constructors
-		newNode.forceVector = forceVector;
-		newNode.forcePoint = forcePoint;
-		newNode.forceFunction = forceFunction;
-		newNode.brackets = brackets;
-		newNode.secretMaskingAlgo = secretMaskingAlgo;
-		// Application.debug("getCopy() output: " + newNode);
+	/**
+	 * @return copy of this, keeping left and right subtrees
+	 */
+	public ExpressionNode shallowCopy() {
+		ExpressionNode newNode = new ExpressionNode(kernel, left, operation, right);
+		newNode.leaf = leaf;
+		copyAttributesTo(newNode);
 		return newNode;
 	}
 
@@ -462,18 +467,17 @@ public class ExpressionNode extends ValidExpression
 		// resolve left wing
 		if (left.isVariable()) {
 			left = ((Variable) left).resolveAsExpressionValue(
-					info.getSymbolicMode(), info.isSimplifiedMultiplication());
+					info.getSymbolicMode(), info.isMultipleUnassignedAllowed());
 			if (operation == Operation.POWER
 					|| operation == Operation.FACTORIAL) {
 				fixPowerFactorial(Operation.MULTIPLY);
 				fixPowerFactorialTrig();
-			}
-			if (operation == Operation.SQRT_SHORT) {
+			} else if (operation == Operation.SQRT_SHORT) {
 				fixSqrtShort(Operation.MULTIPLY);
-			}
-			if (operation == Operation.MULTIPLY &&  isConstantDouble(right, Kernel.PI_180)) {
+			} else if (operation == Operation.MULTIPLY &&  isConstantDouble(right, Kernel.PI_180)) {
 				fixMultiplyDeg();
 			}
+			left = groupPowers(left);
 		} else {
 			left.resolveVariables(info);
 		}
@@ -482,11 +486,51 @@ public class ExpressionNode extends ValidExpression
 		if (right != null) {
 			if (right.isVariable()) {
 				right = ((Variable) right).resolveAsExpressionValue(
-						info.getSymbolicMode(), info.isSimplifiedMultiplication());
+						info.getSymbolicMode(), info.isMultipleUnassignedAllowed());
+				right = groupPowers(right);
 			} else {
 				right.resolveVariables(info);
 			}
 		}
+	}
+
+	private static ExpressionValue groupPowers(ExpressionValue left) {
+		if (left.wrap().getOperation() == Operation.MULTIPLY) {
+			ArrayList<ExpressionValue> factors = new ArrayList<>();
+			left.wrap().collectFactors(factors);
+			if (factors.size() > 1) {
+
+				ExpressionValue currentVar = null;
+				ExpressionValue product = null;
+				int currentPower = 0;
+				for (ExpressionValue factor : factors) {
+					if (currentVar == null) {
+						currentVar = factor;
+						currentPower = 1;
+					} else if (isSameVar(currentVar, factor)) {
+						currentPower++;
+					} else {
+						product = buildProduct(currentVar.wrap().power(currentPower), product);
+						currentVar = factor;
+						currentPower = 1;
+					}
+				}
+				product = buildProduct(currentVar.wrap().power(currentPower), product);
+				return product;
+			}
+		}
+		return left;
+	}
+
+	private static boolean isSameVar(ExpressionValue a, ExpressionValue b) {
+		return a.unwrap() instanceof FunctionVariable
+				&& b.unwrap() instanceof FunctionVariable
+				&& a.toString(StringTemplate.xmlTemplate).equals(
+						b.toString(StringTemplate.xmlTemplate));
+	}
+
+	private static ExpressionValue buildProduct(ExpressionNode power, ExpressionValue product) {
+		return product == null ? power : power.multiply(product);
 	}
 
 	/**
@@ -852,13 +896,14 @@ public class ExpressionNode extends ValidExpression
 			right = right.traverse(t);
 		}
 
-		// if we did some replacement in a leaf,
-		// we might need to update the leaf flag (#3512)
-		ExpressionNode rewrap = unwrap().wrap();
-		if (isSecret()) {
-			rewrap.secretMaskingAlgo = this.secretMaskingAlgo;
+		if (isLeaf() && left != null && left.isExpressionNode()) {
+			ExpressionNode leftNode = left.wrap();
+			right = leftNode.right;
+			left = leftNode.left;
+			leaf = leftNode.leaf;
+			operation = leftNode.operation;
 		}
-		return rewrap;
+		return this;
 	}
 
 	@Override
@@ -1209,6 +1254,34 @@ public class ExpressionNode extends ValidExpression
 	 */
 	final public boolean isForcedFunction() {
 		return forceFunction;
+	}
+
+	/**
+	 * Force to evaluate to inequality
+	 */
+	public void setForceInequality() {
+		forceInequality = true;
+	}
+
+	/**
+	 * @return true iff forced to be an inequality
+	 */
+	final public boolean isForceInequality() {
+		return forceInequality;
+	}
+
+	/**
+	 * remember if was interval
+	 */
+	public void setWasInterval() {
+		wasInterval = true;
+	}
+
+	/**
+	 * @return true iff was interval
+	 */
+	final public boolean wasInterval() {
+		return wasInterval;
 	}
 
 	/**
@@ -3309,97 +3382,6 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
-	 * Builds product of two expressions
-	 * 
-	 * @param left
-	 *            left factor
-	 * @param right
-	 *            right factor
-	 * @param kernel
-	 *            kernel
-	 * @param giacParsing
-	 *            whether this is from GIAC
-	 * @return product of factors
-	 */
-	public static ExpressionValue multiplySpecial(ExpressionValue left,
-			ExpressionValue right, Kernel kernel, boolean giacParsing) {
-		String leftImg;
-		App app = kernel.getApplication();
-
-		// sin x in GGB is function application if "sin" is not a variable
-		if (left instanceof Variable) {
-			leftImg = left.toString(StringTemplate.defaultTemplate);
-			Operation op = app.getParserFunctions().getSingleArgumentOp(leftImg);
-			if (op != null) {
-				return new ExpressionNode(kernel, right, op, null);
-
-			}
-			if (leftImg.startsWith("log_")
-					&& kernel.lookupLabel(leftImg) == null) {
-				ExpressionValue index = FunctionParser.getLogIndex(leftImg,
-						kernel);
-
-				if (index != null) {
-					return new ExpressionNode(kernel, index, Operation.LOGB,
-							right);
-				}
-			}
-			// sin^2 x
-		} else if (left instanceof ExpressionNode
-				&& ((ExpressionNode) left).getOperation() == Operation.POWER
-				&& ((ExpressionNode) left).getLeft() instanceof Variable) {
-			leftImg = ((ExpressionNode) left).getLeft()
-					.toString(StringTemplate.defaultTemplate);
-			Operation op = app.getParserFunctions().getSingleArgumentOp(leftImg);
-			if (op != null) {
-				ExpressionValue exponent = ((ExpressionNode) left).getRight()
-						.unwrap();
-				if (exponent.isConstant()
-						&& DoubleUtil.isEqual(-1, exponent.evaluateDouble())) {
-					return kernel.inverseTrig(op, right);
-				}
-				return new ExpressionNode(kernel, right, op, null)
-						.power(exponent);
-
-			}
-			// x * sin x in GGB is function applied on the right if "sin" is not
-			// a variable
-			// a * b * f -- check if b*f needs special handling
-		} else if (left instanceof ExpressionNode && (((ExpressionNode) left)
-				.getOperation() == Operation.MULTIPLY)) {
-			ExpressionValue bf = multiplySpecial(
-					((ExpressionNode) left).getRight(), right, kernel,
-					giacParsing);
-			return bf == null ? null
-					: new ExpressionNode(kernel,
-							((ExpressionNode) left).getLeft(),
-							Operation.MULTIPLY, bf);
-			// +-b * f is parsed as (b +- ()) *f
-		} else if (left instanceof ExpressionNode
-				&& (((ExpressionNode) left).getOperation() == Operation.PLUSMINUS)
-				&& (((ExpressionNode) left).getRight() instanceof MyNumberPair)) {
-			ExpressionValue bf = multiplySpecial(((ExpressionNode) left).getLeft(), right, kernel,
-					giacParsing);
-			return bf == null ? null
-					: new ExpressionNode(kernel, bf, Operation.PLUSMINUS,
-							((ExpressionNode) left).getRight());
-		}
-
-		if (giacParsing) {
-			// (a)(b) in Giac is function application
-			if (left instanceof Variable) {
-				Command ret = new Command(kernel,
-						left.toString(StringTemplate.defaultTemplate), true,
-						true);
-				ret.addArgument(right.wrap());
-				return ret;
-				// c*(a)(b) in Giac: function applied on right subtree
-			}
-		}
-		return null;
-	}
-
-	/**
 	 * @return true if the ExpressionNode is a GeoSegment on even power
 	 */
 	public boolean isSegmentSquare() {
@@ -3530,22 +3512,30 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	// collect factors of expression recursively
-	private void collectFactors(ArrayList<ExpressionNode> factors) {
+	private void collectFactorCopies(ArrayList<ExpressionNode> factorCopies) {
+		ArrayList<ExpressionValue> factors = new ArrayList<>();
+		collectFactors(factors);
+		for (ExpressionValue factor: factors) {
+			factorCopies.add(factor.deepCopy(kernel).wrap());
+		}
+	}
+
+	private void collectFactors(ArrayList<ExpressionValue> factors) {
 		if (!getOperation().equals(Operation.MULTIPLY)) {
-			factors.add(deepCopy(kernel));
+			factors.add(this);
 			return;
 		}
 
 		if (left instanceof ExpressionNode) {
 			((ExpressionNode) left).collectFactors(factors);
 		} else if (left != null) {
-			factors.add(left.deepCopy(kernel).wrap());
+			factors.add(left);
 		}
 
 		if (right instanceof ExpressionNode) {
 			((ExpressionNode) right).collectFactors(factors);
 		} else if (right != null) {
-			factors.add(right.deepCopy(kernel).wrap());
+			factors.add(right);
 		}
 	}
 
@@ -3554,7 +3544,7 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public ArrayList<ExpressionNode> getFactorsWithoutPow() {
 		ArrayList<ExpressionNode> factors = new ArrayList<>();
-		collectFactors(factors);
+		collectFactorCopies(factors);
 		ArrayList<ExpressionNode> factorsWithoutPow = new ArrayList<>(
 				factors.size());
 		if (!factors.isEmpty()) {
@@ -3626,6 +3616,10 @@ public class ExpressionNode extends ValidExpression
 			String leftS = left.isExpressionNode()
 					? left.wrap().toFractionStringFlat(tpl, locale)
 					: left.toValueString(tpl);
+			if (leftS.startsWith("-")) {
+				return "-" + tpl.divideString(left, right, leftS.substring(1),
+						right.toValueString(tpl), true, locale);
+			}
 			return tpl.divideString(left, right, leftS,
 					right.toValueString(tpl), true, locale);
 		}
@@ -3666,28 +3660,34 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * Check whether denominator and numerator are both independent integers
 	 * 
-	 * @return whether is a simple fraction like 7/2 or -1/2
+	 * @return whether is a simple fraction like 7/2 or (-1)/2 or -(1/2)
 	 */
 	public boolean isSimpleFraction() {
-		if (operation == Operation.DIVIDE) {
-			ExpressionValue leftUnsigned = left.unwrap();
-			if (left.isExpressionNode()
-					&& getLeftTree().getOperation() == Operation.MULTIPLY
-					&& ExpressionNode.isConstantDouble(getLeftTree().getLeft(),
-							-1)) {
-				leftUnsigned = getLeftTree().getRight();
+		ExpressionValue unsigned = getUnsigned(this);
+		return unsigned.isExpressionNode() && ((ExpressionNode) unsigned).isUnsignedFraction();
+	}
 
-			}
+	private boolean isUnsignedFraction() {
+		if (operation == Operation.DIVIDE) {
+			ExpressionValue leftUnsigned = getUnsigned(left);
 			if (leftUnsigned instanceof MyDouble
 					&& right.unwrap() instanceof MyDouble) {
 				double lt = left.evaluateDouble();
 				double rt = right.evaluateDouble();
-				if (DoubleUtil.isInteger(lt) && DoubleUtil.isInteger(rt)) {
-					return true;
-				}
+				return DoubleUtil.isInteger(lt) && DoubleUtil.isInteger(rt);
 			}
 		}
 		return false;
+	}
+
+	private ExpressionValue getUnsigned(ExpressionValue expr) {
+		if (expr.isExpressionNode()
+				&& expr.wrap().getOperation() == Operation.MULTIPLY
+				&& ExpressionNode.isConstantDouble(expr.wrap().getLeft(),
+				-1)) {
+			return expr.wrap().getRight();
+		}
+		return expr;
 	}
 
 	/**
@@ -3712,7 +3712,7 @@ public class ExpressionNode extends ValidExpression
 			return false;
 		}
 		if ((unwrap instanceof MyDouble && !(unwrap instanceof FunctionVariable))
-				|| unwrap instanceof GeoNumeric) {
+				|| (unwrap instanceof GeoNumeric && !(unwrap instanceof GeoDummyVariable))) {
 			double val = evaluateDouble();
 			return MyDouble.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
 					&& !DoubleUtil.isEqual(val, Math.E);
@@ -3743,5 +3743,30 @@ public class ExpressionNode extends ValidExpression
 		double evaluatedRight = getRight().evaluateDouble();
 		boolean isRightDeg = MyDouble.exactEqual(evaluatedRight, MyMath.DEG);
 		return isLeftMinusOne || isRightDeg;
+	}
+
+	public void setForceSurfaceCartesian() {
+		this.forceSurface = true;
+	}
+
+	public boolean isForceSurface() {
+		return forceSurface;
+	}
+
+	/**
+	 * Copy all attributes except for those set in constructor and the leaf flag
+	 *
+	 * @param newNode node that should receive the attributes
+	 */
+	public void copyAttributesTo(ExpressionNode newNode) {
+		newNode.forceVector = forceVector;
+		newNode.forcePoint = forcePoint;
+		newNode.forceFunction = forceFunction;
+		newNode.forceInequality = forceInequality;
+		newNode.forceSurface = forceSurface;
+		newNode.brackets = brackets;
+		newNode.secretMaskingAlgo = secretMaskingAlgo;
+		newNode.wasInterval = wasInterval;
+		newNode.holdsLaTeXtext = holdsLaTeXtext;
 	}
 }

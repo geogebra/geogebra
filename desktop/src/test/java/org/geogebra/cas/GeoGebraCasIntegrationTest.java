@@ -559,67 +559,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 
 	@Test
 	public void complexNumbers() {
-		t("(5 + 3  \u03af) + Conjugate(5 + 3  \u03af)", "10");
-	}
-
-	/* Coefficients */
-
-	/* CompleteSquare */
-
-	@Test
-	public void completeSquare_0() {
-		t("CompleteSquare[3 x^4 + x^2]", "3 * (x^(2) + 1 / 6)^(2) - 1 / 12");
-	}
-
-	@Test
-	public void completeSquare_1() {
-		t("CompleteSquare[x^4+x^2+1]", "(x^(2) + 1 / 2)^(2) + 3 / 4");
-	}
-
-	@Test
-	public void completeSquare_2() {
-		t("CompleteSquare[x^6+x^3]", "(x^(3) + 1 / 2)^(2) - 1 / 4");
-	}
-
-	@Test
-	public void completeSquare_3() {
-		t("CompleteSquare[x^6+x^3+1]", "(x^(3) + 1 / 2)^(2) + 3 / 4");
-	}
-
-	@Test
-	public void completeSquare_4() {
-		t("CompleteSquare[-9x^12-8x^6-9]", "-9 * (x^(6) + 4 / 9)^(2) - 65 / 9");
-	}
-
-	@Test
-	public void completeSquare_5() {
-		t("CompleteSquare[(-6 x^18 - 9x^9 + 2)]",
-				"-6 * (x^(9) + 3 / 4)^(2) + 43 / 8");
-	}
-
-	@Test
-	public void completeSquare_6() {
-		t("CompleteSquare[(-6 x^2 - 9x + 2)]", "-6 * (x + 3 / 4)^(2) + 43 / 8");
-	}
-
-	@Test
-	public void completeSquare_7() {
-		t("CompleteSquare[-10x^7+3]", "?");
-	}
-
-	@Test
-	public void completeSquare_8() {
-		t("CompleteSquare[((-9) * x^(10)) + 4]", "-9 * x^(10) + 4");
-	}
-
-	@Test
-	public void completeSquare_9() {
-		t("CompleteSquare[-3x^2+5x+8]", "-3 * (x - 5 / 6)^(2) + 121 / 12");
-	}
-
-	@Test
-	public void completeSquare_10() {
-		t("CompleteSquare[3x^2+5x+8]", "3 * (x + 5 / 6)^(2) + 71 / 12");
+		t("(5 + 3  \u03af) + conjugate(5 + 3  \u03af)", "10");
 	}
 
 	/* CommonDenomiator */
@@ -1072,8 +1012,8 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 
 	@Test
 	public void solve_OneVariableVC_10() {
-		t("Solve[0.5 N0 = N0 exp(-0.3 t), t]", "{t = 10 / 3 * log(2)}",
-				"{t = (10 * log(2)) / 3}");
+		t("Solve[0.5 N0 = N0 exp(-0.3 t), t]", "{t = 10 / 3 * ln(2)}",
+				"{t = (10 * ln(2)) / 3}");
 	}
 
 	@Test
@@ -1089,17 +1029,6 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	}
 
 	/* Trigonometric Problems */
-
-	@Test
-	public void solve_Trig_0() {
-		// "{x = (4 * k_INDEX * pi - pi) / 4}"
-		s("Solve[3 * tan(x) + 3 = 0]", "{x = k_INDEX * " + Unicode.PI_STRING
-				+ " - 1 / 4 * " + Unicode.PI_STRING + "}");
-		s("Solve[e^(-x/4)*(sin(x)+4*cos(x))]",
-				"{x = k_INDEX * " + Unicode.PI_STRING + " - tan"
-						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(4)}");
-		// "{x = k_INDEX * " + Unicode.PI_STRING + " - arctan(4)}");
-	}
 
 	@Test
 	public void solve_Trig_1() {
@@ -1900,91 +1829,16 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
 		t("P := (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))",
 				"(0, (-sqrt(2 * sqrt(10) + 3) + 3) / 2)");
-		t("Tangent[P, c]",
-				"{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2, y = 5.558213948645 * x - 0.02680674287356}",
-				"{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2, y = 5.558213948644 * x - 0.02680674287311}",
-				"{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2, y = 5.558213948645 * x - 0.02680674287353}",
-				"{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2, y = 5.558213948644 * x - 0.02680674287309}",
-				"{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2, y = 5.558213948645 * x - 0.02680674287352}");
+		t("First[Tangent[P, c]]", "{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2}");
+		// this is always numeric, the 13th digit changed multiple times with new Giac
+		t("Numeric(Last[Tangent[P, c]],12)",	"{y = 5.55821394864 * x - 0.026806742873}",
+				"{y = 5.55821394864 * x - 0.0268067428731}");
 	}
-
-	@Test
-	public void tangent_1254() {
-		t("Tangent[(0.2, 10), sqrt(1 - x^2)]",
-				"y = (-sqrt(6)) / 12 * x + 5 * sqrt(6) / 12",
-				"y = (-1) / 5 * sqrt(24 / 25)^(-1) * (x - 1 / 5) + sqrt(24 / 25)",
-				"y = (((-sqrt(6))) / 12 * x) + (5 * sqrt(6) / 12)");
-	}
-
-	@Test
-	public void tangent_1255() {
-		t("Tangent[0.2, sqrt(1 - x^2)]",
-				"y = (-sqrt(6)) / 12 * x + 5 * sqrt(6) / 12",
-				"y = (-1) / 5 * sqrt(24 / 25)^(-1) * (x - 1 / 5) + sqrt(24 / 25)",
-				"y = (((-sqrt(6))) / 12 * x) + (5 * sqrt(6) / 12)");
-	}
-
-	@Test
-	public void tangent_1256() {
-		t("Tangent[a, sqrt(1 - x^2)]",
-				"y = (a * sqrt(-a^(2) + 1) * x - sqrt(-a^(2) + 1)) / (a^(2) - 1)",
-				"y = -a * sqrt(1 - a^(2))^(-1) * (x - a) + sqrt(1 - a^(2))",
-				"y = (((a * sqrt((-a^(2)) + 1)) * x) - sqrt((-a^(2)) + 1)) / (a^(2) - 1)");
-	}
-
-	@Test
-	public void tangent_1257() {
-		t("Tangent[(1 / sqrt(2), 1 / sqrt(2)), x^2 + y^2 = 1]",
-				"{y = -x + sqrt(2)}");
-	}
-
-	@Test
-	public void tangent_1258() {
-		t("Tangent[(1, 0), x^2 + y^2 = 1]", "{x = 1}");
-	}
-
-	@Test
-	public void tangent_1259() {
-		t("Tangent[(1, 0), x^3 + y^3 = 1]", "{x = 1}");
-	}
-
-	@Test
-	public void tangent_1260() {
-		t("Tangent[(1, 1), x^3 + y^3 = 1]", "{x = 1, y = 1}", "{y = 1, x = 1}");
-	}
-
-	@Test
-	public void tangent_1261() {
-		t("Tangent[(a, sqrt(1 - a^2)), x^2 + y^2 = 1]",
-				"{y = a * sqrt(-a^(2) + 1) / (a^(2) - 1) * x - sqrt(-a^(2) + 1) / (a^(2) - 1)}");
-	}
-
-	@Test
-	public void tangent_1262() {
-		t("Tangent[(a, cbrt(1 - a^3)), x^3 + y^3 = 1]",
-				"{y = a^(2) * cbrt(-a^(3) + 1) / (a^(3) - 1) * x + (-a^(3) + 1) * cbrt(-a^(3) + 1) / (a^(6) - 2 * a^(3) + 1)}",
-				"{y = (a^(2) * (-a^(3) + 1)^(1/3) / (a^(3) - 1) * x + (-a^(3) + 1) * (-a^(3) + 1)^(1/3) / (a^(6) - 2 * a^(3) + 1))}");
-	}
-
-	@Test
-	public void tangent_1263() {
-		t("Tangent[(0, 0) ,x^2 - y^3 + 2y^2 - y = 0]", "{y = 0}");
-	}
-
-	@Test
-	public void tangent_1264() {
-		// singular point (two tangents) so ? is correct
-		t("Tangent[(0, 1), x^2 - y^3 + 2y^2 - y = 0]", "?");
-	}
-
-	/* TaylorPolynomial (alias TaylorSeries) */
 
 	/* Variable not specified */
 	private static void propagate(Throwable t) {
 		throw new RuntimeException(t);
 	}
-
-	/* UnitPerpendicularVector (alias UnitOrthogonalVector) */
 
 	/* Adding Vectors */
 
@@ -2731,8 +2585,8 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	@Test
 	public void solveArbconst() {
 		t("a(t):=2t+3", "2 * t + 3");
-		t("v(t):=Integral[a(t),t]", "t^(2) + 3 * t + c_1");
-		t("Solve[v(0)=0,c_1]", "{c_1 = 0}");
+		t("v(t):=Integral[a(t),t]", "t^(2) + 3 * t + c_{1}");
+		t("Solve[v(0)=0,c_1]", "{c_{1} = 0}");
 	}
 
 	@Test
@@ -2778,18 +2632,18 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				+ Unicode.LESS_EQUAL + " 2, x^(2), x > 2, 1 / x)");
 		t("h4(x):=If(0<x<=2,f(x), 2<x<4, g(x))", "Wenn(0 < x "
 				+ Unicode.LESS_EQUAL + " 2, x^(2), 2 < x < 4, 1 / x)");
-		t("Integral(h(x),1,3)", "-log(2) + log(3) + 7 / 3", "2.738798441441");
-		t("Integral(h2(x),1,3)", "-log(2) + log(3) + 7 / 3");
-		t("Integral(h3(x),1,3)", "-log(2) + log(3) + 7 / 3", "2.738798441441");
-		t("Integral(h4(x),1,3)", "-log(2) + log(3) + 7 / 3", "2.738798441441");
+		t("Integral(h(x),1,3)", "-ln(2) + ln(3) + 7 / 3", "2.738798441441");
+		t("Integral(h2(x),1,3)", "-ln(2) + ln(3) + 7 / 3");
+		t("Integral(h3(x),1,3)", "-ln(2) + ln(3) + 7 / 3", "2.738798441441");
+		t("Integral(h4(x),1,3)", "-ln(2) + ln(3) + 7 / 3", "2.738798441441");
 	}
 
 	@Test
 	public void exponentialEqs() {
 		t("Solve[7^(2 x - 5) 5^x = 9^(x + 1), x]",
-				"{x = (5 * log(7) + log(9)) / (log(5) + 2 * log(7) - log(9))}");
+				"{x = (5 * ln(7) + ln(9)) / (ln(5) + 2 * ln(7) - ln(9))}");
 		t("Solve[13^(x+1)-2*13^x=(1/5)*5^x,x]",
-				"{x = (-log(11) - log(5)) / (log(13) - log(5))}");
+				"{x = (-ln(11) - ln(5)) / (ln(13) - ln(5))}");
 
 		// These take too long (more than 1 minute)
 		// t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {c, a}]",

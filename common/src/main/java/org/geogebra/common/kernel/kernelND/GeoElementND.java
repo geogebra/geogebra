@@ -784,6 +784,11 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	 */
 	boolean isGeoFunction();
 
+	/**
+	 * @return true for inequality
+	 */
+	boolean isGeoInterval();
+
 	/** @return true if tracing is posible */
 	boolean isTraceable();
 
@@ -1613,4 +1618,9 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	 *         command or tool)
 	 */
 	boolean isFunctionOrEquationFromUser();
+
+	/**
+	 * @return true for cartesian surfaces
+	 */
+	boolean isGeoSurfaceCartesian();
 }

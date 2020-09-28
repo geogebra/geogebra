@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
@@ -89,6 +91,7 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.debug.crashlytics.CrashlyticsLogger;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -97,6 +100,9 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		SetLabels {
+
+	private boolean isCrashlyticsLoggingEnabled;
+
 	/** says if the view has the mouse */
 	protected boolean hasMouse;
 	/** View other than EV1 and EV2 **/
@@ -279,7 +285,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	private ArrayList<GeoPointND> stickyPointList = new ArrayList<>();
 
-	public DrawableList allDrawableList;
+	private DrawableList allDrawableList;
 
 	// on add: change resetLists()
 	/** list of background images */
@@ -587,6 +593,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		this.settings = settings;
 
 		GeoPriorityComparator cmp = app.getGeoPriorityComparator();
+		logToCrashlytics("EuclidianView.allDrawableList reinitialized at EuclidianView.init("
+				+ "EuclidianController ec, int viewNo, EuclidianSettings settings)"
+				+ " on thread " + app.getThreadId());
 		allDrawableList = new DrawableList(cmp);
 		bgImageList = new DrawableList(cmp);
 
@@ -867,6 +876,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			optionPanel.updateBounds();
 		}
 
+		invalidateCache();
 		if (updateDrawables) {
 			updateAllDrawablesForView(true);
 			invalidateBackground();
@@ -1683,6 +1693,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
+	private void logToCrashlytics(String message) {
+		if (isCrashlyticsLoggingEnabled) {
+			CrashlyticsLogger.log(message);
+		}
+	}
+
+	public DrawableList getAllDrawableList() {
+		return allDrawableList;
+	}
+
 	/**
 	 * Called when the drawing priorities of the objects in the view have changed
 	 */
@@ -1701,12 +1721,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return;
 		}
 
+		isCrashlyticsLoggingEnabled = true;
 		for (Drawable d : allDrawableList) {
 			d.updateForView();
 		}
 		for (Drawable d : bgImageList) {
 			d.updateForView();
 		}
+		isCrashlyticsLoggingEnabled = false;
+
 		GeoElement focused = app.getSelectionManager().getFocusedGroupElement();
 		DrawableND focusedDrawable = getDrawableFor(focused);
 		if (focusedDrawable != null) {
@@ -1752,7 +1775,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            whether the list should be drawn as combobox
 	 */
 	public void drawListAsComboBox(GeoList list, boolean b) {
-		DrawableND d = getDrawable(list);
+		DrawableND d = getDrawableFor(list);
 		if (d != null) {
 			remove(list);
 			add(list);
@@ -1925,7 +1948,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 
 		// check if there is already a drawable for geo
-		DrawableND d = getDrawable(geo);
+		DrawableND d = getDrawableFor(geo);
 
 		if (d != null) {
 			return;
@@ -1947,6 +1970,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		DrawableND d = createDrawable(geo);
 		if (d != null) {
 			if (!bgImageList.contains(d)) {
+				logToCrashlytics("EuclidianView.allDrawableList modified at "
+						+ "EuclidianView.createAndAddDrawable(GeoElement geo)"
+						+ " on thread " + app.getThreadId());
 				allDrawableList.add((Drawable) d);
 			}
 			return true;
@@ -2048,7 +2074,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	private void setupPreviewsSpecsPointDrawable(GeoElement specialPoint) {
-		DrawableND drawable = getDrawable(specialPoint);
+		DrawableND drawable = getDrawableFor(specialPoint);
 		if (drawable instanceof DrawPoint) {
 			DrawPoint drawPoint = (DrawPoint) drawable;
 			drawPoint.setPreview(true);
@@ -2088,7 +2114,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return;
 		}
 
+		logToCrashlytics(
+				"EuclidianView.allDrawableList modified at EuclidianView.remove(GeoElement geo)"
+						+ " on thread " + app.getThreadId());
 		allDrawableList.remove(d);
+		resetBoundingBoxes();
 
 		if (d instanceof RemoveNeeded) {
 			((RemoveNeeded) d).remove();
@@ -2192,7 +2222,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return null;
 		}
 		for (Drawable d : allDrawableList) {
-			hitHandler = d.hitBoundingBoxHandler(p.x, p.y, getThresholdForDrawable(type, d));
+			hitHandler = d.hitBoundingBoxHandler(p.x, p.y, app.getCapturingThreshold(type));
 			if (hitHandler != EuclidianBoundingBoxHandler.UNDEFINED) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {
@@ -2201,21 +2231,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * 
-	 * @param type
-	 *            The event type.
-	 * @param d
-	 *            {@link Drawable}
-	 * @return threshold for grabbing the BouingBox
-	 */
-	public int getThresholdForDrawable(PointerEventType type, Drawable d) {
-		if (d == null) {
-			return 0;
-		}
-		return app.getCapturingThreshold(type);
 	}
 
 	/**
@@ -2250,13 +2265,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            geo
 	 * @return drawable for the given GeoElement.
 	 */
-	protected final DrawableND getDrawable(GeoElement geo) {
+	@Override
+	@CheckForNull
+	final public DrawableND getDrawableFor(GeoElementND geo) {
 		return drawableMap.get(geo);
 	}
 
 	@Override
 	public DrawableND getDrawableND(GeoElement geo) {
-		return getDrawable(geo);
+		return getDrawableFor(geo);
 	}
 
 	/**
@@ -2344,11 +2361,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	public void updateHighlight(GeoElementND geo) {
 		// nothing to do here
-	}
-
-	@Override
-	final public DrawableND getDrawableFor(GeoElementND geo) {
-		return drawableMap.get(geo);
 	}
 
 	@Override
@@ -4256,6 +4268,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	final public void addBackgroundImage(DrawImage img) {
 		bgImageList.add(img);
+		logToCrashlytics(
+				"EuclidianView.allDrawableList modified at "
+						+ "EuclidianView.addBackgroundImage(DrawImage img)"
+						+ " on thread " + app.getThreadId());
 		allDrawableList.remove(img);
 	}
 
@@ -4265,6 +4281,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	final public void removeBackgroundImage(DrawImage img) {
 		bgImageList.remove(img);
+		logToCrashlytics(
+				"EuclidianView.allDrawableList modified at "
+						+ "EuclidianView.removeBackgroundImage(DrawImage img)"
+						+ " on thread " + app.getThreadId());
 		allDrawableList.add(img);
 	}
 
@@ -4274,6 +4294,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected void resetLists() {
 		drawableMap.clear();
 		stickyPointList.clear();
+		logToCrashlytics("EuclidianView.allDrawableList modified at EuclidianView.resetLists()"
+				+ " on thread " + app.getThreadId());
 		allDrawableList.clear();
 		bgImageList.clear();
 		previewFromInputBarGeos = null;
@@ -5923,7 +5945,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			if (d instanceof DrawDropDownList) {
 				DrawDropDownList dl = (DrawDropDownList) d;
 				if (!(dl.isControlHit(x, y) || dl.isOptionsHit(x, y))) {
-					repaintNeeded = repaintNeeded || dl.closeOptions();
+					dl.closeOptions();
+					repaintNeeded = true;
 				}
 			}
 		}
@@ -6379,7 +6402,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return false;
 		}
 		boolean deselected = false;
-		for (Drawable draw : this.allDrawableList) {
+		for (Drawable draw : allDrawableList) {
 			deselected = draw.resetPartialHitClip(x, y) || deselected;
 		}
 		return deselected;
@@ -6423,5 +6446,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public void embed(GGraphics2D g2, DrawWidget drawEmbed) {
 		//web only
+	}
+
+	/**
+	 * Update all inline drawables (needed after evalXML)
+	 */
+	public void updateInlines() {
+		for (Drawable drawable: allDrawableList) {
+			if (drawable instanceof DrawInline) {
+				((DrawInline) drawable).updateContent();
+			}
+		}
 	}
 }

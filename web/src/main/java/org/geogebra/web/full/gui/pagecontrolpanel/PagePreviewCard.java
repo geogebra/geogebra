@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.pagecontrolpanel;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.full.gui.CardInfoPanel;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
@@ -10,7 +11,6 @@ import org.geogebra.web.html5.main.GgbFile;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 
 /**
  * Page Preview Card showing preview of EuclidianView
@@ -34,8 +34,7 @@ public class PagePreviewCard extends FlowPanel
 	private int pageIndex;
 	private FlowPanel imagePanel;
 	private String image;
-	private FlowPanel titlePanel;
-	private Label titleLabel;
+	private CardInfoPanel infoPanel;
 	private ContextMenuButtonPreviewCard contextMenu;
 	private int grabY; // where the user grabbed the card when dragging.
 	/**
@@ -69,10 +68,12 @@ public class PagePreviewCard extends FlowPanel
 	 *            ID of the new slide
 	 * @return The duplicated card.
 	 */
-	public static PagePreviewCard duplicate(PagePreviewCard source,
-			String targetID) {
+	public static PagePreviewCard pasteAfter(PagePreviewCard source,
+			String targetID, String json) {
+		GgbFile file = targetID == null ? new GgbFile() : new GgbFile(targetID);
+		source.app.getViewW().setFileFromJsonString(json, file);
 		return new PagePreviewCard(source.app, source.getPageIndex() + 1,
-				source.getFile().duplicate(targetID));
+				file);
 	}
 	
 	private void initGUI() {
@@ -84,16 +85,14 @@ public class PagePreviewCard extends FlowPanel
 		imagePanel = new FlowPanel();
 		imagePanel.addStyleName("mowImagePanel");
 
-		titlePanel = new FlowPanel();
-		titlePanel.addStyleName("mowTitlePanel");
-		titleLabel = new Label("");
-		titlePanel.add(titleLabel);
+		infoPanel = new CardInfoPanel();
+		infoPanel.addStyleName("mowTitlePanel");
 
 		contextMenu = new ContextMenuButtonPreviewCard(app, this);
-		titlePanel.add(contextMenu);
+		infoPanel.add(contextMenu);
 
 		add(imagePanel);
-		add(titlePanel);
+		add(infoPanel);
 		if (StringUtil.empty(image)) {
 			updatePreviewImage();
 		} else {
@@ -135,7 +134,7 @@ public class PagePreviewCard extends FlowPanel
 	}
 
 	private void updateLabel() {
-		titleLabel.setText(loc.getMenu("page") + " " + (pageIndex + 1));
+		infoPanel.setCardId(loc.getMenu("page") + " " + (pageIndex + 1));
 	}
 
 	/**
@@ -339,5 +338,13 @@ public class PagePreviewCard extends FlowPanel
 		} else {
 			removeStyleName("dragCanStart");
 		}
+	}
+
+	public void setCardTitle(String title) {
+		infoPanel.setCardTitle(title);
+	}
+
+	public String getCardTitle() {
+		return infoPanel.getCardTitle();
 	}
 }

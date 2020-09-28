@@ -159,20 +159,28 @@ public class DoubleUtil {
 
 	/**
 	 * Check difference is small, proportional to numbers
-	 * 
-	 * @param x
-	 *            first number
-	 * @param y
-	 *            second number
-	 * @return x==y
+	 * @param x first number
+	 * @param y second number
+	 * @return x == y, with standard precision
 	 */
-	final public static boolean isRatioEqualTo1(double x, double y) {
+	public static boolean isRatioEqualTo1(double x, double y) {
+		return isRatioEqualTo1(x, y, Kernel.STANDARD_PRECISION);
+	}
+
+	/**
+	 * Check difference is small, proportional to numbers
+	 * @param x first number
+	 * @param y second number
+	 * @param precision precision to use when comparing
+	 * @return x == y, with the given precision
+	 */
+	public static boolean isRatioEqualTo1(double x, double y, double precision) {
 		if (x == y) {
 			return true;
 		}
-	
-		double eps = Kernel.STANDARD_PRECISION * Math.min(Math.abs(x), Math.abs(y));
-	
+
+		double eps = precision * Math.min(Math.abs(x), Math.abs(y));
+
 		return ((x - eps) <= y) && (y <= (x + eps));
 	}
 
@@ -513,7 +521,7 @@ public class DoubleUtil {
 	 * Create a range of doubles from min to max with the given step
 	 * @param max >= min
 	 * @param step > 0
-	 * @return {min} if min == max,
+	 * @return {min} if min >= max,
 	 * 		{min, min + step, min + 2*step, ..., min + i*step, max}
 	 * 		otherwise, where min + i*step is the greatest such number
 	 * 		that is smaller than max
@@ -527,7 +535,9 @@ public class DoubleUtil {
 		if (min + length * step < max - Kernel.STANDARD_PRECISION) {
 			length++;
 		}
-
+		if (length <= 0) {
+			return new double[] {min};
+		}
 		double[] result = new double[length + 1];
 		for (int i = 0; i < result.length; i++) {
 			result[i] = checkDecimalFraction(min + i * step);

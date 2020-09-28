@@ -20,58 +20,58 @@ public interface CommandsConstants {
 	/**
 	 * Index for commands
 	 */
-	public static final int ALL_COMMANDS_INDEX = -1;
+	int ALL_COMMANDS_INDEX = -1;
 
 	/**
 	 * Index for math commands
 	 */
-	public static final int MATH_FUNC_INDEX = -2;
+	int MATH_FUNC_INDEX = -2;
 
 	/** Geometry commands */
-	public static final int TABLE_GEOMETRY = 0;
+	int TABLE_GEOMETRY = 0;
 	/** Algebra commands */
-	public static final int TABLE_ALGEBRA = 1;
+	int TABLE_ALGEBRA = 1;
 	/** Text commands */
-	public static final int TABLE_TEXT = 2;
+	int TABLE_TEXT = 2;
 	/** Logical commands */
-	public static final int TABLE_LOGICAL = 3;
+	int TABLE_LOGICAL = 3;
 	/** Functions and calculus commands */
-	public static final int TABLE_FUNCTION = 4;
+	int TABLE_FUNCTION = 4;
 	/** Conic commands */
-	public static final int TABLE_CONIC = 5;
+	int TABLE_CONIC = 5;
 	/** List commands */
-	public static final int TABLE_LIST = 6;
+	int TABLE_LIST = 6;
 	/** Matrix and vector commands */
-	public static final int TABLE_VECTOR = 7;
+	int TABLE_VECTOR = 7;
 	/** Transformation commands */
-	public static final int TABLE_TRANSFORMATION = 8;
+	int TABLE_TRANSFORMATION = 8;
 	/** Charts */
-	public static final int TABLE_CHARTS = 9;
+	int TABLE_CHARTS = 9;
 	/** Statistics commands */
-	public static final int TABLE_STATISTICS = 10;
+	int TABLE_STATISTICS = 10;
 	/** Probability commands */
-	public static final int TABLE_PROBABILITY = 11;
+	int TABLE_PROBABILITY = 11;
 	/** Spreadsheet commands */
-	public static final int TABLE_SPREADSHEET = 12;
+	int TABLE_SPREADSHEET = 12;
 	/** Scripting commands */
-	public static final int TABLE_SCRIPTING = 13;
+	int TABLE_SCRIPTING = 13;
 	/** Discrete math commands */
-	public static final int TABLE_DISCRETE = 14;
+	int TABLE_DISCRETE = 14;
 	/** GeoGebra commands */
-	public static final int TABLE_GEOGEBRA = 15;
+	int TABLE_GEOGEBRA = 15;
 	/** Optimization commands */
-	public static final int TABLE_OPTIMIZATION = 16;
+	int TABLE_OPTIMIZATION = 16;
 	/** 3D commands */
-	public static final int TABLE_3D = 17;
+	int TABLE_3D = 17;
 	/** CAS commands -- do not display this table by default */
-	public static final int TABLE_CAS = 18;
+	int TABLE_CAS = 18;
 	/** Financial commands */
-	public static final int TABLE_FINANCIAL = 19;
+	int TABLE_FINANCIAL = 19;
 
 	/**
 	 * Compatibility commands in case some English commands were renamed. This
 	 * table should never be displayed in input help.
 	 */
-	public static final int TABLE_ENGLISH = 20;
+	int TABLE_ENGLISH = 20;
 
 }

@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel;
 
 import org.geogebra.common.kernel.algos.AlgoFunctionableToFunction;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -17,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoInterval;
@@ -37,6 +40,8 @@ import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.util.debug.Log;
 
@@ -125,10 +130,14 @@ public class GeoFactory {
 			return new GeoRay(cons1, null);
 		case "segment":
 			return new GeoSegment(cons1, null, null);
+		case "surfacecartesian":
+			return new GeoSurfaceCartesian2D(cons1, null, null);
 		case "text":
 			return new GeoText(cons1);
 		case "textfield":
 			return new GeoInputBox(cons1);
+		case "table":
+			return new GeoInlineTable(cons1, null);
 		case "video":
 			return new GeoVideo(cons1);
 		case "vector":
@@ -229,5 +238,16 @@ public class GeoFactory {
 		GeoFunction ret = new GeoFunction(cons);
 		ret.setFunction(geoLine.getFunction());
 		return ret;
+	}
+
+	/**
+	 * @param cons construction
+	 * @param point point expression
+	 * @param fun x, y (and z) functions
+	 * @return surface
+	 */
+	public GeoSurfaceCartesianND newSurface(Construction cons, ExpressionNode point,
+			FunctionNVar[] fun) {
+		return new GeoSurfaceCartesian2D(cons, point, fun);
 	}
 }

@@ -1882,11 +1882,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected void initNewMode(int newMode) {
-		super.initNewMode(newMode);
-	}
-
-	@Override
 	protected Previewable switchPreviewableForInitNewMode(int previewMode) {
 		switch (previewMode) {
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
@@ -3557,7 +3552,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 *            source geo
 	 */
 	public void setStartPointLocation(GeoElement source) {
-		udpateStartPoint(source);
+		updateStartPoint(source);
 		super.setStartPointLocation();
 	}
 
@@ -3567,7 +3562,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param source
 	 *            source geo for start
 	 */
-	protected void udpateStartPoint(GeoElement source) {
+	protected void updateStartPoint(GeoElement source) {
 		if (mouseLoc == null) {
 			return;
 		}
@@ -3666,7 +3661,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	public void setStartPointLocationWithOrigin(double x, double y) {
-		udpateStartPoint(null);
+		updateStartPoint(null);
 		// sub origin
 		startPoint3DxOy.setX(startPoint3DxOy.getX() - x);
 		startPoint3DxOy.setY(startPoint3DxOy.getY() - y);

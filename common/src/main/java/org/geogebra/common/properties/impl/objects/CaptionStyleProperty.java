@@ -1,12 +1,20 @@
 package org.geogebra.common.properties.impl.objects;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.objects.delegate.CaptionStyleDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**
  * Caption style
  */
-public class CaptionStyleProperty extends AbstractGeoElementProperty implements EnumerableProperty {
+public class CaptionStyleProperty extends AbstractEnumerableProperty {
 
 	private static final int LABEL_HIDDEN = 0;
 
@@ -18,30 +26,43 @@ public class CaptionStyleProperty extends AbstractGeoElementProperty implements 
 			"Caption"
 	};
 
-	public CaptionStyleProperty(GeoElement geoElement) throws NotApplicablePropertyException {
-		super("stylebar.Caption", geoElement);
-	}
+	private static final List<Integer> labelModes = Arrays.asList(
+			GeoElementND.LABEL_DEFAULT,
+			GeoElementND.LABEL_NAME,
+			GeoElementND.LABEL_NAME_VALUE,
+			GeoElementND.LABEL_VALUE,
+			GeoElementND.LABEL_CAPTION);
 
-	@Override
-	public String[] getValues() {
-		return captionStyleNames;
+	private final GeoElementDelegate delegate;
+
+	/***/
+	public CaptionStyleProperty(Localization localization, GeoElement geoElement)
+			throws NotApplicablePropertyException {
+		super(localization, "stylebar.Caption");
+		delegate = new CaptionStyleDelegate(geoElement);
+		setValuesAndLocalize(captionStyleNames);
 	}
 
 	@Override
 	public int getIndex() {
-		return getElement().getLabelMode();
+		GeoElement element = delegate.getElement();
+		if (!element.isLabelVisible()) {
+			return 0;
+		}
+		int index = labelModes.indexOf(element.getLabelMode());
+		return index >= 0 ? index : 1;
 	}
 
 	@Override
-	public void setIndex(int captionStyle) {
-		GeoElement element = getElement();
-		element.setLabelMode(captionStyle);
-		element.setLabelVisible(captionStyle != LABEL_HIDDEN);
+	protected void setValueSafe(String value, int index) {
+		GeoElement element = delegate.getElement();
+		element.setLabelMode(labelModes.get(index));
+		element.setLabelVisible(index != LABEL_HIDDEN);
 		element.updateRepaint();
 	}
 
 	@Override
-	boolean isApplicableTo(GeoElement element) {
-		return !isTextOrInput(element);
+	public boolean isEnabled() {
+		return delegate.isEnabled();
 	}
 }

@@ -3,6 +3,9 @@
   <source path="share" />
   <super-source path="gwt-patch" />
   <inherits name="com.google.gwt.core.Core" />
+
   <inherits name="elemental2.dom.Dom"/>
   <inherits name="elemental2.core.Core"/>
+  <inherits name="elemental2.webstorage.WebStorage" />
+  <inherits name="elemental2.media.Media" />
 </module>

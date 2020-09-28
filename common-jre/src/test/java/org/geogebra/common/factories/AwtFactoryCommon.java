@@ -4,8 +4,6 @@ import org.geogebra.common.awt.GAlphaComposite;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GBufferedImageCommon;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.awt.GDimensionCommon;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGradientPaint;
@@ -35,11 +33,6 @@ public class AwtFactoryCommon extends AwtFactoryHeadless {
     @Override
     public MyImage newMyImage(int pixelWidth, int pixelHeight, int typeIntArgb) {
         return null;
-    }
-
-    @Override
-    public GDimension newDimension(int width, int height) {
-		return new GDimensionCommon(width, height);
     }
 
     @Override

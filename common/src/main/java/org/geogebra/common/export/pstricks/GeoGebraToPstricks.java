@@ -1694,7 +1694,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		codeBeginPic.append("pt 0");
 		codeBeginPic.append(",linewidth=");
 		codeBeginPic.append(format(
-				EuclidianStyleConstants.DEFAULT_LINE_THICKNESS / 2 * 0.8));
+				EuclidianStyleConstants.DEFAULT_LINE_THICKNESS * 0.4));
 		codeBeginPic.append("pt,arrowsize=3pt 2,arrowinset=0.25}\n");
 	}
 
@@ -1737,6 +1737,9 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			}
 			if (null == drawGeo) {
 				drawGeo = euclidianView.getDrawableFor(geo);
+			}
+			if (drawGeo == null) {
+				return;
 			}
 			double xLabel = drawGeo.getxLabel();
 			double yLabel = drawGeo.getyLabel();

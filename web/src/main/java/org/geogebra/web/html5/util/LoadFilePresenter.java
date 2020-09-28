@@ -5,16 +5,12 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.settings.StyleSettings;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 
@@ -35,7 +31,7 @@ public class LoadFilePresenter {
 	 * @param vv
 	 *            zip loader
 	 */
-	public void onPageLoad(final ArticleElementInterface view, final AppW app,
+	public void onPageLoad(final AppletParameters view, final AppW app,
 			ViewW vv) {
 
 		String base64String;
@@ -44,35 +40,31 @@ public class LoadFilePresenter {
 		boolean fileOpened = true;
 		app.setAllowSymbolTables(view.getDataParamAllowSymbolTable());
 		app.setErrorDialogsActive(view.getDataParamErrorDialogsActive());
-		if (!tryReloadDataInStorage(vv)) {
-			if (!"".equals(filename = view.getDataParamJSON())) {
-				processJSON(filename, vv);
-			} else if (!""
-					.equals(base64String = view.getDataParamBase64String())) {
-				process(base64String, vv);
-			} else if (!"".equals(filename = view.getDataParamFileName())) {
-				vv.processFileName(filename);
-			} else if (!"".equals(filename = view.getDataParamTubeID())) {
-				app.openMaterial(view.getDataParamTubeID(),
-						new AsyncOperation<String>() {
 
-							@Override
-							public void callback(String err) {
-								openEmptyApp(app, view);
-								ToolTipManagerW.sharedInstance()
-										.showBottomMessage(app.getLocalization()
-												.getError(err), false, app);
-							}
-						});
-			} else {
-				fileOpened = false;
-			}
+		if (!"".equals(filename = view.getDataParamJSON())) {
+			processJSON(filename, vv);
+		} else if (!""
+				.equals(base64String = view.getDataParamBase64String())) {
+			process(base64String, vv);
+		} else if (!"".equals(filename = view.getDataParamFileName())) {
+			vv.processFileName(filename);
+		} else if (!"".equals(view.getDataParamTubeID())) {
+			app.openMaterial(view.getDataParamTubeID(),
+					err -> {
+						openEmptyApp(app, view);
+						ToolTipManagerW.sharedInstance()
+								.showBottomMessage(app.getLocalization()
+										.getError(err), false, app);
+					});
+		} else {
+			fileOpened = false;
 		}
 
 		boolean fullApp = !app.isApplet();
 		boolean showToolBar = view.getDataParamShowToolBar(fullApp);
 		boolean showMenuBar = view.getDataParamShowMenuBar(fullApp);
 		boolean showAlgebraInput = view.getDataParamShowAlgebraInput(fullApp);
+		boolean isApp = view.getDataParamApp();
 
 		app.setShowMenuBar(showMenuBar);
 		app.setShowAlgebraInput(showAlgebraInput, false);
@@ -80,6 +72,9 @@ public class LoadFilePresenter {
 		app.getKernel().setShowAnimationButton(
 		        view.getDataParamShowAnimationButton());
 		app.setCapturingThreshold(view.getDataParamCapturingThreshold());
+		if (!isApp) {
+			app.getAppletFrame().addStyleName("appletStyle");
+		}
 
 		boolean undoActive = (showToolBar || showMenuBar
 		        || view.getDataParamApp() || app.getScriptManager()
@@ -91,7 +86,7 @@ public class LoadFilePresenter {
 			language = app.getLanguageFromCookie();
 
 			if (!StringUtil.empty(language) && app.getLAF() != null) {
-				app.getLAF().storeLanguage(language, app);
+				app.getLAF().storeLanguage(language);
 			}
 		}
 
@@ -145,7 +140,7 @@ public class LoadFilePresenter {
 	 *            article element
 	 * @return whether special perspective (search / customize) was used
 	 */
-	boolean openEmptyApp(final AppW app, ArticleElementInterface ae) {
+	boolean openEmptyApp(final AppW app, AppletParameters ae) {
 		// we dont have content, it is an app
 		Log.debug("no base64content, possibly App loaded?");
 
@@ -224,8 +219,8 @@ public class LoadFilePresenter {
 				|| "5".equals(perspective)) {
 
 			if (app.isPortrait()) {
-				int height = app.getArticleElement().getDataParamHeight();
-				if (app.getArticleElement().getDataParamFitToScreen()) {
+				int height = app.getAppletParameters().getDataParamHeight();
+				if (app.getAppletParameters().getDataParamFitToScreen()) {
 					height = Window.getClientHeight();
 				}
 				if (height > 0) {
@@ -235,8 +230,8 @@ public class LoadFilePresenter {
 				}
 
 			} else {
-				int width = app.getArticleElement().getDataParamWidth();
-				if (app.getArticleElement().getDataParamFitToScreen()) {
+				int width = app.getAppletParameters().getDataParamWidth();
+				if (app.getAppletParameters().getDataParamFitToScreen()) {
 					width = Window.getClientWidth();
 				}
 				if (width > 0) {
@@ -264,7 +259,7 @@ public class LoadFilePresenter {
 		}
 		app.getAppletFrame().updateHeaderSize();
 		app.setPreferredSize(
-				new GDimensionW(app.getAppletWidth(), app.getAppletHeight()));
+				new Dimension(app.getAppletWidth(), app.getAppletHeight()));
 		app.ensureStandardView();
 		app.loadPreferences(p);
 		app.setFileVersion(GeoGebraConstants.VERSION_STRING, "auto");
@@ -287,7 +282,7 @@ public class LoadFilePresenter {
 
 		boolean smallScreen = Window.getClientWidth() < MIN_SIZE_FOR_PICKER
 				|| Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
-		if (app.getArticleElement().getDataParamShowAppsPicker()
+		if (app.getAppletParameters().getDataParamShowAppsPicker()
 				&& app.getExam() == null && !smallScreen
 				&& !app.isWhiteboardActive()) {
 			app.showPerspectivesPopup();
@@ -313,24 +308,6 @@ public class LoadFilePresenter {
 		});
 	}
 
-	private static boolean tryReloadDataInStorage(ViewW view) {
-		if (!Browser.supportsSessionStorage()) {
-			return false;
-		}
-		Storage stockStore = Storage.getLocalStorageIfSupported();
-
-		if (stockStore == null) {
-			return false;
-		}
-		String base64String = stockStore.getItem("reloadBase64String");
-		if ((base64String == null) || (base64String.length() == 0)) {
-			return false;
-		}
-		process(base64String, view);
-		stockStore.removeItem("reloadBase64String");
-		return true;
-	}
-
 	private static void process(String dataParamBase64String, ViewW view) {
 		view.processBase64String(dataParamBase64String);
 	}
@@ -342,14 +319,7 @@ public class LoadFilePresenter {
 	 *            zip handler
 	 */
 	public void processJSON(final String json, final ViewW view) {
-		Scheduler.ScheduledCommand deferredOnRes = new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				view.processJSON(json);
-			}
-		};
-
-		Scheduler.get().scheduleDeferred(deferredOnRes);
+		view.processJSON(json);
 	}
 
 }

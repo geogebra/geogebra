@@ -169,7 +169,6 @@ import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.plugin.ScriptManager;
-import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.DoubleUtil;
@@ -232,7 +231,6 @@ import org.geogebra.desktop.move.OpenFromGGTOperation;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.plugin.ScriptManagerD;
-import org.geogebra.desktop.plugin.UDPLoggerD;
 import org.geogebra.desktop.sound.SoundManagerD;
 import org.geogebra.desktop.util.CopyPasteD;
 import org.geogebra.desktop.util.FrameCollector;
@@ -424,9 +422,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		this.loc = loc;
 		loc.setApp(this);
 		this.cmdArgs = args;
-		this.prerelease = args != null && (args.containsArg("prerelease")
-				|| args.containsArg("canary"));
-		this.canary = args != null && args.containsArg("canary");
+		this.prerelease = args != null && args.containsArg("prerelease");
 		if (args != null && !args.containsArg("silent")) {
 			LoggerD logger = new LoggerD();
 			logger.setReading(true);
@@ -450,11 +446,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			}
 		}
 
-		if (canary) {
-			Log.error("*****************************");
-			Log.error("*** Running with --canary ***");
-			Log.error("*****************************");
-		} else if (prerelease) {
+		if (prerelease) {
 			Log.error("*********************************");
 			Log.error("*** Running with --prerelease ***");
 			Log.error("*********************************");
@@ -1330,10 +1322,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	public long getHeapSize() {
 		return runtime.maxMemory();
-	}
-
-	public void traceMethodsOn(boolean on) {
-		runtime.traceMethodCalls(on);
 	}
 
 	private static boolean virtualKeyboardActive = false;
@@ -4813,17 +4801,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		uploadToGeoGebraTube();
 	}
 
-	private SensorLogger udpLogger;
-
 	private String perspectiveParam = "";
-
-	@Override
-	public SensorLogger getSensorLogger() {
-		if (udpLogger == null) {
-			udpLogger = new UDPLoggerD(getKernel());
-		}
-		return udpLogger;
-	}
 
 	public void setPerspectiveParam(String perspective) {
 		this.perspectiveParam = perspective;

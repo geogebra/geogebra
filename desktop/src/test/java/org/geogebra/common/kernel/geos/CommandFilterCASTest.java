@@ -13,8 +13,8 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
                 + " {(-c) / (a * d - b * c), a / (a * d - b * c)}}");
         String[][] expected;
         expected = new String[1][2];
-        expected [0][0] = "-sin⁻¹(x) + 2 * k_1 * π + π";
-        expected [0][1] = "2 * k_1 * π - sin⁻¹(x) + π";
+        expected [0][0] = "-sin⁻¹(x) + 2 * k_{1} * π + π";
+        expected [0][1] = "2 * k_{1} * π - sin⁻¹(x) + π";
         AlgebraTestHelper.testMultipleResults("Invert(sin(x))", expected, ap,
                 StringTemplate.testTemplate);
         t("Invert(PartialFractions((x + 1) / (x + 2)))", "(-2 * x + 1) / (x - 1)");
@@ -87,8 +87,8 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
 
     @Test
     public void cmdRemoveUndefined() {
-        t("RemoveUndefined(Sequence((-1)^i, i, -3, -1, 0.5))",
-                "{-1, 1, -1}");
+        t("RemoveUndefined(Sequence((-1)^j, j, -3, -1, 0.5))",
+                "{-1, -ί, 1, ί, -1}");
     }
 
     @Test

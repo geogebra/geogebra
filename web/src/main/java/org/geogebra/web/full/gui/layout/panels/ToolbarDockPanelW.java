@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.layout.panels;
 
+import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
@@ -18,7 +19,7 @@ public class ToolbarDockPanelW extends DockPanelW
 		implements AlgebraPanelInterface {
 
 	private ToolbarPanel toolbar;
-	private boolean toolMode;
+	private DockPanelData.TabIds tabId;
 
 	/**
 	 * New panel with AV and tools
@@ -37,7 +38,7 @@ public class ToolbarDockPanelW extends DockPanelW
 	@Override
 	protected Widget loadComponent() {
 		toolbar = new ToolbarPanel(app);
-		setToolMode(toolMode);
+		setTabId(tabId);
 		return toolbar;
 	}
 
@@ -112,22 +113,37 @@ public class ToolbarDockPanelW extends DockPanelW
 	}
 
 	@Override
-	public void setToolMode(boolean toolMode) {
+	public void setTabId(DockPanelData.TabIds tabId) {
 		if (toolbar != null) {
 			// open with false: no fading here.
-			if (toolMode) {
+			if (tabId == DockPanelData.TabIds.TOOLS) {
 				toolbar.openTools(false);
+			} else if (tabId == DockPanelData.TabIds.TABLE) {
+				toolbar.openTableView(false);
 			} else {
 				toolbar.openAlgebra(false);
 			}
 			toolbar.updateHeader();
 		}
-		this.toolMode = toolMode;
+		doSetTabId(tabId);
+	}
+
+	/**
+	 * simple setter
+	 * @param tabId active tab ID
+	 */
+	public void doSetTabId(DockPanelData.TabIds tabId) {
+		this.tabId = tabId;
 	}
 
 	@Override
-	public boolean isToolMode() {
-		return toolMode;
+	public DockPanelData createInfo() {
+		return super.createInfo().setTabId(tabId);
+	}
+
+	@Override
+	public DockPanelData.TabIds getTabId() {
+		return tabId;
 	}
 
 	@Override

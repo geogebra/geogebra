@@ -4,14 +4,15 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.undoredo.UndoInfoStoredListener;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ScriptManagerW;
-import org.geogebra.web.html5.util.JSON;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style.Unit;
+
+import elemental2.core.Global;
 
 /**
  * Embedded GeoGebra calculator for Notes
@@ -62,17 +63,27 @@ public class CalcEmbedElement extends EmbedElement {
 
 	@Override
 	public String getContentSync() {
-		return JSON.stringify(
+		return Global.JSON.stringify(
 				frame.getApp().getGgbApi().getFileJSON(false));
 	}
 
 	/**
 	 * @return API
 	 */
-	public JavaScriptObject getApi() {
+	@Override
+	public Object getApi() {
 		ScriptManagerW sm = (ScriptManagerW) frame.getApp()
 				.getScriptManager();
 		return sm.getApi();
+	}
+
+	@Override
+	public void setJsEnabled(boolean jsEnabled) {
+		frame.getApp().getScriptManager().setJsEnabled(jsEnabled);
+		GuiManagerW guiManager = frame.getApp().getGuiManager();
+		if (guiManager != null) {
+			guiManager.updatePropertiesView();
+		}
 	}
 
 	private static class UndoRedoGlue implements UndoInfoStoredListener {

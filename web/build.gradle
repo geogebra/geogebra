@@ -21,8 +21,6 @@ evaluationDependsOn(':editor-web')
 evaluationDependsOn(':web:dev')
 evaluationDependsOn(':keyboard-web')
 
-ext.gwtCompilerVersion = project(':renderer-web').gwtCompilerVersion
-
 apply plugin: 'gwt-compiler'
 
 sourceCompatibility = 1.8
@@ -47,8 +45,8 @@ if(hasProperty("eclipse")){
 }
 
 dependencies {
-    compile project(path: ':carota-web', configuration: 'gwt')
-    compile project(':web:dev'),
+    compile project(path: ':carota-web'),
+        project(':web:dev'),
         project(':common'),
         project(':renderer-base'),
         project(':editor-base'),
@@ -56,6 +54,7 @@ dependencies {
         project(':editor-web'),
         project(':keyboard-web'),
         project(':ggbjdk'),
+        files(project(':carota-web').sourceSets.main.allSource.srcDirs),
         files(project(':web:dev').sourceSets.main.allSource.srcDirs),
         files(project(':common').sourceSets.main.allSource.srcDirs),
         files(project(':ggbjdk').sourceSets.main.java.srcDirs),
@@ -66,8 +65,7 @@ dependencies {
         'com.googlecode:gwtgl:0.9.1:sources',
         "fr.ujf-grenoble:giac-gwt:$javaGiacVersion",
         "fr.ujf-grenoble:giac-gwt:$javaGiacVersion:sources",
-        "com.google.gwt:gwt-dev:$gwtCompilerVersion",
-        'com.asual.lesscss:lesscss-engine:1.3.0'
+        "com.google.gwt:gwt-dev:$gwtCompilerVersion"
 
     testCompile "junit:junit:$junitVersion",
         'com.google.gwt.gwtmockito:gwtmockito:1.1.9',
@@ -121,10 +119,13 @@ gwt {
     
     maxHeapSize = '2000M'
 
+    jsInteropExports {
+        shouldGenerate = true;
+    }
+
     compiler {
         // Customize the GWT compiler here
         strict = true
-        // enableClosureCompiler = true;        
         disableCastChecking = true
       
         if (project.hasProperty("greport")) {
@@ -259,7 +260,7 @@ task mergeDeploy(){
                           .replace('%WEBSIMPLE_PERMUTATION%', webSimplePermutation)
       def parentRoot = project(":common").getBuildDir().getAbsolutePath() + "/../../"
       def currentVersion = getGeogebraVersion(parentRoot)
-      file(warDirRel + "/deployggb.js").text = deployText.replace('%MODULE_BASE%','')
+      file(warDirRel + "/deployggb.js").text = deployText.replace('%MODULE_BASE%','./')
       file(warDirRel + "/deployggb-latest.js").text = deployText.replace('%MODULE_BASE%','https://www.geogebra.org/apps/latest/')
       file(warDirRel + "/deployggb-${currentVersion}.js").text = deployText.replace('%MODULE_BASE%',"https://www.geogebra.org/apps/${currentVersion}/")
    }
@@ -290,6 +291,7 @@ task run(type: JavaExec, dependsOn: ['jar','copyHtml', 'createSolverHtml']) {
         '-bindAddress', project.findProperty("gbind") ?: 'localhost',
         '-superDevMode',
         '-war', file(warDirRel),
+        '-generateJsInteropExports',
         devModule
     systemProperty 'gwt.persistentunitcachedir', '../build/gwt/devModeCache'
     systemProperty 'java.io.tmpdir', gwtGlobalCache.getAbsolutePath()

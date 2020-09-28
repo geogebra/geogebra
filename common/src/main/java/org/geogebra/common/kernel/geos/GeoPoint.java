@@ -261,6 +261,14 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		this.region = region;
 	}
 
+	/**
+	 * @return whether given geo is a point with complex coordinates
+	 */
+	public static boolean isComplexNumber(GeoElementND geo) {
+		return geo.isGeoPoint()
+				&& ((GeoPointND) geo).getToStringMode() == Kernel.COORD_COMPLEX;
+	}
+
 	@Override
 	public void setZero() {
 		setCoords(0, 0, 1);
@@ -1777,12 +1785,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
-	public String getStartPointXML() {
-		StringBuilder sb = new StringBuilder();
+	public void appendStartPointXML(StringBuilder sb) {
 		sb.append("\t<startPoint ");
 
 		if (isAbsoluteStartPoint()) {
-			sb.append(" x=\"");
+			sb.append("x=\"");
 			sb.append(x);
 			sb.append("\"");
 			sb.append(" y=\"");
@@ -1794,11 +1801,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		} else {
 			sb.append("exp=\"");
 			StringUtil.encodeXML(sb, getLabel(StringTemplate.xmlTemplate));
-
 			sb.append("\"");
 		}
 		sb.append("/>\n");
-		return sb.toString();
 	}
 
 	@Override

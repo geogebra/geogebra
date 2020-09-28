@@ -129,12 +129,6 @@ public class PerspectiveDecoder {
 								false, true, AwtFactory.getPrototype()
 										.newRectangle(100, 100, 700, 550),
 								"1,1", 400));
-		viewCodes
-				.put("M",
-						new DockPanelData(App.VIEW_DATA_COLLECTION, null, true,
-								false, false, AwtFactory.getPrototype()
-										.newRectangle(100, 100, 600, 400),
-								"3", 300));
 	}
 
 	/**

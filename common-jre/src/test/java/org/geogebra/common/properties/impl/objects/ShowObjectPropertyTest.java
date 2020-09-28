@@ -6,19 +6,10 @@ import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.junit.Test;
 
 public class ShowObjectPropertyTest extends BaseUnitTest {
-
-	@Test
-	public void testConstructorSucceeds() {
-		GeoNumeric slider = addAvInput("1");
-		try {
-			new ShowObjectProperty(slider);
-		} catch (NotApplicablePropertyException e) {
-			fail(e.getMessage());
-		}
-	}
 
 	@Test
 	public void testSetValue() {
@@ -28,11 +19,12 @@ public class ShowObjectPropertyTest extends BaseUnitTest {
 
 		ShowObjectProperty showObjectProperty = null;
 		MinProperty minProperty = null;
-		ColorProperty colorProperty = null;
+		ElementColorProperty elementColorProperty = null;
 		try {
-			showObjectProperty = new ShowObjectProperty(slider);
-			minProperty = new MinProperty(slider);
-			colorProperty = new ColorProperty(slider);
+			showObjectProperty = new ShowObjectProperty(getLocalization(), slider);
+			minProperty =
+					new MinProperty(getKernel().getAlgebraProcessor(), getLocalization(), slider);
+			elementColorProperty = new ElementColorProperty(getLocalization(), slider);
 		} catch (NotApplicablePropertyException e) {
 			fail(e.getMessage());
 		}
@@ -40,11 +32,11 @@ public class ShowObjectPropertyTest extends BaseUnitTest {
 		showObjectProperty.setValue(true);
 		assertThat(showObjectProperty.isEnabled(), is(true));
 		assertThat(minProperty.isEnabled(), is(true));
-		assertThat(colorProperty.isEnabled(), is(true));
+		assertThat(elementColorProperty.isEnabled(), is(true));
 
 		showObjectProperty.setValue(false);
 		assertThat(showObjectProperty.isEnabled(), is(true));
 		assertThat(minProperty.isEnabled(), is(true));
-		assertThat(colorProperty.isEnabled(), is(false));
+		assertThat(elementColorProperty.isEnabled(), is(false));
 	}
 }

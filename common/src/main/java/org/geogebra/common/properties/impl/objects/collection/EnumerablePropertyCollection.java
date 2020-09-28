@@ -6,7 +6,7 @@ import org.geogebra.common.properties.EnumerableProperty;
  * Handles a collection of EnumerableProperty objects as a single EnumerableProperty.
  */
 public class EnumerablePropertyCollection<T extends EnumerableProperty>
-		extends AbstractPropertyCollection<T, Integer>
+		extends AbstractTypedPropertyCollection<T, Integer>
 		implements EnumerableProperty {
 
 	/**

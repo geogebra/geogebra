@@ -113,14 +113,21 @@ public enum EventType {
 	/** remove slide (whiteboard) */
 	REMOVE_SLIDE("removeSlide"),
 
+	/** rename slide (whiteboard) */
+	RENAME_SLIDE("renameSlide"),
+
 	/** duplicate slide (whiteboard): source index, target ID, source ID */
-	DUPLICATE_SLIDE("duplicateSlide"),
+	PASTE_SLIDE("pasteSlide"),
 
 	/** Move slide: sourceindex, target index */
 	MOVE_SLIDE("moveSlide"),
 
 	/** Clear slide: slide ID */
 	CLEAR_SLIDE("clearSlide"),
+
+	/** select slide */
+	SELECT_SLIDE("selectSlide"),
+
 	/** Key typed in editor */
 	EDITOR_KEY_TYPED("editorKeyTyped"),
 	/** Editing started for an object (or new input) */

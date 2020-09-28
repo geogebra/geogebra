@@ -37,6 +37,7 @@ public class ControllerTest extends BaseControllerTest {
 	public void clearEvents() {
 		// TODO AlgebraTest.enableCAS(app, true);
 		events.clear();
+		getApp().setAppletFlag(false);
 	}
 
 	/**
@@ -137,9 +138,21 @@ public class ControllerTest extends BaseControllerTest {
 		checkContent("a: x = 1");
 		resetMouseLocation();
 		click(50, 50);
-
 		checkContent();
+	}
 
+	@Test
+	public void deleteToolApplet() {
+		getApp().setAppletFlag(true);
+		setMode(EuclidianConstants.MODE_DELETE);
+		t("a:x=1");
+		t("SetFixed(a,true)");
+		click(50, 50);
+		checkContent("a: x = 1");
+		getApp().setAppletFlag(false);
+		resetMouseLocation();
+		click(50, 50);
+		checkContent();
 	}
 
 	@Test
@@ -664,7 +677,7 @@ public class ControllerTest extends BaseControllerTest {
 	public void complexNumberTool() {
 		setMode(EuclidianConstants.MODE_COMPLEX_NUMBER);
 		click(100, 100);
-		checkContent("z_1 = 2 - 2" + Unicode.IMAGINARY);
+		checkContent("z_{1} = 2 - 2" + Unicode.IMAGINARY);
 	}
 
 	@Test

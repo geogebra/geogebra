@@ -6,9 +6,10 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.util.Cookies;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.WindowW;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -23,7 +24,6 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
-import com.google.gwt.user.client.Cookies;
 
 /**
  * API Interface for GeoGebraTube requests and responses
@@ -42,7 +42,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 *            parameters
 	 */
 	public GeoGebraTubeAPIW(ClientInfo client, boolean beta,
-			ArticleElementInterface articleElement) {
+			AppletParameters articleElement) {
 		super(beta, articleElement);
 		this.client = client;
 	}

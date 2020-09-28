@@ -1,7 +1,6 @@
 package org.geogebra.keyboard.web;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,10 +23,10 @@ import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificFunctionKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificLettersKeyboardFactory;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
@@ -123,8 +122,7 @@ public class TabbedKeyboard extends FlowPanel
 			updateKeyBoardListener.keyBoardNeeded(false, null);
 		}
 		keyboardWanted = false;
-		Cookies.setCookie("GeoGebraKeyboardWanted", "false", new Date(
-				System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365));
+		BrowserStorage.LOCAL.setItem(BrowserStorage.KEYBOARD_WANTED, "false");
 	}
 
 	private void buildGUIGgb() {
@@ -363,7 +361,7 @@ public class TabbedKeyboard extends FlowPanel
 					button = keyboard.getButtons().get(buttonIndex);
 					if (offset > 0) {
 						button.getElement().getStyle().setMarginLeft(
-								offset * baseSize + margins / 2, Unit.PX);
+								offset * baseSize + margins / 2d, Unit.PX);
 					}
 					button.getElement().getStyle().setWidth(
 							wb.getWeight() * baseSize - margins, Unit.PX);
@@ -374,7 +372,7 @@ public class TabbedKeyboard extends FlowPanel
 			if (Action.NONE.name().equals(row.getButtons()
 					.get(row.getButtons().size() - 1).getPrimaryActionName())) {
 				button.getElement().getStyle().setMarginRight(
-						offset * baseSize + margins / 2, Unit.PX);
+						offset * baseSize + margins / 2d, Unit.PX);
 			}
 		}
 		if (hasKeyboard.getInnerWidth() < getMinWidthWithoutScaling()) {

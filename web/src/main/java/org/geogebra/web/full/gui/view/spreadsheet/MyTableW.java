@@ -1464,14 +1464,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		int left, top;
 		if (scaleOffset) {
 			left = (int) ((wt.getAbsoluteLeft() - offx)
-					/ app.getArticleElement().getScaleX()) + offx;
+					/ app.getGeoGebraElement().getScaleX()) + offx;
 			top = (int) ((wt.getAbsoluteTop() - offy)
-					/ app.getArticleElement().getScaleY()) + offy;
+					/ app.getGeoGebraElement().getScaleY()) + offy;
 		} else {
 			left = (int) (wt.getAbsoluteLeft()
-					/ app.getArticleElement().getScaleX());
+					/ app.getGeoGebraElement().getScaleX());
 			top = (int) (wt.getAbsoluteTop()
-					/ app.getArticleElement().getScaleY());
+					/ app.getGeoGebraElement().getScaleY());
 		}
 		// Log.debug("-----------------------" + min);
 
@@ -1705,8 +1705,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 					KeyboardManagerInterface keyboardManager = app.getKeyboardManager();
 					if (keyboardManager != null) {
 						app.showKeyboard(textField,
-								keyboardManager
-										.shouldKeyboardBeShown());
+								!keyboardManager.isKeyboardClosedByUser());
 					} else {
 						app.showKeyboard(textField, true);
 					}

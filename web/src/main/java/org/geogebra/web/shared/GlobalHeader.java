@@ -230,7 +230,7 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	private void forceVisible(Visibility visible) {
-		app.getArticleElement().attr("marginTop",
+		app.getAppletParameters().setAttribute("marginTop",
 				visible == Visibility.VISIBLE ? "64" : "0");
 		// takes care of both header visibility and menu button placement
 		frame.forceHeaderVisibility(visible);

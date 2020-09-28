@@ -60,7 +60,6 @@ public class AlgoLaTeX extends AlgoElement {
 		this.substituteVars = substituteVars;
 		this.showName = showName;
 		text = new GeoText(cons);
-
 		text.setLaTeX(true, false);
 
 		if (geo instanceof HasSymbolicMode) {
@@ -203,7 +202,6 @@ public class AlgoLaTeX extends AlgoElement {
 		}
 
 		text.setLaTeX(useLaTeX, false);
-
 	}
 
 	@Override

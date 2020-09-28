@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.css;
 
-import org.geogebra.web.html5.util.LessResource;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.resources.SassResource;
 
@@ -24,6 +23,9 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	@Source("org/geogebra/web/resources/js/canvas2pdf_min.js")
 	TextResource canvas2Pdf();
+
+	@Source("org/geogebra/web/resources/js/xmlutil.js")
+	TextResource xmlUtil();
 
 	@Source("org/geogebra/common/icons_play/p24/nav_play_circle.png")
 	ImageResource icons_play_circle();
@@ -56,8 +58,11 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/domvas.js")
 	TextResource domvas();
 
-	@Source("org/geogebra/web/resources/css/web-styles-global.less")
-	LessResource modernStyleGlobal();
+	@Source("org/geogebra/web/resources/js/clipboard.js")
+	TextResource clipboardJs();
+
+	@Source("org/geogebra/web/resources/scss/web-styles-global.scss")
+	SassResource modernStyleGlobal();
 
 	@Source("org/geogebra/web/resources/scss/ev-styles.scss")
 	SassResource evStyleScss();

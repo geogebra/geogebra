@@ -17,20 +17,21 @@ public abstract class ScriptManager implements EventListener {
 
 	protected App app;
 	protected boolean listenersEnabled = true;
+	protected boolean jsEnabled = true;
 	// maps between GeoElement and JavaScript function names
 	protected HashMap<GeoElement, JsScript> updateListenerMap;
 	protected HashMap<GeoElement, JsScript> clickListenerMap;
-	protected ArrayList<JsScript> addListeners = new ArrayList<>();
-	protected ArrayList<JsScript> storeUndoListeners = new ArrayList<>();
-	protected ArrayList<JsScript> removeListeners = new ArrayList<>();
-	protected ArrayList<JsScript> renameListeners = new ArrayList<>();
-	protected ArrayList<JsScript> updateListeners = new ArrayList<>();
-	protected ArrayList<JsScript> clickListeners = new ArrayList<>();
-	protected ArrayList<JsScript> clearListeners = new ArrayList<>();
-	protected ArrayList<JsScript> clientListeners = new ArrayList<>();
+	protected final ArrayList<JsScript> addListeners = new ArrayList<>();
+	protected final ArrayList<JsScript> storeUndoListeners = new ArrayList<>();
+	protected final ArrayList<JsScript> removeListeners = new ArrayList<>();
+	protected final ArrayList<JsScript> renameListeners = new ArrayList<>();
+	protected final ArrayList<JsScript> updateListeners = new ArrayList<>();
+	protected final ArrayList<JsScript> clickListeners = new ArrayList<>();
+	protected final ArrayList<JsScript> clearListeners = new ArrayList<>();
+	protected final ArrayList<JsScript> clientListeners = new ArrayList<>();
 	private boolean keepListenersOnReset = true;
 
-	private ArrayList[] listenerLists() {
+	private ArrayList<JsScript>[] listenerLists() {
 		return new ArrayList[] { addListeners, storeUndoListeners,
 				removeListeners, renameListeners, updateListeners,
 				clickListeners, clearListeners, clientListeners };
@@ -155,11 +156,9 @@ public abstract class ScriptManager implements EventListener {
 			return;
 		}
 
-		if (addListeners != null) {
-			addListeners.clear();
-		}
+		addListeners.clear();
 
-		for (ArrayList a : listenerLists()) {
+		for (ArrayList<JsScript> a : listenerLists()) {
 			if (a != null && a != storeUndoListeners && a.size() > 0) {
 				a.clear();
 			}
@@ -188,7 +187,10 @@ public abstract class ScriptManager implements EventListener {
 			app.getKernel().initUndoInfo();
 		}
 		registerGlobalListener(storeUndoListeners, JSFunctionName);
+	}
 
+	public synchronized void unregisterStoreUndoListener(String JSFunctionName) {
+		storeUndoListeners.remove(JsScript.fromName(app, JSFunctionName));
 	}
 
 	private void registerGlobalListener(ArrayList<JsScript> listenerList,
@@ -209,10 +211,7 @@ public abstract class ScriptManager implements EventListener {
 	 * @see #registerAddListener(String)
 	 */
 	public synchronized void unregisterAddListener(String JSFunctionName) {
-		if (addListeners != null) {
-			addListeners.remove(JsScript.fromName(app, JSFunctionName));
-			Log.debug("unregisterAddListener: " + JSFunctionName);
-		}
+		addListeners.remove(JsScript.fromName(app, JSFunctionName));
 	}
 
 	/**
@@ -231,10 +230,7 @@ public abstract class ScriptManager implements EventListener {
 	 * @see #registerRemoveListener(String)
 	 */
 	public synchronized void unregisterRemoveListener(String JSFunctionName) {
-		if (removeListeners != null) {
-			removeListeners.remove(JsScript.fromName(app, JSFunctionName));
-			Log.debug("unregisterRemoveListener: " + JSFunctionName);
-		}
+		removeListeners.remove(JsScript.fromName(app, JSFunctionName));
 	}
 
 	/**
@@ -253,10 +249,7 @@ public abstract class ScriptManager implements EventListener {
 	 * @see #registerClearListener(String)
 	 */
 	public synchronized void unregisterClearListener(String JSFunctionName) {
-		if (clearListeners != null) {
-			clearListeners.remove(JsScript.fromName(app, JSFunctionName));
-			Log.debug("unregisterClearListener: " + JSFunctionName);
-		}
+		clearListeners.remove(JsScript.fromName(app, JSFunctionName));
 	}
 
 	/**
@@ -275,10 +268,7 @@ public abstract class ScriptManager implements EventListener {
 	 * @see #registerRenameListener(String)
 	 */
 	public synchronized void unregisterRenameListener(String JSFunctionName) {
-		if (renameListeners != null) {
-			renameListeners.remove(JsScript.fromName(app, JSFunctionName));
-			Log.debug("unregisterRenameListener: " + JSFunctionName);
-		}
+		renameListeners.remove(JsScript.fromName(app, JSFunctionName));
 	}
 
 	/**
@@ -297,9 +287,7 @@ public abstract class ScriptManager implements EventListener {
 	 * @see #registerRemoveListener(String)
 	 */
 	public synchronized void unregisterUpdateListener(String JSFunctionName) {
-		if (updateListeners != null) {
-			updateListeners.remove(JsScript.fromName(app, JSFunctionName));
-		}
+		updateListeners.remove(JsScript.fromName(app, JSFunctionName));
 	}
 
 	/**
@@ -318,9 +306,7 @@ public abstract class ScriptManager implements EventListener {
 	 * @see #registerRemoveListener(String)
 	 */
 	public synchronized void unregisterClickListener(String JSFunctionName) {
-		if (clickListeners != null) {
-			clickListeners.remove(JsScript.fromName(app, JSFunctionName));
-		}
+		clickListeners.remove(JsScript.fromName(app, JSFunctionName));
 	}
 
 	/**
@@ -338,9 +324,7 @@ public abstract class ScriptManager implements EventListener {
 	 *            client listener name
 	 */
 	public synchronized void unregisterClientListener(String jsFunctionName) {
-		if (clientListeners != null) {
-			clientListeners.remove(JsScript.fromName(app, jsFunctionName));
-		}
+		clientListeners.remove(JsScript.fromName(app, jsFunctionName));
 	}
 
 	/**
@@ -437,9 +421,6 @@ public abstract class ScriptManager implements EventListener {
 	 * @return add listeners
 	 */
 	public ArrayList<JsScript> getAddListeners() {
-		if (addListeners == null) {
-			addListeners = new ArrayList<>();
-		}
 		return addListeners;
 	}
 
@@ -447,9 +428,6 @@ public abstract class ScriptManager implements EventListener {
 	 * @return strore undo listeners
 	 */
 	public ArrayList<JsScript> getStoreUndoListeners() {
-		if (storeUndoListeners == null) {
-			storeUndoListeners = new ArrayList<>();
-		}
 		return storeUndoListeners;
 	}
 
@@ -457,9 +435,6 @@ public abstract class ScriptManager implements EventListener {
 	 * @return remove listeners
 	 */
 	public ArrayList<JsScript> getRemoveListeners() {
-		if (removeListeners == null) {
-			removeListeners = new ArrayList<>();
-		}
 		return removeListeners;
 	}
 
@@ -467,9 +442,6 @@ public abstract class ScriptManager implements EventListener {
 	 * @return rename listeners
 	 */
 	public ArrayList<JsScript> getRenameListeners() {
-		if (renameListeners == null) {
-			renameListeners = new ArrayList<>();
-		}
 		return renameListeners;
 	}
 
@@ -477,9 +449,6 @@ public abstract class ScriptManager implements EventListener {
 	 * @return update listeners
 	 */
 	public ArrayList<JsScript> getupdateListeners() {
-		if (updateListeners == null) {
-			updateListeners = new ArrayList<>();
-		}
 		return updateListeners;
 	}
 
@@ -487,9 +456,6 @@ public abstract class ScriptManager implements EventListener {
 	 * @return clear listeners
 	 */
 	public ArrayList<JsScript> getClearListeners() {
-		if (clearListeners == null) {
-			clearListeners = new ArrayList<>();
-		}
 		return clearListeners;
 	}
 
@@ -527,7 +493,7 @@ public abstract class ScriptManager implements EventListener {
 		if (clickListenerMap != null && clickListenerMap.size() > 0) {
 			return true;
 		}
-		for (ArrayList a : listenerLists()) {
+		for (ArrayList<JsScript> a : listenerLists()) {
 			if (a != null && a.size() > 0) {
 				return true;
 			}
@@ -573,4 +539,13 @@ public abstract class ScriptManager implements EventListener {
 		}
 		return map;
 	}
+
+	public boolean isJsEnabled() {
+		return jsEnabled;
+	}
+
+	public void setJsEnabled(boolean jsEnabled) {
+		this.jsEnabled = jsEnabled;
+	}
+
 }

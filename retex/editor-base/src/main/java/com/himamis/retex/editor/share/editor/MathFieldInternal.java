@@ -160,6 +160,17 @@ public class MathFieldInternal
 	}
 
 	/**
+	 * font type
+	 * @param type font type
+	 */
+	public void setFontAndUpdate(int type) {
+		if (type != mathFieldController.getFontType()) {
+			mathFieldController.setType(type);
+			update();
+		}
+	}
+
+	/**
 	 * @return edited formula
 	 */
 	public MathFormula getFormula() {
@@ -294,7 +305,7 @@ public class MathFieldInternal
 		if (handled && !tab) {
 			update();
 			if (!arrow && listener != null) {
-				listener.onKeyTyped();
+				listener.onKeyTyped(null);
 			}
 		}
 
@@ -330,7 +341,7 @@ public class MathFieldInternal
 			for (int i = 0; str != null && i < str.length(); i++) {
 				keyListener.onKeyTyped(str.charAt(i), editorState);
 			}
-			notifyAndUpdate();
+			notifyAndUpdate(str);
 		}
 		return false;
 	}
@@ -351,7 +362,7 @@ public class MathFieldInternal
 				|| keyListener.onKeyTyped(keyEvent.getUnicodeKeyChar(),
 						editorState);
 		if (handled && fire) {
-			notifyAndUpdate();
+			notifyAndUpdate(String.valueOf(keyEvent.getUnicodeKeyChar()));
 		}
 		return handled;
 	}
@@ -366,13 +377,13 @@ public class MathFieldInternal
 
 	/**
 	 * Notifies listener about key event and updates the view.
+	 * @param key key name
 	 */
-	public void notifyAndUpdate() {
+	public void notifyAndUpdate(String key) {
 		if (listener != null) {
-			listener.onKeyTyped();
+			listener.onKeyTyped(key);
 		}
 		update();
-
 	}
 
 	@Override
@@ -696,7 +707,7 @@ public class MathFieldInternal
 			field = field.getParent();
 		}
 		reverse(path);
-
+		setFormula(GeoGebraSerializer.reparse(getFormula()));
 		if (listener != null) {
 			listener.onInsertString();
 		}
@@ -716,9 +727,7 @@ public class MathFieldInternal
 		} else {
 			mathField.requestViewFocus();
 			// do this as late as possible
-			if (listener != null) {
-				listener.onKeyTyped();
-			}
+			onKeyTyped();
 		}
 	}
 
@@ -727,7 +736,7 @@ public class MathFieldInternal
 	 */
 	protected void onKeyTyped() {
 		if (listener != null) {
-			listener.onKeyTyped();
+			listener.onKeyTyped(null);
 		}
 	}
 
@@ -739,9 +748,7 @@ public class MathFieldInternal
 	 */
 	public void insertFunction(String text) {
 		inputController.newFunction(editorState, text, false, null);
-		if (listener != null) {
-			listener.onKeyTyped();
-		}
+		onKeyTyped();
 	}
 
 	/**

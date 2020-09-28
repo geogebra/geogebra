@@ -219,7 +219,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public boolean isFillable() {
-		return isDrawable;
+		return isDrawable && !isSlider() && getDrawAlgorithm() != null;
 	}
 
 	/**
@@ -350,7 +350,7 @@ public class GeoNumeric extends GeoElement
 				sliderPos.y = 50 + 40 * count;
 			}
 			// make sure slider is visible on screen
-			sliderPos.y = (int) sliderPos.y / 400 * 10 + sliderPos.y % 400;
+			sliderPos.y = (int) (sliderPos.y / 400) * 10 + sliderPos.y % 400;
 		} else {
 			sliderPos.x = -5;
 			sliderPos.y = 10 - count;
@@ -696,7 +696,7 @@ public class GeoNumeric extends GeoElement
 		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced,
 				setAuxiliaryProperty);
 
-		if (geo.isGeoNumeric()) {
+		if (geo.isGeoNumeric() && !geo.isGeoAngle()) {
 			isDrawable = ((GeoNumeric) geo).isDrawable;
 		}
 	}
@@ -1048,18 +1048,19 @@ public class GeoNumeric extends GeoElement
 	 * 
 	 * @return true iff slider is fixed in graphics view
 	 */
-	public final boolean isSliderFixed() {
+	@Override
+	public final boolean isLockedPosition() {
 		return sliderFixed;
 	}
 
 	/**
 	 * Sets whether slider is fixed in graphics view
 	 * 
-	 * @param isSliderFixed
+	 * @param lockedPosition
 	 *            true iff slider is fixed in graphics view
 	 */
-	public final void setSliderFixed(boolean isSliderFixed) {
-		sliderFixed = isSliderFixed;
+	public final void setSliderFixed(boolean lockedPosition) {
+		sliderFixed = lockedPosition;
 	}
 
 	/**
@@ -1681,7 +1682,7 @@ public class GeoNumeric extends GeoElement
 				.getDefaultNumber(false);
 		GeoNumeric defaultAngleOrNum = num.getKernel().getAlgoDispatcher()
 				.getDefaultNumber(isAngle);
-		num.setSliderFixed(defaultNum.isSliderFixed());
+		num.setSliderFixed(defaultNum.isLockedPosition());
 		num.setEuclidianVisible(visible);
 		num.setIntervalMin(defaultAngleOrNum.getIntervalMinObject());
 		num.setIntervalMax(defaultAngleOrNum.getIntervalMaxObject());
@@ -2063,7 +2064,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public boolean showLineProperties() {
-		return isDrawable() && !isSlider();
+		return isDrawable() && !isSlider() && getDrawAlgorithm() != null;
 	}
 
 	/**

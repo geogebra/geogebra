@@ -11,7 +11,7 @@ import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.geogebra3D.web.kernel3D.commands.CommandDispatcher3DW;
 import org.geogebra.web.geogebra3D.web.main.AppWapplet3D;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.ViewW;
 
 /**
@@ -28,9 +28,9 @@ public class AppWapplet3DTest extends AppWapplet3D {
 	 * @param laf    laf
 	 * @param device device
 	 */
-	public AppWapplet3DTest(ArticleElementInterface ae, GeoGebraFrameFull gf,
+	public AppWapplet3DTest(AppletParameters ae, GeoGebraFrameFull gf,
 							GLookAndFeel laf, GDevice device) {
-		super(ae, gf, laf, device);
+		super(DomMocker.getGeoGebraElement(), ae, gf, laf, device);
 	}
 
 	@Override
@@ -59,6 +59,11 @@ public class AppWapplet3DTest extends AppWapplet3D {
 
 	@Override
 	public void setExport3D(Format format) {
+		// no-op
+	}
+
+	@Override
+	public void resetUrl() {
 		// no-op
 	}
 }

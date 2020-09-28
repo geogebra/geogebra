@@ -61,7 +61,7 @@ public final class CommandFilterFactory {
 				Commands.Direction, Commands.Distance, Commands.Envelope, Commands.IntersectPath,
 				Commands.Locus, Commands.LocusEquation, Commands.Midpoint, Commands.Perimeter,
 				Commands.PerpendicularBisector, Commands.LineBisector, Commands.PerpendicularLine,
-				Commands.OrthogonalLine, Commands.Polygon, Commands.PolyLine, Commands.Polyline,
+				Commands.OrthogonalLine, Commands.Polygon,
 				Commands.Prove, Commands.ProveDetails, Commands.Radius, Commands.RigidPolygon,
 				Commands.Sector, Commands.Segment, Commands.Slope, Commands.Tangent,
 				Commands.TriangleCenter, Commands.TriangleCurve, Commands.Trilinear,
@@ -87,7 +87,9 @@ public final class CommandFilterFactory {
 				Commands.CompleteSquare, Commands.PartialFractions,
 				Commands.SolveODE, Commands.ImplicitDerivative,
 				Commands.NextPrime, Commands.PreviousPrime, Commands.Solve,
-				Commands.Solutions, Commands.NSolutions, Commands.NSolve);
+				Commands.Solutions, Commands.NSolutions, Commands.NSolve,
+				Commands.IntegralSymbolic, Commands.RemovableDiscontinuity,
+				Commands.PlotSolve);
 		return commandNameFilter;
 	}
 
@@ -98,8 +100,7 @@ public final class CommandFilterFactory {
 		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(true);
 		commandNameFilter.addCommands(
 				// CAS specific command
-				Commands.Delete, Commands.Max,
-				Commands.Min, Commands.Poisson,
+				Commands.Delete, Commands.Poisson,
 				// Function Commands
 				Commands.Asymptote, Commands.CurvatureVector, Commands.DataFunction,
 				Commands.Function, Commands.ImplicitCurve, Commands.IterationList,
@@ -166,7 +167,7 @@ public final class CommandFilterFactory {
 				Commands.SetSeed, Commands.SetSpinSpeed, Commands.SetTooltipMode,
 				Commands.SetTrace, Commands.SetValue, Commands.SetViewDirection,
 				Commands.SetVisibleInView, Commands.ShowLabel,
-				Commands.StartLogging, Commands.StartRecord, Commands.StopLogging,
+				Commands.StartRecord,
 				Commands.Turtle, Commands.TurtleBack, Commands.TurtleDown,
 				Commands.TurtleForward, Commands.TurtleLeft, Commands.TurtleRight,
 				Commands.TurtleUp, Commands.UpdateConstruction,

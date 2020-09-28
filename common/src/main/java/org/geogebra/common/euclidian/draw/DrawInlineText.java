@@ -11,7 +11,7 @@ import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.RotatableBoundingBox;
+import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
@@ -23,7 +23,7 @@ public class DrawInlineText extends Drawable implements DrawInline {
 
 	public static final int PADDING = 8;
 
-	private GeoInlineText text;
+	private final GeoInlineText text;
 	private InlineTextController textController;
 
 	private final TransformableRectangle rectangle;
@@ -36,7 +36,7 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	 */
 	public DrawInlineText(EuclidianView view, GeoInlineText text) {
 		super(view, text);
-		rectangle = new TransformableRectangle(view, text);
+		rectangle = new TransformableRectangle(view, text, false);
 		this.text = text;
 		this.textController = view.getApplication().createInlineTextController(view, text);
 		createEditor();
@@ -92,12 +92,7 @@ public class DrawInlineText extends Drawable implements DrawInline {
 		}
 	}
 
-	/**
-	 * @param x x mouse coordinate in pixels
-	 * @param y y mouse coordinate in pixels
-	 * @return the url of the current coordinate, or null, if there is
-	 * nothing at (x, y), or it has no url set
-	 */
+	@Override
 	public String urlByCoordinate(int x, int y) {
 		if (textController != null) {
 			GPoint2D p = rectangle.getInversePoint(x - PADDING, y - PADDING);
@@ -113,27 +108,13 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	}
 
 	@Override
-	public RotatableBoundingBox getBoundingBox() {
+	public MediaBoundingBox getBoundingBox() {
 		return rectangle.getBoundingBox();
 	}
 
 	@Override
-	public double getWidthThreshold() {
-		if (text.getHeight() - text.getMinHeight() < 2) {
-			return text.getWidth();
-		}
-
-		return GeoInlineText.DEFAULT_WIDTH;
-	}
-
-	@Override
-	public double getHeightThreshold() {
-		return text.getMinHeight();
-	}
-
-	@Override
 	public void draw(GGraphics2D g2) {
-		if (textController != null) {
+		if (text.isEuclidianVisible() && textController != null) {
 			textController.draw(g2, rectangle.getDirectTransform());
 		}
 	}
@@ -173,61 +154,6 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	@Override
 	protected List<GPoint2D> toPoints() {
 		return rectangle.toPoints();
-	}
-
-	/**
-	 * @param key
-	 *            formatting option
-	 * @param val
-	 *            value (String, int or bool, depending on key)
-	 */
-	public void format(String key, Object val) {
-		if (textController != null) {
-			textController.format(key, val);
-		}
-	}
-
-	/**
-	 * @param key formatting option name
-	 * @param fallback fallback when not set / indeterminate
-	 * @param <T> option type
-	 * @return formatting option value or fallback
-	 */
-	public <T> T getFormat(String key, T fallback) {
-		if (textController != null) {
-			return textController.getFormat(key, fallback);
-		}
-		return fallback;
-	}
-
-	/**
-	 * @return hyperlink of selected part, or at the end of text element if no selection
-	 */
-	public String getHyperLinkURL() {
-		if (textController != null) {
-			return textController.getHyperLinkURL();
-		}
-		return "";
-	}
-
-	/**
-	 * Switch the list type of selected text
-	 * @param listType - numbered or bullet list
-	 */
-	public void switchListTo(String listType) {
-		if (textController != null) {
-			textController.switchListTo(listType);
-		}
-	}
-
-	/**
-	 * @return list style of selected text
-	 */
-	public String getListStyle() {
-		if (textController != null) {
-			return textController.getListStyle();
-		}
-		return "";
 	}
 
 	@Override

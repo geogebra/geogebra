@@ -106,7 +106,7 @@ public class GeoGebraServer {
 					} else if ("getValue".equals(cmd)) {
 						results.put(api.getValue(args));
 					} else if ("getValueString".equals(cmd)) {
-						results.put(api.getValueString(args));
+						results.put(api.getValueString(args, true));
 					} else if ("getLaTeXString".equals(cmd)) {
 						results.put(api.getLaTeXString(args));
 					} else if ("setRounding".equals(cmd)) {

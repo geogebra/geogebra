@@ -253,17 +253,10 @@ public class CAStestJSON {
 				return;
 			}
 			try {
-				result = result.replaceAll("c_[0-9]", "c_0")
-						.replaceAll("k_[0-9]", "k_0")
-						.replaceAll("c_\\{[0-9]+\\}", "c_0")
-						.replaceAll("k_\\{[0-9]+\\}", "k_0")
-						.replace("arccos", "acos").replace("arctan", "atan")
-						.replace("Wenn(", "If(").replace("arcsin", "asin")
-						.replace("NteWurzel", "nroot");
+				result = normalizeActual(result);
 				assertThat(result,
 						equalToIgnoreWhitespaces(logger, input,
-								expectedResult[i].replaceAll("c_[0-9]+", "c_0")
-										.replaceAll("n_[0-9]+", "k_0"),
+								normalizeExpected(expectedResult[i]),
 								validResults));
 				return;
 			} catch (Throwable t) {
@@ -272,12 +265,27 @@ public class CAStestJSON {
 				// }
 				if (i == expectedResult.length - 1) {
 					failures[0].append(expectedResult[0] == null ? "null"
-							: expectedResult[0].replaceAll("c_[0-9]+", "c_0"));
+							: normalizeExpected(expectedResult[0]));
 					failures[0].append(" input: ").append(input).append('\n');
 					failures[1].append(result).append('\n');
 				}
 			}
 		}
+	}
+
+	private static String normalizeActual(String result) {
+		return result.replaceAll("c_[0-9]", "c_0")
+				.replaceAll("k_[0-9]", "k_0")
+				.replaceAll("c_\\{[0-9]+\\}", "c_0")
+				.replaceAll("k_\\{[0-9]+\\}", "k_0")
+				.replace("arccos", "acos").replace("arctan", "atan")
+				.replace("Wenn(", "If(").replace("arcsin", "asin")
+				.replace("NteWurzel", "nroot");
+	}
+
+	private static String normalizeExpected(String s) {
+		return s.replaceAll("c_[0-9]+", "c_0")
+				.replaceAll("n_[0-9]+", "k_0");
 	}
 
 	private static Traversing getGGBVectAdder() {
@@ -375,14 +383,22 @@ public class CAStestJSON {
 	}
 
 	@Test
-	public void testIntegral() {
+	public void testIntegral1() {
 		testCat("Integral.1");
+	}
+
+	@Test
+	public void testIntegral2() {
 		testCat("Integral.2");
 	}
 
 	@Test
-	public void testIntegralFinite() {
+	public void testIntegralFinite3() {
 		testCat("Integral.3");
+	}
+
+	@Test
+	public void testIntegralFinite4() {
 		testCat("Integral.4");
 	}
 
@@ -1387,9 +1403,23 @@ public class CAStestJSON {
 	}
 
 	@Test
-	public void testLaplace() {
+	public void testKeepIf() {
+		testCat("KeepIf.2");
+		testCat("KeepIf.3");
+	}
+
+	@Test
+	public void testLaplace1() {
 		testCat("Laplace.1");
+	}
+
+	@Test
+	public void testLaplace2() {
 		testCat("Laplace.2");
+	}
+
+	@Test
+	public void testLaplace3() {
 		testCat("Laplace.3");
 	}
 
@@ -1414,5 +1444,31 @@ public class CAStestJSON {
 	@Test
 	public void testRandomUniform() {
 		testCat("RandomUniform.2");
+	}
+
+	@Test
+	public void testIntegralSymbolic() {
+		testCat("IntegralSymbolic.1");
+		testCat("IntegralSymbolic.2");
+	}
+
+	@Test
+	public void testInequalityOperation() {
+		testCat("InequalityOperation");
+	}
+
+	@Test
+	public void testRemoveUndefined() {
+		testCat("RemoveUndefined.1");
+	}
+
+	@Test
+	public void testIsInteger() {
+		testCat("IsInteger.1");
+	}
+
+	@Test
+	public void testPlotSolve() {
+		testCat("PlotSolve.1");
 	}
 }

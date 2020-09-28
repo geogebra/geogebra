@@ -47,13 +47,13 @@ public final class Dom {
 	/**
 	 * @param elem
 	 *            the root element
-	 * @param className
-	 *            className
+	 * @param selector
+	 *            selector
 	 * @return first Element found by selector className
 	 */
 	public static native Element querySelectorForElement(JavaScriptObject elem,
-			String className) /*-{
-		return elem.querySelector("." + className);
+			String selector) /*-{
+		return elem.querySelector(selector);
 	}-*/;
 
 	/**

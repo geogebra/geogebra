@@ -787,7 +787,25 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		this.isDefaults = isDefaults;
 		loc = app.getLocalization();
 		// build GUI
+		initPermissions();
 		initGUI(onTabSelection);
+	}
+
+	private void initPermissions() {
+		if (app.getLoginOperation() != null
+				&& app.getAppletParameters().getDataParamApp()) {
+			updateJsEnabled();
+			app.getLoginOperation().getView().add(event -> {
+				updateJsEnabled();
+				updateGUI();
+			});
+		}
+	}
+
+	private void updateJsEnabled() {
+		app.getScriptManager().setJsEnabled(!app.isMebis()
+				|| app.getLoginOperation().isTeacherLoggedIn());
+
 	}
 
 	AppW getAppW() {
@@ -999,7 +1017,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	private OptionsTab addAlgebraTab() {
 		OptionsTab tab;
 		tab = makeOptionsTab("Properties.Algebra");
-		tab.addModel(new CoordsModel(app));
+		if (app.getConfig().isCoordinatesObjectSettingEnabled()) {
+			tab.addModel(new CoordsModel(app));
+		}
 		tab.addModel(new LineEqnModel(app));
 		tab.addModel(new PlaneEqnModel(app));
 		tab.addModel(new SymbolicModel(app));

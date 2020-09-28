@@ -4,8 +4,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CASCommandArgumentFilter;
@@ -17,6 +20,7 @@ import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.settings.updater.CasSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.CasPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 
@@ -68,6 +72,12 @@ public class AppConfigCas extends AppConfigGraphing {
 	@Override
 	public CommandArgumentFilter getCommandArgumentFilter() {
 		return new CASCommandArgumentFilter();
+	}
+
+	@CheckForNull
+	@Override
+	public SyntaxFilter newCommandSyntaxFilter() {
+		return null;
 	}
 
 	@Override
@@ -136,6 +146,11 @@ public class AppConfigCas extends AppConfigGraphing {
 	}
 
 	@Override
+	public boolean isCoordinatesObjectSettingEnabled() {
+		return true;
+	}
+
+	@Override
 	public SettingsUpdater createSettingsUpdater() {
 		return new CasSettingsUpdater();
 	}
@@ -143,5 +158,10 @@ public class AppConfigCas extends AppConfigGraphing {
 	@Override
 	public PropertiesFactory createPropertiesFactory() {
 		return new CasPropertiesFactory();
+	}
+
+	@Override
+	public StringTemplate getOutputStringTemplate() {
+		return StringTemplate.numericLatex;
 	}
 }

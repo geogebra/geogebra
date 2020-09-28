@@ -151,7 +151,7 @@ public class KeyboardManager
 	}
 
 	private Element getAppletContainer() {
-		Element scaler = app.getArticleElement().getParentElement();
+		Element scaler = app.getGeoGebraElement().getParentElement();
 		Element container = scaler == null ? null : scaler.getParentElement();
 		if (container == null) {
 			return RootPanel.getBodyElement();
@@ -200,11 +200,6 @@ public class KeyboardManager
 			keyboard = new OnscreenTabbedKeyboard((HasKeyboard) app,
 					showMoreButton);
 		}
-	}
-
-	@Override
-	public boolean shouldKeyboardBeShown() {
-		return keyboard != null && keyboard.shouldBeShown();
 	}
 
 	@Override
@@ -270,9 +265,7 @@ public class KeyboardManager
 		}
 	}
 
-	/**
-	 * @return whether keyboard was closed by clicking the X button
-	 */
+	@Override
 	public boolean isKeyboardClosedByUser() {
 		return this.keyboard != null && !this.keyboard.shouldBeShown();
 	}

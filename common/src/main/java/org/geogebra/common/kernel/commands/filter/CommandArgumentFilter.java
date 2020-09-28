@@ -19,4 +19,10 @@ public interface CommandArgumentFilter {
 	 */
 	void checkAllowed(Command command, CommandProcessor commandProcessor)
 			throws MyError;
+
+	/**
+	 * @param commandName command name
+	 * @return True if the command with the name commandName is one of the filtered commands
+	 */
+	boolean isFilteredCommand(String commandName);
 }

@@ -31,6 +31,7 @@ import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
+import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
@@ -79,6 +80,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -113,12 +115,12 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoScriptRunner;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.ScriptType;
-import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.GPredicate;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
@@ -194,8 +196,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// please let 1024 to 2047 empty
 	/** id for spreadsheet table model */
 	public static final int VIEW_TABLE_MODEL = 9000;
-	/** data collection view (web only) */
-	public static final int VIEW_DATA_COLLECTION = 43;
 	/** accessibility view in Web */
 	public static final int VIEW_ACCESSIBILITY = 44;
 	/** id for table view */
@@ -373,10 +373,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected HashMap<Integer, Boolean> showConsProtNavigation = null;
 	protected AppCompanion companion;
 	protected boolean prerelease;
-	protected boolean canary;
 
 	private boolean showResetIcon = false;
 	private ParserFunctions pf;
+	private ParserFunctions pfInputBox;
 	private SpreadsheetTraceManager traceManager;
 	private ExamEnvironment exam;
 
@@ -441,6 +441,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private SettingsUpdater settingsUpdater;
 	private FontCreator fontCreator;
 	private AlgebraOutputFilter algebraOutputFilter;
+
+	private final AppConfig appConfig = new AppConfigDefault();
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -1250,32 +1252,36 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Deletes selected objects
 	 */
 	public void deleteSelectedObjects(boolean isCut) {
+		deleteSelectedObjects(isCut, new GPredicate<GeoElement>() {
+			@Override
+			public boolean test(GeoElement geo) {
+				return !geo.isProtected(EventType.REMOVE);
+			}
+		});
+	}
+
+	/**
+	 * Deletes some of the selected objects
+	 * @param filter which geos to delete
+	 */
+	public void deleteSelectedObjects(boolean isCut, GPredicate<GeoElement> filter) {
 		if (letDelete()) {
-			GeoElement[] geos = selection.getSelectedGeos().toArray(new GeoElement[0]);
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = geos[i];
-				if (!geo.isProtected(EventType.REMOVE)) {
-					if (isCut || geo.isShape()) {
-						if (geo.getParentAlgorithm() != null) {
-							for (GeoElement ge : geo
-									.getParentAlgorithm().input) {
-								ge.removeOrSetUndefinedIfHasFixedDescendent();
-							}
+			// also delete just created geos if possible
+			ArrayList<GeoElement> geos2 = new ArrayList<>(getActiveEuclidianView()
+					.getEuclidianController().getJustCreatedGeos());
+			geos2.addAll(selection.getSelectedGeos());
+			for (GeoElement geo : geos2) {
+				if (filter.test(geo)) {
+					boolean removePredecessors = isCut || geo.isShape();
+					if (removePredecessors && geo.getParentAlgorithm() != null) {
+						for (GeoElement ge : geo.getParentAlgorithm().input) {
+							ge.removeOrSetUndefinedIfHasFixedDescendent();
 						}
 					}
 					geo.removeOrSetUndefinedIfHasFixedDescendent();
 				}
 			}
 
-			// also delete just created geos if possible
-			ArrayList<GeoElement> geos2 = getActiveEuclidianView()
-					.getEuclidianController().getJustCreatedGeos();
-			for (int j = 0; j < geos2.size(); j++) {
-				GeoElement geo = geos2.get(j);
-				if (!geo.isProtected(EventType.REMOVE)) {
-					geo.removeOrSetUndefinedIfHasFixedDescendent();
-				}
-			}
 			getActiveEuclidianView().getEuclidianController()
 					.clearJustCreatedGeos();
 			getActiveEuclidianView().getEuclidianController()
@@ -2931,13 +2937,26 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return parser extension for functions
 	 */
-	public ParserFunctions getParserFunctions() {
+	public ParserFunctions getParserFunctions(boolean inputBox) {
 		if (pf == null) {
 			pf = getConfig().createParserFunctions();
+			pf.addTrigShorthandFunctions();
+			pfInputBox = getConfig().createParserFunctions();
 		}
 		pf.setInverseTrig(
 				kernel.getLoadingMode() && kernel.getInverseTrigReturnsAngle());
-		return pf;
+		pfInputBox.setInverseTrig(
+				kernel.getLoadingMode() && kernel.getInverseTrigReturnsAngle());
+
+		if (inputBox) {
+			return pfInputBox;
+		} else {
+			return pf;
+		}
+	}
+
+	public ParserFunctions getParserFunctions() {
+		return getParserFunctions(false);
 	}
 
 	/**
@@ -3064,9 +3083,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return version string
 	 */
 	public String getVersionString() {
-
 		if (platform != null) {
-			return platform.getVersionString(prerelease, canary, getConfig().getAppCode());
+			return platform.getVersionString(prerelease, getConfig().getAppCode());
 		}
 
 		// fallback in case version not set properly
@@ -3671,10 +3689,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return companion;
 	}
 
-	public SensorLogger getSensorLogger() {
-		return null;
-	}
-
 	/**
 	 * Add file open listener.
 	 *
@@ -3807,10 +3821,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// *********************************************************
 		// **********************************************************************
 
-		// MOB-270
-		case ACRA:
-			return prerelease;
-
 		case ANALYTICS:
 			return prerelease;
 
@@ -3825,10 +3835,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// AND-887 and IGR-732
 		case MOB_PROPERTY_SORT_BY:
 			return false;
-
-		/** MOB-1293 */
-		case SELECT_TOOL_NEW_BEHAVIOUR:
-			return prerelease || whiteboard;
 
 		// **********************************************************************
 		// MOBILE END
@@ -3889,9 +3895,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case ADJUST_WIDGETS:
 			return false;
 
-		case SURFACE_2D:
-			return prerelease;
-
 		case SYMBOLIC_AV:
 			return true;
 
@@ -3912,16 +3915,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
        // *********************************************************
        // **********************************************************************
 
-		/** G3D-345 */
-		case G3D_AR_SHOW_RATIO:
-			return prerelease;
-
 		/** G3D-343 */
 		case G3D_SELECT_META:
-			return false;
-
-		/** G3D-372 */
-		case G3D_AR_RATIO_SETTINGS:
 			return false;
 
 		// **********************************************************************
@@ -4076,7 +4071,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			} else if (geo.isGeoList() && ((GeoList) geo).drawAsComboBox()) {
 				Drawable d = (Drawable) getActiveEuclidianView()
 						.getDrawableFor(geo);
-				((DrawDropDownList) d).toggleOptions();
+				if (d != null) {
+					((DrawDropDownList) d).toggleOptions();
+				}
 
 			} else if (geo.isGeoNumeric()) {
 
@@ -4774,7 +4771,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public AppConfig getConfig() {
-		return new AppConfigDefault();
+		return appConfig;
 	}
 
 	/**
@@ -5176,6 +5173,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return null;
 	}
 
+	public InlineTableController createTableController(EuclidianView view, GeoInlineTable table) {
+		return null;
+	}
+
 	/**
 	 * GeoPriorityComparators are used to decide the drawing
 	 * and selection orders of Geos
@@ -5188,5 +5189,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		} else {
 			return new DefaultGeoPriorityComparator();
 		}
+	}
+
+	public void closeMenuHideKeyboard() {
+		// nothing here
+	}
+
+	public String getThreadId() {
+		return "[main thread]";
 	}
 }

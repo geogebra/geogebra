@@ -21,7 +21,7 @@ import org.geogebra.common.gui.inputfield.InputMode;
 import org.geogebra.common.gui.inputfield.MyTextField;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.geos.properties.TextAlignment;
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -236,6 +236,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				if ((etype == Event.ONMOUSEDOWN || etype == Event.ONTOUCHSTART)
 						&& !app.isWhiteboardActive()
 						&& keyboardManager != null) {
+					app.showKeyboard(AutoCompleteTextFieldW.this, true);
 					keyboardManager.setOnScreenKeyboardTextField(
 							AutoCompleteTextFieldW.this);
 				}
@@ -361,14 +362,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 						}
 
 						Scheduler.get().scheduleDeferred(
-								new Scheduler.ScheduledCommand() {
-									@Override
-									public void execute() {
-										app.getActiveEuclidianView()
-												.getViewTextField()
-												.setBoxVisible(true);
-										setFocus(true);
-									}
+								() -> {
+									app.getActiveEuclidianView()
+											.getViewTextField()
+											.setBoxVisible(true);
+									setFocus(true);
 								});
 					}
 				});
@@ -1235,12 +1233,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		this.updateCurrentWord(false);
 
 		setCaretPosition(newPos, false);
-
-		// TODO: tried to keep the Mac OS from auto-selecting the field by
-		// resetting the
-		// caret, but not working yet
-		// setCaret(new DefaultCaret());
-		// setCaretPosition(newPos);
 	}
 
 	private int getSelectionEnd() {
@@ -1610,11 +1602,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	@Override
-	public void setTextAlignmentsForInputBox(TextAlignment alignment) {
+	public void setTextAlignmentsForInputBox(HorizontalAlignment alignment) {
 		getInputElement().getStyle().setTextAlign(textAlignToCssAlign(alignment));
 	}
 
-	private Style.TextAlign textAlignToCssAlign(TextAlignment alignment) {
+	private Style.TextAlign textAlignToCssAlign(HorizontalAlignment alignment) {
 		switch (alignment) {
 			case LEFT:
 					return Style.TextAlign.LEFT;

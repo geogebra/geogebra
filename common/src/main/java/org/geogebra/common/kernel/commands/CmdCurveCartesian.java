@@ -30,7 +30,8 @@ public class CmdCurveCartesian extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
+		boolean[] ok;
+		GeoElement[] arg;
 
 		switch (n) {
 		// Curve[ <x-coord expression>, <y-coord expression>, <number-var>,
@@ -38,34 +39,41 @@ public class CmdCurveCartesian extends CommandProcessor {
 		// Note: x and y coords are numbers dependent on number-var
 		// Curve[t*(1-t)*A+t*t*B+(1-t)*(1-t)*C,t,0,1]
 		case 4:
-			GeoElement[] arg = resArgsLocalNumVar(c, 1, 2, 3);
-			if ((ok[0] = arg[0] instanceof VectorNDValue)
-					&& (ok[1] = arg[1].isGeoNumeric())
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)
+			ok = new boolean[n];
+			arg = new GeoElement[n];
+			arg[2] = resArgSilent(c, 2, new EvalInfo(false));
+			arg[3] = resArgSilent(c, 3, new EvalInfo(false));
+			if ((ok[2] = arg[2] instanceof GeoNumberValue)
 					&& (ok[3] = arg[3] instanceof GeoNumberValue)) {
-				ExpressionNode exp = kernel
-						.convertNumberValueToExpressionNode(arg[0]);
-				int dim = ((VectorNDValue) arg[0]).getDimension();
-				GeoNumberValue[] coords = new GeoNumberValue[dim];
-				for (int i = 0; i < dim; i++) {
-					ExpressionNode cx = VectorArithmetic.computeCoord(exp, i);
-					AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx,
-							false);
-					cons.removeFromConstructionList(nx);
-					coords[i] = nx.getNumber();
+				arg = resArgsLocalNumVar(c, 1, 2, 3);
+				if ((ok[0] = arg[0] instanceof VectorNDValue)
+						&& (ok[1] = arg[1].isGeoNumeric())
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)
+						&& (ok[3] = arg[3] instanceof GeoNumberValue)) {
+					ExpressionNode exp = kernel
+							.convertNumberValueToExpressionNode(arg[0]);
+					int dim = ((VectorNDValue) arg[0]).getDimension();
+					GeoNumberValue[] coords = new GeoNumberValue[dim];
+					for (int i = 0; i < dim; i++) {
+						ExpressionNode cx = VectorArithmetic.computeCoord(exp, i);
+						AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx,
+								false);
+						cons.removeFromConstructionList(nx);
+						coords[i] = nx.getNumber();
+					}
+
+					AlgoCurveCartesian algo = getCurveAlgo(exp, coords, arg);
+					algo.getCurve().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getCurve()};
+
+					return ret;
 				}
-
-				AlgoCurveCartesian algo = getCurveAlgo(exp, coords, arg);
-				algo.getCurve().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getCurve() };
-
-				return ret;
 			}
 			throw argErr(getBadArg(ok, arg), c);
 		case 5:
 			// create local variable at position 2 and resolve arguments
+			ok = new boolean[n];
 			arg = resArgsLocalNumVar(c, 2, 3, 4);
-
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoNumeric())

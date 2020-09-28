@@ -190,7 +190,7 @@ public class Construction {
 
 	private GeoElement outputGeo;
 
-	private TreeSet<String> registredFV = new TreeSet<>();
+	private TreeSet<String> registeredFV = new TreeSet<>();
 
 	private boolean fileLoading;
 	private boolean casCellUpdate = false;
@@ -935,6 +935,8 @@ public class Construction {
 	 *            ConstuctionElement to be removed
 	 */
 	public void removeFromConstructionList(ConstructionElement ce) {
+		tempList.remove(ce);
+
 		int pos = ceList.indexOf(ce);
 		if (pos == -1) {
 			return;
@@ -2693,16 +2695,21 @@ public class Construction {
 	}
 
 	/**
-	 * Returns the next free indexed label using the given prefix starting with
-	 * the given index number.
-	 * 
-	 * @param prefix
-	 *            e.g. "c"
-	 * @param startIndex
-	 *            e.g. 2
+	 * Returns the next free indexed label using the given prefix.
+	 * @param prefix e.g. "c"
 	 * @return indexed label, e.g. "c_2"
 	 */
-	public String getIndexLabel(String prefix, int startIndex) {
+	public String getIndexLabel(String prefix) {
+		return getIndexLabel(prefix, false);
+	}
+
+	/**
+	 * Returns the next free indexed label using the given prefix.
+	 * @param prefix e.g. "c"
+	 * @param includeDummies to include cas dummy variables
+	 * @return indexed label, e.g. "c_{2}"
+	 */
+	public String getIndexLabel(String prefix, boolean includeDummies) {
 		// start numbering with indices using suggestedLabel
 		// as prefix
 		String pref;
@@ -2718,42 +2725,20 @@ public class Construction {
 			pref = "a";
 		}
 
-		StringBuilder sbIndexLabel = new StringBuilder();
-		StringBuilder sbLongIndexLabel = new StringBuilder();
-
-		int n = startIndex;
+		String longIndexLabel;
+		boolean freeLabelFound;
+		int n = 0;
 
 		do {
-			sbIndexLabel.setLength(0);
-			sbLongIndexLabel.setLength(0);
-			sbLongIndexLabel.append(pref);
-			sbLongIndexLabel.append("_{");
-			sbLongIndexLabel.append(n);
-			sbLongIndexLabel.append('}');
-			// n as index
-
-			if (n < 10) {
-				sbIndexLabel.append(pref);
-				sbIndexLabel.append('_');
-				sbIndexLabel.append(n);
-			} else {
-				sbIndexLabel.append(sbLongIndexLabel);
-			}
 			n++;
-		} while (!isFreeLabel(sbIndexLabel.toString())
-				|| !isFreeLabel(sbLongIndexLabel.toString()));
-		return sbIndexLabel.toString();
-	}
 
-	/**
-	 * Returns the next free indexed label using the given prefix.
-	 * 
-	 * @param prefix
-	 *            e.g. "c"
-	 * @return indexed label, e.g. "c_2"
-	 */
-	public String getIndexLabel(String prefix) {
-		return getIndexLabel(prefix, 1);
+			longIndexLabel = pref + "_{" + n + '}';
+			String indexLabel = pref + '_' + n;
+			freeLabelFound = isFreeLabel(longIndexLabel, true, includeDummies)
+					&& ((n >= 10) || isFreeLabel(indexLabel, true, includeDummies));
+		} while (!freeLabelFound);
+
+		return longIndexLabel;
 	}
 
 	/**
@@ -3095,6 +3080,7 @@ public class Construction {
 
 		usedMacros = null;
 		spreadsheetTraces = false;
+		supressLabelCreation = false;
 
 		groups.clear();
 	}
@@ -3240,9 +3226,9 @@ public class Construction {
 	 */
 	public void registerFunctionVariable(String fv) {
 		if (fv == null) {
-			registredFV.clear();
+			registeredFV.clear();
 		} else {
-			registredFV.add(fv);
+			registeredFV.add(fv);
 		}
 
 	}
@@ -3251,10 +3237,10 @@ public class Construction {
 	 * 
 	 * @param s
 	 *            variable name
-	 * @return whether s is among registred function variables
+	 * @return whether s is among registered function variables
 	 */
-	public boolean isRegistredFunctionVariable(String s) {
-		return registredFV.contains(s);
+	public boolean isRegisteredFunctionVariable(String s) {
+		return registeredFV.contains(s);
 	}
 
 	/**
@@ -3264,7 +3250,7 @@ public class Construction {
 	 * @return local function variable or null if there is none
 	 */
 	public String getRegisteredFunctionVariable() {
-		Iterator<String> it = registredFV.iterator();
+		Iterator<String> it = registeredFV.iterator();
 		if (it.hasNext()) {
 			return it.next();
 		}
@@ -3516,8 +3502,8 @@ public class Construction {
 	 * @return all function variables registered for parsing
 	 */
 	public String[] getRegisteredFunctionVariables() {
-		String[] varNames = new String[this.registredFV.size()];
-		Iterator<String> it = this.registredFV.iterator();
+		String[] varNames = new String[this.registeredFV.size()];
+		Iterator<String> it = this.registeredFV.iterator();
 		int i = 0;
 		while (it.hasNext()) {
 			varNames[i++] = it.next();

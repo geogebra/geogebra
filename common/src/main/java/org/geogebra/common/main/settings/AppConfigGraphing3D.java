@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
@@ -17,6 +19,9 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
+import org.geogebra.common.properties.factory.G3DPropertiesFactory;
+import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
  * Config for 3D Graphing Calculator app
@@ -118,6 +123,12 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 		return null;
 	}
 
+	@CheckForNull
+	@Override
+	public SyntaxFilter newCommandSyntaxFilter() {
+		return null;
+	}
+
 	@Override
 	public boolean hasPreviewPoints() {
 		return false;
@@ -181,5 +192,15 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	@Override
 	public boolean hasAnsButtonInAv() {
 		return false;
+	}
+
+	@Override
+	public boolean isCoordinatesObjectSettingEnabled() {
+		return true;
+	}
+
+	@Override
+	public PropertiesFactory createPropertiesFactory() {
+		return new G3DPropertiesFactory();
 	}
 }

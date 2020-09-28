@@ -2,9 +2,12 @@ package org.geogebra.common.main;
 
 import java.util.Set;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
@@ -12,6 +15,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 
 public interface AppConfig {
@@ -158,6 +162,12 @@ public interface AppConfig {
 	CommandArgumentFilter getCommandArgumentFilter();
 
 	/**
+	 * @return command syntax filter
+	 */
+	@CheckForNull
+	SyntaxFilter newCommandSyntaxFilter();
+
+	/**
 	 * @return whether the app should show the tools panel or not
 	 */
 	boolean showToolsPanel();
@@ -258,8 +268,23 @@ public interface AppConfig {
 	boolean isAngleUnitSettingEnabled();
 
 	/**
+	 * @return true if the coordinates object setting is enabled
+	 */
+	boolean isCoordinatesObjectSettingEnabled();
+
+	/**
 	 * @return new PropertiesFactory instance
 	 */
 	PropertiesFactory createPropertiesFactory();
+
+	/**
+	 * @return true if trace is enabled in context menu
+	 */
+	boolean disableTraceCM();
+
+	/**
+	 * @return the template to serialize the output
+	 */
+	StringTemplate getOutputStringTemplate();
 }
 

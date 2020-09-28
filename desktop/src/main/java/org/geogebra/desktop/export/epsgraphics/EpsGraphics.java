@@ -945,6 +945,10 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Clears a rectangle with top-left corner placed at (x,y) using the current
 	 * background color.
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
 	 */
 	@Override
 	public void clearRect(int x, int y, int width, int height) {

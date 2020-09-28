@@ -34,8 +34,7 @@ public class GeoFormulaTest extends BaseUnitTest {
 		GPoint2D startPoint = new GPoint2D(x, y);
 
 		GeoFormula savedFormula = new GeoFormula(cons, startPoint);
-		savedFormula.setWidth(width);
-		savedFormula.setHeight(height);
+		savedFormula.setSize(width, height);
 		savedFormula.setAngle(angle);
 		savedFormula.setContent(content);
 		savedFormula.setLabel("testFormula");
@@ -71,14 +70,14 @@ public class GeoFormulaTest extends BaseUnitTest {
 	@Test
 	public void product() {
 		equationEditor.setContent("$prodeq(i=1,10)x_{i}");
-		assertEquals("\\prod\\nolimits_{i\\,=\\,1}^{10}{}x_{i}",
+		assertEquals("\\prod_{i\\,=\\,1}^{10}{}x_{i}",
 				equationEditor.toValueString(StringTemplate.latexTemplate));
 	}
 
 	@Test
 	public void sum() {
 		equationEditor.setContent("$sumeq(i=0,10)i");
-		assertEquals("\\sum\\nolimits_{i\\,=\\,0}^{10}{}i",
+		assertEquals("\\sum_{i\\,=\\,0}^{10}{}i",
 				equationEditor.toValueString(StringTemplate.latexTemplate));
 	}
 

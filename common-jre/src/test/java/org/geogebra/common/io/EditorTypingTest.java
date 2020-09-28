@@ -1,6 +1,7 @@
 package org.geogebra.common.io;
 
 import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.test.TestStringUtil;
 import org.junit.Before;
@@ -34,21 +35,26 @@ public class EditorTypingTest {
 	@Test
 	public void testEditorUnicode() {
 		checker.checkEditorInsert(TestStringUtil.unicode("x/sqrt(x^2+4)"),
-				TestStringUtil.unicode("x/sqrt(x^2+4)"));
+				"(x)/(sqrt(x^(2)+4))");
 		checker.checkEditorInsert("x/(" + Unicode.EULER_STRING + "^x+1)",
-				"x/(" + Unicode.EULER_STRING + "^x+1)");
+				"(x)/(" + Unicode.EULER_STRING + "^(x)+1)");
 
 		checker.checkEditorInsert("3*x", "3*x");
 	}
 
 	@Test
 	public void testEditor() {
-		checker.checkEditorInsert("sqrt(x/2)", "sqrt(x/2)");
+		checker.checkEditorInsert("sqrt(x/2)", "sqrt((x)/(2))");
 
 		checker.checkEditorInsert("1+2+3-4", "1+2+3-4");
 		checker.checkEditorInsert("12345", "12345");
-		checker.checkEditorInsert("1/2/3/4", "1/2/3/4");
+		checker.checkEditorInsert("1/2/3/4", "(((1)/(2))/(3))/(4)");
 		checker.checkEditorInsert("Segment[(1,2),(3,4)]", "Segment[(1,2),(3,4)]");
+	}
+
+	@Test
+	public void insertNrootShouldMaintainArgumentsOrder() {
+		checker.checkEditorInsert("nroot(x,3)", "nroot(x,3)");
 	}
 
 	@Test
@@ -105,7 +111,23 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void testFloor() {
+		checker.insert("2 floor(x)")
+				.checkRaw("MathSequence[2,  , FnFLOOR[MathSequence[x]]]");
+	}
+
+	@Test
+	public void testCeil() {
+		checker.insert("2 ceil(x)")
+				.checkRaw("MathSequence[2,  , FnCEIL[MathSequence[x]]]");
+	}
+
+	@Test
 	public void testKorean() {
+		checker.checkEditorInsert("\u3141", "\u3141");
+		checker.checkEditorInsert("\u3141\u3157", "\uBAA8");
+		checker.checkEditorInsert("\u3141\u3157\u3131", "\uBAA9");
+		checker.checkEditorInsert("\u3141\u3157\u3131\u3145", "\uBAAB");
 
 		checker.checkEditorInsert("\u3147\u314F\u3139\u314D\u314F", "\uC54C\uD30C");
 		checker.checkEditorInsert("\u314A\u315C\u3139\u3131\u314F", "\uCD9C\uAC00");
@@ -266,7 +288,7 @@ public class EditorTypingTest {
 	public void testDivision3() {
 		checker.type("12").typeKey(JavaKeyCodes.VK_LEFT).type(Unicode.DIVIDE + "")
 			.checkAsciiMath("1/2");
-}
+	}
 
 	@Test
 	public void testBracketsAroundFunction() {
@@ -291,13 +313,39 @@ public class EditorTypingTest {
 	}
 
 	@Test
-	public void spaceAfterTrigShouldAddBrackets() {
+	public void spaceAfterFunctionShouldAddBrackets() {
 		checker.setFormatConverter(new SyntaxAdapterImpl(AppCommonFactory.create().getKernel()));
 		checker.type("sin 9x").checkAsciiMath("sin(9x)");
 	}
 
 	@Test
-	public void testBackspaceWithBrakets() {
+	public void characterAfterFunctionShouldAddBrackets() {
+		AppCommon app = AppCommonFactory.create();
+
+		MetaModel model = new MetaModel();
+		model.setForceBracketAfterFunction(true);
+		EditorChecker inputBoxChecker = new EditorChecker(app, model);
+		inputBoxChecker.setFormatConverter(new SyntaxAdapterImpl(app.kernel));
+
+		inputBoxChecker.type("sin9x").checkAsciiMath("sin(9x)");
+		inputBoxChecker.fromParser("");
+
+		inputBoxChecker.type("sinhb").checkAsciiMath("sinh(b)");
+		inputBoxChecker.fromParser("");
+
+		inputBoxChecker.type("xsinxcosx").checkAsciiMath("xsin(xcos(x))");
+		inputBoxChecker.fromParser("");
+
+		inputBoxChecker.type("sin^2").typeKey(JavaKeyCodes.VK_RIGHT).type("a")
+				.checkAsciiMath("sin^(2)(a)");
+		inputBoxChecker.fromParser("");
+
+		inputBoxChecker.type("log_3").typeKey(JavaKeyCodes.VK_RIGHT).type("x")
+				.checkAsciiMath("log(3,x)");
+	}
+
+	@Test
+	public void testBackspaceWithBrackets() {
 		checker.type("8/").typeKey(JavaKeyCodes.VK_BACK_SPACE).type("/2")
 				.checkAsciiMath("(8)/(2)");
 	}
@@ -324,5 +372,21 @@ public class EditorTypingTest {
 	public void shouldRecognizeSqrtAsSuffixWithConst() {
 		// for constant no multiplication space added => we have to check the raw string
 		checker.type("8sqrt(x").checkRaw("MathSequence[8, FnSQRT[MathSequence[x]]]");
+	}
+
+	@Test
+	public void testTypingPiWithComplex() {
+		MetaModel model = new MetaModel();
+		model.enableSubstitutions();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		inputBoxChecker.type("3pi + 4i").checkAsciiMath("3" + Unicode.PI_STRING + " + 4i");
+	}
+
+	@Test
+	public void testTypingPiiWithComplex() {
+		MetaModel model = new MetaModel();
+		model.enableSubstitutions();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		inputBoxChecker.type("3pii").checkAsciiMath("3" + Unicode.PI_STRING + "i");
 	}
 }

@@ -10,9 +10,9 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "09 June 2020";
+	public static final String BUILD_DATE = "22 September 2020";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.589.0";
+	public static final String VERSION_STRING = "5.0.606.0";
 
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
@@ -69,20 +69,16 @@ public interface GeoGebraConstants {
 		/**
 		 * @param prerelease
 		 *            whether we run prerelease
-		 * @param canary
-		 *            whether we run canary
 		 * @return eg X.Y.Zd-prerelease
 		 */
-		public String getVersionString(boolean prerelease, boolean canary, String appCode) {
+		public String getVersionString(boolean prerelease, String appCode) {
 
 			StringBuilder suffix = new StringBuilder(10);
 			suffix.append(name);
 			if (!"classic".equals(appCode)) {
 				suffix.append(appCode);
 			}
-			if (canary) {
-				suffix.append("-canary");
-			} else if (prerelease) {
+			if (prerelease) {
 				suffix.append("-prerelease");
 			}
 
@@ -248,10 +244,6 @@ public interface GeoGebraConstants {
 	public static final String API_USERINFO = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=";
 
 	public static final String FORUM_URL = "https://help.geogebra.org/";
-
-	public static final String DATA_LOGGING_WEBSOCKET_URL = "//data-logger.geogebra.org";
-	public static final String DATA_LOGGING_WEBSOCKET_PORT = "80";
-	public static final String DATA_LOGGING_WEBSOCKET_SECURE_PORT = "443";
 
 	public static final String WIDGET_URL = "https://www.geogebra.org/widgetprovider/index/widgettype/";
 

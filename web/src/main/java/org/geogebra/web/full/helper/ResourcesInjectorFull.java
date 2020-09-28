@@ -7,7 +7,7 @@ import org.geogebra.web.full.css.MebisResources;
 import org.geogebra.web.full.css.StylesProvider;
 import org.geogebra.web.full.css.TextStyles;
 import org.geogebra.web.html5.js.ResourcesInjector;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
 
@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class ResourcesInjectorFull extends ResourcesInjector {
 
 	@Override
-	protected void injectResourcesGUI(ArticleElementInterface ae) {
+	protected void injectResourcesGUI(AppletParameters ae) {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
 
 		StylesProvider stylesProvider = createStylesProvider(ae);
@@ -47,37 +47,21 @@ public class ResourcesInjectorFull extends ResourcesInjector {
 		StyleInjector.inject(GuiResources.INSTANCE.snackbarScss());
 		StyleInjector.inject(GuiResources.INSTANCE.scientificLayoutScss());
 		StyleInjector.inject(GuiResources.INSTANCE.evaluatorScss());
-		//StyleInjector.inject(GuiResources.INSTANCE.headerScss());
 		StyleInjector.inject(TextStyles.INSTANCE.textStyles());
 
-		injectLTRstyles();
+		StyleInjector.inject(GuiResources.INSTANCE.generalStyle());
+		StyleInjector.inject(GuiResources.INSTANCE.avStyle());
+		StyleInjector.inject(GuiResources.INSTANCE.headerbarStyle());
+
 		injectGreekFonts();
 	}
 
-	private StylesProvider createStylesProvider(ArticleElementInterface ae) {
+	private StylesProvider createStylesProvider(AppletParameters ae) {
 		if ("mebis".equalsIgnoreCase(ae.getParamVendor())) {
 			return MebisResources.INSTANCE;
 		} else {
 			return GuiResources.INSTANCE;
 		}
-	}
-
-	/**
-	 * Inject UI styles for LTR languages.
-	 */
-	public static void injectLTRstyles() {
-		StyleInjector.inject(GuiResources.INSTANCE.generalStyleLTR());
-		StyleInjector.inject(GuiResources.INSTANCE.avStyleLTR());
-		StyleInjector.inject(GuiResources.INSTANCE.headerbarStyleLTR());
-	}
-
-	/**
-	 * Inject UI styles for RTL languages.
-	 */
-	public static void injectRTLstyles() {
-		StyleInjector.inject(GuiResources.INSTANCE.generalStyleRTL());
-		StyleInjector.inject(GuiResources.INSTANCE.avStyleRTL());
-		StyleInjector.inject(GuiResources.INSTANCE.headerbarStyleRTL());
 	}
 
 	public void injectGreekFonts() {

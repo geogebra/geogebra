@@ -370,8 +370,6 @@ public abstract class CommandDispatcher {
 			case ParseToNumber:
 			case ParseToFunction:
 			case StartAnimation:
-			case StartLogging:
-			case StopLogging:
 			case StartRecord:
 			case SetPerspective:
 			case Delete:
@@ -529,7 +527,7 @@ public abstract class CommandDispatcher {
 			case Length:
 			case UnitPerpendicularVector:
 			case UnitOrthogonalVector:
-
+			case Surface:
 			case Sort:
 			case BarChart:
 			case Product:
@@ -542,6 +540,7 @@ public abstract class CommandDispatcher {
 			case CountIf:
 			case Extremum:
 			case Holes:
+			case RemovableDiscontinuity:
 			case UnitVector:
 			case Direction:
 			case Text:
@@ -841,7 +840,6 @@ public abstract class CommandDispatcher {
 			case Trilinear:
 			case Cubic:
 			case TriangleCurve:
-
 			case Voronoi:
 			case Hull:
 			case ConvexHull:
@@ -855,7 +853,7 @@ public abstract class CommandDispatcher {
 			case Solutions:
 			case NSolutions:
 			case CASLoaded:
-				return getCASDispatcher().dispatch(command, kernel);
+			case PlotSolve:
 			case Expand:
 			case Factor:
 			case IFactor:

@@ -15,6 +15,8 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
@@ -29,7 +31,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -48,7 +49,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private boolean isVisible;
 	private boolean labelVisible;
 
-	private GeneralPathClipped gp;
+	@Nonnull
+	private final  GeneralPathClipped gp;
 	private double[] coords = new double[2];
 	private ArrayList<GeoPointND> points;
 
@@ -68,7 +70,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		this.view = view;
 		this.poly = poly;
 		geo = poly;
-
+		gp = new GeneralPathClipped(view);
 		update();
 	}
 
@@ -85,6 +87,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		this.points = points;
 		geo = view.getKernel().getConstruction().getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_POLYGON);
+		gp = new GeneralPathClipped(view);
 		updatePreview();
 	}
 
@@ -104,8 +107,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			fillShape = false;
 
 			if (geo.isInverseFill()) {
-				createShape();
-				fillShape = true;
+				createInverseShape();
 			}
 
 			// polygon on screen?
@@ -130,9 +132,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 	}
 
-	private void createShape() {
+	private void createInverseShape() {
 		setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 		getShape().subtract(AwtFactory.getPrototype().newArea(gp));
+		fillShape = true;
 	}
 
 	private Coords getCoords(int i) {
@@ -145,11 +148,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	// return false if a point doesn't lie on the plane
 	private boolean addPointsToPath(int length) {
-		if (gp == null) {
-			gp = new GeneralPathClipped(view);
-		} else {
-			gp.reset();
-		}
+		gp.reset();
 
 		if (length <= 0) {
 			return false;
@@ -343,37 +342,26 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		if (geo.isShape()) {
-			boolean contains = gp.contains(x - hitThreshold,
-					y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
-
-			boolean intersects = gp.intersects(x - hitThreshold,
-					y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
-
-			if (geo.isFilled() && contains) {
-				poly.setLastHitType(HitType.ON_FILLING);
-				return true;
-			}
-
-			if (intersects && !contains) {
-				poly.setLastHitType(HitType.ON_BOUNDARY);
-				return true;
-			}
-
-			poly.setLastHitType(HitType.NONE);
+		if (!isVisible) {
 			return false;
 		}
-
 		GShape t = geo.isInverseFill() ? getShape() : gp;
-		return (t != null
-				&& (t.contains(x, y) || t.intersects(x - hitThreshold,
-				y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)));
+		boolean contains = t.contains(AwtFactory.getPrototype().newRectangle(x - hitThreshold,
+				y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold));
+
+		if (geo.isFilled() && contains) {
+			return true;
+		}
+
+		boolean intersects = t.intersects(x - hitThreshold,
+				y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+
+		return intersects && !contains;
 	}
 
 	@Override
 	final public boolean isInside(GRectangle rect) {
-		return gp != null && gp.getBounds() != null
-				&& rect.contains(gp.getBounds());
+		return gp.getBounds() != null && rect.contains(gp.getBounds());
 	}
 
 	@Override
@@ -386,7 +374,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 */
 	@Override
 	final public GRectangle getBounds() {
-		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
+		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
 		return gp.getBounds();
@@ -394,10 +382,14 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	public GArea getShape() {
-		if (geo.isInverseFill() || super.getShape() != null) {
+		if (super.getShape() != null) {
 			return super.getShape();
 		}
-		setShape(AwtFactory.getPrototype().newArea(gp));
+		if (geo.isInverseFill()) {
+			createInverseShape();
+		} else {
+			setShape(AwtFactory.getPrototype().newArea(gp));
+		}
 		return super.getShape();
 	}
 

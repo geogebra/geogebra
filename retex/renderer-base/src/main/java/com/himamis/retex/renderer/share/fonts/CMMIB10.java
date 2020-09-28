@@ -166,7 +166,7 @@ class CMMIB10 extends FontInfo {
 		setMetrics(59, 319, 156, 194);
 
 		setMetrics(60, 894, 586, 86);
-		setNextLarger(Configuration.getFonts().cmex10, 171);
+		setNextLarger(Configuration.getFonts().cmex10, 173);
 
 		setMetrics(61, 575, 750, 250);
 		setKern(162, -64, 65, -64, 77, -64, 78, -64, 89, 64, 90, -64);

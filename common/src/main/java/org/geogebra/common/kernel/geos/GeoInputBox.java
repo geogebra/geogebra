@@ -12,11 +12,13 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxProcessor;
-import org.geogebra.common.kernel.geos.properties.TextAlignment;
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.TextObject;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Input box for user input
@@ -24,7 +26,8 @@ import org.geogebra.common.util.TextObject;
  * @author Michael
  *
  */
-public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignment {
+public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignment,
+		HasDynamicCaption {
 
 	private static final int defaultLength = 20;
 
@@ -36,13 +39,16 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	protected boolean symbolicMode = false;
 
-	private TextAlignment textAlignment = TextAlignment.LEFT;
+	private HorizontalAlignment textAlignment = HorizontalAlignment.LEFT;
 
 	private @Nonnull GeoElementND linkedGeo;
 
 	private @Nonnull InputBoxProcessor inputBoxProcessor;
 	private @Nonnull InputBoxRenderer inputBoxRenderer;
 	private String tempUserDisplayInput;
+	private GeoText dynamicCaption;
+	private static GeoText emptyText;
+	private boolean serifContent = true;
 
 	/**
 	 * Creates new text field
@@ -53,8 +59,15 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public GeoInputBox(Construction cons) {
 		super(cons);
 		linkedGeo = new GeoText(cons, "");
-	 	inputBoxRenderer = new InputBoxRenderer(this);
+		createEmptyText(cons);
+		inputBoxRenderer = new InputBoxRenderer(this);
 		inputBoxProcessor = new InputBoxProcessor(this, linkedGeo);
+	}
+
+	private static void createEmptyText(Construction cons) {
+		if (emptyText == null) {
+			emptyText = new GeoText(cons, "");
+		}
 	}
 
 	/**
@@ -100,7 +113,11 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return text to edit with the symbolic editor
 	 */
 	public String getTextForEditor() {
-		return getTextForEditor(StringTemplate.editorTemplate);
+		String textForEditor = getTextForEditor(StringTemplate.editorTemplate);
+		if (InputBoxRenderer.isComplex(linkedGeo)) {
+			return textForEditor.replace(Unicode.IMAGINARY, 'i');
+		}
+		return textForEditor;
 	}
 
 	private String getTextForEditor(StringTemplate tpl) {
@@ -202,6 +219,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
+
 		// print decimals
 		if (printDecimals >= 0 && !useSignificantFigures) {
 			sb.append("\t<decimals val=\"");
@@ -218,6 +236,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 		if (isSymbolicMode()) {
 			sb.append("\t<symbolic val=\"true\" />\n");
+			sb.append("\t<contentSerif val=\"" + serifContent + "\" />\n");
 		}
 
 		if (getLength() != defaultLength) {
@@ -226,7 +245,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			sb.append("\"");
 			sb.append("/>\n");
 		}
-		if (getAlignment() != TextAlignment.LEFT) {
+		if (getAlignment() != HorizontalAlignment.LEFT) {
 			sb.append("\t<textAlign val=\"");
 			sb.append(getAlignment().toString());
 			sb.append("\"/>\n");
@@ -238,6 +257,12 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			sb.append(tempUserDisplayInput);
 			sb.append("\" eval=\"");
 			sb.append(inputBoxRenderer.tempUserEvalInput);
+			sb.append("\"/>\n");
+		}
+
+		if (dynamicCaption != null && dynamicCaption.getLabelSimple() != null) {
+			sb.append("\t<dynamicCaption val=\"");
+			sb.append(dynamicCaption.getLabelSimple());
 			sb.append("\"/>\n");
 		}
 	}
@@ -425,7 +450,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		return hasSymbolicNumber() || hasSymbolicFunction()
 				|| linkedGeo.isGeoPoint() || linkedGeo.isGeoVector()
 				|| (linkedGeo instanceof EquationValue && !linkedGeo.isGeoConicPart())
-				|| linkedGeo.isGeoList() || linkedGeo.isGeoLine();
+				|| linkedGeo.isGeoList() || linkedGeo.isGeoLine()
+				|| linkedGeo.isGeoSurfaceCartesian();
 	}
 
 	boolean hasSymbolicFunction() {
@@ -442,12 +468,12 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	@Override
-	public void setAlignment(TextAlignment alignment) {
+	public void setAlignment(HorizontalAlignment alignment) {
 		textAlignment = alignment;
 	}
 
 	@Override
-	public TextAlignment getAlignment() {
+	public HorizontalAlignment getAlignment() {
 		return textAlignment;
 	}
 
@@ -505,5 +531,66 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public void clearTempUserInput() {
 		this.tempUserDisplayInput = null;
 		inputBoxRenderer.tempUserEvalInput = null;
+	}
+
+	public boolean isSerifContent() {
+		return serifContent;
+	}
+
+	public void setSerifContent(boolean serifContent) {
+		this.serifContent = serifContent;
+	}
+
+	@Override
+	public boolean hasDynamicCaption() {
+		return dynamicCaption != null;
+	}
+
+	@Override
+	public GeoText getDynamicCaption() {
+		return dynamicCaption;
+	}
+
+	@Override
+	public void setDynamicCaption(GeoText caption) {
+		unregisterDynamicCaption();
+		dynamicCaption = caption;
+		registerDynamicCaption();
+	}
+
+	protected void unregisterDynamicCaption() {
+		if (dynamicCaption == null) {
+			return;
+		}
+
+		dynamicCaption.unregisterUpdateListener(this);
+	}
+
+	private void registerDynamicCaption() {
+		if (dynamicCaption == null) {
+			return;
+		}
+
+		dynamicCaption.registerUpdateListener(this);
+	}
+
+	@Override
+	public void clearDynamicCaption() {
+		unregisterDynamicCaption();
+		dynamicCaption = emptyText;
+	}
+
+	@Override
+	public void removeDynamicCaption() {
+		unregisterDynamicCaption();
+		dynamicCaption = null;
+	}
+
+	@Override
+	public void update(boolean dragging) {
+		if (hasDynamicCaption()) {
+			dynamicCaption.update(dragging);
+		}
+		super.update(dragging);
 	}
 }

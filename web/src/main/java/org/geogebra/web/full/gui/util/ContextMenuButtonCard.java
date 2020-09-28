@@ -24,9 +24,6 @@ import com.google.gwt.user.client.ui.Image;
  * 
  * Tasks in subclass: add Menu Items, override show() to show the popup at the
  * correct position
- * 
- * @author Alicia
- *
  */
 public class ContextMenuButtonCard extends StandardButton
 		implements SetLabels, CloseHandler<GPopupPanel> {
@@ -82,11 +79,12 @@ public class ContextMenuButtonCard extends StandardButton
 	 * @param cmd
 	 *            command to execute
 	 */
-	protected void addItem(SVGResource img, String text,
+	protected AriaMenuItem addItem(SVGResource img, String text,
 			ScheduledCommand cmd) {
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(img, text), true, cmd);
 		wrappedPopup.addItem(mi);
+		return mi;
 	}
 
 	private static Image getImage(SVGResource res) {

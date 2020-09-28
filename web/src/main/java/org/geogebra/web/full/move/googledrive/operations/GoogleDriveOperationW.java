@@ -26,6 +26,9 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.user.client.Window.Location;
 
+import elemental2.core.Global;
+import jsinterop.base.Js;
+
 /**
  * Operational class for Google Drive Api
  *
@@ -274,7 +277,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	private void checkIfFileMustbeOpenedFromGoogleDrive() {
 		if ("open".equals(getAction())) {
 			app.resetPerspectiveParam();
-			app.getArticleElement().attr("appName", "auto");
+			app.getAppletParameters().setAttribute("appName", "auto");
 			openFileFromGoogleDrive(googleDriveURL);
 		}
 	}
@@ -374,7 +377,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 	@Override
 	public void refreshCurrentFileDescriptors(String fName, String desc) {
-		if (app.getArticleElement().getDataParamFitToScreen()
+		if (app.getAppletParameters().getDataParamFitToScreen()
 				&& !StringUtil.empty(fName)) {
 			Browser.changeMetaTitle(fName.replace(".ggb", ""));
 		}
@@ -491,7 +494,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 	@ExternalAccess
 	private void showUploadError() {
-		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
+		((DialogManagerW) app.getDialogManager()).getSaveDialog(false, true).hide();
 		((DialogManagerW) app.getDialogManager()).showAlertDialog(app
 		        .getLocalization().getMenu("GoogleDriveSaveProblem"));
 	}
@@ -500,7 +503,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	private void updateAfterGoogleDriveSave(String id, String fileName,
 			String description, boolean isggb) {
 		app.getSaveController().runAfterSaveCallback(true);
-		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
+		((DialogManagerW) app.getDialogManager()).getSaveDialog(false, true).hide();
 		SaveCallback.onSaved(app, SaveState.OK, !isggb);
 		if (isggb) {
 			refreshCurrentFileDescriptors(fileName, description);
@@ -512,7 +515,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		String state = Location.getParameter("state");
 		Log.debug(state);
 		if (state != null && !"".equals(state)) {
-			googleDriveURL = JSON.parse(state);
+			googleDriveURL = Js.uncheckedCast(Global.JSON.parse(state));
 			Log.debug(googleDriveURL);
 			if (!this.loggedIn) {
 				login(true);

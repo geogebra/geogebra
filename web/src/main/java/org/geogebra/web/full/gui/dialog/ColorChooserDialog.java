@@ -3,8 +3,8 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.gui.util.ColorChooserW;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
 
@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 
 public class ColorChooserDialog extends DialogBoxW
 		implements SetLabels, ClickHandler {
-
 	private ColorChooserW colorChooserW; 
 	private Button btnOk;
 	private Button btnCancel;
@@ -41,7 +40,7 @@ public class ColorChooserDialog extends DialogBoxW
 		this.handler = handler;
 		this.originalColor = originalColor;
 
-		final GDimensionW colorIconSizeW = new GDimensionW(20, 20);
+		final Dimension colorIconSizeW = new Dimension(20, 20);
 		colorChooserW = new ColorChooserW(app, 400, 210, colorIconSizeW, 4);
 		colorChooserW.enableOpacity(false);
 		colorChooserW.enableBackgroundColorPanel(false);

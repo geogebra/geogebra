@@ -34,17 +34,22 @@ public class SyntaxAdapterImpl implements SyntaxAdapter {
 		try {
 			kernel.getAlgebraProcessor()
 					.getValidExpressionNoExceptionHandling(expression);
+			String[] parts = expression.split("\\\\");
+			// a\b is set difference: allow it
+			for (int i = 1; i < parts.length; i++) {
+				String command = parts[i].contains(" ")
+						? parts[i].substring(0, parts[i].indexOf(' ')) : parts[i];
+				if (kernel.lookupLabel(command) == null) {
+					return true;
+				}
+			}
 			// parses OK as GGB, not LaTeX
 			return false;
 		} catch (Throwable e) {
 			// fall through
 		}
 
-		if (StringUtil.containsLaTeX(expression)) {
-			return true;
-		}
-
-		return false;
+		return StringUtil.containsLaTeX(expression);
 	}
 
 	private String convertLaTeXtoGGB(String latexExpression) {
@@ -66,17 +71,15 @@ public class SyntaxAdapterImpl implements SyntaxAdapter {
 		// might start <math> or <mrow> etc
 		if (exp.startsWith("<")) {
 			return convertMathMLoGGB(exp);
-
 		} else if (mightBeLaTeXSyntax(exp)) {
 			return convertLaTeXtoGGB(exp);
 		}
-
 		return exp;
 	}
 
 	@Override
 	public boolean isFunction(String casName) {
-		Operation operation = kernel.getApplication().getParserFunctions().get(casName, 1);
+		Operation operation = kernel.getApplication().getParserFunctions(true).get(casName, 1);
 		return operation != null && casName.length() > 1;
 	}
 

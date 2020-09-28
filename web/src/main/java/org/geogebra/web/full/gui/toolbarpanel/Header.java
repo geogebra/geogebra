@@ -3,12 +3,12 @@ package org.geogebra.web.full.gui.toolbarpanel;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
+import org.geogebra.common.io.layout.DockPanelData.TabIds;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
-import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel.TabIds;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -87,7 +87,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 		contents = new FlowPanel();
 		contents.addStyleName("contents");
 		add(contents);
-		if (app.getArticleElement().getDataParamShowMenuBar(false)) {
+		if (app.getAppletParameters().getDataParamShowMenuBar(false)) {
 			createMenuButton();
 		}
 		createRightSide();
@@ -297,9 +297,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * Handler for Undo button.
 	 */
 	protected void onUndoPressed() {
-		if (app.isMenuShowing()) {
-			app.toggleMenu();
-		}
+		app.closeMenuHideKeyboard();
 		app.getGuiManager().undo();
 	}
 
@@ -307,10 +305,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * Handler for Redo button.
 	 */
 	protected void onRedoPressed() {
-		if (app.isMenuShowing()) {
-			app.toggleMenu();
-		}
-
+		app.closeMenuHideKeyboard();
 		app.getAccessibilityManager().setAnchor(focusableMenuButton);
 		app.getGuiManager().redo();
 		app.getAccessibilityManager().cancelAnchor();
@@ -524,9 +519,9 @@ class Header extends FlowPanel implements KeyDownHandler {
 		final EuclidianView ev = app.getActiveEuclidianView();
 		if (ev != null && undoRedoPanel != null) {
 			double evTop = (ev.getAbsoluteTop() - (int) app.getAbsTop())
-					/ app.getArticleElement().getScaleY();
+					/ app.getGeoGebraElement().getScaleY();
 			double evLeft = (ev.getAbsoluteLeft() - (int) app.getAbsLeft())
-					/ app.getArticleElement().getScaleX();
+					/ app.getGeoGebraElement().getScaleX();
 			if ((evLeft <= 0) && !app.isPortrait()) {
 				return;
 			}
@@ -802,8 +797,8 @@ class Header extends FlowPanel implements KeyDownHandler {
 			updateStyle();
 		} else {
 			if (!isOpen()) {
-				int width = app.getArticleElement().getDataParamWidth();
-				if (app.getArticleElement().getDataParamFitToScreen()) {
+				int width = app.getAppletParameters().getDataParamWidth();
+				if (app.getAppletParameters().getDataParamFitToScreen()) {
 					width = Window.getClientWidth();
 				}
 				toolbarPanel.setLastOpenWidth((int) (width

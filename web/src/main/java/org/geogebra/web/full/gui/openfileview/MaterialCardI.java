@@ -19,22 +19,6 @@ public interface MaterialCardI {
 	void remove();
 
 	/**
-	 * Call API to rename material.
-	 * 
-	 * @param title
-	 *            new title
-	 */
-	void rename(String title);
-
-	/**
-	 * Update title in UI.
-	 * 
-	 * @param title
-	 *            material title
-	 */
-	void setMaterialTitle(String title);
-
-	/**
 	 * Call API to copy yhe material.
 	 */
 	void copy();
@@ -43,11 +27,6 @@ public interface MaterialCardI {
 	 * Show delete dialog.
 	 */
 	void onDelete();
-
-	/**
-	 * @return title of the material
-	 */
-	String getMaterialTitle();
 
 	/**
 	 * @param groupID
@@ -71,4 +50,11 @@ public interface MaterialCardI {
 	 */
 	void updateVisibility(String visibility);
 
+	/**
+	 * Change name on card and rename via API
+	 * @param text new name
+	 */
+	void rename(String text);
+
+	String getCardTitle();
 }

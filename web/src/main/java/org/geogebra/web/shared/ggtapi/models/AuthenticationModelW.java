@@ -6,9 +6,9 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.web.full.gui.dialog.SessionExpireNotifyDialog;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.storage.client.Storage;
+import org.geogebra.web.shared.components.DialogData;
 
 import elemental2.dom.DomGlobal;
 
@@ -20,7 +20,6 @@ public class AuthenticationModelW extends AuthenticationModel implements GTimerL
 
 	private static final String GGB_LAST_USER = "last_user";
 	/** token storage */
-	protected Storage storage = null;
 	private String authToken = null;
 	private AppW app;
 	private boolean inited = false;
@@ -32,7 +31,6 @@ public class AuthenticationModelW extends AuthenticationModel implements GTimerL
 	 *            application
 	 */
 	public AuthenticationModelW(AppW app) {
-		this.storage = Storage.getLocalStorageIfSupported();
 		this.app = app;
 	}
 
@@ -43,10 +41,7 @@ public class AuthenticationModelW extends AuthenticationModel implements GTimerL
 			this.app.dispatchEvent(new Event(EventType.LOGIN, null, token));
 		}
 		this.authToken = token;
-		if (storage == null) {
-			return;
-		}
-		storage.setItem(GGB_TOKEN_KEY_NAME, token);
+		BrowserStorage.LOCAL.setItem(GGB_TOKEN_KEY_NAME, token);
 	}
 
 	@Override
@@ -54,10 +49,7 @@ public class AuthenticationModelW extends AuthenticationModel implements GTimerL
 		if (authToken != null) {
 			return authToken;
 		}
-		if (storage == null) {
-			return null;
-		}
-		return storage.getItem(GGB_TOKEN_KEY_NAME);
+		return BrowserStorage.LOCAL.getItem(GGB_TOKEN_KEY_NAME);
 	}
 
 	@Override
@@ -68,15 +60,11 @@ public class AuthenticationModelW extends AuthenticationModel implements GTimerL
 		// this should log the user out of other systems too
 		ensureInited();
 		this.app.dispatchEvent(new Event(EventType.LOGIN, null, ""));
-		if (storage == null) {
-			return;
-		}
-		storage.removeItem(GGB_TOKEN_KEY_NAME);
-		storage.removeItem(GGB_LAST_USER);
+		BrowserStorage.LOCAL.removeItem(GGB_TOKEN_KEY_NAME);
+		BrowserStorage.LOCAL.removeItem(GGB_LAST_USER);
 	}
 
 	private void ensureInited() {
-
 		if (inited || app.getLAF() == null
 				|| app.getLAF().getLoginListener() == null) {
 			return;
@@ -87,18 +75,12 @@ public class AuthenticationModelW extends AuthenticationModel implements GTimerL
 
 	@Override
 	protected void storeLastUser(String username) {
-		if (storage == null) {
-			return;
-		}
-		storage.setItem(GGB_LAST_USER, username);
+		BrowserStorage.LOCAL.setItem(GGB_LAST_USER, username);
 	}
 
 	@Override
 	public String loadLastUser() {
-		if (storage == null) {
-			return null;
-		}
-		return storage.getItem(GGB_LAST_USER);
+		return BrowserStorage.LOCAL.getItem(GGB_LAST_USER);
 	}
 
 	@Override
@@ -111,6 +93,7 @@ public class AuthenticationModelW extends AuthenticationModel implements GTimerL
 
 	@Override
 	public void onRun() {
-		new SessionExpireNotifyDialog(app).show();
+		DialogData data = new DialogData(null, "Cancel", "Save");
+		new SessionExpireNotifyDialog(app, data).show();
 	}
 }

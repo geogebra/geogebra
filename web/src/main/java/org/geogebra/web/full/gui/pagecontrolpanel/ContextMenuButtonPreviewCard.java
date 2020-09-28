@@ -1,21 +1,26 @@
 package org.geogebra.web.full.gui.pagecontrolpanel;
 
-import org.geogebra.common.awt.GPoint;
-import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
-import org.geogebra.web.html5.main.AppW;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.google.gwt.user.client.Command;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.dialog.PreviewCardRenameDialog;
+import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
+import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
+import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.DialogData;
 
 /**
  * Context Menu of Page Preview Cards
- * 
- * @author Alicia Hofstaetter
- *
  */
 public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 
 	private PagePreviewCard card;
+	private AriaMenuItem paste;
 
 	/**
 	 * @param app
@@ -31,50 +36,99 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 	@Override
 	protected void initPopup() {
 		super.initPopup();
+		addCutItem();
+		addCopyItem();
+		addPasteItem();
+		addSeparator();
+		addRenameItem();
 		addDeleteItem();
-		addDuplicateItem();
+	}
+
+	private void addSeparator() {
+		wrappedPopup.addSeparator();
+	}
+
+	private void addRenameItem() {
+		addItem(MaterialDesignResources.INSTANCE.mow_rename(),
+				loc.getMenu("Rename"), this::onRename);
+
+	}
+
+	private void onRename() {
+		DialogData data = new DialogData("Rename", "Cancel", "OK");
+		PreviewCardRenameDialog renameDialog = new PreviewCardRenameDialog(app, data, card);
+		renameDialog.show();
+		renameDialog.selectAll();
 	}
 
 	private void addDeleteItem() {
 		addItem(MaterialDesignResources.INSTANCE.delete_black(),
-				loc.getMenu("Delete"), new Command() {
-					@Override
-					public void execute() {
-						onDelete();
-					}
-				});
+				loc.getMenu("Delete"), this::onDelete);
 	}
 
-	private void addDuplicateItem() {
-		addItem(MaterialDesignResources.INSTANCE.duplicate_black(),
-				loc.getMenu("Duplicate"), new Command() {
-					@Override
-					public void execute() {
-						onDuplicate();
-					}
-				});
+	private void addCutItem() {
+		addItem(MaterialDesignResources.INSTANCE.cut_black(),
+				loc.getMenu("Cut"), () -> {
+			onCopy();
+			onDelete();
+		});
+	}
+
+	private void addCopyItem() {
+		addItem(MaterialDesignResources.INSTANCE.copy_black(),
+				loc.getMenu("Copy"), this::onCopy);
+	}
+
+	private void addPasteItem() {
+		paste = addItem(MaterialDesignResources.INSTANCE.paste_black(),
+				loc.getMenu("Paste"), this::onPaste);
 	}
 
 	/**
 	 * execute delete action
 	 */
-	protected void onDelete() {
+	private void onDelete() {
 		hide();
+		boolean oneSlide = app.getPageController().getSlideCount() == 1;
+		app.dispatchEvent(new Event(oneSlide ? EventType.CLEAR_SLIDE
+				: EventType.REMOVE_SLIDE, null,
+				card.getPageIndex() + ""));
 		frame.getPageControlPanel().removePage(card.getPageIndex());
 	}
 
 	/**
 	 * execute duplicate action
 	 */
-	protected void onDuplicate() {
+	private void onPaste() {
 		hide();
-		frame.getPageControlPanel().duplicatePage(card);
+		app.dispatchEvent(new Event(EventType.PASTE_SLIDE)
+				.setJsonArgument(getPasteJson()));
+		frame.getPageControlPanel().pastePage(card,
+				BrowserStorage.LOCAL.getItem(BrowserStorage.COPY_SLIDE));
+	}
+
+	protected Map<String, Object> getPasteJson() {
+		Map<String, Object> pasteJson = new HashMap<>();
+		pasteJson.put("cardIdx", card.getPageIndex());
+		pasteJson.put("ggbFile", BrowserStorage.LOCAL.getItem(BrowserStorage.COPY_SLIDE));
+
+		return pasteJson;
+	}
+
+	private void onCopy() {
+		hide();
+		frame.getPageControlPanel().saveSlide(card);
+		BrowserStorage.LOCAL.setItem(BrowserStorage.COPY_SLIDE,
+				app.getGgbApi().toJson(card.getFile()));
 	}
 
 	@Override
 	protected void show() {
 		super.show();
-		wrappedPopup.show(
-				new GPoint(getAbsoluteLeft() - 122, getAbsoluteTop() + 36));
+		wrappedPopup.show(this, -122, 36);
+		String slideContent = BrowserStorage.LOCAL.getItem(BrowserStorage.COPY_SLIDE);
+		if (paste != null) {
+			paste.setEnabled(!StringUtil.empty(slideContent));
+		}
 	}
 }

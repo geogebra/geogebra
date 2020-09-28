@@ -13,7 +13,7 @@ import org.geogebra.web.full.main.AppWFull;
 class DefaultMenuActionHandler implements MenuActionHandler {
 
 	private AppWFull app;
-	private Map<Action, MenuAction<Void>> actionMap = new HashMap();
+	private Map<Action, MenuAction<Void>> actionMap = new HashMap<>();
 
 	/**
 	 * Create a DefaultMenuActionHandler

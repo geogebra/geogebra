@@ -398,9 +398,9 @@ var GGBApplet = function() {
         var removedID = null;
         for (i=0; i<appletParent.childNodes.length; i++) {
             var currentChild = appletParent.childNodes[i];
-            var tag = currentChild.tagName;
             var className = currentChild.className;
-            if (currentChild.className === "applet_screenshot") {
+
+            if (className === "applet_screenshot") {
                 if (showScreenshot) {
                     // Show the screenshot instead of the removed applet
                     currentChild.style.display = "block";
@@ -409,10 +409,10 @@ var GGBApplet = function() {
                     // Hide the screenshot
                     currentChild.style.display = "none";
                 }
-            } else if ((tag === "ARTICLE" || tag === "DIV") && className !== "applet_scaler prerender") {
+            } else if (className !== "applet_scaler prerender") {
                 // Remove the applet
                 appletParent.removeChild(currentChild);
-                removedID = tag === "ARTICLE" ? currentChild.id : null;
+                removedID = (className && className.indexOf("appletParameters") != -1) ? currentChild.id : null;
                 i--;
             }
         }
@@ -493,7 +493,9 @@ var GGBApplet = function() {
             scriptLoadStarted = false;
         }
 
-        var article = document.createElement("article");
+        var article = document.createElement("div");
+        // don't add geogebraweb here, as we don't want to parse it out of the box.
+        article.classList.add("appletParameters", "notranslate");
         var oriWidth = parameters.width;
         var oriHeight = parameters.height;
         parameters.disableAutoScale = parameters.disableAutoScale === undefined ? GGBAppletUtils.isFlexibleWorksheetEditor() : parameters.disableAutoScale;
@@ -527,7 +529,6 @@ var GGBApplet = function() {
                 }
             }
         }
-        article.className = "notranslate"; //we remove geogebraweb here, as we don't want to parse it out of the box.
         article.style.border = 'none';
         article.style.display = 'inline-block';
 
@@ -1260,11 +1261,6 @@ var GGBAppletUtils = (function() {
             }
         }
 
-        //console.log('myWidth: '+ myWidth);
-        //console.log('myHeight: ' + myHeight);
-        //console.log('border: ' + border);
-        //console.log('borderTop: '+ borderTop);
-
         if (appletElem) {
             if ((allowUpscale === undefined || !allowUpscale) && appletWidth > 0 && appletWidth + border < myWidth) {
                 myWidth = appletWidth;
@@ -1277,8 +1273,6 @@ var GGBAppletUtils = (function() {
                 myHeight -= borderTop;
             }
         }
-
-        //console.log('myWidth: ' + myWidth + ', myHeight: ' + myHeight);
 
         return {width: myWidth, height: myHeight};
     }
@@ -1299,10 +1293,10 @@ var GGBAppletUtils = (function() {
         var appletWidth = parameters.width;
         var appletHeight = parameters.height;
         if (appletWidth === undefined) {
-            var articles = appletElem.getElementsByTagName('article');
-            if (articles.length === 1) {
-                appletWidth = articles[0].offsetWidth;
-                appletHeight = articles[0].offsetHeight;
+            var article = appletElem.querySelector('.appletParameters');
+            if (article) {
+                appletWidth = article.offsetWidth;
+                appletHeight = article.offsetHeight;
             }
         }
 
@@ -1397,12 +1391,11 @@ var GGBAppletUtils = (function() {
     }
 
     function responsiveResize(appletElem, parameters) {
-        var article = appletElem.getElementsByTagName("article")[0];
+        var article = appletElem.querySelector(".appletParameters");
 
         if (article) {
             if (typeof window.GGBT_wsf_view === "object" && window.GGBT_wsf_view.isFullscreen()) {
-                var articles = appletElem.getElementsByTagName("article");
-                if (articles.length > 0 && parameters.id !== articles[0].getAttribute("data-param-id")) {
+                if (parameters.id !== article.getAttribute("data-param-id")) {
                     return;
                 }
 

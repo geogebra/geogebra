@@ -169,8 +169,8 @@ public class FunctionNVar extends ValidExpression
 			return false;
 		}
 
-		for (int i = 0; i < fVars.length; i++) {
-			if (fVars[i].toString(StringTemplate.defaultTemplate).equals(var)) {
+		for (FunctionVariable fVar : fVars) {
+			if (fVar.toString(StringTemplate.defaultTemplate).equals(var)) {
 				return true;
 			}
 		}
@@ -389,9 +389,27 @@ public class FunctionNVar extends ValidExpression
 	 * structure to x*(x+1) for example.
 	 */
 	private void fixStructure() {
+		FunctionVariable[] xyzVars = getXYZVars(fVars);
+
+		// try to replace x(x+1) by x*(x+1)
+		undecided.clear();
+		expression.replaceXYZnodes(xyzVars[0], xyzVars[1], xyzVars[2], undecided);
+		for (ExpressionNode en : undecided) {
+			en.setOperation(Operation.MULTIPLY);
+		}
+		undecided.clear();
+	}
+
+	/**
+	 * Returns the last x, y and z variables from the input var array, if they exist.
+	 *
+	 * @param vars input array
+	 * @return x, y and z variables from the input, if they exist
+	 */
+	public static FunctionVariable[] getXYZVars(FunctionVariable[] vars) {
 		// get function variables for x, y, z
 		FunctionVariable xVar = null, yVar = null, zVar = null;
-		for (FunctionVariable fVar : fVars) {
+		for (FunctionVariable fVar : vars) {
 			if ("x".equals(fVar.toString(StringTemplate.defaultTemplate))) {
 				xVar = fVar;
 			} else if ("y".equals(fVar.toString(StringTemplate.defaultTemplate))) {
@@ -400,14 +418,7 @@ public class FunctionNVar extends ValidExpression
 				zVar = fVar;
 			}
 		}
-
-		// try to replace x(x+1) by x*(x+1)
-		undecided.clear();
-		expression.replaceXYZnodes(xVar, yVar, zVar, undecided);
-		for (ExpressionNode en : undecided) {
-			en.setOperation(Operation.MULTIPLY);
-		}
-		undecided.clear();
+		return new FunctionVariable[] { xVar, yVar, zVar };
 	}
 
 	/**
@@ -420,15 +431,19 @@ public class FunctionNVar extends ValidExpression
 			isBooleanFunction = true;
 		} else if (ev instanceof NumberValue) {
 			isBooleanFunction = false;
-		} else if (ev instanceof FunctionNVar) {
-			expression = ((FunctionNVar) ev).getExpression();
-			fVars = ((FunctionNVar) ev).getFunctionVariables();
-		} else if (ev instanceof GeoFunction) {
-			expression = ((GeoFunction) ev).getFunctionExpression();
-			fVars = ((GeoFunction) ev).getFunction().getFunctionVariables();
-		} else if (ev instanceof GeoFunctionNVar) {
-			expression = ((GeoFunctionNVar) ev).getFunctionExpression();
-			fVars = ((GeoFunctionNVar) ev).getFunction().getFunctionVariables();
+		}  else if (ev instanceof GeoFunction && ((GeoFunction) ev).isLabelSet()) {
+			// f(x) should be a dependent function
+			expression = new ExpressionNode(kernel, ev, Operation.FUNCTION, fVars[0]);
+		} else if (ev instanceof GeoFunctionNVar && ((GeoFunctionNVar) ev).isLabelSet()) {
+			// f(x, y) should be a dependent function
+			MyList args = new MyList(kernel, fVars.length);
+			for (FunctionVariable fVar: fVars) {
+				args.addListElement(fVar);
+			}
+			expression = new ExpressionNode(kernel, ev, Operation.FUNCTION_NVAR, args);
+		} else if (ev instanceof FunctionalNVar) {
+			expression = ((FunctionalNVar) ev).getFunctionExpression();
+			fVars = ((FunctionalNVar) ev).getFunctionVariables();
 		} else {
 			return false;
 		}
@@ -453,8 +468,8 @@ public class FunctionNVar extends ValidExpression
 		if (isConstantFunction) {
 			return true;
 		}
-		for (int i = 0; i < fVars.length; i++) {
-			if (expression.contains(fVars[i])) {
+		for (FunctionVariable fVar : fVars) {
+			if (expression.contains(fVar)) {
 				return false;
 			}
 		}
@@ -593,7 +608,7 @@ public class FunctionNVar extends ValidExpression
 		// exists in GeoGebra
 		// see TRAC-2547
 
-		StringTemplate tpl = StringTemplate.prefixedDefault;
+		StringTemplate tpl = StringTemplate.numericNoLocal;
 		// did expression change since last time?
 		// or did symbolic falg change?
 		if (casEvalExpression != expression
@@ -664,13 +679,8 @@ public class FunctionNVar extends ValidExpression
 				resultFun = ensureVarsAreNotNull(resultFun);
 			}
 			resultFun.initFunction();
-		} catch (Error err) {
-			err.printStackTrace();
-			resultFun = null;
-		} catch (Exception e) {
-			e.printStackTrace();
-			resultFun = null;
 		} catch (Throwable e) {
+			e.printStackTrace();
 			resultFun = null;
 		}
 
@@ -757,13 +767,11 @@ public class FunctionNVar extends ValidExpression
 
 	@Override
 	public String getLabelForAssignment() {
-		StringBuilder sb = new StringBuilder();
 		// function, e.g. f(x) := 2*x
-		sb.append(getLabel());
-		sb.append("(");
-		sb.append(getVarString(StringTemplate.defaultTemplate));
-		sb.append(")");
-		return sb.toString();
+		return getLabel()
+				+ "("
+				+ getVarString(StringTemplate.defaultTemplate)
+				+ ")";
 	}
 
 	@Override
@@ -1347,6 +1355,7 @@ public class FunctionNVar extends ValidExpression
 		for (int i = 0; i < n; i++) {
 			expDeriv = expDeriv.derivative(fv, kernel);
 		}
+		expDeriv = expDeriv.shallowCopy();
 		expDeriv.simplifyConstantIntegers();
 		return new FunctionNVar(expDeriv, fVars);
 	}

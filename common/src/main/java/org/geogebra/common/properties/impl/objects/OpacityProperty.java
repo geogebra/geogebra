@@ -2,58 +2,44 @@ package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
-import org.geogebra.common.properties.RangeProperty;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.impl.AbstractRangeProperty;
+import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.common.properties.impl.objects.delegate.OpacityPropertyDelegate;
 
 /**
  * Line opacity
  */
-public class OpacityProperty
-		extends AbstractGeoElementProperty implements RangeProperty<Integer> {
+public class OpacityProperty extends AbstractRangeProperty<Integer> {
 
-	public OpacityProperty(GeoElement geoElement) throws NotApplicablePropertyException {
-		super("Opacity", geoElement);
+	private final GeoElementDelegate delegate;
+
+	/***/
+	public OpacityProperty(Localization localization, GeoElement element) throws
+			NotApplicablePropertyException {
+		super(localization, "Opacity", 0, 100, 5);
+		this.delegate = new OpacityPropertyDelegate(element);
 	}
 
 	@Override
-	public Integer getMin() {
-		return 0;
-	}
-
-	@Override
-	public Integer getMax() {
-		return 100;
-	}
-
-	@Override
-	public Integer getValue() {
-		double alpha = getElement().getAlphaValue();
-		return (int) (alpha * 100);
-	}
-
-	@Override
-	public void setValue(Integer opacity) {
-		GeoElement element = getElement();
+	protected void setValueSafe(Integer value) {
+		GeoElement element = delegate.getElement();
 		App app = element.getApp();
-		double alpha = opacity / 100.0;
+		double alpha = value / 100.0;
 		EuclidianStyleBarStatic.applyColor(
 				element.getObjectColor(), alpha, app, app.getSelectionManager().getSelectedGeos());
 	}
 
 	@Override
-	public Integer getStep() {
-		return 5;
+	public Integer getValue() {
+		double alpha = delegate.getElement().getAlphaValue();
+		return (int) Math.round(alpha * 100);
 	}
 
 	@Override
-	boolean isApplicableTo(GeoElement element) {
-		if (isTextOrInput(element)) {
-			return false;
-		}
-		if (element instanceof GeoList) {
-			return isApplicableToGeoList((GeoList) element);
-		}
-		return element.isFillable();
+	public boolean isEnabled() {
+		return delegate.isEnabled();
 	}
 }

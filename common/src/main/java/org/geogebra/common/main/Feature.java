@@ -13,8 +13,6 @@ public enum Feature {
 
 	LOG_AXES,
 
-	ACRA,
-
 	ANALYTICS,
 
 	/** GGB-334, TRAC-3401 */
@@ -27,11 +25,6 @@ public enum Feature {
 
 	/** MOW-88 */
 	MOW_DIRECT_FORMULA_CONVERSION,
-
-	SURFACE_2D,
-
-	/** MOB-1293 */
-	SELECT_TOOL_NEW_BEHAVIOUR,
 
 	/** MOB-1319 */
 	MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11,
@@ -60,17 +53,11 @@ public enum Feature {
 	/** Csilla Master */
 	SPEECH_RECOGNITION,
 
-	/** G3D-345 */
-	G3D_AR_SHOW_RATIO,
-
 	/** G3D-343 */
 	G3D_SELECT_META,
 
 	/** APPS-890 */
 	AUTOLABEL_CAS_SETTINGS,
-
-	/** G3D-372 */
-	G3D_AR_RATIO_SETTINGS,
 
 	/** APPS-1035 */
 	SYMBOLIC_INPUTFIELDS

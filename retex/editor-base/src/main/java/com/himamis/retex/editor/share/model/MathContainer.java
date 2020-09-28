@@ -128,17 +128,6 @@ abstract public class MathContainer extends MathComponent {
 
 	}
 
-	// private String toFlatString() {
-	// StringBuilder sb = new StringBuilder();
-	// Iterator<MathComponent> it = arguments.iterator();
-	//
-	// while (it.hasNext()) {
-	// sb.append(((MathCharacter) it.next()).getUnicode());
-	// }
-	//
-	// return sb.toString();
-	// }
-
 	/**
 	 * Extend arguments array to given size
 	 * 
@@ -447,6 +436,17 @@ abstract public class MathContainer extends MathComponent {
 	 */
 	protected String getSimpleName() {
 		return getClass().getSimpleName();
+	}
+
+	/**
+	 * Is i'th argument script.
+	 *
+	 * @param i
+	 *            index
+	 * @return whether given argument is a sub/super-script
+	 */
+	public boolean isScript(int i) {
+		return i >= 0 && i < size() && MathFunction.isScript(getArgument(i));
 	}
 
 }

@@ -33,6 +33,8 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 				return new CmdHoles(kernel);
 			}
 			return null;
+		case RemovableDiscontinuity:
+			return new CmdRemovableDiscontinuity(kernel);
 		case Join:
 			return new CmdJoin(kernel);
 		case LCM:
@@ -285,6 +287,8 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 		case InputBox:
 		case Textfield:
 			return new CmdTextfield(kernel);
+		case Surface:
+			return new CmdSurfaceCartesian(kernel);
 		default:
 			break;
 		}

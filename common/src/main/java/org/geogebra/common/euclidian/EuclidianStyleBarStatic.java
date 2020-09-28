@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -216,22 +215,15 @@ public class EuclidianStyleBarStatic {
 	 *            to fill.
 	 * @param fillType
 	 *            Type of the filling pattern;
-	 * @return geo modified.
 	 */
-	public static GeoElement applyFillType(ArrayList<GeoElement> geos,
+	public static void applyFillType(ArrayList<GeoElement> geos,
 			FillType fillType) {
-		GeoElement ret = geos.get(0);
-
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-
+		for (GeoElement geo : geos) {
 			if (geo.isFillable()) {
 				geo.setFillType(fillType);
-
+				geo.updateVisualStyle(GProperty.HATCHING);
 			}
 		}
-		ret.updateRepaint();
-		return ret;
 	}
 
 	private static String getDefinitonString(GeoElement geo) {
@@ -377,8 +369,8 @@ public class EuclidianStyleBarStatic {
 		for (GeoElement current : geos) {
 			if (current.isLabelShowable()
 					|| current.isGeoAngle()
-					|| (current.isGeoNumeric() && ((GeoNumeric) current)
-					.isSliderFixed())) {
+					|| (current.isGeoNumeric() && current
+					.isLockedPosition())) {
 				return current;
 			}
 		}
@@ -406,8 +398,7 @@ public class EuclidianStyleBarStatic {
 			GeoElement geo = geos.get(i);
 			if (geo.isLabelShowable()
 					|| geo.isGeoAngle()
-					|| (geo.isGeoNumeric() && ((GeoNumeric) geo)
-							.isSliderFixed())) {
+					|| (geo.isGeoNumeric() && geo.isLockedPosition())) {
 				geo.setLabelModeFromStylebar(index);
 			}
 			geo.updateVisualStyle(GProperty.LABEL_STYLE);
@@ -518,20 +509,17 @@ public class EuclidianStyleBarStatic {
 	 *            opacity
 	 * @return success
 	 */
-	public static boolean applyBgColor(ArrayList<GeoElement> geos, GColor color,
+	public static boolean applyBgColor(List<GeoElement> geos, GColor color,
 			double alpha) {
 		boolean needUndo = false;
 
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-
+		for (GeoElement geo : geos) {
 			// if text geo, then apply background color
 			if (geo instanceof TextStyle) {
 				if (geo.getBackgroundColor() != color
 						|| geo.getAlphaValue() != alpha) {
 					geo.setBackgroundColor(color);
-					// TODO apply background alpha
-					// --------
+
 					geo.updateVisualStyleRepaint(GProperty.COLOR_BG);
 					needUndo = true;
 				}

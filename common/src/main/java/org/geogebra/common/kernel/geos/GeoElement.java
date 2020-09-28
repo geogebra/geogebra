@@ -1566,7 +1566,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			// Application.debug("hasFixedDescendent, not deleting");
 			setUndefined();
 			updateRepaint();
-		} else if (!(app.isApplet() && isLocked())) {
+		} else {
 			remove();
 			kernel.notifyRemoveGroup();
 		}
@@ -2794,7 +2794,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 				// check through z_1, z_2, etc and return first one free
 				// (also checks z_{1} to avoid clash)
-				return cons.getIndexLabel("z", 1);
+				return cons.getIndexLabel("z");
 			}
 
 		} else if (equationType == EquationType.IMPLICIT) {
@@ -2948,14 +2948,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (colFunction != null) {
 			colFunction.unregisterColorFunctionListener(this);
 		}
-
-		/*
-		 * // remove all dependent algorithms if (algorithmList != null) { final
-		 * Object[] algos = algorithmList.toArray(); for (int i = 0; i <
-		 * algos.length; i++) { algo = (AlgoElement) algos[i];
-		 * algo.remove(this); cons.updateCasCellRows(); } //
-		 * cons.updateCasCellRows(); }
-		 */
 
 		// remove this object from table
 		if (isLabelSet()) {
@@ -3740,7 +3732,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	final public String getXMLtypeString() {
 		// don't use getTypeString() as it's overridden
-		return StringUtil.toLowerCaseUS(getGeoClassType().xmlName);
+		return getGeoClassType().xmlName;
 	}
 
 	/**
@@ -4100,30 +4092,37 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public String getAlgebraDescriptionDefault() {
 		if (strAlgebraDescriptionNeedsUpdate) {
-			updateAlgebraDescription();
+			strAlgebraDescription = getAlgebraDescriptionPublic(StringTemplate.algebraTemplate);
 			strAlgebraDescriptionNeedsUpdate = false;
 		}
 		return strAlgebraDescription;
 	}
 
-	private void updateAlgebraDescription() {
+	/**
+	 * Returns algebraic representation (e.g. coordinates, equation) of this
+	 * construction element. Caching is not employed.
+	 *
+	 * @param tpl String template, localization also depends on it
+	 * @return  algebraic representation (e.g. coordinates, equation)
+	 */
+	public String getAlgebraDescriptionPublic(StringTemplate tpl) {
 		if (isDefined()) {
-			setAlgebraDescriptionForDefined();
+			return getAlgebraDescriptionForDefined(tpl);
 		} else {
-			setAlgebraDescriptionForUndefined();
+			return getAlgebraDescriptionForUndefined(tpl);
 		}
 	}
 
-	private void setAlgebraDescriptionForDefined() {
+	private String getAlgebraDescriptionForDefined(StringTemplate tpl) {
 		if (!LabelManager.isShowableLabel(label)) {
-			strAlgebraDescription = toValueString(StringTemplate.algebraTemplate);
+			return toValueString(tpl);
 		} else {
-			strAlgebraDescription = toString(StringTemplate.algebraTemplate);
+			return toString(tpl);
 		}
 	}
 
-	private void setAlgebraDescriptionForUndefined() {
-		strAlgebraDescription = label + ' ' + getLoc().getMenu("Undefined");
+	private String getAlgebraDescriptionForUndefined(StringTemplate tpl) {
+		return label + ' ' + tpl.getUndefined(getLoc());
 	}
 
 	/**
@@ -5204,9 +5203,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return false;
 	}
 
-	/**
-	 * @return true for cartesian surfaces
-	 */
+	@Override
 	public boolean isGeoSurfaceCartesian() {
 		return false;
 	}
@@ -5618,7 +5615,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public boolean isEqual(GeoElementND geo) {
-		return this == geo;
+		return geo == this;
 	}
 
 	/**
@@ -6264,6 +6261,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	/**
 	 * @return true for intervals
 	 */
+	@Override
 	public boolean isGeoInterval() {
 		return false;
 	}
@@ -6387,6 +6385,15 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	public boolean hasGroup() {
 		return parentGroup != null;
+	}
+
+	/**
+	 * Check for moving and (in applets) deleting by tool.
+	 * Locked position may still allow changing value (checkbox, slider)
+	 * @return whether the element position is locked
+	 */
+	public boolean isLockedPosition() {
+		return isLocked();
 	}
 
 	/** Used by TraceDialog for "Trace as... value of/copy of */

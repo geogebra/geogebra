@@ -3,7 +3,6 @@ package org.geogebra.web.full.javax.swing;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.common.util.DoubleUtil;
@@ -19,10 +18,7 @@ import org.geogebra.web.resources.SVGResource;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
@@ -80,17 +76,13 @@ public class GPopupMenuW implements AttachedToDOM {
 		popupMenu.setAutoOpen(true);
 		popupPanel.add(popupMenu);
 
-		popupPanel.addCloseHandler(new CloseHandler<GPopupPanel>() {
-
-			@Override
-			public void onClose(CloseEvent<GPopupPanel> event) {
-				if (subPopup != null) {
-					subPopup.removeFromDOM();
-					subPopup = null;
-				}
-				if (event.isAutoClosed()) {
-					setMenuShown(false);
-				}
+		popupPanel.addCloseHandler(event -> {
+			if (subPopup != null) {
+				subPopup.removeFromDOM();
+				subPopup = null;
+			}
+			if (event.isAutoClosed()) {
+				setMenuShown(false);
 			}
 		});
 
@@ -125,28 +117,32 @@ public class GPopupMenuW implements AttachedToDOM {
 	/**
 	 * Shows the popup menu, ensures that the popup menu must be on the client
 	 * area.
-	 * 
-	 * @param p
-	 *            point to show popup
+	 *
+	 * @param x  x-coord of the popup
+	 * @param y  y-coord of the popup
 	 */
-	public final void show(GPoint p) {
+	public final void show(double x, double y) {
 		double yOffset = app.getPanel().getAbsoluteTop() / getScaleY();
 		double xOffset = app.getPanel().getAbsoluteLeft() / getScaleX();
-		int top = (int) (p.getY() - yOffset);
-		int left = (int) (p.getX() - xOffset);
+		int top = (int) (y - yOffset);
+		int left = (int) (x - xOffset);
 		boolean newPoz = false;
 		showAtPoint(left, top);
-		if ((p.getX() + popupPanel.getOffsetWidth())
-				* getScaleX() > Window.getClientWidth()
+		int leftMargin = app.getPanel().getAbsoluteLeft()
+				+ app.getPanel().getOffsetWidth();
+		int bottomMargin = app.getPanel().getAbsoluteTop()
+				+ app.getPanel().getOffsetHeight();
+		if ((x + popupPanel.getOffsetWidth())
+				* getScaleX() > leftMargin
 						+ Window.getScrollLeft()) {
-			left = (int) ((Window.getClientWidth() + Window.getScrollLeft())
+			left = (int) ((leftMargin + Window.getScrollLeft())
 					/ getScaleX() - xOffset - popupPanel.getOffsetWidth());
 			newPoz = true;
 		}
-		if ((p.getY() + popupPanel.getOffsetHeight())
-				* getScaleY() > Window.getClientHeight()
+		if ((y + popupPanel.getOffsetHeight())
+				* getScaleY() > bottomMargin
 						+ Window.getScrollTop()) {
-			top = (int) (((Window.getClientHeight() + Window.getScrollTop()))
+			top = (int) ((bottomMargin + Window.getScrollTop())
 					/ getScaleY() - yOffset - popupPanel.getOffsetHeight());
 			newPoz = true;
 		}
@@ -183,8 +179,8 @@ public class GPopupMenuW implements AttachedToDOM {
 	 *            coord to show popup
 	 */
 	public void showScaled(Element c, int x, int y) {
-		show(new GPoint((int) (c.getAbsoluteLeft() / getScaleX() + x),
-				(int) (c.getAbsoluteTop() / getScaleY() + y)));
+		show((int) (c.getAbsoluteLeft() / getScaleX() + x),
+				(int) (c.getAbsoluteTop() / getScaleY() + y));
 	}
 
 	/**
@@ -196,7 +192,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	 *            coord to show popup
 	 */
 	public void show(Widget c, int x, int y) {
-		show(new GPoint(c.getAbsoluteLeft() + x, c.getAbsoluteTop() + y));
+		show(c.getAbsoluteLeft() + x, c.getAbsoluteTop() + y);
 	}
 
 	@Override
@@ -239,23 +235,15 @@ public class GPopupMenuW implements AttachedToDOM {
 		AriaMenuBar submenu = item.getSubMenu();
 		if (submenu == null) {
 			final ScheduledCommand oldCmd = item.getScheduledCommand();
-			ScheduledCommand cmd = new ScheduledCommand() {
-				@Override
-				public void execute() {
-					if (oldCmd != null) {
-						oldCmd.execute();
-					}
-					hideMenu();
+			ScheduledCommand cmd = () -> {
+				if (oldCmd != null) {
+					oldCmd.execute();
 				}
+				hideMenu();
 			};
 			item.setScheduledCommand(cmd);
 		} else {
-			submenu.addHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					popupPanel.hide();
-				}
-			}, ClickEvent.getType());
+			submenu.addHandler(event -> popupPanel.hide(), ClickEvent.getType());
 		}
 	}
 
@@ -313,21 +301,18 @@ public class GPopupMenuW implements AttachedToDOM {
 			newItem.setStyleName(item.getStyleName());
 			newItem.getElement().setAttribute("hasPopup", "true");
 			popupMenu.addItem(newItem);
-			itemCommand = new ScheduledCommand() {
-				@Override
-				public void execute() {
-					if (subPopup != null) {
-						subPopup.removeFromDOM();
-					}
-					subPopup = new GPopupMenuW(subMenu, getApp());
-					subPopup.setVisible(true);
-					subMenu.unselect();
-					subMenu.stylePopup(subPopup.getPopupPanel());
-					// Calculate the position of the "submenu", and show it
-					openItem = newItem;
-					positionAndShowSubmenu();
-
+			itemCommand = () -> {
+				if (subPopup != null) {
+					subPopup.removeFromDOM();
 				}
+				subPopup = new GPopupMenuW(subMenu, getApp());
+				subPopup.setVisible(true);
+				subMenu.unselect();
+				subMenu.stylePopup(subPopup.getPopupPanel());
+				// Calculate the position of the "submenu", and show it
+				openItem = newItem;
+				positionAndShowSubmenu();
+
 			};
 			newItem.setScheduledCommand(itemCommand);
 
@@ -369,7 +354,10 @@ public class GPopupMenuW implements AttachedToDOM {
 	 */
 	private int getPopupXCoord() {
 		int xCoord = getRightSubPopupXCord();
-		return (xCoord + getSubPopupWidth() > Window.getClientWidth())
+		int leftMargin = app.getPanel().getAbsoluteLeft()
+					+ app.getPanel().getOffsetWidth();
+		return (xCoord + getSubPopupWidth()
+				> leftMargin)
 				? getLeftSubPopupXCord() : xCoord;
 	}
 
@@ -436,14 +424,14 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * @return app scale (vertical)
 	 */
 	protected double getScaleY() {
-		return app.getArticleElement().getScaleY();
+		return app.getGeoGebraElement().getScaleY();
 	}
 
 	/**
 	 * @return app scale (horizontal)
 	 */
 	protected double getScaleX() {
-		return app.getArticleElement().getScaleX();
+		return app.getGeoGebraElement().getScaleX();
 	}
 
 	/**
@@ -714,5 +702,4 @@ public class GPopupMenuW implements AttachedToDOM {
 			return expandItems.get(getItemAt(idx));
 		}
 	}
-
 }

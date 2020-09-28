@@ -4,11 +4,14 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
@@ -17,6 +20,7 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.BasePropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 
@@ -206,6 +210,12 @@ public class AppConfigDefault implements AppConfig {
 		return null;
 	}
 
+	@CheckForNull
+	@Override
+	public SyntaxFilter newCommandSyntaxFilter() {
+		return null;
+	}
+
 	@Override
 	public boolean showToolsPanel() {
 		return true;
@@ -267,8 +277,18 @@ public class AppConfigDefault implements AppConfig {
 	}
 
 	@Override
+	public boolean isCoordinatesObjectSettingEnabled() {
+		return true;
+	}
+
+	@Override
 	public PropertiesFactory createPropertiesFactory() {
 		return new BasePropertiesFactory();
+	}
+
+	@Override
+	public boolean disableTraceCM() {
+		return false;
 	}
 
 	@Override
@@ -294,5 +314,10 @@ public class AppConfigDefault implements AppConfig {
 	@Override
 	public boolean hasAnsButtonInAv() {
 		return false;
+	}
+
+	@Override
+	public StringTemplate getOutputStringTemplate() {
+		return StringTemplate.latexTemplate;
 	}
 }

@@ -5,21 +5,27 @@ import java.util.Map.Entry;
 
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.kernel.AppState;
+import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
+import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.pagecontrolpanel.DragController.Cards;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
@@ -51,7 +57,7 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
  */
 public class PageListController implements PageListControllerInterface,
 		MouseDownHandler, MouseMoveHandler, MouseUpHandler, TouchStartHandler,
-		TouchMoveHandler, TouchEndHandler, ScrollHandler, Cards, EventListener {
+		TouchMoveHandler, TouchEndHandler, ScrollHandler, Cards, EventListener, EventRenderable {
 	/**
 	 * application {@link AppW}
 	 */
@@ -65,6 +71,7 @@ public class PageListController implements PageListControllerInterface,
 	private DragController dragCtrl;
 	private CardListInterface listener;
 	private Material activeMaterial = null;
+	private UndoManager undoManager;
 
 	/**
 	 * @param app
@@ -77,7 +84,11 @@ public class PageListController implements PageListControllerInterface,
 		slides = new ArrayList<>();
 		this.listener = listener;
 		dragCtrl = new DragController(this, app);
+		undoManager = app.getKernel().getConstruction().getUndoManager();
 		app.getEventDispatcher().addEventListener(this);
+		if (app.getLoginOperation() != null) {
+			app.getLoginOperation().getView().add(this);
+		}
 	}
 
 	/**
@@ -99,9 +110,13 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void refreshSlide(int index) {
-		if (selectedCard == slides.get(index)) {
+		refreshSlide(slides.get(index));
+	}
+
+	protected void refreshSlide(PagePreviewCard card) {
+		if (selectedCard == card) {
 			app.getGgbApi().createArchiveContent(true,
-					slides.get(index).getFile());
+					card.getFile());
 		}
 	}
 
@@ -236,11 +251,11 @@ public class PageListController implements PageListControllerInterface,
 	 *            to duplicate.
 	 * @return the new, duplicated card.
 	 */
-	public PagePreviewCard duplicateSlideStoreUndo(PagePreviewCard sourceCard) {
-		PagePreviewCard ret = duplicateSlide(sourceCard, null);
+	public PagePreviewCard pasteSlideStoreUndo(PagePreviewCard sourceCard, String json) {
+		PagePreviewCard ret = pasteSlide(sourceCard, null, json);
 		app.getKernel().getConstruction().getUndoManager().storeAction(
-				EventType.DUPLICATE_SLIDE, sourceCard.getPageIndex() + "",
-				ret.getFile().getID(), sourceCard.getFile().getID());
+				EventType.PASTE_SLIDE, sourceCard.getPageIndex() + "",
+				ret.getFile().getID(), json);
 		return ret;
 	}
 
@@ -251,10 +266,10 @@ public class PageListController implements PageListControllerInterface,
 	 *            to duplicate.
 	 * @return the new, duplicated card.
 	 */
-	private PagePreviewCard duplicateSlide(PagePreviewCard sourceCard,
-			String targetID) {
+	private PagePreviewCard pasteSlide(PagePreviewCard sourceCard,
+			String targetID, String json) {
 		savePreviewCard(selectedCard);
-		PagePreviewCard dup = PagePreviewCard.duplicate(sourceCard, targetID);
+		PagePreviewCard dup = PagePreviewCard.pasteAfter(sourceCard, targetID, json);
 		int dupIdx = dup.getPageIndex();
 		slides.add(dupIdx, dup);
 		setCardSelected(dup);
@@ -329,8 +344,14 @@ public class PageListController implements PageListControllerInterface,
 
 			for (int i = 0; i < slides.size(); i++) {
 				JSONArray elements = new JSONArray();
-				elements.put(
-						new JSONObject().put("id", GgbFile.SLIDE_PREFIX + i));
+				JSONObject page = new JSONObject();
+				page.put("id", GgbFile.SLIDE_PREFIX + i);
+				String title = getCard(i).getCardTitle();
+				if (!StringUtil.empty(title)) {
+					page.put("title", title);
+				}
+
+				elements.put(page);
 				pages.put(new JSONObject().put("elements", elements));
 			}
 
@@ -355,12 +376,12 @@ public class PageListController implements PageListControllerInterface,
 			JSONObject response = new JSONObject(new JSONTokener(structure));
 			JSONArray pages = response.getJSONArray("chapters").getJSONObject(0)
 					.getJSONArray("pages");
+
 			for (int i = 0; i < pages.length(); i++) {
-				slides.add(new PagePreviewCard(app, i, filter(archive,
-						pages.getJSONObject(i).getJSONArray("elements")
-								.getJSONObject(0).getString("id"))));
+				slides.add(createCardFromArchive(archive, pages, i));
 			}
-			app.loadFileWithoutErrorHandling(slides.get(0).getFile(), false);
+
+			app.loadGgbFile(slides.get(0).getFile(), false);
 			/// TODO this breaks MVC
 			app.getAppletFrame().getPageControlPanel()
 					.update();
@@ -370,6 +391,20 @@ public class PageListController implements PageListControllerInterface,
 			e.printStackTrace();
 		}
 		return true;
+	}
+
+	private PagePreviewCard createCardFromArchive(GgbFile archive, JSONArray pages, int cardIndex)
+			throws JSONException {
+		JSONObject page = pages.getJSONObject(cardIndex).getJSONArray("elements")
+				.getJSONObject(0);
+		PagePreviewCard card = new PagePreviewCard(app, cardIndex, filter(archive,
+				page.getString("id")));
+
+		if (page.has("title")) {
+			card.setCardTitle(page.getString("title"));
+		}
+
+		return card;
 	}
 
 	/**
@@ -448,12 +483,7 @@ public class PageListController implements PageListControllerInterface,
 		}
 	}
 
-	/**
-	 * load existing page
-	 * 
-	 * @param index
-	 *            index of page to load
-	 */
+	@Override
 	public void loadPage(int index) {
 		savePreviewCard(selectedCard);
 		loadSlide(index);
@@ -485,10 +515,25 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void clickPage(int pageIdx, boolean select) {
+		if (select) {
+			app.dispatchEvent(new Event(EventType.SELECT_SLIDE,
+					null, pageIdx + ""));
+		}
 		loadSlide(pageIdx);
 		if (select) {
 			setCardSelected(pageIdx);
 		}
+	}
+
+	@Override
+	public void selectSlide(int pageIdx) {
+		saveSelected();
+		if (getCard(pageIdx).getFile().isEmpty()) {
+			app.loadEmptySlide();
+		} else {
+			loadSlide(pageIdx);
+		}
+		setCardSelected(pageIdx);
 	}
 
 	@Override
@@ -531,7 +576,6 @@ public class PageListController implements PageListControllerInterface,
 			event.stopPropagation();
 			listener.getScrollPanel().setTouchScrollingDisabled(true);
 		}
-			 
 	}
 
 	@Override
@@ -607,7 +651,6 @@ public class PageListController implements PageListControllerInterface,
 			if (file.isEmpty()) {
 				// new file
 				app.loadEmptySlide();
-
 			} else {
 				String perspXML = app.getGgbApi().getPerspectiveXML();
 				// load last status of file
@@ -629,13 +672,19 @@ public class PageListController implements PageListControllerInterface,
 			}
 		} else if (action == EventType.CLEAR_SLIDE) {
 			loadNewPage(indexOfId(args[0]));
-		} else if (action == EventType.DUPLICATE_SLIDE) {
-			duplicateSlide(slides.get(Integer.parseInt(args[0])), args[1]);
+		} else if (action == EventType.PASTE_SLIDE) {
+			pasteSlide(slides.get(Integer.parseInt(args[0])), args[1], args[2]);
 		} else if (action == EventType.MOVE_SLIDE) {
 			doReorder(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+		} else if (action == EventType.RENAME_SLIDE) {
+			renameCard(Integer.parseInt(args[0]), args[1]);
 		}
 		app.getAppletFrame().getPageControlPanel().update();
 		app.getAppletFrame().getPageControlPanel().open();
+	}
+
+	private void renameCard(int pageIndex, String title) {
+		cardAt(pageIndex).setCardTitle(title);
 	}
 
 	private int indexOfId(String slideID) {
@@ -678,5 +727,28 @@ public class PageListController implements PageListControllerInterface,
 		if (!CancelEventTimer.isDragging()) {
 			dragCtrl.cancelDrag();
 		}
+	}
+
+	@Override
+	public void renderEvent(BaseEvent event) {
+		if (event instanceof LogOutEvent) {
+			BrowserStorage.LOCAL.removeItem(BrowserStorage.COPY_SLIDE);
+		}
+	}
+
+	/**
+	 * Renaming a slide
+	 * @param card to rename.
+	 * @param title the new title.
+	 */
+	public void rename(PagePreviewCard card, String title) {
+		storeRenameAction(card, title);
+		card.setCardTitle(title);
+	}
+
+	private void storeRenameAction(PagePreviewCard card, String oldTitle) {
+		undoManager.storeAction(EventType.RENAME_SLIDE, "" + card.getPageIndex(),
+				oldTitle, card.getCardTitle());
+
 	}
 }

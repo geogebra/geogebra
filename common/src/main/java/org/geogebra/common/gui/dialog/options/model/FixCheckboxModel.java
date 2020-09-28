@@ -16,7 +16,7 @@ public class FixCheckboxModel extends BooleanOptionModel {
 
 	@Override
 	public boolean getValueAt(int index) {
-		return getBooleanAt(index).isCheckboxFixed();
+		return getBooleanAt(index).isLockedPosition();
 
 	}
 

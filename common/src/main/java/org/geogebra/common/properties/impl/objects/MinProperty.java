@@ -1,44 +1,35 @@
 package org.geogebra.common.properties.impl.objects;
 
+import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.impl.AbstractNumericProperty;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.common.properties.impl.objects.delegate.SliderPropertyDelegate;
 
 /**
- * Min
+ * Min property
  */
-public class MinProperty extends RangelessDecimalProperty {
+public class MinProperty extends AbstractNumericProperty {
 
-	private SliderPropertyDelegate delegate;
+	private final SliderPropertyDelegate delegate;
 
-	public MinProperty(GeoNumeric numeric) throws NotApplicablePropertyException {
-		super("Minimum.short", numeric);
+	/***/
+	public MinProperty(AlgebraProcessor processor, Localization localization, GeoElement element)
+			throws NotApplicablePropertyException {
+		super(processor, localization, "Minimum.short");
+		delegate = new SliderPropertyDelegate(element);
 	}
 
 	@Override
-	public Double getValue() {
-		return getElement().getIntervalMin();
+	protected void setNumberValue(GeoNumberValue value) {
+		delegate.getElement().setIntervalMin(value);
 	}
 
 	@Override
-	public void setValue(Double value) {
-		GeoNumeric numeric = getElement();
-		numeric.setIntervalMin(value);
-	}
-
-	@Override
-	boolean isApplicableTo(GeoElement element) {
-		return getDelegate().isSlider(element);
-	}
-
-	private SliderPropertyDelegate getDelegate() {
-		if (delegate == null) {
-			delegate = new SliderPropertyDelegate(this);
-		}
-		return delegate;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return true;
+	protected NumberValue getNumberValue() {
+		return delegate.getElement().getIntervalMinObject();
 	}
 }

@@ -7,7 +7,7 @@ import org.geogebra.common.move.ggtapi.models.MowService;
 import org.geogebra.common.move.ggtapi.models.Service;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 
 /**
@@ -19,7 +19,7 @@ import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 public class BackendAPIFactory {
 
 	private AppW app;
-	private ArticleElementInterface articleElement;
+	private AppletParameters articleElement;
 	private BackendAPI api = null;
 
 	/**
@@ -27,7 +27,7 @@ public class BackendAPIFactory {
 	 */
 	public BackendAPIFactory(AppW app) {
 		this.app = app;
-		articleElement = app.getArticleElement();
+		articleElement = app.getAppletParameters();
 	}
 
 	/**

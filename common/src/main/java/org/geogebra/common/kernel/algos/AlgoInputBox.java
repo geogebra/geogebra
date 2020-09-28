@@ -12,8 +12,11 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
@@ -26,7 +29,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 
 public class AlgoInputBox extends AlgoElement {
 
-	private GeoElement linkedGeo; // input
+	private @CheckForNull GeoElement linkedGeo; // input
 	private GeoInputBox inputBox; // output
 
 	/**
@@ -83,7 +86,10 @@ public class AlgoInputBox extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		// nothing to compute
+		if (linkedGeo != null && linkedGeo.isDefined()
+				&& !linkedGeo.toValueString(StringTemplate.noLocalDefault).contains("?")) {
+			inputBox.clearTempUserInput();
+		}
 	}
 
 	@Override

@@ -34,20 +34,22 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.full.main.NullHeaderResizer;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.JsEval;
-import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 
@@ -58,7 +60,6 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
@@ -92,10 +93,6 @@ public class GeoGebraFrameFull
 	private PanelTransitioner panelTransitioner;
 	private HeaderResizer headerResizer;
 
-	public GeoGebraFrameFull(GLookAndFeelI laf, ArticleElementInterface articleElement) {
-		super(laf, articleElement);
-	}
-
 	/**
 	 * @param factory
 	 *            factory for applets (2D or 3D)
@@ -103,12 +100,13 @@ public class GeoGebraFrameFull
 	 *            look and feel
 	 * @param device
 	 *            browser/tablet; if left null, defaults to browser
-	 * @param articleElement
+	 * @param geoGebraElement
 	 *            article with parameters
 	 */
 	public GeoGebraFrameFull(AppletFactory factory, GLookAndFeelI laf,
-							 GDevice device, ArticleElementInterface articleElement) {
-		super(laf, articleElement);
+			GDevice device, GeoGebraElement geoGebraElement,
+			AppletParameters parameters) {
+		super(laf, geoGebraElement, parameters);
 		this.device = device;
 		this.factory = factory;
 		panelTransitioner = new PanelTransitioner(this);
@@ -119,9 +117,9 @@ public class GeoGebraFrameFull
 	}
 
 	@Override
-	protected AppW createApplication(ArticleElementInterface article,
-			GLookAndFeelI laf) {
-		AppW application = factory.getApplet(article, this, laf, this.device);
+	protected AppW createApplication(GeoGebraElement geoGebraElement,
+			AppletParameters parameters, GLookAndFeelI laf) {
+		AppW application = factory.getApplet(geoGebraElement, parameters, this, laf, this.device);
 		if (!app.isApplet()) {
 			CopyPasteW.installCutCopyPaste(application, RootPanel.getBodyElement());
 		} else {
@@ -156,15 +154,16 @@ public class GeoGebraFrameFull
 	 * @param device
 	 *            browser/tablet; if left null, defaults to browser
 	 */
-	public static void main(ArrayList<ArticleElement> geoGebraMobileTags,
+	public static void main(ArrayList<GeoGebraElement> geoGebraMobileTags,
 			AppletFactory factory, GLookAndFeel laf, GDevice device) {
 
-		for (final ArticleElement articleElement : geoGebraMobileTags) {
+		for (final GeoGebraElement geoGebraElement : geoGebraMobileTags) {
+			AppletParameters parameters = new AppletParameters(geoGebraElement);
 			final GeoGebraFrameFull inst = new GeoGebraFrameFull(factory, laf,
-					device, articleElement);
-			LoggerW.startLogger(articleElement);
+					device, geoGebraElement, parameters);
+			LoggerW.startLogger(parameters);
 			inst.createSplash();
-			RootPanel.get(articleElement.getId()).add(inst);
+			RootPanel.get(geoGebraElement.getId()).add(inst);
 		}
 	}
 
@@ -180,10 +179,10 @@ public class GeoGebraFrameFull
 	 */
 	public static void renderArticleElement(Element el, AppletFactory factory,
 			GLookAndFeel laf, JavaScriptObject clb) {
-
-		GeoGebraFrameW.renderArticleElementWithFrame(el, new GeoGebraFrameFull(
-				factory, laf, null, ArticleElement.as(el)),
-				clb);
+		GeoGebraElement element = GeoGebraElement.as(el);
+		AppletParameters parameters = new AppletParameters(element);
+		new GeoGebraFrameFull(factory, laf, null, element, parameters)
+				.renderArticleElementWithFrame(element, clb);
 	}
 
 	/**
@@ -269,8 +268,6 @@ public class GeoGebraFrameFull
 			removeKeyboard();
 			keyboardState = KeyboardState.HIDDEN;
 		}
-
-		// this.mainPanel.add(this.dockPanel);
 
 		Timer timer = new Timer() {
 			@Override
@@ -431,12 +428,12 @@ public class GeoGebraFrameFull
 	@Override
 	public boolean showKeyBoard(boolean show, MathKeyboardListener textField,
 			boolean forceShow) {
-		if (forceShow && isKeyboardWantedFromCookie()) {
+		if (forceShow && (isKeyboardWantedFromStorage() || Browser.isMobile())) {
 			doShowKeyBoard(show, textField);
 			return true;
 		}
 
-		return keyBoardNeeded(show && isKeyboardWantedFromCookie(), textField);
+		return keyBoardNeeded(show && isKeyboardWantedFromStorage(), textField);
 	}
 
 	@Override
@@ -456,12 +453,11 @@ public class GeoGebraFrameFull
 						.isOpen()) {
 			return false;
 		}
-
-		if (app.getLAF().isTablet()
+		if (Browser.isMobile()
 				|| isKeyboardShowing()
 									// showing, we don't have
 									// to handle the showKeyboardButton
-				|| getKeyboardManager().shouldKeyboardBeShown()
+				|| !getKeyboardManager().isKeyboardClosedByUser()
 				|| keyboardNeededForGraphicsTools()) {
 			doShowKeyBoard(show, textField);
 			showKeyboardButton(textField);
@@ -473,7 +469,7 @@ public class GeoGebraFrameFull
 	}
 
 	private boolean keyboardNeededForGraphicsTools() {
-		return app.isApplet() && app.isShowToolbar()
+		return app.isShowToolbar()
 				&& app.getActiveEuclidianView()
 				.getEuclidianController()
 						.modeNeedsKeyboard();
@@ -505,12 +501,7 @@ public class GeoGebraFrameFull
 
 	private void showKeyboardButton(final MathKeyboardListener textField) {
 		if (appNeedsKeyboard()) {
-			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-				@Override
-				public void execute() {
-					showKeyboardButton(isButtonNeeded(textField));
-				}
-			});
+			Scheduler.get().scheduleDeferred(() -> showKeyboardButton(isButtonNeeded(textField)));
 		}
 	}
 
@@ -552,27 +543,23 @@ public class GeoGebraFrameFull
 			}
 		} else {
 			if (app != null && app.isKeyboardNeeded() && appNeedsKeyboard()
-					&& isKeyboardWantedFromCookie()) {
+					&& isKeyboardWantedFromStorage()) {
 				if (!app.isStartedWithFile()
-						&& !app.getArticleElement().preventFocus()) {
+						&& !app.getAppletParameters().preventFocus()) {
 					if (getKeyboardManager()
 							.isKeyboardClosedByUser()) {
 						ensureKeyboardEditing();
 						return;
 					}
 					setKeyboardShowing(true);
-					app.invokeLater(new Runnable() {
-
-						@Override
-						public void run() {
-							if (getApp().isWhiteboardActive()) {
-								return;
-							}
-							getApp().persistWidthAndHeight();
-							addKeyboard(null, false);
-							ensureKeyboardDeferred();
-
+					app.invokeLater(() -> {
+						if (getApp().isWhiteboardActive()) {
+							return;
 						}
+						getApp().persistWidthAndHeight();
+						addKeyboard(null, false);
+						ensureKeyboardDeferred();
+
 					});
 				} else {
 					showKeyboardButton(null);
@@ -581,7 +568,7 @@ public class GeoGebraFrameFull
 				}
 
 			} else if (app != null && app.isKeyboardNeeded()) {
-				if (!isKeyboardWantedFromCookie()) {
+				if (!isKeyboardWantedFromStorage()) {
 					showKeyboardButton(null);
 				} else {
 					showKeyboardButton(true);
@@ -673,8 +660,8 @@ public class GeoGebraFrameFull
 		return isKeyboardShowing() ? keyboardHeight : 0;
 	}
 
-	private static boolean isKeyboardWantedFromCookie() {
-		String wanted = Cookies.getCookie("GeoGebraKeyboardWanted");
+	private static boolean isKeyboardWantedFromStorage() {
+		String wanted = BrowserStorage.LOCAL.getItem(BrowserStorage.KEYBOARD_WANTED);
 		return !"false".equals(wanted);
 	}
 
@@ -706,9 +693,13 @@ public class GeoGebraFrameFull
 		if (app1.isWhiteboardActive()) {
 			attachToolbarMow(app1);
 
-			if (app1.getVendorSettings().isMainMenuExternal()) {
+			if (app1.getVendorSettings().isMainMenuExternal()
+					&& !app1.isApplet()) {
 				app1.getGuiManager().menuToGlobalHeader();
-			} else {
+			} else if ((app1.isApplet()
+						&& app1.getAppletParameters().getDataParamShowMenuBar(false))
+					|| app1.isMebis()) {
+				toolbarMow.getUndoRedoButtons().addStyleName("undoRedoPositionMebis");
 				attachMowMainMenu(app1);
 			}
 			app1.getGuiManager().initShareActionInGlobalHeader();
@@ -763,7 +754,9 @@ public class GeoGebraFrameFull
 			insert(toolbarMow, 0);
 		}
 		add(toolbarMow.getUndoRedoButtons());
-		add(toolbarMow.getPageControlButton());
+		if (!app.isApplet()) {
+			add(toolbarMow.getPageControlButton());
+		}
 	}
 
 	private void initToolbarMowIfNull(AppW app) {
@@ -954,7 +947,7 @@ public class GeoGebraFrameFull
 
 	@Override
 	public void onPanelHidden() {
-		if (app.getArticleElement().getDataParamFitToScreen()) {
+		if (app.getAppletParameters().getDataParamFitToScreen()) {
 			setSize(Window.getClientWidth(), computeHeight());
 		} else {
 			app.updateViewSizes();

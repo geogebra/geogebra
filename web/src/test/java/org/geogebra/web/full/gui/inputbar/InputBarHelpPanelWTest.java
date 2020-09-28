@@ -1,8 +1,7 @@
 package org.geogebra.web.full.gui.inputbar;
 
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.main.TestArticleElement;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.junit.Before;
@@ -19,9 +18,9 @@ public class InputBarHelpPanelWTest {
 
     @Test
     public void onlineHelpShownIfMenuBarIsShown() {
-        ArticleElementInterface articleElement =
-                new TestArticleElement("prerelease", "classic")
-                    .attr("showMenuBar", "true");
+        AppletParameters articleElement =
+                new AppletParameters("classic")
+                    .setAttribute("showMenuBar", "true");
         AppWFull app = AppMocker.mockApplet(articleElement);
 
         InputBarHelpPanelW inputBarHelpPanelW
@@ -35,9 +34,9 @@ public class InputBarHelpPanelWTest {
 
     @Test
     public void onlineHelpNotShownIfMenuBarIsNotShown() {
-        ArticleElementInterface articleElement =
-                new TestArticleElement("prerelease", "classic")
-                        .attr("showMenuBar", "false");
+        AppletParameters articleElement =
+                new AppletParameters("classic")
+                        .setAttribute("showMenuBar", "false");
         AppWFull app = AppMocker.mockApplet(articleElement);
 
         InputBarHelpPanelW inputBarHelpPanelW

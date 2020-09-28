@@ -1,34 +1,33 @@
 package org.geogebra.web.full.gui.openfileview;
 
+import java.util.List;
+
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.CardInfoPanel;
 import org.geogebra.web.full.gui.browser.MaterialCardController;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.DialogBoxW;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
 /**
- * 
- * @author csilla
- *
+ * Material card
  */
 public class MaterialCard extends FlowPanel implements MaterialCardI {
 	private AppW app;
 	// image of material
 	private FlowPanel imgPanel;
 	// material information
-	private FlowPanel infoPanel;
-	private Label cardTitle;
-	private Label cardAuthor;
+	private CardInfoPanel infoPanel;
 	private ContextMenuButtonMaterialCard moreBtn;
 	private FlowPanel visibilityPanel;
 	private MaterialCardController controller;
@@ -44,24 +43,14 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		controller = new MaterialCardController(app);
 		controller.setMaterial(m);
 		initGui();
-		this.addDomHandler(new ClickHandler() {
-			@Override
-			public void onClick(final ClickEvent event) {
-				openMaterial();
-			}
-		}, ClickEvent.getType());
+		this.addDomHandler(event -> openMaterial(), ClickEvent.getType());
 	}
 
 	/**
 	 * Open this material.
 	 */
 	protected void openMaterial() {
-		app.getGuiManager().getBrowseView().closeAndSave(new AsyncOperation<Boolean>() {
-			@Override
-			public void callback(Boolean obj) {
-				controller.loadOnlineFile();
-			}
-		});
+		app.getGuiManager().getBrowseView().closeAndSave(obj -> controller.loadOnlineFile());
 	}
 
 	private void initGui() {
@@ -72,29 +61,29 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		setBackgroundImgPanel(getMaterial());
 		this.add(imgPanel);
 		// panel containing the info regarding the material
-		infoPanel = new FlowPanel();
-		infoPanel.setStyleName("cardInfoPanel");
-		cardTitle = new Label(getMaterial().getTitle());
-		cardTitle.setStyleName("cardTitle");
-		cardAuthor = new Label("".equals(getMaterial().getAuthor())
-				&& getMaterial().getCreator() != null
-				? getMaterial().getCreator().getDisplayname()
-				: getMaterial().getAuthor());
-		cardAuthor.setStyleName("cardAuthor");
+
 		moreBtn = new ContextMenuButtonMaterialCard(app, getMaterial(), this);
 		// panel for visibility state
 		visibilityPanel = new FlowPanel();
 		visibilityPanel.setStyleName("visibilityPanel");
 		updateVisibility(getMaterial().getVisibility());
+		infoPanel = isOwnMaterial()
+				? new CardInfoPanel(getMaterial().getTitle(), visibilityPanel)
+				: new CardInfoPanel(getMaterial().getTitle(), getCardAuthor());
 
-		// build info panel
-		infoPanel.add(cardTitle);
-		infoPanel.add(
-				app.getLoginOperation().getGeoGebraTubeAPI().owns(getMaterial())
-						? visibilityPanel
-				: cardAuthor);
 		infoPanel.add(moreBtn);
 		this.add(infoPanel);
+	}
+
+	private boolean isOwnMaterial() {
+		return app.getLoginOperation().getGeoGebraTubeAPI().owns(getMaterial());
+	}
+
+	private String getCardAuthor() {
+		return "".equals(getMaterial().getAuthor())
+				&& getMaterial().getCreator() != null
+				? getMaterial().getCreator().getDisplayname()
+				: getMaterial().getAuthor();
 	}
 
 	/**
@@ -130,14 +119,9 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 
 	@Override
 	public void rename(String text) {
-		String oldTitle = cardTitle.getText();
-		cardTitle.setText(text);
+		String oldTitle = infoPanel.getCardId();
+		infoPanel.setCardId(text);
 		controller.rename(text, this, oldTitle);
-	}
-
-	@Override
-	public void setMaterialTitle(String title) {
-		cardTitle.setText(title);
 	}
 
 	@Override
@@ -147,12 +131,14 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 
 	@Override
 	public void onDelete() {
-		DialogBoxW removeDialog = new RemoveDialog(app.getPanel(), app, this);
-		removeDialog.center();
+		DialogData data = new DialogData(null, "Cancel", "Delete");
+		ComponentDialog removeDialog = new RemoveDialog(app, data, this);
+		removeDialog.show();
+		removeDialog.setOnPositiveAction(this::onConfirmDelete);
 	}
 
 	@Override
-	public String getMaterialTitle() {
+	public String getCardTitle() {
 		return getMaterial().getTitle();
 	}
 
@@ -175,14 +161,17 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 				app.getLocalization().getMenu("Public"));
 		switch (visibility) {
 		case "P":
+			app.getLoginOperation().getGeoGebraTubeAPI()
+					.getGroups(getMaterial().getSharingKeyOrId(),
+							this::showSharedIcon);
 			visibiltyImg = new NoDragImage(
 					MaterialDesignResources.INSTANCE.mow_card_private(), 24);
 			visibilityTxt = new Label(app.getLocalization().getMenu("Private"));
 			break;
 		case "S":
 			visibiltyImg = new NoDragImage(
-					MaterialDesignResources.INSTANCE.mow_card_link(), 24);
-			visibilityTxt = new Label(app.getLocalization().getMenu("Link"));
+					MaterialDesignResources.INSTANCE.mow_card_shared(), 24);
+			visibilityTxt = new Label(app.getLocalization().getMenu("Shared"));
 			break;
 		case "O":
 			visibiltyImg = new NoDragImage(
@@ -194,6 +183,16 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		}
 		visibilityPanel.clear();
 		visibilityPanel
-				.add(LayoutUtilW.panelRowIndent(visibiltyImg, visibilityTxt));
+				.add(LayoutUtilW.panelRow(visibiltyImg, visibilityTxt));
+	}
+
+	private void showSharedIcon(List<String> strings) {
+		if (strings != null && !strings.isEmpty()) {
+			updateVisibility("S");
+		}
+	}
+
+	public void setLabels() {
+		updateVisibility(getMaterial().getVisibility());
 	}
 }

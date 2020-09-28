@@ -48,14 +48,16 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.geos.HasAlignment;
+import org.geogebra.common.kernel.geos.HasDynamicCaption;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
+import org.geogebra.common.kernel.geos.RectangleTransformable;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
 import org.geogebra.common.kernel.geos.properties.FillType;
-import org.geogebra.common.kernel.geos.properties.TextAlignment;
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -105,12 +107,15 @@ public class ConsElementXMLHandler {
 	private LinkedList<GeoExpPair> dynamicColorList = new LinkedList<>();
 	private LinkedList<GeoExpPair> animationSpeedList = new LinkedList<>();
 	private LinkedList<GeoExpPair> animationStepList = new LinkedList<>();
+	private LinkedList<GeoExpPair> dynamicCaptionList = new LinkedList<>();
 	private LinkedList<GeoElement> animatingList = new LinkedList<>();
 	private LinkedList<GeoNumericMinMax> minMaxList = new LinkedList<>();
 	private boolean lineStyleTagProcessed;
 	private boolean symbolicTagProcessed;
 	private boolean sliderTagProcessed;
 	private boolean fontTagProcessed;
+	private double embedX;
+	private double embedY;
 	/**
 	 * The point style of the document, for versions < 3.3
 	 */
@@ -236,18 +241,20 @@ public class ConsElementXMLHandler {
 			if (geo.isGeoButton()) {
 				GeoButton button = (GeoButton) geo;
 				if (widthD > 10 && heightD > 10) {
-					button.setWidth((int) widthD);
-					button.setHeight((int) heightD);
+					button.setWidth(widthD);
+					button.setHeight(heightD);
 				}
 				button.setFixedSize(true);
 				return true;
-			} else if (geo instanceof GeoEmbed) {
-				((GeoEmbed) geo).setContentWidth(widthD);
-				((GeoEmbed) geo).setContentHeight(heightD);
-			} else if (geo instanceof GeoInline) {
-				((GeoInline) geo).setWidth(widthD);
-				((GeoInline) geo).setHeight(heightD);
-				((GeoInline) geo).setAngle(angleD);
+			} else if (geo instanceof RectangleTransformable) {
+				if (angle == null) {
+					// we have an old GeoEmbed
+					((GeoEmbed) geo).setContentWidth(widthD);
+					((GeoEmbed) geo).setContentHeight(heightD);
+				} else {
+					((RectangleTransformable) geo).setSize(widthD, heightD);
+					((RectangleTransformable) geo).setAngle(angleD);
+				}
 			}
 
 			return true;
@@ -603,6 +610,19 @@ public class ConsElementXMLHandler {
 		}
 	}
 
+	private boolean handleSerifContent(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoInputBox)) {
+			Log.error("wrong element type for <contentSerif>: " + geo.getClass());
+			return false;
+		}
+		String serif = attrs.get("val");
+
+		if (serif != null) {
+			((GeoInputBox) geo).setSerifContent(MyXMLHandler.parseBoolean(serif));
+		}
+		return true;
+	}
+
 	// <font serif="false" size="12" style="0">
 	private boolean handleTextFont(LinkedHashMap<String, String> attrs) {
 		this.fontTagProcessed = true;
@@ -610,7 +630,6 @@ public class ConsElementXMLHandler {
 			Log.error("wrong element type for <font>: " + geo.getClass());
 			return false;
 		}
-
 		Object serif = attrs.get("serif");
 		Object style = attrs.get("style");
 
@@ -912,7 +931,7 @@ public class ConsElementXMLHandler {
 		}
 	}
 
-	private boolean handleTable(LinkedHashMap<String, String> attrs) {
+	private boolean handleTableView(LinkedHashMap<String, String> attrs) {
 		try {
 			((GeoEvaluatable) geo).setTableColumn(
 					(int) MyXMLHandler.parseDoubleNaN(attrs.get("column")));
@@ -934,8 +953,8 @@ public class ConsElementXMLHandler {
 		try {
 			GeoVideo video = (GeoVideo) geo;
 			video.setSrc(attrs.get("src"), attrs.get("type"));
-			video.setWidth(Integer.parseInt(attrs.get("width")));
-			video.setHeight(Integer.parseInt(attrs.get("height")));
+			video.setSize(Integer.parseInt(attrs.get("width")),
+					Integer.parseInt(attrs.get("height")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -1085,7 +1104,7 @@ public class ConsElementXMLHandler {
 	 * @see #processStartPointList()
 	 */
 	private void handleStartPoint(LinkedHashMap<String, String> attrs) {
-		if (geo instanceof GeoInline) {
+		if (geo instanceof RectangleTransformable && !geo.isGeoImage()) {
 			double x = 0;
 			double y = 0;
 
@@ -1093,12 +1112,28 @@ public class ConsElementXMLHandler {
 				x = Double.parseDouble(attrs.get("x"));
 				y = Double.parseDouble(attrs.get("y"));
 			} catch (NumberFormatException e) {
-				Log.error("Incorrect start point for GeoInlineText");
+				Log.error("Incorrect start point for RectangleTransformable");
+			}
+
+			// old GeoEmbeds are represented by three rw points
+			String number = attrs.get("number");
+			if (geo instanceof GeoEmbed && number != null) {
+				GeoEmbed embed = (GeoEmbed) geo;
+
+				if ("0".equals(number)) {
+					embedY = y;
+					return;
+				} else if ("1".equals(number)) {
+					embedX = x;
+					return;
+				} else if ("2".equals(number)) {
+					embed.setRealWidth(embedX - x);
+					embed.setRealHeight(y - embedY);
+				}
 			}
 
 			GPoint2D startPoint = new GPoint2D(x, y);
-
-			((GeoInline) geo).setLocation(startPoint);
+			((RectangleTransformable) geo).setLocation(startPoint);
 			return;
 		}
 
@@ -1182,10 +1217,10 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleTextAlign(LinkedHashMap<String, String> attrs) {
-		String align = attrs.get("val");
+		HorizontalAlignment align = HorizontalAlignment.fromString(attrs.get("val"));
 
-		if (geo instanceof HasAlignment) {
-			((HasAlignment) geo).setAlignment(TextAlignment.fromString(align));
+		if (align != null && geo instanceof HasAlignment) {
+			((HasAlignment) geo).setAlignment(align);
 		} else {
 			Log.error("Text alignment not supported for " + geo.getGeoClassType());
 		}
@@ -1503,8 +1538,8 @@ public class ConsElementXMLHandler {
 				GeoInlineText ret = new GeoInlineText((GeoText) geo);
 				geo.getConstruction().replace(geo, ret);
 				geo = ret;
-				ret.setWidth(Integer.parseInt(attrs.get("width")));
-				ret.setHeight(Integer.parseInt(attrs.get("height")));
+				ret.setSize(Integer.parseInt(attrs.get("width")),
+						Integer.parseInt(attrs.get("height")));
 			} catch (Exception e) {
 				Log.debug(e);
 			}
@@ -2018,6 +2053,9 @@ public class ConsElementXMLHandler {
 			case "condition":
 				handleCondition(attrs);
 				break;
+			case "contentSize":
+				handleContentSize(attrs);
+				break;
 			case "checkbox":
 				handleCheckbox(attrs);
 				break;
@@ -2026,6 +2064,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "comboBox":
 				handleComboBox(attrs);
+				break;
+			case "contentSerif":
+				handleSerifContent(attrs);
 				break;
 			case "cropBox":
 				handleCropBox(attrs);
@@ -2074,6 +2115,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "forceReflexAngle":
 				handleForceReflexAngle(attrs);
+				break;
+			case "dynamicCaption":
+				handleDynamicCaption(attrs);
 				break;
 			case "fading":
 				handleFading(attrs);
@@ -2184,7 +2228,7 @@ public class ConsElementXMLHandler {
 				handleSelectedIndex(attrs);
 				break;
 			case "tableview":
-				handleTable(attrs);
+				handleTableView(attrs);
 				break;
 			case "trace":
 				handleTrace(attrs);
@@ -2220,6 +2264,41 @@ public class ConsElementXMLHandler {
 
 	}
 
+	private void handleDynamicCaption(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoInputBox)) {
+			Log.error("wrong element type for <dynamicCaption>: " + geo.getClass());
+			return;
+		}
+		try {
+			String dynamicCaption = attrs.get("val");
+			if (dynamicCaption != null) {
+				dynamicCaptionList
+						.add(new GeoExpPair(geo, dynamicCaption));
+			}
+		} catch (RuntimeException e) {
+			Log.error("malformed <dynamicCaption>");
+		}
+	}
+
+	private void handleContentSize(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoEmbed)) {
+			Log.error("wrong element type for <contentSize>: " + geo.getClass());
+			return;
+		}
+
+		GeoEmbed geoEmbed = (GeoEmbed) geo;
+
+		try {
+			double width = Double.parseDouble(attrs.get("width"));
+			double height = Double.parseDouble(attrs.get("height"));
+
+			geoEmbed.setContentWidth(width);
+			geoEmbed.setContentHeight(height);
+		} catch (NumberFormatException e) {
+			Log.error("malformed <contentSize>");
+		}
+	}
+
 	private void handleParentLabel(LinkedHashMap<String, String> attrs) {
 		if (geo instanceof GeoLocusStroke) {
 			((GeoLocusStroke) geo).setSplitParentLabel(attrs.get("val"));
@@ -2234,11 +2313,9 @@ public class ConsElementXMLHandler {
 
 	private void processStartPointList() {
 		try {
-			Iterator<LocateableExpPair> it = startPointList.iterator();
 			AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
 
-			while (it.hasNext()) {
-				LocateableExpPair pair = it.next();
+			for (LocateableExpPair pair : startPointList) {
 				GeoPointND P = pair.point != null ? pair.point
 						: algProc.evaluateToPoint(pair.exp,
 								ErrorHelper.silent(), true);
@@ -2265,6 +2342,25 @@ public class ConsElementXMLHandler {
 			addError("Invalid linked geo " + e.toString());
 		}
 		linkedGeoList.clear();
+	}
+
+	private void processDynamicCaptionList() {
+		try {
+			for (GeoExpPair pair : dynamicCaptionList) {
+				GeoElement caption = xmlHandler.kernel.lookupLabel(pair.exp);
+				if (caption.isGeoText()) {
+					HasDynamicCaption text = (HasDynamicCaption) pair.geoElement;
+					text.setDynamicCaption((GeoText) caption);
+				} else {
+					Log.error("dynamicCaption is not a GeoText");
+					break;
+				}
+			}
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		} finally {
+			dynamicCaptionList.clear();
+		}
 	}
 
 	private void processShowObjectConditionList() {
@@ -2414,6 +2510,7 @@ public class ConsElementXMLHandler {
 		processLinkedGeoList();
 		processShowObjectConditionList();
 		processDynamicColorList();
+		processDynamicCaptionList();
 		processAnimationSpeedList();
 		processAnimationStepList();
 		processMinMaxList();

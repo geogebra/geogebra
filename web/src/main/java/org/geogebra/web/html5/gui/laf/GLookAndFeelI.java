@@ -46,7 +46,7 @@ public interface GLookAndFeelI {
 
 	Platform getPlatform(int dim, String appName);
 
-	void storeLanguage(String language, AppW app);
+	void storeLanguage(String language);
 
 	String getFrameStyleName();
 

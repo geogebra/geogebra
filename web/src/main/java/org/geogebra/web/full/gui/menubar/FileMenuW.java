@@ -10,8 +10,6 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ShareControllerW;
 import org.geogebra.web.full.gui.menubar.item.ExitExamItem;
 import org.geogebra.web.full.gui.menubar.item.FileNewItem;
-import org.geogebra.web.full.gui.menubar.item.FileOpenItemMebis;
-import org.geogebra.web.full.gui.menubar.item.OpenOfflineFileItem;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
@@ -73,42 +71,17 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		if (getApp().getLoginOperation() != null) {
 			getApp().getLoginOperation().getView().add(this);
 		}
-		updateShareButton();
 	}
 
 	private void buildFileMenu() {
-		if (getApp().isMebis()) {
-			buildFileMenuMebis();
-		} else {
-			buildFileMenuBase();
-		}
-	}
-
-	private void buildFileMenuBase() {
 		addFileNewItem();
 		addOpenFileItem();
 		addSaveItem();
-		if (!getApp().isUnbundledOrWhiteboard()) {
-			addSeparator();
-		}
+		addSeparator();
 		addExportImageItem();
 		addShareItem();
 		addDownloadAsItem();
 		addPrintItem();
-	}
-
-	private void buildFileMenuMebis() {
-		addFileNewItem();
-		addOpenFileItemMebis();
-		addOpenOfflineFilesItem();
-		addSaveItem();
-		addShareItem();
-		addPrintItem();
-	}
-
-	private void updateShareButton() {
-		shareItem.setVisible(getApp().getLoginOperation() != null
-				&& getApp().getLoginOperation().canUserShare());
 	}
 
 	private void updateOpenFileButton() {
@@ -153,7 +126,6 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	@Override
 	public void renderEvent(BaseEvent event) {
 		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
-			updateShareButton();
 			updateOpenFileButton();
 		}
 	}
@@ -214,10 +186,6 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		}
 	}
 
-	private void addOpenOfflineFilesItem() {
-		addItem(new OpenOfflineFileItem(getApp()));
-	}
-
 	private void addOpenFileItem() {
 		openFileItem =
 				addItem(MainMenu.getMenuBarHtml(
@@ -232,14 +200,8 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 				});
 	}
 
-	private void addOpenFileItemMebis() {
-		openFileItem =
-				addItem(new FileOpenItemMebis(getApp(), activity));
-	}
-
 	private void addDownloadAsItem() {
-		if (getApp().getLAF().exportSupported()
-				&& !getApp().isUnbundledOrWhiteboard()) {
+		if (getApp().getLAF().exportSupported()) {
 			addItem(MainMenu.getMenuBarHtml(
 					MaterialDesignResources.INSTANCE.file_download_black(),
 					loc.getMenu("DownloadAs") + Unicode.ELLIPSIS), true,

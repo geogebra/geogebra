@@ -2,20 +2,25 @@ package org.geogebra.common.kernel.geos.inputbox;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRules;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoInterval;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.GeoClass;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Updates linked element for an input box from user input
@@ -52,16 +57,63 @@ public class InputBoxProcessor {
 			return;
 		}
 
-		InputBoxErrorHandler errorHandler = new InputBoxErrorHandler();
-		updateLinkedGeoNoErrorHandling(inputText, tpl, errorHandler);
-
+		// first clear temp input, so that the string representation of the input
+		// box is correct when updating dependencies
 		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
 
+		String defineText = maybeClampInputForNumeric(inputText, tpl);
+
+		InputBoxErrorHandler errorHandler = new InputBoxErrorHandler();
+		updateLinkedGeoNoErrorHandling(defineText, tpl, errorHandler);
+
 		if (errorHandler.errorOccured) {
-			inputBox.setTempUserDisplayInput(tempUserDisplayInput);
-			inputBox.setTempUserEvalInput(inputText);
+			if ("?".equals(inputText)) {
+				updateTempInput("", "");
+			} else {
+				updateTempInput(inputText, tempUserDisplayInput);
+			}
+
 			linkedGeo.setUndefined();
+			makeGeoIndependent();
+			linkedGeo.resetDefinition(); // same as SetValue(linkedGeo, ?)
 			linkedGeo.updateRepaint();
+		}
+	}
+
+	private String maybeClampInputForNumeric(String inputText, StringTemplate tpl) {
+		if (!inputBox.isSymbolicMode() && linkedGeo instanceof GeoNumeric) {
+			GeoNumeric number = (GeoNumeric) linkedGeo;
+			double num = kernel.getAlgebraProcessor()
+					.evaluateToDouble(inputText, true, null);
+
+			if (num < number.getIntervalMin()) {
+				return kernel.format(number.getIntervalMin(), tpl);
+			} else if (num > number.getIntervalMax()) {
+				return kernel.format(number.getIntervalMax(), tpl);
+			}
+		}
+
+		return inputText;
+	}
+
+	private void updateTempInput(String inputText, String tempUserDisplayInput) {
+		inputBox.setTempUserDisplayInput(tempUserDisplayInput);
+		inputBox.setTempUserEvalInput(inputText);
+	}
+
+	/**
+	 * Make sure linked geo is independent; otherwise null definition causes NPE
+	 */
+	private void makeGeoIndependent() {
+		try {
+			if (!linkedGeo.isIndependent()) {
+				GeoElement newGeo = linkedGeo.copy().toGeoElement();
+				kernel.getConstruction().replace(linkedGeo.toGeoElement(),
+						newGeo);
+				linkedGeo = newGeo;
+			}
+		} catch (Throwable e) {
+			Log.warn(e.getMessage());
 		}
 	}
 
@@ -79,11 +131,11 @@ public class InputBoxProcessor {
 				false, false).withSliders(false)
 				.withNoRedefinitionAllowed().withPreventingTypeChange()
 				.withRedefinitionRule(createRedefinitionRule())
-				.withSimplifiedMultiplication();
+				.withMultipleUnassignedAllowed();
 
 		algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
 				defineText, info, false,
-				new InputBoxCallback(this, inputBox), errorHandler);
+				new InputBoxCallback(inputBox), errorHandler);
 	}
 
 	private String  preprocess(String inputText, StringTemplate tpl) {
@@ -112,19 +164,32 @@ public class InputBoxProcessor {
 			if (!defineText.startsWith(prefix)) {
 				defineText = prefix + defineText;
 			}
-		} else if (isComplexNumber()) {
-
-			// make sure user can enter regular "i"
-			defineText = defineText.replace('i', Unicode.IMAGINARY);
-
 		}
-		if (linkedGeo instanceof FunctionalNVar) {
-			// string like f(x,y)=x^2
-			// or f(\theta) = \theta
-			defineText = linkedGeo.getLabel(tpl) + "("
-					+ ((FunctionalNVar) linkedGeo).getVarString(tpl) + ")=" + defineText;
+
+		if (linkedGeo instanceof FunctionalNVar	|| isComplexFunction()) {
+			if (linkedGeo instanceof GeoInterval
+				|| (linkedGeo instanceof GeoFunction
+					&& ((GeoFunction) linkedGeo).forceInequality())) {
+				defineText = linkedGeo.getLabel(tpl) + ":"
+						+ defineText;
+			} else {
+				// string like f(x,y)=x^2
+				// or f(\theta) = \theta
+				defineText = linkedGeo.getLabel(tpl) + "("
+						+ ((VarString) linkedGeo).getVarString(tpl) + ")=" + defineText;
+			}
 		}
+
+		if (GeoPoint.isComplexNumber(linkedGeo)) {
+			defineText = defineText.replace('I', 'i');
+		}
+
 		return defineText;
+	}
+
+	private boolean isComplexFunction() {
+		return linkedGeo.isGeoSurfaceCartesian()
+				&& ((GeoSurfaceCartesianND) linkedGeo).getComplexVariable() != null;
 	}
 
 	private RedefinitionRule createRedefinitionRule() {
@@ -133,11 +198,10 @@ public class InputBoxProcessor {
 				GeoClass.POINT3D, GeoClass.POINT);
 		RedefinitionRule vector = RedefinitionRules.oneWayRule(
 				GeoClass.VECTOR3D, GeoClass.VECTOR);
-		return RedefinitionRules.anyRule(same, point, vector);
-	}
-
-	boolean isComplexNumber() {
-		return linkedGeo.isGeoPoint()
-				&& ((GeoPointND) linkedGeo).getToStringMode() == Kernel.COORD_COMPLEX;
+		RedefinitionRule inequality = RedefinitionRules.oneWayRule(
+				GeoClass.INTERVAL, GeoClass.FUNCTION);
+		RedefinitionRule inequality2 = RedefinitionRules.oneWayRule(
+				GeoClass.FUNCTION, GeoClass.INTERVAL);
+		return RedefinitionRules.anyRule(same, point, vector, inequality, inequality2);
 	}
 }

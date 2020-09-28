@@ -63,11 +63,20 @@ class ParserFunctionsImpl implements ParserFunctions {
 	 *
 	 * @param name name of the translatable function
 	 * @param size number of arguments
-	 * @param args the format of the arguments (e.g. <code>"< (x) >"</code>
+	 * @param args the format of the arguments (e.g. <code>"< (x) >"</code>)
 	 * @param op the operation
 	 */
 	void addTranslatable(String name, int size, String args, Operation op) {
 		translatables.add(new FunctionReference(name, size, args, op));
+	}
+
+	/**
+	 * Adds translatable single argument operation
+	 * @param fn function name
+	 * @param arg argument (for autcomplete)
+	 */
+	public void addTranslatable(String fn, String arg) {
+		addTranslatable(fn, 1, arg, get(fn ,1));
 	}
 
 	@Override
@@ -137,5 +146,10 @@ class ParserFunctionsImpl implements ParserFunctions {
 			return null;
 		}
 		return op;
+	}
+
+	@Override
+	public void addTrigShorthandFunctions() {
+		ParserFunctionsFactory.addTrigShorthandFunctions(this);
 	}
 }
