@@ -14,20 +14,20 @@ import org.geogebra.common.gui.menu.MenuItem;
 abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 
 	protected final GeoGebraConstants.Version version;
-	private final boolean enableSwitchCalculator;
+	private final boolean isSuiteApp;
 
 	/**
 	 * Default constructor.
 	 * @param version version
-	 * @param enableSwitchCalculator enable switch calculator item
+	 * @param isSuiteApp whether it is the Suite app
 	 */
-	AbstractDrawerMenuFactory(GeoGebraConstants.Version version, boolean enableSwitchCalculator) {
+	AbstractDrawerMenuFactory(GeoGebraConstants.Version version, boolean isSuiteApp) {
 		this.version = version;
-		this.enableSwitchCalculator = enableSwitchCalculator;
+		this.isSuiteApp = isSuiteApp;
 	}
 
 	String getMenuTitle() {
-		if(enableSwitchCalculator) {
+		if (isSuiteApp) {
 			return "GeoGebraCalculatorSuite";
 		}
 
@@ -57,7 +57,7 @@ abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 
 	@Nullable
 	MenuItem showSwitchCalculator() {
-		return enableSwitchCalculator
+		return isSuiteApp
 				? new ActionableItemImpl(Icon.GEOGEBRA,
 				"SwitchCalculator", Action.SWITCH_CALCULATOR)
 				: null;
