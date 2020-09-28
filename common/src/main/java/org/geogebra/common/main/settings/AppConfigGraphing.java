@@ -12,6 +12,7 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.GraphingOperationArgumentFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
@@ -321,5 +322,10 @@ public class AppConfigGraphing implements AppConfig {
 	@Override
 	public boolean hasAnsButtonInAv() {
 		return true;
+	}
+
+	@Override
+	public StringTemplate getOutputStringTemplate() {
+		return StringTemplate.latexTemplate;
 	}
 }
