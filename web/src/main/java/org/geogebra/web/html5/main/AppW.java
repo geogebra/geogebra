@@ -720,19 +720,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            whether to reload just a slide
 	 */
 	public void loadGgbFile(final GgbFile archiveContent, final boolean asSlide) {
-		Runnable r = () -> loadFileWithoutErrorHandling(archiveContent, asSlide);
-
-		getAsyncManager().scheduleCallback(r);
-	}
-
-	/**
-	 * Try loading a file only once (might fail with CommandNotLoadedError)
-	 * @param archiveContent
-	 *            zip archive content
-	 * @param asSlide
-	 *            whether to reload just a slide
-	 */
-	public void loadFileWithoutErrorHandling(GgbFile archiveContent, boolean asSlide) {
 		AlgebraSettings algebraSettings = getSettings().getAlgebra();
 		algebraSettings.setModeChanged(false);
 		clearMedia();
@@ -842,12 +829,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		ImageLoader imageLoader = new ImageLoader(this, archive, archiveContent,
-				new Runnable() {
-					@Override
-					public void run() {
-						runAfterLoadImages(def, asSlide);
-					}
-				});
+				() -> getAsyncManager().scheduleCallback(
+						() -> runAfterLoadImages(def, asSlide)));
 		imageLoader.load();
 	}
 

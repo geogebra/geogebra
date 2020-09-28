@@ -196,7 +196,9 @@ public class AsyncManager {
 		while (callbacks.size() > 0) {
 			try {
 				callbacks.get(0).run();
-				callbacks.remove(0);
+				if (!callbacks.isEmpty()) {
+					callbacks.remove(0);
+				}
 			} catch (CommandNotLoadedError e) {
 				break;
 			}
