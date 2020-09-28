@@ -12,7 +12,6 @@ public class StatisticsTest extends BaseSymbolicTest {
 
 	@Test
 	public void testIsAvailable() {
-
 		GeoElement list1 = add("l1={1,2,3}");
 		Assert.assertNotNull(SuggestionStatistics.get(list1));
 
@@ -32,7 +31,6 @@ public class StatisticsTest extends BaseSymbolicTest {
 
 	@Test
 	public void testLabelAdded() {
-
 		GeoElement list1 = add("{1,2,3}");
 		Suggestion suggestion = SuggestionStatistics.get(list1);
 
