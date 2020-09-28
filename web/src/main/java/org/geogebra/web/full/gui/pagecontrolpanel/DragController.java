@@ -75,7 +75,7 @@ class DragController {
 		/**
 		 * Remove all spaces
 		 */
-		void clearSpaces();
+		void resetCardPositions();
 	}
 
 	private class AutoScrollTimer extends Timer {
@@ -141,7 +141,7 @@ class DragController {
 
 	private int getDropIndex() {
 		return (int) Math.round((double) (dragged.getTop() - PagePreviewCard.MARGIN)
-				/ (PagePreviewCard.CARD_HEIGHT + PagePreviewCard.MARGIN));
+				/ PagePreviewCard.TOTAL_HEIGHT);
 	}
 
 	private void prepareDragCard() {
@@ -177,15 +177,17 @@ class DragController {
 		}
 
 		if (target >= 0 && target < cards.getCardCount()) {
-			int index = (dragged.getTop() - PagePreviewCard.MARGIN - 1)
-					/ (PagePreviewCard.CARD_HEIGHT + PagePreviewCard.MARGIN);
+			// instead of rounding away from zero, this is the position rounded towards zero
 			int adjustedTarget = target;
 			if (target < dragged.getPageIndex()) {
 				adjustedTarget++;
 			}
+			if (target > dragged.getPageIndex()) {
+				adjustedTarget--;
+			}
 
 			PagePreviewCard targetCard = cards.cardAt(target);
-			int newTop = PagePreviewCard.computeTop(adjustedTarget + index)
+			int newTop = PagePreviewCard.computeTop(target + adjustedTarget)
 					- dragged.getTop() + PagePreviewCard.MARGIN;
 			setTop(targetCard, newTop);
 		}
@@ -212,7 +214,7 @@ class DragController {
 
 	private void findTarget() {
 		double ratio = (double) (dragged.getTop() - dragged.getComputedTop())
-				/ (PagePreviewCard.CARD_HEIGHT + PagePreviewCard.MARGIN);
+				/ PagePreviewCard.TOTAL_HEIGHT;
 		int diff = (int) ((ratio > 0) ? Math.ceil(ratio) : Math.floor(ratio));
 		target = dragged.getPageIndex() + diff;
 	}
@@ -249,9 +251,7 @@ class DragController {
 	}
 
 	private void setTop(PagePreviewCard card, int top) {
-		if (PagePreviewCard.isValidTop(top, cards.getCardCount())) {
-			card.setTop(top);
-		}
+		card.setTop(PagePreviewCard.clampTop(top, cards.getCardCount()));
 	}
 
 	private void setTopBy(PagePreviewCard card, int value) {
@@ -342,6 +342,10 @@ class DragController {
 		return true;
 	}
 
+	void cancelClick() {
+		clicked = null;
+	}
+
 	/**
 	 * Called at pointer (mouse or touch) up.
 	 */
@@ -373,7 +377,7 @@ class DragController {
 	private void cancelDrag() {
 		CancelEventTimer.resetDrag();
 		cancel();
-		cards.clearSpaces();
+		cards.resetCardPositions();
 		autoScroll.cancel();
 	}
 

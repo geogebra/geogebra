@@ -28,8 +28,9 @@ public class PagePreviewCard extends FlowPanel
 	/** Height of a card without margins */
 	static final int CARD_HEIGHT = 184;
 
-	/** Space needed for the card to drag. */
-	static final int SPACE_HEIGHT = CARD_HEIGHT + 2 * MARGIN;
+	/** Height of one card with the bottom margin */
+	static final int TOTAL_HEIGHT = CARD_HEIGHT + MARGIN;
+
 	private AppW app;
 	private Localization loc;
 	private int pageIndex;
@@ -230,7 +231,7 @@ public class PagePreviewCard extends FlowPanel
 	}
 
 	public static int computeTop(int index) {
-		return MARGIN + index * (CARD_HEIGHT + MARGIN);
+		return MARGIN + index * TOTAL_HEIGHT;
 	}
 
 	public int getComputedTop() {
@@ -241,8 +242,8 @@ public class PagePreviewCard extends FlowPanel
 		setTop(getComputedTop());
 	}
 
-	public static boolean isValidTop(int top, int cardCount) {
-		return MARGIN <= top && top <= computeTop(cardCount - 1);
+	public static int clampTop(int top, int cardCount) {
+		return Math.max(MARGIN, Math.min(top, computeTop(cardCount - 1)));
 	}
 
 	/**
