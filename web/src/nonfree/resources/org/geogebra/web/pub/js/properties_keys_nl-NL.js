@@ -1033,7 +1033,7 @@ __GGB__keysVar["nl-NL"].command = {
     "TrapezoidalSum.Syntax": "[ <Functie>, <Beginwaarde>, <Eindwaarde>, <Aantal> ]",
     "TravelingSalesman": "Handelsreizigersprobleem",
     "TravelingSalesman.Syntax": "[ <Lijst met punten> ]",
-    "TriangleCenter": "MiddelpuntDriehoek",
+    "TriangleCenter": "DriehoeksCentrum",
     "TriangleCenter.Syntax": "[ <Punt>, <Punt>, <Punt>, <Getal> ]",
     "TriangleCurve": "Driehoekskromme",
     "TriangleCurve.Syntax": "[ <Punt>, <Punt>, <Punt>, <Vergelijking> ]",
