@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -173,13 +172,13 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		MyArbitraryConstant constant = getArbitraryConstant();
 		constant.setSymbolic(!shouldBeEuclidianVisible(casInput));
 
-		String s = evaluateGeoGebraCAS(casInput.wrap(), constant);
+		String s = evaluateGeoGebraCAS(casInput, constant);
 
 		if (Commands.Solve.name().equals(casInput.getName()) && GeoFunction.isUndefined(s)) {
 			getDefinition().getTopLevelCommand().setName(Commands.NSolve.name());
 			casInput = getCasInput(getDefinition().deepCopy(kernel)
 					.traverse(FunctionExpander.getCollector()));
-			s = evaluateGeoGebraCAS(casInput.wrap(), constant);
+			s = evaluateGeoGebraCAS(casInput, constant);
 		}
 
 		this.casOutputString = s;
@@ -203,9 +202,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		return casInput;
 	}
 
-	private String evaluateGeoGebraCAS(ValidExpression exp, MyArbitraryConstant constant) {
+	private String evaluateGeoGebraCAS(Command command, MyArbitraryConstant constant) {
 		return kernel.getGeoGebraCAS().evaluateGeoGebraCAS(
-				exp, constant, StringTemplate.prefixedDefault, null, kernel);
+				command.wrap(), constant, getStringTemplate(command), null, kernel);
 	}
 
 	private boolean shouldBeEuclidianVisible(Command input) {
@@ -214,6 +213,12 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 				&& !Commands.NSolve.name().equals(inputName)
 				&& !Commands.IntegralSymbolic.name().equals(inputName)
 				&& !Commands.IsInteger.name().equals(inputName);
+	}
+
+	private StringTemplate getStringTemplate(Command input) {
+		String inputName = input.getName();
+		return Commands.Numeric.name().equals(inputName) && input.getArgumentNumber() == 2
+				? StringTemplate.numericNoLocal : StringTemplate.prefixedDefault;
 	}
 
 	private ExpressionValue parseOutputString(String output) {

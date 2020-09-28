@@ -120,6 +120,7 @@ import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.GPredicate;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
@@ -1251,32 +1252,36 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Deletes selected objects
 	 */
 	public void deleteSelectedObjects(boolean isCut) {
+		deleteSelectedObjects(isCut, new GPredicate<GeoElement>() {
+			@Override
+			public boolean test(GeoElement geo) {
+				return !geo.isProtected(EventType.REMOVE);
+			}
+		});
+	}
+
+	/**
+	 * Deletes some of the selected objects
+	 * @param filter which geos to delete
+	 */
+	public void deleteSelectedObjects(boolean isCut, GPredicate<GeoElement> filter) {
 		if (letDelete()) {
-			GeoElement[] geos = selection.getSelectedGeos().toArray(new GeoElement[0]);
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = geos[i];
-				if (!geo.isProtected(EventType.REMOVE)) {
-					if (isCut || geo.isShape()) {
-						if (geo.getParentAlgorithm() != null) {
-							for (GeoElement ge : geo
-									.getParentAlgorithm().input) {
-								ge.removeOrSetUndefinedIfHasFixedDescendent();
-							}
+			// also delete just created geos if possible
+			ArrayList<GeoElement> geos2 = new ArrayList<>(getActiveEuclidianView()
+					.getEuclidianController().getJustCreatedGeos());
+			geos2.addAll(selection.getSelectedGeos());
+			for (GeoElement geo : geos2) {
+				if (filter.test(geo)) {
+					boolean removePredecessors = isCut || geo.isShape();
+					if (removePredecessors && geo.getParentAlgorithm() != null) {
+						for (GeoElement ge : geo.getParentAlgorithm().input) {
+							ge.removeOrSetUndefinedIfHasFixedDescendent();
 						}
 					}
 					geo.removeOrSetUndefinedIfHasFixedDescendent();
 				}
 			}
 
-			// also delete just created geos if possible
-			ArrayList<GeoElement> geos2 = getActiveEuclidianView()
-					.getEuclidianController().getJustCreatedGeos();
-			for (int j = 0; j < geos2.size(); j++) {
-				GeoElement geo = geos2.get(j);
-				if (!geo.isProtected(EventType.REMOVE)) {
-					geo.removeOrSetUndefinedIfHasFixedDescendent();
-				}
-			}
 			getActiveEuclidianView().getEuclidianController()
 					.clearJustCreatedGeos();
 			getActiveEuclidianView().getEuclidianController()
@@ -3830,10 +3835,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// AND-887 and IGR-732
 		case MOB_PROPERTY_SORT_BY:
 			return false;
-
-		/** MOB-1293 */
-		case SELECT_TOOL_NEW_BEHAVIOUR:
-			return prerelease || whiteboard;
 
 		// **********************************************************************
 		// MOBILE END
