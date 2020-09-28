@@ -9,7 +9,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.GeoGebraGlobal;
+import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.resources.JavaScriptInjector;
 
@@ -17,6 +18,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 
 import fr.grenoble.ujf.giac.CASResources;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * Web implementation of Giac CAS
@@ -156,14 +159,15 @@ public class CASgiacW extends CASgiac {
 		return nativeEvaluateRaw(giacCommand, showOutput);
 	}
 
-	private native String setUpInitCAS(String ggbApplet) /*-{
-		if (!$wnd.__ggb__giac)
-			$wnd.__ggb__giac = (typeof $wnd.__ggb__giac !== "undefined" ? $wnd.__ggb__giac
-					: null)
-					|| {};
+	private void setUpInitCAS() {
+		if (Js.isFalsy(GeoGebraGlobal.__ggb__giac)) {
+			GeoGebraGlobal.__ggb__giac = JsPropertyMap.of();
+		}
 
-		$wnd.__ggb__giac.postRun = [ $wnd[ggbApplet].initCAS ];
-	}-*/;
+		GeoGebraGlobal.__ggb__giac.set("postRun", (JsRunnable) () -> {
+			kernel.getApplication().getGgbApi().initCAS();
+		});
+	}
 
 	private native String nativeEvaluateRawExternal(String s,
 			boolean showOutput) /*-{
@@ -232,7 +236,7 @@ public class CASgiacW extends CASgiac {
 		if (wasm) {
 
 			// make sure CAS cells etc re-evaluated after CAS loaded
-			setUpInitCAS(((AppW) kernel.getApplication()).getAppletId());
+			setUpInitCAS();
 
 			GWT.runAsync(new RunAsyncCallback() {
 				@Override

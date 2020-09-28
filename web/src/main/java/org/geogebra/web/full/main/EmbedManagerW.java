@@ -44,7 +44,6 @@ import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -529,7 +528,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 		JsPropertyMap<Object> jso = JsPropertyMap.of();
 
 		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
-			JavaScriptObject api = entry.getValue().getApi();
+			Object api = entry.getValue().getApi();
 			if (api != null) {
 				jso.set(entry.getKey().getGeoElement().getLabelSimple(), api);
 			}

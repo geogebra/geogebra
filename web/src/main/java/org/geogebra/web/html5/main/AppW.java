@@ -567,7 +567,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public ScriptManager newScriptManager() {
-		return new ScriptManagerW(this, new ApiExporter());
+		return new ScriptManagerW(this, new DefaultExportedApi());
 	}
 
 	// ================================================
@@ -2613,7 +2613,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		String script = script0;
 
 		script = "document.ggbApplet= document." + ggbApplet
-				+ "; ggbApplet = document." + ggbApplet + ";" + script;
+				+ "; window.ggbApplet = document." + ggbApplet + ";" + script;
 
 		// script = "ggbApplet = document.ggbApplet;"+script;
 
