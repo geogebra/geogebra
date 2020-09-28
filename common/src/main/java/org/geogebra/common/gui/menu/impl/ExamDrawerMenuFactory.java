@@ -23,11 +23,11 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	/**
 	 * Create a new ExamDrawerMenuFactory.
 	 * @param version version of the app
-	 * @param enableSwitchCalculator enable switch calculator item
+	 * @param isSuiteApp whether it is the Suite app
 	 */
 	public ExamDrawerMenuFactory(GeoGebraConstants.Version version,
-			boolean enableSwitchCalculator) {
-		super(version, enableSwitchCalculator);
+			boolean isSuiteApp) {
+		super(version, isSuiteApp);
 	}
 
 	@Override
