@@ -128,7 +128,7 @@ public class AngleInputDialogW extends InputDialogW {
 	/*
 	 * auto-insert degree symbol when appropriate
 	 */
-	public void insertDegreeSymbolIfNeeded() {
+	private void insertDegreeSymbolIfNeeded() {
 		AutoCompleteTextFieldW tc = inputPanel.getTextComponent();
 		String text = tc.getText();
 
