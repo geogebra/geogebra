@@ -222,14 +222,6 @@ public class DialogManagerD extends DialogManagerMinimal {
 				app.getLocalization().getMenu("Rename"),
 				initText, false, handler, false,
 				selectInitText, null);
-
-		/*
-		 * InputDialog id = new InputDialog( this, "<html>" +
-		 * loc.getMenu("NewName") + " " + loc.getMenu("for") + " <b>" +
-		 * geo.getNameDescription() + "</b></html>", loc.getMenu("Rename"),
-		 * initText, false, handler, true, selectInitText);
-		 */
-
 		id.setVisible(true);
 	}
 
