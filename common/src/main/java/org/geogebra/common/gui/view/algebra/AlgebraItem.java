@@ -295,7 +295,7 @@ public class AlgebraItem {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
 			} else {
 				String appName =  geo1.getApp().getConfig().getAppName();
-				if (appName == "GeoGebraCASCalculator") {
+				if (appName.equals("GeoGebraCASCalculator")) {
 					builder.clear();
 					builder.append(geo1.getDefinitionDescription(stringTemplate));
 				} else {
