@@ -219,7 +219,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 																		// <b>Segment
 																		// a</b>
 						"</html>",
-				app.getLocalization().getMenu("Rename"),
+				getLocalization().getMenu("Rename"),
 				initText, false, handler, false,
 				selectInitText, null);
 		id.setVisible(true);

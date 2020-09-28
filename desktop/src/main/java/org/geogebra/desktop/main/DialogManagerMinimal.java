@@ -43,7 +43,7 @@ public class DialogManagerMinimal extends DialogManager {
 	 * @param app
 	 */
 	public DialogManagerMinimal(App app) {
-		this.app = app;
+		super(app);
 	}
 
 	/**
