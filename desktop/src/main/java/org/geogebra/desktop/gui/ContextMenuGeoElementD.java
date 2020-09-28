@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.Animatable;
-import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -670,7 +669,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 					cbItem = new JCheckBoxMenuItem(loc.getMenu("FixObject"));
 					((AppD) app).setEmptyIcon(cbItem);
-					cbItem.setSelected(num.isSliderFixed());
+					cbItem.setSelected(num.isLockedPosition());
 					cbItem.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
@@ -683,7 +682,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 				cbItem = new JCheckBoxMenuItem(loc.getMenu("FixCheckbox"));
 				((AppD) app).setEmptyIcon(cbItem);
-				cbItem.setSelected(((GeoBoolean) getGeo()).isCheckboxFixed());
+				cbItem.setSelected(getGeo().isLockedPosition());
 				cbItem.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {

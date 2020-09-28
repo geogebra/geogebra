@@ -469,7 +469,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						img, loc.getMenu("LockObject")), () ->
 						fixObjectNumericCmd(num), true, app);
 
-				cbItem.setSelected(num.isSliderFixed(),
+				cbItem.setSelected(num.isLockedPosition(),
 						wrappedPopup.getPopupMenu());
 				wrappedPopup.addItem(cbItem);
 			}
@@ -481,7 +481,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			cbItem = new GCheckBoxMenuItem(
 					MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("FixCheckbox")),
 					() -> fixCheckboxCmd(), true, app);
-			cbItem.setSelected(((GeoBoolean) getGeo()).isCheckboxFixed(),
+			cbItem.setSelected(((GeoBoolean) getGeo()).isLockedPosition(),
 					wrappedPopup.getPopupMenu());
 			wrappedPopup.addItem(cbItem);
 		}
