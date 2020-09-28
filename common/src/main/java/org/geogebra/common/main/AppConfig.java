@@ -293,4 +293,10 @@ public interface AppConfig {
 	 * @return the template to serialize the output
 	 */
 	StringTemplate getOutputStringTemplate();
+
+	/**
+	 * @return if closing/opening keyboard should send event
+	 * 	 (only for evaluator for now)
+ 	 */
+	boolean sendKeyboardEvents();
 }

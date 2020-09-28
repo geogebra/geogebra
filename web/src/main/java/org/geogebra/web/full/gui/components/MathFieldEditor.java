@@ -119,12 +119,8 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 * Focus the editor
 	 */
 	public void requestFocus() {
-		mathField.requestViewFocus(new Runnable() {
-			@Override
-			public void run() {
-				preventBlur = false;
-			}
-		});
+		mathField.requestViewFocus(() -> preventBlur = false);
+		app.sendKeyboardEvent(true);
 		setKeyboardVisibility(true);
 	}
 
@@ -193,6 +189,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 
 	@Override
 	public void onPointerDown(int x, int y) {
+		app.sendKeyboardEvent(true);
 		setKeyboardVisibility(true);
 	}
 
@@ -251,6 +248,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 */
 	public void reset() {
 		mathField.setFocus(false);
+		app.sendKeyboardEvent(false);
 		setKeyboardVisibility(false);
 	}
 

@@ -158,7 +158,16 @@ public enum EventType {
 	/** mouse down or touch start event */
 	MOUSE_DOWN("mouseDown"),
 	/** i.e. mouse up, touch end, finished dragging a point, or segment etc. */
-	DRAG_END("dragEnd");
+	DRAG_END("dragEnd"),
+
+	/**
+	 * keyboard opened by the user
+	 */
+	OPEN_KEYBOARD("openKeyboard"),
+	/**
+	 * keyboard closed by the user
+	 */
+	CLOSE_KEYBOARD("closeKeyboard");
 
 	private String eventName;
 
