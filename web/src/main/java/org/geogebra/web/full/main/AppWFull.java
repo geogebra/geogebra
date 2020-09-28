@@ -164,6 +164,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private static final String RECENT_CHANGES_KEY = "RecentChangesInfo.Graphing";
 	private static final boolean ALLOW_RECENT_CHANGES_DIALOG = false;
 	private final static int AUTO_SAVE_PERIOD = 2000;
+	// NB this needs to be adjusted in app-release if we change it here
+	private static final int MIN_SIZE_FOR_PICKER = 650;
 
 	private GuiManagerW guiManager = null;
 
@@ -903,8 +905,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public final void showPerspectivesPopup() {
-		if (isUnbundledOrWhiteboard()) {
+	public final void showPerspectivesPopupIfNeeded() {
+		boolean smallScreen = Window.getClientWidth() < MIN_SIZE_FOR_PICKER
+				|| Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
+		if (isUnbundledOrWhiteboard() || smallScreen || !(
+				getAppletParameters().getDataParamShowAppsPicker() || getAppletParameters()
+						.getDataParamApp()) || getExam() != null) {
 			return;
 		}
 		afterLocalizationLoaded(new Runnable() {
