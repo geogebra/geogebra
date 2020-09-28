@@ -25,7 +25,6 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.gui.RenameCard;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
@@ -382,7 +381,7 @@ public class PageListController implements PageListControllerInterface,
 				slides.add(createCardFromArchive(archive, pages, i));
 			}
 
-			app.loadFileWithoutErrorHandling(slides.get(0).getFile(), false);
+			app.loadGgbFile(slides.get(0).getFile(), false);
 			/// TODO this breaks MVC
 			app.getAppletFrame().getPageControlPanel()
 					.update();
@@ -737,9 +736,13 @@ public class PageListController implements PageListControllerInterface,
 		}
 	}
 
-	@Override
-	public void rename(RenameCard card, String title) {
-		storeRenameAction((PagePreviewCard) card, title);
+	/**
+	 * Renaming a slide
+	 * @param card to rename.
+	 * @param title the new title.
+	 */
+	public void rename(PagePreviewCard card, String title) {
+		storeRenameAction(card, title);
 		card.setCardTitle(title);
 	}
 

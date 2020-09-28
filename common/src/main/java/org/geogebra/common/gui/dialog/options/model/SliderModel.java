@@ -122,7 +122,7 @@ public class SliderModel extends OptionsModel {
 			if (num0.getBackgroundColor() != temp.getBackgroundColor()) {
 				equalLineColor = false;
 			}
-			if (num0.isSliderFixed() != temp.isSliderFixed()) {
+			if (num0.isLockedPosition() != temp.isLockedPosition()) {
 				equalSliderFixed = false;
 			}
 			if (num0.isRandom() != temp.isRandom()) {
@@ -201,7 +201,7 @@ public class SliderModel extends OptionsModel {
 		setLabelForWidthUnit();
 
 		if (equalSliderFixed) {
-			listener.selectFixed(num0.isSliderFixed());
+			listener.selectFixed(num0.isLockedPosition());
 		}
 
 		if (random) {
