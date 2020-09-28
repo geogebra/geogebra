@@ -541,6 +541,8 @@ __GGB__keysVar["eo"].command = {
     "LineBisector": "Mezortanto",
     "LineBisector.Syntax": "[ <Streko> ]\n[ <Punkto>, <Punkto> ]",
     "LineBisector.Syntax3D": "[ <Streko> ]\n[ <Punkto>, <Punkto> ]\n[ <Punkto>, <Punkto>, <Direkto> ]",
+    "LineGraph": "LineGraph",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "Loko",
     "Locus.Syntax": "[ <Punkto>, <Punkto> ]\n[ <Punkto>, <\u015covilo> ]\n[ <Vektora kampo>, <Punkto> ]\n[ <f(x y)>, <Punkto> ]",
     "LocusEquation": "LocusEquation",

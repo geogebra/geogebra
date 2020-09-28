@@ -541,6 +541,8 @@ __GGB__keysVar["ar"].command = {
     "LineBisector": "\u0645\u0646\u0635\u0641_\u0639\u0645\u0648\u062f\u064a",
     "LineBisector.Syntax": "[ <\u0642\u0637\u0639\u0629> ]\n[ <\u0646\u0642\u0637\u0629>, <\u0646\u0642\u0637\u0629> ]",
     "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
+    "LineGraph": "LineGraph",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "\u0645\u062d\u0644_\u0647\u0646\u062f\u0633\u064a",
     "Locus.Syntax": "[ <\u0646\u0642\u0637\u0629 \u0645\u0646\u0634\u0626\u0629 \u0644\u062e\u0637 \u0645\u062d\u0644 \u0647\u0646\u062f\u0633\u064a>, <\u0646\u0642\u0637\u0629> ]\n[ <\u0646\u0642\u0637\u0629 \u0645\u0646\u0634\u0626\u0629 \u0644\u062e\u0637 \u0645\u062d\u0644 \u0647\u0646\u062f\u0633\u064a>, <\u0645\u0646\u0632\u0644\u0642> ]\n[ <\u0645\u062c\u0627\u0644 \u0627\u0644\u0627\u0646\u062d\u062f\u0627\u0631>, <\u0646\u0642\u0637\u0629> ]\n[ <\u062f(\u0633_\u0635)>, <\u0646\u0642\u0637\u0629> ]",
     "LocusEquation": "\u0645\u0639\u0627\u062f\u0644\u0629_\u0645\u062d\u0644_\u0647\u0646\u062f\u0633\u064a",

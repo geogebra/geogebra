@@ -541,6 +541,8 @@ __GGB__keysVar["sk"].command = {
     "LineBisector": "Os\xdase\u010dky",
     "LineBisector.Syntax": "[ <\xdase\u010dka> ]\n[ <Bod>, <Bod> ]",
     "LineBisector.Syntax3D": "[ <\xdase\u010dka> ]\n[ <Bod>, <Bod> ]\n[ <Bod>, <Bod>, <Smer> ]",
+    "LineGraph": "LineGraph",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "Mno\u017einaBodov",
     "Locus.Syntax": "[ <Bod vytv\xe1raj\xfaci mno\u017einu>, <Bod> ]\n[ <Bod vytv\xe1raj\xfaci mno\u017einu>, <Posuvn\xedk> ]\n[ <Smerov\xe9 pole>, <Bod> ]\n[ <f(x, y)>, <Bod> ]",
     "LocusEquation": "RovnicaMno\u017einyBodov",

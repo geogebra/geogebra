@@ -541,6 +541,8 @@ __GGB__keysVar["sq"].command = {
     "LineBisector": "PermesoreSegmenti",
     "LineBisector.Syntax": "[ <Segment> ]\n[ <Pike>, <Pike> ]",
     "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
+    "LineGraph": "LineGraph",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "Pozicion",
     "Locus.Syntax": "[ <Pike Krijonjese Vendi Gjeometrik Vije>, <Pike> ]\n[ <Pike Krijonjese Vendi Gjeometrik Vije>, <Rreshqites> ]\n[ <PjerresiFushe>, <Pike> ]\n[ <f(x, y)>, <Pike> ]",
     "LocusEquation": "LokusEkuacion",

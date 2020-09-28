@@ -541,6 +541,8 @@ __GGB__keysVar["sl"].command = {
     "LineBisector": "SimetralaDaljice",
     "LineBisector.Syntax": "[ <daljica> ]\n[ <to\u010dka>, <to\u010dka> ]",
     "LineBisector.Syntax3D": "[ <daljica> ]\n[ <to\u010dka>, <to\u010dka> ]\n[ <to\u010dka>, <to\u010dka>, <smer> ]",
+    "LineGraph": "LineGraph",
+    "LineGraph.Syntax": "[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Locus": "Sled",
     "Locus.Syntax": "[ <to\u010dka za premico>, <to\u010dka> ]\n[ <to\u010dka za premico>, <Slider> ]\n[ <polje nagibov>, <to\u010dka> ]\n[ <f(x, y)>, <to\u010dka> ]",
     "LocusEquation": "Ena\u010dba",
