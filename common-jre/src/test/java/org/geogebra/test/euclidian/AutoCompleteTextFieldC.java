@@ -226,9 +226,4 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	public void setInputMode(InputMode type) {
 		// not needed
 	}
-
-	@Override
-	public boolean isInInputDialogRotate() {
-		return false;
-	}
 }

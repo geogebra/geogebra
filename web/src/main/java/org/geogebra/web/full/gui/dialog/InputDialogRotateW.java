@@ -11,6 +11,8 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -46,13 +48,12 @@ public abstract class InputDialogRotateW extends AngleInputDialogW {
 			GeoElement[] selGeos, EuclidianController ec) {
 		super(app, app.getLocalization().getMenu("Angle"), title,
 				DEFAULT_ROTATE_ANGLE, false,
-				handler, false, true);
+				handler, false);
 
 		this.polys = polys;
 		this.selGeos = selGeos;
 		this.ec = ec;
 
-		this.inputPanel.getTextComponent().getTextField().getValueBox().addKeyUpHandler(this);
 	}
 
 	@Override
@@ -92,34 +93,4 @@ public abstract class InputDialogRotateW extends AngleInputDialogW {
 	 *            callback
 	 */
 	protected abstract void processInput(AsyncOperation<String> op);
-
-	/*
-	 * auto-insert degree symbol when appropriate
-	 */
-	@Override
-	public void onKeyUp(KeyUpEvent e) {
-
-		// return unless digit typed (instead of !Character.isDigit)
-		if (e.getNativeKeyCode() < 48
-				|| (e.getNativeKeyCode() > 57 && e.getNativeKeyCode() < 96)
-				|| e.getNativeKeyCode() > 105) {
-			return;
-		}
-
-		AutoCompleteTextFieldW tc = inputPanel.getTextComponent();
-		String text = tc.getText();
-
-		// if text already contains degree symbol or variable
-		for (int i = 0; i < text.length(); i++) {
-			if (!StringUtil.isDigit(text.charAt(i))) {
-				return;
-			}
-		}
-
-		int caretPos = tc.getCaretPosition();
-
-		tc.setText(tc.getText() + Unicode.DEGREE_STRING);
-
-		tc.setCaretPosition(caretPos);
-	}
 }

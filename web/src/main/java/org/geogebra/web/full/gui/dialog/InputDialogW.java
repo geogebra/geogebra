@@ -290,7 +290,7 @@ public class InputDialogW extends InputDialog
 
 		// Create components to be displayed
 		inputPanel = new InputPanelW(getInitString(), app, rows, columns,
-				showSymbolPopupIcon, type);
+				showSymbolPopupIcon/* , type*/);
 
 		if (!app.isWhiteboardActive()) {
 

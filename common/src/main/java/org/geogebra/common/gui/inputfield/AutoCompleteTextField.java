@@ -100,6 +100,4 @@ public interface AutoCompleteTextField
 	 * @param mode mode
 	 */
 	void setInputMode(InputMode mode);
-
-	boolean isInInputDialogRotate();
 }

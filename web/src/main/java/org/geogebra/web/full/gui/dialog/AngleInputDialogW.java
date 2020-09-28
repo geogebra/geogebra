@@ -15,13 +15,18 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class AngleInputDialogW extends InputDialogW {
 
@@ -33,7 +38,7 @@ public class AngleInputDialogW extends InputDialogW {
 	 */
 	public AngleInputDialogW(AppW app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
-			boolean modal, boolean isInputDialogRotate) {
+			boolean modal) {
 		super(modal, app, true);
 		setInputHandler(handler);
 		setInitString(initString);
@@ -50,13 +55,8 @@ public class AngleInputDialogW extends InputDialogW {
 		rbPanel.add(rbCounterClockWise);
 		rbPanel.add(rbClockWise);
 
-		if (isInputDialogRotate) {
-			createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false,
-					false, false, DialogType.Rotate);
-		} else {
-			createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false,
-					false, false, DialogType.GeoGebraEditor);
-		}
+		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false,
+				false, false, DialogType.GeoGebraEditor);
 
 		VerticalPanel centerPanel = new VerticalPanel();
 		centerPanel.add(messagePanel);
@@ -67,15 +67,17 @@ public class AngleInputDialogW extends InputDialogW {
 
 		wrappedPopup.center();
 		inputPanel.getTextComponent().setFocus(true);
-	}
 
-	/**
-	 * Input Dialog for a GeoAngle object.
-	 */
-	public AngleInputDialogW(AppW app, String message, String title,
-			String initString, boolean autoComplete, InputHandler handler,
-			boolean modal) {
-		this(app, message, title, initString, autoComplete, handler, modal, false);
+		this.inputPanel.getTextComponent().getTextField().getValueBox().addKeyUpHandler(e -> {
+				// return unless digit typed (instead of !Character.isDigit)
+				if (e.getNativeKeyCode() < 48
+						|| (e.getNativeKeyCode() > 57 && e.getNativeKeyCode() < 96)
+						|| e.getNativeKeyCode() > 105) {
+					return;
+				}
+				insertDegreeSymbolIfNeeded();
+		});
+		this.inputPanel.getTextComponent().addInsertHandler(t -> insertDegreeSymbolIfNeeded());
 	}
 
 	public boolean isCounterClockWise() {
@@ -123,6 +125,25 @@ public class AngleInputDialogW extends InputDialogW {
 		} else {
 			wrappedPopup.show();
 		}
+	}
+
+	/*
+	 * auto-insert degree symbol when appropriate
+	 */
+	public void insertDegreeSymbolIfNeeded() {
+		AutoCompleteTextFieldW tc = inputPanel.getTextComponent();
+		String text = tc.getText();
+
+		// if text already contains degree symbol or variable
+		for (int i = 0; i < text.length(); i++) {
+			if (!StringUtil.isDigit(text.charAt(i))) {
+				return;
+			}
+		}
+
+		int caretPos = tc.getCaretPosition();
+		tc.setText(tc.getText() + Unicode.DEGREE_STRING);
+		tc.setCaretPosition(caretPos);
 	}
 
 }

@@ -121,8 +121,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private boolean suggestionJustHappened = false;
 	private GeoInputBox geoUsedForInputBox;
 	protected boolean isFocused = false;
-
-	private boolean isInInputDialogRotate = false;
 	/**
 	 * Pattern to find an argument description as found in the syntax
 	 * information of a command.
@@ -162,19 +160,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 */
 	public AutoCompleteTextFieldW(int columns, App app) {
 		this(columns, (AppW) app, true, null, false, false);
-	}
-
-	/**
-	 * @param columns
-	 *            number of columns
-	 * @param app
-	 *            app
-	 * @param isInInputDialogRotate
-	 *            whether the input is an angle
-	 */
-	public AutoCompleteTextFieldW(int columns, App app, boolean isInInputDialogRotate) {
-		this(columns, (AppW) app, true, null, false, false);
-		this.isInInputDialogRotate = isInInputDialogRotate;
 	}
 
 	/**
@@ -1631,10 +1616,5 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					return Style.TextAlign.RIGHT;
 		}
 		return null;
-	}
-
-	@Override
-	public boolean isInInputDialogRotate() {
-		return isInInputDialogRotate;
 	}
 }
