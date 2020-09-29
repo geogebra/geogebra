@@ -109,6 +109,9 @@ public class InputPanelW extends FlowPanel {
 		return textAreaComponent.getText();
 	}
 
+	/**
+	 * adds KeyUpHandler to TextComponent
+	 */
 	public void addTextComponentKeyUpHandler() {
 		textComponent.addKeyUpHandler(e -> {
 			// return unless digit typed (instead of !Character.isDigit)
@@ -121,6 +124,9 @@ public class InputPanelW extends FlowPanel {
 		});
 	}
 
+	/**
+	 * adds InsertHandler to TextComponent
+	 */
 	public void addTextComponentInsertHandler() {
 		textComponent.addInsertHandler(t -> insertDegreeSymbolIfNeeded());
 	}
