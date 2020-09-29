@@ -849,6 +849,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 
 		getParserFunctions().updateLocale(getLocalization());
+		getParserFunctions(true).updateLocale(getLocalization());
 		// get CAS Commands
 		if (kernel.isGeoGebraCASready()) {
 			fillCasCommandDict();
