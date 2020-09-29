@@ -124,6 +124,8 @@ public interface GeoGebraConstants {
 	String EVALUATOR_APPCODE = "evaluator";
 	String NOTES_APPCODE = "notes";
 
+	String SUITE_URL_NAME = "calculator";
+
 	/**
 	 * used by version checker, so that sys admins can disable version checking
 	 * for *all* ggb versions with
