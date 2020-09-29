@@ -27,12 +27,10 @@ public class InputStreamTransformer {
         return getReader(new InputStreamZipFile(inputStream));
     }
 
-    @CheckForNull
     private Reader getReader(InputStreamZipFile inputStreamZipFile) {
         return getReader(new ZipInputStream(inputStreamZipFile.getInputStream()));
     }
 
-    @CheckForNull
     private Reader getReader(ZipInputStream zip) {
         byte[] bytes = xmlExtractor.getBytes(zip);
         if (bytes != null) {
@@ -42,14 +40,12 @@ public class InputStreamTransformer {
         }
     }
 
-    @CheckForNull
     private Reader getReader(byte[] bytes) {
         ByteArrayInputStream bs = new ByteArrayInputStream(bytes);
         MyXMLioJre.XMLStreamInputStream ir = new MyXMLioJre.XMLStreamInputStream(bs);
         return getReader(ir);
     }
 
-    @CheckForNull
     private Reader getReader(MyXMLio.XMLStream stream) {
         MyXMLioJre.XMLStreamJre streamJre = (MyXMLioJre.XMLStreamJre) stream;
         try {

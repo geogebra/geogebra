@@ -53,7 +53,6 @@ public class XmlHeaderReader {
         return headerString != null ? getHeaderAttributes(headerString) : null;
     }
 
-    @CheckForNull
     private String getString(Reader reader) {
         int headerBufferLength = 512;
         StringBuilder headerBuilder = new StringBuilder(headerBufferLength);
@@ -71,7 +70,6 @@ public class XmlHeaderReader {
         }
     }
 
-    @CheckForNull
     private String getHeader(String xml) {
         Pattern regex = Pattern.compile("<geogebra (.*?)>");
         Matcher matcher = regex.matcher(xml);
@@ -85,7 +83,6 @@ public class XmlHeaderReader {
         return attributes;
     }
 
-    @CheckForNull
     private String getAttributeValue(String attributeName, String header) {
         Pattern regex = Pattern.compile(attributeName + "=\"(.*?)\"");
         Matcher matcher = regex.matcher(header);
