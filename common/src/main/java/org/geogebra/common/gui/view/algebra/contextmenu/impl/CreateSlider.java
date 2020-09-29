@@ -43,7 +43,7 @@ public class CreateSlider implements MenuAction<GeoElement>,
 		GeoSymbolic symbolic = (GeoSymbolic) element;
 		symbolic.setEuclidianVisible(false);
 		processor.changeGeoElementNoExceptionHandling(symbolic, symbolic.getDefinition(),
-				new EvalInfo(false), false, this, ErrorHelper.silent());
+				new EvalInfo(false).withKeepDefinition(false), false, this, ErrorHelper.silent());
 	}
 
 	@Override

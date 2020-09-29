@@ -26,6 +26,7 @@ public class EvalInfo {
 	private boolean copyingPlainVariables = false;
 	private boolean allowTypeChange = true;
 	private boolean multipleUnassignedAllowed = false;
+	private boolean keepDefinition = true;
 	private SymbolicMode symbolicMode = SymbolicMode.NONE;
 	private GPredicate<String> labelFilter;
 	private RedefinitionRule redefinitionRule;
@@ -156,6 +157,7 @@ public class EvalInfo {
 		ret.allowTypeChange = this.allowTypeChange;
 		ret.redefinitionRule = this.redefinitionRule;
 		ret.constant = this.constant;
+		ret.keepDefinition = this.keepDefinition;
 		return ret;
 	}
 
@@ -438,5 +440,23 @@ public class EvalInfo {
 
 	public MyArbitraryConstant getArbitraryConstant() {
 		return constant;
+	}
+
+	/**
+	 * Copy eval info with keep definition
+	 * @param keepDefinition keepDefinition
+	 * @return eval info
+	 */
+	public EvalInfo withKeepDefinition(boolean keepDefinition) {
+		EvalInfo info = copy();
+		info.keepDefinition = keepDefinition;
+		return info;
+	}
+
+	/**
+	 * @return wether the algebra processor keeps the definition of strips it.
+	 */
+	public boolean getKeepDefinition() {
+		return keepDefinition;
 	}
 }
