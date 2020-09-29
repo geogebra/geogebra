@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Locus of points
@@ -339,7 +340,8 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 			P.setUndefined();
 			return;
 		} else if (myPointList.size() == 1) {
-			P.set((GeoPointND) myPointList.get(0));
+			MyPoint p0 = myPointList.get(0);
+			P.set(1, 0, p0, p0);
 			return;
 		} else if (n >= myPointList.size() || n < 0) {
 			n = (n < 0) ? 0 : myPointList.size() - 1;
