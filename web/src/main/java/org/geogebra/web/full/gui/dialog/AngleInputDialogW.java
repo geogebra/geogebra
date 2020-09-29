@@ -15,8 +15,6 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.DomEvent;
@@ -24,7 +22,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class AngleInputDialogW extends InputDialogW {
 
@@ -66,16 +63,8 @@ public class AngleInputDialogW extends InputDialogW {
 		wrappedPopup.center();
 		inputPanel.getTextComponent().setFocus(true);
 
-		this.inputPanel.getTextComponent().getTextField().getValueBox().addKeyUpHandler(e -> {
-				// return unless digit typed (instead of !Character.isDigit)
-				if (e.getNativeKeyCode() < 48
-						|| (e.getNativeKeyCode() > 57 && e.getNativeKeyCode() < 96)
-						|| e.getNativeKeyCode() > 105) {
-					return;
-				}
-				insertDegreeSymbolIfNeeded();
-		});
-		this.inputPanel.getTextComponent().addInsertHandler(t -> insertDegreeSymbolIfNeeded());
+		inputPanel.addTextComponentInsertHandler();
+		inputPanel.addTextComponentKeyUpHandler();
 	}
 
 	public boolean isCounterClockWise() {
@@ -124,24 +113,4 @@ public class AngleInputDialogW extends InputDialogW {
 			wrappedPopup.show();
 		}
 	}
-
-	/*
-	 * auto-insert degree symbol when appropriate
-	 */
-	private void insertDegreeSymbolIfNeeded() {
-		AutoCompleteTextFieldW tc = inputPanel.getTextComponent();
-		String text = tc.getText();
-
-		// if text already contains degree symbol or variable
-		for (int i = 0; i < text.length(); i++) {
-			if (!StringUtil.isDigit(text.charAt(i))) {
-				return;
-			}
-		}
-
-		int caretPos = tc.getCaretPosition();
-		tc.setText(tc.getText() + Unicode.DEGREE_STRING);
-		tc.setCaretPosition(caretPos);
-	}
-
 }
