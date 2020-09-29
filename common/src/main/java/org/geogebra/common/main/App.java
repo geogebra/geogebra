@@ -91,6 +91,7 @@ import org.geogebra.common.kernel.geos.description.DefaultLabelDescriptionConver
 import org.geogebra.common.kernel.geos.description.ProtectiveLabelDescriptionConverter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
+import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -2939,9 +2940,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public ParserFunctions getParserFunctions(boolean inputBox) {
 		if (pf == null) {
-			pf = getConfig().createParserFunctions();
-			pf.addTrigShorthandFunctions();
-			pfInputBox = getConfig().createParserFunctions();
+			ParserFunctionsFactory factory = getConfig().createParserFunctionsFactory();
+			pf = factory.createParserFunctions();
+			pfInputBox = factory.createInputBoxParserFunctions();
 		}
 		pf.setInverseTrig(
 				kernel.getLoadingMode() && kernel.getInverseTrigReturnsAngle());
