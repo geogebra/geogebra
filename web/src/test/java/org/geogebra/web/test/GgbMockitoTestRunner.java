@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.junit.runners.model.InitializationError;
 
+import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -29,7 +30,7 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         classesToStub.remove(Panel.class);
         classesToStub.remove(ComplexPanel.class);
         classesToStub.remove(FlowPanel.class);
-
+        classesToStub.add(TextAreaElement.class);
         return classesToStub;
     }
 }

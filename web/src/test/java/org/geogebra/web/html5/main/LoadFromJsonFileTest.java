@@ -10,20 +10,19 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
+import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.geogebra.web.util.file.FileIO;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.WithClassesToStub;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
-@RunWith(GwtMockitoTestRunner.class)
-@WithClassesToStub({TextAreaElement.class, EuclidianSimplePanelW.class,
+@RunWith(GgbMockitoTestRunner.class)
+@WithClassesToStub({EuclidianSimplePanelW.class,
 		JLMContext2d.class, RootPanel.class, ResizeComposite.class})
 public class LoadFromJsonFileTest {
 	private static final String CLOSED_AV_JSON_PATH =

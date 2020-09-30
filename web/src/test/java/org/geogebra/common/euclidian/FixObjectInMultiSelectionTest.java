@@ -16,13 +16,12 @@ import org.geogebra.common.main.SelectionManager;
 import org.geogebra.web.full.gui.ContextMenuMock;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.test.AppMocker;
+import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.google.gwtmockito.GwtMockitoTestRunner;
-
-@RunWith(GwtMockitoTestRunner.class)
+@RunWith(GgbMockitoTestRunner.class)
 public class FixObjectInMultiSelectionTest {
 
 	private ArrayList<GeoElement> geos;

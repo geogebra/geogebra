@@ -15,6 +15,7 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.DomMocker;
+import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
@@ -25,15 +26,13 @@ import org.mockito.Matchers;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.WithClassesToStub;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
-@RunWith(GwtMockitoTestRunner.class)
-@WithClassesToStub({TextAreaElement.class, EuclidianSimplePanelW.class, JLMContext2d.class})
+@RunWith(GgbMockitoTestRunner.class)
+@WithClassesToStub({EuclidianSimplePanelW.class, JLMContext2d.class})
 public class AccessibilityViewTest {
 
 	private AppW app;
