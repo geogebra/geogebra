@@ -4,13 +4,15 @@ import java.util.LinkedList;
 
 import org.geogebra.common.util.debug.Log;
 
+import com.google.gwt.event.dom.client.KeyPressEvent;
+
 public final class KeyEventW
 		extends org.geogebra.common.euclidian.event.KeyEvent {
 
 	private static final LinkedList<KeyEventW> POOL = new LinkedList<>();
-	private com.google.gwt.event.dom.client.KeyPressEvent event;
+	private KeyPressEvent event;
 
-	private KeyEventW(com.google.gwt.event.dom.client.KeyPressEvent e) {
+	private KeyEventW(KeyPressEvent e) {
 		Log.debug("possible missing release()");
 		this.event = e;
 	}
@@ -20,8 +22,7 @@ public final class KeyEventW
 	 *            GWT event
 	 * @return wrapped event
 	 */
-	public static KeyEventW wrapEvent(
-	        com.google.gwt.event.dom.client.KeyPressEvent e) {
+	public static KeyEventW wrapEvent(KeyPressEvent e) {
 		if (!POOL.isEmpty()) {
 			KeyEventW wrap = POOL.getLast();
 			wrap.event = e;
