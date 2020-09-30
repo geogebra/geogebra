@@ -82,8 +82,8 @@ public class AppConfigSuite extends AppConfigGraphing {
 	}
 
 	@Override
-	public ParserFunctions createParserFunctions() {
-		return ParserFunctionsFactory.createParserFunctions();
+	public ParserFunctionsFactory createParserFunctionsFactory() {
+		return ParserFunctionsFactory.createParserFunctionsFactory();
 	}
 
 	@Override
