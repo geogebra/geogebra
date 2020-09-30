@@ -1098,10 +1098,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setWaitCursor();
 		fileNew();
 		setDefaultCursor();
-
-		if (!isUnbundledOrWhiteboard()) {
-			showPerspectivesPopup();
-		}
+		showPerspectivesPopupIfNeeded();
 	}
 
 	/**
@@ -3125,7 +3122,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * Show perspective picker
 	 */
-	public void showPerspectivesPopup() {
+	public void showPerspectivesPopupIfNeeded() {
 		// overridden in AppWFull
 	}
 
