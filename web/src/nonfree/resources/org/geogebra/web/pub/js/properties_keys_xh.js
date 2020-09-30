@@ -3367,6 +3367,7 @@ __GGB__keysVar["xh"].menu = {
     "horizontal": "Ilele",
     "html": "iWebpage",
     "insert_worksheet": "Fakela iWekhshiti",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
     "jpg": "JPG Format",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",

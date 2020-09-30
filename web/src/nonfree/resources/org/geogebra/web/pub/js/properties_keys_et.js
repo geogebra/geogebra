@@ -3367,6 +3367,7 @@ __GGB__keysVar["et"].menu = {
     "horizontal": "horisontaalne",
     "html": "Veebileht",
     "insert_worksheet": "Lisa t\xf6\xf6leht",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
     "jpg": "JPG-vorming",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",

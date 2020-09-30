@@ -3367,6 +3367,7 @@ __GGB__keysVar["tr"].menu = {
     "horizontal": "yatay",
     "html": "Web sayfas\u0131",
     "insert_worksheet": "Etkinlik Ekle",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
     "jpg": "JPG Bi\xe7imi",
     "linkCopyClipboard": "Ba\u011flant\u0131 panoya kopyaland\u0131",
     "linkShareOff": "Ba\u011flant\u0131 payla\u015f\u0131m\u0131 kapal\u0131.",

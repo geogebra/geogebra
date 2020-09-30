@@ -3367,6 +3367,7 @@ __GGB__keysVar["gl"].menu = {
     "horizontal": "Horizontal",
     "html": "P\xe1xina web",
     "insert_worksheet": "Inserir actividade",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
     "jpg": "Formato JPG",
     "linkCopyClipboard": "Ligaz\xf3n copiada no  portapapeles",
     "linkShareOff": "Desactivado compartir por ligaz\xf3n.",

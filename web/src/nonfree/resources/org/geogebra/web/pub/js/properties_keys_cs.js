@@ -3367,6 +3367,7 @@ __GGB__keysVar["cs"].menu = {
     "horizontal": "vodorovn\u011b",
     "html": "Webovsk\xe1 str\xe1nka",
     "insert_worksheet": "Vlo\u017eit aktivitu",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
     "jpg": "JPG form\xe1t",
     "linkCopyClipboard": "Odkaz zkop\xedrov\xe1n do schr\xe1nky",
     "linkShareOff": "Sd\xedlen\xed odkazem vypnuto.",

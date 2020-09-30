@@ -3367,6 +3367,7 @@ __GGB__keysVar["hr"].menu = {
     "horizontal": "Horizontalan",
     "html": "web-stranica",
     "insert_worksheet": "Umetni aktivnost",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
     "jpg": "JPG format",
     "linkCopyClipboard": "Poveznica spremljena u me\u0111uspremnik",
     "linkShareOff": "Dijeljeno poveznicom isklju\u010deno",

@@ -3367,6 +3367,7 @@ __GGB__keysVar["es"].menu = {
     "horizontal": "Horizontal",
     "html": "P\xe1gina Web",
     "insert_worksheet": "Insertar actividad",
+    "java7.warning": "Tu versi\xf3n de GeoGebra Cl\xe1sico 5 dejar\xe1 de funcionar pronto. Por favor, descarga y reinstala el software GeoGebra.",
     "jpg": "Formato JPG",
     "linkCopyClipboard": "Enlace copiado en el portapapeles",
     "linkShareOff": "Compartir mediante enlace desactivado.",

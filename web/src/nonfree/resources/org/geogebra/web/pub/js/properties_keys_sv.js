@@ -3367,6 +3367,7 @@ __GGB__keysVar["sv"].menu = {
     "horizontal": "horisontell",
     "html": "Webbsida",
     "insert_worksheet": "Infoga arbetsblad",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
     "jpg": "JPG Format",
     "linkCopyClipboard": "L\xe4nken kopierad till urklipp",
     "linkShareOff": "L\xe4nkdelning \xe4r AV.",

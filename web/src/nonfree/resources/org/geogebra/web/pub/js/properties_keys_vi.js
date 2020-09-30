@@ -3367,6 +3367,7 @@ __GGB__keysVar["vi"].menu = {
     "horizontal": "N\u1eb1m ngang",
     "html": "Trang web",
     "insert_worksheet": "Insert Activity",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
     "jpg": "\u0111u\xf4i .jpg",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",

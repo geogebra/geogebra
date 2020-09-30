@@ -3367,6 +3367,7 @@ __GGB__keysVar["sq"].menu = {
     "horizontal": "Horizontal",
     "html": "Faqe internet",
     "insert_worksheet": "Insert Activity",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
     "jpg": "Format Pikture JPG",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
