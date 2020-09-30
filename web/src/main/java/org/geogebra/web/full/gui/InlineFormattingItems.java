@@ -154,7 +154,6 @@ public class InlineFormattingItems {
 
 		addItem("ContextMenu.deleteRow", controller::removeRow);
 		addItem("ContextMenu.deleteColumn", controller::removeColumn);
-		addItem("ContextMenu.deleteTable", table::remove);
 	}
 
 	private void addToolbar() {
