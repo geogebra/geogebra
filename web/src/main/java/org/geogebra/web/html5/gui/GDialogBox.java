@@ -27,10 +27,6 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -46,10 +42,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHTML;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.MouseListener;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.UIObject;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * A form of popup that has a caption area at the top and can be dragged by the
@@ -120,9 +114,8 @@ import com.google.gwt.user.client.ui.Widget;
  * </pre>
  * 
  */
-@SuppressWarnings("deprecation")
 public class GDialogBox extends GDecoratedPopupPanel
-		implements HasHTML, HasSafeHtml, MouseListener {
+		implements HasHTML, HasSafeHtml {
 
 	/**
 	 * The default style name.
@@ -180,7 +173,7 @@ public class GDialogBox extends GDecoratedPopupPanel
 	}
 
 	private class MouseHandler implements MouseDownHandler, MouseUpHandler,
-			MouseOutHandler, MouseOverHandler, MouseMoveHandler {
+			MouseMoveHandler {
 
 		@Override
 		public void onMouseDown(MouseDownEvent event) {
@@ -190,16 +183,6 @@ public class GDialogBox extends GDecoratedPopupPanel
 		@Override
 		public void onMouseMove(MouseMoveEvent event) {
 			continueDragging(event);
-		}
-
-		@Override
-		public void onMouseOut(MouseOutEvent event) {
-			GDialogBox.this.onMouseLeave(caption.asWidget());
-		}
-
-		@Override
-		public void onMouseOver(MouseOverEvent event) {
-			GDialogBox.this.onMouseEnter(caption.asWidget());
 		}
 
 		@Override
@@ -298,8 +281,6 @@ public class GDialogBox extends GDecoratedPopupPanel
 		addDomHandler(mouseHandler, MouseDownEvent.getType());
 		addDomHandler(mouseHandler, MouseUpEvent.getType());
 		addDomHandler(mouseHandler, MouseMoveEvent.getType());
-		addDomHandler(mouseHandler, MouseOverEvent.getType());
-		addDomHandler(mouseHandler, MouseOutEvent.getType());
 	}
 
 	/**
@@ -335,7 +316,7 @@ public class GDialogBox extends GDecoratedPopupPanel
 		// If we're not yet dragging, only trigger mouse events if the event
 		// occurs
 		// in the caption wrapper
-		switch (event.getTypeInt()) {
+		switch (DOM.eventGetType(event)) {
 		case Event.ONMOUSEDOWN:
 		case Event.ONMOUSEUP:
 		case Event.ONMOUSEMOVE:
@@ -347,78 +328,6 @@ public class GDialogBox extends GDecoratedPopupPanel
 		}
 
 		super.onBrowserEvent(event);
-	}
-
-	/**
-	 * @deprecated Use {@link #beginDragging} and {@link #getCaption} instead
-	 */
-	@Override
-	@Deprecated
-	public void onMouseDown(Widget sender, int x, int y) {
-		if (DOM.getCaptureElement() == null) {
-			/*
-			 * Need to check to make sure that we aren't already capturing an
-			 * element otherwise events will not fire as expected. If this check
-			 * isn't here, any class which extends custom button will not fire
-			 * its click event for example.
-			 */
-			dragging = true;
-			DOM.setCapture(getElement());
-			dragStartX = x;
-			dragStartY = y;
-		}
-	}
-
-	/**
-	 * @deprecated Use {@link Caption#addMouseOverHandler} instead
-	 */
-	@Override
-	@Deprecated
-	public void onMouseEnter(Widget sender) {
-		// nothing to do
-	}
-
-	/**
-	 * @deprecated Use {@link Caption#addMouseOutHandler} instead
-	 */
-	@Override
-	@Deprecated
-	public void onMouseLeave(Widget sender) {
-		// nothing to do
-	}
-
-	/**
-	 * @deprecated Use {@link #continueDragging} and {@link #getCaption} instead
-	 */
-	@Override
-	@Deprecated
-	public void onMouseMove(Widget sender, int x, int y) {
-		if (dragging) {
-			int absX = x + getAbsoluteLeft();
-			int absY = y + getAbsoluteTop();
-
-			// if the mouse is off the screen to the left, right, or top, don't
-			// move the dialog box. This would let users lose dialog boxes,
-			// which
-			// would be bad for modal popups.
-			if (absX < clientLeft || absX >= windowWidth || absY < clientTop) {
-				return;
-			}
-
-			setPopupPosition(
-					absX - dragStartX - getRootPanel().getAbsoluteLeft(),
-					absY - dragStartY - getRootPanel().getAbsoluteTop());
-		}
-	}
-
-	/**
-	 * @deprecated Use {@link #endDragging} and {@link #getCaption} instead
-	 */
-	@Override
-	@Deprecated
-	public void onMouseUp(Widget sender, int x, int y) {
-		dragging = false;
-		DOM.releaseCapture(getElement());
 	}
 
 	/**
@@ -491,7 +400,18 @@ public class GDialogBox extends GDecoratedPopupPanel
 	 *            the mouse down event that triggered dragging
 	 */
 	protected void beginDragging(MouseDownEvent event) {
-		onMouseDown(caption.asWidget(), event.getX(), event.getY());
+		if (DOM.getCaptureElement() == null) {
+			/*
+			 * Need to check to make sure that we aren't already capturing an
+			 * element otherwise events will not fire as expected. If this check
+			 * isn't here, any class which extends custom button will not fire
+			 * its click event for example.
+			 */
+			dragging = true;
+			DOM.setCapture(getElement());
+			dragStartX = event.getX();
+			dragStartY = event.getY();
+		}
 	}
 
 	/**
@@ -504,7 +424,22 @@ public class GDialogBox extends GDecoratedPopupPanel
 	 *            the mouse move event that continues dragging
 	 */
 	protected void continueDragging(MouseMoveEvent event) {
-		onMouseMove(caption.asWidget(), event.getX(), event.getY());
+		if (dragging) {
+			int absX = event.getX() + getAbsoluteLeft();
+			int absY = event.getY() + getAbsoluteTop();
+
+			// if the mouse is off the screen to the left, right, or top, don't
+			// move the dialog box. This would let users lose dialog boxes,
+			// which
+			// would be bad for modal popups.
+			if (absX < clientLeft || absX >= windowWidth || absY < clientTop) {
+				return;
+			}
+
+			setPopupPosition(
+					absX - dragStartX - getRootPanel().getAbsoluteLeft(),
+					absY - dragStartY - getRootPanel().getAbsoluteTop());
+		}
 	}
 
 	@Override
@@ -545,7 +480,11 @@ public class GDialogBox extends GDecoratedPopupPanel
 	 * @see #endDragging
 	 */
 	protected void endDragging(MouseUpEvent event) {
-		onMouseUp(caption.asWidget(), event.getX(), event.getY());
+		caption.asWidget();
+		event.getX();
+		event.getY();
+		dragging = false;
+		DOM.releaseCapture(getElement());
 	}
 
 	/**

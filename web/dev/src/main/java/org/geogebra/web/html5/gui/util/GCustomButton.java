@@ -694,7 +694,7 @@ public abstract class GCustomButton extends ButtonBase {
 
 		// Synthesize clicks based on keyboard events AFTER the normal key
 		// handling.
-		if ((event.getTypeInt() & Event.KEYEVENTS) != 0) {
+		if ((DOM.eventGetType(event) & Event.KEYEVENTS) != 0) {
 			char keyCode = (char) event.getKeyCode();
 			switch (type) {
 			case Event.ONKEYDOWN:
