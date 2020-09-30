@@ -1,13 +1,12 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.dialog.TextEditPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * @author gabor
@@ -112,42 +111,15 @@ public class InputPanelW extends FlowPanel {
 	/**
 	 * adds KeyUpHandler to TextComponent
 	 */
-	public void addTextComponentKeyUpHandler() {
-		textComponent.addKeyUpHandler(e -> {
-			// return unless digit typed (instead of !Character.isDigit)
-			if (e.getNativeKeyCode() < 48
-					|| (e.getNativeKeyCode() > 57 && e.getNativeKeyCode() < 96)
-					|| e.getNativeKeyCode() > 105) {
-				return;
-			}
-			insertDegreeSymbolIfNeeded();
-		});
+	public void addTextComponentKeyUpHandler(KeyUpHandler k) {
+		getTextComponent().addKeyUpHandler(k);
 	}
 
 	/**
 	 * adds InsertHandler to TextComponent
 	 */
-	public void addTextComponentInsertHandler() {
-		textComponent.addInsertHandler(t -> insertDegreeSymbolIfNeeded());
-	}
-
-	/*
-	 * auto-insert degree symbol when appropriate
-	 */
-	private void insertDegreeSymbolIfNeeded() {
-		AutoCompleteTextFieldW tc = getTextComponent();
-		String text = tc.getText();
-
-		// if text already contains degree symbol or variable
-		for (int i = 0; i < text.length(); i++) {
-			if (!StringUtil.isDigit(text.charAt(i))) {
-				return;
-			}
-		}
-
-		int caretPos = tc.getCaretPosition();
-		tc.setText(tc.getText() + Unicode.DEGREE_STRING);
-		tc.setCaretPosition(caretPos);
+	public void addTextComponentInsertHandler(AutoCompleteTextFieldW.InsertHandler t) {
+		getTextComponent().addInsertHandler(t);
 	}
 
 	/**
