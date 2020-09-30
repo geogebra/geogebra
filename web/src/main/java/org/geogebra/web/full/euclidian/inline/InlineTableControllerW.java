@@ -32,6 +32,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
 
 import elemental2.core.Global;
+import jsinterop.base.Js;
 
 public class InlineTableControllerW implements InlineTableController {
 
@@ -117,6 +118,16 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public boolean isInEditMode() {
 		return VISIBLE.getCssName().equals(style.getVisibility());
+	}
+
+	@Override
+	public boolean isSingleCellSelection() {
+		return tableImpl.getSelection() != null && Js.isFalsy(tableImpl.getSelection().row1);
+	}
+
+	@Override
+	public boolean hasSelection() {
+		return tableImpl.getSelection() != null;
 	}
 
 	@Override
