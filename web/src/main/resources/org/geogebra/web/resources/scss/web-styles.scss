@@ -203,6 +203,17 @@
 		background-color: rgba(204, 204, 255, 0.2);
 	}
 
+	.suiteAppChooserButton {
+		position: absolute;
+        top: 14px;
+        left: 480px;
+        width: 170px;
+        height: 36px;
+		border-radius: 18px;
+		padding: 0px;
+		border: 1px solid rgba(151, 151, 151, 0.52);
+	}
+
 	.gwt-Button[disabled="disabled"],
 	.buttonPanel .button[disabled="disabled"] {
 		cursor: default;

@@ -13,6 +13,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * @author csilla
@@ -80,6 +81,15 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	public StandardButton(final ResourcePrototype icon, final String label,
 			int width, int height, App app) {
 		this.app = app;
+		setIconAndLabel(icon, label, width, height);
+	}
+
+	public StandardButton(App app, int size, final ResourcePrototype icon, final String label) {
+		this.app = app;
+		this.width = size;
+		this.height = -1;
+		this.icon = icon;
+		this.label = label;
 		setIconAndLabel(icon, label, width, height);
 	}
 

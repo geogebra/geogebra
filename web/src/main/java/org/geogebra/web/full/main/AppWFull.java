@@ -265,6 +265,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (showMenuBar()) {
 			setupSignInButton(header);
 		}
+		GeoGebraConstants.Version version = getConfig().getVersion();
+		if (version == GeoGebraConstants.Version.SUITE) {
+			setupSuiteAppChooserButton(header);
+		}
 	}
 
 	private void checkExamPerspective() {
@@ -287,6 +291,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			initSignInEventFlow(new LoginOperationW(this));
 		}
 		header.addSignIn(this);
+	}
+
+	private void setupSuiteAppChooserButton(GlobalHeader header) {
+		header.addSuiteAppChooser(this);
 	}
 
 	@Override
