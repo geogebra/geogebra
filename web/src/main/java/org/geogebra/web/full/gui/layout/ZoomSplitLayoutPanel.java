@@ -14,6 +14,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -82,10 +83,11 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
     @Override
     protected int getEventPosition(Event event) {
-    	return event.getTypeInt() == Event.ONTOUCHSTART
-		        || event.getTypeInt() == Event.ONTOUCHMOVE
-		        || event.getTypeInt() == Event.ONTOUCHEND ? (int) (event
-		        .getTouches().get(0).getClientX() * getZoom())
+    	int type = DOM.eventGetType(event);
+    	return type == Event.ONTOUCHSTART
+		        || type == Event.ONTOUCHMOVE
+		        || type == Event.ONTOUCHEND
+				? (int) (event.getTouches().get(0).getClientX() * getZoom())
 		        : (int) (event.getClientX() * getZoom());
     }
 
@@ -150,7 +152,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 				return;
 			}
 			Element splitter = null;
-			switch (event.getTypeInt()) {
+			switch (DOM.eventGetType(event)) {
 			default:
 				// do nothing
 				break;
@@ -364,10 +366,11 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
     @Override
     protected int getEventPosition(Event event) {
-    	return event.getTypeInt() == Event.ONTOUCHSTART
-		        || event.getTypeInt() == Event.ONTOUCHMOVE
-		        || event.getTypeInt() == Event.ONTOUCHEND ? (int) (event
-		        .getTouches().get(0).getClientY() * getZoom())
+		int type = DOM.eventGetType(event);
+    	return type == Event.ONTOUCHSTART
+		        || type == Event.ONTOUCHMOVE
+		        || type == Event.ONTOUCHEND
+				? (int) (event.getTouches().get(0).getClientY() * getZoom())
 		        : (int) (event.getClientY() * getZoom());
     }
 

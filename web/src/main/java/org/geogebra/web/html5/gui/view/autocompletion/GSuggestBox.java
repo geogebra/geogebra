@@ -30,22 +30,15 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.ChangeListener;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FocusListener;
+import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.HasAnimation;
 import com.google.gwt.user.client.ui.HasEnabled;
-import com.google.gwt.user.client.ui.HasFocus;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasValue;
-import com.google.gwt.user.client.ui.KeyboardListener;
-import com.google.gwt.user.client.ui.ListenerWrapper;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SourcesChangeEvents;
-import com.google.gwt.user.client.ui.SourcesClickEvents;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Callback;
@@ -115,8 +108,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 @SuppressWarnings("deprecation")
 public class GSuggestBox extends Composite
-		implements HasText, HasFocus, HasAnimation, HasEnabled,
-		SourcesClickEvents, SourcesChangeEvents,
+		implements HasText, Focusable, HasAnimation, HasEnabled,
 		HasAllKeyHandlers, HasValue<String>,
 		HasSelectionHandlers<Suggestion>, IsEditor<LeafValueEditor<String>> {
 
@@ -802,65 +794,6 @@ public class GSuggestBox extends Composite
 		setStyleName(STYLENAME_DEFAULT);
 	}
 
-	/**
-	 *
-	 * Adds a listener to receive change events on the SuggestBox's text box.
-	 * The source Widget for these events will be the SuggestBox.
-	 *
-	 * @param listener
-	 *            the listener interface to add
-	 * @deprecated use {@link #getTextBox}().addChangeHandler instead
-	 */
-	@Deprecated
-	@Override
-	public void addChangeListener(final ChangeListener listener) {
-		ListenerWrapper.WrappedLogicalChangeListener.add(box, listener)
-				.setSource(this);
-	}
-
-	/**
-	 * Adds a listener to receive click events on the SuggestBox's text box. The
-	 * source Widget for these events will be the SuggestBox.
-	 *
-	 * @param listener
-	 *            the listener interface to add
-	 * @deprecated use {@link #getTextBox}().addClickHandler instead
-	 */
-	@Deprecated
-	@Override
-	public void addClickListener(final ClickListener listener) {
-		ListenerWrapper.WrappedClickListener legacy = ListenerWrapper.WrappedClickListener
-				.add(box, listener);
-		legacy.setSource(this);
-	}
-
-	/**
-	 * Adds a listener to receive focus events on the SuggestBox's text box. The
-	 * source Widget for these events will be the SuggestBox.
-	 *
-	 * @param listener
-	 *            the listener interface to add
-	 * @deprecated use {@link #getTextBox}().addFocusHandler/addBlurHandler()
-	 *             instead
-	 */
-	@Deprecated
-	@Override
-	public void addFocusListener(final FocusListener listener) {
-		ListenerWrapper.WrappedFocusListener focus = ListenerWrapper.WrappedFocusListener
-				.add(box, listener);
-		focus.setSource(this);
-	}
-
-	/**
-	 * @deprecated Use {@link #addKeyDownHandler}, {@link #addKeyUpHandler} and
-	 *             {@link #addKeyPressHandler} instead
-	 */
-	@Deprecated
-	@Override
-	public void addKeyboardListener(KeyboardListener listener) {
-		ListenerWrapper.WrappedKeyboardListener.add(this, listener);
-	}
-
 	@Override
 	public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
 		return addDomHandler(handler, KeyDownEvent.getType());
@@ -1031,50 +964,6 @@ public class GSuggestBox extends Composite
 		if (isAttached()) {
 			refreshSuggestions();
 		}
-	}
-
-	/**
-	 * @deprecated Use the {@link HandlerRegistration#removeHandler} method on
-	 *             the object returned by {@link #getTextBox}().addChangeHandler
-	 *             instead
-	 */
-	@Deprecated
-	@Override
-	public void removeChangeListener(ChangeListener listener) {
-		ListenerWrapper.WrappedChangeListener.remove(box, listener);
-	}
-
-	/**
-	 * @deprecated Use the {@link HandlerRegistration#removeHandler} method on
-	 *             the object returned by {@link #getTextBox}().addClickHandler
-	 *             instead
-	 */
-	@Deprecated
-	@Override
-	public void removeClickListener(ClickListener listener) {
-		ListenerWrapper.WrappedClickListener.remove(box, listener);
-	}
-
-	/**
-	 * @deprecated Use the {@link HandlerRegistration#removeHandler} method on
-	 *             the object returned by {@link #getTextBox}().addFocusListener
-	 *             instead
-	 */
-	@Deprecated
-	@Override
-	public void removeFocusListener(FocusListener listener) {
-		ListenerWrapper.WrappedFocusListener.remove(this, listener);
-	}
-
-	/**
-	 * @deprecated Use the {@link HandlerRegistration#removeHandler} method on
-	 *             the object returned by {@link #getTextBox}().add*Handler
-	 *             instead
-	 */
-	@Deprecated
-	@Override
-	public void removeKeyboardListener(KeyboardListener listener) {
-		ListenerWrapper.WrappedKeyboardListener.remove(this, listener);
 	}
 
 	@Override
