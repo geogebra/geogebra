@@ -8,6 +8,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.ShareDialogMow;
 import org.geogebra.web.shared.ShareLinkDialog;
 import org.geogebra.web.shared.components.DialogData;
@@ -149,15 +150,12 @@ public class ShareControllerW implements ShareController {
 	 * 
 	 * @return handler for native sharing
 	 */
-	public AsyncOperation<String> getShareStringHandler() {
-		return new AsyncOperation<String>() {
-			@Override
-			public void callback(String s) {
-				String title = getAppW().getKernel().getConstruction()
-						.getTitle();
-				MaterialsManagerI fm = getAppW().getFileManager();
-				fm.nativeShare(s, "".equals(title) ? "construction" : title);
-			}
+	public StringConsumer getShareStringHandler() {
+		return s -> {
+			String title = getAppW().getKernel().getConstruction()
+					.getTitle();
+			MaterialsManagerI fm = getAppW().getFileManager();
+			fm.nativeShare(s, "".equals(title) ? "construction" : title);
 		};
 	}
 

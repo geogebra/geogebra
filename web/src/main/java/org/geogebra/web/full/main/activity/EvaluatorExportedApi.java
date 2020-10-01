@@ -2,6 +2,7 @@ package org.geogebra.web.full.main.activity;
 
 import org.geogebra.web.html5.main.ExportedApi;
 import org.geogebra.web.html5.main.GgbAPIW;
+import org.geogebra.web.html5.main.JsEval;
 import org.geogebra.web.html5.main.ScriptManagerW;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -67,13 +68,13 @@ public class EvaluatorExportedApi implements ExportedApi {
 	}
 
 	public void setEditorState(Object state) {
-		String stateString = "string".equals(Js.typeof(state)) ? Js.asString(state)
+		String stateString = JsEval.isJSString(state) ? Js.asString(state)
 				: Global.JSON.stringify(state);
 		evaluatorActivity.getEditorAPI().setEditorState(stateString);
 	}
 
 	public void registerClientListener(Object JSFunctionName) {
-		ggbAPI.registerClientListener(scriptManager.getId(JSFunctionName));
+		ggbAPI.registerClientListener(JSFunctionName);
 	}
 
 	public void openKeyboard() {

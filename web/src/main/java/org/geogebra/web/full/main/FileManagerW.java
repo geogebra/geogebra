@@ -21,6 +21,7 @@ import org.geogebra.web.full.util.SaveCallback.SaveState;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.StringConsumer;
 
 import com.google.gwt.storage.client.Storage;
 
@@ -217,9 +218,9 @@ public class FileManagerW extends FileManager {
 		if (this.stockStore == null || counter % 30 != 0) {
 			return;
 		}
-		final AsyncOperation<String> base64saver = new AsyncOperation<String>() {
+		final StringConsumer base64saver = new StringConsumer() {
 			@Override
-			public void callback(final String s) {
+			public void consume(final String s) {
 				final Material mat = createMaterial(s,
 				        System.currentTimeMillis() / 1000);
 				try {

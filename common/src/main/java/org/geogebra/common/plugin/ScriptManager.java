@@ -10,7 +10,6 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.plugin.script.JsScript;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class ScriptManager implements EventListener {
@@ -19,19 +18,19 @@ public abstract class ScriptManager implements EventListener {
 	protected boolean listenersEnabled = true;
 	protected boolean jsEnabled = true;
 	// maps between GeoElement and JavaScript function names
-	protected HashMap<GeoElement, JsScript> updateListenerMap;
-	protected HashMap<GeoElement, JsScript> clickListenerMap;
-	protected final ArrayList<JsScript> addListeners = new ArrayList<>();
-	protected final ArrayList<JsScript> storeUndoListeners = new ArrayList<>();
-	protected final ArrayList<JsScript> removeListeners = new ArrayList<>();
-	protected final ArrayList<JsScript> renameListeners = new ArrayList<>();
-	protected final ArrayList<JsScript> updateListeners = new ArrayList<>();
-	protected final ArrayList<JsScript> clickListeners = new ArrayList<>();
-	protected final ArrayList<JsScript> clearListeners = new ArrayList<>();
-	protected final ArrayList<JsScript> clientListeners = new ArrayList<>();
+	protected HashMap<GeoElement, JsReference> updateListenerMap;
+	protected HashMap<GeoElement, JsReference> clickListenerMap;
+	protected final ArrayList<JsReference> addListeners = new ArrayList<>();
+	protected final ArrayList<JsReference> storeUndoListeners = new ArrayList<>();
+	protected final ArrayList<JsReference> removeListeners = new ArrayList<>();
+	protected final ArrayList<JsReference> renameListeners = new ArrayList<>();
+	protected final ArrayList<JsReference> updateListeners = new ArrayList<>();
+	protected final ArrayList<JsReference> clickListeners = new ArrayList<>();
+	protected final ArrayList<JsReference> clearListeners = new ArrayList<>();
+	protected final ArrayList<JsReference> clientListeners = new ArrayList<>();
 	private boolean keepListenersOnReset = true;
 
-	private ArrayList<JsScript>[] listenerLists() {
+	private ArrayList<JsReference>[] listenerLists() {
 		return new ArrayList[] { addListeners, storeUndoListeners,
 				removeListeners, renameListeners, updateListeners,
 				clickListeners, clearListeners, clientListeners };
@@ -92,37 +91,52 @@ public abstract class ScriptManager implements EventListener {
 		}
 	}
 
-	private void callListeners(List<JsScript> listeners, Event evt) {
-		for (JsScript listener : listeners) {
+	private void callListeners(List<JsReference> listeners, Event evt) {
+		for (JsReference listener : listeners) {
 			callListener(listener, evt);
 		}
 	}
 
-	private void callListener(JsScript listener, Event evt) {
+	private void callListener(JsReference listener, Event evt) {
 		if (listener != null) {
-			String fn = listener.getText();
 			GeoElement geo = evt.target;
 			if (geo == null) {
-				callListener(fn);
+				callListener(listener);
 				return;
 			}
 			String label = geo.getLabel(StringTemplate.defaultTemplate);
 			if (evt.type == EventType.RENAME) {
-				callListener(fn, geo.getOldLabel(), label);
+				callListener(listener, geo.getOldLabel(), label);
 				return;
 			} else if (evt.argument == null) {
-				callListener(fn, label);
+				callListener(listener, label);
 				return;
 			}
-			callListener(fn, evt.argument);
+			callListener(listener, evt.argument);
 		}
 	}
 
-	protected void callListener(String fn, String... args) {
+	protected final void callListener(JsReference fn, Object... args) {
+		try {
+			if (fn.getNativeRunnable() != null) {
+				callNativeListener(fn.getNativeRunnable(), args);
+			} else {
+				callListener(fn.getText(), args);
+			}
+		} catch (Exception e) {
+			Log.error("Scripting error " + e.getMessage());
+		}
+	}
+
+	protected void callNativeListener(Object nativeRunnable, Object[] args) {
+		// in desktop and web
+	}
+
+	protected void callListener(String fn, Object[] args) {
 		// implemented in web and desktop
 	}
 
-	protected void callClientListeners(List<JsScript> listeners, Event evt) {
+	protected void callClientListeners(List<JsReference> listeners, Event evt) {
 		// implemented in web and desktop
 	}
 
@@ -158,7 +172,7 @@ public abstract class ScriptManager implements EventListener {
 
 		addListeners.clear();
 
-		for (ArrayList<JsScript> a : listenerLists()) {
+		for (ArrayList<JsReference> a : listenerLists()) {
 			if (a != null && a != storeUndoListeners && a.size() > 0) {
 				a.clear();
 			}
@@ -171,7 +185,7 @@ public abstract class ScriptManager implements EventListener {
 	 * construction, the JavaScript function JSFunctionName is called using the
 	 * name of the newly created object as a single argument.
 	 */
-	public synchronized void registerAddListener(String JSFunctionName) {
+	public synchronized void registerAddListener(Object JSFunctionName) {
 		registerGlobalListener(addListeners, JSFunctionName);
 	}
 
@@ -181,7 +195,7 @@ public abstract class ScriptManager implements EventListener {
 	 * construction, the JavaScript function JSFunctionName is called using the
 	 * name of the newly created object as a single argument.
 	 */
-	public synchronized void registerStoreUndoListener(String JSFunctionName) {
+	public synchronized void registerStoreUndoListener(Object JSFunctionName) {
 		if (!app.isUndoActive()) {
 			app.getKernel().setUndoActive(true);
 			app.getKernel().initUndoInfo();
@@ -189,48 +203,53 @@ public abstract class ScriptManager implements EventListener {
 		registerGlobalListener(storeUndoListeners, JSFunctionName);
 	}
 
-	public synchronized void unregisterStoreUndoListener(String JSFunctionName) {
-		storeUndoListeners.remove(JsScript.fromName(app, JSFunctionName));
+	public synchronized void unregisterStoreUndoListener(Object JSFunctionName) {
+		storeUndoListeners.remove(JsReference.fromNative(JSFunctionName));
 	}
 
-	private void registerGlobalListener(ArrayList<JsScript> listenerList,
-			String jSFunctionName) {
-		if (jSFunctionName == null || jSFunctionName.length() == 0) {
+	private void registerGlobalListener(ArrayList<JsReference> listenerList,
+			Object jsFunctionName) {
+		if (jsFunctionName == null || isEmptyString(jsFunctionName)) {
 			return;
 		}
 
 		// init list
 		if (listenerList != null) {
-			listenerList.add(JsScript.fromName(app, jSFunctionName));
+			listenerList.add(JsReference.fromNative(jsFunctionName));
 		}
+	}
+
+	private boolean isEmptyString(Object jsFunctionName) {
+		return (jsFunctionName instanceof String
+				&& ((String) jsFunctionName).length() == 0);
 	}
 
 	/**
 	 * Removes a previously registered add listener
 	 * 
-	 * @see #registerAddListener(String)
+	 * @see #registerAddListener(Object)
 	 */
-	public synchronized void unregisterAddListener(String JSFunctionName) {
-		addListeners.remove(JsScript.fromName(app, JSFunctionName));
+	public synchronized void unregisterAddListener(Object JSFunctionName) {
+		addListeners.remove(JsReference.fromNative(JSFunctionName));
 	}
 
 	/**
 	 * Registers a JavaScript function as a remove listener for the applet's
 	 * construction. Whenever an object is deleted in the GeoGebraApplet's
-	 * construction, the JavaScript function JSFunctionName is called using the
+	 * construction, the JavaScript function jsFunction is called using the
 	 * name of the deleted object as a single argument.
 	 */
-	public synchronized void registerRemoveListener(String JSFunctionName) {
-		registerGlobalListener(removeListeners, JSFunctionName);
+	public synchronized void registerRemoveListener(Object jsFunction) {
+		registerGlobalListener(removeListeners, jsFunction);
 	}
 
 	/**
 	 * Removes a previously registered remove listener
 	 * 
-	 * @see #registerRemoveListener(String)
+	 * @see #registerRemoveListener(Object)
 	 */
-	public synchronized void unregisterRemoveListener(String JSFunctionName) {
-		removeListeners.remove(JsScript.fromName(app, JSFunctionName));
+	public synchronized void unregisterRemoveListener(Object jsFunction) {
+		removeListeners.remove(JsReference.fromNative(jsFunction));
 	}
 
 	/**
@@ -239,17 +258,17 @@ public abstract class ScriptManager implements EventListener {
 	 * cleared (i.e. all objects are removed), the JavaScript function
 	 * JSFunctionName is called using no arguments.
 	 */
-	public synchronized void registerClearListener(String JSFunctionName) {
+	public synchronized void registerClearListener(Object JSFunctionName) {
 		registerGlobalListener(clearListeners, JSFunctionName);
 	}
 
 	/**
 	 * Removes a previously registered clear listener
 	 * 
-	 * @see #registerClearListener(String)
+	 * @see #registerClearListener(Object)
 	 */
-	public synchronized void unregisterClearListener(String JSFunctionName) {
-		clearListeners.remove(JsScript.fromName(app, JSFunctionName));
+	public synchronized void unregisterClearListener(Object JSFunctionName) {
+			clearListeners.remove(JsReference.fromNative(JSFunctionName));
 	}
 
 	/**
@@ -258,17 +277,17 @@ public abstract class ScriptManager implements EventListener {
 	 * construction, the JavaScript function JSFunctionName is called using the
 	 * name of the deleted object as a single argument.
 	 */
-	public synchronized void registerRenameListener(String JSFunctionName) {
+	public synchronized void registerRenameListener(Object JSFunctionName) {
 		registerGlobalListener(renameListeners, JSFunctionName);
 	}
 
 	/**
 	 * Removes a previously registered rename listener.
 	 * 
-	 * @see #registerRenameListener(String)
+	 * @see #registerRenameListener(Object)
 	 */
-	public synchronized void unregisterRenameListener(String JSFunctionName) {
-		renameListeners.remove(JsScript.fromName(app, JSFunctionName));
+	public synchronized void unregisterRenameListener(Object JSFunctionName) {
+		renameListeners.remove(JsReference.fromNative(JSFunctionName));
 	}
 
 	/**
@@ -277,17 +296,17 @@ public abstract class ScriptManager implements EventListener {
 	 * construction, the JavaScript function JSFunctionName is called using the
 	 * name of the updated object as a single argument.
 	 */
-	public synchronized void registerUpdateListener(String JSFunctionName) {
+	public synchronized void registerUpdateListener(Object JSFunctionName) {
 		registerGlobalListener(updateListeners, JSFunctionName);
 	}
 
 	/**
 	 * Removes a previously registered update listener.
 	 * 
-	 * @see #registerRemoveListener(String)
+	 * @see #registerRemoveListener(Object)
 	 */
-	public synchronized void unregisterUpdateListener(String JSFunctionName) {
-		updateListeners.remove(JsScript.fromName(app, JSFunctionName));
+	public synchronized void unregisterUpdateListener(Object JSFunctionName) {
+		updateListeners.remove(JsReference.fromNative(JSFunctionName));
 	}
 
 	/**
@@ -296,17 +315,17 @@ public abstract class ScriptManager implements EventListener {
 	 * construction, the JavaScript function JSFunctionName is called using the
 	 * name of the clicked object as a single argument.
 	 */
-	public synchronized void registerClickListener(String JSFunctionName) {
+	public synchronized void registerClickListener(Object JSFunctionName) {
 		registerGlobalListener(clickListeners, JSFunctionName);
 	}
 
 	/**
 	 * Removes a previously registered click listener.
 	 * 
-	 * @see #registerRemoveListener(String)
+	 * @see #registerRemoveListener(Object)
 	 */
-	public synchronized void unregisterClickListener(String JSFunctionName) {
-		clickListeners.remove(JsScript.fromName(app, JSFunctionName));
+	public synchronized void unregisterClickListener(Object JSFunctionName) {
+		clickListeners.remove(JsReference.fromNative(JSFunctionName));
 	}
 
 	/**
@@ -315,7 +334,7 @@ public abstract class ScriptManager implements EventListener {
 	 * @param jsFunctionName
 	 *            client listener name
 	 */
-	public synchronized void registerClientListener(String jsFunctionName) {
+	public synchronized void registerClientListener(Object jsFunctionName) {
 		registerGlobalListener(clientListeners, jsFunctionName);
 	}
 
@@ -323,8 +342,8 @@ public abstract class ScriptManager implements EventListener {
 	 * @param jsFunctionName
 	 *            client listener name
 	 */
-	public synchronized void unregisterClientListener(String jsFunctionName) {
-		clientListeners.remove(JsScript.fromName(app, jsFunctionName));
+	public synchronized void unregisterClientListener(Object jsFunctionName) {
+		clientListeners.remove(JsReference.fromNative(jsFunctionName));
 	}
 
 	/**
@@ -334,10 +353,10 @@ public abstract class ScriptManager implements EventListener {
 	 * objName previously had a mapping JavaScript function, the old value is
 	 * replaced.
 	 */
-	private synchronized HashMap<GeoElement, JsScript> registerObjectListener(
-			HashMap<GeoElement, JsScript> map0, String objName,
-			String JSFunctionName) {
-		if (JSFunctionName == null || JSFunctionName.length() == 0) {
+	private synchronized HashMap<GeoElement, JsReference> registerObjectListener(
+			HashMap<GeoElement, JsReference> map0, String objName,
+			Object JSFunctionName) {
+		if (JSFunctionName == null || isEmptyString(JSFunctionName)) {
 			return map0;
 		}
 		GeoElement geo = app.getKernel().lookupLabel(objName);
@@ -345,12 +364,12 @@ public abstract class ScriptManager implements EventListener {
 			return map0;
 		}
 
-		HashMap<GeoElement, JsScript> map = map0;
+		HashMap<GeoElement, JsReference> map = map0;
 		if (map == null) {
 			map = new HashMap<>();
 		}
 		Log.debug(JSFunctionName);
-		map.put(geo, JsScript.fromName(app, JSFunctionName));
+		map.put(geo, JsReference.fromNative(JSFunctionName));
 		return map;
 	}
 
@@ -358,7 +377,7 @@ public abstract class ScriptManager implements EventListener {
 	 * Removes a previously set object listener for the given object.
 	 */
 	private synchronized void unregisterObjectListener(
-			HashMap<GeoElement, JsScript> map, String objName) {
+			HashMap<GeoElement, JsReference> map, String objName) {
 		if (map != null) {
 			GeoElement geo = app.getKernel().lookupLabel(objName);
 			if (geo != null) {
@@ -375,7 +394,7 @@ public abstract class ScriptManager implements EventListener {
 	 * @param fName
 	 *            the name of the JavaScript function
 	 */
-	public void registerObjectUpdateListener(String objName, String fName) {
+	public void registerObjectUpdateListener(String objName, Object fName) {
 		updateListenerMap = registerObjectListener(updateListenerMap, objName,
 				fName);
 	}
@@ -398,7 +417,7 @@ public abstract class ScriptManager implements EventListener {
 	 * @param fName
 	 *            the name of the JavaScript function
 	 */
-	public void registerObjectClickListener(String objName, String fName) {
+	public void registerObjectClickListener(String objName, Object fName) {
 		clickListenerMap = registerObjectListener(clickListenerMap, objName,
 				fName);
 	}
@@ -420,49 +439,49 @@ public abstract class ScriptManager implements EventListener {
 	/**
 	 * @return add listeners
 	 */
-	public ArrayList<JsScript> getAddListeners() {
+	public ArrayList<JsReference> getAddListeners() {
 		return addListeners;
 	}
 
 	/**
 	 * @return strore undo listeners
 	 */
-	public ArrayList<JsScript> getStoreUndoListeners() {
+	public ArrayList<JsReference> getStoreUndoListeners() {
 		return storeUndoListeners;
 	}
 
 	/**
 	 * @return remove listeners
 	 */
-	public ArrayList<JsScript> getRemoveListeners() {
+	public ArrayList<JsReference> getRemoveListeners() {
 		return removeListeners;
 	}
 
 	/**
 	 * @return rename listeners
 	 */
-	public ArrayList<JsScript> getRenameListeners() {
+	public ArrayList<JsReference> getRenameListeners() {
 		return renameListeners;
 	}
 
 	/**
 	 * @return update listeners
 	 */
-	public ArrayList<JsScript> getupdateListeners() {
+	public ArrayList<JsReference> getupdateListeners() {
 		return updateListeners;
 	}
 
 	/**
 	 * @return clear listeners
 	 */
-	public ArrayList<JsScript> getClearListeners() {
+	public ArrayList<JsReference> getClearListeners() {
 		return clearListeners;
 	}
 
 	/**
 	 * @return object update listeners
 	 */
-	public HashMap<GeoElement, JsScript> getUpdateListenerMap() {
+	public HashMap<GeoElement, JsReference> getUpdateListenerMap() {
 		if (updateListenerMap == null) {
 			updateListenerMap = new HashMap<>();
 		}
@@ -472,7 +491,7 @@ public abstract class ScriptManager implements EventListener {
 	/**
 	 * @return object click listeners
 	 */
-	public HashMap<GeoElement, JsScript> getClickListenerMap() {
+	public HashMap<GeoElement, JsReference> getClickListenerMap() {
 		if (clickListenerMap == null) {
 			clickListenerMap = new HashMap<>();
 		}
@@ -493,7 +512,7 @@ public abstract class ScriptManager implements EventListener {
 		if (clickListenerMap != null && clickListenerMap.size() > 0) {
 			return true;
 		}
-		for (ArrayList<JsScript> a : listenerLists()) {
+		for (ArrayList<JsReference> a : listenerLists()) {
 			if (a != null && a.size() > 0) {
 				return true;
 			}
@@ -521,15 +540,15 @@ public abstract class ScriptManager implements EventListener {
 		updateListenerMap = rebuildListenerMap(updateListenerMap);
 	}
 
-	private HashMap<GeoElement, JsScript> rebuildListenerMap(
-			HashMap<GeoElement, JsScript> listenerMap) {
+	private HashMap<GeoElement, JsReference> rebuildListenerMap(
+			HashMap<GeoElement, JsReference> listenerMap) {
 
 		if (listenerMap == null) {
 			return null;
 		}
 
-		HashMap<GeoElement, JsScript> map = new HashMap<>();
-		for (Map.Entry<GeoElement, JsScript> entry: listenerMap.entrySet()) {
+		HashMap<GeoElement, JsReference> map = new HashMap<>();
+		for (Map.Entry<GeoElement, JsReference> entry: listenerMap.entrySet()) {
 			GeoElement oldGeo = entry.getKey();
 			GeoElement newGeo = app.getKernel().lookupLabel(oldGeo.getLabelSimple());
 			if (newGeo != null) {
