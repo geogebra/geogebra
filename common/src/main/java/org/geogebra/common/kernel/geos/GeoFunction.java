@@ -1496,8 +1496,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					geoFun.getFunctionExpression(), false, true);
 
 			if (poly2 != null) {
-				return geoFun.isDefined() ? poly1.isEqual(poly2)
-						: false;
+				return geoFun.isDefined() && poly1.isEqual(poly2);
 			}
 		}
 
