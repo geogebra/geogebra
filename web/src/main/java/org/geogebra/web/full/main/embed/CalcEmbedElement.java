@@ -10,7 +10,6 @@ import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style.Unit;
 
 import elemental2.core.Global;
@@ -71,7 +70,8 @@ public class CalcEmbedElement extends EmbedElement {
 	/**
 	 * @return API
 	 */
-	public JavaScriptObject getApi() {
+	@Override
+	public Object getApi() {
 		ScriptManagerW sm = (ScriptManagerW) frame.getApp()
 				.getScriptManager();
 		return sm.getApi();

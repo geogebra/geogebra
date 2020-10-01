@@ -16,7 +16,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.properties.TextAlignment;
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
@@ -97,13 +97,13 @@ public class GeoInputBoxTest extends BaseUnitTest {
         App app = getApp();
         add("A = (1,1)");
         GeoInputBox inputBox = add("B = Inputbox(A)");
-        assertEquals(TextAlignment.LEFT, inputBox.getAlignment());
-        inputBox.setAlignment(TextAlignment.CENTER);
-        assertEquals(TextAlignment.CENTER, inputBox.getAlignment());
+        assertEquals(HorizontalAlignment.LEFT, inputBox.getAlignment());
+        inputBox.setAlignment(HorizontalAlignment.CENTER);
+        assertEquals(HorizontalAlignment.CENTER, inputBox.getAlignment());
         String appXML = app.getXML();
         app.setXML(appXML, true);
         inputBox = (GeoInputBox) lookup("B");
-        assertEquals(TextAlignment.CENTER, inputBox.getAlignment());
+        assertEquals(HorizontalAlignment.CENTER, inputBox.getAlignment());
     }
 
 	@Test
@@ -143,7 +143,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		savedInputBox.setSymbolicMode(true);
 		savedInputBox.setAuxiliaryObject(true);
 		savedInputBox.setLength(50);
-		savedInputBox.setAlignment(TextAlignment.CENTER);
+		savedInputBox.setAlignment(HorizontalAlignment.CENTER);
 		savedInputBox.setTempUserDisplayInput("abcde");
 		savedInputBox.setTempUserEvalInput("?");
 		savedInputBox.setDynamicCaption(text);
@@ -153,7 +153,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox loadedInputBox = (GeoInputBox) lookup("inputbox1");
 
 		assertEquals(50, loadedInputBox.getLength());
-		assertEquals(TextAlignment.CENTER, loadedInputBox.getAlignment());
+		assertEquals(HorizontalAlignment.CENTER, loadedInputBox.getAlignment());
 		assertEquals("abcde", loadedInputBox.getTempUserDisplayInput());
 		assertEquals("?", loadedInputBox.getTempUserEvalInput());
 		assertEquals(text, loadedInputBox.getDynamicCaption());
@@ -621,7 +621,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	public void testDefaultInputBoxSerif() {
 		add("f(x) = xsinx");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
-		assertTrue(inputBox.isSerifFont());
+		assertTrue(inputBox.isSerifContent());
 	}
 
 	@Test
@@ -634,12 +634,12 @@ public class GeoInputBoxTest extends BaseUnitTest {
 				+ "\t<labelMode val=\"3\"/>\n"
 				+ "\t<fixed val=\"true\"/>\n"
 				+ "\t<auxiliary val=\"true\"/>\n"
-				+ "\t<font serif=\"false\" sizeM=\"1\" size=\"0\" style=\"0\"/>\n"
 				+ "\t<symbolic val=\"true\" />\n"
+				+ "\t<contentSerif val=\"false\" />\n"
 				+ "\t<caption val=\"Serif\"/>\n"
 				+ "</element>");
 		GeoInputBox inputBox = (GeoInputBox) getConstruction().lookupLabel("InputBox1");
-		assertTrue(!inputBox.isSerifFont());
+		assertFalse(inputBox.isSerifContent());
 	}
 
 	@Test
@@ -656,6 +656,6 @@ public class GeoInputBoxTest extends BaseUnitTest {
 				+ "\t<caption val=\"Serif\"/>\n"
 				+ "</element>");
 		GeoInputBox inputBox = (GeoInputBox) getConstruction().lookupLabel("InputBox1");
-		assertTrue(inputBox.isSerifFont());
+		assertTrue(inputBox.isSerifContent());
 	}
 }

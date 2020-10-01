@@ -1,4 +1,4 @@
-package org.geogebra.common.main.settings;
+package org.geogebra.common.main.settings.config;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -12,39 +12,49 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.arithmetic.filter.GraphingOperationArgumentFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.GraphingCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.properties.FillType;
-import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppKeyboardType;
-import org.geogebra.common.main.settings.updater.GeometrySettingsUpdater;
+import org.geogebra.common.main.settings.updater.GraphingSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.main.syntax.suggestionfilter.GraphingSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.BasePropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
- * App-specific behaviors of Geometry app
- * 
- * @author Zbynek
- *
+ * Config for Graphing Calculator app
  */
-public class AppConfigGeometry implements AppConfig {
+public class AppConfigGraphing extends AbstractAppConfig {
+
+	public AppConfigGraphing() {
+		super(GeoGebraConstants.GRAPHING_APPCODE);
+	}
+
+	public AppConfigGraphing(String appCode) {
+		super(appCode, GeoGebraConstants.GRAPHING_APPCODE);
+	}
+
+	AppConfigGraphing(String appCode, String subAppCode) {
+		super(appCode, subAppCode);
+	}
 
 	@Override
 	public void adjust(DockPanelData dp) {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {
 			dp.setLocation("3");
-			dp.setTabId(DockPanelData.TabIds.TOOLS);
-		}
-		else if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
+		} else if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
 			dp.makeVisible();
 			dp.setLocation("1");
 		}
@@ -62,22 +72,22 @@ public class AppConfigGeometry implements AppConfig {
 
 	@Override
 	public String getAppTitle() {
-		return "Perspective.Geometry";
+		return "GraphingCalculator";
 	}
 
 	@Override
 	public String getAppName() {
-		return "GeoGebraGeometry";
+		return "GeoGebraGraphingCalculator";
 	}
 
 	@Override
 	public String getAppNameShort() {
-		return "Geometry";
+		return "GraphingCalculator.short";
 	}
 
 	@Override
 	public String getTutorialKey() {
-		return "TutorialGeometry";
+		return "TutorialGraphing";
 	}
 
 	@Override
@@ -102,12 +112,12 @@ public class AppConfigGeometry implements AppConfig {
 
 	@Override
 	public boolean shouldKeepRatioEuclidian() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public int getDefaultPrintDecimals() {
-		return Kernel.STANDARD_PRINT_DECIMALS_GEOMETRY;
+		return Kernel.STANDARD_PRINT_DECIMALS_GRAPHING;
 	}
 
 	@Override
@@ -117,12 +127,12 @@ public class AppConfigGeometry implements AppConfig {
 
 	@Override
 	public int[] getDecimalPlaces() {
-		return new int[] {0, 1, 2, 3, 4, 5, 10, 15};
+		return new int[]{0, 1, 2, 3, 4, 5, 10, 13, 15};
 	}
 
 	@Override
 	public int[] getSignificantFigures() {
-		return new int[] {3, 5, 10, 15};
+		return new int[]{3, 5, 10, 15};
 	}
 
 	@Override
@@ -137,12 +147,12 @@ public class AppConfigGeometry implements AppConfig {
 
 	@Override
 	public String getPreferencesKey() {
-		return "_geometry";
+		return "_graphing";
 	}
 
 	@Override
 	public String getForcedPerspective() {
-		return Perspective.GEOMETRY + "";
+		return Perspective.GRAPHING + "";
 	}
 
 	@Override
@@ -152,22 +162,22 @@ public class AppConfigGeometry implements AppConfig {
 
 	@Override
 	public AppType getToolbarType() {
-		return AppType.GEOMETRY_CALC;
+		return AppType.GRAPHING_CALCULATOR;
 	}
 
-    @Override
-    public boolean showGridOnFileNew() {
-        return false;
-    }
+	@Override
+	public boolean showGridOnFileNew() {
+		return true;
+	}
 
-    @Override
-    public boolean showAxesOnFileNew() {
-        return false;
-    }
+	@Override
+	public boolean showAxesOnFileNew() {
+		return true;
+	}
 
 	@Override
 	public boolean hasTableView() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -192,7 +202,7 @@ public class AppConfigGeometry implements AppConfig {
 
 	@Override
 	public int getDefaultAlgebraStyle() {
-		return Kernel.ALGEBRA_STYLE_DESCRIPTION;
+		return Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
 	}
 
 	@Override
@@ -202,23 +212,23 @@ public class AppConfigGeometry implements AppConfig {
 
 	@Override
 	public int getDefaultLabelingStyle() {
-		return ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
+		return ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON;
 	}
 
 	@Override
 	public CommandFilter getCommandFilter() {
-		return CommandFilterFactory.createNoCasCommandFilter();
+		return CommandFilterFactory.createGraphingCommandFilter();
 	}
 
 	@Override
 	public CommandArgumentFilter getCommandArgumentFilter() {
-		return null;
+		return new GraphingCommandArgumentFilter();
 	}
 
 	@CheckForNull
 	@Override
 	public SyntaxFilter newCommandSyntaxFilter() {
-		return null;
+		return new GraphingSyntaxFilter();
 	}
 
 	@Override
@@ -227,38 +237,35 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
-	public String getAppCode() {
-		return "geometry";
-	}
-
-	@Override
 	public SettingsUpdater createSettingsUpdater() {
-		return new GeometrySettingsUpdater();
+		return new GraphingSettingsUpdater();
 	}
 
 	@Override
 	public GeoGebraConstants.Version getVersion() {
-		return GeoGebraConstants.Version.GEOMETRY;
+		return GeoGebraConstants.Version.GRAPHING;
 	}
 
 	@Override
 	public boolean hasExam() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getExamMenuItemText() {
-		return "";
+		return "ExamGraphingCalc.short";
 	}
 
 	@Override
 	public Set<FillType> getAvailableFillTypes() {
-		return new HashSet<>(Arrays.asList(FillType.values()));
+		Set<FillType> set = new HashSet<>(Arrays.asList(FillType.values()));
+		set.remove(FillType.IMAGE);
+		return set;
 	}
 
 	@Override
 	public boolean isObjectDraggingRestricted() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -273,7 +280,7 @@ public class AppConfigGeometry implements AppConfig {
 
 	@Override
 	public boolean isCoordinatesObjectSettingEnabled() {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -288,36 +295,41 @@ public class AppConfigGeometry implements AppConfig {
 
 	@Override
 	public AppKeyboardType getKeyboardType() {
-		return AppKeyboardType.GEOMETRY;
+		return AppKeyboardType.GRAPHING;
 	}
 
 	@Override
 	public OperationArgumentFilter createOperationArgumentFilter() {
-		return null;
+		return new GraphingOperationArgumentFilter();
 	}
 
 	@Override
-	public ParserFunctions createParserFunctions() {
-		return ParserFunctionsFactory.createParserFunctions();
+	public ParserFunctionsFactory createParserFunctionsFactory() {
+		return ParserFunctionsFactory.createGraphingParserFunctionsFactory();
 	}
 
 	@Override
 	public int getEnforcedLineEquationForm() {
-		return -1;
+		return GeoLine.EQUATION_USER;
 	}
 
 	@Override
 	public int getEnforcedConicEquationForm() {
-		return -1;
+		return GeoConic.EQUATION_USER;
 	}
 
 	@Override
 	public boolean shouldHideEquations() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean hasAnsButtonInAv() {
 		return true;
+	}
+
+	@Override
+	public StringTemplate getOutputStringTemplate() {
+		return StringTemplate.latexTemplate;
 	}
 }

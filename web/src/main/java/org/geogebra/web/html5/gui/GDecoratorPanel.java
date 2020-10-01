@@ -204,7 +204,7 @@ public class GDecoratorPanel extends SimplePanel {
 			int cell) {
 		Element tr = DOM.getChild(tbody, row);
 		Element td = DOM.getChild(tr, cell);
-		return DOM.asOld(DOM.getFirstChild(td));
+		return DOM.getFirstChild(td);
 	}
 
 	@SuppressWarnings("deprecation")

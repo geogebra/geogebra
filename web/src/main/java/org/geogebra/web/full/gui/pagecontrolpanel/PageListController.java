@@ -25,7 +25,6 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.gui.RenameCard;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
@@ -382,7 +381,7 @@ public class PageListController implements PageListControllerInterface,
 				slides.add(createCardFromArchive(archive, pages, i));
 			}
 
-			app.loadFileWithoutErrorHandling(slides.get(0).getFile(), false);
+			app.loadGgbFile(slides.get(0).getFile(), false);
 			/// TODO this breaks MVC
 			app.getAppletFrame().getPageControlPanel()
 					.update();
@@ -484,12 +483,7 @@ public class PageListController implements PageListControllerInterface,
 		}
 	}
 
-	/**
-	 * load existing page
-	 * 
-	 * @param index
-	 *            index of page to load
-	 */
+	@Override
 	public void loadPage(int index) {
 		savePreviewCard(selectedCard);
 		loadSlide(index);
@@ -521,10 +515,25 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void clickPage(int pageIdx, boolean select) {
+		if (select) {
+			app.dispatchEvent(new Event(EventType.SELECT_SLIDE,
+					null, pageIdx + ""));
+		}
 		loadSlide(pageIdx);
 		if (select) {
 			setCardSelected(pageIdx);
 		}
+	}
+
+	@Override
+	public void selectSlide(int pageIdx) {
+		saveSelected();
+		if (getCard(pageIdx).getFile().isEmpty()) {
+			app.loadEmptySlide();
+		} else {
+			loadSlide(pageIdx);
+		}
+		setCardSelected(pageIdx);
 	}
 
 	@Override
@@ -567,7 +576,6 @@ public class PageListController implements PageListControllerInterface,
 			event.stopPropagation();
 			listener.getScrollPanel().setTouchScrollingDisabled(true);
 		}
-			 
 	}
 
 	@Override
@@ -643,7 +651,6 @@ public class PageListController implements PageListControllerInterface,
 			if (file.isEmpty()) {
 				// new file
 				app.loadEmptySlide();
-
 			} else {
 				String perspXML = app.getGgbApi().getPerspectiveXML();
 				// load last status of file
@@ -729,9 +736,13 @@ public class PageListController implements PageListControllerInterface,
 		}
 	}
 
-	@Override
-	public void rename(RenameCard card, String title) {
-		storeRenameAction((PagePreviewCard) card, title);
+	/**
+	 * Renaming a slide
+	 * @param card to rename.
+	 * @param title the new title.
+	 */
+	public void rename(PagePreviewCard card, String title) {
+		storeRenameAction(card, title);
 		card.setCardTitle(title);
 	}
 

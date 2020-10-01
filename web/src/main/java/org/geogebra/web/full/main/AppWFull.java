@@ -35,13 +35,13 @@ import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
-import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
@@ -140,7 +140,6 @@ import org.geogebra.web.shared.components.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
@@ -154,6 +153,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.dom.File;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * App with all the GUI
@@ -164,6 +164,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private static final String RECENT_CHANGES_KEY = "RecentChangesInfo.Graphing";
 	private static final boolean ALLOW_RECENT_CHANGES_DIALOG = false;
 	private final static int AUTO_SAVE_PERIOD = 2000;
+	// NB this needs to be adjusted in app-release if we change it here
+	private static final int MIN_SIZE_FOR_PICKER = 650;
 
 	private GuiManagerW guiManager = null;
 
@@ -739,11 +741,22 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public final void openSearch(String query) {
 		hideMenu();
 		if (isWhiteboardActive()
+				&& !getLoginOperation().isLoggedIn()) {
+			getGuiManager().listenToLogin();
+			getLoginOperation().showLoginDialog();
+			getGuiManager().setRunAfterLogin(() -> {
+				((OpenFileView) getGuiManager()
+						.getBrowseView()).updateMaterials();
+				showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
+			});
+			return;
+		}
+		if (isWhiteboardActive()
 				&& getGuiManager().browseGUIwasLoaded()
 				&& StringUtil.emptyTrim(query)
 				&& getGuiManager().getBrowseView() instanceof OpenFileView) {
-				((OpenFileView) getGuiManager().getBrowseView())
-						.updateMaterials();
+			((OpenFileView) getGuiManager().getBrowseView())
+					.updateMaterials();
 		}
 		showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
 		if (getAppletParameters().getDataParamPerspective()
@@ -892,8 +905,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public final void showPerspectivesPopup() {
-		if (isUnbundledOrWhiteboard()) {
+	public final void showPerspectivesPopupIfNeeded() {
+		boolean smallScreen = Window.getClientWidth() < MIN_SIZE_FOR_PICKER
+				|| Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
+		if (isUnbundledOrWhiteboard() || smallScreen || !(
+				getAppletParameters().getDataParamShowAppsPicker() || getAppletParameters()
+						.getDataParamApp()) || getExam() != null) {
 			return;
 		}
 		afterLocalizationLoaded(new Runnable() {
@@ -2029,7 +2046,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public JavaScriptObject getEmbeddedCalculators() {
+	public JsPropertyMap<Object> getEmbeddedCalculators() {
 		getEmbedManager();
 		return embedManager != null ? embedManager.getEmbeddedCalculators() : null;
 	}
@@ -2044,7 +2061,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public ScriptManager newScriptManager() {
-		return new ScriptManagerW(this, getActivity().getApiExporter());
+		return new ScriptManagerW(this, getActivity().getExportedApi());
 	}
 
 	@Override

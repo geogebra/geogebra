@@ -68,16 +68,10 @@ public class GBufferedImageW implements GBufferedImage {
 			canv.setHeight(height + "px");
 			Context2d c2d = canv.getContext2d();
 			if (opaque) {
-				// com.google.gwt.canvas.dom.client.FillStrokeStyle fss =
-				// c2d.getStrokeStyle();
-				// com.google.gwt.canvas.dom.client.FillStrokeStyle fsf =
-				// c2d.getFillStyle();
 				c2d.setGlobalCompositeOperation(Context2d.Composite.COPY);
 				c2d.setStrokeStyle(CssColor.make("rgba(255,255,255,1.0)"));
 				c2d.setFillStyle(CssColor.make("rgba(255,255,255,1.0)"));
 				c2d.fillRect(0, 0, width, height);
-				// c2d.setStrokeStyle(fss);
-				// c2d.setFillStyle(fsf);
 			}
 			if (pixelRatio != 1) {
 				c2d.scale(pixelRatio, pixelRatio);

@@ -43,7 +43,6 @@ import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
@@ -58,6 +57,7 @@ import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingsBuilder;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.move.events.BaseEventPool;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
@@ -161,6 +161,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.dom.File;
+import jsinterop.base.JsPropertyMap;
 
 public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public static final String STORAGE_MACRO_KEY = "storedMacro";
@@ -566,7 +567,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public ScriptManager newScriptManager() {
-		return new ScriptManagerW(this, new ApiExporter());
+		return new ScriptManagerW(this, new DefaultExportedApi());
 	}
 
 	// ================================================
@@ -719,19 +720,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            whether to reload just a slide
 	 */
 	public void loadGgbFile(final GgbFile archiveContent, final boolean asSlide) {
-		Runnable r = () -> loadFileWithoutErrorHandling(archiveContent, asSlide);
-
-		getAsyncManager().scheduleCallback(r);
-	}
-
-	/**
-	 * Try loading a file only once (might fail with CommandNotLoadedError)
-	 * @param archiveContent
-	 *            zip archive content
-	 * @param asSlide
-	 *            whether to reload just a slide
-	 */
-	public void loadFileWithoutErrorHandling(GgbFile archiveContent, boolean asSlide) {
 		AlgebraSettings algebraSettings = getSettings().getAlgebra();
 		algebraSettings.setModeChanged(false);
 		clearMedia();
@@ -841,12 +829,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		ImageLoader imageLoader = new ImageLoader(this, archive, archiveContent,
-				new Runnable() {
-					@Override
-					public void run() {
-						runAfterLoadImages(def, asSlide);
-					}
-				});
+				() -> getAsyncManager().scheduleCallback(
+						() -> runAfterLoadImages(def, asSlide)));
 		imageLoader.load();
 	}
 
@@ -1114,10 +1098,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setWaitCursor();
 		fileNew();
 		setDefaultCursor();
-
-		if (!isUnbundledOrWhiteboard()) {
-			showPerspectivesPopup();
-		}
+		showPerspectivesPopupIfNeeded();
 	}
 
 	/**
@@ -1490,7 +1471,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void imageDropHappened(String fileName, String content) {
 		SafeGeoImageFactory factory = new SafeGeoImageFactory(this);
-		factory.create(fileName, content);
+		String path = ImageManagerW.getMD5FileName(fileName, content);
+		factory.create(path, content);
 	}
 
 	/**
@@ -2611,7 +2593,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		String script = script0;
 
 		script = "document.ggbApplet= document." + ggbApplet
-				+ "; ggbApplet = document." + ggbApplet + ";" + script;
+				+ "; window.ggbApplet = document." + ggbApplet + ";" + script;
 
 		// script = "ggbApplet = document.ggbApplet;"+script;
 
@@ -3140,7 +3122,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * Show perspective picker
 	 */
-	public void showPerspectivesPopup() {
+	public void showPerspectivesPopupIfNeeded() {
 		// overridden in AppWFull
 	}
 
@@ -3585,7 +3567,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *
 	 * @return then embedded calculator apis.
 	 */
-	public JavaScriptObject getEmbeddedCalculators() {
+	public JsPropertyMap<Object> getEmbeddedCalculators() {
 		// iplemented in AppWFull
 		return null;
 	}

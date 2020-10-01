@@ -5,19 +5,15 @@ import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Generic rotate dialog
  */
-public abstract class InputDialogRotateW extends AngleInputDialogW implements KeyUpHandler {
+public abstract class InputDialogRotateW extends AngleInputDialogW {
 	/** selcted polygons */
 	GeoPolygon[] polys;
 	/** selected geos */
@@ -49,7 +45,6 @@ public abstract class InputDialogRotateW extends AngleInputDialogW implements Ke
 		this.polys = polys;
 		this.selGeos = selGeos;
 		this.ec = ec;
-		getTextComponent().getTextField().getValueBox().addKeyUpHandler(this);
 	}
 
 	@Override
@@ -68,31 +63,4 @@ public abstract class InputDialogRotateW extends AngleInputDialogW implements Ke
 	 *            callback
 	 */
 	protected abstract void processInput(AsyncOperation<String> op);
-
-	/*
-	 * auto-insert degree symbol when appropriate
-	 */
-	@Override
-	public void onKeyUp(KeyUpEvent e) {
-		// return unless digit typed (instead of !Character.isDigit)
-		if (e.getNativeKeyCode() < 48
-				|| (e.getNativeKeyCode() > 57 && e.getNativeKeyCode() < 96)
-				|| e.getNativeKeyCode() > 105) {
-			return;
-		}
-
-		AutoCompleteTextFieldW tc = getTextComponent();
-		String text = getInputText();
-
-		// if text already contains degree symbol or variable
-		for (int i = 0; i < text.length(); i++) {
-			if (!StringUtil.isDigit(text.charAt(i))) {
-				return;
-			}
-		}
-
-		int caretPos = tc.getCaretPosition();
-		tc.setText(tc.getText() + Unicode.DEGREE_STRING);
-		tc.setCaretPosition(caretPos);
-	}
 }

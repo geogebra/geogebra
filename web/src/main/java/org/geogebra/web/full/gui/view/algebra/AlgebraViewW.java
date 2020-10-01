@@ -228,7 +228,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public void onBrowserEvent(Event event) {
 		// as arrow keys are prevented in super.onBrowserEvent,
 		// we need to handle arrow key events before that
-		switch (DOM.eventGetType(event)) {
+		int eventType = DOM.eventGetType(event);
+		switch (eventType) {
 		default:
 			// do nothing
 			break;
@@ -263,7 +264,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 		if (!editItem) {
 			// background click
-			if (event.getTypeInt() == Event.ONCLICK
+			if (eventType == Event.ONCLICK
 					&& !CancelEventTimer.cancelKeyboardHide()
 					&& !CancelEventTimer.cancelMouseEvent()) {
 				app.hideKeyboard();

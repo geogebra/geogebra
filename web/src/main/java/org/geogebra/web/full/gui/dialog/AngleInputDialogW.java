@@ -14,6 +14,8 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.ComponentInputDialog;
 import org.geogebra.web.shared.components.DialogData;
@@ -21,6 +23,7 @@ import org.geogebra.web.shared.components.DialogData;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RadioButton;
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class AngleInputDialogW extends ComponentInputDialog {
 
@@ -56,6 +59,17 @@ public class AngleInputDialogW extends ComponentInputDialog {
 		rbPanel.add(rbClockWise);
 		addDialogContent(rbPanel);
 		getTextComponent().setFocus(true);
+
+		getTextComponent().addInsertHandler(t -> insertDegreeSymbolIfNeeded());
+		getTextComponent().addKeyUpHandler(e -> {
+			// return unless digit typed (instead of !Character.isDigit)
+			if (e.getNativeKeyCode() < 48
+					|| (e.getNativeKeyCode() > 57 && e.getNativeKeyCode() < 96)
+					|| e.getNativeKeyCode() > 105) {
+				return;
+			}
+			insertDegreeSymbolIfNeeded();
+		});
 	}
 
 	public boolean isCounterClockWise() {
@@ -74,5 +88,24 @@ public class AngleInputDialogW extends ComponentInputDialog {
 
 		getInputHandler().processInput(inputTextWithSign, this,
 				ok -> hide());
+	}
+
+	/*
+	 * auto-insert degree symbol when appropriate
+	 */
+	private void insertDegreeSymbolIfNeeded() {
+		AutoCompleteTextFieldW tc = getTextComponent();
+		String text = tc.getText();
+
+		// if text already contains degree symbol or variable
+		for (int i = 0; i < text.length(); i++) {
+			if (!StringUtil.isDigit(text.charAt(i))) {
+				return;
+			}
+		}
+
+		int caretPos = tc.getCaretPosition();
+		tc.setText(tc.getText() + Unicode.DEGREE_STRING);
+		tc.setCaretPosition(caretPos);
 	}
 }

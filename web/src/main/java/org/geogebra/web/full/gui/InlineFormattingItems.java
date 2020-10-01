@@ -92,7 +92,9 @@ public class InlineFormattingItems {
 		addFontSubmenu();
 		addHyperlinkItems();
 		addTextWrappingItem();
-		menu.addSeparator();
+		if (!isEditModeTable() || isSingleTableCellSelection()) {
+			menu.addSeparator();
+		}
 	}
 
 	private void addTextWrappingItem() {
@@ -136,12 +138,12 @@ public class InlineFormattingItems {
 	}
 
 	void addTableItemsIfNeeded() {
-		if (!inlines.isEmpty() && editModeTable(inlines.get(0))) {
+		if (isEditModeTable() && isSingleTableCellSelection()) {
 			addTableItems();
 		}
 	}
 
-	private void addTableItems() {
+	void addTableItems() {
 		final GeoInlineTable table = (GeoInlineTable) geos.get(0);
 		final InlineTableController controller = table.getFormatter();
 
@@ -154,7 +156,6 @@ public class InlineFormattingItems {
 
 		addItem("ContextMenu.deleteRow", controller::removeRow);
 		addItem("ContextMenu.deleteColumn", controller::removeColumn);
-		addItem("ContextMenu.deleteTable", table::remove);
 	}
 
 	private void addToolbar() {
@@ -193,12 +194,24 @@ public class InlineFormattingItems {
 
 	private boolean textOrEditModeTable(HasTextFormat hasTextFormat) {
 		return hasTextFormat instanceof InlineTextController
-				|| editModeTable(hasTextFormat);
+				|| isEditModeTable(hasTextFormat);
 	}
 
-	private boolean editModeTable(HasTextFormat hasTextFormat) {
+	public boolean isEditModeTable() {
+		return !inlines.isEmpty() && isEditModeTable(inlines.get(0));
+	}
+
+	private boolean isEditModeTable(HasTextFormat hasTextFormat) {
 		return hasTextFormat instanceof InlineTableController
-				&& ((InlineTableController) hasTextFormat).isInEditMode();
+				&& ((InlineTableController) hasTextFormat).isInEditMode()
+				&& ((InlineTableController) hasTextFormat).hasSelection();
+	}
+
+	boolean isSingleTableCellSelection() {
+		return !inlines.isEmpty()
+				&& inlines.get(0) instanceof InlineTableController
+				&& ((InlineTableController) inlines.get(0)).isInEditMode()
+				&& ((InlineTableController) inlines.get(0)).isSingleCellSelection();
 	}
 
 	private void addHyperlinkItem(String labelTransKey) {

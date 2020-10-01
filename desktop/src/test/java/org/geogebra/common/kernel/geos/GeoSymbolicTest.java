@@ -12,6 +12,7 @@ import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
@@ -220,12 +221,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testNumericCommand() {
-		t("Numeric(2/3,10)", "0.6666666667");
-		t("Numeric(pi,10)", "3.141592654");
-		// wrong
-		t("Numeric(pi,100)", pi + "");
-		// wrong
-		t("Numeric(2pi,100)", "6.2831853072");
+		t("Numeric(745/1137)", "0.6552330695");
+		tn("Numeric(2/3,10)", "0.6666666667");
+		tn("Numeric(pi,10)", "3.141592654");
+		tn("Numeric(pi,100)", "3.14159265358979323846264338327950288419716939937"
+				+ "5105820974944592307816406286208998628034825342117068");
+		tn("Numeric(2pi,100)", "6.2831853071795864769252867665590057683943387987"
+				+ "50211641949889184615632812572417997256069650684234136");
 	}
 
 	@Test
@@ -1218,5 +1220,48 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(
 				derivative.toValueString(StringTemplate.defaultTemplate),
 				equalTo("1 / 200 ℯ^((-1) / 40 x)"));
+	}
+
+	@Test
+	public void testMin() {
+		t("Min({-2, 12, -23, 17, 15})", "-23");
+		t("Min(2 < x < 3)", "2");
+		t("Min(12, 15)", "12");
+		t("Min(ℯ^x*x^3,-4,-2)", "(-3, (-27) / ℯ^(3))");
+		t("Min({1, 2, 3, 4, 5}, {0, 3, 4, 2, 3})", "2");
+		t("Min(1, 2)", "1");
+		t("Min(2, 1, 3)", "1");
+		t("Min(1, 2, -1, 4)", "-1");
+		t("Min(1/2 < x < " + pi + ")", "1 / 2");
+	}
+
+	@Test
+	public void testMax() {
+		t("Max({-2, 12, -23, 17, 15})", "17");
+		t("Max(2 < x < 3)", "3");
+		t("Max(12, 15)", "15");
+		t("Max(exp(x)x^2,-3,-1)", "(-2, 4 / ℯ^(2))");
+		t("Max({1, 2, 3, 4, 5}, {5, 3, 4, 2, 0})", "4");
+		t("Max(1, 2)", "2");
+		t("Max(2, 3, 1)", "3");
+		t("Max(1, 2, 4, -2)", "4");
+		t("Max(1/2 < x < " + pi + ")", pi + "");
+	}
+
+	@Test
+	public void testSolveNotReturnUndefined() {
+		add("eq1: (x^2)(e^x)= 5");
+		GeoSymbolic function = add("Solve(eq1, x)");
+		assertNotEquals(function.getValue().toString(StringTemplate.defaultTemplate), "{?}");
+		assertThat(function.getValue().toString(StringTemplate.defaultTemplate),
+				equalTo("{x = 1.2168714889}"));
+	}
+
+	@Test
+	public void testSolveChangedToNSolve() {
+		add("eq1: (x^2)(e^x)= 5");
+		GeoSymbolic function = add("Solve(eq1, x)");
+		assertThat(function.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("NSolve(eq1,x)"));
 	}
 }

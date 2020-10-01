@@ -654,11 +654,6 @@ public class MaterialListElement extends FlowPanel
 	}
 
 	@Override
-	public void setCardTitle(String oldTitle) {
-		title.setText(oldTitle);
-	}
-
-	@Override
 	public void copy() {
 		controller.copy();
 	}

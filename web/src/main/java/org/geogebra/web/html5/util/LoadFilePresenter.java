@@ -18,8 +18,6 @@ import com.google.gwt.user.client.Window.Location;
  * File loader for Web
  */
 public class LoadFilePresenter {
-	// NB this needs to be adjusted in app-release if we change it here
-	private static final int MIN_SIZE_FOR_PICKER = 650;
 
 	/**
 	 * Run applet for current view
@@ -64,6 +62,7 @@ public class LoadFilePresenter {
 		boolean showToolBar = view.getDataParamShowToolBar(fullApp);
 		boolean showMenuBar = view.getDataParamShowMenuBar(fullApp);
 		boolean showAlgebraInput = view.getDataParamShowAlgebraInput(fullApp);
+		boolean isApp = view.getDataParamApp();
 
 		app.setShowMenuBar(showMenuBar);
 		app.setShowAlgebraInput(showAlgebraInput, false);
@@ -71,6 +70,9 @@ public class LoadFilePresenter {
 		app.getKernel().setShowAnimationButton(
 		        view.getDataParamShowAnimationButton());
 		app.setCapturingThreshold(view.getDataParamCapturingThreshold());
+		if (!isApp) {
+			app.getAppletFrame().addStyleName("appletStyle");
+		}
 
 		boolean undoActive = (showToolBar || showMenuBar
 		        || view.getDataParamApp() || app.getScriptManager()
@@ -276,13 +278,7 @@ public class LoadFilePresenter {
 			app.adjustViews(false, false);
 		}
 
-		boolean smallScreen = Window.getClientWidth() < MIN_SIZE_FOR_PICKER
-				|| Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
-		if (app.getAppletParameters().getDataParamShowAppsPicker()
-				&& app.getExam() == null && !smallScreen
-				&& !app.isWhiteboardActive()) {
-			app.showPerspectivesPopup();
-		}
+		app.showPerspectivesPopupIfNeeded();
 
 		app.updateRounding();
 		preloadParser(app);

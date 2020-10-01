@@ -21,7 +21,7 @@ import org.geogebra.common.gui.inputfield.InputMode;
 import org.geogebra.common.gui.inputfield.MyTextField;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.geos.properties.TextAlignment;
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -68,6 +68,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
@@ -225,7 +226,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			@Override
 			public void onBrowserEvent(Event event) {
-				int etype = event.getTypeInt();
+				int etype = DOM.eventGetType(event);
 				if (isSelected(etype)) {
 					handleSelectedEvent(event);
 					return;
@@ -243,8 +244,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 				// react on enter from system on screen keyboard or hardware
 				// keyboard
-				if ((event.getTypeInt() == Event.ONKEYUP
-						|| event.getTypeInt() == Event.ONKEYPRESS)
+				if ((etype == Event.ONKEYUP
+						|| etype == Event.ONKEYPRESS)
 						&& event.getKeyCode() == KeyCodes.KEY_ENTER) {
 					// app.hideKeyboard();
 					// prevent handling in AutoCompleteTextField
@@ -1233,12 +1234,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		this.updateCurrentWord(false);
 
 		setCaretPosition(newPos, false);
-
-		// TODO: tried to keep the Mac OS from auto-selecting the field by
-		// resetting the
-		// caret, but not working yet
-		// setCaret(new DefaultCaret());
-		// setCaretPosition(newPos);
 	}
 
 	private int getSelectionEnd() {
@@ -1608,11 +1603,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	@Override
-	public void setTextAlignmentsForInputBox(TextAlignment alignment) {
+	public void setTextAlignmentsForInputBox(HorizontalAlignment alignment) {
 		getInputElement().getStyle().setTextAlign(textAlignToCssAlign(alignment));
 	}
 
-	private Style.TextAlign textAlignToCssAlign(TextAlignment alignment) {
+	private Style.TextAlign textAlignToCssAlign(HorizontalAlignment alignment) {
 		switch (alignment) {
 			case LEFT:
 					return Style.TextAlign.LEFT;

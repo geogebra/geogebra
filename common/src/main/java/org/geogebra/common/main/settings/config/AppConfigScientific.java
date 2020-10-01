@@ -1,4 +1,4 @@
-package org.geogebra.common.main.settings;
+package org.geogebra.common.main.settings.config;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.properties.FillType;
-import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
@@ -24,6 +23,10 @@ import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
  * Config for Scientific Calculator app
  */
 public class AppConfigScientific extends AppConfigGraphing {
+
+	public AppConfigScientific() {
+		super(GeoGebraConstants.SCIENTIFIC_APPCODE, null);
+	}
 
 	@Override
 	public String getAppTitle() {
@@ -97,11 +100,6 @@ public class AppConfigScientific extends AppConfigGraphing {
 	}
 
 	@Override
-	public String getAppCode() {
-		return "scientific";
-	}
-
-	@Override
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.SCIENTIFIC;
 	}
@@ -142,8 +140,8 @@ public class AppConfigScientific extends AppConfigGraphing {
 	}
 
 	@Override
-	public ParserFunctions createParserFunctions() {
-		return ParserFunctionsFactory.createParserFunctions();
+	public ParserFunctionsFactory createParserFunctionsFactory() {
+		return ParserFunctionsFactory.createParserFunctionsFactory();
 	}
 
 	@Override

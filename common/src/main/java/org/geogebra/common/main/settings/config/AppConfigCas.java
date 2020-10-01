@@ -1,4 +1,4 @@
-package org.geogebra.common.main.settings;
+package org.geogebra.common.main.settings.config;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,6 +8,7 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CASCommandArgumentFilter;
@@ -15,7 +16,6 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.properties.FillType;
-import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.settings.updater.CasSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
@@ -27,6 +27,14 @@ import org.geogebra.common.properties.factory.PropertiesFactory;
  * Config for CAS Calculator app
  */
 public class AppConfigCas extends AppConfigGraphing {
+
+	public AppConfigCas() {
+		super(GeoGebraConstants.CAS_APPCODE, null);
+	}
+
+	public AppConfigCas(String appCode) {
+		super(appCode, GeoGebraConstants.CAS_APPCODE);
+	}
 
 	@Override
 	public String getAppTitle() {
@@ -95,11 +103,6 @@ public class AppConfigCas extends AppConfigGraphing {
 	}
 
 	@Override
-	public String getAppCode() {
-		return "cas";
-	}
-
-	@Override
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.CAS;
 	}
@@ -125,8 +128,8 @@ public class AppConfigCas extends AppConfigGraphing {
 	}
 
 	@Override
-	public ParserFunctions createParserFunctions() {
-		return ParserFunctionsFactory.createParserFunctions();
+	public ParserFunctionsFactory createParserFunctionsFactory() {
+		return ParserFunctionsFactory.createParserFunctionsFactory();
 	}
 
 	@Override
@@ -157,5 +160,10 @@ public class AppConfigCas extends AppConfigGraphing {
 	@Override
 	public PropertiesFactory createPropertiesFactory() {
 		return new CasPropertiesFactory();
+	}
+
+	@Override
+	public StringTemplate getOutputStringTemplate() {
+		return StringTemplate.numericLatex;
 	}
 }

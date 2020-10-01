@@ -34,6 +34,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.full.main.NullHeaderResizer;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -180,9 +181,8 @@ public class GeoGebraFrameFull
 			GLookAndFeel laf, JavaScriptObject clb) {
 		GeoGebraElement element = GeoGebraElement.as(el);
 		AppletParameters parameters = new AppletParameters(element);
-		GeoGebraFrameW.renderArticleElementWithFrame(element,
-				new GeoGebraFrameFull(factory, laf, null, element, parameters),
-				clb);
+		new GeoGebraFrameFull(factory, laf, null, element, parameters)
+				.renderArticleElementWithFrame(element, clb);
 	}
 
 	/**
@@ -341,7 +341,7 @@ public class GeoGebraFrameFull
 						.isPerspectivesPopupVisible();
 				onKeyboardAdded(keyboard);
 				if (showPerspectivesPopup) {
-					getApp().showPerspectivesPopup();
+					getApp().showPerspectivesPopupIfNeeded();
 				}
 				if (!getApp().isWhiteboardActive()) {
 					if (textField != null) {
@@ -428,7 +428,7 @@ public class GeoGebraFrameFull
 	@Override
 	public boolean showKeyBoard(boolean show, MathKeyboardListener textField,
 			boolean forceShow) {
-		if (forceShow && isKeyboardWantedFromStorage()) {
+		if (forceShow && (isKeyboardWantedFromStorage() || Browser.isMobile())) {
 			doShowKeyBoard(show, textField);
 			return true;
 		}
@@ -453,12 +453,11 @@ public class GeoGebraFrameFull
 						.isOpen()) {
 			return false;
 		}
-
-		if (app.getLAF().isTablet()
+		if (Browser.isMobile()
 				|| isKeyboardShowing()
 									// showing, we don't have
 									// to handle the showKeyboardButton
-				|| getKeyboardManager().shouldKeyboardBeShown()
+				|| !getKeyboardManager().isKeyboardClosedByUser()
 				|| keyboardNeededForGraphicsTools()) {
 			doShowKeyBoard(show, textField);
 			showKeyboardButton(textField);
@@ -470,7 +469,7 @@ public class GeoGebraFrameFull
 	}
 
 	private boolean keyboardNeededForGraphicsTools() {
-		return app.isApplet() && app.isShowToolbar()
+		return app.isShowToolbar()
 				&& app.getActiveEuclidianView()
 				.getEuclidianController()
 						.modeNeedsKeyboard();
@@ -694,9 +693,13 @@ public class GeoGebraFrameFull
 		if (app1.isWhiteboardActive()) {
 			attachToolbarMow(app1);
 
-			if (app1.getVendorSettings().isMainMenuExternal()) {
+			if (app1.getVendorSettings().isMainMenuExternal()
+					&& !app1.isApplet()) {
 				app1.getGuiManager().menuToGlobalHeader();
-			} else {
+			} else if ((app1.isApplet()
+						&& app1.getAppletParameters().getDataParamShowMenuBar(false))
+					|| app1.isMebis()) {
+				toolbarMow.getUndoRedoButtons().addStyleName("undoRedoPositionMebis");
 				attachMowMainMenu(app1);
 			}
 			app1.getGuiManager().initShareActionInGlobalHeader();
@@ -751,7 +754,9 @@ public class GeoGebraFrameFull
 			insert(toolbarMow, 0);
 		}
 		add(toolbarMow.getUndoRedoButtons());
-		add(toolbarMow.getPageControlButton());
+		if (!app.isApplet()) {
+			add(toolbarMow.getPageControlButton());
+		}
 	}
 
 	private void initToolbarMowIfNull(AppW app) {

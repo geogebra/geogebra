@@ -7,6 +7,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.GeoClass;
@@ -306,7 +307,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testGeoNumericExtendsMinMax() {
+	public void testGeoNumericExtendsMinMaxInSymbolic() {
 		GeoNumeric numeric = add("a = 5");
 		numeric.setShowExtendedAV(true);
 		numeric.initAlgebraSlider();
@@ -314,10 +315,31 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		Assert.assertFalse(numeric.getIntervalMin() <= -20);
 
 		GeoInputBox inputBox = add("ib = InputBox(a)");
+		inputBox.setSymbolicMode(true);
+
 		inputBox.updateLinkedGeo("20");
 		inputBox.updateLinkedGeo("-20");
+
 		Assert.assertTrue(numeric.getIntervalMax() >= 20);
 		Assert.assertTrue(numeric.getIntervalMin() <= -20);
+	}
+
+	@Test
+	public void testGeoNumericIsClampedToMinMaxInNonSymbolic() {
+		GeoNumeric numeric = add("a = 0");
+		numeric.setShowExtendedAV(true);
+		numeric.initAlgebraSlider();
+
+		Assert.assertEquals(-5, numeric.getIntervalMin(), Kernel.MAX_PRECISION);
+		Assert.assertEquals(5, numeric.getIntervalMax(), Kernel.MAX_PRECISION);
+
+		inputBox = add("ib = InputBox(a)");
+
+		inputBox.updateLinkedGeo("-10");
+		Assert.assertEquals(-5, numeric.getValue(), Kernel.MAX_PRECISION);
+
+		inputBox.updateLinkedGeo("10");
+		Assert.assertEquals(5, numeric.getValue(), Kernel.MAX_PRECISION);
 	}
 
 	private void t(String input, String... expected) {

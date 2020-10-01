@@ -29,7 +29,6 @@ public class BorderStylePopup extends PopupMenuButtonW {
 		getMyPopup().addStyleName("mowPopup");
 		getMyPopup().addStyleName("borderStylePopup");
 		extendGUI();
-		setTooltips();
 		getMyPopup().addCloseHandler(event -> borderThicknessPopup.hide());
 	}
 
@@ -90,18 +89,6 @@ public class BorderStylePopup extends PopupMenuButtonW {
 	 */
  	public Integer getBorderTypeIndex(BorderType type) {
 		return type == BorderType.MIXED ? -1 : type.ordinal();
-	}
-
-	/**
-	 * set tooltips of buttons in the popup
-	 */
-	public void setTooltips() {
-		final String[] tooltips = new String[] { "stylebar.AllBorders", "stylebar.InnerBorders",
-					"stylebar.OuterBorders", "stylebar.ClearBorders" };
-		for (int i = 0; i < getMyTable().getColumnCount(); i++) {
-			getMyTable().getWidget(0, i).setTitle(app.getLocalization().getMenu(tooltips[i]));
-		}
-		borderThicknessBtn.setTitle(app.getLocalization().getMenu("stylebar.BorderStyle"));
 	}
 
 	public FlowPanel getBorderThicknessBtn() {

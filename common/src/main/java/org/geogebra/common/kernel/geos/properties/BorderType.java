@@ -1,27 +1,26 @@
 package org.geogebra.common.kernel.geos.properties;
 
+import java.util.Locale;
+
 public enum BorderType {
+	ALL, INNER, OUTER, NONE, MIXED;
 
-	ALL("all"),
-
-	INNER("inner"),
-
-	OUTER("outer"),
-
-	NONE("none"),
-
-	MIXED("mixed");
-
-	private String borderType;
-
-	BorderType(String borderType) {
-		this.borderType = borderType;
+	@Override
+	public String toString() {
+		return name().toLowerCase(Locale.US);
 	}
 
 	/**
-	 * @return border style name
+	 * @param borderType
+	 *            string from carota
+	 * @return border type value
 	 */
-	public String getName() {
-		return borderType;
+	public static BorderType fromString(String borderType) {
+		try {
+			return valueOf(borderType.toUpperCase(Locale.US));
+		} catch (RuntimeException e) {
+			// Invalid alignment
+			return null;
+		}
 	}
 }
