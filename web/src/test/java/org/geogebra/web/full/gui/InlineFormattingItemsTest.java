@@ -83,8 +83,7 @@ public class InlineFormattingItemsTest {
 				"ContextMenu.insertColumnRight",
 				"SEPARATOR",
 				"ContextMenu.deleteRow",
-				"ContextMenu.deleteColumn",
-				"ContextMenu.deleteTable"
+				"ContextMenu.deleteColumn"
 		);
 
 		assertEquals(expected, contextMenu.getEntriesFor(geos));
