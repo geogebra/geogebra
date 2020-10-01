@@ -3367,7 +3367,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "horizontal": "Horizontaal",
     "html": "Webpagina",
     "insert_worksheet": "Invoegen werkblad",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Uw versie van GeoGebra Klassiek 5 zal binnenkort niet meer werken. Gelieve opnieuw te downloaden en te installeren",
     "jpg": "JPG formaat",
     "linkCopyClipboard": "Link werd gekopieerd naar het klembord",
     "linkShareOff": "Delen via link uit.",
