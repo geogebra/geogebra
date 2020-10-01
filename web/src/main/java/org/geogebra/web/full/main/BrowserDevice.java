@@ -45,15 +45,13 @@ public class BrowserDevice implements GDevice {
 					"position: absolute; top: 0px; left: 0px; "
 							+ "width: 50px; height: 50px; padding: 10px;  overflow: hidden;");
 			span.appendChild(icon.getElement());
-			Element form = DOM.createElement("form");
 			input = DOM.createElement("input");
 			input.setAttribute("type", "file");
 			input.setAttribute("style",
 					"width: 500px; height: 60px; font-size: 56px;"
 							+ "opacity: 0; position: absolute;"
 							+ "right: 0px; top: 0px; cursor: pointer;");
-			form.appendChild(input);
-			span.appendChild(form);
+			span.appendChild(input);
 
 			DOM.insertChild(getElement(), span, 0);
 		}
@@ -87,8 +85,8 @@ public class BrowserDevice implements GDevice {
 				if (files.length) {
 					var fileToHandle = files[0];
 					bg.@org.geogebra.web.html5.gui.view.browser.BrowseViewI::openFile(Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle);
+					el.value = [];
 				}
-				el.parentElement.reset();
 			};
 		}-*/;
 

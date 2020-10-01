@@ -46,7 +46,7 @@ public class CarotaTable implements HasContent {
 	}
 
 	@JsProperty
-	private native CarotaSelection getSelection();
+	public native CarotaSelection getSelection();
 
 	@JsOverlay
 	private int selectionX() {
@@ -106,9 +106,9 @@ public class CarotaTable implements HasContent {
 
 	public native String urlByCoordinate(int x, int y);
 
-	private native void addRow(int i);
+	private native void addRow(int i, int source);
 
-	private native void addColumn(int j);
+	private native void addColumn(int j, int source);
 
 	private native void removeRow(int i);
 
@@ -116,22 +116,22 @@ public class CarotaTable implements HasContent {
 
 	@JsOverlay
 	public final void insertRowAbove() {
-		addRow(selectionY());
+		addRow(selectionY(), selectionY());
 	}
 
 	@JsOverlay
 	public final void insertRowBelow() {
-		addRow(selectionY() + 1);
+		addRow(selectionY() + 1, selectionY());
 	}
 
 	@JsOverlay
 	public final void insertColumnLeft() {
-		addColumn(selectionX());
+		addColumn(selectionX(), selectionX());
 	}
 
 	@JsOverlay
 	public final void insertColumnRight() {
-		addColumn(selectionX() + 1);
+		addColumn(selectionX() + 1, selectionX());
 	}
 
 	@JsOverlay

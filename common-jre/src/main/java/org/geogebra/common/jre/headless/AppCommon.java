@@ -64,12 +64,13 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AppCommon extends App {
 
-	private LocalizationJre localization;
+	private final LocalizationJre localization;
 	private DialogManagerNoGui dialogManager;
 	private DefaultSettings defaultSettings;
 	private SpreadsheetTableModel tableModel;
 	private AppConfig config = new AppConfigDefault();
 	private CASFactory casFactory = new CASFactoryDummy();
+	private boolean appletFlag = false;
 
 	/**
 	 * Construct an AppCommon.
@@ -185,7 +186,7 @@ public class AppCommon extends App {
 
     @Override
     public boolean isApplet() {
-        return false;
+        return appletFlag;
     }
 
     @Override
@@ -799,5 +800,9 @@ public class AppCommon extends App {
 
 	public void setScriptManager(ScriptManager scriptManager) {
 		this.scriptManager = scriptManager;
+	}
+
+	public void setAppletFlag(boolean appletFlag) {
+		this.appletFlag = appletFlag;
 	}
 }

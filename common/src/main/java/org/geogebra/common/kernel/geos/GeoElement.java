@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
@@ -113,6 +114,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 
 import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.ZeroingWeak;
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -137,6 +139,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	/** maximal line width */
 	public static final int MAX_LINE_WIDTH = 13;
 
+	@Weak
 	protected App app;
 	protected AppConfig appConfig;
 
@@ -285,9 +288,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	private ExpressionNode definition;
 
 	private int defaultGeoType = -1;
+
 	/** parent algorithm */
-	@Weak
+	@ZeroingWeak
+	@Nullable
 	protected AlgoElement algoParent = null;
+
 	/** draw algorithm */
 	protected AlgoElement algoDraw = null;
 	/** directly dependent algos */
@@ -1566,18 +1572,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			// Application.debug("hasFixedDescendent, not deleting");
 			setUndefined();
 			updateRepaint();
-		} else if (!lockedObjectForDelete()) {
+		} else {
 			remove();
 			kernel.notifyRemoveGroup();
 		}
-	}
-
-	private boolean lockedObjectForDelete() {
-		// see APPS-2271 + APPS-1982
-		boolean isObjFixed = this instanceof GeoBoolean
-				? ((GeoBoolean) this).isCheckboxFixed()
-				: isLocked();
-		return (app.isApplet() && isObjFixed) || !selectionAllowed;
 	}
 
 	@Override
@@ -6393,6 +6391,15 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	public boolean hasGroup() {
 		return parentGroup != null;
+	}
+
+	/**
+	 * Check for moving and (in applets) deleting by tool.
+	 * Locked position may still allow changing value (checkbox, slider)
+	 * @return whether the element position is locked
+	 */
+	public boolean isLockedPosition() {
+		return isLocked();
 	}
 
 	/** Used by TraceDialog for "Trace as... value of/copy of */

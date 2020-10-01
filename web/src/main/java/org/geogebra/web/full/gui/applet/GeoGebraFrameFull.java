@@ -341,7 +341,7 @@ public class GeoGebraFrameFull
 						.isPerspectivesPopupVisible();
 				onKeyboardAdded(keyboard);
 				if (showPerspectivesPopup) {
-					getApp().showPerspectivesPopup();
+					getApp().showPerspectivesPopupIfNeeded();
 				}
 				if (!getApp().isWhiteboardActive()) {
 					if (textField != null) {

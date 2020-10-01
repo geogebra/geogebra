@@ -47,6 +47,8 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 
 import elemental2.core.Global;
+import elemental2.promise.Promise.PromiseExecutorCallbackFn.RejectCallbackFn;
+import elemental2.promise.Promise.PromiseExecutorCallbackFn.ResolveCallbackFn;
 import jsinterop.base.JsPropertyMap;
 
 /**
@@ -1114,13 +1116,13 @@ public class GgbAPIW extends GgbAPI {
 				String.valueOf(label), String.valueOf(color), (AppW) app);
 	}
 
-	public void asyncEvalCommand(String command, JavaScriptObject onSuccess,
-			JavaScriptObject onFailure) {
+	public void asyncEvalCommand(String command, ResolveCallbackFn<String> onSuccess,
+			RejectCallbackFn onFailure) {
 		((AppW) app).getAsyncManager().asyncEvalCommand(command, onSuccess, onFailure);
 	}
 
-	public void asyncEvalCommandGetLabels(String command, JavaScriptObject onSuccess,
-			JavaScriptObject onFailure) {
+	public void asyncEvalCommandGetLabels(String command, ResolveCallbackFn<String> onSuccess,
+			RejectCallbackFn onFailure) {
 		((AppW) app).getAsyncManager().asyncEvalCommandGetLabels(command, onSuccess, onFailure);
 	}
 
