@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.gui.util;
 
-import com.google.gwt.user.client.Timer;
+import org.gwtproject.timer.client.Timer;
 
 /**
  * Class used in view controllers to handle long touches.

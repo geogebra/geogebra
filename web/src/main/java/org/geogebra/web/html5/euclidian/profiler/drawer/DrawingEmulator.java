@@ -10,8 +10,7 @@ import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
 import org.geogebra.web.html5.euclidian.profiler.coords.Coordinate;
 import org.geogebra.web.html5.euclidian.profiler.coords.CoordinatesParser;
 import org.geogebra.web.html5.util.file.FileLoader;
-
-import com.google.gwt.user.client.Timer;
+import org.gwtproject.timer.client.Timer;
 
 /**
  * Autonomously draws onto the canvas from a file. The name of the file is specified

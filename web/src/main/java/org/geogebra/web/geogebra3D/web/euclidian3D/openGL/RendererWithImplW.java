@@ -12,13 +12,13 @@ import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
+import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.googlecode.gwtgl.binding.WebGLRenderingContext;
 

@@ -5,15 +5,15 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.web.html5.util.WindowW;
 import org.geogebra.web.shared.ggtapi.BASEURL;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationHandle;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Window;
+
+import elemental2.dom.DomGlobal;
 
 /**
  * @author gabor
@@ -24,7 +24,7 @@ public final class WindowReference implements EventRenderable {
 	/**
 	 * The window object itself.
 	 */
-	JavaScriptObject wnd = null;
+	elemental2.dom.Window wnd = null;
 	/**
 	 * To check that window is open or not
 	 */
@@ -83,7 +83,7 @@ public final class WindowReference implements EventRenderable {
 					callback, 900, 500);
 			lOW.getView().add(instance);
 			instance.initClosedCheck();
-			}
+		}
 		
 		return instance;
 	}
@@ -151,7 +151,7 @@ public final class WindowReference implements EventRenderable {
 		}
 	}
 
-	private static JavaScriptObject createWindowReference(String name,
+	private static elemental2.dom.Window createWindowReference(String name,
 			String redirect, String callback, int width, int height) {
 		int left = (Window.getClientWidth() / 2) - (width / 2);
 		int top = (Window.getClientHeight() / 2) - (height / 2);
@@ -161,7 +161,7 @@ public final class WindowReference implements EventRenderable {
 				+ left + ", " + "top=" + top;
 		String url = BASEURL.getOpenerUrl() + "?redirect=" + redirect
 				+ "&callback=" + callback;
-		return WindowW.open(url, name, settings);
+		return DomGlobal.window.open(url, name, settings);
 	}
 
 }

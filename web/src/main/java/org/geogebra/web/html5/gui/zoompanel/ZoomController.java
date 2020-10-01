@@ -14,12 +14,12 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.resources.StyleInjector;
+import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.StyleElement;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 
 /**

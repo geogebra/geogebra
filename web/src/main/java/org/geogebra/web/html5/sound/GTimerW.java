@@ -2,8 +2,7 @@ package org.geogebra.web.html5.sound;
 
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
-
-import com.google.gwt.user.client.Timer;
+import org.gwtproject.timer.client.Timer;
 
 /**
  * Timer for Web

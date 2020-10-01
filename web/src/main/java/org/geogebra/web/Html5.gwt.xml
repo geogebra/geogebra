@@ -3,7 +3,6 @@
   <inherits name="com.google.gwt.resources.Resources" />
   <inherits name="com.google.gwt.http.HTTP"/>
   <inherits name='com.google.gwt.user.User'/> 
-  <inherits name="com.google.gwt.json.JSON" />
   <inherits name='org.geogebra.Common'/>
   <inherits name='org.geogebra.GgbJdk'/>
   <inherits name='org.geogebra.web.AppCacheLinker' />  

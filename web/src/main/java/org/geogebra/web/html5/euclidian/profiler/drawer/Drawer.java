@@ -5,8 +5,7 @@ import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
 import org.geogebra.web.html5.euclidian.profiler.coords.Coordinate;
 import org.geogebra.web.html5.event.PointerEvent;
-
-import com.google.gwt.user.client.Timer;
+import org.gwtproject.timer.client.Timer;
 
 /**
  * Schedules the drawing of a line.

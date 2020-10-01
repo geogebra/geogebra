@@ -2,8 +2,7 @@ package org.geogebra.web.html5.main;
 
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.ScreenReader;
-
-import com.google.gwt.user.client.Timer;
+import org.gwtproject.timer.client.Timer;
 
 class ReaderTimer extends Timer {
 

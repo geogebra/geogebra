@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
     <inherits name="org.murok.Editor" />
+    <inherits name="org.gwtproject.timer.Timer" />
     <source path='richtext'/>
 </module>
