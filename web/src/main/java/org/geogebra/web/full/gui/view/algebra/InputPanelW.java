@@ -5,6 +5,7 @@ import org.geogebra.web.full.gui.dialog.TextEditPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
@@ -105,6 +106,20 @@ public class InputPanelW extends FlowPanel {
 			return textComponent.getText();
 		}
 		return textAreaComponent.getText();
+	}
+
+	/**
+	 * adds KeyUpHandler to TextComponent
+	 */
+	public void addTextComponentKeyUpHandler(KeyUpHandler k) {
+		getTextComponent().addKeyUpHandler(k);
+	}
+
+	/**
+	 * adds InsertHandler to TextComponent
+	 */
+	public void addTextComponentInsertHandler(AutoCompleteTextFieldW.InsertHandler t) {
+		getTextComponent().addInsertHandler(t);
 	}
 
 	/**
