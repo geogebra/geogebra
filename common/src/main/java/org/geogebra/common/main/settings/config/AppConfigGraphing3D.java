@@ -1,4 +1,4 @@
-package org.geogebra.common.main.settings;
+package org.geogebra.common.main.settings.config;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -7,81 +7,122 @@ import java.util.Set;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.gui.toolcategorization.AppType;
+import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.kernel.ConstructionDefaults;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
-import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
-import org.geogebra.common.main.AppKeyboardType;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
+import org.geogebra.common.properties.factory.G3DPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
-import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
 
 /**
- * Config for Scientific Calculator app
+ * Config for 3D Graphing Calculator app
  */
-public class AppConfigScientific extends AppConfigGraphing {
+public class AppConfigGraphing3D extends AppConfigGraphing {
+
+	public AppConfigGraphing3D() {
+		super(GeoGebraConstants.G3D_APPCODE, null);
+	}
+
+	public AppConfigGraphing3D(String appCode) {
+		super(appCode, GeoGebraConstants.G3D_APPCODE);
+	}
+
+	@Override
+	public void adjust(DockPanelData dp) {
+		if (dp.getViewId() == App.VIEW_ALGEBRA) {
+			dp.setLocation("3");
+		} else if (dp.getViewId() == App.VIEW_EUCLIDIAN3D) {
+			dp.makeVisible();
+			dp.setLocation("1");
+		}
+	}
 
 	@Override
 	public String getAppTitle() {
-		return "ScientificCalculator";
+		return "Graphing3D";
 	}
 
 	@Override
 	public String getAppName() {
-		return "GeoGebraScientificCalculator";
+		return "GeoGebra3DGrapher";
 	}
 
 	@Override
 	public String getAppNameShort() {
-		return "ScientificCalculator.short";
+		return "GeoGebra3DGrapher.short";
 	}
 
 	@Override
 	public String getTutorialKey() {
-		return "TutorialScientific";
+		return "Tutorial3D";
 	}
 
 	@Override
-	public boolean allowsSuggestions() {
+	public int getDefaultPrintDecimals() {
+		return Kernel.STANDARD_PRINT_DECIMALS_SHORT;
+	}
+
+	@Override
+	public boolean hasSingleEuclidianViewWhichIs3D() {
+		return true;
+	}
+
+	@Override
+	public boolean hasTableView() {
 		return false;
 	}
 
 	@Override
-	public boolean isGreekAngleLabels() {
-		return false;
+	public int[] getDecimalPlaces() {
+		return new int[]{0, 1, 2, 3, 4, 5, 10, 15};
+	}
+
+	@Override
+	public boolean isCASEnabled() {
+		return true;
+	}
+
+	@Override
+	public String getPreferencesKey() {
+		return "_3d";
 	}
 
 	@Override
 	public String getForcedPerspective() {
-		return Perspective.SCIENTIFIC + "";
+		return Perspective.GRAPHER_3D + "";
 	}
 
 	@Override
-	public boolean isEnableStructures() {
+	public AppType getToolbarType() {
+		return AppType.GRAPHER_3D;
+	}
+
+	@Override
+	public boolean showGridOnFileNew() {
 		return false;
 	}
 
 	@Override
-	public boolean hasSlidersInAV() {
-		return false;
+	public String getDefaultSearchTag() {
+		return "ft.phone-3d";
 	}
 
 	@Override
-	public boolean hasAutomaticLabels() {
-		return false;
-	}
-
-	@Override
-	public boolean hasAutomaticSliders() {
-		return false;
+	public int getDefaultLabelingStyle() {
+		return ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC;
 	}
 
 	@Override
 	public CommandFilter getCommandFilter() {
-		return CommandFilterFactory.createSciCalcCommandFilter();
+		return null;
 	}
 
 	@Override
@@ -96,13 +137,13 @@ public class AppConfigScientific extends AppConfigGraphing {
 	}
 
 	@Override
-	public String getAppCode() {
-		return "scientific";
+	public boolean hasPreviewPoints() {
+		return false;
 	}
 
 	@Override
 	public GeoGebraConstants.Version getVersion() {
-		return GeoGebraConstants.Version.SCIENTIFIC;
+		return GeoGebraConstants.Version.GRAPHING_3D;
 	}
 
 	@Override
@@ -151,12 +192,17 @@ public class AppConfigScientific extends AppConfigGraphing {
 	}
 
 	@Override
-	public PropertiesFactory createPropertiesFactory() {
-		return new ScientificPropertiesFactory();
+	public boolean hasAnsButtonInAv() {
+		return false;
 	}
 
 	@Override
-	public AppKeyboardType getKeyboardType() {
-		return AppKeyboardType.SCIENTIFIC;
+	public boolean isCoordinatesObjectSettingEnabled() {
+		return true;
+	}
+
+	@Override
+	public PropertiesFactory createPropertiesFactory() {
+		return new G3DPropertiesFactory();
 	}
 }
