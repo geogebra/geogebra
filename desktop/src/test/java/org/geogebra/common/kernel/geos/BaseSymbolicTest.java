@@ -43,6 +43,11 @@ public class BaseSymbolicTest {
                 StringTemplate.testTemplate);
     }
 
+    public void tn(String input, String... expected) {
+        AlgebraTestHelper.testSyntaxSingle(input, expected, ap,
+                StringTemplate.testNumeric);
+    }
+
     public void t(String input, EvalInfo info, String... expected) {
         GeoElementND result = ap.processAlgebraCommandNoExceptionHandling(input,
                 false, TestErrorHandler.INSTANCE, info, null)[0];

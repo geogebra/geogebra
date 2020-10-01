@@ -1,3 +1,8 @@
+options {
+   STATIC = false;
+   JAVA_TEMPLATE_TYPE = "modern";
+}
+
 PARSER_BEGIN(Parser)
 package com.himamis.retex.editor.share.io.latex;
 

@@ -866,6 +866,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
+	public synchronized void unregisterStoreUndoListener(String JSFunctionName) {
+		app.getScriptManager().unregisterStoreUndoListener(JSFunctionName);
+	}
+
+	@Override
 	public boolean isMoveable(String objName) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) {
@@ -1853,7 +1858,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * Changes display style of line or conic
-	 * 
+	 *
 	 * @param objName
 	 *            object name
 	 * @param style
@@ -2041,7 +2046,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param handler
 	 *            handle current construction as PGF/Tikz
 	 */
@@ -2074,7 +2079,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param handler
 	 *            handle current construction as PSTricks
 	 */
@@ -2083,7 +2088,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param handler
 	 *            handle current construction in Asymptote format
 	 */
@@ -2092,7 +2097,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param text
 	 *            text to copy to system clipboard
 	 */
@@ -2262,7 +2267,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param label
 	 *            label of GeoElement
 	 * @return screen reader output for GeoElement

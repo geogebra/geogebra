@@ -446,7 +446,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				app.getGlobalKeyDispatcher().getGlobalShortcutHandler());
 
 		if (app.isPerspectivesPopupVisible()) {
-			app.showPerspectivesPopup();
+			app.showPerspectivesPopupIfNeeded();
 		}
 		// need to call setLabels here
 		// to print DockPanels' titles

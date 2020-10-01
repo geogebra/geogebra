@@ -515,6 +515,8 @@ public interface JavaScriptAPI {
 	 */
 	boolean isIndependent(String objName);
 
+	void unregisterStoreUndoListener(String JSFunctionName);
+
 	/**
 	 * @param objName
 	 *            object label

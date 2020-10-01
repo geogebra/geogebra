@@ -14,7 +14,7 @@ targetCompatibility = 1.7
 dependencies {
 	compile project(':editor-base')
 	compile project(':renderer-base')
-    compile 'com.google.j2objc:annotations:2.2'
+    compile 'com.google.j2objc:annotations:2.7'
     compile ("com.google.code.findbugs:annotations:3.0.1") {
         exclude module: 'jsr305'
         exclude module: 'jcip-annotations'

@@ -6,7 +6,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.CardInfoPanel;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.gui.RenameCard;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 
@@ -20,7 +19,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  *
  */
 public class PagePreviewCard extends FlowPanel
-		implements SetLabels, RenameCard {
+		implements SetLabels {
 
 	/** Margin of the cards. */
 	static final int MARGIN = 16;
@@ -341,17 +340,10 @@ public class PagePreviewCard extends FlowPanel
 		}
 	}
 
-	@Override
-	public void rename(String title) {
-		// not used here
-	}
-
-	@Override
 	public void setCardTitle(String title) {
 		infoPanel.setCardTitle(title);
 	}
 
-	@Override
 	public String getCardTitle() {
 		return infoPanel.getCardTitle();
 	}

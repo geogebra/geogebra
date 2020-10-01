@@ -18,7 +18,8 @@ public class ParserFunctionsTest {
 
 	@Before
 	public void setUp() {
-		parserFunctions = ParserFunctionsFactory.createParserFunctions();
+		parserFunctions = ParserFunctionsFactory.createParserFunctionsFactory()
+				.createParserFunctions();
 	}
 
 	@Test

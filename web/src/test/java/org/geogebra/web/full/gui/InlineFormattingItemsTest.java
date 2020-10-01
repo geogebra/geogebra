@@ -31,7 +31,7 @@ import com.google.gwtmockito.WithClassesToStub;
 @WithClassesToStub({ TextAreaElement.class})
 public class InlineFormattingItemsTest {
 
-	public static final String LINK_URL = "www.foo.bar";
+	private static final String LINK_URL = "www.foo.bar";
 	private ContextMenuMock contextMenu;
 	private Construction construction;
 	private AppW app;
@@ -71,7 +71,7 @@ public class InlineFormattingItemsTest {
 	@Test
 	public void testEditModeInlineTableContextMenu() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
-		geos.add(createTableInline(InlineTableControllerMock.get(true)));
+		geos.add(createTableInline(InlineTableControllerMock.getWithSelection(true)));
 		List<String> expected = Arrays.asList(
 				"TEXTTOOLBAR", "ContextMenu.Font", "Link", "ContextMenu.textWrapping",
 				"SEPARATOR",
@@ -91,9 +91,20 @@ public class InlineFormattingItemsTest {
 	}
 
 	@Test
+	public void testMultiCellEditContextMenu() {
+		ArrayList<GeoElement> geos = new ArrayList<>();
+		geos.add(createTableInline(InlineTableControllerMock.getWithSelection(false)));
+		List<String> expected = Arrays.asList(
+				"TEXTTOOLBAR", "ContextMenu.Font", "Link", "ContextMenu.textWrapping"
+		);
+
+		assertEquals(expected, contextMenu.getEntriesFor(geos));
+	}
+
+	@Test
 	public void testSingleInlineTableContextMenu() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
-		geos.add(createTableInline(InlineTableControllerMock.get(false)));
+		geos.add(createTableInline(InlineTableControllerMock.get()));
 		List<String> expected = Arrays.asList(
 				"ContextMenu.Font",
 				"ContextMenu.textWrapping",
@@ -110,7 +121,7 @@ public class InlineFormattingItemsTest {
 	public void testTextAndTableContextMenu() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTextInline("text1", new InlineTextControllerMock()));
-		geos.add(createTableInline(InlineTableControllerMock.get(false)));
+		geos.add(createTableInline(InlineTableControllerMock.get()));
 		List<String> expected = Arrays.asList(
 				"ContextMenu.Font",
 				"SEPARATOR", "Cut", "Copy", "Paste",

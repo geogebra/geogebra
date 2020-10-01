@@ -161,6 +161,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.GPredicate;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
@@ -2889,18 +2890,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		return null;
-	}
-
-	/**
-	 * Delete all hit objects.
-	 * 
-	 * @param hits
-	 *            selected objects
-	 */
-	public void deleteAll(Hits hits) {
-		for (GeoElement hit : hits) {
-			hit.removeOrSetUndefinedIfHasFixedDescendent();
-		}
 	}
 
 	protected final GeoElementND[] polarLine(Hits hits, boolean selPreview) {
@@ -6122,9 +6111,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		splitSelectedStrokes(true);
 		ArrayList<GeoElement> moveMultipleObjectsList = companion
 				.removeParentsOfView(getAppSelectedGeos());
-		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
-			addFreePoints(moveMultipleObjectsList);
-		}
+		addFreePoints(moveMultipleObjectsList);
+
 		MoveGeos.moveObjects(moveMultipleObjectsList, translationVec, tmpCoordsL3, null, view);
 		if (repaint) {
 			kernel.notifyRepaint();
@@ -6234,9 +6222,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			break;
 		case EuclidianConstants.MODE_SELECT:
-			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
-				break;
-			}
+			break;
 		case EuclidianConstants.MODE_MOVE:
 		case EuclidianConstants.MODE_SELECTION_LISTENER:
 		case EuclidianConstants.MODE_SELECT_MOW:
@@ -6261,8 +6247,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							app.updateSelection(false);
 						}
 					} else if (hit.isGeoBoolean()) {
-						if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)
-								&& mode == EuclidianConstants.MODE_SELECT) {
+						if (mode == EuclidianConstants.MODE_SELECT) {
 							return false;
 						}
 						GeoBoolean bool = (GeoBoolean) (hits.get(0));
@@ -6335,8 +6320,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected void hitCheckBox(GeoBoolean bool) {
-		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)
-				&& mode == EuclidianConstants.MODE_SELECT) {
+		if (mode == EuclidianConstants.MODE_SELECT) {
 			return;
 		}
 		bool.setValue(!bool.getBoolean());
@@ -7413,7 +7397,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// or right-hand mouse button
 
 		boolean hitSliderNotBlob = ds.hitSliderNotBlob(mouseLoc.x, mouseLoc.y, hitThreshold);
-		return ((tempRightClick()) || !movedGeoNumeric.isSliderFixed()) && hitSliderNotBlob;
+		return ((tempRightClick()) || !movedGeoNumeric.isLockedPosition()) && hitSliderNotBlob;
 	}
 
 	protected boolean isMoveAudioSlider(int hitThreshold) {
@@ -7428,7 +7412,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected boolean isMoveCheckboxExpected() {
-		return (tempRightClick() || !movedGeoBoolean.isCheckboxFixed()
+		return (tempRightClick() || !movedGeoBoolean.isLockedPosition()
 				|| app.getMode() == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
 	}
 
@@ -7460,7 +7444,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * Also for iPads etc HTML5: don't allow dragging unless we have a GUI
 	 */
 	private boolean isCheckboxFixed(GeoBoolean geoBool) {
-		return geoBool.isCheckboxFixed()
+		return geoBool.isLockedPosition()
 				|| (app.isHTML5Applet() && app.isApplet());
 	}
 
@@ -8156,14 +8140,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			geo = chooseGeo(topHits, true);
 
 			if (selGeos.contains(geo)) {
-				if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)
-						&& mode == EuclidianConstants.MODE_SELECT) {
+				if (mode == EuclidianConstants.MODE_SELECT) {
 					lastSelectionPressResult = SelectionToolPressResult.REMOVE;
 					this.lastSelectionToolGeoToRemove = geo;
 				}
 			} else {
-				if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)
-						&& mode == EuclidianConstants.MODE_SELECT) {
+				if (mode == EuclidianConstants.MODE_SELECT) {
 					if (geo == null) {
 						lastSelectionPressResult = SelectionToolPressResult.EMPTY;
 					} else {
@@ -9345,8 +9327,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			boolean combo = f.isGeoList() && ((GeoList) f).drawAsComboBox();
 			boolean slider = f.isGeoNumeric() && ((GeoNumeric) f).isSlider();
 
-			if ((app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)
-					&& mode == EuclidianConstants.MODE_SELECT
+			if ((mode == EuclidianConstants.MODE_SELECT
 					|| mode == EuclidianConstants.MODE_DELETE)
 					&& (f.isGeoBoolean() || f.isGeoButton() || combo
 							|| slider)) {
@@ -9500,12 +9481,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public void processSelectionRectangle(boolean alt, boolean isControlDown,
 			boolean shift) {
 		GRectangle oldRectangle = view.getSelectionRectangle();
-		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
-			if (mode != EuclidianConstants.MODE_SELECT
-					&& mode != EuclidianConstants.MODE_SELECT_MOW) {
-				clearSelections();
-			}
-		} else {
+		if (mode != EuclidianConstants.MODE_SELECT
+				&& mode != EuclidianConstants.MODE_SELECT_MOW) {
 			clearSelections();
 		}
 
@@ -9577,8 +9554,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		default:
 			// STANDARD CASE
-			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)
-					&& mode == EuclidianConstants.MODE_SELECT) {
+			if (mode == EuclidianConstants.MODE_SELECT) {
 				if (hits != null) {
 					selection.addSelectedGeos(hits, true);
 				}
@@ -10116,8 +10092,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				dontClearSelection = true;
 			}
 		} else {
-			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)
-					&& mode == EuclidianConstants.MODE_SELECT) {
+			if (mode == EuclidianConstants.MODE_SELECT) {
 				if (lastSelectionPressResult == SelectionToolPressResult.REMOVE) {
 					selection.removeSelectedGeo(lastSelectionToolGeoToRemove, true, true);
 					lastSelectionToolGeoToRemove = null;
@@ -10138,9 +10113,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
-			lastSelectionPressResult = SelectionToolPressResult.DEFAULT;
-		}
+		lastSelectionPressResult = SelectionToolPressResult.DEFAULT;
 
 		if (this.doubleClickStarted && !isDraggingOccuredBeyondThreshold() && !right) {
 			wrapMouseclicked(control, 2, type);
@@ -10941,7 +10914,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (view != kernel.getLastAttachedEV()) {
 				return previewDrawable;
 			}
-			app.deleteSelectedObjects(false);
+			app.deleteSelectedObjects(false, new GPredicate<GeoElement>() {
+				@Override
+				public boolean test(GeoElement geo) {
+					return !app.isApplet() || !geo.isLockedPosition();
+				}
+			});
 			break;
 
 		default:

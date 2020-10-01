@@ -120,13 +120,8 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	@Override
 	public void rename(String text) {
 		String oldTitle = infoPanel.getCardId();
-		infoPanel.setCardTitle(text);
+		infoPanel.setCardId(text);
 		controller.rename(text, this, oldTitle);
-	}
-
-	@Override
-	public void setCardTitle(String title) {
-		infoPanel.setCardTitle(title);
 	}
 
 	@Override
