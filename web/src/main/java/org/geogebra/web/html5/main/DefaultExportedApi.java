@@ -581,6 +581,10 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.newConstruction();
 	}
 
+	public void resetAfterSaveLoginCallbacks() {
+		ggbAPI.resetAfterSaveLoginCallbacks();
+	}
+
 	public void debug(String str) {
 		ggbAPI.debug(str + "");
 	}
