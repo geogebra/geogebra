@@ -1,10 +1,13 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.geogebra.test.TestStringUtil.unicode;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Kernel;
@@ -459,5 +462,27 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertEquals("f\\, \\text{undefined} ", lookup("f")
 				.getLaTeXAlgebraDescriptionWithFallback(false,
 						StringTemplate.defaultTemplate, false));
+	}
+
+	@Test
+	public void vector2dKeepsInput() {
+		GeoVector vec1 = addAvInput("u=(1, 2)");
+		GeoInputBox inputBox = add("InputBox(u)");
+		GeoVector vec2 = addAvInput("v=(sqrt(3), 3/2)");
+		vec1.set(vec2);
+		assertThat(inputBox.getText(), equalTo("(sqrt(3), 3 / 2)"));
+		addAvInput("SetValue(u,?)");
+		assertThat(inputBox.getText(), equalTo("(?, ?)"));
+	}
+
+	@Test
+	public void vector3dKeepsInput() {
+		GeoVector3D vec1 = addAvInput("u=(1, 2, 3)");
+		GeoInputBox inputBox = add("InputBox(u)");
+		GeoVector3D vec2 = addAvInput("v=(5/6, 3/2, sqrt(5))");
+		vec1.set(vec2);
+		assertThat(inputBox.getText(), equalTo("(5 / 6, 3 / 2, sqrt(5))"));
+		addAvInput("SetValue(u,?)");
+		assertThat(inputBox.getText(), equalTo("(?, ?, ?)"));
 	}
 }
