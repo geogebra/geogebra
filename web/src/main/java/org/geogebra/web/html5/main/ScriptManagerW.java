@@ -27,7 +27,7 @@ import jsinterop.base.JsPropertyMap;
 public class ScriptManagerW extends ScriptManager {
 
 	private HashMap<String, Object> listeners = new HashMap<>();
-	private ExportedApi exporter;
+	private JsPropertyMap exportedApi;
 
 	/**
 	 * @param app
@@ -35,11 +35,10 @@ public class ScriptManagerW extends ScriptManager {
 	 */
 	public ScriptManagerW(AppW app, ExportedApi exporter) {
 		super(app);
-		this.exporter = exporter;
 		exporter.setGgbAPI(app.getGgbApi());
 		exporter.setScriptManager(this);
-
-		export(bindMethods(exporter));
+		this.exportedApi = bindMethods(exporter);
+		export(exportedApi);
 	}
 
 	private JsPropertyMap<Object> bindMethods(ExportedApi exporter) {
@@ -92,7 +91,7 @@ public class ScriptManagerW extends ScriptManager {
 				if (param == null || "".equals(param)) {
 					ggbOnInitStatic();
 				} else {
-					ggbOnInit(param, exporter);
+					ggbOnInit(param, exportedApi);
 				}
 			}
 		} catch (CommandNotLoadedError e) {
@@ -109,7 +108,7 @@ public class ScriptManagerW extends ScriptManager {
 		if (((AppW) app).getAppletFrame() != null
 		        && ((AppW) app).getAppletFrame().getOnLoadCallback() != null) {
 			JsEval.callNativeJavaScript(
-					((AppW) app).getAppletFrame().getOnLoadCallback(), exporter);
+					((AppW) app).getAppletFrame().getOnLoadCallback(), exportedApi);
 		}
 	}
 
@@ -238,6 +237,6 @@ public class ScriptManagerW extends ScriptManager {
 	}
 
 	public Object getApi() {
-		return exporter;
+		return exportedApi;
 	}
 }
