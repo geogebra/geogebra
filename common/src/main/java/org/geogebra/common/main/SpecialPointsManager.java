@@ -18,11 +18,13 @@ import org.geogebra.common.kernel.algos.AlgoIntersectPolynomialLine;
 import org.geogebra.common.kernel.algos.AlgoRemovableDiscontinuity;
 import org.geogebra.common.kernel.algos.AlgoRoots;
 import org.geogebra.common.kernel.algos.AlgoRootsPolynomial;
+import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.CmdIntersect;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -160,7 +162,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 
 	private void doGetSpecialPoints(GeoElementND geo, boolean xAxis,
 									boolean yAxis, ArrayList<GeoElement> retList) {
-		if (geo instanceof GeoFunction) {
+		if (geo instanceof GeoFunction && !Algos.isUsedFor(Commands.LineGraph, geo)) {
 			getFunctionSpecialPoints((GeoFunction) geo, xAxis, yAxis, retList);
 		} else if (geo instanceof EquationValue) {
 			getEquationSpecialPoints(geo, xAxis, yAxis, retList);
