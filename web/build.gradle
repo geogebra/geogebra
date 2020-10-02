@@ -68,7 +68,7 @@ dependencies {
         "com.google.gwt:gwt-dev:$gwtCompilerVersion"
 
     testCompile "junit:junit:$junitVersion",
-        'com.google.gwt.gwtmockito:gwtmockito:1.1.9',
+        'com.google.gwt.gwtmockito:gwtmockito:1.1.10-SNAPSHOT',
         "com.google.gwt:gwt-user:$gwtCompilerVersion"
 }
 

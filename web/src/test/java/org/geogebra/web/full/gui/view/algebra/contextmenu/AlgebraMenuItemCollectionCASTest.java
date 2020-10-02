@@ -10,16 +10,12 @@ import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DuplicateInputIte
 import org.geogebra.web.full.gui.view.algebra.contextmenu.item.RemoveSliderItem;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.test.AppMocker;
+import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.google.gwt.dom.client.TextAreaElement;
-import com.google.gwtmockito.GwtMockitoTestRunner;
-import com.google.gwtmockito.WithClassesToStub;
-
-@RunWith(GwtMockitoTestRunner.class)
-@WithClassesToStub({ TextAreaElement.class })
+@RunWith(GgbMockitoTestRunner.class)
 public class AlgebraMenuItemCollectionCASTest {
 
 	private AlgebraMenuItemCollectionCAS itemCollection;
