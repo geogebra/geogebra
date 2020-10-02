@@ -1021,6 +1021,38 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
+	.MaterialDialogBox.calcChooserPopup {
+		width: 244px;
+		height: 208px;
+		border-radius: 4px;
+		box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);
+		padding: 0px;
+	}
+
+	.MaterialDialogBox.calcChooserPopup {
+    		padding: 8px 0 8px 26px;
+    	}
+
+	.MaterialDialogBox .appChooserRow {
+		height: 48px;
+		width: 244px;
+		float: left;
+        text-align: left;
+        cursor: pointer;
+        display: block;
+	}
+
+	.MaterialDialogBox, .dialogComponent {
+		.appChooserLabel {
+			font-size: 100%;
+			padding: 5px 0 0 20px;
+			color: $black-87;
+			margin-top: 0px;
+			position: absolute;
+			cursor: pointer;
+		}
+	}
+
 	.dialogComponent.examExitConfDialog {
 		max-width: 326px;
 		max-height: 115px;
