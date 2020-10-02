@@ -100,6 +100,7 @@ public abstract class GeoVec3D extends GeoElement
 		if (geo instanceof GeoVec3D) {
 			GeoVec3D v = (GeoVec3D) geo;
 			setCoords(v.x, v.y, v.z);
+			setDefinition(v.getDefinition());
 		} else {
 			setUndefined();
 		}
