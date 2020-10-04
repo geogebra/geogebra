@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.jre.io.trasnformer.InputStreamTransformer;
 import org.geogebra.common.jre.io.trasnformer.XmlExtractor;
 
@@ -17,6 +18,7 @@ import org.geogebra.common.jre.io.trasnformer.XmlExtractor;
 public class XmlHeaderReader {
 
     private InputStreamTransformer transformer;
+    private final HeaderAttributes defaultHeaderAttributes;
 
     /**
      * Contains the extracted attributes.
@@ -35,10 +37,17 @@ public class XmlHeaderReader {
         public String getSubAppCode() {
             return subAppCode;
         }
+
+        private HeaderAttributes addAppCode(String appCode) {
+            this.appCode = appCode;
+            return this;
+        }
     }
 
     public XmlHeaderReader(XmlExtractor xmlExtractor) {
         this.transformer = new InputStreamTransformer(xmlExtractor);
+        defaultHeaderAttributes =
+                new HeaderAttributes().addAppCode(GeoGebraConstants.GRAPHING_APPCODE);
     }
 
     /**
@@ -80,7 +89,11 @@ public class XmlHeaderReader {
         HeaderAttributes attributes = new HeaderAttributes();
         attributes.appCode = getAttributeValue("app", header);
         attributes.subAppCode = getAttributeValue("subApp", header);
-        return attributes;
+        if (attributes.appCode != null || attributes.subAppCode != null) {
+            return attributes;
+        } else {
+            return defaultHeaderAttributes;
+        }
     }
 
     private String getAttributeValue(String attributeName, String header) {
