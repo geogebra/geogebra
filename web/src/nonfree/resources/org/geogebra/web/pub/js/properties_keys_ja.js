@@ -2202,7 +2202,7 @@ __GGB__keysVar["ja"].menu = {
     "Manual": "\u30de\u30cb\u30e5\u30a2\u30eb",
     "MarginOfError": "\u8aa4\u5dee\u7bc4\u56f2",
     "MarginOfError.short": "ME",
-    "MaskTool": "Mask",
+    "MaskTool": "\u30de\u30b9\u30af",
     "MathematicalFunctions": "\u6570\u5b66\u95a2\u6570",
     "Matrices": "\u884c\u5217",
     "Matrix": "\u884c\u5217\u306e\u4f5c\u6210",

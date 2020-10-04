@@ -2202,7 +2202,7 @@ __GGB__keysVar["nl"].menu = {
     "Manual": "Handleiding",
     "MarginOfError": "Foutmarge",
     "MarginOfError.short": "ME",
-    "MaskTool": "Mask",
+    "MaskTool": "Maskeren",
     "MathematicalFunctions": "Functies",
     "Matrices": "Matrices",
     "Matrix": "Matrix",
