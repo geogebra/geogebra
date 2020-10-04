@@ -44,6 +44,9 @@ public class XmlHeaderReader {
         }
     }
 
+    /**
+     * @param xmlExtractor xmlExtractor
+     */
     public XmlHeaderReader(XmlExtractor xmlExtractor) {
         this.transformer = new InputStreamTransformer(xmlExtractor);
         defaultHeaderAttributes =
