@@ -608,6 +608,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return if error happened
 	 */
 	public boolean hasError() {
-		return hasError || "".equals(tempUserDisplayInput);
+		return hasError;
 	}
 }

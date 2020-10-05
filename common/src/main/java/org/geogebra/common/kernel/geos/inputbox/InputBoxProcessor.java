@@ -78,7 +78,7 @@ public class InputBoxProcessor {
 			linkedGeo.resetDefinition(); // same as SetValue(linkedGeo, ?)
 			linkedGeo.updateRepaint();
 		} else {
-			inputBox.setHasError("".equals(inputText) || "?".equals(inputText));
+			inputBox.setHasError(false);
 		}
 	}
 
