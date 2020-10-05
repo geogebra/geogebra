@@ -61,4 +61,8 @@ public class AppConfigEvaluator extends AppConfigDefault {
 		return false;
 	}
 
+	@Override
+	public boolean sendKeyboardEvents() {
+		return true;
+	}
 }

@@ -15,9 +15,6 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSAnimation;
 
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-
 /**
  * Web implementation of onscreen keyboard
  * 
@@ -55,13 +52,8 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 				av != null ? av.getInputTreeItem() : null,
 				"helpPopupAV");
 		helpPopup.addAutoHidePartner(this.getElement());
-		helpPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
-
-			@Override
-			public void onClose(CloseEvent<GPopupPanel> event) {
-				// TODO handle closing?
-			}
-
+		helpPopup.addCloseHandler(event -> {
+			// TODO handle closing?
 		});
 	}
 	
@@ -70,6 +62,12 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		this.keyboardWanted = true;
 		checkLanguage();
 		setVisible(true);
+	}
+
+	@Override
+	protected void closeButtonClicked() {
+		super.closeButtonClicked();
+		((AppW) hasKeyboard).sendKeyboardEvent(false);
 	}
 
 	@Override
@@ -105,12 +103,9 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	public void remove(final Runnable runnable) {
 		hasKeyboard.updateViewSizes();
 		this.addStyleName("animatingOut");
-		CSSAnimation.runOnAnimation(new Runnable() {
-			@Override
-			public void run() {
-				setVisible(false);
-				runnable.run();
-			}
+		CSSAnimation.runOnAnimation(() -> {
+			setVisible(false);
+			runnable.run();
 		}, getElement(), "animatingOut");
 	}
 
@@ -131,12 +126,8 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	
 	private void updateHelpPosition(final InputBarHelpPanelW helpPanel,
 			final int x, final int y) {
-		helpPopup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
-			@Override
-			public void setPosition(int offsetWidth, int offsetHeight) {
-				doUpdateHelpPosition(helpPanel, x, y);
-			}
-		});
+		helpPopup.setPopupPositionAndShow(
+				(offsetWidth, offsetHeight) -> doUpdateHelpPosition(helpPanel, x, y));
 	}
 
 	/**

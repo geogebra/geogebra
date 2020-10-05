@@ -75,4 +75,12 @@ public class EvaluatorExportedApi implements ExportedApi {
 	public void registerClientListener(Object JSFunctionName) {
 		ggbAPI.registerClientListener(scriptManager.getId(JSFunctionName));
 	}
+
+	public void openKeyboard() {
+		evaluatorActivity.getEditor().setKeyboardVisibility(true);
+	}
+
+	public void closeKeyboard() {
+		evaluatorActivity.getEditor().setKeyboardVisibility(false);
+	}
 }
