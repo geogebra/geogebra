@@ -49,6 +49,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private GeoText dynamicCaption;
 	private static GeoText emptyText;
 	private boolean serifContent = true;
+	private boolean hasError;
 
 	/**
 	 * Creates new text field
@@ -592,5 +593,21 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			dynamicCaption.update(dragging);
 		}
 		super.update(dragging);
+	}
+
+	/**
+	 * set true if error happened during inputbox content processing
+	 * @param hasError - true if error happened
+	 */
+	public void setHasError(boolean hasError) {
+		this.hasError = hasError;
+	}
+
+	/**
+	 * whether error occurred during inputbox processing
+	 * @return if error happened
+	 */
+	public boolean hasError() {
+		return hasError || "".equals(tempUserDisplayInput);
 	}
 }

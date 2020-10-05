@@ -16,11 +16,13 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
@@ -36,6 +38,7 @@ import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -878,7 +881,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * @param str
 	 */
 	public void addToHistory(String str) {
-
 		// exit if the new string is the same as the last entered string
 		if (!history.isEmpty() && str.equals(history.get(history.size() - 1))) {
 			return;
@@ -977,7 +979,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 	@Override
 	public void setBackground(GColor color) {
 		super.setBackground(GColorD.getAwtColor(color));
-
 	}
 
 	@Override
@@ -993,7 +994,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 				setText(s);
 			}
 		});
-
 	}
 
 	@Override
@@ -1050,7 +1050,13 @@ public class AutoCompleteTextFieldD extends MathTextField
 		g2.fillRect(left, top, width, height);
 
 		// TF Rectangle
-		g2.setPaint(GColor.TEXT_PRIMARY);
+		if (drawTextField != null && drawTextField.hasError()) {
+			g2.setPaint(GColor.ERROR_RED);
+			g2.setStroke(EuclidianStatic.getStroke(2,
+					EuclidianStyleConstants.LINE_TYPE_DOTTED, GBasicStroke.JOIN_ROUND));
+		} else {
+			g2.setPaint(GColor.TEXT_PRIMARY);
+		}
 		g2.drawRect(left, top, width, height);
 	}
 
