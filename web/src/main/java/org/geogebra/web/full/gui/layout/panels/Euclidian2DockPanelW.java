@@ -77,9 +77,6 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
 
 	@Override
 	public SVGResource getViewIcon() {
-		if (app != null && app.isUnbundledOrWhiteboard()) {
-			return getResources().settings();
-		}
 		return getResources().styleBar_graphics2View();
 	}
 

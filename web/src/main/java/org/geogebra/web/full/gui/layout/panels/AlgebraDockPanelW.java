@@ -233,9 +233,6 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 
 	@Override
 	protected ResourcePrototype getViewIcon() {
-		if (app != null && app.isUnbundledOrWhiteboard()) {
-			return getResources().settings();
-		}
 		return getResources().styleBar_algebraView();
 	}
 

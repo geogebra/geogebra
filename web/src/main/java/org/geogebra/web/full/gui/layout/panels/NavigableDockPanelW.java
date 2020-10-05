@@ -7,6 +7,7 @@ import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.resources.client.ResourcePrototype;
+import com.google.gwt.user.client.ui.InsertPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -121,12 +122,13 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 	}
 
 	@Override
-	protected void addZoomPanel(MyDockLayoutPanel dockPanel) {
+	protected void addZoomPanel(MyDockLayoutPanel dockLayoutPanel,
+			InsertPanel controls) {
 		if (zoomPanel != null) {
 			// This causes EV overlap toolbar
 			// dockPanel.getElement().getStyle().setProperty("minHeight",
 			// zoomPanel.getMinHeight());
-			dockPanel.addSouth(zoomPanel, 0);
+			dockLayoutPanel.addSouth(zoomPanel, 0);
 
 		}
 	}

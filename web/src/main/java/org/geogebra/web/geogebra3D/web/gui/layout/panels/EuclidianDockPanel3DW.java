@@ -105,9 +105,6 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 
 	@Override
 	protected ResourcePrototype getViewIcon() {
-		if (app != null && app.isUnbundledOrWhiteboard()) {
-			return getResources().settings();
-		}
 		return getResources().styleBar_graphics3dView();
 	}
 

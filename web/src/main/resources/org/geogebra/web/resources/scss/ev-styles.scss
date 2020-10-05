@@ -6,18 +6,15 @@
 	.TitleBarPanel {
 		z-index: $always_on_top;
 	}
-	
-	.MatTitleBarPanelContent {
-		min-width: 48px;
-		min-height: 64px;
-		box-shadow: none !important;
-		padding: 0px !important;
-		background-color: transparent !important;
+
+	.graphicsControlsPanel {
+		left: auto !important;
+		z-index: $always_on_top;
 	}
 
 	.button.flatButton.graphicsContextMenuBtn.button-up {
 		margin-top: 10px;
-		margin-right: 10px;	
+		margin-right: 10px;
 		position: relative;
 		right: 0px;
 		border-radius: 50%;
@@ -422,9 +419,6 @@
     	right: 16px !important;
     }
     .mowZoomPanel {
-    	margin-top: 48px!important;
-	    left: auto !important;
-	    z-index: 60;
 	    right: 4px !important;
 
 	    .zoomPanelBtn {

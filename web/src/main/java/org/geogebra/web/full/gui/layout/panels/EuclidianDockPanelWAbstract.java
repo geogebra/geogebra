@@ -20,6 +20,7 @@ import org.geogebra.web.html5.util.Dom;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.InsertPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -253,22 +254,23 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	@Override
-	protected void addZoomPanel(MyDockLayoutPanel dockPanel) {
+	protected void addZoomPanel(MyDockLayoutPanel dockLayoutPanel,
+			InsertPanel controls) {
 		if (allowZoomPanel()) {
 			// This causes EV overlap toolbar
 			// dockPanel.getElement().getStyle().setProperty("minHeight",
 			// zoomPanel.getMinHeight());
-			dockPanel.addSouth(zoomPanel, 0);
+			dockLayoutPanel.addSouth(zoomPanel, 0);
 		}
-		if (app.isWhiteboardActive() && mowZoomPanel != null) {
-			dockPanel.addNorth(mowZoomPanel, 0);
+		if (mowZoomPanel != null) {
+			controls.add(mowZoomPanel);
 		}
 		if (app.has(Feature.SPEECH_RECOGNITION)) {
 			if (speechRecPanel == null) {
 				speechRecPanel = new SpeechRecognitionPanel(getApp(),
 						getViewId());
 			}
-			dockPanel.addSouth(speechRecPanel, 0);
+			dockLayoutPanel.addSouth(speechRecPanel, 0);
 		}
 	}
 
@@ -329,11 +331,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 		if (mowZoomPanel != null) {
 			mowZoomPanel.setLabels();
-		}
-		if (graphicsContextMenuBtn != null) {
-			String titletext = app.getLocalization().getMenu("Settings");
-			graphicsContextMenuBtn.setTitle(titletext);
-			graphicsContextMenuBtn.setAltText(titletext);
 		}
 	}
 
