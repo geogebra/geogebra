@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui;
 import java.util.ArrayList;
 
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
@@ -435,8 +436,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * Splash screen callback
 	 */
 	public void runAsyncAfterSplash() {
-		ResourcesInjector.injectResources(appletParameters);
-		ResourcesInjector.loadFont(appletParameters.getDataParamFontsCssUrl());
+		ResourcesInjector resourcesInjector = getResourcesInjector(appletParameters);
+		resourcesInjector.injectResources(appletParameters);
+		resourcesInjector.loadWebFont(appletParameters.getDataParamFontsCssUrl());
 
 		app = createApplication(geoGebraElement, appletParameters, this.laf);
 		app.setCustomToolBar();
@@ -452,6 +454,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// to print DockPanels' titles
 		app.setLabels();
 		fitSizeToScreen();
+	}
+
+	protected ResourcesInjector getResourcesInjector(AppletParameters appletParameters) {
+		return new ResourcesInjector();
 	}
 
 	/**
@@ -635,11 +641,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/**
 	 * callback when renderGGBElement is ready
 	 */
-	public static native void renderGGBElementReady() /*-{
-		if (typeof $wnd.renderGGBElementReady === "function") {
-			$wnd.renderGGBElementReady();
+	public static void renderGGBElementReady() {
+		if (GeoGebraGlobal.getRenderGGBElementReady() != null) {
+			GeoGebraGlobal.renderGGBElementReady();
 		}
-	}-*/;
+	}
 
 	/**
 	 * removes applet from the page

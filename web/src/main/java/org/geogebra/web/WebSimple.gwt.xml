@@ -14,10 +14,6 @@
   <source path='simple'/>
   <public path='pub' />
   <source path='cas/giac'/>
-  
-     <replace-with class="org.geogebra.web.cas.giac.CASFactoryW">
-    <when-type-is class="org.geogebra.common.factories.CASFactory" />    
-  </replace-with>
 
  <set-configuration-property name="devModeRedirectEnabled" value="false"/>
   <!-- Compile only one permutation -->

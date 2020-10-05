@@ -20,11 +20,10 @@ public class UploadImageWithoutDialog {
 	 */
 	public UploadImageWithoutDialog(AppW app) {
 		this.app = app;
-		initGUI();
+		uploadImagePanel = new UploadImagePanel(this);
 	}
 
-	private void initGUI() {
-		uploadImagePanel = new UploadImagePanel(this);
+	public void initGUI() {
 		uploadImagePanel.openFileBrowserDirectly();
 	}
 

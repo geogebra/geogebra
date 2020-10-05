@@ -20,6 +20,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ScriptElement;
 
+import elemental2.dom.DomGlobal;
+
 /**
  * JSON based localization for Web
  *
@@ -92,16 +94,21 @@ public final class LocalizationW extends Localization {
 
 	@Override
 	public String getCommand(String key) {
-
 		if (key == null) {
 			return "";
 		}
 
-		String ret = getPropertyNative(getCommandLocaleString(), key, "command");
+		return getPropertyWithFallback(getCommandLocaleString(), key, key, "command");
+	}
 
+	private String getPropertyWithFallback(String lang, String key,
+			String fallback, String category) {
+		String ret = getPropertyNative(lang, key, category);
 		if (ret == null || "".equals(ret)) {
-			Log.debug("command key not found: " + key);
-			return key;
+			if (DomGlobal.console != null) { // no error message in test
+				Log.debug(category + " key not found: " + key);
+			}
+			return fallback;
 		}
 
 		return ret;
@@ -112,16 +119,7 @@ public final class LocalizationW extends Localization {
 		if (key == null) {
 			return "";
 		}
-
-		String ret = getPropertyNative("en", key, "command");
-
-		if (ret == null || "".equals(ret)) {
-			Log.debug("command key not found: " + key);
-			return key;
-		}
-
-		return ret;
-
+		return getPropertyWithFallback("en", key, key, "command");
 	}
 
 	// TODO: implement getCommandLocale()
@@ -168,45 +166,21 @@ public final class LocalizationW extends Localization {
 
 	@Override
 	public String getError(String key) {
-
 		if (key == null) {
 			return "";
 		}
 
-		String ret = getPropertyNative(localeStr, key, "error");
-
-		if (ret == null || "".equals(ret)) {
-			Log.debug("error key not found: " + key);
-			return key;
-		}
-
-		return ret;
+		return getPropertyWithFallback(localeStr, key, key, "error");
 	}
 
 	@Override
 	public String getSymbol(int key) {
-
-		String ret = getPropertyNative(localeStr, "S_" + key, "symbols");
-
-		if (ret == null || "".equals(ret)) {
-			Log.debug("menu key not found: " + key);
-			return null;
-		}
-
-		return ret;
+		return getPropertyWithFallback(localeStr, "S_" + key, null, "symbols");
 	}
 
 	@Override
 	public String getSymbolTooltip(int key) {
-
-		String ret = getPropertyNative(localeStr, "T_" + key, "symbols");
-
-		if (ret == null || "".equals(ret)) {
-			Log.debug("menu key not found: " + key);
-			return null;
-		}
-
-		return ret;
+		return getPropertyWithFallback(localeStr, "T_" + key, null, "symbols");
 	}
 
 	@Override
@@ -241,18 +215,9 @@ public final class LocalizationW extends Localization {
 		        && StringUtil.toLowerCaseUS(key).startsWith("gray")) {
 
 			return StringUtil.getGrayString(key.charAt(4), this);
-
 		}
 
-		String ret = getPropertyNative(localeStr, key, "colors");
-
-		if (ret == null || "".equals(ret)) {
-			Log.debug("error key not found: " + key);
-			return key;
-		}
-
-		return ret;
-
+		return getPropertyWithFallback(localeStr, key, key, "colors");
 	}
 
 	/**

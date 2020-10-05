@@ -1,6 +1,4 @@
-package org.geogebra.web.touch.gui.layout;
-
-import org.geogebra.web.full.gui.layout.SplitterImpl;
+package org.geogebra.web.full.gui.layout;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;

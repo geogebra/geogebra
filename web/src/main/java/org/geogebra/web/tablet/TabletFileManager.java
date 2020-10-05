@@ -40,11 +40,14 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}
 
+	/**
+	 * @param tabletApp application
+	 */
 	public TabletFileManager(AppW tabletApp) {
-		super(tabletApp);	
+		super(tabletApp);
+		init();
 	}
 
-	@Override
 	protected void init() {
 		callbacks = new TreeMap<>();
 		exportJavascriptMethods();

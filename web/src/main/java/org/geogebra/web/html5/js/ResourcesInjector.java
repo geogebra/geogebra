@@ -25,26 +25,21 @@ import com.google.gwt.user.client.Window.Location;
 public class ResourcesInjector {
 
 	private static boolean resourcesInjected = false;
-	private static ResourcesInjector instance;
 
 	/**
 	 * Inject all JS/CSS resources
 	 * @param ae article element
 	 */
-	public static void injectResources(AppletParameters ae) {
+	public void injectResources(AppletParameters ae) {
 		if (resourcesInjected) {
 			return;
 		}
-		resourcesInjected = true;
+		setResourcesInjected();
 		// always need English properties available, eg Function.sin
 		fixComputedStyle();
 		// insert zip.js
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.zipJs());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.clipboardJs());
-
-		if (instance == null) {
-			instance = (ResourcesInjector) GWT.create(ResourcesInjector.class);
-		}
 
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.visibilityJs());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.domvas());
@@ -53,7 +48,7 @@ public class ResourcesInjector {
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyleGlobal());
 
 		injectScss();
-		instance.injectResourcesGUI(ae);
+		injectResourcesGUI(ae);
 
 		Browser.setWebWorkerSupported(Location
 				.getParameter("GeoGebraDebug") == null
@@ -68,6 +63,10 @@ public class ResourcesInjector {
 		}
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.dataViewJs());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.xmlUtil());
+	}
+
+	private void setResourcesInjected() { // extracted to make SpotBugs happy
+		resourcesInjected = true;
 	}
 
 	/**
@@ -155,22 +154,12 @@ public class ResourcesInjector {
 	}
 
 	/**
-	 * @param fontsCssUrl
-	 *            font CSS url
-	 */
-	public static void loadFont(String fontsCssUrl) {
-		if (instance != null) {
-			instance.loadWebFont(fontsCssUrl);
-		}
-	}
-
-	/**
 	 * Load Mathsans font if needed + additional fonts if specified by param.
 	 *
 	 * @param dataParamFontsCssUrl
 	 *            font CSS url
 	 */
-	protected void loadWebFont(String dataParamFontsCssUrl) {
+	public void loadWebFont(String dataParamFontsCssUrl) {
 		// intentionally
 	}
 }
