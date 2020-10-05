@@ -1052,7 +1052,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 		// TF Rectangle
 		if (drawTextField != null && drawTextField.hasError()) {
 			g2.setPaint(GColor.ERROR_RED);
-			g2.setStroke(EuclidianStatic.getStroke(2,
+			g2.setStroke(EuclidianStatic.getStroke(4,
 					EuclidianStyleConstants.LINE_TYPE_DOTTED, GBasicStroke.JOIN_ROUND));
 		} else {
 			g2.setPaint(GColor.TEXT_PRIMARY);
