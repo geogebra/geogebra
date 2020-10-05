@@ -6458,4 +6458,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 	}
+
+	/**
+	 * Store current editor values into the respective geos
+	 */
+	public void saveInlines() {
+		for (Drawable drawable: allDrawableList) {
+			if (drawable instanceof DrawInline) {
+				((DrawInline) drawable).saveContent();
+			}
+		}
+	}
 }

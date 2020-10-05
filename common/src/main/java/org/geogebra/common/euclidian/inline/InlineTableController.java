@@ -84,6 +84,8 @@ public interface InlineTableController extends HasTextFormat {
 
 	void setHorizontalAlignment(HorizontalAlignment alignment);
 
+	void saveContent();
+
 	boolean isSingleCellSelection();
 
 	boolean hasSelection();

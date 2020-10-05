@@ -64,4 +64,8 @@ public interface InlineTextController extends HasTextFormat {
 	void draw(GGraphics2D g2, GAffineTransform transform);
 
 	String urlByCoordinate(int x, int y);
+
+	void updateContentIfChanged();
+
+	void saveContent();
 }

@@ -305,6 +305,11 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
+	public void saveContent() {
+		table.setContent(getContent());
+	}
+
+	@Override
 	public void setLocation(int x, int y) {
 		style.setLeft(x, Style.Unit.PX);
 		style.setTop(y, Style.Unit.PX);
@@ -338,7 +343,7 @@ public class InlineTableControllerW implements InlineTableController {
 		table.setSize(tableImpl.getTotalWidth(), tableImpl.getTotalHeight());
 		table.setMinWidth(tableImpl.getMinWidth());
 		table.setMinHeight(tableImpl.getMinHeight());
-		table.setContent(getContent());
+		saveContent();
 		table.updateRepaint();
 	}
 
