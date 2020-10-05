@@ -1491,12 +1491,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		}
 		PolyFunction poly1 = getFunction()
 				.expandToPolyFunction(getFunctionExpression(), false, true);
-		if (poly1 != null) {
+		if (poly1 != null && isDefined()) {
 			PolyFunction poly2 = geoFun.getFunction().expandToPolyFunction(
 					geoFun.getFunctionExpression(), false, true);
 
 			if (poly2 != null) {
-				return poly1.isEqual(poly2);
+				return geoFun.isDefined() && poly1.isEqual(poly2);
 			}
 		}
 
