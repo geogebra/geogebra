@@ -106,6 +106,9 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/common/icons/png/web/triangle_down.png")
 	ImageResource triangle_down();
 
+	@Source("org/geogebra/common/icons/png/web/triangle_down_dark.png")
+	ImageResource triangle_down_dark();
+
 	// STYLEBAR
 	@Source("org/geogebra/common/icons/png/web/dockbar_triangle_left.png")
 	ImageResource dockbar_triangle_left();

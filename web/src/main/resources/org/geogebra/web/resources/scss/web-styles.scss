@@ -205,13 +205,36 @@
 
 	.suiteAppChooserButton {
 		position: absolute;
-        top: 14px;
+        top: 13px;
         left: 480px;
-        width: 170px;
+        min-width: 170px;
         height: 36px;
 		border-radius: 18px;
 		padding: 0px;
 		border: 1px solid rgba(151, 151, 151, 0.52);
+
+		.gwt-Label {
+			display: inline-block;
+		}
+
+		.gwt-Image {
+			vertical-align: bottom;
+			margin: 5px 0 0 12px;
+			padding: 0 10px 0 0;
+			width: 24px;
+		}
+	}
+
+	.secondIcon {
+		float: right;
+		margin-top: 12px;
+		padding: 0 16px 0 13px;
+	}
+
+	@media screen and (max-width: 880px) {
+		.suiteAppChooserButton {
+			left: 230px;
+		}
 	}
 
 	.gwt-Button[disabled="disabled"],

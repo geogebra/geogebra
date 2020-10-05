@@ -13,7 +13,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * @author csilla
@@ -27,6 +26,7 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	private int width = -1;
 	private int height = -1;
 	private NoDragImage btnImage;
+	private ImageResource secondIcon;
 
 	/**
 	 * @param icon
@@ -66,6 +66,13 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 		setIconAndLabel(icon, label, width, -1);
 	}
 
+	public StandardButton(final ResourcePrototype icon, final String label,
+			int width, App app, ImageResource img) {
+		this.app = app;
+		this.width = width;
+		setIconLabelAndSecondImage(icon, label, img);
+	}
+
 	/**
 	 * @param icon
 	 *            - img of button
@@ -81,15 +88,6 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	public StandardButton(final ResourcePrototype icon, final String label,
 			int width, int height, App app) {
 		this.app = app;
-		setIconAndLabel(icon, label, width, height);
-	}
-
-	public StandardButton(App app, int size, final ResourcePrototype icon, final String label) {
-		this.app = app;
-		this.width = size;
-		this.height = -1;
-		this.icon = icon;
-		this.label = label;
 		setIconAndLabel(icon, label, width, height);
 	}
 
@@ -119,6 +117,22 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 		}
 		Roles.getButtonRole().removeAriaPressedState(getElement());
 	}
+	private void setIconLabelAndSecondImage (final ResourcePrototype image, final String label, final ImageResource secondImage) {
+		this.icon = image;
+		this.label = label;
+		this.secondIcon = secondImage;
+		btnImage = new NoDragImage(image, width, height);
+		btnImage.getElement().setTabIndex(-1);
+		this.getElement().removeAllChildren();
+		this.getElement().appendChild(btnImage.getElement());
+		this.getElement().appendChild(new Label(label).getElement());
+		NoDragImage secondImg = new NoDragImage(secondImage, 10);
+		secondImg.setStyleName("secondIcon");
+		this.getElement().appendChild(secondImg.getElement());
+		btnImage.setPresentation();
+
+		Roles.getButtonRole().removeAriaPressedState(getElement());
+	}
 
 	@Override
 	public void setText(String text) {
@@ -141,6 +155,10 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 		setIconAndLabel(this.icon, label, this.width, this.height);
 	}
 
+	public void setLabelWithSecondIcon(final String label) {
+		setIconLabelAndSecondImage(this.icon, label, this.secondIcon);
+	}
+
 	/**
 	 * @return icon of button
 	 */
@@ -154,6 +172,10 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	 */
 	public void setIcon(final ResourcePrototype icon) {
 		setIconAndLabel(icon, this.label, this.width, this.height);
+	}
+
+	public void setFirstIcon(final ResourcePrototype icon) {
+		setIconLabelAndSecondImage(icon, this.label, this.secondIcon);
 	}
 
 	/**

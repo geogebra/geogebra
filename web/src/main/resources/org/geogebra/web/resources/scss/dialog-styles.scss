@@ -1029,6 +1029,12 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		padding: 8px 0 8px 0px;
 	}
 
+	@media screen and (max-width: 880px) {
+    		.MaterialDialogBox.calcChooserPopup {
+    			left: 222px !important;
+    		}
+    	}
+
 	.MaterialDialogBox .appChooserRow {
 		height: 48px;
 		width: 244px;
@@ -1038,7 +1044,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
         display: block;
 
         &:hover {
-        	background-color: $white-5-overlay;
+        	background-color: $selected-menuitem-background;
        	}
 	}
 

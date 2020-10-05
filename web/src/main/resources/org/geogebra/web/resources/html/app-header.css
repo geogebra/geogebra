@@ -57,7 +57,7 @@
     visibility: hidden;
 }
 
-@media screen and (max-width: 660px) {
+@media screen and (max-width: 880px) {
 	.GeoGebraHeader .appName.beta {
 		visibility: hidden;
 	}
