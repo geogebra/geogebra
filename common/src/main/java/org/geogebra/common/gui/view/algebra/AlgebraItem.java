@@ -282,11 +282,11 @@ public class AlgebraItem {
 		}
 		switch (avStyle) {
 		case Kernel.ALGEBRA_STYLE_VALUE:
-			if (!geo1.isAllowedToShowValue()) {
-				buildDefinitionString(geo1, builder, stringTemplate);
-			} else {
+			if (geo1.isAllowedToShowValue()) {
 				builder.clear();
 				builder.append(geo1.getAlgebraDescriptionPublic(stringTemplate));
+			} else {
+				buildDefinitionString(geo1, builder, stringTemplate);
 			}
 			return true;
 
@@ -294,12 +294,12 @@ public class AlgebraItem {
 			if (needsPacking(geo1)) {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
 			} else {
-				String appName =  geo1.getApp().getConfig().getAppName();
-				if ("GeoGebraCASCalculator".equals(appName)) {
+				boolean showLabel =  geo1.getApp().getConfig().hasLabelForDescription();
+				if (showLabel) {
+					geo1.addLabelTextOrHTML(geo1.getDefinitionDescription(stringTemplate), builder);
+				} else {
 					builder.clear();
 					builder.append(geo1.getDefinitionDescription(stringTemplate));
-				} else {
-					geo1.addLabelTextOrHTML(geo1.getDefinitionDescription(stringTemplate), builder);
 				}
 			}
 			return true;

@@ -166,4 +166,7 @@ public class AppConfigCas extends AppConfigGraphing {
 	public StringTemplate getOutputStringTemplate() {
 		return StringTemplate.numericLatex;
 	}
+
+	@Override
+	public boolean hasLabelForDescription() { return false; };
 }

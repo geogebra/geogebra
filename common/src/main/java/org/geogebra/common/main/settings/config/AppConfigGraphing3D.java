@@ -205,4 +205,7 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	public PropertiesFactory createPropertiesFactory() {
 		return new G3DPropertiesFactory();
 	}
+
+	@Override
+	public boolean hasLabelForDescription() { return true; };
 }
