@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -1009,6 +1010,12 @@ public class AutoCompleteTextFieldD extends MathTextField
 	@Override
 	public void requestFocus() {
 		super.requestFocus();
+		if (getDrawTextField() != null && getDrawTextField().hasError()) {
+			setBorder(BorderFactory.createDashedBorder(GColorD.getAwtColor(GColor.ERROR_RED),
+					4, 1, 1, true));
+		} else {
+			setDefaultBorder();
+		}
 		if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
 			app.getSelectionManager().clearSelectedGeos(false);
 			app.getSelectionManager().addSelectedGeo(geoUsedForInputBox);
@@ -1052,7 +1059,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 		// TF Rectangle
 		if (drawTextField != null && drawTextField.hasError()) {
 			g2.setPaint(GColor.ERROR_RED);
-			g2.setStroke(EuclidianStatic.getStroke(4,
+			g2.setStroke(EuclidianStatic.getStroke(2,
 					EuclidianStyleConstants.LINE_TYPE_DOTTED, GBasicStroke.JOIN_ROUND));
 		} else {
 			g2.setPaint(GColor.TEXT_PRIMARY);

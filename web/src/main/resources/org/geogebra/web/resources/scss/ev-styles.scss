@@ -624,7 +624,8 @@
 		padding-right: 2px;
 	}
 
-	.AutoCompleteTextFieldW.FromDrawTextFieldNew.errorStyle input[type="text"].TextField {
+	.AutoCompleteTextFieldW.FromDrawTextFieldNew.errorStyle input[type="text"].TextField,
+		.evInputEditor.errorStyle {
 		border: 4px $error dotted;
 	}
 

@@ -175,7 +175,7 @@ public class MyTextFieldD extends JTextField
 		return borderBtn;
 	}
 
-	private void setDefaultBorder() {
+	public void setDefaultBorder() {
 		super.setBorder(
 				BorderFactory.createCompoundBorder(defaultBorder, borderBtn));
 	}

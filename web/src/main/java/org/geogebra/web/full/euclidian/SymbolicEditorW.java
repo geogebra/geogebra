@@ -71,6 +71,14 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		resetChanges();
 	}
 
+	private void setErrorStyle(boolean hasError) {
+		if (hasError) {
+			editor.addStyleName("errorStyle");
+		} else {
+			editor.removeStyleName("errorStyle");
+		}
+	}
+
 	@Override
 	public void repaintBox(GGraphics2D g2) {
 		// only in desktop
@@ -89,7 +97,11 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor.setVisible(true);
 		editor.setText(getGeoInputBox().getTextForEditor());
 		editor.setLabel(getGeoInputBox().getAuralText());
-		Scheduler.get().scheduleDeferred(() -> editor.requestFocus());
+		Scheduler.get().scheduleDeferred(() -> {
+			editor.requestFocus();
+			editor.addStyleName("errorStyle");
+			setErrorStyle(getGeoInputBox().hasError());
+		});
 	}
 
 	@Override
