@@ -331,5 +331,7 @@ public class AppConfigGeometry extends AbstractAppConfig {
 	}
 
 	@Override
-	public boolean hasLabelForDescription() { return true; };
+	public boolean hasLabelForDescription() {
+		return true;
+	}
 }

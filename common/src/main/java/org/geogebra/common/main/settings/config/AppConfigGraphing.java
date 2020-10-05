@@ -339,5 +339,7 @@ public class AppConfigGraphing extends AbstractAppConfig {
 	}
 
 	@Override
-	public boolean hasLabelForDescription() { return true; };
+	public boolean hasLabelForDescription() {
+		return true;
+	}
 }

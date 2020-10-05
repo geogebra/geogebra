@@ -65,5 +65,7 @@ public class AppConfigNotes extends AppConfigDefault {
 	}
 
 	@Override
-	public boolean hasLabelForDescription() { return true; };
+	public boolean hasLabelForDescription() {
+		return true;
+	}
 }

@@ -168,5 +168,7 @@ public class AppConfigCas extends AppConfigGraphing {
 	}
 
 	@Override
-	public boolean hasLabelForDescription() { return false; };
+	public boolean hasLabelForDescription() {
+		return false;
+	}
 }

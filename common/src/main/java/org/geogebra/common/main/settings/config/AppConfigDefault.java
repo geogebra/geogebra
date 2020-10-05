@@ -333,5 +333,7 @@ public class AppConfigDefault extends AbstractAppConfig {
 	}
 
 	@Override
-	public boolean hasLabelForDescription() { return true; };
+	public boolean hasLabelForDescription() {
+		return true;
+	}
 }

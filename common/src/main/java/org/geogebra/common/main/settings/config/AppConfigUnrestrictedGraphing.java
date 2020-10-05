@@ -131,5 +131,7 @@ public class AppConfigUnrestrictedGraphing extends AppConfigGraphing {
 	}
 
 	@Override
-	public boolean hasLabelForDescription() { return true; };
+	public boolean hasLabelForDescription() {
+		return true;
+	}
 }
