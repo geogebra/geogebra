@@ -6,7 +6,6 @@ import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.w3c.dom.Element;
 
 public class SuiteHeaderAppPicker {
 	protected final AppW app;
