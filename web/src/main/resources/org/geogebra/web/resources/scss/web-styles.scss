@@ -206,7 +206,7 @@
 	.suiteAppPickerButton {
 		position: absolute;
         top: 13px;
-        left: 480px;
+        left: 505px;
         min-width: 170px;
         height: 36px;
 		border-radius: 18px;
@@ -232,7 +232,7 @@
 		padding: 0 16px 0 13px;
 	}
 
-	@media screen and (max-width: 910px) {
+	@media screen and (max-width: 925px) {
 		.suiteAppPickerButton {
 			visibility: hidden;
 		}
