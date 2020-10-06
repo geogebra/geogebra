@@ -4,10 +4,8 @@ import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.dialog.CalcSwitcherPopup;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import com.google.gwt.user.client.ui.Widget;
 
 public class SuiteHeaderAppPicker {
 	protected final AppW app;
