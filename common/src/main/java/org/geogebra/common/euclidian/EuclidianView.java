@@ -3571,7 +3571,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			// these methods probably do not call other synchronized
 			// code blocks, it probably does not cause any problem
 			companion.paint(g2);
-			getEuclidianController().getPen().repaintIfNeeded(g2);
+			getEuclidianController().getPen().setStyleAndRepaint(g2);
 		}
 	}
 
