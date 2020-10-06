@@ -5,7 +5,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -326,6 +325,11 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		}
 	}
 
+	/**
+	 *
+	 * @param app see {@link AppW}
+	 * @return whether zoom buttons needed
+	 */
 	public static boolean needsZoomButtons(AppW app) {
 		return (app.getAppletParameters().getDataParamShowZoomButtons()
 				|| app.getAppletParameters().getDataParamApp())
