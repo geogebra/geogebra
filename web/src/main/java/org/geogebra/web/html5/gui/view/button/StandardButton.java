@@ -137,9 +137,11 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 		this.secondIcon = secondIcon;
 		btnImage = new NoDragImage(image, width, height);
 		btnImage.getElement().setTabIndex(-1);
+		Label btnLabel = new Label(app.getLocalization().getMenu(label));
+		btnLabel.getElement().setAttribute("data-trans-key",label);
 		this.getElement().removeAllChildren();
 		this.getElement().appendChild(btnImage.getElement());
-		this.getElement().appendChild(new Label(label).getElement());
+		this.getElement().appendChild(btnLabel.getElement());
 		NoDragImage secondImg = new NoDragImage(secondIcon, 10);
 		secondImg.setStyleName("btnSecondIcon");
 		this.getElement().appendChild(secondImg.getElement());

@@ -81,7 +81,7 @@ public class CalcSwitcherPopup {
 			closeCalcSwitcherPopup();
 			popupShowing = false;
 			appPickerButton.setIconWithSecondIcon(icon);
-			appPickerButton.setLabelWithSecondIcon(app.getLocalization().getMenu(key));
+			appPickerButton.setLabelWithSecondIcon(key);
 		}, ClickEvent.getType());
 		popupPanel.add(rowPanel);
 	}

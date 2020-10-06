@@ -6,6 +6,7 @@ import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.w3c.dom.Element;
 
 public class SuiteHeaderAppPicker {
 	protected final AppW app;
@@ -23,8 +24,9 @@ public class SuiteHeaderAppPicker {
 	private void createAppPickerButton() {
 		SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
 		appPickerButton = new StandardButton(res.menu_icon_algebra_transparent(),
-				app.getLocalization().getMenu("GraphingCalculator.short"), 24, app,
+				"GraphingCalculator.short", 24, app,
 				GuiResources.INSTANCE.triangle_down_dark());
+		//appPickerButton.getElement().setAttribute("data-trans-key","GraphingCalculator.short");
 		appPickerButton.addStyleName("suiteAppPickerButton");
 		CalcSwitcherPopup suitePopup = new CalcSwitcherPopup((AppWFull) app, appPickerButton);
 		appPickerButton.addFastClickHandler(event -> suitePopup.showCalcSwitcherPopup());
