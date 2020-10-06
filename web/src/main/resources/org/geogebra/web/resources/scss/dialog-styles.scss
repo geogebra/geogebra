@@ -1021,7 +1021,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.MaterialDialogBox.calcChooserPopup {
+	.MaterialDialogBox.calcPickerPopup {
 		width: 244px;
 		height: 192px;
 		border-radius: 4px;
@@ -1029,13 +1029,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		padding: 8px 0 8px 0px;
 	}
 
-	@media screen and (max-width: 880px) {
-    		.MaterialDialogBox.calcChooserPopup {
-    			left: 222px !important;
+	@media screen and (max-width: 894px) {
+    		.MaterialDialogBox.calcPickerPopup {
+    			visibility: hidden;
     		}
     	}
 
-	.MaterialDialogBox .appChooserRow {
+	.MaterialDialogBox .appPickerRow {
 		height: 48px;
 		width: 244px;
 		float: left;
@@ -1049,7 +1049,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.MaterialDialogBox, .dialogComponent {
-		.appChooserLabel {
+		.appPickerLabel {
 			font-size: 100%;
 			padding: 5px 0 0 20px;
 			color: $black-87;
@@ -1064,7 +1064,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
         	margin: 12px 0 0 24px;
         }
       }
-
 
 	.dialogComponent.examExitConfDialog {
 		max-width: 326px;

@@ -39,7 +39,6 @@ public class GlobalHeader implements EventRenderable {
 
 	private ProfilePanel profilePanel;
 	private RootPanel signIn;
-	private RootPanel appChooser;
 	private AppW app;
 	private Label timer;
 	private StandardButton examInfoBtn;
@@ -48,7 +47,6 @@ public class GlobalHeader implements EventRenderable {
 	private String oldHref;
 
 	private boolean shareButtonInitialized;
-	private boolean suiteAppChooserInitialized;
 
 	/**
 	 * Activate sign in button in external header
@@ -72,14 +70,19 @@ public class GlobalHeader implements EventRenderable {
 		app.getLoginOperation().getView().add(this);
 	}
 
-	public void addSuiteAppChooser(final AppW appW) {
+	/**
+	 * Activate app picker button in external header for suite
+	 *
+	 * @param appW
+	 *            application
+	 */
+	public void addSuiteAppPicker(final AppW appW) {
 		this.app = appW;
-		appChooser = RootPanel.get("suiteAppChooser");
-		if (appChooser == null) {
-			return;
+		RootPanel appPickerPanel = RootPanel.get("suiteAppPicker");
+		if (appPickerPanel != null) {
+			SuiteHeaderAppPicker pickerButton = new SuiteHeaderAppPicker(appW);
+			appPickerPanel.add(pickerButton.getAppPickerButton());
 		}
-		SuiteAppChooser chooserButton = new SuiteAppChooser(appW);
-		appChooser.add(chooserButton.getAppChooserButton());
 	}
 
 	@Override
@@ -124,24 +127,6 @@ public class GlobalHeader implements EventRenderable {
 
 	private static RootPanel getShareButton() {
 		return RootPanel.get("shareButton");
-	}
-
-	public void initSuiteAppChooser(final AsyncOperation<Widget> callback) {
-		final RootPanel rp = getSuiteAppChooser();
-		if (rp != null && !suiteAppChooserInitialized) {
-			suiteAppChooserInitialized = true;
-			ClickStartHandler.init(rp, new ClickStartHandler(true, true) {
-
-				@Override
-				public void onClickStart(int x, int y, PointerEventType type) {
-					callback.callback(rp);
-				}
-			});
-		}
-	}
-
-	private static RootPanel getSuiteAppChooser() {
-		return RootPanel.get("suiteAppChooser");
 	}
 
 	/**

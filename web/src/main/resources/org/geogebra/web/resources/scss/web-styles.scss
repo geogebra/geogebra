@@ -203,7 +203,7 @@
 		background-color: rgba(204, 204, 255, 0.2);
 	}
 
-	.suiteAppChooserButton {
+	.suiteAppPickerButton {
 		position: absolute;
         top: 13px;
         left: 480px;
@@ -231,9 +231,9 @@
 		padding: 0 16px 0 13px;
 	}
 
-	@media screen and (max-width: 880px) {
-		.suiteAppChooserButton {
-			left: 230px;
+	@media screen and (max-width: 894px) {
+		.suiteAppPickerButton {
+			visibility: hidden;
 		}
 	}
 

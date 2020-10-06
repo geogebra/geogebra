@@ -66,11 +66,23 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 		setIconAndLabel(icon, label, width, -1);
 	}
 
+	/**
+	 * @param icon
+	 *            - img of button
+	 * @param label
+	 *            - text of button
+	 * @param width
+	 *            - width of button
+	 * @param app
+	 *            - application
+	 * @param secondIcon
+	 * 	 *        - second image of button
+	 */
 	public StandardButton(final ResourcePrototype icon, final String label,
-			int width, App app, ImageResource img) {
+			int width, App app, ImageResource secondIcon) {
 		this.app = app;
 		this.width = width;
-		setIconLabelAndSecondImage(icon, label, img);
+		setIconLabelAndSecondIcon(icon, label, secondIcon);
 	}
 
 	/**
@@ -117,16 +129,18 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 		}
 		Roles.getButtonRole().removeAriaPressedState(getElement());
 	}
-	private void setIconLabelAndSecondImage (final ResourcePrototype image, final String label, final ImageResource secondImage) {
+
+	private void setIconLabelAndSecondIcon(final ResourcePrototype image, final String label,
+			final ImageResource secondIcon) {
 		this.icon = image;
 		this.label = label;
-		this.secondIcon = secondImage;
+		this.secondIcon = secondIcon;
 		btnImage = new NoDragImage(image, width, height);
 		btnImage.getElement().setTabIndex(-1);
 		this.getElement().removeAllChildren();
 		this.getElement().appendChild(btnImage.getElement());
 		this.getElement().appendChild(new Label(label).getElement());
-		NoDragImage secondImg = new NoDragImage(secondImage, 10);
+		NoDragImage secondImg = new NoDragImage(secondIcon, 10);
 		secondImg.setStyleName("secondIcon");
 		this.getElement().appendChild(secondImg.getElement());
 		btnImage.setPresentation();
@@ -156,7 +170,7 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	}
 
 	public void setLabelWithSecondIcon(final String label) {
-		setIconLabelAndSecondImage(this.icon, label, this.secondIcon);
+		setIconLabelAndSecondIcon(this.icon, label, this.secondIcon);
 	}
 
 	/**
@@ -174,8 +188,8 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 		setIconAndLabel(icon, this.label, this.width, this.height);
 	}
 
-	public void setFirstIcon(final ResourcePrototype icon) {
-		setIconLabelAndSecondImage(icon, this.label, this.secondIcon);
+	public void setIconWithSecondIcon(final ResourcePrototype icon) {
+		setIconLabelAndSecondIcon(icon, this.label, this.secondIcon);
 	}
 
 	/**

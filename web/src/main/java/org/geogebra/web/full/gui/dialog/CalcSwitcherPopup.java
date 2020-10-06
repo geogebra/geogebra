@@ -14,19 +14,23 @@ import com.google.gwt.user.client.ui.Label;
 
 public class CalcSwitcherPopup {
 
-	/** dialog */
 	final DialogBoxW box;
-	/** application */
 	final AppWFull app;
-	private FlowPanel popupPanel;
+	private final FlowPanel popupPanel;
 	private boolean popupShowing = false;
-	StandardButton appChooserButton;
+	StandardButton appPickerButton;
 
 	SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
 
-	public CalcSwitcherPopup(AppWFull app, StandardButton chooser) {
+	/**
+	 * @param app
+	 *            - application
+	 * @param pickerButton
+	 *            - button for popup
+	 */
+	public CalcSwitcherPopup(AppWFull app, StandardButton pickerButton) {
 		this.app = app;
-		this.appChooserButton = chooser;
+		this.appPickerButton = pickerButton;
 		box = new DialogBoxW(true, false, null, app.getPanel(), app) {
 			@Override
 			public void setPopupPosition(int left, int top) {
@@ -37,21 +41,23 @@ public class CalcSwitcherPopup {
 
 		this.popupPanel = new FlowPanel();
 		popupPanel.removeStyleName("dialogContent");
-		popupPanel.addStyleName("calcChooserPanel");
+		popupPanel.addStyleName("calcPickerPanel");
 
 		box.setWidget(popupPanel);
-		box.addStyleName("calcChooserPopup");
-
+		box.addStyleName("calcPickerPopup");
 	}
 
-	public void showCalcPopup() {
+	/**
+		shows the popup
+	 */
+	public void showCalcSwitcherPopup() {
 		if (!popupShowing) {
 			createElements(app);
 			popupShowing = true;
 			box.show();
 		} else {
 			popupShowing = false;
-			closeCalcPopup();
+			closeCalcSwitcherPopup();
 		}
 	}
 
@@ -67,20 +73,20 @@ public class CalcSwitcherPopup {
 		HorizontalPanel rowPanel = new HorizontalPanel();
 		rowPanel.add(new NoDragImage(icon, 24, 24));
 		Label label = new Label(app.getLocalization().getMenu(key));
-		label.addStyleName("appChooserLabel");
+		label.addStyleName("appPickerLabel");
 		rowPanel.add(label);
-		rowPanel.setStyleName("appChooserRow");
+		rowPanel.setStyleName("appPickerRow");
 		rowPanel.addDomHandler(event -> {
 				// open app
-			closeCalcPopup();
+			closeCalcSwitcherPopup();
 			popupShowing = false;
-			appChooserButton.setFirstIcon(icon);
-			appChooserButton.setLabelWithSecondIcon(app.getLocalization().getMenu(key));
+			appPickerButton.setIconWithSecondIcon(icon);
+			appPickerButton.setLabelWithSecondIcon(app.getLocalization().getMenu(key));
 		}, ClickEvent.getType());
 		popupPanel.add(rowPanel);
 	}
 
-	private void closeCalcPopup() {
+	private void closeCalcSwitcherPopup() {
 		box.hide();
 	}
 }

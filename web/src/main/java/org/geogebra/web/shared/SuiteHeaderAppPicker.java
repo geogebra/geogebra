@@ -9,32 +9,33 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SuiteAppChooser {
+public class SuiteHeaderAppPicker {
 	protected final AppW app;
-	private StandardButton appChooserButton;
+	private StandardButton appPickerButton;
 
-	public SuiteAppChooser(AppW app) {
+	/**
+	 * @param app
+	 *            - application
+	 */
+	public SuiteHeaderAppPicker(AppW app) {
 		this.app = app;
-		createAppChooserButton();
+		createAppPickerButton();
 	}
 
-	private void createAppChooserButton () {
-
+	private void createAppPickerButton() {
 		SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
-		appChooserButton = new StandardButton(res.menu_icon_algebra_transparent(),
+		appPickerButton = new StandardButton(res.menu_icon_algebra_transparent(),
 				app.getLocalization().getMenu("GraphingCalculator.short"), 24, app,
 				GuiResources.INSTANCE.triangle_down_dark());
-		appChooserButton.addStyleName("suiteAppChooserButton");
-		CalcSwitcherPopup suitepopup = new CalcSwitcherPopup((AppWFull) app, appChooserButton);
-		appChooserButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick(Widget event) {
-				suitepopup.showCalcPopup();
-			}
-		});
+		appPickerButton.addStyleName("suiteAppPickerButton");
+		CalcSwitcherPopup suitePopup = new CalcSwitcherPopup((AppWFull) app, appPickerButton);
+		appPickerButton.addFastClickHandler(event -> suitePopup.showCalcSwitcherPopup());
 	}
 
-	public StandardButton getAppChooserButton() {
-		return appChooserButton;
+	/**
+	 * @return app picker button
+	 */
+	public StandardButton getAppPickerButton() {
+		return appPickerButton;
 	}
 }
