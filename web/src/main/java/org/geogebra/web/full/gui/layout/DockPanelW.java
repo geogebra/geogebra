@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.layout;
 
 import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -406,8 +405,8 @@ public abstract class DockPanelW extends ResizeComposite
 	 * Update localization
 	 */
 	public void setLabels() {
-		if (dockControlPanel instanceof SetLabels) {
-			((SetLabels) dockControlPanel).setLabels();
+		if (dockControlPanel != null) {
+			dockControlPanel.setLabels();
 		}
 	}
 
@@ -439,9 +438,7 @@ public abstract class DockPanelW extends ResizeComposite
 			if (app.getSettings().getLayout().showTitleBar()
 					&& (app.allowStylebar() || needsResetIcon()
 							|| forceCloseButton() || needsZoomButtonsInControlPanel)) {
-				if (dockControlPanel != null) {
-					dockPanel.addNorth(dockControlPanel.asWidget(), 0);
-				}
+				addDockControlPanel();
 			}
 
 			if (dockControlPanel != null) {
@@ -604,7 +601,6 @@ public abstract class DockPanelW extends ResizeComposite
 	 *            whether to update it from a timer
 	 */
 	public final void updatePanel(boolean deferred) {
-
 		if (!isVisible()) {
 			return;
 		}
@@ -613,14 +609,6 @@ public abstract class DockPanelW extends ResizeComposite
 			component = loadComponent();
 		}
 		setLayout(deferred);
-		// ignore
-	}
-
-	/**
-	 * Build the toolbar GUI.
-	 */
-	public void buildToolbarGui() {
-		// TODO implement or delete
 	}
 
 	/**
@@ -628,13 +616,6 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	public void updateToolbar() {
 		app.getGuiManager().setActivePanelAndToolbar(id);
-	}
-
-	/**
-	 * Update fonts.
-	 */
-	public void updateFonts() {
-		// TODO implement or delete
 	}
 
 	/**
@@ -651,13 +632,6 @@ public abstract class DockPanelW extends ResizeComposite
 	public void closePanel() {
 		closePanel(true);
 	}
-
-	/** loads the styleBar and puts it into the styleBarPanel */
-	public void setStyleBar() {
-
-	}
-
-
 
 	/**
 	 * @return The parent DockSplitPane or null.
@@ -1184,6 +1158,12 @@ public abstract class DockPanelW extends ResizeComposite
 		int height = getComponentInteriorHeight() - navHeightIfShown();
 		if (height > 0) {
 			content.setHeight(height + "px");
+		}
+	}
+
+	private void addDockControlPanel() {
+		if (dockControlPanel != null) {
+			dockPanel.addNorth(dockControlPanel.asWidget(), 0);
 		}
 	}
 }
