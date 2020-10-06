@@ -6,30 +6,25 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.Timer;
 
-/**
- * Class
- * 
- * @author laszlo
- *
- */
 class DragController {
+
 	private static final int DROPANIM_SPEED = 5;
-	/**
-	 * Class to handle drag and drop cards 
-	 * @author laszlo 
-	 */
-	final Cards cards;
-	/** Currently dragged card */
-	DragCard dragged;
-	private App app;
+
+	private final Cards cards;
+	private final App app;
 
 	/** The page which the pointer was down at start. */
-	PagePreviewCard clicked;
-	private Timer dropAnimTimer;
-	private AutoScrollTimer autoScroll;
+	private PagePreviewCard clicked;
+	private final Timer dropAnimTimer;
+	private final AutoScrollTimer autoScroll;
+
+	/** Currently dragged card */
+	private PagePreviewCard dragged;
+	private int target;
 
 	/** interface to query the list of cards */
 	interface Cards {
@@ -76,335 +71,41 @@ class DragController {
 		 *            true if the page should also be selected.
 		 */
 		void clickPage(int pageIdx, boolean select);
+
+		/**
+		 * Remove all spaces
+		 */
+		void resetCardPositions();
 	}
 
 	private class AutoScrollTimer extends Timer {
-		private static final int CANCEL_THRESHOLD = 10;
-		private static final int SCROLL_TIME = 100;
-		private static final int SCROLL_SPEED = 10;
-		private boolean scrollDown;
-		private int autoScrollY;
 
-		protected AutoScrollTimer() {
-			// avoid synthetic constructor
-		}
+		private static final int SCROLL_TIME = 5;
+		private int scroll;
 
 		@Override
 		public void run() {
-			if (scroll()) {
-				int pos = getListener().getVerticalScrollPosition();
-				if (scrollDown) {
-					pos += getListener().getScrollParentHeight()
-							- PagePreviewCard.SPACE_HEIGHT
-							- PagePreviewCard.MARGIN;
-				}
-
-				onScroll(pos);
-			} else {
-				onScrollCancel();
+			getListener().scrollBy(scroll);
+			if (dragged != null) {
+				setTopBy(dragged, scroll);
+				findTarget();
+				adjustAllCards();
 			}
 		}
 
-		private boolean scroll() {
-			return getListener().scrollBy((scrollDown ? 1 : -1) * SCROLL_SPEED);
-		}
-
-		public void start(boolean b) {
-			scrollDown = b;
-			clearSpaces();
+		private void start(int scroll) {
+			this.scroll = scroll;
 			scheduleRepeating(SCROLL_TIME);
 		}
 		
 		public void checkIfNeeded(int y) {
-			int diff = y - autoScrollY;
-			int scrollPos = getListener().getVerticalScrollPosition();
-			boolean d = diff > 0;
-			if (isRunning()) {
-				if ((d != scrollDown && Math.abs(diff) > CANCEL_THRESHOLD)
-						|| (!scrollDown && scrollPos == 0)) {
-					onScrollCancel();
-				}
-			} else if (!d && dragged.card.getAbsoluteTop() <= PagePreviewCard.MARGIN
-					&& scrollPos > 0) {
-				start(false);
-			}
-			if (d && dragged.card
-					.getAbsoluteBottom() > getListener().getScrollParentHeight()
-					- PagePreviewCard.MARGIN) {
-				start(true);
-			}
-			autoScrollY = y;
-		}
-	}
-
-	private static class LastTarget {
-		PagePreviewCard target = null;
-		int top;
-		int bottom;
-
-		protected LastTarget() {
-			// protected constructor
-		}
-
-		void reset() {
-			target = null;
-		}
-	
-		int index() {
-			return target != null ? target.getPageIndex() : -1;
-		}
-
-		public void setTop(int top) {
-			this.top = top;
-		}
-
-		public void setBottom(int bottom) {
-			this.bottom = bottom;
-		}
-	}
-	
-	private class DragCard {
-		private static final int AUTOMOVE_SPEED = 1;
-		PagePreviewCard card = null;
-		PagePreviewCard target = null;
-		LastTarget last = new LastTarget();
-		private int prevY;
-		private Boolean down;
-		private int diff;
-		private int dropToIdx;
-		private boolean dropBellow;
-
-		DragCard() {
-			reset();
-		}
-
-		private void reset() {
-			card = null;
-			target = null;
-			down = null;
-			last.reset();
-		}
-
-		int index() {
-			return isValid() ? card.getPageIndex() : -1;
-		}
-
-		boolean isValid() {
-			return card != null;
-		}
-
-		int getDropIndex() {
-			return dropToIdx;
-		}
-
-		private void addSpaceTop() {
-			PagePreviewCard next = next();
-			if (next != null) {
-				next.addSpaceTop();
-				last.target = next;
-				last.top = next.getComputedTop();
-			}
-		}
-
-		private void addSpaceBottom() {
-			PagePreviewCard prev = prev();
-			if (prev != null) {
-				prev.addSpaceBottom();
-				last.target = prev;
-				last.bottom = prev.getComputedBottom();
-			}
-		}
-
-		private void prepareDragCard() {
-			card.removeSpace();
-			card.addStyleName("dragged");
-
-			last.reset();
-
-			if (down) {
-				addSpaceTop();
-				if (card.getPageIndex() == 0 && next() != null) {
-					last.top = next().getComputedTop();
-				}
+			if (y < getApp().getAbsTop() + PagePreviewCard.MARGIN) {
+				start(-2);
+			} else if (y > getApp().getHeight() - PagePreviewCard.MARGIN) {
+				start(2);
 			} else {
-				addSpaceBottom();
+				super.cancel();
 			}
-		}
-
-		void start(int y) {
-			prevY = y;
-			card = clicked;
-			card.grabCard(y);
-			card.addStyleName("dragCanStart");
-		}
-
-		int move(int y) {
-			if (!isValid()) {
-				return -1;
-			}
-			dragTo(0, y);
-			if (target == null) {
-				return -1;
-			}
-			int idx = target.getPageIndex();
-			return y < target.getMiddleY() ? idx : idx + 1;
-		}
-
-		private void moveAnimated() {
-			int h = PagePreviewCard.SPACE_HEIGHT; // - PagePreviewCard.MARGIN;
-			diff = down ? computedY(card.getAbsoluteBottom()) - last.top
-					: last.bottom - computedY(card.getAbsoluteTop());
-
-			if (diff > 0 && diff < h) {
-				target.setSpaceValue(diff + PagePreviewCard.MARGIN, down);
-			}
-		}
-
-		void dragTo(int x, int y) {
-			if (down == null) {
-				down = prevY <= y;
-				prepareDragCard();
-			}
-			card.setDragPosition(x, y);
-			handleTarget(y);
-		}
-
-		public void handleTarget(int y) {
-			findTarget();
-			if (target != null && getApp().isWhiteboardActive()) {
-				if (onTargetChange()) {
-					down = prevY < y;
-				} else {
-					moveAnimated();
-				}
-			}
-		}
-
-		boolean autoMove() {
-			if (diff >= PagePreviewCard.SPACE_HEIGHT - 2 * PagePreviewCard.MARGIN || diff < 0) {
-				return false;
-			}
-			int d = (dropBellow ? 1 : -1) * AUTOMOVE_SPEED;
-			if (card == null) {
-				return false;
-			}
-			card.setTopBy(d);
-			moveAnimated();
-			return true;
-		}
-
-		private void findTarget() {
-			int y1 = computedY(card.getAbsoluteBottom());
-			int y2 = computedY(card.getAbsoluteTop());
-
-			int idx = cardIndexAt(card.getMiddleX(), 
-					getApp().isWhiteboardActive() ? (down ? y1 : y2)
-							: card.getMiddleY());
-
-			if (idx == -1 && getApp().isWhiteboardActive()) {
-				idx = cardIndexAt(card.getMiddleX(), (down ? y2 : y1));
-			}
-			target = idx != -1 ? cards.cardAt(idx) : null;
-		}
-
-		private boolean onTargetChange() {
-			clicked = null;
-			if (target == last.target) {
-				return false;
-			}
-
-			boolean spaceAtTop = down;
-			if (last.target != null) {
-				last.target.removeSpace();
-				spaceAtTop = last.target.getPageIndex() < target.getPageIndex();
-			}
-
-			int top = target.getComputedTop();
-			if (spaceAtTop) {
-				target.addSpaceTop();
-				last.setTop(top);
-				last.setBottom(top);
-			} else {
-				target.addSpaceBottom();
-				last.setTop(top);
-				last.setBottom(target.getComputedBottom());
-			}
-
-			last.target = target;
-			return true;
-		}
-
-		boolean drop() {
-			if (!isValid()) {
-				return false;
-			}
-
-			if (getApp().isWhiteboardActive()) {
-				return dropAnimated();
-			}
-
-			int srcIdx = index();
-			int destIdx = last.index();
-
-			if (srcIdx != -1 && destIdx != -1) {
-				cards.reorder(srcIdx, destIdx);
-				return true;
-			}
-			return false;
-		}
-
-		int getDropIndex(PagePreviewCard t) {
-			if (t == null) {
-				return -1;
-			}
-
-			int idx = t.getPageIndex();
-			boolean dragUnderTarget = card.getAbsoluteBottom() > t.getAbsoluteBottom();
-			if (down && !dragUnderTarget && idx > 0) {
-				idx--;
-			} else if (!down && dragUnderTarget && idx < cards.getCardCount() - 1) {
-				idx++;
-			}
-			dropBellow = dragUnderTarget;
-
-			return idx;
-		}
-
-		boolean dropAnimated() {
-			dropToIdx = -1;
-			if (target != null) {
-				dropToIdx = getDropIndex(target);
-			} else if (last.target != null) {
-				dropToIdx = getDropIndex(last.target);
-			}
-
-			if (index() != -1 && dropToIdx != -1) {
-				return true;
-			}
-			return false;
-		}
-
-		public void cancel() {
-			CancelEventTimer.resetDrag();
-			if (isValid()) {
-				card.removeStyleName("dragged");
-				card.removeStyleName("dragCanStart");
-			}
-			reset();
-		}
-
-		public PagePreviewCard prev() {
-			if (index() > 0) {
-				return cards.cardAt(index() - 1);
-			}
-			return null;
-		}
-
-		public PagePreviewCard next() {
-			if (index() < cards.getCardCount() - 1) {
-				return cards.cardAt(index() + 1);
-			}
-			return null;
 		}
 	}
 	
@@ -419,11 +120,10 @@ class DragController {
 	DragController(Cards slides, App app) {
 		this.cards = slides;
 		this.app = app;
-		dragged = new DragCard();
 		dropAnimTimer = new Timer() {
 			@Override
 			public void run() {
-				if (!dragged.autoMove()) {
+				if (!autoMove()) {
 					onDrop();
 				}
 			}
@@ -431,20 +131,137 @@ class DragController {
 		autoScroll = new AutoScrollTimer();
 	}
 
-	/**
-	 * @return see {@link App}
-	 */
-	public App getApp() {
-		return app;
+	private int index() {
+		return isValid() ? dragged.getPageIndex() : -1;
+	}
+
+	private boolean isValid() {
+		return dragged != null;
+	}
+
+	private int getDropIndex() {
+		return (int) Math.round((double) (dragged.getTop() - PagePreviewCard.MARGIN)
+				/ PagePreviewCard.TOTAL_HEIGHT);
+	}
+
+	private void prepareDragCard() {
+		dragged.addStyleName("dragged");
+	}
+
+	private void start(int y) {
+		dragged = clicked;
+		clicked = null;
+		dragged.grabCard(y);
+		dragged.addStyleName("dragCanStart");
+	}
+
+	private void move(int y) {
+		if (!isValid()) {
+			return;
+		}
+		dragTo(y);
+	}
+
+	private void dragTo(int y) {
+		prepareDragCard();
+		setDragPosition(dragged, y);
+		findTarget();
+		adjustAllCards();
+	}
+
+	private void adjustAllCards() {
+		for (PagePreviewCard curr : cards.getCards()) {
+			if (curr.getPageIndex() != target && curr != dragged) {
+				adjustTop(curr);
+			}
+		}
+
+		if (target >= 0 && target < cards.getCardCount()) {
+			// instead of rounding away from zero, this is the position rounded towards zero
+			int adjustedTarget = target;
+			if (target < dragged.getPageIndex()) {
+				adjustedTarget++;
+			}
+			if (target > dragged.getPageIndex()) {
+				adjustedTarget--;
+			}
+
+			PagePreviewCard targetCard = cards.cardAt(target);
+			int newTop = PagePreviewCard.computeTop(target + adjustedTarget)
+					- dragged.getTop() + PagePreviewCard.MARGIN;
+			setTop(targetCard, newTop);
+		}
+	}
+
+	private boolean autoMove() {
+		if (!isValid()) {
+			return false;
+		}
+
+		int newTop = PagePreviewCard.computeTop(getDropIndex());
+		if (newTop != dragged.getTop()) {
+			int d = newTop > dragged.getTop() ? 1 : -1;
+
+			setTopBy(dragged, d);
+			if (target >= 0 && target < cards.getCardCount()) {
+				setTopBy(cards.cardAt(target), -d);
+			}
+			return true;
+		}
+
+		return false;
+	}
+
+	private void findTarget() {
+		double ratio = (double) (dragged.getTop() - dragged.getComputedTop())
+				/ PagePreviewCard.TOTAL_HEIGHT;
+		int diff = (int) ((ratio > 0) ? Math.ceil(ratio) : Math.floor(ratio));
+		target = dragged.getPageIndex() + diff;
+	}
+
+	public void adjustTop(PagePreviewCard current) {
+		int index = current.getPageIndex();
+		if (dragged.getPageIndex() > index && index > target) {
+			index++;
+		} else if (dragged.getPageIndex() < index && index < target) {
+			index--;
+		}
+
+		setTop(current, PagePreviewCard.computeTop(index));
+	}
+
+	private boolean canDrop() {
+		return index() != -1 && getDropIndex() != -1;
+	}
+
+	public void cancel() {
+		CancelEventTimer.resetDrag();
+		if (isValid()) {
+			dragged.removeStyleName("dragged");
+			dragged.removeStyleName("dragCanStart");
+		}
+		dragged = null;
 	}
 
 	/**
-	 * @param pos
-	 *            scroll vertical position
+	 * @return see {@link App}
 	 */
-	public void onScroll(int pos) {
-		dragged.card.setTop(pos);
-		dragged.handleTarget(pos);
+	public AppW getApp() {
+		return (AppW) app;
+	}
+
+	private void setTop(PagePreviewCard card, int top) {
+		card.setTop(PagePreviewCard.clampTop(top, cards.getCardCount()));
+	}
+
+	private void setTopBy(PagePreviewCard card, int value) {
+		int top = card.getTop() + value;
+		setTop(card, top);
+	}
+
+	private void setDragPosition(PagePreviewCard card, int y) {
+		int top = card.getTopFromDrag(y);
+		setTop(card, top);
 	}
 
 	/**
@@ -454,15 +271,14 @@ class DragController {
 	 *            mouse y
 	 * @return card index
 	 */
-	int cardIndexAt(int x, int y) {
-		int result =  - 1;
-		for (PagePreviewCard card: cards.getCards()) {
-			if ((!dragged.isValid() || card != dragged.card)
+	private int cardIndexAt(int x, int y) {
+		for (PagePreviewCard card : cards.getCards()) {
+			if ((!isValid() || card != dragged)
 					&& card.isHit(x, y)) {
-				result = card.getPageIndex();
+				return card.getPageIndex();
 			}
 		}
-		return result;
+		return -1;
 	}
 
 	/**
@@ -474,11 +290,11 @@ class DragController {
 	 *            coordinate.
 	 */
 	public void start(int x, int y) {
-		if (clicked != null || dragged.isValid()) {
+		if (clicked != null || isValid()) {
 			cancelDrag();
 		}
 
-		int idx = cardIndexAt(x, computedY(y));
+		int idx = cardIndexAt(x, y);
 		if (idx == -1) {
 			clicked = null;
 		} else {
@@ -498,31 +314,17 @@ class DragController {
 			dragStyleTimer.schedule(CancelEventTimer.TIME_BETWEEN_TOUCH_AND_DRAG);
 		}
 	}
-	
-	/**
-	 * Converts absolute (screen) y coordinate to the one that is between 0 and the
-	 * whole height of cards in panel, which is scroll independent.
-	 * 
-	 * @param y
-	 *            absolute coordinate.
-	 * @return scroll independent coordinate.
-	 */
-	int computedY(int y) {
-		return y + getListener().getVerticalScrollPosition();
-	}
 
 	/**
 	 * Called at pointer (mouse or touch) move.
 	 * 
-	 * @param x
-	 *            coordinate.
-	 * @param y0
+	 * @param y
 	 *            coordinate.
 	 * @param touch
 	 *            Whether move event comes from touch or desktop.
 	 * @return true if drag has occurred.
 	 */
-	boolean move(int x, int y0, boolean touch) {
+	boolean move(int y, boolean touch) {
 		if (touch && CancelEventTimer.cancelDragEvent()) {
 			return false;
 		}
@@ -530,45 +332,34 @@ class DragController {
 		if (CancelEventTimer.noDrag() || dropAnimTimer.isRunning()) {
 			return false;
 		}
-		int y = computedY(y0);
+
 		if (CancelEventTimer.isDragStarted()) {
-			dragged.start(y);
+			start(y);
 		} else if (CancelEventTimer.isDragging()) {
 			autoScroll.checkIfNeeded(y);
-			if (autoScroll.isRunning()) {
-				dragged.card.grabCard(y);
-				return true;
-			}
-			int targetIdx = dragged.move(y);
-			if (targetIdx != -1 && !app.isWhiteboardActive()) {
-				getListener().insertDivider(targetIdx);
-			}
+			move(y);
 		}
 		return true;
 	}
 
+	void cancelClick() {
+		clicked = null;
+	}
+
 	/**
 	 * Called at pointer (mouse or touch) up.
-	 * 
-	 * @param x
-	 *            coordinate.
-	 * @param y
-	 *            coordinate.
 	 */
-	void stop(int x, int y) {
+	void stop() {
 		if (clicked != null) {
 			cards.clickPage(clicked.getPageIndex(), true);
 			clicked.addDragStartStyle(false);
 		} else if (CancelEventTimer.isDragging()) {
-			if (dragged.drop()) {
-				if (app.isWhiteboardActive()) {
-					createDropAnimation();
-					return;
-				}
-				getListener().update();
+			if (canDrop()) {
+				createDropAnimation();
+				return;
 			}
-			if (dragged.isValid()) {
-				cards.clickPage(dragged.index(), false);
+			if (isValid()) {
+				cards.clickPage(index(), false);
 			}
 
 		}
@@ -583,51 +374,32 @@ class DragController {
 	/**
 	 * Cancels the drag in progress.
 	 */
-	void cancelDrag() {
+	private void cancelDrag() {
 		CancelEventTimer.resetDrag();
-		dragged.cancel();
-		clearSpaces();
-		getListener().restoreScrollbar();
-		getListener().removeDivider();
+		cancel();
+		cards.resetCardPositions();
 		autoScroll.cancel();
-	}
-
-	/**
-	 * Remove all spaces
-	 */
-	void clearSpaces() {
-		for (PagePreviewCard card: cards.getCards()) {
-			card.removeSpace();
-		}
 	}
 
 	/**
 	 * Called on drop the card.
 	 */
-	void onDrop() {
+	private void onDrop() {
 		dropAnimTimer.cancel();
-		if (dragged.index() >= 0) {
+		if (index() >= 0) {
 			app.dispatchEvent(new Event(EventType.MOVE_SLIDE, null,
-					dragged.index() + "," + dragged.getDropIndex() + ""));
-			cards.reorder(dragged.index(), dragged.getDropIndex());
+					index() + "," + getDropIndex() + ""));
+			cards.reorder(index(), getDropIndex());
 			getListener().update();
-			cards.clickPage(dragged.index(), false);
+			cards.clickPage(index(), false);
 		}
 		cancelDrag();
 	}
 
 	/**
-	 * Called if the scroll by dragging should be canceled.
-	 */
-	void onScrollCancel() {
-		autoScroll.cancel();
-		clearSpaces();
-	}
-
-	/**
 	 * @return cards listener.
 	 */
-	CardListInterface getListener() {
+	private CardListInterface getListener() {
 		return cards.getListener();
 	}
 }

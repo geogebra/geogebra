@@ -19,12 +19,14 @@ import org.geogebra.web.html5.util.PersistablePanel;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+
+import jsinterop.base.Js;
 
 /**
  * Page Control Panel for navigating through multiple pages
@@ -39,7 +41,6 @@ public class PageListPanel
 	private PersistablePanel contentPanel;
 	private StandardButton plusButton;
 	private PageListController pageController;
-	private FlowPanel divider = null;
 	private boolean isTouch = false;
 
 	@Nonnull
@@ -73,8 +74,7 @@ public class PageListPanel
 		addDomHandler(pageController, MouseDownEvent.getType());
 		addDomHandler(pageController, MouseMoveEvent.getType());
 		addDomHandler(pageController, MouseUpEvent.getType());
-		divider = new FlowPanel();
-		divider.setStyleName("mowPagePreviewCardDivider");
+		addDomHandler(pageController, MouseOutEvent.getType());
 	}
 
 	private void addContentPanel() {
@@ -83,7 +83,6 @@ public class PageListPanel
 		contentPanel = new PersistablePanel();
 		contentPanel.addStyleName("mowPageControlContentPanel");
 		scrollPanel.add(contentPanel);
-		scrollPanel.addScrollHandler(pageController);
 		add(scrollPanel);
 	}
 
@@ -229,7 +228,6 @@ public class PageListPanel
 			app.getKernel().getConstruction().getUndoManager().storeAction(
 					EventType.CLEAR_SLIDE, id);
 			pageController.loadNewPage(0);
-			update();
 		} else {
 			pageController.removeSlide(index);
 			app.getKernel().getConstruction().getUndoManager()
@@ -245,6 +243,7 @@ public class PageListPanel
 				pageController.loadPage(index);
 			}
 		}
+		update();
 	}
 
 	/**
@@ -289,6 +288,7 @@ public class PageListPanel
 		PagePreviewCard dup = pageController.pasteSlideStoreUndo(src, json);
 		addPreviewCard(dup);
 		pageController.updatePreviewImage();
+		update();
 	}
 
 	/**
@@ -302,35 +302,15 @@ public class PageListPanel
 			card.setPageIndex(index++);
 			addPreviewCard(card);
 		}
+		pageController.resetCardPositions();
 	}
 
 	@Override
-	public void insertDivider(int targetIdx) {
-		removeDivider();
-		contentPanel.insert(divider, targetIdx);
-	}
-
-	@Override
-	public void removeDivider() {
-		divider.removeFromParent();
-	}
-
-	@Override
-	public void hideScrollbar() {
-		scrollPanel.addStyleName("noVerticalScrollbar");
-	}
-
-	@Override
-	public void restoreScrollbar() {
-		scrollPanel.removeStyleName("noVerticalScrollbar");
-	}
-
-	@Override
-	public boolean scrollBy(int diff) {
-		int pos = getVerticalScrollPosition() + diff;
-		scrollPanel.setVerticalScrollPosition(pos);
-		return pos > scrollPanel.getMinimumVerticalScrollPosition()
-				|| pos < scrollPanel.getMaximumVerticalScrollPosition();
+	public void scrollBy(int diff) {
+		elemental2.dom.Element elem = Js.uncheckedCast(scrollPanel.getElement());
+		if (elem.scrollTop < elem.scrollHeight) {
+			elem.scrollTop += diff;
+		}
 	}
 
 	@Override
@@ -359,4 +339,14 @@ public class PageListPanel
 	public void saveSlide(PagePreviewCard card) {
 		pageController.refreshSlide(card);
 	}
+
+	@Override
+	public void updateContentPanelHeight() {
+		int count = pageController.getCardCount();
+		contentPanel.getElement().getStyle().setProperty("minHeight",
+				PagePreviewCard.computeTop(count) + "px");
+		contentPanel.getElement().getStyle().setProperty("maxHeight",
+				PagePreviewCard.computeTop(count) + "px");
+	}
 }
+
