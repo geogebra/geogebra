@@ -69,7 +69,8 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		setStyleName("zoomPanel");
 		addStyleName(app.isWhiteboardActive() && !app.isApplet()
 				? "zoomPanelWithPageControl" : "zoomPanelPosition");
-		if (ZoomPanel.needsZoomButtons(app) && zoomable) {
+		if (ZoomPanel.needsZoomButtons(app)
+				&& !app.isWhiteboardActive() && zoomable) {
 			addZoomButtons();
 		}
 
@@ -135,13 +136,9 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		};
 
 		fullscreenBtn.addFastClickHandler(handlerFullscreen);
-		Browser.addFullscreenListener(new AsyncOperation<String>() {
-
-			@Override
-			public void callback(String obj) {
-				if (!"true".equals(obj)) {
-					onExitFullscreen();
-				}
+		Browser.addFullscreenListener(obj -> {
+			if (!"true".equals(obj)) {
+				onExitFullscreen();
 			}
 		});
 		add(fullscreenBtn);
@@ -329,10 +326,10 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		}
 	}
 
-	private static boolean needsZoomButtons(AppW app) {
+	public static boolean needsZoomButtons(AppW app) {
 		return (app.getAppletParameters().getDataParamShowZoomButtons()
 				|| app.getAppletParameters().getDataParamApp())
-				&& app.isShiftDragZoomEnabled() && !app.isWhiteboardActive();
+				&& app.isShiftDragZoomEnabled();
 	}
 
 	/**
@@ -343,7 +340,8 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 * @return true if app needs zoom panel.
 	 */
 	public static boolean neededFor(AppW app) {
-		return needsZoomButtons(app) || needsFullscreenButton(app);
+		return (needsZoomButtons(app) && !app.isWhiteboardActive())
+			|| needsFullscreenButton(app);
 	}
 
 	/** Focus the first available button on zoom panel. */
