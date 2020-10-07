@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 	private final AppW app;
 	private final DockPanelW dockPanel;
-	private Image dragIcon;
 	protected FlowPanel titleBarPanelContent;
 	private FlowPanel dragPanel;
 	/**
@@ -147,14 +146,13 @@ public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 						}
 					});
 			dragPanel.setVisible(false);
-			if (dragIcon == null) {
-				dragIcon = new Image(GuiResources.INSTANCE.dockbar_drag());
-				/*
-				 * Prevent default image drag from interfering with view drag --
-				 * needed for IE
-				 */
-				dragIcon.addDragHandler(DomEvent::preventDefault);
-			}
+			Image dragIcon = new Image(GuiResources.INSTANCE.dockbar_drag());
+			/*
+			 * Prevent default image drag from interfering with view drag --
+			 * needed for IE
+			 */
+			dragIcon.addDragHandler(DomEvent::preventDefault);
+
 			dragPanel.add(dragIcon);
 			titleBarPanelContent.add(dragPanel);
 		}

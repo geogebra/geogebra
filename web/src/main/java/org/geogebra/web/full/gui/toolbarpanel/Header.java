@@ -244,9 +244,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * Handler for Close button.
 	 */
 	protected void onClosePressed() {
-		if (app.isMenuShowing()) {
-			app.toggleMenu();
-		}
+		app.hideMenu();
 		if (isOpen()) {
 			onClose();
 		} else {

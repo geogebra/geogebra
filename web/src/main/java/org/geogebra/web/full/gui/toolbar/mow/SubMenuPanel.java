@@ -186,9 +186,7 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * Closes burger menu and page control panel
 	 */
 	public void closeFloatingMenus() {
-		if (app.isMenuShowing()) {
-			app.toggleMenu();
-		}
+		app.hideMenu();
 		((AppWFull) app).getAppletFrame().getPageControlPanel().close();
 	}
 

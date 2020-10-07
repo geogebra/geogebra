@@ -272,9 +272,7 @@ public class ToolbarMow extends FlowPanel
 	 * Opens the page control panel
 	 */
 	public void openPagePanel() {
-		if (appW.isMenuShowing()) {
-			appW.toggleMenu();
-		}
+		appW.hideMenu();
 		EuclidianController ec = appW.getActiveEuclidianView().getEuclidianController();
 		ec.widgetsToBackground();
 

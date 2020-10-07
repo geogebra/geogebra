@@ -35,7 +35,6 @@ import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.full.main.NullHeaderResizer;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -59,7 +58,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
@@ -68,15 +66,13 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Frame for applets with GUI
  *
  */
 public class GeoGebraFrameFull
-		extends GeoGebraFrameW implements NativePreviewHandler, FrameWithHeaderAndKeyboard,
-		FastClickHandler, KeyUpHandler {
+		extends GeoGebraFrameW implements NativePreviewHandler, FrameWithHeaderAndKeyboard {
 
 	private AppletFactory factory;
 	private DockGlassPaneW glass;
@@ -731,19 +727,21 @@ public class GeoGebraFrameFull
 				MaterialDesignResources.INSTANCE.menu_black_whiteBorder(), null,
 				24, app);
 
-		openMenuButton.addFastClickHandler(this);
-		openMenuButton.addDomHandler(this, KeyUpEvent.getType());
+		openMenuButton.addFastClickHandler(source -> {
+			onMenuButtonPressed();
+			if (app.isWhiteboardActive()) {
+				deselectDragBtn();
+			}
+		});
+		openMenuButton.addDomHandler(event -> {
+			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+				app.toggleMenu();
+			}
+		}, KeyUpEvent.getType());
 
 		openMenuButton.addStyleName("mowOpenMenuButton");
 		new FocusableWidget(AccessibilityGroup.MENU, null, openMenuButton).attachTo(app);
 		add(openMenuButton);
-	}
-
-	@Override
-	public void onKeyUp(KeyUpEvent event) {
-		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-			app.toggleMenu();
-		}
 	}
 
 	private void attachToolbarMow(AppW app) {
@@ -814,12 +812,11 @@ public class GeoGebraFrameFull
 	 *            browser event
 	 */
 	private void closePopupsAndMaybeMenu(NativeEvent event) {
-		if (app.isMenuShowing()
-				&& !Dom.eventTargetsElement(event, ggwMenuBar.getElement())
+		if (!Dom.eventTargetsElement(event, ggwMenuBar.getElement())
 				&& !Dom.eventTargetsElement(event, getToolbarMenuElement())
 				&& !getGlassPane().isDragInProgress()
 				&& !app.isUnbundled() && panelTransitioner.getCurrentPanel() == null) {
-			app.toggleMenu();
+			app.hideMenu();
 		}
 	}
 
@@ -960,14 +957,6 @@ public class GeoGebraFrameFull
 			return 0;
 		}
 		return headerResizer.getSmallScreenHeight();
-	}
-
-	@Override
-	public void onClick(Widget source) {
-		onMenuButtonPressed();
-		if (getApp().isWhiteboardActive()) {
-			deselectDragBtn();
-		}
 	}
 
 	@Override

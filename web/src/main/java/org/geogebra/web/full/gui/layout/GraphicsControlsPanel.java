@@ -59,8 +59,7 @@ public class GraphicsControlsPanel extends FlowPanel implements DockControlPanel
 
 	/** Graphics Settings button handler */
 	private void onGraphicsSettingsPressed(DockPanelW parent) {
-		app.hideMenu();
-		app.hideKeyboard();
+		app.closeMenuHideKeyboard();
 		if (app.isWhiteboardActive() && app.getAppletFrame() != null
 				&& app.getAppletFrame() instanceof GeoGebraFrameFull) {
 			((GeoGebraFrameFull) app.getAppletFrame()).deselectDragBtn();

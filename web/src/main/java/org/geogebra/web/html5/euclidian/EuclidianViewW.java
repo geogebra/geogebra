@@ -198,9 +198,7 @@ public class EuclidianViewW extends EuclidianView implements
 			public void onClickStart(final int x, final int y,
 					PointerEventType type) {
 				getEuclidianController().closePopups(x, y, type);
-				if (appW.isMenuShowing()) {
-					appW.toggleMenu();
-				}
+				appW.hideMenu();
 			}
 		});
 		initAriaDefaults();
