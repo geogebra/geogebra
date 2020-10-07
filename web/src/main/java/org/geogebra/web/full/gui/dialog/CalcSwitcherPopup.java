@@ -1,9 +1,15 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
+import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.util.AriaMenuBar;
+import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.view.button.header.AppPickerButton;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.DialogBoxW;
 
@@ -11,14 +17,17 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 
-public class CalcSwitcherPopup {
+public class CalcSwitcherPopup extends GPopupPanel {
 
-	final DialogBoxW box;
+	//final DialogBoxW box;
+	//final GPopupMenuW box;
 	final AppWFull app;
 	private final FlowPanel popupPanel;
+	//private GPopupMenuW popupPanel;
 	private boolean popupShowing = false;
-	StandardButton appPickerButton;
+	AppPickerButton appPickerButton;
 
 	SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
 
@@ -28,23 +37,17 @@ public class CalcSwitcherPopup {
 	 * @param pickerButton
 	 *            - button for popup
 	 */
-	public CalcSwitcherPopup(AppWFull app, StandardButton pickerButton) {
+	public CalcSwitcherPopup(AppWFull app, AppPickerButton pickerButton) {
+		super(true, app.getPanel(), app);
 		this.app = app;
 		this.appPickerButton = pickerButton;
-		box = new DialogBoxW(true, false, null, app.getPanel(), app) {
-			@Override
-			public void setPopupPosition(int left, int top) {
-				super.setPopupPosition(472, 0);
-			}
-		};
-		box.setGlassEnabled(false);
+		setGlassEnabled(false);
+		addStyleName("calcPickerPopup");
 
 		this.popupPanel = new FlowPanel();
 		popupPanel.removeStyleName("dialogContent");
 		popupPanel.addStyleName("calcPickerPanel");
-
-		box.setWidget(popupPanel);
-		box.addStyleName("calcPickerPopup");
+		add(popupPanel);
 	}
 
 	/**
@@ -54,7 +57,7 @@ public class CalcSwitcherPopup {
 		if (!popupShowing) {
 			createElements(app);
 			popupShowing = true;
-			box.show();
+			show();
 		} else {
 			popupShowing = false;
 			closeCalcSwitcherPopup();
@@ -70,8 +73,11 @@ public class CalcSwitcherPopup {
 	}
 
 	private void addElement(AppWFull app, SVGResource icon, String key) {
-		HorizontalPanel rowPanel = new HorizontalPanel();
-		rowPanel.add(new NoDragImage(icon, 24, 24));
+		FlowPanel rowPanel = new FlowPanel();
+		SimplePanel imgPanel = new SimplePanel();
+		imgPanel.addStyleName("imgHolder");
+		imgPanel.add(new NoDragImage(icon, 24, 24));
+		rowPanel.add(imgPanel);
 		Label label = new Label(app.getLocalization().getMenu(key));
 		label.addStyleName("appPickerLabel");
 		rowPanel.add(label);
@@ -80,13 +86,12 @@ public class CalcSwitcherPopup {
 				// open app
 			closeCalcSwitcherPopup();
 			popupShowing = false;
-			appPickerButton.setIconWithSecondIcon(icon);
-			appPickerButton.setLabelWithSecondIcon(key);
+			appPickerButton.setIconAndLabel(icon, key);
 		}, ClickEvent.getType());
 		popupPanel.add(rowPanel);
 	}
 
 	private void closeCalcSwitcherPopup() {
-		box.hide();
+		hide();
 	}
 }

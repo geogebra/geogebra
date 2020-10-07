@@ -1021,7 +1021,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.MaterialDialogBox.calcPickerPopup {
+	.calcPickerPopup {
 		width: 244px;
 		height: 192px;
 		border-radius: 4px;
@@ -1035,7 +1035,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
     		}
     	}
 
-	.MaterialDialogBox .appPickerRow {
+	.appPickerRow {
 		height: 48px;
 		width: 244px;
 		float: left;
@@ -1048,18 +1048,16 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
        	}
 	}
 
-	.MaterialDialogBox, .dialogComponent {
-		.appPickerLabel {
-			font-size: 100%;
-			padding: 5px 0 0 20px;
-			color: $black-87;
-			margin-top: 12px;
-			position: absolute;
-			cursor: pointer;
-		}
+	.appPickerLabel {
+		font-size: 100%;
+		padding: 5px 0 0 20px;
+		color: $black-87;
+		margin-top: 12px;
+		position: absolute;
+		cursor: pointer;
 	}
 
-	.MaterialDialogBox, .dialogComponent {
+	.dialogComponent {
         img {
         	margin: 12px 0 0 24px;
         }
