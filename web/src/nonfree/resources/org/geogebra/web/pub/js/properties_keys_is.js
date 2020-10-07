@@ -497,6 +497,8 @@ __GGB__keysVar["is"].command = {
     "IsPrime.Syntax": "[ <Tala> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <L\xedna>, <Keilusni\xf0> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "\xcdtrekun",
     "Iteration.Syntax": "[ <Fall>, <Upphafsgildi>, <Fj\xf6ldi \xedtrekana> ]\n[ <St\xe6\xf0a>, <Breytur>, <Upphafsgildi>, <Talning> ]",
     "IterationList": "\xcdtrekunarListi",

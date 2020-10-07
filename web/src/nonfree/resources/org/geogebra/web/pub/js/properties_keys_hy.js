@@ -497,6 +497,8 @@ __GGB__keysVar["hy"].command = {
     "IsPrime.Syntax": "[ <\u0539\u056b\u057e> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <Line>, <Conic> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "\u053b\u057f\u0565\u0580\u0561\u0581\u056b\u0561",
     "Iteration.Syntax": "[ <\u0556\u0578\u0582\u0576\u056f\u0581\u056b\u0561>, <\u054d\u056f\u0566\u0562\u0576\u0561\u056f\u0561\u0576 \u0561\u0580\u056a\u0565\u0584\u0568>, <\u053b\u057f\u0565\u0580\u0561\u0581\u056b\u0561\u0576\u0565\u0580\u056b \u0584\u0561\u0576\u0561\u056f\u0568> ]",
     "IterationList": "\u053b\u057f\u0565\u0580\u0561\u0581\u056b\u0561\u0576\u0565\u0580\u056b\u0547\u0561\u0580\u0584",

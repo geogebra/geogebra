@@ -497,6 +497,8 @@ __GGB__keysVar["vi"].command = {
     "IsPrime.Syntax": "[ <S\u1ed1> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <Line>, <Conic> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "Ph\xe9pL\u1eb7p",
     "Iteration.Syntax": "[ <H\xe0m s\u1ed1>, <Gi\xe1 tr\u1ecb \u0111\u1ea7u>, <S\u1ed1 l\u1ea7n l\u1eb7p> ]",
     "IterationList": "DanhS\xe1chL\u1eb7p",

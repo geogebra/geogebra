@@ -497,6 +497,8 @@ __GGB__keysVar["ar-MA"].command = {
     "IsPrime.Syntax": "[ <\u0639\u062f\u062f> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <Line>, <Conic> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "\u062a\u0643\u0631\u0627\u0631",
     "Iteration.Syntax": "[ <\u062f\u0627\u0644\u0629>, <\u0628\u062f\u0627\u064a\u0629 \u0627\u0644\u0642\u064a\u0645\u0629>, <\u0639\u062f\u062f \u0627\u0644\u062a\u0643\u0631\u0627\u0631\u0627\u062a> ]",
     "IterationList": "\u0642\u0627\u0626\u0645\u0629_\u0627\u0644\u062a\u0643\u0631\u0627\u0631",

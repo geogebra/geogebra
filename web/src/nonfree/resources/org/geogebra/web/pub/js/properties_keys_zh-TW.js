@@ -497,6 +497,8 @@ __GGB__keysVar["zh-TW"].command = {
     "IsPrime.Syntax": "[ <Number> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <\u7dda>, <\u5713\u9310\u66f2\u7dda> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "Iteration",
     "Iteration.Syntax": "[ <\u51fd\u6578>, <\u521d\u503c>, <\u758a\u4ee3\u6b21\u6578> ]",
     "IterationList": "IterationList",

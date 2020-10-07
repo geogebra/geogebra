@@ -497,6 +497,8 @@ __GGB__keysVar["sr"].command = {
     "IsPrime.Syntax": "[ <broj> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <Line>, <Conic> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "Iteracija",
     "Iteration.Syntax": "[ <funkcija>, <po\u010detna vrednost>, <broj iteracija> ]",
     "IterationList": "IteracijaLista",

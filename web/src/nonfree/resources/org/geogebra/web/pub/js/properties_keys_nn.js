@@ -497,6 +497,8 @@ __GGB__keysVar["nn"].command = {
     "IsPrime.Syntax": "[ <Tal> ]",
     "IsTangent": "erTangent",
     "IsTangent.Syntax": "[ <Linje>, <Kjeglesnitt> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "Iterasjon",
     "Iteration.Syntax": "[ <Funksjon>, <Start>, <Tal p\xe5 iterasjonar> ]\n[ <Uttrykk>, <Variablar>, <Startverdi>, <Teljing> ]",
     "IterationList": "IterasjonListe",

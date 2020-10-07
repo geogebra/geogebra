@@ -497,6 +497,8 @@ __GGB__keysVar["cy"].command = {
     "IsPrime.Syntax": "[ <Number> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <Line>, <Conic> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "Iteriad",
     "Iteration.Syntax": "[ <Ffwythiant>, <Gwerth ar y dechrau>, <Nifer yr iteriadau> ]",
     "IterationList": "RhestrIteriad",

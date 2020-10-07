@@ -497,6 +497,8 @@ __GGB__keysVar["sq"].command = {
     "IsPrime.Syntax": "[ <Numer> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <Line>, <Conic> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "Perseritje",
     "Iteration.Syntax": "[ <Funksion>, <Vlera Fillese>, <Numri i Perseritjeve> ]",
     "IterationList": "ListePerseritje",

@@ -497,6 +497,8 @@ __GGB__keysVar["fil"].command = {
     "IsPrime.Syntax": "[ <Number> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <Line>, <Conic> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "Iteration",
     "Iteration.Syntax": "[ <Function>, <Start Value>, <Number of Iterations> ]",
     "IterationList": "IterationList",

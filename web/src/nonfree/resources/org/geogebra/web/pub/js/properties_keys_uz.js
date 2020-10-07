@@ -497,6 +497,8 @@ __GGB__keysVar["uz"].command = {
     "IsPrime.Syntax": "[ <Son> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <Line>, <Conic> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "Iteratsiya",
     "Iteration.Syntax": "[ <Function>, <Start Value>, <Number of Iterations> ]\n[ <Expression>, <Variables>, <Start Values>, <Count> ]",
     "IterationList": "IterationList",

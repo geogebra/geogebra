@@ -497,6 +497,8 @@ __GGB__keysVar["xh"].command = {
     "IsPrime.Syntax": "[ <Inani> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <Line>, <Conic> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "iIteration",
     "Iteration.Syntax": "[ <Function>, <Start Value>, <Number of Iterations> ]",
     "IterationList": "iIterationList",

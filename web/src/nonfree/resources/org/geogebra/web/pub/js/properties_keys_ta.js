@@ -497,6 +497,8 @@ __GGB__keysVar["ta"].command = {
     "IsPrime.Syntax": "[ <\u0b8e\u0ba3\u0bcd> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <Line>, <Conic> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "\u0bae\u0bc0\u0bb3\u0b9a\u0bcd\u0b9a\u0bc6\u0baf\u0bcd\u0ba4\u0bb2\u0bcd",
     "Iteration.Syntax": "[ <Function>, <Start Value>, <Number of Iterations> ]\n[ <Expression>, <Variables>, <Start Values>, <Count> ]",
     "IterationList": "\u0bae\u0bc0\u0bb3\u0b9a\u0bcd\u0b9a\u0bc6\u0baf\u0bcd\u0ba4\u0baa\u0b9f\u0bcd\u0b9f\u0bbf\u0baf\u0bb2\u0bcd",
