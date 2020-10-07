@@ -56,7 +56,7 @@ public class AppConfigSuite extends AppConfigGraphing {
 
 	@Override
 	public String getAppNameShort() {
-		return "CalculatorSuite.short";
+		return GeoGebraConstants.SUITE_SHORT_NAME;
 	}
 
 	@Override

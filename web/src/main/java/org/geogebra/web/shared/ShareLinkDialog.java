@@ -64,7 +64,7 @@ public class ShareLinkDialog extends ComponentDialog {
 		copyBtn.setStyleName("copyButton");
 
 		copyBtn.addFastClickHandler(source -> {
-			app.copyTextToSystemClipboard(linkBox.getText());
+			app.getCopyPaste().copyTextToSystemClipboard(linkBox.getText());
 			hide();
 		});
 
@@ -144,7 +144,7 @@ public class ShareLinkDialog extends ComponentDialog {
 					+ " width=\"800\" height=\"600\" allowfullscreen"
 					+ " style=\"border: 1px solid #e4e4e4;border-radius: 4px;\""
 					+ " frameborder=\"0\"></iframe>";
-			this.app.copyTextToSystemClipboard(code);
+			this.app.getCopyPaste().copyTextToSystemClipboard(code);
 			ToolTipManagerW.sharedInstance().showBottomMessage(
 					localize("CopiedToClipboard"), true, appW);
 		}

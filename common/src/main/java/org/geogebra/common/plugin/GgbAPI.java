@@ -2101,7 +2101,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 *            text to copy to system clipboard
 	 */
 	final public void copyTextToClipboard(String text) {
-		app.copyTextToSystemClipboard(text);
+		app.getCopyPaste().copyTextToSystemClipboard(text);
 	}
 
 	/**
