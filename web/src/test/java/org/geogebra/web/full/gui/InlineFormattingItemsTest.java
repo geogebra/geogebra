@@ -19,16 +19,12 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.test.AppMocker;
+import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.google.gwt.dom.client.TextAreaElement;
-import com.google.gwtmockito.GwtMockitoTestRunner;
-import com.google.gwtmockito.WithClassesToStub;
-
-@RunWith(GwtMockitoTestRunner.class)
-@WithClassesToStub({ TextAreaElement.class})
+@RunWith(GgbMockitoTestRunner.class)
 public class InlineFormattingItemsTest {
 
 	private static final String LINK_URL = "www.foo.bar";
@@ -73,7 +69,11 @@ public class InlineFormattingItemsTest {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTableInline(InlineTableControllerMock.getWithSelection(true)));
 		List<String> expected = Arrays.asList(
-				"TEXTTOOLBAR", "ContextMenu.Font", "Link", "ContextMenu.textWrapping",
+				"TEXTTOOLBAR",
+				"ContextMenu.Font",
+				"Link",
+				"ContextMenu.textWrapping",
+				"ContextMenu.Heading",
 				"SEPARATOR",
 				"Cut", "Copy", "Paste",
 				"SEPARATOR",
@@ -83,8 +83,7 @@ public class InlineFormattingItemsTest {
 				"ContextMenu.insertColumnRight",
 				"SEPARATOR",
 				"ContextMenu.deleteRow",
-				"ContextMenu.deleteColumn",
-				"ContextMenu.deleteTable"
+				"ContextMenu.deleteColumn"
 		);
 
 		assertEquals(expected, contextMenu.getEntriesFor(geos));
@@ -95,7 +94,11 @@ public class InlineFormattingItemsTest {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTableInline(InlineTableControllerMock.getWithSelection(false)));
 		List<String> expected = Arrays.asList(
-				"TEXTTOOLBAR", "ContextMenu.Font", "Link", "ContextMenu.textWrapping"
+				"TEXTTOOLBAR",
+				"ContextMenu.Font",
+				"Link",
+				"ContextMenu.textWrapping",
+				"ContextMenu.Heading"
 		);
 
 		assertEquals(expected, contextMenu.getEntriesFor(geos));
@@ -108,6 +111,7 @@ public class InlineFormattingItemsTest {
 		List<String> expected = Arrays.asList(
 				"ContextMenu.Font",
 				"ContextMenu.textWrapping",
+				"ContextMenu.Heading",
 				"SEPARATOR", "Cut", "Copy", "Paste",
 				"SEPARATOR", "General.Order",
 				"SEPARATOR",

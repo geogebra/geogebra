@@ -1,18 +1,15 @@
 package org.geogebra.web.full.main;
 
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListController;
-import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.full.gui.pagecontrolpanel.PagePreviewCard;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
+import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.geogebra.web.test.ViewWMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import com.google.gwt.dom.client.TextAreaElement;
-import com.google.gwtmockito.GwtMockitoTestRunner;
-import com.google.gwtmockito.WithClassesToStub;
 
 /**
  * Tests for Undo with multiple slides
@@ -20,8 +17,7 @@ import com.google.gwtmockito.WithClassesToStub;
  * @author Zbynek
  *
  */
-@RunWith(GwtMockitoTestRunner.class)
-@WithClassesToStub({ TextAreaElement.class })
+@RunWith(GgbMockitoTestRunner.class)
 public class NotesUndoTest {
 	private static AppWFull app;
 

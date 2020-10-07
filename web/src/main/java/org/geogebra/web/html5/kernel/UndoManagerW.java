@@ -32,7 +32,6 @@ public class UndoManagerW extends DefaultUndoManager {
 	protected AppState extractStateFromFile(String arg) {
 		GgbFile file = new GgbFile();
 		((AppW) app).getViewW().setFileFromJsonString(arg, file);
-		Log.error(arg);
 		return new StringAppState(file.get("geogebra.xml"));
 	}
 

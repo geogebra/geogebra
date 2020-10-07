@@ -416,7 +416,7 @@ public class GuiManagerW extends GuiManager
 		if (Browser.isiOS()) {
 			dialogManager.showImageInputDialog(null, device);
 		} else {
-			dialogManager.showWebcamInputDialog(device);
+			dialogManager.showWebcamInputDialog();
 		}
 	}
 

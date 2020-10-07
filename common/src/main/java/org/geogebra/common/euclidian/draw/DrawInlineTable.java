@@ -119,6 +119,13 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 	}
 
 	@Override
+	public void saveContent() {
+		if (tableController != null) {
+			tableController.saveContent();
+		}
+	}
+
+	@Override
 	public void toBackground() {
 		if (tableController != null) {
 			tableController.toBackground();

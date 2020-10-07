@@ -25,10 +25,11 @@ public class PagePreviewCard extends FlowPanel
 	static final int MARGIN = 16;
 
 	/** Height of a card without margins */
-	static final int CARD_HEIGHT = 172;
+	static final int CARD_HEIGHT = 184;
 
-	/** Space needed for the card to drag. */
-	static final int SPACE_HEIGHT = CARD_HEIGHT + 2 * MARGIN;
+	/** Height of one card with the bottom margin */
+	static final int TOTAL_HEIGHT = CARD_HEIGHT + MARGIN;
+
 	private AppW app;
 	private Localization loc;
 	private int pageIndex;
@@ -77,6 +78,7 @@ public class PagePreviewCard extends FlowPanel
 	}
 	
 	private void initGUI() {
+		resetTop();
 		addStyleName("mowPagePreviewCard");
 		if (!(Browser.isMobile())) {
 			addStyleName("desktop");
@@ -166,17 +168,6 @@ public class PagePreviewCard extends FlowPanel
 	}
 
 	/**
-	 * @param x
-	 *            is unused for now.
-	 * @param y
-	 *            coordinate.
-	 */
-	public void setDragPosition(int x, int y) {
-		int top = getTopFromDrag(y);
-		getElement().getStyle().setTop(top, Unit.PX);
-	}
-
-	/**
 	 * 
 	 * @param top
 	 *            to set.
@@ -189,18 +180,7 @@ public class PagePreviewCard extends FlowPanel
 	 * @return the top of card without margin.
 	 */
 	public int getTop() {
-		return getElement().getOffsetTop() - MARGIN;
-	}
-	
-	/**
-	 * Change the top by a given value.
-	 * 
-	 * @param value
-	 *            to change by.
-	 */
-	public void setTopBy(int value) {
-		int top = getTop() + value;
-		getElement().getStyle().setTop(top, Unit.PX);
+		return getElement().getOffsetTop();
 	}
 
 	/**
@@ -209,16 +189,16 @@ public class PagePreviewCard extends FlowPanel
 	 *            the top position of the drag.
 	 * @return top of the card after drag
 	 */
-	private int getTopFromDrag(int y) {
-		return y - getParent().getAbsoluteTop() - grabY + MARGIN;
+	public int getTopFromDrag(int y) {
+		return y - getParent().getAbsoluteTop() - grabY;
 	}
 
 	/**
 	 * 
 	 * @return the bottom of the card.
 	 */
-	public int getAbsoluteBottom() {
-		return getAbsoluteTop() + getOffsetHeight();
+	public int getBottom() {
+		return getTop() + getOffsetHeight();
 	}
 
 	/**
@@ -232,9 +212,9 @@ public class PagePreviewCard extends FlowPanel
 	 */
 	public boolean isHit(int x, int y) {
 		int left = getAbsoluteLeft();
-		int top = getComputedTop();
+		int top = getAbsoluteTop();
 		int right = left + getOffsetWidth();
-		int bottom = getComputedBottom();
+		int bottom = top + getOffsetHeight();
 
 		return x > left && x < right && y > top && y < bottom;
 	}
@@ -246,7 +226,23 @@ public class PagePreviewCard extends FlowPanel
 	 *            coordinate where user has grabbed the card.
 	 */
 	public void grabCard(int y) {
-		grabY = y - getAbsoluteTop() + 2 * MARGIN;
+		grabY = y - getAbsoluteTop();
+	}
+
+	public static int computeTop(int index) {
+		return MARGIN + index * TOTAL_HEIGHT;
+	}
+
+	public int getComputedTop() {
+		return computeTop(getPageIndex());
+	}
+
+	public void resetTop() {
+		setTop(getComputedTop());
+	}
+
+	public static int clampTop(int top, int cardCount) {
+		return Math.max(MARGIN, Math.min(top, computeTop(cardCount - 1)));
 	}
 
 	/**
@@ -255,77 +251,6 @@ public class PagePreviewCard extends FlowPanel
 	 */
 	public int getMiddleX() {
 		return getAbsoluteLeft() + getOffsetWidth() / 2;
-	}
-	
-	/**
-	 * 
-	 * @return the middle line of the card vertically
-	 */
-	public int getMiddleY() {
-		return getAbsoluteTop() + getOffsetHeight() / 2;
-	}
-
-	/**
-	 * Adds space before the card for animation.
-	 */
-	public void addSpaceTop() {
-		getElement().getStyle().setMarginTop(SPACE_HEIGHT, Unit.PX);
-		getElement().getStyle().setMarginBottom(MARGIN, Unit.PX);
-	}
-
-	/**
-	 * Adds space after the card for animation.
-	 */
-	public void addSpaceBottom() {
-		getElement().getStyle().setMarginTop(MARGIN, Unit.PX);
-		getElement().getStyle().setMarginBottom(SPACE_HEIGHT, Unit.PX);
-	}
-
-	/**
-	 * Removes space before the card for animation.
-	 */
-	public void removeSpace() {
-		getElement().getStyle().setMarginTop(MARGIN, Unit.PX);
-		getElement().getStyle().setMarginBottom(MARGIN, Unit.PX);
-	}
-
-	/**
-	 * Removes space before the card for animation.
-	 */
-	public void clearSpace() {
-		getElement().getStyle().setMarginTop(0, Unit.PX);
-		getElement().getStyle().setMarginBottom(0, Unit.PX);
-	}
-
-	/**
-	 * Sets margins for drag animation.
-	 * 
-	 * @param value
-	 *            to set.
-	 * @param down
-	 *            the direction of the drag animation
-	 */
-	public void setSpaceValue(int value, boolean down) {
-		int opposite = SPACE_HEIGHT  - value + MARGIN;
-		getElement().getStyle().setMarginTop(down ? opposite : value, Unit.PX);
-		getElement().getStyle().setMarginBottom(down ? value : opposite,
-				Unit.PX);
-	}
-
-	/**
-	 * 
-	 * @return the scroll independent top based on the card index.
-	 */
-	public int getComputedTop() {
-		return MARGIN + (pageIndex * (CARD_HEIGHT + MARGIN));
-	}
-	
-	/**
-	 * 
-	 * @return the scroll independent bottom based on the card index.
-	 */
-	public int getComputedBottom() {
-		return getComputedTop() + CARD_HEIGHT;
 	}
 
 	/**
