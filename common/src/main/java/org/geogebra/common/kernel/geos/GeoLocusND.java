@@ -335,13 +335,18 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 		// check n and n+1 are in a sensible range
 		// might occur if locus has changed no of segments/points
-		if (n >= myPointList.size() || n < 0) {
+		if (myPointList.size() == 0) {
+			P.setUndefined();
+			return;
+		} else if (myPointList.size() == 1) {
+			MyPoint p0 = myPointList.get(0);
+			P.set(1, 0, p0, p0);
+			return;
+		} else if (n >= myPointList.size() || n < 0) {
 			n = (n < 0) ? 0 : myPointList.size() - 1;
 		}
-
 		MyPoint locusPoint = myPointList.get(n);
 		MyPoint locusPoint2 = myPointList.get((n + 1) % myPointList.size());
-
 		P.set(t, 1 - t, locusPoint, locusPoint2);
 	}
 
