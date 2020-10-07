@@ -14,8 +14,8 @@ targetCompatibility = 1.8
 
 dependencies {
     compile 'com.google.elemental2:elemental2-core:1.0.0',
-            'org.murok:editor:1.0.202009221229',
-            'org.murok:editor:1.0.202009221229:sources'
+            'org.murok:editor:1.0.202010050808',
+            'org.murok:editor:1.0.202010050808:sources'
 }
 
 pmd {

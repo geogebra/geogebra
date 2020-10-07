@@ -33,6 +33,7 @@ import com.google.gwt.user.client.DOM;
 
 import elemental2.core.Global;
 import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 public class InlineTableControllerW implements InlineTableController {
 
@@ -300,7 +301,26 @@ public class InlineTableControllerW implements InlineTableController {
 
 	@Override
 	public void setHorizontalAlignment(HorizontalAlignment alignment) {
-		tableImpl.setCellProperty("halign", alignment.toString());
+		tableImpl.setCellProperty("halign", alignment.toString(), null);
+		table.updateRepaint();
+	}
+
+	@Override
+	public void setHeading(GColor color, boolean isRow) {
+		JsPropertyMap<Object> range = JsPropertyMap.of();
+		range.set("col0", 0);
+		range.set("row0", 0);
+
+		if (isRow) {
+			range.set("col1", tableImpl.getCols());
+			range.set("row1", 1);
+		} else {
+			range.set("col1", 1);
+			range.set("row1", tableImpl.getRows());
+		}
+
+		tableImpl.setCellProperty("bgcolor", color.toString(), range);
+		tableImpl.setBorderThickness(3, range);
 		table.updateRepaint();
 	}
 
