@@ -419,6 +419,7 @@
     	right: 16px !important;
     }
     .mowZoomPanel {
+		will-change: transform;
 	    right: 4px !important;
 
 	    .zoomPanelBtn {
