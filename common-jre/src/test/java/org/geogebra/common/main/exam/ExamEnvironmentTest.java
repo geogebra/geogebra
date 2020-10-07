@@ -6,8 +6,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.main.settings.CASSettings;
-import org.geogebra.web.test.AppMocker;
-import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 
