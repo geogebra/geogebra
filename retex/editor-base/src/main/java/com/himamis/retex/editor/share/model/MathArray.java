@@ -331,7 +331,11 @@ public class MathArray extends MathContainer {
 	 * @return true if container is a matrix.
 	 */
 	public static boolean isMatrix(MathComponent container) {
-		return container instanceof MathArray
-				&& ((MathArray) container).isMatrix();
+		if (container instanceof MathArray
+				&& ((MathArray) container).isMatrix()) {
+			return container.getParent().getParent() == null
+					&& container.getParent().size() == 1;
+		}
+		return false;
 	}
 }
