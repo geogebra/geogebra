@@ -3651,12 +3651,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	final public String getDefinition(StringTemplate tpl) {
 		if (algoParent != null) {
 			return algoParent.getDefinition(tpl);
-
 		}
-		if (definition != null) {
-			return definition.toString(tpl);
-		}
-		return "";
+		return definition != null ? definition.toString(tpl) : "";
 	}
 
 	/**

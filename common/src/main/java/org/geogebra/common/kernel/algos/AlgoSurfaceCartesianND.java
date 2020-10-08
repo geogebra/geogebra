@@ -134,7 +134,7 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 		if (surface.getDefinition() == null) {
 			return super.toString(tpl);
 		}
-		if (surface.isLabelSet() && !tpl.isHideLHS()) {
+		if (surface.isLabelSet()) {
 			return surface.getLabel(tpl) + "(" + surface.getVarString(tpl) + ") = " + getRHS(tpl);
 		}
 		return getRHS(tpl);

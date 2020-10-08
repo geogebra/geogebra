@@ -57,7 +57,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	private boolean localizeCmds;
 	private boolean usePrefix;
-	private boolean hideLHS = false;
 	private boolean questionMarkForNaN = true;
 
 	private boolean numeric = true;
@@ -164,16 +163,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	static {
 		latexTemplate.setType(StringType.LATEX);
 		latexTemplate.allowPiHack = false;
-	}
-
-	/**
-	 * LaTeX string type, do not internationalize digits
-	 */
-	public static final StringTemplate latexTemplateHideLHS = new StringTemplate("latexTemplate");
-
-	static {
-		latexTemplateHideLHS.setType(StringType.LATEX);
-		latexTemplateHideLHS.hideLHS = true;
 	}
 
 	/**
@@ -555,17 +544,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		template.nf = FormatFactory.getPrototype()
 				.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
 		template.allowMoreDigits = true;
-		template.hideLHS = true;
-	}
-
-	/**
-	 * Returns a string template with the property that the hideLHS = true
-	 * @return s new String template
-	 */
-	public StringTemplate makeStrTemplateForEditing() {
-		StringTemplate ret = this.copy();
-		ret.hideLHS = true;
-		return ret;
 	}
 
 	/**
@@ -3141,13 +3119,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 		// simple integer, no need to change
 		return originalString;
-	}
-
-	/**
-	 * @return whether to suppress serialization of LHS in f(x)=x
-	 */
-	public boolean isHideLHS() {
-		return this.hideLHS;
 	}
 
 	/**
