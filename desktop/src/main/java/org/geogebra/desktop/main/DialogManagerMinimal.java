@@ -8,8 +8,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.gui.InputHandler;
-import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.dialog.TextInputDialog;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -30,7 +28,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.desktop.gui.dialog.InputDialogD;
 import org.geogebra.desktop.gui.dialog.TextInputDialogD;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -46,9 +43,7 @@ public class DialogManagerMinimal extends DialogManager {
 	 * @param app
 	 */
 	public DialogManagerMinimal(App app) {
-		this.app = app;
-		this.loc = app.getLocalization();
-
+		super(app);
 	}
 
 	/**
@@ -199,7 +194,8 @@ public class DialogManagerMinimal extends DialogManager {
 	public void showNumberInputDialogRegularPolygon(String menu,
 			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,
 			GeoCoordSys2D direction) {
-		String inputString = prompt(menu + " " + loc.getMenu("Points"), "4");
+		String inputString = prompt(menu + " " +
+				getLocalization().getMenu("Points"), "4");
 
 		makeRegularPolygon(app, ec, inputString, geoPoint1, geoPoint2,
 				direction,
@@ -217,15 +213,8 @@ public class DialogManagerMinimal extends DialogManager {
 	@Override
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint,
 			boolean rw) {
-		return new TextInputDialogD(app, loc.getMenu("Text"), text, startPoint,
+		return new TextInputDialogD(app, getLocalization().getMenu("Text"), text, startPoint,
 				rw, 30, 6, app.getMode() == EuclidianConstants.MODE_TEXT);
-	}
-
-	@Override
-	public InputDialog newInputDialog(App app1, String message, String title,
-			String initString, InputHandler handler, GeoElement geo) {
-		return new InputDialogD((AppD) app1, message, title, initString,
-				true, handler, geo);
 	}
 
 	@Override
@@ -306,7 +295,7 @@ public class DialogManagerMinimal extends DialogManager {
 	public void showNumberInputDialogRotate(String menu,
 			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec) {
-		String inputString = prompt(menu + " " + loc.getMenu("Angle"),
+		String inputString = prompt(menu + " " + getLocalization().getMenu("Angle"),
 				defaultAngle);
 
 		rotateObject(app, inputString, false, selectedPolygons,

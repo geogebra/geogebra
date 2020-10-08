@@ -19,7 +19,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.InputHandler;
-import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.dialog.TextInputDialog;
 import org.geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
@@ -220,16 +219,9 @@ public class DialogManagerD extends DialogManagerMinimal {
 																		// <b>Segment
 																		// a</b>
 						"</html>",
-				loc.getMenu("Rename"), initText, false, handler, false,
+				getLocalization().getMenu("Rename"),
+				initText, false, handler, false,
 				selectInitText, null);
-
-		/*
-		 * InputDialog id = new InputDialog( this, "<html>" +
-		 * loc.getMenu("NewName") + " " + loc.getMenu("for") + " <b>" +
-		 * geo.getNameDescription() + "</b></html>", loc.getMenu("Rename"),
-		 * initText, false, handler, true, selectInitText);
-		 */
-
 		id.setVisible(true);
 	}
 
@@ -247,16 +239,18 @@ public class DialogManagerD extends DialogManagerMinimal {
 		}
 
 		String str = geo.getRedefineString(false, true);
-
 		InputHandler handler = new RedefineInputHandler(app, geo, str);
+		createRedefineDialog(geo, str, handler);
+	}
 
+	@Override
+	public void createRedefineDialog(GeoElement geo, String str, InputHandler handler) {
 		InputDialogD id = new InputDialogD(((AppD) app),
-				geo.getNameDescription(), loc.getMenu("Redefine"), str, true,
-				handler, geo);
+				geo.getNameDescription(), getLocalization().getMenu("Redefine"),
+				str, true, handler, geo);
 		id.showSymbolTablePopup(true);
 		id.setVisible(true);
 	}
-
 	/**
 	 * Shows the function inspector dialog. If none exists, a new inspector is
 	 * created.
@@ -487,9 +481,11 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 	@Override
 	public void showLogOutDialog() {
-		Object[] options = { loc.getMenu("SignOut"), loc.getMenu("Cancel") };
+		Object[] options = { getLocalization().getMenu("SignOut"),
+				getLocalization().getMenu("Cancel") };
 		int n = JOptionPane.showOptionDialog(((AppD) app).getMainComponent(),
-				loc.getMenu("ReallySignOut"), loc.getMenu("Question"),
+				getLocalization().getMenu("ReallySignOut"),
+				getLocalization().getMenu("Question"),
 				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
 				options, options[0]);
 		if (n == 0) {
@@ -687,15 +683,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 	@Override
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint,
 			boolean rw) {
-		return new TextInputDialogD(app, loc.getMenu("Text"), text, startPoint,
+		return new TextInputDialogD(app, getLocalization().getMenu("Text"), text, startPoint,
 				rw, 30, 6, app.getMode() == EuclidianConstants.MODE_TEXT);
 	}
-
-	@Override
-	public InputDialog newInputDialog(App app, String message, String title,
-			String initString, InputHandler handler, GeoElement geo) {
-		return new InputDialogD((AppD) app, message, title, initString,
-				true, handler, geo);
-	}
-
 }

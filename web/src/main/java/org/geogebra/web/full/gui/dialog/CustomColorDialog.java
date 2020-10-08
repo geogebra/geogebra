@@ -12,10 +12,6 @@ import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -69,21 +65,13 @@ public class CustomColorDialog extends DialogBoxW implements SetLabels {
 			add(sp);			
 			add(spinner);
 					
-			spinner.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					slider.setValue(Integer.parseInt(spinner.getValue()));
-					preview.update();
-				}
+			spinner.addChangeHandler(event -> {
+				slider.setValue(Integer.parseInt(spinner.getValue()));
+				preview.update();
 			});
-			slider.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					spinner.setValue(slider.getValue().toString());
-					preview.update();
-				}
+			slider.addChangeHandler(event -> {
+				spinner.setValue(slider.getValue().toString());
+				preview.update();
 			});
 		}
 		
@@ -202,31 +190,15 @@ public class CustomColorDialog extends DialogBoxW implements SetLabels {
 		btnPanel.add(btnReset);
 		mainWidget.add(btnPanel);
 		
-		btnOk.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (listener != null) {
-					listener.onCustomColor(getColor());
-				}
-				hide();
+		btnOk.addClickHandler(event -> {
+			if (listener != null) {
+				listener.onCustomColor(getColor());
 			}
+			hide();
 		});
-		btnCancel.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				hide();
-			}
-		});
+		btnCancel.addClickHandler(event -> hide());
 		
-		btnReset.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				reset();
-			}
-		});
+		btnReset.addClickHandler(event -> reset());
 		setLabels();
 	}
 
