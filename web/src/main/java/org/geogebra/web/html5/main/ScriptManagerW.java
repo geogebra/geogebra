@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.main;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -9,9 +8,10 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.JsReference;
 import org.geogebra.common.plugin.ScriptManager;
-import org.geogebra.common.plugin.script.JsScript;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.util.JsRunnable;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
@@ -26,8 +26,7 @@ import jsinterop.base.JsPropertyMap;
  */
 public class ScriptManagerW extends ScriptManager {
 
-	private HashMap<String, Object> listeners = new HashMap<>();
-	private JsPropertyMap exportedApi;
+	private final JsPropertyMap<Object> exportedApi;
 
 	/**
 	 * @param app
@@ -56,24 +55,19 @@ public class ScriptManagerW extends ScriptManager {
 		return toExport;
 	}
 
-	public static native void runCallback(JavaScriptObject onLoadCallback) /*-{
-		if (typeof onLoadCallback === "function") {
-			onLoadCallback();
-		}
-	}-*/;
-
 	/**
-	 * Run global ggbOnInit without parameters
+	 * NPE safe way of running stuff
+	 * @param callback callback
 	 */
-	public static native void ggbOnInitStatic() /*-{
-		if (typeof $wnd.ggbOnInit === 'function')
-			$wnd.ggbOnInit();
-	}-*/;
+	public static void runCallback(JsRunnable callback) {
+		if (callback != null) {
+			callback.run();
+		}
+	}
 
-	public static native void ggbOnInit(String arg, Object self) /*-{
-		if (typeof $wnd.ggbOnInit === 'function')
-			$wnd.ggbOnInit(arg, self);
-	}-*/;
+	public static void ggbOnInit(String arg, Object self) {
+		JsEval.callNativeGlobalFunction("ggbOnInit", arg, self);
+	}
 
 	@Override
 	public void ggbOnInit() {
@@ -88,11 +82,7 @@ public class ScriptManagerW extends ScriptManager {
 			if (!standardJS || app.useBrowserForJavaScript()) {
 				final String param = ((AppW) app).getAppletId();
 
-				if (param == null || "".equals(param)) {
-					ggbOnInitStatic();
-				} else {
-					ggbOnInit(param, exportedApi);
-				}
+				ggbOnInit(param, exportedApi);
 			}
 		} catch (CommandNotLoadedError e) {
 			throw e;
@@ -107,7 +97,7 @@ public class ScriptManagerW extends ScriptManager {
 
 		if (((AppW) app).getAppletFrame() != null
 		        && ((AppW) app).getAppletFrame().getOnLoadCallback() != null) {
-			JsEval.callNativeJavaScript(
+			JsEval.callNativeFunction(
 					((AppW) app).getAppletFrame().getOnLoadCallback(), exportedApi);
 		}
 	}
@@ -119,16 +109,17 @@ public class ScriptManagerW extends ScriptManager {
 	}-*/;
 
 	@Override
-	protected void callListener(String listener, String... args) {
-		if (listener.charAt(0) <= '9') {
-			JsEval.callNativeJavaScript(listeners.get(listener), args);
-		} else {
-			JsEval.callNativeJavaScript(listener, args);
-		}
+	protected void callListener(String listener, Object[] args) {
+		JsEval.callNativeGlobalFunction(listener, args);
 	}
 
 	@Override
-	protected void callClientListeners(List<JsScript> listeners, Event evt) {
+	protected void callNativeListener(Object listener, Object[] args) {
+		JsEval.callNativeFunction(listener, args);
+	}
+
+	@Override
+	protected void callClientListeners(List<JsReference> listeners, Event evt) {
 		if (listeners.isEmpty()) {
 			return;
 		}
@@ -166,12 +157,8 @@ public class ScriptManagerW extends ScriptManager {
 			addToJsObject(args, evt.jsonArgument);
 		}
 
-		for (JsScript listener : listeners) {
-			if (listener.getText().charAt(0) <= '9') {
-				JsEval.callNativeJavaScript(this.listeners.get(listener.getText()), args);
-			} else {
-				JsEval.callNativeJavaScript(listener.getText(), args);
-			}
+		for (JsReference listener : listeners) {
+			callListener(listener, args);
 		}
 	}
 
@@ -180,52 +167,23 @@ public class ScriptManagerW extends ScriptManager {
 	 * @param map (String, Object) map to be converted to JavaScript,
 	 *            Object can be Integer, Double, String or String[],
 	 */
-	public static void addToJsObject(JavaScriptObject jsObject, Map<String, Object> map) {
+	public static void addToJsObject(Object jsObject, Map<String, Object> map) {
+		JsPropertyMap<Object> jsMap = Js.asPropertyMap(jsObject);
 		for (Entry<String, Object> entry : map.entrySet()) {
 			Object object = entry.getValue();
 
-			if (object instanceof Integer) {
-				set(jsObject, entry.getKey(), (int) object);
-			} else if (object instanceof Double
+			if (object instanceof Integer || object instanceof Double
 					|| object instanceof String[]) {
-				set(jsObject, entry.getKey(), object);
+				jsMap.set(entry.getKey(), object);
 			} else {
-				set(jsObject, entry.getKey(), object.toString());
+				jsMap.set(entry.getKey(), object.toString());
 			}
 		}
 	}
-
-	private static native void set(JavaScriptObject json, String key, int value) /*-{
-		json[key] = value;
-	}-*/;
 
 	private static native void set(JavaScriptObject json, String key, Object value) /*-{
 		json[key] = value;
 	}-*/;
-
-	private String getListenerID(Object listener) {
-		for (Entry<String, Object> entry : listeners.entrySet()) {
-			if (entry.getValue() == listener) {
-				return entry.getKey();
-			}
-		}
-		String newID = listeners.size() + "";
-		listeners.put(newID, listener);
-		return newID;
-	}
-
-	/**
-	 * Get the listener id as a string for global js function name or function object
-	 * @param listener function name in the global namespace or function object
-	 * @return listener id
-	 */
-	public String getId(Object listener) {
-		if ("string".equals(Js.typeof(listener))) {
-			return Js.asString(listener);
-		} else {
-			return getListenerID(listener);
-		}
-	}
 
 	/**
 	 * @param toExport API object

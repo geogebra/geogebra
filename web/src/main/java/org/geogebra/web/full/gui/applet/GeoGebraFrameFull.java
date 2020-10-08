@@ -933,7 +933,7 @@ public class GeoGebraFrameFull
 				|| event.getTypeInt() == Event.ONTOUCHSTART) {
 
 			JavaScriptObject js = event.getNativeEvent().getEventTarget();
-			JsEval.callNativeJavaScript("hideAppPicker", js);
+			JsEval.callNativeGlobalFunction("hideAppPicker", js);
 		}
 	}
 
