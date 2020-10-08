@@ -257,12 +257,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	protected void addZoomPanel(MyDockLayoutPanel dockLayoutPanel,
 			InsertPanel controls) {
 		if (allowZoomPanel()) {
-			// This causes EV overlap toolbar
-			// dockPanel.getElement().getStyle().setProperty("minHeight",
-			// zoomPanel.getMinHeight());
 			dockLayoutPanel.addSouth(zoomPanel, 0);
 		}
-		if (mowZoomPanel != null) {
+		if (app.isWhiteboardActive() && mowZoomPanel != null) {
 			controls.add(mowZoomPanel);
 		}
 		if (app.has(Feature.SPEECH_RECOGNITION)) {
@@ -302,7 +299,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			mowZoomPanel.removeFromParent();
 			mowZoomPanel = null;
 		}
-		if (allowZoomPanel() && app.isWhiteboardActive()) {
+		if (ZoomPanel.needsZoomButtons(app) && app.isWhiteboardActive()) {
 			mowZoomPanel = new ZoomPanelMow(app);
 			((AppWFull) app).setMowZoomPanel(mowZoomPanel);
 		}

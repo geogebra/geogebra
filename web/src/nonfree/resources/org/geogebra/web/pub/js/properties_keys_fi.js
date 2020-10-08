@@ -497,6 +497,8 @@ __GGB__keysVar["fi"].command = {
     "IsPrime.Syntax": "[ <Luku> ]",
     "IsTangent": "OnTangentti",
     "IsTangent.Syntax": "[ <Suora>, <Kartioleikkaus> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "Iteraatio",
     "Iteration.Syntax": "[ <Funktio>, <Alkuarvo>, <Iteraatioiden m\xe4\xe4r\xe4> ]\n[ <Lauseke>, <Muuttujat>, <Alkuarvot>, <Lukum\xe4\xe4r\xe4> ]",
     "IterationList": "Iteraatiolista",

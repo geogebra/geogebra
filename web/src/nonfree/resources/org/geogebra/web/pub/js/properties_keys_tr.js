@@ -497,6 +497,8 @@ __GGB__keysVar["tr"].command = {
     "IsPrime.Syntax": "[ <Say\u0131> ]",
     "IsTangent": "Te\u011fetMi",
     "IsTangent.Syntax": "[ <Do\u011fru>, <Konik> ]",
+    "IsVertexForm": "TepeNoktas\u0131FormundaM\u0131",
+    "IsVertexForm.Syntax": "[ <Fonksiyon> ]",
     "Iteration": "D\xf6ng\xfc",
     "Iteration.Syntax": "[ <Fonksiyon>, <Ba\u015flang\u0131\xe7 De\u011feri>, <D\xf6ng\xfc Say\u0131s\u0131> ]\n[ <\u0130fade>, <De\u011fi\u015fkenler>, <Ba\u015flang\u0131\xe7 De\u011ferleri>, <Saya\xe7> ]",
     "IterationList": "D\xf6ng\xfcListesi",

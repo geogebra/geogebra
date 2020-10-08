@@ -497,6 +497,8 @@ __GGB__keysVar["ru"].command = {
     "IsPrime.Syntax": "[ <\u0427\u0438\u0441\u043b\u043e> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <Line>, <Conic> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "\u0418\u0442\u0435\u0440\u0430\u0446\u0438\u044f",
     "Iteration.Syntax": "[ <\u0424\u0443\u043d\u043a\u0446\u0438\u044f>, <\u041d\u0430\u0447\u0430\u043b\u044c\u043d\u043e\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435>, <\u0427\u0438\u0441\u043b\u043e \u0438\u0442\u0435\u0440\u0430\u0446\u0438\u0439> ]",
     "IterationList": "\u0420\u044f\u0434\u0418\u0442\u0435\u0440\u0430\u0446\u0438\u0439",

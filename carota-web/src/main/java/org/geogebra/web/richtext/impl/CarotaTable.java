@@ -6,6 +6,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
+import jsinterop.base.JsPropertyMap;
 
 @JsType(isNative = true)
 public class CarotaTable implements HasContent {
@@ -58,6 +59,12 @@ public class CarotaTable implements HasContent {
 		return getSelection() == null ? 0 : getSelection().row0;
 	}
 
+	@JsProperty
+	public native int getRows();
+
+	@JsProperty
+	public native int getCols();
+
 	private native CarotaSelection getHitCell(int x, int y);
 
 	private native void startEditing(CarotaSelection selection, int x, int y);
@@ -72,9 +79,13 @@ public class CarotaTable implements HasContent {
 
 	public native void setCellProperty(String property, String value);
 
+	public native void setCellProperty(String property, String value, JsPropertyMap<Object> range);
+
 	public native String getCellProperty(String property);
 
 	public native void setBorderThickness(int borderThickness);
+
+	public native void setBorderThickness(int borderThickness, JsPropertyMap<Object> range);
 
 	public native int getBorderThickness();
 
@@ -143,5 +154,4 @@ public class CarotaTable implements HasContent {
 	public final void removeColumn() {
 		removeColumn(selectionX());
 	}
-
 }

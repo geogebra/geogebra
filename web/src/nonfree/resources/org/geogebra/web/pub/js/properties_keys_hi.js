@@ -497,6 +497,8 @@ __GGB__keysVar["hi"].command = {
     "IsPrime.Syntax": "[ <\u0938\u0902\u0916\u094d\u092f\u093e> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <Line>, <Conic> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "\u091a\u0932\u0928",
     "Iteration.Syntax": "[ <\u095e\u0932\u0928>, <\u0906\u0930\u092e\u094d\u092d \u092e\u093e\u0928>, <\u091a\u0932\u0928\u0938\u0902\u0916\u094d\u092f\u093e> ]",
     "IterationList": "\u091a\u0932\u0928\u0938\u0942\u091a\u0940",

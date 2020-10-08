@@ -60,7 +60,6 @@ dependencies {
         files(project(':ggbjdk').sourceSets.main.java.srcDirs),
         files(project(':editor-web').sourceSets.main.allSource.srcDirs),
         files(project(':keyboard-web').sourceSets.main.allSource.srcDirs),
-        'com.googlecode.gwtphonegap:gwtphonegap:3.5.0.1',
         'com.googlecode:gwtgl:0.9.1',
         'com.googlecode:gwtgl:0.9.1:sources',
         "fr.ujf-grenoble:giac-gwt:$javaGiacVersion",
@@ -112,7 +111,7 @@ gwt {
         modules = project.getProperty("gmodule").split(",")
     } else {
         modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
-          'org.geogebra.web.Tablet3D', 'org.geogebra.web.TabletWin']
+          'org.geogebra.web.Tablet3D']
     }
     
     devModules devModule

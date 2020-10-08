@@ -497,6 +497,8 @@ __GGB__keysVar["sv"].command = {
     "IsPrime.Syntax": "[ <Tal> ]",
     "IsTangent": "KontrolleraOmObjektenTangerarVarandra",
     "IsTangent.Syntax": "[ <Linje>, <K\xe4gelsnitt> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "Iteration",
     "Iteration.Syntax": "[ <Funktion i x>, <start-v\xe4rde f\xf6r x>, <Antal iterationer> ]\n[ <Uttryck>, <Lista med variabler>, <Lista med startv\xe4rden>, <Antal iterationer> ]",
     "IterationList": "Iterationslista",

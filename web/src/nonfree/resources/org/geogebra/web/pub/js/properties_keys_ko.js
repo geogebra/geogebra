@@ -497,6 +497,8 @@ __GGB__keysVar["ko"].command = {
     "IsPrime.Syntax": "[ <\uc218> ]",
     "IsTangent": "\uc811\uc120\uc218\uc9c1\uc5ec\ubd80",
     "IsTangent.Syntax": "[ <\uc9c1\uc120>, <\uc774\ucc28\uace1\uc120> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "\ubc18\ubcf5\ubc95",
     "Iteration.Syntax": "[ <\ud568\uc218>, <\uc2dc\uc791\uac12>, <\ubc18\ubcf5 \ud69f\uc218> ]\n[ <\uc2dd>, <\ubcc0\uc218>, <\uc2dc\uc791\uac12>, <\uc138\uae30> ]",
     "IterationList": "\ubc18\ubcf5\ub9ac\uc2a4\ud2b8",

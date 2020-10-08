@@ -30,6 +30,7 @@ import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
+import org.geogebra.web.full.helper.ResourcesInjectorFull;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.full.main.HeaderResizer;
@@ -929,7 +930,7 @@ public class GeoGebraFrameFull
 				|| event.getTypeInt() == Event.ONTOUCHSTART) {
 
 			JavaScriptObject js = event.getNativeEvent().getEventTarget();
-			JsEval.callNativeJavaScript("hideAppPicker", js);
+			JsEval.callNativeGlobalFunction("hideAppPicker", js);
 		}
 	}
 
@@ -962,5 +963,14 @@ public class GeoGebraFrameFull
 	@Override
 	public AppWFull getApp() {
 		return (AppWFull) super.getApp();
+	}
+
+	public AppletFactory getAppletFactory() {
+		return factory;
+	}
+
+	@Override
+	protected ResourcesInjectorFull getResourcesInjector(AppletParameters appletParameters) {
+		return new ResourcesInjectorFull();
 	}
 }

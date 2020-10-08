@@ -497,6 +497,8 @@ __GGB__keysVar["eo"].command = {
     "IsPrime.Syntax": "[ <Nombro> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <Line>, <Conic> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "Iteracio",
     "Iteration.Syntax": "[ <Funkcio>, <Komenca Valoro>, <Nombro de Iteracioj> ]",
     "IterationList": "RipetiListo",

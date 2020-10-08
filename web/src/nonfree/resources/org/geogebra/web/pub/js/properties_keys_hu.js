@@ -497,6 +497,8 @@ __GGB__keysVar["hu"].command = {
     "IsPrime.Syntax": "[ <Sz\xe1m> ]",
     "IsTangent": "\xc9rintiE",
     "IsTangent.Syntax": "[ <Egyenes>, <K\xfapszelet> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "Iter\xe1ci\xf3",
     "Iteration.Syntax": "[ <F\xfcggv\xe9ny>, <Kezd\u0151\xe9rt\xe9k>, <Iter\xe1ci\xf3k sz\xe1ma> ]\n[ <Kifejez\xe9s>, <V\xe1ltoz\xf3k>, <Kezd\u0151\xe9rt\xe9k>, <L\xe9p\xe9ssz\xe1m> ]",
     "IterationList": "Iter\xe1ci\xf3Lista",

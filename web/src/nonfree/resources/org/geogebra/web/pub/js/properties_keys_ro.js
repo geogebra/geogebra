@@ -497,6 +497,8 @@ __GGB__keysVar["ro"].command = {
     "IsPrime.Syntax": "[ <Num\u0103r> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <Line>, <Conic> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "Itera\u0163ie",
     "Iteration.Syntax": "[ <Func\u0163ie>, <Valoare Ini\u0163ial\u0103>, <Num\u0103r Itera\u0163ii> ]",
     "IterationList": "List\u0103Itera\u0163ie",

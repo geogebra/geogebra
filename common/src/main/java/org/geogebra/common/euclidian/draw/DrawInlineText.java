@@ -65,7 +65,7 @@ public class DrawInlineText extends Drawable implements DrawInline {
 			textController.setWidth((int) (width - 2 * PADDING));
 			textController.setAngle(angle);
 			if (text.updateFontSize()) {
-				updateContent();
+				textController.updateContent();
 			}
 		}
 	}
@@ -73,7 +73,14 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	@Override
 	public void updateContent() {
 		if (textController != null) {
-			textController.updateContent();
+			textController.updateContentIfChanged();
+		}
+	}
+
+	@Override
+	public void saveContent() {
+		if (textController != null) {
+			textController.saveContent();
 		}
 	}
 

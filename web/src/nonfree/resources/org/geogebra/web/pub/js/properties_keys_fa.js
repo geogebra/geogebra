@@ -497,6 +497,8 @@ __GGB__keysVar["fa"].command = {
     "IsPrime.Syntax": "[ <\u0639\u062f\u062f> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <\u062e\u0637>, <\u0645\u062e\u0631\u0648\u0637> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "Iteration",
     "Iteration.Syntax": "[ <Function>, <Start Value>, <Number of Iterations> ]\n[ <Expression>, <Variables>, <Start Values>, <Count> ]",
     "IterationList": "IterationList",

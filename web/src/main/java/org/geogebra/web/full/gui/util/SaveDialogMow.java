@@ -17,7 +17,7 @@ public class SaveDialogMow extends DoYouWantToSaveChangesDialog {
 	 *
 	 */
 	public SaveDialogMow(AppW app, DialogData dialogData, boolean addTempCheckBox) {
-		super(app, dialogData);
+		super(app, dialogData, false);
 		if (addTempCheckBox) {
 			addStyleName("templateSave");
 		} else {

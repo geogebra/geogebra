@@ -15,6 +15,7 @@ import org.geogebra.common.euclidian.inline.InlineFormulaController;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
+import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
 import org.geogebra.common.gui.Layout;
@@ -58,6 +59,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
+import org.geogebra.web.cas.giac.CASFactoryW;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.full.euclidian.inline.InlineFormulaControllerW;
 import org.geogebra.web.full.euclidian.inline.InlineTableControllerW;
@@ -133,6 +135,7 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.Persistable;
+import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.components.ComponentDialog;
@@ -543,14 +546,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		final PopupBlockAvoider popupBlockAvoider = new PopupBlockAvoider();
 		final GeoGebraTubeExportW ggbtube = new GeoGebraTubeExportW(this);
-		getGgbApi().getBase64(true, new AsyncOperation<String>() {
-
-			@Override
-			public void callback(String s) {
-				ggbtube.uploadWorksheetSimple(s, popupBlockAvoider);
-
-			}
-		});
+		getGgbApi().getBase64(true,
+				(StringConsumer) s -> ggbtube.uploadWorksheetSimple(s, popupBlockAvoider));
 	}
 
 	@Override
@@ -2141,6 +2138,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 		if (getAppletFrame().isKeyboardShowing()) {
 			hideKeyboard();
+		}
+	}
+
+	@Override
+	protected void initFactories() {
+		super.initFactories();
+		if (!CASFactory.isInitialized()) {
+			CASFactory.setPrototype(new CASFactoryW());
 		}
 	}
 }

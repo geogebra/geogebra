@@ -497,6 +497,8 @@ __GGB__keysVar["ca-XV"].command = {
     "IsPrime.Syntax": "[ <Nombre> ]",
     "IsTangent": "\xc9sTangent",
     "IsTangent.Syntax": "[ <L\xednia>, <C\xf2nica> ]",
+    "IsVertexForm": "\xc9sFormaV\xe8rtex",
+    "IsVertexForm.Syntax": "[ <Funci\xf3> ]",
     "Iteration": "Iteraci\xf3",
     "Iteration.Syntax": "[ <Funci\xf3>, <Valor inicial>, <Nombre d'iteracions> ]",
     "IterationList": "LlistaIteracions",

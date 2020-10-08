@@ -497,6 +497,8 @@ __GGB__keysVar["et"].command = {
     "IsPrime.Syntax": "[ <Arv> ]",
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <Line>, <Conic> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "Itereeri",
     "Iteration.Syntax": "[ <Funktsioon>, <Algv\xe4\xe4rtus>, <Iteratsioonide arv> ]",
     "IterationList": "IteratsiooniLoend",

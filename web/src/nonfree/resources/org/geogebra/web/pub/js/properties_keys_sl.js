@@ -497,6 +497,8 @@ __GGB__keysVar["sl"].command = {
     "IsPrime.Syntax": "[ <\u0161tevilo> ]",
     "IsTangent": "JeTangenta",
     "IsTangent.Syntax": "[ <premica>, <konika> ]",
+    "IsVertexForm": "IsVertexForm",
+    "IsVertexForm.Syntax": "[ <Function> ]",
     "Iteration": "Ponavljaj",
     "Iteration.Syntax": "[ <funkcija>, <za\u010detna-vrednost>, <\u0161tevilo ponovitev> ]\n[ <izraz>, <spremenljivkest>, <za\u010detna vrednost>, <\u0161tevec> ]",
     "IterationList": "SeznamPonavljanj",
