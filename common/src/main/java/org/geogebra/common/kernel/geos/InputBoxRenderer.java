@@ -63,7 +63,8 @@ class InputBoxRenderer {
 	}
 
 	private String getTextForSymbolic() {
-		boolean flatEditableList = !hasEditableMatrix() && linkedGeo.isGeoList();
+		boolean flatEditableList = linkedGeo.isGeoList()
+				&& !((GeoList) linkedGeo).isEditableMatrix();
 		boolean isComplexFunction = linkedGeo.isGeoSurfaceCartesian()
 				&& linkedGeo.getDefinition() != null;
 
@@ -110,14 +111,6 @@ class InputBoxRenderer {
 			stringTemplateForLaTeX = StringTemplate.latexTemplate.makeStrTemplateForEditing();
 		}
 		return stringTemplateForLaTeX;
-	}
-
-	private boolean hasEditableMatrix() {
-		if (!linkedGeo.isGeoList()) {
-			return false;
-		}
-
-		return ((GeoList) linkedGeo).isEditableMatrix();
 	}
 
 	void setLinkedGeo(GeoElementND linkedGeo) {
