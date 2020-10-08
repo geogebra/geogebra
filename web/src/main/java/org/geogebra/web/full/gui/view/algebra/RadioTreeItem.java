@@ -1711,8 +1711,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	@Override
 	public void setFocus(boolean focus) {
 		if (focus) {
-			if (app.isUnbundled() && app.isMenuShowing()) {
-				app.toggleMenu();
+			if (app.isUnbundled()) {
+				app.hideMenu();
 			}
 			removeDummy();
 

@@ -269,9 +269,8 @@ public class ToolbarPanel extends FlowPanel
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		if (DOM.eventGetType(event) == Event.ONCLICK
-				&& app.isMenuShowing()) {
-			toggleMenu();
+		if (DOM.eventGetType(event) == Event.ONCLICK) {
+			app.hideMenu();
 		}
 		super.onBrowserEvent(event);
 	}
@@ -666,13 +665,6 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	void setLastOpenWidth(Integer value) {
 		this.lastOpenWidth = value;
-	}
-
-	/**
-	 * Opens and closes Burger Menu
-	 */
-	void toggleMenu() {
-		app.toggleMenu();
 	}
 
 	/**

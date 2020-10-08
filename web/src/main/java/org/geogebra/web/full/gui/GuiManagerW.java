@@ -2303,9 +2303,7 @@ public class GuiManagerW extends GuiManager
 
 			@Override
 			public void callback(Widget share) {
-				if (getApp().isMenuShowing()) {
-					getApp().toggleMenu();
-				}
+				getApp().hideMenu();
 				FileMenuW.share(getApp(), share);
 			}
 		});
