@@ -432,7 +432,7 @@ public class DialogManagerW extends DialogManager
 					"Cancel", "Save");
 
 			saveDialog = doYouWantSaveChanges
-					? new DoYouWantToSaveChangesDialog((AppW) app, data)
+					? new DoYouWantToSaveChangesDialog((AppW) app, data, true)
 					: new SaveDialogMow((AppW) app, data, addTempCheckBox);
 		} else if (saveDialog == null) {
 			DialogData data = new DialogData("Save", "DontSave", "Save");

@@ -14,6 +14,7 @@ import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
@@ -26,10 +27,11 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	 * base dialog constructor
 	 * @param app - see {@link AppW}
 	 * @param dialogData - contains trans keys for title and buttons
+	 * @param autoHide - true if dialog should be hidden on background click
 	 */
 	public DoYouWantToSaveChangesDialog(AppW app,
-			DialogData dialogData) {
-		super(app, dialogData, false, true);
+			DialogData dialogData, boolean autoHide) {
+		super(app, dialogData, autoHide, true);
 		addStyleName("saveDialogMow");
 		buildContent();
 		initActions();
@@ -81,6 +83,7 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 				onSave();
 			}
 		});
+		Window.addCloseHandler(event -> app.getSaveController().cancel());
 	}
 
 	private void onSave() {
