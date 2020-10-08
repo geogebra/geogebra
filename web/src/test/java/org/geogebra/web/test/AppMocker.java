@@ -20,8 +20,8 @@ import com.google.gwt.core.client.impl.SchedulerImpl;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.impl.PopupImpl;
 import com.google.gwtmockito.GwtMockito;
-import com.google.gwtmockito.fakes.FakeProvider;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.web.FactoryProviderGWT;
 
 public class AppMocker {
 
@@ -100,32 +100,20 @@ public class AppMocker {
 	private static void useCommonFakeProviders() {
 		ElementalMocker.setupElemental();
 		GwtMockito.useProviderForType(PopupImpl.class,
-				new FakeProvider<PopupImpl>() {
+				type -> new PopupImpl() {
 
 					@Override
-					public PopupImpl getFake(Class<?> type) {
-						return new PopupImpl() {
-
-							@Override
-							public Element getStyleElement(Element popup) {
-								return DomMocker.getElement();
-							}
-						};
+					public Element getStyleElement(Element popup) {
+						return DomMocker.getElement();
 					}
 				});
 		Browser.mockWebGL();
-		FactoryProvider.setInstance(new MockFactoryProviderGWT());
+		FactoryProvider.setInstance(new FactoryProviderGWT());
 		setTestLogger();
 	}
 
 	public static void useProviderForSchedulerImpl() {
 		GwtMockito.useProviderForType(SchedulerImpl.class,
-				new FakeProvider<SchedulerImpl>() {
-
-					@Override
-					public SchedulerImpl getFake(Class<?> type) {
-						return new QueueScheduler();
-					}
-				});
+				type -> new QueueScheduler());
 	}
 }

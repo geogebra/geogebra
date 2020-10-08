@@ -179,6 +179,13 @@ public interface AppConfig {
 	String getAppCode();
 
 	/**
+	 * @return The sub-app code if exists.
+	 * E.g. in the Suite app the Graphing sub-app has "suite" app code and "graphing" sub-app code.
+	 */
+	@CheckForNull
+	String getSubAppCode();
+
+	/**
 	 * @return creates a settings updater
 	 */
 	SettingsUpdater createSettingsUpdater();
@@ -286,5 +293,10 @@ public interface AppConfig {
 	 * @return the template to serialize the output
 	 */
 	StringTemplate getOutputStringTemplate();
-}
 
+	/**
+	 * @return if closing/opening keyboard should send event
+	 * 	 (only for evaluator for now)
+ 	 */
+	boolean sendKeyboardEvents();
+}

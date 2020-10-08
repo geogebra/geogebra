@@ -53,6 +53,9 @@ public abstract class FileManager extends MaterialsManager {
 	        final SaveCallback cb);
 
 	/**
+	 * loads every file of the device depending on the {@link MaterialFilter
+	 * filter} into the BrowseView.
+	 *
 	 * @param materialFilter
 	 *            filter
 	 */

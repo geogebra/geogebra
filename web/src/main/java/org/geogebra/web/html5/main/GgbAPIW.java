@@ -1466,6 +1466,14 @@ public class GgbAPIW extends GgbAPI {
 		((AppW) app).tryLoadTemplatesOnFileNew();
 	}
 
+	/**
+	 * reset after login and after save callbacks
+	 */
+	public void resetAfterSaveLoginCallbacks() {
+		((AppW) app).getGuiManager().setRunAfterLogin(null);
+		app.getSaveController().setRunAfterSave(null);
+	}
+
 	@Override
 	public void handleSlideAction(String eventType, String pageIdx, String appState) {
 		EventType event = null;
@@ -1521,5 +1529,4 @@ public class GgbAPIW extends GgbAPI {
 			pageController.updatePreviewImage();
 		}
 	}
-
 }

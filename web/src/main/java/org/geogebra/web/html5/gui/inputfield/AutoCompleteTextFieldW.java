@@ -68,6 +68,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
@@ -225,7 +226,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			@Override
 			public void onBrowserEvent(Event event) {
-				int etype = event.getTypeInt();
+				int etype = DOM.eventGetType(event);
 				if (isSelected(etype)) {
 					handleSelectedEvent(event);
 					return;
@@ -243,8 +244,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 				// react on enter from system on screen keyboard or hardware
 				// keyboard
-				if ((event.getTypeInt() == Event.ONKEYUP
-						|| event.getTypeInt() == Event.ONKEYPRESS)
+				if ((etype == Event.ONKEYUP
+						|| etype == Event.ONKEYPRESS)
 						&& event.getKeyCode() == KeyCodes.KEY_ENTER) {
 					// app.hideKeyboard();
 					// prevent handling in AutoCompleteTextField

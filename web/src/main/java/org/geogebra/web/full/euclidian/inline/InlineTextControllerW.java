@@ -134,6 +134,13 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
+	public void updateContentIfChanged() {
+		if (geo.getContent() != null && !geo.getContent().equals(editor.getContent())) {
+			updateContent();
+		}
+	}
+
+	@Override
 	public void setWidth(int width) {
 		style.setWidth(width, Style.Unit.PX);
 		editor.setWidth(width);
@@ -167,11 +174,16 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public void format(String key, Object val) {
 		editor.format(key, val);
-		geo.setContent(editor.getContent());
+		saveContent();
 		geo.updateVisualStyleRepaint(GProperty.COMBINED);
 		if ("font".equals(key)) {
 			FontLoader.loadFont(String.valueOf(val), getCallback());
 		}
+	}
+
+	@Override
+	public void saveContent() {
+		geo.setContent(editor.getContent());
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package org.geogebra.common.main;
+package org.geogebra.common.main.settings.config;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -9,28 +9,55 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
+import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.arithmetic.filter.GraphingOperationArgumentFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.GraphingCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
+import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppKeyboardType;
+import org.geogebra.common.main.settings.updater.GraphingSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.main.syntax.suggestionfilter.GraphingSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.BasePropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
- * Config for Classic and derived apps (MR)
+ * Config for Graphing Calculator app
  */
-public class AppConfigDefault implements AppConfig {
+public class AppConfigGraphing extends AbstractAppConfig {
+
+	public AppConfigGraphing() {
+		super(GeoGebraConstants.GRAPHING_APPCODE);
+	}
+
+	public AppConfigGraphing(String appCode) {
+		super(appCode, GeoGebraConstants.GRAPHING_APPCODE);
+	}
+
+	AppConfigGraphing(String appCode, String subAppCode) {
+		super(appCode, subAppCode);
+	}
 
 	@Override
 	public void adjust(DockPanelData dp) {
-		// do nothing
+		if (dp.getViewId() == App.VIEW_ALGEBRA) {
+			dp.setLocation("3");
+		} else if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
+			dp.makeVisible();
+			dp.setLocation("1");
+		}
 	}
 
 	@Override
@@ -40,38 +67,27 @@ public class AppConfigDefault implements AppConfig {
 
 	@Override
 	public int getLineDisplayStyle() {
-		return -1;
+		return GeoLine.EQUATION_EXPLICIT;
 	}
 
 	@Override
 	public String getAppTitle() {
-		return "math_apps";
+		return "GraphingCalculator";
 	}
 
 	@Override
 	public String getAppName() {
-		return getAppTitle();
+		return "GeoGebraGraphingCalculator";
 	}
 
 	@Override
 	public String getAppNameShort() {
-		return getAppTitle();
-	}
-
-	/**
-	 * @param appName
-	 *            app name
-	 * @return whether app name is one of the unbundled apps
-	 */
-	public static boolean isUnbundledOrNotes(String appName) {
-		return "graphing".equals(appName) || "geometry".equals(appName)
-				|| "cas".equals(appName) || "notes".equals(appName)
-				|| "3d".equals(appName) || "scientific".equals(appName) || "suite".equals(appName);
+		return "GraphingCalculator.short";
 	}
 
 	@Override
 	public String getTutorialKey() {
-		return "TutorialClassic";
+		return "TutorialGraphing";
 	}
 
 	@Override
@@ -86,7 +102,7 @@ public class AppConfigDefault implements AppConfig {
 
 	@Override
 	public boolean hasPreviewPoints() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -101,7 +117,7 @@ public class AppConfigDefault implements AppConfig {
 
 	@Override
 	public int getDefaultPrintDecimals() {
-		return Kernel.STANDARD_PRINT_DECIMALS_SHORT;
+		return Kernel.STANDARD_PRINT_DECIMALS_GRAPHING;
 	}
 
 	@Override
@@ -111,12 +127,12 @@ public class AppConfigDefault implements AppConfig {
 
 	@Override
 	public int[] getDecimalPlaces() {
-		return new int[] {0, 1, 2, 3, 4, 5, 10, 15};
+		return new int[]{0, 1, 2, 3, 4, 5, 10, 13, 15};
 	}
 
 	@Override
 	public int[] getSignificantFigures() {
-		return new int[] {3, 5, 10, 15};
+		return new int[]{3, 5, 10, 15};
 	}
 
 	@Override
@@ -126,17 +142,17 @@ public class AppConfigDefault implements AppConfig {
 
 	@Override
 	public boolean isCASEnabled() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public String getPreferencesKey() {
-		return "";
+		return "_graphing";
 	}
 
 	@Override
 	public String getForcedPerspective() {
-		return null;
+		return Perspective.GRAPHING + "";
 	}
 
 	@Override
@@ -146,22 +162,22 @@ public class AppConfigDefault implements AppConfig {
 
 	@Override
 	public AppType getToolbarType() {
-		return AppType.CLASSIC;
+		return AppType.GRAPHING_CALCULATOR;
 	}
 
-    @Override
-    public boolean showGridOnFileNew() {
-	    return true;
-    }
+	@Override
+	public boolean showGridOnFileNew() {
+		return true;
+	}
 
-    @Override
-    public boolean showAxesOnFileNew() {
-        return true;
-    }
+	@Override
+	public boolean showAxesOnFileNew() {
+		return true;
+	}
 
 	@Override
 	public boolean hasTableView() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -191,28 +207,28 @@ public class AppConfigDefault implements AppConfig {
 
 	@Override
 	public String getDefaultSearchTag() {
-		return "";
+		return "ft.phone-2d";
 	}
 
 	@Override
 	public int getDefaultLabelingStyle() {
-		return ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC;
+		return ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON;
 	}
 
 	@Override
 	public CommandFilter getCommandFilter() {
-		return null;
+		return CommandFilterFactory.createGraphingCommandFilter();
 	}
 
 	@Override
 	public CommandArgumentFilter getCommandArgumentFilter() {
-		return null;
+		return new GraphingCommandArgumentFilter();
 	}
 
 	@CheckForNull
 	@Override
 	public SyntaxFilter newCommandSyntaxFilter() {
-		return null;
+		return new GraphingSyntaxFilter();
 	}
 
 	@Override
@@ -221,13 +237,8 @@ public class AppConfigDefault implements AppConfig {
 	}
 
 	@Override
-	public String getAppCode() {
-		return "classic";
-	}
-
-	@Override
 	public SettingsUpdater createSettingsUpdater() {
-		return new SettingsUpdater();
+		return new GraphingSettingsUpdater();
 	}
 
 	@Override
@@ -237,32 +248,24 @@ public class AppConfigDefault implements AppConfig {
 
 	@Override
 	public boolean hasExam() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getExamMenuItemText() {
-		return "";
-	}
-
-	@Override
-	public OperationArgumentFilter createOperationArgumentFilter() {
-		return null;
-	}
-
-	@Override
-	public ParserFunctionsFactory createParserFunctionsFactory() {
-		return ParserFunctionsFactory.createParserFunctionsFactory();
+		return "ExamGraphingCalc.short";
 	}
 
 	@Override
 	public Set<FillType> getAvailableFillTypes() {
-		return new HashSet<>(Arrays.asList(FillType.values()));
+		Set<FillType> set = new HashSet<>(Arrays.asList(FillType.values()));
+		set.remove(FillType.IMAGE);
+		return set;
 	}
 
 	@Override
 	public boolean isObjectDraggingRestricted() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -277,7 +280,7 @@ public class AppConfigDefault implements AppConfig {
 
 	@Override
 	public boolean isCoordinatesObjectSettingEnabled() {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -295,28 +298,43 @@ public class AppConfigDefault implements AppConfig {
 		return AppKeyboardType.GRAPHING;
 	}
 
-    @Override
-    public int getEnforcedLineEquationForm() {
-	    return -1;
-    }
+	@Override
+	public OperationArgumentFilter createOperationArgumentFilter() {
+		return new GraphingOperationArgumentFilter();
+	}
 
-    @Override
-    public int getEnforcedConicEquationForm() {
-        return -1;
-    }
+	@Override
+	public ParserFunctionsFactory createParserFunctionsFactory() {
+		return ParserFunctionsFactory.createGraphingParserFunctionsFactory();
+	}
+
+	@Override
+	public int getEnforcedLineEquationForm() {
+		return GeoLine.EQUATION_USER;
+	}
+
+	@Override
+	public int getEnforcedConicEquationForm() {
+		return GeoConic.EQUATION_USER;
+	}
 
 	@Override
 	public boolean shouldHideEquations() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean hasAnsButtonInAv() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public StringTemplate getOutputStringTemplate() {
 		return StringTemplate.latexTemplate;
+	}
+
+	@Override
+	public boolean sendKeyboardEvents() {
+		return false;
 	}
 }

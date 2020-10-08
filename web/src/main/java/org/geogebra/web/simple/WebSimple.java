@@ -2,7 +2,9 @@ package org.geogebra.web.simple;
 
 import java.util.ArrayList;
 
+import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 
@@ -30,9 +32,11 @@ public class WebSimple implements EntryPoint {
 		GeoGebraFrameSimple.main(geoGebraMobileTags);
 	}
 
-	private native void exportGGBElementRenderer() /*-{
-		$wnd.renderGGBElement = $entry(@org.geogebra.web.html5.gui.GeoGebraFrameSimple::renderArticleElement(*))
-		@org.geogebra.web.html5.gui.GeoGebraFrameW::renderGGBElementReady()();
-	}-*/;
+	private void exportGGBElementRenderer() {
+		GeoGebraGlobal.setRenderGGBElement((el, callback) -> {
+			GeoGebraFrameSimple.renderArticleElement(GeoGebraElement.as(el), callback);
+		});
+		GeoGebraFrameW.renderGGBElementReady();
+	}
 
 }

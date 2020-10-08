@@ -1,7 +1,7 @@
 package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.settings.AppConfigNotes;
+import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.MessagePanel;
 import org.geogebra.web.full.gui.layout.DockPanelW;

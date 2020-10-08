@@ -121,6 +121,7 @@ $duration: 0.2s;
 			img {
 				width: 24px !important;
 				height: 24px !important;
+				padding-right: 16px;
 				opacity: 0.54;
 			}
 		}
@@ -138,10 +139,6 @@ $duration: 0.2s;
 		.gwt-MenuItem:hover, .highlighted {
 			background-color: $selected-menuitem-background;
 			color: $black;
-
-			img {
-				opacity: 0.87;
-			}
 		}
 
 		.gwt-MenuItem-disabled,

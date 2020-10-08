@@ -3,7 +3,7 @@ package org.geogebra.suite;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.commands.AlgebraTest;
-import org.geogebra.common.main.settings.AppConfigSuite;
+import org.geogebra.common.main.settings.config.AppConfigSuite;
 
 public class BaseSuiteTest extends BaseUnitTest {
 

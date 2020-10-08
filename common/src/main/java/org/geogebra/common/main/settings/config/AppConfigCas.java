@@ -1,4 +1,4 @@
-package org.geogebra.common.main.settings;
+package org.geogebra.common.main.settings.config;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -27,6 +27,14 @@ import org.geogebra.common.properties.factory.PropertiesFactory;
  * Config for CAS Calculator app
  */
 public class AppConfigCas extends AppConfigGraphing {
+
+	public AppConfigCas() {
+		super(GeoGebraConstants.CAS_APPCODE, null);
+	}
+
+	public AppConfigCas(String appCode) {
+		super(appCode, GeoGebraConstants.CAS_APPCODE);
+	}
 
 	@Override
 	public String getAppTitle() {
@@ -92,11 +100,6 @@ public class AppConfigCas extends AppConfigGraphing {
 	@Override
 	public boolean showToolsPanel() {
 		return false;
-	}
-
-	@Override
-	public String getAppCode() {
-		return "cas";
 	}
 
 	@Override

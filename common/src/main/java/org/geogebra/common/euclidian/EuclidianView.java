@@ -3571,7 +3571,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			// these methods probably do not call other synchronized
 			// code blocks, it probably does not cause any problem
 			companion.paint(g2);
-			getEuclidianController().getPen().repaintIfNeeded(g2);
+			getEuclidianController().getPen().setStyleAndRepaint(g2);
 		}
 	}
 
@@ -6455,6 +6455,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		for (Drawable drawable: allDrawableList) {
 			if (drawable instanceof DrawInline) {
 				((DrawInline) drawable).updateContent();
+			}
+		}
+	}
+
+	/**
+	 * Store current editor values into the respective geos
+	 */
+	public void saveInlines() {
+		for (Drawable drawable: allDrawableList) {
+			if (drawable instanceof DrawInline) {
+				((DrawInline) drawable).saveContent();
 			}
 		}
 	}

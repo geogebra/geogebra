@@ -43,7 +43,6 @@ import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
@@ -58,6 +57,7 @@ import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingsBuilder;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.move.events.BaseEventPool;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
@@ -67,6 +67,7 @@ import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.operations.Network;
 import org.geogebra.common.move.operations.NetworkOperation;
+import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.sound.SoundManager;
@@ -520,7 +521,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * inits factories
 	 */
 	protected void initFactories() {
-
 		if (FormatFactory.getPrototype() == null) {
 			FormatFactory.setPrototypeIfNull(new FormatFactoryW());
 		}
@@ -531,10 +531,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		if (StringUtil.getPrototype() == null) {
 			StringUtil.setPrototypeIfNull(new StringUtil());
-		}
-
-		if (!CASFactory.isInitialized()) {
-			CASFactory.setPrototype((CASFactory) GWT.create(CASFactory.class));
 		}
 
 		if (UtilFactory.getPrototype() == null) {
@@ -1098,10 +1094,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setWaitCursor();
 		fileNew();
 		setDefaultCursor();
-
-		if (!isUnbundledOrWhiteboard()) {
-			showPerspectivesPopup();
-		}
+		showPerspectivesPopupIfNeeded();
 	}
 
 	/**
@@ -3125,7 +3118,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * Show perspective picker
 	 */
-	public void showPerspectivesPopup() {
+	public void showPerspectivesPopupIfNeeded() {
 		// overridden in AppWFull
 	}
 
@@ -3380,8 +3373,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			// url = StringUtil.txtMarker + URL.encodePathSegment(content);
 		}
 
-		dispatchEvent(new org.geogebra.common.plugin.Event(
-				EventType.OPEN_DIALOG, null, "export3D"));
+		dispatchEvent(new Event(EventType.OPEN_DIALOG, null, "export3D"));
 		getFileManager().showExportAsPictureDialog(url, getExportTitle(),
 				extension, "Export", this);
 	}
@@ -3659,5 +3651,20 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void resetUrl() {
 	 	Browser.resetUrl();
 		Browser.changeUrl("/" + appletParameters.getParamShareLinkPrefix());
+	}
+
+	/**
+	 * send event for open/close keyboard
+	 * @param openKeyboard true if open keyboard event should be sent
+	 */
+	public void sendKeyboardEvent(boolean openKeyboard) {
+		if (getConfig().sendKeyboardEvents()) {
+			if (openKeyboard && !getAppletFrame().isKeyboardShowing()) {
+				dispatchEvent(new Event(EventType.OPEN_KEYBOARD));
+			}
+			if (!openKeyboard) {
+				dispatchEvent(new Event(EventType.CLOSE_KEYBOARD));
+			}
+		}
 	}
 }
