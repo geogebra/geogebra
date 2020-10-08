@@ -47,7 +47,6 @@ import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
@@ -188,22 +187,6 @@ public class EuclidianViewW extends EuclidianView implements
         }
         element.addEventListener("focusin", handler);
     }-*/;
-
-	private void initClickStartHandler() {
-		AbsolutePanel panel = getAbsolutePanel();
-		if (panel == null) {
-			return;
-		}
-		ClickStartHandler.init(panel, new ClickStartHandler() {
-			@Override
-			public void onClickStart(final int x, final int y,
-					PointerEventType type) {
-				getEuclidianController().closePopups(x, y, type);
-				appW.hideMenu();
-			}
-		});
-		initAriaDefaults();
-	}
 
 	/**
 	 * @param euclidiancontroller
