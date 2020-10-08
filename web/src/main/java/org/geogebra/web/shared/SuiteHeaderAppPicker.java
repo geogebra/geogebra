@@ -1,6 +1,5 @@
 package org.geogebra.web.shared;
 
-import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.CalcSwitcherPopup;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
@@ -12,6 +11,7 @@ import org.geogebra.web.html5.main.AppW;
 public class SuiteHeaderAppPicker {
 	protected final AppW app;
 	private AppPickerButton appPickerButton;
+	private CalcSwitcherPopup suitePopup;
 
 	/**
 	 * @param app
@@ -26,11 +26,14 @@ public class SuiteHeaderAppPicker {
 		SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
 		appPickerButton = new AppPickerButton(res.menu_icon_algebra_transparent(),
 				"GraphingCalculator.short", app,
-				MaterialDesignResources.INSTANCE.arrow_drop_down());
-		//appPickerButton.getElement().setAttribute("data-trans-key","GraphingCalculator.short");
+				MaterialDesignResources.INSTANCE.arrow_drop_down_transparent());
 		appPickerButton.addStyleName("suiteAppPickerButton");
-		CalcSwitcherPopup suitePopup = new CalcSwitcherPopup((AppWFull) app, appPickerButton);
+		createAppPickerPopup();
 		appPickerButton.addFastClickHandler(event -> suitePopup.showCalcSwitcherPopup());
+	}
+
+	private void createAppPickerPopup() {
+		suitePopup = new CalcSwitcherPopup((AppWFull) app, appPickerButton);
 	}
 
 	/**

@@ -1,31 +1,21 @@
 package org.geogebra.web.full.gui.dialog;
 
-import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
-import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.view.button.header.AppPickerButton;
 import org.geogebra.web.resources.SVGResource;
-import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class CalcSwitcherPopup extends GPopupPanel {
 
-	//final DialogBoxW box;
-	//final GPopupMenuW box;
 	final AppWFull app;
 	private final FlowPanel popupPanel;
-	//private GPopupMenuW popupPanel;
 	private boolean popupShowing = false;
 	AppPickerButton appPickerButton;
 
@@ -43,7 +33,6 @@ public class CalcSwitcherPopup extends GPopupPanel {
 		this.appPickerButton = pickerButton;
 		setGlassEnabled(false);
 		addStyleName("calcPickerPopup");
-
 		this.popupPanel = new FlowPanel();
 		popupPanel.removeStyleName("dialogContent");
 		popupPanel.addStyleName("calcPickerPanel");
@@ -57,6 +46,7 @@ public class CalcSwitcherPopup extends GPopupPanel {
 		if (!popupShowing) {
 			createElements(app);
 			popupShowing = true;
+			this.setPopupPosition(getLeft(), 0);
 			show();
 		} else {
 			popupShowing = false;
@@ -75,7 +65,7 @@ public class CalcSwitcherPopup extends GPopupPanel {
 	private void addElement(AppWFull app, SVGResource icon, String key) {
 		FlowPanel rowPanel = new FlowPanel();
 		SimplePanel imgPanel = new SimplePanel();
-		imgPanel.addStyleName("imgHolder");
+		imgPanel.addStyleName("appIcon");
 		imgPanel.add(new NoDragImage(icon, 24, 24));
 		rowPanel.add(imgPanel);
 		Label label = new Label(app.getLocalization().getMenu(key));
@@ -93,5 +83,9 @@ public class CalcSwitcherPopup extends GPopupPanel {
 
 	private void closeCalcSwitcherPopup() {
 		hide();
+	}
+
+	private int getLeft() {
+		return appPickerButton.getAbsoluteLeft() - 8 ;
 	}
 }

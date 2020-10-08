@@ -205,35 +205,35 @@
 
 	.suiteAppPickerButton {
 		position: absolute;
-        top: 13px;
+        top: 14px;
         left: 505px;
         min-width: 170px;
-        height: 36px;
+        height: 34px;
 		border-radius: 18px;
 		padding: 0px;
 		border: 1px solid rgba(151, 151, 151, 0.52);
 
 		.gwt-Label {
 			display: inline-block;
-			margin-bottom: 1px;
+			margin-bottom: 2px;
+			font-size: 16px;
 		}
 
 		.gwt-Image {
 			vertical-align: bottom;
-			margin: 5px 0 0 12px;
-			padding: 0 10px 0 0;
+			margin: 5px 12px 0 17px;
 			width: 24px;
 		}
 	}
 
 	.btnSecondIcon {
 		float: right;
-		margin-top: 12px;
-		padding: 0 16px 0 13px;
+		padding: 7px 16px 7px 13px;
 	}
 
 	@media screen and (max-width: 925px) {
 		.suiteAppPickerButton {
+			left: 400px;
 			visibility: hidden;
 		}
 	}

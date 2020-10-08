@@ -51,6 +51,12 @@ public class AppPickerButton extends StandardButton {
 		Roles.getButtonRole().removeAriaPressedState(getElement());
 	}
 
+	/**
+	 * @param icon
+	 *            - img of button
+	 * @param label
+	 *            - text of button
+	 */
 	public void setIconAndLabel(final ResourcePrototype icon, String label) {
 		setIconLabelAndSecondIcon(icon, label, this.secondIcon, this.app);
 	}
