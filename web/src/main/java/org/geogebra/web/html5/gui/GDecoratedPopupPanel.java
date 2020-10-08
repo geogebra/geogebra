@@ -92,14 +92,6 @@ public class GDecoratedPopupPanel extends GPopupPanel {
 	private GDecoratorPanel decPanel;
 
 	/**
-	 * Creates an empty decorated popup panel. A child widget must be added to
-	 * it before it is shown.
-	 */
-	// public GDecoratedPopupPanel(Panel root, App app) {
-	// this(false, app);
-	// }
-
-	/**
 	 * Creates an empty decorated popup panel, specifying its "auto-hide"
 	 * property.
 	 * 

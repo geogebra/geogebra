@@ -167,18 +167,20 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	public void computeOutput() {
 		ExpressionValue casInputArg = getDefinition().deepCopy(kernel)
 				.traverse(FunctionExpander.getCollector());
-		Command casInput;
-		if (casInputArg.unwrap() instanceof Command) {
-			// don't wrap commands in additional Evaluate
-			casInput = (Command) casInputArg.unwrap();
-		} else {
-			casInput = new Command(kernel, "Evaluate", false);
-			casInput.addArgument(casInputArg.wrap());
-		}
+		Command casInput = getCasInput(casInputArg);
+
 		MyArbitraryConstant constant = getArbitraryConstant();
 		constant.setSymbolic(!shouldBeEuclidianVisible(casInput));
-		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(),
-				constant, StringTemplate.prefixedDefault, null, kernel);
+
+		String s = evaluateGeoGebraCAS(casInput, constant);
+
+		if (Commands.Solve.name().equals(casInput.getName()) && GeoFunction.isUndefined(s)) {
+			getDefinition().getTopLevelCommand().setName(Commands.NSolve.name());
+			casInput = getCasInput(getDefinition().deepCopy(kernel)
+					.traverse(FunctionExpander.getCollector()));
+			s = evaluateGeoGebraCAS(casInput, constant);
+		}
+
 		this.casOutputString = s;
 		ExpressionValue casOutput = parseOutputString(s);
 
@@ -189,12 +191,34 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		isEuclidianShowable = shouldBeEuclidianVisible(casInput);
 	}
 
+	private Command getCasInput(ExpressionValue casInputArg) {
+		Command casInput;
+		if (casInputArg.unwrap() instanceof  Command) {
+			casInput = (Command) casInputArg.unwrap();
+		} else {
+			casInput = new Command(kernel, "Evaluate", false);
+			casInput.addArgument(casInputArg.wrap());
+		}
+		return casInput;
+	}
+
+	private String evaluateGeoGebraCAS(Command command, MyArbitraryConstant constant) {
+		return kernel.getGeoGebraCAS().evaluateGeoGebraCAS(
+				command.wrap(), constant, getStringTemplate(command), null, kernel);
+	}
+
 	private boolean shouldBeEuclidianVisible(Command input) {
 		String inputName = input.getName();
 		return !Commands.Solve.name().equals(inputName)
 				&& !Commands.NSolve.name().equals(inputName)
 				&& !Commands.IntegralSymbolic.name().equals(inputName)
 				&& !Commands.IsInteger.name().equals(inputName);
+	}
+
+	private StringTemplate getStringTemplate(Command input) {
+		String inputName = input.getName();
+		return Commands.Numeric.name().equals(inputName) && input.getArgumentNumber() == 2
+				? StringTemplate.numericNoLocal : StringTemplate.prefixedDefault;
 	}
 
 	private ExpressionValue parseOutputString(String output) {

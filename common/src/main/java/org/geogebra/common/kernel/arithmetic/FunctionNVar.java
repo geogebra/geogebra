@@ -1355,6 +1355,7 @@ public class FunctionNVar extends ValidExpression
 		for (int i = 0; i < n; i++) {
 			expDeriv = expDeriv.derivative(fv, kernel);
 		}
+		expDeriv = expDeriv.shallowCopy();
 		expDeriv.simplifyConstantIntegers();
 		return new FunctionNVar(expDeriv, fVars);
 	}

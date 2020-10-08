@@ -10,7 +10,7 @@ import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.geos.properties.TextAlignment;
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.test.euclidian.AutoCompleteTextFieldC;
 import org.geogebra.test.euclidian.TextFieldCommonJre;
 import org.junit.Before;
@@ -38,35 +38,35 @@ public class DrawInputBoxAlignmentTest {
 
 	@Test
 	public void inputBoxTextAlignmentTest() {
-		inputBox.setAlignment(TextAlignment.LEFT);
+		inputBox.setAlignment(HorizontalAlignment.LEFT);
 		inputBox.update();
 		verifyDrawString("A", 30.0d);
 		verifyDrawString("123456", INPUT_LEFT + 2);
-		verifyAlignment(TextAlignment.LEFT);
+		verifyAlignment(HorizontalAlignment.LEFT);
 	}
 
 	@Test
 	public void inputBoxTextAlignmentTestCenter() {
-		inputBox.setAlignment(TextAlignment.CENTER);
+		inputBox.setAlignment(HorizontalAlignment.CENTER);
 		inputBox.update();
 		verifyDrawString(
 				"123456",
 				INPUT_LEFT + INPUT_WIDTH * .5 - TEXT_WIDTH * .5);
-		verifyAlignment(TextAlignment.CENTER);
+		verifyAlignment(HorizontalAlignment.CENTER);
 	}
 
 	@Test
 	public void inputBoxTextAlignmentTestRight() {
-		inputBox.setAlignment(TextAlignment.RIGHT);
+		inputBox.setAlignment(HorizontalAlignment.RIGHT);
 		inputBox.update();
 		verifyDrawString(
 				"123456",
 				INPUT_LEFT + INPUT_WIDTH - TEXT_WIDTH
 						- DrawInputBox.TF_PADDING_HORIZONTAL);
-		verifyAlignment(TextAlignment.RIGHT);
+		verifyAlignment(HorizontalAlignment.RIGHT);
 	}
 
-	private void verifyAlignment(TextAlignment left) {
+	private void verifyAlignment(HorizontalAlignment left) {
 		AutoCompleteTextFieldC autoCompleteTextFieldC = (AutoCompleteTextFieldC) app
 				.getActiveEuclidianView().getTextField();
 		autoCompleteTextFieldC.setUsedForInputBox(inputBox);

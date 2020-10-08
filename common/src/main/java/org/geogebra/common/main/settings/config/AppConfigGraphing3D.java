@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.properties.FillType;
-import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
@@ -63,7 +62,7 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 
 	@Override
 	public String getTutorialKey() {
-		return "Tutorial3D";
+		return getSubAppCode() == null ? "Tutorial3D" : "TutorialSuite";
 	}
 
 	@Override
@@ -83,7 +82,7 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 
 	@Override
 	public int[] getDecimalPlaces() {
-		return new int[] {0, 1, 2, 3, 4, 5, 10, 15};
+		return new int[]{0, 1, 2, 3, 4, 5, 10, 15};
 	}
 
 	@Override
@@ -100,16 +99,16 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	public String getForcedPerspective() {
 		return Perspective.GRAPHER_3D + "";
 	}
-	
+
 	@Override
 	public AppType getToolbarType() {
 		return AppType.GRAPHER_3D;
 	}
 
-    @Override
-    public boolean showGridOnFileNew() {
-        return false;
-    }
+	@Override
+	public boolean showGridOnFileNew() {
+		return false;
+	}
 
 	@Override
 	public String getDefaultSearchTag() {
@@ -183,8 +182,8 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	}
 
 	@Override
-	public ParserFunctions createParserFunctions() {
-		return ParserFunctionsFactory.createParserFunctions();
+	public ParserFunctionsFactory createParserFunctionsFactory() {
+		return ParserFunctionsFactory.createParserFunctionsFactory();
 	}
 
 	@Override

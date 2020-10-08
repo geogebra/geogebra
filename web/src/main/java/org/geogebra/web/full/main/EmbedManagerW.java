@@ -26,7 +26,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
-import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
@@ -44,8 +43,6 @@ import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -54,6 +51,7 @@ import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.core.Global;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * Creates, deletes and resizes embedded applets.
@@ -141,7 +139,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 
 		AppletParameters parameters = new AppletParameters("graphing");
 		GeoGebraFrameFull fr = new GeoGebraFrameFull(
-				GWT.create(AppletFactory.class), app.getLAF(),
+				app.getAppletFrame().getAppletFactory(), app.getLAF(),
 				app.getDevice(), GeoGebraElement.as(parent.getElement()), parameters);
 		scaler.add(fr);
 
@@ -327,12 +325,17 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 		}
 	}
 
-	private GeoElement findById(Integer key) {
+	/**
+	 * Get the embed element with a given id
+	 * @param id embed id to find
+	 * @return GeoEmbed, if found, null otherwise
+	 */
+	public GeoElement findById(int id) {
 		Set<GeoElement> set = app.getKernel().getConstruction()
 				.getGeoSetConstructionOrder();
 		for (GeoElement geo : set) {
 			if (geo instanceof GeoEmbed
-					&& ((GeoEmbed) geo).getEmbedID() == key) {
+					&& ((GeoEmbed) geo).getEmbedID() == id) {
 				return geo;
 			}
 		}
@@ -519,19 +522,16 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 	 *
 	 * @return the APIs of the embedded calculators.
 	 */
-	JavaScriptObject getEmbeddedCalculators() {
-		JavaScriptObject jso = JavaScriptObject.createObject();
+	JsPropertyMap<Object> getEmbeddedCalculators() {
+		JsPropertyMap<Object> jso = JsPropertyMap.of();
 
 		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
-			EmbedElement embedElement = entry.getValue();
-			if (embedElement instanceof CalcEmbedElement) {
-				JavaScriptObject api = ((CalcEmbedElement) embedElement)
-						.getApi();
-				pushApisIntoNativeEntry(
-						entry.getKey().getGeoElement().getLabelSimple(), api,
-						jso);
+			Object api = entry.getValue().getApi();
+			if (api != null) {
+				jso.set(entry.getKey().getGeoElement().getLabelSimple(), api);
 			}
 		}
+
 		return jso;
 	}
 
@@ -545,13 +545,6 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 		counter = Math.max(counter, id + 1);
 		this.content.put(id, content);
 	}
-
-	private static native void pushApisIntoNativeEntry(
-			String embedName,
-   			JavaScriptObject api,
-			JavaScriptObject jso) /*-{
-		jso[embedName] = api;
-	}-*/;
 
 	@Override
 	public void renderEvent(BaseEvent event) {

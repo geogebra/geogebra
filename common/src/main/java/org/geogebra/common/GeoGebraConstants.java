@@ -10,9 +10,9 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "08 September 2020";
+	public static final String BUILD_DATE = "06 October 2020";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.604.0";
+	public static final String VERSION_STRING = "5.0.609.0";
 
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
@@ -38,13 +38,9 @@ public interface GeoGebraConstants {
 
 		WEB("w"),
 
-		ANDROID_WEBVIEW("aw"),
-
 		IOS("i"),
 
 		IOS_WEBVIEW("iw"),
-
-		WINDOWS_STORE("win"),
 
 		WEB_FOR_BROWSER_2D("w2d"),
 
@@ -52,9 +48,7 @@ public interface GeoGebraConstants {
 
 		SMART("smart"),
 
-		POWERPOINT("p"),
-
-		NO_CAS("nc");
+		POWERPOINT("p");
 
 		private String name;
 
@@ -94,17 +88,6 @@ public interface GeoGebraConstants {
 		}
 
 		/**
-		 * @return whether this is android exam app
-		 */
-		public boolean isAndroidWebview() {
-			switch (this) {
-			case ANDROID_WEBVIEW:
-				return true;
-			}
-			return false;
-		}
-
-		/**
 		 * 
 		 * @return true if this is a phone version.
 		 */
@@ -112,6 +95,10 @@ public interface GeoGebraConstants {
 			return "i".equals(name);
 		}
 
+	}
+
+	enum MenuType {
+		DEFAULT, EXAM
 	}
 
 	String GRAPHING_APPCODE = "graphing";
@@ -123,6 +110,8 @@ public interface GeoGebraConstants {
 	String CLASSIC_APPCODE = "classic";
 	String EVALUATOR_APPCODE = "evaluator";
 	String NOTES_APPCODE = "notes";
+
+	String SUITE_SHORT_NAME = "CalculatorSuite.short";
 
 	String SUITE_URL_NAME = "calculator";
 

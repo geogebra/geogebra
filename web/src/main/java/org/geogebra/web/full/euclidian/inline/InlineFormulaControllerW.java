@@ -29,7 +29,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	private final Timer saveTimer = new Timer() {
 		@Override
 		public void run() {
-			formula.setContent(mathFieldEditor.getMathField().getText());
+			formula.setContent(getText());
 			formula.getKernel().storeUndoInfo();
 		}
 	};
@@ -104,9 +104,10 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 			saveTimer.cancel();
 			saveTimer.run();
 		}
-
-		formula.updateRepaint();
-		widget.setVisible(false);
+		if (widget.isVisible()) {
+			formula.updateRepaint();
+			widget.setVisible(false);
+		}
 		mathFieldEditor.setKeyboardVisibility(false);
 	}
 
@@ -138,6 +139,11 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	public void discard() {
 		mathFieldEditor.setKeyboardVisibility(false);
 		widget.removeFromParent();
+	}
+
+	@Override
+	public String getText() {
+		return mathFieldEditor.getMathField().getText();
 	}
 
 	private class FormulaMathFieldListener implements MathFieldListener {

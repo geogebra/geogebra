@@ -90,4 +90,12 @@ public class EmbedElement {
 	public void setJsEnabled(boolean b) {
 		// only for ggb
 	}
+
+	/**
+	 * Only for GGB and GM embeds
+	 * @return the javascript api object for the embedded element
+	 */
+	public Object getApi() {
+		return null;
+	}
 }

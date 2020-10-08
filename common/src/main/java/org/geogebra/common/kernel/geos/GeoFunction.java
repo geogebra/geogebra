@@ -1491,12 +1491,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		}
 		PolyFunction poly1 = getFunction()
 				.expandToPolyFunction(getFunctionExpression(), false, true);
-		if (poly1 != null) {
+		if (poly1 != null && isDefined()) {
 			PolyFunction poly2 = geoFun.getFunction().expandToPolyFunction(
 					geoFun.getFunctionExpression(), false, true);
 
 			if (poly2 != null) {
-				return poly1.isEqual(poly2);
+				return geoFun.isDefined() && poly1.isEqual(poly2);
 			}
 		}
 
@@ -2327,7 +2327,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		if (str == null || str.length() == 0) {
 			return true;
 		}
-		if ("?".equals(str) || "{?}".equals(str)) {
+		if (isUndefined(str)) {
 			return true; // undefined/NaN
 		}
 		// if (str.indexOf("%i") > -1 ) return true; // complex answer
@@ -2339,6 +2339,15 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * @param str
+	 *            CAS output
+	 * @return whether output is undefined
+	 */
+	static boolean isUndefined(String str) {
+		return "?".equals(str) || "{?}".equals(str);
 	}
 
 	/**

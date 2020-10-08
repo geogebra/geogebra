@@ -559,7 +559,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 
 	@Test
 	public void complexNumbers() {
-		t("(5 + 3  \u03af) + Conjugate(5 + 3  \u03af)", "10");
+		t("(5 + 3  \u03af) + conjugate(5 + 3  \u03af)", "10");
 	}
 
 	/* CommonDenomiator */

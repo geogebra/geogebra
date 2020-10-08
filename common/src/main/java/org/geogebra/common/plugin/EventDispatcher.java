@@ -156,7 +156,9 @@ public class EventDispatcher implements ClientView {
 
 	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
-		dispatchEvent(EventType.UPDATE_STYLE, geo);
+		if (prop != GProperty.TEXT_SELECTION) {
+			dispatchEvent(EventType.UPDATE_STYLE, geo);
+		}
 	}
 
 	@Override

@@ -491,6 +491,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	static {
 		numericLatex.stringType = StringType.LATEX;
 		numericLatex.allowMoreDigits = true;
+		numericLatex.allowPiHack = false;
 		numericLatex.useRealLabels = true;
 	}
 

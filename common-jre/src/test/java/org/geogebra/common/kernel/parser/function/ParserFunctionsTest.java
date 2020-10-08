@@ -18,7 +18,8 @@ public class ParserFunctionsTest {
 
 	@Before
 	public void setUp() {
-		parserFunctions = ParserFunctionsFactory.createParserFunctions();
+		parserFunctions = ParserFunctionsFactory.createParserFunctionsFactory()
+				.createParserFunctions();
 	}
 
 	@Test
@@ -95,13 +96,5 @@ public class ParserFunctionsTest {
 		Mockito.verify(loc).getFunction("sin", false);
 		Mockito.verify(loc).getFunction("sin", false);
 		Mockito.verify(loc).getFunction("nroot", true);
-	}
-
-	@Test
-	public void testContainsCapitalizedFunctions() {
-		Assert.assertEquals(parserFunctions.get("sin", 1), Operation.SIN);
-		Assert.assertEquals(parserFunctions.get("Sin", 1), Operation.SIN);
-		Assert.assertEquals(parserFunctions.get("cos", 1), Operation.COS);
-		Assert.assertEquals(parserFunctions.get("Cos", 1), Operation.COS);
 	}
 }

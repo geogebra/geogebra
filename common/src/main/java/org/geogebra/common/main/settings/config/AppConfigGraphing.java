@@ -12,6 +12,7 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.GraphingOperationArgumentFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
@@ -22,7 +23,6 @@ import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.properties.FillType;
-import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppKeyboardType;
@@ -54,8 +54,7 @@ public class AppConfigGraphing extends AbstractAppConfig {
 	public void adjust(DockPanelData dp) {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {
 			dp.setLocation("3");
-		}
-		else if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
+		} else if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
 			dp.makeVisible();
 			dp.setLocation("1");
 		}
@@ -128,12 +127,12 @@ public class AppConfigGraphing extends AbstractAppConfig {
 
 	@Override
 	public int[] getDecimalPlaces() {
-		return new int[] {0, 1, 2, 3, 4, 5, 10, 13, 15};
+		return new int[]{0, 1, 2, 3, 4, 5, 10, 13, 15};
 	}
 
 	@Override
 	public int[] getSignificantFigures() {
-		return new int[] {3, 5, 10, 15};
+		return new int[]{3, 5, 10, 15};
 	}
 
 	@Override
@@ -166,15 +165,15 @@ public class AppConfigGraphing extends AbstractAppConfig {
 		return AppType.GRAPHING_CALCULATOR;
 	}
 
-    @Override
-    public boolean showGridOnFileNew() {
-        return true;
-    }
+	@Override
+	public boolean showGridOnFileNew() {
+		return true;
+	}
 
-    @Override
-    public boolean showAxesOnFileNew() {
-        return true;
-    }
+	@Override
+	public boolean showAxesOnFileNew() {
+		return true;
+	}
 
 	@Override
 	public boolean hasTableView() {
@@ -305,8 +304,8 @@ public class AppConfigGraphing extends AbstractAppConfig {
 	}
 
 	@Override
-	public ParserFunctions createParserFunctions() {
-		return ParserFunctionsFactory.createGraphingParserFunctions();
+	public ParserFunctionsFactory createParserFunctionsFactory() {
+		return ParserFunctionsFactory.createGraphingParserFunctionsFactory();
 	}
 
 	@Override
@@ -327,5 +326,15 @@ public class AppConfigGraphing extends AbstractAppConfig {
 	@Override
 	public boolean hasAnsButtonInAv() {
 		return true;
+	}
+
+	@Override
+	public StringTemplate getOutputStringTemplate() {
+		return StringTemplate.latexTemplate;
+	}
+
+	@Override
+	public boolean sendKeyboardEvents() {
+		return false;
 	}
 }

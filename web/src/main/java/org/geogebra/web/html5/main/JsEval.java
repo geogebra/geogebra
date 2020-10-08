@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.main;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
 public class JsEval {
 	/**
 	 * 
@@ -30,21 +28,20 @@ public class JsEval {
 		}
 	}-*/;
 
-	public static native void callNativeJavaScript(JavaScriptObject funcObject,
+	public static native void callNativeJavaScript(Object funcObject,
 			String... args) /*-{
 		if (typeof funcObject === "function") {
 			funcObject.apply(null, args);
 		}
 	}-*/;
 
-	public static native void callNativeJavaScript(String funcname, JavaScriptObject arg) /*-{
+	public static native void callNativeJavaScript(String funcname, Object arg) /*-{
 		if ($wnd[funcname]) {
 			$wnd[funcname](arg);
 		}
 	}-*/;
 
-	public static native void callNativeJavaScript(JavaScriptObject funcObject,
-			JavaScriptObject param) /*-{
+	public static native void callNativeJavaScript(Object funcObject, Object param) /*-{
 		if (typeof funcObject === "function") {
 			funcObject(param);
 		}

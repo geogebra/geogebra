@@ -107,6 +107,13 @@ public class DrawFormula extends Drawable implements DrawInline {
 	}
 
 	@Override
+	public void saveContent() {
+		if (formulaController != null) {
+			formula.setContent(formulaController.getText());
+		}
+	}
+
+	@Override
 	public BoundingBox<? extends GShape> getSelectionBoundingBox() {
 		return getBoundingBox();
 	}
@@ -118,7 +125,8 @@ public class DrawFormula extends Drawable implements DrawInline {
 
 	@Override
 	public void updateContent() {
-		if (formulaController != null) {
+		if (formulaController != null
+				&& !formulaController.getText().equals(formula.getContent())) {
 			formulaController.updateContent(formula.getContent());
 		}
 	}

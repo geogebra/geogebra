@@ -124,6 +124,10 @@ public enum EventType {
 
 	/** Clear slide: slide ID */
 	CLEAR_SLIDE("clearSlide"),
+
+	/** select slide */
+	SELECT_SLIDE("selectSlide"),
+
 	/** Key typed in editor */
 	EDITOR_KEY_TYPED("editorKeyTyped"),
 	/** Editing started for an object (or new input) */
@@ -154,7 +158,16 @@ public enum EventType {
 	/** mouse down or touch start event */
 	MOUSE_DOWN("mouseDown"),
 	/** i.e. mouse up, touch end, finished dragging a point, or segment etc. */
-	DRAG_END("dragEnd");
+	DRAG_END("dragEnd"),
+
+	/**
+	 * keyboard opened by the user
+	 */
+	OPEN_KEYBOARD("openKeyboard"),
+	/**
+	 * keyboard closed by the user
+	 */
+	CLOSE_KEYBOARD("closeKeyboard");
 
 	private String eventName;
 

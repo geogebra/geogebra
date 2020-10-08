@@ -83,15 +83,15 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	 * login based on the {@link LogInOperation#isLoggedIn()} method.
 	 * @param createExamEntry whether the factory should create the start exam button
 	 * @param enableFileFeatures whether to show sign-in related file features
-	 * @param enableSwitchCalculator whether to enable switch calculator
+	 * @param isSuiteApp whether it is the Suite app
 	 */
 	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
 			GeoGebraConstants.Version version,
 			LogInOperation logInOperation,
 			boolean createExamEntry,
 			boolean enableFileFeatures,
-			boolean enableSwitchCalculator) {
-		super(version, enableSwitchCalculator);
+			boolean isSuiteApp) {
+		super(version, isSuiteApp);
 		this.platform = platform;
 		this.logInOperation = logInOperation;
 		this.createExamEntry = createExamEntry;

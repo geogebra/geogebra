@@ -8,7 +8,8 @@ public class ParserFunctionsFactoryTest {
 
 	@Test
 	public void testGraphingParserFunctions() {
-		ParserFunctions functions = ParserFunctionsFactory.createGraphingParserFunctions();
+		ParserFunctions functions = ParserFunctionsFactory
+				.createGraphingParserFunctionsFactory().createParserFunctions();
 		Assert.assertEquals(functions.get("sin", 1), Operation.SIN);
 		Assert.assertNull(functions.get("alt", 1));
 		Assert.assertNull(functions.get("arg", 1));
@@ -16,7 +17,8 @@ public class ParserFunctionsFactoryTest {
 
 	@Test
 	public void testDefaultParserFunctions() {
-		ParserFunctions functions = ParserFunctionsFactory.createParserFunctions();
+		ParserFunctions functions = ParserFunctionsFactory
+				.createParserFunctionsFactory().createParserFunctions();
 		Assert.assertEquals(functions.get("sin", 1), Operation.SIN);
 		Assert.assertEquals(functions.get("alt", 1), Operation.ALT);
 		Assert.assertEquals(functions.get("arg", 1), Operation.ARG);

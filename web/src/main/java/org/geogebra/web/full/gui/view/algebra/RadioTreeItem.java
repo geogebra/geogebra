@@ -509,7 +509,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	private boolean updateOutputValuePanel() {
 		return updateValuePanel(geo.getLaTeXDescriptionRHS(true,
-				StringTemplate.latexTemplate));
+				app.getConfig().getOutputStringTemplate()));
 	}
 
 	private void updateSymbolicMode(GeoElement geoElement) {

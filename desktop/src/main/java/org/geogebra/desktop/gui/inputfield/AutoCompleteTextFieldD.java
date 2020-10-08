@@ -32,7 +32,7 @@ import org.geogebra.common.gui.inputfield.MyTextField;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.geos.properties.TextAlignment;
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -1087,11 +1087,11 @@ public class AutoCompleteTextFieldD extends MathTextField
 	}
 
 	@Override
-	public void setTextAlignmentsForInputBox(TextAlignment alignment) {
+	public void setTextAlignmentsForInputBox(HorizontalAlignment alignment) {
 		this.setHorizontalAlignment(toSwingAlignment(alignment));
 	}
 
-	private static int toSwingAlignment(TextAlignment alignment) {
+	private static int toSwingAlignment(HorizontalAlignment alignment) {
 		switch (alignment) {
 		case LEFT:
 		default:

@@ -1192,7 +1192,6 @@ public class ConstructionDefaults {
 	 *            string for 3d geos
 	 */
 	public void getDefaultsXML(StringBuilder sb2d, StringBuilder sb3d) {
-
 		MyXMLio.addXMLHeader(sb2d);
 		MyXMLio.addGeoGebraHeader(sb2d, true, null, cons.getApplication());
 		sb2d.append("<defaults>\n");

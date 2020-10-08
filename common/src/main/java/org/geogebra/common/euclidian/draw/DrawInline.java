@@ -31,4 +31,6 @@ public interface DrawInline extends RemoveNeeded {
 	 * nothing at (x, y), or it has no url set
 	 */
 	String urlByCoordinate(int x, int y);
+
+	void saveContent();
 }

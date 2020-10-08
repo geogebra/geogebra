@@ -1882,11 +1882,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected void initNewMode(int newMode) {
-		super.initNewMode(newMode);
-	}
-
-	@Override
 	protected Previewable switchPreviewableForInitNewMode(int previewMode) {
 		switch (previewMode) {
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:

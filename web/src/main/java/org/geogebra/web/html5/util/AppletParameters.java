@@ -691,4 +691,12 @@ public class AppletParameters {
 	public String getDataParamEditorForegroundColor() {
 		return getStringDataParam("editorForegroundColor", "black");
 	}
+
+	/**
+	 *
+	 * @return wether is multiuser applet
+	 */
+	public boolean getDataParamMultiuserApplet() {
+		return getBoolDataParam("multiuserApplet", false);
+	}
 }

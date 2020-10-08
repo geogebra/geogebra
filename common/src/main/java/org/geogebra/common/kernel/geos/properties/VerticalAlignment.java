@@ -2,10 +2,8 @@ package org.geogebra.common.kernel.geos.properties;
 
 import java.util.Locale;
 
-import org.geogebra.common.util.debug.Log;
-
-public enum TextAlignment {
-	LEFT, CENTER, RIGHT;
+public enum VerticalAlignment {
+	TOP, MIDDLE, BOTTOM;
 
 	@Override
 	public String toString() {
@@ -14,15 +12,15 @@ public enum TextAlignment {
 
 	/**
 	 * @param align
-	 *            string from XML
+	 *            string from carota
 	 * @return alignment value
 	 */
-	public static TextAlignment fromString(String align) {
+	public static VerticalAlignment fromString(String align) {
 		try {
 			return valueOf(align.toUpperCase(Locale.US));
 		} catch (RuntimeException e) {
-			Log.warn("Invalid alignment");
+			// Invalid alignment
+			return null;
 		}
-		return TextAlignment.LEFT;
 	}
 }

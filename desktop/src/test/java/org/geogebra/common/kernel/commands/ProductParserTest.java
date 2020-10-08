@@ -99,7 +99,15 @@ public class ProductParserTest extends TokenizerBaseTest {
 		shouldReparseAs("xln2x", "x ln(2x)");
 	}
 
- 	@Test
+	@Test
+	public void testLnAbsX() {
+		shouldReparseAs("xlnabsx", "x ln(abs(x))");
+		shouldReparseAs("x ln abs(x)", "x ln(abs(x))");
+		shouldReparseAs("xln abs(x)", "x ln(abs(x))");
+		shouldReparseAs("sin(3tln abs(t))", "sin(3t ln(abs(t)))");
+	}
+
+	@Test
 	public void testC_2Index() {
 		shouldReparseAs("c_2e^(7x)", "c_2 " + Unicode.EULER_STRING + "^(7x)");
 	}

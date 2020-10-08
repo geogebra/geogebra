@@ -67,7 +67,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 			view.getEuclidianController().addZoomerListener(this);
 		}
 		setStyleName("zoomPanel");
-		addStyleName(app.isWhiteboardActive()
+		addStyleName(app.isWhiteboardActive() && !app.isApplet()
 				? "zoomPanelWithPageControl" : "zoomPanelPosition");
 		if (ZoomPanel.needsZoomButtons(app) && zoomable) {
 			addZoomButtons();

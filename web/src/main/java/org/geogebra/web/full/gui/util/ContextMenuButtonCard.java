@@ -24,9 +24,6 @@ import com.google.gwt.user.client.ui.Image;
  * 
  * Tasks in subclass: add Menu Items, override show() to show the popup at the
  * correct position
- * 
- * @author Alicia
- *
  */
 public class ContextMenuButtonCard extends StandardButton
 		implements SetLabels, CloseHandler<GPopupPanel> {

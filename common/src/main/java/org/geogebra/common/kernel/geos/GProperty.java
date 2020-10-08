@@ -33,5 +33,7 @@ public enum GProperty {
 	/** hatching */
 	HATCHING,
 	/** highlight */
-	HIGHLIGHT
+	HIGHLIGHT,
+	/** Selection for text/table */
+	TEXT_SELECTION
 }
