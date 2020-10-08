@@ -498,7 +498,7 @@ __GGB__keysVar["ja"].command = {
     "IsTangent": "IsTangent",
     "IsTangent.Syntax": "[ <\u76f4\u7dda>, <\u4e8c\u6b21\u66f2\u7dda> ]",
     "IsVertexForm": "IsVertexForm",
-    "IsVertexForm.Syntax": "[ <Function> ]",
+    "IsVertexForm.Syntax": "[ <\u95a2\u6570> ]",
     "Iteration": "Iteration",
     "Iteration.Syntax": "[ <\u95a2\u6570>, <\u958b\u59cb\u5024>, <\u53cd\u5fa9\u56de\u6570> ]\n[ <\u5f0f>, <\u5909\u6570>, <\u958b\u59cb\u5024>, <\u30ab\u30a6\u30f3\u30c8> ]",
     "IterationList": "IterationList",
