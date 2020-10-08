@@ -47,6 +47,8 @@ public class AlgoInputBox extends AlgoElement {
 		inputBox = new GeoInputBox(cons);
 		if (linkedGeo != null) {
 			inputBox.setLinkedGeo(linkedGeo);
+			inputBox.setHasError(!linkedGeo.isDefined()
+					|| linkedGeo.getDefinition() == null);
 		}
 		inputBox.setAbsoluteScreenLoc(30, 30);
 		inputBox.resetScreenLocation();
