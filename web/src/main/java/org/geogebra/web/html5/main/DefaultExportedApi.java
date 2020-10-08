@@ -424,7 +424,7 @@ public class DefaultExportedApi implements ExportedApi {
 			value = 0;
 		} else {
 			// force string -> number (might give NaN)
-			value = Js.asDouble(x);
+			value = Js.coerceToDouble(x);
 		}
 
 		ggbAPI.setValue(objName + "", value);
@@ -444,7 +444,7 @@ public class DefaultExportedApi implements ExportedApi {
 			xValue = 0;
 		} else {
 			// force string -> number (might give NaN)
-			xValue = Js.asDouble(x);
+			xValue = Js.coerceToDouble(x);
 		}
 
 		double yValue;
@@ -454,7 +454,7 @@ public class DefaultExportedApi implements ExportedApi {
 			yValue = 0;
 		} else {
 			// force string -> number (might give NaN)
-			yValue = Js.asDouble(y);
+			yValue = Js.coerceToDouble(y);
 		}
 
 		ggbAPI.setListValue(objName + "", xValue, yValue);
@@ -469,8 +469,8 @@ public class DefaultExportedApi implements ExportedApi {
 		if (!"number".equals(Js.typeof(zmin))) {
 			ggbAPI.setCoordSystem(xmin, xmax, ymin, ymax);
 		} else {
-			ggbAPI.setCoordSystem(xmin, xmax, ymin, ymax, Js.asDouble(zmin), Js.asDouble(zmax),
-					Js.isTruthy(verticalY));
+			ggbAPI.setCoordSystem(xmin, xmax, ymin, ymax, Js.coerceToDouble(zmin),
+					Js.coerceToDouble(zmax), Js.isTruthy(verticalY));
 		}
 	}
 
