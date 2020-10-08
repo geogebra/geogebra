@@ -47,6 +47,7 @@ import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
