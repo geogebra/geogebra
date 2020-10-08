@@ -326,13 +326,12 @@ public class MathArray extends MathContainer {
 	}
 
 	/**
-	 *
 	 * @param container a MathFieldContainer
-	 * @return true if container is a matrix.
+	 * @return true if the cursor should be locked inside the container
 	 */
-	public static boolean isMatrix(MathComponent container) {
+	public static boolean isLocked(MathComponent container) {
 		if (container instanceof MathArray
-				&& ((MathArray) container).isMatrix()) {
+				&& (((MathArray) container).isMatrix() || ((MathArray) container).isArray())) {
 			return container.getParent().getParent() == null
 					&& container.getParent().size() == 1;
 		}

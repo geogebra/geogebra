@@ -182,7 +182,7 @@ public class CursorController {
 			firstField(editorState, component1);
 			return true;
 			// try to delve down the tree
-		} else if (MathArray.isMatrix(container)) {
+		} else if (MathArray.isLocked(container)) {
 			return false;
 		} else {
 			return nextField(editorState, container);
@@ -223,7 +223,7 @@ public class CursorController {
 			lastField(editorState, component1);
 
 			// delve down the tree
-		} else if (!MathArray.isMatrix(container)) {
+		} else if (!MathArray.isLocked(container)) {
 			prevField(editorState, container);
 		}
 	}

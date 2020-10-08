@@ -143,7 +143,7 @@ public class MathSequence extends MathContainer {
 	public MathContainer extractMatrix() {
 		if (size() == 1) {
 			MathComponent argument = getArgument(0);
-			if (MathArray.isMatrix(argument)) {
+			if (MathArray.isLocked(argument)) {
 				return (MathContainer) argument;
 			}
 		}
