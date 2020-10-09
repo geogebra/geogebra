@@ -813,12 +813,16 @@ public class GeoGebraFrameFull
 	 *            browser event
 	 */
 	private void closePopupsAndMaybeMenu(NativeEvent event) {
-		if (!Dom.eventTargetsElement(event, ggwMenuBar.getElement())
+		if (!Dom.eventTargetsElement(event, getMenuElement())
 				&& !Dom.eventTargetsElement(event, getToolbarMenuElement())
 				&& !getGlassPane().isDragInProgress()
 				&& !app.isUnbundled() && panelTransitioner.getCurrentPanel() == null) {
 			app.hideMenu();
 		}
+	}
+
+	private Element getMenuElement() {
+		return ggwMenuBar == null ? null : ggwMenuBar.getElement();
 	}
 
 	private Element getToolbarMenuElement() {
