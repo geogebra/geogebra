@@ -10,7 +10,6 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.JsReference;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.debug.Log;
-import org.mozilla.javascript.NativeArray;
 
 public abstract class ScriptManagerJre extends ScriptManager {
 
@@ -60,8 +59,14 @@ public abstract class ScriptManagerJre extends ScriptManager {
         }
     }
 
+    /**
+     * For compatibility with all JS functions this should return a NativeArray
+     * (see desktop), default implementation returns Java array which allows array[0].
+     * @param args arguments
+     * @return arguments as array
+     */
     protected Object toNativeArray(ArrayList<String> args) {
-        return new NativeArray(args.toArray(new String[0]));
+        return args.toArray(new String[0]);
     }
 
     @Override
