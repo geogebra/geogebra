@@ -192,7 +192,7 @@ public class MathFieldInternal
 	}
 
 	private void setCaretPathIfMatrix(MathSequence sequence) {
-		if (sequence.isMatrix()) {
+		if (sequence.isLocked()) {
 			setCaretPath(MATRIX_TOP_LEFT_CARET);
 		}
 	}

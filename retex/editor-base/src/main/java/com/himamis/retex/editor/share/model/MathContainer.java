@@ -449,4 +449,28 @@ abstract public class MathContainer extends MathComponent {
 		return i >= 0 && i < size() && MathFunction.isScript(getArgument(i));
 	}
 
+	/**
+	 * Extract the matrix if sequence contains one only.
+	 *
+	 * @return the matrix if any, the component unchanged
+	 * 		   otherwise.
+	 */
+	public MathContainer extractLocked() {
+		if (size() == 1) {
+			MathComponent argument = getArgument(0);
+			if (MathArray.isLocked(argument)) {
+				return (MathContainer) argument;
+			}
+		}
+
+		return this;
+	}
+
+	/**
+	 *
+	 * @return true if sequence is a matrix.
+	 */
+	public boolean isLocked() {
+		return extractLocked() != this;
+	}
 }

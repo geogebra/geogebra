@@ -88,7 +88,7 @@ public class CursorController {
 	 */
 	public static void firstField(EditorState editorState) {
 		MathSequence root = editorState.getRootComponent();
-		firstField(editorState, root.extractMatrix());
+		firstField(editorState, root.extractLocked());
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class CursorController {
 	 */
 	public static void lastField(EditorState editorState) {
 		MathSequence root = editorState.getRootComponent();
-		lastField(editorState, root.extractMatrix());
+		lastField(editorState, root.extractLocked());
 	}
 
 	/**
