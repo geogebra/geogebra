@@ -331,7 +331,7 @@ public class MathArray extends MathContainer {
 	 */
 	public static boolean isLocked(MathComponent container) {
 		if (container instanceof MathArray
-				&& (((MathArray) container).isMatrix() || ((MathArray) container).isArray())) {
+				&& ((MathArray) container).getOpenKey() != '"') {
 			return container.getParent().getParent() == null
 					&& container.getParent().size() == 1;
 		}
