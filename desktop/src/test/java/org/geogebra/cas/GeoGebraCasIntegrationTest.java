@@ -2764,4 +2764,18 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				casCell.getTwinGeo().getGeoClassType(),
 				GeoClass.FUNCTION);
 	}
+
+	@Test
+	public void rawTest() {
+		for (int i = 0; i < 100; i++) {
+			String casResult = null;
+			try {
+				casResult = kernel.getGeoGebraCAS().getCurrentCAS()
+						.evaluateRaw("normal(sqrt(1+x)*sqrt(1-x)-sqrt(1-x^2))");
+			} catch (Throwable throwable) {
+				throwable.printStackTrace();
+			}
+			Assert.assertEquals("Failed at " + i, "0", casResult);
+		}
+	}
 }
