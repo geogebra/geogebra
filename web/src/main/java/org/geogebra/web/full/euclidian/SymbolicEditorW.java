@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.LaTeXTextRenderer;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.HasMathKeyboardListener;
@@ -99,8 +100,8 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor.setLabel(getGeoInputBox().getAuralText());
 		Scheduler.get().scheduleDeferred(() -> {
 			editor.requestFocus();
-			editor.addStyleName("errorStyle");
-			setErrorStyle(getGeoInputBox().hasError());
+			setErrorStyle(!StringUtil.empty(
+					getGeoInputBox().getTempUserDisplayInput()));
 		});
 	}
 

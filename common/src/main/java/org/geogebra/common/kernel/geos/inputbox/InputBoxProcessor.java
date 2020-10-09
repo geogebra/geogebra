@@ -72,13 +72,10 @@ public class InputBoxProcessor {
 			} else {
 				updateTempInput(inputText, tempUserDisplayInput);
 			}
-			inputBox.setHasError(true);
 			linkedGeo.setUndefined();
 			makeGeoIndependent();
 			linkedGeo.resetDefinition(); // same as SetValue(linkedGeo, ?)
 			linkedGeo.updateRepaint();
-		} else {
-			inputBox.setHasError(false);
 		}
 	}
 

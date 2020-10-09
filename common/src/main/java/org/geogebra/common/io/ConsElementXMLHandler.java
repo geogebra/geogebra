@@ -1209,7 +1209,6 @@ public class ConsElementXMLHandler {
 			GeoInputBox inputBox = (GeoInputBox) geo;
 			inputBox.setTempUserDisplayInput(display);
 			inputBox.setTempUserEvalInput(eval);
-			inputBox.setHasError(true);
 		} else {
 			Log.error("temp user input not supported for " + geo.getGeoClassType());
 		}
