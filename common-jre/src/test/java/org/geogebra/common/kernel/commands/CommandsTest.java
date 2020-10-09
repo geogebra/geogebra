@@ -141,12 +141,12 @@ public class CommandsTest {
 	@Test
 	public void listPropertiesTest() {
 		t("mat1={{1,2,3}}", "{{1, 2, 3}}");
-		Assert.assertTrue(((GeoList) get("mat1")).isEditableMatrix());
+		Assert.assertTrue(((GeoList) get("mat1")).hasSpecialEditor());
 		t("slider1=7", "7");
 		t("mat2={{1,2,slider1}}", "{{1, 2, 7}}");
-		Assert.assertTrue(((GeoList) get("mat2")).isEditableMatrix());
+		Assert.assertTrue(((GeoList) get("mat2")).hasSpecialEditor());
 		t("mat2={{1,2,slider1},Reverse[{1,2,3}]}", "{{1, 2, 7}, {3, 2, 1}}");
-		Assert.assertFalse(((GeoList) get("mat2")).isEditableMatrix());
+		Assert.assertFalse(((GeoList) get("mat2")).hasSpecialEditor());
 	}
 
 	@Test

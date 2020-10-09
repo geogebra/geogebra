@@ -95,7 +95,7 @@ public class MathFieldInternal
 
 	private boolean selectionMode = false;
 
-	private static final ArrayList<Integer> MATRIX_TOP_LEFT_CARET
+	private static final ArrayList<Integer> LOCKED_CARET_PATH
 			= new ArrayList<>(Arrays.asList(0, 0, 0));
 
 	/**
@@ -188,13 +188,10 @@ public class MathFieldInternal
 		editorState.setCurrentField(formula.getRootComponent());
 		editorState.setCurrentOffset(editorState.getCurrentField().size());
 		mathFieldController.update(formula, editorState, false);
-		setCaretPathIfMatrix(formula.getRootComponent());
 	}
 
-	private void setCaretPathIfMatrix(MathSequence sequence) {
-		if (sequence.isLocked()) {
-			setCaretPath(MATRIX_TOP_LEFT_CARET);
-		}
+	public void setLockedCaretPath() {
+		setCaretPath(LOCKED_CARET_PATH);
 	}
 
 	/**

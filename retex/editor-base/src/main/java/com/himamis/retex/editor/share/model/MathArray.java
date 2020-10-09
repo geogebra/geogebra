@@ -330,11 +330,6 @@ public class MathArray extends MathContainer {
 	 * @return true if the cursor should be locked inside the container
 	 */
 	public static boolean isLocked(MathComponent container) {
-		if (container instanceof MathArray
-				&& ((MathArray) container).getOpenKey() != '"') {
-			return container.getParent().getParent() == null
-					&& container.getParent().size() == 1;
-		}
-		return false;
+		return container instanceof MathArray && container.getParent().isProtected();
 	}
 }

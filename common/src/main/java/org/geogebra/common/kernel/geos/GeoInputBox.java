@@ -155,7 +155,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	private boolean hasLaTeXEditableVector() {
 		return linkedGeo instanceof GeoVectorND
-				&& ((GeoVectorND) linkedGeo).isColumnEditable();
+				&& linkedGeo.hasSpecialEditor();
 	}
 
 	/**

@@ -1183,7 +1183,7 @@ public class InputController {
 			MathContainer parent = editorState.getSelectionStart().getParent();
 			int end, start;
 			if (editorState.getSelectionStart() instanceof MathContainer
-					&& ((MathContainer) editorState.getSelectionStart()).isLocked()) {
+					&& ((MathContainer) editorState.getSelectionStart()).isProtected()) {
 				return true;
 			}
 			if (parent == null) {
