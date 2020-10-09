@@ -1030,10 +1030,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	@media screen and (max-width: 925px) {
-    	.calcPickerPopup {
-    		visibility: hidden;
-    	}
-    }
+		.calcPickerPopup {
+			visibility: hidden;
+		}
+	}
 
 	.appPickerRow {
 		height: 48px;
@@ -1059,7 +1059,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.appIcon {
 		float: left;
 		margin: 12px 0 0 24px;
-    }
+	}
 
 	.dialogComponent.examExitConfDialog {
 		max-width: 326px;
