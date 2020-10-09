@@ -20,7 +20,8 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.googlecode.gwtgl.binding.WebGLRenderingContext;
+
+import elemental2.webgl.WebGLRenderingContext;
 
 /**
  * 

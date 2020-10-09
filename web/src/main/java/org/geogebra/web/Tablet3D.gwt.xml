@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='tablet3d'>
+
 <inherits name='org.geogebra.web.WebND'/>
+<inherits name="elemental2.webgl.WebGl"/>
 
 <!-- This was added to remove a compile error in a general case -->
 <define-property name="gwt.logging.popupHandler" values="DISABLED"/>
 
-<inherits name='com.googlecode.gwtgl.binding'/>
 <!-- Specify the app entry point class.                         -->
 <entry-point class='org.geogebra.web.tablet.Tablet'/>
 
