@@ -205,10 +205,10 @@
 
 	.suiteAppPickerButton {
 		position: absolute;
-        top: 14px;
-        left: 505px;
-        min-width: 170px;
-        height: 34px;
+		top: 14px;
+		left: 505px;
+		min-width: 170px;
+		height: 34px;
 		border-radius: 18px;
 		padding: 0px;
 		border: 1px solid rgba(151, 151, 151, 0.52);
@@ -221,14 +221,14 @@
 
 		.gwt-Image {
 			vertical-align: bottom;
-			margin: 5px 12px 0 17px;
+			margin: 5px 12px 0 16px;
 			width: 24px;
 		}
 	}
 
 	.btnSecondIcon {
 		float: right;
-		padding: 7px 16px 7px 13px;
+		padding: 5px 16px 5px 13px;
 	}
 
 	@media screen and (max-width: 925px) {

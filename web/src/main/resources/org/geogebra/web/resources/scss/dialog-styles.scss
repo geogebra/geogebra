@@ -1026,7 +1026,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		min-height: 192px;
 		border-radius: 2px;
 		box-shadow: 0px 0px 12px 0px $black-50;
-		padding: 8px 0 8px 0px;
+		padding: 8px 0 8px 0;
 	}
 
 	@media screen and (max-width: 925px) {
@@ -1038,13 +1038,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.appPickerRow {
 		height: 48px;
 		min-width: 244px;
-        text-align: left;
-        cursor: pointer;
-        display: block;
+		text-align: left;
+		cursor: pointer;
+		display: block;
 
-        &:hover {
-        	background-color: $selected-menuitem-background;
-       	}
+		&:hover {
+			background-color: $selected-menuitem-background;
+		}
 	}
 
 	.appPickerLabel {
@@ -1058,8 +1058,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.appIcon {
 		float: left;
-        margin: 12px 0 0 24px;
-      }
+		margin: 12px 0 0 24px;
+    }
 
 	.dialogComponent.examExitConfDialog {
 		max-width: 326px;

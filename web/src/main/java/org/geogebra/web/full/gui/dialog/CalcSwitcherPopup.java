@@ -34,7 +34,6 @@ public class CalcSwitcherPopup extends GPopupPanel {
 		setGlassEnabled(false);
 		addStyleName("calcPickerPopup");
 		this.popupPanel = new FlowPanel();
-		popupPanel.removeStyleName("dialogContent");
 		popupPanel.addStyleName("calcPickerPanel");
 		add(popupPanel);
 	}

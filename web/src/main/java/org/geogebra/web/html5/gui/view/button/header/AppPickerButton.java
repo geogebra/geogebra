@@ -8,7 +8,6 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
 
 public class AppPickerButton extends StandardButton {
 
@@ -37,13 +36,12 @@ public class AppPickerButton extends StandardButton {
 		this.secondIcon = secondIcon;
 		NoDragImage btnImage = new NoDragImage(image, 24, -1);
 		btnImage.getElement().setTabIndex(-1);
-		//imgPanel.add(btnImage);
 		Label btnLabel = new Label(app.getLocalization().getMenu(label));
 		AriaHelper.setAttribute(btnLabel, "data-trans-key", label);
 		this.getElement().removeAllChildren();
 		this.getElement().appendChild(btnImage.getElement());
 		this.getElement().appendChild(btnLabel.getElement());
-		NoDragImage secondImg = new NoDragImage(secondIcon, 20);
+		NoDragImage secondImg = new NoDragImage(secondIcon, 24);
 		secondImg.setStyleName("btnSecondIcon");
 		this.getElement().appendChild(secondImg.getElement());
 		btnImage.setPresentation();
