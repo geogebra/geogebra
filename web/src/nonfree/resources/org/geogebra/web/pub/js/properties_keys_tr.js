@@ -3386,7 +3386,7 @@ __GGB__keysVar["tr"].menu = {
     "noColor": "Renk yok",
     "notes_tutorials": "fp7bctpr",
     "numberedList": "Numaraland\u0131r\u0131lm\u0131\u015f liste",
-    "of": "of",
+    "of": "/",
     "off": "Uzakta",
     "on": "A\xe7\u0131k",
     "otherwise": "aksi halde",
