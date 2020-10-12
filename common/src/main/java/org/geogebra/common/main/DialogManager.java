@@ -329,7 +329,7 @@ public abstract class DialogManager {
 						if (result == null) {
 							return;
 						}
-						boolean success = result != null && result.length > 0
+						boolean success = result.length > 0
 								&& result[0] instanceof GeoNumberValue;
 
 						if (success) {
@@ -441,8 +441,7 @@ public abstract class DialogManager {
 				if (result == null) {
 					return;
 				}
-				boolean success = result != null
-						&& result[0] instanceof GeoNumberValue;
+				boolean success = result[0] instanceof GeoNumberValue;
 
 				if (!success) {
 					numberExpectedError(handler, app);
@@ -819,8 +818,7 @@ public abstract class DialogManager {
 						if (result == null) {
 							return;
 						}
-						boolean success = result != null
-								&& result[0] instanceof GeoNumberValue;
+						boolean success = result[0] instanceof GeoNumberValue;
 						if (!success) {
 							numberExpectedError(handler, app);
 							if (callback != null) {
@@ -893,8 +891,7 @@ public abstract class DialogManager {
 						if (result == null) {
 							return;
 						}
-						boolean success = result != null
-								&& result[0] instanceof GeoNumberValue;
+						boolean success = result[0] instanceof GeoNumberValue;
 						if (!success) {
 							numberExpectedError(handler, kernel.getApplication());
 							if (callback != null) {
@@ -967,8 +964,7 @@ public abstract class DialogManager {
 						if (result == null) {
 							return;
 						}
-						boolean success = result != null
-								&& result[0] instanceof GeoNumberValue;
+						boolean success = result[0] instanceof GeoNumberValue;
 						if (!success) {
 							numberExpectedError(handler, app);
 							if (callback != null) {
