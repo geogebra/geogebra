@@ -14,12 +14,10 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public class CalcSwitcherPopup extends GPopupPanel {
 
-	final AppWFull app;
-	private final FlowPanel popupPanel;
 	private boolean popupShowing = false;
 	AppPickerButton appPickerButton;
 
-	SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
+	final int X_COORDINATE_OFFSET = 8;
 
 	/**
 	 * @param app
@@ -29,62 +27,58 @@ public class CalcSwitcherPopup extends GPopupPanel {
 	 */
 	public CalcSwitcherPopup(AppWFull app, AppPickerButton pickerButton) {
 		super(true, app.getPanel(), app);
-		this.app = app;
 		this.appPickerButton = pickerButton;
 		setGlassEnabled(false);
-		addStyleName("calcPickerPopup");
-		this.popupPanel = new FlowPanel();
-		popupPanel.addStyleName("calcPickerPanel");
-		add(popupPanel);
+		//addStyleName("calcPickerPopup");
+		buildGUI(app);
 	}
 
-	/**
-		shows the popup
-	 */
-	public void showCalcSwitcherPopup() {
+	@Override
+	public void show() {
 		if (!popupShowing) {
-			createElements(app);
 			popupShowing = true;
 			this.setPopupPosition(getLeft(), 0);
-			show();
+			super.show();
 		} else {
-			popupShowing = false;
-			closeCalcSwitcherPopup();
+			hide();
 		}
 	}
 
-	private void createElements(AppWFull app) {
-		popupPanel.clear();
-		addElement(app, res.menu_icon_algebra_transparent(), "GraphingCalculator.short");
-		addElement(app, res.menu_icon_graphics3D_transparent(), "GeoGebra3DGrapher.short");
-		addElement(app, res.menu_icon_geometry_transparent(), "Geometry");
-		addElement(app, res.menu_icon_cas_transparent(), "CAS");
+	@Override
+	public void hide() {
+		super.hide();
+		popupShowing = false;
 	}
 
-	private void addElement(AppWFull app, SVGResource icon, String key) {
+	private void buildGUI(AppWFull app) {
+		FlowPanel contentPanel = new FlowPanel();
+		SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
+		addElement(app, res.menu_icon_algebra_transparent(), "GraphingCalculator.short", contentPanel);
+		addElement(app, res.menu_icon_graphics3D_transparent(), "GeoGebra3DGrapher.short", contentPanel);
+		addElement(app, res.menu_icon_geometry_transparent(), "Geometry", contentPanel);
+		addElement(app, res.menu_icon_cas_transparent(), "CAS", contentPanel);
+		add(contentPanel);
+	}
+
+	private void addElement(AppWFull app, SVGResource icon, String key, FlowPanel contentPanel) {
 		FlowPanel rowPanel = new FlowPanel();
-		SimplePanel imgPanel = new SimplePanel();
-		imgPanel.addStyleName("appIcon");
-		imgPanel.add(new NoDragImage(icon, 24, 24));
-		rowPanel.add(imgPanel);
+		NoDragImage img = new NoDragImage(icon, 24, 24);
+		img.addStyleName("appIcon");
+		rowPanel.add(img);
+
 		Label label = new Label(app.getLocalization().getMenu(key));
 		label.addStyleName("appPickerLabel");
 		rowPanel.add(label);
 		rowPanel.setStyleName("appPickerRow");
 		rowPanel.addDomHandler(event -> {
 				// open app
-			closeCalcSwitcherPopup();
-			popupShowing = false;
+			hide();
 			appPickerButton.setIconAndLabel(icon, key);
 		}, ClickEvent.getType());
-		popupPanel.add(rowPanel);
-	}
-
-	private void closeCalcSwitcherPopup() {
-		hide();
+		contentPanel.add(rowPanel);
 	}
 
 	private int getLeft() {
-		return appPickerButton.getAbsoluteLeft() - 8 ;
+		return appPickerButton.getAbsoluteLeft() - X_COORDINATE_OFFSET ;
 	}
 }

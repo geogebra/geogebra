@@ -29,7 +29,7 @@ public class SuiteHeaderAppPicker {
 				MaterialDesignResources.INSTANCE.arrow_drop_down_transparent());
 		appPickerButton.addStyleName("suiteAppPickerButton");
 		createAppPickerPopup();
-		appPickerButton.addFastClickHandler(event -> suitePopup.showCalcSwitcherPopup());
+		appPickerButton.addFastClickHandler(event -> suitePopup.show());
 	}
 
 	private void createAppPickerPopup() {
