@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.parser.function;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -150,7 +149,8 @@ class ParserFunctionsImpl implements ParserFunctions {
 
 	@Override
 	public String toEditorAutocomplete(String text, Localization loc) {
-		if (text.equals(loc.getFunction("nroot") + "( <x>, <n> )")) {
+		if (text.equals(loc.getFunction("nroot") + NROOT_SUFFIX) ||
+				text.equals("nroot" + NROOT_SUFFIX)) {
 			return "nroot(";
 		}
 		return text;

@@ -11,6 +11,7 @@ import org.geogebra.common.plugin.Operation;
  * @author zbynek
  */
 public interface ParserFunctions {
+	String NROOT_SUFFIX = "( <x>, <n> )";
 
 	/**
 	 * Updates local names of functions
