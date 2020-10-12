@@ -31,7 +31,8 @@ public class SuiteHeaderAppPicker extends StandardButton {
 
 	private void createAppPickerButton(AppW app) {
 		SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
-		setIconLabelAndSecondIcon(res.menu_icon_algebra_transparent(), "GraphingCalculator.short", MaterialDesignResources.INSTANCE.arrow_drop_down_transparent(), app);
+		setIconLabelAndSecondIcon(res.menu_icon_algebra_transparent(), "GraphingCalculator.short",
+				MaterialDesignResources.INSTANCE.arrow_drop_down(), app);
 		addStyleName("suiteAppPickerButton");
 		createAppPickerPopup(app);
 		addFastClickHandler(event -> suitePopup.show());

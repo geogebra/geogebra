@@ -80,7 +80,6 @@ public class GlobalHeader implements EventRenderable {
 		this.app = appW;
 		RootPanel appPickerPanel = RootPanel.get("suiteAppPicker");
 		if (appPickerPanel != null) {
-			SuiteHeaderAppPicker pickerButton = new SuiteHeaderAppPicker(appW);
 			appPickerPanel.add(new SuiteHeaderAppPicker(app));
 		}
 	}

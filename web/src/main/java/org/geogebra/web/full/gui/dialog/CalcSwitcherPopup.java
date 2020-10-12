@@ -8,6 +8,7 @@ import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SuiteHeaderAppPicker;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -16,7 +17,7 @@ public class CalcSwitcherPopup extends GPopupPanel {
 	private boolean popupShowing = false;
 	SuiteHeaderAppPicker appPickerButton;
 
-	final int X_COORDINATE_OFFSET = 8;
+	private final static int X_COORDINATE_OFFSET = 8;
 
 	/**
 	 * @param app
@@ -28,19 +29,26 @@ public class CalcSwitcherPopup extends GPopupPanel {
 		super(true, app.getPanel(), app);
 		this.appPickerButton = pickerButton;
 		setGlassEnabled(false);
-		//addStyleName("calcPickerPopup");
+		addStyleName("calcPickerPopup");
 		buildGUI(app);
 	}
 
 	@Override
 	public void show() {
-		if (!popupShowing) {
+		if (popupShowing) {
+			hide();
+		} else {
 			popupShowing = true;
 			this.setPopupPosition(getLeft(), 0);
 			super.show();
-		} else {
-			hide();
 		}
+	}
+
+		@Override
+	protected void hidePopup(Event.NativePreviewEvent event, boolean eventTargetsPopupOrPartner) {
+		Object test = event.getNativeEvent().getCurrentEventTarget();
+		popupShowing = false;
+		super.hidePopup(event, eventTargetsPopupOrPartner);
 	}
 
 	@Override
