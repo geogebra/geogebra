@@ -1039,6 +1039,16 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdIsVertexForm() {
+		t("IsVertexForm(4(x+1)^2+3)", "true");
+		t("IsVertexForm(4(-3/7+x)^2+3/7+sqrt(2))", "true");
+		t("IsVertexForm(4(x-3/7)^2+3/7+sqrt(2))", "true");
+		t("IsVertexForm(x^2)", "true");
+		t("IsVertexForm(4(-x-3/7)^2+3/7+sqrt(2))", "false");
+		t("IsVertexForm((2x+2)^2+3)", "false");
+	}
+
+	@Test
 	public void testIndexLookup() {
 		t("aa_{1}=1", "1");
 		t("aa_{1}+1", "2");
