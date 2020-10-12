@@ -375,7 +375,7 @@ public abstract class DialogManager {
 							}
 
 						} else {
-							if (result != null && result.length > 0) {
+							if (result.length > 0) {
 								numberExpectedError(eh, app);
 							}
 						}
