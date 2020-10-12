@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.undo.AppState;
+import org.geogebra.common.main.undo.UndoCommand;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -678,14 +679,17 @@ public class PageListController implements PageListControllerInterface,
 		return true;
 	}
 
-	private void executeAddSlideAction(AppState state, String... args) {
+	private void executeAddSlideAction(UndoCommand cmd, String... args) {
 		int idx = args.length > 0 ? Integer.parseInt(args[0])
 				: getSlideCount();
 		GgbFile file = args.length < 2 ? new GgbFile()
 				: new GgbFile(args[1]);
+
+		AppState state = undoManager.extractFromCommand(cmd);
 		if (state != null) {
 			file.put("geogebra.xml", state.getXml());
 		}
+
 		if (idx >= 0) {
 			addNewPreviewCard(false, idx, file);
 		} else {
@@ -735,6 +739,7 @@ public class PageListController implements PageListControllerInterface,
 		default:
 			return false;
 		}
+		listener.update();
 		return true;
 	}
 

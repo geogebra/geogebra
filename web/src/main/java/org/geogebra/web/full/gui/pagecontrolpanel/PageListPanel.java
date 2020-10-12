@@ -223,15 +223,15 @@ public class PageListPanel
 		// remove associated ggb file
 		String id = pageController.getSlide(index).getID();
 		if (index == 0 && pageController.getSlideCount() == 1) {
-			app.getUndoManager().storeAction(
-					EventType.CLEAR_SLIDE, id);
+			app.getUndoManager().storeActionWithSlideId(
+					EventType.CLEAR_SLIDE, id, new String[]{id});
 			pageController.loadNewPage(0);
 			update();
 		} else {
 			pageController.removeSlide(index);
 			app.getUndoManager()
-					.storeAction(EventType.REMOVE_SLIDE, index + "", id,
-							pageController.getSlideCount() + "");
+					.storeActionWithSlideId(EventType.REMOVE_SLIDE, id, new String[]{index + "", id,
+							pageController.getSlideCount() + ""});
 			updateIndexes(index);
 			// load new slide
 			if (index == pageController.getSlideCount()) {

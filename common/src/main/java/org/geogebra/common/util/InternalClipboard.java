@@ -34,6 +34,11 @@ public class InternalClipboard {
 	public static final String imagePrefix = "ggbimagedata";
 	public static final String embedPrefix = "ggbembeddata";
 
+	/**
+	 * Copy XML for given geos into internal clipboard
+	 * @param app application
+	 * @param geos selected geos
+	 */
 	public static void copyToXMLInternal(App app, List<GeoElement> geos) {
 		if (geos.isEmpty()) {
 			return;
@@ -234,7 +239,13 @@ public class InternalClipboard {
 		}
 	}
 
-	public static String getTextToSave(App app, List<GeoElement> geos, EscapeFunction fn) {
+	/**
+	 * @param app application
+	 * @param geos selected geos
+	 * @param escape escape function
+	 * @return text for clipboard
+	 */
+	public static String getTextToSave(App app, List<GeoElement> geos, EscapeFunction escape) {
 		InternalClipboard.copyToXMLInternal(app, geos);
 
 		StringBuilder textToSave = new StringBuilder();
@@ -243,18 +254,27 @@ public class InternalClipboard {
 		}
 		textToSave.append("\n");
 
-		print(textToSave, copiedImages, imagePrefix, fn);
-		print(textToSave, copiedEmbeds, embedPrefix, fn);
+		print(textToSave, copiedImages, imagePrefix, escape);
+		print(textToSave, copiedEmbeds, embedPrefix, escape);
 
 		textToSave.append(copiedXml);
 		return textToSave.toString();
 	}
 
+	/**
+	 * @param app application
+	 * @param geos elements to duplicate
+	 */
 	public static void duplicate(App app, List<GeoElement> geos) {
 		InternalClipboard.copyToXMLInternal(app, geos);
 		pasteGeoGebraXMLInternal(app, copiedXmlLabels, copiedXml.toString());
 	}
 
+	/**
+	 * @param app application
+	 * @param copiedXmlLabels labels of copied elements
+	 * @param copiedXml copied XML
+	 */
 	public static void pasteGeoGebraXMLInternal(App app,
 			ArrayList<String> copiedXmlLabels, String copiedXml) {
 		app.getKernel().notifyPaste(copiedXml);

@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.pagecontrolpanel;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.CardInfoPanel;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
@@ -130,7 +129,6 @@ public class PagePreviewCard extends FlowPanel
 	 * Updates the preview image
 	 */
 	public void updatePreviewImage() {
-		Log.error("update " + file.getID());
 		imagePanel.clear();
 		setPreviewImage(((EuclidianViewWInterface) app.getActiveEuclidianView())
 				.getExportImageDataUrl(0.5, false, false));

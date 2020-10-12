@@ -126,11 +126,13 @@ public class UndoCommand {
 				@Override
 				public void run() {
 					undoManager.undoAction(action, args);
+					if (slideID != null) {
+						undoManager.replayActions(slideID, UndoCommand.this);
+					}
 				}
 			});
-
 		} else {
-			AppState checkpoint = undoManager.getCheckpoint(slideID);
+			UndoCommand checkpoint = undoManager.getCheckpoint(slideID);
 			if (checkpoint != null) {
 				undoManager.loadUndoInfo(checkpoint, slideID, this);
 			} else {

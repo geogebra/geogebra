@@ -14,6 +14,7 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.web.html5.awt.GFontW;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
@@ -330,7 +331,7 @@ public class GGraphics2DE implements GGraphics2DWI {
 
 	@Override
 	public JLMContext2d getContext() {
-		return null;
+		return GWT.create(JLMContext2d.class);
 	}
 
 	@Override

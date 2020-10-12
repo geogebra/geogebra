@@ -293,8 +293,6 @@ public class CopyPasteW extends CopyPaste {
 		}
 	}
 
-
-
 	@Override
 	public void duplicate(App app, List<GeoElement> geos) {
 		InternalClipboard.duplicate(app, geos);

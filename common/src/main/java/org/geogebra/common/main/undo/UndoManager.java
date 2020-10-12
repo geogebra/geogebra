@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Undo manager common to Desktop and Web
@@ -53,21 +54,21 @@ public abstract class UndoManager {
 	 *            slide ID
 	 * @return last state of given slide
 	 */
-	public AppState getCheckpoint(String slideID) {
-		AppState state = null;
+	public UndoCommand getCheckpoint(String slideID) {
+		UndoCommand state = null;
 		int steps = 0;
 		while (iterator.hasPrevious()) {
 			UndoCommand cmd = iterator.previous();
 			steps++;
 			if (cmd.getAppState() != null && (cmd.getSlideID() == null
 					|| cmd.getSlideID().equals(slideID))) {
-				state = cmd.getAppState();
+				state = cmd;
 				break;
 			}
 			if ((cmd.getAction() == EventType.PASTE_SLIDE)
 					&& cmd.getArgs().length > 1
 					&& cmd.getArgs()[1].equals(slideID)) {
-				state = extractStateFromFile(cmd.getArgs()[2]);
+				state = cmd;
 				break;
 			}
 		}
@@ -291,17 +292,41 @@ public abstract class UndoManager {
 	 */
 	protected abstract void loadUndoInfo(AppState state, String slideID);
 
-	protected void loadUndoInfo(AppState state, String slideID, UndoCommand until) {
-		loadUndoInfo(state, slideID);
-		boolean afterCheckpoint = false;
+	protected void loadUndoInfo(UndoCommand cmd, String slideId, UndoCommand until) {
+		loadUndoInfo(extractFromCommand(cmd), slideId);
+		replayActions(cmd, slideId, until);
+	}
+
+	/**
+	 * @param cmd undo command
+	 * @return app state associated with the command
+	 */
+	public AppState extractFromCommand(UndoCommand cmd){
+		if (cmd == null) {
+			return null;
+		} else if (cmd.getAction() == EventType.PASTE_SLIDE) {
+			return extractStateFromFile(cmd.getArgs()[2]);
+		} else {
+			return cmd.getAppState();
+		}
+	}
+
+	public void replayActions(final String slideID, final UndoCommand until) {
+		replayActions(getCheckpoint(slideID), slideID, until);
+	}
+
+	private void replayActions(UndoCommand from, String slideID, UndoCommand until) {
+		boolean afterCheckpoint = from == null;
+
 		for (UndoCommand cmd: undoInfoList) {
 			if (cmd == until) {
 				return;
 			}
 			if (afterCheckpoint && cmd.getAction() != null
 					&& Objects.equals(slideID, cmd.getSlideID())) {
+				Log.error("replay"+slideID+":"+cmd.getAction());
 				executeAction(cmd.getAction(), cmd.getArgs());
-			} else if (cmd.getAppState() == state) {
+			} else if (from != null && cmd == from) {
 				afterCheckpoint = true;
 			}
 		}
@@ -407,7 +432,12 @@ public abstract class UndoManager {
 		storeActionWithSlideId(action, null, args);
 	}
 
-	private void storeActionWithSlideId(EventType action, String slideID, String[] args) {
+	/**
+	 * @param action action type
+	 * @param slideID slide ID
+	 * @param args action arguments
+	 */
+	public void storeActionWithSlideId(EventType action, String slideID, String[] args) {
 		iterator.add(new UndoCommand(action, slideID, args));
 		this.pruneStateList();
 		updateUndoActions();
