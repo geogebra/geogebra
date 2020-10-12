@@ -4,18 +4,17 @@ import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.gui.view.button.header.AppPickerButton;
 import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.shared.SuiteHeaderAppPicker;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
 
 public class CalcSwitcherPopup extends GPopupPanel {
 
 	private boolean popupShowing = false;
-	AppPickerButton appPickerButton;
+	SuiteHeaderAppPicker appPickerButton;
 
 	final int X_COORDINATE_OFFSET = 8;
 
@@ -25,7 +24,7 @@ public class CalcSwitcherPopup extends GPopupPanel {
 	 * @param pickerButton
 	 *            - button for popup
 	 */
-	public CalcSwitcherPopup(AppWFull app, AppPickerButton pickerButton) {
+	public CalcSwitcherPopup(AppWFull app, SuiteHeaderAppPicker pickerButton) {
 		super(true, app.getPanel(), app);
 		this.appPickerButton = pickerButton;
 		setGlassEnabled(false);
@@ -73,7 +72,7 @@ public class CalcSwitcherPopup extends GPopupPanel {
 		rowPanel.addDomHandler(event -> {
 				// open app
 			hide();
-			appPickerButton.setIconAndLabel(icon, key);
+			appPickerButton.setIconAndLabel(icon, key, app);
 		}, ClickEvent.getType());
 		contentPanel.add(rowPanel);
 	}

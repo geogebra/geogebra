@@ -31,10 +31,8 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	 * @param app
 	 *            - application
 	 */
-	public StandardButton(App app, String label, ResourcePrototype icon) {
+	public StandardButton(App app) {
 		this.app = app;
-		this.label = label;
-		this.icon = icon;
 	}
 
 	/**
