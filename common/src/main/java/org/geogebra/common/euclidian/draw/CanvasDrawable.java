@@ -11,6 +11,7 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
@@ -56,7 +57,7 @@ public abstract class CanvasDrawable extends Drawable {
 	protected GDimension measureLatex(GGraphics2D g2, GeoElement geo0,
 			GFont font, String text) {
 		return drawLatex(g2, geo0, font, text, Integer.MIN_VALUE,
-				Integer.MIN_VALUE);
+				Integer.MIN_VALUE, false);
 	}
 
 	/**
@@ -76,14 +77,20 @@ public abstract class CanvasDrawable extends Drawable {
 	 */
 	protected GDimension drawLatex(GGraphics2D g2, GeoElement geo0, GFont font,
 			String text, int x, int y) {
+		return drawLatex(g2, geo0, font, text, x, y, false);
+	}
+
+	protected GDimension drawLatex(GGraphics2D g2, GeoElement geo0, GFont font,
+			String text, int x, int y, boolean isContentOfInputBox) {
 		App app = view.getApplication();
 
 		// eg $\math{x}$ for nice x
 		boolean serif = StringUtil.startsWithFormattingCommand(text);
 
-		if (!serif && geo0 instanceof TextProperties
-				&& !text.equals(geo0.getCaptionSimple())) {
-			serif = ((TextProperties) geo0).isSerifFont();
+		if (!serif && geo0 instanceof TextProperties) {
+			serif = (geo0 instanceof GeoInputBox && isContentOfInputBox)
+					? ((GeoInputBox) geo0).isSerifContent()
+					: ((TextProperties) geo0).isSerifFont();
 		}
 
 		GDimension ret = app.getDrawEquation().drawEquation(app, geo0, g2, x, y,
@@ -169,7 +176,7 @@ public abstract class CanvasDrawable extends Drawable {
 	 *            whether the caption is latex
 	 */
 	protected void calculateBoxBounds(boolean latex) {
-		if (!hasLabelSize()) {
+		if (labelSize == null) {
 			return;
 		}
 		boxLeft = xLabel + labelSize.x + 2;
@@ -178,10 +185,6 @@ public abstract class CanvasDrawable extends Drawable {
 				: yLabel;
 		boxWidth = getPreferredWidth();
 		boxHeight = getPreferredHeight();
-	}
-
-	private boolean hasLabelSize() {
-		return labelSize != null && (labelSize.x != 0 || labelSize.y != 0);
 	}
 
 	/**
@@ -311,7 +314,7 @@ public abstract class CanvasDrawable extends Drawable {
 	}
 
 	private void setLabelSize(GPoint labelSize) {
-		this.labelSize = labelSize != null ? labelSize : new GPoint();
+		this.labelSize = labelSize;
 	}
 
 	/**

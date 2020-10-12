@@ -110,7 +110,11 @@ public class TextOptionsModel extends OptionsModel {
 		TextProperties geo0 = getTextPropertiesAt(0);
 		if (geo0 != null) {
 			setEditGeo(getGeoTextAt(0));
-			listener.selectFont(geo0.isSerifFont() ? 1 : 0);
+			if (geo0 instanceof GeoInputBox) {
+				listener.selectFont(((GeoInputBox) geo0).isSerifContent() ? 1 : 0);
+			} else {
+				listener.selectFont(geo0.isSerifFont() ? 1 : 0);
+			}
 			int selItem = -1;
 
 			int decimals = geo0.getPrintDecimals();
@@ -197,7 +201,11 @@ public class TextOptionsModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			TextProperties text = getTextPropertiesAt(i);
 			if (text != null) {
-				text.setSerifFont(isSerif);
+				if (text instanceof GeoInputBox) {
+					((GeoInputBox) text).setSerifContent(isSerif);
+				} else {
+					text.setSerifFont(isSerif);
+				}
 				text.updateVisualStyleRepaint(GProperty.FONT);
 			}
 		}

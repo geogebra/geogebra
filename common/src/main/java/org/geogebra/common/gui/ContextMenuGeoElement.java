@@ -370,10 +370,10 @@ public abstract class ContextMenuGeoElement {
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
 			if (geo1.isGeoNumeric()) {
-				((GeoNumeric) geo1).setSliderFixed(!num.isSliderFixed());
+				((GeoNumeric) geo1).setSliderFixed(!num.isLockedPosition());
 				geo1.updateRepaint();
 			} else {
-				geo1.setFixed(!num.isSliderFixed());
+				geo1.setFixed(!num.isLockedPosition());
 			}
 
 		}
@@ -412,7 +412,7 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoBoolean geo1 = (GeoBoolean) geos2.get(i);
-			geo1.setCheckboxFixed(!geo1.isCheckboxFixed());
+			geo1.setCheckboxFixed(!geo1.isLockedPosition());
 
 		}
 		app.storeUndoInfo();

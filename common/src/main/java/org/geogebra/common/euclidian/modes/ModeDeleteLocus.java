@@ -55,16 +55,16 @@ public class ModeDeleteLocus {
 
 		view.setDeletionRectangle(rect);
 		view.getHitDetector().setIntersectionHits(rect);
-		Hits h = view.getHits();
+		Hits hits = view.getHits();
 		if (!this.objDeleteMode && !this.penDeleteMode) {
-			updatePenDeleteMode(h);
+			updatePenDeleteMode(hits);
 		}
 		boolean onlyStrokes = forceOnlyStrokes || this.penDeleteMode;
 
 		// hide cursor, the new "cursor" is the deletion rectangle
 		view.setCursor(EuclidianCursor.TRANSPARENT);
 
-		Iterator<GeoElement> it = h.iterator();
+		Iterator<GeoElement> it = hits.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			// delete tool should delete the object for dragging
@@ -72,7 +72,7 @@ public class ModeDeleteLocus {
 			// see MOW-97
 			if (view.getApplication().isWhiteboardActive()
 					&& ec.getMode() == EuclidianConstants.MODE_DELETE) {
-				geo.removeOrSetUndefinedIfHasFixedDescendent();
+				removeOrSetUndefinedIfHasFixedDescendent(geo);
 			} else if (geo instanceof GeoLocusStroke) {
 				boolean hasVisiblePart = deletePartOfPenStroke((GeoLocusStroke) geo);
 
@@ -89,8 +89,16 @@ public class ModeDeleteLocus {
 			}
 		}
 		// do not delete images using eraser
-		h.removeImages();
-		ec.deleteAll(h);
+		hits.removeImages();
+		for (GeoElement hit : hits) {
+			removeOrSetUndefinedIfHasFixedDescendent(hit);
+		}
+	}
+
+	private void removeOrSetUndefinedIfHasFixedDescendent(GeoElement geo) {
+		if (!view.getApplication().isApplet() || !geo.isLockedPosition()) {
+			geo.removeOrSetUndefinedIfHasFixedDescendent();
+		}
 	}
 
 	/**
@@ -126,14 +134,10 @@ public class ModeDeleteLocus {
 
 				if (!hasVisiblePart) { // still something visible, don't delete
 					// remove this Stroke
-					geos[0].removeOrSetUndefinedIfHasFixedDescendent();
+					removeOrSetUndefinedIfHasFixedDescendent(geos[0]);
 				}
-			}
-			// delete this object
-			else {
-				if (!(geos[0] instanceof GeoImage)) {
-					geos[0].removeOrSetUndefinedIfHasFixedDescendent();
-				}
+			} else if (!(geos[0] instanceof GeoImage)) { // delete this object
+				removeOrSetUndefinedIfHasFixedDescendent(geos[0]);
 			}
 			return true;
 		}

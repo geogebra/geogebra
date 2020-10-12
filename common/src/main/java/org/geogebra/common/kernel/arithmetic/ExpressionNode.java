@@ -292,19 +292,22 @@ public class ExpressionNode extends ValidExpression
 
 		if (lev != null) {
 			newNode = new ExpressionNode(kernel1, lev, operation, rev);
-			newNode.leaf = leaf;
 		} else {
 			// something went wrong
 			return null;
 		}
+		newNode.leaf = leaf;
+		copyAttributesTo(newNode);
+		return newNode;
+	}
 
-		// set member vars that are not set by constructors
-		newNode.forceVector = forceVector;
-		newNode.forcePoint = forcePoint;
-		newNode.forceFunction = forceFunction;
-		newNode.brackets = brackets;
-		newNode.secretMaskingAlgo = secretMaskingAlgo;
-		// Application.debug("getCopy() output: " + newNode);
+	/**
+	 * @return copy of this, keeping left and right subtrees
+	 */
+	public ExpressionNode shallowCopy() {
+		ExpressionNode newNode = new ExpressionNode(kernel, left, operation, right);
+		newNode.leaf = leaf;
+		copyAttributesTo(newNode);
 		return newNode;
 	}
 
@@ -3748,5 +3751,22 @@ public class ExpressionNode extends ValidExpression
 
 	public boolean isForceSurface() {
 		return forceSurface;
+	}
+
+	/**
+	 * Copy all attributes except for those set in constructor and the leaf flag
+	 *
+	 * @param newNode node that should receive the attributes
+	 */
+	public void copyAttributesTo(ExpressionNode newNode) {
+		newNode.forceVector = forceVector;
+		newNode.forcePoint = forcePoint;
+		newNode.forceFunction = forceFunction;
+		newNode.forceInequality = forceInequality;
+		newNode.forceSurface = forceSurface;
+		newNode.brackets = brackets;
+		newNode.secretMaskingAlgo = secretMaskingAlgo;
+		newNode.wasInterval = wasInterval;
+		newNode.holdsLaTeXtext = holdsLaTeXtext;
 	}
 }

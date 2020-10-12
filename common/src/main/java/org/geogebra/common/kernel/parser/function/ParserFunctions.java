@@ -78,9 +78,4 @@ public interface ParserFunctions {
 	 * @return single argument operation other than x,y,z
 	 */
 	Operation getSingleArgumentOp(String leftImg);
-
-	/**
-	 * Add asin / acos / ... functions that are not allowed in inputboxes
-	 */
-	void addTrigShorthandFunctions();
 }

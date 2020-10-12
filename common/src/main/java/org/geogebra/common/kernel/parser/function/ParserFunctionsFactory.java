@@ -17,13 +17,19 @@ public class ParserFunctionsFactory {
 			"acosh", "atanh", "real", "imaginary", "conjugate",
 			"fractionalPart" };
 
+	private final boolean addExtra;
+
+	private ParserFunctionsFactory(boolean addExtra) {
+		this.addExtra = addExtra;
+	}
+
 	/**
 	 * Creates a ParserFunctions with the default functions.
 	 *
 	 * @return parser functions
 	 */
-	public static ParserFunctions createParserFunctions() {
-		return createParserFunctions(true);
+	public static ParserFunctionsFactory createParserFunctionsFactory() {
+		return new ParserFunctionsFactory(true);
 	}
 
 	/**
@@ -31,15 +37,26 @@ public class ParserFunctionsFactory {
 	 *
 	 * @return parser functions
 	 */
-	public static ParserFunctions createGraphingParserFunctions() {
+	public static ParserFunctionsFactory createGraphingParserFunctionsFactory() {
+		return new ParserFunctionsFactory(false);
+	}
+
+	public ParserFunctions createParserFunctions() {
 		return createParserFunctions(false);
 	}
 
-	private static ParserFunctions createParserFunctions(boolean addExtra) {
+	public ParserFunctions createInputBoxParserFunctions() {
+		return createParserFunctions(true);
+	}
+
+	private ParserFunctions createParserFunctions(boolean inputBox) {
 		ParserFunctionsImpl parserFunctions = new ParserFunctionsImpl();
 		addFunctions(parserFunctions);
 		if (addExtra) {
 			addExtraFunctions(parserFunctions);
+		}
+		if (!inputBox) {
+			addInputBoxExcludedFunctions(parserFunctions);
 		}
 
 		addReservedFunctions(parserFunctions);
@@ -178,7 +195,7 @@ public class ParserFunctionsFactory {
 		put(pf, 1, "alt", Operation.ALT, "( (x, y, z) )");
 	}
 
-	static void addTrigShorthandFunctions(ParserFunctionsImpl pf) {
+	private static void addInputBoxExcludedFunctions(ParserFunctionsImpl pf) {
 		put(pf, 1, "atanh", Operation.ATANH);
 		put(pf, 1, "acosh", Operation.ACOSH);
 		put(pf, 1, "asinh", Operation.ASINH);

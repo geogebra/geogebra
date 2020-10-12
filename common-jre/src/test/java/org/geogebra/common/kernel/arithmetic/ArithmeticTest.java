@@ -295,7 +295,7 @@ public class ArithmeticTest extends Assert {
 				lookup("g").getDefinition(StringTemplate.defaultTemplate));
 		t("ff(x,y)=x+y", "x + y");
 		t("gg(a,b)=ff", "a + b");
-		assertEquals("gg(a, b) = ff(a, b)",
+		assertEquals("ff(a, b)",
 				lookup("gg").getDefinition(StringTemplate.defaultTemplate));
 	}
 

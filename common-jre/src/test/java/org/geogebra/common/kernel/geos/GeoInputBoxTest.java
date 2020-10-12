@@ -621,7 +621,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	public void testDefaultInputBoxSerif() {
 		add("f(x) = xsinx");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
-		assertTrue(inputBox.isSerifFont());
+		assertTrue(inputBox.isSerifContent());
 	}
 
 	@Test
@@ -634,12 +634,12 @@ public class GeoInputBoxTest extends BaseUnitTest {
 				+ "\t<labelMode val=\"3\"/>\n"
 				+ "\t<fixed val=\"true\"/>\n"
 				+ "\t<auxiliary val=\"true\"/>\n"
-				+ "\t<font serif=\"false\" sizeM=\"1\" size=\"0\" style=\"0\"/>\n"
 				+ "\t<symbolic val=\"true\" />\n"
+				+ "\t<contentSerif val=\"false\" />\n"
 				+ "\t<caption val=\"Serif\"/>\n"
 				+ "</element>");
 		GeoInputBox inputBox = (GeoInputBox) getConstruction().lookupLabel("InputBox1");
-		assertTrue(!inputBox.isSerifFont());
+		assertFalse(inputBox.isSerifContent());
 	}
 
 	@Test
@@ -656,6 +656,6 @@ public class GeoInputBoxTest extends BaseUnitTest {
 				+ "\t<caption val=\"Serif\"/>\n"
 				+ "</element>");
 		GeoInputBox inputBox = (GeoInputBox) getConstruction().lookupLabel("InputBox1");
-		assertTrue(inputBox.isSerifFont());
+		assertTrue(inputBox.isSerifContent());
 	}
 }

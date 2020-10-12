@@ -30,11 +30,12 @@ import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
+import org.geogebra.web.full.helper.ResourcesInjectorFull;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.full.main.NullHeaderResizer;
-import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -58,7 +59,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
@@ -67,15 +67,13 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Frame for applets with GUI
  *
  */
 public class GeoGebraFrameFull
-		extends GeoGebraFrameW implements NativePreviewHandler, FrameWithHeaderAndKeyboard,
-		FastClickHandler, KeyUpHandler {
+		extends GeoGebraFrameW implements NativePreviewHandler, FrameWithHeaderAndKeyboard {
 
 	private AppletFactory factory;
 	private DockGlassPaneW glass;
@@ -340,7 +338,7 @@ public class GeoGebraFrameFull
 						.isPerspectivesPopupVisible();
 				onKeyboardAdded(keyboard);
 				if (showPerspectivesPopup) {
-					getApp().showPerspectivesPopup();
+					getApp().showPerspectivesPopupIfNeeded();
 				}
 				if (!getApp().isWhiteboardActive()) {
 					if (textField != null) {
@@ -427,7 +425,7 @@ public class GeoGebraFrameFull
 	@Override
 	public boolean showKeyBoard(boolean show, MathKeyboardListener textField,
 			boolean forceShow) {
-		if (forceShow && isKeyboardWantedFromStorage()) {
+		if (forceShow && (isKeyboardWantedFromStorage() || Browser.isMobile())) {
 			doShowKeyBoard(show, textField);
 			return true;
 		}
@@ -452,12 +450,11 @@ public class GeoGebraFrameFull
 						.isOpen()) {
 			return false;
 		}
-
-		if (app.getLAF().isTablet()
+		if (Browser.isMobile()
 				|| isKeyboardShowing()
 									// showing, we don't have
 									// to handle the showKeyboardButton
-				|| getKeyboardManager().shouldKeyboardBeShown()
+				|| !getKeyboardManager().isKeyboardClosedByUser()
 				|| keyboardNeededForGraphicsTools()) {
 			doShowKeyBoard(show, textField);
 			showKeyboardButton(textField);
@@ -469,7 +466,7 @@ public class GeoGebraFrameFull
 	}
 
 	private boolean keyboardNeededForGraphicsTools() {
-		return app.isApplet() && app.isShowToolbar()
+		return app.isShowToolbar()
 				&& app.getActiveEuclidianView()
 				.getEuclidianController()
 						.modeNeedsKeyboard();
@@ -731,19 +728,21 @@ public class GeoGebraFrameFull
 				MaterialDesignResources.INSTANCE.menu_black_whiteBorder(), null,
 				24, app);
 
-		openMenuButton.addFastClickHandler(this);
-		openMenuButton.addDomHandler(this, KeyUpEvent.getType());
+		openMenuButton.addFastClickHandler(source -> {
+			onMenuButtonPressed();
+			if (app.isWhiteboardActive()) {
+				deselectDragBtn();
+			}
+		});
+		openMenuButton.addDomHandler(event -> {
+			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+				app.toggleMenu();
+			}
+		}, KeyUpEvent.getType());
 
 		openMenuButton.addStyleName("mowOpenMenuButton");
 		new FocusableWidget(AccessibilityGroup.MENU, null, openMenuButton).attachTo(app);
 		add(openMenuButton);
-	}
-
-	@Override
-	public void onKeyUp(KeyUpEvent event) {
-		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-			app.toggleMenu();
-		}
 	}
 
 	private void attachToolbarMow(AppW app) {
@@ -814,13 +813,16 @@ public class GeoGebraFrameFull
 	 *            browser event
 	 */
 	private void closePopupsAndMaybeMenu(NativeEvent event) {
-		if (app.isMenuShowing()
-				&& !Dom.eventTargetsElement(event, ggwMenuBar.getElement())
+		if (!Dom.eventTargetsElement(event, getMenuElement())
 				&& !Dom.eventTargetsElement(event, getToolbarMenuElement())
 				&& !getGlassPane().isDragInProgress()
 				&& !app.isUnbundled() && panelTransitioner.getCurrentPanel() == null) {
-			app.toggleMenu();
+			app.hideMenu();
 		}
+	}
+
+	private Element getMenuElement() {
+		return ggwMenuBar == null ? null : ggwMenuBar.getElement();
 	}
 
 	private Element getToolbarMenuElement() {
@@ -932,7 +934,7 @@ public class GeoGebraFrameFull
 				|| event.getTypeInt() == Event.ONTOUCHSTART) {
 
 			JavaScriptObject js = event.getNativeEvent().getEventTarget();
-			JsEval.callNativeJavaScript("hideAppPicker", js);
+			JsEval.callNativeGlobalFunction("hideAppPicker", js);
 		}
 	}
 
@@ -963,15 +965,16 @@ public class GeoGebraFrameFull
 	}
 
 	@Override
-	public void onClick(Widget source) {
-		onMenuButtonPressed();
-		if (getApp().isWhiteboardActive()) {
-			deselectDragBtn();
-		}
+	public AppWFull getApp() {
+		return (AppWFull) super.getApp();
+	}
+
+	public AppletFactory getAppletFactory() {
+		return factory;
 	}
 
 	@Override
-	public AppWFull getApp() {
-		return (AppWFull) super.getApp();
+	protected ResourcesInjectorFull getResourcesInjector(AppletParameters appletParameters) {
+		return new ResourcesInjectorFull();
 	}
 }

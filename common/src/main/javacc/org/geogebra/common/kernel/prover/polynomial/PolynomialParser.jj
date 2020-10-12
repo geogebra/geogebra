@@ -1,1 +1,276 @@
-/** * This is *not* a general polynomial parser, but for a special type of input from Singular or giac. * * @author Simon Weitzhofer <simon@geogebra.org> * Comments by Zoltan Kovacs <zoltan@geogebra.org> * * For a proper input please have a look at createEliminateFactorizedScript() in PPolynomial.java * --- the input is the output from Singular. Also the same implementation for giac can be * found in CASgiac.java. * * This .jj file will create several extra .java files in this directory. */ options {   static = false;   JAVA_TEMPLATE_TYPE="modern";} PARSER_BEGIN(PolynomialParser)package org.geogebra.common.kernel.prover.polynomial;import java.math.BigInteger;import java.util.HashMap;import java.util.HashSet;import java.util.Set;import java.util.Iterator;public class PolynomialParser{  public static PPolynomial parsePolynomial(String string, Set < PVariable > variables) throws ParseException  {    Iterator < PVariable > variablesIterator = variables.iterator();    HashMap < String, PVariable > variableMap = new HashMap < String, PVariable > ();    while (variablesIterator.hasNext())    {      PVariable variable = variablesIterator.next();      variableMap.put(variable.getName(), variable);    }    PolynomialParser parser = new PolynomialParser(new StringProvider(string));    return parser.polynomialStartingPoint(variableMap);  }  public static Set < PPolynomial > parsePolynomialFactors(String string, Set < PVariable > variables) throws ParseException  {    Iterator < PVariable > variablesIterator = variables.iterator();    HashMap < String, PVariable > variableMap = new HashMap < String, PVariable > ();    while (variablesIterator.hasNext())    {      PVariable variable = variablesIterator.next();      variableMap.put(variable.getName(), variable);    }    PolynomialParser parser = new PolynomialParser(new StringProvider(string));    return parser.polynomialFactorsStartingPoint(variableMap);  }    public static Set<Set < PPolynomial > > parseFactoredPolynomialSet(String string, Set <PVariable > variables) throws ParseException  {    Iterator < PVariable > variablesIterator = variables.iterator();    HashMap < String, PVariable > variableMap = new HashMap < String, PVariable > ();    while (variablesIterator.hasNext())    {      PVariable variable = variablesIterator.next();      variableMap.put(variable.getName(), variable);    }    PolynomialParser parser = new PolynomialParser(new StringProvider(string));    return parser.polynomialFactoredSetStartingPoint(variableMap);  }}PARSER_END(PolynomialParser)SKIP :{  " "| "\t"| "\n"| "\r"}TOKEN :{  < NUMBER : ([ "0"-"9" ])+ >}TOKEN :{  < VARIABLE : "v" <NUMBER > >}TOKEN :{  < STARTFACTLIST : "[1]:" >| < ANYFACTLIST : "[" < NUMBER > "]:" >}TOKEN :{  < INDEXPOLY : "_[" < NUMBER > "]=" >| < COMMA : "," >}TOKEN : //OPERATORS{  < PLUS : "+" >| < MINUS : "-" >| < TIMES : "*" >| < POWER : "^" >}Set<Set < PPolynomial >> polynomialFactoredSetStartingPoint(HashMap <String, PVariable > variables):{  Set <Set <PPolynomial > > factoredPolynomials = new HashSet<Set <PPolynomial > > ();  Set <PPolynomial > factors;}  {        < STARTFACTLIST >    factors = polynomialFactorsStartingPoint(variables)    {      factoredPolynomials.add(factors);    }    (      < ANYFACTLIST >    factors = polynomialFactorsStartingPoint(variables)    {      factoredPolynomials.add(factors);    }  )*  {    return factoredPolynomials;  }}  Set < PPolynomial > polynomialFactorsStartingPoint(HashMap < String, PVariable > variables) :{  Set < PPolynomial > polynomials = new HashSet < PPolynomial > ();  PPolynomial poly;}{  < STARTFACTLIST >  (    < INDEXPOLY >    poly = polynomial(variables)    {      if (!poly.isOne())      {         polynomials.add(poly);      }    }  )+  < ANYFACTLIST > < NUMBER > (< COMMA > < NUMBER >)*  {    return polynomials;  }}PPolynomial polynomialStartingPoint(HashMap < String, PVariable > variables) :{  PPolynomial p;}{  p = polynomial(variables)  {    return p;  }}PPolynomial polynomial(HashMap < String, PVariable > variables) :{  PPolynomial poly;  PPolynomial t;}{  poly = term(variables)  (    (      < PLUS > t = term(variables)      {        poly = poly.add(t);      }    )  |    (      < MINUS > t = term(variables)      {        poly = poly.subtract(t);      }    )  )*  {    return poly;  }}PPolynomial term(HashMap < String, PVariable > variables) :{  PTerm t = new PTerm();  PTerm singleTerm;  Token numberToken;  BigInteger number = BigInteger.ONE;}/**x³*y² or x³*y² or 3*/{  //LOOKAHEAD(2)  (< MINUS >  {    number = BigInteger.ZERO.subtract(BigInteger.ONE); // -1  }  )?  (    (      numberToken = < NUMBER >      {        number = number.multiply(new BigInteger(numberToken.image));      }      (        < TIMES > singleTerm = power(variables)        {          t = t.times(singleTerm);        }      )*    )  |    (      singleTerm = power(variables)      {        t = t.times(singleTerm);      }      (        < TIMES > singleTerm = power(variables)        {          t = t.times(singleTerm);        }      )*    )  )  {    return new PPolynomial(number, t);  }}PTerm power(HashMap < String, PVariable > variables) :{  PVariable coefficient;  Token numberToken;  int number = 1;}{  coefficient = variable(variables)  (    < POWER > numberToken = < NUMBER >    {      number = Integer.parseInt(numberToken.image);    }  )?  {    return new PTerm(coefficient, number);  }}PVariable variable(HashMap < String, PVariable > variables) :{  Token variable;  PVariable var;}{  variable = < VARIABLE >  {    if ((var = variables.get(variable.toString())) != null) return var;    throw new ParseException();  }}
+/**
+ * This is *not* a general polynomial parser, but for a special type of input from Singular or giac.
+ *
+ * @author Simon Weitzhofer <simon@geogebra.org>
+ * Comments by Zoltan Kovacs <zoltan@geogebra.org>
+ *
+ * For a proper input please have a look at createEliminateFactorizedScript() in PPolynomial.java
+ * --- the input is the output from Singular. Also the same implementation for giac can be
+ * found in CASgiac.java.
+ *
+ * This .jj file will create several extra .java files in this directory.
+ */
+
+ options {
+   STATIC = false;
+   JAVA_TEMPLATE_TYPE = "modern";
+} 
+
+PARSER_BEGIN(PolynomialParser)
+package org.geogebra.common.kernel.prover.polynomial;
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Iterator;
+
+public class PolynomialParser
+{
+  public static PPolynomial parsePolynomial(String string, Set < PVariable > variables) throws ParseException
+  {
+    Iterator < PVariable > variablesIterator = variables.iterator();
+    HashMap < String, PVariable > variableMap = new HashMap < String, PVariable > ();
+    while (variablesIterator.hasNext())
+    {
+      PVariable variable = variablesIterator.next();
+      variableMap.put(variable.getName(), variable);
+    }
+    PolynomialParser parser = new PolynomialParser(new StringProvider(string));
+    return parser.polynomialStartingPoint(variableMap);
+  }
+
+  public static Set < PPolynomial > parsePolynomialFactors(String string, Set < PVariable > variables) throws ParseException
+  {
+    Iterator < PVariable > variablesIterator = variables.iterator();
+    HashMap < String, PVariable > variableMap = new HashMap < String, PVariable > ();
+    while (variablesIterator.hasNext())
+    {
+      PVariable variable = variablesIterator.next();
+      variableMap.put(variable.getName(), variable);
+    }
+    PolynomialParser parser = new PolynomialParser(new StringProvider(string));
+    return parser.polynomialFactorsStartingPoint(variableMap);
+  }
+  
+  public static Set<Set < PPolynomial > > parseFactoredPolynomialSet(String string, Set <PVariable > variables) throws ParseException
+  {
+    Iterator < PVariable > variablesIterator = variables.iterator();
+    HashMap < String, PVariable > variableMap = new HashMap < String, PVariable > ();
+    while (variablesIterator.hasNext())
+    {
+      PVariable variable = variablesIterator.next();
+      variableMap.put(variable.getName(), variable);
+    }
+    PolynomialParser parser = new PolynomialParser(new StringProvider(string));
+    return parser.polynomialFactoredSetStartingPoint(variableMap);
+  }
+}
+
+PARSER_END(PolynomialParser)
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+}
+
+TOKEN :
+{
+  < NUMBER : ([ "0"-"9" ])+ >
+}
+
+TOKEN :
+{
+  < VARIABLE : "v" <NUMBER > >
+}
+
+TOKEN :
+{
+  < STARTFACTLIST : "[1]:" >
+| < ANYFACTLIST : "[" < NUMBER > "]:" >
+
+}
+
+TOKEN :
+{
+  < INDEXPOLY : "_[" < NUMBER > "]=" >
+| < COMMA : "," >
+}
+
+TOKEN : //OPERATORS
+{
+  < PLUS : "+" >
+| < MINUS : "-" >
+| < TIMES : "*" >
+| < POWER : "^" >
+}
+
+Set<Set < PPolynomial >> polynomialFactoredSetStartingPoint(HashMap <String, PVariable > variables):
+{
+  Set <Set <PPolynomial > > factoredPolynomials = new HashSet<Set <PPolynomial > > ();
+  Set <PPolynomial > factors;
+}
+  {
+    
+    < STARTFACTLIST >
+    factors = polynomialFactorsStartingPoint(variables)
+    {
+      factoredPolynomials.add(factors);
+    }
+
+    (
+      < ANYFACTLIST >
+    factors = polynomialFactorsStartingPoint(variables)
+    {
+      factoredPolynomials.add(factors);
+    }
+  )*
+  {
+    return factoredPolynomials;
+  }
+}
+  
+
+Set < PPolynomial > polynomialFactorsStartingPoint(HashMap < String, PVariable > variables) :
+{
+  Set < PPolynomial > polynomials = new HashSet < PPolynomial > ();
+  PPolynomial poly;
+}
+{
+  < STARTFACTLIST >
+  (
+    < INDEXPOLY >
+    poly = polynomial(variables)
+    {
+      if (!poly.isOne())
+      {
+         polynomials.add(poly);
+      }
+    }
+  )+
+  < ANYFACTLIST > < NUMBER > (< COMMA > < NUMBER >)*
+  {
+    return polynomials;
+  }
+}
+
+PPolynomial polynomialStartingPoint(HashMap < String, PVariable > variables) :
+{
+  PPolynomial p;
+}
+{
+  p = polynomial(variables)
+  {
+    return p;
+  }
+}
+
+PPolynomial polynomial(HashMap < String, PVariable > variables) :
+{
+  PPolynomial poly;
+  PPolynomial t;
+}
+{
+  poly = term(variables)
+  (
+    (
+      < PLUS > t = term(variables)
+      {
+        poly = poly.add(t);
+      }
+    )
+  |
+    (
+      < MINUS > t = term(variables)
+      {
+        poly = poly.subtract(t);
+      }
+    )
+  )*
+  {
+    return poly;
+  }
+}
+
+PPolynomial term(HashMap < String, PVariable > variables) :
+{
+  PTerm t = new PTerm();
+  PTerm singleTerm;
+  Token numberToken;
+  BigInteger number = BigInteger.ONE;
+}
+/*
+*x³*y² or x³*y² or 3
+*/
+{
+  //LOOKAHEAD(2)
+  (< MINUS >
+  {
+    number = BigInteger.ZERO.subtract(BigInteger.ONE); // -1
+  }
+  )?
+  (
+    (
+      numberToken = < NUMBER >
+      {
+        number = number.multiply(new BigInteger(numberToken.image));
+      }
+      (
+        < TIMES > singleTerm = power(variables)
+        {
+          t = t.times(singleTerm);
+        }
+      )*
+    )
+  |
+    (
+      singleTerm = power(variables)
+      {
+        t = t.times(singleTerm);
+      }
+      (
+        < TIMES > singleTerm = power(variables)
+        {
+          t = t.times(singleTerm);
+        }
+      )*
+    )
+  )
+  {
+    return new PPolynomial(number, t);
+  }
+}
+
+PTerm power(HashMap < String, PVariable > variables) :
+{
+  PVariable coefficient;
+  Token numberToken;
+  int number = 1;
+}
+{
+  coefficient = variable(variables)
+  (
+    < POWER > numberToken = < NUMBER >
+    {
+      number = Integer.parseInt(numberToken.image);
+    }
+  )?
+  {
+    return new PTerm(coefficient, number);
+  }
+}
+
+PVariable variable(HashMap < String, PVariable > variables) :
+{
+  Token variable;
+  PVariable var;
+}
+{
+  variable = < VARIABLE >
+  {
+    if ((var = variables.get(variable.toString())) != null) return var;
+    throw new ParseException();
+  }
+}

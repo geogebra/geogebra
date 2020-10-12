@@ -59,11 +59,6 @@ public class EuclidianPen implements GTimerListener {
 
 	private int penSize;
 	private int lineOpacity;
-	private int lineThickness;
-	private GColor lineDrawingColor;
-	private int lineDrawingStyle;
-	// true if we need repaint
-	private boolean needsRepaint;
 
 	/**
 	 * start point of the gesture
@@ -80,6 +75,7 @@ public class EuclidianPen implements GTimerListener {
 	private int penLineStyle;
 	private GColor penColor = GColor.BLACK;
 	private final PenPreviewLine penPreviewLine;
+	protected final ArrayList<GPoint> previewPoints = new ArrayList<>();
 
 	/************************************************
 	 * Construct EuclidianPen
@@ -160,13 +156,6 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	/**
-	 * @return pen size + 1
-	 */
-	public int getLineThickness() {
-		return lineThickness + 1;
-	}
-
-	/**
 	 * @param penSize
 	 *            pen size
 	 */
@@ -175,7 +164,6 @@ public class EuclidianPen implements GTimerListener {
 			startNewStroke = true;
 		}
 		this.penSize = penSize;
-		lineThickness = penSize;
 	}
 
 	/**
@@ -194,7 +182,6 @@ public class EuclidianPen implements GTimerListener {
 			startNewStroke = true;
 		}
 		this.penLineStyle = penLineStyle;
-		lineDrawingStyle = penLineStyle;
 	}
 
 	/**
@@ -245,14 +232,12 @@ public class EuclidianPen implements GTimerListener {
 	 *            mouse event
 	 */
 	public void handleMouseDraggedForPenMode(AbstractEvent e) {
-		view.setCursor(EuclidianCursor.TRANSPARENT);
 		if (isErasingEvent(e)) {
 			view.getEuclidianController().getDeleteMode()
 					.handleMouseDraggedForDelete(e, true);
 			app.getKernel().notifyRepaint();
 		} else {
 			// drawing in progress, so we need repaint
-			needsRepaint = true;
 			addPointPenMode(e);
 		}
 	}
@@ -265,27 +250,10 @@ public class EuclidianPen implements GTimerListener {
 		if (!isErasingEvent(e)) {
 			timer.stop();
 
-			penPoints.clear();
-			addPointPenMode(e);
+			view.setCursor(EuclidianCursor.TRANSPARENT);
 			view.cacheGraphics();
+			addPointPenMode(e);
 		}
-	}
-
-	/**
-	 * Method to repaint the whole preview line
-	 * 
-	 * @param g2D
-	 *            graphics for pen
-	 */
-	public void doRepaintPreviewLine(GGraphics2D g2D) {
-		if (penPoints.size() < 2) {
-			return;
-		}
-
-		g2D.setStroke(EuclidianStatic.getStroke(getLineThickness(),
-				lineDrawingStyle, GBasicStroke.JOIN_ROUND));
-		g2D.setColor(lineDrawingColor);
-		penPreviewLine.drawPolyline(penPoints, g2D);
 	}
 
 	/**
@@ -323,10 +291,9 @@ public class EuclidianPen implements GTimerListener {
 	 *            event
 	 */
 	public void addPointPenMode(AbstractEvent e) {
-		view.setCursor(EuclidianCursor.TRANSPARENT);
-
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
-
+		previewPoints.add(newPoint);
+		view.repaintView();
 		addPointPenMode(newPoint);
 	}
 
@@ -349,7 +316,6 @@ public class EuclidianPen implements GTimerListener {
 
 				GPoint p = new GPoint(locationX, locationY);
 				penPoints.add(p);
-				addPointRepaint();
 			}
 			penPoints.add(newPoint);
 		} else {
@@ -358,7 +324,6 @@ public class EuclidianPen implements GTimerListener {
 			if (isFreehand()) {
 				if (dist > MIN_POINT_DIST) {
 					penPoints.add(newPoint);
-					addPointRepaint();
 				}
 				return;
 			}
@@ -368,13 +333,11 @@ public class EuclidianPen implements GTimerListener {
 			if (dist > MIN_POINT_DIST) {
 				if (dist > MAX_POINT_DIST || p3 == null || p2 == null) {
 					penPoints.add(newPoint);
-					addPointRepaint();
 				} else {
 					p2.x = (p1.x + p2.x) / 2;
 					p2.y = (p1.y + p2.y) / 2;
 					p1.x = newPoint.x;
 					p1.y = newPoint.y;
-					addPointRepaint();
 				}
 			}
 		}
@@ -399,11 +362,6 @@ public class EuclidianPen implements GTimerListener {
 			}
 		}
 		return null;
-	}
-
-	private void addPointRepaint() {
-		needsRepaint = true;
-		view.repaintView();
 	}
 
 	private static boolean angle(GPoint a, GPoint b, GPoint c, double max) {
@@ -432,7 +390,6 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	public void handleMouseReleasedForPenMode(boolean right, int x, int y,
 												 boolean isPinchZooming) {
-		view.invalidateCache();
 		if (right || penPoints.size() == 0) {
 			return;
 		}
@@ -452,8 +409,7 @@ public class EuclidianPen implements GTimerListener {
 		addPointsToPolyLine(penPoints);
 
 		penPoints.clear();
-		// drawing done, so no need for repaint
-		needsRepaint = false;
+
 		String label = lastAlgo.getOutput(0).getLabelSimple();
 
 		if (oldXML == null) {
@@ -506,13 +462,9 @@ public class EuclidianPen implements GTimerListener {
 			return;
 		}
 
-		AlgoLocusStroke strokeAlgo = new AlgoLocusStroke(cons, newPts);
-		// set label
-		strokeAlgo.getOutput(0).setLabel(null);
-		strokeAlgo.getOutput(0).setTooltipMode(GeoElementND.TOOLTIP_OFF);
-		lastAlgo = strokeAlgo;
+		lastAlgo = new AlgoLocusStroke(cons, newPts);
 
-		GeoElement stroke = strokeAlgo.getOutput(0);
+		GeoElement stroke = lastAlgo.getOutput(0);
 
 		stroke.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		stroke.setLineType(penLineStyle);
@@ -520,19 +472,20 @@ public class EuclidianPen implements GTimerListener {
 		stroke.setObjColor(penColor);
 		stroke.updateVisualStyle(GProperty.COMBINED);
 
-		stroke.updateRepaint();
+		// set label
+		stroke.setLabel(null);
+		stroke.setTooltipMode(GeoElementND.TOOLTIP_OFF);
 	}
 
 	/**
-	 * @param color
+	 * @param penColor
 	 *            pen color
 	 */
-	public void setPenColor(GColor color) {
-		if (!this.penColor.equals(color)) {
+	public void setPenColor(GColor penColor) {
+		if (!this.penColor.equals(penColor)) {
 			startNewStroke = true;
 		}
-		this.penColor = color;
-		lineDrawingColor = color;
+		this.penColor = penColor;
 	}
 
 	/**
@@ -561,12 +514,23 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	/**
+	 * Set the correct stroke style, and repaint if needed
+	 * @param g2 graphics
+	 */
+	public void setStyleAndRepaint(GGraphics2D g2) {
+		g2.setStroke(EuclidianStatic.getStroke(getPenSize(),
+				getPenLineStyle(), GBasicStroke.JOIN_ROUND));
+		g2.setColor(getPenColor());
+		repaintIfNeeded(g2);
+	}
+
+	/**
 	 * Paint on graphics if needed
 	 * @param g2 graphics
 	 */
 	public void repaintIfNeeded(GGraphics2D g2) {
-		if (needsRepaint) {
-			doRepaintPreviewLine(g2);
+		if (!previewPoints.isEmpty()) {
+			penPreviewLine.drawPolyline(previewPoints, g2);
 		}
 	}
 }

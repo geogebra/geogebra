@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
-import org.geogebra.common.main.settings.AppConfigGraphing;
+import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.junit.Before;
 import org.junit.Test;
 

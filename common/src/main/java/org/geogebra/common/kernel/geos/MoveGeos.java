@@ -145,7 +145,7 @@ public class MoveGeos {
 						movedGeo = true;
 					}
 				} else if (geo1.isGeoNumeric()) {
-					if (!((GeoNumeric) geo).isSliderFixed()) {
+					if (!geo.isLockedPosition()) {
 						// real world screen position - GeoNumeric
 						((GeoNumeric) geo).setRealWorldLoc(
 								((GeoNumeric) geo).getRealWorldLocX()

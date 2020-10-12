@@ -67,6 +67,8 @@ public final class GColor implements GPaint {
 	public static final GColor MOW_WIDGET_BACKGROUND = newColor(245, 245, 245);
 	/** MOW GREEN */
 	public static final GColor MOW_GREEN = newColor(46, 125, 50);
+	/** ERROR RED */
+	public static final GColor ERROR_RED = newColor(176, 0, 32);
 
 	/** MOW RULER */
 	public static final GColor MOW_RULER = newColor(192, 192, 192);
@@ -75,6 +77,10 @@ public final class GColor implements GPaint {
 
 	// Selection color for inline text and table in Tafel
 	public static final GColor MOW_SELECTION_COLOR = newColor(0, 168, 213, 31);
+
+	public static final GColor TABLE_HEADING_COLOR = newColor(110, 101, 179, 122);
+
+	public static final GColor MOW_TABLE_HEADING_COLOR = newColor(65, 121, 140, 102);
 
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer

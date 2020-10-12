@@ -576,12 +576,17 @@ public class GeoList extends GeoElement
 	public MyList getMyList() {
 		final int size = elements.size();
 		final MyList myList = new MyList(kernel, size);
-
-		for (int i = 0; i < size; i++) {
-			myList.addListElement(new ExpressionNode(kernel, elements.get(i)));
-		}
-
+		copyListElements(myList);
 		return myList;
+	}
+
+	/**
+	 * @param myList list to copy into
+	 */
+	public void copyListElements(MyList myList) {
+		for (GeoElement element : elements) {
+			myList.addListElement(new ExpressionNode(kernel, element));
+		}
 	}
 
 	@Override
@@ -961,7 +966,7 @@ public class GeoList extends GeoElement
 		XMLBuilder.appendPointProperties(sb, this);
 
 		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false,
-				kernel.getApplication(), false);
+				kernel.getApplication());
 
 		// print decimals
 		if ((printDecimals >= 0) && !useSignificantFigures) {

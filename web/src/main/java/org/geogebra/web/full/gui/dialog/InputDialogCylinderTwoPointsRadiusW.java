@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.DialogData;
 
 /**
  * Dialog for cylinder given by top & bottom centers.
@@ -18,8 +19,8 @@ public class InputDialogCylinderTwoPointsRadiusW extends InputDialogRadiusW {
 	/**
 	 * @param app
 	 *            application
-	 * @param title
-	 *            title
+	 * @param data
+	 *            dialog data
 	 * @param handler
 	 *            input handler
 	 * @param a
@@ -29,9 +30,9 @@ public class InputDialogCylinderTwoPointsRadiusW extends InputDialogRadiusW {
 	 * @param kernel
 	 *            kernel
 	 */
-	public InputDialogCylinderTwoPointsRadiusW(AppW app, String title,
+	public InputDialogCylinderTwoPointsRadiusW(AppW app, DialogData data,
             InputHandler handler, GeoPointND a, GeoPointND b, Kernel kernel) {
-	    super(app, title, handler, kernel);
+	    super(app, data, handler, kernel);
 	    this.a = a;
 	    this.b = b; 
     }

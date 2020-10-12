@@ -24,6 +24,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.HeadElement;
 import com.google.gwt.dom.client.StyleElement;
 import com.google.gwt.resources.client.TextResource;
@@ -88,7 +89,7 @@ public class StyleInjector {
 
 		private HeadElement getHead() {
 			if (head == null) {
-				com.google.gwt.dom.client.Element elt = Document.get()
+				Element elt = Document.get()
 				        .getElementsByTagName("head").getItem(0);
 				assert elt != null : "The host HTML page does not have a <head> element"
 				        + " which is required by StyleInjector";

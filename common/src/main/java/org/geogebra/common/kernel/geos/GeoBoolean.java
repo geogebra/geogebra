@@ -333,7 +333,8 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	/**
 	 * @return true for fixed checkboxes
 	 */
-	public final boolean isCheckboxFixed() {
+	@Override
+	public final boolean isLockedPosition() {
 		return checkboxFixed;
 	}
 

@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -370,8 +369,8 @@ public class EuclidianStyleBarStatic {
 		for (GeoElement current : geos) {
 			if (current.isLabelShowable()
 					|| current.isGeoAngle()
-					|| (current.isGeoNumeric() && ((GeoNumeric) current)
-					.isSliderFixed())) {
+					|| (current.isGeoNumeric() && current
+					.isLockedPosition())) {
 				return current;
 			}
 		}
@@ -399,8 +398,7 @@ public class EuclidianStyleBarStatic {
 			GeoElement geo = geos.get(i);
 			if (geo.isLabelShowable()
 					|| geo.isGeoAngle()
-					|| (geo.isGeoNumeric() && ((GeoNumeric) geo)
-							.isSliderFixed())) {
+					|| (geo.isGeoNumeric() && geo.isLockedPosition())) {
 				geo.setLabelModeFromStylebar(index);
 			}
 			geo.updateVisualStyle(GProperty.LABEL_STYLE);

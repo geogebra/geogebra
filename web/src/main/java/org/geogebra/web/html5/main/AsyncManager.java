@@ -7,7 +7,8 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.util.debug.Log;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import elemental2.promise.Promise.PromiseExecutorCallbackFn.RejectCallbackFn;
+import elemental2.promise.Promise.PromiseExecutorCallbackFn.ResolveCallbackFn;
 
 /**
  * Async modules manager
@@ -132,18 +133,6 @@ public class AsyncManager {
 
 	/**
 	 * Asynchronously evaluate a command
-	 * @param command command to evaluate
-	 * @param onSuccess function to be called when the execution succeeds
-	 * @param onFailure function to be called when the execution fails
-	 */
-	public void asyncEvalCommand(final String command,
-			final JavaScriptObject onSuccess,
-			final JavaScriptObject onFailure) {
-		asyncEvalCommand(command, toRunnable(onSuccess), onFailure);
-	}
-
-	/**
-	 * Asynchronously evaluate a command
 	 * 
 	 * @param command
 	 *            command to evaluate
@@ -152,32 +141,22 @@ public class AsyncManager {
 	 * @param onFailure
 	 *            function to be called when the execution fails
 	 */
-	public void asyncEvalCommand(final String command, final Runnable onSuccess,
-			final JavaScriptObject onFailure) {
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				try {
-					getGgbApi().evalCommand(command);
-					if (onSuccess != null) {
-						onSuccess.run();
-					}
-				} catch (Exception e) {
-					call(onFailure, e);
+	public void asyncEvalCommand(final String command, ResolveCallbackFn<String> onSuccess,
+			RejectCallbackFn onFailure) {
+		Runnable r = () -> {
+			try {
+				getGgbApi().evalCommand(command);
+				if (onSuccess != null) {
+					onSuccess.onInvoke("");
+				}
+			} catch (Exception e) {
+				if (onFailure != null) {
+					onFailure.onInvoke(e);
 				}
 			}
 		};
 
 		scheduleCallback(r);
-	}
-
-	private Runnable toRunnable(final JavaScriptObject onSuccess) {
-		return new Runnable() {
-			@Override
-			public void run() {
-				call(onSuccess, null);
-			}
-		};
 	}
 
 	/**
@@ -187,16 +166,13 @@ public class AsyncManager {
 	 *                     (with the labels of the created Geos)
 	 * @param onFailure function to be called if the execution fails
 	 */
-	public void asyncEvalCommandGetLabels(final String command, final JavaScriptObject onSuccess,
-			final JavaScriptObject onFailure) {
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				try {
-					call(onSuccess, getGgbApi().evalCommandGetLabels(command));
-				} catch (Exception e) {
-					call(onFailure, e);
-				}
+	public void asyncEvalCommandGetLabels(final String command, ResolveCallbackFn<String> onSuccess,
+			RejectCallbackFn onFailure) {
+		Runnable r = () -> {
+			try {
+				onSuccess.onInvoke(getGgbApi().evalCommandGetLabels(command));
+			} catch (Exception e) {
+				onFailure.onInvoke(e);
 			}
 		};
 
@@ -211,18 +187,6 @@ public class AsyncManager {
 	}
 
 	/**
-	 * @param callback
-	 *            JS function
-	 * @param o
-	 *            argument
-	 */
-	native void call(JavaScriptObject callback, Object o) /*-{
-		if (typeof callback === 'function') {
-			callback(o);
-		}
-	}-*/;
-
-	/**
 	 * Split module has finished loading: try to run scheduled
 	 * callbacks, until all of them have succeeded, or one requires
 	 * additional modules
@@ -232,7 +196,9 @@ public class AsyncManager {
 		while (callbacks.size() > 0) {
 			try {
 				callbacks.get(0).run();
-				callbacks.remove(0);
+				if (!callbacks.isEmpty()) {
+					callbacks.remove(0);
+				}
 			} catch (CommandNotLoadedError e) {
 				break;
 			}

@@ -218,7 +218,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private Element getElementForAriaLabel() {
-		if ((mobileBrowser() || isMacOS() || isIE())) {
+		if ((isIOS() || isMacOS() || isIE())) {
 			// mobile Safari: alttext is connected to parent so that screen
 			// reader doesn't read "dimmed" for the textarea
 			Element parentElement = parent.getElement();
@@ -606,8 +606,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		return instances.contains(this);
 	}
 
-	private static boolean mobileBrowser() {
-		return Navigator.getUserAgent().toLowerCase().contains("ipad");
+	private static boolean isIOS() {
+		return Navigator.getUserAgent().toLowerCase().matches(".*(ipad|iphone|ipod).*");
 	}
 
 	private double computeHeight() {
@@ -953,7 +953,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			hiddenTextArea.style.height = "1px";//prevent messed up scrolling in FF/IE
 			$doc.body.appendChild(hiddenTextArea);
 			if (@org.geogebra.web.html5.Browser::isMobile()()) {
-				hiddenTextArea.setAttribute("disabled", "true");
+				hiddenTextArea.setAttribute("readonly", "true");
 			}
 		}
 		//hiddenTextArea.value = '';

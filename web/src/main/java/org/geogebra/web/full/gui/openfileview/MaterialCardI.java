@@ -1,12 +1,11 @@
 package org.geogebra.web.full.gui.openfileview;
 
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.html5.gui.RenameCard;
 
 /**
  * Common interface for material cards.
  */
-public interface MaterialCardI extends RenameCard {
+public interface MaterialCardI {
 
 	/**
 	 * @param visible
@@ -51,4 +50,11 @@ public interface MaterialCardI extends RenameCard {
 	 */
 	void updateVisibility(String visibility);
 
+	/**
+	 * Change name on card and rename via API
+	 * @param text new name
+	 */
+	void rename(String text);
+
+	String getCardTitle();
 }

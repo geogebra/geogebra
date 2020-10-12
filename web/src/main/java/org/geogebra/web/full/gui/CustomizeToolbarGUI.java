@@ -603,6 +603,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		addContent();
 		addFooter();
 		setToolbarId(-1);
+		getElement().getStyle().setBackgroundColor("white");
 		update();
 	}
 

@@ -6,11 +6,13 @@ import java.lang.reflect.Modifier;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLDocument;
 import elemental2.dom.HTMLHtmlElement;
+import elemental2.webstorage.WebStorageWindow;
 
 public class ElementalMocker {
 
 	public static void setupElemental() {
 		try {
+			DomGlobal.window = new WebStorageWindow();
 			setFinalStatic(DomGlobal.class.getField("document"), new HTMLDocument());
 			DomGlobal.document.documentElement = new HTMLHtmlElement();
 		} catch (Exception e) {

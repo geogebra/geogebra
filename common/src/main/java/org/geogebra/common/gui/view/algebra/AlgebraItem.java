@@ -245,7 +245,7 @@ public class AlgebraItem {
 		if (element.isLaTeXDrawableGeo()
 				|| AlgebraItem.isGeoFraction(element)) {
 			outputText = element.getLaTeXDescriptionRHS(true,
-					StringTemplate.latexTemplate);
+					getOutputStringTemplate(element));
 		} else {
 			if (needsPacking(element)) {
 				outputText = element.getAlgebraDescriptionLaTeX();
@@ -545,7 +545,7 @@ public class AlgebraItem {
 			} else if (Algos.isUsedFor(Algos.Expression, geo1)) {
 				return geo1.getAssignmentLHS(StringTemplate.latexTemplate)
 						+ geo1.getLabelDelimiter() + geo1.getDefinition(
-								StringTemplate.latexTemplateHideLHS);
+						StringTemplate.latexTemplate);
 			} else {
 				return null;
 			}
@@ -563,6 +563,10 @@ public class AlgebraItem {
 		}
 
 		return null;
+	}
+
+	private static StringTemplate getOutputStringTemplate(GeoElement element) {
+		return element.getApp().getConfig().getOutputStringTemplate();
 	}
 
 	/**

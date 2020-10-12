@@ -14,6 +14,8 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Undo manager common to Desktop and Web
  */
@@ -25,6 +27,7 @@ public abstract class UndoManager {
 	private static final int MAX_CAPACITY = 100;
 
 	/** application */
+	@Weak
 	public App app;
 	/** construction */
 	protected Construction construction;

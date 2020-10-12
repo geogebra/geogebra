@@ -6,6 +6,7 @@ import org.mozilla.javascript.ClassShutter;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Context.ClassShutterSetter;
 import org.mozilla.javascript.ContextFactory;
+import org.mozilla.javascript.NativeFunction;
 import org.mozilla.javascript.Scriptable;
 
 public class CallJavaScript {
@@ -56,24 +57,9 @@ public class CallJavaScript {
 	 * @param arg
 	 */
 	public static void evalScript(App app, String script, String arg) {
-
-		// get the global scope for the current construction
-		Scriptable globalScope = ((ScriptManagerD) app.getScriptManager())
-				.getGlobalScopeMap().get(app.getKernel().getConstruction());
-
 		Context cx = Context.enter();
-
 		cx.initStandardObjects();
-
-		ClassShutterSetter setter = cx.getClassShutterSetter();
-		if (setter != null) {
-			setter.setClassShutter(sandboxClassShutter);
-		}
-
-		// Create a new scope that shares the global scope
-		Scriptable newScope = cx.newObject(globalScope);
-		newScope.setPrototype(globalScope);
-		newScope.setParentScope(null);
+		Scriptable newScope = getScope(app, cx);
 
 		// Evaluate the script.
 		cx.evaluateString(newScope, script,
@@ -84,6 +70,31 @@ public class CallJavaScript {
 	}
 
 	private static final SandboxClassShutter sandboxClassShutter = new SandboxClassShutter();
+
+	public static void evalFunction(NativeFunction nativeRunnable, Object[] args, App app) {
+		Context cx = Context.enter();
+		cx.initStandardObjects();
+		Scriptable newScope = getScope(app, cx);
+		// Evaluate the script.
+		nativeRunnable.call(cx, newScope, nativeRunnable, args);
+
+		Context.exit();
+	}
+
+	private static Scriptable getScope(App app, Context cx) {
+		Scriptable globalScope = ((ScriptManagerD) app.getScriptManager())
+				.getGlobalScopeMap().get(app.getKernel().getConstruction());
+		ClassShutterSetter setter = cx.getClassShutterSetter();
+		if (setter != null) {
+			setter.setClassShutter(sandboxClassShutter);
+		}
+
+		// Create a new scope that shares the global scope
+		Scriptable newScope = cx.newObject(globalScope);
+		newScope.setPrototype(globalScope);
+		newScope.setParentScope(null);
+		return newScope;
+	}
 
 
 	/**

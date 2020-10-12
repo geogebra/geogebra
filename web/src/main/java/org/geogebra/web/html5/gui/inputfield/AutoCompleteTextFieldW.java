@@ -3,12 +3,14 @@ package org.geogebra.web.html5.gui.inputfield;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
@@ -25,6 +27,7 @@ import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -68,6 +71,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
@@ -225,7 +229,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			@Override
 			public void onBrowserEvent(Event event) {
-				int etype = event.getTypeInt();
+				int etype = DOM.eventGetType(event);
 				if (isSelected(etype)) {
 					handleSelectedEvent(event);
 					return;
@@ -243,8 +247,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 				// react on enter from system on screen keyboard or hardware
 				// keyboard
-				if ((event.getTypeInt() == Event.ONKEYUP
-						|| event.getTypeInt() == Event.ONKEYPRESS)
+				if ((etype == Event.ONKEYUP
+						|| etype == Event.ONKEYPRESS)
 						&& event.getKeyCode() == KeyCodes.KEY_ENTER) {
 					// app.hideKeyboard();
 					// prevent handling in AutoCompleteTextField
@@ -1233,12 +1237,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		this.updateCurrentWord(false);
 
 		setCaretPosition(newPos, false);
-
-		// TODO: tried to keep the Mac OS from auto-selecting the field by
-		// resetting the
-		// caret, but not working yet
-		// setCaret(new DefaultCaret());
-		// setCaretPosition(newPos);
 	}
 
 	private int getSelectionEnd() {
@@ -1365,6 +1363,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void requestFocus() {
 		textField.setFocus(true);
+		if (geoUsedForInputBox != null) {
+			Dom.toggleClass(this, "errorStyle",
+					!StringUtil.empty(geoUsedForInputBox.getTempUserDisplayInput()));
+		}
 
 		if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
 			app.getSelectionManager().clearSelectedGeos(false);
@@ -1534,7 +1536,14 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
 		// TF Rectangle
-		g2.setPaint(GColor.TEXT_PRIMARY);
+		if (drawTextField != null && drawTextField.hasError()) {
+			g2.setPaint(GColor.ERROR_RED);
+			g2.setStroke(EuclidianStatic.getStroke(2,
+					EuclidianStyleConstants.LINE_TYPE_DOTTED, GBasicStroke.JOIN_ROUND));
+		} else {
+			g2.setPaint(GColor.TEXT_PRIMARY);
+		}
+
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 	}
 

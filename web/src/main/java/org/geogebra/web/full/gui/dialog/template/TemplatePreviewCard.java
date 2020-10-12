@@ -134,11 +134,6 @@ public class TemplatePreviewCard extends FlowPanel
     }
 
     @Override
-    public void setCardTitle(String title) {
-        // nothing to do here
-    }
-
-    @Override
     public void copy() {
         // nothing to do here
     }

@@ -1981,23 +1981,10 @@ public class AlgebraProcessor {
 	}
 
 	private ValidExpression getTraversedCopy(String[] labels, ValidExpression expression) {
-		boolean isForceVector = expression.wrap().isForcedVector();
-		boolean isForcePoint = expression.wrap().isForcedPoint();
-		boolean isForceInequality = expression.wrap().isForceInequality();
 		ValidExpression copy = expression.deepCopy(kernel);
 		copy = copy.traverse(new Traversing.ListVectorReplacer(kernel)).wrap();
 		copy.setLabels(labels);
-
-		if (isForceVector) {
-			copy.wrap().setForceVector();
-		}
-		if (isForcePoint) {
-			copy.wrap().setForcePoint();
-		}
-		if (isForceInequality) {
-			copy.wrap().setForceInequality();
-		}
-
+		expression.wrap().copyAttributesTo(copy.wrap());
 		return copy;
 	}
 

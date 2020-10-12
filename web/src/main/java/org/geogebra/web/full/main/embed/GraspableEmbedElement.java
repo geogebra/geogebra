@@ -48,7 +48,7 @@ public class GraspableEmbedElement extends EmbedElement {
 	}
 
 	void initCanvas(int id) {
-		JavaScriptObject ggbApi = embedManager.getScriptManager().getApi();
+		Object ggbApi = embedManager.getScriptManager().getApi();
 		GMCanvas canvas = new GMCanvas("#gm-div" + id,
 				JsPropertyMap.of("ggbNotesAPI", ggbApi));
 
@@ -59,6 +59,7 @@ public class GraspableEmbedElement extends EmbedElement {
 				embed.notifyUpdate();
 			}
 		});
+
 		setAPI(canvas);
 	}
 

@@ -538,6 +538,10 @@ public class FunctionParser {
 							right);
 				}
 			}
+			ExpressionNode splitFunctionExp = makeSplitCommand(leftImg, right, giacParsing);
+			if (splitFunctionExp != null) {
+				return splitFunctionExp;
+			}
 			// sin^2 x
 		} else if (left instanceof ExpressionNode
 				&& ((ExpressionNode) left).getOperation() == Operation.POWER

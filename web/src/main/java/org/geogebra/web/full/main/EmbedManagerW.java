@@ -27,7 +27,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
-import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
@@ -45,8 +44,6 @@ import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -144,7 +141,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 
 		AppletParameters parameters = new AppletParameters("graphing");
 		GeoGebraFrameFull fr = new GeoGebraFrameFull(
-				GWT.create(AppletFactory.class), app.getLAF(),
+				app.getAppletFrame().getAppletFactory(), app.getLAF(),
 				app.getDevice(), GeoGebraElement.as(parent.getElement()), parameters);
 		scaler.add(fr);
 
@@ -529,7 +526,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		JsPropertyMap<Object> jso = JsPropertyMap.of();
 
 		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
-			JavaScriptObject api = entry.getValue().getApi();
+			Object api = entry.getValue().getApi();
 			if (api != null) {
 				jso.set(entry.getKey().getGeoElement().getLabelSimple(), api);
 			}
