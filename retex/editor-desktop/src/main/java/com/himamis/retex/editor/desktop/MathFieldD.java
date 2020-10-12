@@ -48,6 +48,7 @@ import com.himamis.retex.editor.desktop.event.KeyListenerAdapter;
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyListener;
@@ -74,11 +75,11 @@ public class MathFieldD extends JLabel implements MathField {
 	
 	private MathFieldInternal mathFieldInternal;
 
-	public MathFieldD() {
+	public MathFieldD(SyntaxAdapter syntaxAdapter) {
 		SelectionBox.touchSelection = false;
 		setBackground(Color.white);
 		setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-		mathFieldInternal = new MathFieldInternal(this, false);
+		mathFieldInternal = new MathFieldInternal(this, syntaxAdapter, false);
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
 		mathFieldInternal.setSelectionMode(true);
 		this.setVerticalAlignment(SwingConstants.TOP);

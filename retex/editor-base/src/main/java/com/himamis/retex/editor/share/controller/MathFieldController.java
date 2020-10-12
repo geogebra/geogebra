@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.editor.MathField;
+import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
@@ -42,10 +43,10 @@ public class MathFieldController {
 	 * @param directFormulaBuilder
 	 *            whether to create JLM atoms without reparsing (experimental)
 	 */
-	public MathFieldController(MathField mathField,
+	public MathFieldController(MathField mathField, SyntaxAdapter syntaxAdapter,
 			boolean directFormulaBuilder) {
 		this.mathField = mathField;
-		texSerializer = new TeXSerializer();
+		texSerializer = new TeXSerializer(syntaxAdapter);
 		if (directFormulaBuilder) {
 			texBuilder = new TeXBuilder();
 		}

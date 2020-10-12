@@ -102,8 +102,8 @@ public class MathFieldInternal
 	 * @param mathField
 	 *            editor component
 	 */
-	public MathFieldInternal(MathField mathField) {
-		this(mathField, false);
+	public MathFieldInternal(MathField mathField, SyntaxAdapter syntaxAdapter) {
+		this(mathField, syntaxAdapter, false);
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class MathFieldInternal
 	 * @param directFormulaBuilder
 	 *            whether to create JLM atoms directly (experimental)
 	 */
-	public MathFieldInternal(MathField mathField,
+	public MathFieldInternal(MathField mathField, SyntaxAdapter syntaxAdapter,
 			boolean directFormulaBuilder) {
 		this.mathField = mathField;
 		this.directFormulaBuilder = directFormulaBuilder;
@@ -120,7 +120,7 @@ public class MathFieldInternal
 		inputController = new InputController(mathField.getMetaModel());
 		keyListener = new KeyListenerImpl(cursorController, inputController);
 		mathFormula = MathFormula.newFormula(mathField.getMetaModel());
-		mathFieldController = new MathFieldController(mathField,
+		mathFieldController = new MathFieldController(mathField, syntaxAdapter,
 				directFormulaBuilder);
 		inputController.setMathField(mathField);
 		setupMathField();

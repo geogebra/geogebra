@@ -15,6 +15,7 @@ import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
@@ -34,7 +35,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 		box = Box.createHorizontalBox();
 
-		mathField = new MathFieldD();
+		mathField = new MathFieldD(new SyntaxAdapterImpl(app.kernel));
 
 		mathField.getInternal().setFieldListener(this);
 		mathField.setVisible(true);

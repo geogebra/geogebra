@@ -1,5 +1,6 @@
 package com.himamis.retex.editor.share.serializer;
 
+import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathFunction;
@@ -23,6 +24,16 @@ public class TeXSerializer extends SerializerAdapter {
 			"}", "_" };
 	private static final String[][] replaceableSymbols = { { "~", "^", "\\" },
 			{ "\u223C ", "\\^{\\ } ", "\\backslash{}" } };
+
+	private SyntaxAdapter syntaxAdapter;
+
+	public TeXSerializer() {
+		// sometimes we don't want to pass a syntax adapter
+	}
+
+	public TeXSerializer(SyntaxAdapter syntaxAdapter) {
+		this.syntaxAdapter = syntaxAdapter;
+	}
 
 	@Override
 	public void serialize(MathCharacter mathCharacter,
@@ -278,9 +289,17 @@ public class TeXSerializer extends SerializerAdapter {
 			break;
 		case APPLY:
 		case APPLY_SQUARE:
-			stringBuilder.append("{\\mathrm{");
-			serialize(function.getArgument(0), stringBuilder);
-			stringBuilder.append("}");
+			StringBuilder functionName = new StringBuilder();
+			serialize(function.getArgument(0), functionName);
+
+			stringBuilder.append("{");
+			if (syntaxAdapter == null
+					|| syntaxAdapter.isFunction(functionName.toString().replace(cursor, ""))) {
+				stringBuilder.append("\\mathrm{").append(functionName).append("}");
+			} else {
+				stringBuilder.append(functionName);
+			}
+
 			serializeArguments(stringBuilder, function, 1);
 			break;
 		case VEC:

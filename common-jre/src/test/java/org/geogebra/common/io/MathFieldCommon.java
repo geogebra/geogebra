@@ -22,7 +22,7 @@ public class MathFieldCommon implements MathField {
 	 */
 	public MathFieldCommon(MetaModel model) {
 		this.model = model;
-		internal = new MathFieldInternal(this);
+		internal = new MathFieldInternal(this, null);
 		internal.setFormula(MathFormula.newFormula(model));
 	}
 
