@@ -2,8 +2,11 @@ package org.geogebra.web.test;
 
 import java.util.Collection;
 
+import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
+import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.junit.runners.model.InitializationError;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -11,6 +14,10 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.impl.StubGenerator;
+import com.googlecode.gwtgl.array.Uint8Array;
+import com.googlecode.gwtgl.binding.WebGLRenderingContext;
+import com.googlecode.gwtgl.binding.WebGLShader;
+import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
@@ -27,6 +34,18 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         super(unitTestClass);
         StubGenerator.replaceMethodWithMock(Js.class, "asPropertyMap",
                 JsPropertyMap.class);
+        StubGenerator.replaceMethodWithMock(Canvas.class, "createIfSupported",
+                Canvas.class);
+        StubGenerator.replaceMethodWithMock(JLMContext2d.class, "forCanvas",
+                JLMContext2d.class);
+        StubGenerator.replaceMethodWithMock(RendererWithImplW.class, "getWebGLContext",
+                WebGLRenderingContext.class);
+        StubGenerator.replaceMethodWithMock(RendererImplShadersW.class, "getShader",
+                WebGLShader.class);
+        StubGenerator.replaceMethodWithMock(RendererImplShadersW.class, "glLinkProgram",
+                Void.class);
+        StubGenerator.replaceMethodWithMock(Uint8Array.class, "create",
+                Uint8Array.class);
     }
 
     @Override

@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -304,7 +303,7 @@ public abstract class UndoManager {
 	 * @param cmd undo command
 	 * @return app state associated with the command
 	 */
-	public AppState extractFromCommand(UndoCommand cmd){
+	public AppState extractFromCommand(UndoCommand cmd) {
 		if (cmd == null) {
 			return null;
 		} else if (cmd.getAction() == EventType.PASTE_SLIDE) {
@@ -327,7 +326,6 @@ public abstract class UndoManager {
 			}
 			if (afterCheckpoint && cmd.getAction() != null
 					&& Objects.equals(slideID, cmd.getSlideID())) {
-				Log.error("replay"+slideID+":"+cmd.getAction());
 				executeAction(cmd.getAction(), cmd.getArgs());
 			} else if (from != null && cmd == from) {
 				afterCheckpoint = true;

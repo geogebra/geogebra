@@ -65,8 +65,8 @@ public class BasicStrokeW implements BasicStroke {
 	public BasicStrokeW(double width, String cap, String join,
 			double miterLimit) {
 		this.width = width;
-		this.cap = getLineCap(LineCap.valueOf(cap.toUpperCase()));
-		this.join = getLineJoin(LineJoin.valueOf(join.toUpperCase()));
+		this.cap = getLineCap(cap.toUpperCase());
+		this.join = getLineJoin(join.toUpperCase());
 		this.miterLimit = miterLimit;
 	}
 
@@ -121,26 +121,26 @@ public class BasicStrokeW implements BasicStroke {
 		}
 	}
 
-	private static int getLineJoin(LineJoin lineJoin) {
+	private static int getLineJoin(String lineJoin) {
 		switch (lineJoin) {
-		case BEVEL:
+		case "BEVEL":
 			return JOIN_BEVEL;
-		case MITER:
+		case "MITER":
 			return JOIN_MITER;
-		case ROUND:
+		case "ROUND":
 			return JOIN_ROUND;
 		default:
 			return JOIN_BEVEL;
 		}
 	}
 
-	private static int getLineCap(LineCap lineCap) {
+	private static int getLineCap(String lineCap) {
 		switch (lineCap) {
-		case BUTT:
+		case "BUTT":
 			return CAP_BUTT;
-		case ROUND:
+		case "ROUND":
 			return CAP_ROUND;
-		case SQUARE:
+		case "SQUARE":
 			return CAP_SQUARE;
 		default:
 			return CAP_BUTT;

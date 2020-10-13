@@ -243,11 +243,7 @@ public class EuclidianViewW extends EuclidianView implements
 	public final GGraphics2D getTempGraphics2D(GFont fontForGraphics) {
 		if (this.g2dtemp == null) {
 			Canvas canvas = Canvas.createIfSupported();
-			if (canvas == null) {
-				this.g2dtemp = new GGraphics2DE();
-			} else {
-				this.g2dtemp = new GGraphics2DW(canvas);
-			}
+			this.g2dtemp = new GGraphics2DW(canvas);
 		}
 		this.g2dtemp.setFont(fontForGraphics);
 		return this.g2dtemp;
@@ -666,14 +662,10 @@ public class EuclidianViewW extends EuclidianView implements
 		final Canvas canvas = euclidianViewPanel.getCanvas();
 		this.evNo = newEvNo;
 
-		if (canvas != null) {
-			this.g2p = new LayeredGGraphicsW(canvas);
-			g2p.setDevicePixelRatio(appW.getPixelRatio());
-			if (appW.getAppletParameters().isDebugGraphics()) {
-				g2p.startDebug();
-			}
-		} else {
-			this.g2p = new GGraphics2DE();
+		this.g2p = new LayeredGGraphicsW(canvas);
+		g2p.setDevicePixelRatio(appW.getPixelRatio());
+		if (appW.getAppletParameters().isDebugGraphics()) {
+			g2p.startDebug();
 		}
 
 		updateFonts();
@@ -683,15 +675,12 @@ public class EuclidianViewW extends EuclidianView implements
 		if (getViewID() == App.VIEW_EUCLIDIAN || getViewID() == App.VIEW_EUCLIDIAN2) {
 			g2p.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
 			Canvas pCanvas = Canvas.createIfSupported();
-			if (pCanvas != null) {
-				penCanvas = new GGraphics2DW(pCanvas);
-				penCanvas.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
-				penCanvas.setDevicePixelRatio(appW.getPixelRatio());
-				g2p.getElement().getParentElement()
-						.appendChild(penCanvas.getCanvas().getElement());
-			} else {
-				penCanvas = new GGraphics2DE();
-			}
+
+			penCanvas = new GGraphics2DW(pCanvas);
+			penCanvas.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+			penCanvas.setDevicePixelRatio(appW.getPixelRatio());
+			g2p.getElement().getParentElement()
+					.appendChild(penCanvas.getCanvas().getElement());
 		}
 
 		euclidiancontroller.setView(this);
@@ -704,10 +693,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 		registerDragDropHandlers(euclidianViewPanel,
 				(EuclidianControllerW) euclidiancontroller);
-
-		if (canvas == null) {
-			return;
-		}
 
 		EuclidianSettings es = null;
 		if (settings != null) {

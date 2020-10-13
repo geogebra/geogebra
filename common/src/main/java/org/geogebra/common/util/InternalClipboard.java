@@ -156,7 +156,6 @@ public class InternalClipboard {
 		return ret;
 	}
 
-
 	/**
 	 * copyToXML - Before saving the conels to xml, we have to rename its
 	 * labels with labelPrefix and memorize those renamed labels and also hide
@@ -228,7 +227,8 @@ public class InternalClipboard {
 		}
 	}
 
-	private static void print(StringBuilder textToSave, Map<String, String> copiedImages, String prefix, EscapeFunction fn) {
+	private static void print(StringBuilder textToSave, Map<String, String> copiedImages,
+			String prefix, EscapeFunction fn) {
 		for (Map.Entry<String, String> image : copiedImages.entrySet()) {
 			textToSave.append(prefix);
 			textToSave.append(" ");

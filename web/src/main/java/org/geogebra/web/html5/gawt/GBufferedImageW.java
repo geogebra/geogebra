@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GGraphics2DW;
-import org.geogebra.web.html5.euclidian.GGraphics2DE;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -225,9 +224,6 @@ public class GBufferedImageW implements GBufferedImage {
 
 	@Override
 	public GGraphics2D createGraphics() {
-		if (getCanvas() == null) {
-			return new GGraphics2DE();
-		}
 		GGraphics2DW g2 = new GGraphics2DW(getCanvas(), true);
 		g2.setDevicePixelRatio(this.pixelRatio);
 		return g2;
