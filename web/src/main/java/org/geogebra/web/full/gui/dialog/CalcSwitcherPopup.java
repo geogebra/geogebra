@@ -27,6 +27,7 @@ public class CalcSwitcherPopup extends GPopupPanel {
 	public CalcSwitcherPopup(AppWFull app, SuiteHeaderAppPicker pickerButton) {
 		super(true, app.getPanel(), app);
 		this.appPickerButton = pickerButton;
+		addAutoHidePartner(appPickerButton.getElement());
 		setGlassEnabled(false);
 		addStyleName("calcPickerPopup");
 		buildGUI(app);
