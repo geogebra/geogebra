@@ -253,8 +253,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * License file
 	 */
 	public static final String LICENSE_FILE = "/org/geogebra/desktop/_license.txt";
-	public static final String DOWNLOAD_PACKAGE_WIN =
-			"https://download.geogebra.org/package/win";
 
 	/**
 	 * Command line arguments
@@ -632,7 +630,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			public void run() {
 				if (downloadAppUpdateDialog() == JOptionPane.OK_OPTION) {
 					Log.debug("downloading");
-					BrowserLauncher.openURL(DOWNLOAD_PACKAGE_WIN);
+					BrowserLauncher.openURL(GeoGebraConstants.DOWNLOAD_PACKAGE_WIN);
 					exit();
 				}
 			}
