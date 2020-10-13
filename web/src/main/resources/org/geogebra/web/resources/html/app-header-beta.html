@@ -37,6 +37,20 @@ window.addEventListener("load", function() {
 	if (!showHeader) {
 		document.getElementById("headerID").parentElement.style.display = "none";
 	}
+
+window.onresize = function(event) {
+   var elAppPicker = document.getElementById("suiteAppPicker");
+   var rectAppPicker = elAppPicker.getBoundingClientRect();
+   var rectButtons = document.getElementById("buttonsID").getBoundingClientRect();
+   var overlap = rectAppPicker.right > rectButtons.left;
+
+   if(overlap) {
+       elAppPicker.style.visibility = "hidden";
+   } else {
+       elAppPicker.style.visibility = "visible";
+   }
+}
+
 });
 </script>
 <nav class="GeoGebraFrame GeoGebraHeader beta <!--APP ID-->Header">

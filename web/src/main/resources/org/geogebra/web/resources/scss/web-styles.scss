@@ -203,11 +203,17 @@
 		background-color: rgba(204, 204, 255, 0.2);
 	}
 
+	.suiteAppPicker {
+		position: absolute;
+		left: 505px;
+		top: 14px;
+	}
+
 	.suiteAppPickerButton {
 		display: inline-flex;
-		position: absolute;
-		top: 14px;
-		left: 505px;
+		//position: absolute;
+		//top: 14px;
+		//left: 505px;
 		min-width: 138px;
 		max-width: 250px;
 		height: 34px;
@@ -232,13 +238,6 @@
 	.btnSecondIcon {
 		margin: 5px 16px 5px 12px;
 		opacity: 54%;
-	}
-
-	@media screen and (max-width: 925px) {
-		.suiteAppPickerButton {
-			left: 400px;
-			visibility: hidden;
-		}
 	}
 
 	.gwt-Button[disabled="disabled"],
