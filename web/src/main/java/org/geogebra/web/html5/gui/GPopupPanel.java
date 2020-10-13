@@ -1571,7 +1571,11 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 				event.consume();
 				return;
 			}
-			hidePopup(event, eventTargetsPopupOrPartner);
+
+			if (!eventTargetsPopupOrPartner && autoHide) {
+				hide(true);
+				return;
+			}
 			break;
 		case Event.ONMOUSEUP:
 		case Event.ONMOUSEMOVE:
@@ -1596,12 +1600,6 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 			}
 			break;
 		}
-		}
-	}
-
-	protected void hidePopup(NativePreviewEvent event, boolean eventTargetsPopupOrPartner) {
-		if (!eventTargetsPopupOrPartner && autoHide) {
-			hide(true);
 		}
 	}
 
