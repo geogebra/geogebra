@@ -209,6 +209,7 @@
 		top: 14px;
 		left: 505px;
 		min-width: 138px;
+		max-width: 250px;
 		height: 34px;
 		border-radius: 18px;
 		border: 1px solid rgba(151, 151, 151, 0.52);
@@ -218,6 +219,9 @@
 			line-height: 20px;
 			margin: 7px 0px;
 			font-size: 100%;
+			text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
 		}
 
 		.gwt-Image {
