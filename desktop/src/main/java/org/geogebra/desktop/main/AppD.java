@@ -217,6 +217,7 @@ import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.menubar.OptionsMenuController;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
 import org.geogebra.desktop.gui.toolbar.ToolbarD;
+import org.geogebra.desktop.gui.util.BrowserLauncher;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.headless.GFileHandler;
 import org.geogebra.desktop.io.MyXMLioD;
@@ -252,6 +253,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * License file
 	 */
 	public static final String LICENSE_FILE = "/org/geogebra/desktop/_license.txt";
+	public static final String DOWNLOAD_PACKAGE_WIN =
+			"https://download.geogebra.org/package/win";
 
 	/**
 	 * Command line arguments
@@ -611,11 +614,41 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			// user authentication handling
 			initSignInEventFlow();
 		}
+
+		if (isJava7() && isWindows() && getVersionCheckAllowed()) {
+			showJava7Warning();
+		}
+
 		if (kernel.wantAnimationStarted()) {
 			kernel.getAnimatonManager().startAnimation();
 			kernel.setWantAnimationStarted(false);
 		}
 
+	}
+
+	private void showJava7Warning() {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				if (downloadAppUpdateDialog() == JOptionPane.OK_OPTION) {
+					Log.debug("downloading");
+					BrowserLauncher.openURL(DOWNLOAD_PACKAGE_WIN);
+					exit();
+				}
+			}
+		});
+	}
+
+	private int downloadAppUpdateDialog() {
+		String[] options = {loc.getMenu("Download"), loc.getMenu("Cancel")};
+		return JOptionPane.showOptionDialog(frame,
+				loc.getMenu("java7.warning"),
+				loc.getMenu("SystemInformation"),
+				JOptionPane.OK_CANCEL_OPTION,
+				JOptionPane.WARNING_MESSAGE,
+				null,
+				options,
+				options[0]);
 	}
 
 	// **************************************************************************
@@ -4769,8 +4802,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// Inizialize the login operation
 		loginOperation = new LoginOperationD(this);
 
-		// Try to login the stored user
-		loginOperation.performTokenLogin();
+		if (!isJava7()) {
+			// Try to login the stored user
+			loginOperation.performTokenLogin();
+		}
 	}
 
 	public void initOpenFromGGTEventFlow() {
