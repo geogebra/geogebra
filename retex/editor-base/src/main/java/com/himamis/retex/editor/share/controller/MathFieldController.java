@@ -43,10 +43,9 @@ public class MathFieldController {
 	 * @param directFormulaBuilder
 	 *            whether to create JLM atoms without reparsing (experimental)
 	 */
-	public MathFieldController(MathField mathField, SyntaxAdapter syntaxAdapter,
-			boolean directFormulaBuilder) {
+	public MathFieldController(MathField mathField, boolean directFormulaBuilder) {
 		this.mathField = mathField;
-		texSerializer = new TeXSerializer(syntaxAdapter);
+		texSerializer = new TeXSerializer();
 		if (directFormulaBuilder) {
 			texBuilder = new TeXBuilder();
 		}
@@ -277,5 +276,9 @@ public class MathFieldController {
 	public void setLineBreakEnabled(boolean breakLines) {
 		texSerializer.setLineBeakEnabled(breakLines);
 
+	}
+
+	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
+		this.texSerializer = new TeXSerializer(syntaxAdapter);
 	}
 }
