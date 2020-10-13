@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.Label;
 
 public class CalcSwitcherPopup extends GPopupPanel {
 
-	private boolean popupShowing = false;
 	SuiteHeaderAppPicker appPickerButton;
 
 	private final static int X_COORDINATE_OFFSET = 8;
@@ -31,15 +30,13 @@ public class CalcSwitcherPopup extends GPopupPanel {
 		setGlassEnabled(false);
 		addStyleName("calcPickerPopup");
 		buildGUI(app);
-
 	}
 
 	@Override
 	public void show() {
-		if (popupShowing) {
+		if (isShowing()) {
 			hide();
 		} else {
-			popupShowing = true;
 			this.setPopupPosition(getLeft(), 0);
 			super.show();
 		}
@@ -48,7 +45,6 @@ public class CalcSwitcherPopup extends GPopupPanel {
 	@Override
 	public void hide() {
 		super.hide();
-		popupShowing = false;
 	}
 
 	private void buildGUI(AppWFull app) {
