@@ -409,6 +409,7 @@ public class EuclidianPen implements GTimerListener {
 		addPointsToPolyLine(penPoints);
 
 		penPoints.clear();
+		previewPoints.clear();
 
 		String label = lastAlgo.getOutput(0).getLabelSimple();
 
