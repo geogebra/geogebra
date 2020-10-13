@@ -8,7 +8,6 @@ import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SuiteHeaderAppPicker;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -31,6 +30,7 @@ public class CalcSwitcherPopup extends GPopupPanel {
 		setGlassEnabled(false);
 		addStyleName("calcPickerPopup");
 		buildGUI(app);
+
 	}
 
 	@Override
@@ -44,13 +44,6 @@ public class CalcSwitcherPopup extends GPopupPanel {
 		}
 	}
 
-		@Override
-	protected void hidePopup(Event.NativePreviewEvent event, boolean eventTargetsPopupOrPartner) {
-		Object test = event.getNativeEvent().getCurrentEventTarget();
-		popupShowing = false;
-		super.hidePopup(event, eventTargetsPopupOrPartner);
-	}
-
 	@Override
 	public void hide() {
 		super.hide();
@@ -60,8 +53,10 @@ public class CalcSwitcherPopup extends GPopupPanel {
 	private void buildGUI(AppWFull app) {
 		FlowPanel contentPanel = new FlowPanel();
 		SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
-		addElement(app, res.menu_icon_algebra_transparent(), "GraphingCalculator.short", contentPanel);
-		addElement(app, res.menu_icon_graphics3D_transparent(), "GeoGebra3DGrapher.short", contentPanel);
+		addElement(app, res.menu_icon_algebra_transparent(), "GraphingCalculator.short",
+				contentPanel);
+		addElement(app, res.menu_icon_graphics3D_transparent(), "GeoGebra3DGrapher.short",
+				contentPanel);
 		addElement(app, res.menu_icon_geometry_transparent(), "Geometry", contentPanel);
 		addElement(app, res.menu_icon_cas_transparent(), "CAS", contentPanel);
 		add(contentPanel);
