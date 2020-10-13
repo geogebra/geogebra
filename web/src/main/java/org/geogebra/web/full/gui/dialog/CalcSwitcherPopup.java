@@ -42,11 +42,6 @@ public class CalcSwitcherPopup extends GPopupPanel {
 		}
 	}
 
-	@Override
-	public void hide() {
-		super.hide();
-	}
-
 	private void buildGUI(AppWFull app) {
 		FlowPanel contentPanel = new FlowPanel();
 		SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
