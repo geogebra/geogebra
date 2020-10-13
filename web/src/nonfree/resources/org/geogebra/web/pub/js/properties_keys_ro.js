@@ -3279,7 +3279,7 @@ __GGB__keysVar["ro"].menu = {
     "editLink": "Edit link",
     "emf": "Metafile consolidat",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Postscript \xeencapsulat",
     "equal": "egal",
     "exam_accept_app_self_lock": "V\u0103 rug\u0103m permite\u021bi 'App Self-Lock' \xeenainte de \xeenceperea examenului",

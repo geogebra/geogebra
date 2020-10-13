@@ -3279,7 +3279,7 @@ __GGB__keysVar["it"].menu = {
     "editLink": "Modifica collegamento",
     "emf": "Enhanced Metafile",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "uguale",
     "exam_accept_app_self_lock": "Attiva l'autoblocco dell'app prima di iniziare l'esame",

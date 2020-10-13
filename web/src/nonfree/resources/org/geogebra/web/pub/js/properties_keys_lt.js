@@ -3279,7 +3279,7 @@ __GGB__keysVar["lt"].menu = {
     "editLink": "Edit link",
     "emf": "Padidintas Meta-dokumentas",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Sutrauktas Postscript",
     "equal": "lygus",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

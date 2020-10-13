@@ -3279,7 +3279,7 @@ __GGB__keysVar["fr"].menu = {
     "editLink": "Edit link",
     "emf": "Enhanced Meta Format",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Postscript encapsul\xe9",
     "equal": "\xe9gaux",
     "exam_accept_app_self_lock": "Vous devez accepter \"l\'auto-verrouillage de l\'app\" avant de d\xe9marrer l\'examen",

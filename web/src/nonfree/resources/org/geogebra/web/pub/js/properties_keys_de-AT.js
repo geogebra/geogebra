@@ -3476,7 +3476,7 @@ __GGB__keysVar["de-AT"].menu = {
     "stylebar.TextColor": "Textfarbe",
     "stylebar.TextSize": "Textgr\xf6\xdfe",
     "stylebar.Top": "Oben",
-    "stylebar.VerticalAlign": "Vertical ausrichten",
+    "stylebar.VerticalAlign": "Vertikal ausrichten",
     "stylebar.VerticalLine": "Vertikale Linien anzeigen oder verbergen",
     "stylebar.ViewDefault": "Zur\xfcck zur Standardansicht",
     "stylebar.ViewDefaultRotate": "Zur\xfcckdrehen zur Standardansicht",

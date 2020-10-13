@@ -3279,7 +3279,7 @@ __GGB__keysVar["ja"].menu = {
     "editLink": "\u30ea\u30f3\u30af\u3092\u7de8\u96c6",
     "emf": "\u62e1\u5f35\u30e1\u30bf\u30d5\u30a1\u30a4\u30eb",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "\u7b49\u3057\u3044",
     "exam_accept_app_self_lock": "\u8a66\u9a13\u3092\u958b\u59cb\u3059\u308b\u524d\u306b\u300c\u30a2\u30d7\u30ea\u306e\u30bb\u30eb\u30d5\u30ed\u30c3\u30af\u300d\u3092\u8a31\u53ef\u3057\u3066\u304f\u3060\u3055\u3044\u3002",

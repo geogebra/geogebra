@@ -3279,7 +3279,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "editLink": "Edita enlla\xe7",
     "emf": "Enhanced Metafile Format (EMF)",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Postscript encapsulat",
     "equal": "igual",
     "exam_accept_app_self_lock": "Permeteu el \"Bloqueig autom\xe0tic de l\'app\" abans de comen\xe7ar l\'examen",

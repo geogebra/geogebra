@@ -3279,7 +3279,7 @@ __GGB__keysVar["sk"].menu = {
     "editLink": "Edit link",
     "emf": "Enhanced Meta Format",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "rovn\xe1 sa",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

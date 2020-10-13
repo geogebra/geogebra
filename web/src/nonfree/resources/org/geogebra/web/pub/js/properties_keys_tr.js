@@ -3279,7 +3279,7 @@ __GGB__keysVar["tr"].menu = {
     "editLink": "Ba\u011flant\u0131y\u0131 d\xfczenle",
     "emf": "Geli\u015ftirilmi\u015f Meta Bi\xe7im (emf)",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Postscript hali",
     "equal": "e\u015fit",
     "exam_accept_app_self_lock": "S\u0131nava ba\u015flamadan \xf6nce \"Uygulaman\u0131n Kendi Kendini Kilitlemesini\" l\xfctfen onaylay\u0131n",
