@@ -326,9 +326,11 @@ public abstract class DialogManager {
 					public void callback(GeoElementND[] result) {
 						cons.setSuppressLabelCreation(oldVal);
 						String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
+
 						if (result == null) {
 							return;
 						}
+
 						boolean success = result.length > 0
 								&& result[0] instanceof GeoNumberValue;
 
@@ -441,6 +443,7 @@ public abstract class DialogManager {
 				if (result == null) {
 					return;
 				}
+
 				boolean success = result[0] instanceof GeoNumberValue;
 
 				if (!success) {
@@ -818,6 +821,7 @@ public abstract class DialogManager {
 						if (result == null) {
 							return;
 						}
+
 						boolean success = result[0] instanceof GeoNumberValue;
 						if (!success) {
 							numberExpectedError(handler, app);
@@ -888,9 +892,11 @@ public abstract class DialogManager {
 					@Override
 					public void callback(GeoElementND[] result) {
 						cons.setSuppressLabelCreation(oldVal);
+
 						if (result == null) {
 							return;
 						}
+
 						boolean success = result[0] instanceof GeoNumberValue;
 						if (!success) {
 							numberExpectedError(handler, kernel.getApplication());
@@ -964,6 +970,7 @@ public abstract class DialogManager {
 						if (result == null) {
 							return;
 						}
+
 						boolean success = result[0] instanceof GeoNumberValue;
 						if (!success) {
 							numberExpectedError(handler, app);
