@@ -351,9 +351,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 				event.stopPropagation();
 			} else {
-				keyListener.onKeyTyped(
-						new KeyEvent(event.getNativeEvent().getKeyCode(), 0,
-								getChar(event.getNativeEvent())));
+				if (event.getUnicodeCharCode() > 31) {
+					keyListener.onKeyTyped(
+							new KeyEvent(event.getNativeEvent().getKeyCode(), 0,
+									getChar(event.getNativeEvent())));
+				}
 				event.stopPropagation();
 				event.preventDefault();
 			}
