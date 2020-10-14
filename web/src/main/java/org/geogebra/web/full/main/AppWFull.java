@@ -29,6 +29,7 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.AppState;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
@@ -337,7 +338,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				activity = new EvaluatorActivity();
 				break;
 			case "suite":
-				activity = new SuiteActivity();
+				activity = new SuiteActivity(GeoGebraConstants.GRAPHING_APPCODE);
 				break;
 			default:
 				activity = new ClassicActivity(new AppConfigDefault());
@@ -554,7 +555,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	protected void resetUI() {
+	public void resetUI() {
 		resetEVs();
 		// make sure file->new->probability does not clear the prob. calc
 		if (getGuiManager() != null
@@ -2142,5 +2143,32 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (getAppletFrame().isKeyboardShowing()) {
 			hideKeyboard();
 		}
+	}
+
+	private void reinitAlgebraView() {
+		GuiManagerW gm = getGuiManager();
+		DockPanel avPanel = gm.getLayout().getDockManager()
+				.getPanel(VIEW_ALGEBRA);
+		if (avPanel instanceof ToolbarDockPanelW) {
+			((ToolbarDockPanelW) avPanel).getToolbar().initGUI();
+		}
+	}
+
+	/**
+	 * Switch suite to the given subapp, clearing all construction, and resetting almost
+	 * all the settings
+	 * @param subAppCode "graphing", "3d", "cas" or "geometry"
+	 */
+	public void switchToSubapp(String subAppCode) {
+		activity = new SuiteActivity(subAppCode);
+		activity.start(this);
+
+		clearConstruction();
+		getKernel().setSymbolicMode(
+				GeoGebraConstants.CAS_APPCODE.equals(subAppCode)
+						? SymbolicMode.SYMBOLIC_AV
+						: SymbolicMode.NONE);
+		getGgbApi().setPerspective(getConfig().getForcedPerspective());
+		reinitAlgebraView();
 	}
 }

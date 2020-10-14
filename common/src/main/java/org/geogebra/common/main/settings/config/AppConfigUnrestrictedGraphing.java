@@ -19,14 +19,14 @@ import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 /**
  * Config for the Suite app (currently graphing before tool removal)
  */
-public class AppConfigSuite extends AppConfigGraphing {
+public class AppConfigUnrestrictedGraphing extends AppConfigGraphing {
 
-	public AppConfigSuite() {
+	public AppConfigUnrestrictedGraphing() {
 		super(GeoGebraConstants.SUITE_APPCODE, null);
 	}
 
-	public AppConfigSuite(String appCode) {
-		super(appCode, GeoGebraConstants.SUITE_APPCODE);
+	public AppConfigUnrestrictedGraphing(String appCode) {
+		super(appCode, GeoGebraConstants.GRAPHING_APPCODE);
 	}
 
 	@Override
