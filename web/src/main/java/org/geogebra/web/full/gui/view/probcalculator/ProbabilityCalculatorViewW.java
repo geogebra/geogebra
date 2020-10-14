@@ -115,6 +115,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		createExportToEvAction();
 		createLayoutPanels();
 		buildProbCalcPanel();
+		isIniting = false;
 
 		statCalculator = new StatisticsCalculatorW(app);
 
@@ -137,10 +138,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		attachView();
 		settingsChanged(getApp().getSettings().getProbCalcSettings());
+		updateAll();
 
 		tabbedPane.selectTab(getApp().getSettings().getProbCalcSettings()
 				.getCollection().isActive() ? 1 : 0);
-		isIniting = false;
 	}
 
 	/**
@@ -166,7 +167,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		setProbabilityComboBoxMenu();
 
-		lblBetween.setText(SpreadsheetViewInterface.X_BETWEEN); // <= X <=
 		lblEndProbOf.setText(loc.getMenu("EndProbabilityOf") + " = ");
 		lblProbOf.setText(loc.getMenu("ProbabilityOf"));
 
@@ -453,12 +453,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		updateIntervalProbability();
 		updateDiscreteTable();
 		setXAxisPoints();
-		updateProbabilityType();
 		updateGUI();
+		updateProbabilityType();
 		if (styleBar != null) {
 			styleBar.updateGUI();
 		}
-
     }
 	
 	private void updateProbabilityType() {
