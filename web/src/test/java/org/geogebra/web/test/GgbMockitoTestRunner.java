@@ -46,6 +46,8 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 Void.class);
         StubGenerator.replaceMethodWithMock(Uint8Array.class, "create",
                 Uint8Array.class);
+        StubGenerator.replaceMethodWithMock(RendererImplShadersW.class, "createAlphaTexture",
+                Integer.class);
     }
 
     @Override
