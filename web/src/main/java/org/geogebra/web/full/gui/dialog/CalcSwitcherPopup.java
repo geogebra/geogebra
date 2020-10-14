@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.Label;
 public class CalcSwitcherPopup extends GPopupPanel {
 
 	SuiteHeaderAppPicker appPickerButton;
-	private AppWFull app;
+	private final AppWFull app;
 
 	private final static int X_COORDINATE_OFFSET = 8;
 
@@ -47,6 +47,7 @@ public class CalcSwitcherPopup extends GPopupPanel {
 			this.setPopupPosition(getLeft(), 0);
 			super.show();
 			updateLanguage();
+			appPickerButton.checkButtonVisibility();
 		}
 	}
 

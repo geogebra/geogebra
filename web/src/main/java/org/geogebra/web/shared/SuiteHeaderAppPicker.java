@@ -11,13 +11,15 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.aria.client.Roles;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 
 public class SuiteHeaderAppPicker extends StandardButton {
 
 	private CalcSwitcherPopup suitePopup;
-
 	private ResourcePrototype secondIcon;
 
 	/**
@@ -36,6 +38,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 		addStyleName("suiteAppPickerButton");
 		createAppPickerPopup(app);
 		addFastClickHandler(event -> suitePopup.show());
+		addHandler(event -> checkButtonVisibility(), LoadEvent.getType());
 	}
 
 	private void setIconLabelAndSecondIcon(final ResourcePrototype image, final String label,
@@ -68,5 +71,17 @@ public class SuiteHeaderAppPicker extends StandardButton {
 	 */
 	public void setIconAndLabel(final ResourcePrototype icon, String label, AppW app) {
 		setIconLabelAndSecondIcon(icon, label, this.secondIcon, app);
+	}
+
+	public void checkButtonVisibility() {
+		final RootPanel appPickerPanel = RootPanel.get("suiteAppPicker");
+		int buttonRight = appPickerPanel.getAbsoluteLeft() + appPickerPanel.getOffsetWidth();
+		int buttonsLeft = RootPanel.get("buttonsID").getAbsoluteLeft();
+		final Style style = appPickerPanel.getElement().getStyle();
+		if (buttonsLeft < buttonRight) {
+			style.setProperty("visibility", "hidden");
+		} else {
+			style.setProperty("visibility", "visible");
+		}
 	}
 }
