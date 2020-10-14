@@ -211,9 +211,6 @@
 
 	.suiteAppPickerButton {
 		display: inline-flex;
-		//position: absolute;
-		//top: 14px;
-		//left: 505px;
 		min-width: 138px;
 		max-width: 250px;
 		height: 34px;
@@ -222,7 +219,7 @@
 
 		.gwt-Label {
 			height: 20px;
-			line-height: 20px;
+			line-height: 21px;
 			margin: 7px 0px;
 			font-size: 100%;
 			text-overflow: ellipsis;

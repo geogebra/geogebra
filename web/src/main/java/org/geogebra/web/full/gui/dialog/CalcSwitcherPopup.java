@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.dialog;
 
-import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -37,6 +36,7 @@ public class CalcSwitcherPopup extends GPopupPanel {
 		setGlassEnabled(false);
 		addStyleName("calcPickerPopup");
 		buildGUI(app);
+		app.registerAutoclosePopup(this);
 	}
 
 	@Override
