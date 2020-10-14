@@ -286,7 +286,7 @@
         height: 100%;
 
         .popupContent {
-            height: 100%;
+            height: 100% !important;
         }
 
         .dialogMainPanel {
@@ -306,6 +306,7 @@
                 // (e.g. if no buttons do not add button panel height)
                 height: calc(100% - 92px);
                 padding-right: 24px;
+                overflow-y: scroll;
             }
 
             .dialogBtnPanel {

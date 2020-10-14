@@ -1,11 +1,14 @@
 package org.geogebra.web.shared.components;
 
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.Persistable;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
@@ -205,6 +208,16 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 	public void onResize(ResizeEvent resizeEvent) {
 		if (isShowing()) {
 			super.centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
+			Element dialog = Dom.querySelector("dialogComponent");
+			double screenHeight = Browser.getScreenHeight();
+			double keyboardHeight = ((AppW) app).getAppletFrame().getKeyboardHeight();
+			double space = screenHeight - keyboardHeight;
+			if (keyboardHeight + this.getOffsetHeight() > screenHeight) {
+				dialog.getStyle().setHeight(space, Style.Unit.PX);
+			} else {
+				dialog.getStyle().setHeight(100, Style.Unit.PCT);
+			}
+
 		}
 	}
 
