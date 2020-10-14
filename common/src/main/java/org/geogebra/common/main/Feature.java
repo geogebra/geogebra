@@ -47,9 +47,6 @@ public enum Feature {
 	/** GGB-2255 */
 	GEOMETRIC_DISCOVERY,
 
-	/** GGB-2542 */
-	SYMBOLIC_AV,
-
 	/** Csilla Master */
 	SPEECH_RECOGNITION,
 
