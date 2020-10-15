@@ -6,6 +6,7 @@ import org.geogebra.web.html5.util.StringConsumer;
 import com.google.gwt.dom.client.Element;
 
 import elemental2.core.Global;
+import elemental2.core.JsArray;
 import elemental2.promise.Promise;
 import jsinterop.annotations.JsIgnore;
 import jsinterop.annotations.JsType;
@@ -495,12 +496,12 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.setAxisSteps(arg1, arg2 + "", arg3 + "", arg4 + "");
 	}
 
-	public String[] getAxisUnits(Object arg1) {
-		return ggbAPI.getAxisUnits(Js.coerceToInt(arg1));
+	public JsArray<String> getAxisUnits(Object arg1) {
+		return new JsArray<>(ggbAPI.getAxisUnits(Js.coerceToInt(arg1)));
 	}
 
-	public String[] getAxisLabels(Object arg1) {
-		return ggbAPI.getAxisLabels(Js.coerceToInt(arg1));
+	public JsArray<String> getAxisLabels(Object arg1) {
+		return new JsArray<>(ggbAPI.getAxisLabels(Js.coerceToInt(arg1)));
 	}
 
 	public void setPointCapture(int view, Object capture) {
@@ -527,11 +528,11 @@ public class DefaultExportedApi implements ExportedApi {
 		}
 	}
 
-	public String[] getAllObjectNames(String objectType) {
+	public JsArray<String> getAllObjectNames(String objectType) {
 		if (JsEval.isUndefined(objectType)) {
-			return ggbAPI.getAllObjectNames();
+			return new JsArray<>(ggbAPI.getAllObjectNames());
 		} else {
-			return ggbAPI.getAllObjectNames(objectType + "");
+			return new JsArray<>(ggbAPI.getAllObjectNames(objectType + ""));
 		}
 	}
 
