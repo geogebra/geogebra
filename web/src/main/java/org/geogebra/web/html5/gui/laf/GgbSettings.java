@@ -50,11 +50,6 @@ public class GgbSettings implements VendorSettings {
 	}
 
 	@Override
-	public boolean isGraspableMathEnabled() {
-		return true;
-	}
-
-	@Override
 	public List<FontFamily> getTextToolFonts() {
 		return Arrays.asList(FontFamily.ARIAL,
 				FontFamily.CALIBRI,
