@@ -73,6 +73,9 @@ public class SuiteHeaderAppPicker extends StandardButton {
 		setIconLabelAndSecondIcon(icon, label, this.secondIcon, app);
 	}
 
+	/**
+	 * sets the button visibility depending on overlapping of divs
+	 */
 	public void checkButtonVisibility() {
 		final RootPanel appPickerPanel = RootPanel.get("suiteAppPicker");
 		int buttonRight = appPickerPanel.getAbsoluteLeft() + appPickerPanel.getOffsetWidth();
