@@ -150,7 +150,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.RecoverAutoSavedDialog {
     	    max-width: 450px;
-    	    max-height: 174px;
 
             .infoText {
     			font-size: 100%;
@@ -161,7 +160,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.GeoGebraFileChooser {
 	    max-width: 530px;
-	    max-height: 234px;
 
 	    .titlePanel .coloredLabel {
 	        font-size: 80%;
@@ -178,6 +176,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
             display: flex;
             width: fit-content;
             cursor: pointer;
+            margin-bottom: 28px;
 
             .checkbox {
            	    margin: 2px 16px 0px 0px;
@@ -509,7 +508,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
    	.dialogComponent.removeMaterial {
    		max-width: 472px;
-   		max-height: 115px;
 
    		.dialogContent {
             height: calc(100% - 52px);
@@ -522,7 +520,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.materialRename {
 		max-width: 448px;
-		max-height: 167px;
 
 		.AutoCompleteTextFieldW {
         			margin: 8px 16px 16px 0px;
@@ -733,12 +730,15 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		width: 80%;
 		height: 94%;
 
+		&.hasBorder .dialogContent {
+			border: none;
+		}
+
         .dialogContent {
             height: calc(100% - 116px);
             margin-bottom: 24px;
         }
-
-
+s
 		 .pdfDialogContent {
 			height: 100%;
 			display: flex;
@@ -1134,8 +1134,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.dialogContent {
     	   width: 350px;
-
-
     	}
 
 		.chooseGrTxt {
@@ -1356,8 +1354,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.shareDialogMow {
 		max-width: 522px;
-		max-height: unset;
-		height: unset;
 
 		.dialogTitle {
 			margin-left: 24px;
@@ -1368,7 +1364,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
         }
 
         .dialogContent {
-            margin-bottom: 24px;
+            padding-bottom: 24px;
+            padding-left: 0px;
         }
 
 		.selGrLbl {
@@ -1583,7 +1580,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.tableOfValuesDialog {
 		max-width: 368px;
-		max-height: 391px;
 
 		.dialogTitle {
 			// with the extra 8px from the top
@@ -1591,14 +1587,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin-bottom: 12px;
 		}
 
-		.dialogContent {
-			padding-right: 0px;
+		.dialogMainPanel {
+			height: calc(100% - 12px);
 		}
 	}
 
 	.dialogComponent.export3dDialog {
 		max-width: 384px;
-		max-height: 359px;
 		padding-right: 0px;
 
 		.dialogContent {
@@ -1674,9 +1669,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
    	.dialogComponent.templateChooser {
         max-width: 680px;
-        max-height: 486px;
-        overflow: auto;
-        height: unset;
 
    		.dialogMainPanel {
    			padding-left: 0px;
@@ -1688,15 +1680,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
    		}
 
    		.dialogContent {
-   			padding-right: 0px;
+   			padding-bottom: 16px;
    		}
 
    	    .templatesPanel {
    	        max-width: 649px;
             max-height: 372px;
             display: inline-block;
-            overflow: auto;
-            padding-left: 16px;
             padding-right: 16px;
             margin-top: 12px;
             padding-bottom: 12px;
@@ -1796,8 +1786,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.inputDialogComponent {
-		max-height: 196px;
-		height: 100%;
 
 		.inputTextField {
 			max-width: 456px;
@@ -1810,7 +1798,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.inputDialogComponent.angleInputDialog {
-		max-height: 237px;
 
 		.gwt-RadioButton {
 			margin-right: 20px;
@@ -1822,7 +1809,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.dialogComponent.createObjDialog {
-		max-height: 275px;
 		max-width: 579px;
 
 		.dialogContent {
@@ -1839,7 +1825,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.inputDialogComponent.TextInputDialog {
-		max-height: 468px;
 		max-width: 430px;
 		height: auto;
 

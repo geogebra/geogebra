@@ -598,6 +598,9 @@ public class GPopupPanel extends SimplePanel implements
 
 		if (childElement.getOffsetHeight() > maxHeight) {
 			childElement.getStyle().setHeight(maxHeight, Unit.PX);
+			super.getContainerElement().addClassName("hasBorder");
+		} else {
+			super.getContainerElement().removeClassName("hasBorder");
 		}
 	}
 
