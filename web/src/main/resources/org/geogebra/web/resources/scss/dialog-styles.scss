@@ -738,7 +738,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
             height: calc(100% - 116px);
             margin-bottom: 24px;
         }
-s
+
 		 .pdfDialogContent {
 			height: 100%;
 			display: flex;
@@ -1672,6 +1672,7 @@ s
 
    		.dialogMainPanel {
    			padding-left: 0px;
+   			height: 100%;
    		}
 
    		.dialogTitle {
@@ -1680,7 +1681,7 @@ s
    		}
 
    		.dialogContent {
-   			padding-bottom: 16px;
+   			padding: 0px 0px 0px 16px;
    		}
 
    	    .templatesPanel {
