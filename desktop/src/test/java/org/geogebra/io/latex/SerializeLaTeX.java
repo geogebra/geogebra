@@ -125,7 +125,7 @@ public class SerializeLaTeX {
 		checkCanonical("1 + x" + Unicode.SUPERSCRIPT_MINUS + Unicode.SUPERSCRIPT_2
 				+ Unicode.SUPERSCRIPT_3, "1 + x^(-23)");
 		checkCanonical("e^x*sin(x)", "e^(x)*sin(x)");
-		checkCanonical("e^(-10/x)*sin(x)", "e^((-10)/(x))*sin(x)");
+		checkCanonical("e^((-10)/(x))*sin(x)", "e^((-10)/(x))*sin(x)");
 	}
 
 	@Test

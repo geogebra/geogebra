@@ -64,7 +64,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private boolean niceQuotes = false;
 
 	private boolean shouldPrintMethodsWithParenthesis;
-	private boolean useOperatorWhitespace = true;
+	private boolean forEditorParser = false;
 
 	/**
 	 * Default template, but do not localize commands
@@ -335,7 +335,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		initForEditing(editTemplate);
 		editTemplate.changeArcTrig = false;
 		initForEditing(editorTemplate);
-		editorTemplate.useOperatorWhitespace = false;
+		editorTemplate.forEditorParser = true;
 	}
 
 	/**
@@ -1861,7 +1861,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 									!leftIsNumber
 											|| Character.isDigit(firstRight)
 											|| rightStr.equals(RAD)
-											|| (!useOperatorWhitespace && !isDegree(right));
+											|| (forEditorParser && !isDegree(right));
 						}
 					}
 
@@ -2089,7 +2089,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		case GEOGEBRA:
 			// space for multiplication
-			return useOperatorWhitespace ? " * " : "*";
+			return !forEditorParser ? " * " : "*";
 
 		case SCREEN_READER:
 			return ScreenReader.getTimes(loc);
@@ -2104,13 +2104,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param sb string builder
 	 */
 	public void appendOptionalSpace(StringBuilder sb) {
-		if (useOperatorWhitespace) {
+		if (!forEditorParser) {
 			sb.append(" ");
 		}
 	}
 
 	public String getOptionalSpace() {
-		return useOperatorWhitespace ? " " : "";
+		return !forEditorParser ? " " : "";
 	}
 
 	/**
@@ -2212,6 +2212,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 			break;
 
 		default:
+			if (forEditorParser) {
+				appendWithBrackets(sb, leftStr);
+				sb.append('/');
+				appendWithBrackets(sb, rightStr);
+				break;
+			}
+
 			// check for 1 in denominator
 			// #5396
 			if (left.isLeaf()
@@ -3511,7 +3518,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return equal sign with appropriate whitespace symbols
 	 */
 	public String getEqualsWithSpace() {
-		if (!useOperatorWhitespace) {
+		if (forEditorParser) {
 			return "=";
 		}
 		return stringType == StringType.LATEX ? "\\, = \\," : " = ";
