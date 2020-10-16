@@ -3279,7 +3279,7 @@ __GGB__keysVar["nl"].menu = {
     "editLink": "Wijzig link",
     "emf": "Enhanced Meta Format",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Ingekapseld Postscript",
     "equal": "zijn gelijk",
     "exam_accept_app_self_lock": "Sta \"App Self-Lock\" toe voor het examen te starten",

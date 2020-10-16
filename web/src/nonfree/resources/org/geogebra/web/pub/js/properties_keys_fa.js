@@ -3279,7 +3279,7 @@ __GGB__keysVar["fa"].menu = {
     "editLink": "\u0648\u06cc\u0631\u0627\u06cc\u0634 \u0644\u06cc\u0646\u06a9",
     "emf": "EMF",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "EPS",
     "equal": "\u0645\u0633\u0627\u0648\u06cc",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

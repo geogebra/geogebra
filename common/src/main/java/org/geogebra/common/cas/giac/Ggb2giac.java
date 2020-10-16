@@ -71,24 +71,24 @@ public class Ggb2giac {
 				"[[[ggbbinarg0:=%0],[ggbbinarg1:=%1],[ggbbinarg2:=%2],"
 						// round ggbbinarg0 only if number
 						// (to be consistent with the Algebra View version)
-						+ "[ggbbinarg0:=when(type(ggbbinarg0)==DOM_RAT||type(ggbbinarg0)==DOM_FLOAT,round(ggbbinarg0),ggbbinarg0)]],"
-						+ "when(type(ggbbinarg2)==DOM_LIST,sum(seq(binomial(ggbbinarg0,ggbbinarg2[j],ggbbinarg1),j,0,length(ggbbinarg2)-1)),undef)][1]");
+						+ "[ggbbinarg00:=when(type(ggbbinarg0)==DOM_RAT||type(ggbbinarg0)==DOM_FLOAT,round(ggbbinarg0),ggbbinarg0)]],"
+						+ "when(type(ggbbinarg2)==DOM_LIST,sum(seq(binomial(ggbbinarg00,ggbbinarg2[j],ggbbinarg1),j,0,length(ggbbinarg2)-1)),undef)][1]");
 
 		p("BinomialDist.4",
 				"[[[ggbbinarg0:=%0],[ggbbinarg1:=%1],[ggbbinarg2:=%2],"
 						// round ggbbinarg0 and ggbbinarg2 only if numbers
 						// (to be consistent with the Algebra View version)
-						+ "[ggbbinarg0:=when(type(ggbbinarg0)==DOM_RAT||type(ggbbinarg0)==DOM_FLOAT,round(ggbbinarg0),ggbbinarg0)],"
-						+ "[ggbbinarg2:=when(type(ggbbinarg2)==DOM_RAT||type(ggbbinarg2)==DOM_FLOAT,round(ggbbinarg2),ggbbinarg2)]],"
+						+ "[ggbbinarg00:=when(type(ggbbinarg0)==DOM_RAT||type(ggbbinarg0)==DOM_FLOAT,round(ggbbinarg0),ggbbinarg0)],"
+						+ "[ggbbinarg02:=when(type(ggbbinarg2)==DOM_RAT||type(ggbbinarg2)==DOM_FLOAT,round(ggbbinarg2),ggbbinarg2)]],"
 						+ "if %3==true then "
 						// needed for GGB-841
 						// if %2 is not a number for BinomialDist[n,p,k,true]
 						// use
 						// Sum[BinomialCoefficient[n,i]p^i(1-p)^(n-i),i,0,k]
-						+ "when(type(ggbbinarg2)==DOM_IDENT,"
-						+ " expand(sum(binomial(ggbbinarg0,ggbtmpvari)*pow(ggbbinarg1,ggbtmpvari)*pow(1-ggbbinarg1,ggbbinarg0-ggbtmpvari),ggbtmpvari,0,ggbbinarg2)),"
-						+ " binomial_cdf(ggbbinarg0,ggbbinarg1,ggbbinarg2))"
-						+ "else binomial(ggbbinarg0,ggbbinarg2,ggbbinarg1) fi][1]");
+						+ "when(type(ggbbinarg02)==DOM_IDENT,"
+						+ " expand(sum(binomial(ggbbinarg00,ggbtmpvari)*pow(ggbbinarg1,ggbtmpvari)*pow(1-ggbbinarg1,ggbbinarg0-ggbtmpvari),ggbtmpvari,0,ggbbinarg02)),"
+						+ " binomial_cdf(ggbbinarg00,ggbbinarg1,ggbbinarg02))"
+						+ "else binomial(ggbbinarg00,ggbbinarg02,ggbbinarg1) fi][1]");
 
 		p("Cauchy.3", "normal(1/2+1/pi*atan(((%2)-(%1))/(%0)))");
 

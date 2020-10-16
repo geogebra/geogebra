@@ -3279,7 +3279,7 @@ __GGB__keysVar["nb"].menu = {
     "editLink": "Edit link",
     "emf": "Enhanced Meta Format",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "er lik",
     "exam_accept_app_self_lock": "Vennligst tillat \"Automatisk l\xe5sing av app\" f\xf8r du starter pr\xf8ven",

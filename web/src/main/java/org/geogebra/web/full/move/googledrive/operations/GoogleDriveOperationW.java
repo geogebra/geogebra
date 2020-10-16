@@ -19,6 +19,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.util.JSON;
+import org.geogebra.web.html5.util.StringConsumer;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -406,7 +407,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	 *            whether this is GGB
 	 * @return javascript function to called back;
 	 */
-	public native JavaScriptObject getPutFileCallback(String fileName,
+	public native StringConsumer getPutFileCallback(String fileName,
 			String description, boolean isggb) /*-{
 		var _this = this;
 		return function(base64) {

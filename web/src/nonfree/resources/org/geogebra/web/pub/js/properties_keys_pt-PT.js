@@ -3279,7 +3279,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "editLink": "Editar liga\xe7\xe3o",
     "emf": "Enhanced Meta Format",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "igual",
     "exam_accept_app_self_lock": "Por favor, permita o \"Auto-bloqueio da aplica\xe7\xe3o\" antes de iniciar o exame",

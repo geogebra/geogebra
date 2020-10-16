@@ -3279,7 +3279,7 @@ __GGB__keysVar["fi"].menu = {
     "editLink": "Muokkaa linkki\xe4",
     "emf": "Enhanced Metafile",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "yht\xe4 suuri kuin",
     "exam_accept_app_self_lock": "Salli \"Appin lukitus\" ennen kokeen aloittamista",

@@ -3279,7 +3279,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "editLink": "Edit link",
     "emf": "Meta\u062a\u0639\u0632\u064a\u0632 \u0627\u0644\u0634\u0643\u0644",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "\u0628\u0648\u0633\u062a\u0633\u0643\u0631\u064a\u0628\u062a \u0645\u063a\u0644\u0641",
     "equal": "\u062a\u0633\u0627\u0648\u064a",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

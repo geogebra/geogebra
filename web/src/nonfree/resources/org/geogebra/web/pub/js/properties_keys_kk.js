@@ -3279,7 +3279,7 @@ __GGB__keysVar["kk"].menu = {
     "editLink": "Edit link",
     "emf": "\u041a\u0435\u04a3\u0435\u0439\u0442\u0456\u043b\u0433\u0435\u043d \u041c\u0435\u0442\u0430\u0444\u0430\u0439\u043b",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "\u041a\u0456\u0440\u0433\u0456\u0437\u0456\u043b\u0433\u0435\u043d \u0436\u0430\u0437\u0431\u0430",
     "equal": "\u0442\u0435\u04a3",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

@@ -3279,7 +3279,7 @@ __GGB__keysVar["sq"].menu = {
     "editLink": "Edit link",
     "emf": "Pas-Dokument i Fuqizuar",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Pas-Shenim i Permbyllur(Shkurtuar)",
     "equal": "i/e Barabarte",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

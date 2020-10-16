@@ -3279,7 +3279,7 @@ __GGB__keysVar["uk"].menu = {
     "editLink": "\u0420\u0435\u0434\u0430\u0433\u0443\u0432\u0430\u0442\u0438 \u043f\u043e\u0441\u0438\u043b\u0430\u043d\u043d\u044f",
     "emf": "\u0420\u043e\u0437\u0448\u0438\u0440\u0435\u043d\u0438\u0439 Metafile",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "\u0434\u043e\u0440\u0456\u0432\u043d\u044e\u0454",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",
