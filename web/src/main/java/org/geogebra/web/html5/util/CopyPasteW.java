@@ -605,6 +605,12 @@ public class CopyPasteW extends CopyPaste {
 			@org.geogebra.web.html5.util.CopyPasteW::pastePrefix, '');
 	}-*/;
 
+	@Override
+	public void copyTextToSystemClipboard(String text) {
+		Log.debug("copying to clipboard " + text);
+		writeToExternalClipboard(text);
+	}
+
 	public static native void installCutCopyPaste(AppW app, Element target) /*-{
 		function incorrectTarget(target) {
 			return target.tagName.toUpperCase() === 'INPUT'

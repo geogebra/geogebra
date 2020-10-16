@@ -10,6 +10,12 @@ public interface MaterialsManagerI {
 
 	void openMaterial(Material material);
 
+	/**
+	 * Deletes the ggbFile and metaFile from the device. Updates the BrowseView.
+	 *
+	 * @param material
+	 *            {@link Material}
+	 */
 	void delete(Material material, boolean permanent, Runnable onSuccess);
 
 	void uploadUsersMaterials(ArrayList<SyncEvent> events);

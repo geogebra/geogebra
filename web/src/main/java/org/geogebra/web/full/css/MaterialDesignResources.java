@@ -87,6 +87,12 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/vertical_align_top-24px.svg")
 	SVGResource vertical_align_top();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/table_heading_column.svg")
+	SVGResource table_heading_column();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/table_heading_row.svg")
+	SVGResource table_heading_row();
+
 	// context menu icon resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/plane_black.svg")
 	SVGResource plane_black();

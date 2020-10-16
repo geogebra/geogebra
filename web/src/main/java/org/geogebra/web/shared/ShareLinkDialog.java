@@ -10,6 +10,7 @@ import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -63,7 +64,7 @@ public class ShareLinkDialog extends ComponentDialog {
 		copyBtn.setStyleName("copyButton");
 
 		copyBtn.addFastClickHandler(source -> {
-			app.copyTextToSystemClipboard(linkBox.getText());
+			app.getCopyPaste().copyTextToSystemClipboard(linkBox.getText());
 			hide();
 		});
 
@@ -143,7 +144,7 @@ public class ShareLinkDialog extends ComponentDialog {
 					+ " width=\"800\" height=\"600\" allowfullscreen"
 					+ " style=\"border: 1px solid #e4e4e4;border-radius: 4px;\""
 					+ " frameborder=\"0\"></iframe>";
-			this.app.copyTextToSystemClipboard(code);
+			this.app.getCopyPaste().copyTextToSystemClipboard(code);
 			ToolTipManagerW.sharedInstance().showBottomMessage(
 					localize("CopiedToClipboard"), true, appW);
 		}
@@ -185,7 +186,7 @@ public class ShareLinkDialog extends ComponentDialog {
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		if (event.getTypeInt() != Event.ONMOUSEMOVE) {
+		if (DOM.eventGetType(event) != Event.ONMOUSEMOVE) {
 			super.onBrowserEvent(event);
 		}
 	}

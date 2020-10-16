@@ -326,4 +326,9 @@ public class AppConfigDefault extends AbstractAppConfig {
 	public StringTemplate getOutputStringTemplate() {
 		return StringTemplate.latexTemplate;
 	}
+
+	@Override
+	public boolean sendKeyboardEvents() {
+		return false;
+	}
 }

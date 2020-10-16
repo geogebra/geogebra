@@ -6,14 +6,10 @@
   <inherits name='com.googlecode.gwtgl.binding'/>
     
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='org.geogebra.web.full.Web'/>
+  <entry-point class='org.geogebra.web.geogebra3D.Web3D'/>
   
   <!-- Specify the paths for translatable code                    -->
   <source path='geogebra3D'/>
-  
-  <replace-with class="org.geogebra.web.geogebra3D.AppletFactory3D">
-    <when-type-is class="org.geogebra.web.full.gui.applet.AppletFactory" />    
-  </replace-with>
 
   <!-- Compile only one permutation -->
   <collapse-all-properties />
