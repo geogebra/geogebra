@@ -136,6 +136,7 @@ public class PointStylePopup extends PopupMenuButtonW
 				setSliderValue(geo0.getPointSize());
 			}
 
+			geo0.setPointStyle(getMyTable().getSelectedIndex());
 			setSelectedIndex(pointStyleMap.get(euclidian3D ? 0 : geo0
 			        .getPointStyle()));
 
