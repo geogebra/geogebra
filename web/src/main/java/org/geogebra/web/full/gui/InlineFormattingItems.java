@@ -257,7 +257,7 @@ public class InlineFormattingItems {
 	}
 
 	private void openHyperlinkDialog() {
-		DialogData data = new DialogData(null, "Cancel", "OK");
+		DialogData data = new DialogData(null);
 		HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app, data, inlines.get(0));
 		hyperlinkDialog.center();
 	}

@@ -185,6 +185,7 @@ public class GeoVector3D extends GeoVec4D
 		} else if (geo.isGeoVector()) {
 			GeoVectorND vec = (GeoVectorND) geo;
 			setCoords(vec.getCoordsInD3().get());
+			reuseDefinition(geo);
 
 			// don't set start point for macro output
 			// see AlgoMacro.initRay()

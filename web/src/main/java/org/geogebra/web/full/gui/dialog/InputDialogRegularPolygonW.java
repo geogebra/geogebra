@@ -5,15 +5,14 @@ import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.event.dom.client.DomEvent;
+import org.geogebra.web.shared.components.ComponentInputDialog;
+import org.geogebra.web.shared.components.DialogData;
 
 /**
  * Web dialog for regular polygons
  */
-public class InputDialogRegularPolygonW extends InputDialogW {
+public class InputDialogRegularPolygonW extends ComponentInputDialog {
 	private GeoPointND geoPoint1;
 	private GeoPointND geoPoint2;
 	private GeoCoordSys2D direction;
@@ -22,10 +21,10 @@ public class InputDialogRegularPolygonW extends InputDialogW {
 	/**
 	 * @param app
 	 *            application
+	 * @param data
+	 * 			  dialog trans keys
 	 * @param ec
 	 *            controller
-	 * @param title
-	 *            title
 	 * @param handler
 	 *            input handler
 	 * @param point1
@@ -35,12 +34,12 @@ public class InputDialogRegularPolygonW extends InputDialogW {
 	 * @param direction
 	 *            orientation
 	 */
-	public InputDialogRegularPolygonW(AppW app, EuclidianController ec, String title,
+	public InputDialogRegularPolygonW(AppW app, DialogData data, EuclidianController ec,
 			InputHandler handler, GeoPointND point1, GeoPointND point2,
 			GeoCoordSys2D direction) {
-		super(app, app.getLocalization().getMenu("Points"), title, "4", false,
-				handler, true);
-
+		super(app, data, false, false, handler,
+				app.getLocalization().getMenu("Points"), "4",
+				1, -1, false);
 		geoPoint1 = point1;
 		geoPoint2 = point2;
 		this.direction = direction;
@@ -48,35 +47,12 @@ public class InputDialogRegularPolygonW extends InputDialogW {
 	}
 
 	@Override
-	protected void actionPerformed(DomEvent<?> e) {
-		Object source = e.getSource();
-		try {
-			if (source == btOK || sourceShouldHandleOK(source)) {
-				processInput();
-//				setVisibleForTools(!processInput());
-//			} else if (source == btApply) {  //There is no apply button.
-//				processInput();
-			} else if (source == btCancel) {
-				wrappedPopup.hide();
-//				setVisibleForTools(false);
-			}
-		} catch (Exception ex) {
-			// do nothing on uninitializedValue
-//			setVisibleForTools(false);
-		}
-	}
-
-	private void processInput() {
-
-		DialogManager.makeRegularPolygon(app, ec, inputPanel.getText(),
+	public void processInput() {
+		DialogManager.makeRegularPolygon(app, ec, getInputText(),
 				geoPoint1, geoPoint2, direction, this,
-				new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean ok) {
-						if (ok) {
-							wrappedPopup.hide();
-						}
+				ok -> {
+					if (ok) {
+						hide();
 					}
 				});
 	}

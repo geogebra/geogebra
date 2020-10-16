@@ -3,6 +3,7 @@ package org.geogebra.desktop.euclidian;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.SwingUtilities;
 
@@ -122,6 +123,12 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 		g.translate(DrawInputBox.TF_PADDING_HORIZONTAL, 0);
 		mathField.setForeground(GColorD.getAwtColor(getGeoInputBox().getObjectColor()));
+		if (getDrawInputBox() != null && getDrawInputBox().hasError()) {
+			box.setBorder(BorderFactory.createDashedBorder(GColorD.getAwtColor(GColor.ERROR_RED),
+					4, 1, 1, true));
+		} else {
+			box.setBorder(null);
+		}
 		box.paint(GGraphics2DD.getAwtGraphics(g));
 
 		g.restoreTransform();

@@ -135,7 +135,7 @@ public final class CommandFilterFactory {
 				Commands.DotPlot, Commands.FrequencyPolygon, Commands.FrequencyTable,
 				Commands.Histogram, Commands.HistogramRight, Commands.NormalQuantilePlot,
 				Commands.ResidualPlot, Commands.StemPlot, Commands.StepGraph,
-				Commands.StickGraph,
+				Commands.StickGraph, Commands.LineGraph,
 				// Discrete Math Commands
 				Commands.ShortestDistance,
 				// GeoGebra Commands

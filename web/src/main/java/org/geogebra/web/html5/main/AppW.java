@@ -572,7 +572,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void callAppletJavaScript(String fun, String arg) {
 		Log.debug("calling function: " + fun + "(" + arg + ")");
-		JsEval.callNativeJavaScript(fun, arg);
+		JsEval.callNativeGlobalFunction(fun, arg);
 	}
 
 	@Override

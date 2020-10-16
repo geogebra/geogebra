@@ -354,7 +354,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			definitionFromTeX(lastTeX);
 		} else if (latex || AlgebraItem.isGeoFraction(geo)) {
 			String text = getTextForEditing(false,
-					StringTemplate.latexTemplateHideLHS);
+					StringTemplate.latexTemplate);
 			definitionFromTeX(text);
 		} else if (geo != null) {
 			IndexHTMLBuilder sb = new DOMIndexHTMLBuilder(definitionPanel, app);
@@ -1711,8 +1711,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	@Override
 	public void setFocus(boolean focus) {
 		if (focus) {
-			if (app.isUnbundled() && app.isMenuShowing()) {
-				app.toggleMenu();
+			if (app.isUnbundled()) {
+				app.hideMenu();
 			}
 			removeDummy();
 

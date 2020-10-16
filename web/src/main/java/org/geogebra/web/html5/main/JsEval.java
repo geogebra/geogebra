@@ -1,5 +1,9 @@
 package org.geogebra.web.html5.main;
 
+import elemental2.core.Function;
+import elemental2.dom.DomGlobal;
+import jsinterop.base.Js;
+
 public class JsEval {
 	/**
 	 * 
@@ -22,28 +26,39 @@ public class JsEval {
 		}
 	}-*/;
 
-	public static native void callNativeJavaScript(String funcname, String... args) /*-{
-		if ($wnd[funcname]) {
-			$wnd[funcname].apply(null, args);
-		}
-	}-*/;
+	/**
+	 * @param funcname global function name
+	 * @param args arguments
+	 */
+	public static void callNativeGlobalFunction(String funcname, Object... args) {
+		Object globalFunction = Js.asPropertyMap(DomGlobal.window).get(funcname);
+		callNativeFunction(globalFunction, args);
+	}
 
-	public static native void callNativeJavaScript(Object funcObject,
-			String... args) /*-{
-		if (typeof funcObject === "function") {
-			funcObject.apply(null, args);
+	/**
+	 * Safely call function with given arguments
+	 * @param funcObject function
+	 * @param args arguments
+	 */
+	public static void callNativeFunction(Object funcObject, Object... args) {
+		if (isFunction(funcObject)) {
+			((Function) funcObject).apply(DomGlobal.window, args);
 		}
-	}-*/;
+	}
 
-	public static native void callNativeJavaScript(String funcname, Object arg) /*-{
-		if ($wnd[funcname]) {
-			$wnd[funcname](arg);
-		}
-	}-*/;
+	/**
+	 * @param object object
+	 * @return whether object is a JS function
+	 */
+	public static boolean isFunction(Object object) {
+		return "function".equals(Js.typeof(object));
+	}
 
-	public static native void callNativeJavaScript(Object funcObject, Object param) /*-{
-		if (typeof funcObject === "function") {
-			funcObject(param);
-		}
-	}-*/;
+	public static boolean isUndefined(Object object) {
+		return "undefined".equals(Js.typeof(object));
+	}
+
+	public static boolean isJSString(Object object) {
+		return "string".equals(Js.typeof(object));
+	}
 }

@@ -28,9 +28,9 @@ import org.geogebra.web.full.util.SaveCallback.SaveState;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -210,29 +210,26 @@ public class SaveControllerW implements SaveController {
 			syncIdAndType(mat);
 		}
 
-		final AsyncOperation<String> handler = new AsyncOperation<String>() {
-			@Override
-			public void callback(String base64) {
-				if (titleChanged && (isWorksheet() || savedAsTemplate())) {
-					Log.debug("SAVE filename changed");
-					getAppW().updateMaterialURL(0, null, null);
-					doUploadToGgt(getAppW().getTubeId(), visibility, base64,
-							newMaterialCB(base64, false));
-				} else if (StringUtil.emptyOrZero(getAppW().getTubeId())
-						|| isMacro()) {
-					Log.debug("SAVE had no Tube ID or tool is saved");
-					doUploadToGgt(null, visibility, base64,
-							newMaterialCB(base64, false));
-				} else {
-					handleSync(base64, visibility);
-				}
+		final StringConsumer handler = base64 -> {
+			if (titleChanged && (isWorksheet() || savedAsTemplate())) {
+				Log.debug("SAVE filename changed");
+				getAppW().updateMaterialURL(0, null, null);
+				doUploadToGgt(getAppW().getTubeId(), visibility, base64,
+						newMaterialCB(base64, false));
+			} else if (StringUtil.emptyOrZero(getAppW().getTubeId())
+					|| isMacro()) {
+				Log.debug("SAVE had no Tube ID or tool is saved");
+				doUploadToGgt(null, visibility, base64,
+						newMaterialCB(base64, false));
+			} else {
+				handleSync(base64, visibility);
 			}
 		};
 
 		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), false, app);
 
 		if (saveType == MaterialType.ggt) {
-			app.getGgbApi().getMacrosBase64(true, handler);
+			app.getGgbApi().getMacrosBase64(true, handler::consume);
 		} else {
 			app.getGgbApi().getBase64(true, handler);
 		}
@@ -266,7 +263,7 @@ public class SaveControllerW implements SaveController {
 			app.getKernel().getConstruction()
 					.setTitle(saveName.substring(0, saveName.length() - prefix.length()));
 		}
-		JavaScriptObject callback = ((GoogleDriveOperationW) app.getGoogleDriveOperation())
+		StringConsumer callback = ((GoogleDriveOperationW) app.getGoogleDriveOperation())
 				.getPutFileCallback(saveName, "GeoGebra", saveType == MaterialType.ggb);
 		if (saveType == MaterialType.ggt) {
 			app.getGgbApi().getMacrosBase64(true, callback);
@@ -465,11 +462,11 @@ public class SaveControllerW implements SaveController {
 		};
 	}
 
-	private AsyncOperation<String> newBase64Callback() {
-		return new AsyncOperation<String>() {
+	private StringConsumer newBase64Callback() {
+		return new StringConsumer() {
 
 			@Override
-			public void callback(String s) {
+			public void consume(String s) {
 				((FileManager) getAppW().getFileManager()).saveFile(s,
 						getCurrentTimestamp(getAppW()),
 						new SaveCallback(getAppW(), SaveState.OK) {
