@@ -3279,7 +3279,7 @@ __GGB__keysVar["sv"].menu = {
     "editLink": "Edit link",
     "emf": "Enhanced Meta Format",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "ekvivalent",
     "exam_accept_app_self_lock": "V\xe4nligen till\xe5t \"Sj\xe4lvl\xe5sning\" innan du startar provet",

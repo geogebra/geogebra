@@ -3279,7 +3279,7 @@ __GGB__keysVar["sl"].menu = {
     "editLink": "Uredi povezavo",
     "emf": "Raz\u0161irjen meta format",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "enako",
     "exam_accept_app_self_lock": "Dovoli \"App Self-Lock\" pred za\u010detkom preverjanja",

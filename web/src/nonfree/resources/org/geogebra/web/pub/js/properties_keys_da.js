@@ -3279,7 +3279,7 @@ __GGB__keysVar["da"].menu = {
     "editLink": "Rediger link",
     "emf": "Udvidet metafil",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "lig med",
     "exam_accept_app_self_lock": "Tillad venligst \"App Self-Lock\" f\xf8r du g\xe5r i gang med eksamen.",

@@ -3279,7 +3279,7 @@ __GGB__keysVar["eu"].menu = {
     "editLink": "Edit link",
     "emf": "Enhanced Metafile formatua",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Encapsulated Postcript formatua",
     "equal": "berdin",
     "exam_accept_app_self_lock": "Mesedez, eman baimena \"App Self-Lock\"-i azterketarekin hasi aurretik",

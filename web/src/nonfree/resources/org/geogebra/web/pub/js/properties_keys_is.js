@@ -3279,7 +3279,7 @@ __GGB__keysVar["is"].menu = {
     "editLink": "Breyta hlekk",
     "emf": "Enhanced Metafile",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "jafnt",
     "exam_accept_app_self_lock": "Leyfi\xf0 \"App Self-Lock\" \xe1\xf0ur en pr\xf3f hefst.",

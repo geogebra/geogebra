@@ -3279,7 +3279,7 @@ __GGB__keysVar["es-ES"].menu = {
     "editLink": "Hiperv\xednculo",
     "emf": "EMF (metaarchivo mejorado)",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "EPS (postscript encapsulado)",
     "equal": "igual",
     "exam_accept_app_self_lock": "Por favor, activa \"App Self-Lock\" (auto bloqueo) antes de comenzar el examen",
