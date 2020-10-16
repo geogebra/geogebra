@@ -139,6 +139,10 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 		mathFieldEditor.requestFocus();
 	}
 
+	public MathFieldEditor getMathFieldEditor() {
+		return mathFieldEditor;
+	}
+
 	/**
 	 * @return evaluator API
 	 */
@@ -148,6 +152,7 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 
 	@Override
 	public void onBlur(BlurEvent event) {
+		app.sendKeyboardEvent(false);
 		mathFieldEditor.setKeyboardVisibility(false);
 		dispatchEditorStop();
 	}

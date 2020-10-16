@@ -1,7 +1,7 @@
 package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.settings.AppConfigMixedReality;
+import org.geogebra.common.main.settings.config.AppConfigMixedReality;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;

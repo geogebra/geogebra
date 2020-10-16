@@ -165,12 +165,12 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	@Override
 	public boolean handleMouseReleasedForPenMode(boolean right, int x, int y,
 												 boolean isPinchZooming) {
-		view.invalidateCache();
 		penPoints.add(new GPoint(x, y));
 
 		GeoElement shape = checkExpectedShape();
 
 		penPoints.clear();
+		previewPoints.clear();
 
 		app.refreshViews(); // clear trace
 

@@ -15,6 +15,7 @@ import org.geogebra.common.euclidian.inline.InlineFormulaController;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
+import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
 import org.geogebra.common.gui.Layout;
@@ -29,19 +30,20 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.AppState;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
-import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
@@ -58,6 +60,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
+import org.geogebra.web.cas.giac.CASFactoryW;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.full.euclidian.inline.InlineFormulaControllerW;
 import org.geogebra.web.full.euclidian.inline.InlineTableControllerW;
@@ -164,6 +167,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private static final String RECENT_CHANGES_KEY = "RecentChangesInfo.Graphing";
 	private static final boolean ALLOW_RECENT_CHANGES_DIALOG = false;
 	private final static int AUTO_SAVE_PERIOD = 2000;
+	// NB this needs to be adjusted in app-release if we change it here
+	private static final int MIN_SIZE_FOR_PICKER = 650;
 
 	private GuiManagerW guiManager = null;
 
@@ -342,7 +347,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				activity = new EvaluatorActivity();
 				break;
 			case "suite":
-				activity = new SuiteActivity();
+				activity = new SuiteActivity(GeoGebraConstants.GRAPHING_APPCODE);
 				break;
 			default:
 				activity = new ClassicActivity(new AppConfigDefault());
@@ -559,7 +564,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	protected void resetUI() {
+	public void resetUI() {
 		resetEVs();
 		// make sure file->new->probability does not clear the prob. calc
 		if (getGuiManager() != null
@@ -910,8 +915,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public final void showPerspectivesPopup() {
-		if (isUnbundledOrWhiteboard()) {
+	public final void showPerspectivesPopupIfNeeded() {
+		boolean smallScreen = Window.getClientWidth() < MIN_SIZE_FOR_PICKER
+				|| Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
+		if (isUnbundledOrWhiteboard() || smallScreen || !(
+				getAppletParameters().getDataParamShowAppsPicker() || getAppletParameters()
+						.getDataParamApp()) || getExam() != null) {
 			return;
 		}
 		afterLocalizationLoaded(new Runnable() {
@@ -2143,5 +2152,40 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (getAppletFrame().isKeyboardShowing()) {
 			hideKeyboard();
 		}
+	}
+
+	@Override
+	protected void initFactories() {
+		super.initFactories();
+		if (!CASFactory.isInitialized()) {
+			CASFactory.setPrototype(new CASFactoryW());
+		}
+	}
+
+	private void reinitAlgebraView() {
+		GuiManagerW gm = getGuiManager();
+		DockPanel avPanel = gm.getLayout().getDockManager()
+				.getPanel(VIEW_ALGEBRA);
+		if (avPanel instanceof ToolbarDockPanelW) {
+			((ToolbarDockPanelW) avPanel).getToolbar().initGUI();
+		}
+	}
+
+	/**
+	 * Switch suite to the given subapp, clearing all construction, and resetting almost
+	 * all the settings
+	 * @param subAppCode "graphing", "3d", "cas" or "geometry"
+	 */
+	public void switchToSubapp(String subAppCode) {
+		activity = new SuiteActivity(subAppCode);
+		activity.start(this);
+
+		clearConstruction();
+		getKernel().setSymbolicMode(
+				GeoGebraConstants.CAS_APPCODE.equals(subAppCode)
+						? SymbolicMode.SYMBOLIC_AV
+						: SymbolicMode.NONE);
+		getGgbApi().setPerspective(getConfig().getForcedPerspective());
+		reinitAlgebraView();
 	}
 }

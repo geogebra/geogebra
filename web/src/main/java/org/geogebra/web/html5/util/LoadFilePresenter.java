@@ -18,8 +18,6 @@ import com.google.gwt.user.client.Window.Location;
  * File loader for Web
  */
 public class LoadFilePresenter {
-	// NB this needs to be adjusted in app-release if we change it here
-	private static final int MIN_SIZE_FOR_PICKER = 650;
 
 	/**
 	 * Run applet for current view
@@ -142,7 +140,7 @@ public class LoadFilePresenter {
 	 */
 	boolean openEmptyApp(final AppW app, AppletParameters ae) {
 		// we dont have content, it is an app
-		Log.debug("no base64content, possibly App loaded?");
+		Log.debug("no base64content, App loaded");
 
 		// code moved here from AppWapplication.afterCoreObjectsInited - start
 		String perspective = ae.getDataParamPerspective();
@@ -280,13 +278,7 @@ public class LoadFilePresenter {
 			app.adjustViews(false, false);
 		}
 
-		boolean smallScreen = Window.getClientWidth() < MIN_SIZE_FOR_PICKER
-				|| Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
-		if (app.getAppletParameters().getDataParamShowAppsPicker()
-				&& app.getExam() == null && !smallScreen
-				&& !app.isWhiteboardActive()) {
-			app.showPerspectivesPopup();
-		}
+		app.showPerspectivesPopupIfNeeded();
 
 		app.updateRounding();
 		preloadParser(app);

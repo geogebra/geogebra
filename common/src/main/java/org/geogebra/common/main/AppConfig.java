@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.properties.FillType;
-import org.geogebra.common.kernel.parser.function.ParserFunctions;
+import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.PropertiesFactory;
@@ -179,6 +179,13 @@ public interface AppConfig {
 	String getAppCode();
 
 	/**
+	 * @return The sub-app code if exists.
+	 * E.g. in the Suite app the Graphing sub-app has "suite" app code and "graphing" sub-app code.
+	 */
+	@CheckForNull
+	String getSubAppCode();
+
+	/**
 	 * @return creates a settings updater
 	 */
 	SettingsUpdater createSettingsUpdater();
@@ -210,7 +217,7 @@ public interface AppConfig {
 	/**
 	 * @return creates app specific parser functions
 	 */
-	ParserFunctions createParserFunctions();
+	ParserFunctionsFactory createParserFunctionsFactory();
 
 	/**
 	 * @return true if it has 'ans' button in the AV.
@@ -286,5 +293,10 @@ public interface AppConfig {
 	 * @return the template to serialize the output
 	 */
 	StringTemplate getOutputStringTemplate();
-}
 
+	/**
+	 * @return if closing/opening keyboard should send event
+	 * 	 (only for evaluator for now)
+ 	 */
+	boolean sendKeyboardEvents();
+}

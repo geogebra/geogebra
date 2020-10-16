@@ -26,9 +26,6 @@ public enum Feature {
 	/** MOW-88 */
 	MOW_DIRECT_FORMULA_CONVERSION,
 
-	/** MOB-1293 */
-	SELECT_TOOL_NEW_BEHAVIOUR,
-
 	/** MOB-1319 */
 	MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11,
 
@@ -49,9 +46,6 @@ public enum Feature {
 
 	/** GGB-2255 */
 	GEOMETRIC_DISCOVERY,
-
-	/** GGB-2542 */
-	SYMBOLIC_AV,
 
 	/** Csilla Master */
 	SPEECH_RECOGNITION,

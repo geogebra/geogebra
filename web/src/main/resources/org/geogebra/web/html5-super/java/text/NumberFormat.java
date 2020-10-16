@@ -38,26 +38,6 @@ public class NumberFormat implements Serializable
         this.format = format;
     }
 
-//    public final static NumberFormat getCurrencyInstance()
-//    {
-//    	return new NumberFormat( com.google.gwt.i18n.client.NumberFormat.getCurrencyFormat() );
-//    }
-//
-//    public final static NumberFormat getInstance()
-//    {
-//        return new NumberFormat( com.google.gwt.i18n.client.NumberFormat.getDecimalFormat() );
-//    }
-//
-//    public final static NumberFormat getIntegerInstance()
-//    {
-//        return new NumberFormat( com.google.gwt.i18n.client.NumberFormat.getDecimalFormat() );
-//    }
-//
-//    public final static NumberFormat getNumberInstance()
-//    {
-//        return new NumberFormat( com.google.gwt.i18n.client.NumberFormat.getDecimalFormat() );
-//    }
-//
     public final static NumberFormat getPercentInstance()
     {
         return new NumberFormat( org.geogebra.web.html5.util.MyNumberFormat.getPercentFormat() );

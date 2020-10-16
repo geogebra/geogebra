@@ -7,14 +7,13 @@ import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLDocument;
 import elemental2.dom.HTMLHtmlElement;
 import elemental2.webstorage.WebStorageWindow;
-import jsinterop.base.JsPropertyMap;
 
 public class ElementalMocker {
 
 	public static void setupElemental() {
 		try {
-			DomGlobal.window = new CastableWindow();
-			setFinalStatic(DomGlobal.class.getField("document"), new CastableDocument());
+			DomGlobal.window = new WebStorageWindow();
+			setFinalStatic(DomGlobal.class.getField("document"), new HTMLDocument());
 			DomGlobal.document.documentElement = new HTMLHtmlElement();
 		} catch (Exception e) {
 			System.err.println("Failed to set up elemental2 mocks");
@@ -30,13 +29,5 @@ public class ElementalMocker {
 		modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 
 		field.set(null, newValue);
-	}
-
-	private static class CastableWindow extends WebStorageWindow implements JsPropertyMap<Object> {
-		//
-	}
-
-	private static class CastableDocument extends HTMLDocument	implements JsPropertyMap<Object> {
-
 	}
 }

@@ -95,6 +95,7 @@ import org.geogebra.common.util.ScientificFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -329,6 +330,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private final StringBuilder sbBuildExplicitLineEquation = new StringBuilder(
 			50);
 	/** Application */
+	@Weak
 	protected App app;
 
 	private EquationSolver eqnSolver;

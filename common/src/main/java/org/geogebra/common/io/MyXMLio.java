@@ -14,6 +14,8 @@ package org.geogebra.common.io;
 
 import java.util.ArrayList;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.io.file.ZipFile;
@@ -24,6 +26,7 @@ import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -123,8 +126,7 @@ public abstract class MyXMLio {
 
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
-		addGeoGebraHeader(sb, false, consApp.getUniqueId(),
-				c.getApplication().getPlatform(), c.getApplication().getConfig().getAppCode());
+		addGeoGebraHeader(sb, consApp);
 
 		// save euclidianView settings
 		consApp.getCompanion().getEuclidianViewXML(sb, false);
@@ -186,6 +188,31 @@ public abstract class MyXMLio {
 		}
 	}
 
+	private static void addGeoGebraHeader(StringBuilder sb, App app) {
+		addGeoGebraHeader(sb, false, app.getUniqueId(), app);
+	}
+
+	/**
+	 * Appends the &lt;geogebra> tag and the &lt;subapp> tag (if the app is a subapp)
+	 * to the given builder, including XSD link and construction ID
+	 *
+	 * @param sb       builder
+	 * @param isMacro  true for ggt files
+	 * @param uniqueId construction ID
+	 * @param app      app
+	 */
+	public static void addGeoGebraHeader(StringBuilder sb, boolean isMacro, String uniqueId,
+										 App app) {
+		AppConfig config = app.getConfig();
+		addGeoGebraHeader(
+				sb,
+				isMacro,
+				uniqueId,
+				app.getPlatform(),
+				config.getAppCode(),
+				config.getSubAppCode());
+	}
+
 	/**
 	 * Appends the &lt;geogebra> tag to given builder, including XSD link and
 	 * construction ID
@@ -199,8 +226,13 @@ public abstract class MyXMLio {
 	 * @param platform
 	 *            app platform
 	 */
-	public final static void addGeoGebraHeader(StringBuilder sb,
-			boolean isMacro, String uniqueId, Platform platform, String appCode) {
+	public static void addGeoGebraHeader(
+			StringBuilder sb,
+			boolean isMacro,
+			String uniqueId,
+			Platform platform,
+			String appCode,
+			@CheckForNull String subAppCode) {
 
 		// make sure File -> Share works in HTML5 App
 		// (GeoGebraTube doesn't display 5.0 applets)
@@ -215,6 +247,11 @@ public abstract class MyXMLio {
 		sb.append("app=\"");
 		sb.append(appCode);
 		sb.append("\" ");
+		if (subAppCode != null) {
+			sb.append("subApp=\"");
+			sb.append(subAppCode);
+			sb.append("\" ");
+		}
 		sb.append("platform=\"");
 		sb.append(platform.getName());
 		sb.append("\" ");
@@ -252,8 +289,7 @@ public abstract class MyXMLio {
 	public String getFullXML() {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
-		addGeoGebraHeader(sb, false, app.getUniqueId(), app.getPlatform(),
-				app.getConfig().getAppCode());
+		addGeoGebraHeader(sb, app);
 		// sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		// sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT + "\"");
 		// sb.append("
@@ -283,7 +319,7 @@ public abstract class MyXMLio {
 	public String getFullMacroXML(ArrayList<Macro> macros) {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
-		addGeoGebraHeader(sb, true, null, app.getPlatform(), app.getConfig().getAppCode());
+		addGeoGebraHeader(sb, true, null, app);
 		// save construction
 		sb.append(kernel.getMacroXML(macros));
 
@@ -299,7 +335,7 @@ public abstract class MyXMLio {
 	public String getPreferencesXML() {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
-		addGeoGebraHeader(sb, false, null, app.getPlatform(), app.getConfig().getAppCode());
+		addGeoGebraHeader(sb, false, null, app);
 		// sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		// sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT
 		// + "\">\n");

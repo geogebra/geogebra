@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.settings.AppConfigGraphing;
+import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.junit.Before;
 import org.junit.Test;
 
