@@ -1215,7 +1215,7 @@ __GGB__keysVar["hr"].error = {
 __GGB__keysVar["hr"].menu = {
     "ACommand": "%0 naredba",
     "ADecimalPlace": "%0 decimalno mjesto",
-    "ADecimalPlaces": "%0 decimal. mjesta",
+    "ADecimalPlaces": "%0 decimalno/a mjesto/a",
     "ADerivativeOfB": "%0 derivacija od %1",
     "ADilatedByFactorBfromC": "%0 rastegnuto za faktor %1 iz %2",
     "ADoesNotIntersectWithB": "%0 ne sije\u010de %1",

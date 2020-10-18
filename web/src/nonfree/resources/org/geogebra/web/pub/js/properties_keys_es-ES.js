@@ -1125,7 +1125,7 @@ __GGB__keysVar["es-ES"].command = {
     "Zipf.Syntax": "[ <N\xfamero de elementos>, <Exponente> ]\n[ <N\xfamero de elementos>, <Exponente>, <Acumulada o no (true/false)> ]\n[ <N\xfamero de elementos>, <Exponente>, <Valor>, <Acumulada o no (true/false)> ]",
     "Zipf.SyntaxCAS": "[ <N\xfamero de elementos>, <Exponente>, <Valor>, <Acumulada o no (true/false)> ]",
     "ZoomIn": "ZoomAcerca",
-    "ZoomIn.Syntax": "[ <Factor de escala> ]\n[ <Factor de escala>, <Punto (centro)> ]\n[ <M\xedn x>, <M\xedn y>, <M\xe1x x>, <M\xe1x y> ]",
+    "ZoomIn.Syntax": "[ ]\n[ <Factor de escala> ]\n[ <Factor de escala>, <Punto (centro)> ]\n[ <M\xedn x>, <M\xedn y>, <M\xe1x x>, <M\xe1x y> ]\n[ <M\xedn x>, <M\xedn y>, <M\xedn z>, <M\xe1x x>, <M\xe1x y>, <M\xe1x z> ]",
     "ZoomOut": "ZoomAleja",
     "ZoomOut.Syntax": "[ <Factor de escala> ]\n[ <Factor de escala>, <Punto (centro)> ]",
     "mad": "dm",
