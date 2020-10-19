@@ -17,6 +17,10 @@ public interface GeoGebraConstants {
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
 
+	/** Download update **/
+	public static final String DOWNLOAD_PACKAGE_WIN =
+			"https://download.geogebra.org/package/win";
+
 	/** App versions */
 	enum Version {
 		CAS,
