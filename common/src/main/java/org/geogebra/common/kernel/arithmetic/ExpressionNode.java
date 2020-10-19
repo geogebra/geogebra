@@ -62,8 +62,7 @@ public class ExpressionNode extends ValidExpression
 
 		@Override
 		public boolean check(ExpressionValue v) {
-			return v.isExpressionNode()
-					&& ((ExpressionNode) v).getOperation() == Operation.DIVIDE
+			return v.isOperation(Operation.DIVIDE)
 					&& DoubleUtil.isZero(v.evaluateDouble())
 					&& ((ExpressionNode) v).getLeft().evaluateDouble() != 0;
 		}
@@ -495,7 +494,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private static ExpressionValue groupPowers(ExpressionValue left) {
-		if (left.wrap().getOperation() == Operation.MULTIPLY) {
+		if (left.isOperation(Operation.MULTIPLY)) {
 			ArrayList<ExpressionValue> factors = new ArrayList<>();
 			left.wrap().collectFactors(factors);
 			if (factors.size() > 1) {
@@ -854,8 +853,7 @@ public class ExpressionNode extends ValidExpression
 			ExpressionValue trigArg = ((ExpressionNode) this.left).getLeft();
 			Operation leftOperation = ((ExpressionNode) left).operation;
 			// sinxyz^2 is parsed as sin(x y z)^2, change to sin(x y z^2)
-			if (trigArg.isExpressionNode()
-					&& ((ExpressionNode) trigArg).getOperation() == Operation.MULTIPLY) {
+			if (trigArg.isOperation(Operation.MULTIPLY)) {
 				ExpressionNode trigArgExpr = (ExpressionNode) trigArg;
 				left = trigArgExpr.getRight().wrap()
 						.apply(operation, right).multiply(trigArgExpr.getLeft());
@@ -3578,7 +3576,7 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public boolean isFraction() {
 		initFraction();
-		return ((ExpressionNode) resolve).getOperation() == Operation.DIVIDE;
+		return resolve.isOperation(Operation.DIVIDE);
 	}
 	
 	/**
@@ -3681,8 +3679,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private ExpressionValue getUnsigned(ExpressionValue expr) {
-		if (expr.isExpressionNode()
-				&& expr.wrap().getOperation() == Operation.MULTIPLY
+		if (expr.isOperation(Operation.MULTIPLY)
 				&& ExpressionNode.isConstantDouble(expr.wrap().getLeft(),
 				-1)) {
 			return expr.wrap().getRight();
@@ -3768,5 +3765,10 @@ public class ExpressionNode extends ValidExpression
 		newNode.secretMaskingAlgo = secretMaskingAlgo;
 		newNode.wasInterval = wasInterval;
 		newNode.holdsLaTeXtext = holdsLaTeXtext;
+	}
+
+	@Override
+	public boolean isOperation(Operation operation) {
+		return operation == this.operation;
 	}
 }
