@@ -94,7 +94,11 @@ public class InlineFormattingItemsTest {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTableInline(InlineTableControllerMock.getWithSelection(false)));
 		List<String> expected = Arrays.asList(
-				"TEXTTOOLBAR", "ContextMenu.Font", "Link", "ContextMenu.textWrapping"
+				"TEXTTOOLBAR",
+				"ContextMenu.Font",
+				"Link",
+				"ContextMenu.textWrapping",
+				"ContextMenu.Heading"
 		);
 
 		assertEquals(expected, contextMenu.getEntriesFor(geos));

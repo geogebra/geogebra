@@ -77,11 +77,7 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 
 	@Override
 	public Widget loadComponent() {
-		if (app.isUnbundledOrWhiteboard()) {
-			setViewImage(getResources().settings());
-		} else {
-			setViewImage(getResources().styleBar_graphics_extra());
-		}
+		setViewImage(getResources().styleBar_graphics_extra());
 		if (euclidianpanel == null) {
 			euclidianpanel = new EuclidianPanel(this);
 			eview1 = Canvas.createIfSupported();

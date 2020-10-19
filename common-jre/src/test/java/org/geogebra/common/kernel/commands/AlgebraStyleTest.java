@@ -366,11 +366,11 @@ public class AlgebraStyleTest extends Assert {
 		t("h(x) = a*x");
 		assertEquals("h\\left(x \\right)\\, = \\,a \\; x",
 				getGeo("h").getLaTeXAlgebraDescriptionWithFallback(false,
-						StringTemplate.latexTemplateHideLHS, false));
+						StringTemplate.latexTemplate, false));
 		t("hh(x,y) = a*x*y");
 		assertEquals("hh\\left(x, y \\right)\\, = \\,a \\; x \\; y",
 				getGeo("hh").getLaTeXAlgebraDescriptionWithFallback(false,
-						StringTemplate.latexTemplateHideLHS, false));
+						StringTemplate.latexTemplate, false));
 
 	}
 
