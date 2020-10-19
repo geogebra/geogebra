@@ -28,6 +28,8 @@ package com.himamis.retex.editor.web;
 
 import java.util.ArrayList;
 
+import org.gwtproject.timer.client.Timer;
+
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Element;
@@ -42,7 +44,6 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;

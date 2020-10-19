@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.App;
+import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.animation.client.Animation;
 import com.google.gwt.core.client.GWT;
@@ -44,7 +45,6 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasAnimation;
 import com.google.gwt.user.client.ui.Panel;
@@ -1442,7 +1442,7 @@ public class GPopupPanel extends SimplePanel implements
 		}
 
 		// Switch on the event type
-		int type = nativeEvent.getTypeInt();
+		int type = DOM.eventGetType(nativeEvent);
 		switch (type) {
 		case Event.ONKEYDOWN: {
 			if (nativeEvent.getKeyCode() == GWTKeycodes.KEY_X
