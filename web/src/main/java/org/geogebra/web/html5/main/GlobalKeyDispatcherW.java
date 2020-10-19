@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.web.html5.Browser;
@@ -149,7 +148,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			event.stopPropagation();
 		}
 		// this needs to be done in onKeyPress -- keyUp is not case sensitive
-		if (!event.isAltKeyDown() && !event.isControlKeyDown() && !app.has(Feature.MOW_TEXT_TOOL)) {
+		if (!event.isAltKeyDown() && !event.isControlKeyDown() && !app.isWhiteboardActive()) {
 			this.renameStarted(event.getCharCode());
 		}
 	}
