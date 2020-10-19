@@ -162,4 +162,6 @@ public interface EmbedManager {
 	void setContentSync(String label, String base64);
 
 	void onError(GeoEmbed geoEmbed);
+
+	void sendCommand(GeoEmbed chart, String cmd);
 }

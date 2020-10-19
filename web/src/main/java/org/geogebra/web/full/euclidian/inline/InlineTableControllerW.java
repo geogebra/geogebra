@@ -436,7 +436,7 @@ public class InlineTableControllerW implements InlineTableController {
 		}
 
 		table.setContent(content);
-		table.notifyUpdate();
+		table.updateCascade();
 		return true;
 	}
 

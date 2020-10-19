@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.draw.DrawInlineTable;
@@ -7,7 +10,11 @@ import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.move.ggtapi.models.json.JSONArray;
+import org.geogebra.common.move.ggtapi.models.json.JSONException;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 public class GeoInlineTable extends GeoInline implements TextStyle, HasTextFormatter {
 
@@ -131,5 +138,25 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 
 	public void setMinHeight(double minHeight) {
 		this.minHeight = minHeight;
+	}
+
+	/**
+	 * @return first column of the table as list of doubles
+	 */
+	public List<Double> extractData() {
+		ArrayList<Double> values = new ArrayList<>();
+		try {
+			JSONArray rows = new JSONObject(content).getJSONArray("content");
+			for (int i = 0; i < rows.length(); i++) {
+				JSONObject cell = rows.getJSONArray(i).getJSONObject(0);
+				JSONArray words = cell.getJSONArray("content");
+				String cellContent = words.getJSONObject(0).getString("text").trim();
+				Log.error(cellContent);
+				values.add(Double.parseDouble(cellContent));
+			}
+		} catch (RuntimeException | JSONException e) {
+			Log.debug(e);
+		}
+		return values;
 	}
 }

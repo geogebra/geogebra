@@ -85,6 +85,10 @@ public class CalcEmbedElement extends EmbedElement {
 		frame.getApp().getGgbApi().setBase64(base64);
 	}
 
+	public void sendCommand(String cmd) {
+		frame.getApp().getGgbApi().asyncEvalCommand(cmd, null, null);
+	}
+
 	private static class UndoRedoGlue implements UndoInfoStoredListener {
 
 		private int embedId;
