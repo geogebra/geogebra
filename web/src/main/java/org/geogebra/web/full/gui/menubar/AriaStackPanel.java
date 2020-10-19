@@ -140,7 +140,6 @@ public class AriaStackPanel extends ComplexPanel
 		}
 
 		button.setAttribute("role", "menuitem");
-		button.setAttribute("type", "button");
 
 		li.setAttribute("hasPopup", "true");
 		li.appendChild(button);
