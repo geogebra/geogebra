@@ -3279,7 +3279,7 @@ __GGB__keysVar["ta"].menu = {
     "editLink": "Edit link",
     "emf": "\u0bae\u0bbf\u0b95\u0bc8\u0baa\u0bcd\u0baa\u0b9f\u0bc1\u0ba4\u0bcd\u0ba4\u0baa\u0bcd\u0baa\u0b9f\u0bcd\u0b9f Metafile",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "\u0b9a\u0bae\u0ba9\u0bcd",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

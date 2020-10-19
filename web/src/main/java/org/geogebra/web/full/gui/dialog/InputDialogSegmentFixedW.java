@@ -5,23 +5,22 @@ import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.gui.dialog.handler.SegmentHandler;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.event.dom.client.DomEvent;
+import org.geogebra.web.shared.components.ComponentInputDialog;
+import org.geogebra.web.shared.components.DialogData;
 
 /**
  * Dialog for segment with fixed radius.
  */
-public class InputDialogSegmentFixedW extends InputDialogW {
+public class InputDialogSegmentFixedW extends ComponentInputDialog {
 	private GeoPointND geoPoint1;
 	private Kernel kernel;
 
 	/**
 	 * @param app
 	 *            application
-	 * @param title
-	 *            title
+	 * @param data
+	 *            dialog data
 	 * @param handler
 	 *            input handler
 	 * @param point1
@@ -29,43 +28,23 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 	 * @param kernel
 	 *            kernel
 	 */
-	public InputDialogSegmentFixedW(AppW app, String title,
+	public InputDialogSegmentFixedW(AppW app, DialogData data,
 			InputHandler handler, GeoPointND point1, Kernel kernel) {
-		super(app, app.getLocalization().getMenu("Length"), title, "", false,
-				handler);
+		super(app, data, false, false, handler, app.getLocalization().getMenu("Length"),
+				"", 1, -1, false);
 		this.kernel = kernel;
 		geoPoint1 = point1;
 	}
 
 	@Override
-	protected void actionPerformed(DomEvent<?> e) {
-		Object source = e.getSource();
-
-		try {
-			if (source == btOK || sourceShouldHandleOK(source)) {
-				processInput();
-			} else if (source == btApply) {
-				processInput();
-			} else if (source == btCancel) {
-				setVisible(false);
-			}
-		} catch (Exception ex) {
-			// do nothing on uninitializedValue
-			setVisible(false);
-		}
-	}
-
-	private void processInput() {
+	public void processInput() {
 		new SegmentHandler(geoPoint1, kernel).doSegmentFixedAsync(
-				inputPanel.getText(),
+				getInputText(),
 				(NumberInputHandler) getInputHandler(), this,
-				new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean ok) {
-						setVisible(!ok);
+				ok -> {
+					if (ok) {
+						hide();
 					}
 				});
 	}
-
 }

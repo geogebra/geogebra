@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.junit.Test;
 
-public class CommandsTest extends BaseSuiteTest {
+public class CommandsSuiteTest extends BaseSuiteTest {
 
 	@Test
 	public void testSolveEnabled() {

@@ -22,6 +22,14 @@ public class DialogData {
 	}
 
 	/**
+	 * dialog with custom title and buttons Cancel and OK
+	 * @param titleTransKey - ggb trans key for the dialog title
+	 */
+	public DialogData(String titleTransKey) {
+		this(titleTransKey, "Cancel", "OK");
+	}
+
+	/**
 	 * @return trans key of the dialog title
 	 */
 	public String getTitleTransKey() {

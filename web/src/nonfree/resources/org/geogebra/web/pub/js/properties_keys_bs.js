@@ -3279,7 +3279,7 @@ __GGB__keysVar["bs"].menu = {
     "editLink": "Uredi link",
     "emf": "EMF",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "EPS",
     "equal": "jednako",
     "exam_accept_app_self_lock": "Omogu\u0107ite \"App Self-Lock\"- autozaklju\u010davanje aplikacije prije po\u010detka ispita",

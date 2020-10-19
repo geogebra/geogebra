@@ -3279,7 +3279,7 @@ __GGB__keysVar["cs"].menu = {
     "editLink": "Upravit odkayz",
     "emf": "roz\u0161\xed\u0159en\xfd metaform\xe1t",
     "emptyMaterialList.caption.mow": "No Files",
-    "emptyMaterialList.info.mow": "Files you add will appear here",
+    "emptyMaterialList.info.mow": "Saved files will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "rovno",
     "exam_accept_app_self_lock": "Povolte pros\xedm \"zamknut\xed v aplikaci\" p\u0159ed za\u010d\xe1tkem zkou\u0161ky.",

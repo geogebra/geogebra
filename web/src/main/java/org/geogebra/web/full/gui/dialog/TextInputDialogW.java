@@ -3,29 +3,28 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.InputHandler;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.TextInputDialog;
-import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.ComponentInputDialog;
+import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * Web implementation of Text Dialog
  */
-public class TextInputDialogW extends InputDialogW implements TextInputDialog {
+public class TextInputDialogW extends ComponentInputDialog implements TextInputDialog, SetLabels {
 	/** edited text */
 	GeoText editGeo;
 	/** start point */
@@ -35,8 +34,8 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 	private TextEditPanel editor;
 	private int cols;
 	private int rows;
-	private String dialogTitle;
 	private boolean isTextMode;
+	private InputPanelW inputPanel;
 
 	/**
 	 * @param app2
@@ -56,31 +55,30 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 	 * @param isTextMode
 	 *            whether text mode was active when this was called
 	 */
-	public TextInputDialogW(App app2, String title, GeoText editGeo,
+	public TextInputDialogW(AppW app2, String title, GeoText editGeo,
             GeoPointND startPoint, boolean rw, int cols, int rows, boolean isTextMode) {
-		super(false, (AppW) app2, false);
+		super(app2, new DialogData(title), false, false, null);
 		this.startPoint = startPoint;
 		this.rw = rw;
-		dialogTitle = title;
 		this.cols = cols;
 		this.rows = rows;
 		this.isTextMode = isTextMode;
 		this.editGeo = editGeo;
 		setInputHandler(new TextInputHandler());
 
-		createTextGUI(title, "", false, cols, rows, /* false */ true, false,
-				false, false,
-				DialogType.DynamicText);
+		addStyleName("TextInputDialog");
+		createTextGUI(true);
+		addCloseHandler(event -> {
+			resetEditor();
+			resetMode();
+		});
+		show();
 	}
 
-	private void createTextGUI(String title, String message,
-			boolean autoComplete, int columns, int rows1,
-			boolean showSymbolPopupIcon, boolean selectInitText,
-			boolean showProperties, boolean showApply, DialogType type) {
-		super.createGUI(title, message, autoComplete, columns, rows1,
-				showSymbolPopupIcon, selectInitText, showProperties, showApply,
-				type);
-		app.unregisterPopup(wrappedPopup);
+	private void createTextGUI(boolean showSymbolPopupIcon) {
+		inputPanel = new InputPanelW("", app, rows, cols,
+				showSymbolPopupIcon);
+		((AppW) app).unregisterPopup(this);
 		editor = inputPanel.getTextAreaComponent();
 		if (editor != null) {
 			editor.setText(editGeo);
@@ -89,18 +87,25 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 			inputPanel.getTextComponent().setText(editGeo.getTextString());
 		}
 
-		wrappedPopup.addStyleName("TextInputDialog");
-		wrappedPopup.center();
-		wrappedPopup.show();
+		setDialogContent(inputPanel);
+	}
 
-		focus();
-		wrappedPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
-
-			@Override
-			public void onClose(CloseEvent<GPopupPanel> event) {
-				resetEditor();
+	@Override
+	public void processInput() {
+		closeIOSKeyboard();
+		String inputText = inputPanel.getText();
+		processInputHandler(inputText, ok -> {
+			setVisible(!ok);
+			if (ok) {
+				resetMode();
 			}
 		});
+	}
+
+	@Override
+	public void show() {
+		super.show();
+		focus();
 	}
 
 	/*
@@ -108,7 +113,6 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 	 * keyboard has to be closed programmatically at clicking on OK or Cancel,
 	 * otherwise it won't be closed after the dialog will be hidden.
 	 */
-	@Override
 	protected void closeIOSKeyboard() {
 		if (app.isWhiteboardActive()) {
 			return;
@@ -131,7 +135,6 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 		editor = null;
 	}
 
-	@Override
 	protected void resetMode() {
 		if (isTextMode) {
 			app.setMode(EuclidianConstants.MODE_TEXT);
@@ -162,7 +165,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 		}
 		return editor.isLatex();
 	}
-	
+
 	// =============================================================
 	// TextInputHandler
 	// =============================================================
@@ -231,30 +234,26 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 			try {
 				kernel.getAlgebraProcessor().changeGeoElement(editGeo,
 						inputValue, true, true, TextInputDialogW.this,
-						new AsyncOperation<GeoElementND>() {
+						newText -> {
+							if (newText instanceof GeoText) {
+								// make sure newText is using correct LaTeX
+								// setting
+								((GeoText) newText).setLaTeX(isLatex(),
+										true);
 
-							@Override
-							public void callback(GeoElementND newText) {
-								if (newText instanceof GeoText) {
-									// make sure newText is using correct LaTeX
-									// setting
-									((GeoText) newText).setLaTeX(isLatex(),
-											true);
-
-									if (newText.getParentAlgorithm() != null) {
-										newText.getParentAlgorithm().update();
-									} else {
-										newText.updateRepaint();
-									}
-
-									app.doAfterRedefine(newText);
-
-									// make redefined text selected
-									app.getSelectionManager()
-											.addSelectedGeo(newText);
+								if (newText.getParentAlgorithm() != null) {
+									newText.getParentAlgorithm().update();
+								} else {
+									newText.updateRepaint();
 								}
 
+								app.doAfterRedefine(newText);
+
+								// make redefined text selected
+								app.getSelectionManager()
+										.addSelectedGeo(newText);
 							}
+
 						});
 
 				callback.callback(true);
@@ -266,24 +265,18 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 
 		private AsyncOperation<GeoElementND[]> getCallback(
 				final AsyncOperation<Boolean> callback) {
-			// TODO Auto-generated method stub
-			return new AsyncOperation<GeoElementND[]>() {
+			return ret -> {
+				if (ret != null && ret[0] instanceof GeoText) {
+					GeoText t = (GeoText) ret[0];
+					t.setEuclidianVisible(true);
+					positionText(t);
 
-				@Override
-				public void callback(GeoElementND[] ret) {
-					if (ret != null && ret[0] instanceof GeoText) {
-						GeoText t = (GeoText) ret[0];
-						t.setEuclidianVisible(true);
-						positionText(t);
-
-						app.storeUndoInfo();
-						callback.callback(true);
-						return;
-					}
-					callback.callback(false);
+					app.storeUndoInfo();
+					callback.callback(true);
 					return;
-
 				}
+				callback.callback(false);
+				return;
 
 			};
 		}
@@ -303,13 +296,6 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 				}
 			} else {
 
-				// changed to
-				// RealWorld
-				// not absolute
-				// startpoint contains mouse coords
-				// t.setAbsoluteScreenLoc(euclidianView.toScreenCoordX(startPoint.inhomX),
-				// euclidianView.toScreenCoordY(startPoint.inhomY));
-				// t.setAbsoluteScreenLocActive(true);
 				if (rw) {
 					Coords coords = startPoint.getInhomCoordsInD3();
 					t.setRealWorldLoc(
@@ -394,56 +380,26 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 	public void reInitEditor(GeoText text, GeoPointND startPoint2,
 			boolean rw1) {
 		if (editor == null) {
-			createTextGUI(dialogTitle, "", false, cols, rows, /* false */true,
-					false,
-					false, false, DialogType.DynamicText);
-
-			// return;
+			createTextGUI(true);
 		}
 		isTextMode = app.getMode() == EuclidianConstants.MODE_TEXT;
 		this.startPoint = startPoint2;
 		this.rw = rw1;
 		setGeoText(text);
-		focus();
+		show();
     }
 
 	private void setGeoText(GeoText geo) {
-
-//		handlingDocumentEventOff = true;
-
 		editGeo = geo;
 		editor.setEditGeo(geo);
-
-		//isLaTeX = geo == null ? false : geo.isLaTeX();
-				
 		inputPanel.getTextAreaComponent().setText(geo);
-		
-	//	inputPanel.getTextAreaComponent().setCaretPosition(0); 
-		//editor.setCaretPosition(0);
-//		cbLaTeX.setSelected(false);
-//		if (isLaTeX) {
-//			cbLaTeX.doClick();
-//		}
-
-//		handlingDocumentEventOff = false;
-//		updatePreviewText();
-//		editOccurred = false;
 	}
 	
 	@Override
 	public void setLabels() {
-		super.setLabels();
 		if (editor != null) {
 			editor.setLabels();
 		}
+		updateBtnLabels("OK", "Cancel");
 	}
-	
-	/*
-	 * @Override public void setVisible(boolean visible) {
-	 * 
-	 * inputPanel.setVisible(visible); wrappedPopup.setVisible(visible); if
-	 * (visible){ inputPanel.setTextComponentFocus(); }else{ if(app!=null){
-	 * app.setErrorHandler(null); } } }
-	 */
-	
 }

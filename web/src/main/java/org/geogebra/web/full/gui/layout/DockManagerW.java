@@ -1414,10 +1414,6 @@ public class DockManagerW extends DockManager {
 		for (DockPanelW panel : dockPanels) {
 			panel.setLabels();
 		}
-
-		for (DockPanelW panel : dockPanels) {
-			panel.buildToolbarGui();
-		}
 	}
 
 	/**
@@ -1431,19 +1427,6 @@ public class DockManagerW extends DockManager {
 	public void updatePanels() {
 		for (DockPanelW panel : dockPanels) {
 			panel.updatePanel(false);
-		}
-	}
-
-	/**
-	 * Update the fonts in all dock panels.
-	 */
-	public void updateFonts() {
-		for (DockPanelW panel : dockPanels) {
-			panel.updateFonts();
-		}
-
-		for (DockPanelW panel : dockPanels) {
-			panel.buildToolbarGui();
 		}
 	}
 

@@ -67,6 +67,8 @@ public final class GColor implements GPaint {
 	public static final GColor MOW_WIDGET_BACKGROUND = newColor(245, 245, 245);
 	/** MOW GREEN */
 	public static final GColor MOW_GREEN = newColor(46, 125, 50);
+	/** ERROR RED */
+	public static final GColor ERROR_RED = newColor(176, 0, 32);
 
 	/** MOW RULER */
 	public static final GColor MOW_RULER = newColor(192, 192, 192);

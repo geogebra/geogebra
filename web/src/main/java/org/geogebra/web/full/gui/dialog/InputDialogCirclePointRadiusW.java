@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.DialogData;
 
 /**
  * Dialog for circle with center and radius.
@@ -17,8 +18,8 @@ public class InputDialogCirclePointRadiusW extends InputDialogRadiusW {
 	 * 
 	 * @param app
 	 *            application
-	 * @param title
-	 *            title
+	 * @param data
+	 *            dialog data
 	 * @param handler
 	 *            input handler
 	 * @param point1
@@ -26,10 +27,9 @@ public class InputDialogCirclePointRadiusW extends InputDialogRadiusW {
 	 * @param kernel
 	 *            kernel
 	 */
-	public InputDialogCirclePointRadiusW(AppW app, String title,
+	public InputDialogCirclePointRadiusW(AppW app, DialogData data,
 			InputHandler handler, GeoPoint point1, Kernel kernel) {
-		super(app, title, handler, kernel);
-
+		super(app, data, handler, kernel);
 		geoPoint1 = point1;
 	}
 
@@ -37,5 +37,4 @@ public class InputDialogCirclePointRadiusW extends InputDialogRadiusW {
 	protected GeoElement createOutput(GeoNumberValue num) {
 		return kernel.getAlgoDispatcher().circle(null, geoPoint1, num);
 	}
-
 }
