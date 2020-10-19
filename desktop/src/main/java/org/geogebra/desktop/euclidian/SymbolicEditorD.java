@@ -60,6 +60,11 @@ public class SymbolicEditorD extends SymbolicEditor {
 	@Override
 	public void resetChanges() {
 		mathField.getInternal().parse(getGeoInputBox().getTextForEditor());
+
+		if (getGeoInputBox().getLinkedGeo().hasSpecialEditor()) {
+			getMathFieldInternal().getFormula().getRootComponent().setProtected();
+			getMathFieldInternal().setLockedCaretPath();
+		}
 	}
 
 	protected void showRedefinedBox(final DrawInputBox drawable) {

@@ -48,6 +48,8 @@ abstract public class MathContainer extends MathComponent {
 	 */
 	protected ArrayList<MathComponent> arguments = null;
 
+	private boolean isProtected;
+
 	/**
 	 * @param size
 	 *            number of children
@@ -449,4 +451,28 @@ abstract public class MathContainer extends MathComponent {
 		return i >= 0 && i < size() && MathFunction.isScript(getArgument(i));
 	}
 
+	/**
+	 * @return the child math container, if the current container is protected
+	 */
+	public MathContainer extractLocked() {
+		if (size() == 1 && isProtected) {
+			MathComponent argument = getArgument(0);
+			if (argument instanceof MathContainer) {
+				return (MathContainer) argument;
+			}
+		}
+
+		return this;
+	}
+
+	public void setProtected() {
+		isProtected = true;
+	}
+
+	/**
+	 * @return true if sequence is protected from deletion
+	 */
+	public boolean isProtected() {
+		return isProtected;
+	}
 }

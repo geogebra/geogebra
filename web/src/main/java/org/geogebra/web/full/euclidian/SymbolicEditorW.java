@@ -100,9 +100,13 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor.setVisible(true);
 		editor.setText(getGeoInputBox().getTextForEditor());
 		editor.setLabel(getGeoInputBox().getAuralText());
-		Scheduler.get().scheduleDeferred(() -> {
-			editor.requestFocus();
-		});
+
+		if (getGeoInputBox().getLinkedGeo().hasSpecialEditor()) {
+			getMathFieldInternal().getFormula().getRootComponent().setProtected();
+			getMathFieldInternal().setLockedCaretPath();
+		}
+
+		Scheduler.get().scheduleDeferred(() -> editor.requestFocus());
 	}
 
 	@Override

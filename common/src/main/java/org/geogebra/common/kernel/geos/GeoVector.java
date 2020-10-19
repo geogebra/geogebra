@@ -1084,10 +1084,4 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	public ValidExpression toValidExpression() {
 		return getVector();
 	}
-
-	@Override
-	public boolean isColumnEditable() {
-		return isIndependent()
-				|| getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode;
-	}
 }

@@ -5210,6 +5210,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return false;
 	}
 
+	@Override
+	public boolean hasSpecialEditor() {
+		return false;
+	}
+
 	/**
 	 * @return true for functions evaluable in CAS
 	 */
