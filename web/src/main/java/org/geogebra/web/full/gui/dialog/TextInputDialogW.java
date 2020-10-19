@@ -86,6 +86,9 @@ public class TextInputDialogW extends ComponentInputDialog implements TextInputD
 			// this branch probably does not run (rows > 1), educated guess
 			inputPanel.getTextComponent().setText(editGeo.getTextString());
 		}
+		// make sure we resize the dialog if advanced panel opened and not enough space
+		inputPanel.getTextAreaComponent().getDisclosurePanel().addOpenHandler(event ->
+				super.centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight()));
 
 		setDialogContent(inputPanel);
 	}
