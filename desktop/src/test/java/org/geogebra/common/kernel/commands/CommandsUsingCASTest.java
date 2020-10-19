@@ -70,6 +70,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		CommandsTest.resetSyntaxCounter();
 		app.getKernel().clearConstruction(true);
 		app.setActiveView(App.VIEW_EUCLIDIAN);
+		app.getKernel().setPrintDecimals(2);
 	}
 
 	@After
@@ -264,6 +265,13 @@ public class CommandsUsingCASTest extends AlgebraTest {
 				"((x + " + Unicode.IMAGINARY + ") * (x - " + Unicode.IMAGINARY + "))");
 		t("Expand[ f ]", "x^(2) + 1");
 		t("Expand[ (x+i)(x-i) ]", "x^(2) + 1");
+	}
+
+	@Test
+	public void expandShouldNotChangeWithRounding() {
+		t("Expand[ 0.5 (x+1)^2 ]", "(1 / 2 * x^(2)) + x + 1 / 2");
+		app.getKernel().setPrintDecimals(10);
+		t("Expand[ 0.5 (x+1)^2 ]", "(1 / 2 * x^(2)) + x + 1 / 2");
 	}
 
 	@Test

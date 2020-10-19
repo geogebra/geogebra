@@ -460,7 +460,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * Not localized template, allow bigger precision for Numeric command
 	 */
 	public static final StringTemplate numericNoLocal = new StringTemplate(
-			"numericNoLocal");
+			"numericNoLocal") {
+
+		@Override
+		public double getRoundHalfUpFactor(double abs, NumberFormatAdapter nf2,
+				ScientificFormatAdapter sf2, boolean useSF) {
+			return 1;
+		}
+	};
 
 	static {
 		numericNoLocal.allowMoreDigits = true;
