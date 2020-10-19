@@ -212,6 +212,7 @@ public abstract class FileManager extends MaterialsManager {
 			// not logged in and possible to log in
 		} else if (!appw.getLoginOperation().isLoggedIn()) {
 			appw.getGuiManager().listenToLogin();
+			((AppWFull) app).getActivity().markSaveOpen();
 			appw.getLoginOperation().showLoginDialog();
 			// logged in
 		} else {
