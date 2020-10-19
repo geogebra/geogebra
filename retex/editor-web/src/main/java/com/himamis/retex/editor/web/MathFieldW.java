@@ -166,6 +166,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this, directFormulaBuilder);
 		mathFieldInternal.getInputController().setFormatConverter(converter);
+		mathFieldInternal.setSyntaxAdapter(converter);
 		getHiddenTextArea();
 
 		// el.getElement().setTabIndex(1);
