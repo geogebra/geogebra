@@ -3,6 +3,7 @@ package org.geogebra.common.util;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.util.debug.crashlytics.CrashlyticsLogger;
 
 public class DoubleUtil {
 
@@ -538,6 +539,10 @@ public class DoubleUtil {
 		if (length <= 0) {
 			return new double[] {min};
 		}
+
+		CrashlyticsLogger.log("DoubleUtil.range called with min = " + min + ", max = " + max
+				+ ", step = " + step + ". Array length = " + length + ".");
+
 		double[] result = new double[length + 1];
 		for (int i = 0; i < result.length; i++) {
 			result[i] = checkDecimalFraction(min + i * step);
