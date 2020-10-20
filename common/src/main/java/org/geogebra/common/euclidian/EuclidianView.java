@@ -1972,7 +1972,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			if (!bgImageList.contains(d)) {
 				logToCrashlytics("EuclidianView.allDrawableList modified at "
 						+ "EuclidianView.createAndAddDrawable(GeoElement geo)"
-						+ " on thread " + app.getThreadId());
+						+ " on thread " + geo + " " + app.getThreadId());
 				allDrawableList.add((Drawable) d);
 			}
 			return true;
