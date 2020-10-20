@@ -1417,7 +1417,7 @@ __GGB__keysVar["eo"].menu = {
     "CheckedNumerically": "(checked numerically)",
     "ChiSquaredContribution": "\u03a7\xb2 Contribution",
     "ChiSquaredTest": "Testo \u03c7\xb2",
-    "ChooseCalculator": "Choose Calculator",
+    "ChooseCalculator": "Choose GeoGebra Calculator",
     "ChooseColor": "Elektu koloron",
     "ChooseFromFile": "Elekti el dosiero",
     "ChooseObject": "Elektu objekton",

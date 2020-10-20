@@ -1417,7 +1417,7 @@ __GGB__keysVar["sk"].menu = {
     "CheckedNumerically": "(numericky overen\xe9)",
     "ChiSquaredContribution": "\u03a7\xb2 rozdelenie",
     "ChiSquaredTest": "Chi-kvadr\xe1t test",
-    "ChooseCalculator": "Choose Calculator",
+    "ChooseCalculator": "Choose GeoGebra Calculator",
     "ChooseColor": "Vyberte farbu",
     "ChooseFromFile": "Vybra\u0165 zo s\xfaboru",
     "ChooseObject": "Vyberte jeden objekt",

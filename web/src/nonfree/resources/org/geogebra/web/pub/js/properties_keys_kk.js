@@ -1417,7 +1417,7 @@ __GGB__keysVar["kk"].menu = {
     "CheckedNumerically": "(\u0441\u0430\u043d \u0440\u0435\u0442\u0456\u043c\u0435\u043d \u0442\u0435\u043a\u0441\u0435\u0440\u0456\u043b\u0433\u0435\u043d)",
     "ChiSquaredContribution": "\u03a7\xb2 Contribution",
     "ChiSquaredTest": "ChiSquared Test",
-    "ChooseCalculator": "Choose Calculator",
+    "ChooseCalculator": "Choose GeoGebra Calculator",
     "ChooseColor": "\u0422\u04af\u0441\u0442\u0456 \u0442\u0430\u04a3\u0434\u0430\u0443",
     "ChooseFromFile": "\u0424\u0430\u0439\u043b\u0434\u044b\u04a3 \u0456\u0448\u0456\u043d\u0435\u043d \u0442\u0430\u04a3\u0434\u0430\u0443",
     "ChooseObject": "\u0411\u0456\u0440 \u043e\u0431\u044a\u0435\u043a\u0442\u0456\u043d\u0456 \u0442\u0430\u04a3\u0434\u0430\u04a3\u044b\u0437",

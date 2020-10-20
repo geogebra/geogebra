@@ -1417,7 +1417,7 @@ __GGB__keysVar["fil"].menu = {
     "CheckedNumerically": "(naka-tsek ayon sa bilang)",
     "ChiSquaredContribution": "\u03a7\xb2 Contribution",
     "ChiSquaredTest": "ChiSquared Test",
-    "ChooseCalculator": "Choose Calculator",
+    "ChooseCalculator": "Choose GeoGebra Calculator",
     "ChooseColor": "Pumili ng Kulay",
     "ChooseFromFile": "Choose from File",
     "ChooseObject": "Pumili ng isang bagay",

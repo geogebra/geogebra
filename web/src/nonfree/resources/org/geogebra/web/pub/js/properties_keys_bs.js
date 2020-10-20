@@ -1417,7 +1417,7 @@ __GGB__keysVar["bs"].menu = {
     "CheckedNumerically": "(numeri\u010dki provjereno)",
     "ChiSquaredContribution": "\u03a7\xb2",
     "ChiSquaredTest": "HiKvadrat Test",
-    "ChooseCalculator": "Choose Calculator",
+    "ChooseCalculator": "Choose GeoGebra Calculator",
     "ChooseColor": "Izaberi boju",
     "ChooseFromFile": "Izaberi iz datoteke",
     "ChooseObject": "Izaberi figuru",

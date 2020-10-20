@@ -1417,7 +1417,7 @@ __GGB__keysVar["de-AT"].menu = {
     "CheckedNumerically": "(numerisch gepr\xfcft)",
     "ChiSquaredContribution": "\u03a7\xb2 Beitr\xe4ge",
     "ChiSquaredTest": "Chi-Quadrat-Test",
-    "ChooseCalculator": "Rechner w\xe4hlen",
+    "ChooseCalculator": "GeoGebra Rechner w\xe4hlen",
     "ChooseColor": "W\xe4hle eine Farbe.",
     "ChooseFromFile": "W\xe4hle aus Datei",
     "ChooseObject": "W\xe4hle ein Objekt.",

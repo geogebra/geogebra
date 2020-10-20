@@ -1417,7 +1417,7 @@ __GGB__keysVar["lt"].menu = {
     "CheckedNumerically": "(patikrinta \u012fstatant skai\u010dius)",
     "ChiSquaredContribution": "\u03a7\xb2 \u012ftaka",
     "ChiSquaredTest": "Chi kvadratu Testas",
-    "ChooseCalculator": "Choose Calculator",
+    "ChooseCalculator": "Choose GeoGebra Calculator",
     "ChooseColor": "Pasirinkite spalv\u0105",
     "ChooseFromFile": "Rinktis i\u0161 dokumento",
     "ChooseObject": "Pasirinkite vien\u0105 objekt\u0105",

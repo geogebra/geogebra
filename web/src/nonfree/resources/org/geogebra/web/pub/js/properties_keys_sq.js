@@ -1417,7 +1417,7 @@ __GGB__keysVar["sq"].menu = {
     "CheckedNumerically": "(Kontrolluar numerikisht)",
     "ChiSquaredContribution": "\u03a7\xb2 Kontributim",
     "ChiSquaredTest": "Testi Hi-katror",
-    "ChooseCalculator": "Choose Calculator",
+    "ChooseCalculator": "Choose GeoGebra Calculator",
     "ChooseColor": "Zgjidh nje Ngjyre",
     "ChooseFromFile": "Zgjidh nga Dokument(File)",
     "ChooseObject": "Zgjidh nje Objekt",

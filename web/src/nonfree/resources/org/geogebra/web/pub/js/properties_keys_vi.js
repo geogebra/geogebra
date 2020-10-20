@@ -1417,7 +1417,7 @@ __GGB__keysVar["vi"].menu = {
     "CheckedNumerically": "(ki\u1ec3m tra d\u01b0\u1edbi d\u1ea1ng s\u1ed1)",
     "ChiSquaredContribution": "Ph\xe2n ph\u1ed1i \u03a7\xb2",
     "ChiSquaredTest": "Ki\u1ec3m \u0111\u1ecbnh Chi b\xecnh ph\u01b0\u01a1ng",
-    "ChooseCalculator": "Choose Calculator",
+    "ChooseCalculator": "Choose GeoGebra Calculator",
     "ChooseColor": "Ch\u1ecdn m\xe0u s\u1eafc",
     "ChooseFromFile": "Ch\u1ecdn t\u1eeb t\u1eadp tin",
     "ChooseObject": "Ch\u1ecdn \u0111\u1ed1i t\u01b0\u1ee3ng",

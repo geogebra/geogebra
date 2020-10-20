@@ -1417,7 +1417,7 @@ __GGB__keysVar["xh"].menu = {
     "CheckedNumerically": "(itshekishwe ngamanani)",
     "ChiSquaredContribution": "i \u03a7\xb2 Contribution",
     "ChiSquaredTest": "iChiSquared Test",
-    "ChooseCalculator": "Choose Calculator",
+    "ChooseCalculator": "Choose GeoGebra Calculator",
     "ChooseColor": "Khetha umbala",
     "ChooseFromFile": "Khetha kwiFayile",
     "ChooseObject": "Khetha into enye",

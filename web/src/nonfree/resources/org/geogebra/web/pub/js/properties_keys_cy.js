@@ -1417,7 +1417,7 @@ __GGB__keysVar["cy"].menu = {
     "CheckedNumerically": "(gwiriwyd yn rifyddol)",
     "ChiSquaredContribution": "\u03a7\xb2 Contribution",
     "ChiSquaredTest": "ChiSquared Test",
-    "ChooseCalculator": "Choose Calculator",
+    "ChooseCalculator": "Choose GeoGebra Calculator",
     "ChooseColor": "Dewis liw",
     "ChooseFromFile": "Dewiswch o ffeil",
     "ChooseObject": "Dewis gwrthrych",
