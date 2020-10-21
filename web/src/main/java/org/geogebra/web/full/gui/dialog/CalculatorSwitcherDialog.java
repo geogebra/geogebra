@@ -69,8 +69,7 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 
 		button.addFastClickHandler(source -> {
 			hide();
-			((AppWFull) app).getSuiteAppPickerButton().setIconAndLabel(icon, appNameKey, app);
-			((AppWFull) app).getSuiteAppPickerButton().checkButtonVisibility();
+			((AppWFull) app).setSuiteHeaderButton(icon, appNameKey);
 			((AppWFull) app).switchToSubapp(subAppCode);
 		});
 		return button;

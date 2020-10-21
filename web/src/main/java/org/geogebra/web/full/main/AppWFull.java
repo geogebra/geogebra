@@ -148,6 +148,7 @@ import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -276,13 +277,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (getConfig().getVersion() == GeoGebraConstants.Version.SUITE) {
 			suiteAppPickerButton = header.addSuiteAppPicker(this);
 		}
-	}
-
-	/**
-	 * @return suiteAppPickerButton
-	 */
-	public SuiteHeaderAppPicker getSuiteAppPickerButton() {
-		return suiteAppPickerButton;
 	}
 
 	private void checkExamPerspective() {
@@ -2187,5 +2181,16 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						: SymbolicMode.NONE);
 		getGgbApi().setPerspective(getConfig().getForcedPerspective());
 		reinitAlgebraView();
+	}
+
+	/**
+	 * @param icon
+	 *            - image of button
+	 * @param appNameKey
+	 *            - text of button
+	 */
+	public void setSuiteHeaderButton(ResourcePrototype icon, String appNameKey) {
+		suiteAppPickerButton.setIconAndLabel(icon, appNameKey, this);
+		suiteAppPickerButton.checkButtonVisibility();
 	}
 }
