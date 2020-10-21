@@ -12,7 +12,6 @@ import org.geogebra.common.util.SyntaxAdapterImpl;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 
 /**
@@ -89,11 +88,6 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	@Override
 	public void onDownKeyPressed() {
 		// nothing to do.
-	}
-
-	@Override
-	public String serialize(MathSequence selectionText) {
-		return null;
 	}
 
 	@Override

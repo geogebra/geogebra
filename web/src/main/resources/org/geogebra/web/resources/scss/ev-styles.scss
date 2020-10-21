@@ -620,7 +620,7 @@
 	}
 
 	.AutoCompleteTextFieldW.FromDrawTextFieldNew.errorStyle input[type="text"].TextField,
-		.evInputEditor.errorStyle {
+		.evInputEditor.errorStyle, .mathTextField.errorStyle {
 		border: 4px $error dotted;
 	}
 
@@ -747,12 +747,21 @@
 		}
 	}
 
+	.mathTextField {
+		border: 1px #DCDCDC solid;
+		border-radius: 4px;
+	}
+
+	.mathTextField.disabled {
+		background-color: rgb(240,240,240);
+	}
+
 	.evInputEditor {
 		padding-top: 2px;
 		padding-left: 2px;
 		position: absolute;
 		border: 1px solid blue;
-		border-radius: 4px 4px;
+		border-radius: 4px;
 		overflow: hidden;
 	 }
 

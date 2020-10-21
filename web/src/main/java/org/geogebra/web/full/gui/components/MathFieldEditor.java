@@ -15,6 +15,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.EventUtil;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -52,6 +53,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	private List<BlurHandler> blurHandlers;
 	private String label = "";
 	private boolean useKeyboardButton = true;
+	private boolean editable;
 
 	/**
 	 * Constructor
@@ -62,14 +64,22 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 * 			  listener for the MathField
 	 */
 	public MathFieldEditor(App app, MathFieldListener listener) {
+		this(app);
+		createMathField(listener, app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION));
+		mathField.getInputTextArea().getElement().setAttribute("data-test", "mathFieldTextArea");
+		main.getElement().setAttribute("data-test", "mathFieldEditor");
+	}
+
+	/**
+	 * @param app application
+	 */
+	public MathFieldEditor(App app) {
 		this.app = (AppWFull) app;
 		kernel = this.app.getKernel();
 		this.frame = this.app.getAppletFrame();
-		createMathField(listener, app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION));
-		initEventHandlers();
 	}
 
-	private void createMathField(MathFieldListener listener, boolean directFormulaConversion) {
+	protected void createMathField(MathFieldListener listener, boolean directFormulaConversion) {
 		main = new KeyboardFlowPanel();
 		Canvas canvas = Canvas.createIfSupported();
 
@@ -81,11 +91,12 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		mathField.setClickListener(this);
 		mathField.setOnBlur(this);
-		mathField.getInputTextArea().getElement().setAttribute("data-test", "mathFieldTextArea");
+
+		getMathField().setBackgroundCssColor("rgba(255,255,255,0)");
 		scroller = new MathFieldScroller(main);
 		main.add(mathField);
-		main.getElement().setAttribute("data-test", "mathFieldEditor");
 		retexListener = new RetexKeyboardListener(canvas, mathField);
+		initEventHandlers();
 	}
 
 	private void initEventHandlers() {
@@ -119,9 +130,11 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 * Focus the editor
 	 */
 	public void requestFocus() {
-		mathField.requestViewFocus(() -> preventBlur = false);
-		app.sendKeyboardEvent(true);
-		setKeyboardVisibility(true);
+		if (editable) {
+			mathField.requestViewFocus(() -> preventBlur = false);
+			app.sendKeyboardEvent(true);
+			setKeyboardVisibility(true);
+		}
 	}
 
 	public void focus() {
@@ -241,7 +254,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 * @param show to show or hide the keyboard.
 	 */
 	public void setKeyboardVisibility(boolean show) {
-		if (frame.isKeyboardShowing() == show) {
+		if (!frame.isKeyboardShowing() && !show) {
 			return;
 		}
 
@@ -321,5 +334,18 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 
 	public void setTextMode(boolean paramTextMode) {
 		mathField.setPlainTextMode(paramTextMode);
+	}
+
+	public void setErrorStyle(boolean hasError) {
+		Dom.toggleClass(main, "errorStyle", hasError);
+	}
+
+	/**
+	 * @param editable whether editing is allowed
+	 */
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+		getMathField().setEnabled(editable);
+		Dom.toggleClass(asWidget(), "disabled", !editable);
 	}
 }
