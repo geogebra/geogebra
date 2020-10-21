@@ -2060,6 +2060,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		tmpPerspectives = perspectives;
 	}
 
+	/**
+	 * Update the UI perspective.
+	 * @param p perspective
+	 */
 	public void setPerspective(Perspective p) {
 		try {
 			persistWidthAndHeight();
