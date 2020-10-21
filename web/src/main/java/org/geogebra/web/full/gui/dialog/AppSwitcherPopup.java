@@ -5,6 +5,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.UserPreferredLanguage;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.resources.SVGResource;
@@ -15,10 +16,9 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
-public class CalcSwitcherPopup extends GPopupPanel {
+public class AppSwitcherPopup extends GPopupPanel {
 
 	SuiteHeaderAppPicker appPickerButton;
-	private final AppWFull app;
 
 	private final static int X_COORDINATE_OFFSET = 8;
 
@@ -28,25 +28,24 @@ public class CalcSwitcherPopup extends GPopupPanel {
 	 * @param pickerButton
 	 *            - button for popup
 	 */
-	public CalcSwitcherPopup(AppWFull app, SuiteHeaderAppPicker pickerButton) {
+	public AppSwitcherPopup(AppWFull app, SuiteHeaderAppPicker pickerButton) {
 		super(true, app.getPanel(), app);
 		this.appPickerButton = pickerButton;
 		this.app = app;
 		addAutoHidePartner(appPickerButton.getElement());
 		setGlassEnabled(false);
-		addStyleName("calcPickerPopup");
+		addStyleName("appPickerPopup");
 		buildGUI(app);
 		app.registerAutoclosePopup(this);
 	}
 
-	@Override
-	public void show() {
+	public void show(AppW app) {
 		if (isShowing()) {
 			hide();
 		} else {
-			this.setPopupPosition(getLeft(), 0);
+			setPopupPosition(getLeft(), 0);
 			super.show();
-			updateLanguage();
+			updateLanguage(app);
 			appPickerButton.checkButtonVisibility();
 		}
 	}
@@ -76,7 +75,7 @@ public class CalcSwitcherPopup extends GPopupPanel {
 		rowPanel.add(label);
 		rowPanel.setStyleName("appPickerRow");
 		rowPanel.addDomHandler(event -> {
-				// open app
+			// open app
 			hide();
 			appPickerButton.setIconAndLabel(icon, key, app);
 		}, ClickEvent.getType());
@@ -87,7 +86,7 @@ public class CalcSwitcherPopup extends GPopupPanel {
 		return appPickerButton.getAbsoluteLeft() - X_COORDINATE_OFFSET ;
 	}
 
-	private void updateLanguage() {
+	private void updateLanguage(AppW app) {
 		Element suitePopup = Dom.querySelector("popupPanelForTranslation");
 		if (suitePopup != null) {
 			UserPreferredLanguage.translate(app, suitePopup);
