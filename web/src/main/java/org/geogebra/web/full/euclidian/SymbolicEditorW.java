@@ -48,7 +48,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor.addBlurHandler(this);
 		editor.getMathField().setChangeListener(this);
 		editor.getMathField().setFixMargin(LaTeXTextRenderer.MARGIN);
-		editor.getMathField().setMinHeight(DrawInputBox.MIN_HEIGHT);
+		editor.getMathField().setMinHeight(DrawInputBox.SYMBOLIC_MIN_HEIGHT);
 		int baseFontSize = app.getSettings()
 				.getFontSettings().getAppFontSize() + 3;
 
