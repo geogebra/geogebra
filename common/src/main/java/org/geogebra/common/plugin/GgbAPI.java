@@ -1760,16 +1760,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			}
 			return;
 		}
-		try {
-			app.persistWidthAndHeight();
-			app.getGuiManager().getLayout().applyPerspective(ps);
-			app.updateViewSizes();
-			app.getGuiManager().updateMenubar();
-			app.getGuiManager().updateToolbar();
-			app.updateKeyboard();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
+		app.setPerspective(ps);
 	}
 
 	@Override
