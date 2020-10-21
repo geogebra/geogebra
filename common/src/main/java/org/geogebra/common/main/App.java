@@ -2062,6 +2062,23 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * Update the UI perspective.
+	 * @param p perspective
+	 */
+	public void setPerspective(Perspective p) {
+		try {
+			persistWidthAndHeight();
+			getGuiManager().getLayout().applyPerspective(p);
+			updateViewSizes();
+			getGuiManager().updateMenubar();
+			getGuiManager().updateToolbar();
+			updateKeyboard();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * @param idx
 	 *            view index; 1 for EV2
 	 * @return EV2

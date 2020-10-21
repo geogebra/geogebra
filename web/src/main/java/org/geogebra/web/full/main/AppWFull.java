@@ -2173,7 +2173,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				GeoGebraConstants.CAS_APPCODE.equals(subAppCode)
 						? SymbolicMode.SYMBOLIC_AV
 						: SymbolicMode.NONE);
-		getGgbApi().setPerspective(getConfig().getForcedPerspective());
+
+		Perspective perspective = PerspectiveDecoder.decode(getConfig().getForcedPerspective(),
+				kernel.getParser(), ToolBar.getAllToolsNoMacros(isHTML5Applet(), isExam(), this));
+
+		setPerspective(perspective);
 		reinitAlgebraView();
+		updatePerspective(perspective);
 	}
 }
