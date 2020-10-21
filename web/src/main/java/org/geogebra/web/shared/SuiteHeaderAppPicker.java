@@ -36,10 +36,18 @@ public class SuiteHeaderAppPicker extends StandardButton {
 				app);
 		addStyleName("suiteAppPickerButton");
 		suitePopup = new AppSwitcherPopup((AppWFull) app, this);
-		addFastClickHandler(event -> suitePopup.show(app));
+		addFastClickHandler(event -> suitePopup.showPopup(app));
 		addHandler(event -> checkButtonVisibility(), LoadEvent.getType());
 	}
 
+	/**
+	 * @param image
+	 *            - image of button
+	 * @param label
+	 *            - text of button
+	 * @param app
+	 *            - application
+	 */
 	public void setIconAndLabel(final ResourcePrototype image, final String label,
 			App app) {
 		NoDragImage btnImage = new NoDragImage(image, 24, -1);

@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -39,7 +40,11 @@ public class AppSwitcherPopup extends GPopupPanel {
 		app.registerAutoclosePopup(this);
 	}
 
-	public void show(AppW app) {
+	/**
+	 * @param app
+	 *            - application
+	 */
+	public void showPopup(AppW app) {
 		if (isShowing()) {
 			hide();
 		} else {
@@ -55,15 +60,19 @@ public class AppSwitcherPopup extends GPopupPanel {
 		contentPanel.addStyleName("popupPanelForTranslation");
 		SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
 		addElement(app, res.menu_icon_algebra_transparent(), "GraphingCalculator.short",
+				GeoGebraConstants.GRAPHING_APPCODE,
 				contentPanel);
 		addElement(app, res.menu_icon_graphics3D_transparent(), "GeoGebra3DGrapher.short",
+				GeoGebraConstants.G3D_APPCODE,
 				contentPanel);
-		addElement(app, res.menu_icon_geometry_transparent(), "Geometry", contentPanel);
-		addElement(app, res.menu_icon_cas_transparent(), "CAS", contentPanel);
+		addElement(app, res.menu_icon_geometry_transparent(), "Geometry",
+				GeoGebraConstants.GEOMETRY_APPCODE, contentPanel);
+		addElement(app, res.cas_white_bg(), "CAS", GeoGebraConstants.CAS_APPCODE,
+				contentPanel);
 		add(contentPanel);
 	}
 
-	private void addElement(AppWFull app, SVGResource icon, String key, FlowPanel contentPanel) {
+	private void addElement(AppWFull app, SVGResource icon, String key, String subAppCode, FlowPanel contentPanel) {
 		FlowPanel rowPanel = new FlowPanel();
 		NoDragImage img = new NoDragImage(icon, 24, 24);
 		img.addStyleName("appIcon");
@@ -75,9 +84,9 @@ public class AppSwitcherPopup extends GPopupPanel {
 		rowPanel.add(label);
 		rowPanel.setStyleName("appPickerRow");
 		rowPanel.addDomHandler(event -> {
-			// open app
 			hide();
 			appPickerButton.setIconAndLabel(icon, key, app);
+			app.switchToSubapp(subAppCode);
 		}, ClickEvent.getType());
 		contentPanel.add(rowPanel);
 	}

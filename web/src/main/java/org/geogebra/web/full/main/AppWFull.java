@@ -139,6 +139,7 @@ import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
+import org.geogebra.web.shared.SuiteHeaderAppPicker;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
@@ -210,6 +211,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	protected DialogManagerW dialogManager = null;
     private String autosavedMaterial = null;
 	private MaskWidgetList maskWidgets;
+	private SuiteHeaderAppPicker suiteAppPickerButton;
 
 	/**
 	 *
@@ -272,8 +274,15 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			setupSignInButton(header);
 		}
 		if (getConfig().getVersion() == GeoGebraConstants.Version.SUITE) {
-			header.addSuiteAppPicker(this);
+			suiteAppPickerButton = header.addSuiteAppPicker(this);
 		}
+	}
+
+	/**
+	 * @return suiteAppPickerButton
+	 */
+	public SuiteHeaderAppPicker getSuiteAppPickerButton() {
+		return suiteAppPickerButton;
 	}
 
 	private void checkExamPerspective() {

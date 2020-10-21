@@ -76,12 +76,15 @@ public class GlobalHeader implements EventRenderable {
 	 * @param appW
 	 *            application
 	 */
-	public void addSuiteAppPicker(final AppW appW) {
+	public SuiteHeaderAppPicker addSuiteAppPicker(final AppW appW) {
 		this.app = appW;
 		RootPanel appPickerPanel = RootPanel.get("suiteAppPicker");
 		if (appPickerPanel != null) {
-			appPickerPanel.add(new SuiteHeaderAppPicker(app));
+			SuiteHeaderAppPicker suiteHeaderAppPicker = new SuiteHeaderAppPicker(app);
+			appPickerPanel.add(suiteHeaderAppPicker);
+			return suiteHeaderAppPicker;
 		}
+		return null;
 	}
 
 	@Override
