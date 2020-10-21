@@ -1541,7 +1541,6 @@ __GGB__keysVar["he"].menu = {
     "ContextMenu.clip": "Clip",
     "ContextMenu.deleteColumn": "\u05de\u05d7\u05d9\u05e7\u05ea \u05e2\u05de\u05d5\u05d3\u05d4",
     "ContextMenu.deleteRow": "\u05de\u05d7\u05d9\u05e7\u05ea \u05e9\u05d5\u05e8\u05d4",
-    "ContextMenu.deleteTable": "\u05de\u05d7\u05d9\u05e7\u05ea \u05d8\u05d1\u05dc\u05d4",
     "ContextMenu.insertColumnLeft": "\u05d4\u05db\u05e0\u05e1\u05ea \u05d8\u05d5\u05e8 \u05de\u05e9\u05de\u05d0\u05dc",
     "ContextMenu.insertColumnRight": "\u05d4\u05db\u05e0\u05e1\u05ea \u05e2\u05de\u05d5\u05d3\u05d4 \u05de\u05d9\u05de\u05d9\u05df",
     "ContextMenu.insertRowAbove": "\u05d4\u05db\u05e0\u05e1\u05ea \u05e9\u05d5\u05e8\u05d4 \u05dc\u05de\u05e2\u05dc\u05d4",

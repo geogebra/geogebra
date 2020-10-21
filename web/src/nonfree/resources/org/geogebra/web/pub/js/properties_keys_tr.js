@@ -1541,7 +1541,6 @@ __GGB__keysVar["tr"].menu = {
     "ContextMenu.clip": "K\u0131rp",
     "ContextMenu.deleteColumn": "S\xfctunu sil",
     "ContextMenu.deleteRow": "Sat\u0131r\u0131 sil",
-    "ContextMenu.deleteTable": "Tabloyu sil",
     "ContextMenu.insertColumnLeft": "Sola s\xfctun ekle",
     "ContextMenu.insertColumnRight": "Sa\u011fa s\xfctun ekle",
     "ContextMenu.insertRowAbove": "\xdcste sat\u0131r ekle",

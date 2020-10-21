@@ -1541,7 +1541,6 @@ __GGB__keysVar["de-AT"].menu = {
     "ContextMenu.clip": "Abschneiden",
     "ContextMenu.deleteColumn": "Spalte l\xf6schen",
     "ContextMenu.deleteRow": "Zeile l\xf6schen",
-    "ContextMenu.deleteTable": "Tabelle l\xf6schen",
     "ContextMenu.insertColumnLeft": "Spalte links einf\xfcgen",
     "ContextMenu.insertColumnRight": "Spalte rechts einf\xfcgen",
     "ContextMenu.insertRowAbove": "Zeile oberhalb einf\xfcgen",

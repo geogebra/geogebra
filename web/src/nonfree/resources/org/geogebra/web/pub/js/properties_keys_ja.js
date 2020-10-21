@@ -1541,7 +1541,6 @@ __GGB__keysVar["ja"].menu = {
     "ContextMenu.clip": "\u5207\u308a\u629c\u304d",
     "ContextMenu.deleteColumn": "\u5217\u3092\u524a\u9664",
     "ContextMenu.deleteRow": "\u884c\u306e\u524a\u9664",
-    "ContextMenu.deleteTable": "\u8868\u306e\u524a\u9664",
     "ContextMenu.insertColumnLeft": "\u5217\u3092\u5de6\u306b\u633f\u5165",
     "ContextMenu.insertColumnRight": "\u5217\u3092\u53f3\u306b\u633f\u5165",
     "ContextMenu.insertRowAbove": "\u884c\u306e\u4e0a\u306b\u633f\u5165",

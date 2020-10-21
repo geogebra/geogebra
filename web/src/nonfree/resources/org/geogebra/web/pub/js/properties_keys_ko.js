@@ -1541,7 +1541,6 @@ __GGB__keysVar["ko"].menu = {
     "ContextMenu.clip": "\uc798\ub77c\ub0b4\uae30",
     "ContextMenu.deleteColumn": "\uc5f4 \uc0ad\uc81c",
     "ContextMenu.deleteRow": "\ud589 \uc0ad\uc81c",
-    "ContextMenu.deleteTable": "\ud45c \uc0ad\uc81c",
     "ContextMenu.insertColumnLeft": "\uc67c\ucabd\uc5d0 \uc5f4 \ucd94\uac00",
     "ContextMenu.insertColumnRight": "\uc624\ub978\ud3b8\uc5d0 \uc5f4 \ucd94\uac00",
     "ContextMenu.insertRowAbove": "\uc704\uc5d0 \ud589 \ucd94\uac00",

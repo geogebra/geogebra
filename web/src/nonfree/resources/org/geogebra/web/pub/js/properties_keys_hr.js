@@ -1541,7 +1541,6 @@ __GGB__keysVar["hr"].menu = {
     "ContextMenu.clip": "Clip",
     "ContextMenu.deleteColumn": "Izbri\u0161i stupac",
     "ContextMenu.deleteRow": "Izbri\u0161i redak",
-    "ContextMenu.deleteTable": "Izbri\u0161i tablicu",
     "ContextMenu.insertColumnLeft": "Umetni stupac lijevo",
     "ContextMenu.insertColumnRight": "Umetni stupac desno",
     "ContextMenu.insertRowAbove": "Umetni redak iznad",

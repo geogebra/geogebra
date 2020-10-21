@@ -1541,7 +1541,6 @@ __GGB__keysVar["fi"].menu = {
     "ContextMenu.clip": "Leikkaa",
     "ContextMenu.deleteColumn": "Poista sarake",
     "ContextMenu.deleteRow": "Poista rivi",
-    "ContextMenu.deleteTable": "Poista taulukko",
     "ContextMenu.insertColumnLeft": "Lis\xe4\xe4 sarake vasemmalle",
     "ContextMenu.insertColumnRight": "Oikealle",
     "ContextMenu.insertRowAbove": "Lis\xe4\xe4 rivi yl\xe4puolelle",
