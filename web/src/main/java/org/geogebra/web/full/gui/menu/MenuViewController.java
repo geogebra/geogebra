@@ -135,6 +135,22 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 		examDrawerMenuFactory = new ExamDrawerMenuFactory(version);
 	}
 
+	/**
+	 * build menu again with new appConfig (neede for suite)
+	 * @param app see {@link AppW}
+	 */
+	public void resetMenuOnAppSwitch(AppW app) {
+		GeoGebraConstants.Version version = app.getConfig().getVersion();
+		defaultDrawerMenuFactory =  new DefaultDrawerMenuFactory(
+				app.getPlatform(),
+				version,
+				hasLoginButton(app) ? app.getLoginOperation() : null,
+				shouldCreateExamEntry(app),
+				app.enableFileFeatures(),
+				true);
+		setDefaultMenu();
+	}
+
 	private DrawerMenuFactory createDefaultMenuFactory(AppW app,
 			GeoGebraConstants.Version version) {
 		if (app.isMebis()) {

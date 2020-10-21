@@ -5068,6 +5068,16 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return settingsUpdater;
 	}
 
+	/**
+	 * make sure we create a new settings updater according the new appConfig
+	 * @return setting updater
+	 */
+	public SettingsUpdater initSettingsUpdater() {
+		SettingsUpdaterBuilder settingsUpdaterBuilder = newSettingsUpdaterBuilder();
+		settingsUpdater = settingsUpdaterBuilder.newSettingsUpdater();
+		return settingsUpdater;
+	}
+
 	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
 		return new SettingsUpdaterBuilder(this);
 	}
