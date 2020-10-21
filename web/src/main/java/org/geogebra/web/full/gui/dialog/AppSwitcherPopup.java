@@ -51,7 +51,6 @@ public class AppSwitcherPopup extends GPopupPanel {
 			setPopupPosition(getLeft(), 0);
 			super.show();
 			updateLanguage(app);
-			appPickerButton.checkButtonVisibility();
 		}
 	}
 
@@ -86,6 +85,7 @@ public class AppSwitcherPopup extends GPopupPanel {
 		rowPanel.addDomHandler(event -> {
 			hide();
 			appPickerButton.setIconAndLabel(icon, key, app);
+			appPickerButton.checkButtonVisibility();
 			app.switchToSubapp(subAppCode);
 		}, ClickEvent.getType());
 		contentPanel.add(rowPanel);

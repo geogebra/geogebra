@@ -12,7 +12,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -37,7 +36,6 @@ public class SuiteHeaderAppPicker extends StandardButton {
 		addStyleName("suiteAppPickerButton");
 		suitePopup = new AppSwitcherPopup((AppWFull) app, this);
 		addFastClickHandler(event -> suitePopup.showPopup(app));
-		addHandler(event -> checkButtonVisibility(), LoadEvent.getType());
 	}
 
 	/**
