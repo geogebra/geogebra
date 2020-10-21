@@ -71,7 +71,8 @@ public class AppSwitcherPopup extends GPopupPanel {
 		add(contentPanel);
 	}
 
-	private void addElement(AppWFull app, SVGResource icon, String key, String subAppCode, FlowPanel contentPanel) {
+	private void addElement(AppWFull app, SVGResource icon, String key, String subAppCode,
+			FlowPanel contentPanel) {
 		FlowPanel rowPanel = new FlowPanel();
 		NoDragImage img = new NoDragImage(icon, 24, 24);
 		img.addStyleName("appIcon");

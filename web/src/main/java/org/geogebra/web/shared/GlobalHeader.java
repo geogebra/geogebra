@@ -71,10 +71,11 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	/**
-	 * Activate app picker button in external header for suite
+	 * Add app picker button in external header for suite
 	 *
 	 * @param appW
 	 *            application
+	 * @return app picker button
 	 */
 	public SuiteHeaderAppPicker addSuiteAppPicker(final AppW appW) {
 		this.app = appW;
