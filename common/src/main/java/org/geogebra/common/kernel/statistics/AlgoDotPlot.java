@@ -83,6 +83,7 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 				return ((AlgoDotPlot) getParentAlgorithm()).getTooltipText();
 			}
 		};
+		outputList.setPointStyle(0);
 		setInputOutput();
 		compute();
 
