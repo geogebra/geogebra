@@ -39,27 +39,27 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 		contentPanel.add(title);
 
 		SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
-		StandardButton btnGraphing = buildCalcButton(res.menu_icon_algebra_transparent(),
-				GeoGebraConstants.GRAPHING_APPCODE, "GraphingCalculator.short");
-		contentPanel.add(btnGraphing);
+		buildAndAddCalcButton(res.menu_icon_algebra_transparent(),
+				GeoGebraConstants.GRAPHING_APPCODE, "GraphingCalculator.short",
+				contentPanel);
 
-		StandardButton btn3D = buildCalcButton(res.menu_icon_graphics3D_transparent(),
-				GeoGebraConstants.G3D_APPCODE, "GeoGebra3DGrapher.short");
-		contentPanel.add(btn3D);
+		buildAndAddCalcButton(res.menu_icon_graphics3D_transparent(),
+				GeoGebraConstants.G3D_APPCODE, "GeoGebra3DGrapher.short",
+				contentPanel);
 
-		StandardButton btnGeometry = buildCalcButton(res.menu_icon_geometry_transparent(),
-				GeoGebraConstants.GEOMETRY_APPCODE, "Geometry");
-		contentPanel.add(btnGeometry);
+		buildAndAddCalcButton(res.menu_icon_geometry_transparent(),
+				GeoGebraConstants.GEOMETRY_APPCODE, "Geometry",
+				contentPanel);
 
-		StandardButton btnCAS = buildCalcButton(res.cas_white_bg(),
-				GeoGebraConstants.CAS_APPCODE, "CAS");
-		contentPanel.add(btnCAS);
+		buildAndAddCalcButton(res.cas_white_bg(),
+				GeoGebraConstants.CAS_APPCODE, "CAS",
+				contentPanel);
 
 		add(contentPanel);
 	}
 
-	private StandardButton buildCalcButton(SVGResource icon, String subAppCode,
-			String appNameKey) {
+	private void buildAndAddCalcButton(SVGResource icon, String subAppCode,
+			String appNameKey, FlowPanel contentPanel) {
 		StandardButton button =  new StandardButton(app, 72, icon,
 				 app.getLocalization().getMenu(appNameKey));
 		button.setStyleName("calcBtn");
@@ -69,10 +69,10 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 
 		button.addFastClickHandler(source -> {
 			hide();
-			((AppWFull) app).setSuiteHeaderButton(icon, appNameKey);
-			((AppWFull) app).switchToSubapp(subAppCode);
+			((AppWFull) app).onAppSwitch(icon, appNameKey, subAppCode);
 		});
-		return button;
+
+		contentPanel.add(button);
 	}
 
 	@Override

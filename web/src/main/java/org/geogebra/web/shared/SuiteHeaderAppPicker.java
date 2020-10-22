@@ -35,7 +35,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 				app);
 		addStyleName("suiteAppPickerButton");
 		suitePopup = new AppSwitcherPopup((AppWFull) app, this);
-		addFastClickHandler(event -> suitePopup.showPopup(app));
+		addFastClickHandler(event -> suitePopup.showPopup());
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 	 * @param app
 	 *            - application
 	 */
-	public void setIconAndLabel(final ResourcePrototype image, final String label,
+	private void setIconAndLabel(final ResourcePrototype image, final String label,
 			App app) {
 		NoDragImage btnImage = new NoDragImage(image, 24, -1);
 		btnImage.getElement().setTabIndex(-1);
@@ -58,10 +58,10 @@ public class SuiteHeaderAppPicker extends StandardButton {
 		this.getElement().appendChild(btnImage.getElement());
 		this.getElement().appendChild(btnLabel.getElement());
 
-		NoDragImage secondImg =
+		NoDragImage dropDownImg =
 				new NoDragImage(MaterialDesignResources.INSTANCE.arrow_drop_down(), 24);
-		secondImg.setStyleName("btnSecondIcon");
-		this.getElement().appendChild(secondImg.getElement());
+		dropDownImg.setStyleName("dropDownImg");
+		this.getElement().appendChild(dropDownImg.getElement());
 		btnImage.setPresentation();
 
 		Roles.getButtonRole().removeAriaPressedState(getElement());
@@ -70,7 +70,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 	/**
 	 * sets the button visibility depending on overlapping of divs
 	 */
-	public void checkButtonVisibility() {
+	private void checkButtonVisibility() {
 		final RootPanel appPickerPanel = RootPanel.get("suiteAppPicker");
 		int buttonRight = appPickerPanel.getAbsoluteLeft() + appPickerPanel.getOffsetWidth();
 		int buttonsLeft = RootPanel.get("buttonsID").getAbsoluteLeft();
@@ -80,5 +80,18 @@ public class SuiteHeaderAppPicker extends StandardButton {
 		} else {
 			style.setProperty("visibility", "visible");
 		}
+	}
+
+	/**
+	 * @param icon
+	 *            - image of button
+	 * @param appNameKey
+	 *            - text of button
+	 * @param app
+	 * 			  - see {@link AppWFull}
+	 */
+	public void updateSuiteHeaderButton(ResourcePrototype icon, String appNameKey, AppWFull app) {
+		setIconAndLabel(icon, appNameKey, app);
+		checkButtonVisibility();
 	}
 }

@@ -203,40 +203,6 @@
 		background-color: rgba(204, 204, 255, 0.2);
 	}
 
-	.suiteAppPicker {
-		position: absolute;
-		left: 505px;
-		top: 14px;
-
-		.suiteAppPickerButton {
-			display: inline-flex;
-			min-width: 138px;
-			max-width: 250px;
-			border-radius: 18px;
-			box-sizing: border-box;
-			border: 1px solid rgba(151, 151, 151, 0.52);
-
-			.gwt-Label {
-				height: 20px;
-				line-height: 21px;
-				margin: 7px 0px;
-				font-size: 100%;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-				overflow: hidden;
-			}
-
-			.gwt-Image {
-				margin: 5px 12px 5px 16px;
-			}
-
-			.btnSecondIcon {
-				margin: 5px 16px 5px 12px;
-				opacity: 54%;
-			}
-		}
-	}
-
 	.gwt-Button[disabled="disabled"],
 	.buttonPanel .button[disabled="disabled"] {
 		cursor: default;

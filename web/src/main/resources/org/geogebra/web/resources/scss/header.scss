@@ -84,4 +84,38 @@ $button_hover_transition: background-color 0.15s;
             margin: 0px 8px;
         }
     }
+
+    .suiteAppPicker {
+    		position: absolute;
+    		left: 505px;
+    		top: 14px;
+
+    		.suiteAppPickerButton {
+    			display: inline-flex;
+    			min-width: 138px;
+    			max-width: 250px;
+    			border-radius: 18px;
+    			box-sizing: border-box;
+    			border: 1px solid $suite-app-picker-border;
+
+    			.gwt-Label {
+    				height: 20px;
+    				line-height: 20px;
+    				margin: 7px 0px;
+    				font-size: 100%;
+    				text-overflow: ellipsis;
+    				white-space: nowrap;
+    				overflow: hidden;
+    			}
+
+    			.gwt-Image {
+    				margin: 5px 12px 5px 16px;
+    			}
+
+    			.dropDownImg {
+    				margin: 5px 16px 5px 12px;
+    				opacity: 54%;
+    			}
+    		}
+    	}
 }

@@ -20,7 +20,6 @@ import com.google.gwt.user.client.ui.Label;
 public class AppSwitcherPopup extends GPopupPanel {
 
 	SuiteHeaderAppPicker appPickerButton;
-
 	private final static int X_COORDINATE_OFFSET = 8;
 
 	/**
@@ -36,42 +35,39 @@ public class AppSwitcherPopup extends GPopupPanel {
 		addAutoHidePartner(appPickerButton.getElement());
 		setGlassEnabled(false);
 		addStyleName("appPickerPopup");
-		buildGUI(app);
+		buildGUI();
 		app.registerAutoclosePopup(this);
 	}
 
 	/**
-	 * @param app
-	 *            - application
+	 * show/hide popup on appSwitcher btn click
 	 */
-	public void showPopup(AppW app) {
+	public void showPopup() {
 		if (isShowing()) {
 			hide();
 		} else {
 			setPopupPosition(getLeft(), 0);
 			super.show();
-			updateLanguage(app);
+			updateLanguage();
 		}
 	}
 
-	private void buildGUI(AppWFull app) {
+	private void buildGUI() {
 		FlowPanel contentPanel = new FlowPanel();
 		contentPanel.addStyleName("popupPanelForTranslation");
 		SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
-		addElement(app, res.menu_icon_algebra_transparent(), "GraphingCalculator.short",
-				GeoGebraConstants.GRAPHING_APPCODE,
-				contentPanel);
-		addElement(app, res.menu_icon_graphics3D_transparent(), "GeoGebra3DGrapher.short",
-				GeoGebraConstants.G3D_APPCODE,
-				contentPanel);
-		addElement(app, res.menu_icon_geometry_transparent(), "Geometry",
+		addElement(res.menu_icon_algebra_transparent(), "GraphingCalculator.short",
+				GeoGebraConstants.GRAPHING_APPCODE,	contentPanel);
+		addElement(res.menu_icon_graphics3D_transparent(), "GeoGebra3DGrapher.short",
+				GeoGebraConstants.G3D_APPCODE, contentPanel);
+		addElement(res.menu_icon_geometry_transparent(), "Geometry",
 				GeoGebraConstants.GEOMETRY_APPCODE, contentPanel);
-		addElement(app, res.cas_white_bg(), "CAS", GeoGebraConstants.CAS_APPCODE,
-				contentPanel);
+		addElement(res.cas_white_bg(), "CAS",
+				GeoGebraConstants.CAS_APPCODE, contentPanel);
 		add(contentPanel);
 	}
 
-	private void addElement(AppWFull app, SVGResource icon, String key, String subAppCode,
+	private void addElement(SVGResource icon, String key, String subAppCode,
 			FlowPanel contentPanel) {
 		FlowPanel rowPanel = new FlowPanel();
 		NoDragImage img = new NoDragImage(icon, 24, 24);
@@ -85,9 +81,7 @@ public class AppSwitcherPopup extends GPopupPanel {
 		rowPanel.setStyleName("appPickerRow");
 		rowPanel.addDomHandler(event -> {
 			hide();
-			appPickerButton.setIconAndLabel(icon, key, app);
-			appPickerButton.checkButtonVisibility();
-			app.switchToSubapp(subAppCode);
+			((AppWFull) app).onAppSwitch(icon, key, subAppCode);
 		}, ClickEvent.getType());
 		contentPanel.add(rowPanel);
 	}
@@ -96,10 +90,10 @@ public class AppSwitcherPopup extends GPopupPanel {
 		return appPickerButton.getAbsoluteLeft() - X_COORDINATE_OFFSET ;
 	}
 
-	private void updateLanguage(AppW app) {
+	private void updateLanguage() {
 		Element suitePopup = Dom.querySelector("popupPanelForTranslation");
 		if (suitePopup != null) {
-			UserPreferredLanguage.translate(app, suitePopup);
+			UserPreferredLanguage.translate((AppW) app, suitePopup);
 		}
 	}
 }
