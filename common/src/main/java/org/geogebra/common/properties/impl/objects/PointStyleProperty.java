@@ -52,10 +52,7 @@ public class PointStyleProperty extends AbstractEnumerableProperty
 		GeoElement element = delegate.getElement();
 		if (element instanceof PointProperties) {
 			int pointStyle = ((PointProperties) element).getPointStyle();
-			if (pointStyle > (icons.length - 1)) {
-				pointStyle = 0;
-			}
-			return pointStyle;
+			return pointStyle >= icons.length ? 0 : pointStyle;
 		}
 		return -1;
 	}
