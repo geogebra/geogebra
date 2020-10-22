@@ -10,7 +10,6 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.jre.io.trasnformer.InputStreamTransformer;
-import org.geogebra.common.jre.io.trasnformer.XmlExtractor;
 
 /**
  * Extracts attribute values from the header tag of the geogebra.xml
@@ -45,10 +44,10 @@ public class XmlHeaderReader {
     }
 
     /**
-     * @param xmlExtractor xmlExtractor
+     * Constructor
      */
-    public XmlHeaderReader(XmlExtractor xmlExtractor) {
-        this.transformer = new InputStreamTransformer(xmlExtractor);
+    public XmlHeaderReader() {
+        this.transformer = new InputStreamTransformer();
         defaultHeaderAttributes =
                 new HeaderAttributes().addAppCode(GeoGebraConstants.GRAPHING_APPCODE);
     }

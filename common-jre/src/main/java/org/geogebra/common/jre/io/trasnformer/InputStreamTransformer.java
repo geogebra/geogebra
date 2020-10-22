@@ -18,8 +18,8 @@ public class InputStreamTransformer {
 
     private XmlExtractor xmlExtractor;
 
-    public InputStreamTransformer(XmlExtractor xmlExtractor) {
-        this.xmlExtractor = xmlExtractor;
+    public InputStreamTransformer() {
+        this.xmlExtractor = new XmlExtractor();
     }
 
     @CheckForNull
