@@ -42,6 +42,8 @@ import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * 
  * @author Michael adapted from GeoVec2D
@@ -55,6 +57,7 @@ final public class Geo3DVec extends ValidExpression
 	private int mode = Kernel.COORD_CARTESIAN_3D;
 	private StringBuilder sbToString = new StringBuilder(50);
 
+	@Weak
 	private Kernel kernel;
 
 	/**

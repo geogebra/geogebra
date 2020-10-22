@@ -29,6 +29,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Converts GeoGebra constructions to strings and vice versa
  */
@@ -69,10 +71,13 @@ public abstract class MyXMLio {
 	/** max no of vertical pixels of thumbnail */
 	final public static double THUMBNAIL_PIXELS_Y = 512.0;
 	/** application */
+	@Weak
 	protected App app;
 	/** kernel */
+	@Weak
 	protected Kernel kernel;
 	/** construction */
+	@Weak
 	protected Construction cons;
 	/** handler for GGB files */
 	protected MyXMLHandler handler;

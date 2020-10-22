@@ -8,12 +8,16 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.error.ErrorHelper;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Factory for creating special polygons.
  */
 public class PolygonFactory {
 
+	@Weak
 	private Construction cons;
+	@Weak
 	private Kernel kernel;
 
 	/**

@@ -46,6 +46,8 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * 
  * @author Markus
@@ -74,6 +76,7 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * View in which this is drawn
 	 */
+	@Weak
 	protected EuclidianView view;
 
 	/**

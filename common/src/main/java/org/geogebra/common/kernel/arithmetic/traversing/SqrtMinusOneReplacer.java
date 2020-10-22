@@ -8,7 +8,10 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.plugin.Operation;
 
+import com.google.j2objc.annotations.Weak;
+
 public 	class SqrtMinusOneReplacer implements Traversing {
+	@Weak
 	private final Kernel kernel;
 
 	public SqrtMinusOneReplacer(Kernel kernel) {

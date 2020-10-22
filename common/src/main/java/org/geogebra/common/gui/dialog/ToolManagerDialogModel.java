@@ -26,7 +26,10 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 public class ToolManagerDialogModel {
+	@Weak
 	private final App app;
 	final Localization loc;
 	private final List<Macro> deletedMacros;

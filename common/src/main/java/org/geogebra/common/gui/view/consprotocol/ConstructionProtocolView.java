@@ -35,10 +35,14 @@ import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 //@SuppressWarnings("javadoc")
 public class ConstructionProtocolView implements ConstructionStepper {
 
+	@Weak
 	public App app;
+	@Weak
 	public Kernel kernel;
 	public ConstructionTableData data;
 	protected boolean isViewAttached;

@@ -4,6 +4,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Property setting for algebra description.
  */
@@ -16,6 +18,7 @@ public class AlgebraDescriptionProperty extends AbstractEnumerableProperty {
             Kernel.ALGEBRA_STYLE_DESCRIPTION
     };
 
+    @Weak
     private Kernel kernel;
 
     /**

@@ -50,6 +50,8 @@ import org.geogebra.common.main.settings.updater.LabelSettingsUpdater;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Manages default settings for GeoElement objects in a construction.
  * 
@@ -284,6 +286,7 @@ public class ConstructionDefaults {
 	public static final double DEFAULT_BUTTON_SIZE = 2;
 
 	/** construction */
+	@Weak
 	protected Construction cons;
 
 	/** defaultGeoElement list */

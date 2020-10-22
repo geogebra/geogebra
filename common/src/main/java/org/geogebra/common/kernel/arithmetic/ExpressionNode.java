@@ -50,6 +50,8 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Tree node for expressions like "3*a - b/5"
  * 
@@ -69,6 +71,7 @@ public class ExpressionNode extends ValidExpression
 		}
 	};
 	private Localization loc;
+	@Weak
 	private Kernel kernel;
 	private ExpressionValue left;
 	private ExpressionValue right;

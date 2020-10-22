@@ -43,9 +43,11 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public abstract class DialogManager {
+	@Weak
 	protected App app;
 	protected Localization loc;
 

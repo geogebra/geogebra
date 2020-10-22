@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -30,6 +31,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class DynamicTextProcessor {
 
+	@Weak
 	private App app;
 
 	private ArrayList<DynamicTextElement> dList;

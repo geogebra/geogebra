@@ -39,6 +39,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -46,7 +47,9 @@ import com.himamis.retex.editor.share.util.Unicode;
  *
  */
 public class FunctionParser {
+	@Weak
 	private final Kernel kernel;
+	@Weak
 	private final App app;
 	private boolean inputBoxParsing = false;
 

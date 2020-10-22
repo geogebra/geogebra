@@ -32,6 +32,8 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.GgbMat;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * MyList is used to store a list of ExpressionNode objects read by the parser
  * and to evaluate them. So a MyList object is used when a list is entered (e.g.
@@ -44,6 +46,7 @@ import org.geogebra.common.util.debug.Log;
 public class MyList extends ValidExpression
 		implements ListValue, ReplaceChildrenByValues, GetItem {
 
+	@Weak
 	private Kernel kernel;
 	private int matrixRows = -1; // -1 means not calculated, 0 means not a
 									// matrix
