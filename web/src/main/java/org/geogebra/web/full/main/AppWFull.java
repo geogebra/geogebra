@@ -139,6 +139,7 @@ import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
+import org.geogebra.web.shared.SuiteHeaderAppPicker;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
@@ -147,6 +148,7 @@ import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -210,6 +212,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	protected DialogManagerW dialogManager = null;
     private String autosavedMaterial = null;
 	private MaskWidgetList maskWidgets;
+	private SuiteHeaderAppPicker suiteAppPickerButton;
 
 	/**
 	 *
@@ -270,6 +273,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		header.setFrame(frame);
 		if (showMenuBar()) {
 			setupSignInButton(header);
+		}
+		if (getConfig().getVersion() == GeoGebraConstants.Version.SUITE) {
+			suiteAppPickerButton = header.addSuiteAppPicker(this);
 		}
 	}
 
@@ -2180,5 +2186,16 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		setPerspective(perspective);
 		reinitAlgebraView();
 		updatePerspective(perspective);
+	}
+
+	/**
+	 * @param icon
+	 *            - image of button
+	 * @param appNameKey
+	 *            - text of button
+	 */
+	public void setSuiteHeaderButton(ResourcePrototype icon, String appNameKey) {
+		suiteAppPickerButton.setIconAndLabel(icon, appNameKey, this);
+		suiteAppPickerButton.checkButtonVisibility();
 	}
 }

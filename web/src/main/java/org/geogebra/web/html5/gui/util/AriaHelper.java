@@ -74,4 +74,16 @@ public class AriaHelper {
 	public static void setLabel(UIObject uiObject, String label) {
 		uiObject.getElement().setAttribute("aria-label", label);
 	}
+
+	/**
+	 * @param uiObject
+	 *            element
+	 * @param attribute
+	 *            the attribute to be set
+	 * @param value
+	 *            localized string
+	 */
+	public static void setAttribute(UIObject uiObject, String attribute, String value) {
+		uiObject.getElement().setAttribute(attribute, value);
+	}
 }

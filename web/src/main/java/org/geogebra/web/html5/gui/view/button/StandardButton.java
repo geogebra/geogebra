@@ -29,6 +29,14 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	private NoDragImage btnImage;
 
 	/**
+	 * @param app
+	 *            - application
+	 */
+	public StandardButton(App app) {
+		this.app = app;
+	}
+
+	/**
 	 * @param icon
 	 *            - img of button
 	 * @param app
