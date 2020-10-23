@@ -53,7 +53,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	private List<BlurHandler> blurHandlers;
 	private String label = "";
 	private boolean useKeyboardButton = true;
-	private boolean editable;
+	private boolean editable = true;
 
 	/**
 	 * Constructor
@@ -122,7 +122,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 * Called when editor was clicked.
 	 */
 	private void editorClicked() {
-		preventBlur = true;
+		if (editable) {
+			preventBlur = true;
+		}
 		requestFocus();
 	}
 
@@ -165,6 +167,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 * @param text to set.
 	 */
 	public void setText(String text) {
+		if (!"?".equals(text)) {
+			setErrorStyle(false);
+		}
 		mathField.setText(text, false);
 	}
 
