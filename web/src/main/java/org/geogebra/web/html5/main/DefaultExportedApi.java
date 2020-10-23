@@ -218,8 +218,8 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.getLabelStyle(objName + "");
 	}
 
-	public void getLabelVisible(String objName) {
-		ggbAPI.getLabelVisible(objName + "");
+	public boolean getLabelVisible(String objName) {
+		return ggbAPI.getLabelVisible(objName + "");
 	}
 
 	public void setColor(String objName, int red, int green, int blue) {
