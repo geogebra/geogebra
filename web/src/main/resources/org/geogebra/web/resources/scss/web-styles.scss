@@ -210,6 +210,7 @@
 
 		.suiteAppPickerButton {
 			display: inline-flex;
+			display: -webkit-inline-flex;
 			min-width: 138px;
 			max-width: 250px;
 			border-radius: 18px;
