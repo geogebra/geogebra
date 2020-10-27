@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -575,5 +576,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			dynamicCaption.update(dragging);
 		}
 		super.update(dragging);
+	}
+
+	public boolean hasError() {
+		return !StringUtil.emptyTrim(getTempUserEvalInput());
 	}
 }
