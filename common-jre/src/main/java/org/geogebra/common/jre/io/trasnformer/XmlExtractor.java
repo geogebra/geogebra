@@ -36,6 +36,9 @@ public class XmlExtractor {
 
     /**
      * Writes all contents of the given InputStream to a byte array.
+     * @param is input stream
+     * @return Byte array with the content of the input stream.
+     * @throws IOException when reading or writing fails
      */
     public byte[] loadIntoMemory(InputStream is) throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
