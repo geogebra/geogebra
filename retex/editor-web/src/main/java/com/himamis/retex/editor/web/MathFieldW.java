@@ -318,7 +318,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}
 		ctx.getCanvas().getStyle().setHeight(height, Unit.PX);
 
-		ctx.getCanvas().getStyle().setWidth(computeWidth(),
+		double value = computeWidth();
+		ctx.getCanvas().getStyle().setWidth(value,
 				Unit.PX);
 		parent.setHeight(height + "px");
 		parent.getElement().getStyle().setVerticalAlign(VerticalAlign.TOP);

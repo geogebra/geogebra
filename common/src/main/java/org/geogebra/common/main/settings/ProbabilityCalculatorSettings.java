@@ -5,6 +5,7 @@ package org.geogebra.common.main.settings;
 import java.util.LinkedList;
 
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Settings for the probability calculator view.
@@ -63,7 +64,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	/** number of distributions */
 	public static final int distCount = Dist.values().length;
 
-	private double[] parameters = { 0.0d, 1.0d };
+	private GeoNumeric[] parameters = { };
 	private Dist distributionType = Dist.NORMAL;
 	private boolean isCumulative = false;
 	private boolean intervalSet = false;
@@ -98,7 +99,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	 * @param parameters
 	 *            distribution paramaeters
 	 */
-	public void setParameters(double[] parameters) {
+	public void setParameters(GeoNumeric[] parameters) {
 		this.parameters = parameters;
 		settingChanged();
 	}
@@ -106,7 +107,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	/**
 	 * @return parameter array
 	 */
-	public double[] getParameters() {
+	public GeoNumeric[] getParameters() {
 		return parameters;
 	}
 

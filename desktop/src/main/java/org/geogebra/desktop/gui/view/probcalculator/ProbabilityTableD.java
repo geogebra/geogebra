@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityTable;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.desktop.gui.view.data.StatTable;
 import org.geogebra.desktop.main.AppD;
@@ -53,7 +54,7 @@ public class ProbabilityTableD extends ProbabilityTable
 	}
 
 	@Override
-	public void setTable(Dist distType, double[] parms, int xMin, int xMax) {
+	public void setTable(Dist distType, GeoNumberValue[] parms, int xMin, int xMax) {
 
 		setIniting(true);
 

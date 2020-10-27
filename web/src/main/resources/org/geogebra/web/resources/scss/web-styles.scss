@@ -2343,6 +2343,8 @@
 		margin-right: 30px;
 		float: left;
 		white-space: nowrap;
+		display: flex;
+		align-items: center;
 	}
 
 	.controlPanel > div.clear {
@@ -2362,7 +2364,6 @@
 	.parameterPanel > *, .resultPanel > * {
 		display: inline-block;
 		margin: 0 5px;
-		padding: 0;
 	}
 
 	.intervalPanel > * {

@@ -73,6 +73,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DataAnalysisSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -950,9 +951,12 @@ public class MyXMLHandler implements DocHandler {
 			// get parameters from comma delimited string
 			String parmString = attrs.get("parameters");
 			String[] parmStringArray = parmString.split(",");
-			double[] parameters = new double[parmStringArray.length];
+			GeoNumeric[] parameters = new GeoNumeric[parmStringArray.length];
 			for (int i = 0; i < parmStringArray.length; i++) {
-				parameters[i] = StringUtil.parseDouble(parmStringArray[i]);
+				GeoNumberValue val = getAlgProcessor().evaluateToNumeric(parmStringArray[i],
+						ErrorHelper.silent());
+				parameters[i] =	val instanceof GeoNumeric ? (GeoNumeric) val
+								: new GeoNumeric(cons, Double.NaN);
 			}
 
 			app.getSettings().getProbCalcSettings().setParameters(parameters);

@@ -39,7 +39,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 		ClickListener, BlurHandler {
 
-	private static final int PADDING_LEFT = 2;
+	private static final int PADDING_LEFT_SCROLL = 20;
 	private static final int PADDING_TOP = 8;
 
 	private final Kernel kernel;
@@ -147,7 +147,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 * Scroll content horizontally if needed.
 	 */
 	public void scrollHorizontally() {
-		scroller.scrollHorizontallyToCursor(PADDING_LEFT);
+		scroller.scrollHorizontallyToCursor(PADDING_LEFT_SCROLL);
 	}
 
 	/**

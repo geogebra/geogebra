@@ -30,6 +30,8 @@ public class MathTextFieldW extends MathFieldEditor  implements MathFieldListene
 
 	@Override
 	public void onEnter() {
+		asWidget().setWidth(getMathField().getIconWidth() + "px");
+		scrollHorizontally();
 		for (JsRunnable listener: changeHandlers) {
 			listener.run();
 		}
@@ -37,6 +39,7 @@ public class MathTextFieldW extends MathFieldEditor  implements MathFieldListene
 
 	@Override
 	public void onKeyTyped(String key) {
+		scrollHorizontally();
 		for (JsRunnable listener: inputHandlers) {
 			listener.run();
 		}
@@ -44,7 +47,7 @@ public class MathTextFieldW extends MathFieldEditor  implements MathFieldListene
 
 	@Override
 	public void onCursorMove() {
-		// nothing to do
+		scrollHorizontally();
 	}
 
 	@Override
@@ -72,8 +75,12 @@ public class MathTextFieldW extends MathFieldEditor  implements MathFieldListene
 		// TODO handle tab
 	}
 
-	public void setWidthInEm(int i) {
-		asWidget().getElement().getStyle().setWidth(i, Style.Unit.EM);
+	/**
+	 * @param width in pixels
+	 */
+	public void setPxWidth(int width) {
+		asWidget().getElement().getStyle().setProperty("minWidth", width + "px");
+		asWidget().getElement().getStyle().setWidth(width, Style.Unit.PX);
 	}
 
 	public String getText() {
