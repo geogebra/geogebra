@@ -154,6 +154,10 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.setSaved();
 	}
 
+	public boolean isSaved() {
+		return ggbAPI.isSaved();
+	}
+
 	public void initCAS() {
 		ggbAPI.initCAS();
 	}

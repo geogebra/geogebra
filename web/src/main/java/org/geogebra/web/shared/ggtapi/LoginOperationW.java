@@ -14,9 +14,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.URLEncoderW;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
 
-import com.google.gwt.user.client.ui.Frame;
-import com.google.gwt.user.client.ui.RootPanel;
-
 import elemental2.dom.DomGlobal;
 
 /**
@@ -153,15 +150,6 @@ public class LoginOperationW extends LogInOperation {
 	@Override
 	public void passiveLogin() {
 		model.setLoginStarted();
-		if (StringUtil.empty(app.getAppletParameters().getParamLoginURL())) {
-			processCookie(true);
-			return;
-		}
-		final Frame fr = new Frame();
-		fr.setVisible(false);
-		fr.setUrl(
-				app.getAppletParameters().getParamLoginURL()
-						+ "%3FisPassive=true&isPassive=true");
-		RootPanel.get().add(fr);
+		processCookie(true);
 	}
 }
