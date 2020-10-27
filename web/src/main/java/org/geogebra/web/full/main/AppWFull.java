@@ -2170,7 +2170,16 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		setPerspective(perspective);
 		reinitAlgebraView();
+		menuViewController.resetMenuOnAppSwitch(this);
+		reinitSettings();
 		updatePerspective(perspective);
+	}
+
+	private void reinitSettings() {
+		initSettingsUpdater().resetSettingsOnAppStart();
+		guiManager.updatePropertiesView();
+		guiManager.updatePropertiesViewStylebar();
+		guiManager.updateGlobalOptions();
 	}
 
 	/**
