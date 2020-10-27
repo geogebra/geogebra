@@ -1417,7 +1417,7 @@ __GGB__keysVar["ko"].menu = {
     "CheckedNumerically": "(\uc218\uce58\uc5f0\uc0b0\uc801\uc73c\ub85c \uacc4\uc0b0)",
     "ChiSquaredContribution": "\u03a7\xb2\uae30\uc5ec",
     "ChiSquaredTest": "\uce74\uc774\uc81c\uacf1 \uac80\uc815",
-    "ChooseCalculator": "\uacc4\uc0b0\uae30 \uc120\ud0dd\ud558\uae30",
+    "ChooseCalculator": "\uc9c0\uc624\uc9c0\ube0c\ub77c \uacc4\uc0b0\uae30 \uc120\ud0dd\ud558\uae30",
     "ChooseColor": "\uc0c9\uc0c1\uc744 \uc120\ud0dd\ud558\uc138\uc694",
     "ChooseFromFile": "\ud30c\uc77c\ub85c\ubd80\ud130 \uc120\ud0dd",
     "ChooseObject": "\ud55c \ub300\uc0c1\uc744 \uc120\ud0dd",
