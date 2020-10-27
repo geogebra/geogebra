@@ -72,7 +72,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 	/**
 	 * sets the button visibility depending on overlapping of divs
 	 */
-	private void checkButtonVisibility() {
+	public void checkButtonVisibility() {
 		final Element appPickerPanel =  Document.get().getElementById("suiteAppPicker");
 		if (appPickerPanel == null) {
 			return;
@@ -82,6 +82,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 		final Style style = appPickerPanel.getStyle();
 		if (buttonsLeft < buttonRight) {
 			style.setProperty("visibility", "hidden");
+			suitePopup.hide();
 		} else {
 			style.setProperty("visibility", "visible");
 		}

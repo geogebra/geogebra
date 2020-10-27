@@ -83,6 +83,7 @@ public class GlobalHeader implements EventRenderable {
 		if (appPickerPanel != null) {
 			SuiteHeaderAppPicker suiteHeaderAppPicker = new SuiteHeaderAppPicker(app);
 			appPickerPanel.add(suiteHeaderAppPicker);
+			suiteHeaderAppPicker.checkButtonVisibility();
 			return suiteHeaderAppPicker;
 		}
 		return null;
