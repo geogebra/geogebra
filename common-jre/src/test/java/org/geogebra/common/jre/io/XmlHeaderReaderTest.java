@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class XmlHeaderReaderTest {
 
-    private  XmlHeaderReader xmlHeaderReader = new XmlHeaderReader(null);
+    private  XmlHeaderReader xmlHeaderReader = new XmlHeaderReader();
 
     @Test
     public void testGetSubAppCode() {
