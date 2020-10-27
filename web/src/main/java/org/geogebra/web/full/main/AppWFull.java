@@ -2173,6 +2173,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		updatePerspective(perspective);
 	}
 
+	/**
+	 *
+	 * @param icon of the subApp
+	 * @param appNameKey of the subApp
+	 * @param subAppCode "graphing", "3d", "cas" or "geometry"
+	 */
 	public void onAppSwitch(ResourcePrototype icon, String appNameKey, String subAppCode) {
 		suiteAppPickerButton.updateSuiteHeaderButton(icon, appNameKey, this);
 		switchToSubapp(subAppCode);

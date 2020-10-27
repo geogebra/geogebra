@@ -11,6 +11,8 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.aria.client.Roles;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Label;
@@ -33,7 +35,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 		SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
 		setIconAndLabel(res.menu_icon_algebra_transparent(), "GraphingCalculator.short",
 				app);
-		addStyleName("suiteAppPickerButton");
+		setStyleName("suiteAppPickerButton");
 		suitePopup = new AppSwitcherPopup((AppWFull) app, this);
 		addFastClickHandler(event -> suitePopup.showPopup());
 	}
@@ -48,7 +50,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 	 */
 	private void setIconAndLabel(final ResourcePrototype image, final String label,
 			App app) {
-		NoDragImage btnImage = new NoDragImage(image, 24, -1);
+		NoDragImage btnImage = new NoDragImage(image, 24, 24);
 		btnImage.getElement().setTabIndex(-1);
 
 		Label btnLabel = new Label(app.getLocalization().getMenu(label));
@@ -71,10 +73,13 @@ public class SuiteHeaderAppPicker extends StandardButton {
 	 * sets the button visibility depending on overlapping of divs
 	 */
 	private void checkButtonVisibility() {
-		final RootPanel appPickerPanel = RootPanel.get("suiteAppPicker");
+		final Element appPickerPanel =  Document.get().getElementById("suiteAppPicker");
+		if (appPickerPanel == null) {
+			return;
+		}
 		int buttonRight = appPickerPanel.getAbsoluteLeft() + appPickerPanel.getOffsetWidth();
 		int buttonsLeft = RootPanel.get("buttonsID").getAbsoluteLeft();
-		final Style style = appPickerPanel.getElement().getStyle();
+		final Style style = appPickerPanel.getStyle();
 		if (buttonsLeft < buttonRight) {
 			style.setProperty("visibility", "hidden");
 		} else {
