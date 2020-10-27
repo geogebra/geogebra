@@ -74,4 +74,20 @@ public class AlgebraItemTest extends BaseUnitTest {
                 AlgebraItem.getLatexString(vector, LATEX_MAX_EDIT_LENGHT, false);
         assertThat(latexString, equalTo("v\\, \\text{undefined} "));
     }
+
+    @Test
+    public void shouldShowBothRowsForMinusOneCalc() {
+        getApp().getSettings().getAlgebra().setStyle(AlgebraStyle.DEFINITION_AND_VALUE);
+        getApp().setGraphingConfig();
+        GeoElement geo = addAvInput("(-1)(9)");
+        assertThat(AlgebraItem.shouldShowBothRows(geo), is(true));
+    }
+
+    @Test
+    public void shouldShowBothRowsForMinusTwoCalc() {
+        getApp().getSettings().getAlgebra().setStyle(AlgebraStyle.DEFINITION_AND_VALUE);
+        getApp().setGraphingConfig();
+        GeoElement geo = addAvInput("(-2)(9)");
+        assertThat(AlgebraItem.shouldShowBothRows(geo), is(true));
+    }
 }
