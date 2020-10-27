@@ -48,7 +48,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 	 */
 	public void setIconAndLabel(final ResourcePrototype image, final String label,
 			App app) {
-		NoDragImage btnImage = new NoDragImage(image, 24, -1);
+		NoDragImage btnImage = new NoDragImage(image, 24, 24);
 		btnImage.getElement().setTabIndex(-1);
 
 		Label btnLabel = new Label(app.getLocalization().getMenu(label));
