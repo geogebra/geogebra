@@ -692,6 +692,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (this.ct != null) {
 			ct.setLabels();
 		}
+		if (menuViewController != null) {
+			menuViewController.setLabels();
+		}
 	}
 
 	@Override
