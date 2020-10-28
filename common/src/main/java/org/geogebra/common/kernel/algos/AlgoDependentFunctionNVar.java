@@ -15,7 +15,6 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -24,7 +23,6 @@ import org.geogebra.common.util.debug.Log;
 /**
  * This class is needed to handle dependent multivariate functions like e.g.
  * f(x,y) = a x^2 + b y that depends on a and b.
- * 
  * @author Markus Hohenwarter
  */
 public class AlgoDependentFunctionNVar extends AlgoElement
@@ -35,13 +33,10 @@ public class AlgoDependentFunctionNVar extends AlgoElement
 	private ExpressionNode expression;
 	private FunctionNVar expandedFun;
 	private boolean expContainsFunctions;
-	private StringBuilder sb;
 
 	/**
-	 * @param cons
-	 *            construction
-	 * @param fun
-	 *            input function
+	 * @param cons construction
+	 * @param fun input function
 	 */
 	public AlgoDependentFunctionNVar(Construction cons, FunctionNVar fun) {
 		super(cons, false);
@@ -131,21 +126,17 @@ public class AlgoDependentFunctionNVar extends AlgoElement
 	}
 
 	@Override
-	public String toString(StringTemplate tpl) {
-		if (sb == null) {
-			sb = new StringBuilder();
-		} else {
-			sb.setLength(0);
+	public String toExpString(StringTemplate tpl) {
+		String rhs = fun.toString(tpl);
+		if (f.isLabelSet()) {
+			return f.getLabel(tpl) + "(" + f.getVarString(tpl) + ") = " + rhs;
 		}
-		if (f.isLabelSet() && !tpl.isHideLHS() && (!f.isBooleanFunction()
-				|| tpl.hasType(StringType.GEOGEBRA_XML))) {
-			sb.append(f.getLabel(tpl));
-			sb.append("(");
-			sb.append(f.getVarString(tpl));
-			sb.append(") = ");
-		}
-		sb.append(fun.toString(tpl));
-		return sb.toString();
+		return rhs;
+	}
+
+	@Override
+	public String getDefinition(StringTemplate tpl) {
+		return fun.toString(tpl);
 	}
 
 	@Override

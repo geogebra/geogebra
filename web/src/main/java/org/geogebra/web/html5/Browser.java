@@ -255,12 +255,23 @@ public class Browser {
 	}-*/;
 
 	/**
-	 * @return whether we are running this from another website (local install
-	 *         of app bundle)
+	 * @return whether we are running on geogebra.org
 	 */
 	public static boolean isGeoGebraOrg() {
-		return Location.getHost() != null
-				&& Location.getHost().contains("geogebra.org");
+		String host = Location.getHost();
+		return host != null && host.contains("geogebra.org");
+	}
+
+	/**
+	 * @return right now GraspableMath is only enabled on geogebra.org and
+	 * development hosts
+	 */
+	public static boolean isGraspableMathEnabled() {
+		String host = Location.getHost();
+		return host != null
+				&& (host.contains("geogebra.org")
+					|| host.contains("localhost")
+					|| host.contains("apps-builds.s3-eu-central-1.amazonaws.com"));
 	}
 
 	public native static String navigatorLanguage() /*-{

@@ -25,6 +25,7 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 	private Runnable negativeAction;
 	private StandardButton posButton;
 	private StandardButton negButton;
+	private boolean preventHide = false;
 
 	/**
 	 * base dialog constructor
@@ -108,6 +109,15 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 		dialogButtonPanel.add(posButton);
 	}
 
+	/**
+	 * @param posLabel new label for positive button
+	 * @param negLabel new label for negative button
+	 */
+	public void updateBtnLabels(String posLabel, String negLabel) {
+		posButton.setLabel(app.getLocalization().getMenu(posLabel));
+		negButton.setLabel(app.getLocalization().getMenu(negLabel));
+	}
+
 	public void setPosBtnDisabled(boolean disabled) {
 		setBtnDisabled(posButton, disabled);
 	}
@@ -120,11 +130,24 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 		Dom.toggleClass(btn, "disabled", disabled);
 	}
 
+	public void setPreventHide(boolean preventHide) {
+		this.preventHide = preventHide;
+	}
+
 	/**
 	 * fills the dialog with content
 	 * @param content - content of the dialog
 	 */
 	public void addDialogContent(IsWidget content) {
+		dialogContent.add(content);
+	}
+
+	/**
+	 * clears dialog content and fills with this widget
+	 * @param content - content of the dialog
+	 */
+	public void setDialogContent(IsWidget content) {
+		dialogContent.clear();
 		dialogContent.add(content);
 	}
 
@@ -151,7 +174,9 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 		if (positiveAction != null) {
 			positiveAction.run();
 		}
-		hide();
+		if (!preventHide) {
+			hide();
+		}
 	}
 
 	/**
@@ -179,7 +204,7 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 	@Override
 	public void onResize(ResizeEvent resizeEvent) {
 		if (isShowing()) {
-			super.center();
+			super.centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
 		}
 	}
 

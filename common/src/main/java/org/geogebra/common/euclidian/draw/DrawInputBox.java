@@ -300,6 +300,10 @@ public class DrawInputBox extends CanvasDrawable {
 		tf.setEditable(true);
 	}
 
+	public boolean hasError() {
+		return getGeoInputBox().hasError();
+	}
+
 	/**
 	 * @param text text to display
 	 * @return the font that has the correct size for the input box

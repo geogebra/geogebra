@@ -760,6 +760,7 @@ public abstract class CommandDispatcher {
 			case InverseTDistribution:
 			case InverseWeibull:
 			case InverseZipf:
+			case LineGraph:
 			case LogNormal:
 			case Logistic:
 			case Mean:

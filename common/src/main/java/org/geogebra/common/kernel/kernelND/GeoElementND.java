@@ -1623,4 +1623,10 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	 * @return true for cartesian surfaces
 	 */
 	boolean isGeoSurfaceCartesian();
+
+	/**
+	 * @return if it requires a special editing mode in symbolic input boxes
+	 * (vector, matrix, point whose elements can be edited, as opposed to sth like A+B)
+	 */
+	boolean hasSpecialEditor();
 }
