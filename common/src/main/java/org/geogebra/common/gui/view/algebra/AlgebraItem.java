@@ -295,8 +295,8 @@ public class AlgebraItem {
 			} else {
 				boolean showLabel =  geo1.getApp().getConfig().hasLabelForDescription();
 				if (showLabel) {
-					geo1.addLabelTextOrHTML(geo1.
-							getDefinitionDescription(StringTemplate.defaultTemplate), builder);
+					geo1.addLabelTextOrHTML(geo1
+							.getDefinitionDescription(StringTemplate.defaultTemplate), builder);
 				} else {
 					builder.clear();
 					builder.append(geo1.getDefinitionDescription(stringTemplate));

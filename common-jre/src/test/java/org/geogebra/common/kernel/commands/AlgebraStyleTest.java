@@ -502,7 +502,7 @@ public class AlgebraStyleTest extends Assert {
 		app.getKernel().setAlgebraStyle(Kernel.ALGEBRA_STYLE_VALUE);
 		t("1+1");
 		GeoElement geo = getGeo("a");
-		String previewFormula = AlgebraItem.getPreviewFormula(geo,StringTemplate.defaultTemplate);
+		String previewFormula = AlgebraItem.getPreviewFormula(geo, StringTemplate.defaultTemplate);
 		Assert.assertEquals("\\text{a = 2}", previewFormula);
 	}
 
