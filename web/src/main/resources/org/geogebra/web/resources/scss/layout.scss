@@ -256,7 +256,8 @@ $collapse-trans: all 0.2s ease;
  }
 
 .screenReaderStyle {
-	position: absolute;
+	position: fixed;
+	bottom: 20px;
 	width: 1px;
 	height: 1px;
 	padding: 0;

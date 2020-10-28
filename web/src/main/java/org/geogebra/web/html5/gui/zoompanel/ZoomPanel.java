@@ -5,7 +5,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -69,7 +68,8 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		setStyleName("zoomPanel");
 		addStyleName(app.isWhiteboardActive() && !app.isApplet()
 				? "zoomPanelWithPageControl" : "zoomPanelPosition");
-		if (ZoomPanel.needsZoomButtons(app) && zoomable) {
+		if (ZoomPanel.needsZoomButtons(app)
+				&& !app.isWhiteboardActive() && zoomable) {
 			addZoomButtons();
 		}
 
@@ -135,13 +135,9 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		};
 
 		fullscreenBtn.addFastClickHandler(handlerFullscreen);
-		Browser.addFullscreenListener(new AsyncOperation<String>() {
-
-			@Override
-			public void callback(String obj) {
-				if (!"true".equals(obj)) {
-					onExitFullscreen();
-				}
+		Browser.addFullscreenListener(obj -> {
+			if (!"true".equals(obj)) {
+				onExitFullscreen();
 			}
 		});
 		add(fullscreenBtn);
@@ -329,10 +325,15 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		}
 	}
 
-	private static boolean needsZoomButtons(AppW app) {
+	/**
+	 *
+	 * @param app see {@link AppW}
+	 * @return whether zoom buttons needed
+	 */
+	public static boolean needsZoomButtons(AppW app) {
 		return (app.getAppletParameters().getDataParamShowZoomButtons()
 				|| app.getAppletParameters().getDataParamApp())
-				&& app.isShiftDragZoomEnabled() && !app.isWhiteboardActive();
+				&& app.isShiftDragZoomEnabled();
 	}
 
 	/**
@@ -343,7 +344,8 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 * @return true if app needs zoom panel.
 	 */
 	public static boolean neededFor(AppW app) {
-		return needsZoomButtons(app) || needsFullscreenButton(app);
+		return (needsZoomButtons(app) && !app.isWhiteboardActive())
+			|| needsFullscreenButton(app);
 	}
 
 	/** Focus the first available button on zoom panel. */

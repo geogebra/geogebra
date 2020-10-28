@@ -140,6 +140,7 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
+import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -152,7 +153,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HTML;
@@ -573,7 +573,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void callAppletJavaScript(String fun, String arg) {
 		Log.debug("calling function: " + fun + "(" + arg + ")");
-		JsEval.callNativeJavaScript(fun, arg);
+		JsEval.callNativeGlobalFunction(fun, arg);
 	}
 
 	@Override

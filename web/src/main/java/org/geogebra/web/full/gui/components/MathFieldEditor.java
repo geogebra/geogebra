@@ -181,6 +181,15 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	}
 
 	/**
+	 * Remove style to the editor.
+	 *
+	 * @param style to remove.
+	 */
+	public void removeStyleName(String style) {
+		main.removeStyleName(style);
+	}
+
+	/**
 	 * @return mathFieldW
 	 */
 	public MathFieldW getMathField() {

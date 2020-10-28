@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.DialogData;
 
 /**
  * Sphere dialog
@@ -17,8 +18,8 @@ public class InputDialogSpherePointW extends InputDialogRadiusW {
 	/**
 	 * @param app
 	 *            application
-	 * @param title
-	 *            title
+	 * @param data
+	 *            dialog data
 	 * @param handler
 	 *            input handler
 	 * @param center
@@ -26,9 +27,9 @@ public class InputDialogSpherePointW extends InputDialogRadiusW {
 	 * @param kernel
 	 *            kernel
 	 */
-	public InputDialogSpherePointW(AppW app, String title,
+	public InputDialogSpherePointW(AppW app, DialogData data,
             InputHandler handler, GeoPointND center, Kernel kernel) {
-	    super(app, title, handler, kernel);
+	    super(app, data, handler, kernel);
 	    this.geoPoint = center;
     }
 
@@ -36,5 +37,4 @@ public class InputDialogSpherePointW extends InputDialogRadiusW {
 	protected GeoElement createOutput(GeoNumberValue num) {
 		return kernel.getManager3D().sphere(null, geoPoint, num);
     }
-
 }

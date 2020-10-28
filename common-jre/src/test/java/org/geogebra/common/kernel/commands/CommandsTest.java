@@ -141,12 +141,12 @@ public class CommandsTest {
 	@Test
 	public void listPropertiesTest() {
 		t("mat1={{1,2,3}}", "{{1, 2, 3}}");
-		Assert.assertTrue(((GeoList) get("mat1")).isEditableMatrix());
+		Assert.assertTrue(((GeoList) get("mat1")).hasSpecialEditor());
 		t("slider1=7", "7");
 		t("mat2={{1,2,slider1}}", "{{1, 2, 7}}");
-		Assert.assertTrue(((GeoList) get("mat2")).isEditableMatrix());
+		Assert.assertTrue(((GeoList) get("mat2")).hasSpecialEditor());
 		t("mat2={{1,2,slider1},Reverse[{1,2,3}]}", "{{1, 2, 7}, {3, 2, 1}}");
-		Assert.assertFalse(((GeoList) get("mat2")).isEditableMatrix());
+		Assert.assertFalse(((GeoList) get("mat2")).hasSpecialEditor());
 	}
 
 	@Test
@@ -1829,6 +1829,21 @@ public class CommandsTest {
 		t("tablesplit=TableText[1..5,\"h\",3]",
 				StringContains.containsString("array"));
 		checkSize("tablesplit", 3, 2);
+	}
+
+	@Test
+	public void cmdLineGraph() {
+		t("f=LineGraph({1,2},{3,4})", "DataFunction[{1, 2}, {3, 4},x]");
+		t("Point(f)", "(1, 3)");
+		t("Tangent(f, (1,3))", "?");
+	}
+
+	@Test
+	public void cmdLineGraphInvalid() {
+		t("LineGraph({3,2},{3,4})", "?");
+		t("LineGraph({3,(4,5)},{3,4})", "?");
+		t("LineGraph({1,2},{3,?})", "?");
+		t("LineGraph({1,2},{3,Infinity})", "?");
 	}
 
 	private static void checkSize(String string, int cols, int rows) {

@@ -1,9 +1,12 @@
 package org.geogebra.web.html5.main;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import org.geogebra.web.html5.util.JsRunnable;
+import org.geogebra.web.html5.util.StringConsumer;
+
 import com.google.gwt.dom.client.Element;
 
 import elemental2.core.Global;
+import elemental2.core.JsArray;
 import elemental2.promise.Promise;
 import jsinterop.annotations.JsIgnore;
 import jsinterop.annotations.JsType;
@@ -32,16 +35,8 @@ public class DefaultExportedApi implements ExportedApi {
 		this.scriptManager = scriptManager;
 	}
 
-	private static boolean isUndefined(Object o) {
-		return "undefined".equals(Js.typeof(o));
-	}
-
 	private static double doubleOrDefault(Object o, double def) {
 		return Js.isFalsy(o) ? def : Js.coerceToDouble(o);
-	}
-
-	private String getId(Object func) {
-		return scriptManager.getId(func);
 	}
 
 	public void remove() {
@@ -65,17 +60,17 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.getPerspectiveXML();
 	}
 
-	public String getBase64(JavaScriptObject param1, JavaScriptObject param2) {
+	public String getBase64(Object param1, Object param2) {
 		if (Js.isTripleEqual(param2, false)) {
 			return ggbAPI.getBase64(false);
 		}
 		if (Js.isTripleEqual(param2, true)) {
 			return ggbAPI.getBase64(true);
 		}
-		if (Js.isTruthy(param2)) {
-			ggbAPI.getBase64(Js.isTruthy(param1), param2);
-		} else if (Js.isTruthy(param1)) {
-			ggbAPI.getBase64(false, param1);
+		if (JsEval.isFunction(param2)) {
+			ggbAPI.getBase64(Js.isTruthy(param1), (StringConsumer) param2);
+		} else if (JsEval.isFunction(param1)) {
+			ggbAPI.getBase64(false, (StringConsumer) param1);
 		} else {
 			return ggbAPI.getBase64();
 		}
@@ -83,11 +78,11 @@ public class DefaultExportedApi implements ExportedApi {
 		return null;
 	}
 
-	public void setBase64(String base64string, JavaScriptObject callback) {
+	public void setBase64(String base64string, JsRunnable callback) {
 		ggbAPI.setBase64(base64string + "", callback);
 	}
 
-	public void openFile(String filename, JavaScriptObject callback) {
+	public void openFile(String filename, JsRunnable callback) {
 		ggbAPI.openFile(filename + "", callback);
 	}
 
@@ -140,7 +135,7 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public void setFixed(String objName, Object flag, Object selection) {
-		if (isUndefined(selection)) {
+		if (JsEval.isUndefined(selection)) {
 			ggbAPI.setFixed(objName + "", Js.isTruthy(flag));
 		} else {
 			ggbAPI.setFixed(objName + "", Js.isTruthy(flag), Js.isTruthy(selection));
@@ -157,6 +152,10 @@ public class DefaultExportedApi implements ExportedApi {
 
 	public void setSaved() {
 		ggbAPI.setSaved();
+	}
+
+	public boolean isSaved() {
+		return ggbAPI.isSaved();
 	}
 
 	public void initCAS() {
@@ -185,7 +184,7 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public boolean getVisible(String objName, Object view) {
-		if (!isUndefined(view)) {
+		if (!JsEval.isUndefined(view)) {
 			return ggbAPI.getVisible(objName + "", Js.coerceToInt(view));
 		}
 		return ggbAPI.getVisible(objName + "");
@@ -223,8 +222,8 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.getLabelStyle(objName + "");
 	}
 
-	public void getLabelVisible(String objName) {
-		ggbAPI.getLabelVisible(objName + "");
+	public boolean getLabelVisible(String objName) {
+		return ggbAPI.getLabelVisible(objName + "");
 	}
 
 	public void setColor(String objName, int red, int green, int blue) {
@@ -348,7 +347,7 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public String getValueString(String objName, Object localized) {
-		boolean localizedB = isUndefined(localized) || Js.isTruthy(localized);
+		boolean localizedB = JsEval.isUndefined(localized) || Js.isTruthy(localized);
 		return ggbAPI.getValueString(objName + "", localizedB);
 	}
 
@@ -357,7 +356,7 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public String getDefinitionString(String objName, Object localized) {
-		boolean localizedB = isUndefined(localized) || Js.isTruthy(localized);
+		boolean localizedB = JsEval.isUndefined(localized) || Js.isTruthy(localized);
 		return ggbAPI.getDefinitionString(objName + "",  localizedB);
 	}
 
@@ -370,7 +369,7 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public String getCommandString(String objName, Object localized) {
-		boolean localizedB = isUndefined(localized) || Js.isTruthy(localized);
+		boolean localizedB = JsEval.isUndefined(localized) || Js.isTruthy(localized);
 		return ggbAPI.getCommandString(objName + "", localizedB);
 	}
 
@@ -395,7 +394,7 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public void setCoords(String objName, double x, double y, double z) {
-		if (isUndefined(z)) {
+		if (JsEval.isUndefined(z)) {
 			ggbAPI.setCoords(objName + "", x, y);
 		} else {
 			ggbAPI.setCoords(objName + "", x, y, z);
@@ -410,7 +409,7 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.getVersion();
 	}
 
-	public void getScreenshotBase64(JavaScriptObject callback) {
+	public void getScreenshotBase64(StringConsumer callback) {
 		ggbAPI.getScreenshotBase64(callback);
 	}
 
@@ -430,7 +429,7 @@ public class DefaultExportedApi implements ExportedApi {
 			value = 0;
 		} else {
 			// force string -> number (might give NaN)
-			value = Js.asDouble(x);
+			value = Js.coerceToDouble(x);
 		}
 
 		ggbAPI.setValue(objName + "", value);
@@ -450,7 +449,7 @@ public class DefaultExportedApi implements ExportedApi {
 			xValue = 0;
 		} else {
 			// force string -> number (might give NaN)
-			xValue = Js.asDouble(x);
+			xValue = Js.coerceToDouble(x);
 		}
 
 		double yValue;
@@ -460,7 +459,7 @@ public class DefaultExportedApi implements ExportedApi {
 			yValue = 0;
 		} else {
 			// force string -> number (might give NaN)
-			yValue = Js.asDouble(y);
+			yValue = Js.coerceToDouble(y);
 		}
 
 		ggbAPI.setListValue(objName + "", xValue, yValue);
@@ -475,13 +474,13 @@ public class DefaultExportedApi implements ExportedApi {
 		if (!"number".equals(Js.typeof(zmin))) {
 			ggbAPI.setCoordSystem(xmin, xmax, ymin, ymax);
 		} else {
-			ggbAPI.setCoordSystem(xmin, xmax, ymin, ymax, Js.asDouble(zmin), Js.asDouble(zmax),
-					Js.isTruthy(verticalY));
+			ggbAPI.setCoordSystem(xmin, xmax, ymin, ymax, Js.coerceToDouble(zmin),
+					Js.coerceToDouble(zmax), Js.isTruthy(verticalY));
 		}
 	}
 
 	public void setAxesVisible(Object arg1, Object arg2, Object arg3, Object arg4) {
-		if (isUndefined(arg3)) {
+		if (JsEval.isUndefined(arg3)) {
 			ggbAPI.setAxesVisible(Js.isTruthy(arg1), Js.isTruthy(arg2));
 		} else {
 			ggbAPI.setAxesVisible(Js.coerceToInt(arg1), Js.isTruthy(arg2), Js.isTruthy(arg3),
@@ -501,16 +500,16 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.setAxisSteps(arg1, arg2 + "", arg3 + "", arg4 + "");
 	}
 
-	public String[] getAxisUnits(Object arg1) {
-		return ggbAPI.getAxisUnits(Js.coerceToInt(arg1));
+	public JsArray<String> getAxisUnits(Object arg1) {
+		return new JsArray<>(ggbAPI.getAxisUnits(Js.coerceToInt(arg1)));
 	}
 
-	public String[] getAxisLabels(Object arg1) {
-		return ggbAPI.getAxisLabels(Js.coerceToInt(arg1));
+	public JsArray<String> getAxisLabels(Object arg1) {
+		return new JsArray<>(ggbAPI.getAxisLabels(Js.coerceToInt(arg1)));
 	}
 
 	public void setPointCapture(int view, Object capture) {
-		if (isUndefined(capture)) {
+		if (JsEval.isUndefined(capture)) {
 			ggbAPI.setPointCapture(1, view);
 		} else {
 			ggbAPI.setPointCapture(view, Js.coerceToInt(capture));
@@ -518,7 +517,7 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public boolean getGridVisible(Object view) {
-		if (isUndefined(view)) {
+		if (JsEval.isUndefined(view)) {
 			return ggbAPI.getGridVisible(1);
 		} else {
 			return ggbAPI.getGridVisible(Js.coerceToInt(view));
@@ -526,18 +525,18 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public void setGridVisible(Object arg1, Object arg2) {
-		if (isUndefined(arg2)) {
+		if (JsEval.isUndefined(arg2)) {
 			ggbAPI.setGridVisible(Js.isTruthy(arg1));
 		} else {
 			ggbAPI.setGridVisible(Js.coerceToInt(arg1), Js.isTruthy(arg2));
 		}
 	}
 
-	public String[] getAllObjectNames(String objectType) {
-		if (isUndefined(objectType)) {
-			return ggbAPI.getAllObjectNames();
+	public JsArray<String> getAllObjectNames(String objectType) {
+		if (JsEval.isUndefined(objectType)) {
+			return new JsArray<>(ggbAPI.getAllObjectNames());
 		} else {
-			return ggbAPI.getAllObjectNames(objectType + "");
+			return new JsArray<>(ggbAPI.getAllObjectNames(objectType + ""));
 		}
 	}
 
@@ -579,6 +578,10 @@ public class DefaultExportedApi implements ExportedApi {
 
 	public void newConstruction() {
 		ggbAPI.newConstruction();
+	}
+
+	public void resetAfterSaveLoginCallbacks() {
+		ggbAPI.resetAfterSaveLoginCallbacks();
 	}
 
 	public void debug(String str) {
@@ -682,7 +685,7 @@ public class DefaultExportedApi implements ExportedApi {
 				filename, Js.coerceToInt(rotate));
 	}
 
-	public JavaScriptObject getFileJSON(Object thumbnail) {
+	public Object getFileJSON(Object thumbnail) {
 		return ggbAPI.getFileJSON(Js.isTruthy(thumbnail));
 	}
 
@@ -716,7 +719,7 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.setExternalPath(path + "");
 	}
 
-	public void checkSaved(JavaScriptObject path) {
+	public void checkSaved(JsRunnable path) {
 		ggbAPI.checkSaved(path);
 	}
 
@@ -730,7 +733,7 @@ public class DefaultExportedApi implements ExportedApi {
 				DPI, Js.isTruthy(greyscale));
 	}
 
-	public void exportPGF(JavaScriptObject callback) {
+	public void exportPGF(StringConsumer callback) {
 		ggbAPI.exportPGF(callback);
 	}
 
@@ -742,11 +745,11 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.exportPDF(Js.coerceToDouble(scale), filename, sliderLabel);
 	}
 
-	public void exportPSTricks(JavaScriptObject callback) {
+	public void exportPSTricks(StringConsumer callback) {
 		ggbAPI.exportPSTricks(callback);
 	}
 
-	public void exportAsymptote(JavaScriptObject callback) {
+	public void exportAsymptote(StringConsumer callback) {
 		ggbAPI.exportAsymptote(callback);
 	}
 
@@ -779,7 +782,7 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public void setEditorState(Object state, String label) {
-		String stateString = "string".equals(Js.typeof(state)) ? Js.asString(state)
+		String stateString = JsEval.isJSString(state) ? Js.asString(state)
 				: Global.JSON.stringify(state);
 		ggbAPI.setEditorState(stateString, label);
 	}
@@ -803,7 +806,7 @@ public class DefaultExportedApi implements ExportedApi {
 			xzScale, xTickDistance, yTickDistance, zTickDistance);
 	}
 
-	public String translate(String arg1, JavaScriptObject callback) {
+	public String translate(String arg1, StringConsumer callback) {
 		return ggbAPI.translate(arg1 + "", callback);
 	}
 
@@ -860,71 +863,71 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public void registerAddListener(Object JSFunctionName) {
-		ggbAPI.registerAddListener(getId(JSFunctionName));
+		ggbAPI.registerAddListener(JSFunctionName);
 	}
 
 	public void unregisterAddListener(Object JSFunctionName) {
-		ggbAPI.unregisterAddListener(getId(JSFunctionName));
+		ggbAPI.unregisterAddListener(JSFunctionName);
 	}
 
 	public void registerStoreUndoListener(Object JSFunctionName) {
-		ggbAPI.registerStoreUndoListener(getId(JSFunctionName));
+		ggbAPI.registerStoreUndoListener(JSFunctionName);
 	}
 
 	public void unregisterStoreUndoListener(Object JSFunctionName) {
-		ggbAPI.unregisterStoreUndoListener(getId(JSFunctionName));
+		ggbAPI.unregisterStoreUndoListener(JSFunctionName);
 	}
 
 	public void registerRemoveListener(Object JSFunctionName) {
-		ggbAPI.registerRemoveListener(getId(JSFunctionName));
+		ggbAPI.registerRemoveListener(JSFunctionName);
 	}
 
 	public void unregisterRemoveListener(Object JSFunctionName) {
-		ggbAPI.unregisterRemoveListener(getId(JSFunctionName));
+		ggbAPI.unregisterRemoveListener(JSFunctionName);
 	}
 
 	public void registerClearListener(Object JSFunctionName) {
-		ggbAPI.registerClearListener(getId(JSFunctionName));
+		ggbAPI.registerClearListener(JSFunctionName);
 	}
 
 	public void unregisterClearListener(Object JSFunctionName) {
-		ggbAPI.unregisterClearListener(getId(JSFunctionName));
+		ggbAPI.unregisterClearListener(JSFunctionName);
 	}
 
 	public void registerRenameListener(Object JSFunctionName) {
-		ggbAPI.registerRenameListener(getId(JSFunctionName));
+		ggbAPI.registerRenameListener(JSFunctionName);
 	}
 
 	public void unregisterRenameListener(Object JSFunctionName) {
-		ggbAPI.unregisterRenameListener(getId(JSFunctionName));
+		ggbAPI.unregisterRenameListener(JSFunctionName);
 	}
 
 	public void registerUpdateListener(Object JSFunctionName) {
-		ggbAPI.registerUpdateListener(getId(JSFunctionName));
+		ggbAPI.registerUpdateListener(JSFunctionName);
 	}
 
 	public void unregisterUpdateListener(Object JSFunctionName) {
-		ggbAPI.unregisterUpdateListener(getId(JSFunctionName));
+		ggbAPI.unregisterUpdateListener(JSFunctionName);
 	}
 
 	public void registerClientListener(Object JSFunctionName) {
-		ggbAPI.registerClientListener(getId(JSFunctionName));
+		ggbAPI.registerClientListener(JSFunctionName);
 	}
 
 	public void unregisterClientListener(Object JSFunctionName) {
-		ggbAPI.unregisterClientListener(getId(JSFunctionName));
+		ggbAPI.unregisterClientListener(JSFunctionName);
 	}
 
 	public void registerObjectUpdateListener(String objName, Object JSFunctionName) {
-		ggbAPI.registerObjectUpdateListener(objName + "", getId(JSFunctionName));
+		ggbAPI.registerObjectUpdateListener(objName + "", JSFunctionName);
 	}
 
-	public void unregisterObjectUpdateListener(Object JSFunctionName) {
-		ggbAPI.unregisterObjectUpdateListener(getId(JSFunctionName));
+	public void unregisterObjectUpdateListener(String label) {
+		ggbAPI.unregisterObjectUpdateListener(label);
 	}
 
 	public void registerObjectClickListener(String objName, Object JSFunctionName) {
-		ggbAPI.registerObjectClickListener(objName + "", getId(JSFunctionName));
+		ggbAPI.registerObjectClickListener(objName + "", JSFunctionName);
 	}
 
 	public void unregisterObjectClickListener(String objName) {
@@ -932,11 +935,11 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public void registerClickListener(Object JSFunctionName) {
-		ggbAPI.registerClickListener(getId(JSFunctionName));
+		ggbAPI.registerClickListener(JSFunctionName);
 	}
 
 	public void unregisterClickListener(Object JSFunctionName) {
-		ggbAPI.unregisterClickListener(getId(JSFunctionName));
+		ggbAPI.unregisterClickListener(JSFunctionName);
 	}
 
 	public void handleSlideAction(Object eventType, Object pageIdx, Object appState) {

@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.impl.StubGenerator;
 
+import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -27,6 +28,10 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         super(unitTestClass);
         StubGenerator.replaceMethodWithMock(Js.class, "asPropertyMap",
                 JsPropertyMap.class);
+        StubGenerator.replaceMethodWithMock(DomGlobal.class, "setInterval",
+                Double.class);
+        StubGenerator.replaceMethodWithMock(DomGlobal.class, "setTimeout",
+                Double.class);
     }
 
     @Override

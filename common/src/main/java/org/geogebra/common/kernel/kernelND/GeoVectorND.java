@@ -105,10 +105,4 @@ public interface GeoVectorND
 	 * @return the column vector that can be rendered by editor.
 	 */
 	String toValueStringAsColumnVector(StringTemplate tpl);
-
-	/**
-	 *
-	 * @return true if the vector is column-editable.
-	 */
-	boolean isColumnEditable();
 }

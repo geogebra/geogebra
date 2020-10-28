@@ -43,7 +43,7 @@ public class AlgoHolesPolynomial extends AlgoGeoPointsFunction implements UsesCA
 				Equation equation = (Equation) ev;
 				ExpressionValue rhs = equation.getRHS().unwrap();
 				ExpressionNode lhs = equation.getLHS();
-				if (lhs.containsFunctionVariable("x") && rhs.isNumberValue()) {
+				if (lhs.containsFunctionVariable("x") && rhs instanceof NumberValue) {
 					NumberValue numberValue = (NumberValue) rhs;
 					values.add(numberValue);
 				}

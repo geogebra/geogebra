@@ -75,16 +75,6 @@ public class CreateObjectModel {
 		this.loc = app.getLocalization();
 		this.objectType = objectType;
 		this.listener = listener;
-
-	}
-
-	/**
-	 * @return localized object types that can be created
-	 */
-	public List<String> getObjectTypeNames() {
-		return Arrays.asList(loc.getMenu("List.Create"), loc.getMenu("Matrix"),
-				loc.getMenu("ListOfPoints"), loc.getMenu("Table"),
-				loc.getMenu("PolyLine"));
 	}
 
 	/**
@@ -110,7 +100,15 @@ public class CreateObjectModel {
 		case TYPE_MATRIX:
 			return loc.getMenu("CreateMatrix");
 		}
+	}
 
+	/**
+	 * @return localized object types that can be created
+	 */
+	public List<String> getObjectTypeNames() {
+		return Arrays.asList(loc.getMenu("List.Create"), loc.getMenu("Matrix"),
+				loc.getMenu("ListOfPoints"), loc.getMenu("Table"),
+				loc.getMenu("PolyLine"));
 	}
 
 	/**

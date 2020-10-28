@@ -3,6 +3,7 @@ package org.geogebra.desktop.euclidian;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.SwingUtilities;
 
@@ -15,6 +16,7 @@ import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
@@ -34,7 +36,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 		box = Box.createHorizontalBox();
 
-		mathField = new MathFieldD();
+		mathField = new MathFieldD(new SyntaxAdapterImpl(app.kernel));
 
 		mathField.getInternal().setFieldListener(this);
 		mathField.setVisible(true);
@@ -58,6 +60,11 @@ public class SymbolicEditorD extends SymbolicEditor {
 	@Override
 	public void resetChanges() {
 		mathField.getInternal().parse(getGeoInputBox().getTextForEditor());
+
+		if (getGeoInputBox().getLinkedGeo().hasSpecialEditor()) {
+			getMathFieldInternal().getFormula().getRootComponent().setProtected();
+			getMathFieldInternal().setLockedCaretPath();
+		}
 	}
 
 	protected void showRedefinedBox(final DrawInputBox drawable) {
@@ -122,6 +129,12 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 		g.translate(DrawInputBox.TF_PADDING_HORIZONTAL, 0);
 		mathField.setForeground(GColorD.getAwtColor(getGeoInputBox().getObjectColor()));
+		if (getDrawInputBox() != null && getDrawInputBox().hasError()) {
+			box.setBorder(BorderFactory.createDashedBorder(GColorD.getAwtColor(GColor.ERROR_RED),
+					4, 1, 1, true));
+		} else {
+			box.setBorder(null);
+		}
 		box.paint(GGraphics2DD.getAwtGraphics(g));
 
 		g.restoreTransform();

@@ -13,20 +13,19 @@ the Free Software Foundation.
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.gui.InputHandler;
-import org.geogebra.common.gui.view.algebra.DialogType;
-import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.ComponentInputDialog;
+import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class AngleInputDialogW extends InputDialogW {
+public class AngleInputDialogW extends ComponentInputDialog {
 
 	protected RadioButton rbCounterClockWise;
 	protected RadioButton rbClockWise;
@@ -34,13 +33,19 @@ public class AngleInputDialogW extends InputDialogW {
 	/**
 	 * Input Dialog for a GeoAngle object.
 	 */
-	public AngleInputDialogW(AppW app, String message, String title,
-			String initString, boolean autoComplete, InputHandler handler,
-			boolean modal) {
-		super(modal, app, true);
+	public AngleInputDialogW(AppW app, String message, DialogData data,
+			String initString, InputHandler handler, boolean modal) {
+		super(app, data, false, false, handler,
+				app.getLocalization().getMenu(message), initString,
+				1, -1, false);
+		addStyleName("angleInputDialog");
+		super.setModal(modal);
 		setInputHandler(handler);
-		setInitString(initString);
+		extendGUI();
+	}
 
+	private void extendGUI() {
+		Localization loc = app.getLocalization();
 		// create radio buttons for "clockwise" and "counter clockwise"
 		String id = DOM.createUniqueId();
 		rbCounterClockWise = new RadioButton(id,
@@ -48,26 +53,15 @@ public class AngleInputDialogW extends InputDialogW {
 		rbClockWise = new RadioButton(id, loc.getMenu("clockwise"));
 		rbCounterClockWise.setValue(true);
 
-		HorizontalPanel rbPanel = new HorizontalPanel();
+		FlowPanel rbPanel = new FlowPanel();
 		rbPanel.setStyleName("DialogRbPanel");
 		rbPanel.add(rbCounterClockWise);
 		rbPanel.add(rbClockWise);
+		addDialogContent(rbPanel);
+		getTextComponent().setFocus(true);
 
-		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false,
-				false, false, DialogType.GeoGebraEditor);
-
-		VerticalPanel centerPanel = new VerticalPanel();
-		centerPanel.add(messagePanel);
-		centerPanel.add(inputPanel);
-		centerPanel.add(errorPanel);
-		centerPanel.add(rbPanel);
-		((VerticalPanel) wrappedPopup.getWidget()).insert(centerPanel, 0);
-
-		wrappedPopup.center();
-		inputPanel.getTextComponent().setFocus(true);
-
-		inputPanel.addTextComponentInsertHandler(t -> insertDegreeSymbolIfNeeded());
-		inputPanel.addTextComponentKeyUpHandler(e -> {
+		getTextComponent().addInsertHandler(t -> insertDegreeSymbolIfNeeded());
+		getTextComponent().addKeyUpHandler(e -> {
 			// return unless digit typed (instead of !Character.isDigit)
 			if (e.getNativeKeyCode() < 48
 					|| (e.getNativeKeyCode() > 57 && e.getNativeKeyCode() < 96)
@@ -83,46 +77,17 @@ public class AngleInputDialogW extends InputDialogW {
 	}
 
 	@Override
-	protected void actionPerformed(DomEvent<?> e) {
-		Object source = e.getSource();
+	public void processInput() {
+		String inputTextWithSign = getInputText();
+		getTextComponent().hideTablePopup();
 
-		try {
-
-			if (source == btOK || sourceShouldHandleOK(source)) {
-				String inputTextWithSign = inputPanel.getText();
-				inputPanel.getTextComponent().hideTablePopup();
-
-				// negative orientation ?
-				if (rbClockWise.getValue()) {
-					inputTextWithSign = "-(" + inputTextWithSign + ")";
-				}
-
-				getInputHandler().processInput(inputTextWithSign, this,
-						new AsyncOperation<Boolean>() {
-
-							@Override
-							public void callback(Boolean ok) {
-								afterActionPerformed(ok);
-
-							}
-						});
-			} else if (source == btCancel) {
-				afterActionPerformed(true);
-				inputPanel.getTextComponent().hideTablePopup();
-			}
-		} catch (Exception ex) {
-			afterActionPerformed(false);
-			// do nothing on uninitializedValue
+		// negative orientation ?
+		if (rbClockWise.getValue()) {
+			inputTextWithSign = "-(" + inputTextWithSign + ")";
 		}
-	}
 
-	void afterActionPerformed(boolean finished) {
-		if (finished) {
-			wrappedPopup.hide();
-			app.getActiveEuclidianView().requestFocusInWindow();
-		} else {
-			wrappedPopup.show();
-		}
+		getInputHandler().processInput(inputTextWithSign, this,
+				ok -> hide());
 	}
 
 	/*
