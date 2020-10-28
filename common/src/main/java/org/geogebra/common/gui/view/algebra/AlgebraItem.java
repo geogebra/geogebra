@@ -283,8 +283,7 @@ public class AlgebraItem {
 		switch (avStyle) {
 		case Kernel.ALGEBRA_STYLE_VALUE:
 			if (geo1.isAllowedToShowValue()) {
-				builder.clear();
-				builder.append(geo1.getAlgebraDescriptionPublic(stringTemplate));
+				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
 			} else {
 				buildDefinitionString(geo1, builder, stringTemplate);
 			}
@@ -296,7 +295,8 @@ public class AlgebraItem {
 			} else {
 				boolean showLabel =  geo1.getApp().getConfig().hasLabelForDescription();
 				if (showLabel) {
-					geo1.addLabelTextOrHTML(geo1.getDefinitionDescription(stringTemplate), builder);
+					geo1.addLabelTextOrHTML(geo1.
+							getDefinitionDescription(StringTemplate.defaultTemplate), builder);
 				} else {
 					builder.clear();
 					builder.append(geo1.getDefinitionDescription(stringTemplate));
