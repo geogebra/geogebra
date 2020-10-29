@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.test.TestErrorHandler;
@@ -377,16 +376,10 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	@Test
 	public void cmdRemovableDiscontinuity() {
 		t("RemovableDiscontinuity((3-x)/(2x^2-6x))", "(3, -0.16666666666666666)");
-	}
-
-	@Test
-	public void cmdHoles() {
-		if (app.has(Feature.COMMAND_HOLES)) {
-			t("Holes(x/x)", "(0, 1)");
-			t("Holes((x^2 - 4)/(x - 2))", "(2, 4)");
-			t("Holes(x + x/x)", "(0, 1)");
-			t("Holes(2^(x + x/x))", "(0, 2)");
-		}
+		t("RemovableDiscontinuity(x/x)", "(0, 1)");
+		t("RemovableDiscontinuity((x^2 - 4)/(x - 2))", "(2, 4)");
+		t("RemovableDiscontinuity(x + x/x)", "(0, 1)");
+		t("RemovableDiscontinuity(2^(x + x/x))", "(0, 2)");
 	}
 
 	@Test
