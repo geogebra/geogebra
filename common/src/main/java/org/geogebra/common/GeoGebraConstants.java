@@ -117,6 +117,8 @@ public interface GeoGebraConstants {
 
 	String SUITE_SHORT_NAME = "CalculatorSuite.short";
 
+	String SUITE_URL_NAME = "calculator";
+
 	/**
 	 * used by version checker, so that sys admins can disable version checking
 	 * for *all* ggb versions with
