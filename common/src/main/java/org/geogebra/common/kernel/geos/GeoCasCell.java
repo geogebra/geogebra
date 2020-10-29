@@ -3776,11 +3776,7 @@ public class GeoCasCell extends GeoElement
 
 	private boolean hasSymbolicConstant() {
 		Command cmd = expandedEvalVE.getTopLevelCommand();
-		boolean ret = false;
-		if (cmd != null) {
-			ret = "IntegralSymbolic".equals(cmd.getName());
-		}
-		return ret;
+		return cmd != null && "IntegralSymbolic".equals(cmd.getName());
 	}
 
 }
