@@ -125,7 +125,7 @@ public class ProbabilityTableD extends ProbabilityTable
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
 			// System.out.println(low + " , " + high);
-			((ProbabilityCalculatorViewD) getProbCalc()).setInterval(low, high);
+			getProbCalc().setInterval(low, high);
 		} else if (getProbCalc()
 				.getProbMode() == ProbabilityCalculatorView.PROB_LEFT) {
 			String lowStr = (String) statTable.getTable().getModel()
@@ -135,7 +135,7 @@ public class ProbabilityTableD extends ProbabilityTable
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
 			// System.out.println(low + " , " + high);
-			((ProbabilityCalculatorViewD) getProbCalc()).setInterval(low, high);
+			getProbCalc().setInterval(low, high);
 
 			// adjust the selection
 			table.getSelectionModel().removeListSelectionListener(this);

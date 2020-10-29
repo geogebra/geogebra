@@ -1147,10 +1147,12 @@ public abstract class ProbabilityCalculatorView
 			break;
 
 		case HYPERGEOMETRIC:
-
-			double p = parameters[0].getDouble(); // population size
-			double n = parameters[1].getDouble(); // n
-			double s = parameters[2].getDouble(); // sample size
+			pGeo = parameters[0];
+			double p = pGeo.getDouble(); // population size
+			nGeo = parameters[1];
+			double n = nGeo.getDouble(); // n
+			GeoNumberValue sGeo = parameters[2];
+			double s = sGeo.getDouble(); // sample size
 
 			// ================================================
 			// interval bounds:
@@ -1163,9 +1165,6 @@ public abstract class ProbabilityCalculatorView
 			GeoNumeric lowGeo = new GeoNumeric(cons, lowBound);
 			GeoNumeric highGeo = new GeoNumeric(cons, highBound);
 
-			pGeo = new GeoNumeric(cons, p);
-			nGeo = new GeoNumeric(cons, n);
-
 			k = new GeoNumeric(cons);
 			k2 = new GeoNumeric(cons);
 
@@ -1176,7 +1175,6 @@ public abstract class ProbabilityCalculatorView
 			algo = new AlgoListElement(cons, discreteValueList, k2);
 			cons.removeFromConstructionList(algo);
 
-			GeoNumeric sGeo = new GeoNumeric(cons, s);
 			AlgoHyperGeometric hyperGeometric = new AlgoHyperGeometric(cons,
 					pGeo, nGeo, sGeo, (GeoNumberValue) algo.getOutput(0),
 					new GeoBoolean(cons, isCumulative));
@@ -1188,7 +1186,6 @@ public abstract class ProbabilityCalculatorView
 					new GeoNumeric(cons, 1.0), lengthGeo, null);
 			cons.removeFromConstructionList(algoSeq2);
 			discreteProbList = (GeoList) algoSeq2.getOutput(0);
-
 			break;
 		}
 
@@ -1456,6 +1453,7 @@ public abstract class ProbabilityCalculatorView
 	public void update(GeoElement geo) {
 		if (!isSettingAxisPoints && !isIniting) {
 			if (lowPoint != null && highPoint != null
+					&& !Double.isInfinite(lowPoint.getInhomX())
 					&& lowPoint.getInhomX() > highPoint.getInhomX()) {
 				GeoPoint swap = lowPoint;
 				lowPoint = highPoint;
@@ -1495,11 +1493,11 @@ public abstract class ProbabilityCalculatorView
 		// statCalculator.updateResult();
 	}
 
-	private GeoNumberValue asNumeric(GeoPoint lowPoint, GeoNumberValue low) {
-		double value = lowPoint.getInhomX();
-		if (low instanceof GeoNumeric) {
-			((GeoNumeric) low).setValue(value);
-			return low;
+	private GeoNumberValue asNumeric(GeoPoint point, GeoNumberValue number) {
+		double value = point.getInhomX();
+		if (number instanceof GeoNumeric) {
+			((GeoNumeric) number).setValue(value);
+			return number;
 		}
 		return new GeoNumeric(cons, value);
 	}
@@ -1607,8 +1605,6 @@ public abstract class ProbabilityCalculatorView
 
 	protected boolean isValidParameter(double parameter, int index) {
 
-		boolean[] isValid = { true, true, true };
-
 		switch (selectedDist) {
 
 		default:
@@ -1623,7 +1619,7 @@ public abstract class ProbabilityCalculatorView
 		case POISSON:
 			if (index == 0) {
 				// all parameters must be positive
-				isValid[0] = parameter > 0;
+				return parameter > 0;
 			}
 			break;
 
@@ -1631,14 +1627,14 @@ public abstract class ProbabilityCalculatorView
 		case LOGISTIC:
 			if (index == 1) {
 				// scale must be positive
-				isValid[1] = index == 1 && parameter > 0;
+				return parameter > 0;
 			}
 			break;
 
 		case CHISQUARE:
 			if (index == 0) {
 				// df >= 1, integer
-				isValid[0] = Math.floor(parameter) == parameter
+				return Math.floor(parameter) == parameter
 						&& parameter >= 1;
 			}
 			break;
@@ -1646,38 +1642,37 @@ public abstract class ProbabilityCalculatorView
 		case BINOMIAL:
 			if (index == 0) {
 				// n >= 0, integer
-				isValid[0] = Math.floor(parameter) == parameter
+				return Math.floor(parameter) == parameter
 						&& parameter >= 0;
 			} else if (index == 1) {
 				// p is probability value
-				isValid[1] = parameter >= 0 && parameter <= 1;
+				return parameter >= 0 && parameter <= 1;
 			}
 			break;
 
 		case PASCAL:
 			if (index == 0) {
 				// n >= 1, integer
-				isValid[0] = Math.floor(parameter) == parameter
+				return Math.floor(parameter) == parameter
 						&& parameter >= 1;
 			} else if (index == 1) {
 				// p is probability value
-				isValid[1] = index == 1 && parameter >= 0 && parameter <= 1;
+				return parameter >= 0 && parameter <= 1;
 			}
 			break;
 
 		case HYPERGEOMETRIC:
 			if (index == 0) {
 				// population size: N >= 1, integer
-				isValid[0] = index == 0 && Math.floor(parameter) == parameter
-						&& parameter >= 1;
+				return Math.floor(parameter) == parameter && parameter >= 1;
 			} else if (index == 1) {
 				// successes in the population: n >= 0 and <= N, integer
-				isValid[1] = index == 1 && Math.floor(parameter) == parameter
-						&& parameter >= 0 && parameter <= parameters[0].getDouble();
+				return Math.floor(parameter) == parameter && parameter >= 0
+						&& parameter <= parameters[0].getDouble();
 			} else if (index == 2) {
 				// sample size: s>= 1 and s<= N, integer
-				isValid[2] = index == 2 && Math.floor(parameter) == parameter
-						&& parameter >= 1 && parameter <= parameters[0].getDouble();
+				return Math.floor(parameter) == parameter && parameter >= 1
+						&& parameter <= parameters[0].getDouble();
 			}
 			break;
 
@@ -1686,8 +1681,7 @@ public abstract class ProbabilityCalculatorView
 		// case DIST.LOGNORMAL:
 		}
 
-		return isValid[0] && isValid[1] && isValid[2];
-
+		return true;
 	}
 
 	/**
@@ -1915,15 +1909,13 @@ public abstract class ProbabilityCalculatorView
 		sb.append(isCumulative ? "true" : "false");
 		sb.append("\"");
 
-		sb.append(" parameters" + "=\"");
-		for (int i = 0; i < parameters.length; i++) {
-			sb.append(parameters[i]);
+		sb.append(" parameters=\"");
+		for (GeoNumberValue parameter : parameters) {
+			sb.append(parameter.getLabel(StringTemplate.xmlTemplate));
 			sb.append(",");
 		}
 		sb.deleteCharAt(sb.lastIndexOf(","));
-		sb.append("\"");
-
-		sb.append("/>\n");
+		sb.append("\"/>\n");
 
 		sb.append("\t<interval");
 
@@ -1937,9 +1929,7 @@ public abstract class ProbabilityCalculatorView
 
 		sb.append(" high=\"");
 		sb.append(getHigh());
-		sb.append("\"");
-
-		sb.append("/>\n");
+		sb.append("\"/>\n");
 		if (getStatCalculator() != null) {
 			getStatCalculator().getXML(sb, !isDistributionTabOpen());
 		}

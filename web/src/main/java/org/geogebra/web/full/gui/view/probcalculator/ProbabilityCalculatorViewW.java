@@ -275,13 +275,14 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		cbPanel.add(comboDistribution);
 		FlowPanel parameterPanel = new FlowPanel();
 		parameterPanel.addStyleName("parameterPanel");
-		
+		comboDistribution.addStyleName("groupEnd");
 		//parameter panel
 		for (int i = 0; i < maxParameterCount; i++) {
 			parameterPanel.add(lblParameterArray[i]);
 			parameterPanel.add(fldParameterArray[i]);
 		}
-		
+		cbPanel.add(parameterPanel);
+
 		// interval panel
 		// continue here.....
 		FlowPanel tb = new FlowPanel();
@@ -289,11 +290,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		tb.add(btnIntervalLeft);
 		tb.add(btnIntervalBetween);
 		tb.add(btnIntervalRight);
-		
-		//FlowPanel p = new FlowPanel();
-		//p.add(btnCumulative);
-		//p.add(lblMeanSigma);
-		
+		btnIntervalRight.addStyleName("groupEnd");
+
 		FlowPanel resultPanel = new FlowPanel();
 		resultPanel.addStyleName("resultPanel");
 		resultPanel.add(lblProbOf);
@@ -302,15 +300,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		resultPanel.add(fldHigh);
 		resultPanel.add(lblEndProbOf);
 		resultPanel.add(fldResult);
+		tb.add(resultPanel);
 		
 		controlPanel = new FlowPanel();
 		controlPanel.addStyleName("controlPanel");
-		//controlPanel.add(btnCumulative);
 		controlPanel.add(cbPanel);
-		controlPanel.add(parameterPanel);
 		controlPanel.add(new ClearPanel());
 		controlPanel.add(tb);
-		controlPanel.add(resultPanel);
 		controlPanel.add(new ClearPanel());
 	}
 	

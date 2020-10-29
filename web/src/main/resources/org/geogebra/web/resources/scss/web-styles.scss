@@ -1261,7 +1261,6 @@
 		width: 30%;
 	}
 
-
 	.dialogContent .sliderIntervalPanel .gwt-Label {
 		display: block;
 	}
@@ -2338,11 +2337,23 @@
 		overflow: auto;
 	}
 
-	.controlPanel > div {
-		padding: 5px 0;
+	.controlPanel .groupEnd {
 		margin-right: 30px;
+	}
+
+	.cbPanel, .intervalPanel {
+		padding: 5px 0;
 		float: left;
 		white-space: nowrap;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		& > * {
+			margin-top: 8px;
+		}
+	}
+
+	.parameterPanel, .resultPanel {
 		display: flex;
 		align-items: center;
 	}
@@ -2364,10 +2375,6 @@
 	.parameterPanel > *, .resultPanel > * {
 		display: inline-block;
 		margin: 0 5px;
-	}
-
-	.intervalPanel > * {
-		display: inline-block;
 	}
 
 	/* --------- STATISTICS CALCULATOR --------------- */
