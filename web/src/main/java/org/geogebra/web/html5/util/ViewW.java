@@ -8,9 +8,9 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbAPIW;
 import org.geogebra.web.html5.main.GgbFile;
+import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.user.client.Timer;
 
 import elemental2.core.Global;
 import elemental2.core.JsArray;

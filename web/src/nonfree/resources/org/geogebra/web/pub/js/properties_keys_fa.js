@@ -1541,7 +1541,6 @@ __GGB__keysVar["fa"].menu = {
     "ContextMenu.clip": "Clip",
     "ContextMenu.deleteColumn": "\u062d\u0630\u0641 \u0633\u062a\u0648\u0646",
     "ContextMenu.deleteRow": "\u062d\u0630\u0641 \u0631\u062f\u06cc\u0641",
-    "ContextMenu.deleteTable": "\u062d\u0630\u0641 \u062c\u062f\u0648\u0644",
     "ContextMenu.insertColumnLeft": "Insert column left",
     "ContextMenu.insertColumnRight": "Insert column right",
     "ContextMenu.insertRowAbove": "Insert row above",

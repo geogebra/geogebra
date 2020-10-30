@@ -42,7 +42,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 
@@ -416,11 +415,7 @@ public abstract class Drawable extends DrawableND {
 		}
 
 		// no index in text
-		// There is no indexed text in MOW text tool yet. Needed to check if it
-		// is a mow text tool, because the labelDesc will be changed when the
-		// text wrapping updated.
-		if ((labelDesc.equals(oldLabelDesc) && !labelHasIndex)
-				|| geo.getKernel().getApplication().has(Feature.MOW_TEXT_TOOL)) {
+		if (labelDesc.equals(oldLabelDesc) && !labelHasIndex) {
 
 			// sets labelRectangle
 			EuclidianStatic.drawMultiLineText(

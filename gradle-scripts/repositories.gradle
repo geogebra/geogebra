@@ -31,6 +31,7 @@ allprojects {
         mavenCentral()
         jcenter()
         google()
+        maven { url 'http://repo.vertispan.com/gwt-snapshot' }
     }
 }
 

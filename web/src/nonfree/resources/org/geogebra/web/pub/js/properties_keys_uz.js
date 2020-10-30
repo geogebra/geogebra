@@ -1541,7 +1541,6 @@ __GGB__keysVar["uz"].menu = {
     "ContextMenu.clip": "Clip",
     "ContextMenu.deleteColumn": "Ustunni o'chirish",
     "ContextMenu.deleteRow": "Satrni o'chirish",
-    "ContextMenu.deleteTable": "Jadvalni o'chirish",
     "ContextMenu.insertColumnLeft": "Insert column left",
     "ContextMenu.insertColumnRight": "Insert column right",
     "ContextMenu.insertRowAbove": "Insert row above",

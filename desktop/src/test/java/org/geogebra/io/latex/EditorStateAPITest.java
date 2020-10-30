@@ -33,7 +33,7 @@ public class EditorStateAPITest {
 
 	@Test
 	public void getPathShouldFollowExpressionStructure() {
-		MathFieldD mathField = new MathFieldD();
+		MathFieldD mathField = new MathFieldD(null);
 		mathField.insertString("x+x*(x+1)");
 
 		for (int i = 0; i < expectedPaths.length; i++) {
@@ -51,7 +51,7 @@ public class EditorStateAPITest {
 
 	@Test
 	public void setPathGetPathShouldBeCompatible() {
-		MathFieldD mathField = new MathFieldD();
+		MathFieldD mathField = new MathFieldD(null);
 		mathField.insertString("x+x*(x+1)");
 
 		for (int i = 0; i < expectedPaths.length; i++) {

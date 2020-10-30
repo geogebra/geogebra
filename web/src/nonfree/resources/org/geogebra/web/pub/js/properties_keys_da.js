@@ -1541,7 +1541,6 @@ __GGB__keysVar["da"].menu = {
     "ContextMenu.clip": "Clip",
     "ContextMenu.deleteColumn": "Slet kolonne",
     "ContextMenu.deleteRow": "Slet r\xe6kke",
-    "ContextMenu.deleteTable": "Slet tabel",
     "ContextMenu.insertColumnLeft": "Inds\xe6t kolonne til venstre",
     "ContextMenu.insertColumnRight": "Inds\xe6t kolonne til h\xf8jre",
     "ContextMenu.insertRowAbove": "Inds\xe6t r\xe6kke over",

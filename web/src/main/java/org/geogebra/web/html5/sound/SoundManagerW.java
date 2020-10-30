@@ -121,6 +121,7 @@ public class SoundManagerW implements SoundManager {
 	protected void onGeoAudioUpdate(HTMLAudioElement audio, String url) {
 		audioElements.put(url, audio);
 		view.update(geoAudios.get(url));
+		view.repaintView();
 	}
 
 	private int getDuration(HTMLAudioElement audio) {

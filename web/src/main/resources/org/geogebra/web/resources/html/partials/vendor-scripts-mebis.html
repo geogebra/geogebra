@@ -10,4 +10,25 @@
         app.setAttribute("src", basePath + "/js/webfont.js");
         document.head.appendChild(app);
     }
+
+    function loadUnsavedWork(ggw) {
+        var storage = window.sessionStorage;
+        var unsavedWork = storage.getItem('tafelUnsaved');
+
+        if (unsavedWork) {
+            loadBase64(ggw, unsavedWork);
+            storage.removeItem('tafelUnsaved')
+        }
+        return unsavedWork;
+    }
+
+    function loadBase64(ggw, base64){
+        ggw.setAttribute("data-param-ggbBase64", base64);
+        if(window.addAppletPreview){
+            window.addAppletPreview(base64);
+        }
+        perspective(false);
+        insertScript();
+    }
+
 </script>
