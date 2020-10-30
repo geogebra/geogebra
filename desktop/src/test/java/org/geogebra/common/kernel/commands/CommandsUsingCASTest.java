@@ -38,9 +38,9 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		t("Solve[ erf(x)=0.5 ]", "?");
 		tdeg("r=Solve[ sin(x)=0 ]", "{x = 0*deg}");
 		tdeg("r2=Solve[ {sin(x)=0, x=y} ]", "{{x = 0*deg, y = 0*deg}}");
-		tdeg("r=Solve[ cos(x)=1/sqrt(2) ]", "{x = -45*°, x = 45*°}");
+		tdeg("r=Solve[ cos(x)=1/sqrt(2) ]", "{x = (-45*deg), x = 45*deg}");
 		tdeg("r2=Solve[ {cos(x)=1/2, x=y} ]",
-				"{{x = 60*°, y = 60*°}, {x = -60*°, y = -60*°}}");
+				"{{x = 60*deg, y = 60*deg}, {x = (-60*deg), y = (-60*deg)}}");
 	}
 
 	private static void deg(String def, String expect) {
