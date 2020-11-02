@@ -730,9 +730,13 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-		return twinGeo != null
-				? twinGeo.toLaTeXString(symbolic, tpl)
-				: symbolic ? getDefinition(tpl) : toValueString(tpl);
+		if (twinGeo != null) {
+			ExpressionNode definition = getDefinition();
+			boolean isCommand = definition != null && definition.unwrap() instanceof Command;
+			return twinGeo.toLaTeXString(isCommand || symbolic, tpl);
+		} else {
+			return symbolic ? getDefinition(tpl) : toValueString(tpl);
+		}
 	}
 
 	@Override
