@@ -1600,11 +1600,17 @@ public abstract class ProbabilityCalculatorView
 		}
 
 		return isValid;
-
 	}
 
-	protected boolean isValidParameter(double parameter, int index) {
-
+	/**
+	 * @param parameter new user value
+	 * @param index parameter index
+	 * @return whether new value is valid and differs from the old one
+	 */
+	protected boolean isValidParameterChange(double parameter, int index) {
+		if (MyDouble.exactEqual(parameters[index].getDouble(), parameter)) {
+			return false;
+		}
 		switch (selectedDist) {
 
 		default:

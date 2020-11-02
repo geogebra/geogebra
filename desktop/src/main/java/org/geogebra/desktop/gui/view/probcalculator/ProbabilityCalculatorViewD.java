@@ -532,7 +532,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 				// handle parameter entry
 				for (int i = 0; i < parameters.length; ++i) {
 					if (source == fldParameterArray[i]) {
-						if (isValidParameter(value, i)) {
+						if (isValidParameterChange(value, i)) {
 							parameters[i] = numericValue;
 							updateAll();
 						}
