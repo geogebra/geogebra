@@ -29,10 +29,11 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.File;
 
 /**
  * View for browsing materials
@@ -210,7 +211,7 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	@Override
-	public void openFile(final JavaScriptObject fileToHandle) {
+	public void openFile(final File fileToHandle) {
 		if (app.getLAF().supportsLocalSave()) {
 			app.getFileManager().setFileProvider(Provider.LOCAL);
 		}

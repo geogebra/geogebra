@@ -34,6 +34,7 @@ import org.geogebra.web.full.html5.Sandbox;
 import org.geogebra.web.full.main.embed.CalcEmbedElement;
 import org.geogebra.web.full.main.embed.EmbedElement;
 import org.geogebra.web.full.main.embed.GraspableEmbedElement;
+import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.ScriptManagerW;
@@ -51,6 +52,7 @@ import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.core.Global;
+import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 /**
@@ -164,6 +166,8 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 		fr.runAsyncAfterSplash();
 
 		CalcEmbedElement element = new CalcEmbedElement(fr, this, drawEmbed.getEmbedID());
+		addDragHandler(Js.uncheckedCast(fr.getElement()));
+
 		element.setJsEnabled(isJsEnabled());
 		if (currentBase64 != null) {
 			fr.getApp().registerOpenFileListener(
@@ -177,6 +181,18 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 			}
 		}
 		return element;
+	}
+
+	private void addDragHandler(elemental2.dom.Element element) {
+		element.addEventListener("dragstart", (event) -> {
+			((EuclidianViewWInterface) app.getActiveEuclidianView())
+					.getCanvasElement().getStyle().setProperty("pointerEvents", "none");
+		});
+
+		element.addEventListener("dragend", (event) -> {
+			((EuclidianViewWInterface) app.getActiveEuclidianView())
+					.getCanvasElement().getStyle().setProperty("pointerEvents", "initial");
+		});
 	}
 
 	private boolean hasWidgetWithId(int embedId) {
