@@ -284,7 +284,7 @@ public class AlgebraItem {
 		switch (avStyle) {
 		case Kernel.ALGEBRA_STYLE_VALUE:
 			if (geo1.isAllowedToShowValue()) {
-				if (showLabel){
+				if (showLabel) {
 					geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
 				} else {
 					geo1.getAlgebraDescriptionTextOrHTMLRHS(builder);
@@ -436,8 +436,8 @@ public class AlgebraItem {
 				return geoElement instanceof GeoNumeric
 						&& (!geoElement.isIndependent() || (geoElement
 						.getDescriptionMode() == DescriptionMode.DEFINITION_VALUE
-						&& geoElement.getParentAlgorithm() == null)) ||
-						geoElement.evaluatesToNumber(false)
+						&& geoElement.getParentAlgorithm() == null))
+						|| geoElement.evaluatesToNumber(false)
 						? DescriptionMode.DEFINITION_VALUE
 						: DescriptionMode.DEFINITION;
 			case AlgebraStyle.DEFINITION:
