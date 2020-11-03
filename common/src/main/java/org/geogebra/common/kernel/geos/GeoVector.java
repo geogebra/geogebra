@@ -859,7 +859,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		default: // CARTESIAN
 
 			ExpressionNode definition = vector.getDefinition();
-			if (symbolic && definition != null) {
+			if (symbolic && definition != null && definition.isLeaf()) {
 				return getColumnLaTeXfromExpression(definition, tpl);
 			}
 			String[] inputs = new String[2];
