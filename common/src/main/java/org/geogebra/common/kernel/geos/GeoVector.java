@@ -757,8 +757,9 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	public static void buildLatexValueStringCoordCartesian3D(
 			Kernel kernel, StringTemplate tpl, double x, double y, double z,
 			StringBuilder sb, GeoVectorND vector, boolean symbolic) {
-		if (symbolic && vector.getDefinition() != null) {
-			sb.append(getColumnLaTeXfromExpression(vector.getDefinition(), tpl));
+		ExpressionNode definition = vector.getDefinition();
+		if (symbolic && definition != null && definition.isLeaf()) {
+			sb.append(getColumnLaTeXfromExpression(definition, tpl));
 		} else {
 			String[] inputs = new String[3];
 			inputs[0] = kernel.format(x, tpl);
