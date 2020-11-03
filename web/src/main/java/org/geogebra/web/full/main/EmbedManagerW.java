@@ -538,12 +538,12 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 	 *
 	 * @return the APIs of the embedded calculators.
 	 */
-	JsPropertyMap<Object> getEmbeddedCalculators() {
+	JsPropertyMap<Object> getEmbeddedCalculators(boolean includeGraspableMath) {
 		JsPropertyMap<Object> jso = JsPropertyMap.of();
 
 		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
 			Object api = entry.getValue().getApi();
-			if (api != null) {
+			if (api != null && (includeGraspableMath || api instanceof CalcEmbedElement)) {
 				jso.set(entry.getKey().getGeoElement().getLabelSimple(), api);
 			}
 		}

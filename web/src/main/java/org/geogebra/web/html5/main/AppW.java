@@ -3562,8 +3562,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *
 	 * @return then embedded calculator apis.
 	 */
-	public JsPropertyMap<Object> getEmbeddedCalculators() {
-		// iplemented in AppWFull
+	public JsPropertyMap<Object> getEmbeddedCalculators(boolean includeGraspableMath) {
+		// implemented in AppWFull
 		return null;
 	}
 

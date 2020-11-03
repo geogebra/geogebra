@@ -2044,9 +2044,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public JsPropertyMap<Object> getEmbeddedCalculators() {
+	public JsPropertyMap<Object> getEmbeddedCalculators(boolean includeGraspableMath) {
 		getEmbedManager();
-		return embedManager != null ? embedManager.getEmbeddedCalculators() : null;
+		return embedManager != null
+				? embedManager.getEmbeddedCalculators(includeGraspableMath)
+				: null;
 	}
 
 	@Override

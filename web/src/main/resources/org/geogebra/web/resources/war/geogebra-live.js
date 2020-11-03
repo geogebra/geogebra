@@ -77,7 +77,7 @@
 
                     for (let i = 0; i < tempObjects.length; i++) {
                         const label = tempObjects[i];
-                        const calculators= that.api.getEmbeddedCalculators();
+                        const calculators= that.api.getEmbeddedCalculators(true);
                         const embed = calculators && calculators[label];
 
                         if (embed && embed.controller) {
@@ -274,7 +274,7 @@
                 } else if (last.type == "pasteSlide") {
                     target.api.handleSlideAction(last.type, last.content, last.label);
                 } else if (last.type == "evalGMContent") {
-                    var gmApi = target.api.getEmbeddedCalculators()[last.label];
+                    var gmApi = target.api.getEmbeddedCalculators(true)[last.label];
                     if (gmApi) {
                         gmApi.loadFromJSON(last.content);
                     }
