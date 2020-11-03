@@ -80,6 +80,9 @@ public class TextDispatcher {
 		GeoText text = createDynamicTextForMouseLoc("AreaOfA", "Area of %0",
 				conic, area,
 				loc0);
+		if (text == null) {
+			return null;
+		}
 		if (conic.isLabelSet()) {
 			if (!area.isLabelSet()) {
 				area.setLabel(removeUnderscoresAndBraces(
@@ -168,7 +171,7 @@ public class TextDispatcher {
 			// checkZooming();
 
 			GeoText text = kernel.getAlgebraProcessor().evaluateToText(dynText,
-					true, true);
+					false, true);
 			return text;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -219,7 +222,7 @@ public class TextDispatcher {
 			} else {
 				setNoPointLoc(text, point);
 			}
-
+			text.setLabel(text.getLabelSimple());
 			text.checkVisibleIn3DViewNeeded();
 			text.setBackgroundColor(GColor.WHITE);
 			text.updateRepaint();
@@ -384,6 +387,9 @@ public class TextDispatcher {
 			GeoText text = createDynamicTextForMouseLoc("ArcLengthOfA",
 					"Arc length of %0", conic,
 					arcLength, loc0);
+			if (text == null) {
+				return null;
+			}
 			text.setLabel(removeUnderscoresAndBraces(
 					loc.getMenu("Text") + conic.getLabelSimple()));
 			return text.asArray();
@@ -399,6 +405,9 @@ public class TextDispatcher {
 		GeoText text = createDynamicTextForMouseLoc("CircumferenceOfA",
 				"Circumference of %0", conic,
 				circumFerence, loc0);
+		if (text == null) {
+			return null;
+		}
 		if (conic.isLabelSet()) {
 			circumFerence.setLabel(removeUnderscoresAndBraces(
 					StringUtil.toLowerCaseUS(loc.getCommand("Circumference"))
@@ -424,7 +433,9 @@ public class TextDispatcher {
 		GeoText text = createDynamicTextForMouseLoc("PerimeterOfA",
 				"Perimeter of %0", poly,
 				perimeter, mouseLoc);
-
+		if (text == null) {
+			return null;
+		}
 		if (poly.isLabelSet()) {
 			perimeter.setLabel(removeUnderscoresAndBraces(
 					StringUtil.toLowerCaseUS(loc.getCommand("Perimeter"))
@@ -448,7 +459,9 @@ public class TextDispatcher {
 		GeoText text = createDynamicTextForMouseLoc("PerimeterOfA",
 				"Perimeter of %0", poly, poly,
 				mouseLoc);
-
+		if (text == null) {
+			return null;
+		}
 		if (poly.isLabelSet()) {
 			text.setLabel(removeUnderscoresAndBraces(
 					loc.getMenu("Text") + poly.getLabelSimple()));
