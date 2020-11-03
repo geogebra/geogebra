@@ -1320,7 +1320,7 @@ public class GuiManagerW extends GuiManager
 			toolbarPanel.setLabels();
 		}
 		SetLabels toolbarMow = (((AppWFull) app).getAppletFrame())
-				.getToolbarMow();
+				.getNotesLayout();
 		if (toolbarMow != null) {
 			toolbarMow.setLabels();
 		}
@@ -1731,7 +1731,7 @@ public class GuiManagerW extends GuiManager
 		}
 
 		if (getApp().isWhiteboardActive()) {
-			(getApp().getAppletFrame()).setToorbarMowMode(mode);
+			(getApp().getAppletFrame()).setToolbarMowMode(mode);
 			return mode;
 		}
 
