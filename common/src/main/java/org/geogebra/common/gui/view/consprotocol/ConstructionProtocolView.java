@@ -37,6 +37,8 @@ import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 //@SuppressWarnings("javadoc")
 public class ConstructionProtocolView implements ConstructionStepper {
 
@@ -44,6 +46,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 	public App app;
 	@Weak
 	public Kernel kernel;
+	@SuppressFBWarnings
 	public ConstructionTableData data;
 	protected boolean isViewAttached;
 	public ArrayList<ConstructionProtocolNavigation> navigationBars = new ArrayList<>();
