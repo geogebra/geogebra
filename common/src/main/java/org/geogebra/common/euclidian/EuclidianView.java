@@ -40,7 +40,6 @@ import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.euclidian.plot.IncrementalPlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.SetLabels;
@@ -4111,10 +4110,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				d.draw(g2);
 			}
 		}
-	}
-
-	public void updateCurve(IncrementalPlotter plotter) {
-
 	}
 
 	/**

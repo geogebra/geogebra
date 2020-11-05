@@ -8,7 +8,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class CurvePlotterTest extends BaseUnitTest {
@@ -23,11 +22,6 @@ public class CurvePlotterTest extends BaseUnitTest {
 		resultShouldBeTheSame(add("sin(x^4)"), -5, 0);
 	}
 
-	/**
-	 * Original algorithm has two FIRSTPOINT on the beginning which is hardly
-	 * the good case.
-	 */
-	@Ignore
 	@Test
 	public void testPlotReciprocal() {
 		resultShouldBeTheSame(add("1/x"), -5, 5);
@@ -68,9 +62,6 @@ public class CurvePlotterTest extends BaseUnitTest {
 
 		CurvePlotter plotter = new CurvePlotter(f, tMin, tMax, view,
 				gp, true, Gap.MOVE_TO);
-		while (!plotter.isReady()) {
-			plotter.plot();
-		}
 
 		assertEquals(gpExpected, gp);
 		assertEquals(pointExpected, plotter.getLabelPoint());

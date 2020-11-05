@@ -25,8 +25,8 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
+import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
-import org.geogebra.common.euclidian.plot.IncrementalPlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
@@ -88,7 +88,6 @@ public class DrawParametricCurve extends Drawable {
 		}
 	};
 	private CurvePlotter plotter = null;
-	private IncrementalPlotter incrementalPlotter;
 
 	/**
 	 * Creates graphical representation of the curve
@@ -174,15 +173,11 @@ public class DrawParametricCurve extends Drawable {
 			view.toScreenCoords(eval);
 			labelPoint = new GPoint((int) eval[0], (int) eval[1]);
 		} else {
-			if (incrementalPlotter == null) {
-				incrementalPlotter =
-						new IncrementalPlotter(this, view, gp, labelVisible, fillCurve);
-			}
-
-			gpCache.clear();
-			incrementalPlotter.start(min, max, toPlot);
-			}
-
+			labelPoint = CurvePlotter.plotCurve(curve, min, max, view, gp,
+					labelVisible, fillCurve ? Gap.CORNER
+							: Gap.MOVE_TO);
+			onPlotterFinished(labelPoint);
+		}
 	}
 
 	/**

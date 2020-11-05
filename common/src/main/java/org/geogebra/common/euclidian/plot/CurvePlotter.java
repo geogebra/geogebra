@@ -15,8 +15,6 @@ public class CurvePlotter {
 	// the curve is sampled at least at this many positions to plot it
 	private static final int MIN_SAMPLE_POINTS = 80;
 	private final CurveSegmentPlotter curveSegmentPlotter;
-	private final PathPlotter gp;
-	private final Gap moveToAllowed;
 
 	/**
 	 * Draws a parametric curve (x(t), y(t)) for t in [tMin, tMax].
@@ -32,37 +30,17 @@ public class CurvePlotter {
 	public CurvePlotter(CurveEvaluable curve, double tMin,
 			double tMax, EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
-		this.gp = gp;
-		this.moveToAllowed = moveToAllowed;
 
 		// ensure MIN_PLOT_POINTS
 		double minSamplePoints = Math.max(MIN_SAMPLE_POINTS, view.getWidth() / 6);
 		double maxParamStep = Math.abs(tMax - tMin) / minSamplePoints;
 		// plot Interval [tMin, tMax]
-		curveSegmentPlotter = new CurveSegmentPlotter(curve, tMin, tMax, 0, maxParamStep, view,
-				gp, calcLabelPos, moveToAllowed);
-	}
+		curveSegmentPlotter = new CurveSegmentPlotter(curve, tMin, tMax, 0,
+				maxParamStep, view,	gp, calcLabelPos, moveToAllowed);
 
-	/**
-	 * plots an iteration
-	 */
-	public void plot() {
-		curveSegmentPlotter.plotBisectorAlgo();
-
-		if (isReady()) {
-			gp.endPlot();
-		}
-		if (curveSegmentPlotter.isReady() && moveToAllowed == Gap.CORNER) {
+		if (moveToAllowed == Gap.CORNER) {
 			gp.corner();
 		}
-	}
-
-	/**
-	 *
-	 * @return if the plotter is finished.
-	 */
-	public boolean isReady() {
-		return curveSegmentPlotter.isReady();
 	}
 
 	/**
@@ -84,9 +62,7 @@ public class CurvePlotter {
 			Gap moveToAllowed) {
 		CurvePlotter plotter = new CurvePlotter(curve, tMin, tMax, view,
 				gp, calcLabelPos, moveToAllowed);
-		while (!plotter.isReady()) {
-			plotter.plot();
-		}
+
 		return plotter.getLabelPoint();
 
 	}

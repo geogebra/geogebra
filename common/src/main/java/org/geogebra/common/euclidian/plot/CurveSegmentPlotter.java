@@ -29,7 +29,6 @@ public class CurveSegmentPlotter {
 	private static final int MAX_CONTINUITY_BISECTIONS = 8;
 
 	private static final double MAX_JUMP = 5;
-	private static final int MAX_LOOPS_PER_PLOT = 128;
 	private boolean ready;
 
 
@@ -97,6 +96,7 @@ public class CurveSegmentPlotter {
 		nextLineToNeedsMoveToFirst = false;
 		eval = curve.newDoubleArray();
 		start();
+		plot();
 	}
 
 	private void start() {
@@ -148,7 +148,6 @@ public class CurveSegmentPlotter {
 	// The evaluated curve points are stored on a stack
 	// to avoid multiple evaluations at the same position.
 	public boolean plotBisectorAlgo() {
-		int maxStepsAtOnce = MAX_LOOPS_PER_PLOT;
 		do {
 			info.update(evalLeft, evalRight, params.diff, params.prevDiff);
 
@@ -201,10 +200,6 @@ public class CurveSegmentPlotter {
 			evalRight = item.eval;
 			params.updateFromStack(item);
 			params.updateDiff(evalLeft, evalRight);
-			maxStepsAtOnce--;
-			if (maxStepsAtOnce == 0) {
-				return false;
-			}
 		} while (stack.hasItems()); // end of do-while loop for bisection stack
 		ready = true;
 		return false;
@@ -356,7 +351,7 @@ public class CurveSegmentPlotter {
 			CurveSegmentPlotter plotterMax =
 					new CurveSegmentPlotter(curve, splitParam, tMax, intervalDepth + 1,
 							maxParamStep, view, gp, calcLabel, moveToAllowed);
-			labelPointMax = plotterMax.plot();
+			labelPointMax = plotterMax.getLabelPoint();
 		} else {
 			// look at the end points of the intervals [tMin, (tMin+tMax)/2] and
 			// [(tMin+tMax)/2, tMax]
@@ -373,7 +368,7 @@ public class CurveSegmentPlotter {
 			CurveSegmentPlotter plotterMin = new CurveSegmentPlotter(curve, borders[0], borders[1],
 					intervalDepth + 1, maxParamStep, view, gp, calcLabel,
 					moveToAllowed);
-			labelPointMin = plotterMin.plot();
+			labelPointMin = plotterMin.getLabelPoint();
 
 			// plot interval [(tMin+tMax)/2, tMax]
 			getDefinedInterval(curve, splitParam, tMax, borders);
