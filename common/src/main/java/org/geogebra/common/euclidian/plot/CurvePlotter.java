@@ -14,6 +14,7 @@ public class CurvePlotter {
 
 	// the curve is sampled at least at this many positions to plot it
 	private static final int MIN_SAMPLE_POINTS = 80;
+	private static final boolean LEGACY = false;
 	private final CurveSegmentPlotter curveSegmentPlotter;
 
 	/**
@@ -60,6 +61,10 @@ public class CurvePlotter {
 	public static GPoint plotCurve(CurveEvaluable curve, double tMin,
 			double tMax, EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
+		if (LEGACY) {
+			return CurvePlotterOriginal.plotCurve(curve, tMin, tMax, view, gp,
+					calcLabelPos, moveToAllowed);
+		}
 		CurvePlotter plotter = new CurvePlotter(curve, tMin, tMax, view,
 				gp, calcLabelPos, moveToAllowed);
 

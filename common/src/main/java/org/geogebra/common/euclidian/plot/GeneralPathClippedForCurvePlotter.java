@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.plot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math3.util.Cloner;
@@ -37,7 +38,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 	 *            Euclidian view
 	 */
 	public GeneralPathClippedForCurvePlotter(EuclidianViewInterfaceSlim view) {
-		this(view, null);
+		this(view, new ArrayList<MyPoint>());
 	}
 
 	/**

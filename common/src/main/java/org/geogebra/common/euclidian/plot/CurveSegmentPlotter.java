@@ -95,19 +95,22 @@ public class CurveSegmentPlotter {
 		move = curve.newDoubleArray();
 		nextLineToNeedsMoveToFirst = false;
 		eval = curve.newDoubleArray();
-		start();
-		plot();
+		if (start()) {
+			plot();
+		}
 	}
 
-	private void start() {
+	private boolean start() {
 		if (isCurveUndefinedAt(tMin)) {
 			plotProblemInterval(tMin);
+			return false;
 		}
 
 		evalLeft = Cloner.clone(eval);
 
 		if (isCurveUndefinedAt(tMax)) {
 			plotProblemInterval(tMin);
+			return false;
 		}
 
 		ready = false;
@@ -119,16 +122,49 @@ public class CurveSegmentPlotter {
 
 		// TODO
 		// INIT plotting algorithm
-		stack = new CurvePlotterStack(LENGTH, onScreen, evalRight);
-		divisors = createDivisors(tMin, tMax);
+		createStack();
+		createDivisors();
 
-		// init previous slope using (tMin, tMin + min_step)
-		curve.evaluateCurve(tMin + divisors[LENGTH - 1], eval);
+		createParams();
+
+		createInfo();
+		return true;
+	}
+
+	private void createStack() {
+		if (evalRight == null) {
+			evalRight = Cloner.clone(eval);
+		}
+		stack = new CurvePlotterStack(LENGTH, onScreen, evalRight);
+	}
+
+	private void createDivisors() {
+		divisors = createDivisors(tMin, tMax);
+	}
+
+	private void createInfo() {
+		info = new CurveSegmentInfo(view, evalLeft, evalRight);
+	}
+
+	private void createParams() {
+		if (stack == null) {
+			createStack();
+		}
+
+		if (divisors == null) {
+			createDivisors();
+		}
+
+		if (evalLeft == null) {
+			evalLeft = Cloner.clone(eval);
+		}
+
+		if (evalRight == null) {
+			evalRight = Cloner.clone(eval);
+		}
 
 		params = new SegmentParams(tMin, divisors, view,
 				evalLeft, evalRight, eval);
-
-		info = new CurveSegmentInfo(view, evalLeft, evalRight);
 	}
 
 	public GPoint plot() {
@@ -148,7 +184,16 @@ public class CurveSegmentPlotter {
 	// The evaluated curve points are stored on a stack
 	// to avoid multiple evaluations at the same position.
 	public boolean plotBisectorAlgo() {
+		if (info == null) {
+			createInfo();
+		}
+
+		if (params == null) {
+			createParams();
+		}
+
 		do {
+
 			info.update(evalLeft, evalRight, params.diff, params.prevDiff);
 
 			// bisect interval as long as max bisection depth not reached & ...
@@ -196,10 +241,12 @@ public class CurveSegmentPlotter {
 			 */
 
 			CurvePlotterStackItem item = stack.pop();
-			onScreen = item.onScreen;
-			evalRight = item.eval;
-			params.updateFromStack(item);
-			params.updateDiff(evalLeft, evalRight);
+			if (item != null) {
+				onScreen = item.onScreen;
+				evalRight = item.eval;
+				params.updateFromStack(item);
+				params.updateDiff(evalLeft, evalRight);
+			}
 		} while (stack.hasItems()); // end of do-while loop for bisection stack
 		ready = true;
 		return false;

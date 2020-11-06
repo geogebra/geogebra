@@ -222,7 +222,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertEquals("?", model.getCellAt(0, 1));
     }
 
-    @Test
+	@Test
     public void testGetValuesChaningValues() {
         setValuesSafe(0, 10, 2);
         GeoElementFactory factory = getElementFactory();

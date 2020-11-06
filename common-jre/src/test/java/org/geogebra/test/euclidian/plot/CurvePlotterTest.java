@@ -3,10 +3,13 @@ package org.geogebra.test.euclidian.plot;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.GeoElementFactory;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
+import org.geogebra.common.euclidian.plot.CurvePlotterOriginal;
 import org.geogebra.common.euclidian.plot.Gap;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.junit.Test;
 
@@ -52,6 +55,11 @@ public class CurvePlotterTest extends BaseUnitTest {
 		resultShouldBeTheSame(add("Curve( t+abs(t), t+abs(t), t, -5, 0)"), -5, 5);
 	}
 
+	@Test
+	public void testSqrt() {
+		resultShouldBeTheSame(add("sqrt(x)"), -10, 10);
+	}
+
 	protected void resultShouldBeTheSame(CurveEvaluable f, int tMin, int tMax) {
 		PathPlotterMock gp = new PathPlotterMock();
 		PathPlotterMock gpExpected = new PathPlotterMock();
@@ -60,10 +68,18 @@ public class CurvePlotterTest extends BaseUnitTest {
 		GPoint pointExpected = CurvePlotterOriginal.plotCurve(f, tMin, tMax, view,
 				gpExpected, true, Gap.MOVE_TO);
 
-		CurvePlotter plotter = new CurvePlotter(f, tMin, tMax, view,
+		GPoint pointActual = CurvePlotter.plotCurve(f, tMin, tMax, view,
 				gp, true, Gap.MOVE_TO);
 
 		assertEquals(gpExpected, gp);
-		assertEquals(pointExpected, plotter.getLabelPoint());
+		assertEquals(pointExpected, pointActual);
+	}
+
+
+	@Test
+	public void xysy() {
+		GeoElementFactory factory = getElementFactory();
+		GeoFunction function = factory.createFunction("f(x) = sqrt(x)");
+
 	}
 }

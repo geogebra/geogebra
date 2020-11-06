@@ -1,11 +1,10 @@
-package org.geogebra.test.euclidian.plot;
+package org.geogebra.common.euclidian.plot;
 
 import java.util.ArrayList;
 
 import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.plot.PathPlotter;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
