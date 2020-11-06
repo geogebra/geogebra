@@ -1364,8 +1364,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	public void requestFocus() {
 		textField.setFocus(true);
 		if (geoUsedForInputBox != null) {
-			Dom.toggleClass(this, "errorStyle",
-					!StringUtil.empty(geoUsedForInputBox.getTempUserDisplayInput()));
+			Dom.toggleClass(this, "errorStyle", geoUsedForInputBox.hasError());
 		}
 
 		if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {

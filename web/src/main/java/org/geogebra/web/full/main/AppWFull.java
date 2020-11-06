@@ -739,6 +739,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		hideMenu();
 		if (isWhiteboardActive()
 				&& !getLoginOperation().isLoggedIn()) {
+			activity.markSearchOpen();
 			getGuiManager().listenToLogin();
 			getLoginOperation().showLoginDialog();
 			getGuiManager().setRunAfterLogin(() -> {

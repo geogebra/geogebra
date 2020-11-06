@@ -43,6 +43,9 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	public InlineFormulaControllerW(GeoFormula formula, AppW app, Panel parent) {
 		this.formula = formula;
 		this.mathFieldEditor = new MathFieldEditor(app, new FormulaMathFieldListener());
+		if (formula.getContent() != null) {
+			mathFieldEditor.setText(formula.getContent());
+		}
 
 		this.widget = new AbsolutePanel();
 		ClickEndHandler.init(widget, new ClickEndHandler(true, true) {
