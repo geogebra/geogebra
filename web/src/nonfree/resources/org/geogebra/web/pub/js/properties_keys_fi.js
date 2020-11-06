@@ -692,7 +692,7 @@ __GGB__keysVar["fi"].command = {
     "PointList.Syntax": "[ <Lista> ]",
     "Poisson": "Poisson",
     "Poisson.Syntax": "[ <Keskiarvo> ]\n[ <Keskiarvo>, <Boolen kertym\xe4> ]\n[ <Keskiarvo>, <Muuttujan arvo>, <Totuusarvo: kertym\xe4/ei> ]",
-    "Poisson.SyntaxCAS": "[ <Keskiarvo>, x, <Totuusarvo: kertym\xe4/ei> ]",
+    "Poisson.SyntaxCAS": "[ <Keskiarvo>, <Muuttujan arvo>, <Totuusarvo: kertym\xe4/ei> ]",
     "Polar": "Polaari",
     "Polar.Syntax": "[ <Piste>, <Kartioleikkaus> ]\n[ <Suora>, <Kartioleikkaus> ]",
     "PolyLine": "Murtoviiva",
