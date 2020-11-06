@@ -376,7 +376,7 @@ public class MyArbitraryConstant {
 					ExpressionValue ret = en.getRight();
 					if (en.getOperation() == Operation.MINUS) {
 						ret = new ExpressionNode(arbconst.getKernel(),
-								new MyDouble(arbconst.getKernel(), -1),
+								new MinusOne(arbconst.getKernel()),
 								Operation.MULTIPLY, ret);
 					}
 					return ret;

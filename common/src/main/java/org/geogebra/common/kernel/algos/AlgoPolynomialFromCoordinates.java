@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MinusOne;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -246,7 +247,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 					partExp = powerExp;
 				}
 			} else {
-				coeffMyDouble = new MyDouble(kernel, coeff);
+				coeffMyDouble = coeff == -1 ? new MinusOne(kernel) : new MyDouble(kernel, coeff);
 				if (powerExp == null) {
 					partExp = coeffMyDouble;
 				} else {
