@@ -2249,6 +2249,7 @@ public class AlgebraProcessor {
 
 		if (ve instanceof ExpressionNode) {
 			ExpressionNode node = (ExpressionNode) ve;
+			node.setAsRootNode();
 			ret = processExpressionNode(node, info);
 			boolean singleReturnValue = ret != null && ret.length == 1;
 			if (ret != null && ret.length > 0
