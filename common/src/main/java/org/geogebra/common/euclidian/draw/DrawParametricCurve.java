@@ -173,6 +173,7 @@ public class DrawParametricCurve extends Drawable {
 			view.toScreenCoords(eval);
 			labelPoint = new GPoint((int) eval[0], (int) eval[1]);
 		} else {
+			gp.reset();
 			labelPoint = CurvePlotter.plotCurve(curve, min, max, view, gp,
 					labelVisible, fillCurve ? Gap.CORNER
 							: Gap.MOVE_TO);

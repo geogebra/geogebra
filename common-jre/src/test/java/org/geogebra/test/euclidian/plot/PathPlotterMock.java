@@ -15,12 +15,12 @@ public class PathPlotterMock implements PathPlotter {
 
 	@Override
 	public void drawTo(double[] pos, SegmentType lineTo) {
-		addLog("DRAWTO " + lineTo, pos);
+		addLog("D " + lineTo, pos);
 	}
 
 	@Override
 	public void lineTo(double[] pos) {
-		addLog("LINETO", pos);
+		addLog("L ", pos);
 	}
 
 	protected void addLog(String message, double[] pos) {
@@ -29,22 +29,22 @@ public class PathPlotterMock implements PathPlotter {
 
 	@Override
 	public void moveTo(double[] pos) {
-		addLog("MOVETO", pos);
+		addLog("M ", pos);
 	}
 
 	@Override
 	public void corner() {
-		log.add("CORNER");
+		log.add("COR ");
 	}
 
 	@Override
 	public void corner(double[] pos) {
-		addLog("CORNER", pos);
+		addLog("COR ", pos);
 	}
 
 	@Override
 	public void firstPoint(double[] pos, Gap moveToAllowed) {
-		addLog("FIRSTPOINT " + moveToAllowed, pos);
+		addLog("1ST " + (moveToAllowed == Gap.MOVE_TO ? "M " : "L "), pos);
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class PathPlotterMock implements PathPlotter {
 
 	@Override
 	public void endPlot() {
-		log.add("ENDPLOT");
+		log.add("END");
 	}
 
 	@Override
@@ -68,7 +68,12 @@ public class PathPlotterMock implements PathPlotter {
 	}
 
 	String result() {
-		return StringUtil.join(",", log);
+		return StringUtil.join("|", log);
+	}
+
+	@Override
+	public String toString() {
+		return result();
 	}
 
 	@Override

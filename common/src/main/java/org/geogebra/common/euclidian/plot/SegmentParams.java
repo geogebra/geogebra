@@ -30,8 +30,8 @@ public class SegmentParams {
 		depth = 0;
 		this.t = tMin;
 		this.left = tMin;
-		this.diff = view.getOnScreenDiff(evalLeft, evalRight);
-		this.prevDiff = view.getOnScreenDiff(evalLeft, eval);
+//		this.diff = view.getOnScreenDiff(evalLeft, evalRight);
+//		this.prevDiff = view.getOnScreenDiff(evalLeft, eval);
 		countDiffZeros = 0;
 	}
 

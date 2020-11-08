@@ -29,7 +29,6 @@ public class CurveSegmentPlotter {
 	private static final int MAX_CONTINUITY_BISECTIONS = 8;
 
 	private static final double MAX_JUMP = 5;
-	private boolean ready;
 
 
 	private final CurveEvaluable curve;
@@ -113,7 +112,6 @@ public class CurveSegmentPlotter {
 			return false;
 		}
 
-		ready = false;
 		onScreen = view.isOnView(eval);
 		evalRight = Cloner.clone(eval);
 
@@ -126,9 +124,15 @@ public class CurveSegmentPlotter {
 		createDivisors();
 
 		createParams();
-
+		initDiffs();
 		createInfo();
 		return true;
+	}
+
+	private void initDiffs() {
+		params.diff = view.getOnScreenDiff(evalLeft, evalRight);
+		curve.evaluateCurve(tMin + divisors[divisors.length - 1], eval);
+		params.prevDiff = view.getOnScreenDiff(evalLeft, eval);
 	}
 
 	private void createStack() {
@@ -168,7 +172,6 @@ public class CurveSegmentPlotter {
 	}
 
 	public GPoint plot() {
-
 		if (plotBisectorAlgo()) {
 			return plotProblemInterval(params.left);
 		}
@@ -245,15 +248,10 @@ public class CurveSegmentPlotter {
 				onScreen = item.onScreen;
 				evalRight = item.eval;
 				params.updateFromStack(item);
-				params.updateDiff(evalLeft, evalRight);
 			}
+			params.updateDiff(evalLeft, evalRight);
 		} while (stack.hasItems()); // end of do-while loop for bisection stack
-		ready = true;
 		return false;
-	}
-
-	public boolean isReady() {
-		return ready;
 	}
 
 	private boolean hasNoSingularity(double t, double interval) {
@@ -368,7 +366,6 @@ public class CurveSegmentPlotter {
 	 */
 	private GPoint plotProblemInterval(double left) {
 		boolean calcLabel = needLabelPos;
-		ready=true;
 		// stop recursion for too many intervals
 		if (intervalDepth > MAX_PROBLEM_BISECTIONS || left == tMax) {
 			return labelPoint;
@@ -398,6 +395,7 @@ public class CurveSegmentPlotter {
 			CurveSegmentPlotter plotterMax =
 					new CurveSegmentPlotter(curve, splitParam, tMax, intervalDepth + 1,
 							maxParamStep, view, gp, calcLabel, moveToAllowed);
+
 			labelPointMax = plotterMax.getLabelPoint();
 		} else {
 			// look at the end points of the intervals [tMin, (tMin+tMax)/2] and
