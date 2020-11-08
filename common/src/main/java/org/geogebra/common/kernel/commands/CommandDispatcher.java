@@ -423,6 +423,7 @@ public abstract class CommandDispatcher {
 			case Asymptote:
 			case CurvatureVector:
 			case Curvature:
+			case Torsion:
 			case OsculatingCircle:
 			case IterationList:
 			case RootList:

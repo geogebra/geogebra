@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.advanced;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
@@ -88,13 +89,18 @@ public class AlgoTorsion extends AlgoElement {
 	@Override
 	public final void compute() {
 		if (f.isDefined()) {
-			try {
-				double t = f.getClosestParameterForCurvature(A,
-						f.getMinParameter());
-				K.setValue(f.evaluateTorsion(t));
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				K.setUndefined();
+			if(f instanceof GeoCurveCartesian){
+				K.setValue(0);
+			}
+			else{
+				try {
+					double t = f.getClosestParameterForCurvature(A,
+							f.getMinParameter());
+					K.setValue(f.evaluateTorsion(t));
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					K.setUndefined();
+				}
 			}
 		} else {
 			K.setUndefined();
