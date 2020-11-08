@@ -1434,6 +1434,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	@Override
+	public  double evaluateTorsion(double t) {
+		return Double.NaN;
+	}
+
+	@Override
 	final public UnivariateFunction getUnivariateFunctionX() {
 		return new UnivariateFunction() {
 			@Override

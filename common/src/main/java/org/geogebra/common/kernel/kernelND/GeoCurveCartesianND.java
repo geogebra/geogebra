@@ -49,6 +49,8 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	protected Function[] funD1;
 	/** second derivative functions */
 	protected Function[] funD2;
+	/** third derivative functions */
+	protected Function[] funD3;
 	/** start parameter */
 	protected double startParam;
 	/** end parameter */
@@ -607,6 +609,9 @@ public abstract class GeoCurveCartesianND extends GeoElement
 
 	@Override
 	public abstract double evaluateCurvature(double t);
+
+	@Override
+	public  abstract double evaluateTorsion(double t);
 
 	/**
 	 * @return whether range is hidden in algebra

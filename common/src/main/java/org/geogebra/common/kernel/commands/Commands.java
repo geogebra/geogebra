@@ -1054,6 +1054,8 @@ public enum Commands implements CommandsConstants,
 
 	IntersectionPaths(TABLE_ENGLISH),
 
+	Torsion(TABLE_FUNCTION),
+
 	/** internal name */
 	OrthogonalPlane(TABLE_3D),
 
