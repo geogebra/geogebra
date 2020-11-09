@@ -16,7 +16,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
 
 public class SuiteHeaderAppPicker extends StandardButton {
 
@@ -78,7 +77,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 			return;
 		}
 		int buttonRight = appPickerPanel.getAbsoluteLeft() + appPickerPanel.getOffsetWidth();
-		int buttonsLeft = RootPanel.get("buttonsID").getAbsoluteLeft();
+		int buttonsLeft = Document.get().getElementById("buttonsID").getAbsoluteLeft();
 		final Style style = appPickerPanel.getStyle();
 		if (buttonsLeft < buttonRight) {
 			style.setProperty("visibility", "hidden");
