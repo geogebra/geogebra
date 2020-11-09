@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.serializer.TeXSerializer;
 
 /**
  * Tests for the EvaluatorAPI
@@ -61,7 +62,8 @@ public class EvaluatorAPITest extends BaseUnitTest {
 		typer.type("1/");
 		Map<String, Object> value = api.getEvaluatorValue();
 
-		assertEquals("{\\frac{1}{\\nbsp }}", value.get("latex").toString());
+		assertEquals("{\\frac{1}{" + TeXSerializer.PLACEHOLDER + "}}",
+				value.get("latex").toString());
 		assertEquals("(1)/()", value.get("content").toString());
 		assertEquals("NaN", value.get("eval").toString());
 	}

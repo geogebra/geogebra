@@ -14,8 +14,8 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class TeXSerializer extends SerializerAdapter {
 
-	private static final String PLACEHOLDER =
-			"{\\bgcolor{#595959}\\scalebox{1}[1.6]{\\phantom{g}}}";
+	public static final String PLACEHOLDER =
+			"{\\bgcolor{#DCDCDC}\\scalebox{1}[1.6]{\\phantom{g}}}";
 	private static final String cursor = "\\jlmcursor{0}";
 	private static final String cursorBig = "\\jlmcursor{0.9}";
 	private static final String selection_start = "\\jlmselection{";
