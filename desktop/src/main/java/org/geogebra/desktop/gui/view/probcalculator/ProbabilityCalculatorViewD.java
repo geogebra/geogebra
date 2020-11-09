@@ -118,7 +118,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		tabbedPane.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				// System.out.println("Tab: " + tabbedPane.getSelectedIndex());
 				updateStylebar();
 			}
 		});
@@ -129,12 +128,12 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		setLabels();
 
 		attachView();
+
 		settingsChanged(app.getSettings().getProbCalcSettings());
+		updateAll();
+
 		tabbedPane.setSelectedIndex(app.getSettings().getProbCalcSettings()
 				.getCollection().isActive() ? 1 : 0);
-		// TODO for testing only, remove later
-		// tabbedPane.setSelectedIndex(1);
-
 	}
 
 	/**************** end constructor ****************/
@@ -574,14 +573,12 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		updateIntervalProbability();
 		updateDiscreteTable();
 		setXAxisPoints();
-		updateProbabilityType();
 		updateGUI();
-		if (styleBar != null)
-		 {
-			styleBar.updateGUI();
-		// this.requestFocus();
-		}
+		updateProbabilityType();
 
+		if (styleBar != null) {
+			styleBar.updateGUI();
+		}
 	}
 
 	@Override
@@ -826,7 +823,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 	@Override
 	public void setLabels() {
-
 		tabbedPane.setTitleAt(0, loc.getMenu("Distribution"));
 
 		((SetLabels) statCalculator).setLabels();
@@ -839,7 +835,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		setProbabilityComboBoxMenu();
 
-		lblBetween.setText(SpreadsheetViewInterface.X_BETWEEN); // <= X <=
 		lblEndProbOf.setText(loc.getMenu("EndProbabilityOf") + " = ");
 		lblProbOf.setText(loc.getMenu("ProbabilityOf"));
 
