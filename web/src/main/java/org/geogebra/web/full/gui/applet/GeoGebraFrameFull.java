@@ -688,7 +688,7 @@ public class GeoGebraFrameFull
 	 */
 	public void attachToolbar(AppW app1) {
 		if (app1.isWhiteboardActive()) {
-			attachToolbarMow(app1);
+			attachNotesUI(app1);
 
 			if (app1.getVendorSettings().isMainMenuExternal()
 					&& !app1.isApplet()) {
@@ -745,13 +745,12 @@ public class GeoGebraFrameFull
 		add(openMenuButton);
 	}
 
-	private void attachToolbarMow(AppW app) {
-		initToolbarMowIfNull(app);
+	private void attachNotesUI(AppW app) {
+		initNotesLayoutIfNull(app);
 		add(notesLayout.getToolbar());
 		add(notesLayout.getUndoRedoButtons());
-		if (app.getAppletParameters().getParamShowSlides()) {
-			setPageControlButtonVisible(true);
-		}
+		setPageControlButtonVisible(app.isMultipleSlidesOpen()
+				|| app.getAppletParameters().getParamShowSlides());
 	}
 
 	/**
@@ -768,7 +767,7 @@ public class GeoGebraFrameFull
 		}
 	}
 
-	private void initToolbarMowIfNull(AppW app) {
+	private void initNotesLayoutIfNull(AppW app) {
 		if (notesLayout == null) {
 			notesLayout = new NotesLayout(app);
 		}
@@ -788,7 +787,7 @@ public class GeoGebraFrameFull
 	 */
 	@Nonnull
 	public NotesLayout getNotesLayoutSafe(AppW app) {
-		initToolbarMowIfNull(app);
+		initNotesLayoutIfNull(app);
 		return notesLayout;
 	}
 
@@ -903,7 +902,7 @@ public class GeoGebraFrameFull
 	 * @param mode
 	 *            new mode for MOW toolbar
 	 */
-	public void setToolbarMowMode(int mode) {
+	public void setNotesMode(int mode) {
 		if (notesLayout == null) {
 			return;
 		}

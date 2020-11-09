@@ -3667,4 +3667,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			}
 		}
 	}
+
+	/**
+	 * @return whether a file with multiple slides is open
+	 */
+	public boolean isMultipleSlidesOpen() {
+		return getPageController() != null && getPageController().getSlideCount() > 1;
+	}
 }

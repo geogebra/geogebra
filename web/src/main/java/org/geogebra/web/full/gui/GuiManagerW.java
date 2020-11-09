@@ -1319,10 +1319,10 @@ public class GuiManagerW extends GuiManager
 			toolbarPanel.getToolBar().buildGui();
 			toolbarPanel.setLabels();
 		}
-		SetLabels toolbarMow = (((AppWFull) app).getAppletFrame())
+		SetLabels notesLayout = (((AppWFull) app).getAppletFrame())
 				.getNotesLayout();
-		if (toolbarMow != null) {
-			toolbarMow.setLabels();
+		if (notesLayout != null) {
+			notesLayout.setLabels();
 		}
 		resetMenu();
 
@@ -1731,7 +1731,7 @@ public class GuiManagerW extends GuiManager
 		}
 
 		if (getApp().isWhiteboardActive()) {
-			(getApp().getAppletFrame()).setToolbarMowMode(mode);
+			(getApp().getAppletFrame()).setNotesMode(mode);
 			return mode;
 		}
 

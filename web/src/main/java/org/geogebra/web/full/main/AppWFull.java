@@ -1584,15 +1584,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			adjustViews(false, false);
 		}
 		kernel.notifyScreenChanged();
-		getAppletFrame().setPageControlButtonVisible(isMultipleSlidesOpen()
-				|| getAppletParameters().getParamShowSlides());
 		if (isWhiteboardActive()) {
 			AdjustScreen.adjustCoordSystem(getActiveEuclidianView());
 		}
-	}
-
-	private boolean isMultipleSlidesOpen() {
-		return getPageController() != null && getPageController().getSlideCount() > 1;
 	}
 
 	private void updatePerspective(Perspective p) {
@@ -1912,9 +1906,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void updateFloatingButtonsPosition() {
-		NotesLayout toolbarMow = frame.getNotesLayout();
-		if (toolbarMow != null) {
-			toolbarMow.updateFloatingButtonsPosition();
+		NotesLayout notesLayout = frame.getNotesLayout();
+		if (notesLayout != null) {
+			notesLayout.updateFloatingButtonsPosition();
 		}
 	}
 
