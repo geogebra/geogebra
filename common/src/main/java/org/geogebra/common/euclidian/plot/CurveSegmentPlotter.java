@@ -40,7 +40,7 @@ public class CurveSegmentPlotter {
 	private final PathPlotter gp;
 	private boolean needLabelPos;
 	private final Gap moveToAllowed;
-	private GPoint labelPoint;
+	private static GPoint labelPoint;
 	private double[] move;
 	private boolean nextLineToNeedsMoveToFirst;
 	private final double[] eval;
@@ -55,7 +55,7 @@ public class CurveSegmentPlotter {
 
 	/**
 	 * Draws a parametric curve (x(t), y(t)) for t in [tMin, tMax].
-	 * 
+	 *
 	 * @param maxParamStep
 	 *             largest parameter step width allowed
 	 * @param gp
@@ -85,7 +85,6 @@ public class CurveSegmentPlotter {
 
 		needLabelPos = calcLabelPos;
 		this.moveToAllowed = moveToAllowed;
-		labelPoint = null;
 
 		// The following algorithm by John Gillam avoids multiple
 		// evaluations of the curve for the same parameter value t
@@ -176,7 +175,6 @@ public class CurveSegmentPlotter {
 			return plotProblemInterval(params.left);
 		}
 
-		gp.endPlot();
 		return labelPoint;
 	}
 
@@ -251,6 +249,7 @@ public class CurveSegmentPlotter {
 			}
 			params.updateDiff(evalLeft, evalRight);
 		} while (stack.hasItems()); // end of do-while loop for bisection stack
+		gp.endPlot();
 		return false;
 	}
 
@@ -388,7 +387,7 @@ public class CurveSegmentPlotter {
 			CurveSegmentPlotter
 					plotterMin = new CurveSegmentPlotter(curve, left, splitParam, intervalDepth + 1,
 					maxParamStep, view, gp, calcLabel, moveToAllowed);
-			labelPointMin = plotterMin.plot();
+			labelPointMin = plotterMin.getLabelPoint();
 
 			// plot interval [(tMin+tMax)/2, tMax]
 			calcLabel = calcLabel && labelPointMin == null;
@@ -421,7 +420,7 @@ public class CurveSegmentPlotter {
 			CurveSegmentPlotter plotterMax = new CurveSegmentPlotter(curve, borders[0], borders[1],
 					intervalDepth + 1, maxParamStep, view, gp, calcLabel,
 					moveToAllowed);
-			labelPointMax = plotterMax.plot();
+			labelPointMax = plotterMax.getLabelPoint();
 		}
 
 		if (labelPoint != null) {
