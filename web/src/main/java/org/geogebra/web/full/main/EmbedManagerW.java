@@ -543,7 +543,8 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 
 		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
 			Object api = entry.getValue().getApi();
-			if (api != null && (includeGraspableMath || api instanceof CalcEmbedElement)) {
+			if (api != null && (includeGraspableMath
+					|| entry.getValue() instanceof CalcEmbedElement)) {
 				jso.set(entry.getKey().getGeoElement().getLabelSimple(), api);
 			}
 		}
