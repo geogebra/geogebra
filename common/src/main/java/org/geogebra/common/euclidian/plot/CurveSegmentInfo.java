@@ -12,16 +12,12 @@ public class CurveSegmentInfo {
 			.tan(MAX_ANGLE_OFF_SCREEN * Kernel.PI_180);
 
 	private final EuclidianView view;
-	double[] evalLeft;
-	double[] evalRight;
 	private boolean distanceOK;
 	private boolean angleOK;
 	private boolean offScreen;
 
-	public CurveSegmentInfo(EuclidianView view, double[] evalLeft, double[] evalRight) {
+	public CurveSegmentInfo(EuclidianView view) {
 		this.view = view;
-		this.evalLeft = evalLeft;
-		this.evalRight = evalRight;
 	}
 
 	public boolean isOffScreen() {
@@ -29,8 +25,6 @@ public class CurveSegmentInfo {
 	}
 
 	public void update(double[] evalLeft, double[] evalRight, double[] diff, double[] prevDiff) {
-		this.evalLeft = evalLeft;
-		this.evalRight = evalRight;
 		offScreen = view.isSegmentOffView(evalLeft, evalRight);
 		distanceOK = offScreen || isDistanceOK(diff);
 		angleOK = isAngleOK(prevDiff, diff, offScreen

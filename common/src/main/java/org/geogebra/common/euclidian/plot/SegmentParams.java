@@ -21,8 +21,7 @@ public class SegmentParams {
 	private final EuclidianView view;
 
 
-	public SegmentParams(double tMin, double[] divisors, EuclidianView view,
-			double[] evalLeft, double[] evalRight, double[] eval) {
+	public SegmentParams(double tMin, double[] divisors, EuclidianView view) {
 		this.tMin = tMin;
 		this.divisors = divisors;
 		this.view = view;

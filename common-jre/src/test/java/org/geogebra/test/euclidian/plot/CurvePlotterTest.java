@@ -3,13 +3,11 @@ package org.geogebra.test.euclidian.plot;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.GeoElementFactory;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.CurvePlotterOriginal;
 import org.geogebra.common.euclidian.plot.Gap;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.junit.Test;
 
@@ -74,14 +72,6 @@ public class CurvePlotterTest extends BaseUnitTest {
 
 
 		assertEquals(gpExpected, gp);
-//		assertEquals(pointExpected, pointActual);
-	}
-
-
-	@Test
-	public void xysy() {
-		GeoElementFactory factory = getElementFactory();
-		GeoFunction function = factory.createFunction("f(x) = sqrt(x)");
-
+		assertEquals(pointExpected, pointActual);
 	}
 }

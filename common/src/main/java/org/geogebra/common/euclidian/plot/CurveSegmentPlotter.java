@@ -40,7 +40,7 @@ public class CurveSegmentPlotter {
 	private final PathPlotter gp;
 	private boolean needLabelPos;
 	private final Gap moveToAllowed;
-	private static GPoint labelPoint;
+	private GPoint labelPoint=null;
 	private double[] move;
 	private boolean nextLineToNeedsMoveToFirst;
 	private final double[] eval;
@@ -146,7 +146,7 @@ public class CurveSegmentPlotter {
 	}
 
 	private void createInfo() {
-		info = new CurveSegmentInfo(view, evalLeft, evalRight);
+		info = new CurveSegmentInfo(view);
 	}
 
 	private void createParams() {
@@ -166,8 +166,8 @@ public class CurveSegmentPlotter {
 			evalRight = Cloner.clone(eval);
 		}
 
-		params = new SegmentParams(tMin, divisors, view,
-				evalLeft, evalRight, eval);
+		params = new SegmentParams(tMin, divisors, view
+		);
 	}
 
 	public GPoint plot() {
@@ -194,9 +194,7 @@ public class CurveSegmentPlotter {
 		}
 
 		do {
-
 			info.update(evalLeft, evalRight, params.diff, params.prevDiff);
-
 			// bisect interval as long as max bisection depth not reached & ...
 			while (params.hasMaxDepthNotReached()
 					&& (info.isDistanceOrAngleInvalid()
