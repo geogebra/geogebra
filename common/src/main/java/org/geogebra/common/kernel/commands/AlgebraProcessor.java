@@ -1287,7 +1287,9 @@ public class AlgebraProcessor {
 			ErrorHandler handler, ValidExpression ve, EvalInfo info) {
 		GeoElement[] geoElements = null;
 		try {
-
+			if (ve instanceof ExpressionNode) {
+				((ExpressionNode) ve).setAsRootNode();
+			}
 			geoElements = processValidExpression(ve, info);
 			if (storeUndo && geoElements != null) {
 				app.storeUndoInfo();
@@ -2249,7 +2251,6 @@ public class AlgebraProcessor {
 
 		if (ve instanceof ExpressionNode) {
 			ExpressionNode node = (ExpressionNode) ve;
-			node.setAsRootNode();
 			ret = processExpressionNode(node, info);
 			boolean singleReturnValue = ret != null && ret.length == 1;
 			if (ret != null && ret.length > 0
