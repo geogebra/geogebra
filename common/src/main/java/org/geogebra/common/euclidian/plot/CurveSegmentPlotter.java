@@ -114,18 +114,26 @@ public class CurveSegmentPlotter {
 		onScreen = view.isOnView(eval);
 		evalRight = Cloner.clone(eval);
 
-		// first point
 		gp.firstPoint(evalLeft, moveToAllowed);
 
-		// TODO
-		// INIT plotting algorithm
 		createStack();
 		createDivisors();
-
 		createParams();
 		initDiffs();
 		createInfo();
 		return true;
+	}
+
+	private void createStack() {
+		stack = new CurvePlotterStack(LENGTH, onScreen, evalRight);
+	}
+
+	private void createDivisors() {
+		divisors = createDivisors(tMin, tMax);
+	}
+
+	private void createParams() {
+		params = new SegmentParams(tMin, divisors, view);
 	}
 
 	private void initDiffs() {
@@ -134,40 +142,8 @@ public class CurveSegmentPlotter {
 		params.prevDiff = view.getOnScreenDiff(evalLeft, eval);
 	}
 
-	private void createStack() {
-		if (evalRight == null) {
-			evalRight = Cloner.clone(eval);
-		}
-		stack = new CurvePlotterStack(LENGTH, onScreen, evalRight);
-	}
-
-	private void createDivisors() {
-		divisors = createDivisors(tMin, tMax);
-	}
-
 	private void createInfo() {
 		info = new CurveSegmentInfo(view);
-	}
-
-	private void createParams() {
-		if (stack == null) {
-			createStack();
-		}
-
-		if (divisors == null) {
-			createDivisors();
-		}
-
-		if (evalLeft == null) {
-			evalLeft = Cloner.clone(eval);
-		}
-
-		if (evalRight == null) {
-			evalRight = Cloner.clone(eval);
-		}
-
-		params = new SegmentParams(tMin, divisors, view
-		);
 	}
 
 	public GPoint plot() {
@@ -185,14 +161,6 @@ public class CurveSegmentPlotter {
 	// The evaluated curve points are stored on a stack
 	// to avoid multiple evaluations at the same position.
 	public boolean plotBisectorAlgo() {
-		if (info == null) {
-			createInfo();
-		}
-
-		if (params == null) {
-			createParams();
-		}
-
 		do {
 			info.update(evalLeft, evalRight, params.diff, params.prevDiff);
 			// bisect interval as long as max bisection depth not reached & ...
@@ -240,11 +208,9 @@ public class CurveSegmentPlotter {
 			 */
 
 			CurvePlotterStackItem item = stack.pop();
-			if (item != null) {
-				onScreen = item.onScreen;
-				evalRight = item.eval;
-				params.updateFromStack(item);
-			}
+			onScreen = item.onScreen;
+			evalRight = item.eval;
+			params.updateFromStack(item);
 			params.updateDiff(evalLeft, evalRight);
 		} while (stack.hasItems()); // end of do-while loop for bisection stack
 		gp.endPlot();
