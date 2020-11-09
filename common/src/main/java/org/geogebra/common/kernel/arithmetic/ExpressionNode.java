@@ -79,7 +79,6 @@ public class ExpressionNode extends ValidExpression
 	private boolean forceInequality = false;
 	private boolean forceSurface = false;
 	private boolean wasInterval = false;
-	private boolean isRoot = false;
 
 	/** true if this holds text and the text is in LaTeX format */
 	public boolean holdsLaTeXtext = false;
@@ -3767,11 +3766,5 @@ public class ExpressionNode extends ValidExpression
 		newNode.holdsLaTeXtext = holdsLaTeXtext;
 	}
 
-	public boolean isRootNode() {
-		return isRoot;
-	}
 
-	public void setAsRootNode() {
-		this.isRoot = true;
-	}
 }

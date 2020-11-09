@@ -598,4 +598,13 @@ public abstract class ValidExpression
 		return false;
 	}
 
+	private boolean isRoot = false;
+
+	public boolean isRootNode() {
+		return isRoot;
+	}
+
+	public void setAsRootNode() {
+		this.isRoot = true;
+	}
 }
