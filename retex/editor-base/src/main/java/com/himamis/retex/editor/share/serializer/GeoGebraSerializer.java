@@ -59,15 +59,18 @@ public class GeoGebraSerializer implements Serializer {
 		Tag mathFunctionName = mathFunction.getName();
 		switch (mathFunctionName) {
 		case SUPERSCRIPT:
-			stringBuilder.append("^(");
-			serialize(mathFunction.getArgument(0), stringBuilder);
-			stringBuilder.append(')');
-			break;
 		case SUBSCRIPT:
-			stringBuilder.append("_{");
-			serialize(mathFunction.getArgument(0), stringBuilder);
-			// a_{1}sin(x) should be a_{1} sin(x)
-			stringBuilder.append("}");
+			StringBuilder scriptArgument = new StringBuilder();
+			serialize(mathFunction.getArgument(0), scriptArgument);
+			String trimmed = scriptArgument.toString().trim();
+
+			if (!trimmed.isEmpty()) {
+				if (mathFunctionName == Tag.SUPERSCRIPT) {
+					stringBuilder.append("^(").append(trimmed).append(")");
+				} else {
+					stringBuilder.append("_{").append(trimmed).append("}");
+				}
+			}
 			break;
 		case FRAC:
 			boolean unaryMinus = stringBuilder.toString().endsWith("-");
