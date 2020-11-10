@@ -51,7 +51,7 @@ public class SegmentParams {
 		return divisors[depth];
 	}
 
-	public void update() {
+	public void progress() {
 		dyad = 2 * dyad - 1;
 		depth++;
 		updateT();

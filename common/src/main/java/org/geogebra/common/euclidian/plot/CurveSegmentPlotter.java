@@ -171,7 +171,7 @@ public class CurveSegmentPlotter {
 
 				// push stacks
 				stack.push(params.dyad, params.depth, onScreen, evalRight);
-				params.update();
+				params.progress();
 
         		// evaluate curve for parameter t
 				curve.evaluateCurve(params.t, eval);
@@ -387,13 +387,14 @@ public class CurveSegmentPlotter {
 			labelPointMax = plotterMax.getLabelPoint();
 		}
 
-		if (labelPoint != null) {
-			return labelPoint;
-		} else if (labelPointMin != null) {
-			return labelPointMin;
-		} else {
-			return labelPointMax;
+		if (labelPoint == null) {
+			if (labelPointMin != null) {
+				labelPoint = labelPointMin;
+			} else if (labelPointMax != null) {
+				labelPoint = labelPointMax;
+			}
 		}
+		return labelPoint;
 	}
 
 	/**
