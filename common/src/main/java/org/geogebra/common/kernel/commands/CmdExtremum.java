@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.MyError;
@@ -41,7 +42,7 @@ public class CmdExtremum extends CommandProcessor {
 			arg = resArgs(c);
 			ok[0] = arg[0].isRealValuedFunction();
 			if (ok[0]) {
-				return extremum(c, (GeoFunctionable) arg[0]);
+				return new GeoElement[]{extremum(c, (GeoFunctionable) arg[0])};
 			}
 			throw argErr(c, arg[0]);
 		case 3: // Extremum[f,start-x,end-x]
@@ -69,7 +70,7 @@ public class CmdExtremum extends CommandProcessor {
 	 * @return - all Extrema of function f (for polynomial functions) - all
 	 *         Extrema currently visible (for non-polynomial functions)
 	 */
-	final private GeoPoint[] extremum(Command c, GeoFunctionable gf) {
+	private GeoList extremum(Command c, GeoFunctionable gf) {
 		Function f = gf.getFunction();
 		// special case for If
 		// non-polynomial -> undefined
@@ -78,9 +79,8 @@ public class CmdExtremum extends CommandProcessor {
 
 			AlgoExtremumPolynomialInterval algo = new AlgoExtremumPolynomialInterval(
 					cons, c.getLabels(), gf);
-			GeoPoint[] g = algo.getRootPoints();
-			return g;
-
+			GeoPoint[] rootPoints = algo.getRootPoints();
+			return toGeoList(rootPoints);
 		}
 
 		// check if this is a polynomial at the moment
@@ -97,12 +97,21 @@ public class CmdExtremum extends CommandProcessor {
 					.getActiveEuclidianView();
 			AlgoExtremumMulti algo = new AlgoExtremumMulti(cons, c.getLabels(),
 					gf, view);
-			return algo.getExtremumPoints();
+			GeoPoint[] points = algo.getExtremumPoints();
+			return toGeoList(points);
 		}
 
 		AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(cons,
 				c.getLabels(), gf, true);
-		GeoPoint[] g = algo.getRootPoints();
-		return g;
+		GeoPoint[] rootPoints = algo.getRootPoints();
+		return toGeoList(rootPoints);
+	}
+
+	private GeoList toGeoList(GeoPoint[] points) {
+		GeoList list = new GeoList(cons);
+		for (GeoPoint point : points) {
+			list.add(point);
+		}
+		return list;
 	}
 }
