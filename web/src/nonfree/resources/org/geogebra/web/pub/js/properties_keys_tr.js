@@ -546,7 +546,7 @@ __GGB__keysVar["tr"].command = {
     "LineGraph": "\xc7izgiGrafi\u011fi",
     "LineGraph.Syntax": "[ <x-koordinat\u0131 listesi>, <y-koordinat\u0131 listesi> ]",
     "Locus": "GeometrikYer",
-    "Locus.Syntax": "[ <Geometrik Yer Do\u011frusu Olu\u015fturan Nokta>, <Nokta> ]\n[ <Geometrik Yer Do\u011frusu Olu\u015fturan Nokta>, <S\xfcrg\xfc> ]\n[ <E\u011fim Alan\u0131>, <Nokta> ]\n[ <f(x y)>, <Nokta> ]",
+    "Locus.Syntax": "[ <Geometrik Yer \xc7izgisini Olu\u015fturan Nokta>, <Nokta> ]\n[ <Geometrik Yer \xc7izgisini Olu\u015fturan Nokta>, <S\xfcrg\xfc> ]\n[ <E\u011fim Alan\u0131>, <Nokta> ]\n[ <f(x y)>, <Nokta> ]",
     "LocusEquation": "GeometrikYerDenklemi",
     "LocusEquation.Syntax": "[ <Geometrik Yer> ]\n[ <Geometrik Yer Noktas\u0131>, <Hareket eden Nokta> ]\n[ <Mant\u0131ksal \u0130fade>, <Serbest Nokta> ]",
     "LogNormal": "LogNormal",

@@ -1864,7 +1864,8 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-		if (getDefinition() != null && getDefinition().isFraction()) {
+		if (getDefinition() != null
+				&& (getDefinition().isFraction() || value != Math.round(value))) {
 			return DescriptionMode.DEFINITION_VALUE;
 		}
 		if (isSimple()) {
