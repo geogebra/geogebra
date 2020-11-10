@@ -1,15 +1,13 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
+import org.geogebra.common.main.App;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.UserPreferredLanguage;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SuiteHeaderAppPicker;
 
 import com.google.gwt.dom.client.Element;
@@ -36,15 +34,14 @@ public class AppSwitcherPopup extends GPopupPanel {
 		addAutoHidePartner(appPickerButton.getElement());
 		setGlassEnabled(false);
 		addStyleName("appPickerPopup");
-		buildGUI(app);
+		buildGUI();
 		app.registerAutoclosePopup(this);
 	}
 
 	/**
-	 * @param app
-	 *            - application
+	 * Show the popup
 	 */
-	public void showPopup(AppW app) {
+	public void showPopup() {
 		if (isShowing()) {
 			hide();
 		} else {
@@ -54,30 +51,25 @@ public class AppSwitcherPopup extends GPopupPanel {
 		}
 	}
 
-	private void buildGUI(AppWFull app) {
+	private void buildGUI() {
 		FlowPanel contentPanel = new FlowPanel();
 		contentPanel.addStyleName("popupPanelForTranslation");
-		SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
-		addElement(app, res.menu_icon_algebra_transparent(), "GraphingCalculator.short",
-				GeoGebraConstants.GRAPHING_APPCODE,
-				contentPanel);
-		addElement(app, res.menu_icon_graphics3D_transparent(), "GeoGebra3DGrapher.short",
-				GeoGebraConstants.G3D_APPCODE,
-				contentPanel);
-		addElement(app, res.menu_icon_geometry_transparent(), "Geometry",
-				GeoGebraConstants.GEOMETRY_APPCODE, contentPanel);
-		addElement(app, res.cas_white_bg(), "CAS", GeoGebraConstants.CAS_APPCODE,
-				contentPanel);
+		addElement(GeoGebraConstants.GRAPHING_APPCODE, contentPanel);
+		addElement(GeoGebraConstants.G3D_APPCODE, contentPanel);
+		addElement(GeoGebraConstants.GEOMETRY_APPCODE, contentPanel);
+		addElement(GeoGebraConstants.CAS_APPCODE, contentPanel);
 		add(contentPanel);
 	}
 
-	private void addElement(AppWFull app, SVGResource icon, String key, String subAppCode,
+	private void addElement(final String subAppCode,
 			FlowPanel contentPanel) {
 		FlowPanel rowPanel = new FlowPanel();
-		NoDragImage img = new NoDragImage(icon, 24, 24);
+		AppDescription description = AppDescription.get(subAppCode);
+		NoDragImage img = new NoDragImage(description.getIcon(), 24, 24);
 		img.addStyleName("appIcon");
 		rowPanel.add(img);
 
+		String key = description.getNameKey();
 		Label label = new Label(app.getLocalization().getMenu(key));
 		label.addStyleName("appPickerLabel");
 		AriaHelper.setAttribute(label, "data-trans-key", key);
@@ -85,9 +77,9 @@ public class AppSwitcherPopup extends GPopupPanel {
 		rowPanel.setStyleName("appPickerRow");
 		rowPanel.addDomHandler(event -> {
 			hide();
-			appPickerButton.setIconAndLabel(icon, key, app);
+			appPickerButton.setIconAndLabel(subAppCode);
 			appPickerButton.checkButtonVisibility();
-			app.switchToSubapp(subAppCode);
+			((AppWFull) app).switchToSubapp(subAppCode);
 		}, ClickEvent.getType());
 		contentPanel.add(rowPanel);
 	}
@@ -96,7 +88,7 @@ public class AppSwitcherPopup extends GPopupPanel {
 		return appPickerButton.getAbsoluteLeft() - X_COORDINATE_OFFSET ;
 	}
 
-	private void updateLanguage(AppW app) {
+	private void updateLanguage(App app) {
 		Element suitePopup = Dom.querySelector("popupPanelForTranslation");
 		if (suitePopup != null) {
 			UserPreferredLanguage.translate(app, suitePopup);

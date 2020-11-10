@@ -434,7 +434,8 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			String ggbVersion = attrs.get("version");
-			app.setFileVersion(ggbVersion, nomalizeApp(attrs.get("app")));
+			app.setFileVersion(ggbVersion, nomalizeApp(attrs.get("app")),
+					nomalizeApp(attrs.get("subApp")));
 			String uniqueId = attrs.get("id");
 			if (uniqueId != null) {
 				app.setUniqueId(uniqueId);
