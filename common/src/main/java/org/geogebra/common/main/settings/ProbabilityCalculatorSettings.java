@@ -5,6 +5,7 @@ package org.geogebra.common.main.settings;
 import java.util.LinkedList;
 
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
@@ -71,9 +72,9 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 
 	private int probMode;
 
-	private double low;
+	private GeoNumberValue low;
 
-	private double high;
+	private GeoNumberValue high;
 
 	private StatisticsCollection stats;
 
@@ -165,7 +166,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	 * @param low
 	 *            lower bound
 	 */
-	public void setLow(double low) {
+	public void setLow(GeoNumberValue low) {
 		intervalSet = true;
 		this.low = low;
 		settingChanged();
@@ -175,7 +176,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	 * @param high
 	 *            upper bound
 	 */
-	public void setHigh(double high) {
+	public void setHigh(GeoNumberValue high) {
 		intervalSet = true;
 		this.high = high;
 		settingChanged();
@@ -198,14 +199,14 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	/**
 	 * @return lower bound
 	 */
-	public double getLow() {
+	public GeoNumberValue getLow() {
 		return this.low;
 	}
 
 	/**
 	 * @return upper bound
 	 */
-	public double getHigh() {
+	public GeoNumberValue getHigh() {
 		return this.high;
 	}
 

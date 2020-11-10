@@ -340,7 +340,12 @@ public abstract class ProbabilityCalculatorView
 	 */
 	public void setProbabilityCalculator(Dist distributionType,
 			GeoNumberValue[] parameters, boolean isCumulative) {
+		setProbabilityCalculatorNoFire(distributionType, parameters, isCumulative);
+		updateAll();
+	}
 
+	protected void setProbabilityCalculatorNoFire(Dist distributionType,
+			GeoNumberValue[] parameters, boolean isCumulative) {
 		this.selectedDist = distributionType;
 		this.isCumulative = isCumulative;
 		this.parameters = parameters;
@@ -348,8 +353,6 @@ public abstract class ProbabilityCalculatorView
 			this.parameters = ProbabilityManager
 					.getDefaultParameters(selectedDist, cons);
 		}
-
-		updateAll();
 	}
 
 	/**
@@ -1414,13 +1417,14 @@ public abstract class ProbabilityCalculatorView
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
 		ProbabilityCalculatorSettings pcSettings = (ProbabilityCalculatorSettings) settings;
-		setProbabilityCalculator(pcSettings.getDistributionType(),
+		setProbabilityCalculatorNoFire(pcSettings.getDistributionType(),
 				pcSettings.getParameters(), pcSettings.isCumulative());
 		if (pcSettings.isIntervalSet()) {
 			this.probMode = pcSettings.getProbMode();
-			this.setInterval(pcSettings.getLow(), pcSettings.getHigh());
-
+			setLow(pcSettings.getLow());
+			setHigh(pcSettings.getHigh());
 		}
+		updateAll();
 		if (getStatCalculator() != null) {
 			getStatCalculator().settingsChanged();
 		}

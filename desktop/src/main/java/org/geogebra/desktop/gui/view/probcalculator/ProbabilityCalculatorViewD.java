@@ -130,7 +130,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		attachView();
 
 		settingsChanged(app.getSettings().getProbCalcSettings());
-		updateAll();
 
 		tabbedPane.setSelectedIndex(app.getSettings().getProbCalcSettings()
 				.getCollection().isActive() ? 1 : 0);

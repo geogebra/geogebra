@@ -73,7 +73,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
-import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DataAnalysisSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -953,8 +952,7 @@ public class MyXMLHandler implements DocHandler {
 			String[] parmStringArray = parmString.split(",");
 			GeoNumeric[] parameters = new GeoNumeric[parmStringArray.length];
 			for (int i = 0; i < parmStringArray.length; i++) {
-				GeoNumberValue val = getAlgProcessor().evaluateToNumeric(parmStringArray[i],
-						ErrorHelper.silent());
+				GeoNumberValue val = getNumber(parmStringArray[i]);
 				parameters[i] =	val instanceof GeoNumeric ? (GeoNumeric) val
 								: new GeoNumeric(cons, Double.NaN);
 			}
@@ -975,9 +973,9 @@ public class MyXMLHandler implements DocHandler {
 			app.getSettings().getProbCalcSettings().setProbMode(probMode);
 
 			app.getSettings().getProbCalcSettings()
-					.setLow(StringUtil.parseDouble(attrs.get("low")));
+					.setLow(getNumber(attrs.get("low")));
 			app.getSettings().getProbCalcSettings()
-					.setHigh(StringUtil.parseDouble(attrs.get("high")));
+					.setHigh(getNumber(attrs.get("high")));
 
 			return true;
 		} catch (RuntimeException e) {
@@ -1066,29 +1064,6 @@ public class MyXMLHandler implements DocHandler {
 			Log.error("error in <algebraView>: " + eName);
 		}
 	}
-
-	// ====================================
-	// <CASView>
-	// ====================================
-	// private void startCASViewElement(String eName, LinkedHashMap<String,
-	// String> attrs) {
-	// boolean ok = true;
-	//
-	// switch (firstChar(eName)) {
-	// case 's':
-	// if ("size".equals(eName)) {
-	// ok = handleCASSize(app.getGuiManager().getCasView(), attrs);
-	// break;
-	// }
-	//
-	// default:
-	// Log.error("unknown tag in <casView>: " + eName);
-	// }
-	//
-	// if (!ok)
-	// Log.error("error in <casView>: " + eName);
-	//
-	// }
 
 	private boolean handleCoordSystem(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
