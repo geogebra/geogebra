@@ -928,7 +928,7 @@ public class GeoList extends GeoElement
 		// an independent list needs to add
 		// its expression itself
 		// e.g. {1,2,3}
-		if (isIndependent() && (getDefaultGeoType() < 0)) {
+		if (isDefined() && isIndependent() && (getDefaultGeoType() < 0)) {
 			sb.append("<expression");
 			sb.append(" label=\"");
 			StringUtil.encodeXML(sb, label);
@@ -3029,12 +3029,8 @@ public class GeoList extends GeoElement
 
 	@Override
 	public boolean hasSpecialEditor() {
-		// Check for matrices for matrices defined per element like {{1,0},{0,1}}
+		// Check for lists defined per element like {{1,0},{0,1}} or {1, 2, 3}
 		// (also dependent like {{a+1,1}})
-
-		if (!isMatrix()) {
-			return false;
-		}
 		if (isIndependent()) {
 			return true;
 		}

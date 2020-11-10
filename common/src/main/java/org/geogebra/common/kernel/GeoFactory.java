@@ -115,7 +115,9 @@ public class GeoFactory {
 			geoLine.showUndefinedInAlgebraView(true);
 			return geoLine;
 		case "list":
-			return new GeoList(cons1);
+			GeoList geoList = new GeoList(cons1);
+			geoList.setUndefined();
+			return geoList;
 		case "locus":
 			return new GeoLocus(cons1);
 		case "numeric":
