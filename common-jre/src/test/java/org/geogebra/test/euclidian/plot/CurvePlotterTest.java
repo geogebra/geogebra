@@ -62,7 +62,7 @@ public class CurvePlotterTest extends BaseUnitTest {
 	protected void resultShouldBeTheSame(CurveEvaluable f, double tMin, double tMax) {
 		PathPlotterMock gp = new PathPlotterMock();
 		PathPlotterMock gpExpected = new PathPlotterMock();
-//
+
 		EuclidianView view = getApp().getActiveEuclidianView();
 		GPoint pointExpected = CurvePlotterOriginal.plotCurve(f, tMin, tMax, view,
 				gpExpected, true, Gap.MOVE_TO);

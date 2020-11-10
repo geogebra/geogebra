@@ -3,6 +3,14 @@ package org.geogebra.common.euclidian.plot;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 
+/**
+ * Class to query basic information for a segment about to draw
+ * like it is on screen, the distance is not "big" enough
+ * or has an angle that is not suitable to draw.
+ *
+ * @author laszlo
+ *
+ */
 public class CurveSegmentInfo {
 	public static final int MAX_PIXEL_DISTANCE = 10; // pixels
 	private static final double MAX_ANGLE = 10; // degrees
@@ -16,14 +24,31 @@ public class CurveSegmentInfo {
 	private boolean angleOK;
 	private boolean offScreen;
 
+	/**
+	 * Constructor
+	 *
+	 * @param view {@link EuclidianView}
+ 	 */
 	public CurveSegmentInfo(EuclidianView view) {
 		this.view = view;
 	}
 
+	/**
+	 *
+	 * @return if segment is off the screen
+	 */
 	public boolean isOffScreen() {
 		return offScreen;
 	}
 
+	/**
+	 * updates info
+	 *
+	 * @param evalLeft left value.
+	 * @param evalRight right value.
+	 * @param diff left-right difference in pixels.
+	 * @param prevDiff the
+	 */
 	public void update(double[] evalLeft, double[] evalRight, double[] diff, double[] prevDiff) {
 		offScreen = view.isSegmentOffView(evalLeft, evalRight);
 		distanceOK = offScreen || isDistanceOK(diff);
@@ -32,6 +57,10 @@ public class CurveSegmentInfo {
 
 	}
 
+	/**
+	 *
+	 * @return true if distance or angle is not valid for drawing.
+	 */
 	public boolean isDistanceOrAngleInvalid() {
 		return !angleOK || !distanceOK;
 	}

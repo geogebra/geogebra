@@ -29,8 +29,6 @@ public class CurveSegmentPlotter {
 	private static final int MAX_CONTINUITY_BISECTIONS = 8;
 
 	private static final double MAX_JUMP = 5;
-
-
 	private final CurveEvaluable curve;
 	private final double tMin;
 	private final double tMax;
@@ -40,7 +38,7 @@ public class CurveSegmentPlotter {
 	private final PathPlotter gp;
 	private boolean needLabelPos;
 	private final Gap moveToAllowed;
-	private GPoint labelPoint=null;
+	private GPoint labelPoint = null;
 	private double[] move;
 	private boolean nextLineToNeedsMoveToFirst;
 	private final double[] eval;
@@ -146,7 +144,7 @@ public class CurveSegmentPlotter {
 		info = new CurveSegmentInfo(view);
 	}
 
-	public GPoint plot() {
+	private GPoint plot() {
 		if (plotBisectorAlgo()) {
 			return plotProblemInterval(params.left);
 		}
@@ -160,7 +158,7 @@ public class CurveSegmentPlotter {
 	// a small angle between two segments.
 	// The evaluated curve points are stored on a stack
 	// to avoid multiple evaluations at the same position.
-	public boolean plotBisectorAlgo() {
+	private boolean plotBisectorAlgo() {
 		do {
 			info.update(evalLeft, evalRight, params.diff, params.prevDiff);
 			// bisect interval as long as max bisection depth not reached & ...
@@ -183,7 +181,7 @@ public class CurveSegmentPlotter {
 
 				evalRight = Cloner.clone(eval);
 				params.updateDiff(evalLeft, evalRight);
-				params.countDiffZeros = isDiffZero(params.diff) ? params.countDiffZeros +1: 0;
+				params.countDiffZeros = isDiffZero(params.diff) ? params.countDiffZeros + 1 : 0;
 
 				info.update(evalLeft, evalRight, params.diff, params.prevDiff);
 
@@ -210,7 +208,7 @@ public class CurveSegmentPlotter {
 			CurvePlotterStackItem item = stack.pop();
 			onScreen = item.onScreen;
 			evalRight = item.eval;
-			params.updateFromStack(item);
+			params.restoreFromStack(item);
 			params.updateDiff(evalLeft, evalRight);
 		} while (stack.hasItems()); // end of do-while loop for bisection stack
 		gp.endPlot();
@@ -234,6 +232,7 @@ public class CurveSegmentPlotter {
 		curve.evaluateCurve(x, eval);
 		return isUndefined(eval);
 	}
+
 	protected void drawSegment(double t, double left, CurveSegmentInfo info) {
 		if (isLineTo(t, left, info)) {
 			// handle previous moveTo first
