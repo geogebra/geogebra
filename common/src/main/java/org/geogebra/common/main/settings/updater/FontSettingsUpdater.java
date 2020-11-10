@@ -5,6 +5,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.util.Util;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * This class updates the font settings.
  * Every complex (longer than 1 line) logic related to font settings
@@ -12,6 +14,7 @@ import org.geogebra.common.util.Util;
  */
 public class FontSettingsUpdater {
 
+	@Weak
 	private App app;
 	private FontSettings fontSettings;
 

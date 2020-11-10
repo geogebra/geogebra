@@ -12,6 +12,8 @@ import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.plugin.Geometry3DGetter;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * 
  * @author mathieu
@@ -20,6 +22,7 @@ import org.geogebra.common.plugin.Geometry3DGetter;
  */
 public class AppCompanion {
 	/** application */
+	@Weak
 	protected App app;
 
 	/**

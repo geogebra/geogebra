@@ -139,6 +139,7 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
+import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -151,7 +152,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HTML;
@@ -1221,7 +1221,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            archive
 	 * @return whether file is valid
 	 */
-	public boolean openFile(JavaScriptObject fileToHandle) {
+	public boolean openFile(File fileToHandle) {
 		resetPerspectiveParam();
 		resetUrl();
 		return doOpenFile(fileToHandle, null);
@@ -1248,7 +1248,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *         mean, that the file opening was successful, and the opening
 	 *         finished already.
 	 */
-	public native boolean doOpenFile(JavaScriptObject fileToHandle,
+	public native boolean doOpenFile(File fileToHandle,
 			JavaScriptObject callback) /*-{
 		var ggbRegEx = /\.(ggb|ggt|ggs|csv|off|pdf)$/i;
 		var fileName = fileToHandle.name.toLowerCase();
@@ -1496,7 +1496,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *         Note that If the function returns true, it's don't mean, that the
 	 *         file opening was successful, and the opening finished already.
 	 */
-	public native boolean openFileAsImage(JavaScriptObject fileToHandle,
+	public native boolean openFileAsImage(File fileToHandle,
 			JavaScriptObject callback) /*-{
 		var imageRegEx = /\.(png|jpg|jpeg|gif|bmp|svg)$/i;
 		if (!fileToHandle.name.toLowerCase().match(imageRegEx))
@@ -3553,8 +3553,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *
 	 * @return then embedded calculator apis.
 	 */
-	public JsPropertyMap<Object> getEmbeddedCalculators() {
-		// iplemented in AppWFull
+	public JsPropertyMap<Object> getEmbeddedCalculators(boolean includeGraspableMath) {
+		// implemented in AppWFull
 		return null;
 	}
 

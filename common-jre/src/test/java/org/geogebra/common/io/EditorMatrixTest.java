@@ -19,47 +19,47 @@ public class EditorMatrixTest {
 
 	@Test
 	public void testCaretInitialPosition() {
-		checker.fromParser(matix3x3).checkPath(0, 0, 0);
+		checker.matrixFromParser(matix3x3).checkPath(0, 0, 0);
 	}
 
 	@Test
 	public void testCaretShouldStayInsideOnHomeInitially() {
-		checker.fromParser(matix3x3).typeKey(JavaKeyCodes.VK_HOME).checkPath(0, 0, 0);
+		checker.matrixFromParser(matix3x3).typeKey(JavaKeyCodes.VK_HOME).checkPath(0, 0, 0);
 	}
 
 	@Test
 	public void testCaretShouldStayInsideOnHome() {
-		checker.fromParser(matix3x3)
+		checker.matrixFromParser(matix3x3)
 				.repeatKey(JavaKeyCodes.VK_RIGHT, 6)
 				.typeKey(JavaKeyCodes.VK_HOME).checkPath(0, 0, 0);
 	}
 
 	@Test
 	public void testCaretShouldStayInsideOnEnd() {
-		checker.fromParser(matix3x3).typeKey(JavaKeyCodes.VK_END).checkPath(1, 8, 0);
+		checker.matrixFromParser(matix3x3).typeKey(JavaKeyCodes.VK_END).checkPath(1, 8, 0);
 	}
 
 	@Test
 	public void testCaretShouldStayInsideOnLeftArrow() {
-		checker.fromParser(matix3x3)
+		checker.matrixFromParser(matix3x3)
 			.repeatKey(JavaKeyCodes.VK_RIGHT, 6)
 			.repeatKey(JavaKeyCodes.VK_LEFT, 20).checkPath(0, 0, 0);
 	}
 
 	@Test
 	public void testCaretShouldStayInsideOnRightArrow() {
-		checker.fromParser(matix3x3).repeatKey(JavaKeyCodes.VK_RIGHT, 20).checkPath(1, 8, 0);
+		checker.matrixFromParser(matix3x3).repeatKey(JavaKeyCodes.VK_RIGHT, 20).checkPath(1, 8, 0);
 	}
 
 	@Test
 	public void testCaretShouldStayInsideOnUpArrow() {
-		checker.fromParser(matix3x3)
+		checker.matrixFromParser(matix3x3)
 				.repeatKey(JavaKeyCodes.VK_DOWN, 2)
 				.repeatKey(JavaKeyCodes.VK_UP, 20).checkPath(0, 0, 0);
 	}
 
 	@Test
 	public void testCaretShouldStayInsideOnDownArrow() {
-		checker.fromParser(matix3x3).repeatKey(JavaKeyCodes.VK_DOWN, 20).checkPath(0, 6, 0);
+		checker.matrixFromParser(matix3x3).repeatKey(JavaKeyCodes.VK_DOWN, 20).checkPath(0, 6, 0);
 	}
 }

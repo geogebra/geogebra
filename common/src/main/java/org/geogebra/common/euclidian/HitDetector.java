@@ -12,10 +12,13 @@ import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.TestGeo;
 
+import com.google.j2objc.annotations.Weak;
+
 public class HitDetector {
 	private ArrayList<GeoElement> hitPointOrBoundary;
 	private ArrayList<GeoElement> hitFilling;
 	private ArrayList<GeoElement> hitLabel;
+	@Weak
 	private final EuclidianView view;
 	private Hits hits;
 

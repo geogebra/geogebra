@@ -41,9 +41,6 @@ public enum Feature {
 	/** AND-887 and IGR-732 */
 	MOB_PROPERTY_SORT_BY,
 
-	/** MOW-189 */
-	MOW_TEXT_TOOL,
-
 	/** GGB-2255 */
 	GEOMETRIC_DISCOVERY,
 

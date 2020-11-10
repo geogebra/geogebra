@@ -81,7 +81,7 @@ public class BrowserDevice implements GDevice {
 				var files = this.files;
 				if (files.length) {
 					var fileToHandle = files[0];
-					bg.@org.geogebra.web.html5.gui.view.browser.BrowseViewI::openFile(Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle);
+					bg.@org.geogebra.web.html5.gui.view.browser.BrowseViewI::openFile(Lelemental2/dom/File;)(fileToHandle);
 					el.value = [];
 				}
 			};

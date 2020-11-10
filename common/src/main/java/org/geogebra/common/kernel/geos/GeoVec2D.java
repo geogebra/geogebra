@@ -44,6 +44,8 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.mathIT.Riemann;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * 
  * @author Markus
@@ -59,6 +61,7 @@ final public class GeoVec2D extends ValidExpression
 
 	private int mode; // POLAR or CARTESIAN
 
+	@Weak
 	private Kernel kernel;
 	private StringBuilder sbToString;
 

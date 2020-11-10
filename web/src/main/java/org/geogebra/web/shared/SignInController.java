@@ -7,10 +7,10 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.gui.util.Cookies;
 import org.geogebra.web.shared.ggtapi.BASEURL;
+import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 
 /**

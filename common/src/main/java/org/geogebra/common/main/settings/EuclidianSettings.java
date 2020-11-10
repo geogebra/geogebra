@@ -19,6 +19,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.StringUtil;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -137,6 +138,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private ExtendedBoolean enabledEB = ExtendedBoolean.UNKNOWN;
 
+	@Weak
 	protected App app;
 	protected int dimension;
 

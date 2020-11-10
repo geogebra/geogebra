@@ -63,9 +63,14 @@ public class Fractions {
 
 	private static ExpressionNode multiplyPi(double lt, Kernel kernel) {
 		MyDouble pi = new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING);
-		return MyDouble.exactEqual(lt, 1) ? pi.wrap()
-				: new ExpressionNode(kernel, new MyDouble(kernel, lt),
-						Operation.MULTIPLY, pi);
+		if (MyDouble.exactEqual(lt, 1)) {
+			return pi.wrap();
+		} else {
+			ExpressionValue left = lt == -1 ? new MinusOne(kernel) : new MyDouble(kernel, lt);
+			return MyDouble.exactEqual(lt, 1)
+					? pi.wrap()
+					: new ExpressionNode(kernel, left, Operation.MULTIPLY, pi);
+		}
 	}
 
 	private static ExpressionValue numericResolve(boolean pi, double ratio, ExpressionNode expr,
@@ -171,7 +176,6 @@ public class Fractions {
 		default:
 			parts[0] = expr;
 			parts[1] = null;
-			return;
 		}
 	}
 

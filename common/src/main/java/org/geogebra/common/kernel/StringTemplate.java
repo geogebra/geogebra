@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.MinusOne;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -1773,11 +1774,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			// left wing
 			if (left.isLeaf() || (ExpressionNode
-					.opID(left) >= Operation.MULTIPLY.ordinal())) { // not
-				// +,
-				// -
-				if (ExpressionNode.isEqualString(left, -1, !valueForm)) { // unary
-																			// minus
+					.opID(left) >= Operation.MULTIPLY.ordinal())) { // not +, -
+				if (left instanceof MinusOne) { // unary minus
 					nounary = false;
 					sb.append('-');
 				} else {

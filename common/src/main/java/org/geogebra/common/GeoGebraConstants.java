@@ -10,12 +10,16 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "13 October 2020";
+	public static final String BUILD_DATE = "06 November 2020";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.610.0";
+	public static final String VERSION_STRING = "5.0.612.0";
 
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
+
+	/** Download update **/
+	public static final String DOWNLOAD_PACKAGE_WIN =
+			"https://download.geogebra.org/package/win";
 
 	/** App versions */
 	enum Version {
@@ -112,6 +116,8 @@ public interface GeoGebraConstants {
 	String NOTES_APPCODE = "notes";
 
 	String SUITE_SHORT_NAME = "CalculatorSuite.short";
+
+	String SUITE_URL_NAME = "calculator";
 
 	/**
 	 * used by version checker, so that sys admins can disable version checking

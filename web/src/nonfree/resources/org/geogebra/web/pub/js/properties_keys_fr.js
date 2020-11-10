@@ -1541,7 +1541,6 @@ __GGB__keysVar["fr"].menu = {
     "ContextMenu.clip": "Clip",
     "ContextMenu.deleteColumn": "Delete column",
     "ContextMenu.deleteRow": "Delete row",
-    "ContextMenu.deleteTable": "Delete table",
     "ContextMenu.insertColumnLeft": "Ins\xe9rer colonne \xe0 gauche",
     "ContextMenu.insertColumnRight": "Insert column right",
     "ContextMenu.insertRowAbove": "Insert row above",

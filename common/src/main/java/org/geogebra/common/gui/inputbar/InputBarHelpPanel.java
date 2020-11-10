@@ -13,8 +13,11 @@ import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.LowerCaseDictionary;
 
+import com.google.j2objc.annotations.Weak;
+
 public class InputBarHelpPanel {
 
+	@Weak
 	protected App mApp;
 	private LowerCaseDictionary mMathFuncDict;
 	private LowerCaseDictionary mDict;

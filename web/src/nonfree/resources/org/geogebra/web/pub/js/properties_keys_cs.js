@@ -1541,7 +1541,6 @@ __GGB__keysVar["cs"].menu = {
     "ContextMenu.clip": "O\u0159\xedznout",
     "ContextMenu.deleteColumn": "Odstranit sloupec",
     "ContextMenu.deleteRow": "Odstranit \u0159\xe1dek",
-    "ContextMenu.deleteTable": "Odstranit tabulku",
     "ContextMenu.insertColumnLeft": "Insert column left",
     "ContextMenu.insertColumnRight": "Vlo\u017eit sloupec vpravo",
     "ContextMenu.insertRowAbove": "Vlo\u017eit \u0159\xe1dek nad",

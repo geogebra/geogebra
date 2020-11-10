@@ -87,6 +87,7 @@ import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.xml.sax.SAXException;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -145,6 +146,7 @@ public class MyXMLHandler implements DocHandler {
 	private Command cmd;
 	private Macro macro;
 	/** application */
+	@Weak
 	protected final App app;
 	/** lacalization */
 	protected final Localization loc;
@@ -154,11 +156,13 @@ public class MyXMLHandler implements DocHandler {
 	private GeoElementND[] cmdOutput;
 	private boolean startAnimation;
 
+	@Weak
 	Kernel kernel;
 	// for macros we need to change the kernel, so remember the original kernel
 	// too
 	private Kernel origKernel;
 	/** construction */
+	@Weak
 	protected Construction cons;
 
 	Parser parser;

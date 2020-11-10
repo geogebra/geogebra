@@ -41,6 +41,8 @@ import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Function of N variables that returns either a number or a boolean. This
  * depends on the expression this function is based on.
@@ -63,6 +65,7 @@ public class FunctionNVar extends ValidExpression
 	protected boolean isConstantFunction = false;
 
 	/** kernel */
+	@Weak
 	protected Kernel kernel;
 	private final static int MAX_CAS_EVAL_MAP_SIZE = 100;
 	private MaxSizeHashMap<String, FunctionNVar> casEvalMap;

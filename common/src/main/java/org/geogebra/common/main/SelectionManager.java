@@ -42,6 +42,8 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Keeps lists of selected geos (global, per type)
  *
@@ -50,6 +52,7 @@ public class SelectionManager {
 	/** list of selected geos */
 	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<>();
 
+	@Weak
 	private final Kernel kernel;
 
 	private final ArrayList<UpdateSelection> listeners;
