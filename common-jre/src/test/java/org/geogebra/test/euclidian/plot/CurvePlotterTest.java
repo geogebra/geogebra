@@ -16,7 +16,7 @@ public class CurvePlotterTest extends BaseUnitTest {
 	@Test
 	public void testPlotSinX() {
 		CurveEvaluable curve = add("sin(x)");
-		resultShouldBeTheSame(curve, -1,1);
+		resultShouldBeTheSame(curve, -1, 1);
 	}
 
 	@Test
@@ -69,7 +69,6 @@ public class CurvePlotterTest extends BaseUnitTest {
 
 		GPoint pointActual = CurvePlotter.plotCurve(f, tMin, tMax, view,
 				gp, true, Gap.MOVE_TO);
-
 
 		assertEquals(gpExpected, gp);
 		assertEquals(pointExpected, pointActual);
