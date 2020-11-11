@@ -1264,4 +1264,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(function.getDefinition(StringTemplate.defaultTemplate),
 				equalTo("NSolve(eq1,x)"));
 	}
+
+	@Test
+	public void testExtremum() {
+		GeoSymbolic extremum = add("Extremum(x*ln(x^2))");
+		GeoList twin = (GeoList) extremum.getTwinGeo();
+		assertThat(twin.size(), equalTo(2));
+	}
 }
