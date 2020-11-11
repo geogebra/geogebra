@@ -152,4 +152,9 @@ public class LoginOperationW extends LogInOperation {
 		model.setLoginStarted();
 		processCookie(true);
 	}
+
+	@Override
+	protected boolean isExternalLoginAllowed() {
+		return app.getLAF().isExternalLoginAllowed();
+	}
 }

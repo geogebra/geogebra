@@ -5,7 +5,7 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.web.shared.ggtapi.BASEURL;
+import org.geogebra.web.shared.ggtapi.StaticFileUrls;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -13,6 +13,7 @@ import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationHandle;
 import com.google.gwt.user.client.Window;
 
+import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
 
 /**
@@ -159,8 +160,9 @@ public final class WindowReference implements EventRenderable {
 				+ "statusbar=no, " + "titlebar=no, "
 				+ "width=" + width + "," + "height=" + height + "," + "left="
 				+ left + ", " + "top=" + top;
-		String url = BASEURL.getOpenerUrl() + "?redirect=" + redirect
-				+ "&callback=" + callback;
+		String url = StaticFileUrls.getOpenerUrl()
+				+ "?redirect=" + Global.encodeURIComponent(redirect)
+				+ "&callback=" + Global.encodeURIComponent(callback);
 		return DomGlobal.window.open(url, name, settings);
 	}
 
