@@ -99,8 +99,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	private boolean showUndefinedInAlgebraView = false;
 	private Coords tmpCoords6;
 
-	private boolean setEigenvectorsCalled = false;
-
 	/**
 	 * @param c
 	 *            construction
@@ -145,10 +143,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 
 		// try to classify quadric
-		if (kernel.getConstruction() != null
-				&& !kernel.getConstruction().isFileLoading()) {
-			classifyQuadric();
-		}
+		classifyQuadric();
 	}
 
 	@Override
@@ -156,15 +151,20 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		for (int i = 0; i < 10; i++) {
 			matrix[i] = coeffs[i];
 		}
+		ensureClassified();
+	}
 
+	@Override
+	public void ensureClassified() {
 		if (type == GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED) {
 			classifyQuadric();
-			if (!setEigenvectorsCalled) {
-				// old file: avoid new quadrics to be shown
-				if (type != QUADRIC_SPHERE && type != QUADRIC_SINGLE_POINT) {
-					setEuclidianVisible(false);
-				}
-			}
+		}
+	}
+
+	@Override
+	public void hideIfNotSphere() {
+		if (type != QUADRIC_SPHERE && type != QUADRIC_SINGLE_POINT) {
+			setEuclidianVisible(false);
 		}
 	}
 
@@ -172,7 +172,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 * Update quadric type and properties
 	 */
 	protected void classifyQuadric() {
-
 		defined = checkDefined();
 		if (!defined) {
 			return;
@@ -3382,17 +3381,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	@Override
 	final public void setEigenvectors(double x0, double y0, double z0,
 			double x1, double y1, double z1, double x2, double y2, double z2) {
-
-		setEigenvectorsCalled = true;
-
 		eigenvecND[0].set(x0, y0, z0);
 		eigenvecND[1].set(x1, y1, z1);
 		eigenvecND[2].set(x2, y2, z2);
-
-		// compute dependent quadric again to ensure eigenvalues are correct
-		if (algoParent instanceof AlgoDependentQuadric3D) {
-			algoParent.compute();
-		}
 	}
 
 	/**

@@ -95,9 +95,9 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("l", "1 + 1 / 5");
 		((GeoNumeric) lookup("l")).setSymbolicMode(true, false);
 		inputBox.setSymbolicMode(true, false);
-		assertEquals("1+1/5", inputBox.getTextForEditor());
+		assertEquals("1+(1)/(5)", inputBox.getTextForEditor());
 		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
-		assertEquals("1+1/5", inputBox.getTextForEditor());
+		assertEquals("1+(1)/(5)", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -165,7 +165,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		inputBox.setSymbolicMode(true, false);
 		assertEquals("(?,?,?)", inputBox.getTextForEditor());
 		updateInput("(sqrt(2), 1/3, 0)");
-		assertEquals("(sqrt(2),1/3,0)", inputBox.getTextForEditor());
+		assertEquals("(sqrt(2),(1)/(3),0)", inputBox.getTextForEditor());
 		add("SetValue(P,?)");
 		assertEquals("(?,?,?)", inputBox.getTextForEditor());
 	}
@@ -421,7 +421,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("f", "x");
 		inputBox.setSymbolicMode(true, false);
 		updateInput("(-1)/4 x");
-		assertEquals("-1/4 x", inputBox.getTextForEditor());
+		assertEquals("(-1)/(4) x", inputBox.getTextForEditor());
 		assertEquals("\\frac{-1}{4} \\; x", inputBox.getText());
 	}
 
@@ -430,7 +430,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("f", "x");
 		inputBox.setSymbolicMode(true, false);
 		updateInput("-(1/4) x");
-		assertEquals("-(1/4) x", inputBox.getTextForEditor());
+		assertEquals("-((1)/(4)) x", inputBox.getTextForEditor());
 		assertEquals("-\\frac{1}{4} \\; x", inputBox.getText());
 	}
 

@@ -401,7 +401,7 @@ public abstract class CommandDispatcher {
 			// advanced
 			case IntersectPath:
 			case IntersectRegion:
-
+			case IsVertexForm:
 			case Difference:
 
 			case TaylorPolynomial:
@@ -423,6 +423,7 @@ public abstract class CommandDispatcher {
 			case Asymptote:
 			case CurvatureVector:
 			case Curvature:
+			case Torsion:
 			case OsculatingCircle:
 			case IterationList:
 			case RootList:

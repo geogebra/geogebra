@@ -72,6 +72,7 @@ import org.geogebra.common.kernel.advanced.CmdSlopeField;
 import org.geogebra.common.kernel.advanced.CmdTaylorSeries;
 import org.geogebra.common.kernel.advanced.CmdToBase;
 import org.geogebra.common.kernel.advanced.CmdToComplexPolar;
+import org.geogebra.common.kernel.advanced.CmdTorsion;
 import org.geogebra.common.kernel.advanced.CmdTranspose;
 import org.geogebra.common.kernel.advanced.CmdUnion;
 import org.geogebra.common.kernel.advanced.CmdUnique;
@@ -130,6 +131,8 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdCurvatureVector(kernel);
 		case Curvature:
 			return new CmdCurvature(kernel);
+		case Torsion:
+			return  new CmdTorsion(kernel);
 		case OsculatingCircle:
 			return new CmdOsculatingCircle(kernel);
 		case IterationList:
@@ -286,6 +289,8 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdFinancialFV(kernel);
 		case SVD:
 			return new CmdSVD(kernel);
+		case IsVertexForm:
+			return new CmdIsVertexForm(kernel);
 		default:
 			break;
 		}
