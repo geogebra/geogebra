@@ -1069,7 +1069,9 @@ public class AlgebraProcessor {
 			extracted = symbolicProcessor.extractAssignment(equation, info);
 			ve.setLabel(extracted.getLabel());
 		}
-		if (ve.isRootNode()) {extracted.setAsRootNode();}
+		if (ve.isRootNode()) {
+			extracted.setAsRootNode();
+		}
 		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(extracted, info);
 		String label = extracted.getLabel();
 		if (label != null && kernel.lookupLabel(label) != null
