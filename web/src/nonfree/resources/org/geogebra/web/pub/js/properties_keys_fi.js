@@ -615,7 +615,7 @@ __GGB__keysVar["fi"].command = {
     "NextPrime": "SeuraavaAlkuluku",
     "NextPrime.Syntax": "[ <Luku> ]",
     "Normal": "Normaalijakauma",
-    "Normal.Syntax": "[ <Keskiarvo>, <Keskihajonta>, <Muuttujan arvo> ]\n[ <Keskiarvo>, <Keskihajonta>, <Muuttujan arvo>, <Totuusarvo: kertym\xe4/ei>  ]\n[ <Keskiarvo>, <Keskihajonta>, x, <Totuusarvo: kertym\xe4/ei> ]",
+    "Normal.Syntax": "[ <Keskiarvo>, <Keskihajonta>, <Muuttujan arvo> ]\n[ <Keskiarvo>, <Keskihajonta>, <Muuttujan arvo>, <Totuusarvo: kertym\xe4/ei> ]\n[ <Keskiarvo>, <Keskihajonta>, <x>, <Totuusarvo: kertym\xe4/ei> ]",
     "Normal.SyntaxCAS": "[ <Keskiarvo>, <Keskihajonta>, x ]",
     "NormalQuantilePlot": "NormaaliKvantiilikuvio",
     "NormalQuantilePlot.Syntax": "[ <Raakadatalista> ]",

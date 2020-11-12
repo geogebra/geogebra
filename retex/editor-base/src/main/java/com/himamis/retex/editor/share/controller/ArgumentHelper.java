@@ -19,8 +19,7 @@ public class ArgumentHelper {
 	 * @param container
 	 *            function
 	 */
-	public static void passArgument(EditorState editorState,
-			MathContainer container, boolean stickyMinus) {
+	public static void passArgument(EditorState editorState, MathContainer container) {
 		MathSequence currentField = editorState.getCurrentField();
 		int currentOffset = editorState.getCurrentOffset();
 		// get pass to argument
@@ -79,15 +78,14 @@ public class ArgumentHelper {
 				// otherwise pass character sequence
 			} else {
 
-				passCharacters(editorState, container, stickyMinus);
+				passCharacters(editorState, container);
 				currentOffset = editorState.getCurrentOffset();
 			}
 		}
 		editorState.setCurrentOffset(currentOffset);
 	}
 
-	private static void passCharacters(EditorState editorState,
-			MathContainer container, boolean stickyMinus) {
+	private static void passCharacters(EditorState editorState, MathContainer container) {
 		int currentOffset = editorState.getCurrentOffset();
 		MathSequence currentField = editorState.getCurrentField();
 		// get pass to argument
@@ -99,8 +97,7 @@ public class ArgumentHelper {
 
 			MathCharacter character = (MathCharacter) currentField
 					.getArgument(currentOffset - 1);
-			if (character.isWordBreak()
-					&& !(stickyMinus && isUnaryMinus(character, currentField, currentOffset))) {
+			if (character.isWordBreak()) {
 				break;
 			}
 			currentField.delArgument(currentOffset - 1);
@@ -108,21 +105,6 @@ public class ArgumentHelper {
 			field.addArgument(0, character);
 		}
 		editorState.setCurrentOffset(currentOffset);
-	}
-
-	private static boolean isUnaryMinus(MathCharacter character,
-			MathSequence currentField, int currentOffset) {
-		if ('-' != character.getUnicode()) {
-			return false;
-		}
-		if (currentOffset == 1) {
-			return true;
-		}
-		if (currentOffset > 1
-				&& currentField.getArgument(currentOffset - 2) instanceof MathCharacter) {
-			return ((MathCharacter) currentField.getArgument(currentOffset - 2)).isWordBreak();
-		}
-		return false;
 	}
 
 	/**
