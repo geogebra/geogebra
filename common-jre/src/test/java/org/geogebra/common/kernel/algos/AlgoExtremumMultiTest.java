@@ -4,7 +4,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.junit.Test;
 
@@ -20,9 +19,9 @@ public class AlgoExtremumMultiTest extends BaseUnitTest {
 
 	@Test
 	public void testPolynomial() {
-		GeoList extremums = addAvInput("Extremum(x^3-3x)");
-		assertThat(extremums.size(), equalTo(2));
-		assertThat(extremums.get(0).getAlgebraDescriptionDefault(), equalTo("A = (-1, 2)"));
-		assertThat(extremums.get(1).getAlgebraDescriptionDefault(), equalTo("B = (1, -2)"));
+		GeoPoint[] extremums = getElements("Extremum(x^3-3x)");
+		assertThat(extremums.length, equalTo(2));
+		assertThat(extremums[0].getAlgebraDescriptionDefault(), equalTo("A = (-1, 2)"));
+		assertThat(extremums[1].getAlgebraDescriptionDefault(), equalTo("B = (1, -2)"));
 	}
 }

@@ -3354,4 +3354,7 @@ public class GeoList extends GeoElement
 		corner.setUndefined();
 	}
 
+	public boolean isEmpty() {
+		return size() == 0;
+	}
 }

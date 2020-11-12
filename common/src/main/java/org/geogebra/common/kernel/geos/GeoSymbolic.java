@@ -55,7 +55,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private MyArbitraryConstant constant;
 
 	@Nullable
-	private GeoElement twinGeo;
+	private GeoList twinGeo;
 
 	/**
 	 * @return output expression
@@ -318,33 +318,39 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	 */
 	public GeoElementND getTwinGeo() {
 		if (isTwinUpToDate) {
-			return twinGeo;
+			return getUnwrappedTwin();
 		}
-		GeoElementND newTwin = createTwinGeo();
+		GeoList newTwin = createTwinGeo();
 
-		if (newTwin instanceof EquationValue) {
-			((EquationValue) newTwin).setToUser();
-		}
-
-		if (newTwin instanceof GeoList) {
-			newTwin.setEuclidianVisible(true);
-		}
-
-		if (twinGeo != null && newTwin != null) {
-			newTwin.setVisualStyle(this);
-			twinGeo = newTwin.toGeoElement();
-		} else if (newTwin == null) {
+		if (newTwin == null) {
 			twinGeo = null;
+			isTwinUpToDate = true;
+			return null;
+		}
+
+		if (!newTwin.isEmpty() && newTwin.get(0) instanceof EquationValue) {
+			((EquationValue) newTwin.get(0)).setToUser();
+		}
+
+		newTwin.setEuclidianVisible(true);
+
+		if (twinGeo != null) {
+			newTwin.setVisualStyle(this);
+			twinGeo = newTwin;
 		} else {
-			twinGeo = newTwin.toGeoElement();
-			setVisualStyle(twinGeo);
+			twinGeo = newTwin;
+			setVisualStyle(getUnwrappedTwin());
 		}
 		isTwinUpToDate = true;
 
-		return twinGeo;
+		return getUnwrappedTwin();
 	}
 
-	private GeoElementND createTwinGeo() {
+	private GeoElement getUnwrappedTwin() {
+		return twinGeo != null && twinGeo.size() == 1 ? twinGeo.get(0) : twinGeo;
+	}
+
+	private GeoList createTwinGeo() {
 		if (getDefinition() == null) {
 			return null;
 		}
@@ -415,14 +421,22 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		};
 	}
 
-	private GeoElement process(ExpressionNode expressionNode) throws Exception {
+	private GeoList process(ExpressionNode expressionNode) throws Exception {
 		expressionNode.traverse(Traversing.GgbVectRemover.getInstance());
 		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
 		if (algebraProcessor.hasVectorLabel(this)) {
 			expressionNode.setForceVector();
 		}
 		GeoElement[] elements = algebraProcessor.processValidExpression(expressionNode);
-		return elements[0];
+		if (elements.length == 1 && elements[0] instanceof GeoList ) {
+			return (GeoList) elements[0];
+		} else {
+			GeoList geoList = new GeoList(cons);
+			for (GeoElement element : elements) {
+				geoList.add(element);
+			}
+			return geoList;
+		}
 	}
 
 	@Override
@@ -606,14 +620,16 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	public boolean showPointProperties() {
 		getTwinGeo();
-		return twinGeo instanceof PointProperties
-				&& ((PointProperties) twinGeo).showPointProperties();
+		GeoElement unwrappedTwin = getUnwrappedTwin();
+		return unwrappedTwin instanceof PointProperties
+				&& ((PointProperties) unwrappedTwin).showPointProperties();
 	}
 
 	@Override
 	public boolean showLineProperties() {
 		getTwinGeo();
-		return twinGeo != null && twinGeo.showLineProperties();
+		GeoElement unwrappedTwin = getUnwrappedTwin();
+		return unwrappedTwin != null && unwrappedTwin.showLineProperties();
 	}
 
 	@Override
@@ -655,7 +671,8 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	public boolean hasLineOpacity() {
 		getTwinGeo();
-		return twinGeo != null && twinGeo.hasLineOpacity();
+		GeoElement unwrappedTwin = getUnwrappedTwin();
+		return unwrappedTwin != null && unwrappedTwin.hasLineOpacity();
 	}
 
 	@Override
@@ -715,7 +732,8 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 
 	@Override
 	public boolean isMatrix() {
-		return twinGeo != null ? twinGeo.isMatrix() : hasMatrixDefinition();
+		GeoElement unwrappedTwin = getUnwrappedTwin();
+		return unwrappedTwin != null ? unwrappedTwin.isMatrix() : hasMatrixDefinition();
 	}
 
 	private boolean hasMatrixDefinition() {
@@ -730,15 +748,17 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-		return twinGeo != null
-				? twinGeo.toLaTeXString(symbolic, tpl)
+		GeoElement unwrappedTwin = getUnwrappedTwin();
+		return unwrappedTwin != null
+				? unwrappedTwin.toLaTeXString(symbolic, tpl)
 				: symbolic ? getDefinition(tpl) : toValueString(tpl);
 	}
 
 	@Override
 	public boolean isGeoVector() {
-		return twinGeo != null
-				? twinGeo.isGeoVector()
+		GeoElement unwrappedTwin = getUnwrappedTwin();
+		return unwrappedTwin != null
+				? unwrappedTwin.isGeoVector()
 				: getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode;
 	}
 
