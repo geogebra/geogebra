@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
+import java.util.Arrays;
+
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -118,20 +120,15 @@ public class AlgoDependentQuadric3D extends AlgoElement3D {
 	// calc the current value of the arithmetic tree
 	@Override
 	public final void compute() {
-
-		// try {
-
 		for (int i = 0; i < 4; i++) {
 			coeffs[i] = ev[i].evaluateDouble();
 		}
 		for (int i = 4; i < 10; i++) {
 			coeffs[i] = ev[i].evaluateDouble() / 2;
 		}
-
-		quadric.setMatrix(coeffs);
-		// } catch (Throwable e) {
-		// quadric.setUndefined();
-		// }
+		if (!Arrays.equals(coeffs, quadric.getFlatMatrix())) {
+			quadric.setMatrix(coeffs);
+		}
 	}
 
 	@Override

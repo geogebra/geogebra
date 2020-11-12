@@ -22,7 +22,7 @@ public class EvaluatorAPITest extends BaseUnitTest {
 
 	@Before
 	public void setupTest() {
-		MathFieldCommon mathField = new MathFieldCommon(new MetaModel());
+		MathFieldCommon mathField = new MathFieldCommon(new MetaModel(), null);
 		api = new EvaluatorAPI(getKernel(), mathField.getInternal());
 		typer = new EditorTyper(mathField);
 	}

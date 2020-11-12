@@ -5468,18 +5468,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            end position
 	 * @return true if successful
 	 */
-	protected boolean movePoint(final Coords rwTransVec,
-			final Coords endPosition) {
-		return false;
-	}
-
-	/**
-	 * @param rwTransVec
-	 *            translation vector
-	 * @param endPosition
-	 *            end position
-	 * @return true if successful
-	 */
 	protected boolean moveVector(final Coords rwTransVec,
 			final Coords endPosition) {
 
