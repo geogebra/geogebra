@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.background.BackgroundType;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
@@ -280,7 +281,9 @@ public class EuclidianOptionsModel {
 					view.getXminObject().getLabel(StringTemplate.editTemplate),
 					view.getXmaxObject().getLabel(StringTemplate.editTemplate),
 					view.getYminObject().getLabel(StringTemplate.editTemplate),
-					view.getYmaxObject().getLabel(StringTemplate.editTemplate));
+					view.getYmaxObject().getLabel(StringTemplate.editTemplate),
+					view.getZminObject().getLabel(StringTemplate.editTemplate),
+					view.getZmaxObject().getLabel(StringTemplate.editTemplate));
 		} else {
 			switch (type) {
 			case maxX:
@@ -316,7 +319,22 @@ public class EuclidianOptionsModel {
 				} else {
 					view.setYminObject(minMax);
 				}
-
+				break;
+			case minZ:
+				settings = getSettings();
+				if (settings != null) {
+					settings.setZminObject(minMax, true);
+				} else {
+					view.setZminObject(minMax);
+				}
+				break;
+			case maxZ:
+				settings = getSettings();
+				if (settings != null) {
+					settings.setZmaxObject(minMax, true);
+				} else {
+					view.setZmaxObject(minMax);
+				}
 				break;
 			default:
 				break;
@@ -328,6 +346,9 @@ public class EuclidianOptionsModel {
 					(view.isZoomable() && !view.isLockedAxesRatio()));
 
 			view.updateBounds(true, true);
+
+			EuclidianView3D view3d = (EuclidianView3D) view;
+			view3d.resetViewChanged();
 		}
 	}
 
@@ -544,7 +565,7 @@ public class EuclidianOptionsModel {
 	}
 
 	public enum MinMaxType {
-		minX, maxX, minY, maxY
+		minX, maxX, minY, maxY, minZ, maxZ
 	}
 
 	public interface IEuclidianOptionsListener {
@@ -555,7 +576,7 @@ public class EuclidianOptionsModel {
 
 		void enableAxesRatio(boolean value);
 
-		void setMinMaxText(String minX, String maxX, String minY, String maxY);
+		void setMinMaxText(String minX, String maxX, String minY, String maxY, String minZ, String maxZ);
 
 		void addGridTypeItem(String item);
 

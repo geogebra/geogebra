@@ -3425,6 +3425,35 @@ public abstract class EuclidianView3D extends EuclidianView
 				axesNumberingDistances[i] = axesDistanceObjects[i].getDouble();
 			}
 		}
+
+		if (getSettings().getXminObject() == null) {
+			return;
+		}
+		double [][] minmax2 = new double[3][2];
+		double xmin2 = getSettings().getXminObject().getDouble();
+		double xmax2 = xmaxObject.getDouble();
+		double ymin2 = yminObject.getDouble();
+		double ymax2 = ymaxObject.getDouble();
+		double zmin2 = zminObject.getDouble();
+		double zmax2 = zmaxObject.getDouble();
+		if (((xmax2 - xmin2) > Kernel.MAX_PRECISION)
+				&& ((ymax2 - ymin2) > Kernel.MAX_PRECISION)) {
+			minmax2[0][0] = xmin2;
+			minmax2[0][1] = xmax2;
+			minmax2[1][0] = ymin2;
+			minmax2[1][1] = ymax2;
+			minmax2[2][0] = zmin2;
+			minmax2[2][1] = zmax2;
+			clippingCubeDrawable.setXYZMinMax(minmax2);
+
+			for (int i = 0; i < 3; i++) {
+				axisDrawable[i].setDrawMinMaxImmediatly(minmax2);
+				axisDrawable[i].updateDecorations();
+				setAxesIntervals(getScale(i), i);
+
+				axisDrawable[i].setWaitForUpdate();
+			}
+		}
 		updateBounds();
 	}
 
@@ -4013,8 +4042,32 @@ public abstract class EuclidianView3D extends EuclidianView
 	// PICKING
 
 	@Override
-	public void replaceBoundObject(GeoNumeric num, GeoNumeric geoNumeric) {
+	public void replaceBoundObject(GeoNumeric num, GeoNumeric num2) {
 		// TODO fix this for 3D dynamic bounds
+		if (xmaxObject == num) {
+			xmaxObject = num2;
+		}
+		if (xminObject == num) {
+			xminObject = num2;
+		}
+		if (ymaxObject == num) {
+			ymaxObject = num2;
+		}
+		if (yminObject == num) {
+			yminObject = num2;
+		}
+		if (zmaxObject == num) {
+			zmaxObject = num2;
+		}
+		if (zminObject == num) {
+			zminObject = num2;
+		}
+		for (int i = 0; i < axesDistanceObjects.length; i++) {
+			if (axesDistanceObjects[i] == num) {
+				axesDistanceObjects[i] = num2;
+			}
+		}
+		updateBounds(true, true);
 	}
 
 	public GColor getBackground() {

@@ -159,8 +159,9 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	private void addDimensionPanel() {
 		dimTitle = new Label("");
 		dimTitle.setStyleName("panelTitle");
-		dimLabel = new FormLabel[4]; // "Xmin", "Xmax" etc.
-		dimField = new AutoCompleteTextFieldW[4];
+		int dimension = setDimension();
+		dimLabel = new FormLabel[dimension]; // "Xmin", "Xmax" etc.
+		dimField = new AutoCompleteTextFieldW[dimension];
 
 		tfAxesRatioX = this.optionsEuclidianW.getTextField();
 		tfAxesRatioY = this.optionsEuclidianW.getTextField();
@@ -189,10 +190,17 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		axesRatioLabel = new Label("");
 
 		dimPanel = new FlowPanel();
-		addToDimPanel(dimTitle);
-		FlowPanel[] axisRangePanel = new FlowPanel[4];
-		MinMaxType[] fields = new MinMaxType[] { MinMaxType.minX,
-				MinMaxType.maxX, MinMaxType.minY, MinMaxType.maxY };
+		add(dimTitle);
+		FlowPanel[] axisRangePanel = new FlowPanel[dimension];
+		MinMaxType[] fields;
+		if (dimension == 4) {
+			fields = new MinMaxType[]{MinMaxType.minX,
+					MinMaxType.maxX, MinMaxType.minY, MinMaxType.maxY};
+		} else {
+			fields = new MinMaxType[]{MinMaxType.minX,
+					MinMaxType.maxX, MinMaxType.minY, MinMaxType.maxY, MinMaxType.minZ,
+					MinMaxType.maxZ};
+		}
 		for (int i = 0; i < fields.length; i++) {
 			dimLabel[i] = new FormLabel();
 			dimField[i] = this.optionsEuclidianW.getTextField();
@@ -207,12 +215,16 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 				LayoutUtilW.panelRow(axisRangePanel[0], axisRangePanel[1]));
 		dimPanel.add(
 				LayoutUtilW.panelRow(axisRangePanel[2], axisRangePanel[3]));
+		if (dimension == 6) {
+			dimPanel.add(
+					LayoutUtilW.panelRow(axisRangePanel[4], axisRangePanel[5]));
+		}
 
 		dimPanel.add(LayoutUtilW.panelRow(axesRatioLabel));
 		dimPanel.add(LayoutUtilW.panelRow(tfAxesRatioX, new Label(" : "),
 				tfAxesRatioY, tbLockRatio));
 
-		indentDimPanel();
+		indent(dimPanel);
 		addAxesRatioHandler(tfAxesRatioX);
 		addAxesRatioHandler(tfAxesRatioY);
 
@@ -230,12 +242,8 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		});
 	}
 
-	protected void indentDimPanel() {
-		indent(dimPanel);
-	}
-
-	protected void addToDimPanel(Widget w) {
-		add(w);
+	protected int setDimension() {
+		return 4;
 	}
 
 	protected void indent(FlowPanel panel) {
@@ -720,6 +728,16 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		dimField[3].setText(maxY);
 	}
 
+	public void setMinMaxText(String minX, String maxX, String minY,
+			String maxY, String minZ, String maxZ) {
+		dimField[0].setText(minX);
+		dimField[1].setText(maxX);
+		dimField[2].setText(minY);
+		dimField[3].setText(maxY);
+		dimField[4].setText(minZ);
+		dimField[5].setText(maxZ);
+	}
+
 	/**
 	 * Updates color, visible and bold checkboxes using current view settings.
 	 * 
@@ -788,7 +806,18 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	final protected void updateMinMax() {
 		this.optionsEuclidianW.view.updateBoundObjects();
 
-		setMinMaxText(
+		if (setDimension() == 4) {
+			setMinMaxText(
+					this.optionsEuclidianW.view.getXminObject()
+							.getLabel(StringTemplate.editTemplate),
+					this.optionsEuclidianW.view.getXmaxObject()
+							.getLabel(StringTemplate.editTemplate),
+					this.optionsEuclidianW.view.getYminObject()
+							.getLabel(StringTemplate.editTemplate),
+					this.optionsEuclidianW.view.getYmaxObject()
+							.getLabel(StringTemplate.editTemplate));
+		} else {
+			setMinMaxText(
 				this.optionsEuclidianW.view.getXminObject()
 						.getLabel(StringTemplate.editTemplate),
 				this.optionsEuclidianW.view.getXmaxObject()
@@ -796,8 +825,12 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 				this.optionsEuclidianW.view.getYminObject()
 						.getLabel(StringTemplate.editTemplate),
 				this.optionsEuclidianW.view.getYmaxObject()
+						.getLabel(StringTemplate.editTemplate),
+				this.optionsEuclidianW.view.getZminObject()
+						.getLabel(StringTemplate.editTemplate),
+				this.optionsEuclidianW.view.getZmaxObject()
 						.getLabel(StringTemplate.editTemplate));
-
+		}
 	}
 
 	/**
@@ -821,4 +854,11 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 	}
 
+	public FormLabel[] getDimLabel() {
+		return dimLabel;
+	}
+
+	public OptionsEuclidianW getOptionsEuclidianW() {
+		return optionsEuclidianW;
+	}
 }

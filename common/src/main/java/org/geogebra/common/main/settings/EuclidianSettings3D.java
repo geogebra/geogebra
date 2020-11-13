@@ -3,6 +3,7 @@ package org.geogebra.common.main.settings;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -744,4 +745,29 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return hasColoredAxes;
 	}
 
+	public void setCoordSystem(double xZero, double yZero, double zZero, double xscale, double yscale, double zscale,
+			boolean fire) {
+		if (Double.isNaN(xscale) || (xscale < Kernel.MAX_DOUBLE_PRECISION)
+				|| (xscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
+			return;
+		}
+		if (Double.isNaN(yscale) || (yscale < Kernel.MAX_DOUBLE_PRECISION)
+				|| (yscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
+			return;
+		}
+		if (Double.isNaN(zscale) || (zscale < Kernel.MAX_DOUBLE_PRECISION)
+				|| (zscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
+			return;
+		}
+
+		this.xZero = xZero;
+		this.yZero = yZero;
+		this.zZero = zZero;
+		this.xscale = xscale;
+		this.yscale = yscale;
+		this.zscale = zscale;
+		if (fire) {
+			settingChanged();
+		}
+	}
 }

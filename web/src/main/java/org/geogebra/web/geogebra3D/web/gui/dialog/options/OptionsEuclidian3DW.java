@@ -77,13 +77,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		}
 
 		@Override
-		protected void indentDimPanel() {
-			// TODO remove this and implement stuff for 3D
-		}
-
-		@Override
-		protected void addToDimPanel(Widget w) {
-			// TODO remove this and implement stuff for 3D
+		protected int setDimension() {
+			return 6;
 		}
 
 		@Override
@@ -271,6 +266,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			setText(radioClippingSmall, "BoxSize.small");
 			setText(radioClippingMedium, "BoxSize.medium");
 			setText(radioClippingLarge, "BoxSize.large");
+			getDimLabel()[4].setText(getOptionsEuclidianW().loc.getMenu("zmin") + ":");
+			getDimLabel()[5].setText(getOptionsEuclidianW().loc.getMenu("zmax") + ":");
 		}
 	}
 

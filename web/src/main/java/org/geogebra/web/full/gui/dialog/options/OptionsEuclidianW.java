@@ -59,7 +59,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	AxisTab yAxisTab;
 	private GridTab gridTab;
 	private boolean isIniting;
-	protected Localization loc;
+	public Localization loc;
 
 	protected static abstract class EuclidianTab extends FlowPanel
 			implements SetLabels {
@@ -884,8 +884,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}		
 
 	@Override
-	public void setMinMaxText(String minX, String maxX, String minY, String maxY) {
-		basicTab.setMinMaxText(minX, maxX, minY, maxY);
+	public void setMinMaxText(String minX, String maxX, String minY, String maxY, String minZ, String maxZ) {
+		basicTab.setMinMaxText(minX, maxX, minY, maxY, minZ, maxZ);
 	}
 
 	@Override

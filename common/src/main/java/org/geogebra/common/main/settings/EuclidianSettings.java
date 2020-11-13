@@ -73,6 +73,8 @@ public class EuclidianSettings extends AbstractSettings {
 	private NumberValue xmaxObject;
 	private NumberValue yminObject;
 	private NumberValue ymaxObject;
+	private NumberValue zminObject;
+	private NumberValue zmaxObject;
 
 	private int tooltipsInThisView = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
 
@@ -196,6 +198,8 @@ public class EuclidianSettings extends AbstractSettings {
 		xmaxObject = null;
 		yminObject = null;
 		ymaxObject = null;
+		zminObject = null;
+		zmaxObject = null;
 
 		gridLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 		axesLineStyle = EuclidianStyleConstants.AXES_LINE_TYPE_ARROW;
@@ -811,6 +815,46 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setYmaxObject(NumberValue ymaxObjectNew, boolean callsc) {
 		this.ymaxObject = ymaxObjectNew;
+		if (callsc) {
+			settingChanged();
+		}
+	}
+
+	/**
+	 * @return the yminObject
+	 */
+	public GeoNumeric getZminObject() {
+		return (GeoNumeric) zminObject;
+	}
+
+	/**
+	 * @param zminObjectNew
+	 *            the zminObject to set
+	 * @param callsc
+	 *            whether settingChanged should be called
+	 */
+	public void setZminObject(NumberValue zminObjectNew, boolean callsc) {
+		this.zminObject = zminObjectNew;
+		if (callsc) {
+			settingChanged();
+		}
+	}
+
+	/**
+	 * @return the ymaxObject
+	 */
+	public GeoNumeric getZmaxObject() {
+		return (GeoNumeric) zmaxObject;
+	}
+
+	/**
+	 * @param zmaxObjectNew
+	 *            the zmaxObject to set
+	 * @param callsc
+	 *            whether settingChanged should be called
+	 */
+	public void setZmaxObject(NumberValue zmaxObjectNew, boolean callsc) {
+		this.zmaxObject = zmaxObjectNew;
 		if (callsc) {
 			settingChanged();
 		}

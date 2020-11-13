@@ -235,6 +235,10 @@ public class EuclidianViewCompanion {
 		view.setXmaxObject(evs.getXmaxObject());
 		view.setYminObject(evs.getYminObject());
 		view.setYmaxObject(evs.getYmaxObject());
+		if (view.isEuclidianView3D()) {
+			view.setZminObject(evs.getZminObject());
+			view.setZmaxObject(evs.getZmaxObject());
+		}
 		view.getKernel().getConstruction().setIgnoringNewTypes(false);
 		view.setBackground(evs.getBackground());
 		view.setAxesColor(evs.getAxesColor());
@@ -342,6 +346,8 @@ public class EuclidianViewCompanion {
 			evs.setXmaxObject(view.xmaxObject, false);
 			evs.setYminObject(view.yminObject, false);
 			evs.setYmaxObject(view.ymaxObject, false);
+			evs.setZminObject(view.zminObject, false);
+			evs.setZmaxObject(view.zmaxObject, false);
 		} else {
 			// xmin, ... are OK; just update bounds
 			view.updateBounds(true, true);

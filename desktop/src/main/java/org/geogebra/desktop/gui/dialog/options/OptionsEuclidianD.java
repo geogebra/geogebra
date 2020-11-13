@@ -1133,7 +1133,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 	@Override
 	public void setMinMaxText(String minX, String maxX, String minY,
-			String maxY) {
+			String maxY, String minZ, String maxZ) {
 		tfMinX.setText(minX);
 		tfMaxX.setText(maxX);
 		tfMinY.setText(minY);
