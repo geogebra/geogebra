@@ -3887,9 +3887,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case LOG_AXES:
 			return prerelease;
 
-		case COMMAND_HOLES:
-			return prerelease;
-
 		// GGB-334, TRAC-3401
 		case ADJUST_WIDGETS:
 			return false;

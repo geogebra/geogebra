@@ -79,8 +79,8 @@ public class FunctionNVar extends ValidExpression
 
 		@Override
 		public boolean check(ExpressionValue v) {
-			return (v.isGeoElement() && ((GeoElement) v).isRandomGeo()) || (v.isExpressionNode()
-					&& ((ExpressionNode) v).getOperation() == Operation.RANDOM);
+			return (v.isGeoElement() && ((GeoElement) v).isRandomGeo())
+					|| v.isOperation(Operation.RANDOM);
 		}
 	}
 
