@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
+import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -66,7 +68,7 @@ public class IntervalTest {
 		assertTrue(new Interval(-1, 1).hasZero());
 		assertTrue(new Interval(0, 1).hasZero());
 		assertTrue(new Interval(-1, 0).hasZero());
-		assertTrue(IntervalConstants.whole().hasZero());
+		assertTrue(whole().hasZero());
 		assertTrue(IntervalConstants.zero().hasZero());
 	}
 
@@ -85,7 +87,7 @@ public class IntervalTest {
 
 	@Test
 	public void testEmptyConstant() {
-		assertTrue(IntervalConstants.empty().isEmpty());
+		assertTrue(empty().isEmpty());
 	}
 
 	@Test
@@ -101,8 +103,8 @@ public class IntervalTest {
 	@Test
 	public void testNotOverlapWithEmptyInterval() {
 		Interval a = new Interval(-1, 1);
-		assertFalse(a.isOverlap(IntervalConstants.empty()));
-		assertFalse(IntervalConstants.empty().isOverlap(a));
+		assertFalse(a.isOverlap(empty()));
+		assertFalse(empty().isOverlap(a));
 	}
 
 	@Test
@@ -110,7 +112,7 @@ public class IntervalTest {
 		shouldEqual(interval(-3, -2), interval(2, 3).negative());
 		shouldEqual(interval(-2, 1), interval(-1, 2).negative());
 		shouldEqual(interval(2, 3), interval(-3, -2).negative());
-		assertTrue(IntervalConstants.WHOLE.negative().isWhole());
+		assertTrue(whole().negative().isWhole());
 	}
 
 	@Test
@@ -125,12 +127,12 @@ public class IntervalTest {
 
 	@Test
 	public void testEmptyIntervalToString() {
-		assertEquals("Interval []", IntervalConstants.empty().toString());
+		assertEquals("Interval []",	empty().toString());
 	}
 
 	@Test
 	public void testWholeIntervalToString() {
-		assertEquals("Interval [-Infinity, Infinity]", IntervalConstants.WHOLE.toString());
+		assertEquals("Interval [-Infinity, Infinity]", whole().toString());
 	}
 
 	@Test

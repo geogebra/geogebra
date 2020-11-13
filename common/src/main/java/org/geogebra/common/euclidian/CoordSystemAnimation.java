@@ -245,6 +245,7 @@ public abstract class CoordSystemAnimation {
 		if (storeUndo) {
 			view.getApplication().storeUndoInfo();
 		}
+
 		view.getEuclidianController().notifyCoordSystemListeners();
 	}
 
@@ -270,6 +271,7 @@ public abstract class CoordSystemAnimation {
 		if (!hasTimer()) {
 			return;
 		}
+
 		switch (mode) {
 		case AXES_X:
 		case AXES_Y:

@@ -64,7 +64,7 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 	}
 
 	@Override
-	public Interval intersection(Interval other) {
+	public Interval intersect(Interval other) {
 		if (interval.isEmpty() || other.isEmpty()) {
 			interval.setEmpty();
 		} else {

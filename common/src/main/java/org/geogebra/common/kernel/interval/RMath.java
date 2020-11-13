@@ -81,22 +81,7 @@ public class RMath {
 	 * @return the previous number of n^{power}
 	 */
 	public static double powLow(double n, double power) {
-		if (power % 1 != 0) {
-			// power has decimals
-			return prev(Math.pow(n, power));
-		}
-
-		int m = (int) power;
-		double y = (m & 1) == 1 ? n : 1;
-		m >>= 1;
-		while (m > 0) {
-			double x1 = mulLow(n, n);
-			if ((m & 1) == 1) {
-				y = mulLow(x1, y);
-			}
-			m >>= 1;
-		}
-		return y;
+		return prev(Math.pow(n, power));
 	}
 
 	/**
@@ -106,12 +91,7 @@ public class RMath {
 	 * @return the next number of n^{power}
 	 */
 	public static double powHigh(double n, double power) {
-		if (power % 1 != 0) {
-			// power has decimals
-			return next(Math.pow(n, power));
-		}
-
-		return powHigh(n, (int) power);
+		return next(Math.pow(n, power));
 	}
 
 	private static double powHigh(double n, int power) {

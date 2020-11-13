@@ -171,10 +171,7 @@ public class IntervalAlgebraTest {
 
 	@Test
 	public void testNegativeAndPositivePowerOfNegatives() {
-		assertTrue(interval(0, Double.POSITIVE_INFINITY).almostEqual(
-				interval(-2, 3).pow(-2)));
-
-		assertTrue(IntervalConstants.WHOLE.almostEqual(
+		assertTrue(IntervalConstants.whole().almostEqual(
 				interval(-2, 3).pow(-3)));
 	}
 
