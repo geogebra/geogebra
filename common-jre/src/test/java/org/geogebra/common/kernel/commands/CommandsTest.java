@@ -151,7 +151,7 @@ public class CommandsTest {
 
 	@Test
 	public void operationSequence() {
-		Assert.assertEquals(StringUtil.fixVerticalBars("1..2"),
+		Assert.assertEquals(StringUtil.preprocessForParser("1..2", false),
 				"1" + Unicode.ELLIPSIS + "2");
 		t("3.2..7.999", "{3, 4, 5, 6, 7, 8}");
 		t("-3.2..3.2", "{-3, -2, -1, 0, 1, 2, 3}");
