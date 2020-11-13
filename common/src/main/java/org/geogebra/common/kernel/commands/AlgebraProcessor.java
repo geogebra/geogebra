@@ -2793,7 +2793,7 @@ public class AlgebraProcessor {
 
 		// z(x) = sin(x), see #5484
 		if (lhs instanceof ExpressionNode
-				&& ((ExpressionNode) lhs).getOperation() == Operation.ZCOORD
+				&& lhs.isOperation(Operation.ZCOORD)
 				&& ((ExpressionNode) lhs).getLeft()
 						.unwrap() instanceof FunctionVariable) {
 			equ.getRHS().setLabel("z");

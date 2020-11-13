@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
 import static org.geogebra.test.TestStringUtil.unicode;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import org.geogebra.common.euclidian.EuclidianView;

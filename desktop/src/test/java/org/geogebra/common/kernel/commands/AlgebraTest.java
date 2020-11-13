@@ -10,10 +10,9 @@ import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.Matcher;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 
-public class AlgebraTest extends Assert {
+public class AlgebraTest {
 
 	static AlgebraProcessor ap;
 	static AppDNoGui app;

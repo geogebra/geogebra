@@ -43,7 +43,6 @@ import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
-import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -4944,7 +4943,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				geosToUpdate.add(geo);
 			}
 		}
-
+		CasAlgoChecker checker = new CasAlgoChecker();
 		for (AlgoElement algo : cons.getAlgoList()) {
 			if (algo instanceof AlgoCasBase) {
 				((AlgoCasBase) algo).clearCasEvalMap();
@@ -4953,7 +4952,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				((AlgoUsingTempCASalgo) algo).refreshCASResults();
 			}
 
-			if (algo instanceof UsesCAS || algo instanceof AlgoCasCellInterface) {
+			if (checker.isAlgoUsingCas(algo)) {
 				// eg Limit, LimitAbove, LimitBelow, SolveODE
 				// AlgoCasCellInterface: eg Solve[x^2]
 				algo.compute();
