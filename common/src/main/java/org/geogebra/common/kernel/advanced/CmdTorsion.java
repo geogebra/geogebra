@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
@@ -36,9 +37,17 @@ public class CmdTorsion extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1] instanceof GeoCurveCartesianND))) {
+
 				AlgoTorsion algo = new AlgoTorsion(cons,
 						c.getLabel(), (GeoPointND) arg[0], (GeoCurveCartesianND) arg[1]);
 				GeoElement[] ret = {algo.getResult()};
+				return ret;
+			} else if ((ok[0] = (arg[0].isGeoPoint()))
+					&& (ok[1] = (arg[1].isGeoConic()))) {
+
+				AlgoCurvatureCurve algo = new AlgoCurvatureCurve(cons,
+						c.getLabel(), (GeoPointND) arg[0], (GeoConicND) arg[1]);
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 

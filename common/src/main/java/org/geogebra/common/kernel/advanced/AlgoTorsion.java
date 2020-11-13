@@ -3,9 +3,9 @@ package org.geogebra.common.kernel.advanced;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -21,6 +21,7 @@ public class AlgoTorsion extends AlgoElement {
 	private GeoPointND A; // input
 	private GeoCurveCartesianND f;
 	private GeoNumeric K; // output
+	private GeoConicND gc;
 
 	/**
 	 * @param cons
@@ -47,6 +48,28 @@ public class AlgoTorsion extends AlgoElement {
 	/**
 	 * @param cons
 	 *            construction
+	 * @param label
+	 *            output label
+	 * @param A
+	 *            point on curve
+	 * @param f
+	 *            conic
+	 */
+	public AlgoTorsion(Construction cons, String label, GeoPointND A,
+			GeoConicND f) {
+		this(cons, A, f);
+
+		if (label != null) {
+			K.setLabel(label);
+		} else {
+			// if we don't have a label we could try k
+			K.setLabel("k");
+		}
+	}
+
+	/**
+	 * @param cons
+	 *            construction
 	 * @param A
 	 *            point on function
 	 * @param f
@@ -55,6 +78,24 @@ public class AlgoTorsion extends AlgoElement {
 	public AlgoTorsion(Construction cons, GeoPointND A, GeoCurveCartesianND f) {
 		super(cons);
 		this.f = f;
+		this.A = A;
+		K = new GeoNumeric(cons);
+
+		setInputOutput();
+		compute();
+	}
+
+	/**
+	 * @param cons
+	 *            construction
+	 * @param A
+	 *            point on curve
+	 * @param gc
+	 *            conic
+	 */
+	public AlgoTorsion(Construction cons, GeoPointND A, GeoConicND gc) {
+		super(cons);
+		this.gc = gc;
 		this.A = A;
 		K = new GeoNumeric(cons);
 
@@ -88,7 +129,7 @@ public class AlgoTorsion extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		if (f.isDefined()) {
+		if (gc == null && f.isDefined()) {
 			try {
 				double t = f.getClosestParameterForCurvature(A,
 						f.getMinParameter());
@@ -97,6 +138,8 @@ public class AlgoTorsion extends AlgoElement {
 				ex.printStackTrace();
 				K.setUndefined();
 			}
+		} else if(gc != null) {
+			K.setValue(0);
 		} else {
 			K.setUndefined();
 		}
