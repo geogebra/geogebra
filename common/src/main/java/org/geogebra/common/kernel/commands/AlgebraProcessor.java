@@ -1353,13 +1353,13 @@ public class AlgebraProcessor {
 	 * Converts a String into a double.
 	 * @param string The String to be converted to double.
 	 * @return the double value of the String after the conversion
-	 * @throws ParseException this exception is thrown if the String cannot be converted.
+	 * @throws NumberFormatException this exception is thrown if the String cannot be converted.
 	 */
-	public double convertToDouble(String string) throws ParseException {
+	public double convertToDouble(String string) throws NumberFormatException {
 		try {
 			return evaluateToNumberValue(parser.parseExpression(string)).getDouble();
-		} catch (MyError | TokenMgrError | RuntimeException e) {
-			throw new ParseException(e.getMessage());
+		} catch (MyError | TokenMgrError | RuntimeException | ParseException e) {
+			throw new NumberFormatException(e.getMessage());
 		}
 	}
 

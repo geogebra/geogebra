@@ -269,8 +269,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	/**
 	 * @param inputText new value for linkedGeo
 	 */
-	public void updateLinkedGeo(String inputText) {
-		inputBoxProcessor.updateLinkedGeo(inputText, tpl);
+	public void updateLinkedGeo(String inputText, String... parts) {
+		inputBoxProcessor.updateLinkedGeo(inputText, tpl, parts);
 		getKernel().getApplication().storeUndoInfo();
 	}
 

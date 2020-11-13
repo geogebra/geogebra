@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoInterval;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -20,6 +21,7 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -29,7 +31,7 @@ public class InputBoxProcessor {
 
 	private GeoInputBox inputBox;
 	private GeoElementND linkedGeo;
-	private Kernel kernel;
+	private final Kernel kernel;
 	private AlgebraProcessor algebraProcessor;
 
 	/**
@@ -51,7 +53,7 @@ public class InputBoxProcessor {
 	 * @param tpl
 	 *            template
 	 */
-	public void updateLinkedGeo(String inputText, StringTemplate tpl) {
+	public void updateLinkedGeo(String inputText, StringTemplate tpl, String[] parts) {
 		if (!linkedGeo.isLabelSet() && linkedGeo.isGeoText()) {
 			((GeoText) linkedGeo).setTextString(inputText);
 			return;
@@ -61,21 +63,33 @@ public class InputBoxProcessor {
 		// box is correct when updating dependencies
 		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
 
-		String defineText = maybeClampInputForNumeric(inputText, tpl);
-
 		InputBoxErrorHandler errorHandler = new InputBoxErrorHandler();
-		updateLinkedGeoNoErrorHandling(defineText, tpl, errorHandler);
+		removeCommas(parts);
+		updateLinkedGeoNoErrorHandling(inputText, tpl, errorHandler, parts);
 
 		if (errorHandler.errorOccured) {
 			if ("?".equals(inputText)) {
 				updateTempInput("", "");
 			} else {
-				updateTempInput(inputText, tempUserDisplayInput);
+				String errorText = parts.length > 0 ? buildMatrixText(parts, getRows()) : inputText;
+				updateTempInput(errorText, tempUserDisplayInput);
 			}
 			linkedGeo.setUndefined();
 			makeGeoIndependent();
 			linkedGeo.resetDefinition(); // same as SetValue(linkedGeo, ?)
 			linkedGeo.updateRepaint();
+		}
+	}
+
+	private int getRows() {
+		return linkedGeo instanceof GeoList  ? ((GeoList) linkedGeo).size()
+				: ((GeoVectorND) linkedGeo).getDimension();
+	}
+
+	private void removeCommas(String[] parts) {
+		for (int i = 0; i < parts.length; i++) {
+			parts[i] = StringUtil.preprocessForParser(parts[i],
+					kernel.getLocalization().isUsingDecimalComma());
 		}
 	}
 
@@ -123,8 +137,8 @@ public class InputBoxProcessor {
 	}
 
 	private void updateLinkedGeoNoErrorHandling(String inputText,
-			StringTemplate tpl, ErrorHandler errorHandler) {
-		String defineText = preprocess(inputText, tpl);
+			StringTemplate tpl, ErrorHandler errorHandler, String[] parts) {
+		String defineText = preprocess(inputText, tpl, parts);
 
 		EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
 				false, false).withSliders(false)
@@ -137,12 +151,10 @@ public class InputBoxProcessor {
 				new InputBoxCallback(inputBox), errorHandler);
 	}
 
-	private String  preprocess(String inputText, StringTemplate tpl) {
-		String defineText = inputText;
-
-		if (linkedGeo instanceof GeoVectorND && linkedGeo.hasSpecialEditor()) {
-			defineText = "(" + inputText.replace("{", "")
-					.replace("}", "") + ")";
+	private String preprocess(String inputText, StringTemplate tpl, String[] parts) {
+		String defineText = maybeClampInputForNumeric(inputText, tpl);
+		if (linkedGeo.hasSpecialEditor() && parts.length > 0) {
+			defineText = buildListText(parts);
 		} else if (linkedGeo.isGeoText()) {
 			defineText = "\"" + defineText + "\"";
 		} else if ("?".equals(inputText.trim()) || "".equals(inputText.trim())) {
@@ -184,6 +196,32 @@ public class InputBoxProcessor {
 		}
 
 		return defineText;
+	}
+
+	private String buildListText(String[] parts) {
+		if (linkedGeo instanceof GeoVectorND) {
+			return "(" + StringUtil.join(",", parts) + ")";
+		} else {
+			return buildMatrixText(parts,  ((GeoList) linkedGeo).size());
+		}
+	}
+
+	private String buildMatrixText(String[] parts, int rows) {
+		Log.error(StringUtil.join("::", parts));
+		StringBuilder sb = new StringBuilder("{{");
+		int cells = parts.length;
+		int columns = cells / rows;
+		for (int cell = 0; cell < cells; cell++) {
+			sb.append(parts[cell]);
+			if (cell == cells - 1) {
+				sb.append("}}");
+			} else if ((cell + 1) % columns == 0) {
+				sb.append("},{");
+			} else {
+				sb.append(',');
+			}
+		}
+		return sb.toString();
 	}
 
 	private boolean isComplexFunction() {

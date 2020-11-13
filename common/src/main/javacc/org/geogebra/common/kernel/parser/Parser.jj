@@ -69,7 +69,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.parser.cashandlers.CommandDispatcherGiac;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.lang.Language;
 
 import java.util.ArrayList;
 import java.util.Vector;
@@ -119,7 +118,7 @@ public class Parser implements ParserInterface {
 		if (!kernel.getConstruction().isFileLoading() && StringUtil.checkBracketsBackward(StringUtil.ignoreIndices(parseString)) >= 0) {
 			throw new BracketsError(loc,parseString);
 		}
-		boolean decimalComma = Language.isUsingDecimalComma(loc.getLanguage());
+		boolean decimalComma = loc.isUsingDecimalComma();
 		ReInit(new StringProvider(StringUtil.preprocessForParser(parseString, decimalComma)));
 		geoGebraCASParsing = false;
 		externalCASParsing = false;
