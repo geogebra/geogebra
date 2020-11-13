@@ -38,21 +38,11 @@ public class CmdTorsion extends CommandProcessor {
 		case 2:
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1] instanceof GeoCurveCartesian3D) || (arg[1] instanceof GeoCurveCartesian))) {
-				if (arg[1] instanceof GeoCurveCartesian) {
-					AlgoTorsion algo = new AlgoTorsion(cons,
-							c.getLabel(),(GeoPoint) arg[0],
-							(GeoCurveCartesian) arg[1]);
-					GeoElement[] ret = {algo.getResult()};
-					return ret;
-				} else {
-					AlgoTorsion algo = new AlgoTorsion(cons,
-							c.getLabel(), (GeoPoint3D) arg[0],
-							(GeoCurveCartesian3D) arg[1]);
-
-					GeoElement[] ret = {algo.getResult()};
-					return ret;
-				}
+					&& (ok[1] = (arg[1] instanceof GeoCurveCartesianND))) {
+				AlgoTorsion algo = new AlgoTorsion(cons,
+						c.getLabel(), (GeoPointND) arg[0], (GeoCurveCartesianND) arg[1]);
+				GeoElement[] ret = {algo.getResult()};
+				return ret;
 			}
 
 			if (!ok[0]) {

@@ -89,18 +89,13 @@ public class AlgoTorsion extends AlgoElement {
 	@Override
 	public final void compute() {
 		if (f.isDefined()) {
-			if(f instanceof GeoCurveCartesian){
-				K.setValue(0);
-			}
-			else{
-				try {
-					double t = f.getClosestParameterForCurvature(A,
-							f.getMinParameter());
-					K.setValue(f.evaluateTorsion(t));
-				} catch (Exception ex) {
-					ex.printStackTrace();
-					K.setUndefined();
-				}
+			try {
+				double t = f.getClosestParameterForCurvature(A,
+						f.getMinParameter());
+				K.setValue(f.evaluateTorsion(t));
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				K.setUndefined();
 			}
 		} else {
 			K.setUndefined();
