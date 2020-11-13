@@ -2219,8 +2219,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			final AnimationManager am = kernel.getAnimatonManager();
 			if (animating) {
 				am.addAnimatedGeo(this);
+				kernel.notifyStartAnimation(this);
 			} else {
 				am.removeAnimatedGeo(this);
+				kernel.notifyStopAnimation(this);
 			}
 		}
 	}
