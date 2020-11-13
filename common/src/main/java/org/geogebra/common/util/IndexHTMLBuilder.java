@@ -127,6 +127,6 @@ public class IndexHTMLBuilder {
 			return;
 		}
 		builder.clear();
-		builder.append(text);
+		builder.appendHTML(text);
 	}
 }
