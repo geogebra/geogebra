@@ -428,6 +428,10 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			expressionNode.setForceVector();
 		}
 		GeoElement[] elements = algebraProcessor.processValidExpression(expressionNode);
+		return toGeoList(elements);
+	}
+
+	private GeoList toGeoList(GeoElement[] elements) {
 		if (elements.length == 1 && elements[0] instanceof GeoList) {
 			return (GeoList) elements[0];
 		} else {
