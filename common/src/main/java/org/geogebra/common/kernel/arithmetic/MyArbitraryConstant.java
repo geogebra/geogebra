@@ -151,6 +151,7 @@ public class MyArbitraryConstant {
 	private GeoDummyVariable createSymbolicConstant(Construction cons, String label) {
 		GeoDummyVariable variable = new GeoDummyVariable(cons, label);
 		variable.setAuxiliaryObject(true);
+		variable.setLabel(label);
 		cons.getCASdummies().add(label);
 		return variable;
 	}

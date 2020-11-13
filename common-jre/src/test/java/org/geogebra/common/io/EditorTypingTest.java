@@ -1,5 +1,7 @@
 package org.geogebra.common.io;
 
+import java.text.Normalizer;
+
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.util.SyntaxAdapterImpl;
@@ -95,7 +97,7 @@ public class EditorTypingTest {
 	@Test
 	public void testTrig4() {
 		checker.type("sin(x)^123").checkGGBMath("sin" + Unicode.SUPERSCRIPT_1
-				+ Unicode.SUPERSCRIPT_2	+ Unicode.SUPERSCRIPT_3 + "(x)");
+				+ Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_3 + "(x)");
 	}
 
 	@Test
@@ -124,6 +126,103 @@ public class EditorTypingTest {
 
 	@Test
 	public void testKorean() {
+
+		// tests from https://github.com/clee704/hangul-js/blob/master/spec/hangul-dubeol.spec.js (MIT)
+		checker.checkEditorInsert(convertKoreanTyping("gksrmfdl dks Tjwudy!"),
+				"\uD55C\uAE00\uC774 \uC548 \uC368\uC838\uC694!");
+		checker.checkEditorInsert(
+				convertKoreanTyping("dkswdk dlTwl dksgdmaus wjdtlsdmf dlfgdmf tneh dlTdjdy."),
+				"\uC549\uC544 \uC788\uC9C0 \uC54A\uC73C\uBA74 \uC815\uC2E0\uC744 "
+						+ "\uC783\uC744 \uC218\uB3C4 \uC788\uC5B4\uC694.");
+		checker.checkEditorInsert(convertKoreanTyping("10dnjf 7dlf dhgn 2tl rhkdhl"),
+				"10\uC6D4 7\uC77C \uC624\uD6C4 2\uC2DC \uACFC\uC678");
+		checker.checkEditorInsert(convertKoreanTyping("rhkfqrnlswwlQkqdlswlrrtdddkzzzl"),
+				"\uAD07\uADC5\uC9C0\uBE71\uC778\uC9C1\u3133\u3147\u3147\uC55C\u314B\uD0A4");
+		checker.checkEditorInsert(convertKoreanTyping("RhkRRnswEnpsgdnprtkt lhkd kdl s"),
+				"\uAF4A\uAFBD\uB6DA\uC6E9\uC0BF \u3163\u3158\u3147 \u314F\uC774 \u3134");
+		checker.checkEditorInsert(
+				convertKoreanTyping("quf qkdqjqdms ek Tjqhkeh dksehldy nn wpqkf ehdhkwntpdy"),
+				"\uBCC4 \uBC29\uBC95\uC740 \uB2E4 \uC368\uBD10\uB3C4 \uC548\uB418\uC694 "
+						+ "\u315C\u315C \uC81C\uBC1C \uB3C4\uC640\uC8FC\uC138\uC694");
+		checker.checkEditorInsert(convertKoreanTyping("wltlrdlsdptj goqhfksmsrj ekgoeh dksTjwlrh"),
+				"\uC9C0\uC2DD\uC778\uC5D0\uC11C \uD574\uBCF4\uB77C\uB294\uAC70 "
+						+ "\uB2E4\uD574\uB3C4 \uC548\uC368\uC9C0\uACE0");
+
+		// https://github.com/e-/Hangul.js/blob/master/test/index.js (MIT)
+		checker.checkEditorInsert("\u3131\u314F\u3134\u314F\u3137\u314F", "\uAC00\uB098\uB2E4");
+
+		checker.checkEditorInsert("\u3131\u314F\u3134\u314F\u3137\u314F", "\uAC00\uB098\uB2E4");
+		checker.checkEditorInsert("\u3142\u3163\u314E\u3150\u3147", "\uBE44\uD589");
+		checker.checkEditorInsert("\u3146\u3161\u3139\u3137\u314F", "\uC4F8\uB2E4");
+		checker.checkEditorInsert("\u3147\u3161\u3163\u3145\u314F", "\uC758\uC0AC");
+		checker.checkEditorInsert("\u3149\u314F\u3139\u3142\u3147\u3161\u3134", "\uC9E7\uC740");
+		checker.checkEditorInsert("\u3137\u314F\u3139\u3131\u3131\u3157\u3131\u3163",
+				"\uB2ED\uACE0\uAE30");
+		// original, wrong
+		//checker.checkEditorInsertReverse("\uC63D\u314F", "\u3147\u3157\u314C\u314F");
+		// fixed
+		checker.checkEditorInsert("\u3147\u3157\u314C\u314F", "\uC624\uD0C0");
+		checker.checkEditorInsert(
+				"AB\u3145\u314F\u3139\u3131e$@#24sdf\u3132\u3163\u3139\u314B\u314F\u314B"
+						+ "\u314B\u314B\u314B\u314B",
+				"AB\uC0B5e$@#24sdf\uB084\uCE8C\u314B\u314B\u314B\u314B");
+		checker.checkEditorInsert(
+				"\u3142\u315C\u3154\u3139\u3131\u3131\u315C\u3154\u3139\u3139\u3161\u3163"
+						+ "\u314D\u3149\u3161\u3163\u3139\u3142\u314C\u315C\u3163\u3139\u3142",
+				"\uBDC1\uADAC\uB9AA\uCBFB\uD28B");
+		checker.checkEditorInsert("\u3131\u3145", "\u3133");
+		checker.checkEditorInsert("\u3157\u3150", "\u3159");
+		checker.checkEditorInsert("\u3131\u314F\u3134\u314F\u3137\u314F", "\uAC00\uB098\uB2E4");
+		checker.checkEditorInsert("\u3142\u3163\u314E\u3150\u3147", "\uBE44\uD589");
+		checker.checkEditorInsert("\u3146\u3161\u3139\u3137\u314F", "\uC4F8\uB2E4");
+		checker.checkEditorInsert("\u3147\u3161\u3163\u3145\u314F", "\uC758\uC0AC");
+		checker.checkEditorInsert("\u3149\u314F\u3139\u3142\u3147\u3161\u3134", "\uC9E7\uC740");
+		checker.checkEditorInsert("\u3137\u314F\u3139\u3131\u3131\u3157\u3131\u3163",
+				"\uB2ED\uACE0\uAE30");
+		checker.checkEditorInsert("\u3147\u3157\u314C\u314F", "\uC624\uD0C0");
+		checker.checkEditorInsert(
+				"AB\u3145\u314F\u3139\u3131e$@#24sdf\u3132\u3163\u3139\u314B\u314F\u314B"
+						+ "\u314B\u314B\u314B\u314B",
+				"AB\uC0B5e$@#24sdf\uB084\uCE8C\u314B\u314B\u314B\u314B");
+		checker.checkEditorInsert(
+				"\u3142\u315C\u3154\u3139\u3131\u3131\u315C\u3154\u3139\u3139\u3161\u3163"
+						+ "\u314D\u3149\u3161\u3163\u3139\u3142\u314C\u315C\u3163\u3139\u3142",
+				"\uBDC1\uADAC\uB9AA\uCBFB\uD28B");
+		checker.checkEditorInsert("\u3131\u3145", "\u3133");
+		checker.checkEditorInsert("\u3157\u3150", "\u3159");
+		checker.checkEditorInsert("\u3148\u3145\u314F", "\u3148\uC0AC");
+		checker.checkEditorInsert("\u3131\u3145\u3131\u3145", "\u3133\u3133");
+		checker.checkEditorInsert("\u3157\u3150\u3157\u3150", "\u3159\u3159");
+		checker.checkEditorInsert("\u3148\u3157\u3157\u3150", "\uC870\u3159");
+		checker.checkEditorInsert("\u3163\u3157\u3150", "\u3163\u3159");
+		checker.checkEditorInsert("\u3143\u3149\u314F\u3138", "\u3143\uC9DC\u3138");
+		checker.checkEditorInsert("\u3152\u3157\u3152", "\u3152\u3157\u3152");
+		checker.checkEditorInsert("\u3143\u315E\u3139\u3131\u3145", "\uC00D\u3145");
+		checker.checkEditorInsert("\u3143\u315E\u3139\u3131\u314F", "\uC00C\uAC00");
+		checker.checkEditorInsert(
+				"\u3143\u315E\u3139\u3131\u315E\u3139\u3131\u315E\u3139\u3131\u3142",
+				"\uC00C\uADAC\uADAD\u3142");
+
+		String in = "\u3147\u315E\u11B9"; // \u3147\u315E\u11B9
+		String out = Normalizer.normalize(in, Normalizer.Form.NFKC);
+		checker.checkEditorInsert(in, out);
+
+		checker.checkEditorInsert(
+				"\u3147\u314F\u3134\u3134\u3155\u3147\u314E\u314F\u3145\u3154\u3147\u315B",
+				"\uC548\uB155\uD558\uC138\uC694");
+
+		// doubled vowel characters
+		checker.checkEditorInsert("\u3131\u3145", "\u3133");
+		checker.checkEditorInsert("\u3134\u3148", "\u3135");
+		checker.checkEditorInsert("\u3134\u314E", "\u3136");
+		checker.checkEditorInsert("\u3139\u3131", "\u313A");
+		checker.checkEditorInsert("\u3139\u3142", "\u313C");
+		checker.checkEditorInsert("\u3139\u3145", "\u313D");
+		checker.checkEditorInsert("\u3139\u314C", "\u313E");
+		checker.checkEditorInsert("\u3139\u314D", "\u313F");
+		checker.checkEditorInsert("\u3139\u314E", "\u3140");
+		checker.checkEditorInsert("\u3142\u3145", "\u3144");
+
 		checker.checkEditorInsert("\u3141", "\u3141");
 		checker.checkEditorInsert("\u3141\u3157", "\uBAA8");
 		checker.checkEditorInsert("\u3141\u3157\u3131", "\uBAA9");
@@ -241,6 +340,64 @@ public class EditorTypingTest {
 		checker.checkEditorInsert("\u3137\u314F\u3139\u3131", "\uB2ED");
 	}
 
+	private String convertKoreanTyping(String s) {
+		String ret = s;
+
+		ret = ret.replace('a', 'ㅁ');
+		ret = ret.replace('b', 'ㅠ');
+		ret = ret.replace('c', 'ㅊ');
+		ret = ret.replace('d', 'ㅇ');
+		ret = ret.replace('e', 'ㄷ');
+		ret = ret.replace('f', 'ㄹ');
+		ret = ret.replace('g', 'ㅎ');
+		ret = ret.replace('h', 'ㅗ');
+		ret = ret.replace('i', 'ㅑ');
+		ret = ret.replace('j', 'ㅓ');
+		ret = ret.replace('k', 'ㅏ');
+		ret = ret.replace('l', 'ㅣ');
+		ret = ret.replace('m', 'ㅡ');
+		ret = ret.replace('n', 'ㅜ');
+		ret = ret.replace('o', 'ㅐ');
+		ret = ret.replace('p', 'ㅔ');
+		ret = ret.replace('q', 'ㅂ');
+		ret = ret.replace('r', 'ㄱ');
+		ret = ret.replace('s', 'ㄴ');
+		ret = ret.replace('t', 'ㅅ');
+		ret = ret.replace('u', 'ㅕ');
+		ret = ret.replace('v', 'ㅍ');
+		ret = ret.replace('w', 'ㅈ');
+		ret = ret.replace('x', 'ㅌ');
+		ret = ret.replace('y', 'ㅛ');
+		ret = ret.replace('z', 'ㅋ');
+
+		ret = ret.replace('A', 'ㅁ');
+		ret = ret.replace('B', 'ㅠ');
+		ret = ret.replace('C', 'ㅊ');
+		ret = ret.replace('D', 'ㅇ');
+		ret = ret.replace('E', 'ㄸ');
+		ret = ret.replace('F', 'ㄹ');
+		ret = ret.replace('G', 'ㅎ');
+		ret = ret.replace('H', 'ㅗ');
+		ret = ret.replace('I', 'ㅑ');
+		ret = ret.replace('J', 'ㅓ');
+		ret = ret.replace('K', 'ㅏ');
+		ret = ret.replace('L', 'ㅣ');
+		ret = ret.replace('M', 'ㅡ');
+		ret = ret.replace('N', 'ㅜ');
+		ret = ret.replace('O', 'ㅒ');
+		ret = ret.replace('P', 'ㅖ');
+		ret = ret.replace('Q', 'ㅃ');
+		ret = ret.replace('R', 'ㄲ');
+		ret = ret.replace('S', 'ㄴ');
+		ret = ret.replace('T', 'ㅆ');
+		ret = ret.replace('U', 'ㅕ');
+		ret = ret.replace('V', 'ㅍ');
+		ret = ret.replace('W', 'ㅉ');
+		ret = ret.replace('X', 'ㅌ');
+		ret = ret.replace('Y', 'ㅛ');
+		return ret.replace('Z', 'ㅋ');
+	}
+
 	@Test
 	public void testInverseTrigEditor() {
 		checker.type("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2").checkRaw(
@@ -287,7 +444,7 @@ public class EditorTypingTest {
 	@Test
 	public void testDivision3() {
 		checker.type("12").typeKey(JavaKeyCodes.VK_LEFT).type(Unicode.DIVIDE + "")
-			.checkAsciiMath("1/2");
+				.checkAsciiMath("1/2");
 	}
 
 	@Test

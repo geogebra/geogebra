@@ -1821,7 +1821,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				.getCopy(kernel);
 
 		ExpressionNode product = new ExpressionNode(kernel, left,
-				Operation.MULTIPLY, right.replace(xold, x).wrap());
+				Operation.MULTIPLY, right.replace(xold, x).unwrap());
 
 		Function f = new Function(product, x);
 
