@@ -44,6 +44,7 @@ import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
 import org.geogebra.common.euclidian.modes.ModeMacro;
 import org.geogebra.common.euclidian.modes.ModeShape;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
@@ -5387,6 +5388,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		case EuclidianConstants.MODE_ROOTS:
 			ret = roots(hits, selectionPreview);
+			break;
+
+		case EuclidianConstants.MODE_EVALUATE_TORSION:
+			ret = torsion(hits, selectionPreview);
 			break;
 
 		default:
@@ -11836,6 +11841,41 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					kernel.getConstruction().steps());
 
 			return algo.getOutput();
+		}
+
+		return null;
+	}
+
+	protected GeoElement[] torsion(Hits hits, boolean selPreview) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+
+		boolean found = addSelectedCurve3D(hits, 1, false, selPreview) != 0;
+		if (!found) {
+			found = addSelectedCurve(hits, 1, false, selPreview) != 0;
+		}
+		if (!found) {
+			found = addSelectedConic(hits, 1, false, selPreview) != 0;
+		}
+
+		if (!found) {
+			if (selLines() == 0) {
+				addSelectedPoint(hits, 1, false, selPreview);
+			}
+		}
+		if (selConics() == 1 && selPoints() == 1) {
+			GeoConic[] conics = getSelectedConics();
+			GeoPoint[] points = getSelectedPoints();
+			return getAlgoDispatcher().torsion(points[0], conics[0]);
+		} else if (selCurves() == 1 && selPoints() == 1) {
+			GeoCurveCartesian[] curves = getSelectedCurves();
+			GeoPoint[] points = getSelectedPoints();
+			return getAlgoDispatcher().torsion(points[0],curves[0]);
+		} else if (selCurves3D() ==1 && selPoints() == 2) {
+			GeoCurveCartesian3D[] curves = getSelectedCurves3D();
+			GeoPoint[] points = getSelectedPoints();
+			return getAlgoDispatcher().torsion(points[0],curves[0]);
 		}
 
 		return null;

@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.advanced;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -111,9 +112,19 @@ public class AlgoTorsion extends AlgoElement {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
+
 		input = new GeoElement[2];
 		input[0] = A.toGeoElement();
-		input[1] = f;
+		if (gc != null){
+			f = kernel.getGeoFactory().newCurve(gc instanceof GeoConic ? 2 : 3,
+					cons);
+
+			gc.toGeoCurveCartesian(f);
+			input[1] = gc;
+		} else {
+			input[1] = f;
+		}
+
 
 		super.setOutputLength(1);
 		super.setOutput(0, K);

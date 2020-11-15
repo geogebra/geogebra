@@ -105,6 +105,8 @@ public class GeometryToolCollectionFactory extends AbstractToolCollectionFactory
 
         impl.extendCategory(ToolCategory.CONSTRUCT,
                 EuclidianConstants.MODE_LOCUS);
+        impl.extendCategory(ToolCategory.CONSTRUCT,
+                EuclidianConstants.MODE_LOCUS);
 
         impl.extendCategory(ToolCategory.MEASURE,
                 EuclidianConstants.MODE_SLIDER,
