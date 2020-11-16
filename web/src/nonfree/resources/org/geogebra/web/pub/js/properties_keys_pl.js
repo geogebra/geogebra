@@ -3368,7 +3368,7 @@ __GGB__keysVar["pl"].menu = {
     "horizontal": "poziomy",
     "html": "Strona internetowa",
     "insert_worksheet": "Wstaw Arkusz",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "Format JPG",
     "linkCopyClipboard": "Link skopiowany do schowka",
     "linkShareOff": "Udost\u0119pnianie \u0142\u0105cza wy\u0142\u0105czone.",

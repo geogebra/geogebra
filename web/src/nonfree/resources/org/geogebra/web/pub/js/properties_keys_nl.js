@@ -497,7 +497,7 @@ __GGB__keysVar["nl"].command = {
     "IsPrime.Syntax": "[ <Getal> ]",
     "IsTangent": "IsRaaklijn",
     "IsTangent.Syntax": "[ <Rechte>, <Kegelsnede> ]",
-    "IsVertexForm": "IsKwadratischeVorm",
+    "IsVertexForm": "IsTopVorm",
     "IsVertexForm.Syntax": "[ <Functie> ]",
     "Iteration": "Iteratie",
     "Iteration.Syntax": "[ <Functie>, <Startwaarde>, <Aantal iteraties> ]\n[ <Uitdrukking>, <Variabelen>, <Startwaarden>, <Tel> ]",

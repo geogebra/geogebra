@@ -3368,7 +3368,7 @@ __GGB__keysVar["is"].menu = {
     "horizontal": "L\xe1r\xe9tt",
     "html": "Vefs\xed\xf0a",
     "insert_worksheet": "Setja inn vinnubla\xf0",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG sni\xf0",
     "linkCopyClipboard": "Hlekkur afrita\xf0ur \xe1 klippibor\xf0",
     "linkShareOff": "Hlekk-deiling \xf3virk",
