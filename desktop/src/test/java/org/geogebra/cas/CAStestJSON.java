@@ -1460,4 +1460,14 @@ public class CAStestJSON {
 	public void testPlotSolve() {
 		testCat("PlotSolve.1");
 	}
+
+	@Test
+	public void testQuartile1() {
+		testCat("Q1.1");
+	}
+
+	@Test
+	public void testQuartile3() {
+		testCat("Q3.1");
+	}
 }
