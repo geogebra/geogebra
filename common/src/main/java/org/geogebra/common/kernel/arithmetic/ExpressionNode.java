@@ -3765,6 +3765,4 @@ public class ExpressionNode extends ValidExpression
 		newNode.wasInterval = wasInterval;
 		newNode.holdsLaTeXtext = holdsLaTeXtext;
 	}
-
-
 }
