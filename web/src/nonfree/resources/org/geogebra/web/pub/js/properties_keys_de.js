@@ -1988,7 +1988,7 @@ __GGB__keysVar["de"].menu = {
     "Group": "Gruppe",
     "GroupObjects": "Objekte gruppieren",
     "GroupShareFail": "Datei konnte nicht geteilt werden.",
-    "GroupShareOk": "Datei wurde erfolgreich geteilt.",
+    "GroupShareOk": "Ihre Auswahl wurde gespeichert.",
     "GroupShareTxt": "Gruppe ausw\xe4hlen, um eine Datei freizugeben",
     "Growth": "Wachstum",
     "HSL": "HSL",
