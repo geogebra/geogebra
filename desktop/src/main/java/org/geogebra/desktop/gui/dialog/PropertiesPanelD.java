@@ -1970,7 +1970,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 		@Override
 		public void setLabels() {
-			getLabel().setText(loc.getMenu(getTitle()));
+			getLabel().setText(getTitle() + ":");
 			if (getMultipleModel().hasGeos() && getMultipleModel().checkGeos()) {
 				int selectedIndex = comboBox.getSelectedIndex();
 				comboBox.removeActionListener(this);
