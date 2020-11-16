@@ -65,6 +65,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 	public OptionsEuclidian3DD(AppD app, EuclidianView3D view) {
 		super(app, view);
 
+		//get rid of
 		enableStuff(false);
 
 		updateGUI();
@@ -87,6 +88,11 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 		axesOptionsPanel.add(LayoutUtil.flowPanel(lblAxisLabelStyle,
 				cbAxisLabelSerif, cbAxisLabelBold, cbAxisLabelItalic));
 		axesOptionsPanel.add(LayoutUtil.flowPanel(cbAxesColored));
+	}
+
+	@Override
+	protected void initDimensionPanel(int minMaxAmount) {
+		super.initDimensionPanel(6);
 	}
 
 	@Override
@@ -190,11 +196,6 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 		// cbBoldGrid.setEnabled(flag);
 		// btGridColor.setEnabled(flag);
 
-	}
-
-	@Override
-	protected void addDimPanel(JPanel basicPanel) {
-		// TODO remove this and implement stuff for 3D
 	}
 
 	@Override
@@ -463,6 +464,9 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 		super.setLabels();
 
 		zAxisPanel.setLabels();
+
+		dimLabel[4].setText(loc.getMenu("zmin") + ":");
+		dimLabel[5].setText(loc.getMenu("zmax") + ":");
 
 		// y axis is vertical
 		cbYAxisVertical.setText(loc.getMenu("YAxisVertical"));
