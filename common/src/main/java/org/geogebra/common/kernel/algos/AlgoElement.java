@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
+import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -1918,7 +1919,7 @@ public abstract class AlgoElement extends ConstructionElement
 			GeoElement geoElement,
 			StringTemplate tpl,
 			boolean substituteNumbers) {
-		return !geoElement.isAllowedToShowValue()
+		return !geoElement.isAllowedToShowValue() || geoElement instanceof GeoVector
 				? geoElement.getDefinition(tpl)
 				: geoElement.getFormulaString(tpl, substituteNumbers);
 	}
