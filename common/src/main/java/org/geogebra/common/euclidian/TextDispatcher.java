@@ -1,5 +1,8 @@
 package org.geogebra.common.euclidian;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Construction;
@@ -346,6 +349,77 @@ public class TextDispatcher {
 			text.updateRepaint();
 			return text;
 		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * Creates a text that shows the distance length between geoA and geoB at
+	 * the given startpoint.
+	 *
+	 * @param geoA
+	 *            first geo
+	 * @param geoB
+	 *            second geo
+	 * @param textCorner
+	 *            text position
+	 * @param torsion
+	 *            torsion value
+	 * @return distance text
+	 */
+	public GeoElement createTorsionText(GeoElementND geoA, GeoElementND geoB,
+			GeoPointND textCorner, GeoNumeric torsion) {
+		StringTemplate tpl = StringTemplate.defaultTemplate;
+		// create text that shows length
+		try {
+			String strText = "";
+			boolean useLabels = geoA.isLabelSet() && geoB.isLabelSet();
+			if (useLabels) {
+				torsion.setLabel(removeUnderscoresAndBraces(
+						StringUtil.toLowerCaseUS(loc.getCommand("Torsion"))
+								// .toLowerCase(Locale.US)
+								+ geoA.getLabel(tpl) + geoB.getLabel(tpl)));
+				// strText = "\"\\overline{\" + Name["+ geoA.getLabel()
+				// + "] + Name["+ geoB.getLabel() + "] + \"} \\, = \\, \" + "
+				// + length.getLabel();
+
+				// DistanceAB="\\overline{" + %0 + %1 + "} \\, = \\, " + %2
+				// or
+				// DistanceAB=%0+%1+" \\, = \\, "+%2
+				strText = "Name[" + geoA.getLabel(tpl) + "] + Name["
+						+ geoB.getLabel(tpl) + "] + \" = \" + "
+						+ torsion.getLabel(tpl);
+				// Application.debug(strText);
+				makeLabelNameVisible(geoA);
+				makeLabelNameVisible(geoB);
+				geoA.updateRepaint();
+				geoB.updateRepaint();
+			} else {
+				torsion.setLabel(removeUnderscoresAndBraces(
+						StringUtil.toLowerCaseUS(loc.getCommand("Torsion"))));
+				// .toLowerCase(Locale.US)));
+				strText = "\"\"" + torsion.getLabel(tpl);
+			}
+
+			// create dynamic text
+			// checkZooming();
+
+			GeoText text = kernel.getAlgebraProcessor().evaluateToText(strText,
+					true, true);
+			if (useLabels) {
+				text.setLabel(removeUnderscoresAndBraces(loc.getMenu("Text")
+						+ geoA.getLabel(tpl) + geoB.getLabel(tpl)));
+			}
+
+			text.checkVisibleIn3DViewNeeded();
+			text.setStartPoint(textCorner);
+			text.setBackgroundColor(GColor.WHITE);
+			text.updateRepaint();
+			return text;
+		} catch (Exception e) {
+			Logger logger = java.util.logging.Logger.getLogger("debugger");
+			logger.log(Level.SEVERE, "Could not create text.");
 			e.printStackTrace();
 			return null;
 		}
