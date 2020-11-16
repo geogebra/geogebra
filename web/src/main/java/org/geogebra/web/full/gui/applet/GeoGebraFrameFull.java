@@ -213,11 +213,11 @@ public class GeoGebraFrameFull
 	@Override
 	public void setSize(int width, int height) {
 		MyHeaderPanel currentPanel = panelTransitioner.getCurrentPanel();
+		super.setSize(width, height);
 		if (currentPanel != null) {
 			currentPanel.setPixelSize(width, height);
 			currentPanel.resizeTo(width, height);
 		} else {
-			super.setSize(width, height);
 			app.adjustViews(true, height > width
 					|| getGuiManager().isVerticalSplit(false));
 		}
