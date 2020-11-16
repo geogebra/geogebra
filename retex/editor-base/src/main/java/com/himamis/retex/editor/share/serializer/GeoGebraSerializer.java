@@ -133,14 +133,6 @@ public class GeoGebraSerializer implements Serializer {
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			serializeArgs(mathFunction, stringBuilder, 1);
 			break;
-		case ABS:
-			// empty abs() is just ||
-			if (mathFunction.getArgument(0).size() == 0) {
-				stringBuilder.append("||");
-			} else {
-				generalFunction(mathFunction, stringBuilder);
-			}
-			break;
 
 		case DEF_INT:
 		case SUM_EQ:
@@ -150,7 +142,7 @@ public class GeoGebraSerializer implements Serializer {
 			stringBuilder.append(mathFunction.getName().getFunction());
 			serializeArgs(mathFunction, stringBuilder, 0);
 			break;
-
+		case ABS: // no special handling for || so that invalid input saving works
 		default:
 			generalFunction(mathFunction, stringBuilder);
 		}

@@ -336,7 +336,7 @@ public class AnimatedGifEncoder {
 		// initialize quantizer
 		colorTab = nq.process(); // create reduced palette
 		// convert map from BGR to RGB
-		for (int i = 0; i < colorTab.length; i += 3) {
+		for (int i = 0; i < colorTab.length - 2; i += 3) {
 			byte temp = colorTab[i];
 			colorTab[i] = colorTab[i + 2];
 			colorTab[i + 2] = temp;
@@ -376,7 +376,7 @@ public class AnimatedGifEncoder {
 		int minpos = 0;
 		int dmin = 256 * 256 * 256;
 		int len = colorTab.length;
-		for (int i = 0; i < len;) {
+		for (int i = 0; i < len - 2;) {
 			int dr = r - (colorTab[i++] & 0xff);
 			int dg = g - (colorTab[i++] & 0xff);
 			int db = b - (colorTab[i] & 0xff);

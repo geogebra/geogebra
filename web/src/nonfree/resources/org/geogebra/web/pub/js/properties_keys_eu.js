@@ -3368,7 +3368,7 @@ __GGB__keysVar["eu"].menu = {
     "horizontal": "Horizontala",
     "html": "Web-orrialdea",
     "insert_worksheet": "Txertatu Jarduera",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG Formatua",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Esteka partekatzea desgaitua.",

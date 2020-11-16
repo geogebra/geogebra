@@ -3368,7 +3368,7 @@ __GGB__keysVar["lt"].menu = {
     "horizontal": "Horizontalus",
     "html": "Tinklalapis",
     "insert_worksheet": "\u012eterpti skai\u010diuokl\u0117s lak\u0161t\u0105",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG formatas",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
