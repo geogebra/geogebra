@@ -55,6 +55,11 @@ public class CommandsTest {
 				StringTemplate.editTemplate);
 	}
 
+	private static void tRoundMaxPrecision(String s, String... expected) {
+		testSyntax(s, AlgebraTestHelper.getMatchers(expected), app, ap,
+				StringTemplate.maxPrecision);
+	}
+
 	private static void t(String s, String... expected) {
 		testSyntax(s, AlgebraTestHelper.getMatchers(expected), app, ap,
 				StringTemplate.xmlTemplate);
@@ -1430,6 +1435,12 @@ public class CommandsTest {
 	@Test
 	public void cmdPoisson() {
 		intProb("Poisson", "2", "1", "0.27067", "0.40601");
+	}
+
+
+	@Test
+	public void cmdPoissonWithDoubles() {
+		tRoundMaxPrecision("Poisson[10.5, 11..16]", "0.439655709066945");
 	}
 
 	@Test
