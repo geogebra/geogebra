@@ -1437,7 +1437,6 @@ public class CommandsTest {
 		intProb("Poisson", "2", "1", "0.27067", "0.40601");
 	}
 
-
 	@Test
 	public void cmdPoissonWithDoubles() {
 		tRoundMaxPrecision("Poisson[10.5, 11..16]", "0.439655709066945");
