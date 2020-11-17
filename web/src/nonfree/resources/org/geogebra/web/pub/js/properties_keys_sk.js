@@ -3368,7 +3368,7 @@ __GGB__keysVar["sk"].menu = {
     "horizontal": "horizont\xe1lna",
     "html": "Webov\xe1 str\xe1nka",
     "insert_worksheet": "Vlo\u017ei\u0165 pracovn\xfd h\xe1rok",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG form\xe1t",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",

@@ -261,7 +261,8 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 
 	@Override
 	public void insertString(String text) {
-		new MathFieldProcessing(mf).autocomplete(text);
+		new MathFieldProcessing(mf).autocomplete(
+				app.getParserFunctions().toEditorAutocomplete(text, app.getLocalization()));
 	}
 
 	@Override

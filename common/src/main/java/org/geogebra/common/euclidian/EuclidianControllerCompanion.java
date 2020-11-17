@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathNormalizer;
@@ -19,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -26,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.Lineable2D;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -145,6 +148,14 @@ public class EuclidianControllerCompanion {
 	 */
 	protected GeoElement[] mirrorAtPoint(GeoElement geo, GeoPointND point) {
 		return ec.getAlgoDispatcher().mirror(null, geo, (GeoPoint) point);
+	}
+
+	protected GeoNumeric torsion(GeoPointND point, GeoCurveCartesian geo) {
+		return ec.getAlgoDispatcher().torsion(point, geo);
+	}
+
+	protected GeoNumeric torsion(GeoPointND point, GeoCurveCartesian3D geo) {
+		return ec.getAlgoDispatcher().torsion(point, geo);
 	}
 
 	/**

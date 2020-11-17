@@ -3368,7 +3368,7 @@ __GGB__keysVar["mr"].menu = {
     "horizontal": "\u0906\u0921\u0935\u0947",
     "html": "\u0935\u0947\u092c \u092a\u0947\u091c",
     "insert_worksheet": "Insert Activity",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG \u0938\u094d\u0935\u0930\u0942\u092a\u0923 (JPG format)",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",

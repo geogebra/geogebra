@@ -333,14 +333,14 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			borders.clear();
 			drawUpToDate = false;
 
+			// maybe it was set to null after redefine, so we need to compute it again
+			surfaceGeo.setDerivatives();
+
 			if (levelOfDetail == LevelOfDetail.QUALITY
 					&& splitsStartedNotFinished) {
 				draw();
 				drawOccured = true;
 			}
-
-			// maybe set to null after redefine
-			surfaceGeo.setDerivatives();
 
 			// calc min/max values
 			uParam.initBorder(surfaceGeo, getView3D(), 0);

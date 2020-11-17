@@ -3368,7 +3368,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "horizontal": "horitzontal",
     "html": "p\xe0gina web",
     "insert_worksheet": "Insereix el full de treball",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "Format JPG",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",

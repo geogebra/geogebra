@@ -30,8 +30,6 @@ import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ImageManagerW;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -46,7 +44,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.himamis.retex.editor.share.util.Unicode;
 
-//import org.geogebra.common.euclidian.event.KeyHandler;
+import elemental2.dom.File;
+import elemental2.dom.FileReader;
+import jsinterop.base.Js;
 
 public class FillingPanel extends OptionPanel implements IFillingListener {
 	FillingModel model;
@@ -71,7 +71,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	private Label lblSymbols;
 	ArrayList<ImageResource> iconList;
 	private ArrayList<String> iconNameList;
-	// private PopupMenuButton btInsertUnicode;
 
 	ListBox lbFillType;
 	CheckBox cbFillInverse;
@@ -93,56 +92,44 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		@Override
 		protected void createGUI() {
 			super.createGUI();
-			addGgbChangeHandler(getInputWidget().getElement());
+			addGgbChangeHandler(Js.uncheckedCast(getInputWidget().getElement()));
 		}
 
-		public native void addGgbChangeHandler(Element el) /*-{
-			var dialog = this;
+		public void addGgbChangeHandler(elemental2.dom.HTMLInputElement el) {
 			el.setAttribute("accept", "image/*");
-			el.onchange = function(event) {
-				var files = this.files;
-				if (files.length) {
-					var fileTypes = /^image.*$/;
-					for (var i = 0, j = files.length; i < j; ++i) {
-						if (!files[i].type.match(fileTypes)) {
-							continue;
-						}
-						var fileToHandle = files[i];
-						dialog.@org.geogebra.web.full.gui.dialog.options.FillingPanel.MyImageFileInputDialog::openFileAsImage(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle,
-						dialog.@org.geogebra.web.full.gui.dialog.FileInputDialog::getNativeHideAndFocus()());				
+			el.onchange = (event) -> {
+				for (int i = 0; i < el.files.length; ++i) {
+					if (el.files.getAt(i).type.matches("^image.*$")) {
+						openFileAsImage(el.files.getAt(i));
 						break;
 					}
 				}
+
+				return null;
 			};
-		}-*/;
+		}
 
-		public native boolean openFileAsImage(JavaScriptObject fileToHandle,
-				JavaScriptObject callback) /*-{
+		public void openFileAsImage(File fileToHandle) {
+			String imageRegEx = ".*\\.(png|jpg|jpeg|gif|bmp|svg)$";
+			if (!fileToHandle.name.toLowerCase().matches(imageRegEx)) {
+				return;
+			}
 
-			var imageRegEx = /\.(png|jpg|jpeg|gif|bmp|svg)$/i;
-			if (!fileToHandle.name.toLowerCase().match(imageRegEx))
-				return false;
+			FileReader reader = new FileReader();
 
-			var appl = this;
-			var reader = new FileReader();
-			reader.onloadend = function(ev) {
-				if (reader.readyState === reader.DONE) {
-					var fileData = reader.result;
-					var fileName = fileToHandle.name;
-					appl.@org.geogebra.web.full.gui.dialog.options.FillingPanel.MyImageFileInputDialog::applyFillImage(Ljava/lang/String;Ljava/lang/String;)(fileName, fileData);
-					if (callback != null) {
-						callback();
-					}
+			reader.addEventListener("load", (ev) -> {
+				if (reader.readyState == FileReader.DONE) {
+					applyFillImage(fileToHandle.name, reader.result.asString());
+					hideAndFocus();
 				}
-			};
+			});
+
 			reader.readAsDataURL(fileToHandle);
-			return true;
-		}-*/;
+		}
 
 		public void applyFillImage(String name, String url) {
 			applyImage(name, url);
 		}
-
 	}
 
 	/**
@@ -592,9 +579,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		int itemIndex = -1;
 		if (imageFileName != null) {
-			String fileName = imageFileName.substring(imageFileName
-					.indexOf('/') + 1);
-			Log.debug("Filling with " + fileName);
+			String fileName = imageFileName.substring(imageFileName.indexOf('/') + 1);
 
 			int idx = iconNameList.lastIndexOf(fileName);
 			itemIndex = idx > 0 ? idx : 0;

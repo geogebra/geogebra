@@ -333,6 +333,9 @@ public final class EuclidianConstants {
 	/** Reflect Object about Plane */
 	public static final int MODE_MIRROR_AT_PLANE = 571;
 
+	/** Find the torsion of a curve */
+	public static final int MODE_EVALUATE_TORSION = 572;
+
 	// CAS view modes
 	/** Evaluate */
 	public static final int MODE_CAS_EVALUATE = 1001;
@@ -561,6 +564,9 @@ public final class EuclidianConstants {
 
 		case EuclidianConstants.MODE_MIRROR_AT_PLANE:
 			return "MirrorAtPlane";
+
+		case EuclidianConstants.MODE_EVALUATE_TORSION:
+			return "Torsion";
 
 		case EuclidianConstants.MODE_ROTATE_AROUND_LINE:
 			return "RotateAroundLine";

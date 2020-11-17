@@ -3368,7 +3368,7 @@ __GGB__keysVar["fi"].menu = {
     "horizontal": "Vaakasuora",
     "html": "Verkkosivu",
     "insert_worksheet": "Liit\xe4 ty\xf6kirja",
-    "java7.warning": "GeoGebra Classic 5 lakkaa toimimasta pian.Lataa GeoGebra uudelleen ja asenna se.",
+    "java7.warning": "GeoGebra Classic 5 lakkaa toimimasta pian. Lataa GeoGebra uudelleen ja asenna uusi versio.",
     "jpg": "JPG Format",
     "linkCopyClipboard": "Linkki on kopioitu leikep\xf6yd\xe4lle",
     "linkShareOff": "Linkin jakaminen pois.",

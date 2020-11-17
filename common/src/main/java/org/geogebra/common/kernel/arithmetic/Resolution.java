@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.plugin.Operation;
 
 /**
  * Fake expression value for storing the result type in expression node
@@ -235,4 +236,8 @@ public class Resolution implements ExpressionValue {
 		return evaluatesTo3DVector() || evaluatesToNonComplex2DVector();
 	}
 
+	@Override
+	public boolean isOperation(Operation derivative) {
+		return false;
+	}
 }

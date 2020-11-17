@@ -611,7 +611,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	public abstract double evaluateCurvature(double t);
 
 	@Override
-	public  abstract double evaluateTorsion(double t);
+	public abstract double evaluateTorsion(double t);
 
 	/**
 	 * @return whether range is hidden in algebra

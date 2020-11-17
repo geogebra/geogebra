@@ -18,7 +18,6 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-import org.geogebra.common.util.ResourceBundleAdapter;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -27,8 +26,7 @@ import org.geogebra.common.util.debug.Log;
  * used with an applet.
  */
 
-public class MyResourceBundle extends PropertyResourceBundle
-		implements ResourceBundleAdapter {
+public class MyResourceBundle extends PropertyResourceBundle {
 
 	/**
 	 * Creates new bundle from a stream

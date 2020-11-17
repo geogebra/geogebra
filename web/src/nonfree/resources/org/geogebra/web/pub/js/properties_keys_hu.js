@@ -3368,7 +3368,7 @@ __GGB__keysVar["hu"].menu = {
     "horizontal": "V\xedzszintes",
     "html": "Weblap",
     "insert_worksheet": "Munkalap besz\xfar\xe1sa",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG form\xe1tum",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
