@@ -154,6 +154,10 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.setSaved();
 	}
 
+	public boolean isSaved() {
+		return ggbAPI.isSaved();
+	}
+
 	public void initCAS() {
 		ggbAPI.initCAS();
 	}
@@ -218,8 +222,8 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.getLabelStyle(objName + "");
 	}
 
-	public void getLabelVisible(String objName) {
-		ggbAPI.getLabelVisible(objName + "");
+	public boolean getLabelVisible(String objName) {
+		return ggbAPI.getLabelVisible(objName + "");
 	}
 
 	public void setColor(String objName, int red, int green, int blue) {
@@ -830,8 +834,8 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.nextConstructionStep();
 	}
 
-	public JsPropertyMap<Object> getEmbeddedCalculators() {
-		return ggbAPI.getEmbeddedCalculators();
+	public JsPropertyMap<Object> getEmbeddedCalculators(Object includeGraspableMath) {
+		return ggbAPI.getEmbeddedCalculators(Js.isTruthy(includeGraspableMath));
 	}
 
 	public Element getFrame() {

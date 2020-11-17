@@ -10,6 +10,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Every event scripting machinery must implement the EventListener interface
  * and register with the application's event dispatcher (via
@@ -26,6 +28,7 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
  */
 public class EventDispatcher implements ClientView {
 
+	@Weak
 	private App app;
 	private ArrayList<EventListener> listeners = new ArrayList<>();
 

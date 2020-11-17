@@ -140,7 +140,7 @@ public class InputBoxProcessor {
 	private String  preprocess(String inputText, StringTemplate tpl) {
 		String defineText = inputText;
 
-		if (linkedGeo instanceof GeoVectorND && ((GeoVectorND) linkedGeo).isColumnEditable()) {
+		if (linkedGeo instanceof GeoVectorND && linkedGeo.hasSpecialEditor()) {
 			defineText = "(" + inputText.replace("{", "")
 					.replace("}", "") + ")";
 		} else if (linkedGeo.isGeoText()) {

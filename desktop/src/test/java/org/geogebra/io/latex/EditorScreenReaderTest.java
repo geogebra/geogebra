@@ -1,6 +1,7 @@
 package org.geogebra.io.latex;
 
 import org.geogebra.common.main.ScreenReader;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
@@ -230,8 +231,8 @@ public class EditorScreenReaderTest {
 	private static void checkReader(String input, String... output) {
 		MathFormula mf = SerializeLaTeX.checkLaTeXRender(parser, input);
 
-		final MathFieldD mathField = new MathFieldD();
-		MathFieldInternal mfi = new MathFieldInternal(mathField);
+		final MathFieldD mathField = new MathFieldD(new SyntaxAdapterImpl(app.kernel));
+		MathFieldInternal mfi = mathField.getInternal();
 		mfi.setFormula(mf);
 		CursorController.firstField(mfi.getEditorState());
 		mfi.update();

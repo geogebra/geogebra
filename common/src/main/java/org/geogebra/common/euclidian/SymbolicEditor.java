@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
@@ -30,7 +31,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	protected SymbolicEditor(App app, EuclidianView view) {
 		this.app = app;
 		this.view = view;
-		this.serializer = new TeXSerializer();
+		this.serializer = new TeXSerializer(new SyntaxAdapterImpl(app.getKernel()));
 	}
 
 	protected void applyChanges() {

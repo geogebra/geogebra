@@ -3,10 +3,10 @@ package org.geogebra.web.html5.euclidian;
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.web.html5.Browser;
+import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**

@@ -23,6 +23,8 @@ import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * The TableValuesView implementation.
  */
@@ -30,13 +32,17 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	private static final int MAX_ROWS = 200;
 
+	@Weak
+	private Kernel kernel;
+	@Weak
+	private App app;
+	@Weak
+	private TableSettings settings;
+
 	private SimpleTableValuesModel model;
 	private TableValuesViewDimensions dimensions;
 	private LabelController labelController;
 	private HashSet<GeoElementND> elements;
-	private TableSettings settings;
-	private Kernel kernel;
-	private App app;
 
 	/**
 	 * Create a new Table Value View.

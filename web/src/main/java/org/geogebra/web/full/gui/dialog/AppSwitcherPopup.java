@@ -1,15 +1,13 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
+import org.geogebra.common.main.App;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.UserPreferredLanguage;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SuiteHeaderAppPicker;
 
 import com.google.gwt.dom.client.Element;
@@ -40,7 +38,7 @@ public class AppSwitcherPopup extends GPopupPanel {
 	}
 
 	/**
-	 * show/hide popup on appSwitcher btn click
+	 * Show/hide popup on appSwitcher btn click
 	 */
 	public void showPopup() {
 		if (isShowing()) {
@@ -48,32 +46,29 @@ public class AppSwitcherPopup extends GPopupPanel {
 		} else {
 			setPopupPosition(getLeft(), 0);
 			super.show();
-			updateLanguage();
+			updateLanguage(app);
 		}
 	}
 
 	private void buildGUI() {
 		FlowPanel contentPanel = new FlowPanel();
 		contentPanel.addStyleName("popupPanelForTranslation");
-		SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
-		addElement(res.menu_icon_algebra_transparent(), "GraphingCalculator.short",
-				GeoGebraConstants.GRAPHING_APPCODE,	contentPanel);
-		addElement(res.menu_icon_graphics3D_transparent(), "GeoGebra3DGrapher.short",
-				GeoGebraConstants.G3D_APPCODE, contentPanel);
-		addElement(res.menu_icon_geometry_transparent(), "Geometry",
-				GeoGebraConstants.GEOMETRY_APPCODE, contentPanel);
-		addElement(res.cas_white_bg(), "CAS",
-				GeoGebraConstants.CAS_APPCODE, contentPanel);
+		addElement(GeoGebraConstants.GRAPHING_APPCODE, contentPanel);
+		addElement(GeoGebraConstants.G3D_APPCODE, contentPanel);
+		addElement(GeoGebraConstants.GEOMETRY_APPCODE, contentPanel);
+		addElement(GeoGebraConstants.CAS_APPCODE, contentPanel);
 		add(contentPanel);
 	}
 
-	private void addElement(SVGResource icon, String key, String subAppCode,
+	private void addElement(final String subAppCode,
 			FlowPanel contentPanel) {
 		FlowPanel rowPanel = new FlowPanel();
-		NoDragImage img = new NoDragImage(icon, 24, 24);
+		AppDescription description = AppDescription.get(subAppCode);
+		NoDragImage img = new NoDragImage(description.getIcon(), 24, 24);
 		img.addStyleName("appIcon");
 		rowPanel.add(img);
 
+		String key = description.getNameKey();
 		Label label = new Label(app.getLocalization().getMenu(key));
 		label.addStyleName("appPickerLabel");
 		AriaHelper.setAttribute(label, "data-trans-key", key);
@@ -81,7 +76,9 @@ public class AppSwitcherPopup extends GPopupPanel {
 		rowPanel.setStyleName("appPickerRow");
 		rowPanel.addDomHandler(event -> {
 			hide();
-			((AppWFull) app).onAppSwitch(icon, key, subAppCode);
+			appPickerButton.setIconAndLabel(subAppCode);
+			appPickerButton.checkButtonVisibility();
+			((AppWFull) app).switchToSubapp(subAppCode);
 		}, ClickEvent.getType());
 		contentPanel.add(rowPanel);
 	}
@@ -90,10 +87,10 @@ public class AppSwitcherPopup extends GPopupPanel {
 		return appPickerButton.getAbsoluteLeft() - X_COORDINATE_OFFSET ;
 	}
 
-	private void updateLanguage() {
+	private void updateLanguage(App app) {
 		Element suitePopup = Dom.querySelector("popupPanelForTranslation");
 		if (suitePopup != null) {
-			UserPreferredLanguage.translate((AppW) app, suitePopup);
+			UserPreferredLanguage.translate(app, suitePopup);
 		}
 	}
 }

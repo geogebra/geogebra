@@ -1,13 +1,11 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Persistable;
-import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
@@ -38,29 +36,18 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 		title.addStyleName("title");
 		contentPanel.add(title);
 
-		SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
-		buildAndAddCalcButton(res.menu_icon_algebra_transparent(),
-				GeoGebraConstants.GRAPHING_APPCODE, "GraphingCalculator.short",
-				contentPanel);
-
-		buildAndAddCalcButton(res.menu_icon_graphics3D_transparent(),
-				GeoGebraConstants.G3D_APPCODE, "GeoGebra3DGrapher.short",
-				contentPanel);
-
-		buildAndAddCalcButton(res.menu_icon_geometry_transparent(),
-				GeoGebraConstants.GEOMETRY_APPCODE, "Geometry",
-				contentPanel);
-
-		buildAndAddCalcButton(res.cas_white_bg(),
-				GeoGebraConstants.CAS_APPCODE, "CAS",
-				contentPanel);
+		buildAndAddCalcButton(GeoGebraConstants.GRAPHING_APPCODE, contentPanel);
+		buildAndAddCalcButton(GeoGebraConstants.G3D_APPCODE, contentPanel);
+		buildAndAddCalcButton(GeoGebraConstants.GEOMETRY_APPCODE, contentPanel);
+		buildAndAddCalcButton(GeoGebraConstants.CAS_APPCODE, contentPanel);
 
 		add(contentPanel);
 	}
 
-	private void buildAndAddCalcButton(SVGResource icon, String subAppCode,
-			String appNameKey, FlowPanel contentPanel) {
-		StandardButton button =  new StandardButton(app, 72, icon,
+	private void buildAndAddCalcButton(String subAppCode, FlowPanel contentPanel) {
+		AppDescription description = AppDescription.get(subAppCode) ;
+		String appNameKey = description.getNameKey();
+		StandardButton button =  new StandardButton(app, 72, description.getIcon(),
 				 app.getLocalization().getMenu(appNameKey));
 		button.setStyleName("calcBtn");
 		if (subAppCode.equals(app.getConfig().getSubAppCode())) {
@@ -69,7 +56,8 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 
 		button.addFastClickHandler(source -> {
 			hide();
-			((AppWFull) app).onAppSwitch(icon, appNameKey, subAppCode);
+			((AppWFull) app).setSuiteHeaderButton(subAppCode);
+			((AppWFull) app).switchToSubapp(subAppCode);
 		});
 
 		contentPanel.add(button);

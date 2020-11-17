@@ -95,7 +95,7 @@ public class MathFieldInternal
 
 	private boolean selectionMode = false;
 
-	private static final ArrayList<Integer> MATRIX_TOP_LEFT_CARET
+	private static final ArrayList<Integer> LOCKED_CARET_PATH
 			= new ArrayList<>(Arrays.asList(0, 0, 0));
 
 	/**
@@ -112,18 +112,20 @@ public class MathFieldInternal
 	 * @param directFormulaBuilder
 	 *            whether to create JLM atoms directly (experimental)
 	 */
-	public MathFieldInternal(MathField mathField,
-			boolean directFormulaBuilder) {
+	public MathFieldInternal(MathField mathField, boolean directFormulaBuilder) {
 		this.mathField = mathField;
 		this.directFormulaBuilder = directFormulaBuilder;
 		cursorController = new CursorController();
 		inputController = new InputController(mathField.getMetaModel());
 		keyListener = new KeyListenerImpl(cursorController, inputController);
 		mathFormula = MathFormula.newFormula(mathField.getMetaModel());
-		mathFieldController = new MathFieldController(mathField,
-				directFormulaBuilder);
+		mathFieldController = new MathFieldController(mathField, directFormulaBuilder);
 		inputController.setMathField(mathField);
 		setupMathField();
+	}
+
+	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
+		mathFieldController.setSyntaxAdapter(syntaxAdapter);
 	}
 
 	private void setupMathField() {
@@ -188,13 +190,10 @@ public class MathFieldInternal
 		editorState.setCurrentField(formula.getRootComponent());
 		editorState.setCurrentOffset(editorState.getCurrentField().size());
 		mathFieldController.update(formula, editorState, false);
-		setCaretPathIfMatrix(formula.getRootComponent());
 	}
 
-	private void setCaretPathIfMatrix(MathSequence sequence) {
-		if (sequence.isMatrix()) {
-			setCaretPath(MATRIX_TOP_LEFT_CARET);
-		}
+	public void setLockedCaretPath() {
+		setCaretPath(LOCKED_CARET_PATH);
 	}
 
 	/**

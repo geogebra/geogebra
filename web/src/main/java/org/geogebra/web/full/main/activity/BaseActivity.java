@@ -130,4 +130,14 @@ public class BaseActivity implements GeoGebraActivity {
 	public SVGResource getExamIcon() {
 		return null;
 	}
+
+	@Override
+	public void markSearchOpen() {
+		// nothing to do
+	}
+
+	@Override
+	public void markSaveOpen() {
+		// nothing to do
+	}
 }
