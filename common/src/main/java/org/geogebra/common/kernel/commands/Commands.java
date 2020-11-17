@@ -1054,6 +1054,8 @@ public enum Commands implements CommandsConstants,
 
 	IntersectionPaths(TABLE_ENGLISH),
 
+	Torsion(TABLE_FUNCTION),
+
 	/** internal name */
 	OrthogonalPlane(TABLE_3D),
 
@@ -1204,7 +1206,7 @@ public enum Commands implements CommandsConstants,
 
 	CASLoaded(TABLE_GEOGEBRA),
 
-	ShowSteps(TABLE_ALGEBRA);
+	ShowSteps(TABLE_ALGEBRA), IsVertexForm(TABLE_FUNCTION);
 
 	private static final Commands[] RENAMED = {
 			Commands.Binomial, Commands.BinomialCoefficient, Commands.Mean,

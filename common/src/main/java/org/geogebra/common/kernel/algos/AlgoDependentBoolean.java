@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
@@ -41,7 +40,7 @@ import org.geogebra.common.plugin.Operation;
  * @author Markus
  */
 public class AlgoDependentBoolean extends AlgoElement implements
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre, DependentAlgo, UsesCAS {
+		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre, DependentAlgo {
 
 	private GeoBoolean bool; // output
 	private DependentBooleanAdapter proverAdapter;

@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
@@ -35,7 +36,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 		box = Box.createHorizontalBox();
 
-		mathField = new MathFieldD();
+		mathField = new MathFieldD(new SyntaxAdapterImpl(app.kernel));
 
 		mathField.getInternal().setFieldListener(this);
 		mathField.setVisible(true);
@@ -59,6 +60,11 @@ public class SymbolicEditorD extends SymbolicEditor {
 	@Override
 	public void resetChanges() {
 		mathField.getInternal().parse(getGeoInputBox().getTextForEditor());
+
+		if (getGeoInputBox().getLinkedGeo().hasSpecialEditor()) {
+			getMathFieldInternal().getFormula().getRootComponent().setProtected();
+			getMathFieldInternal().setLockedCaretPath();
+		}
 	}
 
 	protected void showRedefinedBox(final DrawInputBox drawable) {
@@ -136,10 +142,11 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 	@Override
 	public void onKeyTyped(String key) {
-		String text = serializer.serialize(getMathFieldInternal().getFormula());
+		String text = texSerializer.serialize(getMathFieldInternal().getFormula());
 		double currentHeight = app.getDrawEquation().measureEquation(app, null, text,
 				getDrawInputBox().getTextFont(text), false).getHeight() + 2 * DrawInputBox.TF_MARGIN_VERTICAL;
-		box.setBounds(box.getX(), box.getY(), box.getWidth(), (int) currentHeight);
+		box.setBounds(box.getX(), box.getY(), box.getWidth(),
+				Math.max((int) currentHeight, DrawInputBox.SYMBOLIC_MIN_HEIGHT));
 		box.revalidate();
 		view.repaintView();
 	}

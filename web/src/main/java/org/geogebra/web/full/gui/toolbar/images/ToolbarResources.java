@@ -97,6 +97,8 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_locus_32();
 
+	ResourcePrototype mode_torsion_32();
+
 	ResourcePrototype mode_maxcells_32();
 
 	ResourcePrototype mode_meancells_32();

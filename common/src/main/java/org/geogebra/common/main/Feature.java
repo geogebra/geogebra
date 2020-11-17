@@ -32,17 +32,11 @@ public enum Feature {
 	/** GGB-2215 */
 	ARIA_CONTEXT_MENU,
 
-	/** GGB-2144 */
-	COMMAND_HOLES,
-
 	/** MOB-1537 */
 	MOB_PREVIEW_WHEN_EDITING,
 
 	/** AND-887 and IGR-732 */
 	MOB_PROPERTY_SORT_BY,
-
-	/** MOW-189 */
-	MOW_TEXT_TOOL,
 
 	/** GGB-2255 */
 	GEOMETRIC_DISCOVERY,

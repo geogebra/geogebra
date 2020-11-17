@@ -35,12 +35,10 @@ public class AlgoDefined extends AlgoElement {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param inputGeo
 	 *            element to be checked
 	 */
-	public AlgoDefined(Construction cons, String label, GeoElement inputGeo) {
+	public AlgoDefined(Construction cons, GeoElement inputGeo) {
 		super(cons);
 		this.inputGeo = inputGeo;
 
@@ -48,7 +46,6 @@ public class AlgoDefined extends AlgoElement {
 
 		setInputOutput();
 		compute();
-		outputBoolean.setLabel(label);
 	}
 
 	@Override

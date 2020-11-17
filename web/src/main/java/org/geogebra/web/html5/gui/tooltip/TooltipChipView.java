@@ -7,9 +7,9 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Label;
 
 public class TooltipChipView {

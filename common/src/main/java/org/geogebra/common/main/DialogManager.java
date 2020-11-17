@@ -326,7 +326,12 @@ public abstract class DialogManager {
 					public void callback(GeoElementND[] result) {
 						cons.setSuppressLabelCreation(oldVal);
 						String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
-						boolean success = result != null && result.length > 0
+
+						if (result == null) {
+							return;
+						}
+
+						boolean success = result.length > 0
 								&& result[0] instanceof GeoNumberValue;
 
 						if (success) {
@@ -372,7 +377,7 @@ public abstract class DialogManager {
 							}
 
 						} else {
-							if (result != null && result.length > 0) {
+							if (result.length > 0) {
 								numberExpectedError(eh, app);
 							}
 						}
@@ -433,11 +438,13 @@ public abstract class DialogManager {
 		AsyncOperation<GeoElementND[]> checkNumber = new AsyncOperation<GeoElementND[]>() {
 			@Override
 			public void callback(GeoElementND[] result) {
-
 				cons.setSuppressLabelCreation(oldVal);
 
-				boolean success = result != null
-						&& result[0] instanceof GeoNumberValue;
+				if (result == null) {
+					return;
+				}
+
+				boolean success = result[0] instanceof GeoNumberValue;
 
 				if (!success) {
 					numberExpectedError(handler, app);
@@ -811,8 +818,11 @@ public abstract class DialogManager {
 					public void callback(GeoElementND[] result) {
 						cons.setSuppressLabelCreation(oldVal);
 
-						boolean success = result != null
-								&& result[0] instanceof GeoNumberValue;
+						if (result == null) {
+							return;
+						}
+
+						boolean success = result[0] instanceof GeoNumberValue;
 						if (!success) {
 							numberExpectedError(handler, app);
 							if (callback != null) {
@@ -883,8 +893,11 @@ public abstract class DialogManager {
 					public void callback(GeoElementND[] result) {
 						cons.setSuppressLabelCreation(oldVal);
 
-						boolean success = result != null
-								&& result[0] instanceof GeoNumberValue;
+						if (result == null) {
+							return;
+						}
+
+						boolean success = result[0] instanceof GeoNumberValue;
 						if (!success) {
 							numberExpectedError(handler, kernel.getApplication());
 							if (callback != null) {
@@ -952,11 +965,13 @@ public abstract class DialogManager {
 
 					@Override
 					public void callback(GeoElementND[] result) {
-
 						cons.setSuppressLabelCreation(oldVal);
 
-						boolean success = result != null
-								&& result[0] instanceof GeoNumberValue;
+						if (result == null) {
+							return;
+						}
+
+						boolean success = result[0] instanceof GeoNumberValue;
 						if (!success) {
 							numberExpectedError(handler, app);
 							if (callback != null) {

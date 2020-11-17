@@ -1,8 +1,7 @@
 package org.geogebra.web.richtext.impl;
 
 import org.geogebra.web.richtext.EditorChangeListener;
-
-import com.google.gwt.user.client.Timer;
+import org.gwtproject.timer.client.Timer;
 
 import elemental2.core.Global;
 

@@ -542,30 +542,15 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		else {
 
 			// only change if GeoNumeric
+
 			if (xvar instanceof GeoNumeric) {
-
-				GeoNumeric num = (GeoNumeric) xvar;
-
-				double newXval = xvar.getDouble() - inhomX + endPosition.getX();
-
-				if (num.isSlider()) {
-					newXval = num.restrictToSliderValues(newXval);
-				}
-
-				num.setValue(newXval);
+				incrementParentNumeric(endPosition.getX() - inhomX,
+						(GeoNumeric) xvar, targetPosition);
 			}
 
 			if (xvar != yvar && yvar instanceof GeoNumeric) {
-
-				GeoNumeric num = (GeoNumeric) yvar;
-
-				double newYval = yvar.getDouble() - inhomY + endPosition.getY();
-
-				if (num.isSlider()) {
-					newYval = num.restrictToSliderValues(newYval);
-				}
-
-				num.setValue(newYval);
+				incrementParentNumeric(endPosition.getY() - inhomY,
+						(GeoNumeric) yvar, targetPosition);
 			}
 		}
 
@@ -579,6 +564,23 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		}
 
 		return true;
+	}
+
+	/**
+	 * Increment single coordinate of a draggable point depending on sliders.
+	 * If we know target position, use the diff, if not use max(slider increment, diff)
+	 * @param diff suggested increment
+	 * @param num number/slider to be increased
+	 * @param target target position
+	 */
+	public static void incrementParentNumeric(double diff, GeoNumeric num, Coords target) {
+		double increment = target != null ? diff
+				: Math.max(Math.abs(diff), num.getAnimationStep()) * Math.signum(diff);
+		double newVal = num.getDouble()  + increment;
+		if (num.isSlider()) {
+			newVal = num.restrictToSliderValues(newVal);
+		}
+		num.setValue(newVal);
 	}
 
 	/**

@@ -354,7 +354,7 @@ public class InputController {
 				editorState.setCurrentOffset(0);
 				return;
 			}
-			ArgumentHelper.passArgument(editorState, function, false);
+			ArgumentHelper.passArgument(editorState, function);
 		} else if (tag == Tag.SUPERSCRIPT) {
 			if (hasSelection) {
 				MathArray array = this.newArray(editorState, 1, '(', false);
@@ -881,7 +881,8 @@ public class InputController {
 
 			// if parent are empty array
 		} else if (currentField.getParent() instanceof MathArray
-				&& currentField.getParent().size() == 1) {
+				&& currentField.getParent().size() == 1
+				&& !MathArray.isLocked(currentField.getParent())) {
 
 			MathArray parent = (MathArray) currentField.getParent();
 			delContainer(editorState, parent, parent.getArgument(0));
@@ -1181,6 +1182,10 @@ public class InputController {
 		if (editorState.getSelectionStart() != null) {
 			MathContainer parent = editorState.getSelectionStart().getParent();
 			int end, start;
+			if (editorState.getSelectionStart() instanceof MathContainer
+					&& ((MathContainer) editorState.getSelectionStart()).isProtected()) {
+				return true;
+			}
 			if (parent == null) {
 				// all the formula is selected
 				parent = editorState.getRootComponent();

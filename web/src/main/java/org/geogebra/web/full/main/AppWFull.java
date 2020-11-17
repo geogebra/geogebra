@@ -92,7 +92,7 @@ import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
-import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
+import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
@@ -142,12 +142,12 @@ import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
+import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -739,6 +739,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		hideMenu();
 		if (isWhiteboardActive()
 				&& !getLoginOperation().isLoggedIn()) {
+			activity.markSearchOpen();
 			getGuiManager().listenToLogin();
 			getLoginOperation().showLoginDialog();
 			getGuiManager().setRunAfterLogin(() -> {
@@ -1905,9 +1906,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void updateFloatingButtonsPosition() {
-		ToolbarMow toolbarMow = frame.getToolbarMow();
-		if (toolbarMow != null) {
-			toolbarMow.updateFloatingButtonsPosition();
+		NotesLayout notesLayout = frame.getNotesLayout();
+		if (notesLayout != null) {
+			notesLayout.updateFloatingButtonsPosition();
 		}
 	}
 
@@ -2043,9 +2044,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public JsPropertyMap<Object> getEmbeddedCalculators() {
+	public JsPropertyMap<Object> getEmbeddedCalculators(boolean includeGraspableMath) {
 		getEmbedManager();
-		return embedManager != null ? embedManager.getEmbeddedCalculators() : null;
+		return embedManager != null
+				? embedManager.getEmbeddedCalculators(includeGraspableMath)
+				: null;
 	}
 
 	@Override

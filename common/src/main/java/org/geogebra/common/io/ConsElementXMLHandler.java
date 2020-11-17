@@ -114,6 +114,7 @@ public class ConsElementXMLHandler {
 	private boolean symbolicTagProcessed;
 	private boolean sliderTagProcessed;
 	private boolean fontTagProcessed;
+	private boolean setEigenvectorsCalled = false;
 	private double embedX;
 	private double embedY;
 	/**
@@ -1578,17 +1579,25 @@ public class ConsElementXMLHandler {
 			GeoQuadric3DInterface quadric = (GeoQuadric3DInterface) geo;
 			// set matrix and classify conic now
 			// <eigenvectors> should have been set earlier
-			double[] matrix = { StringUtil.parseDouble(attrs.get("A0")),
-					StringUtil.parseDouble(attrs.get("A1")),
-					StringUtil.parseDouble(attrs.get("A2")),
-					StringUtil.parseDouble(attrs.get("A3")),
-					StringUtil.parseDouble(attrs.get("A4")),
-					StringUtil.parseDouble(attrs.get("A5")),
-					StringUtil.parseDouble(attrs.get("A6")),
-					StringUtil.parseDouble(attrs.get("A7")),
-					StringUtil.parseDouble(attrs.get("A8")),
-					StringUtil.parseDouble(attrs.get("A9")) };
-			quadric.setMatrixFromXML(matrix);
+
+			if (geo.isIndependent() && geo.getDefinition() == null) {
+				double[] matrix = { StringUtil.parseDouble(attrs.get("A0")),
+						StringUtil.parseDouble(attrs.get("A1")),
+						StringUtil.parseDouble(attrs.get("A2")),
+						StringUtil.parseDouble(attrs.get("A3")),
+						StringUtil.parseDouble(attrs.get("A4")),
+						StringUtil.parseDouble(attrs.get("A5")),
+						StringUtil.parseDouble(attrs.get("A6")),
+						StringUtil.parseDouble(attrs.get("A7")),
+						StringUtil.parseDouble(attrs.get("A8")),
+						StringUtil.parseDouble(attrs.get("A9")) };
+				quadric.setMatrixFromXML(matrix);
+			} else {
+				quadric.ensureClassified();
+			}
+			if (!setEigenvectorsCalled) {
+				quadric.hideIfNotSphere();
+			}
 		} else if (geo.isGeoConic() && geo.getDefinition() == null) {
 			GeoConicND conic = (GeoConicND) geo;
 			// set matrix and classify conic now
@@ -1846,7 +1855,7 @@ public class ConsElementXMLHandler {
 	 */
 	private boolean handleEigenvectorsConic(
 			LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoConic())) {
+		if (!geo.isGeoConic()) {
 			Log.error(
 					"wrong element type for <eigenvectors>: " + geo.getClass());
 			return false;
@@ -1868,27 +1877,30 @@ public class ConsElementXMLHandler {
 		}
 	}
 
-	private boolean handleEigenvectors(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoQuadric())) {
-			return handleEigenvectorsConic(attrs);
+	private void handleEigenvectors(LinkedHashMap<String, String> attrs) {
+		if (!geo.isGeoQuadric()) {
+			handleEigenvectorsConic(attrs);
+			return;
 		}
 		try {
 			GeoQuadric3DInterface quadric = (GeoQuadric3DInterface) geo;
 			// set eigenvectors, but don't classify conic now
 			// classifyConic() will be called in handleMatrix() by
 			// conic.setMatrix()
-			quadric.setEigenvectors(StringUtil.parseDouble(attrs.get("x0")),
-					StringUtil.parseDouble(attrs.get("y0")),
-					StringUtil.parseDouble(attrs.get("z0")),
-					StringUtil.parseDouble(attrs.get("x1")),
-					StringUtil.parseDouble(attrs.get("y1")),
-					StringUtil.parseDouble(attrs.get("z1")),
-					StringUtil.parseDouble(attrs.get("x2")),
-					StringUtil.parseDouble(attrs.get("y2")),
-					StringUtil.parseDouble(attrs.get("z2")));
-			return true;
+			setEigenvectorsCalled = true;
+			if (geo.isIndependent() && geo.getDefinition() == null) {
+				quadric.setEigenvectors(StringUtil.parseDouble(attrs.get("x0")),
+						StringUtil.parseDouble(attrs.get("y0")),
+						StringUtil.parseDouble(attrs.get("z0")),
+						StringUtil.parseDouble(attrs.get("x1")),
+						StringUtil.parseDouble(attrs.get("y1")),
+						StringUtil.parseDouble(attrs.get("z1")),
+						StringUtil.parseDouble(attrs.get("x2")),
+						StringUtil.parseDouble(attrs.get("y2")),
+						StringUtil.parseDouble(attrs.get("z2")));
+			}
 		} catch (Exception e) {
-			return false;
+			Log.error("Problem parsing eigenvectors: " + e);
 		}
 	}
 
@@ -2540,6 +2552,7 @@ public class ConsElementXMLHandler {
 		fontTagProcessed = false;
 		lineStyleTagProcessed = false;
 		symbolicTagProcessed = false;
+		setEigenvectorsCalled = false;
 	}
 
 	/*

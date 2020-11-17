@@ -62,8 +62,7 @@ public class ExpressionNode extends ValidExpression
 
 		@Override
 		public boolean check(ExpressionValue v) {
-			return v.isExpressionNode()
-					&& ((ExpressionNode) v).getOperation() == Operation.DIVIDE
+			return v.isOperation(Operation.DIVIDE)
 					&& DoubleUtil.isZero(v.evaluateDouble())
 					&& ((ExpressionNode) v).getLeft().evaluateDouble() != 0;
 		}
@@ -325,9 +324,10 @@ public class ExpressionNode extends ValidExpression
 			return null;
 		}
 
-		ExpressionValue ret = null;
-		// Application.debug("copy ExpressionValue input: " + ev);
-		if (ev.isExpressionNode()) {
+		ExpressionValue ret;
+		if (ev instanceof MinusOne) {
+			return new MinusOne(kernel);
+		} else if (ev.isExpressionNode()) {
 			ExpressionNode en = (ExpressionNode) ev;
 			ret = en.getCopy(kernel);
 		} else if (ev instanceof MyList) {
@@ -495,7 +495,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private static ExpressionValue groupPowers(ExpressionValue left) {
-		if (left.wrap().getOperation() == Operation.MULTIPLY) {
+		if (left.isOperation(Operation.MULTIPLY)) {
 			ArrayList<ExpressionValue> factors = new ArrayList<>();
 			left.wrap().collectFactors(factors);
 			if (factors.size() > 1) {
@@ -854,8 +854,7 @@ public class ExpressionNode extends ValidExpression
 			ExpressionValue trigArg = ((ExpressionNode) this.left).getLeft();
 			Operation leftOperation = ((ExpressionNode) left).operation;
 			// sinxyz^2 is parsed as sin(x y z)^2, change to sin(x y z^2)
-			if (trigArg.isExpressionNode()
-					&& ((ExpressionNode) trigArg).getOperation() == Operation.MULTIPLY) {
+			if (trigArg.isOperation(Operation.MULTIPLY)) {
 				ExpressionNode trigArgExpr = (ExpressionNode) trigArg;
 				left = trigArgExpr.getRight().wrap()
 						.apply(operation, right).multiply(trigArgExpr.getLeft());
@@ -2152,8 +2151,7 @@ public class ExpressionNode extends ValidExpression
 	 * @return result of this * -1
 	 */
 	public ExpressionNode reverseSign() {
-		return new ExpressionNode(kernel, new MyDouble(kernel, -1.0),
-				Operation.MULTIPLY, this);
+		return new ExpressionNode(kernel, new MinusOne(kernel), Operation.MULTIPLY, this);
 	}
 
 	/**
@@ -2250,8 +2248,8 @@ public class ExpressionNode extends ValidExpression
 		if (specialCase != null) {
 			return specialCase;
 		}
-		return new ExpressionNode(kernel, new MyDouble(kernel, d),
-				Operation.MULTIPLY, this);
+		MyDouble left = d == -1 ? new MinusOne(kernel) : new MyDouble(kernel, d);
+		return new ExpressionNode(kernel, left, Operation.MULTIPLY, this);
 	}
 
 	private ExpressionNode multiplyOneOrZero(double d) {
@@ -2322,7 +2320,8 @@ public class ExpressionNode extends ValidExpression
 		if (isConstantDouble(v2, 1) || isConstantDouble(this, 0)) {
 			return this;
 		}
-		return new ExpressionNode(kernel, v2, Operation.MULTIPLY, this);
+		ExpressionValue left = isConstantDouble(v2, -1) ? new MinusOne(kernel) : v2;
+		return new ExpressionNode(kernel, left, Operation.MULTIPLY, this);
 	}
 
 	/**
@@ -3462,8 +3461,7 @@ public class ExpressionNode extends ValidExpression
 				&& !(f instanceof MyDoubleDegreesMinutesSeconds)) {
 			return new MyDouble(kernel2, -f.evaluateDouble());
 		}
-		return new ExpressionNode(kernel2, new MyDouble(kernel2, -1),
-				Operation.MULTIPLY, f);
+		return new ExpressionNode(kernel2, new MinusOne(kernel2), Operation.MULTIPLY, f);
 	}
 
 	/**
@@ -3578,7 +3576,7 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public boolean isFraction() {
 		initFraction();
-		return ((ExpressionNode) resolve).getOperation() == Operation.DIVIDE;
+		return resolve.isOperation(Operation.DIVIDE);
 	}
 	
 	/**
@@ -3681,8 +3679,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private ExpressionValue getUnsigned(ExpressionValue expr) {
-		if (expr.isExpressionNode()
-				&& expr.wrap().getOperation() == Operation.MULTIPLY
+		if (expr.isOperation(Operation.MULTIPLY)
 				&& ExpressionNode.isConstantDouble(expr.wrap().getLeft(),
 				-1)) {
 			return expr.wrap().getRight();
@@ -3721,7 +3718,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private boolean hasSimpleNumbers() {
-		return areLeftAndRightNumbers() && isLeftOrRightSpecial() && !isRightPiOrE();
+		return areLeftAndRightNumbers() && isRightDeg() && !isRightPiOrE();
 	}
 
 	private boolean isRightPiOrE() {
@@ -3737,12 +3734,8 @@ public class ExpressionNode extends ValidExpression
 		return getLeft().unwrap() instanceof NumberValue && getRight().unwrap() instanceof MyDouble;
 	}
 
-	private boolean isLeftOrRightSpecial() {
-		double evaluatedLeft = getLeft().evaluateDouble();
-		boolean isLeftMinusOne = MyDouble.exactEqual(evaluatedLeft, -1);
-		double evaluatedRight = getRight().evaluateDouble();
-		boolean isRightDeg = MyDouble.exactEqual(evaluatedRight, MyMath.DEG);
-		return isLeftMinusOne || isRightDeg;
+	private boolean isRightDeg() {
+		return MyDouble.exactEqual(getRight().evaluateDouble(), MyMath.DEG);
 	}
 
 	public void setForceSurfaceCartesian() {
@@ -3768,5 +3761,10 @@ public class ExpressionNode extends ValidExpression
 		newNode.secretMaskingAlgo = secretMaskingAlgo;
 		newNode.wasInterval = wasInterval;
 		newNode.holdsLaTeXtext = holdsLaTeXtext;
+	}
+
+	@Override
+	public boolean isOperation(Operation operation) {
+		return operation == this.operation;
 	}
 }

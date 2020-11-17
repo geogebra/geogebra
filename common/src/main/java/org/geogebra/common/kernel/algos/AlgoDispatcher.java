@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.algos;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
@@ -16,6 +17,7 @@ import org.geogebra.common.kernel.TransformMirror;
 import org.geogebra.common.kernel.TransformRotate;
 import org.geogebra.common.kernel.TransformTranslate;
 import org.geogebra.common.kernel.advanced.AlgoCentroidPolygon;
+import org.geogebra.common.kernel.advanced.AlgoTorsion;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -53,6 +55,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -3535,6 +3538,21 @@ public class AlgoDispatcher {
 		AlgoCentroidPolygon algo = new AlgoCentroidPolygon(cons, geoPolygon);
 		GeoPointND centroid = algo.getPoint();
 		return (GeoElement) centroid;
+	}
+
+	final public GeoNumeric torsion(GeoPoint A, GeoConic gc) {
+		AlgoTorsion algoTorsion = new AlgoTorsion(cons, null, A, gc);
+		return algoTorsion.getResult();
+	}
+
+	final public GeoNumeric torsion(GeoPointND A, GeoCurveCartesian f) {
+		AlgoTorsion algoTorsion = new AlgoTorsion(cons, null, A, f);
+		return algoTorsion.getResult();
+	}
+
+	final public GeoNumeric torsion(GeoPointND A, GeoCurveCartesian3D f) {
+		AlgoTorsion algoTorsion = new AlgoTorsion(cons, null, A, f);
+		return algoTorsion.getResult();
 	}
 
 }

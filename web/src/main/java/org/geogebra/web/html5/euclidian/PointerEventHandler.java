@@ -76,7 +76,7 @@ public class PointerEventHandler {
 	}
 
 	private void singleDown(PointerEvent e) {
-		tc.getOffsets().closePopups();
+		tc.getOffsets().closePopups(e);
 		tc.onPointerEventStart(e);
 	}
 

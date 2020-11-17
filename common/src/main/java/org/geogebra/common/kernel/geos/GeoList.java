@@ -928,7 +928,7 @@ public class GeoList extends GeoElement
 		// an independent list needs to add
 		// its expression itself
 		// e.g. {1,2,3}
-		if (isIndependent() && (getDefaultGeoType() < 0)) {
+		if (isDefined() && isIndependent() && (getDefaultGeoType() < 0)) {
 			sb.append("<expression");
 			sb.append(" label=\"");
 			StringUtil.encodeXML(sb, label);
@@ -3027,16 +3027,10 @@ public class GeoList extends GeoElement
 		return DescriptionMode.VALUE;
 	}
 
-	/**
-	 * Check for matrices for matrices defined per element like {{1,0},{0,1}}
-	 * (also dependent like {{a+1,1}})
-	 *
-	 * @return whether this can be eited as a matrix
-	 */
-	public boolean isEditableMatrix() {
-		if (!isMatrix()) {
-			return false;
-		}
+	@Override
+	public boolean hasSpecialEditor() {
+		// Check for lists defined per element like {{1,0},{0,1}} or {1, 2, 3}
+		// (also dependent like {{a+1,1}})
 		if (isIndependent()) {
 			return true;
 		}
@@ -3069,7 +3063,7 @@ public class GeoList extends GeoElement
 	public String getLaTeXAlgebraDescriptionWithFallback(
 			final boolean substituteNumbers, StringTemplate tpl,
 			boolean fallback) {
-		if (isEditableMatrix()) {
+		if (hasSpecialEditor()) {
 			return getLabel(tpl) + " = "
 					+ toLaTeXString(!substituteNumbers, tpl);
 		}

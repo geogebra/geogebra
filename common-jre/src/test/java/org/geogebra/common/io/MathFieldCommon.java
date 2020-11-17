@@ -4,6 +4,7 @@ import org.geogebra.common.util.SyntaxAdapterImpl;
 
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyListener;
@@ -18,11 +19,12 @@ public class MathFieldCommon implements MathField {
 	private MathFieldInternal internal;
 
 	/**
-	 * @param model formula meta-model
+	 * @param adapter syntax adapter
 	 */
-	public MathFieldCommon(MetaModel model) {
+	public MathFieldCommon(MetaModel model, SyntaxAdapter adapter) {
 		this.model = model;
 		internal = new MathFieldInternal(this);
+		internal.setSyntaxAdapter(adapter);
 		internal.setFormula(MathFormula.newFormula(model));
 	}
 

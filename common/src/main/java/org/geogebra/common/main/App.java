@@ -3856,10 +3856,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case MOW_DIRECT_FORMULA_CONVERSION:
 			return false;
 
-		/** MOW-189 */
-		case MOW_TEXT_TOOL:
-			return whiteboard;
-
 		// **********************************************************************
 		// MOW END
 		// *********************************************************
@@ -3889,9 +3885,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		// TRAC-4845
 		case LOG_AXES:
-			return prerelease;
-
-		case COMMAND_HOLES:
 			return prerelease;
 
 		// GGB-334, TRAC-3401
