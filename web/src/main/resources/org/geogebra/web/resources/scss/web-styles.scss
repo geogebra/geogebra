@@ -2275,12 +2275,14 @@
 		padding: 0;
 	}
 
-	.ProbCalcPanel {
-		overflow: auto;
+	.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent.ProbCalcPanel {
+		// no scrollbar for main panel, only for value table
+		overflow: hidden;
 	}
-
-	.ProbCalcPanel .PlotPanelPlus {
+	.plotSplitPane {
 		float: left;
+	}
+	.ProbCalcPanel .PlotPanelPlus {
 		margin: 0;
 		margin-top: 6px;
 		padding: 0;
@@ -2292,6 +2294,7 @@
 		padding: 0;
 		padding-left: 10px;
 		overflow: auto;
+		box-sizing: border-box;
 	}
 
 	.ProbCalcPanel .ProbabilityTableW table {

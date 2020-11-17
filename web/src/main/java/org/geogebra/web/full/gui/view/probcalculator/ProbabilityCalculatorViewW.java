@@ -26,6 +26,9 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.OptionElement;
+import com.google.gwt.dom.client.SelectElement;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -52,6 +55,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	 * separator for list boxes
 	 */
 	public static final String SEPARATOR = "--------------------";
+	private static final int CONTROL_PANEL_HEIGHT = 150;
+	private static final int TABLE_PADDING_AND_SCROLLBAR = 32;
 
 	private Label lblDist;
 	private MyToggleButtonW btnCumulative;
@@ -60,7 +65,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private MyToggleButtonW btnIntervalRight;
 	private Label[] lblParameterArray;
 	private MathTextFieldW[] fldParameterArray;
-	private ListBox comboProbType;
 	private ListBox comboDistribution;
 	private Label lblProb;
 	private Label lblProbOf;
@@ -82,7 +86,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private final StatisticsCalculatorW statCalculator;
 	private MyTabLayoutPanel tabbedPane;
 	private ProbabilityCalculatorStyleBarW styleBar;
-	private HandlerRegistration comboProbHandler;
 	private HandlerRegistration comboDistributionHandler;
 	private GPopupMenuW btnExport;
 	private MyToggleButtonW btnNormalOverlay;
@@ -143,8 +146,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		lblDist.setText(loc.getMenu("Distribution") + ": ");
 		lblProb.setText(loc.getMenu("Probability") + ": ");
-
-		setProbabilityComboBoxMenu();
 
 		lblEndProbOf.setText(loc.getMenu("EndProbabilityOf") + " = ");
 		lblProbOf.setText(loc.getMenu("ProbabilityOf"));
@@ -223,19 +224,18 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				this.putValue("euclidianViewID", null);
 			}
 		};
-
 	}
 
 	private void buildProbCalcPanel() {
 		tabbedPane.clear();
 		plotSplitPane = new FlowPanel();
 		plotSplitPane.add(plotPanelPlus);
-		
+		plotSplitPane.add(controlPanel);
+		plotSplitPane.addStyleName("plotSplitPane");
 		mainSplitPane = new FlowPanel();
 		mainSplitPane.addStyleName("mainSplitPanel");
 		mainSplitPane.add(plotSplitPane);
-		mainSplitPane.add(controlPanel);
-		mainSplitPane.add(new ClearPanel());
+
 		probCalcPanel = new FlowPanel();
 		probCalcPanel.addStyleName("ProbCalcPanel");
 		
@@ -355,9 +355,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			//TODO fldParameterArray[i].getTextBox().setTabIndex(i + 1);
 		}
 
-		comboProbType = new ListBox();
-		comboProbHandler = comboProbType.addChangeHandler(this);
-
 		lblProb = new Label();
 		
 		lblProbOf = new Label(); // <= X <=
@@ -365,12 +362,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		lblEndProbOf = new Label();
 
 		fldLow = new MathTextFieldW(app);
-		fldLow.setPxWidth(64);
+		fldLow.setPxWidth(80);
 		addInsertHandler(fldLow);
 		//fldLow.getTextBox().setTabIndex(maxParameterCount);
 
 		fldHigh = new MathTextFieldW(app);
-		fldHigh.setPxWidth(64);
+		fldHigh.setPxWidth(80);
 		addInsertHandler(fldHigh);
 		//fldHigh.getTextBox().setTabIndex(maxParameterCount + 1);
 
@@ -408,12 +405,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	@Override
 	public void updateAll() {
 		updateOutput();
-		updateGUI();
 		updateProbabilityType();
+		updateGUI();
 		if (styleBar != null) {
 			styleBar.updateGUI();
 		}
-
 	}
 
 	private void updateOutput() {
@@ -430,21 +426,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		}
 
 		boolean isDiscrete = probmanagerIsDiscrete();
-		int oldProbMode = probMode;
 
-		if (isCumulative) {
-			probMode = PROB_LEFT;
-		} else {
-			if (btnIntervalLeft.getValue()) {
-				probMode = ProbabilityCalculatorView.PROB_LEFT;
-			} else if (btnIntervalBetween.getValue()) {
-				probMode = ProbabilityCalculatorView.PROB_INTERVAL;
-			} else if (btnIntervalRight.getValue()) {
-				probMode = ProbabilityCalculatorView.PROB_RIGHT;
-			}
-
-		}
-		this.getPlotDimensions();
 		if (probMode == PROB_INTERVAL) {
 			lowPoint.setEuclidianVisible(showProbGeos);
 			highPoint.setEuclidianVisible(showProbGeos);
@@ -466,10 +448,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			fldHigh.setVisible(true);
 			lblBetween.setText(loc.getMenu("XLessThanOrEqual"));
 
-			if (oldProbMode == PROB_RIGHT) {
-				setHigh(getLow());
-			}
-
 			if (isDiscrete) {
 				setLow((GeoNumberValue) discreteValueList.get(0));
 			} else {
@@ -486,10 +464,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			fldHigh.setVisible(false);
 			lblBetween
 					.setText(SpreadsheetViewInterface.LESS_THAN_OR_EQUAL_TO_X);
-
-			if (oldProbMode == PROB_LEFT) {
-				setLow(getHigh());
-			}
 
 			if (isDiscrete) {
 				setHigh(((GeoNumeric) discreteValueList.get(discreteValueList
@@ -518,6 +492,28 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		}
 		setXAxisPoints();
 		updateIntervalProbability();
+	}
+
+	@Override
+	protected void changeProbabilityType() {
+		if (isCumulative) {
+			probMode = PROB_LEFT;
+		} else {
+			int oldProbMode = probMode;
+			if (btnIntervalLeft.getValue()) {
+				probMode = ProbabilityCalculatorView.PROB_LEFT;
+				if (oldProbMode == PROB_RIGHT) {
+					setHigh(getLow());
+				}
+			} else if (btnIntervalBetween.getValue()) {
+				probMode = ProbabilityCalculatorView.PROB_INTERVAL;
+			} else if (btnIntervalRight.getValue()) {
+				probMode = ProbabilityCalculatorView.PROB_RIGHT;
+				if (oldProbMode == PROB_LEFT) {
+					setLow(getHigh());
+				}
+			}
+		}
 	}
 
 	/**
@@ -555,10 +551,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	
 	private void addRemoveTable(boolean showTable) {
 		if (showTable) {
-			plotSplitPane
+			mainSplitPane
 					.add(((ProbabilityTableW) getTable()).getWrappedPanel());
 		} else {
-			plotSplitPane
+			mainSplitPane
 					.remove(((ProbabilityTableW) getTable()).getWrappedPanel());
 		}
 		tabbedPane.onResize();
@@ -641,17 +637,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	@Override
 	public void onChange(ChangeEvent event) {
-		Object source = event.getSource();
-		if (source == comboDistribution) {
-
-			if (comboDistribution.getSelectedIndex() > -1 && !comboDistribution
-					.getValue(comboDistribution.getSelectedIndex())
-					.equals(SEPARATOR)) {
-				changeDistribution();
-			}
-		} else if (source == comboProbType) {
-			updateProbabilityType();
-			updateGUI();
+		if (comboDistribution.getSelectedIndex() > -1) {
+			changeDistribution();
 		}
 	}
 
@@ -662,25 +649,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			selectedDist = getReverseDistributionMap().get(comboDistribution
 					.getValue(comboDistribution.getSelectedIndex()));
 			parameters = ProbabilityManager.getDefaultParameters(selectedDist, cons);
-			this.setProbabilityCalculator(selectedDist, parameters,
+			setProbabilityCalculator(selectedDist, parameters,
 					isCumulative);
 			tabbedPane.onResize();
 		}
-
-	}
-
-	@Override
-	protected void setProbabilityComboBoxMenu() {
-		comboProbType.clear();
-		comboProbHandler.removeHandler();
-		if (isCumulative) {
-			comboProbType.addItem(loc.getMenu("LeftProb"));
-		} else {
-			comboProbType.addItem(loc.getMenu("IntervalProb"));
-			comboProbType.addItem(loc.getMenu("LeftProb"));
-			comboProbType.addItem(loc.getMenu("RightProb"));
-		}
-		comboProbHandler = comboProbType.addChangeHandler(this);
 
 	}
 
@@ -699,7 +671,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		comboDistribution.addItem(getDistributionMap().get(Dist.LOGISTIC));
 		
 		comboDistribution.addItem(SEPARATOR);
-
+		NodeList<OptionElement> options = SelectElement.as(comboDistribution.getElement())
+				.getOptions();
+		options.getItem(options.getLength() - 1)
+				.setAttribute("disabled", "disabled");
 		comboDistribution.addItem(getDistributionMap().get(Dist.BINOMIAL));
 		comboDistribution.addItem(getDistributionMap().get(Dist.PASCAL));
 		comboDistribution.addItem(getDistributionMap().get(Dist.POISSON));
@@ -708,11 +683,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		ListBoxApi.select(getDistributionMap().get(selectedDist),
 				comboDistribution);
 		comboDistribution.addChangeHandler(this);
-	}
-
-	@Override
-	public void setTypeSelectedIndex(int idx) {
-		comboProbType.setSelectedIndex(idx);
 	}
 
 	/**
@@ -777,26 +747,24 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	 * Tab resize callback
 	 */
 	public void tabResized() {
+		int tableWidth = probmanagerIsDiscrete() ? ((ProbabilityTableW) getTable()).getStatTable()
+				.getTable().getOffsetWidth() + TABLE_PADDING_AND_SCROLLBAR : 0;
 		int width = mainSplitPane.getOffsetWidth()
-				- ((ProbabilityTableW) getTable()).getWrappedPanel().getOffsetWidth()
+				- tableWidth
 				- 5;
 		int height = probCalcPanel.getOffsetHeight() - 20;
 		if (width > 0) {
 			getPlotPanel().setPreferredSize(new Dimension(width,
-					Math.min(Math.max(100, height - 120),
+					Math.min(Math.max(100, height - CONTROL_PANEL_HEIGHT),
 							PlotPanelEuclidianViewW.DEFAULT_HEIGHT)));
 			getPlotPanel().repaintView();
 			getPlotPanel().getEuclidianController().calculateEnvironment();
-			controlPanel.setWidth(width + "px");
-			plotPanelPlus.setWidth(width + "px");
+			plotSplitPane.setWidth(width + "px");
 		}
 
-		if (height > 0) {
+		if (height > 0 && probmanagerIsDiscrete()) {
 			((ProbabilityTableW) getTable()).getWrappedPanel()
-					.setPixelSize(((ProbabilityTableW) getTable()).getStatTable()
-							.getTable().getOffsetWidth() + 25, height);
-			// ((ProbabilityTableW) table).getWrappedPanel().setHeight(height +
-			// "px");
+					.setPixelSize(tableWidth, height);
 		}
 	}
 
@@ -813,6 +781,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			simulateRadioButtons((MyToggleButtonW) source);
 
 			if (!isCumulative) {
+				changeProbabilityType();
 				updateProbabilityType();
 				updateGUI();
 			}

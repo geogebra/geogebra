@@ -289,25 +289,16 @@ public abstract class ProbabilityCalculatorView
 
 		this.isCumulative = isCumulative;
 
-		// in cumulative mode only left-sided intervals are allowed
-		setProbabilityComboBoxMenu();
-		if (!isCumulative) {
-			// make sure left-sided is still selected when reverting to
-			// non-cumulative mode
-			setTypeSelectedIndex(PROB_LEFT);
-		}
-
 		if (isCumulative) {
 			graphType = graphTypeCDF;
 		} else {
 			graphType = graphTypePDF;
 		}
+		changeProbabilityType();
 		updateAll();
 	}
 
-	protected abstract void setProbabilityComboBoxMenu();
-
-	protected abstract void setTypeSelectedIndex(int probLeft);
+	protected abstract void changeProbabilityType();
 
 	/**
 	 * @return graph type (one of GRAPH_BAR, GRAPH_STEP, GRAPH_LINE)
