@@ -1,8 +1,6 @@
 package org.geogebra.web.full.move.googledrive.operations;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.move.operations.BaseOperation;
-import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
@@ -38,11 +36,10 @@ import jsinterop.base.JsPropertyMap;
 /**
  * Operational class for Google Drive Api
  */
-public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
-        implements GoogleDriveOperation {
+public class GoogleDriveOperationW implements GoogleDriveOperation {
 
 	private static final String GoogleApiJavaScriptSrc = "https://apis.google.com/js/client.js?onload=GGW_loadGoogleDrive";
-	private AppW app;
+	private final AppW app;
 	private boolean loggedIn;
 	private JsPropertyMap<Object> googleDriveURL;
 	private String authToken;
