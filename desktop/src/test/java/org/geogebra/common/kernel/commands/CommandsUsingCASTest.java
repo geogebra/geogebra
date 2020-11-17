@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
 import static org.geogebra.test.TestStringUtil.unicode;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import org.geogebra.common.euclidian.EuclidianView;
@@ -10,7 +11,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.test.TestErrorHandler;
@@ -70,6 +70,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		CommandsTest.resetSyntaxCounter();
 		app.getKernel().clearConstruction(true);
 		app.setActiveView(App.VIEW_EUCLIDIAN);
+		app.getKernel().setPrintDecimals(2);
 	}
 
 	@After
@@ -267,6 +268,13 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
+	public void expandShouldNotChangeWithRounding() {
+		t("Expand[ 0.5 (x+1)^2 ]", "(1 / 2 * x^(2)) + x + 1 / 2");
+		app.getKernel().setPrintDecimals(10);
+		t("Expand[ 0.5 (x+1)^2 ]", "(1 / 2 * x^(2)) + x + 1 / 2");
+	}
+
+	@Test
 	public void cmdSolutions() {
 		tRound("Solutions[ x^2=3 ]", "{-1.73205, 1.73205}");
 		t("Solutions[ 5x=4 ]", "{4 / 5}");
@@ -377,16 +385,10 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	@Test
 	public void cmdRemovableDiscontinuity() {
 		t("RemovableDiscontinuity((3-x)/(2x^2-6x))", "(3, -0.16666666666666666)");
-	}
-
-	@Test
-	public void cmdHoles() {
-		if (app.has(Feature.COMMAND_HOLES)) {
-			t("Holes(x/x)", "(0, 1)");
-			t("Holes((x^2 - 4)/(x - 2))", "(2, 4)");
-			t("Holes(x + x/x)", "(0, 1)");
-			t("Holes(2^(x + x/x))", "(0, 2)");
-		}
+		t("RemovableDiscontinuity(x/x)", "(0, 1)");
+		t("RemovableDiscontinuity((x^2 - 4)/(x - 2))", "(2, 4)");
+		t("RemovableDiscontinuity(x + x/x)", "(0, 1)");
+		t("RemovableDiscontinuity(2^(x + x/x))", "(0, 2)");
 	}
 
 	@Test

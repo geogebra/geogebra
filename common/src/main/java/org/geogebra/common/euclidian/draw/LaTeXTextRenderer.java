@@ -41,7 +41,7 @@ public class LaTeXTextRenderer implements TextRenderer {
 
 	private int calculateInputBoxHeight(GDimension textDimension) {
 		int textHeightWithMargin = textDimension.getHeight() + BOTTOM_OFFSET + MARGIN;
-		return Math.max(textHeightWithMargin, DrawInputBox.MIN_HEIGHT);
+		return Math.max(textHeightWithMargin, DrawInputBox.SYMBOLIC_MIN_HEIGHT);
 	}
 
 	@Override

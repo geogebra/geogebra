@@ -148,13 +148,41 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return cross.norm() / Math.pow(D1.norm(), 3);
 	}
 
+	@Override
+	public double evaluateTorsion(double t) {
+		updateDerivatives();
+		Coords D1 = new Coords(3);
+		Coords D2 = new Coords(3);
+		Coords D3 = new Coords(3);
+
+		for (int i = 0; i < 3; i++) {
+			D1.set(i + 1, funD1[i].value(t));
+		}
+
+		for (int i = 0; i < 3; i++) {
+			D2.set(i + 1, funD2[i].value(t));
+		}
+
+		for (int i = 0; i < 3; i++) {
+			D3.set(i + 1, funD3[i].value(t));
+		}
+
+		// compute torsion using the formula k = (f'' x f').f''' / |f' x f''|^2
+		Coords cross = D1.crossProduct(D2);
+		double dot = cross.dotproduct(D3);
+		// Log.debug(cross.norm() / Math.pow(D1.norm(), 3));
+		return dot/Math.pow(cross.norm(),2);
+	}
+
 	private void updateDerivatives() {
 		int dim = 3;
 		funD1 = new Function[dim];
 		funD2 = new Function[dim];
+		funD3 = new Function[dim];
 		for (int i = 0; i < dim; i++) {
 			funD1[i] = getFun(i).getDerivative(1, true);
 			funD2[i] = getFun(i).getDerivative(2, true);
+			funD3[i] = getFun(i).getDerivative(3,true);
 		}
 
 	}

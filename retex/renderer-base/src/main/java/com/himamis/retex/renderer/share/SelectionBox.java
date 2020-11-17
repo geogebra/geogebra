@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Stroke;
+import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
 public class SelectionBox extends Box {
 	private static final int DIAMETER = 10;
@@ -30,19 +31,20 @@ public class SelectionBox extends Box {
 		g2.setStroke(FactoryProvider.getInstance().getGraphicsFactory()
 				.createBasicStroke(1, 0, 0, 1));
 
-		SelectionBox.startX = g2.getTransform().getScaleX() * x
-				+ g2.getTransform().getShearX() * y
-				+ g2.getTransform().getTranslateX();
-		SelectionBox.startY = g2.getTransform().getScaleY() * y
-				+ g2.getTransform().getShearY() * x
-				+ g2.getTransform().getTranslateY();
+		Transform transform = g2.getTransform();
+		SelectionBox.startX = transform.getScaleX() * x
+				+ transform.getShearX() * y
+				+ transform.getTranslateX();
+		SelectionBox.startY = transform.getScaleY() * y
+				+ transform.getShearY() * x
+				+ transform.getTranslateY();
 
-		SelectionBox.endX = g2.getTransform().getScaleX() * (x + content.width)
-				+ g2.getTransform().getShearX() * (y + content.depth)
-				+ g2.getTransform().getTranslateX();
-		SelectionBox.endY = g2.getTransform().getScaleY() * (y + content.depth)
-				+ g2.getTransform().getShearY() * (x + content.width)
-				+ g2.getTransform().getTranslateY();
+		SelectionBox.endX = transform.getScaleX() * (x + content.width)
+				+ transform.getShearX() * (y + content.depth)
+				+ transform.getTranslateX();
+		SelectionBox.endY = transform.getScaleY() * (y + content.depth)
+				+ transform.getShearY() * (x + content.width)
+				+ transform.getTranslateY();
 		if (touchSelection) {
 			g2.saveTransformation();
 

@@ -658,6 +658,11 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 	}
 
 	@Override
+	public double evaluateTorsion(double t) {
+		return 0;
+	}
+
+	@Override
 	public boolean isCasEvaluableObject() {
 		return true;
 	}

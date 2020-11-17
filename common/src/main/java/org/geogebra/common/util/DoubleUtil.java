@@ -547,7 +547,7 @@ public class DoubleUtil {
 		for (int i = 0; i < result.length; i++) {
 			result[i] = checkDecimalFraction(min + i * step);
 		}
-		result[length] = max;
+		result[result.length - 1] = max;
 
 		return result;
 	}

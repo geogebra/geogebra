@@ -3,6 +3,7 @@
         this.api = null;
         this.users = users || {};
         this.clientId = parentClientId;
+        this.currentAnimations = [];
         this.embeds = {};
         this.createEvent = function(type, content, label) {
             var event = {
@@ -77,7 +78,7 @@
 
                     for (let i = 0; i < tempObjects.length; i++) {
                         const label = tempObjects[i];
-                        const calculators= that.api.getEmbeddedCalculators();
+                        const calculators= that.api.getEmbeddedCalculators(true);
                         const embed = calculators && calculators[label];
 
                         if (embed && embed.controller) {
@@ -100,11 +101,13 @@
 
         // *** UPDATE LISTENERS ***
         let updateListener = (function(label) {
-            console.log("update event for " + label);
-            this.api.showTooltip(null, label);
-            if (!objectsInWaiting.includes(label)) {
-                objectsInWaiting.push(label);
-                dispatchUpdates();
+            if (this.api.isIndependent(label) && !(this.currentAnimations.includes(label))) {
+                console.log("update event for " + label);
+                this.api.showTooltip(null, label);
+                if (!objectsInWaiting.includes(label)) {
+                    objectsInWaiting.push(label);
+                    dispatchUpdates();
+                }
             }
         }).bind(this);
 
@@ -209,6 +212,20 @@
                     this.sendEvent(event[0], event.cardIdx, event.ggbFile);
                     break;
 
+                case "startAnimation":
+                    var label = event[1];
+                    console.log("animation started for " + label);
+                    this.currentAnimations.push(label);
+                    this.sendEvent(event[0], label, label);
+                    break;
+
+                case "stopAnimation":
+                    var label = event[1];
+                    console.log("animation stopped for " + label);
+                    this.currentAnimations.splice(this.currentAnimations.indexOf(label), 1);
+                    this.sendEvent(event[0], label, label);
+                    break;
+
                 default:
                     // console.log("unhandled event ", event[0], event);
             }
@@ -274,10 +291,15 @@
                 } else if (last.type == "pasteSlide") {
                     target.api.handleSlideAction(last.type, last.content, last.label);
                 } else if (last.type == "evalGMContent") {
-                    var gmApi = target.api.getEmbeddedCalculators()[last.label];
+                    var gmApi = target.api.getEmbeddedCalculators(true)[last.label];
                     if (gmApi) {
                         gmApi.loadFromJSON(last.content);
                     }
+                } else if (last.type == "startAnimation") {
+                    target.api.setAnimating(last.label, true);
+                    target.api.startAnimation();
+                } else if (last.type == "stopAnimation") {
+                    target.api.setAnimating(last.label, false);
                 }
                 if (last.type != "pasteSlide") { // for slides the label slide label => no hint
                     target.showHint(last);

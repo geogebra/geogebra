@@ -2110,21 +2110,18 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		else {
 			// only change if GeoNumeric
 			if (xvar instanceof GeoNumeric) {
-				double newXval = xvar.getDouble() - getInhomX()
-						+ endPosition.getX();
-				((GeoNumeric) xvar).setValue(newXval);
+				GeoPoint.incrementParentNumeric(endPosition.getX() - getInhomX(),
+						(GeoNumeric) xvar, targetPosition);
 			}
 
 			if (xvar != yvar && yvar instanceof GeoNumeric) {
-				double newYval = yvar.getDouble() - getInhomY()
-						+ endPosition.getY();
-				((GeoNumeric) yvar).setValue(newYval);
+				GeoPoint.incrementParentNumeric(endPosition.getY() - getInhomY(),
+						(GeoNumeric) yvar, targetPosition);
 			}
 
 			if (zvar != yvar && zvar != xvar && zvar instanceof GeoNumeric) {
-				double newZval = zvar.getDouble() - getInhomZ()
-						+ endPosition.getZ();
-				((GeoNumeric) zvar).setValue(newZval);
+				GeoPoint.incrementParentNumeric(endPosition.getZ() - getInhomZ(),
+						(GeoNumeric) zvar, targetPosition);
 			}
 		}
 

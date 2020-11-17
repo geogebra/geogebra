@@ -5,15 +5,18 @@ import org.geogebra.common.euclidian.EuclidianControllerCompanion;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoMidpoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPolarLine3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Manager3DInterface;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -158,6 +161,16 @@ public class EuclidianControllerFor3DCompanion
 		}
 
 		return super.mirrorAtPoint(geo, point);
+	}
+
+	@Override
+	protected GeoNumeric torsion(GeoPointND point, GeoCurveCartesian geo) {
+		return super.torsion(point, geo);
+	}
+
+	@Override
+	protected GeoNumeric torsion(GeoPointND point, GeoCurveCartesian3D geo) {
+		return super.torsion(point, geo);
 	}
 
 	@Override

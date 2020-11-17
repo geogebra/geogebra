@@ -3368,7 +3368,7 @@ __GGB__keysVar["bs"].menu = {
     "horizontal": "Horizontalan",
     "html": "Web-stranica",
     "insert_worksheet": "Ubaci dinami\u010dki radni list",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG format",
     "linkCopyClipboard": "Link kopiran u me\u0111uspremnik",
     "linkShareOff": "Link isklju\u010den.",

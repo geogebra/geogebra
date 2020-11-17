@@ -37,4 +37,6 @@ public interface GeoCurveCartesian3DInterface {
 	 */
 	public double evaluateCurvature(double t);
 
+	public double evaluateTorsion(double x, double y);
+
 }

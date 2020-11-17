@@ -793,6 +793,8 @@ public class EuclidianStyleBarStatic {
 				ConstructionDefaults.DEFAULT_TEXT);
 		defaultGeoMap.put(EuclidianConstants.MODE_AREA,
 				ConstructionDefaults.DEFAULT_TEXT);
+		defaultGeoMap.put(EuclidianConstants.MODE_EVALUATE_TORSION,
+				ConstructionDefaults.DEFAULT_TEXT);
 		defaultGeoMap.put(EuclidianConstants.MODE_SLOPE,
 				ConstructionDefaults.DEFAULT_POLYGON);
 		defaultGeoMap.put(EuclidianConstants.MODE_RELATION,

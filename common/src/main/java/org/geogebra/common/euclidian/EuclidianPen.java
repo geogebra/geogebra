@@ -461,6 +461,7 @@ public class EuclidianPen implements GTimerListener {
 		stroke.setLineOpacity(lineOpacity);
 		stroke.setObjColor(penColor);
 		stroke.updateVisualStyle(GProperty.COMBINED);
+		stroke.setVisibility(view.getViewID(), true);
 
 		// set label
 		stroke.setLabel(null);

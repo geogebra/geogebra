@@ -834,8 +834,8 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.nextConstructionStep();
 	}
 
-	public JsPropertyMap<Object> getEmbeddedCalculators() {
-		return ggbAPI.getEmbeddedCalculators();
+	public JsPropertyMap<Object> getEmbeddedCalculators(Object includeGraspableMath) {
+		return ggbAPI.getEmbeddedCalculators(Js.isTruthy(includeGraspableMath));
 	}
 
 	public Element getFrame() {

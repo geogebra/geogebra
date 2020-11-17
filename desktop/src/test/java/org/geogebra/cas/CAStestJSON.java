@@ -4,13 +4,13 @@ import static org.geogebra.test.util.IsEqualStringIgnoreWhitespaces.equalToIgnor
 import static org.junit.Assert.assertThat;
 import static org.junit.Assume.assumeFalse;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 
 import org.geogebra.cas.logging.CASTestLogger;
@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.factories.LoggingCASFactoryD;
@@ -66,21 +65,11 @@ public class CAStestJSON {
 	static HashMap<String, ArrayList<CasTest>> testcases = new HashMap<>();
 
 	private static String readFileAsString(String filePath) throws IOException {
-		StringBuffer fileData = new StringBuffer();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				new FileInputStream(filePath), Charsets.getUtf8()));
-		char[] buf = new char[1024];
-		int numRead = 0;
-		while ((numRead = reader.read(buf)) != -1) {
-			String readData = String.valueOf(buf, 0, numRead);
-			fileData.append(readData);
-		}
-		reader.close();
-		String[] parts = fileData.toString().split("\n");
-		StringBuffer noComments = new StringBuffer();
-		for (int i = 0; i < parts.length; i++) {
-			if (!parts[i].trim().startsWith("//")) {
-				noComments.append(parts[i]);
+		List<String> parts = Files.readAllLines(Paths.get(filePath));
+		StringBuilder noComments = new StringBuilder();
+		for (String part : parts) {
+			if (!part.trim().startsWith("//")) {
+				noComments.append(part);
 			}
 		}
 		return noComments.toString();
@@ -1470,5 +1459,15 @@ public class CAStestJSON {
 	@Test
 	public void testPlotSolve() {
 		testCat("PlotSolve.1");
+	}
+
+	@Test
+	public void testQuartile1() {
+		testCat("Q1.1");
+	}
+
+	@Test
+	public void testQuartile3() {
+		testCat("Q3.1");
 	}
 }

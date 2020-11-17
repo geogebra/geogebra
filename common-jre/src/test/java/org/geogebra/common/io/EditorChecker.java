@@ -29,7 +29,7 @@ class EditorChecker {
 
 	protected EditorChecker(App app, MetaModel model) {
 		this.app = app;
-		mathField = new MathFieldCommon(model);
+		mathField = new MathFieldCommon(model, null);
 		typer = new EditorTyper(mathField);
 	}
 

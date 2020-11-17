@@ -167,7 +167,13 @@ public enum EventType {
 	/**
 	 * keyboard closed by the user
 	 */
-	CLOSE_KEYBOARD("closeKeyboard");
+	CLOSE_KEYBOARD("closeKeyboard"),
+
+	/** start animation event */
+	START_ANIMATION("startAnimation"),
+
+	/** stop animation event */
+	STOP_ANIMATION("stopAnimation");
 
 	private String eventName;
 

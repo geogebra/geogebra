@@ -37,6 +37,6 @@ public class TemplateSaveTest {
 		String fileContent = FileIO.load(pathString);
 		StringBuilder sb = new StringBuilder();
 		app.getActiveEuclidianView().getXML(sb, false);
-        Assert.assertEquals(sb.toString(), fileContent);
+        Assert.assertEquals(sb.toString().trim(), fileContent);
 	}
 }
