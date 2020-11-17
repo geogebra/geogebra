@@ -2157,7 +2157,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * all the settings
 	 * @param subAppCode "graphing", "3d", "cas" or "geometry"
 	 */
-	private void switchToSubapp(String subAppCode) {
+	public void switchToSubapp(String subAppCode) {
 		activity = new SuiteActivity(subAppCode);
 		activity.start(this);
 

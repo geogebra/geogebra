@@ -33,7 +33,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 
 	private void createAppPickerButton(AppW app) {
 		setIconAndLabel(GeoGebraConstants.GRAPHING_APPCODE);
-		addStyleName("suiteAppPickerButton");
+		setStyleName("suiteAppPickerButton");
 		suitePopup = new AppSwitcherPopup((AppWFull) app, this);
 		addFastClickHandler(event -> suitePopup.showPopup());
 	}
@@ -73,25 +73,12 @@ public class SuiteHeaderAppPicker extends StandardButton {
 		}
 		int buttonRight = appPickerPanel.getAbsoluteLeft() + appPickerPanel.getOffsetWidth();
 		int buttonsLeft = GlobalHeader.getButtonElement().getAbsoluteLeft();
-		final Style style = appPickerPanel.getElement().getStyle();
+		final Style style = appPickerPanel.getStyle();
 		if (buttonsLeft < buttonRight) {
 			style.setProperty("visibility", "hidden");
 			suitePopup.hide();
 		} else {
 			style.setProperty("visibility", "visible");
 		}
-	}
-
-	/**
-	 * @param icon
-	 *            - image of button
-	 * @param appNameKey
-	 *            - text of button
-	 * @param app
-	 * 			  - see {@link AppWFull}
-	 */
-	public void updateSuiteHeaderButton(ResourcePrototype icon, String appNameKey, AppWFull app) {
-		setIconAndLabel(icon, appNameKey, app);
-		checkButtonVisibility();
 	}
 }
