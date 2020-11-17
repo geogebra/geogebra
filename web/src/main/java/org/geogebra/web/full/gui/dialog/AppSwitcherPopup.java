@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.Label;
 public class AppSwitcherPopup extends GPopupPanel {
 
 	SuiteHeaderAppPicker appPickerButton;
-
 	private final static int X_COORDINATE_OFFSET = 8;
 
 	/**
@@ -39,7 +38,7 @@ public class AppSwitcherPopup extends GPopupPanel {
 	}
 
 	/**
-	 * Show the popup
+	 * Show/hide popup on appSwitcher btn click
 	 */
 	public void showPopup() {
 		if (isShowing()) {

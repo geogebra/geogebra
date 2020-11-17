@@ -11,9 +11,10 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.aria.client.Roles;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
 
 public class SuiteHeaderAppPicker extends StandardButton {
 
@@ -32,7 +33,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 
 	private void createAppPickerButton(AppW app) {
 		setIconAndLabel(GeoGebraConstants.GRAPHING_APPCODE);
-		addStyleName("suiteAppPickerButton");
+		setStyleName("suiteAppPickerButton");
 		suitePopup = new AppSwitcherPopup((AppWFull) app, this);
 		addFastClickHandler(event -> suitePopup.showPopup());
 	}
@@ -53,10 +54,10 @@ public class SuiteHeaderAppPicker extends StandardButton {
 		this.getElement().appendChild(btnImage.getElement());
 		this.getElement().appendChild(btnLabel.getElement());
 
-		NoDragImage secondImg =
+		NoDragImage dropDownImg =
 				new NoDragImage(MaterialDesignResources.INSTANCE.arrow_drop_down(), 24);
-		secondImg.setStyleName("btnSecondIcon");
-		this.getElement().appendChild(secondImg.getElement());
+		dropDownImg.setStyleName("dropDownImg");
+		this.getElement().appendChild(dropDownImg.getElement());
 		btnImage.setPresentation();
 
 		Roles.getButtonRole().removeAriaPressedState(getElement());
@@ -66,12 +67,16 @@ public class SuiteHeaderAppPicker extends StandardButton {
 	 * sets the button visibility depending on overlapping of divs
 	 */
 	public void checkButtonVisibility() {
-		final RootPanel appPickerPanel = RootPanel.get("suiteAppPicker");
+		final Element appPickerPanel =  Document.get().getElementById("suiteAppPicker");
+		if (appPickerPanel == null) {
+			return;
+		}
 		int buttonRight = appPickerPanel.getAbsoluteLeft() + appPickerPanel.getOffsetWidth();
 		int buttonsLeft = GlobalHeader.getButtonElement().getAbsoluteLeft();
-		final Style style = appPickerPanel.getElement().getStyle();
+		final Style style = appPickerPanel.getStyle();
 		if (buttonsLeft < buttonRight) {
 			style.setProperty("visibility", "hidden");
+			suitePopup.hide();
 		} else {
 			style.setProperty("visibility", "visible");
 		}

@@ -36,22 +36,15 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 		title.addStyleName("title");
 		contentPanel.add(title);
 
-		StandardButton btnGraphing = buildCalcButton(GeoGebraConstants.GRAPHING_APPCODE);
-		contentPanel.add(btnGraphing);
-
-		StandardButton btn3D = buildCalcButton(GeoGebraConstants.G3D_APPCODE);
-		contentPanel.add(btn3D);
-
-		StandardButton btnGeometry = buildCalcButton(GeoGebraConstants.GEOMETRY_APPCODE);
-		contentPanel.add(btnGeometry);
-
-		StandardButton btnCAS = buildCalcButton(GeoGebraConstants.CAS_APPCODE);
-		contentPanel.add(btnCAS);
+		buildAndAddCalcButton(GeoGebraConstants.GRAPHING_APPCODE, contentPanel);
+		buildAndAddCalcButton(GeoGebraConstants.G3D_APPCODE, contentPanel);
+		buildAndAddCalcButton(GeoGebraConstants.GEOMETRY_APPCODE, contentPanel);
+		buildAndAddCalcButton(GeoGebraConstants.CAS_APPCODE, contentPanel);
 
 		add(contentPanel);
 	}
 
-	private StandardButton buildCalcButton(String subAppCode) {
+	private void buildAndAddCalcButton(String subAppCode, FlowPanel contentPanel) {
 		AppDescription description = AppDescription.get(subAppCode) ;
 		String appNameKey = description.getNameKey();
 		StandardButton button =  new StandardButton(app, 72, description.getIcon(),
@@ -66,7 +59,8 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 			((AppWFull) app).setSuiteHeaderButton(subAppCode);
 			((AppWFull) app).switchToSubapp(subAppCode);
 		});
-		return button;
+
+		contentPanel.add(button);
 	}
 
 	@Override
