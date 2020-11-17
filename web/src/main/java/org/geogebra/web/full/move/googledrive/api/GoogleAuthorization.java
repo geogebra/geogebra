@@ -1,6 +1,9 @@
 package org.geogebra.web.full.move.googledrive.api;
 
-import jsinterop.annotations.JsFunction;
+import org.geogebra.common.util.InjectJsInterop;
+import org.geogebra.web.html5.util.JsConsumer;
+
+import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 import jsinterop.base.JsPropertyMap;
 
@@ -9,17 +12,12 @@ public class GoogleAuthorization {
 
 	public native Response getToken();
 
-	@JsType(isNative = true)
+	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
 	public static class Response {
-		public String access_token;
-		public String error;
-		public String details;
+		@InjectJsInterop public String access_token;
+		@InjectJsInterop public String error;
+		@InjectJsInterop public String details;
 	}
 
-	@JsFunction
-	public interface AuthorizeCallbackFunction {
-		void callback(Response response);
-	}
-
-	public native void authorize(JsPropertyMap<Object> config, AuthorizeCallbackFunction callback);
+	public native void authorize(JsPropertyMap<Object> config, JsConsumer<Response> callback);
 }

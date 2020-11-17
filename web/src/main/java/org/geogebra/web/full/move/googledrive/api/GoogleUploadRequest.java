@@ -1,5 +1,6 @@
 package org.geogebra.web.full.move.googledrive.api;
 
+import org.geogebra.common.util.InjectJsInterop;
 import org.geogebra.web.html5.util.JsConsumer;
 
 import jsinterop.annotations.JsPackage;
@@ -12,8 +13,8 @@ public class GoogleUploadRequest {
 
 	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
 	public static class FileRequestResponseType {
-		public String error;
-		public String id;
-		public String title;
+		@InjectJsInterop public String error;
+		@InjectJsInterop public String id;
+		@InjectJsInterop public String title;
 	}
 }

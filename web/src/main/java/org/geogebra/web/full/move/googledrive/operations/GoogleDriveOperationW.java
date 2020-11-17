@@ -1,9 +1,6 @@
 package org.geogebra.web.full.move.googledrive.operations;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.move.events.BaseEvent;
-import org.geogebra.common.move.ggtapi.events.LogOutEvent;
-import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.operations.BaseOperation;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.StringUtil;
@@ -16,7 +13,6 @@ import org.geogebra.web.full.move.googledrive.api.GooglePicker;
 import org.geogebra.web.full.move.googledrive.api.GooglePickerBuilder;
 import org.geogebra.web.full.move.googledrive.api.GoogleUploadRequest;
 import org.geogebra.web.full.move.googledrive.api.GoogleViewId;
-import org.geogebra.web.full.move.googledrive.models.GoogleDriveModelW;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.full.util.SaveCallback.SaveState;
 import org.geogebra.web.html5.Browser;
@@ -43,8 +39,8 @@ import jsinterop.base.JsPropertyMap;
  * Operational class for Google Drive Api
  */
 public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
-        implements EventRenderable, GoogleDriveOperation {
-	private final GoogleDriveModelW model;
+        implements GoogleDriveOperation {
+
 	private static final String GoogleApiJavaScriptSrc = "https://apis.google.com/js/client.js?onload=GGW_loadGoogleDrive";
 	private AppW app;
 	private boolean loggedIn;
@@ -65,10 +61,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	 */
 	public GoogleDriveOperationW(AppW app) {
 		this.app = app;
-		model = new GoogleDriveModelW();
-
-		app.getLoginOperation().getView().add(this);
-		getView().add(this);
 	}
 
 	/**
@@ -78,17 +70,13 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		return driveBase64FileName;
 	}
 
-	public GoogleDriveModelW getModel() {
-		return model;
-	}
-
 	/**
 	 * Go for the google drive url, and fetch the script
 	 */
 	@Override
 	public void initGoogleDriveApi() {
 		if (!inited) {
-			GoogleApi.GGW_loadGoogleDrive = this::loadGoogleDrive;
+			GoogleApi.setOnloadCallback(this::loadGoogleDrive);
 			fetchScript();
 			inited = true;
 		}
@@ -140,8 +128,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 			this.loggedIn = false;
 			if ("open".equals(getAction())) {
 				login(false);
-			} else if (getModel().lastLoggedInFromGoogleDrive()) {
-				login(false);
 			}
 		} else {
 			this.loggedIn = true;
@@ -171,24 +157,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 					loadFromGoogleFile(file.name, file.id);
 				}).build();
 		picker.setVisible(true);
-	}
-
-	@Override
-	public void renderEvent(BaseEvent event) {
-		if (event instanceof LoginEvent) {
-			if (((LoginEvent) event).isSuccessful()) {
-				if (!app.getLoginOperation().getModel().getLoggedInUser()
-				        .hasGoogleDrive()) {
-					getModel().setLoggedInFromGoogleDrive(false);
-				}
-			} else {
-				logOut();
-			}
-			return;
-		}
-		if (event instanceof LogOutEvent) {
-			logOut();
-		}
 	}
 
 	private void checkIfFileMustbeOpenedFromGoogleDrive() {
@@ -273,14 +241,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		}
 
 		driveBase64FileName = fName;
-	}
-
-	/**
-	 * logs out from Google Drive (this means, removes the possibilities to
-	 * interact with Google Drive)
-	 */
-	public void logOut() {
-		getModel().setLoggedInFromGoogleDrive(false);
 	}
 
 	/**

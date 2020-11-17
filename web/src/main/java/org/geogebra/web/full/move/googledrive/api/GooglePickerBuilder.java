@@ -1,5 +1,6 @@
 package org.geogebra.web.full.move.googledrive.api;
 
+import org.geogebra.common.util.InjectJsInterop;
 import org.geogebra.web.html5.util.JsConsumer;
 
 import elemental2.core.JsArray;
@@ -19,7 +20,7 @@ public class GooglePickerBuilder {
 
 	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
 	public static class PickerCallbackParam {
-		public String action;
-		public JsArray<GoogleDriveDocument> docs;
+		@InjectJsInterop public String action;
+		@InjectJsInterop public JsArray<GoogleDriveDocument> docs;
 	}
 }
