@@ -1397,4 +1397,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		a = undoRedo.getAfterUndo("a");
 		assertThat(a.getDefinitionForInputBar(), is("a = 3"));
 	}
+
+	@Test
+	public void testNestedFunction() {
+		add("f(x)=1+7*e^(-0.2x)");
+		GeoSymbolic nestedFunction = add("r(s)=s*(f(s)-1)");
+		assertThat(nestedFunction.getTwinGeo(), instanceOf(GeoFunction.class));
+	}
 }
