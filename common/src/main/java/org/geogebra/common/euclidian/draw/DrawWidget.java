@@ -16,7 +16,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.RectangleTransformable;
 
-public abstract class DrawWidget extends Drawable {
+public abstract class DrawWidget extends Drawable implements HasTransformation {
 
 	private final TransformableRectangle rectangle;
 
@@ -115,6 +115,7 @@ public abstract class DrawWidget extends Drawable {
 
 	public abstract void setBackground(boolean b);
 
+	@Override
 	public GAffineTransform getTransform() {
 		return rectangle.getDirectTransform();
 	}

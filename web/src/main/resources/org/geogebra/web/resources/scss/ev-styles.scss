@@ -782,12 +782,12 @@
 	.tooltipChip {
 		position: absolute;
 		display: inline-flex;
-		padding: 7px 12px;
+		padding: 2px 4px;
 		border-radius: 16px;
+		font-size: 12px;
 		align-items: center;
 		cursor: default;
-		min-height: 32px;
-		height: 1px;
+		height: 18px;
 		box-sizing: border-box;
 		z-index: $z-on-top-of-graphics;
 	}

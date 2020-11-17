@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -312,7 +313,7 @@ public class ModeShape {
 			GeoSegment segment = algo.getSegment();
 			segment.setLabelVisible(false);
 			segment.setIsShape(true);
-			segment.updateRepaint();
+			segment.updateVisualStyle(GProperty.COMBINED);
 			view.setShapeLine(null);
 			view.repaintView();
 			wasDragged = false;

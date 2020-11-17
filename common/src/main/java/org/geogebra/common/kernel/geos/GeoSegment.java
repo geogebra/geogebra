@@ -214,6 +214,7 @@ final public class GeoSegment extends GeoLine
 		if (geo.isGeoSegment()) {
 			GeoSegmentND seg = (GeoSegmentND) geo;
 			allowOutlyingIntersections = seg.allowOutlyingIntersections();
+			isShape = isShape || geo.isShape();
 		}
 	}
 
