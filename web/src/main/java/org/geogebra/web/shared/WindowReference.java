@@ -111,10 +111,7 @@ public final class WindowReference implements EventRenderable {
 	 * @return the closed state of the
 	 */
 	public boolean closed() {
-		if (wnd != null) {
-			return wnd.closed;
-		}
-		return false;
+		return wnd != null && wnd.closed;
 	}
 
 	@Override

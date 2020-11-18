@@ -3,9 +3,7 @@ package org.geogebra.web.shared.ggtapi;
 import com.google.gwt.core.client.GWT;
 
 /**
- * @author gabor
- *
- *         BaseURL for handling url based operations
+ * Provides absolute URLs of static files
  */
 public final class StaticFileUrls {
 

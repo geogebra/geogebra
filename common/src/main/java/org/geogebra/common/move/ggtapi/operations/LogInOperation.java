@@ -140,7 +140,7 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 		String apiURL = getGeoGebraTubeAPI().getLoginUrl()
 				.replace("http://", "").replace("https://", "");
 		apiURL = apiURL.substring(0, apiURL.indexOf('/'));
-		String url = "https://" + apiURL + "/user/signin" + "/caller/"
+		String url = "https://" + apiURL + "/user/signin/caller/"
 				+ getURLLoginCaller() + "/expiration/"
 				+ getURLTokenExpirationMinutes() + "/clientinfo/"
 				+ getURLClientInfo() + "/?lang=" + languageCode;

@@ -37,10 +37,9 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 
 /**
- * @author gabor
- * 
- *         Superclass for ContextMenuGeoElements in Web and Desktop
+ * Superclass for ContextMenuGeoElements in Web and Desktop
  *
+ * @author gabor
  */
 public abstract class ContextMenuGeoElement {
 
