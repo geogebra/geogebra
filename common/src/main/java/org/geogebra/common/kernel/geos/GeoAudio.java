@@ -122,7 +122,7 @@ public class GeoAudio extends GeoMedia {
 		if (!hasSoundManager()) {
 			return -1;
 		}
-		return app.getSoundManager().getDuration(src);
+		return app.getSoundManager().getDuration(this);
 	}
 
 	@Override
@@ -130,7 +130,7 @@ public class GeoAudio extends GeoMedia {
 		if (!hasSoundManager()) {
 			return -1;
 		}
-		return app.getSoundManager().getCurrentTime(src);
+		return app.getSoundManager().getCurrentTime(this);
 	}
 
 	@Override
@@ -138,7 +138,7 @@ public class GeoAudio extends GeoMedia {
 		if (!hasSoundManager()) {
 			return;
 		}
-		app.getSoundManager().setCurrentTime(src, secs);
+		app.getSoundManager().setCurrentTime(this, secs);
 	}
 
 	/**
