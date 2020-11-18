@@ -3502,6 +3502,7 @@ __GGB__keysVar["hr"].menu = {
     "ymin": "y min",
     "ystep": "y razmak",
     "zAxis": "zOs",
+    "zmin": "z Min",
 };
 
 

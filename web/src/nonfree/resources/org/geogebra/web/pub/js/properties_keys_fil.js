@@ -3502,6 +3502,7 @@ __GGB__keysVar["fil"].menu = {
     "ymin": "Y Min",
     "ystep": "Y Step",
     "zAxis": "zAksis",
+    "zmin": "z Min",
 };
 
 

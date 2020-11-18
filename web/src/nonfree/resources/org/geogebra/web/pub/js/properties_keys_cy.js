@@ -3502,6 +3502,7 @@ __GGB__keysVar["cy"].menu = {
     "ymin": "MinY",
     "ystep": "Cynyddiad Y",
     "zAxis": "zAxis",
+    "zmin": "z Min",
 };
 
 

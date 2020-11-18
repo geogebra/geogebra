@@ -3502,6 +3502,7 @@ __GGB__keysVar["bg"].menu = {
     "ymin": "\u041c\u0438\u043d\u0438\u043c\u0430\u043b\u043d\u043e y",
     "ystep": "\u0421\u0442\u044a\u043f\u043a\u0430 Y",
     "zAxis": "\u041e\u0441 z",
+    "zmin": "z Min",
 };
 
 

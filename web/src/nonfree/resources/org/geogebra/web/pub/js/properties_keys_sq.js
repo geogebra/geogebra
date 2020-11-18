@@ -3502,6 +3502,7 @@ __GGB__keysVar["sq"].menu = {
     "ymin": "y-min",
     "ystep": "Y Shkalle",
     "zAxis": "zBosht",
+    "zmin": "z Min",
 };
 
 

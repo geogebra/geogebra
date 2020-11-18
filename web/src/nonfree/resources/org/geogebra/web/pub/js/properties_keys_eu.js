@@ -3502,6 +3502,7 @@ __GGB__keysVar["eu"].menu = {
     "ymin": "ymin",
     "ystep": "Y Pausoa",
     "zAxis": "zArdatza",
+    "zmin": "z Min",
 };
 
 
