@@ -288,6 +288,8 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdSVD(kernel);
 		case IsVertexForm:
 			return new CmdIsVertexForm(kernel);
+		case ReplaceAll:
+			return new CmdReplaceAll(kernel);
 		default:
 			break;
 		}

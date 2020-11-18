@@ -222,6 +222,10 @@ public enum Commands implements CommandsConstants,
 
 	ContinuedFraction(TABLE_TEXT),
 
+	ReplaceAll(TABLE_TEXT),
+
+	Split(TABLE_TEXT),
+
 	// =============================================================
 	// logical
 	// =============================================================

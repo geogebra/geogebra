@@ -438,6 +438,8 @@ public abstract class CommandDispatcher {
 			case ScientificText:
 			case VerticalText:
 			case RotateText:
+			case ReplaceAll:
+			case Split:
 			case Ordinal:
 			case Parameter:
 			case Incircle:
