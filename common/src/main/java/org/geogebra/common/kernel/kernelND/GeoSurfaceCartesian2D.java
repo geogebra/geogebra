@@ -86,7 +86,6 @@ public class GeoSurfaceCartesian2D extends GeoSurfaceCartesianND {
 
 	@Override
 	protected boolean showInEuclidianView() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -99,7 +98,9 @@ public class GeoSurfaceCartesian2D extends GeoSurfaceCartesianND {
 	@Override
 	public ExpressionValue evaluateSurface(double u, double v) {
 		double[] tmp = { u, v };
-
+		if (fun == null) {
+			return new GeoVec2D(kernel, Double.NaN, Double.NaN);
+		}
 		GeoVec2D ret = new GeoVec2D(kernel, fun[0].evaluate(tmp), fun[1].evaluate(tmp));
 		if (complexVariable != null) {
 			ret.setMode(Kernel.COORD_COMPLEX);

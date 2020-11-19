@@ -640,6 +640,8 @@ public class AlgebraProcessor {
 				} else {
 					n.setForceFunction();
 				}
+			} else if (geo.isGeoSurfaceCartesian()) {
+				n.setForceSurfaceCartesian();
 			}
 		}
 		if (newValue.unwrap() instanceof Equation) {
