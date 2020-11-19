@@ -40,10 +40,9 @@ public class AlgoSplit extends AlgoElement {
 
 	@Override
 	public void compute() {
-		String inputStr = inputText.getTextString();
-		ArrayList<String> results = new ArrayList<>();
 		outputList.clear();
-		results.add(inputStr);
+		ArrayList<String> results = new ArrayList<>();
+		results.add(inputText.getTextString());
 
 		for (int i = 0; i < splitList.size(); i++) {
 			results = split(results, ((GeoText) splitList.get(i)).getTextString());
@@ -58,7 +57,7 @@ public class AlgoSplit extends AlgoElement {
 	private ArrayList<String> split(ArrayList<String> inputs, String splitStr) {
 		ArrayList<String> results = new ArrayList<>();
 
-		for(String inputElem : inputs) {
+		for (String inputElem : inputs) {
 			String[] splitResult = inputElem.split(splitStr);
 			for (int j = 0; j < splitResult.length; j++) {
 				if (splitResult[j] != null && !splitResult[j].isEmpty()) {

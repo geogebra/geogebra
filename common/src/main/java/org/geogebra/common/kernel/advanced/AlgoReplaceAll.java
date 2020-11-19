@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.advanced;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
@@ -39,6 +41,7 @@ public class AlgoReplaceAll extends AlgoElement {
 		setDependencies();
 	}
 
+	@CheckForNull
 	@Override
 	public void compute() {
 		String inputStr = inputText.getTextString();
