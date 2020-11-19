@@ -167,8 +167,6 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_FITLINE);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_LOCUS);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_EVALUATE_TORSION);
 
 		// polygon
 		sb.append(" | ");
