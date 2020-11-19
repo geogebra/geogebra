@@ -13,9 +13,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Curvature[&lt;Point>,&lt;Curve>], Curvature[&lt;Point>,&lt;Function>]
+ * Torsion[&lt;Point>,&lt;Curve>], Torsion[&lt;Point>,&lt;Function>]
  *
- * @author Victor Franco Espino
+ * @author James471, SayarGitHub, AbbyDabby246, ThatFarziGamer
  */
 public class CmdTorsion extends CommandProcessor {
 	/**
