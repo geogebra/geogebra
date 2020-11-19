@@ -114,4 +114,23 @@ import org.geogebra.common.util.debug.Log;
 				return IntervalConstants.empty();
 			}
 		}
+
+	/**
+	 *
+	 * @param function to examine.
+	 * @return if x variable occurs more, than once in expression tree of the function.
+	 */
+	public static boolean hasMoreX(GeoFunction function) {
+		ExpressionNode expression = function.getFunctionExpression();
+		if (expression == null) {
+			return false;
+		}
+
+		return containsX(expression.getLeftTree())
+				&& containsX(expression.getRightTree());
+	}
+
+	private static boolean containsX(ExpressionNode node) {
+		return node != null && node.containsFreeFunctionVariable("x");
+	}
 }

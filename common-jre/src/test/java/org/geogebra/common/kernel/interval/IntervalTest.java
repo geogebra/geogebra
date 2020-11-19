@@ -60,7 +60,7 @@ public class IntervalTest {
 
 	@Test
 	public void testWholeIsNotSingleton() {
-		assertFalse(IntervalConstants.WHOLE.isSingleton());
+		assertFalse(IntervalConstants.whole().isSingleton());
 	}
 
 	@Test

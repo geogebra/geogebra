@@ -3,6 +3,8 @@ package org.geogebra.common.kernel.interval;
 import static java.lang.Math.PI;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.shouldEqual;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -32,5 +34,15 @@ public class IntervalFunctionTest extends BaseUnitTest {
 		IntervalFunction function = new IntervalFunction(geo);
 		shouldEqual(interval(-1, 1),
 				function.evaluate(interval(-PI, PI)));
+	}
+
+	@Test
+	public void testDependencyProblem() {
+		assertTrue(IntervalFunction.hasMoreX(add("x^2 + x")));
+		assertTrue(IntervalFunction.hasMoreX(add("abs(x)/x")));
+		assertTrue(IntervalFunction.hasMoreX(add("(1/x)sin(x)")));
+		assertFalse(IntervalFunction.hasMoreX(add("sin(x^4)")));
+		assertFalse(IntervalFunction.hasMoreX(add("tan(x)/2")));
+		assertFalse(IntervalFunction.hasMoreX(add("x+3")));
 	}
 }
