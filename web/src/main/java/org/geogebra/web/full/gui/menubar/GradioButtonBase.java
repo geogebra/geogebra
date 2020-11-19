@@ -1,13 +1,13 @@
 package org.geogebra.web.full.gui.menubar;
 
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RadioButton;
 
 /**
+ * Radio button widget for the RadioButton menu
+ *
  * @author gabor
- * radiobutton base for the RadioButton menu
  */
 public class GradioButtonBase {
 
@@ -40,19 +40,8 @@ public class GradioButtonBase {
 	/**
 	 * @return gets the safe html of the menuitem
 	 */
-	public SafeHtml getSafeHtml() {
-		return new SafeHtml() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public String asString() {
-				return itemPanel.getElement().getInnerHTML();
-			}
-		};
+	public String getSafeHtmlString() {
+		return itemPanel.getElement().getInnerHTML();
 	}
 
 	/**

@@ -6,10 +6,9 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 
 /**
- * @author gabor
- * 
  * Menu type for radiobutton things.
  *
+ * @author gabor
  */
 public class GRadioButtonMenuItem extends AriaMenuItem {
 	/** wrapped radio button */
@@ -25,7 +24,7 @@ public class GRadioButtonMenuItem extends AriaMenuItem {
 	}
 	
 	private GRadioButtonMenuItem(GradioButtonBase gradio) {
-		super(gradio.getSafeHtml().asString(), true, (ScheduledCommand) null);
+		super(gradio.getSafeHtmlString(), true, (ScheduledCommand) null);
 	   base = gradio;
 	}
 
@@ -36,7 +35,7 @@ public class GRadioButtonMenuItem extends AriaMenuItem {
 	 */
 	public void setSelected(boolean sel) {
 		base.radio.setValue(sel);
-		setHTML(base.getSafeHtml().asString());
+		setHTML(base.getSafeHtmlString());
 	}
 
 	/**
@@ -47,7 +46,7 @@ public class GRadioButtonMenuItem extends AriaMenuItem {
 	public void addValueChangeHandler(ValueChangeHandler<Boolean> al) {
 	    base.radio.addValueChangeHandler(al);
     }
-	
+
 	/**
 	 * @return the action command
 	 */

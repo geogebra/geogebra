@@ -3,10 +3,9 @@ package org.geogebra.common.gui.view.probcalculator;
 import org.geogebra.common.main.Localization;
 
 /**
- * @author gabor
- * 
- *         common superclass for ChiSquarePanel
+ * Common superclass for ChiSquarePanel
  *
+ * @author gabor
  */
 public abstract class ChiSquarePanel {
 
