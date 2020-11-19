@@ -54,7 +54,6 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 
 	private void initGUI() {
 		inputWidget = new SimplePanel();
-		resetVideo();
 		add(inputWidget);
 	}
 
@@ -212,6 +211,7 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 				|| "NotAllowedError".equals(errName)
 				|| isElectronMac
 				&& "TrackStartError".equals(errName)) {
+			// permission denied by user
 			showPermissionDeniedDialog();
 		} else if ("NotFoundError".equals(errName)
 				|| "DevicesNotFoundError".equals(errName)
@@ -220,7 +220,6 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 				|| "SourceUnavailableError".equals(errName)
 				|| "Error".equals(errName)) {
 			showErrorDialog();
-			// permission denied by user
 		}
 		Log.debug("Error from WebCam: " + errName);
 	}
