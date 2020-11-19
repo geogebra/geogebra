@@ -660,7 +660,9 @@ public class CommandsTest {
 
 	@Test
 	public void cmdExtremum() {
-		// tests implemented in AlgoExtremumMultiTest and in GeoSymbolicTest.testExtremum()
+		tRound("Extremum[ sin(x), 1, 7 ]",
+				new String[] { "(1.5708, 1)", "(4.71239, -1)" });
+		tRound("Extremum[ x^3-3x ]", new String[] { "(-1, 2)", "(1, -2)" });
 		// TODO t("Extremum((x^2-4)/(x-2),-9,9)", "(NaN, NaN)");
 	}
 
