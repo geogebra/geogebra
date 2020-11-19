@@ -3540,16 +3540,37 @@ public class AlgoDispatcher {
 		return (GeoElement) centroid;
 	}
 
+	/**
+	  * @param A
+	 *            point on function
+	 * @param gc
+	 * 			  conic
+	 * @return Curve's Torsion
+	 */
 	final public GeoNumeric torsion(GeoPoint A, GeoConic gc) {
 		AlgoTorsion algoTorsion = new AlgoTorsion(cons, null, A, gc);
 		return algoTorsion.getResult();
 	}
 
+	/**
+	  * @param A
+	 *            point on function
+	 * @param f
+	 * 			 function
+	 * @return Curve's Torsion
+	 */
 	final public GeoNumeric torsion(GeoPointND A, GeoCurveCartesian f) {
 		AlgoTorsion algoTorsion = new AlgoTorsion(cons, null, A, f);
 		return algoTorsion.getResult();
 	}
 
+	/**
+	 * @param A
+	 *            point on function
+	 * @param f
+	 * 			 function
+	 * @return Curve's Torsion
+	 */
 	final public GeoNumeric torsion(GeoPointND A, GeoCurveCartesian3D f) {
 		AlgoTorsion algoTorsion = new AlgoTorsion(cons, null, A, f);
 		return algoTorsion.getResult();

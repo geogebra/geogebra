@@ -66,6 +66,11 @@ public interface ParametricCurve extends Traceable, Path, CurveEvaluable {
 	 */
 	double evaluateCurvature(double t);
 
+	/**
+	 * @param t
+	 *            parameter value
+	 * @return torsion at given parameter
+	 */
 	double evaluateTorsion(double t);
 
 	/**

@@ -37,6 +37,15 @@ public interface GeoCurveCartesian3DInterface {
 	 */
 	public double evaluateCurvature(double t);
 
+	/**
+	 * return curvature at parameter x and y
+	 * 
+	 * @param x
+	 *            parameter
+	 * @param y
+	 * 			  parameter
+	 * @return curvature at parameter x and y
+	 */
 	public double evaluateTorsion(double x, double y);
 
 }
