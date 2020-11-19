@@ -657,6 +657,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 		return (f1eval[0] * f2eval[1] - f2eval[0] * f1eval[1]) / t3;
 	}
 
+	/**
+	 * returns torsion of a 2D curve as a zero. 
+	 */
 	@Override
 	public double evaluateTorsion(double t) {
 		return 0;

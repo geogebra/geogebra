@@ -11,10 +11,10 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * @author Victor Franco Espino, Markus Hohenwarter
- * @version 11-02-2007
+ * @author James471, SayarGitHub, AbbyDabby246, ThatFarziGamer
+ * @version 20-11-2020
  *
- *          Calculate Curvature for function:
+ *          Calculate Torsion for function:
  */
 
 public class AlgoTorsion extends AlgoElement {
@@ -132,7 +132,7 @@ public class AlgoTorsion extends AlgoElement {
 	}
 
 	/**
-	 * @return curvature
+	 * @return torsion
 	 */
 	public GeoNumeric getResult() {
 		return K;

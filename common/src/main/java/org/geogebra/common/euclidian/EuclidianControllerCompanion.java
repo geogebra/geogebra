@@ -150,10 +150,24 @@ public class EuclidianControllerCompanion {
 		return ec.getAlgoDispatcher().mirror(null, geo, (GeoPoint) point);
 	}
 
+	/**
+	 * @param point
+	 *            point on function
+	 * @param geo
+	 *            function
+	 * @return torsion at the point
+	 */
 	protected GeoNumeric torsion(GeoPointND point, GeoCurveCartesian geo) {
 		return ec.getAlgoDispatcher().torsion(point, geo);
 	}
 
+	/**
+	 * @param point
+	 *            point on function
+	 * @param geo
+	 *            function
+	 * @return torsion at the point
+	 */
 	protected GeoNumeric torsion(GeoPointND point, GeoCurveCartesian3D geo) {
 		return ec.getAlgoDispatcher().torsion(point, geo);
 	}

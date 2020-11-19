@@ -1433,6 +1433,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return f2.value(x) / t3;
 	}
 
+	/**
+	 * Returns torsion of a level curve as non existent.
+	 * 
+	 * @author James471, SayarGitHub, AbbyDabby246, ThatFarziGamer
+	 */
 	@Override
 	public  double evaluateTorsion(double t) {
 		return Double.NaN;
