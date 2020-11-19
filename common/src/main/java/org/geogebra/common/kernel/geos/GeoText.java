@@ -1566,4 +1566,17 @@ public class GeoText extends GeoElement
 	public GeoNumeric getVerticalAlignment() {
 		return verticalAlignment;
 	}
+
+	public String getEscapedSpecialCharsString() {
+		StringBuilder b = new StringBuilder();
+		for(int i = 0; i < getTextString().length(); ++i) {
+			char ch = getTextString().charAt(i);
+			if ("\\.^$|?*+[]{}()".indexOf(ch) != -1) {
+				b.append('\\').append(ch);
+			} else {
+				b.append(ch);
+			}
+		}
+		return b.toString();
+	}
 }

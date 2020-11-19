@@ -24,16 +24,17 @@ public class CmdSplit extends CommandProcessor {
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c);
+		boolean[] ok = new boolean[n];
 
 		if (n == 2) {
-			if (arg[0] instanceof GeoText && arg[1] instanceof GeoList
-					&& ((GeoList) arg[1]).getElementType() == GeoClass.TEXT) {
+			if ((ok[0] = arg[0].isGeoText()) && (ok[1] = arg[1].isGeoList()
+					&& ((GeoList) arg[1]).getElementType() == GeoClass.TEXT)) {
 				AlgoSplit algo = new AlgoSplit(cons, (GeoText) arg[0],
 						(GeoList) arg[1]);
 				algo.getOutput(0).setLabel(c.getLabel());
 				return new GeoElement[]{algo.getOutput(0)};
 			}
-			throw argErr(c, arg[0]);
+			throw argErr(c, getBadArg(ok, arg));
 		}
 		throw argNumErr(c);
 	}

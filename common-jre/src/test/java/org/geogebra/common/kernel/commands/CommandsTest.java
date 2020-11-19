@@ -1889,5 +1889,7 @@ public class CommandsTest {
 	@Test
 	public void cmdReplaceAll() {
 		t("ReplaceAll(\"3cos(t)+cos(2y)\", \"cos\", \"sin\") ", "3sin(t)+sin(2y)");
+		t("ReplaceAll(\"3cos(t)+cos(2y)\", \"(\", \"[\") ", "3cos[t)+cos[2y)");
+		t("ReplaceAll(\"3cos(t)\", \"\", \"*\") ", "*3*c*o*s*(*t*)*");
 	}
 }

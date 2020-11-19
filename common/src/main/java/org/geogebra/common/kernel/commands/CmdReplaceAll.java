@@ -22,16 +22,18 @@ public class CmdReplaceAll extends CommandProcessor {
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c);
+		boolean[] ok = new boolean[n];
 
 		if (n == 3) {
-			if (arg[0] instanceof GeoText && arg[1] instanceof GeoText
-					&& arg[2] instanceof GeoText) {
+			if ((ok[0] = arg[0].isGeoText())
+					&& (ok[1] = arg[1].isGeoText())
+					&& (ok[2] = arg[2].isGeoText())) {
 				AlgoReplaceAll algo = new AlgoReplaceAll(cons, (GeoText) arg[0],
 						(GeoText) arg[1], (GeoText) arg[2]);
 				algo.getOutput(0).setLabel(c.getLabel());
 				return new GeoElement[]{algo.getOutput(0)};
 			}
-			throw argErr(c, arg[0]);
+			throw argErr(c, getBadArg(ok, arg));
 		}
 		throw argNumErr(c);
 	}

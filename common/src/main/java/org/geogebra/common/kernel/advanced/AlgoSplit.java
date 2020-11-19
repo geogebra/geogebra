@@ -45,8 +45,7 @@ public class AlgoSplit extends AlgoElement {
 		results.add(inputText.getTextString());
 
 		for (int i = 0; i < splitList.size(); i++) {
-			String regex = handleEscapingSpecialChars(((GeoText) splitList.get(i))
-					.getTextString());
+			String regex = ((GeoText) splitList.get(i)).getEscapedSpecialCharsString();
 			results = split(results, regex);
 		}
 
@@ -68,19 +67,6 @@ public class AlgoSplit extends AlgoElement {
 			}
 		}
 		return results;
-	}
-
-	private String handleEscapingSpecialChars(String s) {
-		StringBuilder b = new StringBuilder();
-		for(int i=0; i<s.length(); ++i) {
-			char ch = s.charAt(i);
-			if ("\\.^$|?*+[]{}()".indexOf(ch) != -1) {
-				b.append('\\').append(ch);
-			} else {
-				b.append(ch);
-			}
-		}
-		return b.toString();
 	}
 
 	@Override
