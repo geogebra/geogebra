@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.kernel.interval.IntervalFunction;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -106,7 +107,12 @@ public class DrawParametricCurve extends Drawable {
 	private void createIntervalPlotter() {
 		intervalPlotter = new IntervalPlotter(view, gp);
 		if (this.geo != null && this.geo.isGeoFunction()) {
-			intervalPlotter.enableFor((GeoFunction) geo);
+			GeoFunction function = (GeoFunction) this.geo;
+			if (IntervalFunction.hasMoreX(function)) {
+				intervalPlotter.disable();
+			} else {
+				intervalPlotter.enableFor(function);
+			}
 		}
 	}
 
