@@ -1567,14 +1567,21 @@ public class GeoText extends GeoElement
 		return verticalAlignment;
 	}
 
+	/**
+	 *
+	 * @return original string with extra \ in order to escape special characters
+	 * 		e.g. "cos(x)" will return "cos\\(x\\)"
+	 */
 	public String getEscapedSpecialCharsString() {
 		StringBuilder b = new StringBuilder();
-		for(int i = 0; i < getTextString().length(); ++i) {
-			char ch = getTextString().charAt(i);
-			if ("\\.^$|?*+[]{}()".indexOf(ch) != -1) {
-				b.append('\\').append(ch);
-			} else {
-				b.append(ch);
+		if (getTextString() != null) {
+			for (int i = 0; i < getTextString().length(); ++i) {
+				char ch = getTextString().charAt(i);
+				if ("\\.^$|?*+[]{}()".indexOf(ch) != -1) {
+					b.append('\\').append(ch);
+				} else {
+					b.append(ch);
+				}
 			}
 		}
 		return b.toString();
