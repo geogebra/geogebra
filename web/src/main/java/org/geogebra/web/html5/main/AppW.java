@@ -1223,6 +1223,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return whether file is valid
 	 */
 	public boolean openFile(File fileToHandle) {
+		if (getLAF().supportsLocalSave()) {
+			getFileManager().setFileProvider(Provider.LOCAL);
+		}
 		resetPerspectiveParam();
 		resetUrl();
 		return doOpenFile(fileToHandle, null);

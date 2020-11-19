@@ -261,11 +261,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	@Override
 	public void openFile(final File fileToHandle) {
 		showLoading();
-		if (app.getLAF().supportsLocalSave()) {
-			app.getFileManager().setFileProvider(Provider.LOCAL);
-		}
-
-		app.getGuiManager().getBrowseView().closeAndSave(obj -> app.openFile(fileToHandle));
+		closeAndSave(success -> app.openFile(fileToHandle));
 	}
 
 	/**

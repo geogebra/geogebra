@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.menubar;
 
-import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -10,7 +9,7 @@ import com.google.gwt.user.client.ui.FileUpload;
 import elemental2.dom.File;
 
 public class FileChooser extends FileUpload implements ChangeHandler {
-	private BrowseGUI bg;
+	private AppW app;
 
 	/**
 	 * Constructor
@@ -18,7 +17,7 @@ public class FileChooser extends FileUpload implements ChangeHandler {
 	 */
 	public FileChooser(AppW app) {
 		super();
-		bg = new BrowseGUI(app, this);
+		this.app = app;
 		addChangeHandler(this);
 		getElement().setAttribute("accept", ".ggs");
 	}
@@ -29,7 +28,8 @@ public class FileChooser extends FileUpload implements ChangeHandler {
 
 	@Override
 	public void onChange(ChangeEvent event) {
-		bg.openFile(getSelectedFile());
+		File selectedFile = getSelectedFile();
+		app.checkSaved(success -> app.openFile(selectedFile));
 		this.removeFromParent();
 	}
 
