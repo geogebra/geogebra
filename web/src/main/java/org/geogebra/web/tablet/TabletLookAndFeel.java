@@ -109,4 +109,8 @@ public class TabletLookAndFeel extends GLookAndFeel {
 		return false;
 	}
 
+	@Override
+	public boolean isExternalLoginAllowed() {
+		return false;
+	}
 }
