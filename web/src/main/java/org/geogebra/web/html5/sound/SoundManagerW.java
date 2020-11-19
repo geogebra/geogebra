@@ -88,8 +88,6 @@ public class SoundManagerW implements SoundManager {
 		}
 	}
 
-
-
 	/**
 	 * Stops the sound
 	 */
