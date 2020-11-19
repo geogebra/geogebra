@@ -774,6 +774,8 @@ __GGB__keysVar["ta"].command = {
     "Rename.Syntax": "[ <Object>, <Name> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <List of Points>, <Function> ]",
     "Reverse": "\u0baa\u0bc1\u0bb1\u0bae\u0bbe\u0bb1\u0bcd\u0bb1\u0bc1",
@@ -956,6 +958,8 @@ __GGB__keysVar["ta"].command = {
     "Sphere.Syntax": "[ <Point>, <Radius> ]\n[ <Point>, <Point> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Slider or Point>, <Slider or Point>, ... ]\n[ <Slider or Point>, <Slider or Point>, ..., <Boolean> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["ta"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u0b95\u0bb5\u0bb0\u0bbe\u0baf\u0bae\u0bcd",
     "Compasses.Help": "\u0b86\u0bb0\u0bc8\u0b95\u0bcd\u0b95\u0bbe\u0b95 \u0ba4\u0bc1\u0ba3\u0bcd\u0b9f\u0bae\u0bcd \u0b85\u0bb2\u0bcd\u0bb2\u0ba4\u0bc1 \u0b87\u0bb0\u0ba3\u0bcd\u0b9f\u0bc1 \u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf\u0b95\u0bb3\u0bc8\u0ba4\u0bcd \u0ba4\u0bc6\u0bb0\u0bbf\u0bb5\u0bc1 \u0b9a\u0bc6\u0baf\u0bcd\u0b95,\u0baa\u0bbf\u0ba9\u0bcd\u0ba9\u0bb0\u0bcd \u0bae\u0bc8\u0baf\u0baa\u0bcd\u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "\u0b9a\u0bbf\u0b95\u0bcd\u0b95\u0bb2\u0bcd \u0b8e\u0ba3\u0bcd",
     "ComplexNumber.Help": "Select position",
     "ComplexNumber.Tool": "\u0b9a\u0bbf\u0b95\u0bcd\u0b95\u0bb2\u0bcd \u0b8e\u0ba3\u0bcd",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["ta"].menu = {
     "ymin": "y\u0b95\u0bc1\u0bb1\u0bc1\u0bae\u0bae\u0bcd",
     "ystep": "Y \u0baa\u0b9f\u0bbf",
     "zAxis": "z\u0b85\u0b9a\u0bcd\u0b9a\u0bc1",
+    "zmin": "z Min",
 };
 
 

@@ -774,6 +774,8 @@ __GGB__keysVar["es-ES"].command = {
     "Rename.Syntax": "[ <Objeto>, <Nombre (entre comillas)> ]",
     "Repeat": "Repite",
     "Repeat.Syntax": "[ <N\xfamero>, <Comando de Guiones>, <Comando de Guiones>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "DiagramaResidual",
     "ResidualPlot.Syntax": "[ <Lista de puntos>, <Funci\xf3n> ]",
     "Reverse": "Invierte",
@@ -956,6 +958,8 @@ __GGB__keysVar["es-ES"].command = {
     "Sphere.Syntax": "[ <Punto>, <Radio> ]\n[ <Punto>, <Punto> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <Lista de puntos> ]\n[ <Lista de puntos>, <Grado \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "IniciaAnimaci\xf3n",
     "StartAnimation.Syntax": "[ ]\n[ <Animado o no (true/false)> ]\n[ <Deslizador o punto>, <Deslizador o punto>, ... ]\n[ <Deslizador o punto>, <Deslizador o punto>, ..., <Animados o no (true/false)> ]",
     "StartRecord": "IniciaGrabaci\xf3n",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["es-ES"].menu = {
     "ComparisonNotPossible": "Disculpa, no es posible comparar esos objetos",
     "Compasses": "Comp\xe1s",
     "Compasses.Help": "Segmento o puntos extremos del radio; luego, centro",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "N\xfamero complejo",
     "ComplexNumber.Help": "Haz clic en la Vista Gr\xe1fica para crear un n\xfamero complejo",
     "ComplexNumber.Tool": "N\xfamero complejo",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["es-ES"].menu = {
     "ymin": "y M\xedn",
     "ystep": "Paso Y",
     "zAxis": "EjeZ",
+    "zmin": "z Min",
 };
 
 

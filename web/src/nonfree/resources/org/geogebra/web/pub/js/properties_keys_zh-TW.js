@@ -774,6 +774,8 @@ __GGB__keysVar["zh-TW"].command = {
     "Rename.Syntax": "[ <\u7269\u4ef6>, <\u540d\u7a31> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <\u9ede\u96c6\u5408>, <\u51fd\u6578> ]",
     "Reverse": "Reverse",
@@ -956,6 +958,8 @@ __GGB__keysVar["zh-TW"].command = {
     "Sphere.Syntax": "[ <Point>, <Radius> ]\n[ <Point>, <Point> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Slider or Point>, <Slider or Point>, ... ]\n[ <Slider or Point>, <Slider or Point>, ..., <Boolean> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u5713 (\u5713\u5fc3\uff0c\u534a\u5f91\u7dda\u6bb5)",
     "Compasses.Help": "\u9078\u64c7\u4e00\u7dda\u6bb5\u6216\u5169\u9ede\u7576\u534a\u5f91\uff0c\u518d\u9078\u5713\u5fc3",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "\u8907\u6578",
     "ComplexNumber.Help": "\u5728\u7e6a\u5716\u5340\u6309\u4e00\u4e0b\u5373\u53ef\u65b0\u589e\u4e00\u500b\u8907\u6578\u3002",
     "ComplexNumber.Tool": "\u8907\u6578",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "ymin": "y \u6700\u5c0f",
     "ystep": "y \u9593\u8ddd",
     "zAxis": "z\u8ef8",
+    "zmin": "z Min",
 };
 
 

@@ -774,6 +774,8 @@ __GGB__keysVar["he"].command = {
     "Rename.Syntax": "[ <Object>, <Name> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <List of Points>, <Function> ]",
     "Reverse": "Reverse",
@@ -956,6 +958,8 @@ __GGB__keysVar["he"].command = {
     "Sphere.Syntax": "[ <Point>, <Radius> ]\n[ <Point>, <Point> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Slider or Point>, <Slider or Point>, ... ]\n[ <Slider or Point>, <Slider or Point>, ..., <Boolean> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["he"].menu = {
     "ComparisonNotPossible": "\u05e2\u05e6\u05de\u05d9\u05dd \u05d0\u05dc\u05d5 \u05dc\u05d0 \u05e0\u05d9\u05ea\u05e0\u05d9\u05dd \u05dc\u05d4\u05e9\u05d5\u05d5\u05d0\u05d4",
     "Compasses": "\u05de\u05d7\u05d5\u05d2\u05d4",
     "Compasses.Help": "\u05e7\u05d8\u05e2 \u05d0\u05d5 \u05e9\u05ea\u05d9 \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05dc\u05e8\u05d3\u05d9\u05d5\u05e1, \u05d5\u05d0\u05d6 \u05e0\u05e7\u05d5\u05d3\u05ea \u05d0\u05de\u05e6\u05e2",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "\u05de\u05e1\u05e4\u05e8 \u05de\u05e8\u05d5\u05db\u05d1",
     "ComplexNumber.Help": "\u05d1\u05d7\u05e8\u05d9 \u05de\u05d9\u05e7\u05d5\u05dd",
     "ComplexNumber.Tool": "\u05de\u05e1\u05e4\u05e8 \u05de\u05e8\u05d5\u05db\u05d1",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["he"].menu = {
     "ymin": "\u200f\u200ey\u200e\u200f \u05de\u05d9\u05e0\u05d9\u05de\u05dc\u05d9",
     "ystep": "\u05e6\u05e2\u05d3 \u200f\u200eY\u200e\u200f",
     "zAxis": "\u05e6\u05d9\u05e8\u200f\u200ez\u200e\u200f",
+    "zmin": "z Min",
 };
 
 

@@ -774,6 +774,8 @@ __GGB__keysVar["mr"].command = {
     "Rename.Syntax": "[ <Object>, <Name> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <List of Points>, <Function> ]",
     "Reverse": "\u0909\u0932\u091f",
@@ -956,6 +958,8 @@ __GGB__keysVar["mr"].command = {
     "Sphere.Syntax": "[ <Point>, <Radius> ]\n[ <Point>, <Point> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Slider or Point>, <Slider or Point>, ... ]\n[ <Slider or Point>, <Slider or Point>, ..., <Boolean> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["mr"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u0915\u0902\u092a\u093e\u0938",
     "Compasses.Help": "\u0924\u094d\u0930\u093f\u091c\u094d\u092f\u0947\u091a\u094d\u092f\u093e \u092e\u093e\u092a\u093e\u0938\u093e\u0920\u0940 \u0930\u0947\u0937\u093e\u0916\u0902\u0921 \u0915\u093f\u0902\u0935\u093e \u0926\u094b\u0928 \u092c\u093f\u0902\u0926\u0942 \u0928\u093f\u0935\u0921\u093e \u092e\u0917 \u0915\u0947\u0902\u0926\u094d\u0930\u092c\u093f\u0902\u0926\u0942 \u0928\u093f\u0935\u0921\u093e.",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "\u0938\u0902\u092e\u093f\u0936\u094d\u0930 \u0938\u0902\u0916\u094d\u092f\u093e (complex number)",
     "ComplexNumber.Help": "Select position",
     "ComplexNumber.Tool": "Complex Number",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["mr"].menu = {
     "ymin": "y\u0915\u093f\u092e\u093e\u0928",
     "ystep": "Y Step",
     "zAxis": "zAxis",
+    "zmin": "z Min",
 };
 
 

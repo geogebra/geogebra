@@ -774,6 +774,8 @@ __GGB__keysVar["de-AT"].command = {
     "Rename.Syntax": "[ <Objekt>, <Name> ]",
     "Repeat": "Wiederhole",
     "Repeat.Syntax": "[ <Zahl>, <Scripting Befehl>, <Scripting Befehl>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <Liste von Punkten>, <Funktion> ]",
     "Reverse": "Umkehren",
@@ -956,6 +958,8 @@ __GGB__keysVar["de-AT"].command = {
     "Sphere.Syntax": "[ <Mittelpunkt>, <Radius> ]\n[ <Mittelpunkt>, <Punkt> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <Liste von Punkten> ]\n[ <Liste von Punkten>, <Grad \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation.Syntax": "[ ]\n[ <Wahrheitswert> ]\n[ <Schieberegler oder Punkt>, <Schieberegler oder Punkt>, ... ]\n[ <Schieberegler oder Punkt>, <Schieberegler oder Punkt>, ..., <Wahrheitswert> ]",
     "StartRecord": "StarteAufnahme",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["de-AT"].menu = {
     "ComparisonNotPossible": "Entschuldigung, diese Objekte k\xf6nnen nicht verglichen werden.",
     "Compasses": "Zirkel",
     "Compasses.Help": "W\xe4hle zwei Punkte oder eine Strecke f\xfcr den Radius, dann den Mittelpunkt",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Komplexe Zahl",
     "ComplexNumber.Help": "W\xe4hle eine Position",
     "ComplexNumber.Tool": "Komplexe Zahl",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["de-AT"].menu = {
     "ymin": "y Min",
     "ystep": "Y Schrittweite",
     "zAxis": "zAchse",
+    "zmin": "z Min",
 };
 
 

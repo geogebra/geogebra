@@ -774,6 +774,8 @@ __GGB__keysVar["fr"].command = {
     "Rename.Syntax": "[ <Objet>, <Nom> ]",
     "Repeat": "R\xe9p\xe9ter",
     "Repeat.Syntax": "[ <Nombre>, <Script>, <Script>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "R\xe9sidus",
     "ResidualPlot.Syntax": "[ <Liste Points>, <Fonction> ]",
     "Reverse": "Retourner",
@@ -956,6 +958,8 @@ __GGB__keysVar["fr"].command = {
     "Sphere.Syntax": "[ <Point>, <Rayon> ]\n[ <Point>, <Point> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <Liste de Points> ]\n[ <Liste de Points>, <Degr\xe9 \u2265 3> ]\n[ <Liste de Points>, <Degr\xe9 \u2265 3>, <Fonction de poids> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "D\xe9marrerAnimation",
     "StartAnimation.Syntax": "[ ]\n[ <Bool\xe9en> ]\n[ <Curseur ou Point>, <Curseur ou Point>, ... ]\n[ <Curseur ou Point>, <Curseur ou Point>, ..., <Bool\xe9en> ]",
     "StartRecord": "D\xe9marrerEnregistrement",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["fr"].menu = {
     "ComparisonNotPossible": "D\xe9sol\xe9, ces objets ne peuvent \xeatre compar\xe9s.",
     "Compasses": "Compas",
     "Compasses.Help": "Un segment[cr\xe9\xe9] ou deux points pour le rayon, puis un pour le centre[cr\xe9\xe9s ou non]",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Nombre complexe",
     "ComplexNumber.Help": "Clic dans Graphique",
     "ComplexNumber.Tool": "Nombre complexe",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["fr"].menu = {
     "ymin": "yMin",
     "ystep": "ypas",
     "zAxis": "axeZ",
+    "zmin": "z Min",
 };
 
 

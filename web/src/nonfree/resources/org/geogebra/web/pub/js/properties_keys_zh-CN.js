@@ -774,6 +774,8 @@ __GGB__keysVar["zh-CN"].command = {
     "Rename.Syntax": "[ <\u5bf9\u8c61>, <\u540d\u79f0> ]",
     "Repeat": "\u91cd\u590d",
     "Repeat.Syntax": "[ <\u91cd\u590d\u6b21\u6570>, <\u811a\u672c\u6307\u4ee41>, <\u811a\u672c\u6307\u4ee42>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "\u6b8b\u5dee\u56fe",
     "ResidualPlot.Syntax": "[ <\u70b9\u5217>, <\u51fd\u6570> ]",
     "Reverse": "\u9006\u5e8f\u6392\u5217",
@@ -956,6 +958,8 @@ __GGB__keysVar["zh-CN"].command = {
     "Sphere.Syntax": "[ <\u7403\u5fc3>, <\u534a\u5f84> ]\n[ <\u7403\u5fc3>, <\u7403\u9762\u4e0a\u4e00\u70b9> ]",
     "Spline": "\u6837\u6761\u66f2\u7ebf",
     "Spline.Syntax": "[ <\u70b9\u5217> ]\n[ <\u70b9\u5217>, <\u9636\u6570 \u2265 3> ]\n[ <\u70b9\u5217>, <\u9636\u6570 \u2265 3>, <\u6743\u91cd\u51fd\u6570> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "\u542f\u52a8\u52a8\u753b",
     "StartAnimation.Syntax": "[ ]\n[ <true|false> ]\n[ <\u6ed1\u52a8\u6761|\u70b9>, <\u6ed1\u52a8\u6761|\u70b9>, ... ]\n[ <\u6ed1\u52a8\u6761|\u70b9>, <\u6ed1\u52a8\u6761|\u70b9>, ..., <true|false> ]",
     "StartRecord": "\u5f00\u59cb\u8bb0\u5f55",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "ComparisonNotPossible": "\u5bf9\u4e0d\u8d77, \u8fd9\u4e9b\u5bf9\u8c61\u4e0d\u5177\u5907\u53ef\u6bd4\u6027",
     "Compasses": "\u5706(\u534a\u5f84\u4e0e\u5706\u5fc3)",
     "Compasses.Help": "\u9009\u62e9\u4e24\u70b9\u6216\u8005\u4e00\u6761\u7ebf\u6bb5\u786e\u5b9a\u534a\u5f84, \u518d\u9009\u5b9a\u5706\u5fc3",
+    "ComplexFunction": "\u590d\u53d8\u51fd\u6570",
     "ComplexNumber": "\u590d\u6570",
     "ComplexNumber.Help": "\u70b9\u51fb\u7ed8\u56fe\u533a\u786e\u5b9a\u4f4d\u7f6e",
     "ComplexNumber.Tool": "\u590d\u6570\u70b9",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "ymin": "y \u6700\u5c0f\u503c",
     "ystep": "Y \u6b65\u957f",
     "zAxis": "z\u8f74",
+    "zmin": "z Min",
 };
 
 

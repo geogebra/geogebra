@@ -774,6 +774,8 @@ __GGB__keysVar["nn"].command = {
     "Rename.Syntax": "[ <Objekt>, <Namn> ]",
     "Repeat": "Gjenta",
     "Repeat.Syntax": "[ <Tal>, <Skriptkommando>, <Skriptkommando>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "Restplott",
     "ResidualPlot.Syntax": "[ <Liste med punkt>, <Funksjon> ]",
     "Reverse": "Snu",
@@ -956,6 +958,8 @@ __GGB__keysVar["nn"].command = {
     "Sphere.Syntax": "[ <Punkt>, <Radius> ]\n[ <Punkt>, <Punkt> ]",
     "Spline": "Spor",
     "Spline.Syntax": "[ <Liste med punkt> ]\n[ <Liste med punkt>, <Orden \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimasjon",
     "StartAnimation.Syntax": "[ ]\n[ <Boolsk> ]\n[ <Glidar eller punkt>, <Glidar eller punkt>, ... ]\n[ <Glidar eller punkt>, <Glidar eller punkt>, ..., <Boolsk> ]",
     "StartRecord": "StartOpptak",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["nn"].menu = {
     "ComparisonNotPossible": "Det g\xe5r dessverre ikkje \xe5 samanlikne desse objekta",
     "Compasses": "Passar",
     "Compasses.Help": "Vel linjestykke eller to punkt for radius, deretter sentrum",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Komplekse tal",
     "ComplexNumber.Help": "Vel posisjon",
     "ComplexNumber.Tool": "Komplekst tal",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["nn"].menu = {
     "ymin": "y-min",
     "ystep": "y-steg",
     "zAxis": "zAkse",
+    "zmin": "z Min",
 };
 
 

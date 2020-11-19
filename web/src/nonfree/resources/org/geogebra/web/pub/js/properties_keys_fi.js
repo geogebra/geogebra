@@ -774,6 +774,8 @@ __GGB__keysVar["fi"].command = {
     "Rename.Syntax": "[ <Objekti>, \"<Uusi nimi>\" ]",
     "Repeat": "Toista",
     "Repeat.Syntax": "[ <Luku>, <Skriptikomento>, <Skriptikomento>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "J\xe4\xe4nn\xf6skuvio",
     "ResidualPlot.Syntax": "[ <Pistelista>, <Funktio> ]",
     "Reverse": "K\xe4\xe4nn\xe4",
@@ -956,6 +958,8 @@ __GGB__keysVar["fi"].command = {
     "Sphere.Syntax": "[ <Piste>, <S\xe4de> ]\n[ <Piste>, <Piste> ]",
     "Spline": "Splini",
     "Spline.Syntax": "[ <Pistelista> ]\n[ <Pistelista>, <Asteluku \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "AloitaAnimaatio",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Liuku tai piste>, <Liuku tai piste>, ... ]\n[ <Liuku tai piste>, <Liuku tai piste>, ..., <Boolean> ]",
     "StartRecord": "AloitaTallennus",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["fi"].menu = {
     "ComparisonNotPossible": "N\xe4iden objektien vertaaminen ei ole mahdollista",
     "Compasses": "Harppi",
     "Compasses.Help": "Valitse jana tai kaksi pistett\xe4 s\xe4dett\xe4 varten, sitten keskipiste",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Kompleksiluku",
     "ComplexNumber.Help": "Valitse sijainti",
     "ComplexNumber.Tool": "Kompleksiluku",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["fi"].menu = {
     "ymin": "y min",
     "ystep": "Y askel",
     "zAxis": "zAkseli",
+    "zmin": "z Min",
 };
 
 

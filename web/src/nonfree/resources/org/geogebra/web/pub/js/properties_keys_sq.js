@@ -774,6 +774,8 @@ __GGB__keysVar["sq"].command = {
     "Rename.Syntax": "[ <Objekt>, <Emer> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "VizatimRezidual",
     "ResidualPlot.Syntax": "[ <Liste e Pikave>, <Funksion> ]",
     "Reverse": "RenditjeKundert",
@@ -956,6 +958,8 @@ __GGB__keysVar["sq"].command = {
     "Sphere.Syntax": "[ <Pike>, <Numer i Rrezes> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "FilloLevizje",
     "StartAnimation.Syntax": "[ ]\n[ <Bulean> ]\n[ <Rreshqites ose Pike>, <Rreshqites ose Pike>, ... ]\n[ <Rreshqites ose Pike>, <Rreshqites ose Pike>, ..., <Bulean> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["sq"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Kompase(rrethore)",
     "Compasses.Help": "Zgjidh segment ose dy pika per rreze, pastaj qendren",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Numer Kompleks",
     "ComplexNumber.Help": "Kliko ne Pamjen Grafikore per te krijuar numer kompleks",
     "ComplexNumber.Tool": "Numer Kompleks",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["sq"].menu = {
     "ymin": "y-min",
     "ystep": "Y Shkalle",
     "zAxis": "zBosht",
+    "zmin": "z Min",
 };
 
 

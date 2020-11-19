@@ -774,6 +774,8 @@ __GGB__keysVar["tr"].command = {
     "Rename.Syntax": "[ <Nesne>, <Ad> ]",
     "Repeat": "Tekrarla",
     "Repeat.Syntax": "[ <Say\u0131>, <Betikleme Komutu>, <Betikleme Komutu>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "Art\u0131k\xc7izim",
     "ResidualPlot.Syntax": "[ <Nokta Listesi>, <Fonksiyon> ]",
     "Reverse": "TersineHareket",
@@ -956,6 +958,8 @@ __GGB__keysVar["tr"].command = {
     "Sphere.Syntax": "[ <Nokta>, <Yar\u0131\xe7ap> ]\n[ <Nokta>, <Nokta> ]",
     "Spline": "E\u011friUydur",
     "Spline.Syntax": "[ <Nokta Listesi> ]\n[ <Nokta Listesi>, <Derece \u2265 3> ]\n[ <Nokta Listesi>, <Derece \u2265 3>, <A\u011f\u0131rl\u0131k Fonksiyonu> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "Ba\u015flatCanland\u0131rma",
     "StartAnimation.Syntax": "[ ]\n[ <Mant\u0131ksal> ]\n[ <S\xfcrg\xfc veya Nokta>, <S\xfcrg\xfc veya Nokta>, ... ]\n[ <S\xfcrg\xfc veya Nokta>, <S\xfcrg\xfc veya Nokta>, ..., <Mant\u0131ksal> ]",
     "StartRecord": "Ba\u015flatKay\u0131t",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["tr"].menu = {
     "ComparisonNotPossible": "\xdczg\xfcn\xfcz, bu nesneleri kar\u015f\u0131la\u015ft\u0131rmak m\xfcmk\xfcn de\u011fil",
     "Compasses": "Pergel",
     "Compasses.Help": "Yar\u0131\xe7ap i\xe7in iki nokta veya bir do\u011fru par\xe7as\u0131 ve sonras\u0131nda merkez noktay\u0131 se\xe7in",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Karma\u015f\u0131k Say\u0131",
     "ComplexNumber.Help": "Konum se\xe7in",
     "ComplexNumber.Tool": "Karma\u015f\u0131k Say\u0131",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["tr"].menu = {
     "ymin": "y Min",
     "ystep": "Y Ad\u0131m",
     "zAxis": "zEkseni",
+    "zmin": "z Min",
 };
 
 

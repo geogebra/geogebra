@@ -459,9 +459,21 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertEquals("", inputBox.getTextForEditor());
 		getApp().setXML(getApp().getXML(), true);
 		assertEquals("", inputBox.getTextForEditor());
-		assertEquals("f\\, \\text{undefined} ", lookup("f")
+		assertEquals("ComplexFunction", lookup("f").getTypeString());
+		// \text{undefined} also acceptable but ? is consistent with real-valued functions
+		assertEquals("f(x) = ?", lookup("f")
 				.getLaTeXAlgebraDescriptionWithFallback(false,
 						StringTemplate.defaultTemplate, false));
+	}
+
+	@Test
+	public void shouldAcceptNumberForComplexFunctions() {
+		setupInput("f", "x+i");
+		add("pt=f(1-i)");
+		inputBox.setSymbolicMode(true, false);
+		inputBox.updateLinkedGeo("2");
+		assertEquals("2 + 0" + Unicode.IMAGINARY,
+				lookup("pt").toValueString(StringTemplate.testTemplate));
 	}
 
 	@Test

@@ -774,6 +774,8 @@ __GGB__keysVar["lv"].command = {
     "Rename.Syntax": "[ <Objekts>, <Nosaukums> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <Punktu Saraksts>, <Funkcija> ]",
     "Reverse": "Reverss",
@@ -956,6 +958,8 @@ __GGB__keysVar["lv"].command = {
     "Sphere.Syntax": "[ <Punkts>, <R\u0101diuss> ]\n[ <Punkts>, <Punkts> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <Punktu saraksts> ]\n[ <Punktu Saraksts>, <Order \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "S\u0101ktAnim\u0101ciju",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Sl\u012bdnis vai Punkts>, <Sl\u012bdnis vai Punkts>, ... ]\n[ <Sl\u012bdnis vai Punkts>, <Sl\u012bdnis vai Punkts>, ..., <Boolean> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["lv"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Cirkulis",
     "Compasses.Help": "Izv\u0113lies nogriezni vai divus punktus r\u0101diusam, tad centra punktu",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Komplekss Skaitlis",
     "ComplexNumber.Help": "Uzspiediet uz grafisk\u0101 skata, lai izveidotu kompleko skaitli",
     "ComplexNumber.Tool": "Komplekss skaitlis",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["lv"].menu = {
     "ymin": "y Minimums",
     "ystep": "Y Solis",
     "zAxis": "zAss",
+    "zmin": "z Min",
 };
 
 

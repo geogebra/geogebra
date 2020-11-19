@@ -37,10 +37,9 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
- * @author gabor
- * 
- *         InputBar for GeoGebraWeb
+ * InputBar for GeoGebraWeb
  *
+ * @author gabor
  */
 public class AlgebraInputW extends FlowPanel
 		implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler,

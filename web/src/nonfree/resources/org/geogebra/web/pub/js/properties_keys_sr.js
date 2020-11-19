@@ -774,6 +774,8 @@ __GGB__keysVar["sr"].command = {
     "Rename.Syntax": "[ <objekat>, <ime> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "DijagramRasipanja",
     "ResidualPlot.Syntax": "[ <lista ta\u010daka>, <funkcija> ]",
     "Reverse": "Obrni",
@@ -956,6 +958,8 @@ __GGB__keysVar["sr"].command = {
     "Sphere.Syntax": "[ <ta\u010dka>, <du\u017eina polupre\u010dnika> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "Po\u010dniAnimaciju",
     "StartAnimation.Syntax": "[ ]\n[ <logi\u010dka vrednost> ]\n[ <kliza\u010d ili ta\u010dka>, <kliza\u010d ili ta\u010dka>, ... ]\n[ <kliza\u010d ili ta\u010dka>, <kliza\u010d ili ta\u010dka>, ..., <logi\u010dka vrednost> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["sr"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u0160estar",
     "Compasses.Help": "Izaberite du\u017e ili dve ta\u010dke za polupre\u010dnik, a zatim centar",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Kompleksan broj",
     "ComplexNumber.Help": "Kliknite na grafi\u010dki prikaz da napravite kompleksni broj",
     "ComplexNumber.Tool": "Kompleksni broj",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["sr"].menu = {
     "ymin": "y Min",
     "ystep": "Y Korak",
     "zAxis": "zOsa",
+    "zmin": "z Min",
 };
 
 
