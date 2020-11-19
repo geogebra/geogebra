@@ -774,6 +774,8 @@ __GGB__keysVar["xh"].command = {
     "Rename.Syntax": "[ <Into>, <Igama> ]",
     "Repeat": "Phinda",
     "Repeat.Syntax": "[ <iNani>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <uLuhlu lwaMachaphaza>, <iFunction> ]",
     "Reverse": "Buyumva",
@@ -956,6 +958,8 @@ __GGB__keysVar["xh"].command = {
     "Sphere.Syntax": "[ <iChaphaza>, <iReydiyas> ]\n[ <iChaphaza>, <iChaphaza> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <Luhlu lwamachaphaza> ]\n[ <Luhlu lwamachaphaza>, <Order \u2265 3> ]\n[ <Luhlu lwamachaphaza>, <Order \u2265 3>, <Weight Function> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "QalisaIntshukumo",
     "StartAnimation.Syntax": "[ ]\n[ <iBoolean> ]\n[ <Slider or Point>, <Slider or Point>, ... ]\n[ <Slider or Point>, <Slider or Point>, ..., <Boolean> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["xh"].menu = {
     "ComparisonNotPossible": "uxolo awunokwazi uthelekisa eziobjects",
     "Compasses": "iKhampasi",
     "Compasses.Help": "Khetha isegment okanye amachaphaza amabini eradius, ulandelise ngechaphaza elisembindini",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "iComplex Number",
     "ComplexNumber.Help": "Klikha kwiGraphics View ukwenza icomplex number",
     "ComplexNumber.Tool": "iComplex Number",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["xh"].menu = {
     "ymin": "y Min",
     "ystep": "Y Step",
     "zAxis": "zAxis",
+    "zmin": "z Min",
 };
 
 

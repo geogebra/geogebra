@@ -774,6 +774,8 @@ __GGB__keysVar["hu"].command = {
     "Rename.Syntax": "[ <Alakzat>, <N\xe9v> ]",
     "Repeat": "Ism\xe9tl\xe9s",
     "Repeat.Syntax": "[ <Sz\xe1m>, <Parancs>, <Parancs>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "K\xfcl\xf6nbs\xe9gF\xfcggv\xe9ny",
     "ResidualPlot.Syntax": "[ <Pontok list\xe1ja>, <F\xfcggv\xe9ny> ]",
     "Reverse": "Ford\xedt",
@@ -956,6 +958,8 @@ __GGB__keysVar["hu"].command = {
     "Sphere.Syntax": "[ <Pont>, <Sug\xe1r> ]\n[ <Pont>, <Pont> ]",
     "Spline": "Szpl\xe1jn",
     "Spline.Syntax": "[ <Pontok list\xe1ja> ]\n[ <Pontok list\xe1ja>, <Rend \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "Anim\xe1l",
     "StartAnimation.Syntax": "[ ]\n[ <Logikai \xe9rt\xe9k> ]\n[ <Cs\xfaszka vagy pont>, <Cs\xfaszka vagy pont>, ... ]\n[ <Cs\xfaszka vagy pont>, <Cs\xfaszka vagy pont>, ..., <logikai \xe9rt\xe9k> ]",
     "StartRecord": "T\xe1bl\xe1zatbaMent\xe9sInd\xedt\xe1sa",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["hu"].menu = {
     "ComparisonNotPossible": "Sajnos ezek az alakzatok nem hasonl\xedthat\xf3k \xf6ssze",
     "Compasses": "K\xf6rz\u0151",
     "Compasses.Help": "Szakasz vagy k\xe9t pont a sug\xe1r meghat\xe1roz\xe1s\xe1hoz, majd a k\xf6z\xe9ppont",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Komplex sz\xe1m",
     "ComplexNumber.Help": "Kattint\xe1s a rajzlapon",
     "ComplexNumber.Tool": "Komplex sz\xe1m",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["hu"].menu = {
     "ymin": "y-minimum",
     "ystep": "y-l\xe9p\xe9sk\xf6z",
     "zAxis": "zTengely",
+    "zmin": "z Min",
 };
 
 

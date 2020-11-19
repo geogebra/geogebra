@@ -774,6 +774,8 @@ __GGB__keysVar["cy"].command = {
     "Rename.Syntax": "[ <Gwrthrych>, <Enw> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "PlotGweddilleb",
     "ResidualPlot.Syntax": "[ <Rhestr Bwyntiau>, <Function> ]",
     "Reverse": "Cildroi",
@@ -956,6 +958,8 @@ __GGB__keysVar["cy"].command = {
     "Sphere.Syntax": "[ <Point>, <Radius> ]\n[ <Point>, <Point> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "CychwynAnimeddio",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Llithrydd neu Bwynt>, <Llithrydd neu Bwynt>, ... ]\n[ <Llithrydd neu Bwynt>, <Llithrydd neu Bwynt>, ..., <Boolean> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["cy"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Cwmpas",
     "Compasses.Help": "Dewis segment neu ddau bwynt ar gyfer y radiws, ac yna'r pwynt canol",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Rhif cymhlyg",
     "ComplexNumber.Help": "Cliciwch yn y Wedd Graffeg i greu Rhif Cymhlyg",
     "ComplexNumber.Tool": "Rhif Cymhlyg",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["cy"].menu = {
     "ymin": "MinY",
     "ystep": "Cynyddiad Y",
     "zAxis": "zAxis",
+    "zmin": "z Min",
 };
 
 

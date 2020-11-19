@@ -774,6 +774,8 @@ __GGB__keysVar["sv"].command = {
     "Rename.Syntax": "[ <Objekt>, <Namn> ]",
     "Repeat": "Repetera",
     "Repeat.Syntax": "[ <Antal>, <Kommando>, <Kommando>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualDiagram",
     "ResidualPlot.Syntax": "[ <Lista med punkter>, <Funktion> ]",
     "Reverse": "Omv\xe4nd",
@@ -956,6 +958,8 @@ __GGB__keysVar["sv"].command = {
     "Sphere.Syntax": "[ <Punkt>, <Radie> ]\n[ <Punkt>, <Punkt> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <Lista med Punkter> ]\n[ <Lista med Punkter>, <Ordning \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartaAnimering",
     "StartAnimation.Syntax": "[ ]\n[ <true | false (animering p\xe5 eller ej)> ]\n[ <Glidare eller punkt>, <Glidare eller punkt>, ... ]\n[ <Glidare eller punkt>, <Glidare eller punkt>, ..., <true | false (animering p\xe5 eller ej)> ]",
     "StartRecord": "StartaInspelning",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["sv"].menu = {
     "ComparisonNotPossible": "Tyv\xe4rr, det g\xe5r inte att j\xe4mf\xf6ra dessa objekt",
     "Compasses": "Passare",
     "Compasses.Help": "V\xe4lj linje eller tv\xe5 punkter f\xf6r radie, d\xe4refter mittpunkt",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Komplext tal",
     "ComplexNumber.Help": "V\xe4lj position",
     "ComplexNumber.Tool": "Komplext tal",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["sv"].menu = {
     "ymin": "y min",
     "ystep": "y-avst\xe5nd",
     "zAxis": "zAxeln",
+    "zmin": "z Min",
 };
 
 

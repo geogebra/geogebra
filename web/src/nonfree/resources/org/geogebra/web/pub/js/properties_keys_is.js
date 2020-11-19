@@ -774,6 +774,8 @@ __GGB__keysVar["is"].command = {
     "Rename.Syntax": "[ <Hlutur>, <Nafn> ]",
     "Repeat": "Endurtaka",
     "Repeat.Syntax": "[ <Tala>, <Skipun>, <Skipun>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "Leifarit",
     "ResidualPlot.Syntax": "[ <Listi af punktum>, <Fall> ]",
     "Reverse": "Sn\xfaaVi\xf0R\xf6\xf0",
@@ -956,6 +958,8 @@ __GGB__keysVar["is"].command = {
     "Sphere.Syntax": "[ <Punktur>, <Geisli> ]\n[ <Punktur>, <Punktur> ]",
     "Spline": "Spl\xe6sa",
     "Spline.Syntax": "[ <Listi punkta> ]\n[ <Listi punkta>, <Stig \u2265 3> ]\n[ <Listi punkta>, <Stig \u2265 3>, <V\xe6gisfall> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "SetjaHreyfingu\xc1",
     "StartAnimation.Syntax": "[ ]\n[ <Boole-gildi> ]\n[ <Rennistika e\xf0a punktur>, <Rennistika e\xf0a punktur>, ... ]\n[ <Rennistika e\xf0a punktur>, <Rennistika e\xf0a punktur>, ..., <Boole-gildi> ]",
     "StartRecord": "ByrjaSkr\xe1ningu",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["is"].menu = {
     "ComparisonNotPossible": "\xdev\xed mi\xf0ur er ekki h\xe6gt a\xf0 bera saman \xfeessa hluti",
     "Compasses": "Hringfari",
     "Compasses.Help": "Velji\xf0 l\xednustrik e\xf0a tvo punkta fyrir geisla, s\xed\xf0an mi\xf0punkt",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Tvinntala",
     "ComplexNumber.Help": "Smelli\xf0 \xed myndaglugga til a\xf0 b\xfaa til tvinnt\xf6lu",
     "ComplexNumber.Tool": "Tvinntala",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["is"].menu = {
     "ymin": "y Min",
     "ystep": "Y skref",
     "zAxis": "z\xc1s",
+    "zmin": "z Min",
 };
 
 

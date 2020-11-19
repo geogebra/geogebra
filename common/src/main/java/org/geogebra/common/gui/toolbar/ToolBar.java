@@ -8,9 +8,9 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
 
 /**
- * @author gabor
+ * Utility class for toolbar strings
  *
- *         This class is not a superclass of ToolBar, only common method stack
+ * @author gabor
  */
 public class ToolBar {
 	static private ToolsRemover defaultToolsRemover = new ToolsRemover();

@@ -774,6 +774,8 @@ __GGB__keysVar["kk"].command = {
     "Rename.Syntax": "[ <\u041e\u0431\u044a\u0435\u043a\u0442>, <\u0410\u0442\u0430\u0443\u044b> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <\u041d\u04af\u043a\u0442\u0435\u043b\u0435\u0440 \u0422\u0456\u0437\u0456\u043c\u0456>, <\u0424\u0443\u043d\u043a\u0446\u0438\u044f> ]",
     "Reverse": "\u0420\u0435\u0442\u0456\u043d\u041a\u0435\u0440\u0456\u0410\u0439\u043d\u0430\u043b\u0434\u044b\u0440\u0443",
@@ -956,6 +958,8 @@ __GGB__keysVar["kk"].command = {
     "Sphere.Syntax": "[ <\u041d\u04af\u043a\u0442\u0435>, <\u0420\u0430\u0434\u0438\u0443\u0441 \u0421\u0430\u043d\u044b> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "\u0410\u043d\u0438\u043c\u0430\u0446\u0438\u044f\u043d\u044b\u049a\u043e\u0441",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <\u0421\u043b\u0430\u0439\u0434\u0435\u0440 \u043d\u0435\u043c\u0435\u0441\u0435 \u041d\u04af\u043a\u0442\u0435>, <\u043d\u0435\u043c\u0435\u0441\u0435 \u041d\u04af\u043a\u0442\u0435>, ... ]\n[ <\u0421\u043b\u0430\u0439\u0434\u0435\u0440 \u043d\u0435\u043c\u0435\u0441\u0435 \u041d\u04af\u043a\u0442\u0435>, <\u0421\u043b\u0430\u0439\u0434\u0435\u0440 \u043d\u0435\u043c\u0435\u0441\u0435 \u041d\u04af\u043a\u0442\u0435>, ..., <Boolean> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["kk"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u0426\u0438\u0440\u043a\u0443\u043b\u044c",
     "Compasses.Help": "\u0410\u043b\u0434\u044b\u043c\u0435\u043d \u0440\u0430\u0434\u0438\u0443\u0441\u0442\u044b\u04a3 \u0435\u043a\u0456 \u043d\u04af\u043a\u0442\u0435\u0441\u0456\u043d \u043d\u0435\u043c\u0435\u0441\u0435 \u043a\u0435\u0441\u0456\u043d\u0434\u0456\u043d\u0456 \u0442\u0430\u043d\u0434\u0430\u04a3\u044b\u0437, \u043e\u0434\u0430\u043d \u043a\u0435\u0439\u0456\u043d \u0446\u0435\u043d\u0442\u0440\u0434\u0456 \u0431\u0435\u043b\u0433\u0456\u043b\u0435\u04a3\u0456\u0437",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "\u041a\u0435\u0448\u0435\u043d \u0441\u0430\u043d",
     "ComplexNumber.Help": "\u041a\u0435\u0448\u0435\u043d \u0441\u0430\u043d\u0434\u044b \u049b\u04b1\u0440\u0430\u0441\u0442\u044b\u0440\u0443 \u04af\u0448\u0456\u043d \u0413\u0440\u0430\u0444\u0438\u043a\u0430\u043b\u044b\u049b \u041a\u04e9\u0440\u0456\u043d\u0456\u0441\u0442\u0435\u0433\u0456 \u0430\u043b\u0430\u04a3\u0493\u0430 \u0431\u0430\u0441\u044b\u04a3\u044b\u0437",
     "ComplexNumber.Tool": "\u041a\u0435\u0448\u0435\u043d \u0421\u0430\u043d",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["kk"].menu = {
     "ymin": "\u0443\u041c\u0438\u043d",
     "ystep": "Y \u049a\u0430\u0434\u0430\u043c",
     "zAxis": "z\u041e\u0441\u0456",
+    "zmin": "z Min",
 };
 
 

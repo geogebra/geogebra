@@ -774,6 +774,8 @@ __GGB__keysVar["ms"].command = {
     "Rename.Syntax": "[ <Objek>, <Nama> ]",
     "Repeat": "Ulang",
     "Repeat.Syntax": "[ <Nombor>, <Perintah Skrip>, <Perintah Skrip>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "PlotSisa",
     "ResidualPlot.Syntax": "[ <Senarai Titik>, <Fungsi> ]",
     "Reverse": "Terbalikkan",
@@ -956,6 +958,8 @@ __GGB__keysVar["ms"].command = {
     "Sphere.Syntax": "[ <Titik>, <Jejari> ]\n[ <Titik>, <Titik> ]",
     "Spline": "Splin",
     "Spline.Syntax": "[ <Senarai Titil> ]\n[ <Senarai Titik>, <Tertib \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "MulaAnimasi",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Gelongsor atau Titik>, <Gelongsor atau Titik>, ... ]\n[ <Gelongsor atau Titik>, <Gelongsor atau Titik>, ..., <Boolean> ]",
     "StartRecord": "MulaRekod",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["ms"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Kompas",
     "Compasses.Help": "Pilih segmen atau dua titik untuk jejari, kemudian pusat",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Nombor Kompleks",
     "ComplexNumber.Help": "Klik dalam Paparan Grafik untuk cipta suatu number kompleks",
     "ComplexNumber.Tool": "Nombor Kompleks",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["ms"].menu = {
     "ymin": "y Minimum",
     "ystep": "Y Langkah",
     "zAxis": "zPaksi",
+    "zmin": "z Min",
 };
 
 

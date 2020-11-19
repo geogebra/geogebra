@@ -390,7 +390,7 @@ public class TextDispatcher {
 				// DistanceAB="\\overline{" + %0 + %1 + "} \\, = \\, " + %2
 				// or
 				// DistanceAB=%0+%1+" \\, = \\, "+%2
-				strText = "Name[" + geoA.getLabel(tpl) + "] + Name["
+				strText = "\"Torsion at point \"+" + "Name[" + geoA.getLabel(tpl) + "] + \" Of Curve \" + Name["
 						+ geoB.getLabel(tpl) + "] + \" = \" + "
 						+ torsion.getLabel(tpl);
 				// Application.debug(strText);

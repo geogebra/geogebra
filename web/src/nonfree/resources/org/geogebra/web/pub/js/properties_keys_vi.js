@@ -774,6 +774,8 @@ __GGB__keysVar["vi"].command = {
     "Rename.Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <T\xean> ]",
     "Repeat": "L\u1eb7pL\u1ea1i",
     "Repeat.Syntax": "[ <S\u1ed1 l\u1ea7n l\u1eb7p l\u1ea1i>, <L\u1ec7nh nguy\xean b\u1ea3n>, <L\u1ec7nh nguy\xean b\u1ea3n>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "DoThiThangDu",
     "ResidualPlot.Syntax": "[ <Danh s\xe1ch \u0111i\u1ec3m>, <H\xe0m s\u1ed1> ]",
     "Reverse": "\u0110\u1ea3oNg\u01b0\u1ee3c",
@@ -956,6 +958,8 @@ __GGB__keysVar["vi"].command = {
     "Sphere.Syntax": "[ <\u0110i\u1ec3m>, <B\xe1n k\xednh> ]\n[ <\u0110i\u1ec3m>, <\u0110i\u1ec3m> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <Li\u1ec7t k\xea c\xe1c \u0111i\u1ec3m> ]\n[ <Li\u1ec7t k\xea c\xe1c \u0111i\u1ec3m>, <Th\u1ee9 t\u1ef1 \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "BatDauChuyenDong",
     "StartAnimation.Syntax": "[ ]\n[ <Bi\u1ebfn Boolean> ]\n[ <Thanh tr\u01b0\u1ee3t ho\u1eb7c \u0111i\u1ec3m>, <Thanh tr\u01b0\u1ee3t ho\u1eb7c \u0111i\u1ec3m>, ... ]\n[ <Thanh tr\u01b0\u1ee3t ho\u1eb7c \u0111i\u1ec3m>, <Thanh tr\u01b0\u1ee3t ho\u1eb7c \u0111i\u1ec3m>, ..., <Bi\u1ebfn Boolean> ]",
     "StartRecord": "B\u1eaft\u0111\u1ea7udanhs\xe1ch",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["vi"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Compa",
     "Compasses.Help": "Ch\u1ecdn m\u1ea3ng ho\u1eb7c hai \u0111i\u1ec3m c\u1ee7a b\xe1n k\xednh, r\u1ed3i ch\u1ecdn \u0111i\u1ec3m gi\u1eefa",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "S\u1ed1 ph\u1ee9c",
     "ComplexNumber.Help": "B\u1ea5m chu\u1ed9t v\xe0o giao di\u1ec7n \u0111\u1ec3 t\u1ea1o 1 s\u1ed1 ph\u1ee9c",
     "ComplexNumber.Tool": "S\u1ed1 ph\u1ee9c",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["vi"].menu = {
     "ymin": "GTNNy",
     "ystep": "Y B\u01b0\u1edbc",
     "zAxis": "TrucZ",
+    "zmin": "z Min",
 };
 
 

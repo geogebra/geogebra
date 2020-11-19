@@ -774,6 +774,8 @@ __GGB__keysVar["fa"].command = {
     "Rename.Syntax": "[ <\u0634\u06cc\u0621>, <\u0646\u0627\u0645> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <\u0644\u06cc\u0633\u062a \u0646\u0642\u0637\u0647\u200c\u0647\u0627>, <\u062a\u0627\u0628\u0639> ]",
     "Reverse": "Reverse",
@@ -956,6 +958,8 @@ __GGB__keysVar["fa"].command = {
     "Sphere.Syntax": "[ <Point>, <Radius> ]\n[ <Point>, <Point> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Slider or Point>, <Slider or Point>, ... ]\n[ <Slider or Point>, <Slider or Point>, ..., <Boolean> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["fa"].menu = {
     "ComparisonNotPossible": "\u0628\u0627 \u0639\u0631\u0636 \u067e\u0648\u0632\u0634\u060c \u0645\u0642\u0627\u06cc\u0633\u0647 \u0627\u06cc\u0646 \u0627\u0634\u06cc\u0627\u0621 \u0645\u0645\u06a9\u0646 \u0646\u06cc\u0633\u062a",
     "Compasses": "\u067e\u0631\u06af\u0627\u0631",
     "Compasses.Help": ".\u067e\u0627\u0631\u0647 \u062e\u0637 \u06cc\u0627 \u062f\u0648 \u0646\u0642\u0637\u0647 \u0628\u0631\u0627\u06cc \u0634\u0639\u0627\u0639 \u0648 \u0633\u067e\u0633 \u0645\u0631\u06a9\u0632 \u0631\u0627 \u0627\u0646\u062a\u062e\u0627\u0628 \u06a9\u0646\u06cc\u062f",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "\u0639\u062f\u062f \u0645\u062e\u062a\u0644\u0637",
     "ComplexNumber.Help": "\u0627\u0646\u062a\u062e\u0627\u0628 \u0645\u0648\u0642\u0639\u06cc\u062a",
     "ComplexNumber.Tool": "\u0639\u062f\u062f \u0645\u062e\u062a\u0644\u0637",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["fa"].menu = {
     "ymin": "y \u06a9\u0645\u062a\u0631\u06cc\u0646 \u0645\u0642\u062f\u0627\u0631",
     "ystep": "\u0645\u0631\u062d\u0644\u0647 Y",
     "zAxis": "zAxis",
+    "zmin": "z Min",
 };
 
 

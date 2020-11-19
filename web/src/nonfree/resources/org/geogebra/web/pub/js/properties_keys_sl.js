@@ -774,6 +774,8 @@ __GGB__keysVar["sl"].command = {
     "Rename.Syntax": "[ <objekt>, <ime> ]",
     "Repeat": "Ponovi",
     "Repeat.Syntax": "[ <\u0161tevilo>, <skriptni ukaz>, <skriptni ukaz>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "DiagramRazpr\u0161enosti",
     "ResidualPlot.Syntax": "[ <seznam to\u010dk>, <funkcija> ]",
     "Reverse": "ObratniSeznam",
@@ -956,6 +958,8 @@ __GGB__keysVar["sl"].command = {
     "Sphere.Syntax": "[ <to\u010dka>, <polmer> ]\n[ <to\u010dka>, <to\u010dka> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <seznam to\u010dk> ]\n[ <seznam to\u010dk>, <red \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "Za\u010dniAnimacijo",
     "StartAnimation.Syntax": "[ ]\n[ <logi\u010dna vrednost> ]\n[ <drsnik ali to\u010dka>, <drsnik ali to\u010dka>, ... ]\n[ <drsnik ali to\u010dka>, <drsnik ali to\u010dka>, ..., <logi\u010dna vrednost> ]",
     "StartRecord": "Za\u010detekSnemanja",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["sl"].menu = {
     "ComparisonNotPossible": "\u017dal teh objektov ni mogo\u010de primerjati",
     "Compasses": "Kro\u017enica s polmerom",
     "Compasses.Help": "Izberi daljico ali dve to\u010dki za polmer, nato pa \u0161e sredi\u0161\u010de",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Kompleksno \u0161tevilo",
     "ComplexNumber.Help": "Izberi polo\u017eaj",
     "ComplexNumber.Tool": "Kompleksno \u0161tevilo",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["sl"].menu = {
     "ymin": "ymin",
     "ystep": "korak y",
     "zAxis": "zos",
+    "zmin": "z Min",
 };
 
 

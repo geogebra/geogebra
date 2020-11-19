@@ -774,6 +774,8 @@ __GGB__keysVar["hr"].command = {
     "Rename.Syntax": "[ <objekt>, <naziv> ]",
     "Repeat": "Ponovi",
     "Repeat.Syntax": "[ <broj>, <naredba skriptiranja>, <naredba skriptiranja>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "DijagramRasipanja",
     "ResidualPlot.Syntax": "[ <lista to\u010daka>, <funkcija> ]",
     "Reverse": "InverzniNiz",
@@ -956,6 +958,8 @@ __GGB__keysVar["hr"].command = {
     "Sphere.Syntax": "[ <to\u010dka>, <duljina polumjera> ]\n[ <to\u010dka>, <to\u010dka> ]",
     "Spline": "Splajn",
     "Spline.Syntax": "[ <lista to\u010daka> ]\n[ <lista to\u010daka>, <red \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "Animiraj",
     "StartAnimation.Syntax": "[ ]\n[ <logi\u010dka vrijednost> ]\n[ <kliza\u010d ili to\u010dka>, <kliza\u010d ili to\u010dka>, ... ]\n[ <kliza\u010d ili to\u010dka>, <kliza\u010d ili to\u010dka>, ..., <logi\u010dka vrijednost> ]",
     "StartRecord": "PokreniZapis",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["hr"].menu = {
     "ComparisonNotPossible": "Na\u017ealost nije mogu\u0107e usporediti ove objekte",
     "Compasses": "\u0160estar",
     "Compasses.Help": "Odaberite du\u017einu ili dvije to\u010dke za polumjer, a zatim sredi\u0161te",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Kompleksni broj",
     "ComplexNumber.Help": "Odaberite polo\u017eaj",
     "ComplexNumber.Tool": "Kompleksni broj",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["hr"].menu = {
     "ymin": "y min",
     "ystep": "y razmak",
     "zAxis": "zOs",
+    "zmin": "z Min",
 };
 
 

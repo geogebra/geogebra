@@ -774,6 +774,8 @@ __GGB__keysVar["ro"].command = {
     "Rename.Syntax": "[ <Obiect>, <Nume> ]",
     "Repeat": "Repeatare",
     "Repeat.Syntax": "[ <Num\u0103r>, <Comand\u0103 de scripting>, <Comand\u0103 de scripting>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "PuncteReziduale",
     "ResidualPlot.Syntax": "[ <List\u0103 de Puncte>, <Func\u0163ie> ]",
     "Reverse": "Inversare",
@@ -956,6 +958,8 @@ __GGB__keysVar["ro"].command = {
     "Sphere.Syntax": "[ <Punct>, <Raz\u0103> ]\n[ <Punct>, <Punct> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <List\u0103 de puncte> ]\n[ <List\u0103>, <Ordinul \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "\xcencepeAnima\u0163ie",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Cursor sau punct>, <Cursor sau punct>, ... ]\n[ <Cursor sau punct>, <Cursor sau punct>, ..., <Boolean> ]",
     "StartRecord": "StartMemorare",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["ro"].menu = {
     "ComparisonNotPossible": "Ne pare r\u0103u, nu este posibil\u0103 compararea acelor obiecte",
     "Compasses": "Compas",
     "Compasses.Help": "Selecta\u0163i un segment sau dou\u0103 puncte pentru raz\u0103, apoi punctul de centru",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Num\u0103r complex",
     "ComplexNumber.Help": "Selecta\u021bi pozi\u021bia",
     "ComplexNumber.Tool": "Num\u0103r complex",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["ro"].menu = {
     "ymin": "y min",
     "ystep": "Pas Y",
     "zAxis": "axa Oz",
+    "zmin": "z Min",
 };
 
 

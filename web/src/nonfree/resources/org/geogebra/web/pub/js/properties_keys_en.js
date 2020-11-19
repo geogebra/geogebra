@@ -776,6 +776,8 @@ __GGB__keysVar["en"].command = {
     "Rename.Syntax": "[ <Object>, <Name> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <List of Points>, <Function> ]",
     "Reverse": "Reverse",
@@ -958,6 +960,8 @@ __GGB__keysVar["en"].command = {
     "Sphere.Syntax": "[ <Point>, <Radius> ]\n[ <Point>, <Point> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Slider or Point>, <Slider or Point>, ... ]\n[ <Slider or Point>, <Slider or Point>, ..., <Boolean> ]",
     "StartRecord": "StartRecord",
@@ -1496,6 +1500,7 @@ __GGB__keysVar["en"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Compass",
     "Compasses.Help": "Select segment or two points for radius, then center point",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Complex Number",
     "ComplexNumber.Help": "Select position",
     "ComplexNumber.Tool": "Complex Number",
@@ -3507,6 +3512,7 @@ __GGB__keysVar["en"].menu = {
     "ymin": "y Min",
     "ystep": "Y Step",
     "zAxis": "zAxis",
+    "zmin": "z Min",
 };
 
 

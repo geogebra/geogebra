@@ -774,6 +774,8 @@ __GGB__keysVar["cs"].command = {
     "Rename.Syntax": "[ <Objekt>, <N\xe1zev> ]",
     "Repeat": "Opakovat",
     "Repeat.Syntax": "[ <\u010c\xedslo>, <P\u0159\xedkaz skriptu>, <P\u0159\xedkaz skriptu>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ZbytkovyDiagram",
     "ResidualPlot.Syntax": "[ <Seznam bod\u016f>, <Funkce> ]",
     "Reverse": "Obratit",
@@ -956,6 +958,8 @@ __GGB__keysVar["cs"].command = {
     "Sphere.Syntax": "[ <Bod>, <Polom\u011br> ]\n[ <Bod>, <Bod> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <Seznam bod\u016f> ]\n[ <Seznam bod\u016f>, <\u0158\xe1d \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimace",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Posuvn\xedk nebo bod>, <Posuvn\xedk nebo bod>, ... ]\n[ <Posuvn\xedk nebo bod>, <Posuvn\xedk nebo bod>, ..., <Boolean> ]",
     "StartRecord": "ZacitNahravat",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["cs"].menu = {
     "ComparisonNotPossible": "Tyto objekty bohu\u017eel nen\xed mo\u017en\xe9 porovnat.",
     "Compasses": "Kru\u017e\xedtko",
     "Compasses.Help": "Vyberte \xfase\u010dku nebo dva body pro velikost polom\u011bru, pak vyberte st\u0159ed",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Komplexn\xed \u010d\xedslo",
     "ComplexNumber.Help": "Kliknout na grafick\xfd n\xe1hled pro vytvo\u0159en\xed komplexn\xedho \u010d\xedsla",
     "ComplexNumber.Tool": "Komplexn\xed \u010d\xedslo",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["cs"].menu = {
     "ymin": "y min.",
     "ystep": "y krok",
     "zAxis": "OsaZ",
+    "zmin": "z Min",
 };
 
 

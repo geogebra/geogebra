@@ -774,6 +774,8 @@ __GGB__keysVar["ja"].command = {
     "Rename.Syntax": "[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <\u540d\u524d> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <\u6570\u5024>, <\u547d\u4ee4>, <\u547d\u4ee4>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <\u70b9\u306e\u30ea\u30b9\u30c8>, <\u95a2\u6570> ]",
     "Reverse": "Reverse",
@@ -956,6 +958,8 @@ __GGB__keysVar["ja"].command = {
     "Sphere.Syntax": "[ <\u70b9>, <\u534a\u5f84> ]\n[ <\u70b9>, <\u70b9> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <\u70b9\u306e\u30ea\u30b9\u30c8> ]\n[ <\u70b9\u306e\u30ea\u30b9\u30c8>, <\u6b21\u6570 \u2265 3> ]\n[ <\u70b9\u306e\u30ea\u30b9\u30c8>, <\u6b21\u6570 \u2265 3>, <\u91cd\u307f\u95a2\u6570> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation.Syntax": "[ ]\n[ <\u771f\u507d\u5024> ]\n[ <\u30b9\u30e9\u30a4\u30c0\u30fc\u307e\u305f\u306f\u70b9>, <\u30b9\u30e9\u30a4\u30c0\u30fc\u307e\u305f\u306f\u70b9>, ... ]\n[ <\u30b9\u30e9\u30a4\u30c0\u30fc\u307e\u305f\u306f\u70b9>, <\u30b9\u30e9\u30a4\u30c0\u30fc\u307e\u305f\u306f\u70b9>, ..., <\u771f\u507d\u5024> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["ja"].menu = {
     "ComparisonNotPossible": "\u7533\u3057\u8a33\u3042\u308a\u307e\u305b\u3093\u304c\u3001\u305d\u308c\u3089\u306e\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3092\u6bd4\u8f03\u3059\u308b\u3053\u3068\u306f\u3067\u304d\u307e\u305b\u3093\u3002",
     "Compasses": "\u30b3\u30f3\u30d1\u30b9",
     "Compasses.Help": "\u534a\u5f84\u3092\u4e0e\u3048\u308b\u7dda\u5206\u307e\u305f\u306f2\u70b9\u3092\u9078\u629e\u3001\u6b21\u306b\u4e2d\u5fc3\u3068\u306a\u308b\u70b9\u3092\u9078\u629e",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "\u8907\u7d20\u6570",
     "ComplexNumber.Help": "\u4f4d\u7f6e\u3092\u9078\u629e",
     "ComplexNumber.Tool": "\u8907\u7d20\u6570",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["ja"].menu = {
     "ymin": "y \u6700\u5c0f",
     "ystep": "Y \u5897\u5206",
     "zAxis": "z\u8ef8",
+    "zmin": "z Min",
 };
 
 

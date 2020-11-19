@@ -774,6 +774,8 @@ __GGB__keysVar["uz"].command = {
     "Rename.Syntax": "[ <Object>, <Name> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <List of Points>, <Function> ]",
     "Reverse": "Reverse",
@@ -956,6 +958,8 @@ __GGB__keysVar["uz"].command = {
     "Sphere.Syntax": "[ <Point>, <Radius> ]\n[ <Point>, <Point> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Slider or Point>, <Slider or Point>, ... ]\n[ <Slider or Point>, <Slider or Point>, ..., <Boolean> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["uz"].menu = {
     "ComparisonNotPossible": "Kechirasiz, bu obyektlarni taqqoslash imkoni yo'q",
     "Compasses": "Sirkul",
     "Compasses.Help": "Radius uchun kesma yoki ikki nuqtani, so'ng markazni tanlang",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Kompleks son",
     "ComplexNumber.Help": "Kompleks sonni tasvirlovchi nuqtani tanlang",
     "ComplexNumber.Tool": "Kompleks son",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["uz"].menu = {
     "ymin": "y Min",
     "ystep": "Y Step",
     "zAxis": "Oz o'qi",
+    "zmin": "z Min",
 };
 
 

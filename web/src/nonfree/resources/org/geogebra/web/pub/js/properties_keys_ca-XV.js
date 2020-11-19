@@ -774,6 +774,8 @@ __GGB__keysVar["ca-XV"].command = {
     "Rename.Syntax": "[ <Objecte>, <Nom> ]",
     "Repeat": "Repeteix",
     "Repeat.Syntax": "[ <N\xfamero>, <Comandament de GeoGebra>, <Comandament de GeoGebra>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "DiagramaResidual",
     "ResidualPlot.Syntax": "[ <Llista de punts>, <Funci\xf3> ]",
     "Reverse": "Invertix",
@@ -956,6 +958,8 @@ __GGB__keysVar["ca-XV"].command = {
     "Sphere.Syntax": "[ <Punt>, <Radi> ]\n[ <Punt>, <Punt> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <Llista de Punts> ]\n[ <Llist de Punts>, <Orde \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "IniciaAnimaci\xf3",
     "StartAnimation.Syntax": "[ ]\n[ <Boole\xe0> ]\n[ <Punt lliscant o punt>, <Punt lliscant o punt>, ... ]\n[ <Punt lliscant o punt>, <Punt lliscant o punt>, ..., <Boole\xe0> ]",
     "StartRecord": "Enregistra",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "ComparisonNotPossible": "Ho sentim, no es poden comparar aquests objectes",
     "Compasses": "Comp\xe0s",
     "Compasses.Help": "Seleccioneu un segment o dos punts per a determinar el radi i despr\xe9s el centre",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Nombre complex",
     "ComplexNumber.Help": "Feu clic en la finestra gr\xe0fica per a crear un nombre complex",
     "ComplexNumber.Tool": "Nombre complex",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "ymin": "y m\xedn.",
     "ystep": "Pas Y",
     "zAxis": "EixZ",
+    "zmin": "z Min",
 };
 
 

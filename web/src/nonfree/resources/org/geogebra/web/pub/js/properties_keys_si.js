@@ -774,6 +774,8 @@ __GGB__keysVar["si"].command = {
     "Rename.Syntax": "[ <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, <\u0db1\u0db8> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <\u0dbd\u0d9a\u0dca\u0dc2 \u0dbd\u0dd0\u0dba\u0dd2\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, <\u0dc1\u0dca\u200d\u0dbb\u0dd2\u0dad\u0dba> ]",
     "Reverse": "\u0db4\u0dca\u200d\u0dbb\u0dad\u0dd2\u0dc0\u0dbb\u0dca\u0dad\u0db1\u0dba",
@@ -956,6 +958,8 @@ __GGB__keysVar["si"].command = {
     "Sphere.Syntax": "[ <\u0dbd\u0d9a\u0dca\u0dc2\u0dba>, <\u0d85\u0dbb\u0dba> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <\u0dbd\u0d9a\u0dca\u0dc2 \u0dbd\u0dd0\u0dba\u0dd2\u0dc3\u0dca\u0dad\u0dd4\u0dc0> ]\n[ <\u0dbd\u0d9a\u0dca\u0dc2 \u0dbd\u0dd0\u0dba\u0dd2\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, <\u0d85\u0db1\u0dd4\u0db4\u0dd2\u0dbd\u0dd2\u0dc0\u0dd9\u0dbd \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation.Syntax": "[ ]\n[ <\u0db6\u0dd6\u0dbd\u0dd2\u0dba> ]\n[ <\u0dc3\u0dca\u0dbd\u0dba\u0dd2\u0da9\u0dbb\u0dba \u0dc4\u0ddd \u0dbd\u0d9a\u0dca\u0dc2\u0dba>, <\u0dc3\u0dca\u0dbd\u0dba\u0dd2\u0da9\u0dbb\u0dba \u0dc4\u0ddd \u0dbd\u0d9a\u0dca\u0dc2\u0dba>, ... ]\n[ <\u0dc3\u0dca\u0dbd\u0dba\u0dd2\u0da9\u0dbb\u0dba \u0dc4\u0ddd \u0dbd\u0d9a\u0dca\u0dc2\u0dba>, <\u0dc3\u0dca\u0dbd\u0dba\u0dd2\u0da9\u0dbb\u0dba \u0dc4\u0ddd \u0dbd\u0d9a\u0dca\u0dc2\u0dba>, ..., <\u0db6\u0dd6\u0dbd\u0dd2\u0dba> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["si"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u0d9a\u0dc0\u0d9a\u0da7\u0dd4",
     "Compasses.Help": "\u0d85\u0dbb\u0dba \u0dc3\u0db3\u0dc4\u0dcf \u0d9b\u0dab\u0dca\u0da9\u0dba \u0dc4\u0ddd \u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba2\u0d9a\u0dca \u0dad\u0ddd\u0dbb\u0db1\u0dca\u0db1.\u0db4\u0dc3\u0dd4\u0dc0 \u0d9a\u0dda\u0db1\u0dca\u0daf\u0dca\u200d\u0dbb\u0dd2\u0d9a \u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba \u0dad\u0ddd\u0dbb\u0db1\u0dca\u0db1",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "\u0dc3\u0d82\u0d9a\u0dd3\u0dbb\u0dca\u0dab \u0dc3\u0d82\u0d9b\u0dca\u0dba\u0dcf\u0dc0",
     "ComplexNumber.Help": "Select position",
     "ComplexNumber.Tool": "Complex Number",
@@ -3502,6 +3507,7 @@ __GGB__keysVar["si"].menu = {
     "ymin": "Y\u0dc4\u0dd3 \u0d85\u0dc0\u0db8\u0dba",
     "ystep": "Y \u0db4\u0dd2\u0dba\u0dc0\u0dbb",
     "zAxis": "z \u0d85\u0d9a\u0dca\u0dc2\u0dba",
+    "zmin": "z Min",
 };
 
 
