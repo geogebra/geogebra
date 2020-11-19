@@ -14,6 +14,13 @@ public class AlgoReplaceAll extends AlgoElement {
 	private GeoText textToReplace;
 	private GeoText replacedText;
 
+	/**
+	 * constructor for replace all command
+	 * @param cons construction
+	 * @param inputText input text
+	 * @param textToMatch text to find in input
+	 * @param textToReplace replacement text
+	 */
 	public AlgoReplaceAll(Construction cons, GeoText inputText,
 			GeoText textToMatch, GeoText textToReplace) {
 		super(cons);
@@ -37,7 +44,9 @@ public class AlgoReplaceAll extends AlgoElement {
 		String inputStr = inputText.getTextString();
 		inputStr = inputStr.replaceAll(textToMatch.getTextString(),
 				textToReplace.getTextString());
-		replacedText.setTextString(inputStr);
+		if (inputStr != null) {
+			replacedText.setTextString(inputStr);
+		}
 	}
 
 	@Override
