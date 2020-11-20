@@ -63,11 +63,11 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	private ProbabilityCalculatorStyleBarD styleBar;
 
 	// GUI elements
-	private JComboBox<String> comboDistribution, comboProbType;
+	private JComboBox<String> comboDistribution;
 	private JTextField[] fldParameterArray;
 	private JTextField fldLow, fldHigh, fldResult;
 	private JLabel[] lblParameterArray;
-	private JLabel lblBetween, lblProbOf, lblEndProbOf, lblProb, lblDist;
+	private JLabel lblBetween, lblProbOf, lblEndProbOf, lblDist;
 	private JToggleButton btnCumulative, btnIntervalLeft, btnIntervalBetween,
 			btnIntervalRight;
 
@@ -118,7 +118,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		tabbedPane.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				// System.out.println("Tab: " + tabbedPane.getSelectedIndex());
 				updateStylebar();
 			}
 		});
@@ -129,12 +128,11 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		setLabels();
 
 		attachView();
+
 		settingsChanged(app.getSettings().getProbCalcSettings());
+
 		tabbedPane.setSelectedIndex(app.getSettings().getProbCalcSettings()
 				.getCollection().isActive() ? 1 : 0);
-		// TODO for testing only, remove later
-		// tabbedPane.setSelectedIndex(1);
-
 	}
 
 	/**************** end constructor ****************/
@@ -165,13 +163,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		return probManager;
 	}
 
-
-
-	@Override
-	protected void setTypeSelectedIndex(int idx) {
-		this.comboProbType.setSelectedIndex(idx);
-
-	}
 
 	@Override
 	public boolean isDistributionTabOpen() {
@@ -315,11 +306,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		}
 
 		// create probability mode JComboBox and put it in a JPanel
-		comboProbType = new JComboBox<>();
-		comboProbType.setRenderer(getComboRenderer());
-		comboProbType.addActionListener(this);
-		lblProb = new JLabel();
-
 		lblProbOf = new JLabel();
 		lblBetween = new JLabel(); // <= X <=
 		lblEndProbOf = new JLabel();
@@ -393,7 +379,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		wrapperPanel.setFont(font);
 		GuiManagerD.setFontRecursive(this.wrapperPanel, font);
 		lblDist.setFont(((AppD) app).getItalicFont());
-		lblProb.setFont(((AppD) app).getItalicFont());
 		getPlotPanel().updateFonts();
 		((ProbabilityTableD) getTable()).updateFonts(font);
 		((StatisticsCalculatorD) statCalculator).updateFonts(font);
@@ -439,16 +424,12 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 					selectedDist = getReverseDistributionMap()
 							.get(comboDistribution.getSelectedItem());
 					parameters = ProbabilityManager
-							.getDefaultParameters(selectedDist);
+							.getDefaultParameters(selectedDist, cons);
 					this.setProbabilityCalculator(selectedDist, parameters,
 							isCumulative);
 				}
 			}
 			wrapperPanel.requestFocus();
-		}
-
-		else if (source == comboProbType) {
-			updateProbabilityType();
 		}
 
 		else if (source == btnCumulative) {
@@ -462,7 +443,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			btnIntervalRight.removeActionListener(this);
 
 			if (!isCumulative) {
+				changeProbabilityType();
 				updateProbabilityType();
+				updateGUI();
 			}
 
 			btnIntervalLeft.addActionListener(this);
@@ -492,6 +475,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			NumberValue nv;
 			nv = kernel.getAlgebraProcessor().evaluateToNumeric(inputText,
 					false);
+			GeoNumeric numericValue =
+					nv instanceof GeoNumeric ? (GeoNumeric) nv : new GeoNumeric(cons, Double.NaN);
 			double value = nv.getDouble();
 
 			if (source == fldLow) {
@@ -530,12 +515,10 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 				// handle parameter entry
 				for (int i = 0; i < parameters.length; ++i) {
 					if (source == fldParameterArray[i]) {
-
-					if (isValidParameter(value, i)) {
-					parameters[i] = value;
-					updateAll();
-					}
-
+						if (isValidParameterChange(value, i)) {
+							parameters[i] = numericValue;
+							updateAll();
+						}
 					}
 				}
 			}
@@ -576,12 +559,10 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		setXAxisPoints();
 		updateProbabilityType();
 		updateGUI();
-		if (styleBar != null)
-		 {
-			styleBar.updateGUI();
-		// this.requestFocus();
-		}
 
+		if (styleBar != null) {
+			styleBar.updateGUI();
+		}
 	}
 
 	@Override
@@ -606,7 +587,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 						.setText(getParameterLabels()[selectedDist.ordinal()][i]);
 				// set field
 				fldParameterArray[i].removeActionListener(this);
-				fldParameterArray[i].setText("" + format(parameters[i]));
+				fldParameterArray[i].setText("" + format(parameters[i].getDouble()));
 				fldParameterArray[i].setCaretPosition(0);
 				fldParameterArray[i].addActionListener(this);
 			}
@@ -645,15 +626,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 	}
 
-	private void updateProbabilityType() {
-
-		if (isIniting) {
-			return;
-		}
-
-		boolean isDiscrete = probmanagerIsDiscrete();
-		int oldProbMode = probMode;
-
+	@Override
+	protected void changeProbabilityType() {
 		if (isCumulative) {
 			probMode = PROB_LEFT;
 		} else {
@@ -665,6 +639,16 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 				probMode = ProbabilityCalculatorView.PROB_RIGHT;
 			}
 		}
+	}
+
+	private void updateProbabilityType() {
+		if (isIniting) {
+			return;
+		}
+
+		boolean isDiscrete = probmanagerIsDiscrete();
+		int oldProbMode = probMode;
+
 		this.getPlotDimensions();
 
 		if (probMode == PROB_INTERVAL) {
@@ -755,7 +739,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		}
 		setXAxisPoints();
 		updateIntervalProbability();
-		updateGUI();
 	}
 
 	/**
@@ -826,7 +809,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 	@Override
 	public void setLabels() {
-
 		tabbedPane.setTitleAt(0, loc.getMenu("Distribution"));
 
 		((SetLabels) statCalculator).setLabels();
@@ -835,18 +817,14 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		setLabelArrays();
 
 		lblDist.setText(loc.getMenu("Distribution") + ": ");
-		lblProb.setText(loc.getMenu("Probability") + ": ");
 
-		setProbabilityComboBoxMenu();
-
-		lblBetween.setText(SpreadsheetViewInterface.X_BETWEEN); // <= X <=
 		lblEndProbOf.setText(loc.getMenu("EndProbabilityOf") + " = ");
 		lblProbOf.setText(loc.getMenu("ProbabilityOf"));
 
 		setDistributionComboBoxMenu();
 
 		if (getTable() != null) {
-			((ProbabilityTableD) getTable()).setLabels();
+			getTable().setLabels();
 		}
 		if (styleBar != null) {
 			styleBar.setLabels();
@@ -863,22 +841,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			lblParameterArray[i]
 					.setText(getParameterLabels()[selectedDist.ordinal()][i]);
 		}
-	}
-
-	@Override
-	protected void setProbabilityComboBoxMenu() {
-
-		comboProbType.removeActionListener(this);
-		comboProbType.removeAllItems();
-		if (isCumulative) {
-			comboProbType.addItem(loc.getMenu("LeftProb"));
-		} else {
-			comboProbType.addItem(loc.getMenu("IntervalProb"));
-			comboProbType.addItem(loc.getMenu("LeftProb"));
-			comboProbType.addItem(loc.getMenu("RightProb"));
-		}
-		comboProbType.addActionListener(this);
-
 	}
 
 	private void setDistributionComboBoxMenu() {
@@ -914,20 +876,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		if (isIniting) {
-			return;
-		}
-
-		// JSlider source = (JSlider) e.getSource();
-		// for (int i = 0; i < maxParameterCount; i++) {
-		// if (source == sliderArray[i]) {
-		//
-		// fldParameterArray[i].setText("" + sliderArray[i].getValue());
-		// doTextFieldActionPerformed(fldParameterArray[i]);
-		//
-		// }
-		// }
-
+		// nothing to do
 	}
 
 	@Override
