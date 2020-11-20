@@ -1445,10 +1445,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return versionArray.length < v.length;
 	}
 
-	public final void setFileVersion(String version, String appName) {
-		setFileVersion(version, appName, null);
-	}
-
 	/**
 	 * Sets version of currently loaded file
 	 *
@@ -1457,7 +1453,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param appName
 	 *            name of the app that saved current file
 	 */
-	public void setFileVersion(String version, String appName, String subApp) {
+	public void setFileVersion(String version, String appName) {
 		if (version == null) {
 			this.versionArray = null;
 			return;
@@ -4274,6 +4270,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void readLater(GeoNumeric geo) {
 		// implemented in AppW
+	}
+
+	/**
+	 * @param subApp subapp code
+	 * @param p perspective
+	 */
+	public void updateAppCodeSuite(String subApp, Perspective p) {
+		// only in Web
 	}
 
 	/**

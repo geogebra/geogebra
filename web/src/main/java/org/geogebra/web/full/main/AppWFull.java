@@ -1602,6 +1602,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		for (DockPanelData panelData : dpDataArray) {
 			DockPanelW panel = dm.getPanel(panelData.getViewId());
 			if (panel instanceof ToolbarDockPanelW) {
+				dm.show(panel);
 				updateToolbarPanelVisibility((ToolbarDockPanelW) panel, panelData.isVisible());
 			}
 			if (panel != null && !isPortrait()) {
@@ -1914,11 +1915,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public void setFileVersion(String version, String appName, String subApp) {
-		super.setFileVersion(version, appName, subApp);
-		String appCode = getConfig().getAppCode();
+	public void setFileVersion(String version, String appName) {
+		super.setFileVersion(version, appName);
 		if (!"auto".equals(appName)
 				&& "auto".equals(getAppletParameters().getDataParamAppName())) {
+			String appCode = getConfig().getAppCode();
 			getAppletParameters().setAttribute("appName",
 					appName == null ? "" : appName);
 
@@ -1933,12 +1934,17 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				getGuiManager().resetPanels();
 			}
 		}
+	}
+
+	@Override
+	public void updateAppCodeSuite(String subApp, Perspective p) {
 		if ("suite".equals(getAppletParameters().getDataParamAppName())) {
-			String newAppCode = StringUtil.empty(subApp) ? appName : subApp;
-			if (!appCode.equals(newAppCode)) {
-				this.activity = new SuiteActivity(newAppCode);
-				updateSymbolicFlag(newAppCode, false);
-				setSuiteHeaderButton(newAppCode);
+			String appCode = getConfig().getAppCode();
+			Log.error(subApp);
+			if (!appCode.equals(subApp)) {
+				this.activity = new SuiteActivity(subApp);
+				updateSymbolicFlag(subApp, p);
+				setSuiteHeaderButton(subApp);
 			}
 		}
 	}
@@ -2174,24 +2180,21 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		activity.start(this);
 
 		clearConstruction();
-		updateSymbolicFlag(subAppCode, true);
+		Perspective perspective = PerspectiveDecoder.decode(getConfig().getForcedPerspective(),
+				kernel.getParser(), ToolBar.getAllToolsNoMacros(isHTML5Applet(), isExam(), this));
+		updateSymbolicFlag(subAppCode, perspective);
+		reinitSettings();
+		updatePerspective(perspective);
 	}
 
-	private void updateSymbolicFlag(String subAppCode, boolean updatePerspective) {
+	private void updateSymbolicFlag(String subAppCode, Perspective perspective) {
 		getKernel().setSymbolicMode(
 				GeoGebraConstants.CAS_APPCODE.equals(subAppCode)
 						? SymbolicMode.SYMBOLIC_AV
 						: SymbolicMode.NONE);
-		Perspective perspective = PerspectiveDecoder.decode(getConfig().getForcedPerspective(),
-				kernel.getParser(), ToolBar.getAllToolsNoMacros(isHTML5Applet(), isExam(), this));
-
 		setPerspective(perspective);
 		reinitAlgebraView();
 		menuViewController.resetMenuOnAppSwitch(this);
-		reinitSettings();
-		if (updatePerspective) {
-			updatePerspective(perspective);
-		}
 	}
 
 	private void reinitSettings() {
