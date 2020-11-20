@@ -1574,9 +1574,9 @@ public class GeoText extends GeoElement
 	 */
 	public String getEscapedSpecialCharsString() {
 		StringBuilder b = new StringBuilder();
-		if (getTextString() != null) {
-			for (int i = 0; i < getTextString().length(); ++i) {
-				char ch = getTextString().charAt(i);
+		if (str != null && !str.isEmpty()) {
+			for (int i = 0; i < str.length(); ++i) {
+				char ch = str.charAt(i);
 				if ("\\.^$|?*+[]{}()".indexOf(ch) != -1) {
 					b.append('\\').append(ch);
 				} else {
