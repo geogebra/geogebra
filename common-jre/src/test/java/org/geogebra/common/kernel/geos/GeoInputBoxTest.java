@@ -658,4 +658,12 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox = (GeoInputBox) getConstruction().lookupLabel("InputBox1");
 		assertTrue(inputBox.isSerifContent());
 	}
+
+	@Test
+	public void voidReplaceForLinesYWithFOfX() {
+		add("g: y=x");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(g)");
+		inputBox.updateLinkedGeo("f(x)=x+5");
+		assertEquals("y = x + 5", inputBox.getText());
+	}
 }
