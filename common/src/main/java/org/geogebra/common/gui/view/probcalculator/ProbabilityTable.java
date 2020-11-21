@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.probcalculator;
 
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
@@ -26,7 +27,7 @@ public abstract class ProbabilityTable {
 	private int xMin;
 	private int xMax;
 	private boolean isIniting;
-	private double[] parms;
+	private GeoNumberValue[] parms;
 
 	/**
 	 * @param app
@@ -74,7 +75,7 @@ public abstract class ProbabilityTable {
 		setTable(distType, parms, xMin, xMax);
 	}
 
-	public abstract void setTable(Dist distType2, double[] parms2, int xMin2,
+	public abstract void setTable(Dist distType2, GeoNumberValue[] parms2, int xMin2,
 			int xMax2);
 
 	protected ProbabilityManager getProbManager() {
@@ -105,7 +106,7 @@ public abstract class ProbabilityTable {
 		return xMin;
 	}
 
-	protected double[] getParms() {
+	protected GeoNumberValue[] getParms() {
 		return parms;
 	}
 
@@ -124,7 +125,7 @@ public abstract class ProbabilityTable {
 		return columnNames;
 	}
 
-	protected void setTableModel(Dist distType1, double[] parms1, int xMin1,
+	protected void setTableModel(Dist distType1, GeoNumberValue[] parms1, int xMin1,
 			int xMax1) {
 		this.distType = distType1;
 		this.xMin = xMin1;

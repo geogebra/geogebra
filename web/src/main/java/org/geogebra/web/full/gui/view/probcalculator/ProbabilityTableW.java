@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.view.probcalculator;
 
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityTable;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.web.full.gui.view.data.StatTableW;
@@ -23,8 +24,8 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 	 * default width of table
 	 */
 	public static final int DEFAULT_WIDTH = 200;
-	private FlowPanel wrappedPanel;
-	private StatTableW statTable;
+	private final FlowPanel wrappedPanel;
+	private final StatTableW statTable;
 
 	/**
 	 * @param app Application
@@ -47,7 +48,7 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
     }
 	
 	@Override
-	public void setTable(Dist distType, double[] parms, int xMin, int xMax) {
+	public void setTable(Dist distType, GeoNumberValue[] parms, int xMin, int xMax) {
 
 		setIniting(true);
 
@@ -140,7 +141,7 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 			String highStr = table.getText(selRow[selRow.length - 1], 0);
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
-			((ProbabilityCalculatorViewW) getProbCalc()).setInterval(low, high);
+			getProbCalc().setInterval(low, high);
 		} else if (getProbCalc()
 				.getProbMode() == ProbabilityCalculatorView.PROB_LEFT) {
 			String lowStr = statTable.getTable().getText(1, 0);
@@ -148,7 +149,7 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 					.getText(selRow[selRow.length - 1], 0);
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
-			((ProbabilityCalculatorViewW) getProbCalc()).setInterval(low, high);
+			getProbCalc().setInterval(low, high);
 
 			// adjust the selection
 			// table.getSelectionModel().removeListSelectionListener(this);
@@ -170,7 +171,7 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 			String highStr = statTable.getTable().getText(maxRow, 0);
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
-			((ProbabilityCalculatorViewW) getProbCalc()).setInterval(low, high);
+			getProbCalc().setInterval(low, high);
 
 			// table.getSelectionModel().removeListSelectionListener(this);
 			table.changeSelection(maxRow, false, false);
