@@ -1696,6 +1696,16 @@ public class DockManagerW extends DockManager {
 	}
 
 	/**
+	 * Resize probability calculator view; can't be done by CSS because of canvas
+	 */
+	public void resizeProbabilityCalculator() {
+		DockPanelW probPanel = getPanel(App.VIEW_PROBABILITY_CALCULATOR);
+		if (probPanel != null) {
+			probPanel.deferredOnResize();
+		}
+	}
+
+	/**
 	 * Closes toolbar in portrait mode
 	 * 
 	 */
