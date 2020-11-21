@@ -167,10 +167,9 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 			D3.set(i + 1, funD3[i].value(t));
 		}
 
-		// compute torsion using the formula k = (f'' x f').f''' / |f' x f''|^2
+		// compute torsion using the formula tau = (f'' x f').f''' / |f' x f''|^2
 		Coords cross = D1.crossProduct(D2);
 		double dot = cross.dotproduct(D3);
-		// Log.debug(cross.norm() / Math.pow(D1.norm(), 3));
 		return dot/Math.pow(cross.norm(),2);
 	}
 
