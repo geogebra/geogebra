@@ -1,8 +1,6 @@
 package org.geogebra.web.solver;
 
 import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.model.MathSequence;
-import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 
 public class SolverMathFieldListener implements MathFieldListener {
 
@@ -35,11 +33,6 @@ public class SolverMathFieldListener implements MathFieldListener {
 	@Override
 	public void onUpKeyPressed() {
 		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public String serialize(MathSequence selectionText) {
-		return GeoGebraSerializer.serialize(selectionText);
 	}
 
 	@Override

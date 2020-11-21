@@ -431,7 +431,16 @@ public class ProbabilityManager {
 	 *            distribution
 	 * @return default parameters
 	 */
-	public static double[] getDefaultParameters(Dist dist) {
+	public static GeoNumeric[] getDefaultParameters(Dist dist, Construction cons) {
+		double[] values = getDefaultParameters(dist);
+		GeoNumeric[] params = new GeoNumeric[values.length];
+		for (int i = 0; i < params.length; i++) {
+			params[i] = new GeoNumeric(cons, values[i]);
+		}
+		return params;
+	}
+
+	private static double[] getDefaultParameters(Dist dist) {
 		switch (dist) {
 		case NORMAL:
 			return new double[] { 0, 1 }; // mean = 0, sigma = 1
@@ -487,7 +496,7 @@ public class ProbabilityManager {
 	 *            cumulative?
 	 * @return plot width and height
 	 */
-	public double[] getPlotDimensions(Dist selectedDist, double[] parms,
+	public double[] getPlotDimensions(Dist selectedDist, GeoNumberValue[] parms,
 			GeoElement densityCurve, boolean isCumulative) {
 
 		double xMin = 0, xMax = 0, yMin = 0, yMax = 0;
@@ -499,8 +508,8 @@ public class ProbabilityManager {
 		switch (selectedDist) {
 
 		case NORMAL:
-			mean = parms[0];
-			sigma = parms[1];
+			mean = parms[0].getDouble();
+			sigma = parms[1].getDouble();
 			xMin = mean - 5 * sigma;
 			xMax = mean + 5 * sigma;
 			yMin = 0;
@@ -515,7 +524,7 @@ public class ProbabilityManager {
 			break;
 
 		case CHISQUARE:
-			k = parms[0];
+			k = parms[0].getDouble();
 			xMin = 0;
 			xMax = 4 * k;
 			yMin = 0;
@@ -529,8 +538,8 @@ public class ProbabilityManager {
 			break;
 
 		case F:
-			v = parms[0];
-			v2 = parms[1];
+			v = parms[0].getDouble();
+			v2 = parms[1].getDouble();
 			mean = v2 > 2 ? v2 / (v2 - 2) : 1;
 			mode = ((v - 2) * v2) / (v * (v2 + 2));
 
@@ -549,8 +558,8 @@ public class ProbabilityManager {
 			break;
 
 		case CAUCHY:
-			median = parms[0];
-			scale = parms[1];
+			median = parms[0].getDouble();
+			scale = parms[1].getDouble();
 			// TODO --- better estimates
 			xMin = median - 6 * scale;
 			xMax = median + 6 * scale;
@@ -561,7 +570,7 @@ public class ProbabilityManager {
 			break;
 
 		case EXPONENTIAL:
-			double lambda = parms[0];
+			double lambda = parms[0].getDouble();
 			xMin = 0;
 			// xMax = 4 * (1 / lambda); // st dev = 1/lambda
 			xMax = getContXMax((GeoFunction) densityCurve, 1, .2, -1);
@@ -570,8 +579,8 @@ public class ProbabilityManager {
 			break;
 
 		case GAMMA:
-			double alpha = parms[0]; // (shape)
-			double beta = parms[1]; // (scale)
+			double alpha = parms[0].getDouble(); // (shape)
+			double beta = parms[1].getDouble(); // (scale)
 			mode = (alpha - 1) * beta;
 			mean = alpha * beta;
 			sd = Math.sqrt(alpha) * beta;
@@ -586,8 +595,8 @@ public class ProbabilityManager {
 			break;
 
 		case WEIBULL:
-			shape = parms[0];
-			scale = parms[1];
+			shape = parms[0].getDouble();
+			scale = parms[1].getDouble();
 			median = scale * Math.pow(Math.log(2), 1 / shape);
 			xMin = 0;
 			xMax = 2 * median;
@@ -603,8 +612,8 @@ public class ProbabilityManager {
 			break;
 
 		case LOGNORMAL:
-			double meanParm = parms[0];
-			double sdParm = parms[1];
+			double meanParm = parms[0].getDouble();
+			double sdParm = parms[1].getDouble();
 			double varParm = sdParm * sdParm;
 
 			mean = Math.exp(meanParm + varParm / 2);
@@ -622,8 +631,8 @@ public class ProbabilityManager {
 			break;
 
 		case LOGISTIC:
-			mean = parms[0];
-			scale = parms[1];
+			mean = parms[0].getDouble();
+			scale = parms[1].getDouble();
 			sd = Math.PI * scale / Math.sqrt(3);
 			xMin = mean - 5 * sd;
 			xMax = mean + 5 * sd;
@@ -633,7 +642,7 @@ public class ProbabilityManager {
 
 		case POISSON:
 			// mode = mean = parms[0];
-			mode = Math.floor(parms[0]);
+			mode = Math.floor(parms[0].getDouble());
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
 			yMin = 0;
@@ -649,8 +658,9 @@ public class ProbabilityManager {
 			// https://en.wikipedia.org/wiki/Negative_binomial_distribution
 			// if r <= 1, mode = 0, else mode = floor((1-p)(r-1)/(p)
 			mode = 0;
-			if (parms[0] > 1) {
-				mode = Math.floor((1 - parms[1]) * (parms[0] - 1) / (parms[1]));
+			if (parms[0].getDouble() > 1) {
+				mode = Math.floor((1 - parms[1].getDouble()) * (parms[0].getDouble() - 1)
+						/ (parms[1].getDouble()));
 			}
 
 			xMin = probCalc.getDiscreteXMin();
@@ -665,7 +675,7 @@ public class ProbabilityManager {
 			// n = parms[0]
 			// p = parms[1]
 			// mode = np
-			mode = Math.floor((parms[0] + 1) * parms[1]);
+			mode = Math.floor((parms[0].getDouble() + 1) * parms[1].getDouble());
 
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
@@ -680,7 +690,8 @@ public class ProbabilityManager {
 			// k = parms[1];
 			// n = parms[2];
 			// mode = floor(n+1)(k+1)/(N+2);
-			mode = Math.floor((parms[1] + 1) * (parms[2] + 1) / (parms[0] + 2));
+			mode = Math.floor((parms[1].getDouble() + 1) * (parms[2].getDouble() + 1)
+					/ (parms[0].getDouble() + 2));
 
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
@@ -726,7 +737,7 @@ public class ProbabilityManager {
 	 * @return {mean, sigma} Note: if a values is undefined, array with null
 	 *         element(s) is returned
 	 */
-	public Double[] getDistributionMeasures(Dist selectedDist, double[] parms) {
+	public Double[] getDistributionMeasures(Dist selectedDist, GeoNumberValue[] parms) {
 
 		// in the future, would be nice to return median and mode
 		// median can be evaluated numerically with inverseCDF(.5)
@@ -741,13 +752,13 @@ public class ProbabilityManager {
 
 		default:
 		case NORMAL:
-			mean = parms[0];
-			sigma = parms[1];
+			mean = parms[0].getDouble();
+			sigma = parms[1].getDouble();
 			break;
 
 		case STUDENT:
 			mean = 0d;
-			v = parms[0];
+			v = parms[0].getDouble();
 			if (v > 2) {
 				sigma = Math.sqrt(v / (v - 2));
 			}
@@ -755,14 +766,14 @@ public class ProbabilityManager {
 			break;
 
 		case CHISQUARE:
-			k = parms[0];
+			k = parms[0].getDouble();
 			mean = k;
 			sigma = Math.sqrt(2 * k);
 			break;
 
 		case F:
-			v = parms[0];
-			v2 = parms[1];
+			v = parms[0].getDouble();
+			v2 = parms[1].getDouble();
 			if (v2 > 2) {
 				mean = v2 / (v2 - 2);
 			}
@@ -780,21 +791,21 @@ public class ProbabilityManager {
 			break;
 
 		case EXPONENTIAL:
-			double lambda = parms[0];
+			double lambda = parms[0].getDouble();
 			mean = 1 / lambda;
 			sigma = 1 / lambda;
 			break;
 
 		case GAMMA:
-			double alpha = parms[0]; // (shape)
-			double beta = parms[1]; // (scale)
+			double alpha = parms[0].getDouble(); // (shape)
+			double beta = parms[1].getDouble(); // (scale)
 			mean = alpha * beta;
 			sigma = Math.sqrt(alpha) * beta;
 			break;
 
 		case WEIBULL:
-			shape = parms[0];
-			scale = parms[1];
+			shape = parms[0].getDouble();
+			scale = parms[1].getDouble();
 
 			mean = scale * MyMath2.gamma(1 + 1 / shape);
 			variance = scale * scale * MyMath2.gamma(1 + 2 / shape)
@@ -806,8 +817,8 @@ public class ProbabilityManager {
 		case LOGNORMAL:
 
 			// TODO: may not be correct
-			double meanParm = parms[0];
-			double sdParm = parms[1];
+			double meanParm = parms[0].getDouble();
+			double sdParm = parms[1].getDouble();
 			double varParm = sdParm * sdParm;
 
 			mean = Math.exp(meanParm + varParm / 2);
@@ -819,14 +830,14 @@ public class ProbabilityManager {
 			break;
 
 		case LOGISTIC:
-			mean = parms[0];
-			scale = parms[1];
+			mean = parms[0].getDouble();
+			scale = parms[1].getDouble();
 			sigma = Math.PI * scale / Math.sqrt(3);
 			break;
 
 		case PASCAL:
-			r = parms[0];
-			p = parms[1];
+			r = parms[0].getDouble();
+			p = parms[1].getDouble();
 			// care needed, p and 1-p are swapped from here
 			// https://en.wikipedia.org/wiki/Negative_binomial_distribution
 			// OK here:
@@ -837,22 +848,22 @@ public class ProbabilityManager {
 			break;
 
 		case POISSON:
-			mean = parms[0];
+			mean = parms[0].getDouble();
 			sigma = Math.sqrt(mean);
 			break;
 
 		case BINOMIAL:
-			n = parms[0];
-			p = parms[1];
+			n = parms[0].getDouble();
+			p = parms[1].getDouble();
 			mean = n * p;
 			var = n * p * (1 - p);
 			sigma = Math.sqrt(var);
 			break;
 
 		case HYPERGEOMETRIC:
-			N = parms[0];
-			k = parms[1];
-			n = parms[2];
+			N = parms[0].getDouble();
+			k = parms[1].getDouble();
+			n = parms[2].getDouble();
 
 			mean = n * k / N;
 			var = n * k * (N - k) * (N - n) / (N * N * (N - 1));
@@ -879,21 +890,21 @@ public class ProbabilityManager {
 	 *            whether it's cumulative
 	 * @return probability
 	 */
-	public double probability(double value, double[] parms, Dist distType,
+	public double probability(double value, GeoNumberValue[] parms, Dist distType,
 			boolean isCumulative) {
 
-		GeoNumeric param1 = null, param2 = null, param3 = null;
+		GeoNumberValue param1 = null, param2 = null, param3 = null;
 
 		Construction cons = app.getKernel().getConstruction();
 
 		if (parms.length > 0) {
-			param1 = new GeoNumeric(cons, parms[0]);
+			param1 = parms[0];
 		}
 		if (parms.length > 1) {
-			param2 = new GeoNumeric(cons, parms[1]);
+			param2 = parms[1];
 		}
 		if (parms.length > 2) {
-			param3 = new GeoNumeric(cons, parms[2]);
+			param3 = parms[2];
 		}
 
 		AlgoDistribution algo = getCommand(distType, cons, param1, param2,
@@ -922,7 +933,7 @@ public class ProbabilityManager {
 	 * @return cumulative probability of an interval
 	 */
 	public double intervalProbability(double low, double high, Dist distType,
-			double[] parms, int probMode) {
+			GeoNumberValue[] parms, int probMode) {
 		if (probMode == ProbabilityCalculatorView.PROB_LEFT) {
 			return probability(high, parms, distType, true);
 		} else if (probMode == ProbabilityCalculatorView.PROB_RIGHT) {
@@ -958,20 +969,20 @@ public class ProbabilityManager {
 	 * @return inverse probability
 	 */
 	public double inverseProbability(Dist distType, double prob,
-			double[] parms) {
+			GeoNumberValue[] parms) {
 
 		GeoNumberValue param1 = null, param2 = null, param3 = null;
 
 		Construction cons = app.getKernel().getConstruction();
 
 		if (parms.length > 0) {
-			param1 = new GeoNumeric(cons, parms[0]);
+			param1 = parms[0];
 		}
 		if (parms.length > 1) {
-			param2 = new GeoNumeric(cons, parms[1]);
+			param2 = parms[1];
 		}
 		if (parms.length > 2) {
-			param3 = new GeoNumeric(cons, parms[2]);
+			param3 = parms[2];
 		}
 
 		AlgoDistribution algo = getInverseCommand(distType, cons, param1,
