@@ -76,20 +76,16 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.ColorW;
 
-import elemental2.dom.DomGlobal;
-import elemental2.dom.KeyboardEvent;
-import jsinterop.base.Js;
-
 public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHandler {
 
 	public static final int SCROLL_THRESHOLD = 14;
 	protected static MetaModel sMetaModel = new MetaModel();
 	private MetaModel metaModel;
 
-	private final MathFieldInternal mathFieldInternal;
-	private final Canvas html;
+	private MathFieldInternal mathFieldInternal;
+	private Canvas html;
 	private Context2d ctx;
-	private final Panel parent;
+	private Panel parent;
 	private boolean focused = false;
 	private TeXIcon lastIcon;
 	private double ratio = 1;
@@ -103,17 +99,17 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private Timer focuser;
 	private boolean pasteInstalled = false;
 
-	private final int bottomOffset;
+	private int bottomOffset;
 	private MyTextArea inputTextArea;
 	private SimplePanel clip;
 
 	private double scale = 1.0;
 
-	private final SyntaxAdapter converter;
+	private SyntaxAdapter converter;
 
 	private ExpressionReader expressionReader;
 
-	private static final ArrayList<MathFieldW> instances = new ArrayList<>();
+	private static ArrayList<MathFieldW> instances = new ArrayList<>();
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
 	private static int counter = 0;
@@ -318,8 +314,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}
 		ctx.getCanvas().getStyle().setHeight(height, Unit.PX);
 
-		double value = computeWidth();
-		ctx.getCanvas().getStyle().setWidth(value,
+		ctx.getCanvas().getStyle().setWidth(computeWidth(),
 				Unit.PX);
 		parent.setHeight(height + "px");
 		parent.getElement().getStyle().setVerticalAlign(VerticalAlign.TOP);
@@ -470,14 +465,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		return checkCode(nativeEvent, "AltRight");
 	}
 
-	/**
-	 * @param evt native event
-	 * @param check key name (e.g. "AltRight")
-	 * @return whether the event code matches
-	 */
-	public static boolean checkCode(Object evt, String check) {
-		return check.equals(Js.<KeyboardEvent>uncheckedCast(evt).code);
-	}
+	public static native boolean checkCode(NativeEvent evt, String check) /*-{
+		return evt.code == check;
+	}-*/;
 
 	/**
 	 * @param nativeEvent
@@ -648,9 +638,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 						+ getFontSize()));
 	}
 
-	private boolean active(Object element) {
-		return DomGlobal.document.activeElement == element;
-	}
+	private native boolean active(Element element) /*-{
+		return $doc.activeElement == element;
+	}-*/;
 
 	/**
 	 * 

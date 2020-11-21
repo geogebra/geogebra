@@ -680,8 +680,11 @@ public class MathFieldInternal
 	 * @return serialized selection
 	 */
 	public String copy() {
-		return GeoGebraSerializer.serialize(
+		if (listener != null) {
+			return listener.serialize(
 					InputController.getSelectionText(getEditorState()));
+		}
+		return "";
 	}
 
 	/**

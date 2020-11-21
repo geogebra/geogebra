@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.share.CursorBox;
 
@@ -107,6 +108,11 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 	@Override
 	public void onDownKeyPressed() {
 		// nothing to do.
+	}
+
+	@Override
+	public String serialize(MathSequence selectionText) {
+		return null;
 	}
 
 	@Override
