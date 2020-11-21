@@ -1261,6 +1261,7 @@
 		width: 30%;
 	}
 
+
 	.dialogContent .sliderIntervalPanel .gwt-Label {
 		display: block;
 	}
@@ -2275,14 +2276,12 @@
 		padding: 0;
 	}
 
-	.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent.ProbCalcPanel {
-		// no scrollbar for main panel, only for value table
-		overflow: hidden;
+	.ProbCalcPanel {
+		overflow: auto;
 	}
-	.plotSplitPane {
-		float: left;
-	}
+
 	.ProbCalcPanel .PlotPanelPlus {
+		float: left;
 		margin: 0;
 		margin-top: 6px;
 		padding: 0;
@@ -2294,7 +2293,6 @@
 		padding: 0;
 		padding-left: 10px;
 		overflow: auto;
-		box-sizing: border-box;
 	}
 
 	.ProbCalcPanel .ProbabilityTableW table {
@@ -2340,25 +2338,11 @@
 		overflow: auto;
 	}
 
-	.controlPanel .groupEnd {
-		margin-right: 30px;
-	}
-
-	.cbPanel, .intervalPanel {
+	.controlPanel > div {
 		padding: 5px 0;
+		margin-right: 30px;
 		float: left;
 		white-space: nowrap;
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		& > * {
-			margin-top: 8px;
-		}
-	}
-
-	.parameterPanel, .resultPanel {
-		display: flex;
-		align-items: center;
 	}
 
 	.controlPanel > div.clear {
@@ -2378,6 +2362,11 @@
 	.parameterPanel > *, .resultPanel > * {
 		display: inline-block;
 		margin: 0 5px;
+		padding: 0;
+	}
+
+	.intervalPanel > * {
+		display: inline-block;
 	}
 
 	/* --------- STATISTICS CALCULATOR --------------- */
