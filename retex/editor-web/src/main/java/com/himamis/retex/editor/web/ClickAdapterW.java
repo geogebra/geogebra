@@ -154,9 +154,7 @@ public class ClickAdapterW
 
 	@Override
 	public void onDoubleClick(DoubleClickEvent event) {
-		if (field.isEnabled()) {
-			handler.onLongPress(event.getX(), event.getY());
-		}
+		handler.onLongPress(event.getX(), event.getY());
 	}
 
 }

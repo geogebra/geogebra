@@ -2,22 +2,26 @@ package org.geogebra.web.full.gui.view.probcalculator;
 
 import java.util.HashMap;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
-import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.view.data.PlotPanelEuclidianViewW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.full.main.FileManagerW;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
@@ -26,21 +30,27 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.dom.client.OptionElement;
-import com.google.gwt.dom.client.SelectElement;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * @author gabor
@@ -49,14 +59,13 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
  *
  */
 public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
-		implements ChangeHandler, ValueChangeHandler<Boolean> {
+		implements ChangeHandler, ValueChangeHandler<Boolean>, BlurHandler,
+		KeyUpHandler {
 
 	/**
 	 * separator for list boxes
 	 */
 	public static final String SEPARATOR = "--------------------";
-	private static final int CONTROL_PANEL_HEIGHT = 150;
-	private static final int TABLE_PADDING_AND_SCROLLBAR = 32;
 
 	private Label lblDist;
 	private MyToggleButtonW btnCumulative;
@@ -64,15 +73,16 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private MyToggleButtonW btnIntervalBetween;
 	private MyToggleButtonW btnIntervalRight;
 	private Label[] lblParameterArray;
-	private MathTextFieldW[] fldParameterArray;
+	private AutoCompleteTextFieldW[] fldParameterArray;
+	private ListBox comboProbType;
 	private ListBox comboDistribution;
 	private Label lblProb;
 	private Label lblProbOf;
 	private Label lblBetween;
 	private Label lblEndProbOf;
-	private MathTextFieldW fldLow;
-	private MathTextFieldW fldHigh;
-	private MathTextFieldW fldResult;
+	private AutoCompleteTextFieldW fldLow;
+	private AutoCompleteTextFieldW fldHigh;
+	private AutoCompleteTextFieldW fldResult;
 	private Label lblMeanSigma;
 	/** control panel */
 	FlowPanel controlPanel;
@@ -80,12 +90,14 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	ScheduledCommand exportToEVAction;
 	/** plot panel */
 	FlowPanel plotPanelPlus;
+	private FlowPanel plotPanelOptions;
 	private FlowPanel plotSplitPane;
 	private FlowPanel mainSplitPane;
 	private FlowPanel probCalcPanel;
-	private final StatisticsCalculatorW statCalculator;
+	private StatisticsCalculatorW statCalculator;
 	private MyTabLayoutPanel tabbedPane;
 	private ProbabilityCalculatorStyleBarW styleBar;
+	private HandlerRegistration comboProbHandler;
 	private HandlerRegistration comboDistributionHandler;
 	private GPopupMenuW btnExport;
 	private MyToggleButtonW btnNormalOverlay;
@@ -103,7 +115,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		createExportToEvAction();
 		createLayoutPanels();
 		buildProbCalcPanel();
-		isIniting = false;
 
 		statCalculator = new StatisticsCalculatorW(app);
 
@@ -112,7 +123,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		tabbedPane.add(statCalculator.getWrappedPanel(),
 				loc.getMenu("Statistics"));
 
-		tabbedPane.addSelectionHandler(event -> updateStylebarLayout());
+		tabbedPane.addSelectionHandler(new SelectionHandler<Integer>() {
+	
+			@Override
+			public void onSelection(SelectionEvent<Integer> event) {
+				updateStylebarLayout();
+			}
+		});
 
 		tabbedPane.onResize();
 
@@ -120,10 +137,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		attachView();
 		settingsChanged(getApp().getSettings().getProbCalcSettings());
-		updateAll();
 
 		tabbedPane.selectTab(getApp().getSettings().getProbCalcSettings()
 				.getCollection().isActive() ? 1 : 0);
+		isIniting = false;
 	}
 
 	/**
@@ -147,13 +164,16 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		lblDist.setText(loc.getMenu("Distribution") + ": ");
 		lblProb.setText(loc.getMenu("Probability") + ": ");
 
+		setProbabilityComboBoxMenu();
+
+		lblBetween.setText(SpreadsheetViewInterface.X_BETWEEN); // <= X <=
 		lblEndProbOf.setText(loc.getMenu("EndProbabilityOf") + " = ");
 		lblProbOf.setText(loc.getMenu("ProbabilityOf"));
 
 		setDistributionComboBoxMenu();
 
 		if (getTable() != null) {
-			getTable().setLabels();
+			((ProbabilityTableW) getTable()).setLabels();
 		}
 		if (styleBar != null) {
 			styleBar.setLabels();
@@ -182,20 +202,20 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		return styleBar;
 	}
-
-	/**
-	 * Action to export all GeoElements that are currently displayed in this
-	 * panel to a EuclidianView. The viewID for the target EuclidianView is
-	 * stored as a property with key "euclidianViewID".
-	 *
-	 * This action is passed as a parameter to plotPanel where it is used in the
-	 * plotPanel context menu and the EuclidianView transfer handler when the
-	 * plot panel is dragged into an EV.
-	 */
+	
 	private void createExportToEvAction() {
+		/**
+		 * Action to export all GeoElements that are currently displayed in this
+		 * panel to a EuclidianView. The viewID for the target EuclidianView is
+		 * stored as a property with key "euclidianViewID".
+		 * 
+		 * This action is passed as a parameter to plotPanel where it is used in the
+		 * plotPanel context menu and the EuclidianView transfer handler when the
+		 * plot panel is dragged into an EV.
+		 */
 		exportToEVAction = new ScheduledCommand() {
 			
-			private final HashMap<String, Object> value = new HashMap<>();
+			private HashMap<String, Object> value = new HashMap<>();
 			
 			public Object getValue(String key) {
 				return value.get(key);
@@ -224,18 +244,19 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				this.putValue("euclidianViewID", null);
 			}
 		};
+
 	}
 
 	private void buildProbCalcPanel() {
 		tabbedPane.clear();
 		plotSplitPane = new FlowPanel();
 		plotSplitPane.add(plotPanelPlus);
-		plotSplitPane.add(controlPanel);
-		plotSplitPane.addStyleName("plotSplitPane");
+		
 		mainSplitPane = new FlowPanel();
 		mainSplitPane.addStyleName("mainSplitPanel");
 		mainSplitPane.add(plotSplitPane);
-
+		mainSplitPane.add(controlPanel);
+		mainSplitPane.add(new ClearPanel());
 		probCalcPanel = new FlowPanel();
 		probCalcPanel.addStyleName("ProbCalcPanel");
 		
@@ -244,45 +265,44 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	private void createLayoutPanels() {
 		//control panel
-		createControlPanel();
+	    createControlPanel();
 		setPlotPanel(new PlotPanelEuclidianViewW(kernel));
-
-		FlowPanel plotPanelOptions = new FlowPanel();
-		plotPanelOptions.setStyleName("plotPanelOptions");
-		plotPanelOptions.add(lblMeanSigma);
+	    
+	    plotPanelOptions = new FlowPanel();
+	    plotPanelOptions.setStyleName("plotPanelOptions");
+	    plotPanelOptions.add(lblMeanSigma);
 		if (!getApp().isExam()) {
 			plotPanelOptions.add(btnExport.getPopupMenu());
 		}
-		plotPanelOptions.add(btnNormalOverlay);
-		plotPanelOptions.add(new ClearPanel());
-		
-		plotPanelPlus = new FlowPanel();
-		plotPanelPlus.addStyleName("PlotPanelPlus");
-		plotPanelPlus.add(plotPanelOptions);
+	    plotPanelOptions.add(btnNormalOverlay);
+	    plotPanelOptions.add(new ClearPanel());
+	    
+	    plotPanelPlus = new FlowPanel();
+	    plotPanelPlus.addStyleName("PlotPanelPlus");
+	    plotPanelPlus.add(plotPanelOptions);
 		plotPanelPlus.add(getPlotPanel().getComponent());
-		
-		//table panel
-		setTable(new ProbabilityTableW(app, this));
-		//tablePanel = new FlowPanel();
-		//tablePanel.add(((ProbabilityTableW)table).getWrappedPanel());	
-	}
+	    
+	    //table panel
+	    setTable(new ProbabilityTableW(app, this));
+	    //tablePanel = new FlowPanel();
+	    //tablePanel.add(((ProbabilityTableW)table).getWrappedPanel());    
+    }
 
 	private void createControlPanel() {
-		//distribution combobox panel
+	    //distribution combobox panel
 		FlowPanel cbPanel = new FlowPanel();
 		cbPanel.addStyleName("cbPanel");
 		cbPanel.add(btnCumulative);
 		cbPanel.add(comboDistribution);
 		FlowPanel parameterPanel = new FlowPanel();
 		parameterPanel.addStyleName("parameterPanel");
-		comboDistribution.addStyleName("groupEnd");
+		
 		//parameter panel
 		for (int i = 0; i < maxParameterCount; i++) {
 			parameterPanel.add(lblParameterArray[i]);
 			parameterPanel.add(fldParameterArray[i]);
 		}
-		cbPanel.add(parameterPanel);
-
+		
 		// interval panel
 		// continue here.....
 		FlowPanel tb = new FlowPanel();
@@ -290,8 +310,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		tb.add(btnIntervalLeft);
 		tb.add(btnIntervalBetween);
 		tb.add(btnIntervalRight);
-		btnIntervalRight.addStyleName("groupEnd");
-
+		
+		//FlowPanel p = new FlowPanel();
+		//p.add(btnCumulative);
+		//p.add(lblMeanSigma);
+		
 		FlowPanel resultPanel = new FlowPanel();
 		resultPanel.addStyleName("resultPanel");
 		resultPanel.add(lblProbOf);
@@ -300,92 +323,111 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		resultPanel.add(fldHigh);
 		resultPanel.add(lblEndProbOf);
 		resultPanel.add(fldResult);
-		tb.add(resultPanel);
 		
 		controlPanel = new FlowPanel();
 		controlPanel.addStyleName("controlPanel");
+		//controlPanel.add(btnCumulative);
 		controlPanel.add(cbPanel);
+		controlPanel.add(parameterPanel);
 		controlPanel.add(new ClearPanel());
 		controlPanel.add(tb);
+		controlPanel.add(resultPanel);
 		controlPanel.add(new ClearPanel());
-	}
+    }
 	
 	private static class ClearPanel extends FlowPanel {
 		public ClearPanel() {
 			super();
 			this.setStyleName("clear");
-		}
+        }
 	}
 
 	private void createGUIElements() {
 		setLabelArrays();
-		comboDistribution = new ListBox();
-		comboDistribution.addStyleName("comboDistribution");
-		comboDistributionHandler = comboDistribution.addChangeHandler(this);
-		
-		lblDist = new Label();
-		
-		btnCumulative = new MyToggleButtonW(GuiResources.INSTANCE.cumulative_distribution());
-		
-		btnIntervalLeft = new MyToggleButtonW(GuiResources.INSTANCE.interval_left());
-		
-		btnIntervalBetween = new MyToggleButtonW(GuiResources.INSTANCE.interval_between());
-		
-		btnIntervalRight = new MyToggleButtonW(GuiResources.INSTANCE.interval_right());
-		
-		btnCumulative.addValueChangeHandler(this);
-		btnIntervalLeft.addValueChangeHandler(this);
-		btnIntervalBetween.addValueChangeHandler(this);
-		btnIntervalRight.addValueChangeHandler(this);
-		
-		//buttonGroup
-		FlowPanel gp = new FlowPanel();
-		gp.add(btnIntervalLeft);
-		gp.add(btnIntervalBetween);
-		gp.add(btnIntervalRight);
-		
-		lblParameterArray = new Label[maxParameterCount];
-		fldParameterArray = new MathTextFieldW[maxParameterCount];
-		
-		for (int i = 0; i < maxParameterCount; i++) {
-			lblParameterArray[i] = new Label();
-			fldParameterArray[i] = new MathTextFieldW(app);
-			fldParameterArray[i].setPxWidth(64);
+	    comboDistribution = new ListBox();
+	    comboDistribution.addStyleName("comboDistribution");
+	    comboDistributionHandler = comboDistribution.addChangeHandler(this);
+	    
+	    lblDist = new Label();
+	    
+	    btnCumulative = new MyToggleButtonW(GuiResources.INSTANCE.cumulative_distribution());
+	    
+	    btnIntervalLeft = new MyToggleButtonW(GuiResources.INSTANCE.interval_left());
+	    
+	    btnIntervalBetween = new MyToggleButtonW(GuiResources.INSTANCE.interval_between());
+	    
+	    btnIntervalRight = new MyToggleButtonW(GuiResources.INSTANCE.interval_right());
+	    
+	    btnCumulative.addValueChangeHandler(this);
+	    btnIntervalLeft.addValueChangeHandler(this);
+	    btnIntervalBetween.addValueChangeHandler(this);
+	    btnIntervalRight.addValueChangeHandler(this);
+	    
+	    //buttonGroup
+	    FlowPanel gp = new FlowPanel();
+	    gp.add(btnIntervalLeft);
+	    gp.add(btnIntervalBetween);
+	    gp.add(btnIntervalRight);
+	    
+	    lblParameterArray = new Label[maxParameterCount];
+	    fldParameterArray = new AutoCompleteTextFieldW[maxParameterCount];
+	    
+	    for (int i = 0; i < maxParameterCount; i++) {
+	    	lblParameterArray[i] = new Label();
+	    	fldParameterArray[i] = new AutoCompleteTextFieldW(app);
+	    	fldParameterArray[i].setWidthInEm(4);
+	    	fldParameterArray[i].addKeyUpHandler(this);
+	    	fldParameterArray[i].addBlurHandler(this);
 			addInsertHandler(fldParameterArray[i]);
-			//TODO fldParameterArray[i].getTextBox().setTabIndex(i + 1);
-		}
-
-		lblProb = new Label();
-		
-		lblProbOf = new Label(); // <= X <=
-		lblBetween = new Label();
-		lblEndProbOf = new Label();
-
-		fldLow = new MathTextFieldW(app);
-		fldLow.setPxWidth(80);
+	    	fldParameterArray[i].getTextBox().setTabIndex(i + 1);
+	    }
+	    
+	    comboProbType = new ListBox();
+	    comboProbHandler = comboProbType.addChangeHandler(this);
+	    
+	    lblProb = new Label();
+	    
+	    lblProbOf = new Label(); // <= X <=
+	    lblBetween = new Label();
+	    lblEndProbOf = new Label();
+	    
+	    fldLow = new AutoCompleteTextFieldW(app);
+	    fldLow.setWidthInEm(4);
+	    fldLow.addKeyUpHandler(this);
+	    fldLow.addBlurHandler(this);
 		addInsertHandler(fldLow);
-		//fldLow.getTextBox().setTabIndex(maxParameterCount);
+	    fldLow.getTextBox().setTabIndex(maxParameterCount);
 
-		fldHigh = new MathTextFieldW(app);
-		fldHigh.setPxWidth(80);
+	    fldHigh = new AutoCompleteTextFieldW(app);
+	    fldHigh.setWidthInEm(4);
+	    fldHigh.addKeyUpHandler(this);
+	    fldHigh.addBlurHandler(this);
 		addInsertHandler(fldHigh);
-		//fldHigh.getTextBox().setTabIndex(maxParameterCount + 1);
+	    fldHigh.getTextBox().setTabIndex(maxParameterCount + 1);
 
-		fldResult = new MathTextFieldW(app);
-		fldResult.setPxWidth(96);
+	    fldResult = new AutoCompleteTextFieldW(app);
+		fldResult.setForeground(GColor.BLACK);
+	    fldResult.setWidthInEm(6);
+	    fldResult.addKeyUpHandler(this);
+	    fldResult.addBlurHandler(this);
 		addInsertHandler(fldResult);
-		//fldResult.getTextBox().setTabIndex(maxParameterCount + 2);
+	    fldResult.getTextBox().setTabIndex(maxParameterCount + 2);
 
-		lblMeanSigma = new Label();
-		lblMeanSigma.addStyleName("lblMeanSigma");
+	    lblMeanSigma = new Label();
+	    lblMeanSigma.addStyleName("lblMeanSigma");
 
 		createExportMenu();
 
 		btnNormalOverlay = new MyToggleButtonW(
-				GuiResources.INSTANCE.normal_overlay());
-		btnNormalOverlay.addStyleName("btnNormalOverlay");
-		btnNormalOverlay.addClickHandler(event -> onOverlayClicked());
-	}
+		        GuiResources.INSTANCE.normal_overlay());
+	    btnNormalOverlay.addStyleName("btnNormalOverlay");
+	    btnNormalOverlay.addClickHandler(new ClickHandler() {
+			@Override
+            public void onClick(ClickEvent event) {
+				onOverlayClicked();
+            }
+	    });
+    }
 	
 	/**
 	 * Overlay button action
@@ -393,6 +435,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	protected void onOverlayClicked() {
 		setShowNormalOverlay(btnNormalOverlay.isSelected());
 		updateAll();
+
 	}
 
 	/**
@@ -403,29 +446,42 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	}
 
 	@Override
-	public void updateAll() {
-		updateOutput();
-		updateProbabilityType();
-		updateGUI();
-		if (styleBar != null) {
-			styleBar.updateGUI();
-		}
-	}
-
-	private void updateOutput() {
+    public void updateAll() {
+		//updateFonts();
 		updateDistribution();
 		updatePlotSettings();
 		updateIntervalProbability();
 		updateDiscreteTable();
 		setXAxisPoints();
-	}
+		updateProbabilityType();
+		updateGUI();
+		if (styleBar != null) {
+			styleBar.updateGUI();
+		}
 
+    }
+	
 	private void updateProbabilityType() {
 		if (isIniting) {
 			return;
 		}
 
 		boolean isDiscrete = probmanagerIsDiscrete();
+		int oldProbMode = probMode;
+
+		if (isCumulative) {
+			probMode = PROB_LEFT;
+		} else {
+			if (btnIntervalLeft.getValue()) {
+				probMode = ProbabilityCalculatorView.PROB_LEFT;
+			} else if (btnIntervalBetween.getValue()) {
+				probMode = ProbabilityCalculatorView.PROB_INTERVAL;
+			} else if (btnIntervalRight.getValue()) {
+				probMode = ProbabilityCalculatorView.PROB_RIGHT;
+			}
+
+		}
+		this.getPlotDimensions();
 
 		if (probMode == PROB_INTERVAL) {
 			lowPoint.setEuclidianVisible(showProbGeos);
@@ -448,9 +504,14 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			fldHigh.setVisible(true);
 			lblBetween.setText(loc.getMenu("XLessThanOrEqual"));
 
+			if (oldProbMode == PROB_RIGHT) {
+				setHigh(getLow());
+			}
+
 			if (isDiscrete) {
-				setLow((GeoNumberValue) discreteValueList.get(0));
-			} else {
+				setLow(((GeoNumeric) discreteValueList.get(0)).getDouble());
+			}
+			else {
 				setLow(plotSettings.xMin - 1); // move offscreen so the integral
 												// looks complete
 			}
@@ -465,6 +526,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			lblBetween
 					.setText(SpreadsheetViewInterface.LESS_THAN_OR_EQUAL_TO_X);
 
+			if (oldProbMode == PROB_LEFT) {
+				setLow(getHigh());
+			}
+
 			if (isDiscrete) {
 				setHigh(((GeoNumeric) discreteValueList.get(discreteValueList
 						.size() - 1)).getDouble());
@@ -477,7 +542,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		}
 
 		// make result field editable for inverse probability calculation
-		fldResult.setEditable(probMode != PROB_INTERVAL);
+		if (probMode != PROB_INTERVAL) {
+			fldResult.setBackground(GColor.WHITE);
+			fldResult.setEditable(true);
+		} else {
+			fldResult.setBackground(GColor.newColor(240, 240, 240));
+			fldResult.setEditable(false);
+		}
 
 		if (isDiscrete) {
 			setHigh(Math.round(getHigh()));
@@ -492,28 +563,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		}
 		setXAxisPoints();
 		updateIntervalProbability();
-	}
-
-	@Override
-	protected void changeProbabilityType() {
-		if (isCumulative) {
-			probMode = PROB_LEFT;
-		} else {
-			int oldProbMode = probMode;
-			if (btnIntervalLeft.getValue()) {
-				probMode = ProbabilityCalculatorView.PROB_LEFT;
-				if (oldProbMode == PROB_RIGHT) {
-					setHigh(getLow());
-				}
-			} else if (btnIntervalBetween.getValue()) {
-				probMode = ProbabilityCalculatorView.PROB_INTERVAL;
-			} else if (btnIntervalRight.getValue()) {
-				probMode = ProbabilityCalculatorView.PROB_RIGHT;
-				if (oldProbMode == PROB_LEFT) {
-					setLow(getHigh());
-				}
-			}
-		}
+		updateGUI();
 	}
 
 	/**
@@ -551,17 +601,17 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	
 	private void addRemoveTable(boolean showTable) {
 		if (showTable) {
-			mainSplitPane
+			plotSplitPane
 					.add(((ProbabilityTableW) getTable()).getWrappedPanel());
 		} else {
-			mainSplitPane
+			plotSplitPane
 					.remove(((ProbabilityTableW) getTable()).getWrappedPanel());
 		}
 		tabbedPane.onResize();
 	}
 
 	@Override
-	protected void plotPanelUpdateSettings(PlotSettings settings) {
+    protected void plotPanelUpdateSettings(PlotSettings settings) {
 		getPlotPanel().commonFields
 				.updateSettings(getPlotPanel(), plotSettings);
 	}
@@ -572,7 +622,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			return;
 		}
 		int[] firstXLastX = generateFirstXLastXCommon();
-		getTable().setTable(selectedDist, parameters,
+		((ProbabilityTableW) getTable()).setTable(selectedDist, parameters,
 				firstXLastX[0], firstXLastX[1]);
 		tabbedPane.onResize();
 	}
@@ -583,7 +633,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	}
 
 	@Override
-	protected void updateGUI() {
+    protected void updateGUI() {
 		// set visibility and text of the parameter labels and fields
 		for (int i = 0; i < maxParameterCount; ++i) {
 
@@ -592,17 +642,31 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			lblParameterArray[i].setVisible(hasParm);
 			fldParameterArray[i].setVisible(hasParm);
 
+			// hide sliders for now ... need to work out slider range for each
+			// parm (tricky)
+			// sliderArray[i].setVisible(false);
+
 			if (hasParm) {
 				// set label
 				lblParameterArray[i].setVisible(true);
 				lblParameterArray[i].setText(getParameterLabels()[selectedDist
 						.ordinal()][i]);
 				// set field
-				fldParameterArray[i].setText(format(parameters[i]));
+				// fldParameterArray[i].removeActionListener(this);
+				fldParameterArray[i].setText("" + format(parameters[i]));
+				// fldParameterArray[i].setCaretPosition(0); //calls onblur
+				// every time it set
+				// fldParameterArray[i].addActionListener(this);
 			}
-		}
+					}
 
-		updateLowHighResult();
+		tabbedPane.deferredOnResize();
+		updateLowHigh();
+		// fldHigh.setCaretPosition(0);
+		fldResult.setText(getProbabilityText());
+		// fldResult.setCaretPosition(0);
+		fldResult
+				.setEditable(probMode != ProbabilityCalculatorView.PROB_INTERVAL);
 
 		// set distribution combo box
 		if (!comboDistribution.getValue(comboDistribution.getSelectedIndex())
@@ -619,28 +683,27 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		btnNormalOverlay.setValue(isShowNormalOverlay());
 	}
 
-	private void updateLowHighResult() {
-		tabbedPane.deferredOnResize();
-		updateLowHigh();
-		// fldHigh.setCaretPosition(0);
-		fldResult.setText(getProbabilityText());
-		// fldResult.setCaretPosition(0);
-		fldResult
-				.setEditable(probMode != ProbabilityCalculatorView.PROB_INTERVAL);
-	}
-
 	private void updateLowHigh() {
 		// set low/high interval field values
-		fldLow.setText(format(low));
-		fldHigh.setText(format(high));
+		fldLow.setText("" + format(getLow()));
+		// fldLow.setCaretPosition(0);
+		fldHigh.setText("" + format(getHigh()));
 	}
 
 	@Override
 	public void onChange(ChangeEvent event) {
-		if (comboDistribution.getSelectedIndex() > -1) {
-			changeDistribution();
+		Object source = event.getSource();
+		if (source == comboDistribution) {
+
+			if (comboDistribution.getSelectedIndex() > -1 && !comboDistribution
+					.getValue(comboDistribution.getSelectedIndex())
+					.equals(SEPARATOR)) {
+				changeDistribution();
+			}
+		} else if (source == comboProbType) {
+			updateProbabilityType();
 		}
-	}
+    }
 
 	private void changeDistribution() {
 		if (!selectedDist
@@ -648,11 +711,26 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 						.getValue(comboDistribution.getSelectedIndex())))) {
 			selectedDist = getReverseDistributionMap().get(comboDistribution
 					.getValue(comboDistribution.getSelectedIndex()));
-			parameters = ProbabilityManager.getDefaultParameters(selectedDist, cons);
-			setProbabilityCalculator(selectedDist, parameters,
+			parameters = ProbabilityManager.getDefaultParameters(selectedDist);
+			this.setProbabilityCalculator(selectedDist, parameters,
 					isCumulative);
 			tabbedPane.onResize();
 		}
+
+	}
+
+	@Override
+	protected void setProbabilityComboBoxMenu() {
+		comboProbType.clear();
+		comboProbHandler.removeHandler();
+		if (isCumulative) {
+			comboProbType.addItem(loc.getMenu("LeftProb"));
+		} else {
+			comboProbType.addItem(loc.getMenu("IntervalProb"));
+			comboProbType.addItem(loc.getMenu("LeftProb"));
+			comboProbType.addItem(loc.getMenu("RightProb"));
+		}
+		comboProbHandler = comboProbType.addChangeHandler(this);
 
 	}
 
@@ -671,10 +749,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		comboDistribution.addItem(getDistributionMap().get(Dist.LOGISTIC));
 		
 		comboDistribution.addItem(SEPARATOR);
-		NodeList<OptionElement> options = SelectElement.as(comboDistribution.getElement())
-				.getOptions();
-		options.getItem(options.getLength() - 1)
-				.setAttribute("disabled", "disabled");
+
 		comboDistribution.addItem(getDistributionMap().get(Dist.BINOMIAL));
 		comboDistribution.addItem(getDistributionMap().get(Dist.PASCAL));
 		comboDistribution.addItem(getDistributionMap().get(Dist.POISSON));
@@ -684,6 +759,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				comboDistribution);
 		comboDistribution.addChangeHandler(this);
 	}
+
+	@Override
+	public void setTypeSelectedIndex(int idx) {
+		comboProbType.setSelectedIndex(idx);
+    }
 
 	/**
 	 * @return wheter distribution tab is open
@@ -703,9 +783,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	/**
 	 * @param decimals
-	 *			decimals
+	 *            decimals
 	 * @param figures
-	 *			significant digits
+	 *            significant digits
 	 */
 	public void updatePrintFormat(int decimals, int figures) {
 		this.printDecimals = decimals;
@@ -715,6 +795,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	}
 	
 	private class MyTabLayoutPanel extends TabLayoutPanel implements ClickHandler {
+		Scheduler.ScheduledCommand deferredOnRes = new Scheduler.ScheduledCommand() {
+			@Override
+			public void execute() {
+				onResize();
+			}
+		};
 
 		public MyTabLayoutPanel(int splitterSize, Unit px) {
 			super(splitterSize, px);
@@ -727,7 +813,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		}
 
 		public void deferredOnResize() {
-			Scheduler.get().scheduleDeferred(this::onResize);
+			Scheduler.get().scheduleDeferred(deferredOnRes);
 		}
 
 		@Override
@@ -747,24 +833,26 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	 * Tab resize callback
 	 */
 	public void tabResized() {
-		int tableWidth = probmanagerIsDiscrete() ? ((ProbabilityTableW) getTable()).getStatTable()
-				.getTable().getOffsetWidth() + TABLE_PADDING_AND_SCROLLBAR : 0;
 		int width = mainSplitPane.getOffsetWidth()
-				- tableWidth
+				- ((ProbabilityTableW) getTable()).getWrappedPanel().getOffsetWidth()
 				- 5;
 		int height = probCalcPanel.getOffsetHeight() - 20;
 		if (width > 0) {
 			getPlotPanel().setPreferredSize(new Dimension(width,
-					Math.min(Math.max(100, height - CONTROL_PANEL_HEIGHT),
+					Math.min(Math.max(100, height - 120),
 							PlotPanelEuclidianViewW.DEFAULT_HEIGHT)));
 			getPlotPanel().repaintView();
 			getPlotPanel().getEuclidianController().calculateEnvironment();
-			plotSplitPane.setWidth(width + "px");
+			controlPanel.setWidth(width + "px");
+			plotPanelPlus.setWidth(width + "px");
 		}
 
-		if (height > 0 && probmanagerIsDiscrete()) {
+		if (height > 0) {
 			((ProbabilityTableW) getTable()).getWrappedPanel()
-					.setPixelSize(tableWidth, height);
+					.setPixelSize(((ProbabilityTableW) getTable()).getStatTable()
+							.getTable().getOffsetWidth() + 25, height);
+			// ((ProbabilityTableW) table).getWrappedPanel().setHeight(height +
+			// "px");
 		}
 	}
 
@@ -781,9 +869,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			simulateRadioButtons((MyToggleButtonW) source);
 
 			if (!isCumulative) {
-				changeProbabilityType();
 				updateProbabilityType();
-				updateGUI();
 			}
 		}
 	}
@@ -801,89 +887,131 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			   btnIntervalBetween.setValue(false);
 		   }
 	   }
-	}
+    }
 
 	/**
 	 * @param source
-	 *			changed source
+	 *            changed source
 	 * @param intervalCheck
-	 *			true if triggered by enter/blur
+	 *            true if triggered by enter/blur
 	 */
-	void doTextFieldActionPerformed(MathTextFieldW source, boolean intervalCheck) {
+	void doTextFieldActionPerformed(TextBox source, boolean intervalCheck) {
 		if (isIniting) {
 			return;
 		}
-		String inputText = source.getText().trim();
-		boolean update = true;
-		if (!"".equals(inputText)) {
-			// allow input such as sqrt(2)
-			GeoNumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(
-					inputText, intervalCheck ? source : ErrorHelper.silent());
-			GeoNumberValue numericValue = nv != null
-					? nv : new GeoNumeric(cons, Double.NaN);
-			double value = numericValue.getDouble();
-			if (!Double.isNaN(value)) {
-				source.resetError();
-			}
-			if (source == fldLow) {
+		try {
+			String inputText = source.getText().trim();
+			boolean update = true;
+			if (!"".equals(inputText)) {
+				int dotIndex = inputText.indexOf('.');
 
-				checkBounds(numericValue, intervalCheck, false);
-			}
+				if (dotIndex == inputText.length() - 1) {
+					int d = getPrintDecimals() < 4 ? 4 : getPrintDecimals();
+					setTextBoxMaxLength(source, inputText.length() + d);
+				} else if (dotIndex == -1 || dotIndex >= source.getCursorPos()) {
+					// "unlimit" it
+					setTextBoxMaxLength(source, Integer.MAX_VALUE);
+				}
 
-			else if (source == fldHigh) {
-				checkBounds(numericValue, intervalCheck, true);
-			}
+				if ((inputText.charAt(inputText.length() - 1) != '.')
+						&& (dotIndex == -1 || (inputText.charAt(inputText
+								.length() - 1) != '0'))
+						&& !"-".equals(inputText)) {
+					// Double value = Double.parseDouble(source.getText());
 
-			// handle inverse probability
-			else if (source == fldResult) {
-				update = false;
-				if (value < 0 || value > 1) {
-					if (!intervalCheck) {
-						updateLowHigh();
+					// allow input such as sqrt(2)
+					NumberValue nv;
+					nv = kernel.getAlgebraProcessor().evaluateToNumeric(
+							inputText, !intervalCheck);
+					if (nv == null) {
 						return;
 					}
-					updateGUI();
-				} else {
-					if (probMode == PROB_LEFT) {
-						setHigh(inverseProbability(value));
+					double value = nv.getDouble();
+
+					if (source == fldLow.getTextBox()) {
+
+						checkBounds(value, intervalCheck, false);
 					}
-					if (probMode == PROB_RIGHT) {
-						setLow(inverseProbability(1 - value));
+
+					else if (source == fldHigh.getTextBox()) {
+						checkBounds(value, intervalCheck, true);
 					}
-					updateLowHigh();
-					setXAxisPoints();
-				}
-			} else {
-				// handle parameter entry
-				for (int i = 0; i < parameters.length; ++i) {
-					if (source == fldParameterArray[i]) {
-						if (isValidParameterChange(value, i)) {
-							parameters[i] = numericValue;
-							if (intervalCheck) {
-								updateAll();
-							} else {
-								updateOutput();
-								updateLowHighResult();
+	
+					// handle inverse probability
+					else if (source == fldResult.getTextBox()) {
+						update = false;
+						if (value < 0 || value > 1) {
+							if (!intervalCheck) {
+								updateLowHigh();
+								return;
+							}
+							updateGUI();
+						} else {
+							if (probMode == PROB_LEFT) {
+								setHigh(inverseProbability(value));
+							}
+							if (probMode == PROB_RIGHT) {
+								setLow(inverseProbability(1 - value));
+							}
+							updateLowHigh();
+							setXAxisPoints();
+						}
+					} else {
+						// handle parameter entry
+						for (int i = 0; i < parameters.length; ++i) {
+							if (source == fldParameterArray[i].getTextBox()) {
+
+								if (isValidParameter(value, i)) {
+									parameters[i] = value;
+									updateAll();
+								}
+
 							}
 						}
-
+					}
+					if (intervalCheck) {
+						updateIntervalProbability();
+						if (update) {
+							updateGUI();
+						}
 					}
 				}
 			}
-			if (intervalCheck) {
-				updateIntervalProbability();
-				if (update) {
-					updateGUI();
-				}
-			}
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
 		}
+
 	}
 
-	private void addInsertHandler(final MathTextFieldW field) {
-		// TODO field.enableGGBKeyboard();
-		field.addInputHandler(() -> doTextFieldActionPerformed(field, false));
-		field.addChangeHandler(() -> doTextFieldActionPerformed(field, true));
+	private void addInsertHandler(final AutoCompleteTextFieldW field) {
+		field.enableGGBKeyboard();
+		field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
+			@Override
+			public void onInsert(String text) {
+				int cursorPos = field.removeDummyCursor();
+				doTextFieldActionPerformed((TextBox) field.getTextBox(), false);
+				if (Browser.isTabletBrowser()) {
+					field.addDummyCursor(cursorPos);
+				}
+			}
+		});
 	}
+
+	@Override
+    public void onBlur(BlurEvent event) {
+		TextBox source = (TextBox) event.getSource();
+		doTextFieldActionPerformed(source, true);
+	    updateGUI();
+    }
+
+	@Override
+    public void onKeyUp(KeyUpEvent event) {
+	    TextBox source = (TextBox) event.getSource();
+		int key = event.getNativeKeyCode();
+		if (key != KeyCodes.KEY_LEFT && key != KeyCodes.KEY_RIGHT) {
+			doTextFieldActionPerformed(source, key == KeyCodes.KEY_ENTER);
+	    }
+    }
 
 	@Override
 	public void setInterval(double low, double high) {
@@ -909,15 +1037,25 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		// setPersective is called early
 		// during Win8 app initialization, we also need to update the tabbed
 		// pane and make the whole process deferred
-		getApp().invokeLater(() -> {
-			tabResized();
-			updatePlotSettings();
+		getApp().invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				tabResized();
+				updatePlotSettings();
+			}
 		});
+    }
+
+	private static void setTextBoxMaxLength(TextBox textBox, int maxLength) {
+
+		Log.debug("[LIMIT] tf " + maxLength);
+		textBox.setMaxLength(maxLength);
 	}
 
-	private void checkBounds(GeoNumberValue value, boolean intervalCheck, boolean high) {
-		boolean valid = high ? isValidInterval(probMode, getLow(), value.getDouble())
-				: isValidInterval(probMode, value.getDouble(), getHigh());
+	private void checkBounds(double value, boolean intervalCheck, boolean high) {
+		boolean valid = high ? isValidInterval(probMode, getLow(), value)
+		        : isValidInterval(probMode, value, getHigh());
 		if (valid) {
 			if (high) {
 				setHigh(value);
@@ -925,12 +1063,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				setLow(value);
 			}
 			setXAxisPoints();
-		}
-		if (intervalCheck) {
 			updateGUI();
 		} else {
-			updateIntervalProbability();
-			fldResult.setText(getProbabilityText());
+			if (intervalCheck) {
+				updateGUI();
+			} else {
+				fldResult.setText("?");
+			}
 		}
 	}
 
@@ -949,19 +1088,30 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		if (!getApp().isApplet()) {
 			AriaMenuItem miToGraphich = new AriaMenuItem(
 					loc.getMenu("CopyToGraphics"), false,
-					() -> exportToEVAction.execute());
+				new Command() {
+
+						@Override
+					public void execute() {
+						exportToEVAction.execute();
+					}
+
+				});
 
 		menu.addItem(miToGraphich);
 		}
 		if (((AppW) app).getLAF().copyToClipboardSupported()) {
 			AriaMenuItem miAsPicture = new AriaMenuItem(
-					loc.getMenu("ExportAsPicture"), false, () -> {
-						String url = getPlotPanel()
-								.getExportImageDataUrl(3, true, false);
-						((AppW) getApp()).getFileManager()
-								.showExportAsPictureDialog(url,
-										getApp().getExportTitle(),
-										"png", "ExportAsPicture", getApp());
+					loc.getMenu("ExportAsPicture"), false, new Command() {
+
+						@Override
+						public void execute() {
+							String url = ((EuclidianViewW) getPlotPanel())
+									.getExportImageDataUrl(3, true, false);
+							((FileManagerW) ((AppW) getApp()).getFileManager())
+									.showExportAsPictureDialog(url,
+											getApp().getExportTitle(),
+											"png", "ExportAsPicture", getApp());
+						}
 					});
 			menu.addItem(miAsPicture);
 		}

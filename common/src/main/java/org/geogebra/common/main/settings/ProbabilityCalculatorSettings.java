@@ -5,8 +5,6 @@ package org.geogebra.common.main.settings;
 import java.util.LinkedList;
 
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
-import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Settings for the probability calculator view.
@@ -65,16 +63,16 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	/** number of distributions */
 	public static final int distCount = Dist.values().length;
 
-	private GeoNumeric[] parameters = { };
+	private double[] parameters = { 0.0d, 1.0d };
 	private Dist distributionType = Dist.NORMAL;
 	private boolean isCumulative = false;
 	private boolean intervalSet = false;
 
 	private int probMode;
 
-	private GeoNumberValue low;
+	private double low;
 
-	private GeoNumberValue high;
+	private double high;
 
 	private StatisticsCollection stats;
 
@@ -100,7 +98,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	 * @param parameters
 	 *            distribution paramaeters
 	 */
-	public void setParameters(GeoNumeric[] parameters) {
+	public void setParameters(double[] parameters) {
 		this.parameters = parameters;
 		settingChanged();
 	}
@@ -108,7 +106,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	/**
 	 * @return parameter array
 	 */
-	public GeoNumeric[] getParameters() {
+	public double[] getParameters() {
 		return parameters;
 	}
 
@@ -166,7 +164,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	 * @param low
 	 *            lower bound
 	 */
-	public void setLow(GeoNumberValue low) {
+	public void setLow(double low) {
 		intervalSet = true;
 		this.low = low;
 		settingChanged();
@@ -176,7 +174,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	 * @param high
 	 *            upper bound
 	 */
-	public void setHigh(GeoNumberValue high) {
+	public void setHigh(double high) {
 		intervalSet = true;
 		this.high = high;
 		settingChanged();
@@ -199,14 +197,14 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	/**
 	 * @return lower bound
 	 */
-	public GeoNumberValue getLow() {
+	public double getLow() {
 		return this.low;
 	}
 
 	/**
 	 * @return upper bound
 	 */
-	public GeoNumberValue getHigh() {
+	public double getHigh() {
 		return this.high;
 	}
 

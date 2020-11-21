@@ -33,6 +33,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.editor.web.MathFieldScroller;
@@ -346,6 +348,11 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		if (isSuggesting()) {
 			sug.onKeyDown();
 		}
+	}
+
+	@Override
+	public String serialize(MathSequence selectionText) {
+		return GeoGebraSerializer.serialize(selectionText);
 	}
 
 	@Override
