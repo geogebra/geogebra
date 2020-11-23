@@ -446,12 +446,9 @@ public class Derivative {
 
 		@Override
 		public boolean check(ExpressionValue v) {
-			return v.isExpressionNode()
-					&& (((ExpressionNode) v).getOperation() == Operation.XCOORD
-							|| ((ExpressionNode) v)
-									.getOperation() == Operation.YCOORD
-							|| ((ExpressionNode) v)
-									.getOperation() == Operation.ZCOORD);
+			return v.isOperation(Operation.XCOORD)
+							|| v.isOperation(Operation.YCOORD)
+							|| v.isOperation(Operation.ZCOORD);
 		}
 	};
 

@@ -17,6 +17,9 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class GeoGebraSerializer implements Serializer {
 
+	private String leftBracket = "[";
+	private String rightBracket = "]";
+
 	@Override
 	public String serialize(MathFormula formula) {
 		MathSequence sequence = formula.getRootComponent();
@@ -25,7 +28,7 @@ public class GeoGebraSerializer implements Serializer {
 		return stringBuilder.toString();
 	}
 
-	private static void serialize(MathComponent mathComponent,
+	private void serialize(MathComponent mathComponent,
 			StringBuilder stringBuilder) {
 		if (mathComponent instanceof MathCharacter) {
 			serialize((MathCharacter) mathComponent, stringBuilder);
@@ -45,7 +48,7 @@ public class GeoGebraSerializer implements Serializer {
 	 */
 	public static String serialize(MathComponent c) {
 		StringBuilder sb = new StringBuilder();
-		GeoGebraSerializer.serialize(c, sb);
+		new GeoGebraSerializer().serialize(c, sb);
 		return sb.toString();
 	}
 
@@ -54,20 +57,23 @@ public class GeoGebraSerializer implements Serializer {
 		stringBuilder.append(mathCharacter.getUnicode());
 	}
 
-	private static void serialize(MathFunction mathFunction,
+	private void serialize(MathFunction mathFunction,
 			StringBuilder stringBuilder) {
 		Tag mathFunctionName = mathFunction.getName();
 		switch (mathFunctionName) {
 		case SUPERSCRIPT:
-			stringBuilder.append("^(");
-			serialize(mathFunction.getArgument(0), stringBuilder);
-			stringBuilder.append(')');
-			break;
 		case SUBSCRIPT:
-			stringBuilder.append("_{");
-			serialize(mathFunction.getArgument(0), stringBuilder);
-			// a_{1}sin(x) should be a_{1} sin(x)
-			stringBuilder.append("}");
+			StringBuilder scriptArgument = new StringBuilder();
+			serialize(mathFunction.getArgument(0), scriptArgument);
+			String trimmed = scriptArgument.toString().trim();
+
+			if (!trimmed.isEmpty()) {
+				if (mathFunctionName == Tag.SUPERSCRIPT) {
+					stringBuilder.append("^(").append(trimmed).append(")");
+				} else {
+					stringBuilder.append("_{").append(trimmed).append("}");
+				}
+			}
 			break;
 		case FRAC:
 			boolean unaryMinus = stringBuilder.toString().endsWith("-");
@@ -127,14 +133,6 @@ public class GeoGebraSerializer implements Serializer {
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			serializeArgs(mathFunction, stringBuilder, 1);
 			break;
-		case ABS:
-			// empty abs() is just ||
-			if (mathFunction.getArgument(0).size() == 0) {
-				stringBuilder.append("||");
-			} else {
-				generalFunction(mathFunction, stringBuilder);
-			}
-			break;
 
 		case DEF_INT:
 		case SUM_EQ:
@@ -144,13 +142,13 @@ public class GeoGebraSerializer implements Serializer {
 			stringBuilder.append(mathFunction.getName().getFunction());
 			serializeArgs(mathFunction, stringBuilder, 0);
 			break;
-
+		case ABS: // no special handling for || so that invalid input saving works
 		default:
 			generalFunction(mathFunction, stringBuilder);
 		}
 	}
 
-	private static void appendSingleArg(String name, MathFunction mathFunction,
+	private void appendSingleArg(String name, MathFunction mathFunction,
 			StringBuilder stringBuilder, int i) {
 		maybeInsertTimes(mathFunction, stringBuilder);
 		stringBuilder.append(name);
@@ -159,14 +157,14 @@ public class GeoGebraSerializer implements Serializer {
 		stringBuilder.append(')');
 	}
 
-	private static void generalFunction(MathFunction mathFunction,
+	private void generalFunction(MathFunction mathFunction,
 			StringBuilder stringBuilder) {
 		maybeInsertTimes(mathFunction, stringBuilder);
 		stringBuilder.append(mathFunction.getName().getFunction());
 		serializeArgs(mathFunction, stringBuilder, 0);
 	}
 
-	private static void serializeArgs(MathFunction mathFunction,
+	private void serializeArgs(MathFunction mathFunction,
 			StringBuilder stringBuilder, int offset) {
 		stringBuilder.append(mathFunction.getOpeningBracket());
 		for (int i = offset; i < mathFunction.size(); i++) {
@@ -179,7 +177,7 @@ public class GeoGebraSerializer implements Serializer {
 		stringBuilder.append(mathFunction.getClosingBracket());
 	}
 
-	private static void serializeArgs(MathFunction mathFunction,
+	private void serializeArgs(MathFunction mathFunction,
 			StringBuilder stringBuilder, int[] order) {
 		for (int i = 0; i < order.length; i++) {
 			stringBuilder.append(i == 0 ? "((" : ",(");
@@ -207,18 +205,25 @@ public class GeoGebraSerializer implements Serializer {
 		}
 	}
 
-	private static void serialize(MathArray mathArray,
+	private void serialize(MathArray mathArray,
 			StringBuilder stringBuilder) {
-		String open = mathArray.getOpen().getKey() + "";
-		String close = mathArray.getClose().getKey() + "";
+		char openKey = mathArray.getOpenKey();
+		String open;
+		String close;
 		String field = mathArray.getField().getKey() + "";
 		String row = mathArray.getRow().getKey() + "";
-		if ((Unicode.LFLOOR + "").equals(open)) {
+		if (Unicode.LFLOOR == openKey) {
 			open = "floor(";
 			close = ")";
-		} else if ((Unicode.LCEIL + "").equals(open)) {
+		} else if (Unicode.LCEIL == openKey) {
 			open = "ceil(";
 			close = ")";
+		} else if ('[' == openKey) {
+			open = leftBracket;
+			close = rightBracket;
+		} else {
+			open = openKey + "";
+			close = mathArray.getClose().getKey() + "";
 		}
 		if (mathArray.isMatrix()) {
 			stringBuilder.append(open);
@@ -239,7 +244,7 @@ public class GeoGebraSerializer implements Serializer {
 		}
 	}
 
-	private static void serialize(MathSequence mathSequence,
+	private void serialize(MathSequence mathSequence,
 			StringBuilder stringBuilder) {
 		if (mathSequence == null) {
 			return;
@@ -264,5 +269,13 @@ public class GeoGebraSerializer implements Serializer {
 			e.printStackTrace();
 		}
 		return formula1 == null ? formula : formula1;
+	}
+
+	/**
+	 * Serialize both [] and () as ()
+	 */
+	public void forceRoundBrackets() {
+		this.leftBracket = "(";
+		this.rightBracket = ")";
 	}
 }

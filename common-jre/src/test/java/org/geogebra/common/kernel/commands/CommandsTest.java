@@ -1039,6 +1039,16 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdIsVertexForm() {
+		t("IsVertexForm(4(x+1)^2+3)", "true");
+		t("IsVertexForm(4(-3/7+x)^2+3/7+sqrt(2))", "true");
+		t("IsVertexForm(4(x-3/7)^2+3/7+sqrt(2))", "true");
+		t("IsVertexForm(x^2)", "true");
+		t("IsVertexForm(4(-x-3/7)^2+3/7+sqrt(2))", "false");
+		t("IsVertexForm((2x+2)^2+3)", "false");
+	}
+
+	@Test
 	public void testIndexLookup() {
 		t("aa_{1}=1", "1");
 		t("aa_{1}+1", "2");
@@ -1101,7 +1111,7 @@ public class CommandsTest {
 	@Test
 	public void cmdFit() {
 		tRound("Fit[ {(0,1),(1,2),(2,5)}, {x^2,x,1} ]",
-				unicode("1x^2 + 0x + 1 * 1"));
+				unicode("1x^2 + 0x + 1"));
 		tRound("Fit[ {(0,1,1),(1,1,2),(2,1,5),(0,2,4),(1,2,5),(2,2,8)}, {x^2,x,1,x^2*y,x*y,y} ]",
 				unicode("3y + 0x y + 0x^2 y - 2 + 0x + 1x^2"));
 		t("a=Slider[0,10]", "0");
@@ -1109,6 +1119,9 @@ public class CommandsTest {
 		t("c=Slider[0,10]", "0");
 		tRound("Fit[ {(0,1),(1,2),(2,5)},a*x^2+b*x+c ]",
 				unicode("1x^2 + 0x + 1"));
+		// for APPS-2451
+		t("Translate[Fit[ {(0,0),(1,4)}, {x} ],(1,1)]",
+				"(4 * (x - 1)) + 1");
 	}
 
 	@Test

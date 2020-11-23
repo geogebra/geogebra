@@ -48,7 +48,6 @@ import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -1937,12 +1936,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	/**
 	 *
-	 * @param event
-	 *            drag event
 	 * @param geo
 	 *            element
 	 */
-	public void dragStart(DragStartEvent event, GeoElement geo) {
+	public void dragStart(GeoElement geo) {
 		setDraggedGeo(geo);
 	}
 

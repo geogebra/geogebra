@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -28,11 +27,6 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdProduct(kernel);
 		case Extremum:
 			return new CmdExtremum(kernel);
-		case Holes:
-			if (kernel.getApplication().has(Feature.COMMAND_HOLES)) {
-				return new CmdHoles(kernel);
-			}
-			return null;
 		case RemovableDiscontinuity:
 			return new CmdRemovableDiscontinuity(kernel);
 		case Join:

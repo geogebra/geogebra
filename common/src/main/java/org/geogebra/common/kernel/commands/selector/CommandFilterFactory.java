@@ -68,7 +68,7 @@ public final class CommandFilterFactory {
 				Commands.Vertex, Commands.Polynomial, Commands.TaylorPolynomial,
 				Commands.TaylorSeries, Commands.Asymptote, Commands.OsculatingCircle,
 				Commands.CommonDenominator, Commands.CompleteSquare, Commands.Div, Commands.Mod,
-				Commands.Division);
+				Commands.Division, Commands.IsVertexForm);
 		return nameFilter;
 	}
 

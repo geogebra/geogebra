@@ -241,7 +241,7 @@ public class ParserFunctionsFactory {
 		for (String fn: TRANSLATABLE_1_VAR) {
 			pf.addTranslatable(fn, SINGLE_ARG);
 		}
-		pf.addTranslatable("nroot", 2, "( <x>, <n> )", Operation.NROOT);
+		pf.addTranslatable("nroot", 2, ParserFunctions.NROOT_SUFFIX, Operation.NROOT);
 		pf.addTranslatable("nPr", 2, "( <n>, <r> )", Operation.NPR);
 	}
 }

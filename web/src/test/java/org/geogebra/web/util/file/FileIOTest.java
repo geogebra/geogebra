@@ -10,6 +10,6 @@ public class FileIOTest {
 	public void load() {
 		String pathString = "src/test/java/org/geogebra/web/util/file/helloWorld.txt";
 		String fileContent = FileIO.load(pathString);
-		MatcherAssert.assertThat(fileContent, equalTo("Hello World!\n"));
+		MatcherAssert.assertThat(fileContent, equalTo("Hello World!"));
 	}
 }

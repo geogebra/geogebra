@@ -100,15 +100,15 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 	@Test
 	public void testCost7() {
 		add("g(t)=?");
-		shouldBeUpdatedAs("g", "-tcos7t/7", "(-(t cos(7 t)))/7");
-		shouldBeUpdatedAs("g", "-tcos(8t)/7", "(-(t cos(8 t)))/7");
+		shouldBeUpdatedAs("g", "-tcos7t/7", "(-(t cos(7 t)))/(7)");
+		shouldBeUpdatedAs("g", "-tcos(8t)/7", "(-(t cos(8 t)))/(7)");
 	}
 
 	@Test
 	public void testNpi7() {
 		add("f(x)=?");
 		add("n=6");
-		shouldBeUpdatedAs("f", "npi/7", "(n " + Unicode.PI_STRING + ")/7");
+		shouldBeUpdatedAs("f", "npi/7", "(n " + Unicode.PI_STRING + ")/(7)");
 	}
 
 	@Test

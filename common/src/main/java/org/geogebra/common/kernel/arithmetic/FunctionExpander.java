@@ -59,8 +59,7 @@ public class FunctionExpander implements Traversing {
 					|| en.getOperation() == Operation.VEC_FUNCTION) {
 				ExpressionValue geo = en.getLeft().unwrap();
 				ExpressionValue deriv = null;
-				if (geo instanceof ExpressionNode
-						&& ((ExpressionNode) geo).getOperation() == Operation.DERIVATIVE) {
+				if (geo.isOperation(Operation.DERIVATIVE)) {
 					// template not important, right it is a constant
 					// MyDouble anyway
 					deriv = ((ExpressionNode) geo).getRight().evaluate(

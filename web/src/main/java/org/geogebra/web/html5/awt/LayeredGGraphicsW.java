@@ -6,6 +6,7 @@ import com.google.gwt.dom.client.Style;
 public class LayeredGGraphicsW extends GGraphics2DW {
 
 	private int currentLayer = 0;
+	private final Style parentStyle;
 
 	/**
 	 * @param canvas Primary canvas
@@ -14,6 +15,7 @@ public class LayeredGGraphicsW extends GGraphics2DW {
 		super(canvas);
 		Style style = canvas.getCanvasElement().getStyle();
 		style.setPosition(Style.Position.RELATIVE);
+		parentStyle = canvas.getParent().getElement().getStyle();
 	}
 
 	/**
@@ -21,7 +23,7 @@ public class LayeredGGraphicsW extends GGraphics2DW {
 	 */
 	@Override
 	public int embed() {
-		canvas.getCanvasElement().getStyle().setZIndex(currentLayer + 1);
+		parentStyle.setZIndex(currentLayer + 1);
 		return currentLayer++;
 	}
 

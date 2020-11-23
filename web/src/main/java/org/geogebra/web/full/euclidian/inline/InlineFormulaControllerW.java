@@ -16,7 +16,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.model.MathSequence;
 
 public class InlineFormulaControllerW implements InlineFormulaController {
 
@@ -43,6 +42,9 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	public InlineFormulaControllerW(GeoFormula formula, AppW app, Panel parent) {
 		this.formula = formula;
 		this.mathFieldEditor = new MathFieldEditor(app, new FormulaMathFieldListener());
+		if (formula.getContent() != null) {
+			mathFieldEditor.setText(formula.getContent());
+		}
 
 		this.widget = new AbsolutePanel();
 		ClickEndHandler.init(widget, new ClickEndHandler(true, true) {
@@ -192,11 +194,6 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		@Override
 		public void onDownKeyPressed() {
 			// do nothing
-		}
-
-		@Override
-		public String serialize(MathSequence selectionText) {
-			return null;
 		}
 
 		@Override

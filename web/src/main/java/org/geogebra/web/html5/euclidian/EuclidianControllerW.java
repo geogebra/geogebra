@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -18,7 +17,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -293,8 +291,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	@Override
 	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
 		if (isComboboxFocused()) {
-
-			Log.error("isComboboxFocused!");
 			this.draggingOccured = false;
 			getView().setHits(mouseLoc, type);
 			Hits hits = getView().getHits().getTopHits();
@@ -394,12 +390,6 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public void onDrop(DropEvent event) {
-		app.setActiveView(App.VIEW_EUCLIDIAN);
-		app.setActiveView(App.VIEW_EUCLIDIAN2);
-
-		EuclidianViewInterfaceCommon ev =
-				app.getActiveEuclidianView();
-
 		GeoElement geo = app.getAlgebraView().getDraggedGeo();
 		if (geo == null) {
 			return;
@@ -417,14 +407,11 @@ public class EuclidianControllerW extends EuclidianController implements
 			GeoText geo0 = (GeoText) ret[0];
 			geo0.setLaTeX(true, false);
 
-			// TODO: h should equal the geo height, this is just an
-			// estimate
 			int x = event.getNativeEvent().getClientX();
-			//double h = 2 * app.getFontSize();
 			int y = event.getNativeEvent().getClientY();
 
-			geo0.setRealWorldLoc(ev.toRealWorldCoordX(mtg.touchEventX(x)),
-					ev.toRealWorldCoordY(mtg.touchEventY(y)));
+			geo0.setRealWorldLoc(getView().toRealWorldCoordX(mtg.touchEventX(x)),
+					getView().toRealWorldCoordY(mtg.touchEventY(y)));
 			geo0.updateRepaint();
 		}
 	}

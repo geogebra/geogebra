@@ -153,6 +153,11 @@ public class GLookAndFeel implements GLookAndFeelI {
 	}
 
 	@Override
+	public boolean isExternalLoginAllowed() {
+		return true;
+	}
+
+	@Override
     public boolean registerHandlers(Widget evPanel, EuclidianControllerW euclidiancontroller) {
 	    return false;
     }

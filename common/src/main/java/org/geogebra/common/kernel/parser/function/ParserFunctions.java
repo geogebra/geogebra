@@ -11,6 +11,7 @@ import org.geogebra.common.plugin.Operation;
  * @author zbynek
  */
 public interface ParserFunctions {
+	String NROOT_SUFFIX = "( <x>, <n> )";
 
 	/**
 	 * Updates local names of functions
@@ -78,4 +79,11 @@ public interface ParserFunctions {
 	 * @return single argument operation other than x,y,z
 	 */
 	Operation getSingleArgumentOp(String leftImg);
+
+	/**
+	 * @param text autocomplete suggestion
+	 * @param loc localization
+	 * @return suggestion updated for the editor
+	 */
+	String toEditorAutocomplete(String text, Localization loc);
 }
