@@ -323,16 +323,6 @@ public class ParserTest {
 	}
 
 	@Test
-	public void commaParsingShouldWorkInEnglish() {
-		app.setLanguage(new Locale("en"));
-		shouldReparseAs("3,141", "3141");
-		shouldReparseAs("3,5>x", "If(5 > x, 3)");
-		shouldReparseAs("(1,2) + 1,423", "(1, 2) + 1423");
-		// merely testing that we don't throw a *wrong* exception
-		shouldReparseAs("3,", "3");
-	}
-
-	@Test
 	public void shouldKeepMultiplicationFromLeft() {
 		String f1 = reparse(app, "F(x,A,B)=BAxe^(-Bx)-Ae^(-Bx)",
 				StringTemplate.xmlTemplate, true);

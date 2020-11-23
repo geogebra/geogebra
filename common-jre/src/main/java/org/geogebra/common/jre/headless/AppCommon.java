@@ -37,7 +37,6 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.main.GuiManagerInterface;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
@@ -695,7 +694,7 @@ public class AppCommon extends App {
     }
 
     @Override
-    public Localization getLocalization() {
+    public LocalizationJre getLocalization() {
         return localization;
     }
 

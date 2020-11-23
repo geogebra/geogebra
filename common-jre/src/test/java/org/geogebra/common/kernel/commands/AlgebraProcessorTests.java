@@ -81,7 +81,7 @@ public class AlgebraProcessorTests extends BaseUnitTest {
     @Test
     public void testConversion() {
         shouldParseAs("-1", -1);
-        shouldParseAs("-1,500", -1500);
+        shouldParseAs("-1,500", -1.5);
         shouldParseAs("360deg", 2 * Math.PI);
     }
 
