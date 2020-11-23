@@ -118,19 +118,13 @@ import org.geogebra.common.util.debug.Log;
 	/**
 	 *
 	 * @param function to examine.
-	 * @return if x variable occurs more, than once in expression tree of the function.
+	 * @return if function has more variables.
 	 */
-	public static boolean hasMoreX(GeoFunction function) {
+	public static boolean hasMoreVariables(GeoFunction function) {
 		ExpressionNode expression = function.getFunctionExpression();
 		if (expression == null) {
 			return false;
 		}
-
-		return containsX(expression.getLeftTree())
-				&& containsX(expression.getRightTree());
-	}
-
-	private static boolean containsX(ExpressionNode node) {
-		return node != null && node.containsFreeFunctionVariable("x");
+		return expression.inspect(new MultipleVariableChecker());
 	}
 }

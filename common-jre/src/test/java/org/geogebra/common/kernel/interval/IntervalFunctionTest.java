@@ -38,11 +38,11 @@ public class IntervalFunctionTest extends BaseUnitTest {
 
 	@Test
 	public void testDependencyProblem() {
-		assertTrue(IntervalFunction.hasMoreX(add("x^2 + x")));
-		assertTrue(IntervalFunction.hasMoreX(add("abs(x)/x")));
-		assertTrue(IntervalFunction.hasMoreX(add("(1/x)sin(x)")));
-		assertFalse(IntervalFunction.hasMoreX(add("sin(x^4)")));
-		assertFalse(IntervalFunction.hasMoreX(add("tan(x)/2")));
-		assertFalse(IntervalFunction.hasMoreX(add("x+3")));
+		assertTrue(IntervalFunction.hasMoreVariables(add("x^2 + x")));
+		assertTrue(IntervalFunction.hasMoreVariables(add("abs(x)/x")));
+		assertTrue(IntervalFunction.hasMoreVariables(add("(1/x)sin(x)")));
+		assertFalse(IntervalFunction.hasMoreVariables(add("sin(x^4)")));
+		assertFalse(IntervalFunction.hasMoreVariables(add("tan(x)/2")));
+		assertFalse(IntervalFunction.hasMoreVariables(add("x+3")));
 	}
 }
