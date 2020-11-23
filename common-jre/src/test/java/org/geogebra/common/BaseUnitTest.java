@@ -140,11 +140,11 @@ public class BaseUnitTest {
 		return getFirstElement(geoElements);
 	}
 
-	protected   <T extends GeoElementND> T[] getElements(String command) {
+	protected <T extends GeoElementND> T[] getElements(String command) {
 		return getElements(command, EvalInfoFactory.getEvalInfoForAV(app, false));
 	}
 
-	private  <T extends GeoElementND> T[] getElements(String command, EvalInfo info) {
+	private <T extends GeoElementND> T[] getElements(String command, EvalInfo info) {
 		return (T[]) getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(
 						command,
