@@ -306,7 +306,7 @@ public class RedefineTest extends Assert {
 	@Test
 	public void pointOnFnShouldNotStayUndefined() {
 		t("a=1", "1");
-		t("f=axx", "x^(2)");
+		t("f=axx", "(1 * x^(2))");
 		t("A=Point[f]", "(0, 0)");
 		t("a=?", "NaN");
 		t("a=1", "1");
