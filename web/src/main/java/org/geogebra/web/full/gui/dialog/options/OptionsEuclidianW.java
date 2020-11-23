@@ -715,6 +715,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		this.view = (EuclidianView) activeEuclidianView;
 		model = new EuclidianOptionsModel(app, view, this);
 		initGUI();
+		view.setOptionPanel(this);
 		isIniting = false;
 	}
 
@@ -1020,6 +1021,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	@Override
 	public void updateRuler(int typeIdx, GColor color, int lineStyle, boolean bold) {
 		gridTab.updateRuler(typeIdx, color, lineStyle, bold);
+	}
+
+	public EuclidianView getView() {
+		return view;
 	}
 }
 

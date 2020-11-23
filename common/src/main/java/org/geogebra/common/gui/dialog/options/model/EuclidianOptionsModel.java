@@ -346,9 +346,6 @@ public class EuclidianOptionsModel {
 					(view.isZoomable() && !view.isLockedAxesRatio()));
 
 			view.updateBounds(true, true);
-
-			EuclidianView3D view3d = (EuclidianView3D) view;
-			view3d.resetViewChanged();
 		}
 	}
 

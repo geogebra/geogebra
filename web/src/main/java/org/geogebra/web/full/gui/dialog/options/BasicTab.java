@@ -34,7 +34,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
 
 public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
@@ -159,9 +158,9 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	private void addDimensionPanel() {
 		dimTitle = new Label("");
 		dimTitle.setStyleName("panelTitle");
-		int dimension = setDimension();
-		dimLabel = new FormLabel[dimension]; // "Xmin", "Xmax" etc.
-		dimField = new AutoCompleteTextFieldW[dimension];
+		int dimension = this.optionsEuclidianW.view.getDimension();
+		dimLabel = new FormLabel[dimension * 2]; // "Xmin", "Xmax" etc.
+		dimField = new AutoCompleteTextFieldW[dimension * 2];
 
 		tfAxesRatioX = this.optionsEuclidianW.getTextField();
 		tfAxesRatioY = this.optionsEuclidianW.getTextField();
@@ -191,9 +190,9 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		dimPanel = new FlowPanel();
 		add(dimTitle);
-		FlowPanel[] axisRangePanel = new FlowPanel[dimension];
+		FlowPanel[] axisRangePanel = new FlowPanel[dimension * 2];
 		MinMaxType[] fields;
-		if (dimension == 4) {
+		if (dimension == 2) {
 			fields = new MinMaxType[]{MinMaxType.minX,
 					MinMaxType.maxX, MinMaxType.minY, MinMaxType.maxY};
 		} else {
@@ -215,14 +214,16 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 				LayoutUtilW.panelRow(axisRangePanel[0], axisRangePanel[1]));
 		dimPanel.add(
 				LayoutUtilW.panelRow(axisRangePanel[2], axisRangePanel[3]));
-		if (dimension == 6) {
+		if (dimension == 3) {
 			dimPanel.add(
 					LayoutUtilW.panelRow(axisRangePanel[4], axisRangePanel[5]));
 		}
 
-		dimPanel.add(LayoutUtilW.panelRow(axesRatioLabel));
-		dimPanel.add(LayoutUtilW.panelRow(tfAxesRatioX, new Label(" : "),
-				tfAxesRatioY, tbLockRatio));
+		if (dimension == 2) {
+			dimPanel.add(LayoutUtilW.panelRow(axesRatioLabel));
+			dimPanel.add(LayoutUtilW.panelRow(tfAxesRatioX, new Label(" : "),
+					tfAxesRatioY, tbLockRatio));
+		}
 
 		indent(dimPanel);
 		addAxesRatioHandler(tfAxesRatioX);
@@ -803,10 +804,9 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		tbLockRatio.setEnabled(value);
 	}
 
-	final protected void updateMinMax() {
+	protected void updateMinMax() {
 		this.optionsEuclidianW.view.updateBoundObjects();
 
-		if (setDimension() == 4) {
 			setMinMaxText(
 					this.optionsEuclidianW.view.getXminObject()
 							.getLabel(StringTemplate.editTemplate),
@@ -816,21 +816,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 							.getLabel(StringTemplate.editTemplate),
 					this.optionsEuclidianW.view.getYmaxObject()
 							.getLabel(StringTemplate.editTemplate));
-		} else {
-			setMinMaxText(
-				this.optionsEuclidianW.view.getXminObject()
-						.getLabel(StringTemplate.editTemplate),
-				this.optionsEuclidianW.view.getXmaxObject()
-						.getLabel(StringTemplate.editTemplate),
-				this.optionsEuclidianW.view.getYminObject()
-						.getLabel(StringTemplate.editTemplate),
-				this.optionsEuclidianW.view.getYmaxObject()
-						.getLabel(StringTemplate.editTemplate),
-				this.optionsEuclidianW.view.getZminObject()
-						.getLabel(StringTemplate.editTemplate),
-				this.optionsEuclidianW.view.getZmaxObject()
-						.getLabel(StringTemplate.editTemplate));
-		}
 	}
 
 	/**

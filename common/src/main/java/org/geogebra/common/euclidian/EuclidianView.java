@@ -789,8 +789,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			((GeoNumeric) xmaxObject).setValue(getXmax());
 			((GeoNumeric) yminObject).setValue(getYmin());
 			((GeoNumeric) ymaxObject).setValue(getYmax());
-			((GeoNumeric) zminObject).setValue(getZmin());
-			((GeoNumeric) zmaxObject).setValue(getZmax());
 		}
 	}
 

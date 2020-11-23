@@ -246,12 +246,16 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         getView3D().updateBounds();
     }
 
-    private void standsOnFloorIfAR(double[][] mm) {
+    public void standsOnFloorIfAR(double[][] mm) {
         EuclidianView3D view = getView3D();
         if (view.isAREnabled()) {
 			mm[Z][MIN] = view.getARMinZ();
         }
     }
+
+    public double getRV(int index) {
+		return REDUCTION_VALUES[index];
+	}
 
     /**
      * update the x,y,z min/max values
@@ -410,7 +414,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		return changed;
 	}
 
-	private void setVertices() {
+	public void setVertices() {
 		for (int x = 0; x < 2; x++) {
 			for (int y = 0; y < 2; y++) {
 				for (int z = 0; z < 2; z++) {

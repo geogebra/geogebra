@@ -3426,24 +3426,56 @@ public abstract class EuclidianView3D extends EuclidianView
 			}
 		}
 
-		if (getSettings().getXminObject() == null) {
+		if (xmaxObject == null) {
 			return;
 		}
 		double [][] minmax2 = new double[3][2];
-		double xmin2 = getSettings().getXminObject().getDouble();
+		double xmin2 = xminObject.getDouble();
 		double xmax2 = xmaxObject.getDouble();
 		double ymin2 = yminObject.getDouble();
 		double ymax2 = ymaxObject.getDouble();
 		double zmin2 = zminObject.getDouble();
 		double zmax2 = zmaxObject.getDouble();
-		if (((xmax2 - xmin2) > Kernel.MAX_PRECISION)
-				&& ((ymax2 - ymin2) > Kernel.MAX_PRECISION)) {
+		if (((xmax2 - xmin2) > Kernel.MAX_PRECISION) && ((ymax2 - ymin2) > Kernel.MAX_PRECISION)
+				&& ((zmax2 - zmin2 > Kernel.MAX_PRECISION))) {
 			minmax2[0][0] = xmin2;
 			minmax2[0][1] = xmax2;
 			minmax2[1][0] = ymin2;
 			minmax2[1][1] = ymax2;
 			minmax2[2][0] = zmin2;
 			minmax2[2][1] = zmax2;
+
+			double width = renderer.getWidth();
+			double top = renderer.getTop();
+			double bottom = renderer.getBottom();
+			double rv = clippingCubeDrawable.getRV(1);
+			xZero = (xmin2 * (width / 2.0 - rv * width) - xmax2 * (-width / 2.0 + rv * width)) / (
+					2 * rv * width - width);
+			double xscale = (-width / 2.0 + rv * width) / (xmin2 + xZero);
+			double yscale;
+			double zscale;
+			if (getYAxisVertical()) {
+				yZero = (ymin2 * (top - rv * (top - bottom)) - ymax2 * (bottom + rv * (top
+						- bottom))) / (bottom - top + 2 * rv * (top - bottom));
+				zZero = (zmin2 * (width / 2.0 - rv * width) - zmax2 * (-width / 2.0 + rv * width)) / (
+						2 * rv * width - width);
+				yscale = (bottom) / (ymin2 + yZero) + rv * (top - bottom) / (ymin2 + yZero);
+				zscale = (-width / 2.0 + rv * width) / (zmin2 + zZero);
+			} else {
+				yZero = (ymin2 * (width / 2.0 - rv * width) - ymax2 * (-width / 2.0 + rv * width)) / (
+						2 * rv * renderer.getWidth() - width);
+				zZero = (zmin2 * (top - rv * (top - bottom)) - zmax2 * (bottom + rv * (top
+						- bottom))) / (bottom - top + 2 * rv * (top - bottom));
+				yscale = (-width / 2.0 + rv * width) / (ymin2 + yZero);
+				zscale = (bottom) / (zmin2 + zZero) + rv * (top - bottom) / (zmin2 + zZero);
+			}
+
+			setXscale(xscale);
+			setYscale(yscale);
+			setZscale(zscale);
+			if (updateSettings && getSettings() != null) {
+				getSettings().setCoordSystem(xZero, yZero, zZero, xscale, yscale, zscale, false);
+			}
 			clippingCubeDrawable.setXYZMinMax(minmax2);
 
 			for (int i = 0; i < 3; i++) {
@@ -3479,6 +3511,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 				axisDrawable[i].setWaitForUpdate();
 			}
+				if (getOptionPanel() != null) {
+				getOptionPanel().updateBounds();
+			}
 		}
 
 		// we need to update renderer clip planes even for rotation, since they
@@ -3491,6 +3526,18 @@ public abstract class EuclidianView3D extends EuclidianView
 
 			// update e.g. Corner[]
 			kernel.notifyEuclidianViewCE(EVProperty.ROTATION);
+		}
+	}
+
+	@Override
+	public void updateBoundObjects() {
+		if (isZoomable() && xminObject != null) {
+			((GeoNumeric) xminObject).setValue(getXmin());
+			((GeoNumeric) xmaxObject).setValue(getXmax());
+			((GeoNumeric) yminObject).setValue(getYmin());
+			((GeoNumeric) ymaxObject).setValue(getYmax());
+			((GeoNumeric) zminObject).setValue(getZmin());
+			((GeoNumeric) zmaxObject).setValue(getZmax());
 		}
 	}
 

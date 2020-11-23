@@ -22,6 +22,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.geogebra3D.gui.GuiResources3D;
@@ -91,8 +92,8 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 	}
 
 	@Override
-	protected void initDimensionPanel(int minMaxAmount) {
-		super.initDimensionPanel(6);
+	protected int getDimension() {
+		return 3;
 	}
 
 	@Override
@@ -669,4 +670,32 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 		}
 	}
 
+	@Override
+	protected void updateMinMax() {
+		tfMinX.removeActionListener(this);
+		tfMaxX.removeActionListener(this);
+		tfMinY.removeActionListener(this);
+		tfMaxY.removeActionListener(this);
+		tfMinZ.removeActionListener(this);
+		tfMaxZ.removeActionListener(this);
+		view.updateBoundObjects();
+		tfMinX.setText(
+				view.getXminObject().getLabel(StringTemplate.editTemplate));
+		tfMaxX.setText(
+				view.getXmaxObject().getLabel(StringTemplate.editTemplate));
+		tfMinY.setText(
+				view.getYminObject().getLabel(StringTemplate.editTemplate));
+		tfMaxY.setText(
+				view.getYmaxObject().getLabel(StringTemplate.editTemplate));
+		tfMinZ.setText(
+				view.getZminObject().getLabel(StringTemplate.editTemplate));
+		tfMaxZ.setText(
+				view.getZmaxObject().getLabel(StringTemplate.editTemplate));
+		tfMinX.addActionListener(this);
+		tfMaxX.addActionListener(this);
+		tfMinY.addActionListener(this);
+		tfMaxY.addActionListener(this);
+		tfMinZ.addActionListener(this);
+		tfMaxZ.addActionListener(this);
+	}
 }
