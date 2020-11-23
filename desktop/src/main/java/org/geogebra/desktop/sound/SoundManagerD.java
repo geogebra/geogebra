@@ -9,6 +9,7 @@ import javax.swing.SwingUtilities;
 
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.geos.GeoAudio;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.sound.SoundManager;
@@ -126,7 +127,7 @@ public class SoundManagerD implements SoundManager {
 	 * @param fileName
 	 */
 	@Override
-	public void playFile(final String fileName) {
+	public void playFile(GeoElement geoElement, final String fileName) {
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -299,13 +300,13 @@ public class SoundManagerD implements SoundManager {
 	}
 
 	@Override
-	public int getDuration(String url) {
+	public int getDuration(GeoAudio geoAudio) {
 		// not implemented here.
 		return 0;
 	}
 
 	@Override
-	public int getCurrentTime(String url) {
+	public int getCurrentTime(GeoAudio geoAudio) {
 		// not implemented here.
 		return 0;
 	}
@@ -317,7 +318,7 @@ public class SoundManagerD implements SoundManager {
 
 	@Override
 	public void play(GeoAudio geo) {
-		playFile(geo.getSrc());
+		playFile(geo, geo.getSrc());
 	}
 
 	@Override
@@ -332,7 +333,7 @@ public class SoundManagerD implements SoundManager {
 	}
 
 	@Override
-	public void setCurrentTime(String url, int pos) {
+	public void setCurrentTime(GeoAudio geoAudio, int pos) {
 		// not implemented here.
 	}
 }
