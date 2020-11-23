@@ -348,7 +348,7 @@ public class RedefineTest extends Assert {
 		t("c:y^2 = (x^2-a^2)/x^2", "y^(2) = (x^(2) - 2^(2)) / x^(2)");
 		Assert.assertFalse("Implicit curve with var should be dependent.",
 				get("c").isIndependent());
-		t("c1:y^2 = (x^2-2^2)/x^2", "y^(2) = (x^(2) - 4) / x^(2)");
+		t("c1:y^2 = (x^2-2^2)/x^2", "y^(2) = (x^(2) - 2^(2)) / x^(2)");
 		Assert.assertTrue("Implicit curve without vars should be independent.",
 				get("c1").isIndependent());
 		Assert.assertEquals(

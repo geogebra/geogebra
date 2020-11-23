@@ -58,15 +58,6 @@ import org.geogebra.common.util.debug.Log;
 public class ExpressionNode extends ValidExpression
 		implements ExpressionNodeConstants, ReplaceChildrenByValues {
 
-	private static final Inspecting TRICKY_DIVISION_CHECKER = new Inspecting() {
-
-		@Override
-		public boolean check(ExpressionValue v) {
-			return v.isOperation(Operation.DIVIDE)
-					&& DoubleUtil.isZero(v.evaluateDouble())
-					&& ((ExpressionNode) v).getLeft().evaluateDouble() != 0;
-		}
-	};
 	private Localization loc;
 	private Kernel kernel;
 	private ExpressionValue left;
@@ -398,43 +389,6 @@ public class ExpressionNode extends ValidExpression
 				right = ((Command) right).simplify(info);
 			}
 		}
-	}
-
-	/**
-	 * Replaces all constant parts in tree by their values
-	 */
-	final public void simplifyConstantIntegers() {
-		if (left.isExpressionNode()) {
-			left = doSimplifyConstantIntegers(left);
-		}
-
-		if ((right != null) && right.isExpressionNode()) {
-			right = doSimplifyConstantIntegers(right);
-		}
-	}
-
-	private static ExpressionValue doSimplifyConstantIntegers(
-			ExpressionValue left2) {
-		ExpressionNode node = (ExpressionNode) left2;
-		if (left2.isConstant() && node.getOperation() != Operation.ARBCONST) {
-			ExpressionValue eval = node
-					.evaluate(StringTemplate.defaultTemplate);
-			if (eval instanceof NumberValue) {
-				// we only simplify numbers that have integer values
-				if (DoubleUtil.isInteger(eval.evaluateDouble())) {
-					if (node.inspect(TRICKY_DIVISION_CHECKER)) {
-						node.simplifyConstantIntegers();
-						return left2;
-					}
-					return eval;
-				}
-			} else {
-				return eval;
-			}
-		} else {
-			node.simplifyConstantIntegers();
-		}
-		return left2;
 	}
 
 	/**

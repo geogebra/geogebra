@@ -1464,7 +1464,7 @@ public class CommandsTest {
 		tpm("pmx", "{x, (-x)}");
 		tpm("x+(pm2)", "{x + 2, x - 2}");
 		tpm("xpm2", "{x + 2, x - 2}");
-		tpm("xpm(pm2)", "{x + 2, x + 2}");
+		tpm("xpm(pm2)", "{x + 2, x - (-2)}");
 		t("mul=4", "4");
 		tpm("prod=pm mul 3", "{12, -12}");
 		Assert.assertEquals("(" + Unicode.PLUSMINUS + "mul) * 3",
