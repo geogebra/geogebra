@@ -2,8 +2,7 @@ package org.geogebra.common.kernel.interval;
 
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
-import static org.geogebra.common.kernel.interval.IntervalConstants.WHOLE;
-import static org.geogebra.common.kernel.interval.IntervalConstants.ZERO;
+import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.shouldEqual;
@@ -14,9 +13,9 @@ public class IntervalDivisionTest {
 
 	@Test
 	public void testDivisionPositiveWithZero() {
-		shouldEqual(WHOLE, interval(1, 2).divide(interval(-1, 1)));
-		shouldEqual(WHOLE, interval(0, 2).divide(interval(0, 1)));
-		shouldEqual(WHOLE, interval(0, 2).divide(interval(-1, 0)));
+		shouldEqual(whole(), interval(1, 2).divide(interval(-1, 1)));
+		shouldEqual(whole(), interval(0, 2).divide(interval(0, 1)));
+		shouldEqual(whole(), interval(0, 2).divide(interval(-1, 0)));
 		shouldEqual(interval(1, Double.POSITIVE_INFINITY),
 				interval(1, 2).divide(interval(0, 1)));
 		shouldEqual(interval(NEGATIVE_INFINITY, -1),
@@ -25,9 +24,9 @@ public class IntervalDivisionTest {
 
 	@Test
 	public void testDivisionNegativeWithZero() {
-		shouldEqual(WHOLE, interval(-2, -1).divide(interval(-1, 1)));
-		shouldEqual(WHOLE, interval(-2, 0).divide(interval(0, 1)));
-		shouldEqual(WHOLE, interval(-2, 0).divide(interval(-1, 0)));
+		shouldEqual(whole(), interval(-2, -1).divide(interval(-1, 1)));
+		shouldEqual(whole(), interval(-2, 0).divide(interval(0, 1)));
+		shouldEqual(whole(), interval(-2, 0).divide(interval(-1, 0)));
 		shouldEqual(interval(NEGATIVE_INFINITY, -1),
 				interval(-2, -1).divide(interval(0, 1)));
 		shouldEqual(interval(NEGATIVE_INFINITY, -1),
@@ -36,7 +35,7 @@ public class IntervalDivisionTest {
 
 	@Test
 	public void testDivisionMixedWithZero() {
-		shouldEqual(WHOLE, interval(-2, 3).divide(interval(-1, 1)));
+		shouldEqual(whole(), interval(-2, 3).divide(interval(-1, 1)));
 	}
 
 	@Test

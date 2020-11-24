@@ -3,10 +3,8 @@ package org.geogebra.common.kernel.interval;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.PI;
-import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE_HIGH;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE_LOW;
-import static org.geogebra.common.kernel.interval.IntervalConstants.ZERO;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.shouldEqual;
@@ -19,14 +17,14 @@ public class IntervalTrigonometricTest {
 
 	@Test
 	public void testPiTwice() {
-		Interval interval = new Interval(PI_TWICE);
+		Interval interval = IntervalConstants.piTwice();
 		assertArrayEquals(new double[] {PI_TWICE_LOW, PI_TWICE_HIGH},
 				interval.toArray(), 0);
 	}
 
 	@Test
 	public void testCos() {
-		shouldEqual(IntervalConstants.ONE, interval(0, 0).cos());
+		shouldEqual(IntervalConstants.one(), interval(0, 0).cos());
 		shouldEqual(interval(0, 1), interval(0, PI / 2).cos());
 		shouldEqual(interval(-1, 1), interval(-PI, PI).cos());
 		shouldEqual(interval(-1, 1), interval(0, (3 * PI) / 2).cos());

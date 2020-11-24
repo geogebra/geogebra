@@ -27,6 +27,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
+import org.geogebra.common.euclidian.plot.interval.IntervalPlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
@@ -43,6 +44,7 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.kernel.interval.IntervalFunction;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -58,6 +60,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class DrawParametricCurve extends Drawable {
 
+	private IntervalPlotter intervalPlotter;
 	private CurveEvaluable curve;
 	private GeneralPathClippedForCurvePlotter gp;
 	private boolean isVisible;
@@ -101,8 +104,22 @@ public class DrawParametricCurve extends Drawable {
 		this.view = view;
 		this.curve = curve;
 		geo = curve.toGeoElement();
+		createGeneralPath();
+		createIntervalPlotter();
 		gpCache = new ArrayList<>();
 		update();
+	}
+
+	private void createIntervalPlotter() {
+		intervalPlotter = new IntervalPlotter(view, gp);
+		if (this.geo != null && this.geo.isGeoFunction()) {
+			GeoFunction function = (GeoFunction) this.geo;
+			if (IntervalFunction.isSupported(function)) {
+				intervalPlotter.enableFor(function);
+			} else {
+				intervalPlotter.disable();
+			}
+		}
 	}
 
 	@Override
@@ -115,6 +132,20 @@ public class DrawParametricCurve extends Drawable {
 		if (!isVisible) {
 			return;
 		}
+
+		if (intervalPlotter.isEnabled()) {
+			updateStrokes(geo);
+			updateIntervalPlot();
+		} else {
+			updateParametric();
+		}
+	}
+
+	private void updateIntervalPlot() {
+		intervalPlotter.update();
+	}
+
+	private void updateParametric() {
 		dataExpression = null;
 		if (geo.getLineType() == EuclidianStyleConstants.LINE_TYPE_POINTWISE
 				&& (curve instanceof GeoFunction)) {
@@ -128,7 +159,7 @@ public class DrawParametricCurve extends Drawable {
 			return;
 		}
 		if (gp == null) {
-			gp = new GeneralPathClippedForCurvePlotter(view, gpCache);
+			createGeneralPath();
 		}
 		gp.reset();
 
@@ -255,6 +286,10 @@ public class DrawParametricCurve extends Drawable {
 		addLabelOffsetEnsureOnScreen(view.getFontConic());
 	}
 
+	private void createGeneralPath() {
+		gp = new GeneralPathClippedForCurvePlotter(view);
+	}
+
 	private void updatePointwise() {
 		if (points == null) {
 			points = new ArrayList<>();
@@ -375,6 +410,30 @@ public class DrawParametricCurve extends Drawable {
 
 	@Override
 	final public void draw(GGraphics2D g2) {
+		if (intervalPlotter.isEnabled()) {
+			drawIntervalPlot(g2);
+		} else {
+			drawParametric(g2);
+		}
+	}
+
+	private void drawIntervalPlot(GGraphics2D g2) {
+		if (!isVisible) {
+			return;
+		}
+
+		if (isHighlighted()) {
+			g2.setPaint(geo.getSelColor());
+			g2.setStroke(selStroke);
+			intervalPlotter.draw(g2);
+		}
+
+		g2.setPaint(getObjectColor());
+		g2.setStroke(objStroke);
+		intervalPlotter.draw(g2);
+	}
+
+	private void drawParametric(GGraphics2D g2) {
 		if (isVisible) {
 			if (dataExpression != null) {
 				g2.setPaint(getObjectColor());
@@ -420,7 +479,7 @@ public class DrawParametricCurve extends Drawable {
 		for (MyPoint p: gpCache) {
 			gp.drawTo(p.x, p.y, p.getSegmentType());
 		}
-			
+
 	}
 
 	private void drawPoints(GGraphics2D g2) {

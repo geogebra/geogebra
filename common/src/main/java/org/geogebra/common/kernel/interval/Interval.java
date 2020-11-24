@@ -1,11 +1,11 @@
 package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.arithmetic.MyDouble.isFinite;
-import static org.geogebra.common.kernel.interval.IntervalConstants.WHOLE;
 import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
 
 import java.util.Objects;
 
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -17,6 +17,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	private final IntervalArithmeticImpl arithmetic = new IntervalArithmeticImpl(this);
 	private final IntervalTrigonometric trigonometric = new IntervalTrigonometric(this);
 	private final IntervalMiscOperandsImpl misc = new IntervalMiscOperandsImpl(this);
+	private final IntervalEvaluate evaluate = new IntervalEvaluate(this);
 	private double low;
 	private double high;
 
@@ -291,7 +292,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	}
 
 	void setWhole() {
-		set(WHOLE.low, WHOLE.high);
+		set(IntervalConstants.whole());
 	}
 
 	/**
@@ -299,7 +300,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @param power of the interval
 	 * @return power of the interval
 	 */
-	public Interval pow(int power) {
+	public Interval pow(double power) {
 		return algebra.pow(power);
 	}
 
@@ -307,7 +308,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * Sets the closed interval bounds as the other interval
 	 * @param other interval to set bounds as the same.
 	 */
-	void set(Interval other) {
+	public void set(Interval other) {
 		set(other.low, other.high);
 	}
 
@@ -317,7 +318,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @param low lower bound.
 	 * @param high higher bound.
 	 */
-	void set(double low, double high) {
+	public void set(double low, double high) {
 		this.low = low;
 		this.high = high;
 	}
@@ -545,8 +546,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	}
 
 	@Override
-	public Interval intersection(Interval interval) {
-		return misc.intersection(interval);
+	public Interval intersect(Interval interval) {
+		return misc.intersect(interval);
 	}
 
 	@Override
@@ -563,4 +564,30 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	public Interval abs() {
 		return misc.abs();
 	}
+
+	public boolean contains(Interval interval) {
+		return interval.low > low && interval.high < high;
+	}
+
+	/**
+	 *
+	 * @param other to compare with.
+	 * @return if this interval is greater than the other.
+	 */
+	public boolean isGreaterThan(Interval other) {
+		if (isEmpty() || other.isEmpty()) {
+			return false;
+		}
+		return high > other.high;
+	}
+
+	public Interval evaluate(Operation operation,
+			Interval other) throws Exception {
+		return evaluate.evaluate(operation, other);
+	}
+
+	public Interval evaluate(Operation operation) throws Exception {
+		return evaluate.evaluate(operation);
+	}
+
 }

@@ -52,10 +52,10 @@ public class IntervalMiscTest {
 
 	@Test
 	public void testIntersection() {
-		assertTrue(interval(-1, 1).intersection(interval(5, 7)).isEmpty());
-		assertTrue(interval(-1, 1).intersection(empty()).isEmpty());
+		assertTrue(interval(-1, 1).intersect(interval(5, 7)).isEmpty());
+		assertTrue(interval(-1, 1).intersect(empty()).isEmpty());
 		shouldEqual(interval(0, 1),
-				interval(-1, 1).intersection(interval(0, 7)));
+				interval(-1, 1).intersect(interval(0, 7)));
 	}
 
 	@Test

@@ -44,7 +44,7 @@ public interface IntervalMiscOperands {
 	 * @param interval to intersect with
 	 * @return this as result
 	 */
-	Interval intersection(Interval interval);
+	Interval intersect(Interval interval);
 
 	/**
 	 * Union of intervals

@@ -48,7 +48,7 @@ class IntervalAlgebra {
 	 * @param power of the interval
 	 * @return power of the interval
 	 */
-	Interval pow(int power) {
+	Interval pow(double power) {
 		if (interval.isEmpty()) {
 			return interval;
 		}
@@ -60,7 +60,7 @@ class IntervalAlgebra {
 			return interval;
 		}
 
-		return powOfInteger(power);
+		return powOfInteger((int) power);
 	}
 
 	private Interval powOfInteger(int power) {

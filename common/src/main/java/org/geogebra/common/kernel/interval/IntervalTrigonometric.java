@@ -1,12 +1,9 @@
 package org.geogebra.common.kernel.interval;
 
-import static org.geogebra.common.kernel.interval.IntervalConstants.PI;
-import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HALF;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HALF_HIGH;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HALF_LOW;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HIGH;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_LOW;
-import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE_LOW;
 
 class IntervalTrigonometric {
@@ -24,8 +21,8 @@ class IntervalTrigonometric {
 		Interval cache = new Interval(interval);
 		handleNegative(cache);
 
-		Interval pi = new Interval(PI);
-		Interval pi2 = new Interval(PI_TWICE);
+		Interval pi = IntervalConstants.pi();
+		Interval pi2 = IntervalConstants.piTwice();
 		cache.fmod(pi2);
 		if (cache.getWidth() >= PI_TWICE_LOW) {
 			interval.set(-1, 1);
@@ -82,7 +79,7 @@ class IntervalTrigonometric {
 		if (interval.isEmpty() || interval.isOnlyInfinity()) {
 			interval.setEmpty();
 		} else {
-			interval.subtract(PI_HALF).cos();
+			interval.subtract(IntervalConstants.piHalf()).cos();
 		}
 		return interval;
 	}
@@ -99,11 +96,10 @@ class IntervalTrigonometric {
 
 		Interval cache = new Interval(interval);
 		handleNegative(cache);
-		Interval pi = PI;
-		cache.fmod(pi);
+		cache.fmod(IntervalConstants.pi());
 
 		if (cache.getLow() >= PI_HALF_LOW) {
-			cache.subtract(pi);
+			cache.subtract(IntervalConstants.pi());
 		}
 
 		if (cache.getLow() <= -PI_HALF_LOW || cache.getHigh() >= PI_HALF_LOW) {
