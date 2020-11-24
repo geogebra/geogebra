@@ -108,10 +108,10 @@ public class DrawParametricCurve extends Drawable {
 		intervalPlotter = new IntervalPlotter(view, gp);
 		if (this.geo != null && this.geo.isGeoFunction()) {
 			GeoFunction function = (GeoFunction) this.geo;
-			if (IntervalFunction.hasMoreVariables(function)) {
-				intervalPlotter.disable();
-			} else {
+			if (IntervalFunction.isSupported(function)) {
 				intervalPlotter.enableFor(function);
+			} else {
+				intervalPlotter.disable();
 			}
 		}
 	}

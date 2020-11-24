@@ -12,6 +12,7 @@ import org.geogebra.common.util.debug.Log;
  * @author laszlo
  */
  public class IntervalFunction {
+	private static final SupportedOperatorChecker operatorChecker = new SupportedOperatorChecker();
 	private final GeoFunction function;
 
 	/**
@@ -117,10 +118,24 @@ import org.geogebra.common.util.debug.Log;
 
 	/**
 	 *
-	 * @param function to examine.
-	 * @return if function has more variables.
+	 * @param function to check.
+	 * @return true if the funcion is supported by our interval arithmetic implementation.
 	 */
-	public static boolean hasMoreVariables(GeoFunction function) {
+	public static boolean isSupported(GeoFunction function) {
+		boolean operationSupported = isOperationSupported(function);
+		boolean moreVariables = hasMoreVariables(function);
+		return operationSupported && !moreVariables;
+	}
+
+	private static boolean isOperationSupported(GeoFunction function) {
+		ExpressionNode expression = function.getFunctionExpression();
+		if (expression == null) {
+			return false;
+		}
+		return expression.inspect(operatorChecker);
+	}
+
+	private static boolean hasMoreVariables(GeoFunction function) {
 		ExpressionNode expression = function.getFunctionExpression();
 		if (expression == null) {
 			return false;
