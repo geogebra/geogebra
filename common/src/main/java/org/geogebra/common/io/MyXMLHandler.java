@@ -217,6 +217,7 @@ public class MyXMLHandler implements DocHandler {
 	private HashMap<EuclidianSettings, String> ztick = new HashMap<>();
 	private HashMap<EuclidianSettings, String> ymax = new HashMap<>();
 	private ArrayList<String> entries;
+	private String subAppCode;
 
 	/**
 	 * Creates a new instance of MyXMLHandler
@@ -434,11 +435,15 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			String ggbVersion = attrs.get("version");
-			app.setFileVersion(ggbVersion, nomalizeApp(attrs.get("app")),
-					nomalizeApp(attrs.get("subApp")));
+			String appCode = nomalizeApp(attrs.get("app"));
+			this.app.setFileVersion(ggbVersion, appCode);
+			this.subAppCode = nomalizeApp(attrs.get("subApp"));
+			if (subAppCode == null) {
+				subAppCode = appCode;
+			}
 			String uniqueId = attrs.get("id");
 			if (uniqueId != null) {
-				app.setUniqueId(uniqueId);
+				this.app.setUniqueId(uniqueId);
 			}
 		}
 	}
@@ -2535,6 +2540,9 @@ public class MyXMLHandler implements DocHandler {
 			if (tabId != null) {
 				dp.setTabId(tabId); // explicitly stored tab overrides config
 			}
+			if (dp.isVisible() && dp.getViewId() == App.VIEW_EUCLIDIAN3D) {
+				this.subAppCode = GeoGebraConstants.G3D_APPCODE;
+			}
 			tmp_views.add(dp);
 
 			return true;
@@ -2602,6 +2610,9 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 	private void handleConstruction(LinkedHashMap<String, String> attrs) {
 		try {
+			if (!(kernel instanceof MacroKernel)) {
+				app.updateAppCodeSuite(subAppCode, tmp_perspective);
+			}
 			cons.setAllowUnboundedAngles(
 					DoubleUtil.isGreaterEqual(ggbFileFormat, 4.4));
 			String title = attrs.get("title");
