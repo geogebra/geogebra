@@ -6,7 +6,7 @@ public interface GoogleDriveOperation {
 
 	void requestPicker();
 
-	void refreshCurrentFileDescriptors(String fName, String desc);
+	void refreshCurrentFileDescriptors(String fName);
 
 	void initGoogleDriveApi();
 

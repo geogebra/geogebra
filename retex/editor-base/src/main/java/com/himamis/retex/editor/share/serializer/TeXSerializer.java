@@ -1,8 +1,10 @@
 package com.himamis.retex.editor.share.serializer;
 
 import com.himamis.retex.editor.share.editor.SyntaxAdapter;
+import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
+import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -12,12 +14,14 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class TeXSerializer extends SerializerAdapter {
 
+	public static final String PLACEHOLDER =
+			"{\\bgcolor{#DCDCDC}\\scalebox{1}[1.6]{\\phantom{g}}}";
 	private static final String cursor = "\\jlmcursor{0}";
 	private static final String cursorBig = "\\jlmcursor{0.9}";
 	private static final String selection_start = "\\jlmselection{";
 	private static final String selection_end = "}";
 
-	private static final String characterMissing = "\\nbsp ";
+	private static final String PLACEHOLDER_INVISIBLE = "\\nbsp ";
 	private boolean lineBreakEnabled = false;
 
 	private static final String[] escapeableSymbols = { "%", "$", "#", "&", "{",
@@ -90,6 +94,9 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("?");
 			return;
 		}
+		if (sequence.isScript(0) && (sequence != mCurrentField || mCurrentOffset > 0)) {
+			stringBuilder.append(PLACEHOLDER);
+		}
 		int lengthBefore = stringBuilder.length();
 		boolean addBraces = (sequence.hasChildren() || // {a^b_c}
 				sequence.size() > 1 || // {aa}
@@ -112,15 +119,7 @@ public class TeXSerializer extends SerializerAdapter {
 					stringBuilder.append(cursorBig);
 				}
 			} else {
-				if (sequence.getParent() == null
-						|| /* symbol.getParent() instanceof MathOperator || */
-						(sequence.getParent() instanceof MathFunction
-								&& sequence.getParentIndex() == sequence
-										.getParent().getInsertIndex())) {
-					stringBuilder.append(characterMissing);
-				} else {
-					stringBuilder.append(characterMissing);
-				}
+				stringBuilder.append(getPlaceholder(sequence));
 			}
 		} else {
 			if (sequence == mCurrentField) {
@@ -158,6 +157,21 @@ public class TeXSerializer extends SerializerAdapter {
 		if (sequence == currentSelEnd) {
 			stringBuilder.append(selection_end);
 		}
+	}
+
+	private String getPlaceholder(MathSequence sequence) {
+		MathContainer parent = sequence.getParent();
+		if (parent == null
+				|| (parent instanceof MathArray	&& parent.size() == 1)) {
+			return PLACEHOLDER_INVISIBLE;
+		}
+		if (parent instanceof MathFunction) {
+			Tag fn = ((MathFunction) parent).getName();
+			if (fn == Tag.APPLY || fn == Tag.LOG) {
+				return PLACEHOLDER_INVISIBLE;
+			}
+		}
+		return PLACEHOLDER;
 	}
 
 	@Override
@@ -344,7 +358,7 @@ public class TeXSerializer extends SerializerAdapter {
 								.getArgument(index - 1) instanceof MathCharacter
 						&& ((MathCharacter) parent.getArgument(index - 1))
 								.isOperator())) {
-			stringBuilder.append(characterMissing);
+			stringBuilder.append(PLACEHOLDER_INVISIBLE);
 		}
 		stringBuilder.append(idxType);
 		stringBuilder.append('{');

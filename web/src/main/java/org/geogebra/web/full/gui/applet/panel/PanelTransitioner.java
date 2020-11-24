@@ -52,10 +52,6 @@ public class PanelTransitioner {
 		if (willUseFadeAnimation()) {
 			hideFrameElements();
 		}
-
-		// in Graphing Menu > OPen sets overflow to hidden-> breaks resizing of
-		// BrowseGUI
-		mainFrame.getElement().getStyle().setOverflow(Style.Overflow.VISIBLE);
 	}
 
 	private boolean willUseFadeAnimation() {

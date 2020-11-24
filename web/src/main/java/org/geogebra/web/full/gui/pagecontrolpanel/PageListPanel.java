@@ -10,7 +10,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
-import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
+import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.GgbFile;
@@ -44,7 +44,7 @@ public class PageListPanel
 	private boolean isTouch = false;
 
 	@Nonnull
-	private final ToolbarMow toolbarMow;
+	private final NotesLayout notesLayout;
 
 	/**
 	 * @param app
@@ -55,7 +55,7 @@ public class PageListPanel
 		this.frame = app.getAppletFrame();
 		this.dockPanel = (EuclidianDockPanelW) (app.getGuiManager().getLayout()
 				.getDockManager().getPanel(App.VIEW_EUCLIDIAN));
-		this.toolbarMow = frame.getToolbarMowSafe(app);
+		this.notesLayout = frame.getNotesLayoutSafe(app);
 		pageController = new PageListController(app, this);
 		app.setPageController(pageController);
 		initGUI();
@@ -137,7 +137,7 @@ public class PageListPanel
 		}
 
 		dockPanel.hideZoomPanel();
-		toolbarMow.showPageControlButton(false);
+		notesLayout.showPageControlButton(false);
 
 		setVisible(true);
 		setLabels();
@@ -158,7 +158,7 @@ public class PageListPanel
 		}
 		showPlusButton(false);
 		addStyleName("animateOut");
-		CSSAnimation.runOnAnimation(() -> onClose(),
+		CSSAnimation.runOnAnimation(this::onClose,
 				getElement(), "animateOut");
 		return true;
 	}
@@ -168,7 +168,7 @@ public class PageListPanel
 	 */
 	protected void onClose() {
 		if (app.isWhiteboardActive()) {
-			toolbarMow.showPageControlButton(true);
+			notesLayout.showPageControlButton(true);
 			dockPanel.showZoomPanel();
 		}
 		setVisible(false);

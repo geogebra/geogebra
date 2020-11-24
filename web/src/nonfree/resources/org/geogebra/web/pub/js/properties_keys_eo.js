@@ -774,6 +774,8 @@ __GGB__keysVar["eo"].command = {
     "Rename.Syntax": "[ <Objekto>, <Nomo> ]",
     "Repeat": "Ripeti",
     "Repeat.Syntax": "[ <Nombro>, <Skripta komando>, <Skripta komando>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "Reziduoj",
     "ResidualPlot.Syntax": "[ <Listo de Punktoj>, <Funkcio> ]",
     "Reverse": "Renversi",
@@ -956,6 +958,8 @@ __GGB__keysVar["eo"].command = {
     "Sphere.Syntax": "[ <Punkto>, <Radiuso> ]\n[ <Punkto>, <Punkto> ]",
     "Spline": "Splajno",
     "Spline.Syntax": "[ <Listo de punktoj> ]\n[ <Listo de punktoj>, <Grado \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation.Syntax": "[ ]\n[ <Bulea> ]\n[ <\u015covilo a\u016d Punkto>, <\u015covilo a\u016d Punkto>, ... ]\n[ <\u015covilo a\u016d Punkto>, <\u015covilo a\u016d Punkto>, ..., <Bulea> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["eo"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Cirkelo",
     "Compasses.Help": "Elektu strekon a\u016d du punktojn (radiuso) kaj poste punkton (centro)",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Kompleksa nombro",
     "ComplexNumber.Help": "Select position",
     "ComplexNumber.Tool": "Kompleksa Nombro",
@@ -3368,7 +3373,7 @@ __GGB__keysVar["eo"].menu = {
     "horizontal": "Horizontala",
     "html": "Webpage",
     "insert_worksheet": "Insert Activity",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG Format",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
@@ -3502,6 +3507,8 @@ __GGB__keysVar["eo"].menu = {
     "ymin": "y Min",
     "ystep": "Y-pa\u015do",
     "zAxis": "AksoZ",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

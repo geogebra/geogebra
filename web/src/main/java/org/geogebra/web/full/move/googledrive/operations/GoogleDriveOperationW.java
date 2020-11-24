@@ -1,52 +1,50 @@
 package org.geogebra.web.full.move.googledrive.operations;
 
-import org.geogebra.common.move.events.BaseEvent;
-import org.geogebra.common.move.ggtapi.events.LogOutEvent;
-import org.geogebra.common.move.ggtapi.events.LoginEvent;
-import org.geogebra.common.move.operations.BaseOperation;
-import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.common.util.ExternalAccess;
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
-import org.geogebra.web.full.move.googledrive.events.GoogleDriveLoadedEvent;
-import org.geogebra.web.full.move.googledrive.events.GoogleLoginEvent;
-import org.geogebra.web.full.move.googledrive.models.GoogleDriveModelW;
+import org.geogebra.web.full.move.googledrive.api.GoogleApi;
+import org.geogebra.web.full.move.googledrive.api.GoogleAuthorization;
+import org.geogebra.web.full.move.googledrive.api.GoogleDriveDocument;
+import org.geogebra.web.full.move.googledrive.api.GooglePicker;
+import org.geogebra.web.full.move.googledrive.api.GooglePickerBuilder;
+import org.geogebra.web.full.move.googledrive.api.GoogleUploadRequest;
+import org.geogebra.web.full.move.googledrive.api.GoogleViewId;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.full.util.SaveCallback.SaveState;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
-import org.geogebra.web.html5.util.JSON;
+import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.StringConsumer;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.user.client.Window.Location;
 
 import elemental2.core.Global;
+import elemental2.core.JsArray;
+import elemental2.core.JsObject;
+import elemental2.dom.FileReader;
+import elemental2.dom.XMLHttpRequest;
 import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * Operational class for Google Drive Api
- *
- * @author gabor
  */
-public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
-        implements EventRenderable, GoogleDriveOperation {
-	private final GoogleDriveModelW model;
+public class GoogleDriveOperationW implements GoogleDriveOperation {
+
 	private static final String GoogleApiJavaScriptSrc = "https://apis.google.com/js/client.js?onload=GGW_loadGoogleDrive";
-	private boolean driveLoaded;
-	private AppW app;
+	private final AppW app;
 	private boolean loggedIn;
-	private JavaScriptObject googleDriveURL;
+	private JsPropertyMap<Object> googleDriveURL;
 	private String authToken;
 	private boolean needsPicker;
 
-	private String driveBase64description = null;
 	private String driveBase64FileName = null;
 	private Runnable waitingHandler;
 	private boolean inited = false;
@@ -60,11 +58,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	 */
 	public GoogleDriveOperationW(AppW app) {
 		this.app = app;
-		setCurrentFileId();
-		model = new GoogleDriveModelW();
-
-		app.getLoginOperation().getView().add(this);
-		getView().add(this);
 	}
 
 	/**
@@ -75,30 +68,12 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	}
 
 	/**
-	 * @return file description
-	 */
-	public String getFileDescription() {
-		return driveBase64description;
-	}
-
-	public GoogleDriveModelW getModel() {
-		return model;
-	}
-
-	/**
-	 * @return the logged in user name
-	 */
-	public String getUserName() {
-		return getModel().getUserName();
-	}
-
-	/**
 	 * Go for the google drive url, and fetch the script
 	 */
 	@Override
 	public void initGoogleDriveApi() {
 		if (!inited) {
-			createGoogleApiCallbackFunction();
+			GoogleApi.setOnloadCallback(this::loadGoogleDrive);
 			fetchScript();
 			inited = true;
 		}
@@ -110,55 +85,18 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		Document.get().getBody().appendChild(script);
 	}
 
-	private native void createGoogleApiCallbackFunction() /*-{
-		var _this = this;
-		$wnd.GGW_loadGoogleDrive = function() {
-			_this.@org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW::loadGoogleDrive()();
+	private void loadGoogleDrive() {
+		if (GoogleApi.get() != null) {
+			GoogleApi.get().load("auth",
+					JsPropertyMap.of("callback", (JsRunnable) () -> {}));
+			GoogleApi.get().load("picker",
+					JsPropertyMap.of("callback", (JsRunnable) () -> Log.debug("picker loaded")));
 
-		}
-	}-*/;
-
-	@ExternalAccess
-	private native void loadGoogleDrive() /*-{
-		var _this = this;
-		if ($wnd.gapi) {
-			$wnd.gapi.load('auth', {
-				'callback' : function() {
-
-				}
-			});
-			$wnd.gapi
-					.load(
-							'picker',
-							{
-								'callback' : function() {
-									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("picker loaded");
-								}
-							});
-
-			if ($wnd.gapi.client) {
-				$wnd.gapi.client
-						.load(
-								'drive',
-								'v2',
-								function() {
-									_this.@org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW::googleDriveLoaded()();
-								});
+			if (GoogleApi.get().getClient() != null) {
+				GoogleApi.get().getClient()
+						.load("drive", "v3", this::checkIfOpenedFromGoogleDrive);
 			}
 		}
-	}-*/;
-
-	@ExternalAccess
-	private void googleDriveLoaded() {
-		this.driveLoaded = true;
-		onEvent(new GoogleDriveLoadedEvent());
-	}
-
-	/**
-	 * @return if google drive loaded or not
-	 */
-	public boolean isDriveLoaded() {
-		return driveLoaded;
 	}
 
 	/**
@@ -167,112 +105,55 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	 * @param immediate
 	 *            wheter to force login popup open
 	 */
-	public native void login(boolean immediate) /*-{
-		var _this = this, config = {
-			'client_id' : _this.@org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW::getClientId()(),
-			'scope' : @org.geogebra.common.GeoGebraConstants::DRIVE_SCOPE
-					+ " "
-					+ @org.geogebra.common.GeoGebraConstants::USERINFO_EMAIL_SCOPE
-					+ " "
-					+ @org.geogebra.common.GeoGebraConstants::USERINFO_PROFILE_SCOPE
-					+ " "
-					+ @org.geogebra.common.GeoGebraConstants::PLUS_ME_SCOPE,
-			'immediate' : immediate
-		};
-		//config.max_auth_age = 0;
-		$wnd.gapi.auth
-				.authorize(
-						config,
-						function(resp) {
-							var token = resp ? resp.access_token : {};
-							var error = resp ? resp.error : "";
-							_this.@org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW::authorizeCallback(Ljava/lang/String;Ljava/lang/String;)(token,error);
-						}
+	public void login(boolean immediate) {
+		JsPropertyMap<Object> config = JsPropertyMap.of(
+			"client_id", app.getLAF().getClientId(),
+			"scope", GeoGebraConstants.DRIVE_SCOPE + " "
+						+ GeoGebraConstants.USERINFO_EMAIL_SCOPE + " "
+						+ GeoGebraConstants.USERINFO_PROFILE_SCOPE + " "
+						+ GeoGebraConstants.PLUS_ME_SCOPE,
+			"immediate", immediate
+		);
 
-				);
-	}-*/;
-
-	@ExternalAccess
-	private String getClientId() {
-		return app.getLAF().getClientId();
+		GoogleApi.get().getAuthorization().authorize(config, this::authorizeCallback);
 	}
 
-	@ExternalAccess
-	private void authorizeCallback(String token, String error) {
-		if (error != null && error.length() > 0) {
-			Log.debug("GOOGLE LOGIN" + error);
+	private void authorizeCallback(GoogleAuthorization.Response response) {
+		if (response.error != null) {
+			Log.error("Error loading from GoogleDrive: "
+					+ response.error + " " + response.details);
 			this.loggedIn = false;
-			onEvent(new GoogleLoginEvent(false));
+			if ("open".equals(getAction())) {
+				login(false);
+			}
 		} else {
 			this.loggedIn = true;
-			this.authToken = token;
+			this.authToken = response.access_token;
 			if (this.needsPicker) {
 				this.needsPicker = false;
 				createPicker(authToken);
 			} else if (this.waitingHandler != null) {
 				waitingHandler.run();
 			}
-			onEvent(new GoogleLoginEvent(true));
 
+			checkIfFileMustbeOpenedFromGoogleDrive();
 		}
 	}
 
-	private native void createPicker(String token2) /*-{
-		var _this = this;
-		var picker = new $wnd.google.picker.PickerBuilder()
-				.addView($wnd.google.picker.ViewId.DOCS)
-				.addView($wnd.google.picker.ViewId.FOLDERS)
-				.setOAuthToken(token2)
-				.setDeveloperKey("AIzaSyBZlOTdZmzNrXZy2QIrDEz8uXJ9lOUFGE0")
-				.setCallback(
-						function(data) {
-							if (data.action != "picked" || data.docs.length < 1) {
-								return;
-							}
-							var request = $wnd.gapi.client.drive.files.get({
-								fileId : data.docs[0].id
-							});
-							request
-									.execute(function(resp) {
-										_this.@org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW::loadFromGoogleFile(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.downloadUrl, resp.description, resp.title, resp.id);
-									});
-						}).build();
-		picker.setVisible(true);
-	}-*/;
+	private void createPicker(String token) {
+		GooglePicker picker = new GooglePickerBuilder()
+				.addView(GoogleViewId.DOCS)
+				.addView(GoogleViewId.FOLDERS)
+				.setOAuthToken(token)
+				.setCallback((data) -> {
+					if (!"picked".equals(data.action) || data.docs.length < 1) {
+						return;
+					}
 
-	@Override
-	public void renderEvent(BaseEvent event) {
-		Log.debug("event: " + event.toString());
-		if (event instanceof GoogleDriveLoadedEvent) {
-			checkIfOpenedFromGoogleDrive();
-			return;
-		}
-		if (event instanceof GoogleLoginEvent) {
-			if (((GoogleLoginEvent) event).isSuccessFull()) {
-				checkIfFileMustbeOpenedFromGoogleDrive();
-			} else {
-				if ("open".equals(getAction())) {
-					login(false);
-				} else if (getModel().lastLoggedInFromGoogleDrive()) {
-					login(false);
-				}
-			}
-			return;
-		}
-		if (event instanceof LoginEvent) {
-			if (((LoginEvent) event).isSuccessful()) {
-				if (!app.getLoginOperation().getModel().getLoggedInUser()
-				        .hasGoogleDrive()) {
-					getModel().setLoggedInFromGoogleDrive(false);
-				}
-			} else {
-				logOut();
-			}
-			return;
-		}
-		if (event instanceof LogOutEvent) {
-			logOut();
-		}
+					GoogleDriveDocument file = data.docs.getAt(0);
+					loadFromGoogleFile(file.name, file.id);
+				}).build();
+		picker.setVisible(true);
 	}
 
 	private void checkIfFileMustbeOpenedFromGoogleDrive() {
@@ -283,18 +164,13 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		}
 	}
 
-	private native void openFileFromGoogleDrive(JavaScriptObject descriptors) /*-{
-		var id = descriptors["ids"] ? descriptors["ids"][0] : undefined, _this = this;
-		if (id !== undefined) {
-			var request = $wnd.gapi.client.drive.files.get({
-				fileId : id
-			});
-			request
-					.execute(function(resp) {
-						_this.@org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW::loadFromGoogleFile(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.downloadUrl, resp.description, resp.title, resp.id);
-					});
+	private void openFileFromGoogleDrive(JsPropertyMap<Object> descriptors) {
+		String id = (String) descriptors.nestedGet("ids.0");
+
+		if (id != null) {
+			loadFromGoogleFile(null, id);
 		}
-	}-*/;
+	}
 
 	/**
 	 * @return if the user is logged into google
@@ -304,98 +180,64 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	}
 
 	/**
-	 * @param currentFileName
+	 * @param name
 	 *            name of the file
-	 * @param description
-	 *            description of the file
-	 * @param title
-	 *            title
 	 * @param id
 	 *            id of the file
 	 */
-	public native void loadFromGoogleFile(String currentFileName,
-	        String description, String title, String id) /*-{
-		var _this = this;
+	public void loadFromGoogleFile(String name, String id) {
+		String accessToken = GoogleApi.get().getAuthorization().getToken().access_token;
+		XMLHttpRequest xhr = new XMLHttpRequest();
+		xhr.open("GET", "https://www.googleapis.com/drive/v3/files/" + id + "?alt=media");
+		xhr.responseType = "blob";
+		xhr.setRequestHeader("Authorization", "Bearer " + accessToken);
 
-		function downloadFile(downloadUrl, callback) {
-			if (downloadUrl) {
-				var accessToken = $wnd.gapi.auth.getToken().access_token;
-				var xhr = new $wnd.XMLHttpRequest();
-				xhr.open('GET', downloadUrl);
-				xhr.responseType = "blob";
-				xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-				xhr.onload = function() {
-					callback(xhr.response);
-				};
-				xhr.onerror = function() {
-					callback(null);
-				};
-				xhr.send();
-			} else {
-				callback(null);
-			}
-		}
+		xhr.onload = (e) -> {
+			JsObject content = xhr.response.asJsObject();
+			FileReader reader = new FileReader();
+			reader.onloadend = (e2) -> {
+				if (e2.target.result.asString().startsWith("UEsDBBQ")) {
+					processGoogleDriveFileContentAsBase64(e2.target.result.asString(),
+							name, id);
+				} else {
+					processGoogleDriveFileContentAsBinary(Js.uncheckedCast(content),
+							name, id);
+				}
+				return null;
+			};
+			reader.readAsText(Js.uncheckedCast(content));
+		};
 
-		downloadFile(
-				currentFileName,
-				function(content) {
-					var reader = new FileReader();
-					reader
-							.addEventListener(
-									"loadend",
-									function(e) {
-										if (e.target.result.indexOf("UEsDBBQ") === 0) {
-											_this.@org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW::processGoogleDriveFileContentAsBase64(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(e.target.result, description, title, id);
-										} else {
-											_this.@org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW::processGoogleDriveFileContentAsBinary(Lcom/google/gwt/core/client/JavaScriptObject;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(content, description, title, id);
-										}
-									});
-					reader.readAsText(content);
-				});
-	}-*/;
-
-	@ExternalAccess
-	private void processGoogleDriveFileContentAsBase64(String base64,
-			String description, final String title, String id) {
-		// true = reload the whole doc
-		app.loadGgbFileAsBase64Again(base64, true);
-		postprocessFileLoading(description, title, id);
+		xhr.send();
 	}
 
-	private void postprocessFileLoading(String description, String title,
-			String id) {
-		refreshCurrentFileDescriptors(title, description);
+	private void processGoogleDriveFileContentAsBase64(String base64,
+			final String title, String id) {
+		// true = reload the whole doc
+		app.loadGgbFileAsBase64Again(base64, true);
+		postprocessFileLoading(title, id);
+	}
+
+	private void postprocessFileLoading(String title, String id) {
+		refreshCurrentFileDescriptors(title);
 		setCurrentFileId(id);
 		app.setUnsaved();
 	}
 
-	@ExternalAccess
 	private void processGoogleDriveFileContentAsBinary(JavaScriptObject binary,
-	        String description, String title, String id) {
+	        String title, String id) {
 		app.loadGgbFileAsBinaryAgain(binary);
-		postprocessFileLoading(description, title, id);
+		postprocessFileLoading(title, id);
 	}
 
 	@Override
-	public void refreshCurrentFileDescriptors(String fName, String desc) {
+	public void refreshCurrentFileDescriptors(String fName) {
 		if (app.getAppletParameters().getDataParamFitToScreen()
 				&& !StringUtil.empty(fName)) {
 			Browser.changeMetaTitle(fName.replace(".ggb", ""));
 		}
-		if ("null".equals(desc) || "undefined".equals(desc)) {
-			driveBase64description = "";
-		} else {
-			driveBase64description = desc;
-		}
-		driveBase64FileName = fName;
-	}
 
-	/**
-	 * logs out from Google Drive (this means, removes the possibilities to
-	 * interact with Google Drive)
-	 */
-	public void logOut() {
-		getModel().setLoggedInFromGoogleDrive(false);
+		driveBase64FileName = fName;
 	}
 
 	/**
@@ -407,40 +249,32 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	 *            whether this is GGB
 	 * @return javascript function to called back;
 	 */
-	public native StringConsumer getPutFileCallback(String fileName,
-			String description, boolean isggb) /*-{
-		var _this = this;
-		return function(base64) {
-			var fName = fileName, ds = description;
-			_this.@org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW::saveFileToGoogleDrive(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)(fName,ds,base64,isggb);
-		};
-	}-*/;
+	public StringConsumer getPutFileCallback(String fileName, String description, boolean isggb) {
+		return (base64) -> saveFileToGoogleDrive(fileName, description, base64, isggb);
+	}
 
-	@ExternalAccess
 	private void saveFileToGoogleDrive(final String fileName,
 			final String description, final String fileContent,
 			boolean isggb) {
-		JavaScriptObject metaData = JavaScriptObject.createObject();
-		JSON.put(metaData, "title", fileName);
-		JSON.put(metaData, "description", description);
 		if (!fileName.equals(getFileName())) {
 			setCurrentFileId(null);
 		}
+
+		JsPropertyMap<Object> metaData = JsPropertyMap.of(
+				"title", fileName,
+				"description", description
+		);
+
 		if ((getFolderId() != null) && !"".equals(getFolderId())) {
-			JavaScriptObject folderId = JavaScriptObject.createObject();
-			JSON.put(folderId, "id", getFolderId());
-			JsArray<JavaScriptObject> parents = JavaScriptObject.createArray()
-					.cast();
-			parents.push(folderId);
-			JSON.put(metaData, "parents", parents);
+			metaData.set("parents", new JsArray<>(JsPropertyMap.of("id", getFolderId())));
 		}
-		JavaScriptObject thumbnail = JavaScriptObject.createObject();
-		JSON.put(thumbnail, "image", getThumbnail());
-		JSON.put(thumbnail, "mimeType", "image/png");
-		JSON.putObject(metaData, "thumbnail", thumbnail);
-		Log.debug(metaData);
-		handleFileUploadToGoogleDrive(getCurrentFileId(), metaData, fileContent,
-				isggb);
+
+		metaData.set("thumbnail", JsPropertyMap.of(
+				"image", getThumbnail(),
+				"mimeType", "image/png"
+		));
+
+		handleFileUploadToGoogleDrive(getCurrentFileId(), metaData, fileContent, isggb);
 	}
 
 	private String getThumbnail() {
@@ -450,74 +284,65 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 				.replace("/", "_");
 	}
 
-	private native void handleFileUploadToGoogleDrive(String id,
-			JavaScriptObject metaData, String base64, boolean isggb) /*-{
-		var _this = this, fId = id ? id : "";
-		function updateFile(fileId, fileMetadata, fileData) {
-			var boundary = '-------314159265358979323846';
-			var delimiter = "\r\n--" + boundary + "\r\n";
-			var close_delim = "\r\n--" + boundary + "--";
-			var contentType = @org.geogebra.common.GeoGebraConstants::GGW_MIME_TYPE;
-			var base64Data = fileData;
-			var multipartRequestBody = delimiter
-					+ 'Content-Type: application/json\r\n\r\n'
-					+ JSON.stringify(fileMetadata) + delimiter
-					+ 'Content-Type: ' + contentType + '\r\n'
-					+ 'Content-Transfer-Encoding: base64\r\n' + '\r\n'
-					+ base64Data + close_delim;
-			var method = (fileId ? 'PUT' : 'POST');
-			var request = $wnd.gapi.client.request({
-				'path' : '/upload/drive/v2/files/' + fileId,
-				'method' : method,
-				'params' : {
-					'uploadType' : 'multipart',
-					'alt' : 'json'
-				},
-				'headers' : {
-					'Content-Type' : 'multipart/mixed; boundary="' + boundary
-							+ '"'
-				},
-				'body' : multipartRequestBody
-			});
-
-			request
-					.execute(function(resp) {
-						if (!resp.error) {
-							_this.@org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW::updateAfterGoogleDriveSave(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)(resp.id, resp.title, resp.description, isggb)
-						} else {
-							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("Error saving to Google Drive: " + resp.error);
-							_this.@org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW::showUploadError()();
-						}
-					});
-		}
-		updateFile(fId, metaData, base64);
-	}-*/;
-
-	@ExternalAccess
 	private void showUploadError() {
 		((DialogManagerW) app.getDialogManager()).getSaveDialog(false, true).hide();
 		((DialogManagerW) app.getDialogManager()).showAlertDialog(app
-		        .getLocalization().getMenu("GoogleDriveSaveProblem"));
+				.getLocalization().getMenu("GoogleDriveSaveProblem"));
 	}
 
-	@ExternalAccess
-	private void updateAfterGoogleDriveSave(String id, String fileName,
-			String description, boolean isggb) {
+	private void handleFileUploadToGoogleDrive(String fileId,
+			JsPropertyMap<Object> fileMetadata, String fileData, boolean isggb) {
+		String boundary = "-------314159265358979323846";
+		String delimiter = "\r\n--" + boundary + "\r\n";
+		String close_delim = "\r\n--" + boundary + "--";
+		String contentType = GeoGebraConstants.GGW_MIME_TYPE;
+
+		String multipartRequestBody = delimiter
+				+ "Content-Type: application/json\r\n\r\n"
+				+ Global.JSON.stringify(fileMetadata) + delimiter
+				+ "Content-Type: " + contentType + "\r\n"
+				+ "Content-Transfer-Encoding: base64\r\n" + "\r\n"
+				+ fileData + close_delim;
+
+		JsPropertyMap<Object> requestBody = JsPropertyMap.of();
+		requestBody.set("path", "/upload/drive/v2/files/" + (fileId == null ? "" : fileId));
+		requestBody.set("method", fileId != null ? "PUT" : "POST");
+		requestBody.set("params", JsPropertyMap.of(
+				"uploadType", "multipart",
+				"alt", "json"
+		));
+		requestBody.set("headers", JsPropertyMap.of(
+				"Content-Type",
+				"multipart/mixed; boundary=\"" + boundary + "\"")
+		);
+		requestBody.set("body", multipartRequestBody);
+
+		GoogleUploadRequest request = GoogleApi.get().getClient().request(requestBody);
+
+		request.execute((resp) -> {
+				if (resp.error == null) {
+					updateAfterGoogleDriveSave(resp.id, resp.title, isggb);
+				} else {
+					Log.error("Error saving to Google Drive: " + resp.error);
+					showUploadError();
+				}
+		});
+	}
+
+	private void updateAfterGoogleDriveSave(String id, String fileName, boolean isggb) {
 		app.getSaveController().runAfterSaveCallback(true);
 		((DialogManagerW) app.getDialogManager()).getSaveDialog(false, true).hide();
 		SaveCallback.onSaved(app, SaveState.OK, !isggb);
 		if (isggb) {
-			refreshCurrentFileDescriptors(fileName, description);
+			refreshCurrentFileDescriptors(fileName);
 			setCurrentFileId(id);
 		}
 	}
 
 	private void checkIfOpenedFromGoogleDrive() {
 		String state = Location.getParameter("state");
-		Log.debug(state);
 		if (state != null && !"".equals(state)) {
 			googleDriveURL = Js.uncheckedCast(Global.JSON.parse(state));
-			Log.debug(googleDriveURL);
 			if (!this.loggedIn) {
 				login(true);
 			}
@@ -527,7 +352,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	private String getFolderId() {
 		String folderId = null;
 		if (googleDriveURL != null) {
-			folderId = JSON.get(googleDriveURL, "folderId");
+			folderId = (String) googleDriveURL.get("folderId");
 		}
 		return folderId;
 	}
@@ -535,7 +360,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	private String getAction() {
 		String action = null;
 		if (googleDriveURL != null) {
-			action = JSON.get(googleDriveURL, "action");
+			action = (String) googleDriveURL.get("action");
 		}
 		return action;
 	}
@@ -553,7 +378,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	@Override
 	public void resetStorageInfo() {
 		driveBase64FileName = null;
-		driveBase64description = null;
 		currentFileId = null;
 	}
 
@@ -572,15 +396,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		this.currentFileId = currentFileId;
 	}
 
-	/**
-	 * initialize file ID
-	 */
-	protected native void setCurrentFileId() /*-{
-		if ($wnd.GGW_appengine) {
-			this.@org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
-		}
-	}-*/;
-
 	@Override
 	public void afterLogin(Runnable todo) {
 		if (this.isLoggedIntoGoogle()) {
@@ -590,19 +405,4 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 			login(false);
 		}
 	}
-
-	/**
-	 * TODO merge relevant parts of renderEvent into this
-	 */
-	private void onEvent(GoogleLoginEvent event) {
-		dispatchEvent(event);
-	}
-
-	/**
-	 * TODO merge relevant parts of renderEvent into this
-	 */
-	private void onEvent(GoogleDriveLoadedEvent event) {
-		dispatchEvent(event);
-	}
-
 }

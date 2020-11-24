@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
@@ -324,6 +325,7 @@ public class GeoText extends GeoElement
 
 		// check for circular definition
 		if (isParentOf(p)) {
+			app.showError(MyError.Errors.CircularDefinition);
 			throw new CircularDefinitionException();
 		}
 

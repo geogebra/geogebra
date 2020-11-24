@@ -774,6 +774,8 @@ __GGB__keysVar["da"].command = {
     "Rename.Syntax": "[ <objekt>, <navn> ]",
     "Repeat": "Gentag",
     "Repeat.Syntax": "[ <Tal>, <handling>, <handling>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <Liste af Punkter>, <Funktion> ]",
     "Reverse": "Omvendt",
@@ -956,6 +958,8 @@ __GGB__keysVar["da"].command = {
     "Sphere.Syntax": "[ <Punkt>, <Radius> ]\n[ <Punkt>, <Punkt> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <Liste med Punkter> ]\n[ <Liste med Punkter>, <Orden \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation.Syntax": "[ ]\n[ <Boolsk> ]\n[ <Glider eller Punkt>, <Glider eller Punkt>, ... ]\n[ <Glider eller Punkt>, <Glider eller Punkt>, ..., <Boolsk> ]",
     "StartRecord": "StartOptag",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["da"].menu = {
     "ComparisonNotPossible": "De objekter kan ikke sammenlignes",
     "Compasses": "Passer",
     "Compasses.Help": "V\xe6lg linjestykke eller to punkter og derefter centrum",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Komplekst tal",
     "ComplexNumber.Help": "Klik i det grafisk omr\xe5de for at lave et komplekst tal",
     "ComplexNumber.Tool": "Komplekst tal",
@@ -3368,7 +3373,7 @@ __GGB__keysVar["da"].menu = {
     "horizontal": "vandret",
     "html": "Hjemmeside",
     "insert_worksheet": "Inds\xe6t Arbejdsark",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG Format",
     "linkCopyClipboard": "Link kopieret til udklipsholderen",
     "linkShareOff": "Linkdeling slukket.",
@@ -3502,6 +3507,8 @@ __GGB__keysVar["da"].menu = {
     "ymin": "y Min",
     "ystep": "Y trin",
     "zAxis": "zAkse",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

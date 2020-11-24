@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.plugin.Operation;
 
 /**
  *
@@ -283,4 +284,5 @@ public interface ExpressionValue {
 	 */
 	public boolean evaluatesToNDVector();
 
+	boolean isOperation(Operation operation);
 }

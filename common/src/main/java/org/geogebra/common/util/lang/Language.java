@@ -58,6 +58,14 @@ public enum Language {
 					+ Unicode.RIGHT_TO_LEFT_MARK,
 			Script.ARABIC),
 
+	Arabic_Syria(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
+			false, "arSY", "ar",
+			Unicode.LEFT_TO_RIGHT_MARK + "Arabic (Syria)" + Unicode.LEFT_TO_RIGHT_MARK
+					+ " / " + Unicode.RIGHT_TO_LEFT_MARK
+					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629 (\u0633\u0648\u0631\u064A\u0627)"
+					+ Unicode.RIGHT_TO_LEFT_MARK,
+			Script.ARABIC),
+
 	Armenian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, "\u0570",
 			true, "hy",
 			"Armenian / \u0540\u0561\u0575\u0565\u0580\u0565\u0576",

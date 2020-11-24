@@ -774,6 +774,8 @@ __GGB__keysVar["nb"].command = {
     "Rename.Syntax": "[ <Objekt>, <Navn> ]",
     "Repeat": "Gjenta",
     "Repeat.Syntax": "[ <Antall>, <Skriptkommando>, <Skriptkommando>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "Restplott",
     "ResidualPlot.Syntax": "[ <Liste med punkt>, <Funksjon> ]",
     "Reverse": "Snu",
@@ -956,6 +958,8 @@ __GGB__keysVar["nb"].command = {
     "Sphere.Syntax": "[ <Punkt>, <Radius> ]\n[ <Punkt>, <Punkt> ]",
     "Spline": "Spor",
     "Spline.Syntax": "[ <Liste med punkt> ]\n[ <Liste med punkt>, <Orden \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimasjon",
     "StartAnimation.Syntax": "[ ]\n[ <Boolsk> ]\n[ <Glider eller punkt>, <Glider eller punkt>, ... ]\n[ <Glider eller punkt>, <Glider eller punkt>, ..., <Boolsk> ]",
     "StartRecord": "StartOpptak",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["nb"].menu = {
     "ComparisonNotPossible": "Det er dessverre ikke mulig \xe5 sammenligne disse objektene",
     "Compasses": "Passer",
     "Compasses.Help": "Velg linjestykke eller to punkt for radius, deretter sentrum",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Komplekse tall",
     "ComplexNumber.Help": "Velg posisjon",
     "ComplexNumber.Tool": "Komplekst tall",
@@ -3368,7 +3373,7 @@ __GGB__keysVar["nb"].menu = {
     "horizontal": "Horisontal",
     "html": "Nettside",
     "insert_worksheet": "Sett inn aktivitet",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG-format",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Linkdeling er av.",
@@ -3502,6 +3507,8 @@ __GGB__keysVar["nb"].menu = {
     "ymin": "y-min",
     "ystep": "y-trinn",
     "zAxis": "zAkse",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

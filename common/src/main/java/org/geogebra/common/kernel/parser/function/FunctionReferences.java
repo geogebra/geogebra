@@ -53,14 +53,12 @@ class FunctionReferences {
 		return reservedFunctions.contains(s);
 	}
 
-	ArrayList<String> getCompletions(String prefix) {
-		ArrayList<String> completions = new ArrayList<>();
+	void getCompletions(String prefix, Set<String> completions) {
 		for (String candidate : syntaxes.tailSet(prefix)) {
 			if (!candidate.startsWith(prefix)) {
 				break;
 			}
 			completions.add(candidate);
 		}
-		return completions;
 	}
 }

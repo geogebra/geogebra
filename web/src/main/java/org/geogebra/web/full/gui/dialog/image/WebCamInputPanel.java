@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.dialog.image;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.laf.BundleLookAndFeel;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.webcam.WebCamAPI;
@@ -23,17 +24,18 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * Panel for HTML5 webcam input
  */
 public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
+	private final boolean isElectronMac;
 	private SimplePanel inputWidget;
 	private Element video;
 	private Element errorPanel;
 	private int canvasWidth = 640;
 	private int canvasHeight = 480; // overwritten by real
 									// dimensions
-	private AppW app;
-	private WebcamDialogInterface webcamDialog;
+	private final AppW app;
+	private final WebcamDialogInterface webcamDialog;
 	private WebcamPermissionDialog permissionDialog;
 	private static final VideoTemplate TEMPLATE = GWT.create(VideoTemplate.class);
-	private WebCamAPI webCam;
+	private final WebCamAPI webCam;
 
 	/**
 	 * @param app
@@ -44,6 +46,7 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 	 */
 	public WebCamInputPanel(AppW app, WebcamDialogInterface webcamDialog) {
 		this.app = app;
+		this.isElectronMac = (app.getLAF() instanceof BundleLookAndFeel) && Browser.isMacOS();
 		webCam = new WebCamAPI(this);
 		this.webcamDialog = webcamDialog;
 		initGUI();
@@ -51,7 +54,6 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 
 	private void initGUI() {
 		inputWidget = new SimplePanel();
-		resetVideo();
 		add(inputWidget);
 	}
 
@@ -145,13 +147,13 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 	}
 
 	private String getPermissionDeniedTitleKey() {
-		return Browser.isElectron() && Browser.isMacOS() && !app.isMebis() ? "permission.camera"
-				+ ".denied" : "Webcam.Denied.Caption";
+		return isElectronMac && !app.isMebis() ? "permission.camera.denied"
+				: "Webcam.Denied.Caption";
 	}
 
 	private String getPermissionDeniedMessageKey() {
-		return Browser.isElectron() && Browser.isMacOS() && !app.isMebis() ? "permission"
-				+ ".request" : "Webcam.Denied.Message";
+		return isElectronMac && !app.isMebis() ? "permission.request"
+				: "Webcam.Denied.Message";
 	}
 
 	private void showRequestDialog() {
@@ -207,8 +209,9 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 		webcamDialog.onCameraError();
 		if ("PermissionDeniedError".equals(errName)
 				|| "NotAllowedError".equals(errName)
-				|| (Browser.isElectron() && Browser.isMacOS())
+				|| isElectronMac
 				&& "TrackStartError".equals(errName)) {
+			// permission denied by user
 			showPermissionDeniedDialog();
 		} else if ("NotFoundError".equals(errName)
 				|| "DevicesNotFoundError".equals(errName)
@@ -217,7 +220,6 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 				|| "SourceUnavailableError".equals(errName)
 				|| "Error".equals(errName)) {
 			showErrorDialog();
-			// permission denied by user
 		}
 		Log.debug("Error from WebCam: " + errName);
 	}

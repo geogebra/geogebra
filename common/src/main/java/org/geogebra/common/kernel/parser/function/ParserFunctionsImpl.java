@@ -1,8 +1,8 @@
 package org.geogebra.common.kernel.parser.function;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.TreeSet;
 
 import org.geogebra.common.kernel.arithmetic.ArcTrigReplacer;
 import org.geogebra.common.main.Localization;
@@ -107,11 +107,10 @@ class ParserFunctionsImpl implements ParserFunctions {
 
 	@Override
 	public ArrayList<String> getCompletions(String prefix) {
-		ArrayList<String> completions = references.getCompletions(prefix);
-		ArrayList<String> localized = localizedReferences.getCompletions(prefix);
-		completions.addAll(localized);
-		Collections.sort(completions);
-		return completions;
+		TreeSet<String> completions = new TreeSet<String>();
+		references.getCompletions(prefix, completions);
+		localizedReferences.getCompletions(prefix, completions);
+		return new ArrayList<>(completions);
 	}
 
 	@Override
@@ -146,5 +145,14 @@ class ParserFunctionsImpl implements ParserFunctions {
 			return null;
 		}
 		return op;
+	}
+
+	@Override
+	public String toEditorAutocomplete(String text, Localization loc) {
+		if (text.equals(loc.getFunction("nroot") + NROOT_SUFFIX) ||
+				text.equals("nroot" + NROOT_SUFFIX)) {
+			return "nroot(";
+		}
+		return text;
 	}
 }

@@ -2,6 +2,11 @@ package org.geogebra.web.html5.main;
 
 import com.google.gwt.dom.client.Element;
 
+import elemental2.dom.DataTransfer;
+import elemental2.dom.DragEvent;
+import elemental2.dom.File;
+import jsinterop.base.Js;
+
 /**
  * Handles files dropped into GeoGebra.
  */
@@ -14,58 +19,40 @@ public class FileDropHandlerW {
 	 * @param appl
 	 *            application
 	 */
-	protected static native void registerDropHandler(Element ce,
-			AppW appl) /*-{
-
-		var frameElement = ce;
-
-		if (frameElement) {
-			frameElement.addEventListener("dragover", function(e) {
-				e.preventDefault();
-				e.stopPropagation();
-				frameElement.style.borderColor = "#ff0000";
-			}, false);
-			frameElement.addEventListener("dragenter", function(e) {
-				e.preventDefault();
-				e.stopPropagation();
-			}, false);
-			frameElement
-					.addEventListener(
-							"drop",
-							function(e) {
-								e.preventDefault();
-								e.stopPropagation();
-								frameElement.style.borderColor = "#000000";
-								var dt = e.dataTransfer;
-								if (dt.files.length) {
-									var fileToHandle = dt.files[0];
-
-									//at first this tries to open the fileToHandle as image,
-									//if not possible, try to open as ggb or ggt.
-									if (!appl.@org.geogebra.web.html5.main.AppW::openFileAsImage(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, null)) {
-										appl.@org.geogebra.web.html5.main.AppW::openFile(Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle);
-									}
-
-								} else {
-									// This would raise security exceptions later - see ticket #2301
-									//var gdat = dt.getData("URL");
-									//if (gdat && gdat != " ") {
-									//	var coordx = e.offsetX ? e.offsetX : e.layerX;
-									//	var coordy = e.offsetY ? e.offsetY : e.layerY;
-									//	appl.@org.geogebra.web.html5.main.AppW::urlDropHappened(Ljava/lang/String;II)(gdat, coordx, coordy);
-									//}
-								}
-							}, false);
+	protected static void registerDropHandler(Element ce, AppW appl) {
+		if (ce == null) {
+			return;
 		}
-		$doc.body.addEventListener("dragover", function(e) {
+
+		elemental2.dom.HTMLElement frameElement = Js.uncheckedCast(ce);
+
+		frameElement.addEventListener("dragover", (e) -> {
 			e.preventDefault();
 			e.stopPropagation();
-			if (frameElement)
-				frameElement.style.borderColor = "#000000";
+			frameElement.style.borderColor = "#ff0000";
 		}, false);
-		$doc.body.addEventListener("drop", function(e) {
+
+		frameElement.addEventListener("dragleave", (e) -> {
 			e.preventDefault();
 			e.stopPropagation();
+			frameElement.style.borderColor = "#000000";
 		}, false);
-	}-*/;
+
+		frameElement.addEventListener("drop", (event) -> {
+			DragEvent e = (DragEvent) event;
+			e.preventDefault();
+			e.stopPropagation();
+			frameElement.style.borderColor = "#000000";
+			DataTransfer dt = e.dataTransfer;
+			if (dt.files.length > 0) {
+				File fileToHandle = dt.files.getAt(0);
+
+				//at first this tries to open the fileToHandle as image,
+				//if not possible, try to open as ggb or ggt.
+				if (!appl.openFileAsImage(fileToHandle, null)) {
+					appl.openFile(fileToHandle);
+				}
+			}
+		}, false);
+	}
 }

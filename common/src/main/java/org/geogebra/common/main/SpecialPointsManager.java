@@ -291,7 +291,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 
 	private static boolean shouldShowSpecialPoints(GeoElementND geo) {
 		GeoElementND geoTwin = geo.unwrapSymbolic();
-		return (geoTwin instanceof GeoFunction || geoTwin instanceof EquationValue
+		return geo.isEuclidianShowable()
+				&& (geoTwin instanceof GeoFunction || geoTwin instanceof EquationValue
 				|| geoTwin instanceof GeoSymbolic)
 				&& !(geoTwin.isGeoSegment())
 				&& geoTwin.isVisible() && geoTwin.isDefined()

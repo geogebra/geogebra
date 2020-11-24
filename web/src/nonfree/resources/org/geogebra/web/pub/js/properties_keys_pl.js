@@ -774,6 +774,8 @@ __GGB__keysVar["pl"].command = {
     "Rename.Syntax": "[ <Obiekt>, <Nazwa> ]",
     "Repeat": "Powt\xf3rz",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "WykresRezydualny",
     "ResidualPlot.Syntax": "[ <Lista Punkt\xf3w>, <Funkcja> ]",
     "Reverse": "OdKo\u0144ca",
@@ -956,6 +958,8 @@ __GGB__keysVar["pl"].command = {
     "Sphere.Syntax": "[ <Punkt>, <Promie\u0144> ]\n[ <Punkt>, <Punkt> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <Lista Punkt\xf3w> ]\n[ <Lista Punkt\xf3w>, <Kolejno\u015b\u0107 \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "RozpocznijAnimacj\u0119",
     "StartAnimation.Syntax": "[ ]\n[ <Warto\u015b\u0107 Logiczna> ]\n[ <Suwak lub Punkt>, <Suwak lub Punkt>, ... ]\n[ <Suwak lub Punkt>, <Suwak lub Punkt>, ..., <Warto\u015b\u0107 Logiczna> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["pl"].menu = {
     "ComparisonNotPossible": "Niestety, nie mo\u017cna por\xf3wnywa\u0107 tych obiekt\xf3w",
     "Compasses": "Cyrkiel",
     "Compasses.Help": "Wybierz odcinek lub dwa punkty, aby wyznaczy\u0107 promie\u0144, potem \u015brodek okr\u0119gu",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Liczba zespolona",
     "ComplexNumber.Help": "Kliknij w Widoku Grafiki, aby utworzy\u0107 liczb\u0119 zespolon\u0105",
     "ComplexNumber.Tool": "Liczba zespolona",
@@ -3368,7 +3373,7 @@ __GGB__keysVar["pl"].menu = {
     "horizontal": "poziomy",
     "html": "Strona internetowa",
     "insert_worksheet": "Wstaw Arkusz",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "Format JPG",
     "linkCopyClipboard": "Link skopiowany do schowka",
     "linkShareOff": "Udost\u0119pnianie \u0142\u0105cza wy\u0142\u0105czone.",
@@ -3502,6 +3507,8 @@ __GGB__keysVar["pl"].menu = {
     "ymin": "yMin",
     "ystep": "Y krok",
     "zAxis": "O\u015bZ",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

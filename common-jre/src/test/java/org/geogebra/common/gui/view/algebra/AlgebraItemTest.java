@@ -5,8 +5,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.junit.Test;
@@ -73,5 +75,32 @@ public class AlgebraItemTest extends BaseUnitTest {
         String latexString =
                 AlgebraItem.getLatexString(vector, LATEX_MAX_EDIT_LENGHT, false);
         assertThat(latexString, equalTo("v\\, \\text{undefined} "));
+    }
+
+    @Test
+    public void shouldShowBothRowsForMinusOneCalc() {
+        getApp().getSettings().getAlgebra().setStyle(AlgebraStyle.DEFINITION_AND_VALUE);
+        getApp().setGraphingConfig();
+        GeoElement geo = addAvInput("(-1)(9)");
+        assertThat(AlgebraItem.shouldShowBothRows(geo), is(true));
+    }
+
+    @Test
+    public void shouldShowBothRowsForMinusTwoCalc() {
+        getApp().getSettings().getAlgebra().setStyle(AlgebraStyle.DEFINITION_AND_VALUE);
+        getApp().setGraphingConfig();
+        GeoElement geo = addAvInput("(-2)(9)");
+        assertThat(AlgebraItem.shouldShowBothRows(geo), is(true));
+    }
+
+    @Test
+    public void testMinusPiForm() {
+        getApp().setGraphingConfig();
+        getApp().getSettings().getAlgebra().setStyle(AlgebraStyle.DEFINITION_AND_VALUE);
+        GeoNumeric minusPi = addAvInput("-pi");
+        minusPi.setSymbolicMode(true, true);
+        assertThat(
+                minusPi.getLaTeXDescriptionRHS(true, StringTemplate.latexTemplate),
+                equalTo("-\\pi "));
     }
 }

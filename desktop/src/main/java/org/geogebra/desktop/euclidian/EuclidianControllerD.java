@@ -190,7 +190,7 @@ public class EuclidianControllerD extends EuclidianController
 	 */
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		wrapMouseWheelMoved(e.getX(), e.getY(), e.getWheelRotation(),
+		wrapMouseWheelMoved(e.getX(), e.getY(), e.getPreciseWheelRotation(),
 				e.isShiftDown() || e.isMetaDown(), e.isAltDown());
 	}
 

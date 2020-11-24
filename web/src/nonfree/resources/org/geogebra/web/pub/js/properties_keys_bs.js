@@ -774,6 +774,8 @@ __GGB__keysVar["bs"].command = {
     "Rename.Syntax": "[ <Objekt>, <Ime> ]",
     "Repeat": "Ponovi",
     "Repeat.Syntax": "[ <Broj>, <Skript naredba>, <Skript naredba>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "DijagramDisperzije",
     "ResidualPlot.Syntax": "[ <Lista ta\u010daka>, <Funkcija> ]",
     "Reverse": "InverzniNiz",
@@ -956,6 +958,8 @@ __GGB__keysVar["bs"].command = {
     "Sphere.Syntax": "[ <Ta\u010dka>, <Du\u017eina polupre\u010dnika> ]\n[ <Ta\u010dka>, <Ta\u010dka> ]",
     "Spline": "Splajn",
     "Spline.Syntax": "[ <Lista ta\u010daka> ]\n[ <Lista ta\u010daka>, <red \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimacije",
     "StartAnimation.Syntax": "[ ]\n[ <Logi\u010dka vrijednost> ]\n[ <Kliza\u010d ili Ta\u010dka>, <Kliza\u010d ili Ta\u010dka>, ... ]\n[ <Kliza\u010d ili Ta\u010dka>, <Kliza\u010d ili Ta\u010dka>, ..., <Logi\u010dka vrijednost> ]",
     "StartRecord": "PokreniZapis",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["bs"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u0160estar",
     "Compasses.Help": "Ozna\u010dite/Kreirajte du\u017e ili dvije ta\u010dke-polupre\u010dnik kru\u017enice, zatim ta\u010dku-centar kru\u017enice",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Kompleksni broj",
     "ComplexNumber.Help": "Kliknite na radnu povr\u0161 da kreirate kompleksni broj",
     "ComplexNumber.Tool": "Kompleksan broj",
@@ -3368,7 +3373,7 @@ __GGB__keysVar["bs"].menu = {
     "horizontal": "Horizontalan",
     "html": "Web-stranica",
     "insert_worksheet": "Ubaci dinami\u010dki radni list",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG format",
     "linkCopyClipboard": "Link kopiran u me\u0111uspremnik",
     "linkShareOff": "Link isklju\u010den.",
@@ -3502,6 +3507,8 @@ __GGB__keysVar["bs"].menu = {
     "ymin": "y Min",
     "ystep": "Y korak",
     "zAxis": "zOsa",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

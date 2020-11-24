@@ -127,4 +127,14 @@ public interface GeoGebraActivity {
 	 * @return icon for menu
 	 */
 	SVGResource getExamIcon();
+
+	/**
+	 * mark search view has opened
+	 */
+	void markSearchOpen();
+
+	/**
+	 * mark search view has opened
+	 */
+	void markSaveOpen();
 }

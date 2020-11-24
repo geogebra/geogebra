@@ -774,6 +774,8 @@ __GGB__keysVar["ca"].command = {
     "Rename.Syntax": "[ <Objecte>, <Nom> ]",
     "Repeat": "Repeteix",
     "Repeat.Syntax": "[ <N\xfamero>, <Comandament de GeoGebra>, <Comandament de GeoGebra>, ... ]",
+    "ReplaceAll": "SubstituirTot",
+    "ReplaceAll.Syntax": "[ <Text>, <Text cercat>, <Text per substituir> ]",
     "ResidualPlot": "DiagramaResidual",
     "ResidualPlot.Syntax": "[ <Llista de punts>, <Funci\xf3> ]",
     "Reverse": "Inverteix",
@@ -956,6 +958,8 @@ __GGB__keysVar["ca"].command = {
     "Sphere.Syntax": "[ <Punt>, <Radi> ]\n[ <Punt>, <Punt> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <Llista de Punts> ]\n[ <Llist de Punts>, <Ordre \u2265 3> ]",
+    "Split": "Dividir",
+    "Split.Syntax": "[ <Text>, <Llista de Texts a dividir> ]",
     "StartAnimation": "IniciaAnimaci\xf3",
     "StartAnimation.Syntax": "[ ]\n[ <Boole\xe0> ]\n[ <Punt lliscant o Punt>, <Punt lliscant o Punt>, ... ]\n[ <Punt lliscant o Punt>, <Punt lliscant o Punt>, ..., <Boole\xe0> ]",
     "StartRecord": "Enregistra",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["ca"].menu = {
     "ComparisonNotPossible": "Ho sentim, no es poden comparar aquests objectes",
     "Compasses": "Comp\xe0s",
     "Compasses.Help": "Seleccioneu un segment o dos punts per determinar el radi i despr\xe9s el centre",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Nombre Complex",
     "ComplexNumber.Help": "Cliqueu en una finestra gr\xe0fica o en un objecte adequat",
     "ComplexNumber.Tool": "Nombre complex",
@@ -3368,7 +3373,7 @@ __GGB__keysVar["ca"].menu = {
     "horizontal": "horitzontal",
     "html": "p\xe0gina web",
     "insert_worksheet": "Inserir el full de treball",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG Format",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
@@ -3502,6 +3507,8 @@ __GGB__keysVar["ca"].menu = {
     "ymin": "y m\xedn",
     "ystep": "Pas Y",
     "zAxis": "EixZ",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

@@ -51,7 +51,8 @@ public class PointStyleProperty extends AbstractEnumerableProperty
 	public int getIndex() {
 		GeoElement element = delegate.getElement();
 		if (element instanceof PointProperties) {
-			return ((PointProperties) element).getPointStyle();
+			int pointStyle = ((PointProperties) element).getPointStyle();
+			return pointStyle >= icons.length ? 0 : pointStyle;
 		}
 		return -1;
 	}

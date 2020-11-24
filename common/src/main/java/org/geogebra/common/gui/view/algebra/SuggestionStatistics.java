@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.scientific.LabelController;
@@ -79,8 +80,10 @@ public class SuggestionStatistics extends Suggestion {
 	protected void processCommand(AlgebraProcessor algebraProcessor, String cmd,
 			boolean isSymbolicMode) {
 		if (isSymbolicMode) {
+			LabelHiderCallback callback = new LabelHiderCallback();
+			callback.setStoreUndo(false);
 			algebraProcessor.processAlgebraCommand(
-					cmd, false, new LabelHiderCallback());
+					cmd, false, callback);
 		} else {
 			algebraProcessor.processAlgebraCommand(cmd, false);
 		}
@@ -89,7 +92,10 @@ public class SuggestionStatistics extends Suggestion {
 	private static boolean[] getNeededAlgos(GeoElementND geo) {
 		boolean[] neededAlgos = {true, true, true, true, true};
 
-		if (geo instanceof GeoList && ((GeoList) geo).size() < 2) {
+		GeoElementND statGeoElement = geo instanceof GeoSymbolic
+				? ((GeoSymbolic) geo).getTwinGeo() : geo;
+
+		if ((statGeoElement instanceof GeoList && ((GeoList) statGeoElement).size() < 2)) {
 			neededAlgos[Q1] = false;
 			neededAlgos[Q3] = false;
 		}
@@ -109,9 +115,12 @@ public class SuggestionStatistics extends Suggestion {
 		return null;
 	}
 
-	private static boolean isListOfNumbers(GeoElement geoElement) {
-		if (geoElement instanceof GeoList && ((GeoList) geoElement).size() > 0) {
-			GeoList geoList = (GeoList) geoElement;
+	private static boolean isListOfNumbers(GeoElementND geoElement) {
+		GeoElementND statGeoElement = geoElement instanceof GeoSymbolic
+				? ((GeoSymbolic) geoElement).getTwinGeo() : geoElement;
+
+		if (statGeoElement instanceof GeoList && ((GeoList) statGeoElement).size() > 0) {
+			GeoList geoList = (GeoList) statGeoElement;
 			for (GeoElement geoItem : geoList.elementsAsArray()) {
 				if (!(geoItem instanceof GeoNumeric)) {
 					return false;

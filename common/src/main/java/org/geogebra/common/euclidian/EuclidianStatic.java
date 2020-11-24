@@ -19,10 +19,9 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 
 /**
- * @author gabor@gegeobra.org
+ * Utility class for Euclidian view
  *
- *
- *         Abstract class for EuclidianStatic
+ * @author gabor
  */
 public class EuclidianStatic {
 	/**
