@@ -508,7 +508,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private BoundingBox<? extends GShape> focusedGroupGeoBoundingBox;
 
 	protected SymbolicEditor symbolicEditor = null;
-	private boolean plottersEnabled;
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
