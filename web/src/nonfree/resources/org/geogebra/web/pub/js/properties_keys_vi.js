@@ -3507,6 +3507,7 @@ __GGB__keysVar["vi"].menu = {
     "ymin": "GTNNy",
     "ystep": "Y B\u01b0\u1edbc",
     "zAxis": "TrucZ",
+    "zmax": "z Max",
     "zmin": "z Min",
 };
 

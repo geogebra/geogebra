@@ -3507,6 +3507,7 @@ __GGB__keysVar["da"].menu = {
     "ymin": "y Min",
     "ystep": "Y trin",
     "zAxis": "zAkse",
+    "zmax": "z Max",
     "zmin": "z Min",
 };
 
