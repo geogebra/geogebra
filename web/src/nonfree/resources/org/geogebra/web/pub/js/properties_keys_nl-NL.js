@@ -497,7 +497,7 @@ __GGB__keysVar["nl-NL"].command = {
     "IsPrime.Syntax": "[ <Getal> ]",
     "IsTangent": "IsRaaklijn",
     "IsTangent.Syntax": "[ <Rechte>, <Kegelsnede> ]",
-    "IsVertexForm": "IsKwadratischeVorm",
+    "IsVertexForm": "IsTopVorm",
     "IsVertexForm.Syntax": "[ <Functie> ]",
     "Iteration": "Iteratie",
     "Iteration.Syntax": "[ <Functie>, <startwaarde>, <Getal n> ]",
@@ -774,6 +774,8 @@ __GGB__keysVar["nl-NL"].command = {
     "Rename.Syntax": "[ <Object>, <Naam> ]",
     "Repeat": "Herhaal",
     "Repeat.Syntax": "[ Getal, <Scripting Commando>, <Scripting Commando>, ... ]",
+    "ReplaceAll": "VervangAlles",
+    "ReplaceAll.Syntax": "[ <Tekst>, <nieuwe tekst>, <te vervangen tekst> ]",
     "ResidualPlot": "RestPlot",
     "ResidualPlot.Syntax": "[ <Lijst van punten>, <Functie> ]",
     "Reverse": "Omkeren",
@@ -956,6 +958,8 @@ __GGB__keysVar["nl-NL"].command = {
     "Sphere.Syntax": "[ <Punt>, <Straal> ]\n[ <Punt>, <Punt> ]",
     "Spline": "Vrijevormkromme",
     "Spline.Syntax": "[ <Lijst met punten> ]\n[ <Lijst met punten>, <Orde \u2265 3> ]\n[ <Lijst met punten>, <Orde \u2265 3>, <Gewichtsfunctie> ]",
+    "Split": "Opsplitsen",
+    "Split.Syntax": "[ <Tekst>, <Lijst met teksten om op te splitsen> ]",
     "StartAnimation": "StartAnimatie",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Slider or Point>, <Slider or Point>, ... ]\n[ <Slider or Point>, <Slider or Point>, ..., <Boolean> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "ComparisonNotPossible": "Je kunt deze objecten niet met elkaar vergelijken",
     "Compasses": "Passer",
     "Compasses.Help": "Selecteer lijnstuk of 2 punten voor straal en het middelpunt",
+    "ComplexFunction": "Complexe functie",
     "ComplexNumber": "Complex getal",
     "ComplexNumber.Help": "Klik in het tekenvenster voor het maken van een complex getal",
     "ComplexNumber.Tool": "Complex getal",
@@ -3502,6 +3507,8 @@ __GGB__keysVar["nl-NL"].menu = {
     "ymin": "yMin",
     "ystep": "Y Stapgrootte",
     "zAxis": "zAs",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

@@ -588,7 +588,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		}
 	}
 
-	private void setFramePixelSize(int width, int height) {
+	protected void setFramePixelSize(int width, int height) {
 		setWidth(width - app.getAppletParameters().getBorderThickness() + "px");
 		setHeight(height - app.getAppletParameters().getBorderThickness() + "px");
 	}

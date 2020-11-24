@@ -774,6 +774,8 @@ __GGB__keysVar["et"].command = {
     "Rename.Syntax": "[ <Objekt>, <T\xe4his> ]",
     "Repeat": "Korda",
     "Repeat.Syntax": "[ <Arv>, <Skriptimise k\xe4sk>, <Skriptimise k\xe4sk>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "J\xe4\xe4kliikmeteDiagramm",
     "ResidualPlot.Syntax": "[ <Punktide loend>, <Funktsioon> ]",
     "Reverse": "J\xe4rjestaVastupidiselt",
@@ -956,6 +958,8 @@ __GGB__keysVar["et"].command = {
     "Sphere.Syntax": "[ <Punkt>, <Raadius> ]\n[ <Punkt>, <Punkt> ]",
     "Spline": "Splain",
     "Spline.Syntax": "[ <Punktide loend> ]\n[ <Punktide loend>, <Order \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "AlustaAnimeerimist",
     "StartAnimation.Syntax": "[ ]\n[ <T\xf5ev\xe4\xe4rtus> ]\n[ <Liugur v\xf5i punkt>, <Liugur v\xf5i punkt>, ... ]\n[ <Liugur v\xf5i punkt>, <Liugur v\xf6i punkt>, ..., <T\xf5ev\xe4\xe4rtus> ]",
     "StartRecord": "AlustaSalvestust",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["et"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Sirkel",
     "Compasses.Help": "Valige l\xf5ik v\xf5i kaks punkti ja seej\xe4rel keskpunkt",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Kompleksarv",
     "ComplexNumber.Help": "Kl\xf5paske graafikavaatele",
     "ComplexNumber.Tool": "Kompleksarv",
@@ -3368,7 +3373,7 @@ __GGB__keysVar["et"].menu = {
     "horizontal": "horisontaalne",
     "html": "Veebileht",
     "insert_worksheet": "Lisa t\xf6\xf6leht",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG-vorming",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
@@ -3502,6 +3507,8 @@ __GGB__keysVar["et"].menu = {
     "ymin": "y min",
     "ystep": "Y Samm",
     "zAxis": "zTelg",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

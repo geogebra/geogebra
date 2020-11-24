@@ -774,6 +774,8 @@ __GGB__keysVar["lt"].command = {
     "Rename.Syntax": "[ <Objektas>, <Pavadinimas> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "Lik\u0119sGrafikas",
     "ResidualPlot.Syntax": "[ <Ta\u0161k\u0173 s\u0105ra\u0161as>, <Funkcija> ]",
     "Reverse": "Atstatyti",
@@ -956,6 +958,8 @@ __GGB__keysVar["lt"].command = {
     "Sphere.Syntax": "[ <Ta\u0161kas>, <Spindulys> ]\n[ <Ta\u0161kas>, <Ta\u0161kas> ]",
     "Spline": "Spties\u0117",
     "Spline.Syntax": "[ <Ta\u0161k\u0173 s\u0105ra\u0161as> ]\n[ <Ta\u0161k\u0173 s\u0105ra\u0161as>, <Laipsnis \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "Prad\u0117tiAnimacij\u0105",
     "StartAnimation.Syntax": "[ ]\n[ <Login\u0117 vert\u0117> ]\n[ <Slankjuost\u0117 arba skai\u010dius>, <Slankjuost\u0117 arba skai\u010dius>, ... ]\n[ <Slankjuost\u0117 arba skai\u010dius>, <Slankjuost\u0117 arba skai\u010dius>, ..., <Login\u0117 vert\u0117> ]",
     "StartRecord": "Prad\u0117ti\u012era\u0161ym\u0105",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["lt"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Apskritimas fiksuoto ilgio spinduliu",
     "Compasses.Help": "Pasirinkite atkarp\u0105 ar du ta\u0161kus spinduliui, tuomet centro ta\u0161k\u0105",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Kompleksinis skai\u010dius",
     "ComplexNumber.Help": "Spauskite grafiniame lange nor\u0117dami sukurti kompleksin\u012f skai\u010di\u0173",
     "ComplexNumber.Tool": "Kompleksinis skai\u010dius",
@@ -3368,7 +3373,7 @@ __GGB__keysVar["lt"].menu = {
     "horizontal": "Horizontalus",
     "html": "Tinklalapis",
     "insert_worksheet": "\u012eterpti skai\u010diuokl\u0117s lak\u0161t\u0105",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG formatas",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
@@ -3502,6 +3507,8 @@ __GGB__keysVar["lt"].menu = {
     "ymin": "y minimumas",
     "ystep": "Y \u017eingsnis",
     "zAxis": "zA\u0161is",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

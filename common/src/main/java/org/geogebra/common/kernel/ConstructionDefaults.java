@@ -700,6 +700,7 @@ public class ConstructionDefaults {
 								// see GeoList.setAlphaValue() and
 								// getAlphaValue()
 		list.setDefaultGeoType(DEFAULT_LIST);
+		list.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		defaultGeoElements.put(DEFAULT_LIST, list);
 	}
 

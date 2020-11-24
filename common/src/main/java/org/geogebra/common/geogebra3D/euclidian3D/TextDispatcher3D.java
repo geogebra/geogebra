@@ -100,14 +100,12 @@ public class TextDispatcher3D extends TextDispatcher {
 		GeoText text = createDynamicTextForMouseLoc("VolumeOfA", "Volume of %0",
 				hasVolume,
 				volume, corner);
-		if (hasVolume.isLabelSet()) {
+		if (text != null && hasVolume.isLabelSet()) {
 			volume.setLabel(removeUnderscoresAndBraces(
 					StringUtil.toLowerCaseUS(loc.getCommand("Volume"))
 							+ hasVolume.getLabelSimple()));
 			text.setLabel(removeUnderscoresAndBraces(
 					loc.getMenu("Text") + hasVolume.getLabelSimple()));
 		}
-
 	}
-
 }

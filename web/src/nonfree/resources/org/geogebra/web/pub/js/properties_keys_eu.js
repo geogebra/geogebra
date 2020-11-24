@@ -774,6 +774,8 @@ __GGB__keysVar["eu"].command = {
     "Rename.Syntax": "[ <Objektua>, <Izena> ]",
     "Repeat": "Errepikatu",
     "Repeat.Syntax": "[ <Zenbakia>, <Gidoi-agindua>, <Gidoi-agindua>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "HondarDiagrama",
     "ResidualPlot.Syntax": "[ <Puntuen Zerrenda>, <Funtzioa> ]",
     "Reverse": "AtzekozAurrera",
@@ -956,6 +958,8 @@ __GGB__keysVar["eu"].command = {
     "Sphere.Syntax": "[ <Puntua>, <Erradioa> ]\n[ <Puntua>, <Puntua> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <Puntuen Zerrenda> ]\n[ <Puntuen Zerrenda>, <Maila \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "HasiAnimazioa",
     "StartAnimation.Syntax": "[ ]\n[ <Boolearra> ]\n[ <Irristailua edo Puntua>, <Irristailua edo Puntua>, ... ]\n[ <Irristailua edo Puntua>, <Irristailua edo Puntua>, ..., <Boolearra> ]",
     "StartRecord": "HasiOharrakHartu",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["eu"].menu = {
     "ComparisonNotPossible": "Sentitzen dugu, aukeratutako objektuak ezin dira konparatu",
     "Compasses": "Konpasa",
     "Compasses.Help": "Zuzenkia edo Erradioaren Muturrak, ondoren, Zentroa",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Zenbaki konplexua",
     "ComplexNumber.Help": "Aukeratu kokapena",
     "ComplexNumber.Tool": "Zenbaki Konplexua",
@@ -3368,7 +3373,7 @@ __GGB__keysVar["eu"].menu = {
     "horizontal": "Horizontala",
     "html": "Web-orrialdea",
     "insert_worksheet": "Txertatu Jarduera",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG Formatua",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Esteka partekatzea desgaitua.",
@@ -3502,6 +3507,8 @@ __GGB__keysVar["eu"].menu = {
     "ymin": "ymin",
     "ystep": "Y Pausoa",
     "zAxis": "zArdatza",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

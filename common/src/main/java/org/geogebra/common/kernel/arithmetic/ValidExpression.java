@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MacroConstruction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.HasDebugString;
 import org.geogebra.common.util.debug.Log;
 
@@ -598,4 +599,8 @@ public abstract class ValidExpression
 		return false;
 	}
 
+	@Override
+	public boolean isOperation(Operation operation) {
+		return false;
+	}
 }

@@ -186,7 +186,6 @@ public class NoExceptionsTest {
 	public static boolean betaCommand(Commands a, App app) {
 		return a == Commands.MatrixPlot || a == Commands.DensityPlot
 				|| a == Commands.Polyhedron
-				|| (a == Commands.Holes && !app.has(Feature.COMMAND_HOLES))
 				|| (a == Commands.ImplicitSurface
 						&& !app.has(Feature.IMPLICIT_SURFACES));
 	}

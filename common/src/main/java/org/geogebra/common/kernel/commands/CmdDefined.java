@@ -22,22 +22,16 @@ public class CmdDefined extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
-		GeoElement[] arg;
-		arg = resArgs(c);
+		GeoElement[] arg = resArgs(c);
 
-		switch (n) {
-		case 1:
-
-			AlgoDefined algo = new AlgoDefined(cons, c.getLabel(), arg[0]);
-
-			GeoElement[] ret = { algo.getResult() };
-			return ret;
-
-		default:
-			throw argNumErr(c);
+		if (n == 1) {
+			AlgoDefined algo = new AlgoDefined(cons, arg[0]);
+			algo.getResult().setLabel(c.getLabel());
+			return new GeoElement[]{algo.getResult()};
 		}
+		throw argNumErr(c);
 	}
 
 }

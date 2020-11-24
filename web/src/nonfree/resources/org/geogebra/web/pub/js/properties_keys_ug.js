@@ -774,6 +774,8 @@ __GGB__keysVar["ug"].command = {
     "Rename.Syntax": "[ <Object>, <Name> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <List of Points>, <Function> ]",
     "Reverse": "Reverse",
@@ -956,6 +958,8 @@ __GGB__keysVar["ug"].command = {
     "Sphere.Syntax": "[ <\u0634\u0627\u0631 \u0645\u06d5\u0631\u0643\u0649\u0632\u0649>, <\u0631\u0627\u062f\u0649\u064a\u06c7\u0633> ]\n[ <\u0634\u0627\u0631 \u0645\u06d5\u0631\u0643\u0649\u0632\u0649>, <\u0634\u0627\u0631 \u0633\u0649\u0631\u062a\u0649 \u0626\u06c8\u0633\u062a\u0649\u062f\u0649\u0643\u0649 \u0628\u0649\u0631 \u0646\u06c7\u0642\u062a\u0627> ]",
     "Spline": "\u0633\u0649\u067e\u0644\u0627\u064a\u0649\u0646\u060c\u0641\u06c7\u0646\u0643\u0633\u0649\u064a\u0649\u0633\u0649",
     "Spline.Syntax": "[ <\u0646\u06c7\u0642\u062a\u0649\u0644\u0627\u0631 \u062a\u0648\u067e\u0644\u0649\u0645\u0649> ]\n[ <\u0646\u06c7\u0642\u062a\u0649\u0644\u0627\u0631 \u062a\u0648\u067e\u0644\u0649\u0645\u0649>, <\u0642\u06d0\u062a\u0649\u0645 \u0633\u0627\u0646\u0649 \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Slider or Point>, <Slider or Point>, ... ]\n[ <Slider or Point>, <Slider or Point>, ..., <Boolean> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["ug"].menu = {
     "ComparisonNotPossible": "\u0643\u06d5\u0686\u06c8\u0631\u0649\u0633\u0649\u0632\u060c \u0628\u06c7 \u0626\u0648\u0628\u064a\u06d0\u0643\u0649\u062a\u0644\u0627\u0631\u063a\u0627 \u0646\u0649\u0633\u0628\u06d5\u062a\u06d5\u0646 \u0633\u06d0\u0644\u0649\u0634\u062a\u06c7\u0631\u06c7\u0634 \u0626\u06d0\u0644\u0649\u067e \u0628\u0627\u0631\u063a\u0649\u0644\u0649 \u0628\u0648\u0644\u0645\u0627\u064a\u062f\u06c7",
     "Compasses": "\u0686\u06d5\u0645\u0628\u06d5\u0631 (\u0631\u0627\u062f\u0649\u0626\u06c7\u0633\u0649 \u06cb\u06d5 \u0645\u06d5\u0631\u0643\u0649\u0632\u0649)",
     "Compasses.Help": "\u0626\u0649\u0643\u0643\u0649 \u0646\u06c7\u0642\u062a\u0649\u0646\u0649 \u064a\u0627\u0643\u0649 \u0628\u0649\u0631 \u0643\u06d0\u0633\u0649\u0643\u0646\u0649 \u062a\u0627\u0644\u0644\u0627\u067e \u0631\u0627\u062f\u0649\u0626\u06c7\u0633\u0646\u0649 \u0628\u0649\u0643\u0649\u062a\u0649\u06ad\u060c \u0626\u0627\u0646\u062f\u0649\u0646 \u0686\u06d5\u0645\u0628\u06d5\u0631 \u0645\u06d5\u0631\u0643\u0649\u0632\u0649\u0646\u0649 \u062a\u0627\u0644\u0644\u0627\u06ad",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "\u0643\u0648\u0645\u067e\u0649\u0644\u0649\u0643\u0649\u0633 \u0633\u0627\u0646",
     "ComplexNumber.Help": "\u0633\u0649\u0632\u0649\u0634 \u0631\u0627\u064a\u0648\u0646\u0649\u0646\u0649 \u0686\u06d0\u0643\u0649\u067e \u064a\u06d0\u06ad\u0649 \u0643\u0648\u0645\u067e\u0649\u0644\u0649\u0643\u0649\u0633 \u0633\u0627\u0646 \u0642\u06c7\u0631\u06c7\u06ad",
     "ComplexNumber.Tool": "\u0643\u0648\u0645\u067e\u0649\u0644\u0649\u0643\u0649\u0633 \u0633\u0627\u0646",
@@ -3368,7 +3373,7 @@ __GGB__keysVar["ug"].menu = {
     "horizontal": "\u06af\u0648\u0631\u0649\u0632\u0648\u0646\u062a\u0627\u0644",
     "html": "\u062a\u0648\u0631 \u0628\u06d5\u062a",
     "insert_worksheet": "\u062e\u0649\u0632\u0645\u06d5\u062a \u062c\u06d5\u062f\u06cb\u0649\u0644\u0649 \u0642\u0648\u0634\u06c7\u0634",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG \u0641\u0648\u0631\u0645\u0627\u062a",
     "linkCopyClipboard": "\u0626\u06c7\u0644\u0627\u0646\u0645\u0627 \u0686\u0627\u067e\u0644\u0627\u0634 \u062a\u0627\u062e\u062a\u0649\u0633\u0649\u063a\u0627 \u0643\u06c6\u0686\u06c8\u0631\u06c8\u0644\u06c8\u067e \u0628\u0648\u0644\u06c7\u0646\u062f\u0649",
     "linkShareOff": "Link sharing off.",
@@ -3502,6 +3507,8 @@ __GGB__keysVar["ug"].menu = {
     "ymin": "y Min",
     "ystep": "Y \u0626\u0627\u0631\u0649\u0644\u0649\u0642",
     "zAxis": "z\u0626\u0648\u0642",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

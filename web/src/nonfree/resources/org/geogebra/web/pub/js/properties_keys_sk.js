@@ -774,6 +774,8 @@ __GGB__keysVar["sk"].command = {
     "Rename.Syntax": "[ <Objekt>, <Pomenovanie> ]",
     "Repeat": "Opakova\u0165",
     "Repeat.Syntax": "[ <\u010c\xedslo>, <Skriptovac\xed pr\xedkaz>, <Skriptovac\xed pr\xedkaz>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "GrafRezidu\xe1lu",
     "ResidualPlot.Syntax": "[ <Zoznam bodov>, <funkcia> ]",
     "Reverse": "Obr\xe1ten\xfd",
@@ -956,6 +958,8 @@ __GGB__keysVar["sk"].command = {
     "Sphere.Syntax": "[ <Bod>, <Polomer> ]\n[ <Bod>, <Bod> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <Zoznam bodov> ]\n[ <Zoznam bodov>, <Stupe\u0148 \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "Za\u010da\u0165Anim\xe1ciu",
     "StartAnimation.Syntax": "[ ]\n[ <Logick\xe1 premenn\xe1> ]\n[ <Posuvn\xedk alebo bod>, <Posuvn\xedk alebo bod>, ... ]\n[ <Slider or Point>, <Slider or Point>, ..., <Logick\xe1 premenn\xe1> ]",
     "StartRecord": "Za\u010da\u0165Nahr\xe1vanie",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["sk"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Kru\u017enica dan\xe1 polomerom a stredom",
     "Compasses.Help": "Vyzna\u010d \xfase\u010dku alebo dva body ur\u010duj\xface polomer kru\u017enice, potom jej stred!",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "Komplexn\xe9 \u010d\xedslo",
     "ComplexNumber.Help": "Klikni do Grafick\xe9ho okna k vytvoreniu komplexn\xe9ho \u010d\xedsla",
     "ComplexNumber.Tool": "Komplexn\xe9 \u010d\xedslo",
@@ -3368,7 +3373,7 @@ __GGB__keysVar["sk"].menu = {
     "horizontal": "horizont\xe1lna",
     "html": "Webov\xe1 str\xe1nka",
     "insert_worksheet": "Vlo\u017ei\u0165 pracovn\xfd h\xe1rok",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG form\xe1t",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
@@ -3502,6 +3507,8 @@ __GGB__keysVar["sk"].menu = {
     "ymin": "ymin",
     "ystep": "y krok",
     "zAxis": "zOs",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

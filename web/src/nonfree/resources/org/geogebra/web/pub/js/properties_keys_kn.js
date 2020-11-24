@@ -774,6 +774,8 @@ __GGB__keysVar["kn"].command = {
     "Rename.Syntax": "[ <Object>, <Name> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <List of Points>, <Function> ]",
     "Reverse": "Reverse",
@@ -956,6 +958,8 @@ __GGB__keysVar["kn"].command = {
     "Sphere.Syntax": "[ <Point>, <Radius> ]\n[ <Point>, <Point> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation.Syntax": "[ ]\n[ <\u0cac\u0cc2\u0cb2\u0cbf\u0caf\u0ca8\u0ccd\u200c> ]\n[ <\u0c9c\u0cbe\u0cb0\u0cc1\u0c95 \u0c85\u0ca5\u0cb5\u0cbe \u0cac\u0cbf\u0c82\u0ca6\u0cc1>, <\u0c9c\u0cbe\u0cb0\u0cc1\u0c95 \u0c85\u0ca5\u0cb5\u0cbe \u0cac\u0cbf\u0c82\u0ca6\u0cc1>, ... ]\n[ <\u0c9c\u0cbe\u0cb0\u0cc1\u0c95 \u0c85\u0ca5\u0cb5\u0cbe \u0cac\u0cbf\u0c82\u0ca6\u0cc1>, <\u0c9c\u0cbe\u0cb0\u0cc1\u0c95 \u0c85\u0ca5\u0cb5\u0cbe \u0cac\u0cbf\u0c82\u0ca6\u0cc1>, ..., <\u0cac\u0cc2\u0cb2\u0cbf\u0caf\u0ca8\u0ccd\u200c> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["kn"].menu = {
     "ComparisonNotPossible": "\u0c95\u0ccd\u0cb7\u0cae\u0cbf\u0cb8\u0cbf, \u0c86 \u0cb5\u0cb8\u0ccd\u0ca4\u0cc1\u0c97\u0cb3\u0ca8\u0ccd\u0ca8\u0cc1 \u0cb9\u0ccb\u0cb2\u0cbf\u0cb8\u0cb2\u0cc1 \u0cb8\u0cbe\u0ca7\u0ccd\u0caf\u0cb5\u0cbf\u0cb2\u0ccd\u0cb2",
     "Compasses": "\u0ca6\u0cbf\u0c95\u0ccd\u0cb8\u0cc2\u0c9a\u0cbf",
     "Compasses.Help": "\u0cb0\u0cc7\u0c96\u0cbe\u0c96\u0c82\u0ca1\u0cb5\u0ca8\u0ccd\u0ca8\u0cc1 \u0c85\u0ca5\u0cb5\u0cbe \u0ca4\u0ccd\u0cb0\u0cbf\u0c9c\u0ccd\u0caf\u0c95\u0ccd\u0c95\u0cbe\u0c97\u0cbf \u0c8e\u0cb0\u0cc6\u0ca1\u0cc1 \u0cac\u0cbf\u0c82\u0ca6\u0cc1\u0c97\u0cb3\u0ca8\u0ccd\u0ca8\u0cc1, \u0ca8\u0c82\u0ca4\u0cb0 \u0cae\u0ca7\u0ccd\u0caf\u0cac\u0cbf\u0c82\u0ca6\u0cc1\u0cb5\u0ca8\u0ccd\u0ca8\u0cc1 \u0c86\u0caf\u0ccd\u0c95\u0cc6\u0cae\u0cbe\u0ca1\u0cbf",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "\u0cb8\u0c82\u0c95\u0cc0\u0cb0\u0ccd\u0ca3 \u0c85\u0c82\u0c95\u0cbf",
     "ComplexNumber.Help": "\u0cb8\u0ccd\u0ca5\u0cbe\u0ca8\u0cb5\u0ca8\u0ccd\u0ca8\u0cc1 \u0c86\u0caf\u0ccd\u0c95\u0cc6\u0cae\u0cbe\u0ca1\u0cbf",
     "ComplexNumber.Tool": "\u0cb8\u0c82\u0c95\u0cbf\u0cd5\u0cb0\u0ccd\u0ca3 \u0cb8\u0c82\u0c96\u0ccd\u0caf\u0cc6",
@@ -3368,7 +3373,7 @@ __GGB__keysVar["kn"].menu = {
     "horizontal": "\u0c85\u0ca1\u0ccd\u0ca1\u0cb2\u0cbe\u0c97\u0cbf",
     "html": "\u0c9c\u0cbe\u0cb2\u0ca4\u0cbe\u0ca3",
     "insert_worksheet": "\u0c9a\u0c9f\u0cc1\u0cb5\u0c9f\u0cbf\u0c95\u0cc6 \u0cb8\u0cc7\u0cb0\u0cbf\u0cb8\u0cbf",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG \u0cab\u0cbe\u0cb0\u0ccd\u0cae\u0ccd\u0caf\u0cbe\u0c9f\u0ccd\u200c",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "\u0cb2\u0cbf\u0c82\u0c95\u0ccd\u200c \u0c85\u0ca8\u0ccd\u0ca8\u0cc1 \u0cb9\u0c82\u0c9a\u0cb2\u0cbe\u0c97\u0cc1\u0cb5\u0cc1\u0ca6\u0cbf\u0cb2\u0ccd\u0cb2",
@@ -3502,6 +3507,8 @@ __GGB__keysVar["kn"].menu = {
     "ymin": "y Min",
     "ystep": "Y \u0cb8\u0ccd\u0c9f\u0cc6\u0caa\u0ccd\u200c",
     "zAxis": "z\u0c85\u0c95\u0ccd\u0cb7",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

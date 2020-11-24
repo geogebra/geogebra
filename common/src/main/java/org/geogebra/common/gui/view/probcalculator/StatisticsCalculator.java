@@ -17,7 +17,9 @@ import org.geogebra.common.util.TextObject;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * @author gabor StatisticCalculator common superclass
+ * StatisticCalculator common superclass
+ *
+ * @author gabor
  */
 public abstract class StatisticsCalculator {
 	/** statistics data and settings */

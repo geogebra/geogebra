@@ -774,6 +774,8 @@ __GGB__keysVar["pt-PT"].command = {
     "Rename.Syntax": "[ <Objeto>, <Nome> ]",
     "Repeat": "Repetir",
     "Repeat.Syntax": "[ <N\xfamero>, <Comando Script>, <Comando Script>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "PontosResiduais",
     "ResidualPlot.Syntax": "[ <Lista de Pontos>, <Fun\xe7\xe3o> ]",
     "Reverse": "Reverter",
@@ -956,6 +958,8 @@ __GGB__keysVar["pt-PT"].command = {
     "Sphere.Syntax": "[ <Ponto>, <Raio> ]\n[ <Ponto>, <Ponto> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <Lista de Pontos> ]\n[ <Lista de Pontos>, <Ordem \u2265 3> ]\n[ <Lista de Pontos>, <Ordem\u2265 3>, <Peso Fun\xe7\xe3o> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "IniciarAnima\xe7\xe3o",
     "StartAnimation.Syntax": "[ ]\n[ <true|false> ]\n[ <Seletor ou Ponto>, <Seletor ou Ponto>, ... ]\n[ <Seletor ou Ponto>, <Seletor ou Ponto>, ..., <true|false> ]",
     "StartRecord": "IniciarGrava\xe7\xe3o",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "ComparisonNotPossible": "Lamento, mas n\xe3o \xe9 poss\xedvel comparar os objetos",
     "Compasses": "Compasso",
     "Compasses.Help": "Selecione o segmento ou dois pontos para definir o raio, em seguida o centro",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "N\xfamero Complexo",
     "ComplexNumber.Help": "Clique na Folha Gr\xe1fica para criar um n\xfamero complexo",
     "ComplexNumber.Tool": "N\xfamero Complexo",
@@ -3502,6 +3507,8 @@ __GGB__keysVar["pt-PT"].menu = {
     "ymin": "y Min",
     "ystep": "Passo Y",
     "zAxis": "EixoOz",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

@@ -65,6 +65,7 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 
 		final AutoCompleteTextFieldW tf = getSelectedValue();
 		tf.addStyleName("AutoCompleteTextFieldW");
+		tf.enableGGBKeyboard();
 		tf.addBlurHandler(new BlurHandler() {
 
 			@Override

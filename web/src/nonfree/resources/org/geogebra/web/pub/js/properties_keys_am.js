@@ -774,6 +774,8 @@ __GGB__keysVar["am"].command = {
     "Rename.Syntax": "[ <Object>, <Name> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <List of Points>, <Function> ]",
     "Reverse": "Reverse",
@@ -956,6 +958,8 @@ __GGB__keysVar["am"].command = {
     "Sphere.Syntax": "[ <Point>, <Radius> ]\n[ <Point>, <Point> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Slider or Point>, <Slider or Point>, ... ]\n[ <Slider or Point>, <Slider or Point>, ..., <Boolean> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["am"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u12ae\u121d\u1353\u1235",
     "Compasses.Help": "Select segment or two points for radius, then center point",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "\u12f5\u122d\u1265 \u1241\u1325\u122d",
     "ComplexNumber.Help": "\u12cd\u1235\u1265\u1235\u1265 \u1241\u1325\u122d \u1208\u1218\u134d\u1320\u122d \u130d\u122b\u134a\u12ad\u1235 \u12a5\u12ed\u1273 \u120b\u12ed \u1320\u1245 \u12a0\u12f5\u122d\u130d",
     "ComplexNumber.Tool": "Complex Number",
@@ -3368,7 +3373,7 @@ __GGB__keysVar["am"].menu = {
     "horizontal": "\u12a0\u130d\u12f5\u121d",
     "html": "\u12f5\u1228 \u1308\u133d",
     "insert_worksheet": "\u12e8\u1235\u122b \u1209\u1205 \u12a0\u1235\u1308\u1263",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "JPG \u12a0\u12ed\u1290\u1275",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
@@ -3502,6 +3507,8 @@ __GGB__keysVar["am"].menu = {
     "ymin": "y \u12dd\u1245\u1270\u129b",
     "ystep": "Y \u12f0\u1228\u1303",
     "zAxis": "z\u12d8\u1295\u130d",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

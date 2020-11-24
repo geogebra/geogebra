@@ -774,6 +774,8 @@ __GGB__keysVar["ne"].command = {
     "Rename.Syntax": "[ <\u0935\u0938\u094d\u0924\u0941>, <\u0928\u093e\u092e> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "\u0930\u0947\u0938\u093f\u0921\u0941\u092f\u0932\u092a\u094d\u0932\u091f",
     "ResidualPlot.Syntax": "[ <\u092c\u093f\u0928\u094d\u0926\u0941\u0939\u0930\u0941\u0915\u094b \u0938\u0941\u091a\u0940>, <\u092b\u0932\u0928> ]",
     "Reverse": "\u0909\u0932\u094d\u091f\u094b",
@@ -956,6 +958,8 @@ __GGB__keysVar["ne"].command = {
     "Sphere.Syntax": "[ <Point>, <Radius> ]\n[ <Point>, <Point> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "\u090f\u0928\u093f\u092e\u0947\u0938\u0928\u0936\u0941\u0930\u0941",
     "StartAnimation.Syntax": "[ ]\n[ <\u092c\u0941\u0932\u0928> ]\n[ <\u0938\u094d\u0932\u093e\u0908\u0921\u0930 \u0935\u093e \u092c\u093f\u0928\u094d\u0926\u0941>, <\u0938\u094d\u0932\u093e\u0908\u0921\u0930 \u0935\u093e \u092c\u093f\u0928\u094d>, ... ]\n[ <\u0938\u094d\u0932\u093e\u0908\u0921\u0930 \u0935\u093e \u092c\u093f\u0928\u094dt>, <\u0938\u094d\u0932\u093e\u0908\u0921\u0930 \u0935\u093e \u092c\u093f\u0928\u094dt>, ..., <\u092c\u0941\u0932\u0928> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["ne"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u0915\u092e\u094d\u092a\u093e\u0938",
     "Compasses.Help": "\u0905\u0930\u094d\u0927\u092c\u094d\u092f\u093e\u0938\u0915\u094b\u0928\u093f\u092e\u094d\u0924\u093f \u0916\u0923\u094d\u0921 \u0935\u093e \u0926\u0941\u0907\u092c\u093f\u0928\u094d\u0926\u0941 \u091b\u093e\u0928\u094d\u0928\u0941\u0939\u094b\u0938 \u0905\u0928\u093f \u0915\u0947\u0928\u094d\u0926\u0943\u092c\u093f\u0928\u094d\u0926\u0941 \u091b\u093e\u0928\u094d\u0928\u0941\u0939\u094b\u0938",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "\u092e\u093f\u0936\u094d\u0930\u0940\u0924 \u0938\u0902\u0916\u094d\u092f\u093e",
     "ComplexNumber.Help": "\u092e\u093f\u0936\u094d\u0930\u093f\u0924 \u0938\u0902\u0916\u094d\u092f\u093e \u0930\u091a\u0928\u093e \u0917\u0930\u094d\u0928 \u0917\u094d\u0930\u093e\u092b\u093f\u0915\u094d\u0938 \u092d\u093f\u0909\u092e\u093e \u0915\u094d\u0932\u093f\u0915 \u0917\u0930\u094d\u0928\u0941\u0939\u094b\u0938",
     "ComplexNumber.Tool": "\u092e\u093f\u0936\u094d\u0930\u0940\u0924 \u0938\u0902\u0916\u094d\u092f\u093e",
@@ -3368,7 +3373,7 @@ __GGB__keysVar["ne"].menu = {
     "horizontal": "\u0924\u0947\u0930\u094d\u0938\u094b",
     "html": "\u0935\u0947\u092c\u092a\u0947\u091c",
     "insert_worksheet": "Insert Activity",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "\u091c\u0947\u092a\u093f\u091c\u093f \u092a\u094d\u0930\u093e\u0930\u0941\u092a",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
@@ -3502,6 +3507,8 @@ __GGB__keysVar["ne"].menu = {
     "ymin": "y\u0928\u094d\u092f\u0941\u0928\u0924\u092e",
     "ystep": "Y \u091a\u093e\u0932",
     "zAxis": "zAxis",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

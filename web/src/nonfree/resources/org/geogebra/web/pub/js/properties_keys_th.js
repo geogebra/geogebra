@@ -774,6 +774,8 @@ __GGB__keysVar["th"].command = {
     "Rename.Syntax": "[ <\u0e2d\u0e47\u0e2d\u0e1a\u0e40\u0e08\u0e01\u0e15\u0e4c>, <\u0e0a\u0e37\u0e48\u0e2d> ]",
     "Repeat": "Repeat",
     "Repeat.Syntax": "[ <Number>, <Scripting Command>, <Scripting Command>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "\u0e41\u0e1c\u0e19\u0e20\u0e32\u0e1e\u0e2a\u0e48\u0e27\u0e19\u0e15\u0e01\u0e04\u0e49\u0e32\u0e07",
     "ResidualPlot.Syntax": "[ <\u0e23\u0e32\u0e22\u0e01\u0e32\u0e23\u0e02\u0e2d\u0e07\u0e08\u0e38\u0e14>, <\u0e1f\u0e31\u0e07\u0e01\u0e4c\u0e0a\u0e31\u0e19> ]",
     "Reverse": "\u0e22\u0e49\u0e2d\u0e19\u0e01\u0e25\u0e31\u0e1a",
@@ -956,6 +958,8 @@ __GGB__keysVar["th"].command = {
     "Sphere.Syntax": "[ <\u0e08\u0e38\u0e14>, <\u0e23\u0e31\u0e28\u0e21\u0e35> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <\u0e23\u0e32\u0e22\u0e01\u0e32\u0e23\u0e02\u0e2d\u0e07\u0e08\u0e38\u0e14> ]\n[ <\u0e23\u0e32\u0e22\u0e01\u0e32\u0e23\u0e02\u0e2d\u0e07\u0e08\u0e38\u0e14>, <\u0e2d\u0e31\u0e19\u0e14\u0e31\u0e1a \u2265 3> ]\n[ <\u0e23\u0e32\u0e22\u0e01\u0e32\u0e23\u0e02\u0e2d\u0e07\u0e08\u0e38\u0e14>, <\u0e2d\u0e31\u0e19\u0e14\u0e31\u0e1a \u2265 3>, <\u0e1f\u0e31\u0e07\u0e01\u0e4c\u0e0a\u0e31\u0e19\u0e19\u0e49\u0e33\u0e2b\u0e19\u0e31\u0e01> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "\u0e40\u0e23\u0e34\u0e48\u0e21\u0e20\u0e32\u0e1e\u0e40\u0e04\u0e25\u0e37\u0e48\u0e2d\u0e19\u0e44\u0e2b\u0e27",
     "StartAnimation.Syntax": "[ ]\n[ <\u0e04\u0e48\u0e32\u0e1a\u0e39\u0e25\u0e35\u0e19> ]\n[ <\u0e15\u0e31\u0e27\u0e40\u0e25\u0e37\u0e48\u0e2d\u0e19\u0e2b\u0e23\u0e37\u0e2d\u0e08\u0e38\u0e14>, <\u0e15\u0e31\u0e27\u0e40\u0e25\u0e37\u0e48\u0e2d\u0e19\u0e2b\u0e23\u0e37\u0e2d\u0e08\u0e38\u0e14>, ... ]\n[ <\u0e15\u0e31\u0e27\u0e40\u0e25\u0e37\u0e48\u0e2d\u0e19\u0e2b\u0e23\u0e37\u0e2d\u0e08\u0e38\u0e14>, <\u0e15\u0e31\u0e27\u0e40\u0e25\u0e37\u0e48\u0e2d\u0e19\u0e2b\u0e23\u0e37\u0e2d\u0e08\u0e38\u0e14>, ..., <\u0e04\u0e48\u0e32\u0e1a\u0e39\u0e25\u0e35\u0e19> ]",
     "StartRecord": "StartRecord",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["th"].menu = {
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u0e27\u0e07\u0e40\u0e27\u0e35\u0e22\u0e19",
     "Compasses.Help": "\u0e40\u0e25\u0e37\u0e2d\u0e01\u0e40\u0e0b\u0e01\u0e40\u0e21\u0e19\u0e15\u0e4c\u0e2b\u0e23\u0e37\u0e2d\u0e08\u0e38\u0e14\u0e2a\u0e2d\u0e07\u0e08\u0e38\u0e14\u0e2a\u0e33\u0e2b\u0e23\u0e31\u0e1a\u0e23\u0e31\u0e28\u0e21\u0e35 \u0e41\u0e25\u0e49\u0e27\u0e40\u0e25\u0e37\u0e2d\u0e01\u0e08\u0e38\u0e14\u0e28\u0e39\u0e19\u0e22\u0e4c\u0e01\u0e25\u0e32\u0e07",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e40\u0e0a\u0e34\u0e07\u0e0b\u0e49\u0e2d\u0e19",
     "ComplexNumber.Help": "\u0e04\u0e25\u0e34\u0e01\u0e43\u0e19\u0e21\u0e38\u0e21\u0e21\u0e2d\u0e07\u0e01\u0e23\u0e32\u0e1f\u0e34\u0e01\u0e40\u0e1e\u0e37\u0e48\u0e2d\u0e2a\u0e23\u0e49\u0e32\u0e07\u0e08\u0e33\u0e19\u0e27\u0e19\u0e40\u0e0a\u0e34\u0e07\u0e0b\u0e49\u0e2d\u0e19",
     "ComplexNumber.Tool": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e40\u0e0a\u0e34\u0e07\u0e0b\u0e49\u0e2d\u0e19",
@@ -3368,7 +3373,7 @@ __GGB__keysVar["th"].menu = {
     "horizontal": "\u0e41\u0e19\u0e27\u0e19\u0e2d\u0e19",
     "html": "\u0e40\u0e27\u0e47\u0e1a\u0e40\u0e1e\u0e08",
     "insert_worksheet": "\u0e41\u0e17\u0e23\u0e01\u0e2a\u0e37\u0e48\u0e2d\u0e01\u0e32\u0e23\u0e40\u0e23\u0e35\u0e22\u0e19\u0e23\u0e39\u0e49",
-    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install",
+    "java7.warning": "Your version of GeoGebra Classic 5 will stop working soon. Please download and re-install GeoGebra Classic 5",
     "jpg": "\u0e23\u0e39\u0e1b\u0e41\u0e1a\u0e1a JPG",
     "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
@@ -3502,6 +3507,8 @@ __GGB__keysVar["th"].menu = {
     "ymin": "\u0e04\u0e48\u0e32 y \u0e15\u0e48\u0e33\u0e2a\u0e38\u0e14",
     "ystep": "Y \u0e02\u0e31\u0e49\u0e19",
     "zAxis": "\u0e41\u0e01\u0e19 z",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

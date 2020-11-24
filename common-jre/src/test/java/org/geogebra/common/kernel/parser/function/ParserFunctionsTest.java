@@ -1,5 +1,9 @@
 package org.geogebra.common.kernel.parser.function;
 
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.util.List;
 
 import org.geogebra.common.main.Localization;
@@ -52,9 +56,9 @@ public class ParserFunctionsTest {
 	@Test
 	public void testGetCompletions() {
 		List<String> completions = parserFunctions.getCompletions("si");
-		Assert.assertTrue(completions.contains("sin( <x> )"));
-		Assert.assertTrue(completions.contains("sinIntegral( <x> )"));
-		Assert.assertFalse(completions.contains("cos( <x> )"));
+		assertThat(completions, hasItem("sin( <x> )"));
+		assertThat(completions, hasItem("sinIntegral( <x> )"));
+		assertThat(completions, not(hasItem("cos( <x> )")));
 
 		completions = parserFunctions.getCompletions("Si");
 		Assert.assertEquals(completions.size(), 0);
