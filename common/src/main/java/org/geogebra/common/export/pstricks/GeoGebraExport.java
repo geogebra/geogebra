@@ -12,7 +12,7 @@ import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.euclidian.draw.DrawInequality;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawPoint;
-import org.geogebra.common.euclidian.plot.CurvePlotter;
+import org.geogebra.common.euclidian.plot.CurveSegmentPlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -1476,7 +1476,7 @@ public abstract class GeoGebraExport {
 				x = 0;
 			}
 			if (Math.abs(yprec - y) < (ymax - ymin)) {
-				if (CurvePlotter.isContinuous(geo, tprec, t, 8)) {
+				if (CurveSegmentPlotter.isContinuous(geo, tprec, t, 8)) {
 					lineBuilder.append(
 							StringUtil.format(template, xprec, yprec, x, y));
 				}

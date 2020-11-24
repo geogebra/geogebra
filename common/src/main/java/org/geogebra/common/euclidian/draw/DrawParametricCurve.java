@@ -24,6 +24,7 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
+import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.euclidian.plot.interval.IntervalPlotter;
 import org.geogebra.common.factories.AwtFactory;
@@ -195,8 +196,8 @@ public class DrawParametricCurve extends Drawable {
 			labelPoint = new GPoint((int) eval[0], (int) eval[1]);
 		} else {
 			labelPoint = CurvePlotter.plotCurve(toPlot, min, max, view, gp,
-					labelVisible, fillCurve ? CurvePlotter.Gap.CORNER
-							: CurvePlotter.Gap.MOVE_TO);
+					labelVisible, fillCurve ? Gap.CORNER
+							: Gap.MOVE_TO);
 		}
 
 		// gp on screen?

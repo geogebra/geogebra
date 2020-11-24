@@ -192,7 +192,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 
     @Test
     public void testGetValues() {
-        setValuesSafe(0, 10, 2);
+	    setValuesSafe(0, 10, 2);
 		assertEquals("0", model.getCellAt(0, 0));
 		assertEquals("2", model.getCellAt(1, 0));
 		assertEquals("10", model.getCellAt(5, 0));
@@ -222,7 +222,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertEquals("?", model.getCellAt(0, 1));
     }
 
-    @Test
+	@Test
     public void testGetValuesChaningValues() {
         setValuesSafe(0, 10, 2);
         GeoElementFactory factory = getElementFactory();
