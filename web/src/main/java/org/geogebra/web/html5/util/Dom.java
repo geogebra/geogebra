@@ -8,6 +8,9 @@ import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.UIObject;
 
+import elemental2.dom.EventListener;
+import jsinterop.base.Js;
+
 /**
  * Helper methods for finding DOM elements
  */
@@ -143,5 +146,16 @@ public final class Dom {
 	public static native Element getActiveElement() /*-{
 		return $doc.activeElement;
 	}-*/;
+
+	/**
+	 * Element.addEventListener extracted to static method for safe cast in tests.
+	 * @param element element
+	 * @param name event name
+	 * @param listener listener
+	 */
+	public static void addEventListener(Element element, String name, EventListener listener) {
+		elemental2.dom.Element el = Js.uncheckedCast(element);
+		el.addEventListener(name, listener);
+	}
 
 }

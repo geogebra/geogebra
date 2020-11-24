@@ -381,9 +381,6 @@ public class GGWToolBar extends Composite
 
 		openMenuButton = new StandardButton(pr.menu_header_open_menu(), null, 32);
 
-		openMenuButton.getUpHoveringFace()
-				.setImage(getImage(pr.menu_header_open_menu_hover(), 32));
-
 		openMenuButton.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
@@ -414,10 +411,6 @@ public class GGWToolBar extends Composite
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		openSearchButton = new StandardButton(pr.menu_header_open_search(),
 				null, 32, 32);
-		openSearchButton.getUpFace()
-				.setImage(getImage(pr.menu_header_open_search(), 32));
-		openSearchButton.getUpHoveringFace()
-				.setImage(getImage(pr.menu_header_open_search_hover(), 32));
 
 		openSearchButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -1039,35 +1032,12 @@ public class GGWToolBar extends Composite
 		return toolbars.get(0).setMode(mode, ms);
 	}
 
-	@Override
-	protected void onAttach() {
-		super.onAttach();
-		// gwt sets openSearcButton's tabindex to 0 at onAttach (see
-		// FocusWidget.onAttach())
-		// but we don't want to select openSearchButton with tab, so tabindex
-		// will
-		// be set back to -1 after attach all time.
-		if (this.openSearchButton != null) {
-			this.openSearchButton.setTabIndex(-1);
-		}
-		if (this.openMenuButton != null) {
-			this.openMenuButton.setTabIndex(-1);
-		}
-	}
-
 	/**
 	 * @param index
 	 *            0 for open, 1 for menu
 	 */
 	public void selectMenuButton(int index) {
 		deselectButtons();
-
-		// MyToggleButton2 focused = index == 0 ? this.openSearchButton
-		// : this.openMenuButton;
-		// if(focused != null){
-		// focused.setFocus(true);
-		// focused.getElement().addClassName("selectedButton");
-		// }
 
 		if (index == 0) {
 			this.openSearchButton.getElement().addClassName("selectedButton");

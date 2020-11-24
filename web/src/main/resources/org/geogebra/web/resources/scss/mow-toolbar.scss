@@ -259,7 +259,7 @@
 		cursor: pointer;
 
 		img {
-			padding: 8px 28px;
+			padding: 4px 28px;
 			opacity: 0.54;
 		}
 
@@ -270,15 +270,11 @@
 		.gwt-Label {
 			color: $text-secondary;
 			font-size: 12px;
-			margin: 0px !important;
 			width: 80px;
-			max-height: 28px;
+			height: 28px;
 			text-align: center;
-			vertical-align: top;
 			line-height: 14px;
-			padding-bottom: 4px;
 			position: relative;
-			top: -4px;
 			overflow: hidden;
 		}
 
