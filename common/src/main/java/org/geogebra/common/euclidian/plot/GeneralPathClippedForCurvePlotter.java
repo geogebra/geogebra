@@ -54,7 +54,6 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		this.cache = cache;
 	}
 
-
 	@Override
 	public void lineTo(double[] pos) {
 		drawTo(pos, SegmentType.LINE_TO);
@@ -75,6 +74,12 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		cache.add(myPoint);
 	}
 
+	/**
+	 *
+	 * @param x coordinate.
+	 * @param y coordinate.
+	 * @param lineTo type for drawing the segment
+	 */
 	public void drawTo(double x, double y, SegmentType lineTo) {
 		GPoint2D point = getCurrentPoint();
 
@@ -168,7 +173,6 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 
 		if ((x0 > w || x0 < 0) && (y < 0 || y > h)) {
 			drawTo(x0, y, true);
-			return;
 		}
 	}
 

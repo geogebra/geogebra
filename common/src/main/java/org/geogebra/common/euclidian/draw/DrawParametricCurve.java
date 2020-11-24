@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
@@ -29,7 +28,6 @@ import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.euclidian.plot.interval.IntervalPlotter;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.advanced.AlgoFunctionInvert;
@@ -75,7 +73,6 @@ public class DrawParametricCurve extends Drawable {
 	private ExpressionNode dataExpression;
 	private FunctionVariable invFV;
 	private ExpressionNode invert;
-	private List<MyPoint> gpCache;
 
 	private static final Inspecting containsLog = new Inspecting() {
 		@Override
@@ -90,7 +87,6 @@ public class DrawParametricCurve extends Drawable {
 			return false;
 		}
 	};
-	private CurvePlotter plotter = null;
 
 	/**
 	 * Creates graphical representation of the curve
@@ -106,7 +102,6 @@ public class DrawParametricCurve extends Drawable {
 		geo = curve.toGeoElement();
 		createGeneralPath();
 		createIntervalPlotter();
-		gpCache = new ArrayList<>();
 		update();
 	}
 
@@ -124,10 +119,6 @@ public class DrawParametricCurve extends Drawable {
 
 	@Override
 	final public void update() {
-//		if (incrementalPlotter != null && incrementalPlotter.nextPlot()) {
-//			return;
-//		}
-
 		isVisible = geo.isEuclidianVisible();
 		if (!isVisible) {
 			return;
@@ -197,39 +188,63 @@ public class DrawParametricCurve extends Drawable {
 				max = maxView;
 			}
 		}
-		GPoint labelPoint = new GPoint();
+		GPoint labelPoint;
 		if (DoubleUtil.isEqual(min, max)) {
 			double[] eval = new double[2];
 			curve.evaluateCurve(min, eval);
 			view.toScreenCoords(eval);
 			labelPoint = new GPoint((int) eval[0], (int) eval[1]);
 		} else {
-			labelPoint = CurvePlotter.plotCurve(curve, min, max, view, gp,
+			labelPoint = CurvePlotter.plotCurve(toPlot, min, max, view, gp,
 					labelVisible, fillCurve ? Gap.CORNER
 							: Gap.MOVE_TO);
-			onPlotterFinished(labelPoint);
 		}
-	}
 
-	/**
-	 * Runs when plotter has finished its work.
-	 *
-	 * @param labelPoint point of the curve label.
-	 */
-	public void onPlotterFinished(GPoint labelPoint) {
-		Log.debug("PLOTTER FINISHED");
-		flushCache();
-	// gp on screen?
+		// gp on screen?
 		if (!view.intersects(gp)) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
 		}
-		if (labelPoint != null) {
-			constructLabel(labelPoint);
-		}
 
+		if (labelPoint != null) {
+			xLabel = labelPoint.x;
+			yLabel = labelPoint.y;
+			switch (geo.getLabelMode()) {
+			case GeoElementND.LABEL_NAME_VALUE:
+				StringTemplate tpl = StringTemplate.latexTemplate;
+				labelSB.setLength(0);
+				labelSB.append('$');
+				String label = getTopLevelGeo().getLabel(tpl);
+				if (LabelManager.isShowableLabel(label)) {
+					labelSB.append(label);
+					labelSB.append('(');
+					labelSB.append(((VarString) geo).getVarString(tpl));
+					labelSB.append(")\\;=\\;");
+				}
+				labelSB.append(geo.getLaTeXdescription());
+				labelSB.append('$');
+
+				labelDesc = labelSB.toString();
+				break;
+
+			case GeoElementND.LABEL_VALUE:
+				labelSB.setLength(0);
+				labelSB.append('$');
+				labelSB.append(geo.getLaTeXdescription());
+				labelSB.append('$');
+
+				labelDesc = labelSB.toString();
+				break;
+
+			case GeoElementND.LABEL_CAPTION:
+			default: // case LABEL_NAME:
+				labelDesc = getTopLevelGeo().getLabelDescription();
+			}
+			addLabelOffsetEnsureOnScreen(view.getFontConic());
+		}
 		// shape for filling
+
 		if (geo.isInverseFill()) {
 			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
@@ -247,43 +262,6 @@ public class DrawParametricCurve extends Drawable {
 				// view.updateBackground();
 			}
 		}
-	}
-
-	private void constructLabel(GPoint labelPoint) {
-		xLabel = labelPoint.x;
-		yLabel = labelPoint.y;
-		switch (geo.getLabelMode()) {
-		case GeoElementND.LABEL_NAME_VALUE:
-			StringTemplate tpl = StringTemplate.latexTemplate;
-			labelSB.setLength(0);
-			labelSB.append('$');
-			String label = getTopLevelGeo().getLabel(tpl);
-			if (LabelManager.isShowableLabel(label)) {
-				labelSB.append(label);
-				labelSB.append('(');
-				labelSB.append(((VarString) geo).getVarString(tpl));
-				labelSB.append(")\\;=\\;");
-			}
-			labelSB.append(geo.getLaTeXdescription());
-			labelSB.append('$');
-
-			labelDesc = labelSB.toString();
-			break;
-
-		case GeoElementND.LABEL_VALUE:
-			labelSB.setLength(0);
-			labelSB.append('$');
-			labelSB.append(geo.getLaTeXdescription());
-			labelSB.append('$');
-
-			labelDesc = labelSB.toString();
-			break;
-
-		case GeoElementND.LABEL_CAPTION:
-		default: // case LABEL_NAME:
-			labelDesc = getTopLevelGeo().getLabelDescription();
-		}
-		addLabelOffsetEnsureOnScreen(view.getFontConic());
 	}
 
 	private void createGeneralPath() {
@@ -446,7 +424,6 @@ public class DrawParametricCurve extends Drawable {
 				drawPoints(g2);
 				return;
 			}
-
 			if (isHighlighted()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
@@ -473,13 +450,6 @@ public class DrawParametricCurve extends Drawable {
 				drawLabel(g2);
 			}
 		}
-	}
-
-	private void flushCache() {
-		for (MyPoint p: gpCache) {
-			gp.drawTo(p.x, p.y, p.getSegmentType());
-		}
-
 	}
 
 	private void drawPoints(GGraphics2D g2) {

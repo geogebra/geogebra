@@ -49,7 +49,7 @@ public class CurvePlotterStack {
 	 */
 	public CurvePlotterStackItem pop() {
 		top--;
-		return items[top];
+		return top >= 0 ? items[top] : null;
 	}
 
 	/**

@@ -65,6 +65,7 @@ public class CurvePlotter {
 			return CurvePlotterOriginal.plotCurve(curve, tMin, tMax, view, gp,
 					calcLabelPos, moveToAllowed);
 		}
+
 		CurvePlotter plotter = new CurvePlotter(curve, tMin, tMax, view,
 				gp, calcLabelPos, moveToAllowed);
 

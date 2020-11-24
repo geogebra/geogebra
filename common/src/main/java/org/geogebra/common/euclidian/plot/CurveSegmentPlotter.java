@@ -29,9 +29,6 @@ public class CurveSegmentPlotter {
 	private static final int MAX_CONTINUITY_BISECTIONS = 8;
 
 	private static final double MAX_JUMP = 5;
-	private boolean ready;
-
-
 	private final CurveEvaluable curve;
 	private final double tMin;
 	private final double tMax;
@@ -41,7 +38,7 @@ public class CurveSegmentPlotter {
 	private final PathPlotter gp;
 	private boolean needLabelPos;
 	private final Gap moveToAllowed;
-	private GPoint labelPoint;
+	private GPoint labelPoint = null;
 	private double[] move;
 	private boolean nextLineToNeedsMoveToFirst;
 	private final double[] eval;
@@ -56,7 +53,7 @@ public class CurveSegmentPlotter {
 
 	/**
 	 * Draws a parametric curve (x(t), y(t)) for t in [tMin, tMax].
-	 * 
+	 *
 	 * @param maxParamStep
 	 *             largest parameter step width allowed
 	 * @param gp
@@ -86,7 +83,6 @@ public class CurveSegmentPlotter {
 
 		needLabelPos = calcLabelPos;
 		this.moveToAllowed = moveToAllowed;
-		labelPoint = null;
 
 		// The following algorithm by John Gillam avoids multiple
 		// evaluations of the curve for the same parameter value t
@@ -113,28 +109,20 @@ public class CurveSegmentPlotter {
 			return false;
 		}
 
-		ready = false;
 		onScreen = view.isOnView(eval);
 		evalRight = Cloner.clone(eval);
 
-		// first point
 		gp.firstPoint(evalLeft, moveToAllowed);
 
-		// TODO
-		// INIT plotting algorithm
 		createStack();
 		createDivisors();
-
 		createParams();
-
+		initDiffs();
 		createInfo();
 		return true;
 	}
 
 	private void createStack() {
-		if (evalRight == null) {
-			evalRight = Cloner.clone(eval);
-		}
 		stack = new CurvePlotterStack(LENGTH, onScreen, evalRight);
 	}
 
@@ -142,38 +130,25 @@ public class CurveSegmentPlotter {
 		divisors = createDivisors(tMin, tMax);
 	}
 
-	private void createInfo() {
-		info = new CurveSegmentInfo(view, evalLeft, evalRight);
-	}
-
 	private void createParams() {
-		if (stack == null) {
-			createStack();
-		}
-
-		if (divisors == null) {
-			createDivisors();
-		}
-
-		if (evalLeft == null) {
-			evalLeft = Cloner.clone(eval);
-		}
-
-		if (evalRight == null) {
-			evalRight = Cloner.clone(eval);
-		}
-
-		params = new SegmentParams(tMin, divisors, view,
-				evalLeft, evalRight, eval);
+		params = new SegmentParams(tMin, divisors, view);
 	}
 
-	public GPoint plot() {
+	private void initDiffs() {
+		params.diff = view.getOnScreenDiff(evalLeft, evalRight);
+		curve.evaluateCurve(tMin + divisors[divisors.length - 1], eval);
+		params.prevDiff = view.getOnScreenDiff(evalLeft, eval);
+	}
 
+	private void createInfo() {
+		info = new CurveSegmentInfo(view);
+	}
+
+	private GPoint plot() {
 		if (plotBisectorAlgo()) {
 			return plotProblemInterval(params.left);
 		}
 
-		gp.endPlot();
 		return labelPoint;
 	}
 
@@ -183,19 +158,9 @@ public class CurveSegmentPlotter {
 	// a small angle between two segments.
 	// The evaluated curve points are stored on a stack
 	// to avoid multiple evaluations at the same position.
-	public boolean plotBisectorAlgo() {
-		if (info == null) {
-			createInfo();
-		}
-
-		if (params == null) {
-			createParams();
-		}
-
+	private boolean plotBisectorAlgo() {
 		do {
-
 			info.update(evalLeft, evalRight, params.diff, params.prevDiff);
-
 			// bisect interval as long as max bisection depth not reached & ...
 			while (params.hasMaxDepthNotReached()
 					&& (info.isDistanceOrAngleInvalid()
@@ -204,7 +169,7 @@ public class CurveSegmentPlotter {
 
 				// push stacks
 				stack.push(params.dyad, params.depth, onScreen, evalRight);
-				params.update();
+				params.progress();
 
         		// evaluate curve for parameter t
 				curve.evaluateCurve(params.t, eval);
@@ -216,7 +181,7 @@ public class CurveSegmentPlotter {
 
 				evalRight = Cloner.clone(eval);
 				params.updateDiff(evalLeft, evalRight);
-				params.countDiffZeros = isDiffZero(params.diff) ? params.countDiffZeros +1: 0;
+				params.countDiffZeros = isDiffZero(params.diff) ? params.countDiffZeros + 1 : 0;
 
 				info.update(evalLeft, evalRight, params.diff, params.prevDiff);
 
@@ -241,19 +206,13 @@ public class CurveSegmentPlotter {
 			 */
 
 			CurvePlotterStackItem item = stack.pop();
-			if (item != null) {
-				onScreen = item.onScreen;
-				evalRight = item.eval;
-				params.updateFromStack(item);
-				params.updateDiff(evalLeft, evalRight);
-			}
+			onScreen = item.onScreen;
+			evalRight = item.eval;
+			params.restoreFromStack(item);
+			params.updateDiff(evalLeft, evalRight);
 		} while (stack.hasItems()); // end of do-while loop for bisection stack
-		ready = true;
+		gp.endPlot();
 		return false;
-	}
-
-	public boolean isReady() {
-		return ready;
 	}
 
 	private boolean hasNoSingularity(double t, double interval) {
@@ -273,6 +232,7 @@ public class CurveSegmentPlotter {
 		curve.evaluateCurve(x, eval);
 		return isUndefined(eval);
 	}
+
 	protected void drawSegment(double t, double left, CurveSegmentInfo info) {
 		if (isLineTo(t, left, info)) {
 			// handle previous moveTo first
@@ -368,7 +328,6 @@ public class CurveSegmentPlotter {
 	 */
 	private GPoint plotProblemInterval(double left) {
 		boolean calcLabel = needLabelPos;
-		ready=true;
 		// stop recursion for too many intervals
 		if (intervalDepth > MAX_PROBLEM_BISECTIONS || left == tMax) {
 			return labelPoint;
@@ -391,13 +350,14 @@ public class CurveSegmentPlotter {
 			CurveSegmentPlotter
 					plotterMin = new CurveSegmentPlotter(curve, left, splitParam, intervalDepth + 1,
 					maxParamStep, view, gp, calcLabel, moveToAllowed);
-			labelPointMin = plotterMin.plot();
+			labelPointMin = plotterMin.getLabelPoint();
 
 			// plot interval [(tMin+tMax)/2, tMax]
 			calcLabel = calcLabel && labelPointMin == null;
 			CurveSegmentPlotter plotterMax =
 					new CurveSegmentPlotter(curve, splitParam, tMax, intervalDepth + 1,
 							maxParamStep, view, gp, calcLabel, moveToAllowed);
+
 			labelPointMax = plotterMax.getLabelPoint();
 		} else {
 			// look at the end points of the intervals [tMin, (tMin+tMax)/2] and
@@ -423,16 +383,17 @@ public class CurveSegmentPlotter {
 			CurveSegmentPlotter plotterMax = new CurveSegmentPlotter(curve, borders[0], borders[1],
 					intervalDepth + 1, maxParamStep, view, gp, calcLabel,
 					moveToAllowed);
-			labelPointMax = plotterMax.plot();
+			labelPointMax = plotterMax.getLabelPoint();
 		}
 
-		if (labelPoint != null) {
-			return labelPoint;
-		} else if (labelPointMin != null) {
-			return labelPointMin;
-		} else {
-			return labelPointMax;
+		if (labelPoint == null) {
+			if (labelPointMin != null) {
+				labelPoint = labelPointMin;
+			} else if (labelPointMax != null) {
+				labelPoint = labelPointMax;
+			}
 		}
+		return labelPoint;
 	}
 
 	/**
