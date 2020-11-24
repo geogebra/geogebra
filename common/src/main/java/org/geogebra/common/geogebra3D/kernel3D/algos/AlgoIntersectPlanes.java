@@ -120,6 +120,7 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 		}
 
 		vnn.set3(vn);
+		vnn.setW(0);
 		vnn.normalize();
 		vn1.setCrossProduct4(v1, vnn);
 		vn1.normalize();

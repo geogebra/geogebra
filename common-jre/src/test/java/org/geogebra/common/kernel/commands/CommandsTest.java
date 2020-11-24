@@ -367,6 +367,35 @@ public class CommandsTest {
 		}
 	}
 
+	@Test
+	public void intersectPlanesShouldUpdate() {
+		t("e1:x=z", "x - z = 0");
+		t("e2:y=z", "y - z = 0");
+		t("SetValue(e1,?)");
+		t("SetValue(e2,?)");
+		t("g:Intersect(e1,e2)", "X = (NaN, NaN, NaN) + "
+				+ Unicode.lambda + " (NaN, NaN, NaN)");
+		t("SetValue(e1,x=z)");
+		t("SetValue(e2,y=z)");
+		t("g", "X = (0, 0, 0) + "
+				+ Unicode.lambda + " (1, 1, 1)");
+	}
+
+	@Test
+	public void angleBisectorsShouldUpdate() {
+		t("e1:X = (0, 0, 0) + t (1, 0, 0)", "X = (0, 0, 0) + "
+				+ Unicode.lambda + " (1, 0, 0)");
+		t("e2:X = (0, 0, 0) + t (0, 1, 0)", "X = (0, 0, 0) + "
+				+ Unicode.lambda + " (0, 1, 0)");
+		t("SetValue(e1,?)");
+		t("SetValue(e2,?)");
+		t("g:AngleBisector(e1,e2)", "X = (?, ?, ?)", "X = (?, ?, ?)");
+		t("SetValue(e1,X = (0, 0, 0) + t (1, 0, 0))");
+		t("SetValue(e2,X = (0, 0, 0) + t (0, 1, 0))");
+		t("g", "X = (0, 0, 0) + "
+				+ Unicode.lambda + " (1, -1, 0)");
+	}
+
 	private static void intersect(String arg1, String arg2, boolean num,
 			String... results) {
 		intersect(arg1, arg2, num, num, results);
