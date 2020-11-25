@@ -7,6 +7,7 @@
 **/
 
 @import 'colors';
+@import 'z-index';
 
 $shadow_dark: 0 0 2px 1px rgba(102, 102, 102, 0.3); // used for popups
 $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
@@ -27,7 +28,7 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 		box-shadow: $shadow;
 		padding: 5px;
 		box-sizing: border-box;
-		z-index: 100;
+		z-index: $z-toolbar-classic;
 
 		.toolBPanelMobile {
 			overflow: hidden;
@@ -114,7 +115,7 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 
 			.toolbar_submenu {
 				position: absolute;
-				z-index: 501;
+				z-index: $z-dialog-over-keyboard;
 				display: none;
 
 				&.visible {
@@ -123,14 +124,14 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 
 				.submenuArrow {
 					position: absolute;
-					z-index: 300;
+					z-index: $z-toolbar-classic-submenu-arrow;
 					left: 4px;
 				}
 
 				.submenuContent {
 					position: absolute;
 
-					z-index: 250;
+					z-index: $z-toolbar-classic-submenu;
 					border-radius: 10px;
 					padding-top: 3px !important;
 					background-color: $white-90;
@@ -291,7 +292,7 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 	.menuContainer {
 		left: auto !important;
 		top: 53px !important; /* should be equal to GLookAndFeelI.TOOLBAR_HEIGHT */
-		z-index: 100;
+		z-index: $z-toolbar-classic;
 	}
 
 	.ggbmenubarwrapper {
@@ -359,7 +360,7 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 			white-space: nowrap;
 			top: -5px;
 			position: absolute;
-			z-index: 600;
+			z-index: $z-dialog-over-keyboard;
 			border-radius: 10px;
 			padding: 5px;
 			background-color: $white-90;
