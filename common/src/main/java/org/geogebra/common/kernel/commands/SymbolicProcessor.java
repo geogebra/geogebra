@@ -150,9 +150,11 @@ public class SymbolicProcessor {
 	protected GeoElement evalSymbolicNoLabel(ExpressionValue ve, EvalInfo info) {
 		ve.resolveVariables(
 				new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC_AV));
-		if (ve.unwrap() instanceof Command
-				&& "Sequence".equals(((Command) ve.unwrap()).getName())) {
-			return doEvalSymbolicNoLabel(ve.wrap(), info);
+		if (ve.unwrap() instanceof Command) {
+			String cmdName = ((Command) ve.unwrap()).getName();
+			if (cmdName.equals("Sequence") || cmdName.equals("Assume")) {
+				return doEvalSymbolicNoLabel(ve.wrap(), info);
+			}
 		}
 		EvalInfo subInfo = new EvalInfo().withArbitraryConstant(info.getArbitraryConstant());
 		ExpressionNode replaced = ve
