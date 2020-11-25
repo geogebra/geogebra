@@ -607,6 +607,7 @@ public abstract class ValidExpression
 	public void setAsRootNode() {
 		this.isRoot = true;
 	}
+
 	@Override
 	public boolean isOperation(Operation operation) {
 		return false;
