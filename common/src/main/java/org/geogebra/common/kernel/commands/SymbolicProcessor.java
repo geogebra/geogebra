@@ -152,7 +152,7 @@ public class SymbolicProcessor {
 				new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC_AV));
 		if (ve.unwrap() instanceof Command) {
 			String cmdName = ((Command) ve.unwrap()).getName();
-			if (cmdName.equals("Sequence") || cmdName.equals("Assume")) {
+			if ("Sequence".equals(cmdName) || "Assume".equals(cmdName)) {
 				return doEvalSymbolicNoLabel(ve.wrap(), info);
 			}
 		}
