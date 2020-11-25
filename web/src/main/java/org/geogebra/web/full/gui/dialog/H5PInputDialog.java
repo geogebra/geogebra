@@ -8,12 +8,27 @@ import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.ComponentOrDivider;
 import org.geogebra.web.shared.components.DialogData;
 
+import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+
+import elemental2.dom.File;
+import elemental2.dom.HTMLInputElement;
+import jsinterop.base.Js;
 
 public class H5PInputDialog extends ComponentDialog {
 
 	MediaInputPanel mediaInputPanel;
+	private FileUpload h5pChooser = getH5PChooser();
+	private FileUpload getH5PChooser() {
+		FileUpload h5pChooser = new FileUpload();
+		h5pChooser.addChangeHandler(event -> {
+			HTMLInputElement el = Js.uncheckedCast(h5pChooser.getElement());
+			loadH5PElement(el.files.item(0));
+		});
+		h5pChooser.getElement().setAttribute("accept", ".h5p");
+		return h5pChooser;
+	}
 
 	/**
 	 * h5p tool dialog constructor
@@ -42,6 +57,11 @@ public class H5PInputDialog extends ComponentDialog {
 
 		addDialogContent(new ComponentOrDivider(app.getLocalization().getMenu("Symbol.Or")));
 		addSelectFileButton();
+		addDialogContent(h5pChooser);
+
+		h5pChooser.addStyleName("hidden");
+		setPosBtnDisabled(true);
+
 	}
 
 	private void addSelectFileButton() {
@@ -56,11 +76,22 @@ public class H5PInputDialog extends ComponentDialog {
 			@Override
 			public void onClickStart(final int x, final int y,
 					PointerEventType type) {
-
+				h5pChooser.click();
 			}
 		});
 
 		container.add(selectFileBtn);
 		addDialogContent(container);
+	}
+
+	/**
+	 * loads the h5p element
+	 *
+	 * @param file
+	 *            to load.
+	 *
+	 */
+	void loadH5PElement(File file) {
+		// TODO fill me
 	}
 }

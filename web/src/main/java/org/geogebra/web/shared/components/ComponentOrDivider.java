@@ -5,6 +5,10 @@ import com.google.gwt.user.client.ui.Label;
 
 public class ComponentOrDivider extends FlowPanel {
 
+	/**
+	 * component for ------- OR -------- divider
+	 * @param or string on the middle
+	 */
 	public ComponentOrDivider(String or) {
 		this.addStyleName("orDividerComponent");
 		FlowPanel leftLine = new FlowPanel();
