@@ -1836,4 +1836,36 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			color: $mow_primary;
 		}
 	}
+
+	.dialogComponent.mediaDialog.h5pDialog {
+
+		.dialogMainPanel .dialogTitle {
+			margin-bottom: 8px;
+		}
+
+		.helpTxt {
+			margin-bottom: 24px;
+            font-size: 75%;
+            color: $text-secondary;
+		}
+
+		.AutoCompleteTextFieldW {
+			margin-right: 0px;
+		}
+
+		.orDividerComponent {
+			margin-top: 24px;
+		}
+
+		.btnContainer {
+			display: flex;
+			justify-content: center;
+			margin: 24px 0px;
+
+			.uploadFileBtn {
+				border: solid 1px $black-12;
+				color: $mebis-text-btn-col;
+			}
+		}
+	}
 }
