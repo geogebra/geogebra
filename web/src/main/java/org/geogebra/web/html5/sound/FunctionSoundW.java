@@ -5,15 +5,12 @@ import org.geogebra.common.sound.FunctionSound;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.sound.WebAudioWrapper.FunctionAudioListener;
 
-import jsinterop.annotations.JsType;
-
 /**
  * Class for playing function-generated sounds.
  * 
  * @author Laszlo Gal
  *
  */
-@JsType
 public final class FunctionSoundW extends FunctionSound
 		implements FunctionAudioListener {
 
