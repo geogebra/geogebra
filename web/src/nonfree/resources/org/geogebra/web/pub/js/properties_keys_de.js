@@ -1996,6 +1996,8 @@ __GGB__keysVar["de"].menu = {
     "GroupShareOk": "Ihre Auswahl wurde gespeichert.",
     "GroupShareTxt": "Gruppe ausw\xe4hlen, um eine Datei freizugeben",
     "Growth": "Wachstum",
+    "H5PDialog.InsertHelpTxt": "Eine Tafel Datei mit H5P Elementen kann nur online ge\xf6ffnet werden.",
+    "H5PDialog.UploadFile": "Datei hochladen",
     "HSL": "HSL",
     "HSV": "HSV",
     "HTML5Only": "Nur als HTML5 exportieren",

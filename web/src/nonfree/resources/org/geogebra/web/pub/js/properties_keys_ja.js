@@ -1996,6 +1996,8 @@ __GGB__keysVar["ja"].menu = {
     "GroupShareOk": "Sharing with group(s) successful.",
     "GroupShareTxt": "\u30ea\u30bd\u30fc\u30b9\u3092\u5171\u6709\u3059\u308b\u30b0\u30eb\u30fc\u30d7\u3092\u9078\u629e",
     "Growth": "\u5897\u52a0",
+    "H5PDialog.InsertHelpTxt": "A file with H5P elements can only be opened while being online.",
+    "H5PDialog.UploadFile": "Upload file",
     "HSL": "HSL",
     "HSV": "HSV",
     "HTML5Only": "HTML5\u306e\u307f\u306b\u30a8\u30af\u30b9\u30dd\u30fc\u30c8",

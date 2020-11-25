@@ -1996,6 +1996,8 @@ __GGB__keysVar["nn"].menu = {
     "GroupShareOk": "Sharing with group(s) successful.",
     "GroupShareTxt": "Vel gruppe for \xe5 dele ressursar med:",
     "Growth": "Eksponentiell",
+    "H5PDialog.InsertHelpTxt": "A file with H5P elements can only be opened while being online.",
+    "H5PDialog.UploadFile": "Upload file",
     "HSL": "HSL",
     "HSV": "HSV",
     "HTML5Only": "Eksporter berre til HTML 5",
