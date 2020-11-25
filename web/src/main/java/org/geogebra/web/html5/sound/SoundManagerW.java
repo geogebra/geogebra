@@ -84,7 +84,7 @@ public class SoundManagerW implements SoundManager {
 		if (audio != null) {
 			app.invokeLater(audio::play);
 		} else {
-			playMP3((GeoAudio) geoElement);
+			playMP3(geoElement, file);
 		}
 	}
 
@@ -99,11 +99,13 @@ public class SoundManagerW implements SoundManager {
 	 *
 	 * @param audio
 	 *            Element that is ready to play.
-	 * @param geoAudio
-	 *            The audio geo.
+	 * @param geo
+	 *            The geo element.
 	 */
-	protected void onCanPlay(HTMLAudioElement audio, GeoAudio geoAudio) {
-		geoAudioElements.put(geoAudio, audio);
+	protected void onCanPlay(HTMLAudioElement audio, GeoElement geo) {
+		if (geo instanceof GeoAudio) {
+			geoAudioElements.put((GeoAudio) geo, audio);
+		}
 		if (mp3active) {
 			audio.play();
 		}
@@ -136,14 +138,14 @@ public class SoundManagerW implements SoundManager {
 	}
 
 	/**
-	 * @param geoAudio
-	 *            the audio geo element
+	 * @param geo
+	 *            the geo element
 	 */
-	void playMP3(GeoAudio geoAudio) {
+	void playMP3(GeoElement geo, String file) {
 		HTMLAudioElement audio = createHtmlAudioElement();
-		audio.src = geoAudio.getSrc();
+		audio.src = file;
 		audio.oncanplay = p0 -> {
-			onCanPlay(audio, geoAudio);
+			onCanPlay(audio, geo);
 			return null;
 		};
 
