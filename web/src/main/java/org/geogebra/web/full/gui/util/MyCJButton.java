@@ -18,10 +18,9 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 
 /**
- * @author gabor
- * 
- *         MyCanvasJbutton a Canvas that used as a button
+ * Button using an icon or label
  *
+ * @author gabor
  */
 public class MyCJButton extends Composite
 		implements MouseDownHandler, MouseUpHandler, HasSetIcon {

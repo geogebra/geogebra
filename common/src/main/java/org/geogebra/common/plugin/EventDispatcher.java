@@ -267,6 +267,16 @@ public class EventDispatcher implements ClientView {
 	}
 
 	@Override
+	public void startAnimation(GeoElement geo) {
+		dispatchEvent(new Event(EventType.START_ANIMATION, geo));
+	}
+
+	@Override
+	public void stopAnimation(GeoElement geo) {
+		dispatchEvent(new Event(EventType.STOP_ANIMATION, geo));
+	}
+
+	@Override
 	public boolean suggestRepaint() {
 		return false;
 		// not used for this view

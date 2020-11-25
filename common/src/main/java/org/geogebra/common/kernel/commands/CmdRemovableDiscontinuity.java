@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.algos.AlgoHolesPolynomial;
 import org.geogebra.common.kernel.algos.AlgoRemovableDiscontinuity;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.cas.UsesCAS;
@@ -35,7 +34,8 @@ public class CmdRemovableDiscontinuity extends CommandProcessor implements UsesC
 	}
 
 	private GeoElement[] removableDiscontinuity(GeoFunction function, Command cmd) {
-		AlgoHolesPolynomial algo = new AlgoRemovableDiscontinuity(cons, function, cmd.getLabels());
+		AlgoRemovableDiscontinuity algo
+				= new AlgoRemovableDiscontinuity(cons, function, cmd.getLabels());
 		return algo.getOutput();
 	}
 }

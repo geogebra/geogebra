@@ -58,7 +58,7 @@ public class MD5EncrypterGWTImpl {
 		c = 0x98BADCFE;
 		d = 0x10325476;
 
-		for (k = 0; k < x.length; k += 16) {
+		for (k = 0; k < x.length - 15; k += 16) {
 			AA = a;
 			BB = b;
 			CC = c;

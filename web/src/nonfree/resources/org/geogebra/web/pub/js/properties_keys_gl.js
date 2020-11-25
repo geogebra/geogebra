@@ -774,6 +774,8 @@ __GGB__keysVar["gl"].command = {
     "Rename.Syntax": "[ <Obxecto>, <Nome> ]",
     "Repeat": "Repetir",
     "Repeat.Syntax": "[ <N\xfamero>, <Comando script>, <Comando script>, ... ]",
+    "ReplaceAll": "ReplaceAll",
+    "ReplaceAll.Syntax": "[ <Text>, <Text to Match>, <Text to Replace> ]",
     "ResidualPlot": "GraficoResidual",
     "ResidualPlot.Syntax": "[ <Lista de puntos>, <Funci\xf3n> ]",
     "Reverse": "Reverte",
@@ -956,6 +958,8 @@ __GGB__keysVar["gl"].command = {
     "Sphere.Syntax": "[ <Punto>, <Raio (n\xfamero)> ]\n[ <Punto>, <Punto> ]",
     "Spline": "Spline",
     "Spline.Syntax": "[ <Lista de Puntos> ]\n[ <Lista de Puntos>, <Orde \u2265 3> ]",
+    "Split": "Split",
+    "Split.Syntax": "[ <Text>, <List of Texts to split on> ]",
     "StartAnimation": "IniciaAnimaci\xf3n",
     "StartAnimation.Syntax": "[ ]\n[ <Esvarador ou punto>, <Esvarador ou punto>, ... ]\n[ <Booleana> ]\n[ <Esvarador ou punto>, <Esvarador ou punto>, ... , <Booleana> ]",
     "StartRecord": "IniciaGravaci\xf3n",
@@ -1494,6 +1498,7 @@ __GGB__keysVar["gl"].menu = {
     "ComparisonNotPossible": "Desculpa, non \xe9 posible comparar eses obxectos",
     "Compasses": "Comp\xe1s",
     "Compasses.Help": "Escoller un segmento ou dous puntos para o radio, despois o centro",
+    "ComplexFunction": "Complex Function",
     "ComplexNumber": "N\xfamero complexo",
     "ComplexNumber.Help": "Fai clic na vista gr\xe1fica para crear un n\xfamero complexo",
     "ComplexNumber.Tool": "N\xfamero complexo",
@@ -1991,6 +1996,8 @@ __GGB__keysVar["gl"].menu = {
     "GroupShareOk": "Sharing with group(s) successful.",
     "GroupShareTxt": "Elixe grupo con quen compartir o recurso:",
     "Growth": "Crecemento",
+    "H5PDialog.InsertHelpTxt": "A file with H5P elements can only be opened while being online.",
+    "H5PDialog.UploadFile": "Upload file",
     "HSL": "HSL",
     "HSV": "HSV",
     "HTML5Only": "Exporta soamente a HTML5",
@@ -3502,6 +3509,8 @@ __GGB__keysVar["gl"].menu = {
     "ymin": "y m\xedn",
     "ystep": "Paso Y",
     "zAxis": "eixeZ",
+    "zmax": "z Max",
+    "zmin": "z Min",
 };
 
 

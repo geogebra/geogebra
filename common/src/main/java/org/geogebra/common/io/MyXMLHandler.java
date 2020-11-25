@@ -950,9 +950,11 @@ public class MyXMLHandler implements DocHandler {
 			// get parameters from comma delimited string
 			String parmString = attrs.get("parameters");
 			String[] parmStringArray = parmString.split(",");
-			double[] parameters = new double[parmStringArray.length];
+			GeoNumeric[] parameters = new GeoNumeric[parmStringArray.length];
 			for (int i = 0; i < parmStringArray.length; i++) {
-				parameters[i] = StringUtil.parseDouble(parmStringArray[i]);
+				GeoNumberValue val = getNumber(parmStringArray[i]);
+				parameters[i] =	val instanceof GeoNumeric ? (GeoNumeric) val
+								: new GeoNumeric(cons, Double.NaN);
 			}
 
 			app.getSettings().getProbCalcSettings().setParameters(parameters);
@@ -971,9 +973,9 @@ public class MyXMLHandler implements DocHandler {
 			app.getSettings().getProbCalcSettings().setProbMode(probMode);
 
 			app.getSettings().getProbCalcSettings()
-					.setLow(StringUtil.parseDouble(attrs.get("low")));
+					.setLow(getNumber(attrs.get("low")));
 			app.getSettings().getProbCalcSettings()
-					.setHigh(StringUtil.parseDouble(attrs.get("high")));
+					.setHigh(getNumber(attrs.get("high")));
 
 			return true;
 		} catch (RuntimeException e) {
@@ -1062,29 +1064,6 @@ public class MyXMLHandler implements DocHandler {
 			Log.error("error in <algebraView>: " + eName);
 		}
 	}
-
-	// ====================================
-	// <CASView>
-	// ====================================
-	// private void startCASViewElement(String eName, LinkedHashMap<String,
-	// String> attrs) {
-	// boolean ok = true;
-	//
-	// switch (firstChar(eName)) {
-	// case 's':
-	// if ("size".equals(eName)) {
-	// ok = handleCASSize(app.getGuiManager().getCasView(), attrs);
-	// break;
-	// }
-	//
-	// default:
-	// Log.error("unknown tag in <casView>: " + eName);
-	// }
-	//
-	// if (!ok)
-	// Log.error("error in <casView>: " + eName);
-	//
-	// }
 
 	private boolean handleCoordSystem(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {

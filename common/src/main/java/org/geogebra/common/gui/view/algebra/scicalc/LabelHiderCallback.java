@@ -10,6 +10,7 @@ import org.geogebra.common.util.AsyncOperation;
 public class LabelHiderCallback implements AsyncOperation<GeoElementND[]> {
 
     private LabelController mLabelController;
+    private boolean storeUndo = true;
 
     public LabelHiderCallback() {
         mLabelController = new LabelController();
@@ -20,7 +21,7 @@ public class LabelHiderCallback implements AsyncOperation<GeoElementND[]> {
         if (geoElements instanceof GeoElement[]) {
             hideLabels((GeoElement[]) geoElements);
         }
-        if (geoElements != null && geoElements.length > 0) {
+        if (geoElements != null && geoElements.length > 0 && storeUndo) {
             geoElements[0].getKernel().storeUndoInfo();
         }
     }
@@ -40,5 +41,9 @@ public class LabelHiderCallback implements AsyncOperation<GeoElementND[]> {
         ExpressionNode definition = element.getDefinition();
         return !(isShowingExtendedAv && isIndependent)
                 && (definition == null || definition.getLabel() == null);
+    }
+
+    public void setStoreUndo(boolean storeUndo) {
+        this.storeUndo = storeUndo;
     }
 }

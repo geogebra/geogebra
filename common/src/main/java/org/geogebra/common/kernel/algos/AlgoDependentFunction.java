@@ -298,12 +298,10 @@ public class AlgoDependentFunction extends AlgoElement
 				int order = (int) Math
 						.round(((NumberValue) node.getRight()).getDouble());
 				if (leftValue.isExpressionNode()
-						&& (((ExpressionNode) leftValue)
-								.getOperation() == Operation.DOLLAR_VAR_COL
-								|| ((ExpressionNode) leftValue)
-										.getOperation() == Operation.DOLLAR_VAR_ROW
-								|| ((ExpressionNode) leftValue)
-										.getOperation() == Operation.DOLLAR_VAR_ROW_COL)) {
+						&& (leftValue
+								.isOperation(Operation.DOLLAR_VAR_COL)
+								|| leftValue.isOperation(Operation.DOLLAR_VAR_ROW)
+								|| leftValue.isOperation(Operation.DOLLAR_VAR_ROW_COL))) {
 					leftValue = ((ExpressionNode) leftValue).getLeft();
 				}
 				if (leftValue instanceof GeoCasCell) {

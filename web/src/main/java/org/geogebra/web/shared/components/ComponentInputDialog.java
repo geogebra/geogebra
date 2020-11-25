@@ -136,8 +136,7 @@ public class ComponentInputDialog extends ComponentDialog
 
 	@Override
 	public void showError(String msg) {
-		if (inputTextField != null
-			&& !inputTextField.hasError()) {
+		if (inputTextField != null) {
 			inputTextField.setError(msg);
 		}
 	}

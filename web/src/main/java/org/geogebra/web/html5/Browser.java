@@ -80,35 +80,6 @@ public class Browser {
 		return "Apple Computer, Inc." === $wnd.navigator.vendor;
 	}-*/;
 
-	/**
-	 * https://github.com/cheton/is-electron/blob/master/index.js MIT
-	 *
-	 * @return true if running in Electron
-	 */
-	public static native boolean isElectron() /*-{
-		// Renderer process
-		if (typeof $wnd !== 'undefined' && typeof $wnd.process === 'object'
-				&& $wnd.process.type === 'renderer') {
-			return true;
-		}
-
-		// Main process
-		if (typeof $wnd.process !== 'undefined'
-				&& typeof $wnd.process.versions === 'object'
-				&& !!$wndprocess.versions.electron) {
-			return true;
-		}
-
-		// Detect the user agent when the `nodeIntegration` option is set to true
-		if (typeof $wnd.navigator === 'object'
-				&& typeof $wnd.navigator.userAgent === 'string'
-				&& $wnd.navigator.userAgent.indexOf('Electron') >= 0) {
-			return true;
-		}
-
-		return false;
-	}-*/;
-
 	public native static boolean externalCAS() /*-{
 		return typeof $wnd.evalGeoGebraCASExternal == 'function'
 				&& $wnd.evalGeoGebraCASExternal("1+1") == "2";

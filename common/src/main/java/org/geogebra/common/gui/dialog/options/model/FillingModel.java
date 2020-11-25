@@ -180,7 +180,7 @@ public class FillingModel extends MultipleOptionsModel {
 
 		if (isBarChart()) {
 			algo = (AlgoBarChart) geo0.getParentAlgorithm();
-			updateBarFillTypePanel(algo);
+			updateBarFillTypePanel(geo0);
 		} else {
 			updateFillType(geo0.getFillType());
 		}
@@ -238,11 +238,15 @@ public class FillingModel extends MultipleOptionsModel {
 		getFillingListener().setFillValue((int) Math.round(alpha * 100));
 	}
 
-	private void updateBarFillTypePanel(AlgoBarChart algo) {
+	private void updateBarFillTypePanel(GeoElement geo) {
 		int idx = getFillingListener().getSelectedBarIndex();
-		FillType type = FillType.STANDARD;
-		if (algo.getBarFillType(idx) != FillType.STANDARD) {
-			type = FillType.values()[algo.getBarFillType(idx).ordinal()];
+
+		FillType type;
+		if (idx == 0) {
+			type = geo.getFillType();
+		} else {
+			AlgoBarChart algo = (AlgoBarChart) geo.getParentAlgorithm();
+			type = algo.getBarFillType(idx);
 		}
 
 		fillType = type;
@@ -431,7 +435,6 @@ public class FillingModel extends MultipleOptionsModel {
 				algo.setBarSymbol(null, i);
 				algo.setBarImage(null, i);
 			}
-			geo.updateVisualStyle(GProperty.HATCHING);
 			return false;
 		}
 		switch (type) {

@@ -145,7 +145,7 @@ public class Korean {
 			} else {
 				// if a "lead char" follows a vowel, turn into a "tail char"
 				if (lastWasVowel && isKoreanLeadChar(c, false)) {
-					sb.append(getKoreanLeadToTail().get(Character.valueOf(c))
+					sb.append(getKoreanLeadToTail().get(c)
 							.charValue());
 				} else {
 					sb.append(c);
@@ -158,26 +158,6 @@ public class Korean {
 	}
 
 	/**
-	 * @param c
-	 * @return
-	 */
-	// static {
-	// for (char i = 0x1100; i <= 0x1112; i++) {
-	// for (char j = 0x1161; j <= 0x1175; j++) {
-	// String s = i + "" + j;
-	// Log.debug(i + " " + j + " " + StringUtil.toHexString(s)
-	// + StringUtil.toHexString(unflattenKorean(s).toString()));
-	// }
-	// }
-	//
-	// for (char i = 0xac00; i <= 0xD788; i += 1) {
-	// String s = i + "";
-	// Log.debug(i + " " + StringUtil.toHexString(s) + " "
-	// + isKoreanLeadPlusVowelChar(i));
-	// }
-	// }
-
-	/**
 	 * from 0xac00 to 0xd788, every 28th character is a combination of 2
 	 * characters not 3
 	 * 
@@ -188,21 +168,14 @@ public class Korean {
 	public static boolean isKoreanLeadPlusVowelChar(char c) {
 		if (c >= 0xac00 && c <= 0xd7af) {
 			int ch = c - 0xac00;
-			if ((ch % 28) == 0) {
-				return true;
-			}
+			return (ch % 28) == 0;
 		}
 
 		return false;
 	}
 
 	private static boolean isKoreanMultiChar(char c) {
-
-		if (c >= 0xac00 && c <= 0xd7af) {
-			return true;
-		}
-
-		return false;
+		return c >= 0xac00 && c <= 0xd7af;
 	}
 
 	private static boolean isKoreanLeadChar(char c0, boolean convertJamo) {
@@ -211,11 +184,7 @@ public class Korean {
 			c = convertFromCompatibilityJamo(c, true);
 		}
 
-		if (c >= 0x1100 && c <= 0x1112) {
-			return true;
-		}
-
-		return false;
+		return c >= 0x1100 && c <= 0x1112;
 	}
 
 	private static boolean isKoreanVowelChar(char c0, boolean convertJamo) {
@@ -224,11 +193,7 @@ public class Korean {
 			c = convertFromCompatibilityJamo(c, true);
 		}
 
-		if (c >= 0x1161 && c <= 0x1175) {
-			return true;
-		}
-
-		return false;
+		return c >= 0x1161 && c <= 0x1175;
 	}
 
 	private static boolean isKoreanTailChar(char c0, boolean convertJamo) {
@@ -237,11 +202,7 @@ public class Korean {
 			c = convertFromCompatibilityJamo(c, false);
 		}
 
-		if (c >= 0x11a8 && c <= 0x11c2) {
-			return true;
-		}
-
-		return false;
+		return c >= 0x11a8 && c <= 0x11c2;
 	}
 
 	/**
@@ -869,31 +830,6 @@ public class Korean {
 					sb.append(c);
 				}
 				break;
-
-			case '\u1161': // these character are "doubled" by adding 2 to their
-				// Unicode value
-			case '\u1162':
-			case '\u1165':
-			case '\u1166':
-				// offset++;
-				// fall through
-				// case '\u1100' : // these character are "doubled" by adding 1
-				// to their Unicode value
-			case '\u1103':
-				// case '\u1107' :
-
-				// don't want these doubled (should use <shift>)
-				// case '\u1109':
-				// case '\u110c':
-				// case '\u11a8':
-				// case '\u11ba':
-				// if (str.charAt(i + 1) == c) {
-				// sb.append((char) (c + offset)); // eg \u1101 ie doubled char
-				// i++;
-				// } else {
-				// sb.append(c);
-				// }
-				// break;
 			case '\u1169':
 				c2 = str.charAt(i + 1);
 				if (c2 == '\u1161') {
@@ -905,38 +841,10 @@ public class Korean {
 				} else if (c2 == '\u1175') {
 					sb.append('\u116c'); // eg \u1101 ie doubled char
 					i++;
-				} else if (c2 == '\u1169') {
-					sb.append('\u116d'); // eg \u1101 ie doubled char
-					i++;
 				} else {
 					sb.append(c);
 				}
 				break;
-			// case '\u1105':
-			// case '\u11af':
-			// c2 = str.charAt(i + 1);
-			// if (c2 == '\u1100') {
-			// sb.append('\u11b0'); // eg \u1101 ie doubled char
-			// i++;
-			// } else if (c2 == '\u1106') {
-			// sb.append('\u11b1'); // eg \u1101 ie doubled char
-			// i++;
-			// } else if (c2 == '\u1107') {
-			// sb.append('\u11b2'); // eg \u1101 ie doubled char
-			// i++;
-			// } else if (c2 == '\u1109') {
-			// sb.append('\u11b3'); // eg \u1101 ie doubled char
-			// i++;
-			// } else if (c2 == '\u1110') {
-			// sb.append('\u11b4'); // eg \u1101 ie doubled char
-			// i++;
-			// } else if (c2 == '\u1112') {
-			// sb.append('\u11b6'); // eg \u1101 ie doubled char
-			// i++;
-			// } else {
-			// sb.append(c);
-			// }
-			// break;
 			case '\u116e':
 				c2 = str.charAt(i + 1);
 				if (c2 == '\u1165') {
@@ -947,9 +855,6 @@ public class Korean {
 					i++;
 				} else if (c2 == '\u1175') {
 					sb.append('\u1171'); // eg \u1101 ie doubled char
-					i++;
-				} else if (c2 == '\u116e') {
-					sb.append('\u1172'); // eg \u1101 ie doubled char
 					i++;
 				} else {
 					sb.append(c);
@@ -1025,7 +930,10 @@ public class Korean {
 				if (c2 == '\u11ba') {
 					sb.append('\u11aa');
 					i++;
-				} else {
+				} else if (c == '\u1109') {
+						sb.append('\u11aa');
+						i++;
+			} else {
 					sb.append(c);
 				}
 				break;
@@ -1054,8 +962,17 @@ public class Korean {
 	 * @return {char, char2} if 2 chars are needed, otherwise just {char, 0}
 	 */
 	public static char[] checkMerge(char lastChar, char newChar) {
-
 		char[] ret = { lastChar, newChar };
+		// case 0: two characters as a shortcut for one
+		// eg \u3131\u3145 -> \u3133
+		String check = mergeDoubleCharacters(convertFromCompatibilityJamo(lastChar, true)
+				+ "" + convertFromCompatibilityJamo(newChar, true));
+		if (check.length() == 1) {
+			// merge succeeded
+			ret[0] = convertToCompatibilityJamo(check.charAt(0));
+			ret[1] = 0;
+			return ret;
+		}
 
 		// case 1
 		// we already have Jamo lead + vowel as single unicode

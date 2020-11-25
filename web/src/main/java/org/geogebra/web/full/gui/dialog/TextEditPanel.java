@@ -462,4 +462,11 @@ public class TextEditPanel extends VerticalPanel
 		}
 	}
 
+	/**
+	 *
+	 * @return advanced panel of text tool dialog
+	 */
+	public DisclosurePanel getDisclosurePanel() {
+		return disclosurePanel;
+	}
 }

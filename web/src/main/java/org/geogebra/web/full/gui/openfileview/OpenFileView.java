@@ -9,7 +9,6 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
@@ -29,10 +28,11 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.File;
 
 /**
  * View for browsing materials
@@ -210,10 +210,7 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	@Override
-	public void openFile(final JavaScriptObject fileToHandle) {
-		if (app.getLAF().supportsLocalSave()) {
-			app.getFileManager().setFileProvider(Provider.LOCAL);
-		}
+	public void openFile(final File fileToHandle) {
 		app.openFile(fileToHandle);
 		close();
 	}

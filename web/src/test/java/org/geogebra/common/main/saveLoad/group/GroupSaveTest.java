@@ -53,7 +53,7 @@ public class GroupSaveTest {
         String fileContent = FileIO.load(pathString);
         StringBuilder consXMLStrBuilder = new StringBuilder();
         app.getKernel().getConstruction().getConstructionXML(consXMLStrBuilder, false);
-        assertEquals(fileContent, consXMLStrBuilder.toString());
+        assertEquals(fileContent, consXMLStrBuilder.toString().trim());
     }
 
     @Test

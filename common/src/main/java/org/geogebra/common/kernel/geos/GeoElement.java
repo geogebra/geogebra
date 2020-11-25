@@ -99,6 +99,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.JsReference;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.DoubleUtil;
@@ -2218,8 +2219,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			final AnimationManager am = kernel.getAnimatonManager();
 			if (animating) {
 				am.addAnimatedGeo(this);
+				kernel.notifyStartAnimation(this);
 			} else {
 				am.removeAnimatedGeo(this);
+				kernel.notifyStopAnimation(this);
 			}
 		}
 	}
@@ -5468,18 +5471,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            end position
 	 * @return true if successful
 	 */
-	protected boolean movePoint(final Coords rwTransVec,
-			final Coords endPosition) {
-		return false;
-	}
-
-	/**
-	 * @param rwTransVec
-	 *            translation vector
-	 * @param endPosition
-	 *            end position
-	 * @return true if successful
-	 */
 	protected boolean moveVector(final Coords rwTransVec,
 			final Coords endPosition) {
 
@@ -7288,5 +7279,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	public void setOrdering(int ordering) {
 		this.ordering = ordering;
+	}
+
+	@Override
+	public boolean isOperation(Operation operation) {
+		return false;
 	}
 }

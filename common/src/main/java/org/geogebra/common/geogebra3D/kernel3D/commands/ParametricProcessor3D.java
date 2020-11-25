@@ -50,14 +50,14 @@ public class ParametricProcessor3D extends ParametricProcessor {
 		Construction cons = kernel.getConstruction();
 		if (ev instanceof VectorValue) {
 			if (fv.length == 2) {
-				GeoElement[] geoElements = processSurface(exp, fv, 2);
+				GeoElement[] geoElements = processSurface(exp, fv, 2, false);
 				geoElements[0].setLabel(label);
 				return geoElements;
 			}
 		}
 		if (ev instanceof Vector3DValue && fv.length < 3) {
 			if (fv.length == 2) {
-				GeoElement[] geoElements = processSurface(exp, fv, 3);
+				GeoElement[] geoElements = processSurface(exp, fv, 3, false);
 				geoElements[0].setLabel(label);
 				return geoElements;
 			}
