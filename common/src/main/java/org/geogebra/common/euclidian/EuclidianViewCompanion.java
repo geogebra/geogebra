@@ -8,7 +8,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -25,7 +24,6 @@ import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.main.settings.EuclidianSettings3D;
 
 /**
  * 
