@@ -1996,6 +1996,8 @@ __GGB__keysVar["kn"].menu = {
     "GroupShareOk": "Sharing with group(s) successful.",
     "GroupShareTxt": "\u0c87\u0ca6\u0cb0\u0cca\u0c82\u0ca6\u0cbf\u0c97\u0cc6 \u0cb8\u0c82\u0caa\u0ca8\u0ccd\u0cae\u0cc2\u0cb2\u0cb5\u0ca8\u0ccd\u0ca8\u0cc1 \u0cb9\u0c82\u0c9a\u0cbf\u0c95\u0cca\u0cb3\u0ccd\u0cb3\u0cb2\u0cc1 \u0c97\u0cc1\u0c82\u0caa\u0cc1 \u0c86\u0caf\u0ccd\u0c95\u0cc6\u0cae\u0cbe\u0ca1\u0cbf:",
     "Growth": "\u0cac\u0cc6\u0cb3\u0cb5\u0ca3\u0cbf\u0c97\u0cc6",
+    "H5PDialog.InsertHelpTxt": "A file with H5P elements can only be opened while being online.",
+    "H5PDialog.UploadFile": "Upload file",
     "HSL": "HSL",
     "HSV": "HSV",
     "HTML5Only": "Export to HTML5 only",
@@ -3507,6 +3509,7 @@ __GGB__keysVar["kn"].menu = {
     "ymin": "y Min",
     "ystep": "Y \u0cb8\u0ccd\u0c9f\u0cc6\u0caa\u0ccd\u200c",
     "zAxis": "z\u0c85\u0c95\u0ccd\u0cb7",
+    "zmax": "z Max",
     "zmin": "z Min",
 };
 

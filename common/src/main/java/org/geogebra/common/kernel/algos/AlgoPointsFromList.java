@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.LabelManager;
-import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Converts a list into a Point (or Points) adapted from AlgoRootsPolynomial
@@ -269,8 +268,7 @@ public class AlgoPointsFromList extends AlgoElement {
 
 		// now set the new values of the roots
 		for (int i = 0; i < number; i++) {
-			Coords coords = new Coords(x[i], y[i], z[i]);
-			points3D[i].setCoords(coords);
+			points3D[i].setCoords(x[i], y[i], z[i], 1);
 		}
 
 		// all other roots are undefined
