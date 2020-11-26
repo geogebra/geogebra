@@ -1996,6 +1996,8 @@ __GGB__keysVar["fr"].menu = {
     "GroupShareOk": "Sharing with group(s) successful.",
     "GroupShareTxt": "Choisir le groupe avec lequel partager cette ressource :",
     "Growth": "Puissance",
+    "H5PDialog.InsertHelpTxt": "A file with H5P elements can only be opened while being online.",
+    "H5PDialog.UploadFile": "Upload file",
     "HSL": "HSL",
     "HSV": "HSV",
     "HTML5Only": "Exporter en HTLM5 uniquement",
@@ -3507,6 +3509,7 @@ __GGB__keysVar["fr"].menu = {
     "ymin": "yMin",
     "ystep": "ypas",
     "zAxis": "axeZ",
+    "zmax": "z Max",
     "zmin": "z Min",
 };
 
