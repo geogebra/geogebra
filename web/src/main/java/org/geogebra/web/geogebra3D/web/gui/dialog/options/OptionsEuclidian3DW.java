@@ -1,7 +1,6 @@
 package org.geogebra.web.geogebra3D.web.gui.dialog.options;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
@@ -274,7 +273,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		@Override
 		protected void updateMinMax() {
-			EuclidianView view = getOptionsEuclidianW().getView();
+			EuclidianView3D view = (EuclidianView3D) getOptionsEuclidianW().getView();
 			view.updateBoundObjects();
 			setMinMaxText(
 					view.getXminObject().getLabel(StringTemplate.editTemplate),

@@ -397,16 +397,6 @@ public interface EuclidianViewInterfaceCommon
 	public GeoNumeric getYmaxObject();
 
 	/**
-	 * @return zMin as geoNumeric (may be dependent)
-	 */
-	public GeoNumeric getZminObject();
-
-	/**
-	 * @return zMax as GeoNumeric (may be dependent)
-	 */
-	public GeoNumeric getZmaxObject();
-
-	/**
 	 * @return screen x-coord of origin
 	 */
 	public double getXZero();
@@ -622,18 +612,6 @@ public interface EuclidianViewInterfaceCommon
 	 *            new yMax object
 	 */
 	public void setYmaxObject(NumberValue minMax);
-
-	/**
-	 * @param minMax
-	 *            new yMin object
-	 */
-	public void setZminObject(NumberValue minMax);
-
-	/**
-	 * @param minMax
-	 *            new yMax object
-	 */
-	public void setZmaxObject(NumberValue minMax);
 
 	/**
 	 * 

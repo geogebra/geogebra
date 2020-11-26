@@ -254,10 +254,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private double ymin;
 	/** maximal visible real world y */
 	private double ymax;
-	/** minimal visible real world z */
-	private double zmin;
-	/** maximal visible real world z */
-	private double zmax;
 	/** possibly dynamic x min */
 	protected NumberValue xminObject;
 	/** possibly dynamic x max */
@@ -266,16 +262,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected NumberValue yminObject;
 	/** possibly dynamic y max */
 	protected NumberValue ymaxObject;
-	/** possibly dynamic z min */
-	protected NumberValue zminObject;
-	/** possibly dynamic z max */
-	protected NumberValue zmaxObject;
 
 	private double invXscale;
 
 	private double invYscale;
-
-	private double invZscale;
 
 	protected double xZero;
 
@@ -284,8 +274,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private double xscale;
 
 	private double yscale;
-
-	private double zscale;
 
 	// private double scaleRatio = 1.0;
 	/** print scale ratio */
@@ -615,12 +603,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// no repaint
 		if (kernel.getConstruction() != null) {
 			kernel.getConstruction().setIgnoringNewTypes(true);
-			xminObject = new GeoNumeric(kernel.getConstruction());
-			xmaxObject = new GeoNumeric(kernel.getConstruction());
-			yminObject = new GeoNumeric(kernel.getConstruction());
-			ymaxObject = new GeoNumeric(kernel.getConstruction());
-			zminObject = new GeoNumeric(kernel.getConstruction());
-			zmaxObject = new GeoNumeric(kernel.getConstruction());
+			setMinMaxObjects();
 			kernel.getConstruction().setIgnoringNewTypes(false);
 		}
 		// ggb3D 2009-02-05
@@ -630,6 +613,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				5);
         setXscale(SCALE_STANDARD);
         setYscale(SCALE_STANDARD);
+	}
+
+	protected void setMinMaxObjects() {
+		xminObject = new GeoNumeric(kernel.getConstruction());
+		xmaxObject = new GeoNumeric(kernel.getConstruction());
+		yminObject = new GeoNumeric(kernel.getConstruction());
+		ymaxObject = new GeoNumeric(kernel.getConstruction());
 	}
 
 	/**
@@ -994,58 +984,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @return the zminObject
-	 */
-	@Override
-	public GeoNumeric getZminObject() {
-		return (GeoNumeric) zminObject;
-	}
-
-	/**
-	 * @param zminObjectNew
-	 *            the zminObject to set
-	 */
-	@Override
-	public void setZminObject(NumberValue zminObjectNew) {
-		if (zminObject != null) {
-			((GeoNumeric) zminObject).removeEVSizeListener(this);
-		}
-		if (zminObjectNew == null && kernel.getConstruction() != null) {
-			this.zminObject = new GeoNumeric(kernel.getConstruction());
-			updateBoundObjects();
-		} else {
-			this.zminObject = zminObjectNew;
-		}
-		setSizeListeners();
-	}
-
-	/**
-	 * @return the zmaxObject
-	 */
-	@Override
-	public GeoNumeric getZmaxObject() {
-		return (GeoNumeric) zmaxObject;
-	}
-
-	/**
-	 * @param zmaxObjectNew
-	 *            the zmaxObject to set
-	 */
-	@Override
-	public void setZmaxObject(NumberValue zmaxObjectNew) {
-		if (zmaxObject != null) {
-			((GeoNumeric) zmaxObject).removeEVSizeListener(this);
-		}
-		if (zmaxObjectNew == null && kernel.getConstruction() != null) {
-			this.zmaxObject = new GeoNumeric(kernel.getConstruction());
-			updateBoundObjects();
-		} else {
-			this.zmaxObject = zmaxObjectNew;
-		}
-		setSizeListeners();
-	}
-
-	/**
 	 * @return handler that was hit
 	 */
 	public EuclidianBoundingBoxHandler getHitHandler() {
@@ -1060,14 +998,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		this.hitHandler = hitHandler;
 	}
 
-	private void setSizeListeners() {
+	protected void setSizeListeners() {
 		if (xminObject != null) {
 			((GeoNumeric) xminObject).addEVSizeListener(this);
 			((GeoNumeric) yminObject).addEVSizeListener(this);
 			((GeoNumeric) xmaxObject).addEVSizeListener(this);
 			((GeoNumeric) ymaxObject).addEVSizeListener(this);
-			((GeoNumeric) zmaxObject).addEVSizeListener(this);
-			((GeoNumeric) zminObject).addEVSizeListener(this);
 		}
 	}
 
@@ -1541,11 +1477,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		this.invYscale = 1 / yscale;
 	}
 
-	protected void setZscale(double zscale) {
-		this.zscale = zscale;
-		this.invZscale = 1 / zscale;
-	}
-
 	/**
 	 * @param fontSize
 	 *            default font size
@@ -1603,10 +1534,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	public double getYscale() {
 		return yscale;
-	}
-
-	public double getZscale() {
-		return zscale;
 	}
 
 	@Override
@@ -1671,20 +1598,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return ymin;
 	}
 
-	/**
-	 * @return Returns the zmax.
-	 */
-	public double getZmax() {
-		return zmax;
-	}
-
-	/**
-	 * @return Returns the zmin.
-	 */
-	public double getZmin() {
-		return zmin;
-	}
-
 	public void setXmin(double xmin) {
 		this.xmin = xmin;
 	}
@@ -1699,14 +1612,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public void setYmax(double ymax) {
 		this.ymax = ymax;
-	}
-
-	public void setZmin(double zmin) {
-		this.zmin = zmin;
-	}
-
-	public void setZmax(double zmax) {
-		this.zmax = zmax;
 	}
 
 	public OptionsEuclidian getOptionPanel() {
@@ -4874,16 +4779,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 					ymaxObject.getNumber().getDouble());
 			GeoNumeric ymio = new GeoNumeric(kernel.getConstruction(),
 					yminObject.getNumber().getDouble());
-			GeoNumeric zmao = new GeoNumeric(kernel.getConstruction(),
-					zminObject.getNumber().getDouble());
-			GeoNumeric zmio = new GeoNumeric(kernel.getConstruction(),
-					zminObject.getNumber().getDouble());
 			es.setXmaxObject(xmao, false);
 			es.setXminObject(xmio, false);
 			es.setYmaxObject(ymao, false);
-			es.setYminObject(ymio, false);
-			es.setZmaxObject(zmao, false);
-			es.setZminObject(zmio, true);
+			es.setYminObject(ymio, true);
 		}
 	}
 

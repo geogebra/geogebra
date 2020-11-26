@@ -8,6 +8,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -24,6 +25,7 @@ import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.EuclidianSettings3D;
 
 /**
  * 
@@ -236,8 +238,8 @@ public class EuclidianViewCompanion {
 		view.setYminObject(evs.getYminObject());
 		view.setYmaxObject(evs.getYmaxObject());
 		if (view.isEuclidianView3D()) {
-			view.setZminObject(evs.getZminObject());
-			view.setZmaxObject(evs.getZmaxObject());
+			((EuclidianView3D)view).setZminObject(((EuclidianSettings3D) evs).getZminObject());
+			((EuclidianView3D)view).setZmaxObject(((EuclidianSettings3D) evs).getZmaxObject());
 		}
 		view.getKernel().getConstruction().setIgnoringNewTypes(false);
 		view.setBackground(evs.getBackground());
@@ -346,8 +348,12 @@ public class EuclidianViewCompanion {
 			evs.setXmaxObject(view.xmaxObject, false);
 			evs.setYminObject(view.yminObject, false);
 			evs.setYmaxObject(view.ymaxObject, false);
-			evs.setZminObject(view.zminObject, false);
-			evs.setZmaxObject(view.zmaxObject, false);
+			if (view.isEuclidianView3D()) {
+				((EuclidianSettings3D) evs)
+						.setZminObject(((EuclidianView3D) view).getZminObject(), false);
+				((EuclidianSettings3D) evs)
+						.setZmaxObject(((EuclidianView3D) view).getZmaxObject(), false);
+			}
 		} else {
 			// xmin, ... are OK; just update bounds
 			view.updateBounds(true, true);

@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -282,21 +283,23 @@ public class EuclidianOptionsModel {
 					view.getXmaxObject().getLabel(StringTemplate.editTemplate),
 					view.getYminObject().getLabel(StringTemplate.editTemplate),
 					view.getYmaxObject().getLabel(StringTemplate.editTemplate),
-					view.getZminObject().getLabel(StringTemplate.editTemplate),
-					view.getZmaxObject().getLabel(StringTemplate.editTemplate));
+					((EuclidianView3D) view).getZminObject().getLabel(StringTemplate.editTemplate),
+					((EuclidianView3D) view).getZmaxObject().getLabel(StringTemplate.editTemplate));
 		} else {
+			final EuclidianSettings settings = getSettings();
+			if (settings instanceof EuclidianSettings3D) {
+				((EuclidianSettings3D) settings).setUpdateScaleOrigin(true);
+			}
+
 			switch (type) {
 			case maxX:
-				EuclidianSettings settings = getSettings();
 				if (settings != null) {
 					settings.setXmaxObject(minMax, true);
 				} else {
 					view.setXmaxObject(minMax);
 				}
-
 				break;
 			case maxY:
-				settings = getSettings();
 				if (settings != null) {
 					settings.setYmaxObject(minMax, true);
 				} else {
@@ -305,7 +308,6 @@ public class EuclidianOptionsModel {
 
 				break;
 			case minX:
-				settings = getSettings();
 				if (settings != null) {
 					settings.setXminObject(minMax, true);
 				} else {
@@ -313,7 +315,6 @@ public class EuclidianOptionsModel {
 				}
 				break;
 			case minY:
-				settings = getSettings();
 				if (settings != null) {
 					settings.setYminObject(minMax, true);
 				} else {
@@ -321,19 +322,17 @@ public class EuclidianOptionsModel {
 				}
 				break;
 			case minZ:
-				settings = getSettings();
 				if (settings != null) {
-					settings.setZminObject(minMax, true);
+					((EuclidianSettings3D) settings).setZminObject(minMax, true);
 				} else {
-					view.setZminObject(minMax);
+					((EuclidianView3D) view).setZminObject(minMax);
 				}
 				break;
 			case maxZ:
-				settings = getSettings();
 				if (settings != null) {
-					settings.setZmaxObject(minMax, true);
+					((EuclidianSettings3D) settings).setZmaxObject(minMax, true);
 				} else {
-					view.setZmaxObject(minMax);
+					((EuclidianView3D) view).setZmaxObject(minMax);
 				}
 				break;
 			default:
@@ -573,7 +572,8 @@ public class EuclidianOptionsModel {
 
 		void enableAxesRatio(boolean value);
 
-		void setMinMaxText(String minX, String maxX, String minY, String maxY, String minZ, String maxZ);
+		void setMinMaxText(String minX, String maxX, String minY, String maxY, String minZ,
+				String maxZ);
 
 		void addGridTypeItem(String item);
 

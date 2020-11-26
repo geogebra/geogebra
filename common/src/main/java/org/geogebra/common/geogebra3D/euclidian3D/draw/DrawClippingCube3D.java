@@ -138,7 +138,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 * update the x,y,z min/max values
 	 *
 	 */
-	private void doUpdateMinMax() {
+	public void doUpdateMinMax() {
 
         EuclidianView3D view = getView3D();
 
