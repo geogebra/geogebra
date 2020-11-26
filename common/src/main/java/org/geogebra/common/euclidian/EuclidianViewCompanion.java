@@ -233,7 +233,7 @@ public class EuclidianViewCompanion {
 		EuclidianSettings evs = (EuclidianSettings) settings;
 
 		view.getKernel().getConstruction().setIgnoringNewTypes(true);
-		setMinMaxObjects(evs);
+		setMinMaxObjectsInView(evs);
 		view.getKernel().getConstruction().setIgnoringNewTypes(false);
 		view.setBackground(evs.getBackground());
 		view.setAxesColor(evs.getAxesColor());
@@ -337,16 +337,7 @@ public class EuclidianViewCompanion {
 			}
 
 			view.setCoordSystem(x0, y0, evs.getXscale(), evs.getYscale(), true);
-			evs.setXminObject(view.xminObject, false);
-			evs.setXmaxObject(view.xmaxObject, false);
-			evs.setYminObject(view.yminObject, false);
-			evs.setYmaxObject(view.ymaxObject, false);
-			if (view.isEuclidianView3D()) {
-				((EuclidianSettings3D) evs)
-						.setZminObject(((EuclidianView3D) view).getZminObject(), false);
-				((EuclidianSettings3D) evs)
-						.setZmaxObject(((EuclidianView3D) view).getZmaxObject(), false);
-			}
+			setMinMaxObjectsInSettings(evs);
 		} else {
 			// xmin, ... are OK; just update bounds
 			view.updateBounds(true, true);
@@ -362,11 +353,18 @@ public class EuclidianViewCompanion {
 				|| Double.isNaN(axisNumberingDistance.getDouble());
 	}
 
-	protected void setMinMaxObjects(EuclidianSettings evs) {
+	protected void setMinMaxObjectsInView(EuclidianSettings evs) {
 		view.setXminObject(evs.getXminObject());
 		view.setXmaxObject(evs.getXmaxObject());
 		view.setYminObject(evs.getYminObject());
 		view.setYmaxObject(evs.getYmaxObject());
+	}
+
+	protected void setMinMaxObjectsInSettings(EuclidianSettings evs) {
+		evs.setXminObject(view.xminObject, false);
+		evs.setXmaxObject(view.xmaxObject, false);
+		evs.setYminObject(view.yminObject, false);
+		evs.setYmaxObject(view.ymaxObject, false);
 	}
 
 	/**

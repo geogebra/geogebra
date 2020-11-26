@@ -362,11 +362,22 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 	}
 
 	@Override
-	protected void setMinMaxObjects(EuclidianSettings evs) {
-		super.setMinMaxObjects(evs);
+	protected void setMinMaxObjectsInView(EuclidianSettings evs) {
+		super.setMinMaxObjectsInView(evs);
 		if (evs instanceof EuclidianSettings3D) {
 			((EuclidianView3D) view).setZminObject(((EuclidianSettings3D) evs).getZminObject());
 			((EuclidianView3D) view).setZmaxObject(((EuclidianSettings3D) evs).getZmaxObject());
+		}
+	}
+
+	@Override
+	protected void setMinMaxObjectsInSettings(EuclidianSettings evs) {
+		super.setMinMaxObjectsInSettings(evs);
+		if (evs instanceof EuclidianSettings3D) {
+			((EuclidianSettings3D) evs)
+					.setZminObject(((EuclidianView3D) view).getZminObject(), false);
+			((EuclidianSettings3D) evs)
+					.setZmaxObject(((EuclidianView3D) view).getZmaxObject(), false);
 		}
 	}
 }
