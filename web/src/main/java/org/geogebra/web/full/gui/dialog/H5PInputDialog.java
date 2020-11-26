@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.dialog;
 
-import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.ComponentDialog;
@@ -72,13 +70,7 @@ public class H5PInputDialog extends ComponentDialog {
 				.getMenu("H5PDialog.UploadFile"), app);
 		selectFileBtn.setStyleName("materialOutlinedButton");
 		selectFileBtn.addStyleName("uploadFileBtn");
-		ClickStartHandler.init(selectFileBtn, new ClickStartHandler() {
-			@Override
-			public void onClickStart(final int x, final int y,
-					PointerEventType type) {
-				h5pChooser.click();
-			}
-		});
+		selectFileBtn.addFastClickHandler(source -> h5pChooser.click());
 
 		container.add(selectFileBtn);
 		addDialogContent(container);
