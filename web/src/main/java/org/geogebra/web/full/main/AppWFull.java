@@ -1927,9 +1927,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void updateAppCodeSuite(String subApp, Perspective p) {
 		if ("suite".equals(getAppletParameters().getDataParamAppName())) {
-			String appCode = getConfig().getAppCode();
-			Log.error(subApp);
-			if (!appCode.equals(subApp)) {
+			String appCode = getConfig().getSubAppCode();
+			if (appCode != null && !appCode.equals(subApp)) {
 				this.activity = new SuiteActivity(subApp);
 				updateSymbolicFlag(subApp, p);
 				setSuiteHeaderButton(subApp);

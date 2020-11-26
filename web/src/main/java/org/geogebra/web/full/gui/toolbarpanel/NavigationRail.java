@@ -1,8 +1,6 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -11,26 +9,20 @@ import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.util.GCustomButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.html5.util.PersistablePanel;
-import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
@@ -44,12 +36,6 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 	private final Image imgMenu;
 	private final FlowPanel contents;
 	private FlowPanel center;
-	/**
-	 * panel containing undo and redo
-	 */
-	PersistablePanel undoRedoPanel;
-	private MyToggleButton btnUndo;
-	private MyToggleButton btnRedo;
 	private boolean animating = false;
 	private boolean lastOrientation;
 
@@ -75,32 +61,15 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 		add(contents);
 		if (app.getAppletParameters().getDataParamShowMenuBar(false)) {
 			createMenuButton();
+			toolbarPanel.setMenuButton(focusableMenuButton);
 		}
 		imgMenu = new NoDragImage(MaterialDesignResources.INSTANCE.toolbar_menu_black(), 24);
 		createCenter();
-		maybeAddUndoRedoPanel();
 		setLabels();
 		ClickStartHandler.initDefaults(this, true, true);
 		setTabIndexes();
 		lastOrientation = app.isPortrait();
 		setStyleName("header");
-	}
-
-	private boolean maybeAddUndoRedoPanel() {
-		boolean isAllowed = app.isUndoRedoEnabled() && app.isUndoRedoPanelAllowed();
-		if (isAllowed) {
-			addUndoRedoButtons();
-		}
-		return isAllowed;
-	}
-
-	/**
-	 * Remove the undo-redo panel from the frame
-	 */
-	public void removeUndoRedoPanel() {
-		if (undoRedoPanel != null) {
-			toolbarPanel.getFrame().remove(undoRedoPanel);
-		}
 	}
 
 	private void createCenter() {
@@ -137,7 +106,7 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 	private void createAlgebraButton() {
 		btnAlgebra = new StandardButton(
 				MaterialDesignResources.INSTANCE.toolbar_algebra_graphing(),
-				"Algebra", 24,	app);
+				"Algebra", 24);
 		btnAlgebra.addStyleName("tabButton");
 		btnAlgebra.addFastClickHandler(source -> onAlgebraPressed());
 		btnAlgebra.addKeyDownHandler(this);
@@ -146,8 +115,8 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 
 	private void createToolsButton() {
 		btnTools = new StandardButton(
-						MaterialDesignResources.INSTANCE.toolbar_tools(),
-				"Tools", 24,	app);
+				MaterialDesignResources.INSTANCE.toolbar_tools(),
+				"Tools", 24);
 		btnTools.addStyleName("tabButton");
 		btnTools.addFastClickHandler(source -> onToolsPressed());
 		btnTools.addKeyDownHandler(this);
@@ -157,7 +126,7 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 	private void createTableViewButton() {
 		btnTableView = new StandardButton(
 				MaterialDesignResources.INSTANCE.toolbar_table_view_black(),
-				"Table",	24,	app);
+				"Table", 24);
 		btnTableView.addStyleName("tabButton");
 		btnTableView.addFastClickHandler(source -> onTableViewPressed());
 
@@ -219,13 +188,8 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 	private void onClose() {
 		setAnimating(true);
 		updateIcons(null, app.isExamStarted());
-		removeOrientationStyles();
-		Widget headerParent = toolbarPanel.navRail.getParent().getParent()
-				.getParent();
-		if (app.isPortrait()) {
-			headerParent.addStyleName("closePortrait");
-		} else {
-			headerParent.addStyleName("closeLandscape");
+		addCloseOrientationStyles();
+		if (!app.isPortrait()) {
 			toolbarPanel.setLastOpenWidth(getOffsetWidth());
 		}
 		toolbarPanel.setMoveMode();
@@ -233,46 +197,21 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 		app.getAccessibilityManager().focusAnchorOrMenu();
 	}
 
-	private void removeOrientationStyles() {
-		Widget headerParent = toolbarPanel.navRail.getParent().getParent()
-				.getParent();
-		headerParent.removeStyleName("closePortrait");
-		headerParent.removeStyleName("closeLandscape");
+	private void addCloseOrientationStyles() {
+		Dom.toggleClass(toolbarPanel, "closePortrait",
+				"closeLandscape", app.isPortrait());
 	}
 
-	/**
-	 * Handler for Undo button.
-	 */
-	protected void onUndoPressed() {
-		app.closeMenuHideKeyboard();
-		app.getGuiManager().undo();
-	}
-
-	/**
-	 * Handler for Redo button.
-	 */
-	protected void onRedoPressed() {
-		app.closeMenuHideKeyboard();
-		app.getAccessibilityManager().setAnchor(focusableMenuButton);
-		app.getGuiManager().redo();
-		app.getAccessibilityManager().cancelAnchor();
+	void removeCloseOrientationStyles() {
+		toolbarPanel.removeStyleName("closePortrait");
+		toolbarPanel.removeStyleName("closeLandscape");
 	}
 
 	/**
 	 * set labels
 	 */
 	void setLabels() {
-		setTitle(btnUndo, "Undo");
-		setTitle(btnRedo, "Redo");
-
 		setAltTexts();
-	}
-
-	private void setTitle(Widget btn, String avTitle) {
-		if (btn != null) {
-			btn.setTitle(app.getLocalization().getMenu(avTitle));
-			TestHarness.setAttr(btn, "btn_" + avTitle);
-		}
 	}
 
 	private void setAltTexts() {
@@ -280,19 +219,12 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 		setButtonText(btnAlgebra, app.getConfig().getAVTitle());
 		setButtonText(btnTools, "Tools");
 		setButtonText(btnTableView, "Table");
-		setAltText(btnUndo, "Undo");
-		setAltText(btnRedo, "Redo");
+
 	}
 
 	private void setButtonText(StandardButton btnTools, String key) {
 		if (btnTools != null) {
 			btnTools.setText(app.getLocalization().getMenu(key));
-		}
-	}
-
-	private void setAltText(MyToggleButton btn, String string) {
-		if (btn != null) {
-			btn.setAltText(app.getLocalization().getMenu(string));
 		}
 	}
 
@@ -355,7 +287,7 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 		return needsHeader() && GlobalHeader.isInDOM();
 	}
 
-	private boolean needsHeader() {
+	protected boolean needsHeader() {
 		return !app.getAppletFrame().shouldHideHeader();
 	}
 
@@ -368,117 +300,11 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 		});
 	}
 
-	private void addUndoRedoButtons() {
-		undoRedoPanel = new PersistablePanel();
-		undoRedoPanel.addStyleName("undoRedoPanel");
-		addUndoButton(undoRedoPanel);
-		addRedoButton(undoRedoPanel);
-		toolbarPanel.getFrame().add(undoRedoPanel);
-	}
-
-	/**
-	 * update position of undo+redo panel
-	 */
-	public void updateUndoRedoPosition() {
-		final EuclidianView ev = app.getActiveEuclidianView();
-		if (ev != null && undoRedoPanel != null) {
-			double evTop = (ev.getAbsoluteTop() - (int) app.getAbsTop())
-					/ app.getGeoGebraElement().getScaleY();
-			double evLeft = (ev.getAbsoluteLeft() - (int) app.getAbsLeft())
-					/ app.getGeoGebraElement().getScaleX();
-			if ((evLeft <= 0) && !app.isPortrait()) {
-				return;
-			}
-			int move = app.isPortrait() && app.showMenuBar() && !needsHeader() ? 48 : 0;
-			undoRedoPanel.getElement().getStyle().setTop(evTop, Unit.PX);
-			undoRedoPanel.getElement().getStyle().setLeft(evLeft + move,
-					Unit.PX);
-		}
-	}
-
-	/**
-	 * Show the undo/redo panel.
-	 */
-	public void showUndoRedoPanel() {
-		if (undoRedoPanel != null) {
-			undoRedoPanel.removeStyleName("hidden");
-		}
-	}
-
 	/**
 	 * Hide the entire undo/redo panel (eg. during animation).
 	 */
 	public void hideUndoRedoPanel() {
-		if (undoRedoPanel != null) {
-			undoRedoPanel.addStyleName("hidden");
-		}
-	}
-
-	/**
-	 * update style of undo+redo buttons
-	 */
-	public void updateUndoRedoActions() {
-		if (undoRedoPanel == null) {
-			boolean panelAdded = maybeAddUndoRedoPanel();
-			if (!panelAdded) {
-				return;
-			}
-		}
-		Dom.toggleClass(btnUndo, "buttonActive", "buttonInactive",
-				app.getKernel().undoPossible());
-
-		if (app.getKernel().redoPossible()) {
-			btnRedo.removeStyleName("hideButton");
-		} else {
-			if (!btnRedo.getElement().hasClassName("hideButton")) {
-				app.getAccessibilityManager().focusAnchor();
-			}
-			btnRedo.addStyleName("hideButton");
-		}
-	}
-
-	private void addUndoButton(final FlowPanel panel) {
-		btnUndo = new MyToggleButton(
-				new NoDragImage(MaterialDesignResources.INSTANCE.undo_border(),
-						24),
-				app);
-		btnUndo.setTitle(app.getLocalization().getMenu("Undo"));
-		btnUndo.addStyleName("flatButton");
-		btnUndo.addStyleName("undo");
-
-		ClickStartHandler.init(btnUndo, new ClickStartHandler(true, true) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				onUndoPressed();
-			}
-		});
-
-		btnUndo.addKeyDownHandler(this);
-
-		panel.add(btnUndo);
-	}
-
-	private void addRedoButton(final FlowPanel panel) {
-		btnRedo = new MyToggleButton(
-				new NoDragImage(MaterialDesignResources.INSTANCE.redo_border(),
-						24),
-				app);
-		btnRedo.setTitle(app.getLocalization().getMenu("Redo"));
-		btnRedo.addStyleName("flatButton");
-		btnRedo.addStyleName("buttonActive");
-		btnRedo.addStyleName("redo");
-
-		ClickStartHandler.init(btnRedo, new ClickStartHandler(true, true) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				onRedoPressed();
-			}
-		});
-
-		btnRedo.addKeyDownHandler(this);
-		panel.add(btnRedo);
+		toolbarPanel.hideUndoRedoPanel();
 	}
 
 	/**
@@ -519,12 +345,13 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 		} else {
 			removeOpenStyles();
 			addStyleName("header-close-" + orientation);
+			addCloseOrientationStyles();
 		}
 
 		updateMenuButtonStyle();
 
-		updateUndoRedoPosition();
-		updateUndoRedoActions();
+		toolbarPanel.updateUndoRedoPosition();
+		toolbarPanel.updateUndoRedoActions();
 		toolbarPanel.updateStyle();
 	}
 
@@ -568,7 +395,7 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 	 */
 	public void reset() {
 		resize();
-		updateUndoRedoPosition();
+		toolbarPanel.updateUndoRedoPosition();
 	}
 
 	/**
@@ -615,19 +442,13 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 	 * Sets tab order for header buttons.
 	 */
 	public void setTabIndexes() {
-		tabIndex(btnMenu, AccessibilityGroup.MENU);
+		if (btnMenu != null) {
+			new FocusableWidget(AccessibilityGroup.MENU, null, btnMenu).attachTo(app);
+		}
 		if (focusableMenuButton != null) {
 			focusableMenuButton.attachTo(app);
 		}
-		tabIndex(btnUndo, AccessibilityGroup.UNDO);
-		tabIndex(btnRedo, AccessibilityGroup.REDO);
 		setAltTexts();
-	}
-
-	private void tabIndex(GCustomButton btn, AccessibilityGroup group) {
-		if (btn != null) {
-			new FocusableWidget(group, null, btn).attachTo(app);
-		}
 	}
 
 	@Override
@@ -644,10 +465,6 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 			onAlgebraPressed();
 		} else if (source == btnTools) {
 			onToolsPressed();
-		} else if (source == btnUndo) {
-			onUndoPressed();
-		} else if (source == btnRedo) {
-			onRedoPressed();
 		}
 	}
 
@@ -671,8 +488,8 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 		toolbarPanel.onResize();
 
 		Scheduler.get().scheduleDeferred(() -> {
-			showUndoRedoPanel();
-			updateUndoRedoPosition();
+			toolbarPanel.showUndoRedoPanel();
+			toolbarPanel.updateUndoRedoPosition();
 			resize();
 		});
 	}

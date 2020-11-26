@@ -25,10 +25,10 @@ import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
-import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -1594,9 +1594,8 @@ public class DockManagerW extends DockManager {
 		calculateKeyboardHeight();
 		ExtendedBoolean old = portrait;
 		portrait = ExtendedBoolean.newExtendedBoolean(app.isPortrait());
-		// ExtendedBoolean
-		// .newExtendedBoolean(app.getWidth() < app.getHeight());
-		if (force || old != portrait) {
+		boolean orientationChanged = old != portrait;
+		if (force || orientationChanged) {
 			// run only if oreintation has changed;
 			final double landscape = PerspectiveDecoder.landscapeRatio(app,
 					app.getWidth());
@@ -1605,7 +1604,7 @@ public class DockManagerW extends DockManager {
 
 				@Override
 				public void execute() {
-					adjustViews(landscape);
+					adjustViews(landscape, orientationChanged);
 				}
 			});
 		}
@@ -1615,7 +1614,7 @@ public class DockManagerW extends DockManager {
 	 * @param landscapeRatio
 	 *            preferred landscape ratio
 	 */
-	protected void adjustViews(double landscapeRatio) {
+	protected void adjustViews(double landscapeRatio, boolean orientationChanged) {
 		DockPanelW avPanel = getPanel(App.VIEW_ALGEBRA);
 		if (avPanel == null) {
 			return;
@@ -1632,15 +1631,13 @@ public class DockManagerW extends DockManager {
 			return;
 		}
 
-		AlgebraViewW av = ((AlgebraViewW) app.getAlgebraView());
-		double avHeight = Math.max(av.getInputTreeItem().getOffsetHeight(),
-				120);
+		double avHeight = getMinHeight(avPanel, orientationChanged);
 		double appHeight = app.getHeight();
 		ToolbarPanel toolbar = null;
 		double visibleKB = kbHeight;
 		if (app.isUnbundled()) {
 			toolbar = ((ToolbarDockPanelW) avPanel).getToolbar();
-			avHeight = toolbar.isOpen() ? toolbar.getMinVHeight()
+			avHeight = toolbar.isOpen() ? avHeight
 					: ToolbarPanel.CLOSED_HEIGHT_PORTRAIT;
 			if (!app.getAppletFrame().isKeyboardShowing()) {
 				visibleKB = 0;
@@ -1695,6 +1692,18 @@ public class DockManagerW extends DockManager {
 		}
 	}
 
+	private double getMinHeight(DockPanelW toolbar, boolean orientationChanged) {
+		double minHeight = toolbar.getMinVHeight(app.getAppletFrame().isKeyboardShowing());
+		KeyboardManagerInterface keyboardManager = app.getKeyboardManager();
+		if (!orientationChanged || keyboardManager == null) {
+			return minHeight;
+		}
+		int draggerOffset = app.isUnbundled() ? 16 : 0;
+		return Math.max(minHeight,
+				toolbar.getOffsetHeight()
+						- keyboardManager.estimateHiddenKeyboardHeight() + draggerOffset);
+	}
+
 	/**
 	 * Resize probability calculator view; can't be done by CSS because of canvas
 	 */
@@ -1746,8 +1755,7 @@ public class DockManagerW extends DockManager {
 
 		double height = app.getAppletFrame().computeHeight();
 		setDividerLocationAbs(split,
-				(int) height - ToolbarPanel.CLOSED_HEIGHT_PORTRAIT
-						- ToolbarPanel.VSHADOW_OFFSET);
+				(int) height - ToolbarPanel.CLOSED_HEIGHT_PORTRAIT);
 	}
 
 	private void calculateKeyboardHeight() {

@@ -1,8 +1,10 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
@@ -31,11 +33,13 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.layout.client.Layout.AnimationCallback;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -43,13 +47,14 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import elemental2.dom.EventListener;
+
 /**
  * @author Laszlo Gal
  */
 public class ToolbarPanel extends FlowPanel
 		implements MyModeChangedListener, SideBarAccessibilityAdapter {
-	/** vertical offset for shadow */
-	public static final int VSHADOW_OFFSET = 4;
+
 	/** Closed width of header in landscape mode */
 	public static final int CLOSED_WIDTH_LANDSCAPE = 72;
 	public static final int CLOSED_WIDTH_LANDSCAPE_COMPACT = 56;
@@ -57,8 +62,6 @@ public class ToolbarPanel extends FlowPanel
 	public static final int OPEN_MIN_WIDTH_LANDSCAPE = 160;
 	/** Closed height of header in portrait mode */
 	public static final int CLOSED_HEIGHT_PORTRAIT = 56;
-	private static final int MIN_ROWS_WITHOUT_KEYBOARD = 5;
-	private static final int MIN_ROWS_WITH_KEYBOARD = 3;
 	private static final int HDRAGGER_WIDTH = 8;
 	private static final int OPEN_ANIM_TIME = 200;
 	/** Header of the panel with buttons and tabs */
@@ -70,11 +73,12 @@ public class ToolbarPanel extends FlowPanel
 	private StandardButton moveBtn;
 	private Integer lastOpenWidth;
 	private AlgebraTab tabAlgebra;
-	private TableTab tabTable;
-	private ToolsTab tabTools;
+	private @CheckForNull TableTab tabTable;
+	private @CheckForNull ToolsTab tabTools;
 	private ShowableTab tabContainer;
 	private boolean isOpen;
 	private final ScheduledCommand deferredOnRes = this::resize;
+	private UndoRedoPanel undoRedoPanel;
 
 	/**
 	 * @param app application
@@ -95,7 +99,9 @@ public class ToolbarPanel extends FlowPanel
 	 * this.
 	 */
 	public void setMoveMode() {
-		tabTools.setMoveMode();
+		if (tabTools != null) {
+			tabTools.setMoveMode();
+		}
 	}
 
 	/**
@@ -103,7 +109,9 @@ public class ToolbarPanel extends FlowPanel
 	 * @param mode the mode will be selected
 	 */
 	public void setMode(int mode) {
-		tabTools.setMode(mode);
+		if (tabTools != null) {
+			tabTools.setMode(mode);
+		}
 	}
 
 	/**
@@ -111,14 +119,66 @@ public class ToolbarPanel extends FlowPanel
 	 * or inactive
 	 */
 	public void updateUndoRedoActions() {
-		navRail.updateUndoRedoActions();
+		if (undoRedoPanel == null) {
+			boolean panelAdded = maybeAddUndoRedoPanel();
+			if (!panelAdded) {
+				return;
+			}
+		}
+		undoRedoPanel.updateUndoActions();
 	}
 
 	/**
-	 * Updates the position of undo and redo buttons
+	 * update position of undo+redo panel
 	 */
 	public void updateUndoRedoPosition() {
-		navRail.updateUndoRedoPosition();
+		final EuclidianView ev = app.getActiveEuclidianView();
+		if (ev != null && undoRedoPanel != null) {
+			double evTop = (ev.getAbsoluteTop() - (int) app.getAbsTop())
+					/ app.getGeoGebraElement().getScaleY();
+			double evLeft = (ev.getAbsoluteLeft() - (int) app.getAbsLeft())
+					/ app.getGeoGebraElement().getScaleX();
+			if ((evLeft <= 0) && !app.isPortrait()) {
+				return;
+			}
+			int move = app.isPortrait() && app.showMenuBar() && !navRail.needsHeader() ? 48 : 0;
+			undoRedoPanel.getElement().getStyle().setTop(evTop, Style.Unit.PX);
+			undoRedoPanel.getElement().getStyle().setLeft(evLeft + move,
+					Style.Unit.PX);
+		}
+	}
+
+	/**
+	 * Show the undo/redo panel.
+	 */
+	public void showUndoRedoPanel() {
+		if (undoRedoPanel != null) {
+			undoRedoPanel.removeStyleName("hidden");
+		}
+	}
+
+	/**
+	 * Hide the entire undo/redo panel (eg. during animation).
+	 */
+	public void hideUndoRedoPanel() {
+		if (undoRedoPanel != null) {
+			undoRedoPanel.addStyleName("hidden");
+		}
+	}
+
+	private boolean maybeAddUndoRedoPanel() {
+		boolean isAllowed = app.isUndoRedoEnabled() && app.isUndoRedoPanelAllowed();
+		if (isAllowed) {
+			addUndoRedoButtons();
+		}
+		return isAllowed;
+	}
+
+	private void addUndoRedoButtons() {
+		if (undoRedoPanel == null) {
+			undoRedoPanel = new UndoRedoPanel(app);
+		}
+		getFrame().add(undoRedoPanel);
 	}
 
 	/**
@@ -136,8 +196,8 @@ public class ToolbarPanel extends FlowPanel
 		}
 	}
 
-	private void add(ToolbarTab tab) {
-		tab.addStyleName("tab");
+	private void addTab(ToolbarTab tab, boolean active) {
+		tab.addStyleName(active ? "tab" : "tab-hidden");
 		main.add(tab);
 	}
 
@@ -182,11 +242,9 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	public void initGUI() {
 		clear();
-		if (navRail != null) {
-			navRail.removeUndoRedoPanel();
-		}
 
 		addStyleName("toolbar");
+		maybeAddUndoRedoPanel();
 		navRail = new NavigationRail(this);
 		if (app.showToolBar()) {
 			add(navRail);
@@ -195,20 +253,34 @@ public class ToolbarPanel extends FlowPanel
 		sinkEvents(Event.ONCLICK);
 		main.addStyleName("main");
 		tabAlgebra = new AlgebraTab(this);
-		tabTools = new ToolsTab(this);
 		tabContainer = new TabContainer(this);
 
-		add(tabAlgebra);
-		add(tabTools);
-		if (app.getConfig().hasTableView()) {
+		addTab(tabAlgebra, true);
+		if (isToolsTabExpected()) {
+			tabTools = new ToolsTab(this);
+			addTab(tabTools, false);
+		} else {
+			tabTools = null;
+		}
+		if (isTableTabExpected()) {
 			tabTable = new TableTab(this);
-			add(tabTable);
+			addTab(tabTable, false);
+		} else {
+			tabTable = null;
 		}
 		addMoveBtn();
 		add(main);
 		ClickStartHandler.initDefaults(main, false, true);
 		hideDragger();
 		doOpen();
+	}
+
+	private boolean isToolsTabExpected() {
+		return app.getConfig().showToolsPanel() && app.showToolBar();
+	}
+
+	private boolean isTableTabExpected() {
+		return app.getConfig().hasTableView() && app.showToolBar();
 	}
 
 	@Override
@@ -270,7 +342,9 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	protected void moveBtnClicked() {
 		setMoveMode();
-		tabTools.showTooltip(EuclidianConstants.MODE_MOVE);
+		if (tabTools != null) {
+			tabTools.showTooltip(EuclidianConstants.MODE_MOVE);
+		}
 	}
 
 	private void hideDragger() {
@@ -279,7 +353,7 @@ public class ToolbarPanel extends FlowPanel
 				? dockPanel.getParentSplitPane() : null;
 		if (dockParent != null) {
 			final Widget opposite = dockParent.getOpposite(dockPanel);
-			dockParent.addStyleName("hide-Dragger");
+			updateDraggerStyle();
 			if (opposite != null) {
 				Dom.toggleClass(opposite, "hiddenHDraggerRightPanel", dockParent
 						.getOrientation() == SwingConstants.HORIZONTAL_SPLIT);
@@ -292,7 +366,7 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	private void doOpen() {
 		isOpen = true;
-		updateDraggerStyle(true);
+		updateDraggerStyle();
 		updateSizes();
 		updateKeyboardVisibility();
 		updatePanelVisibility(isOpen);
@@ -306,23 +380,19 @@ public class ToolbarPanel extends FlowPanel
 			return;
 		}
 		isOpen = false;
-		updateDraggerStyle(false);
+		updateDraggerStyle();
 		updateSizes();
 		updateKeyboardVisibility();
 		dispatchEvent(EventType.SIDE_PANEL_CLOSED);
 		updatePanelVisibility(isOpen);
 	}
 
-	private void updateDraggerStyle(boolean close) {
+	private void updateDraggerStyle() {
 		DockSplitPaneW dockParent = getDockParent();
 		if (dockParent != null) {
-			if (app.isPortrait() && !close) {
-				dockParent.removeStyleName("hide-Dragger");
-				dockParent.addStyleName("moveUpDragger");
-			} else {
-				dockParent.removeStyleName("moveUpDragger");
-				dockParent.addStyleName("hide-Dragger");
-			}
+			dockParent.setStyleName("matDragger", isOpen);
+			dockParent.setStyleName("moveUpDragger", !isOpen && app.isPortrait());
+			dockParent.setStyleName("hideDragger", !isOpen && !app.isPortrait());
 		}
 	}
 
@@ -365,9 +435,10 @@ public class ToolbarPanel extends FlowPanel
 		if (dockParent != null) {
 			final Widget opposite = dockParent.getOpposite(dockPanel);
 			AnimationCallback animCallback = null;
-			dockParent.addStyleName("hide-Dragger");
+			updateDraggerStyle();
 			opposite.addStyleName("hiddenHDraggerRightPanel");
 			if (isOpen()) {
+				navRail.removeCloseOrientationStyles();
 				if (lastOpenWidth != null) {
 					updateWidthForOpening(dockPanel, dockParent);
 					animCallback = new LandscapeAnimationCallback(navRail);
@@ -439,8 +510,7 @@ public class ToolbarPanel extends FlowPanel
 	private void updateHeightForClosing(DockSplitPaneW dockParent, Widget evPanel) {
 		dockParent.setWidgetSize(evPanel,
 				app.getHeight() - navRail.getOffsetHeight()
-						- app.getAppletParameters().getBorderThickness()
-						- VSHADOW_OFFSET);
+						- app.getAppletParameters().getBorderThickness());
 		dockParent.addStyleName("hide-VDragger");
 	}
 
@@ -585,7 +655,9 @@ public class ToolbarPanel extends FlowPanel
 		setFadeTabs(fade);
 		app.invokeLater(() -> {
 			tabAlgebra.setActive(tab == TabIds.ALGEBRA);
-			tabTools.setActive(tab == TabIds.TOOLS);
+			if (tabTools != null) {
+				tabTools.setActive(tab == TabIds.TOOLS);
+			}
 			if (tabTable != null) {
 				tabTable.setActive(tab == TabIds.TABLE);
 			}
@@ -602,7 +674,9 @@ public class ToolbarPanel extends FlowPanel
 			openAlgebra(fade);
 			return;
 		}
-		tabTools.setVisible(true);
+		if (tabTools != null) {
+			tabTools.setVisible(true);
+		}
 		ToolTipManagerW.hideAllToolTips();
 
 		switchTab(TabIds.TOOLS, fade);
@@ -625,7 +699,9 @@ public class ToolbarPanel extends FlowPanel
 		}
 
 		switchTab(TabIds.TABLE, fade);
-		tabTable.scrollTo(geo);
+		if (tabTable != null) {
+			tabTable.scrollTo(geo);
+		}
 		dispatchEvent(EventType.TABLE_PANEL_SELECTED);
 	}
 
@@ -633,7 +709,7 @@ public class ToolbarPanel extends FlowPanel
 	 * This getter is public only for testing.
 	 * @return tool tab
 	 */
-	public ToolsTab getToolsTab() {
+	public @CheckForNull ToolsTab getToolsTab() {
 		return tabTools;
 	}
 
@@ -740,15 +816,6 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	/**
-	 * @return The height that AV should have minimally in portrait mode.
-	 */
-	public double getMinVHeight() {
-		int rows = getFrame().isKeyboardShowing() ? MIN_ROWS_WITH_KEYBOARD
-				: MIN_ROWS_WITHOUT_KEYBOARD;
-		return rows * CLOSED_HEIGHT_PORTRAIT;
-	}
-
-	/**
 	 * Saves the scroll position of algebra view
 	 */
 	public void saveAVScrollPosition() {
@@ -850,7 +917,10 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	public void setLabels() {
 		navRail.setLabels();
-		if (!getToolsTab().isCustomToolbar) {
+		if (undoRedoPanel != null) {
+			undoRedoPanel.setLabels();
+		}
+		if (tabTools != null && !tabTools.isCustomToolbar) {
 			tabTools.toolsPanel.setLabels();
 			tabTools.moreBtn
 					.setText(app.getLocalization().getMenu("Tools.More"));
@@ -885,6 +955,9 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	public void setTabIndexes() {
 		navRail.setTabIndexes();
+		if (undoRedoPanel != null) {
+			undoRedoPanel.setTabIndexes();
+		}
 	}
 
 	/**
@@ -893,7 +966,9 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	private void setFadeTabs(boolean fade) {
 		tabAlgebra.setFade(fade);
-		tabTools.setFade(fade);
+		if (tabTools != null) {
+			tabTools.setFade(fade);
+		}
 		if (tabTable != null) {
 			tabTable.setFade(fade);
 		}
@@ -917,7 +992,10 @@ public class ToolbarPanel extends FlowPanel
 	 * Update toolbar content
 	 */
 	public void updateContent() {
-		getToolsTab().updateContent();
+		ToolsTab toolsTab = getToolsTab();
+		if (toolsTab != null) {
+			toolsTab.updateContent();
+		}
 	}
 
 	/**
@@ -986,6 +1064,12 @@ public class ToolbarPanel extends FlowPanel
 				? CLOSED_WIDTH_LANDSCAPE_COMPACT : CLOSED_WIDTH_LANDSCAPE;
 	}
 
+	protected void setMenuButton(FocusableWidget focusableMenuButton) {
+		if (undoRedoPanel != null) {
+			undoRedoPanel.redoAnchor = focusableMenuButton;
+		}
+	}
+
 	/**
 	 * Base class for Toolbar Tabs-
 	 * @author Laszlo
@@ -996,9 +1080,9 @@ public class ToolbarPanel extends FlowPanel
 			setSize("100%", "100%");
 			setAlwaysShowScrollBars(false);
 
-			Dom.addEventListener(this.getElement(), "transitionend", evt -> {
-				parent.setFadeTabs(false);
-			});
+			EventListener onTransitionEnd = evt -> parent.setFadeTabs(false);
+			Dom.addEventListener(this.getElement(), "transitionend",
+					onTransitionEnd);
 		}
 
 		@Override

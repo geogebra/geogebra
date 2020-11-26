@@ -516,6 +516,13 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	/**
+	 * @return The height that AV should have minimally in portrait mode.
+	 */
+	public double getMinVHeight(boolean keyboardShowing) {
+		return 0;
+	}
+
+	/**
 	 * extends DockLayoutPanel to expose getCenterHeight() and getCenterWidth()
 	 * TODO: move some code above into this class, e.g. setLayout(), or possibly
 	 * extend DockPanelW itself
@@ -527,6 +534,11 @@ public abstract class DockPanelW extends ResizeComposite
 		public MyDockLayoutPanel() {
 			super(Style.Unit.PX);
 			addStyleName("ggbdockpanelhack");
+			addAttachHandler(evt -> {
+				if (evt.isAttached()) {
+					getElement().getParentElement().addClassName("dockPanelParent");
+				}
+			});
 		}
 
 		@Override

@@ -55,7 +55,8 @@ public class SplitterImplTouch extends SplitterImpl {
 
 	@Override
 	public void setToHorizontal(int splitterSize) {
-		mainDivElement.addClassName("gwt-SplitLayoutPanel-HDragger");
+		baseDivElement.removeClassName("splitPaneDragger");
+		mainDivElement.addClassName("gwt-SplitLayoutPanel-HDragger splitPaneDragger");
 		Style mainDivStyle = mainDivElement.getStyle();
 		mainDivStyle.setPropertyPx("width", splitterSize);
 		mainDivStyle.setProperty("height", "100%");
@@ -72,7 +73,8 @@ public class SplitterImplTouch extends SplitterImpl {
 
 	@Override
 	public void setToVertical(int splitterSize) {
-		mainDivElement.addClassName("gwt-SplitLayoutPanel-VDragger");
+		baseDivElement.removeClassName("splitPaneDragger");
+		mainDivElement.addClassName("gwt-SplitLayoutPanel-VDragger splitPaneDragger");
 		Style mainDivStyle = mainDivElement.getStyle();
 		mainDivStyle.setPropertyPx("height", splitterSize);
 		mainDivStyle.setProperty("width", "100%");

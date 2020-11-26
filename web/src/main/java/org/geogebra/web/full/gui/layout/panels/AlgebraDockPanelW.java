@@ -269,4 +269,9 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	public void resizeContent(Panel content) {
 		// no resize here, size is in %
 	}
+
+	@Override
+	public double getMinVHeight(boolean keyboard) {
+		return Math.max(aview.getInputTreeItem().getOffsetHeight(),	120);
+	}
 }

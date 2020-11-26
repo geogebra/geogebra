@@ -72,7 +72,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	 *            application
 	 */
 	public DockSplitPaneW(int newOrientation, AppW app) {
-		super(app.getGeoGebraElement());
+		super(app.isUnbundled() ? 16 : 8, app.getGeoGebraElement());
 		this.app = app;
 		setOrientation(newOrientation);
 		setResizeWeight(0.5);
@@ -81,6 +81,9 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		dividerLocation = 100;
 		if (hasSplittersFrozen()) {
 			addStyleName("splitterFixed");
+		}
+		if (!app.isUnbundled()) {
+			addStyleName("highlightDraggers");
 		}
 	}
 

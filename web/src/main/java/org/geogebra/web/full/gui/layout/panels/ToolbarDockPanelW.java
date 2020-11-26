@@ -19,6 +19,8 @@ public class ToolbarDockPanelW extends DockPanelW
 
 	private ToolbarPanel toolbar;
 	private DockPanelData.TabIds tabId;
+	private static final int MIN_ROWS_WITHOUT_KEYBOARD = 5;
+	private static final int MIN_ROWS_WITH_KEYBOARD = 3;
 
 	/**
 	 * New panel with AV and tools
@@ -167,5 +169,12 @@ public class ToolbarDockPanelW extends DockPanelW
 	@Override
 	public int getNavigationRailWidth() {
 		return toolbar.getNavigationRailWidth();
+	}
+
+	@Override
+	public double getMinVHeight(boolean keyboard) {
+		int rows = keyboard ? MIN_ROWS_WITH_KEYBOARD
+				: MIN_ROWS_WITHOUT_KEYBOARD;
+		return rows * ToolbarPanel.CLOSED_HEIGHT_PORTRAIT;
 	}
 }

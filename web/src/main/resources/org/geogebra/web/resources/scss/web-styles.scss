@@ -578,7 +578,6 @@
 		border-left: 1px solid #DCDCDC;
 		border-right: 1px solid #DCDCDC;
 		box-sizing: border-box;
-		box-shadow: 0 0 2px rgba(204, 204, 204, 0.5);
 	}
 
 	.splitterFixed {
@@ -588,7 +587,7 @@
 	}
 
 	.gwt-SplitLayoutPanel-VDragger {
-		cursor: row-resize;
+		cursor: ns-resize;
 		background: #F8F8F8;
 		border-top: 1px solid #DCDCDC;
 		border-bottom: 1px solid #DCDCDC;
@@ -596,30 +595,29 @@
 		box-shadow: 0 0 2px rgba(204, 204, 204, 0.5);
 	}
 
-	.gwt-SplitLayoutPanel-HDragger:ACTIVE {
-		background: #6161FF;
-		border-left: 1px solid #C6C6C6;
-		border-right: 1px solid #C6C6C6;
-	}
+	.highlightDraggers {
+		.gwt-SplitLayoutPanel-HDragger:active, .gwt-SplitLayoutPanel-Dragger-ACTIVE {
+			background: #6161FF;
+			border-left: 1px solid #C6C6C6;
+			border-right: 1px solid #C6C6C6;
+		}
 
-	.gwt-SplitLayoutPanel-HDragger.disabled:ACTIVE {
-		background: #F8F8F8;
-		border-left: 1px solid #DCDCDC;
-		border-right: 1px solid #DCDCDC;
-	}
+		.gwt-SplitLayoutPanel-HDragger.disabled:active {
+			background: #F8F8F8;
+			border-left: 1px solid #DCDCDC;
+			border-right: 1px solid #DCDCDC;
+		}
 
-	.gwt-SplitLayoutPanel-VDragger:ACTIVE {
-		background: #6161FF;
-		border-top: 1px solid #C6C6C6;
-		border-bottom: 1px solid #C6C6C6;
+		.gwt-SplitLayoutPanel-VDragger:active {
+			background: #6161FF;
+			border-top: 1px solid #C6C6C6;
+			border-bottom: 1px solid #C6C6C6;
+		}
 	}
 
 	/* Selector used for android chrome */
 
 	.gwt-SplitLayoutPanel-Dragger-ACTIVE {
-		background: #6161FF;
-		border-left: 1px solid #C6C6C6;
-		border-right: 1px solid #C6C6C6;
 		border-top: 1px solid #C6C6C6;
 		border-bottom: 1px solid #C6C6C6;
 	}
@@ -681,14 +679,6 @@
 
 	.cursor_drag {
 		cursor: pointer;
-	}
-
-	.cursor_resizeXAxis {
-		cursor: e-resize;
-	}
-
-	.cursor_resizeYAxis {
-		cursor: n-resize;
 	}
 
 	.cursor_resizeNESW {
