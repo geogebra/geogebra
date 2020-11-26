@@ -99,7 +99,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 * @param updateScaleOrigin
 	 *            flag to determine if origin and scale have to be updated
 	 */
-	public void setUpdateScaleOrigin(boolean updateScaleOrigin){
+	public void setUpdateScaleOrigin(boolean updateScaleOrigin) {
 		this.updateScaleOrigin = updateScaleOrigin;
 	}
 
@@ -173,7 +173,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		this.zscale = scale;
 		updateScaleHelpers();
 	}
-
 
 	/**
 	 * @return the yminObject

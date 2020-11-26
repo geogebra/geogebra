@@ -729,6 +729,20 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		dimField[3].setText(maxY);
 	}
 
+	/**
+	 * @param minX
+	 *            min x
+	 * @param maxX
+	 *            max x
+	 * @param minY
+	 *            min y
+	 * @param maxY
+	 *            max y
+	 * @param minZ
+	 *            min z
+	 * @param maxZ
+	 *            max z
+	 */
 	public void setMinMaxText(String minX, String maxX, String minY,
 			String maxY, String minZ, String maxZ) {
 		dimField[0].setText(minX);

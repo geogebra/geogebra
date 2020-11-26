@@ -321,7 +321,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	protected NumberValue zminObject;
 	/** possibly dynamic z max */
 	protected NumberValue zmaxObject;
-	private double zscale;
 
 	/**
 	 * common constructor
@@ -1339,10 +1338,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	public double getZscale() {
 		return getSettings().getZscale();
-	}
-
-	protected void setZscale(double zscale) {
-		this.zscale = zscale;
 	}
 
 	@Override
@@ -3530,9 +3525,6 @@ public abstract class EuclidianView3D extends EuclidianView
 					zscale = (bottom) / (zmin2 + zZero) + rv * (top - bottom) / (zmin2 + zZero);
 				}
 
-				setXscale(xscale);
-				setYscale(yscale);
-				setZscale(zscale);
 				if (updateSettings && getSettings() != null) {
 					getSettings()
 							.setCoordSystem(xZero, yZero, zZero, xscale, yscale, zscale, false);
@@ -5302,9 +5294,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		this.xZero = xzero;
 		this.yZero = yzero;
 		this.zZero = zzero;
-		this.setXscale(xscale);
-		this.setYscale(yscale);
-		this.setZscale(zscale);
 		EuclidianSettings3D settings = getSettings();
 		settings.setXscaleValue(xscale);
 		settings.setYscaleValue(yscale);

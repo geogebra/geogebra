@@ -882,10 +882,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	@Override
 	public void enableAxesRatio(boolean value) {
 		basicTab.enableAxesRatio(value);
-	}		
+	}
 
 	@Override
-	public void setMinMaxText(String minX, String maxX, String minY, String maxY, String minZ, String maxZ) {
+	public void setMinMaxText(String minX, String maxX, String minY, String maxY, String minZ,
+			String maxZ) {
 		basicTab.setMinMaxText(minX, maxX, minY, maxY, minZ, maxZ);
 	}
 

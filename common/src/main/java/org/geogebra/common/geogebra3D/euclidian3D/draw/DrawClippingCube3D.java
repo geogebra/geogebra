@@ -125,6 +125,10 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		return frustumInteriorRadius;
 	}
 
+	/**
+	 * @param minmax
+	 *            min/max values for bounds
+	 */
 	public void setXYZMinMax(double[][] minmax) {
 		minMax[0][0] = minmax[0][0];
 		minMax[0][1] = minmax[0][1];
@@ -246,7 +250,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         getView3D().updateBounds();
     }
 
-    public void standsOnFloorIfAR(double[][] mm) {
+    private void standsOnFloorIfAR(double[][] mm) {
         EuclidianView3D view = getView3D();
         if (view.isAREnabled()) {
 			mm[Z][MIN] = view.getARMinZ();
@@ -414,7 +418,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		return changed;
 	}
 
-	public void setVertices() {
+	private void setVertices() {
 		for (int x = 0; x < 2; x++) {
 			for (int y = 0; y < 2; y++) {
 				for (int z = 0; z < 2; z++) {

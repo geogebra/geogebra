@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 
 /**
@@ -360,4 +361,12 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		return view3D.isCursor3DVisible();
 	}
 
+	@Override
+	protected void setMinMaxObjects(EuclidianSettings evs) {
+		super.setMinMaxObjects(evs);
+		if (evs instanceof EuclidianSettings3D) {
+			((EuclidianView3D) view).setZminObject(((EuclidianSettings3D) evs).getZminObject());
+			((EuclidianView3D) view).setZmaxObject(((EuclidianSettings3D) evs).getZmaxObject());
+		}
+	}
 }
