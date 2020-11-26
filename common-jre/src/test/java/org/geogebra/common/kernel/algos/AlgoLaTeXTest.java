@@ -27,6 +27,7 @@ public class AlgoLaTeXTest extends BaseUnitTest {
 		GeoElement formulaText = addAvInput("FormulaText(u,false,false)");
 		assertThat(
 				AlgebraItem.getLatexString(formulaText, 1500, true),
-				equalTo("text1 \\, = \\,“\\left( \\begin{align}1 \\\\ 1 \\\\ \\end{align} \\right)”"));
+				equalTo("text1 \\, = \\,"
+						+ "“\\left( \\begin{align}1 \\\\ 1 \\\\ \\end{align} \\right)”"));
 	}
 }
