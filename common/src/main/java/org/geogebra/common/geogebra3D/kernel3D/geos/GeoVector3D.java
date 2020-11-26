@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -185,6 +184,7 @@ public class GeoVector3D extends GeoVec4D
 		} else if (geo.isGeoVector()) {
 			GeoVectorND vec = (GeoVectorND) geo;
 			setCoords(vec.getCoordsInD3().get());
+			reuseDefinition(geo);
 
 			// don't set start point for macro output
 			// see AlgoMacro.initRay()
@@ -844,11 +844,5 @@ public class GeoVector3D extends GeoVec4D
 			converter = new VectorToMatrix(kernel);
 		}
 		return converter;
-	}
-
-	@Override
-	public boolean isColumnEditable() {
-		return isIndependent()
-				|| getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode;
 	}
 }

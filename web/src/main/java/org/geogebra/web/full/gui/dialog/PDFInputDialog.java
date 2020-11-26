@@ -18,6 +18,7 @@ import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.resources.client.ImageResource;
@@ -117,8 +118,7 @@ public class PDFInputDialog extends ComponentDialog
 		pdfContainerPanel.add(imgTextPanel);
 	}
 
-	private void addDropHandler(
-			com.google.gwt.dom.client.Element element) {
+	private void addDropHandler(Element element) {
 		elemental2.dom.Element el = Js.uncheckedCast(element);
 		el.addEventListener("drop", evt -> {
 			FileList files = ((DragEvent) evt).dataTransfer.files;

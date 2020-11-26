@@ -7,8 +7,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.JsReference;
 import org.geogebra.common.plugin.ScriptManager;
-import org.geogebra.common.plugin.script.JsScript;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class ScriptManagerJre extends ScriptManager {
@@ -26,7 +26,7 @@ public abstract class ScriptManagerJre extends ScriptManager {
             // call only if libraryJavaScript is not the default (ie do nothing)
             if (!app.getKernel().getLibraryJavaScript()
                     .equals(Kernel.defaultLibraryJavaScript)) {
-                evalJavaScript("ggbOnInit();");
+                evalJavaScript("ggbOnInit(\"ggbApplet\", ggbApplet);");
             }
         } catch (Exception e) {
             Log.debug("Error calling ggbOnInit(): " + e.getMessage());
@@ -34,7 +34,7 @@ public abstract class ScriptManagerJre extends ScriptManager {
     }
 
     @Override
-    protected void callClientListeners(List<JsScript> listeners, Event evt) {
+    protected void callClientListeners(List<JsReference> listeners, Event evt) {
         if (listeners.isEmpty()) {
             return;
         }
@@ -53,20 +53,30 @@ public abstract class ScriptManagerJre extends ScriptManager {
         if (evt.argument != null) {
             args.add(evt.argument);
         }
-
-        for (JsScript listener : listeners) {
-            callListener(listener.getText(), args.toArray(new String[0]));
+        Object event = toNativeArray(args);
+        for (JsReference listener : listeners) {
+             callListener(listener, event);
         }
     }
 
+    /**
+     * For compatibility with all JS functions this should return a NativeArray
+     * (see desktop), default implementation returns Java array which allows array[0].
+     * @param args arguments
+     * @return arguments as array
+     */
+    protected Object toNativeArray(ArrayList<String> args) {
+        return args.toArray(new String[0]);
+    }
+
     @Override
-    protected void callListener(String jsFunction, String... args) {
+    protected void callListener(String jsFunction, Object[] args) {
         evalJavaScript(createJavascriptFunction(jsFunction, args));
     }
 
     protected abstract void evalJavaScript(String jsFunction);
 
-    private String createJavascriptFunction(String jsFunction, String[] args) {
+    private String createJavascriptFunction(String jsFunction, Object[] args) {
         StringBuilder sb = new StringBuilder();
         sb.append(jsFunction);
         sb.append("(");

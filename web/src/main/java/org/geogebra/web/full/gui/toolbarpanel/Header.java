@@ -244,9 +244,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * Handler for Close button.
 	 */
 	protected void onClosePressed() {
-		if (app.isMenuShowing()) {
-			app.toggleMenu();
-		}
+		app.hideMenu();
 		if (isOpen()) {
 			onClose();
 		} else {
@@ -525,7 +523,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 			if ((evLeft <= 0) && !app.isPortrait()) {
 				return;
 			}
-			int move = app.isPortrait() && !needsHeader() ? 48 : 0;
+			int move = app.isPortrait() && app.showMenuBar() && !needsHeader() ? 48 : 0;
 			undoRedoPanel.getElement().getStyle().setTop(evTop, Unit.PX);
 			undoRedoPanel.getElement().getStyle().setLeft(evLeft + move,
 					Unit.PX);

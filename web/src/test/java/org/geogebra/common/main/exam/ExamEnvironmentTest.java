@@ -7,16 +7,12 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.web.test.AppMocker;
+import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.google.gwt.dom.client.TextAreaElement;
-import com.google.gwtmockito.GwtMockitoTestRunner;
-import com.google.gwtmockito.WithClassesToStub;
-
-@RunWith(GwtMockitoTestRunner.class)
-@WithClassesToStub({ TextAreaElement.class })
+@RunWith(GgbMockitoTestRunner.class)
 public class ExamEnvironmentTest {
 
 	private ExamEnvironment examEnvironment;

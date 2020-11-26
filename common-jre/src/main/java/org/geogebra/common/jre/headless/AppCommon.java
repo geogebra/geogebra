@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
-import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GlobalKeyDispatcher;
@@ -43,11 +42,12 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
-import org.geogebra.common.main.settings.AppConfigCas;
-import org.geogebra.common.main.settings.AppConfigGeometry;
-import org.geogebra.common.main.settings.AppConfigGraphing;
-import org.geogebra.common.main.settings.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.DefaultSettings;
+import org.geogebra.common.main.settings.config.AppConfigCas;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
+import org.geogebra.common.main.settings.config.AppConfigGeometry;
+import org.geogebra.common.main.settings.config.AppConfigGraphing;
+import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.sound.SoundManager;
@@ -64,12 +64,13 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AppCommon extends App {
 
-	private LocalizationJre localization;
+	private final LocalizationJre localization;
 	private DialogManagerNoGui dialogManager;
 	private DefaultSettings defaultSettings;
 	private SpreadsheetTableModel tableModel;
 	private AppConfig config = new AppConfigDefault();
 	private CASFactory casFactory = new CASFactoryDummy();
+	private boolean appletFlag = false;
 
 	/**
 	 * Construct an AppCommon.
@@ -185,7 +186,7 @@ public class AppCommon extends App {
 
     @Override
     public boolean isApplet() {
-        return false;
+        return appletFlag;
     }
 
     @Override
@@ -431,6 +432,21 @@ public class AppCommon extends App {
 			}
 
 			@Override
+			public void handleSlideAction(String eventType, String pageIdx, String appStat) {
+				// stub
+			}
+
+			@Override
+			public void selectSlide(String pageIdx) {
+				// stub
+			}
+
+			@Override
+			public void previewRefresh() {
+				// stub
+			}
+
+			@Override
 			protected void exportPNGClipboard(boolean transparent, int DPI,
 					double exportScale, EuclidianView ev) {
 				// stub
@@ -480,7 +496,7 @@ public class AppCommon extends App {
 			}
 
 			@Override
-			public void playFile(String string) {
+			public void playFile(GeoElement geoElement, String file) {
 				// stub
 			}
 
@@ -496,19 +512,19 @@ public class AppCommon extends App {
 			}
 
 			@Override
-			public int getDuration(String url) {
+			public int getDuration(GeoAudio geoAudio) {
 				// stub
 				return 0;
 			}
 
 			@Override
-			public int getCurrentTime(String url) {
+			public int getCurrentTime(GeoAudio geoAudio) {
 				// stub
 				return 0;
 			}
 
 			@Override
-			public void setCurrentTime(String url, int pos) {
+			public void setCurrentTime(GeoAudio geoAudio, int pos) {
 				// stub
 
 			}
@@ -784,5 +800,9 @@ public class AppCommon extends App {
 
 	public void setScriptManager(ScriptManager scriptManager) {
 		this.scriptManager = scriptManager;
+	}
+
+	public void setAppletFlag(boolean appletFlag) {
+		this.appletFlag = appletFlag;
 	}
 }

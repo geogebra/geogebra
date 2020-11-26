@@ -12,8 +12,6 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
-import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -39,10 +37,9 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
- * @author gabor
- * 
- *         InputBar for GeoGebraWeb
+ * InputBar for GeoGebraWeb
  *
+ * @author gabor
  */
 public class AlgebraInputW extends FlowPanel
 		implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler,
@@ -123,7 +120,6 @@ public class AlgebraInputW extends FlowPanel
 						: GuiResources.INSTANCE.icon_help()).getSafeUri()
 								.asString(),
 				24));
-
 	}
 
 	/**
@@ -206,26 +202,14 @@ public class AlgebraInputW extends FlowPanel
 		inputField.requestFocus();
 	}
 
-	private AlgebraDockPanelW getAlgebraDockPanel() {
-		return (AlgebraDockPanelW) app.getGuiManager().getLayout()
-				.getDockManager().getPanel(App.VIEW_ALGEBRA);
-
-	}
-
 	@Override
 	public void onFocus(FocusEvent event) {
-		if (((AlgebraViewW) app.getGuiManager().getAlgebraView())
-				.isNodeTableEmpty()
-				&& !getAlgebraDockPanel().hasLongStyleBar()) {
-			getAlgebraDockPanel().showStyleBarPanel(false);
-		}
 		app.getSelectionManager().clearSelectedGeos();
 		this.focused = true;
 	}
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		getAlgebraDockPanel().showStyleBarPanel(true);
 		this.focused = false;
 		onEnterPressed(false);
 	}

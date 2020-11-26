@@ -401,7 +401,7 @@ public abstract class CommandDispatcher {
 			// advanced
 			case IntersectPath:
 			case IntersectRegion:
-
+			case IsVertexForm:
 			case Difference:
 
 			case TaylorPolynomial:
@@ -539,7 +539,6 @@ public abstract class CommandDispatcher {
 			case Object:
 			case CountIf:
 			case Extremum:
-			case Holes:
 			case RemovableDiscontinuity:
 			case UnitVector:
 			case Direction:
@@ -755,6 +754,7 @@ public abstract class CommandDispatcher {
 			case InverseTDistribution:
 			case InverseWeibull:
 			case InverseZipf:
+			case LineGraph:
 			case LogNormal:
 			case Logistic:
 			case Mean:

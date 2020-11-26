@@ -1,7 +1,5 @@
 package com.himamis.retex.editor.share.event;
 
-import com.himamis.retex.editor.share.model.MathSequence;
-
 public interface MathFieldListener {
 
 	void onEnter();
@@ -13,8 +11,6 @@ public interface MathFieldListener {
 	void onUpKeyPressed();
 	
 	void onDownKeyPressed();
-	
-	String serialize(MathSequence selectionText);
 
 	void onInsertString();
 

@@ -9,14 +9,13 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.model.MathSequence;
 
 public class InlineFormulaControllerW implements InlineFormulaController {
 
@@ -29,7 +28,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	private final Timer saveTimer = new Timer() {
 		@Override
 		public void run() {
-			formula.setContent(mathFieldEditor.getMathField().getText());
+			formula.setContent(getText());
 			formula.getKernel().storeUndoInfo();
 		}
 	};
@@ -43,6 +42,9 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	public InlineFormulaControllerW(GeoFormula formula, AppW app, Panel parent) {
 		this.formula = formula;
 		this.mathFieldEditor = new MathFieldEditor(app, new FormulaMathFieldListener());
+		if (formula.getContent() != null) {
+			mathFieldEditor.setText(formula.getContent());
+		}
 
 		this.widget = new AbsolutePanel();
 		ClickEndHandler.init(widget, new ClickEndHandler(true, true) {
@@ -104,9 +106,10 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 			saveTimer.cancel();
 			saveTimer.run();
 		}
-
-		formula.updateRepaint();
-		widget.setVisible(false);
+		if (widget.isVisible()) {
+			formula.updateRepaint();
+			widget.setVisible(false);
+		}
 		mathFieldEditor.setKeyboardVisibility(false);
 	}
 
@@ -138,6 +141,11 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	public void discard() {
 		mathFieldEditor.setKeyboardVisibility(false);
 		widget.removeFromParent();
+	}
+
+	@Override
+	public String getText() {
+		return mathFieldEditor.getMathField().getText();
 	}
 
 	private class FormulaMathFieldListener implements MathFieldListener {
@@ -186,11 +194,6 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		@Override
 		public void onDownKeyPressed() {
 			// do nothing
-		}
-
-		@Override
-		public String serialize(MathSequence selectionText) {
-			return null;
 		}
 
 		@Override

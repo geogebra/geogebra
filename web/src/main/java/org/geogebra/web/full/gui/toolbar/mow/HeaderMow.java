@@ -152,20 +152,14 @@ public class HeaderMow extends FlowPanel
 	 * on open/close toolbar
 	 */
 	public void onOpenClose() {
-		toolbar.getFrame().deselectDragBtn();
-		toolbar.setStyleName(
-				toolbar.isOpen() ? "hideMowToolbarPanel"
-						: "showMowToolbarPanel");
 		toggleCloseButton();
-		toolbar.setOpen(!toolbar.isOpen());
-		toolbar.addStyleName("toolbarMow");
-		toolbar.updateFloatingButtonsPosition();
+		toolbar.onOpenClose();
 	}
 
 	/**
 	 * Toggles the open/close icon for open/close button
 	 */
-	public void toggleCloseButton() {
+	private void toggleCloseButton() {
 		Image upFace = new Image(getIcon(MaterialDesignResources.INSTANCE
 				.toolbar_open_portrait_white()));
 		upFace.getElement().setAttribute("draggable", "false");

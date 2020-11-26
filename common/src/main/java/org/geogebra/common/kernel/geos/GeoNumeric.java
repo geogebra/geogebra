@@ -1048,18 +1048,19 @@ public class GeoNumeric extends GeoElement
 	 * 
 	 * @return true iff slider is fixed in graphics view
 	 */
-	public final boolean isSliderFixed() {
+	@Override
+	public final boolean isLockedPosition() {
 		return sliderFixed;
 	}
 
 	/**
 	 * Sets whether slider is fixed in graphics view
 	 * 
-	 * @param isSliderFixed
+	 * @param lockedPosition
 	 *            true iff slider is fixed in graphics view
 	 */
-	public final void setSliderFixed(boolean isSliderFixed) {
-		sliderFixed = isSliderFixed;
+	public final void setSliderFixed(boolean lockedPosition) {
+		sliderFixed = lockedPosition;
 	}
 
 	/**
@@ -1681,7 +1682,7 @@ public class GeoNumeric extends GeoElement
 				.getDefaultNumber(false);
 		GeoNumeric defaultAngleOrNum = num.getKernel().getAlgoDispatcher()
 				.getDefaultNumber(isAngle);
-		num.setSliderFixed(defaultNum.isSliderFixed());
+		num.setSliderFixed(defaultNum.isLockedPosition());
 		num.setEuclidianVisible(visible);
 		num.setIntervalMin(defaultAngleOrNum.getIntervalMinObject());
 		num.setIntervalMax(defaultAngleOrNum.getIntervalMaxObject());
@@ -1863,7 +1864,8 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-		if (getDefinition() != null && getDefinition().isFraction()) {
+		if (getDefinition() != null
+				&& (getDefinition().isFraction() || value != Math.round(value))) {
 			return DescriptionMode.DEFINITION_VALUE;
 		}
 		if (isSimple()) {

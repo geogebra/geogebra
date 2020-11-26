@@ -156,7 +156,9 @@ public class EventDispatcher implements ClientView {
 
 	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
-		dispatchEvent(EventType.UPDATE_STYLE, geo);
+		if (prop != GProperty.TEXT_SELECTION) {
+			dispatchEvent(EventType.UPDATE_STYLE, geo);
+		}
 	}
 
 	@Override
@@ -262,6 +264,16 @@ public class EventDispatcher implements ClientView {
 	@Override
 	public void pasteElmsComplete(ArrayList<GeoElement> pastedElms) {
 		dispatchBulkEvent(EventType.PASTE_ELMS_COMPLETE, pastedElms);
+	}
+
+	@Override
+	public void startAnimation(GeoElement geo) {
+		dispatchEvent(new Event(EventType.START_ANIMATION, geo));
+	}
+
+	@Override
+	public void stopAnimation(GeoElement geo) {
+		dispatchEvent(new Event(EventType.STOP_ANIMATION, geo));
 	}
 
 	@Override

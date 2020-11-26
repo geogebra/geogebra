@@ -1,11 +1,15 @@
 <FindBugsFilter>
-     <Match>
-       <Bug pattern="EI_EXPOSE_REP" />
-     </Match>
-	<Match>
-       <Bug pattern="EI_EXPOSE_REP2" />
-     </Match>
-	<Match>
-       <Bug pattern="MS_EXPOSE_REP" />
-     </Match>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+    <Match>
+        <Bug pattern="MS_EXPOSE_REP" />
+    </Match>
+    <Match>
+        <Class name="org.geogebra.web.html5.GeoGebraGlobal"/>
+        <Bug pattern="MS_CANNOT_BE_FINAL" />
+    </Match>
 </FindBugsFilter>

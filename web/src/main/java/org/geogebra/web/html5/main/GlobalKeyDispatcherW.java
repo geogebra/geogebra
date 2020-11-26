@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.web.html5.Browser;
@@ -22,6 +21,7 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
@@ -87,7 +87,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 		@Override
 		public void onBrowserEvent(Event event) {
-			if (event.getTypeInt() == Event.ONKEYDOWN) {
+			if (DOM.eventGetType(event) == Event.ONKEYDOWN) {
 				boolean handled = false;
 
 				if (event.getKeyCode() == GWTKeycodes.KEY_X
@@ -148,7 +148,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			event.stopPropagation();
 		}
 		// this needs to be done in onKeyPress -- keyUp is not case sensitive
-		if (!event.isAltKeyDown() && !event.isControlKeyDown() && !app.has(Feature.MOW_TEXT_TOOL)) {
+		if (!event.isAltKeyDown() && !event.isControlKeyDown() && !app.isWhiteboardActive()) {
 			this.renameStarted(event.getCharCode());
 		}
 	}

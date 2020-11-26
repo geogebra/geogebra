@@ -2,6 +2,10 @@
 
 .GeoGebraFrame {
 
+	&.appletStyle {
+		overflow: hidden;
+	}
+
 	div[data-title]:after {
 		opacity: 0;
 		content: "";
@@ -241,10 +245,19 @@ $collapse-trans: all 0.2s ease;
 	.verticalScroll {
 		overflow-y: auto;
 	}
+
+	.mowColorPlusButton img {
+		padding: 3px;
+	}
+
+	.matDynStyleBar {
+		will-change: transform;
+	}
  }
 
 .screenReaderStyle {
-	position: absolute;
+	position: fixed;
+	bottom: 20px;
 	width: 1px;
 	height: 1px;
 	padding: 0;

@@ -91,6 +91,7 @@ import org.geogebra.common.kernel.geos.description.DefaultLabelDescriptionConver
 import org.geogebra.common.kernel.geos.description.ProtectiveLabelDescriptionConverter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
+import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -102,6 +103,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.SettingsBuilder;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.common.main.settings.updater.LabelSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
@@ -120,6 +122,7 @@ import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.GPredicate;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
@@ -375,6 +378,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	private boolean showResetIcon = false;
 	private ParserFunctions pf;
+	private ParserFunctions pfInputBox;
 	private SpreadsheetTraceManager traceManager;
 	private ExamEnvironment exam;
 
@@ -846,6 +850,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 
 		getParserFunctions().updateLocale(getLocalization());
+		getParserFunctions(true).updateLocale(getLocalization());
 		// get CAS Commands
 		if (kernel.isGeoGebraCASready()) {
 			fillCasCommandDict();
@@ -1250,32 +1255,36 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Deletes selected objects
 	 */
 	public void deleteSelectedObjects(boolean isCut) {
+		deleteSelectedObjects(isCut, new GPredicate<GeoElement>() {
+			@Override
+			public boolean test(GeoElement geo) {
+				return !geo.isProtected(EventType.REMOVE);
+			}
+		});
+	}
+
+	/**
+	 * Deletes some of the selected objects
+	 * @param filter which geos to delete
+	 */
+	public void deleteSelectedObjects(boolean isCut, GPredicate<GeoElement> filter) {
 		if (letDelete()) {
-			GeoElement[] geos = selection.getSelectedGeos().toArray(new GeoElement[0]);
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = geos[i];
-				if (!geo.isProtected(EventType.REMOVE)) {
-					if (isCut || geo.isShape()) {
-						if (geo.getParentAlgorithm() != null) {
-							for (GeoElement ge : geo
-									.getParentAlgorithm().input) {
-								ge.removeOrSetUndefinedIfHasFixedDescendent();
-							}
+			// also delete just created geos if possible
+			ArrayList<GeoElement> geos2 = new ArrayList<>(getActiveEuclidianView()
+					.getEuclidianController().getJustCreatedGeos());
+			geos2.addAll(selection.getSelectedGeos());
+			for (GeoElement geo : geos2) {
+				if (filter.test(geo)) {
+					boolean removePredecessors = isCut || geo.isShape();
+					if (removePredecessors && geo.getParentAlgorithm() != null) {
+						for (GeoElement ge : geo.getParentAlgorithm().input) {
+							ge.removeOrSetUndefinedIfHasFixedDescendent();
 						}
 					}
 					geo.removeOrSetUndefinedIfHasFixedDescendent();
 				}
 			}
 
-			// also delete just created geos if possible
-			ArrayList<GeoElement> geos2 = getActiveEuclidianView()
-					.getEuclidianController().getJustCreatedGeos();
-			for (int j = 0; j < geos2.size(); j++) {
-				GeoElement geo = geos2.get(j);
-				if (!geo.isProtected(EventType.REMOVE)) {
-					geo.removeOrSetUndefinedIfHasFixedDescendent();
-				}
-			}
 			getActiveEuclidianView().getEuclidianController()
 					.clearJustCreatedGeos();
 			getActiveEuclidianView().getEuclidianController()
@@ -2931,13 +2940,26 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return parser extension for functions
 	 */
-	public ParserFunctions getParserFunctions() {
+	public ParserFunctions getParserFunctions(boolean inputBox) {
 		if (pf == null) {
-			pf = getConfig().createParserFunctions();
+			ParserFunctionsFactory factory = getConfig().createParserFunctionsFactory();
+			pf = factory.createParserFunctions();
+			pfInputBox = factory.createInputBoxParserFunctions();
 		}
 		pf.setInverseTrig(
 				kernel.getLoadingMode() && kernel.getInverseTrigReturnsAngle());
-		return pf;
+		pfInputBox.setInverseTrig(
+				kernel.getLoadingMode() && kernel.getInverseTrigReturnsAngle());
+
+		if (inputBox) {
+			return pfInputBox;
+		} else {
+			return pf;
+		}
+	}
+
+	public ParserFunctions getParserFunctions() {
+		return getParserFunctions(false);
 	}
 
 	/**
@@ -3817,10 +3839,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case MOB_PROPERTY_SORT_BY:
 			return false;
 
-		/** MOB-1293 */
-		case SELECT_TOOL_NEW_BEHAVIOUR:
-			return prerelease || whiteboard;
-
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************
@@ -3837,10 +3855,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		case MOW_DIRECT_FORMULA_CONVERSION:
 			return false;
-
-		/** MOW-189 */
-		case MOW_TEXT_TOOL:
-			return whiteboard;
 
 		// **********************************************************************
 		// MOW END
@@ -3871,9 +3885,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		// TRAC-4845
 		case LOG_AXES:
-			return prerelease;
-
-		case COMMAND_HOLES:
 			return prerelease;
 
 		// GGB-334, TRAC-3401
@@ -4964,8 +4975,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		getLocalization().forceEnglishCommands();
 		StringTemplate.editorTemplate.setLocalizeCmds(false);
 		StringTemplate.editorTemplate.setPrintMethodsWithParenthesis(true);
-		StringTemplate.latexTemplateHideLHS.setLocalizeCmds(false);
-		StringTemplate.latexTemplateHideLHS
+		StringTemplate.latexTemplate.setLocalizeCmds(false);
+		StringTemplate.latexTemplate
 				.setPrintMethodsWithParenthesis(true);
 	}
 
@@ -5178,5 +5189,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public void closeMenuHideKeyboard() {
 		// nothing here
+	}
+
+	public String getThreadId() {
+		return "[main thread]";
 	}
 }

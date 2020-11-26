@@ -1,12 +1,16 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.geogebra.test.TestStringUtil.unicode;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.GeoClass;
@@ -91,9 +95,9 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("l", "1 + 1 / 5");
 		((GeoNumeric) lookup("l")).setSymbolicMode(true, false);
 		inputBox.setSymbolicMode(true, false);
-		assertEquals("1+1/5", inputBox.getTextForEditor());
+		assertEquals("1+(1)/(5)", inputBox.getTextForEditor());
 		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
-		assertEquals("1+1/5", inputBox.getTextForEditor());
+		assertEquals("1+(1)/(5)", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -161,7 +165,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		inputBox.setSymbolicMode(true, false);
 		assertEquals("(?,?,?)", inputBox.getTextForEditor());
 		updateInput("(sqrt(2), 1/3, 0)");
-		assertEquals("(sqrt(2),1/3,0)", inputBox.getTextForEditor());
+		assertEquals("(sqrt(2),(1)/(3),0)", inputBox.getTextForEditor());
 		add("SetValue(P,?)");
 		assertEquals("(?,?,?)", inputBox.getTextForEditor());
 	}
@@ -306,7 +310,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testGeoNumericExtendsMinMax() {
+	public void testGeoNumericExtendsMinMaxInSymbolic() {
 		GeoNumeric numeric = add("a = 5");
 		numeric.setShowExtendedAV(true);
 		numeric.initAlgebraSlider();
@@ -314,10 +318,31 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		Assert.assertFalse(numeric.getIntervalMin() <= -20);
 
 		GeoInputBox inputBox = add("ib = InputBox(a)");
+		inputBox.setSymbolicMode(true);
+
 		inputBox.updateLinkedGeo("20");
 		inputBox.updateLinkedGeo("-20");
+
 		Assert.assertTrue(numeric.getIntervalMax() >= 20);
 		Assert.assertTrue(numeric.getIntervalMin() <= -20);
+	}
+
+	@Test
+	public void testGeoNumericIsClampedToMinMaxInNonSymbolic() {
+		GeoNumeric numeric = add("a = 0");
+		numeric.setShowExtendedAV(true);
+		numeric.initAlgebraSlider();
+
+		Assert.assertEquals(-5, numeric.getIntervalMin(), Kernel.MAX_PRECISION);
+		Assert.assertEquals(5, numeric.getIntervalMax(), Kernel.MAX_PRECISION);
+
+		inputBox = add("ib = InputBox(a)");
+
+		inputBox.updateLinkedGeo("-10");
+		Assert.assertEquals(-5, numeric.getValue(), Kernel.MAX_PRECISION);
+
+		inputBox.updateLinkedGeo("10");
+		Assert.assertEquals(5, numeric.getValue(), Kernel.MAX_PRECISION);
 	}
 
 	private void t(String input, String... expected) {
@@ -396,7 +421,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("f", "x");
 		inputBox.setSymbolicMode(true, false);
 		updateInput("(-1)/4 x");
-		assertEquals("-1/4 x", inputBox.getTextForEditor());
+		assertEquals("(-1)/(4) x", inputBox.getTextForEditor());
 		assertEquals("\\frac{-1}{4} \\; x", inputBox.getText());
 	}
 
@@ -405,7 +430,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("f", "x");
 		inputBox.setSymbolicMode(true, false);
 		updateInput("-(1/4) x");
-		assertEquals("-(1/4) x", inputBox.getTextForEditor());
+		assertEquals("-((1)/(4)) x", inputBox.getTextForEditor());
 		assertEquals("-\\frac{1}{4} \\; x", inputBox.getText());
 	}
 
@@ -434,8 +459,42 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertEquals("", inputBox.getTextForEditor());
 		getApp().setXML(getApp().getXML(), true);
 		assertEquals("", inputBox.getTextForEditor());
-		assertEquals("f\\, \\text{undefined} ", lookup("f")
+		assertEquals("ComplexFunction", lookup("f").getTypeString());
+		// \text{undefined} also acceptable but ? is consistent with real-valued functions
+		assertEquals("f(x) = ?", lookup("f")
 				.getLaTeXAlgebraDescriptionWithFallback(false,
 						StringTemplate.defaultTemplate, false));
+	}
+
+	@Test
+	public void shouldAcceptNumberForComplexFunctions() {
+		setupInput("f", "x+i");
+		add("pt=f(1-i)");
+		inputBox.setSymbolicMode(true, false);
+		inputBox.updateLinkedGeo("2");
+		assertEquals("2 + 0" + Unicode.IMAGINARY,
+				lookup("pt").toValueString(StringTemplate.testTemplate));
+	}
+
+	@Test
+	public void vector2dKeepsInput() {
+		GeoVector vec1 = addAvInput("u=(1, 2)");
+		GeoInputBox inputBox = add("InputBox(u)");
+		GeoVector vec2 = addAvInput("v=(sqrt(3), 3/2)");
+		vec1.set(vec2);
+		assertThat(inputBox.getText(), equalTo("(sqrt(3), 3 / 2)"));
+		addAvInput("SetValue(u,?)");
+		assertThat(inputBox.getText(), equalTo("(?, ?)"));
+	}
+
+	@Test
+	public void vector3dKeepsInput() {
+		GeoVector3D vec1 = addAvInput("u=(1, 2, 3)");
+		GeoInputBox inputBox = add("InputBox(u)");
+		GeoVector3D vec2 = addAvInput("v=(5/6, 3/2, sqrt(5))");
+		vec1.set(vec2);
+		assertThat(inputBox.getText(), equalTo("(5 / 6, 3 / 2, sqrt(5))"));
+		addAvInput("SetValue(u,?)");
+		assertThat(inputBox.getText(), equalTo("(?, ?, ?)"));
 	}
 }

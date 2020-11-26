@@ -151,6 +151,7 @@ public class MyArbitraryConstant {
 	private GeoDummyVariable createSymbolicConstant(Construction cons, String label) {
 		GeoDummyVariable variable = new GeoDummyVariable(cons, label);
 		variable.setAuxiliaryObject(true);
+		variable.setLabel(label);
 		cons.getCASdummies().add(label);
 		return variable;
 	}
@@ -376,7 +377,7 @@ public class MyArbitraryConstant {
 					ExpressionValue ret = en.getRight();
 					if (en.getOperation() == Operation.MINUS) {
 						ret = new ExpressionNode(arbconst.getKernel(),
-								new MyDouble(arbconst.getKernel(), -1),
+								new MinusOne(arbconst.getKernel()),
 								Operation.MULTIPLY, ret);
 					}
 					return ret;

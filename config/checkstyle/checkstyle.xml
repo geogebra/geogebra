@@ -21,7 +21,7 @@
     <!-- Checks for whitespace                               -->
     <!-- See http://checkstyle.sf.net/config_whitespace.html -->
     <module name="BeforeExecutionExclusionFileFilter">
-        <property name="fileNamePattern" value="org.geogebra.common.(kernel.(barycentric|prover|parser|stepbystep)|util.clipper|cas.(giac|singular)|gui.(dialog.options))|org.apache|org.mozilla|edu.uci.ics|com.google|com.github|com.himamis.retex.editor.share.io.latex" />
+        <property name="fileNamePattern" value="org.geogebra.common.(kernel.(barycentric|prover|parser|stepbystep)|util.clipper|cas.(giac|singular)|gui.(dialog.options))|org.apache|org.mozilla|edu.uci.ics|com.google|com.github|com.himamis.retex.editor.share.io.latex|org.geogebra.web.html5.main.DefaultExportedApi|org.geogebra.web.full.main.activity.EvaluatorExportedApi" />
     </module>
     <module name="RegexpMultiline">
         <property name="format" value="\n\s*\n\s*\n"/>

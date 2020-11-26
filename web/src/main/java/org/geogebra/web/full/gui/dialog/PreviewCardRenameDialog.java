@@ -1,11 +1,12 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.web.full.gui.pagecontrolpanel.PageListController;
 import org.geogebra.web.full.gui.pagecontrolpanel.PagePreviewCard;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.PageListControllerInterface;
 import org.geogebra.web.shared.components.DialogData;
 
-public class PreviewCardRenameDialog extends MaterialRenameDialog {
+public class PreviewCardRenameDialog extends CardRenameDialog {
 
 	private final PageListControllerInterface pageController;
 	private final PagePreviewCard card;
@@ -20,15 +21,21 @@ public class PreviewCardRenameDialog extends MaterialRenameDialog {
 	public PreviewCardRenameDialog(AppW app,
 			DialogData data,
 			PagePreviewCard card) {
-		super(app, data, card);
+		super(app, data);
 		pageController = app.getPageController();
 		this.card = card;
+		setText(getCardTitle());
 	}
 
 	@Override
-	protected boolean isTextInvalid() {
+	protected boolean isTextLengthInvalid() {
 		// empty input is valid.
-		return isInputChanged();
+		return false;
+	}
+
+	@Override
+	protected String getCardTitle() {
+		return card.getCardTitle();
 	}
 
 	/**
@@ -39,7 +46,7 @@ public class PreviewCardRenameDialog extends MaterialRenameDialog {
 	}
 
 	@Override
-	protected void renameCard() {
-		pageController.rename(card, getInputText());
+	protected void renameCard(String text) {
+		((PageListController) pageController).rename(card, text);
 	}
 }

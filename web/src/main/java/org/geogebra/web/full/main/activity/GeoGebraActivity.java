@@ -11,8 +11,8 @@ import org.geogebra.web.full.gui.view.algebra.MenuItemCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
-import org.geogebra.web.html5.main.ApiExporter;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.ExportedApi;
 import org.geogebra.web.resources.SVGResource;
 
 /**
@@ -121,10 +121,20 @@ public interface GeoGebraActivity {
 	 */
 	boolean isWhiteboard();
 
-	ApiExporter getApiExporter();
+	ExportedApi getExportedApi();
 
 	/**
 	 * @return icon for menu
 	 */
 	SVGResource getExamIcon();
+
+	/**
+	 * mark search view has opened
+	 */
+	void markSearchOpen();
+
+	/**
+	 * mark search view has opened
+	 */
+	void markSaveOpen();
 }

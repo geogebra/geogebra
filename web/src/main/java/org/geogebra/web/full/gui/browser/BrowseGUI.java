@@ -29,12 +29,13 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.File;
 
 /**
  * GeoGebraTube Search and Browse GUI
@@ -257,23 +258,10 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		this.materialListPanel.rememberSelected(materialElement);
 	}
 
-	// public void setFrame(final GeoGebraAppFrame frame) {
-	// super.setFrame(frame);
-	// }
-
 	@Override
-	public void openFile(final JavaScriptObject fileToHandle) {
+	public void openFile(final File fileToHandle) {
 		showLoading();
-		if (app.getLAF().supportsLocalSave()) {
-			app.getFileManager().setFileProvider(Provider.LOCAL);
-		}
-
-		app.getGuiManager().getBrowseView().closeAndSave(new AsyncOperation<Boolean>() {
-			@Override
-			public void callback(Boolean obj) {
-						app.openFile(fileToHandle);
-			}
-		});
+		closeAndSave(success -> app.openFile(fileToHandle));
 	}
 
 	/**

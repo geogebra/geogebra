@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.error.ErrorHelper;
-import org.geogebra.common.main.settings.AppConfigCas;
+import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Before;
@@ -41,6 +41,11 @@ public class BaseSymbolicTest {
     public void t(String input, String... expected) {
         AlgebraTestHelper.testSyntaxSingle(input, expected, ap,
                 StringTemplate.testTemplate);
+    }
+
+    public void tn(String input, String... expected) {
+        AlgebraTestHelper.testSyntaxSingle(input, expected, ap,
+                StringTemplate.testNumeric);
     }
 
     public void t(String input, EvalInfo info, String... expected) {

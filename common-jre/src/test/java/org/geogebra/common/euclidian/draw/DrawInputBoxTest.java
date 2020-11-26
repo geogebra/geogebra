@@ -11,7 +11,6 @@ import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.test.euclidian.AutoCompleteTextFieldC;
 import org.geogebra.test.euclidian.TextFieldCommonJre;
-import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -20,28 +19,22 @@ public class DrawInputBoxTest extends BaseUnitTest {
 	@Test
 	public void testConsistentHeight() {
 		add("f(x) = x");
-		GeoInputBox inputBox = (GeoInputBox) add("InputBox(f)");
-		DrawInputBox inputBoxDrawer = new DrawInputBox(getApp().getActiveEuclidianView(), inputBox);
-
-		int symbolicInputBoxHeight = getHeightOfInputBox(inputBoxDrawer, true);
-		int nonSymbolicInputBoxHeight = getHeightOfInputBox(inputBoxDrawer, false);
-		Assert.assertEquals(symbolicInputBoxHeight, nonSymbolicInputBoxHeight);
-	}
-
-	@Test
-	public void testDefaultHeightForEmptyInput() {
 		add("a=1");
-		GeoInputBox inputBox = (GeoInputBox) add("InputBox(a)");
-		inputBox.setSymbolicMode(true, false);
+		GeoInputBox inputBox = add("InputBox(f)");
+		GeoInputBox emptyInputBox = add("InputBox(a)");
+
 		TextObject textObject = mockTextObjectWithReturn("");
-		inputBox.textObjectUpdated(textObject);
+		emptyInputBox.textObjectUpdated(textObject);
 
-		DrawInputBox inputBoxDrawer = new DrawInputBox(getApp().getActiveEuclidianView(), inputBox);
+		DrawInputBox inputBoxDrawer
+				= new DrawInputBox(getApp().getActiveEuclidianView(), inputBox);
+		DrawInputBox emptyInputBoxDrawer
+				= new DrawInputBox(getApp().getActiveEuclidianView(), emptyInputBox);
 
-		int symbolicInputBoxHeight = getHeightOfInputBox(inputBoxDrawer, true);
-		int nonSymbolicInputBoxHeight = getHeightOfInputBox(inputBoxDrawer, false);
+		int inputBoxHeight = getHeightOfInputBox(inputBoxDrawer, true);
+		int emptyInputBoxHeight = getHeightOfInputBox(emptyInputBoxDrawer, true);
 
-		assertEquals(symbolicInputBoxHeight, nonSymbolicInputBoxHeight);
+		assertEquals(inputBoxHeight, emptyInputBoxHeight);
 	}
 
 	@Test

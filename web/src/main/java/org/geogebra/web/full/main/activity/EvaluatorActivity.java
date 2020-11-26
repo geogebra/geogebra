@@ -1,11 +1,12 @@
 package org.geogebra.web.full.main.activity;
 
-import org.geogebra.common.main.settings.AppConfigEvaluator;
+import org.geogebra.common.main.settings.config.AppConfigEvaluator;
 import org.geogebra.common.plugin.evaluator.EvaluatorAPI;
 import org.geogebra.web.full.evaluator.EvaluatorEditor;
+import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
-import org.geogebra.web.html5.main.ApiExporter;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.ExportedApi;
 
 /**
  * Evaluator Activity.
@@ -35,9 +36,9 @@ public class EvaluatorActivity extends BaseActivity {
 	}
 
 	@Override
-	public ApiExporter getApiExporter() {
+	public ExportedApi getExportedApi() {
 		// not started yet -> pass the whole activity to geteditor later
-		return new EvaluatorApiExporter(this);
+		return new EvaluatorExportedApi(this);
 	}
 
 	/**
@@ -49,5 +50,9 @@ public class EvaluatorActivity extends BaseActivity {
 
 	public Object exportImage(String type) {
 		return editor.exportImage(type);
+	}
+
+	public MathFieldEditor getEditor() {
+		return editor.getMathFieldEditor();
 	}
 }

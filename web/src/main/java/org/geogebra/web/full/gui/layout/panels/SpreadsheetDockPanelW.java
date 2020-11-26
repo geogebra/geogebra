@@ -140,9 +140,6 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	protected ResourcePrototype getViewIcon() {
-		if (app.isUnbundledOrWhiteboard()) {
-			return getResources().settings();
-		}
 		return getResources().styleBar_spreadsheetView();
 	}
 

@@ -28,6 +28,8 @@ package com.himamis.retex.editor.web;
 
 import java.util.ArrayList;
 
+import org.gwtproject.timer.client.Timer;
+
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Element;
@@ -42,7 +44,6 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
@@ -75,16 +76,20 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.ColorW;
 
+import elemental2.dom.DomGlobal;
+import elemental2.dom.KeyboardEvent;
+import jsinterop.base.Js;
+
 public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHandler {
 
 	public static final int SCROLL_THRESHOLD = 14;
 	protected static MetaModel sMetaModel = new MetaModel();
 	private MetaModel metaModel;
 
-	private MathFieldInternal mathFieldInternal;
-	private Canvas html;
+	private final MathFieldInternal mathFieldInternal;
+	private final Canvas html;
 	private Context2d ctx;
-	private Panel parent;
+	private final Panel parent;
 	private boolean focused = false;
 	private TeXIcon lastIcon;
 	private double ratio = 1;
@@ -98,17 +103,17 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private Timer focuser;
 	private boolean pasteInstalled = false;
 
-	private int bottomOffset;
+	private final int bottomOffset;
 	private MyTextArea inputTextArea;
 	private SimplePanel clip;
 
 	private double scale = 1.0;
 
-	private SyntaxAdapter converter;
+	private final SyntaxAdapter converter;
 
 	private ExpressionReader expressionReader;
 
-	private static ArrayList<MathFieldW> instances = new ArrayList<>();
+	private static final ArrayList<MathFieldW> instances = new ArrayList<>();
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
 	private static int counter = 0;
@@ -166,6 +171,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this, directFormulaBuilder);
 		mathFieldInternal.getInputController().setFormatConverter(converter);
+		mathFieldInternal.setSyntaxAdapter(converter);
 		getHiddenTextArea();
 
 		// el.getElement().setTabIndex(1);
@@ -218,7 +224,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private Element getElementForAriaLabel() {
-		if ((mobileBrowser() || isMacOS() || isIE())) {
+		if ((isIOS() || isMacOS() || isIE())) {
 			// mobile Safari: alttext is connected to parent so that screen
 			// reader doesn't read "dimmed" for the textarea
 			Element parentElement = parent.getElement();
@@ -312,7 +318,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}
 		ctx.getCanvas().getStyle().setHeight(height, Unit.PX);
 
-		ctx.getCanvas().getStyle().setWidth(computeWidth(),
+		double value = computeWidth();
+		ctx.getCanvas().getStyle().setWidth(value,
 				Unit.PX);
 		parent.setHeight(height + "px");
 		parent.getElement().getStyle().setVerticalAlign(VerticalAlign.TOP);
@@ -351,9 +358,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 				event.stopPropagation();
 			} else {
-				keyListener.onKeyTyped(
-						new KeyEvent(event.getNativeEvent().getKeyCode(), 0,
-								getChar(event.getNativeEvent())));
+				if (event.getUnicodeCharCode() > 31) {
+					keyListener.onKeyTyped(
+							new KeyEvent(event.getNativeEvent().getKeyCode(), 0,
+									getChar(event.getNativeEvent())));
+				}
 				event.stopPropagation();
 				event.preventDefault();
 			}
@@ -461,9 +470,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		return checkCode(nativeEvent, "AltRight");
 	}
 
-	public static native boolean checkCode(NativeEvent evt, String check) /*-{
-		return evt.code == check;
-	}-*/;
+	/**
+	 * @param evt native event
+	 * @param check key name (e.g. "AltRight")
+	 * @return whether the event code matches
+	 */
+	public static boolean checkCode(Object evt, String check) {
+		return check.equals(Js.<KeyboardEvent>uncheckedCast(evt).code);
+	}
 
 	/**
 	 * @param nativeEvent
@@ -606,8 +620,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		return instances.contains(this);
 	}
 
-	private static boolean mobileBrowser() {
-		return Navigator.getUserAgent().toLowerCase().contains("ipad");
+	private static boolean isIOS() {
+		return Navigator.getUserAgent().toLowerCase().matches(".*(ipad|iphone|ipod).*");
 	}
 
 	private double computeHeight() {
@@ -634,9 +648,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 						+ getFontSize()));
 	}
 
-	private native boolean active(Element element) /*-{
-		return $doc.activeElement == element;
-	}-*/;
+	private boolean active(Object element) {
+		return DomGlobal.document.activeElement == element;
+	}
 
 	/**
 	 * 
@@ -953,7 +967,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			hiddenTextArea.style.height = "1px";//prevent messed up scrolling in FF/IE
 			$doc.body.appendChild(hiddenTextArea);
 			if (@org.geogebra.web.html5.Browser::isMobile()()) {
-				hiddenTextArea.setAttribute("disabled", "true");
+				hiddenTextArea.setAttribute("readonly", "true");
 			}
 		}
 		//hiddenTextArea.value = '';

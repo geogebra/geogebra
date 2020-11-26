@@ -26,6 +26,7 @@
     }
 
 	.toolbarMow {
+	    will-change: transform;
 	    bottom: 212px;
 	    position: relative;
 	    width: $toolbarWidth;

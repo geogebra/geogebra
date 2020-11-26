@@ -54,8 +54,7 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/ic_format_italic_black_24px.svg")
 	SVGResource text_italic_black();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/format_underlined-24px"
-			+ ".svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/format_underlined-24px.svg")
 	SVGResource text_underline_black();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/border_all-24px.svg")
@@ -69,6 +68,30 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/border_outer-24px.svg")
 	SVGResource border_outer();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/format_align_left-24px.svg")
+	SVGResource horizontal_align_left();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/format_align_center-24px.svg")
+	SVGResource horizontal_align_center();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/format_align_right-24px.svg")
+	SVGResource horizontal_align_right();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/vertical_align_bottom-24px.svg")
+	SVGResource vertical_align_bottom();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/vertical_align_middle-24px.svg")
+	SVGResource vertical_align_middle();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/vertical_align_top-24px.svg")
+	SVGResource vertical_align_top();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/table_heading_column.svg")
+	SVGResource table_heading_column();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/table_heading_row.svg")
+	SVGResource table_heading_row();
 
 	// context menu icon resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/plane_black.svg")

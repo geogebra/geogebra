@@ -141,12 +141,12 @@ public class CommandsTest {
 	@Test
 	public void listPropertiesTest() {
 		t("mat1={{1,2,3}}", "{{1, 2, 3}}");
-		Assert.assertTrue(((GeoList) get("mat1")).isEditableMatrix());
+		Assert.assertTrue(((GeoList) get("mat1")).hasSpecialEditor());
 		t("slider1=7", "7");
 		t("mat2={{1,2,slider1}}", "{{1, 2, 7}}");
-		Assert.assertTrue(((GeoList) get("mat2")).isEditableMatrix());
+		Assert.assertTrue(((GeoList) get("mat2")).hasSpecialEditor());
 		t("mat2={{1,2,slider1},Reverse[{1,2,3}]}", "{{1, 2, 7}, {3, 2, 1}}");
-		Assert.assertFalse(((GeoList) get("mat2")).isEditableMatrix());
+		Assert.assertFalse(((GeoList) get("mat2")).hasSpecialEditor());
 	}
 
 	@Test
@@ -1039,6 +1039,16 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdIsVertexForm() {
+		t("IsVertexForm(4(x+1)^2+3)", "true");
+		t("IsVertexForm(4(-3/7+x)^2+3/7+sqrt(2))", "true");
+		t("IsVertexForm(4(x-3/7)^2+3/7+sqrt(2))", "true");
+		t("IsVertexForm(x^2)", "true");
+		t("IsVertexForm(4(-x-3/7)^2+3/7+sqrt(2))", "false");
+		t("IsVertexForm((2x+2)^2+3)", "false");
+	}
+
+	@Test
 	public void testIndexLookup() {
 		t("aa_{1}=1", "1");
 		t("aa_{1}+1", "2");
@@ -1101,7 +1111,7 @@ public class CommandsTest {
 	@Test
 	public void cmdFit() {
 		tRound("Fit[ {(0,1),(1,2),(2,5)}, {x^2,x,1} ]",
-				unicode("1x^2 + 0x + 1 * 1"));
+				unicode("1x^2 + 0x + 1"));
 		tRound("Fit[ {(0,1,1),(1,1,2),(2,1,5),(0,2,4),(1,2,5),(2,2,8)}, {x^2,x,1,x^2*y,x*y,y} ]",
 				unicode("3y + 0x y + 0x^2 y - 2 + 0x + 1x^2"));
 		t("a=Slider[0,10]", "0");
@@ -1109,6 +1119,9 @@ public class CommandsTest {
 		t("c=Slider[0,10]", "0");
 		tRound("Fit[ {(0,1),(1,2),(2,5)},a*x^2+b*x+c ]",
 				unicode("1x^2 + 0x + 1"));
+		// for APPS-2451
+		t("Translate[Fit[ {(0,0),(1,4)}, {x} ],(1,1)]",
+				"(4 * (x - 1)) + 1");
 	}
 
 	@Test
@@ -1336,7 +1349,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdBeta() {
-		t("Beta(-1.1,-3.1)", "-88.36531346708531");
+		t("beta(-1.1,-3.1)", "-88.36531346708531");
 	}
 
 	@Test
@@ -1829,6 +1842,21 @@ public class CommandsTest {
 		t("tablesplit=TableText[1..5,\"h\",3]",
 				StringContains.containsString("array"));
 		checkSize("tablesplit", 3, 2);
+	}
+
+	@Test
+	public void cmdLineGraph() {
+		t("f=LineGraph({1,2},{3,4})", "DataFunction[{1, 2}, {3, 4},x]");
+		t("Point(f)", "(1, 3)");
+		t("Tangent(f, (1,3))", "?");
+	}
+
+	@Test
+	public void cmdLineGraphInvalid() {
+		t("LineGraph({3,2},{3,4})", "?");
+		t("LineGraph({3,(4,5)},{3,4})", "?");
+		t("LineGraph({1,2},{3,?})", "?");
+		t("LineGraph({1,2},{3,Infinity})", "?");
 	}
 
 	private static void checkSize(String string, int cols, int rows) {

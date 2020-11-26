@@ -1,5 +1,9 @@
 package org.geogebra.common.kernel.parser.function;
 
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.util.List;
 
 import org.geogebra.common.main.Localization;
@@ -18,7 +22,8 @@ public class ParserFunctionsTest {
 
 	@Before
 	public void setUp() {
-		parserFunctions = ParserFunctionsFactory.createParserFunctions();
+		parserFunctions = ParserFunctionsFactory.createParserFunctionsFactory()
+				.createParserFunctions();
 	}
 
 	@Test
@@ -51,9 +56,9 @@ public class ParserFunctionsTest {
 	@Test
 	public void testGetCompletions() {
 		List<String> completions = parserFunctions.getCompletions("si");
-		Assert.assertTrue(completions.contains("sin( <x> )"));
-		Assert.assertTrue(completions.contains("sinIntegral( <x> )"));
-		Assert.assertFalse(completions.contains("cos( <x> )"));
+		assertThat(completions, hasItem("sin( <x> )"));
+		assertThat(completions, hasItem("sinIntegral( <x> )"));
+		assertThat(completions, not(hasItem("cos( <x> )")));
 
 		completions = parserFunctions.getCompletions("Si");
 		Assert.assertEquals(completions.size(), 0);
@@ -95,13 +100,5 @@ public class ParserFunctionsTest {
 		Mockito.verify(loc).getFunction("sin", false);
 		Mockito.verify(loc).getFunction("sin", false);
 		Mockito.verify(loc).getFunction("nroot", true);
-	}
-
-	@Test
-	public void testContainsCapitalizedFunctions() {
-		Assert.assertEquals(parserFunctions.get("sin", 1), Operation.SIN);
-		Assert.assertEquals(parserFunctions.get("Sin", 1), Operation.SIN);
-		Assert.assertEquals(parserFunctions.get("cos", 1), Operation.COS);
-		Assert.assertEquals(parserFunctions.get("Cos", 1), Operation.COS);
 	}
 }

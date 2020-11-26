@@ -262,13 +262,6 @@ public class DrawSlider extends Drawable {
 	public boolean hitSlider(int x, int y, int hitThreshold) {
 		int r = hitThreshold
 				+ Math.max(lineThickness, GeoNumeric.DEFAULT_SLIDER_THICKNESS);
-		// changed: we want click on fixed slider to increment/decrement the
-		// slider a bit
-		// return !number.isSliderFixed() && line.intersects(x-2, y-2, 4,4);
-
-		// Log.debug("x = "+x+", min = "+line.getP1().getX()+", max =
-		// "+line.getP2().getX());
-
 		return line.intersects(x - r, y - r, 2 * r, 2 * r);
 	}
 

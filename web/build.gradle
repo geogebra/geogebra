@@ -45,8 +45,8 @@ if(hasProperty("eclipse")){
 }
 
 dependencies {
-    compile project(path: ':carota-web', configuration: 'gwt')
-    compile project(':web:dev'),
+    compile project(path: ':carota-web'),
+        project(':web:dev'),
         project(':common'),
         project(':renderer-base'),
         project(':editor-base'),
@@ -54,12 +54,12 @@ dependencies {
         project(':editor-web'),
         project(':keyboard-web'),
         project(':ggbjdk'),
+        files(project(':carota-web').sourceSets.main.allSource.srcDirs),
         files(project(':web:dev').sourceSets.main.allSource.srcDirs),
         files(project(':common').sourceSets.main.allSource.srcDirs),
         files(project(':ggbjdk').sourceSets.main.java.srcDirs),
         files(project(':editor-web').sourceSets.main.allSource.srcDirs),
         files(project(':keyboard-web').sourceSets.main.allSource.srcDirs),
-        'com.googlecode.gwtphonegap:gwtphonegap:3.5.0.1',
         'com.googlecode:gwtgl:0.9.1',
         'com.googlecode:gwtgl:0.9.1:sources',
         "fr.ujf-grenoble:giac-gwt:$javaGiacVersion",
@@ -67,7 +67,7 @@ dependencies {
         "com.google.gwt:gwt-dev:$gwtCompilerVersion"
 
     testCompile "junit:junit:$junitVersion",
-        'com.google.gwt.gwtmockito:gwtmockito:1.1.9',
+        'com.google.gwt.gwtmockito:gwtmockito:1.1.10-SNAPSHOT',
         "com.google.gwt:gwt-user:$gwtCompilerVersion"
 }
 
@@ -111,7 +111,7 @@ gwt {
         modules = project.getProperty("gmodule").split(",")
     } else {
         modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
-          'org.geogebra.web.Tablet3D', 'org.geogebra.web.TabletWin']
+          'org.geogebra.web.Tablet3D']
     }
     
     devModules devModule

@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.MinusOne;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -57,7 +58,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	private boolean localizeCmds;
 	private boolean usePrefix;
-	private boolean hideLHS = false;
 	private boolean questionMarkForNaN = true;
 
 	private boolean numeric = true;
@@ -65,7 +65,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private boolean niceQuotes = false;
 
 	private boolean shouldPrintMethodsWithParenthesis;
-	private boolean useOperatorWhitespace = true;
+	private boolean forEditorParser = false;
 
 	/**
 	 * Default template, but do not localize commands
@@ -164,16 +164,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	static {
 		latexTemplate.setType(StringType.LATEX);
 		latexTemplate.allowPiHack = false;
-	}
-
-	/**
-	 * LaTeX string type, do not internationalize digits
-	 */
-	public static final StringTemplate latexTemplateHideLHS = new StringTemplate("latexTemplate");
-
-	static {
-		latexTemplateHideLHS.setType(StringType.LATEX);
-		latexTemplateHideLHS.hideLHS = true;
 	}
 
 	/**
@@ -346,7 +336,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		initForEditing(editTemplate);
 		editTemplate.changeArcTrig = false;
 		initForEditing(editorTemplate);
-		editorTemplate.useOperatorWhitespace = false;
+		editorTemplate.forEditorParser = true;
 	}
 
 	/**
@@ -471,7 +461,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * Not localized template, allow bigger precision for Numeric command
 	 */
 	public static final StringTemplate numericNoLocal = new StringTemplate(
-			"numericNoLocal");
+			"numericNoLocal") {
+
+		@Override
+		public double getRoundHalfUpFactor(double abs, NumberFormatAdapter nf2,
+				ScientificFormatAdapter sf2, boolean useSF) {
+			return 1;
+		}
+	};
 
 	static {
 		numericNoLocal.allowMoreDigits = true;
@@ -491,6 +488,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	static {
 		numericLatex.stringType = StringType.LATEX;
 		numericLatex.allowMoreDigits = true;
+		numericLatex.allowPiHack = false;
 		numericLatex.useRealLabels = true;
 	}
 
@@ -554,17 +552,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		template.nf = FormatFactory.getPrototype()
 				.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
 		template.allowMoreDigits = true;
-		template.hideLHS = true;
-	}
-
-	/**
-	 * Returns a string template with the property that the hideLHS = true
-	 * @return s new String template
-	 */
-	public StringTemplate makeStrTemplateForEditing() {
-		StringTemplate ret = this.copy();
-		ret.hideLHS = true;
-		return ret;
 	}
 
 	/**
@@ -1794,11 +1781,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			// left wing
 			if (left.isLeaf() || (ExpressionNode
-					.opID(left) >= Operation.MULTIPLY.ordinal())) { // not
-				// +,
-				// -
-				if (ExpressionNode.isEqualString(left, -1, !valueForm)) { // unary
-																			// minus
+					.opID(left) >= Operation.MULTIPLY.ordinal())) { // not +, -
+				if (left instanceof MinusOne) { // unary minus
 					nounary = false;
 					sb.append('-');
 				} else {
@@ -1882,7 +1866,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 									!leftIsNumber
 											|| Character.isDigit(firstRight)
 											|| rightStr.equals(RAD)
-											|| (!useOperatorWhitespace && !isDegree(right));
+											|| (forEditorParser && !isDegree(right));
 						}
 					}
 
@@ -2110,7 +2094,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		case GEOGEBRA:
 			// space for multiplication
-			return useOperatorWhitespace ? " * " : "*";
+			return !forEditorParser ? " * " : "*";
 
 		case SCREEN_READER:
 			return ScreenReader.getTimes(loc);
@@ -2125,13 +2109,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param sb string builder
 	 */
 	public void appendOptionalSpace(StringBuilder sb) {
-		if (useOperatorWhitespace) {
+		if (!forEditorParser) {
 			sb.append(" ");
 		}
 	}
 
 	public String getOptionalSpace() {
-		return useOperatorWhitespace ? " " : "";
+		return !forEditorParser ? " " : "";
 	}
 
 	/**
@@ -2233,6 +2217,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 			break;
 
 		default:
+			if (forEditorParser) {
+				appendWithBrackets(sb, leftStr);
+				sb.append('/');
+				appendWithBrackets(sb, rightStr);
+				break;
+			}
+
 			// check for 1 in denominator
 			// #5396
 			if (left.isLeaf()
@@ -3143,13 +3134,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * @return whether to suppress serialization of LHS in f(x)=x
-	 */
-	public boolean isHideLHS() {
-		return this.hideLHS;
-	}
-
-	/**
 	 * @return whether to print decimals equal to 3.14... as pi
 	 */
 	public boolean allowPiHack() {
@@ -3539,7 +3523,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return equal sign with appropriate whitespace symbols
 	 */
 	public String getEqualsWithSpace() {
-		if (!useOperatorWhitespace) {
+		if (forEditorParser) {
 			return "=";
 		}
 		return stringType == StringType.LATEX ? "\\, = \\," : " = ";

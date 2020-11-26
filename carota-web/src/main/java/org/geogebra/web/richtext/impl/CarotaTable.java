@@ -6,9 +6,10 @@ import com.google.gwt.core.client.JavaScriptObject;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
+import jsinterop.base.JsPropertyMap;
 
 @JsType(isNative = true)
-public class CarotaTable {
+public class CarotaTable implements HasContent {
 
 	@JsProperty
 	public native int getTotalWidth();
@@ -46,7 +47,7 @@ public class CarotaTable {
 	}
 
 	@JsProperty
-	private native CarotaSelection getSelection();
+	public native CarotaSelection getSelection();
 
 	@JsOverlay
 	private int selectionX() {
@@ -57,6 +58,12 @@ public class CarotaTable {
 	private int selectionY() {
 		return getSelection() == null ? 0 : getSelection().row0;
 	}
+
+	@JsProperty
+	public native int getRows();
+
+	@JsProperty
+	public native int getCols();
 
 	private native CarotaSelection getHitCell(int x, int y);
 
@@ -72,9 +79,13 @@ public class CarotaTable {
 
 	public native void setCellProperty(String property, String value);
 
+	public native void setCellProperty(String property, String value, JsPropertyMap<Object> range);
+
 	public native String getCellProperty(String property);
 
 	public native void setBorderThickness(int borderThickness);
+
+	public native void setBorderThickness(int borderThickness, JsPropertyMap<Object> range);
 
 	public native int getBorderThickness();
 
@@ -106,9 +117,9 @@ public class CarotaTable {
 
 	public native String urlByCoordinate(int x, int y);
 
-	private native void addRow(int i);
+	private native void addRow(int i, int source);
 
-	private native void addColumn(int j);
+	private native void addColumn(int j, int source);
 
 	private native void removeRow(int i);
 
@@ -116,22 +127,22 @@ public class CarotaTable {
 
 	@JsOverlay
 	public final void insertRowAbove() {
-		addRow(selectionY());
+		addRow(selectionY(), selectionY());
 	}
 
 	@JsOverlay
 	public final void insertRowBelow() {
-		addRow(selectionY() + 1);
+		addRow(selectionY() + 1, selectionY());
 	}
 
 	@JsOverlay
 	public final void insertColumnLeft() {
-		addColumn(selectionX());
+		addColumn(selectionX(), selectionX());
 	}
 
 	@JsOverlay
 	public final void insertColumnRight() {
-		addColumn(selectionX() + 1);
+		addColumn(selectionX() + 1, selectionX());
 	}
 
 	@JsOverlay
@@ -143,5 +154,4 @@ public class CarotaTable {
 	public final void removeColumn() {
 		removeColumn(selectionX());
 	}
-
 }

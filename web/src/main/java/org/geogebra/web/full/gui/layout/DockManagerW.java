@@ -1414,10 +1414,6 @@ public class DockManagerW extends DockManager {
 		for (DockPanelW panel : dockPanels) {
 			panel.setLabels();
 		}
-
-		for (DockPanelW panel : dockPanels) {
-			panel.buildToolbarGui();
-		}
 	}
 
 	/**
@@ -1431,19 +1427,6 @@ public class DockManagerW extends DockManager {
 	public void updatePanels() {
 		for (DockPanelW panel : dockPanels) {
 			panel.updatePanel(false);
-		}
-	}
-
-	/**
-	 * Update the fonts in all dock panels.
-	 */
-	public void updateFonts() {
-		for (DockPanelW panel : dockPanels) {
-			panel.updateFonts();
-		}
-
-		for (DockPanelW panel : dockPanels) {
-			panel.buildToolbarGui();
 		}
 	}
 
@@ -1709,6 +1692,16 @@ public class DockManagerW extends DockManager {
 			if (toolbar != null) {
 				toolbar.onOrientationChange();
 			}
+		}
+	}
+
+	/**
+	 * Resize probability calculator view; can't be done by CSS because of canvas
+	 */
+	public void resizeProbabilityCalculator() {
+		DockPanelW probPanel = getPanel(App.VIEW_PROBABILITY_CALCULATOR);
+		if (probPanel != null) {
+			probPanel.deferredOnResize();
 		}
 	}
 

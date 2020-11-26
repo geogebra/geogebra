@@ -557,14 +557,6 @@ public class AppletParameters {
 	}
 
 	/**
-	 * @return whether suggestions buttons should be shown; default true if not
-	 *         set
-	 */
-	public boolean getDataParamShowSuggestionButtons() {
-		return getBoolDataParam("showSuggestionButtons", true);
-	}
-
-	/**
 	 * @return how much space should be left above the applet in fit-to-screen
 	 *         mode
 	 */
@@ -690,5 +682,12 @@ public class AppletParameters {
 	 */
 	public String getDataParamEditorForegroundColor() {
 		return getStringDataParam("editorForegroundColor", "black");
+	}
+
+	/**
+	 * @return whether to show slides panel
+	 */
+	public boolean getParamShowSlides() {
+		return getBoolDataParam("showSlides", getDataParamApp());
 	}
 }

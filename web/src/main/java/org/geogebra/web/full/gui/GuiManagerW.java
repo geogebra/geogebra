@@ -122,6 +122,8 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.FileConsumer;
+import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.Visibility;
 import org.geogebra.web.shared.GlobalHeader;
 
@@ -416,7 +418,7 @@ public class GuiManagerW extends GuiManager
 		if (Browser.isiOS()) {
 			dialogManager.showImageInputDialog(null, device);
 		} else {
-			dialogManager.showWebcamInputDialog(device);
+			dialogManager.showWebcamInputDialog();
 		}
 	}
 
@@ -1317,10 +1319,10 @@ public class GuiManagerW extends GuiManager
 			toolbarPanel.getToolBar().buildGui();
 			toolbarPanel.setLabels();
 		}
-		SetLabels toolbarMow = (((AppWFull) app).getAppletFrame())
-				.getToolbarMow();
-		if (toolbarMow != null) {
-			toolbarMow.setLabels();
+		SetLabels notesLayout = (((AppWFull) app).getAppletFrame())
+				.getNotesLayout();
+		if (notesLayout != null) {
+			notesLayout.setLabels();
 		}
 		resetMenu();
 
@@ -1729,7 +1731,7 @@ public class GuiManagerW extends GuiManager
 		}
 
 		if (getApp().isWhiteboardActive()) {
-			(getApp().getAppletFrame()).setToorbarMowMode(mode);
+			(getApp().getAppletFrame()).setNotesMode(mode);
 			return mode;
 		}
 
@@ -1963,7 +1965,7 @@ public class GuiManagerW extends GuiManager
 	 *            construction title
 	 * @return local file saving callback for binary file
 	 */
-	native JavaScriptObject getDownloadCallback(String title) /*-{
+	native FileConsumer getDownloadCallback(String title) /*-{
 		var _this = this;
 		return function(ggbZip) {
 			var URL = $wnd.URL || $wnd.webkitURL;
@@ -1994,11 +1996,11 @@ public class GuiManagerW extends GuiManager
 	 *            export title
 	 * @return callback for base64 encoded download
 	 */
-	native JavaScriptObject getBase64DownloadCallback(String title) /*-{
-		return function(base64) {
-			@org.geogebra.web.html5.Browser::downloadDataURL(Ljava/lang/String;Ljava/lang/String;)("data:application/vnd.geogebra.file;base64,"+base64, title);
-		}
-	}-*/;
+	protected StringConsumer getBase64DownloadCallback(String title) {
+		return base64 ->
+			Browser.downloadDataURL("data:application/vnd.geogebra.file;base64," + base64,
+					title);
+	}
 
 	@Override
 	public final void renderEvent(final BaseEvent event) {
@@ -2301,9 +2303,7 @@ public class GuiManagerW extends GuiManager
 
 			@Override
 			public void callback(Widget share) {
-				if (getApp().isMenuShowing()) {
-					getApp().toggleMenu();
-				}
+				getApp().hideMenu();
 				FileMenuW.share(getApp(), share);
 			}
 		});

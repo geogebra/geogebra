@@ -57,7 +57,7 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
 import org.geogebra.common.kernel.geos.properties.FillType;
-import org.geogebra.common.kernel.geos.properties.TextAlignment;
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -73,8 +73,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.plugin.JsReference;
 import org.geogebra.common.plugin.ScriptType;
-import org.geogebra.common.plugin.script.JsScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.common.util.StringUtil;
@@ -114,6 +114,7 @@ public class ConsElementXMLHandler {
 	private boolean symbolicTagProcessed;
 	private boolean sliderTagProcessed;
 	private boolean fontTagProcessed;
+	private boolean setEigenvectorsCalled = false;
 	private double embedX;
 	private double embedY;
 	/**
@@ -451,11 +452,11 @@ public class ConsElementXMLHandler {
 		try {
 			if ("objectUpdate".equals(attrs.get("type"))) {
 				app.getScriptManager().getUpdateListenerMap().put(geo,
-						JsScript.fromName(app, attrs.get("val")));
+						JsReference.fromName(attrs.get("val")));
 			}
 			if ("objectClick".equals(attrs.get("type"))) {
 				app.getScriptManager().getClickListenerMap().put(geo,
-						JsScript.fromName(app, attrs.get("val")));
+						JsReference.fromName(attrs.get("val")));
 			}
 			return true;
 		} catch (RuntimeException e) {
@@ -610,6 +611,19 @@ public class ConsElementXMLHandler {
 		}
 	}
 
+	private boolean handleSerifContent(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoInputBox)) {
+			Log.error("wrong element type for <contentSerif>: " + geo.getClass());
+			return false;
+		}
+		String serif = attrs.get("val");
+
+		if (serif != null) {
+			((GeoInputBox) geo).setSerifContent(MyXMLHandler.parseBoolean(serif));
+		}
+		return true;
+	}
+
 	// <font serif="false" size="12" style="0">
 	private boolean handleTextFont(LinkedHashMap<String, String> attrs) {
 		this.fontTagProcessed = true;
@@ -617,7 +631,6 @@ public class ConsElementXMLHandler {
 			Log.error("wrong element type for <font>: " + geo.getClass());
 			return false;
 		}
-
 		Object serif = attrs.get("serif");
 		Object style = attrs.get("style");
 
@@ -1205,10 +1218,10 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleTextAlign(LinkedHashMap<String, String> attrs) {
-		String align = attrs.get("val");
+		HorizontalAlignment align = HorizontalAlignment.fromString(attrs.get("val"));
 
-		if (geo instanceof HasAlignment) {
-			((HasAlignment) geo).setAlignment(TextAlignment.fromString(align));
+		if (align != null && geo instanceof HasAlignment) {
+			((HasAlignment) geo).setAlignment(align);
 		} else {
 			Log.error("Text alignment not supported for " + geo.getGeoClassType());
 		}
@@ -1566,17 +1579,25 @@ public class ConsElementXMLHandler {
 			GeoQuadric3DInterface quadric = (GeoQuadric3DInterface) geo;
 			// set matrix and classify conic now
 			// <eigenvectors> should have been set earlier
-			double[] matrix = { StringUtil.parseDouble(attrs.get("A0")),
-					StringUtil.parseDouble(attrs.get("A1")),
-					StringUtil.parseDouble(attrs.get("A2")),
-					StringUtil.parseDouble(attrs.get("A3")),
-					StringUtil.parseDouble(attrs.get("A4")),
-					StringUtil.parseDouble(attrs.get("A5")),
-					StringUtil.parseDouble(attrs.get("A6")),
-					StringUtil.parseDouble(attrs.get("A7")),
-					StringUtil.parseDouble(attrs.get("A8")),
-					StringUtil.parseDouble(attrs.get("A9")) };
-			quadric.setMatrixFromXML(matrix);
+
+			if (geo.isIndependent() && geo.getDefinition() == null) {
+				double[] matrix = { StringUtil.parseDouble(attrs.get("A0")),
+						StringUtil.parseDouble(attrs.get("A1")),
+						StringUtil.parseDouble(attrs.get("A2")),
+						StringUtil.parseDouble(attrs.get("A3")),
+						StringUtil.parseDouble(attrs.get("A4")),
+						StringUtil.parseDouble(attrs.get("A5")),
+						StringUtil.parseDouble(attrs.get("A6")),
+						StringUtil.parseDouble(attrs.get("A7")),
+						StringUtil.parseDouble(attrs.get("A8")),
+						StringUtil.parseDouble(attrs.get("A9")) };
+				quadric.setMatrixFromXML(matrix);
+			} else {
+				quadric.ensureClassified();
+			}
+			if (!setEigenvectorsCalled) {
+				quadric.hideIfNotSphere();
+			}
 		} else if (geo.isGeoConic() && geo.getDefinition() == null) {
 			GeoConicND conic = (GeoConicND) geo;
 			// set matrix and classify conic now
@@ -1834,7 +1855,7 @@ public class ConsElementXMLHandler {
 	 */
 	private boolean handleEigenvectorsConic(
 			LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoConic())) {
+		if (!geo.isGeoConic()) {
 			Log.error(
 					"wrong element type for <eigenvectors>: " + geo.getClass());
 			return false;
@@ -1856,27 +1877,30 @@ public class ConsElementXMLHandler {
 		}
 	}
 
-	private boolean handleEigenvectors(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoQuadric())) {
-			return handleEigenvectorsConic(attrs);
+	private void handleEigenvectors(LinkedHashMap<String, String> attrs) {
+		if (!geo.isGeoQuadric()) {
+			handleEigenvectorsConic(attrs);
+			return;
 		}
 		try {
 			GeoQuadric3DInterface quadric = (GeoQuadric3DInterface) geo;
 			// set eigenvectors, but don't classify conic now
 			// classifyConic() will be called in handleMatrix() by
 			// conic.setMatrix()
-			quadric.setEigenvectors(StringUtil.parseDouble(attrs.get("x0")),
-					StringUtil.parseDouble(attrs.get("y0")),
-					StringUtil.parseDouble(attrs.get("z0")),
-					StringUtil.parseDouble(attrs.get("x1")),
-					StringUtil.parseDouble(attrs.get("y1")),
-					StringUtil.parseDouble(attrs.get("z1")),
-					StringUtil.parseDouble(attrs.get("x2")),
-					StringUtil.parseDouble(attrs.get("y2")),
-					StringUtil.parseDouble(attrs.get("z2")));
-			return true;
+			setEigenvectorsCalled = true;
+			if (geo.isIndependent() && geo.getDefinition() == null) {
+				quadric.setEigenvectors(StringUtil.parseDouble(attrs.get("x0")),
+						StringUtil.parseDouble(attrs.get("y0")),
+						StringUtil.parseDouble(attrs.get("z0")),
+						StringUtil.parseDouble(attrs.get("x1")),
+						StringUtil.parseDouble(attrs.get("y1")),
+						StringUtil.parseDouble(attrs.get("z1")),
+						StringUtil.parseDouble(attrs.get("x2")),
+						StringUtil.parseDouble(attrs.get("y2")),
+						StringUtil.parseDouble(attrs.get("z2")));
+			}
 		} catch (Exception e) {
-			return false;
+			Log.error("Problem parsing eigenvectors: " + e);
 		}
 	}
 
@@ -1887,8 +1911,6 @@ public class ConsElementXMLHandler {
 			((TextProperties) geo).setFontSizeMultiplier(1);
 			((TextProperties) geo).setSerifFont(false);
 			((TextProperties) geo).setFontStyle(GFont.PLAIN);
-		} else if (!fontTagProcessed && geo.isGeoInputBox()) {
-			((TextProperties) geo).setSerifFont(true);
 		} else if (!lineStyleTagProcessed && ((geo.isGeoFunctionNVar()
 				&& ((GeoFunctionNVar) geo).isFun2Var())
 				|| geo.isGeoSurfaceCartesian())) {
@@ -2054,6 +2076,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "comboBox":
 				handleComboBox(attrs);
+				break;
+			case "contentSerif":
+				handleSerifContent(attrs);
 				break;
 			case "cropBox":
 				handleCropBox(attrs);
@@ -2527,6 +2552,7 @@ public class ConsElementXMLHandler {
 		fontTagProcessed = false;
 		lineStyleTagProcessed = false;
 		symbolicTagProcessed = false;
+		setEigenvectorsCalled = false;
 	}
 
 	/*

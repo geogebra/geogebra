@@ -47,7 +47,6 @@ import org.geogebra.common.util.debug.Log;
 /**
  * This class provides an interface for GeoGebra to use an underlying computer
  * algebra system like Giac.
- * 
  * @author Markus Hohenwarter
  */
 public class GeoGebraCAS implements GeoGebraCasInterface {
@@ -66,9 +65,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	/**
 	 * Creates new CAS interface
-	 * 
-	 * @param kernel
-	 *            kernel
+	 * @param kernel kernel
 	 */
 	public GeoGebraCAS(Kernel kernel) {
 		app = kernel.getApplication();
@@ -196,12 +193,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	/**
 	 * Evaluates an expression given in MPReduce/Giac syntax.
-	 * 
+	 * @param exp the expression
 	 * @return result string (null possible)
-	 * @param exp
-	 *            the expression
-	 * @throws CASException
-	 *             if there is a timeout or the expression cannot be evaluated
+	 * @throws CASException if there is a timeout or the expression cannot be evaluated
 	 */
 	final public String evaluate(String exp) throws CASException {
 		if (app.getSettings().getCasSettings().isEnabled()) {
@@ -226,14 +220,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 		sbPolyCoeffs.setLength(0);
 		sbPolyCoeffs.append("when(is\\_polynomial("); // first check if
-														// expression is
-														// polynomial
+		// expression is
+		// polynomial
 		sbPolyCoeffs.append(polyExpr);
 		sbPolyCoeffs.append(',');
 		sbPolyCoeffs.append(variable);
 		sbPolyCoeffs.append("),");
 		sbPolyCoeffs.append("coeff("); // if it is then return with it's
-										// coefficients
+		// coefficients
 		sbPolyCoeffs.append(getPolynomialCoeffsSB.toString());
 		sbPolyCoeffs.append("),{})"); // if not return {}
 
@@ -300,62 +294,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			final ArrayList<ExpressionNode> args, boolean symbolic,
 			StringTemplate tpl, boolean allowOutsourcing,
 			SymbolicMode symbolicMode) {
-		StringBuilder sbCASCommand = new StringBuilder(80);
-
-		// build command key as name + ".N"
-		sbCASCommand.setLength(0);
-		sbCASCommand.append(name);
-		sbCASCommand.append(".N");
-		String translation = casParser
-				.getTranslatedCASCommand(sbCASCommand.toString());
-
-		boolean zipCommand = "Zip".equals(name);
-
-		// check for eg Sum.N=sum(%)
-		if (translation != null) {
-			sbCASCommand.setLength(0);
-			for (int i = 0; i < translation.length(); i++) {
-				char ch = translation.charAt(i);
-				if (ch == '%') {
-					if (args.size() == 1) { // might be a list as the argument
-						ExpressionValue ev = args.get(0).unwrap();
-						String str = toString(ev, symbolic, tpl);
-						sbCASCommand.append(str);
-					} else {
-						getCurrentCAS().appendListStart(sbCASCommand);
-						for (int j = 0; j < args.size(); j++) {
-							ExpressionValue ev = args.get(j);
-
-							// wrap expression in '...' to stop premature
-							// evaluation
-							// eg Zip(Mod(k, 2), k,{0, -2, -5, 1, -2, -4, 0, 4,
-							// 12})
-							if (zipCommand && j == 0) {
-								sbCASCommand.append("'");
-							}
-							sbCASCommand.append(toString(ev, symbolic, tpl));
-							if (zipCommand && j == 0) {
-								sbCASCommand.append("'");
-							}
-							sbCASCommand.append(',');
-						}
-						// remove last comma
-						sbCASCommand.setLength(sbCASCommand.length() - 1);
-						getCurrentCAS().appendListEnd(sbCASCommand);
-					}
-				} else {
-					sbCASCommand.append(ch);
-				}
-
-			}
-
-			return sbCASCommand.toString();
-		}
-
-		// build command key as name + "." + args.size()
-		// remove 'N'
-		sbCASCommand.setLength(sbCASCommand.length() - 1);
-
 		// check if completion of variable list is needed
 		boolean paramEquExists = checkForParamEquExistance(args, name);
 		// check if list of vars needs completion
@@ -449,14 +387,17 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		boolean skipEqu = false;
 		MyList equsForArgs = new MyList(this.app.getKernel());
 		StringBuilder assumesForArgs = new StringBuilder();
-		
+
+		StringBuilder sbCASCommand = new StringBuilder(80);
+		// build command key as name + "." + args.size()
+		sbCASCommand.append(name);
+		sbCASCommand.append(".");
+
 		if (args.size() == 1 && "Point".equals(name)) {
 			updateArgsAndSbForPoint(args, sbCASCommand);
-		}
-		else if (args.size() == 1 && "Area".equals(name)) {
+		} else if (args.size() == 1 && "Area".equals(name)) {
 			updateArgsAndSbForArea(args, sbCASCommand, app.getKernel());
-		}
-		else if (args.size() == 2 && "Intersect".equals(name)) {
+		} else if (args.size() == 2 && "Intersect".equals(name)) {
 			updateArgsAndSbForIntersect(args, sbCASCommand);
 		}
 		// case solve with list of equations
@@ -574,6 +515,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		boolean outsourced = false;
+		String translation = null;
 		// check if there is support in the outsourced CAS (now SingularWS) for
 		// this command:
 		if (allowOutsourcing && app.getSingularWS() != null
@@ -589,9 +531,17 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		if (!outsourced) {
 			translation = translateCommandSignature(sbCASCommand.toString());
 		}
+
+		// Try .N translation
+		if (translation == null) {
+			translation = getVarargTranslation(sbCASCommand, name, args, symbolic, tpl);
+			if (translation != null) {
+				return translation;
+			}
+		}
+
 		sbCASCommand.setLength(0);
 
-		// no translation found:
 		// use key as function name
 		if (translation == null) {
 			Kernel kern = app.getKernel();
@@ -652,7 +602,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			if ("Evaluate".equals(name) && args.size() == 1
 					&& args.get(0).unwrap() instanceof Command
 					&& "Evaluate".equals(
-							((Command) args.get(0).unwrap()).getName())) {
+					((Command) args.get(0).unwrap()).getName())) {
 				return toString(args.get(0), symbolic, tpl);
 			}
 			for (int i = 0; i < translation.length(); i++) {
@@ -740,7 +690,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						// needed for #5506
 						if ("SolveODE".equals(name)
 								&& ((ExpressionNode) ev)
-										.getLeft() instanceof MyList
+								.getLeft() instanceof MyList
 								&& args.size() > 2) {
 							sbCASCommand.append(toString(
 									((MyList) (args.get(pos).getLeft()))
@@ -811,12 +761,69 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return sbCASCommand.toString();
 	}
 
+	private String getVarargTranslation(StringBuilder builder, String name,
+			ArrayList<ExpressionNode> args, boolean symbolic,
+			StringTemplate tpl) {
+		// build command key as name + ".N"
+		builder.setLength(0);
+		builder.append(name);
+		builder.append(".N");
+		String translation = casParser
+				.getTranslatedCASCommand(builder.toString());
+
+		boolean isZipCommand = "Zip".equals(name);
+
+		// check for eg Sum.N=sum(%)
+		if (translation != null) {
+			builder.setLength(0);
+			for (int i = 0; i < translation.length(); i++) {
+				char ch = translation.charAt(i);
+				if (ch == '%') {
+					appendArg(builder, args, symbolic, tpl, isZipCommand);
+				} else {
+					builder.append(ch);
+				}
+			}
+			return builder.toString();
+		}
+		return null;
+	}
+
+	private void appendArg(StringBuilder builder, ArrayList<ExpressionNode> args,
+			boolean symbolic, StringTemplate tpl, boolean isZipCommand) {
+		if (args.size() == 1) { // might be a list as the argument
+			ExpressionValue ev = args.get(0).unwrap();
+			String arg = toString(ev, symbolic, tpl);
+			builder.append(arg);
+		} else {
+			CASGenericInterface cas = getCurrentCAS();
+			cas.appendListStart(builder);
+			for (int j = 0; j < args.size(); j++) {
+				ExpressionValue ev = args.get(j);
+
+				// wrap expression in '...' to stop premature
+				// evaluation
+				// eg Zip(Mod(k, 2), k,{0, -2, -5, 1, -2, -4, 0, 4,
+				// 12})
+				if (isZipCommand && j == 0) {
+					builder.append("'");
+				}
+				builder.append(toString(ev, symbolic, tpl));
+				if (isZipCommand && j == 0) {
+					builder.append("'");
+				}
+				builder.append(',');
+			}
+			// remove last comma
+			builder.setLength(builder.length() - 1);
+			cas.appendListEnd(builder);
+		}
+	}
+
 	/**
 	 * variables like i, e have a special meaning in Giac so all GeoGebra
 	 * variables need "ggbtmpvar" as a prefix
-	 * 
-	 * @param str
-	 *            variable name
+	 * @param str variable name
 	 * @return whether str should have "ggbtmpvar" on the front
 	 */
 	public static boolean needsTmpPrefix(String str) {
@@ -902,7 +909,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 								.getLabel(StringTemplate.defaultTemplate));
 					} else {
 						sb.append(args.get(i).toOutputValueString(
-							StringTemplate.maxPrecision));
+								StringTemplate.maxPrecision));
 					}
 				}
 				sb.append(']');
@@ -970,13 +977,13 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		if ("Solve".equals(name) && args.size() == 2) {
 			if (args.get(0).getLeft() instanceof MyList
 					&& (args.get(1).getLeft() instanceof MyList || args.get(1)
-							.getLeft() instanceof GeoDummyVariable)) {
+					.getLeft() instanceof GeoDummyVariable)) {
 				// list of equations
 				MyList listOfEquations = (MyList) args.get(0).getLeft();
 				// analyze if first equation is a parametric equation
 				if (listOfEquations.getItem(0).isExpressionNode()
 						&& ((ExpressionNode) listOfEquations.getItem(0))
-								.getLeft() instanceof Equation) {
+						.getLeft() instanceof Equation) {
 					Equation equation = (Equation) ((ExpressionNode) listOfEquations
 							.getItem(0)).getLeft();
 					if (equation.getLHS().evaluatesTo3DVector()) {
@@ -1076,7 +1083,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	/**
 	 * change Solutions({x+y=1, x-y=3}) to Solutions({x+y=1, x-y=3},{x,y})
-	 * 
 	 */
 	private static String switchVarsToSolutions(ArrayList<ExpressionNode> args,
 			StringBuilder sbCASCommand) {

@@ -80,35 +80,6 @@ public class Browser {
 		return "Apple Computer, Inc." === $wnd.navigator.vendor;
 	}-*/;
 
-	/**
-	 * https://github.com/cheton/is-electron/blob/master/index.js MIT
-	 *
-	 * @return true if running in Electron
-	 */
-	public static native boolean isElectron() /*-{
-		// Renderer process
-		if (typeof $wnd !== 'undefined' && typeof $wnd.process === 'object'
-				&& $wnd.process.type === 'renderer') {
-			return true;
-		}
-
-		// Main process
-		if (typeof $wnd.process !== 'undefined'
-				&& typeof $wnd.process.versions === 'object'
-				&& !!$wndprocess.versions.electron) {
-			return true;
-		}
-
-		// Detect the user agent when the `nodeIntegration` option is set to true
-		if (typeof $wnd.navigator === 'object'
-				&& typeof $wnd.navigator.userAgent === 'string'
-				&& $wnd.navigator.userAgent.indexOf('Electron') >= 0) {
-			return true;
-		}
-
-		return false;
-	}-*/;
-
 	public native static boolean externalCAS() /*-{
 		return typeof $wnd.evalGeoGebraCASExternal == 'function'
 				&& $wnd.evalGeoGebraCASExternal("1+1") == "2";
@@ -255,12 +226,23 @@ public class Browser {
 	}-*/;
 
 	/**
-	 * @return whether we are running this from another website (local install
-	 *         of app bundle)
+	 * @return whether we are running on geogebra.org
 	 */
 	public static boolean isGeoGebraOrg() {
-		return Location.getHost() != null
-				&& Location.getHost().contains("geogebra.org");
+		String host = Location.getHost();
+		return host != null && host.contains("geogebra.org");
+	}
+
+	/**
+	 * @return right now GraspableMath is only enabled on geogebra.org and
+	 * development hosts
+	 */
+	public static boolean isGraspableMathEnabled() {
+		String host = Location.getHost();
+		return host != null
+				&& (host.contains("geogebra.org")
+					|| host.contains("localhost")
+					|| host.contains("apps-builds.s3-eu-central-1.amazonaws.com"));
 	}
 
 	public native static String navigatorLanguage() /*-{

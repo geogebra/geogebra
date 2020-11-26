@@ -133,16 +133,16 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	@Override
 	public synchronized void evalXML(String xmlString) {
-		StringBuilder sb = new StringBuilder();
-
-		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-		sb.append("<geogebra format=\"" + GeoGebraConstants.XML_FILE_FORMAT
-				+ "\">\n");
-		sb.append("<construction>\n");
-		sb.append(xmlString);
-		sb.append("</construction>\n");
-		sb.append("</geogebra>\n");
-		getApplication().setXML(sb.toString(), false);
+		getApplication().getActiveEuclidianView().saveInlines();
+		String sb = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+				+ "<geogebra format=\"" + GeoGebraConstants.XML_FILE_FORMAT
+				+ "\">\n"
+				+ "<construction>\n"
+				+ xmlString
+				+ "</construction>\n"
+				+ "</geogebra>\n";
+		getApplication().setXML(sb, false);
+		getApplication().getActiveEuclidianView().updateInlines();
 	}
 
 	/**
@@ -766,58 +766,58 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
-	public synchronized void registerAddListener(String JSFunctionName) {
+	public synchronized void registerAddListener(Object JSFunctionName) {
 		app.getScriptManager().registerAddListener(JSFunctionName);
 	}
 
 	@Override
-	public synchronized void unregisterAddListener(String JSFunctionName) {
+	public synchronized void unregisterAddListener(Object JSFunctionName) {
 		app.getScriptManager().unregisterAddListener(JSFunctionName);
 	}
 
 	@Override
-	public synchronized void registerRemoveListener(String JSFunctionName) {
+	public synchronized void registerRemoveListener(Object JSFunctionName) {
 		app.getScriptManager().registerRemoveListener(JSFunctionName);
 	}
 
 	@Override
-	public synchronized void unregisterRemoveListener(String JSFunctionName) {
+	public synchronized void unregisterRemoveListener(Object JSFunctionName) {
 		app.getScriptManager().unregisterRemoveListener(JSFunctionName);
 	}
 
 	@Override
-	public synchronized void registerClearListener(String JSFunctionName) {
+	public synchronized void registerClearListener(Object JSFunctionName) {
 		app.getScriptManager().registerClearListener(JSFunctionName);
 	}
 
 	@Override
-	public synchronized void unregisterClearListener(String JSFunctionName) {
+	public synchronized void unregisterClearListener(Object JSFunctionName) {
 		app.getScriptManager().unregisterClearListener(JSFunctionName);
 	}
 
 	@Override
-	public synchronized void registerRenameListener(String JSFunctionName) {
+	public synchronized void registerRenameListener(Object JSFunctionName) {
 		app.getScriptManager().registerRenameListener(JSFunctionName);
 	}
 
 	@Override
-	public synchronized void unregisterRenameListener(String JSFunctionName) {
+	public synchronized void unregisterRenameListener(Object JSFunctionName) {
 		app.getScriptManager().unregisterRenameListener(JSFunctionName);
 	}
 
 	@Override
-	public synchronized void registerUpdateListener(String JSFunctionName) {
+	public synchronized void registerUpdateListener(Object JSFunctionName) {
 		app.getScriptManager().registerUpdateListener(JSFunctionName);
 	}
 
 	@Override
-	public synchronized void unregisterUpdateListener(String JSFunctionName) {
+	public synchronized void unregisterUpdateListener(Object JSFunctionName) {
 		app.getScriptManager().unregisterUpdateListener(JSFunctionName);
 	}
 
 	@Override
 	public synchronized void registerObjectUpdateListener(String objName,
-			String JSFunctionName) {
+			Object JSFunctionName) {
 		app.getScriptManager().registerObjectUpdateListener(objName,
 				JSFunctionName);
 	}
@@ -828,28 +828,28 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
-	public synchronized void registerClickListener(String JSFunctionName) {
+	public synchronized void registerClickListener(Object JSFunctionName) {
 		app.getScriptManager().registerClickListener(JSFunctionName);
 	}
 
 	@Override
-	public synchronized void unregisterClickListener(String JSFunctionName) {
+	public synchronized void unregisterClickListener(Object JSFunctionName) {
 		app.getScriptManager().unregisterClickListener(JSFunctionName);
 	}
 
 	@Override
-	public void registerClientListener(String JSFunctionName) {
+	public void registerClientListener(Object JSFunctionName) {
 		app.getScriptManager().registerClientListener(JSFunctionName);
 	}
 
 	@Override
-	public void unregisterClientListener(String JSFunctionName) {
+	public void unregisterClientListener(Object JSFunctionName) {
 		app.getScriptManager().unregisterClientListener(JSFunctionName);
 	}
 
 	@Override
 	public synchronized void registerObjectClickListener(String objName,
-			String JSFunctionName) {
+			Object JSFunctionName) {
 		app.getScriptManager().registerObjectClickListener(objName,
 				JSFunctionName);
 	}
@@ -860,8 +860,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
-	public synchronized void registerStoreUndoListener(String JSFunctionName) {
+	public synchronized void registerStoreUndoListener(Object JSFunctionName) {
 		app.getScriptManager().registerStoreUndoListener(JSFunctionName);
+	}
+
+	@Override
+	public synchronized void unregisterStoreUndoListener(Object JSFunctionName) {
+		app.getScriptManager().unregisterStoreUndoListener(JSFunctionName);
 	}
 
 	@Override
@@ -1553,6 +1558,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
+	 *
+	 * @return if construction is saved
+	 */
+	public boolean isSaved() {
+		return app.isSaved();
+	}
+
+	/**
 	 * Deletes all construction elements
 	 */
 	@Override
@@ -1696,6 +1709,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public void setPerspective(String code) {
 		if (code.startsWith("search:")) {
 			app.openSearch(code.substring("search:".length()));
+			return;
+		}
+		if (code.startsWith("save:")) {
+			app.getGuiManager().save();
 			return;
 		}
 		if (code.startsWith("customize:")) {
@@ -1852,7 +1869,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * Changes display style of line or conic
-	 * 
+	 *
 	 * @param objName
 	 *            object name
 	 * @param style
@@ -2040,7 +2057,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param handler
 	 *            handle current construction as PGF/Tikz
 	 */
@@ -2073,7 +2090,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param handler
 	 *            handle current construction as PSTricks
 	 */
@@ -2082,7 +2099,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param handler
 	 *            handle current construction in Asymptote format
 	 */
@@ -2091,7 +2108,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param text
 	 *            text to copy to system clipboard
 	 */
@@ -2261,7 +2278,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param label
 	 *            label of GeoElement
 	 * @return screen reader output for GeoElement

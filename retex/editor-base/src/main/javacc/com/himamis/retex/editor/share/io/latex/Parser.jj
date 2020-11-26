@@ -1,3 +1,8 @@
+options {
+   STATIC = false;
+   JAVA_TEMPLATE_TYPE = "modern";
+}
+
 PARSER_BEGIN(Parser)
 package com.himamis.retex.editor.share.io.latex;
 
@@ -241,7 +246,7 @@ void fraction(MathContainer currentField) :
 		editorState.setCurrentField((MathSequence) currentField);
 		editorState.setCurrentOffset(currentField.size());
 		fraction.setArgument(0, passArgs);
-		ArgumentHelper.passArgument(editorState, fraction, true);
+		ArgumentHelper.passArgument(editorState, fraction);
 		//handle denominator
 		MathSequence mathSequence = new MathSequence();
 		mathAtomOrPower(mathSequence);

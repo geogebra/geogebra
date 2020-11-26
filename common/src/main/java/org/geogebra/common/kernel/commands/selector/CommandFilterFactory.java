@@ -68,7 +68,7 @@ public final class CommandFilterFactory {
 				Commands.Vertex, Commands.Polynomial, Commands.TaylorPolynomial,
 				Commands.TaylorSeries, Commands.Asymptote, Commands.OsculatingCircle,
 				Commands.CommonDenominator, Commands.CompleteSquare, Commands.Div, Commands.Mod,
-				Commands.Division);
+				Commands.Division, Commands.IsVertexForm);
 		return nameFilter;
 	}
 
@@ -100,8 +100,7 @@ public final class CommandFilterFactory {
 		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(true);
 		commandNameFilter.addCommands(
 				// CAS specific command
-				Commands.Delete, Commands.Max,
-				Commands.Min, Commands.Poisson,
+				Commands.Delete, Commands.Poisson,
 				// Function Commands
 				Commands.Asymptote, Commands.CurvatureVector, Commands.DataFunction,
 				Commands.Function, Commands.ImplicitCurve, Commands.IterationList,
@@ -136,7 +135,7 @@ public final class CommandFilterFactory {
 				Commands.DotPlot, Commands.FrequencyPolygon, Commands.FrequencyTable,
 				Commands.Histogram, Commands.HistogramRight, Commands.NormalQuantilePlot,
 				Commands.ResidualPlot, Commands.StemPlot, Commands.StepGraph,
-				Commands.StickGraph,
+				Commands.StickGraph, Commands.LineGraph,
 				// Discrete Math Commands
 				Commands.ShortestDistance,
 				// GeoGebra Commands

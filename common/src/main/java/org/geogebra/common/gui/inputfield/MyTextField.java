@@ -3,10 +3,9 @@ package org.geogebra.common.gui.inputfield;
 import org.geogebra.common.util.StringUtil;
 
 /**
- * @author gabor
- * 
- *         Just a collector class for static methods used both Web and Desktop
+ * Utility class for static methods used both Web and Desktop
  *
+ * @author gabor
  */
 public abstract class MyTextField {
 

@@ -12,6 +12,8 @@ import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
+import org.geogebra.common.euclidian.EuclidianPen;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.PenPreviewLine;
@@ -45,7 +47,6 @@ import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
@@ -57,11 +58,8 @@ import org.geogebra.web.html5.util.ImageWrapper;
 import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.resources.SVGResource;
 
-import com.google.gwt.animation.client.AnimationScheduler;
-import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -89,6 +87,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
+import elemental2.dom.DomGlobal;
+import elemental2.dom.FrameRequestCallback;
 import jsinterop.base.Js;
 
 /**
@@ -115,19 +115,14 @@ public class EuclidianViewW extends EuclidianView implements
 	private GGraphics2DWI g2p = null;
 	private GGraphics2D g2dtemp;
 	private GGraphics2DW g4copy = null;
+	private GGraphics2DWI penCanvas;
+
 	private GColor backgroundColor = GColor.WHITE;
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 	private String svgBackgroundUri = null;
 	private MyImageW svgBackground = null;
 
-	private AnimationCallback repaintCallback = new AnimationCallback() {
-		@Override
-		public void execute(double ts) {
-			doRepaint2();
-		}
-	};
-
-	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
+	private final FrameRequestCallback repaintCallback = ts -> doRepaint2();
 
 	private long lastRepaint;
 	/** application **/
@@ -149,8 +144,13 @@ public class EuclidianViewW extends EuclidianView implements
 	// needed to make sure outline doesn't get dashed
 	private GBasicStroke outlineStroke = AwtFactory.getPrototype()
 			.newBasicStroke(3, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_BEVEL);
-	/** cache for bottom layers */
-	private ImageData cacheGraphics;
+	/**
+	 * cache state
+	 * true: currently using cache
+	 * false: cache invalidated, not yet cleared
+	 * null: cache was invalidated and cleared
+	 */
+	private Boolean cacheGraphics;
 
 	/**
 	 * @param euclidianViewPanel
@@ -172,7 +172,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 		initBaseComponents(euclidianViewPanel, euclidiancontroller, evNo,
 				settings);
-		initClickStartHandler();
+		initAriaDefaults();
 		attachFocusinHandler();
 	}
 
@@ -187,24 +187,6 @@ public class EuclidianViewW extends EuclidianView implements
         }
         element.addEventListener("focusin", handler);
     }-*/;
-
-	private void initClickStartHandler() {
-		AbsolutePanel panel = getAbsolutePanel();
-		if (panel == null) {
-			return;
-		}
-		ClickStartHandler.init(panel, new ClickStartHandler() {
-			@Override
-			public void onClickStart(final int x, final int y,
-					PointerEventType type) {
-				getEuclidianController().closePopups(x, y, type);
-				if (appW.isMenuShowing()) {
-					appW.toggleMenu();
-				}
-			}
-		});
-		initAriaDefaults();
-	}
 
 	/**
 	 * @param euclidiancontroller
@@ -230,7 +212,7 @@ public class EuclidianViewW extends EuclidianView implements
 		// at mouse events which call setActiveToolbarId #plotpanelevno
 		// initBaseComponents(EVPanel, euclidiancontroller, -1);
 		initBaseComponents(evPanel, euclidiancontroller, viewNo, settings);
-		initClickStartHandler();
+		initAriaDefaults();
 	}
 
 	private void initAriaDefaults() {
@@ -294,14 +276,21 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	public final void doRepaint2() {
 		long time = System.currentTimeMillis();
-		if (cacheGraphics == null) {
+
+		if (cacheGraphics != null && cacheGraphics) {
+			penCanvas.clearRect(0, 0, getWidth(), getHeight());
+			getEuclidianController().getPen().repaintIfNeeded(penCanvas);
+		} else {
 			g2p.resetLayer();
 			updateBackgroundIfNecessary();
 			paint(g2p);
-		} else {
-			g2p.getContext().putImageData(cacheGraphics, 0, 0);
-			getEuclidianController().getPen().repaintIfNeeded(g2p);
+
+			if (cacheGraphics != null) {
+				cacheGraphics = null;
+				penCanvas.clearAll();
+			}
 		}
+
 		// if we have pen tool in action
 		// repaint the preview line
 		lastRepaint = System.currentTimeMillis() - time;
@@ -565,7 +554,7 @@ public class EuclidianViewW extends EuclidianView implements
 	 * schedule a repaint
 	 */
 	public void doRepaint() {
-		repaintScheduler.requestAnimationFrame(repaintCallback);
+		DomGlobal.requestAnimationFrame(repaintCallback);
 	}
 
 	/**
@@ -686,9 +675,24 @@ public class EuclidianViewW extends EuclidianView implements
 		} else {
 			this.g2p = new GGraphics2DE();
 		}
+
 		updateFonts();
 		initView(true);
 		attachView();
+
+		if (getViewID() == App.VIEW_EUCLIDIAN || getViewID() == App.VIEW_EUCLIDIAN2) {
+			g2p.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+			Canvas pCanvas = Canvas.createIfSupported();
+			if (pCanvas != null) {
+				penCanvas = new GGraphics2DW(pCanvas);
+				penCanvas.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+				penCanvas.setDevicePixelRatio(appW.getPixelRatio());
+				g2p.getElement().getParentElement()
+						.appendChild(penCanvas.getCanvas().getElement());
+			} else {
+				penCanvas = new GGraphics2DE();
+			}
+		}
 
 		euclidiancontroller.setView(this);
 
@@ -1490,10 +1494,9 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void invalidateCache() {
-		cacheGraphics = null;
-		// fix for chromium bug with putImageData
-		// https://bugs.chromium.org/p/chromium/issues/detail?id=68495
-		forceResize(this);
+		if (penCanvas != null) {
+			cacheGraphics = false;
+		}
 	}
 
 	/**
@@ -1501,8 +1504,11 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public void cacheGraphics() {
-		double scale = g2p.getDevicePixelRatio();
-		cacheGraphics = g2p.getContext().getImageData(0, 0, getWidth() * scale,
-				getHeight() * scale);
+		cacheGraphics = true;
+		EuclidianPen pen = getEuclidianController().getPen();
+		penCanvas.setCoordinateSpaceSize(getWidth(), getHeight());
+		penCanvas.setStroke(EuclidianStatic.getStroke(pen.getPenSize(),
+				pen.getPenLineStyle(), GBasicStroke.JOIN_ROUND));
+		penCanvas.setColor(pen.getPenColor());
 	}
 }

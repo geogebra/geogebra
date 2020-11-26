@@ -893,10 +893,6 @@
 		padding-left: 5px;
 	}
 
-	.TitleBarPanel .toggleStyleBar.dataAnalysisToggleButton {
-		padding-top: 0;
-	}
-
 	.TitleBarPanel .dragPanel {
 		padding-top: 1px;
 	}
@@ -953,6 +949,7 @@
 		-webkit-user-select: none;
 		-ms-user-select: none;
 		user-select: none;
+		will-change: transform;
 	}
 
 	.VerticalSeparator {
@@ -1263,7 +1260,6 @@
 		display: inline-block;
 		width: 30%;
 	}
-
 
 	.dialogContent .sliderIntervalPanel .gwt-Label {
 		display: block;
@@ -2279,12 +2275,14 @@
 		padding: 0;
 	}
 
-	.ProbCalcPanel {
-		overflow: auto;
+	.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent.ProbCalcPanel {
+		// no scrollbar for main panel, only for value table
+		overflow: hidden;
 	}
-
-	.ProbCalcPanel .PlotPanelPlus {
+	.plotSplitPane {
 		float: left;
+	}
+	.ProbCalcPanel .PlotPanelPlus {
 		margin: 0;
 		margin-top: 6px;
 		padding: 0;
@@ -2296,6 +2294,7 @@
 		padding: 0;
 		padding-left: 10px;
 		overflow: auto;
+		box-sizing: border-box;
 	}
 
 	.ProbCalcPanel .ProbabilityTableW table {
@@ -2341,11 +2340,25 @@
 		overflow: auto;
 	}
 
-	.controlPanel > div {
-		padding: 5px 0;
+	.controlPanel .groupEnd {
 		margin-right: 30px;
+	}
+
+	.cbPanel, .intervalPanel {
+		padding: 5px 0;
 		float: left;
 		white-space: nowrap;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		& > * {
+			margin-top: 8px;
+		}
+	}
+
+	.parameterPanel, .resultPanel {
+		display: flex;
+		align-items: center;
 	}
 
 	.controlPanel > div.clear {
@@ -2365,11 +2378,6 @@
 	.parameterPanel > *, .resultPanel > * {
 		display: inline-block;
 		margin: 0 5px;
-		padding: 0;
-	}
-
-	.intervalPanel > * {
-		display: inline-block;
 	}
 
 	/* --------- STATISTICS CALCULATOR --------------- */

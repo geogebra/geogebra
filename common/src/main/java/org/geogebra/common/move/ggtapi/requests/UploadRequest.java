@@ -183,6 +183,8 @@ public class UploadRequest implements Request {
 
 			// appname
 			settings.put("-appname", client.getAppName());
+			settings.put("-width", client.getWidth());
+			settings.put("-height", client.getHeight());
 
 			if (parent != null) {
 				task.put("parent", parent.getId());

@@ -15,8 +15,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.model.MathSequence;
-import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.web.MathFieldW;
 
 /**
@@ -153,11 +151,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 		if (isSuggesting()) {
 			sug.onKeyDown();
 		}
-	}
-
-	@Override
-	public String serialize(MathSequence selectionText) {
-		return GeoGebraSerializer.serialize(selectionText);
 	}
 
 	@Override

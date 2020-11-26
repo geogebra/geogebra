@@ -700,6 +700,7 @@ public class ConstructionDefaults {
 								// see GeoList.setAlphaValue() and
 								// getAlphaValue()
 		list.setDefaultGeoType(DEFAULT_LIST);
+		list.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		defaultGeoElements.put(DEFAULT_LIST, list);
 	}
 
@@ -1192,7 +1193,6 @@ public class ConstructionDefaults {
 	 *            string for 3d geos
 	 */
 	public void getDefaultsXML(StringBuilder sb2d, StringBuilder sb3d) {
-
 		String appCode = cons.getApplication().getConfig().getAppCode();
 		MyXMLio.addXMLHeader(sb2d);
 		MyXMLio.addGeoGebraHeader(sb2d, true, null,

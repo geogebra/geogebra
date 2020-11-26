@@ -29,7 +29,7 @@ class EditorChecker {
 
 	protected EditorChecker(App app, MetaModel model) {
 		this.app = app;
-		mathField = new MathFieldCommon(model);
+		mathField = new MathFieldCommon(model, null);
 		typer = new EditorTyper(mathField);
 	}
 
@@ -91,6 +91,20 @@ class EditorChecker {
 		try {
 			formula = parser.parse(input);
 			mathField.getInternal().setFormula(formula);
+		} catch (Exception e) {
+			Assert.fail("Problem parsing: " + input);
+		}
+		return this;
+	}
+
+	public EditorChecker matrixFromParser(String input) {
+		Parser parser = new Parser(mathField.getMetaModel());
+		MathFormula formula;
+		try {
+			formula = parser.parse(input);
+			mathField.getInternal().setFormula(formula);
+			mathField.getInternal().getFormula().getRootComponent().setProtected();
+			mathField.getInternal().setLockedCaretPath();
 		} catch (Exception e) {
 			Assert.fail("Problem parsing: " + input);
 		}

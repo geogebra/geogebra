@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.TestHarness;
@@ -141,7 +140,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 		if (app.getMode() == EuclidianConstants.MODE_SELECT) {
 			GRectangle selectionRectangle = app.getActiveEuclidianView().getSelectionRectangle();
-			if (!app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) || selectionRectangle != null) {
+			if (selectionRectangle != null) {
 				setPosition(
 						calculatePosition(selectionRectangle, false, false));
 				return;

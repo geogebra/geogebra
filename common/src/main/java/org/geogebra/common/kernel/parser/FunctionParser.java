@@ -48,6 +48,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class FunctionParser {
 	private final Kernel kernel;
 	private final App app;
+	private boolean inputBoxParsing = false;
 
 	/**
 	 * @param kernel
@@ -56,6 +57,10 @@ public class FunctionParser {
 	public FunctionParser(Kernel kernel) {
 		this.kernel = kernel;
 		this.app = kernel.getApplication();
+	}
+
+	public void setInputBoxParsing(boolean inputBoxParsing) {
+		this.inputBoxParsing = inputBoxParsing;
 	}
 
 	/**
@@ -70,8 +75,7 @@ public class FunctionParser {
 	 * @return function node
 	 */
 	public ExpressionNode makeFunctionNode(String cimage, MyList myList,
-			ArrayList<ExpressionNode> undecided, boolean giacParsing, boolean geoGebraCASParsing,
-			boolean inputBoxParsing) {
+			ArrayList<ExpressionNode> undecided, boolean giacParsing, boolean geoGebraCASParsing) {
 		String funcName = cimage.substring(0, cimage.length() - 1);
 		ExpressionNode en;
 		if (giacParsing) {
@@ -227,9 +231,6 @@ public class FunctionParser {
 			return new ExpressionNode(kernel, geoExp, Operation.ELEMENT_OF, myList);
 		}
 
-		// a(b) becomes a*b because a is not a function, no list, and no curve
-		// e.g. a(1+x) = a*(1+x) when a is a number
-
 		if (inputBoxParsing && geoExp.wrap().getRight() instanceof Evaluatable) {
 			ExpressionValue left = geoExp.wrap().getLeft();
 
@@ -237,6 +238,8 @@ public class FunctionParser {
 					Operation.FUNCTION, toFunctionArgument(myList, funcName)).multiply(left);
 		}
 
+		// a(b) becomes a*b because a is not a function, no list, and no curve
+		// e.g. a(1+x) = a*(1+x) when a is a number
 		return multiplication(geoExp, undecided, myList, funcName);
 	}
 
@@ -246,10 +249,11 @@ public class FunctionParser {
 				&& !kernel.getLoadingMode()
 				&& !isCommand(funcName)) {
 			VariableReplacerAlgorithm replacer = new VariableReplacerAlgorithm(kernel);
-			ExpressionValue exprWithDummyArg = replacer.replace(funcName + "$");
-			if (exprWithDummyArg.isExpressionNode()
-					&& exprWithDummyArg.wrap().getOperation() ==  Operation.MULTIPLY
-					&& Operation.isSimpleFunction(exprWithDummyArg.wrap().getRightTree().getOperation())) {
+			replacer.setMultipleUnassignedAllowed(inputBoxParsing);
+			ExpressionNode exprWithDummyArg = replacer.replace(funcName + "$").wrap();
+			if (exprWithDummyArg.getOperation() == Operation.MULTIPLY
+					&& (Operation.isSimpleFunction(exprWithDummyArg.getRightTree().getOperation())
+					|| exprWithDummyArg.getRightTree().getOperation() == Operation.LOGB)) {
 				Traversing.VariableReplacer dummyArgReplacer = Traversing.VariableReplacer
 						.getReplacer("$", arg, kernel);
 				return exprWithDummyArg.traverse(dummyArgReplacer).wrap();
@@ -277,7 +281,8 @@ public class FunctionParser {
 		if (size == 1 && "log".equals(funcName) && kernel.getLoadingMode()) {
 			return Operation.LOG;
 		}
-		return app.getParserFunctions().get(funcName, size);
+
+		return app.getParserFunctions(inputBoxParsing).get(funcName, size);
 	}
 
 	private static boolean hasDerivative(GeoElement geo) {
@@ -511,16 +516,17 @@ public class FunctionParser {
 	 */
 	public ExpressionValue multiplySpecial(ExpressionValue left,
 			ExpressionValue right, boolean giacParsing, boolean geogebraCasParsing) {
+
 		String leftImg;
 		App app = kernel.getApplication();
 
 		// sin x in GGB is function application if "sin" is not a variable
 		if (left instanceof Variable) {
 			leftImg = left.toString(StringTemplate.defaultTemplate);
-			Operation op = app.getParserFunctions().getSingleArgumentOp(leftImg);
+			Operation op = app.getParserFunctions(inputBoxParsing).getSingleArgumentOp(leftImg);
+
 			if (op != null) {
 				return new ExpressionNode(kernel, right, op, null);
-
 			}
 			if (leftImg.startsWith("log_")
 					&& kernel.lookupLabel(leftImg) == null) {
@@ -532,13 +538,17 @@ public class FunctionParser {
 							right);
 				}
 			}
+			ExpressionNode splitFunctionExp = makeSplitCommand(leftImg, right, giacParsing);
+			if (splitFunctionExp != null) {
+				return splitFunctionExp;
+			}
 			// sin^2 x
 		} else if (left instanceof ExpressionNode
 				&& ((ExpressionNode) left).getOperation() == Operation.POWER
 				&& ((ExpressionNode) left).getLeft() instanceof Variable) {
 			leftImg = ((ExpressionNode) left).getLeft()
 					.toString(StringTemplate.defaultTemplate);
-			Operation op = app.getParserFunctions().getSingleArgumentOp(leftImg);
+			Operation op = app.getParserFunctions(inputBoxParsing).getSingleArgumentOp(leftImg);
 			if (op != null) {
 				ExpressionValue exponent = ((ExpressionNode) left).getRight()
 						.unwrap();

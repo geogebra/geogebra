@@ -15,6 +15,7 @@ import org.geogebra.common.euclidian.inline.InlineFormulaController;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
+import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
 import org.geogebra.common.gui.Layout;
@@ -35,13 +36,13 @@ import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
-import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
@@ -58,6 +59,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
+import org.geogebra.web.cas.giac.CASFactoryW;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.full.euclidian.inline.InlineFormulaControllerW;
 import org.geogebra.web.full.euclidian.inline.InlineTableControllerW;
@@ -90,7 +92,7 @@ import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
-import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
+import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
@@ -133,19 +135,19 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.Persistable;
+import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
+import org.gwtproject.timer.client.Timer;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -154,6 +156,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.dom.File;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * App with all the GUI
@@ -164,6 +167,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private static final String RECENT_CHANGES_KEY = "RecentChangesInfo.Graphing";
 	private static final boolean ALLOW_RECENT_CHANGES_DIALOG = false;
 	private final static int AUTO_SAVE_PERIOD = 2000;
+	// NB this needs to be adjusted in app-release if we change it here
+	private static final int MIN_SIZE_FOR_PICKER = 650;
 
 	private GuiManagerW guiManager = null;
 
@@ -541,14 +546,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		final PopupBlockAvoider popupBlockAvoider = new PopupBlockAvoider();
 		final GeoGebraTubeExportW ggbtube = new GeoGebraTubeExportW(this);
-		getGgbApi().getBase64(true, new AsyncOperation<String>() {
-
-			@Override
-			public void callback(String s) {
-				ggbtube.uploadWorksheetSimple(s, popupBlockAvoider);
-
-			}
-		});
+		getGgbApi().getBase64(true,
+				(StringConsumer) s -> ggbtube.uploadWorksheetSimple(s, popupBlockAvoider));
 	}
 
 	@Override
@@ -739,11 +738,23 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public final void openSearch(String query) {
 		hideMenu();
 		if (isWhiteboardActive()
+				&& !getLoginOperation().isLoggedIn()) {
+			activity.markSearchOpen();
+			getGuiManager().listenToLogin();
+			getLoginOperation().showLoginDialog();
+			getGuiManager().setRunAfterLogin(() -> {
+				((OpenFileView) getGuiManager()
+						.getBrowseView()).updateMaterials();
+				showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
+			});
+			return;
+		}
+		if (isWhiteboardActive()
 				&& getGuiManager().browseGUIwasLoaded()
 				&& StringUtil.emptyTrim(query)
 				&& getGuiManager().getBrowseView() instanceof OpenFileView) {
-				((OpenFileView) getGuiManager().getBrowseView())
-						.updateMaterials();
+			((OpenFileView) getGuiManager().getBrowseView())
+					.updateMaterials();
 		}
 		showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
 		if (getAppletParameters().getDataParamPerspective()
@@ -892,8 +903,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public final void showPerspectivesPopup() {
-		if (isUnbundledOrWhiteboard()) {
+	public final void showPerspectivesPopupIfNeeded() {
+		boolean smallScreen = Window.getClientWidth() < MIN_SIZE_FOR_PICKER
+				|| Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
+		if (isUnbundledOrWhiteboard() || smallScreen || !(
+				getAppletParameters().getDataParamShowAppsPicker() || getAppletParameters()
+						.getDataParamApp()) || getExam() != null) {
 			return;
 		}
 		afterLocalizationLoaded(new Runnable() {
@@ -1848,6 +1863,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			this.setSpHeight(newHeight);
 			if (oldSplitLayoutPanel != null) {
 				oldSplitLayoutPanel.setHeight(getSpHeight() + "px");
+				getGuiManager().getLayout().getDockManager().resizeProbabilityCalculator();
 				getGuiManager().updateUnbundledToolbar();
 			}
 		}
@@ -1891,9 +1907,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void updateFloatingButtonsPosition() {
-		ToolbarMow toolbarMow = frame.getToolbarMow();
-		if (toolbarMow != null) {
-			toolbarMow.updateFloatingButtonsPosition();
+		NotesLayout notesLayout = frame.getNotesLayout();
+		if (notesLayout != null) {
+			notesLayout.updateFloatingButtonsPosition();
 		}
 	}
 
@@ -2029,9 +2045,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public JavaScriptObject getEmbeddedCalculators() {
+	public JsPropertyMap<Object> getEmbeddedCalculators(boolean includeGraspableMath) {
 		getEmbedManager();
-		return embedManager != null ? embedManager.getEmbeddedCalculators() : null;
+		return embedManager != null
+				? embedManager.getEmbeddedCalculators(includeGraspableMath)
+				: null;
 	}
 
 	@Override
@@ -2044,7 +2062,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public ScriptManager newScriptManager() {
-		return new ScriptManagerW(this, getActivity().getApiExporter());
+		return new ScriptManagerW(this, getActivity().getExportedApi());
 	}
 
 	@Override
@@ -2124,6 +2142,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 		if (getAppletFrame().isKeyboardShowing()) {
 			hideKeyboard();
+		}
+	}
+
+	@Override
+	protected void initFactories() {
+		super.initFactories();
+		if (!CASFactory.isInitialized()) {
+			CASFactory.setPrototype(new CASFactoryW());
 		}
 	}
 }

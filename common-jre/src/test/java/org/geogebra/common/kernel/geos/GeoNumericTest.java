@@ -6,7 +6,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.main.settings.AppConfigCas;
+import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.junit.Test;
 
 public class GeoNumericTest extends BaseUnitTest {

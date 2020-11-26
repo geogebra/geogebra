@@ -63,7 +63,8 @@ class InputBoxRenderer {
 	}
 
 	private String getTextForSymbolic() {
-		boolean flatEditableList = !hasEditableMatrix() && linkedGeo.isGeoList();
+		boolean flatEditableList = linkedGeo.isGeoList()
+				&& !((GeoList) linkedGeo).hasSpecialEditor();
 		boolean isComplexFunction = linkedGeo.isGeoSurfaceCartesian()
 				&& linkedGeo.getDefinition() != null;
 
@@ -95,7 +96,7 @@ class InputBoxRenderer {
 	}
 
 	private String getVectorRenderString(GeoVectorND vector) {
-		return vector.isColumnEditable()
+		return vector.hasSpecialEditor()
 				? vector.toLaTeXString(true, StringTemplate.latexTemplate)
 				: getLaTeXRedefineString();
 	}
@@ -107,17 +108,9 @@ class InputBoxRenderer {
 
 	private StringTemplate getStringTemplateForLaTeX() {
 		if (stringTemplateForLaTeX == null) {
-			stringTemplateForLaTeX = StringTemplate.latexTemplate.makeStrTemplateForEditing();
+			stringTemplateForLaTeX = StringTemplate.latexTemplate;
 		}
 		return stringTemplateForLaTeX;
-	}
-
-	private boolean hasEditableMatrix() {
-		if (!linkedGeo.isGeoList()) {
-			return false;
-		}
-
-		return ((GeoList) linkedGeo).isEditableMatrix();
 	}
 
 	void setLinkedGeo(GeoElementND linkedGeo) {

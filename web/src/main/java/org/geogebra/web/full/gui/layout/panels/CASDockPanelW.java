@@ -74,9 +74,6 @@ public class CASDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	protected ResourcePrototype getViewIcon() {
-		if (app.isUnbundledOrWhiteboard()) {
-			return getResources().settings();
-		}
 		return getResources().styleBar_CASView();
 	}
 

@@ -91,7 +91,7 @@ public class TabletLookAndFeel extends GLookAndFeel {
 
 	@Override
 	public Platform getPlatform(int dim, String appName) {
-		return Platform.ANDROID_WEBVIEW;
+		return Platform.IOS_WEBVIEW;
 	}
 
 	@Override
@@ -109,4 +109,8 @@ public class TabletLookAndFeel extends GLookAndFeel {
 		return false;
 	}
 
+	@Override
+	public boolean isExternalLoginAllowed() {
+		return false;
+	}
 }

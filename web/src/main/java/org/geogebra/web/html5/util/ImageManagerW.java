@@ -72,7 +72,7 @@ public class ImageManagerW extends ImageManager {
 			Map<String, String> toLoad) {
 		imagesLoaded++;
 		if (imagesLoaded == toLoad.size()) {
-			app1.getAsyncManager().scheduleCallback(run);
+			run.run();
 			imagesLoaded = 0;
 		}
 	}

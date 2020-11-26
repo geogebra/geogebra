@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
@@ -97,8 +98,9 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.plugin.JsReference;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.ScriptManager;
-import org.geogebra.common.plugin.script.JsScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -113,6 +115,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 
 import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.ZeroingWeak;
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -137,6 +140,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	/** maximal line width */
 	public static final int MAX_LINE_WIDTH = 13;
 
+	@Weak
 	protected App app;
 	protected AppConfig appConfig;
 
@@ -285,9 +289,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	private ExpressionNode definition;
 
 	private int defaultGeoType = -1;
+
 	/** parent algorithm */
-	@Weak
+	@ZeroingWeak
+	@Nullable
 	protected AlgoElement algoParent = null;
+
 	/** draw algorithm */
 	protected AlgoElement algoDraw = null;
 	/** directly dependent algos */
@@ -1566,18 +1573,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			// Application.debug("hasFixedDescendent, not deleting");
 			setUndefined();
 			updateRepaint();
-		} else if (!lockedObjectForDelete()) {
+		} else {
 			remove();
 			kernel.notifyRemoveGroup();
 		}
-	}
-
-	private boolean lockedObjectForDelete() {
-		// see APPS-2271 + APPS-1982
-		boolean isObjFixed = this instanceof GeoBoolean
-				? ((GeoBoolean) this).isCheckboxFixed()
-				: isLocked();
-		return (app.isApplet() && isObjFixed) || !selectionAllowed;
 	}
 
 	@Override
@@ -2220,8 +2219,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			final AnimationManager am = kernel.getAnimatonManager();
 			if (animating) {
 				am.addAnimatedGeo(this);
+				kernel.notifyStartAnimation(this);
 			} else {
 				am.removeAnimatedGeo(this);
+				kernel.notifyStopAnimation(this);
 			}
 		}
 	}
@@ -3653,12 +3654,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	final public String getDefinition(StringTemplate tpl) {
 		if (algoParent != null) {
 			return algoParent.getDefinition(tpl);
-
 		}
-		if (definition != null) {
-			return definition.toString(tpl);
-		}
-		return "";
+		return definition != null ? definition.toString(tpl) : "";
 	}
 
 	/**
@@ -4567,9 +4564,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	private void getListenerTagXML(StringBuilder sb,
-			HashMap<GeoElement, JsScript> map, String type) {
+			HashMap<GeoElement, JsReference> map, String type) {
 		if (map != null) {
-			JsScript objectListener = map.get(this);
+			JsReference objectListener = map.get(this);
 			if (objectListener != null) {
 				sb.append("\t<listener type=\"").append(type).append("\" val=\"");
 				sb.append(objectListener.getText());
@@ -5216,6 +5213,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return false;
 	}
 
+	@Override
+	public boolean hasSpecialEditor() {
+		return false;
+	}
+
 	/**
 	 * @return true for functions evaluable in CAS
 	 */
@@ -5460,18 +5462,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			tempSet = new TreeSet<>(algoComparator);
 		}
 		return tempSet;
-	}
-
-	/**
-	 * @param rwTransVec
-	 *            translation vector
-	 * @param endPosition
-	 *            end position
-	 * @return true if successful
-	 */
-	protected boolean movePoint(final Coords rwTransVec,
-			final Coords endPosition) {
-		return false;
 	}
 
 	/**
@@ -6395,6 +6385,15 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return parentGroup != null;
 	}
 
+	/**
+	 * Check for moving and (in applets) deleting by tool.
+	 * Locked position may still allow changing value (checkbox, slider)
+	 * @return whether the element position is locked
+	 */
+	public boolean isLockedPosition() {
+		return isLocked();
+	}
+
 	/** Used by TraceDialog for "Trace as... value of/copy of */
 	public enum TraceModesEnum {
 		/** no value for this geo, only copy */
@@ -7280,5 +7279,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	public void setOrdering(int ordering) {
 		this.ordering = ordering;
+	}
+
+	@Override
+	public boolean isOperation(Operation operation) {
+		return false;
 	}
 }

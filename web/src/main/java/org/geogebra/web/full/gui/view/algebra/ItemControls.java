@@ -178,8 +178,8 @@ public class ItemControls extends FlowPanel
 
 	private void closeBurgerMenu() {
 		AppWFull app = radioTreeItem.getApplication();
-		if (app.isUnbundled() && app.isMenuShowing()) {
-			app.toggleMenu();
+		if (app.isUnbundled()) {
+			app.hideMenu();
 		}
 	}
 

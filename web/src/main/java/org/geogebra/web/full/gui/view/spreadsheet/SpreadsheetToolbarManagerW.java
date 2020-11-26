@@ -18,7 +18,12 @@ public class SpreadsheetToolbarManagerW {
 	private SpreadsheetViewW view;
 	private MyTableW table;
 
-	private CreateObjectDialogW id;
+	private CreateObjectDialogW createObjectDialog;
+	public static final int TYPE_LIST = 0;
+	public static final int TYPE_MATRIX = 2;
+	public static final int TYPE_LISTOFPOINTS = 1;
+	public static final int TYPE_TABLETEXT = 3;
+	public static final int TYPE_POLYLINE = 4;
 
 	/**
 	 * @param app
@@ -46,35 +51,35 @@ public class SpreadsheetToolbarManagerW {
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
 			//if(!app.getSelectedGeos().isEmpty() && prevMode == mode){
 			if (!table.getSelectedCellRanges().get(0).isEmpty()) {
-				openDialog(CreateObjectModel.TYPE_LIST);
+				openDialog(CreateObjectModel.TYPE_LIST, "CreateList");
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS:
 			if (table.getCellRangeProcessor()
 					.isCreatePointListPossible(table.getSelectedCellRanges())) {
-				openDialog(CreateObjectModel.TYPE_LISTOFPOINTS);
+				openDialog(CreateObjectModel.TYPE_LISTOFPOINTS, "CreateListOfPoints");
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX:
 			if (table.getCellRangeProcessor()
 					.isCreateMatrixPossible(table.getSelectedCellRanges())) {
-				openDialog(CreateObjectModel.TYPE_MATRIX);
+				openDialog(CreateObjectModel.TYPE_MATRIX, "CreateMatrix");
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT:
 			if (table.getCellRangeProcessor()
 					.isCreateMatrixPossible(table.getSelectedCellRanges())) {
-				openDialog(CreateObjectModel.TYPE_TABLETEXT);
+				openDialog(CreateObjectModel.TYPE_TABLETEXT, "CreateTable");
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE:
 			if (table.getCellRangeProcessor()
 					.isCreatePointListPossible(table.getSelectedCellRanges())) {
-				openDialog(CreateObjectModel.TYPE_POLYLINE);
+				openDialog(CreateObjectModel.TYPE_POLYLINE, "CreatePolyLine");
 			}
 			break;
 			
@@ -95,9 +100,8 @@ public class SpreadsheetToolbarManagerW {
 		}				
 	}
 
-	private void openDialog(int type) {
-		id = new CreateObjectDialogW(app, view, type);
-		id.setVisible(true);
+	private void openDialog(int type, String title) {
+		createObjectDialog = new CreateObjectDialogW(app, view, type, title);
+		createObjectDialog.show();
 	}
-
 }

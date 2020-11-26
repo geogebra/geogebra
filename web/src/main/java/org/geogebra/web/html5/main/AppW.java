@@ -43,7 +43,6 @@ import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
@@ -58,6 +57,7 @@ import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingsBuilder;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.move.events.BaseEventPool;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
@@ -67,6 +67,7 @@ import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.operations.Network;
 import org.geogebra.common.move.operations.NetworkOperation;
+import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.sound.SoundManager;
@@ -139,6 +140,7 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
+import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -151,7 +153,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HTML;
@@ -161,6 +162,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.dom.File;
+import jsinterop.base.JsPropertyMap;
 
 public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public static final String STORAGE_MACRO_KEY = "storedMacro";
@@ -519,7 +521,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * inits factories
 	 */
 	protected void initFactories() {
-
 		if (FormatFactory.getPrototype() == null) {
 			FormatFactory.setPrototypeIfNull(new FormatFactoryW());
 		}
@@ -530,10 +531,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		if (StringUtil.getPrototype() == null) {
 			StringUtil.setPrototypeIfNull(new StringUtil());
-		}
-
-		if (!CASFactory.isInitialized()) {
-			CASFactory.setPrototype((CASFactory) GWT.create(CASFactory.class));
 		}
 
 		if (UtilFactory.getPrototype() == null) {
@@ -566,7 +563,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public ScriptManager newScriptManager() {
-		return new ScriptManagerW(this, new ApiExporter());
+		return new ScriptManagerW(this, new DefaultExportedApi());
 	}
 
 	// ================================================
@@ -576,7 +573,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void callAppletJavaScript(String fun, String arg) {
 		Log.debug("calling function: " + fun + "(" + arg + ")");
-		JsEval.callNativeJavaScript(fun, arg);
+		JsEval.callNativeGlobalFunction(fun, arg);
 	}
 
 	@Override
@@ -719,19 +716,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            whether to reload just a slide
 	 */
 	public void loadGgbFile(final GgbFile archiveContent, final boolean asSlide) {
-		Runnable r = () -> loadFileWithoutErrorHandling(archiveContent, asSlide);
-
-		getAsyncManager().scheduleCallback(r);
-	}
-
-	/**
-	 * Try loading a file only once (might fail with CommandNotLoadedError)
-	 * @param archiveContent
-	 *            zip archive content
-	 * @param asSlide
-	 *            whether to reload just a slide
-	 */
-	public void loadFileWithoutErrorHandling(GgbFile archiveContent, boolean asSlide) {
 		AlgebraSettings algebraSettings = getSettings().getAlgebra();
 		algebraSettings.setModeChanged(false);
 		clearMedia();
@@ -841,12 +825,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		ImageLoader imageLoader = new ImageLoader(this, archive, archiveContent,
-				new Runnable() {
-					@Override
-					public void run() {
-						runAfterLoadImages(def, asSlide);
-					}
-				});
+				() -> getAsyncManager().scheduleCallback(
+						() -> runAfterLoadImages(def, asSlide)));
 		imageLoader.load();
 	}
 
@@ -1114,10 +1094,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setWaitCursor();
 		fileNew();
 		setDefaultCursor();
-
-		if (!isUnbundledOrWhiteboard()) {
-			showPerspectivesPopup();
-		}
+		showPerspectivesPopupIfNeeded();
 	}
 
 	/**
@@ -1245,7 +1222,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            archive
 	 * @return whether file is valid
 	 */
-	public boolean openFile(JavaScriptObject fileToHandle) {
+	public boolean openFile(File fileToHandle) {
+		if (getLAF().supportsLocalSave()) {
+			getFileManager().setFileProvider(Provider.LOCAL);
+		}
 		resetPerspectiveParam();
 		resetUrl();
 		return doOpenFile(fileToHandle, null);
@@ -1272,7 +1252,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *         mean, that the file opening was successful, and the opening
 	 *         finished already.
 	 */
-	public native boolean doOpenFile(JavaScriptObject fileToHandle,
+	public native boolean doOpenFile(File fileToHandle,
 			JavaScriptObject callback) /*-{
 		var ggbRegEx = /\.(ggb|ggt|ggs|csv|off|pdf)$/i;
 		var fileName = fileToHandle.name.toLowerCase();
@@ -1490,7 +1470,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void imageDropHappened(String fileName, String content) {
 		SafeGeoImageFactory factory = new SafeGeoImageFactory(this);
-		factory.create(fileName, content);
+		String path = ImageManagerW.getMD5FileName(fileName, content);
+		factory.create(path, content);
 	}
 
 	/**
@@ -1519,7 +1500,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *         Note that If the function returns true, it's don't mean, that the
 	 *         file opening was successful, and the opening finished already.
 	 */
-	public native boolean openFileAsImage(JavaScriptObject fileToHandle,
+	public native boolean openFileAsImage(File fileToHandle,
 			JavaScriptObject callback) /*-{
 		var imageRegEx = /\.(png|jpg|jpeg|gif|bmp|svg)$/i;
 		if (!fileToHandle.name.toLowerCase().match(imageRegEx))
@@ -2611,7 +2592,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		String script = script0;
 
 		script = "document.ggbApplet= document." + ggbApplet
-				+ "; ggbApplet = document." + ggbApplet + ";" + script;
+				+ "; window.ggbApplet = document." + ggbApplet + ";" + script;
 
 		// script = "ggbApplet = document.ggbApplet;"+script;
 
@@ -3140,7 +3121,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * Show perspective picker
 	 */
-	public void showPerspectivesPopup() {
+	public void showPerspectivesPopupIfNeeded() {
 		// overridden in AppWFull
 	}
 
@@ -3395,8 +3376,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			// url = StringUtil.txtMarker + URL.encodePathSegment(content);
 		}
 
-		dispatchEvent(new org.geogebra.common.plugin.Event(
-				EventType.OPEN_DIALOG, null, "export3D"));
+		dispatchEvent(new Event(EventType.OPEN_DIALOG, null, "export3D"));
 		getFileManager().showExportAsPictureDialog(url, getExportTitle(),
 				extension, "Export", this);
 	}
@@ -3585,8 +3565,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *
 	 * @return then embedded calculator apis.
 	 */
-	public JavaScriptObject getEmbeddedCalculators() {
-		// iplemented in AppWFull
+	public JsPropertyMap<Object> getEmbeddedCalculators(boolean includeGraspableMath) {
+		// implemented in AppWFull
 		return null;
 	}
 
@@ -3674,5 +3654,27 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void resetUrl() {
 	 	Browser.resetUrl();
 		Browser.changeUrl("/" + appletParameters.getParamShareLinkPrefix());
+	}
+
+	/**
+	 * send event for open/close keyboard
+	 * @param openKeyboard true if open keyboard event should be sent
+	 */
+	public void sendKeyboardEvent(boolean openKeyboard) {
+		if (getConfig().sendKeyboardEvents()) {
+			if (openKeyboard && !getAppletFrame().isKeyboardShowing()) {
+				dispatchEvent(new Event(EventType.OPEN_KEYBOARD));
+			}
+			if (!openKeyboard) {
+				dispatchEvent(new Event(EventType.CLOSE_KEYBOARD));
+			}
+		}
+	}
+
+	/**
+	 * @return whether a file with multiple slides is open
+	 */
+	public boolean isMultipleSlidesOpen() {
+		return getPageController() != null && getPageController().getSlideCount() > 1;
 	}
 }

@@ -13,7 +13,7 @@ import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputMode;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.geos.properties.TextAlignment;
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.util.AutoCompleteDictionary;
 
 import com.himamis.retex.editor.share.util.KeyCodes;
@@ -25,7 +25,7 @@ import com.himamis.retex.editor.share.util.KeyCodes;
 public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 
 	private String textField = "";
-	private TextAlignment alignment;
+	private HorizontalAlignment alignment;
 	private boolean focus = false;
 	private GeoInputBox geoInputBox = null;
 	private List<FocusListenerDelegate> focusListeners = new ArrayList<>();
@@ -173,7 +173,7 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	}
 
 	@Override
-	public void setTextAlignmentsForInputBox(TextAlignment alignment) {
+	public void setTextAlignmentsForInputBox(HorizontalAlignment alignment) {
 		this.alignment = alignment;
 	}
 
@@ -200,7 +200,7 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	/**
 	 * @return last value from setAlignment
 	 */
-	public TextAlignment getAlignment() {
+	public HorizontalAlignment getAlignment() {
 		return alignment;
 	}
 

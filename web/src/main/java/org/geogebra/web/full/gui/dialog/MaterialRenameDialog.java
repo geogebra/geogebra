@@ -1,133 +1,31 @@
 package org.geogebra.web.full.gui.dialog;
 
-import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.html5.gui.RenameCard;
-import org.geogebra.web.html5.gui.util.FormLabel;
+import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.ui.FlowPanel;
+public class MaterialRenameDialog extends CardRenameDialog {
 
-/**
- * Material rename dialog
- */
-public class MaterialRenameDialog extends ComponentDialog {
-	private InputPanelW inputField;
-	private boolean inputChanged;
-	private final RenameCard card;
+	private final MaterialCardI card;
 
 	/**
-	 * @param app
-	 *            app
-	 * @param data
-	 * 			  dialog transkeys
-	 * @param card
-	 *            card of file being renamed
+	 * @param app app
+	 * @param data dialog transkeys
 	 */
-	public MaterialRenameDialog(AppW app, DialogData data, RenameCard card) {
-		super(app, data, false, true);
+	public MaterialRenameDialog(AppW app,
+			DialogData data, MaterialCardI card) {
+		super(app, data);
 		this.card = card;
-		addStyleName("materialRename");
-		addStyleName("mebis");
-		buildContent();
-		setOnPositiveAction(this::renameCard);
+		setText(getCardTitle());
 	}
 
-	/**
-	 * Rename the card to the current input.
-	 */
-	protected void renameCard() {
-		card.rename(getInputText());
+	@Override
+	protected void renameCard(String text) {
+		card.rename(text);
 	}
 
-	/**
-	 *
-	 * @return the trimmed text of the input field.
-	 */
-	protected String getInputText() {
-		return inputField.getText().trim();
-	}
-
-	private void buildContent() {
-		FlowPanel contentPanel = new FlowPanel();
-		inputField = new InputPanelW("", app, 1, 25, false);
-		FormLabel inputLabel = new FormLabel().setFor(inputField.getTextComponent());
-		inputLabel.addStyleName("inputLabel");
-		contentPanel.add(inputLabel);
-		contentPanel.add(inputField);
-		setText(card.getCardTitle());
-		initInputFieldActions();
-		setPosBtnDisabled(true);
-		addDialogContent(contentPanel);
-	}
-
-	private void setText(String text) {
-		inputField.getTextComponent().setText(text);
-	}
-
-	/**
-	 * @return input text field of dialog
-	 */
-	public InputPanelW getInputField() {
-		return inputField;
-	}
-
-	private void initInputFieldActions() {
-		// on input change
-		inputField.getTextComponent().addKeyUpHandler(
-				event -> validate());
-		// set focus to input field!
-		Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
-		addHoverHandlers();
-		addFocusHandlers();
-	}
-
-	/**
-	 * Add focus / blur handlers
-	 */
-	private void addFocusHandlers() {
-		inputField.getTextComponent().getTextBox()
-				.addFocusHandler(event -> {
-					getInputField().setStyleName("mowInputPanelContent");
-					getInputField().addStyleName("focusState");
-				});
-		inputField.getTextComponent().getTextBox()
-				.addBlurHandler(event -> {
-					getInputField().removeStyleName("focusState");
-					getInputField().addStyleName("emptyState");
-				});
-	}
-
-	/**
-	 * Add mouse over/ out handlers
-	 */
-	private void addHoverHandlers() {
-		inputField.getTextComponent().getTextBox()
-				.addMouseOverHandler(event -> getInputField().addStyleName("hoverState"));
-		inputField.getTextComponent().getTextBox()
-				.addMouseOutHandler(event -> getInputField().removeStyleName("hoverState"));
-	}
-
-	/**
-	 * Enable or disable
-	 */
-	protected void validate() {
-		setPosBtnDisabled(isTextInvalid());
-	}
-
-	protected boolean isTextInvalid() {
-		inputChanged = inputChanged
-				|| !getInputText().equals(card.getCardTitle());
-		return StringUtil.emptyTrim(inputField.getText())
-				|| inputField.getText().length() > Material.MAX_TITLE_LENGTH
-				|| !inputChanged;
-	}
-
-	protected boolean isInputChanged() {
-		return inputChanged;
+	@Override
+	protected String getCardTitle() {
+		return card.getCardTitle();
 	}
 }

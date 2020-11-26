@@ -36,12 +36,12 @@ public class LaTeXTextRenderer implements TextRenderer {
 		double diffToCenter = (inputBoxHeight - textDimension.getHeight()) / 2.0;
 		int textTop = (int) Math.round(yPos + diffToCenter);
 
-		drawInputBox.drawLatex(graphics, geo, font, text, textLeft, textTop);
+		drawInputBox.drawLatex(graphics, geo, font, text, textLeft, textTop, true);
 	}
 
 	private int calculateInputBoxHeight(GDimension textDimension) {
 		int textHeightWithMargin = textDimension.getHeight() + BOTTOM_OFFSET + MARGIN;
-		return Math.max(textHeightWithMargin, DrawInputBox.MIN_HEIGHT);
+		return Math.max(textHeightWithMargin, DrawInputBox.SYMBOLIC_MIN_HEIGHT);
 	}
 
 	@Override

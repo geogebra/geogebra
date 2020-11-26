@@ -110,7 +110,7 @@ public class DummyCursor implements FocusHandler, BlurHandler {
 	@Override
 	public void onFocus(FocusEvent event) {
 		if (!app.isWhiteboardActive() && textField != null) {
-			app.showKeyboard(textField, false);
+			app.showKeyboard(textField, true);
 			textField.startOnscreenKeyboardEditing();
 		}
 	}

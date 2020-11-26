@@ -474,6 +474,8 @@ public enum Commands implements CommandsConstants,
 
 	StepGraph(TABLE_CHARTS),
 
+	LineGraph(TABLE_CHARTS),
+
 	ContingencyTable(TABLE_CHARTS),
 
 	// =============================================================
@@ -1202,7 +1204,7 @@ public enum Commands implements CommandsConstants,
 
 	CASLoaded(TABLE_GEOGEBRA),
 
-	ShowSteps(TABLE_ALGEBRA);
+	ShowSteps(TABLE_ALGEBRA), IsVertexForm(TABLE_FUNCTION);
 
 	private static final Commands[] RENAMED = {
 			Commands.Binomial, Commands.BinomialCoefficient, Commands.Mean,

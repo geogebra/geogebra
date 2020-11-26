@@ -21,6 +21,7 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -100,6 +101,7 @@ public abstract class GeoVec3D extends GeoElement
 		if (geo instanceof GeoVec3D) {
 			GeoVec3D v = (GeoVec3D) geo;
 			setCoords(v.x, v.y, v.z);
+			reuseDefinition(geo);
 		} else {
 			setUndefined();
 		}
@@ -687,5 +689,11 @@ public abstract class GeoVec3D extends GeoElement
 	@Override
 	public boolean hasCoords() {
 		return true;
+	}
+
+	@Override
+	public boolean hasSpecialEditor() {
+		return isIndependent()
+				|| getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode;
 	}
 }

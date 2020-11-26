@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
@@ -324,6 +325,7 @@ public class GeoText extends GeoElement
 
 		// check for circular definition
 		if (isParentOf(p)) {
+			app.showError(MyError.Errors.CircularDefinition);
 			throw new CircularDefinitionException();
 		}
 
@@ -649,7 +651,7 @@ public class GeoText extends GeoElement
 		}
 
 		appendFontTag(sb, serifFont, fontSizeD, fontStyle, isLaTeX,
-				kernel.getApplication(), false);
+				kernel.getApplication());
 
 		// print decimals
 		if (printDecimals >= 0 && !useSignificantFigures) {
@@ -1293,14 +1295,11 @@ public class GeoText extends GeoElement
 	 *            latex flag
 	 * @param app
 	 *            application
-	 * @param forceAdd
-	 * 			  true if tag should be added
 	 */
 	public static void appendFontTag(StringBuilder sb, boolean serifFont,
-			double fontSizeD, int fontStyle, boolean isLaTeX, App app,
-			boolean forceAdd) {
+			double fontSizeD, int fontStyle, boolean isLaTeX, App app) {
 		// font settings
-		if (serifFont || fontSizeD != 1 || fontStyle != 0 || isLaTeX || forceAdd) {
+		if (serifFont || fontSizeD != 1 || fontStyle != 0 || isLaTeX) {
 			sb.append("\t<font serif=\"");
 			sb.append(serifFont);
 

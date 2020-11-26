@@ -17,6 +17,7 @@ import org.geogebra.web.html5.euclidian.FontLoader;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.richtext.Editor;
+import org.geogebra.web.richtext.EditorChangeListener;
 import org.geogebra.web.richtext.impl.CarotaEditor;
 import org.geogebra.web.richtext.impl.CarotaUtil;
 
@@ -87,18 +88,19 @@ public class InlineTextControllerW implements InlineTextController {
 		parent.appendChild(editor.getWidget().getElement());
 
 		updateContent();
-		editor.setListener(new Editor.EditorChangeListener() {
+		editor.setListener(new EditorChangeListener() {
 			@Override
 			public void onContentChanged(String content) {
 				if (!content.equals(geo.getContent())) {
 					geo.setContent(content);
 					geo.getKernel().storeUndoInfo();
+					geo.notifyUpdate();
 				}
 			}
 
 			@Override
-			public void onSizeChanged(int minHeight) {
-				int actualMinHeight = minHeight + 2 * DrawInlineText.PADDING;
+			public void onInput() {
+				int actualMinHeight = editor.getMinHeight() + 2 * DrawInlineText.PADDING;
 				if (geo.getMinHeight() != actualMinHeight) {
 					geo.setSize(geo.getWidth(), Math.max(actualMinHeight, geo.getHeight()));
 					geo.setMinHeight(actualMinHeight);
@@ -108,7 +110,7 @@ public class InlineTextControllerW implements InlineTextController {
 
 			@Override
 			public void onSelectionChanged() {
-				geo.getKernel().notifyUpdateVisualStyle(geo, GProperty.FONT);
+				geo.getKernel().notifyUpdateVisualStyle(geo, GProperty.TEXT_SELECTION);
 			}
 		});
 	}
@@ -132,6 +134,13 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
+	public void updateContentIfChanged() {
+		if (geo.getContent() != null && !geo.getContent().equals(editor.getContent())) {
+			updateContent();
+		}
+	}
+
+	@Override
 	public void setWidth(int width) {
 		style.setWidth(width, Style.Unit.PX);
 		editor.setWidth(width);
@@ -150,8 +159,10 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public void toBackground() {
 		editor.deselect();
-		editor.getWidget().addStyleName(INVISIBLE);
-		geo.updateRepaint();
+		if (!editor.getWidget().getElement().hasClassName(INVISIBLE)) {
+			editor.getWidget().addStyleName(INVISIBLE);
+			geo.updateRepaint();
+		}
 	}
 
 	@Override
@@ -163,10 +174,16 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public void format(String key, Object val) {
 		editor.format(key, val);
-		geo.setContent(editor.getContent());
+		saveContent();
+		geo.updateVisualStyleRepaint(GProperty.COMBINED);
 		if ("font".equals(key)) {
 			FontLoader.loadFont(String.valueOf(val), getCallback());
 		}
+	}
+
+	@Override
+	public void saveContent() {
+		geo.setContent(editor.getContent());
 	}
 
 	@Override

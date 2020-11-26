@@ -47,7 +47,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor.addBlurHandler(this);
 		editor.getMathField().setChangeListener(this);
 		editor.getMathField().setFixMargin(LaTeXTextRenderer.MARGIN);
-		editor.getMathField().setMinHeight(DrawInputBox.MIN_HEIGHT);
+		editor.getMathField().setMinHeight(DrawInputBox.SYMBOLIC_MIN_HEIGHT);
 		int baseFontSize = app.getSettings()
 				.getFontSettings().getAppFontSize() + 3;
 
@@ -64,7 +64,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		this.bounds = bounds;
 		// add to DOM, but hidden => getHeight works, but widget is not shown in wrong position
 		editor.setVisible(false);
-		editor.setFontType(geoInputBox.isSerifFont() ? TeXFont.SERIF
+		editor.setFontType(geoInputBox.isSerifContent() ? TeXFont.SERIF
 				:  TeXFont.SANSSERIF);
 		editor.attach(((EuclidianViewW) view).getAbsolutePanel());
 		// update size and show
@@ -85,10 +85,17 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	protected void resetChanges() {
 		getDrawInputBox().setEditing(true);
 
+		editor.setErrorStyle(getGeoInputBox().hasError());
 		decorator.update(bounds, getGeoInputBox());
 		editor.setVisible(true);
 		editor.setText(getGeoInputBox().getTextForEditor());
 		editor.setLabel(getGeoInputBox().getAuralText());
+
+		if (getGeoInputBox().getLinkedGeo().hasSpecialEditor()) {
+			getMathFieldInternal().getFormula().getRootComponent().setProtected();
+			getMathFieldInternal().setLockedCaretPath();
+		}
+
 		Scheduler.get().scheduleDeferred(() -> editor.requestFocus());
 	}
 

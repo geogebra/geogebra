@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.gui.InputHandler;
-import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.dialog.TextInputDialog;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -17,7 +15,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
@@ -37,13 +34,6 @@ public class DialogManagerSolver extends DialogManager {
 	@Override
 	public void showDataSourceDialog(int mode, boolean doAutoLoadSelectedGeos) {
 		// not needed in solver
-	}
-
-	@Override
-	public InputDialog newInputDialog(App app1, String message, String title,
-			String initString, InputHandler handler, GeoElement geo) {
-		// not needed in solver
-		return null;
 	}
 
 	@Override
@@ -162,5 +152,4 @@ public class DialogManagerSolver extends DialogManager {
 	public void showPrintPreview() {
 		Window.print();
 	}
-
 }

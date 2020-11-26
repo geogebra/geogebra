@@ -5,15 +5,14 @@ import java.util.Locale;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.AppConfig;
-import org.geogebra.common.main.AppConfigDefault;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.Matcher;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 
-public class AlgebraTest extends Assert {
+public class AlgebraTest {
 
 	static AlgebraProcessor ap;
 	static AppDNoGui app;

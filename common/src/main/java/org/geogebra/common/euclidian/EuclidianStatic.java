@@ -15,15 +15,13 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 
 /**
- * @author gabor@gegeobra.org
+ * Utility class for Euclidian view
  *
- *
- *         Abstract class for EuclidianStatic
+ * @author gabor
  */
 public class EuclidianStatic {
 	/**
@@ -31,7 +29,6 @@ public class EuclidianStatic {
 	 * near-horizontal thick vector isn't drawn correctly otherwise
 	 */
 	public static final int CLIP_DISTANCE = 5;
-	public static final int EDITOR_MARGIN = 3;
 
 	/** standardstroke */
 	protected static final GBasicStroke standardStroke = AwtFactory
@@ -737,12 +734,8 @@ public class EuclidianStatic {
 		}
 
 		int height = (int) ((lines + 1) * lineSpread);
-		if (app.has(Feature.MOW_TEXT_TOOL)) {
-			labelRectangle.setBounds(xLabel - EDITOR_MARGIN, yLabel - fontSize - EDITOR_MARGIN,
-					(int) labelRectangle.getWidth(), height + 2 * EDITOR_MARGIN);
-		} else {
-			labelRectangle.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6, height + 6);
-		}
+		labelRectangle.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6, height + 6);
+
 		return yoffset > 0;
 	}
 

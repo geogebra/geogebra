@@ -48,7 +48,6 @@ import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -228,7 +227,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public void onBrowserEvent(Event event) {
 		// as arrow keys are prevented in super.onBrowserEvent,
 		// we need to handle arrow key events before that
-		switch (DOM.eventGetType(event)) {
+		int eventType = DOM.eventGetType(event);
+		switch (eventType) {
 		default:
 			// do nothing
 			break;
@@ -263,7 +263,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 		if (!editItem) {
 			// background click
-			if (event.getTypeInt() == Event.ONCLICK
+			if (eventType == Event.ONCLICK
 					&& !CancelEventTimer.cancelKeyboardHide()
 					&& !CancelEventTimer.cancelMouseEvent()) {
 				app.hideKeyboard();
@@ -1936,12 +1936,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	/**
 	 *
-	 * @param event
-	 *            drag event
 	 * @param geo
 	 *            element
 	 */
-	public void dragStart(DragStartEvent event, GeoElement geo) {
+	public void dragStart(GeoElement geo) {
 		setDraggedGeo(geo);
 	}
 

@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.CopyPaste;
@@ -75,10 +74,8 @@ public class CopyPasteD extends CopyPaste {
 		GeoElement geo;
 		for (int i = geos.size() - 1; i >= 0; i--) {
 			geo = (GeoElement) geos.get(i);
-			if (geo.isGeoNumeric()) {
-				if (((GeoNumeric) geo).isSliderFixed()) {
-					geos.remove(geo);
-				}
+			if (geo.isGeoNumeric() && geo.isLockedPosition()) {
+				geos.remove(geo);
 			}
 		}
 	}

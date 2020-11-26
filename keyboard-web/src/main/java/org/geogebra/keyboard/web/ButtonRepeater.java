@@ -1,8 +1,7 @@
 package org.geogebra.keyboard.web;
 
 import org.geogebra.keyboard.base.Action;
-
-import com.google.gwt.user.client.Timer;
+import org.gwtproject.timer.client.Timer;
 
 /**
  * Timer for repeating keyboard actions

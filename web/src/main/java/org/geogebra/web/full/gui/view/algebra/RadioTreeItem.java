@@ -79,7 +79,6 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
-import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -354,7 +353,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			definitionFromTeX(lastTeX);
 		} else if (latex || AlgebraItem.isGeoFraction(geo)) {
 			String text = getTextForEditing(false,
-					StringTemplate.latexTemplateHideLHS);
+					StringTemplate.latexTemplate);
 			definitionFromTeX(text);
 		} else if (geo != null) {
 			IndexHTMLBuilder sb = new DOMIndexHTMLBuilder(definitionPanel, app);
@@ -509,7 +508,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	private boolean updateOutputValuePanel() {
 		return updateValuePanel(geo.getLaTeXDescriptionRHS(true,
-				StringTemplate.latexTemplate));
+				app.getConfig().getOutputStringTemplate()));
 	}
 
 	private void updateSymbolicMode(GeoElement geoElement) {
@@ -1161,19 +1160,14 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		Widget draggableContent = main;
 		getElement().setAttribute("position", "absolute");
 		draggableContent.getElement().setDraggable(Element.DRAGGABLE_TRUE);
-		draggableContent.addDomHandler(new DragStartHandler() {
 
-			@Override
-			public void onDragStart(DragStartEvent event) {
-				event.setData("text", geo.getLabelSimple());
-				event.getDataTransfer().setDragImage(getElement(), 10, 10);
-				event.stopPropagation();
-				getAV().dragStart(event, geo);
-			}
+		draggableContent.addDomHandler(event -> {
+			event.setData("text", geo.getLabelSimple());
+			event.getDataTransfer().setDragImage(getElement(), 10, 10);
+			getAV().dragStart(geo);
 		}, DragStartEvent.getType());
 	}
 
-	// @Override
 	@Override
 	public AppWFull getApplication() {
 		return app;
@@ -1711,8 +1705,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	@Override
 	public void setFocus(boolean focus) {
 		if (focus) {
-			if (app.isUnbundled() && app.isMenuShowing()) {
-				app.toggleMenu();
+			if (app.isUnbundled()) {
+				app.hideMenu();
 			}
 			removeDummy();
 
@@ -1872,7 +1866,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	@Override
 	public void insertString(String text) {
-		new MathFieldProcessing(mf).autocomplete(text);
+		new MathFieldProcessing(mf).autocomplete(
+				app.getParserFunctions().toEditorAutocomplete(text, loc));
 	}
 
 	/**

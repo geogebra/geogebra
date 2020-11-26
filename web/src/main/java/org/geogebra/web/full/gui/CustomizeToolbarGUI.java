@@ -27,7 +27,6 @@ import com.google.gwt.event.dom.client.DragLeaveHandler;
 import com.google.gwt.event.dom.client.DragOverEvent;
 import com.google.gwt.event.dom.client.DragOverHandler;
 import com.google.gwt.event.dom.client.DragStartEvent;
-import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -511,17 +510,10 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		}
 
 		private void initDrag() {
-			addDomHandler(new DragStartHandler() {
-
-				@Override
-				public void onDragStart(DragStartEvent event) {
-					Log.debug("!DRAG START!");
-					draggingTool = DraggableTool.this;
-					event.setData("text", "draggginggg");
-					event.getDataTransfer().setDragImage(getElement(), 10, 10);
-					event.stopPropagation();
-
-				}
+			addDomHandler(event -> {
+				draggingTool = this;
+				event.getDataTransfer().setDragImage(getElement(), 10, 10);
+				event.stopPropagation();
 			}, DragStartEvent.getType());
 		}
 
@@ -603,6 +595,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		addContent();
 		addFooter();
 		setToolbarId(-1);
+		getElement().getStyle().setBackgroundColor("white");
 		update();
 	}
 

@@ -32,9 +32,7 @@ public class UploadImageDialog extends ComponentDialog {
 	 */
 	public UploadImageDialog(AppW app,
 			int previewWidth, int previewHeight) {
-		super(app,
-				new DialogData("Image", "Cancel", "OK"),
-				false, true);
+		super(app, new DialogData("Image"), false, true);
 		this.previewWidth = previewWidth;
 		this.previewHeight = previewHeight;
 		addStyleName("image");

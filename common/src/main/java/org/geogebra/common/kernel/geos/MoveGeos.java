@@ -112,7 +112,7 @@ public class MoveGeos {
 					movedGeo = p.movePoint(rwTransVec, endPosition);
 					geo = (GeoElement) p;
 				} else {
-					movedGeo = geo1.movePoint(rwTransVec, endPosition);
+					movedGeo = ((GeoPointND) geo1).movePoint(rwTransVec, endPosition);
 				}
 			}
 
@@ -145,7 +145,7 @@ public class MoveGeos {
 						movedGeo = true;
 					}
 				} else if (geo1.isGeoNumeric()) {
-					if (!((GeoNumeric) geo).isSliderFixed()) {
+					if (!geo.isLockedPosition()) {
 						// real world screen position - GeoNumeric
 						((GeoNumeric) geo).setRealWorldLoc(
 								((GeoNumeric) geo).getRealWorldLocX()
@@ -200,7 +200,7 @@ public class MoveGeos {
 							.getParentAlgorithm();
 					GeoElement p = (GeoElement) algoVector.getP();
 					if (p.isIndependent()) {
-						movedGeo = p.movePoint(rwTransVec, endPosition);
+						movedGeo = ((GeoPointND) p).movePoint(rwTransVec, endPosition);
 						GeoElement.addParentToUpdateList(p, updateGeos,
 								tempMoveObjectList);
 					}

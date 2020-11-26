@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -60,7 +59,6 @@ public class AlgoDependentFunction extends AlgoElement
 	private boolean expContainsFunctions; // expression contains functions
 	private HashSet<GeoElement> unconditionalInput;
 	private boolean fast;
-	private StringBuilder sb;
 
 	/**
 	 * @param cons
@@ -300,12 +298,10 @@ public class AlgoDependentFunction extends AlgoElement
 				int order = (int) Math
 						.round(((NumberValue) node.getRight()).getDouble());
 				if (leftValue.isExpressionNode()
-						&& (((ExpressionNode) leftValue)
-								.getOperation() == Operation.DOLLAR_VAR_COL
-								|| ((ExpressionNode) leftValue)
-										.getOperation() == Operation.DOLLAR_VAR_ROW
-								|| ((ExpressionNode) leftValue)
-										.getOperation() == Operation.DOLLAR_VAR_ROW_COL)) {
+						&& (leftValue
+								.isOperation(Operation.DOLLAR_VAR_COL)
+								|| leftValue.isOperation(Operation.DOLLAR_VAR_ROW)
+								|| leftValue.isOperation(Operation.DOLLAR_VAR_ROW_COL))) {
 					leftValue = ((ExpressionNode) leftValue).getLeft();
 				}
 				if (leftValue instanceof GeoCasCell) {
@@ -500,21 +496,17 @@ public class AlgoDependentFunction extends AlgoElement
 	}
 
 	@Override
-	public String toString(StringTemplate tpl) {
-		if (sb == null) {
-			sb = new StringBuilder();
-		} else {
-			sb.setLength(0);
+	public String toExpString(StringTemplate tpl) {
+		String rhs = fun.toString(tpl);
+		if (f.isLabelSet()) {
+			return f.getLabel(tpl) + "(" + f.getVarString(tpl) + ") = " + rhs;
 		}
-		if (f.isLabelSet() && !tpl.isHideLHS() && (!f.isBooleanFunction()
-				|| tpl.hasType(StringType.GEOGEBRA_XML))) {
-			sb.append(f.getLabel(tpl));
-			sb.append("(");
-			sb.append(f.getVarString(tpl));
-			sb.append(") = ");
-		}
-		sb.append(fun.toString(tpl));
-		return sb.toString();
+		return rhs;
+	}
+
+	@Override
+	public String getDefinition(StringTemplate tpl) {
+		return fun.toString(tpl);
 	}
 
 	/***

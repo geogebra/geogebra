@@ -48,7 +48,6 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 	protected Widget loadStyleBar() {
 		DataAnalysisViewW da = ((DataAnalysisViewW) ((GuiManagerW) app
 				.getGuiManager()).getDataAnalysisView());
-		this.toggleStyleBarButton.addStyleName("dataAnalysisToggleButton");
 		return da.getStyleBar();
 	}
 

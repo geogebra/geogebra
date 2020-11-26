@@ -9,6 +9,11 @@ import org.geogebra.common.plugin.Operation;
  * Functions for csymbolic computation with vectors
  */
 public class VectorArithmetic {
+	private static final Operation[] COMPLEX_OPS = new Operation[] { Operation.REAL,
+			Operation.IMAGINARY, Operation.ZCOORD };
+	private static final Operation[] VECTOR_OPS = new Operation[] { Operation.XCOORD,
+			Operation.YCOORD, Operation.ZCOORD };
+
 	/**
 	 * @param kernel
 	 *            kernel for output expression
@@ -57,8 +62,8 @@ public class VectorArithmetic {
 	 */
 	private static ExpressionNode scalarProductComponent(Kernel kernel0, int i,
 			ExpressionValue left1, ExpressionValue right1) {
-		return computeCoord(left1.wrap(), i, kernel0).multiply(
-				computeCoord(right1.wrap(), i, kernel0));
+		return computeCoord(left1.wrap(), i, kernel0, VECTOR_OPS).multiply(
+				computeCoord(right1.wrap(), i, kernel0, VECTOR_OPS));
 	}
 
 	/**
@@ -69,14 +74,15 @@ public class VectorArithmetic {
 	 * @return given coordinate of expression
 	 */
 	public static ExpressionNode computeCoord(ExpressionNode exp, int i) {
-		return computeCoord(exp, i, exp.getKernel());
+		return computeCoord(exp, i, exp.getKernel(), VECTOR_OPS);
+	}
+
+	public static ExpressionNode computeCoord(ExpressionNode exp, int i, boolean complex) {
+		return computeCoord(exp, i, exp.getKernel(), complex ? COMPLEX_OPS : VECTOR_OPS);
 	}
 
 	private static ExpressionNode computeCoord(ExpressionNode exp, int i,
-			Kernel kernel) {
-
-		Operation[] ops = new Operation[] { Operation.XCOORD, Operation.YCOORD,
-				Operation.ZCOORD };
+			Kernel kernel, Operation[] ops) {
 		if (exp.isLeaf()) {
 			ExpressionValue coord = extractCoord(exp, i, kernel);
 			if (coord != null) {

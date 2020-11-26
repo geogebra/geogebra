@@ -48,6 +48,8 @@ public class DrawInputBox extends CanvasDrawable {
 	public static final int TF_MARGIN_VERTICAL = 10;
 	/** Padding of the field (plain text) */
 	public static final int TF_PADDING_HORIZONTAL = 2;
+
+	public static final int SYMBOLIC_MIN_HEIGHT = 40;
 	public static final int MIN_HEIGHT = 24;
 
 	/** textfield */
@@ -257,7 +259,7 @@ public class DrawInputBox extends CanvasDrawable {
 			updateGeoInputBox();
 			updateStyle(getTextField());
 		} else {
-			textFont = getTextFont(getGeoInputBox().getText(), geoInputBox.isSerifFont());
+			textFont = getTextFont(getGeoInputBox().getText());
 		}
 
 		view.getViewTextField().revalidateBox();
@@ -280,7 +282,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	private void updateStyle(AutoCompleteTextField tf) {
-		textFont = getTextFont(tf.getText(), geoInputBox.isSerifFont());
+		textFont = getTextFont(tf.getText());
 
 		tf.setFont(textFont);
 
@@ -300,15 +302,19 @@ public class DrawInputBox extends CanvasDrawable {
 		tf.setEditable(true);
 	}
 
+	public boolean hasError() {
+		return getGeoInputBox().hasError();
+	}
+
 	/**
 	 * @param text text to display
-	 * @param serif true if font style serif
 	 * @return the font that has the correct size for the input box
 	 * and can display the given text
 	 */
-	public GFont getTextFont(String text, boolean serif) {
+	public GFont getTextFont(String text) {
 		GFont vFont = view.getFont();
-		return view.getApplication().getFontCanDisplay(text, serif,
+		return view.getApplication().getFontCanDisplay(text,
+				geoInputBox.isSerifContent() && geoInputBox.isSymbolicMode(),
 				vFont.getStyle(), getLabelFontSize());
 	}
 
@@ -434,7 +440,7 @@ public class DrawInputBox extends CanvasDrawable {
 			view.getViewTextField().setBoxBounds(labelRectangle);
 		}
 
-		if (!editing) {
+		if (!editing || view.getApplication().isExporting()) {
 			drawTextfieldOnCanvas(g2);
 		}
 

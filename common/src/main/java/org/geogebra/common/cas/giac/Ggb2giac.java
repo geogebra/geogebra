@@ -22,7 +22,7 @@ public class Ggb2giac {
 	/** Giac syntax for Element(list,index) */
 	public static final String ELEMENT_2 = "when(%1>0&&%1<=size(%0),(%0)[%1-when(type(%0)==DOM_LIST,1,0)],?)";
 	private static final String GGBVECT_TYPE = "27";
-	private static Map<String, String> commandMap = new TreeMap<>();
+	private static final Map<String, String> commandMap = new TreeMap<>();
 
 	/**
 	 * @param signature
@@ -71,24 +71,24 @@ public class Ggb2giac {
 				"[[[ggbbinarg0:=%0],[ggbbinarg1:=%1],[ggbbinarg2:=%2],"
 						// round ggbbinarg0 only if number
 						// (to be consistent with the Algebra View version)
-						+ "[ggbbinarg0:=when(type(ggbbinarg0)==DOM_RAT||type(ggbbinarg0)==DOM_FLOAT,round(ggbbinarg0),ggbbinarg0)]],"
-						+ "when(type(ggbbinarg2)==DOM_LIST,sum(seq(binomial(ggbbinarg0,ggbbinarg2[j],ggbbinarg1),j,0,length(ggbbinarg2)-1)),undef)][1]");
+						+ "[ggbbinarg00:=when(type(ggbbinarg0)==DOM_RAT||type(ggbbinarg0)==DOM_FLOAT,round(ggbbinarg0),ggbbinarg0)]],"
+						+ "when(type(ggbbinarg2)==DOM_LIST,sum(seq(binomial(ggbbinarg00,ggbbinarg2[j],ggbbinarg1),j,0,length(ggbbinarg2)-1)),undef)][1]");
 
 		p("BinomialDist.4",
 				"[[[ggbbinarg0:=%0],[ggbbinarg1:=%1],[ggbbinarg2:=%2],"
 						// round ggbbinarg0 and ggbbinarg2 only if numbers
 						// (to be consistent with the Algebra View version)
-						+ "[ggbbinarg0:=when(type(ggbbinarg0)==DOM_RAT||type(ggbbinarg0)==DOM_FLOAT,round(ggbbinarg0),ggbbinarg0)],"
-						+ "[ggbbinarg2:=when(type(ggbbinarg2)==DOM_RAT||type(ggbbinarg2)==DOM_FLOAT,round(ggbbinarg2),ggbbinarg2)]],"
+						+ "[ggbbinarg00:=when(type(ggbbinarg0)==DOM_RAT||type(ggbbinarg0)==DOM_FLOAT,round(ggbbinarg0),ggbbinarg0)],"
+						+ "[ggbbinarg02:=when(type(ggbbinarg2)==DOM_RAT||type(ggbbinarg2)==DOM_FLOAT,round(ggbbinarg2),ggbbinarg2)]],"
 						+ "if %3==true then "
 						// needed for GGB-841
 						// if %2 is not a number for BinomialDist[n,p,k,true]
 						// use
 						// Sum[BinomialCoefficient[n,i]p^i(1-p)^(n-i),i,0,k]
-						+ "when(type(ggbbinarg2)==DOM_IDENT,"
-						+ " expand(sum(binomial(ggbbinarg0,ggbtmpvari)*pow(ggbbinarg1,ggbtmpvari)*pow(1-ggbbinarg1,ggbbinarg0-ggbtmpvari),ggbtmpvari,0,ggbbinarg2)),"
-						+ " binomial_cdf(ggbbinarg0,ggbbinarg1,ggbbinarg2))"
-						+ "else binomial(ggbbinarg0,ggbbinarg2,ggbbinarg1) fi][1]");
+						+ "when(type(ggbbinarg02)==DOM_IDENT,"
+						+ " expand(sum(binomial(ggbbinarg00,ggbtmpvari)*pow(ggbbinarg1,ggbtmpvari)*pow(1-ggbbinarg1,ggbbinarg0-ggbtmpvari),ggbtmpvari,0,ggbbinarg02)),"
+						+ " binomial_cdf(ggbbinarg00,ggbbinarg1,ggbbinarg02))"
+						+ "else binomial(ggbbinarg00,ggbbinarg02,ggbbinarg1) fi][1]");
 
 		p("Cauchy.3", "normal(1/2+1/pi*atan(((%2)-(%1))/(%0)))");
 
@@ -1034,14 +1034,14 @@ public class Ggb2giac {
 		p("LimitBelow.3",
 				"[[ggblimvans:=?],[ggblimvans:=limit(%0,%1,%2,-1)],[ggblimvans:=when(ggblimvans==inf||ggblimvans==-inf||ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
 
-		p("Max.N",
-				"[[ggbmaxarg:=%],when(type(ggbmaxarg)==DOM_LIST,when(type((ggbmaxarg)[0])==DOM_LIST,?,max(ggbmaxarg)),?)][1]");
 		p("MatrixRank.1", "rank(%0)");
 		p("mean.1", listToNumber("mean"));
 		p("Mean.1", listToNumber("mean"));
 		p("Median.1", "median(%0)");
-		p("Min.N",
-				"[[ggbminarg:=%],when(type(ggbminarg)==DOM_LIST,when(type((ggbminarg)[0])==DOM_LIST,?,min(ggbminarg)),?)][1]");
+
+		pOptimize("Min", "min", "fMin");
+		pOptimize("Max", "max", "fMax");
+
 		p("MixedNumber.1", "propfrac(%0)");
 
 		p("Mod.2", "ggbmod(%0,%1)");
@@ -1177,6 +1177,12 @@ public class Ggb2giac {
 		p("Product.4", "normal(product(%0,%1,%2,%3))");
 		// p("Prog.1","<<%0>>");
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
+
+		// return the median of that part of the list which fall at or below the list median
+		p("Q1.1","[[ggblist:=sort(%0)],[ggbmedian:=median(ggblist)], [ggbsublist:=at(ggblist,0..floor(length(ggblist)/2)-1)], when(length(ggblist)<2,undef, median(ggbsublist))][3]");
+
+		// return the number q3 such that three-fourths of the list numbers fall at or below q3.
+		p("Q3.1","[[ggblist:=sort(%0)],[ggbmedian:=median(ggblist)], [ggbsublist:=at(ggblist, (ceil(length(ggblist)/2))..(length(ggblist)-1))], when(length(ggblist)<2,undef, median(ggbsublist))][3]");
 
 		p("RandomUniform.2", "exact(%0+rand(0,1)*(%1-%0))");
 		p("Random.2", "(%0+rand(%1-(%0)+1))"); // "RandomBetween"
@@ -1928,6 +1934,33 @@ public class Ggb2giac {
 		p("IsInteger.1", "when(type(%0)==DOM_INT,round(%0)==%0, false)");
 
 		return commandMap;
+	}
+
+	private static void pOptimize(String optimize, String optimizeGiac, String optimizeGiacFun) {
+		p(optimize + ".1", "[[ggbarg:=%0],"
+				+ " when(type(ggbarg)==DOM_LIST,"
+				+ "  when(type((ggbarg)[0])==DOM_LIST,?," + optimizeGiac + "(ggbarg)),"
+				+ "  when((ggbarg)[0]=='and',[[ggbnumb:=(a,b)->when(type(evalf(a))==DOM_IDENT,b,a)],"
+				+ "   [ggba:=ggbnumb(ggbarg[1][1],ggbarg[1][2])],"
+				+ "   [ggbb:=ggbnumb(ggbarg[2][1],ggbarg[2][2])],"
+				+ "   " + optimizeGiac + "(ggba,ggbb)][3],?))"
+				+ "][1]");
+		p(optimize + ".2", "[[ggbparam1:=%0],[ggbparam2:=%1],"
+				+ "when(type(ggbparam1)==DOM_LIST&&type(ggbparam2)==DOM_LIST,"
+				+ optimizeGiac + "(map(remove(x->(x[1]<=0), zip((x,y)->[x,y], ggbparam1, ggbparam2)), x->x[0])),"
+				+ optimizeGiac + "(ggbparam1,ggbparam2))][2]");
+		p(optimize + ".3", "[[ggbfun:=%0],[ggbinta:=%1],[ggbintb:=%2],"
+				+ " when(ggb_is_number(ggbfun),"
+				+ "  " + optimizeGiac + "([ggbfun, ggbinta, ggbintb]),"
+				+ "  [[ggbvar:=lname(ggbfun)[0]],"
+				+ "   [ggbx:=" + optimizeGiacFun + "(ggbfun, ggbvar=ggbinta..ggbintb)[0][2]],"
+				+ "   point(ggbx,normal(subst(ggbfun,ggbvar,ggbx)))"
+				+ "  ][2]"
+				+ " )][3]");
+		p(optimize + ".N", "[[ggbarg:=%],"
+				+ "  when(type(ggbarg)==DOM_LIST,"
+				+ "    when(type((ggbarg)[0])==DOM_LIST,?," + optimizeGiac + "(ggbarg)),?"
+				+ "  )][1]");
 	}
 
 	private static String listToNumber(String string) {

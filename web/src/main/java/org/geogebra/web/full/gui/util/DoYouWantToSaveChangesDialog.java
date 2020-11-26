@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.util;
 
+import java.util.Date;
+
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -11,6 +13,8 @@ import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
@@ -23,10 +27,11 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	 * base dialog constructor
 	 * @param app - see {@link AppW}
 	 * @param dialogData - contains trans keys for title and buttons
+	 * @param autoHide - true if dialog should be hidden on background click
 	 */
 	public DoYouWantToSaveChangesDialog(AppW app,
-			DialogData dialogData) {
-		super(app, dialogData, false, true);
+			DialogData dialogData, boolean autoHide) {
+		super(app, dialogData, autoHide, true);
 		addStyleName("saveDialogMow");
 		buildContent();
 		initActions();
@@ -78,6 +83,7 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 				onSave();
 			}
 		});
+		Window.addCloseHandler(event -> app.getSaveController().cancel());
 	}
 
 	private void onSave() {
@@ -174,8 +180,17 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	 */
 	@Override
 	public void setTitle() {
-		app.getSaveController()
-				.updateSaveTitle(getInputField().getTextComponent(), "");
+		// suggest for the user the current date as title
+		String currentDate = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm").format(new Date());
+		boolean titleSelectionNeeded = app.getSaveController().updateSaveTitle(getInputField()
+						.getTextComponent(), currentDate);
+		Scheduler.get().scheduleDeferred(() -> {
+			if (titleSelectionNeeded) {
+				getInputField().getTextComponent().selectAll();
+			} else {
+				getInputField().getTextComponent().setFocus(true);
+			}
+		});
 	}
 
 	@Override
@@ -183,6 +198,5 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 		super.show();
 		center();
 		setTitle();
-		Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
 	}
 }

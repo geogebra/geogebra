@@ -224,8 +224,8 @@ public class ArithmeticTest extends Assert {
 		t("x+y+(1..3)", "{x + y + 1, x + y + 2, x + y + 3}");
 		t("list1=(-2..2)", "{-2, -1, 0, 1, 2}");
 		t("(list1*t,(1-t)*(1-list1))",
-				"{((-2 * t), ((1 - t) * 3)), ((-t), ((1 - t) * 2)), ((0 * t), (1 - t)),"
-						+ " (t, ((1 - t) * 0)), ((2 * t), ((1 - t) * (-1)))}");
+				"{((-2 * t), ((1 - t) * 3)), ((-1 * t), ((1 - t) * 2)), "
+						+ "((0 * t), (1 - t)), (t, ((1 - t) * 0)), ((2 * t), ((1 - t) * (-1)))}");
 	}
 
 	@Test
@@ -295,7 +295,7 @@ public class ArithmeticTest extends Assert {
 				lookup("g").getDefinition(StringTemplate.defaultTemplate));
 		t("ff(x,y)=x+y", "x + y");
 		t("gg(a,b)=ff", "a + b");
-		assertEquals("gg(a, b) = ff(a, b)",
+		assertEquals("ff(a, b)",
 				lookup("gg").getDefinition(StringTemplate.defaultTemplate));
 	}
 

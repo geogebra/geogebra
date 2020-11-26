@@ -79,8 +79,8 @@ public class FunctionNVar extends ValidExpression
 
 		@Override
 		public boolean check(ExpressionValue v) {
-			return (v.isGeoElement() && ((GeoElement) v).isRandomGeo()) || (v.isExpressionNode()
-					&& ((ExpressionNode) v).getOperation() == Operation.RANDOM);
+			return (v.isGeoElement() && ((GeoElement) v).isRandomGeo())
+					|| v.isOperation(Operation.RANDOM);
 		}
 	}
 
@@ -1355,6 +1355,7 @@ public class FunctionNVar extends ValidExpression
 		for (int i = 0; i < n; i++) {
 			expDeriv = expDeriv.derivative(fv, kernel);
 		}
+		expDeriv = expDeriv.shallowCopy();
 		expDeriv.simplifyConstantIntegers();
 		return new FunctionNVar(expDeriv, fVars);
 	}
