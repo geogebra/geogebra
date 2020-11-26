@@ -198,9 +198,9 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 
 	@Override
 	public void show() {
-		super.show();
 		// make sure that the dialog content loaded before decide if should be scrollable
 		Scheduler.get().scheduleDeferred(() -> {
+			super.show();
 			super.centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
 		});
 	}
