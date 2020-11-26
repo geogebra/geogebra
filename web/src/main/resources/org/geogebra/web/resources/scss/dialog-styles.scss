@@ -728,7 +728,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		max-width: 506px;
 		max-height: 546px;
 		width: 80%;
-		height: 94%;
 
 		&.hasBorder .dialogContent {
 			border: none;
@@ -751,7 +750,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin-right: 16px;
 			border: 4px dashed $mow_pdf_dialog_border;
 			border-radius: 8px;
-			height: 100%;
+			min-height: 402px;
 
 			&.withPdf {
 				border-color: transparent;
@@ -761,7 +760,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.imgTextElement {
 			justify-content: center;
 			-webkit-justify-content: center;
-			height: 100%;
+			min-height: 402px;
 			align-items: center;
 			-webkit-align-items: center;
 			display: flex;
