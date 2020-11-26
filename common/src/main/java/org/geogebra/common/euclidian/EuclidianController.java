@@ -721,7 +721,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					break;
 
 				case EuclidianConstants.MODE_H5P:
-					getDialogManager().showH5PDialog();
+					embedManager.openH5PTool();
 					break;
 
 				default:
