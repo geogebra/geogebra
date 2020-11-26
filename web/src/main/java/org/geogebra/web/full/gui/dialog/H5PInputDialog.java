@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.ComponentDialog;
@@ -85,5 +87,13 @@ public class H5PInputDialog extends ComponentDialog {
 	 */
 	void loadH5PElement(File file) {
 		// TODO fill me
+		hide();
+	}
+
+	@Override
+	public void hide() {
+		app.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
+				ModeSetter.TOOLBAR);
+		super.hide();
 	}
 }
