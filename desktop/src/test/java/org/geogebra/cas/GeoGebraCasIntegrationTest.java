@@ -2792,7 +2792,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				f.getOutput(StringTemplate.defaultTemplate));
 	}
 
-	private GeoCasCell add (String input) {
+	private GeoCasCell add(String input) {
 		GeoCasCell cell = new GeoCasCell(kernel.getConstruction());
 		kernel.getConstruction().addToConstructionList(cell, false);
 		cell.setInput(input);
