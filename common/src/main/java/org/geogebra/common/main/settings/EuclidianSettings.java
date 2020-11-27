@@ -1415,6 +1415,10 @@ public class EuclidianSettings extends AbstractSettings {
 		return size.getWidth();
 	}
 
+	public int getRawWidth() {
+		return size != null ? size.getWidth() : -1;
+	}
+
 	/**
 	 * @return height
 	 */

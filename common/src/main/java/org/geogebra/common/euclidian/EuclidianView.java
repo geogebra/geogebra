@@ -3402,30 +3402,34 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * Resize to settings size, keep centered.
 	 */
 	protected void updateSizeKeepCenter() {
-		int w = getWidth();
-		int h = getHeight();
-		if (getSettings() != null) {
-			int sw = getSettings().getWidth();
-			int sh = getSettings().getHeight();
-			double x0 = getSettings().getXZero();
-			double y0 = getSettings().getYZero();
-			if (sw == 0) {
-				// no dimension from file: center the view
-				sw = (int) Math.round(x0 * 2);
-				sh = (int) Math.round(y0 * 2);
-			}
-			double dx = (w - sw) / 2.0;
-			double dy = (h - sh) / 2.0;
-			xZero = getSettings().getXZero() + dx;
-			yZero = getSettings().getYZero() + dy;
-			getSettings().setSize(w, h);
-			getSettings().setOriginNoUpdate(xZero, yZero);
+		EuclidianSettings settings = getSettings();
+		if (settings != null) {
+			int w = getWidth();
+			int h = getHeight();
+			keepCenter(w, h);
+			settings.setSize(w, h);
 		}
-
 		updateSizeChange();
 	}
 
-	private void updateSizeChange() {
+	protected void keepCenter(int width, int height) {
+		int sw = getSettings().getWidth();
+		int sh = getSettings().getHeight();
+		if (sw == 0) {
+			// no dimension from file: center the view
+			double x0 = getSettings().getXZero();
+			double y0 = getSettings().getYZero();
+			sw = (int) Math.round(x0 * 2);
+			sh = (int) Math.round(y0 * 2);
+		}
+		double dx = (width - sw) / 2.0;
+		double dy = (height - sh) / 2.0;
+		xZero = getSettings().getXZero() + dx;
+		yZero = getSettings().getYZero() + dy;
+		getSettings().setOriginNoUpdate(xZero, yZero);
+	}
+
+	protected void updateSizeChange() {
 		updateSizeKeepDrawables();
 		updateAllDrawablesForView(true);
 	}
