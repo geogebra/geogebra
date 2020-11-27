@@ -728,7 +728,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		max-width: 506px;
 		max-height: 546px;
 		width: 80%;
-		height: 94%;
+		height: 90%;
 
 		&.hasBorder .dialogContent {
 			border: none;
@@ -1668,36 +1668,33 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent.templateChooser {
 		max-width: 680px;
 
-		.dialogMainPanel {
-			padding-left: 0px;
-			height: 100%;
-		}
-
 		.dialogTitle {
-			padding-left: 24px;
 			margin-bottom: 0px;
 		}
 
 		.dialogContent {
-			padding: 0px 0px 0px 16px;
+			padding: 0px;
+			max-height: 386px;
+			height: calc(100% - 72px);
+
+			&.withBorder {
+				border-bottom: 1px solid $black-12;
+
+				.templatesPanel {
+					max-width: 665px;
+					padding-right: 0px;
+					padding-left: 15px;
+					padding-bottom: 0px;
+				}
+			}
 		}
 
 		.templatesPanel {
 			max-width: 649px;
-			max-height: 372px;
 			display: inline-block;
-			padding-right: 16px;
+			padding-left: 16px;
 			margin-top: 12px;
 			padding-bottom: 12px;
-
-			&.withBorder {
-				border-bottom: 1px solid $black-12;
-				height: 371px;
-				max-width: 665px;
-				padding-right: 0px;
-				padding-left: 15px;
-				padding-bottom: 0px;
-			}
 
 			.templateCard {
 				width: 200px;

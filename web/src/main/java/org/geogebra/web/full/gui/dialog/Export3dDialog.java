@@ -385,7 +385,6 @@ public class Export3dDialog extends ComponentDialog
 		this.onExportButtonPressed = exportAction;
 		((AppW) app).registerPopup(this);
 		super.show();
-		centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
 	}
 
 	static private void createController() {

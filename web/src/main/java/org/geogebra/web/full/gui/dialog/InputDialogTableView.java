@@ -88,8 +88,6 @@ public class InputDialogTableView extends ComponentDialog
 		endValue.resetInputField();
 		step.resetInputField();
 		super.show();
-		centerAndResize(
-				((AppW) app).getAppletFrame().getKeyboardHeight());
 		startValue.focusDeferred();
 	}
 
