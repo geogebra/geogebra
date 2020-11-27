@@ -33,8 +33,6 @@ final class CMSS10 extends FontInfo {
 
 		setMetrics(171, 722, 694);
 
-		setMetrics(172, 722, 751);
-
 		setMetrics(174, 583, 694, 0, 69);
 		setLigatures(105, 177, 108, 178);
 		setKern(39, 69, 63, 69, 33, 69, 41, 69, 93, 69);
