@@ -206,17 +206,13 @@ public abstract class CanvasDrawable extends Drawable {
 	protected void highlightLabel(GGraphics2D g2, boolean latex) {
 		if (geo.isLabelVisible() && isHighlighted()) {
 			g2.setPaint(GColor.LIGHT_GRAY);
-			if (latex) {
-				g2.fillRect(xLabel, getLabelTop(), labelSize.x, labelSize.y);
-			} else {
-				g2.fillRect(xLabel, getLabelTop(),
-						labelSize.x, getLabelHeight());
-			}
+			int labelHeight = latex ? labelSize.y : getLabelHeight();
+			g2.fillRect(xLabel, (int) getLabelTop(), labelSize.x, labelHeight);
 		}
 	}
 
-	int getLabelTop() {
-		return yLabel + ((boxHeight - getLabelTextHeight()) / 2);
+	double getLabelTop() {
+		return yLabel + ((boxHeight - getLabelTextHeight()) / 2.0);
 	}
 
 	private int getLabelHeight() {
@@ -288,7 +284,7 @@ public abstract class CanvasDrawable extends Drawable {
 	 * @return if label rectangle was hit by (x, y) pointer.
 	 */
 	protected boolean hitLabelBounds(int x, int y) {
-		int top = getLabelTop();
+		double top = getLabelTop();
 		return x > xLabel && x < xLabel + labelSize.x && y > top
 				&& y < top + getLabelHeight();
 	}

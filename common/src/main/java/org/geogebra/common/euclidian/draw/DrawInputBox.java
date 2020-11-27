@@ -502,7 +502,7 @@ public class DrawInputBox extends CanvasDrawable {
 		if (drawDynamicCaption.isEnabled()) {
 			drawDynamicCaption.draw(g2);
 		} else if (isLatexString(text)) {
-			labelDimension = drawLatex(g2, geo0, getLabelFont(), text, xLabel, getLabelTop());
+			labelDimension = drawLatex(g2, geo0, getLabelFont(), text, xLabel, (int) getLabelTop());
 		} else {
 			g2.setPaint(geo.getObjectColor());
 
