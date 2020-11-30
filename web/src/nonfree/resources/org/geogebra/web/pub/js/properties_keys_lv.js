@@ -676,6 +676,8 @@ __GGB__keysVar["lv"].command = {
     "Perimeter.Syntax": "[ <Daudzst\u016bris> ]\n[ <konisks> ]\n[ <Koordin\u0101tas> ]",
     "Periods": "Periods",
     "Periods.Syntax": "[ <Rate>, <Payment>, <Present Value>, <Future Value (optional)>, <Type (optional)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Plakne",
     "Plane.Syntax": "[ <Punkts>, <Plakne> ]\n[ <Punkts>, <Taine> ]\n[ <Taisne>, <Taisne> ]\n[ <Punkts>, <Punkts>, <Punkts> ]",
     "PlaneBisector": "PlaneBisector",

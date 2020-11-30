@@ -676,6 +676,8 @@ __GGB__keysVar["sr"].command = {
     "Perimeter.Syntax": "[ <poligon> ]\n[ <konusni presek> ]",
     "Periods": "Periods",
     "Periods.Syntax": "[ <Rate>, <Payment>, <Present Value>, <Future Value (optional)>, <Type (optional)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Ravan",
     "Plane.Syntax": "[ <ta\u010dka>, <ravan> ]\n[ <ta\u010dka>, <prava> ]\n[ <ta\u010dka>, <ta\u010dka>, <ta\u010dka> ]",
     "PlaneBisector": "RavanSimetrije",

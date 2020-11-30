@@ -676,6 +676,8 @@ __GGB__keysVar["ms"].command = {
     "Perimeter.Syntax": "[ <Poligon> ]\n[ <Keratan Kon> ]\n[ <Lokus> ]",
     "Periods": "Tempoh",
     "Periods.Syntax": "[ <Kadar>, <Bayaran>, <Niali Semasa>, <Nilai Masa Depan (opsyenal)>, <Jenis(opsyenal)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Satah",
     "Plane.Syntax": "[ <Poligon> ]\n[ <Keratan Kon> ]\n[ <Titik>, <Satah> ]\n[ <Titik>, <Garis> ]\n[ <Garis>, <Garis> ]\n[ <Titik>, <Titik>, <Titik> ]",
     "PlaneBisector": "SatahPembahagiDuaSama",

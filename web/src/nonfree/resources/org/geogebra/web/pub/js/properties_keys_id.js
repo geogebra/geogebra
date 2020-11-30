@@ -676,6 +676,8 @@ __GGB__keysVar["id"].command = {
     "Perimeter.Syntax": "[ <Poligon> ]\n[ <Konik> ]",
     "Periods": "Periods",
     "Periods.Syntax": "[ <Rate>, <Payment>, <Present Value>, <Future Value (optional)>, <Type (optional)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Bidang",
     "Plane.Syntax": "[ <Titik>, <Bidang> ]\n[ <Titik>, <Garis> ]\n[ <Titik>, <Titik>, <Titik> ]",
     "PlaneBisector": "BidangPembagiDua",

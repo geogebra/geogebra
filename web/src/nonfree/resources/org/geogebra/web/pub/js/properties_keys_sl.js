@@ -676,6 +676,8 @@ __GGB__keysVar["sl"].command = {
     "Perimeter.Syntax": "[ <mnogokotnik> ]\n[ <sto\u017enica> ]\n[ <sled> ]",
     "Periods": "Obdobja",
     "Periods.Syntax": "[ <obrestna mera>, <pla\u010dilo>, <sedanja vrednost>, <prihodnja vrednost  (ni obvezno)>, <vrsta (ni obvezno)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Ravnina",
     "Plane.Syntax": "[ <mnogokotnik> ]\n[ <sto\u017enica> ]\n[ <to\u010dka>, <ravnina> ]\n[ <to\u010dka>, <premica> ]\n[ <premica>, <premica> ]\n[ <to\u010dka>, <to\u010dka>, <to\u010dka> ]",
     "PlaneBisector": "SimetralaRavnine",

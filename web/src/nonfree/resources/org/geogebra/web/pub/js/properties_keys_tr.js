@@ -676,6 +676,8 @@ __GGB__keysVar["tr"].command = {
     "Perimeter.Syntax": "[ <\xc7okgen> ]\n[ <Konik> ]\n[ <Geometrik yer> ]",
     "Periods": "D\xf6nemler",
     "Periods.Syntax": "[ <Faiz Oran\u0131>, <\xd6deme>, <\u015eimdiki De\u011fer>, <Gelecek De\u011fer(iste\u011fe ba\u011fl\u0131)>, <Tip (iste\u011fe ba\u011fl\u0131)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "D\xfczlem",
     "Plane.Syntax": "[ <\xc7okgen> ]\n[ <Konik> ]\n[ <Nokta>, <D\xfczlem> ]\n[ <Nokta>, <Do\u011fru> ]\n[ <Do\u011fru>, <Do\u011fru> ]\n[ <Nokta>, <Nokta>, <Nokta> ]",
     "PlaneBisector": "OrtaDikD\xfczlem",

@@ -676,6 +676,8 @@ __GGB__keysVar["ro"].command = {
     "Perimeter.Syntax": "[ <Poligon> ]\n[ <Conic\u0103> ]",
     "Periods": "Perioade",
     "Periods.Syntax": "[ <Rat\u0103>, <Plat\u0103>, <Valuare prezent\u0103>, <Viitoare valuare (op\u0163ional)>, <Tip (op\u0163ional)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Plan",
     "Plane.Syntax": "[ <Poligon> ]\n[ <Conic\u0103> ]\n[ <Punct>, <Plan> ]\n[ <Punct>, <Dreapt\u0103> ]\n[ <Dreapt\u0103>, <Dreapt\u0103> ]\n[ <Punct>, <Punct>, <Point> ]",
     "PlaneBisector": "PlanBisector",

@@ -676,6 +676,8 @@ __GGB__keysVar["et"].command = {
     "Perimeter.Syntax": "[ <Hulknurk> ]\n[ <Koonusel\xf5ige> ]\n[ <Lookus> ]",
     "Periods": "PerioodideArv",
     "Periods.Syntax": "[ <Intress>, <Makse>, <Hetkev\xe4\xe4rtus>, <Tulevikuhind (valikuline)>, <T\xfc\xfcp (valikuline)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Tasand",
     "Plane.Syntax": "[ <Hulknurk> ]\n[ <Koonusel\xf5ige> ]\n[ <Punkt>, <Tasand> ]\n[ <Punkt>, <Sirge> ]\n[ <Sirge>, <Sirge> ]\n[ <Punkt>, <Punkt>, <Punkt> ]",
     "PlaneBisector": "PoolitajaTasand",

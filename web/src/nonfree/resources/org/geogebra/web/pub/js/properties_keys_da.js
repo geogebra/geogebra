@@ -676,6 +676,8 @@ __GGB__keysVar["da"].command = {
     "Perimeter.Syntax": "[ <Polygon> ]\n[ <Keglesnit> ]\n[ <Sted> ]",
     "Periods": "Perioder",
     "Periods.Syntax": "[ <Rate>, <Afdrag>, <Nutidsv\xe6rdi>, <Fremtidsv\xe6rdi (kan undv\xe6res)>, <Type (kan undv\xe6res)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Plan",
     "Plane.Syntax": "[ <Polygon> ]\n[ <Keglesnit> ]\n[ <Punkt>, <Plan> ]\n[ <Punkt>, <Linje> ]\n[ <Linje>, <Linje> ]\n[ <Punkt>, <Punkt>, <Punkt> ]\n[ <Punkt>, <Vektor>, <Vektor> ]",
     "PlaneBisector": "HalverPlan",

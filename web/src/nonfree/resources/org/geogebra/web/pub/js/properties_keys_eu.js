@@ -676,6 +676,8 @@ __GGB__keysVar["eu"].command = {
     "Perimeter.Syntax": "[ <Poligonoa> ]\n[ <Konika> ]\n[ <Leku Geometrikoa> ]",
     "Periods": "Periodoak",
     "Periods.Syntax": "[ <Tasa>, <Ordainketa>, <Oraingo Balioa>, <Etorkizuneko Balioa (aukerakoa)>, <Mota (aukerakoa)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Planoa",
     "Plane.Syntax": "[ <Poligonoa> ]\n[ <Konika> ]\n[ <Puntua>, <Planoa> ]\n[ <Puntua>, <Lerroa> ]\n[ <Lerroa>, <Lerroa> ]\n[ <Puntua>, <Puntua>, <Puntua> ]",
     "PlaneBisector": "PlanoErdikaria",

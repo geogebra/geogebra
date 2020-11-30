@@ -676,6 +676,8 @@ __GGB__keysVar["pl"].command = {
     "Perimeter.Syntax": "[ <Wielok\u0105t> ]\n[ <Sto\u017ckowa> ]\n[ <Miejsce Geometryczne> ]",
     "Periods": "Okresy",
     "Periods.Syntax": "[ <Rate>, <Payment>, <Present Value>, <Future Value (optional)>, <Type (optional)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "P\u0142aszczyzna",
     "Plane.Syntax": "[ <Wielok\u0105t> ]\n[ <Sto\u017ckowa> ]\n[ <Punkt>, <P\u0142aszczyzna> ]\n[ <Punkt>, <Prosta> ]\n[ <Prosta>, <Prosta> ]\n[ <Punkt>, <Punkt>, <Punkt> ]",
     "PlaneBisector": "P\u0142aszczyznaSymetralna",

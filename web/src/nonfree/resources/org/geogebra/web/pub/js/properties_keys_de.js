@@ -676,6 +676,8 @@ __GGB__keysVar["de"].command = {
     "Perimeter.Syntax": "[ <Vieleck> ]\n[ <Kegelschnitt> ]\n[ <Ortslinie> ]",
     "Periods": "Perioden",
     "Periods.Syntax": "[ <Zinssatz>, <Zahlung>, <Barwert>, <Endwert (optional)>, <F\xe4lligkeit (optional)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Ebene",
     "Plane.Syntax": "[ <Vieleck> ]\n[ <Kegelschnitt> ]\n[ <Punkt>, <Ebene> ]\n[ <Punkt>, <Gerade> ]\n[ <Gerade>, <Gerade> ]\n[ <Punkt>, <Punkt>, <Punkt> ]",
     "PlaneBisector": "Halbierungsebene",
