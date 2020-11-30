@@ -1762,7 +1762,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			appendGiacMultiplication(sb, left, right, leftStr, rightStr, valueForm);
 			break;
 		default:
-			appendMultiplySpecial(sb, leftStr, rightStr, left, right, valueForm, loc);
+			appendMultiplySpecial(sb, leftStr, rightStr, left, loc);
 			if (sb.length() > 0) {
 				break;
 			}
@@ -1996,24 +1996,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	private void appendMultiplySpecial(StringBuilder sb, String leftStr, String rightStr,
-					ExpressionValue left, ExpressionValue right, boolean valueForm,
-					Localization loc) {
-		Operation operation = Operation.MULTIPLY;
-		// check for 1 at left
-		if (ExpressionNode.isEqualString(left, 1, !valueForm)
-				&& !Unicode.DEGREE_STRING.equals(rightStr)
-				&& !RAD.equals(rightStr)
-				&& stringType != StringType.SCREEN_READER) {
-			append(sb, rightStr, right, operation);
-		}
-		// check for 1 at right
-		else if (ExpressionNode.isEqualString(right, 1, !valueForm)) {
-			append(sb, leftStr, left, operation);
-		}
+					ExpressionValue left, Localization loc) {
 		// no chceck for 0: we need 0x + 1 to be a function, not number
 
 		// check for degree sign or 1degree or degree1 (eg for Arabic)
-		else if ((rightStr.length() == 2
+		if ((rightStr.length() == 2
 				&& ((rightStr.charAt(0) == Unicode.DEGREE_CHAR
 				&& rightStr.charAt(1) == (loc.getZero() + 1))
 				|| (rightStr.charAt(1) == Unicode.DEGREE_CHAR
@@ -2221,14 +2208,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 				appendWithBrackets(sb, leftStr);
 				sb.append('/');
 				appendWithBrackets(sb, rightStr);
-				break;
-			}
-
-			// check for 1 in denominator
-			// #5396
-			if (left.isLeaf()
-					&& ExpressionNode.isEqualString(right, 1, !valueForm)) {
-				sb.append(leftStr);
 				break;
 			}
 

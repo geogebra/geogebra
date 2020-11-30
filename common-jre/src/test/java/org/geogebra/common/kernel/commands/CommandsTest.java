@@ -1140,9 +1140,9 @@ public class CommandsTest {
 	@Test
 	public void cmdFit() {
 		tRound("Fit[ {(0,1),(1,2),(2,5)}, {x^2,x,1} ]",
-				unicode("1x^2 + 0x + 1"));
+				unicode("1x^2 + 0x + 1 * 1"));
 		tRound("Fit[ {(0,1,1),(1,1,2),(2,1,5),(0,2,4),(1,2,5),(2,2,8)}, {x^2,x,1,x^2*y,x*y,y} ]",
-				unicode("3y + 0x y + 0x^2 y - 2 + 0x + 1x^2"));
+				unicode("3y + 0x y + 0x^2 y - 2 * 1 + 0x + 1x^2"));
 		t("a=Slider[0,10]", "0");
 		t("b=Slider[0,10]", "0");
 		t("c=Slider[0,10]", "0");
@@ -1324,9 +1324,9 @@ public class CommandsTest {
 	@Test
 	public void cmdWeibull() {
 		prob("Weibull", "2,1",
-				"If(x < 0, 0, 2 (x)^(2 - 1) " + Unicode.EULER_STRING
-						+ "^(-(x)^2))",
-				"If(x < 0, 0, 1 - " + Unicode.EULER_STRING + "^(-(x)^2))");
+				"If(x < 0, 0, 2 / 1 (x / 1)^(2 - 1) " + Unicode.EULER_STRING
+						+ "^(-(x / 1)^2))",
+				"If(x < 0, 0, 1 - " + Unicode.EULER_STRING + "^(-(x / 1)^2))");
 	}
 
 	@Test
@@ -1372,8 +1372,8 @@ public class CommandsTest {
 	public void cmdGamma() {
 		prob("Gamma", "2,1",
 				"If(x < 0, 0, (x^(2 - 1) " + Unicode.EULER_STRING
-						+ "^(-(x))) / (1^2 gamma(2)))",
-				"If(x < 0, 0, gamma(2, x) / gamma(2))");
+						+ "^(-(x / 1))) / (1^2 gamma(2)))",
+				"If(x < 0, 0, gamma(2, x / 1) / gamma(2))");
 	}
 
 	@Test
@@ -1493,7 +1493,7 @@ public class CommandsTest {
 		tpm("pmx", "{x, (-x)}");
 		tpm("x+(pm2)", "{x + 2, x - 2}");
 		tpm("xpm2", "{x + 2, x - 2}");
-		tpm("xpm(pm2)", "{x + 2, x + 2}");
+		tpm("xpm(pm2)", "{x + 2, x - (-2)}");
 		t("mul=4", "4");
 		tpm("prod=pm mul 3", "{12, -12}");
 		Assert.assertEquals("(" + Unicode.PLUSMINUS + "mul) * 3",
