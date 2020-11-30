@@ -1901,4 +1901,24 @@ public class CommandsTest {
 		}
 	}
 
+	@Test
+	public void cmdSplit() {
+		t("Split(\"kjhkjhk\", {\"p\"})", "{\"kjhkjhk\"}");
+		t("Split(\"kjhkjhk\", {\"\"})", "{\"k\", \"j\", \"h\", \"k\", \"j\", \"h\", \"k\"}");
+		t("Split(\"ppppp\", {\"p\"})", "{}");
+		t("Split(\"\", {\"p\"})", "{}");
+		t("Split(\"\", {\"\"})", "{}");
+		t("Split(\"XaXaXX\", {\"X\"})", "{\"a\", \"a\"}");
+		t("Split(\"aabbbcc\", {\"ab\", \"bb\"})", "{\"a\", \"cc\"}");
+		t("Split(\"4(x+1)(x+2)\", {\"(\", \")\"})", "{\"4\", \"x+1\", \"x+2\"}");
+		t("Split(\"4(x+1)(x+2)\", {\"(\", \")\", \"x\"})", "{\"4\", \"+1\", \"+2\"}");
+		t("Split(\"4(x+1)(x+2)\", {\"(x\", \")\"})", "{\"4\", \"+1\", \"+2\"}");
+	}
+
+	@Test
+	public void cmdReplaceAll() {
+		t("ReplaceAll(\"3cos(t)+cos(2y)\", \"cos\", \"sin\") ", "3sin(t)+sin(2y)");
+		t("ReplaceAll(\"3cos(t)+cos(2y)\", \"(\", \"[\") ", "3cos[t)+cos[2y)");
+		t("ReplaceAll(\"3cos(t)\", \"\", \"*\") ", "*3*c*o*s*(*t*)*");
+	}
 }
