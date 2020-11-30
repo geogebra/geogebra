@@ -867,9 +867,6 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public InputBarHelpPanelW getInputHelpPanel() {
 		if (inputHelpPanel == null) {
-			if (getApp().showView(App.VIEW_CAS)) {
-				getApp().getCommandDictionaryCAS();
-			}
 			inputHelpPanel = new InputBarHelpPanelW(getApp());
 		}
 		return inputHelpPanel;
