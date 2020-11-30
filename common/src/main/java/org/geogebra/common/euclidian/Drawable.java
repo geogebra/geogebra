@@ -184,7 +184,9 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	@Override
-	public abstract GeoElement getGeoElement();
+	public GeoElement getGeoElement() {
+		return geo;
+	}
 
 	/**
 	 * @return bounding box with handlers

@@ -12,7 +12,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.HatchingHandler;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.properties.FillType;
@@ -292,11 +291,6 @@ public class DrawBarGraph extends Drawable {
 			}
 
 		}
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 	@Override

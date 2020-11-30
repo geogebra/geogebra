@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
 import org.geogebra.common.kernel.geos.GeoCasCell;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
@@ -215,11 +214,6 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 			return null;
 		}
 		return gp.getBounds();
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 }

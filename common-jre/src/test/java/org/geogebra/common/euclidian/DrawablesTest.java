@@ -52,6 +52,7 @@ public class DrawablesTest {
 				"Surface[(u,v,u+v),u,0,1,v,0,1]", "x^3=z^3",
 				"Cone[(0,0,0),(0,0,1),1]", "Side[Cone[(0,0,0),(0,0,1),1]]",
 				"IntersectRegion(x+y+0z=0,Cone[(0,0,0),(0,0,1),1])", "toolPic",
+				"PieChart({1,2,3})",
 				"audio", "video", "embed", "symbolic", "inlinetext", "formula", "table" };
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		ap.processAlgebraCommand("toolPic=ToolImage[2]", false);

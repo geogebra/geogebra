@@ -85,6 +85,7 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.statistics.AlgoDotPlot;
+import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -128,6 +129,9 @@ public class EuclidianDraw {
 		case SEGMENT:
 		case SEGMENT3D:
 			d = new DrawSegment(ev, (GeoSegmentND) geo);
+			break;
+		case PIECHART:
+			d = new DrawPieChart(ev, (GeoPieChart) geo);
 			break;
 
 		case RAY:

@@ -67,12 +67,6 @@ class DrawParametricInequality extends SetDrawable {
 			g2.setStroke(objStroke);
 			g2.draw(gp);
 		}
-
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 	@Override

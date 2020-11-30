@@ -144,6 +144,7 @@ import org.geogebra.common.kernel.kernelND.HasSegments;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.statistics.AlgoFitLineY;
 import org.geogebra.common.kernel.statistics.CmdFitLineY;
+import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
@@ -6858,6 +6859,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// allow only moving of the following object types
 			if (movedGeoElement.isGeoLine() || movedGeoElement.isGeoPolygon()
 					|| (movedGeoElement instanceof GeoPolyLine)
+					|| (movedGeoElement instanceof GeoPieChart)
 					|| movedGeoElement.isGeoConic()
 					|| movedGeoElement.isGeoImage()
 					|| movedGeoElement.isGeoList()

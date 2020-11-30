@@ -1963,6 +1963,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			return hasOnlyFreeInputPoints(view)
 					&& containsOnlyMoveableGeos(getFreeInputPoints(view));
 
+		case PIECHART:
 		case POLYGON:
 		case POLYGON3D:
 		case POLYLINE:

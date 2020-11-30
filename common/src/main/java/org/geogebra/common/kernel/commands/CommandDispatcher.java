@@ -770,6 +770,7 @@ public abstract class CommandDispatcher {
 			case OrdinalRank:
 			case PMCC:
 			case Pascal:
+			case PieChart:
 			case Percentile:
 			case Poisson:
 			case Q1:

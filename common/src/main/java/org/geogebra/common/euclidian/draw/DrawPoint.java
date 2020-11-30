@@ -563,11 +563,6 @@ public final class DrawPoint extends SetDrawable {
 	}
 
 	@Override
-	public GeoElement getGeoElement() {
-		return geo;
-	}
-
-	@Override
 	public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 	}

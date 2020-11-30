@@ -648,11 +648,6 @@ public class DrawInequality extends Drawable {
 		}
 	}
 
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
-	}
-
 	private boolean hit2(int x, int y) {
 		double[] coords = new double[] { view.toRealWorldCoordX(x),
 				view.toRealWorldCoordY(y) };
