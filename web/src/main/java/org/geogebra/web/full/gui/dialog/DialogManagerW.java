@@ -316,15 +316,13 @@ public class DialogManagerW extends DialogManager
 
 	@Override
 	public void showEmbedDialog() {
-		EmbedInputDialog embedDialog = new EmbedInputDialog((AppWFull) app);
+		EmbedInputDialog embedDialog = new EmbedInputDialog((AppWFull) app, "Web");
 		embedDialog.show();
 	}
 
 	@Override
 	public void showH5PDialog() {
-		DialogData data = new DialogData("H5P",
-				"Cancel", "Insert");
-		H5PInputDialog embedDialog = new H5PInputDialog((AppWFull) app, data, false, true);
+		H5PInputDialog embedDialog = new H5PInputDialog((AppWFull) app);
 		embedDialog.show();
 	}
 
