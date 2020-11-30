@@ -2010,4 +2010,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 				toStringMode = EQUATION_IMPLICIT;
 		}
 	}
+
+	@Override
+	public boolean hasSpecialEditor() {
+		return false;
+	}
 }

@@ -149,6 +149,10 @@ public class InputBoxProcessor {
 			defineText = "?";
 		} else if (linkedGeo.isGeoLine()) {
 
+			if (defineText.startsWith("f(x)=")) {
+				defineText = defineText.replace("f(x)=", "y=");
+			}
+
 			// not y=
 			// and not Line[A,B]
 			if ((defineText.indexOf('=') == -1) && (defineText.indexOf('[') == -1)) {

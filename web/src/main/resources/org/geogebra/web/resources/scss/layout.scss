@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'z-index';
 
 .GeoGebraFrame {
 
@@ -29,7 +30,7 @@
 		background: #616161;
 		color: white;
 		opacity: 0.9;
-		z-index: 999999999999999;
+		z-index: $z-snackbar;
 	} 
 
 	.gwt-SplitLayoutPanel>div {
@@ -44,11 +45,11 @@
 
 		.gwt-SplitLayoutPanel-HDragger {
 			border-left: 1px solid #ccc;
-			z-index: 51; /* for MOW double canvas */
+			z-index: $z-on-top-of-graphics; /* for MOW double canvas */
 			/* display: none; */
 			width: 0px !important;
 			cursor: e-resize;
-   			border-right: none;
+			border-right: none;
 			box-shadow: inset 5px 3px 8px rgba(0,0,0,0.2);
 			background-color: transparent;
 			padding-right: 8px;
@@ -89,7 +90,6 @@
 		position: absolute;
 		top: 4px;
 		left: 0px;
-		z-index: 498;
 	}
 
 	.menu:hover, .menu:focus {
@@ -108,7 +108,7 @@
 		img {
 			opacity: 0.85;
 		}
-		z-index: 60;
+		z-index: $z-flat-button;
 	}
 	.tabButton {
 		position: relative;
@@ -128,11 +128,6 @@
 		img {
 			opacity: 1.0 !important;
 		}
-	}
-
-	.dotSubMenu {
-		/*padding-left: 8px;*/
-		z-index: 99999;
 	}
 
 	.collapseMenuItem,
@@ -223,7 +218,7 @@ $collapse-trans: all 0.2s ease;
 	} 
 
 	.advanced-ListPopupPanel.matDesign {
-		z-index: 500;
+		z-index: $z-dialog;
 		background: $white;
 		border: 1px solid #dcdcdc;
 		cursor: pointer;

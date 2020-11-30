@@ -1,6 +1,7 @@
 @import 'colors';
 @import 'shared';
 @import 'header';
+@import 'z-index';
 
 .GeoGebraFrame {
 	.providers {
@@ -55,20 +56,20 @@
 		position: absolute;
 		top: 6px;
 		left: 6px;
-		z-index: 10;
+		z-index: $z-open-screen-search-button;
 		cursor: pointer;
 	}
 	
 	.searchDiv input.gwt-TextBox {
 		padding-left: 35px;
 		padding-right: 35px;
-		z-index: 5;
+		z-index: $z-open-screen-search-input;
 		color: #999999;
 		width: 100%;
 	}
 	
 	.searchDiv .cancelButton {
-		z-index: 10;
+		z-index: $z-open-screen-search-button;
 		position: absolute;
 		top: 8px;
 		right: 8px;
@@ -152,7 +153,7 @@
 		border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 		cursor: default;
 		padding: 15px;
-		z-index: 100;
+		z-index: $z-open-screen-card-content;
 		background-color: rgba(255, 255, 255, 0.9);
 		box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
 		position: absolute;
@@ -279,7 +280,7 @@
 
 	.profileOptionsPanel {
 		position: relative;
-		z-index: 200;
+		z-index: $z-profile-options-panel;
 	}
 
 	.profileOptionsPanel .arrow {
@@ -289,7 +290,7 @@
 	.profileOptionsPanel .profileOptionsContent {
 		position: relative;
 		margin-left: 5px;
-		z-index: 200;
+		z-index: $z-profile-options-panel;
 		top: -5px;
 		border-radius: 2px;
 		padding: 5px;

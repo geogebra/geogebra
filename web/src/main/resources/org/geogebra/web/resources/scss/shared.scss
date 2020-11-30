@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'z-index';
 
 %matButton {
   margin: 8px !important;  
@@ -37,7 +38,7 @@
 .GeoGebraFrame {
 .DialogBox,
 	.gwt-DialogBox {
-		z-index: 501;
+		z-index: $z-dialog-over-keyboard;
 		/*box-shadow: 1px 1px 6px 1px #666666;*/
 
 		background-color: rgba(255,255,255,0.9);

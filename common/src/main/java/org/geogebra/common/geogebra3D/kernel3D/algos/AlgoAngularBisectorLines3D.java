@@ -141,7 +141,11 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
 	 */
 	@Override
 	public final void compute() {
-
+		if (!getg().isDefined() || !geth().isDefined()) {
+			bisector[0].setUndefined();
+			bisector[1].setUndefined();
+			return;
+		}
 		// lines origins and directions
 		Coords o1 = getg().getStartInhomCoords();
 		Coords v1 = getg().getDirectionInD3();
