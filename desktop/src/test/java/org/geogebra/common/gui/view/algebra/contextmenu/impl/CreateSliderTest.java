@@ -105,4 +105,15 @@ public class CreateSliderTest extends BaseSymbolicTest {
 		Assert.assertTrue(element.isShowingExtendedAV());
 	}
 
+	@Test
+	public void testWithSubstitute() {
+		add("f(x) = xa + 3");
+		GeoSymbolic symbolic = add("b = 1");
+		add("Substitute(f,a,b)");
+
+		createSlider.execute(symbolic);
+
+		GeoNumeric numeric = (GeoNumeric) lookup("b");
+		assertThat(numeric.isSliderable(), is(true));
+	}
 }

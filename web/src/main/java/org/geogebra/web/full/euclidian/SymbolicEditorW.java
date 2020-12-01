@@ -47,7 +47,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor.addBlurHandler(this);
 		editor.getMathField().setChangeListener(this);
 		editor.getMathField().setFixMargin(LaTeXTextRenderer.MARGIN);
-		editor.getMathField().setMinHeight(DrawInputBox.MIN_HEIGHT);
+		editor.getMathField().setMinHeight(DrawInputBox.SYMBOLIC_MIN_HEIGHT);
 		int baseFontSize = app.getSettings()
 				.getFontSettings().getAppFontSize() + 3;
 
@@ -71,14 +71,6 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		resetChanges();
 	}
 
-	private void setErrorStyle(boolean hasError) {
-		if (hasError) {
-			editor.addStyleName("errorStyle");
-		} else {
-			editor.removeStyleName("errorStyle");
-		}
-	}
-
 	@Override
 	public void repaintBox(GGraphics2D g2) {
 		// only in desktop
@@ -93,7 +85,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	protected void resetChanges() {
 		getDrawInputBox().setEditing(true);
 
-		setErrorStyle(getGeoInputBox().hasError());
+		editor.setErrorStyle(getGeoInputBox().hasError());
 		decorator.update(bounds, getGeoInputBox());
 		editor.setVisible(true);
 		editor.setText(getGeoInputBox().getTextForEditor());

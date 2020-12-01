@@ -222,6 +222,10 @@ public enum Commands implements CommandsConstants,
 
 	ContinuedFraction(TABLE_TEXT),
 
+	ReplaceAll(TABLE_TEXT),
+
+	Split(TABLE_TEXT),
+
 	// =============================================================
 	// logical
 	// =============================================================
@@ -1204,7 +1208,7 @@ public enum Commands implements CommandsConstants,
 
 	CASLoaded(TABLE_GEOGEBRA),
 
-	ShowSteps(TABLE_ALGEBRA);
+	ShowSteps(TABLE_ALGEBRA), IsVertexForm(TABLE_FUNCTION);
 
 	private static final Commands[] RENAMED = {
 			Commands.Binomial, Commands.BinomialCoefficient, Commands.Mean,

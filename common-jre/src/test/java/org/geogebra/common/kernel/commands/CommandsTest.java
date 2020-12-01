@@ -367,6 +367,35 @@ public class CommandsTest {
 		}
 	}
 
+	@Test
+	public void intersectPlanesShouldUpdate() {
+		t("e1:x=z", "x - z = 0");
+		t("e2:y=z", "y - z = 0");
+		t("SetValue(e1,?)");
+		t("SetValue(e2,?)");
+		t("g:Intersect(e1,e2)", "X = (NaN, NaN, NaN) + "
+				+ Unicode.lambda + " (NaN, NaN, NaN)");
+		t("SetValue(e1,x=z)");
+		t("SetValue(e2,y=z)");
+		t("g", "X = (0, 0, 0) + "
+				+ Unicode.lambda + " (1, 1, 1)");
+	}
+
+	@Test
+	public void angleBisectorsShouldUpdate() {
+		t("e1:X = (0, 0, 0) + t (1, 0, 0)", "X = (0, 0, 0) + "
+				+ Unicode.lambda + " (1, 0, 0)");
+		t("e2:X = (0, 0, 0) + t (0, 1, 0)", "X = (0, 0, 0) + "
+				+ Unicode.lambda + " (0, 1, 0)");
+		t("SetValue(e1,?)");
+		t("SetValue(e2,?)");
+		t("g:AngleBisector(e1,e2)", "X = (?, ?, ?)", "X = (?, ?, ?)");
+		t("SetValue(e1,X = (0, 0, 0) + t (1, 0, 0))");
+		t("SetValue(e2,X = (0, 0, 0) + t (0, 1, 0))");
+		t("g", "X = (0, 0, 0) + "
+				+ Unicode.lambda + " (1, -1, 0)");
+	}
+
 	private static void intersect(String arg1, String arg2, boolean num,
 			String... results) {
 		intersect(arg1, arg2, num, num, results);
@@ -1039,6 +1068,16 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdIsVertexForm() {
+		t("IsVertexForm(4(x+1)^2+3)", "true");
+		t("IsVertexForm(4(-3/7+x)^2+3/7+sqrt(2))", "true");
+		t("IsVertexForm(4(x-3/7)^2+3/7+sqrt(2))", "true");
+		t("IsVertexForm(x^2)", "true");
+		t("IsVertexForm(4(-x-3/7)^2+3/7+sqrt(2))", "false");
+		t("IsVertexForm((2x+2)^2+3)", "false");
+	}
+
+	@Test
 	public void testIndexLookup() {
 		t("aa_{1}=1", "1");
 		t("aa_{1}+1", "2");
@@ -1103,12 +1142,15 @@ public class CommandsTest {
 		tRound("Fit[ {(0,1),(1,2),(2,5)}, {x^2,x,1} ]",
 				unicode("1x^2 + 0x + 1 * 1"));
 		tRound("Fit[ {(0,1,1),(1,1,2),(2,1,5),(0,2,4),(1,2,5),(2,2,8)}, {x^2,x,1,x^2*y,x*y,y} ]",
-				unicode("3y + 0x y + 0x^2 y - 2 + 0x + 1x^2"));
+				unicode("3y + 0x y + 0x^2 y - 2 * 1 + 0x + 1x^2"));
 		t("a=Slider[0,10]", "0");
 		t("b=Slider[0,10]", "0");
 		t("c=Slider[0,10]", "0");
 		tRound("Fit[ {(0,1),(1,2),(2,5)},a*x^2+b*x+c ]",
 				unicode("1x^2 + 0x + 1"));
+		// for APPS-2451
+		t("Translate[Fit[ {(0,0),(1,4)}, {x} ],(1,1)]",
+				"(4 * (x - 1)) + 1");
 	}
 
 	@Test
@@ -1282,9 +1324,9 @@ public class CommandsTest {
 	@Test
 	public void cmdWeibull() {
 		prob("Weibull", "2,1",
-				"If(x < 0, 0, 2 (x)^(2 - 1) " + Unicode.EULER_STRING
-						+ "^(-(x)^2))",
-				"If(x < 0, 0, 1 - " + Unicode.EULER_STRING + "^(-(x)^2))");
+				"If(x < 0, 0, 2 / 1 (x / 1)^(2 - 1) " + Unicode.EULER_STRING
+						+ "^(-(x / 1)^2))",
+				"If(x < 0, 0, 1 - " + Unicode.EULER_STRING + "^(-(x / 1)^2))");
 	}
 
 	@Test
@@ -1330,8 +1372,8 @@ public class CommandsTest {
 	public void cmdGamma() {
 		prob("Gamma", "2,1",
 				"If(x < 0, 0, (x^(2 - 1) " + Unicode.EULER_STRING
-						+ "^(-(x))) / (1^2 gamma(2)))",
-				"If(x < 0, 0, gamma(2, x) / gamma(2))");
+						+ "^(-(x / 1))) / (1^2 gamma(2)))",
+				"If(x < 0, 0, gamma(2, x / 1) / gamma(2))");
 	}
 
 	@Test
@@ -1451,7 +1493,7 @@ public class CommandsTest {
 		tpm("pmx", "{x, (-x)}");
 		tpm("x+(pm2)", "{x + 2, x - 2}");
 		tpm("xpm2", "{x + 2, x - 2}");
-		tpm("xpm(pm2)", "{x + 2, x + 2}");
+		tpm("xpm(pm2)", "{x + 2, x - (-2)}");
 		t("mul=4", "4");
 		tpm("prod=pm mul 3", "{12, -12}");
 		Assert.assertEquals("(" + Unicode.PLUSMINUS + "mul) * 3",
@@ -1859,4 +1901,24 @@ public class CommandsTest {
 		}
 	}
 
+	@Test
+	public void cmdSplit() {
+		t("Split(\"kjhkjhk\", {\"p\"})", "{\"kjhkjhk\"}");
+		t("Split(\"kjhkjhk\", {\"\"})", "{\"k\", \"j\", \"h\", \"k\", \"j\", \"h\", \"k\"}");
+		t("Split(\"ppppp\", {\"p\"})", "{}");
+		t("Split(\"\", {\"p\"})", "{}");
+		t("Split(\"\", {\"\"})", "{}");
+		t("Split(\"XaXaXX\", {\"X\"})", "{\"a\", \"a\"}");
+		t("Split(\"aabbbcc\", {\"ab\", \"bb\"})", "{\"a\", \"cc\"}");
+		t("Split(\"4(x+1)(x+2)\", {\"(\", \")\"})", "{\"4\", \"x+1\", \"x+2\"}");
+		t("Split(\"4(x+1)(x+2)\", {\"(\", \")\", \"x\"})", "{\"4\", \"+1\", \"+2\"}");
+		t("Split(\"4(x+1)(x+2)\", {\"(x\", \")\"})", "{\"4\", \"+1\", \"+2\"}");
+	}
+
+	@Test
+	public void cmdReplaceAll() {
+		t("ReplaceAll(\"3cos(t)+cos(2y)\", \"cos\", \"sin\") ", "3sin(t)+sin(2y)");
+		t("ReplaceAll(\"3cos(t)+cos(2y)\", \"(\", \"[\") ", "3cos[t)+cos[2y)");
+		t("ReplaceAll(\"3cos(t)\", \"\", \"*\") ", "*3*c*o*s*(*t*)*");
+	}
 }

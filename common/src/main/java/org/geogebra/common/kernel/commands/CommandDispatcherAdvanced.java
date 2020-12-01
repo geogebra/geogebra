@@ -286,6 +286,12 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdFinancialFV(kernel);
 		case SVD:
 			return new CmdSVD(kernel);
+		case IsVertexForm:
+			return new CmdIsVertexForm(kernel);
+		case ReplaceAll:
+			return new CmdReplaceAll(kernel);
+		case Split:
+			return new CmdSplit(kernel);
 		default:
 			break;
 		}

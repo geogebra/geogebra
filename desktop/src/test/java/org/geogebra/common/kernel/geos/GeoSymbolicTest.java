@@ -1264,4 +1264,46 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(function.getDefinition(StringTemplate.defaultTemplate),
 				equalTo("NSolve(eq1,x)"));
 	}
+
+	@Test
+	public void testQuartiles() {
+		add("l1 = {-2, 12, -23, 17, 15}");
+		add("l2 = {1,2,3,4}");
+		add("l3 = {1,4,2,7,5,3}");
+		add("l4 = {-6,4,6}");
+		add("l5 = {1,4,2,6,4}");
+		add("l6 = {2,4,4,7}");
+
+		t("Quartile1(l1)", "-12.5");
+		t("Quartile3(l1)", "16");
+		t("Quartile1(l2)", "1.5");
+		t("Quartile3(l2)", "3.5");
+		t("Quartile1(l3)", "2");
+		t("Quartile3(l3)", "5");
+		t("Quartile1(l4)", "-6");
+		t("Quartile3(l4)", "6");
+		t("Quartile1(l5)", "1.5");
+		t("Quartile3(l5)", "5");
+		t("Quartile1(l6)", "3");
+		t("Quartile3(l6)", "5.5");
+
+		t("Quartile1({6,4,6})", "4");
+		t("Quartile3({6,4,6})", "6");
+		t("Quartile1({1,2})", "1");
+		t("Quartile3({1,2})", "2");
+		t("Quartile1({1,1})", "1");
+		t("Quartile3({1,1})", "1");
+		t("Quartile1({6,-2,12,7,8,4,9})", "4");
+		t("Quartile3({6,-2,12,7,8,4,9})", "9");
+		t("Quartile1({1})", "?");
+		t("Quartile3({1})", "?");
+		t("Quartile1({})", "?");
+		t("Quartile3({})", "?");
+		t("Quartile1({1,2,5,4,7})", "1.5");
+		t("Quartile3({1,2,5,4,7})", "6");
+		t("Quartile1({2,2,3})", "2");
+		t("Quartile3({2,2,3})", "3");
+		t("Quartile1({2,3,3})", "2");
+		t("Quartile3({2,3,3})", "3");
+	}
 }

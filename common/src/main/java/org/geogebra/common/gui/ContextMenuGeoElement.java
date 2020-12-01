@@ -39,10 +39,9 @@ import org.geogebra.common.util.CopyPaste;
 import com.google.j2objc.annotations.Weak;
 
 /**
- * @author gabor
- * 
- *         Superclass for ContextMenuGeoElements in Web and Desktop
+ * Superclass for ContextMenuGeoElements in Web and Desktop
  *
+ * @author gabor
  */
 public abstract class ContextMenuGeoElement {
 

@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="utf-8"?>
+<geogebra format="5.0" version="5.0.610.0" app="classic" platform="w" id="49dd66c4-5c8a-42b8-92ce-c63173b38d4a"  xsi:noNamespaceSchemaLocation="http://www.geogebra.org/apps/xsd/ggb.xsd" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+    <gui>
+        <window width="800" height="800" />
+        <perspectives>
+            <perspective id="tmp">
+                <panes>
+                    <pane location="" divider="0.46625" orientation="0" />
+                </panes>
+                <views>
+                    <view id="4" toolbar="0 || 2020 , 2021 , 2022 , 66 || 2001 , 2003 , 2002 , 2004 , 2005 || 2040 , 2041 , 2042 , 2044 , 2043" visible="false" inframe="false" stylebar="true" location="1,1" size="300" window="100,100,600,400" />
+                    <view id="8" toolbar="1001 | 1002 | 1003  || 1005 | 1004 || 1006 | 1007 | 1010 || 1008 1009 || 66 68 || 6" visible="false" inframe="false" stylebar="false" location="1,3" size="300" window="100,100,600,400" />
+                    <view id="1" visible="true" inframe="false" stylebar="true" location="0" size="373" window="100,100,600,400" />
+                    <view id="2" visible="false" inframe="false" stylebar="true" location="3" size="200" tab="ALGEBRA" window="58,327,481,578" />
+                    <view id="16" visible="false" inframe="false" stylebar="false" location="1" size="150" window="50,50,500,500" />
+                    <view id="32" visible="false" inframe="false" stylebar="true" location="1" size="150" window="50,50,500,500" />
+                    <view id="64" toolbar="0" visible="false" inframe="false" stylebar="false" location="1" size="150" window="50,50,500,500" />
+                    <view id="128" visible="false" inframe="false" stylebar="false" location="1" size="480" window="50,50,500,500" />
+                    <view id="4097" visible="false" inframe="false" stylebar="true" location="1" size="395" window="-352,262,918,641" />
+                    <view id="70" toolbar="0 || 2020 || 2021 || 2022" visible="false" inframe="false" stylebar="true" location="1" size="150" window="50,50,500,500" />
+                    <view id="512" toolbar="0 | 1 501 5 19 , 67 | 2 15 45 18 , 7 37 | 514 3 9 , 13 44 , 47 | 16 51 | 551 550 11 ,  20 22 21 23 , 55 56 57 , 12 | 69 | 510 511 , 512 513 | 533 531 , 534 532 , 522 523 , 537 536 , 535 | 521 520 | 36 , 38 49 560 | 571 30 29 570 31 33 | 17 | 540 40 41 42 , 27 28 35 , 6 , 502" visible="true" inframe="false" stylebar="false" location="2" size="417" window="100,100,600,400" />
+                </views>
+                <toolbar show="false" items="0 39 73 62 | 1 501 67 , 5 19 , 72 75 76 | 2 15 45 , 18 65 , 7 37 | 4 3 8 9 , 13 44 , 58 , 47 | 16 51 64 , 70 | 10 34 53 11 , 24  20 22 , 21 23 | 55 56 57 , 12 | 36 46 , 38 49  50 , 71  14  68 | 30 29 54 32 31 33 | 25 17 26 60 52 61 | 40 41 42 , 27 28 35 , 6" position="1" help="false" />
+                <input show="false" cmd="true" top="false" />
+                <dockBar show="false" east="false" />
+            </perspective>
+        </perspectives>
+        <labelingStyle  val="0"/>
+        <font  size="16"/>
+    </gui>
+    <euclidianView>
+        <viewNumber viewNo="1"/>
+        <size  width="797" height="372"/>
+        <coordSystem xZero="570.0404768578361" yZero="246.43996034083762" scale="20.866278838198603" yscale="20.866278838198614"/>
+        <evSettings axes="false" grid="false" gridIsBold="false" pointCapturing="3" rightAngleStyle="1" checkboxSize="26" gridType="0"/>
+        <bgColor r="255" g="255" b="255"/>
+        <axesColor r="0" g="0" b="0"/>
+        <gridColor r="192" g="192" b="192"/>
+        <lineStyle axes="2" grid="0"/>
+        <labelStyle axes="1" serif="true"/>
+        <axis id="0" show="false" label="" unitLabel="" tickStyle="1" showNumbers="true" selectionAllowed="false"/>
+        <axis id="1" show="false" label="" unitLabel="" tickStyle="1" showNumbers="true" selectionAllowed="false"/>
+        <grid distX="1" distY="1" distTheta="0.5235987755982988"/>
+    </euclidianView>
+    <kernel>
+        <uses3D val="true"/>
+        <continuous val="false"/>
+        <usePathAndRegionParameters val="true"/>
+        <decimals val="10"/>
+        <angleUnit val="degree"/>
+        <algebraStyle val="0" spreadsheet="0"/>
+        <coordStyle val="0"/>
+    </kernel>
+    <tableview min="-2" max="2" step="1"/>
+    <scripting blocked="false" disabled="false"/>
+    <euclidianView3D>
+        <coordSystem xZero="0.6738154997289394" yZero="-1.1694122751795915" zZero="-1.8444710638650355" scale="23.325369010486657" xAngle="40" zAngle="-694.194422757181"/>
+        <evSettings axes="true" grid="false" gridIsBold="false" pointCapturing="3" rightAngleStyle="1" gridType="3"/>
+        <axis id="0" show="true" label="" unitLabel="" tickStyle="1" showNumbers="true" selectionAllowed="false"/>
+        <axis id="1" show="true" label="" unitLabel="" tickStyle="1" showNumbers="true" selectionAllowed="false"/>
+        <axis id="2" show="true" label="" unitLabel="" tickStyle="1" showNumbers="true" selectionAllowed="false"/>
+        <plate show="false"/>
+        <bgColor r="255" g="255" b="255"/>
+        <clipping use="false" show="false" size="1"/>
+        <projection type="0"/>
+    </euclidianView3D>
+    <construction title="" author="" date="">
+        <element type="numeric" label="hh">
+            <value val="-8"/>
+            <show object="true" label="false"/>
+            <condition showObject="¬showsolution"/>
+            <objColor r="204" g="0" b="0" alpha="0.10000000149011612"/>
+            <bgColor r="0" g="0" b="0" alpha="255"/>
+            <layer val="0"/>
+            <labelMode val="1"/>
+            <slider min="-8" max="8" absoluteScreenLocation="true" width="200" x="265" y="345" fixed="false" horizontal="true" showAlgebra="true"/>
+            <pointSize val="7"/>
+            <lineStyle thickness="14" type="0" typeHidden="1"/>
+            <animation step="1" speed="1" type="0" playing="false"/>
+        </element>
+        <expression label="correctc" exp="hh ≟ 0" />
+        <element type="boolean" label="correctc">
+            <value val="false"/>
+            <show object="false" label="true"/>
+            <objColor r="0" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <selectionAllowed val="false"/>
+            <checkbox fixed="true"/>
+        </element>
+        <expression label="sta" exp="sta(t) = NaN" type="function"/>
+        <element type="function" label="sta">
+            <show object="false" label="true" ev="4"/>
+            <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+            <layer val="0"/>
+            <labelMode val="2"/>
+            <fixed val="true"/>
+            <selectionAllowed val="false"/>
+            <lineStyle thickness="2" type="0" typeHidden="1"/>
+        </element>
+        <command name="Random">
+            <input a0="2" a1="6"/>
+            <output a0="aa"/>
+        </command>
+        <element type="numeric" label="aa">
+            <value val="6"/>
+            <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+            <selectionAllowed val="false"/>
+        </element>
+        <command name="Random">
+            <input a0="2" a1="5"/>
+            <output a0="rn"/>
+        </command>
+        <element type="numeric" label="rn">
+            <value val="4"/>
+            <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+            <selectionAllowed val="false"/>
+        </element>
+        <expression label="bb" exp="(rn * aa)" />
+        <element type="numeric" label="bb">
+            <value val="24"/>
+            <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+            <selectionAllowed val="false"/>
+        </element>
+        <command name="Random">
+            <input a0="1" a1="5"/>
+            <output a0="rnc"/>
+        </command>
+        <element type="numeric" label="rnc">
+            <value val="3"/>
+            <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+            <selectionAllowed val="false"/>
+        </element>
+        <expression label="corransb" exp="corransb(t) = sqrt(rnc - t^(2) / rn - t^(4) / bb)" />
+        <element type="function" label="corransb">
+            <show object="false" label="true" ev="4"/>
+            <objColor r="153" g="51" b="255" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <fixed val="true"/>
+            <selectionAllowed val="false"/>
+            <lineStyle thickness="5" type="0" typeHidden="1" opacity="178"/>
+        </element>
+        <expression label="stb" exp="stb(t) = NaN" type="function"/>
+        <element type="function" label="stb">
+            <show object="false" label="true" ev="4"/>
+            <objColor r="0" g="0" b="255" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <fixed val="true"/>
+            <selectionAllowed val="false"/>
+            <lineStyle thickness="5" type="0" typeHidden="1" opacity="178"/>
+        </element>
+        <expression label="correctb" exp="stb(0.21) / corransb(0.21) ≟ 1 ∧ stb(0.707) / corransb(0.707) ≟ 1 ∧ stb(0.411) / corransb(0.411) ≟ 1" />
+        <element type="boolean" label="correctb">
+            <value val="false"/>
+            <show object="false" label="true"/>
+            <objColor r="0" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <selectionAllowed val="false"/>
+            <checkbox fixed="true"/>
+        </element>
+        <expression label="corransa" exp="corransa(t) = t^(2)" type="function"/>
+        <element type="function" label="corransa">
+            <show object="false" label="true" ev="4"/>
+            <objColor r="255" g="85" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <fixed val="true"/>
+            <selectionAllowed val="false"/>
+            <lineStyle thickness="5" type="0" typeHidden="1" opacity="178"/>
+        </element>
+        <expression label="correcta" exp="sta ≟ corransa" />
+        <element type="boolean" label="correcta">
+            <value val="false"/>
+            <show object="false" label="true"/>
+            <objColor r="0" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <selectionAllowed val="false"/>
+            <checkbox fixed="true"/>
+        </element>
+        <expression label="negY" exp="-10"/>
+        <element type="numeric" label="negY">
+            <value val="-10"/>
+            <show object="false" label="true"/>
+            <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+            <layer val="0"/>
+            <labelMode val="1"/>
+            <animation speed="1" type="0" playing="false"/>
+            <selectionAllowed val="false"/>
+        </element>
+        <expression label="negX" exp="-10"/>
+        <element type="numeric" label="negX">
+            <value val="-10"/>
+            <show object="false" label="true"/>
+            <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+            <layer val="0"/>
+            <labelMode val="1"/>
+            <animation speed="1" type="0" playing="false"/>
+            <selectionAllowed val="false"/>
+        </element>
+        <element type="numeric" label="posY">
+            <value val="10.4"/>
+            <show object="false" label="true"/>
+            <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+            <layer val="0"/>
+            <labelMode val="1"/>
+            <slider min="-20" max="20" absoluteScreenLocation="true" width="200" x="30" y="90" fixed="false" horizontal="true" showAlgebra="true"/>
+            <lineStyle thickness="10" type="0" typeHidden="1"/>
+            <animation step="0.1" speed="1" type="0" playing="false"/>
+            <selectionAllowed val="false"/>
+        </element>
+        <element type="numeric" label="posX">
+            <value val="10.4"/>
+            <show object="false" label="true"/>
+            <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+            <layer val="0"/>
+            <labelMode val="1"/>
+            <slider min="-20" max="20" absoluteScreenLocation="true" width="200" x="30" y="50" fixed="false" horizontal="true" showAlgebra="true"/>
+            <lineStyle thickness="10" type="0" typeHidden="1"/>
+            <animation step="0.1" speed="1" type="0" playing="false"/>
+            <selectionAllowed val="false"/>
+        </element>
+        <expression label="showanswer" exp="false"/>
+        <element type="boolean" label="showanswer">
+            <value val="false"/>
+            <show object="false" label="true"/>
+            <objColor r="0" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <selectionAllowed val="false"/>
+            <checkbox fixed="true"/>
+        </element>
+        <expression label="correct" exp="correcta ∧ correctb ∧ correctc" />
+        <element type="boolean" label="correct">
+            <value val="false"/>
+            <show object="false" label="true"/>
+            <objColor r="0" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <selectionAllowed val="false"/>
+            <checkbox fixed="true"/>
+        </element>
+        <expression label="showsolution" exp="false"/>
+        <element type="boolean" label="showsolution">
+            <value val="false"/>
+            <show object="false" label="true"/>
+            <objColor r="0" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <selectionAllowed val="false"/>
+            <checkbox fixed="true"/>
+            <ggbscript onUpdate="If(showsolution,SetValue(hh,0))&#xa;&#xa;"/>
+        </element>
+        <expression label="validate" exp="false"/>
+        <element type="boolean" label="validate">
+            <value val="false"/>
+            <show object="false" label="true"/>
+            <objColor r="0" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <selectionAllowed val="false"/>
+            <checkbox fixed="true"/>
+            <ggbscript onUpdate="SetFixed(InputBox1,true,!validate)&#xa;SetFixed(InputBox2,true,!validate)&#xa;SetFixed(hh,validate,!validate)&#xa;"/>
+        </element>
+        <command name="Corner">
+            <input a0="5"/>
+            <output a0="dims"/>
+        </command>
+        <element type="point" label="dims">
+            <show object="false" label="true" ev="4"/>
+            <objColor r="68" g="68" b="68" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <selectionAllowed val="false"/>
+            <coords x="797" y="372" z="1"/>
+            <pointSize val="4"/>
+            <pointStyle val="0"/>
+        </element>
+        <expression label="crossA" exp="&quot;✘&quot;"/>
+        <element type="text" label="crossA">
+            <show object="true" label="true" ev="40"/>
+            <condition showObject="(¬correcta) ∧ validate ∧ (¬showsolution)"/>
+            <objColor r="204" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <fixed val="true"/>
+            <selectionAllowed val="false"/>
+            <font serif="false" sizeM="2" size="16" style="1"/>
+            <absoluteScreenLocation x="351" y="121"/>
+        </element>
+        <expression label="checkA" exp="&quot;✔&quot;"/>
+        <element type="text" label="checkA">
+            <show object="true" label="true" ev="40"/>
+            <condition showObject="correcta ∧ validate ∧ (¬showsolution)"/>
+            <objColor r="0" g="100" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <fixed val="true"/>
+            <selectionAllowed val="false"/>
+            <font serif="false" sizeM="2" size="16" style="1"/>
+            <absoluteScreenLocation x="348" y="122"/>
+        </element>
+        <expression label="crossB" exp="&quot;✘&quot;"/>
+        <element type="text" label="crossB">
+            <show object="true" label="true" ev="40"/>
+            <condition showObject="(¬correctb) ∧ validate ∧ (¬showsolution)"/>
+            <objColor r="204" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <fixed val="true"/>
+            <selectionAllowed val="false"/>
+            <font serif="false" sizeM="2" size="16" style="1"/>
+            <absoluteScreenLocation x="759" y="121"/>
+        </element>
+        <expression label="checkB" exp="&quot;✔&quot;"/>
+        <element type="text" label="checkB">
+            <show object="true" label="true" ev="40"/>
+            <condition showObject="correctb ∧ validate ∧ (¬showsolution)"/>
+            <objColor r="0" g="100" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <fixed val="true"/>
+            <selectionAllowed val="false"/>
+            <font serif="false" sizeM="2" size="16" style="1"/>
+            <absoluteScreenLocation x="758" y="119"/>
+        </element>
+        <command name="Textfield">
+            <input a0="sta"/>
+            <output a0="InputBox1"/>
+        </command>
+        <element type="textfield" label="InputBox1">
+            <show object="true" label="true"/>
+            <condition showObject="¬showsolution"/>
+            <objColor r="0" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelOffset x="106" y="103"/>
+            <labelMode val="3"/>
+            <fixed val="true"/>
+            <auxiliary val="true"/>
+            <font serif="false" sizeM="1.4" size="7" style="0"/>
+            <symbolic val="true" />
+            <contentSerif val="true" />
+            <length val="10"/>
+            <caption val="$\math{y=}$"/>
+        </element>
+        <expression label="aText" exp="&quot;\fbox{t^2}&quot;"/>
+        <element type="text" label="aText">
+            <show object="true" label="true" ev="40"/>
+            <condition showObject="showanswer"/>
+            <objColor r="0" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <fixed val="true"/>
+            <selectionAllowed val="false"/>
+            <isLaTeX val="true"/>
+            <font serif="true" sizeM="1" size="0" style="0"/>
+            <absoluteScreenLocation x="164" y="174"/>
+        </element>
+        <expression label="cc" exp="(bb * rnc)" />
+        <element type="numeric" label="cc">
+            <value val="72"/>
+            <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+            <selectionAllowed val="false"/>
+        </element>
+        <command name="Textfield">
+            <input a0="stb"/>
+            <output a0="InputBox2"/>
+        </command>
+        <element type="textfield" label="InputBox2">
+            <show object="true" label="true"/>
+            <condition showObject="¬showsolution"/>
+            <objColor r="0" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelOffset x="400" y="99"/>
+            <labelMode val="0"/>
+            <fixed val="true"/>
+            <auxiliary val="true"/>
+            <font serif="false" sizeM="1.4" size="7" style="0"/>
+            <symbolic val="true" />
+            <contentSerif val="true" />
+            <length val="15"/>
+            <caption val="$\math{z=\pm}$"/>
+        </element>
+        <expression label="aTextb" exp="&quot;\fbox{\sqrt{&quot; + (LaTeX[rnc]) + &quot;-\dfrac{t^2}{&quot; + (LaTeX[rn]) + &quot;}-\dfrac{t^4}{&quot; + (LaTeX[bb]) + &quot;}}}&quot;" />
+        <element type="text" label="aTextb">
+            <show object="true" label="true" ev="40"/>
+            <condition showObject="showanswer"/>
+            <objColor r="0" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <fixed val="true"/>
+            <selectionAllowed val="false"/>
+            <isLaTeX val="true"/>
+            <font serif="true" sizeM="1" size="0" style="0"/>
+            <absoluteScreenLocation x="477" y="167"/>
+        </element>
+        <command name="CurveCartesian">
+            <input a0="t" a1="t^(2) + hh" a2="sqrt((cc - (aa * t^(2)) - t^(4) - hh^(2) - ((2 * hh) * t^(2))) / bb)" a3="t" a4="-10" a5="10"/>
+            <output a0="top"/>
+        </command>
+        <element type="curvecartesian3d" label="top">
+            <show object="true" label="false" ev="4"/>
+            <objColor r="0" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <selectionAllowed val="false"/>
+            <lineStyle thickness="5" type="0" typeHidden="1"/>
+        </element>
+        <command name="CurveCartesian">
+            <input a0="t" a1="t^(2) + hh" a2="(-sqrt((cc - (aa * t^(2)) - t^(4) - hh^(2) - ((2 * hh) * t^(2))) / bb))" a3="t" a4="-10" a5="10"/>
+            <output a0="bot"/>
+        </command>
+        <element type="curvecartesian3d" label="bot">
+            <show object="true" label="false" ev="4"/>
+            <objColor r="0" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <selectionAllowed val="false"/>
+            <lineStyle thickness="5" type="0" typeHidden="1"/>
+        </element>
+        <expression label="ff" exp="y = x^(2) + hh" type="quadric" />
+        <element type="quadric" label="ff">
+            <show object="true" label="false" ev="4"/>
+            <objColor r="211" g="47" b="47" alpha="0.6499999761581421"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <fixed val="true"/>
+            <selectionAllowed val="false"/>
+            <lineStyle thickness="5" type="0" typeHidden="1"/>
+            <eigenvectors  x0="0" y0="1" z0="0" x1="0" y1="0" z1="1" x2="1" y2="0" z2="0"/>
+            <matrix A0="-1" A1="0" A2="0" A3="8" A4="0" A5="0" A6="0" A7="0" A8="0.5" A9="0"/>
+            <eqnStyle style="implicit"/>
+        </element>
+        <expression label="eq1" exp="(aa * x^(2)) + y^(2) + (bb * z^(2)) = cc" type="quadric" />
+        <element type="quadric" label="eq1">
+            <show object="true" label="false" ev="4"/>
+            <objColor r="0" g="102" b="153" alpha="0.44999998807907104"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <fixed val="true"/>
+            <selectionAllowed val="false"/>
+            <lineStyle thickness="5" type="0" typeHidden="1"/>
+            <eigenvectors  x0="1" y0="0" z0="0" x1="0" y1="1" z1="0" x2="0" y2="0" z2="1"/>
+            <matrix A0="6" A1="1" A2="24" A3="-72" A4="0" A5="0" A6="0" A7="0" A8="0" A9="0"/>
+            <eqnStyle style="implicit"/>
+        </element>
+        <expression label="checkC" exp="&quot;✔&quot;"/>
+        <element type="text" label="checkC">
+            <show object="true" label="true" ev="37"/>
+            <condition showObject="correctc ∧ validate ∧ (¬showsolution)"/>
+            <objColor r="0" g="100" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <fixed val="true"/>
+            <selectionAllowed val="false"/>
+            <font serif="false" sizeM="2" size="16" style="1"/>
+            <absoluteScreenLocation x="719" y="48"/>
+        </element>
+        <expression label="crossC" exp="&quot;✘&quot;"/>
+        <element type="text" label="crossC">
+            <show object="true" label="true" ev="37"/>
+            <condition showObject="(¬correctc) ∧ validate ∧ (¬showsolution)"/>
+            <objColor r="204" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <fixed val="true"/>
+            <selectionAllowed val="false"/>
+            <font serif="false" sizeM="2" size="16" style="1"/>
+            <absoluteScreenLocation x="721" y="49"/>
+        </element>
+        <expression label="sText" exp="&quot;\fbox{\text{\bold{Solution:}\\&#xa;Let \[x=t\], then \[y=t^2\,\,\,z=\pm \sqrt{&quot; + (LaTeX[rnc]) + &quot;-\dfrac{t^2}{&quot; + (LaTeX[rn]) + &quot;}-\dfrac{t^4}{&quot; + (LaTeX[bb]) + &quot;}}\]\\\\\\\\&#xa;The correct intersection of the two surfaces is shown below. &quot;" />
+        <element type="text" label="sText">
+            <show object="true" label="true" ev="8"/>
+            <condition showObject="showsolution"/>
+            <objColor r="0" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <fixed val="true"/>
+            <selectionAllowed val="false"/>
+            <isLaTeX val="true"/>
+            <font serif="true" sizeM="1" size="0" style="0"/>
+            <absoluteScreenLocation x="4" y="3"/>
+        </element>
+        <expression label="qText" exp="&quot;\text{Find parametric equations for the intersection of the surfaces\\&#xa;\[y=x^2\] and \[&quot; + (LaTeX[aa]) + &quot;x^2+y^2+&quot; + (LaTeX[bb]) + &quot;z^2=&quot; + (LaTeX[cc]) + &quot;\].\\\\\\\\&#xa;\[x=t\]\\\vspace{140}&#xa;Move the slider to show the correct intersection of the two surfaces.}&quot;" />
+        <element type="text" label="qText">
+            <show object="true" label="true" ev="8"/>
+            <condition showObject="¬showsolution"/>
+            <objColor r="0" g="0" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <fixed val="true"/>
+            <selectionAllowed val="false"/>
+            <isLaTeX val="true"/>
+            <font serif="true" sizeM="1.4" size="7" style="0"/>
+            <absoluteScreenLocation x="2" y="2"/>
+        </element>
+        <command name="CurveCartesian">
+            <input a0="t" a1="t^(2)" a2="(-sqrt((cc - (aa * t^(2)) - t^(4)) / bb))" a3="t" a4="-10" a5="10"/>
+            <output a0="corrbot"/>
+        </command>
+        <element type="curvecartesian3d" label="corrbot">
+            <show object="true" label="false" ev="4"/>
+            <condition showObject="showanswer ∨ showsolution"/>
+            <objColor r="0" g="100" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <selectionAllowed val="false"/>
+            <lineStyle thickness="13" type="15" typeHidden="1"/>
+        </element>
+        <command name="CurveCartesian">
+            <input a0="t" a1="t^(2)" a2="sqrt((cc - (aa * t^(2)) - t^(4)) / bb)" a3="t" a4="-10" a5="10"/>
+            <output a0="corrtop"/>
+        </command>
+        <element type="curvecartesian3d" label="corrtop">
+            <show object="true" label="false" ev="4"/>
+            <condition showObject="showanswer ∨ showsolution"/>
+            <objColor r="0" g="100" b="0" alpha="0"/>
+            <layer val="0"/>
+            <labelMode val="0"/>
+            <selectionAllowed val="false"/>
+            <lineStyle thickness="13" type="15" typeHidden="1"/>
+        </element>
+    </construction>
+</geogebra>

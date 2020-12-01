@@ -1866,7 +1866,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	@Override
 	public void insertString(String text) {
-		new MathFieldProcessing(mf).autocomplete(text);
+		new MathFieldProcessing(mf).autocomplete(
+				app.getParserFunctions().toEditorAutocomplete(text, loc));
 	}
 
 	/**

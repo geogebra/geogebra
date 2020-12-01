@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'z-index';
 
 $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
@@ -12,7 +13,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			box-shadow: 0 6px 16px rgba(0,0,0,0.28);
 			background-color: $white;
 			/* keep shadow under keyboard */
-			z-index: 499;
+			z-index: $z-dialog-under-keyboard;
 			height: 100%;
 			width: 500px;
 			overflow-y: auto;

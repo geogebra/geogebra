@@ -427,22 +427,19 @@ public abstract class LocalizationJre extends Localization {
 	 * returned.
 	 */
 	protected Locale getClosestSupportedLocale(Locale locale) {
-		int size = getSupportedLocales().size();
+		ArrayList<Locale> supportedLocales = getSupportedLocales();
 
 		// try to find country and and language
 		String country = getCountry(locale);
 		String language = getLanguage(locale);
 		String variant = getVariant(locale);
-
 		if (country.length() > 0) {
-			for (int i = 0; i < size; i++) {
-				Locale loc = getSupportedLocales().get(i);
-
+			for (Locale loc : supportedLocales) {
 				if (country.equals(getCountry(loc))
 						&& language.equals(getLanguage(loc))
 						// needed for no_NO_NY
 						&& (!"no".equals(language)
-								|| variant.equals(getVariant(loc)))) {
+						|| variant.equals(getVariant(loc)))) {
 					// found supported country locale
 					return loc;
 				}
@@ -450,8 +447,7 @@ public abstract class LocalizationJre extends Localization {
 		}
 
 		// try to find only language
-		for (int i = 0; i < size; i++) {
-			Locale loc = getSupportedLocales().get(i);
+		for (Locale loc : supportedLocales) {
 			if (language.equals(getLanguage(loc))) {
 				// found supported country locale
 				return loc;

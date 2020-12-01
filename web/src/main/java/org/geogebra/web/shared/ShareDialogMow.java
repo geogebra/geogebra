@@ -335,7 +335,7 @@ public class ShareDialogMow extends ComponentDialog
 						.getMenu(success ? "GroupShareOk"
 								: "GroupShareFail"),
 				true, (AppW) app);
-		if (success) {
+		if (success && callback != null) {
 			callback.onLoaded(Collections.singletonList(material), null);
 		}
 	}

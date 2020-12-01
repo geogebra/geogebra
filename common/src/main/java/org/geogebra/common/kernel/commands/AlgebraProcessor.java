@@ -645,6 +645,8 @@ public class AlgebraProcessor {
 				} else {
 					n.setForceFunction();
 				}
+			} else if (geo.isGeoSurfaceCartesian()) {
+				n.setForceSurfaceCartesian();
 			}
 		}
 		if (newValue.unwrap() instanceof Equation) {
@@ -1942,7 +1944,6 @@ public class AlgebraProcessor {
 	 */
 	public GeoElement[] processValidExpression(ValidExpression ve,
 			EvalInfo info) throws MyError, Exception {
-
 		EvalInfo evalInfo = info;
 		ValidExpression expression = ve;
 		// check for existing labels
@@ -1968,7 +1969,6 @@ public class AlgebraProcessor {
 		// set back at the end
 		try {
 			ret = doProcessValidExpression(expression, evalInfo);
-
 			if (ret == null) { // eg (1,2,3) running in 2D
 				if (isFreehandFunction(expression)) {
 					return kernel.lookupLabel(expression.getLabel()).asArray();
@@ -1979,10 +1979,18 @@ public class AlgebraProcessor {
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
-
+		if (!info.getKeepDefinition()) {
+			stripDefinition(ret);
+		}
 		processReplace(replaceable, ret, expression, evalInfo);
 
 		return ret;
+	}
+
+	private void stripDefinition(GeoElement[] elements) {
+		for (GeoElement element: elements) {
+			element.setDefinition(null);
+		}
 	}
 
 	private ValidExpression getTraversedCopy(String[] labels, ValidExpression expression) {
@@ -2792,7 +2800,7 @@ public class AlgebraProcessor {
 
 		// z(x) = sin(x), see #5484
 		if (lhs instanceof ExpressionNode
-				&& ((ExpressionNode) lhs).getOperation() == Operation.ZCOORD
+				&& lhs.isOperation(Operation.ZCOORD)
 				&& ((ExpressionNode) lhs).getLeft()
 						.unwrap() instanceof FunctionVariable) {
 			equ.getRHS().setLabel("z");

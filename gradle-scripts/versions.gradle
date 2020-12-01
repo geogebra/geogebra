@@ -18,5 +18,5 @@ ext.junitVersion = '4.13'
 ext.mockitoVersion = '3.2.4'
 ext.hamcrestVersion = '2.2'
 // This is automatically updated when there is a new version of Giac out:
-ext.javaGiacVersion = '69638'
+ext.javaGiacVersion = '69661'
 // Please don't change this line since the automatism looks for exact match.

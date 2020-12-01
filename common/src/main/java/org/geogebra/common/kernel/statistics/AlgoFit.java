@@ -41,15 +41,14 @@ import org.geogebra.common.plugin.GeoClass;
  */
 public class AlgoFit extends AlgoElement implements FitAlgo {
 
-	private GeoList pointlist; // input
-	private GeoList functionlist; // output
+	private final GeoList pointlist; // input
+	private final GeoList functionlist; // output
 	private CasEvaluableFunction fitfunction; // output
 
 	// variables:
 	private int datasize = 0; // rows in M and Y
 	private int functionsize = 0; // cols in M
-	// private GeoFunctionable[] functionarray = null;
-	private FunctionListND functionarray;
+	private final FunctionListND functionarray;
 	private RealMatrix matM = null;
 	private RealMatrix matY = null;
 	private RealMatrix matP = null;

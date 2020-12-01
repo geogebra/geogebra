@@ -82,8 +82,8 @@ public class FunctionNVar extends ValidExpression
 
 		@Override
 		public boolean check(ExpressionValue v) {
-			return (v.isGeoElement() && ((GeoElement) v).isRandomGeo()) || (v.isExpressionNode()
-					&& ((ExpressionNode) v).getOperation() == Operation.RANDOM);
+			return (v.isGeoElement() && ((GeoElement) v).isRandomGeo())
+					|| v.isOperation(Operation.RANDOM);
 		}
 	}
 
@@ -359,11 +359,6 @@ public class FunctionNVar extends ValidExpression
 		// replace all polynomials in expression (they are all equal to "1x" if
 		// we got this far)
 		// by an instance of MyDouble
-
-		// simplify constant parts in expression
-		if (info.isSimplifyingIntegers()) {
-			expression.simplifyConstantIntegers();
-		}
 
 		// evaluate expression to find out about the type of function
 		ExpressionValue ev;
@@ -1359,7 +1354,6 @@ public class FunctionNVar extends ValidExpression
 			expDeriv = expDeriv.derivative(fv, kernel);
 		}
 		expDeriv = expDeriv.shallowCopy();
-		expDeriv.simplifyConstantIntegers();
 		return new FunctionNVar(expDeriv, fVars);
 	}
 

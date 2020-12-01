@@ -6,7 +6,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.gui.util.Cookies;
-import org.geogebra.web.shared.ggtapi.BASEURL;
+import org.geogebra.web.shared.ggtapi.StaticFileUrls;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -48,7 +48,7 @@ public class SignInController implements EventRenderable, SignInControllerI {
 	public void login() {
 		if (signInDialog == null || signInDialog.closed()) {
 			signInDialog = WindowReference.createSignInWindow(app,
-					callbackURL == null ? BASEURL.getCallbackUrl()
+					callbackURL == null ? StaticFileUrls.getCallbackUrl()
 							: callbackURL);
 		} else {
 			signInDialog.close();

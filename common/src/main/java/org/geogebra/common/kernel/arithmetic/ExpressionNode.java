@@ -60,16 +60,6 @@ import com.google.j2objc.annotations.Weak;
 public class ExpressionNode extends ValidExpression
 		implements ExpressionNodeConstants, ReplaceChildrenByValues {
 
-	private static final Inspecting TRICKY_DIVISION_CHECKER = new Inspecting() {
-
-		@Override
-		public boolean check(ExpressionValue v) {
-			return v.isExpressionNode()
-					&& ((ExpressionNode) v).getOperation() == Operation.DIVIDE
-					&& DoubleUtil.isZero(v.evaluateDouble())
-					&& ((ExpressionNode) v).getLeft().evaluateDouble() != 0;
-		}
-	};
 	private Localization loc;
 	@Weak
 	private Kernel kernel;
@@ -405,43 +395,6 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
-	 * Replaces all constant parts in tree by their values
-	 */
-	final public void simplifyConstantIntegers() {
-		if (left.isExpressionNode()) {
-			left = doSimplifyConstantIntegers(left);
-		}
-
-		if ((right != null) && right.isExpressionNode()) {
-			right = doSimplifyConstantIntegers(right);
-		}
-	}
-
-	private static ExpressionValue doSimplifyConstantIntegers(
-			ExpressionValue left2) {
-		ExpressionNode node = (ExpressionNode) left2;
-		if (left2.isConstant() && node.getOperation() != Operation.ARBCONST) {
-			ExpressionValue eval = node
-					.evaluate(StringTemplate.defaultTemplate);
-			if (eval instanceof NumberValue) {
-				// we only simplify numbers that have integer values
-				if (DoubleUtil.isInteger(eval.evaluateDouble())) {
-					if (node.inspect(TRICKY_DIVISION_CHECKER)) {
-						node.simplifyConstantIntegers();
-						return left2;
-					}
-					return eval;
-				}
-			} else {
-				return eval;
-			}
-		} else {
-			node.simplifyConstantIntegers();
-		}
-		return left2;
-	}
-
-	/**
 	 * Evaluates this expression
 	 * 
 	 * @param tpl
@@ -499,7 +452,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private static ExpressionValue groupPowers(ExpressionValue left) {
-		if (left.wrap().getOperation() == Operation.MULTIPLY) {
+		if (left.isOperation(Operation.MULTIPLY)) {
 			ArrayList<ExpressionValue> factors = new ArrayList<>();
 			left.wrap().collectFactors(factors);
 			if (factors.size() > 1) {
@@ -858,8 +811,7 @@ public class ExpressionNode extends ValidExpression
 			ExpressionValue trigArg = ((ExpressionNode) this.left).getLeft();
 			Operation leftOperation = ((ExpressionNode) left).operation;
 			// sinxyz^2 is parsed as sin(x y z)^2, change to sin(x y z^2)
-			if (trigArg.isExpressionNode()
-					&& ((ExpressionNode) trigArg).getOperation() == Operation.MULTIPLY) {
+			if (trigArg.isOperation(Operation.MULTIPLY)) {
 				ExpressionNode trigArgExpr = (ExpressionNode) trigArg;
 				left = trigArgExpr.getRight().wrap()
 						.apply(operation, right).multiply(trigArgExpr.getLeft());
@@ -3581,7 +3533,7 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public boolean isFraction() {
 		initFraction();
-		return ((ExpressionNode) resolve).getOperation() == Operation.DIVIDE;
+		return resolve.isOperation(Operation.DIVIDE);
 	}
 	
 	/**
@@ -3684,8 +3636,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private ExpressionValue getUnsigned(ExpressionValue expr) {
-		if (expr.isExpressionNode()
-				&& expr.wrap().getOperation() == Operation.MULTIPLY
+		if (expr.isOperation(Operation.MULTIPLY)
 				&& ExpressionNode.isConstantDouble(expr.wrap().getLeft(),
 				-1)) {
 			return expr.wrap().getRight();
@@ -3767,5 +3718,10 @@ public class ExpressionNode extends ValidExpression
 		newNode.secretMaskingAlgo = secretMaskingAlgo;
 		newNode.wasInterval = wasInterval;
 		newNode.holdsLaTeXtext = holdsLaTeXtext;
+	}
+
+	@Override
+	public boolean isOperation(Operation operation) {
+		return operation == this.operation;
 	}
 }

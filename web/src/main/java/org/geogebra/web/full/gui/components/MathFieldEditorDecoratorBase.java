@@ -33,7 +33,6 @@ public abstract class MathFieldEditorDecoratorBase implements MathFieldEditorDec
 				: GColor.WHITE;
 		String cssColor = StringUtil.toHtmlColor(color);
 		style.setBackgroundColor(cssColor);
-		mathField.setBackgroundCssColor(cssColor);
 	}
 
 	/**

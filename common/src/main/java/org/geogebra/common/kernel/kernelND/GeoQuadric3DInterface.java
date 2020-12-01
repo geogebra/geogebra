@@ -33,4 +33,14 @@ public interface GeoQuadric3DInterface {
 	 */
 	void setEigenvectors(double x0, double y0, double z0, double x1, double y1,
 			double z1, double x2, double y2, double z2);
+
+	/**
+	 * Classify quadric if it wasn't done previously
+	 */
+	void ensureClassified();
+
+	/**
+	 * Hide quadrics that were not showable in old versions of 3D
+	 */
+	void hideIfNotSphere();
 }

@@ -12,7 +12,7 @@ import org.geogebra.common.util.SyntaxAdapterImpl;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 
 /**
@@ -23,26 +23,29 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	protected final App app;
 	protected final EuclidianView view;
 
-	protected TeXSerializer serializer;
+	protected TeXSerializer texSerializer;
 
 	private GeoInputBox geoInputBox;
 	private DrawInputBox drawInputBox;
+	private final GeoGebraSerializer asciiSerializer = new GeoGebraSerializer();
 
 	protected SymbolicEditor(App app, EuclidianView view) {
 		this.app = app;
 		this.view = view;
-		this.serializer = new TeXSerializer(new SyntaxAdapterImpl(app.getKernel()));
+		this.texSerializer = new TeXSerializer(new SyntaxAdapterImpl(app.getKernel()));
+		asciiSerializer.forceRoundBrackets();
 	}
 
 	protected void applyChanges() {
 		setTempUserDisplayInput();
-		String editedText = getMathFieldInternal().getText();
+
+		String editedText = asciiSerializer.serialize(getMathFieldInternal().getFormula());
 		geoInputBox.updateLinkedGeo(editedText);
 	}
 
 	protected void setTempUserDisplayInput() {
 		MathFormula formula = getMathFieldInternal().getFormula();
-		String latex = serializer.serialize(formula);
+		String latex = texSerializer.serialize(formula);
 		geoInputBox.setTempUserDisplayInput(latex);
 	}
 
@@ -89,11 +92,6 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	@Override
 	public void onDownKeyPressed() {
 		// nothing to do.
-	}
-
-	@Override
-	public String serialize(MathSequence selectionText) {
-		return null;
 	}
 
 	@Override

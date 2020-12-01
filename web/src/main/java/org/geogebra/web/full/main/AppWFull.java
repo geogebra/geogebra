@@ -93,7 +93,7 @@ import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
-import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
+import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
@@ -1847,6 +1847,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			this.setSpHeight(newHeight);
 			if (oldSplitLayoutPanel != null) {
 				oldSplitLayoutPanel.setHeight(getSpHeight() + "px");
+				getGuiManager().getLayout().getDockManager().resizeProbabilityCalculator();
 				getGuiManager().updateUnbundledToolbar();
 			}
 		}
@@ -1890,9 +1891,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void updateFloatingButtonsPosition() {
-		ToolbarMow toolbarMow = frame.getToolbarMow();
-		if (toolbarMow != null) {
-			toolbarMow.updateFloatingButtonsPosition();
+		NotesLayout notesLayout = frame.getNotesLayout();
+		if (notesLayout != null) {
+			notesLayout.updateFloatingButtonsPosition();
 		}
 	}
 

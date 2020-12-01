@@ -1222,6 +1222,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return whether file is valid
 	 */
 	public boolean openFile(File fileToHandle) {
+		if (getLAF().supportsLocalSave()) {
+			getFileManager().setFileProvider(Provider.LOCAL);
+		}
 		resetPerspectiveParam();
 		resetUrl();
 		return doOpenFile(fileToHandle, null);
@@ -3657,5 +3660,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				dispatchEvent(new Event(EventType.CLOSE_KEYBOARD));
 			}
 		}
+	}
+
+	/**
+	 * @return whether a file with multiple slides is open
+	 */
+	public boolean isMultipleSlidesOpen() {
+		return getPageController() != null && getPageController().getSlideCount() > 1;
 	}
 }

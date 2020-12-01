@@ -124,10 +124,6 @@ public class AlgoDependentNumber extends AlgoElement
 			boolean addToConstructionList, boolean rewrite) {
 		super(cons, addToConstructionList);
 		rewriteFormula = rewrite;
-		// simplify constant integers, e.g. -1 * 300 becomes -300
-		if (rewriteFormula) {
-			root.simplifyConstantIntegers();
-		}
 		if (evaluate instanceof GeoNumberValue) {
 			// fix error with a=7, b = a renaming a instead of creating b
 			number = (GeoNumberValue) ((GeoNumberValue) evaluate)

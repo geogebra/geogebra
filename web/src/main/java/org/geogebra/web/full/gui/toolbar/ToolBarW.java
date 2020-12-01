@@ -24,10 +24,9 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 /**
+ * Toolbar for GeoGebraWeb
+ *
  * @author gabor
- * 
- *         Toolbar for GeoGebraWeb
- * 
  */
 public class ToolBarW extends FlowPanel
  implements ClickHandler, ToolBarInterface, MouseOutHandler {

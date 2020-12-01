@@ -66,8 +66,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 			view.getEuclidianController().addZoomerListener(this);
 		}
 		setStyleName("zoomPanel");
-		addStyleName(app.isWhiteboardActive() && !app.isApplet()
-				? "zoomPanelWithPageControl" : "zoomPanelPosition");
+		updatePosition(false);
 		if (ZoomPanel.needsZoomButtons(app)
 				&& !app.isWhiteboardActive() && zoomable) {
 			addZoomButtons();
@@ -78,6 +77,14 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		}
 
 		setLabels();
+	}
+
+	/**
+	 * @param isAbovePageControlButton whether page control button is showing
+	 */
+	public void updatePosition(boolean isAbovePageControlButton) {
+		Dom.toggleClass(this, "zoomPanelWithPageControl",
+				"zoomPanelPosition", isAbovePageControlButton);
 	}
 
 	/**
