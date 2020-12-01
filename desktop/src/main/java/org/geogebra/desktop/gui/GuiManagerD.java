@@ -2901,9 +2901,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public Component getInputHelpPanel() {
 
 		if (inputHelpPanel == null) {
-			if (getApp().showView(App.VIEW_CAS)) {
-				getApp().getCommandDictionaryCAS();
-			}
 			inputHelpPanel = new InputBarHelpPanelD(getApp());
 		}
 		return inputHelpPanel;
