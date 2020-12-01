@@ -495,7 +495,7 @@ public class AppCommon extends App {
 			}
 
 			@Override
-			public void playFile(String string) {
+			public void playFile(GeoElement geoElement, String file) {
 				// stub
 			}
 
@@ -511,19 +511,19 @@ public class AppCommon extends App {
 			}
 
 			@Override
-			public int getDuration(String url) {
+			public int getDuration(GeoAudio geoAudio) {
 				// stub
 				return 0;
 			}
 
 			@Override
-			public int getCurrentTime(String url) {
+			public int getCurrentTime(GeoAudio geoAudio) {
 				// stub
 				return 0;
 			}
 
 			@Override
-			public void setCurrentTime(String url, int pos) {
+			public void setCurrentTime(GeoAudio geoAudio, int pos) {
 				// stub
 
 			}

@@ -459,9 +459,21 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertEquals("", inputBox.getTextForEditor());
 		getApp().setXML(getApp().getXML(), true);
 		assertEquals("", inputBox.getTextForEditor());
-		assertEquals("f\\, \\text{undefined} ", lookup("f")
+		assertEquals("ComplexFunction", lookup("f").getTypeString());
+		// \text{undefined} also acceptable but ? is consistent with real-valued functions
+		assertEquals("f(x) = ?", lookup("f")
 				.getLaTeXAlgebraDescriptionWithFallback(false,
 						StringTemplate.defaultTemplate, false));
+	}
+
+	@Test
+	public void shouldAcceptNumberForComplexFunctions() {
+		setupInput("f", "x+i");
+		add("pt=f(1-i)");
+		inputBox.setSymbolicMode(true, false);
+		inputBox.updateLinkedGeo("2");
+		assertEquals("2 + 0" + Unicode.IMAGINARY,
+				lookup("pt").toValueString(StringTemplate.testTemplate));
 	}
 
 	@Test
@@ -484,5 +496,28 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertThat(inputBox.getText(), equalTo("(5 / 6, 3 / 2, sqrt(5))"));
 		addAvInput("SetValue(u,?)");
 		assertThat(inputBox.getText(), equalTo("(?, ?, ?)"));
+	}
+
+	@Test
+	public void shouldPreferScalarProductOverDistance() {
+		add("a=1");
+		GeoInputBox inputBox = add("InputBox(a)");
+		add("A=(1,2)");
+		add("B=(1,3)");
+		inputBox.updateLinkedGeo("AB");
+		assertEquals(7, lookup("a").evaluateDouble(), 0);
+	}
+
+	@Test
+	public void shouldNotAutocreatePoints() {
+		add("A=(1,1)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		add("B=(1,3)");
+		inputBox.updateLinkedGeo("B2");
+		assertEquals(lookup("A").toValueString(StringTemplate.testTemplate),
+				"(2, 6)");
+		inputBox.updateLinkedGeo("O");
+		assertEquals(lookup("A").toValueString(StringTemplate.testTemplate),
+				"(?, ?)");
 	}
 }

@@ -440,7 +440,7 @@ public class DrawInputBox extends CanvasDrawable {
 			view.getViewTextField().setBoxBounds(labelRectangle);
 		}
 
-		if (!editing) {
+		if (!editing || view.getApplication().isExporting()) {
 			drawTextfieldOnCanvas(g2);
 		}
 

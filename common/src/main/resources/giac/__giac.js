@@ -2532,6 +2532,21 @@ var __giac = [ {},
 { cat:"CompleteSquare", cmd:"CompleteSquare(a x^4-4x^2)", result:"a (x\u00B2 - 4 / (2a))\u00B2 - 16 / (4a)" },
 { cat:"CompleteSquare", cmd:"CompleteSquare(a x^2-4x)", result:"a (x - 4 / (2a))\u00B2 - 16 / (4a)" },
 { cat:"PlotSolve.1", cmd:"PlotSolve(x^2-2)", result:"{(-sqrt(2), 0), (sqrt(2), 0)}" },
+{ cat:"Q1.1", cmd:"Quartile1({1,4,2,6,5})", result:"1.5" },
+{ cat:"Q3.1", cmd:"Quartile3({1,4,2,6,5})", result:"5.5" },
+{ cat:"Q1.1", cmd:"Quartile1({1,4,2,6,4})", result:"1.5" },
+{ cat:"Q3.1", cmd:"Quartile3({1,4,2,6,4})", result:"5" },
+{ cat:"Q1.1", cmd:"Quartile1({1,4,4,9})", result:"2.5" },
+{ cat:"Q3.1", cmd:"Quartile3({1,4,4,9})", result:"6.5" },
+{ cat:"Q1.1", cmd:"Quartile1({3,3,3})", result:"3" },
+{ cat:"Q3.1", cmd:"Quartile3({3,3,3})", result:"3" },
+{ cat:"Q1.1", cmd:"Quartile1({2,2,5})", result:"2" },
+{ cat:"Q3.1", cmd:"Quartile3({2,2,5})", result:"5" },
+{ cat:"Q1.1", cmd:"Quartile1({4})", result:"?" },
+{ cat:"Q3.1", cmd:"Quartile3({4})", result:"?" },
+{ cat:"Q1.1", cmd:"Quartile1({})", result:"?" },
+{ cat:"Q3.1", cmd:"Quartile3({})", result:"?" },
+
 //JSONEND
 
 // gives odd result, tricky to fix

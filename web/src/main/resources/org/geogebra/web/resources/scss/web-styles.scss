@@ -1,6 +1,7 @@
 /**
  * The file contains some styles.
  */
+@import 'z-index';
 
 .GeoGebraFrame {
 	display: block;
@@ -41,7 +42,7 @@
 		left: 0;
 		width: 1px;
 		height: 1px;
-		z-index: -32000;
+		z-index: $z-hidden;
 		clip: rect(1em 1em 1em 1em);
 		padding: 0;
 		resize: none;
@@ -320,7 +321,7 @@
 
 	.gwt-MenuBarPopup {
 		margin: 0 0 0 3px;
-		z-index: 100;
+		z-index: $z-menubar-popup;
 	}
 
 	.gwt-PasswordTextBox {
@@ -339,7 +340,7 @@
 		padding: 5px;
 		background-color: white;
 		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
-		z-index: 500;
+		z-index: $z-dialog;
 
 		&.loadinganimation {
 			background-color: rgba(255, 255, 255, 0);
@@ -384,7 +385,7 @@
 	.gwt-PopupPanelGlass {
 		background-color: #FFF;
 		opacity: 0.7;
-		z-index: 500;
+		z-index: $z-dialog;
 	}
 
 	.gwt-RadioButton-disabled {
@@ -1120,7 +1121,6 @@
 		box-sizing: border-box;
 		width: 100%;
 		height: 43px; /* 100% breaks applets */
-		z-index: 50;
 	}
 
 	.AlgebraInput > * {
@@ -1170,7 +1170,7 @@
 		padding: 5px 10px;
 		background-color: rgba(255, 255, 255, 0.9);
 		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
-		z-index: 1000;
+		z-index: $z-tooltip-classic;
 	}
 
 	.toolTipHTML {
@@ -1186,7 +1186,7 @@
 		padding: 3px;
 		background-color: rgba(51, 51, 51, 0.7);
 		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
-		z-index: 1000;
+		z-index: $z-tooltip-classic;
 		position: absolute;
 		color: #FFFFFF;
 	}
@@ -1260,7 +1260,6 @@
 		display: inline-block;
 		width: 30%;
 	}
-
 
 	.dialogContent .sliderIntervalPanel .gwt-Label {
 		display: block;
@@ -1453,7 +1452,7 @@
 	.CAS_table_first_row_selected {
 		background-color: white;
 		position: relative;
-		z-index: 20;
+		z-index: $z-cas-table-first-row-selected;
 	}
 
 	.CAS_subDialog .gwt-Button {
@@ -1824,7 +1823,6 @@
 	.elemHeading {
 		border-bottom: 1px solid #EDEDED;
 		position: relative;
-		z-index: 3;
 	}
 
 	.elemHeadingName {
@@ -1899,7 +1897,7 @@
 
 	.ggb-AlgebraViewSuggestionPopup {
 		/* overcoming the z-index of the onScreen keyboard PopupPanel */
-		z-index: 600;
+		z-index: $z-dialog-over-keyboard;
 	}
 
 	.ggb-AlgebraViewSuggestionList {
@@ -2276,12 +2274,14 @@
 		padding: 0;
 	}
 
-	.ProbCalcPanel {
-		overflow: auto;
+	.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent.ProbCalcPanel {
+		// no scrollbar for main panel, only for value table
+		overflow: hidden;
 	}
-
-	.ProbCalcPanel .PlotPanelPlus {
+	.plotSplitPane {
 		float: left;
+	}
+	.ProbCalcPanel .PlotPanelPlus {
 		margin: 0;
 		margin-top: 6px;
 		padding: 0;
@@ -2293,6 +2293,7 @@
 		padding: 0;
 		padding-left: 10px;
 		overflow: auto;
+		box-sizing: border-box;
 	}
 
 	.ProbCalcPanel .ProbabilityTableW table {
@@ -2338,11 +2339,25 @@
 		overflow: auto;
 	}
 
-	.controlPanel > div {
-		padding: 5px 0;
+	.controlPanel .groupEnd {
 		margin-right: 30px;
+	}
+
+	.cbPanel, .intervalPanel {
+		padding: 5px 0;
 		float: left;
 		white-space: nowrap;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		& > * {
+			margin-top: 8px;
+		}
+	}
+
+	.parameterPanel, .resultPanel {
+		display: flex;
+		align-items: center;
 	}
 
 	.controlPanel > div.clear {
@@ -2362,11 +2377,6 @@
 	.parameterPanel > *, .resultPanel > * {
 		display: inline-block;
 		margin: 0 5px;
-		padding: 0;
-	}
-
-	.intervalPanel > * {
-		display: inline-block;
 	}
 
 	/* --------- STATISTICS CALCULATOR --------------- */
@@ -2497,7 +2507,7 @@
 		height: 61px;
 		box-sizing: border-box;
 		position: relative;
-		z-index: 100;
+		z-index: $z-open-screen-header-bar;
 		width: 100%;
 		margin-bottom: 1px;
 	}
@@ -2967,16 +2977,6 @@
 		float: right;
 	}
 
-	/* make sure popup glass pane hides KB button too*/
-
-	div.openKeyboardButton {
-		z-index: 99;
-	}
-
-	div.openKeyboardButton {
-		bottom: 5px;
-	}
-
 	/* AV Extensions */
 
 	.avItemContent {
@@ -3217,7 +3217,7 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		z-index: 100;
+		z-index: $z-unsupported-browser-message;
 		background-color: white;
 	}
 

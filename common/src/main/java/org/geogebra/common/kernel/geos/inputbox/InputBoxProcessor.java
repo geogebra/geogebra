@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos.inputbox;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -18,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
@@ -81,9 +83,15 @@ public class InputBoxProcessor {
 	private String maybeClampInputForNumeric(String inputText, StringTemplate tpl) {
 		if (!inputBox.isSymbolicMode() && linkedGeo instanceof GeoNumeric) {
 			GeoNumeric number = (GeoNumeric) linkedGeo;
-			double num = kernel.getAlgebraProcessor()
-					.evaluateToDouble(inputText, true, null);
 
+			double num = Double.NaN;
+			try {
+				ExpressionNode en = kernel.getParser().parseExpression(inputText);
+				en.resolveVariables(buildEvalInfo());
+				num = en.evaluateDouble();
+			} catch (Exception | MyError e) {
+				Log.debug("Invalid number " + inputText);
+			}
 			if (num < number.getIntervalMin()) {
 				return kernel.format(number.getIntervalMin(), tpl);
 			} else if (num > number.getIntervalMax()) {
@@ -125,15 +133,19 @@ public class InputBoxProcessor {
 			StringTemplate tpl, ErrorHandler errorHandler, EditorContent content) {
 		String defineText = preprocess(content, tpl);
 
-		EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
-				false, false).withSliders(false)
-				.withNoRedefinitionAllowed().withPreventingTypeChange()
-				.withRedefinitionRule(createRedefinitionRule())
-				.withMultipleUnassignedAllowed();
+		EvalInfo info = buildEvalInfo();
 
 		algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
 				defineText, info, false,
 				new InputBoxCallback(inputBox), errorHandler);
+	}
+
+	private EvalInfo buildEvalInfo() {
+		return new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
+				false, false).withSliders(false)
+				.withNoRedefinitionAllowed().withPreventingTypeChange()
+				.withRedefinitionRule(createRedefinitionRule())
+				.withMultipleUnassignedAllowed();
 	}
 
 	private String preprocess(EditorContent content, StringTemplate tpl) {
@@ -145,6 +157,10 @@ public class InputBoxProcessor {
 		} else if ("?".equals(content.getEditorInput()) || "".equals(content.getEditorInput())) {
 			defineText = "?";
 		} else if (linkedGeo.isGeoLine()) {
+
+			if (defineText.startsWith("f(x)=")) {
+				defineText = defineText.replace("f(x)=", "y=");
+			}
 
 			// not y=
 			// and not Line[A,B]

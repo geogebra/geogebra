@@ -39,7 +39,7 @@ class ComboPanel extends JPanel implements ActionListener,
 	public ComboPanel(AppD app, final String title) {
 		this.app = app;
 		this.loc = app.getLocalization();
-		this.setTitle(title);
+		this.title = title;
 		label = new JLabel();
 		comboBox = new JComboBox();
 
@@ -156,11 +156,7 @@ class ComboPanel extends JPanel implements ActionListener,
 	}
 
 	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
+		return loc.getMenu(title);
 	}
 
 	@Override

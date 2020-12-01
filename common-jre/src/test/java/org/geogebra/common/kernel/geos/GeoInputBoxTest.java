@@ -628,6 +628,50 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testConstantNumberDontGetSimplified() {
+		add("f(θ) = 2 + 1*1*1");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
+		assertEquals("2 + 1 * 1 * 1", inputBox.getText());
+
+		inputBox.updateLinkedGeo("sqrt(4)");
+		assertEquals("sqrt(4)", inputBox.getText());
+
+		inputBox.updateLinkedGeo("1+2/2");
+		assertEquals("1 + 2 / 2", inputBox.getText());
+
+		inputBox.updateLinkedGeo("5/5+1");
+		assertEquals("5 / 5 + 1", inputBox.getText());
+
+		inputBox.updateLinkedGeo("1/(10/1)");
+		assertEquals("1 / (10 / 1)", inputBox.getText());
+
+		inputBox.updateLinkedGeo("floor((1+2))");
+		assertEquals("floor(1 + 2)", inputBox.getText());
+
+		inputBox.updateLinkedGeo("floor((1+2))+3+4");
+		assertEquals("floor(1 + 2) + 3 + 4", inputBox.getText());
+
+		inputBox.updateLinkedGeo("e^36-1");
+		assertEquals("ℯ³⁶ - 1", inputBox.getText());
+	}
+
+	@Test
+	public void testConstantsDontGetSimplifiedInFunctions() {
+		add("f(t) = t+10^2");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
+		assertEquals("t + 10²", inputBox.getText());
+
+		inputBox.updateLinkedGeo("1+1+t");
+		assertEquals("1 + 1 + t", inputBox.getText());
+
+		inputBox.updateLinkedGeo("10^10 + t");
+		assertEquals("10¹⁰ + t", inputBox.getText());
+
+		inputBox.updateLinkedGeo("-3/4t + 2*3/2");
+		assertEquals("-3 / 4 t + 2 * 3 / 2", inputBox.getText());
+	}
+
+	@Test
 	public void testSanSerifInputBoxLoadsSanSerif() {
 		getApp().getGgbApi().evalXML("<element type=\"textfield\" label=\"InputBox1\">\n"
 				+ "\t<show object=\"true\" label=\"true\"/>\n"
@@ -660,6 +704,14 @@ public class GeoInputBoxTest extends BaseUnitTest {
 				+ "</element>");
 		GeoInputBox inputBox = (GeoInputBox) getConstruction().lookupLabel("InputBox1");
 		assertTrue(inputBox.isSerifContent());
+	}
+
+	@Test
+	public void voidReplaceForLinesYWithFOfX() {
+		add("g: y=x");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(g)");
+		inputBox.updateLinkedGeo("f(x)=x+5");
+		assertEquals("y = x + 5", inputBox.getText());
 	}
 
 	@Test

@@ -29,9 +29,6 @@ public abstract class CheckMarkSubMenu {
 		this.parentMenu = parentMenu;
 		// super(true, "", app);
 		checkmarkUrl = MaterialDesignResources.INSTANCE.check_black();
-		// addStyleName("GeoGebraMenuBar");
-		// addStyleName("floating-Popup");
-		// addStyleName("dotSubMenu");
 		items = new ArrayList<>();
 		initActions();
 	}

@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'z-index';
 
 .GeoGebraFrame {
 	.snackbar {
@@ -8,7 +9,7 @@
 		max-width: 420px;*/
 		height: 80px; /* 48px for single line */
 		border-radius: 2px;
-		z-index: 1000;
+		z-index: $z-snackbar;
 		position: absolute;
 		bottom: -80px;
 		background-color: $snackbar-background;
@@ -77,7 +78,7 @@
 		padding: 3px;
 		background-color: $black-87;
 		box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
-		z-index: 1000;
+		z-index: $z-snackbar;
 		position: absolute;
 		color: #FFFFFF;
 		/*left: 862px !important;

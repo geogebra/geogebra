@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityTable;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.desktop.gui.view.data.StatTable;
 import org.geogebra.desktop.main.AppD;
@@ -53,7 +54,7 @@ public class ProbabilityTableD extends ProbabilityTable
 	}
 
 	@Override
-	public void setTable(Dist distType, double[] parms, int xMin, int xMax) {
+	public void setTable(Dist distType, GeoNumberValue[] parms, int xMin, int xMax) {
 
 		setIniting(true);
 
@@ -124,7 +125,7 @@ public class ProbabilityTableD extends ProbabilityTable
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
 			// System.out.println(low + " , " + high);
-			((ProbabilityCalculatorViewD) getProbCalc()).setInterval(low, high);
+			getProbCalc().setInterval(low, high);
 		} else if (getProbCalc()
 				.getProbMode() == ProbabilityCalculatorView.PROB_LEFT) {
 			String lowStr = (String) statTable.getTable().getModel()
@@ -134,7 +135,7 @@ public class ProbabilityTableD extends ProbabilityTable
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
 			// System.out.println(low + " , " + high);
-			((ProbabilityCalculatorViewD) getProbCalc()).setInterval(low, high);
+			getProbCalc().setInterval(low, high);
 
 			// adjust the selection
 			table.getSelectionModel().removeListSelectionListener(this);
