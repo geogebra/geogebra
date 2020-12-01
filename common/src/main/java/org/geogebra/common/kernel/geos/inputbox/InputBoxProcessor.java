@@ -31,7 +31,7 @@ public class InputBoxProcessor {
 
 	private GeoInputBox inputBox;
 	private GeoElementND linkedGeo;
-	private Kernel kernel;
+	private final Kernel kernel;
 	private AlgebraProcessor algebraProcessor;
 
 	/**
@@ -48,12 +48,14 @@ public class InputBoxProcessor {
 	}
 
 	/**
-	 * @param inputText
+	 * @param content
 	 *            user input
 	 * @param tpl
 	 *            template
 	 */
-	public void updateLinkedGeo(String inputText, StringTemplate tpl) {
+	public void updateLinkedGeo(EditorContent content, StringTemplate tpl) {
+		content.removeCommas(kernel.getLocalization());
+		String inputText = content.getEditorInput();
 		if (!linkedGeo.isLabelSet() && linkedGeo.isGeoText()) {
 			((GeoText) linkedGeo).setTextString(inputText);
 			return;
@@ -62,11 +64,8 @@ public class InputBoxProcessor {
 		// first clear temp input, so that the string representation of the input
 		// box is correct when updating dependencies
 		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
-
-		String defineText = maybeClampInputForNumeric(inputText, tpl);
-
 		InputBoxErrorHandler errorHandler = new InputBoxErrorHandler();
-		updateLinkedGeoNoErrorHandling(defineText, tpl, errorHandler);
+		updateLinkedGeoNoErrorHandling(tpl, errorHandler, content);
 
 		if (errorHandler.errorOccured) {
 			if ("?".equals(inputText)) {
@@ -130,9 +129,9 @@ public class InputBoxProcessor {
 		return tempUserInput == null ? inputText : tempUserInput;
 	}
 
-	private void updateLinkedGeoNoErrorHandling(String inputText,
-			StringTemplate tpl, ErrorHandler errorHandler) {
-		String defineText = preprocess(inputText, tpl);
+	private void updateLinkedGeoNoErrorHandling(
+			StringTemplate tpl, ErrorHandler errorHandler, EditorContent content) {
+		String defineText = preprocess(content, tpl);
 
 		EvalInfo info = buildEvalInfo();
 
@@ -149,15 +148,13 @@ public class InputBoxProcessor {
 				.withMultipleUnassignedAllowed();
 	}
 
-	private String  preprocess(String inputText, StringTemplate tpl) {
-		String defineText = inputText;
-
-		if (linkedGeo instanceof GeoVectorND && linkedGeo.hasSpecialEditor()) {
-			defineText = "(" + inputText.replace("{", "")
-					.replace("}", "") + ")";
+	private String preprocess(EditorContent content, StringTemplate tpl) {
+		String defineText = maybeClampInputForNumeric(content.getEditorInput(), tpl);
+		if (linkedGeo.hasSpecialEditor() && content.hasEntries()) {
+			defineText = buildListText(content);
 		} else if (linkedGeo.isGeoText()) {
 			defineText = "\"" + defineText + "\"";
-		} else if ("?".equals(inputText.trim()) || "".equals(inputText.trim())) {
+		} else if ("?".equals(content.getEditorInput()) || "".equals(content.getEditorInput())) {
 			defineText = "?";
 		} else if (linkedGeo.isGeoLine()) {
 
@@ -200,6 +197,14 @@ public class InputBoxProcessor {
 		}
 
 		return defineText;
+	}
+
+	private String buildListText(EditorContent content) {
+		if (linkedGeo instanceof GeoVectorND) {
+			return content.buildVectorText();
+		} else {
+			return content.buildMatrixText();
+		}
 	}
 
 	private boolean isComplexFunction() {
