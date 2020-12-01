@@ -83,6 +83,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EVProperty;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -128,6 +129,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -3023,38 +3025,60 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	@Override
 	public void getXML(StringBuilder sb, boolean asPreference) {
+		StringTemplate tpl = StringTemplate.xmlTemplate;
 		sb.append("<euclidianView3D>\n");
 
 		// coord system
-		sb.append("\t<coordSystem");
-
-		sb.append(" xZero=\"");
-		sb.append(getXZero());
-		sb.append("\" yZero=\"");
-		sb.append(getYZero());
-		sb.append("\" zZero=\"");
-		sb.append(getZZero());
-		sb.append("\"");
-
-		sb.append(" scale=\"");
-		sb.append(getXscale());
-		sb.append("\"");
-
-		if (!getSettings().hasSameScales()) {
-			sb.append(" yscale=\"");
-			sb.append(getYscale());
+		if (!isZoomable() && !asPreference) {
+			sb.append("\t<coordSystem");
+			sb.append(" xMin=\"");
+			StringUtil.encodeXML(sb, ((GeoNumeric) xminObject).getLabel(tpl));
+			sb.append("\"");
+			sb.append(" xMax=\"");
+			StringUtil.encodeXML(sb, ((GeoNumeric) xmaxObject).getLabel(tpl));
+			sb.append("\"");
+			sb.append(" yMin=\"");
+			StringUtil.encodeXML(sb, ((GeoNumeric) yminObject).getLabel(tpl));
+			sb.append("\"");
+			sb.append(" yMax=\"");
+			StringUtil.encodeXML(sb, ((GeoNumeric) ymaxObject).getLabel(tpl));
+			sb.append("\"");
+			sb.append(" zMin=\"");
+			StringUtil.encodeXML(sb, ((GeoNumeric) zminObject).getLabel(tpl));
+			sb.append("\"");
+			sb.append(" zMax=\"");
+			StringUtil.encodeXML(sb, ((GeoNumeric) zmaxObject).getLabel(tpl));
+			sb.append("\"");
+		} else {
+			sb.append("\t<coordSystem");
+			sb.append(" xZero=\"");
+			sb.append(getXZero());
+			sb.append("\" yZero=\"");
+			sb.append(getYZero());
+			sb.append("\" zZero=\"");
+			sb.append(getZZero());
 			sb.append("\"");
 
-			sb.append(" zscale=\"");
-			sb.append(getZscale());
+			sb.append(" scale=\"");
+			sb.append(getXscale());
 			sb.append("\"");
+
+			if (!getSettings().hasSameScales()) {
+				sb.append(" yscale=\"");
+				sb.append(getYscale());
+				sb.append("\"");
+
+				sb.append(" zscale=\"");
+				sb.append(getZscale());
+				sb.append("\"");
+			}
 		}
+			sb.append(" xAngle=\"");
+			sb.append(b);
+			sb.append("\" zAngle=\"");
+			sb.append(a);
+			sb.append("\"/>\n");
 
-		sb.append(" xAngle=\"");
-		sb.append(b);
-		sb.append("\" zAngle=\"");
-		sb.append(a);
-		sb.append("\"/>\n");
 
 		// ev settings
 		sb.append("\t<evSettings axes=\"");
@@ -3529,7 +3553,7 @@ public abstract class EuclidianView3D extends EuclidianView
 					getSettings()
 							.setCoordSystem(xZero, yZero, zZero, xscale, yscale, zscale, false);
 				}
-				clippingCubeDrawable.setXYZMinMax(minmax2);
+				clippingCubeDrawable.doUpdateMinMax();
 
 				updateDecorations(minmax2);
 			}
@@ -3557,6 +3581,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			if (getOptionPanel() != null) {
 				getOptionPanel().updateBounds();
 			}
+			updateBoundObjects();
 		}
 
 		// we need to update renderer clip planes even for rotation, since they
