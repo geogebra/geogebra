@@ -39,7 +39,7 @@ import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.kernel.algos.AlgoBarChart;
+import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.properties.FillType;
@@ -631,8 +631,8 @@ class FillingPanelD extends JPanel
 		}
 		GeoElement geo0 = model.getGeoAt(0);
 		AlgoElement algo = geo0.getParentAlgorithm();
-		if (algo instanceof AlgoBarChart) {
-			int numBar = ((AlgoBarChart) algo).getIntervals();
+		if (algo instanceof ChartStyleAlgo) {
+			int numBar = ((ChartStyleAlgo) algo).getIntervals();
 			selectionBarButtons = new JToggleButton[numBar + 1];
 			ButtonGroup group = new ButtonGroup();
 			barsPanel = new JPanel(new GridLayout(0, 5, 5, 5));
@@ -916,7 +916,7 @@ class FillingPanelD extends JPanel
 	}
 
 	@Override
-	public void setBarChart(AlgoBarChart algo) {
+	public void setBarChart(int cols) {
 		// TODO Auto-generated method stub
 
 	}

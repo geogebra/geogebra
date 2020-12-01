@@ -4829,7 +4829,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private void getExtraTagsXML(StringBuilder sb) {
 		if (this.getParentAlgorithm() instanceof AlgoBarChart) {
-			((AlgoBarChart) this.getParentAlgorithm()).barXml(sb);
+			((AlgoBarChart) this.getParentAlgorithm()).getStyle().barXml(sb,
+					((AlgoBarChart) this.getParentAlgorithm()).getIntervals());
 		}
 	}
 

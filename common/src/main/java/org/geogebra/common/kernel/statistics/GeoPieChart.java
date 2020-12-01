@@ -98,4 +98,9 @@ public class GeoPieChart extends GeoElement {
 	public DescriptionMode getDescriptionMode() {
 		return DescriptionMode.DEFINITION;
 	}
+
+	@Override
+	public boolean isFillable() {
+		return true;
+	}
 }

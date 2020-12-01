@@ -12,6 +12,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.HatchingHandler;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
+import org.geogebra.common.kernel.algos.ChartStyle;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.properties.FillType;
@@ -124,7 +125,7 @@ public class DrawBarGraph extends Drawable {
 		FillType fillType = geo.getFillType();
 		String fileName = geo.getImageFileName();
 		double alpha = geo.getAlphaValue();
-		AlgoBarChart algop = (AlgoBarChart) geo.getParentAlgorithm();
+		ChartStyle chartStyle = ((AlgoBarChart) geo.getParentAlgorithm()).getStyle();
 		if (isVisible) {
 			try {
 				if (isHighlighted()) {
@@ -132,8 +133,8 @@ public class DrawBarGraph extends Drawable {
 					g2.setStroke(selStroke);
 					for (int i = 0; i < gp.length; i++) {
 						int k = i + 1;
-						if (algop.getBarColor(k) != null) {
-							GColor col = algop.getBarColor(k);
+						if (chartStyle.getBarColor(k) != null) {
+							GColor col = chartStyle.getBarColor(k);
 							g2.setPaint(GColor.newColor(col.getRed(),
 									col.getGreen(), col.getBlue(),
 									col.getAlpha()));
@@ -155,38 +156,24 @@ public class DrawBarGraph extends Drawable {
 					 */
 					for (int i = 0; i < gp.length; i++) {
 						int k = i + 1;
-						if (algop.getBarColor(k) != null) {
-							GColor col = algop.getBarColor(k);
+						if (chartStyle.getBarColor(k) != null) {
+							GColor col = chartStyle.getBarColor(k);
 							geo.setObjColor(col);
 							geo.setAlphaValue(col.getAlpha());
 						}
 
-						double barAlpha = algop.getBarAlpha(k);
+						double barAlpha = chartStyle.getBarAlpha(k);
 						if (barAlpha != -1.0) {
 							geo.setAlphaValue(barAlpha);
 						}
 
 						geo.setFillType(
-								algop.getBarFillType(k, geo.getFillType()));
-
-						// if (algop.getBarSymbol(k) != null) {
-						// geo.setFillSymbol(algop.getBarSymbol(k));
-						// }
-						// if (algop.getBarImage(k) != null) {
-						// geo.setImageFileName(algop.getBarImage(k));
-						// }
-						// if (algop.getBarHatchDistance(k) != -1) {
-						// geo.setHatchingDistance(algop
-						// .getBarHatchDistance(k));
-						// }
-						// if (algop.getBarHatchAngle(k) != -1) {
-						// geo.setHatchingAngle(algop.getBarHatchAngle(k));
-						// }
+								chartStyle.getBarFillType(k, geo.getFillType()));
 
 						GPaint gpaint = null;
 						GBufferedImage subImage = null;
 
-						if (algop.getBarFillType(k).isHatch()) {
+						if (chartStyle.getBarFillType(k).isHatch()) {
 
 							initHatchingHandlerArray();
 
@@ -198,18 +185,18 @@ public class DrawBarGraph extends Drawable {
 
 							}
 
-							GColor barColor = algop.getBarColor(k);
+							GColor barColor = chartStyle.getBarColor(k);
 							if (barColor == null) {
 								barColor = geo.getObjectColor();
 							}
 
 							gpaint = handler.setHatching(g2, decoStroke,
 									barColor, geo.getBackgroundColor(),
-									algop.getBarAlpha(k),
-									algop.getBarHatchDistance(k),
-									algop.getBarHatchAngle(k),
-									algop.getBarFillType(k),
-									algop.getBarSymbol(k),
+									chartStyle.getBarAlpha(k),
+									chartStyle.getBarHatchDistance(k),
+									chartStyle.getBarHatchAngle(k),
+									chartStyle.getBarFillType(k),
+									chartStyle.getBarSymbol(k),
 									geo.getKernel().getApplication());
 
 							if (geo.getKernel().getApplication()
@@ -244,8 +231,8 @@ public class DrawBarGraph extends Drawable {
 					g2.setStroke(objStroke);
 					for (int i = 0; i < gp.length; i++) {
 						int k = i + 1;
-						if (algop.getBarColor(k) != null) {
-							GColor col = algop.getBarColor(k);
+						if (chartStyle.getBarColor(k) != null) {
+							GColor col = chartStyle.getBarColor(k);
 							g2.setPaint(GColor.newColor(col.getRed(),
 									col.getGreen(), col.getBlue(),
 									geo.getLineOpacity()));

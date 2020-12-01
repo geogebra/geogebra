@@ -7,7 +7,7 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel;
-import org.geogebra.common.kernel.algos.AlgoBarChart;
+import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
@@ -76,7 +76,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	private CustomColorDialog dialog;
 	BarList lbBars;
 	private int selectedBar;
-	private AlgoBarChart algoBarChart;
+	private ChartStyleAlgo chartAlgo;
 	private GColor allBarsColor;
 
 	private class ColorTable {
@@ -689,14 +689,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 				if (changeHandler != null) {
 					changeHandler.onBarSelected();
 				}
-
-				// if (idx > 0) {
-				// setSelectedColor(algoBarChart.getBarColor(idx));
-				// setAlphaValue(algoBarChart.getBarAlpha(idx));
-				// updateTables();
-				//
-				// }
-
 			}
 		});
 	}
@@ -892,15 +884,15 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	 * @return whether this is for a barchart
 	 */
 	public boolean isBarChart() {
-		return algoBarChart != null;
+		return chartAlgo != null;
 	}
 
 	/**
 	 * @param algo
 	 *            barchart
 	 */
-	public void setAlgoBarChart(AlgoBarChart algo) {
-		algoBarChart = algo;
+	public void setChartAlgo(ChartStyleAlgo algo) {
+		chartAlgo = algo;
 		if (algo != null) {
 			lbBars.setBarCount(algo.getIntervals());
 		}

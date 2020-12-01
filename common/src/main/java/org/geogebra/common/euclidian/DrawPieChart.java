@@ -7,12 +7,13 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.algos.ChartStyle;
+import org.geogebra.common.kernel.statistics.AlgoPieChart;
 import org.geogebra.common.kernel.statistics.GeoPieChart;
 
 public class DrawPieChart extends Drawable {
 	private final GeoPieChart chart;
 	ArrayList<GArc2D> slices = new ArrayList<>();
-	int[] order = new int[]{0x6557d2, 0xe0bf00, 0x3bb4a6, 0xda6a9d, 0x3b1c32, 0xff8c70};
 
 	/**
 	 * @param ev view
@@ -48,9 +49,8 @@ public class DrawPieChart extends Drawable {
 	public void draw(GGraphics2D g2) {
 		double overlay = 1;
 		for (int i = 0; i < slices.size(); i++) {
-			GColor baseColor = GColor.newColorRGB(order[i % 6]);
-			GColor actualColor = GColor.mixColors(GColor.WHITE, baseColor,
-					overlay, 255);
+			ChartStyle style = ((AlgoPieChart) geo.getParentAlgorithm()).getStyle();
+			GColor actualColor = style.getBarColor(i + 1);
 			g2.setColor(actualColor);
 			g2.fill(slices.get(i));
 			if (i % 6 == 5) {

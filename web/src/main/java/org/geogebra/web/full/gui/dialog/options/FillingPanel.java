@@ -8,7 +8,6 @@ import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.Localization;
@@ -651,11 +650,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	}
 
 	@Override
-	public void setBarChart(AlgoBarChart algo) {
-		if (algo != null) {
-			lbBars.setBarCount(algo.getIntervals());
-		}
-
-		lbBars.update(algo != null);
+	public void setBarChart(int cols) {
+		lbBars.setBarCount(cols);
+		lbBars.update(cols > 0);
 	}
 }

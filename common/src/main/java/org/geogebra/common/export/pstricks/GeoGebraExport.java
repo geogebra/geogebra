@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.algos.AlgoSumLower;
 import org.geogebra.common.kernel.algos.AlgoSumRectangle;
 import org.geogebra.common.kernel.algos.AlgoSumTrapezoidal;
 import org.geogebra.common.kernel.algos.AlgoSumUpper;
+import org.geogebra.common.kernel.algos.ChartStyle;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -1549,7 +1550,7 @@ public abstract class GeoGebraExport {
 
 				boolean setAlpha = false;
 
-				AlgoBarChart algo = (AlgoBarChart) geo.getParentAlgorithm();
+				ChartStyle algo = ((AlgoBarChart) geo.getParentAlgorithm()).getStyle();
 				if (algo.getBarColor(barNumber) != null) {
 					linecolor = algo.getBarColor(barNumber);
 					setAlpha = true;

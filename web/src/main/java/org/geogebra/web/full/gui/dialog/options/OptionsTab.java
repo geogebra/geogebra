@@ -47,7 +47,7 @@ import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoBarChart;
+import org.geogebra.common.kernel.algos.ChartStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
@@ -482,7 +482,7 @@ public class OptionsTab extends FlowPanel {
 				boolean hasBackground, boolean hasOpacity) {
 
 			GeoElement geo0 = model.getGeoAt(0);
-			colorChooserW.setAlgoBarChart(model.getAlgoBarChart());
+			colorChooserW.setChartAlgo(model.getChartAlgo());
 
 			if (updateChooserFromBarChart(geo0)) {
 				return;
@@ -538,7 +538,7 @@ public class OptionsTab extends FlowPanel {
 		 * @return whether this is a barchart
 		 */
 		public boolean updateChooserFromBarChart(GeoElement geo0) {
-			AlgoBarChart algo = model.getAlgoBarChart();
+			ChartStyle algo = model.getChartAlgo().getStyle();
 
 			if (algo == null) {
 				return false;

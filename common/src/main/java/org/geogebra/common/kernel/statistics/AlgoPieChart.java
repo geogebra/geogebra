@@ -3,6 +3,8 @@ package org.geogebra.common.kernel.statistics;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.ChartStyle;
+import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
@@ -11,11 +13,12 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
-public class AlgoPieChart extends AlgoElement {
+public class AlgoPieChart extends AlgoElement implements ChartStyleAlgo {
 	private final GeoList data;
 	private final GeoPieChart chart;
 	private final GeoPoint center;
 	private final GeoNumberValue radius;
+	private final ChartStyle chartStyle = new ChartStyle();
 
 	/**
 	 * @param cons construction
@@ -74,5 +77,15 @@ public class AlgoPieChart extends AlgoElement {
 
 	public GeoElement getChart() {
 		return chart;
+	}
+
+	@Override
+	public ChartStyle getStyle() {
+		return chartStyle;
+	}
+
+	@Override
+	public int getIntervals() {
+		return data.size();
 	}
 }
