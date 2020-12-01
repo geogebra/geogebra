@@ -108,7 +108,7 @@ public class ChartStyle {
 	public double getBarAlpha(int numBar) {
 		HashMap<Integer, Object> hm = tags.get(numBar);
 		if (hm != null && hm.get(1) != null) {
-			return ((Double) hm.get(1)).doubleValue();
+			return (Double) hm.get(1);
 		}
 		return -1;
 	}

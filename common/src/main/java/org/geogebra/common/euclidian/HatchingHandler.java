@@ -305,13 +305,22 @@ public class HatchingHandler {
 	 *            alpha value
 	 */
 	protected void setTexture(GGraphics2D g3, GeoElementND geo, double alpha) {
-		// Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
-		if (geo.getFillImage() == null || geo.getFillImage().isSVG()) {
-			g3.setPaint(geo.getFillColor());
+		setTexture(g3, geo.getFillImage(), geo, geo.getBackgroundColor(), alpha);
+	}
+
+	/**
+	 * @param g3       graphics
+	 * @param image    image
+	 * @param fallback geo to be used as foreground color if image is not valid
+	 * @param alpha    alpha value
+	 */
+	public void setTexture(GGraphics2D g3, MyImage image, GeoElementND fallback,
+			GColor bgColor, double alpha) {
+		if (image == null || image.isSVG()) {
+			g3.setPaint(fallback.getFillColor());
 			return;
 		}
 
-		MyImage image = geo.getFillImage();
 		GRectangle tr = AwtFactory.getPrototype().newRectangle(0, 0,
 				image.getWidth(), image.getHeight());
 
@@ -328,8 +337,6 @@ public class HatchingHandler {
 
 			// set total transparency
 			g2d.setTransparent();
-
-			GColor bgColor = geo.getBackgroundColor();
 
 			// paint background transparent
 			if (bgColor == null) {

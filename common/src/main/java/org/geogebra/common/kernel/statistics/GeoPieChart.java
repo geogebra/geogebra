@@ -22,6 +22,7 @@ public class GeoPieChart extends GeoElement {
 	 */
 	public GeoPieChart(Construction c) {
 		super(c);
+		setAlphaValue(1);
 	}
 
 	@Override
@@ -101,6 +102,11 @@ public class GeoPieChart extends GeoElement {
 
 	@Override
 	public boolean isFillable() {
+		return true;
+	}
+
+	@Override
+	public boolean showLineProperties() {
 		return true;
 	}
 }

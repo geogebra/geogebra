@@ -1,4 +1,4 @@
-package org.geogebra.common.euclidian;
+package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,8 @@ import org.geogebra.common.awt.GArc2D;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.algos.ChartStyle;
 import org.geogebra.common.kernel.statistics.AlgoPieChart;
@@ -14,6 +16,7 @@ import org.geogebra.common.kernel.statistics.GeoPieChart;
 public class DrawPieChart extends Drawable {
 	private final GeoPieChart chart;
 	ArrayList<GArc2D> slices = new ArrayList<>();
+	private final ChartFilling chartFilling = new ChartFilling();
 
 	/**
 	 * @param ev view
@@ -47,15 +50,13 @@ public class DrawPieChart extends Drawable {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		double overlay = 1;
+		ChartStyle style = ((AlgoPieChart) geo.getParentAlgorithm()).getStyle();
+		g2.setStroke(objStroke);
 		for (int i = 0; i < slices.size(); i++) {
-			ChartStyle style = ((AlgoPieChart) geo.getParentAlgorithm()).getStyle();
-			GColor actualColor = style.getBarColor(i + 1);
-			g2.setColor(actualColor);
-			g2.fill(slices.get(i));
-			if (i % 6 == 5) {
-				overlay = overlay * .6;
-			}
+			GColor color = style.getBarColor(i + 1);
+			g2.setColor(color.deriveWithAlpha(geo.getLineOpacity()));
+			g2.draw(slices.get(i));
+			chartFilling.fill(g2, slices.get(i), style, i + 1, this);
 		}
 	}
 

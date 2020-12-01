@@ -482,7 +482,7 @@ public class OptionsTab extends FlowPanel {
 				boolean hasBackground, boolean hasOpacity) {
 
 			GeoElement geo0 = model.getGeoAt(0);
-			colorChooserW.setChartAlgo(model.getChartAlgo());
+			colorChooserW.setChartAlgo(model.getBarChartIntervals());
 
 			if (updateChooserFromBarChart(geo0)) {
 				return;
@@ -538,9 +538,9 @@ public class OptionsTab extends FlowPanel {
 		 * @return whether this is a barchart
 		 */
 		public boolean updateChooserFromBarChart(GeoElement geo0) {
-			ChartStyle algo = model.getChartAlgo().getStyle();
+			ChartStyle chartStyle = model.getChartStyle();
 
-			if (algo == null) {
+			if (chartStyle == null) {
 				return false;
 			}
 
@@ -549,12 +549,12 @@ public class OptionsTab extends FlowPanel {
 			int barIdx = colorChooserW.getSelectedBar();
 
 			if (barIdx == ColorObjectModel.ALL_BARS
-					|| algo.getBarColor(barIdx) == null) {
+					|| chartStyle.getBarColor(barIdx) == null) {
 				selectedColor = geo0.getObjectColor();
 
 			} else {
-				selectedColor = algo.getBarColor(barIdx);
-				alpha = algo.getBarAlpha(barIdx);
+				selectedColor = chartStyle.getBarColor(barIdx);
+				alpha = chartStyle.getBarAlpha(barIdx);
 				if (selectedColor == null) {
 					selectedColor = geo0.getObjectColor();
 				}

@@ -2,20 +2,16 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
-import org.geogebra.common.euclidian.HatchingHandler;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.ChartStyle;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 
@@ -51,21 +47,18 @@ public class DrawBarGraph extends Drawable {
 	/** closed point on the left, open on the right */
 	public static final int POINT_LEFT_OPEN_RIGHT = -2;
 
-	private int pointType = POINT_NONE;
-
 	private boolean isVisible;
 	private boolean labelVisible;
-	private double[] coords = new double[2];
+	private final double[] coords = new double[2];
 	/*
 	 * Use an array to customize bars
 	 */
 	private GeneralPathClipped[] gp;
-	private GeoNumeric sum;
+	private final GeoNumeric sum;
 	private AlgoBarChart algo;
 	private ArrayList<GeoPoint> pts;
 	private ArrayList<DrawPoint> drawPoints;
-
-	private ArrayList<HatchingHandler> hatchingHandlers = null;
+	private final ChartFilling chartFilling = new ChartFilling();
 
 	/*************************************************
 	 * @param view
@@ -104,12 +97,6 @@ public class DrawBarGraph extends Drawable {
 			return null;
 		}
 
-		// GRectangle
-		// rect=geogebra.common.factories.AwtFactory.getPrototype().newRectangle(
-		// (int)(algo.getLeftBorder()[0]),(int)algo.getFreqMax(),
-		// (int)(algo.getLeftBorder().length*algo.getWidth()),(int)algo.getFreqMax());
-		// return rect;
-
 		GRectangle rect = gp[0].getBounds();
 		for (int i = 1; i < gp.length; i++) {
 			rect.add(gp[i].getBounds());
@@ -119,12 +106,8 @@ public class DrawBarGraph extends Drawable {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		// Save fill, color and alfa of object
 		GColor color = geo.getObjectColor();
 		GColor selColor = geo.getSelColor();
-		FillType fillType = geo.getFillType();
-		String fileName = geo.getImageFileName();
-		double alpha = geo.getAlphaValue();
 		ChartStyle chartStyle = ((AlgoBarChart) geo.getParentAlgorithm()).getStyle();
 		if (isVisible) {
 			try {
@@ -155,69 +138,7 @@ public class DrawBarGraph extends Drawable {
 					 * Use tags for draw if there are
 					 */
 					for (int i = 0; i < gp.length; i++) {
-						int k = i + 1;
-						if (chartStyle.getBarColor(k) != null) {
-							GColor col = chartStyle.getBarColor(k);
-							geo.setObjColor(col);
-							geo.setAlphaValue(col.getAlpha());
-						}
-
-						double barAlpha = chartStyle.getBarAlpha(k);
-						if (barAlpha != -1.0) {
-							geo.setAlphaValue(barAlpha);
-						}
-
-						geo.setFillType(
-								chartStyle.getBarFillType(k, geo.getFillType()));
-
-						GPaint gpaint = null;
-						GBufferedImage subImage = null;
-
-						if (chartStyle.getBarFillType(k).isHatch()) {
-
-							initHatchingHandlerArray();
-
-							HatchingHandler handler = hatchingHandlers.get(i);
-
-							if (handler == null) {
-								handler = new HatchingHandler();
-								hatchingHandlers.set(i, handler);
-
-							}
-
-							GColor barColor = chartStyle.getBarColor(k);
-							if (barColor == null) {
-								barColor = geo.getObjectColor();
-							}
-
-							gpaint = handler.setHatching(g2, decoStroke,
-									barColor, geo.getBackgroundColor(),
-									chartStyle.getBarAlpha(k),
-									chartStyle.getBarHatchDistance(k),
-									chartStyle.getBarHatchAngle(k),
-									chartStyle.getBarFillType(k),
-									chartStyle.getBarSymbol(k),
-									geo.getKernel().getApplication());
-
-							if (geo.getKernel().getApplication()
-									.isHTML5Applet()) {
-								// not needed in desktop
-								subImage = handler.getSubImage();
-							}
-
-						}
-
-						fill(g2, gp[i], gpaint, subImage);
-
-						// appropriate
-						// Restore values
-						geo.setObjColor(color);
-						geo.setFillType(fillType);
-						// geo.setHatchingAngle((int) hatchingAngle);
-						// geo.setHatchingDistance(hatchingDistance);
-						// geo.setFillSymbol(symbol);
-						geo.setImageFileName(fileName);
-						geo.setAlphaValue(alpha);
+						chartFilling.fill(g2, gp[i], chartStyle, i + 1, this);
 					}
 				}
 
@@ -254,29 +175,10 @@ public class DrawBarGraph extends Drawable {
 
 			// point
 			if (algo.hasPoints()) {
-				for (int i = 0; i < drawPoints.size(); i++) {
-					drawPoints.get(i).draw(g2);
+				for (DrawPoint drawPoint : drawPoints) {
+					drawPoint.draw(g2);
 				}
 			}
-		}
-	}
-
-	private void initHatchingHandlerArray() {
-		if (hatchingHandlers == null) {
-			hatchingHandlers = new ArrayList<>();
-
-		}
-
-		// fill array, we might not need hatching for all bars
-		// but probably will
-		if (hatchingHandlers.size() < gp.length) {
-
-			for (int i = hatchingHandlers.size() - 1; i < gp.length; i++) {
-
-				hatchingHandlers.add(null);
-
-			}
-
 		}
 	}
 
@@ -297,8 +199,8 @@ public class DrawBarGraph extends Drawable {
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
 		if (gp != null) {
-			for (int i = 0; i < gp.length; i++) {
-				if (gp[i].intersects(rect)) {
+			for (GeneralPathClipped bar : gp) {
+				if (bar.intersects(rect)) {
 					return true;
 				}
 			}
@@ -343,7 +245,7 @@ public class DrawBarGraph extends Drawable {
 		}
 
 		drawType = algo.getDrawType();
-		pointType = algo.getPointType();
+		int pointType = algo.getPointType();
 		int pointStyle;
 
 		if (algo.hasPoints() && pointType != POINT_NONE) {
@@ -546,8 +448,8 @@ public class DrawBarGraph extends Drawable {
 		isVisible = false;
 		// don't return here to make sure that getBounds() works for
 		// off screen points too
-		for (int i = 0; i < gp.length; i++) {
-			if (view.intersects(gp[i])) {
+		for (GeneralPathClipped bar : gp) {
+			if (view.intersects(bar)) {
 				isVisible = true;
 				break;
 			}

@@ -7,7 +7,6 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel;
-import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
@@ -76,7 +75,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	private CustomColorDialog dialog;
 	BarList lbBars;
 	private int selectedBar;
-	private ChartStyleAlgo chartAlgo;
+	private int chartBars;
 	private GColor allBarsColor;
 
 	private class ColorTable {
@@ -884,18 +883,16 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	 * @return whether this is for a barchart
 	 */
 	public boolean isBarChart() {
-		return chartAlgo != null;
+		return chartBars > 0;
 	}
 
 	/**
-	 * @param algo
-	 *            barchart
+	 * @param chartBars
+	 *            number of bars/slices in a chart
 	 */
-	public void setChartAlgo(ChartStyleAlgo algo) {
-		chartAlgo = algo;
-		if (algo != null) {
-			lbBars.setBarCount(algo.getIntervals());
-		}
+	public void setChartAlgo(int chartBars) {
+		this.chartBars = chartBars;
+		lbBars.setBarCount(chartBars);
 	}
 
 	public int getBarCount() {

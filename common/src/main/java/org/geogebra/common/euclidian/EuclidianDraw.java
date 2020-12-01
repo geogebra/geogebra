@@ -24,6 +24,7 @@ import org.geogebra.common.euclidian.draw.DrawIntegralFunctions;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.draw.DrawLocus;
+import org.geogebra.common.euclidian.draw.DrawPieChart;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPointPlot;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;

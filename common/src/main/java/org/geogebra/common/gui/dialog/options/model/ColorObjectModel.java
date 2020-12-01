@@ -243,9 +243,9 @@ public class ColorObjectModel extends OptionsModel {
 		return getGeoAt(0).getParentAlgorithm();
 	}
 
-	public ChartStyleAlgo getChartAlgo() {
+	public ChartStyle getChartStyle() {
 		AlgoElement algo = getAlgorithm();
-		return (algo instanceof ChartStyleAlgo ? (ChartStyleAlgo) algo : null);
+		return algo instanceof ChartStyleAlgo ? ((ChartStyleAlgo) algo).getStyle() : null;
 
 	}
 
@@ -254,11 +254,12 @@ public class ColorObjectModel extends OptionsModel {
 	}
 
 	public int getBarChartIntervals() {
-		return getChartAlgo().getIntervals();
+		AlgoElement algo = getAlgorithm();
+		return algo instanceof ChartStyleAlgo ? ((ChartStyleAlgo) algo).getIntervals() : 0;
 	}
 
 	public void applyBar(int idx, GColor color, double alpha) {
-		ChartStyle algo = getChartAlgo().getStyle();
+		ChartStyle algo = getChartStyle();
 		boolean updateAlphaOnly = color == null;
 		if (idx == ALL_BARS) {
 			GeoElement geo = getGeoAt(0);
