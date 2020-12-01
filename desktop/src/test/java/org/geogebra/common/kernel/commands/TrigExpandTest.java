@@ -12,7 +12,7 @@ public class TrigExpandTest extends BaseSymbolicTest {
 
 	@Test
 	public void testTrigExpandWithBorweinIntegral() {
-		add("n = 15");
+		add("n = 3");
 		add("r1 = Sequence(((sin(x/p))/(x/p)), p, 1, n, 2)");
 		add("r2 = Product(r1)");
 		add("r3 = TrigExpand(r2)");
@@ -20,7 +20,7 @@ public class TrigExpandTest extends BaseSymbolicTest {
 		GeoSymbolic limit = add("r5 = Limit(r4, infinity) - Limit(r4, 0)");
 
 		assertThat(limit.toValueString(StringTemplate.defaultTemplate),
-				is("467807924713440738696537864469 / 935615849440640907310521750000 π"));
+				is("1 / 2 π"));
 	}
 
 	@Test
