@@ -86,7 +86,7 @@ public class H5PInputDialog extends EmbedInputDialog implements AjaxCallback {
 
 		reader.addEventListener("load", (ev) -> {
 			if (reader.readyState == FileReader.DONE) {
-				String splitted[] = reader.result.asString().split("base64,");
+				String[] splitted = reader.result.asString().split("base64,");
 				if (splitted != null && splitted.length == 2) {
 					app.getLoginOperation().getGeoGebraTubeAPI()
 							.uploadAndUnzipH5P(splitted[1], this);
@@ -105,7 +105,9 @@ public class H5PInputDialog extends EmbedInputDialog implements AjaxCallback {
 		try {
 			JSONObject h5p = new JSONObject(tokener);
 			String unzippedPath = h5p.getString("url");
-			app.getEmbedManager().openH5PTool(unzippedPath);
+			if (unzippedPath != null) {
+				app.getEmbedManager().openH5PTool(unzippedPath);
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

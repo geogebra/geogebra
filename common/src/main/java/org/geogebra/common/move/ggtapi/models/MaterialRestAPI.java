@@ -468,6 +468,12 @@ public class MaterialRestAPI implements BackendAPI {
 				null, templateMaterialsCB);
 	}
 
+	/**
+	 * send the base64 of a h5p file
+	 * @param base64 of the file
+	 * @param callback to handle api response
+	 */
+	@Override
 	public void uploadAndUnzipH5P(String base64, AjaxCallback callback) {
 		JSONObject json = new JSONObject();
 		try {
