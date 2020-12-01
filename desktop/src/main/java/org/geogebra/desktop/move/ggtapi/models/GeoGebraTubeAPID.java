@@ -1,5 +1,6 @@
 package org.geogebra.desktop.move.ggtapi.models;
 
+import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
@@ -72,6 +73,11 @@ public class GeoGebraTubeAPID extends GeoGebraTubeAPI {
 		}
 
 		return true;
+	}
+
+	@Override
+	public void uploadAndUnzipH5P(String base64, AjaxCallback callback) {
+		// do nothing
 	}
 
 	@Override
