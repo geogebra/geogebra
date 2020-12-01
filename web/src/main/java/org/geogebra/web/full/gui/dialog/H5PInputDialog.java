@@ -1,5 +1,10 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.common.move.ggtapi.models.AjaxCallback;
+import org.geogebra.common.move.ggtapi.models.json.JSONException;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.ComponentOrDivider;
@@ -9,12 +14,14 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
 import elemental2.dom.File;
+import elemental2.dom.FileReader;
 import elemental2.dom.HTMLInputElement;
 import jsinterop.base.Js;
 
-public class H5PInputDialog extends EmbedInputDialog {
+public class H5PInputDialog extends EmbedInputDialog implements AjaxCallback {
 
 	private FileUpload h5pChooser = getH5PChooser();
+
 	private FileUpload getH5PChooser() {
 		FileUpload h5pChooser = new FileUpload();
 		h5pChooser.addChangeHandler(event -> {
@@ -75,7 +82,40 @@ public class H5PInputDialog extends EmbedInputDialog {
 	 *
 	 */
 	void loadH5PElement(File file) {
-		// TODO fill me
+		FileReader reader = new FileReader();
+
+		reader.addEventListener("load", (ev) -> {
+			if (reader.readyState == FileReader.DONE) {
+				String splitted[] = reader.result.asString().split("base64,");
+				if (splitted != null && splitted.length == 2) {
+					app.getLoginOperation().getGeoGebraTubeAPI()
+							.uploadAndUnzipH5P(splitted[1], this);
+				}
+
+			}
+		});
+
+		reader.readAsDataURL(file);
 		hide();
+	}
+
+	@Override
+	public void onSuccess(String response) {
+		JSONTokener tokener = new JSONTokener(response);
+		try {
+			JSONObject h5p = new JSONObject(tokener);
+			String unzippedPath = h5p.getString("url");
+			String id =  h5p.getString("id");
+			unzippedPath = unzippedPath.replace(id, "");
+			app.getEmbedManager().openH5PTool(unzippedPath);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void onError(String error) {
+		ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization()
+				.getMenu("PdfErrorText"), true, (AppW) app);
 	}
 }
