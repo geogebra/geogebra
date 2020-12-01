@@ -72,7 +72,6 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 		return materialRestAPI;
 	}
 
-
 	@Override
 	public void uploadAndUnzipH5P(String base64, AjaxCallback callback) {
 		materialRestAPI.uploadAndUnzipH5P(base64, callback);
