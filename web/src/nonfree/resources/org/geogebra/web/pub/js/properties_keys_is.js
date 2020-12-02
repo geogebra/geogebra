@@ -676,6 +676,8 @@ __GGB__keysVar["is"].command = {
     "Perimeter.Syntax": "[ <Marghyrningur> ]\n[ <Keilusni\xf0> ]\n[ <Leg> ]",
     "Periods": "Periods",
     "Periods.Syntax": "[ <Hlutfall>, <Grei\xf0sla>, <N\xfagildi>, <Framt\xed\xf0argildi (valkv\xe6tt)>, <Ger\xf0 (valkv\xe6tt)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Plan",
     "Plane.Syntax": "[ <Marghyrningur> ]\n[ <Keilusni\xf0> ]\n[ <Punktur>, <Sl\xe9tta> ]\n[ <Punktur>, <L\xedna> ]\n[ <L\xedna>, <L\xedna> ]\n[ <Punktur>, <Punktur>, <Punktur> ]\n[ <Punktur>, <Vigur>, <Vigur> ]",
     "PlaneBisector": "\xdeverl\xedna",

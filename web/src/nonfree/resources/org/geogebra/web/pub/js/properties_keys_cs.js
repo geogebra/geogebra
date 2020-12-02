@@ -676,6 +676,8 @@ __GGB__keysVar["cs"].command = {
     "Perimeter.Syntax": "[ <Mnoho\xfaheln\xedk> ]\n[ <Ku\u017eelose\u010dka> ]\n[ <Mno\u017eina bod\u016f> ]",
     "Periods": "PocetObdobi",
     "Periods.Syntax": "[ <Sazba>, <Spl\xe1tka>, <Sou\u010dasn\xe1 hodnota>, <Budouc\xed hodnota (voliteln\u011b)>, <Typ (voliteln\u011b)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Rovina",
     "Plane.Syntax": "[ <Mnoho\xfaheln\xedk> ]\n[ <Ku\u017eelose\u010dka> ]\n[ <Bod>, <Rovina> ]\n[ <Bod>, <P\u0159\xedmka> ]\n[ <P\u0159\xedmka>, <P\u0159\xedmka> ]\n[ <Bod>, <Bod>, <Bod> ]",
     "PlaneBisector": "RovinaSoumernosti",

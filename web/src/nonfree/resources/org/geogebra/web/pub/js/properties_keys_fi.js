@@ -676,6 +676,8 @@ __GGB__keysVar["fi"].command = {
     "Perimeter.Syntax": "[ <Monikulmio> ]\n[ <Kartioleikkaus> ]\n[ <Ura> ]",
     "Periods": "Korkokaudet",
     "Periods.Syntax": "[ <Korkokanta>, <Maksuer\xe4>, <Nykyarvo>, <Tuleva arvo (valinnainen)>, <Laji (valinnainen)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Taso",
     "Plane.Syntax": "[ <Monikulmio> ]\n[ <Kartioleikkaus> ]\n[ <Piste>, <Taso> ]\n[ <Piste>, <Suora> ]\n[ <Suora>, <Suora> ]\n[ <Piste>, <Piste>, <Piste> ]",
     "PlaneBisector": "PuolittajaTaso",

@@ -676,6 +676,8 @@ __GGB__keysVar["zh-TW"].command = {
     "Perimeter.Syntax": "[ <\u591a\u908a\u5f62> ]\n[ <\u5713\u9310\u66f2\u7dda> ]\n[ <\u8ecc\u8de1> ]",
     "Periods": "Periods",
     "Periods.Syntax": "[ <Rate>, <Payment>, <Present Value>, <Future Value (optional)>, <Type (optional)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Plane",
     "Plane.Syntax": "[ <Polygon> ]\n[ <Conic> ]\n[ <Point>, <Plane> ]\n[ <Point>, <Line> ]\n[ <Line>, <Line> ]\n[ <Point>, <Point>, <Point> ]",
     "PlaneBisector": "PlaneBisector",

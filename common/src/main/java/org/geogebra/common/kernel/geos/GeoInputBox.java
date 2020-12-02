@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.geos.inputbox.EditorContent;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxProcessor;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -269,8 +270,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	/**
 	 * @param inputText new value for linkedGeo
 	 */
-	public void updateLinkedGeo(String inputText) {
-		inputBoxProcessor.updateLinkedGeo(inputText, tpl);
+	public void updateLinkedGeo(String inputText, String... entries) {
+		inputBoxProcessor.updateLinkedGeo(new EditorContent(inputText, entries, getRows()), tpl);
 		getKernel().getApplication().storeUndoInfo();
 	}
 
@@ -580,5 +581,10 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	public boolean hasError() {
 		return !StringUtil.emptyTrim(getTempUserEvalInput());
+	}
+
+	private int getRows() {
+		return linkedGeo instanceof GeoList  ? ((GeoList) linkedGeo).size()
+				: (linkedGeo instanceof GeoVectorND ? ((GeoVectorND) linkedGeo).getDimension() : 1);
 	}
 }

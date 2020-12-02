@@ -502,7 +502,6 @@ public abstract class Localization {
 	/**
 	 * Translates the key and replaces "%0" by args[0], "%1" by args[1], etc
 	 * 
-	 * @version 2008-09-18
 	 * @author Michael Borcherds, Markus Hohenwarter
 	 * @param key
 	 *            key
@@ -892,10 +891,7 @@ public abstract class Localization {
 	 * @return whether 0 is plural
 	 */
 	public boolean isZeroPlural(String lang) {
-		if (lang.startsWith("fr")) {
-			return false;
-		}
-		return true;
+		return !lang.startsWith("fr");
 	}
 
 	/**
@@ -1527,10 +1523,14 @@ public abstract class Localization {
 		String ret = getMenu(altText);
 
 		// just in case translations not loaded
-		if (ret.indexOf("altText.") > -1) {
+		if (ret.contains("altText.")) {
 			ret = ret.replace("altText.", "");
 		}
 		return ret;
+	}
+
+	public boolean isUsingDecimalComma() {
+		return Language.isUsingDecimalComma(getLanguage());
 	}
 
 	/**
@@ -1544,4 +1544,5 @@ public abstract class Localization {
 	protected LocalizedCommandSyntax getCommandSyntax() {
 		return commandSyntax;
 	}
+
 }

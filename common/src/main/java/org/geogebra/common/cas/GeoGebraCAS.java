@@ -277,7 +277,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		 * takes care of that now
 		 */
 		if (symbolic) {
-			return ev.wrap().toString(tpl);
+			return ExpressionNode.getLabelOrDefinition(ev, tpl);
 		}
 
 		return ev.toValueString(tpl);

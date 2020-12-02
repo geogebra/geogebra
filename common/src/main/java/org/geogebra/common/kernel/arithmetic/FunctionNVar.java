@@ -357,11 +357,6 @@ public class FunctionNVar extends ValidExpression
 		// we got this far)
 		// by an instance of MyDouble
 
-		// simplify constant parts in expression
-		if (info.isSimplifyingIntegers()) {
-			expression.simplifyConstantIntegers();
-		}
-
 		// evaluate expression to find out about the type of function
 		ExpressionValue ev;
 		try {
@@ -1356,7 +1351,6 @@ public class FunctionNVar extends ValidExpression
 			expDeriv = expDeriv.derivative(fv, kernel);
 		}
 		expDeriv = expDeriv.shallowCopy();
-		expDeriv.simplifyConstantIntegers();
 		return new FunctionNVar(expDeriv, fVars);
 	}
 

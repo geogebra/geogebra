@@ -676,6 +676,8 @@ __GGB__keysVar["ja"].command = {
     "Perimeter.Syntax": "[ <\u591a\u89d2\u5f62> ]\n[ <\uff12\u6b21\u66f2\u7dda> ]\n[ <\u8ecc\u8de1> ]",
     "Periods": "Periods",
     "Periods.Syntax": "[ <\u6bd4\u7387>, <\u652f\u6255>, <\u73fe\u5728\u306e\u5024>, <\u5c06\u6765\u306e\u5024 (optional)>, <\u578b (optional)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Plane",
     "Plane.Syntax": "[ <\u591a\u89d2\u5f62> ]\n[ <\uff12\u6b21\u66f2\u7dda> ]\n[ <\u70b9>, <\u5e73\u9762> ]\n[ <\u70b9>, <\u76f4\u7dda> ]\n[ <\u76f4\u7dda>, <\u76f4\u7dda> ]\n[ <\u70b9>, <\u70b9>, <\u70b9> ]\n[ <\u70b9>, <\u30d9\u30af\u30c8\u30eb>, <\u30d9\u30af\u30c8\u30eb> ]",
     "PlaneBisector": "PlaneBisector",
@@ -1996,8 +1998,8 @@ __GGB__keysVar["ja"].menu = {
     "GroupShareOk": "Sharing with group(s) successful.",
     "GroupShareTxt": "\u30ea\u30bd\u30fc\u30b9\u3092\u5171\u6709\u3059\u308b\u30b0\u30eb\u30fc\u30d7\u3092\u9078\u629e",
     "Growth": "\u5897\u52a0",
-    "H5PDialog.InsertHelpTxt": "A file with H5P elements can only be opened while being online.",
-    "H5PDialog.UploadFile": "Upload file",
+    "H5PDialog.InsertHelpTxt": "H5P\u8981\u7d20\u3092\u542b\u3080\u30d5\u30a1\u30a4\u30eb\u306f\u3001\u30aa\u30f3\u30e9\u30a4\u30f3\u306e\u3068\u304d\u306b\u306e\u307f\u958b\u304f\u3053\u3068\u304c\u3067\u304d\u307e\u3059\u3002",
+    "H5PDialog.UploadFile": "\u30d5\u30a1\u30a4\u30eb\u3092\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9",
     "HSL": "HSL",
     "HSV": "HSV",
     "HTML5Only": "HTML5\u306e\u307f\u306b\u30a8\u30af\u30b9\u30dd\u30fc\u30c8",
@@ -3509,8 +3511,8 @@ __GGB__keysVar["ja"].menu = {
     "ymin": "y \u6700\u5c0f",
     "ystep": "Y \u5897\u5206",
     "zAxis": "z\u8ef8",
-    "zmax": "z Max",
-    "zmin": "z Min",
+    "zmax": "z\u6700\u5927",
+    "zmin": "z\u6700\u5c0f",
 };
 
 

@@ -676,6 +676,8 @@ __GGB__keysVar["eo"].command = {
     "Perimeter.Syntax": "[ <Plurlatero> ]\n[ <Koniko> ]\n[ <Loko> ]",
     "Periods": "Periods",
     "Periods.Syntax": "[ <Rate>, <Payment>, <Present Value>, <Future Value (optional)>, <Type (optional)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Ebeno",
     "Plane.Syntax": "[ <Plurlatero> ]\n[ <Koniko> ]\n[ <Punkto>, <Ebeno> ]\n[ <Punkto>, <Rekto> ]\n[ <Rekto>, <Rekto> ]\n[ <Punkto>, <Punkto>, <Punkto> ]\n[ <Punkto>, <Vektoro>, <Vektoro> ]",
     "PlaneBisector": "MezortantaEbeno",

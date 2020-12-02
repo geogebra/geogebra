@@ -676,6 +676,8 @@ __GGB__keysVar["nn"].command = {
     "Perimeter.Syntax": "[ <Mangekant> ]\n[ <Kjeglesnitt> ]\n[ <Geometrisk stad> ]",
     "Periods": "Periodar",
     "Periods.Syntax": "[ <Rate>, <Betaling>, <Noverdi>, <Framtidig verdi (valfri)>, <Type (valfri)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Plan",
     "Plane.Syntax": "[ <Mangekant> ]\n[ <Kjeglesnitt> ]\n[ <Punkt>, <Plan> ]\n[ <Punkt>, <Linje> ]\n[ <Linje>, <Linje> ]\n[ <Punkt>, <Punkt>, <Punkt> ]\n[ <Punkt>, <Vektor>, <Vektor> ]",
     "PlaneBisector": "Halveringsplan",

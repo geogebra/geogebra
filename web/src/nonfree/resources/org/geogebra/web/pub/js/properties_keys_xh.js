@@ -676,6 +676,8 @@ __GGB__keysVar["xh"].command = {
     "Perimeter.Syntax": "[ <uMacalaManinzi> ]\n[ <iConic> ]\n[ <iLocus> ]",
     "Periods": "Periods",
     "Periods.Syntax": "[ <Rate>, <ubhatalo>, <Present Value>, <Future Value (optional)>, <Type (optional)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "iPlane",
     "Plane.Syntax": "[ <iPholigoni> ]\n[ <iConic> ]\n[ <iChaphaza>, <iPlane> ]\n[ <iChaphaza>, <uMgca> ]\n[ <uMgca>, <uMgca> ]\n[ <Point>, <Point>, <Point> ]\n[ <Point>, <Vector>, <Vector> ]",
     "PlaneBisector": "iPlaneBisector",
