@@ -28,7 +28,7 @@ public class H5PInputDialog extends EmbedInputDialog implements AjaxCallback {
 			HTMLInputElement el = Js.uncheckedCast(h5pChooser.getElement());
 			loadH5PElement(el.files.item(0));
 		});
-		//h5pChooser.getElement().setAttribute("accept", ".h5p");
+		h5pChooser.getElement().setAttribute("accept", ".h5p");
 		return h5pChooser;
 	}
 
@@ -104,8 +104,8 @@ public class H5PInputDialog extends EmbedInputDialog implements AjaxCallback {
 		JSONTokener tokener = new JSONTokener(response);
 		try {
 			JSONObject h5p = new JSONObject(tokener);
-			String unzippedPath = h5p.getString("url");
-			if (unzippedPath != null) {
+			String unzippedPath = h5p != null ? h5p.getString("url") : null;
+			if (unzippedPath != null && !unzippedPath.isEmpty()) {
 				app.getEmbedManager().openH5PTool(unzippedPath);
 			}
 		} catch (JSONException e) {
