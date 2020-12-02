@@ -3511,8 +3511,8 @@ __GGB__keysVar["zh-CN"].menu = {
     "ymin": "y \u6700\u5c0f\u503c",
     "ystep": "Y \u6b65\u957f",
     "zAxis": "z\u8f74",
-    "zmax": "z Max",
-    "zmin": "z Min",
+    "zmax": "z \u6700\u5927\u503c",
+    "zmin": "z \u6700\u5c0f\u503c",
 };
 
 

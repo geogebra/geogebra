@@ -1538,7 +1538,7 @@ __GGB__keysVar["uk"].menu = {
     "ContextMenu.Column": "Column",
     "ContextMenu.DuplicateInput": "Duplicate input",
     "ContextMenu.DuplicateOutput": "Duplicate output",
-    "ContextMenu.Font": "Font",
+    "ContextMenu.Font": "\u0428\u0440\u0438\u0444\u0442",
     "ContextMenu.Group": "\u0413\u0440\u0443\u043f\u0430",
     "ContextMenu.Heading": "Heading",
     "ContextMenu.Row": "Row",
