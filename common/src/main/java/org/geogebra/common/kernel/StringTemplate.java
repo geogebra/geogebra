@@ -2613,7 +2613,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return andString(left, right, leftStr, rightStr);
 		}
 		if (right.isExpressionNode()) {
-			sb.append(left.wrap().getCASstring(this, !valueForm));
+			sb.append(expressionToString(left, valueForm));
 			appendOptionalSpace(sb);
 			switch (((ExpressionNode) right).getOperation()) {
 			case LESS:
@@ -2651,11 +2651,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 						+ " invalid in chain");
 			}
 			appendOptionalSpace(sb);
-			sb.append(((ExpressionNode) right).getRightTree().getCASstring(this,
-					!valueForm));
+			sb.append(expressionToString(((ExpressionNode) right).getRight(), valueForm));
 			return sb.toString();
 		}
 		return andString(left, right, leftStr, rightStr);
+	}
+
+	private String expressionToString(ExpressionValue left, boolean valueForm) {
+		return valueForm ? left.toValueString(this)
+				: ExpressionNode.getLabelOrDefinition(left, this);
 	}
 
 	/**

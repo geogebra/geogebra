@@ -299,6 +299,17 @@ public class ArithmeticTest extends Assert {
 				lookup("gg").getDefinition(StringTemplate.defaultTemplate));
 	}
 
+	@Test
+	public void inequalityShouldNotHaveExtraBrackets() {
+		t("r:4 < x < 5", "4 < x < 5");
+		t("a = 1", "1");
+		t("b = 2", "2");
+		t("p1:a < x", "1 < x");
+		t("p2:a < x < b", "1 < x < 2");
+		t("p3:(a < x) + (x < b)", "(1 < x) + (x < 2)");
+		t("p4:a < (x + x) < b", "1 < x + x < 2");
+	}
+
 	private GeoElement lookup(String g) {
 		return app.getKernel().lookupLabel(g);
 	}
