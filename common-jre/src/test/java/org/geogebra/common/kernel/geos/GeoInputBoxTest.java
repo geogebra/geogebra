@@ -11,11 +11,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Locale;
+
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -709,5 +712,29 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox = addAvInput("ib = InputBox(g)");
 		inputBox.updateLinkedGeo("f(x)=x+5");
 		assertEquals("y = x + 5", inputBox.getText());
+	}
+
+	@Test
+	public void commaParsingShouldWorkInEnglish() {
+		shouldReparseAs("3,141", "3141");
+		shouldReparseAs("3,5>x", "If(5 > x, 3)");
+		shouldReparseAs("(1,2) + 1,423", "(1, 2) + 1423");
+		// merely testing that we don't throw a *wrong* exception
+		shouldReparseAs("3,", "3");
+	}
+
+	@Test
+	public void commaParsingShouldWorkInGerman() {
+		getApp().getLocalization().setLocale(Locale.GERMAN);
+		shouldReparseAs("3,141", "3.141");
+		// more cases in ParserTest, no duplication here
+	}
+
+	private void shouldReparseAs(String s, String s1) {
+		GeoElement linked = add(s);
+		GeoInputBox input = add("InputBox(" + linked.getLabelSimple() + ")");
+		input.updateLinkedGeo(s1);
+		assertEquals(s1, linked.getRedefineString(false, false,
+				StringTemplate.testTemplate));
 	}
 }

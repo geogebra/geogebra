@@ -676,6 +676,8 @@ __GGB__keysVar["ko"].command = {
     "Perimeter.Syntax": "[ <\ub2e4\uac01\ud615> ]\n[ <\uc6d0\ubfd4\uace1\uc120(\uc774\ucc28\uace1\uc120)> ]\n[ <\uc790\ucde8> ]",
     "Periods": "\uae30\uac04",
     "Periods.Syntax": "[ <\uae30\uac04\ubcc4 \uc774\uc728>, <\uc815\uae30\uc801\uc73c\ub85c \uc801\ub9bd\ud558\ub294 \uae08\uc561>, <\ud604\uc7ac \uac00\uce58>, <\ubbf8\ub798 \uac00\uce58(\uc120\ud0dd\uc0ac\ud56d)>, <\ub0a9\uc785 \uc2dc\uc810 \uc720\ud615 0|1 (\uc120\ud0dd\uc0ac\ud56d)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "\ud3c9\uba74",
     "Plane.Syntax": "[ <\ub2e4\uac01\ud615> ]\n[ <\uc774\ucc28\uace1\uc120> ]\n[ <\uc810>, <\ud3c9\uba74> ]\n[ <\uc810>, <\uc9c1\uc120> ]\n[ <\uc9c1\uc120>, <\uc9c1\uc120> ]\n[ <\uc810>, <\uc810>, <\uc810> ]",
     "PlaneBisector": "\uc774\ub4f1\ubd84\ud3c9\uba74",

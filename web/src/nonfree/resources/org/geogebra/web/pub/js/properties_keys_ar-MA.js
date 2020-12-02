@@ -676,6 +676,8 @@ __GGB__keysVar["ar-MA"].command = {
     "Perimeter.Syntax": "[ <\u0645\u0636\u0644\u0639> ]\n[ <\u0645\u062e\u0631\u0648\u0637\u064a> ]\n[ <\u0645\u062d\u0644 \u0647\u0646\u062f\u0633\u064a> ]",
     "Periods": "Periods",
     "Periods.Syntax": "[ <Rate>, <Payment>, <Present Value>, <Future Value (optional)>, <Type (optional)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "\u0645\u0633\u062a\u0648\u064a",
     "Plane.Syntax": "[ <\u0646\u0642\u0637\u0629>, <\u0645\u0633\u062a\u0648\u064a> ]\n[ <\u0646\u0642\u0637\u0629>, <\u062e\u0637> ]\n[ <\u0646\u0642\u0637\u0629>, <\u0646\u0642\u0637\u0629>, <\u0646\u0642\u0637\u0629> ]",
     "PlaneBisector": "\u0645\u0646\u0635\u0641_\u0645\u0633\u062a\u0648\u064a",

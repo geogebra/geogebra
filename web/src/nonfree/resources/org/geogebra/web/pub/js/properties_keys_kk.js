@@ -676,6 +676,8 @@ __GGB__keysVar["kk"].command = {
     "Perimeter.Syntax": "[ <\u041a\u04e9\u043f\u0431\u04b1\u0440\u044b\u0448> ]\n[ <\u041a\u043e\u043d\u0443\u0441\u0442\u044b\u049b \u049a\u0438\u043c\u0430> ]\n[ <\u041b\u043e\u043a\u0443\u0441> ]",
     "Periods": "Periods",
     "Periods.Syntax": "[ <Rate>, <Payment>, <Present Value>, <Future Value (optional)>, <Type (optional)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "\u0416\u0430\u0437\u044b\u049b\u0442\u044b\u049b",
     "Plane.Syntax": "[ <\u041d\u04af\u043a\u0442\u0435>, <\u0416\u0430\u0437\u044b\u049b\u0442\u044b\u049b> ]\n[ <\u041d\u04af\u043a\u0442\u0435>, <\u0422\u04af\u0437\u0456> ]\n[ <\u041d\u04af\u043a\u0442\u0435>, <\u041d\u04af\u043a\u0442\u0435>, <\u041d\u04af\u043a\u0442\u0435> ]",
     "PlaneBisector": "\u0416\u0430\u0437\u044b\u049b\u0442\u044b\u049b\u0411\u0438\u0441\u0435\u043a\u0442\u0440\u0438\u0441\u0441\u0430",

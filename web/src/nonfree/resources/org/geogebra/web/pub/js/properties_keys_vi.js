@@ -676,6 +676,8 @@ __GGB__keysVar["vi"].command = {
     "Perimeter.Syntax": "[ <\u0110a gi\xe1c> ]\n[ <\u0110\u01b0\u1eddng c\xf4n\xedc> ]\n[ <Qu\u1ef9 t\xedch> ]",
     "Periods": "ChuK\u1ef3",
     "Periods.Syntax": "[ <L\xe3i su\u1ea5t>, <Ti\u1ec1n tr\u1ea3 m\u1ed7i chu k\u1ef3>, <Gi\xe1 tr\u1ecb hi\u1ec7n t\u1ea1i>, <Gi\xe1 tr\u1ecb t\u01b0\u01a1ng lai (tu\u1ef3 ch\u1ecdn)>, <Lo\u1ea1i (tu\u1ef3 ch\u1ecdn)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "MatPhang",
     "Plane.Syntax": "[ <\u0110a gi\xe1c> ]\n[ <\u0110\u01b0\u1eddng C\xf4nic> ]\n[ <\u0110i\u1ec3m>, <M\u1eb7t ph\u1eb3ng> ]\n[ <\u0110i\u1ec3m>, <\u0110\u01b0\u1eddng th\u1eb3ng> ]\n[ <\u0110\u01b0\u1eddng th\u1eb3ng>, <\u0110\u01b0\u1eddng th\u1eb3ng> ]\n[ <\u0110i\u1ec3m>, <\u0110i\u1ec3m>, <\u0110i\u1ec3m> ]",
     "PlaneBisector": "M\u1eb7tPh\xe2nGi\xe1c",

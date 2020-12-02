@@ -676,6 +676,8 @@ __GGB__keysVar["hu"].command = {
     "Perimeter.Syntax": "[ <Soksz\xf6g> ]\n[ <K\xfapszelet> ]\n[ <M\xe9rtani hely> ]",
     "Periods": "Id\u0151szakokSz\xe1ma",
     "Periods.Syntax": "[ <Kamatr\xe1ta>, <R\xe9szlet fizet\xe9s>, <Jelen \xe9rt\xe9k>, <J\xf6v\u0151 \xe9rt\xe9k (opcion\xe1lis)>, <T\xedpus (opcion\xe1lis)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "S\xedk",
     "Plane.Syntax": "[ <Soksz\xf6g> ]\n[ <K\xfapszelet> ]\n[ <Pont>, <S\xedk> ]\n[ <Pont>, <Egyenes> ]\n[ <Egyenes>, <Egyenes> ]\n[ <Pont>, <Pont>, <Pont> ]",
     "PlaneBisector": "Sz\xf6gfelez\u0151S\xedk",

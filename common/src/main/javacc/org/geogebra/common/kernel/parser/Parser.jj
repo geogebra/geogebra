@@ -113,12 +113,17 @@ public class Parser implements ParserInterface {
         this.highPrecisionParsing = highPrecisionParsing;
     }
 
+	private void myReInit(String parseString) {
+		myReInit(parseString, false);
+	}
+
 	// reset for new parsing
-	public void myReInit(String parseString) throws ParseException {
+	private void myReInit(String parseString, boolean inputBox) {
 		if (!kernel.getConstruction().isFileLoading() && StringUtil.checkBracketsBackward(StringUtil.ignoreIndices(parseString)) >= 0) {
 			throw new BracketsError(loc,parseString);
 		}
-		ReInit(new StringProvider(StringUtil.fixVerticalBars(parseString)));
+		boolean decimalComma = !inputBox || loc.isUsingDecimalComma();
+		ReInit(new StringProvider(StringUtil.preprocessForParser(parseString, decimalComma)));
 		geoGebraCASParsing = false;
 		externalCASParsing = false;
 		giacParsing = false;
@@ -138,7 +143,7 @@ public class Parser implements ParserInterface {
 	}
 
 	public ValidExpression parseInputBoxExpression(String parseString) throws ParseException {
-    	myReInit(stripEqualSign(parseString));
+    	myReInit(stripEqualSign(parseString), true);
     	functionParser.setInputBoxParsing(true);
 		ValidExpression ret = buildValidExpression();
 		processUndecided();

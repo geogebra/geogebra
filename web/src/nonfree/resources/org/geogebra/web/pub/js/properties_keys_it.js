@@ -676,6 +676,8 @@ __GGB__keysVar["it"].command = {
     "Perimeter.Syntax": "[ <Poligono> ]\n[ <Conica> ]\n[ <Luogo> ]",
     "Periods": "NumeroRate",
     "Periods.Syntax": "[ <Tasso>, <Pagamento>, <Valore attuale>, <Valore futuro (facoltativo)>, <Tipo (facoltativo)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Piano",
     "Plane.Syntax": "[ <Poligono> ]\n[ <Conica> ]\n[ <Punto>, <Piano> ]\n[ <Punto>, <Retta> ]\n[ <Retta>, <Retta> ]\n[ <Punto>, <Punto>, <Punto> ]\n[ <Punto>, <Vettore>, <Vettore> ]",
     "PlaneBisector": "PianoBisettore",

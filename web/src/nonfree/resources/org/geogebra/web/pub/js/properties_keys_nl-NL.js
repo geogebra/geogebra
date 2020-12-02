@@ -676,6 +676,8 @@ __GGB__keysVar["nl-NL"].command = {
     "Perimeter.Syntax": "[ <Veelhoek> ]\n[ <Kegelsnede> ]",
     "Periods": "Perioden",
     "Periods.Syntax": "[ <Rentevoet>, <Termijn>, <Aanvangswaarde>, <Eindwaarde (optie)>, <Type (optie)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Vlak",
     "Plane.Syntax": "[ <Kegelsnede> ]\n[ <Veelhoek> ]\n[ <Punt>, <Vlak> ]\n[ <Punt>, <Rechte> ]\n[ <Rechte>, <Rechte> ]\n[ <Punt>, <Punt>, <Punt> ]\n[ <Punt>, <Richtingsvector>, <Richtingsvector> ]",
     "PlaneBisector": "Middelloodvlak",

@@ -676,6 +676,8 @@ __GGB__keysVar["sv"].command = {
     "Perimeter.Syntax": "[ <Polygon> ]\n[ <K\xe4gelsnitt> ]\n[ <Geometrisk ort> ]",
     "Periods": "AntalPerioder",
     "Periods.Syntax": "[ <R\xe4nta>, <Betalning>, <Nuv\xe4rde>, <Slutv\xe4rde (optional)>, <Typ (optional)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Plan",
     "Plane.Syntax": "[ <Polygon> ]\n[ <K\xe4gelsnitt> ]\n[ <Punkt>, <Plan> ]\n[ <Punkt>, <Linje> ]\n[ <Linje>, <Linje> ]\n[ <Punkt>, <Punkt>, <Punkt> ]",
     "PlaneBisector": "BisektorielltPlan",

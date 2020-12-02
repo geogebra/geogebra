@@ -676,6 +676,8 @@ __GGB__keysVar["lt"].command = {
     "Perimeter.Syntax": "[ <Daugiakampis> ]\n[ <Antros eil\u0117s kreiv\u0117> ]\n[ <Hodografas> ]",
     "Periods": "Periodai",
     "Periods.Syntax": "[ <Da\u017enis>, <Mok\u0117jimas>, <Dabartin\u0117 vert\u0117>, <Ateities vert\u0117 (neb\u016btinas)>, <Tipas (neb\u016btinas)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Plok\u0161tuma",
     "Plane.Syntax": "[ <Daugiakampis> ]\n[ <K\u016bgis> ]\n[ <Ta\u0161kas>, <Plok\u0161tuma> ]\n[ <Ta\u0161kas>, <Ties\u0117> ]\n[ <Ties\u0117>, <Ties\u0117> ]\n[ <Ta\u0161kas>, <Ta\u0161kas>, <Ta\u0161kas> ]",
     "PlaneBisector": "Plok\u0161tumosPusiaukampin\u0117",

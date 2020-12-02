@@ -676,6 +676,8 @@ __GGB__keysVar["mr"].command = {
     "Perimeter.Syntax": "[ <\u092c\u0939\u0941\u092d\u0941\u091c> ]\n[ <\u0936\u093e\u0902\u0915\u0935> ]\n[ <\u092c\u093f\u0902\u0926\u0942\u092a\u0925> ]",
     "Periods": "Periods",
     "Periods.Syntax": "[ <Rate>, <Payment>, <Present Value>, <Future Value (optional)>, <Type (optional)> ]",
+    "PieChart": "PieChart",
+    "PieChart.Syntax": "[ <List of Frequencies> ]\n[ <List of Frequencies>, <Center>, <Radius> ]",
     "Plane": "Plane",
     "Plane.Syntax": "[ <Polygon> ]\n[ <Conic> ]\n[ <Point>, <Plane> ]\n[ <Point>, <Line> ]\n[ <Line>, <Line> ]\n[ <Point>, <Point>, <Point> ]\n[ <Point>, <Vector>, <Vector> ]",
     "PlaneBisector": "PlaneBisector",
