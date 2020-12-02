@@ -267,7 +267,7 @@ public class GlobalHeader implements EventRenderable {
 		timer = new Label("0:00");
 		timer.setStyleName("examTimer");
 		examInfoBtn = new StandardButton(
-				SharedResources.INSTANCE.info_black(), null, 24, app);
+				SharedResources.INSTANCE.info_black(), null, 24);
 		examInfoBtn.addStyleName("flatButtonHeader");
 		examInfoBtn.addStyleName("examInfoBtn");
 		// add exam panel to

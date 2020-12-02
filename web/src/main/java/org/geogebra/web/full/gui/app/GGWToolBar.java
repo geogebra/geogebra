@@ -185,7 +185,7 @@ public class GGWToolBar extends Composite
 	private void addUndoPanel() {
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 
-		redoButton = new StandardButton(pr.menu_header_redo(), null, 32, app);
+		redoButton = new StandardButton(pr.menu_header_redo(), null, 32);
 		redoButton.getUpHoveringFace()
 				.setImage(getImage(pr.menu_header_redo_hover(), 32));
 
@@ -202,7 +202,7 @@ public class GGWToolBar extends Composite
 
 		redoButton.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 
-		undoButton = new StandardButton(pr.menu_header_undo(), null, 32, app);
+		undoButton = new StandardButton(pr.menu_header_undo(), null, 32);
 		undoButton.getUpHoveringFace()
 				.setImage(getImage(pr.menu_header_undo_hover(), 32));
 
@@ -396,8 +396,7 @@ public class GGWToolBar extends Composite
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		this.menuBarShowing = true;
 
-		openMenuButton = new StandardButton(pr.menu_header_open_menu(), null,
-				32, app);
+		openMenuButton = new StandardButton(pr.menu_header_open_menu(), null, 32);
 
 		openMenuButton.getUpHoveringFace()
 				.setImage(getImage(pr.menu_header_open_menu_hover(), 32));
@@ -431,7 +430,7 @@ public class GGWToolBar extends Composite
 	private void initOpenSearchButton() {
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		openSearchButton = new StandardButton(pr.menu_header_open_search(),
-				null, 32, 32, app);
+				null, 32, 32);
 		openSearchButton.getUpFace()
 				.setImage(getImage(pr.menu_header_open_search(), 32));
 		openSearchButton.getUpHoveringFace()

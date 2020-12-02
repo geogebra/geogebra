@@ -38,7 +38,7 @@ public class SpeechRecognitionPanel extends FlowPanel {
 	private void buildGui(AppW app) {
 		this.setStyleName("speechBtnPanel");
 		speechBtn = new StandardButton(
-				GuiResourcesSimple.INSTANCE.record(), null, 24, app);
+				GuiResourcesSimple.INSTANCE.record(), null, 24);
 		speechBtn.setStyleName("speechBtn");
 		speechBtn.setTitle(
 				"Speech recognition button.");

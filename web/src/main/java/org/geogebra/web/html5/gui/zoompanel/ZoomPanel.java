@@ -116,8 +116,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 */
 	public void addFullscreenButton() {
 		fullscreenBtn = new StandardButton(
-				ZoomPanelResources.INSTANCE.fullscreen_black18(), null, 24,
-				app);
+				ZoomPanelResources.INSTANCE.fullscreen_black18(), null, 24);
 		registerFocusable(fullscreenBtn, AccessibilityGroup.ViewControlId.FULL_SCREEN);
 		NoDragImage exitFullscreenImage = new NoDragImage(ZoomPanelResources.INSTANCE
 				.fullscreen_exit_black18(), 24);
@@ -174,7 +173,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	public void addZoomButtons() {
 		homeBtn = new StandardButton(
 				ZoomPanelResources.INSTANCE.home_zoom_black18(),
-				null, 20, app);
+				null, 20);
 		homeBtn.setStyleName("zoomPanelBtn");
 		homeBtn.addStyleName("zoomPanelBtnSmall");
 		getZoomController().hideHomeButton(homeBtn);
@@ -202,8 +201,8 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 
 	private void addZoomOutButton() {
 		zoomOutBtn = new StandardButton(
-					ZoomPanelResources.INSTANCE.zoomout_black24(), null, 24,
-					app);
+					ZoomPanelResources.INSTANCE.zoomout_black24(), null, 24
+		);
 		zoomOutBtn.setStyleName("zoomPanelBtn");
 
 		FastClickHandler handlerZoomOut = new FastClickHandler() {
@@ -218,8 +217,8 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 
 	private void addZoomInButton() {
 		zoomInBtn = new StandardButton(
-					ZoomPanelResources.INSTANCE.zoomin_black24(), null, 24,
-					app);
+					ZoomPanelResources.INSTANCE.zoomin_black24(), null, 24
+		);
 		zoomInBtn.setStyleName("zoomPanelBtn");
 
 		FastClickHandler handlerZoomIn = new FastClickHandler() {

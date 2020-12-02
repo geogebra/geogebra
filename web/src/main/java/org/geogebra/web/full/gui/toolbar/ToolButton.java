@@ -42,7 +42,7 @@ public class ToolButton extends StandardButton {
 	 */
 	public ToolButton(int mode, AppW app) {
 		super(AppResources.INSTANCE.empty(), app.getLocalization()
-				.getMenu(EuclidianConstants.getModeText(mode)), 24, app);
+				.getMenu(EuclidianConstants.getModeText(mode)), 24);
 		this.mode = mode;
 		this.appW = app;
 		this.selectedColor = app.getVendorSettings().getPrimaryColor().toString();
