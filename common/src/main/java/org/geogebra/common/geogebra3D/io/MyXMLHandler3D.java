@@ -28,6 +28,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 	private HashMap<EuclidianSettings3D, String> zmin = new HashMap<>();
 	private HashMap<EuclidianSettings3D, String> zmax = new HashMap<>();
+
 	/**
 	 * See Kernel3D for using the constructor
 	 * 
@@ -139,10 +140,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 				if (zScaleString != null) {
 					zscale = StringUtil.parseDouble(zScaleString);
 				}
-				getXmin().put(evs, null);
-				getXmax().put(evs, null);
-				getYmin().put(evs, null);
-				getYmax().put(evs, null);
 
 				double xAngle = StringUtil.parseDouble(attrs.get("xAngle"));
 				double zAngle = StringUtil.parseDouble(attrs.get("zAngle"));
@@ -152,6 +149,13 @@ public class MyXMLHandler3D extends MyXMLHandler {
 				evs.setZscale(zscale);
 				evs.setRotXYinDegrees(zAngle, xAngle);
 				evs.updateOrigin(xZero, yZero, zZero);
+
+				getXmin().put(evs, null);
+				getXmax().put(evs, null);
+				getYmin().put(evs, null);
+				getYmax().put(evs, null);
+				zmin.put(evs, null);
+				zmax.put(evs, null);
 				return true;
 			} catch (RuntimeException e) {
 				return false;

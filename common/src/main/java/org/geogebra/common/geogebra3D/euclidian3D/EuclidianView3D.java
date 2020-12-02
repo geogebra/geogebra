@@ -3081,7 +3081,6 @@ public abstract class EuclidianView3D extends EuclidianView
 			sb.append(a);
 			sb.append("\"/>\n");
 
-
 		// ev settings
 		sb.append("\t<evSettings axes=\"");
 		sb.append(getShowAxis(0) || getShowAxis(1) || getShowAxis(2));
@@ -3557,8 +3556,10 @@ public abstract class EuclidianView3D extends EuclidianView
 				}
 				clippingCubeDrawable.doUpdateMinMax();
 
-				updateMatrix();
-				updateAllDrawables();
+				if (!isZoomable()) {
+					updateMatrix();
+					updateAllDrawables();
+				}
 
 				updateDecorations(minmax2);
 			}
