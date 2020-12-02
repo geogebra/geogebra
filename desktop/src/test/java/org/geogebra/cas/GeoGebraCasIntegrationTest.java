@@ -2778,25 +2778,4 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 			Assert.assertEquals("Failed at " + i, "0", casResult);
 		}
 	}
-
-	@Test
-	public void testTrigExpandWithBorweinIntegral() {
-		add("n:=15");
-		add("Sequence(((sin(x/p))/(x/p)), p, 1, n, 2)");
-		add("Product($2)");
-		add("TrigExpand($3)");
-		add("Integral($4)");
-		GeoCasCell f = add("Limit($5, infinity) - Limit($5, 0)");
-
-		Assert.assertEquals("467807924713440738696537864469 / 935615849440640907310521750000 π",
-				f.getOutput(StringTemplate.defaultTemplate));
-	}
-
-	private GeoCasCell add(String input) {
-		GeoCasCell cell = new GeoCasCell(kernel.getConstruction());
-		kernel.getConstruction().addToConstructionList(cell, false);
-		cell.setInput(input);
-		cell.computeOutput();
-		return cell;
-	}
 }
