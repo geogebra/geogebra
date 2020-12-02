@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -105,9 +106,9 @@ public class H5PInputDialog extends EmbedInputDialog implements AjaxCallback {
 		try {
 			JSONObject h5p = new JSONObject(tokener);
 			String unzippedPath = h5p.getString("url");
-			if (app.getEmbedManager() != null
-					&& unzippedPath != null && !unzippedPath.isEmpty()) {
-				app.getEmbedManager().openH5PTool(unzippedPath);
+			EmbedManager em = app.getEmbedManager();
+			if (em != null && unzippedPath != null && !unzippedPath.isEmpty()) {
+				em.openH5PTool(unzippedPath);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
