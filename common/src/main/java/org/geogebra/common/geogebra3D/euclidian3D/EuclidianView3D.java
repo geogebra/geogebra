@@ -1423,7 +1423,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * update the drawables for 3D view
 	 */
 	public void update() {
-		updateAnimation();
+		if (isZoomable()) {
+			updateAnimation();
+		}
 
 		if (waitForUpdate || !drawable3DListToBeRemoved.isEmpty()
 				|| !drawable3DListToBeAdded.isEmpty()) {
@@ -3555,6 +3557,9 @@ public abstract class EuclidianView3D extends EuclidianView
 				}
 				clippingCubeDrawable.doUpdateMinMax();
 
+				updateMatrix();
+				updateAllDrawables();
+
 				updateDecorations(minmax2);
 			}
 		}
@@ -5374,5 +5379,19 @@ public abstract class EuclidianView3D extends EuclidianView
 		super.setMinMaxObjects();
 		zminObject = new GeoNumeric(kernel.getConstruction());
 		zmaxObject = new GeoNumeric(kernel.getConstruction());
+	}
+
+	@Override
+	public boolean isZoomable() {
+		if (super.isZoomable()) {
+			if (!GeoNumeric.isChangeable(zminObject)) {
+				return false;
+			}
+			if (!GeoNumeric.isChangeable(zmaxObject)) {
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 }
