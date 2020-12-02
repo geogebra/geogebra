@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.debug.Log;
 
 public class FillingModel extends MultipleOptionsModel {
 
@@ -169,8 +168,9 @@ public class FillingModel extends MultipleOptionsModel {
 		GeoElement geo0 = getGeoAt(0);
 		IFillingListener fillListener = getFillingListener();
 		// set selected fill type to first geo's fill type
-
-		if (isBarChart()) {
+		ChartStyle chartStyle = isChart() ?
+			((ChartStyleAlgo) geo0.getParentAlgorithm()).getStyle() : null;
+		if (chartStyle != null) {
 			setBarFillType(geo0);
 		} else {
 			fillListener.setSelectedIndex(geo0.getFillType().ordinal());
@@ -178,11 +178,10 @@ public class FillingModel extends MultipleOptionsModel {
 
 		// set selected fill type to first geo's fill type
 		fillListener.setFillInverseSelected(geo0.isInverseFill());
-		ChartStyle algo = null;
 
-		if (isBarChart()) {
-			algo = ((ChartStyleAlgo) geo0.getParentAlgorithm()).getStyle();
-			updateBarFillTypePanel(geo0, algo);
+
+		if (chartStyle != null) {
+			updateBarFillTypePanel(geo0, chartStyle);
 			fillListener.setBarChart(((ChartStyleAlgo) geo0.getParentAlgorithm()).getIntervals());
 		} else {
 			updateFillType(geo0.getFillType());
@@ -191,28 +190,28 @@ public class FillingModel extends MultipleOptionsModel {
 
 		// set value to first geo's alpha value
 		double alpha = geo0.getAlphaValue();
-		if (isBarChart()) {
-			setAlpha(algo, alpha);
+		if (chartStyle != null) {
+			setAlpha(chartStyle, alpha);
 		} else {
 			fillListener.setFillValue((int) Math.round(alpha * 100));
 		}
 		double angle = geo0.getHatchingAngle();
-		if (isBarChart()) {
-			setBarAngle(algo, angle);
+		if (chartStyle != null) {
+			setBarAngle(chartStyle, angle);
 		} else {
 			fillListener.setAngleValue((int) angle);
 		}
 
 		int distance = geo0.getHatchingDistance();
-		if (isBarChart()) {
-			setBarDistance(algo, distance);
+		if (chartStyle != null) {
+			setBarDistance(chartStyle, distance);
 		} else {
 			fillListener.setDistanceValue(distance);
 		}
 
-		if (isBarChart()) {
+		if (chartStyle != null) {
 			fillListener.selectSymbol(
-					algo.getBarSymbol(fillListener.getSelectedBarIndex()));
+					chartStyle.getBarSymbol(fillListener.getSelectedBarIndex()));
 		} else {
 			if (geo0.getFillSymbol() != null
 					&& !geo0.getFillSymbol().trim().equals("")) {
@@ -294,25 +293,28 @@ public class FillingModel extends MultipleOptionsModel {
 		}
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
-			if (isBarChart()) {
+			if (isChart()) {
 				if (!updateBarsFillType(geo, FillingProperty.IMAGE, fileName)) {
-					geo.setImageFileName(fileName);
+					setImage(geo, fileName);
 				}
 			} else {
-				geo.setImageFileName(fileName);
-				Log.debug("geo.setImageFileName(" + fileName + ")");
+				setImage(geo, fileName);
 			}
-			geo.setAlphaValue(fileName.isEmpty() ? 0.0f : 1.0f);
 			geo.updateRepaint();
 		}
 
+	}
+
+	private void setImage(GeoElement geo, String fileName) {
+		geo.setImageFileName(fileName);
+		geo.setAlphaValue(fileName.isEmpty() ? 0.0f : 1.0f);
 	}
 
 	public void applyUnicode(String symbolText) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			if (!"".equals(symbolText)) {
-				if (isBarChart()) {
+				if (isChart()) {
 					if (!updateBarsFillType(geo, FillingProperty.SYMBOL, null)) {
 						geo.setFillType(fillType);
 						geo.setFillSymbol(symbolText);
@@ -330,7 +332,7 @@ public class FillingModel extends MultipleOptionsModel {
 	public void applyOpacity(int value) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
-			if (isBarChart()) {
+			if (isChart()) {
 				updateBarsFillType(geo, FillingProperty.ALPHA, null);
 			} else {
 				geo.setAlphaValue(value / 100.0f);
@@ -344,7 +346,7 @@ public class FillingModel extends MultipleOptionsModel {
 	public void applyAngleAndDistance(int angle, int distance) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
-			if (isBarChart()) {
+			if (isChart()) {
 				if (!updateBarsFillType(geo, FillingProperty.FILL_TYPE, null)) {
 					geo.setHatchingAngle(angle);
 					geo.setHatchingDistance(distance);
@@ -391,7 +393,7 @@ public class FillingModel extends MultipleOptionsModel {
 
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
-			if (isBarChart()) {
+			if (isChart()) {
 				if (!updateBarsFillType(geo, FillingProperty.FILL_TYPE, null)) {
 					updateGeoFillType(geo);
 				}
@@ -544,7 +546,7 @@ public class FillingModel extends MultipleOptionsModel {
 		return geosOK;
 	}
 
-	public boolean isBarChart() {
+	public boolean isChart() {
 		return getGeoAt(0).getParentAlgorithm() instanceof ChartStyleAlgo;
 	}
 

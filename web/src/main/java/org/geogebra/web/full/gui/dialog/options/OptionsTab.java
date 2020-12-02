@@ -482,7 +482,8 @@ public class OptionsTab extends FlowPanel {
 				boolean hasBackground, boolean hasOpacity) {
 
 			GeoElement geo0 = model.getGeoAt(0);
-			colorChooserW.setChartAlgo(model.getBarChartIntervals());
+			colorChooserW.setChartAlgo(model.getBarChartIntervals(),
+					model.getGeos());
 
 			if (updateChooserFromBarChart(geo0)) {
 				return;

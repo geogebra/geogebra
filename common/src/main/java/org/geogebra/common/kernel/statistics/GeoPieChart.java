@@ -14,7 +14,7 @@ import org.geogebra.common.plugin.GeoClass;
 public class GeoPieChart extends GeoElement {
 	private final ArrayList<Double> data = new ArrayList<>();
 	private GPoint2D center;
-	private double radius;
+	private double radius = 2;
 
 	/**
 	 * Creates new GeoElement for given construction
@@ -23,6 +23,8 @@ public class GeoPieChart extends GeoElement {
 	public GeoPieChart(Construction c) {
 		super(c);
 		setAlphaValue(1);
+		setLineThickness(0);
+		setLabelVisible(false);
 	}
 
 	@Override
@@ -72,7 +74,7 @@ public class GeoPieChart extends GeoElement {
 
 	@Override
 	protected boolean showInEuclidianView() {
-		return true;
+		return isDefined();
 	}
 
 	public ArrayList<Double> getData() {
@@ -109,4 +111,15 @@ public class GeoPieChart extends GeoElement {
 	public boolean showLineProperties() {
 		return true;
 	}
+
+	@Override
+	public boolean hasLineOpacity() {
+		return true;
+	}
+
+	@Override
+	public int getMinimumLineThickness() {
+		return 0;
+	}
+
 }

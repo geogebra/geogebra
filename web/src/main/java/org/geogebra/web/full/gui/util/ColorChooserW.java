@@ -890,8 +890,9 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	 * @param chartBars
 	 *            number of bars/slices in a chart
 	 */
-	public void setChartAlgo(int chartBars) {
+	public void setChartAlgo(int chartBars, Object[] geos) {
 		this.chartBars = chartBars;
+		lbBars.updateTranslationKeys(geos);
 		lbBars.setBarCount(chartBars);
 	}
 

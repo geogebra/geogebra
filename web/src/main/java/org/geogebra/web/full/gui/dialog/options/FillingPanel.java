@@ -581,7 +581,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 			String fileName = imageFileName.substring(imageFileName.indexOf('/') + 1);
 
 			int idx = iconNameList.lastIndexOf(fileName);
-			itemIndex = idx > 0 ? idx : 0;
+			itemIndex = Math.max(idx, 0);
 		}
 
 		btnImage.setSelectedIndex(itemIndex);
@@ -651,7 +651,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 	@Override
 	public void setBarChart(int cols) {
+		lbBars.updateTranslationKeys(model.getGeos());
 		lbBars.setBarCount(cols);
-		lbBars.update(cols > 0);
 	}
 }

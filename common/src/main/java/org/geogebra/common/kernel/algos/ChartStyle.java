@@ -8,7 +8,12 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 
 public class ChartStyle {
 
-	private Map<Integer, HashMap<Integer, Object>> tags = new HashMap<>();
+	private final Map<Integer, HashMap<Integer, Object>> tags = new HashMap<>();
+	private final int[] colorOrder;
+
+	public ChartStyle(int[] colorOrder) {
+		this.colorOrder = colorOrder;
+	}
 
 	private void setIntTag(int i, int angle, int numBar) {
 		if (angle == -1) {
@@ -42,8 +47,9 @@ public class ChartStyle {
 		}
 	}
 
-	private Object getTag(int i, int numBar) {
-		return tags.get(numBar) == null ? null : tags.get(numBar).get(i);
+	private int getIntTag(int i, int numBar) {
+		HashMap<Integer, Object> map = tags.get(numBar);
+		return map == null || map.get(i) == null ? -1 : (Integer) map.get(i);
 	}
 
 	/**
@@ -70,11 +76,14 @@ public class ChartStyle {
 		if (color != null) {
 			return color;
 		}
-		int[] order = new int[]{0x6557d2, 0xe0bf00, 0x3bb4a6, 0xda6a9d, 0x3b1c32, 0xff8c70};
-		GColor baseColor = GColor.newColorRGB(order[numBar % 6]);
-		double overlay = Math.pow(0.6, Math.floor(numBar / 6.0));
-		return GColor.mixColors(GColor.WHITE, baseColor,
-				overlay, 255);
+		if (colorOrder != null) {
+			int colorRgb = colorOrder[(numBar - 1) % colorOrder.length];
+			GColor baseColor = GColor.newColorRGB(colorRgb);
+			int overlay = (numBar - 1) / colorOrder.length;
+			return GColor.mixColors(GColor.WHITE, baseColor,
+					Math.pow(0.6, overlay), 255);
+		}
+		return null;
 	}
 
 	/**
@@ -100,7 +109,6 @@ public class ChartStyle {
 	}
 
 	/**
-	 *
 	 * @param numBar
 	 *            bar number
 	 * @return -1 if not set, otherwise alpha (between 0 and 1)
@@ -207,11 +215,7 @@ public class ChartStyle {
 	 * @return hatching distance
 	 */
 	public int getBarHatchDistance(int numBar) {
-		HashMap<Integer, Object> hm = tags.get(numBar);
-		if (hm != null && hm.get(5) != null) {
-			return ((Integer) hm.get(5)).intValue();
-		}
-		return -1;
+		return getIntTag(5, numBar);
 	}
 
 	/**
@@ -230,11 +234,7 @@ public class ChartStyle {
 	 * @return hatching angle
 	 */
 	public int getBarHatchAngle(int numBar) {
-		Object tag = getTag(6, numBar);
-		if (tag != null) {
-			return (Integer) tag;
-		}
-		return -1;
+		return getIntTag(6, numBar);
 	}
 
 	/**
@@ -247,58 +247,36 @@ public class ChartStyle {
 		sb.append("\t<tags>\n");
 		for (int i = 1; i <= N; i++) {
 			if (getBarColor(i) != null) {
-				sb.append("\t\t<tag key=\"barColor\"");
-				sb.append(" barNumber=\"");
-				sb.append(i);
-				sb.append("\" value=\"");
-				sb.append(GColor.getColorString(getBarColor(i)));
-				sb.append("\" />\n");
+				appendTag(sb, "barColor", i, GColor.getColorString(getBarColor(i)));
 			}
 
 			double barAlpha = getBarAlpha(i);
 			if (barAlpha != -1) {
-				sb.append("\t\t<tag key=\"barAlpha\" barNumber=\"");
-				sb.append(i);
-				sb.append("\" value=\"");
-				sb.append(barAlpha);
-				sb.append("\"/>\n");
+				appendTag(sb, "barAlpha", i, barAlpha);
 			}
 			if (getBarHatchDistance(i) != -1) {
-				sb.append("\t\t<tag key=\"barHatchDistance\" barNumber=\"");
-				sb.append(i);
-				sb.append("\" value=\"");
-				sb.append(getBarHatchDistance(i));
-				sb.append("\"/>\n");
+				appendTag(sb, "barHatchDistance", i, getBarHatchDistance(i));
 			}
 			if (getBarHatchAngle(i) != -1) {
-				sb.append("\t\t<tag key=\"barHatchAngle\" barNumber=\"");
-				sb.append(i);
-				sb.append("\" value=\"");
-				sb.append(getBarHatchAngle(i));
-				sb.append("\"/>\n");
+				appendTag(sb, "barHatchAngle", i, getBarHatchAngle(i));
 			}
 			if (getBarFillType(i) != FillType.STANDARD) {
-				sb.append("\t\t<tag key=\"barFillType\" barNumber=\"");
-				sb.append(i);
-				sb.append("\" value=\"");
-				sb.append(getBarFillType(i).ordinal());
-				sb.append("\"/>\n");
+				appendTag(sb, "barFillType", i, getBarFillType(i).ordinal());
 			}
 			if (getBarImage(i) != null) {
-				sb.append("\t\t<tag key=\"barImage\" barNumber=\"");
-				sb.append(i);
-				sb.append("\" value=\"");
-				sb.append(getBarImage(i));
-				sb.append("\"/>\n");
+				appendTag(sb, "barImage", i, getBarImage(i));
 			}
 			if (getBarSymbol(i) != null) {
-				sb.append("\t\t<tag key=\"barSymbol\" barNumber=\"");
-				sb.append(i);
-				sb.append("\" value=\"");
-				sb.append(getBarSymbol(i));
-				sb.append("\"/>\n");
+				appendTag(sb, "barSymbol", i, getBarSymbol(i));
 			}
 		}
 		sb.append("\t</tags>\n");
+	}
+
+	private void appendTag(StringBuilder sb, String type, int i, Object val) {
+		sb.append("\t\t<tag key=\"").append(type);
+		sb.append("\" barNumber=\"").append(i);
+		sb.append("\" value=\"").append(val);
+		sb.append("\"/>\n");
 	}
 }

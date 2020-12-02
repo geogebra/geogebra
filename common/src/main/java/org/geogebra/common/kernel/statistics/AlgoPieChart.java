@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.statistics;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -18,7 +19,8 @@ public class AlgoPieChart extends AlgoElement implements ChartStyleAlgo {
 	private final GeoPieChart chart;
 	private final GeoPoint center;
 	private final GeoNumberValue radius;
-	private final ChartStyle chartStyle = new ChartStyle();
+	private final ChartStyle chartStyle = new ChartStyle(new int[]{0x6557d2, 0xe0bf00,
+			0x3bb4a6, 0xda6a9d, 0x3b1c32, 0xff8c70});
 
 	/**
 	 * @param cons construction
@@ -65,9 +67,24 @@ public class AlgoPieChart extends AlgoElement implements ChartStyleAlgo {
 		for (int i = 0; i < data.size(); i++) {
 			chart.getData().set(i, chart.getData().get(i) / sum);
 		}
-		chart.setCenter(center == null ? new GPoint2D()
-				: new GPoint2D(center.getInhomX(), center.getInhomY()));
-		chart.setRadius(radius == null ? 5 : radius.getDouble());
+		chart.setCenter(new GPoint2D(center.getInhomX(), center.getInhomY()));
+		if (radius != null) {
+			chart.setRadius(radius.getDouble());
+		}
+		this.updateDefaultStyle();
+	}
+
+	private void updateDefaultStyle() {
+		for (int i = 0; i < data.size() ; i++) {
+			if (chartStyle.getBarColor(i + 1) != null) {
+				continue;
+			}
+			int[] order = new int[]{0x6557d2, 0xe0bf00, 0x3bb4a6, 0xda6a9d, 0x3b1c32, 0xff8c70};
+			GColor baseColor = GColor.newColorRGB(order[i % 6]);
+			double overlay = Math.pow(0.6, Math.floor(i / 6.0));
+			GColor color = GColor.mixColors(GColor.WHITE, baseColor, overlay, 255);
+			chartStyle.setBarColor(color, i + 1);
+		}
 	}
 
 	@Override

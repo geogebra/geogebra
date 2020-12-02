@@ -39,9 +39,9 @@ import org.geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjec
 import org.geogebra.common.kernel.algos.ChartStyle;
 import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.statistics.AlgoPieChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
@@ -263,7 +263,6 @@ class ColorPanel extends JPanel
 		}
 
 		model.updateProperties();
-
 		rbtnBackgroundColor.setVisible(model.hasBackground());
 		rbtnForegroundColor.setVisible(model.hasBackground());
 		btnClearBackground.setVisible(
@@ -291,8 +290,15 @@ class ColorPanel extends JPanel
 		previewPanel.setPreview(selectedColor, alpha);
 	}
 
-	private void setOpacitySlider(GeoElement geo, double alpha) {
-		// TODO delete?
+	private void setOpacitySliderForChart(GeoElement geo, double alpha0) {
+		ChartStyleAlgo algo= (ChartStyleAlgo) geo.getParentAlgorithm();
+		double alpha = alpha0;
+		if (selectedBarButton != 0 && algo.getStyle().getBarAlpha(selectedBarButton) > -1) {
+			alpha = algo.getStyle().getBarAlpha(selectedBarButton);
+		}
+		opacitySlider.removeChangeListener(this);
+		opacitySlider.setValue((int) Math.round(alpha * 100));
+		opacitySlider.addChangeListener(this);
 	}
 
 	private void setChooser(GeoElement geo0) {
@@ -377,12 +383,13 @@ class ColorPanel extends JPanel
 			isBarChart = true;
 			selectionBarButtons = new JToggleButton[numBar + 1];
 			ButtonGroup group = new ButtonGroup();
+			boolean isPie = model.getGeoAt(0).getParentAlgorithm() instanceof AlgoPieChart;
 			barsPanel = new JPanel(new GridLayout(0, 3, 5, 5));
 			barsPanel.setBorder(new TitledBorder(
-					this.propertiesPanelD.loc.getMenu("SelectedBar")));
+					this.propertiesPanelD.loc.getMenu(isPie ? "SelectedSlice" : "SelectedBar")));
 			for (int i = 0; i < numBar + 1; i++) {
 				selectionBarButtons[i] = new JToggleButton(
-						this.propertiesPanelD.loc.getPlain("BarA", i + ""));
+						this.propertiesPanelD.loc.getPlain(isPie ? "SliceA" : "BarA", i + ""));
 				selectionBarButtons[i].setSelected(false);
 				selectionBarButtons[i].setActionCommand("" + i);
 				selectionBarButtons[i].addActionListener(new ActionListener() {
@@ -400,9 +407,9 @@ class ColorPanel extends JPanel
 				group.add(selectionBarButtons[i]);
 			}
 			selectionBarButtons[0]
-					.setText(this.propertiesPanelD.loc.getMenu("AllBars"));
+					.setText(this.propertiesPanelD.loc.getMenu(isPie ? "AllSlices" : "AllBars"));
 			selectionBarButtons[selectedBarButton].setSelected(true);
-			add(barsPanel, this.propertiesPanelD.loc.borderEast());
+			add(barsPanel, BorderLayout.SOUTH);
 		}
 	}
 
@@ -487,7 +494,7 @@ class ColorPanel extends JPanel
 		// initialize selected color and opacity
 		selectedColor = null;
 		Color selectedBGColor = null;
-		double alpha = 1;
+
 		GeoElement geo0 = model.getGeoAt(0);
 		if (equalObjColorBackground) {
 			selectedBGColor = GColorD.getAwtColor(geo0.getBackgroundColor());
@@ -500,12 +507,6 @@ class ColorPanel extends JPanel
 			if (equalObjColor) {
 				if (allFillable) {
 					selectedColor = GColorD.getAwtColor(geo0.getFillColor());
-					alpha = geo0.getAlphaValue();
-
-					// can be -1 for lists
-					if (alpha < 0) {
-						alpha = 0;
-					}
 				} else {
 					selectedColor = GColorD.getAwtColor(geo0.getObjectColor());
 				}
@@ -528,6 +529,7 @@ class ColorPanel extends JPanel
 
 		// set the opacity
 		opacitySlider.removeChangeListener(this);
+		double alpha;
 		if (allFillable && hasOpacity) { // show opacity slider and set to
 			// first geo's
 			// alpha value
@@ -540,7 +542,7 @@ class ColorPanel extends JPanel
 			}
 
 			if (isBarChart) {
-				setOpacitySlider(geo0, alpha);
+				setOpacitySliderForChart(geo0, alpha);
 			} else {
 				opacitySlider.setValue((int) Math.round(alpha * 100));
 			}
@@ -584,10 +586,9 @@ class ColorPanel extends JPanel
 			boolean updateAlphaOnly, boolean allFillable) {
 
 		Color color = GColorD.getAwtColor(col);
-		Log.error("Update color "+isBarChart+","+!updateAlphaOnly);
 		if (!updateAlphaOnly) {
 			if (isBarChart) {
-				updateBarsColorAndAlpha(geo, color, alpha, updateAlphaOnly);
+				updateBarsColorAndAlpha(geo, color, alpha, false);
 			} else {
 				geo.setObjColor(col);
 			}

@@ -46,7 +46,7 @@ import org.geogebra.common.util.debug.Log;
 public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		implements DrawInformationAlgo, ChartStyleAlgo {
 
-	private ChartStyle chartStyle = new ChartStyle();
+	private ChartStyle chartStyle = new ChartStyle(null);
 
 	/** Bar chart from expression **/
 	public static final int TYPE_BARCHART_EXPRESSION = 0;
@@ -749,6 +749,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	 * 
 	 * @return number of intervals
 	 */
+	@Override
 	public int getIntervals() {
 		return N;
 	}
