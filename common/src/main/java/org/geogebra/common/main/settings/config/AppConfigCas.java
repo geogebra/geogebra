@@ -139,7 +139,7 @@ public class AppConfigCas extends AppConfigGraphing {
 
 	@Override
 	public int getDefaultAngleUnit() {
-		return Kernel.ANGLE_RADIANT;
+		return Kernel.ANGLE_DEGREE;
 	}
 
 	@Override
