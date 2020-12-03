@@ -132,6 +132,7 @@ import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -149,10 +150,13 @@ public class AlgebraProcessor {
 	public static final String CREATE_SLIDER = "1";
 
 	/** kernel */
+	@Weak
 	protected final Kernel kernel;
 	/** construction */
+	@Weak
 	protected final Construction cons;
 	/** app */
+	@Weak
 	protected final App app;
 	private final Localization loc;
 	private final ParserInterface parser;
@@ -194,6 +198,7 @@ public class AlgebraProcessor {
 
 		this.cmdDispatcher = commandDispatcher;
 		app = kernel.getApplication();
+		app.onCommandDispatcherSet(cmdDispatcher);
 		loc = app.getLocalization();
 		parser = kernel.getParser();
 		setEnableStructures(app.getConfig().isEnableStructures());

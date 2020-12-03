@@ -44,7 +44,6 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.MaterialsManagerI;
@@ -1693,21 +1692,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getSettings().getCasSettings().setEnabled(
 					getAppletParameters().getDataParamEnableCAS(false));
 		}
-		if (getSettings().getCasSettings().isEnabled()
-				&& has(Feature.SYMBOLIC_AV)) {
+		if (getSettings().getCasSettings().isEnabled()) {
 			getKernel().setSymbolicMode(getConfig().getSymbolicMode());
 		}
 
-		if (is3DDisabledForApp()) {
-			if (getSettings().getEuclidian(-1) != null) {
-				getSettings().getEuclidian(-1).setEnabled(false);
-			}
-		} else if (getAppletParameters().getDataParamEnable3D(false)
-				|| !getAppletParameters().getDataParamEnable3D(true)) {
-			if (getSettings().supports3D()) {
-				getSettings().getEuclidian(-1).setEnabled(
-						getAppletParameters().getDataParamEnable3D(false));
-			}
+		if (getSettings().getEuclidian(-1) != null) {
+			getSettings().getEuclidian(-1)
+					.setEnabled(getAppletParameters().getDataParamEnable3D(true));
 		}
 
 		if (getAppletParameters().getDataParamEnableGraphing(false)
@@ -3275,12 +3266,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return hiddenTextArea;
 	}-*/;
 
-	@Override
-	public void copyTextToSystemClipboard(String text) {
-		Log.debug("copying to clipboard " + text);
-		CopyPasteW.writeToExternalClipboard(text);
-	}
-
 	/**
 	 * Toggle menu visibility
 	 */
@@ -3317,27 +3302,33 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean isUnbundled() {
-		return AppConfigDefault
-				.isUnbundledOrNotes(appletParameters.getDataParamAppName())
-				&& !"notes".equals(appletParameters.getDataParamAppName());
-
+		return AppConfigDefault.isUnbundled(getConfig().getAppCode());
 	}
 
 	@Override
 	public boolean isUnbundledGraphing() {
-		return "graphing".equals(appletParameters.getDataParamAppName());
+		return "graphing".equals(getSubAppCode());
 	}
 
 	@Override
 	public boolean isUnbundledGeometry() {
-		return "geometry".equals(appletParameters.getDataParamAppName());
+		return "geometry".equals(getSubAppCode());
 	}
 
 	/**
 	 * @return whether we are running 3D grapher
 	 */
 	public boolean isUnbundled3D() {
-		return "3d".equals(appletParameters.getDataParamAppName());
+		return "3d".equals(getSubAppCode());
+	}
+
+	/**
+	 * @return the sub app code, if it exists, or the app code
+	 */
+	private String getSubAppCode() {
+		return getConfig().getSubAppCode() != null
+				? getConfig().getSubAppCode()
+				: getConfig().getAppCode();
 	}
 
 	/**

@@ -21,6 +21,8 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Handles mouse and touch events in EV
  */
@@ -32,6 +34,7 @@ public class MouseTouchGestureController {
 	public static final int MIN_MOVE = 5;
 
 	/** Application */
+	@Weak
 	protected App app;
 	/** Controller */
 	protected EuclidianController ec;
