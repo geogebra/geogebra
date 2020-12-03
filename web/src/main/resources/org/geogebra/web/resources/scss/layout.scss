@@ -111,21 +111,21 @@
 	}
 	.tabButton {
 		position: relative;
-		margin: 6px;
-		padding: 6px;
-		width: 24px;
-		height: 24px;
+		box-sizing: border-box;
 		min-width: 24px;
 		cursor: pointer;
-		img {
-			opacity: 0.85;
+		text-align: center;
+		opacity: 0.54;
+		.gwt-Label {
+			line-height: 12px;
+			font-size: 10px;
+			text-align: center;
 		}
-	}
-
-	.tabButton:hover, .tabButton:focus {
-
-		img {
-			opacity: 1.0 !important;
+		&.selected .gwt-Label {
+			color: rgb(101, 87, 210);
+		}
+		&.selected  {
+			opacity: 1;
 		}
 	}
 

@@ -179,19 +179,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		app.getGgbApi().setEditor(new AlgebraMathEditorAPI(this));
 	}
 
-	/**
-	 * Scroll handler
-	 */
-	void onAlgebraScroll() {
-		if (activeItem != null) {
-			activeItem.reposition();
-		}
-
-		if (getInputTreeItem() != null) {
-			getInputTreeItem().setItemWidth(getFullWidth());
-		}
-	}
-
 	private void initGUI(AlgebraControllerW algCtrl) {
 		// add listener
 		addDomHandler(algCtrl, MouseDownEvent.getType());
@@ -2237,7 +2224,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public int getFullWidth() {
 		int avWidth = getAlgebraDockPanel().getInnerWidth();
 		if (app.isUnbundled()) {
-			return avWidth;
+			return avWidth - getAlgebraDockPanel().getNavigationRailWidth();
 		}
 		return maxItemWidth < avWidth ? avWidth : maxItemWidth;
 	}
@@ -2394,4 +2381,5 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public AppW getApp() {
 		return app;
 	}
+
 }

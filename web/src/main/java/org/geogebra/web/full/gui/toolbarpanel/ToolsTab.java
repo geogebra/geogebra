@@ -12,7 +12,6 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -57,9 +56,10 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 
 	/**
 	 * panel containing tools
-	 * @param toolbarPanel TODO
+	 * @param toolbarPanel toolbar panel
 	 */
 	public ToolsTab(ToolbarPanel toolbarPanel) {
+		super(toolbarPanel);
 		this.toolbarPanel = toolbarPanel;
 		this.app = toolbarPanel.getApp();
 
@@ -190,22 +190,20 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 	public void onResize() {
 		super.onResize();
 		int w = this.toolbarPanel.getTabWidth();
+		int left = toolbarPanel.getNavigationRailWidth();
 		if (w < 0) {
 			return;
 		}
-		setWidth(2 * w + "px");
-		getElement().getStyle().setLeft(w, Unit.PX);
-
+		setWidth(w + "px");
 		sp.setWidth(w + "px");
-		double height = (app.isPortrait() ? toolbarPanel.getOffsetHeight() : app.getHeight())
-				- ToolbarPanel.CLOSED_HEIGHT_PORTRAIT;
+		double height = toolbarPanel.getTabHeight();
 		if (height >= 0) {
 			sp.setHeight(height + "px");
 		}
 		if (app.getWidth() < app.getHeight()) {
 			w = 420;
 		}
-		ToolTipManagerW.sharedInstance().setTooltipWidthOnResize(w);
+		ToolTipManagerW.sharedInstance().setTooltipWidthOnResize(w, left);
 	}
 
 	/**

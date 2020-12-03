@@ -87,6 +87,7 @@ import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
+import org.geogebra.web.full.gui.toolbarpanel.ShowableTab;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ScriptArea;
@@ -477,7 +478,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void setShowView(final boolean flag, final int viewId, final boolean isPermanent) {
 		ToolbarPanel sidePanel = getUnbundledToolbar();
-		ToolbarPanel.ToolbarTab sidePanelTab = sidePanel != null ? sidePanel.getTab(viewId) : null;
+		ShowableTab sidePanelTab = sidePanel != null ? sidePanel.getTab(viewId) : null;
 		if (sidePanelTab != null) {
 			if (flag) {
 				sidePanelTab.open();
@@ -502,7 +503,8 @@ public class GuiManagerW extends GuiManager
 		}
 	}
 
-	private void onToolbarVisibilityChanged(int viewId, boolean isVisible) {
+	@Override
+	public void onToolbarVisibilityChanged(int viewId, boolean isVisible) {
 		DockPanel panel = layout.getDockManager().getPanel(viewId);
 		if (panel != null) {
 			panel.setVisible(isVisible);
@@ -2284,7 +2286,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void updateUnbundledToolbar() {
 		if (getUnbundledToolbar() != null) {
-			getUnbundledToolbar().updateTabs();
+			getUnbundledToolbar().resizeTabs();
 		}
 	}
 

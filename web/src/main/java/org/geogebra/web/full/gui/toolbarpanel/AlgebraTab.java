@@ -28,6 +28,7 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 	 *            parent toolbar panel
 	 */
 	public AlgebraTab(ToolbarPanel toolbarPanel) {
+		super(toolbarPanel);
 		this.toolbarPanel = toolbarPanel;
 		app = toolbarPanel.getApp();
 		if (app != null) {

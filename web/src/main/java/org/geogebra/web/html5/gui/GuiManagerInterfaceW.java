@@ -187,4 +187,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * @param runAfterLogin - callback
 	 */
 	void setRunAfterLogin(Runnable runAfterLogin);
+
+	void onToolbarVisibilityChanged(int viewId, boolean isVisible);
 }

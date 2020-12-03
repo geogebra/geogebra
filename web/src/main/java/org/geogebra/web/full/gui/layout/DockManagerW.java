@@ -1658,14 +1658,14 @@ public class DockManagerW extends DockManager {
 			}
 		} else {
 			double ratio = landscapeRatio;
-
+			double closedWidth = getClosedAvWidth();
 			if (split.getLeftComponent() == avPanel
 					&& split
-					.getDividerLocation() <= ToolbarPanel.CLOSED_WIDTH_LANDSCAPE) {
+					.getDividerLocation() <= closedWidth) {
 				toolbar.close();
 			}
 			if (toolbar != null && !toolbar.isOpen()) {
-				ratio = ToolbarPanel.CLOSED_WIDTH_LANDSCAPE / app.getWidth();
+				ratio = closedWidth / app.getWidth();
 			}
 
 			setDividerLocationAbs(split, (int) (ratio * app.getWidth()));
@@ -1703,6 +1703,14 @@ public class DockManagerW extends DockManager {
 		if (probPanel != null) {
 			probPanel.deferredOnResize();
 		}
+	}
+
+	private int getClosedAvWidth() {
+		DockPanelW avPanel = getPanel(App.VIEW_ALGEBRA);
+		if (avPanel instanceof ToolbarDockPanelW) {
+			return ((ToolbarDockPanelW) avPanel).getNavigationRailWidth();
+		}
+		return 0;
 	}
 
 	/**

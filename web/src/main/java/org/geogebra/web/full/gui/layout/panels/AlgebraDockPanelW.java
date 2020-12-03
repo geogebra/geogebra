@@ -180,6 +180,11 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	}
 
 	@Override
+	public int getNavigationRailWidth() {
+		return 0;
+	}
+
+	@Override
 	public void scrollToActiveItem() {
 		final RadioTreeItem item = aview == null ? null
 				: aview.getActiveTreeItem();

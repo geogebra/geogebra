@@ -7,7 +7,6 @@ import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -54,12 +53,7 @@ public class ToolbarDockPanelW extends DockPanelW
 
 	@Override
 	public void deferredOnResize() {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				toolbar.resize();
-			}
-		});
+		Scheduler.get().scheduleDeferred(() -> toolbar.resize());
 	}
 
 	@Override
@@ -170,4 +164,8 @@ public class ToolbarDockPanelW extends DockPanelW
 		return null;
 	}
 
+	@Override
+	public int getNavigationRailWidth() {
+		return toolbar.getNavigationRailWidth();
+	}
 }

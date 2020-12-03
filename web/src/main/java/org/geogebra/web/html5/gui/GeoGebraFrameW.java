@@ -163,6 +163,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		add(splash);
 	}
 
+	protected void setSizeStyles() {
+		Dom.toggleClass(this, "portrait", "landscape", app.isPortrait());
+		Dom.toggleClass(this, "small", hasCompactNavigationRail());
+	}
+
 	private void preProcessFitToSceen() {
 		if (appletParameters.getDataParamFitToScreen()) {
 			Document.get().getDocumentElement().getStyle()
@@ -234,6 +239,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private static boolean hasSmallWindow() {
 		return Window.getClientWidth() < 600 || Window.getClientHeight() < 600;
+	}
+
+	public boolean hasCompactNavigationRail() {
+		return app.getWidth() < 600;
 	}
 
 	private void setHeightWithCompactHeader() {
@@ -492,6 +501,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private void initAppDependentFields() {
 		isHeaderVisible = !shouldHaveSmallScreenLayout();
+		setSizeStyles();
 	}
 
 	/**
@@ -586,6 +596,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		} else {
 			setSizeSimple(width, height);
 		}
+		setSizeStyles();
 	}
 
 	protected void setFramePixelSize(int width, int height) {

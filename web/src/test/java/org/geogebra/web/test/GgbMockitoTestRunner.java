@@ -3,6 +3,7 @@ package org.geogebra.web.test;
 import java.util.Collection;
 
 import org.geogebra.web.html5.main.FileDropHandlerW;
+import org.geogebra.web.html5.util.Dom;
 import org.junit.runners.model.InitializationError;
 
 import com.google.gwt.dom.client.TextAreaElement;
@@ -34,6 +35,8 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         StubGenerator.replaceMethodWithMock(DomGlobal.class, "setTimeout",
                 Double.class);
         StubGenerator.replaceMethodWithMock(FileDropHandlerW.class, "registerDropHandler",
+                Void.class);
+        StubGenerator.replaceMethodWithMock(Dom.class, "addEventListener",
                 Void.class);
     }
 
