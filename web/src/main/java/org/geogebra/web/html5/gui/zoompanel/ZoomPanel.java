@@ -272,7 +272,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		if (!Browser.needsAccessibilityView()) {
 			addFullscreenKeyboardControls(sb);
 		}
-		setButtonTitleAndAltText(fullscreenBtn, sb.toString());
+		setButtonTitleAndAltText(fullscreenBtn, loc.getMenu("Fullscreen"), sb.toString());
 	}
 
 	private void addFullscreenKeyboardControls(ScreenReaderBuilder sb) {
@@ -286,13 +286,15 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		if (btn == null) {
 			return;
 		}
+		String title = loc.getMenuDefault(transKey, auralDefault);
+
 		ScreenReaderBuilder sb = new ScreenReaderBuilder();
-		sb.append(loc.getMenuDefault(transKey, auralDefault));
+		sb.append(title);
 		if (!Browser.needsAccessibilityView()) {
 			addZoomKeyboardControls(sb, controlNext);
 		}
 
-		setButtonTitleAndAltText(btn, sb.toString());
+		setButtonTitleAndAltText(btn, title, sb.toString());
 	}
 
 	private void addZoomKeyboardControls(ScreenReaderBuilder sb, boolean controlNext) {
@@ -312,10 +314,11 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		sb.endSentence();
 	}
 
-	private static void setButtonTitleAndAltText(StandardButton btn, String string) {
+	private static void setButtonTitleAndAltText(StandardButton btn, String dataTitle,
+			String ariaLabel) {
 		if (btn != null) {
-			btn.setTitle(string);
-			btn.setAltText(string);
+			btn.getElement().setAttribute("data-title", dataTitle);
+			btn.getElement().setAttribute("aria-label", ariaLabel);
 		}
 	}
 
