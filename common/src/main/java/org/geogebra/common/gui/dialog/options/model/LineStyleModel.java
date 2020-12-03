@@ -1,7 +1,9 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.kernel.advanced.AlgoSlopeField;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -30,6 +32,8 @@ public class LineStyleModel extends OptionsModel {
 		void selectCommonLineStyleHidden(boolean equalStyle, int type);
 
 		void setLineOpacityVisible(boolean value);
+
+		void setDrawAsArrowVisible(boolean value);
 	}
 
 	public void setListener(ILineStyleListener listener) {
@@ -216,6 +220,10 @@ public class LineStyleModel extends OptionsModel {
 				lineStyleHiddenEnabled = false;
 				lineOpacityEnabled = false;
 			}
+			if (listener != null) {
+				listener.setDrawAsArrowVisible(geo instanceof GeoLocus && geo
+						.getParentAlgorithm() instanceof AlgoSlopeField);
+			}
 		}
 		return geosOK;
 	}
@@ -223,5 +231,15 @@ public class LineStyleModel extends OptionsModel {
 	@Override
 	public PropertyListener getListener() {
 		return listener;
+	}
+
+	public void applyDrawArrow () {
+		for (int i = 0; i < getGeosLength(); i++) {
+			GeoElement geo = getGeoAt(i);
+			if (geo instanceof GeoLocus) {
+				((GeoLocus) geo).drawAsArrow();
+			}
+		}
+		storeUndoInfo();
 	}
 }

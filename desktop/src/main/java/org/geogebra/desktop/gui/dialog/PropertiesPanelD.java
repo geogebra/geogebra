@@ -2729,6 +2729,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		public void setLineOpacityVisible(boolean value) {
 			opacityPanel.setVisible(value);
 		}
+
+		@Override
+		public void setDrawAsArrowVisible(boolean value) {
+			// TODO Auto-generated method stub
+		}
 	}
 
 	/**

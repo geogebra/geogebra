@@ -129,6 +129,11 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 	}
 
 	@Override
+	public void setDrawAsArrowVisible(boolean value) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
 	public void setLabels() {
 		// Overridden in MOWLineStyleButton
 	}

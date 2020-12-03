@@ -136,4 +136,8 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 		return true;
 	}
 
+	public void drawAsArrow() {
+
+	}
+
 }

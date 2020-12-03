@@ -775,6 +775,8 @@ public class OptionsTab extends FlowPanel {
 		LineStylePopup btnLineStyle;
 		private FlowPanel stylePanel;
 		private FlowPanel styleHiddenPanel;
+		private CheckBox cbDrawArrow;
+		private FlowPanel drawArrowPanel;
 		ListBox styleHiddenList;
 
 		public LineStylePanel(LineStyleModel model0, AppW app) {
@@ -848,6 +850,19 @@ public class OptionsTab extends FlowPanel {
 			stylePanel.add(btnLineStyle);
 			mainPanel.add(stylePanel);
 
+			cbDrawArrow = new CheckBox();
+			drawArrowPanel = new FlowPanel();
+			drawArrowPanel.add(cbDrawArrow);
+			mainPanel.add(drawArrowPanel);
+			cbDrawArrow.setVisible(false);
+
+			cbDrawArrow.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					model.applyDrawArrow();
+				}
+			});
+
 			styleHiddenPanel = new FlowPanel();
 			styleHiddenPanel.setStyleName("optionsPanel");
 			styleHiddenLabel = new Label();
@@ -881,6 +896,7 @@ public class OptionsTab extends FlowPanel {
 			styleHiddenList.addItem(localize("Hidden.Dashed")); // index 1
 			styleHiddenList.addItem(localize("Hidden.Unchanged")); // index 2
 			styleHiddenList.setSelectedIndex(selectedIndex);
+			cbDrawArrow.setText(localize("DrawArrow"));
 		}
 
 		@Override
@@ -921,6 +937,11 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		public void setLineOpacityVisible(boolean value) {
 			opacitySlider.setVisible(value);
+		}
+
+		@Override
+		public void setDrawAsArrowVisible(boolean isVisible) {
+			cbDrawArrow.setVisible(isVisible);
 		}
 	}
 
