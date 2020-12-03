@@ -107,6 +107,15 @@ class Header extends FlowPanel implements KeyDownHandler {
 		return isAllowed;
 	}
 
+	/**
+	 * Remove the undo-redo panel from the frame
+	 */
+	public void removeUndoRedoPanel() {
+		if (undoRedoPanel != null) {
+			toolbarPanel.getFrame().remove(undoRedoPanel);
+		}
+	}
+
 	private void createCenter() {
 		if (!app.showToolBar() || !app.enableGraphing()) {
 			return;

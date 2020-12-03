@@ -7,6 +7,8 @@ import org.geogebra.common.kernel.integration.EllipticArcLength;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Parameters for 2D/3D GeoConicPart
  * 
@@ -15,6 +17,7 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class GeoConicPartParameters {
 
+	@Weak
 	private GeoConicND conic;
 	/** start param */
 	public double paramStart;

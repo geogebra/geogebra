@@ -13,6 +13,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Model for the ToolCreationDialog
  * 
@@ -22,6 +24,7 @@ import org.geogebra.common.util.debug.Log;
 public class ToolCreationDialogModel {
 
 	// private Kernel kernel;
+	@Weak
 	private App app;
 
 	// Drop Down Lists

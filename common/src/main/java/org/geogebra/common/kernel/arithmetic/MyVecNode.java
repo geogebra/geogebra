@@ -32,6 +32,8 @@ import org.geogebra.common.kernel.printing.printer.vector.VectorPrinterMapBuilde
 import org.geogebra.common.kernel.printing.printer.vector.VectorPrintingMode;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * 
  * @author Markus
@@ -50,6 +52,7 @@ public class MyVecNode extends ValidExpression
 
 	private VectorNodeStringifier stringifier;
 	private int mode = Kernel.COORD_CARTESIAN;
+	@Weak
 	private Kernel kernel;
 	private boolean isCASVector;
 

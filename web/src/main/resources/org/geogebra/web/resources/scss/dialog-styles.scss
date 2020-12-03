@@ -1834,4 +1834,62 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			color: $mow_primary;
 		}
 	}
+
+	.calcChooser {
+    		 max-width: 608px;
+    		 min-height: 232px;
+    		 width: 100%;
+    		 padding: 48px 36px;
+    		 border-radius: 2px;
+    		 box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+
+    		.title {
+    			height: 48px;
+    			font-size: 175%;
+    			line-height: 48px;
+    			max-width: 608px;
+    			margin-bottom: 32px;
+    			text-align: center;
+    		}
+
+    		.calcBtn {
+    			max-width: 120px;
+    			max-height: 152px;
+    			width: 100%;
+    			height: 100%;
+    			margin: 0px 16px;
+    			display: inline-table;
+    			cursor: pointer;
+    			transition: background-color 0.15s;
+
+    			.imgHolder {
+    				border-radius: 50%;
+    				background-color: $white-5-overlay;
+    				width: 120px;
+    				height: 120px;
+    			}
+
+    			img {
+    				padding: 24px;
+    			}
+
+    			.gwt-Label {
+    				text-align: center;
+    				max-width: 120px;
+    				margin-top: 4px;
+    				min-height: 24px;
+    				height: fit-content;
+    				line-height: 150%;
+    				font-weight: 500;
+    			}
+
+    			&:hover .imgHolder {
+    				background-color: $hover-calc-btn-bg;
+    			}
+
+    			&.selected .imgHolder {
+    				background-color: $selected-calc-btn-bg;
+    			}
+    		}
+    	}
 }

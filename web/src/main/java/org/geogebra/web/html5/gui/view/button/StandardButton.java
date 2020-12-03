@@ -13,6 +13,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * @author csilla
@@ -26,6 +27,14 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	private int width = -1;
 	private int height = -1;
 	private NoDragImage btnImage;
+
+	/**
+	 * @param app
+	 *            - application
+	 */
+	public StandardButton(App app) {
+		this.app = app;
+	}
 
 	/**
 	 * @param icon
@@ -70,6 +79,25 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	 *            - img of button
 	 * @param label
 	 *            - text of button
+	 * @param size
+	 *            - width and hight of button
+	 * @param app
+	 *            - application
+	 */
+	public StandardButton(App app, int size, final ResourcePrototype icon, final String label) {
+		this.app = app;
+		this.width = size;
+		this.height = -1;
+		this.icon = icon;
+		this.label = label;
+		buildIconAndLabel(icon, label);
+	}
+
+	/**
+	 * @param icon
+	 *            - img of button
+	 * @param label
+	 *            - text of button
 	 * @param width
 	 *            - width of button
 	 * @param height
@@ -81,6 +109,22 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 			int width, int height, App app) {
 		this.app = app;
 		setIconAndLabel(icon, label, width, height);
+	}
+
+	private void buildIconAndLabel(final ResourcePrototype image,
+			final String label) {
+		SimplePanel imgPanel = new SimplePanel();
+		imgPanel.addStyleName("imgHolder");
+		btnImage = new NoDragImage(image, width, height);
+		btnImage.getElement().setTabIndex(-1);
+		imgPanel.add(btnImage);
+
+		this.getElement().removeAllChildren();
+		this.getElement().appendChild(imgPanel.getElement());
+		this.getElement().appendChild(new Label(label).getElement());
+		btnImage.setPresentation();
+
+		Roles.getButtonRole().removeAriaPressedState(getElement());
 	}
 
 	private void setIconAndLabel(final ResourcePrototype image,

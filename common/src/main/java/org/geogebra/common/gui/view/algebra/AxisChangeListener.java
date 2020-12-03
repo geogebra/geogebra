@@ -5,9 +5,13 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingListener;
 
+import com.google.j2objc.annotations.Weak;
+
 public class AxisChangeListener implements SettingListener {
 
+	@Weak
 	private AlgebraView view;
+	@Weak
 	private Kernel kernel;
 	private boolean isAnyAxisVisible;
 

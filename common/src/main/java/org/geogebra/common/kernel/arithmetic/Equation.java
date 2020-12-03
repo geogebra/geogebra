@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -44,6 +45,7 @@ public class Equation extends ValidExpression implements EquationValue {
 	private Polynomial normalForm; // polynomial in normalForm
 	private boolean isFunctionDependent; // Equation depends (non-constant) on
 											// functions (set in InitEquation)
+	@Weak
 	private Kernel kernel;
 
 	private boolean forcePlane = false;

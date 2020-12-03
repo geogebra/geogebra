@@ -5,6 +5,8 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.util.MyMath;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Helper class for drawing the grid
  * 
@@ -12,6 +14,7 @@ import org.geogebra.common.util.MyMath;
  *
  */
 public class DrawGrid {
+	@Weak
 	private EuclidianView view;
 
 	/**
