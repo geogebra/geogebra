@@ -364,16 +364,17 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	final public GeoLineND line3D(String label, GeoPointND P, GeoLineND l) {
-		AlgoLinePointLine3D algo = new AlgoLinePointLine3D(cons, label, P, l);
+		AlgoLinePointLine3D algo = new AlgoLinePointLine3D(cons, P, l);
 		GeoLineND g = algo.getLine();
+		g.setLabel(label);
 		return g;
 	}
 
 	@Override
 	final public GeoLineND line3D(String label, GeoPointND P, GeoVectorND v) {
-		AlgoLinePointVector3D algo = new AlgoLinePointVector3D(cons, label, P,
-				v);
+		AlgoLinePointVector3D algo = new AlgoLinePointVector3D(cons, P,	v);
 		GeoLineND g = algo.getLine();
+		g.setLabel(label);
 		return g;
 	}
 
@@ -2199,9 +2200,10 @@ public class Manager3D implements Manager3DInterface {
 				false);
 		AlgoDependentVector3D vec = new AlgoDependentVector3D(cons, v.wrap());
 		cons.removeFromConstructionList(vec);
-		AlgoLinePointVector3D algo = new AlgoLinePointVector3D(cons, label,
+		AlgoLinePointVector3D algo = new AlgoLinePointVector3D(cons,
 				pt.getPoint3D(), vec.getVector3D());
 		GeoLine3D g = algo.getLine();
+		g.setLabel(label);
 		return g;
 	}
 
