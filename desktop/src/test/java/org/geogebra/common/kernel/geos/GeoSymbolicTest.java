@@ -1072,7 +1072,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				equalTo("1 rad"));
 		assertThat(
 				angle.getTwinGeo().toValueString(StringTemplate.defaultTemplate),
-				equalTo("1 rad"));
+				equalTo("57.2957795131°"));
 	}
 
 	@Test
