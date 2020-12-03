@@ -536,6 +536,12 @@ public class DrawInputBox extends CanvasDrawable {
 		view.getViewTextField().setBoxBounds(labelRectangle);
 	}
 
+	/**
+	 * Compute the top of the box based on the position of the label, the height
+	 * of the label and the height of the box
+	 * @param height height of the box
+	 * @return y coordinate of the box
+	 */
 	public int computeBoxTop(double height) {
 		double labelHeight = getHeightForLabel(labelDesc);
 		return (int) Math.floor(getLabelTop() + ((labelHeight - height) / 2));
