@@ -87,12 +87,11 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	protected void resetChanges() {
 		getDrawInputBox().setEditing(true);
 
-		editor.setErrorStyle(getGeoInputBox().hasError());
 		decorator.update(bounds, getGeoInputBox());
 		editor.setVisible(true);
 		editor.setText(getGeoInputBox().getTextForEditor());
 		editor.setLabel(getGeoInputBox().getAuralText());
-
+		editor.setErrorStyle(getGeoInputBox().hasError());
 		if (getGeoInputBox().getLinkedGeo().hasSpecialEditor()) {
 			getMathFieldInternal().getFormula().getRootComponent().setProtected();
 			getMathFieldInternal().setLockedCaretPath();
