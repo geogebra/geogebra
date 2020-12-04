@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
@@ -92,15 +93,22 @@ class User {
 				));
 				graphics.restoreTransform();
 			} else if (d instanceof DrawLocus || d instanceof DrawSegment) {
-				GBasicStroke current = graphics.getStroke();
-				graphics.setStroke(AwtFactory.getPrototype()
-						.newBasicStroke(geo.getLineThickness() + 2, GBasicStroke.CAP_ROUND,
-								GBasicStroke.JOIN_ROUND));
+				GBasicStroke current = AwtFactory.getPrototype()
+						.newBasicStroke(geo.getLineThickness() / 2d, GBasicStroke.CAP_ROUND,
+								GBasicStroke.JOIN_ROUND);
+				GBasicStroke outline = AwtFactory.getPrototype()
+						.newBasicStroke(geo.getLineThickness() / 2d + 10, GBasicStroke.CAP_ROUND,
+								GBasicStroke.JOIN_ROUND);
 				GShape gp = d instanceof DrawLocus
 						? ((DrawLocus) d).getPath()
 						: ((DrawSegment) d).getLine();
-				graphics.draw(gp);
-				graphics.setStroke(current);
+
+				GArea area = AwtFactory.getPrototype()
+						.newArea(outline.createStrokedShape(gp, 1000));
+				area.subtract(AwtFactory.getPrototype()
+						.newArea(current.createStrokedShape(gp, 1000)));
+
+				graphics.fill(area);
 			} else if (d != null) {
 				graphics.draw(d.getBoundsForStylebarPosition());
 			}
