@@ -132,6 +132,8 @@
             } else {
                 this.sendEvent("evalXML", xml, label);
             }
+            this.sendEvent("select", label);
+            this.sendEvent("deselect");
             window.setTimeout(function(){
                 that.initEmbed(label);
             },500); //TODO avoid timeout
@@ -151,7 +153,6 @@
         // *** CLIENT LISTENERS ***
         var clientListener = (function(event) {
             var editorEventBus = this.eventCallbacks["editor"];
-            var selectionEventBus = this.eventCallbacks["selection"];
             switch (event[0]) {
                 case "updateStyle":
                     var label = event[1];
@@ -175,15 +176,11 @@
                     break;
 
                 case "deselect":
-                    if (selectionEventBus) {
-                        this.createEvent("evalCommand", "SelectObjects[]").fire(selectionEventBus);
-                    }
+                    this.sendEvent(event[0]);
                     break;
 
                 case "select":
-                    if (selectionEventBus) {
-                        this.sendEvent("evalCommand", "SelectObjects[" + event[1] + "]").fire(selectionEventBus);
-                    }
+                    this.sendEvent(event[0], event[1]);
                     break;
 
                 case "undo":
@@ -247,13 +244,6 @@
             this.api.unregisterRenameListener(renameListener);
         };
 
-        this.showHint = function(event) {
-            var user = this.users[event.clientId];
-            if (user && event.label) {
-                this.api.addInteraction(user.name, user.color, event.label);
-            }
-        }
-
         this.dispatch = function(last) {
             if (last && last.clientId != this.clientId) {
                 target = last.embedLabel ? this.embeds[last.embedLabel] : this;
@@ -299,9 +289,16 @@
                     target.api.startAnimation();
                 } else if (last.type == "stopAnimation") {
                     target.api.setAnimating(last.label, false);
-                }
-                if (last.type != "pasteSlide") { // for slides the label slide label => no hint
-                    target.showHint(last);
+                } else if (last.type == "select") {
+                    let user = this.users[last.clientId];
+                    if (user && last.content) {
+                        target.api.addMultiuserSelection(user.name, user.color, last.content);
+                    }
+                } else if (last.type == "deselect") {
+                    let user = this.users[last.clientId];
+                    if (user) {
+                        target.api.removeMultiuserSelections(user.name);
+                    }
                 }
             }
         };

@@ -26,15 +26,22 @@ public final class MultiuserManager {
 	 * @param color color associated with the user
 	 * @param label label of the changed object
 	 */
-	public void addInteraction(App app, String user, GColor color, String label) {
+	public void addSelection(App app, String user, GColor color, String label) {
 		User currentUser = activeInteractions
 				.computeIfAbsent(user, k -> new User(user, color));
 		for (User u : activeInteractions.values()) {
 			if (u != currentUser) {
-				u.removeInteraction(label);
+				u.removeSelection(label);
 			}
 		}
-		currentUser.addInteraction(app.getActiveEuclidianView(), label);
+		currentUser.addSelection(app.getActiveEuclidianView(), label);
+	}
+
+	public void deselect(String user) {
+		User currentUser = activeInteractions.get(user);
+		if (currentUser != null) {
+			currentUser.scheduleDeselection();
+		}
 	}
 
 	/**

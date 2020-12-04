@@ -36,7 +36,7 @@ class User {
 		this.color = color;
 	}
 
-	public void addInteraction(EuclidianView view, String label) {
+	public void addSelection(EuclidianView view, String label) {
 		interactions.compute(label, (k, v) -> {
 			if (v == null) {
 				v = new Timer() {
@@ -48,14 +48,20 @@ class User {
 				};
 			}
 
-			v.schedule(4000);
+			v.cancel();
 			return v;
 		});
 
 		view.repaintView();
 	}
 
-	public void removeInteraction(String label) {
+	public void scheduleDeselection() {
+		for (Timer t : interactions.values()) {
+			t.schedule(2000);
+		}
+	}
+
+	public void removeSelection(String label) {
 		interactions.remove(label);
 	}
 
