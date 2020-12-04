@@ -440,7 +440,8 @@ public class DrawInputBox extends CanvasDrawable {
 			view.getViewTextField().setBoxBounds(labelRectangle);
 		}
 
-		if (!editing || view.getApplication().isExporting()) {
+		// no painting while editing to avoid double border: both symbolic and nonsymbolic
+		if ((!editing && !isSelectedForInput()) || view.getApplication().isExporting()) {
 			drawTextfieldOnCanvas(g2);
 		}
 

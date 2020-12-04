@@ -40,6 +40,7 @@ public class ViewTextFieldW extends ViewTextField {
 	public void setBoxVisible(boolean isVisible) {
 		ensureBoxExists();
 		box.setVisible(isVisible);
+		euclidianView.repaintView();
 	}
 
 	@Override
