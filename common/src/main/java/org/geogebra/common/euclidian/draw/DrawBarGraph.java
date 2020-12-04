@@ -58,7 +58,7 @@ public class DrawBarGraph extends Drawable {
 	private AlgoBarChart algo;
 	private ArrayList<GeoPoint> pts;
 	private ArrayList<DrawPoint> drawPoints;
-	private final ChartFilling chartFilling = new ChartFilling();
+	private final ChartFilling chartFilling;
 
 	/*************************************************
 	 * @param view
@@ -68,6 +68,7 @@ public class DrawBarGraph extends Drawable {
 	 */
 	public DrawBarGraph(EuclidianView view, GeoNumeric n) {
 		this.view = view;
+		chartFilling = new ChartFilling(view.getApplication());
 		sum = n;
 		geo = n;
 

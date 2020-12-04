@@ -21,10 +21,14 @@ public class DrawPieChart extends Drawable {
 	private static final double INITIAL_ANGLE = 0.25; // fraction of full angle
 	private final GeoPieChart chart;
 	private final ArrayList<GArc2D> slices = new ArrayList<>();
-	private final ChartFilling chartFilling = new ChartFilling();
+	private final ChartFilling chartFilling;
 	private final GEllipse2DDouble outline;
 	private final ArrayList<GLine2D> rays = new ArrayList<>();
 	private boolean labelVisible;
+	private double centerX;
+	private double centerY;
+	private double radiusX;
+	private double radiusY;
 
 	/**
 	 * @param ev view
@@ -32,6 +36,7 @@ public class DrawPieChart extends Drawable {
 	 */
 	public DrawPieChart(EuclidianView ev, GeoPieChart geo) {
 		super(ev, geo);
+		this.chartFilling = new ChartFilling(view.getApplication());
 		this.chart = geo;
 		outline = AwtFactory.getPrototype().newEllipse2DDouble();
 		update();
@@ -39,15 +44,31 @@ public class DrawPieChart extends Drawable {
 
 	@Override
 	public void update() {
-		double old = INITIAL_ANGLE;
 		slices.clear();
 		rays.clear();
-		double centerX = view.toScreenCoordXd(chart.getCenter().getX());
-		double centerY = view.toScreenCoordYd(chart.getCenter().getY());
-		double radiusX = chart.getRadius() * view.getXscale();
-		double radiusY = chart.getRadius() * view.getYscale();
+		centerX = view.toScreenCoordXd(chart.getCenter().getX());
+		centerY = view.toScreenCoordYd(chart.getCenter().getY());
+		radiusX = chart.getRadius() * view.getXscale();
+		radiusY = chart.getRadius() * view.getYscale();
 		outline.setFrameFromCenter(centerX, centerY,
 				centerX + radiusX, centerY + radiusY);
+		updateSlices();
+		updateStrokes(geo);
+		updateLabel();
+	}
+
+	private void updateLabel() {
+		labelVisible = geo.isLabelVisible();
+		if (labelVisible) {
+			xLabel = (int) (centerX + Math.sqrt(.5) * radiusX);
+			yLabel = (int) (centerY + Math.sqrt(.5) * radiusY) + view.getFontSize();
+			labelDesc = geo.getLabelDescription();
+			addLabelOffset();
+		}
+	}
+
+	private void updateSlices() {
+		double old = INITIAL_ANGLE;
 		for (Double val: chart.getData()) {
 			GArc2D slice = AwtFactory.getPrototype().newArc2D();
 			slice.setArc(centerX - radiusX, centerY - radiusY,
@@ -62,20 +83,17 @@ public class DrawPieChart extends Drawable {
 				rays.add(ray);
 			}
 		}
-		updateStrokes(geo);
-		labelVisible = geo.isLabelVisible();
-		if (labelVisible) {
-			xLabel = (int) (centerX + Math.sqrt(.5) * radiusX);
-			yLabel = (int) (centerY + Math.sqrt(.5) * radiusY) + view.getFontSize();
-			labelDesc = geo.getLabelDescription();
-			addLabelOffset();
-		}
 	}
 
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (isEuclidianVisible()) {
 			ChartStyle style = ((AlgoPieChart) geo.getParentAlgorithm()).getStyle();
+			if (isHighlighted()) {
+				g2.setPaint(GColor.LIGHT_GRAY);
+				g2.setStroke(selStroke);
+				g2.draw(outline);
+			}
 			g2.setStroke(objStroke);
 			for (int i = 0; i < slices.size(); i++) {
 				GColor color = style.getBarColor(i + 1);

@@ -14,7 +14,7 @@ import org.geogebra.common.plugin.GeoClass;
 public class GeoPieChart extends GeoElement {
 	private final ArrayList<Double> data = new ArrayList<>();
 	private GPoint2D center;
-	private double radius = 2;
+	private double radius = 3;
 
 	/**
 	 * Creates new GeoElement for given construction
@@ -120,6 +120,11 @@ public class GeoPieChart extends GeoElement {
 	@Override
 	public int getMinimumLineThickness() {
 		return 0;
+	}
+
+	@Override
+	public boolean isFixable() {
+		return false; // consistent with barcharts
 	}
 
 }

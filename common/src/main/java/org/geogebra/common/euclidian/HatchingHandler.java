@@ -9,6 +9,7 @@ import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
@@ -687,5 +688,20 @@ public class HatchingHandler {
 	 */
 	public GBufferedImage getSubImage() {
 		return subImage;
+	}
+
+	/**
+	 * @param g2 graphics
+	 * @param shape shape
+	 * @param app app to decide sync/async fill method
+	 */
+	public void fill(GGraphics2D g2, GShape shape, App app) {
+		if (!app.isHTML5Applet()) {
+			g2.fill(shape);
+		} else {
+			// take care of filling after the image is loaded
+			AwtFactory.getPrototype().fillAfterImageLoaded(shape, g2,
+					subImage, app);
+		}
 	}
 }

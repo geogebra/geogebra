@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
-import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -574,7 +573,7 @@ public abstract class Drawable extends DrawableND {
 					EuclidianStyleConstants.LINE_TYPE_FULL);
 
 			selStroke = EuclidianStatic.getStroke(
-					!fromGeo.isShape() ? 2 * width + 2
+					!fromGeo.isShape() ? 2 * Math.max(width, 1) + 2
 									: width + EuclidianStyleConstants.SELECTION_ADD,
 					EuclidianStyleConstants.LINE_TYPE_FULL);
 		} else if (lineType != fromGeo.getLineType()) {
@@ -658,15 +657,8 @@ public abstract class Drawable extends DrawableND {
 				geo.getFillSymbol(), geo.getKernel().getApplication());
 
 		g2.setPaint(gpaint);
+		getHatchingHandler().fill(g2, shape, getView().getApplication());
 
-		if (!geo.getKernel().getApplication().isHTML5Applet()) {
-			g2.fill(fillShape);
-		} else {
-			GBufferedImage subImage2 = getHatchingHandler().getSubImage();
-			// take care of filling after the image is loaded
-			AwtFactory.getPrototype().fillAfterImageLoaded(fillShape, g2,
-					subImage2, geo.getKernel().getApplication());
-		}
 	}
 
 	private HatchingHandler getHatchingHandler() {
