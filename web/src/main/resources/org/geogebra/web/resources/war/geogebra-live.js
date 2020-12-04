@@ -92,7 +92,9 @@
                             let xml = that.api.getXML(label);
                             that.sendEvent("evalXML", xml, label);
                         }
+                        that.sendEvent("select", label);
                     }
+                    that.sendEvent("deselect");
 
                     updateCallback = null;
                 }, 200);
