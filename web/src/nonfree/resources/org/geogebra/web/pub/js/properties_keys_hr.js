@@ -1953,7 +1953,7 @@ __GGB__keysVar["hr"].menu = {
     "GeoGebra3DGrapher.short": "3D kalkulator",
     "GeoGebraApps": "GeoGebra aplikacije",
     "GeoGebraCASCalculator": "GeoGebra CAS kalkulator",
-    "GeoGebraCalculatorSuite": "GeoGebra kalkulator komplet",
+    "GeoGebraCalculatorSuite": "GeoGebra komplet kalkulatora",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "Geometrija",
     "GeoGebraGraphingCalculator": "GeoGebra grafi\u010dki kalkulator",
