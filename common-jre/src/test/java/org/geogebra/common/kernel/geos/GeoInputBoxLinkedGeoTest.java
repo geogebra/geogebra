@@ -4,6 +4,7 @@ import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.factories.AwtFactoryCommon;
@@ -323,8 +324,8 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		inputBox.updateLinkedGeo("20");
 		inputBox.updateLinkedGeo("-20");
 
-		Assert.assertTrue(numeric.getIntervalMax() >= 20);
-		Assert.assertTrue(numeric.getIntervalMin() <= -20);
+		assertTrue(numeric.getIntervalMax() >= 20);
+		assertTrue(numeric.getIntervalMin() <= -20);
 	}
 
 	@Test
@@ -377,7 +378,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("C = (2,2)");
 		add("p:Plane(A,B,C)");
 		GeoInputBox inputBox = add("InputBox(p)");
-		Assert.assertTrue(inputBox.canBeSymbolic());
+		assertTrue(inputBox.canBeSymbolic());
 	}
 
 	@Test
@@ -386,8 +387,8 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		GeoInputBox inputBox1 = add("InputBox(eq1)");
 		add("eq2:x^2+y^2+z^2=1");
 		GeoInputBox inputBox2 = add("InputBox(eq2)");
-		Assert.assertTrue(inputBox1.canBeSymbolic());
-		Assert.assertTrue(inputBox2.canBeSymbolic());
+		assertTrue(inputBox1.canBeSymbolic());
+		assertTrue(inputBox2.canBeSymbolic());
 	}
 
 	@Test
@@ -519,5 +520,31 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		inputBox.updateLinkedGeo("O");
 		assertEquals(lookup("A").toValueString(StringTemplate.testTemplate),
 				"(?, ?)");
+	}
+
+	@Test
+	public void shouldNotAcceptCommands() {
+		add("A=(1,1)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		inputBox.updateLinkedGeo("Midpoint((0,0),(1,2))");
+		assertTrue("Command should trigger error", inputBox.hasError());
+	}
+
+	@Test
+	public void pointOnPathShouldBeRestricted() {
+		GeoElement point = add("A=Point(y=2)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		inputBox.updateLinkedGeo("(3,7)");
+		assertEquals(point.toValueString(StringTemplate.editTemplate),
+				"(3, 2)");
+	}
+
+	@Test
+	public void pointInRegionShouldBeRestricted() {
+		GeoElement point = add("A=PointIn(xx+yy=2)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		inputBox.updateLinkedGeo("(5,-5)");
+		assertEquals(point.toValueString(StringTemplate.editTemplate),
+				"(1, -1)");
 	}
 }

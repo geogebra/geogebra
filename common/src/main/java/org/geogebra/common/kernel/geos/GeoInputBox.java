@@ -130,7 +130,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 		String linkedGeoText;
 		if (hasLaTeXEditableVector()) {
-			linkedGeoText = getColumnMatrix((GeoVectorND) linkedGeo);
+			linkedGeoText = ((GeoVectorND) linkedGeo).toValueStringAsColumnVector(this.tpl);
+		} else if (linkedGeo.isPointInRegion() || linkedGeo.isPointOnPath()) {
+			linkedGeoText = linkedGeo.toValueString(StringTemplate.editorTemplate);
 		} else {
 			linkedGeoText = linkedGeo.getRedefineString(true, true, tpl);
 		}
@@ -162,10 +164,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 */
 	public String getText() {
 		return inputBoxRenderer.getText();
-	}
-
-	private String getColumnMatrix(GeoVectorND vector) {
-		return vector.toValueStringAsColumnVector(tpl);
 	}
 
 	@Override

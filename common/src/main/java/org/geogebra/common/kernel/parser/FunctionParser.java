@@ -156,7 +156,7 @@ public class FunctionParser {
 				}
 			}
 
-			if (!inputBoxParsing || isCommand(funcName)) {
+			if (!inputBoxParsing) {
 				// function name does not exist: return command
 				Command cmd = new Command(kernel, funcName, true, !giacParsing);
 				for (int i = 0; i < myList.size(); i++) {
