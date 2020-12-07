@@ -2,6 +2,8 @@ package org.geogebra.web.full.gui.app;
 
 import java.util.ArrayList;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -77,8 +79,8 @@ public class GGWToolBar extends Composite
 	private boolean menuBarShowing = false;
 
 	private FlowPanel rightButtonPanel;
-	private StandardButton openSearchButton;
-	private StandardButton openMenuButton;
+	private @CheckForNull StandardButton openSearchButton;
+	private @CheckForNull StandardButton openMenuButton;
 	/** undo button */
 	StandardButton undoButton;
 	private StandardButton redoButton;
@@ -396,7 +398,7 @@ public class GGWToolBar extends Composite
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		this.menuBarShowing = true;
 
-		openMenuButton = new StandardButton(pr.menu_header_open_menu(), null,
+		StandardButton openMenuButton = new StandardButton(pr.menu_header_open_menu(), null,
 				32, app);
 
 		openMenuButton.getUpHoveringFace()
@@ -426,11 +428,12 @@ public class GGWToolBar extends Composite
 			}
 		}, KeyUpEvent.getType());
 
+		this.openMenuButton = openMenuButton;
 	}
 
 	private void initOpenSearchButton() {
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
-		openSearchButton = new StandardButton(pr.menu_header_open_search(),
+		StandardButton openSearchButton = new StandardButton(pr.menu_header_open_search(),
 				null, 32, 32, app);
 		openSearchButton.getUpFace()
 				.setImage(getImage(pr.menu_header_open_search(), 32));
@@ -458,9 +461,8 @@ public class GGWToolBar extends Composite
 				}
 			}
 		}, KeyUpEvent.getType());
-
+		this.openSearchButton = openSearchButton;
 		this.rightButtonPanel.add(openSearchButton);
-
 	}
 
 	/**
@@ -952,7 +954,7 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
 			return resourceBundle.mode_surface_of_revolution();
 
-		/** WHITEBOARD TOOLS */
+		/* WHITEBOARD TOOLS */
 		case EuclidianConstants.MODE_SHAPE_LINE:
 			return resourceBundle.mode_shape_line_32();
 
@@ -1080,16 +1082,9 @@ public class GGWToolBar extends Composite
 	public void selectMenuButton(int index) {
 		deselectButtons();
 
-		// MyToggleButton2 focused = index == 0 ? this.openSearchButton
-		// : this.openMenuButton;
-		// if(focused != null){
-		// focused.setFocus(true);
-		// focused.getElement().addClassName("selectedButton");
-		// }
-
-		if (index == 0) {
+		if (index == 0 && this.openSearchButton != null) {
 			this.openSearchButton.getElement().addClassName("selectedButton");
-		} else {
+		} else if (this.openMenuButton != null) {
 			this.openMenuButton.getElement().addClassName("selectedButton");
 		}
 
@@ -1099,8 +1094,10 @@ public class GGWToolBar extends Composite
 	 * Deselect both menu and open
 	 */
 	public void deselectButtons() {
-		this.openSearchButton.getElement().removeClassName("selectedButton");
-		this.openMenuButton.getElement().removeClassName("selectedButton");
+		if (this.openMenuButton != null && openSearchButton != null) {
+			this.openSearchButton.getElement().removeClassName("selectedButton");
+			this.openMenuButton.getElement().removeClassName("selectedButton");
+		}
 	}
 
 	/**
@@ -1215,8 +1212,8 @@ public class GGWToolBar extends Composite
 	/**
 	 * @return the Element object of the open menu button
 	 */
-	public Element getOpenMenuButtonElement() {
-		return openMenuButton.getElement();
+	public @CheckForNull Element getOpenMenuButtonElement() {
+		return openMenuButton == null ? null : openMenuButton.getElement();
 	}
 
 	/**
