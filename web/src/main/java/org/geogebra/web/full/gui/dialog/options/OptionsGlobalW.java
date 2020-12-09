@@ -250,8 +250,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 
 		private void addRestoreSettingsBtn() {
 			restoreSettingsBtn = new StandardButton(
-					app.getLocalization().getMenu("RestoreSettings"),
-					app);
+					app.getLocalization().getMenu("RestoreSettings"));
 			restoreSettingsBtn.setStyleName("MyCanvasButton");
 			restoreSettingsBtn.addStyleName("settingsBtn");
 			restoreSettingsBtn.addFastClickHandler(new FastClickHandler() {
@@ -272,7 +271,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 
 		private void addSaveSettingBtn() {
 			saveSettingsBtn = new StandardButton(
-					app.getLocalization().getMenu("Settings.Save"), app);
+					app.getLocalization().getMenu("Settings.Save"));
 			saveSettingsBtn.setStyleName("MyCanvasButton");
 			saveSettingsBtn.addStyleName("settingsBtn");
 			saveSettingsBtn.addFastClickHandler(new FastClickHandler() {

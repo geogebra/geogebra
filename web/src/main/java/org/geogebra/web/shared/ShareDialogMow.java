@@ -247,8 +247,7 @@ public class ShareDialogMow extends ComponentDialog
 		linkPanel.setStyleName("linkPanel");
 		linkBox = new ComponentLinkBox(true, shareURL, "linkBox");
 		// build and add copy button
-		copyBtn = new StandardButton(localization.getMenu("Copy"),
-				app);
+		copyBtn = new StandardButton(localization.getMenu("Copy"));
 		copyBtn.setStyleName("copyButton");
 		copyBtn.addFastClickHandler(this);
 		linkPanel.add(linkBox);

@@ -47,7 +47,7 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 	private void buildAndAddCalcButton(String subAppCode, FlowPanel contentPanel) {
 		AppDescription description = AppDescription.get(subAppCode) ;
 		String appNameKey = description.getNameKey();
-		StandardButton button =  new StandardButton(app, 72, description.getIcon(),
+		StandardButton button =  new StandardButton(72, description.getIcon(),
 				 app.getLocalization().getMenu(appNameKey));
 		button.setStyleName("calcBtn");
 		if (subAppCode.equals(app.getConfig().getSubAppCode())) {

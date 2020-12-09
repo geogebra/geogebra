@@ -90,7 +90,7 @@ public class HeaderMow extends FlowPanel
 	}
 
 	private StandardButton createButton(SVGResource resource, String tooltip) {
-		StandardButton button = new StandardButton(resource, null, 24, appW);
+		StandardButton button = new StandardButton(resource, null, 24);
 		button.setTitle(appW.getLocalization().getMenu(tooltip));
 		button.addFastClickHandler(this);
 		return button;

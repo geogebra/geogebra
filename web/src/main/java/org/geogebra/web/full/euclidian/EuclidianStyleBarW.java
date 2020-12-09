@@ -587,7 +587,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 
 		StandardButton btnDelete = new StandardButton(
-				MaterialDesignResources.INSTANCE.delete_black(), null, 24, app);
+				MaterialDesignResources.INSTANCE.delete_black(), null, 24);
 		btnDelete.setStyleName("MyCanvasButton");
 		FastClickHandler btnDelHandler = source -> {
 			app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
