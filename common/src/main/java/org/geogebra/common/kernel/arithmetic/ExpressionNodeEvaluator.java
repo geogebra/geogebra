@@ -24,6 +24,8 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * @author ggb3D
  * 
@@ -37,6 +39,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	/**
 	 * Kernel used to create the results
 	 */
+	@Weak
 	protected Kernel kernel;
 
 	/**

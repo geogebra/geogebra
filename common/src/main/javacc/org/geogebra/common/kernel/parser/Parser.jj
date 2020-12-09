@@ -73,10 +73,14 @@ import org.geogebra.common.plugin.Operation;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import com.google.j2objc.annotations.Weak;
+
 @SuppressWarnings("javadoc")
 public class Parser implements ParserInterface {
 
+    @Weak
     private Kernel kernel;
+    @Weak
     private App app;
     private Localization loc;
 

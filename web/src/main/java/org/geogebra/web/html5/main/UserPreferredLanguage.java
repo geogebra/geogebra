@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.main;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
@@ -62,7 +63,7 @@ public class UserPreferredLanguage {
 	 * @param app  {@link AppW}
 	 * @param elem HTML element to translate.
 	 */
-	public static void translate(AppW app, Element elem) {
+	public static void translate(App app, Element elem) {
 		for (int i = 0; i < elem.getChildCount(); i++) {
 			Node child = elem.getChild(i);
 			if (child.getNodeType() == Node.ELEMENT_NODE) {

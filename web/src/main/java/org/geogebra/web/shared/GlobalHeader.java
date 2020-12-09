@@ -70,6 +70,25 @@ public class GlobalHeader implements EventRenderable {
 		app.getLoginOperation().getView().add(this);
 	}
 
+	/**
+	 * Add app picker button in external header for suite
+	 *
+	 * @param appW
+	 *            application
+	 * @return app picker button
+	 */
+	public SuiteHeaderAppPicker addSuiteAppPicker(final AppW appW) {
+		this.app = appW;
+		RootPanel appPickerPanel = RootPanel.get("suiteAppPicker");
+		if (appPickerPanel != null) {
+			SuiteHeaderAppPicker suiteHeaderAppPicker = new SuiteHeaderAppPicker(app);
+			appPickerPanel.add(suiteHeaderAppPicker);
+			suiteHeaderAppPicker.checkButtonVisibility();
+			return suiteHeaderAppPicker;
+		}
+		return null;
+	}
+
 	@Override
 	public void renderEvent(BaseEvent event) {
 		if (event instanceof LoginEvent

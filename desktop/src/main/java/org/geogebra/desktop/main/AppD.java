@@ -2211,22 +2211,14 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	public void copyTextToSystemClipboard(String text) {
-		Toolkit.getDefaultToolkit().getSystemClipboard()
-				.setContents(new StringSelection(text), null);
-	}
-
-	@Override
 	public void copyBase64ToClipboard() {
-
 		// don't include preview bitmap
-		copyTextToSystemClipboard(getGgbApi().getBase64(false));
+		copyPaste.copyTextToSystemClipboard(getGgbApi().getBase64(false));
 	}
 
 	@Override
 	public void copyFullHTML5ExportToClipboard() {
-
-		copyTextToSystemClipboard(HTML5Export.getFullString(this));
+		copyPaste.copyTextToSystemClipboard(HTML5Export.getFullString(this));
 	}
 
 	public void copyGraphicsViewToClipboard(final EuclidianView copyView) {
@@ -5268,7 +5260,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public void handleImageExport(String base64image) {
 		if (base64image.startsWith("<svg") || base64image.startsWith("<?xml")
 				|| base64image.startsWith("%PDF")) {
-			copyTextToSystemClipboard(base64image);
+			copyPaste.copyTextToSystemClipboard(base64image);
 			return;
 		}
 

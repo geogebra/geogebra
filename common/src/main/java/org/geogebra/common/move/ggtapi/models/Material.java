@@ -117,6 +117,8 @@ public class Material implements Comparable<Material>, Serializable {
 	private boolean deleted;
 	private boolean fromAnotherDevice;
 	private boolean favorite;
+	private boolean undoRedo;
+	private boolean showZoomButtons;
 
 	private boolean is3d;
 	private boolean spreadsheet;
@@ -854,5 +856,21 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public boolean getAllowStylebar() {
 		return allowStylebar;
+	}
+
+	public boolean getUndoRedo() {
+		return undoRedo;
+	}
+
+	public void setUndoRedo(boolean undoRedo) {
+		this.undoRedo = undoRedo;
+	}
+
+	public boolean getShowZoomButtons() {
+		return showZoomButtons;
+	}
+
+	public void setShowZoomButtons(boolean showZoomButtons) {
+		this.showZoomButtons = showZoomButtons;
 	}
 }

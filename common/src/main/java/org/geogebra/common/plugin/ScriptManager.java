@@ -12,8 +12,11 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 public abstract class ScriptManager implements EventListener {
 
+	@Weak
 	protected App app;
 	protected boolean listenersEnabled = true;
 	protected boolean jsEnabled = true;

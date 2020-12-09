@@ -39,12 +39,15 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Special point manager.
  *
  */
 public class SpecialPointsManager implements UpdateSelection, EventListener, CoordSystemListener {
 
+	@Weak
 	private Kernel kernel;
 	private List<GeoElement> specPoints;
 	private List<SpecialPointsListener> specialPointsListeners = new ArrayList<>();

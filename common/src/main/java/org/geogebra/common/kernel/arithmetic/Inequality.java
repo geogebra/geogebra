@@ -27,6 +27,8 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * stores left and right hand side of an inequality as Expressions
  */
@@ -64,6 +66,7 @@ public class Inequality {
 	private GeoLine lineBorder;
 	private GeoFunction funBorder;
 	private GeoElement border;
+	@Weak
 	private Kernel kernel;
 	private boolean isAboveBorder;
 	private ExpressionNode normal;

@@ -24,13 +24,17 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Processor for symbolic elements
  *
  * @author Zbynek
  */
 public class SymbolicProcessor {
+	@Weak
 	private Kernel kernel;
+	@Weak
 	private Construction cons;
 
 	/**

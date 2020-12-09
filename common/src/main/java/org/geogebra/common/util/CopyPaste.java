@@ -56,6 +56,8 @@ public abstract class CopyPaste {
 
 	public abstract void clearClipboard();
 
+	public abstract void copyTextToSystemClipboard(String text);
+
 	/**
 	 * @param app
 	 *            application

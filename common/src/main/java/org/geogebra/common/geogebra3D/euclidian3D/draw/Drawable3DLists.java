@@ -158,6 +158,9 @@ public class Drawable3DLists {
 	 */
 	public void clear() {
 		for (int i = 0; i < Drawable3D.DRAW_TYPE_MAX; i++) {
+			for (Drawable3D d3d : lists[i]) {
+				d3d.removeFromGL();
+			}
 			lists[i].clear();
 		}
 	}

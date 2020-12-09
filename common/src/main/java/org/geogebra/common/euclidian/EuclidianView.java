@@ -93,6 +93,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.crashlytics.CrashlyticsLogger;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -313,6 +314,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private boolean needsAllDrawablesUpdate;
 	protected boolean batchUpdate;
 	/** kernel */
+	@Weak
 	protected Kernel kernel;
 
 	private final static int[] lineTypes = {
@@ -434,6 +436,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/** true if painting this for the first time */
 	protected boolean firstPaint = true;
 	/** application */
+	@Weak
 	protected App app;
 
 	private EuclidianSettings settings;

@@ -7,6 +7,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 
+import com.google.j2objc.annotations.Weak;
+
 @SuppressWarnings("deprecation")
 @Deprecated
 /*
@@ -16,6 +18,7 @@ import org.geogebra.common.plugin.GeoClass;
 public abstract class OptionsModel {
 	private Object[] geos; // currently selected geos
 
+	@Weak
 	protected final App app;
 
 	public OptionsModel(App app) {

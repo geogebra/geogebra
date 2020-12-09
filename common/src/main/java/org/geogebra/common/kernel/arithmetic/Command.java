@@ -41,6 +41,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.input.Character;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -55,7 +56,9 @@ public class Command extends ValidExpression
 	private ArrayList<ExpressionNode> args = new ArrayList<>();
 	private String name; // internal command name (in English)
 
+	@Weak
 	private Kernel kernel;
+	@Weak
 	private App app;
 	private GeoElementND[] evalGeos; // evaluated Elements
 	private Macro macro; // command may correspond to a macro
