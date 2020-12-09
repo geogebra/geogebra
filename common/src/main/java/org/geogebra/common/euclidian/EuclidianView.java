@@ -101,6 +101,53 @@ import com.himamis.retex.editor.share.util.Unicode;
 public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		SetLabels {
 
+	protected class Rectangle {
+
+		private double minX;
+		private double maxX;
+		private double minY;
+		private double maxY;
+
+		private Rectangle(double minX, double maxX, double minY, double maxY) {
+			this.minX = minX;
+			this.maxX = maxX;
+			this.minY = minY;
+			this.maxY = maxY;
+		}
+
+		public double getMinX() {
+			return minX;
+		}
+
+		public void setMinX(double xMin) {
+			this.minX = xMin;
+		}
+
+		public double getMaxX() {
+			return maxX;
+		}
+
+		public void setMaxX(double xMax) {
+			this.maxX = xMax;
+		}
+
+		public double getMinY() {
+			return minY;
+		}
+
+		public void setMinY(double yMin) {
+			this.minY = yMin;
+		}
+
+		public double getMaxY() {
+			return maxY;
+		}
+
+		public void setMaxY(double yMax) {
+			this.maxY = yMax;
+		}
+	}
+
 	private boolean isCrashlyticsLoggingEnabled;
 
 	/** says if the view has the mouse */
@@ -4776,16 +4823,37 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		setViewShowAllObjects(storeUndo, keepRatio, 10);
 	}
 
+	public void setViewShowAllObjects(boolean storeUndo, boolean keepRatio, int steps) {
+		Rectangle allObjectsRect = calculateRectangleOfAllObjects(keepRatio);
+		if (allObjectsRect == null) {
+			return;
+		}
+		setViewShowAllObjects(allObjectsRect, storeUndo, steps);
+	}
+
+	protected void setViewShowAllObjects(Rectangle allObjectsRect, boolean storeUndo, int steps) {
+		// check if animation is needed
+		if (steps == 0) {
+			setRealWorldCoordSystem(
+					allObjectsRect.getMinX(), allObjectsRect.getMaxX(),
+					allObjectsRect.getMinY(), allObjectsRect.getMaxY());
+			if (storeUndo) {
+				getApplication().storeUndoInfo();
+			}
+		} else {
+			setAnimatedRealWorldCoordSystem(
+					allObjectsRect.getMinX(), allObjectsRect.getMaxX(),
+					allObjectsRect.getMinY(), allObjectsRect.getMaxY(),
+					steps,
+					storeUndo);
+		}
+	}
+
 	/**
-	 * @param storeUndo
-	 *            whether to store undo afterwards
 	 * @param keepRatio
 	 *            whether to keep axes ratio
-	 * @param steps
-	 *            animation steps
 	 */
-	public void setViewShowAllObjects(boolean storeUndo, boolean keepRatio,
-			int steps) {
+	protected Rectangle calculateRectangleOfAllObjects(boolean keepRatio) {
 
 		// check for functions
 		TreeSet<GeoElement> allFunctions = kernel.getConstruction()
@@ -4802,7 +4870,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		boolean hasObjects = hasVisibleObjects(rect);
 
 		if (!hasObjects && !hasCurves && !hasFunctions) {
-			return;
+			return null;
 		}
 
 		/** curves */
@@ -4970,16 +5038,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 
-		// check if animation is needed
-		if (steps == 0) {
-			setRealWorldCoordSystem(x0RW, x1RW, y0RW, y1RW);
-			if (storeUndo) {
-				getApplication().storeUndoInfo();
-			}
-		} else {
-			setAnimatedRealWorldCoordSystem(x0RW, x1RW, y0RW, y1RW, steps,
-					storeUndo);
-		}
+		return new Rectangle(x0RW, x1RW, y0RW, y1RW);
 	}
 
 	private static boolean hasVisibleObjects(GRectangle rect) {
