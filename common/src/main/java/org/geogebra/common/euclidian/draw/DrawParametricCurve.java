@@ -124,16 +124,24 @@ public class DrawParametricCurve extends Drawable {
 			return;
 		}
 
-		if (intervalPlotter.isEnabled()) {
+		labelVisible = getTopLevelGeo().isLabelVisible();
+		if (IntervalFunction.isSupported(geo) && intervalPlotter.isEnabled()) {
 			updateStrokes(geo);
 			updateIntervalPlot();
+			Log.debug("[Plotter] Interval");
 		} else {
 			updateParametric();
+			Log.debug("[Plotter] Segment");
 		}
 	}
 
 	private void updateIntervalPlot() {
+		gp.reset();
 		intervalPlotter.update();
+		GPoint labelPoint = intervalPlotter.getLabelPoint();
+		if (labelPoint != null) {
+			updateLabel(labelPoint);
+		}
 	}
 
 	private void updateParametric() {
@@ -143,7 +151,6 @@ public class DrawParametricCurve extends Drawable {
 			((GeoFunction) curve).getFunctionExpression()
 					.inspect(checkPointwise());
 		}
-		labelVisible = getTopLevelGeo().isLabelVisible();
 		updateStrokes(geo);
 		if (dataExpression != null) {
 			updatePointwise();
@@ -208,40 +215,7 @@ public class DrawParametricCurve extends Drawable {
 		}
 
 		if (labelPoint != null) {
-			xLabel = labelPoint.x;
-			yLabel = labelPoint.y;
-			switch (geo.getLabelMode()) {
-			case GeoElementND.LABEL_NAME_VALUE:
-				StringTemplate tpl = StringTemplate.latexTemplate;
-				labelSB.setLength(0);
-				labelSB.append('$');
-				String label = getTopLevelGeo().getLabel(tpl);
-				if (LabelManager.isShowableLabel(label)) {
-					labelSB.append(label);
-					labelSB.append('(');
-					labelSB.append(((VarString) geo).getVarString(tpl));
-					labelSB.append(")\\;=\\;");
-				}
-				labelSB.append(geo.getLaTeXdescription());
-				labelSB.append('$');
-
-				labelDesc = labelSB.toString();
-				break;
-
-			case GeoElementND.LABEL_VALUE:
-				labelSB.setLength(0);
-				labelSB.append('$');
-				labelSB.append(geo.getLaTeXdescription());
-				labelSB.append('$');
-
-				labelDesc = labelSB.toString();
-				break;
-
-			case GeoElementND.LABEL_CAPTION:
-			default: // case LABEL_NAME:
-				labelDesc = getTopLevelGeo().getLabelDescription();
-			}
-			addLabelOffsetEnsureOnScreen(view.getFontConic());
+			updateLabel(labelPoint);
 		}
 		// shape for filling
 
@@ -262,6 +236,43 @@ public class DrawParametricCurve extends Drawable {
 				// view.updateBackground();
 			}
 		}
+	}
+
+	private void updateLabel(GPoint labelPoint) {
+		xLabel = labelPoint.x;
+		yLabel = labelPoint.y;
+		switch (geo.getLabelMode()) {
+		case GeoElementND.LABEL_NAME_VALUE:
+			StringTemplate tpl = StringTemplate.latexTemplate;
+			labelSB.setLength(0);
+			labelSB.append('$');
+			String label = getTopLevelGeo().getLabel(tpl);
+			if (LabelManager.isShowableLabel(label)) {
+				labelSB.append(label);
+				labelSB.append('(');
+				labelSB.append(((VarString) geo).getVarString(tpl));
+				labelSB.append(")\\;=\\;");
+			}
+			labelSB.append(geo.getLaTeXdescription());
+			labelSB.append('$');
+
+			labelDesc = labelSB.toString();
+			break;
+
+		case GeoElementND.LABEL_VALUE:
+			labelSB.setLength(0);
+			labelSB.append('$');
+			labelSB.append(geo.getLaTeXdescription());
+			labelSB.append('$');
+
+			labelDesc = labelSB.toString();
+			break;
+
+		case GeoElementND.LABEL_CAPTION:
+		default: // case LABEL_NAME:
+			labelDesc = getTopLevelGeo().getLabelDescription();
+		}
+		addLabelOffsetEnsureOnScreen(view.getFontConic());
 	}
 
 	private void createGeneralPath() {
@@ -393,6 +404,11 @@ public class DrawParametricCurve extends Drawable {
 		} else {
 			drawParametric(g2);
 		}
+		if (labelVisible && isVisible) {
+			g2.setFont(view.getFontConic());
+			g2.setPaint(geo.getLabelColor());
+			drawLabel(g2);
+		}
 	}
 
 	private void drawIntervalPlot(GGraphics2D g2) {
@@ -442,12 +458,6 @@ public class DrawParametricCurve extends Drawable {
 				} catch (Exception e) {
 					Log.error(e.getMessage());
 				}
-			}
-
-			if (labelVisible) {
-				g2.setFont(view.getFontConic());
-				g2.setPaint(geo.getLabelColor());
-				drawLabel(g2);
 			}
 		}
 	}
@@ -616,5 +626,4 @@ public class DrawParametricCurve extends Drawable {
 		// generic curve (parametric) or function R->R, but not inequality
 		return !curve.isFunctionInX() || geo.isGeoFunction();
 	}
-
 }

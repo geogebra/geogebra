@@ -137,6 +137,7 @@ public class NoExceptionsTest {
 	}
 
 	private static void testSyntax(String s, App app, AlgebraProcessor ap) {
+		app.getEuclidianView1().getEuclidianController().clearZoomerAnimationListeners();
 		if (syntaxes == -1000) {
 			Throwable t = new Throwable();
 			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);

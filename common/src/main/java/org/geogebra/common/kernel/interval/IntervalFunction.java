@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
@@ -118,10 +119,15 @@ import org.geogebra.common.util.debug.Log;
 
 	/**
 	 *
-	 * @param function to check.
-	 * @return true if the funcion is supported by our interval arithmetic implementation.
+	 * @param geo to check.
+	 * @return true if the geo is a function
+	 * and supported by our interval arithmetic implementation.
 	 */
-	public static boolean isSupported(GeoFunction function) {
+	public static boolean isSupported(GeoElement geo) {
+		if (!(geo instanceof GeoFunction)) {
+			return false;
+		}
+		GeoFunction function = (GeoFunction) geo;
 		boolean operationSupported = isOperationSupported(function);
 		boolean moreVariables = hasMoreVariables(function);
 		return operationSupported && !moreVariables;
