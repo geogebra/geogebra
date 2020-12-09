@@ -60,6 +60,7 @@ public class ResourceAvailability {
 			case EuclidianConstants.MODE_AUDIO:
 			case EuclidianConstants.MODE_GRAPHING:
 			case EuclidianConstants.MODE_EXTENSION:
+			case EuclidianConstants.MODE_H5P:
 			case EuclidianConstants.MODE_TABLE:
 			case EuclidianConstants.MODE_EQUATION:
 			case EuclidianConstants.MODE_CAMERA:
@@ -69,7 +70,6 @@ public class ResourceAvailability {
 			case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
 			case EuclidianConstants.MODE_FREEHAND_FUNCTION:
 			case EuclidianConstants.MODE_MASK:
-			case EuclidianConstants.MODE_H5P:
 				continue;
 			default:
 				ImageResourceD res = man.getToolImageResource(modeText);

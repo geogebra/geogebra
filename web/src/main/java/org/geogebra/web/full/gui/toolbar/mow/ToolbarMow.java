@@ -98,6 +98,14 @@ public class ToolbarMow extends FlowPanel
 	}
 
 	/**
+	 * rebuild media tools panel
+	 */
+	public void updateMediaPanel() {
+		mediaPanel.clear();
+		mediaPanel.createContentPanel();
+	}
+
+	/**
 	 * @param tab
 	 *            id of tab
 	 */

@@ -355,6 +355,10 @@ public class ToolBar {
 		}
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_EXTENSION);
+		if (includeH5P) {
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_H5P);
+		}
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_IMAGE);
 		sb.append(" ");
@@ -365,10 +369,6 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_AUDIO);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PDF);
-		if (includeH5P) {
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_H5P);
-		}
 		sb.append(" | ");
 		return sb.toString();
 	}

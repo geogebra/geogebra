@@ -134,8 +134,9 @@ public interface EmbedManager {
 
 	/**
 	 * opens the H5P tool
+	 * @param url of the unzipped h5p file
 	 */
-	void openH5PTool();
+	void openH5PTool(String url);
 
 	void initAppEmbed(GeoEmbed ge);
 

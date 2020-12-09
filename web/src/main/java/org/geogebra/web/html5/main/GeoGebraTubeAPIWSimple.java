@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.main;
 
+import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.MarvlService;
@@ -69,5 +70,10 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 
 		materialRestAPI.setClient(client);
 		return materialRestAPI;
+	}
+
+	@Override
+	public void uploadAndUnzipH5P(String base64, AjaxCallback callback) {
+		materialRestAPI.uploadAndUnzipH5P(base64, callback);
 	}
 }
