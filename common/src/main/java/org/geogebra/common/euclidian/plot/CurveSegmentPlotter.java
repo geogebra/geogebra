@@ -36,6 +36,7 @@ public class CurveSegmentPlotter {
 	private final double maxParamStep;
 	private final EuclidianView view;
 	private final PathPlotter gp;
+	private final LabelPositionCalculator labelPositionCalculator;
 	private boolean needLabelPos;
 	private final Gap moveToAllowed;
 	private GPoint labelPoint = null;
@@ -91,6 +92,7 @@ public class CurveSegmentPlotter {
 		move = curve.newDoubleArray();
 		nextLineToNeedsMoveToFirst = false;
 		eval = curve.newDoubleArray();
+		labelPositionCalculator = new LabelPositionCalculator(view);
 		if (start()) {
 			plot();
 		}
@@ -194,7 +196,7 @@ public class CurveSegmentPlotter {
 			params.left = params.t;
 
 			// remember first point on screen for label position
-			if (onScreen) {
+			if (onScreen && needLabelPos) {
 				calculateLabelPosition();
 			}
 
@@ -252,25 +254,7 @@ public class CurveSegmentPlotter {
 	}
 
 	protected void calculateLabelPosition() {
-		if (!needLabelPos) {
-			return;
-		}
-
-		double xLabel = view.toScreenCoordXd(evalRight[0]) + 10;
-		if (xLabel < 20) {
-			xLabel = 5;
-		}
-		if (xLabel > view.getWidth() - 30) {
-			xLabel = view.getWidth() - 15;
-		}
-		double yLabel = view.toScreenCoordYd(evalRight[1]) + 15;
-		if (yLabel < 40) {
-			yLabel = 15;
-		} else if (yLabel > view.getHeight() - 30) {
-			yLabel = view.getHeight() - 5;
-		}
-
-		labelPoint = new GPoint((int) xLabel, (int) yLabel);
+		labelPoint = labelPositionCalculator.calculate(evalRight[0], evalRight[1]);
 		needLabelPos = false;
 	}
 
@@ -333,7 +317,7 @@ public class CurveSegmentPlotter {
 			return labelPoint;
 		}
 
-		GPoint labelPointMin, labelPointMax;
+		GPoint  labelPointMin, labelPointMax;
 
 		// plot interval for t in [tMin, tMax]
 		// If we run into a problem, i.e. an undefined point f(t), we bisect

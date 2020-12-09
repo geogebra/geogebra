@@ -1,13 +1,12 @@
 package org.geogebra.common.euclidian.plot.interval;
 
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalFunctionSampler;
 import org.geogebra.common.kernel.interval.IntervalTuple;
-import org.geogebra.common.kernel.interval.IntervalTupleList;
 
 /**
  * Function plotter based on interval arithmetic
@@ -16,19 +15,16 @@ import org.geogebra.common.kernel.interval.IntervalTupleList;
  */
 public class IntervalPlotter {
 	private final EuclidianView view;
-	private IntervalFunctionSampler evaluator;
-	private IntervalTupleList points;
-	private IntervalTuple range;
-	private final GeneralPathClipped gp;
+	private final IntervalPathPlotter gp;
 	private boolean enabled;
-	private boolean moveTo;
+	private IntervalPlotModel model = null;
 
 	/**
 	 * Creates a disabled plotter
 	 */
 	public IntervalPlotter(EuclidianView view, GeneralPathClipped gp) {
 		this.view = view;
-		this.gp = gp;
+		this.gp = new IntervalPathPlotterImpl(gp);
 		this.enabled = false;
 	}
 
@@ -36,87 +32,32 @@ public class IntervalPlotter {
 	 * Enables plotter
 	 */
 	public void enableFor(GeoFunction function) {
-		range = new IntervalTuple();
-		updateRanges();
-		int numberOfSamples = view.getWidth();
-		evaluator = new IntervalFunctionSampler(function, range, numberOfSamples);
-		updateEvaluator();
-		update();
 		enabled = true;
+		createModel(function);
+		createController();
+		model.updateAll();
+	}
+
+	private void createController() {
+		IntervalPlotController controller = new IntervalPlotController(model);
+		controller.attachEuclidianController(view.getEuclidianController());
+	}
+
+	private void createModel(GeoFunction function) {
+		IntervalTuple range = new IntervalTuple();
+		int numberOfSamples = view.getWidth();
+		IntervalFunctionSampler sampler =
+				new IntervalFunctionSampler(function, range, numberOfSamples);
+		model = new IntervalPlotModel(range, sampler, view);
+		IntervalPath path = new IntervalPath(gp, view, model);
+		model.setPath(path);
 	}
 
 	/**
 	 * Update path to draw.
 	 */
 	public void update() {
-		updatePath();
-	}
-
-	private void updateRanges() {
-		range.x().set(view.getXmin(), view.getXmax());
-		range.y().set(view.getYmin(), view.getYmax());
-	}
-
-	private void updatePath() {
-		if (points.isEmpty()) {
-			return;
-		}
-
-		gp.reset();
-
-		Interval lastY = new Interval();
-		for (IntervalTuple point: points) {
-			if (point != null) {
-				plotInterval(lastY, point);
-			}
-
-			moveTo = point == null;
-		}
-	}
-
-	private void plotInterval(Interval lastY, IntervalTuple point) {
-		Interval x = view.toScreenIntervalX(point.x());
-		Interval y = view.toScreenIntervalY(point.y());
-		if (y.isGreaterThan(lastY)) {
-			plotHigh(x, y);
-		} else {
-			plotLow(x, y);
-		}
-
-		lastY.set(y);
-	}
-
-	private void plotHigh(Interval x, Interval y) {
-		if (moveTo) {
-			gp.moveTo(x.getLow(), y.getLow());
-		} else {
-			lineTo(x.getLow(), y.getLow());
-		}
-
-		lineTo(x.getHigh(), y.getHigh());
-	}
-
-	private void plotLow(Interval x, Interval y) {
-		if (moveTo) {
-			gp.moveTo(x.getLow(), y.getHigh());
-		} else {
-			lineTo(x.getLow(), y.getHigh());
-		}
-		lineTo(x.getHigh(), y.getLow());
-	}
-
-	private void lineTo(double low, double high) {
-		gp.lineTo(low, high);
-	}
-
-	/**
-	 * Updates and recomputes all.
-	 */
-	public void updateEvaluator() {
-		updateRanges();
-		evaluator.update(range);
-		points = evaluator.result();
-		updatePath();
+		model.update();
 	}
 
 	/**
@@ -125,7 +66,7 @@ public class IntervalPlotter {
 	 * @param g2 {@link GGraphics2D}
 	 */
 	public void draw(GGraphics2D g2) {
-		g2.draw(gp);
+		gp.draw(g2);
 	}
 
 	/**
@@ -141,5 +82,15 @@ public class IntervalPlotter {
 	 */
 	public void disable() {
 		enabled = false;
+		if (model != null) {
+			model.clear();
+		}
+	}
+
+	/**
+	 * @return point of label
+	 */
+	public GPoint getLabelPoint() {
+		return model.getLabelPoint();
 	}
 }

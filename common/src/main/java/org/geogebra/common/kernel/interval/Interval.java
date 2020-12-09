@@ -122,13 +122,11 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 			return true;
 		}
 
-		if (o == null || getClass() != o.getClass()) {
-			return false;
+		if (o instanceof Interval) {
+			return almostEqual((Interval) o);
 		}
+		return false;
 
-		Interval interval = (Interval) o;
-		return Double.compare(interval.low, low) == 0
-				&& Double.compare(interval.high, high) == 0;
 	}
 
 	@Override
@@ -590,4 +588,54 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 		return evaluate.evaluate(operation);
 	}
 
+	/**
+	 * Shift the interval (both low and high) by a given value.
+	 * @param deltaX to shift by.
+	 * @return the result inteval;
+	 */
+	public Interval shiftBy(double deltaX) {
+		set(low + deltaX, high + deltaX);
+		return this;
+	}
+
+	/**
+	 *
+	 * @return shorten string form to compare and debug
+	 */
+	public String toShortString() {
+		String result = "[";
+		if (!isEmpty()) {
+			result += low;
+			if (!isSingleton()) {
+				result += ", " + high;
+			}
+		}
+
+		result += "]";
+		return result;
+	}
+
+	/**
+	 *
+	 * @return the length of the interval
+	 */
+	public double getLength() {
+		return high - low;
+	}
+
+	/**
+	 *
+	 * @param low to set.
+	 */
+	public void setLow(double low) {
+		this.low = low;
+	}
+
+	/**
+	 *
+	 * @param high to set.
+	 */
+	public void setHigh(double high) {
+		this.high = high;
+	}
 }

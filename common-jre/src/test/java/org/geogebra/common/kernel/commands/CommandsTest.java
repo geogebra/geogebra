@@ -68,6 +68,7 @@ public class CommandsTest {
 	protected static void testSyntax(String s, List<Matcher<String>> expected,
 			App app1,
 			AlgebraProcessor proc, StringTemplate tpl) {
+		app1.getEuclidianView1().getEuclidianController().clearZoomerAnimationListeners();
 		if (syntaxes == -1000) {
 			Throwable t = new Throwable();
 			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);
