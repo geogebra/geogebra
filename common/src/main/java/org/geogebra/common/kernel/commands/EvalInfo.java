@@ -20,6 +20,7 @@ public class EvalInfo {
 	private boolean useCAS = true;
 	private boolean autocreateSliders = true;
 	private boolean autoAddDegree = false;
+	private boolean forceDegreeOutput = false;
 	private boolean fractions = false;
 	private boolean forceUserEquation;
 	private boolean updateRandom = true;
@@ -134,6 +135,16 @@ public class EvalInfo {
 	}
 
 	/**
+	 *
+	 * @return copy of this with forced degree output
+	 */
+	public EvalInfo withForceDegreeOutput() {
+		EvalInfo ret = copy();
+		ret.forceDegreeOutput = true;
+		return ret;
+	}
+
+	/**
 	 * @return whether scripting commands may be executed
 	 */
 	public boolean isScripting() {
@@ -148,6 +159,7 @@ public class EvalInfo {
 		ret.useCAS = this.useCAS;
 		ret.autocreateSliders = this.autocreateSliders;
 		ret.autoAddDegree = this.autoAddDegree;
+		ret.forceDegreeOutput = this.forceDegreeOutput;
 		ret.fractions = this.fractions;
 		ret.forceUserEquation = this.forceUserEquation;
 		ret.updateRandom = this.updateRandom;
@@ -276,6 +288,13 @@ public class EvalInfo {
 	 */
 	public boolean autoAddDegree() {
 		return autoAddDegree;
+	}
+
+	/**
+	 * @return whether to keep output in degrees
+	 */
+	public boolean isForceDegreeOutput() {
+		return forceDegreeOutput;
 	}
 
 	/**

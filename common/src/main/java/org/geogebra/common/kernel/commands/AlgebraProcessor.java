@@ -3218,6 +3218,10 @@ public class AlgebraProcessor {
 				return processFunction(new Function(kernel, n), info);
 			}
 
+			if (myNode.getOperation().equals(Operation.ARCSIND)) {
+				info = info.withForceDegreeOutput();
+			}
+
 			return processNumber(n, eval, info);
 		} else if (eval instanceof VectorValue) {
 			return processPointVector(n, eval);
@@ -3311,8 +3315,7 @@ public class AlgebraProcessor {
 
 		if (isIndependent) {
 			if (isAngle) {
-				boolean isDegrees = val.getAngleDim() == 1;
-				ret = new GeoAngle(cons, value, AngleStyle.UNBOUNDED, isDegrees);
+				ret = new GeoAngle(cons, value, AngleStyle.UNBOUNDED, info.isForceDegreeOutput());
 			} else {
 				ret = new GeoNumeric(cons, value);
 			}
