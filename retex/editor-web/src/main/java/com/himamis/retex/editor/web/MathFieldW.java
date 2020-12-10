@@ -895,6 +895,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		return inputTextArea.getElement();
 	}
 
+	public void clearState() {
+		Js.asPropertyMap(inputTextArea.getElement()).set("value", "");
+	}
+
 	@Override
 	public void onBlur(BlurEvent event) {
 		removeCursor();

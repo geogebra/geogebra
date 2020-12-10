@@ -94,6 +94,7 @@ final class EditorCompositionHandler
 	@Override
 	public void onKeyUp(KeyUpEvent event) {
 		if (isBackspace(event)) {
+			editor.clearState();
 			backspace = false;
 		}
 	}
