@@ -155,16 +155,6 @@ public class GeoGebraSerializer implements Serializer {
 		stringBuilder.append(mathFunction.getClosingBracket());
 	}
 
-	private void serializeArgs(MathFunction mathFunction,
-			StringBuilder stringBuilder, int[] order) {
-		for (int i = 0; i < order.length; i++) {
-			stringBuilder.append(i == 0 ? "((" : ",(");
-			serialize(mathFunction.getArgument(order[i]), stringBuilder);
-			stringBuilder.append(")");
-		}
-		stringBuilder.append(")");
-	}
-
 	private static void maybeInsertTimes(MathFunction mathFunction,
 			StringBuilder stringBuilder) {
 		MathSequence mathSequence = mathFunction.getParent();

@@ -320,17 +320,6 @@ public class TeXSerializer extends SerializerAdapter {
 
 	}
 
-	private void addWithBraces(StringBuilder stringBuilder,
-			MathSequence argument, boolean addBraces) {
-		if (currentBraces || addBraces) {
-			stringBuilder.append("\\left(");
-		}
-		serialize(argument, stringBuilder);
-		if (currentBraces || addBraces) {
-			stringBuilder.append("\\right)");
-		}
-	}
-
 	@Override
 	public void serialize(MathArray array, StringBuilder stringBuilder) {
 		if (this.currentSelStart == array) {
