@@ -4903,6 +4903,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			sb.append(lineOpacity);
 			sb.append("\"");
 		}
+		if (hasDrawArrows() && this instanceof GeoLocus) {
+			sb.append(" drawArrow=\"");
+			sb.append(((GeoLocus) this).drawAsArrow());
+			sb.append("\"");
+		}
 		sb.append("/>\n");
 	}
 
@@ -6709,6 +6714,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public void setLineOpacity(int lineOpacity) {
 		this.lineOpacity = lineOpacity;
+	}
+
+	@Override
+	public boolean hasDrawArrows() {
+		return false;
 	}
 
 	@Override

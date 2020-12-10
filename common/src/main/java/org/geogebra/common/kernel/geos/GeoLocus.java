@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.SegmentType;
+import org.geogebra.common.kernel.advanced.AlgoSlopeField;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -127,6 +128,11 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 	}
 
 	@Override
+	public boolean hasDrawArrows() {
+		return true;
+	}
+
+	@Override
 	public ValueType getValueType() {
 		return ValueType.PARAMETRIC2D;
 	}
@@ -136,8 +142,24 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 		return true;
 	}
 
-	public void drawAsArrow() {
+	public boolean drawAsArrow() {
+		if (getParentAlgorithm() instanceof AlgoSlopeField) {
+			return ((AlgoSlopeField) getParentAlgorithm()).isDrawAsArrow();
+		}
+		return false;
+	}
 
+	public void drawAsArrow(boolean checked) {
+		AlgoSlopeField slopeField = (AlgoSlopeField) getParentAlgorithm();
+		if (checked && slopeField != null) {
+			slopeField.setDrawArrows(true);
+			slopeField.euclidianViewUpdate();
+			return;
+		}
+		if (!checked && slopeField != null) {
+			slopeField.setDrawArrows(false);
+			slopeField.euclidianViewUpdate();
+		}
 	}
 
 }

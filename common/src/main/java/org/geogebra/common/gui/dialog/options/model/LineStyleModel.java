@@ -233,11 +233,12 @@ public class LineStyleModel extends OptionsModel {
 		return listener;
 	}
 
-	public void applyDrawArrow () {
+	public void applyDrawArrow(boolean checked) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			if (geo instanceof GeoLocus) {
-				((GeoLocus) geo).drawAsArrow();
+				((GeoLocus) geo).drawAsArrow(checked);
+				geo.updateRepaint();
 			}
 		}
 		storeUndoInfo();

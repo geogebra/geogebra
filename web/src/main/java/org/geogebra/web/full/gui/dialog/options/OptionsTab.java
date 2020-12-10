@@ -859,7 +859,7 @@ public class OptionsTab extends FlowPanel {
 			cbDrawArrow.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
-					model.applyDrawArrow();
+					model.applyDrawArrow(cbDrawArrow.getValue());
 				}
 			});
 

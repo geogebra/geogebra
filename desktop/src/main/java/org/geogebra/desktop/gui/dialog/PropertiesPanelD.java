@@ -2498,10 +2498,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		private JPanel thicknessPanel;
 		private JPanel opacityPanel;
 		private JSlider opacitySlider;
+		private JCheckBox cbDrawArrow;
 		private JLabel dashLabel;
 		private JComboBox dashCB;
 		private LineStyleModel model;
 		private JPanel dashPanel;
+		private JPanel drawArrowPanel;
+		private JLabel lblDrawArrow;
 
 		public LineStylePanel() {
 			model = new LineStyleModel(app);
@@ -2566,6 +2569,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			thicknessPanel.add(thicknessSlider);
 			opacityPanel.add(opacitySlider);
 
+			lblDrawArrow = new JLabel();
+			cbDrawArrow = new JCheckBox();
+			drawArrowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			drawArrowPanel.add(lblDrawArrow);
+			drawArrowPanel.add(cbDrawArrow);
+
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			thicknessPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 			opacityPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -2573,6 +2582,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			add(thicknessPanel);
 			add(opacityPanel);
 			add(dashPanel);
+			add(drawArrowPanel);
 		}
 
 		@Override
@@ -2584,6 +2594,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 					.createTitledBorder(loc1.getMenu("LineOpacity")));
 
 			dashLabel.setText(loc1.getMenu("LineStyle") + ":");
+			lblDrawArrow.setText(loc.getMenu("DrawArrow"));
 		}
 
 		@Override
@@ -2616,6 +2627,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			thicknessSlider.addChangeListener(this);
 			opacitySlider.addChangeListener(this);
 			dashCB.addActionListener(this);
+			cbDrawArrow.addActionListener(this);
 			return this;
 		}
 
@@ -2646,6 +2658,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			if (source == dashCB) {
 				model.applyLineType(
 						((Integer) dashCB.getSelectedItem()).intValue());
+			} else if (source == cbDrawArrow) {
+				model.applyDrawArrow(cbDrawArrow.isSelected());
 			}
 		}
 
@@ -2656,6 +2670,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			thicknessPanel.setFont(font);
 			opacityPanel.setFont(font);
 			dashLabel.setFont(font);
+			drawArrowPanel.setFont(font);
 
 			updateSliderFonts();
 		}
@@ -2732,7 +2747,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 		@Override
 		public void setDrawAsArrowVisible(boolean value) {
-			// TODO Auto-generated method stub
+			drawArrowPanel.setVisible(value);
 		}
 	}
 
