@@ -105,28 +105,6 @@ public class GeoGebraSerializer implements Serializer {
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			stringBuilder.append(')');
 			break;
-			// Strict control of available functions is needed, so that SUM/ and
-			// Prod doesn't work
-		case SUM:
-			stringBuilder.append("Sum");
-			serializeArgs(mathFunction, stringBuilder,
-					new int[] { 3, 0, 1, 2 });
-			break;
-		case PROD:
-			stringBuilder.append("Product");
-			serializeArgs(mathFunction, stringBuilder,
-					new int[] { 3, 0, 1, 2 });
-			break;
-		case INT:
-			stringBuilder.append("Integral");
-			serializeArgs(mathFunction, stringBuilder,
-					new int[] { 2, 0, 1 });
-			break;
-		case LIM:
-			stringBuilder.append("Limit");
-			serializeArgs(mathFunction, stringBuilder,
-					new int[] { 2, 0, 1 });
-			break;
 		case APPLY:
 		case APPLY_SQUARE:
 			maybeInsertTimes(mathFunction, stringBuilder);
