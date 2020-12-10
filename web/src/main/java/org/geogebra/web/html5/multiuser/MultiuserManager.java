@@ -37,6 +37,10 @@ public final class MultiuserManager {
 		currentUser.addSelection(app.getActiveEuclidianView(), label);
 	}
 
+	/**
+	 * Deselect objects associated with given user
+	 * @param user user ID
+	 */
 	public void deselect(String user) {
 		User currentUser = activeInteractions.get(user);
 		if (currentUser != null) {
