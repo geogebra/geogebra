@@ -639,7 +639,7 @@ public class AlgebraProcessor {
 				n.setForceInequality();
 				n.setWasInterval();
 			} else if (geo instanceof GeoFunction) {
-				if (((GeoFunction) geo).forceInequality()
+				if (((GeoFunction) geo).isForceInequality()
 					&& n.toString(StringTemplate.noLocalDefault).contains("?")) {
 					n.setForceInequality();
 				} else {
@@ -647,6 +647,10 @@ public class AlgebraProcessor {
 				}
 			} else if (geo.isGeoSurfaceCartesian()) {
 				n.setForceSurfaceCartesian();
+			} else if (geo instanceof GeoFunctionNVar) {
+				if (((GeoFunctionNVar) geo).isForceInequality()) {
+					n.setForceInequality();
+				}
 			}
 		}
 		if (newValue.unwrap() instanceof Equation) {
@@ -2185,7 +2189,7 @@ public class AlgebraProcessor {
 	private static boolean isFunctionIneq(GeoElement geo) {
 		return geo instanceof GeoFunction
 				&& (((GeoFunction) geo).isInequality()
-				|| ((GeoFunction) geo).forceInequality());
+				|| ((GeoFunction) geo).isForceInequality());
 	}
 
 	private boolean compatibleFunctions(GeoElement replaceableGeo, GeoElement returnGeo) {
@@ -2702,6 +2706,9 @@ public class AlgebraProcessor {
 
 		if (isIndependent) {
 			gf = new GeoFunctionNVar(cons, fun, info.isSimplifyingIntegers());
+			gf.getIneqs();
+			gf.setForceInequality(gf.isInequality()
+					|| fun.isForceInequality());
 		} else {
 			gf = dependentFunctionNVar(fun);
 		}
