@@ -207,7 +207,11 @@ public class EuclidianView3DAnimator {
 	 * animate the view for changing scale, orientation, etc.
 	 */
 	synchronized public void animate() {
-		if (animation != null) {
+		if (animation != null && (view3D.isZoomable()
+				|| animation instanceof EuclidianView3DAnimationRotation
+				|| animation instanceof EuclidianView3DAnimationRotationOneStep
+				|| animation instanceof EuclidianView3DAnimationContinueRotation
+				|| animation instanceof EuclidianView3DAnimationMouseMove)) {
 			animation.animate();
 		}
 	}

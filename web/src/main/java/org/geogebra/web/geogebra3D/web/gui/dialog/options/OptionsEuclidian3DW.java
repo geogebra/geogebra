@@ -275,6 +275,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		protected void updateMinMax() {
 			EuclidianView3D view = (EuclidianView3D) getOptionsEuclidianW().getView();
 			view.updateBoundObjects();
+			view.stopAnimation();
 			setMinMaxText(
 					view.getXminObject().getLabel(StringTemplate.editTemplate),
 					view.getXmaxObject().getLabel(StringTemplate.editTemplate),

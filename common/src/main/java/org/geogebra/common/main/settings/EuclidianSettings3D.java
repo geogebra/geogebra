@@ -60,6 +60,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 	private boolean hasColoredAxes = true;
 	private boolean updateScaleOrigin;
+	private boolean setStandardCoordSystem = true;
 
 	/**
 	 * default value for eye distance to the screen for perspective
@@ -849,5 +850,13 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		if (fire) {
 			settingChanged();
 		}
+	}
+
+	public boolean isSetStandardCoordSystem() {
+		return setStandardCoordSystem;
+	}
+
+	public void setSetStandardCoordSystem(boolean setStandardCoordSystem) {
+		this.setStandardCoordSystem = setStandardCoordSystem;
 	}
 }

@@ -156,6 +156,10 @@ public class MyXMLHandler3D extends MyXMLHandler {
 				getYmax().put(evs, null);
 				zmin.put(evs, null);
 				zmax.put(evs, null);
+
+				evs.setUpdateScaleOrigin(false);
+				evs.setSetStandardCoordSystem(false);
+
 				return true;
 			} catch (RuntimeException e) {
 				return false;
@@ -170,6 +174,9 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			zmax.put(evs, attrs.get("zMax"));
 			double xAngle = StringUtil.parseDouble(attrs.get("xAngle"));
 			double zAngle = StringUtil.parseDouble(attrs.get("zAngle"));
+
+			evs.setSetStandardCoordSystem(false);
+			evs.setUpdateScaleOrigin(true);
 
 			evs.setRotXYinDegrees(zAngle, xAngle);
 

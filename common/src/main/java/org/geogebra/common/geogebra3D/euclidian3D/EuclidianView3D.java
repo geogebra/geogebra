@@ -1423,9 +1423,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * update the drawables for 3D view
 	 */
 	public void update() {
-		if (isZoomable()) {
-			updateAnimation();
-		}
+		updateAnimation();
 
 		if (waitForUpdate || !drawable3DListToBeRemoved.isEmpty()
 				|| !drawable3DListToBeAdded.isEmpty()) {
@@ -4174,7 +4172,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void replaceBoundObject(GeoNumeric num, GeoNumeric num2) {
-		// TODO fix this for 3D dynamic bounds
 		if (xmaxObject == num) {
 			xmaxObject = num2;
 		}
@@ -5334,6 +5331,10 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	protected void setStandardCoordSystem(boolean repaint) {
+		if (getSettings() != null && !getSettings().isSetStandardCoordSystem()) {
+			getSettings().setSetStandardCoordSystem(true);
+			return;
+		}
 		set3DCoordSystem(XZERO_SCENE_STANDARD, YZERO_SCENE_STANDARD, ZZERO_SCENE_STANDARD,
 				SCALE_STANDARD, SCALE_STANDARD, SCALE_STANDARD);
 		getSettings().setUpdateScaleOrigin(false);

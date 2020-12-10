@@ -66,7 +66,6 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 	public OptionsEuclidian3DD(AppD app, EuclidianView3D view) {
 		super(app, view);
 
-		//get rid of
 		enableStuff(false);
 
 		updateGUI();
@@ -679,6 +678,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 		tfMinZ.removeActionListener(this);
 		tfMaxZ.removeActionListener(this);
 		view.updateBoundObjects();
+		view.stopAnimation();
 		tfMinX.setText(
 				view.getXminObject().getLabel(StringTemplate.editTemplate));
 		tfMaxX.setText(
