@@ -55,15 +55,12 @@ public class ConstructionProtocolView implements ConstructionStepper {
 	protected boolean addIcons;
 
 	protected static String getAlgebra(GeoElement geo) {
-		// messes up subscripts in ggb5, why?
-		// return geo.getAlgebraDescriptionHTMLDefault();
-
 		if (geo instanceof GeoText) {
 			return "\"" + geo.toValueString(StringTemplate.defaultTemplate)
 					+ "\"";
 		}
 		return geo.getAlgebraDescriptionTextOrHTMLDefault(
-				new IndexHTMLBuilder(false));
+				new IndexHTMLBuilder(!geo.getApp().isHTML5Applet()));
 	}
 
 	protected static String getName(GeoElement geo) {
@@ -170,6 +167,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		 */
 		public void updateAlgebraAndName() {
 			algebra = ConstructionProtocolView.getAlgebra(geo);
+			Log.error(algebra);
 			// name description changes if type changes, e.g. ellipse becomes
 			// hyperbola
 			name = ConstructionProtocolView.getName(geo);
@@ -275,10 +273,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			}
 
 			// name = geo.getNameDescriptionHTML(true, true);
-			name = ConstructionProtocolView.getName(geo);
-			// algebra = geo.getRedefineString(true, true);
-			// algebra = geo.toOutputValueString();
-			algebra = ConstructionProtocolView.getAlgebra(geo);
+			updateAlgebraAndName();
 			description = ConstructionProtocolView.getDescription(geo,
 					!app.isHTML5Applet());
 			definition = ConstructionProtocolView.getDefinition(geo,
@@ -1072,7 +1067,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		// include image file
 		if (imgBase64 != null) {
 			sb.append("<p>\n");
-			sb.append("<img height='32' width ='32' src=\"");
+			sb.append("<img src=\"");
 			sb.append(StringUtil.pngMarker);
 			sb.append(imgBase64);
 			sb.append("\" alt=\"");

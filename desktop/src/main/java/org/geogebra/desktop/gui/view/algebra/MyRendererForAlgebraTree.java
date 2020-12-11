@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AlgebraStyle;
-import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -32,7 +31,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	private static final long serialVersionUID = 1L;
 
 	protected AppD app;
-	private AlgebraTree view;
+	protected final AlgebraTree view;
 	protected Kernel kernel;
 	private ImageIcon iconShown, iconHidden;
 
@@ -63,9 +62,10 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	 * 
 	 * @param geo
 	 *            geo
+	 * @param node
 	 * @return description of the geo
 	 */
-	protected String getDescription(GeoElement geo) {
+	protected String getDescription(GeoElement geo, GeoMutableTreeNode node) {
 
 		return geo.getLabelTextOrHTML();
 	}
@@ -83,7 +83,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 			GeoElement geo = (GeoElement) ob;
 			setForeground(GColorD.getAwtColor(geo.getAlgebraColor()));
 
-			String text = getDescription(geo);
+			String text = getDescription(geo, (GeoMutableTreeNode) node);
 
 			// make sure we use a font that can display the text
 			setFont(app.getFontCanDisplayAwt(text, Font.BOLD));
@@ -164,15 +164,6 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 			setFont(app.getFontCanDisplayAwt(str));
 		}
 		return this;
-	}
-
-	/**
-	 * @param geo construction element
-	 * @return algebra description of the geo
-	 */
-	protected static String getAlgebraDescriptionTextOrHTML(GeoElement geo) {
-		return geo.getAlgebraDescriptionTextOrHTMLDefault(
-				new IndexHTMLBuilder(true));
 	}
 
 	/**
