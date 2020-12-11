@@ -961,7 +961,7 @@ __GGB__keysVar["it"].command = {
     "Spline": "Spline",
     "Spline.Syntax": "[ <Lista di punti> ]\n[ <Lista di punti>, <Ordine \u2265 3> ]\n[ <Lista di punti>, <Ordine \u2265 3>, <Funzione peso> ]",
     "Split": "Suddividi",
-    "Split.Syntax": "[ <Testo>, <Lista di testi da suddividere> ]",
+    "Split.Syntax": "[ <Testo>, <Lista di testi per la suddivisione> ]",
     "StartAnimation": "AvviaAnimazione",
     "StartAnimation.Syntax": "[ ]\n[ <Booleano> ]\n[ <Slider o punto>, <Slider o punto>, ... ]\n[ <Slider o punto>, <Slider o punto>, ..., <Booleano> ]",
     "StartRecord": "AvviaRegistrazione",
