@@ -56,7 +56,7 @@ public class ProfilePanel extends FlowPanel {
 		optionsPanelContent.setStyleName("profileOptionsContent");
 		optionsPanel.add(optionsPanelContent);
 
-		logoutButton = new StandardButton("", app);
+		logoutButton = new StandardButton("");
 		logoutButton.addStyleName("logoutButton");
 		logoutButton.addStyleName("gwt-Button");
 		username = addLink("username");

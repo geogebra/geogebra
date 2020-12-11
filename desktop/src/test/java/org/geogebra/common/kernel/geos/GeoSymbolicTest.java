@@ -1306,4 +1306,15 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Quartile1({2,3,3})", "2");
 		t("Quartile3({2,3,3})", "3");
 	}
+
+	@Test
+	public void testInnerNestedCommands() {
+		add("f(x)=x^2");
+		add("a(x)=Solve(Derivative(f))");
+		add("1+1");
+		undoRedo();
+		int n = kernel.getConstruction().steps();
+		assertThat(n, equalTo(3));
+	}
+
 }

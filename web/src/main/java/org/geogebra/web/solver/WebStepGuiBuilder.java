@@ -146,9 +146,9 @@ public class WebStepGuiBuilder {
 	StandardButton detailsButton(boolean show, final StepAlternative alternative) {
         StandardButton detailsButton;
         if (show) {
-            detailsButton = new StandardButton(closeButton, app);
+            detailsButton = new StandardButton(closeButton);
         } else {
-            detailsButton = new StandardButton(openButton, app);
+            detailsButton = new StandardButton(openButton);
         }
 
         detailsButton.setStyleName("stepTreeButton");
@@ -173,7 +173,7 @@ public class WebStepGuiBuilder {
      * elem
      */
 	StandardButton showButton(final StepElem elem) {
-        final StandardButton showButton = new StandardButton(closeButton, app);
+        final StandardButton showButton = new StandardButton(closeButton);
 
         showButton.setStyleName("stepTreeButton");
 

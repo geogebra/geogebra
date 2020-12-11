@@ -246,8 +246,7 @@ public class PDFInputDialog extends ComponentDialog
 
 	private StandardButton createImgButton(FlowPanel root,
 			ImageResource imgSource, int size, String styleName) {
-		StandardButton btn = new StandardButton(imgSource, null, size, size,
-				app);
+		StandardButton btn = new StandardButton(imgSource, null, size, size);
 		btn.addStyleName(styleName);
 		btn.addFastClickHandler(this);
 		root.add(btn);

@@ -3580,7 +3580,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			// Application.debug(""+getAlgProcessor());
-
+			ve.setAsRootNode();
 			GeoElementND[] result = getAlgProcessor()
 					.processValidExpression(ve,
 							new EvalInfo(!cons.isSuppressLabelsActive(), true)

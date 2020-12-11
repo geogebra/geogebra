@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui.view.button;
 
 import org.geogebra.common.gui.view.ActionView;
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.FastButton;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.HasResource;
@@ -21,40 +20,29 @@ import com.google.gwt.user.client.ui.SimplePanel;
  */
 public class StandardButton extends FastButton implements HasResource, ActionView {
 
-	private App app;
 	private ResourcePrototype icon;
 	private String label;
 	private int width = -1;
 	private int height = -1;
 	private NoDragImage btnImage;
 
-	/**
-	 * @param app
-	 *            - application
-	 */
-	public StandardButton(App app) {
-		this.app = app;
+	protected StandardButton() {
+		// default constructor for base classes
 	}
 
 	/**
 	 * @param icon
 	 *            - img of button
-	 * @param app
-	 *            - application
 	 */
-	public StandardButton(final ImageResource icon, App app) {
-		this.app = app;
+	public StandardButton(final ImageResource icon) {
 		setIconAndLabel(icon, null, icon.getWidth(), icon.getHeight());
 	}
 
 	/**
 	 * @param label
 	 *            - text of button
-	 * @param app
-	 *            - application
 	 */
-	public StandardButton(final String label, App app) {
-		this.app = app;
+	public StandardButton(final String label) {
 		setIconAndLabel(null, label, -1, -1);
 	}
 
@@ -65,12 +53,9 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	 *            - text of button
 	 * @param width
 	 *            - width of button
-	 * @param app
-	 *            - application
 	 */
 	public StandardButton(final ResourcePrototype icon, final String label,
-			int width, App app) {
-		this.app = app;
+			int width) {
 		setIconAndLabel(icon, label, width, -1);
 	}
 
@@ -81,11 +66,8 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	 *            - text of button
 	 * @param size
 	 *            - width and hight of button
-	 * @param app
-	 *            - application
 	 */
-	public StandardButton(App app, int size, final ResourcePrototype icon, final String label) {
-		this.app = app;
+	public StandardButton(int size, final ResourcePrototype icon, final String label) {
 		this.width = size;
 		this.height = -1;
 		this.icon = icon;
@@ -102,12 +84,9 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	 *            - width of button
 	 * @param height
 	 *            icon height
-	 * @param app
-	 *            - application
 	 */
 	public StandardButton(final ResourcePrototype icon, final String label,
-			int width, int height, App app) {
-		this.app = app;
+			int width, int height) {
 		setIconAndLabel(icon, label, width, height);
 	}
 
@@ -201,7 +180,7 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 
 	@Override
 	public void setTitle(String title) {
-		AriaHelper.setTitle(this, title, app == null || app.isUnbundledOrWhiteboard());
+		AriaHelper.setTitle(this, title);
 	}
 
 	/**

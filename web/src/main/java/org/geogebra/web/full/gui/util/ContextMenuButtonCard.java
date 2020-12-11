@@ -41,7 +41,7 @@ public class ContextMenuButtonCard extends StandardButton
 	 *            application
 	 */
 	public ContextMenuButtonCard(AppW app) {
-		super(MaterialDesignResources.INSTANCE.more_vert_black(), null, 24, app);
+		super(MaterialDesignResources.INSTANCE.more_vert_black(), null, 24);
 		this.app = app;
 		loc = app.getLocalization();
 		frame = ((AppWFull) app).getAppletFrame();
