@@ -1285,9 +1285,11 @@ public class ConsElementXMLHandler {
 			if (opacity != null) {
 				geo.setLineOpacity(Integer.parseInt(opacity));
 			}
-			String drawArrow = attrs.get("drawArrow");
-			if (drawArrow != null && geo instanceof GeoLocus) {
-				((GeoLocus) geo).drawAsArrow(MyXMLHandler.parseBoolean(drawArrow));
+			if ( attrs.get("drawArrow") != null) {
+				String drawArrow = attrs.get("drawArrow");
+				if (drawArrow != null && geo instanceof GeoLocus) {
+					((GeoLocus) geo).drawAsArrows(MyXMLHandler.parseBoolean(drawArrow));
+				}
 			}
 
 			return true;

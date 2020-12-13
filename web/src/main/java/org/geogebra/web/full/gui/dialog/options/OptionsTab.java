@@ -23,6 +23,8 @@ import org.geogebra.common.gui.dialog.options.model.CoordsModel;
 import org.geogebra.common.gui.dialog.options.model.DecoAngleModel;
 import org.geogebra.common.gui.dialog.options.model.DecoAngleModel.IDecoAngleListener;
 import org.geogebra.common.gui.dialog.options.model.DecoSegmentModel;
+import org.geogebra.common.gui.dialog.options.model.DrawArrowsModel;
+import org.geogebra.common.gui.dialog.options.model.DrawArrowsModel.IDrawArrowListener;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.ISliderListener;
@@ -350,6 +352,9 @@ public class OptionsTab extends FlowPanel {
 		}
 		if (m instanceof TextFieldAlignmentModel) {
 			return new TextFieldAlignmentPanel((TextFieldAlignmentModel) m, app);
+		}
+		if (m instanceof DrawArrowsModel) {
+			return new DrawArrowsPanel((DrawArrowsModel) m);
 		}
 
 		return null;
@@ -775,8 +780,6 @@ public class OptionsTab extends FlowPanel {
 		LineStylePopup btnLineStyle;
 		private FlowPanel stylePanel;
 		private FlowPanel styleHiddenPanel;
-		private CheckBox cbDrawArrow;
-		private FlowPanel drawArrowPanel;
 		ListBox styleHiddenList;
 
 		public LineStylePanel(LineStyleModel model0, AppW app) {
@@ -850,19 +853,6 @@ public class OptionsTab extends FlowPanel {
 			stylePanel.add(btnLineStyle);
 			mainPanel.add(stylePanel);
 
-			cbDrawArrow = new CheckBox();
-			drawArrowPanel = new FlowPanel();
-			drawArrowPanel.add(cbDrawArrow);
-			mainPanel.add(drawArrowPanel);
-			cbDrawArrow.setVisible(false);
-
-			cbDrawArrow.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					model.applyDrawArrow(cbDrawArrow.getValue());
-				}
-			});
-
 			styleHiddenPanel = new FlowPanel();
 			styleHiddenPanel.setStyleName("optionsPanel");
 			styleHiddenLabel = new Label();
@@ -896,7 +886,6 @@ public class OptionsTab extends FlowPanel {
 			styleHiddenList.addItem(localize("Hidden.Dashed")); // index 1
 			styleHiddenList.addItem(localize("Hidden.Unchanged")); // index 2
 			styleHiddenList.setSelectedIndex(selectedIndex);
-			cbDrawArrow.setText(localize("DrawArrow"));
 		}
 
 		@Override
@@ -937,11 +926,6 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		public void setLineOpacityVisible(boolean value) {
 			opacitySlider.setVisible(value);
-		}
-
-		@Override
-		public void setDrawAsArrowVisible(boolean isVisible) {
-			cbDrawArrow.setVisible(isVisible);
 		}
 	}
 
@@ -1024,6 +1008,66 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		public void setValue(int value) {
 			slider.setValue(value);
+		}
+
+	}
+
+	private class DrawArrowsPanel extends OptionPanel implements IDrawArrowListener {
+
+		DrawArrowsModel model;
+		private CheckBox cbDrawArrows;
+		private FlowPanel drawArrowsPanel;
+
+		public DrawArrowsPanel(DrawArrowsModel model0) {
+			model = model0;
+			model.setListener(this);
+			setModel(model);
+
+			FlowPanel mainPanel = new FlowPanel();
+
+			cbDrawArrows = new CheckBox();
+			drawArrowsPanel = new FlowPanel();
+			drawArrowsPanel.add(cbDrawArrows);
+			mainPanel.add(drawArrowsPanel);
+
+			cbDrawArrows.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					model.applyDrawArrow(cbDrawArrows.getValue());
+				}
+			});
+
+			setWidget(mainPanel);
+		}
+
+		@Override
+		public void setSelectedIndex(int index) {
+
+		}
+
+		@Override
+		public void addItem(String plain) {
+
+		}
+
+		@Override
+		public void clearItems() {
+
+		}
+
+		@Override
+		public void setLabels() {
+			cbDrawArrows.setText(localize("DrawArrows"));
+		}
+
+		@Override
+		public void setDrawAsArrowVisible(boolean isVisible) {
+			cbDrawArrows.setVisible(isVisible);
+		}
+
+		@Override
+		public void setDrawAsArrowsCheckbox(boolean checked) {
+			cbDrawArrows.setValue(checked);
 		}
 
 	}

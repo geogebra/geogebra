@@ -32,8 +32,6 @@ public class LineStyleModel extends OptionsModel {
 		void selectCommonLineStyleHidden(boolean equalStyle, int type);
 
 		void setLineOpacityVisible(boolean value);
-
-		void setDrawAsArrowVisible(boolean value);
 	}
 
 	public void setListener(ILineStyleListener listener) {
@@ -220,10 +218,6 @@ public class LineStyleModel extends OptionsModel {
 				lineStyleHiddenEnabled = false;
 				lineOpacityEnabled = false;
 			}
-			if (listener != null) {
-				listener.setDrawAsArrowVisible(geo instanceof GeoLocus && geo
-						.getParentAlgorithm() instanceof AlgoSlopeField);
-			}
 		}
 		return geosOK;
 	}
@@ -233,14 +227,4 @@ public class LineStyleModel extends OptionsModel {
 		return listener;
 	}
 
-	public void applyDrawArrow(boolean checked) {
-		for (int i = 0; i < getGeosLength(); i++) {
-			GeoElement geo = getGeoAt(i);
-			if (geo instanceof GeoLocus) {
-				((GeoLocus) geo).drawAsArrow(checked);
-				geo.updateRepaint();
-			}
-		}
-		storeUndoInfo();
-	}
 }

@@ -44,8 +44,6 @@ public class AlgoSlopeField extends AlgoElement {
 	private FunctionalNVar den;
 	private boolean quotient;
 
-	private boolean drawAsArrow;
-
 	/**
 	 * @param cons
 	 *            cons
@@ -304,33 +302,24 @@ public class AlgoSlopeField extends AlgoElement {
 		double dy = dy0 * length / coeff;
 		al.add(new MyPoint(xx - dx, yy - dy, SegmentType.MOVE_TO));
 		al.add(new MyPoint(xx + dx, yy + dy, SegmentType.LINE_TO));
-		if (drawAsArrow) {
-			drawHead(xx - dx, yy - dy, xx + dx, yy + dy);
+		if (locus.isDrawArrows()) {
+			drawArrowHead(xx - dx, yy - dy, xx + dx, yy + dy);
 		}
 	}
 
-	private void drawHead(double x0, double y0, double x1, double y1) {
-		double[] coordsV = new double[2];
-		coordsV[0] = x1 - x0;
-		coordsV[1] = y1 - y0;
-		coordsV[0] /= 4.0;
-		coordsV[1] /= 4.0;
+	private void drawArrowHead(double x0, double y0, double x1, double y1) {
+		double vx = (x1 - x0) / 4;
+		double vy = (y1 - y0) / 4;
 
-		double[] coordsF = new double[2];
-		coordsF[0] = x1 - coordsV[0];
-		coordsF[1] = y1 - coordsV[1];
+		double fx = x1 - vx;
+		double fy = y1 - vy;
 
-		al.add(new MyPoint(coordsF[0] - coordsV[1], coordsF[1] + coordsV[0], SegmentType.MOVE_TO));
+		vx /= 2.0;
+		vy /= 2.0;
+
+		al.add(new MyPoint(fx - vy, fy + vx, SegmentType.MOVE_TO));
 		al.add(new MyPoint(x1, y1, SegmentType.LINE_TO));
-		al.add(new MyPoint(coordsF[0] + coordsV[1], coordsF[1] - coordsV[0], SegmentType.LINE_TO));
-	}
-
-	public void setDrawArrows(boolean drawAsArrow) {
-		this.drawAsArrow = drawAsArrow;
-	}
-
-	public boolean isDrawAsArrow() {
-		return drawAsArrow;
+		al.add(new MyPoint(fx + vy, fy - vx, SegmentType.LINE_TO));
 	}
 
 	@Override

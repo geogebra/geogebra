@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.matrix.Coords;
  */
 public class GeoLocus extends GeoLocusND<MyPoint> {
 	private Coords changingPoint;
+	private boolean drawArrows = false;
 
 	/**
 	 * Creates new locus
@@ -129,7 +130,16 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 
 	@Override
 	public boolean hasDrawArrows() {
-		return true;
+		return getParentAlgorithm() != null && getParentAlgorithm() instanceof AlgoSlopeField;
+	}
+
+	@Override
+	public void setVisualStyle(GeoElement geo, boolean setAuxiliaryProperty) {
+		super.setVisualStyle(geo, setAuxiliaryProperty);
+		if (geo instanceof GeoLocus) {
+			drawArrows = ((GeoLocus) geo).isDrawArrows();
+			drawAsArrows(drawArrows);
+		}
 	}
 
 	@Override
@@ -142,24 +152,27 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 		return true;
 	}
 
-	public boolean drawAsArrow() {
-		if (getParentAlgorithm() instanceof AlgoSlopeField) {
-			return ((AlgoSlopeField) getParentAlgorithm()).isDrawAsArrow();
+	public void drawAsArrows(boolean checked) {
+		AlgoSlopeField slopeField = (AlgoSlopeField) getParentAlgorithm();
+		if (slopeField != null) {
+			drawArrows = checked;
+			slopeField.euclidianViewUpdate();
+		}
+	}
+
+	public boolean checkDrawArrows() {
+		AlgoSlopeField slopeField = (AlgoSlopeField) getParentAlgorithm();
+		if (slopeField != null) {
+			return drawArrows;
 		}
 		return false;
 	}
 
-	public void drawAsArrow(boolean checked) {
-		AlgoSlopeField slopeField = (AlgoSlopeField) getParentAlgorithm();
-		if (checked && slopeField != null) {
-			slopeField.setDrawArrows(true);
-			slopeField.euclidianViewUpdate();
-			return;
-		}
-		if (!checked && slopeField != null) {
-			slopeField.setDrawArrows(false);
-			slopeField.euclidianViewUpdate();
-		}
+	public boolean isDrawArrows() {
+		return drawArrows;
 	}
 
+	public void setDrawArrows(boolean drawArrows) {
+		this.drawArrows = drawArrows;
+	}
 }

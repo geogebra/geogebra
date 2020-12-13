@@ -110,6 +110,8 @@ import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsViewLocationListener;
+import org.geogebra.common.gui.dialog.options.model.DrawArrowsModel;
+import org.geogebra.common.gui.dialog.options.model.DrawArrowsModel.IDrawArrowListener;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -179,6 +181,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private ArcSizePanel arcSizePanel;
 	private LineStylePanel lineStylePanel;
 	private LineStyleHiddenPanel lineStylePanelHidden;
+	private DrawArrowsPanel drawArrowsPanel;
 	// added by Loic BEGIN
 	private DecoSegmentPanel decoSegmentPanel;
 	private DecoAnglePanel decoAnglePanel;
@@ -293,6 +296,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		slopeTriangleSizePanel = new SlopeTriangleSizePanel();
 		lineStylePanel = new LineStylePanel();
 		lineStylePanelHidden = new LineStyleHiddenPanel();
+		drawArrowsPanel = new DrawArrowsPanel();
 		// added by Loic BEGIN
 		decoSegmentPanel = new DecoSegmentPanel();
 		decoAnglePanel = new DecoAnglePanel();
@@ -467,6 +471,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		styleTabList.add(pointStylePanel);
 		styleTabList.add(lodPanel);
 		styleTabList.add(lineStylePanel);
+		styleTabList.add(drawArrowsPanel);
 		styleTabList.add(ineqStylePanel);
 		styleTabList.add(arcSizePanel);
 		styleTabList.add(buttonSizePanel);
@@ -584,6 +589,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		textOptionsPanel.setLabels();
 		arcSizePanel.setLabels();
 		lineStylePanel.setLabels();
+		drawArrowsPanel.setLabels();
 		ineqStylePanel.setLabels();
 		lineStylePanelHidden.setLabels();
 		decoSegmentPanel.setLabels();
@@ -667,6 +673,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		textOptionsPanel.updateFonts();
 		arcSizePanel.updateFonts();
 		lineStylePanel.updateFonts();
+		drawArrowsPanel.updateFonts();
 		ineqStylePanel.updateFonts();
 		lineStylePanelHidden.updateFonts();
 		decoSegmentPanel.updateFonts();
@@ -2498,13 +2505,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		private JPanel thicknessPanel;
 		private JPanel opacityPanel;
 		private JSlider opacitySlider;
-		private JCheckBox cbDrawArrow;
 		private JLabel dashLabel;
 		private JComboBox dashCB;
 		private LineStyleModel model;
 		private JPanel dashPanel;
-		private JPanel drawArrowPanel;
-		private JLabel lblDrawArrow;
 
 		public LineStylePanel() {
 			model = new LineStyleModel(app);
@@ -2569,12 +2573,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			thicknessPanel.add(thicknessSlider);
 			opacityPanel.add(opacitySlider);
 
-			lblDrawArrow = new JLabel();
-			cbDrawArrow = new JCheckBox();
-			drawArrowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-			drawArrowPanel.add(lblDrawArrow);
-			drawArrowPanel.add(cbDrawArrow);
-
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			thicknessPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 			opacityPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -2582,7 +2580,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			add(thicknessPanel);
 			add(opacityPanel);
 			add(dashPanel);
-			add(drawArrowPanel);
 		}
 
 		@Override
@@ -2594,7 +2591,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 					.createTitledBorder(loc1.getMenu("LineOpacity")));
 
 			dashLabel.setText(loc1.getMenu("LineStyle") + ":");
-			lblDrawArrow.setText(loc.getMenu("DrawArrow"));
 		}
 
 		@Override
@@ -2627,7 +2623,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			thicknessSlider.addChangeListener(this);
 			opacitySlider.addChangeListener(this);
 			dashCB.addActionListener(this);
-			cbDrawArrow.addActionListener(this);
 			return this;
 		}
 
@@ -2658,8 +2653,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			if (source == dashCB) {
 				model.applyLineType(
 						((Integer) dashCB.getSelectedItem()).intValue());
-			} else if (source == cbDrawArrow) {
-				model.applyDrawArrow(cbDrawArrow.isSelected());
 			}
 		}
 
@@ -2670,7 +2663,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			thicknessPanel.setFont(font);
 			opacityPanel.setFont(font);
 			dashLabel.setFont(font);
-			drawArrowPanel.setFont(font);
 
 			updateSliderFonts();
 		}
@@ -2745,9 +2737,93 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			opacityPanel.setVisible(value);
 		}
 
+	}
+
+	private class DrawArrowsPanel extends JPanel implements UpdateablePropertiesPanel, SetLabels, UpdateFonts, IDrawArrowListener, ActionListener {
+
+		private DrawArrowsModel model;
+		private JCheckBox cbDrawArrows;
+		private JPanel drawArrowsPanel;
+		private JLabel lblDrawArrows;
+
+		public DrawArrowsPanel() {
+			model = new DrawArrowsModel(app);
+			model.setListener(this);
+			lblDrawArrows = new JLabel();
+			cbDrawArrows = new JCheckBox();
+			drawArrowsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			drawArrowsPanel.add(lblDrawArrows);
+			drawArrowsPanel.add(cbDrawArrows);
+			add(drawArrowsPanel);
+
+			setLayout(new BorderLayout());
+			add(drawArrowsPanel, BorderLayout.CENTER);
+		}
+
+		@Override
+		public void setLabels() {
+			lblDrawArrows.setText(loc.getMenu("DrawArrow"));
+		}
+
+		@Override
+		public void setSelectedIndex(int index) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public JPanel updatePanel(Object[] geos) {
+			model.setGeos(geos);
+			return update();
+		}
+
+		@Override
+		public void addItem(String plain) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void clearItems() {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			model.applyDrawArrow(cbDrawArrows.isSelected());
+		}
+
+		public JPanel update() {
+			// check geos
+			if (!model.checkGeos()) {
+				return null;
+			}
+			cbDrawArrows.removeActionListener(this);
+			model.updateProperties();
+			cbDrawArrows.addActionListener(this);
+			return this;
+		}
+
+		@Override
+		public void updateVisualStyle(GeoElement geo) {
+			if (!model.hasGeos()) {
+				return;
+			}
+			update();
+		}
+
+		@Override
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			drawArrowsPanel.setFont(font);
+		}
+
 		@Override
 		public void setDrawAsArrowVisible(boolean value) {
-			drawArrowPanel.setVisible(value);
+			drawArrowsPanel.setVisible(value);
+		}
+
+		@Override
+		public void setDrawAsArrowsCheckbox(boolean checked) {
+			cbDrawArrows.setSelected(checked);
 		}
 	}
 
