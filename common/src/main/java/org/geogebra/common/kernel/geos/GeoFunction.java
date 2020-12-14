@@ -1487,7 +1487,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		}
 
 		GeoFunction geoFun = (GeoFunction) geo;
-		if (differAt(this, geoFun, 0) || differAt(this, geoFun, 1)) {
+		// check equality in two points; avoid discontinuities of common functions (1/x, tan(x))
+		if (differAt(this, geoFun, 0.31) || differAt(this, geoFun, 10.89)) {
 			return false;
 		}
 		PolyFunction poly1 = getFunction()
@@ -1508,10 +1509,14 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return isDifferenceZeroInCAS(geo);
 	}
 
+	/*
+	 * Check that the functions differ at given point; false negatives if values are
+	 * too big, too close to each othe or one is undefined.
+	 */
 	private static boolean differAt(GeoFunction f1, GeoFunction f2, double x) {
 		double v1 = f1.value(x);
 		double v2 = f2.value(x);
-		if (!MyDouble.isFinite(v2) || Math.abs(v1) > 1E8) {
+		if (!MyDouble.isFinite(v1) || Math.abs(v1) > 1E8) {
 			return false;
 		}
 		if (!MyDouble.isFinite(v2) || Math.abs(v2) > 1E8) {
