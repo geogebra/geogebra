@@ -66,7 +66,7 @@ public class H5PInputDialog extends EmbedInputDialog implements AjaxCallback {
 		container.addStyleName("btnContainer");
 
 		StandardButton selectFileBtn = new StandardButton(app.getLocalization()
-				.getMenu("H5PDialog.UploadFile"), app);
+				.getMenu("H5PDialog.UploadFile"));
 		selectFileBtn.setStyleName("materialOutlinedButton");
 		selectFileBtn.addStyleName("uploadFileBtn");
 		selectFileBtn.addFastClickHandler(source -> h5pChooser.click());
