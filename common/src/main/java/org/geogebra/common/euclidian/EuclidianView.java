@@ -5388,12 +5388,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		} else {
 			// same scales: translate view to standard origin
 			// do this with the following action listener
-			if (mover == null) {
-				mover = newZoomer();
-			}
-			mover.init(ox, oy, storeUndo);
-			mover.startAnimation();
+			animateMove(ox, oy, storeUndo);
 		}
+	}
+
+	protected void animateMove(double destX, double destY, boolean storeUndo) {
+		if (mover == null) {
+			mover = newZoomer();
+		}
+		mover.init(destX, destY, storeUndo);
+		mover.startAnimation();
 	}
 
 	/**
