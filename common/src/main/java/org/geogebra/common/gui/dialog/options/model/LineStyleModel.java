@@ -1,9 +1,7 @@
 package org.geogebra.common.gui.dialog.options.model;
 
-import org.geogebra.common.kernel.advanced.AlgoSlopeField;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;

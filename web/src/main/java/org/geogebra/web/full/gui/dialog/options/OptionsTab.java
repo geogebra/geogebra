@@ -354,7 +354,7 @@ public class OptionsTab extends FlowPanel {
 			return new TextFieldAlignmentPanel((TextFieldAlignmentModel) m, app);
 		}
 		if (m instanceof DrawArrowsModel) {
-			return new DrawArrowsPanel((DrawArrowsModel) m);
+			return new SlopeFieldDrawArrowsPanel((DrawArrowsModel) m);
 		}
 
 		return null;
@@ -1012,13 +1012,13 @@ public class OptionsTab extends FlowPanel {
 
 	}
 
-	private class DrawArrowsPanel extends OptionPanel implements IDrawArrowListener {
+	private class SlopeFieldDrawArrowsPanel extends OptionPanel implements IDrawArrowListener {
 
 		DrawArrowsModel model;
 		private CheckBox cbDrawArrows;
 		private FlowPanel drawArrowsPanel;
 
-		public DrawArrowsPanel(DrawArrowsModel model0) {
+		public SlopeFieldDrawArrowsPanel(DrawArrowsModel model0) {
 			model = model0;
 			model.setListener(this);
 			setModel(model);
@@ -1042,17 +1042,17 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setSelectedIndex(int index) {
-
+			// TODO Auto-generated method stub
 		}
 
 		@Override
 		public void addItem(String plain) {
-
+			// TODO Auto-generated method stub
 		}
 
 		@Override
 		public void clearItems() {
-
+			// TODO Auto-generated method stub
 		}
 
 		@Override

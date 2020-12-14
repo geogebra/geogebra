@@ -74,7 +74,7 @@ public class DrawArrowsModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			if (geo instanceof GeoLocus) {
-				return ((GeoLocus) geo).checkDrawArrows();
+				return ((GeoLocus) geo).isDrawArrows();
 			}
 		}
 		return false;

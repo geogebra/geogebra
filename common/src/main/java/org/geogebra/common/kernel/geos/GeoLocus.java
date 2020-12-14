@@ -130,7 +130,7 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 
 	@Override
 	public boolean hasDrawArrows() {
-		return getParentAlgorithm() != null && getParentAlgorithm() instanceof AlgoSlopeField;
+		return getParentAlgorithm() instanceof AlgoSlopeField;
 	}
 
 	@Override
@@ -152,6 +152,10 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 		return true;
 	}
 
+	/**
+	 * @param checked
+	 *            whether checkbox is selected
+	 */
 	public void drawAsArrows(boolean checked) {
 		AlgoSlopeField slopeField = (AlgoSlopeField) getParentAlgorithm();
 		if (slopeField != null) {
@@ -160,18 +164,17 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 		}
 	}
 
-	public boolean checkDrawArrows() {
-		AlgoSlopeField slopeField = (AlgoSlopeField) getParentAlgorithm();
-		if (slopeField != null) {
-			return drawArrows;
-		}
-		return false;
-	}
-
+	/**
+	 * @return if slopefield is drawn with arrows
+	 */
 	public boolean isDrawArrows() {
 		return drawArrows;
 	}
 
+	/**
+	 * @param drawArrows
+	 *            whether slopefield is drawn with arrows
+	 */
 	public void setDrawArrows(boolean drawArrows) {
 		this.drawArrows = drawArrows;
 	}
