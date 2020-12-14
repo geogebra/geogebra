@@ -1740,6 +1740,7 @@ __GGB__keysVar["tr"].menu = {
     "DownloadAs": "Farkl\u0131 kaydet",
     "DownloadAsGgbFile": ".ggb dosyas\u0131 olarak indir",
     "DownloadAsStl": "3D yaz\u0131c\u0131 (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "A\xe7\u0131lan liste olarak \xe7iz",
     "DrawingPad": "Grafik",
     "DrawingPad2": "Grafik 2",

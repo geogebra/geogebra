@@ -1740,6 +1740,7 @@ __GGB__keysVar["fil"].menu = {
     "DownloadAs": "Export",
     "DownloadAsGgbFile": "Download as .ggb file",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Iguhit bilang drop-down list",
     "DrawingPad": "Grapika",
     "DrawingPad2": "Grapika 2",

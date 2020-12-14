@@ -1740,6 +1740,7 @@ __GGB__keysVar["vi"].menu = {
     "DownloadAs": "Xu\u1ea5t b\u1ea3n",
     "DownloadAsGgbFile": "T\u1ea3i t\u1eadp tin d\u01b0\u1edbi d\u1ea1ng .ggb",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "V\u1ebd theo danh s\xe1ch k\xe9o th\u1ea3",
     "DrawingPad": "V\xf9ng l\xe0m vi\u1ec7c",
     "DrawingPad2": "\u0110\u1ed3 th\u1ecb 2",

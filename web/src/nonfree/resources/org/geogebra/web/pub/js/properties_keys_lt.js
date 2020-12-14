@@ -1740,6 +1740,7 @@ __GGB__keysVar["lt"].menu = {
     "DownloadAs": "Eksportuoti",
     "DownloadAsGgbFile": "Atsisi\u0173sti kaip .ggb dokument\u0105",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Pie\u0161ti kaip i\u0161skleid\u017eiam\u0105 s\u0105ra\u0161\u0105",
     "DrawingPad": "Grafikos vaizdas",
     "DrawingPad2": "Grafikos vaizdas 2",

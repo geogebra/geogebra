@@ -1740,6 +1740,7 @@ __GGB__keysVar["et"].menu = {
     "DownloadAs": "Ekspordi",
     "DownloadAsGgbFile": "Laadi alla .ggb failina",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Esita ripploendina",
     "DrawingPad": "Graafikavaade",
     "DrawingPad2": "Graafikavaade 2",

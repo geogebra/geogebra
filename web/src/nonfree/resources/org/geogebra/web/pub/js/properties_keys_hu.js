@@ -1740,6 +1740,7 @@ __GGB__keysVar["hu"].menu = {
     "DownloadAs": "Export",
     "DownloadAsGgbFile": "Let\xf6lt\xe9s .ggb f\xe1jlk\xe9nt",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Leg\xf6rd\xfcl\u0151 listak\xe9nt megjelen\xedt",
     "DrawingPad": "Rajzlap",
     "DrawingPad2": "Rajzlap 2",

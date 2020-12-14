@@ -1740,6 +1740,7 @@ __GGB__keysVar["sq"].menu = {
     "DownloadAs": "Eksportoj",
     "DownloadAsGgbFile": "Download as .ggb file",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Vizato si liste e leshuar poshte",
     "DrawingPad": "Grafike",
     "DrawingPad2": "Grafike 2",

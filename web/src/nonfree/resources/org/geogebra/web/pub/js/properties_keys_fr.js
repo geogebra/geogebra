@@ -1740,6 +1740,7 @@ __GGB__keysVar["fr"].menu = {
     "DownloadAs": "Exporter en",
     "DownloadAsGgbFile": "T\xe9l\xe9charger comme fichier .ggb",
     "DownloadAsStl": "Impression 3D (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Liste d\xe9roulante",
     "DrawingPad": "Graphique",
     "DrawingPad2": "Graphique 2",

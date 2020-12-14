@@ -1740,6 +1740,7 @@ __GGB__keysVar["lv"].menu = {
     "DownloadAs": "Izvest",
     "DownloadAsGgbFile": "Lejupl\u0101d\u0113t k\u0101 .ggb failu",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Z\u012bm\u0113t k\u0101 izv\u0113\u013c\u0146u sarakstu",
     "DrawingPad": "Grafiki",
     "DrawingPad2": "Grafiki 2",

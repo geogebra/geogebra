@@ -1740,6 +1740,7 @@ __GGB__keysVar["sv"].menu = {
     "DownloadAs": "Ladda ned som",
     "DownloadAsGgbFile": "Ladda ned som .ggb-fil",
     "DownloadAsStl": "3D-printning (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Rita som rullgardinsmeny",
     "DrawingPad": "Ritomr\xe5de",
     "DrawingPad2": "Ritomr\xe5de 2",

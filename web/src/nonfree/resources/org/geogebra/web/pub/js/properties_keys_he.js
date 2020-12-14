@@ -1740,6 +1740,7 @@ __GGB__keysVar["he"].menu = {
     "DownloadAs": "\u05d4\u05d5\u05e8\u05d3 \u05db-",
     "DownloadAsGgbFile": "\u05d4\u05d5\u05e8\u05d3 \u05db\u05e7\u05d5\u05d1\u05e5 \u200f\u200e.ggb\u200e\u200f",
     "DownloadAsStl": "\u05d4\u05d3\u05e4\u05e1\u05ea \u05ea\u05dc\u05ea- \u05de\u05de\u05d3 \u200f\u200e(stl)\u200e\u200f",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "\u05d4\u05e6\u05d2 \u05db\u05e8\u05e9\u05d9\u05de\u05d4 \u05e0\u05e4\u05ea\u05d7\u05ea",
     "DrawingPad": "\u05dc\u05d5\u05d7 \u05e1\u05e8\u05d8\u05d5\u05d8",
     "DrawingPad2": "\u05dc\u05d5\u05d7 \u05e1\u05e8\u05d8\u05d5\u05d8 \u200f2\u200f",

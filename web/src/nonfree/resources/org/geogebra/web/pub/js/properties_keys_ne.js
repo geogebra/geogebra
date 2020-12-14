@@ -1740,6 +1740,7 @@ __GGB__keysVar["ne"].menu = {
     "DownloadAs": "\u0928\u093f\u0930\u094d\u092f\u093e\u0924\u094d",
     "DownloadAsGgbFile": "Download as .ggb file",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "\u0921\u094d\u0930\u092a \u0921\u093e\u0909\u0928 \u0938\u0941\u091a\u0940\u0915\u094b \u0930\u0941\u092a\u092e\u093e \u0916\u093f\u091a\u094d\u0928\u0941\u0939\u094b\u0938",
     "DrawingPad": "\u0921\u094d\u0930\u0907\u0919 \u0915\u094d\u0937\u0947\u0924\u094d\u0930",
     "DrawingPad2": "\u0930\u0947\u0916\u093f\u092f\u091a\u093f\u0924\u094d\u0930 \u0968",

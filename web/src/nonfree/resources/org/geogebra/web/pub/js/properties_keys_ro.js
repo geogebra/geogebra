@@ -1740,6 +1740,7 @@ __GGB__keysVar["ro"].menu = {
     "DownloadAs": "Export",
     "DownloadAsGgbFile": "Descarc\u0103 fi\u015fier .ggb",
     "DownloadAsStl": "Imprimare 3D",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Desenaz\u0103 ca list\u0103 vertical\u0103",
     "DrawingPad": "Grafice",
     "DrawingPad2": "Grafice 2",

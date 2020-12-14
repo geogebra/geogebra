@@ -1740,6 +1740,7 @@ __GGB__keysVar["id"].menu = {
     "DownloadAs": "Ekspor",
     "DownloadAsGgbFile": "Download as .ggb file",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Tempatkan sebagai daftar tergulung",
     "DrawingPad": "Tampilan Grafik",
     "DrawingPad2": "Grafik 2",

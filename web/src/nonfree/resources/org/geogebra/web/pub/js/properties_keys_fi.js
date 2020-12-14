@@ -1740,6 +1740,7 @@ __GGB__keysVar["fi"].menu = {
     "DownloadAs": "Tallenna piirtoalue...",
     "DownloadAsGgbFile": "Tallenna .ggb-tiedostona",
     "DownloadAsStl": "3D tulostus (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Piirr\xe4 pudotusvalikkona",
     "DrawingPad": "Piirtoalue",
     "DrawingPad2": "Piirtoalue 2",

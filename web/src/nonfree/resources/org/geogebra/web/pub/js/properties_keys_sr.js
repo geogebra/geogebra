@@ -1740,6 +1740,7 @@ __GGB__keysVar["sr"].menu = {
     "DownloadAs": "Izvoz",
     "DownloadAsGgbFile": "Snimi kao .ggb fajl",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Nacrtaj kao padaju\u0107u listu",
     "DrawingPad": "Povr\u0161ina za crtanje",
     "DrawingPad2": "Povr\u0161ina za crtanje 2",

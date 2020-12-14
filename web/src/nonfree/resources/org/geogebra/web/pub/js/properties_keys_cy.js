@@ -1740,6 +1740,7 @@ __GGB__keysVar["cy"].menu = {
     "DownloadAs": "Allforio",
     "DownloadAsGgbFile": "Download as .ggb file",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Draw as drop-down list",
     "DrawingPad": "Gwedd graffeg",
     "DrawingPad2": "Graffeg 2",

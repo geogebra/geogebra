@@ -1740,6 +1740,7 @@ __GGB__keysVar["eo"].menu = {
     "DownloadAs": "Eksporti",
     "DownloadAsGgbFile": "El\u015duti kiel .ggb-dosiero",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Draw as drop-down list",
     "DrawingPad": "Graphics",
     "DrawingPad2": "Grafika\u0135o 2",

@@ -1740,6 +1740,7 @@ __GGB__keysVar["is"].menu = {
     "DownloadAs": "Flytja \xfat",
     "DownloadAsGgbFile": "Hla\xf0a ni\xf0ur sem .ggb skjali",
     "DownloadAsStl": "3D prentun (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Teikna sem fellilista",
     "DrawingPad": "Teiknibor\xf0",
     "DrawingPad2": "Teiknibor\xf0 2",

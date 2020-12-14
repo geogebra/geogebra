@@ -1740,6 +1740,7 @@ __GGB__keysVar["de-AT"].menu = {
     "DownloadAs": "Herunterladen als",
     "DownloadAsGgbFile": "Herunterladen als GeoGebra Datei (ggb.)",
     "DownloadAsStl": "3D Druck (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Als Drop-Down-Liste anzeigen",
     "DrawingPad": "Grafik",
     "DrawingPad2": "Grafik 2",

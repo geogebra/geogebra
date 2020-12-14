@@ -1740,6 +1740,7 @@ __GGB__keysVar["cs"].menu = {
     "DownloadAs": "St\xe1hnout jako",
     "DownloadAsGgbFile": "St\xe1hnout jako soubor .ggb",
     "DownloadAsStl": "3D tisk (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Zobrazit jako rozbalovac\xed seznam",
     "DrawingPad": "N\xe1kresna",
     "DrawingPad2": "N\xe1kresna 2",

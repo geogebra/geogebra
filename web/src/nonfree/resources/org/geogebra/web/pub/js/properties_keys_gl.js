@@ -1740,6 +1740,7 @@ __GGB__keysVar["gl"].menu = {
     "DownloadAs": "Descargar como",
     "DownloadAsGgbFile": "Descargar como arquivo .ggb",
     "DownloadAsStl": "Impresora 3D (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Traza como lista despregable",
     "DrawingPad": "Vista gr\xe1fica",
     "DrawingPad2": "Vista gr\xe1fica 2",

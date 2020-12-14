@@ -1740,6 +1740,7 @@ __GGB__keysVar["nn"].menu = {
     "DownloadAs": "Last ned som",
     "DownloadAsGgbFile": "Last ned som .ggb-fil",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Teikn som nedtrekksliste",
     "DrawingPad": "Grafikkfelt",
     "DrawingPad2": "Grafikkfelt 2",

@@ -1740,6 +1740,7 @@ __GGB__keysVar["sk"].menu = {
     "DownloadAs": "Export",
     "DownloadAsGgbFile": "Stiahn\xfa\u0165 ako .ggb s\xfabor",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Kresli\u0165 v rozba\u013eovacom zozname",
     "DrawingPad": "N\xe1kres\u0148a",
     "DrawingPad2": "Geometrick\xe9 okno 2",

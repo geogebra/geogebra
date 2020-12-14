@@ -1740,6 +1740,7 @@ __GGB__keysVar["pl"].menu = {
     "DownloadAs": "Zapisz jako",
     "DownloadAsGgbFile": "Zapisz jako plik .ggb",
     "DownloadAsStl": "Druk 3D (STL)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Wy\u015bwietl jako lista rozwijalna",
     "DrawingPad": "Widok Grafiki",
     "DrawingPad2": "Widok Grafiki 2",

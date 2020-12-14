@@ -1740,6 +1740,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "DownloadAs": "\u532f\u51fa",
     "DownloadAsGgbFile": "\u4e0b\u8f09 .ggb \u6a94",
     "DownloadAsStl": "3D \u5217\u5370 (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "\u986f\u793a\u70ba\u4e0b\u62c9\u5f0f\u9078\u55ae",
     "DrawingPad": "\u7e6a\u5716\u5340",
     "DrawingPad2": "\u526f\u7e6a\u5716\u5340",

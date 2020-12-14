@@ -1740,6 +1740,7 @@ __GGB__keysVar["pt"].menu = {
     "DownloadAs": "Baixar como",
     "DownloadAsGgbFile": "Baixar como um arquivo .ggb",
     "DownloadAsStl": "Imprimir 3D (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Desenhar como uma lista suspensa",
     "DrawingPad": "Janela de Visualiza\xe7\xe3o",
     "DrawingPad2": "Janela de Visualiza\xe7\xe3o 2",

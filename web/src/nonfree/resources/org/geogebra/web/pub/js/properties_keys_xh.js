@@ -1740,6 +1740,7 @@ __GGB__keysVar["xh"].menu = {
     "DownloadAs": "Dawnlowda",
     "DownloadAsGgbFile": "yiDawnlowde njenge .ggb file",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Zoba njengo LuhluOluhlayo",
     "DrawingPad": "iMifanekiso",
     "DrawingPad2": "iMifanekiso2",

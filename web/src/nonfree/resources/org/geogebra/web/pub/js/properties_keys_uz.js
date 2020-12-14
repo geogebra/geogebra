@@ -1740,6 +1740,7 @@ __GGB__keysVar["uz"].menu = {
     "DownloadAs": "Yuklab olish turi",
     "DownloadAsGgbFile": ".ggb formatda yuklab olish",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Draw as drop-down list",
     "DrawingPad": "Grafik",
     "DrawingPad2": "Grafik 2",

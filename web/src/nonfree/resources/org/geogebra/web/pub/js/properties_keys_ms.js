@@ -1740,6 +1740,7 @@ __GGB__keysVar["ms"].menu = {
     "DownloadAs": "Eksport",
     "DownloadAsGgbFile": "Muat turun sebagai fail .ggb",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Lukis sebagai senarai \"drop-down\"",
     "DrawingPad": "Grafik",
     "DrawingPad2": "Grafik 2",

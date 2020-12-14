@@ -1740,6 +1740,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "DownloadAs": "\u062a\u0635\u062f\u064a\u0631",
     "DownloadAsGgbFile": ".ggb  \u062a\u0646\u0632\u064a\u0644 \u0643\u0640 \u0645\u0644\u0641",
     "DownloadAsStl": "3D print (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "\u0627\u0631\u0633\u0645 \u0643\u0644\u0627\u0626\u0650\u062d\u0629 \u0645\u064f\u0646\u0633\u062f\u0644\u0629",
     "DrawingPad": "\u0648\u0631\u0642\u0629 \u0627\u0644\u0639\u0645\u0644",
     "DrawingPad2": "\u0648\u0631\u0642\u0629\u0627\u0644\u0639\u0645\u0644 2",

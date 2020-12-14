@@ -1740,6 +1740,7 @@ __GGB__keysVar["eu"].menu = {
     "DownloadAs": "Jaitsi honela",
     "DownloadAsGgbFile": "Jaitsi .ggb dokumentu gisa",
     "DownloadAsStl": "3D inprimatzea (stl)",
+    "DrawArrows": "Draw arrows",
     "DrawAsDropDownList": "Marraztu goitibeherako zerrenda gisa",
     "DrawingPad": "Ikuspegi grafikoa",
     "DrawingPad2": "Ikuspegi Grafikoa 2",
