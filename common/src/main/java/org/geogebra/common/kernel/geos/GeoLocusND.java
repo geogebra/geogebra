@@ -143,6 +143,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 		getLineStyleXML(sb);
+		getDrawArrowsXML(sb);
 	}
 
 	@Override

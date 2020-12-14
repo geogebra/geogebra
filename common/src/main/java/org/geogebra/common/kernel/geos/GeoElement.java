@@ -4903,12 +4903,17 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			sb.append(lineOpacity);
 			sb.append("\"");
 		}
-		if (hasDrawArrows() && this instanceof GeoLocus) {
-			sb.append(" drawArrow=\"");
+		sb.append("/>\n");
+	}
+
+	protected void getDrawArrowsXML(final StringBuilder sb) {
+		if (hasDrawArrows()) {
+			sb.append("\t<drawArrows");
+			sb.append(" val=\"");
 			sb.append(((GeoLocus) this).isDrawArrows());
 			sb.append("\"");
+			sb.append("/>\n");
 		}
-		sb.append("/>\n");
 	}
 
 	/**

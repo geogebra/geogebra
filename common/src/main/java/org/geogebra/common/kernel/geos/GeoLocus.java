@@ -157,10 +157,9 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 	 *            whether checkbox is selected
 	 */
 	public void drawAsArrows(boolean checked) {
-		AlgoSlopeField slopeField = (AlgoSlopeField) getParentAlgorithm();
-		if (slopeField != null) {
+		if (getParentAlgorithm() instanceof AlgoSlopeField) {
 			drawArrows = checked;
-			slopeField.euclidianViewUpdate();
+			getParentAlgorithm().euclidianViewUpdate();
 		}
 	}
 
