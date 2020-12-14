@@ -11,7 +11,7 @@ import org.geogebra.keyboard.base.model.impl.RowImpl;
 
 public class NumberKeyUtil {
 
-    static void addFirstRow(RowImpl row, ButtonFactory buttonFactory) {
+    public static void addFirstRow(RowImpl row, ButtonFactory buttonFactory) {
         addInputButton(row, buttonFactory, "7");
         addInputButton(row, buttonFactory, "8");
         addInputButton(row, buttonFactory, "9");
@@ -19,7 +19,7 @@ public class NumberKeyUtil {
         addInputButton(row, buttonFactory, DIVISION, "/");
     }
 
-    static void addSecondRow(RowImpl row, ButtonFactory buttonFactory) {
+    public static void addSecondRow(RowImpl row, ButtonFactory buttonFactory) {
         addInputButton(row, buttonFactory, "4");
         addInputButton(row, buttonFactory, "5");
         addInputButton(row, buttonFactory, "6");
@@ -27,7 +27,7 @@ public class NumberKeyUtil {
         addInputButton(row, buttonFactory, "-");
     }
 
-    static void addThirdRow(RowImpl row, ButtonFactory buttonFactory) {
+    public static void addThirdRow(RowImpl row, ButtonFactory buttonFactory) {
         addInputButton(row, buttonFactory, "1");
         addInputButton(row, buttonFactory, "2");
         addInputButton(row, buttonFactory, "3");
@@ -36,7 +36,7 @@ public class NumberKeyUtil {
                 Action.BACKSPACE_DELETE);
     }
 
-    static void addFourthRow(RowImpl row, ButtonFactory buttonFactory) {
+    public static void addFourthRow(RowImpl row, ButtonFactory buttonFactory) {
         addInputButton(row, buttonFactory, "0");
         addInputButton(row, buttonFactory, ".");
         addConstantCustomButton(row, buttonFactory, Resource.LEFT_ARROW, Action.LEFT_CURSOR);

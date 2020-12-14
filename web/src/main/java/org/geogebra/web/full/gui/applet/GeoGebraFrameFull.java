@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.javax.swing.SwingConstants;
+import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -581,7 +582,7 @@ public class GeoGebraFrameFull
 	private VirtualKeyboardGUI getOnScreenKeyboard(
 			MathKeyboardListener textField) {
 		getKeyboardManager().setListeners(textField, this);
-		return getKeyboardManager().getOnScreenKeyboard();
+		return getKeyboardManager().getOnScreenKeyboard(InputBoxType.DEFAULT);
 	}
 
 	/**

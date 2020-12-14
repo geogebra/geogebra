@@ -23,6 +23,8 @@ import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificFunctionKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificLettersKeyboardFactory;
+import org.geogebra.keyboard.web.factory.KeyboardInputBox;
+import org.geogebra.keyboard.web.factory.KeyboardMow;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 
 import com.google.gwt.core.client.Scheduler;
@@ -125,21 +127,30 @@ public class TabbedKeyboard extends FlowPanel
 		BrowserStorage.LOCAL.setItem(BrowserStorage.KEYBOARD_WANTED, "false");
 	}
 
-	private void buildGUIGgb() {
+	private KeyboardFactory initKeyboardFactory(boolean inputBoxKeyboard) {
+		KeyboardFactory factory;
+		if (inputBoxKeyboard) {
+			factory = new KeyboardInputBox();
+		} else {
+			switch (hasKeyboard.getKeyboardType()) {
+			case MOW:
+				factory = new KeyboardMow();
+				break;
+			default:
+				factory = new KeyboardFactory();
+			}
+		}
+		return factory;
+	}
+
+	private void buildGUIGgb(boolean inputBoxKeyboard) {
 		// more button must be first because of float (Firefox)
 		if (hasMoreButton) {
 			switcher.addMoreButton();
 		}
 		tabs = new FlowPanel();
 
-		KeyboardFactory factory;
-		switch (hasKeyboard.getKeyboardType()) {
-			case MOW:
-				factory = new KeyboardMow();
-				break;
-			default:
-				factory = new KeyboardFactory();
-		}
+		KeyboardFactory factory = initKeyboardFactory(inputBoxKeyboard);
 
 		createAnsMathKeyboard(factory);
 		createDefaultKeyboard(factory);
@@ -733,17 +744,17 @@ public class TabbedKeyboard extends FlowPanel
 		}
 
 		clear();
-		buildGUI();
+		buildGUI(false);
 	}
 
 	/**
 	 * (Re)build the UI.
 	 */
-	public void buildGUI() {
+	public void buildGUI(boolean inputBoxKeyboard) {
 		if (hasKeyboard.getKeyboardType().equals(AppKeyboardType.SCIENTIFIC)) {
 			buildGUIScientific();
 		} else {
-			buildGUIGgb();
+			buildGUIGgb(inputBoxKeyboard);
 		}
 	}
 

@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -39,6 +40,7 @@ public class KeyboardManager
 	private AppW app;
 	private RootPanel keyboardRoot;
 	private VirtualKeyboardGUI keyboard;
+	private VirtualKeyboardGUI inputBoxKeyboard;
 
 	private String originalBodyPadding;
 	private final Style bodyStyle;
@@ -112,7 +114,7 @@ public class KeyboardManager
 	 * @return height inside of the geogebra window
 	 */
 	public int estimateKeyboardHeight() {
-		ensureKeyboardExists();
+		ensureKeyboardsExist();
 		int realHeight = keyboard.getOffsetHeight();
 		if (realHeight > 0) {
 			return realHeight;
@@ -127,7 +129,7 @@ public class KeyboardManager
 	 *            frame of the applet
 	 */
 	public void addKeyboard(Panel appFrame) {
-		ensureKeyboardExists();
+		ensureKeyboardsExist();
 		if (!shouldDetach()) {
 			appFrame.add(keyboard);
 		} else {
@@ -176,7 +178,7 @@ public class KeyboardManager
 	 */
 	public void setListeners(MathKeyboardListener textField,
 			UpdateKeyBoardListener listener) {
-		ensureKeyboardExists();
+		ensureKeyboardsExist();
 		if (textField != null) {
 			setOnScreenKeyboardTextField(textField);
 		}
@@ -185,20 +187,24 @@ public class KeyboardManager
 
 	/**
 	 * Lazy loading getter
+	 * @param inputBoxType
 	 * @return the keyboard
 	 */
 	@Nonnull
-	public VirtualKeyboardGUI getOnScreenKeyboard() {
-		ensureKeyboardExists();
+	public VirtualKeyboardGUI getOnScreenKeyboard(InputBoxType inputBoxType) {
+		ensureKeyboardsExist();
 		return keyboard;
 	}
 
-	private void ensureKeyboardExists() {
+	private void ensureKeyboardsExist() {
 		if (keyboard == null) {
 			boolean showMoreButton = app.getConfig().showKeyboardHelpButton()
 					&& !shouldDetach();
 			keyboard = new OnscreenTabbedKeyboard((HasKeyboard) app,
 					showMoreButton);
+		}
+		if (inputBoxKeyboard == null) {
+			inputBoxKeyboard = new InputBoxTabbedKeyboard((HasKeyboard) app);
 		}
 	}
 

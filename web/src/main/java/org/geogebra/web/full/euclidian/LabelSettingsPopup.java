@@ -153,7 +153,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		main.add(cmValue.getPanel());
 		main.setStyleName("labelPopupPanel");
 		getMyPopup().setWidget(main);
-		kbd = ((AppWFull) app).getKeyboardManager().getOnScreenKeyboard();
+		kbd = ((AppWFull) app).getKeyboardManager().getOnScreenKeyboard(null);
 		getMyPopup().addAutoHidePartner(kbd.getElement());
 		setLabels();
 	}
