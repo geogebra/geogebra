@@ -50,6 +50,8 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Tree node for expressions like "3*a - b/5"
  * 
@@ -58,16 +60,8 @@ import org.geogebra.common.util.debug.Log;
 public class ExpressionNode extends ValidExpression
 		implements ExpressionNodeConstants, ReplaceChildrenByValues {
 
-	private static final Inspecting TRICKY_DIVISION_CHECKER = new Inspecting() {
-
-		@Override
-		public boolean check(ExpressionValue v) {
-			return v.isOperation(Operation.DIVIDE)
-					&& DoubleUtil.isZero(v.evaluateDouble())
-					&& ((ExpressionNode) v).getLeft().evaluateDouble() != 0;
-		}
-	};
 	private Localization loc;
+	@Weak
 	private Kernel kernel;
 	private ExpressionValue left;
 	private ExpressionValue right;
@@ -398,43 +392,6 @@ public class ExpressionNode extends ValidExpression
 				right = ((Command) right).simplify(info);
 			}
 		}
-	}
-
-	/**
-	 * Replaces all constant parts in tree by their values
-	 */
-	final public void simplifyConstantIntegers() {
-		if (left.isExpressionNode()) {
-			left = doSimplifyConstantIntegers(left);
-		}
-
-		if ((right != null) && right.isExpressionNode()) {
-			right = doSimplifyConstantIntegers(right);
-		}
-	}
-
-	private static ExpressionValue doSimplifyConstantIntegers(
-			ExpressionValue left2) {
-		ExpressionNode node = (ExpressionNode) left2;
-		if (left2.isConstant() && node.getOperation() != Operation.ARBCONST) {
-			ExpressionValue eval = node
-					.evaluate(StringTemplate.defaultTemplate);
-			if (eval instanceof NumberValue) {
-				// we only simplify numbers that have integer values
-				if (DoubleUtil.isInteger(eval.evaluateDouble())) {
-					if (node.inspect(TRICKY_DIVISION_CHECKER)) {
-						node.simplifyConstantIntegers();
-						return left2;
-					}
-					return eval;
-				}
-			} else {
-				return eval;
-			}
-		} else {
-			node.simplifyConstantIntegers();
-		}
-		return left2;
 	}
 
 	/**
@@ -1422,7 +1379,7 @@ public class ExpressionNode extends ValidExpression
 			String rightStr = null;
 
 			if (right != null) {
-				rightStr = getCasString(right, tpl, symbolic, true);
+				rightStr = getCasString(right, tpl, symbolic, shaveBrackets());
 			}
 			// do not send random() to CAS
 			// #4072
@@ -1440,22 +1397,29 @@ public class ExpressionNode extends ValidExpression
 		return ret;
 	}
 
-	private String getCasString(ExpressionValue left2, StringTemplate tpl,
-			boolean symbolic, boolean isRight) {
-		if (symbolic && left2.isGeoElement()) {
-			if (((GeoElement) left2).isRandomGeo()) {
-				return left2.toValueString(tpl);
+	/**
+	 * @param expr expression
+	 * @param tpl template
+	 * @param symbolic whether to print label for geos
+	 * @param shaveOffBrackets whether to shave off brackets in case expr is a list
+	 * @return serialized expression
+	 */
+	public static String getCasString(ExpressionValue expr, StringTemplate tpl,
+			boolean symbolic, boolean shaveOffBrackets) {
+		if (symbolic && expr.isGeoElement()) {
+			if (((GeoElement) expr).isRandomGeo()) {
+				return expr.toValueString(tpl);
 			}
-			return ((GeoElement) left2).getLabel(tpl);
-		} else if (left2.isExpressionNode()) {
-			return ((ExpressionNode) left2).getCASstring(tpl, symbolic);
-		} else if (left2.isGeoElement()
-				&& ((GeoElement) left2).getDefinition() != null) {
-			return "(" + ((GeoElement) left2).getDefinition().toValueString(tpl) + ")";
-		} else if (isRight && shaveBrackets()) {
-			return ((MyList) left2).toString(tpl, !symbolic, false);
+			return ((GeoElement) expr).getLabel(tpl);
+		} else if (expr.isExpressionNode()) {
+			return ((ExpressionNode) expr).getCASstring(tpl, symbolic);
+		} else if (expr.isGeoElement()
+				&& ((GeoElement) expr).getDefinition() != null) {
+			return "(" + ((GeoElement) expr).getDefinition().toValueString(tpl) + ")";
+		} else if (shaveOffBrackets) {
+			return ((MyList) expr).toString(tpl, !symbolic, false);
 		}
-		return symbolic ? left2.toString(tpl) : left2.toValueString(tpl);
+		return symbolic ? expr.toString(tpl) : expr.toValueString(tpl);
 	}
 
 	/**
@@ -1495,43 +1459,43 @@ public class ExpressionNode extends ValidExpression
 		}
 
 		if (leaf) { // leaf is GeoElement or not
-			if (left.isGeoElement()) {
-				return ((GeoElement) left).getLabel(tpl);
-			}
-			return left.toString(tpl);
+			return getLabelOrDefinition(left, tpl);
 		}
 
 		// expression node
-		String leftStr = null, rightStr = null;
-		if (left.isGeoElement()) {
-			if (tpl.getStringType().equals(StringType.OGP)
-					&& expandForOGP(left)) {
-				leftStr = ((GeoElement) left).getDefinition(tpl);
-			} else {
-				leftStr = ((GeoElement) left).getLabel(tpl);
-			}
-		} else {
-			leftStr = left.toString(tpl);
-		}
+		String leftStr = getLabelOrDefinition(left, tpl);
+		String rightStr = null;
 
 		if (right != null) {
-			if (right.isGeoElement()) {
-				if (tpl.getStringType().equals(StringType.OGP)
-						&& expandForOGP(right)) {
-					rightStr = ((GeoElement) right).getDefinition(tpl);
-				} else {
-					rightStr = ((GeoElement) right).getLabel(tpl);
-				}
+			if (shaveBrackets()) {
+				rightStr = ((MyList) right).toString(tpl, false, false);
 			} else {
-				if (shaveBrackets()) {
-					rightStr = ((MyList) right).toString(tpl, false, false);
-				} else {
-					rightStr = right.toString(tpl);
-				}
+				rightStr = getLabelOrDefinition(right, tpl);
+			}
+		}
+		if (tpl.getStringType().equals(StringType.OGP)
+				&& expandForOGP(left)) {
+			if (left instanceof GeoElement) {
+				leftStr = ((GeoElement) left).getDefinition(tpl);
+			}
+			if (right instanceof GeoElement) {
+				rightStr = ((GeoElement) right).getDefinition(tpl);
 			}
 		}
 		return ExpressionSerializer.operationToString(left, right, operation,
 				leftStr, rightStr, false, tpl, kernel);
+	}
+
+	/**
+	 * @param left expression
+	 * @param tpl template
+	 * @return label or symbolic string
+	 */
+	public static String getLabelOrDefinition(ExpressionValue left, StringTemplate tpl) {
+		if (left.isGeoElement()) {
+			return ((GeoElement) left).getLabel(tpl);
+		}
+		return left.toString(tpl);
 	}
 
 	private boolean shaveBrackets() {

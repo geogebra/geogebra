@@ -44,6 +44,6 @@ public class PropertiesButton extends AriaMenuItem {
 
 	@Override
 	public void setTitle(String title) {
-		AriaHelper.setTitle(this, title, app);
+		AriaHelper.setTitle(this, title);
 	}
 }

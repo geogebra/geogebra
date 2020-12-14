@@ -26,14 +26,18 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Properties view
  * 
  */
 public abstract class PropertiesView implements View {
 
+	@Weak
 	protected Kernel kernel;
 	private boolean attached;
+	@Weak
 	protected App app;
 	protected final Localization loc;
 	protected OptionType selectedOptionType = OptionType.EUCLIDIAN;

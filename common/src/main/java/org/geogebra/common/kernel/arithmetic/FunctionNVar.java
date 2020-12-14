@@ -41,6 +41,8 @@ import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Function of N variables that returns either a number or a boolean. This
  * depends on the expression this function is based on.
@@ -63,6 +65,7 @@ public class FunctionNVar extends ValidExpression
 	protected boolean isConstantFunction = false;
 
 	/** kernel */
+	@Weak
 	protected Kernel kernel;
 	private final static int MAX_CAS_EVAL_MAP_SIZE = 100;
 	private MaxSizeHashMap<String, FunctionNVar> casEvalMap;
@@ -356,11 +359,6 @@ public class FunctionNVar extends ValidExpression
 		// replace all polynomials in expression (they are all equal to "1x" if
 		// we got this far)
 		// by an instance of MyDouble
-
-		// simplify constant parts in expression
-		if (info.isSimplifyingIntegers()) {
-			expression.simplifyConstantIntegers();
-		}
 
 		// evaluate expression to find out about the type of function
 		ExpressionValue ev;
@@ -1356,7 +1354,6 @@ public class FunctionNVar extends ValidExpression
 			expDeriv = expDeriv.derivative(fv, kernel);
 		}
 		expDeriv = expDeriv.shallowCopy();
-		expDeriv.simplifyConstantIntegers();
 		return new FunctionNVar(expDeriv, fVars);
 	}
 

@@ -725,8 +725,7 @@ public class GeoGebraFrameFull
 
 	private void attachMowMainMenu(final AppW app) {
 		StandardButton openMenuButton = new StandardButton(
-				MaterialDesignResources.INSTANCE.menu_black_whiteBorder(), null,
-				24, app);
+				MaterialDesignResources.INSTANCE.menu_black_whiteBorder(), null, 24);
 
 		openMenuButton.addFastClickHandler(source -> {
 			onMenuButtonPressed();

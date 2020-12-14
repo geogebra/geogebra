@@ -871,11 +871,16 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	}
 
 	/**
+	 * Does several replacements to simplify parsing
+	 * - replace || with | | where needed
+	 * - replace .. with ellipsis
+	 * - handle , as decimal or thousand separator based on locale
+	 *
 	 * @param parseString0
 	 *            input string
-	 * @return replace || with | | where needed; also replace .. with ellipsis
+	 * @return preprocessed string
 	 */
-	public static String fixVerticalBars(String parseString0) {
+	public static String preprocessForParser(String parseString0, boolean decimalComma) {
 		String ignoredIndices = ignoreIndices(parseString0);
 		StringBuilder sbFix = new StringBuilder();
 
@@ -966,11 +971,15 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		}
 		String basicOps = ".+-*/ ";
 		for (int i = 0; i < sbFix.length(); i++) {
-			if (sbFix.charAt(i) == ',') {
-				sbFix.replace(i, i + 1, ".");
-			}
-			if (!Character.isDigit(sbFix.charAt(i))
-					&& basicOps.indexOf(sbFix.charAt(i)) == -1) {
+			char currentChar = sbFix.charAt(i);
+			if (currentChar == ',') {
+				if (decimalComma) {
+					sbFix.replace(i, i + 1, ".");
+				} else {
+					sbFix.delete(i, i + 1);
+				}
+			} else if (!Character.isDigit(currentChar)
+					&& basicOps.indexOf(currentChar) == -1) {
 				break;
 			}
 		}

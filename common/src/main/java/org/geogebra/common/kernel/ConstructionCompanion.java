@@ -5,6 +5,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Extends Construction (for 3D stuff)
  * 
@@ -13,6 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
  */
 public class ConstructionCompanion {
 	/** construction */
+	@Weak
 	protected Construction cons;
 
 	/**

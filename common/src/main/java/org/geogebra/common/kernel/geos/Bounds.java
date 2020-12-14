@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -30,6 +31,7 @@ public class Bounds {
 	private Double lower;
 	private Double upper;
 	private ExpressionNode condition;
+	@Weak
 	private Kernel kernel;
 	private FunctionVariable fv;
 

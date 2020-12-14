@@ -1771,16 +1771,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			}
 			return;
 		}
-		try {
-			app.persistWidthAndHeight();
-			app.getGuiManager().getLayout().applyPerspective(ps);
-			app.updateViewSizes();
-			app.getGuiManager().updateMenubar();
-			app.getGuiManager().updateToolbar();
-			app.updateKeyboard();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
+		app.setPerspective(ps);
 	}
 
 	@Override
@@ -2113,7 +2105,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 *            text to copy to system clipboard
 	 */
 	final public void copyTextToClipboard(String text) {
-		app.copyTextToSystemClipboard(text);
+		app.getCopyPaste().copyTextToSystemClipboard(text);
 	}
 
 	/**

@@ -1,5 +1,6 @@
 @import 'colors';
 @import 'info-card';
+@import 'z-index';
 
 .GeoGebraFrame{
 	$pagecontrolpanelWidth: 269px;
@@ -15,9 +16,6 @@
 	$shadow-elevation-8: 0px 5px 5px -3px $black-20, 0px 8px 10px 1px $black-14, 0px 3px 14px 2px $black-12;
 	$shadow-elevation-16: 0px 8px 10px -5px $black-20, 0px 16px 24px 2px $black-14, 0px 6px 30px 5px $black-12;
 
-	// comes from youtube player, you must not change this.
-	$z_mow_video: 50;
-	$z_mask: 50;
 
 /*****************
 *   STYLEBAR
@@ -178,7 +176,7 @@
 		padding: 6px;
 		margin: 10px 6px 6px 10px;
 		left: 0px;
-		z-index: 99;
+		z-index: $z-on-top-of-graphics;
 		border-radius: 50%;
 		width: 24px;
 		height: 24px;
@@ -240,7 +238,7 @@
 		position: absolute;
 		border-radius: 50%;
 		will-change: transform;
-		z-index: 99;
+		z-index: $z-page-control-button;
 
 		background-color: $mow_primary;
 		box-shadow: 0px 2px 10px $black-30, 0px 0px 1px $black-10, inset 0px 1px 0px $white-25, inset 0px -1px 0px $black-15;
@@ -301,7 +299,7 @@
 		right: 0px;
 		box-shadow: $shadow-elevation-16;
 		background-color: $white;
-		z-index: 98;
+		z-index: $z-on-top-of-graphics;
 		height: 100%;
 		width: $pagecontrolpanelWidth;
 		overflow: hidden;
@@ -432,7 +430,7 @@
 	}
 
 	.mowPagePreviewCard.dragged {
-		z-index: $always_on_top;
+		z-index: $z-on-top-of-graphics;
 	}
 
 	.mowPagePreviewCard.dragCanStart {
@@ -445,7 +443,7 @@
 	.mowMatMenu.gwt-PopupPanel {
 		width: 168px;
 		min-width: 112px !important;
-		z-index: 502;
+		z-index: $z-dialog-context-menu;
 		.gwt-MenuItem {
 			width: 168px;
 			min-width: 112px !important;
@@ -464,7 +462,7 @@
 	.mowWidget {
 		position: absolute;
 		border-style: none;
-		z-index: $z_mow_video;
+		z-index: $z-mow-video;
 		.gwt-Frame{
 			box-sizing: border-box;
 			width: 100%;
@@ -536,7 +534,7 @@
 	 // unit rectangle for mask to transform with matrix
 	 .maskWidget {
 		position: absolute;
-		z-index: $z_mask;
+		z-index: $z-mask;
 		top: 0;
 		left: 0;
 		width: 100px;

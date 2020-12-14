@@ -132,6 +132,7 @@ import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -149,10 +150,13 @@ public class AlgebraProcessor {
 	public static final String CREATE_SLIDER = "1";
 
 	/** kernel */
+	@Weak
 	protected final Kernel kernel;
 	/** construction */
+	@Weak
 	protected final Construction cons;
 	/** app */
+	@Weak
 	protected final App app;
 	private final Localization loc;
 	private final ParserInterface parser;
@@ -194,6 +198,7 @@ public class AlgebraProcessor {
 
 		this.cmdDispatcher = commandDispatcher;
 		app = kernel.getApplication();
+		app.onCommandDispatcherSet(cmdDispatcher);
 		loc = app.getLocalization();
 		parser = kernel.getParser();
 		setEnableStructures(app.getConfig().isEnableStructures());
@@ -1071,6 +1076,9 @@ public class AlgebraProcessor {
 			extracted = symbolicProcessor.extractAssignment(equation, info);
 			ve.setLabel(extracted.getLabel());
 		}
+		if (ve.isRootNode()) {
+			extracted.setAsRootNode();
+		}
 		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(extracted, info);
 		String label = extracted.getLabel();
 		if (label != null && kernel.lookupLabel(label) != null
@@ -1289,7 +1297,7 @@ public class AlgebraProcessor {
 			ErrorHandler handler, ValidExpression ve, EvalInfo info) {
 		GeoElement[] geoElements = null;
 		try {
-
+			ve.setAsRootNode();
 			geoElements = processValidExpression(ve, info);
 			if (storeUndo && geoElements != null) {
 				app.storeUndoInfo();
@@ -1355,13 +1363,13 @@ public class AlgebraProcessor {
 	 * Converts a String into a double.
 	 * @param string The String to be converted to double.
 	 * @return the double value of the String after the conversion
-	 * @throws ParseException this exception is thrown if the String cannot be converted.
+	 * @throws NumberFormatException this exception is thrown if the String cannot be converted.
 	 */
-	public double convertToDouble(String string) throws ParseException {
+	public double convertToDouble(String string) throws NumberFormatException {
 		try {
 			return evaluateToNumberValue(parser.parseExpression(string)).getDouble();
-		} catch (MyError | TokenMgrError | RuntimeException e) {
-			throw new ParseException(e.getMessage());
+		} catch (MyError | TokenMgrError | RuntimeException | ParseException e) {
+			throw new NumberFormatException(e.getMessage());
 		}
 	}
 

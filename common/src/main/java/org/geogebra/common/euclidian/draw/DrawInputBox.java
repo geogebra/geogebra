@@ -639,13 +639,6 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	/**
-	 * Writes the real textfield's value to the GeoInputBox.
-	 */
-	public void apply() {
-		getGeoInputBox().updateLinkedGeo(getTextField().getText());
-	}
-
-	/**
 	 * @return input box
 	 */
 	GeoInputBox getGeoInputBox() {

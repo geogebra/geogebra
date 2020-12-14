@@ -8,11 +8,14 @@ import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 import org.geogebra.common.main.App;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Creates custom ToolCollections specified by toolbar strings.
  */
 public class CustomToolCollectionFactory extends AbstractToolCollectionFactory {
 
+    @Weak
     private App app;
     private String toolbarDefinition;
 

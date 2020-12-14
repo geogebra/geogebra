@@ -38,9 +38,13 @@ public abstract class SymbolicEditor implements MathFieldListener {
 
 	protected void applyChanges() {
 		setTempUserDisplayInput();
-
-		String editedText = asciiSerializer.serialize(getMathFieldInternal().getFormula());
-		geoInputBox.updateLinkedGeo(editedText);
+		MathFormula formula = getMathFieldInternal().getFormula();
+		String editedText = null;
+		String[] entries = asciiSerializer.serializeMatrixEntries(formula);
+		if (entries.length == 0) {
+			editedText = asciiSerializer.serialize(formula);
+		}
+		geoInputBox.updateLinkedGeo(editedText, entries);
 	}
 
 	protected void setTempUserDisplayInput() {

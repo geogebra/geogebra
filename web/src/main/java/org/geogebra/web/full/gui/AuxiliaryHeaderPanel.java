@@ -69,8 +69,7 @@ public class AuxiliaryHeaderPanel extends FlowPanel {
 		}, ClickEvent.getType());
 
 		// TODO - use new icon; this is just a placeholder
-		this.backButton = new StandardButton(BrowseResources.INSTANCE.back(),
-				gui.getApp());
+		this.backButton = new StandardButton(BrowseResources.INSTANCE.back());
 		this.backButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override

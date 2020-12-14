@@ -19,6 +19,8 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Helper class to evaluate expressions with GeoText objects in it.
  * 
@@ -28,6 +30,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public class MyStringBuffer extends ValidExpression implements TextValue {
 
 	private StringBuilder sb;
+	@Weak
 	private Kernel kernel;
 
 	/**

@@ -2202,7 +2202,7 @@ public class GeoCasCell extends GeoElement
 		CASException ce = null;
 		nativeOutput = true;
 		if (inputVE != null && getAssignmentType() == AssignmentType.DELAYED) {
-			result = inputVE.wrap().toString(StringTemplate.numericNoLocal);
+			result = ExpressionNode.getLabelOrDefinition(inputVE, StringTemplate.numericNoLocal);
 			success = result != null;
 		} else if (!useGeoGebraFallback) {
 			// CAS EVALUATION

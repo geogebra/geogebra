@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'z-index';
 
 $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 $classicToolbar: 50px;
@@ -8,57 +9,12 @@ $submenuTransitionDuration: 0.25s;
 $menuWidth: 320px;
 
 .GeoGebraFrame {
-	.floatingSubMenu {
-		z-index: 9999;
-
-		.gwt-MenuBar {
-			border: 2px solid green;
-		}
-		.gwt-MenuBar.gwt-MenuBar-vertical.floating-Popup.subMenuRightSide.matMenuBar.subMenuLeftSide2 {
-			top: 11px;
-			padding-top: 8px;
-	   		padding-bottom: 8px;
-			padding-left: 0px;
-			padding-right: 0px;
-		}
-
-		.subMenuRightSide {
-			position: relative;
-			width: 100%;
-			left: 326px;
-			border-radius: 2px;
-			padding: 5px;
-			background-color: $white-90;
-			box-shadow: $shadow-dark;
-
-			.arrowSubmenu {
-				position: absolute;
-				top: -2px;
-				left: -17px;
-			}
-
-			.gwt-MenuItem {
-				min-width: 36px;
-				padding-left: 12px;
-				padding-right: 16px;
-			}
-
-			.gwt-MenuItemSeparator {
-				padding: 0px;
-			}
-
-			input[type="radio"] {
-				margin: 0px 12px 0px 0px;
-			}
-
-		}
-	}
 
 	.floatingMenuView {
 		position: absolute;
 		top: 0px;
 		box-shadow: 0 6px 16px rgba(0,0,0,0.28);
-		z-index: 101;
+		z-index: $z-main-menu-floating;
 		height: 100%;
 		width: $menuWidth;
 		background-color: $white;
@@ -176,7 +132,7 @@ $menuWidth: 320px;
 		position: absolute;
 		height: 100%;
 		width: 100%;
-		z-index: 200;
+		z-index: $z-main-menu-submenu;
 		&.transitionIn {
 		    overflow: auto;
 			transition-timing-function: $submenuTimingFunction;

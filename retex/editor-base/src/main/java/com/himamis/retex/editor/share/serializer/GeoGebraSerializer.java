@@ -278,4 +278,23 @@ public class GeoGebraSerializer implements Serializer {
 		this.leftBracket = "(";
 		this.rightBracket = ")";
 	}
+
+	/**
+	 * @param formula formula; may or may not be a matrix
+	 * @return serialized matrix entries or [] if not a matrix
+	 */
+	public String[] serializeMatrixEntries(MathFormula formula) {
+		if (formula.getRootComponent().isProtected()
+				&& formula.getRootComponent().getArgument(0) instanceof MathArray) {
+			MathArray root = (MathArray) formula.getRootComponent().getArgument(0);
+			if (root.isMatrix()) {
+				String[] parts = new String[root.size()];
+				for (int i = 0; i < root.size(); i++) {
+					parts[i] = serialize(root.getArgument(i));
+				}
+				return parts;
+			}
+		}
+		return new String[0];
+	}
 }
