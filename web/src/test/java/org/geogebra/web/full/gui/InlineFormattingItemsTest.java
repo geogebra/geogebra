@@ -73,6 +73,7 @@ public class InlineFormattingItemsTest {
 				"ContextMenu.Font",
 				"Link",
 				"ContextMenu.textWrapping",
+				"ContextMenu.textRotation",
 				"ContextMenu.Heading",
 				"SEPARATOR",
 				"Cut", "Copy", "Paste",
@@ -98,6 +99,7 @@ public class InlineFormattingItemsTest {
 				"ContextMenu.Font",
 				"Link",
 				"ContextMenu.textWrapping",
+				"ContextMenu.textRotation",
 				"ContextMenu.Heading"
 		);
 
@@ -111,6 +113,7 @@ public class InlineFormattingItemsTest {
 		List<String> expected = Arrays.asList(
 				"ContextMenu.Font",
 				"ContextMenu.textWrapping",
+				"ContextMenu.textRotation",
 				"ContextMenu.Heading",
 				"SEPARATOR", "Cut", "Copy", "Paste",
 				"SEPARATOR", "General.Order",

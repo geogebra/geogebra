@@ -284,6 +284,17 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
+	public void setRotation(String setting) {
+		tableImpl.setCellProperty("rotation", setting);
+		table.updateRepaint();
+	}
+
+	@Override
+	public String getRotation() {
+		return tableImpl.getCellProperty("rotation");
+	}
+
+	@Override
 	public VerticalAlignment getVerticalAlignment() {
 		return VerticalAlignment.fromString(tableImpl.getCellProperty("valign"));
 	}
