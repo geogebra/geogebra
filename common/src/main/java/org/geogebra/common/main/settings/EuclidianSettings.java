@@ -157,6 +157,8 @@ public class EuclidianSettings extends AbstractSettings {
 	private GColor lastSelectedHighlighterColor = GColor.MOW_GREEN;
 	private int lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
 	private int lastHighlighterThinckness = EuclidianConstants.DEFAULT_HIGHLIGHTER_SIZE;
+	private int visibleFromX;
+	private int visibleUntilY;
 
 	/**
 	 * @param app
@@ -1718,5 +1720,21 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setLastHighlighterThinckness(int lastHighlighterThinckness) {
 		this.lastHighlighterThinckness = lastHighlighterThinckness;
+	}
+
+	public int getVisibleWidth() {
+		return getWidth() - visibleFromX;
+	}
+
+	public int getVisibleHeight() {
+		return visibleUntilY;
+	}
+
+	public void setVisibleFromX(int visibleFromX) {
+		this.visibleFromX = visibleFromX;
+	}
+
+	public void setVisibleUntilY(int visibleUntilY) {
+		this.visibleUntilY = visibleUntilY;
 	}
 }

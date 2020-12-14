@@ -316,12 +316,12 @@ public class EuclidianViewCompanion {
 			if (view.getKeepCenter() && view.isShowing()) {
 				// we may need to shift center if windows/settings sizes
 				// don't match
-				int w = view.getWidth();
-				int h = view.getHeight();
+				int w = view.getVisibleWidth();
+				int h = view.getVisibleHeight();
 				if (w > EuclidianView.MIN_WIDTH
 						&& h > EuclidianView.MIN_HEIGHT) {
-					int sw = evs.getWidth();
-					int sh = evs.getHeight();
+					int sw = evs.getVisibleWidth();
+					int sh = evs.getVisibleHeight();
 					// Log.debug("x0:" + x0 + ", y0:" + y0 + ", " + sw + "x"
 					// + sh + ", view: " + w + "x" + h);
 					if (sw == 0) {

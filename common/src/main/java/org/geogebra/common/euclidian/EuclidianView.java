@@ -6532,4 +6532,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 	}
+
+	@Override
+	public int getVisibleWidth() {
+		return getWidth();
+	}
+
+	@Override
+	public int getVisibleHeight() {
+		return getHeight();
+	}
 }

@@ -56,6 +56,16 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	int getHeight();
 
 	/**
+	 * @return width of the EV's visible part
+	 */
+	int getVisibleWidth();
+
+	/**
+	 * @return height of the EV's visible part
+	 */
+	int getVisibleHeight();
+
+	/**
 	 * convert screen coordinate x to real world coordinate x
 	 * 
 	 * @param x
