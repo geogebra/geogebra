@@ -2631,7 +2631,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				ret = "-\\infty";
 			}
 		}
-		if (shortLHS != null) {
+		if (shortLHS != null && tpl.allowShortLhs()) {
 			return shortLHS + " = " + ret;
 		}
 		return ret;

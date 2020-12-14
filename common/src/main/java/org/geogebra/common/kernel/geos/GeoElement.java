@@ -5625,9 +5625,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	final public boolean isDifferenceZeroInCAS(final GeoElementND f) {
 		// use CAS to check f - g = 0
-		String myFormula = getFormulaString(StringTemplate.defaultTemplate,
+		String myFormula = getFormulaString(StringTemplate.casCompare,
 				true);
-		String otherFormula = f.getFormulaString(StringTemplate.defaultTemplate,
+		String otherFormula = f.getFormulaString(StringTemplate.casCompare,
 				true);
 		if (myFormula.equals(otherFormula)) {
 			return true;
