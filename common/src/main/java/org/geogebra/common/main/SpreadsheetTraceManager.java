@@ -22,6 +22,8 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * This class manages tracing of GeoElements to the spreadsheet. A trace is a
  * spreadsheet cell, or set of cells in the same row, that holds the numeric
@@ -44,7 +46,9 @@ import org.geogebra.common.util.debug.Log;
 public class SpreadsheetTraceManager {
 
 	// external components
+	@Weak
 	private App app;
+	@Weak
 	private Kernel kernel;
 
 	// collection of all geos currently traced

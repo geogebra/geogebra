@@ -94,7 +94,7 @@ public class SearchPanel extends FlowPanel
 		});
 
 		StandardButton searchButton = new StandardButton(
-				BrowseResources.INSTANCE.search(), app);
+				BrowseResources.INSTANCE.search());
 		searchButton.addStyleName("searchButton");
 		searchButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -104,7 +104,7 @@ public class SearchPanel extends FlowPanel
 		});
 
 		this.cancelButton = new StandardButton(
-				SharedResources.INSTANCE.dialog_cancel(), app);
+				SharedResources.INSTANCE.dialog_cancel());
 		this.cancelButton.addStyleName("cancelButton");
 		this.cancelButton.setVisible(false);
 		this.cancelButton.addFastClickHandler(new FastClickHandler() {

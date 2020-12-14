@@ -150,7 +150,7 @@ public class PenSubMenu extends SubMenuPanel {
 
 	private void createMoreColorButton() {
 		btnCustomColor = new StandardButton(
-				MaterialDesignResources.INSTANCE.add_black(), null, 24, app);
+				MaterialDesignResources.INSTANCE.add_black(), null, 24);
 		AriaHelper.setLabel(btnCustomColor, app.getLocalization().getMenu("ToolbarColor"
 				+ ".MoreColors"));
 		btnCustomColor.addStyleName("mowColorButton");

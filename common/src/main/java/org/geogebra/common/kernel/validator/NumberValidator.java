@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.validator;
 
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.parser.stringparser.StringParser;
 import org.geogebra.common.kernel.validator.exception.NumberValueOutOfBoundsException;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -17,14 +16,14 @@ public class NumberValidator {
 	public static final String NUMBER_NEGATIVE_ERROR_MESSAGE_KEY = "InputError."
 			+ "Enter_a_number_greater_than_0";
 
-	private StringParser stringParser;
+	private AlgebraProcessor stringParser;
 
 	/**
 	 * @param algebraProcessor
 	 *            algebra processor
 	 */
 	public NumberValidator(AlgebraProcessor algebraProcessor) {
-		stringParser = new StringParser(algebraProcessor);
+		stringParser = algebraProcessor;
 	}
 
 	/**

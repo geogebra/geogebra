@@ -313,11 +313,13 @@ public class ParserTest {
 	}
 
 	@Test
-	public void commaParseTest() {
+	public void commaParsingShouldWorkInGerman() {
+		app.setLanguage(new Locale("de"));
+		shouldReparseAs("3,141", "3.141");
 		shouldReparseAs("3,5", "3.5");
-		shouldReparseAs("3,5>x", "If(5 > x, 3)");
 		shouldReparseAs("1,2 + 1,4", "1.2 + 1.4");
 		shouldReparseAs("(1,2) + 1,4", "(1, 2) + 1.4");
+		shouldReparseAs("3,5>x", "Wenn(5 > x, 3)");
 	}
 
 	@Test

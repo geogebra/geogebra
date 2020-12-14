@@ -53,7 +53,7 @@ public class ToolBar {
 			{ "16", "16 51" },
             { "551 550 11 20 22 21 23 55 56 57 12", "551 550 11 22 23 55 56 57 12" }, { "69" },
 			{ "510 511 512 513" },
-			{ "533 531 534 532 522 523 537 536 535",
+			{ "533 531 534 532 522 523 537 536 535", "533 531 534 532 522 523 537 536 535 538",
 					"533 531 534 532 538 522 523 537 536 535" },
 			{ "521 520" }, { "36 38 49 560" }, { "571 30 29 570 31 33" },
 			{ "17" }, { "540 40 41 42 27 28 35 6 502" } };
@@ -942,7 +942,6 @@ public class ToolBar {
 	}
 
 	final static private boolean isDefaultToolbar(String[] split, String[][] defaultToolbar) {
-
 		if (split.length != defaultToolbar.length) {
 			return false;
 		}

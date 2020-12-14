@@ -16,17 +16,17 @@ $purple-default: #6557D2;
 .GeoGebraFrame{
 
 	.matOpenKeyboardBtn {
-   		position: absolute;
-    	bottom: 8px;
-    	height: 22px;
-    	cursor: pointer;
-    	text-align: center;
-    	z-index: 99;
-    	
-    	img {
-    		width: 36px;
-   			opacity: 0.54;
-    	}    
+		position: absolute;
+		bottom: 8px;
+		height: 22px;
+		cursor: pointer;
+		text-align: center;
+		z-index: 99;
+
+		img {
+			width: 36px;
+			opacity: 0.54;
+		}
 	}
 
 	.matOpenKeyboardBtn:hover {
@@ -91,7 +91,8 @@ $purple-default: #6557D2;
 		&.detached {
 			position: fixed;
 			left: 0;
-			z-index: 2000;
+			will-change: transform;
+			z-index: 3000; /* more than $z-fullscreen-container in GGB */
 		}
 	}
 
@@ -424,7 +425,7 @@ $purple-default: #6557D2;
 	}
 
 	.TabbedKeyBoard { 
-		z-index: 200;
+		z-index: 500; /* same as $z-dialog in GGB */
 		position: absolute;
 		bottom: 0;
 		width: 100%;

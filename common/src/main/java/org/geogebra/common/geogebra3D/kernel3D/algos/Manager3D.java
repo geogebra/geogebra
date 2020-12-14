@@ -85,6 +85,8 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Class that for manage all 3D methods in AbstractKernel.
  * 
@@ -93,7 +95,9 @@ import org.geogebra.common.plugin.Operation;
  */
 public class Manager3D implements Manager3DInterface {
 
+	@Weak
 	private Kernel kernel;
+	@Weak
 	private Construction cons;
 	private Coords tmpCoords;
 	private Coords tmpCoords2;

@@ -28,6 +28,7 @@ public abstract class UndoManager {
 	@Weak
 	public App app;
 	/** construction */
+	@Weak
 	protected Construction construction;
 	/** list of undo steps */
 	protected LinkedList<UndoCommand> undoInfoList;
