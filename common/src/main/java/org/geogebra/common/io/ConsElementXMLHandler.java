@@ -1289,22 +1289,13 @@ public class ConsElementXMLHandler {
 			if (opacity != null) {
 				geo.setLineOpacity(Integer.parseInt(opacity));
 			}
-
-			return true;
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	private boolean handleDrawArrows(LinkedHashMap<String, String> attrs) {
-		try {
-			if (attrs.get("val") != null) {
-				String drawArrows = attrs.get("val");
+			if (attrs.get("drawArrow") != null) {
+				String drawArrows = attrs.get("drawArrow");
 				if (drawArrows != null && geo instanceof GeoLocus) {
 					((GeoLocus) geo).drawAsArrows(MyXMLHandler.parseBoolean(drawArrows));
 				}
 			}
+
 			return true;
 		} catch (RuntimeException e) {
 			e.printStackTrace();
@@ -2120,9 +2111,6 @@ public class ConsElementXMLHandler {
 				break;
 			case "dimensions":
 				handleDimensions(attrs);
-				break;
-			case "drawArrows":
-				handleDrawArrows(attrs);
 				break;
 			case "eqnStyle":
 				handleEqnStyle(attrs);
