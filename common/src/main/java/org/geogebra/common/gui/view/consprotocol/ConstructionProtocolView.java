@@ -167,7 +167,6 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		 */
 		public void updateAlgebraAndName() {
 			algebra = ConstructionProtocolView.getAlgebra(geo);
-			Log.error(algebra);
 			// name description changes if type changes, e.g. ellipse becomes
 			// hyperbola
 			name = ConstructionProtocolView.getName(geo);
@@ -272,7 +271,6 @@ public class ConstructionProtocolView implements ConstructionStepper {
 				toolbarIcon = null;
 			}
 
-			// name = geo.getNameDescriptionHTML(true, true);
 			updateAlgebraAndName();
 			description = ConstructionProtocolView.getDescription(geo,
 					!app.isHTML5Applet());

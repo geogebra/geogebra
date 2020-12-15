@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.IndexHTMLBuilder;
 
 public class GeoMutableTreeNode extends DefaultMutableTreeNode {
+	private final GeoElement geo;
 	private String algebraDescription;
 
 	/**
@@ -13,6 +14,7 @@ public class GeoMutableTreeNode extends DefaultMutableTreeNode {
 	 */
 	public GeoMutableTreeNode(GeoElement geo) {
 		super(geo);
+		this.geo = geo;
 	}
 
 	/**
@@ -28,5 +30,9 @@ public class GeoMutableTreeNode extends DefaultMutableTreeNode {
 
 	public void reset() {
 		algebraDescription = null;
+	}
+
+	public GeoElement getGeo() {
+		return geo;
 	}
 }

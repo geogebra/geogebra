@@ -75,15 +75,11 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 			boolean itemSelected, boolean expanded, boolean leaf, int row,
 			boolean itemHasFocus) {
 
-		// Application.debug("getTreeCellRendererComponent: " + value);
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
-		Object ob = node.getUserObject();
-
-		if (ob instanceof GeoElement) {
-			GeoElement geo = (GeoElement) ob;
+		if (value instanceof GeoMutableTreeNode) {
+			GeoElement geo = ((GeoMutableTreeNode) value).getGeo();
 			setForeground(GColorD.getAwtColor(geo.getAlgebraColor()));
 
-			String text = getDescription(geo, (GeoMutableTreeNode) node);
+			String text = getDescription(geo, (GeoMutableTreeNode) value);
 
 			// make sure we use a font that can display the text
 			setFont(app.getFontCanDisplayAwt(text, Font.BOLD));
@@ -127,10 +123,8 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 			// children)
 			// we have to remove this border to prevent an unnecessary indent
 			setBorder(null);
-		}
-
-		// no GeoElement
-		else {
+		} else { // no GeoElement
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 			// has children, display icon to expand / collapse the node
 			if (!node.isLeaf()) {
 				if (expanded) {
