@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
-import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockPanel;
@@ -31,26 +30,24 @@ class StepInformation extends DockPanel {
 
     /**
      * Constructs a StepInformation given a single StepNode
-     * @param app AppW for StandardButton
      * @param builder WebStepGuiBuilder for rendering step tree
      * @param result StepNode result
      * @param steps SolutionSteps tree to be rendered
      */
-	StepInformation(AppW app, WebStepGuiBuilder builder,
-			StepNode result, SolutionStep steps) {
-        setupInformation(app, builder,
+	StepInformation(WebStepGuiBuilder builder,
+            StepNode result, SolutionStep steps) {
+        setupInformation(builder,
                 new SolutionLine(SolutionStepType.EQUATION, result), steps);
     }
 
     /**
      * Constructs a StepInformation given a list of StepSolutions
-     * @param app AppW for StandardButton
      * @param builder WebStepGuiBuilder for rendering step tree
      * @param result list of StepSolutions, to be rendered as the result
      * @param steps SolutionSteps tree to be rendered
      */
-	StepInformation(AppW app, WebStepGuiBuilder builder,
-			List<StepSolution> result, SolutionStep steps) {
+	StepInformation(WebStepGuiBuilder builder,
+            List<StepSolution> result, SolutionStep steps) {
         SolutionLine line;
         if (result.size() == 0) {
             line = new SolutionLine(SolutionStepType.NO_REAL_SOLUTION);
@@ -58,11 +55,11 @@ class StepInformation extends DockPanel {
             line = new SolutionLine(SolutionStepType.LIST, result.toArray(new StepNode[0]));
         }
 
-		setupInformation(app, builder, line, steps);
+		setupInformation(builder, line, steps);
     }
 
-    private void setupInformation(AppW app, WebStepGuiBuilder builder,
-                           SolutionLine display, SolutionStep steps) {
+    private void setupInformation(WebStepGuiBuilder builder,
+			SolutionLine display, SolutionStep steps) {
         this.steps = steps;
         this.builder = builder;
 
@@ -76,7 +73,7 @@ class StepInformation extends DockPanel {
 
             add(container, DockPanel.WEST);
 
-            stepsButton = new StandardButton("Show Steps", app);
+            stepsButton = new StandardButton("Show Steps");
             stepsButton.setStyleName("solverButton");
             stepsButton.addFastClickHandler(new FastClickHandler() {
                 @Override

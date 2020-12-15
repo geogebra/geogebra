@@ -21,6 +21,8 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Helper class to evaluate expressions with GeoBoolean objects in it.
  * 
@@ -31,6 +33,7 @@ public class MyBoolean extends ValidExpression
 		implements BooleanValue, NumberValue {
 
 	private boolean value;
+	@Weak
 	private Kernel kernel;
 
 	// #5223

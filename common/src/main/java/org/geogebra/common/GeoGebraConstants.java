@@ -10,9 +10,9 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "01 December 2020";
+	public static final String BUILD_DATE = "10 December 2020";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.620.0";
+	public static final String VERSION_STRING = "5.0.621.0";
 
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
@@ -101,6 +101,10 @@ public interface GeoGebraConstants {
 
 	}
 
+	enum MenuType {
+		DEFAULT, EXAM
+	}
+
 	String GRAPHING_APPCODE = "graphing";
 	String GEOMETRY_APPCODE = "geometry";
 	String G3D_APPCODE = "3d";
@@ -110,6 +114,10 @@ public interface GeoGebraConstants {
 	String CLASSIC_APPCODE = "classic";
 	String EVALUATOR_APPCODE = "evaluator";
 	String NOTES_APPCODE = "notes";
+
+	String SUITE_SHORT_NAME = "CalculatorSuite.short";
+
+	String SUITE_URL_NAME = "calculator";
 
 	/**
 	 * used by version checker, so that sys admins can disable version checking

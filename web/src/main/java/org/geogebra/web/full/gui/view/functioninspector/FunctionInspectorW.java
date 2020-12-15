@@ -279,7 +279,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	@Override
 	protected void buildHelpPanel() {
 		btnHelp = new StandardButton(SharedResources.INSTANCE.icon_help_black(),
-				null, 24, app);
+				null, 24);
 		btnHelp.addStyleName("MyCanvasButton");
 		btnHelp.addStyleName("fiButton");
 		btnHelp.addFastClickHandler(new FastClickHandler() {

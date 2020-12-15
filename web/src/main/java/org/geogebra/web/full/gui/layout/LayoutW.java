@@ -89,9 +89,6 @@ public class LayoutW extends Layout {
 			app.setLabelingStyle(labelingStyle);
 		}
 
-		// ignore axes & grid settings for the document perspective
-		final boolean changed = setEVsettingsFromPerspective(app, perspective);
-
 		app.getGuiManager().setGeneralToolBarDefinition(
 		        perspective.getToolbarDefinition());
 		app.setToolbarPosition(perspective.getToolBarPosition(), false);
@@ -105,8 +102,6 @@ public class LayoutW extends Layout {
 			app.setShowAlgebraInput(app.getAppletParameters()
 					.getDataParamShowAlgebraInput(false), false);
 		}
-
-		// app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
 
 		app.setInputPosition(
 				app.getAppletParameters()
@@ -124,7 +119,6 @@ public class LayoutW extends Layout {
 
 			if (dp.getViewId() == App.VIEW_EUCLIDIAN3D) {
 				toolbar3D = dp.getToolbarString();
-				// Log.debug("TADAM " + toolbar3D);
 			}
 		}
 		dockManager.applyPerspective(perspective.getSplitPaneData(),
@@ -146,10 +140,11 @@ public class LayoutW extends Layout {
 			app.updateContentPane();
 		}
 
+		// ignore axes & grid settings for the document perspective
+		final boolean changed = setEVsettingsFromPerspective(app, perspective);
+
 		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE));
 		return changed;
-		// old behaviour: just updating center, instead of updateContentPane
-		// app.refreshSplitLayoutPanel();
 	}
 	
 	private boolean mayHaveKeyboard(DockPanelData dp) {

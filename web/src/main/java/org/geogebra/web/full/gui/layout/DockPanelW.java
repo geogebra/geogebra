@@ -1134,7 +1134,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	public void showResetIcon() {
 		StandardButton resetIcon = new StandardButton(
-				GuiResourcesSimple.INSTANCE.viewRefresh(), null, 24, app);
+				GuiResourcesSimple.INSTANCE.viewRefresh(), null, 24);
 		resetIcon.addFastClickHandler(source -> app.reset());
 		if (!app.allowStylebar()) {
 			dockControlPanel.clear();

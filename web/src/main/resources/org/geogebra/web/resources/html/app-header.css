@@ -40,27 +40,30 @@
 .GeoGebraHeader .appName.beta {
 	font-size: 24px;
     font-weight: normal;
-    margin: 20px 0px;
-    position: absolute;
-    top: 0px;
-    left: 230px;
-    width: 400px;
+    margin: 22px 24px 18px 0px;
+    width: fit-content;
     height: 24px;
     line-height: 24px;
     font-family: sans-serif;
     letter-spacing: 0.43px;
     color: rgba(0,0,0,.6);
+    white-space: nowrap;
 }
 
 .smallScreen.GeoGebraHeader .appName.beta,
 .smallScreen.GeoGebraHeader .appsBtn {
-    visibility: hidden;
+    display: none;
 }
 
 @media screen and (max-width: 660px) {
 	.GeoGebraHeader .appName.beta {
-		visibility: hidden;
-	}
+     		display: none;
+     }
+
+     .GeoGebraHeader .suiteAppPickerButton.suiteAppPickerButton-up,
+     	.GeoGebraHeader .suiteAppPickerButton.suiteAppPickerButton-up-hovering {
+     		visibility: hidden;
+     	}
 }
 
 .GeoGebraFrame .buttons {
@@ -95,7 +98,7 @@
 }
 
 .GeoGebraFrame .menuBtn {
-	margin: 14px 2px 14px 18px;
+	margin: 14px 0px 14px 18px;
 }
 
 .GeoGebraFrame .shareBtn {
@@ -144,6 +147,10 @@ img.profileImage {
     line-height: 1;
 }
 
+.GeoGebraFrame .headerStyle {
+	display: inline-flex;
+}
+
 .GeoGebraFrame .headerLogo {
     height: 48px;
     margin: 8px 0px;
@@ -151,14 +158,49 @@ img.profileImage {
     cursor: pointer;
 }
 
-.GeoGebraHeader .appName{
-	padding-left: 12px;
+.GeoGebraHeader .appName {
 	font-size: 16px;
 	margin: 3px 0;
 	line-height: 17px;
 	font-weight: normal;
-	flex:1;
 }
+
+.GeoGebraFrame.GeoGebraHeader.beta.suiteHeader {
+	display: flex;
+}
+
+.GeoGebraHeader .suiteAppPickerButton.suiteAppPickerButton-up,
+ .GeoGebraHeader .suiteAppPickerButton.suiteAppPickerButton-up-hovering {
+	display: inline-flex;
+	min-width: 138px;
+	max-width: 250px;
+	height: 36px;
+	margin: 14px 0px;
+	border-radius: 18px;
+	box-sizing: border-box;
+	border: 1px solid rgba(151, 151, 151, 0.52);
+	cursor: pointer;
+}
+
+.GeoGebraHeader .suiteAppPickerButton .gwt-Label {
+	height: 20px;
+	line-height: 20px;
+	margin: 7px 0px;
+	font-size: 100%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.GeoGebraHeader .suiteAppPickerButton .gwt-Image {
+	margin: 5px 12px 5px 16px;
+}
+
+.GeoGebraHeader .suiteAppPickerButton .dropDownImg {
+	margin: 5px 16px 5px 12px;
+	opacity: 54%;
+}
+
 .GeoGebraHeader.mobile{
 	display:none;
 }
@@ -188,8 +230,7 @@ img.profileImage {
 .GeoGebraHeader a{
 	color: #008475;
     text-decoration: none;
-    padding: 0px 8px;
-    margin-left: 5px;
+    margin-left: 8px;
     margin-right: 0px;
 }
 .GeoGebraHeader ul{
@@ -367,7 +408,7 @@ svg.icon.left {
 }
 
 .compact.GeoGebraFrame .menuBtn {
-    margin: 6px 2px 6px 18px;
+    margin: 6px 0px 6px 18px;
 }
 
 .smallScreen.GeoGebraFrame.scientificHeader .menuBtn {

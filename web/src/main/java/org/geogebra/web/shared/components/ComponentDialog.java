@@ -90,7 +90,7 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 		}
 
 		negButton = new StandardButton(app.getLocalization()
-				.getMenu(negTransKey), getApplication());
+				.getMenu(negTransKey));
 		negButton.setStyleName("dialogTextButton");
 
 		negButton.addFastClickHandler(source -> onNegativeAction());
@@ -103,7 +103,7 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 		}
 
 		posButton = new StandardButton(app.getLocalization()
-				.getMenu(posTransKey), getApplication());
+				.getMenu(posTransKey));
 		posButton.setStyleName("dialogContainedButton");
 
 		posButton.addFastClickHandler(source -> onPositiveAction());

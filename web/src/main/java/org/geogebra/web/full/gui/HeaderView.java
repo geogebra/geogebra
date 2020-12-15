@@ -38,8 +38,7 @@ public class HeaderView extends FlowPanel {
 
 	private void createButton() {
 		backButton = new StandardButton(
-				MaterialDesignResources.INSTANCE.mow_back_arrow(), null, 24,
-				null);
+				MaterialDesignResources.INSTANCE.mow_back_arrow(), null, 24);
 		backButton.setStyleName(BACK_BUTTON_STYLE_NAME);
 
 		add(backButton);

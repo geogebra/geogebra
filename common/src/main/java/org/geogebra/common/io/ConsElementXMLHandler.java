@@ -80,6 +80,8 @@ import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * XML handler for GeoElement properties
  */
@@ -121,7 +123,9 @@ public class ConsElementXMLHandler {
 	 * The point style of the document, for versions < 3.3
 	 */
 	private int docPointStyle;
+	@Weak
 	private App app;
+	@Weak
 	private MyXMLHandler xmlHandler;
 
 	private static class GeoExpPair {

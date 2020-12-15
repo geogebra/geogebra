@@ -24,6 +24,8 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.HasDebugString;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * An Polynomial is a list of Terms
  */
@@ -33,6 +35,7 @@ public class Polynomial implements HasDebugString {
 	private static final int MAX_ALLOWED_DEGREE = 1000;
 
 	private ArrayList<Term> terms = new ArrayList<>();
+	@Weak
 	private Kernel kernel;
 
 	/**

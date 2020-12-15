@@ -44,6 +44,7 @@ import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -53,13 +54,17 @@ import com.himamis.retex.editor.share.util.Unicode;
 public abstract class CommandProcessor {
 
 	/** application */
+	@Weak
 	protected App app;
 	/** localization */
 	protected Localization loc;
 	/** kernel */
+	@Weak
 	protected Kernel kernel;
 	/** construction */
+	@Weak
 	protected Construction cons;
+	@Weak
 	private AlgebraProcessor algProcessor;
 	private CommandErrorMessageBuilder commandErrorMessageBuilder;
 

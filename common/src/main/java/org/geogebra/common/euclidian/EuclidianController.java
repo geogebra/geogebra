@@ -165,6 +165,8 @@ import org.geogebra.common.util.GPredicate;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
+import com.google.j2objc.annotations.Weak;
+
 public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
@@ -228,7 +230,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * attachDetach (while the point is attached to a Path or Region)
 	 */
 	private static final int INCREASED_THRESHOLD_FACTOR = 2;
+	@Weak
 	protected final App app;
+	@Weak
 	protected final SelectionManager selection;
 	protected final Localization localization;
 	public double xRW;
@@ -236,8 +240,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public GeoPointND movedGeoPoint;
 	protected GeoElement resultedGeo;
 	public boolean draggingBeyondThreshold = false;
+	@Weak
 	protected Kernel kernel;
 	public GPoint mouseLoc;
+	@Weak
 	private EuclidianView view;
 	protected EuclidianPen pen;
 	private double oldDistance;

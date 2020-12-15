@@ -47,6 +47,8 @@ import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * 
  * @author Markus + ggb3D
@@ -57,6 +59,7 @@ public class MyVec3DNode extends ValidExpression
 	private ExpressionValue x;
 	private ExpressionValue y;
 	private ExpressionValue z;
+	@Weak
 	private Kernel kernel;
 	private int mode = Kernel.COORD_CARTESIAN_3D;
 	private boolean isCASVector;

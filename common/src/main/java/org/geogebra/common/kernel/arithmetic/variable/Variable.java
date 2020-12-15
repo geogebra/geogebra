@@ -37,6 +37,8 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * 
  * @author Markus Hohenwarter
@@ -45,6 +47,7 @@ import org.geogebra.common.plugin.Operation;
 public class Variable extends ValidExpression {
 
 	private String name;
+	@Weak
 	private Kernel kernel;
 	private VariableReplacerAlgorithm variableReplacerAlgorithm;
 

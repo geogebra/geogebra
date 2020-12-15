@@ -15,6 +15,8 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Periodically tries evaluating current input and creates preview
  * 
@@ -23,6 +25,7 @@ import org.geogebra.common.util.debug.Log;
 public class ScheduledPreviewFromInputBar implements Runnable {
 
 	private static final int DEFAULT_MAX_LENGTH = 1000;
+	@Weak
 	private final Kernel kernel;
 	private String input = "";
 	// concurrent evaluation with CAS may set validInput to null
