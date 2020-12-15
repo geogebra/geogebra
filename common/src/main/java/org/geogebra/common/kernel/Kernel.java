@@ -164,8 +164,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	protected boolean insertLineBreaks = false;
 
 	// angle unit: degree, radians
-	// although this is initialized from the default preferences XML,
-	// we need to initialize this here too for GeoGebraWeb
 	private int angleUnit = Kernel.ANGLE_DEGREE;
 
 	private boolean viewReiniting = false;

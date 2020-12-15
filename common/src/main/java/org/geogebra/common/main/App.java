@@ -2163,6 +2163,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	final public void initKernel() {
 		kernel = companion.newKernel();
+		kernel.setAngleUnit(appConfig.getDefaultAngleUnit());
 		// ensure that the selection manager is created
 		getSelectionManager();
 	}
