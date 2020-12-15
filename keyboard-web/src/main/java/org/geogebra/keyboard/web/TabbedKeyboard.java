@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.Localization;
@@ -127,10 +128,10 @@ public class TabbedKeyboard extends FlowPanel
 		BrowserStorage.LOCAL.setItem(BrowserStorage.KEYBOARD_WANTED, "false");
 	}
 
-	private KeyboardFactory initKeyboardFactory(boolean inputBoxKeyboard) {
+	private KeyboardFactory initKeyboardFactory(InputBoxType inputBoxType) {
 		KeyboardFactory factory;
-		if (inputBoxKeyboard) {
-			factory = new KeyboardInputBox();
+		if (inputBoxType != null) {
+			factory = new KeyboardInputBox(inputBoxType);
 		} else {
 			switch (hasKeyboard.getKeyboardType()) {
 			case MOW:
@@ -143,14 +144,14 @@ public class TabbedKeyboard extends FlowPanel
 		return factory;
 	}
 
-	private void buildGUIGgb(boolean inputBoxKeyboard) {
+	private void buildGUIGgb(InputBoxType inputBoxType) {
 		// more button must be first because of float (Firefox)
 		if (hasMoreButton) {
 			switcher.addMoreButton();
 		}
 		tabs = new FlowPanel();
 
-		KeyboardFactory factory = initKeyboardFactory(inputBoxKeyboard);
+		KeyboardFactory factory = initKeyboardFactory(inputBoxType);
 
 		createAnsMathKeyboard(factory);
 		createDefaultKeyboard(factory);
@@ -744,17 +745,17 @@ public class TabbedKeyboard extends FlowPanel
 		}
 
 		clear();
-		buildGUI(false);
+		buildGUI(null);
 	}
 
 	/**
 	 * (Re)build the UI.
 	 */
-	public void buildGUI(boolean inputBoxKeyboard) {
+	public void buildGUI(InputBoxType inputBoxType) {
 		if (hasKeyboard.getKeyboardType().equals(AppKeyboardType.SCIENTIFIC)) {
 			buildGUIScientific();
 		} else {
-			buildGUIGgb(inputBoxKeyboard);
+			buildGUIGgb(inputBoxType);
 		}
 	}
 

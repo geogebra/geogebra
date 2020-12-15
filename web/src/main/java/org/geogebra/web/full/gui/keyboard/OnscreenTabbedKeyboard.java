@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.keyboard;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.KeyBoardButtonBase;
 import org.geogebra.keyboard.web.TabbedKeyboard;
@@ -30,10 +31,13 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	 *            keyboard context
 	 * @param hasMoreButton
 	 *            whether to show more/help button
+	 * @param inputBoxType
+	 * 			  type of geo in linked to inputbox
 	 */
-	public OnscreenTabbedKeyboard(HasKeyboard app, boolean hasMoreButton) {
+	public OnscreenTabbedKeyboard(HasKeyboard app, boolean hasMoreButton,
+			InputBoxType inputBoxType) {
 		super(app, hasMoreButton);
-		buildGUI(true);
+		buildGUI(inputBoxType);
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
 			@Override
