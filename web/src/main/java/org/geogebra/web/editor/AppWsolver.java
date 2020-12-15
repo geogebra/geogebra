@@ -102,6 +102,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
 	@Override
     protected void initCoreObjects() {
         kernel = newKernel(this);
+		kernel.setAngleUnit(kernel.getApplication().getConfig().getDefaultAngleUnit());
 		initSettings();
         fontManager = new FontManagerW();
     }
