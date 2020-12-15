@@ -33,12 +33,6 @@
 		margin: 0px auto;
 		box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.20);
 
-		.mowSubMenu {
-			overflow-x: auto;
-			overflow-y: hidden;
-			scrollbar-width: thin;
-		}
-
 		.headerMow {
 			background-color: $mow_primary;
 
@@ -106,6 +100,7 @@
 			.mowSubmenuScrollPanel {
 				background-color: white;
 				height: 156px;
+				width: 300%;
 				z-index: $z_mow_toolbar_panel;
 				position: relative;
 				display: flex;
@@ -133,6 +128,26 @@
 				.panelRow {
 					padding: 0;
 					position: relative;
+				}
+
+				.mowSubMenu {
+					width: calc(100% / 3);
+					overflow-x: auto;
+					overflow-y: hidden;
+					scrollbar-width: thin;
+
+					.groupPanel {
+						height: 144px;
+						display: block;
+						margin: 8px auto 4px auto;
+						padding: 0px;
+
+						.toolButton {
+							display: inline-block;
+							vertical-align: bottom;
+							margin: 0px 10px !important;
+						}
+					}
 				}
 
 				.penSubMenu {
@@ -218,24 +233,6 @@
 								}
 							}
 						}
-					}
-				}
-
-				.toolsSubMenu, .mediaSubMenu {
-					.panelRow {
-						padding: 0px;
-					}
-					.groupPanel {
-						height: 144px;
-						display: block;
-						margin: 8px auto 4px auto;
-						padding: 0px;
-
-						.toolButton {
-							display: inline-block;
-							vertical-align: bottom;
-							margin: 0px 10px !important;
-						 }
 					}
 				}
 			}
