@@ -9,9 +9,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.shared.components.ComponentOrDivider;
-import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;

@@ -2,7 +2,6 @@ package org.geogebra.common.move.ggtapi.operations;
 
 import java.util.List;
 
-import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
