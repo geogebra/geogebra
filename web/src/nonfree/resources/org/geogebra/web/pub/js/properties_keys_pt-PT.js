@@ -1744,7 +1744,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "DownloadAs": "Download como",
     "DownloadAsGgbFile": "Descarregar como ficheiro .ggb",
     "DownloadAsStl": "3D imprimir (stl)",
-    "DrawArrows": "Draw arrows",
+    "DrawArrows": "Desenhar setas",
     "DrawAsDropDownList": "Desenhar como lista pendente",
     "DrawingPad": "Folha Gr\xe1fica 2D",
     "DrawingPad2": "Folha Gr\xe1fica 2D 2",

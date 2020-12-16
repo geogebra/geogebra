@@ -3148,7 +3148,7 @@ __GGB__keysVar["ca"].menu = {
     "UseLighting": "Fes servir il\xb7luminaci\xf3.",
     "UsePairNames": "Emprar noms emparellats",
     "UsePathAndRegionParameters": "Utilitza el par\xe0metre en el recorregut o la regi\xf3",
-    "UseTextAsCaption": "Use text as caption",
+    "UseTextAsCaption": "Fer servir un text com a etiqueta",
     "UserInterface": "Interf\xedcie d'usuari",
     "Value": "Valor",
     "ValueOfA": "Valor(s) de %0",
