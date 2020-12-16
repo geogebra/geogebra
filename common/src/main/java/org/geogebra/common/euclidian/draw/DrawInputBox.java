@@ -24,11 +24,13 @@ import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
+import org.geogebra.common.gui.inputfield.Input;
 import org.geogebra.common.gui.inputfield.InputMode;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.StringUtil;
 
@@ -551,7 +553,7 @@ public class DrawInputBox extends CanvasDrawable {
 	private void showWidget() {
 		if (geoInputBox.isSymbolicMode()) {
 			recomputeSize();
-			attachMathField();
+			attachMathField(geoInputBox.getInputBoxType());
 			return;
 		}
 
@@ -600,9 +602,9 @@ public class DrawInputBox extends CanvasDrawable {
 	/**
 	 * Attach the symbolic editor
 	 */
-	public void attachMathField() {
+	public void attachMathField(InputBoxType inputBoxTypes) {
 		hideTextField();
-		view.attachSymbolicEditor(geoInputBox, getInputFieldBounds());
+		view.attachSymbolicEditor(geoInputBox, getInputFieldBounds(), inputBoxTypes);
 		geoInputBox.update();
 		view.repaintView();
 	}

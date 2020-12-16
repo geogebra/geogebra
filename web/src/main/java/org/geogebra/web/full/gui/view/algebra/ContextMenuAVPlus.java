@@ -53,7 +53,7 @@ public class ContextMenuAVPlus implements SetLabels {
 		app = item.getApplication();
 		loc = app.getLocalization();
 		this.item = item;
-		kbd = app.getKeyboardManager().getOnScreenKeyboard(null);
+		kbd = app.getKeyboardManager().getOnScreenKeyboard();
 		wrappedPopup = new GPopupMenuW(app);
 		if (app.isUnbundled()) {
 			wrappedPopup.getPopupPanel().addStyleName("matMenu");

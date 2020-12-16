@@ -44,6 +44,7 @@ public class KeyboardManager
 
 	private String originalBodyPadding;
 	private final Style bodyStyle;
+	private InputBoxType inputBoxType;
 
 	/**
 	 * Constructor
@@ -114,7 +115,7 @@ public class KeyboardManager
 	 * @return height inside of the geogebra window
 	 */
 	public int estimateKeyboardHeight() {
-		ensureKeyboardsExist(null);
+		ensureKeyboardsExist();
 		int realHeight = keyboard.getOffsetHeight();
 		if (realHeight > 0) {
 			return realHeight;
@@ -129,7 +130,7 @@ public class KeyboardManager
 	 *            frame of the applet
 	 */
 	public void addKeyboard(Panel appFrame) {
-		ensureKeyboardsExist(null);
+		ensureKeyboardsExist();
 		if (!shouldDetach()) {
 			appFrame.add(keyboard);
 		} else {
@@ -178,7 +179,8 @@ public class KeyboardManager
 	 */
 	public void setListeners(MathKeyboardListener textField,
 			UpdateKeyBoardListener listener) {
-		ensureKeyboardsExist(null);
+		ensureKeyboardsExist();
+		((OnscreenTabbedKeyboard) keyboard).clearAndUpdate(getInputBoxType());
 		if (textField != null) {
 			setOnScreenKeyboardTextField(textField);
 		}
@@ -187,22 +189,37 @@ public class KeyboardManager
 
 	/**
 	 * Lazy loading getter
-	 * @param inputBoxType
 	 * @return the keyboard
 	 */
 	@Nonnull
-	public VirtualKeyboardGUI getOnScreenKeyboard(InputBoxType inputBoxType) {
-		ensureKeyboardsExist(inputBoxType);
+	public VirtualKeyboardGUI getOnScreenKeyboard() {
+		ensureKeyboardsExist();
 		return keyboard;
 	}
 
-	private void ensureKeyboardsExist(InputBoxType inputBoxType) {
+	private void ensureKeyboardsExist() {
 		if (keyboard == null) {
 			boolean showMoreButton = app.getConfig().showKeyboardHelpButton()
 					&& !shouldDetach();
 			keyboard = new OnscreenTabbedKeyboard((HasKeyboard) app,
 					showMoreButton, inputBoxType);
 		}
+	}
+
+	/**
+	 * getter for input box type
+	 * @return current input box type (needed for input box specific keyboard)
+	 */
+	public InputBoxType getInputBoxType() {
+		return inputBoxType;
+	}
+
+	/**
+	 * setter for input box type
+	 * @param inputBoxType new input box type
+	 */
+	public void setInputBoxType(InputBoxType inputBoxType) {
+		this.inputBoxType = inputBoxType;
 	}
 
 	@Override

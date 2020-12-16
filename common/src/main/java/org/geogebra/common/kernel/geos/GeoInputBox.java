@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.inputbox.EditorContent;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxProcessor;
+import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -586,5 +587,23 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private int getRows() {
 		return linkedGeo instanceof GeoList  ? ((GeoList) linkedGeo).size()
 				: (linkedGeo instanceof GeoVectorND ? ((GeoVectorND) linkedGeo).getDimension() : 1);
+	}
+
+	/**
+	 * linked geo type (needed for input box specific keyboard)
+	 * @return input box type
+	 */
+	public InputBoxType getInputBoxType() {
+		GeoClass geoClass = getLinkedGeo().getGeoClassType();
+		if (geoClass == GeoClass.FUNCTION) {
+			return InputBoxType.FUNCTION;
+		} else if (geoClass == GeoClass.FUNCTION_NVAR) {
+			return InputBoxType.FUNCTION_NVAR;
+		} else if (geoClass.equals(GeoClass.INEQUALITY)
+				|| geoClass == GeoClass.BOOLEAN) {
+			return InputBoxType.INEQ_BOOL;
+		} else {
+			return InputBoxType.DEFAULT;
+		}
 	}
 }
