@@ -3555,7 +3555,11 @@ public abstract class EuclidianView3D extends EuclidianView
 				clippingCubeDrawable.doUpdateMinMax();
 
 				if (!isZoomable()) {
-					updateMatrix();
+					if (!getSettings().isSetStandardCoordSystem()) {
+						getSettings().setSetStandardCoordSystem(true);
+					} else {
+						updateMatrix();
+					}
 					updateAllDrawables();
 				}
 
@@ -5331,13 +5335,10 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	protected void setStandardCoordSystem(boolean repaint) {
-		if (getSettings() != null && !getSettings().isSetStandardCoordSystem()) {
-			getSettings().setSetStandardCoordSystem(true);
-			return;
-		}
 		set3DCoordSystem(XZERO_SCENE_STANDARD, YZERO_SCENE_STANDARD, ZZERO_SCENE_STANDARD,
 				SCALE_STANDARD, SCALE_STANDARD, SCALE_STANDARD);
-		getSettings().setUpdateScaleOrigin(false);
+		getSettings().setUpdateScaleOrigin(
+				getSettings() != null && !getSettings().isSetStandardCoordSystem());
 	}
 
 	@Override

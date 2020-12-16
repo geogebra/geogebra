@@ -678,7 +678,6 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 		tfMinZ.removeActionListener(this);
 		tfMaxZ.removeActionListener(this);
 		view.updateBoundObjects();
-		view.stopAnimation();
 		tfMinX.setText(
 				view.getXminObject().getLabel(StringTemplate.editTemplate));
 		tfMaxX.setText(
