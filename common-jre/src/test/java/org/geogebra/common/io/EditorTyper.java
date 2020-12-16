@@ -9,6 +9,7 @@ import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 public class EditorTyper {
 
 	private MathFieldCommon mathField;
+	private int modifiers = 0;
 
 	/**
 	 * Create a new Editor Typer.
@@ -22,33 +23,31 @@ public class EditorTyper {
 	 * Type every character from the input string.
 	 *
 	 * @param input to type
-	 * @return this
 	 */
-	public EditorTyper type(String input) {
+	public void type(String input) {
 		KeyboardInputAdapter.emulateInput(mathField.getInternal(), input);
-		return this;
 	}
 
 	/**
 	 * Inserts string as is into editor.
 	 *
 	 * @param input to insert
-	 * @return this
 	 */
-	public EditorTyper insert(String input) {
+	public void insert(String input) {
 		mathField.insertString(input);
-		return this;
 	}
 
 	/**
 	 * Types a key.
 	 *
 	 * @param key keyCode to type
-	 * @return this
 	 */
-	public EditorTyper typeKey(int key) {
-		mathField.getInternal().onKeyPressed(new KeyEvent(key, 0, '\0'));
-		return this;
+	public void typeKey(int key) {
+		mathField.getInternal().onKeyPressed(new KeyEvent(key, modifiers, '\0'));
+	}
+
+	public void setModifiers(int modifiers) {
+		this.modifiers = modifiers;
 	}
 
 	/**
@@ -56,12 +55,10 @@ public class EditorTyper {
 	 *
 	 * @param key keyCode to type
 	 * @param count to repeat.
-	 * @return this
 	 */
-	public EditorTyper repeatKey(int key, int count) {
+	public void repeatKey(int key, int count) {
 		for (int i = 0; i < count; i++) {
-			mathField.getInternal().onKeyPressed(new KeyEvent(key, 0, '\0'));
+			mathField.getInternal().onKeyPressed(new KeyEvent(key, modifiers, '\0'));
 		}
-		return this;
 	}
 }

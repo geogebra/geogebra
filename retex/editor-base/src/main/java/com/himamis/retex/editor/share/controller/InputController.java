@@ -206,7 +206,7 @@ public class InputController {
 
 	private FunctionPower getFunctionPower(EditorState editorState) {
 		FunctionPower power = new FunctionPower();
-		int initialOffset = editorState.getCurrentOffset();
+		int initialOffset = editorState.getCurrentOffsetOrSelection();
 		MathComponent last = editorState.getCurrentField()
 				.getArgument(initialOffset - 1);
 		power.script = MathFunction.isScript(last) ? (MathFunction) last
@@ -1081,7 +1081,7 @@ public class InputController {
 	}
 
 	private static void delCharacters(EditorState editorState, int length0) {
-		int currentOffset = editorState.getCurrentOffset();
+		int	currentOffset = editorState.getCurrentOffsetOrSelection();
 		MathSequence currentField = editorState.getCurrentField();
 		int length = length0;
 		while (length > 0 && currentOffset > 0 && currentField
