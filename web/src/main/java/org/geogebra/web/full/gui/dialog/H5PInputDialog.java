@@ -2,13 +2,16 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
+import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.shared.components.ComponentOrDivider;
+import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -89,7 +92,7 @@ public class H5PInputDialog extends EmbedInputDialog implements AjaxCallback {
 			if (reader.readyState == FileReader.DONE) {
 				String[] splitted = reader.result.asString().split("base64,");
 				if (splitted != null && splitted.length == 2) {
-					app.getLoginOperation().getGeoGebraTubeAPI()
+					((MaterialRestAPI) app.getLoginOperation().getGeoGebraTubeAPI())
 							.uploadAndUnzipH5P(splitted[1], this);
 				}
 

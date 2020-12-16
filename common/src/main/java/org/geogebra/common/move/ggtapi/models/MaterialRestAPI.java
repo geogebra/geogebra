@@ -473,7 +473,6 @@ public class MaterialRestAPI implements BackendAPI {
 	 * @param base64 of the file
 	 * @param callback to handle api response
 	 */
-	@Override
 	public void uploadAndUnzipH5P(String base64, AjaxCallback callback) {
 		JSONObject json = new JSONObject();
 		try {

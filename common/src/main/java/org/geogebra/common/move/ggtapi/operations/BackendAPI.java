@@ -294,10 +294,4 @@ public interface BackendAPI {
 	 *            callback to process the response and fill the template material list
 	 */
 	void getTemplateMaterials(final MaterialCallbackI cb);
-
-	/**
-	 * Uploads and unzips an H5P file.
-	 * @param base64 of the file
-	 */
-	void uploadAndUnzipH5P(String base64, AjaxCallback callback);
 }
