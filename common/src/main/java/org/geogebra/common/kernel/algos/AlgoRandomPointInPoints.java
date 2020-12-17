@@ -179,8 +179,8 @@ public class AlgoRandomPointInPoints extends AlgoElement implements SetRandomVal
 			double inhomX = ((GeoPointND) val).getInhomX();
 			double inhomY = ((GeoPointND) val).getInhomY();
 			if (GeoPolygon.isInRegion(inhomX, inhomY, points)) {
-					randomPoint.setCoords(inhomX, inhomY, 1);
-					return true;
+				randomPoint.setCoords(inhomX, inhomY, 1);
+				return true;
 			}
 		}
 		return false;
