@@ -469,6 +469,18 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void testBackspaceAfterBrackets() {
+		checker.type("x(x+1)").typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("x(x+)");
+	}
+
+	@Test
+	public void testBackspaceAfterFraction() {
+		checker.type("12/34").typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("(12)/(3)");
+	}
+
+	@Test
 	public void spaceAfterFunctionShouldAddBrackets() {
 		checker.setFormatConverter(new SyntaxAdapterImpl(AppCommonFactory.create().getKernel()));
 		checker.type("sin 9x").checkAsciiMath("sin(9x)");
@@ -568,5 +580,13 @@ public class EditorTypingTest {
 				.setModifiers(KeyEvent.SHIFT_MASK)
 				.left(1)
 				.setModifiers(0).type("(").checkAsciiMath("x^(2)+(1)");
+	}
+
+	@Test
+	public void testBracketsForSelectionAfterScript() {
+		checker.type("x^2").right(1).type("+1")
+				.setModifiers(KeyEvent.SHIFT_MASK)
+				.left(2)
+				.setModifiers(0).type("(").checkAsciiMath("x^(2)(+1)");
 	}
 }
