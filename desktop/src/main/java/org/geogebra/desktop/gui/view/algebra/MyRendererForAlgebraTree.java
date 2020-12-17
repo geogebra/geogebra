@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AlgebraStyle;
-import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -32,7 +31,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	private static final long serialVersionUID = 1L;
 
 	protected AppD app;
-	private AlgebraTree view;
+	protected final AlgebraTree view;
 	protected Kernel kernel;
 	private ImageIcon iconShown, iconHidden;
 
@@ -63,9 +62,10 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	 * 
 	 * @param geo
 	 *            geo
+	 * @param node
 	 * @return description of the geo
 	 */
-	protected String getDescription(GeoElement geo) {
+	protected String getDescription(GeoElement geo, GeoMutableTreeNode node) {
 
 		return geo.getLabelTextOrHTML();
 	}
@@ -75,15 +75,11 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 			boolean itemSelected, boolean expanded, boolean leaf, int row,
 			boolean itemHasFocus) {
 
-		// Application.debug("getTreeCellRendererComponent: " + value);
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
-		Object ob = node.getUserObject();
-
-		if (ob instanceof GeoElement) {
-			GeoElement geo = (GeoElement) ob;
+		if (value instanceof GeoMutableTreeNode) {
+			GeoElement geo = ((GeoMutableTreeNode) value).getGeo();
 			setForeground(GColorD.getAwtColor(geo.getAlgebraColor()));
 
-			String text = getDescription(geo);
+			String text = getDescription(geo, (GeoMutableTreeNode) value);
 
 			// make sure we use a font that can display the text
 			setFont(app.getFontCanDisplayAwt(text, Font.BOLD));
@@ -127,10 +123,8 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 			// children)
 			// we have to remove this border to prevent an unnecessary indent
 			setBorder(null);
-		}
-
-		// no GeoElement
-		else {
+		} else { // no GeoElement
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 			// has children, display icon to expand / collapse the node
 			if (!node.isLeaf()) {
 				if (expanded) {
@@ -164,15 +158,6 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 			setFont(app.getFontCanDisplayAwt(str));
 		}
 		return this;
-	}
-
-	/**
-	 * @param geo construction element
-	 * @return algebra description of the geo
-	 */
-	protected static String getAlgebraDescriptionTextOrHTML(GeoElement geo) {
-		return geo.getAlgebraDescriptionTextOrHTMLDefault(
-				new IndexHTMLBuilder(true));
 	}
 
 	/**
