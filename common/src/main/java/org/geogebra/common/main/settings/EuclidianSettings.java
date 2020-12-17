@@ -1737,4 +1737,12 @@ public class EuclidianSettings extends AbstractSettings {
 	public void setVisibleUntilY(int visibleUntilY) {
 		this.visibleUntilY = visibleUntilY;
 	}
+
+	public int getVisibleFromX() {
+		return visibleFromX;
+	}
+
+	public int getVisibleUntilY() {
+		return visibleUntilY;
+	}
 }
