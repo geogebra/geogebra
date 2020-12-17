@@ -101,53 +101,6 @@ import com.himamis.retex.editor.share.util.Unicode;
 public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		SetLabels {
 
-	protected class Rectangle {
-
-		private double minX;
-		private double maxX;
-		private double minY;
-		private double maxY;
-
-		private Rectangle(double minX, double maxX, double minY, double maxY) {
-			this.minX = minX;
-			this.maxX = maxX;
-			this.minY = minY;
-			this.maxY = maxY;
-		}
-
-		public double getMinX() {
-			return minX;
-		}
-
-		public void setMinX(double xMin) {
-			this.minX = xMin;
-		}
-
-		public double getMaxX() {
-			return maxX;
-		}
-
-		public void setMaxX(double xMax) {
-			this.maxX = xMax;
-		}
-
-		public double getMinY() {
-			return minY;
-		}
-
-		public void setMinY(double yMin) {
-			this.minY = yMin;
-		}
-
-		public double getMaxY() {
-			return maxY;
-		}
-
-		public void setMaxY(double yMax) {
-			this.maxY = yMax;
-		}
-	}
-
 	private boolean isCrashlyticsLoggingEnabled;
 
 	/** says if the view has the mouse */
@@ -554,6 +507,53 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private BoundingBox<? extends GShape> focusedGroupGeoBoundingBox;
 
 	protected SymbolicEditor symbolicEditor = null;
+
+	protected static class Rectangle {
+
+		private double minX;
+		private double maxX;
+		private double minY;
+		private double maxY;
+
+		private Rectangle(double minX, double maxX, double minY, double maxY) {
+			this.minX = minX;
+			this.maxX = maxX;
+			this.minY = minY;
+			this.maxY = maxY;
+		}
+
+		public double getMinX() {
+			return minX;
+		}
+
+		public void setMinX(double xMin) {
+			this.minX = xMin;
+		}
+
+		public double getMaxX() {
+			return maxX;
+		}
+
+		public void setMaxX(double xMax) {
+			this.maxX = xMax;
+		}
+
+		public double getMinY() {
+			return minY;
+		}
+
+		public void setMinY(double yMin) {
+			this.minY = yMin;
+		}
+
+		public double getMaxY() {
+			return maxY;
+		}
+
+		public void setMaxY(double yMax) {
+			this.maxY = yMax;
+		}
+	}
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -4823,6 +4823,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		setViewShowAllObjects(storeUndo, keepRatio, 10);
 	}
 
+	/**
+	 * Change coord system so that all objects are shown
+	 *
+	 * @param storeUndo true to store undo after
+	 * @param keepRatio true to keep ratio of x and y axes
+	 * @param steps     animation steps
+	 */
 	public void setViewShowAllObjects(boolean storeUndo, boolean keepRatio, int steps) {
 		Rectangle allObjectsRect = calculateRectangleOfAllObjects(keepRatio);
 		if (allObjectsRect == null) {
