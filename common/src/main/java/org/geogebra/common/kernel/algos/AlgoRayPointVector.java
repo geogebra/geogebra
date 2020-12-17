@@ -35,15 +35,6 @@ public class AlgoRayPointVector extends AlgoElement {
 	/**
 	 * Creates new ray algo
 	 */
-	public AlgoRayPointVector(Construction cons, String label, GeoPoint P,
-			GeoVector v) {
-		this(cons, P, v);
-		ray.setLabel(label);
-	}
-
-	/**
-	 * Creates new ray algo
-	 */
 	public AlgoRayPointVector(Construction cons, GeoPoint P, GeoVector v) {
 		super(cons);
 		this.P = P;

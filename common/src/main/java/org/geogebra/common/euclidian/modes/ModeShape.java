@@ -308,11 +308,11 @@ public class ModeShape {
 			GeoPoint[] points = getRealPointsOfLine(event);
 			AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(
 					view.getKernel().getConstruction(),
-					null, points[0], points[1]);
+					 points[0], points[1]);
 			GeoSegment segment = algo.getSegment();
 			segment.setLabelVisible(false);
 			segment.setIsShape(true);
-			segment.updateRepaint();
+			segment.setLabel(null);
 			view.setShapeLine(null);
 			view.repaintView();
 			wasDragged = false;

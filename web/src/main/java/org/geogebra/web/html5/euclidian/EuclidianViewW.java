@@ -52,6 +52,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.TimerSystemW;
+import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
@@ -284,6 +285,7 @@ public class EuclidianViewW extends EuclidianView implements
 			g2p.resetLayer();
 			updateBackgroundIfNecessary();
 			paint(g2p);
+			MultiuserManager.INSTANCE.paintInteractionBoxes(this, g2p);
 
 			if (cacheGraphics != null) {
 				cacheGraphics = null;
