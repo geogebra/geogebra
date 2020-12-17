@@ -150,15 +150,22 @@
 		box-sizing: border-box;
 		min-width: 24px;
 		cursor: pointer;
-		text-align: center;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
 		opacity: 0.54;
 		.gwt-Label {
+			width: 100%;
 			line-height: 12px;
+			min-height: 28px;
 			font-size: 10px;
 			text-align: center;
 			word-break: break-word;
 			margin-left: 4px;
 			margin-right: 4px;
+		}
+		.gwt-Image {
+			height: 24px;
 		}
 		&.selected .gwt-Label {
 			color: $purple-default;
