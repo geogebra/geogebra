@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
@@ -132,7 +133,14 @@ public class InputBoxProcessor {
 	private void updateLinkedGeoNoErrorHandling(
 			StringTemplate tpl, ErrorHandler errorHandler, EditorContent content) {
 		String defineText = preprocess(content, tpl);
-
+		if (linkedGeo.isPointOnPath() || linkedGeo.isPointInRegion()) {
+			GeoPointND val = algebraProcessor.evaluateToPoint(defineText, errorHandler, true);
+			if (val != null) {
+				((GeoPointND) linkedGeo).setCoords(val.getCoords(), true);
+				linkedGeo.updateRepaint();
+			}
+			return;
+		}
 		EvalInfo info = buildEvalInfo();
 
 		algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
