@@ -24,7 +24,6 @@ import org.geogebra.common.gui.dialog.options.model.DecoAngleModel;
 import org.geogebra.common.gui.dialog.options.model.DecoAngleModel.IDecoAngleListener;
 import org.geogebra.common.gui.dialog.options.model.DecoSegmentModel;
 import org.geogebra.common.gui.dialog.options.model.DrawArrowsModel;
-import org.geogebra.common.gui.dialog.options.model.DrawArrowsModel.IDrawArrowListener;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.ISliderListener;
@@ -354,7 +353,7 @@ public class OptionsTab extends FlowPanel {
 			return new TextFieldAlignmentPanel((TextFieldAlignmentModel) m, app);
 		}
 		if (m instanceof DrawArrowsModel) {
-			return new SlopeFieldDrawArrowsPanel((DrawArrowsModel) m);
+			return new CheckboxPanel("DrawArrow", loc, (DrawArrowsModel) m);
 		}
 
 		return null;
@@ -1008,66 +1007,6 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		public void setValue(int value) {
 			slider.setValue(value);
-		}
-
-	}
-
-	private class SlopeFieldDrawArrowsPanel extends OptionPanel implements IDrawArrowListener {
-
-		DrawArrowsModel model;
-		private CheckBox cbDrawArrows;
-		private FlowPanel drawArrowsPanel;
-
-		public SlopeFieldDrawArrowsPanel(DrawArrowsModel model0) {
-			model = model0;
-			model.setListener(this);
-			setModel(model);
-
-			FlowPanel mainPanel = new FlowPanel();
-
-			cbDrawArrows = new CheckBox();
-			drawArrowsPanel = new FlowPanel();
-			drawArrowsPanel.add(cbDrawArrows);
-			mainPanel.add(drawArrowsPanel);
-
-			cbDrawArrows.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					model.applyDrawArrow(cbDrawArrows.getValue());
-				}
-			});
-
-			setWidget(mainPanel);
-		}
-
-		@Override
-		public void setSelectedIndex(int index) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void addItem(String plain) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void clearItems() {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void setLabels() {
-			cbDrawArrows.setText(localize("DrawArrows"));
-		}
-
-		@Override
-		public void setDrawAsArrowVisible(boolean isVisible) {
-			cbDrawArrows.setVisible(isVisible);
-		}
-
-		@Override
-		public void setDrawAsArrowsCheckbox(boolean checked) {
-			cbDrawArrows.setValue(checked);
 		}
 
 	}

@@ -224,5 +224,4 @@ public class LineStyleModel extends OptionsModel {
 	public PropertyListener getListener() {
 		return listener;
 	}
-
 }

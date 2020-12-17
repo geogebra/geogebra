@@ -163,9 +163,7 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 		}
 	}
 
-	/**
-	 * @return if slopefield is drawn with arrows
-	 */
+	@Override
 	public boolean isDrawArrows() {
 		return drawArrows;
 	}

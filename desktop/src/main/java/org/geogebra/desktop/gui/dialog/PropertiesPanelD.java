@@ -111,7 +111,6 @@ import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesMode
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsViewLocationListener;
 import org.geogebra.common.gui.dialog.options.model.DrawArrowsModel;
-import org.geogebra.common.gui.dialog.options.model.DrawArrowsModel.IDrawArrowListener;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -2739,92 +2738,16 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	}
 
-	private class DrawArrowsPanel extends JPanel implements UpdateablePropertiesPanel, SetLabels, UpdateFonts, IDrawArrowListener, ActionListener {
+	private class DrawArrowsPanel extends CheckboxPanel {
 
-		private DrawArrowsModel model;
-		private JCheckBox cbDrawArrows;
-		private JPanel drawArrowsPanel;
-		private JLabel lblDrawArrows;
+		private static final long serialVersionUID = 1L;
 
 		public DrawArrowsPanel() {
-			model = new DrawArrowsModel(app);
-			model.setListener(this);
-			lblDrawArrows = new JLabel();
-			cbDrawArrows = new JCheckBox();
-			drawArrowsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-			drawArrowsPanel.add(lblDrawArrows);
-			drawArrowsPanel.add(cbDrawArrows);
-			add(drawArrowsPanel);
-
-			setLayout(new BorderLayout());
-			add(drawArrowsPanel, BorderLayout.CENTER);
+			super(app, "DrawArrows", PropertiesPanelD.this);
+			setModel(new DrawArrowsModel(this, app));
+			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
 
-		@Override
-		public void setLabels() {
-			lblDrawArrows.setText(loc.getMenu("DrawArrow"));
-		}
-
-		@Override
-		public void setSelectedIndex(int index) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public JPanel updatePanel(Object[] geos) {
-			model.setGeos(geos);
-			return update();
-		}
-
-		@Override
-		public void addItem(String plain) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void clearItems() {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			model.applyDrawArrow(cbDrawArrows.isSelected());
-		}
-
-		public JPanel update() {
-			// check geos
-			if (!model.checkGeos()) {
-				return null;
-			}
-			cbDrawArrows.removeActionListener(this);
-			model.updateProperties();
-			cbDrawArrows.addActionListener(this);
-			return this;
-		}
-
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			if (!model.hasGeos()) {
-				return;
-			}
-			update();
-		}
-
-		@Override
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-			drawArrowsPanel.setFont(font);
-		}
-
-		@Override
-		public void setDrawAsArrowVisible(boolean value) {
-			drawArrowsPanel.setVisible(value);
-		}
-
-		@Override
-		public void setDrawAsArrowsCheckbox(boolean checked) {
-			cbDrawArrows.setSelected(checked);
-		}
 	}
 
 	/**

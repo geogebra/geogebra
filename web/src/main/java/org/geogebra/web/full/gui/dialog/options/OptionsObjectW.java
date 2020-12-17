@@ -965,7 +965,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		PointSizeModel ptSize = new PointSizeModel(app);
 		PointStyleModel ptStyle = new PointStyleModel(app);
 		LineStyleModel lineStyle = new LineStyleModel(app);
-		DrawArrowsModel drawArrows = new DrawArrowsModel(app);
+		DrawArrowsModel drawArrows = new DrawArrowsModel(null, app);
 		AngleArcSizeModel arcSize = new AngleArcSizeModel(app);
 		SlopeTriangleSizeModel slopeSize = new SlopeTriangleSizeModel(app);
 		IneqStyleModel ineqStyle = new IneqStyleModel(app);
