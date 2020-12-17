@@ -10,6 +10,8 @@ import org.geogebra.web.html5.javax.swing.Positioner;
 
 import com.google.gwt.user.client.ui.SimplePanel;
 
+import elemental2.dom.DomGlobal;
+
 public class ViewTextFieldW extends ViewTextField {
 
 	private Positioner positioner;
@@ -39,7 +41,13 @@ public class ViewTextFieldW extends ViewTextField {
 	@Override
 	public void setBoxVisible(boolean isVisible) {
 		ensureBoxExists();
-		box.setVisible(isVisible);
+		((EuclidianViewW) euclidianView).doRepaint();
+		if (isVisible) {
+			box.setVisible(true);
+		} else {
+			// deferred so that the canvas version can be drawn
+			DomGlobal.requestAnimationFrame(e -> box.setVisible(false));
+		}
 	}
 
 	@Override
