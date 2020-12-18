@@ -353,7 +353,7 @@ public class OptionsTab extends FlowPanel {
 			return new TextFieldAlignmentPanel((TextFieldAlignmentModel) m, app);
 		}
 		if (m instanceof DrawArrowsModel) {
-			return new CheckboxPanel("DrawArrow", loc, (DrawArrowsModel) m);
+			return new CheckboxPanel("DrawArrows", loc, (DrawArrowsModel) m);
 		}
 
 		return null;

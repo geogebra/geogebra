@@ -6717,11 +6717,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	@Override
-	public boolean hasDrawArrows() {
-		return false;
-	}
-
-	@Override
 	public boolean evaluatesToNumber(boolean def) {
 		return isNumberValue();
 	}

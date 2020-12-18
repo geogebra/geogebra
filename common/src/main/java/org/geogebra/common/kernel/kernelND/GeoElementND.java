@@ -313,11 +313,6 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	public int getLineOpacity();
 
 	/**
-	 * @return wether there are arrows drawn
-	 */
-	public boolean hasDrawArrows();
-
-	/**
 	 * sets whether the object's label should be drawn in an EuclidianView
 	 * 
 	 * @param visible

@@ -30,7 +30,7 @@ public class DrawArrowsModel extends BooleanOptionModel {
 	@Override
 	protected boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
-		return geo instanceof GeoLocus;
+		return geo instanceof GeoLocus && ((GeoLocus)geo).hasDrawArrows();
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class DrawArrowsModel extends BooleanOptionModel {
 		}
 	}
 
-	public boolean checkDrawArrow() {
+	private boolean checkDrawArrow() {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			if (geo instanceof GeoLocus) {
