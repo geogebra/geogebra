@@ -9,7 +9,6 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
@@ -146,7 +145,7 @@ public class OpenFileView extends MyHeaderPanel
 		buttonPanel = new FlowPanel();
 		newFileBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.file_plus(),
-				localize("New.Mebis"), 18, app);
+				localize("New.Mebis"), 18);
 		newFileBtn.addFastClickHandler(source -> newFile());
 		openFileBtn.setImageAndText(
 				MaterialDesignResources.INSTANCE.mow_pdf_open_folder()
@@ -212,9 +211,6 @@ public class OpenFileView extends MyHeaderPanel
 
 	@Override
 	public void openFile(final File fileToHandle) {
-		if (app.getLAF().supportsLocalSave()) {
-			app.getFileManager().setFileProvider(Provider.LOCAL);
-		}
 		app.openFile(fileToHandle);
 		close();
 	}

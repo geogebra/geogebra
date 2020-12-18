@@ -9,6 +9,8 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.Settings;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Updates the settings.
  * Every complex (longer than 1 line) logic related to a combination of settings
@@ -16,10 +18,11 @@ import org.geogebra.common.main.settings.Settings;
  */
 public class SettingsUpdater {
 
+	@Weak
+	private Kernel kernel;
 	private EuclidianHost euclidianHost;
 	private Settings settings;
 	private AppConfig appConfig;
-	private Kernel kernel;
 	private FontSettingsUpdater fontSettingsUpdater;
 	private LabelSettingsUpdater labelSettingsUpdater;
 
@@ -51,6 +54,7 @@ public class SettingsUpdater {
 
 	private void setEuclidianSettings() {
 		EuclidianSettings euclidianSettings = euclidianHost.getActiveEuclidianView().getSettings();
+		euclidianSettings.reset();
 		euclidianSettings.showGrid(appConfig.showGridOnFileNew());
 		euclidianSettings.setShowAxes(appConfig.showAxesOnFileNew());
 	}

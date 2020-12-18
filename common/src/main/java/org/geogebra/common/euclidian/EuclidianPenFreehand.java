@@ -1098,14 +1098,14 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 	private GeoElement getJoinPointsSegment(GeoPoint first, GeoPoint last) {
 		Construction cons = app.getKernel().getConstruction();
-		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(cons, null,
+		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(cons,
 				first, last);
 		first.setEuclidianVisible(false);
 		last.setEuclidianVisible(false);
 		GeoElement line = algo.getOutput(0);
-		line.updateRepaint();
 		line.setIsShape(app.isWhiteboardActive());
 		line.setLabelVisible(false);
+		line.setLabel(null);
 		return line;
 	}
 

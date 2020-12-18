@@ -6,10 +6,8 @@ import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.components.ComponentInputField;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
@@ -24,15 +22,12 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class InputDialogTableView extends ComponentDialog
 		implements HasKeyboardPopup {
-	private static final String VERTICAL_SCROLL_CLASS = "verticalScroll";
-	private static final int MIN_CONTENT_HEIGHT = 56;
 	private ComponentInputField startValue;
 	private ComponentInputField endValue;
 	private ComponentInputField step;
 	private GeoElement geo;
 	private Label errorLabel;
 	private TableValuesDialogValidator validator;
-	private FlowPanel scrollContent;
 
 	/**
 	 * Create new dialog. NOT modal to make sure onscreen keyboard still works.
@@ -62,13 +57,10 @@ public class InputDialogTableView extends ComponentDialog
 
 	private void buildContent() {
 		FlowPanel contentPanel = new FlowPanel();
+		buildTextFieldPanel(contentPanel);
 		errorLabel = new Label();
 		errorLabel.setStyleName("globalErrorLabel");
-		scrollContent = new FlowPanel();
-		scrollContent.addStyleName(VERTICAL_SCROLL_CLASS);
-		buildTextFieldPanel(scrollContent);
-		scrollContent.add(errorLabel);
-		contentPanel.add(scrollContent);
+		contentPanel.add(errorLabel);
 		addDialogContent(contentPanel);
 	}
 
@@ -96,27 +88,7 @@ public class InputDialogTableView extends ComponentDialog
 		endValue.resetInputField();
 		step.resetInputField();
 		super.show();
-		centerAndResize(
-				((AppW) app).getAppletFrame().getKeyboardHeight());
 		startValue.focusDeferred();
-	}
-
-	@Override
-	public void centerAndResize(double height) {
-		// reset so that resizing to bigger screen allows expansion of the
-		// scroll content
-		scrollContent.setHeight("auto");
-		super.centerAndResize(height);
-		int contentHeight = getOffsetHeight()
-				- 72 - GPopupPanel.VERTICAL_PADDING;
-		boolean scrollOnlyContent = contentHeight > MIN_CONTENT_HEIGHT;
-		if (scrollOnlyContent) {
-			scrollContent.setHeight(contentHeight + "px");
-			getElement().removeClassName(VERTICAL_SCROLL_CLASS);
-		} else {
-			getElement().addClassName(VERTICAL_SCROLL_CLASS);
-		}
-		Dom.toggleClass(scrollContent, VERTICAL_SCROLL_CLASS, scrollOnlyContent);
 	}
 
 	/**

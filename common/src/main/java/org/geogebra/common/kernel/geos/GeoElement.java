@@ -99,6 +99,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.JsReference;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.DoubleUtil;
@@ -238,12 +239,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	protected boolean highlighted = false;
 	private boolean selected = false;
 	private String strAlgebraDescription;
-	private String strAlgebraDescTextOrHTML;
 	private String strLabelTextOrHTML;
 	/** LaTeX string for LaTeX export */
 	protected String strLaTeX;
 	private boolean strAlgebraDescriptionNeedsUpdate = true;
-	private boolean strAlgebraDescTextOrHTMLneedsUpdate = true;
 	private boolean strLabelTextOrHTMLUpdate = true;
 	/** true if strLaTex is out of sync */
 	protected boolean strLaTeXneedsUpdate = true;
@@ -2218,8 +2217,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			final AnimationManager am = kernel.getAnimatonManager();
 			if (animating) {
 				am.addAnimatedGeo(this);
+				kernel.notifyStartAnimation(this);
 			} else {
 				am.removeAnimatedGeo(this);
+				kernel.notifyStopAnimation(this);
 			}
 		}
 	}
@@ -3171,7 +3172,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private void algebraStringsNeedUpdate() {
 		strAlgebraDescriptionNeedsUpdate = true;
-		strAlgebraDescTextOrHTMLneedsUpdate = true;
 		strLabelTextOrHTMLUpdate = true;
 		strLaTeXneedsUpdate = true;
 	}
@@ -3971,37 +3971,23 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (!isAlgebraLabelVisible()) {
 			String desc = getLaTeXDescriptionRHS(false,
 					StringTemplate.defaultTemplate);
-			Log.debug("desc = " + desc);
 			if (LabelManager.isShowableLabel(desc)) {
 				builder.clear();
 				builder.append(desc);
 				return builder.toString();
 			}
 		}
-		if (strAlgebraDescTextOrHTMLneedsUpdate) {
-			final String algDesc = getAlgebraDescriptionDefault();
-			// convertion to html is only needed if indices are found
-			if (hasIndexLabel()) {
-				builder.indicesToHTML(algDesc);
-				strAlgebraDescTextOrHTML = builder.toString();
-			} else {
-				builder.clear();
-				builder.append(algDesc);
-				strAlgebraDescTextOrHTML = algDesc;
-			}
 
-			strAlgebraDescTextOrHTMLneedsUpdate = false;
+		final String algDesc = getAlgebraDescriptionDefault();
+		// convertion to html is only needed if indices are found
+		if (hasIndexLabel()) {
+			builder.indicesToHTML(algDesc);
+			return builder.toString();
 		} else {
-			// TODO in some cases we don't need this
-			if (!builder.canAppendRawHtml()) {
-				builder.indicesToHTML(strAlgebraDescription);
-			} else {
-				builder.clear();
-				builder.append(strAlgebraDescTextOrHTML);
-			}
+			builder.clear();
+			builder.append(algDesc);
+			return algDesc;
 		}
-
-		return strAlgebraDescTextOrHTML;
 	}
 
 	/**
@@ -6876,11 +6862,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (getPackedIndex() > 0) {
 			return DescriptionMode.VALUE;
 		}
-		IndexHTMLBuilder sbDef = new IndexHTMLBuilder(false);
-		IndexHTMLBuilder sbVal = new IndexHTMLBuilder(false);
-		addLabelTextOrHTML(def0, sbDef);
-		String def = sbDef.toString();
-		String val = getAlgebraDescriptionTextOrHTMLDefault(sbVal);
+
+		String def = addLabelText(def0);
+		String val = getAlgebraDescriptionDefault();
 		return !def.equals(val) ? DescriptionMode.DEFINITION_VALUE
 				: DescriptionMode.VALUE;
 	}
@@ -7276,5 +7260,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	public void setOrdering(int ordering) {
 		this.ordering = ordering;
+	}
+
+	@Override
+	public boolean isOperation(Operation operation) {
+		return false;
 	}
 }

@@ -12,7 +12,6 @@ import org.geogebra.common.util.SyntaxAdapterImpl;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 
@@ -39,9 +38,13 @@ public abstract class SymbolicEditor implements MathFieldListener {
 
 	protected void applyChanges() {
 		setTempUserDisplayInput();
-
-		String editedText = asciiSerializer.serialize(getMathFieldInternal().getFormula());
-		geoInputBox.updateLinkedGeo(editedText);
+		MathFormula formula = getMathFieldInternal().getFormula();
+		String editedText = null;
+		String[] entries = asciiSerializer.serializeMatrixEntries(formula);
+		if (entries.length == 0) {
+			editedText = asciiSerializer.serialize(formula);
+		}
+		geoInputBox.updateLinkedGeo(editedText, entries);
 	}
 
 	protected void setTempUserDisplayInput() {
@@ -93,11 +96,6 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	@Override
 	public void onDownKeyPressed() {
 		// nothing to do.
-	}
-
-	@Override
-	public String serialize(MathSequence selectionText) {
-		return null;
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.Persistable;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
@@ -89,7 +90,7 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 		}
 
 		negButton = new StandardButton(app.getLocalization()
-				.getMenu(negTransKey), getApplication());
+				.getMenu(negTransKey));
 		negButton.setStyleName("dialogTextButton");
 
 		negButton.addFastClickHandler(source -> onNegativeAction());
@@ -102,7 +103,7 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 		}
 
 		posButton = new StandardButton(app.getLocalization()
-				.getMenu(posTransKey), getApplication());
+				.getMenu(posTransKey));
 		posButton.setStyleName("dialogContainedButton");
 
 		posButton.addFastClickHandler(source -> onPositiveAction());
@@ -197,8 +198,11 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 
 	@Override
 	public void show() {
-		super.show();
-		super.center();
+		// make sure that the dialog content loaded before decide if should be scrollable
+		Scheduler.get().scheduleDeferred(() -> {
+			super.show();
+			super.centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
+		});
 	}
 
 	@Override

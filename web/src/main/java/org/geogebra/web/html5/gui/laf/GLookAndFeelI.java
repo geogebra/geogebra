@@ -72,4 +72,6 @@ public interface GLookAndFeelI {
 	 * @return client id
 	 */
 	String getClientId();
+
+	boolean isExternalLoginAllowed();
 }

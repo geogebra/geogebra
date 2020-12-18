@@ -47,7 +47,7 @@ public class Exercise {
 		dataPanel = new VerticalPanel();
 		dataPanel.setWidth("400px");
 
-		StandardButton exerciseButton = new StandardButton("Generate new exercise!", app);
+		StandardButton exerciseButton = new StandardButton("Generate new exercise!");
 		exerciseButton.setStyleName("solverButton");
 
 		exerciseButton.addFastClickHandler(new FastClickHandler() {
@@ -62,7 +62,7 @@ public class Exercise {
 		progressBar = new ProgressBar();
 		dataPanel.add(progressBar);
 
-		StandardButton hintButton = new StandardButton("Show/Hide next step", app);
+		StandardButton hintButton = new StandardButton("Show/Hide next step");
 		hintButton.setStyleName("solverButton");
 
 		hintButton.addFastClickHandler(new FastClickHandler() {

@@ -247,8 +247,7 @@ public class ShareDialogMow extends ComponentDialog
 		linkPanel.setStyleName("linkPanel");
 		linkBox = new ComponentLinkBox(true, shareURL, "linkBox");
 		// build and add copy button
-		copyBtn = new StandardButton(localization.getMenu("Copy"),
-				app);
+		copyBtn = new StandardButton(localization.getMenu("Copy"));
 		copyBtn.setStyleName("copyButton");
 		copyBtn.addFastClickHandler(this);
 		linkPanel.add(linkBox);
@@ -289,7 +288,7 @@ public class ShareDialogMow extends ComponentDialog
 	public void onClick(Widget source) {
 		if (source == copyBtn) {
 			linkBox.setFocused(false);
-			app.copyTextToSystemClipboard(linkBox.getText());
+			app.getCopyPaste().copyTextToSystemClipboard(linkBox.getText());
 			linkBox.focus();
 			ToolTipManagerW.sharedInstance()
 			    .showBottomMessage(((AppW) app).getLocalization()
@@ -335,7 +334,7 @@ public class ShareDialogMow extends ComponentDialog
 						.getMenu(success ? "GroupShareOk"
 								: "GroupShareFail"),
 				true, (AppW) app);
-		if (success) {
+		if (success && callback != null) {
 			callback.onLoaded(Collections.singletonList(material), null);
 		}
 	}

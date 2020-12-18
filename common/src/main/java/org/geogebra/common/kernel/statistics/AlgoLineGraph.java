@@ -57,6 +57,8 @@ public class AlgoLineGraph extends AlgoElement {
 			graph.setUndefined();
 			return;
 		}
+		xValuesCopy.clear();
+		yValuesCopy.clear();
 		xValues.copyListElements(xValuesCopy);
 		yValues.copyListElements(yValuesCopy);
 		graph.setDefined(true);

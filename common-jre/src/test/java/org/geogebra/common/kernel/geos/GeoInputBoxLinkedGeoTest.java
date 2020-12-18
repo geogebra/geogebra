@@ -4,6 +4,7 @@ import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.factories.AwtFactoryCommon;
@@ -323,8 +324,8 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		inputBox.updateLinkedGeo("20");
 		inputBox.updateLinkedGeo("-20");
 
-		Assert.assertTrue(numeric.getIntervalMax() >= 20);
-		Assert.assertTrue(numeric.getIntervalMin() <= -20);
+		assertTrue(numeric.getIntervalMax() >= 20);
+		assertTrue(numeric.getIntervalMin() <= -20);
 	}
 
 	@Test
@@ -377,7 +378,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("C = (2,2)");
 		add("p:Plane(A,B,C)");
 		GeoInputBox inputBox = add("InputBox(p)");
-		Assert.assertTrue(inputBox.canBeSymbolic());
+		assertTrue(inputBox.canBeSymbolic());
 	}
 
 	@Test
@@ -386,8 +387,8 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		GeoInputBox inputBox1 = add("InputBox(eq1)");
 		add("eq2:x^2+y^2+z^2=1");
 		GeoInputBox inputBox2 = add("InputBox(eq2)");
-		Assert.assertTrue(inputBox1.canBeSymbolic());
-		Assert.assertTrue(inputBox2.canBeSymbolic());
+		assertTrue(inputBox1.canBeSymbolic());
+		assertTrue(inputBox2.canBeSymbolic());
 	}
 
 	@Test
@@ -459,9 +460,21 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertEquals("", inputBox.getTextForEditor());
 		getApp().setXML(getApp().getXML(), true);
 		assertEquals("", inputBox.getTextForEditor());
-		assertEquals("f\\, \\text{undefined} ", lookup("f")
+		assertEquals("ComplexFunction", lookup("f").getTypeString());
+		// \text{undefined} also acceptable but ? is consistent with real-valued functions
+		assertEquals("f(x) = ?", lookup("f")
 				.getLaTeXAlgebraDescriptionWithFallback(false,
 						StringTemplate.defaultTemplate, false));
+	}
+
+	@Test
+	public void shouldAcceptNumberForComplexFunctions() {
+		setupInput("f", "x+i");
+		add("pt=f(1-i)");
+		inputBox.setSymbolicMode(true, false);
+		inputBox.updateLinkedGeo("2");
+		assertEquals("2 + 0" + Unicode.IMAGINARY,
+				lookup("pt").toValueString(StringTemplate.testTemplate));
 	}
 
 	@Test
@@ -484,5 +497,54 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertThat(inputBox.getText(), equalTo("(5 / 6, 3 / 2, sqrt(5))"));
 		addAvInput("SetValue(u,?)");
 		assertThat(inputBox.getText(), equalTo("(?, ?, ?)"));
+	}
+
+	@Test
+	public void shouldPreferScalarProductOverDistance() {
+		add("a=1");
+		GeoInputBox inputBox = add("InputBox(a)");
+		add("A=(1,2)");
+		add("B=(1,3)");
+		inputBox.updateLinkedGeo("AB");
+		assertEquals(7, lookup("a").evaluateDouble(), 0);
+	}
+
+	@Test
+	public void shouldNotAutocreatePoints() {
+		add("A=(1,1)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		add("B=(1,3)");
+		inputBox.updateLinkedGeo("B2");
+		assertEquals(lookup("A").toValueString(StringTemplate.testTemplate),
+				"(2, 6)");
+		inputBox.updateLinkedGeo("O");
+		assertEquals(lookup("A").toValueString(StringTemplate.testTemplate),
+				"(?, ?)");
+	}
+
+	@Test
+	public void shouldNotAcceptCommands() {
+		add("A=(1,1)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		inputBox.updateLinkedGeo("Midpoint((0,0),(1,2))");
+		assertTrue("Command should trigger error", inputBox.hasError());
+	}
+
+	@Test
+	public void pointOnPathShouldBeRestricted() {
+		GeoElement point = add("A=Point(y=2)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		inputBox.updateLinkedGeo("(3,7)");
+		assertEquals(point.toValueString(StringTemplate.editTemplate),
+				"(3, 2)");
+	}
+
+	@Test
+	public void pointInRegionShouldBeRestricted() {
+		GeoElement point = add("A=PointIn(xx+yy=2)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		inputBox.updateLinkedGeo("(5,-5)");
+		assertEquals(point.toValueString(StringTemplate.editTemplate),
+				"(1, -1)");
 	}
 }

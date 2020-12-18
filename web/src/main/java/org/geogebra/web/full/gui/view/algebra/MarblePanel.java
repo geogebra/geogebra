@@ -200,7 +200,7 @@ public class MarblePanel extends FlowPanel
 
 	@Override
 	public void setTitle(String title) {
-		AriaHelper.setTitle(this, title, item.app);
+		AriaHelper.setTitle(this, title);
 	}
 
 	/**

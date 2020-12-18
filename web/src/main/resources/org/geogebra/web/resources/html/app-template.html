@@ -43,7 +43,8 @@ var codebase = "<!--CODEBASE-->";
 	}
 
 	function isEmbed() {
-		return location.search.split(/[?&]/).indexOf("embed") >=0;
+		return location.search.split(/[?&]/).indexOf("embed") >=0
+				|| location.pathname.match(/\/lti\//);
 	}
 
 	function changeMetaTitle(titleBase){
@@ -64,7 +65,7 @@ var codebase = "<!--CODEBASE-->";
 	}
 
 	function perspective(id, name){
-		if(e("ggw")){			
+		if(e("ggw")){
 			e("ggw").className="geogebraweb";
 
 			e("ggw").setAttribute("data-param-appname", window.appID || "classic");
@@ -83,11 +84,9 @@ var codebase = "<!--CODEBASE-->";
 			setParamFromURL("filename");
 			setParamFromURL("rounding");
 			setParamFromURL("ggbbase64");
-			if(location.pathname.match(/lti/)){
+			if (isEmbed()) {
 				e("ggw").setAttribute("data-param-showAppsPicker","false");
 				e("appsPicker") && e("appsPicker").style.setProperty("display", "none");
-				c("GeoGebraHeader") && c("GeoGebraHeader").remove();
-				e("ggw").setAttribute("data-param-marginTop",0);
 			}
 			if(window.ggbRerun){
 				ggbRerun();
@@ -112,7 +111,7 @@ var codebase = "<!--CODEBASE-->";
 		}
 		return false;
 	}
-	
+
 	function div(styleName){
 		var ret = document.createElement("div");
 		ret.className = styleName;
@@ -129,7 +128,7 @@ var codebase = "<!--CODEBASE-->";
 		}
 		return false;
 	}
-	
+
 	function setLocalStorage(key, value){
 		try{
 			if(location.host && window.localStorage){
@@ -180,8 +179,8 @@ var codebase = "<!--CODEBASE-->";
 		if (!ret) {
 			return;
 		}
-		var parent = parentTable(ret);		
-		
+		var parent = parentTable(ret);
+
 		parent.addEventListener("click",function(){
 			if(e("ggw")){
 				e("ggw").setAttribute("data-param-showAppsPicker","false");
@@ -189,7 +188,7 @@ var codebase = "<!--CODEBASE-->";
 			changeMetaTitle(ret.innerText);
 			perspective(perspectiveId,id.replace("perspective",""));
 		});
-		
+
 		ret.innerHTML = caption;
 	}
 
@@ -235,32 +234,32 @@ var codebase = "<!--CODEBASE-->";
 		if(e("ggbPage")){
 			e("ggbPage").style.display = "";
 		}
-		
+
 		if(finalLang && finalLang != lang){
 			console.log("wrong lang");
 			return;
-		}		
+		}
 		if(e("ggbPage")){
 			setPickerLabels(props.menu);
 		}
 	}
-	
+
 	function showInEnglish(){
 			if(!window.__GGB__keysVar && e("ggbPage")){
 				setPickerLabels({});
-	
+
 				e("ggbPage").style.display="";
 			}
-			
+
 		}
-	var langs = ["af",  "ar",  "ar-MA",  "ar-TN",  "bg",  "bs",  "ca",  "ca-XV",  "cs",  "cy",  "da", 
-	"de-AT",  "de",  "el",  "en-AU",  "en-GB",  "en",  "eo",  "es-ES",  "es",  "es-UY",  "et",  "eu", 
+	var langs = ["af",  "ar",  "ar-MA",  "ar-TN",  "bg",  "bs",  "ca",  "ca-XV",  "cs",  "cy",  "da",
+	"de-AT",  "de",  "el",  "en-AU",  "en-GB",  "en",  "eo",  "es-ES",  "es",  "es-UY",  "et",  "eu",
 	"fa",  "fi",  "fr",  "gl",  "hi",  "hr",  "hu",  "hy",  "in",  "is",  "it",  "he",
-	"ja",  "yi",  "ka",  "kk",  "km",  "kn",  "ko",  "lt",  "lv",  "mk",  "ml",  "mn",  "mr",  "ms", 
+	"ja",  "yi",  "ka",  "kk",  "km",  "kn",  "ko",  "lt",  "lv",  "mk",  "ml",  "mn",  "mr",  "ms",
 	"ne",  "nl-NL",  "nl",  "no",  "nb",  "nn",  "pl",  "pt",  "pt-PT",  "ro",  "ru",  "si",
-	"sk",  "sl",  "sq",  "sr",  "sv",  "ta",  "tg",  "th",  "fil",  "tr",  "ty",  "ug",  "uk", 
+	"sk",  "sl",  "sq",  "sr",  "sv",  "ta",  "tg",  "th",  "fil",  "tr",  "ty",  "ug",  "uk",
 	"ur",  "vi",  "xh",  "zh-CN", "zh-TW"];
-	
+
 	function validLang(lang){
 		lang=lang.replace("_","-").replace("tl","fil").replace("ji","yi").replace("no-NO-NY","nn");
 		if(lang.substring(0,2) == "no"){
@@ -294,7 +293,7 @@ var codebase = "<!--CODEBASE-->";
 	function switchLang(lang){
 		var storedTranslation = {};
 		if(getLocalStorage("translation")){
-			try { 
+			try {
 				storedTranslation = JSON.parse(localStorage.translation);
 			}
 			catch(e){
@@ -311,8 +310,8 @@ var codebase = "<!--CODEBASE-->";
 			var l10n = document.createElement("script");
 			document.head.appendChild(l10n);
 			l10n.onload = function(){
-			
-			
+
+
 				showInLang(lang);
 				if(window.__GGB__keysVar[lang]){
 					var obj = {};
@@ -320,7 +319,7 @@ var codebase = "<!--CODEBASE-->";
 					obj[lang] = window.__GGB__keysVar[lang];
 					setLocalStorage("translation", JSON.stringify(obj));
 				}
-				
+
 			}
 			var propertiesCodebase = codebase.replace("/latest", "/"+latestVersion);
 			l10n.setAttribute("src", propertiesCodebase + module+"/js/properties_keys_" + lang + ".js");
@@ -353,11 +352,11 @@ var codebase = "<!--CODEBASE-->";
 		e("ggw").setAttribute("data-param-prerelease",prereleaseParam);
 		e("ggw").setAttribute("data-param-showlogging",true);
 	}
-	
+
 	function setDebug(debugParam){
 		e("ggw").setAttribute("data-param-showlogging",debugParam);
 	}
-	
+
 	function getPerspective(){
 		if (getURLparam("perspective")) {
 			return getURLparam("perspective");
@@ -460,7 +459,7 @@ var codebase = "<!--CODEBASE-->";
 			insertScript();
 			return;
 		}
-		
+
 		showStartScreen();
 		insertScript();
 		perspective(false, "picker"); //TODO
@@ -470,9 +469,9 @@ var codebase = "<!--CODEBASE-->";
 <script type="text/javascript">
 // test to see if the app is running as a chrome webapp
 document.isChromeWebapp = function isChromeWebapp() {
-	if (typeof chrome === 'object' && 
-			typeof chrome.app === 'object' && 
-			typeof chrome.app.isInstalled === 'boolean' && 
+	if (typeof chrome === 'object' &&
+			typeof chrome.app === 'object' &&
+			typeof chrome.app.isInstalled === 'boolean' &&
 			chrome.app.isInstalled) {
 			return true;
 		}
@@ -481,13 +480,7 @@ document.isChromeWebapp = function isChromeWebapp() {
 </script>
 
     <!--VENDOR SCRIPTS-->
-    <script>
-	    var GGW_appengine = GGW_appengine || {};
-	    GGW_appengine.FILE_IDS = [""];
-	    GGW_appengine.CLIENT_ID = "";
-	    GGW_appengine.USER_EMAIL = "";
-  	</script>
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
     <style>
     body {

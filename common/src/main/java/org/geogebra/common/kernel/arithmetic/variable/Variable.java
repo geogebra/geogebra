@@ -37,6 +37,8 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * 
  * @author Markus Hohenwarter
@@ -45,6 +47,7 @@ import org.geogebra.common.plugin.Operation;
 public class Variable extends ValidExpression {
 
 	private String name;
+	@Weak
 	private Kernel kernel;
 	private VariableReplacerAlgorithm variableReplacerAlgorithm;
 
@@ -84,15 +87,6 @@ public class Variable extends ValidExpression {
 	@Override
 	public boolean isLeaf() {
 		return true;
-	}
-
-	/**
-	 * Looks up the name of this variable in the kernel and returns the
-	 * according GeoElement object.
-	 */
-	private GeoElement resolve(boolean throwError, SymbolicMode mode) {
-		return resolve(
-				mode == SymbolicMode.NONE, throwError, mode);
 	}
 
 	/**
@@ -144,7 +138,9 @@ public class Variable extends ValidExpression {
 	final public ExpressionValue resolveAsExpressionValue(SymbolicMode mode,
 				boolean multipleUnassignedAllowed) {
 		variableReplacerAlgorithm.setMultipleUnassignedAllowed(multipleUnassignedAllowed);
-		GeoElement geo = resolve(false, mode);
+		boolean allowAutoCreateGeoElement = (mode == SymbolicMode.NONE)
+					&& !multipleUnassignedAllowed;
+		GeoElement geo = resolve(allowAutoCreateGeoElement, false, mode);
 		if (geo == null) {
 			if (kernel.getConstruction().isRegisteredFunctionVariable(name)) {
 				return new FunctionVariable(kernel, name);
@@ -156,7 +152,7 @@ public class Variable extends ValidExpression {
 			if (mode == SymbolicMode.SYMBOLIC_AV) {
 				return new GeoDummyVariable(kernel.getConstruction(), name);
 			}
-			return resolve(true, mode);
+			return resolve(allowAutoCreateGeoElement, true, mode);
 		}
 
 		// spreadsheet dollar sign reference
@@ -196,7 +192,7 @@ public class Variable extends ValidExpression {
 	@Override
 	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		HashSet<GeoElement> ret = new HashSet<>();
-		ret.add(resolve(true, mode));
+		ret.add(resolve(mode == SymbolicMode.NONE, true, mode));
 		return ret;
 	}
 

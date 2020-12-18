@@ -23,17 +23,17 @@ public class TemplateChooser extends ComponentDialog {
     }
 
     private void buildContent() {
-        FlowPanel dialogContent = new FlowPanel();
-        dialogContent.addStyleName("templateChooserContent");
         FlowPanel templatesPanel = new FlowPanel();
         templatesPanel.addStyleName("templatesPanel");
-        if (controller.getTemplates().size() > 6) {
-            templatesPanel.addStyleName("withBorder");
-        }
         for (TemplatePreviewCard templateCard : controller.getTemplates()) {
             templatesPanel.add(templateCard);
         }
-        dialogContent.add(templatesPanel);
-        addDialogContent(dialogContent);
+        addDialogContent(templatesPanel);
+
+        if (controller.getTemplates().size() > 6) {
+            templatesPanel.getElement().getParentElement().addClassName("withBorder");
+        } else {
+            templatesPanel.getElement().getParentElement().removeClassName("withBorder");
+        }
     }
 }

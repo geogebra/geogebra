@@ -32,9 +32,6 @@ public enum Feature {
 	/** GGB-2215 */
 	ARIA_CONTEXT_MENU,
 
-	/** GGB-2144 */
-	COMMAND_HOLES,
-
 	/** MOB-1537 */
 	MOB_PREVIEW_WHEN_EDITING,
 
@@ -43,9 +40,6 @@ public enum Feature {
 
 	/** GGB-2255 */
 	GEOMETRIC_DISCOVERY,
-
-	/** GGB-2542 */
-	SYMBOLIC_AV,
 
 	/** Csilla Master */
 	SPEECH_RECOGNITION,

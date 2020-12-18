@@ -26,16 +26,12 @@ import org.geogebra.web.html5.main.TimerSystemW;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CheckboxCell;
-import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.cell.client.TextInputCell;
-import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -531,8 +527,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 * Add a column to show the toolbar icon.
 	 */
 	private static Column<RowData, String> getColumnToolbarIcon() {
-		Column<RowData, String> iconColumn = new Column<RowData, String>(
-				new Base64ImageCell()) {
+		return new Column<RowData, String>(new Base64ImageCell()) {
 
 			@Override
 			public String getValue(RowData object) {
@@ -542,15 +537,13 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				return ((GImageIconW) object.getToolbarIcon()).getImpl();
 			}
 		};
-		return iconColumn;
 	}
 
 	/*
 	 * Add a text column to show the name.
 	 */
 	private static Column<RowData, SafeHtml> getColumnName() {
-		Column<RowData, SafeHtml> nameColumn = new Column<RowData, SafeHtml>(
-				new SafeHtmlCell()) {
+		return new Column<RowData, SafeHtml>(new SafeHtmlCell()) {
 
 			@Override
 			public SafeHtml getValue(RowData object) {
@@ -558,15 +551,13 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			}
 
 		};
-		return nameColumn;
 	}
 
 	/*
 	 * Add a text column to show the description.
 	 */
 	private static Column<RowData, SafeHtml> getColumnDescription() {
-		Column<RowData, SafeHtml> defColumn = new Column<RowData, SafeHtml>(
-				new SafeHtmlCell()) {
+		return new Column<RowData, SafeHtml>(new SafeHtmlCell()) {
 
 			@Override
 			public SafeHtml getValue(RowData object) {
@@ -574,15 +565,13 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			}
 
 		};
-		return defColumn;
 	}
 
 	/*
 	 * Add a text column to show the value.
 	 */
 	private static Column<RowData, SafeHtml> getColumnValue() {
-		Column<RowData, SafeHtml> valColumn = new Column<RowData, SafeHtml>(
-				new SafeHtmlCell()) {
+		return new Column<RowData, SafeHtml>(new SafeHtmlCell()) {
 
 			@Override
 			public SafeHtml getValue(RowData object) {
@@ -590,15 +579,13 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			}
 
 		};
-		return valColumn;
 	}
 
 	/*
 	 * Add a text column to show the command.
 	 */
 	private static Column<RowData, SafeHtml> getColumnDefinition() {
-		Column<RowData, SafeHtml> commandColumn = new Column<RowData, SafeHtml>(
-				new SafeHtmlCell()) {
+		return new Column<RowData, SafeHtml>(new SafeHtmlCell()) {
 
 			@Override
 			public SafeHtml getValue(RowData object) {
@@ -606,7 +593,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			}
 
 		};
-		return commandColumn;
 	}
 
 	private Column<RowData, String> getColumnCaptionSimple() {
@@ -634,53 +620,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		return col;
 
-	}
-
-	public class MyEditCell extends EditTextCell {
-		private int focusedRow = -1;
-
-		public int getFocusedRow() {
-			return focusedRow;
-		}
-
-		@Override
-		public void render(Context context, String value, SafeHtmlBuilder sb) {
-			if (isEditing(context, null, null)) {
-				// Doesn't matter if it super.render(...) gets the right value
-				// in parameter "value", because this won't write this value
-				// into the textfield, but this will use
-				// EditTextCell.viewData.getText().
-				// super.render(
-				// context,
-				// (String) table.getColumn(context.getColumn()).getValue(
-				// data.getRow(context.getIndex())), sb);
-				super.render(context, value, sb);
-
-			} else {
-				sb.appendHtmlConstant(value);
-			}
-		}
-
-		@Override
-		public void onBrowserEvent(Context context, Element parent,
-				String value, NativeEvent event,
-				ValueUpdater<String> valueUpdater) {
-			Log.debug("event type: " + event.getType());
-
-			String eventType = event.getType();
-			if (BrowserEvents.CLICK.equals(eventType)) {
-				focusedRow = context.getIndex();
-			} else if (BrowserEvents.BLUR.equals(eventType)) {
-				focusedRow = -1;
-
-			}
-
-			super.onBrowserEvent(context, parent,
-					(String) table.getColumn(context.getColumn())
-							.getValue(data.getRow(context.getIndex())),
-					event, valueUpdater);
-
-		}
 	}
 
 	/*

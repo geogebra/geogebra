@@ -40,6 +40,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -52,10 +53,12 @@ public class ParametricProcessor {
 	/**
 	 * kernel
 	 */
+	@Weak
 	protected Kernel kernel;
 	/**
 	 * Algebra processor
 	 */
+	@Weak
 	protected AlgebraProcessor ap;
 
 	/**
@@ -381,13 +384,13 @@ public class ParametricProcessor {
 	 * @return surface
 	 */
 	protected GeoElement[] processSurface(ExpressionNode exp,
-			FunctionVariable[] fv, int dim) {
+			FunctionVariable[] fv, int dim, boolean complex) {
 		GeoNumeric loc0 = getLocalVar(exp, fv[0]);
 		GeoNumeric loc1 = getLocalVar(exp, fv[1]);
 		Construction cons = kernel.getConstruction();
 		GeoNumberValue[] coords = new GeoNumberValue[dim];
 		for (int i = 0; i < dim; i++) {
-			ExpressionNode cx = VectorArithmetic.computeCoord(exp, i);
+			ExpressionNode cx = VectorArithmetic.computeCoord(exp, i, complex);
 			AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
 			cons.removeFromConstructionList(nx);
 			coords[i] = nx.getNumber();
@@ -420,7 +423,7 @@ public class ParametricProcessor {
 						kernel.getImaginaryUnit()));
 		ExpressionNode exp2 = exp.deepCopy(kernel).replace(fv, complex).wrap();
 		GeoElement[] surface =  processSurface(exp2,
-				new FunctionVariable[] { u, v },  2);
+				new FunctionVariable[] { u, v },  2, true);
 		surface[0].setDefinition(exp);
 		((GeoSurfaceCartesianND) surface[0]).setComplexVariable(fv);
 		surface[0].setLabel(label);

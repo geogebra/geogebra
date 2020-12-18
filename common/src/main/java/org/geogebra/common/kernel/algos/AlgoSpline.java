@@ -268,7 +268,7 @@ public class AlgoSpline extends AlgoElement {
 				// do nothing
 			}
 			double value;
-			if (row != length - 1) {
+			if (row < length - 1) {
 				for (i = column; i < length; i++) {
 					if (matrix[i][column] != 0 && i != row) {
 						value = matrix[i][column] / matrix[row][column];

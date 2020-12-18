@@ -28,6 +28,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * 
  * @author Markus Hohenwarter
@@ -45,6 +47,7 @@ public class DrawSlope extends Drawable {
 
 	private double[] coords = new double[2];
 	private GeneralPathClipped gp;
+	@Weak
 	private Kernel kernel;
 
 	/**

@@ -107,6 +107,15 @@ class Header extends FlowPanel implements KeyDownHandler {
 		return isAllowed;
 	}
 
+	/**
+	 * Remove the undo-redo panel from the frame
+	 */
+	public void removeUndoRedoPanel() {
+		if (undoRedoPanel != null) {
+			toolbarPanel.getFrame().remove(undoRedoPanel);
+		}
+	}
+
 	private void createCenter() {
 		if (!app.showToolBar() || !app.enableGraphing()) {
 			return;
@@ -523,7 +532,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 			if ((evLeft <= 0) && !app.isPortrait()) {
 				return;
 			}
-			int move = app.isPortrait() && !needsHeader() ? 48 : 0;
+			int move = app.isPortrait() && app.showMenuBar() && !needsHeader() ? 48 : 0;
 			undoRedoPanel.getElement().getStyle().setTop(evTop, Unit.PX);
 			undoRedoPanel.getElement().getStyle().setLeft(evLeft + move,
 					Unit.PX);

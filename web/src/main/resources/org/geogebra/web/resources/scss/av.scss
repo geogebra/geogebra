@@ -4,6 +4,7 @@
 * 
 *	Make sure everything is placed in .GeoGebraFrame!
 **/
+@import 'z-index';
 
 .GeoGebraFrame {
 	.algebraView {
@@ -34,12 +35,12 @@
 
 	.algebraView .avItem, .algebraView .avInputItem {
 		padding: 0 !important;
-		z-index: 1;
+		z-index: $z-algebra-input;
 		margin-top: -2px;
 	}
 
 	.avItem.avSelectedRow {
-		z-index: 3;
+		z-index: $z-algebra-selected-row;
 	}
 
 	.avItem,
@@ -67,7 +68,7 @@
 		/* AlgebraViewObjectStylebar was not at right position, needs position absolute */
 		position: absolute;
 		width: 100%;
-		z-index: 4;
+		z-index: $z-algebra-new-item;
 	}
 
 	.NewRadioButtonTreeItemParent .AlgebraViewObjectStylebar .gwt-PushButton {
@@ -244,7 +245,7 @@
 		position: absolute;
 		top: 0;
 		right: 0;
-		z-index: 10;
+		z-index: $z-algebra-stylebar;
 		padding: 4px 4px 2px 0;
 		border-bottom-left-radius: 5px;
 		background-color: rgba(255, 255, 255, 0.9);

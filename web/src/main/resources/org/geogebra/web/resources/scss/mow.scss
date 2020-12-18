@@ -1,5 +1,6 @@
 @import 'colors';
 @import 'info-card';
+@import 'z-index';
 
 .GeoGebraFrame{
 	$pagecontrolpanelWidth: 269px;
@@ -15,9 +16,6 @@
 	$shadow-elevation-8: 0px 5px 5px -3px $black-20, 0px 8px 10px 1px $black-14, 0px 3px 14px 2px $black-12;
 	$shadow-elevation-16: 0px 8px 10px -5px $black-20, 0px 16px 24px 2px $black-14, 0px 6px 30px 5px $black-12;
 
-	// comes from youtube player, you must not change this.
-	$z_mow_video: 50;
-	$z_mask: 50;
 
 /*****************
 *   STYLEBAR
@@ -25,8 +23,8 @@
 
 	.mowColorPopup input[type="range"]{
 		width: 130px;
-	    margin: 0 0 0 4px;
-	    background-color: transparent;
+		margin: 0 0 0 4px;
+		background-color: transparent;
 		}
 	.mowColorPopup .popupSliderLabel{
 		margin-right: 3px !important;
@@ -35,19 +33,19 @@
 	.mowColorPopup {
 		.SelectionTable .gwt-Label.borderButton{
 			border: 2px solid;
-		    border-radius: 5px;
-		    height: 22px;
-		    width: 22px;
+			border-radius: 5px;
+			height: 22px;
+			width: 22px;
 		}
 	}
 
 	.mowLinePopup .preview{
-		    margin: 3px 0px 3px 12px;
+			margin: 3px 0px 3px 12px;
 	}
 	.mowLinePopup input[type="range"]{
 		width: 130px;
-	    margin: 0 0 0 4px;
-	    background-color: transparent;
+		margin: 0 0 0 4px;
+		background-color: transparent;
 	}
 
 	.mowLinePopup .popupSliderLabel{
@@ -129,43 +127,43 @@
 		}
 		.plusButton:hover {
 			border: 1px solid $mow_primary !important;
-        }
+		}
 
-        .panelRow.panelRow2.showSlider {
-             width: 180px !important;
+		.panelRow.panelRow2.showSlider {
+			 width: 180px !important;
 
-             input[type=range] {
-                width: calc(100% - 74px);
-             }
-        }
+			 input[type=range] {
+				width: calc(100% - 74px);
+			 }
+		}
 
-        .noColBtn {
-            display: inline-flex;
-            cursor: pointer;
-            margin: 1px 1px 4px 1px;
-            width: calc(100% - 2px);
+		.noColBtn {
+			display: inline-flex;
+			cursor: pointer;
+			margin: 1px 1px 4px 1px;
+			width: calc(100% - 2px);
 
-            &:hover {
-                background-color: $black-04;
-            }
+			&:hover {
+				background-color: $black-04;
+			}
 
-            img {
-                opacity: 0.54;
-                padding: 2px 0px 2px 2px;
-            }
+			img {
+				opacity: 0.54;
+				padding: 2px 0px 2px 2px;
+			}
 
-            .gwt-Label {
-                font-size: 14px;
-                margin: 4px 0px 4px 12px;
-                height: 20px;
-                line-height: 20px;
-                cursor: pointer;
-            }
-        }
+			.gwt-Label {
+				font-size: 14px;
+				margin: 4px 0px 4px 12px;
+				height: 20px;
+				line-height: 20px;
+				cursor: pointer;
+			}
+		}
 
-        .gwt-Label.stylebarButton {
-        	opacity: 0.7;
-        }
+		.gwt-Label.stylebarButton {
+			opacity: 0.7;
+		}
 	}
 
 /*****************
@@ -173,21 +171,21 @@
 ******************/
 
 	.mowOpenMenuButton {
-    	position: absolute;
-    	top: 0px;
-    	padding: 6px;
-    	margin: 10px 6px 6px 10px;
-    	left: 0px;
-    	z-index: 99;
-    	border-radius: 50%;
-    	width: 24px;
-    	height: 24px;
-    	cursor: pointer;
-    	transition: background-color 150ms ease 0ms;
+		position: absolute;
+		top: 0px;
+		padding: 6px;
+		margin: 10px 6px 6px 10px;
+		left: 0px;
+		z-index: $z-on-top-of-graphics;
+		border-radius: 50%;
+		width: 24px;
+		height: 24px;
+		cursor: pointer;
+		transition: background-color 150ms ease 0ms;
 
 		img{
-		    width: 24px;
-		    height: 24px;
+			width: 24px;
+			height: 24px;
 		}
 
 		&:focus {
@@ -209,10 +207,10 @@
 	.mowMenubar {
 		  position: absolute;
 		  width: 100%;
-	  	  top: 45px;
-	  	  background-color: $white !important;
+		  top: 45px;
+		  background-color: $white !important;
 
-	  	  .menuPanel {
+		  .menuPanel {
 			width: 267px !important;
 			border: 1px solid $tool-border;
 		}
@@ -240,7 +238,7 @@
 		position: absolute;
 		border-radius: 50%;
 		will-change: transform;
-		z-index: 99;
+		z-index: $z-page-control-button;
 
 		background-color: $mow_primary;
 		box-shadow: 0px 2px 10px $black-30, 0px 0px 1px $black-10, inset 0px 1px 0px $white-25, inset 0px -1px 0px $black-15;
@@ -278,8 +276,8 @@
 	.showMowFloatingButton {
 		@extend .mowFloatingButton;
 		width: 48px;
-   		height: 48px;
-   		right: 16px;
+		height: 48px;
+		right: 16px;
 		margin-bottom: 16px;
 		visibility: visible;
 		transition: $floatingbtn-hover-transition, $floatingbtn-appear-transition, $mowsubmenu-transition;
@@ -301,7 +299,7 @@
 		right: 0px;
 		box-shadow: $shadow-elevation-16;
 		background-color: $white;
-		z-index: 98;
+		z-index: $z-on-top-of-graphics;
 		height: 100%;
 		width: $pagecontrolpanelWidth;
 		overflow: hidden;
@@ -350,9 +348,9 @@
 		width: calc(100% - 32px);
 		margin-left: 16px;
 		border-radius: 2px;
-   		background-color: $white;
-   		box-shadow: $shadow-elevation-2;
-   		transition: box-shadow .25s;
+		background-color: $white;
+		box-shadow: $shadow-elevation-2;
+		transition: box-shadow .25s;
 		cursor: pointer;
 
 		.mowImagePanel {
@@ -388,9 +386,9 @@
 			.mowMoreButton {
 				width: 24px;
 				height: 24px;
-				padding: 12px 6px 12px 16px;
+				padding: 8px 6px 12px 16px;
 				right: 0;
-			    position: absolute;
+				position: absolute;
 				opacity: 0.54;
 
 				&:hover {
@@ -432,7 +430,7 @@
 	}
 
 	.mowPagePreviewCard.dragged {
-		z-index: $always_on_top;
+		z-index: $z-on-top-of-graphics;
 	}
 
 	.mowPagePreviewCard.dragCanStart {
@@ -444,19 +442,19 @@
 ******************/
 	.mowMatMenu.gwt-PopupPanel {
 		width: 168px;
-   		min-width: 112px !important;
-   		z-index: 502;
-   		.gwt-MenuItem {
-   			width: 168px;
-    		min-width: 112px !important;
+		min-width: 112px !important;
+		z-index: $z-dialog-context-menu;
+		.gwt-MenuItem {
+			width: 168px;
+			min-width: 112px !important;
 			padding-left: 56px !important;
 		}
 	}
 
 	.mowCalcLabel{
 		font-size: 16px;
-	    width: fit-content;
-	    visibility: hidden;
+		width: fit-content;
+		visibility: hidden;
 	}
 
 
@@ -464,7 +462,7 @@
 	.mowWidget {
 		position: absolute;
 		border-style: none;
-		z-index: $z_mow_video;
+		z-index: $z-mow-video;
 		.gwt-Frame{
 			box-sizing: border-box;
 			width: 100%;
@@ -535,16 +533,16 @@
 
 	 // unit rectangle for mask to transform with matrix
 	 .maskWidget {
-	    position: absolute;
-	    z-index: $z_mask;
-	    top: 0;
-	    left: 0;
-	    width: 100px;
-	    height: 100px;
-	    transform-origin: left top;
+		position: absolute;
+		z-index: $z-mask;
+		top: 0;
+		left: 0;
+		width: 100px;
+		height: 100px;
+		transform-origin: left top;
 	}
 
 	.embedContainer .EuclidianPanel {
-	    z-index: 0;
+		z-index: 0;
 	}
 }

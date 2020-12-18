@@ -52,6 +52,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.TimerSystemW;
+import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
@@ -284,6 +285,7 @@ public class EuclidianViewW extends EuclidianView implements
 			g2p.resetLayer();
 			updateBackgroundIfNecessary();
 			paint(g2p);
+			MultiuserManager.INSTANCE.paintInteractionBoxes(this, g2p);
 
 			if (cacheGraphics != null) {
 				cacheGraphics = null;
@@ -682,16 +684,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 		if (getViewID() == App.VIEW_EUCLIDIAN || getViewID() == App.VIEW_EUCLIDIAN2) {
 			g2p.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
-			Canvas pCanvas = Canvas.createIfSupported();
-			if (pCanvas != null) {
-				penCanvas = new GGraphics2DW(pCanvas);
-				penCanvas.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
-				penCanvas.setDevicePixelRatio(appW.getPixelRatio());
-				g2p.getElement().getParentElement()
-						.appendChild(penCanvas.getCanvas().getElement());
-			} else {
-				penCanvas = new GGraphics2DE();
-			}
 		}
 
 		euclidiancontroller.setView(this);
@@ -1505,6 +1497,18 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public void cacheGraphics() {
 		cacheGraphics = true;
+		if (penCanvas == null) {
+			Canvas pCanvas = Canvas.createIfSupported();
+			if (pCanvas != null) {
+				penCanvas = new GGraphics2DW(pCanvas);
+				penCanvas.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+				penCanvas.setDevicePixelRatio(appW.getPixelRatio());
+				g2p.getElement().getParentElement()
+						.appendChild(penCanvas.getElement());
+			} else {
+				penCanvas = new GGraphics2DE();
+			}
+		}
 		EuclidianPen pen = getEuclidianController().getPen();
 		penCanvas.setCoordinateSpaceSize(getWidth(), getHeight());
 		penCanvas.setStroke(EuclidianStatic.getStroke(pen.getPenSize(),

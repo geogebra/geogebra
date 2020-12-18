@@ -1,6 +1,8 @@
 @import 'colors';
 @import 'dimens';
 @import 'shared';
+@import 'z-index';
+
 $duration: 0.2s;
 
 .GeoGebraFrame {
@@ -449,7 +451,7 @@ $duration: 0.2s;
 			right: 0px;
 			opacity: 1;
 			transition: 0.3s ease;
-			z-index: 99999;
+			z-index: $z-algebra-speed-panel;
 			cursor: default;
 
 			.flatButton {
@@ -489,7 +491,7 @@ $duration: 0.2s;
 			@extend .speedPanel;
 			opacity: 0;
 			transition: 0.2s ease;
-			z-index: -1;
+			z-index: $z-hidden;
 		}
 
 		.speedPanel-hidden >* {

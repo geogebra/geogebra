@@ -1,5 +1,6 @@
 package org.geogebra.common.move.ggtapi.requests;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -183,6 +184,8 @@ public class UploadRequest implements Request {
 
 			// appname
 			settings.put("-appname", client.getAppName());
+			settings.put("-width", client.getWidth());
+			settings.put("-height", client.getHeight());
 
 			if (parent != null) {
 				task.put("parent", parent.getId());
@@ -193,10 +196,19 @@ public class UploadRequest implements Request {
 				settings.put("-shiftdragzoom", parent.getShiftDragZoom());
 				settings.put("-rightclick", parent.getRightClick());
 				settings.put("-labeldrags", parent.getLabelDrags());
+				settings.put("-undoredo", parent.getUndoRedo());
+				settings.put("-stylebar", parent.getAllowStylebar());
+				settings.put("-zoombuttons", parent.getShowZoomButtons());
 			} else {
-				settings.put("-toolbar", Boolean.FALSE);
-				settings.put("-menubar", Boolean.FALSE);
-				settings.put("-inputbar", Boolean.FALSE);
+				boolean isNotes = GeoGebraConstants.NOTES_APPCODE.equals(client.getAppName());
+				settings.put("-undoredo", true);
+				settings.put("-reseticon", false);
+				settings.put("-toolbar", isNotes);
+				settings.put("-menubar", false);
+				settings.put("-inputbar", false);
+				settings.put("-stylebar", isNotes);
+				settings.put("-rightclick", isNotes);
+				settings.put("-zoombuttons", isNotes);
 			}
 			task.put("settings", settings);
 

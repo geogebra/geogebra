@@ -208,24 +208,24 @@ public class ArithmeticTest extends Assert {
 								+ " x^2 + y^2 = 4, x^2 + y^2 = 5}"),
 				StringTemplate.editTemplate);
 		t("f(r)=(r,sin(r)*(1..5))",
-				"{(r, sin(r)), (r, (sin(r) * 2)), (r, (sin(r) * 3)),"
+				"{(r, (sin(r) * 1)), (r, (sin(r) * 2)), (r, (sin(r) * 3)),"
 						+ " (r, (sin(r) * 4)), (r, (sin(r) * 5))}");
 		t("f(r)=(r+(1..5),sin(r)*(1..5))",
-				"{(r + 1, sin(r)), (r + 2, (sin(r) * 2)), (r + 3, (sin(r) * 3)),"
+				"{(r + 1, (sin(r) * 1)), (r + 2, (sin(r) * 2)), (r + 3, (sin(r) * 3)),"
 						+ " (r + 4, (sin(r) * 4)), (r + 5, (sin(r) * 5))}");
 		t("f(r)=((1..5)*r,sin(r)+1)",
-				"{(r, sin(r) + 1), ((2 * r), sin(r) + 1), ((3 * r), sin(r) + 1),"
+				"{((1 * r), sin(r) + 1), ((2 * r), sin(r) + 1), ((3 * r), sin(r) + 1),"
 						+ " ((4 * r), sin(r) + 1), ((5 * r), sin(r) + 1)}");
 	}
 
 	@Test
 	public void functionsList() {
-		t("(1..2)+x*(1..2)", "{1 + x, 2 + (x * 2)}");
+		t("(1..2)+x*(1..2)", "{1 + (x * 1), 2 + (x * 2)}");
 		t("x+y+(1..3)", "{x + y + 1, x + y + 2, x + y + 3}");
 		t("list1=(-2..2)", "{-2, -1, 0, 1, 2}");
 		t("(list1*t,(1-t)*(1-list1))",
-				"{((-2 * t), ((1 - t) * 3)), ((-1 * t), ((1 - t) * 2)), "
-						+ "((0 * t), (1 - t)), (t, ((1 - t) * 0)), ((2 * t), ((1 - t) * (-1)))}");
+				"{((-2 * t), ((1 - t) * 3)), ((-1 * t), ((1 - t) * 2)), ((0 * t), "
+						+ "((1 - t) * 1)), ((1 * t), ((1 - t) * 0)), ((2 * t), ((1 - t) * (-1)))}");
 	}
 
 	@Test
@@ -297,6 +297,17 @@ public class ArithmeticTest extends Assert {
 		t("gg(a,b)=ff", "a + b");
 		assertEquals("ff(a, b)",
 				lookup("gg").getDefinition(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	public void inequalityShouldNotHaveExtraBrackets() {
+		t("r:4 < x < 5", "4 < x < 5");
+		t("a = 1", "1");
+		t("b = 2", "2");
+		t("p1:a < x", "1 < x");
+		t("p2:a < x < b", "1 < x < 2");
+		t("p3:(a < x) + (x < b)", "(1 < x) + (x < 2)");
+		t("p4:a < (x + x) < b", "1 < x + x < 2");
 	}
 
 	private GeoElement lookup(String g) {

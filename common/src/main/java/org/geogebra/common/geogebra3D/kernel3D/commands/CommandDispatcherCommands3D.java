@@ -76,9 +76,6 @@ public class CommandDispatcherCommands3D implements CommandDispatcherInterface {
 			case Ends:
 				return new CmdEnds(kernel);
 
-			case Function:
-				return new CmdFunction2Var(kernel);
-
 			default:
 				break;
 		}

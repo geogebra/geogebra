@@ -104,7 +104,6 @@ public class AlgoIntersectImplicitSurface extends AlgoIntersect3D {
 		if (vars.length == 3) {
 			exp.replace(vars[2], z);
 		}
-		exp.simplifyConstantIntegers();
 		Function fn = new Function(kernel, exp);
 		fn.initFunction();
 		double[] roots = AlgoRoots.findRoots(fn,

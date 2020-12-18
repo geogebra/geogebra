@@ -12,6 +12,7 @@ import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.HasMathKeyboardListener;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -64,19 +65,12 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		this.bounds = bounds;
 		// add to DOM, but hidden => getHeight works, but widget is not shown in wrong position
 		editor.setVisible(false);
+		editor.getMathField().setPixelRatio(((AppW) app).getPixelRatio());
 		editor.setFontType(geoInputBox.isSerifContent() ? TeXFont.SERIF
 				:  TeXFont.SANSSERIF);
 		editor.attach(((EuclidianViewW) view).getAbsolutePanel());
 		// update size and show
 		resetChanges();
-	}
-
-	private void setErrorStyle(boolean hasError) {
-		if (hasError) {
-			editor.addStyleName("errorStyle");
-		} else {
-			editor.removeStyleName("errorStyle");
-		}
 	}
 
 	@Override
@@ -93,12 +87,11 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	protected void resetChanges() {
 		getDrawInputBox().setEditing(true);
 
-		setErrorStyle(getGeoInputBox().hasError());
 		decorator.update(bounds, getGeoInputBox());
 		editor.setVisible(true);
 		editor.setText(getGeoInputBox().getTextForEditor());
 		editor.setLabel(getGeoInputBox().getAuralText());
-
+		editor.setErrorStyle(getGeoInputBox().hasError());
 		if (getGeoInputBox().getLinkedGeo().hasSpecialEditor()) {
 			getMathFieldInternal().getFormula().getRootComponent().setProtected();
 			getMathFieldInternal().setLockedCaretPath();

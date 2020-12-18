@@ -19,6 +19,8 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * dynamic stylebar positioner logic, also used for preview point popup
  *
@@ -26,11 +28,14 @@ import org.geogebra.common.main.SelectionManager;
 public class StylebarPositioner {
 
 	private static final int MARGIN = 4;
+	@Weak
 	private final App app;
 	/**
 	 * euclidian view
 	 */
+	@Weak
 	protected final EuclidianView euclidianView;
+	@Weak
 	private final SelectionManager selectionManager;
 	private boolean center;
 

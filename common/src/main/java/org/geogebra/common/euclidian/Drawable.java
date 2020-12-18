@@ -45,6 +45,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * 
  * @author Markus
@@ -73,6 +75,7 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * View in which this is drawn
 	 */
+	@Weak
 	protected EuclidianView view;
 
 	/**
@@ -388,12 +391,15 @@ public abstract class Drawable extends DrawableND {
 	 */
 	public final void drawMultilineLaTeX(GGraphics2D g2, GFont font,
 			GColor fgColor, GColor bgColor) {
-		EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
-				view.getTempGraphics2D(font), geo, g2, font, fgColor,
-				bgColor, labelDesc, xLabel, yLabel, isSerif(),
-				view.getCallBack(geo, firstCall),
-				labelRectangle);
-		firstCall = false;
+		if (labelDesc != null) {
+			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
+					view.getTempGraphics2D(font), geo, g2, font, fgColor,
+					bgColor, labelDesc, xLabel, yLabel, isSerif(),
+					view.getCallBack(geo, firstCall),
+					labelRectangle);
+			firstCall = false;
+		}
+		// else: undefined text, do nothing
 	}
 
 	/**

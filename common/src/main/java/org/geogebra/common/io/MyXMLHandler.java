@@ -87,6 +87,7 @@ import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.xml.sax.SAXException;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -145,6 +146,7 @@ public class MyXMLHandler implements DocHandler {
 	private Command cmd;
 	private Macro macro;
 	/** application */
+	@Weak
 	protected final App app;
 	/** lacalization */
 	protected final Localization loc;
@@ -154,11 +156,13 @@ public class MyXMLHandler implements DocHandler {
 	private GeoElementND[] cmdOutput;
 	private boolean startAnimation;
 
+	@Weak
 	Kernel kernel;
 	// for macros we need to change the kernel, so remember the original kernel
 	// too
 	private Kernel origKernel;
 	/** construction */
+	@Weak
 	protected Construction cons;
 
 	Parser parser;
@@ -213,6 +217,7 @@ public class MyXMLHandler implements DocHandler {
 	private HashMap<EuclidianSettings, String> ztick = new HashMap<>();
 	private HashMap<EuclidianSettings, String> ymax = new HashMap<>();
 	private ArrayList<String> entries;
+	private String subAppCode;
 
 	/**
 	 * Creates a new instance of MyXMLHandler
@@ -430,10 +435,15 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			String ggbVersion = attrs.get("version");
-			app.setFileVersion(ggbVersion, nomalizeApp(attrs.get("app")));
+			String appCode = nomalizeApp(attrs.get("app"));
+			this.app.setFileVersion(ggbVersion, appCode);
+			this.subAppCode = nomalizeApp(attrs.get("subApp"));
+			if (subAppCode == null) {
+				subAppCode = appCode;
+			}
 			String uniqueId = attrs.get("id");
 			if (uniqueId != null) {
-				app.setUniqueId(uniqueId);
+				this.app.setUniqueId(uniqueId);
 			}
 		}
 	}
@@ -950,9 +960,11 @@ public class MyXMLHandler implements DocHandler {
 			// get parameters from comma delimited string
 			String parmString = attrs.get("parameters");
 			String[] parmStringArray = parmString.split(",");
-			double[] parameters = new double[parmStringArray.length];
+			GeoNumeric[] parameters = new GeoNumeric[parmStringArray.length];
 			for (int i = 0; i < parmStringArray.length; i++) {
-				parameters[i] = StringUtil.parseDouble(parmStringArray[i]);
+				GeoNumberValue val = getNumber(parmStringArray[i]);
+				parameters[i] =	val instanceof GeoNumeric ? (GeoNumeric) val
+								: new GeoNumeric(cons, Double.NaN);
 			}
 
 			app.getSettings().getProbCalcSettings().setParameters(parameters);
@@ -971,9 +983,9 @@ public class MyXMLHandler implements DocHandler {
 			app.getSettings().getProbCalcSettings().setProbMode(probMode);
 
 			app.getSettings().getProbCalcSettings()
-					.setLow(StringUtil.parseDouble(attrs.get("low")));
+					.setLow(getNumber(attrs.get("low")));
 			app.getSettings().getProbCalcSettings()
-					.setHigh(StringUtil.parseDouble(attrs.get("high")));
+					.setHigh(getNumber(attrs.get("high")));
 
 			return true;
 		} catch (RuntimeException e) {
@@ -1062,29 +1074,6 @@ public class MyXMLHandler implements DocHandler {
 			Log.error("error in <algebraView>: " + eName);
 		}
 	}
-
-	// ====================================
-	// <CASView>
-	// ====================================
-	// private void startCASViewElement(String eName, LinkedHashMap<String,
-	// String> attrs) {
-	// boolean ok = true;
-	//
-	// switch (firstChar(eName)) {
-	// case 's':
-	// if ("size".equals(eName)) {
-	// ok = handleCASSize(app.getGuiManager().getCasView(), attrs);
-	// break;
-	// }
-	//
-	// default:
-	// Log.error("unknown tag in <casView>: " + eName);
-	// }
-	//
-	// if (!ok)
-	// Log.error("error in <casView>: " + eName);
-	//
-	// }
 
 	private boolean handleCoordSystem(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
@@ -2530,6 +2519,9 @@ public class MyXMLHandler implements DocHandler {
 			if (tabId != null) {
 				dp.setTabId(tabId); // explicitly stored tab overrides config
 			}
+			if (dp.isVisible() && dp.getViewId() == App.VIEW_EUCLIDIAN3D) {
+				this.subAppCode = GeoGebraConstants.G3D_APPCODE;
+			}
 			tmp_views.add(dp);
 
 			return true;
@@ -2597,6 +2589,9 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 	private void handleConstruction(LinkedHashMap<String, String> attrs) {
 		try {
+			if (!(kernel instanceof MacroKernel)) {
+				app.updateAppCodeSuite(subAppCode, tmp_perspective);
+			}
 			cons.setAllowUnboundedAngles(
 					DoubleUtil.isGreaterEqual(ggbFileFormat, 4.4));
 			String title = attrs.get("title");
@@ -3585,7 +3580,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			// Application.debug(""+getAlgProcessor());
-
+			ve.setAsRootNode();
 			GeoElementND[] result = getAlgProcessor()
 					.processValidExpression(ve,
 							new EvalInfo(!cons.isSuppressLabelsActive(), true)

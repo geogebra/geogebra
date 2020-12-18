@@ -23,6 +23,7 @@ import org.geogebra.web.full.gui.menu.action.ExamMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.action.MebisMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.action.MenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.action.ScientificMenuActionHandlerFactory;
+import org.geogebra.web.full.gui.menu.action.SuiteMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 import org.geogebra.web.full.main.AppWFull;
@@ -79,7 +80,6 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 
 	/**
 	 * Creates a MenuViewController.
-	 *
 	 * @param app app
 	 */
 	public MenuViewController(AppWFull app) {
@@ -135,17 +135,35 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 		examDrawerMenuFactory = new ExamDrawerMenuFactory(version);
 	}
 
+	/**
+	 * build menu again with new appConfig (neede for suite)
+	 * @param app see {@link AppW}
+	 */
+	public void resetMenuOnAppSwitch(AppW app) {
+		GeoGebraConstants.Version version = app.getConfig().getVersion();
+		defaultDrawerMenuFactory =  new DefaultDrawerMenuFactory(
+				app.getPlatform(),
+				version,
+				hasLoginButton(app) ? app.getLoginOperation() : null,
+				shouldCreateExamEntry(app),
+				app.enableFileFeatures(),
+				true);
+		setDefaultMenu();
+	}
+
 	private DrawerMenuFactory createDefaultMenuFactory(AppW app,
-													   GeoGebraConstants.Version version) {
+			GeoGebraConstants.Version version) {
 		if (app.isMebis()) {
 			return new MebisDrawerMenuFactory(app.getPlatform(), version, app.getLoginOperation());
 		} else {
+			boolean addAppSwitcher = version.equals(GeoGebraConstants.Version.SUITE);
 			return new DefaultDrawerMenuFactory(
 					app.getPlatform(),
 					version,
 					hasLoginButton(app) ? app.getLoginOperation() : null,
 					shouldCreateExamEntry(app),
-					app.enableFileFeatures());
+					app.enableFileFeatures(),
+					addAppSwitcher);
 		}
 	}
 
@@ -153,6 +171,8 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
 		if (version == GeoGebraConstants.Version.SCIENTIFIC) {
 			defaultActionHandlerFactory = new ScientificMenuActionHandlerFactory(app);
+		} else if (version == GeoGebraConstants.Version.SUITE) {
+			defaultActionHandlerFactory = new SuiteMenuActionHandlerFactory(app);
 		} else if (app.isMebis()) {
 			defaultActionHandlerFactory = new MebisMenuActionHandlerFactory(app);
 		} else {
@@ -180,7 +200,6 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 
 	/**
 	 * Set the menu view listener.
-	 *
 	 * @param menuViewListener listener
 	 */
 	public void setMenuViewListener(MenuViewListener menuViewListener) {
@@ -189,7 +208,6 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 
 	/**
 	 * Get the menu view.
-	 *
 	 * @return view
 	 */
 	public Widget getView() {
@@ -226,7 +244,6 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 
 	/**
 	 * Sets the menu visibility.
-	 *
 	 * @param visible true to show the menu
 	 */
 	public void setMenuVisible(boolean visible) {

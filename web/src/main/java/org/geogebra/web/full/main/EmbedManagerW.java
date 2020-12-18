@@ -184,14 +184,15 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 	}
 
 	private void addDragHandler(elemental2.dom.Element element) {
+		Style evPanelStyle = ((EuclidianViewWInterface) app.getActiveEuclidianView())
+				.getCanvasElement().getParentElement().getStyle();
+
 		element.addEventListener("dragstart", (event) -> {
-			((EuclidianViewWInterface) app.getActiveEuclidianView())
-					.getCanvasElement().getStyle().setProperty("pointerEvents", "none");
+			evPanelStyle.setProperty("pointerEvents", "none");
 		});
 
 		element.addEventListener("dragend", (event) -> {
-			((EuclidianViewWInterface) app.getActiveEuclidianView())
-					.getCanvasElement().getStyle().setProperty("pointerEvents", "initial");
+			evPanelStyle.setProperty("pointerEvents", "initial");
 		});
 	}
 

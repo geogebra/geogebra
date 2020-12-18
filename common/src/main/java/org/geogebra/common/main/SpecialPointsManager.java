@@ -39,12 +39,15 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Special point manager.
  *
  */
 public class SpecialPointsManager implements UpdateSelection, EventListener, CoordSystemListener {
 
+	@Weak
 	private Kernel kernel;
 	private List<GeoElement> specPoints;
 	private List<SpecialPointsListener> specialPointsListeners = new ArrayList<>();
@@ -291,7 +294,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 
 	private static boolean shouldShowSpecialPoints(GeoElementND geo) {
 		GeoElementND geoTwin = geo.unwrapSymbolic();
-		return (geoTwin instanceof GeoFunction || geoTwin instanceof EquationValue
+		return geo.isEuclidianShowable()
+				&& (geoTwin instanceof GeoFunction || geoTwin instanceof EquationValue
 				|| geoTwin instanceof GeoSymbolic)
 				&& !(geoTwin.isGeoSegment())
 				&& geoTwin.isVisible() && geoTwin.isDefined()

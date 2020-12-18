@@ -3,7 +3,6 @@ package org.geogebra.web.full.main.activity;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
-import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -45,8 +44,6 @@ public class CASActivity extends BaseActivity {
 	public void start(AppW app) {
 		Kernel kernel = app.getKernel();
 		kernel.getGeoGebraCAS().initCurrentCAS();
-		kernel.getAlgebraProcessor()
-				.addCommandFilter(CommandFilterFactory.createCasCommandFilter());
 		kernel.getParser().setHighPrecisionParsing(true);
 		CommandDispatcher dispatcher = kernel.getAlgebraProcessor().getCommandDispatcher();
 		tryLoadingCasDispatcher(dispatcher);

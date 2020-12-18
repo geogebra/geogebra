@@ -3,6 +3,7 @@
         this.api = null;
         this.users = users || {};
         this.clientId = parentClientId;
+        this.currentAnimations = [];
         this.embeds = {};
         this.createEvent = function(type, content, label) {
             var event = {
@@ -77,7 +78,7 @@
 
                     for (let i = 0; i < tempObjects.length; i++) {
                         const label = tempObjects[i];
-                        const calculators= that.api.getEmbeddedCalculators(true);
+                        const calculators = that.api.getEmbeddedCalculators(true);
                         const embed = calculators && calculators[label];
 
                         if (embed && embed.controller) {
@@ -86,12 +87,14 @@
 
                         let commandString = that.api.getCommandString(label, false);
                         if (commandString) {
-                            that.sendEvent("evalCommand", label + " = " + commandString, label);
+                             that.sendEvent("evalCommand", label + " = " + commandString, label);
                         } else {
                             let xml = that.api.getXML(label);
                             that.sendEvent("evalXML", xml, label);
                         }
+                        that.sendEvent("select", label);
                     }
+                    that.sendEvent("deselect");
 
                     updateCallback = null;
                 }, 200);
@@ -100,11 +103,12 @@
 
         // *** UPDATE LISTENERS ***
         let updateListener = (function(label) {
-            console.log("update event for " + label);
-            this.api.showTooltip(null, label);
-            if (!objectsInWaiting.includes(label)) {
-                objectsInWaiting.push(label);
-                dispatchUpdates();
+            if (!(this.currentAnimations.includes(label))) {
+                console.log("update event for " + label);
+                if (!objectsInWaiting.includes(label)) {
+                    objectsInWaiting.push(label);
+                    dispatchUpdates();
+                }
             }
         }).bind(this);
 
@@ -130,6 +134,8 @@
             } else {
                 this.sendEvent("evalXML", xml, label);
             }
+            this.sendEvent("select", label);
+            this.sendEvent("deselect");
             window.setTimeout(function(){
                 that.initEmbed(label);
             },500); //TODO avoid timeout
@@ -149,7 +155,6 @@
         // *** CLIENT LISTENERS ***
         var clientListener = (function(event) {
             var editorEventBus = this.eventCallbacks["editor"];
-            var selectionEventBus = this.eventCallbacks["selection"];
             switch (event[0]) {
                 case "updateStyle":
                     var label = event[1];
@@ -173,15 +178,11 @@
                     break;
 
                 case "deselect":
-                    if (selectionEventBus) {
-                        this.createEvent("evalCommand", "SelectObjects[]").fire(selectionEventBus);
-                    }
+                    this.sendEvent(event[0]);
                     break;
 
                 case "select":
-                    if (selectionEventBus) {
-                        this.sendEvent("evalCommand", "SelectObjects[" + event[1] + "]").fire(selectionEventBus);
-                    }
+                    this.sendEvent(event[0], event[1]);
                     break;
 
                 case "undo":
@@ -209,6 +210,20 @@
                     this.sendEvent(event[0], event.cardIdx, event.ggbFile);
                     break;
 
+                case "startAnimation":
+                    var label = event[1];
+                    console.log("animation started for " + label);
+                    this.currentAnimations.push(label);
+                    this.sendEvent(event[0], label, label);
+                    break;
+
+                case "stopAnimation":
+                    var label = event[1];
+                    console.log("animation stopped for " + label);
+                    this.currentAnimations.splice(this.currentAnimations.indexOf(label), 1);
+                    this.sendEvent(event[0], label, label);
+                    break;
+
                 default:
                     // console.log("unhandled event ", event[0], event);
             }
@@ -230,13 +245,6 @@
             this.api.unregisterClientListener(clientListener);
             this.api.unregisterRenameListener(renameListener);
         };
-
-        this.showHint = function(event) {
-            var user = this.users[event.clientId];
-            if (user && event.label) {
-                this.api.showTooltip(user.name, event.label, user.color);
-            }
-        }
 
         this.dispatch = function(last) {
             if (last && last.clientId != this.clientId) {
@@ -278,9 +286,21 @@
                     if (gmApi) {
                         gmApi.loadFromJSON(last.content);
                     }
-                }
-                if (last.type != "pasteSlide") { // for slides the label slide label => no hint
-                    target.showHint(last);
+                } else if (last.type == "startAnimation") {
+                    target.api.setAnimating(last.label, true);
+                    target.api.startAnimation();
+                } else if (last.type == "stopAnimation") {
+                    target.api.setAnimating(last.label, false);
+                } else if (last.type == "select") {
+                    let user = this.users[last.clientId];
+                    if (user && last.content) {
+                        target.api.addMultiuserSelection(user.name, user.color, last.content);
+                    }
+                } else if (last.type == "deselect") {
+                    let user = this.users[last.clientId];
+                    if (user) {
+                        target.api.removeMultiuserSelections(user.name);
+                    }
                 }
             }
         };

@@ -2202,7 +2202,7 @@ public class GeoCasCell extends GeoElement
 		CASException ce = null;
 		nativeOutput = true;
 		if (inputVE != null && getAssignmentType() == AssignmentType.DELAYED) {
-			result = inputVE.wrap().toString(StringTemplate.numericNoLocal);
+			result = ExpressionNode.getLabelOrDefinition(inputVE, StringTemplate.numericNoLocal);
 			success = result != null;
 		} else if (!useGeoGebraFallback) {
 			// CAS EVALUATION
@@ -2347,6 +2347,8 @@ public class GeoCasCell extends GeoElement
 						}
 					}
 				}
+
+				arbconst.setSymbolic(hasSymbolicConstant());
 
 				// compute the result using CAS
 				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(
@@ -3770,6 +3772,11 @@ public class GeoCasCell extends GeoElement
 					.getNextIndexedLabel(LabelType.pointLabels);
 		}
 		return getDefaultLabel();
+	}
+
+	private boolean hasSymbolicConstant() {
+		Command cmd = expandedEvalVE.getTopLevelCommand();
+		return cmd != null && "IntegralSymbolic".equals(cmd.getName());
 	}
 
 }
