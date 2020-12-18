@@ -2810,7 +2810,7 @@ __GGB__keysVar["hr"].menu = {
     "ShowValueProjectedOntoXYPlane": "Poka\u017ei projekciju vrijednosti na xy ravninu",
     "ShowVerticalScrollbars": "Poka\u017ei vertikalnu kliznu traku",
     "ShowxAxis": "Poka\u017ei os x",
-    "ShowyAxis": "Poka\u017ei y os",
+    "ShowyAxis": "Poka\u017ei os y",
     "ShowzAxis": "Poka\u017ei os z",
     "ShutDownGreen": "Izostavi zeleni kanal",
     "Shutter": "Zatvara\u010d",
