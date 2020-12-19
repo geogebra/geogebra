@@ -4455,7 +4455,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	public final void setViewShowAllObjects(boolean storeUndo,
 			boolean keepRatio) {
-		setViewShowAllObjects(storeUndo, keepRatio, 15);
+    	if (isZoomable()) {
+			setViewShowAllObjects(storeUndo, keepRatio, 15);
+		}
 	}
 
 	@Override
@@ -4913,8 +4915,10 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void setStandardView(boolean storeUndo) {
-		setAnimatedCoordSystem(STANDARD_VIEW_STEPS);
-		animator.setRotAnimation(ANGLE_ROT_OZ, ANGLE_ROT_XOY, false, true, storeUndo);
+		if (isZoomable()) {
+			setAnimatedCoordSystem(STANDARD_VIEW_STEPS);
+			animator.setRotAnimation(ANGLE_ROT_OZ, ANGLE_ROT_XOY, false, true, storeUndo);
+		}
 	}
 
 	@Override
