@@ -123,4 +123,10 @@ public abstract class CardRenameDialog extends ComponentDialog {
 	}
 
 	protected abstract String getCardTitle();
+
+	@Override
+	public void show() {
+		super.show();
+		Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
+	}
 }

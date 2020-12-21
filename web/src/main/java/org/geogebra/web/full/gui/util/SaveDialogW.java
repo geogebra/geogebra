@@ -243,7 +243,10 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 			templateCheckbox.setSelected(activeMaterial != null && MaterialType.ggsTemplate
 					.equals(activeMaterial.getType()));
 		}
-		Scheduler.get().scheduleDeferred(() -> title.setFocus(true));
+		Scheduler.get().scheduleDeferred(() -> {
+			title.setFocus(true);
+			title.selectAll();
+		});
 	}
 
 	@Override
