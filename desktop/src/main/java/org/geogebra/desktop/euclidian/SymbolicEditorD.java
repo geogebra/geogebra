@@ -15,6 +15,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.desktop.awt.GColorD;
@@ -97,7 +98,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 	}
 
 	@Override
-	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
+	public void attach(GeoInputBox geoInputBox, GRectangle bounds, InputBoxType inputBoxType) {
 		setInputBox(geoInputBox);
 		getDrawInputBox().setEditing(true);
 
