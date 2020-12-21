@@ -87,7 +87,7 @@ public class ModeToggleMenuP extends ModeToggleMenuW
 
 	private void addBackButton() {
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
-		back = new StandardButton(pr.menu_header_back(), null, 32, app);
+		back = new StandardButton(pr.menu_header_back(), null, 32);
 		back.addStyleName("submenuBack");
 		back.addFastClickHandler(new FastClickHandler() {
 

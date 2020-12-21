@@ -59,8 +59,7 @@ public class ShareLinkDialog extends ComponentDialog {
 		linkBox.setStyleName("linkBox");
 		addLinkBoxHandlers();
 
-		StandardButton copyBtn = new StandardButton(localize("Copy"),
-				app);
+		StandardButton copyBtn = new StandardButton(localize("Copy"));
 		copyBtn.setStyleName("copyButton");
 
 		copyBtn.addFastClickHandler(source -> {
@@ -115,7 +114,7 @@ public class ShareLinkDialog extends ComponentDialog {
 
 	private StandardButton roundButton(SVGResource icon, String titleKey) {
 		StandardButton btn = new StandardButton(icon,
-				localize(titleKey), 24, app);
+				localize(titleKey), 24);
 		btn.setStyleName("roundButton");
 		return btn;
 	}

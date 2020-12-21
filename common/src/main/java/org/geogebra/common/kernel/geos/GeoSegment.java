@@ -214,6 +214,7 @@ final public class GeoSegment extends GeoLine
 		if (geo.isGeoSegment()) {
 			GeoSegmentND seg = (GeoSegmentND) geo;
 			allowOutlyingIntersections = seg.allowOutlyingIntersections();
+			isShape = isShape || geo.isShape();
 		}
 	}
 
@@ -858,9 +859,7 @@ final public class GeoSegment extends GeoLine
 	public GeoElement copyFreeSegment() {
 		GeoPoint startPoint1 = (GeoPoint) getStartPoint().copyInternal(cons);
 		GeoPoint endPoint1 = (GeoPoint) getEndPoint().copyInternal(cons);
-		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(cons, null,
-				startPoint1, endPoint1);
-
+		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(cons, startPoint1, endPoint1);
 		return algo.getSegment();
 	}
 

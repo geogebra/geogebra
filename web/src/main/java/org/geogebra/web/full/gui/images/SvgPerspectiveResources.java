@@ -70,14 +70,8 @@ public interface SvgPerspectiveResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/menu-edit-redo.svg")
 	SVGResource menu_header_redo();
 
-	@Source("org/geogebra/common/icons/svg/web/menu-edit-redo.svg")
-	SVGResource menu_header_redo_hover();
-
 	@Source("org/geogebra/common/icons/svg/web/menu-edit-undo.svg")
 	SVGResource menu_header_undo();
-
-	@Source("org/geogebra/common/icons/svg/web/menu-edit-undo.svg")
-	SVGResource menu_header_undo_hover();
 
 	@Source("org/geogebra/common/icons/svg/web/menu-button-open-search.svg")
 	SVGResource menu_header_open_search();

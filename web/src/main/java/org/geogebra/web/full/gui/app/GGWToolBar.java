@@ -36,7 +36,7 @@ import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -187,39 +187,22 @@ public class GGWToolBar extends Composite
 	private void addUndoPanel() {
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 
-		redoButton = new StandardButton(pr.menu_header_redo(), null, 32, app);
-		redoButton.getUpHoveringFace()
-				.setImage(getImage(pr.menu_header_redo_hover(), 32));
+		redoButton = new StandardButton(pr.menu_header_redo(), null, 32);
+		redoButton.getElement().getStyle().setPosition(Style.Position.RELATIVE);
 
-		redoButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				app.getGuiManager().redo();
-				app.hideKeyboard();
-			}
+		redoButton.addFastClickHandler(source -> {
+			app.getGuiManager().redo();
+			app.hideKeyboard();
 		});
 
-		redoButton.addStyleName("redoButton");
-		// redoButton.getElement().addClassName("button");
+		undoButton = new StandardButton(pr.menu_header_undo(), null, 32);
+		undoButton.getElement().getStyle().setPosition(Style.Position.RELATIVE);
 
-		redoButton.getElement().getStyle().setOverflow(Overflow.HIDDEN);
-
-		undoButton = new StandardButton(pr.menu_header_undo(), null, 32, app);
-		undoButton.getUpHoveringFace()
-				.setImage(getImage(pr.menu_header_undo_hover(), 32));
-
-		undoButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				app.getGuiManager().undo();
-				app.hideKeyboard();
-			}
+		undoButton.addFastClickHandler(source -> {
+			app.getGuiManager().undo();
+			app.hideKeyboard();
 		});
 
-		undoButton.addStyleName("undoButton");
-		// undoButton.getElement().addClassName("button");
-
-		// toolBarPanel.add(redoButton);
 		updateUndoActions();
 		rightButtonPanel.add(undoButton);
 		rightButtonPanel.add(redoButton);
@@ -398,8 +381,7 @@ public class GGWToolBar extends Composite
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		this.menuBarShowing = true;
 
-		StandardButton openMenuButton = new StandardButton(pr.menu_header_open_menu(), null,
-				32, app);
+		StandardButton openMenuButton = new StandardButton(pr.menu_header_open_menu(), null, 32);
 
 		openMenuButton.getUpHoveringFace()
 				.setImage(getImage(pr.menu_header_open_menu_hover(), 32));
@@ -434,7 +416,7 @@ public class GGWToolBar extends Composite
 	private void initOpenSearchButton() {
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		StandardButton openSearchButton = new StandardButton(pr.menu_header_open_search(),
-				null, 32, 32, app);
+				null, 32, 32);
 		openSearchButton.getUpFace()
 				.setImage(getImage(pr.menu_header_open_search(), 32));
 		openSearchButton.getUpHoveringFace()

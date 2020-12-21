@@ -41,6 +41,7 @@ public abstract class ValidExpression
 
 	private Vector<String> labels;
 	private boolean inTree; // used by ExpressionNode
+	private boolean isRoot = false;
 
 	/**
 	 * @param label
@@ -597,6 +598,14 @@ public abstract class ValidExpression
 	 */
 	public boolean isTopLevelCommand(String string) {
 		return false;
+	}
+
+	public boolean isRootNode() {
+		return isRoot;
+	}
+
+	public void setAsRootNode() {
+		this.isRoot = true;
 	}
 
 	@Override

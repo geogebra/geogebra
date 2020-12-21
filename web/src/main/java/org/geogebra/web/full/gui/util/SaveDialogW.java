@@ -333,7 +333,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 	 */
 	private void addCancelButton(FlowPanel contentPanel) {
 		this.cancelButton = new StandardButton(
-				SharedResources.INSTANCE.dialog_cancel(), app);
+				SharedResources.INSTANCE.dialog_cancel());
 		this.cancelButton.addStyleName("cancelSaveButton");
 		this.cancelButton.addFastClickHandler(source -> {
 			hide();

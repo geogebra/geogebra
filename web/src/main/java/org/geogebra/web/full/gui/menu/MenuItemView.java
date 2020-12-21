@@ -14,7 +14,7 @@ class MenuItemView extends StandardButton {
 	}
 
 	MenuItemView(ResourcePrototype icon, String label, boolean isUserItem) {
-		super(icon, label, isUserItem ? 36 : 24, isUserItem ? 36 : 24, null);
+		super(icon, label, isUserItem ? 36 : 24, isUserItem ? 36 : 24);
 		addStyleName(MENU_ITEM_VIEW_STYLE);
 		setStyleName(USER_MENU_ITEM_VIEW_STYLE, isUserItem);
 	}

@@ -79,12 +79,12 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 
 	private void createMoreLessButtons() {
 		moreBtn = new StandardButton(
-				app.getLocalization().getMenu("Tools.More"), app);
+				app.getLocalization().getMenu("Tools.More"));
 		AriaHelper.hide(moreBtn);
 		moreBtn.addStyleName("moreLessBtn");
 		moreBtn.removeStyleName("button");
 		lessBtn = new StandardButton(
-				app.getLocalization().getMenu("Tools.Less"), app);
+				app.getLocalization().getMenu("Tools.Less"));
 		AriaHelper.hide(lessBtn);
 		lessBtn.addStyleName("moreLessBtn");
 		lessBtn.removeStyleName("button");
