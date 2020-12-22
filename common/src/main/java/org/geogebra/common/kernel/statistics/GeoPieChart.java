@@ -63,8 +63,13 @@ public class GeoPieChart extends GeoElement {
 	}
 
 	@Override
+	public String toString(StringTemplate tpl) {
+		return getLabelSimple() + tpl.getEqualsWithSpace() + getDefinition(tpl);
+	}
+
+	@Override
 	public String toValueString(StringTemplate tpl) {
-		return "";
+		return getDefinition(tpl);
 	}
 
 	@Override

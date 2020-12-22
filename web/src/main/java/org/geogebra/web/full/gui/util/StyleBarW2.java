@@ -1,17 +1,27 @@
 package org.geogebra.web.full.gui.util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
+import org.geogebra.common.kernel.geos.GeoPolyLine;
+import org.geogebra.common.kernel.geos.GeoWidget;
+import org.geogebra.common.kernel.geos.TextStyle;
+import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.euclidian.EuclidianLineStylePopup;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
@@ -32,6 +42,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 
 	protected boolean needUndo = false;
 	protected final InlineTextFormatter inlineFormatter;
+	public int mode = -1;
 
 	/**
 	 * @param app
@@ -215,4 +226,120 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 
 	protected abstract void handleEventHandlers(Object source);
 
+	protected void createColorBtn() {
+		Localization loc = app.getLocalization();
+		btnColor = new ColorPopupMenuButton(app,
+				ColorPopupMenuButton.COLORSET_DEFAULT, true) {
+
+			@Override
+			public void update(List<GeoElement> geos) {
+				if (mode == EuclidianConstants.MODE_FREEHAND_SHAPE) {
+					super.setVisible(false);
+					Log.debug(
+							"MODE_FREEHAND_SHAPE not working in StyleBar yet");
+				} else {
+					boolean geosOK = (geos.size() > 0
+							|| EuclidianView.isPenMode(mode));
+					boolean hasOpacity = true;
+					for (GeoElement geoElement : geos) {
+						GeoElement geo = geoElement
+								.getGeoElementForPropertiesDialog();
+						if (hasTextColor(geo) || geo instanceof GeoWidget
+								|| geo instanceof GeoPieChart) {
+							geosOK = false;
+							break;
+						}
+						if (geoElement instanceof GeoLocusStroke) {
+							hasOpacity = false;
+						}
+					}
+
+					super.setVisible(geosOK);
+					if (geosOK) {
+						// get color from first geo
+						GColor geoColor;
+						geoColor = geos.size() > 0
+								? geos.get(0).getObjectColor()
+								: GColor.BLACK;
+						// check if selection contains a fillable geo
+						// if true, then set slider to first fillable's alpha
+						// value
+						double alpha = 1.0;
+						boolean hasFillable = false;
+						for (GeoElement geo : geos) {
+							if (geo.isFillable()) {
+								hasFillable = true;
+								alpha = geo.getAlphaValue();
+								break;
+							}
+							if (geo instanceof GeoPolyLine
+									&& EuclidianView.isPenMode(mode)) {
+								hasFillable = true;
+								alpha = geo.getLineOpacity();
+
+								break;
+							}
+						}
+
+						if (!app.isUnbundled()) {
+							if (hasFillable) {
+								if (app.isWhiteboardActive()
+										&& geos.get(0) instanceof GeoImage) {
+									if (hasOpacity) {
+										setTitle(loc.getMenu("Opacity"));
+									} else {
+										super.setVisible(false);
+									}
+								} else {
+									setTitle(loc.getMenu(
+											"stylebar.ColorTransparency"));
+								}
+							} else {
+								setTitle(loc.getMenu("stylebar.Color"));
+							}
+						}
+
+						setSliderVisible(hasFillable && hasOpacity);
+
+						if (EuclidianView.isPenMode(mode)) {
+							setSliderValue(
+									(int) Math.round((alpha * 100) / 255));
+						} else {
+							setSliderValue((int) Math.round(alpha * 100));
+						}
+
+						updateColorTable();
+						setEnableTable(geos.size() > 0
+								&& !(geos.get(0) instanceof GeoImage));
+						// find the geoColor in the table and select it
+						int index = this.getColorIndex(geoColor);
+						setSelectedIndex(index);
+						if (EuclidianView.isPenMode(mode)) {
+							setDefaultColor(alpha / 255, geoColor);
+						} else {
+							setDefaultColor(alpha, geoColor);
+						}
+
+						this.setKeepVisible(!app.isUnbundledOrWhiteboard()
+								&& EuclidianConstants
+								.isMoveOrSelectionMode(mode));
+					}
+				}
+			}
+
+			@Override
+			public void onClickAction() {
+				onColorClicked();
+			}
+		};
+		btnColor.addPopupHandler(this);
+	}
+
+	public boolean hasTextColor(GeoElement geoElement) {
+		return geoElement instanceof TextStyle || geoElement instanceof GeoFormula;
+	}
+
+	protected void onColorClicked() {
+		// only in EV
+	}
 }
