@@ -127,4 +127,10 @@ public class GeoPieChart extends GeoElement {
 		return false; // consistent with barcharts
 	}
 
+	@Override
+	protected void getXMLtags(final StringBuilder sb) {
+		super.getXMLtags(sb);
+		getLineStyleXML(sb);
+	}
+
 }
