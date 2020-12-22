@@ -1552,7 +1552,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "ContextMenu.insertColumnRight": "Voeg kolom in rechts",
     "ContextMenu.insertRowAbove": "Voeg rij in boven",
     "ContextMenu.insertRowBelow": "Voeg rij in onder",
-    "ContextMenu.rotateDown": "Roteer omhoog",
+    "ContextMenu.rotateDown": "Roteer omlaag",
     "ContextMenu.rotateNone": "Geen",
     "ContextMenu.rotateUp": "Roteer omhoog",
     "ContextMenu.textRotation": "Tekstrotatie",
