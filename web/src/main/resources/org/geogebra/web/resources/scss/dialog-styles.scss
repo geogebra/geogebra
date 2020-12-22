@@ -1427,32 +1427,37 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.shareByLink {
 			max-width: 474px;
-			width: 100%;
-			margin: 16px 8px 0px 24px;
+			width: 95%;
+			margin: 16px 0px 0px 24px;
 
 			.linkImg {
 				opacity: 0.54;
 				margin: 0px 32px 2px 0px;
 			}
 
+			.switcherPanel {
+				display: flex;
+
+				.switch {
+					margin-left: auto;
+				}
+			}
+
 			.textPanel {
 				position: relative;
 				max-width: 356px;
-				width: 90%;
 				display: inline-block;
 
 				.linkShareOnOff {
 					margin-top: 0px;
 					font-size: 100%;
 					color: $text-primary;
-					height: 16px;
 					line-height: 16px;
 				}
 
 				.linkShareHelp {
 					margin-top: 0px;
 					font-size: 87%;
-					height: 16px;
 					line-height: 16px;
 					color: $text-secondary;
 				}
@@ -1499,7 +1504,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.shareLinkAvailableInfo {
 			max-width: 474px;
-			width: 90%;
 			margin: 14px 24px 0px 24px;
 			font-size: 87%;
 		}
