@@ -7,7 +7,6 @@ import java.util.Objects;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -15,6 +14,7 @@ import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
@@ -40,11 +40,9 @@ public class KeyboardManager
 	private AppW app;
 	private RootPanel keyboardRoot;
 	private VirtualKeyboardGUI keyboard;
-	private VirtualKeyboardGUI inputBoxKeyboard;
 
 	private String originalBodyPadding;
 	private final Style bodyStyle;
-	private InputBoxType inputBoxType;
 
 	/**
 	 * Constructor
@@ -180,7 +178,7 @@ public class KeyboardManager
 	public void setListeners(MathKeyboardListener textField,
 			UpdateKeyBoardListener listener) {
 		ensureKeyboardsExist();
-		((OnscreenTabbedKeyboard) keyboard).clearAndUpdate(getInputBoxType());
+		((OnscreenTabbedKeyboard) keyboard).clearAndUpdate();
 		if (textField != null) {
 			setOnScreenKeyboardTextField(textField);
 		}
@@ -202,24 +200,8 @@ public class KeyboardManager
 			boolean showMoreButton = app.getConfig().showKeyboardHelpButton()
 					&& !shouldDetach();
 			keyboard = new OnscreenTabbedKeyboard((HasKeyboard) app,
-					showMoreButton, inputBoxType);
+					showMoreButton, ((AppWFull) app).getInputBoxType());
 		}
-	}
-
-	/**
-	 * getter for input box type
-	 * @return current input box type (needed for input box specific keyboard)
-	 */
-	public InputBoxType getInputBoxType() {
-		return inputBoxType;
-	}
-
-	/**
-	 * setter for input box type
-	 * @param inputBoxType new input box type
-	 */
-	public void setInputBoxType(InputBoxType inputBoxType) {
-		this.inputBoxType = inputBoxType;
 	}
 
 	@Override

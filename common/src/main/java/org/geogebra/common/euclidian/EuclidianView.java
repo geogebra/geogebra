@@ -64,7 +64,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPriorityComparator;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.XMLBuilder;
-import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -6070,7 +6069,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (d != null) {
 			DrawInputBox drawInputBox = (DrawInputBox) d;
 			if (inputBox.isSymbolicMode()) {
-				drawInputBox.attachMathField(inputBox.getInputBoxType());
+				Log.debug("INPUTBOX TYPE: " + inputBox.getInputBoxType());
+				drawInputBox.attachMathField();
 			} else if (viewTextField != null) {
 				viewTextField.focusTo(drawInputBox);
 			}
@@ -6305,16 +6305,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * 			the input box to attach
 	 * @param bounds
 	 * 			where the editor should be attached to.
-	 * @param inputBoxType
-	 * 		    type of linked geo
 	 */
-	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds,
-			InputBoxType inputBoxType) {
+	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
 		if (symbolicEditor == null) {
 			symbolicEditor = createSymbolicEditor();
 		}
 		if (symbolicEditor != null) {
-			symbolicEditor.attach(geoInputBox, bounds, inputBoxType);
+			symbolicEditor.attach(geoInputBox, bounds);
 		}
 	}
 

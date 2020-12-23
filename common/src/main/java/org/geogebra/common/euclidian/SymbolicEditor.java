@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 
@@ -77,8 +76,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	 * @param bounds
 	 *            place to attach the editor to.
 	 */
-	public abstract void attach(GeoInputBox geoInputBox, GRectangle bounds,
-			InputBoxType inputBoxType);
+	public abstract void attach(GeoInputBox geoInputBox, GRectangle bounds);
 
 	protected void setInputBox(GeoInputBox geoInputBox) {
 		this.geoInputBox = geoInputBox;

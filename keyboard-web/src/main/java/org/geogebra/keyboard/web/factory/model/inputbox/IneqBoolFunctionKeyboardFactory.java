@@ -2,9 +2,7 @@ package org.geogebra.keyboard.web.factory.model.inputbox;
 
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.DEGREE;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.EULER;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.GEQ;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.INFINITY;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEQ;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputButton;
@@ -31,9 +29,9 @@ public class IneqBoolFunctionKeyboardFactory implements KeyboardModelFactory {
 		addTranslateInputCommandButton(row, buttonFactory, "cos", "cos", width);
 		addTranslateInputCommandButton(row, buttonFactory, "tan", "tan", width);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
-		addConstantInputButton(row, buttonFactory, Resource.POWE_X, EULER + "^", width);
-		addConstantInputButton(row, buttonFactory, Resource.POW10_X, "10^", width);
-		addConstantInputButton(row, buttonFactory, Resource.N_ROOT, "nroot", width);
+		addConstantInputButton(row, buttonFactory, Resource.POWE_X, EULER + "^");
+		addConstantInputButton(row, buttonFactory, Resource.POW10_X, "10^");
+		addConstantInputButton(row, buttonFactory, Resource.N_ROOT, "nroot");
 		addConstantInputButton(row, buttonFactory, Resource.ABS, "|");
 
 		row = functionKeyboard.nextRow(9.2f);
@@ -57,6 +55,7 @@ public class IneqBoolFunctionKeyboardFactory implements KeyboardModelFactory {
 				"altText.acos", "acos", width);
 		addTranslateInputCommandButton(row, buttonFactory, "atan",
 				"altText.atan", "atan", width);
+		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		addInputButton(row, buttonFactory, "%");
 		addInputButton(row, buttonFactory, "!");
 		addInputButton(row, buttonFactory, "=");

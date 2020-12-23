@@ -745,14 +745,14 @@ public class TabbedKeyboard extends FlowPanel
 		}
 
 		clear();
-		buildGUI(null);
+		buildGUI(hasKeyboard.getInputBoxType());
 	}
 
-	public void clearAndUpdate(InputBoxType inputBoxType) {
+	public void clearAndUpdate() {
 		switcher.clear();
 		switcher.setup();
 		clear();
-		buildGUI(inputBoxType);
+		buildGUI(hasKeyboard.getInputBoxType());
 	}
 
 	/**

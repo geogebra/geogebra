@@ -1,8 +1,8 @@
 package org.geogebra.keyboard.web.factory.model.inputbox.math;
 
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.DEGREE;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.EULER;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.GEQ;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEQ;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.INFINITY;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.PI;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.ROOT;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUP2;
@@ -27,9 +27,7 @@ public class FunctionMathKeyboardFactory implements KeyboardModelFactory {
 
 		RowImpl row = mathKeyboard.nextRow(9.2f);
 		addInputButton(row, buttonFactory, Characters.x, "x");
-		addButton(row, buttonFactory.createEmptySpace(1.2f));
-		addButton(row, buttonFactory.createEmptySpace(1.2f));
-		addButton(row, buttonFactory.createEmptySpace(1.2f));
+		addButton(row, buttonFactory.createEmptySpace(3.2f));
 		NumberKeyUtil.addFirstRow(row, buttonFactory);
 
 		row = mathKeyboard.nextRow(9.2f);
@@ -41,10 +39,10 @@ public class FunctionMathKeyboardFactory implements KeyboardModelFactory {
 		NumberKeyUtil.addSecondRow(row, buttonFactory);
 
 		row = mathKeyboard.nextRow(9.2f);
-		addInputButton(row, buttonFactory, "<");
-		addInputButton(row, buttonFactory, ">");
-		addInputButton(row, buttonFactory, LEQ);
-		addInputButton(row, buttonFactory, GEQ);
+		addInputButton(row, buttonFactory, "i", "\u03af", "altText.Imaginaryi");
+		addInputButton(row, buttonFactory, INFINITY);
+		addInputButton(row, buttonFactory, DEGREE);
+		addInputButton(row, buttonFactory, ",");
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		NumberKeyUtil.addThirdRow(row, buttonFactory);
 

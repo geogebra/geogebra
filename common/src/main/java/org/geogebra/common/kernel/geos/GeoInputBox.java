@@ -441,7 +441,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 				|| linkedGeo.isGeoPoint() || linkedGeo.isGeoVector()
 				|| (linkedGeo instanceof EquationValue && !linkedGeo.isGeoConicPart())
 				|| linkedGeo.isGeoList() || linkedGeo.isGeoLine()
-				|| linkedGeo.isGeoSurfaceCartesian();
+				|| linkedGeo.isGeoSurfaceCartesian() || linkedGeo.isGeoBoolean();
 	}
 
 	boolean hasSymbolicFunction() {
@@ -594,14 +594,15 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return input box type
 	 */
 	public InputBoxType getInputBoxType() {
-		GeoClass geoClass = getLinkedGeo().getGeoClassType();
-		if (geoClass == GeoClass.FUNCTION) {
-			return InputBoxType.FUNCTION;
-		} else if (geoClass == GeoClass.FUNCTION_NVAR) {
+		if (linkedGeo instanceof GeoFunction) {
+			return ((GeoFunction) linkedGeo).isInequality()
+					? InputBoxType.INEQ_BOOL : InputBoxType.FUNCTION;
+		} else if (linkedGeo instanceof GeoFunctionNVar) {
 			return InputBoxType.FUNCTION_NVAR;
-		} else if (geoClass.equals(GeoClass.INEQUALITY)
-				|| geoClass == GeoClass.BOOLEAN) {
+		} else if (linkedGeo instanceof GeoBoolean) {
 			return InputBoxType.INEQ_BOOL;
+		} else if (linkedGeo instanceof GeoVectorND) {
+			return InputBoxType.VECTOR_MATRIX;
 		} else {
 			return InputBoxType.DEFAULT;
 		}
