@@ -407,27 +407,12 @@ public final class DrawDropDownList extends CanvasDrawable
 		}
 
 		private void setHovered(OptionItem item) {
-
-			if (item == null) {
-				return;
-			}
-
-			if (item.isEqual(hovered)) {
+			if (item == null || item.isEqual(hovered)) {
 				return;
 			}
 			view.getApplication().dispatchEvent(getFocusEvent(item));
-			drawHovered(false);
 			hovered = item;
-			drawHovered(true);
 			viewOpt.repaintView();
-		}
-
-		private void drawHovered(boolean on) {
-			if (hovered != null && hovered.index > -1
-					&& hovered.index < items.size()) {
-				OptionItem item = items.get(hovered.index);
-				drawItem(item, on);
-			}
 		}
 
 		void scrollUp() {
@@ -922,7 +907,7 @@ public final class DrawDropDownList extends CanvasDrawable
 			}
 
 			if (update && idx >= 0 && idx < items.size()) {
-				hovered = items.get(idx);
+				setHovered(items.get(idx));
 				selectedIndex = idx;
 				update();
 
