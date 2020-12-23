@@ -10,7 +10,7 @@ import org.geogebra.keyboard.web.factory.model.inputbox.InputBoxDefaultSymbolsKe
 import org.geogebra.keyboard.web.factory.model.inputbox.math.FunctionMathKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.math.FunctionNVarMathKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.math.IneqBoolMathKeyboardFactory;
-import org.geogebra.keyboard.web.factory.model.inputbox.math.VectorMatriceMathKeyboardFactory;
+import org.geogebra.keyboard.web.factory.model.inputbox.math.VectorMatrixMathKeyboardFactory;
 
 public class KeyboardInputBox extends KeyboardFactory {
 
@@ -29,7 +29,7 @@ public class KeyboardInputBox extends KeyboardFactory {
 	private KeyboardModelFactory getMathKeyboard(InputBoxType inputBoxType) {
 		switch (inputBoxType) {
 		case VECTOR_MATRIX:
-			return new VectorMatriceMathKeyboardFactory();
+			return new VectorMatrixMathKeyboardFactory();
 		case INEQ_BOOL:
 			return new IneqBoolMathKeyboardFactory();
 		case FUNCTION:

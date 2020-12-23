@@ -2,7 +2,6 @@ package org.geogebra.keyboard.web.factory.model.inputbox;
 
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.AMPERSAND;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.ANGLE;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.APOSTROPHE;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.AT;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.CIRCLED_TIMES;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.COLON;
@@ -21,7 +20,6 @@ import static org.geogebra.keyboard.base.model.impl.factory.Characters.NOT_SIGN;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.PARALLEL_TO;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.PERPENDICULAR;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.QUESTIONED_EQUAL_TO;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.QUOTATION_MARK;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.RIGHTWARDS_ARROW;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.RIGHT_SQUARE_BRACKET;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SECONDS;

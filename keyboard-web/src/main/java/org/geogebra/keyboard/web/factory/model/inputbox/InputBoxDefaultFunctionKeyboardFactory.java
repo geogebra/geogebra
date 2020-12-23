@@ -1,6 +1,5 @@
 package org.geogebra.keyboard.web.factory.model.inputbox;
 
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.DEGREE;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.EULER;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.GEQ;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEQ;
@@ -8,7 +7,6 @@ import static org.geogebra.keyboard.base.model.impl.factory.Characters.NOT_EQUAL
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputButton;
-import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputCommandButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInputCommandButton;
 

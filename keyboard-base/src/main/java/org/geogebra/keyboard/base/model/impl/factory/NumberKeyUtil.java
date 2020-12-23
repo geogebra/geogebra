@@ -11,6 +11,11 @@ import org.geogebra.keyboard.base.model.impl.RowImpl;
 
 public class NumberKeyUtil {
 
+    /**
+     * first row of number keyboard
+     * @param row row
+     * @param buttonFactory factory
+     */
     public static void addFirstRow(RowImpl row, ButtonFactory buttonFactory) {
         addInputButton(row, buttonFactory, "7");
         addInputButton(row, buttonFactory, "8");
@@ -19,6 +24,11 @@ public class NumberKeyUtil {
         addInputButton(row, buttonFactory, DIVISION, "/");
     }
 
+    /**
+     * second row of number keyboard
+     * @param row row
+     * @param buttonFactory factory
+     */
     public static void addSecondRow(RowImpl row, ButtonFactory buttonFactory) {
         addInputButton(row, buttonFactory, "4");
         addInputButton(row, buttonFactory, "5");
@@ -27,6 +37,11 @@ public class NumberKeyUtil {
         addInputButton(row, buttonFactory, "-");
     }
 
+    /**
+     * third row of number keyboard
+     * @param row row
+     * @param buttonFactory factory
+     */
     public static void addThirdRow(RowImpl row, ButtonFactory buttonFactory) {
         addInputButton(row, buttonFactory, "1");
         addInputButton(row, buttonFactory, "2");
@@ -36,6 +51,11 @@ public class NumberKeyUtil {
                 Action.BACKSPACE_DELETE);
     }
 
+    /**
+     * fourth row of number keyboard
+     * @param row row
+     * @param buttonFactory factory
+     */
     public static void addFourthRow(RowImpl row, ButtonFactory buttonFactory) {
         addInputButton(row, buttonFactory, "0");
         addInputButton(row, buttonFactory, ".");

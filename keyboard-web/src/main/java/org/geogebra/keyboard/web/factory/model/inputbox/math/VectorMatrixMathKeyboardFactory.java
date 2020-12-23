@@ -21,7 +21,7 @@ import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
 import org.geogebra.keyboard.base.model.impl.factory.Characters;
 import org.geogebra.keyboard.base.model.impl.factory.NumberKeyUtil;
 
-public class VectorMatriceMathKeyboardFactory implements KeyboardModelFactory {
+public class VectorMatrixMathKeyboardFactory implements KeyboardModelFactory {
 
 	@Override
 	public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
@@ -54,9 +54,8 @@ public class VectorMatriceMathKeyboardFactory implements KeyboardModelFactory {
 		addInputButton(row, buttonFactory, "1");
 		addInputButton(row, buttonFactory, "2");
 		addInputButton(row, buttonFactory, "3");
-		// todo up arrow
-		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
-				Action.BACKSPACE_DELETE);
+		addConstantCustomButton(row, buttonFactory, Resource.UP_ARROW,
+				Action.UP_CURSOR);
 		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
 				Action.BACKSPACE_DELETE);
 
@@ -70,8 +69,7 @@ public class VectorMatriceMathKeyboardFactory implements KeyboardModelFactory {
 		addInputButton(row, buttonFactory, "0");
 		addConstantCustomButton(row, buttonFactory, Resource.LEFT_ARROW, Action.LEFT_CURSOR);
 		addConstantCustomButton(row, buttonFactory, Resource.RIGHT_ARROW, Action.RIGHT_CURSOR);
-		// todo down arrow
-		addConstantCustomButton(row, buttonFactory, Resource.RIGHT_ARROW, Action.RIGHT_CURSOR);
+		addConstantCustomButton(row, buttonFactory, Resource.DOWN_ARROW, Action.DOWN_CURSOR);
 		addConstantCustomButton(row, buttonFactory, Resource.RETURN_ENTER, Action.RETURN_ENTER);
 
 		return mathKeyboard;

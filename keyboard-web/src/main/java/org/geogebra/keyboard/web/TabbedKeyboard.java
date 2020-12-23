@@ -555,6 +555,14 @@ public class TabbedKeyboard extends FlowPanel
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_arrowRight_black(), bh,
 					Action.RIGHT_CURSOR, loc, "altText.RightArrow");
+		}  else if (resourceName.equals(Resource.DOWN_ARROW.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.keyboard_arrowDown_black(), bh,
+					Action.DOWN_CURSOR, loc, "altText.DownArrow");
+		}  else if (resourceName.equals(Resource.UP_ARROW.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.keyboard_arrowUp_black(), bh,
+					Action.UP_CURSOR, loc, "altText.UpArrow");
 		} else if (resourceName.equals(Resource.POWA2.name())) {
 			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.square(),
@@ -748,6 +756,9 @@ public class TabbedKeyboard extends FlowPanel
 		buildGUI(hasKeyboard.getInputBoxType());
 	}
 
+	/**
+	 * rebuilds the keyboard layout based on the inputbox type
+	 */
 	public void clearAndUpdate() {
 		switcher.clear();
 		switcher.setup();
@@ -931,6 +942,8 @@ public class TabbedKeyboard extends FlowPanel
 		case BACKSPACE_DELETE:
 		case LEFT_CURSOR:
 		case RIGHT_CURSOR:
+		case UP_CURSOR:
+		case DOWN_CURSOR:
 			startRepeater(action);
 			break;
 		case RETURN_ENTER:
@@ -983,6 +996,12 @@ public class TabbedKeyboard extends FlowPanel
 			break;
 		case RIGHT_CURSOR:
 			processField.onArrow(KeyboardListener.ArrowType.right);
+			break;
+		case UP_CURSOR:
+			processField.onArrow(KeyboardListener.ArrowType.up);
+			break;
+		case DOWN_CURSOR:
+			processField.onArrow(KeyboardListener.ArrowType.down);
 			break;
 		}
 	}
