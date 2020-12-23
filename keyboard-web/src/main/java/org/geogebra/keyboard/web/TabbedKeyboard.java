@@ -568,7 +568,6 @@ public class TabbedKeyboard extends FlowPanel
 							KeyboardResources.INSTANCE.square(),
 					button.getPrimaryActionName(), bh, false, loc,
 					"altText.Square");
-			
 		} else if (resourceName.equals(Resource.FRACTION.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.fraction(),
