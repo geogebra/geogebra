@@ -525,6 +525,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.AutoCompleteTextFieldW {
 					margin: 8px 16px 16px 0px;
 					display: inline-block;
+					width: 100%;
 				}
 
 				.mowInputPanelContent {
@@ -581,7 +582,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent.mediaDialog {
 		&.hyperLink {
 			max-width: 448px;
-			max-height: 246px;
 
 			.dialogContent {
 				height: calc(100% - 52px); //no title
@@ -590,12 +590,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		&.Video, &.Audio {
 			max-width: 448px;
-			max-height: 200px;
 		}
 
 		&.Web {
 			max-width: 448px;
-			max-height: 240px;
 		}
 
 		.mowInputPanelContent {
@@ -1235,11 +1233,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		@extend .dialogComponent.mediaDialog;
 
 		max-width: 448px;
-		max-height: 188px;
-
-		&.templateSave {
-			max-height: 236px;
-		}
 
 		.mowInputPanelContent {
 				.AutoCompleteTextFieldW {
