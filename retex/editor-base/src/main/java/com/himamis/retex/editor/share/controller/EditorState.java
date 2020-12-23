@@ -91,6 +91,16 @@ public class EditorState {
 		return currentSelStart;
 	}
 
+	/**
+	 * @return current offset or selection start
+	 */
+	public int getCurrentOffsetOrSelection() {
+		if (currentSelStart != null && currentSelStart.getParent() == currentField) {
+			return currentSelStart.getParentIndex();
+		}
+		return currentOffset;
+	}
+
 	public MathComponent getSelectionEnd() {
 		return currentSelEnd;
 	}
@@ -112,6 +122,9 @@ public class EditorState {
 	public void extendSelection(boolean left) {
 		MathComponent cursorField = getCursorField(left);
 		extendSelection(cursorField);
+		if (left && currentField.size() == currentOffset) {
+			currentOffset--;
+		}
 	}
 
 	/**
@@ -121,7 +134,6 @@ public class EditorState {
 	 *            newly selected field
 	 */
 	public void extendSelection(MathComponent cursorField) {
-
 		if (selectionAnchor == null) {
 			currentSelStart = cursorField;
 			currentSelEnd = cursorField;

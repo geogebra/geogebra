@@ -206,7 +206,7 @@ public class InputController {
 
 	private FunctionPower getFunctionPower(EditorState editorState) {
 		FunctionPower power = new FunctionPower();
-		int initialOffset = editorState.getCurrentOffset();
+		int initialOffset = editorState.getCurrentOffsetOrSelection();
 		MathComponent last = editorState.getCurrentField()
 				.getArgument(initialOffset - 1);
 		power.script = MathFunction.isScript(last) ? (MathFunction) last
@@ -230,7 +230,7 @@ public class InputController {
 
 		if (ch == FUNCTION_OPEN_KEY && tag != null) {
 			if (power.script != null) {
-				bkspCharacter(editorState);
+				deleteSingleArg(editorState);
 			}
 			delCharacters(editorState, name.length());
 			newFunction(editorState, name, false,
@@ -238,7 +238,7 @@ public class InputController {
 		} else if ((ch == FUNCTION_OPEN_KEY || ch == '[')
 				&& metaModel.isFunction(name)) {
 			if (power.script != null) {
-				bkspCharacter(editorState);
+				deleteSingleArg(editorState);
 			}
 			delCharacters(editorState, name.length());
 			newFunction(editorState, name, ch == '[', power.script);
@@ -1001,37 +1001,58 @@ public class InputController {
 	 *            current state
 	 */
 	public void bkspCharacter(EditorState editorState) {
-		int currentOffset = editorState.getCurrentOffset();
+		int currentOffset = editorState.getCurrentOffsetOrSelection();
 		if (currentOffset > 0) {
-			if (editorState.getCurrentField()
-					.getArgument(currentOffset - 1) instanceof MathArray) {
-
-				MathArray parent = (MathArray) editorState.getCurrentField()
-						.getArgument(currentOffset - 1);
-
+			MathComponent prev = editorState.getCurrentField()
+					.getArgument(currentOffset - 1);
+			if (prev instanceof MathArray) {
+				MathArray parent = (MathArray) prev;
 				extendBrackets(parent, editorState);
+			} if (prev instanceof MathFunction) {
+				bkspLastFunctionArg((MathFunction) prev, editorState);
 			} else {
-				editorState.getCurrentField().delArgument(currentOffset - 1);
-				editorState.decCurrentOffset();
+				deleteSingleArg(editorState);
 			}
 		} else {
 			bkspContainer(editorState);
 		}
 	}
 
-	private static void extendBrackets(MathArray array,
-			EditorState editorState) {
-		int currentOffset = array.getParentIndex() + 1;
-		MathContainer currentField = array.getParent();
-		MathSequence lastArg = array.getArgument(array.size() - 1);
-		int oldSize = lastArg.size();
-		while (currentField.size() > currentOffset) {
+	private void bkspLastFunctionArg(MathFunction function, EditorState editorState) {
+		MathSequence functionArg = function.getArgument(function.size() - 1);
+		if (function.getName() == Tag.APPLY || function.getName() == Tag.APPLY_SQUARE) {
+			moveArgumentsAfter(function, editorState, function.getArgument(1));
+			bkspCharacter(editorState);
+		} else if (functionArg != null) {
+			editorState.setCurrentField(functionArg);
+			functionArg.delArgument(functionArg.size() - 1);
+			editorState.setCurrentOffset(functionArg.size());
+		} else {
+			deleteSingleArg(editorState);
+		}
+	}
 
+	private void deleteSingleArg(EditorState editorState) {
+		int currentOffset = editorState.getCurrentOffsetOrSelection();
+		editorState.getCurrentField().delArgument(currentOffset - 1);
+		editorState.decCurrentOffset();
+	}
+
+	private static void extendBrackets(MathArray array, EditorState state) {
+		moveArgumentsAfter(array, state, array.getArgument(array.size() - 1));
+	}
+
+	private static void moveArgumentsAfter(MathComponent lastToKeep,
+			EditorState editorState, MathSequence target) {
+		int currentOffset = lastToKeep.getParentIndex() + 1;
+		MathContainer currentField = lastToKeep.getParent();
+		int oldSize = target.size();
+		while (currentField.size() > currentOffset) {
 			MathComponent component = currentField.getArgument(currentOffset);
 			currentField.delArgument(currentOffset);
-			lastArg.addArgument(lastArg.size(), component);
+			target.addArgument(target.size(), component);
 		}
-		editorState.setCurrentField(lastArg);
+		editorState.setCurrentField(target);
 		editorState.setCurrentOffset(oldSize);
 
 	}
@@ -1081,7 +1102,7 @@ public class InputController {
 	}
 
 	private static void delCharacters(EditorState editorState, int length0) {
-		int currentOffset = editorState.getCurrentOffset();
+		int	currentOffset = editorState.getCurrentOffsetOrSelection();
 		MathSequence currentField = editorState.getCurrentField();
 		int length = length0;
 		while (length > 0 && currentOffset > 0 && currentField
