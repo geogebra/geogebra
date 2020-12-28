@@ -29,8 +29,14 @@ public class RandomCmdTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void randomElementShouldBeSTable() {
+	public void randomBinomialShouldBeStable() {
+		shouldBeStable("RandomBinomial(100, 0.6)");
+	}
+
+	@Test
+	public void randomElementShouldBeStable() {
 		shouldBeStable("RandomElement(1..10)");
+		shouldBeStable("RandomElement(Identity(10))");
 		shouldBeStable("RandomElement((1..10, 2..11))");
 		shouldBeStable("RandomElement(2y=(1..10)x)");
 		shouldBeStable("RandomElement(2y=(1..10)x^2)");

@@ -607,6 +607,10 @@ public class AppletParameters {
 		return getBoolDataParam("disableAutoScale", false);
 	}
 
+	public boolean getParamRandomize() {
+		return getBoolDataParam("randomize", true);
+	}
+
 	/**
 	 * @return URL of Shibboleth login
 	 */

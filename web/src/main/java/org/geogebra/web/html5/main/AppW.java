@@ -844,7 +844,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				setRandomSeed(seed);
 			}
 			getXMLio().processXMLString(def.getConstruction(), true, false,
-					true);
+					getAppletParameters().getParamRandomize());
 			// defaults (optional)
 			if (def.hasDefaults2d()) {
 				getXMLio().processXMLString(def.getDefaults2d(), false, true);
