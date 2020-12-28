@@ -5,6 +5,7 @@ import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.IneqBoolFunctionKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.InputBoxDefaultFunctionKeyboardFactory;
+import org.geogebra.keyboard.web.factory.model.inputbox.InputBoxDefaultLettersKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.InputBoxDefaultMathKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.InputBoxDefaultSymbolsKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.math.FunctionMathKeyboardFactory;
@@ -24,6 +25,7 @@ public class KeyboardInputBox extends KeyboardFactory {
 		setMathKeyboardFactory(getMathKeyboard(inputBoxType));
 		setFunctionKeyboardFactory(getFunctionKeyboard(inputBoxType));
 		setSpecialSymbolsKeyboardFactory(new InputBoxDefaultSymbolsKeyboardFactory());
+		setLetterKeyboardFactory(new InputBoxDefaultLettersKeyboardFactory());
 	}
 
 	private KeyboardModelFactory getMathKeyboard(InputBoxType inputBoxType) {
