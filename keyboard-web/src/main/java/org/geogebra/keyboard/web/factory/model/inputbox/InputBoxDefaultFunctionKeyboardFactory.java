@@ -49,12 +49,9 @@ public class InputBoxDefaultFunctionKeyboardFactory implements KeyboardModelFact
 		addInputButton(row, buttonFactory, GEQ);
 
 		row = functionKeyboard.nextRow(9.2f);
-		addTranslateInputCommandButton(row, buttonFactory, "sec",
-				"altText.sec", "sec", width);
-		addTranslateInputCommandButton(row, buttonFactory, "csc",
-				"altText.csc", "csc", width);
-		addTranslateInputCommandButton(row, buttonFactory, "cot",
-				"altText.cot", "cot", width);
+		addTranslateInputCommandButton(row, buttonFactory, "sec", "sec", width);
+		addTranslateInputCommandButton(row, buttonFactory, "csc", "csc", width);
+		addTranslateInputCommandButton(row, buttonFactory, "cot", "cot", width);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		addInputButton(row, buttonFactory, "%");
 		addInputButton(row, buttonFactory, "!");
