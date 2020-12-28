@@ -42,7 +42,7 @@ public class IneqBoolFunctionKeyboardFactory implements KeyboardModelFactory {
 		addTranslateInputCommandButton(row, buttonFactory, "atan",
 				"altText.atan", "atan", width);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
-		addInputButton(row, buttonFactory, "i", "\u03af", "altText.Imaginaryi");
+		addInputButton(row, buttonFactory, "i", "i", "altText.Imaginaryi");
 		addInputButton(row, buttonFactory, INFINITY);
 		addInputButton(row, buttonFactory, DEGREE);
 		addInputButton(row, buttonFactory, ",");

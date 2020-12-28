@@ -39,7 +39,7 @@ public class FunctionMathKeyboardFactory implements KeyboardModelFactory {
 		NumberKeyUtil.addSecondRow(row, buttonFactory);
 
 		row = mathKeyboard.nextRow(9.2f);
-		addInputButton(row, buttonFactory, "i", "\u03af", "altText.Imaginaryi");
+		addInputButton(row, buttonFactory, "i", "i", "altText.Imaginaryi");
 		addInputButton(row, buttonFactory, INFINITY);
 		addInputButton(row, buttonFactory, DEGREE);
 		addInputButton(row, buttonFactory, ",");
