@@ -214,6 +214,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private MaskWidgetList maskWidgets;
 	private SuiteHeaderAppPicker suiteAppPickerButton;
 	private InputBoxType inputBoxType;
+	private String functionVars = "";
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -1010,6 +1011,19 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public InputBoxType getInputBoxType() {
 		return inputBoxType;
+	}
+
+	@Override
+	public String getInputBoxFunctionVars() {
+		return functionVars;
+	}
+
+	/**
+	 * setter for input box function vars
+	 * @param functionVars function vars connected to the inputbox
+	 */
+	public void setInputBoxFunctionVars(String functionVars) {
+		this.functionVars = functionVars;
 	}
 
 	/**

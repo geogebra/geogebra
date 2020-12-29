@@ -16,18 +16,23 @@ import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
 import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
-import org.geogebra.keyboard.base.model.impl.factory.Characters;
 import org.geogebra.keyboard.base.model.impl.factory.NumberKeyUtil;
+import org.geogebra.keyboard.web.factory.model.inputbox.CursiveBoldLetter;
 
 public class FunctionMathKeyboardFactory implements KeyboardModelFactory {
+	private String vars;
+	private static final int MAX_VARS = 3;
+
+	public FunctionMathKeyboardFactory(String vars) {
+		this.vars = vars;
+	}
 
 	@Override
 	public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
 		KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
 
 		RowImpl row = mathKeyboard.nextRow(9.2f);
-		addInputButton(row, buttonFactory, Characters.x, "x");
-		addButton(row, buttonFactory.createEmptySpace(3.2f));
+		addFunctionVarButtons(row, buttonFactory);
 		NumberKeyUtil.addFirstRow(row, buttonFactory);
 
 		row = mathKeyboard.nextRow(9.2f);
@@ -55,5 +60,17 @@ public class FunctionMathKeyboardFactory implements KeyboardModelFactory {
 		NumberKeyUtil.addFourthRow(row, buttonFactory);
 
 		return mathKeyboard;
+	}
+
+	private void addFunctionVarButtons(RowImpl row, ButtonFactory buttonFactory) {
+		int nrVars = vars.length();
+		for (int i = 0; i < nrVars && i < MAX_VARS; i++) {
+			String character = String.valueOf(vars.charAt(i));
+			String cursiveBoldLetter = CursiveBoldLetter.getCursiveBoldLetter(
+					character);
+			addInputButton(row, buttonFactory, cursiveBoldLetter == null
+					? character : cursiveBoldLetter, character);
+		}
+		addButton(row, buttonFactory.createEmptySpace(4.2f - nrVars));
 	}
 }

@@ -9,7 +9,6 @@ import org.geogebra.keyboard.web.factory.model.inputbox.InputBoxDefaultLettersKe
 import org.geogebra.keyboard.web.factory.model.inputbox.InputBoxDefaultMathKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.InputBoxDefaultSymbolsKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.math.FunctionMathKeyboardFactory;
-import org.geogebra.keyboard.web.factory.model.inputbox.math.FunctionNVarMathKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.math.IneqBoolMathKeyboardFactory;
 import org.geogebra.keyboard.web.factory.model.inputbox.math.VectorMatrixMathKeyboardFactory;
 
@@ -18,26 +17,26 @@ public class KeyboardInputBox extends KeyboardFactory {
 	/**
 	 * inputbox keyboard constructor
 	 * @param inputBoxType type of geo lined to the inputbox
+	 * @param functionVars function vars in case of a function
 	 */
-	public KeyboardInputBox(InputBoxType inputBoxType) {
+	public KeyboardInputBox(InputBoxType inputBoxType, String functionVars) {
 		super();
-		setDefaultKeyboardFactory(getMathKeyboard(inputBoxType));
-		setMathKeyboardFactory(getMathKeyboard(inputBoxType));
+		setDefaultKeyboardFactory(getMathKeyboard(inputBoxType, functionVars));
+		setMathKeyboardFactory(getMathKeyboard(inputBoxType, functionVars));
 		setFunctionKeyboardFactory(getFunctionKeyboard(inputBoxType));
 		setSpecialSymbolsKeyboardFactory(new InputBoxDefaultSymbolsKeyboardFactory());
 		setLetterKeyboardFactory(new InputBoxDefaultLettersKeyboardFactory());
 	}
 
-	private KeyboardModelFactory getMathKeyboard(InputBoxType inputBoxType) {
+	private KeyboardModelFactory getMathKeyboard(InputBoxType inputBoxType, String functionVars) {
 		switch (inputBoxType) {
 		case VECTOR_MATRIX:
 			return new VectorMatrixMathKeyboardFactory();
 		case INEQ_BOOL:
 			return new IneqBoolMathKeyboardFactory();
 		case FUNCTION:
-			return new FunctionMathKeyboardFactory();
 		case FUNCTION_NVAR:
-			return new FunctionNVarMathKeyboardFactory();
+			return new FunctionMathKeyboardFactory(functionVars);
 		case DEFAULT:
 		default:
 			return new InputBoxDefaultMathKeyboardFactory();

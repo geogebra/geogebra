@@ -47,4 +47,9 @@ public interface HasKeyboard {
 	 * @return keyboard type specific to the input box geo type, see {@link InputBoxType}
 	 */
 	InputBoxType getInputBoxType();
+
+	/**
+	 * @return String of function vars if the inputbox is connected to a function
+	 */
+	String getInputBoxFunctionVars();
 }

@@ -5,8 +5,6 @@ public class Characters {
 	public static final String x = "\uD835\uDC65";
 	public static final String y = "\uD835\uDC66";
 	public static final String z = "\uD835\uDC67";
-	public static final String a = "\ud835\udc82";
-	public static final String b = "\ud835\udc83";
 
 	public static final String SUP2 = "\u00B2";
 	public static final String ROOT = "\u221A";

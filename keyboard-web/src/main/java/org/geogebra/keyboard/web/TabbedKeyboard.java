@@ -131,7 +131,7 @@ public class TabbedKeyboard extends FlowPanel
 	private KeyboardFactory initKeyboardFactory(InputBoxType inputBoxType) {
 		KeyboardFactory factory;
 		if (inputBoxType != null) {
-			factory = new KeyboardInputBox(inputBoxType);
+			factory = new KeyboardInputBox(inputBoxType, hasKeyboard.getInputBoxFunctionVars());
 		} else {
 			switch (hasKeyboard.getKeyboardType()) {
 			case MOW:

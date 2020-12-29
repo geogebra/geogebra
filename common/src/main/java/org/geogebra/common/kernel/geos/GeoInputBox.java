@@ -9,8 +9,10 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.inputbox.EditorContent;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxProcessor;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
@@ -606,5 +608,21 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		} else {
 			return InputBoxType.DEFAULT;
 		}
+	}
+
+	/**
+	 * variables of linked geo if it is a function
+	 * @return variables of linked geo
+	 */
+	public String getFunctionVars() {
+		if (linkedGeo instanceof VarString) {
+			FunctionVariable[] fVars = ((VarString) linkedGeo).getFunctionVariables();
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < fVars.length; i++) {
+				sb.append(fVars[i]);
+			}
+			return sb.toString();
+		}
+		return "";
 	}
 }

@@ -69,6 +69,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 				:  TeXFont.SANSSERIF);
 		editor.attach(((EuclidianViewW) view).getAbsolutePanel());
 		((AppWFull) app).setInputBoxType(geoInputBox.getInputBoxType());
+		((AppWFull) app).setInputBoxFunctionVars(geoInputBox.getFunctionVars());
 		// update size and show
 		resetChanges();
 	}

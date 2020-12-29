@@ -198,6 +198,11 @@ public class AppWsolver extends AppW implements HasKeyboard {
 	}
 
 	@Override
+	public String getInputBoxFunctionVars() {
+		return "";
+	}
+
+	@Override
 	public boolean attachedToEqEditor() {
 		return false;
 	}
