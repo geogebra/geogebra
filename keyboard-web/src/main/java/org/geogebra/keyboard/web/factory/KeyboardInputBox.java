@@ -35,7 +35,6 @@ public class KeyboardInputBox extends KeyboardFactory {
 		case INEQ_BOOL:
 			return new IneqBoolMathKeyboardFactory();
 		case FUNCTION:
-		case FUNCTION_NVAR:
 			return new FunctionMathKeyboardFactory(functionVars);
 		case DEFAULT:
 		default:
@@ -48,7 +47,6 @@ public class KeyboardInputBox extends KeyboardFactory {
 		case DEFAULT:
 		case VECTOR_MATRIX:
 		case FUNCTION:
-		case FUNCTION_NVAR:
 		default:
 			return new InputBoxDefaultFunctionKeyboardFactory();
 		case INEQ_BOOL:
