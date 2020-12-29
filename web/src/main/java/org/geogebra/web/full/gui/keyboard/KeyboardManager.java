@@ -14,7 +14,6 @@ import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
-import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
@@ -199,8 +198,7 @@ public class KeyboardManager
 		if (keyboard == null) {
 			boolean showMoreButton = app.getConfig().showKeyboardHelpButton()
 					&& !shouldDetach();
-			keyboard = new OnscreenTabbedKeyboard((HasKeyboard) app,
-					showMoreButton, ((AppWFull) app).getInputBoxType());
+			keyboard = new OnscreenTabbedKeyboard((HasKeyboard) app, showMoreButton);
 		}
 	}
 
