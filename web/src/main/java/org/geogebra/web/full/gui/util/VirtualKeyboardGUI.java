@@ -38,4 +38,9 @@ public interface VirtualKeyboardGUI extends VirtualKeyboardW {
 	 * @return DOM element
 	 */
 	Element getElement();
+
+	/**
+	 * rebuild the keyboard layout
+	 */
+	void clearAndUpdate();
 }

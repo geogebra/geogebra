@@ -118,6 +118,8 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 			return;
 		}
 
+		((AppWFull) app).setInputBoxType(null);
+		((AppWFull) app).setInputBoxFunctionVars("");
 		applyChanges();
 		getDrawInputBox().setEditing(false);
 		editor.setVisible(false);

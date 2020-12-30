@@ -30,4 +30,8 @@ public interface KeyboardManagerInterface {
 	 */
 	void updateKeyboardLanguage();
 
+	/**
+	 * Update keyboard layout
+	 */
+	void clearAndUpdateKeyboard();
 }

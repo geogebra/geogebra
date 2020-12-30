@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -552,7 +551,6 @@ public class DrawInputBox extends CanvasDrawable {
 	private void showWidget() {
 		if (geoInputBox.isSymbolicMode()) {
 			recomputeSize();
-			Log.debug("INPUTBOX TYPE: " + geoInputBox.getInputBoxType());
 			attachMathField();
 			return;
 		}

@@ -210,6 +210,13 @@ public class KeyboardManager
 	}
 
 	@Override
+	public void clearAndUpdateKeyboard() {
+		if (keyboard != null) {
+			keyboard.clearAndUpdate();
+		}
+	}
+
+	@Override
 	public void setOnScreenKeyboardTextField(MathKeyboardListener textField) {
 		if (keyboard != null) {
 			if (textField != null) {

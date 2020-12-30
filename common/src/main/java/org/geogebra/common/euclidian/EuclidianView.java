@@ -6069,7 +6069,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (d != null) {
 			DrawInputBox drawInputBox = (DrawInputBox) d;
 			if (inputBox.isSymbolicMode()) {
-				Log.debug("INPUTBOX TYPE: " + inputBox.getInputBoxType());
 				drawInputBox.attachMathField();
 			} else if (viewTextField != null) {
 				viewTextField.focusTo(drawInputBox);

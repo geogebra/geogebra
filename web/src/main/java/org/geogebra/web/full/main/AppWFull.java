@@ -1474,7 +1474,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						getGuiManager().getKeyboardListener().setFocus(false);
 					}
 					getAppletFrame().keyBoardNeeded(false, null);
-					setInputBoxType(null);
 				}
 			};
 			timer.schedule(0);
