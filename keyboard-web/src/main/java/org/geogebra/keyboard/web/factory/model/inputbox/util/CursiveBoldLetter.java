@@ -1,4 +1,4 @@
-package org.geogebra.keyboard.web.factory.model.inputbox;
+package org.geogebra.keyboard.web.factory.model.inputbox.util;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package org.geogebra.keyboard.web.factory.model.inputbox;
+package org.geogebra.keyboard.web.factory.model.inputbox.defaultKeyboard;
 
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
@@ -6,9 +6,9 @@ import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
 import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
-import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
+import org.geogebra.keyboard.base.model.impl.factory.GreekKeyboardFactory;
 
-public class InputBoxDefaultLettersKeyboardFactory extends LetterKeyboardFactory {
+public class InputBoxDefaultGreekKeyboardFactory extends GreekKeyboardFactory {
 
 	@Override
 	public void addControlButtons(RowImpl rowImpl, ButtonFactory buttonFactory, String definition) {

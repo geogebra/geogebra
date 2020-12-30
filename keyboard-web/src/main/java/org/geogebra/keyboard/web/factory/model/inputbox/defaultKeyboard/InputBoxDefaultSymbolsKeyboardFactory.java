@@ -1,4 +1,4 @@
-package org.geogebra.keyboard.web.factory.model.inputbox;
+package org.geogebra.keyboard.web.factory.model.inputbox.defaultKeyboard;
 
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.AMPERSAND;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.ANGLE;

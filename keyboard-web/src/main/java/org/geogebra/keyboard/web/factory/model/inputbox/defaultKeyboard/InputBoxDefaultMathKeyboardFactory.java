@@ -1,4 +1,4 @@
-package org.geogebra.keyboard.web.factory.model.inputbox.math;
+package org.geogebra.keyboard.web.factory.model.inputbox.defaultKeyboard;
 
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 
@@ -8,10 +8,9 @@ import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
 import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
 import org.geogebra.keyboard.base.model.impl.factory.NumberKeyUtil;
-import org.geogebra.keyboard.web.factory.model.inputbox.util.FunctionKeyUtil;
 import org.geogebra.keyboard.web.factory.model.inputbox.util.MathKeyUtil;
 
-public class IneqBoolMathKeyboardFactory implements KeyboardModelFactory {
+public class InputBoxDefaultMathKeyboardFactory implements KeyboardModelFactory {
 
 	@Override
 	public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
@@ -27,7 +26,7 @@ public class IneqBoolMathKeyboardFactory implements KeyboardModelFactory {
 		NumberKeyUtil.addSecondRow(row, buttonFactory);
 
 		row = mathKeyboard.nextRow(9.2f);
-		FunctionKeyUtil.addLessGtLessEqGtEq(row, buttonFactory);
+		MathKeyUtil.addImInfDegComma(row, buttonFactory);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		NumberKeyUtil.addThirdRow(row, buttonFactory);
 
@@ -38,5 +37,4 @@ public class IneqBoolMathKeyboardFactory implements KeyboardModelFactory {
 
 		return mathKeyboard;
 	}
-
 }
