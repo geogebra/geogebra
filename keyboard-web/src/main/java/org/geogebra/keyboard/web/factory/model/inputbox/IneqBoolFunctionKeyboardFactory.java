@@ -16,6 +16,7 @@ import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
 import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
+import org.geogebra.keyboard.base.model.impl.factory.Characters;
 
 public class IneqBoolFunctionKeyboardFactory implements KeyboardModelFactory {
 
@@ -42,7 +43,7 @@ public class IneqBoolFunctionKeyboardFactory implements KeyboardModelFactory {
 		addTranslateInputCommandButton(row, buttonFactory, "atan",
 				"altText.atan", "atan", width);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
-		addInputButton(row, buttonFactory, "i", "i", "altText.Imaginaryi");
+		addInputButton(row, buttonFactory, "i", Characters.imaginaryI, "altText.Imaginaryi");
 		addInputButton(row, buttonFactory, INFINITY);
 		addInputButton(row, buttonFactory, DEGREE);
 		addInputButton(row, buttonFactory, ",");

@@ -16,6 +16,7 @@ import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
 import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
+import org.geogebra.keyboard.base.model.impl.factory.Characters;
 import org.geogebra.keyboard.base.model.impl.factory.NumberKeyUtil;
 import org.geogebra.keyboard.web.factory.model.inputbox.CursiveBoldLetter;
 
@@ -44,7 +45,7 @@ public class FunctionMathKeyboardFactory implements KeyboardModelFactory {
 		NumberKeyUtil.addSecondRow(row, buttonFactory);
 
 		row = mathKeyboard.nextRow(9.2f);
-		addInputButton(row, buttonFactory, "i", "i", "altText.Imaginaryi");
+		addInputButton(row, buttonFactory, Characters.imaginaryI, "i", "altText.Imaginaryi");
 		addInputButton(row, buttonFactory, INFINITY);
 		addInputButton(row, buttonFactory, DEGREE);
 		addInputButton(row, buttonFactory, ",");
