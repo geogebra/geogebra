@@ -14,7 +14,7 @@ import org.geogebra.keyboard.web.factory.model.inputbox.util.MathKeyUtil;
 
 public class FunctionMathKeyboardFactory implements KeyboardModelFactory {
 	private String vars;
-	private static final int MAX_VARS = 3;
+	private static final int MAX_VARS = 4;
 
 	public FunctionMathKeyboardFactory(String vars) {
 		this.vars = vars;
@@ -55,6 +55,6 @@ public class FunctionMathKeyboardFactory implements KeyboardModelFactory {
 			addInputButton(row, buttonFactory, cursiveBoldLetter == null
 					? character : cursiveBoldLetter, character);
 		}
-		addButton(row, buttonFactory.createEmptySpace(4.2f - nrVars));
+		addButton(row, buttonFactory.createEmptySpace(nrVars > MAX_VARS ? 0.2f : 4.2f - nrVars));
 	}
 }
