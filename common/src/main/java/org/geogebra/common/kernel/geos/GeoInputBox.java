@@ -619,7 +619,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			FunctionVariable[] fVars = ((VarString) linkedGeo).getFunctionVariables();
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < fVars.length; i++) {
-				sb.append(fVars[i]);
+				sb.append(fVars[i].getSetVarString().charAt(0));
 			}
 			return sb.toString();
 		}

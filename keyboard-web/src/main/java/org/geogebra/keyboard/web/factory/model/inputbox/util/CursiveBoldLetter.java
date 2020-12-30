@@ -33,6 +33,10 @@ public class CursiveBoldLetter {
 			cursiveBold.put("u", "\uD835\uDC96");
 			cursiveBold.put("v", "\uD835\uDC97");
 			cursiveBold.put("w", "\uD835\uDC98");
+			// x,y,z should be only italic, not bold
+			cursiveBold.put("x", "\uD835\uDC65");
+			cursiveBold.put("y", "\uD835\uDC66");
+			cursiveBold.put("z", "\uD835\uDC67");
 		}
 
 		return cursiveBold;
