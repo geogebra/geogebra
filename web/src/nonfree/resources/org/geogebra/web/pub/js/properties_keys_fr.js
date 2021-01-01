@@ -3087,7 +3087,7 @@ __GGB__keysVar["fr"].menu = {
     "TutorialGeometry": "fhtds8a2",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
-    "TutorialSuite": "etg2rk8j",
+    "TutorialSuite": "tshnjnhf",
     "Tutorials": "Tutoriels",
     "TwoVarStats": "Statistiques \xe0 deux variables",
     "TwoVarStats.Help": "Analyse des paires de valeurs num\xe9riques \xe0 partir des cellules s\xe9lectionn\xe9es",
