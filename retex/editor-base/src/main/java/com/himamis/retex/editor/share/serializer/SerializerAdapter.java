@@ -14,7 +14,6 @@ public abstract class SerializerAdapter implements Serializer {
 	protected MathComponent currentSelStart = null;
 	protected MathComponent currentSelEnd = null;
     protected int mCurrentOffset = 0;
-    protected boolean currentBraces = true;
 
     @Override
 	public String serialize(MathFormula formula) {
@@ -54,7 +53,6 @@ public abstract class SerializerAdapter implements Serializer {
         this.mCurrentOffset = currentOffset;
 		this.currentSelEnd = selEnd;
 		this.currentSelStart = selStart;
-        currentBraces = currentField != null;
         StringBuilder buffer = new StringBuilder();
         serialize(formula.getRootComponent(), buffer);
         return buffer.toString();
@@ -73,7 +71,6 @@ public abstract class SerializerAdapter implements Serializer {
                             int currentOffset) {
         this.mCurrentField = currentField;
         this.mCurrentOffset = currentOffset;
-        currentBraces = currentField != null;
         StringBuilder stringBuilder = new StringBuilder();
         serialize(container, stringBuilder);
         return stringBuilder.toString();

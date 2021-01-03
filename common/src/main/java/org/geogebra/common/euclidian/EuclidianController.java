@@ -14,6 +14,7 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -9139,7 +9140,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		setMouseLocation(event);
-
+		updateFocusedPanel(event);
 		if (popupJustClosed) {
 			popupJustClosed = false;
 		} else if (penMode(mode)) {
@@ -9174,18 +9175,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		scriptsHaveRun = false;
 
-		if (app.isUsingFullGui() && app.getGuiManager() != null) {
-			// determine parent panel to change focus
-			app.getGuiManager().setFocusedPanel(event, false);
-			app.getGuiManager().mousePressedForPropertiesView();
-
-			if (view instanceof PlotPanelEuclidianViewInterface) {
-				setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
-			}
-		} else if (app.isHTML5Applet()) {
-			if (!isComboboxFocused() && !textfieldHasFocus) {
-				view.requestFocus();
-			}
+		if (view instanceof PlotPanelEuclidianViewInterface) {
+			setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
 		}
 
 		if (handleMousePressedForViewButtons()) {
@@ -9266,6 +9257,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		}
 		switchModeForMousePressed(event);
+	}
+
+	protected void updateFocusedPanel(AbstractEvent event) {
+		if (app.isUsingFullGui() && app.getGuiManager() != null) {
+			// determine parent panel to change focus
+			app.getGuiManager().setFocusedPanel(event, false);
+			app.getGuiManager().mousePressedForPropertiesView();
+		} else if (app.isHTML5Applet()) {
+			if (!isComboboxFocused() && !textfieldHasFocus) {
+				view.requestFocus();
+			}
+		}
 	}
 
 	private void updateHits(AbstractEvent event) {
@@ -12231,6 +12234,37 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
+	 * Calculate the smallest rectangle containing the clipped bounds of
+	 * the objects
+	 * @param geos geo elements
+	 * @return bounding rectangle
+	 */
+	public GRectangle calculateBounds(Collection<GeoElement> geos) {
+		// init min/max vars
+		double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY,
+				maxX = Double.NEGATIVE_INFINITY,
+				maxY = Double.NEGATIVE_INFINITY;
+		// calc min/max from geos
+		for (GeoElement geo : geos) {
+			Drawable dr = ((Drawable) view.getDrawableFor(geo));
+			if (dr != null) {
+				GRectangle2D bounds = dr.getBoundsClipped();
+				if (bounds != null) {
+					minX = Math.min(minX, bounds.getMinX());
+					maxX = Math.max(maxX, bounds.getMaxX());
+					minY = Math.min(minY, bounds.getMinY());
+					maxY = Math.max(maxY, bounds.getMaxY());
+				}
+			}
+		}
+
+		// rounding to prevent anti-aliasing
+		return AwtFactory.getPrototype().newRectangle(
+				(int) Math.round(minX), (int) Math.round(minY),
+				(int) Math.round(maxX - minX), (int) Math.round(maxY - minY));
+	}
+
+	/**
 	 * Calculate and set united bounding box for a list of GeoElements
 	 *
 	 * @param geos
@@ -12241,37 +12275,22 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (view.getHitHandler() == EuclidianBoundingBoxHandler.ROTATION) {
 			return;
 		}
-		// init min/max vars
-		double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY,
-				maxX = Double.NEGATIVE_INFINITY,
-				maxY = Double.NEGATIVE_INFINITY;
+
 		boolean hasRotationHandler = true;
 		boolean fixed = false;
-		// calc min/max from geos
+
 		for (GeoElement geo : geos) {
-			Drawable dr = ((Drawable) view.getDrawableFor(geo));
-			if (dr != null) {
-				if (!(geo instanceof PointRotateable)) {
-					hasRotationHandler = false;
-				}
-				GRectangle2D bounds = dr.getBoundsClipped();
-				if (bounds != null) {
-					minX = Math.min(minX, bounds.getMinX());
-					maxX = Math.max(maxX, bounds.getMaxX());
-					minY = Math.min(minY, bounds.getMinY());
-					maxY = Math.max(maxY, bounds.getMaxY());
-				}
+			if (!(geo instanceof PointRotateable)) {
+				hasRotationHandler = false;
 			}
 			if (geo.isLocked()) {
 				fixed = true;
 			}
 		}
-		// create union bounding box; rounding to prevent anti-aliasing
-		GRectangle rect = AwtFactory.getPrototype().newRectangle(
-				(int) Math.round(minX), (int) Math.round(minY),
-				(int) Math.round(maxX - minX), (int) Math.round(maxY - minY));
+
+		// create union bounding box
 		MultiBoundingBox boundingBox = new MultiBoundingBox(hasRotationHandler);
-		boundingBox.setRectangle(rect);
+		boundingBox.setRectangle(calculateBounds(geos));
 		boundingBox.setFixed(fixed);
 		boundingBox.setColor(app.getPrimaryColor());
 		view.setBoundingBox(boundingBox);
