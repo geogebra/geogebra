@@ -600,7 +600,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			return ((GeoFunction) linkedGeo).isInequality()
 					? InputBoxType.INEQ_BOOL : InputBoxType.FUNCTION;
 		} else if (linkedGeo instanceof GeoFunctionNVar) {
-			return InputBoxType.FUNCTION;
+			return ((GeoFunctionNVar) linkedGeo).isInequality()
+					? InputBoxType.INEQ_BOOL : InputBoxType.FUNCTION;
 		} else if (linkedGeo instanceof GeoBoolean) {
 			return InputBoxType.INEQ_BOOL;
 		} else if (linkedGeo instanceof GeoList || linkedGeo instanceof GeoVectorND) {
