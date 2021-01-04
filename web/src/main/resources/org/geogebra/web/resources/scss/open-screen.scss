@@ -314,10 +314,13 @@
 				border: 0;
 		 	}			
 		}
-		 .logoutButton {
+		.logoutButton {
 			@extend %matButton;
+			display: block;
+			width: calc(100% - 48px);
 			color: $black;
 			border: 0;
+
 			&:hover {			
 				background-color: $white;
 			}
