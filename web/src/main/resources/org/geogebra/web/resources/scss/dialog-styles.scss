@@ -391,12 +391,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 		}
 
-		.dialogContent .gwt-Label {
-			font-size: 80%;
-			color: $text-secondary;
-			margin-top: 10px;
-		}
-
 		.sliderIntervalPanel {
 			margin-top: 10px;
 
@@ -1287,8 +1281,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.mowPermissionDialog{
 		max-width: 500px;
 		max-height: 177px;
-		.dialogContent>.gwt-Label{
-			margin-top: 0 !important;
+		.dialogContent .gwt-Label {
+			font-size: 80%;
 			margin-bottom: 20px;
 		}
 		&.narrowDialog {
