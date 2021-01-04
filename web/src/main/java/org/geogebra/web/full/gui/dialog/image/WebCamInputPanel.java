@@ -87,6 +87,7 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 
 	private void resetVideo() {
 		video = (HTMLVideoElement) DomGlobal.document.createElement("video");
+		video.setAttribute("autoplay", "");
 		video.className = "webcamInputPanel";
 
 		inputWidget.getElement().appendChild(Js.uncheckedCast(video));
