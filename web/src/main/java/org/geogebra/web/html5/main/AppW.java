@@ -978,6 +978,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean clearConstruction() {
+		getSelectionManager().clearSelectedGeos(false);
 		kernel.clearConstruction(true);
 
 		kernel.initUndoInfo();
@@ -3085,7 +3086,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	public void updateMaterialURL(Material material) {
-		updateMaterialURL(material.getId(),	material.getSharingKeyOrId(), material.getTitle());
+		updateMaterialURL(material.getId(), material.getSharingKeyOrId(), material.getTitle());
 	}
 
 	/**
