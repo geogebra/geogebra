@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.webcam;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import elemental2.dom.MediaStream;
 
 /**
  * Interface to interact with the WebCamAPI 
@@ -20,7 +20,7 @@ public interface WebCamInterface {
 	 * @param mediaStream 
 	 * 				the video stream of the camera.
 	 */
-	void onCameraSuccess(JavaScriptObject mediaStream);
+	void onCameraSuccess(MediaStream mediaStream);
 	
 	/**
 	 * Called on camera error.

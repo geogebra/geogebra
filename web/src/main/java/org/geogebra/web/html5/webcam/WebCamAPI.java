@@ -2,7 +2,13 @@ package org.geogebra.web.html5.webcam;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
+
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLVideoElement;
+import elemental2.dom.MediaStream;
+import elemental2.dom.MediaStreamConstraints;
+import elemental2.dom.MediaTrackConstraints;
+import jsinterop.base.Js;
 
 /**
  * Class for camera support.
@@ -14,9 +20,11 @@ public class WebCamAPI implements WebCamInterface {
 	private static final int MAX_CANVAS_HEIGHT = (int) Math.round(0.75 * MAX_CANVAS_WIDTH);
 	
 	private WebCamInterface dialog;
-	private JavaScriptObject stream;
-	private Element videoElement;
-	private Element errorElement;
+	private MediaStream stream;
+	private HTMLVideoElement videoElement;
+
+	private boolean browserAlreadyAllowed;
+	private boolean accessDenied;
 
 	/**
 	 *
@@ -29,13 +37,11 @@ public class WebCamAPI implements WebCamInterface {
 	/**
 	 * Starts the camera input.
 	 * @param videoElem holder for the stream.
-	 * @param errorElem holder the errors, if any.
 	 */
-	public void start(Element videoElem, Element errorElem) {
+	public void start(HTMLVideoElement videoElem) {
 		videoElement = videoElem;
-		errorElement = errorElem;
 		createPolyfillIfNeeded();
-		populateMedia(videoElem, errorElem);
+		populateMedia();
 	}
 
 	/**
@@ -66,7 +72,7 @@ public class WebCamAPI implements WebCamInterface {
 	 * @param video the video holder element.
 	 * @return the screenshot data URL.
 	 */
-	public String takeScreenshot(Element video) {
+	public String takeScreenshot(HTMLVideoElement video) {
 		Canvas c = Canvas.createIfSupported();
 		int w = 0;
 		int h = 0;
@@ -95,9 +101,9 @@ public class WebCamAPI implements WebCamInterface {
 	}
 
 	@Override
-	public void onCameraSuccess(JavaScriptObject mediaStream) {
+	public void onCameraSuccess(MediaStream mediaStream) {
 		stream = mediaStream;
-		setVideoSource(mediaStream, videoElement, errorElement);
+		setVideoSource(mediaStream, videoElement);
 		dialog.onCameraSuccess(mediaStream);
 	}
 
@@ -111,7 +117,7 @@ public class WebCamAPI implements WebCamInterface {
 		dialog.onLoadedMetadata(width, height);
 	}
 
-	private native void drawVideoElement(JavaScriptObject ctx, Element img) /*-{
+	private native void drawVideoElement(JavaScriptObject ctx, HTMLVideoElement img) /*-{
 		ctx.drawImage(img, 0, 0);
 	}-*/;
 
@@ -136,35 +142,34 @@ public class WebCamAPI implements WebCamInterface {
 		}
 	}-*/;
 
-	private native void populateMedia(Element elem, Element errorElem) /*-{
-		if (!$wnd.navigator.mediaDevices) {
-			this.@org.geogebra.web.html5.webcam.WebCamAPI::onNotSupported()();
+	private void populateMedia() {
+		if (DomGlobal.window.navigator.mediaDevices == null) {
+			onNotSupported();
 			return;
 		}
-	
-		var constraints = { video: {facingMode: 'environment'} };
-		var that = this;
-		var browserAlreadyAllowed = false;
-		var accessDenied = false;
-	
-		$wnd.navigator.mediaDevices.getUserMedia(constraints)
-			.then(function(mediaStream) {
+
+		MediaTrackConstraints trackConstraints = MediaTrackConstraints.create();
+		trackConstraints.setFacingMode("environment");
+		MediaStreamConstraints constraints = MediaStreamConstraints.create();
+		constraints.setVideo(trackConstraints);
+
+		DomGlobal.window.navigator.mediaDevices.getUserMedia(constraints)
+			.then((mediaStream) -> {
 				browserAlreadyAllowed = true;
-				that.@org.geogebra.web.html5.webcam.WebCamAPI::
-				onCameraSuccess(Lcom/google/gwt/core/client/JavaScriptObject;)(mediaStream);
-			}) // .catch workaround https://github.com/gwtproject/gwt/issues/9490
-			['catch'](function(err) {
+				onCameraSuccess(mediaStream);
+				return null;
+			}).catch_(( err) -> {
 				accessDenied = true;
-				that.@org.geogebra.web.html5.webcam.WebCamAPI::
-				onCameraError(Ljava/lang/String;)(err.name);
+				onCameraError((String) Js.asPropertyMap(err).get("name"));
+				return null;
 			});
-			function accessRequest() {
-					if (!browserAlreadyAllowed && !accessDenied) {
-						that.@org.geogebra.web.html5.webcam.WebCamAPI::onRequest()();
-					}
+
+		DomGlobal.setTimeout((x) -> {
+			if (!browserAlreadyAllowed && !accessDenied) {
+				onRequest();
 			}
-			setTimeout(accessRequest, 400);
-	}-*/;
+		}, 400);
+	}
 
 	private native void stopVideo() /*-{
 		var stream = this.@org.geogebra.web.html5.webcam.WebCamAPI::stream;
@@ -179,8 +184,7 @@ public class WebCamAPI implements WebCamInterface {
 		stream = null;
 	}-*/;
 
-	private native void setVideoSource(JavaScriptObject mediaStream, Element el,
-			Element errorElem) /*-{
+	private native void setVideoSource(MediaStream mediaStream, HTMLVideoElement el) /*-{
 		$wnd.URL = $wnd.URL || $wnd.webkitURL || $wnd.msURL || $wnd.mozURL
 				|| $wnd.oURL || null;
 		var video = el.firstChild;
