@@ -472,23 +472,9 @@ public class FunctionParser {
 					Operation.MULTIPLY_OR_FUNCTION, en);
 		}
 
-		// sin^(-1)(x) -> ArcSin(x)
-		// sin^(-1)(x) -> ArcSin(x)
-		if (image.indexOf(Unicode.SUPERSCRIPT_MINUS) > -1) {
-			// String check = ""+Unicode.SUPERSCRIPT_Minus +
-			// Unicode.Superscript_1 + '(';
-
-			int index = image
-					.indexOf(Unicode.SUPERSCRIPT_MINUS_ONE_BRACKET_STRING);
-
-			// tg^-1 -> index = 2 (eg Hungarian)
-			// sin^-1 -> index = 3
-			// sinh^-1 -> index =4
-			if (index >= 2 && index <= 4) {
-				return kernel.inverseTrig(type, en);
-			}
-			// eg sin^-2(x)
-			return new MyDouble(kernel, Double.NaN).wrap();
+		// sin^(-1)(x) -> arcsin(x), log^(-1)(x) -> (log(x))^(-1)
+		if (Unicode.SUPERSCRIPT_MINUS_ONE_BRACKET_STRING.equals(power)) {
+			return minusFirstPower(type, en);
 		}
 
 		return new ExpressionNode(kernel,
@@ -604,10 +590,17 @@ public class FunctionParser {
 		return null;
 	}
 
-	private ExpressionValue inverseOrPower(Operation op, ExpressionValue right, ExpressionValue exponent) {
+	private ExpressionValue inverseOrPower(Operation op, ExpressionValue right,
+			ExpressionValue exponent) {
+		if (right.isOperation(Operation.POWER)
+				&& !right.wrap().hasBrackets()
+				&& right.wrap().getLeftTree().hasBrackets()) {
+			ExpressionValue base = inverseOrPower(op, right.wrap().getLeft(), exponent);
+			return new ExpressionNode(kernel, base, Operation.POWER, right.wrap().getRight());
+		}
 		if (exponent.isConstant()
 				&& DoubleUtil.isEqual(-1, exponent.evaluateDouble())) {
-			return kernel.inverseTrig(op, right);
+			return minusFirstPower(op, right);
 		}
 		return new ExpressionNode(kernel, right, op, null)
 				.power(exponent);
@@ -620,5 +613,55 @@ public class FunctionParser {
 		ExpressionValue power = inverseOrPower(trigExpression.getOperation(),
 				trigExpression.getLeft(), exponent);
 		return coefficient.wrap().multiplyR(power);
+	}
+
+	/**
+	 * @param type
+	 *            operation
+	 * @param en
+	 *            argument
+	 * @return inverse function for trig operations, reciprocal orherwise
+	 */
+	private ExpressionNode minusFirstPower(Operation type, ExpressionValue en) {
+		switch (type) {
+		case SIN:
+		case COS:
+		case TAN:
+		case SINH:
+		case COSH:
+		case TANH:
+			return new ExpressionNode(kernel, en, Operation.inverse(type), null);
+
+		// asec(x) = acos(1/x)
+		case SEC:
+			return reciprocal(en).apply(Operation.ARCCOS);
+		case CSC:
+			return reciprocal(en).apply(Operation.ARCSIN);
+		case SECH:
+			return reciprocal(en).apply(Operation.ACOSH);
+		case CSCH:
+			return reciprocal(en).apply(Operation.ASINH);
+		case COTH:
+			return reciprocal(en).apply(Operation.ATANH);
+
+		// acot(x) = pi/2 - atan(x)
+		case COT:
+
+			ExpressionNode halfPi = new ExpressionNode(kernel,
+					new MyDouble(kernel, Math.PI), Operation.DIVIDE,
+					new MyDouble(kernel, 2));
+			return new ExpressionNode(kernel, halfPi, Operation.MINUS,
+					new ExpressionNode(kernel, en, Operation.ARCTAN, null));
+
+		default:
+			ExpressionNode base = new ExpressionNode(kernel, en, type, null);
+			return new ExpressionNode(kernel, base, Operation.POWER,
+					new MyDouble(kernel, -1));
+		}
+	}
+
+	private ExpressionNode reciprocal(ExpressionValue en) {
+		return new ExpressionNode(kernel,
+				new MyDouble(kernel, 1), Operation.DIVIDE, en);
 	}
 }
