@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.main.App;
@@ -141,17 +140,6 @@ public class CommandsTest {
 
 	private static GeoElement get(String label) {
 		return app.getKernel().lookupLabel(label);
-	}
-
-	@Test
-	public void listPropertiesTest() {
-		t("mat1={{1,2,3}}", "{{1, 2, 3}}");
-		Assert.assertTrue(((GeoList) get("mat1")).hasSpecialEditor());
-		t("slider1=7", "7");
-		t("mat2={{1,2,slider1}}", "{{1, 2, 7}}");
-		Assert.assertTrue(((GeoList) get("mat2")).hasSpecialEditor());
-		t("mat2={{1,2,slider1},Reverse[{1,2,3}]}", "{{1, 2, 7}, {3, 2, 1}}");
-		Assert.assertFalse(((GeoList) get("mat2")).hasSpecialEditor());
 	}
 
 	@Test
