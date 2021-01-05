@@ -102,6 +102,10 @@ public class MetaModel {
 			addNamedSymbol(name,
 					symbolGroup.getComponent(letter.getUnicodeNonCurly() + ""));
 		}
+		addNamedSymbol("inf",
+				symbolGroup.getComponent(Unicode.INFINITY + ""));
+		addNamedSymbol("deg",
+				symbolGroup.getComponent(Unicode.DEGREE_STRING));
 	}
 
 	/**
