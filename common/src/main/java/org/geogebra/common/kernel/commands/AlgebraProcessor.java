@@ -639,8 +639,7 @@ public class AlgebraProcessor {
 				n.setForceInequality();
 				n.setWasInterval();
 			} else if (geo instanceof GeoFunction) {
-				if (((GeoFunction) geo).isForceInequality()
-					&& n.toString(StringTemplate.noLocalDefault).contains("?")) {
+				if (((GeoFunction) geo).isForceInequality()) {
 					n.setForceInequality();
 				} else {
 					n.setForceFunction();
@@ -2429,7 +2428,7 @@ public class AlgebraProcessor {
 			f = new GeoFunction(cons, fun, info.isSimplifyingIntegers());
 			f.getIneqs();
 			f.setForceInequality(f.isInequality()
-					|| (en.isForceInequality() && !en.wasInterval()));
+					|| (fun.isForceInequality() && !en.wasInterval()));
 		} else {
 			f = kernel.getAlgoDispatcher().dependentFunction(fun, info);
 			if (label == null) {
@@ -2707,8 +2706,7 @@ public class AlgebraProcessor {
 		if (isIndependent) {
 			gf = new GeoFunctionNVar(cons, fun, info.isSimplifyingIntegers());
 			gf.getIneqs();
-			gf.setForceInequality(gf.isInequality()
-					|| fun.isForceInequality());
+			gf.setForceInequality(gf.isInequality() || fun.isForceInequality());
 		} else {
 			gf = dependentFunctionNVar(fun);
 		}
@@ -3156,10 +3154,12 @@ public class AlgebraProcessor {
 					return getParamProcessor().complexSurface(fun.getExpression(),
 							fun.getFunctionVariable(), fun.getLabel());
 				}
+				fun.setForceInequality(node.isForceInequality());
 				return processFunction(fun, info);
 			} else if (leaf instanceof FunctionNVar) {
 				FunctionNVar fun = (FunctionNVar) leaf;
 				fun.setLabels(n.getLabels());
+				fun.setForceInequality(node.isForceInequality());
 				return processFunctionNVar(fun, info);
 			}
 
