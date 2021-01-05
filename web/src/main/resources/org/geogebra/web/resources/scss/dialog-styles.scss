@@ -1354,6 +1354,14 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent.shareDialogMow {
 		max-width: 522px;
 
+		&.hasBorder {
+			.groupPanel {
+				overflow: unset;
+				max-height: unset;
+				border-top: unset;
+			}
+		}
+
 		.dialogTitle {
 			margin-left: 24px;
 		}
@@ -1380,8 +1388,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			max-height: 200px;
 			overflow: auto;
 			max-width: 502px;
-			width: 101%;
-			padding: 16px 0px 0px 20px;
+			width: 100%;
+			padding: 16px 4px 0px 20px;
 		}
 
 		.noGroupPanel {
