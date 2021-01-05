@@ -62,10 +62,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * Set focus the text field of the input panel
 	 */
 	public void focusDeferred() {
-		Scheduler.get().scheduleDeferred(() -> {
-			inputField.getTextComponent().setFocus(true);
-			inputField.getTextComponent().selectAll();
-		});
+		Scheduler.get().scheduleDeferred(() -> inputField.setFocusAndSelectAll());
 	}
 
 	/**

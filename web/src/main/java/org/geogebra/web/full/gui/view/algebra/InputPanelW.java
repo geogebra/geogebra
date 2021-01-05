@@ -92,6 +92,14 @@ public class InputPanelW extends FlowPanel {
 	}
 
 	/**
+	 * sets focus into textfield and selects the content
+	 */
+	public void setFocusAndSelectAll() {
+		getTextComponent().setFocus(true);
+		getTextComponent().selectAll();
+	}
+
+	/**
 	 * @return multiline editable field
 	 */
 	public TextEditPanel getTextAreaComponent() {

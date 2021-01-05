@@ -127,6 +127,6 @@ public abstract class CardRenameDialog extends ComponentDialog {
 	@Override
 	public void show() {
 		super.show();
-		Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
+		Scheduler.get().scheduleDeferred(() -> getInputField().setFocusAndSelectAll());
 	}
 }
