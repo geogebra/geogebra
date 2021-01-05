@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.webcam;
 
+import org.geogebra.web.html5.Browser;
+
 import com.google.gwt.canvas.client.Canvas;
 
 import elemental2.dom.CanvasRenderingContext2D;
@@ -8,7 +10,6 @@ import elemental2.dom.HTMLVideoElement;
 import elemental2.dom.MediaStream;
 import elemental2.dom.MediaStreamConstraints;
 import elemental2.dom.MediaTrackConstraints;
-import elemental2.dom.URL;
 import jsinterop.base.Js;
 
 /**
@@ -16,11 +17,11 @@ import jsinterop.base.Js;
  * @author laszlo
  *
  */
-public class WebCamAPI implements WebCamInterface {
+public class WebCamAPI {
 	private static final int MAX_CANVAS_WIDTH = 640;
 	private static final int MAX_CANVAS_HEIGHT = (int) Math.round(0.75 * MAX_CANVAS_WIDTH);
 	
-	private WebCamInterface dialog;
+	private WebCamPanelInterface dialog;
 	private MediaStream stream;
 	private HTMLVideoElement videoElement;
 
@@ -31,7 +32,7 @@ public class WebCamAPI implements WebCamInterface {
 	 *
 	 * @param dialog the container where the picture of the camera appears.
 	 */
-	public WebCamAPI(WebCamInterface dialog) {
+	public WebCamAPI(WebCamPanelInterface dialog) {
 		this.dialog = dialog;
 	}
 
@@ -43,15 +44,6 @@ public class WebCamAPI implements WebCamInterface {
 		videoElement = videoElem;
 		populateMedia();
 	}
-
-	/**
-	 *
-	 * @return true if web camera is supported.
-	 */
-	public native static boolean isSupported() /*-{
-		return $wnd.navigator.mediaDevices != undefined
-				|| (navigator.webkitGetUserMedia || navigator.mozGetUserMedia);
-	}-*/;
 
 	/**
 	 * Stops the video stream.
@@ -94,30 +86,30 @@ public class WebCamAPI implements WebCamInterface {
 		return c.toDataUrl("image/png");
 	}
 
-	@Override
-	public void onRequest() {
+	private void onNotSupported() {
+		dialog.onNotSupported();
+	}
+
+	private void onRequest() {
 		dialog.onRequest();
 	}
 
-	@Override
-	public void onCameraSuccess(MediaStream mediaStream) {
+	private void onCameraSuccess(MediaStream mediaStream) {
 		stream = mediaStream;
 		setVideoSource(mediaStream, videoElement);
-		dialog.onCameraSuccess(mediaStream);
+		dialog.onCameraSuccess();
 	}
 
-	@Override
-	public void onCameraError(String error) {
+	private void onCameraError(String error) {
 		dialog.onCameraError(error);
 	}
 
-	@Override
-	public void onLoadedMetadata(int width, int height) {
+	private void onLoadedMetadata(int width, int height) {
 		dialog.onLoadedMetadata(width, height);
 	}
 
 	private void populateMedia() {
-		if (DomGlobal.window.navigator.mediaDevices == null) {
+		if (!Browser.supportsWebcam()) {
 			onNotSupported();
 			return;
 		}
@@ -132,7 +124,7 @@ public class WebCamAPI implements WebCamInterface {
 				browserAlreadyAllowed = true;
 				onCameraSuccess(mediaStream);
 				return null;
-			}).catch_(( err) -> {
+			}).catch_((err) -> {
 				accessDenied = true;
 				onCameraError((String) Js.asPropertyMap(err).get("name"));
 				return null;
@@ -154,20 +146,11 @@ public class WebCamAPI implements WebCamInterface {
 	}
 
 	private void setVideoSource(MediaStream mediaStream, HTMLVideoElement video) {
-		try {
-			video.srcObject = mediaStream;
-		} catch (Exception error) {
-			video.src = URL.createObjectURL(mediaStream);
-		}
+		video.srcObject = mediaStream;
 
 		video.onloadedmetadata = (e) -> {
 			onLoadedMetadata(video.videoWidth, video.videoHeight);
 			return null;
 		};
-	}
-
-	@Override
-	public void onNotSupported() {
-		dialog.onNotSupported();
 	}
 }

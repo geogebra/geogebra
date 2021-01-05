@@ -5,7 +5,7 @@ import org.geogebra.web.full.gui.laf.BundleLookAndFeel;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.webcam.WebCamAPI;
-import org.geogebra.web.html5.webcam.WebCamInterface;
+import org.geogebra.web.html5.webcam.WebCamPanelInterface;
 import org.geogebra.web.html5.webcam.WebcamDialogInterface;
 import org.geogebra.web.shared.components.DialogData;
 
@@ -14,13 +14,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLVideoElement;
-import elemental2.dom.MediaStream;
 import jsinterop.base.Js;
 
 /**
  * Panel for HTML5 webcam input
  */
-public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
+public class WebCamInputPanel extends VerticalPanel implements WebCamPanelInterface {
 	private final boolean isElectronMac;
 	private SimplePanel inputWidget;
 	private HTMLVideoElement video;
@@ -57,7 +56,7 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 	}
 
 	@Override
-	public void onCameraSuccess(MediaStream bs) {
+	public void onCameraSuccess() {
 		hidePermissionDialog();
 		webcamDialog.onCameraSuccess();
 	}
