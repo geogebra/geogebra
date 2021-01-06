@@ -12,8 +12,6 @@ public abstract class CoordSystemAnimation {
 		ZOOM, ZOOM_RW, AXES_X, AXES_Y, MOVE
 	}
 
-	private static final int MAX_STEPS = 15; // frames
-
 	/**
 	 * Tick of the timer
 	 */
@@ -80,7 +78,7 @@ public abstract class CoordSystemAnimation {
 	public synchronized void initAxes(double ratioX, double ratioY, boolean doStoreUndo) {
 		// this.ratio = ratio;
 		this.storeUndo = doStoreUndo;
-		this.steps = MAX_STEPS;
+		this.steps = getMaxSteps();
 
 		// check ratioY so that SetAxesRatio(1,1) keeps old behaviour
 		if (ratioY == 1 && ratioX != 1) {
@@ -119,7 +117,7 @@ public abstract class CoordSystemAnimation {
 		oldScale = view.getXscale();
 		newScale = view.getXscale() * zoomFactor;
 
-		this.steps = Math.min(MAX_STEPS, noOfSteps);
+		this.steps = Math.min(getMaxSteps(), noOfSteps);
 		mode = AnimationMode.ZOOM;
 	}
 
@@ -151,7 +149,7 @@ public abstract class CoordSystemAnimation {
 		// this.zoomFactor = zoomFactor;
 		this.storeUndo = doStoreUndo;
 
-		this.steps = Math.min(MAX_STEPS, noOfSteps);
+		this.steps = Math.min(getMaxSteps(), noOfSteps);
 		mode = AnimationMode.ZOOM_RW;
 	}
 
@@ -168,7 +166,7 @@ public abstract class CoordSystemAnimation {
 		this.py = oy;
 		this.storeUndo = doStoreUndo;
 		mode = AnimationMode.MOVE;
-		this.steps = MAX_STEPS;
+		this.steps = getMaxSteps();
 	}
 
 	/**
@@ -240,7 +238,7 @@ public abstract class CoordSystemAnimation {
 		if (setStandard) {
 			setStandard = false;
 			view.setAnimatedCoordSystem(standardX, standardY, 0,
-					EuclidianView.SCALE_STANDARD, MAX_STEPS, storeUndo);
+					EuclidianView.SCALE_STANDARD, getMaxSteps(), storeUndo);
 		}
 		if (storeUndo) {
 			view.getApplication().storeUndoInfo();
@@ -287,7 +285,7 @@ public abstract class CoordSystemAnimation {
 				return;
 			}
 			// setDrawMode(DRAW_MODE_DIRECT_DRAW);
-			add = 1.0 / MAX_STEPS;
+			add = 1.0 / getMaxSteps();
 			break;
 		case ZOOM_RW:
 			break;
@@ -313,5 +311,9 @@ public abstract class CoordSystemAnimation {
 	 */
 	public boolean isStandardZoom() {
 		return DoubleUtil.checkInteger(newScale) == EuclidianView.SCALE_STANDARD;
+	}
+
+	protected int getMaxSteps() {
+		return 15;
 	}
 }
