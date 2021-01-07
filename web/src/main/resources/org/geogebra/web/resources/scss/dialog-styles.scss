@@ -1125,83 +1125,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.MaterialDialogBox.mowShareDialog {
-		padding: 24px 0px 24px 0px;
-		width: 350px;
-
-		.Caption {
-			padding: 0px 24px 0px 24px;
-		}
-
-		.dialogContent {
-		   width: 350px;
-		}
-
-		.chooseGrTxt {
-			color: $text-secondary;
-			font-size: 100%;
-			margin: 0px 24px 10px 24px;
-		}
-
-		.noGrTxt {
-			@extend .chooseGrTxt;
-			margin-bottom: 0px;
-			text-align: center; /* for IE*/
-		}
-
-		.groupList {
-			height: unset;
-			max-height: 216px;
-			border-bottom: 1px solid $black-12;
-			border-top: 1px solid $black-12;
-			padding: 0px;
-			width: 350px;
-			cursor: pointer;
-
-			.groupContent {
-				display: flex;
-				height: 40px;
-				padding: 16px 24px;
-
-				img {
-					opacity: 0.54;
-				}
-
-				.groupInfo {
-					/*padding-left: 16px;*/
-					padding: 12px 0px 12px 16px;
-
-					.groupName {
-						font-size: 100%;
-						color: $text-primary;
-						line-height: 16px;
-						height: 16px;
-					}
-
-					.groupMember {
-						font-size: 88%;
-						color: $text-secondary;
-						line-height: 14px;
-						height: 14px;
-						padding-top: 6px;
-					}
-				}
-
-				&:hover {
-					background-color: $white-5-overlay;
-				}
-			}
-		}
-
-
-		.buttonPanel {
-			margin: 20px auto 0px auto;
-			width: fit-content;
-			// auto margin fix for firefox
-			display: table;
-		}
-	}
-
 	.dialogComponent.shareLinkMebis {
 		@extend .shareLink;
 
@@ -1371,8 +1294,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.dialogContent {
-			padding-bottom: 24px;
-			padding-left: 0px;
+			padding: 0px 0px 24px 0px;
 		}
 
 		.selGrLbl {
