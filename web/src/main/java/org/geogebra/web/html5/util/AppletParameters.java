@@ -174,6 +174,10 @@ public class AppletParameters {
 		return hasAttribute("enableGraphing");
 	}
 
+	public boolean hasDataParamEnable3D() {
+		return hasAttribute("enable3D");
+	}
+
 	/**
 	 * @return rounding; consists of integer and suffix that determines whether
 	 *         significant figures are used (s) and whether fractions are

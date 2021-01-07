@@ -3,6 +3,7 @@ package org.geogebra.web.full.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -196,7 +197,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	// helper
 	// variable
 	private HorizontalPanel splitPanelWrapper = null;
-	private MenuViewController menuViewController;
+	private @CheckForNull MenuViewController menuViewController;
 
 	private EmbedManagerW embedManager;
 	private VideoManagerW videoManager;
@@ -398,9 +399,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private void initMenu() {
 		if (isFloatingMenu()) {
 			initSignInEventFlow(new LoginOperationW(this));
-			menuViewController = new MenuViewController(this);
-			menuViewController.setMenuViewListener(this);
-			frame.add(menuViewController.getView());
+			MenuViewController menuController = new MenuViewController(this);
+			menuController.setMenuViewListener(this);
+			frame.add(menuController.getView());
+			menuViewController = menuController;
 			isMenuInited = true;
 		}
 	}
@@ -1734,7 +1736,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			if (!isFloatingMenu() && !isMenuInited) {
 				frame.getMenuBar(this).init(this);
 				isMenuInited = true;
-			} else if (isFloatingMenu()) {
+			} else if (menuViewController != null) {
 				menuViewController.setMenuVisible(true);
 				return;
 			}
@@ -1752,7 +1754,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					.setOverflow(Overflow.HIDDEN);
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
-			if (isFloatingMenu()) {
+			if (menuViewController != null) {
 				menuViewController.setMenuVisible(false);
 			} else {
 				hideMenu();
@@ -2086,7 +2088,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		// ensure fullscreen: we may have lost it when handling unsaved
 		// changes
 		getLAF().toggleFullscreen(true);
-		if (guiManager != null && guiManager.getUnbundledToolbar() != null) {
+		if (guiManager != null && menuViewController != null) {
 			guiManager.setUnbundledHeaderStyle("examOk");
 			menuViewController.setExamMenu();
 			guiManager.resetMenu();
@@ -2107,7 +2109,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		fireViewsChangedEvent();
 		guiManager.updateToolbarActions();
 		guiManager.setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(true, false, this));
-		menuViewController.setDefaultMenu();
+		if (menuViewController != null) {
+			menuViewController.setDefaultMenu();
+		}
 		guiManager.resetMenu();
 		setActivePerspective(0);
 	}
@@ -2183,7 +2187,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						: SymbolicMode.NONE);
 		setPerspective(perspective);
 		reinitAlgebraView();
-		menuViewController.resetMenuOnAppSwitch(this);
+		if (menuViewController != null) {
+			menuViewController.resetMenuOnAppSwitch(this);
+		}
 	}
 
 	private void reinitSettings() {
