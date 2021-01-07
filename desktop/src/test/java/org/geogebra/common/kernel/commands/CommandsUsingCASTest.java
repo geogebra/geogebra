@@ -398,20 +398,6 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		assertThat(element.isEuclidianVisible(), is(true));
 	}
 
-	@Test
-	public void functionComparisonShouldConsiderJustFiniteValues() {
-		t("f(x)=x^2/x", "x^(2) / x");
-		t("g(x)=x", "x");
-		t("f==g", "true");
-	}
-
-	@Test
-	public void functionComparisonShouldWorkForTrig() {
-		t("f(x)=sin(x)^2", "sin(x)^(2)");
-		t("g(x)=1-cos(x)^2", "1 - cos(x)^(2)");
-		t("f==g", "true");
-	}
-
 	private void frac(String def, String expect) {
 		EvalInfo evalInfo = new EvalInfo(true, true).withFractions(true);
 		checkWithEvalInfo(def, expect, evalInfo);
