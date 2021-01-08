@@ -1021,6 +1021,11 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
+	@Override
+	public Object getExportCanvas() {
+		return getCanvasElement();
+	}
+
 	public void focusResetIcon() {
 		setResetIconSelected(true);
 	}
