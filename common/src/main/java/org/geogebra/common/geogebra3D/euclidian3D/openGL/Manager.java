@@ -59,7 +59,6 @@ abstract public class Manager {
 	private int fanDirectIndicesSize;
 	private int fanIndirectIndicesSize;
 
-
 	/**
 	 * create a manager for geometries
 	 * 
