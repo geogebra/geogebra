@@ -28,11 +28,11 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class CommandsUsingCASTest extends AlgebraTest {
 
-	private static void add(String string) {
+	private void add(String string) {
 		ap.processAlgebraCommand(string, false);
 	}
 
-	private static void runSolveTests() {
+	private void runSolveTests() {
 		t("ss=Solve[ x^2=3 ]", "{x = (-sqrt(3)), x = sqrt(3)}");
 		Assert.assertTrue(AlgebraItem.isSymbolicDiffers(get("ss")));
 		t("sm=Solve[ {x+y=1,x-y=0} ]", "{{x = 1 / 2, y = 1 / 2}}");
@@ -47,12 +47,12 @@ public class CommandsUsingCASTest extends AlgebraTest {
 				"{{x = 60*deg, y = 60*deg}, {x = (-60*deg), y = (-60*deg)}}");
 	}
 
-	private static void deg(String def, String expect) {
+	private void deg(String def, String expect) {
 		EvalInfo evalInfo = new EvalInfo(true, true).addDegree(true);
 		checkWithEvalInfo(def, expect, evalInfo);
 	}
 
-	private static void checkWithEvalInfo(String def, String expect,
+	private void checkWithEvalInfo(String def, String expect,
 			EvalInfo evalInfo) {
 		GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
 				false, TestErrorHandler.INSTANCE,
@@ -61,11 +61,11 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		Assert.assertEquals(expect, res);
 	}
 
-	private static void tdeg(String string, String string2) {
+	private void tdeg(String string, String string2) {
 		t(string, string2.replace("deg", Unicode.DEGREE_STRING));
 	}
 
-	private static GeoElement get(String label) {
+	private GeoElement get(String label) {
 		return app.getKernel().lookupLabel(label);
 	}
 
