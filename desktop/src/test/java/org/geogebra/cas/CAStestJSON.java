@@ -104,7 +104,7 @@ public class CAStestJSON {
 		try {
 			Log.debug("CAS: loading testcases");
 			json = readFileAsString(
-					"../common/src/main/resources/giac/__giac.js");
+					"../common/src/main/resources/giac/giacTests.js");
 			Log.debug("CAS: parsing testcases");
 			Log.debug("CAS: testcases parsed");
 			JSONArray testsJSON = new JSONArray(

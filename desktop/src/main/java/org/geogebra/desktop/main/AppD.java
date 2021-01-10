@@ -41,7 +41,6 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ComponentEvent;
@@ -969,7 +968,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			String filename = args.getStringValue("giacJSONtests");
 
 			if (filename == null || "".equals(filename)) {
-				filename = "../common/src/main/resources/giac/__giac.js";
+				filename = "../common/src/main/resources/giac/giacTests.js";
 			}
 
 			int count = 0;
