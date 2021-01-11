@@ -1651,6 +1651,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	protected void initCoreObjects() {
 		kernel = newKernel(this);
+		kernel.setAngleUnit(kernel.getApplication().getConfig().getDefaultAngleUnit());
 
 		initSettings();
 
