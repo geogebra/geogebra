@@ -2069,6 +2069,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		setToolTipText(btnFixObject, "FixObject");
 		setToolTipText(btnTextColor, "stylebar.Color");
 		setToolTipText(btnTextBgColor, "stylebar.BgColor");
+		setToolTipText(btnBorderColor, "stylebar.Borders");
 
 		setToolTipText(btnBorderStyle, "stylebar.Borders");
 		setPopupTooltips(btnBorderStyle, new String[] { "AllBorders", "InnerBorders",

@@ -11,6 +11,7 @@ public class BorderColorPopup extends BgColorPopup {
 	private LineThicknessCheckMarkItem noBorder;
 	private LineThicknessCheckMarkItem thin;
 	private LineThicknessCheckMarkItem thick;
+
 	/**
 	 * @param app {@link AppW}
 	 * @param colorSetType {@code int}

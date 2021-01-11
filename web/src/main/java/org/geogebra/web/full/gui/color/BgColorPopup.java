@@ -33,7 +33,10 @@ public class BgColorPopup extends ColorPopupMenuButton implements SetLabels {
 		super(app, colorSetType, hasSlider);
 		localization = app.getLocalization();
 		this.selection = selection;
-		// rearrange the content
+		buildGUI();
+	}
+
+	private void buildGUI() {
 		VerticalPanel panel = ((ButtonPopupMenu) getMyPopup()).getPanel();
 		panel.clear();
 		addFirstPanel(panel);
@@ -41,6 +44,10 @@ public class BgColorPopup extends ColorPopupMenuButton implements SetLabels {
 		setLabels();
 	}
 
+	/**
+	 * adds panel above the color chooser panel
+	 * @param panel - popup panel
+	 */
 	public void addFirstPanel(VerticalPanel panel) {
 		FlowPanel noColBtn = new FlowPanel();
 		noColBtn.addStyleName("noColBtn");

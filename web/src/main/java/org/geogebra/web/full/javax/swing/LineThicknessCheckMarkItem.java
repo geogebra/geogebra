@@ -39,6 +39,7 @@ public class LineThicknessCheckMarkItem extends FlowPanel {
 		add(checkImg);
 
 		Label text = new Label(itemText);
+		this.text = text;
 		add(text);
 	}
 
@@ -76,6 +77,10 @@ public class LineThicknessCheckMarkItem extends FlowPanel {
 		Dom.toggleClass(checkImg, "selected", isSelected());
 	}
 
+	/**
+	 * update translation of text check mark item
+	 * @param translation - new translation
+	 */
 	public void setLabel(String translation) {
 		if (text != null) {
 			text.setText(translation);
