@@ -4886,6 +4886,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			sb.append(lineOpacity);
 			sb.append("\"");
 		}
+		if (isDrawArrows()) {
+			sb.append(" drawArrow=\"");
+			sb.append("true");
+			sb.append("\"");
+		}
 		sb.append("/>\n");
 	}
 
@@ -6946,6 +6951,13 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return whether this is locusable (locus or function)
 	 */
 	public boolean isGeoLocusable() {
+		return false;
+	}
+
+	/**
+	 * @return if slopefield is drawn with arrows
+	 */
+	public boolean isDrawArrows() {
 		return false;
 	}
 
