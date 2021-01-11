@@ -95,7 +95,3 @@ pmd {
     ruleSets = []
     ruleSetFiles = files("config/pmd.xml")
 }
-
-checkstyle {
-    toolVersion = "8.8"
-}

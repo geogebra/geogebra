@@ -31,6 +31,10 @@
         <property name="format" value="addDomHandler.*Touch"/>
         <property name="message" value="Used addDomHanlder instead of addBitlessDomHandler for touch events"/>
     </module>
+    <module name="LineLength">
+        <property name="max" value="100"/>
+        <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://|@|Regex"/>
+    </module>
     <module name="TreeWalker">
         <property name="tabWidth" value="4"/>
         <module name="OneTopLevelClass"/>
@@ -59,10 +63,6 @@
             <property name="allowedDistance" value="7"/>
         </module>
         <module name="ArrayTypeStyle"/>
-        <module name="LineLength">
-            <property name="max" value="100"/>
-            <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://|@|Regex"/>
-        </module>
         <module name="EmptyLineSeparator">
             <property name="allowNoEmptyLineBetweenFields" value="true"/>
             <property name ="allowMultipleEmptyLines" value="false"/>

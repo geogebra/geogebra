@@ -60,10 +60,6 @@ test {
     ignoreFailures = true
 }
 
-checkstyle {
-    toolVersion = "8.8"
-}
-
 // http://stackoverflow.com/questions/20638039/gradle-and-jacoco-instrument-classes-from-a-separate-subproject
 gradle.projectsEvaluated {
     // include src from all dependent projects (compile dependency) in JaCoCo test report

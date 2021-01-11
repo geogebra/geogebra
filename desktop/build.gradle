@@ -163,10 +163,6 @@ eclipse {
         }
     }
 }
-checkstyle {
-    configDir = file("config/checkstyle/")
-    toolVersion = "8.8"
-}
 
 task e2eTest(type: Test) {
     description 'Run end-to-end tests'
