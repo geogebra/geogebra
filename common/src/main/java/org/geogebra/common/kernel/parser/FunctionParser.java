@@ -473,7 +473,7 @@ public class FunctionParser {
 		}
 
 		// sin^(-1)(x) -> arcsin(x), log^(-1)(x) -> (log(x))^(-1)
-		if (Unicode.SUPERSCRIPT_MINUS_ONE_BRACKET_STRING.equals(power)) {
+		if (Unicode.SUPERSCRIPT_MINUS_ONE_STRING.equals(power)) {
 			return minusFirstPower(type, en);
 		}
 
