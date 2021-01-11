@@ -724,7 +724,6 @@ public class Function extends FunctionNVar
 				if (symbCoeffs[degree - i] == null) {
 					return null;
 				}
-				symbCoeffs[degree - i].simplifyConstantIntegers();
 			}
 			return symbPolyFun;
 		}
@@ -1107,7 +1106,6 @@ public class Function extends FunctionNVar
 		for (int i = 0; i < n; i++) {
 			expDeriv = expDeriv.derivative(fVars[0], kernel);
 		}
-		expDeriv.simplifyConstantIntegers();
 		return new Function(expDeriv, fVars[0]);
 	}
 

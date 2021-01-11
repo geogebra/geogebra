@@ -140,7 +140,7 @@ public class LoadFilePresenter {
 	 */
 	boolean openEmptyApp(final AppW app, AppletParameters ae) {
 		// we dont have content, it is an app
-		Log.debug("no base64content, possibly App loaded?");
+		Log.debug("no base64content, App loaded");
 
 		// code moved here from AppWapplication.afterCoreObjectsInited - start
 		String perspective = ae.getDataParamPerspective();

@@ -410,8 +410,7 @@ public class CoordSys {
 	 */
 	public void resetCoordSys() {
 		setMadeCoordSys(-1);
-        vxIsZero = false;
-        equationVector.set(Double.NaN);
+		vxIsZero = false;
 	}
 
 	/**
@@ -806,8 +805,12 @@ public class CoordSys {
 		return isMadeCoordSys();
 	}
 
+	/**
+	 * Puts the system in undefined state, including the equation vector.
+	 */
 	public void setUndefined() {
 		resetCoordSys();
+		equationVector.set(Double.NaN);
 	}
 
 	/** @return orthonormal matrix */

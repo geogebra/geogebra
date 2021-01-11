@@ -164,8 +164,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	protected boolean insertLineBreaks = false;
 
 	// angle unit: degree, radians
-	// although this is initialized from the default preferences XML,
-	// we need to initialize this here too for GeoGebraWeb
 	private int angleUnit = Kernel.ANGLE_DEGREE;
 
 	private boolean viewReiniting = false;
@@ -2300,15 +2298,33 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            string template
 	 * @param unbounded
 	 *            whether to allow angles out of [0,2pi]
-	 * @return formated angle
+	 * @return formatted angle
 	 */
 	final public StringBuilder formatAngle(double phi, StringTemplate tpl,
 			boolean unbounded) {
 		// STANDARD_PRECISION * 10 as we need a little leeway as we've converted
 		// from radians
-		StringBuilder ret = formatAngle(phi, 10, tpl, unbounded);
+		return formatAngle(phi, 10, tpl, unbounded, false);
+	}
 
-		return ret;
+	/**
+	 * Returns formated angle (in degrees if necessary)
+	 *
+	 * @param phi
+	 *            angle in radians
+	 * @param tpl
+	 *            string template
+	 * @param unbounded
+	 *            whether to allow angles out of [0,2pi]\
+	 * @param forceDegrees
+	 *            whether to keep format in degrees]
+	 * @return formatted angle
+	 */
+	final public StringBuilder formatAngle(double phi, StringTemplate tpl,
+			boolean unbounded, boolean forceDegrees) {
+		// STANDARD_PRECISION * 10 as we need a little leeway as we've converted
+		// from radians
+		return formatAngle(phi, 10, tpl, unbounded, forceDegrees);
 	}
 
 	/**
@@ -2323,7 +2339,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return formatted angle
 	 */
 	final public StringBuilder formatAngle(double alpha, double precision,
-			StringTemplate tpl, boolean unbounded) {
+			StringTemplate tpl, boolean unbounded, boolean forceDegrees) {
 		double phi = alpha;
 		sbFormatAngle.setLength(0);
 		switch (tpl.getStringType()) {
@@ -2337,7 +2353,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				return sbFormatAngle;
 			}
 
-			if (degreesMode()) {
+			if (forceDegrees || degreesMode()) {
 				boolean rtl = getLocalization().isRightToLeftDigits(tpl);
 				if (rtl) {
 					if (tpl.hasCASType()) {

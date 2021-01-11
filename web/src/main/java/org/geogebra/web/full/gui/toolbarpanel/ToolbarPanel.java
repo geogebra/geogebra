@@ -242,8 +242,12 @@ public class ToolbarPanel extends FlowPanel
 	/**
 	 * Init gui, don't open any panels
 	 */
-	private void initGUI() {
+	public void initGUI() {
 		clear();
+		if (header != null) {
+			header.removeUndoRedoPanel();
+		}
+
 		addStyleName("toolbar");
 		header = new Header(this);
 		add(header);
@@ -302,8 +306,7 @@ public class ToolbarPanel extends FlowPanel
 
 	private void addMoveBtn() {
 		moveBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.mode_move(), null, 24,
-				app);
+				MaterialDesignResources.INSTANCE.mode_move(), null, 24);
 		AriaHelper.hide(moveBtn);
 		String altText = app.getLocalization().getMenu(
 				EuclidianConstants.getModeText(EuclidianConstants.MODE_MOVE))

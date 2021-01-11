@@ -809,8 +809,8 @@ public class AlgebraStyleTest extends Assert {
 				.checkVal("3x * 5x").checkGiac("(((3)*(x))*(5))*(x)");
 		new ExpressionChecker("pi*x").checkEditAndVal(Unicode.pi + " x")
 				.checkGiac("(pi)*(x)");
-		new ExpressionChecker("3*4*x").checkEdit("12x", "12 x")
-				.checkVal("12x").checkGiac("(12)*(x)");
+		new ExpressionChecker("3*4*x").checkEdit("3 * 4x", "3*4 x")
+				.checkVal("3 * 4x").checkGiac("((3)*(4))*(x)");
 		new ExpressionChecker("3*(4*x)").checkEdit("3 * 4x", "3 * 4 x")
 				.checkVal("3 * 4x").checkGiac("(3)*((4)*(x))");
 		new ExpressionChecker("3*4").checkEdit("3 * 4").checkVal("12").checkGiac("(3)*(4)");

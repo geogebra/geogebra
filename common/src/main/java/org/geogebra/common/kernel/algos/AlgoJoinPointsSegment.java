@@ -58,20 +58,17 @@ public class AlgoJoinPointsSegment extends AlgoElement
 
 	/**
 	 * Creates new AlgoJoinPoints
-	 * 
+	 *
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param P
 	 *            start point
 	 * @param Q
 	 *            end point
 	 */
-	public AlgoJoinPointsSegment(Construction cons, String label, GeoPoint P,
+	public AlgoJoinPointsSegment(Construction cons, GeoPoint P,
 			GeoPoint Q) {
 		this(cons, P, Q, null, true);
-		s.setLabel(label);
 	}
 
 	/**

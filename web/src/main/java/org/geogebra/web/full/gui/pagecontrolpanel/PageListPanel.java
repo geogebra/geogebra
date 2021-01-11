@@ -88,7 +88,7 @@ public class PageListPanel
 
 	private void addPlusButton() {
 		plusButton = new StandardButton(
-				MaterialDesignResources.INSTANCE.add_white(), null, 24, app);
+				MaterialDesignResources.INSTANCE.add_white(), null, 24);
 		plusButton.setStyleName("mowFloatingButton");
 		plusButton.addStyleName("mowPlusButton");
 		plusButton.addFastClickHandler(source -> {

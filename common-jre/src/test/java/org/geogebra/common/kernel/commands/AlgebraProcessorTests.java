@@ -17,6 +17,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 public class AlgebraProcessorTests extends BaseUnitTest {
 
     private AlgebraProcessor processor;
@@ -54,5 +56,36 @@ public class AlgebraProcessorTests extends BaseUnitTest {
     public void testFunctionLikeMultiplication() {
         GeoElement element = add("x(x + 2)");
         assertThat(element, CoreMatchers.<GeoElement>instanceOf(GeoFunction.class));
+    }
+
+    @Test
+    public void testExceptionThrowing() {
+        shouldFail("x y");
+        shouldFail("xy");
+        shouldFail("a");
+        shouldFail("(1,1)");
+        shouldFail("x");
+        shouldFail("1+" + Unicode.IMAGINARY);
+    }
+
+    private void shouldFail(String string) {
+        Throwable err = null;
+        try {
+            processor.convertToDouble(string);
+        } catch (Throwable thrown) {
+            err = thrown;
+        }
+        Assert.assertTrue(err instanceof NumberFormatException);
+    }
+
+    @Test
+    public void testConversion() {
+        shouldParseAs("-1", -1);
+        shouldParseAs("-1,500", -1.5);
+        shouldParseAs("360deg", 2 * Math.PI);
+    }
+
+    private void shouldParseAs(String string, double i) {
+        Assert.assertEquals(processor.convertToDouble(string), i, DELTA);
     }
 }

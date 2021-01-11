@@ -12,10 +12,14 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.EventType;
 
+import com.google.j2objc.annotations.Weak;
+
 public abstract class CopyPasteCut {
 
 	// ggb support classes
+	@Weak
 	protected Kernel kernel;
+	@Weak
 	protected App app;
 	private SpreadsheetTableModel tableModel;
 

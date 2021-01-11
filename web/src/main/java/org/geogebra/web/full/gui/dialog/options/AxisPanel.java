@@ -99,7 +99,6 @@ public class AxisPanel extends FlowPanel
 			@Override
 			public void onClick(ClickEvent event) {
 				model.applyPositiveAxis(cbPositiveAxis.getValue());
-
 			}
 		});
 

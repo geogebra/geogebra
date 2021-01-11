@@ -47,6 +47,8 @@ import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.media.GeoGebraURLParser;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 public abstract class GuiManager implements GuiManagerInterface {
 
 	/**
@@ -72,7 +74,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * also can have ?mobile=true ?mobile=false on end
 	 */
 
+	@Weak
 	protected Kernel kernel;
+	@Weak
 	protected App app;
 	protected HashMap<Integer, ConstructionProtocolNavigation> constProtocolNavigationMap;
 	private HashMap<Integer, PlotPanelEuclidianViewInterface> plotPanelIDMap;

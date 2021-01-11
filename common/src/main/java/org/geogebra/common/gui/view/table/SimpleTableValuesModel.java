@@ -8,10 +8,15 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * TableValuesModel implementation. Uses caching to store values.
  */
 class SimpleTableValuesModel implements TableValuesModel {
+
+	@Weak
+	private Kernel kernel;
 
 	private List<Double[]> doubleColumns;
 	private List<String[]> columns;
@@ -20,7 +25,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 	private List<TableValuesListener> listeners;
 	private ArrayList<GeoEvaluatable> evaluatables;
 	private double[] values;
-	private Kernel kernel;
 	private StringBuilder builder;
 
 	private boolean batchUpdate;

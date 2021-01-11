@@ -34,7 +34,8 @@ public class CmdRay3D extends CmdRay {
 
 		if (a.isGeoElement3D() || v.isGeoElement3D()) {
 			AlgoRayPointVector3D algo = new AlgoRayPointVector3D(
-					kernel.getConstruction(), label, a, v);
+					kernel.getConstruction(),  a, v);
+			algo.getLine().setLabel(label);
 			return algo.getLine();
 		}
 

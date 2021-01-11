@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.web.full.gui.dialog.options.BasicTab;
 import org.geogebra.web.full.gui.dialog.options.OptionsEuclidianW;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
@@ -77,13 +78,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		}
 
 		@Override
-		protected void indentDimPanel() {
-			// TODO remove this and implement stuff for 3D
-		}
-
-		@Override
-		protected void addToDimPanel(Widget w) {
-			// TODO remove this and implement stuff for 3D
+		protected int setDimension() {
+			return 6;
 		}
 
 		@Override
@@ -271,6 +267,21 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			setText(radioClippingSmall, "BoxSize.small");
 			setText(radioClippingMedium, "BoxSize.medium");
 			setText(radioClippingLarge, "BoxSize.large");
+			getDimLabel()[4].setText(getOptionsEuclidianW().loc.getMenu("zmin") + ":");
+			getDimLabel()[5].setText(getOptionsEuclidianW().loc.getMenu("zmax") + ":");
+		}
+
+		@Override
+		protected void updateMinMax() {
+			EuclidianView3D view = (EuclidianView3D) getOptionsEuclidianW().getView();
+			view.updateBoundObjects();
+			setMinMaxText(
+					view.getXminObject().getLabel(StringTemplate.editTemplate),
+					view.getXmaxObject().getLabel(StringTemplate.editTemplate),
+					view.getYminObject().getLabel(StringTemplate.editTemplate),
+					view.getYmaxObject().getLabel(StringTemplate.editTemplate),
+					view.getZminObject().getLabel(StringTemplate.editTemplate),
+					view.getZmaxObject().getLabel(StringTemplate.editTemplate));
 		}
 	}
 

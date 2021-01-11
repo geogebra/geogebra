@@ -10,6 +10,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Updates all animated geos based on slider ticks
  */
@@ -21,6 +23,7 @@ public class AnimationManager implements GTimerListener {
 	/** min frames per second */
 	public final static int MIN_ANIMATION_FRAME_RATE = 2; // frames per second
 	/** kernel */
+	@Weak
 	protected Kernel kernel;
 	/** animated geos */
 	protected ArrayList<GeoElement> animatedGeos;

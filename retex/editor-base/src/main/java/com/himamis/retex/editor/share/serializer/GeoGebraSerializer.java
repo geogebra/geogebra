@@ -105,28 +105,6 @@ public class GeoGebraSerializer implements Serializer {
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			stringBuilder.append(')');
 			break;
-			// Strict control of available functions is needed, so that SUM/ and
-			// Prod doesn't work
-		case SUM:
-			stringBuilder.append("Sum");
-			serializeArgs(mathFunction, stringBuilder,
-					new int[] { 3, 0, 1, 2 });
-			break;
-		case PROD:
-			stringBuilder.append("Product");
-			serializeArgs(mathFunction, stringBuilder,
-					new int[] { 3, 0, 1, 2 });
-			break;
-		case INT:
-			stringBuilder.append("Integral");
-			serializeArgs(mathFunction, stringBuilder,
-					new int[] { 2, 0, 1 });
-			break;
-		case LIM:
-			stringBuilder.append("Limit");
-			serializeArgs(mathFunction, stringBuilder,
-					new int[] { 2, 0, 1 });
-			break;
 		case APPLY:
 		case APPLY_SQUARE:
 			maybeInsertTimes(mathFunction, stringBuilder);
@@ -175,16 +153,6 @@ public class GeoGebraSerializer implements Serializer {
 			stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 		}
 		stringBuilder.append(mathFunction.getClosingBracket());
-	}
-
-	private void serializeArgs(MathFunction mathFunction,
-			StringBuilder stringBuilder, int[] order) {
-		for (int i = 0; i < order.length; i++) {
-			stringBuilder.append(i == 0 ? "((" : ",(");
-			serialize(mathFunction.getArgument(order[i]), stringBuilder);
-			stringBuilder.append(")");
-		}
-		stringBuilder.append(")");
 	}
 
 	private static void maybeInsertTimes(MathFunction mathFunction,
@@ -277,5 +245,24 @@ public class GeoGebraSerializer implements Serializer {
 	public void forceRoundBrackets() {
 		this.leftBracket = "(";
 		this.rightBracket = ")";
+	}
+
+	/**
+	 * @param formula formula; may or may not be a matrix
+	 * @return serialized matrix entries or [] if not a matrix
+	 */
+	public String[] serializeMatrixEntries(MathFormula formula) {
+		if (formula.getRootComponent().isProtected()
+				&& formula.getRootComponent().getArgument(0) instanceof MathArray) {
+			MathArray root = (MathArray) formula.getRootComponent().getArgument(0);
+			if (root.isMatrix()) {
+				String[] parts = new String[root.size()];
+				for (int i = 0; i < root.size(); i++) {
+					parts[i] = serialize(root.getArgument(i));
+				}
+				return parts;
+			}
+		}
+		return new String[0];
 	}
 }

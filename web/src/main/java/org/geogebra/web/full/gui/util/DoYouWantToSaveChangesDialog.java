@@ -196,7 +196,6 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	@Override
 	public void show() {
 		super.show();
-		center();
 		setTitle();
 	}
 }

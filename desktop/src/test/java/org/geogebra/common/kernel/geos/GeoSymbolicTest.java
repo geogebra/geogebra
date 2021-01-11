@@ -1308,6 +1308,58 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testInnerNestedCommands() {
+		add("f(x)=x^2");
+		add("a(x)=Solve(Derivative(f))");
+		add("1+1");
+		undoRedo();
+		int n = kernel.getConstruction().steps();
+		assertThat(n, equalTo(3));
+	}
+
+	@Test
+	public void testSinNumericInRadians() {
+		GeoSymbolic sin = add("sin⁻¹(0.4)");
+		assertThat(
+				sin.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("sin⁻¹(0.4)"));
+		assertThat(
+				sin.getValueForInputBar(),
+				equalTo("sin⁻¹(2 / 5)"));
+		assertThat(
+				sin.getTwinGeo().toValueString(StringTemplate.defaultTemplate),
+				equalTo("0.4115168461"));
+	}
+
+	@Test
+	public void testAsinNumericInRadians() {
+		GeoSymbolic asind = add("asin(0.4)");
+		assertThat(
+				asind.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("sin⁻¹(0.4)"));
+		assertThat(
+				asind.getValueForInputBar(),
+				equalTo("sin⁻¹(2 / 5)"));
+		assertThat(
+				asind.getTwinGeo().toValueString(StringTemplate.defaultTemplate),
+				equalTo("0.4115168461"));
+	}
+
+	@Test
+	public void testAsindNumericInDegrees() {
+		GeoSymbolic asind = add("asind(0.4)");
+		assertThat(
+				asind.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("asind(0.4)"));
+		assertThat(
+				asind.getValueForInputBar(),
+				equalTo("180° sin⁻¹(2 / 5) / π"));
+		assertThat(
+				asind.getTwinGeo().toValueString(StringTemplate.defaultTemplate),
+				equalTo("23.5781784782°"));
+	}
+
+	@Test
 	public void testAssumeCommand() {
 		t("Assume(a > 0, Integral(exp(-a x), 0, infinity))", "1 / a");
 		t("Assume(x>0 && n>0, Solve(log(n^2*(x/n)^lg(x))=log(x^2), x))",

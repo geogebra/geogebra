@@ -423,7 +423,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 		GeoVector directionVec = new GeoVector(cons);
 		directionVec.setCoords(direction);
 
-		AlgoRayPointVector algo = new AlgoRayPointVector(cons, null,
+		AlgoRayPointVector algo = new AlgoRayPointVector(cons,
 				startPoint1, directionVec);
 
 		return algo.getRay();

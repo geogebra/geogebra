@@ -23,6 +23,7 @@ import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import org.geogebra.common.gui.dialog.options.model.CoordsModel;
 import org.geogebra.common.gui.dialog.options.model.DecoAngleModel;
 import org.geogebra.common.gui.dialog.options.model.DecoSegmentModel;
+import org.geogebra.common.gui.dialog.options.model.DrawArrowsModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import org.geogebra.common.gui.dialog.options.model.FixObjectModel;
@@ -964,6 +965,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		PointSizeModel ptSize = new PointSizeModel(app);
 		PointStyleModel ptStyle = new PointStyleModel(app);
 		LineStyleModel lineStyle = new LineStyleModel(app);
+		DrawArrowsModel drawArrows = new DrawArrowsModel(null, app);
 		AngleArcSizeModel arcSize = new AngleArcSizeModel(app);
 		SlopeTriangleSizeModel slopeSize = new SlopeTriangleSizeModel(app);
 		IneqStyleModel ineqStyle = new IneqStyleModel(app);
@@ -977,7 +979,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		DecoSegmentModel decoSegment = new DecoSegmentModel(app);
 
 		tab.addModel(ptSize).addModel(ptStyle).addModel(lod).addModel(lineStyle)
-				.addModel(arcSize).addModel(slopeSize).addModel(ineqStyle)
+				.addModel(drawArrows).addModel(arcSize).addModel(slopeSize).addModel(ineqStyle)
 				.addModel(tfSize).addModel(alignModel).addModel(buttonSize)
 				.addModel(filling).addModel(interpol).addModel(decoAngle)
 				.addModel(decoSegment);
