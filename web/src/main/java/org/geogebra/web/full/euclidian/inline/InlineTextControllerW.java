@@ -1,6 +1,7 @@
 package org.geogebra.web.full.euclidian.inline;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -210,6 +211,12 @@ public class InlineTextControllerW implements InlineTextController {
 		if (geo.getBackgroundColor() != null) {
 			g2.setPaint(geo.getBackgroundColor());
 			g2.fillRect(0, 0, (int) geo.getWidth(), (int) geo.getHeight());
+		}
+		if (geo.getBorderThickness() != GeoInlineText.NO_BORDER) {
+			g2.setPaint(geo.getBorderColor());
+			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(geo.getBorderThickness(), GBasicStroke.CAP_BUTT,
+					GBasicStroke.JOIN_MITER));
+			g2.drawRect(0, 0, (int) geo.getWidth(), (int) geo.getHeight());
 		}
 		if (editor.getWidget().getElement().hasClassName(INVISIBLE)) {
 			GAffineTransform res = AwtFactory.getTranslateInstance(DrawInlineText.PADDING,

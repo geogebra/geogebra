@@ -99,6 +99,7 @@ public class BorderLineThicknessPopup extends GPopupPanel {
 	public void setBorderThickness(int thickness) {
 		selectThickness(thickness == BORDER_THIN,
 				thickness == BORDER_THICK);
+
 	}
 
 	private void selectThickness(boolean isThin, boolean isThick) {

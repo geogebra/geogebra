@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -1206,7 +1207,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 			@Override
 			public void update(List<GeoElement> geos) {
-				super.setVisible(checkTextNoInputBox(geos));
+				super.setVisible(checkGeos(geos, geo -> geo instanceof GeoInlineText));
 			}
 
 			@Override
@@ -1706,6 +1707,16 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 				return false;
 			});
+		} else if (source == btnBorderColor) {
+			if (btnBorderColor.getSelectedIndex() >= 0) {
+				GColor color = btnBorderColor.getSelectedColor();
+				if (color == null) {
+					openColorChooser(targetGeos, true);
+					return false;
+				}
+				needUndo = applyBorderColorText(targetGeos,
+						color);
+			}
 		} else if (source == btnVerticalAlignment) {
 			VerticalAlignment alignment
 					= VerticalAlignment.values()[btnVerticalAlignment.getSelectedIndex()];
@@ -1770,6 +1781,28 @@ public class EuclidianStyleBarW extends StyleBarW2
 				}
 				if (formatter.getBorderThickness() != borderThickness) {
 					formatter.setBorderThickness(borderThickness);
+					changed = true;
+				}
+			}
+		}
+
+		return changed;
+	}
+
+	/**
+	 * @param targetGeos
+	 *            geos to selected (non-inlinetexts are ignored)
+	 * @param borderColor
+	 *            border color
+	 * @return whether border color changed
+	 */
+	private boolean applyBorderColorText(List<GeoElement> targetGeos, GColor borderColor) {
+		boolean changed = false;
+		for (GeoElement geo : targetGeos) {
+			if (geo instanceof GeoInlineText) {
+				if (borderColor != null && !((GeoInlineText) geo)
+						.getBorderColor().equals(borderColor)) {
+					((GeoInlineText) geo).setBorderColor(borderColor);
 					changed = true;
 				}
 			}

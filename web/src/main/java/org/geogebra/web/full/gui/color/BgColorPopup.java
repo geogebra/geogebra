@@ -73,4 +73,12 @@ public class BgColorPopup extends ColorPopupMenuButton implements SetLabels {
 	public void setLabels() {
 		noColLbl.setText(localization.getMenu("noColor"));
 	}
+
+	/**
+	 * selected geos
+	 * @return euclidian selection
+	 */
+	public EuclidianStyleBarSelection getSelection() {
+		return selection;
+	}
 }
