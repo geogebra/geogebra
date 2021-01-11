@@ -3,6 +3,7 @@ package org.geogebra.web.editor;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.util.AsyncOperation;
@@ -189,6 +190,16 @@ public class AppWsolver extends AppW implements HasKeyboard {
 	@Override
 	public AppKeyboardType getKeyboardType() {
 		return AppKeyboardType.SUITE;
+	}
+
+	@Override
+	public InputBoxType getInputBoxType() {
+		return null;
+	}
+
+	@Override
+	public String getInputBoxFunctionVars() {
+		return "";
 	}
 
 	@Override

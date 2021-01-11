@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.draw.LaTeXTextRenderer;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.HasMathKeyboardListener;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -69,6 +70,8 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor.setFontType(geoInputBox.isSerifContent() ? TeXFont.SERIF
 				:  TeXFont.SANSSERIF);
 		editor.attach(((EuclidianViewW) view).getAbsolutePanel());
+		((AppWFull) app).setInputBoxType(geoInputBox.getInputBoxType());
+		((AppWFull) app).setInputBoxFunctionVars(geoInputBox.getFunctionVars());
 		// update size and show
 		resetChanges();
 	}
@@ -116,6 +119,8 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 			return;
 		}
 
+		((AppWFull) app).setInputBoxType(null);
+		((AppWFull) app).setInputBoxFunctionVars("");
 		applyChanges();
 		getDrawInputBox().setEditing(false);
 		editor.setVisible(false);

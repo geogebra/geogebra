@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
+import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppKeyboardType;
@@ -212,6 +213,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private String autosavedMaterial = null;
 	private MaskWidgetList maskWidgets;
 	private SuiteHeaderAppPicker suiteAppPickerButton;
+	private InputBoxType inputBoxType;
+	private String functionVars = "";
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -1003,6 +1006,32 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			}
 		}
 		return getConfig().getKeyboardType();
+	}
+
+	@Override
+	public InputBoxType getInputBoxType() {
+		return inputBoxType;
+	}
+
+	@Override
+	public String getInputBoxFunctionVars() {
+		return functionVars;
+	}
+
+	/**
+	 * setter for input box function vars
+	 * @param functionVars function vars connected to the inputbox
+	 */
+	public void setInputBoxFunctionVars(String functionVars) {
+		this.functionVars = functionVars;
+	}
+
+	/**
+	 * setter for input box type
+	 * @param inputBoxType new input box type
+	 */
+	public void setInputBoxType(InputBoxType inputBoxType) {
+		this.inputBoxType = inputBoxType;
 	}
 
 	@Override

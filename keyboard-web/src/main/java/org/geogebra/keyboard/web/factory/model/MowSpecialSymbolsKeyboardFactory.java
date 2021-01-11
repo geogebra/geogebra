@@ -1,4 +1,4 @@
-package org.geogebra.keyboard.web;
+package org.geogebra.keyboard.web.factory.model;
 
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.AMPERSAND;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.ANGLE;
