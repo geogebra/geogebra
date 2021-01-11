@@ -43,10 +43,6 @@ pmd {
      ruleSetFiles = files("config/pmd.xml")
 }
 
-checkstyle {
-    toolVersion = "8.8"
-}
-
 spotbugs {
     ignoreFailures = true
     excludeFilter = file("../../common/config/findbugs.xml")
