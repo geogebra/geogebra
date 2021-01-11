@@ -19,6 +19,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -56,6 +57,7 @@ import org.geogebra.web.full.gui.color.BgColorPopup;
 import org.geogebra.web.full.gui.color.BorderColorPopup;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.full.gui.color.FillingStyleButton;
+import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.StyleBarResources;
 import org.geogebra.web.full.gui.util.BorderStylePopup;
@@ -1711,7 +1713,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			if (btnBorderColor.getSelectedIndex() >= 0) {
 				GColor color = btnBorderColor.getSelectedColor();
 				if (color == null) {
-					openColorChooser(targetGeos, true);
+					handleBorderColorChooser(targetGeos);
 					return false;
 				}
 				needUndo = applyBorderColorText(targetGeos,
@@ -1754,6 +1756,49 @@ public class EuclidianStyleBarW extends StyleBarW2
 			return false;
 		}
 		return true;
+	}
+
+	private void handleBorderColorChooser(final ArrayList<GeoElement> targetGeos) {
+		final GeoElement geo0 = targetGeos.get(0);
+		GColor originalColor = ((GeoInlineText) geo0).getBorderColor();
+
+		DialogManagerW dm = (DialogManagerW) (app.getDialogManager());
+		dm.showColorChooserDialog(originalColor, new ColorChangeHandler() {
+
+			@Override
+			public void onForegroundSelected() {
+				// no foreground/background switcher
+			}
+
+			@Override
+			public void onColorChange(GColor color) {
+				boolean changed = applyBorderColorText(targetGeos, color);
+
+				if (changed) {
+					app.storeUndoInfo();
+				}
+			}
+
+			@Override
+			public void onClearBackground() {
+				// no clear background button
+			}
+
+			@Override
+			public void onBarSelected() {
+				// no bar chart support
+			}
+
+			@Override
+			public void onBackgroundSelected() {
+				// no foreground / background switcher
+			}
+
+			@Override
+			public void onAlphaChange() {
+				// no alpha slider
+			}
+		});
 	}
 
 	/**
