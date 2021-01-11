@@ -1,12 +1,11 @@
 package org.geogebra.cas;
 
-import static org.geogebra.test.util.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
+import static org.geogebra.test.matcher.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
 import static org.junit.Assert.assertThat;
 
 import java.util.HashSet;
 import java.util.Locale;
 
-import org.geogebra.cas.logging.CASTestLogger;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -17,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.test.CASTestLogger;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;

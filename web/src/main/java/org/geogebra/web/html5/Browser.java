@@ -18,6 +18,7 @@ import com.google.gwt.user.client.Window.Navigator;
 
 import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
+import jsinterop.base.Js;
 
 public class Browser {
 	public static final String ACTION_RESET_URL = "{\"action\": \"resetUrl\"}";
@@ -130,15 +131,9 @@ public class Browser {
 	 *
 	 * @return true if WebAssembly supported
 	 */
-	public static native boolean webAssemblySupported()/*-{
-
-		// currently iOS11 giac.wasm gives slightly wrong results
-		// eg Numeric(fractionalPart(2.7)) gives 0.6999999999999 rather than 0.7
-		var iOS = /iPad|iPhone|iPod/.test($wnd.navigator.userAgent)
-				&& !$wnd.MSStream;
-
-		return !iOS && !!$wnd.WebAssembly;
-	}-*/;
+	public static boolean webAssemblySupported() {
+		return Js.isTruthy(Js.asPropertyMap(DomGlobal.window).get("WebAssembly"));
+	}
 
 	public static native boolean supportsPointerEvents() /*-{
 		return !!$wnd.PointerEvent;
