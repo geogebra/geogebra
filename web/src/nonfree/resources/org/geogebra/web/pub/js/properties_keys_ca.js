@@ -3481,6 +3481,7 @@ __GGB__keysVar["ca"].menu = {
     "stylebar.Left": "Esquerra",
     "stylebar.LineStyle": "Fixa l'estil de la l\xednia",
     "stylebar.Middle": "Centrat",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "Projecci\xf3 obl\xedqua",
     "stylebar.OrthographicProjection": "Projecci\xf3 Paral\xb7lela",
     "stylebar.OuterBorders": "Costats exteriors",

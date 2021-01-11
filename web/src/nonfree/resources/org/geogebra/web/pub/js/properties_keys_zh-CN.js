@@ -3481,6 +3481,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "stylebar.Left": "\u9760\u5de6",
     "stylebar.LineStyle": "\u7ebf\u578b",
     "stylebar.Middle": "\u5c45\u4e2d",
+    "stylebar.NoBorder": "\u65e0\u8fb9\u6846",
     "stylebar.ObliqueProjection": "\u659c\u6295\u5f71",
     "stylebar.OrthographicProjection": "\u6b63\u6295\u5f71",
     "stylebar.OuterBorders": "\u5916\u90e8\u8fb9\u6846",

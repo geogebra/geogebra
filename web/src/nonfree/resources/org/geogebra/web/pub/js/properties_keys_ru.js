@@ -3481,6 +3481,7 @@ __GGB__keysVar["ru"].menu = {
     "stylebar.Left": "Left",
     "stylebar.LineStyle": "\u0422\u0438\u043f \u043b\u0438\u043d\u0438\u0438",
     "stylebar.Middle": "Middle",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "Oblique projection",
     "stylebar.OrthographicProjection": "\u041e\u0440\u0442\u043e\u0433\u043e\u043d\u0430\u043b\u044c\u043d\u0430\u044f \u043f\u0440\u043e\u0435\u043a\u0446\u0438\u044f",
     "stylebar.OuterBorders": "Outer borders",

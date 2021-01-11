@@ -3481,6 +3481,7 @@ __GGB__keysVar["vi"].menu = {
     "stylebar.Left": "Left",
     "stylebar.LineStyle": "Thi\u1ebft l\u1eadp ki\u1ec3u \u0111\u01b0\u1eddng th\u1eb3ng",
     "stylebar.Middle": "Middle",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "Oblique projection",
     "stylebar.OrthographicProjection": "Orthographic Projection",
     "stylebar.OuterBorders": "Outer borders",

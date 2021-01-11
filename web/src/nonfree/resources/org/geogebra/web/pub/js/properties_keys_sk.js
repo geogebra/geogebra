@@ -3481,6 +3481,7 @@ __GGB__keysVar["sk"].menu = {
     "stylebar.Left": "Left",
     "stylebar.LineStyle": "nastavi\u0165 \u0161t\xfdl priamky",
     "stylebar.Middle": "Middle",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "Sikm\xe9 premietanie",
     "stylebar.OrthographicProjection": "Kolm\xe9 premietanie",
     "stylebar.OuterBorders": "Outer borders",

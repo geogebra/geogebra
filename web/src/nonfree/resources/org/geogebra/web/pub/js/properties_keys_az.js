@@ -3481,6 +3481,7 @@ __GGB__keysVar["az"].menu = {
     "stylebar.Left": "Sol",
     "stylebar.LineStyle": "X\u0259tt stili se\xe7in",
     "stylebar.Middle": "Orta",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "Oblique projection",
     "stylebar.OrthographicProjection": "Orthographic Projection",
     "stylebar.OuterBorders": "Xarici s\u0259rh\u0259dl\u0259r",
