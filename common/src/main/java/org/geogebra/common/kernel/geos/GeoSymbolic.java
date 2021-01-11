@@ -6,6 +6,7 @@ import java.util.Arrays;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
@@ -39,8 +40,9 @@ import org.geogebra.common.util.StringUtil;
  * Symbolic geo for CAS computations in AV
  * @author Zbynek
  */
-public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
-		GeoEvaluatable, GeoFunctionable, DelegateProperties, HasArbitraryConstant {
+public class GeoSymbolic extends GeoElement
+		implements GeoSymbolicI, VarString, GeoEvaluatable, GeoFunctionable, DelegateProperties,
+		HasArbitraryConstant, EuclidianViewCE {
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
@@ -53,6 +55,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private int pointSize;
 	private boolean symbolicMode;
 	private MyArbitraryConstant constant;
+	private boolean isRegisteredToEv;
 
 	@Nullable
 	private GeoElement twinGeo;
@@ -347,6 +350,10 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private GeoElementND createTwinGeo() {
 		if (getDefinition() == null) {
 			return null;
+		}
+		if (!isRegisteredToEv) {
+			cons.registerEuclidianViewCE(this);
+			isRegisteredToEv = true;
 		}
 		boolean isSuppressLabelsActive = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
@@ -766,5 +773,20 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	public boolean isFixable() {
 		return false;
+	}
+
+	@Override
+	public boolean euclidianViewUpdate() {
+		isTwinUpToDate = false;
+		return getTwinGeo() != null;
+	}
+
+	@Override
+	public void doRemove() {
+		super.doRemove();
+		if (isRegisteredToEv) {
+			cons.unregisterEuclidianViewCE(this);
+			isRegisteredToEv = false;
+		}
 	}
 }
