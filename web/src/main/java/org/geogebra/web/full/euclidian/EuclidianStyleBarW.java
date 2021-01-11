@@ -52,6 +52,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.color.BgColorPopup;
+import org.geogebra.web.full.gui.color.BorderColorPopup;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.full.gui.color.FillingStyleButton;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -126,6 +127,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private MyToggleButtonW btnUnderline;
 
 	private BorderStylePopup btnBorderStyle;
+	private BorderColorPopup btnBorderColor;
 	private PopupMenuButtonW btnHorizontalAlignment;
 	private PopupMenuButtonW btnVerticalAlignment;
 
@@ -429,6 +431,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 		// add graphics decoration buttons
 		addGraphicsDecorationsButtons();
 		add(btnPointCapture);
+		if (btnBorderColor != null) {
+			add(btnBorderColor);
+		}
 
 		// add color and style buttons
 		if (btnTextBgColor != null) {
@@ -690,7 +695,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	protected PopupMenuButtonW[] newPopupBtnList() {
-		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(),
+		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(), btnBorderColor,
 				btnColor, btnBgColor, btnTextColor, btnTextBgColor, btnFilling,
 				btnLineStyle, btnPointStyle, btnTextSize, btnAngleInterval, btnBorderStyle,
 				btnHorizontalAlignment, btnVerticalAlignment, btnLabelStyle, btnPointCapture,
@@ -716,6 +721,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		createColorBtn();
 		if (app.isWhiteboardActive()) {
 			createFillingBtn();
+			createTextBorderColorBtn();
 			createTextBgColorBtn();
 		}
 		createBgColorBtn();
@@ -1192,6 +1198,25 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnBgColor.setEnableTable(true);
 		btnBgColor.setKeepVisible(!app.isUnbundledOrWhiteboard());
 		btnBgColor.addPopupHandler(this);
+	}
+
+	private void createTextBorderColorBtn() {
+		btnBorderColor = new BorderColorPopup(app, ColorPopupMenuButton.COLORSET_DEFAULT,
+				false, selection) {
+
+			@Override
+			public void update(List<GeoElement> geos) {
+				super.setVisible(checkTextNoInputBox(geos));
+			}
+
+			@Override
+			public ImageOrText getButtonIcon() {
+				return new ImageOrText(
+						MaterialDesignResources.INSTANCE.color_border(), 24);
+			}
+		};
+		btnBorderColor.setEnableTable(true);
+		btnBorderColor.addPopupHandler(this);
 	}
 
 	private void createTextBgColorBtn() {

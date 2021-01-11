@@ -5,6 +5,7 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
@@ -13,6 +14,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class LineThicknessCheckMarkItem extends FlowPanel {
 	private NoDragImage checkImg;
 	private boolean selected;
+	private Label text;
 
 	/**
 	 * constructor
@@ -21,6 +23,23 @@ public class LineThicknessCheckMarkItem extends FlowPanel {
 	public LineThicknessCheckMarkItem(String thicknessStyle) {
 		addStyleName("lineThicknessItem");
 		buildGUI(thicknessStyle);
+	}
+
+	/**
+	 * constructor
+	 * @param itemText - text of menu item
+	 * @param thicknessStyle - style class name of item
+	 */
+	public LineThicknessCheckMarkItem(String itemText, String thicknessStyle) {
+		addStyleName("lineThicknessItem");
+		addStyleName(thicknessStyle);
+
+		checkImg = new NoDragImage(MaterialDesignResources.INSTANCE.check_black(), 24, 24);
+		checkImg.addStyleName("checkImg");
+		add(checkImg);
+
+		Label text = new Label(itemText);
+		add(text);
 	}
 
 	private void buildGUI(String thicknessStyle) {
@@ -55,5 +74,11 @@ public class LineThicknessCheckMarkItem extends FlowPanel {
 	 */
 	public void updateCheckMarkStyle() {
 		Dom.toggleClass(checkImg, "selected", isSelected());
+	}
+
+	public void setLabel(String translation) {
+		if (text != null) {
+			text.setText(translation);
+		}
 	}
 }
