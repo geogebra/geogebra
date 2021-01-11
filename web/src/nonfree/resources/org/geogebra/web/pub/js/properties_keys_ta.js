@@ -3481,6 +3481,7 @@ __GGB__keysVar["ta"].menu = {
     "stylebar.Left": "Left",
     "stylebar.LineStyle": "\u0b95\u0bcb\u0b9f\u0bcd\u0b9f\u0bbf\u0ba9\u0bcd \u0bb5\u0b9f\u0bbf\u0bb5\u0bc8 \u0b85\u0bae\u0bc8\u0ba4\u0bcd\u0ba4\u0bbf\u0b9f\u0bc1",
     "stylebar.Middle": "Middle",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "Oblique projection",
     "stylebar.OrthographicProjection": "Orthographic Projection",
     "stylebar.OuterBorders": "Outer borders",

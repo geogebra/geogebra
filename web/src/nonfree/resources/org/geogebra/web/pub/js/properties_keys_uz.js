@@ -3481,6 +3481,7 @@ __GGB__keysVar["uz"].menu = {
     "stylebar.Left": "Left",
     "stylebar.LineStyle": "To'g'ri chiziq turini o'rnatish",
     "stylebar.Middle": "Middle",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "Oblique projection",
     "stylebar.OrthographicProjection": "Ortogonal Proyeksiya",
     "stylebar.OuterBorders": "Outer borders",

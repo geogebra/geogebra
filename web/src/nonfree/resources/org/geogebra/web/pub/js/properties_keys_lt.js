@@ -3481,6 +3481,7 @@ __GGB__keysVar["lt"].menu = {
     "stylebar.Left": "Left",
     "stylebar.LineStyle": "Nustatyti ties\u0117s stili\u0173",
     "stylebar.Middle": "Middle",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "\u012estri\u017ea projekcija",
     "stylebar.OrthographicProjection": "Orthographic Projection",
     "stylebar.OuterBorders": "Outer borders",

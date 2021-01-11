@@ -3481,6 +3481,7 @@ __GGB__keysVar["eu"].menu = {
     "stylebar.Left": "Left",
     "stylebar.LineStyle": "Ezarri lerro-estiloa",
     "stylebar.Middle": "Middle",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "Proiekzio zeiharra",
     "stylebar.OrthographicProjection": "Proiekzio Ortogonala",
     "stylebar.OuterBorders": "Outer borders",
