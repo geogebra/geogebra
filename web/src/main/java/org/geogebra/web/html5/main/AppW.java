@@ -978,6 +978,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean clearConstruction() {
+		getSelectionManager().clearSelectedGeos(false);
 		kernel.clearConstruction(true);
 
 		kernel.initUndoInfo();
@@ -2021,7 +2022,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		translateHeader();
 	}
 
-	private void setTitle() {
+	protected void setTitle() {
 		String titleTransKey = getVendorSettings().getAppTitle(getConfig());
 		String title = getLocalization().getMenu(titleTransKey);
 		if (getAppletParameters().getLoginAPIurl() != null) {
@@ -3083,6 +3084,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				Browser.changeMetaTitle(title);
 			}
 		}
+	}
+
+	public void updateMaterialURL(Material material) {
+		updateMaterialURL(material.getId(), material.getSharingKeyOrId(), material.getTitle());
 	}
 
 	/**
