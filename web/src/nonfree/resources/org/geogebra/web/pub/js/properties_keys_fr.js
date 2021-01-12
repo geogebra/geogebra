@@ -2023,7 +2023,7 @@ __GGB__keysVar["fr"].menu = {
     "HideLabel": "Cacher \xc9tiquette",
     "HidePoints": "Cacher les points",
     "HideTrace": "Cacher Trace",
-    "Highlighter": "Projecteur",
+    "Highlighter": "Surligneur",
     "Hint": "Indication",
     "Histogram": "Histogramme",
     "Home": "GeoGebra",

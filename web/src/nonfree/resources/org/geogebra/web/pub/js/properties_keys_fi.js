@@ -3481,7 +3481,7 @@ __GGB__keysVar["fi"].menu = {
     "stylebar.Left": "Vasen",
     "stylebar.LineStyle": "Aseta viivan tyyli",
     "stylebar.Middle": "Keski",
-    "stylebar.NoBorder": "No border",
+    "stylebar.NoBorder": "Ei rajaa",
     "stylebar.ObliqueProjection": "Vino projektio",
     "stylebar.OrthographicProjection": "Ortograafinen projektio",
     "stylebar.OuterBorders": "Ulommat reunat",
