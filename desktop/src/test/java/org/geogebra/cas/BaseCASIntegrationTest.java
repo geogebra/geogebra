@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
+import org.geogebra.common.kernel.cas.CasTestJsonCommon;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.debug.Log;
@@ -149,7 +150,7 @@ public class BaseCASIntegrationTest {
 			}
 
 		} catch (Throwable t) {
-			String sts = ArbitraryConstIntegrationTest.stacktrace(t);
+			String sts = CasTestJsonCommon.stacktrace(t);
 			result = t.getClass().getName() + ":" + t.getMessage() + sts;
 		}
 
