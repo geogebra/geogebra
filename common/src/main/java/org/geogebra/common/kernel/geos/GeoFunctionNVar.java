@@ -1274,7 +1274,7 @@ public class GeoFunctionNVar extends GeoElement
 			ret = toOutputValueString(tpl);
 		}
 
-		if (shortLHS != null) {
+		if (shortLHS != null && tpl.allowShortLhs()) {
 			return shortLHS + " = " + ret;
 		}
 
