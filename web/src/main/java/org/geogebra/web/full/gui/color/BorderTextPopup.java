@@ -14,7 +14,7 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class BorderColorPopup extends BgColorPopup {
+public class BorderTextPopup extends BgColorPopup {
 	private LineThicknessCheckMarkItem noBorder;
 	private LineThicknessCheckMarkItem thin;
 	private LineThicknessCheckMarkItem thick;
@@ -25,7 +25,7 @@ public class BorderColorPopup extends BgColorPopup {
 	 * @param hasSlider {@code boolean}
 	 * @param selection selected geos
 	 */
-	public BorderColorPopup(AppW app, int colorSetType,
+	public BorderTextPopup(AppW app, int colorSetType,
 			boolean hasSlider, EuclidianStyleBarSelection selection) {
 		super(app, colorSetType, hasSlider, selection);
 		getMyPopup().addStyleName("borderColPopup");

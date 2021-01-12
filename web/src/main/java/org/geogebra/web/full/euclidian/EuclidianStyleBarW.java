@@ -54,7 +54,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.color.BgColorPopup;
-import org.geogebra.web.full.gui.color.BorderColorPopup;
+import org.geogebra.web.full.gui.color.BorderTextPopup;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.full.gui.color.FillingStyleButton;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
@@ -130,7 +130,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private MyToggleButtonW btnUnderline;
 
 	private BorderStylePopup btnBorderStyle;
-	private BorderColorPopup btnBorderColor;
+	private BorderTextPopup btnBorderText;
 	private PopupMenuButtonW btnHorizontalAlignment;
 	private PopupMenuButtonW btnVerticalAlignment;
 
@@ -434,8 +434,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 		// add graphics decoration buttons
 		addGraphicsDecorationsButtons();
 		add(btnPointCapture);
-		if (btnBorderColor != null) {
-			add(btnBorderColor);
+		if (btnBorderText != null) {
+			add(btnBorderText);
 		}
 
 		// add color and style buttons
@@ -698,7 +698,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	protected PopupMenuButtonW[] newPopupBtnList() {
-		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(), btnBorderColor,
+		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(), btnBorderText,
 				btnColor, btnBgColor, btnTextColor, btnTextBgColor, btnFilling,
 				btnLineStyle, btnPointStyle, btnTextSize, btnAngleInterval, btnBorderStyle,
 				btnHorizontalAlignment, btnVerticalAlignment, btnLabelStyle, btnPointCapture,
@@ -1204,7 +1204,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private void createTextBorderColorBtn() {
-		btnBorderColor = new BorderColorPopup(app, ColorPopupMenuButton.COLORSET_DEFAULT,
+		btnBorderText = new BorderTextPopup(app, ColorPopupMenuButton.COLORSET_DEFAULT,
 				false, selection) {
 
 			@Override
@@ -1214,7 +1214,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 				if (geosOK) {
 					int borderThickness = ((GeoInlineText) geos.get(0)).getBorderThickness();
-					btnBorderColor.selectBorderThickness(borderThickness);
+					btnBorderText.selectBorderThickness(borderThickness);
 				}
 			}
 
@@ -1224,8 +1224,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 						MaterialDesignResources.INSTANCE.color_border(), 24);
 			}
 		};
-		btnBorderColor.setEnableTable(true);
-		btnBorderColor.addPopupHandler(this);
+		btnBorderText.setEnableTable(true);
+		btnBorderText.addPopupHandler(this);
 	}
 
 	private void createTextBgColorBtn() {
@@ -1715,9 +1715,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 				return false;
 			});
-		} else if (source == btnBorderColor) {
-			if (btnBorderColor.getSelectedIndex() >= 0) {
-				GColor color = btnBorderColor.getSelectedColor();
+		} else if (source == btnBorderText) {
+			if (btnBorderText.getSelectedIndex() >= 0) {
+				GColor color = btnBorderText.getSelectedColor();
 				if (color == null) {
 					handleBorderColorChooser(targetGeos);
 					return false;
@@ -2153,7 +2153,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		setToolTipText(btnFixObject, "FixObject");
 		setToolTipText(btnTextColor, "stylebar.Color");
 		setToolTipText(btnTextBgColor, "stylebar.BgColor");
-		setToolTipText(btnBorderColor, "stylebar.Borders");
+		setToolTipText(btnBorderText, "stylebar.Borders");
 
 		setToolTipText(btnBorderStyle, "stylebar.Borders");
 		setPopupTooltips(btnBorderStyle, new String[] { "AllBorders", "InnerBorders",
