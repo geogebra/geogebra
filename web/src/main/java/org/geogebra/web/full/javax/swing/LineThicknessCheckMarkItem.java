@@ -15,13 +15,16 @@ public class LineThicknessCheckMarkItem extends FlowPanel {
 	private NoDragImage checkImg;
 	private boolean selected;
 	private Label text;
+	private int value;
 
 	/**
 	 * constructor
 	 * @param thicknessStyle - style class name of item
+	 * @param value - thickness
 	 */
-	public LineThicknessCheckMarkItem(String thicknessStyle) {
+	public LineThicknessCheckMarkItem(String thicknessStyle, int value) {
 		addStyleName("lineThicknessItem");
+		this.value = value;
 		buildGUI(thicknessStyle);
 	}
 
@@ -29,10 +32,12 @@ public class LineThicknessCheckMarkItem extends FlowPanel {
 	 * constructor
 	 * @param itemText - text of menu item
 	 * @param thicknessStyle - style class name of item
+	 * @param value - thickness
 	 */
-	public LineThicknessCheckMarkItem(String itemText, String thicknessStyle) {
+	public LineThicknessCheckMarkItem(String itemText, String thicknessStyle, int value) {
 		addStyleName("lineThicknessItem");
 		addStyleName(thicknessStyle);
+		this.value = value;
 
 		checkImg = new NoDragImage(MaterialDesignResources.INSTANCE.check_black(), 24, 24);
 		checkImg.addStyleName("checkImg");
@@ -68,6 +73,13 @@ public class LineThicknessCheckMarkItem extends FlowPanel {
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 		updateCheckMarkStyle();
+	}
+
+	/**
+	 * @return thickness value
+	 */
+	public int getValue() {
+		return value;
 	}
 
 	/**

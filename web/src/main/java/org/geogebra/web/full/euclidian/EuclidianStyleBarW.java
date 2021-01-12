@@ -1209,7 +1209,13 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 			@Override
 			public void update(List<GeoElement> geos) {
-				super.setVisible(checkGeos(geos, geo -> geo instanceof GeoInlineText));
+				boolean geosOK = checkGeos(geos, geo -> geo instanceof GeoInlineText);
+				super.setVisible(geosOK);
+
+				if (geosOK) {
+					int borderThickness = ((GeoInlineText) geos.get(0)).getBorderThickness();
+					btnBorderColor.selectBorderThickness(borderThickness);
+				}
 			}
 
 			@Override

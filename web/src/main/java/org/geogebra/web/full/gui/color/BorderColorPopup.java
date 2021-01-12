@@ -40,15 +40,15 @@ public class BorderColorPopup extends BgColorPopup {
 		borderThicknessPanel.addStyleName("thicknessPanel");
 
 		noBorder = new LineThicknessCheckMarkItem(app.getLocalization()
-				.getMenu("stylebar.NoBorder"), "textItem");
+				.getMenu("stylebar.NoBorder"), "textItem", 0);
 		borderThicknessPanel.add(noBorder);
 		noBorder.setSelected(true);
 
-		thin = new LineThicknessCheckMarkItem("thin");
+		thin = new LineThicknessCheckMarkItem("thin", 1);
 		borderThicknessPanel.add(thin);
 		thin.setSelected(false);
 
-		thick = new LineThicknessCheckMarkItem("thick");
+		thick = new LineThicknessCheckMarkItem("thick", 3);
 		borderThicknessPanel.add(thick);
 		thick.setSelected(false);
 
@@ -64,23 +64,13 @@ public class BorderColorPopup extends BgColorPopup {
 						deselectAll();
 						selectedItem.setSelected(true);
 						List<GeoElement> geos = getSelection().getGeos();
-						int thickness = getThickness(selectedItem);
-						boolean needUndo = applyBorderThickness(geos, thickness);
+						boolean needUndo = applyBorderThickness(geos, selectedItem.getValue());
 						if (needUndo) {
 							app.storeUndoInfo();
 						}
+						getMyPopup().hide();
 					}
 				});
-	}
-
-	private int getThickness(LineThicknessCheckMarkItem selected) {
-		if (selected == thin) {
-			return 1;
-		} else if (selected == thick) {
-			return 3;
-		} else {
-			return 0;
-		}
 	}
 
 	private boolean applyBorderThickness(List<GeoElement> geos, int borderThickness) {
@@ -108,5 +98,21 @@ public class BorderColorPopup extends BgColorPopup {
 	@Override
 	public void setLabels() {
 		noBorder.setLabel(app.getLocalization().getMenu("stylebar.NoBorder"));
+	}
+
+	public void selectBorderThickness(int borderThickness) {
+		deselectAll();
+		switch (borderThickness) {
+		default:
+		case 0:
+			noBorder.setSelected(true);
+			break;
+		case 1:
+			thin.setSelected(true);
+			break;
+		case 3:
+			thick.setSelected(true);
+			break;
+		}
 	}
 }

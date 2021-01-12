@@ -1545,9 +1545,6 @@ public class ConsElementXMLHandler {
 		int green = Integer.parseInt(attrs.get("g"));
 		int blue = Integer.parseInt(attrs.get("b"));
 		GColor col = GColor.newColor(red, green, blue);
-		if (col == null) {
-			return;
-		}
 		((GeoInlineText) geo).setBorderColor(col);
 	}
 
