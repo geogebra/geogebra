@@ -27,7 +27,7 @@ dependencies {
     testCompile project(':ggbjdk')
 
     testCompile "junit:junit:$junitVersion"
-    testCompile "org.hamcrest:hamcrest:$hamcrestVersion"
+    testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
     testCompile "org.mockito:mockito-core:$mockitoVersion"
 }
 
@@ -89,4 +89,15 @@ jacocoTestReport {
         xml.enabled true
         html.enabled false
     }
+}
+
+configurations {
+    testArtifacts.extendsFrom testCompile
+}
+task testJar(type: Jar) {
+    classifier "test"
+    from sourceSets.test.output
+}
+artifacts {
+    testArtifacts testJar
 }

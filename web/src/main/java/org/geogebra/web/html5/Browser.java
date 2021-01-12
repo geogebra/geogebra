@@ -132,12 +132,16 @@ public class Browser {
 	 * @return true if WebAssembly supported
 	 */
 	public static boolean webAssemblySupported() {
-		return Js.isTruthy(Js.asPropertyMap(DomGlobal.window).get("WebAssembly"));
+		return hasGlobal("WebAssembly");
 	}
 
-	public static native boolean supportsPointerEvents() /*-{
-		return !!$wnd.PointerEvent;
-	}-*/;
+	public static boolean hasGlobal(String propertyName) {
+		return Js.isTruthy(Js.asPropertyMap(DomGlobal.window).get(propertyName));
+	}
+
+	public static boolean supportsPointerEvents() {
+		return hasGlobal("PointerEvent");
+	}
 
 	private static boolean isHTTP() {
 		return !"file:".equals(Location.getProtocol());

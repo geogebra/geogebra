@@ -20,7 +20,7 @@ public class IsEqualStringIgnoreWhitespaces extends TypeSafeMatcher<String> {
 	private final CASTestLogger logger;
 	private final String input;
 
-	public IsEqualStringIgnoreWhitespaces(CASTestLogger logger, String input,
+	private IsEqualStringIgnoreWhitespaces(CASTestLogger logger, String input,
 			String expectedResult, String... validResults) {
 		this.logger = logger;
 		this.input = input;
@@ -65,6 +65,13 @@ public class IsEqualStringIgnoreWhitespaces extends TypeSafeMatcher<String> {
 		description.appendValue(expected);
 	}
 
+	/**
+	 * @param logger logger
+	 * @param input CAS input
+	 * @param expectedResult preferred output
+	 * @param validResults alternative outputs
+	 * @return matcher
+	 */
 	@Factory
 	public static Matcher<String> equalToIgnoreWhitespaces(
 			CASTestLogger logger, String input, String expectedResult,
