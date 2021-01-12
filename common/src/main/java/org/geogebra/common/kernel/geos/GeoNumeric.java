@@ -1960,11 +1960,6 @@ public class GeoNumeric extends GeoElement
 		return getDouble();
 	}
 
-	@Override
-	protected boolean mayShowDescriptionInsteadOfDefinitionNoAlgoParent() {
-		return false;
-	}
-
 	private void addAuralSliderValue(ScreenReaderBuilder sb) {
 		if (!addAuralCaption(sb)) {
 			sb.append(getLabelSimple());
