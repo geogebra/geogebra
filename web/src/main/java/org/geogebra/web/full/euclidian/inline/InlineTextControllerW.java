@@ -214,8 +214,8 @@ public class InlineTextControllerW implements InlineTextController {
 		}
 		if (geo.getBorderThickness() != GeoInlineText.NO_BORDER) {
 			g2.setPaint(geo.getBorderColor());
-			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(geo.getBorderThickness(), GBasicStroke.CAP_BUTT,
-					GBasicStroke.JOIN_MITER));
+			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(geo.getBorderThickness(),
+					GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER));
 			g2.drawRect(0, 0, (int) geo.getWidth(), (int) geo.getHeight());
 		}
 		if (editor.getWidget().getElement().hasClassName(INVISIBLE)) {
