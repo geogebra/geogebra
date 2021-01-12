@@ -529,17 +529,30 @@ public class InputController {
 	 *            character
 	 */
 	public void newCharacter(EditorState editorState, MetaCharacter meta) {
+		int currentOffset = editorState.getCurrentOffset();
 		MathComponent last = editorState.getCurrentField()
-				.getArgument(editorState.getCurrentOffset() - 1);
+				.getArgument(currentOffset - 1);
+		StringBuilder suffix = new StringBuilder(meta.getUnicodeString());
 
-		if (last instanceof MathCharacter) {
-			MetaCharacter merge = metaModel.merge(last.toString(), meta);
-			if (merge != null) {
-				editorState.getCurrentField().setArgument(
-						editorState.getCurrentOffset() - 1,
-						new MathCharacter(merge));
-				return;
+		while (last instanceof MathCharacter) {
+			suffix.append(last.toString());
+			if (!metaModel.isReverseSuffix(suffix.toString())) {
+				suffix.setLength(suffix.length() - 1);
+				break;
 			}
+			currentOffset--;
+			last = editorState.getCurrentField()
+					.getArgument(currentOffset - 1);
+		}
+
+		MetaCharacter merge = metaModel.merge(suffix.reverse().toString());
+		if (merge != null) {
+			for (int i = 0; i < suffix.length() - 1; i++) {
+				editorState.getCurrentField().delArgument(currentOffset);
+			}
+			editorState.setCurrentOffset(currentOffset);
+			editorState.addArgument(new MathCharacter(merge));
+			return;
 		}
 		if (formatConverter != null) {
 			FunctionPower function = getFunctionPower(editorState);
