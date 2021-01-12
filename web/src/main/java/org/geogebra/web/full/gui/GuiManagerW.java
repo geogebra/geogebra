@@ -129,7 +129,6 @@ import org.geogebra.web.html5.util.Visibility;
 import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
@@ -1949,24 +1948,6 @@ public class GuiManagerW extends GuiManager
 					getDownloadCallback(filename));
 		}
 	}
-
-	/**
-	 * @param title
-	 *            construction title
-	 * @return local file saving callback for base64
-	 */
-	native JavaScriptObject getStringCallback(String title) /*-{
-
-		return function(base64) {
-			var a = $doc.createElement("a");
-			$doc.body.appendChild(a);
-			a.style = "display: none";
-			a.href = @org.geogebra.common.util.StringUtil::ggbMarker + base64;
-			a.download = title;
-			a.click();
-		}
-
-	}-*/;
 
 	/**
 	 * @param title
