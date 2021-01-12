@@ -287,14 +287,12 @@ public class Geometry implements GeometryForExport {
 	/**
 	 * bind the geometry to its GL buffer
 	 * 
-	 * @param r
-	 *            renderer
 	 * @param size
 	 *            indices size
 	 * @param typeElement
 	 *            type for elements indices
 	 */
-	public void bind(Renderer r, int size, TypeElement typeElement) {
+	public void bind(int size, TypeElement typeElement) {
 
 		switch (typeElement) {
 		case NONE:
@@ -322,7 +320,7 @@ public class Geometry implements GeometryForExport {
 			break;
 
 		case CURVE:
-			arrayI = manager.getBufferIndicesForCurve(r, size);
+			arrayI = manager.getBufferIndicesForCurve(size);
 			indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
 			hasSharedIndexBuffer = true;
 			break;
@@ -333,12 +331,12 @@ public class Geometry implements GeometryForExport {
 			break;
 
 		case FAN_DIRECT:
-			arrayI = manager.getBufferIndicesForFanDirect(r, size);
+			arrayI = manager.getBufferIndicesForFanDirect(size);
 			indicesLength = 3 * (size - 2);
 			hasSharedIndexBuffer = true;
 			break;
 		case FAN_INDIRECT:
-			arrayI = manager.getBufferIndicesForFanIndirect(r, size);
+			arrayI = manager.getBufferIndicesForFanIndirect(size);
 			indicesLength = 3 * (size - 2);
 			hasSharedIndexBuffer = true;
 			break;
