@@ -524,6 +524,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("TrigExpand(tan(aaa+bbb))",
 				"(sin(aaa) / cos(aaa) + sin(bbb) / cos(bbb)) / (1 - sin(aaa) / cos(aaa) * sin(bbb) / cos(bbb))");
 		t("TrigExpand(x)", "x");
+		t("TrigExpand(sin(x)sin(x/3))",
+				"1 / 2 * cos(2 * x / 3) - 1 / 2 * cos(4 * x / 3)");
+		t("r1 = TrigExpand(3sin(x) sin(x / 3) / x²)",
+				"3 / (2 * x^(2)) * cos(2 * x / 3) - 3 / (2 * x^(2)) * cos(4 * x / 3)");
 	}
 
 	@Test
