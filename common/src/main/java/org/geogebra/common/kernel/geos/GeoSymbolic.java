@@ -351,10 +351,6 @@ public class GeoSymbolic extends GeoElement
 		if (getDefinition() == null) {
 			return null;
 		}
-		if (!isRegisteredToEv) {
-			cons.registerEuclidianViewCE(this);
-			isRegisteredToEv = true;
-		}
 		boolean isSuppressLabelsActive = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		try {
@@ -429,7 +425,12 @@ public class GeoSymbolic extends GeoElement
 			expressionNode.setForceVector();
 		}
 		GeoElement[] elements = algebraProcessor.processValidExpression(expressionNode);
-		return elements.length > 1 ? toGeoList(elements) : elements[0];
+		GeoElement result = elements.length > 1 ? toGeoList(elements) : elements[0];
+		if (!isRegisteredToEv && result instanceof GeoList) {
+			cons.registerEuclidianViewCE(this);
+			isRegisteredToEv = true;
+		}
+		return result;
 	}
 
 	private GeoElement toGeoList(GeoElement[] elements) {
