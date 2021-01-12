@@ -28,30 +28,34 @@ public interface FunctionalNVar extends Evaluate2Var, VarString {
 	 *            values of variables
 	 * @return value at vals
 	 */
-	public double evaluate(double[] vals);
+	double evaluate(double[] vals);
 
 	/**
 	 * @return list of inequalities
 	 */
-	public IneqTree getIneqs();
+	IneqTree getIneqs();
 
 	/**
 	 * Returns true iff the function is boolean
 	 * 
 	 * @return true iff the function is boolean
 	 */
-	public boolean isBooleanFunction();
+	boolean isBooleanFunction();
+
+	void setForceInequality(boolean inequality);
+
+	boolean isForceInequality();
 
 	/**
 	 * @param label
 	 *            new label
 	 */
-	public void setLabel(String label);
+	void setLabel(String label);
 
 	/**
 	 * @return kernel
 	 */
-	public Kernel getKernel();
+	Kernel getKernel();
 
 	/**
 	 * For GeoElements sets the usual defined flag, also works for
@@ -60,18 +64,18 @@ public interface FunctionalNVar extends Evaluate2Var, VarString {
 	 * @param b
 	 *            whether this is defined
 	 */
-	public void setDefined(boolean b);
+	void setDefined(boolean b);
 
 	/**
 	 * @return is lhs just y= (or z=)
 	 */
-	public String getShortLHS();
+	String getShortLHS();
 
 	/**
 	 * @param shortLHS
 	 *            whether lhs should be just y= (or z=)
 	 */
-	public void setShortLHS(String shortLHS);
+	void setShortLHS(String shortLHS);
 
 	/**
 	 * GGB-605
@@ -80,6 +84,5 @@ public interface FunctionalNVar extends Evaluate2Var, VarString {
 	 *            algorithm to be used for value string instead of secret
 	 *            expression
 	 */
-	public void setSecret(AlgoElement algo);
-
+	void setSecret(AlgoElement algo);
 }
