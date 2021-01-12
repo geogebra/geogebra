@@ -449,6 +449,11 @@ public class CommandsTest {
 		t("Numerator(0.125/0.166666666666666666)", "3");
 		t("Numerator(0.125/3)", "1");
 		t("Numerator(3/0.166666666666666666)", "18");
+		t("Numerator[ 1/(-3) ]", "-1");
+		t("Numerator[ 2/(-3) ]", "-2");
+		t("Numerator[ infinity ]", "1");
+		t("Numerator[ -infinity ]", "-1");
+		t("Numerator[ 0 ]", "0");
 	}
 
 	@Test
@@ -470,6 +475,11 @@ public class CommandsTest {
 		t("Denominator(0.125/0.166666666666666666)", "4");
 		t("Denominator(0.125/3)", "24");
 		t("Denominator(3/0.166666666666666666)", "1");
+		t("Denominator[ 1/(-3) ]", "3");
+		t("Denominator[ 2/(-3) ]", "3");
+		t("Denominator[ infinity ]", "0");
+		t("Denominator[ -infinity ]", "0");
+		t("Denominator[ 0 ]", "1");
 	}
 
 	@Test
