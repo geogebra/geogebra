@@ -75,6 +75,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.ColorW;
+import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.KeyboardEvent;
@@ -600,7 +601,13 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		ctx.getCanvas().setHeight((int) Math.ceil(height * ratio));
 		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
 		wasPaintedWithCursor = CursorBox.visible();
-		paint(ctx, getMargin(lastIcon));
+
+		int margin = getMargin(lastIcon);
+
+		paint(ctx, margin);
+		if (CursorBox.visible() || mathFieldInternal.getEditorState().hasSelection()) {
+			lastIcon.paintCursor(new Graphics2DW(ctx), margin);
+		}
 	}
 
 	private double computeWidth() {

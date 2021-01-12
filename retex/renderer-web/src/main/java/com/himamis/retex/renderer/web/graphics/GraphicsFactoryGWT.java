@@ -60,8 +60,8 @@ public class GraphicsFactoryGWT extends GraphicsFactory {
 	}
 
 	@Override
-	public Color createColor(int red, int green, int blue) {
-		return new ColorW(red, green, blue);
+	public Color createColor(int red, int green, int blue, int alpha) {
+		return new ColorW(red, green, blue, alpha);
 	}
 
 	@Override

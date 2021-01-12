@@ -2,6 +2,7 @@ package com.himamis.retex.editor.share.serializer;
 
 import java.util.HashMap;
 
+import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
@@ -9,28 +10,35 @@ import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.renderer.share.Atom;
-import com.himamis.retex.renderer.share.Colors;
-import com.himamis.retex.renderer.share.CursorAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.NthRoot;
 import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
-import com.himamis.retex.renderer.share.SelectionAtom;
 import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
+import com.himamis.retex.renderer.share.Symbols;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXParser;
+import com.himamis.retex.renderer.share.UnderOverArrowAtom;
+import com.himamis.retex.renderer.share.commands.CommandOpName;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
  * Directly convert MathComponents into atoms
  * 
- * @author Zbynek
+ * @author Zbynek&Ágoston
  *
  */
 public class TeXBuilder {
+
+	public static final MathComponent SELECTION = new MathSequence() {
+		@Override
+		public String toString() {
+			return "SELECTION";
+		}
+	};
 
 	private MathSequence currentField;
 	private int currentOffset;
@@ -40,66 +48,51 @@ public class TeXBuilder {
 	private TeXParser parser;
 
 	private Atom buildSequence(MathSequence mathFormula) {
-		return buildSequence(mathFormula, 0, mathFormula.size() - 1);
-	}
+		RowAtom ra = new RowAtom();
 
-	private Atom buildSequence(MathSequence mathFormula, int from, int to) {
-		RowAtom ra = new RowAtom((Atom) null);
-		int i = from;
-		if (mathFormula == currentField && to < from) {
-			addCursor(ra);
+		if (mathFormula.size() == 0 && mathFormula == currentField) {
+			Atom a = newCharAtom('\0');
+			atomToComponent.put(a, SELECTION);
+			ra.add(a);
+			return ra;
 		}
-		while (i <= to) {
-			if (mathFormula == currentField && i == 0 && currentOffset == 0) {
-				addCursor(ra);
-			}
 
-			if (mathFormula.isScript(i + 1)) {
+		for (int i = 0; i < mathFormula.size(); i++) {
+			if (mathFormula.getArgument(i).hasTag(Tag.SUPERSCRIPT)) {
+				Atom sup = build(((MathFunction) mathFormula.getArgument(i)).getArgument(0));
+				Atom tmp = addToSup(ra.getLastAtom(), sup);
+				atomToComponent.put(tmp, mathFormula.getArgument(i));
+				ra.add(tmp);
+				continue;
+			} else if (mathFormula.getArgument(i).hasTag(Tag.SUBSCRIPT)) {
+				Atom sub = build(((MathFunction) mathFormula.getArgument(i)).getArgument(0));
+				Atom tmp = addToSub(ra.getLastAtom(), sub);
+				atomToComponent.put(tmp, mathFormula.getArgument(i));
+				ra.add(tmp);
 				continue;
 			}
 
-			if (mathFormula.getArgument(i) == selectionStart) {
-				selectionStart = null;
-				SelectionAtom sa = new SelectionAtom(
-						buildSequence(mathFormula, i,
-								selectionEnd.getParentIndex()),
-						Colors.SELECTION, null);
-				ra.add(sa);
-				i = selectionEnd.getParentIndex();
-			} else {
-				addArg(ra, mathFormula.getArgument(i));
-			}
+			Atom argument = build(mathFormula.getArgument(i));
+			ra.add(argument);
+		}
 
-			if (mathFormula == currentField && i == currentOffset - 1
-					&& selectionEnd == null) {
-				addCursor(ra);
-			}
-			i++;
-		}
-		if (mathFormula == currentField
-				&& currentOffset == currentField.size()) {
-			addCursor(ra);
-		}
 		return ra;
-
 	}
 
-	private void addArg(RowAtom ra, MathComponent argument) {
-		if (argument instanceof MathCharacter
-				&& ((MathCharacter) argument).getUnicode() == '=') {
-			ra.add(space());
-			ra.add(build(argument));
-			ra.add(space());
-		} else {
-			ra.add(build(argument));
+	private Atom addToSub(Atom lastAtom, Atom sub) {
+		if (lastAtom instanceof ScriptsAtom) {
+			((ScriptsAtom) lastAtom).addToSub(sub);
+			return lastAtom;
 		}
-
+		return new ScriptsAtom(lastAtom, sub, null);
 	}
 
-	private static void addCursor(RowAtom ra) {
-		ra.add(new CursorAtom(FactoryProvider.getInstance().getGraphicsFactory()
-				.createColor(0, 80, 0), 0.9));
-
+	private Atom addToSup(Atom lastAtom, Atom sup) {
+		if (lastAtom instanceof ScriptsAtom) {
+			((ScriptsAtom) lastAtom).addToSup(sup);
+			return lastAtom;
+		}
+		return new ScriptsAtom(lastAtom, null, sup);
 	}
 
 	private Atom build(MathComponent argument) {
@@ -115,21 +108,12 @@ public class TeXBuilder {
 		} else {
 			ret = new EmptyAtom();
 		}
-		atomToComponent.put(ret, argument);
+
+		if (!atomToComponent.containsKey(ret)) {
+			atomToComponent.put(ret, argument);
+		}
 		return ret;
 	}
-
-	// private Atom newCharAtom(char unicode) {
-	// if (parser == null) {
-	// TeXFormula tf = new TeXFormula();
-	// parser = new TeXParser("", tf);
-	// }
-	// Atom ret = parser.convertCharacter(unicode, false);
-	// if (ret instanceof SymbolAtom) {
-	// ret = ret.duplicate();
-	// }
-	// return ret;
-	// }
 
 	private Atom newCharAtom(char unicode) {
 		if (parser == null) {
@@ -139,105 +123,148 @@ public class TeXBuilder {
 		if (ret instanceof SymbolAtom) {
 			ret = ((SymbolAtom) ret).duplicate();
 		}
+		if (unicode == '=') {
+			return new RowAtom(space(), ret, space());
+		}
+
 		return ret;
 	}
 
-	private static Atom space() {
-		return new SpaceAtom();
+	private Atom space() {
+		return new SpaceAtom(TeXConstants.Muskip.THIN);
 	}
 
 	private Atom buildArray(MathArray argument) {
-		String leftKey = "lbrack";
-		if (argument.getOpenKey() == '[') {
-			leftKey = "lsqbrack";
-		}
-		if (argument.getOpenKey() == '{') {
-			leftKey = "lbrace";
-		}
-		String rightKey = "rbrack";
-		if (argument.getCloseKey() == ']') {
-			rightKey = "rsqbrack";
-		}
-		if (argument.getCloseKey() == '}') {
-			rightKey = "rbrace";
-		}
-
-		return buildFenced(leftKey, rightKey, argument, 0);
+		return buildFenced(argument.getOpenKey(), argument.getCloseKey(), argument, 0);
 	}
 
-	private Atom buildFenced(String leftKey, String rightKey,
+	private Atom buildString(String str) {
+		RowAtom atom = new RowAtom();
+		for (char c : str.toCharArray()) {
+			atom.add(newCharAtom(c));
+		}
+		return atom;
+	}
+
+	private Atom buildFenced(char leftKey, char rightKey,
 			MathContainer argument, int offset) {
 		RowAtom row = new RowAtom((Atom) null);
 		for (int i = offset; i < argument.size(); i++) {
-			if (i > 0) {
+			if (i > offset) {
 				row.add(newCharAtom(','));
 			}
-			addArg(row, argument.getArgument(i));
+			row.add(build(argument.getArgument(i)));
 		}
 		return new FencedAtom(row,
-				new SymbolAtom(leftKey, TeXConstants.TYPE_OPENING,
-						lookupBracket(leftKey)),
-				new SymbolAtom(rightKey, TeXConstants.TYPE_CLOSING,
-						lookupBracket(rightKey)));
+				new SymbolAtom(lookupBracket(leftKey), TeXConstants.TYPE_OPENING,
+						leftKey),
+				new SymbolAtom(lookupBracket(rightKey), TeXConstants.TYPE_CLOSING,
+						rightKey));
 	}
 
-	private static char lookupBracket(String bracket) {
+	private static String lookupBracket(char bracket) {
 		switch (bracket) {
-
-		case "lbrack":
-			return '(';
-		case "rbrack":
-			return ')';
-		case "lbrace":
-			return '{';
-		case "rbrace":
-			return '}';
-		case "lsqbrack":
-			return '[';
-		case "rsqbrack":
-			return ']';
-		case "langle":
-			return '\u3008';
-		case "rangle":
-			return '\u3009';
-			
-			default: 
-			FactoryProvider.getInstance()
-					.debug("missing case in lookupBracket()");
-			return '?';
-
+		case '(':
+			return "lbrack";
+		case ')':
+			return "rbrack";
+		case '{':
+			return "lbrace";
+		case '}':
+			return "rbrace";
+		case '[':
+			return "lsqbrack";
+		case ']':
+			return "rsqbrack";
+		case '\u3008':
+			return "langle";
+		case '\u3009':
+			return "rangle";
+		case '\u2308':
+			return "lceil";
+		case '\u2309':
+			return "rceil";
+		case '\u230A':
+			return "lfloor";
+		case '\u230B':
+			return "rfloor";
+		case '|':
+			return "vert";
+		default:
+			FactoryProvider.debugS("missing case in lookupBracket()");
+			return "";
 		}
 	}
 
 	private Atom buildFunction(MathFunction argument) {
 		switch (argument.getName()) {
 		case SUPERSCRIPT:
-			MathSequence parent = argument.getParent();
-			int idx = argument.getParentIndex();
-			return new ScriptsAtom(build(parent.getArgument(idx - 1)), null,
-					build(argument.getArgument(0)));
+			return new ScriptsAtom(
+					new EmptyAtom(),
+					null,
+					build(argument.getArgument(0))
+			);
 		case SUBSCRIPT:
-			parent = argument.getParent();
-			idx = argument.getParentIndex();
-			return new ScriptsAtom(build(parent.getArgument(idx - 1)),
-					build(argument.getArgument(0)), null);
+			return new ScriptsAtom(
+					new EmptyAtom(),
+					build(argument.getArgument(0)),
+					null
+			);
 		case FRAC:
 			return new FractionAtom(build(argument.getArgument(0)),
 					build(argument.getArgument(1)));
 		case SQRT:
 			return new NthRoot(build(argument.getArgument(0)), new EmptyAtom());
 		case NROOT:
-
 			return new NthRoot(build(argument.getArgument(1)),
 					build(argument.getArgument(0)));
+		case LOG:
+			Atom log = buildString("log");
+			if (argument.getArgument(0).size() > 0) {
+				log = new ScriptsAtom(log, build(argument.getArgument(0)), null);
+			}
+
+			return new RowAtom(
+					log,
+					buildFenced('(', ')', argument, 1)
+			);
+		case ABS:
+			return buildFenced('|', '|', argument, 0);
+		case FLOOR:
+			return buildFenced('\u230A', '\u230B', argument, 0);
+		case CEIL:
+			return buildFenced('\u2308', '\u2309', argument, 0);
+		case DEF_INT:
+			return new ScriptsAtom(
+					Symbols.INT.duplicate(),
+					build(argument.getArgument(0)),
+					build(argument.getArgument(1))
+			);
+		case SUM_EQ:
+			return new ScriptsAtom(
+					newCharAtom('\u2211'),
+					build(argument.getArgument(0)),
+					build(argument.getArgument(1))
+			);
+		case PROD_EQ:
+			return new ScriptsAtom(
+					newCharAtom('\u220F'),
+					build(argument.getArgument(0)),
+					build(argument.getArgument(1))
+			);
+		case LIM_EQ:
+			return new ScriptsAtom(
+					CommandOpName.createOperation("lim", null, true),
+					build(argument.getArgument(0)),
+					null
+			);
+		case VEC:
+			return new UnderOverArrowAtom(build(argument.getArgument(0)), false, true);
 		default:
-			RowAtom row = new RowAtom((Atom) null);
-
-			row.add(build(argument.getArgument(0)));
-
-			row.add(buildFenced("lbrack", "rbrack", argument, 1));
-			return row;
-
+			return new RowAtom(
+				build(argument.getArgument(0)),
+				buildFenced('(', ')', argument, 1)
+			);
 		}
 	}
 

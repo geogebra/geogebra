@@ -74,7 +74,7 @@ public abstract class GraphicsFactory {
 	public abstract BasicStroke createBasicStroke(double width, int cap,
 			int join, double miterLimit);
 
-	public abstract Color createColor(int red, int green, int blue);
+	public abstract Color createColor(int r, int g, int b, int alpha);
 
 	public abstract Image createImage(int width, int height, int type);
 
@@ -84,17 +84,11 @@ public abstract class GraphicsFactory {
 		int red = (rgb >> 16) & 0xFF;
 		int green = (rgb >> 8) & 0xFF;
 		int blue = (rgb >> 0) & 0xFF;
-		return createColor(red, green, blue);
-
+		return createColor(red, green, blue, 255);
 	}
 
 	public Color createColor(double r, double g, double b) {
-		return createColor((int) (r * 255), (int) (g * 255), (int) (b * 255));
-	}
-
-	public Color createColor(int r, int g, int b, int alpha) {
-		// XXX alpha ignored, TODO
-		return createColor(r, g, b);
+		return createColor((int) (r * 255), (int) (g * 255), (int) (b * 255), 255);
 	}
 
 	public Color createColor(double r, double g, double b, double a) {

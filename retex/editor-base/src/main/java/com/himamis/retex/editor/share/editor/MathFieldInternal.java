@@ -119,7 +119,7 @@ public class MathFieldInternal
 		inputController = new InputController(mathField.getMetaModel());
 		keyListener = new KeyListenerImpl(cursorController, inputController);
 		mathFormula = MathFormula.newFormula(mathField.getMetaModel());
-		mathFieldController = new MathFieldController(mathField, directFormulaBuilder);
+		mathFieldController = new MathFieldController(mathField);
 		inputController.setMathField(mathField);
 		setupMathField();
 	}
@@ -388,7 +388,6 @@ public class MathFieldInternal
 	@Override
 	public void onPointerDown(int x, int y) {
 		if (selectionMode) {
-			ArrayList<Integer> list = new ArrayList<>();
 			if (SelectionBox.touchSelection) {
 				if (length(SelectionBox.startX - x,
 						SelectionBox.startY - y) < 10) {
@@ -403,7 +402,6 @@ public class MathFieldInternal
 					return;
 				}
 			}
-			mathFieldController.getPath(mathFormula, x, y, list);
 			editorState.resetSelection();
 
 			this.mouseDownPos = new int[] { x, y };
@@ -431,8 +429,6 @@ public class MathFieldInternal
 				selectionDrag = false;
 				return;
 			}
-			ArrayList<Integer> list = new ArrayList<>();
-			mathFieldController.getPath(mathFormula, x, y, list);
 			MathComponent cursor = editorState.getCursorField(
 					editorState.getSelectionEnd() != null && selectionLeft(x));
 
@@ -559,8 +555,6 @@ public class MathFieldInternal
 			mathFieldController.update(mathFormula, editorState, false);
 			return;
 		}
-		ArrayList<Integer> list = new ArrayList<>();
-		mathFieldController.getPath(mathFormula, x, y, list);
 		MathComponent cursor = editorState.getCursorField(
 				editorState.getSelectionEnd() == null || selectionLeft(x));
 		MathSequence current = editorState.getCurrentField();

@@ -104,6 +104,7 @@ public class CharAtom extends CharSymbol {
 			box.addToWidth(ch.getItalic());
 		}
 
+		box.setAtom(this);
 		return box;
 	}
 

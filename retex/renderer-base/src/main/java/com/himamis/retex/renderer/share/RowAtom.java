@@ -212,8 +212,8 @@ public class RowAtom extends Atom implements Row {
 		TeXFont tf = env.getTeXFont();
 
 		Stack<HorizontalBox> hBox = new Stack<>();
-		hBox.push(new HorizontalBox(env.getColor(),
-				env.getBackground()));
+		hBox.push((HorizontalBox) new HorizontalBox(env.getColor(),
+				env.getBackground()).setAtom(this));
 
 		env.resetColors();
 
@@ -227,7 +227,8 @@ public class RowAtom extends Atom implements Row {
 			if (at instanceof SelectionAtom) {
 				SelectionAtom ca = (SelectionAtom) at;
 
-				hBox.push(new HorizontalBox(ca.getColor(), ca.getBackground()));
+				hBox.push((HorizontalBox) new HorizontalBox(ca.getColor(),
+						ca.getBackground()).setAtom(this));
 
 				elementsCopy.remove(i);
 				elementsCopy.addAll(i, ca.elements.elements);

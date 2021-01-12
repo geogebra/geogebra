@@ -54,6 +54,10 @@ public class ColorW implements Color {
 		cssColor = CssColor.make(r, g, b);
 	}
 
+	public ColorW(int r, int g, int b, int a) {
+		cssColor = CssColor.make("rgba(" + r + ", " + g + ", " + b + ", " + (a / 255.) + ")");
+	}
+
 	public ColorW(String cssColorString) {
 		cssColor = CssColor.make(cssColorString);
 	}

@@ -49,6 +49,7 @@
 package com.himamis.retex.renderer.share;
 
 import com.himamis.retex.renderer.share.TeXConstants.Align;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
@@ -81,6 +82,17 @@ public class TeXIcon implements Icon {
 	private Color fg = null;
 
 	public boolean isColored = false;
+
+	public boolean beforeFirst;
+	public BoxPosition cursorPosition;
+	public BoxPosition selectionPosition;
+
+	public double selectionX1;
+	public double selectionX2;
+	public double boxWidth;
+	public double boxHeight;
+	public double selectionBaseline;
+	public double selectionDepth;
 
 	/**
 	 * Creates a new icon that will paint the given formula box in the given
@@ -291,5 +303,32 @@ public class TeXIcon implements Icon {
 		// g2.setRenderingHints(oldHints);
 		g2.restoreTransformation();
 		g2.setColor(oldColor);
+	}
+
+	public void paintCursor(Graphics2DInterface ctx, int margin) {
+		if (selectionPosition != null) {
+			double x = selectionX1 * size + insets.left;
+			double y = (box.getHeight() + selectionBaseline - boxHeight) * size + insets.top + margin;
+			double width = (selectionX2 - selectionX1) * size;
+			double height = (boxHeight + selectionDepth) * size;
+
+			ctx.setColor(FactoryProvider.getInstance().getGraphicsFactory()
+					.createColor(204, 204, 255, 100));
+			ctx.fillRect((int) x, (int) y, (int) width, (int) height);
+		} else if (cursorPosition != null) {
+			double x = cursorPosition.x * size + insets.left;
+			double y = (box.getHeight() + cursorPosition.baseline) * size + insets.top + margin;
+			double width = boxWidth * size;
+			double height = cursorPosition.scale * size / 2;
+
+			ctx.setColor(FactoryProvider.getInstance().getGraphicsFactory().createColor(0x225566));
+			FactoryProvider.debugS("DRAWING CURSOR");
+			if (beforeFirst) {
+				ctx.fillRect((int) x, (int) (y - height * 1.7), 1, (int) (height * 2.2));
+			} else {
+				ctx.fillRect((int) (x + width), (int) (y - height * 1.7), 1,
+						(int) (height * 2.2));
+			}
+		}
 	}
 }

@@ -165,10 +165,8 @@ public class MathFunction extends MathContainer {
 	 * @return whether argument is either subscript or superscript
 	 */
 	public static boolean isScript(MathComponent argument) {
-		if (!(argument instanceof MathFunction)) {
-			return false;
-		}
-		return argument.hasTag(Tag.SUPERSCRIPT)
-				|| argument.hasTag(Tag.SUBSCRIPT);
+		return argument instanceof MathFunction
+				&& (argument.hasTag(Tag.SUPERSCRIPT)
+				|| argument.hasTag(Tag.SUBSCRIPT));
 	}
 }

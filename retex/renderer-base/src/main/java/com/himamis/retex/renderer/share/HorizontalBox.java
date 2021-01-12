@@ -59,7 +59,6 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
  */
 public class HorizontalBox extends Box {
 
-	private double curPos = 0; // NOPMD
 	protected List<Integer> breakPositions;
 	protected ArrayList<Box> children = new ArrayList<Box>();
 
@@ -122,11 +121,6 @@ public class HorizontalBox extends Box {
 		startDraw(g2, x, y);
 		double xPos = x;
 		for (Box box : children) {
-			/*
-			 * int i = children.indexOf(box); if (breakPositions != null &&
-			 * breakPositions.indexOf(i) != -1) { box.markForDEBUG =
-			 * java.awt.Color.BLUE; }
-			 */
 			if (box instanceof HVruleBox) {
 				((HVruleBox) box).setWHD(width, height, depth);
 			}
@@ -194,6 +188,19 @@ public class HorizontalBox extends Box {
 			fontId = ((Box) it.previous()).getLastFont();
 
 		return fontId;
+	}
+
+	@Override
+	public void inspect(BoxConsumer handler, BoxPosition position) {
+		BoxPosition current = new BoxPosition(position.x, position.y,
+				position.scale, position.y + shift);
+		super.inspect(handler, current);
+
+		double xPos = position.x;
+		for (Box box : children) {
+			box.inspect(handler, current.withPosition(xPos, position.y + box.shift));
+			xPos += box.getWidth();
+		}
 	}
 
 	public void addBreakPosition(int pos) {
