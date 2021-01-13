@@ -1275,7 +1275,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.dialogComponent.shareDialogMow {
-		max-width: 522px;
+		max-width: 510px;
 
 		&.hasBorder {
 			.groupPanel {
@@ -1309,9 +1309,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			border-bottom: 1px solid $black-12;
 			max-height: 200px;
 			overflow: auto;
-			max-width: 502px;
-			width: 100%;
-			padding: 16px 4px 0px 20px;
+			padding: 16px 0px 0px 20px;
 		}
 
 		.noGroupPanel {
@@ -1356,26 +1354,26 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.shareByLink {
-			max-width: 474px;
-			width: 95%;
-			margin: 16px 0px 0px 24px;
+			margin: 16px 24px 0px 24px;
 
 			.linkImg {
 				opacity: 0.54;
-				margin: 0px 32px 2px 0px;
+				margin: auto 32px auto 0px;
 			}
 
 			.switcherPanel {
 				display: flex;
 
 				.switch {
-					margin-left: auto;
+					margin: auto 0px auto auto;
+					top: 0px;
 				}
 			}
 
 			.textPanel {
 				position: relative;
 				max-width: 356px;
+				margin-right: 8px;
 				display: inline-block;
 
 				.linkShareOnOff {
@@ -1436,17 +1434,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			max-width: 474px;
 			margin: 14px 24px 0px 24px;
 			font-size: 87%;
-		}
-
-		.DialogButtonPanel {
-			padding-right: 8px !important;
-
-			.button {
-				color: $mow_dark !important;
-				&:hover {
-					color: $mow_dark !important;
-				}
-			}
 		}
 	}
 
