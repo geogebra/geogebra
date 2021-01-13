@@ -10,11 +10,11 @@ import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -23,7 +23,7 @@ import org.geogebra.desktop.main.AppD;
  * @author G. Sturr
  * 
  */
-public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
+public class DialogCopyToSpreadsheet extends Dialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private SpreadsheetViewDnD dndHandler;
 	private AppD app;

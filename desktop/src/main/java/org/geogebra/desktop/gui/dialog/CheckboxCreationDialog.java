@@ -25,7 +25,6 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
@@ -46,7 +45,7 @@ import org.geogebra.desktop.main.LocalizationD;
  * Dialog to create a GeoBoolean object (checkbox) that determines the
  * visibility of a list of objects.
  */
-public class CheckboxCreationDialog extends JDialog implements
+public class CheckboxCreationDialog extends Dialog implements
 		WindowFocusListener, ActionListener, GeoElementSelectionListener {
 
 	private static final long serialVersionUID = 1L;
