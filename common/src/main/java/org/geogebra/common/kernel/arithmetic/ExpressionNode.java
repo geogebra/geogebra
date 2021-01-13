@@ -3158,11 +3158,21 @@ public class ExpressionNode extends ValidExpression
 			return super.evaluateDouble();
 		}
 		double lt = left.evaluateDouble();
-		if (lt < 0 && right.isExpressionNode() && ((ExpressionNode) right)
-				.getOperation() == Operation.DIVIDE) {
-			return ExpressionNodeEvaluator.negPower(lt, right);
+		if (lt < 0 && right.isExpressionNode()) {
+			final ExpressionNode rightNode = (ExpressionNode) right;
+			if (isDivideOperation(rightNode)) {
+				return ExpressionNodeEvaluator.negPower(lt, right);
+			} else if (rightNode.getOperation() == Operation.MULTIPLY
+					&& rightNode.getLeft() instanceof MinusOne
+					&& isDivideOperation((ExpressionNode) rightNode.getRight())) {
+				return (ExpressionNodeEvaluator.negPower(lt, rightNode.getRight(), true));
+			}
 		}
 		return Math.pow(left.evaluateDouble(), right.evaluateDouble());
+	}
+
+	private boolean isDivideOperation(ExpressionNode node) {
+		return node.getOperation() == Operation.DIVIDE;
 	}
 
 	/**

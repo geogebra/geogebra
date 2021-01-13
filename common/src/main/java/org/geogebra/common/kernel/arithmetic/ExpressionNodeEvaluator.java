@@ -1002,11 +1002,27 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @return base^exponent
 	 */
 	static double negPower(double base0, ExpressionValue right) {
+		return negPower(base0, right, false);
+	}
+
+	/**
+	 * @param base0
+	 *            base
+	 * @param right
+	 *            exponent, must be expression of the form a/b
+	 * @param negativeFraction
+	 *            whether fraction has a negative sign
+	 * @return base^exponent
+	 */
+	static double negPower(double base0, ExpressionValue right, boolean negativeFraction) {
 		double base = base0;
 		ExpressionNode node = (ExpressionNode) right;
 
 		// check if we have a/b with a and b integers
 		double a = node.getLeft().evaluateDouble();
+		if (negativeFraction) {
+			a = -a;
+		}
 		long al = Math.round(a);
 		if (DoubleUtil.isEqual(a, al)) { // a is integer
 			double b = node.getRight().evaluateDouble();
@@ -1031,7 +1047,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				// we will now evaluate (x^a)^(1/b) instead of
 				// x^(a/b)
 				// set base = x^a
-				if (al != 1) {
+				if (al != 1 && al != -1) {
 					base = Math.pow(base, al);
 				}
 				if (base > 0) {
