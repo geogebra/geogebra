@@ -43,15 +43,6 @@
  */
 package com.himamis.retex.renderer.web.graphics;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArrayNumber;
-import com.google.gwt.core.shared.GWT;
-import com.google.gwt.dom.client.CanvasElement;
-import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.event.dom.client.LoadEvent;
-import com.google.gwt.event.dom.client.LoadHandler;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontLoader;
@@ -73,6 +64,15 @@ import com.himamis.retex.renderer.web.font.DefaultFont;
 import com.himamis.retex.renderer.web.font.FontW;
 import com.himamis.retex.renderer.web.font.FontWrapper;
 
+import elemental2.core.JsArray;
+import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.Event;
+import elemental2.dom.EventListener;
+import elemental2.dom.HTMLCanvasElement;
+import elemental2.dom.HTMLImageElement;
+import jsinterop.base.Js;
+
 public class Graphics2DW implements Graphics2DInterface {
 
 	JLMContext2d context;
@@ -83,7 +83,7 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	private DrawingFinishedCallback drawingFinishedCallback;
 
-	public Graphics2DW(Context2d context) {
+	public Graphics2DW(CanvasRenderingContext2D context) {
 		this.context = (JLMContext2d) context;
 		this.context.initTransform();
 		initBasicStroke();
@@ -91,8 +91,8 @@ public class Graphics2DW implements Graphics2DInterface {
 		initFont();
 	}
 
-	public Graphics2DW(Canvas canvas) {
-		this(JLMContext2d.forCanvas(canvas));
+	public Graphics2DW(HTMLCanvasElement canvas) {
+		this(Js.<CanvasRenderingContext2D>uncheckedCast(canvas.getContext("2d")));
 	}
 
 	private void initBasicStroke() {
@@ -111,7 +111,7 @@ public class Graphics2DW implements Graphics2DInterface {
 				(int) Math.round(FontLoader.PIXELS_PER_POINT));
 	}
 
-	public Context2d getContext() {
+	public CanvasRenderingContext2D getContext() {
 		return context;
 	}
 
@@ -125,10 +125,10 @@ public class Graphics2DW implements Graphics2DInterface {
 
 		float[] dasharr = basicStroke.getDash();
 		if (dasharr != null) {
-			JsArrayNumber jsarrn = JavaScriptObject.createArray().cast();
+			JsArray<Float> jsarrn = JsArray.of();
 			jsarrn.setLength(dasharr.length);
-			for (int i = 0; i < dasharr.length; i++) {
-				jsarrn.set(i, dasharr[i]);
+			for (float i: dasharr)  {
+				jsarrn.push(i);
 			}
 			setStrokeDash(context, jsarrn);
 		} else {
@@ -137,7 +137,7 @@ public class Graphics2DW implements Graphics2DInterface {
 	}
 
 	public native void setStrokeDash(JLMContext2d ctx,
-			JsArrayNumber dasharray) /*-{
+			JsArray<Float> dasharray) /*-{
 		if (dasharray === undefined || dasharray === null) {
 			dasharray = [];
 		}
@@ -475,25 +475,24 @@ public class Graphics2DW implements Graphics2DInterface {
 
 		if (image instanceof ImageBase64) {
 			String base64 = ((ImageBase64) image).getBase64();
-			final com.google.gwt.user.client.ui.Image img = new com.google.gwt.user.client.ui.Image();
-			img.getElement().setAttribute("src", base64);
+			HTMLImageElement img = (HTMLImageElement) DomGlobal.document.createElement("img");
+			img.setAttribute("src", base64);
 
-			img.addLoadHandler(new LoadHandler() {
+			img.addEventListener("load", new EventListener() {
 				@Override
-				public void onLoad(LoadEvent event) {
-					context.drawImage(ImageElement.as(img.getElement()), x, y);
+				public void handleEvent(Event evt) {
+					context.drawImage(img, x, y);
 				}
 			});
 
-			context.drawImage(ImageElement.as(img.getElement()), x, y);
+			context.drawImage(img, x, y);
 
 			// ImageElement img2 = ImageElement.as(img.getElement());
 			// context.drawImage(img2, x, y);
 
 		} else {
 			ImageW impl = (ImageW) image;
-			Canvas imageCanvas = impl.getCanvas();
-			CanvasElement canvasElement = imageCanvas.getCanvasElement();
+			HTMLCanvasElement canvasElement = impl.getCanvas();
 			context.drawImage(canvasElement, x, y);
 		}
 	}

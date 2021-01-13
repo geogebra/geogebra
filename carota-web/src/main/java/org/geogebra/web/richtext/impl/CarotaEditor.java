@@ -3,12 +3,12 @@ package org.geogebra.web.richtext.impl;
 import org.geogebra.web.richtext.Editor;
 import org.geogebra.web.richtext.EditorChangeListener;
 
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.core.Global;
+import elemental2.dom.CanvasRenderingContext2D;
 
 /**
  * Inline text editor based on Carota.
@@ -46,7 +46,7 @@ public class CarotaEditor implements Editor {
 	}
 
 	@Override
-	public void draw(Context2d canvasElement) {
+	public void draw(CanvasRenderingContext2D canvasElement) {
 		editor.draw(canvasElement);
 	}
 

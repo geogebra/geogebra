@@ -1,15 +1,15 @@
 package org.geogebra.web.richtext.impl;
 
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
 
+import elemental2.dom.CanvasRenderingContext2D;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true)
 public class CarotaDocument implements HasContent {
 
-	public native void draw(Context2d canvasElement);
+	public native void draw(CanvasRenderingContext2D canvasElement);
 
 	public native void select(int start, int end);
 

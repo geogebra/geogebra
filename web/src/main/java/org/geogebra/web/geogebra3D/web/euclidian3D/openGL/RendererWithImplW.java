@@ -10,18 +10,17 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
-import org.geogebra.web.html5.util.ImageLoadCallback;
-import org.geogebra.web.html5.util.ImageWrapper;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
 
 import elemental2.webgl.WebGLRenderingContext;
+
+import elemental2.dom.HTMLImageElement;
 
 /**
  * 
@@ -114,10 +113,15 @@ public class RendererWithImplW extends Renderer implements
 			createAlphaTexture(label, null, imgw);
 		} else {
 			// check if image is ready
-			ImageElement image = imgw.getImageElement();
-			if (!image.getPropertyBoolean("complete")) {
-				ImageWrapper.nativeon(image, "load",
-						new AlphaTextureCreator(label, image, imgw, this));
+			HTMLImageElement image = imgw.getImageElement();
+			if (!image.complete) {
+				image.addEventListener("load", (event) -> {
+						// image ready : create the texture
+						createAlphaTexture(label, image, (GBufferedImageW) bimg);
+
+						// repaint the view
+						getView().repaintView();
+				});
 			} else {
 				createAlphaTexture(label, image, imgw);
 			}
@@ -299,36 +303,10 @@ public class RendererWithImplW extends Renderer implements
 	 * @param bimg
 	 *            buffered image
 	 */
-	protected void createAlphaTexture(DrawLabel3D label, ImageElement image,
+	protected void createAlphaTexture(DrawLabel3D label, HTMLImageElement image,
 			GBufferedImageW bimg) {
 		((RendererImplShadersW) getRendererImpl()).createAlphaTexture(label, image,
 				bimg);
-	}
-
-	private static class AlphaTextureCreator implements ImageLoadCallback {
-
-		private DrawLabel3D label;
-		private ImageElement image;
-		private GBufferedImageW bimg;
-		private RendererWithImplW renderer;
-
-		public AlphaTextureCreator(DrawLabel3D label, ImageElement image,
-				GBufferedImageW bimg, RendererWithImplW renderer) {
-			this.label = label;
-			this.image = image;
-			this.bimg = bimg;
-			this.renderer = renderer;
-		}
-
-		@Override
-		public void onLoad() {
-
-			// image ready : create the texture
-			renderer.createAlphaTexture(label, image, bimg);
-
-			// repaint the view
-			renderer.getView().repaintView();
-		}
 	}
 
 	@Override

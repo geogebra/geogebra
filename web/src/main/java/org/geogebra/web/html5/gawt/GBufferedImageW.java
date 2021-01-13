@@ -6,18 +6,20 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.CssColor;
-import com.google.gwt.canvas.dom.client.ImageData;
-import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.user.client.DOM;
+import com.himamis.retex.renderer.web.graphics.JLMContext2d;
+
+import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.HTMLCanvasElement;
+import elemental2.dom.HTMLImageElement;
+import elemental2.dom.ImageData;
+import jsinterop.base.Js;
 
 /**
  * Image that can be used for drawing.
  */
 public class GBufferedImageW implements GBufferedImage {
 	/** img element */
-	ImageElement img = null; // necessary
+	private HTMLImageElement img = null; // necessary
 
 	/** Canvas */
 	Canvas canv = null; // not necessary, but if present, this is the main one
@@ -65,11 +67,11 @@ public class GBufferedImageW implements GBufferedImage {
 			canv.setCoordinateSpaceHeight((int) (height * pixelRatio));
 			canv.setWidth(width + "px");
 			canv.setHeight(height + "px");
-			Context2d c2d = canv.getContext2d();
+			JLMContext2d c2d = JLMContext2d.as(canv.getContext2d());
 			if (opaque) {
-				c2d.setGlobalCompositeOperation(Context2d.Composite.COPY);
-				c2d.setStrokeStyle(CssColor.make("rgba(255,255,255,1.0)"));
-				c2d.setFillStyle(CssColor.make("rgba(255,255,255,1.0)"));
+				c2d.globalCompositeOperation = "copy";
+				c2d.setStrokeStyle("rgba(255,255,255,1.0)");
+				c2d.setFillStyle("rgba(255,255,255,1.0)");
 				c2d.fillRect(0, 0, width, height);
 			}
 			if (pixelRatio != 1) {
@@ -97,7 +99,7 @@ public class GBufferedImageW implements GBufferedImage {
 	 * @param imageElement
 	 *            img element
 	 */
-	public GBufferedImageW(ImageElement imageElement) {
+	public GBufferedImageW(HTMLImageElement imageElement) {
 		if (imageElement != null) {
 			img = imageElement;
 		} else {
@@ -118,9 +120,10 @@ public class GBufferedImageW implements GBufferedImage {
 			canv.setCoordinateSpaceHeight(cv.getCoordinateSpaceHeight());
 			canv.setWidth(cv.getCanvasElement().getWidth() + "px");
 			canv.setHeight(cv.getCanvasElement().getHeight() + "px");
-			Context2d c2d = canv.getContext2d();
+			JLMContext2d c2d = Js.uncheckedCast(canv.getContext2d());
+			JLMContext2d otherContext = Js.uncheckedCast(cv.getContext2d());
 			c2d.putImageData(
-			        cv.getContext2d().getImageData(0, 0,
+			        otherContext.getImageData(0, 0,
 			                cv.getCoordinateSpaceWidth(),
 			                cv.getCoordinateSpaceHeight()), 0, 0);
 			// img = getImageElement();
@@ -135,18 +138,19 @@ public class GBufferedImageW implements GBufferedImage {
 	 */
 	public GBufferedImageW(ImageData imageData) {
 		canv = makeCanvas();
-		canv.setCoordinateSpaceWidth(imageData.getWidth());
-		canv.setCoordinateSpaceHeight(imageData.getHeight());
-		canv.setWidth(imageData.getWidth() + "px");
-		canv.setHeight(imageData.getHeight() + "px");
-		canv.getContext2d().putImageData(imageData, 0, 0);
+		canv.setCoordinateSpaceWidth(imageData.width);
+		canv.setCoordinateSpaceHeight(imageData.height);
+		canv.setWidth(imageData.width + "px");
+		canv.setHeight(imageData.height + "px");
+		CanvasRenderingContext2D context2d = Js.uncheckedCast(canv.getContext2d());
+		context2d.putImageData(imageData, 0, 0);
 		// img = getImageElement();
 	}
 
 	@Override
 	public int getWidth() {
 		if (canv == null) {
-			return img.getWidth();
+			return img.width;
 		}
 		return canv.getCoordinateSpaceWidth();
 		// programmers should make sure that
@@ -156,7 +160,7 @@ public class GBufferedImageW implements GBufferedImage {
 	@Override
 	public int getHeight() {
 		if (canv == null) {
-			return img.getHeight();
+			return img.height;
 		}
 		return canv.getCoordinateSpaceHeight();
 	}
@@ -166,12 +170,12 @@ public class GBufferedImageW implements GBufferedImage {
 	 * 
 	 * @return image element
 	 */
-	public ImageElement getImageElement() {
+	public HTMLImageElement getImageElement() {
 		if (canv != null) {
-			img = ImageElement.as(DOM.createImg());
-			img.setWidth(canv.getCoordinateSpaceWidth());
-			img.setHeight(canv.getCoordinateSpaceHeight());
-			img.setSrc(canv.toDataUrl());
+			img = new HTMLImageElement();
+			img.width = canv.getCoordinateSpaceWidth();
+			img.height = canv.getCoordinateSpaceHeight();
+			img.src = canv.toDataUrl();
 		}
 		return img;
 	}
@@ -190,7 +194,7 @@ public class GBufferedImageW implements GBufferedImage {
 		if (canv != null) {
 			return new GBufferedImageW(canv);
 		}
-		return new GBufferedImageW((ImageElement) img.cloneNode(true));
+		return new GBufferedImageW((HTMLImageElement) img.cloneNode(true));
 	}
 
 	/**
@@ -200,11 +204,11 @@ public class GBufferedImageW implements GBufferedImage {
 		if (canv == null) {
 			canv = makeCanvas();
 			if (canv != null) {
-				canv.setCoordinateSpaceWidth(img.getWidth());
-				canv.setCoordinateSpaceHeight(img.getHeight());
+				canv.setCoordinateSpaceWidth(img.width);
+				canv.setCoordinateSpaceHeight(img.height);
 				canv.setWidth(getWidth() + "px");
 				canv.setHeight(getWidth() + "px");
-				Context2d c2d = canv.getContext2d();
+				JLMContext2d c2d = JLMContext2d.as(canv.getContext2d());
 				c2d.drawImage(img, 0, 0);
 			}
 		}
@@ -219,7 +223,7 @@ public class GBufferedImageW implements GBufferedImage {
 	 * @return whether this is canvas or loaded img
 	 */
 	public boolean isLoaded() {
-		return img == null || img.getPropertyBoolean("complete");
+		return img == null || img.complete;
 	}
 
 	@Override
@@ -231,7 +235,7 @@ public class GBufferedImageW implements GBufferedImage {
 
 	@Override
 	public GBufferedImage getSubimage(int x, int y, int width, int height) {
-		Context2d ctx = getCanvas().getContext2d();
+		JLMContext2d ctx = Js.uncheckedCast(getCanvas().getContext2d());
 		ImageData imageData = ctx.getImageData(x, y, width, height);
 		return new GBufferedImageW(imageData);
 	}
@@ -240,7 +244,8 @@ public class GBufferedImageW implements GBufferedImage {
 	 * @return image data of the canvas
 	 */
 	public ImageData getImageData() {
-		return getCanvas().getContext2d().getImageData(0, 0, getWidth(),
+		CanvasRenderingContext2D context2d = Js.uncheckedCast(getCanvas().getContext2d());
+		return context2d.getImageData(0, 0, getWidth(),
 		        getHeight());
 	}
 
@@ -255,7 +260,7 @@ public class GBufferedImageW implements GBufferedImage {
 			Log.error("img null");
 			return null;
 		}
-		return img.getSrc();
+		return img.src;
 	}
 
 	/**
@@ -265,4 +270,7 @@ public class GBufferedImageW implements GBufferedImage {
 		return pixelRatio;
 	}
 
+	public HTMLCanvasElement getCanvasElement() {
+		return Js.uncheckedCast(getCanvas().getElement());
+	}
 }

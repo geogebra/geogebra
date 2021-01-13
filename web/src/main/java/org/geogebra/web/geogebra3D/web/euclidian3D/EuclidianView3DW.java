@@ -42,7 +42,6 @@ import org.geogebra.web.html5.main.TimerSystemW;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -62,6 +61,10 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.HTMLCanvasElement;
+import jsinterop.base.Js;
 
 /**
  * 3D view
@@ -537,7 +540,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	@Override
 	public String getExportImageDataUrl(double scale, boolean transparent,
 			ExportType format, boolean greyscale) {
-		return getExportCanvas().toDataUrl(
+		return getExportCanvas().toDataURL(
 				format == ExportType.WEBP ? "image/webp" : "image/png");
 	}
 
@@ -567,10 +570,10 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		canv.setCoordinateSpaceWidth((int) thx);
 		canv.setWidth((int) thx + "px");
 		canv.setHeight((int) thy + "px");
-		Context2d c2 = canv.getContext2d();
+		CanvasRenderingContext2D c2 = Js.uncheckedCast(canv.getContext2d());
 
-		c2.drawImage(foreground.getCanvasElement(), 0, 0, (int) thx,
-				(int) thy);
+		c2.drawImage(Js.<HTMLCanvasElement>uncheckedCast(foreground.getCanvasElement()),
+				0, 0, (int) thx, (int) thy);
 
 		return EuclidianViewW.dataURL(canv, null);
 	}
@@ -698,11 +701,11 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public CanvasElement getExportCanvas() {
+	public HTMLCanvasElement getExportCanvas() {
 		RendererWInterface rendererW = (RendererWInterface) this.renderer;
 		rendererW.setBuffering(true);
 		this.doRepaint2();
 		rendererW.setBuffering(true);
-		return rendererW.getCanvas().getCanvasElement();
+		return Js.uncheckedCast(rendererW.getCanvas().getCanvasElement());
 	}
 }

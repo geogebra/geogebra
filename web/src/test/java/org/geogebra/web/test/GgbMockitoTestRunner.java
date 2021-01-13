@@ -18,6 +18,8 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.impl.StubGenerator;
+import com.himamis.retex.renderer.web.graphics.GraphicsFactoryGWT;
+import com.himamis.retex.renderer.web.graphics.ImageW;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 import elemental2.core.Uint8Array;
@@ -47,8 +49,10 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 Void.class);
         StubGenerator.replaceMethodWithMock(Canvas.class, "createIfSupported",
                 Canvas.class);
-        StubGenerator.replaceMethodWithMock(JLMContext2d.class, "forCanvas",
+        StubGenerator.replaceMethodWithMock(JLMContext2d.class, "as",
                 JLMContext2d.class);
+        StubGenerator.replaceMethodWithMock(GraphicsFactoryGWT.class, "createImage",
+                ImageW.class);
         StubGenerator.replaceMethodWithMock(RendererWithImplW.class, "getWebGLContext",
                 WebGLRenderingContext.class);
         StubGenerator.replaceMethodWithMock(RendererImplShadersW.class, "getShader",

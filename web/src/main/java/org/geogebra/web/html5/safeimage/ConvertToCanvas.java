@@ -2,18 +2,18 @@ package org.geogebra.web.html5.safeimage;
 
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.html5.util.ImageLoadCallback;
-import org.geogebra.web.html5.util.ImageWrapper;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.user.client.ui.Image;
+import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLCanvasElement;
+import elemental2.dom.HTMLImageElement;
+import jsinterop.base.Js;
 
 public class ConvertToCanvas implements ImagePreprocessor {
-	private final Canvas canvas;
+	private final HTMLCanvasElement canvas;
 
 	public ConvertToCanvas() {
-		canvas = Canvas.createIfSupported();
+		canvas = (HTMLCanvasElement) DomGlobal.document.createElement("canvas");
 	}
 
 	@Override
@@ -26,25 +26,23 @@ public class ConvertToCanvas implements ImagePreprocessor {
 
 	@Override
 	public void process(final ImageFile imageFile, final SafeImageProvider provider) {
-		final Image image = new Image();
+		HTMLImageElement image = new HTMLImageElement();
 
-		ImageWrapper.nativeon(image.getElement(), "load", new ImageLoadCallback() {
-			@Override
-			public void onLoad() {
-				drawImageToCanvas(image);
-				String fileName = StringUtil.changeFileExtension(imageFile.getFileName(),
-						FileExtensions.PNG);
+		image.addEventListener("load", (event) -> {
+			drawImageToCanvas(image);
+			String fileName = StringUtil.changeFileExtension(imageFile.getFileName(),
+					FileExtensions.PNG);
 
-				provider.onReady(new ImageFile(fileName, canvas.toDataUrl()));
-			}
+			provider.onReady(new ImageFile(fileName, canvas.toDataURL()));
 		});
 
-		image.setUrl(imageFile.getContent());
+		image.src = imageFile.getContent();
 	}
 
-	private void drawImageToCanvas(Image image)  {
-		canvas.setCoordinateSpaceWidth(image.getWidth());
-		canvas.setCoordinateSpaceHeight(image.getHeight());
-		canvas.getContext2d().drawImage(ImageElement.as(image.getElement()), 0, 0);
+	private void drawImageToCanvas(HTMLImageElement image)  {
+		canvas.width = image.width;
+		canvas.height = image.height;
+		CanvasRenderingContext2D ctx = Js.uncheckedCast(canvas.getContext("2d"));
+		ctx.drawImage(image, 0, 0);
 	}
 }

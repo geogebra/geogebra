@@ -9,8 +9,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.resources.JavaScriptInjector;
 
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.core.client.JavaScriptObject;
+import elemental2.dom.CanvasRenderingContext2D;
 
 /**
  * Wrapper class for the canvas2pdf.js library to allow multi-page PDF export
@@ -21,7 +20,7 @@ public class PDFEncoderW implements Encoder {
 
 	private EuclidianViewW ev;
 
-	private Context2d ctx;
+	private CanvasRenderingContext2D ctx;
 
 	private GGraphics2D g4copy;
 
@@ -87,7 +86,7 @@ public class PDFEncoderW implements Encoder {
 	 *            height
 	 * @return canvas2pdf object
 	 */
-	public static native Context2d getCanvas2PDF(double width,
+	public static native CanvasRenderingContext2D getCanvas2PDF(double width,
 			double height) /*-{
 		if ($wnd.canvas2pdf) {
 			return new $wnd.canvas2pdf.PdfContext(width, height);
@@ -102,7 +101,7 @@ public class PDFEncoderW implements Encoder {
 	 *            canvas2pdf object
 	 * @return the resulting PDF (as base64 URL)
 	 */
-	public static native String getPDF(JavaScriptObject pdfcontext) /*-{
+	public static native String getPDF(CanvasRenderingContext2D pdfcontext) /*-{
 		return pdfcontext.getPDFbase64();
 	}-*/;
 
@@ -110,7 +109,7 @@ public class PDFEncoderW implements Encoder {
 	 * @param ctx
 	 *            context
 	 */
-	public static native void addPagePDF(JavaScriptObject ctx) /*-{
+	public static native void addPagePDF(CanvasRenderingContext2D ctx) /*-{
 		ctx.addPage();
 	}-*/;
 
@@ -121,7 +120,7 @@ public class PDFEncoderW implements Encoder {
 	 *            height
 	 * @return context if available (or null)
 	 */
-	public static Context2d getContext(int width, int height) {
+	public static CanvasRenderingContext2D getContext(int width, int height) {
 
 		if (ExportLoader.getPako() == null) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pakoJs());

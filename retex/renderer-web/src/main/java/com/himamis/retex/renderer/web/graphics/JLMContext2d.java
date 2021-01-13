@@ -1,13 +1,15 @@
 package com.himamis.retex.renderer.web.graphics;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.CanvasPattern;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.geom.Shape;
+import com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper;
 import com.himamis.retex.renderer.web.geom.AreaW;
 import com.himamis.retex.renderer.web.geom.ShapeW;
+
+import elemental2.dom.CanvasPattern;
+import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.HTMLCanvasElement;
+import jsinterop.base.Js;
 
 /**
  * @author michael
@@ -18,7 +20,7 @@ import com.himamis.retex.renderer.web.geom.ShapeW;
  *         Also originally: Added to allow ctx.fill("evenodd") (new winding rule
  *         from ggb50) ignored in IE9, IE10
  */
-public class JLMContext2d extends Context2d {
+public class JLMContext2d extends CanvasRenderingContext2D {
 
 	protected JLMContext2d() {
 		// constructor extending Context2d must be empty
@@ -31,19 +33,9 @@ public class JLMContext2d extends Context2d {
 	 *            canvas
 	 * @return context
 	 */
-	public static JLMContext2d forCanvas(Canvas canvas) {
-		return (JLMContext2d) canvas.getContext2d();
+	public static JLMContext2d as(Object context) {
+		return Js.uncheckedCast(context);
 	}
-
-	/**
-	 * Fills the current path.
-	 * 
-	 * @param windingRule
-	 *            winding rule, either "nonzero" or "evenodd"
-	 */
-	public final native void fill(String windingRule) /*-{
-		this.fill(windingRule);
-	}-*/;
 
 	/**
 	 * Fills the current path.
@@ -276,9 +268,11 @@ public class JLMContext2d extends Context2d {
 		}
 	}
 
-	final public native void fillOpentype(JavaScriptObject path) /*-{
-		path.fill = this.fillStyle;
-		@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::drawPath(Lcom/google/gwt/core/client/JavaScriptObject;IILcom/google/gwt/canvas/client/Canvas;)(path, 0, 0, this);
-	}-*/;
+	public void setFillStyle(Object colorStr) {
+		fillStyle = FillStyleUnionType.of(colorStr);
+	}
 
+	public void setStrokeStyle(String colorStr) {
+		strokeStyle = StrokeStyleUnionType.of(colorStr);
+	}
 }

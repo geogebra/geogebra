@@ -50,12 +50,13 @@ import java.util.Map;
 
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.resources.client.TextResource;
 import com.himamis.retex.renderer.web.font.FontLoaderWrapper;
 import com.himamis.retex.renderer.web.font.FontW;
 import com.himamis.retex.renderer.web.resources.PreloadFontResources;
+
+import elemental2.core.JsArray;
 
 public class Opentype implements FontLoaderWrapper {
 
@@ -132,7 +133,7 @@ public class Opentype implements FontLoaderWrapper {
 		return fonts.get(familyName).font;
 	}
 
-	private void setFontIsLoaded(String familyName, JavaScriptObject font) {
+	private void setFontIsLoaded(String familyName, JsArray<Object> font) {
 		FontContainer fontContainer = fonts.get(familyName);
 		fontContainer.font = new OpentypeFontWrapper(font);
 		fontContainer.fontIsLoading = false;
@@ -206,12 +207,12 @@ public class Opentype implements FontLoaderWrapper {
 	}
 
 	private void parseFont(String familyName) {
-		JavaScriptObject font = getFontNative(familyName);
+		JsArray<Object> font = getFontNative(familyName);
 		setFontIsLoaded(familyName, font);
 		fireFontActiveEvent(familyName);
 	}
 
-	private native JavaScriptObject getFontNative(String familyName) /*-{
+	private native JsArray<Object> getFontNative(String familyName) /*-{
 		var lib = $wnd.__JLM2_GWT_FONTS__;
 		return lib ? lib[familyName] : null;
 	}-*/;

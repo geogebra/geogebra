@@ -1,7 +1,5 @@
 package org.geogebra.web.geogebra3D.web.euclidian3DnoWebGL;
 
-import java.util.HashMap;
-
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
@@ -12,12 +10,10 @@ import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
-import org.geogebra.web.html5.util.ImageLoadCallback;
-import org.geogebra.web.html5.util.ImageWrapper;
 
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style.Unit;
+
+import elemental2.dom.HTMLImageElement;
 
 /**
  * (dummy) 3D view for browsers that don't support webGL
@@ -71,22 +67,12 @@ public class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 	}
 
 	@Override
-	public void setCurrentFile(GgbFile f) {
-
-		Log.debug("No 3D:Set thumbnail");
-		HashMap<String, String> file = f;
+	public void setCurrentFile(GgbFile file) {
 		if (file != null && file.get("geogebra_thumbnail.png") != null) {
-			ImageElement img = Document.get().createImageElement();
-			img.setSrc(file.get("geogebra_thumbnail.png"));
+			HTMLImageElement img = new HTMLImageElement();
+			img.src = file.get("geogebra_thumbnail.png");
 			thumb = new GBufferedImageW(img);
-			ImageWrapper.nativeon(img, "load", new ImageLoadCallback() {
-
-				@Override
-				public void onLoad() {
-					repaint();
-
-				}
-			});
+			img.addEventListener("load", (event) -> repaint());
 			Log.debug("Set thumbnail done");
 		}
 

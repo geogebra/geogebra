@@ -27,6 +27,8 @@ import com.himamis.retex.renderer.web.graphics.ColorW;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
+import jsinterop.base.Js;
+
 /**
  * Web LaTeX helper class
  */
@@ -162,7 +164,7 @@ public class DrawEquationW extends DrawEquation {
 			c.getContext2d().fillRect(0, 0, c.getCoordinateSpaceWidth(),
 					c.getCoordinateSpaceHeight());
 		}
-		JLMContext2d ctx = JLMContext2d.forCanvas(c);
+		JLMContext2d ctx = JLMContext2d.as(c.getContext2d());
 
 		app.getDrawEquation().checkFirstCall(app);
 		GFont font = AwtFactory.getPrototype().newFont("geogebra", GFont.PLAIN,
