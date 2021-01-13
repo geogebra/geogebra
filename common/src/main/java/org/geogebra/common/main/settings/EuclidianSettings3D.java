@@ -3,9 +3,6 @@ package org.geogebra.common.main.settings;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -29,8 +26,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 	private boolean hadSettingChanged = false;
 	private boolean hasSameScales = true;
-	private NumberValue zminObject;
-	private NumberValue zmaxObject;
 	private double xyScale;
 	private double yzScale;
 	private double zxScale;
@@ -59,8 +54,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	private boolean showClippingCube = false;
 
 	private boolean hasColoredAxes = true;
-	private boolean updateScaleOrigin;
-	private boolean setStandardCoordSystem = true;
 
 	/**
 	 * default value for eye distance to the screen for perspective
@@ -94,21 +87,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	protected void settingChanged() {
 		super.settingChanged();
 		hadSettingChanged = true;
-	}
-
-	/**
-	 * @param updateScaleOrigin
-	 *            flag to determine if origin and scale have to be updated
-	 */
-	public void setUpdateScaleOrigin(boolean updateScaleOrigin) {
-		this.updateScaleOrigin = updateScaleOrigin;
-	}
-
-	/**
-	 * @return flag updateScaleOrigin
-	 */
-	public boolean isUpdateScaleOrigin() {
-		return updateScaleOrigin;
 	}
 
 	/**
@@ -173,46 +151,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	public void setZscaleValue(double scale) {
 		this.zscale = scale;
 		updateScaleHelpers();
-	}
-
-	/**
-	 * @return the yminObject
-	 */
-	public GeoNumeric getZminObject() {
-		return (GeoNumeric) zminObject;
-	}
-
-	/**
-	 * @param zminObjectNew
-	 *            the zminObject to set
-	 * @param callsc
-	 *            whether settingChanged should be called
-	 */
-	public void setZminObject(NumberValue zminObjectNew, boolean callsc) {
-		this.zminObject = zminObjectNew;
-		if (callsc) {
-			settingChanged();
-		}
-	}
-
-	/**
-	 * @return the ymaxObject
-	 */
-	public GeoNumeric getZmaxObject() {
-		return (GeoNumeric) zmaxObject;
-	}
-
-	/**
-	 * @param zmaxObjectNew
-	 *            the zmaxObject to set
-	 * @param callsc
-	 *            whether settingChanged should be called
-	 */
-	public void setZmaxObject(NumberValue zmaxObjectNew, boolean callsc) {
-		this.zmaxObject = zmaxObjectNew;
-		if (callsc) {
-			settingChanged();
-		}
 	}
 
 	private void updateScaleHelpers() {
@@ -567,8 +505,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	protected void resetNoFire() {
 
 		super.resetNoFire();
-		zminObject = null;
-		zmaxObject = null;
 		setStandardView();
 
 		useLight = true;
@@ -808,55 +744,4 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return hasColoredAxes;
 	}
 
-	/**
-	 * @param xZero
-	 *            x-coord of the origin
-	 * @param yZero
-	 *            y-coord of the origin
-	 * @param zZero
-	 *            z-coord of the origin
-	 * @param xscale
-	 *            x scale
-	 * @param yscale
-	 *            y scale
-	 * @param zscale
-	 *            z scale
-	 * @param fire
-	 *            whether to notify listeners
-	 */
-	public void setCoordSystem(double xZero, double yZero, double zZero, double xscale,
-			double yscale, double zscale, boolean fire) {
-		if (Double.isNaN(xscale) || (xscale < Kernel.MAX_DOUBLE_PRECISION)
-				|| (xscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
-			return;
-		}
-		if (Double.isNaN(yscale) || (yscale < Kernel.MAX_DOUBLE_PRECISION)
-				|| (yscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
-			return;
-		}
-		if (Double.isNaN(zscale) || (zscale < Kernel.MAX_DOUBLE_PRECISION)
-				|| (zscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
-			return;
-		}
-
-		this.xZero = xZero;
-		this.yZero = yZero;
-		this.zZero = zZero;
-		this.xscale = xscale;
-		this.yscale = yscale;
-		this.zscale = zscale;
-		updateScaleHelpers();
-
-		if (fire) {
-			settingChanged();
-		}
-	}
-
-	public boolean isSetStandardCoordSystem() {
-		return setStandardCoordSystem;
-	}
-
-	public void setSetStandardCoordSystem(boolean setStandardCoordSystem) {
-		this.setStandardCoordSystem = setStandardCoordSystem;
-	}
 }

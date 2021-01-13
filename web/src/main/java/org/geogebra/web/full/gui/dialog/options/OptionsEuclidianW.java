@@ -59,7 +59,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	AxisTab yAxisTab;
 	private GridTab gridTab;
 	private boolean isIniting;
-	public Localization loc;
+	protected Localization loc;
 
 	protected static abstract class EuclidianTab extends FlowPanel
 			implements SetLabels {
@@ -715,7 +715,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		this.view = (EuclidianView) activeEuclidianView;
 		model = new EuclidianOptionsModel(app, view, this);
 		initGUI();
-		view.setOptionPanel(this);
 		isIniting = false;
 	}
 
@@ -882,12 +881,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	@Override
 	public void enableAxesRatio(boolean value) {
 		basicTab.enableAxesRatio(value);
-	}
+	}		
 
 	@Override
-	public void setMinMaxText(String minX, String maxX, String minY, String maxY, String minZ,
-			String maxZ) {
-		basicTab.setMinMaxText(minX, maxX, minY, maxY, minZ, maxZ);
+	public void setMinMaxText(String minX, String maxX, String minY, String maxY) {
+		basicTab.setMinMaxText(minX, maxX, minY, maxY);
 	}
 
 	@Override
@@ -1022,10 +1020,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	@Override
 	public void updateRuler(int typeIdx, GColor color, int lineStyle, boolean bold) {
 		gridTab.updateRuler(typeIdx, color, lineStyle, bold);
-	}
-
-	public EuclidianView getView() {
-		return view;
 	}
 }
 

@@ -61,8 +61,4 @@ public class EuclidianView3DAnimationContinueRotation extends EuclidianView3DAni
 		view3D.setViewChangedByRotate();
 	}
 
-	@Override
-	protected boolean animationAllowed() {
-		return true;
-	}
 }

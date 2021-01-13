@@ -85,7 +85,4 @@ public abstract class EuclidianView3DAnimation {
 		return UtilFactory.getPrototype().getMillisecondTime();
 	}
 
-	protected boolean animationAllowed() {
-		return false;
-	}
 }

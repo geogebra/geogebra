@@ -126,23 +126,10 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	}
 
 	/**
-	 * @param minmax
-	 *            min/max values for bounds
-	 */
-	public void setXYZMinMax(double[][] minmax) {
-		minMax[0][0] = minmax[0][0];
-		minMax[0][1] = minmax[0][1];
-		minMax[1][0] = minmax[1][0];
-		minMax[1][1] = minmax[1][1];
-		minMax[2][0] = minmax[2][0];
-		minMax[2][1] = minmax[2][1];
-	}
-
-	/**
 	 * update the x,y,z min/max values
 	 *
 	 */
-	public void doUpdateMinMax() {
+	private void doUpdateMinMax() {
 
         EuclidianView3D view = getView3D();
 
@@ -256,10 +243,6 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 			mm[Z][MIN] = view.getARMinZ();
         }
     }
-
-    public double getRV(int index) {
-		return REDUCTION_VALUES[index];
-	}
 
     /**
      * update the x,y,z min/max values
