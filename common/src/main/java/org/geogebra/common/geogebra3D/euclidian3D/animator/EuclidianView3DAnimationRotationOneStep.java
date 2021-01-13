@@ -77,8 +77,4 @@ public class EuclidianView3DAnimationRotationOneStep extends EuclidianView3DAnim
 		end();
 	}
 
-	@Override
-	protected boolean animationAllowed() {
-		return true;
-	}
 }

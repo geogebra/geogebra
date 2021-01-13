@@ -606,7 +606,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// no repaint
 		if (kernel.getConstruction() != null) {
 			kernel.getConstruction().setIgnoringNewTypes(true);
-			setMinMaxObjects();
+			xminObject = new GeoNumeric(kernel.getConstruction());
+			xmaxObject = new GeoNumeric(kernel.getConstruction());
+			yminObject = new GeoNumeric(kernel.getConstruction());
+			ymaxObject = new GeoNumeric(kernel.getConstruction());
 			kernel.getConstruction().setIgnoringNewTypes(false);
 		}
 		// ggb3D 2009-02-05
@@ -616,13 +619,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				5);
         setXscale(SCALE_STANDARD);
         setYscale(SCALE_STANDARD);
-	}
-
-	protected void setMinMaxObjects() {
-		xminObject = new GeoNumeric(kernel.getConstruction());
-		xmaxObject = new GeoNumeric(kernel.getConstruction());
-		yminObject = new GeoNumeric(kernel.getConstruction());
-		ymaxObject = new GeoNumeric(kernel.getConstruction());
 	}
 
 	/**
@@ -805,14 +801,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (flag > 0) {
 			updateBounds(true, true);
 		}
-	}
-
-	public boolean isUpdatingBounds() {
-		return updatingBounds;
-	}
-
-	public void setUpdatingBounds(boolean updatingBounds) {
-		this.updatingBounds = updatingBounds;
 	}
 
 	@Override
@@ -1001,7 +989,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		this.hitHandler = hitHandler;
 	}
 
-	protected void setSizeListeners() {
+	private void setSizeListeners() {
 		if (xminObject != null) {
 			((GeoNumeric) xminObject).addEVSizeListener(this);
 			((GeoNumeric) yminObject).addEVSizeListener(this);
@@ -1470,12 +1458,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		setSizeListeners();
 	}
 
-	protected void setXscale(double xscale) {
+	private void setXscale(double xscale) {
 		this.xscale = xscale;
 		this.invXscale = 1 / xscale;
 	}
 
-	protected void setYscale(double yscale) {
+	private void setYscale(double yscale) {
 		this.yscale = yscale;
 		this.invYscale = 1 / yscale;
 	}
@@ -1601,26 +1589,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return ymin;
 	}
 
-	public void setXmin(double xmin) {
-		this.xmin = xmin;
-	}
-
-	public void setXmax(double xmax) {
-		this.xmax = xmax;
-	}
-
-	public void setYmin(double ymin) {
-		this.ymin = ymin;
-	}
-
-	public void setYmax(double ymax) {
-		this.ymax = ymax;
-	}
-
-	public OptionsEuclidian getOptionPanel() {
-		return optionPanel;
-	}
-
 	/**
 	 * Returns grid type.
 	 */
@@ -1705,7 +1673,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	}
 
-	protected void setCoordTransformIfNeeded() {
+	private void setCoordTransformIfNeeded() {
 		if (coordTransform != null) {
 			coordTransform.setTransform(xscale, 0.0d, 0.0d, -yscale, xZero,
 					yZero);

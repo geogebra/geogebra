@@ -1,7 +1,5 @@
 package org.geogebra.common.geogebra3D.io;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
@@ -9,7 +7,6 @@ import org.geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -25,9 +22,6 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public class MyXMLHandler3D extends MyXMLHandler {
-
-	private HashMap<EuclidianSettings3D, String> zmin = new HashMap<>();
-	private HashMap<EuclidianSettings3D, String> zmax = new HashMap<>();
 
 	/**
 	 * See Kernel3D for using the constructor
@@ -122,63 +116,32 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		}
 	}
 
-	private boolean handleCoordSystem3D(EuclidianSettings3D evs,
+	private static boolean handleCoordSystem3D(EuclidianSettings3D evs,
 			LinkedHashMap<String, String> attrs) {
-		if (attrs.get("xZero") != null) {
-			try {
-				double xZero = parseDoubleNaN(attrs.get("xZero"));
-				double yZero = parseDoubleNaN(attrs.get("yZero"));
-				double zZero = parseDoubleNaN(attrs.get("zZero"));
-
-				double scale = Double.parseDouble(attrs.get("scale"));
-				double yscale = scale, zscale = scale;
-				String yScaleString = attrs.get("yscale");
-				if (yScaleString != null) {
-					yscale = StringUtil.parseDouble(yScaleString);
-				}
-				String zScaleString = attrs.get("zscale");
-				if (zScaleString != null) {
-					zscale = StringUtil.parseDouble(zScaleString);
-				}
-
-				double xAngle = StringUtil.parseDouble(attrs.get("xAngle"));
-				double zAngle = StringUtil.parseDouble(attrs.get("zAngle"));
-
-				evs.setXscale(scale);
-				evs.setYscale(yscale);
-				evs.setZscale(zscale);
-				evs.setRotXYinDegrees(zAngle, xAngle);
-				evs.updateOrigin(xZero, yZero, zZero);
-
-				getXmin().put(evs, null);
-				getXmax().put(evs, null);
-				getYmin().put(evs, null);
-				getYmax().put(evs, null);
-				zmin.put(evs, null);
-				zmax.put(evs, null);
-
-				evs.setUpdateScaleOrigin(false);
-				evs.setSetStandardCoordSystem(false);
-
-				return true;
-			} catch (RuntimeException e) {
-				return false;
-			}
-		}
 		try {
-			getXmin().put(evs, attrs.get("xMin"));
-			getXmax().put(evs, attrs.get("xMax"));
-			getYmin().put(evs, attrs.get("yMin"));
-			getYmax().put(evs, attrs.get("yMax"));
-			zmin.put(evs, attrs.get("zMin"));
-			zmax.put(evs, attrs.get("zMax"));
+			double xZero = parseDoubleNaN(attrs.get("xZero"));
+			double yZero = parseDoubleNaN(attrs.get("yZero"));
+			double zZero = parseDoubleNaN(attrs.get("zZero"));
+
+			double scale = Double.parseDouble(attrs.get("scale"));
+			double yscale = scale, zscale = scale;
+			String yScaleString = attrs.get("yscale");
+			if (yScaleString != null) {
+				yscale = StringUtil.parseDouble(yScaleString);
+			}
+			String zScaleString = attrs.get("zscale");
+			if (zScaleString != null) {
+				zscale = StringUtil.parseDouble(zScaleString);
+			}
+
 			double xAngle = StringUtil.parseDouble(attrs.get("xAngle"));
 			double zAngle = StringUtil.parseDouble(attrs.get("zAngle"));
 
-			evs.setSetStandardCoordSystem(false);
-			evs.setUpdateScaleOrigin(true);
-
+			evs.setXscale(scale);
+			evs.setYscale(yscale);
+			evs.setZscale(zscale);
 			evs.setRotXYinDegrees(zAngle, xAngle);
+			evs.updateOrigin(xZero, yZero, zZero);
 
 			return true;
 		} catch (Exception e) {
@@ -452,30 +415,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			return true;
 		} catch (Exception e) {
 			return false;
-		}
-	}
-
-	@Override
-	protected void processEvSizes() {
-		super.processEvSizes();
-		ArrayList<EuclidianSettings3D> eSet = new ArrayList<>(
-				zmin.keySet());
-		for (EuclidianSettings3D ev : eSet) {
-			if (zmin.get(ev) == null) {
-				ev.setZminObject(null, true);
-			} else {
-				NumberValue n = getNumber(zmin.get(ev));
-				ev.setZminObject(n, true);
-			}
-		}
-		for (EuclidianSettings3D ev : eSet) {
-			if (zmax.get(ev) == null) {
-				ev.setZmaxObject(null, true);
-			} else {
-				NumberValue n = getNumber(zmax.get(ev));
-				ev.setZmaxObject(n, true);
-			}
-			ev.setUpdateScaleOrigin(true);
 		}
 	}
 

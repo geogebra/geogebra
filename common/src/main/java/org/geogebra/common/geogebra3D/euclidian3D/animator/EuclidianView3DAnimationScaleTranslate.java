@@ -44,8 +44,4 @@ public class EuclidianView3DAnimationScaleTranslate extends EuclidianView3DAnima
 		animatedScaleTimeStart = getMillisecondTime();
 	}
 
-	@Override
-	protected boolean animationAllowed() {
-		return true;
-	}
 }
