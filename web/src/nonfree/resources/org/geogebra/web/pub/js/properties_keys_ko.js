@@ -3481,7 +3481,7 @@ __GGB__keysVar["ko"].menu = {
     "stylebar.Left": "\uc67c\ucabd \uc815\ub82c",
     "stylebar.LineStyle": "\uc120 \uc2a4\ud0c0\uc77c \uc124\uc815",
     "stylebar.Middle": "\uc911\uac04",
-    "stylebar.NoBorder": "No border",
+    "stylebar.NoBorder": "\uacbd\uacc4\uc120 \uc5c6\uc74c",
     "stylebar.ObliqueProjection": "\uc0ac\ud22c\uc601",
     "stylebar.OrthographicProjection": "\uc9c1\uad50\ud22c\uc601",
     "stylebar.OuterBorders": "\ubc14\uae65\ucabd \ud14c\ub450\ub9ac",
