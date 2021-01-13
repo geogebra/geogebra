@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -55,7 +56,6 @@ public class GeoSymbolic extends GeoElement
 	private int pointSize;
 	private boolean symbolicMode;
 	private MyArbitraryConstant constant;
-	private boolean isRegisteredToEv;
 
 	@Nullable
 	private GeoElement twinGeo;
@@ -426,9 +426,12 @@ public class GeoSymbolic extends GeoElement
 		}
 		GeoElement[] elements = algebraProcessor.processValidExpression(expressionNode);
 		GeoElement result = elements.length > 1 ? toGeoList(elements) : elements[0];
-		if (!isRegisteredToEv && result instanceof GeoList) {
+		AlgoElement parentAlgo = elements[0].getParentAlgorithm();
+		if (cons.isRegisteredEuclidianViewCE(parentAlgo)) {
+			cons.unregisterEuclidianViewCE(parentAlgo);
 			cons.registerEuclidianViewCE(this);
-			isRegisteredToEv = true;
+		} else {
+			cons.unregisterEuclidianViewCE(this);
 		}
 		return result;
 	}
@@ -779,15 +782,12 @@ public class GeoSymbolic extends GeoElement
 	@Override
 	public boolean euclidianViewUpdate() {
 		isTwinUpToDate = false;
-		return getTwinGeo() != null;
+		return true;
 	}
 
 	@Override
 	public void doRemove() {
 		super.doRemove();
-		if (isRegisteredToEv) {
-			cons.unregisterEuclidianViewCE(this);
-			isRegisteredToEv = false;
-		}
+		cons.unregisterEuclidianViewCE(this);
 	}
 }
