@@ -11,6 +11,7 @@ import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * Composition handler for math input
@@ -79,13 +80,15 @@ final class EditorCompositionHandler
 		}
 	}
 
-	private <T extends EventHandler> boolean isBackspace(KeyCodeEvent<T> event) {
-		return "Backspace".equals(Js.asPropertyMap(event.getNativeEvent()).get("code"));
+	private <T extends EventHandler> boolean composingBackspace(KeyCodeEvent<T> event) {
+		JsPropertyMap<Object> nativeEvent = Js.asPropertyMap(event.getNativeEvent());
+		return Js.isTruthy(nativeEvent.get("isComposing"))
+			&& "Backspace".equals(nativeEvent.get("code"));
 	}
 
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
-		if (isBackspace(event)) {
+		if (composingBackspace(event)) {
 			editor.getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_BACK_SPACE));
 			backspace = true;
 		}
@@ -93,7 +96,7 @@ final class EditorCompositionHandler
 
 	@Override
 	public void onKeyUp(KeyUpEvent event) {
-		if (isBackspace(event)) {
+		if (composingBackspace(event)) {
 			editor.clearState();
 			backspace = false;
 		}
