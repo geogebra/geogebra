@@ -72,6 +72,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 	private int counter;
 	private HashMap<Integer, String> content = new HashMap<>();
 	private HashMap<Integer, String> base64 = new HashMap<>();
+	private final ArrayList<GeoEmbed> embedsLoading = new ArrayList<>();
 
 	/**
 	 * @param app
@@ -290,6 +291,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 	private static FlowPanel createH5PContainer(int embedID) {
 		FlowPanel container = new FlowPanel();
 		String id = "h5p-content" + embedID;
+		container.addStyleName("h5pEmbed");
 		container.getElement().setId(id);
 		return container;
 	}
@@ -565,6 +567,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 	public void openH5PTool(String url) {
 		int embedId = nextID();
 		GeoEmbed geoEmbed = new GeoEmbed(app.getKernel().getConstruction());
+		embedsLoading.add(geoEmbed);
 		geoEmbed.setUrl(url);
 		geoEmbed.setEmbedId(embedId);
 		geoEmbed.setAppName("h5p");
@@ -613,6 +616,14 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 	public void setContent(int id, String content) {
 		counter = Math.max(counter, id + 1);
 		this.content.put(id, content);
+	}
+
+	@Override
+	public void onLoaded(GeoEmbed geoEmbed, Runnable callback) {
+		if (embedsLoading.contains(geoEmbed)) {
+			embedsLoading.remove(geoEmbed);
+			callback.run();
+		}
 	}
 
 	@Override

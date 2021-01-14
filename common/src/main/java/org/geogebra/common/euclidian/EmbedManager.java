@@ -157,4 +157,11 @@ public interface EmbedManager {
 	 * @param content embed content as JSON
 	 */
 	void setContent(int embedID, String content);
+
+	/**
+	 * Notify when H5P object was loaded
+	 * @param geoEmbed embed
+	 * @param callback callback
+	 */
+	void onLoaded(GeoEmbed geoEmbed, Runnable callback);
 }
