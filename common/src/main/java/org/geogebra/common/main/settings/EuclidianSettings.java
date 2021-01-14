@@ -861,6 +861,28 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
+	 * Recalculates xZero and yZero based on the currently visible area of the EV
+	 *
+	 * @param xZero
+	 *            x-coord of the origin
+	 * @param yZero
+	 *            y-coord of the origin
+	 * @param xscale
+	 *            x scale
+	 * @param yscale
+	 *            y scale
+	 * @param fire
+	 *            whether to notify listeners
+	 */
+	public void setCoordSystemFromXml(
+			double xZero, double yZero, double xscale, double yscale, boolean fire) {
+		double centeredXZero = xZero + visibleFromX / 2.0;
+		double centeredYZero = yZero - (getHeight() - getVisibleHeight()) / 2.0;
+		setCoordSystem(centeredXZero, centeredYZero, xscale, yscale, fire);
+		setFileCoordSystem(centeredXZero, centeredYZero, xscale, yscale);
+	}
+
+	/**
 	 * @param xZero
 	 *            x-coord of the origin
 	 * @param yZero

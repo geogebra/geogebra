@@ -1537,6 +1537,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return yZero;
 	}
 
+	private double getXZeroForXml() {
+		return xZero - settings.getVisibleFromX() / 2.0;
+	}
+
+	private double getYZeroForXml() {
+		return yZero + (settings.getHeight() - settings.getVisibleUntilY()) / 2.0;
+	}
+
 	/**
 	 * @return string "x : y= _ : 1" or "x : y= 1 : _"
 	 */
@@ -4613,10 +4621,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		} else {
 			sbxml.append("\t<coordSystem");
 			sbxml.append(" xZero=\"");
-			sbxml.append(getXZero());
+			sbxml.append(getXZeroForXml());
 			sbxml.append("\"");
 			sbxml.append(" yZero=\"");
-			sbxml.append(getYZero());
+			sbxml.append(getYZeroForXml());
 			sbxml.append("\"");
 			sbxml.append(" scale=\"");
 			sbxml.append(getXscale());
