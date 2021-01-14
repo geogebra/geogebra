@@ -107,7 +107,7 @@ public class Solver {
 
 		editorPanel.add(editorFocusPanel);
 
-		StandardButton solveButton = new StandardButton("Compute", app);
+		StandardButton solveButton = new StandardButton("Compute");
 		solveButton.setStyleName("solverButton");
 		solveButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -127,7 +127,7 @@ public class Solver {
 				app.getLocalization().setLanguage(lang);
 
 				keyboard.setProcessing(new MathFieldProcessing(mathField));
-				keyboard.buildGUI();
+				keyboard.buildGUI(null);
 
 				String parameter = Window.Location.getParameter("i");
 				if (parameter != null && !"".equals(parameter)) {
@@ -212,14 +212,14 @@ public class Solver {
 
 		StepTransformable regrouped = input.regroupOutput(sb);
 		if (!regrouped.equals(input)) {
-			alternativeForms.add(new StepInformation(app, guiBuilder, regrouped,
+			alternativeForms.add(new StepInformation(guiBuilder, regrouped,
 					sb.getSteps()));
 		}
 		sb.reset();
 
 		StepTransformable expanded = input.expandOutput(sb);
 		if (!expanded.equals(input) && !expanded.equals(regrouped)) {
-			alternativeForms.add(new StepInformation(app, guiBuilder, expanded,
+			alternativeForms.add(new StepInformation(guiBuilder, expanded,
 					sb.getSteps()));
 		}
 		sb.reset();
@@ -227,7 +227,7 @@ public class Solver {
 		StepTransformable factored = input.factorOutput(sb);
 		if (!factored.equals(input) && !factored.equals(regrouped)
 				&& !factored.equals(expanded)) {
-			alternativeForms.add(new StepInformation(app, guiBuilder, factored,
+			alternativeForms.add(new StepInformation(guiBuilder, factored,
 					sb.getSteps()));
 		}
 		sb.reset();
@@ -251,7 +251,7 @@ public class Solver {
 				List<StepSolution> solutionList = solvable.solve(variable, sb);
 				double solveTime = FpsProfilerW.getMillisecondTimeNative();
 				solutions.add(
-						new StepInformation(app, guiBuilder, solutionList, sb.getSteps()));
+						new StepInformation(guiBuilder, solutionList, sb.getSteps()));
 				double endTime = FpsProfilerW.getMillisecondTimeNative();
 
 				Log.debug("Total execution time: " + (endTime - startTime) + " ms");
@@ -286,7 +286,7 @@ public class Solver {
 				StepExpression derivative =
 						StepNode.differentiate((StepExpression) input, variable);
 				StepExpression result = (StepExpression) derivative.differentiateOutput(sb);
-				stepsPanel.add(new StepInformation(app, guiBuilder,
+				stepsPanel.add(new StepInformation(guiBuilder,
 						new StepEquation(derivative, result), sb.getSteps()));
 
 				sb.reset();

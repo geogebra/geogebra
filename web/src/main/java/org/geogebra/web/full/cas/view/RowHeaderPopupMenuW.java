@@ -1,6 +1,7 @@
 package org.geogebra.web.full.cas.view;
 
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.view.spreadsheet.CopyPasteCutW;
 import org.geogebra.web.full.html5.AttachedToDOM;
@@ -140,6 +141,7 @@ public class RowHeaderPopupMenuW extends
 			return;
 		}
 
+		CopyPaste copyPaste = app.getCopyPaste();
 		boolean undoNeeded = true;
 
 		switch (ac) {
@@ -187,7 +189,7 @@ public class RowHeaderPopupMenuW extends
 					toBeCopied = toBeCopied.substring(0,
 							toBeCopied.length() - 13);
 				}
-				app.copyTextToSystemClipboard(toBeCopied);
+				copyPaste.copyTextToSystemClipboard(toBeCopied);
 			}
 			break;
 		case COPY:
@@ -196,7 +198,7 @@ public class RowHeaderPopupMenuW extends
 			// and if this is the case, the formula ends by:
 			// \\ undefined \\
 			if (toBeCopied != null) {
-				app.copyTextToSystemClipboard(toBeCopied);
+				copyPaste.copyTextToSystemClipboard(toBeCopied);
 			}
 			break;
 		case COPY_INPUT:
@@ -205,7 +207,7 @@ public class RowHeaderPopupMenuW extends
 			// and if this is the case, the formula ends by:
 			// \\ undefined \\
 			if (toBeCopied != null) {
-				app.copyTextToSystemClipboard(toBeCopied);
+				copyPaste.copyTextToSystemClipboard(toBeCopied);
 			}
 			break;
 		case PASTE:

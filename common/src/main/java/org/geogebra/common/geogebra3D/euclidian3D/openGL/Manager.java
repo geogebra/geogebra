@@ -52,6 +52,13 @@ abstract public class Manager {
 	private Coords boundsMin;
 	private Coords boundsMax;
 
+	private GLBufferIndices curvesIndices;
+	private GLBufferIndices fanDirectIndices;
+	private GLBufferIndices fanIndirectIndices;
+	private int curvesIndicesSize;
+	private int fanDirectIndicesSize;
+	private int fanIndirectIndicesSize;
+
 	/**
 	 * create a manager for geometries
 	 * 
@@ -124,7 +131,9 @@ abstract public class Manager {
 	 * init list of geometries
 	 */
 	protected void initGeometriesList() {
-		// used only for shaders
+		curvesIndicesSize = -1;
+		fanDirectIndicesSize = -1;
+		fanIndirectIndicesSize = -1;
 	}
 
 	/**
@@ -284,7 +293,7 @@ abstract public class Manager {
 	 * @param triFan
 	 *            indices
 	 */
-	final private void drawTriangleFan(Coords n, Coords[] v,
+	private void drawTriangleFan(Coords n, Coords[] v,
 			TriangleFan triFan) {
 		startGeometry(Type.TRIANGLE_FAN);
 
@@ -983,4 +992,111 @@ abstract public class Manager {
 		}
 	}
 
+	/**
+	 *
+	 * @param size
+	 *            sections size
+	 * @return GPU buffer for curve indices, update it if current is not big
+	 *         enough
+	 */
+	public final GLBufferIndices getBufferIndicesForCurve(int size) {
+
+		if (size > curvesIndicesSize) {
+			// creates indices buffer
+			if (curvesIndices == null) {
+				curvesIndices = GLFactory.getPrototype().newBufferIndices();
+			}
+			curvesIndices.allocate(3 * 2 * size * PlotterBrush.LATITUDES);
+
+			for (int k = 0; k < size; k++) {
+				for (int i = 0; i < PlotterBrush.LATITUDES; i++) {
+					int iNext = (i + 1) % PlotterBrush.LATITUDES;
+					// first triangle
+					curvesIndices.put((short) (i + k * PlotterBrush.LATITUDES));
+					curvesIndices.put(
+							(short) (i + (k + 1) * PlotterBrush.LATITUDES));
+					curvesIndices.put(
+							(short) (iNext + (k + 1) * PlotterBrush.LATITUDES));
+					// second triangle
+					curvesIndices.put((short) (i + k * PlotterBrush.LATITUDES));
+					curvesIndices.put(
+							(short) (iNext + (k + 1) * PlotterBrush.LATITUDES));
+					curvesIndices
+							.put((short) (iNext + k * PlotterBrush.LATITUDES));
+				}
+			}
+			curvesIndices.rewind();
+			curvesIndicesSize = size;
+		}
+
+		return curvesIndices;
+	}
+
+	/**
+	 *
+	 * @param size
+	 *            sections size
+	 * @return GPU buffer for direct fan indices, update it if current is not
+	 *         big enough
+	 */
+	public final GLBufferIndices getBufferIndicesForFanDirect(int size) {
+
+		if (size > fanDirectIndicesSize) {
+			// creates indices buffer
+			if (fanDirectIndices == null) {
+				fanDirectIndices = GLFactory.getPrototype().newBufferIndices();
+			}
+			fanDirectIndices.allocate(3 * (size - 2));
+
+			short k = 1;
+			short zero = 0;
+			while (k < size - 1) {
+				fanDirectIndices.put(zero);
+				fanDirectIndices.put(k);
+				k++;
+				fanDirectIndices.put(k);
+			}
+
+			fanDirectIndices.rewind();
+			fanDirectIndicesSize = size;
+		}
+
+		return fanDirectIndices;
+	}
+
+	/**
+	 *
+	 * @param size
+	 *            sections size
+	 * @return GPU buffer for indirect fan indices, update it if current is not
+	 *         big enough
+	 */
+	public final GLBufferIndices getBufferIndicesForFanIndirect(int size) {
+
+		if (size > fanIndirectIndicesSize) {
+
+			// creates indices buffer
+			if (fanIndirectIndices == null) {
+				fanIndirectIndices = GLFactory.getPrototype()
+						.newBufferIndices();
+			}
+			fanIndirectIndices.allocate(3 * (size - 2));
+
+			short k2 = 2;
+			short k = 1;
+			short zero = 0;
+			while (k < size - 1) {
+				fanIndirectIndices.put(zero);
+				fanIndirectIndices.put(k2);
+				fanIndirectIndices.put(k);
+				k++;
+				k2++;
+			}
+
+			fanIndirectIndices.rewind();
+			fanIndirectIndicesSize = size;
+		}
+
+		return fanIndirectIndices;
+	}
 }

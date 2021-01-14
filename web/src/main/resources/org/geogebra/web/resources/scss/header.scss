@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'z-index';
 
 $header_shadow:
     0 4px 5px 0 $black-14,
@@ -18,9 +19,9 @@ $button_hover_transition: background-color 0.15s;
 		top: 0px;
 		left: 0px;
 		width: 100%;
-		z-index: 200;
 		background-color: white;
 		box-shadow: $header_shadow;
+		z-index: $z-open-file-view-header;
 		
 		.headerBackButton {
 			cursor: pointer;

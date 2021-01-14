@@ -33,12 +33,14 @@ import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.parser.cashandlers.CommandDispatcherGiac;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -46,7 +48,9 @@ import com.himamis.retex.editor.share.util.Unicode;
  *
  */
 public class FunctionParser {
+	@Weak
 	private final Kernel kernel;
+	@Weak
 	private final App app;
 	private boolean inputBoxParsing = false;
 
@@ -152,8 +156,8 @@ public class FunctionParser {
 					return splitCommand;
 				}
 			}
-
-			if (!inputBoxParsing || isCommand(funcName)) {
+			Localization loc = kernel.getLocalization();
+			if (!inputBoxParsing || "If".equals(loc.getReverseCommand(funcName))) {
 				// function name does not exist: return command
 				Command cmd = new Command(kernel, funcName, true, !giacParsing);
 				for (int i = 0; i < myList.size(); i++) {

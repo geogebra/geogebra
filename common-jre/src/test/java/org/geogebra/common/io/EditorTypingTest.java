@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
@@ -102,13 +103,13 @@ public class EditorTypingTest {
 
 	@Test
 	public void testTrig5() {
-		checker.type("sin^2").typeKey(JavaKeyCodes.VK_RIGHT).type("(x)")
+		checker.type("sin^2").right(1).type("(x)")
 				.checkGGBMath("sin" + Unicode.SUPERSCRIPT_2 + "(x)");
 	}
 
 	@Test
 	public void testTrig6() {
-		checker.type("sin^-1").typeKey(JavaKeyCodes.VK_RIGHT).type("(x)")
+		checker.type("sin^-1").right(1).type("(x)")
 				.checkGGBMath("sin" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
 	}
 
@@ -409,13 +410,13 @@ public class EditorTypingTest {
 
 	@Test
 	public void testLogBase() {
-		checker.type("log_2").typeKey(JavaKeyCodes.VK_RIGHT).type("(4)").checkRaw(
+		checker.type("log_2").right(1).type("(4)").checkRaw(
 				"MathSequence[FnLOG[MathSequence[2], MathSequence[4]]]");
 	}
 
 	@Test
 	public void testSlash1() {
-		checker.type("/1").typeKey(JavaKeyCodes.VK_RIGHT).type("2")
+		checker.type("/1").right(1).type("2")
 				.checkAsciiMath("(1)/(2)");
 	}
 
@@ -426,13 +427,13 @@ public class EditorTypingTest {
 
 	@Test
 	public void testSlash3() {
-		checker.type("12").typeKey(JavaKeyCodes.VK_LEFT).type("/")
+		checker.type("12").left(1).type("/")
 				.checkAsciiMath("(1)/()2");
 	}
 
 	@Test
 	public void testDivision1() {
-		checker.type(Unicode.DIVIDE + "1").typeKey(JavaKeyCodes.VK_RIGHT).type("2")
+		checker.type(Unicode.DIVIDE + "1").right(1).type("2")
 				.checkAsciiMath("1/2");
 	}
 
@@ -443,22 +444,20 @@ public class EditorTypingTest {
 
 	@Test
 	public void testDivision3() {
-		checker.type("12").typeKey(JavaKeyCodes.VK_LEFT).type(Unicode.DIVIDE + "")
+		checker.type("12").left(1).type(Unicode.DIVIDE + "")
 				.checkAsciiMath("1/2");
 	}
 
 	@Test
 	public void testBracketsAroundFunction() {
-		checker.type("ln(x").typeKey(JavaKeyCodes.VK_LEFT)
-				.typeKey(JavaKeyCodes.VK_LEFT).typeKey(JavaKeyCodes.VK_LEFT)
-				.typeKey(JavaKeyCodes.VK_LEFT).type("(")
+		checker.type("ln(x").left(4).type("(")
 				.checkAsciiMath("(ln(x))");
 	}
 
 	@Test
 	public void testBracketsAfterEquals() {
-		checker.type("f(p").typeKey(JavaKeyCodes.VK_RIGHT)
-				.type("=ln(p*2.72").typeKey(JavaKeyCodes.VK_RIGHT)
+		checker.type("f(p").right(1)
+				.type("=ln(p*2.72").right(1)
 				.type("+3)").checkAsciiMath("f(p)=(ln(p*2.72)+3)");
 	}
 
@@ -467,6 +466,18 @@ public class EditorTypingTest {
 		checker.type("8" + Unicode.DIVIDE).typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.type(Unicode.DIVIDE + "2")
 				.checkAsciiMath("8/2");
+	}
+
+	@Test
+	public void testBackspaceAfterBrackets() {
+		checker.type("x(x+1)").typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("x(x+)");
+	}
+
+	@Test
+	public void testBackspaceAfterFraction() {
+		checker.type("12/34").typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("(12)/(3)");
 	}
 
 	@Test
@@ -493,11 +504,11 @@ public class EditorTypingTest {
 		inputBoxChecker.type("xsinxcosx").checkAsciiMath("xsin(xcos(x))");
 		inputBoxChecker.fromParser("");
 
-		inputBoxChecker.type("sin^2").typeKey(JavaKeyCodes.VK_RIGHT).type("a")
+		inputBoxChecker.type("sin^2").right(1).type("a")
 				.checkAsciiMath("sin^(2)(a)");
 		inputBoxChecker.fromParser("");
 
-		inputBoxChecker.type("log_3").typeKey(JavaKeyCodes.VK_RIGHT).type("x")
+		inputBoxChecker.type("log_3").right(1).type("x")
 				.checkAsciiMath("log(3,x)");
 	}
 
@@ -513,6 +524,14 @@ public class EditorTypingTest {
 		model.enableSubstitutions();
 		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
 		inputBoxChecker.type("sin(pix)").checkAsciiMath("sin(" + Unicode.PI_STRING + "x)");
+	}
+
+	@Test
+	public void typingEpsilonShouldProduceUnicode() {
+		MetaModel model = new MetaModel();
+		model.enableSubstitutions();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		inputBoxChecker.type("1+epsilon").checkAsciiMath("1+" + Unicode.epsilon);
 	}
 
 	@Test
@@ -545,5 +564,37 @@ public class EditorTypingTest {
 		model.enableSubstitutions();
 		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
 		inputBoxChecker.type("3pii").checkAsciiMath("3" + Unicode.PI_STRING + "i");
+	}
+
+	@Test
+	public void testBracketsForSelection() {
+		checker.type("x^2").right(1).type("+1")
+				.setModifiers(KeyEvent.SHIFT_MASK)
+				.left(5)
+				.setModifiers(0).type("(").checkAsciiMath("(x^(2)+1)");
+	}
+
+	@Test
+	public void testBracketsForSelectionSin() {
+		checker.type("sinx^2").right(1).type("+1")
+				.setModifiers(KeyEvent.SHIFT_MASK)
+				.left(5)
+				.setModifiers(0).type("(").checkAsciiMath("sin(x^(2)+1)");
+	}
+
+	@Test
+	public void testBracketsForSelectionSingleChar() {
+		checker.type("x^2").right(1).type("+1")
+				.setModifiers(KeyEvent.SHIFT_MASK)
+				.left(1)
+				.setModifiers(0).type("(").checkAsciiMath("x^(2)+(1)");
+	}
+
+	@Test
+	public void testBracketsForSelectionAfterScript() {
+		checker.type("x^2").right(1).type("+1")
+				.setModifiers(KeyEvent.SHIFT_MASK)
+				.left(2)
+				.setModifiers(0).type("(").checkAsciiMath("x^(2)(+1)");
 	}
 }

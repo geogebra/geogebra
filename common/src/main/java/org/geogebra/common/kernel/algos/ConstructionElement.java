@@ -22,6 +22,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Element of the construction tree
  * 
@@ -31,8 +33,10 @@ public abstract class ConstructionElement
 		implements Comparable<ConstructionElement> {
 
 	/** parent construction of this element */
+	@Weak
 	public transient Construction cons;
 	/** parent kernel of this element */
+	@Weak
 	public transient Kernel kernel;
 
 	private int constIndex = -1; // index in construction list

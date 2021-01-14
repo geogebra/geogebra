@@ -24,7 +24,8 @@ public class GeoGebraGlobal {
 	@JsProperty(name = "renderGGBElementReady")
 	public static native Function getRenderGGBElementReady();
 
-	public static native void renderGGBElementReady();
+	@JsProperty(name = "changeMetaTitle")
+	public static native Function getChangeMetaTitle();
 
 	@JsFunction
 	public interface RenderGgbElementFunction {

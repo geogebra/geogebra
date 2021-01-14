@@ -75,7 +75,7 @@ public class MenuToggleButton extends MyToggleButton
 
 	@Override
 	public void setTitle(String title) {
-		AriaHelper.setTitle(this, title, appW);
+		AriaHelper.setTitle(this, title);
 	}
 
 	/**

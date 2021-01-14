@@ -1538,8 +1538,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		inputPanelLatex.getWidget().getElement().getParentElement()
 				.addClassName("NewRadioButtonTreeItemParent");
 
-		unselect(getSelectionCtrl().getLastSelectedGeo());
-
 		if (inputJustCreated) {
 			if (isNodeTableEmpty()) {
 				inputPanelLatex.updateGUIfocus(false);

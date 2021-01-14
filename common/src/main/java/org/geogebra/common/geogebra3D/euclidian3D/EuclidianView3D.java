@@ -206,13 +206,11 @@ public abstract class EuclidianView3D extends EuclidianView
 	protected GColor bgColor;
 	protected GColor bgApplyedColor;
 
-	// cursor
-	// private Kernel kernel;
 	private Kernel3D kernel3D;
 	// list of 3D objects
 	private boolean waitForUpdate = true; // says if it waits for update...
-	// public boolean waitForPick = false; //says if it waits for update...
-	private Drawable3DListsForView drawable3DLists; // = new DrawList3D();
+
+	private Drawable3DListsForView drawable3DLists;
 	/**
 	 * list for drawables that will be added on next frame
 	 */
@@ -348,6 +346,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		viewDirection.set3(Coords.VZ);
 
 		target = new Target();
+
 		start();
 	}
 
@@ -1715,28 +1714,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		return axis[AXIS_X].isEuclidianVisible();
 	}
 
-	/*
-	 * Point pOld = null;
-	 *
-	 *
-	 * public void setHits(Point p) {
-	 *
-	 *
-	 *
-	 * if (p.equals(pOld)){ //Application.printStacktrace(""); return; }
-	 *
-	 *
-	 * pOld = p;
-	 *
-	 * //sets the flag and mouse location for openGL picking
-	 * renderer.setMouseLoc(p.x,p.y,Renderer.PICKING_MODE_LABELS);
-	 *
-	 * //calc immediately the hits renderer.display();
-	 *
-	 *
-	 * }
-	 */
-
 	@Override
 	public boolean getShowYaxis() {
 		return axis[AXIS_Y].isEuclidianVisible();
@@ -2686,17 +2663,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            renderer
 	 */
 	public void drawCursor(Renderer renderer1) {
-		// Log.debug("\nhasMouse="
-		// + hasMouse
-		// + "\n!getEuclidianController().mouseIsOverLabel() "
-		// + !getEuclidianController().mouseIsOverLabel()
-		// +
-		// "\ngetEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())"
-		// + ((EuclidianController3D) getEuclidianController())
-		// .cursor3DVisibleForCurrentMode(getCursor3DType())
-		// + "\ncursor=" + cursor + "\ngetCursor3DType()="
-		// + getCursor3DType());
-
 		if (companion3D != null && companion3D.shouldDrawCursor()) {
 			if (shouldDrawCursorAtEnd()) {
 				// draw here for hidden parts
@@ -4164,13 +4130,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		return true;
 	}
 
-	/*
-	 * @Override public geogebra.common.awt.GColor getBackgroundCommon() {
-	 * return new geogebra.awt.GColorD(getBackground());
-	 *
-	 * }
-	 */
-
 	// ////////////////////////////////////
 	// PICKING
 
@@ -4420,10 +4379,8 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		setProjection(evs.getProjection());
 
-        boolean colored = evs.getHasColoredAxes();
-        for (GeoAxisND ax : axis) {
-            ax.setColoredFor3D(colored);
-        }
+		boolean colored = evs.getHasColoredAxes();
+		setColoredAxes(colored);
 
 		updateMatrix();
 		getEuclidianController().onCoordSystemChanged();
@@ -4435,6 +4392,12 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		if (styleBar != null) {
 			styleBar.updateGUI();
+		}
+	}
+
+	protected void setColoredAxes(boolean colored) {
+		for (GeoAxisND ax : axis) {
+			ax.setColoredFor3D(colored);
 		}
 	}
 
@@ -4798,9 +4761,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		setViewChangedByTranslate();
 		setWaitForUpdate();
 	}
-
-	// private CoordMatrix4x4 startTranslationScreen =
-	// CoordMatrix4x4.Identity();
 
 	/**
 	 * set mouse start pos

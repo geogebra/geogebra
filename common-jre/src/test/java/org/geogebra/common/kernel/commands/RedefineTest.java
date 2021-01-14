@@ -157,21 +157,6 @@ public class RedefineTest extends Assert {
 	}
 
 	@Test
-	public void undoShouldNotRandomizeBinomial() {
-		app.setRandomSeed(42);
-		app.setUndoRedoEnabled(true);
-		app.setUndoActive(true);
-		t("a=RandomBinomial(100, 0.6)", "61");
-
-		app.storeUndoInfo();
-		t("1", "1");
-		app.storeUndoInfo();
-		app.getKernel().undo();
-
-		t("a", "61");
-	}
-
-	@Test
 	public void randomizeUpdateConstruction() {
 		app.setRandomSeed(42);
 		app.setUndoRedoEnabled(true);
@@ -228,36 +213,6 @@ public class RedefineTest extends Assert {
 	}
 
 	@Test
-	public void undoShouldNotRandomizeRandomElement() {
-		app.setRandomSeed(42);
-		app.setUndoRedoEnabled(true);
-		app.setUndoActive(true);
-		t("P=RandomElement((1..10,1..10))", "(8, 8)");
-
-		app.storeUndoInfo();
-		t("1", "1");
-		app.storeUndoInfo();
-		app.getKernel().undo();
-
-		t("P", "(8, 8)");
-	}
-
-	@Test
-	public void undoShouldNotRandomizeRandomElementWithListOfLists() {
-		app.setRandomSeed(42);
-		app.setUndoRedoEnabled(true);
-		app.setUndoActive(true);
-		t("P=RandomElement(Identity(10))", "{0, 0, 0, 0, 0, 0, 0, 1, 0, 0}");
-
-		app.storeUndoInfo();
-		t("1", "1");
-		app.storeUndoInfo();
-		app.getKernel().undo();
-
-		t("P", "{0, 0, 0, 0, 0, 0, 0, 1, 0, 0}");
-	}
-
-	@Test
 	public void cmdRename() {
 		checkError("Rename[ 6*7, \"$7\" ]",
 				"Command Rename:\nIllegal argument: Text \"$7\"\n\n"
@@ -306,7 +261,7 @@ public class RedefineTest extends Assert {
 	@Test
 	public void pointOnFnShouldNotStayUndefined() {
 		t("a=1", "1");
-		t("f=axx", "x^(2)");
+		t("f=axx", "(1 * x^(2))");
 		t("A=Point[f]", "(0, 0)");
 		t("a=?", "NaN");
 		t("a=1", "1");
@@ -348,7 +303,7 @@ public class RedefineTest extends Assert {
 		t("c:y^2 = (x^2-a^2)/x^2", "y^(2) = (x^(2) - 2^(2)) / x^(2)");
 		Assert.assertFalse("Implicit curve with var should be dependent.",
 				get("c").isIndependent());
-		t("c1:y^2 = (x^2-2^2)/x^2", "y^(2) = (x^(2) - 4) / x^(2)");
+		t("c1:y^2 = (x^2-2^2)/x^2", "y^(2) = (x^(2) - 2^(2)) / x^(2)");
 		Assert.assertTrue("Implicit curve without vars should be independent.",
 				get("c1").isIndependent());
 		Assert.assertEquals(

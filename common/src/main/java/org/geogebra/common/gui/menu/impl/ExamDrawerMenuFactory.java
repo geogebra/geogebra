@@ -14,17 +14,27 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 
 	/**
 	 * Create a new ExamDrawerMenuFactory.
-	 *
 	 * @param version version of the app
 	 */
 	public ExamDrawerMenuFactory(GeoGebraConstants.Version version) {
-		super(version);
+		this(version, version.equals(GeoGebraConstants.Version.SUITE));
+	}
+
+	/**
+	 * Create a new ExamDrawerMenuFactory.
+	 * @param version version of the app
+	 * @param isSuiteApp whether it is the Suite app
+	 */
+	public ExamDrawerMenuFactory(GeoGebraConstants.Version version,
+			boolean isSuiteApp) {
+		super(version, isSuiteApp);
 	}
 
 	@Override
 	public DrawerMenu createDrawerMenu() {
-		MenuItemGroup group = new MenuItemGroupImpl(clearConstruction(),
-				showExamLog(), exitExamMode());
+		MenuItemGroup group = new MenuItemGroupImpl(removeNulls(
+				clearConstruction(), showSwitchCalculator(),
+				showExamLog(), exitExamMode()));
 		String title = getMenuTitle();
 		return new DrawerMenuImpl(title, group);
 	}

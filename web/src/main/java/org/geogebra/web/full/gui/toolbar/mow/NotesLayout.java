@@ -46,8 +46,7 @@ public class NotesLayout implements SetLabels {
 
 	private void createPageControlButton() {
 		pageControlButton = new StandardButton(
-				MaterialDesignResources.INSTANCE.mow_page_control(), null, 24,
-				appW);
+				MaterialDesignResources.INSTANCE.mow_page_control(), null, 24);
 		new FocusableWidget(AccessibilityGroup.PAGE_LIST_OPEN, null, pageControlButton)
 				.attachTo(appW);
 		pageControlButton.setStyleName("mowFloatingButton");
@@ -173,7 +172,7 @@ public class NotesLayout implements SetLabels {
 		undoRedoPanel.addStyleName(appW.getVendorSettings().getStyleName("undoRedoPosition"));
 		// create buttons
 		btnUndo = new StandardButton(
-				MaterialDesignResources.INSTANCE.undo_border(), null, 24, appW);
+				MaterialDesignResources.INSTANCE.undo_border(), null, 24);
 		btnUndo.addStyleName("flatButton");
 		btnUndo.addFastClickHandler(widget -> {
 			appW.getGuiManager().undo();
@@ -181,7 +180,7 @@ public class NotesLayout implements SetLabels {
 		});
 		new FocusableWidget(AccessibilityGroup.UNDO, null, btnUndo).attachTo(appW);
 		btnRedo = new StandardButton(
-				MaterialDesignResources.INSTANCE.redo_border(), null, 24, appW);
+				MaterialDesignResources.INSTANCE.redo_border(), null, 24);
 		btnRedo.addFastClickHandler(widget -> {
 			appW.getGuiManager().redo();
 			deselectDragButton();

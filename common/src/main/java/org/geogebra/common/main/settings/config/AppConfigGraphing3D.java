@@ -62,7 +62,7 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 
 	@Override
 	public String getTutorialKey() {
-		return "Tutorial3D";
+		return getSubAppCode() == null ? "Tutorial3D" : "TutorialSuite";
 	}
 
 	@Override
@@ -204,5 +204,10 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	@Override
 	public PropertiesFactory createPropertiesFactory() {
 		return new G3DPropertiesFactory();
+	}
+
+	@Override
+	public boolean hasLabelForDescription() {
+		return true;
 	}
 }

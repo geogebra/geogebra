@@ -52,7 +52,7 @@ public class FitTests extends BaseUnitTest {
         GeoElement fitExp =
                 addAvInput("FitExp({(0, 1), (2, 4)})");
         String outputString = fitExp.toOutputValueString(StringTemplate.editTemplate);
-        assertThat(outputString, equalTo("ℯ^(0.69315x)"));
+        assertThat(outputString, equalTo("1ℯ^(0.69315x)"));
         Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitExp.getDescriptionMode());
         Assert.assertEquals(GeoLine.EQUATION_IMPLICIT_NON_CANONICAL, fitExp.getToStringMode());
     }
@@ -176,7 +176,7 @@ public class FitTests extends BaseUnitTest {
         GeoElement fitSin =
                 addAvInput("FitSin({(1, 1), (2, 2), (3, 1), (4, 0), (5, 1), (6, 2)})");
         String outputString = fitSin.toOutputValueString(StringTemplate.editTemplate);
-        assertThat(outputString, equalTo("1 + sin(1.5708x - 1.5708)"));
+        assertThat(outputString, equalTo("1 + 1sin(1.5708x - 1.5708)"));
         Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitSin.getDescriptionMode());
         Assert.assertEquals(GeoLine.EQUATION_IMPLICIT_NON_CANONICAL, fitSin.getToStringMode());
     }

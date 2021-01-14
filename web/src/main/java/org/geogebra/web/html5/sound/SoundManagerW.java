@@ -84,7 +84,7 @@ public class SoundManagerW implements SoundManager {
 		if (audio != null) {
 			app.invokeLater(audio::play);
 		} else {
-			playMP3(geoElement, file);
+			playMP3(geoElement, url);
 		}
 	}
 

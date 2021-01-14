@@ -31,6 +31,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import elemental2.core.Function;
+
 /**
  * The main frame containing every view / menu bar / .... This Panel (Frame is
  * resize able)
@@ -642,8 +644,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * callback when renderGGBElement is ready
 	 */
 	public static void renderGGBElementReady() {
-		if (GeoGebraGlobal.getRenderGGBElementReady() != null) {
-			GeoGebraGlobal.renderGGBElementReady();
+		Function renderGGBElementReady = GeoGebraGlobal.getRenderGGBElementReady();
+		if (renderGGBElementReady != null) {
+			renderGGBElementReady.call();
 		}
 	}
 

@@ -4,7 +4,7 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.RemoveNeeded;
 
-public interface DrawInline extends RemoveNeeded {
+public interface DrawInline extends RemoveNeeded, HasTransformation {
 	/**
 	 * Update editor from geo
 	 */

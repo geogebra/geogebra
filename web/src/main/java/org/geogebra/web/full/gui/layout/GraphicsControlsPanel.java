@@ -33,8 +33,7 @@ public class GraphicsControlsPanel extends FlowPanel implements DockControlPanel
 
 	private void addSettingsIcon(final DockPanelW parent) {
 		graphicsContextMenuBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.settings_border(), null, 24,
-				app);
+				MaterialDesignResources.INSTANCE.settings_border(), null, 24);
 		graphicsContextMenuBtn
 				.setTitle(app.getLocalization().getMenu("Settings"));
 		final FocusableWidget focusableWidget = new FocusableWidget(

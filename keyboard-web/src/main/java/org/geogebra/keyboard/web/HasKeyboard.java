@@ -1,5 +1,6 @@
 package org.geogebra.keyboard.web;
 
+import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.Localization;
 
@@ -41,4 +42,14 @@ public interface HasKeyboard {
 	 * @return the keyboard type based on the app, see {@link AppKeyboardType}
 	 */
 	AppKeyboardType getKeyboardType();
+
+	/**
+	 * @return keyboard type specific to the input box geo type, see {@link InputBoxType}
+	 */
+	InputBoxType getInputBoxType();
+
+	/**
+	 * @return String of function vars if the inputbox is connected to a function
+	 */
+	String getInputBoxFunctionVars();
 }

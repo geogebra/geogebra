@@ -1081,7 +1081,7 @@ public final class Configuration {
 		add("llfloor", TeXConstants.TYPE_OPENING, 116, fonts.stmary10);
 		add("varcurlywedge", TeXConstants.TYPE_BINARY_OPERATOR, 41,
 				fonts.stmary10);
-		add("Omega", TeXConstants.TYPE_ORDINARY, 172, fonts.cmr10, '\u03A9');
+		add("Omega", TeXConstants.TYPE_ORDINARY, 173, fonts.cmr10, '\u03A9');
 		add("oblong", TeXConstants.TYPE_BINARY_OPERATOR, 96, fonts.stmary10);
 		add("land", TeXConstants.TYPE_BINARY_OPERATOR, 94, fonts.cmsy10);
 		add("fatsemi", TeXConstants.TYPE_BINARY_OPERATOR, 67, fonts.stmary10);
@@ -1102,7 +1102,7 @@ public final class Configuration {
 		add("smallint", TeXConstants.TYPE_BIG_OPERATOR, 115, fonts.cmsy10);
 		add("bigcurlywedge", TeXConstants.TYPE_BIG_OPERATOR, 131,
 				fonts.stmary10);
-		add("varOmega", TeXConstants.TYPE_ORDINARY, 172, fonts.cmmi10,
+		add("varOmega", TeXConstants.TYPE_ORDINARY, 173, fonts.cmmi10,
 				'\u03A9');
 		add("sswarrow", TeXConstants.TYPE_RELATION, 68, fonts.stmary10);
 		add("circlearrowright", TeXConstants.TYPE_RELATION, 169, fonts.msam10,

@@ -1,3 +1,5 @@
+@import 'z-index';
+
 .GeoGebraFrame{
 	/**
 	 * According to the CSS2 specification, width will be the greater of
@@ -76,13 +78,12 @@
 	}
 	
 	.geogebraweb-popup-spreadsheet {
-		z-index: 11;
+		z-index: $z-spreadsheet-popup;
 	}
  
-	.geogebraweb-button-spreadsheet,.geogebraweb-checkbox-spreadsheet,.geogebraweb-select-spreadsheet
-	{
+	.geogebraweb-button-spreadsheet,.geogebraweb-checkbox-spreadsheet,.geogebraweb-select-spreadsheet {
 		position: relative;
-		z-index: 10;
+		z-index: $z-spreadsheet-button;
 	}
 
 	 .geogebraweb-button-spreadsheet {
@@ -103,7 +104,7 @@
 	}
 	
 	.geogebraweb-selectionframe-spreadsheet {
-		z-index: 6;
+		z-index: $z-spreadsheet-selection-frame;
 		border-style: solid;
 		/*border-width: 2px;*/
 		border-color: #0000FF;

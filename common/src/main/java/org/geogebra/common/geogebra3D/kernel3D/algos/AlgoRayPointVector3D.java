@@ -30,16 +30,14 @@ public class AlgoRayPointVector3D extends AlgoLinePointVector3D {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param point
 	 *            start point
 	 * @param v
 	 *            direction vector
 	 */
-	public AlgoRayPointVector3D(Construction cons, String label,
+	public AlgoRayPointVector3D(Construction cons,
 			GeoPointND point, GeoVectorND v) {
-		super(cons, label, point, v);
+		super(cons,  point, v);
 	}
 
 	@Override

@@ -53,8 +53,7 @@ public class FunctionKeyboardFactory implements KeyboardModelFactory {
 		addConstantInputCommandButton(row, buttonFactory, Resource.DERIVATIVE, "Derivative", 1.0f);
         addConstantInputCommandButton(row, buttonFactory, Resource.INTEGRAL, "Integral", 1.0f);
 
-		// start altText with "altText." if it's a ggbtrans key
-		addInputButton(row, buttonFactory, "i", "\u03af", "altText.Imaginaryi");
+		addInputButton(row, buttonFactory, Characters.imaginaryI, "\u03af", "altText.Imaginaryi");
 		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
 				Action.BACKSPACE_DELETE);
 

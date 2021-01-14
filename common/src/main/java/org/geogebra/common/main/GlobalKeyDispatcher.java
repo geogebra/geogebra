@@ -36,6 +36,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.KeyCodes;
 
 /**
@@ -46,8 +47,10 @@ public abstract class GlobalKeyDispatcher {
 	private static final double AUTOSTEPS_PER_KEY = 5;
 
 	/** application */
+	@Weak
 	public final App app;
 	/** selection */
+	@Weak
 	protected final SelectionManager selection;
 
 	private TreeSet<AlgoElement> tempSet;

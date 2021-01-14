@@ -415,7 +415,10 @@ abstract public class MathContainer extends MathComponent {
 	 */
 	public void delArgument(int i) {
 		if (i >= 0 && i < arguments.size()) {
-			arguments.remove(i);
+			MathComponent removed = arguments.remove(i);
+			if (removed != null) {
+				removed.setParent(null);
+			}
 		}
 	}
 

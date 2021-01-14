@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.view.algebra;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -116,17 +115,14 @@ public class AVSelectionController {
 		ensureClearLastSelection();
 
 		if ((aux == aux2 && aux) || (aux == aux2 && ind == ind2)) {
-			Iterator<GeoElement> it = app.getKernel().getConstruction()
-					.getGeoSetLabelOrder().iterator();
 			boolean direction = geo.getLabel(StringTemplate.defaultTemplate)
 					.compareTo(getLastSelectedGeo()
 							.getLabel(StringTemplate.defaultTemplate)) < 0;
 
-			while (it.hasNext()) {
-				GeoElement geo2 = it.next();
+			for (GeoElement geo2 : app.getKernel().getConstruction().getGeoSetLabelOrder()) {
 				if ((geo2.isAuxiliaryObject() == aux && aux)
 						|| (geo2.isAuxiliaryObject() == aux
-								&& geo2.isIndependent() == ind)) {
+						&& geo2.isIndependent() == ind)) {
 
 					if (direction && geo2.equals(getLastSelectedGeo())) {
 						selecting = !selecting;
@@ -164,24 +160,6 @@ public class AVSelectionController {
 		}
 
 	}
-
-	// private void continuousOrder(GeoElement geo) {
-	// ensureClearLastSelection(geo);
-	//
-	// boolean direction = geo.getConstructionIndex() < getLastSelectedGeo()
-	// .getConstructionIndex();
-	//
-	// GeoElement geoFrom = direction ? geo : getLastSelectedGeo();
-	// GeoElement geoTo = direction ? getLastSelectedGeo() : geo;
-	//
-	// SortedSet<GeoElement> geos = app.getKernel().getConstruction()
-	// .getGeoSetConstructionOrder()
-	// .subSet(geoFrom, true, geoTo, true);
-	//
-	// for (GeoElement geo1 : geos) {
-	// selection.toggleSelectedGeo(geo1);
-	// }
-	// }
 
 	/**
 	 * Selecting the GeoElement

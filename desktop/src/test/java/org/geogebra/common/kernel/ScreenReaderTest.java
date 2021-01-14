@@ -45,24 +45,24 @@ public class ScreenReaderTest {
 	public void testLaTeXWithZero() {
 		String funct = "sin((2x)/(3) (4-5)) + 0";
 		tsc(funct,
-				"sin open parenthesis start fraction 2 times x over 3 end fraction times open"
-						+ " parenthesis -1 close parenthesis close parenthesis");
+				"sin open parenthesis start fraction 2 times x over 3 end fraction "
+						+ "times open parenthesis 4 minus 5 close parenthesis close parenthesis");
 	}
 
 	@Test
 	public void testLaTeXWithNegative() {
 		String funct = "sin((2x)/(3) (4-5)) + -2";
 		tsc(funct,
-				"sin open parenthesis start fraction 2 times x over 3 end fraction times open"
-						+ " parenthesis -1 close parenthesis close parenthesis minus 2");
+				"sin open parenthesis start fraction 2 times x over 3 end fraction times"
+						+ " open parenthesis 4 minus 5 close parenthesis close parenthesis minus 2");
 	}
 
 	@Test
 	public void testLaTeXWithOneTimes() {
 		String funct = "1 * (sin((2x)/(3) (4-5)) + -2)";
 		tsc(funct,
-				"1 times open parenthesis sin open parenthesis start fraction 2 times x over 3"
-						+ " end fraction times open parenthesis -1 close parenthesis close"
+				"1 times open parenthesis sin open parenthesis start fraction 2 times x over"
+						+ " 3 end fraction times open parenthesis 4 minus 5 close parenthesis close"
 						+ " parenthesis minus 2 close parenthesis");
 	}
 

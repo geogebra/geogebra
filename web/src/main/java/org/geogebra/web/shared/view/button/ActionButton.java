@@ -63,6 +63,6 @@ public class ActionButton implements ActionView, SetLabels {
 
 	@Override
 	public void setLabels() {
-		AriaHelper.setTitle(view, app.getLocalization().getMenu(titleLocalizationKey), app);
+		AriaHelper.setTitle(view, app.getLocalization().getMenu(titleLocalizationKey));
 	}
 }
