@@ -100,6 +100,10 @@ public class BorderTextPopup extends BgColorPopup {
 		noBorder.setLabel(app.getLocalization().getMenu("stylebar.NoBorder"));
 	}
 
+	/**
+	 * update popup based on geo line thickness
+	 * @param borderThickness - geo line thickness
+	 */
 	public void selectBorderThickness(int borderThickness) {
 		deselectAll();
 		switch (borderThickness) {

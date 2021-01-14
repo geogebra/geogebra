@@ -432,7 +432,7 @@ public class XMLBuilder {
 	}
 
 	/**
-	 * Adds border color and thickness for inline texts
+	 * Adds border color for inline texts
 	 * @param sb XML builder
 	 * @param text inline text
 	 */
@@ -442,12 +442,6 @@ public class XMLBuilder {
 			sb.append("\t<borderColor");
 			appendRGB(sb, borderColor);
 			sb.append("/>\n");
-		}
-		int borderThickness = text.getBorderThickness();
-		if (borderThickness != 0) {
-			sb.append("\t<borderThickness val=\"");
-			sb.append(borderThickness);
-			sb.append("\"/>\n");
 		}
 	}
 }
