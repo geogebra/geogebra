@@ -346,7 +346,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		viewDirection.set3(Coords.VZ);
 
 		target = new Target();
-
 		start();
 	}
 
@@ -5357,10 +5356,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			if (!GeoNumeric.isChangeable(zminObject)) {
 				return false;
 			}
-			if (!GeoNumeric.isChangeable(zmaxObject)) {
-				return false;
-			}
-			return true;
+			return GeoNumeric.isChangeable(zmaxObject);
 		}
 		return false;
 	}
