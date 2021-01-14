@@ -3159,20 +3159,32 @@ public class ExpressionNode extends ValidExpression
 		}
 		double lt = left.evaluateDouble();
 		if (lt < 0 && right.isExpressionNode()) {
-			final ExpressionNode rightNode = (ExpressionNode) right;
-			if (isDivideOperation(rightNode)) {
-				return ExpressionNodeEvaluator.negPower(lt, right);
-			} else if (rightNode.getOperation() == Operation.MULTIPLY
-					&& rightNode.getLeft() instanceof MinusOne
-					&& isDivideOperation((ExpressionNode) rightNode.getRight())) {
-				return (ExpressionNodeEvaluator.negPower(lt, rightNode.getRight(), true));
+			Double negPower = right.wrap().calculateNegPower(lt);
+			if (negPower != null) {
+				return negPower;
 			}
 		}
 		return Math.pow(left.evaluateDouble(), right.evaluateDouble());
 	}
 
-	private boolean isDivideOperation(ExpressionNode node) {
-		return node.getOperation() == Operation.DIVIDE;
+	/**
+	 * @param base
+	 *            base of power term
+	 * @return negPower if exponent is negative fraction
+	 */
+	public Double calculateNegPower(double base) {
+		if (isDivideOperation()) {
+			return ExpressionNodeEvaluator.negPower(base, this, false);
+		} else if (getOperation() == Operation.MULTIPLY
+				&& getLeft() instanceof MinusOne
+				&& ((ExpressionNode) getRight()).isDivideOperation()) {
+			return (ExpressionNodeEvaluator.negPower(base, getRight(), true));
+		}
+		return null;
+	}
+
+	private boolean isDivideOperation() {
+		return getOperation() == Operation.DIVIDE;
 	}
 
 	/**
