@@ -5339,6 +5339,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	protected void setStandardCoordSystem(boolean repaint) {
+		if (getSettings() != null && !getSettings().isSetStandardCoordSystem()) {
+			return;
+		}
 		set3DCoordSystem(XZERO_SCENE_STANDARD, YZERO_SCENE_STANDARD, ZZERO_SCENE_STANDARD,
 				SCALE_STANDARD, SCALE_STANDARD, SCALE_STANDARD);
 		getSettings().setUpdateScaleOrigin(
