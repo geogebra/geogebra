@@ -8,10 +8,10 @@ import jsinterop.annotations.JsType;
 @JsType
 public class H5PApi {
 	@JsProperty
-	public JsArray<H5PAPiInstance> instances;
+	public JsArray<H5PApiInstance> instances;
 
 	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
-	public class H5PAPiInstance {
+	public static class H5PApiInstance {
 		native void trigger(String resize);
 	}
 }
