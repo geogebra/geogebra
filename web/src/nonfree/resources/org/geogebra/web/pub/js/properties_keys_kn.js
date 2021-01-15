@@ -3481,6 +3481,7 @@ __GGB__keysVar["kn"].menu = {
     "stylebar.Left": "Left",
     "stylebar.LineStyle": "\u0cb8\u0cbe\u0cb2\u0cc1 \u0cb6\u0cc8\u0cb2\u0cbf\u0caf\u0ca8\u0ccd\u0ca8\u0cc1 \u0cb9\u0cca\u0c82\u0ca6\u0cbf\u0cb8\u0cbf",
     "stylebar.Middle": "Middle",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "\u0c93\u0cb0\u0cc6\u0caf\u0cbe\u0ca6 \u0caa\u0ccd\u0cb0\u0cca\u0c9c\u0cc6\u0c95\u0ccd\u0cb7\u0ca8\u0ccd",
     "stylebar.OrthographicProjection": "\u0cb2\u0c82\u0cac\u0cb0\u0cc7\u0c96\u0cc0\u0caf \u0caa\u0ccd\u0cb0\u0c95\u0ccd\u0cb7\u0cc7\u0caa",
     "stylebar.OuterBorders": "Outer borders",

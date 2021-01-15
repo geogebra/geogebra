@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -1287,6 +1288,10 @@ public class ConsElementXMLHandler {
 			String opacity = attrs.get("opacity");
 			if (opacity != null) {
 				geo.setLineOpacity(Integer.parseInt(opacity));
+			}
+			String drawArrows = attrs.get("drawArrow");
+			if (drawArrows != null && geo instanceof GeoLocus) {
+				((GeoLocus) geo).drawAsArrows(MyXMLHandler.parseBoolean(drawArrows));
 			}
 
 			return true;

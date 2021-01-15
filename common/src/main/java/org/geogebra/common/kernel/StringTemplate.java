@@ -66,6 +66,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	private boolean shouldPrintMethodsWithParenthesis;
 	private boolean forEditorParser = false;
+	private boolean allowShortLhs = true;
 
 	/**
 	 * Default template, but do not localize commands
@@ -405,6 +406,17 @@ public class StringTemplate implements ExpressionNodeConstants {
 		maxDecimals.allowMoreDigits = false;
 		maxDecimals.forceNF = true;
 		maxDecimals.localizeCmds = false;
+	}
+
+	public static final StringTemplate casCompare = new StringTemplate(
+			"casCompare");
+
+	static {
+		casCompare.nf = FormatFactory.getPrototype().getNumberFormat(10);
+		casCompare.allowMoreDigits = false;
+		casCompare.forceNF = true;
+		casCompare.localizeCmds = false;
+		casCompare.allowShortLhs = false;
 	}
 
 	/**
@@ -3531,5 +3543,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return localization.getMenu("Undefined");
 		}
 		return "Undefined";
+	}
+
+	public boolean allowShortLhs() {
+		return allowShortLhs;
 	}
 }

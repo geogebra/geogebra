@@ -4,6 +4,7 @@ import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
@@ -315,8 +316,8 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		GeoNumeric numeric = add("a = 5");
 		numeric.setShowExtendedAV(true);
 		numeric.initAlgebraSlider();
-		Assert.assertFalse(numeric.getIntervalMax() >= 20);
-		Assert.assertFalse(numeric.getIntervalMin() <= -20);
+		assertFalse(numeric.getIntervalMax() >= 20);
+		assertFalse(numeric.getIntervalMin() <= -20);
 
 		GeoInputBox inputBox = add("ib = InputBox(a)");
 		inputBox.setSymbolicMode(true);
@@ -546,5 +547,38 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		inputBox.updateLinkedGeo("(5,-5)");
 		assertEquals(point.toValueString(StringTemplate.editTemplate),
 				"(1, -1)");
+	}
+
+	@Test
+	public void hasSpecialEditorTest() {
+		GeoElement mat1 = add("mat1={{1,2,3}}");
+		assertTrue(mat1.hasSpecialEditor());
+
+		add("slider1 = 7");
+		GeoElement mat2 = add("mat2={{1,2,slider1}}");
+		assertTrue(mat2.hasSpecialEditor());
+		mat2 = add("mat2={{1,2,slider1},Reverse[{1,2,3}]}");
+		assertFalse(mat2.hasSpecialEditor());
+
+		GeoElement l1 = add("l1: 3x + 2y = 4");
+		assertFalse(l1.hasSpecialEditor());
+
+		GeoElement l2 = add("l2: 3x + 2y = 5z - 4");
+		assertFalse(l2.hasSpecialEditor());
+
+		GeoElement A = add("A = (1, 2)");
+		assertTrue(A.hasSpecialEditor());
+
+		GeoElement B = add("B = (1, 2, 3)");
+		assertTrue(B.hasSpecialEditor());
+
+		GeoElement C = add("C = A + B");
+		assertFalse(C.hasSpecialEditor());
+
+		GeoElement v = add("v = (1, 2, 3)");
+		assertTrue(v.hasSpecialEditor());
+
+		GeoElement z_1 = add("z_1 = 3 + i");
+		assertFalse(z_1.hasSpecialEditor());
 	}
 }

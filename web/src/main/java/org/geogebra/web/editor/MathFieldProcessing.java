@@ -76,8 +76,21 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	@Override
 	public void onArrow(ArrowType type) {
-		int arrowType = type == ArrowType.left ? JavaKeyCodes.VK_LEFT
-				: JavaKeyCodes.VK_RIGHT;
+		int arrowType = JavaKeyCodes.VK_RIGHT;
+		switch (type) {
+		case right:
+			arrowType = JavaKeyCodes.VK_RIGHT;
+			break;
+		case left:
+			arrowType = JavaKeyCodes.VK_LEFT;
+			break;
+		case up:
+			arrowType = JavaKeyCodes.VK_UP;
+			break;
+		case down:
+			arrowType = JavaKeyCodes.VK_DOWN;
+			break;
+		}
 
 		mf.getKeyListener().onKeyPressed(new KeyEvent(arrowType));
 		mf.readPosition();

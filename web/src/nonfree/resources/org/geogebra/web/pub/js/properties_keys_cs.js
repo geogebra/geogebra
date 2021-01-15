@@ -3481,6 +3481,7 @@ __GGB__keysVar["cs"].menu = {
     "stylebar.Left": "Vlevo",
     "stylebar.LineStyle": "Nastavit \u010d\xe1ru",
     "stylebar.Middle": "Na st\u0159ed",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "Koso\xfahl\xe9 prom\xedt\xe1n\xed",
     "stylebar.OrthographicProjection": "Pravo\xfahl\xe9 prom\xedt\xe1n\xed",
     "stylebar.OuterBorders": "Vn\u011bj\u0161\xed ohrani\u010den\xed",

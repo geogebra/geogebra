@@ -3481,6 +3481,7 @@ __GGB__keysVar["is"].menu = {
     "stylebar.Left": "Left",
     "stylebar.LineStyle": "Setja ger\xf0 l\xedna",
     "stylebar.Middle": "Middle",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "Skakkt ofanvarp",
     "stylebar.OrthographicProjection": "Hornr\xe9tt ofanvarp",
     "stylebar.OuterBorders": "Outer borders",

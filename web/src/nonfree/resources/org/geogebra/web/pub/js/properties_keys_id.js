@@ -3481,6 +3481,7 @@ __GGB__keysVar["id"].menu = {
     "stylebar.Left": "Left",
     "stylebar.LineStyle": "Atur format garis",
     "stylebar.Middle": "Middle",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "Oblique projection",
     "stylebar.OrthographicProjection": "Orthographic Projection",
     "stylebar.OuterBorders": "Outer borders",

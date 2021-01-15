@@ -299,4 +299,9 @@ public interface AppConfig {
 	 * 	 (only for evaluator for now)
  	 */
 	boolean sendKeyboardEvents();
+
+	/**
+	 * @return true if label should be shown for description AV style
+	 */
+	boolean hasLabelForDescription();
 }

@@ -3481,6 +3481,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "stylebar.Left": "Links",
     "stylebar.LineStyle": "Instelling stijl van rechte",
     "stylebar.Middle": "Midden",
+    "stylebar.NoBorder": "Geen rand",
     "stylebar.ObliqueProjection": "Scheve projectie",
     "stylebar.OrthographicProjection": "Orthografische projectie",
     "stylebar.OuterBorders": "Buitenranden",

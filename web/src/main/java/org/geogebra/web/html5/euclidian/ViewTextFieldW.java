@@ -18,6 +18,7 @@ public class ViewTextFieldW extends ViewTextField {
 	private SimplePanel box;
 	private AutoCompleteTextFieldW textField;
 	private final EuclidianViewWInterface euclidianView;
+	private int hideRequest;
 
 	public ViewTextFieldW(EuclidianViewWInterface euclidianView) {
 		this.euclidianView = euclidianView;
@@ -42,11 +43,12 @@ public class ViewTextFieldW extends ViewTextField {
 	public void setBoxVisible(boolean isVisible) {
 		ensureBoxExists();
 		((EuclidianViewW) euclidianView).doRepaint();
+		DomGlobal.cancelAnimationFrame(hideRequest);
 		if (isVisible) {
 			box.setVisible(true);
 		} else {
 			// deferred so that the canvas version can be drawn
-			DomGlobal.requestAnimationFrame(e -> box.setVisible(false));
+			hideRequest = DomGlobal.requestAnimationFrame(e -> box.setVisible(false));
 		}
 	}
 

@@ -3481,6 +3481,7 @@ __GGB__keysVar["tr"].menu = {
     "stylebar.Left": "Sola",
     "stylebar.LineStyle": "Do\u011fru stilini ayarla",
     "stylebar.Middle": "Ortaya",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "Yat\u0131k izd\xfc\u015f\xfcm",
     "stylebar.OrthographicProjection": "Dik \u0130zd\xfc\u015f\xfcm",
     "stylebar.OuterBorders": "D\u0131\u015f kenarl\u0131klar",

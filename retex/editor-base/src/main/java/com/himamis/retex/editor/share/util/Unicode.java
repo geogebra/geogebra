@@ -75,9 +75,9 @@ public class Unicode {
 	public static final char tau = '\u03C4';
 	public static final char upsilon = '\u03C5';
 
-	// \\varphi, curly
+	/** \\varphi, curly */
 	public static final char phi = '\u03C6';
-	// \\phi "straight"
+	/** \\phi "straight" */
 	public static final char phi_symbol = '\u03D5';
 
 	public static final char chi = '\u03C7';

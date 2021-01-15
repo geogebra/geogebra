@@ -110,6 +110,7 @@ import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsViewLocationListener;
+import org.geogebra.common.gui.dialog.options.model.DrawArrowsModel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -179,6 +180,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private ArcSizePanel arcSizePanel;
 	private LineStylePanel lineStylePanel;
 	private LineStyleHiddenPanel lineStylePanelHidden;
+	private DrawArrowsPanel drawArrowsPanel;
 	// added by Loic BEGIN
 	private DecoSegmentPanel decoSegmentPanel;
 	private DecoAnglePanel decoAnglePanel;
@@ -293,6 +295,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		slopeTriangleSizePanel = new SlopeTriangleSizePanel();
 		lineStylePanel = new LineStylePanel();
 		lineStylePanelHidden = new LineStyleHiddenPanel();
+		drawArrowsPanel = new DrawArrowsPanel();
 		// added by Loic BEGIN
 		decoSegmentPanel = new DecoSegmentPanel();
 		decoAnglePanel = new DecoAnglePanel();
@@ -467,6 +470,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		styleTabList.add(pointStylePanel);
 		styleTabList.add(lodPanel);
 		styleTabList.add(lineStylePanel);
+		styleTabList.add(drawArrowsPanel);
 		styleTabList.add(ineqStylePanel);
 		styleTabList.add(arcSizePanel);
 		styleTabList.add(buttonSizePanel);
@@ -584,6 +588,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		textOptionsPanel.setLabels();
 		arcSizePanel.setLabels();
 		lineStylePanel.setLabels();
+		drawArrowsPanel.setLabels();
 		ineqStylePanel.setLabels();
 		lineStylePanelHidden.setLabels();
 		decoSegmentPanel.setLabels();
@@ -667,6 +672,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		textOptionsPanel.updateFonts();
 		arcSizePanel.updateFonts();
 		lineStylePanel.updateFonts();
+		drawArrowsPanel.updateFonts();
 		ineqStylePanel.updateFonts();
 		lineStylePanelHidden.updateFonts();
 		decoSegmentPanel.updateFonts();
@@ -2729,6 +2735,19 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		public void setLineOpacityVisible(boolean value) {
 			opacityPanel.setVisible(value);
 		}
+
+	}
+
+	private class DrawArrowsPanel extends CheckboxPanel {
+
+		private static final long serialVersionUID = 1L;
+
+		public DrawArrowsPanel() {
+			super(app, "DrawArrows", PropertiesPanelD.this);
+			setModel(new DrawArrowsModel(this, app));
+			setLayout(new FlowLayout(FlowLayout.LEFT));
+		}
+
 	}
 
 	/**

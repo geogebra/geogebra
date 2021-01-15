@@ -3481,6 +3481,7 @@ __GGB__keysVar["hu"].menu = {
     "stylebar.Left": "Left",
     "stylebar.LineStyle": "Vonal st\xedlusa",
     "stylebar.Middle": "Middle",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "Ferde vet\xedt\xe9s",
     "stylebar.OrthographicProjection": "Mer\u0151leges vet\xedt\xe9s",
     "stylebar.OuterBorders": "Outer borders",

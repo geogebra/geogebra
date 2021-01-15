@@ -55,6 +55,10 @@ import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import elemental2.dom.HTMLCollection;
+import elemental2.dom.HTMLElement;
+import jsinterop.base.Js;
+
 /**
  * Toolbar for web, includes ToolbarW, undo panel and search / menu
  */
@@ -235,7 +239,7 @@ public class GGWToolBar extends Composite
 				if (app.getExam() != null) {
 					if (app.getExam().isCheating()) {
 						ExamUtil.makeRed(getElement(), true);
-						makeTimerWhite(getElement());
+						makeTimerWhite(Js.uncheckedCast(getElement()));
 					}
 
 					timer.setText(app.getExam()
@@ -304,14 +308,17 @@ public class GGWToolBar extends Composite
 	 *            element to be changed to red timer text elements get changed
 	 *            to white
 	 */
-	native void makeTimerWhite(Element element) /*-{
-		var timerElements = element.getElementsByClassName("rightButtonPanel")[0]
+	private void makeTimerWhite(elemental2.dom.Element element) {
+		HTMLCollection<elemental2.dom.Element> timerElements = element
+				.getElementsByClassName("rightButtonPanel")
+				.getAt(0)
 				.getElementsByClassName("timer");
-		var i;
-		for (i = 0; i < timerElements.length; i++) {
-			timerElements[i].style.setProperty("color", "white", "important");
+
+		for (int i = 0; i < timerElements.length; i++) {
+			((HTMLElement) timerElements.getAt(i)).style
+					.setProperty("color", "white", "important");
 		}
-	}-*/;
+	}
 
 	// Undo, redo, open, menu (and exam mode)
 	private void addRightButtonPanel() {

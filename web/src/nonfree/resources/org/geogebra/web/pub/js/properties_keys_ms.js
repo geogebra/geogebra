@@ -3481,6 +3481,7 @@ __GGB__keysVar["ms"].menu = {
     "stylebar.Left": "Left",
     "stylebar.LineStyle": "Set gaya garis",
     "stylebar.Middle": "Middle",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "Unjuran Oblik",
     "stylebar.OrthographicProjection": "Unjuran Ortografik",
     "stylebar.OuterBorders": "Outer borders",

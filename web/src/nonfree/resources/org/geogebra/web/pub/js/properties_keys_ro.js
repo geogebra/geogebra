@@ -3481,6 +3481,7 @@ __GGB__keysVar["ro"].menu = {
     "stylebar.Left": "Left",
     "stylebar.LineStyle": "Stabile\u0219te stilul liniei",
     "stylebar.Middle": "Middle",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "Proiec\u0163ie oblic\u0103",
     "stylebar.OrthographicProjection": "Proiec\u021bie ortografic\u0103",
     "stylebar.OuterBorders": "Outer borders",

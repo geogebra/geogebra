@@ -9,10 +9,13 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.inputbox.EditorContent;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxProcessor;
+import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -438,7 +441,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 				|| linkedGeo.isGeoPoint() || linkedGeo.isGeoVector()
 				|| (linkedGeo instanceof EquationValue && !linkedGeo.isGeoConicPart())
 				|| linkedGeo.isGeoList() || linkedGeo.isGeoLine()
-				|| linkedGeo.isGeoSurfaceCartesian();
+				|| linkedGeo.isGeoSurfaceCartesian() || linkedGeo.isGeoBoolean();
 	}
 
 	boolean hasSymbolicFunction() {
@@ -584,5 +587,41 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private int getRows() {
 		return linkedGeo instanceof GeoList  ? ((GeoList) linkedGeo).size()
 				: (linkedGeo instanceof GeoVectorND ? ((GeoVectorND) linkedGeo).getDimension() : 1);
+	}
+
+	/**
+	 * linked geo type (needed for input box specific keyboard)
+	 * @return input box type
+	 */
+	public InputBoxType getInputBoxType() {
+		if (linkedGeo instanceof GeoFunction) {
+			return ((GeoFunction) linkedGeo).isInequality()
+					? InputBoxType.INEQ_BOOL : InputBoxType.FUNCTION;
+		} else if (linkedGeo instanceof GeoFunctionNVar) {
+			return ((GeoFunctionNVar) linkedGeo).isInequality()
+					? InputBoxType.INEQ_BOOL : InputBoxType.FUNCTION;
+		} else if (linkedGeo instanceof GeoBoolean) {
+			return InputBoxType.INEQ_BOOL;
+		} else if (linkedGeo instanceof GeoList || linkedGeo instanceof GeoVectorND) {
+			return InputBoxType.VECTOR_MATRIX;
+		} else {
+			return InputBoxType.DEFAULT;
+		}
+	}
+
+	/**
+	 * variables of linked geo if it is a function
+	 * @return variables of linked geo
+	 */
+	public String getFunctionVars() {
+		if (linkedGeo instanceof VarString) {
+			FunctionVariable[] fVars = ((VarString) linkedGeo).getFunctionVariables();
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < fVars.length; i++) {
+				sb.append(fVars[i].getSetVarString().charAt(0));
+			}
+			return sb.toString();
+		}
+		return "";
 	}
 }

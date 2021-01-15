@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.common.util.IndexLaTeXBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
@@ -494,6 +495,15 @@ public class AlgebraStyleTest extends Assert {
 		t("R=2*P");
 		AlgebraItem.buildPlainTextItemSimple(getGeo("R"), builder);
 		Assert.assertEquals("R = 2P", builder.toString());
+	}
+
+	@Test
+	public void numericPreviewFormulaTestValueStyle() {
+		app.getKernel().setAlgebraStyle(Kernel.ALGEBRA_STYLE_VALUE);
+		t("1+1");
+		GeoElement geo = getGeo("a");
+		String previewFormula = AlgebraItem.getPreviewFormula(geo, StringTemplate.defaultTemplate);
+		Assert.assertEquals("\\text{a = 2}", previewFormula);
 	}
 
 	@Test

@@ -527,6 +527,14 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void typingEpsilonShouldProduceUnicode() {
+		MetaModel model = new MetaModel();
+		model.enableSubstitutions();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		inputBoxChecker.type("1+epsilon").checkAsciiMath("1+" + Unicode.epsilon);
+	}
+
+	@Test
 	public void shouldRecognizeAbsAsSuffix() {
 		checker.type("xabs(x").checkGGBMath("x abs(x)");
 	}

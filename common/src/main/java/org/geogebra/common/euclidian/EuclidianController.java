@@ -9135,12 +9135,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		setMouseLocation(event);
 		updateFocusedPanel(event);
-		if (popupJustClosed) {
-			popupJustClosed = false;
-		} else if (penMode(mode)) {
-			getPen().handleMousePressedForPenMode(event);
-			return;
-		}
 
 		updateHits(event);
 
@@ -9176,8 +9170,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (handleMousePressedForViewButtons()) {
 			return;
 		}
-
-		Hits hits;
+		if (popupJustClosed) {
+			popupJustClosed = false;
+		} else if (penMode(mode)) {
+			// needs to happen after scripts have run
+			getPen().handleMousePressedForPenMode(event);
+			return;
+		}
 
 		// check if side of bounding box was hit
 		wasBoundingBoxHit = view.getBoundingBox() != null
@@ -9232,7 +9231,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// Michael Borcherds 2007-12-08 BEGIN
 			// bugfix: couldn't select multiple objects with Ctrl
 
-			hits = view.getHits();
+			Hits hits = view.getHits();
 			switchModeForRemovePolygons(hits);
 			dontClearSelection = !hits.isEmpty();
 			if (hasNoHitsDisablingModeForShallMoveView(hits, event)

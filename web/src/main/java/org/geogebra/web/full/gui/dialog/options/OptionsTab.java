@@ -23,6 +23,7 @@ import org.geogebra.common.gui.dialog.options.model.CoordsModel;
 import org.geogebra.common.gui.dialog.options.model.DecoAngleModel;
 import org.geogebra.common.gui.dialog.options.model.DecoAngleModel.IDecoAngleListener;
 import org.geogebra.common.gui.dialog.options.model.DecoSegmentModel;
+import org.geogebra.common.gui.dialog.options.model.DrawArrowsModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.ISliderListener;
@@ -350,6 +351,9 @@ public class OptionsTab extends FlowPanel {
 		}
 		if (m instanceof TextFieldAlignmentModel) {
 			return new TextFieldAlignmentPanel((TextFieldAlignmentModel) m, app);
+		}
+		if (m instanceof DrawArrowsModel) {
+			return new CheckboxPanel("DrawArrows", loc, (DrawArrowsModel) m);
 		}
 
 		return null;

@@ -65,4 +65,9 @@ public class AppConfigEvaluator extends AppConfigDefault {
 	public boolean sendKeyboardEvents() {
 		return true;
 	}
+
+	@Override
+	public boolean hasLabelForDescription() {
+		return true;
+	}
 }

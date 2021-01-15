@@ -844,7 +844,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				setRandomSeed(seed);
 			}
 			getXMLio().processXMLString(def.getConstruction(), true, false,
-					true);
+					getAppletParameters().getParamRandomize());
 			// defaults (optional)
 			if (def.hasDefaults2d()) {
 				getXMLio().processXMLString(def.getDefaults2d(), false, true);
@@ -978,6 +978,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean clearConstruction() {
+		getSelectionManager().clearSelectedGeos(false);
 		kernel.clearConstruction(true);
 
 		kernel.initUndoInfo();
@@ -1651,6 +1652,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	protected void initCoreObjects() {
 		kernel = newKernel(this);
+		kernel.setAngleUnit(kernel.getApplication().getConfig().getDefaultAngleUnit());
 
 		initSettings();
 
@@ -2020,7 +2022,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		translateHeader();
 	}
 
-	private void setTitle() {
+	protected void setTitle() {
 		String titleTransKey = getVendorSettings().getAppTitle(getConfig());
 		String title = getLocalization().getMenu(titleTransKey);
 		if (getAppletParameters().getLoginAPIurl() != null) {
@@ -3084,6 +3086,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
+	public void updateMaterialURL(Material material) {
+		updateMaterialURL(material.getId(), material.getSharingKeyOrId(), material.getTitle());
+	}
+
 	/**
 	 * @param sharingKey
 	 *            material sharing key
@@ -3417,7 +3423,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void copyGraphicsViewToClipboard() {
-		EuclidianViewW ev = (EuclidianViewW) getActiveEuclidianView();
+		EuclidianViewWInterface ev = (EuclidianViewWInterface) getActiveEuclidianView();
 		copyImageToClipboard(ev.getExportImageDataUrl(3, false, false));
 	}
 

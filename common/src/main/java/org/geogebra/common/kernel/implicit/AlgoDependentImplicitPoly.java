@@ -248,7 +248,6 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 				}
 			}
 		}
-		Log.debug(expr[0]);
 		double[] dCoeff = new double[expr.length];
 		for (int i = 0; i < expr.length; i++) {
 			if (expr[i] != null) {

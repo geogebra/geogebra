@@ -3481,6 +3481,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "stylebar.Left": "Left",
     "stylebar.LineStyle": "\u0627\u0644\u0623\u0633\u0637\u0631",
     "stylebar.Middle": "Middle",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "\u0627\u0633\u0642\u0627\u0637 \u0645\u0646\u062d\u0646\u064a",
     "stylebar.OrthographicProjection": "\u0627\u0633\u0642\u0627\u0637 \u0639\u0645\u0648\u062f\u064a",
     "stylebar.OuterBorders": "Outer borders",

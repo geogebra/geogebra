@@ -3481,6 +3481,7 @@ __GGB__keysVar["de-AT"].menu = {
     "stylebar.Left": "Links",
     "stylebar.LineStyle": "Linienart",
     "stylebar.Middle": "Mitte",
+    "stylebar.NoBorder": "Kein Rahmen",
     "stylebar.ObliqueProjection": "Schr\xe4gprojektion",
     "stylebar.OrthographicProjection": "Orthogonalprojektion",
     "stylebar.OuterBorders": "\xc4u\xdfere R\xe4nder",

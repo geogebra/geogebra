@@ -3481,6 +3481,7 @@ __GGB__keysVar["sl"].menu = {
     "stylebar.Left": "Left",
     "stylebar.LineStyle": "Oblika \u010drte",
     "stylebar.Middle": "Middle",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "Po\u0161evna projekcija",
     "stylebar.OrthographicProjection": "Ortografska projekcija",
     "stylebar.OuterBorders": "Outer borders",

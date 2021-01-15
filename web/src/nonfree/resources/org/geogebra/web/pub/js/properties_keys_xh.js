@@ -3481,6 +3481,7 @@ __GGB__keysVar["xh"].menu = {
     "stylebar.Left": "Left",
     "stylebar.LineStyle": "Lungisa istayile somgca",
     "stylebar.Middle": "Middle",
+    "stylebar.NoBorder": "No border",
     "stylebar.ObliqueProjection": "Umbonakaliso Okekeleyo",
     "stylebar.OrthographicProjection": "iOrthographic Projection",
     "stylebar.OuterBorders": "Outer borders",
