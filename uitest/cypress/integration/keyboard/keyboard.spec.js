@@ -26,6 +26,9 @@ describe('Keyboard ANS button test', () => {
         cy.get(".avValue").should("contain", "6");
     });
     it("does not show the 'ans' button in the properties view", () => {
+    	// let's wait a bit until the keyboard (from setting focus in AV)
+    	//is shown before we start with the actions
+     	cy.wait(3000);
         selectors.graphicsViewContextMenu.get().click();
         cy.get('.gwt-MenuItem').contains('Settings').click();
         cy.get('.gwt-SuggestBox').first().click();
