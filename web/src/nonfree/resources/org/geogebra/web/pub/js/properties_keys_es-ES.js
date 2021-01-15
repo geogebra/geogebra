@@ -3481,7 +3481,7 @@ __GGB__keysVar["es-ES"].menu = {
     "stylebar.Left": "Izquierda",
     "stylebar.LineStyle": "Trazo",
     "stylebar.Middle": "Centrado",
-    "stylebar.NoBorder": "No border",
+    "stylebar.NoBorder": "Sin borde",
     "stylebar.ObliqueProjection": "Proyecci\xf3n oblicua",
     "stylebar.OrthographicProjection": "Proyecci\xf2n ortogr\xe1fica",
     "stylebar.OuterBorders": "Bordes exteriores",
