@@ -99,11 +99,15 @@ public abstract class CasTestJsonCommon {
 
 	protected static void handleParsingError(Throwable e, String json) {
 		String msg = e.getMessage();
-		int pos = msg.indexOf("at character");
+		String marker = "at character ";
+		int pos = msg.indexOf(marker);
 		if (pos > 0) {
-			int err = Integer.parseInt(
-					msg.substring(pos + 13, msg.indexOf(" ", pos + 13)));
-			System.err.println(json.substring(err - 20, err + 30));
+			String characterNo = msg.substring(pos + marker.length(),
+					msg.indexOf(" ", pos + marker.length()));
+			int err = Integer.parseInt(characterNo);
+			int sampleLength = 50;
+			Assert.fail("JSON parsing error at '" + json.substring(err - sampleLength / 2,
+					err + sampleLength / 2) + "'");
 		} else {
 			Assert.fail(msg);
 		}
