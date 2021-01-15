@@ -158,7 +158,7 @@ public class EuclidianSettings extends AbstractSettings {
 	private int lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
 	private int lastHighlighterThinckness = EuclidianConstants.DEFAULT_HIGHLIGHTER_SIZE;
 	private int visibleFromX;
-	private int visibleUntilY;
+	private int visibleUntilY = -1;
 
 	/**
 	 * @param app
@@ -1749,7 +1749,7 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	public int getVisibleHeight() {
-		return visibleUntilY;
+		return getVisibleUntilY();
 	}
 
 	public void setVisibleFromX(int visibleFromX) {
@@ -1765,6 +1765,6 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	public int getVisibleUntilY() {
-		return visibleUntilY;
+		return visibleUntilY >= 0 ? visibleUntilY : getHeight();
 	}
 }
