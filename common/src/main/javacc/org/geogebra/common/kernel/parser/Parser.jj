@@ -90,13 +90,13 @@ public class Parser implements ParserInterface {
 
     private boolean enableStructures = true;
     private FunctionParser functionParser;
-    private ArrayList<ExpressionNode > undecided = new ArrayList<ExpressionNode >();
+    private final ArrayList<ExpressionNode> undecided = new ArrayList<ExpressionNode >();
     private boolean highPrecisionParsing;
 
     public Parser(Kernel kernel) {
         this ( new StringProvider("") ); // dummy stream for parser initing
         this.kernel = kernel;
-        functionParser = new FunctionParser(kernel);
+        functionParser = new FunctionParser(kernel, undecided);
         app = kernel.getApplication();
         loc = app.getLocalization();
         highPrecisionParsing = false;

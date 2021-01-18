@@ -53,14 +53,16 @@ public class FunctionParser {
 	@Weak
 	private final App app;
 	private boolean inputBoxParsing = false;
+	private ArrayList<ExpressionNode> multiplyOrFunctionNodes;
 
 	/**
 	 * @param kernel
 	 *            kernel
 	 */
-	public FunctionParser(Kernel kernel) {
+	public FunctionParser(Kernel kernel, ArrayList<ExpressionNode> multiplyOrFunctionNodes) {
 		this.kernel = kernel;
 		this.app = kernel.getApplication();
+		this.multiplyOrFunctionNodes = multiplyOrFunctionNodes;
 	}
 
 	public void setInputBoxParsing(boolean inputBoxParsing) {
@@ -258,6 +260,11 @@ public class FunctionParser {
 			if (exprWithDummyArg.getOperation() == Operation.MULTIPLY
 					&& (Operation.isSimpleFunction(exprWithDummyArg.getRightTree().getOperation())
 					|| exprWithDummyArg.getRightTree().getOperation() == Operation.LOGB)) {
+				if (exprWithDummyArg.getOperation() == Operation.MULTIPLY) {
+					// MULTIPLY_OR_FUNCTION is handled correctly when followed by power
+					exprWithDummyArg.setOperation(Operation.MULTIPLY_OR_FUNCTION);
+					multiplyOrFunctionNodes.add(exprWithDummyArg);
+				}
 				Traversing.VariableReplacer dummyArgReplacer = Traversing.VariableReplacer
 						.getReplacer("$", arg, kernel);
 				return exprWithDummyArg.traverse(dummyArgReplacer).wrap();
