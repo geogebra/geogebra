@@ -37,5 +37,16 @@ public interface CardListInterface {
 	 */
 	ScrollPanel getScrollPanel();
 
+	/**
+	 * resets the page control panel
+	 */
+	void reset();
+
+	/**
+	 * opens the page control panel
+	 */
+	void open();
+
 	void updateContentPanelHeight();
 }
+

@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -78,7 +79,6 @@ public class EuclidianPen implements GTimerListener {
 
 	private int penLineStyle;
 	private GColor penColor = GColor.BLACK;
-
 	private final PenPreviewLine penPreviewLine;
 	protected final ArrayList<GPoint> previewPoints = new ArrayList<>();
 
@@ -393,13 +393,11 @@ public class EuclidianPen implements GTimerListener {
 	 * @param y
 	 *            y-coord
 	 *
-	 * @return true if a GeoElement was created
-	 *
 	 */
-	public boolean handleMouseReleasedForPenMode(boolean right, int x, int y,
+	public void handleMouseReleasedForPenMode(boolean right, int x, int y,
 												 boolean isPinchZooming) {
 		if (right || penPoints.size() == 0) {
-			return false;
+			return;
 		}
 
 		if (isPinchZooming && penPoints.size() < 2) {
@@ -407,6 +405,10 @@ public class EuclidianPen implements GTimerListener {
 		}
 
 		timer.start();
+		String oldXML = null;
+		if (lastAlgo != null && !startNewStroke) {
+			oldXML = lastAlgo.getXML();
+		}
 
 		app.setDefaultCursor();
 
@@ -414,7 +416,16 @@ public class EuclidianPen implements GTimerListener {
 
 		penPoints.clear();
 		previewPoints.clear();
-		return true;
+
+		String label = lastAlgo.getOutput(0).getLabelSimple();
+
+		if (oldXML == null) {
+			app.getUndoManager().storeUndoableAction(EventType.ADD, label,
+					lastAlgo.getXML());
+		} else {
+			app.getUndoManager().storeUndoableAction(EventType.UPDATE, label,
+					oldXML, lastAlgo.getXML());
+		}
 	}
 
 	/**
@@ -472,8 +483,6 @@ public class EuclidianPen implements GTimerListener {
 		// set label
 		stroke.setLabel(null);
 		stroke.setTooltipMode(GeoElementND.TOOLTIP_OFF);
-
-		// app.storeUndoInfo() will be called from wrapMouseReleasedND
 	}
 
 	/**

@@ -43,6 +43,7 @@ public class AccessibilityViewTest {
 
 	@Before
 	public void setup() {
+		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
 		mockPanel = new ArrayFlowPanel();
 		baseWidgetFactory = getBaseWidgetFactory();
 	}

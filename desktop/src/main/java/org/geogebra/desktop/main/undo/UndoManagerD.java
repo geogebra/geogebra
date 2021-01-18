@@ -10,7 +10,7 @@ the Free Software Foundation.
 
  */
 
-package org.geogebra.desktop.kernel;
+package org.geogebra.desktop.main.undo;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,11 +21,11 @@ import java.security.PrivilegedAction;
 import javax.swing.DefaultListSelectionModel;
 
 import org.geogebra.common.jre.util.StreamUtil;
-import org.geogebra.common.kernel.AppState;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.UndoCommand;
-import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.undo.AppState;
+import org.geogebra.common.main.undo.UndoCommand;
+import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;

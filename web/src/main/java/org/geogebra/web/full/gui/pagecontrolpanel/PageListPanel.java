@@ -109,8 +109,7 @@ public class PageListPanel
 	public void loadNewPage(boolean selected) {
 		int index = addNewPreviewCard(selected);
 		pageController.loadNewPage(index);
-		app.getKernel().getConstruction().getUndoManager()
-				.storeAction(EventType.ADD_SLIDE, index + "",
+		app.getUndoManager().storeAction(EventType.ADD_SLIDE, index + "",
 						pageController.getSlide(index).getID());
 	}
 
@@ -128,9 +127,7 @@ public class PageListPanel
 				doShow ? "hideMowFloatingButton" : "showMowFloatingButton");
 	}
 
-	/**
-	 * opens the page control panel
-	 */
+	@Override
 	public void open() {
 		if (isVisible()) {
 			return;
@@ -225,14 +222,14 @@ public class PageListPanel
 		// remove associated ggb file
 		String id = pageController.getSlide(index).getID();
 		if (index == 0 && pageController.getSlideCount() == 1) {
-			app.getKernel().getConstruction().getUndoManager().storeAction(
-					EventType.CLEAR_SLIDE, id);
+			app.getUndoManager().storeActionWithSlideId(
+					EventType.CLEAR_SLIDE, id, new String[]{id});
 			pageController.loadNewPage(0);
 		} else {
 			pageController.removeSlide(index);
-			app.getKernel().getConstruction().getUndoManager()
-					.storeAction(EventType.REMOVE_SLIDE, index + "", id,
-							pageController.getSlideCount() + "");
+			app.getUndoManager()
+					.storeActionWithSlideId(EventType.REMOVE_SLIDE, id, new String[]{index + "", id,
+							pageController.getSlideCount() + ""});
 			updateIndexes(index);
 			// load new slide
 			if (index == pageController.getSlideCount()) {
@@ -270,9 +267,7 @@ public class PageListPanel
 		}
 	}
 
-	/**
-	 * resets the page control panel
-	 */
+	@Override
 	public void reset() {
 		contentPanel.clear();
 		addNewPreviewCard(true);

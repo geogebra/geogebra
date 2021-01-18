@@ -1,16 +1,17 @@
-package org.geogebra.common.kernel;
+package org.geogebra.common.main.undo;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 
 import org.geogebra.common.euclidian.EmbedManager;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.undoredo.UndoInfoStoredListener;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -36,6 +37,7 @@ public abstract class UndoManager {
 	private ListIterator<UndoCommand> iterator;
 	private boolean storeUndoInfoNeededForProperties = false;
 	private List<UndoInfoStoredListener> undoInfoStoredListeners;
+	private final List<ActionExecutor> executors = new ArrayList<>();
 
 	/**
 	 * @param cons
@@ -47,6 +49,7 @@ public abstract class UndoManager {
 		undoInfoList = new LinkedList<>();
 		iterator = undoInfoList.listIterator();
 		undoInfoStoredListeners = new ArrayList<>();
+		executors.add(new ConstructionActionExecutor(app));
 	}
 
 	/**
@@ -54,21 +57,21 @@ public abstract class UndoManager {
 	 *            slide ID
 	 * @return last state of given slide
 	 */
-	public AppState getCheckpoint(String slideID) {
-		AppState state = null;
+	public UndoCommand getCheckpoint(String slideID) {
+		UndoCommand state = null;
 		int steps = 0;
 		while (iterator.hasPrevious()) {
 			UndoCommand cmd = iterator.previous();
 			steps++;
 			if (cmd.getAppState() != null && (cmd.getSlideID() == null
 					|| cmd.getSlideID().equals(slideID))) {
-				state = cmd.getAppState();
+				state = cmd;
 				break;
 			}
 			if ((cmd.getAction() == EventType.PASTE_SLIDE)
 					&& cmd.getArgs().length > 1
 					&& cmd.getArgs()[1].equals(slideID)) {
-				state = extractStateFromFile(cmd.getArgs()[2]);
+				state = cmd;
 				break;
 			}
 		}
@@ -85,9 +88,8 @@ public abstract class UndoManager {
 	/**
 	 * @param slideID
 	 *            slide ID
-	 * @return command that created this slide (DUPLICATE or ADD)
 	 */
-	public UndoCommand getCreationCommand(String slideID) {
+	public void redoCreationCommand(String slideID) {
 		UndoCommand state = null;
 		int steps = 0;
 		while (iterator.hasPrevious()) {
@@ -110,21 +112,19 @@ public abstract class UndoManager {
 		for (int i = 0; i < steps; i++) {
 			iterator.next();
 		}
-
-		return state;
 	}
 
 	/**
 	 * @param action
 	 *            action type
-	 * @param state
-	 *            state to restore if applicable
-	 * @param args
-	 *            action arguments
+	 * @param args event arguments
 	 */
-	public void executeAction(EventType action, AppState state,
-			String... args) {
-		app.executeAction(action, state, args);
+	public void executeAction(EventType action,	String... args) {
+		for (ActionExecutor executor: executors) {
+			if (executor.executeAction(action, args)) {
+				return;
+			}
+		}
 	}
 
 	/**
@@ -295,6 +295,45 @@ public abstract class UndoManager {
 	 */
 	protected abstract void loadUndoInfo(AppState state, String slideID);
 
+	protected void loadUndoInfo(UndoCommand cmd, String slideId, UndoCommand until) {
+		loadUndoInfo(extractFromCommand(cmd), slideId);
+		replayActions(cmd, slideId, until);
+	}
+
+	/**
+	 * @param cmd undo command
+	 * @return app state associated with the command
+	 */
+	public AppState extractFromCommand(UndoCommand cmd) {
+		if (cmd == null) {
+			return null;
+		} else if (cmd.getAction() == EventType.PASTE_SLIDE) {
+			return extractStateFromFile(cmd.getArgs()[2]);
+		} else {
+			return cmd.getAppState();
+		}
+	}
+
+	public void replayActions(final String slideID, final UndoCommand until) {
+		replayActions(getCheckpoint(slideID), slideID, until);
+	}
+
+	private void replayActions(UndoCommand from, String slideID, UndoCommand until) {
+		boolean afterCheckpoint = from == null;
+
+		for (UndoCommand cmd: undoInfoList) {
+			if (cmd == until) {
+				return;
+			}
+			if (afterCheckpoint && cmd.getAction() != null
+					&& Objects.equals(slideID, cmd.getSlideID())) {
+				executeAction(cmd.getAction(), cmd.getArgs());
+			} else if (from != null && cmd == from) {
+				afterCheckpoint = true;
+			}
+		}
+	}
+
 	/**
 	 * Clears all undo information
 	 */
@@ -392,7 +431,16 @@ public abstract class UndoManager {
 	 *            action arguments
 	 */
 	public void storeAction(EventType action, String... args) {
-		iterator.add(new UndoCommand(action, args));
+		storeActionWithSlideId(action, null, args);
+	}
+
+	/**
+	 * @param action action type
+	 * @param slideID slide ID
+	 * @param args action arguments
+	 */
+	public void storeActionWithSlideId(EventType action, String slideID, String[] args) {
+		iterator.add(new UndoCommand(action, slideID, args));
 		this.pruneStateList();
 		updateUndoActions();
 	}
@@ -422,20 +470,39 @@ public abstract class UndoManager {
 	}
 
 	/**
-	 * @param action
-	 *            action to be executed
-	 * @param id
-	 *            embed ID
+	 * Store action and notify listeners
+	 * @param type action type
+	 * @param args arguments
 	 */
-	public void embeddedAction(EventType action, String id) {
-		EmbedManager embedManager = app.getEmbedManager();
-		if (embedManager != null) {
-			try {
-				int embedId = Integer.parseInt(id);
-				embedManager.executeAction(action, embedId);
-			} catch (RuntimeException e) {
-				Log.warn("No undo possible for embed " + id);
+	public void storeUndoableAction(EventType type, String... args) {
+		app.setUnsaved();
+		storeActionWithSlideId(type, app.getSlideID(), args);
+		app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO));
+	}
+
+	public void addActionExecutor(ActionExecutor executor) {
+		executors.add(executor);
+	}
+
+	/**
+	 * @param action action type
+	 * @param args action arguments
+	 */
+	public void undoAction(EventType action, String[] args) {
+		for (ActionExecutor executor: executors) {
+			if (executor.undoAction(action, args)) {
+				return;
 			}
 		}
+	}
+
+	/**
+	 * Runs the callback synchronously if the target slide is already active
+	 * (or slides are not supported).
+	 * If the app needs to load the slide, the callback will run asynchronously.
+	 * @param slideID slide ID
+	 */
+	public void runAfterSlideLoaded(String slideID, Runnable run) {
+		run.run();
 	}
 }

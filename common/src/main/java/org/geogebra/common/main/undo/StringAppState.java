@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel;
+package org.geogebra.common.main.undo;
 
 /**
  * App State that saves the state in a String.

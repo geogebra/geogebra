@@ -10157,12 +10157,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		// make sure we start the timer also for single point
 		if (penMode(mode)) {
-			boolean geoCreated = getPen().handleMouseReleasedForPenMode(right, x, y,
+			getPen().handleMouseReleasedForPenMode(right, x, y,
 					(numOfTargets > 0));
 			view.invalidateCache();
-			if (geoCreated) {
-				storeUndoInfo();
-			}
 			draggingOccured = false;
 			return;
 		}

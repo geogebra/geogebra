@@ -30,7 +30,6 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
-import org.geogebra.common.kernel.AppState;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
@@ -54,7 +53,6 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -1258,16 +1256,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		resetUI();
 		resetPenTool();
 		clearMedia();
-	}
-
-	@Override
-	public void executeAction(EventType action, AppState state, String[] args) {
-		if (action == EventType.EMBEDDED_STORE_UNDO && embedManager != null) {
-			embedManager.executeAction(EventType.REDO,
-					Integer.parseInt(args[0]));
-		} else if (getPageController() != null) {
-			getPageController().executeAction(action, state, args);
-		}
 	}
 
 	@Override
