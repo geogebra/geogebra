@@ -115,7 +115,7 @@ dependencies {
     testCompile "org.mockito:mockito-core:$mockitoVersion"
     testCompile "org.hamcrest:hamcrest:$hamcrestVersion"
     testCompile project(':ggbjdk')
-    testCompile project(':common-jre').sourceSets.test.output
+    testCompile project(path: ':common-jre', configuration: 'testArtifacts')
 }
 
 mainClassName = "org.geogebra.desktop.GeoGebra3D"

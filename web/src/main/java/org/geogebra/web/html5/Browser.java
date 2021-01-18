@@ -19,6 +19,7 @@ import com.google.gwt.user.client.Window.Navigator;
 import elemental2.core.Function;
 import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
+import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 public class Browser {
@@ -132,19 +133,17 @@ public class Browser {
 	 *
 	 * @return true if WebAssembly supported
 	 */
-	public static native boolean webAssemblySupported()/*-{
+	public static boolean webAssemblySupported() {
+		return hasGlobal("WebAssembly");
+	}
 
-		// currently iOS11 giac.wasm gives slightly wrong results
-		// eg Numeric(fractionalPart(2.7)) gives 0.6999999999999 rather than 0.7
-		var iOS = /iPad|iPhone|iPod/.test($wnd.navigator.userAgent)
-				&& !$wnd.MSStream;
+	public static boolean hasGlobal(String propertyName) {
+		return Js.isTruthy(Js.asPropertyMap(DomGlobal.window).get(propertyName));
+	}
 
-		return !iOS && !!$wnd.WebAssembly;
-	}-*/;
-
-	public static native boolean supportsPointerEvents() /*-{
-		return !!$wnd.PointerEvent;
-	}-*/;
+	public static boolean supportsPointerEvents() {
+		return hasGlobal("PointerEvent");
+	}
 
 	private static boolean isHTTP() {
 		return !"file:".equals(Location.getProtocol());

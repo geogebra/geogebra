@@ -383,7 +383,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@Test
 	public void cmdIntegralSymbolic() {
-		// Tested in __giac.js
+		// Tested in giacTests.js
 	}
 
 	@Test

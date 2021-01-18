@@ -1,22 +1,23 @@
 package org.geogebra.cas;
 
-import static org.geogebra.test.util.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
+import static org.geogebra.test.matcher.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
 import static org.junit.Assert.assertThat;
 
 import java.util.HashSet;
 import java.util.Locale;
 
-import org.geogebra.cas.logging.CASTestLogger;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
+import org.geogebra.common.kernel.cas.CasTestJsonCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.test.CASTestLogger;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
@@ -96,30 +97,13 @@ public class ArbitraryConstIntegrationTest {
 
 			result = getOutput(f);
 		} catch (Throwable t) {
-			String sts = stacktrace(t);
+			String sts = CasTestJsonCommon.stacktrace(t);
 
 			result = t.getClass().getName() + ":" + t.getMessage() + sts;
 		}
 
 		assertThat(result, equalToIgnoreWhitespaces(logger, input,
 				expectedResult, validResults));
-	}
-
-	// 100 seconds max per method tested
-	// @Rule
-	// public Timeout globalTimeout = new Timeout(100, TimeUnit.SECONDS);
-
-	static String stacktrace(Throwable t) {
-		StringBuilder sts = new StringBuilder();
-		StackTraceElement[] st = t.getStackTrace();
-
-		for (int i = 0; i < 10 && i < st.length; i++) {
-			StackTraceElement stElement = st[i];
-			sts.append(stElement.getClassName()).append(":")
-					.append(stElement.getMethodName())
-					.append(stElement.getLineNumber()).append("\n");
-		}
-		return sts.toString();
 	}
 
 	@Test
@@ -234,7 +218,7 @@ public class ArbitraryConstIntegrationTest {
 
 			result = getOutput(f);
 		} catch (Throwable t) {
-			String sts = stacktrace(t);
+			String sts = CasTestJsonCommon.stacktrace(t);
 
 			result = t.getClass().getName() + ":" + t.getMessage() + sts;
 		}
@@ -315,7 +299,7 @@ public class ArbitraryConstIntegrationTest {
 			result1 = getOutput(f1);
 
 		} catch (Throwable t) {
-			String sts = stacktrace(t);
+			String sts = CasTestJsonCommon.stacktrace(t);
 			result1 = t.getClass().getName() + ":" + t.getMessage() + sts;
 			result2 = t.getClass().getName() + ":" + t.getMessage() + sts;
 		}
@@ -410,7 +394,7 @@ public class ArbitraryConstIntegrationTest {
 			result2 = getOutput(f2);
 
 		} catch (Throwable t) {
-			String sts = stacktrace(t);
+			String sts = CasTestJsonCommon.stacktrace(t);
 			result1 = t.getClass().getName() + ":" + t.getMessage() + sts;
 			result2 = t.getClass().getName() + ":" + t.getMessage() + sts;
 		}
