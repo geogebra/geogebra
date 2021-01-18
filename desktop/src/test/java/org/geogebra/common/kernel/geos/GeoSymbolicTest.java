@@ -1375,4 +1375,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Assume(k>0, InflectionPoint(0.25 k x^3 - 0.5x^2 + k))",
 				"{(2 / (3 * k), (27 * k^(3) - 4) / (27 * k^(2)))}");
 	}
+
+	@Test
+	public void testExtremum() {
+		GeoSymbolic extremum = add("Extremum(x*ln(x^2))");
+		GeoList twin = (GeoList) extremum.getTwinGeo();
+		assertThat(twin.size(), equalTo(2));
+	}
 }
