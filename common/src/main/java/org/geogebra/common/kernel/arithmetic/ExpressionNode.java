@@ -3173,18 +3173,14 @@ public class ExpressionNode extends ValidExpression
 	 * @return negPower if exponent is negative fraction
 	 */
 	public Double calculateNegPower(double base) {
-		if (isDivideOperation()) {
-			return ExpressionNodeEvaluator.negPower(base, this, false);
+		if (isOperation(Operation.DIVIDE)) {
+			return ExpressionNodeEvaluator.negPower(base, this);
 		} else if (getOperation() == Operation.MULTIPLY
 				&& getLeft() instanceof MinusOne
-				&& ((ExpressionNode) getRight()).isDivideOperation()) {
-			return (ExpressionNodeEvaluator.negPower(base, getRight(), true));
+				&& getRight().isOperation(Operation.DIVIDE)) {
+			return 1.0 / ExpressionNodeEvaluator.negPower(base, getRight());
 		}
 		return null;
-	}
-
-	private boolean isDivideOperation() {
-		return getOperation() == Operation.DIVIDE;
 	}
 
 	/**
