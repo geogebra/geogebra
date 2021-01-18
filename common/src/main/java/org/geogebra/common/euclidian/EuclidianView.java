@@ -508,12 +508,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	protected SymbolicEditor symbolicEditor = null;
 
+	private Rectangle visibleRect;
+
 	protected static class Rectangle {
 
 		private double minX;
 		private double maxX;
 		private double minY;
 		private double maxY;
+
+		private Rectangle() {
+			this(0, 0, 0, 0);
+		}
 
 		private Rectangle(double minX, double maxX, double minY, double maxY) {
 			this.minX = minX;
@@ -602,6 +608,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public EuclidianView() {
 		hitDetector = new HitDetector(this);
+		visibleRect = new Rectangle();
 	}
 
 	/**
@@ -1377,12 +1384,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	final public void setRealWorldCoordSystem(double xmin2, double xmax2,
 			double ymin2, double ymax2) {
-		double calcXscale = getWidth() / (xmax2 - xmin2);
-		if (getXaxisLog()) {
-			calcXscale = getWidth() / (xmax2 - xmin2);
-		}
-		double calcYscale = getHeight() / (ymax2 - ymin2);
-		double calcXzero = -calcXscale * xmin2;
+		double calcXscale = getVisibleWidth() / (xmax2 - xmin2);
+		double calcYscale = getVisibleHeight() / (ymax2 - ymin2);
+		double calcXzero = calcXscale * -xmin2 + settings.getVisibleFromX();
 		double calcYzero = calcYscale * ymax2;
 		setCoordSystem(calcXzero, calcYzero, calcXscale, calcYscale);
 	}
@@ -1683,10 +1687,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * Updates xmin, xmax, ... for setCoordSystem()
 	 */
 	protected void setXYMinMaxForSetCoordSystem() {
-		xmin = (-getXZero() * getInvXscale());
-		xmax = ((getWidth() - getXZero()) * getInvXscale());
-		ymax = (getYZero() * getInvYscale());
-		ymin = ((getYZero() - getHeight()) * getInvYscale());
+		xmin = -getXZero() * getInvXscale();
+		xmax = (getWidth() - getXZero()) * getInvXscale();
+		ymax = getYZero() * getInvYscale();
+		ymin = (getYZero() - getHeight()) * getInvYscale();
+
+		visibleRect.minX = -(getXZero() - settings.getVisibleFromX()) * getInvXscale();
+		visibleRect.maxX = xmax;
+		visibleRect.minY = (getYZero() - getVisibleHeight()) * getInvYscale();
+		visibleRect.maxY = ymax;
 	}
 
 	/**
@@ -5036,7 +5045,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		// enlarge x/y if we want to keep ratio
 		if (keepRatio) {
-			double oldRatio = (xmax - xmin) / (ymax - ymin);
+			double oldRatio =
+					(visibleRect.maxX - visibleRect.minX) / (visibleRect.maxY - visibleRect.minY);
 			double newRatio = (x1RW - x0RW) / (y1RW - y0RW);
 			if (newRatio > oldRatio) {
 				// enlarge y

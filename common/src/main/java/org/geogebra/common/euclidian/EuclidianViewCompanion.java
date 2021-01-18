@@ -329,8 +329,8 @@ public class EuclidianViewCompanion {
 						sw = (int) Math.round(x0 * 2);
 						sh = (int) Math.round(y0 * 2);
 					}
-					x0 += (visibleWidth - sw) / 2.0;
-					y0 += (visibleHeight - sh) / 2.0;
+					x0 = evs.getVisibleFromX() + visibleWidth/ 2.0;
+					y0 = visibleHeight / 2.0;
 					evs.setSize(view.getWidth(), view.getHeight());
 					evs.setOriginNoUpdate(x0, y0);
 				}
