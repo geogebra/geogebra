@@ -1542,6 +1542,17 @@ public class ConsElementXMLHandler {
 		return true;
 	}
 
+	private void handleBorderColor(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoInlineText)) {
+			return;
+		}
+		int red = Integer.parseInt(attrs.get("r"));
+		int green = Integer.parseInt(attrs.get("g"));
+		int blue = Integer.parseInt(attrs.get("b"));
+		GColor col = GColor.newColor(red, green, blue);
+		((GeoInlineText) geo).setBorderColor(col);
+	}
+
 	private void handleBoundingBox(LinkedHashMap<String, String> attrs) {
 		if (geo instanceof GeoText && geo.isIndependent()) {
 			try {
@@ -2058,6 +2069,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "bgColor":
 				handleBgColor(attrs);
+				break;
+			case "borderColor":
+				handleBorderColor(attrs);
 				break;
 			case "boundingBox":
 				handleBoundingBox(attrs);
