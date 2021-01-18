@@ -353,6 +353,19 @@ public class ParserTest {
 		shouldReparseAs("x_{1.3}=7", "7");
 	}
 
+	@Test
+	public void testTrigPowerPriorities() {
+		shouldReparseAs("sin^(-1)(x)^2", unicode("(sin^-1(x))^2"));
+		shouldReparseAs("sin^(-1)((x)^2)", unicode("sin^-1(x^2)"));
+		shouldReparseAs("sin^(-1)x^2", unicode("sin^-1(x^2)"));
+		shouldReparseAs("(sin^(-1)(x))^2", unicode("(sin^-1(x))^2"));
+	}
+
+	@Test
+	public void shouldParseNegativeLogPowerAsReciprocal() {
+		shouldReparseAs("ln^(-1)(x)^2", unicode("((ln(x))^-1)^2"));
+	}
+
 	private void assertValidLabel(String s) {
 		try {
 			assertEquals(s, parser.parseLabel(s));

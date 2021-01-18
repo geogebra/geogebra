@@ -2847,14 +2847,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 				break;
 
 			case LATEX:
-
-				// checks if the basis is leaf and if so
-				// omits the brackets
-				if (left.isLeaf() && (leftStr.charAt(0) != '-')) {
-					sb.append(leftStr);
-					break;
-				}
-				// else fall through
 			case LIBRE_OFFICE:
 			default:
 
@@ -2869,10 +2861,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 				// left wing
 				if ((leftStr.charAt(0) != '-') && // no unary
-						(left.isLeaf() || ((ExpressionNode
-								.opID(left) > Operation.POWER.ordinal())
-								&& (ExpressionNode.opID(left) != Operation.EXP
-										.ordinal())))) { // not +, -, *, /, ^,
+						left.isLeaf() || left.isOperation(Operation.NROOT)
+						|| left.isOperation(Operation.CBRT)) { // not +, -, *, /, ^,
 					// e^x
 
 					// we might need more brackets here #4764

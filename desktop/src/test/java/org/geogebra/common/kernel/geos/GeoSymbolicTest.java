@@ -537,7 +537,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testTrigSimplify() {
-		t("TrigSimplify(1-sin(x)^2)", "cos(x)^(2)");
+		t("TrigSimplify(1-sin(x)^2)", "(cos(x))^(2)");
 	}
 
 	@Test

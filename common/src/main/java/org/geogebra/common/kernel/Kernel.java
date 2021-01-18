@@ -82,7 +82,6 @@ import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.DoubleUtil;
@@ -4464,60 +4463,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	public void setInsertLineBreaks(boolean insertLineBreaks) {
 		this.insertLineBreaks = insertLineBreaks;
-	}
-
-	/**
-	 * @param type
-	 *            trig operation
-	 * @param en
-	 *            argument
-	 * @return type^-1(x)
-	 */
-	public ExpressionNode inverseTrig(Operation type, ExpressionValue en) {
-		switch (type) {
-		case SIN:
-		case COS:
-		case TAN:
-		case SINH:
-		case COSH:
-		case TANH:
-			return new ExpressionNode(this, en, Operation.inverse(type), null);
-
-		// asec(x) = acos(1/x)
-		case SEC:
-			return new ExpressionNode(this, new ExpressionNode(this,
-					(new MyDouble(this, 1)).wrap(), Operation.DIVIDE, en),
-					Operation.ARCCOS, null);
-		case CSC:
-			return new ExpressionNode(this, new ExpressionNode(this,
-					(new MyDouble(this, 1)).wrap(), Operation.DIVIDE, en),
-					Operation.ARCSIN, null);
-		case SECH:
-			return new ExpressionNode(this, new ExpressionNode(this,
-					(new MyDouble(this, 1)).wrap(), Operation.DIVIDE, en),
-					Operation.ACOSH, null);
-		case CSCH:
-			return new ExpressionNode(this, new ExpressionNode(this,
-					(new MyDouble(this, 1)).wrap(), Operation.DIVIDE, en),
-					Operation.ASINH, null);
-		case COTH:
-			return new ExpressionNode(this, new ExpressionNode(this,
-					(new MyDouble(this, 1)).wrap(), Operation.DIVIDE, en),
-					Operation.ATANH, null);
-
-		// acot(x) = pi/2 - atan(x)
-		case COT:
-
-			ExpressionNode halfPi = new ExpressionNode(this,
-					(new MyDouble(this, Math.PI)).wrap(), Operation.DIVIDE,
-					(new MyDouble(this, 2)).wrap());
-			return new ExpressionNode(this, halfPi, Operation.MINUS,
-					new ExpressionNode(this, en, Operation.ARCTAN, null));
-
-		default:
-			return new MyDouble(this, Double.NaN).wrap();
-
-		}
 	}
 
 	/**
