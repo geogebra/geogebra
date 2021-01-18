@@ -299,4 +299,9 @@ public interface AppConfig {
 	 * 	 (only for evaluator for now)
  	 */
 	boolean sendKeyboardEvents();
+
+	/**
+	 * @return true if the app has at least one Euclidian View
+	 */
+	boolean hasEuclidianView();
 }

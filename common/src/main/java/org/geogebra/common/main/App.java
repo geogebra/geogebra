@@ -1624,9 +1624,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Update backgrounds and repaint views.
 	 */
 	public void refreshViews() {
-		getEuclidianView1().updateBackground();
-		if (hasEuclidianView2(1)) {
-			getEuclidianView2(1).updateBackground();
+		if (appConfig.hasEuclidianView()) {
+			getEuclidianView1().updateBackground();
+			if (hasEuclidianView2(1)) {
+				getEuclidianView2(1).updateBackground();
+			}
 		}
 		kernel.notifyRepaint();
 	}
@@ -2442,10 +2444,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			}
 
 			// if showMenuBar is false, we can still update the style bars
-			if (EuclidianConstants
-					.isMoveOrSelectionMode(getActiveEuclidianView().getMode())
-					|| getActiveEuclidianView()
-							.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
+			EuclidianView ev = getActiveEuclidianView();
+			if (ev != null
+					&& (EuclidianConstants.isMoveOrSelectionMode(ev.getMode())
+					|| ev.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW)) {
 				updateStyleBars();
 			}
 
