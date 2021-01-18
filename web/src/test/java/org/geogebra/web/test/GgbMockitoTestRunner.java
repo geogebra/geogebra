@@ -15,12 +15,12 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.impl.StubGenerator;
-import com.googlecode.gwtgl.array.Uint8Array;
-import com.googlecode.gwtgl.binding.WebGLRenderingContext;
-import com.googlecode.gwtgl.binding.WebGLShader;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
+import elemental2.core.Uint8Array;
 import elemental2.dom.DomGlobal;
+import elemental2.webgl.WebGLRenderingContext;
+import elemental2.webgl.WebGLShader;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
