@@ -174,6 +174,10 @@ public class AppletParameters {
 		return hasAttribute("enableGraphing");
 	}
 
+	public boolean hasDataParamEnable3D() {
+		return hasAttribute("enable3D");
+	}
+
 	/**
 	 * @return rounding; consists of integer and suffix that determines whether
 	 *         significant figures are used (s) and whether fractions are
@@ -605,6 +609,10 @@ public class AppletParameters {
 	 */
 	public boolean getParamDisableAutoScale() {
 		return getBoolDataParam("disableAutoScale", false);
+	}
+
+	public boolean getParamRandomize() {
+		return getBoolDataParam("randomize", true);
 	}
 
 	/**

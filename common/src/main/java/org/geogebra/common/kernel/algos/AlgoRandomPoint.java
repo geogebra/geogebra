@@ -13,10 +13,13 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Random point
@@ -24,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
  * @author Rrubaa
  */
 
-public class AlgoRandomPoint extends AlgoElement {
+public class AlgoRandomPoint extends AlgoElement implements SetRandomValue  {
 	// input
 	private GeoNumberValue a;
 	private GeoNumberValue b;
@@ -106,4 +109,18 @@ public class AlgoRandomPoint extends AlgoElement {
 		}
 	}
 
+	@Override
+	public boolean setRandomValue(GeoElementND val) {
+		if (val instanceof GeoPointND) {
+			GeoPointND pt = (GeoPointND) val;
+			if (pt.getInhomX() < b.getDouble()
+					&& pt.getInhomX() > a.getDouble()
+					&& pt.getInhomY() < d.getDouble()
+					&& pt.getInhomY() > c.getDouble()) {
+				M.setCoords(pt.getCoords(), false);
+				return true;
+			}
+		}
+		return false;
+	}
 }

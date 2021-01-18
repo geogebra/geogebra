@@ -18,6 +18,10 @@ public enum Resource {
 
     RIGHT_ARROW,
 
+    UP_ARROW,
+
+    DOWN_ARROW,
+
     LOG_10,
 
     LOG_B,

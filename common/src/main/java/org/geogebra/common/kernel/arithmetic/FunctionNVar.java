@@ -73,6 +73,8 @@ public class FunctionNVar extends ValidExpression
 	private ExpressionNode casEvalExpression;
 	private String casEvalStringSymbolic;
 
+	private boolean forceInequality;
+
 	private static ArrayList<ExpressionNode> undecided = new ArrayList<>();
 
 	private final static class RandomCheck implements Inspecting {
@@ -1533,4 +1535,13 @@ public class FunctionNVar extends ValidExpression
 		getExpression().setSecret(algo);
 	}
 
+	@Override
+	public boolean isForceInequality() {
+		return forceInequality;
+	}
+
+	@Override
+	public void setForceInequality(boolean forceInequality) {
+		this.forceInequality = forceInequality;
+	}
 }

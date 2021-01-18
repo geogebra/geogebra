@@ -1481,13 +1481,6 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @return whether this view was explicitly disabled
-	 */
-	public boolean isEnabledSet() {
-		return enabledEB != ExtendedBoolean.UNKNOWN;
-	}
-
-	/**
 	 * @return the dimensionality of the settings arrays
 	 */
 	public int getDimension() {

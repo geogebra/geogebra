@@ -2639,22 +2639,6 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	}
 
 	@Test
-	public void exponentialEqs() {
-		t("Solve[7^(2 x - 5) 5^x = 9^(x + 1), x]",
-				"{x = (5 * ln(7) + ln(9)) / (ln(5) + 2 * ln(7) - ln(9))}");
-		t("Solve[13^(x+1)-2*13^x=(1/5)*5^x,x]",
-				"{x = (-ln(11) - ln(5)) / (ln(13) - ln(5))}");
-
-		// These take too long (more than 1 minute)
-		// t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {c, a}]",
-		// "{{c = 300000000 / ((67 / 3)^(1 / 1057))^(950), a = 67 / (3 * ((67 /
-		// 3)^(1 / 1057))^(1056))}}");
-		// t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {a, c}]",
-		// "{{c = 300000000 / ((67 / 3)^(1 / 1057))^(950), a = 67 / (3 * ((67 /
-		// 3)^(1 / 1057))^(1056))}}");
-	}
-
-	@Test
 	public void fDashedTest() {
 		t("f(x):=g(x)/x", "g(x) / x");
 		t("f'(x)", "(-g(x) + x * g'(x)) / x^(2)", "(x * g'(x) - g(x)) / x^(2)");

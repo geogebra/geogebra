@@ -52,6 +52,14 @@ public class KeyboardFactory {
 	}
 
 	/**
+	 * Sets the factory for the default keyboard.
+	 * @param defaultKeyboardFactory - default keyboard factory
+	 */
+	public void setDefaultKeyboardFactory(KeyboardModelFactory defaultKeyboardFactory) {
+		this.defaultKeyboardFactory = defaultKeyboardFactory;
+	}
+
+	/**
 	 * Sets the factory for the greek keyboard.
 	 *
 	 * @param greekKeyboardFactory greek keyboard factory

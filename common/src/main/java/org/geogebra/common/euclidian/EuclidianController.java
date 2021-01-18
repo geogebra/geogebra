@@ -9134,13 +9134,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		setMouseLocation(event);
-
-		if (popupJustClosed) {
-			popupJustClosed = false;
-		} else if (penMode(mode)) {
-			getPen().handleMousePressedForPenMode(event);
-			return;
-		}
+		updateFocusedPanel(event);
 
 		updateHits(event);
 
@@ -9169,25 +9163,20 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		scriptsHaveRun = false;
 
-		if (app.isUsingFullGui() && app.getGuiManager() != null) {
-			// determine parent panel to change focus
-			app.getGuiManager().setFocusedPanel(event, false);
-			app.getGuiManager().mousePressedForPropertiesView();
-
-			if (view instanceof PlotPanelEuclidianViewInterface) {
-				setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
-			}
-		} else if (app.isHTML5Applet()) {
-			if (!isComboboxFocused() && !textfieldHasFocus) {
-				view.requestFocus();
-			}
+		if (view instanceof PlotPanelEuclidianViewInterface) {
+			setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
 		}
 
 		if (handleMousePressedForViewButtons()) {
 			return;
 		}
-
-		Hits hits;
+		if (popupJustClosed) {
+			popupJustClosed = false;
+		} else if (penMode(mode)) {
+			// needs to happen after scripts have run
+			getPen().handleMousePressedForPenMode(event);
+			return;
+		}
 
 		// check if side of bounding box was hit
 		wasBoundingBoxHit = view.getBoundingBox() != null
@@ -9242,7 +9231,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// Michael Borcherds 2007-12-08 BEGIN
 			// bugfix: couldn't select multiple objects with Ctrl
 
-			hits = view.getHits();
+			Hits hits = view.getHits();
 			switchModeForRemovePolygons(hits);
 			dontClearSelection = !hits.isEmpty();
 			if (hasNoHitsDisablingModeForShallMoveView(hits, event)
@@ -9261,6 +9250,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		}
 		switchModeForMousePressed(event);
+	}
+
+	protected void updateFocusedPanel(AbstractEvent event) {
+		if (app.isUsingFullGui() && app.getGuiManager() != null) {
+			// determine parent panel to change focus
+			app.getGuiManager().setFocusedPanel(event, false);
+			app.getGuiManager().mousePressedForPropertiesView();
+		} else if (app.isHTML5Applet()) {
+			if (!isComboboxFocused() && !textfieldHasFocus) {
+				view.requestFocus();
+			}
+		}
 	}
 
 	private void updateHits(AbstractEvent event) {
@@ -10156,12 +10157,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		// make sure we start the timer also for single point
 		if (penMode(mode)) {
-			boolean geoCreated = getPen().handleMouseReleasedForPenMode(right, x, y,
+			getPen().handleMouseReleasedForPenMode(right, x, y,
 					(numOfTargets > 0));
 			view.invalidateCache();
-			if (geoCreated) {
-				storeUndoInfo();
-			}
 			draggingOccured = false;
 			return;
 		}

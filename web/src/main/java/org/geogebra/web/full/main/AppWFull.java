@@ -1,8 +1,10 @@
 package org.geogebra.web.full.main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -29,12 +31,12 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
-import org.geogebra.common.kernel.AppState;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
+import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppKeyboardType;
@@ -52,7 +54,6 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -196,7 +197,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	// helper
 	// variable
 	private HorizontalPanel splitPanelWrapper = null;
-	private MenuViewController menuViewController;
+	private @CheckForNull MenuViewController menuViewController;
 
 	private EmbedManagerW embedManager;
 	private VideoManagerW videoManager;
@@ -212,6 +213,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private String autosavedMaterial = null;
 	private MaskWidgetList maskWidgets;
 	private SuiteHeaderAppPicker suiteAppPickerButton;
+	private HashMap<String, Material> constructionJson = new HashMap<>();
+	private InputBoxType inputBoxType;
+	private String functionVars = "";
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -398,9 +402,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private void initMenu() {
 		if (isFloatingMenu()) {
 			initSignInEventFlow(new LoginOperationW(this));
-			menuViewController = new MenuViewController(this);
-			menuViewController.setMenuViewListener(this);
-			frame.add(menuViewController.getView());
+			MenuViewController menuController = new MenuViewController(this);
+			menuController.setMenuViewListener(this);
+			frame.add(menuController.getView());
+			menuViewController = menuController;
 			isMenuInited = true;
 		}
 	}
@@ -863,14 +868,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public final OpenFileListener getUpdateTitleCallback(
 			final Material material) {
-		return new OpenFileListener() {
-
-			@Override
-			public boolean onOpenFile() {
-				AppWFull.this.updateMaterialURL(material.getId(),
-						material.getSharingKey(), material.getTitle());
-				return true;
-			}
+		return () -> {
+			this.updateMaterialURL(material);
+			return true;
 		};
 	}
 
@@ -1003,6 +1003,32 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			}
 		}
 		return getConfig().getKeyboardType();
+	}
+
+	@Override
+	public InputBoxType getInputBoxType() {
+		return inputBoxType;
+	}
+
+	@Override
+	public String getInputBoxFunctionVars() {
+		return functionVars;
+	}
+
+	/**
+	 * setter for input box function vars
+	 * @param functionVars function vars connected to the inputbox
+	 */
+	public void setInputBoxFunctionVars(String functionVars) {
+		this.functionVars = functionVars;
+	}
+
+	/**
+	 * setter for input box type
+	 * @param inputBoxType new input box type
+	 */
+	public void setInputBoxType(InputBoxType inputBoxType) {
+		this.inputBoxType = inputBoxType;
 	}
 
 	@Override
@@ -1232,16 +1258,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		resetUI();
 		resetPenTool();
 		clearMedia();
-	}
-
-	@Override
-	public void executeAction(EventType action, AppState state, String[] args) {
-		if (action == EventType.EMBEDDED_STORE_UNDO && embedManager != null) {
-			embedManager.executeAction(EventType.REDO,
-					Integer.parseInt(args[0]));
-		} else if (getPageController() != null) {
-			getPageController().executeAction(action, state, args);
-		}
 	}
 
 	@Override
@@ -1734,7 +1750,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			if (!isFloatingMenu() && !isMenuInited) {
 				frame.getMenuBar(this).init(this);
 				isMenuInited = true;
-			} else if (isFloatingMenu()) {
+			} else if (menuViewController != null) {
 				menuViewController.setMenuVisible(true);
 				return;
 			}
@@ -1752,7 +1768,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					.setOverflow(Overflow.HIDDEN);
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
-			if (isFloatingMenu()) {
+			if (menuViewController != null) {
 				menuViewController.setMenuVisible(false);
 			} else {
 				hideMenu();
@@ -2086,7 +2102,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		// ensure fullscreen: we may have lost it when handling unsaved
 		// changes
 		getLAF().toggleFullscreen(true);
-		if (guiManager != null && guiManager.getUnbundledToolbar() != null) {
+		if (guiManager != null && menuViewController != null) {
 			guiManager.setUnbundledHeaderStyle("examOk");
 			menuViewController.setExamMenu();
 			guiManager.resetMenu();
@@ -2107,7 +2123,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		fireViewsChangedEvent();
 		guiManager.updateToolbarActions();
 		guiManager.setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(true, false, this));
-		menuViewController.setDefaultMenu();
+		if (menuViewController != null) {
+			menuViewController.setDefaultMenu();
+		}
 		guiManager.resetMenu();
 		setActivePerspective(0);
 	}
@@ -2165,6 +2183,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @param subAppCode "graphing", "3d", "cas" or "geometry"
 	 */
 	public void switchToSubapp(String subAppCode) {
+		storeCurrentMaterial();
 		activity = new SuiteActivity(subAppCode);
 		activity.start(this);
 
@@ -2174,6 +2193,34 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		updateSymbolicFlag(subAppCode, perspective);
 		reinitSettings();
 		updatePerspective(perspective);
+		restoreMaterial(subAppCode);
+	}
+
+	private void storeCurrentMaterial() {
+		Material material = getActiveMaterial();
+		if (material == null) {
+			material = new Material(-1, Material.MaterialType.ggb);
+		}
+		material.setContent(getGgbApi().getFileJSON(false));
+		constructionJson.put(getConfig().getSubAppCode(), material);
+		setActiveMaterial(null);
+	}
+
+	private void restoreMaterial(String subAppCode) {
+		Material material = constructionJson.get(subAppCode);
+		if (material != null) {
+			Object oldConstruction = material.getContent();
+			if (oldConstruction != null) {
+				getGgbApi().setFileJSON(oldConstruction);
+			}
+			if (material.getId() != -1) {
+				setActiveMaterial(material);
+				updateMaterialURL(material);
+				return;
+			}
+		}
+		resetUrl();
+		setTitle();
 	}
 
 	private void updateSymbolicFlag(String subAppCode, Perspective perspective) {
@@ -2183,7 +2230,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						: SymbolicMode.NONE);
 		setPerspective(perspective);
 		reinitAlgebraView();
-		menuViewController.resetMenuOnAppSwitch(this);
+		if (menuViewController != null) {
+			menuViewController.resetMenuOnAppSwitch(this);
+		}
 	}
 
 	private void reinitSettings() {

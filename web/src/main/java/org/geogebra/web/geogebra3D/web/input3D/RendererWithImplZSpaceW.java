@@ -12,7 +12,8 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.user.client.Window;
-import com.googlecode.gwtgl.binding.WebGLRenderingContext;
+
+import elemental2.webgl.WebGLRenderingContext;
 
 /**
  * web renderer for zSpace

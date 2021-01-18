@@ -1762,6 +1762,9 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleAngleUnit(LinkedHashMap<String, String> attrs) {
+		if (!app.getConfig().isAngleUnitSettingEnabled()) {
+			return false;
+		}
 		if (attrs == null) {
 			return false;
 		}

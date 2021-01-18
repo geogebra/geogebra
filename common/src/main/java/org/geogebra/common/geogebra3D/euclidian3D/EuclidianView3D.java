@@ -4193,10 +4193,8 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		setProjection(evs.getProjection());
 
-        boolean colored = evs.getHasColoredAxes();
-        for (GeoAxisND ax : axis) {
-            ax.setColoredFor3D(colored);
-        }
+		boolean colored = evs.getHasColoredAxes();
+		setColoredAxes(colored);
 
 		updateMatrix();
 		getEuclidianController().onCoordSystemChanged();
@@ -4208,6 +4206,12 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		if (styleBar != null) {
 			styleBar.updateGUI();
+		}
+	}
+
+	protected void setColoredAxes(boolean colored) {
+		for (GeoAxisND ax : axis) {
+			ax.setColoredFor3D(colored);
 		}
 	}
 

@@ -17,6 +17,7 @@ import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 class EditorChecker {
 	private MathFieldCommon mathField;
@@ -72,6 +73,19 @@ class EditorChecker {
 
 	public EditorChecker typeKey(int key) {
 		typer.typeKey(key);
+		return this;
+	}
+
+	public EditorChecker left(int count) {
+		return repeatKey(JavaKeyCodes.VK_LEFT, count);
+	}
+
+	public EditorChecker right(int count) {
+		return repeatKey(JavaKeyCodes.VK_RIGHT, count);
+	}
+
+	public EditorChecker setModifiers(int modifiers) {
+		typer.setModifiers(modifiers);
 		return this;
 	}
 

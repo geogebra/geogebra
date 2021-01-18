@@ -399,8 +399,7 @@ public class SaveControllerW implements SaveController {
 
 						newMat.setSyncStamp(newMat.getModified());
 
-						getAppW().updateMaterialURL(newMat.getId(),
-								newMat.getSharingKeyOrId(), getFileName());
+						getAppW().updateMaterialURL(newMat);
 
 						getAppW().setActiveMaterial(newMat);
 						getAppW().setSyncStamp(newMat.getModified());
