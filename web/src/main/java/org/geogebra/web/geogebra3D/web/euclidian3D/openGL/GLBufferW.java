@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 
-import com.googlecode.gwtgl.array.Float32Array;
+import elemental2.core.Float32Array;
+import jsinterop.base.Js;
 
 /**
  * buffers for openGL
@@ -14,7 +15,7 @@ import com.googlecode.gwtgl.array.Float32Array;
  */
 public class GLBufferW implements GLBuffer {
 
-	private MyFloat32Array impl;
+	private Float32Array impl;
 	private boolean isEmpty;
 	private int index = 0;
 
@@ -42,8 +43,7 @@ public class GLBufferW implements GLBuffer {
 	public void allocate(int length) {
 		// allocate buffer only at start and when length change
 		if (impl == null || impl.getLength() < length) {
-			// This may be null in IE10
-			impl = (MyFloat32Array) Float32Array.create(length);
+			impl = new Float32Array(length);
 		}
 
 		index = 0;
@@ -60,13 +60,13 @@ public class GLBufferW implements GLBuffer {
 		if (impl == null) {
 			return;
 		}
-		impl.set(index, value);
+		impl.setAt(index, value);
 		index++;
 	}
 
 	@Override
 	public double get() {
-		double ret = impl.get(index);
+		double ret = impl.getAt(index);
 		index++;
 		return ret;
 	}
@@ -84,7 +84,7 @@ public class GLBufferW implements GLBuffer {
 			return;
 		}
 		for (int i = 0; i < length; i++) {
-			impl.set(i, array.get(i));
+			impl.setAt(i, array.get(i));
 		}
 
 		setLimit(length);
@@ -93,7 +93,7 @@ public class GLBufferW implements GLBuffer {
 	@Override
 	public void set(ArrayList<Double> array, int offset, int length) {
 		for (int i = 0; i < length; i++) {
-			impl.set(i + offset, array.get(i));
+			impl.setAt(i + offset, array.get(i));
 		}
 	}
 
@@ -101,7 +101,7 @@ public class GLBufferW implements GLBuffer {
 	public void set(ArrayList<Double> array, int arrayOffset, int offset,
 			int length) {
 		for (int i = 0; i < length; i++) {
-			impl.set(i + offset, array.get(arrayOffset + i));
+			impl.setAt(i + offset, array.get(arrayOffset + i));
 		}
 	}
 
@@ -109,15 +109,15 @@ public class GLBufferW implements GLBuffer {
 	public void set(ArrayList<Double> array, float[] translate, float scale,
 			int offset, int length) {
 		for (int i = 0; i < length; i++) {
-			impl.set(i + offset,
-					array.get(i).floatValue() * scale + translate[i % 3]);
+			impl.setAt(i + offset,
+					(double) (array.get(i).floatValue() * scale + translate[i % 3]));
 		}
 	}
 
 	@Override
 	public void set(float value, int offset, int length, int step) {
 		for (int i = 0; i < length; i++) {
-			impl.set(i * step + offset, value);
+			impl.setAt(i * step + offset, (double) value);
 		}
 	}
 
@@ -132,7 +132,7 @@ public class GLBufferW implements GLBuffer {
 			return;
 		}
 		for (int i = 0; i < ret.length; i++) {
-			ret[i] = impl.get(i);
+			ret[i] = impl.getAt(i).floatValue();
 		}
 	}
 
@@ -141,13 +141,13 @@ public class GLBufferW implements GLBuffer {
 	 * @return buffer
 	 */
 	public Float32Array getBuffer() {
-		return impl.subarray(0, currentLength);
+		return Js.cast(impl.subarray(0, currentLength));
 	}
 
 	@Override
 	public void reallocate(int size) {
-		MyFloat32Array oldImpl = impl;
-		impl = (MyFloat32Array) Float32Array.create(size);
+		Float32Array oldImpl = impl;
+		impl = new Float32Array(size);
 		impl.set(oldImpl);
 	}
 

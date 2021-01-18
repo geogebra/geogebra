@@ -220,14 +220,6 @@ public class Browser {
 	}-*/;
 
 	/**
-	 * @return whether TRIANGLE_FAN is supported in WebGL
-	 */
-	public static native boolean supportsWebGLTriangleFan()/*-{
-		return $wnd.WebGLRenderingContext
-				&& (!!$wnd.WebGLRenderingContext.TRIANGLE_FAN);
-	}-*/;
-
-	/**
 	 * @return whether we are running on geogebra.org
 	 */
 	public static boolean isGeoGebraOrg() {
