@@ -5,7 +5,6 @@ import java.util.Locale;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.html5.webcam.WebCamAPI;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -303,7 +302,7 @@ public class Browser {
 	 * @return whether webcam input is supported in the browser
 	 */
 	public static boolean supportsWebcam() {
-		return WebCamAPI.isSupported();
+		return DomGlobal.window.navigator.mediaDevices != null;
 	}
 
 	/**
