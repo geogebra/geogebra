@@ -51,7 +51,7 @@ public abstract class CardRenameDialog extends ComponentDialog {
 
 	private void buildContent() {
 		FlowPanel contentPanel = new FlowPanel();
-		inputField = new InputPanelW("", app, 1, 25, false);
+		inputField = new InputPanelW("", app, 1, -1, false);
 		FormLabel inputLabel = new FormLabel().setFor(inputField.getTextComponent());
 		inputLabel.addStyleName("inputLabel");
 		contentPanel.add(inputLabel);
@@ -123,4 +123,10 @@ public abstract class CardRenameDialog extends ComponentDialog {
 	}
 
 	protected abstract String getCardTitle();
+
+	@Override
+	public void show() {
+		super.show();
+		Scheduler.get().scheduleDeferred(() -> getInputField().setFocusAndSelectAll());
+	}
 }

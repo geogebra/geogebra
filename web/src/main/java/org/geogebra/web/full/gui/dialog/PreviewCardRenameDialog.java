@@ -38,13 +38,6 @@ public class PreviewCardRenameDialog extends CardRenameDialog {
 		return card.getCardTitle();
 	}
 
-	/**
-	 * Selects all text in the input field.
-	 */
-	public void selectAll() {
-		getInputField().getTextComponent().selectAll();
-	}
-
 	@Override
 	protected void renameCard(String text) {
 		((PageListController) pageController).rename(card, text);

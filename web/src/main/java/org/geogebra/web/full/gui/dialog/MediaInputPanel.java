@@ -39,7 +39,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 		setStyleName("mowInputPanelContent");
 		addStyleName("emptyState");
 
-		inputField = new InputPanelW("", app, 1, 25, false);
+		inputField = new InputPanelW("", app, 1, -1, false);
 
 		FormLabel inputLabel = new FormLabel().setFor(inputField.getTextComponent());
 		inputLabel.setText(app.getLocalization().getMenu(labelTransKey));
@@ -62,10 +62,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * Set focus the text field of the input panel
 	 */
 	public void focusDeferred() {
-		Scheduler.get().scheduleDeferred(() -> {
-			inputField.getTextComponent().setFocus(true);
-			inputField.getTextComponent().selectAll();
-		});
+		Scheduler.get().scheduleDeferred(() -> inputField.setFocusAndSelectAll());
 	}
 
 	/**

@@ -76,6 +76,14 @@ public abstract class MediaDialog extends ComponentDialog {
 		super.hide();
 	}
 
+	@Override
+	public void show() {
+		super.show();
+		if (mediaInputPanel != null) {
+			mediaInputPanel.focusDeferred();
+		}
+	}
+
 	protected void onMediaElementCreated(GeoElement geoElement) {
 		getApplication().getActiveEuclidianView()
 				.getEuclidianController().selectAndShowSelectionUI(geoElement);
