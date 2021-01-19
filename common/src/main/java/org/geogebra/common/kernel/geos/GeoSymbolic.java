@@ -661,6 +661,9 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private void getFVarsXML(StringBuilder sb) {
+		if (fVars.isEmpty()) {
+			return;
+		}
 		String prefix = "";
 		sb.append("\t<variables val=\"");
 		for (FunctionVariable variable : fVars) {
