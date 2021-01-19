@@ -39,12 +39,13 @@ public final class MultiuserManager {
 
 	/**
 	 * Deselect objects associated with given user
+	 * @param app application
 	 * @param user user ID
 	 */
-	public void deselect(String user) {
+	public void deselect(App app, String user) {
 		User currentUser = activeInteractions.get(user);
 		if (currentUser != null) {
-			currentUser.scheduleDeselection();
+			currentUser.scheduleDeselection(app.getActiveEuclidianView());
 		}
 	}
 
@@ -56,7 +57,7 @@ public final class MultiuserManager {
 	 */
 	public void paintInteractionBoxes(EuclidianView view, GGraphics2D graphics) {
 		graphics.setStroke(AwtFactory.getPrototype()
-				.newBasicStroke(5, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND));
+				.newBasicStroke(6, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND));
 		for (User user : activeInteractions.values()) {
 			user.paintInteractionBoxes(view, graphics);
 		}

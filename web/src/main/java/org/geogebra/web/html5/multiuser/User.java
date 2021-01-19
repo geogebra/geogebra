@@ -19,6 +19,10 @@ import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.HasTransformation;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInline;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
+import org.geogebra.common.kernel.geos.GeoMedia;
 import org.geogebra.common.kernel.geos.RectangleTransformable;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.web.html5.main.AppW;
@@ -56,9 +60,18 @@ class User {
 		view.repaintView();
 	}
 
-	public void scheduleDeselection() {
-		for (Timer t : interactions.values()) {
-			t.schedule(2000);
+	public void scheduleDeselection(EuclidianView view) {
+		for (String label : interactions.keySet()) {
+			GeoElement geo = view.getApplication().getKernel().lookupLabel(label);
+			if (geo == null) {
+				return;
+			}
+			if (geo instanceof GeoLocusStroke || geo instanceof GeoInline
+				|| geo instanceof GeoImage || geo instanceof GeoMedia) {
+				interactions.get(label).schedule(3000);
+			} else {
+				interactions.remove(label);
+			}
 		}
 	}
 
@@ -97,7 +110,7 @@ class User {
 						.newBasicStroke(geo.getLineThickness() / 2d, GBasicStroke.CAP_ROUND,
 								GBasicStroke.JOIN_ROUND);
 				GBasicStroke outline = AwtFactory.getPrototype()
-						.newBasicStroke(geo.getLineThickness() / 2d + 10, GBasicStroke.CAP_ROUND,
+						.newBasicStroke(geo.getLineThickness() / 2d + 4, GBasicStroke.CAP_ROUND,
 								GBasicStroke.JOIN_ROUND);
 				GShape gp = d instanceof DrawLocus
 						? ((DrawLocus) d).getPath()

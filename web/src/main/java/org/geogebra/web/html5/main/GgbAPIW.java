@@ -1096,8 +1096,12 @@ public class GgbAPIW extends GgbAPI {
 		MultiuserManager.INSTANCE.addSelection(app, user, GColor.parseHexColor(color), label);
 	}
 
+	/**
+	 * Remove a multiuser interaction
+	 * @param user tooltip content
+	 */
 	public void removeMultiuserSelections(String user) {
-		MultiuserManager.INSTANCE.deselect(user);
+		MultiuserManager.INSTANCE.deselect(app, user);
 	}
 
 	public void asyncEvalCommand(String command, ResolveCallbackFn<String> onSuccess,
