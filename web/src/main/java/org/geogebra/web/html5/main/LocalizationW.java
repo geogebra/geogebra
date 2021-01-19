@@ -137,7 +137,9 @@ public final class LocalizationW extends Localization {
 	 */
 	@Override
 	public String getMenu(String key) {
-
+		if ("undefined".equalsIgnoreCase(key)) {
+			Log.error("undefined");
+		}
 		if (key == null) {
 			return "";
 		}

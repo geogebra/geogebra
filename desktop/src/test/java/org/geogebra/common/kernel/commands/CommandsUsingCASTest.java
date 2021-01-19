@@ -428,8 +428,8 @@ public class CommandsUsingCASTest extends AlgebraTest {
 			}
 		});
 		// one or both functions undefined
-		t("f(x)=?", "NaN");
-		t("g(x)=?", "NaN");
+		t("f(x)=?", "?");
+		t("g(x)=?", "?");
 		t("f==g", "false");
 
 		// same string

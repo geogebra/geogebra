@@ -401,7 +401,7 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public boolean isDefined() {
-		return isDefined && fun != null;
+		return isDefined && fun != null && GeoFunction.isFunctionDefined(fun);
 	}
 
 	/**
