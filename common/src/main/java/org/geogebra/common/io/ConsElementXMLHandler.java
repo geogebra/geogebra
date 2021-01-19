@@ -389,6 +389,9 @@ public class ConsElementXMLHandler {
 			return false;
 		}
 		String variableString = attrs.get("val");
+		if (variableString.isEmpty()) {
+			return false;
+		}
 		String[] variables = variableString.split(",");
 		FunctionVariable[] fVars = new FunctionVariable[variables.length];
 		for (int i = 0; i < variables.length; i++) {
