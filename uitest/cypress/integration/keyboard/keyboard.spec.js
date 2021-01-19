@@ -15,8 +15,8 @@ describe('Keyboard ANS button test', () => {
     });
     it("shows the 'ans' button after switching keyboards", () => {
         selectors.functionsKeyboard.get().click();
-        cy.wait(5000);
-        selectors.mathKeyboardWithAns.get().click();
+        cy.wait(3000);
+        selectors.mathKeyboardWithAns.get().trigger('click')
         cy.get('div[aria-label="ans"]').should("be.visible");
     });
     it("inserts the result of the previous cell when the 'ans' button is pressed", () => {
@@ -28,7 +28,7 @@ describe('Keyboard ANS button test', () => {
     it("does not show the 'ans' button in the properties view", () => {
     	// let's wait a bit until the keyboard (from setting focus in AV)
     	//is shown before we start with the actions
-     	cy.wait(5000);
+     	cy.wait(3000);
         selectors.graphicsViewContextMenu.get().click();
         cy.get('.gwt-MenuItem').contains('Settings').click();
         cy.get('.gwt-SuggestBox').first().click();
@@ -36,12 +36,13 @@ describe('Keyboard ANS button test', () => {
     });
 
     it("does not show the 'ans' button in for symbolic inputbox", () => {
-    	cy.wait(5000);
+    	cy.wait(3000);
         cy.writeInAVInput("f(x)=x{enter}");
         cy.writeInAVInput("InputBox(f){enter}");
         selectors.euclidianView.get().trigger('mousedown', 100, 100);
         selectors.euclidianView.get().trigger('mousedown', 140, 50).trigger('mouseup',  140, 50);
 
+		cy.wait(3000);
         cy.keyboardShouldPresent();
         cy.get('div[aria-label="ans"]').should("not.be.visible");
     });
