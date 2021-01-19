@@ -1533,12 +1533,20 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return xZero;
 	}
 
+	public void setXZero(double xZero) {
+		this.xZero = xZero;
+	}
+
 	/**
 	 * Returns y coordinate of axes origin.
 	 */
 	@Override
 	public double getYZero() {
 		return yZero;
+	}
+
+	public void setYZero(double yZero) {
+		this.yZero = yZero;
 	}
 
 	private double getXZeroForXml() {
@@ -3493,7 +3501,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		getSettings().setOriginNoUpdate(xZero, yZero);
 	}
 
-	protected void updateSizeChange() {
+	public void updateSizeChange() {
 		updateSizeKeepDrawables();
 		updateAllDrawablesForView(true);
 	}
@@ -5417,7 +5425,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	protected void animateMove(double destX, double destY, boolean storeUndo) {
+	public void animateMove(double destX, double destY, boolean storeUndo) {
 		if (mover == null) {
 			mover = newZoomer();
 		}
@@ -6570,5 +6578,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	public int getVisibleHeight() {
 		return getHeight();
+	}
+
+	@CheckForNull
+	public EvPositioner getEvPositioner() {
+		return null;
 	}
 }
