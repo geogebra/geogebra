@@ -13,6 +13,8 @@
  -->
 
 <module name = "Checker">
+    <property name="tabWidth" value="4"/>
+
     <property name="charset" value="UTF-8"/>
 
     <property name="severity" value="warning"/>
@@ -36,7 +38,6 @@
         <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://|@|Regex"/>
     </module>
     <module name="TreeWalker">
-        <property name="tabWidth" value="4"/>
         <module name="OneTopLevelClass"/>
         <module name="OuterTypeFilename"/>
         <module name="IllegalTokenText">
@@ -113,13 +114,12 @@
         <module name="AvoidStarImport">
             <property name="allowStaticMemberImports" value="true"/>
         </module>
-        <module name="CustomImportOrder">
-            <property name="customImportOrderRules"
-                      value="STATIC###STANDARD_JAVA_PACKAGE###SPECIAL_IMPORTS###THIRD_PARTY_PACKAGE"/>
-            <property name="specialImportsRegExp" value="^org\."/>
-            <property name="thirdPartyPackageRegExp" value="^com\."/>
-            <property name="sortImportsInGroupAlphabetically" value="true"/>
-            <property name="separateLineBetweenGroups" value="true"/>
+        <module name="ImportOrder">
+            <property name="groups" value="/^java\./,javax,org,com"/>
+            <property name="ordered" value="true"/>
+            <property name="separated" value="true"/>
+            <property name="option" value="top"/>
+            <property name="sortStaticImportsAlphabetically" value="true"/>
         </module>
     </module>
 </module>
