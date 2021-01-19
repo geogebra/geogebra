@@ -36,7 +36,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -66,6 +65,7 @@ import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.epsgraphics.ColorMode;
 import org.geogebra.desktop.export.epsgraphics.EpsGraphics;
 import org.geogebra.desktop.export.epsgraphics.EpsGraphicsD;
+import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.gui.util.FileTransferable;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.FontManagerD;
@@ -78,7 +78,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * @author Markus Hohenwarter
  */
-public class GraphicExportDialog extends JDialog implements KeyListener {
+public class GraphicExportDialog extends Dialog implements KeyListener {
 
 	// #4979
 	private static final int EXTRA_MARGIN = 4;

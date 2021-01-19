@@ -1,18 +1,15 @@
-package org.geogebra.cas.logging;
+package org.geogebra.test;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import org.geogebra.cas.GeoGebraCasIntegrationTest;
 
 /**
- * Used for logging all test results of the {@link GeoGebraCasIntegrationTest}
+ * Used for logging all test results of the GeoGebraCasIntegrationTest
  * which are not the expected but valid results
  * 
  * @author Johannes Renner
  */
 public class CASTestLogger {
-	private ArrayList<String> logs;
+	private final ArrayList<String> logs;
 
 	/**
 	 * does the needed initialization
@@ -35,7 +32,7 @@ public class CASTestLogger {
 		String entry = "WARNING\tTest input:\t " + input
 				+ " returned not the expected result but another valid result";
 		entry += "\n\tExpected result: " + expectedResult;
-		entry += "\n\tGotten Result:\t " + gotResult;
+		entry += "\n\tActual result:\t " + gotResult;
 		entry += "\n";
 		logs.add(entry);
 	}
@@ -48,9 +45,8 @@ public class CASTestLogger {
 		System.out.println("\nTests finished with " + nrOfWarnings
 				+ " warnings" + (nrOfWarnings > 0 ? ":" : "."));
 		if (nrOfWarnings > 0) {
-			Iterator<String> it = logs.iterator();
-			while (it.hasNext()) {
-				System.out.println(it.next());
+			for (String log : logs) {
+				System.out.println(log);
 			}
 		}
 	}

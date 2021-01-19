@@ -1223,15 +1223,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			width: 94%;
 			height: 100%;
 		}
-		.mowCameraInputPanel {
-			max-width: 100%;
-			max-height: 100%;
-			text-align: center;
-		}
 		.webcamInputPanel {
-			width: 100%;
 			min-height: 160px;
 			min-width: 213px;
+			max-width: 100%;
 			max-height: calc(100vh - 320px);
 			text-align: center;
 		}

@@ -54,14 +54,10 @@ public class ImageInputDialog extends UploadImageDialog
 	protected void buildContent() {
 		super.buildContent();
 		addStyleName("camera");
-		if (webcamSupported()) {
+		if (Browser.supportsWebcam()) {
 			listPanel.add(webcamLabel = new Label(app.getLocalization().getMenu("Webcam")));
 			webcamLabel.addClickHandler(this);
 		}
-	}
-
-	protected boolean webcamSupported() {
-		return Browser.supportsWebcam();
 	}
 
 	@Override

@@ -32,6 +32,7 @@ import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.gui.inputfield.MathTextField;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
@@ -87,7 +88,7 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 	 */
 	protected void createGUI() {
 		// do not dock the substitution dialog to the main frame: ticket 1832
-		dialog = new JDialog(
+		dialog = new Dialog(
 				(JFrame) ((LayoutD) app.getGuiManager().getLayout())
 						.getDockManager().getPanel(App.VIEW_CAS).getFrame());
 		dialog.setModal(false);

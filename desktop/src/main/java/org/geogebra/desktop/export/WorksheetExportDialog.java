@@ -22,7 +22,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -30,6 +29,7 @@ import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.desktop.gui.TitlePanel;
+import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.HelpAction;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
@@ -45,7 +45,7 @@ import org.geogebra.desktop.util.UtilD;
  * @author Markus Hohenwarter
  * @author Philipp Weissenbacher (materthron@users.sourceforge.net)
  */
-public class WorksheetExportDialog extends JDialog {
+public class WorksheetExportDialog extends Dialog {
 
 	/**
 	 * Url for wiki article about exporting to HTML changed to GeoGebra

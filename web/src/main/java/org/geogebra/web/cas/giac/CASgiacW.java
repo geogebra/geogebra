@@ -6,20 +6,21 @@ import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
-import org.geogebra.web.html5.util.JsRunnable;
+import org.geogebra.web.html5.GiacNative;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 
+import elemental2.core.Function;
+import elemental2.core.JsArray;
+import elemental2.dom.DomGlobal;
 import fr.grenoble.ujf.giac.CASResources;
 import jsinterop.base.Js;
-import jsinterop.base.JsPropertyMap;
 
 /**
  * Web implementation of Giac CAS
@@ -31,7 +32,8 @@ public class CASgiacW extends CASgiac {
 
 	/** kernel */
 	Kernel kernel;
-	private static boolean externalCAS = Browser.externalCAS();
+	private static final boolean externalCAS = Browser.externalCAS();
+	Function caseval;
 
 	/**
 	 * Creates new CAS
@@ -88,8 +90,7 @@ public class CASgiacW extends CASgiac {
 		// #5439
 		// restart Giac before each call
 		// native Giac needs same initString as desktop
-		evaluateRaw(externalCAS ? initString : initStringWeb, false,
-				externalCAS);
+		evaluateRaw(externalCAS ? initString : initStringWeb, externalCAS);
 		
 		// GGB-850
 		CustomFunctions[] init = CustomFunctions.values();
@@ -113,15 +114,14 @@ public class CASgiacW extends CASgiac {
 			 */
 			if (function.functionName == null || (foundInInput = (exp
 				.indexOf(function.functionName) > -1))) {
-				evaluateRaw(function.definitionString, false, externalCAS);
+				evaluateRaw(function.definitionString, externalCAS);
 				/* Some commands may require additional commands to load. */
 				if (foundInInput) {
 					ArrayList<CustomFunctions> dependencies = CustomFunctions
 							.prereqs(function);
 					for (CustomFunctions dep : dependencies) {
 						Log.debug(function + " implicitly loads " + dep);
-						evaluateRaw(dep.definitionString, false,
-								externalCAS);
+						evaluateRaw(dep.definitionString, externalCAS);
 					}
 				}
 			}
@@ -134,74 +134,61 @@ public class CASgiacW extends CASgiac {
 						: "999");
 
 		// Giac's default is 15s unless specified
-		evaluateRaw(timeoutCommand, false, externalCAS);
+		evaluateRaw(timeoutCommand, externalCAS);
 
 		// make sure we don't always get the same value!
 		int seed = rand.nextInt(Integer.MAX_VALUE);
-		evaluateRaw("srand(" + seed + ")", false, externalCAS);
+		evaluateRaw("srand(" + seed + ")", externalCAS);
 
 		// set to radians mode
-		evaluateRaw("angle_radian:=1", false, externalCAS);
+		evaluateRaw("angle_radian:=1", externalCAS);
 
-		// show logging in tube-beta only
-		String ret = evaluateRaw(wrapInevalfa(exp), kernel
-				.getApplication().has(Feature.TUBE_BETA), externalCAS);
-
-		return ret;
+		return evaluateRaw(wrapInevalfa(exp), externalCAS);
 	}
 
-	private String evaluateRaw(String giacCommand, boolean showOutput,
-			boolean external) {
+	private String evaluateRaw(String giacCommand, boolean external) {
 		if (external) {
-			return nativeEvaluateRawExternal(giacCommand, showOutput);
+			return nativeEvaluateRawExternal(giacCommand);
 		}
 
-		return nativeEvaluateRaw(giacCommand, showOutput);
+		return nativeEvaluateRaw(giacCommand);
 	}
 
 	private void setUpInitCAS() {
 		if (Js.isFalsy(GeoGebraGlobal.__ggb__giac)) {
-			GeoGebraGlobal.__ggb__giac = JsPropertyMap.of();
+			GeoGebraGlobal.__ggb__giac = new GiacNative();
 		}
 
-		GeoGebraGlobal.__ggb__giac.set("postRun", (JsRunnable) () -> {
-			kernel.getApplication().getGgbApi().initCAS();
-		});
+		GeoGebraGlobal.__ggb__giac.postRun = () -> kernel.getApplication().getGgbApi().initCAS();
 	}
 
-	private native String nativeEvaluateRawExternal(String s,
-			boolean showOutput) /*-{
+	private native String nativeEvaluateRawExternal(String s) /*-{
 		return $wnd.evalGeoGebraCASExternal(s);
 	}-*/;
 
-	private native String nativeEvaluateRaw(String s, boolean showOutput) /*-{
-		if (typeof Float64Array === 'undefined') {
-			$wnd.console.log("Typed arrays not supported, Giac won't work");
+	private String nativeEvaluateRaw(String s) {
+		if (!Browser.hasGlobal("Float64Array")) {
+			Log.error("Typed arrays not supported, Giac won't work");
 			return "?";
 		}
+		updateCaseval();
+		return (String) caseval.call(DomGlobal.window, s);
+	}
 
-		if (showOutput) {
-			$wnd.console.log("js giac  input:" + s);
+	private void updateCaseval() {
+		if (caseval == null && Js.isTruthy(GeoGebraGlobal.__ggb__giac)) {
+			caseval = GeoGebraGlobal.__ggb__giac.cwrap("caseval", "string",
+					JsArray.of("string"));
 		}
-
-		caseval = $wnd.__ggb__giac.cwrap('caseval', 'string', [ 'string' ]);
-
-		var ret = caseval(s);
-
-		if (showOutput) {
-			$wnd.console.log("js giac output:" + ret);
-		}
-
-		return ret
-	}-*/;
+	}
 
 	private boolean casLoaded() {
 		return nativeCASloaded() || externalCAS();
 	}
 
-	private native boolean nativeCASloaded() /*-{
-		return !!$wnd.__ggb__giac && !!$wnd.__ggb__giac.cwrap;
-	}-*/;
+	private boolean nativeCASloaded() {
+		return GeoGebraGlobal.__ggb__giac != null && GeoGebraGlobal.__ggb__giac.getCwrap() != null;
+	}
 
 	/**
 	 * Make sure an instance of giac.js is loaded

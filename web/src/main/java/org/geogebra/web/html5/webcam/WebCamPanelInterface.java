@@ -1,14 +1,12 @@
 package org.geogebra.web.html5.webcam;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
 /**
  * Interface to interact with the WebCamAPI 
  * 
  * @author laszlo
  *
  */
-public interface WebCamInterface {
+public interface WebCamPanelInterface {
 	/**
 	 * Called when API requests permission to use the camera.
 	 */
@@ -16,11 +14,8 @@ public interface WebCamInterface {
 	
 	/**
 	 * Called on API success.
-	 * 
-	 * @param mediaStream 
-	 * 				the video stream of the camera.
 	 */
-	void onCameraSuccess(JavaScriptObject mediaStream);
+	void onCameraSuccess();
 	
 	/**
 	 * Called on camera error.

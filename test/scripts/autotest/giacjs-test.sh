@@ -20,7 +20,7 @@ TIMEOUT_SEC=60
 MYNAME=giacjs-test
 OUTPUTFILE=giacjs-test.txt
 LIMIT=100
-GIACJS=../../../web/war/__giac.js
+GIACJS=../../../web/war/giacTests.js
 
 # Set the number of tests here
 JSONSTART=`cat $GIACJS | nl | grep JSONSTART | awk '{print $1}'`

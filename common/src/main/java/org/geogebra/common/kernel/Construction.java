@@ -1060,6 +1060,10 @@ public class Construction {
 		}
 	}
 
+	public final boolean isRegisteredEuclidianViewCE(EuclidianViewCE elem) {
+		return euclidianViewCE.contains(elem);
+	}
+
 	/**
 	 * Unregisters an algorithm that wants to be notified when
 	 * setEuclidianViewBounds() is called.
