@@ -29,6 +29,7 @@ import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
+import org.geogebra.test.UndoRedoTester;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
@@ -1381,5 +1382,19 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic extremum = add("Extremum(x*ln(x^2))");
 		GeoList twin = (GeoList) extremum.getTwinGeo();
 		assertThat(twin.size(), equalTo(2));
+	}
+
+	@Test
+	public void testVariableAfterUndo() {
+		UndoRedoTester undoRedo = new UndoRedoTester(app);
+		undoRedo.setupUndoRedo();
+
+		GeoSymbolic a = add("a = 3");
+		app.storeUndoInfo();
+		assertThat(a.getDefinitionForInputBar(), is("a = 3"));
+		add("b = 3");
+		app.storeUndoInfo();
+		a = undoRedo.getAfterUndo("a");
+		assertThat(a.getDefinitionForInputBar(), is("a = 3"));
 	}
 }
