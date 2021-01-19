@@ -3038,11 +3038,11 @@ public abstract class EuclidianView3D extends EuclidianView
 				sb.append("\"");
 			}
 		}
-			sb.append(" xAngle=\"");
-			sb.append(b);
-			sb.append("\" zAngle=\"");
-			sb.append(a);
-			sb.append("\"/>\n");
+		sb.append(" xAngle=\"");
+		sb.append(b);
+		sb.append("\" zAngle=\"");
+		sb.append(a);
+		sb.append("\"/>\n");
 
 		// ev settings
 		sb.append("\t<evSettings axes=\"");
@@ -3467,8 +3467,9 @@ public abstract class EuclidianView3D extends EuclidianView
 			}
 		}
 
-		if (getSettings().getXminObject() != null && getSettings().isUpdateScaleOrigin()) {
-
+		if (getSettings().getXminObject() != null
+				&& getSettings().getZminObject() != null
+				&& getSettings().isUpdateScaleOrigin()) {
 			double[][] minmax2 = new double[3][2];
 			double xmin2 = getSettings().getXminObject().getDouble();
 			double xmax2 = getSettings().getXmaxObject().getDouble();
