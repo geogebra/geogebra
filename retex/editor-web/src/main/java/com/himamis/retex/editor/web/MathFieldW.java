@@ -73,7 +73,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.ColorW;
-import com.himamis.retex.renderer.web.graphics.JLMContext2d;
+import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
 import elemental2.dom.CSSProperties;
 import elemental2.dom.CanvasRenderingContext2D;
@@ -178,7 +178,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 		// el.getElement().setTabIndex(1);
 		if (canvas != null) {
-			this.ctx = JLMContext2d.as(canvas.getContext2d());
+			this.ctx = JLMContextHelper.as(canvas.getContext2d());
 		}
 		SelectionBox.touchSelection = false;
 		mathFieldInternal.setSelectionMode(true);

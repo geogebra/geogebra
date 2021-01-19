@@ -30,6 +30,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.dom.client.Element;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
+import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
 import elemental2.dom.CanvasPattern;
 import elemental2.dom.CanvasRenderingContext2D;
@@ -67,7 +68,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 	public GGraphics2DW(Canvas canvas) {
 		this.canvas = canvas;
 		setDirection();
-		this.context = JLMContext2d.as(canvas.getContext2d());
+		this.context = JLMContextHelper.as(canvas.getContext2d());
 		this.context.initTransform();
 		preventContextMenu(canvas.getElement());
 	}
@@ -84,7 +85,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 		// could also try this if necessary
 		// this.canvas = Canvas.createIfSupported();
 
-		this.context = (JLMContext2d) ctx;
+		this.context = JLMContextHelper.as(ctx);
 		this.context.initTransform();
 	}
 

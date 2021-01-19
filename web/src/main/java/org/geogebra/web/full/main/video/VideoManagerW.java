@@ -17,6 +17,7 @@ import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.main.MyImageW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
 
@@ -60,7 +61,7 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void createPreview(final GeoVideo geo) {
-		HTMLImageElement img = new HTMLImageElement();
+		HTMLImageElement img = Dom.createImage();
 		img.setAttribute("crossorigin", "anonymous");
 		img.src = geo.getPreviewUrl();
 		img.addEventListener("load", (event) -> {

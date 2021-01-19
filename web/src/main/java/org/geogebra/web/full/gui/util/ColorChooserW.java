@@ -21,6 +21,7 @@ import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.gui.util.SliderInputHandler;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -36,6 +37,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
+import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
 import elemental2.dom.HTMLImageElement;
 import jsinterop.base.Js;
@@ -123,7 +125,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			setWidth(col * colorIconSize.getWidth() + padding);
 			setHeight(row * colorIconSize.getHeight() + padding);
 
-			checkMark = new HTMLImageElement();
+			checkMark = Dom.createImage();
 			checkMark.src = AppResources.INSTANCE.color_chooser_check().getSafeUri().asString();
 
 			final int checkSize = 12;
@@ -578,7 +580,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		canvas.setSize(width + "px", height + "px");
 		canvas.setCoordinateSpaceHeight(height);
 		canvas.setCoordinateSpaceWidth(width);
-		ctx = JLMContext2d.as(canvas.getContext2d());
+		ctx = JLMContextHelper.as(canvas.getContext2d());
 
 		changeHandler = null;
 		lastSource = null;

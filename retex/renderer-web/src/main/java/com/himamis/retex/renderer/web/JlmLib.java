@@ -52,7 +52,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
-import com.himamis.retex.renderer.web.graphics.JLMContext2d;
+import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
@@ -105,7 +105,7 @@ public class JlmLib {
 			double ratio) {
 		Graphics2DW g2 = new Graphics2DW(ctx);
 
-		((JLMContext2d) ctx).setDevicePixelRatio(ratio);
+		JLMContextHelper.as(ctx).setDevicePixelRatio(ratio);
 		ctx.scale(ratio, ratio);
 		// fill the background color
 		if (bgColor != null) {

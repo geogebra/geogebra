@@ -1399,7 +1399,7 @@ public class EuclidianViewW extends EuclidianView implements
 		if (res != null) {
 			String uri = ImgResourceHelper.safeURI(res);
 			if (!uri.equals(svgBackgroundUri)) {
-				HTMLImageElement img = new HTMLImageElement();
+				HTMLImageElement img = Dom.createImage();
 				img.src = uri;
 				svgBackground = new MyImageW(img, true);
 				svgBackgroundUri = uri;

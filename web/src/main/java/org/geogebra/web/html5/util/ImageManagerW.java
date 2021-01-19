@@ -58,7 +58,7 @@ public class ImageManagerW extends ImageManager {
 		if (fileName != null && src != null) {
 			Log.debug("addExternalImage: " + fileName);
 			String fn = StringUtil.removeLeadingSlash(fileName);
-			HTMLImageElement img = new HTMLImageElement();
+			HTMLImageElement img = Dom.createImage();
 			externalImageSrcs.put(fn, src);
 			externalImageTable.put(fn, img);
 		}
@@ -180,7 +180,7 @@ public class ImageManagerW extends ImageManager {
 	 * @return img element corresponding to the resource
 	 */
 	public static HTMLImageElement getInternalImage(ResourcePrototype resource) {
-		HTMLImageElement img = new HTMLImageElement();
+		HTMLImageElement img = Dom.createImage();
 		img.src = NoDragImage.safeURI(resource);
 		return img;
 	}
@@ -398,7 +398,7 @@ public class ImageManagerW extends ImageManager {
 				if (url != null) {
 					FileExtensions ext = StringUtil.getFileExtension(fileName);
 
-					HTMLImageElement elem = new HTMLImageElement();
+					HTMLImageElement elem = Dom.createImage();
 					elem.src = url;
 
 					MyImageW img = new MyImageW(elem, FileExtensions.SVG.equals(ext));

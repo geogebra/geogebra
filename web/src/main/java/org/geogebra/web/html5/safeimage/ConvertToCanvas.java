@@ -2,6 +2,7 @@ package org.geogebra.web.html5.safeimage;
 
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.html5.util.Dom;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
@@ -26,7 +27,7 @@ public class ConvertToCanvas implements ImagePreprocessor {
 
 	@Override
 	public void process(final ImageFile imageFile, final SafeImageProvider provider) {
-		HTMLImageElement image = new HTMLImageElement();
+		HTMLImageElement image = Dom.createImage();
 
 		image.addEventListener("load", (event) -> {
 			drawImageToCanvas(image);

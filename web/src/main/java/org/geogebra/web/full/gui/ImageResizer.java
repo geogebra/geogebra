@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui;
 
+import org.geogebra.web.html5.util.Dom;
+
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLCanvasElement;
@@ -25,7 +27,7 @@ public class ImageResizer {
 	 *         case of no resize happened
 	 */
 	public static String resizeImage(String imgDataURL, int width, int height) {
-		HTMLImageElement image = new HTMLImageElement();
+		HTMLImageElement image = Dom.createImage();
 		image.src = imgDataURL;
 		int sWidth = image.width;
 		int sHeight = image.height;

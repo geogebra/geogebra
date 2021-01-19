@@ -4,9 +4,11 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GGraphics2DW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
+import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLCanvasElement;
@@ -67,7 +69,7 @@ public class GBufferedImageW implements GBufferedImage {
 			canv.setCoordinateSpaceHeight((int) (height * pixelRatio));
 			canv.setWidth(width + "px");
 			canv.setHeight(height + "px");
-			JLMContext2d c2d = JLMContext2d.as(canv.getContext2d());
+			JLMContext2d c2d = JLMContextHelper.as(canv.getContext2d());
 			if (opaque) {
 				c2d.globalCompositeOperation = "copy";
 				c2d.setStrokeStyle("rgba(255,255,255,1.0)");
@@ -172,7 +174,7 @@ public class GBufferedImageW implements GBufferedImage {
 	 */
 	public HTMLImageElement getImageElement() {
 		if (canv != null) {
-			img = new HTMLImageElement();
+			img = Dom.createImage();
 			img.width = canv.getCoordinateSpaceWidth();
 			img.height = canv.getCoordinateSpaceHeight();
 			img.src = canv.toDataUrl();
@@ -208,7 +210,7 @@ public class GBufferedImageW implements GBufferedImage {
 				canv.setCoordinateSpaceHeight(img.height);
 				canv.setWidth(getWidth() + "px");
 				canv.setHeight(getWidth() + "px");
-				JLMContext2d c2d = JLMContext2d.as(canv.getContext2d());
+				JLMContext2d c2d = JLMContextHelper.as(canv.getContext2d());
 				c2d.drawImage(img, 0, 0);
 			}
 		}

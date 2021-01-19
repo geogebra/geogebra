@@ -84,7 +84,7 @@ public class Graphics2DW implements Graphics2DInterface {
 	private DrawingFinishedCallback drawingFinishedCallback;
 
 	public Graphics2DW(CanvasRenderingContext2D context) {
-		this.context = (JLMContext2d) context;
+		this.context = JLMContextHelper.as(context);
 		this.context.initTransform();
 		initBasicStroke();
 		initColor();
@@ -171,9 +171,7 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	@Override
 	public AffineTransform getTransform() {
-		return new AffineTransform(context.getScaleX(), context.getShearY(),
-				context.getShearX(), context.getScaleY(),
-				context.getTranslateX(), context.getTranslateY());
+		return context.getTransform();
 	}
 
 	@Override

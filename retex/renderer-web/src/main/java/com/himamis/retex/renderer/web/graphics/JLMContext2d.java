@@ -2,14 +2,18 @@ package com.himamis.retex.renderer.web.graphics;
 
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.geom.Shape;
-import com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper;
+import com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform;
 import com.himamis.retex.renderer.web.geom.AreaW;
 import com.himamis.retex.renderer.web.geom.ShapeW;
 
+import elemental2.core.JsArray;
 import elemental2.dom.CanvasPattern;
 import elemental2.dom.CanvasRenderingContext2D;
-import elemental2.dom.HTMLCanvasElement;
+import jsinterop.annotations.JsOverlay;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * @author michael
@@ -20,48 +24,43 @@ import jsinterop.base.Js;
  *         Also originally: Added to allow ctx.fill("evenodd") (new winding rule
  *         from ggb50) ignored in IE9, IE10
  */
+
+@JsType(isNative = true, namespace = JsPackage.GLOBAL)
 public class JLMContext2d extends CanvasRenderingContext2D {
+	private double ggbDevicePixelRatio;
+	private double m00_;
+	private double m01_;
+	private double m10_;
+	private double m11_;
+	private double m02_;
+	private double m12_;
+	private JsArray<JsArray<Double>> ggbTransformCache;
 
 	protected JLMContext2d() {
 		// constructor extending Context2d must be empty
 	}
 
 	/**
-	 * Gets 2D context
-	 * 
-	 * @param canvas
-	 *            canvas
-	 * @return context
-	 */
-	public static JLMContext2d as(Object context) {
-		return Js.uncheckedCast(context);
-	}
-
-	/**
 	 * Fills the current path.
 	 */
-	public final native CanvasPattern createPatternSVG(String path,
+	@JsOverlay
+	public final CanvasPattern createPatternSVG(String path,
 			String style, double width, double height, double angle,
-			String fill) /*-{
-		var svg = {
-			"path" : path,
-			"width" : width,
-			"height" : height,
-			"style" : style,
-			"angle" : angle,
-			"fill" : fill,
-		};
-		//console.log("createPatternSVG", svg);
-		return this.createPatternSVG(svg, "repeating");
-	}-*/;
+			String fill) {
+		JsPropertyMap svg = JsPropertyMap.of("path", path);
+		svg.set("width", width);
+		svg.set("height", height);
+		svg.set("style", style);
+		svg.set("angle", angle);
+		svg.set("fill", fill);
+		return createPatternSVG(svg, "repeating");
+	}
 
-	public final native void initTransform() /*-{
-		if (!this) {
-			// 3D View, ignore
-			return;
-		}
+	public native CanvasPattern createPatternSVG(JsPropertyMap svg, String repetition);
 
-		if (!this.ggbDevicePixelRatio) {
+	@JsOverlay
+	public final void initTransform() {
+		if (this.ggbDevicePixelRatio == 0) {
 			this.ggbDevicePixelRatio = 1;
 		}
 		this.m00_ = 1;
@@ -71,105 +70,89 @@ public class JLMContext2d extends CanvasRenderingContext2D {
 		this.m02_ = 0;
 		this.m12_ = 0;
 
-		this.ggbTransformCache = [];
-	}-*/;
+		this.ggbTransformCache = JsArray.of();
+	}
 
-	public final native void setDevicePixelRatio(double devicePixelRatio) /*-{
+	@JsOverlay
+	public final void setDevicePixelRatio(double devicePixelRatio) {
 		this.ggbDevicePixelRatio = devicePixelRatio;
-	}-*/;
+	}
 
-	public final native double getDevicePixelRatio() /*-{
-		return this.ggbDevicePixelRatio || 1;
-	}-*/;
+	@JsOverlay
+	public final double getDevicePixelRatio() {
+		return this.ggbDevicePixelRatio == 0 ? 1 : ggbDevicePixelRatio;
+	}
 
-	public final native void saveTransform(double m00, double m10, double m01,
-			double m11, double m02, double m12) /*-{
-		this.ggbTransformCache.push([ m00, m10, m01, m11, m02, m12 ]);
-	}-*/;
+	@JsOverlay
+	public final void saveTransform(double m00, double m10, double m01,
+			double m11, double m02, double m12) {
+		this.ggbTransformCache.push(JsArray.of( m00, m10, m01, m11, m02, m12 ));
+	}
 
-	public final native void saveTransform() /*-{
-		if (!this.ggbTransformCache) {
-			this.ggbTransformCache = [];
+	@JsOverlay
+	public final void saveTransform() {
+		if (this.ggbTransformCache == null) {
+			this.ggbTransformCache = JsArray.of();
 		}
 
-		var t = [ this.m00_, this.m10_, this.m01_, this.m11_, this.m02_,
-				this.m12_ ];
+		JsArray t = JsArray.of(this.m00_, this.m10_, this.m01_, this.m11_, this.m02_,
+				this.m12_ );
 
-		this.ggbTransformCache.push([ t[0], t[1], t[2], t[3], t[4], t[5] ]);
+		this.ggbTransformCache.push(t);
 
 		this.save();
-	}-*/;
+	};
 
-	public final native void restoreTransform() /*-{
+	@JsOverlay
+	public final void restoreTransform() {
 
-		var dp = this.ggbDevicePixelRatio;
+		double dp = this.ggbDevicePixelRatio;
 
-		var t = this.ggbTransformCache.pop();
+		JsArray<Double> t = this.ggbTransformCache.pop();
 
-		if (!t) {
+		if (!Js.isTruthy(t)) {
 			// correct behaviour is do nothing and return
 			this.restore();
 			return;
 		}
 
-		this.m00_ = t[0];
-		this.m10_ = t[1];
-		this.m01_ = t[2];
-		this.m11_ = t[3];
-		this.m02_ = t[4];
-		this.m12_ = t[5];
+		this.m00_ = t.getAt(0);
+		this.m10_ = t.getAt(1);
+		this.m01_ = t.getAt(2);
+		this.m11_ = t.getAt(3);
+		this.m02_ = t.getAt(4);
+		this.m12_ = t.getAt(5);
 
 		this.restore();
-	}-*/;
+	};
 
-	public final native double getScaleX() /*-{
-		return this.m00_;
-	}-*/;
-
-	public final native double getShearY() /*-{
-		return this.m10_;
-	}-*/;
-
-	public final native double getShearX() /*-{
-		return this.m01_;
-	}-*/;
-
-	public final native double getScaleY() /*-{
-		return this.m11_;
-	}-*/;
-
-	public final native double getTranslateX() /*-{
-		return this.m02_;
-	}-*/;
-
-	public final native double getTranslateY() /*-{
-		return this.m12_;
-	}-*/;
-
-	public final native void scale2(double sx, double sy) /*-{
+	@JsOverlay
+	public final void scale2(double sx, double sy) {
 		this.m00_ *= sx;
 		this.m10_ *= sx;
 		this.m01_ *= sy;
 		this.m11_ *= sy;
 
 		this.scale(sx, sy);
-	}-*/;
+	}
 
-	public final native void translate2(double dx, double dy) /*-{
+	@JsOverlay
+	public final void translate2(double dx, double dy) {
 
 		this.m02_ += dx * this.m00_ + dy * this.m01_;
 		this.m12_ += dx * this.m10_ + dy * this.m11_;
 
 		this.translate(dx, dy);
-	}-*/;
+	}
 
 	// adapted from TransformW.java
-	public final native void rotate2(double theta) /*-{
+	@JsOverlay
+	public final void rotate2(double theta) {
 
-		var sin = Math.sin(theta);
+		double sin = Math.sin(theta);
 		if (sin == 1.0) {
 			//rotate90();
-			var M0 = this.m00_;
+			double M0 = this.m00_;
 			this.m00_ = this.m01_;
 			this.m01_ = -M0;
 			M0 = this.m10_;
@@ -177,7 +160,7 @@ public class JLMContext2d extends CanvasRenderingContext2D {
 			this.m11_ = -M0;
 		} else if (sin == -1.0) {
 			//rotate270();
-			var M0 = this.m00_;
+			double M0 = this.m00_;
 			this.m00_ = -this.m01_;
 			this.m01_ = M0;
 			M0 = this.m10_;
@@ -185,13 +168,13 @@ public class JLMContext2d extends CanvasRenderingContext2D {
 			this.m11_ = M0;
 
 		} else {
-			var cos = Math.cos(theta);
+			double cos = Math.cos(theta);
 			if (cos == -1.0) {
 				//rotate180();
 				this.m00_ = -this.m00_;
 				this.m11_ = -this.m11_;
 			} else if (cos != 1.0) {
-				var M0, M1;
+				double M0, M1;
 				M0 = this.m00_;
 				M1 = this.m01_;
 				this.m00_ = cos * M0 + sin * M1;
@@ -204,10 +187,11 @@ public class JLMContext2d extends CanvasRenderingContext2D {
 		}
 
 		this.rotate(theta);
-	}-*/;
+	};
 
-	public final native void setTransform2(double m00, double m10, double m01,
-			double m11, double m02, double m12) /*-{
+	@JsOverlay
+	public final void setTransform2(double m00, double m10, double m01,
+			double m11, double m02, double m12) {
 		this.m00_ = m00;
 		this.m10_ = m10;
 		this.m01_ = m01;
@@ -216,27 +200,22 @@ public class JLMContext2d extends CanvasRenderingContext2D {
 		this.m12_ = m12;
 
 		this.setTransform(m00, m10, m01, m11, m02, m12);
-	}-*/;
+	};
 
-	public final native void resetTransform(double dp) /*-{
-
-		if (!this) {
-			// 3D View, ignore
-			return;
-		}
-
+	@JsOverlay
+	public final void resetTransform(double dp) {
 		this.ggbDevicePixelRatio = dp;
-
 		this.setTransform(dp * this.m00_, dp * this.m10_, dp * this.m01_, dp
 				* this.m11_, dp * this.m02_, dp * this.m12_);
-	}-*/;
+	};
 
 	// adapted from goog.graphics.AffineTransform.prototype.concatenate
-	public final native void transform2(double m00, double m10, double m01,
-			double m11, double m02, double m12) /*-{
+	@JsOverlay
+	public final void transform2(double m00, double m10, double m01,
+			double m11, double m02, double m12) {
 
-		var m0 = this.m00_;
-		var m1 = this.m01_;
+		double m0 = this.m00_;
+		double m1 = this.m01_;
 		this.m00_ = m00 * m0 + m10 * m1;
 		this.m01_ = m01 * m0 + m11 * m1;
 		this.m02_ += m02 * m0 + m12 * m1;
@@ -249,12 +228,13 @@ public class JLMContext2d extends CanvasRenderingContext2D {
 
 		// XXX should this be setTransform()?
 		this.transform(m00, m10, m01, m11, m02, m12);
-	}-*/;
+	};
 
 	/**
 	 * @param shape
 	 *            shape
 	 */
+	@JsOverlay
 	final public void fill(Shape shape) {
 		if (shape instanceof Rectangle2D) {
 			Rectangle2D rect = (Rectangle2D) shape;
@@ -268,11 +248,19 @@ public class JLMContext2d extends CanvasRenderingContext2D {
 		}
 	}
 
-	public void setFillStyle(Object colorStr) {
+	@JsOverlay
+	public final void setFillStyle(Object colorStr) {
 		fillStyle = FillStyleUnionType.of(colorStr);
 	}
 
-	public void setStrokeStyle(String colorStr) {
+	@JsOverlay
+	public final void setStrokeStyle(String colorStr) {
 		strokeStyle = StrokeStyleUnionType.of(colorStr);
+	}
+
+	@JsOverlay
+	public final AffineTransform getTransform() {
+		return new AffineTransform(this.m00_, this.m10_,
+				this.m01_, this.m11_, this.m02_, this.m12_);
 	}
 }
