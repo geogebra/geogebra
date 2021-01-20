@@ -40,7 +40,7 @@ task cleanJavacc(type: Delete) {
 pmd {
      ignoreFailures = true
      ruleSets = []
-     ruleSetFiles = files("config/pmd.xml")
+     ruleSetFiles = files("../../config/pmd.xml")
 }
 
 spotbugs {
