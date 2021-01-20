@@ -18,6 +18,7 @@ describe('Keyboard ANS button test', () => {
         selectors.functionsKeyboard.get().click();
         cy.wait(3000);
         selectors.mathKeyboardWithAns.get().trigger('click')
+        cy.wait(3000);
         cy.get('div[aria-label="ans"]').should("be.visible");
     });
     it("inserts the result of the previous cell when the 'ans' button is pressed", () => {
