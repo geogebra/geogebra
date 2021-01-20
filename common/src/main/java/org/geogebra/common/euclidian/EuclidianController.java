@@ -235,7 +235,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected final App app;
 	@Weak
 	protected final SelectionManager selection;
-	protected final Localization localization;
+	protected Localization localization;
 	public double xRW;
 	public double yRW;
 	public GeoPointND movedGeoPoint;
@@ -3885,6 +3885,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (selPoints() == 1 && selGeos() > 1) {
 			GeoElement[] selGeos = getSelectedGeos();
 
+            checkLocalization();
 			getDialogManager().showNumberInputDialogRotate(
 					localization.getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedPolygons(), getSelectedPointsND(), selGeos,
@@ -3893,6 +3894,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		return null;
 	}
+    
+    private void checkLocalization() {
+        if (localization == null) {
+            localization = getApplication().getLocalization();
+        }
+    }
 
 	protected final GeoElement[] dilateFromPoint(Hits hits,
 			boolean selPreview) {
