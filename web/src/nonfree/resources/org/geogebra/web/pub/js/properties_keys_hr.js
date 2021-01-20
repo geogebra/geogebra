@@ -1291,7 +1291,7 @@ __GGB__keysVar["hr"].menu = {
     "AllowTooltips": "Dozvoli info-obla\u010di\u0107e",
     "Alt": "Alt",
     "AltGr": "AltG",
-    "AlternativeHypothesis": "Alternativna pretpostavka",
+    "AlternativeHypothesis": "Alternativna hipoteza",
     "AlternativeHypothesis.short": "Alternativa",
     "Altitude": "Visina",
     "AlwaysTrue": "(uvijek istinito)",
