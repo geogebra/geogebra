@@ -510,7 +510,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	private Rectangle visibleRect;
 
-	protected static class Rectangle {
+	public static class Rectangle {
 
 		private double minX;
 		private double maxX;
@@ -6583,5 +6583,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@CheckForNull
 	public EvPositioner getEvPositioner() {
 		return null;
+	}
+
+	public Rectangle getVisibleRect() {
+		return visibleRect;
 	}
 }
