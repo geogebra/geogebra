@@ -160,15 +160,12 @@ public class EuclidianDraw {
 			break;
 
 		case FUNCTION_NVAR:
-			if (((GeoFunctionNVar) geo).isBooleanFunction()
-					&& ((GeoFunctionNVar) geo).getVarNumber() < 3) {
-				d = new DrawInequality(ev, (GeoFunctionNVar) geo);
-			}
+			// create inequality drawable for *all* functions as a placeholder
+			// x+y may later become x>y via SetValue / input box
+			d = new DrawInequality(ev, (GeoFunctionNVar) geo);
 			break;
 		case INTERVAL:
-			if (((GeoFunction) geo).isBooleanFunction()) {
-				d = new DrawInequality(ev, (GeoFunction) geo);
-			}
+			d = new DrawInequality(ev, (GeoFunction) geo);
 			break;
 
 		case ANGLE:
