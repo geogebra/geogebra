@@ -3501,7 +3501,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		getSettings().setOriginNoUpdate(xZero, yZero);
 	}
 
-	public void updateSizeChange() {
+	protected void updateSizeChange() {
 		updateSizeKeepDrawables();
 		updateAllDrawablesForView(true);
 	}
@@ -5425,7 +5425,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	public void animateMove(double destX, double destY, boolean storeUndo) {
+	protected void animateMove(double destX, double destY, boolean storeUndo) {
 		if (mover == null) {
 			mover = newZoomer();
 		}

@@ -4376,7 +4376,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	public void undo() {
 		if (undoActive) {
 			EuclidianView ev = getApplication().getActiveEuclidianView();
-			if ( ev != null && ev.getEuclidianController().isUndoableMode()) {
+			if (ev != null && ev.getEuclidianController().isUndoableMode()) {
 				if (getSelectionManager().isGeoToggled()
 						&& !getSelectionManager().getSelectedGeos().isEmpty()) {
 

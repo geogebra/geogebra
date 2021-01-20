@@ -1,7 +1,5 @@
 package org.geogebra.common.euclidian;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.Kernel;
 
 /**
