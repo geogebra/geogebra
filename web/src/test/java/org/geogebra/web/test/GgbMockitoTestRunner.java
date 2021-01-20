@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.geogebra.web.html5.main.FileDropHandlerW;
+import org.geogebra.web.html5.util.Dom;
 import org.junit.runners.model.InitializationError;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -56,6 +57,8 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 Uint8Array.class);
         StubGenerator.replaceMethodWithMock(RendererImplShadersW.class, "createAlphaTexture",
                 Integer.class);
+        StubGenerator.replaceMethodWithMock(Dom.class, "addEventListener",
+                Void.class);
     }
 
     @Override

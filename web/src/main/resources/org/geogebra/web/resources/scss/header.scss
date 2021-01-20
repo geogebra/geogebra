@@ -25,14 +25,11 @@ $button_hover_transition: background-color 0.15s;
 		
 		.headerBackButton {
 			cursor: pointer;
-			float: left;
 			width: 24px;
 			height: 24px;
 			opacity: 0.54;
-			padding: 0px 12px;
-			margin: 0px 12px;
-			display: inline-block;
-			vertical-align: middle;
+			padding: 8px 12px;
+			margin: auto 12px;
 			&:hover {
 				opacity: 0.87;
 			}
@@ -54,8 +51,9 @@ $button_hover_transition: background-color 0.15s;
 
 	%compactHeaderViewShared {
         .headerBackButton {
-            padding: 0px 8px;
-            margin: 0px 4px;
+            vertical-align: middle;
+            padding: 8px 8px;
+            margin: auto 4px;
         }
         .headerCaption {
             margin: 0px;
@@ -82,7 +80,7 @@ $button_hover_transition: background-color 0.15s;
             font-size: 112.5%;
         }
         .headerBackButton {
-            margin: 0px 8px;
+            margin: auto 8px;
         }
     }
 }
