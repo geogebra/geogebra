@@ -2427,8 +2427,7 @@ public class AlgebraProcessor {
 		if (isIndependent) {
 			f = new GeoFunction(cons, fun, info.isSimplifyingIntegers());
 			f.getIneqs();
-			f.setForceInequality(f.isInequality()
-					|| (fun.isForceInequality() && !en.wasInterval()));
+			f.setForceInequality(forceInequality(en, f));
 		} else {
 			f = kernel.getAlgoDispatcher().dependentFunction(fun, info);
 			if (label == null) {
@@ -2445,7 +2444,14 @@ public class AlgebraProcessor {
 		f.remove();
 		throw new MyError(loc, Errors.InvalidFunctionA,
 				fun.getFunctionVariable().getSetVarString());
+	}
 
+	private boolean forceInequality(ExpressionNode en, GeoFunction fun) {
+		// use parser flags if undefined, actual expression type otherwise
+		if (en.unwrap() instanceof MyDouble && Double.isNaN(en.evaluateDouble())) {
+			return en.isForceInequality() && !en.wasInterval();
+		}
+		return fun.isInequality();
 	}
 
 	private GeoElement[] processFunctionAsSurface(Function fun, EvalInfo info) {

@@ -5,6 +5,7 @@ import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -366,6 +367,22 @@ public class RedefineTest extends Assert {
 		t("A", "(NaN, NaN)");
 		add("SetValue(a, 1)");
 		t("A", "(1, 1)");
+	}
+
+	@Test
+	public void functionShouldStayInequality() {
+		app.getGgbApi().evalXML("<expression label=\"studans\" "
+				+ "exp=\"studans: NaN\" type=\"inequality\"/>\n"
+				+ "<element type=\"function\" label=\"studans\">\n"
+				+ "\t<show object=\"false\" label=\"false\" ev=\"4\"/>\n"
+				+ "\t<objColor r=\"0\" g=\"0\" b=\"255\" alpha=\"0.25\"/>\n"
+				+ "\t<layer val=\"2\"/>\n"
+				+ "\t<labelMode val=\"0\"/>\n"
+				+ "\t<fixed val=\"true\"/>\n"
+				+ "\t<selectionAllowed val=\"false\"/>\n"
+				+ "\t<lineStyle thickness=\"5\" type=\"0\" typeHidden=\"1\"/>\n"
+				+ "</element>");
+		assertTrue(((GeoFunction) app.getKernel().lookupLabel("studans")).isForceInequality());
 	}
 
 }
