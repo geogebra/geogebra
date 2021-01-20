@@ -88,7 +88,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	// GUI containers
 	protected AxisPanel xAxisPanel, yAxisPanel;
 	protected JTabbedPane tabbedPane;
-	private JPanel dimPanel, stylePanel;
+	protected JPanel dimPanel, stylePanel;
 
 	protected JPanel typePanel;
 
@@ -131,9 +131,9 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	private NumberFormat nfAxesRatio;
 	protected NumberComboBox ncbGridTickX, ncbGridTickY, cbGridTickAngle;
 
-	protected JTextField tfMinX, tfMaxX, tfMinY, tfMaxY;
+	protected JTextField tfMinX, tfMaxX, tfMinY, tfMaxY, tfMinZ, tfMaxZ;
 
-	private JLabel[] dimLabel;
+	protected JLabel[] dimLabel;
 	private JLabel axesRatioLabel, gridLabel1, gridLabel2, gridLabel3, lblColor,
 			tooltips;
 
@@ -260,10 +260,9 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		yAxisPanel = new AxisPanel(app, view, 1);
 	}
 
-	private void initDimensionPanel() {
-
-		dimLabel = new JLabel[4]; // "Xmin", "Xmax" etc.
-		for (int i = 0; i < 4; i++) {
+	protected void initDimensionPanel() {
+		dimLabel = new JLabel[getDimension() * 2]; // "Xmin", "Xmax" etc.
+		for (int i = 0; i < getDimension() * 2; i++) {
 			dimLabel[i] = new JLabel("");
 		}
 
@@ -280,6 +279,15 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		tfMaxY.addActionListener(this);
 		tfMinY.addFocusListener(this);
 		tfMaxY.addFocusListener(this);
+
+		if (getDimension() == 3) {
+			tfMinZ = new MyTextFieldD(app, 8);
+			tfMaxZ = new MyTextFieldD(app, 8);
+			tfMinZ.addActionListener(this);
+			tfMaxZ.addActionListener(this);
+			tfMinZ.addFocusListener(this);
+			tfMaxZ.addFocusListener(this);
+		}
 
 		tfAxesRatioX = new MyTextFieldD(app, 6);
 		tfAxesRatioY = new MyTextFieldD(app, 6);
@@ -303,10 +311,20 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 				LayoutUtil.flowPanel(dimLabel[0], tfMinX, dimLabel[1], tfMaxX));
 		dimPanel.add(
 				LayoutUtil.flowPanel(dimLabel[2], tfMinY, dimLabel[3], tfMaxY));
+		if (getDimension() == 3) {
+			dimPanel.add(
+					LayoutUtil.flowPanel(dimLabel[4], tfMinZ, dimLabel[5], tfMaxZ));
+		}
 
-		dimPanel.add(LayoutUtil.flowPanel(axesRatioLabel));
-		dimPanel.add(LayoutUtil.flowPanel(Box.createHorizontalStrut(20),
-				tfAxesRatioX, new JLabel(" : "), tfAxesRatioY, cbLockRatio));
+		if (getDimension() == 2) {
+			dimPanel.add(LayoutUtil.flowPanel(axesRatioLabel));
+			dimPanel.add(LayoutUtil.flowPanel(Box.createHorizontalStrut(20),
+					tfAxesRatioX, new JLabel(" : "), tfAxesRatioY, cbLockRatio));
+		}
+	}
+
+	protected int getDimension() {
+		return 2;
 	}
 
 	/**
@@ -535,7 +553,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		gridPanel.add(stylePanel);
 	}
 
-	final protected void updateMinMax() {
+	protected void updateMinMax() {
 
 		tfMinX.removeActionListener(this);
 		tfMaxX.removeActionListener(this);
@@ -829,7 +847,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 			}
 
 		} else if (source == tfMinX || source == tfMaxX || source == tfMaxY
-				|| source == tfMinY) {
+				|| source == tfMinY || source == tfMaxZ || source == tfMinZ) {
 
 			String text = ((JTextField) source).getText();
 			MinMaxType type = null;
@@ -841,6 +859,10 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 				type = MinMaxType.minY;
 			} else if (source == tfMaxY) {
 				type = MinMaxType.maxY;
+			} else if (source == tfMinZ) {
+				type = MinMaxType.minZ;
+			} else if (source == tfMaxZ) {
+				type = MinMaxType.maxZ;
 			}
 			model.applyMinMax(text, type);
 		}
@@ -1133,7 +1155,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 	@Override
 	public void setMinMaxText(String minX, String maxX, String minY,
-			String maxY) {
+			String maxY, String minZ, String maxZ) {
 		tfMinX.setText(minX);
 		tfMaxX.setText(maxX);
 		tfMinY.setText(minY);
