@@ -17,7 +17,7 @@ describe('Keyboard ANS button test', () => {
         cy.wait(3000);
         selectors.functionsKeyboard.get().click();
         cy.wait(3000);
-        selectors.mathKeyboardWithAns.get().trigger('click')
+        selectors.mathKeyboardWithAns.get().click();
         cy.wait(3000);
         cy.get('div[aria-label="ans"]').should("be.visible");
     });
