@@ -17,7 +17,6 @@ public interface EuclidianHost {
 	/**
 	 * @return active euclidian view (may be EV, EV2 or 3D)
 	 */
-	@CheckForNull
 	EuclidianView getActiveEuclidianView();
 
 	/**
