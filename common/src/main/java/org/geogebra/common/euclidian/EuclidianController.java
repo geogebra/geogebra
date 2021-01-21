@@ -3100,6 +3100,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
+    protected Localization getLocalization() {
+        if (localization == null) {
+            localization = getApplication().getLocalization();
+        }
+        return localization;
+    }
+ 
 	protected final boolean segmentFixed(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return false;
@@ -3112,7 +3119,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (selPoints() == 1) {
 			// get length of segment
 			getDialogManager().showNumberInputDialogSegmentFixed(
-					localization.getMenu(EuclidianConstants.getModeText(mode)),
+					getLocalization().getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedPointsND()[0]);
 
 			return true;
@@ -3137,7 +3144,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoElement[] selGeos = getSelectedGeos();
 
 			getDialogManager().showNumberInputDialogAngleFixed(
-					localization.getMenu(EuclidianConstants.getModeText(mode)),
+					getLocalization().getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedSegmentsND(), getSelectedPointsND(), selGeos,
 					this);
 		}
@@ -3885,21 +3892,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (selPoints() == 1 && selGeos() > 1) {
 			GeoElement[] selGeos = getSelectedGeos();
 
-            checkLocalization();
 			getDialogManager().showNumberInputDialogRotate(
-					localization.getMenu(EuclidianConstants.getModeText(mode)),
+					getLocalization().getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedPolygons(), getSelectedPointsND(), selGeos,
 					this);
 		}
 
 		return null;
 	}
-    
-    private void checkLocalization() {
-        if (localization == null) {
-            localization = getApplication().getLocalization();
-        }
-    }
 
 	protected final GeoElement[] dilateFromPoint(Hits hits,
 			boolean selPreview) {
@@ -3929,7 +3929,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoElement[] selGeos = getSelectedGeos();
 
 			getDialogManager().showNumberInputDialogDilate(
-					localization.getMenu(EuclidianConstants.getModeText(mode)),
+					getLocalization().getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedPolygons(), getSelectedPointsND(), selGeos,
 					this);
 		}
@@ -4007,7 +4007,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected void showListCreated(GeoList list) {
 		String label = list.getLabel(StringTemplate.algebraTemplate);
-		String message = localization.getPlain("ListCreated", label);
+		String message = getLocalization().getPlain("ListCreated", label);
 		showListToolTip(message);
 	}
 
@@ -4324,7 +4324,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (selPoints() == 2) {
 			GeoPointND[] points = getSelectedPointsND();
 			getDialogManager().showNumberInputDialogRegularPolygon(
-					localization.getMenu(EuclidianConstants.getModeText(mode)), this,
+					getLocalization().getMenu(EuclidianConstants.getModeText(mode)), this,
 					points[0], points[1]);
 			return true;
 		}
@@ -4695,7 +4695,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// we got the center point
 		if (selPoints() == 1) {
 			getDialogManager().showNumberInputDialogCirclePointRadius(
-					localization.getMenu(EuclidianConstants.getModeText(mode)),
+					getLocalization().getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedPointsND()[0], view);
 			return true;
 		}
@@ -6368,7 +6368,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// reset icon
 		if (hitResetIcon()) {
-			view.setToolTipText(localization.getPlainTooltip("resetConstruction"));
+			view.setToolTipText(getLocalization().getPlainTooltip("resetConstruction"));
 			setHitCursor();
 			return;
 		}
@@ -6379,9 +6379,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		repaintNeeded = view.setAnimationButtonsHighlighted(hitAnimationButton);
 		if (hitAnimationButton) {
 			if (kernel.isAnimationPaused()) {
-				view.setToolTipText(localization.getPlainTooltip("Play"));
+				view.setToolTipText(getLocalization().getPlainTooltip("Play"));
 			} else {
-				view.setToolTipText(localization.getPlainTooltip("Pause"));
+				view.setToolTipText(getLocalization().getPlainTooltip("Pause"));
 			}
 
 			setHitCursor();

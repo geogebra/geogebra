@@ -3855,7 +3855,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			GeoElement[] selGeos = getSelectedGeos();
 
 			getDialogManager().showNumberInputDialogRotate(
-					localization.getMenu(EuclidianConstants.getModeText(mode)),
+					getLocalization().getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedPolygons(), getSelectedLinesND(), selGeos, this);
 
 			return null;
@@ -4537,7 +4537,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				direction = view3D.getxOyPlane();
 			}
 			getDialogManager().showNumberInputDialogRegularPolygon(
-					localization.getMenu(EuclidianConstants.getModeText(mode)),
+					getLocalization().getMenu(EuclidianConstants.getModeText(mode)),
 					this, points[0], points[1], (GeoCoordSys2D) direction);
 			return true;
 		}
