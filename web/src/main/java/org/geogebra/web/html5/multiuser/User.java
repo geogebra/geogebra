@@ -19,10 +19,7 @@ import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.HasTransformation;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInline;
-import org.geogebra.common.kernel.geos.GeoLocusStroke;
-import org.geogebra.common.kernel.geos.GeoMedia;
 import org.geogebra.common.kernel.geos.RectangleTransformable;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.web.html5.main.AppW;
@@ -41,7 +38,13 @@ class User {
 		this.color = color;
 	}
 
-	public void addSelection(EuclidianView view, String label) {
+	public void addSelection(EuclidianView view, String label, String update) {
+		GeoElement geo = view.getApplication().getKernel().lookupLabel(label);
+		if (geo != null && geo instanceof GeoInline && "update".equals(update)) {
+			// if the inline element gets updated after it was deselected
+			// don't add to interactions
+			return;
+		}
 		interactions.compute(label, (k, v) -> {
 			if (v == null) {
 				v = new Timer() {
@@ -60,18 +63,14 @@ class User {
 		view.repaintView();
 	}
 
-	public void scheduleDeselection(EuclidianView view) {
-		for (String label : interactions.keySet()) {
-			GeoElement geo = view.getApplication().getKernel().lookupLabel(label);
-			if (geo == null) {
-				return;
-			}
-			if (geo instanceof GeoLocusStroke || geo instanceof GeoInline
-				|| geo instanceof GeoImage || geo instanceof GeoMedia) {
-				interactions.get(label).schedule(3000);
-			} else {
-				interactions.remove(label);
-			}
+	public void deselectAll(EuclidianView view) {
+		interactions.clear();
+		view.repaintView();
+	}
+
+	public void scheduleDeselection() {
+		for (Timer t : interactions.values()) {
+			t.schedule(3000);
 		}
 	}
 

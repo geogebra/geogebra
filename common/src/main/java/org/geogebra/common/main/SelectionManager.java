@@ -39,8 +39,10 @@ import org.geogebra.common.kernel.kernelND.GeoQuadric3DLimitedInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -195,8 +197,7 @@ public class SelectionManager {
 				updateSelection();
 			}
 
-			kernel.getApplication().getEventDispatcher()
-					.dispatchEvent(EventType.DESELECT, null);
+			dispatchDeselected(null);
 		}
 	}
 
@@ -223,8 +224,7 @@ public class SelectionManager {
 		if (geo == null) {
 			return;
 		}
-		kernel.getApplication().getEventDispatcher()
-				.dispatchEvent(EventType.DESELECT, geo);
+		dispatchDeselected(geo);
 		if (selectedGeos.remove(geo)) {
 			// update only if selectedGeos contained geo
 			geo.setSelected(false);
@@ -249,7 +249,7 @@ public class SelectionManager {
 			// On desktop selectedGeos.remove(geo) here throws an exception,
 			// so first iterate over, do stuff and then clear the array is the proper way.
 
-			kernel.getApplication().getEventDispatcher().dispatchEvent(EventType.DESELECT, geo);
+			dispatchDeselected(geo);
 			geo.setSelected(false);
 		}
 
@@ -303,8 +303,15 @@ public class SelectionManager {
 	}
 
 	private void dispatchSelected(GeoElement geo) {
+		Log.debug("SELECT EVENT");
 		kernel.getApplication().getEventDispatcher()
 				.dispatchEvent(EventType.SELECT, geo);
+	}
+
+	private void dispatchDeselected(GeoElement geo) {
+		Log.debug("DESELECT EVENT");
+		kernel.getApplication().getEventDispatcher()
+				.dispatchEvent(new Event(EventType.DESELECT, geo, "force"));
 	}
 
 	private void setGeoToggled(boolean flag) {
@@ -645,8 +652,7 @@ public class SelectionManager {
 		boolean contains = selectedGeos.contains(geo);
 		if (contains) {
 			selectedGeos.remove(geo);
-			kernel.getApplication().getEventDispatcher()
-					.dispatchEvent(EventType.DESELECT, geo);
+			dispatchDeselected(geo);
 			geo.setSelected(false);
 		} else {
 			selectedGeos.add(geo);
