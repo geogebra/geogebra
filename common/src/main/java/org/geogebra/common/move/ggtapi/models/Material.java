@@ -136,6 +136,7 @@ public class Material implements Comparable<Material>, Serializable {
 
 	private long dateCreated;
 	private UserPublic creator;
+	private Object fileContent;
 
 	/**
 	 * @param id
@@ -872,5 +873,13 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public void setShowZoomButtons(boolean showZoomButtons) {
 		this.showZoomButtons = showZoomButtons;
+	}
+
+	public void setContent(Object fileContent) {
+		this.fileContent = fileContent;
+	}
+
+	public Object getContent() {
+		return this.fileContent;
 	}
 }

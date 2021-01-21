@@ -120,6 +120,12 @@ public class ParserTest {
 				unicode("sin(x^2 x^2)"));
 	}
 
+	@Test
+	public void testLogPower() {
+		shouldReparseAs("xln(x)^2",
+				unicode("x (ln(x))^2"));
+	}
+
 	private void checkSameStructure(String string, String string2) {
 		Assert.assertEquals(reparse(string, StringTemplate.maxPrecision),
 				reparse(string2, StringTemplate.maxPrecision));
@@ -351,6 +357,19 @@ public class ParserTest {
 		shouldReparseAs("x1.3=7", "x * 1.3 = 7");
 		shouldReparseAs("x1.3=y", "x * 1.3 = y");
 		shouldReparseAs("x_{1.3}=7", "7");
+	}
+
+	@Test
+	public void testTrigPowerPriorities() {
+		shouldReparseAs("sin^(-1)(x)^2", unicode("(sin^-1(x))^2"));
+		shouldReparseAs("sin^(-1)((x)^2)", unicode("sin^-1(x^2)"));
+		shouldReparseAs("sin^(-1)x^2", unicode("sin^-1(x^2)"));
+		shouldReparseAs("(sin^(-1)(x))^2", unicode("(sin^-1(x))^2"));
+	}
+
+	@Test
+	public void shouldParseNegativeLogPowerAsReciprocal() {
+		shouldReparseAs("ln^(-1)(x)^2", unicode("((ln(x))^-1)^2"));
 	}
 
 	private void assertValidLabel(String s) {

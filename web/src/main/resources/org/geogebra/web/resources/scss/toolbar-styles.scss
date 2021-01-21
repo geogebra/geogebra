@@ -317,11 +317,6 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
                     color: $purple-dark;
                     font-weight: 600;
 				}
-
-				.gwt-Label {
-                    padding-bottom: 0px;
-                    top: -10px;
-				}
 			}
 
 			.moreLessBtn {
@@ -337,7 +332,7 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				cursor: pointer;
 				transition: background-color 0.3s ease-out;
 
-				.html-face {
+				.gwt-Label {
 					line-height: 36px;
 					height: 36px;
 					min-width: 64px;

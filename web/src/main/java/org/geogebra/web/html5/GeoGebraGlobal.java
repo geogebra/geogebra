@@ -8,7 +8,6 @@ import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
-import jsinterop.base.JsPropertyMap;
 
 /**
  * GeoGebra-specific global variables (related to deployggb)
@@ -16,7 +15,7 @@ import jsinterop.base.JsPropertyMap;
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
 public class GeoGebraGlobal {
 
-	public static JsPropertyMap<Object> __ggb__giac;
+	public static GiacNative __ggb__giac;
 
 	@JsProperty(name = "renderGGBElement")
 	public static native void setRenderGGBElement(RenderGgbElementFunction callback);
@@ -24,7 +23,8 @@ public class GeoGebraGlobal {
 	@JsProperty(name = "renderGGBElementReady")
 	public static native Function getRenderGGBElementReady();
 
-	public static native void renderGGBElementReady();
+	@JsProperty(name = "changeMetaTitle")
+	public static native Function getChangeMetaTitle();
 
 	@JsFunction
 	public interface RenderGgbElementFunction {

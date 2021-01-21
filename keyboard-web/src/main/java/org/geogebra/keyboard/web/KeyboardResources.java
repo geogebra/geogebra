@@ -50,6 +50,14 @@ public interface KeyboardResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/keyboard/keyboard_arrowRight_black.png")
 	ImageResource keyboard_arrowRight_black();
 
+	// up arrow for new keyboard
+	@Source("org/geogebra/common/icons/png/keyboard/keyboard_arrowUp_black.png")
+	ImageResource keyboard_arrowUp_black();
+
+	// down arrow for new keyboard
+	@Source("org/geogebra/common/icons/png/keyboard/keyboard_arrowDown_black.png")
+	ImageResource keyboard_arrowDown_black();
+
 	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_keyboard_black_24px.svg")
 	SVGResource keyboard_show_material();
 

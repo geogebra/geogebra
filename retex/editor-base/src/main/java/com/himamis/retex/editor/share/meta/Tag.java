@@ -29,12 +29,6 @@ public enum Tag {
 
 	LOG("log"),
 
-	PROD("prod"),
-
-	INT("int"),
-
-	LIM("lim"),
-
 	DEF_INT("$defint"),
 
 	LIM_EQ("$limeq"),
@@ -48,8 +42,6 @@ public enum Tag {
 	APPLY,
 
 	ABS("abs"),
-
-	SUM("sum"),
 
 	APPLY_SQUARE;
 

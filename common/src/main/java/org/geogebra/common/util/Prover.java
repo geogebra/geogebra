@@ -311,13 +311,13 @@ public abstract class Prover {
 			// If there is no such line, we simply create one.
 			boolean oldMacroMode = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(false);
-			AlgoJoinPointsSegment ajp = new AlgoJoinPointsSegment(cons, null,
+			AlgoJoinPointsSegment ajp = new AlgoJoinPointsSegment(cons,
 					P1, P2);
 			GeoSegment segment = ajp.getSegment();
 			segment.setEuclidianVisible(true);
 			segment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 			segment.setLabelVisible(true);
-			segment.updateVisualStyle(GProperty.COMBINED);
+			segment.setLabel(null);
 			cons.setSuppressLabelCreation(oldMacroMode);
 			return segment;
 		}

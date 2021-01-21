@@ -123,7 +123,7 @@ public class ShareDialogMow extends ComponentDialog
 			}
 		}
 		scrollPanel.add(groups);
-		center();
+		centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
 	}
 
 	private void addGroup(FlowPanel groupsPanel, String groupStr,
@@ -210,10 +210,15 @@ public class ShareDialogMow extends ComponentDialog
 		FlowPanel shareByLinkPanel = new FlowPanel();
 		shareByLinkPanel.addStyleName("shareByLink");
 		shareSwitch = new ComponentSwitch(isMatShared(material), this::onSwitch);
+
+		FlowPanel switcherPanel = new FlowPanel();
+		switcherPanel.addStyleName("switcherPanel");
+
 		NoDragImage linkImg = new NoDragImage(
 				SharedResources.INSTANCE.mow_link_black(), 24);
 		linkImg.addStyleName("linkImg");
-		shareByLinkPanel.add(linkImg);
+		switcherPanel.add(linkImg);
+
 		FlowPanel textPanel = new FlowPanel();
 		textPanel.addStyleName("textPanel");
 		linkShareOnOffLbl = new Label(localization.getMenu(
@@ -223,8 +228,10 @@ public class ShareDialogMow extends ComponentDialog
 		linkShareHelpLbl.setStyleName("linkShareHelp");
 		textPanel.add(linkShareOnOffLbl);
 		textPanel.add(linkShareHelpLbl);
-		shareByLinkPanel.add(textPanel);
-		shareByLinkPanel.add(shareSwitch);
+		switcherPanel.add(textPanel);
+		switcherPanel.add(shareSwitch);
+
+		shareByLinkPanel.add(switcherPanel);
 		buildLinkPanel(shareByLinkPanel, shareURL);
 		dialogContent.add(shareByLinkPanel);
 	}
@@ -274,6 +281,7 @@ public class ShareDialogMow extends ComponentDialog
 				getLinkBox().setFocus(true);
 			});
 		}
+		centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
 	}
 
 	private String getLinkShareHelpLabelTextKey() {

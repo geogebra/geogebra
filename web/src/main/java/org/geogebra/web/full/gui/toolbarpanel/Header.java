@@ -94,7 +94,6 @@ class Header extends FlowPanel implements KeyDownHandler {
 		createCenter();
 		maybeAddUndoRedoPanel();
 		setLabels();
-		ClickStartHandler.initDefaults(this, true, true);
 		setTabIndexes();
 		lastOrientation = app.isPortrait();
 	}

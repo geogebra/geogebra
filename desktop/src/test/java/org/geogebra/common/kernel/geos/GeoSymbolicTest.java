@@ -524,6 +524,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("TrigExpand(tan(aaa+bbb))",
 				"(sin(aaa) / cos(aaa) + sin(bbb) / cos(bbb)) / (1 - sin(aaa) / cos(aaa) * sin(bbb) / cos(bbb))");
 		t("TrigExpand(x)", "x");
+		t("TrigExpand(sin(x)sin(x/3))",
+				"1 / 2 * cos(2 * x / 3) - 1 / 2 * cos(4 * x / 3)");
+		t("r1 = TrigExpand(3sin(x) sin(x / 3) / x²)",
+				"3 / (2 * x^(2)) * cos(2 * x / 3) - 3 / (2 * x^(2)) * cos(4 * x / 3)");
 	}
 
 	@Test
@@ -533,7 +537,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testTrigSimplify() {
-		t("TrigSimplify(1-sin(x)^2)", "cos(x)^(2)");
+		t("TrigSimplify(1-sin(x)^2)", "(cos(x))^(2)");
 	}
 
 	@Test
@@ -1317,4 +1321,65 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(n, equalTo(3));
 	}
 
+	@Test
+	public void testSinNumericInRadians() {
+		GeoSymbolic sin = add("sin⁻¹(0.4)");
+		assertThat(
+				sin.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("sin⁻¹(0.4)"));
+		assertThat(
+				sin.getValueForInputBar(),
+				equalTo("sin⁻¹(2 / 5)"));
+		assertThat(
+				sin.getTwinGeo().toValueString(StringTemplate.defaultTemplate),
+				equalTo("0.4115168461"));
+	}
+
+	@Test
+	public void testAsinNumericInRadians() {
+		GeoSymbolic asind = add("asin(0.4)");
+		assertThat(
+				asind.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("sin⁻¹(0.4)"));
+		assertThat(
+				asind.getValueForInputBar(),
+				equalTo("sin⁻¹(2 / 5)"));
+		assertThat(
+				asind.getTwinGeo().toValueString(StringTemplate.defaultTemplate),
+				equalTo("0.4115168461"));
+	}
+
+	@Test
+	public void testAsindNumericInDegrees() {
+		GeoSymbolic asind = add("asind(0.4)");
+		assertThat(
+				asind.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("asind(0.4)"));
+		assertThat(
+				asind.getValueForInputBar(),
+				equalTo("180° sin⁻¹(2 / 5) / π"));
+		assertThat(
+				asind.getTwinGeo().toValueString(StringTemplate.defaultTemplate),
+				equalTo("23.5781784782°"));
+	}
+
+	@Test
+	public void testAssumeCommand() {
+		t("Assume(a > 0, Integral(exp(-a x), 0, infinity))", "1 / a");
+		t("Assume(n>0, Solve(log(n^2*(x/n)^lg(x))=log(x^2), x))",
+				"{x = 100, x = n}");
+		t("Assume(x<2,Simplify(sqrt(x-2sqrt(x-1))))", "-sqrt(x - 1) + 1");
+		t("Assume(x>2,Simplify(sqrt(x-2sqrt(x-1))))", "sqrt(x - 1) - 1");
+		t("Assume(k>0, Extremum(k*3*x^2/4-2*x/2))",
+				"{(2 / (3 * k), (-1) / (3 * k))}");
+		t("Assume(k>0, InflectionPoint(0.25 k x^3 - 0.5x^2 + k))",
+				"{(2 / (3 * k), (27 * k^(3) - 4) / (27 * k^(2)))}");
+	}
+
+	@Test
+	public void testExtremum() {
+		GeoSymbolic extremum = add("Extremum(x*ln(x^2))");
+		GeoList twin = (GeoList) extremum.getTwinGeo();
+		assertThat(twin.size(), equalTo(2));
+	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -33,8 +34,8 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.TooltipChipView;
 import org.geogebra.web.html5.js.ResourcesInjector;
+import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.AnimationExporter;
 import org.geogebra.web.html5.util.FileConsumer;
 import org.geogebra.web.html5.util.ImageManagerW;
@@ -59,7 +60,6 @@ import jsinterop.base.JsPropertyMap;
  */
 public class GgbAPIW extends GgbAPI {
 	private MathEditorAPI editor;
-	private TooltipChipView tooltipChips;
 
 	/**
 	 * @param app
@@ -457,7 +457,7 @@ public class GgbAPIW extends GgbAPI {
 			bytes[i] = binary_string.charCodeAt(i);
 		}
 
-		// change / add pHYs chunk 
+		// change / add pHYs chunk
 		// pixels per metre
 		var ppm = Math.round(dpi / 2.54 * 100);
 
@@ -722,7 +722,7 @@ public class GgbAPIW extends GgbAPI {
 													.indexOf(item.fileName
 															.substr(ind + 1)
 															.toLowerCase()) > -1) {
-										//if (item.fileName.indexOf(".png") > -1) 
+										//if (item.fileName.indexOf(".png") > -1)
 										//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("image zipped: " + item.fileName);
 										addImage(item.fileName,
 												item.fileContent, function() {
@@ -1087,16 +1087,17 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * @param tooltip tooltip content
+	 * Add a multiuser interaction
+	 * @param user tooltip content
 	 * @param label label of an object to use as anchor
 	 * @param color color CSS string
 	 */
-	public void showTooltip(Object tooltip, Object label, Object color) {
-		if (tooltipChips == null) {
-			tooltipChips = new TooltipChipView();
-		}
-		tooltipChips.showMessage(tooltip == null ? null : String.valueOf(tooltip),
-				String.valueOf(label), String.valueOf(color), (AppW) app);
+	public void addMultiuserSelection(String user, String color, String label) {
+		MultiuserManager.INSTANCE.addSelection(app, user, GColor.parseHexColor(color), label);
+	}
+
+	public void removeMultiuserSelections(String user) {
+		MultiuserManager.INSTANCE.deselect(user);
 	}
 
 	public void asyncEvalCommand(String command, ResolveCallbackFn<String> onSuccess,
@@ -1486,8 +1487,7 @@ public class GgbAPIW extends GgbAPI {
 				break;
 		}
 		if (event != null) {
-			((AppW) app).getPageController().executeAction(event,
-					null, args);
+			((AppW) app).getPageController().executeAction(event, args);
 		}
 	}
 

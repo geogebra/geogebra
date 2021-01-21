@@ -9,7 +9,6 @@ import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.web.html5.awt.GGraphics2DW;
-import org.geogebra.web.html5.euclidian.GGraphics2DE;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
@@ -53,17 +52,16 @@ public class MOWPointStyleButton extends PointStylePopup {
 		panel.add(sliderPanel);
 
 		canvas = Canvas.createIfSupported();
-		if (canvas != null) {
-			canvas.setCoordinateSpaceHeight(CANVAS_SIZE);
-			canvas.setCoordinateSpaceWidth(CANVAS_SIZE);
-			canvas.addStyleName("preview");
-		}
+
+		canvas.setCoordinateSpaceHeight(CANVAS_SIZE);
+		canvas.setCoordinateSpaceWidth(CANVAS_SIZE);
+		canvas.addStyleName("preview");
 
 		addSliderTitle();
 		panel.addStyleName("mowPopup");
 
 		sliderPanel.add(canvas);
-		g2 = canvas == null ? new GGraphics2DE() : new GGraphics2DW(canvas);
+		g2 = new GGraphics2DW(canvas);
 		p = new GeoPoint(app.getKernel().getConstruction(),
 				0, 0, 0);
 		drawPoint = new DrawPoint(app.getActiveEuclidianView(), p);

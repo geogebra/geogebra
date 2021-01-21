@@ -122,13 +122,13 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.FileConsumer;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.Visibility;
 import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
@@ -619,8 +619,8 @@ public class GuiManagerW extends GuiManager
 			int widthChanged = width - geogebraFrame.getOffsetWidth();
 			int heightChanged = height - geogebraFrame.getOffsetHeight();
 			final DockSplitPaneW root = getLayout().getRootComponent();
-			root.setPixelSize(root.getOffsetWidth() + widthChanged,
-					root.getOffsetHeight() + heightChanged);
+			root.setPixelSize(getPxWidth(root) + widthChanged,
+					getPxHeight(root) + heightChanged);
 			root.onResize();
 		} else {
 			geogebraFrame.getStyle().setProperty("height",
@@ -653,6 +653,16 @@ public class GuiManagerW extends GuiManager
 			}
 
 		});
+	}
+
+	private int getPxWidth(DockSplitPaneW root) {
+		return root.getOffsetWidth() > 0 ? root.getOffsetWidth()
+				: Dom.getPxProperty(root.getElement(), "width");
+	}
+
+	private int getPxHeight(DockSplitPaneW root) {
+		return root.getOffsetHeight() > 0 ? root.getOffsetHeight()
+				: Dom.getPxProperty(root.getElement(), "height");
 	}
 
 	private ToolBarW getGeneralToolbar() {
@@ -867,9 +877,6 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public InputBarHelpPanelW getInputHelpPanel() {
 		if (inputHelpPanel == null) {
-			if (getApp().showView(App.VIEW_CAS)) {
-				getApp().getCommandDictionaryCAS();
-			}
 			inputHelpPanel = new InputBarHelpPanelW(getApp());
 		}
 		return inputHelpPanel;
@@ -1941,24 +1948,6 @@ public class GuiManagerW extends GuiManager
 					getDownloadCallback(filename));
 		}
 	}
-
-	/**
-	 * @param title
-	 *            construction title
-	 * @return local file saving callback for base64
-	 */
-	native JavaScriptObject getStringCallback(String title) /*-{
-
-		return function(base64) {
-			var a = $doc.createElement("a");
-			$doc.body.appendChild(a);
-			a.style = "display: none";
-			a.href = @org.geogebra.common.util.StringUtil::ggbMarker + base64;
-			a.download = title;
-			a.click();
-		}
-
-	}-*/;
 
 	/**
 	 * @param title

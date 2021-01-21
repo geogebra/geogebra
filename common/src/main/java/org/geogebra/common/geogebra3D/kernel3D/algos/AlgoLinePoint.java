@@ -34,14 +34,12 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param point
 	 *            point
 	 * @param inputParallel
 	 *            parallel line or vector
 	 */
-	public AlgoLinePoint(Construction cons, String label, GeoPointND point,
+	public AlgoLinePoint(Construction cons, GeoPointND point,
 			GeoElement inputParallel) {
 		super(cons);
 		this.point = point;
@@ -54,7 +52,6 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
 
 		// compute line
 		compute();
-		line.setLabel(label);
 	}
 
 	public AlgoLinePoint(Construction cons) {

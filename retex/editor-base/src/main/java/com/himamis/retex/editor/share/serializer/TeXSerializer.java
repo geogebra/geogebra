@@ -224,39 +224,6 @@ public class TeXSerializer extends SerializerAdapter {
 			serialize(function.getArgument(1), stringBuilder);
 			stringBuilder.append("\\right)");
 			break;
-		case SUM:
-		case PROD:
-			stringBuilder.append(function.getTexName());
-			stringBuilder.append("_{");
-			serialize(function.getArgument(0), stringBuilder);
-			stringBuilder.append('=');
-			serialize(function.getArgument(1), stringBuilder);
-			stringBuilder.append("}^");
-			serialize(function.getArgument(2), stringBuilder);
-			boolean addBraces = function.getArgument(3).hasOperator();
-			addWithBraces(stringBuilder, function.getArgument(3), addBraces);
-
-			break;
-		case INT:
-			stringBuilder.append(function.getTexName());
-			stringBuilder.append('_');
-			serialize(function.getArgument(0), stringBuilder);
-			stringBuilder.append('^');
-			serialize(function.getArgument(1), stringBuilder);
-			stringBuilder.append('{');
-			addBraces = currentBraces;
-			if (addBraces) {
-				stringBuilder.append("\\left(");
-			}
-			serialize(function.getArgument(2), stringBuilder);
-			// jmathtex v0.7: incompatibility
-			stringBuilder.append(" " + ("\\nbsp") + " d");
-			serialize(function.getArgument(3), stringBuilder);
-			if (addBraces) {
-				stringBuilder.append("\\right)");
-			}
-			stringBuilder.append('}');
-			break;
 		case SUM_EQ:
 		case PROD_EQ:
 		case DEF_INT:
@@ -266,20 +233,6 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append('^');
 			serialize(function.getArgument(1), stringBuilder);
 			stringBuilder.append("{}");
-			break;
-		case LIM:
-			// lim not implemented in jmathtex
-			stringBuilder.append("\\lim_{");
-			serialize(function.getArgument(0), stringBuilder);
-			stringBuilder.append(" \\rightarrow ");
-			serialize(function.getArgument(1), stringBuilder);
-			// jmathtex v0.7: incompatibility
-			stringBuilder.append("} " + ("\\nbsp") + " {");
-			addBraces = (function.getArgument(2).hasOperator()
-					&& function.getParent().hasOperator());
-			this.addWithBraces(stringBuilder, function.getArgument(2),
-					addBraces);
-			stringBuilder.append('}');
 			break;
 		case LIM_EQ:
 			stringBuilder.append("\\lim_{");
@@ -365,17 +318,6 @@ public class TeXSerializer extends SerializerAdapter {
 		serialize(function.getArgument(0), stringBuilder);
 		stringBuilder.append('}');
 
-	}
-
-	private void addWithBraces(StringBuilder stringBuilder,
-			MathSequence argument, boolean addBraces) {
-		if (currentBraces || addBraces) {
-			stringBuilder.append("\\left(");
-		}
-		serialize(argument, stringBuilder);
-		if (currentBraces || addBraces) {
-			stringBuilder.append("\\right)");
-		}
 	}
 
 	@Override

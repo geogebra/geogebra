@@ -430,4 +430,18 @@ public class XMLBuilder {
 		sb.append(inline.getAngle());
 		sb.append("\"/>\n");
 	}
+
+	/**
+	 * Adds border color for inline texts
+	 * @param sb XML builder
+	 * @param text inline text
+	 */
+	public static void appendBorder(StringBuilder sb, GeoInlineText text) {
+		GColor borderColor = text.getBorderColor();
+		if (borderColor != null) {
+			sb.append("\t<borderColor");
+			appendRGB(sb, borderColor);
+			sb.append("/>\n");
+		}
+	}
 }
