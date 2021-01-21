@@ -2924,7 +2924,7 @@ __GGB__keysVar["fr"].menu = {
     "Surface": "Surface",
     "SurfaceOfRevolution": "Surface de R\xe9volution",
     "SurfaceOfRevolution.Help": "Drag curve around axis",
-    "SwitchCalculator": "Switch calculator",
+    "SwitchCalculator": "Changer de calculatrice",
     "Sx": "Sx",
     "Sxx": "nVarX",
     "Sxy": "nCov",
