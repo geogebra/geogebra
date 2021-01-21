@@ -4,7 +4,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
-
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;

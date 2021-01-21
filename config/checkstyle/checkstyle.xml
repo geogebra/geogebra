@@ -13,6 +13,8 @@
  -->
 
 <module name = "Checker">
+    <property name="tabWidth" value="4"/>
+
     <property name="charset" value="UTF-8"/>
 
     <property name="severity" value="warning"/>
@@ -31,8 +33,11 @@
         <property name="format" value="addDomHandler.*Touch"/>
         <property name="message" value="Used addDomHanlder instead of addBitlessDomHandler for touch events"/>
     </module>
+    <module name="LineLength">
+        <property name="max" value="100"/>
+        <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://|@|Regex"/>
+    </module>
     <module name="TreeWalker">
-        <property name="tabWidth" value="4"/>
         <module name="OneTopLevelClass"/>
         <module name="OuterTypeFilename"/>
         <module name="IllegalTokenText">
@@ -59,10 +64,6 @@
             <property name="allowedDistance" value="7"/>
         </module>
         <module name="ArrayTypeStyle"/>
-        <module name="LineLength">
-            <property name="max" value="100"/>
-            <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://|@|Regex"/>
-        </module>
         <module name="EmptyLineSeparator">
             <property name="allowNoEmptyLineBetweenFields" value="true"/>
             <property name ="allowMultipleEmptyLines" value="false"/>
@@ -107,22 +108,18 @@
         <module name="JavadocMethod">
             <property name="scope" value="public"/>
             <property name="allowMissingParamTags" value="true"/>
-            <property name="allowMissingThrowsTags" value="true"/>
             <property name="allowMissingReturnTag" value="false"/>
-            <property name="minLineCount" value="1"/>
             <property name="allowedAnnotations" value="Override, Test, Before"/>
-            <property name="allowThrowsTagsForSubclasses" value="true"/>
         </module>
         <module name="AvoidStarImport">
             <property name="allowStaticMemberImports" value="true"/>
         </module>
-        <module name="CustomImportOrder">
-            <property name="customImportOrderRules"
-                      value="STATIC###STANDARD_JAVA_PACKAGE###SPECIAL_IMPORTS###THIRD_PARTY_PACKAGE"/>
-            <property name="specialImportsRegExp" value="^org\."/>
-            <property name="thirdPartyPackageRegExp" value="^com\."/>
-            <property name="sortImportsInGroupAlphabetically" value="true"/>
-            <property name="separateLineBetweenGroups" value="true"/>
+        <module name="ImportOrder">
+            <property name="groups" value="/^java\./,javax,org,com"/>
+            <property name="ordered" value="true"/>
+            <property name="separated" value="true"/>
+            <property name="option" value="top"/>
+            <property name="sortStaticImportsAlphabetically" value="true"/>
         </module>
     </module>
 </module>
