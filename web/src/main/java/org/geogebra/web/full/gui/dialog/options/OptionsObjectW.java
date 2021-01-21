@@ -816,10 +816,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	private void initGUI(final Runnable onTabSelection) {
 		wrappedPanel = new FlowPanel();
 		wrappedPanel.setStyleName("propertiesPanel");
-
-		// TODO after release MULTIROW_TAB_PROPERTIES feature: propertiesPanel
-		// and propertiesPanel2 classes should be merged
-		wrappedPanel.addStyleName("propertiesPanel2");
 		tabPanel = new MultiRowsTabPanel();
 
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {

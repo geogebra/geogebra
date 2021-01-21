@@ -72,12 +72,6 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/general/line_graph.png")
 	ImageResource line_graph();
 
-	@Source("org/geogebra/common/icons/png/web/general/object_fixed.png")
-	ImageResource lock();
-
-	@Source("org/geogebra/common/icons/png/web/general/object_unfixed.png")
-	ImageResource unlock();
-
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_object_fixed.png")
 	ImageResource objectFixed();
 
