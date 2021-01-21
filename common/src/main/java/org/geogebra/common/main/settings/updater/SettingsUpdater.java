@@ -42,9 +42,7 @@ public class SettingsUpdater {
 	 */
 	public void resetSettingsAfterClearAll() {
 		setSortModeForCompactOutput();
-		if (appConfig.hasEuclidianView()) {
-			setEuclidianSettings();
-		}
+		setEuclidianSettings();
 	}
 
 	private void setSortModeForCompactOutput() {

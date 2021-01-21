@@ -1624,11 +1624,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Update backgrounds and repaint views.
 	 */
 	public void refreshViews() {
-		if (getConfig().hasEuclidianView()) {
-			getEuclidianView1().updateBackground();
-			if (hasEuclidianView2(1)) {
-				getEuclidianView2(1).updateBackground();
-			}
+		getEuclidianView1().updateBackground();
+		if (hasEuclidianView2(1)) {
+			getEuclidianView2(1).updateBackground();
 		}
 		kernel.notifyRepaint();
 	}

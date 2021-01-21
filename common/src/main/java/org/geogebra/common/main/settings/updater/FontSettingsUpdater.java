@@ -72,9 +72,7 @@ public class FontSettingsUpdater {
 	 */
 	public void resetFonts() {
 		app.getFontManager().setFontSize(getGUIFontSize());
-		if (app.getConfig().hasEuclidianView()) {
-			updateEuclidianViewFonts();
-		}
+		updateEuclidianViewFonts();
 	}
 
 	protected void updateEuclidianViewFonts() {

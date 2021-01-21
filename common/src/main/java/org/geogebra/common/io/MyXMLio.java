@@ -126,10 +126,8 @@ public abstract class MyXMLio {
 		addGeoGebraHeader(sb, false, consApp.getUniqueId(),
 				c.getApplication().getPlatform(), c.getApplication().getConfig().getAppCode());
 
-		if (consApp.getConfig().hasEuclidianView()) {
-			// save euclidianView settings
-			consApp.getCompanion().getEuclidianViewXML(sb, false);
-		}
+		// save euclidianView settings
+		consApp.getCompanion().getEuclidianViewXML(sb, false);
 
 		// save kernel settings
 		c.getKernel().getKernelXML(sb, false);
