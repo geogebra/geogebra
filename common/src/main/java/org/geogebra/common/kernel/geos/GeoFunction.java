@@ -104,7 +104,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	protected double intervalMax;
 	private boolean evalSwapped;
 	// parent conditional function
-	// private GeoFunctionConditional parentCondFun = null;
 
 	private Boolean isInequality = null;
 	private String shortLHS;
@@ -416,6 +415,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 *            function
 	 */
 	public void setFunction(Function f) {
+		if (fun != null && f != null && fun.isForceInequality()) {
+			f.setForceInequality(true);
+		}
 		fun = f;
 		// reset this for garbage collection, also the flag needs update for
 		// #5054
@@ -582,8 +584,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		GeoFunction ff = (GeoFunction) f;
 
 		if (ff.isDefined()) {
-			fun = (Function) ff.fun.evalCasCommand(ggbCasCmd, symbolic,
-					arbconst);
+			setFunction((Function) ff.fun.evalCasCommand(ggbCasCmd, symbolic,
+					arbconst));
 
 			checkDefined();
 

@@ -225,7 +225,7 @@ public class GeoFunctionNVar extends GeoElement
 		isDefined = geo.isDefined();
 		FunctionVariable[] oldVars = fun == null ? null
 				: fun.getFunctionVariables();
-		fun = new FunctionNVar(geoFun.getFunction(), kernel);
+		setFunction(new FunctionNVar(geoFun.getFunction(), kernel));
 		fun.fillVariables(oldVars);
 		// macro OUTPUT
 		if (geo.getConstruction() != cons && isAlgoMacroOutput()) {
@@ -248,6 +248,9 @@ public class GeoFunctionNVar extends GeoElement
 	 *            new function
 	 */
 	public void setFunction(FunctionNVar f) {
+		if (fun != null && f != null && fun.isForceInequality()) {
+			f.setForceInequality(true);
+		}
 		fun = f;
 
 		// reset derivatives
@@ -390,10 +393,8 @@ public class GeoFunctionNVar extends GeoElement
 		GeoFunctionNVar ff = (GeoFunctionNVar) f;
 
 		if (ff.isDefined()) {
-			fun = ff.fun.evalCasCommand(ggbCasCmd, symbolic, arbconst);
-
+			setFunction(ff.fun.evalCasCommand(ggbCasCmd, symbolic, arbconst));
 			checkDefined();
-
 		} else {
 			isDefined = false;
 		}
