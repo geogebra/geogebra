@@ -20,6 +20,7 @@ import org.geogebra.common.euclidian.draw.HasTransformation;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInline;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.RectangleTransformable;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.web.html5.main.AppW;
@@ -40,11 +41,13 @@ class User {
 
 	public void addSelection(EuclidianView view, String label, String update) {
 		GeoElement geo = view.getApplication().getKernel().lookupLabel(label);
-		if (geo != null && geo instanceof GeoInline && "update".equals(update)) {
+		if (geo != null && geo instanceof GeoInline
+				&& "update".equals(update)) {
 			// if the inline element gets updated after it was deselected
 			// don't add to interactions
 			return;
 		}
+
 		interactions.compute(label, (k, v) -> {
 			if (v == null) {
 				v = new Timer() {
@@ -60,6 +63,11 @@ class User {
 			return v;
 		});
 
+		// make sure to deselect stroke in case deselect wouldn't be sent
+		if (geo != null && geo instanceof GeoLocusStroke && "update".equals(update)) {
+			interactions.get(label).schedule(2000);
+		}
+
 		view.repaintView();
 	}
 
@@ -70,7 +78,7 @@ class User {
 
 	public void scheduleDeselection() {
 		for (Timer t : interactions.values()) {
-			t.schedule(3000);
+			t.schedule(2000);
 		}
 	}
 

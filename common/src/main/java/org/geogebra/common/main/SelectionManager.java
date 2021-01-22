@@ -42,7 +42,6 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -303,13 +302,11 @@ public class SelectionManager {
 	}
 
 	private void dispatchSelected(GeoElement geo) {
-		Log.debug("SELECT EVENT");
 		kernel.getApplication().getEventDispatcher()
 				.dispatchEvent(EventType.SELECT, geo);
 	}
 
 	private void dispatchDeselected(GeoElement geo) {
-		Log.debug("DESELECT EVENT");
 		kernel.getApplication().getEventDispatcher()
 				.dispatchEvent(new Event(EventType.DESELECT, geo, "force"));
 	}

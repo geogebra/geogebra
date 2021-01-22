@@ -93,7 +93,6 @@
                             that.sendEvent("evalXML", xml, label);
                         }
                         that.sendEvent("select", label, "update");
-                        console.log("send select update callback")
                     }
 
                     updateCallback = null;
@@ -135,9 +134,7 @@
                 this.sendEvent("evalXML", xml, label);
             }
             this.sendEvent("select", label, "");
-            console.log("send select listener " + label);
             this.sendEvent("deselect", "");
-            console.log("send deselect listener " + label);
             window.setTimeout(function(){
                 that.initEmbed(label);
             },500); //TODO avoid timeout
@@ -296,11 +293,13 @@
                 } else if (last.type == "select") {
                     let user = this.users[last.clientId];
                     if (user && last.content) {
+                    	// user name, user color, label of geo selected, 'update' if it was called by update callback
                         target.api.addMultiuserSelection(user.name, user.color, last.content, last.label);
                     }
                 } else if (last.type == "deselect") {
                     let user = this.users[last.clientId];
                     if (user) {
+                    	// user name, 'force' if selection should be cleared
                         target.api.removeMultiuserSelections(user.name, last.content);
                     }
                 }
