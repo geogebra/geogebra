@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-    id 'com.github.spotbugs' version '1.6.9'
+    id "com.github.spotbugs" version "4.6.0"
 }
 
 project.setDescription('Parts of GeoGebra related to desktop platforms')
@@ -163,9 +163,9 @@ eclipse {
         }
     }
 }
+
 checkstyle {
-    configDir = file("config/checkstyle/")
-    toolVersion = "8.8"
+    configFile file("config/checkstyle/checkstyle.xml")
 }
 
 task e2eTest(type: Test) {

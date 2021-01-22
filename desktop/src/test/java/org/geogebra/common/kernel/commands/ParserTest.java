@@ -120,6 +120,12 @@ public class ParserTest {
 				unicode("sin(x^2 x^2)"));
 	}
 
+	@Test
+	public void testLogPower() {
+		shouldReparseAs("xln(x)^2",
+				unicode("x (ln(x))^2"));
+	}
+
 	private void checkSameStructure(String string, String string2) {
 		Assert.assertEquals(reparse(string, StringTemplate.maxPrecision),
 				reparse(string2, StringTemplate.maxPrecision));

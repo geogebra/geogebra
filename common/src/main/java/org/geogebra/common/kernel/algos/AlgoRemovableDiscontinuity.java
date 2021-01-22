@@ -122,7 +122,7 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 	}
 
 	private List<NumberValue> getValues(ExpressionValue exp) {
-		String input = "solve(" + exp.toString(StringTemplate.prefixedDefault) + " = 0)";
+		String input = "Solve(" + exp.toString(StringTemplate.prefixedDefault) + " = 0)";
 		String output = kernel.evaluateCachedGeoGebraCAS(input, arbconst);
 
 		try {

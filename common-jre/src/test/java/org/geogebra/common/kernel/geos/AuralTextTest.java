@@ -117,6 +117,7 @@ public class AuralTextTest {
 		aural("LaTeX(\"\\underrightarrow{p}j\")", "pj", "edit");
 		aural("LaTeX(\"\\overrightarrow{p}j\")", "pj", "edit");
 		aural("LaTeX(\"\\widehat{p}\")", "p with \u0302", "edit");
+		aural("LaTeX(\"\\underline{p}j\")", "pj", "edit");
 
 	}
 

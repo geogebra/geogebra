@@ -770,6 +770,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	private static String buildTabular(String[] inputs, StringBuilder sb) {
+		Log.error(inputs[0]);
 		boolean alignOnDecimalPoint = true;
 		for (String s : inputs) {
 			if (s.indexOf('.') == -1) {
@@ -832,6 +833,10 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	static public String buildLatexString(Kernel kernel, StringBuilder sb,
 			boolean symbolic, StringTemplate tpl, int toStringMode, double x,
 			double y, GeoVectorND vector) {
+		if (!symbolic && !vector.isDefined()) {
+			sb.append("?");
+			return sb.toString();
+		}
 		switch (toStringMode) {
 		case Kernel.COORD_POLAR:
 			sb.append("(");

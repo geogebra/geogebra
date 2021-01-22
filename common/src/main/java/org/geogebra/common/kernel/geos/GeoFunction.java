@@ -808,7 +808,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public boolean isDefined() {
-		return isDefined && fun != null;
+		return isDefined && fun != null && isFunctionDefined(fun);
 	}
 
 	@Override
@@ -1475,7 +1475,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		GeoFunction geoFun = (GeoFunction) geo;
 		// check equality in two points; avoid discontinuities of common functions (1/x, tan(x))
 		if (differAt(this, geoFun, 0.31) || differAt(this, geoFun, 10.89)
-				|| !isFunctionDefined() || !geoFun.isFunctionDefined()) {
+				|| !isDefined() || !geoFun.isDefined()) {
 			return false;
 		}
 		PolyFunction poly1 = getFunction()
@@ -1496,10 +1496,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return isDifferenceZeroInCAS(geo);
 	}
 
-	private boolean isFunctionDefined() {
-		if (!isDefined()) {
-			return false;
-		}
+	protected static boolean isFunctionDefined(FunctionNVar fun) {
 		// function defined as "?"
 		ExpressionValue def = fun.getExpression().unwrap();
 		return !(def instanceof MyDouble && def.isConstant()

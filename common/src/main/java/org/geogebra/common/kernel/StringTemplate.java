@@ -2120,7 +2120,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/**
 	 * @return space denoting multiplication
 	 */
-	protected String multiplicationSpace() {
+	public String multiplicationSpace() {
 		// wide space for multiplication space in LaTeX
 		return (stringType.equals(StringType.LATEX)) ? " \\; " : " ";
 	}
@@ -3520,19 +3520,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	public boolean isRad(ExpressionValue value) {
 		return value.toString(this).equals(RAD);
-	}
-
-	/**
-	 * Get the undefined string equivalent
-	 *
-	 * @param localization localization if needed
-	 * @return undefined string
-	 */
-	public String getUndefined(Localization localization) {
-		if (localizeCmds) {
-			return localization.getMenu("Undefined");
-		}
-		return "Undefined";
 	}
 
 	/**

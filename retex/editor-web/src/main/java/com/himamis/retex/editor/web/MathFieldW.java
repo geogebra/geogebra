@@ -875,8 +875,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			Element el = getHiddenTextAreaNative(counter++, clip.getElement());
 			inputTextArea = MyTextArea.wrap(el);
 
-			inputTextArea.addCompositionUpdateHandler(
-					new EditorCompositionHandler(this));
+			new EditorCompositionHandler(this).attachTo(inputTextArea);
 
 			inputTextArea.addFocusHandler(event -> {
 				startBlink();
@@ -894,6 +893,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}
 
 		return inputTextArea.getElement();
+	}
+
+	public void clearState() {
+		Js.asPropertyMap(inputTextArea.getElement()).set("value", "");
 	}
 
 	@Override
