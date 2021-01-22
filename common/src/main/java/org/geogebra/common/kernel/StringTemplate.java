@@ -3522,6 +3522,25 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return value.toString(this).equals(RAD);
 	}
 
+	/**
+	 * Appends brackets to log argument if necessary
+	 *
+	 * @param sb
+	 *            builder
+	 * @param str
+	 *            serialized expression
+	 * @param left
+	 *            left subtree
+	 */
+	public void addLogBracketsIfNecessary(StringBuilder sb, String str, ExpressionValue left) {
+		if ((forEditorParser || stringType == StringType.LATEX)
+				&& left.isOperation(Operation.ABS)) {
+			sb.append(str);
+		} else {
+			appendWithBrackets(sb, str);
+		}
+	}
+
 	public boolean allowShortLhs() {
 		return allowShortLhs;
 	}

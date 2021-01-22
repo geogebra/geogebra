@@ -671,7 +671,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 					sb.append("ln");
 					break;
 				}
-				tpl.appendWithBrackets(sb, leftStr);
+				tpl.addLogBracketsIfNecessary(sb, leftStr, left);
 			}
 			break;
 
