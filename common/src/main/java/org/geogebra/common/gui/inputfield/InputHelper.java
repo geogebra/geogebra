@@ -1,6 +1,6 @@
 package org.geogebra.common.gui.inputfield;
 
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -53,7 +53,7 @@ public class InputHelper {
 	 *            cons step before update
 	 */
 	public static void updateProperties(GeoElementND[] geos,
-			EuclidianViewInterfaceCommon ev, int oldStep) {
+			EuclidianView ev, int oldStep) {
 		// create texts in the middle of the visible view
 		// we must check that size of geos is not 0 (ZoomIn, ZoomOut, ...)
 		if (geos == null) {
@@ -79,8 +79,7 @@ public class InputHelper {
 	 * @param ev
 	 *            view to use for centering
 	 */
-	public static void centerText(GeoText text,
-			EuclidianViewInterfaceCommon ev) {
+	public static void centerText(GeoText text, EuclidianView ev) {
 		text.setAuxiliaryObject(false);
 		Construction cons = text.getConstruction();
 
@@ -90,9 +89,10 @@ public class InputHelper {
 						.isSuppressLabelsActive();
 				cons.setSuppressLabelCreation(true);
 
+				EuclidianView.Rectangle visibleRect = ev.getVisibleRect();
 				GeoPoint p = new GeoPoint(text.getConstruction(), null,
-						(ev.getXmin() + ev.getXmax()) / 2,
-						(ev.getYmin() + ev.getYmax()) / 2, 1.0);
+						(visibleRect.getMinX() + visibleRect.getMaxX()) / 2,
+						(visibleRect.getMinY() + visibleRect.getMaxX()) / 2, 1.0);
 
 				cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
 				text.setStartPoint(p);

@@ -329,4 +329,9 @@ public class AppConfigGeometry extends AbstractAppConfig {
 	public boolean sendKeyboardEvents() {
 		return false;
 	}
+
+	@Override
+	public boolean hasEuclidianView() {
+		return true;
+	}
 }
