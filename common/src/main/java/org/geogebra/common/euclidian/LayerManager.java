@@ -405,4 +405,18 @@ public class LayerManager {
 		}
 		return sb.toString();
 	}
+
+	/**
+	 * @param pos new ordering
+	 * @param newGeo construction element
+	 */
+	public void replace(int pos, GeoElement newGeo) {
+		if (!drawingOrder.isEmpty()) {
+			drawingOrder.remove(newGeo);
+			drawingOrder.add(pos, newGeo);
+			updateOrdering();
+			newGeo.getKernel().getApplication()
+					.getActiveEuclidianView().invalidateDrawableList();
+		}
+	}
 }

@@ -43,6 +43,7 @@ import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
+import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.common.main.undo.DefaultUndoManager;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.GgbAPI;
@@ -776,5 +777,10 @@ public class AppCommon extends App {
 
 	public void setAppletFlag(boolean appletFlag) {
 		this.appletFlag = appletFlag;
+	}
+
+	@Override
+	public boolean isWhiteboardActive() {
+		return getConfig() instanceof AppConfigNotes;
 	}
 }
