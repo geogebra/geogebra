@@ -3,10 +3,12 @@ package org.geogebra.common.gui.view.table;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
 import org.geogebra.common.Stopwatch;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -24,9 +26,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
 
 /**
  * Test class for TableValuesView.
@@ -39,9 +39,6 @@ public class TableValuesViewTest extends BaseUnitTest {
 
     @Mock
     private TableValuesListener listener;
-
-    @Mock
-    private Function slowFunction;
 
 	private TableValuesPointsImpl tablePoints;
 
@@ -237,13 +234,12 @@ public class TableValuesViewTest extends BaseUnitTest {
     @Test
     public void testCachingOfGetValues() {
 		final long sleepTime = 10;
-        Mockito.when(slowFunction.value(1.0)).then(new Answer<Double>() {
-            @Override
-            public Double answer(InvocationOnMock invocation) throws Throwable {
-                Thread.sleep(sleepTime);
-                return 0.0;
-            }
-        });
+		Function slowFunction = mock(Function.class);
+        Mockito.when(slowFunction.value(1.0)).then(invocation -> {
+			Thread.sleep(sleepTime);
+			return 0.0;
+		});
+		Mockito.when(slowFunction.getExpression()).thenReturn(new ExpressionNode(getKernel(), 0));
         setValuesSafe(1, 2, 1);
 
         GeoElementFactory factory = getElementFactory();

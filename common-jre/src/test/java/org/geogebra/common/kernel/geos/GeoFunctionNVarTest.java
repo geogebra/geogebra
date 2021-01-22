@@ -13,6 +13,15 @@ public class GeoFunctionNVarTest extends BaseUnitTest {
 		GeoFunctionNVar func = addAvInput("a: x < y");
 		addAvInput("SetValue(a, ?)");
 		getApp().setXML(getApp().getXML(), true);
-		assertEquals("a: ?", func.toString(StringTemplate.defaultTemplate));
+		assertEquals("a: ?", lookup("a").toString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	public void shouldShowAsUndefinedOnReload() {
+		addAvInput("user(x,y)=x+y");
+		addAvInput("def=IsDefined(user)");
+		addAvInput("SetValue(user,?)");
+		getApp().setXML(getApp().getXML(), true);
+		assertEquals("def = false", lookup("def").toString(StringTemplate.defaultTemplate));
 	}
 }
