@@ -3158,11 +3158,29 @@ public class ExpressionNode extends ValidExpression
 			return super.evaluateDouble();
 		}
 		double lt = left.evaluateDouble();
-		if (lt < 0 && right.isExpressionNode() && ((ExpressionNode) right)
-				.getOperation() == Operation.DIVIDE) {
-			return ExpressionNodeEvaluator.negPower(lt, right);
+		if (lt < 0 && right.isExpressionNode()) {
+			Double negPower = right.wrap().calculateNegPower(lt);
+			if (negPower != null) {
+				return negPower;
+			}
 		}
 		return Math.pow(left.evaluateDouble(), right.evaluateDouble());
+	}
+
+	/**
+	 * @param base
+	 *            base of power term
+	 * @return negPower if exponent is negative fraction
+	 */
+	public Double calculateNegPower(double base) {
+		if (isOperation(Operation.DIVIDE)) {
+			return ExpressionNodeEvaluator.negPower(base, this);
+		} else if (getOperation() == Operation.MULTIPLY
+				&& getLeft() instanceof MinusOne
+				&& getRight().isOperation(Operation.DIVIDE)) {
+			return 1.0 / ExpressionNodeEvaluator.negPower(base, getRight());
+		}
+		return null;
 	}
 
 	/**
