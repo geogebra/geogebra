@@ -1094,7 +1094,8 @@ public class GgbAPIW extends GgbAPI {
 	 * @param update "update" if selection called by notify update, empty otherwise
 	 */
 	public void addMultiuserSelection(String user, String color, String label, String update) {
-		MultiuserManager.INSTANCE.addSelection(app, user, GColor.parseHexColor(color), label, update);
+		MultiuserManager.INSTANCE.addSelection(app, user, GColor.parseHexColor(color),
+				label, update);
 	}
 
 	/**
