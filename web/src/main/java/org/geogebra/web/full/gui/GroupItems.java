@@ -2,8 +2,6 @@ package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.main.App;
@@ -59,20 +57,11 @@ public class GroupItems {
 				new Scheduler.ScheduledCommand() {
 					@Override
 					public void execute() {
-						ungroupGroups();
+						app.getKernel().getConstruction().ungroupGroups(getGeos());
 						app.storeUndoInfo();
+						app.getEventDispatcher().ungroupObjects(getGeos());
 					}
 				});
-	}
-
-	private void ungroupGroups() {
-		for (GeoElement geo : getGeos()) {
-			Group groupOfGeo = geo.getParentGroup();
-			if (groupOfGeo != null) {
-				app.getKernel().getConstruction().removeGroupFromGroupList(groupOfGeo);
-				geo.setParentGroup(null);
-			}
-		}
 	}
 
 	private AriaMenuItem createGroupItem() {
@@ -80,29 +69,11 @@ public class GroupItems {
 				new Scheduler.ScheduledCommand() {
 			@Override
 			public void execute() {
-				createGroup();
+				app.getKernel().getConstruction().createGroupFromSelected(getGeos());
 				app.storeUndoInfo();
+				app.getEventDispatcher().groupObjects(getGeos());
 			}
 		});
-	}
-
-	private void createGroup() {
-		EuclidianView ev = app.getActiveEuclidianView();
-		Construction cons = app.getKernel().getConstruction();
-
-		ungroupGroups();
-		unfixAll();
-		ev.getEuclidianController().splitSelectedStrokes(true);
-
-		cons.createGroup(getGeos());
-		cons.getLayerManager().groupObjects(getGeos());
-		ev.invalidateDrawableList();
-	}
-
-	private void unfixAll() {
-		for (GeoElement geo : getGeos()) {
-			geo.setFixed(false);
-		}
 	}
 
 	private ArrayList<GeoElement> getGeos() {
