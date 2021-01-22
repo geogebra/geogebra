@@ -50,6 +50,7 @@ package com.himamis.retex.renderer.share;
 
 import com.himamis.retex.renderer.share.TeXConstants.Align;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
@@ -83,16 +84,8 @@ public class TeXIcon implements Icon {
 
 	public boolean isColored = false;
 
-	public boolean beforeFirst;
-	public BoxPosition cursorPosition;
-	public BoxPosition selectionPosition;
-
-	public double selectionX1;
-	public double selectionX2;
-	public double boxWidth;
-	public double boxHeight;
-	public double selectionBaseline;
-	public double selectionDepth;
+	public Rectangle2D cursorPosition;
+	public Rectangle2D selectionPosition;
 
 	/**
 	 * Creates a new icon that will paint the given formula box in the given
@@ -307,28 +300,21 @@ public class TeXIcon implements Icon {
 
 	public void paintCursor(Graphics2DInterface ctx, int margin) {
 		if (selectionPosition != null) {
-			double x = selectionX1 * size + insets.left;
-			double y = (box.getHeight() + selectionBaseline - boxHeight) * size + insets.top + margin;
-			double width = (selectionX2 - selectionX1) * size;
-			double height = (boxHeight + selectionDepth) * size;
+			double x = selectionPosition.getX() * size + insets.left;
+			double y = (box.getHeight() + selectionPosition.getY()) * size + insets.top + margin;
+			double width = selectionPosition.getWidth() * size;
+			double height = selectionPosition.getHeight() * size;
 
 			ctx.setColor(FactoryProvider.getInstance().getGraphicsFactory()
 					.createColor(204, 204, 255, 100));
 			ctx.fillRect((int) x, (int) y, (int) width, (int) height);
 		} else if (cursorPosition != null) {
-			double x = cursorPosition.x * size + insets.left;
-			double y = (box.getHeight() + cursorPosition.baseline) * size + insets.top + margin;
-			double width = boxWidth * size;
-			double height = cursorPosition.scale * size / 2;
+			double x = cursorPosition.getX() * size + insets.left;
+			double y = (box.getHeight() + cursorPosition.getY()) * size + insets.top + margin;
+			double height = cursorPosition.getHeight() * size;
 
-			ctx.setColor(FactoryProvider.getInstance().getGraphicsFactory().createColor(0x225566));
-			FactoryProvider.debugS("DRAWING CURSOR");
-			if (beforeFirst) {
-				ctx.fillRect((int) x, (int) (y - height * 1.7), 1, (int) (height * 2.2));
-			} else {
-				ctx.fillRect((int) (x + width), (int) (y - height * 1.7), 1,
-						(int) (height * 2.2));
-			}
+			ctx.setColor(FactoryProvider.getInstance().getGraphicsFactory().createColor(0x4c42a1));
+			ctx.fillRect((int) x, (int) y, 1, (int) height);
 		}
 	}
 }

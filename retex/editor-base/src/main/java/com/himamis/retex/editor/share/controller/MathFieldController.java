@@ -11,8 +11,6 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.TeXBuilder;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
-import com.himamis.retex.renderer.share.Box;
-import com.himamis.retex.renderer.share.BoxConsumer;
 import com.himamis.retex.renderer.share.BoxPosition;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFont;
@@ -122,12 +120,7 @@ public class MathFieldController {
 			final MathComponent selectionStart, MathComponent selectionEnd) {
 		TeXFormula texFormula = new TeXFormula();
 		texFormula.root = texBuilder.build(mathFormula.getRootComponent(),
-				currentField, currentOffset, selectionStart, selectionEnd);
-
-		MathComponent argumentTmp = currentField != null
-				? currentField.getArgument(currentOffset == 0 ? 0 : currentOffset - 1)
-				: null;
-		final MathComponent argument = argumentTmp == null ? TeXBuilder.SELECTION : argumentTmp;
+				currentField);
 
 		try {
 			final TeXIcon renderer = texFormula.new TeXIconBuilder()
@@ -135,51 +128,17 @@ public class MathFieldController {
 					.setType(type).build();
 			renderer.setInsets(new Insets(1, 1, 1, 1));
 
-			renderer.beforeFirst = currentOffset == 0;
-
-			final MathComponent selectionParent = selectionStart == null ? null : selectionStart.getParent();
-			final int selectionStartIndex = selectionStart == null ? 0 : selectionStart.getParentIndex();
-			final int selectionEndIndex = selectionEnd == null ? 0 : selectionEnd.getParentIndex();
-
-			renderer.selectionPosition = renderer.cursorPosition = null;
-
-			renderer.getBox().inspect(new BoxConsumer() {
-				@Override
-				public void handle(Box box, BoxPosition position) {
-					MathComponent component = texBuilder.getComponent(box.getAtom());
-
-					if (component != null && component == selectionParent) {
-						renderer.selectionBaseline = position.baseline;
-					}
-
-					if (component != null
-							&& selectionParent != null
-							&& component.getParent() == selectionParent
-							&& selectionStartIndex <= component.getParentIndex()
-							&& component.getParentIndex() <= selectionEndIndex) {
-						if (renderer.selectionPosition == null) {
-							renderer.selectionPosition = position;
-
-							renderer.selectionX1 = position.x;
-							renderer.selectionX2 = position.x + box.getWidth();
-
-							renderer.boxWidth = box.getWidth();
-							renderer.boxHeight = Math.max(box.getHeight(), position.scale);
-							renderer.selectionDepth = box.getDepth();
-						} else {
-							renderer.selectionX1 = Math.min(renderer.selectionX1, position.x);
-							renderer.selectionX2 = Math.max(renderer.selectionX2, position.x + box.getWidth());
-
-							renderer.boxHeight =
-									Math.max(position.scale, Math.max(box.getHeight(), renderer.boxHeight));
-							renderer.selectionDepth = Math.max(box.getDepth(), renderer.selectionDepth);
-						}
-					} else if (component == argument) {
-						renderer.cursorPosition = position;
-						renderer.boxWidth = box.getWidth();
-					}
-				}
-			}, new BoxPosition(0, 0, 1, 0));
+			if (selectionStart == null) {
+				CursorBoxConsumer consumer
+						= new CursorBoxConsumer(texBuilder, currentField, currentOffset);
+				renderer.getBox().inspect(consumer, new BoxPosition(0, 0, 1, 0));
+				renderer.cursorPosition = consumer.getPosition();
+			} else {
+				SelectionBoxConsumer consumer
+						= new SelectionBoxConsumer(texBuilder, selectionStart, selectionEnd);
+				renderer.getBox().inspect(consumer, new BoxPosition(0, 0, 1, 0));
+				renderer.selectionPosition = consumer.getPosition();
+			}
 
 			mathField.setTeXIcon(renderer);
 			mathField.fireInputChangedEvent();
@@ -189,21 +148,6 @@ public class MathFieldController {
 		}
 	}
 
-	/**
-	 * @param mathFormula
-	 *            formula
-	 * @param x
-	 *            pointer x-coord
-	 * @param y
-	 *            pointer y-coord
-	 * @param list
-	 *            output list for path
-	 * @return editor state after selection
-	 */
-	public EditorState getPath(MathFormula mathFormula, int x, int y,
-			ArrayList<Integer> list) {
-		return null;
-	}
 
 	/**
 	 * 

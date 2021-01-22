@@ -497,21 +497,8 @@ public class MathFieldInternal
 				|| Math.abs(y - mouseDownPos[1]) > 10);
 	}
 
-	private void moveToSelectionDirect(int x, int y) {
-		ArrayList<Integer> list2 = new ArrayList<>();
-		EditorState mc = mathFieldController.getPath(mathFormula, x, y, list2);
-		if (mc != null && mc.getCurrentField() != null) {
-			editorState.setCurrentField(mc.getCurrentField());
-			editorState.setCurrentOffset(mc.getCurrentOffset());
-		}
-	}
-
 	private void moveToSelection(int x, int y) {
-		if (this.directFormulaBuilder) {
-			this.moveToSelectionDirect(x, y);
-		} else {
-			this.moveToSelectionIterative(x, y);
-		}
+		this.moveToSelectionIterative(x, y);
 	}
 
 	private void moveToSelectionIterative(int x, int y) {

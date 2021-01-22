@@ -10,11 +10,15 @@ import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.renderer.share.Atom;
+import com.himamis.retex.renderer.share.CharAtom;
+import com.himamis.retex.renderer.share.ColorAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.NthRoot;
+import com.himamis.retex.renderer.share.PhantomAtom;
 import com.himamis.retex.renderer.share.RowAtom;
+import com.himamis.retex.renderer.share.ScaleAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
 import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
@@ -24,6 +28,7 @@ import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.UnderOverArrowAtom;
 import com.himamis.retex.renderer.share.commands.CommandOpName;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 /**
  * Directly convert MathComponents into atoms
@@ -41,18 +46,27 @@ public class TeXBuilder {
 	};
 
 	private MathSequence currentField;
-	private int currentOffset;
 	private HashMap<Atom, MathComponent> atomToComponent;
-	private MathComponent selectionStart;
-	private MathComponent selectionEnd;
 	private TeXParser parser;
+
+	private final Color placeholderColor = FactoryProvider.getInstance().getGraphicsFactory()
+			.createColor(0xDCDCDC);
 
 	private Atom buildSequence(MathSequence mathFormula) {
 		RowAtom ra = new RowAtom();
 
-		if (mathFormula.size() == 0 && mathFormula == currentField) {
-			Atom a = newCharAtom('\0');
-			atomToComponent.put(a, SELECTION);
+		if (mathFormula.size() == 0) {
+			Atom a;
+			if (mathFormula == currentField) {
+				a = newCharAtom('\0');
+				atomToComponent.put(a, SELECTION);
+			} else {
+				a = new ColorAtom(
+						new ScaleAtom(new PhantomAtom(new CharAtom('g')), 1, 1.6),
+						placeholderColor,
+						null
+				);
+			}
 			ra.add(a);
 			return ra;
 		}
@@ -273,22 +287,11 @@ public class TeXBuilder {
 	 *            root
 	 * @param currentField1
 	 *            selected field
-	 * @param currentOffset1
-	 *            cursor offset within currentField
-	 * @param selectionStart1
-	 *            first selected atom
-	 * @param selectionEnd1
-	 *            last selected atom
 	 * @return atom representing the whole sequence
 	 */
-	public Atom build(MathSequence rootComponent, MathSequence currentField1,
-			int currentOffset1, MathComponent selectionStart1,
-			MathComponent selectionEnd1) {
+	public Atom build(MathSequence rootComponent, MathSequence currentField1) {
 		this.currentField = currentField1;
-		this.currentOffset = currentOffset1;
 		this.atomToComponent = new HashMap<>();
-		this.selectionStart = selectionStart1;
-		this.selectionEnd = selectionEnd1;
 		return build(rootComponent);
 	}
 
