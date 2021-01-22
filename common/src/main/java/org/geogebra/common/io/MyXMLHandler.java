@@ -2522,7 +2522,10 @@ public class MyXMLHandler implements DocHandler {
 			if (tabId != null) {
 				dp.setTabId(tabId); // explicitly stored tab overrides config
 			}
-			if (dp.isVisible() && dp.getViewId() == App.VIEW_EUCLIDIAN3D) {
+			// If we are loading a classic app with 3D visible, we should
+			// open it in the 3d subApp
+			if (GeoGebraConstants.CLASSIC_APPCODE.equals(subAppCode) && dp.isVisible()
+					&& dp.getViewId() == App.VIEW_EUCLIDIAN3D) {
 				this.subAppCode = GeoGebraConstants.G3D_APPCODE;
 			}
 			tmp_views.add(dp);
