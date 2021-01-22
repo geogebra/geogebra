@@ -57,13 +57,12 @@
 
 @media screen and (max-width: 660px) {
 	.GeoGebraHeader .appName.beta {
-     		display: none;
-     }
+		display: none;
+	}
 
-     .GeoGebraHeader .suiteAppPickerButton.suiteAppPickerButton-up,
-     	.GeoGebraHeader .suiteAppPickerButton.suiteAppPickerButton-up-hovering {
-     		visibility: hidden;
-     	}
+	.GeoGebraHeader .suiteAppPickerButton {
+		visibility: hidden;
+	}
 }
 
 .GeoGebraFrame .buttons {
@@ -169,8 +168,7 @@ img.profileImage {
 	display: flex;
 }
 
-.GeoGebraHeader .suiteAppPickerButton.suiteAppPickerButton-up,
- .GeoGebraHeader .suiteAppPickerButton.suiteAppPickerButton-up-hovering {
+.GeoGebraHeader .suiteAppPickerButton {
 	display: inline-flex;
 	min-width: 138px;
 	max-width: 250px;

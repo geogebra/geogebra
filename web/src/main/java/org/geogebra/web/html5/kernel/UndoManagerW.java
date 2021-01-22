@@ -1,14 +1,16 @@
 package org.geogebra.web.html5.kernel;
 
-import org.geogebra.common.kernel.AppState;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.DefaultUndoManager;
-import org.geogebra.common.kernel.StringAppState;
-import org.geogebra.common.kernel.UndoCommand;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.OpenFileListener;
+import org.geogebra.common.main.undo.AppState;
+import org.geogebra.common.main.undo.DefaultUndoManager;
+import org.geogebra.common.main.undo.StringAppState;
+import org.geogebra.common.main.undo.UndoCommand;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
+import org.geogebra.web.html5.main.PageListControllerInterface;
 
 /**
  * Undo manager using session storage
@@ -25,7 +27,7 @@ public class UndoManagerW extends DefaultUndoManager {
 
 	@Override
 	protected UndoCommand createUndoCommand(AppState appState) {
-		return new UndoCommand(appState, ((AppW) app).getSlideID());
+		return new UndoCommand(appState, app.getSlideID());
 	}
 
 	@Override
@@ -71,5 +73,33 @@ public class UndoManagerW extends DefaultUndoManager {
 			Log.debug(t);
 			restoreCurrentUndoInfo();
 		}
+	}
+
+	@Override
+	public void runAfterSlideLoaded(String slideID, Runnable run) {
+		OpenFileListener callback = () -> {
+			run.run();
+			updatePreviewCard(slideID);
+			return true;
+		};
+		if (slideID != null && !slideID.equals(app.getSlideID())) {
+			app.registerOpenFileListener(callback);
+			((AppW) app).getPageController().clickPage(slideID);
+		} else {
+			callback.onOpenFile();
+		}
+	}
+
+	private void updatePreviewCard(String slideId) {
+		PageListControllerInterface pageController = ((AppW) app).getPageController();
+		if (pageController != null) {
+			pageController.updatePreviewImage(slideId);
+		}
+	}
+
+	@Override
+	public void replayActions(final String slideID, final UndoCommand until) {
+		super.replayActions(slideID, until);
+		updatePreviewCard(slideID);
 	}
 }

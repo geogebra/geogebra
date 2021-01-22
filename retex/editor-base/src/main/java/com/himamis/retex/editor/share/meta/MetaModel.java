@@ -29,7 +29,9 @@
 package com.himamis.retex.editor.share.meta;
 
 import java.util.HashMap;
+import java.util.TreeSet;
 
+import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -63,6 +65,7 @@ public class MetaModel {
 	private ListMetaGroup<MetaFunction> generalFunctionGroup;
 	private MapMetaGroup operatorGroup;
 	private HashMap<String, MetaCharacter> mergeLookup = new HashMap<>();
+	private TreeSet<String> reverseSuffixes = new TreeSet<>();
 	private MapMetaGroup symbolGroup;
 
 	/**
@@ -80,7 +83,9 @@ public class MetaModel {
 		operatorGroup = symbols.createOperators(); // operators/operators
 		symbolGroup = symbols.createSymbols(); // symbols/symbols
 		for (MetaSymbol operator : this.operatorGroup.getComponents()) {
-			mergeLookup.put(operator.getCasName(), operator);
+			if (operator.getCasName().length() > 1) {
+				addNamedSymbol(operator.getCasName(), operator);
+			}
 		}
 	}
 
@@ -88,7 +93,19 @@ public class MetaModel {
 	 * Enable automatic substitutions (e.g. pi -> unicode pi)
 	 */
 	public void enableSubstitutions() {
-		mergeLookup.put("pi", symbolGroup.getComponent(Unicode.PI_STRING));
+		for (Greek letter: Greek.values()) {
+			String name = letter.name();
+			// epsilon, Epsilon, upsilon, Upsilon need special treatment
+			if (!"psi".equals(name) && name.contains("psi")) {
+				name = name.replace("psi", Unicode.psi + "");
+			}
+			addNamedSymbol(name,
+					symbolGroup.getComponent(letter.getUnicodeNonCurly() + ""));
+		}
+		addNamedSymbol("inf",
+				symbolGroup.getComponent(Unicode.INFINITY + ""));
+		addNamedSymbol("deg",
+				symbolGroup.getComponent(Unicode.DEGREE_STRING));
 	}
 
 	/**
@@ -334,15 +351,24 @@ public class MetaModel {
 	}
 
 	/**
-	 * @param prefix
-	 *            prefix
-	 * @param symbol
-	 *            last added symbol
-	 * @return a single character merged from prefix and symbol,
+	 * @param name
+	 *            character name
+	 * @return a single character with given multi-character name
 	 */
-	public MetaCharacter merge(String prefix, MetaCharacter symbol) {
-		String mergeName = prefix + symbol.getUnicodeString();
-		return mergeLookup.get(mergeName);
+	public MetaCharacter merge(String name) {
+		return mergeLookup.get(name);
+	}
+
+	/**
+	 * @param suffix function name
+	 * @return whether the string is reverse suffix of a known symbol
+	 */
+	public boolean isReverseSuffix(String suffix) {
+		if (reverseSuffixes.contains(suffix)) {
+			return true;
+		}
+		String higher =  reverseSuffixes.higher(suffix);
+		return higher != null && higher.startsWith(suffix);
 	}
 
 	public boolean isForceBracketAfterFunction() {
@@ -351,5 +377,10 @@ public class MetaModel {
 
 	public void setForceBracketAfterFunction(boolean forceBracketAfterFunction) {
 		this.forceBracketAfterFunction = forceBracketAfterFunction;
+	}
+
+	private void addNamedSymbol(String name, MetaCharacter symbol) {
+		mergeLookup.put(name, symbol);
+		reverseSuffixes.add(new StringBuilder(name).reverse().toString());
 	}
 }

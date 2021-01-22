@@ -55,6 +55,10 @@ import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import elemental2.dom.HTMLCollection;
+import elemental2.dom.HTMLElement;
+import jsinterop.base.Js;
+
 /**
  * Toolbar for web, includes ToolbarW, undo panel and search / menu
  */
@@ -235,7 +239,7 @@ public class GGWToolBar extends Composite
 				if (app.getExam() != null) {
 					if (app.getExam().isCheating()) {
 						ExamUtil.makeRed(getElement(), true);
-						makeTimerWhite(getElement());
+						makeTimerWhite(Js.uncheckedCast(getElement()));
 					}
 
 					timer.setText(app.getExam()
@@ -304,14 +308,17 @@ public class GGWToolBar extends Composite
 	 *            element to be changed to red timer text elements get changed
 	 *            to white
 	 */
-	native void makeTimerWhite(Element element) /*-{
-		var timerElements = element.getElementsByClassName("rightButtonPanel")[0]
+	private void makeTimerWhite(elemental2.dom.Element element) {
+		HTMLCollection<elemental2.dom.Element> timerElements = element
+				.getElementsByClassName("rightButtonPanel")
+				.getAt(0)
 				.getElementsByClassName("timer");
-		var i;
-		for (i = 0; i < timerElements.length; i++) {
-			timerElements[i].style.setProperty("color", "white", "important");
+
+		for (int i = 0; i < timerElements.length; i++) {
+			((HTMLElement) timerElements.getAt(i)).style
+					.setProperty("color", "white", "important");
 		}
-	}-*/;
+	}
 
 	// Undo, redo, open, menu (and exam mode)
 	private void addRightButtonPanel() {
@@ -383,9 +390,6 @@ public class GGWToolBar extends Composite
 
 		StandardButton openMenuButton = new StandardButton(pr.menu_header_open_menu(), null, 32);
 
-		openMenuButton.getUpHoveringFace()
-				.setImage(getImage(pr.menu_header_open_menu_hover(), 32));
-
 		openMenuButton.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
@@ -417,10 +421,6 @@ public class GGWToolBar extends Composite
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		StandardButton openSearchButton = new StandardButton(pr.menu_header_open_search(),
 				null, 32, 32);
-		openSearchButton.getUpFace()
-				.setImage(getImage(pr.menu_header_open_search(), 32));
-		openSearchButton.getUpHoveringFace()
-				.setImage(getImage(pr.menu_header_open_search_hover(), 32));
 
 		openSearchButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -1039,22 +1039,6 @@ public class GGWToolBar extends Composite
 	@Override
 	public int setMode(int mode, ModeSetter ms) {
 		return toolbars.get(0).setMode(mode, ms);
-	}
-
-	@Override
-	protected void onAttach() {
-		super.onAttach();
-		// gwt sets openSearcButton's tabindex to 0 at onAttach (see
-		// FocusWidget.onAttach())
-		// but we don't want to select openSearchButton with tab, so tabindex
-		// will
-		// be set back to -1 after attach all time.
-		if (this.openSearchButton != null) {
-			this.openSearchButton.setTabIndex(-1);
-		}
-		if (this.openMenuButton != null) {
-			this.openMenuButton.setTabIndex(-1);
-		}
 	}
 
 	/**

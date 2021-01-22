@@ -163,7 +163,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	}
 
 	@Override
-	public boolean handleMouseReleasedForPenMode(boolean right, int x, int y,
+	public void handleMouseReleasedForPenMode(boolean right, int x, int y,
 												 boolean isPinchZooming) {
 		penPoints.add(new GPoint(x, y));
 
@@ -176,8 +176,9 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		minX = Integer.MAX_VALUE;
 		maxX = Integer.MIN_VALUE;
-
-		return shape != null;
+		if (shape != null) {
+			app.storeUndoInfo();
+		}
 	}
 
 	@Override

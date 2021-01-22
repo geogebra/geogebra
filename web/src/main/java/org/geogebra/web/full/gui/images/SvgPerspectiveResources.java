@@ -76,14 +76,8 @@ public interface SvgPerspectiveResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/menu-button-open-search.svg")
 	SVGResource menu_header_open_search();
 
-	@Source("org/geogebra/common/icons/svg/web/menu-button-open-search.svg")
-	SVGResource menu_header_open_search_hover();
-
 	@Source("org/geogebra/common/icons/svg/web/menu-button-open-menu.svg")
 	SVGResource menu_header_open_menu();
-
-	@Source("org/geogebra/common/icons/svg/web/menu-button-open-menu.svg")
-	SVGResource menu_header_open_menu_hover();
 
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/stylebar_icon_graphics_extra.svg")
 	SVGResource styleBar_graphics_extra();

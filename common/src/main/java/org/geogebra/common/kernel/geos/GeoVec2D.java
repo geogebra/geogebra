@@ -732,14 +732,23 @@ final public class GeoVec2D extends ValidExpression
 	public static void complexPower(GeoVec2D a, NumberValue b,
 			GeoVec2D c) {
 
-		if (a.x == 0 && a.y == 0 && b.getDouble() > 0) {
+		double power = b.getDouble();
+		if (a.x == 0 && a.y == 0 && power > 0) {
 			c.x = 0;
 			c.y = 0;
 		} else {
 			Complex out = new Complex(a.x, a.y);
-			out = out.log().multiply(b.getDouble()).exp();
-			c.x = out.getReal();
-			c.y = out.getImaginary();
+			if (power == Math.round(power) && power < 6 && power > 0) {
+				for (int i = 1; i < (int) power; i++) {
+					double cx = c.x * out.getReal() - c.y * out.getImaginary();
+					c.y = c.y * out.getReal() + c.x * out.getImaginary();
+					c.x = cx;
+				}
+			} else {
+				out = out.pow(power);
+				c.x = out.getReal();
+				c.y = out.getImaginary();
+			}
 		}
 		c.setMode(Kernel.COORD_COMPLEX);
 	}

@@ -1,12 +1,11 @@
 package org.geogebra.web.html5.main;
 
-import org.geogebra.common.kernel.AppState;
-import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.main.undo.ActionExecutor;
 
 /**
  * Controller for multipage files
  */
-public interface PageListControllerInterface {
+public interface PageListControllerInterface extends ActionExecutor {
 	/**
 	 * resets the page control panel
 	 */
@@ -52,18 +51,6 @@ public interface PageListControllerInterface {
 	String getSlideID();
 
 	/**
-	 * Replay an action
-	 * 
-	 * @param action
-	 *            action type
-	 * @param state
-	 *            state to restore
-	 * @param args
-	 *            action parameters
-	 */
-	void executeAction(EventType action, AppState state, String[] args);
-
-	/**
 	 * Select a slide
 	 * 
 	 * @param slideID
@@ -107,12 +94,16 @@ public interface PageListControllerInterface {
 	 */
 	void updatePreviewImage();
 
+	void updatePreviewImage(String slideID);
+
 	/**
 	 * export all sliders as PDF
 	 * 
 	 * @return base64 encoded PDF
 	 */
 	String exportPDF();
+
+	void clickPage(String slideID);
 
 	/**
 	 * @param idx

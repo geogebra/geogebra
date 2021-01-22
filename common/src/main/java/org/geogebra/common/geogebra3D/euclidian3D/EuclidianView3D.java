@@ -3038,11 +3038,11 @@ public abstract class EuclidianView3D extends EuclidianView
 				sb.append("\"");
 			}
 		}
-			sb.append(" xAngle=\"");
-			sb.append(b);
-			sb.append("\" zAngle=\"");
-			sb.append(a);
-			sb.append("\"/>\n");
+		sb.append(" xAngle=\"");
+		sb.append(b);
+		sb.append("\" zAngle=\"");
+		sb.append(a);
+		sb.append("\"/>\n");
 
 		// ev settings
 		sb.append("\t<evSettings axes=\"");
@@ -3467,8 +3467,9 @@ public abstract class EuclidianView3D extends EuclidianView
 			}
 		}
 
-		if (getSettings().getXminObject() != null && getSettings().isUpdateScaleOrigin()) {
-
+		if (getSettings().getXminObject() != null
+				&& getSettings().getZminObject() != null
+				&& getSettings().isUpdateScaleOrigin()) {
 			double[][] minmax2 = new double[3][2];
 			double xmin2 = getSettings().getXminObject().getDouble();
 			double xmax2 = getSettings().getXmaxObject().getDouble();
@@ -4378,10 +4379,8 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		setProjection(evs.getProjection());
 
-        boolean colored = evs.getHasColoredAxes();
-        for (GeoAxisND ax : axis) {
-            ax.setColoredFor3D(colored);
-        }
+		boolean colored = evs.getHasColoredAxes();
+		setColoredAxes(colored);
 
 		updateMatrix();
 		getEuclidianController().onCoordSystemChanged();
@@ -4393,6 +4392,12 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		if (styleBar != null) {
 			styleBar.updateGUI();
+		}
+	}
+
+	protected void setColoredAxes(boolean colored) {
+		for (GeoAxisND ax : axis) {
+			ax.setColoredFor3D(colored);
 		}
 	}
 
@@ -5294,6 +5299,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	protected void setStandardCoordSystem(boolean repaint) {
+		if (getSettings() != null && !getSettings().isSetStandardCoordSystem()) {
+			return;
+		}
 		set3DCoordSystem(XZERO_SCENE_STANDARD, YZERO_SCENE_STANDARD, ZZERO_SCENE_STANDARD,
 				SCALE_STANDARD, SCALE_STANDARD, SCALE_STANDARD);
 		getSettings().setUpdateScaleOrigin(
@@ -5349,10 +5357,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			if (!GeoNumeric.isChangeable(zminObject)) {
 				return false;
 			}
-			if (!GeoNumeric.isChangeable(zmaxObject)) {
-				return false;
-			}
-			return true;
+			return GeoNumeric.isChangeable(zmaxObject);
 		}
 		return false;
 	}

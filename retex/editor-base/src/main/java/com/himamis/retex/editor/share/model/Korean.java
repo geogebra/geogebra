@@ -647,6 +647,108 @@ public class Korean {
 		return ch;
 	}
 
+	/**
+	 * Splits double vowels and consonants and returns the
+	 * last component
+	 * DOES NOT SPLIT LONG CONSONANTS SUCH AS ᆻ
+	 * @param ch korean character
+	 * @return last compatibility JAMO character
+	 */
+	public static char unmergeDoubleCharacterForEditor(char ch) {
+		switch (ch) {
+		// vowels
+		case '\u116a':
+		case '\u1161':
+			return '\u314f';
+
+		case '\u1162':
+			return '\u3150';
+
+		case '\u1163':
+			return '\u3151';
+
+		case '\u116b':
+		case '\u1164':
+			return '\u3152';
+
+		case '\u116f':
+		case '\u1165':
+			return '\u3153';
+
+		case '\u1170':
+		case '\u1166':
+			return '\u3154';
+
+		case '\u1167':
+			return '\u3155';
+
+		case '\u1168':
+			return '\u3156';
+
+		case '\u1169':
+			return '\u3157';
+
+		case '\u116d':
+			return '\u315b';
+
+		case '\u116e':
+			return '\u315c';
+
+		case '\u1172':
+			return '\u3160';
+
+		case '\u1173':
+			return '\u3161';
+
+		case '\u116c':
+		case '\u1171':
+		case '\u1174':
+			return '\u3163';
+
+		// consonants
+		case '\u3133':
+		case '\u11aa':
+		case '\u313d':
+		case '\u11b3':
+		case '\u3144':
+		case '\u1121':
+		case '\u11b9':
+			return '\u3145'; // ㅅ
+
+		case '\u3135':
+		case '\u11ac':
+			return '\u3148'; // ㅈ
+
+		case '\u3136':
+		case '\u11ad':
+		case '\u3140':
+		case '\u11b6':
+			return '\u314e'; // ㅎ
+
+		case '\u313a':
+		case '\u11b0':
+			return '\u3131'; // ㄱ
+
+		case '\u313b':
+		case '\u11b1':
+			return '\u3141'; // ㅁ
+
+		case '\u313c':
+		case '\u11b2':
+			return '\u3142'; // ㅂ
+
+		case '\u313e':
+		case '\u11b4':
+			return '\u314c'; // ㅌ
+
+		case '\u313f':
+		case '\u11b5':
+			return '\u314d'; // ㅍ
+		}
+
+		return convertToCompatibilityJamo(ch);
+	}
+
 	/*
 	 * http://www.kfunigraz.ac.at/~katzer/korean_hangul_unicode.html
 	 * http://gernot-katzers-spice-pages.com/var/korean_hangul_unicode.html
@@ -1132,5 +1234,4 @@ public class Korean {
 		return isKoreanLeadChar(ch, true) || isKoreanVowelChar(ch, true)
 				|| isKoreanTailChar(ch, true);
 	}
-
 }

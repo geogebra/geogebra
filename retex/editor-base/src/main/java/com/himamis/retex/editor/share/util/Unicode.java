@@ -35,7 +35,6 @@ public class Unicode {
 	final public static char RIGHT_TO_LEFT_MARK = '\u200f';
 	final public static String RIGHT_TO_LEFT_UNARY_MINUS_SIGN = "\u200f-\u200f";
 	final public static char LEFT_TO_RIGHT_MARK = '\u200e';
-	final public static String SUPERSCRIPT_MINUS_ONE_BRACKET_STRING = "\u207b\u00b9(";
 
 	// degrees, minutes, seconds
 	final public static char DEGREE_CHAR = '\u00b0';
@@ -75,9 +74,9 @@ public class Unicode {
 	public static final char tau = '\u03C4';
 	public static final char upsilon = '\u03C5';
 
-	// \\varphi, curly
+	/** \\varphi, curly */
 	public static final char phi = '\u03C6';
-	// \\phi "straight"
+	/** \\phi "straight" */
 	public static final char phi_symbol = '\u03D5';
 
 	public static final char chi = '\u03C7';

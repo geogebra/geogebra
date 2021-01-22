@@ -219,9 +219,9 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("eq1", "x^2=y^3");
 		updateInput("?");
 		assertEquals("", inputBox.getText());
-		assertEquals("eq1\\, \\text{undefined} ", lookup("eq1")
+		assertEquals("eq1: \\,?", lookup("eq1")
 				.getLaTeXAlgebraDescriptionWithFallback(false,
-						StringTemplate.defaultTemplate, false));
+						StringTemplate.latexTemplate, false));
 	}
 
 	@Test
@@ -229,9 +229,9 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("a=1");
 		setupInput("b", "3a");
 		updateInput("x=y");
-		assertEquals("b\\, \\text{undefined} ", lookup("b")
+		assertEquals("b\\, = \\,?", lookup("b")
 				.getLaTeXAlgebraDescriptionWithFallback(false,
-						StringTemplate.defaultTemplate, false));
+						StringTemplate.latexTemplate, false));
 	}
 
 	@Test
@@ -400,9 +400,9 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertEquals("", inputBox.getTextForEditor());
 		getApp().setXML(getApp().getXML(), true);
 		assertEquals("", inputBox.getTextForEditor());
-		assertEquals("eq1\\, \\text{undefined} ", lookup("eq1")
+		assertEquals("eq1: \\,?", lookup("eq1")
 				.getLaTeXAlgebraDescriptionWithFallback(false,
-						StringTemplate.defaultTemplate, false));
+						StringTemplate.latexTemplate, false));
 	}
 
 	@Test
@@ -413,9 +413,9 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertEquals("", inputBox.getTextForEditor());
 		getApp().setXML(getApp().getXML(), true);
 		assertEquals("", inputBox.getTextForEditor());
-		assertEquals("eq1\\, \\text{undefined} ", lookup("eq1")
+		assertEquals("eq1: \\,?", lookup("eq1")
 				.getLaTeXAlgebraDescriptionWithFallback(false,
-						StringTemplate.defaultTemplate, false));
+						StringTemplate.latexTemplate, false));
 	}
 
 	@Test

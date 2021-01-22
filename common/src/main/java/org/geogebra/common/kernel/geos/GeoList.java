@@ -3353,5 +3353,4 @@ public class GeoList extends GeoElement
 	public void calculateCornerPoint(GeoPoint corner, int double1) {
 		corner.setUndefined();
 	}
-
 }

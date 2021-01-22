@@ -26,7 +26,6 @@ import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.Border;
@@ -46,7 +45,7 @@ import org.geogebra.desktop.main.LocalizationD;
 /**
  * Dialog for slider creation
  */
-public class SliderDialogD extends JDialog
+public class SliderDialogD extends Dialog
 		implements ActionListener, KeyListener, WindowListener {
 
 	/**
