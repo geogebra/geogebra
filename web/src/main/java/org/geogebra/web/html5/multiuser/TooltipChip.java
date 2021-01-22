@@ -33,6 +33,6 @@ public class TooltipChip extends Label {
 		getElement().removeClassName("invisible");
 		Style style = getElement().getStyle();
 		style.setLeft(x + LEFT_MARGIN, Style.Unit.PX);
-		style.setTop(y - (double) (getOffsetHeight() / 2), Style.Unit.PX);
+		style.setTop(y - (getOffsetHeight() / 2d), Style.Unit.PX);
 	}
 }
