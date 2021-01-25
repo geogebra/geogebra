@@ -41,8 +41,7 @@ class User {
 
 	public void addSelection(EuclidianView view, String label, String update) {
 		GeoElement geo = view.getApplication().getKernel().lookupLabel(label);
-		if (geo != null && geo instanceof GeoInline
-				&& "update".equals(update)) {
+		if (geo instanceof GeoInline && "update".equals(update)) {
 			// if the inline element gets updated after it was deselected
 			// don't add to interactions
 			return;
@@ -64,7 +63,7 @@ class User {
 		});
 
 		// make sure to deselect stroke in case deselect wouldn't be sent
-		if (geo != null && geo instanceof GeoLocusStroke && "update".equals(update)) {
+		if (geo instanceof GeoLocusStroke && "update".equals(update)) {
 			interactions.get(label).schedule(2000);
 		}
 
