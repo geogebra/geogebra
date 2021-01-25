@@ -80,8 +80,8 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
-import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -5198,7 +5198,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return an implementation of the text controller.
 	 */
 	public InlineTextController createInlineTextController(EuclidianView view,
-		   GeoInlineText geo) {
+		   GeoInline geo) {
 		return null;
 	}
 

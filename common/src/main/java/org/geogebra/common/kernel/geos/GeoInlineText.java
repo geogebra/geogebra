@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -27,9 +26,6 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 	private double minHeight;
 
 	private String content;
-	private int contentDefaultSize;
-
-	private GColor borderColor = GColor.BLACK;
 
 	/**
 	 * Creates new GeoInlineText instance.
@@ -44,7 +40,6 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 		setLocation(location);
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		setLineThickness(NO_BORDER);
-		this.contentDefaultSize = getCurrentFontSize();
 	}
 
 	/**
@@ -53,7 +48,6 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 	 */
 	public GeoInlineText(GeoText geoText) {
 		super(geoText.getConstruction());
-		this.contentDefaultSize = getCurrentFontSize();
 		setLocation(new GPoint2D(geoText.getStartPoint().getInhomX(),
 				geoText.getStartPoint().getInhomY()));
 		setContentFromText(geoText);
@@ -74,6 +68,7 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 		return Math.max(minHeight, DEFAULT_HEIGHT);
 	}
 
+	@Override
 	public void setMinHeight(double minHeight) {
 		this.minHeight = minHeight;
 	}
@@ -115,22 +110,6 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 		}
 	}
 
-	public void setBorderColor(GColor borderCol) {
-		borderColor = borderCol;
-	}
-
-	public GColor getBorderColor() {
-		return borderColor;
-	}
-
-	public void setBorderThickness(int borderThickness) {
-		setLineThickness(borderThickness);
-	}
-
-	public int getBorderThickness() {
-		return getLineThickness();
-	}
-
 	@Override
 	public boolean isDefined() {
 		return true;
@@ -164,31 +143,10 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 			return ((bold ? GFont.BOLD : 0) | (italic ? GFont.ITALIC : 0)) | (underline
 					? GFont.UNDERLINE : 0);
 		} catch (RuntimeException e) {
-			Log.warn("No format for " + hasTextFormat);
+			Log.warn("No format for " + hasTextFormat + e);
 		}
 
 		return GFont.PLAIN;
-	}
-
-	@Override
-	public HasTextFormat getFormatter() {
-		DrawInlineText drawable = (DrawInlineText) kernel.getApplication()
-				.getActiveEuclidianView().getDrawableFor(this);
-		return drawable == null ? null : drawable.getTextController();
-	}
-
-	/**
-	 * @return format of individual words
-	 */
-	public JSONArray getFormat() {
-		if (!StringUtil.empty(content)) {
-			try {
-				return new JSONArray(content);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-		return new JSONArray();
 	}
 
 	@Override
@@ -203,33 +161,6 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 			Log.warn("No format for " + this);
 		}
 		return defaultMultiplier;
-	}
-
-	/**
-	 * @return whether size change was needed
-	 */
-	public boolean updateFontSize() {
-		if (contentDefaultSize != getCurrentFontSize()) {
-			try {
-				JSONArray words = getFormat();
-				for (int i = 0; i < words.length(); i++) {
-					JSONObject word = words.optJSONObject(i);
-					if (word.has("size")) {
-						double size = word.getDouble("size")
-								* getCurrentFontSize()
-								/ contentDefaultSize;
-						word.put("size", size);
-					}
-				}
-
-				content = words.toString();
-				contentDefaultSize = getCurrentFontSize();
-				return true;
-			} catch (JSONException | RuntimeException e) {
-				Log.debug(getCurrentFontSize());
-			}
-		}
-		return false;
 	}
 
     private void setContentFromText(GeoText geo) {
@@ -261,7 +192,7 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 		XMLBuilder.appendBorder(sb, this);
-		if (getBorderThickness() != 0) {
+		if (getLineThickness() != 0) {
 			getLineStyleXML(sb);
 		}
 	}

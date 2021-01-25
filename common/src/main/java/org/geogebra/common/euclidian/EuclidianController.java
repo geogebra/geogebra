@@ -106,6 +106,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
+import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -5257,6 +5258,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			});
 			break;
 
+		case EuclidianConstants.MODE_MIND_MAP:
+			changedKernel = createInlineObject(selectionPreview, new GeoInlineFactory() {
+				@Override
+				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
+					return new GeoMindMapNode(cons, location);
+				}
+			});
+			break;
+
 		case EuclidianConstants.MODE_EQUATION:
 			changedKernel = createInlineObject(selectionPreview, new GeoInlineFactory() {
 				@Override
@@ -8340,7 +8350,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// preview shape for mow text tool
 		if (mode == EuclidianConstants.MODE_MEDIA_TEXT
-				|| mode == EuclidianConstants.MODE_EQUATION) {
+				|| mode == EuclidianConstants.MODE_EQUATION
+				|| mode == EuclidianConstants.MODE_MIND_MAP) {
 			view.resetBoundingBoxes();
 			updateInlineRectangle(event);
 			view.setShapeRectangle(inlinePreviewRectangle);

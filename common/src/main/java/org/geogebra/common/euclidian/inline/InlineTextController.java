@@ -9,6 +9,8 @@ import org.geogebra.common.euclidian.draw.HasTextFormat;
  */
 public interface InlineTextController extends HasTextFormat {
 
+	boolean updateFontSize();
+
 	/**
 	 * Create the inline text editor.
 	 */

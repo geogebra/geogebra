@@ -9,7 +9,7 @@ import jsinterop.annotations.JsType;
 import jsinterop.base.JsPropertyMap;
 
 @JsType(isNative = true)
-public class CarotaTable implements HasContent {
+public class CarotaTable implements HasContentAndFormat {
 
 	@JsProperty
 	public native int getTotalWidth();

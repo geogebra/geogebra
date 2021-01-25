@@ -9,10 +9,12 @@ import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.FontLoader;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
@@ -32,11 +34,16 @@ import com.google.gwt.user.client.ui.Widget;
 public class InlineTextControllerW implements InlineTextController {
 
 	private static final String INVISIBLE = "invisible";
-	private GeoInlineText geo;
+	private final GeoInline geo;
 
 	private Element parent;
 	private Editor editor;
 	private Style style;
+
+	private int contentDefaultSize;
+
+	private final EuclidianView view;
+
 	private final GBasicStroke border1 = AwtFactory.getPrototype().newBasicStroke(1f,
 	GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
 	private final GBasicStroke border3 = AwtFactory.getPrototype().newBasicStroke(3f,
@@ -48,14 +55,60 @@ public class InlineTextControllerW implements InlineTextController {
 	 * @param parent
 	 *            parent div
 	 */
-	public InlineTextControllerW(GeoInlineText geo, EuclidianView view, Element parent) {
+	public InlineTextControllerW(GeoInline geo, EuclidianView view, Element parent) {
 		this.geo = geo;
+		this.view = view;
 		this.parent = parent;
 		CarotaUtil.ensureInitialized(view.getFontSize());
 		if (view.getApplication().isMebis()) {
 			CarotaUtil.setSelectionColor(GColor.MOW_SELECTION_COLOR.toString());
 		}
-		checkFonts(geo.getFormat(), getCallback());
+		this.contentDefaultSize = getCurrentFontSize();
+		checkFonts(getFormat(geo.getContent()), getCallback());
+	}
+
+	@Override
+	public boolean updateFontSize() {
+		if (contentDefaultSize != getCurrentFontSize()) {
+			try {
+				JSONArray words = getFormat(geo.getContent());
+				for (int i = 0; i < words.length(); i++) {
+					JSONObject word = words.optJSONObject(i);
+					if (word.has("size")) {
+						double size = word.getDouble("size")
+								* getCurrentFontSize()
+								/ contentDefaultSize;
+						word.put("size", size);
+					}
+				}
+
+				geo.setContent(words.toString());
+				contentDefaultSize = getCurrentFontSize();
+				return true;
+			} catch (JSONException | RuntimeException e) {
+				Log.debug(getCurrentFontSize());
+			}
+		}
+		return false;
+	}
+
+	private int getCurrentFontSize() {
+		return geo.getKernel().getApplication().getSettings().getFontSettings()
+				.getAppFontSize();
+	}
+
+	/**
+	 * @return format of individual words
+	 */
+	private JSONArray getFormat(String content) {
+		if (!StringUtil.empty(content)) {
+			try {
+				return new JSONArray(content);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return new JSONArray();
 	}
 
 	/**
@@ -216,7 +269,7 @@ public class InlineTextControllerW implements InlineTextController {
 			g2.setPaint(geo.getBackgroundColor());
 			g2.fillRect(0, 0, (int) geo.getWidth(), (int) geo.getHeight());
 		}
-		if (geo.getBorderThickness() != GeoInlineText.NO_BORDER) {
+		if (geo.getLineThickness() != GeoInlineText.NO_BORDER) {
 			g2.setPaint(geo.getBorderColor());
 			g2.setStroke(getBorderStroke());
 			g2.drawRect(0, 0, (int) geo.getWidth(), (int) geo.getHeight());
@@ -233,7 +286,7 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	private GBasicStroke getBorderStroke() {
-		if (geo.getBorderThickness() == 1) {
+		if (geo.getLineThickness() == 1) {
 			return border1;
 		} else {
 			return border3;

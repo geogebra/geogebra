@@ -32,5 +32,7 @@ public interface DrawInline extends RemoveNeeded, HasTransformation {
 	 */
 	String urlByCoordinate(int x, int y);
 
+	HasTextFormat getController();
+
 	void saveContent();
 }

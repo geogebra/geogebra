@@ -86,7 +86,7 @@ public class CarotaEditor implements Editor {
 		if (Carota.get() != null) {
 			Carota.get().getText().getCache().clear();
 		}
-		editor.load(editor.save(), false);
+		editor.load(editor.save());
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public void setContent(String content) {
-		editor.load(Global.JSON.parse(content), false);
+		editor.load(Global.JSON.parse(content));
 	}
 
 	@Override

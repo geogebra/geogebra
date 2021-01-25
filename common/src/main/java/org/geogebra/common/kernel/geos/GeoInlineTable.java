@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.euclidian.draw.DrawInlineTable;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -75,7 +74,7 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 
 	@Override
 	public void setBackgroundColor(GColor backgroundColor) {
-		getFormatter().setBackgroundColor(backgroundColor);
+		((InlineTableController) getFormatter()).setBackgroundColor(backgroundColor);
 	}
 
 	@Override
@@ -86,13 +85,6 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 	@Override
 	public int getFontStyle() {
 		return GeoInlineText.getFontStyle(getFormatter());
-	}
-
-	@Override
-	public InlineTableController getFormatter() {
-		DrawInlineTable drawable = (DrawInlineTable) kernel.getApplication()
-				.getActiveEuclidianView().getDrawableFor(this);
-		return drawable == null ? null : drawable.getTableController();
 	}
 
 	@Override
@@ -124,6 +116,7 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 		this.minWidth = minWidth;
 	}
 
+	@Override
 	public void setMinHeight(double minHeight) {
 		this.minHeight = minHeight;
 	}

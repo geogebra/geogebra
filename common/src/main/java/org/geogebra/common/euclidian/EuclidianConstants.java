@@ -438,6 +438,8 @@ public final class EuclidianConstants {
 	public static final int MODE_TABLE = 123;
 	/** Equation */
 	public static final int MODE_EQUATION = 124;
+
+	public static final int MODE_MIND_MAP = 126;
 	/** macro tools ID offset */
 	public static final int MACRO_MODE_ID_OFFSET = 100001;
 	/** max delay between taps of a doublecklick */
