@@ -40,7 +40,7 @@ public class LayerManagerRedefineTest extends BaseUnitTest {
 		assertEquals("q2,q1", getLayerManager().getOrder());
 	}
 
-	private void createPoly(String q1) {
+	private void createPoly(String label) {
 		GeoPointND[] pointArray = new GeoPointND[] {
 				new GeoPoint(getConstruction(), 0, 0, 1),
 				new GeoPoint(getConstruction(), 0, 1, 1),
@@ -51,7 +51,7 @@ public class LayerManagerRedefineTest extends BaseUnitTest {
 				null, null, false, null, null);
 		GeoPolygon poly = algo.getPoly();
 		poly.setIsShape(true);
-		poly.setLabel(q1);
+		poly.setLabel(label);
 	}
 
 	private LayerManager getLayerManager() {
