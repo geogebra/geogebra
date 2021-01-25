@@ -227,4 +227,27 @@ public class StringTemplateTest {
 		latexNoLocal.setLocalizeCmds(false);
 		assertEquals("1 \\cdot 10^{-20}", num.getDefinition(latexNoLocal));
 	}
+
+	@Test
+	public void powerWithScientificNotationShouldHaveBrackets() {
+		GeoElementND fn = add("x^(3E-20)");
+		assertEquals("f(x) = x^(3*10^(-20))",
+				fn.toString(StringTemplate.editTemplate));
+		GeoElementND fn2 = add("3E20^x");
+		assertEquals("g(x) = (3*10^(20))^x",
+				fn2.toString(StringTemplate.editTemplate));
+		GeoElementND fn3 = add("x^3E20");
+		assertEquals("h(x) = x^(3*10^(20))",
+				fn3.toString(StringTemplate.editTemplate));
+		GeoElementND num = add("3E-20!");
+		assertEquals("(3*10^(-20))!",
+				num.getDefinition(StringTemplate.editTemplate));
+	}
+
+	@Test
+	public void factorialWithScientificNotationShouldHaveBrackets() {
+		GeoElementND num = add("3E-20!");
+		assertEquals("(3*10^(-20))!",
+				num.getDefinition(StringTemplate.editTemplate));
+	}
 }

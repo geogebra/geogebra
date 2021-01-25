@@ -235,4 +235,8 @@ public class MySpecialDouble extends MyDouble {
 		return new ExpressionNode(kernel, new MinusOne(kernel),
 				Operation.MULTIPLY, this);
 	}
+
+	public boolean isScientificNotation() {
+		return scientificNotation;
+	}
 }
