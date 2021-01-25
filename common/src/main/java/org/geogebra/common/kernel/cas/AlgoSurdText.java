@@ -791,17 +791,31 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				// eg SurdText[0.235]
 				en = new ExpressionNode(kernel, a);
 			} else {
+
 				en = (new ExpressionNode(kernel, b2)).sqrt().multiplyR(b1);
 
-				if (positive) {
-					en = en.plusR(a);
+				// eg SurdText((-7 * 3^(1 / 2)) / 2)
+				if (DoubleUtil.isZero(a)) {
+
+					if (!positive) {
+						// make sure minus sign is before fraction
+						en = en.divide(c).multiplyR(-1);
+						sBuilder.append(en.toString(tpl));
+						return;
+
+					}
 				} else {
-					en = en.subtractR(a);
+					if (positive) {
+						en = en.plusR(a);
+					} else {
+						en = en.subtractR(a);
+					}
 				}
 			}
 			en = en.divide(c);
 
 			sBuilder.append(en.toString(tpl));
+
 		}
 
 	}
