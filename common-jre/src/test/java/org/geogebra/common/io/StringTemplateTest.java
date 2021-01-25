@@ -212,4 +212,19 @@ public class StringTemplateTest {
 		MatcherAssert.assertThat(template.convertScientificNotationGiac("3.33E2"), is("333"));
 		MatcherAssert.assertThat(template.convertScientificNotationGiac("3.33E3"), is("3330"));
 	}
+
+	@Test
+	public void definitionShouldKeepSmallNumbers() {
+		GeoElementND num = add("a=1E-20");
+		assertEquals("1*10^(-20)",
+				num.getDefinition(StringTemplate.editTemplate));
+	}
+
+	@Test
+	public void definitionShouldKeepSmallNumbersScientific() {
+		GeoElementND num = add("a=1E-20");
+		StringTemplate latexNoLocal = StringTemplate.defaultTemplate.deriveLaTeXTemplate();
+		latexNoLocal.setLocalizeCmds(false);
+		assertEquals("1 \\cdot 10^{-20}", num.getDefinition(latexNoLocal));
+	}
 }

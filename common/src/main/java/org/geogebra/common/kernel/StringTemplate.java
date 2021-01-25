@@ -1377,6 +1377,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return ( or \left(
 	 */
 	public String leftBracket() {
+		Log.error("left");
 		if (stringType == StringType.SCREEN_READER) {
 			return ScreenReader.getLeftBracket();
 		}
@@ -3013,7 +3014,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(")");
 			}
 		}
-		if (Efound && !this.isPrintLocalizedCommandNames()) {
+		if (Efound && useExtensiveBrackets()) {
 			sb.insert(0, '(');
 			sb.append(')');
 		}

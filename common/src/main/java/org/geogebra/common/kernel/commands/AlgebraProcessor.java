@@ -1497,7 +1497,7 @@ public class AlgebraProcessor {
 
 		GeoList list = null;
 		try {
-			ValidExpression ve = parser.parseGeoGebraExpression(str);
+			ValidExpression ve = parser.parseGeoGebraExpressionLowPrecision(str);
 			GeoElementND[] temp = processValidExpression(ve);
 			// CAS in GeoGebraWeb dies badly if we don't handle this case
 			// (Simon's hack):

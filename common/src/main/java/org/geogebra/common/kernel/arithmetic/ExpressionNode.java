@@ -3439,9 +3439,8 @@ public class ExpressionNode extends ValidExpression
 	public static ExpressionValue unaryMinus(Kernel kernel2,
 			ExpressionValue f) {
 		if (f instanceof MyDouble && f.isConstant()
-				&& !(f instanceof MySpecialDouble)
 				&& !(f instanceof MyDoubleDegreesMinutesSeconds)) {
-			return new MyDouble(kernel2, -f.evaluateDouble());
+			return ((MyDouble) f).unaryMinus(kernel2);
 		}
 		return new ExpressionNode(kernel2, new MinusOne(kernel2), Operation.MULTIPLY, f);
 	}
