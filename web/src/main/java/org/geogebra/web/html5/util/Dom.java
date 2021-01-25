@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.util;
 
+import org.geogebra.common.util.debug.Log;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;
@@ -7,6 +9,9 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.UIObject;
+
+import elemental2.dom.EventListener;
+import jsinterop.base.Js;
 
 /**
  * Helper methods for finding DOM elements
@@ -144,4 +149,29 @@ public final class Dom {
 		return $doc.activeElement;
 	}-*/;
 
+	/**
+	 * Element.addEventListener extracted to static method for safe cast in tests.
+	 * @param element element
+	 * @param name event name
+	 * @param listener listener
+	 */
+	public static void addEventListener(Element element, String name, EventListener listener) {
+		elemental2.dom.Element el = Js.uncheckedCast(element);
+		el.addEventListener(name, listener);
+	}
+
+	/**
+	 * @param element element
+	 * @param width CSS property name
+	 * @return value, if it was a number in px; otherwise 0
+	 */
+	public static int getPxProperty(Element element, String width) {
+		try {
+			return Integer.parseInt(element.getStyle().getProperty(width)
+					.replace("px", ""));
+		} catch (RuntimeException ex) {
+			Log.warn(ex.getMessage());
+		}
+		return 0;
+	}
 }

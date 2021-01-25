@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import java.util.HashMap;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -253,7 +254,8 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 */
 	MathFieldInputSuggestions getInputSuggestions() {
 		if (sug == null) {
-			sug = new MathFieldInputSuggestions(app, item, false);
+			boolean forCas = getApp().getConfig().getVersion() == GeoGebraConstants.Version.CAS;
+			sug = new MathFieldInputSuggestions(app, item, forCas);
 		}
 		return sug;
 	}

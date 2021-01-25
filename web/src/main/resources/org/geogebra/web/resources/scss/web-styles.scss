@@ -1,6 +1,8 @@
 /**
  * The file contains some styles.
  */
+@import 'colors';
+@import 'z-index';
 
 .GeoGebraFrame {
 	display: block;
@@ -41,7 +43,7 @@
 		left: 0;
 		width: 1px;
 		height: 1px;
-		z-index: -32000;
+		z-index: $z-hidden;
 		clip: rect(1em 1em 1em 1em);
 		padding: 0;
 		resize: none;
@@ -320,7 +322,7 @@
 
 	.gwt-MenuBarPopup {
 		margin: 0 0 0 3px;
-		z-index: 100;
+		z-index: $z-menubar-popup;
 	}
 
 	.gwt-PasswordTextBox {
@@ -339,7 +341,7 @@
 		padding: 5px;
 		background-color: white;
 		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
-		z-index: 500;
+		z-index: $z-dialog;
 
 		&.loadinganimation {
 			background-color: rgba(255, 255, 255, 0);
@@ -384,7 +386,7 @@
 	.gwt-PopupPanelGlass {
 		background-color: #FFF;
 		opacity: 0.7;
-		z-index: 500;
+		z-index: $z-dialog;
 	}
 
 	.gwt-RadioButton-disabled {
@@ -468,7 +470,7 @@
 		cursor: pointer;
 	}
 
-	.button-up-disabled, .MyToggleButton.gwt-ToggleButton-up-disabled, .MyToggleButton.gwt-ToggleButton-down-disabled,
+	.button:disabled, .MyToggleButton.gwt-ToggleButton-up-disabled, .MyToggleButton.gwt-ToggleButton-down-disabled,
 	.MyCanvasButton.disabled {
 		cursor: default !important;
 		opacity: .5;
@@ -485,12 +487,12 @@
 		}
 	}
 
-	.button-up-disabled:focus, .MyToggleButton.gwt-ToggleButton-up-disabled:focus, .MyToggleButton.gwt-ToggleButton-down-disabled:focus {
+	.button:disabled, .MyToggleButton.gwt-ToggleButton-up-disabled:focus, .MyToggleButton.gwt-ToggleButton-down-disabled:focus {
 		outline: none;
 	}
 
-	.button-up-disabled:active, .MyToggleButton.gwt-ToggleButton-up-disabled:active, .MyToggleButton.gwt-ToggleButton-down-disabled:active {
-		border: 1px solid #6161FF;
+	.MyToggleButton.gwt-ToggleButton-up-disabled:active, .MyToggleButton.gwt-ToggleButton-down-disabled:active {
+		border: 1px solid $toolbar-header;
 	}
 
 	.gwt-Tree .gwt-TreeItem {
@@ -1120,7 +1122,6 @@
 		box-sizing: border-box;
 		width: 100%;
 		height: 43px; /* 100% breaks applets */
-		z-index: 50;
 	}
 
 	.AlgebraInput > * {
@@ -1170,7 +1171,7 @@
 		padding: 5px 10px;
 		background-color: rgba(255, 255, 255, 0.9);
 		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
-		z-index: 1000;
+		z-index: $z-tooltip-classic;
 	}
 
 	.toolTipHTML {
@@ -1186,7 +1187,7 @@
 		padding: 3px;
 		background-color: rgba(51, 51, 51, 0.7);
 		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
-		z-index: 1000;
+		z-index: $z-tooltip-classic;
 		position: absolute;
 		color: #FFFFFF;
 	}
@@ -1326,7 +1327,6 @@
 
 	.GeoGebraFileChooser .titlePanel input {
 		float: right;
-		min-width: 450px;
 	}
 
 	.GeoGebraFileChooser .titlePanel .gwt-Label {
@@ -1452,7 +1452,7 @@
 	.CAS_table_first_row_selected {
 		background-color: white;
 		position: relative;
-		z-index: 20;
+		z-index: $z-cas-table-first-row-selected;
 	}
 
 	.CAS_subDialog .gwt-Button {
@@ -1823,7 +1823,6 @@
 	.elemHeading {
 		border-bottom: 1px solid #EDEDED;
 		position: relative;
-		z-index: 3;
 	}
 
 	.elemHeadingName {
@@ -1898,7 +1897,7 @@
 
 	.ggb-AlgebraViewSuggestionPopup {
 		/* overcoming the z-index of the onScreen keyboard PopupPanel */
-		z-index: 600;
+		z-index: $z-dialog-over-keyboard;
 	}
 
 	.ggb-AlgebraViewSuggestionList {
@@ -2083,7 +2082,7 @@
 		margin-right: 20px;
 	}
 
-	.checkBoxPanel .gwt-Label, .panelRow .gwt-Label, .listBoxPanel .gwt-Label, .panelRowIndent .gwt-Label,
+	.checkBoxPanel .gwt-Label, .listBoxPanel .gwt-Label,
 	.optionsPanel .gwt-Label, .optionsPanelIndent .gwt-Label {
 		margin-right: 10px;
 	}
@@ -2508,7 +2507,7 @@
 		height: 61px;
 		box-sizing: border-box;
 		position: relative;
-		z-index: 100;
+		z-index: $z-open-screen-header-bar;
 		width: 100%;
 		margin-bottom: 1px;
 	}
@@ -2978,16 +2977,6 @@
 		float: right;
 	}
 
-	/* make sure popup glass pane hides KB button too*/
-
-	div.openKeyboardButton {
-		z-index: 99;
-	}
-
-	div.openKeyboardButton {
-		bottom: 5px;
-	}
-
 	/* AV Extensions */
 
 	.avItemContent {
@@ -3228,7 +3217,7 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		z-index: 100;
+		z-index: $z-unsupported-browser-message;
 		background-color: white;
 	}
 

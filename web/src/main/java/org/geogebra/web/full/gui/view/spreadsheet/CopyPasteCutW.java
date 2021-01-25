@@ -115,7 +115,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 
 		// a clipboard inside this application is better than nothing
 		if (!nat) {
-			app.copyTextToSystemClipboard(new String(getCellBufferStr()));
+			app.getCopyPaste().copyTextToSystemClipboard(new String(getCellBufferStr()));
 			getTable().editCellAt(sourceColumn1, sourceRow1);
 		}
 

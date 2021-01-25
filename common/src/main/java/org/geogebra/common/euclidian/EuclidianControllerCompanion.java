@@ -36,6 +36,8 @@ import org.geogebra.common.main.DialogManager.CreateGeoForRotate;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Class that creates geos for EuclidianController. Needed for special 3D stuff.
  * 
@@ -44,6 +46,7 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class EuclidianControllerCompanion {
 	/** controller */
+	@Weak
 	protected EuclidianController ec;
 
 	/**

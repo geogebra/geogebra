@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.util;
 
 import org.geogebra.web.html5.awt.GGraphics2DW;
-import org.geogebra.web.html5.euclidian.GGraphics2DE;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.main.AppW;
 
@@ -32,14 +31,10 @@ public abstract class StylePreview extends Composite {
 	public StylePreview(AppW app, int width, int height) {
 		this.app = app;
 		Canvas canvas = Canvas.createIfSupported();
-		if (canvas != null) {
-			canvas.setCoordinateSpaceWidth(width);
-			canvas.setCoordinateSpaceHeight(height);
-			initWidget(canvas);
-			g2 = new GGraphics2DW(canvas);
-		} else {
-			g2 = new GGraphics2DE();
-		}
+		canvas.setCoordinateSpaceWidth(width);
+		canvas.setCoordinateSpaceHeight(height);
+		initWidget(canvas);
+		g2 = new GGraphics2DW(canvas);
 		createPreviewGeo();
 		setMarginY(height / 2 - 1);
 	}

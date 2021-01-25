@@ -84,11 +84,11 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		if (menuButton == null) {
 			if (app.isUnbundledOrWhiteboard()) {
 				menuButton = new StandardButton(
-						GuiResources.INSTANCE.stylebar_more(), app);
+						GuiResources.INSTANCE.stylebar_more());
 				menuButton.addStyleName("MyCanvasButton-borderless");
 			} else {
 				menuButton = new StandardButton(
-						GuiResources.INSTANCE.menu_icon_options(), app);
+						GuiResources.INSTANCE.menu_icon_options());
 				menuButton.setStyleName("MyCanvasButton");
 				menuButton.addStyleName("gereBtn");
 			}

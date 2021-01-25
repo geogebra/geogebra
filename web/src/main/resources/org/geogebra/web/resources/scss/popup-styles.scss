@@ -84,41 +84,41 @@
 	.lineThicknessPopup {
 		width: 152px;
 		padding: 8px 0px;
-
-		.lineThicknessItem {
-			display: flex;
-			height: 24px;
-
-			&:hover {
-				background-color: $selected-menuitem-background;
-				cursor: pointer;
-			}
-
-			.checkImg {
-				opacity: 0;
-				margin: 0px 16px;
-
-				&.selected {
-					opacity: 0.7;
-				}
-			}
-
-			.linePreview {
-				width: 80px;
-				background-color: #757575;
-
-				&.thin {
-					height: 1px;
-					margin: 12px 0px;
-				}
-
-				&.thick {
-					height: 3px;
-					margin: 11px 0px;
-				}
-			}
-		}
 	}
+
+	.lineThicknessItem {
+				display: flex;
+				height: 24px;
+
+				&:hover {
+					background-color: $selected-menuitem-background;
+					cursor: pointer;
+				}
+
+				.checkImg {
+					opacity: 0;
+					margin: 0px 16px;
+
+					&.selected {
+						opacity: 0.7;
+					}
+				}
+
+				.linePreview {
+					width: 80px;
+					background-color: #757575;
+
+					&.thin {
+						height: 1px;
+						margin: 12px 0px;
+					}
+
+					&.thick {
+						height: 3px;
+						margin: 11px 0px;
+					}
+				}
+			}
 
 	.borderStylePopup {
 		tbody {
@@ -153,4 +153,60 @@
 		}
 	}
 
+	//suite app picker popup
+	.appPickerPopup {
+			min-width: 244px;
+			min-height: 192px;
+			border-radius: 2px;
+			box-shadow: 0px 0px 12px 0px $black-50;
+			padding: 8px 0 8px 0;
+
+			.appPickerRow {
+				height: 48px;
+				min-width: 244px;
+				cursor: pointer;
+				display: flex;
+
+				&:hover {
+					background-color: $selected-menuitem-background;
+				}
+			}
+
+			.appPickerLabel {
+				font-size: 100%;
+				height: 24px;
+				line-height: 24px;
+				padding: 12px 24px 12px 20px;
+				color: $text-primary;
+				cursor: pointer;
+			}
+
+			.appIcon {
+				margin: 12px 0 12px 24px;
+			}
+	}
+
+	.borderColPopup {
+		padding: 8px 0px;
+
+		.thicknessPanel {
+            padding-bottom: 8px;
+            border-bottom: 1px solid $tool-border;
+
+            .textItem {
+            	.gwt-Label {
+            		color: $text-primary;
+            		line-height: 24px;
+            	}
+            }
+
+            .linePreview {
+            	width: 112px;
+            }
+		}
+
+		.matSelectionTable {
+			margin: 8px 8px 0px 8px;
+		}
+	}
 }

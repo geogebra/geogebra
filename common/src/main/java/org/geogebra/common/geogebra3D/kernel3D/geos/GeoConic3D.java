@@ -31,7 +31,7 @@ public class GeoConic3D extends GeoConicND
 		implements RotateableND, MirrorableAtPlane, ViewCreator {
 
 	/** 2D coord sys where the conic exists */
-	private CoordSys coordSys;
+	private CoordSys coordSys = new CoordSys(2);
 	private Coords midpoint3D;
 	private CoordMatrix4x4 tmpMatrix4x4;
 

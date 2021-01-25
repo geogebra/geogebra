@@ -29,7 +29,6 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.euclidian.GGraphics2DE;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
@@ -109,11 +108,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 		Canvas canvas = euclidianViewPanel.getCanvas();
 		setEvNo();
-		if (canvas != null) {
-			this.g2p = new GGraphics2DW(canvas);
-		} else {
-			this.g2p = new GGraphics2DE();
-		}
+		this.g2p = new GGraphics2DW(canvas);
 
 		updateFonts();
 		initView(true);

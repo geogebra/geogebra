@@ -52,6 +52,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.TimerSystemW;
+import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
@@ -243,11 +244,7 @@ public class EuclidianViewW extends EuclidianView implements
 	public final GGraphics2D getTempGraphics2D(GFont fontForGraphics) {
 		if (this.g2dtemp == null) {
 			Canvas canvas = Canvas.createIfSupported();
-			if (canvas == null) {
-				this.g2dtemp = new GGraphics2DE();
-			} else {
-				this.g2dtemp = new GGraphics2DW(canvas);
-			}
+			this.g2dtemp = new GGraphics2DW(canvas);
 		}
 		this.g2dtemp.setFont(fontForGraphics);
 		return this.g2dtemp;
@@ -284,6 +281,7 @@ public class EuclidianViewW extends EuclidianView implements
 			g2p.resetLayer();
 			updateBackgroundIfNecessary();
 			paint(g2p);
+			MultiuserManager.INSTANCE.paintInteractionBoxes(this, g2p);
 
 			if (cacheGraphics != null) {
 				cacheGraphics = null;
@@ -666,14 +664,10 @@ public class EuclidianViewW extends EuclidianView implements
 		final Canvas canvas = euclidianViewPanel.getCanvas();
 		this.evNo = newEvNo;
 
-		if (canvas != null) {
-			this.g2p = new LayeredGGraphicsW(canvas);
-			g2p.setDevicePixelRatio(appW.getPixelRatio());
-			if (appW.getAppletParameters().isDebugGraphics()) {
-				g2p.startDebug();
-			}
-		} else {
-			this.g2p = new GGraphics2DE();
+		this.g2p = new LayeredGGraphicsW(canvas);
+		g2p.setDevicePixelRatio(appW.getPixelRatio());
+		if (appW.getAppletParameters().isDebugGraphics()) {
+			g2p.startDebug();
 		}
 
 		updateFonts();
@@ -682,16 +676,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 		if (getViewID() == App.VIEW_EUCLIDIAN || getViewID() == App.VIEW_EUCLIDIAN2) {
 			g2p.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
-			Canvas pCanvas = Canvas.createIfSupported();
-			if (pCanvas != null) {
-				penCanvas = new GGraphics2DW(pCanvas);
-				penCanvas.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
-				penCanvas.setDevicePixelRatio(appW.getPixelRatio());
-				g2p.getElement().getParentElement()
-						.appendChild(penCanvas.getCanvas().getElement());
-			} else {
-				penCanvas = new GGraphics2DE();
-			}
 		}
 
 		euclidiancontroller.setView(this);
@@ -704,10 +688,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 		registerDragDropHandlers(euclidianViewPanel,
 				(EuclidianControllerW) euclidiancontroller);
-
-		if (canvas == null) {
-			return;
-		}
 
 		EuclidianSettings es = null;
 		if (settings != null) {
@@ -1505,6 +1485,14 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public void cacheGraphics() {
 		cacheGraphics = true;
+		if (penCanvas == null) {
+			Canvas pCanvas = Canvas.createIfSupported();
+			penCanvas = new GGraphics2DW(pCanvas);
+			penCanvas.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+			penCanvas.setDevicePixelRatio(appW.getPixelRatio());
+			g2p.getElement().getParentElement()
+					.appendChild(penCanvas.getElement());
+		}
 		EuclidianPen pen = getEuclidianController().getPen();
 		penCanvas.setCoordinateSpaceSize(getWidth(), getHeight());
 		penCanvas.setStroke(EuclidianStatic.getStroke(pen.getPenSize(),

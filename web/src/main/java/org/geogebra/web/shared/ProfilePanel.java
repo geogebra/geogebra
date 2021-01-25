@@ -1,19 +1,15 @@
 package org.geogebra.web.shared;
 
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
-import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Panel showing user avatar + a signout popup.
@@ -56,7 +52,7 @@ public class ProfilePanel extends FlowPanel {
 		optionsPanelContent.setStyleName("profileOptionsContent");
 		optionsPanel.add(optionsPanelContent);
 
-		logoutButton = new StandardButton("", app);
+		logoutButton = new StandardButton("");
 		logoutButton.addStyleName("logoutButton");
 		logoutButton.addStyleName("gwt-Button");
 		username = addLink("username");
@@ -64,24 +60,16 @@ public class ProfilePanel extends FlowPanel {
 		optionsPanelContent.add(editProfile);
 		optionsPanelContent.add(logoutButton);
 
-		logoutButton.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				Log.debug("logout");
-				app.getLoginOperation().showLogoutUI();
-				app.getLoginOperation().performLogOut();
-				togglePopup(popup);
-			}
+		logoutButton.addFastClickHandler(source -> {
+			app.getLoginOperation().showLogoutUI();
+			app.getLoginOperation().performLogOut();
+			togglePopup(popup);
 		});
 
 		popup.add(optionsPanel);
-		addDomHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				togglePopup(popup);
-				event.stopPropagation();
-			}
+		addDomHandler(event -> {
+			togglePopup(popup);
+			event.stopPropagation();
 		}, ClickEvent.getType());
 		setLabels();
 	}

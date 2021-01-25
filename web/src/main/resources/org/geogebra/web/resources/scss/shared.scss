@@ -1,26 +1,24 @@
 @import 'colors';
+@import 'z-index';
 
 %matButton {
-  margin: 8px !important;  
-  border: 1px solid $purple-default;
-  border-radius: 2px;
-  box-shadow: 0 3px 1px -2px $black-20, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
-  min-width: 44px;
-  height: 28px;
-  vertical-align: middle;
-  padding-bottom: 0;
-  padding-top: 0;
-  line-height: 200%;
-  text-align: center;
-  padding-left: 16px;
-  padding-right: 16px;
-  text-transform: uppercase;
-  font-size: 90%;
-  cursor: pointer;
-  transition: background-color 150ms ease 0ms;
-  &:hover {
-  	box-shadow: 0 3px 3px 0 rgba(0,0,0,.14), 0 1px 7px 0 rgba(0,0,0,.12), 0 3px 1px -1px rgba(0,0,0,.2);
-  }
+	margin: 8px !important;
+	padding: 0 16px;
+	border: 1px solid $purple-default;
+	border-radius: 2px;
+	box-shadow: 0 3px 1px -2px $black-20, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
+	min-width: 44px;
+	height: 28px;
+	vertical-align: middle;
+	line-height: 200%;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 90%;
+	cursor: pointer;
+	transition: background-color 150ms ease 0ms;
+	&:hover {
+		box-shadow: 0 3px 3px 0 rgba(0,0,0,.14), 0 1px 7px 0 rgba(0,0,0,.12), 0 3px 1px -1px rgba(0,0,0,.2);
+	}
 }
 
 %primaryButton {	
@@ -30,14 +28,14 @@
 	&:hover {
 		background-color: $purple-dark;
 		border: 1px solid $purple-dark;
-  }
+	}
 }
 
 
 .GeoGebraFrame {
 .DialogBox,
 	.gwt-DialogBox {
-		z-index: 501;
+		z-index: $z-dialog-over-keyboard;
 		/*box-shadow: 1px 1px 6px 1px #666666;*/
 
 		background-color: rgba(255,255,255,0.9);

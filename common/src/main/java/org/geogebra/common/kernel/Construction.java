@@ -53,11 +53,13 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.input.Character;
 
 /**
@@ -102,6 +104,7 @@ public class Construction {
 	private boolean showOnlyBreakpoints;
 
 	/** construction belongs to kernel */
+	@Weak
 	protected Kernel kernel;
 
 	// current construction step (-1 ... ceList.size() - 1)
@@ -1055,6 +1058,10 @@ public class Construction {
 		if (!euclidianViewCE.contains(elem)) {
 			euclidianViewCE.add(elem);
 		}
+	}
+
+	public final boolean isRegisteredEuclidianViewCE(EuclidianViewCE elem) {
+		return euclidianViewCE.contains(elem);
 	}
 
 	/**

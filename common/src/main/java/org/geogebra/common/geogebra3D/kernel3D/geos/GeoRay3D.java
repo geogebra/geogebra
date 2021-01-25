@@ -240,7 +240,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 		GeoVector3D directionVec = new GeoVector3D(cons);
 		directionVec.setCoords(direction);
 
-		AlgoRayPointVector3D algo = new AlgoRayPointVector3D(cons, null,
+		AlgoRayPointVector3D algo = new AlgoRayPointVector3D(cons,
 				startPoint1, directionVec);
 
 		return algo.getOutput(0);

@@ -13,11 +13,11 @@ public interface GeoRayND extends GeoLineND {
 	/**
 	 * @return true if this should stay a ray after transform
 	 */
-	public boolean keepsTypeOnGeometricTransform();
+	boolean keepsTypeOnGeometricTransform();
 
 	/**
-	 * @return copy of Ray with free input Point & Vector
+	 * @return unlabeled copy of Ray with free input Point & Vector
 	 */
-	public GeoElement copyFreeRay();
+	GeoElement copyFreeRay();
 
 }

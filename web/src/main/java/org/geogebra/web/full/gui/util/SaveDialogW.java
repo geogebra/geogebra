@@ -16,7 +16,6 @@ import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.full.gui.browser.BrowseResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
-import org.geogebra.web.html5.gui.FastButton;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -45,7 +44,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 	private final static int MIN_TITLE_LENGTH = 1;
 	/** title box */
 	protected GTextBox title;
-	private FastButton cancelButton;
+	private StandardButton cancelButton;
 
 	private Label titleLabel;
 	private PopupMenuButtonW providerPopup;
@@ -243,7 +242,10 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 			templateCheckbox.setSelected(activeMaterial != null && MaterialType.ggsTemplate
 					.equals(activeMaterial.getType()));
 		}
-		Scheduler.get().scheduleDeferred(() -> title.setFocus(true));
+		Scheduler.get().scheduleDeferred(() -> {
+			title.setFocus(true);
+			title.selectAll();
+		});
 	}
 
 	@Override
@@ -333,7 +335,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 	 */
 	private void addCancelButton(FlowPanel contentPanel) {
 		this.cancelButton = new StandardButton(
-				SharedResources.INSTANCE.dialog_cancel(), app);
+				SharedResources.INSTANCE.dialog_cancel());
 		this.cancelButton.addStyleName("cancelSaveButton");
 		this.cancelButton.addFastClickHandler(source -> {
 			hide();

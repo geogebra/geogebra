@@ -55,6 +55,7 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.SpreadsheetTraceManager;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
+import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -68,7 +69,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * 
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public class TraceDialog extends javax.swing.JDialog
+public class TraceDialog extends Dialog
 		implements GeoElementSelectionListener, ActionListener, FocusListener,
 		ListSelectionListener, WindowListener
 

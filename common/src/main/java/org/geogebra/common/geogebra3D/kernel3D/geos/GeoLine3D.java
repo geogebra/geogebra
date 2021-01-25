@@ -170,26 +170,38 @@ public class GeoLine3D extends GeoCoordSys1D {
 			}
 		}
 
-		sbToString.append("X = (");
+		sbToString.append("X");
+		tpl.appendOptionalSpace(sbToString);
+		sbToString.append("=");
+		tpl.appendOptionalSpace(sbToString);
+		sbToString.append("(");
 		sbToString.append(kernel.format(O.get(1), tpl));
-		sbToString.append(", ");
+		coordDelimiter(sbToString, tpl);
 		sbToString.append(kernel.format(O.get(2), tpl));
-		sbToString.append(", ");
+		coordDelimiter(sbToString, tpl);
 		sbToString.append(kernel.format(O.get(3), tpl));
-		sbToString.append(") + ");
+		sbToString.append(")");
+		tpl.appendOptionalSpace(sbToString);
+		sbToString.append("+");
+		tpl.appendOptionalSpace(sbToString);
 		sbToString.append(parameter);
 		if (tpl.hasCASType()) {
 			sbToString.append("*");
 		}
 		sbToString.append(" (");
 		sbToString.append(kernel.format(V.get(1), tpl));
-		sbToString.append(", ");
+		coordDelimiter(sbToString, tpl);
 		sbToString.append(kernel.format(V.get(2), tpl));
-		sbToString.append(", ");
+		coordDelimiter(sbToString, tpl);
 		sbToString.append(kernel.format(V.get(3), tpl));
 		sbToString.append(")");
 
 		return sbToString;
+	}
+
+	private void coordDelimiter(StringBuilder sbToString, StringTemplate tpl) {
+		sbToString.append(",");
+		tpl.appendOptionalSpace(sbToString);
 	}
 
 	@Override

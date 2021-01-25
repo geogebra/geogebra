@@ -64,6 +64,7 @@ public class ImageManagerW extends ImageManager {
 		}
 	}
 
+	@Override
 	public String getExternalImageSrc(String fileName) {
 		return externalImageSrcs.get(StringUtil.removeLeadingSlash(fileName));
 	}

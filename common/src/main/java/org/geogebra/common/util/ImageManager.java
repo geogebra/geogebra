@@ -189,4 +189,8 @@ abstract public class ImageManager {
 	 *            ie something starting "data:image/png;base64,iVBOR..."
 	 */
 	public abstract void addExternalImage(String filename0, String urlBase64);
+
+	public String getExternalImageSrc(String name) {
+		return name;
+	}
 }

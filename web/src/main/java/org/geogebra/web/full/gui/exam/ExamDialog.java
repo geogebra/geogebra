@@ -93,12 +93,12 @@ public class ExamDialog implements ClickHandler {
 			cas.addStyleName("examCheckbox");
 			cas.setValue(true);
 
-			app.getExam().setCasEnabled(true);
+			app.getExam().setCasEnabled(true, app.getSettings().getCasSettings());
 			cbxPanel.add(cas);
 			cas.addClickHandler(this); 
 		}
 		
-		if (!app.getSettings().getEuclidian(-1).isEnabledSet()) {
+		if (!app.getAppletParameters().hasDataParamEnable3D()) {
 			checkboxes++;
 			final CheckBox allow3D = new CheckBox(loc.getMenu("Perspective.3DGraphics"));
 			allow3D.addStyleName("examCheckbox");
@@ -302,7 +302,7 @@ public class ExamDialog implements ClickHandler {
 	}
 
 	private void onCasChecked() {
-		app.getExam().setCasEnabled(cas.getValue());
+		app.getExam().setCasEnabled(cas.getValue(), app.getSettings().getCasSettings());
 		app.getGuiManager().updateToolbarActions();
 	}
 }

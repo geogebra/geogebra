@@ -31,6 +31,8 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * 
  * Utility class with methods for processing cell ranges (e.g inserting rows,
@@ -43,8 +45,10 @@ import org.geogebra.common.util.debug.Log;
 public class CellRangeProcessor {
 
 	private MyTable table;
+	@Weak
 	private App app;
 	private Localization loc;
+	@Weak
 	private Construction cons;
 	private SpreadsheetTableModel tableModel;
 

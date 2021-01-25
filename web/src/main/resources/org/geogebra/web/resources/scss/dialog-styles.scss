@@ -1,6 +1,7 @@
 @import 'colors';
 @import 'text-styles';
 @import 'info-card';
+@import 'z-index';
 
 $duration: 0.2s;
 $shadow-card-default: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px
@@ -327,7 +328,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.MaterialDialogBox, .dialogComponent {
-		z-index: 501;
+		z-index: $z-dialog-over-keyboard;
 		background-color: $white;
 		border-radius: 2px;
 		padding-left: 24px;
@@ -388,12 +389,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			&:focus {
 				border:none;
 			}
-		}
-
-		.gwt-Label {
-			font-size: 80%;
-			color: $text-secondary;
-			margin-top: 10px;
 		}
 
 		.sliderIntervalPanel {
@@ -514,6 +509,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.message {
+			color: $text-secondary;
 			margin-bottom: 24px;
 		}
 	}
@@ -524,6 +520,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.AutoCompleteTextFieldW {
 					margin: 8px 16px 16px 0px;
 					display: inline-block;
+					width: 100%;
 				}
 
 				.mowInputPanelContent {
@@ -580,7 +577,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent.mediaDialog {
 		&.hyperLink {
 			max-width: 448px;
-			max-height: 246px;
 
 			.dialogContent {
 				height: calc(100% - 52px); //no title
@@ -589,12 +585,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		&.Video, &.Audio {
 			max-width: 448px;
-			max-height: 200px;
 		}
 
 		&.Web {
 			max-width: 448px;
-			max-height: 240px;
 		}
 
 		.mowInputPanelContent {
@@ -629,6 +623,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 
 				.msgLabel {
+					color: $text-secondary;
 					margin-top: 0;
 					font-size: 75%;
 					min-height: 20px;
@@ -728,7 +723,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		max-width: 506px;
 		max-height: 546px;
 		width: 80%;
-		height: 94%;
+		height: 90%;
 
 		&.hasBorder .dialogContent {
 			border: none;
@@ -748,8 +743,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		 }
 
 		.pdfContainer {
-			margin-right: 16px;
 			border: 4px dashed $mow_pdf_dialog_border;
+			box-sizing: border-box;
 			border-radius: 8px;
 			height: 100%;
 
@@ -775,6 +770,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.pdfDialogText {
+			color: $text-secondary;
 			margin-top: 20px;
 			text-align: center;
 			max-width: 190px;
@@ -818,7 +814,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 			.leftBtn {
 				left: 0%;
-				z-index: 1;
+				z-index: $z-pdf-dialog-arrow;
 			}
 
 			.leftBtn:hover, .rightBtn:hover {
@@ -1124,83 +1120,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.MaterialDialogBox.mowShareDialog {
-		padding: 24px 0px 24px 0px;
-		width: 350px;
-
-		.Caption {
-			padding: 0px 24px 0px 24px;
-		}
-
-		.dialogContent {
-		   width: 350px;
-		}
-
-		.chooseGrTxt {
-			color: $text-secondary;
-			font-size: 100%;
-			margin: 0px 24px 10px 24px;
-		}
-
-		.noGrTxt {
-			@extend .chooseGrTxt;
-			margin-bottom: 0px;
-			text-align: center; /* for IE*/
-		}
-
-		.groupList {
-			height: unset;
-			max-height: 216px;
-			border-bottom: 1px solid $black-12;
-			border-top: 1px solid $black-12;
-			padding: 0px;
-			width: 350px;
-			cursor: pointer;
-
-			.groupContent {
-				display: flex;
-				height: 40px;
-				padding: 16px 24px;
-
-				img {
-					opacity: 0.54;
-				}
-
-				.groupInfo {
-					/*padding-left: 16px;*/
-					padding: 12px 0px 12px 16px;
-
-					.groupName {
-						font-size: 100%;
-						color: $text-primary;
-						line-height: 16px;
-						height: 16px;
-					}
-
-					.groupMember {
-						font-size: 88%;
-						color: $text-secondary;
-						line-height: 14px;
-						height: 14px;
-						padding-top: 6px;
-					}
-				}
-
-				&:hover {
-					background-color: $white-5-overlay;
-				}
-			}
-		}
-
-
-		.buttonPanel {
-			margin: 20px auto 0px auto;
-			width: fit-content;
-			// auto margin fix for firefox
-			display: table;
-		}
-	}
-
 	.dialogComponent.shareLinkMebis {
 		@extend .shareLink;
 
@@ -1234,11 +1153,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		@extend .dialogComponent.mediaDialog;
 
 		max-width: 448px;
-		max-height: 188px;
-
-		&.templateSave {
-			max-height: 236px;
-		}
 
 		.mowInputPanelContent {
 				.AutoCompleteTextFieldW {
@@ -1286,8 +1200,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.mowPermissionDialog{
 		max-width: 500px;
 		max-height: 177px;
-		.gwt-Label{
-			margin-top: 0 !important;
+		.dialogContent .gwt-Label {
+			color: $text-secondary;
+			font-size: 80%;
 			margin-bottom: 20px;
 		}
 		&.narrowDialog {
@@ -1306,15 +1221,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			width: 94%;
 			height: 100%;
 		}
-		.mowCameraInputPanel {
-			max-width: 100%;
-			max-height: 100%;
-			text-align: center;
-		}
 		.webcamInputPanel {
-			width: 100%;
 			min-height: 160px;
 			min-width: 213px;
+			max-width: 100%;
 			max-height: calc(100vh - 320px);
 			text-align: center;
 		}
@@ -1351,7 +1261,15 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.dialogComponent.shareDialogMow {
-		max-width: 522px;
+		max-width: 510px;
+
+		&.hasBorder {
+			.groupPanel {
+				overflow: unset;
+				max-height: unset;
+				border-top: unset;
+			}
+		}
 
 		.dialogTitle {
 			margin-left: 24px;
@@ -1362,11 +1280,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.dialogContent {
-			padding-bottom: 24px;
-			padding-left: 0px;
+			padding: 0px 0px 24px 0px;
 		}
 
 		.selGrLbl {
+			color: $text-secondary;
 			font-size: 100%;
 			margin-top: 0px;
 			margin-bottom: 20px;
@@ -1378,8 +1296,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			border-bottom: 1px solid $black-12;
 			max-height: 200px;
 			overflow: auto;
-			max-width: 502px;
-			width: 101%;
 			padding: 16px 0px 0px 20px;
 		}
 
@@ -1425,33 +1341,38 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.shareByLink {
-			max-width: 474px;
-			width: 100%;
-			margin: 16px 8px 0px 24px;
+			margin: 16px 24px 0px 24px;
 
 			.linkImg {
 				opacity: 0.54;
-				margin: 0px 32px 2px 0px;
+				margin: auto 32px auto 0px;
+			}
+
+			.switcherPanel {
+				display: flex;
+
+				.switch {
+					margin: auto 0px auto auto;
+					top: 0px;
+				}
 			}
 
 			.textPanel {
 				position: relative;
 				max-width: 356px;
-				width: 90%;
+				margin-right: 8px;
 				display: inline-block;
 
 				.linkShareOnOff {
 					margin-top: 0px;
 					font-size: 100%;
 					color: $text-primary;
-					height: 16px;
 					line-height: 16px;
 				}
 
 				.linkShareHelp {
 					margin-top: 0px;
 					font-size: 87%;
-					height: 16px;
 					line-height: 16px;
 					color: $text-secondary;
 				}
@@ -1497,21 +1418,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.shareLinkAvailableInfo {
+			color: $text-secondary;
 			max-width: 474px;
-			width: 90%;
 			margin: 14px 24px 0px 24px;
 			font-size: 87%;
-		}
-
-		.DialogButtonPanel {
-			padding-right: 8px !important;
-
-			.button {
-				color: $mow_dark !important;
-				&:hover {
-					color: $mow_dark !important;
-				}
-			}
 		}
 	}
 
@@ -1544,6 +1454,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.groupName {
+			color: $text-secondary;
 			margin-top: 8px;
 			padding-bottom: 4px;
 			font-size: 75%;
@@ -1668,36 +1579,33 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent.templateChooser {
 		max-width: 680px;
 
-		.dialogMainPanel {
-			padding-left: 0px;
-			height: 100%;
-		}
-
 		.dialogTitle {
-			padding-left: 24px;
 			margin-bottom: 0px;
 		}
 
 		.dialogContent {
-			padding: 0px 0px 0px 16px;
+			padding: 0px;
+			max-height: 386px;
+			height: calc(100% - 72px);
+
+			&.withBorder {
+				border-bottom: 1px solid $black-12;
+
+				.templatesPanel {
+					max-width: 665px;
+					padding-right: 0px;
+					padding-left: 15px;
+					padding-bottom: 0px;
+				}
+			}
 		}
 
 		.templatesPanel {
 			max-width: 649px;
-			max-height: 372px;
 			display: inline-block;
-			padding-right: 16px;
+			padding-left: 16px;
 			margin-top: 12px;
 			padding-bottom: 12px;
-
-			&.withBorder {
-				border-bottom: 1px solid $black-12;
-				height: 371px;
-				max-width: 665px;
-				padding-right: 0px;
-				padding-left: 15px;
-				padding-bottom: 0px;
-			}
 
 			.templateCard {
 				width: 200px;
@@ -1836,4 +1744,62 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			color: $mow_primary;
 		}
 	}
+
+	.calcChooser {
+    		 max-width: 608px;
+    		 min-height: 232px;
+    		 width: 100%;
+    		 padding: 48px 36px;
+    		 border-radius: 2px;
+    		 box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+
+    		.title {
+    			height: 48px;
+    			font-size: 175%;
+    			line-height: 48px;
+    			max-width: 608px;
+    			margin-bottom: 32px;
+    			text-align: center;
+    		}
+
+    		.calcBtn {
+    			max-width: 120px;
+    			max-height: 152px;
+    			width: 100%;
+    			height: 100%;
+    			margin: 0px 16px;
+    			display: inline-table;
+    			cursor: pointer;
+    			transition: background-color 0.15s;
+
+    			.imgHolder {
+    				border-radius: 50%;
+    				background-color: $white-5-overlay;
+    				width: 120px;
+    				height: 120px;
+    			}
+
+    			img {
+    				padding: 24px;
+    			}
+
+    			.gwt-Label {
+    				text-align: center;
+    				max-width: 120px;
+    				margin-top: 4px;
+    				min-height: 24px;
+    				height: fit-content;
+    				line-height: 150%;
+    				font-weight: 500;
+    			}
+
+    			&:hover .imgHolder {
+    				background-color: $hover-calc-btn-bg;
+    			}
+
+    			&.selected .imgHolder {
+    				background-color: $selected-calc-btn-bg;
+    			}
+    		}
+    	}
 }

@@ -2,6 +2,8 @@ package org.geogebra.web.geogebra3D.web.euclidian3D.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 
+import elemental2.core.Int16Array;
+
 /**
  * buffers for openGL
  * 
@@ -10,7 +12,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
  */
 public class GLBufferIndicesW implements GLBufferIndices {
 
-	private MyInt16Array impl;
+	private Int16Array impl;
 	private boolean isEmpty;
 	private int currentLength;
 	private int mIndex = 0;
@@ -37,8 +39,7 @@ public class GLBufferIndicesW implements GLBufferIndices {
 	public void allocate(int length) {
 		// allocate buffer only at start and when length change
 		if (impl == null || impl.getLength() < length) {
-			// This may be null in IE10
-			impl = MyInt16Array.create(length);
+			impl = new Int16Array(length);
 		}
 
 		mIndex = 0;
@@ -56,7 +57,7 @@ public class GLBufferIndicesW implements GLBufferIndices {
 		if (impl == null) {
 			return;
 		}
-		impl.set(mIndex, value);
+		impl.setAt(mIndex, (double) value);
 		mIndex++;
 	}
 
@@ -65,12 +66,12 @@ public class GLBufferIndicesW implements GLBufferIndices {
 		if (impl == null) {
 			return;
 		}
-		impl.set(index, value);
+		impl.setAt(index, (double) value);
 	}
 
 	@Override
 	public short get() {
-		short ret = (short) impl.get(mIndex);
+		short ret = impl.getAt(mIndex).shortValue();
 		mIndex++;
 		return ret;
 	}
@@ -91,7 +92,7 @@ public class GLBufferIndicesW implements GLBufferIndices {
 			return;
 		}
 		for (int i = 0; i < ret.length; i++) {
-			ret[i] = (short) impl.get(i);
+			ret[i] = impl.getAt(i).shortValue();
 		}
 	}
 
@@ -99,14 +100,14 @@ public class GLBufferIndicesW implements GLBufferIndices {
 	 * 
 	 * @return buffer
 	 */
-	public MyInt16Array getBuffer() {
+	public Int16Array getBuffer() {
 		return impl;
 	}
 
 	@Override
 	public void reallocate(int size) {
-		MyInt16Array oldImpl = impl;
-		impl = MyInt16Array.create(size);
+		Int16Array oldImpl = impl;
+		impl = new Int16Array(size);
 		impl.set(oldImpl);
 	}
 

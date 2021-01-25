@@ -1,18 +1,18 @@
 @import 'colors';
+@import 'z-index';
 
 .GeoGebraFrame {
-	$always_on_top: 60;
-	
+
 	.TitleBarPanel {
-		z-index: $always_on_top;
+		z-index: $z-on-top-of-graphics;
 	}
 
 	.graphicsControlsPanel {
 		left: auto !important;
-		z-index: $always_on_top;
+		z-index: $z-on-top-of-graphics;
 	}
 
-	.button.flatButton.graphicsContextMenuBtn.button-up {
+	.flatButton.graphicsContextMenuBtn {
 		margin-top: 10px;
 		margin-right: 10px;
 		position: relative;
@@ -22,22 +22,18 @@
 		img {
 			opacity: 0.54;
 		}
-	}
-		
-	.button.flatButton.graphicsContextMenuBtn.button-up-hovering {
-		@extend .button-up;
-				
-		img {
-			opacity: 0.84;	
-		}
-	}
 
-	.button.flatButton.graphicsContextMenuBtn.mow.button-up-hovering {
-		@extend .button-up;
-			
-		background-color: $mow_card_background_hover;
-		img {
-			opacity: 1;	
+		&:hover {
+			img {
+				opacity: 0.84;
+			}
+		}
+
+		&.mow:hover {
+			background-color: $mow_card_background_hover;
+			img {
+				opacity: 1;
+			}
 		}
 	}
 
@@ -48,7 +44,7 @@
 	/*dyn stylebar*/
 	.matDynStyleBar {
 		// popup has 500
-		z-index: 499;
+		z-index: $z-dialog-under-keyboard;
 		position: absolute;
 	    border-radius: 2px;
 	    padding: 8px 4px 8px 16px;
@@ -180,11 +176,11 @@
 	/*dyn stylebar popup panel*/
 	.matPopupPanel {
 		border-radius: 2px;
-    	padding: 0px 8px 0px 8px;
-    	background-color: $white;
-    	box-shadow: 0 0 2px 1px $tool-border;
-    	z-index: 500000;
-        min-height: 30px;
+		padding: 0px 8px 0px 8px;
+		background-color: $white;
+		box-shadow: 0 0 2px 1px $tool-border;
+		z-index: $z-dialog-over-keyboard;
+		min-height: 30px;
 
         .ButtonPopupMenu .panelRow2.showSlider {
             display: inline-block;
@@ -348,11 +344,12 @@
 		position: absolute;
 		cursor: default;
 		top: auto !important;
-    	left: auto !important;
-    	z-index: $always_on_top;
+		left: auto !important;
+		z-index: $z-on-top-of-graphics;
 		will-change: transform;
 
     	.zoomPanelBtn {
+    		display: block;
     		position: relative;
     		width: 36px;
     		height: 36px;
@@ -418,11 +415,13 @@
     	bottom: 8px !important;
     	right: 16px !important;
     }
-    .mowZoomPanel {
+	.mowZoomPanel {
 		will-change: transform;
-	    right: 4px !important;
+		top: -6px !important;
+		position: relative;
 
 	    .zoomPanelBtn {
+			display: block;
 	    	position: relative;
 		    margin: 6px;
 		    padding: 6px;
@@ -489,19 +488,19 @@
 
 	.speechBtnPanel {
 
-	    .speechBtn {
+		.speechBtn {
 		 	height: 36px;
-		    width: 36px;
-		    background-color: #fff;
-		    border-radius: 50%;
-		    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2), 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12);
-		    transition: background-color 150ms ease 0ms;
-		    cursor: pointer;
-		    z-index: 60;
-		    position: relative;
-		    bottom: 52px;
-    		margin: 0px 0px 16px 16px;
-		    display: inline-block;
+			width: 36px;
+			background-color: #fff;
+			border-radius: 50%;
+			box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2), 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12);
+			transition: background-color 150ms ease 0ms;
+			cursor: pointer;
+			z-index: $z-on-top-of-graphics;
+			position: relative;
+			bottom: 52px;
+			margin: 0px 0px 16px 16px;
+			display: inline-block;
 
 			img {
 			   padding: 6px;
@@ -511,16 +510,16 @@
 			&:hover {
 				background-color: $selected-menuitem-background;
 
-			    img {
-			    	opacity: 1;
+				img {
+					opacity: 1;
 				}
 			}
 
 			&:focus {
-			    img {
-			    	opacity: 1;
-			    	outline: $focus-black 5px auto;
-			    }
+				img {
+					opacity: 1;
+					outline: $focus-black 5px auto;
+				}
 			}
 		}
 	}
@@ -530,7 +529,7 @@
 		padding-bottom: 4px;
 		padding-left: 12px;
 		position: absolute;
-		z-index: $always_on_top;
+		z-index: $z-on-top-of-graphics;
 
 		.flatButton {
 			display: inline-block;
@@ -725,7 +724,7 @@
 	}
 
 	.SymbolTablePopup {
-		z-index: 501;
+		z-index: $z-dialog-over-keyboard;
 		background-color: $white;
 		border-radius: 0px;
 		padding: 16px;
@@ -782,14 +781,17 @@
 	.tooltipChip {
 		position: absolute;
 		display: inline-flex;
-		padding: 7px 12px;
+		padding: 2px 4px;
 		border-radius: 16px;
+		font-size: 12px;
 		align-items: center;
 		cursor: default;
-		min-height: 32px;
-		height: 1px;
+		height: 18px;
 		box-sizing: border-box;
-		z-index: 100;
+		z-index: $z-on-top-of-graphics;
+	}
+	.mathFieldEditor {
+		will-change: transform;
 	}
 }
 
@@ -798,10 +800,10 @@
 	background-color: black;
 	top: 0px;
 	left: 0px;
-	z-index: 9999;
+	z-index: $z-fullscreen-container;
 }
 
 .gbox {
-    will-change: transform;
-    z-index: 50;
+	will-change: transform;
+	z-index: $z-on-top-of-graphics;
 }

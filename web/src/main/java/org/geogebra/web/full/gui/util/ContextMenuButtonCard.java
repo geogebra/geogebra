@@ -9,7 +9,6 @@ import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -17,7 +16,6 @@ import org.geogebra.web.resources.SVGResource;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.Image;
 
 /**
  * Context Menu Popup for Cards
@@ -41,7 +39,7 @@ public class ContextMenuButtonCard extends StandardButton
 	 *            application
 	 */
 	public ContextMenuButtonCard(AppW app) {
-		super(MaterialDesignResources.INSTANCE.more_vert_black(), null, 24, app);
+		super(MaterialDesignResources.INSTANCE.more_vert_black(), null, 24);
 		this.app = app;
 		loc = app.getLocalization();
 		frame = ((AppWFull) app).getAppletFrame();
@@ -49,10 +47,6 @@ public class ContextMenuButtonCard extends StandardButton
 	}
 
 	private void initButton() {
-		SVGResource resource = getActiveImageResource();
-		Image hoveringFace = getImage(resource);
-		getUpHoveringFace().setImage(hoveringFace);
-		getDownHoveringFace().setImage(hoveringFace);
 		addStyleName("mowMoreButton");
 
 		addFastClickHandler(source -> {
@@ -85,10 +79,6 @@ public class ContextMenuButtonCard extends StandardButton
 				MainMenu.getMenuBarHtml(img, text), true, cmd);
 		wrappedPopup.addItem(mi);
 		return mi;
-	}
-
-	private static Image getImage(SVGResource res) {
-		return new NoDragImage(res, 24, 24);
 	}
 
 	/**
@@ -146,11 +136,10 @@ public class ContextMenuButtonCard extends StandardButton
 	 */
 	protected void toggleIcon(boolean toggle) {
 		if (toggle) {
-			getUpFace().setImage(getImage(getActiveImageResource()));
+			setIcon(getActiveImageResource());
 			addStyleName("active");
 		} else {
-			getUpFace().setImage(getImage(
-					MaterialDesignResources.INSTANCE.more_vert_black()));
+			setIcon(MaterialDesignResources.INSTANCE.more_vert_black());
 			removeStyleName("active");
 		}
 	}

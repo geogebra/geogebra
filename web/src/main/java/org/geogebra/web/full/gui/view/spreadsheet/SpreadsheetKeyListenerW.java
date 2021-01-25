@@ -52,7 +52,6 @@ public class SpreadsheetKeyListenerW
 
 	@Override
 	public void onKeyDown(KeyDownEvent e) {
-
 		e.stopPropagation();
 		GlobalKeyDispatcherW.setDownKeys(e);
 		// cancel as this may prevent the keyPress in some browsers
@@ -65,67 +64,57 @@ public class SpreadsheetKeyListenerW
 			return;
 		}
 		table.setAllowAutoEdit();
-		int keyCode = e.getNativeKeyCode(); // .getKeyCode();
-		// Application.debug(keyCode+"");
-		// boolean shiftDown = e.isShiftDown();
+		int keyCode = e.getNativeKeyCode();
+		boolean shiftDown = e.isShiftKeyDown();
 		boolean ctrlDown = e.isControlKeyDown() || e.isMetaKeyDown();
 
 		GPoint pos = new GPoint(table.getSelectedColumn(),
 				table.getSelectedRow());
 
 		switch (keyCode) {
-
-		case KeyCodes.KEY_UP:// KeyEvent.VK_UP:
+		case KeyCodes.KEY_UP:
 			e.preventDefault();
-			handleKeyUp(e.isControlKeyDown(), e.isShiftKeyDown(), pos);
+			handleKeyUp(ctrlDown, shiftDown, pos);
 			break;
 
-		case KeyCodes.KEY_LEFT:// VK_LEFT:
+		case KeyCodes.KEY_LEFT:
 			e.preventDefault();
-			handleKeyLeft(e.isControlKeyDown(), e.isShiftKeyDown(), pos);
-
+			handleKeyLeft(ctrlDown, shiftDown, pos);
 			break;
 
-		case KeyCodes.KEY_DOWN:// VK_DOWN:
+		case KeyCodes.KEY_DOWN:
 			e.preventDefault();
-			handleKeyDown(e.isControlKeyDown(), e.isShiftKeyDown(), pos);
+			handleKeyDown(ctrlDown, shiftDown, pos);
 			break;
 
-		case KeyCodes.KEY_HOME:// .VK_HOME:
+		case KeyCodes.KEY_HOME:
 			e.preventDefault();
-			handleHomeKey(e.isControlKeyDown(), e.isShiftKeyDown(), pos);
-
-			// e.consume();
+			handleHomeKey(ctrlDown, shiftDown, pos);
 			break;
 
-		case KeyCodes.KEY_END:// .VK_END:
+		case KeyCodes.KEY_END:
 			e.preventDefault();
-			handleEndKey(e.isShiftKeyDown(), pos);
-
-			// e.consume();
+			handleEndKey(shiftDown, pos);
 			break;
 
-		case KeyCodes.KEY_RIGHT: // Event.VK_RIGHT:
+		case KeyCodes.KEY_RIGHT:
 			e.preventDefault();
 			// auto increase spreadsheet size when you go off the right
-
-			handleKeyRight(e.isControlKeyDown(), e.isShiftKeyDown(), pos);
-
+			handleKeyRight(ctrlDown, shiftDown, pos);
 			break;
 
-		case KeyCodes.KEY_SHIFT: // .VK_SHIFT:
-		case KeyCodes.KEY_CTRL: // Event.VK_CONTROL:
-		case KeyCodes.KEY_ALT: // Event.VK_ALT:
-			// case KeyEvent.VK_META: //MAC_OS Meta
+		case KeyCodes.KEY_SHIFT:
+		case KeyCodes.KEY_CTRL:
+		case KeyCodes.KEY_ALT:
+			// do nothing
 			break;
 
-		case GWTKeycodes.KEY_F9:// Event.VK_F9:
+		case GWTKeycodes.KEY_F9:
 			kernel.updateConstruction(true);
 			break;
 
-		case GWTKeycodes.KEY_R:// KeyEvent.VK_R:
-			if (e.isControlKeyDown()) {
-				// AppD.isControlDown(e)) {
+		case GWTKeycodes.KEY_R:
+			if (ctrlDown) {
 				kernel.updateConstruction(true);
 			} else {
 				letterOrDigitTyped();
@@ -133,9 +122,8 @@ public class SpreadsheetKeyListenerW
 			break;
 
 		// needs to be here to stop keypress starting a cell edit after the undo
-		case GWTKeycodes.KEY_Z: // KeyEvent.VK_Z: //undo
+		case GWTKeycodes.KEY_Z:
 			if (ctrlDown) {
-				// Application.debug("undo");
 				app.getGuiManager().undo();
 			} else {
 				letterOrDigitTyped();
@@ -143,9 +131,8 @@ public class SpreadsheetKeyListenerW
 			break;
 
 		// needs to be here to stop keypress starting a cell edit after the redo
-		case GWTKeycodes.KEY_Y: // KeyEvent.VK_Y: //redo
+		case GWTKeycodes.KEY_Y:
 			if (ctrlDown) {
-				// Application.debug("redo");
 				app.getGuiManager().redo();
 			} else {
 				letterOrDigitTyped();
@@ -154,22 +141,16 @@ public class SpreadsheetKeyListenerW
 
 		case GWTKeycodes.KEY_D:
 		case GWTKeycodes.KEY_BACK_QUOTE:
-			GlobalKeyDispatcher.toggleAlgebraStyle(app);
-			e.preventDefault();
-			break;
-
-		case GWTKeycodes.KEY_C:
-		case GWTKeycodes.KEY_V:
-		case GWTKeycodes.KEY_X:
-			if (!editor.isEditing()) {
-				if (!(ctrlDown || e.isAltKeyDown())) {
-					letterOrDigitTyped();
-				}
+			if (ctrlDown) {
+				GlobalKeyDispatcher.toggleAlgebraStyle(app);
+				e.preventDefault();
+			} else {
+				letterOrDigitTyped();
 			}
 			break;
 
-		case GWTKeycodes.KEY_DELETE:// KeyEvent.VK_DELETE:
-		case GWTKeycodes.KEY_BACKSPACE:// KeyEvent.VK_BACK_SPACE:
+		case GWTKeycodes.KEY_DELETE:
+		case GWTKeycodes.KEY_BACKSPACE:
 			if (!editor.isEditing()) {
 				e.preventDefault();
 				boolean storeUndo = table.delete();
@@ -180,18 +161,16 @@ public class SpreadsheetKeyListenerW
 			}
 			break;
 
-		// case KeyEvent.VK_ENTER:
-		case GWTKeycodes.KEY_F2:// KeyEvent.VK_F2: //FIXME
+		case GWTKeycodes.KEY_F2:
 			if (!editor.isEditing()) {
 				table.setAllowEditing(true);
 				table.editCellAt(table.getSelectedRow(),
 						table.getSelectedColumn());
 				table.setAllowEditing(false);
 			}
-			// e.consume();
 			break;
 
-		case KeyCodes.KEY_ENTER:// KeyEvent.VK_ENTER:
+		case KeyCodes.KEY_ENTER:
 			if (!editor.isEditing()) {
 				editOnEnter();
 				break;
@@ -199,7 +178,7 @@ public class SpreadsheetKeyListenerW
 			editor.onEnter();
 
 			//$FALL-THROUGH$
-		case GWTKeycodes.KEY_PAGEDOWN:// KeyEvent.VK_PAGE_DOWN:
+		case GWTKeycodes.KEY_PAGEDOWN:
 			e.preventDefault();
 
 			int pixelx = table.getPixel(pos.x, pos.y, true).getX();
@@ -213,7 +192,7 @@ public class SpreadsheetKeyListenerW
 			}
 			break;
 
-		case GWTKeycodes.KEY_PAGEUP:// KeyEvent.VK_PAGE_UP:
+		case GWTKeycodes.KEY_PAGEUP:
 			e.preventDefault();
 
 			int pixx = table.getPixel(pos.x, pos.y, true).getX();
@@ -228,37 +207,26 @@ public class SpreadsheetKeyListenerW
 			break;
 
 		// stop TAB erasing cell before moving
-		case KeyCodes.KEY_TAB:// KeyEvent.VK_TAB:
+		case KeyCodes.KEY_TAB:
 			e.preventDefault();
-			handleTabKey(e.isShiftKeyDown(), pos);
+			handleTabKey(shiftDown, pos);
 			break;
 
-		case GWTKeycodes.KEY_A:// KeyEvent.VK_A:
-			if (e.isControlKeyDown()) {
+		case GWTKeycodes.KEY_A:
+			if (ctrlDown) {
 				selectAll(pos);
 			}
 			//$FALL-THROUGH$
 		default:
-			if (/*
-				 * ? !Character.isIdentifierIgnorable(
-				 * Character.toChars(e.getNativeEvent().getCharCode())[0]
-				 * //e.getKeyChar() ) &&
-				 */
-			!editor.isEditing() && !(ctrlDown || e.isAltKeyDown())) {
+			if (!editor.isEditing() && !(ctrlDown || e.isAltKeyDown())) {
 				letterOrDigitTyped();
-			} else {
-				// e.consume();
-				break;
 			}
 		}
-
 	}
 
 	private void handleHomeKey(boolean ctrl, boolean shift, GPoint pos) {
 		// if shift pressed, select cells too
 		if (ctrl) {
-			// AppD.isControlDown(e)) {
-
 			// move to top left of spreadsheet
 			table.changeSelection(0, 0, shift);
 		} else {

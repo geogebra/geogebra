@@ -18,12 +18,14 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-public class AlgoRandomPointInPolygon extends AlgoElement {
+public class AlgoRandomPointInPolygon extends AlgoElement implements SetRandomValue {
 
 	protected GeoPolygon polygon; // input
 	protected GeoPointND randomPoint; // output
@@ -144,4 +146,16 @@ public class AlgoRandomPointInPolygon extends AlgoElement {
 		}
 	}
 
+	@Override
+	public boolean setRandomValue(GeoElementND val) {
+		if (val instanceof GeoPointND) {
+			double inhomX = ((GeoPointND) val).getInhomX();
+			double inhomY = ((GeoPointND) val).getInhomY();
+			if (GeoPolygon.isInRegion(inhomX, inhomY, polygon.getPoints())) {
+				randomPoint.setCoords(inhomX, inhomY, 1);
+				return true;
+			}
+		}
+		return false;
+	}
 }

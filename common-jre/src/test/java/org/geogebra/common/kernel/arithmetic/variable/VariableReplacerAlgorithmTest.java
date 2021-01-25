@@ -101,6 +101,11 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 		shouldReplaceAs("xlog_{2}x", "x * log(2, x)");
 	}
 
+	@Test
+	public void testParseReverse() {
+		shouldReplaceAs("ax", "a * x");
+	}
+
 	private void shouldReplaceAs(String in, String out) {
 		ExpressionValue replacement = variableReplacerAlgorithm.replace(in);
 		Assert.assertEquals(out,

@@ -5,8 +5,6 @@ import java.awt.Point;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javax.swing.JDialog;
-
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 import org.w3c.dom.Document;
@@ -35,7 +33,7 @@ import javafx.scene.web.WebView;
  * @author stefan
  *
  */
-public abstract class WebViewDialog extends JDialog {
+public abstract class WebViewDialog extends Dialog {
 	private static final long serialVersionUID = 1L;
 	private static final String EVENT_TYPE_CLICK = "click";
 

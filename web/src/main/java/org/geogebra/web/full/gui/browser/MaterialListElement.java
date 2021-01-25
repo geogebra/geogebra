@@ -93,9 +93,7 @@ public class MaterialListElement extends FlowPanel
 		this.ownMaterial = app.getLoginOperation().getGeoGebraTubeAPI().owns(m);
 		this.setStyleName("materialListElement");
 		this.addStyleName("default");
-		if (!isLocal) {
-			// this.material.setSyncStamp(-1);
-		}
+
 		this.editMaterial = activeMaterial -> onEdit();
 		initMaterialInfos();
 
@@ -180,7 +178,7 @@ public class MaterialListElement extends FlowPanel
 
 	private void addRenameButton() {
 		this.renameButton = new StandardButton(
-				BrowseResources.INSTANCE.document_rename(), "", 20, app);
+				BrowseResources.INSTANCE.document_rename(), "", 20);
 		this.infoPanel.add(this.renameButton);
 		this.renameButton.addFastClickHandler(source -> onRename());
 	}
@@ -294,7 +292,7 @@ public class MaterialListElement extends FlowPanel
 
 	private void addDeleteButton() {
 		this.deleteButton = new StandardButton(
-				BrowseResources.INSTANCE.document_delete(), app);
+				BrowseResources.INSTANCE.document_delete());
 		this.infoPanel.add(this.deleteButton);
 		this.deleteButton.addFastClickHandler(source -> onDelete());
 		initConfirmDeletePanel();
@@ -303,8 +301,8 @@ public class MaterialListElement extends FlowPanel
 	private void addFavoriteButton() {
 		this.favoriteButton = new StandardButton(
 				this.getMaterial().isFavorite() ? BrowseResources.INSTANCE.favorite()
-						: BrowseResources.INSTANCE.not_favorite(),
-				app);
+						: BrowseResources.INSTANCE.not_favorite()
+		);
 		this.favoriteButton.addStyleName("ggbFavorite");
 		this.background.add(this.favoriteButton);
 		this.favoriteButton.addFastClickHandler(source -> onFavorite());
@@ -344,11 +342,11 @@ public class MaterialListElement extends FlowPanel
 	}
 
 	private void initConfirmDeletePanel() {
-		this.confirm = new StandardButton(this.loc.getMenu("Delete"), app);
+		this.confirm = new StandardButton(this.loc.getMenu("Delete"));
 		this.confirm.addStyleName("gwt-Button");
 		this.confirm.addStyleName("deleteButton");
 		this.confirm.addFastClickHandler(source -> onConfirmDelete());
-		this.cancel = new StandardButton(this.loc.getMenu("Cancel"), app);
+		this.cancel = new StandardButton(this.loc.getMenu("Cancel"));
 		this.cancel.addStyleName("cancelButton");
 		this.cancel.addStyleName("gwt-Button");
 		this.cancel.addStyleName("minor");
@@ -385,7 +383,7 @@ public class MaterialListElement extends FlowPanel
 
 	protected void addEditButton() {
 		this.editButton = new StandardButton(
-				BrowseResources.INSTANCE.document_edit(), "", 20, app);
+				BrowseResources.INSTANCE.document_edit(), "", 20);
 		this.infoPanel.add(this.editButton);
 		this.editButton.addFastClickHandler(
 				source -> guiManager.getBrowseView().closeAndSave(editMaterial));
@@ -461,8 +459,7 @@ public class MaterialListElement extends FlowPanel
 
 	protected void addViewButton() {
 		this.viewButton = new StandardButton(
-				BrowseResources.INSTANCE.document_view(), "", 20, app);
-		this.viewButton.addStyleName("viewButton");
+				BrowseResources.INSTANCE.document_view(), "", 20);
 		this.infoPanel.add(this.viewButton);
 		this.viewButton.addFastClickHandler(source -> onView());
 	}

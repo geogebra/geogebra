@@ -46,10 +46,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing another atom with a line under it.
  */
-public class UnderlinedAtom extends Atom {
+public class UnderlinedAtom extends Atom implements HasTrueBase {
 
 	// the base to be underlined
 	private final Atom base;
@@ -78,5 +80,10 @@ public class UnderlinedAtom extends Atom {
 		vBox.setHeight(b.getHeight());
 
 		return vBox;
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
 	}
 }

@@ -81,7 +81,7 @@ public class AppConfigGeometry extends AbstractAppConfig {
 
 	@Override
 	public String getTutorialKey() {
-		return "TutorialGeometry";
+		return getSubAppCode() == null ? "TutorialGeometry" : "TutorialSuite";
 	}
 
 	@Override
@@ -328,5 +328,10 @@ public class AppConfigGeometry extends AbstractAppConfig {
 	@Override
 	public boolean sendKeyboardEvents() {
 		return false;
+	}
+
+	@Override
+	public boolean hasLabelForDescription() {
+		return true;
 	}
 }

@@ -53,7 +53,7 @@ public class AlgebraTree extends JTree {
 	protected HashMap<String, DefaultMutableTreeNode> typeNodesMap;
 
 	// store all pairs of GeoElement -> node in the Tree
-	protected HashMap<GeoElement, DefaultMutableTreeNode> nodeTable = new HashMap<>(
+	protected HashMap<GeoElement, GeoMutableTreeNode> nodeTable = new HashMap<>(
 			500);
 
 	/**
@@ -280,9 +280,8 @@ public class AlgebraTree extends JTree {
 				return;
 			}
 
-			DefaultMutableTreeNode parent, node;
-			node = new DefaultMutableTreeNode(geo);
-			parent = getParentNode(geo, forceLayer);
+			GeoMutableTreeNode node = new GeoMutableTreeNode(geo);
+			DefaultMutableTreeNode parent = getParentNode(geo, forceLayer);
 
 			// add node to model (alphabetically ordered)
 			int pos = getInsertPosition(parent, geo, getTreeMode());
@@ -294,7 +293,6 @@ public class AlgebraTree extends JTree {
 			expandPath(new TreePath(new Object[] { model.getRoot(), parent }));
 		}
 	}
-
 
 	/**
 	 * removes a node from the tree
@@ -344,7 +342,7 @@ public class AlgebraTree extends JTree {
 	 * see EuclidianViewD#setHighlighted()
 	 */
 	public void update(GeoElement geo) {
-		DefaultMutableTreeNode node = nodeTable.get(geo);
+		GeoMutableTreeNode node = nodeTable.get(geo);
 
 		if (node != null) {
 			/*
@@ -373,6 +371,7 @@ public class AlgebraTree extends JTree {
 			 * .java:179)
 			 * 
 			 */
+			node.reset();
 			try {
 				((DefaultTreeModel) getModel()).nodeChanged(node);
 			} catch (Exception e) {

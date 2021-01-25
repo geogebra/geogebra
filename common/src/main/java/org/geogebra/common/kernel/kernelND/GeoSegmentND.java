@@ -82,7 +82,7 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue,
 
 	/**
 	 * 
-	 * @return copy with free Input Points
+	 * @return unlabeled copy with free Input Points
 	 */
 	GeoElement copyFreeSegment();
 

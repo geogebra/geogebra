@@ -1,7 +1,12 @@
 package org.geogebra.web.full.main;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListController;
 import org.geogebra.web.full.gui.pagecontrolpanel.PagePreviewCard;
+import org.geogebra.web.html5.event.PointerEvent;
+import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
@@ -26,9 +31,6 @@ public class NotesUndoTest {
 	 */
 	@Test
 	public void undoSingle() {
-		app = AppMocker
-				.mockApplet(new AppletParameters("notes")
-						.setAttribute("vendor", "mebis"));
 		addObject("x");
 		addObject("-x");
 		shouldHaveUndoPoints(2);
@@ -48,8 +50,6 @@ public class NotesUndoTest {
 	 */
 	@Test
 	public void undoReorder() {
-		app = AppMocker
-				.mockApplet(new AppletParameters("notes"));
 		addObject("x");
 		addObject("-x");
 		shouldHaveUndoPoints(2);
@@ -77,8 +77,6 @@ public class NotesUndoTest {
 	 */
 	@Test
 	public void undoDuplicate() {
-		app = AppMocker
-				.mockApplet(new AppletParameters("notes"));
 		addObject("x");
 		shouldHaveUndoPoints(1);
 
@@ -126,8 +124,6 @@ public class NotesUndoTest {
 	 */
 	@Test
 	public void undoDuplicateChain() {
-		app = AppMocker
-				.mockApplet(new AppletParameters("notes"));
 		addObject("x");
 		shouldHaveUndoPoints(1);
 
@@ -173,8 +169,6 @@ public class NotesUndoTest {
 	 */
 	@Test
 	public void undoRedo() {
-		app = AppMocker
-				.mockApplet(new AppletParameters("notes"));
 		addObject("x");
 		addObject("-x");
 		shouldHaveUndoPoints(2);
@@ -197,12 +191,35 @@ public class NotesUndoTest {
 		slideShouldHaveObjects(0, 0);
 	}
 
+	@Test
+	public void undoCut() {
+		app.getAppletFrame().initPageControlPanel(app);
+		addPenStroke();
+		objectsPerSlideShouldBe(1);
+		app.getAppletFrame().getPageControlPanel().removePage(0);
+		objectsPerSlideShouldBe(0);
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(1);
+	}
+
+	private void addPenStroke() {
+		app.setMode(EuclidianConstants.MODE_PEN);
+		app.getEuclidianView1().getEuclidianController().wrapMousePressed(evt(50,50));
+		app.getEuclidianView1().getEuclidianController().wrapMouseReleased(evt(150,150));
+	}
+
+	private AbstractEvent evt(int x, int y) {
+		return new PointerEvent(x,y, PointerEventType.MOUSE, new ZeroOffset());
+	}
+
 	/**
 	 * Make sure asserts don't kill the tests
 	 */
 	@Before
-	public void rootPanel() {
+	public void init() {
 		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
+		app = AppMocker
+				.mockApplet(new AppletParameters("notes"));
 	}
 
 	/**
@@ -210,8 +227,6 @@ public class NotesUndoTest {
 	 */
 	@Test
 	public void pageSwitch() {
-		app = AppMocker
-				.mockApplet(new AppletParameters("notes"));
 		addObject("x");
 
 		app.getAppletFrame().initPageControlPanel(app);
@@ -265,8 +280,6 @@ public class NotesUndoTest {
 	 */
 	@Test
 	public void switchFourSlides() {
-		app = AppMocker
-				.mockApplet(new AppletParameters("notes"));
 		addObject("x");
 
 		app.getAppletFrame().initPageControlPanel(app);
@@ -324,10 +337,6 @@ public class NotesUndoTest {
 	 */
 	@Test
 	public void singleObjectPerSlide() {
-		app = AppMocker
-				.mockApplet(new AppletParameters("notes"));
-
-
 		app.getAppletFrame().initPageControlPanel(app);
 		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
 		app.getAppletFrame().getPageControlPanel().loadNewPage(false);

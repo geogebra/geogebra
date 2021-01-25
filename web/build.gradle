@@ -9,8 +9,8 @@ plugins {
     id 'java'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '1.6.9'
-    id 'de.aaschmid.cpd' version '2.0'
+    id "com.github.spotbugs" version "4.6.0"
+    id 'de.aaschmid.cpd' version '3.1'
 }
 
 description 'Parts of GeoGebra related to web platforms'
@@ -60,8 +60,6 @@ dependencies {
         files(project(':ggbjdk').sourceSets.main.java.srcDirs),
         files(project(':editor-web').sourceSets.main.allSource.srcDirs),
         files(project(':keyboard-web').sourceSets.main.allSource.srcDirs),
-        'com.googlecode:gwtgl:0.9.1',
-        'com.googlecode:gwtgl:0.9.1:sources',
         "fr.ujf-grenoble:giac-gwt:$javaGiacVersion",
         "fr.ujf-grenoble:giac-gwt:$javaGiacVersion:sources",
         "com.google.gwt:gwt-dev:$gwtCompilerVersion"
@@ -326,7 +324,7 @@ spotbugs {
 pmd {
      ignoreFailures = true
      ruleSets = []
-     ruleSetFiles = files("config/pmd.xml")
+     ruleSetFiles = files("../config/pmd.xml")
 }
 
 cpd {

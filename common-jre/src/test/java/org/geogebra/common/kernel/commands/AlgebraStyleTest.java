@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.common.util.IndexLaTeXBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
@@ -497,6 +498,15 @@ public class AlgebraStyleTest extends Assert {
 	}
 
 	@Test
+	public void numericPreviewFormulaTestValueStyle() {
+		app.getKernel().setAlgebraStyle(Kernel.ALGEBRA_STYLE_VALUE);
+		t("1+1");
+		GeoElement geo = getGeo("a");
+		String previewFormula = AlgebraItem.getPreviewFormula(geo, StringTemplate.defaultTemplate);
+		Assert.assertEquals("\\text{a = 2}", previewFormula);
+	}
+
+	@Test
 	public void equationsShouldHaveSuggestion() {
 		t("A=(1,1)");
 		t("B=(0,1)");
@@ -809,8 +819,8 @@ public class AlgebraStyleTest extends Assert {
 				.checkVal("3x * 5x").checkGiac("(((3)*(x))*(5))*(x)");
 		new ExpressionChecker("pi*x").checkEditAndVal(Unicode.pi + " x")
 				.checkGiac("(pi)*(x)");
-		new ExpressionChecker("3*4*x").checkEdit("12x", "12 x")
-				.checkVal("12x").checkGiac("(12)*(x)");
+		new ExpressionChecker("3*4*x").checkEdit("3 * 4x", "3*4 x")
+				.checkVal("3 * 4x").checkGiac("((3)*(4))*(x)");
 		new ExpressionChecker("3*(4*x)").checkEdit("3 * 4x", "3 * 4 x")
 				.checkVal("3 * 4x").checkGiac("(3)*((4)*(x))");
 		new ExpressionChecker("3*4").checkEdit("3 * 4").checkVal("12").checkGiac("(3)*(4)");

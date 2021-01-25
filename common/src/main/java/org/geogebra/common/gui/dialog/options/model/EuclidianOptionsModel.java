@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.background.BackgroundType;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
@@ -11,6 +12,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -280,20 +282,24 @@ public class EuclidianOptionsModel {
 					view.getXminObject().getLabel(StringTemplate.editTemplate),
 					view.getXmaxObject().getLabel(StringTemplate.editTemplate),
 					view.getYminObject().getLabel(StringTemplate.editTemplate),
-					view.getYmaxObject().getLabel(StringTemplate.editTemplate));
+					view.getYmaxObject().getLabel(StringTemplate.editTemplate),
+					((EuclidianView3D) view).getZminObject().getLabel(StringTemplate.editTemplate),
+					((EuclidianView3D) view).getZmaxObject().getLabel(StringTemplate.editTemplate));
 		} else {
+			final EuclidianSettings settings = getSettings();
+			if (settings instanceof EuclidianSettings3D) {
+				((EuclidianSettings3D) settings).setUpdateScaleOrigin(true);
+			}
+
 			switch (type) {
 			case maxX:
-				EuclidianSettings settings = getSettings();
 				if (settings != null) {
 					settings.setXmaxObject(minMax, true);
 				} else {
 					view.setXmaxObject(minMax);
 				}
-
 				break;
 			case maxY:
-				settings = getSettings();
 				if (settings != null) {
 					settings.setYmaxObject(minMax, true);
 				} else {
@@ -302,7 +308,6 @@ public class EuclidianOptionsModel {
 
 				break;
 			case minX:
-				settings = getSettings();
 				if (settings != null) {
 					settings.setXminObject(minMax, true);
 				} else {
@@ -310,13 +315,25 @@ public class EuclidianOptionsModel {
 				}
 				break;
 			case minY:
-				settings = getSettings();
 				if (settings != null) {
 					settings.setYminObject(minMax, true);
 				} else {
 					view.setYminObject(minMax);
 				}
-
+				break;
+			case minZ:
+				if (settings != null) {
+					((EuclidianSettings3D) settings).setZminObject(minMax, true);
+				} else {
+					((EuclidianView3D) view).setZminObject(minMax);
+				}
+				break;
+			case maxZ:
+				if (settings != null) {
+					((EuclidianSettings3D) settings).setZmaxObject(minMax, true);
+				} else {
+					((EuclidianView3D) view).setZmaxObject(minMax);
+				}
 				break;
 			default:
 				break;
@@ -544,7 +561,7 @@ public class EuclidianOptionsModel {
 	}
 
 	public enum MinMaxType {
-		minX, maxX, minY, maxY
+		minX, maxX, minY, maxY, minZ, maxZ
 	}
 
 	public interface IEuclidianOptionsListener {
@@ -555,7 +572,8 @@ public class EuclidianOptionsModel {
 
 		void enableAxesRatio(boolean value);
 
-		void setMinMaxText(String minX, String maxX, String minY, String maxY);
+		void setMinMaxText(String minX, String maxX, String minY, String maxY, String minZ,
+				String maxZ);
 
 		void addGridTypeItem(String item);
 

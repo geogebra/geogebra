@@ -19,6 +19,7 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
@@ -39,6 +40,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.ScreenLocation;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ScreenReader;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 
 import com.google.j2objc.annotations.WeakOuter;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -404,27 +407,12 @@ public final class DrawDropDownList extends CanvasDrawable
 		}
 
 		private void setHovered(OptionItem item) {
-
-			if (item == null) {
+			if (item == null || item.isEqual(hovered)) {
 				return;
 			}
-
-			if (item.isEqual(hovered)) {
-				return;
-			}
-
-			drawHovered(false);
+			view.getApplication().dispatchEvent(getFocusEvent(item));
 			hovered = item;
-			drawHovered(true);
 			viewOpt.repaintView();
-		}
-
-		private void drawHovered(boolean on) {
-			if (hovered != null && hovered.index > -1
-					&& hovered.index < items.size()) {
-				OptionItem item = items.get(hovered.index);
-				drawItem(item, on);
-			}
 		}
 
 		void scrollUp() {
@@ -852,7 +840,9 @@ public final class DrawDropDownList extends CanvasDrawable
 			if (visible) {
 				ScreenReader.readDropDownOpened(geoList);
 			}
-
+			if (this.visible != visible) {
+				view.getApplication().dispatchEvent(getOpenClosedEvent(visible));
+			}
 			this.visible = visible;
 			if (visible) {
 				viewOpt.setOpenedComboBox(DrawDropDownList.this);
@@ -917,7 +907,7 @@ public final class DrawDropDownList extends CanvasDrawable
 			}
 
 			if (update && idx >= 0 && idx < items.size()) {
-				hovered = items.get(idx);
+				setHovered(items.get(idx));
 				selectedIndex = idx;
 				update();
 
@@ -974,6 +964,25 @@ public final class DrawDropDownList extends CanvasDrawable
 			setDragging(false);
 		}
 
+	}
+
+	private Event getFocusEvent(DrawOptions.OptionItem item) {
+		Event evt = new Event(EventType.DROPDOWN_ITEM_FOCUSED, geoList);
+		HashMap<String, Object> args = new HashMap<>();
+		args.put("index", drawOptions.items.indexOf(item));
+		evt.setJsonArgument(args);
+		return evt;
+	}
+
+	private Event getOpenClosedEvent(boolean visible) {
+		EventType type = visible ? EventType.DROPDOWN_OPENED : EventType.DROPDOWN_CLOSED;
+		Event evt = new Event(type, geoList);
+		if (!visible) {
+			HashMap<String, Object> args = new HashMap<>();
+			args.put("index", geoList.getSelectedIndex());
+			evt.setJsonArgument(args);
+		}
+		return evt;
 	}
 
 	/**
@@ -1295,7 +1304,6 @@ public final class DrawDropDownList extends CanvasDrawable
 	 *            mouse y-coord
 	 */
 	public void onOptionOver(int x, int y) {
-
 		drawOptions.onMouseOver(x, y);
 	}
 

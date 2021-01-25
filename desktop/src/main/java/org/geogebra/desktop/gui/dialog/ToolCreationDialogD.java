@@ -63,7 +63,7 @@ import org.geogebra.desktop.main.LocalizationD;
  * @author Markus Hohenwarter
  * @version 2010-06-14 Last change: Zbynek Konecny
  */
-public class ToolCreationDialogD extends javax.swing.JDialog
+public class ToolCreationDialogD extends Dialog
 		implements GeoElementSelectionListener {
 	private static final long serialVersionUID = 1L;
 	private final AppD app;

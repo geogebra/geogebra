@@ -33,6 +33,8 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Runs commands and handles string to command processor conversion.
  *
@@ -40,11 +42,14 @@ import org.geogebra.common.util.debug.Log;
 public abstract class CommandDispatcher {
 
 	/** kernel **/
+	@Weak
 	protected Kernel kernel;
+	@Weak
 	private Construction cons;
 	/**
 	 * Application
 	 */
+	@Weak
 	protected App app;
 
 	/**
@@ -438,6 +443,8 @@ public abstract class CommandDispatcher {
 			case ScientificText:
 			case VerticalText:
 			case RotateText:
+			case ReplaceAll:
+			case Split:
 			case Ordinal:
 			case Parameter:
 			case Incircle:
