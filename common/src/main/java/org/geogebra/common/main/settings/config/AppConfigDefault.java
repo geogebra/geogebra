@@ -336,4 +336,9 @@ public class AppConfigDefault extends AbstractAppConfig {
 	public boolean hasLabelForDescription() {
 		return true;
 	}
+
+	@Override
+	public boolean hasEuclidianView() {
+		return true;
+	}
 }

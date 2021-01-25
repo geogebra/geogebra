@@ -40,12 +40,12 @@ public class DoubleUtil {
 	 * 
 	 * 
 	 */
-	final public static boolean isEqual(double x, double y) {
-		if (x == y) {
+	final public static boolean isEqual(double a, double b) {
+		if (a == b) {
 			return true;
 		}
-		return ((x - Kernel.STANDARD_PRECISION) <= y)
-				&& (y <= (x + Kernel.STANDARD_PRECISION));
+		return ((a - Kernel.STANDARD_PRECISION) <= b)
+				&& (b <= (a + Kernel.STANDARD_PRECISION));
 	}
 
 	/**

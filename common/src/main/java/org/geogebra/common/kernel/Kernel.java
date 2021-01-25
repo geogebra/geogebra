@@ -4326,7 +4326,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		app.getCompanion().storeViewCreators();
 		notifyReset();
 		clearJustCreatedGeosInViews();
-		getApplication().getActiveEuclidianView().getEuclidianController().clearSelections();
+		EuclidianView ev = app.getActiveEuclidianView();
+		if (ev != null) {
+			ev.getEuclidianController().clearSelections();
+		}
 		VideoManager videoManager = getApplication().getVideoManager();
 		if (videoManager != null) {
 			videoManager.storeVideos();
@@ -4335,14 +4338,20 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (embedManager != null) {
 			embedManager.storeEmbeds();
 		}
-		app.getActiveEuclidianView().resetInlineObjects();
+		if (ev != null) {
+			ev.resetInlineObjects();
+		}
 	}
 
 	private void restoreAfterReload() {
 		notifyReset();
 		app.getCompanion().recallViewCreators();
 		app.getSelectionManager().recallSelectedGeosNames(this);
-		getApplication().getActiveEuclidianView().restoreDynamicStylebar();
+
+		EuclidianView ev = getApplication().getActiveEuclidianView();
+		if (ev != null) {
+			ev.restoreDynamicStylebar();
+		}
 	}
 
 	/**
@@ -4400,8 +4409,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	public void undo() {
 		if (undoActive) {
-			if (getApplication().getActiveEuclidianView()
-					.getEuclidianController().isUndoableMode()) {
+			EuclidianView ev = getApplication().getActiveEuclidianView();
+			if (ev != null && ev.getEuclidianController().isUndoableMode()) {
 				if (getSelectionManager().isGeoToggled()
 						&& !getSelectionManager().getSelectedGeos().isEmpty()) {
 
