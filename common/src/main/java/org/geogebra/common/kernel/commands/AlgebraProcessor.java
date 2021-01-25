@@ -2361,7 +2361,8 @@ public class AlgebraProcessor {
 				return ret;
 			}
 		}
-		if (!fun.initFunction(info.withSimplifying(false))) {
+		if (!fun.initFunction(info.withSimplifying(false))
+				&& "3d".equals(app.getConfig().getAppCode())) {
 			return processFunctionAsSurface(fun, info);
 		}
 
