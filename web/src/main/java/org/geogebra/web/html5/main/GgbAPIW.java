@@ -1179,30 +1179,8 @@ public class GgbAPIW extends GgbAPI {
 	 *            callback
 	 */
 	public void getScreenshotBase64(StringConsumer callback) {
-		getScreenshotURL(((AppW) app).getPanel().getElement(), callback);
+		((AppW) app).getAppletFrame().getScreenshotBase64(callback);
 	}
-
-	/**
-	 * Make a screenshot of given element.
-	 * 
-	 * @param el
-	 *            element
-	 * @param callback
-	 *            callback
-	 */
-	public native void getScreenshotURL(Element el,	Object callback) /*-{
-		var canvas = document.createElement("canvas");
-		canvas.height = el.offsetHeight;
-		canvas.width = el.offsetWidth;
-		var context = canvas.getContext('2d');
-		el.className = el.className + " ggbScreenshot";
-		$wnd.domvas.toImage(el, function() {
-			// Look ma, I just converted this element to an image and can now to funky stuff!
-			context.drawImage(this, 0, 0);
-			el.className = el.className.replace(/\bggbScreenshot\b/, '');
-			callback(@org.geogebra.web.html5.main.GgbAPIW::pngBase64(Ljava/lang/String;)(canvas.toDataURL()));
-		});
-	}-*/;
 
 	/**
 	 * @param workerUrls
