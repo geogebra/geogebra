@@ -91,6 +91,6 @@ public class CellBox extends Box {
 	@Override
 	public void inspect(BoxConsumer handler, BoxPosition position) {
 		super.inspect(handler, position);
-		box.inspect(handler, position);
+		box.inspect(handler, position.withX(position.x + left));
 	}
 }

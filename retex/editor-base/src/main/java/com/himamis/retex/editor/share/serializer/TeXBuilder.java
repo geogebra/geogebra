@@ -9,18 +9,20 @@ import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.renderer.share.ArrayOfAtoms;
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.ColorAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
+import com.himamis.retex.renderer.share.EnvArray;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.NthRoot;
 import com.himamis.retex.renderer.share.PhantomAtom;
 import com.himamis.retex.renderer.share.RowAtom;
+import com.himamis.retex.renderer.share.SMatrixAtom;
 import com.himamis.retex.renderer.share.ScaleAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
-import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
 import com.himamis.retex.renderer.share.Symbols;
 import com.himamis.retex.renderer.share.TeXConstants;
@@ -58,8 +60,9 @@ public class TeXBuilder {
 		if (mathFormula.size() == 0) {
 			Atom a;
 			if (mathFormula == currentField) {
-				a = newCharAtom('\0');
-				atomToComponent.put(a, SELECTION);
+				Atom placeholder = new CharAtom('g');
+				atomToComponent.put(placeholder, SELECTION);
+				a = new ScaleAtom(new PhantomAtom(placeholder), 0.1, 1);
 			} else {
 				a = new ColorAtom(
 						new ScaleAtom(new PhantomAtom(new CharAtom('g')), 1, 1.6),
@@ -137,19 +140,32 @@ public class TeXBuilder {
 		if (ret instanceof SymbolAtom) {
 			ret = ((SymbolAtom) ret).duplicate();
 		}
-		if (unicode == '=') {
-			return new RowAtom(space(), ret, space());
-		}
 
 		return ret;
 	}
 
-	private Atom space() {
-		return new SpaceAtom(TeXConstants.Muskip.THIN);
-	}
+	private Atom buildArray(MathArray array) {
+		if (array.isMatrix()) {
+			final SymbolAtom op = SymbolAtom.get(lookupBracket('('));
+			final SymbolAtom cl = SymbolAtom.get(lookupBracket(')'));
 
-	private Atom buildArray(MathArray argument) {
-		return buildFenced(argument.getOpenKey(), argument.getCloseKey(), argument, 0);
+			ArrayOfAtoms aoa = new ArrayOfAtoms();
+			for (int i = 0; i < array.rows(); i++) {
+				for (int j = 0; j < array.columns(); j++) {
+					if (j != 0) {
+						aoa.add(EnvArray.ColSep.get());
+					}
+					aoa.add(build(array.getArgument(i, j)));
+				}
+				aoa.add(EnvArray.RowSep.get());
+			}
+			aoa.checkDimensions();
+
+			final Atom mat = new SMatrixAtom(aoa, false);
+			return new FencedAtom(mat, op, cl);
+		} else {
+			return buildFenced(array.getOpenKey(), array.getCloseKey(), array, 0);
+		}
 	}
 
 	private Atom buildString(String str) {

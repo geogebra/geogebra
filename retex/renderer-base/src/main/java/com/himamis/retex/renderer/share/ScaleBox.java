@@ -91,8 +91,7 @@ public class ScaleBox extends Box {
 
 	@Override
 	public void inspect(BoxConsumer handler, BoxPosition position) {
-		BoxPosition scaled = position.withScale(yscl);
-		super.inspect(handler, scaled);
-		box.inspect(handler, scaled);
+		super.inspect(handler, position);
+		box.inspect(handler, position);
 	}
 }

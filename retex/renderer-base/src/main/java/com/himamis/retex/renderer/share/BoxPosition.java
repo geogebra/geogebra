@@ -17,6 +17,10 @@ public class BoxPosition {
 		return new BoxPosition(x, y, this.scale, this.baseline);
 	}
 
+	public BoxPosition withX(double x) {
+		return new BoxPosition(x, this.y, this.scale, this.baseline);
+	}
+
 	public BoxPosition withY(double y) {
 		return new BoxPosition(this.x, y, this.scale, this.baseline);
 	}
