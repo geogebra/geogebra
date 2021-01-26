@@ -1,13 +1,21 @@
 package org.geogebra.common.euclidian;
 
+import static org.mockito.ArgumentMatchers.notNull;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+
 import java.util.TreeSet;
 
+import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFormula;
@@ -15,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.main.Feature;
@@ -25,11 +34,18 @@ import org.junit.Test;
 
 public class DrawablesTest {
 	private AppCommon3D app;
+	private GGraphicsCommon graphics;
 
 	@Before
 	public void setupApp() {
+		graphics = spy(new GGraphicsCommon());
 		app = new AppCommon3D(new LocalizationCommon(3),
-				new AwtFactoryCommon());
+				new AwtFactoryCommon()) {
+			@Override
+			protected GGraphics2D createGraphics() {
+				return graphics;
+			}
+		};
 	}
 
 	@Test
@@ -92,6 +108,15 @@ public class DrawablesTest {
 					|| GeoClass.INLINE_TEXT == type);
 		}
 
+	}
+
+	@Test
+	public void testHatching() {
+		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
+		GeoElementND poly = ap.processAlgebraCommand("Polygon(O,O+1,4)", false)[0];
+		poly.setFillType(FillType.HATCH);
+		poly.updateVisualStyleRepaint(GProperty.HATCHING);
+		verify(graphics, atLeastOnce()).fill(notNull());
 	}
 
 	private static boolean expectDrawableFor(GeoElementND type) {

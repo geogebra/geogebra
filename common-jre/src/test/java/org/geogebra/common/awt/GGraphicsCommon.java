@@ -9,7 +9,9 @@ public class GGraphicsCommon implements GGraphics2D {
 
     @Override
     public void draw(GShape s) {
-        // ignore empty method
+        if (s == null) {
+            throw new IllegalArgumentException("Shape cannot be null");
+        }
     }
 
     @Override
@@ -34,7 +36,9 @@ public class GGraphicsCommon implements GGraphics2D {
 
     @Override
     public void fill(GShape s) {
-        // ignore empty method
+        if (s == null) {
+            throw new IllegalArgumentException("Shape cannot be null");
+        }
     }
 
     @Override

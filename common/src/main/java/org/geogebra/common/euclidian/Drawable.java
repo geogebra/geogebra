@@ -657,7 +657,7 @@ public abstract class Drawable extends DrawableND {
 				geo.getFillSymbol(), geo.getKernel().getApplication());
 
 		g2.setPaint(gpaint);
-		getHatchingHandler().fill(g2, shape, getView().getApplication());
+		getHatchingHandler().fill(g2, fillShape, getView().getApplication());
 
 	}
 

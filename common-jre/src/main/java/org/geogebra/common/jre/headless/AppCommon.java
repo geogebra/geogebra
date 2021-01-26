@@ -143,7 +143,7 @@ public class AppCommon extends App {
 				createGraphics());
     }
 
-	private static GGraphics2D createGraphics() {
+	protected GGraphics2D createGraphics() {
 		return AwtFactory.getPrototype().createBufferedImage(800, 600, false)
 				.createGraphics();
 	}
