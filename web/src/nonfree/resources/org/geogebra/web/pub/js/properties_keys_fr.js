@@ -1542,7 +1542,7 @@ __GGB__keysVar["fr"].menu = {
     "ContextMenu.Group": "Groupe",
     "ContextMenu.Heading": "Ent\xeate",
     "ContextMenu.Row": "Ligne",
-    "ContextMenu.SendBackward": "Afficher en plein \xe9cran (lorsque pas en plein \xe9cran)",
+    "ContextMenu.SendBackward": "Reculer",
     "ContextMenu.SendToBack": "Mettre \xe0 l'arri\xe8re",
     "ContextMenu.Ungroup": "Dissocier",
     "ContextMenu.clip": "Non activ\xe9",
