@@ -280,6 +280,16 @@ public class EventDispatcher implements ClientView {
 	}
 
 	@Override
+	public void groupObjects(ArrayList<GeoElement> geos) {
+		dispatchEvent(new Event(EventType.GROUP_OBJECTS, null, null, geos));
+	}
+
+	@Override
+	public void ungroupObjects(ArrayList<GeoElement> geos) {
+		dispatchEvent(new Event(EventType.UNGROUP_OBJECTS, null, null, geos));
+	}
+
+	@Override
 	public boolean suggestRepaint() {
 		return false;
 		// not used for this view

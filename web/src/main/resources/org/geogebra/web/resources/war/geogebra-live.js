@@ -87,7 +87,11 @@
 
                         let commandString = that.api.getCommandString(label, false);
                         if (commandString) {
-                             that.sendEvent("evalCommand", label + " = " + commandString, label);
+                            that.sendEvent("evalCommand", label + " = " + commandString, label);
+                            var group = that.api.getObjectsOfItsGroup(label);
+                            if (group != null) {
+                                that.sendEvent("addToGroup", label, group);
+                            }
                         } else {
                             let xml = that.api.getXML(label);
                             that.sendEvent("evalXML", xml, label);
@@ -224,6 +228,14 @@
                     this.sendEvent(event[0], label, label);
                     break;
 
+                case "groupObjects":
+                    this.sendEvent(event[0], event.targets);
+                    break;
+
+                case "ungroupObjects":
+                    this.sendEvent(event[0], event.targets);
+                    break;
+
                 default:
                     // console.log("unhandled event ", event[0], event);
             }
@@ -305,7 +317,13 @@
                     }
                 } else if (last.type == "orderingChange") {
 					target.api.updateOrdering(last.content);
-				}
+                } else if (last.type == "groupObjects") {
+                    target.api.groupObjects(last.content);
+                } else if (last.type == "ungroupObjects") {
+                    target.api.ungroupObjects(last.content);
+                } else if (last.type == "addToGroup") {
+                    target.api.addToGroup(last.content, last.label);
+                }
             }
         };
    }

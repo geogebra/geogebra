@@ -89,4 +89,8 @@ public interface ClientView extends View {
 	 * 			The animated geoElement
 	 */
 	public void stopAnimation(GeoElement geo);
+
+	public void groupObjects(ArrayList<GeoElement> geos);
+
+	public void ungroupObjects(ArrayList<GeoElement> geos);
 }

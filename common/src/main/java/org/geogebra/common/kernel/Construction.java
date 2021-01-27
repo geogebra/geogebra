@@ -13,6 +13,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.LayerManager;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
@@ -3669,4 +3670,110 @@ public class Construction {
 	public LayerManager getLayerManager() {
 		return layerManager;
 	}
+
+	/**
+	 * creates group of geos
+	 * @param geos - list of geos to be grouped
+	 */
+	public void createGroupFromSelected(ArrayList<GeoElement> geos) {
+		EuclidianView ev = getApplication().getActiveEuclidianView();
+
+		ungroupGroups(geos);
+		unfixAll(geos);
+		ev.getEuclidianController().splitSelectedStrokes(true);
+
+		createGroup(geos);
+		getLayerManager().groupObjects(geos);
+		ev.invalidateDrawableList();
+	}
+
+	/**
+	 * ungroups a group of geos
+	 * @param geos - list of geos to be ungrouped
+	 */
+	public void ungroupGroups(ArrayList<GeoElement> geos) {
+		for (GeoElement geo : geos) {
+			Group groupOfGeo = geo.getParentGroup();
+			if (groupOfGeo != null) {
+				removeGroupFromGroupList(groupOfGeo);
+				geo.setParentGroup(null);
+			}
+		}
+	}
+
+	private void unfixAll(ArrayList<GeoElement> geos) {
+		for (GeoElement geo : geos) {
+			geo.setFixed(false);
+		}
+	}
+
+	/**
+	 * creates group of objects given by their labels
+	 * @param objects - list of labels of objects to be grouped
+	 */
+	public void groupObjects(String[] objects) {
+		ArrayList<GeoElement> geos = getGeosByLabel(objects);
+		createGroupFromSelected(geos);
+	}
+
+	/**
+	 * ungroups group of objects given by their labels
+	 * @param objects - list of labels of objects to be ungrouped
+	 */
+	public void ungroupObjects(String[] objects) {
+		ArrayList<GeoElement> geos = getGeosByLabel(objects);
+		ungroupGroups(geos);
+	}
+
+	/**
+	 * @param object
+	 *            label of object
+	 * @return array of labels of objects in the same group as the given object
+	 */
+	public String[] getObjectsOfItsGroup(String object) {
+		Group parentGroup = getParentGroup(object);
+		if (parentGroup != null) {
+			ArrayList<GeoElement> geos = parentGroup.getGroupedGeos();
+			String[] objectsInGroup = new String[geos.size()];
+			for (int i = 0; i < objectsInGroup.length; i++) {
+				objectsInGroup[i] = geos.get(i).getLabelSimple();
+			}
+			return objectsInGroup;
+		}
+		return null;
+	}
+
+	/**
+	 * adds an object to a group
+	 * @param object
+	 *            label of object to be added to the group
+	 * @param objectsInGroup
+	 *            list of labels of objects in the group the given object has to be added to
+	 */
+	public void addToGroup(String object, String[] objectsInGroup) {
+		GeoElement geo = geoTable.get(object);
+		for (String i : objectsInGroup) {
+			Group parentGroup = getParentGroup(i);
+			if (parentGroup != null) {
+				parentGroup.setFixed(geo.isLocked());
+				parentGroup.getGroupedGeos().add(geo);
+				geo.setParentGroup(parentGroup);
+				return;
+			}
+		}
+	}
+
+	private Group getParentGroup(String object) {
+		GeoElement geoInGroup = geoTable.get(object);
+		return geoInGroup.getParentGroup();
+	}
+
+	private ArrayList<GeoElement> getGeosByLabel(String[] list) {
+		ArrayList<GeoElement> geos = new ArrayList<>();
+		for (String g : list) {
+			geos.add(geoTable.get(g));
+		}
+		return geos;
+	}
+
 }

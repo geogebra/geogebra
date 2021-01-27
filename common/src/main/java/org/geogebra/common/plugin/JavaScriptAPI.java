@@ -1135,4 +1135,11 @@ public interface JavaScriptAPI {
 	 */
 	void previewRefresh();
 
+	void groupObjects(String[] objects);
+
+	void ungroupObjects(String[] objects);
+
+	String[] getObjectsOfItsGroup(String object);
+
+	void addToGroup(String object, String[] objectInGroup);
 }

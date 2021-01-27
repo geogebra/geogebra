@@ -961,4 +961,20 @@ public class DefaultExportedApi implements ExportedApi {
 	public void previewRefresh() {
 		ggbAPI.previewRefresh();
 	}
+
+	public void groupObjects(String[] objects) {
+		ggbAPI.groupObjects(objects);
+	}
+
+	public void ungroupObjects(String[] objects) {
+		ggbAPI.ungroupObjects(objects);
+	}
+
+	public String[] getObjectsOfItsGroup(String object) {
+		return ggbAPI.getObjectsOfItsGroup(object);
+	}
+
+	public void addToGroup(String item, String[] objectsInGroup) {
+		ggbAPI.addToGroup(item, objectsInGroup);
+	}
 }
