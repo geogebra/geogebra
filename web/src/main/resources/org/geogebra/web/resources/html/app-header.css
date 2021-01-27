@@ -96,6 +96,13 @@
 	height: 24px;
 }
 
+.GeoGebraFrame button {
+    border: initial;
+    background: initial;
+    font-family: geogebra-sans-serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+}
+
 .GeoGebraFrame .menuBtn {
 	margin: 14px 0px 14px 18px;
 }
