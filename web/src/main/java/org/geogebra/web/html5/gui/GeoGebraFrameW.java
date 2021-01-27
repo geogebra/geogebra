@@ -12,6 +12,7 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.LoadFilePresenter;
+import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.Visibility;
 import org.geogebra.web.html5.util.debug.LoggerW;
@@ -673,5 +674,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if (splash != null) {
 			splash.canNowHide();
 		}
+	}
+
+	public void getScreenshotBase64(StringConsumer callback) {
+		callback.consume(app.getEuclidianView1().getCanvasBase64WithTypeString());
 	}
 }

@@ -1,11 +1,11 @@
-package org.geogebra.desktop.kernel;
+package org.geogebra.desktop.main.undo;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.geogebra.common.jre.io.MyXMLioJre;
-import org.geogebra.common.kernel.AppState;
+import org.geogebra.common.main.undo.AppState;
 import org.geogebra.common.util.debug.Log;
 
 /**

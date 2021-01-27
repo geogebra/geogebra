@@ -909,12 +909,15 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 			// special case: left side is negative and
 			// right side is a fraction a/b with a and b integers
+			// where a/b can be positive or negative
 			// x^(a/b) := (x^a)^(1/b)
-			if ((base < 0) && right.isExpressionNode()
-					&& ((ExpressionNode) right)
-							.getOperation() == Operation.DIVIDE) {
-				num.set(ExpressionNodeEvaluator.negPower(base, right));
-				return num;
+
+			if (base < 0 && right.isExpressionNode()) {
+				Double negPower = right.wrap().calculateNegPower(base);
+				if (negPower != null) {
+					num.set(negPower);
+					return num;
+				}
 			}
 
 			// standard case

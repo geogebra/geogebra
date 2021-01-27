@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.undoredo;
+package org.geogebra.common.main.undo;
 
 import org.geogebra.common.gui.view.ActionView;
 import org.geogebra.common.kernel.Kernel;
@@ -14,7 +14,7 @@ import com.google.j2objc.annotations.Weak;
  * The startListeningToTriggerEvents() method has to be called in order add the actions and set the
  * listener.
  */
-public class UndoRedoExecutor {
+public class UndoRedoButtonsController implements UndoInfoStoredListener {
 
 	@Weak
 	private Kernel kernel;
@@ -26,7 +26,7 @@ public class UndoRedoExecutor {
 	 * @param undoWidget The widget that will have the undo functionality.
 	 * @param redoWidget The widget that will have the redo functionality.
 	 */
-	public UndoRedoExecutor(Kernel kernel, ActionView undoWidget, ActionView redoWidget) {
+	public UndoRedoButtonsController(Kernel kernel, ActionView undoWidget, ActionView redoWidget) {
 		this.kernel = kernel;
 		this.undoWidget = undoWidget;
 		this.redoWidget = redoWidget;
@@ -46,16 +46,12 @@ public class UndoRedoExecutor {
 		kernel
 				.getConstruction()
 				.getUndoManager()
-				.addUndoInfoStoredListener(createUndoInfoStoredListener());
+				.addUndoInfoStoredListener(this);
 	}
 
-	private UndoInfoStoredListener createUndoInfoStoredListener() {
-		return new UndoInfoStoredListener() {
-			@Override
-			public void onUndoInfoStored() {
-				updateAppearance();
-			}
-		};
+	@Override
+	public void onUndoInfoStored() {
+		updateAppearance();
 	}
 
 	private Runnable createUndoAction() {
@@ -105,6 +101,7 @@ public class UndoRedoExecutor {
 			ActionView undoWidget, ActionView redoWidget,
 			Kernel kernel) {
 
-		new UndoRedoExecutor(kernel, undoWidget, redoWidget).startListeningToTriggerEvents();
+		new UndoRedoButtonsController(kernel, undoWidget, redoWidget)
+				.startListeningToTriggerEvents();
 	}
 }

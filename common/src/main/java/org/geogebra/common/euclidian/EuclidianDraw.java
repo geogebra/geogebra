@@ -57,7 +57,6 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
@@ -160,17 +159,11 @@ public class EuclidianDraw {
 			break;
 
 		case FUNCTION_NVAR:
-			if (((GeoFunctionNVar) geo).isBooleanFunction()
-					&& ((GeoFunctionNVar) geo).getVarNumber() < 3) {
-				d = new DrawInequality(ev, (GeoFunctionNVar) geo);
-			}
-			break;
 		case INTERVAL:
-			if (((GeoFunction) geo).isBooleanFunction()) {
-				d = new DrawInequality(ev, (GeoFunction) geo);
-			}
+			// create inequality drawable for *all* functions as a placeholder
+			// x+y may later become x>y via SetValue / input box
+			d = new DrawInequality(ev, (FunctionalNVar) geo);
 			break;
-
 		case ANGLE:
 			if (geo.isIndependent()) {
 				// independent number may be shown as slider

@@ -122,5 +122,5 @@ javadoc {
 pmd {
      ignoreFailures = true
      ruleSets = []
-     ruleSetFiles = files("config/pmd.xml")
+     ruleSetFiles = files("../../config/pmd.xml")
 }

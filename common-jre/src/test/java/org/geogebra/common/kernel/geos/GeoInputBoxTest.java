@@ -610,6 +610,15 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testSingleIneqRedefinedSetValue() {
+		add("a:x<6");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("?");
+		add("SetValue(a,?)");
+		assertThat(((GeoFunction) lookup("a")).isForceInequality(), equalTo(true));
+	}
+
+	@Test
 	public void testCommandLikeImplicitMultiplicationParsesCorrectly() {
 		add("f(g, L) = ?");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
@@ -652,7 +661,8 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		assertEquals("floor(1 + 2) + 3 + 4", inputBox.getText());
 
 		inputBox.updateLinkedGeo("e^36-1");
-		assertEquals("ℯ³⁶ - 1", inputBox.getText());
+		assertEquals(Unicode.EULER_STRING + Unicode.SUPERSCRIPT_3
+				+ Unicode.SUPERSCRIPT_6 + " - 1", inputBox.getText());
 	}
 
 	@Test
@@ -665,7 +675,8 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		assertEquals("1 + 1 + t", inputBox.getText());
 
 		inputBox.updateLinkedGeo("10^10 + t");
-		assertEquals("10¹⁰ + t", inputBox.getText());
+		assertEquals("10" + Unicode.SUPERSCRIPT_1
+				+ Unicode.SUPERSCRIPT_0 + " + t", inputBox.getText());
 
 		inputBox.updateLinkedGeo("-3/4t + 2*3/2");
 		assertEquals("-3 / 4 t + 2 * 3 / 2", inputBox.getText());

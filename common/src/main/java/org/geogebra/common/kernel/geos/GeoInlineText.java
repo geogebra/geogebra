@@ -22,11 +22,14 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 
 	public static final int DEFAULT_WIDTH = 100;
 	public static final int DEFAULT_HEIGHT = 30;
+	public static final int NO_BORDER = 0;
 
 	private double minHeight;
 
 	private String content;
 	private int contentDefaultSize;
+
+	private GColor borderColor = GColor.BLACK;
 
 	/**
 	 * Creates new GeoInlineText instance.
@@ -40,6 +43,7 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 		super(c);
 		setLocation(location);
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		setLineThickness(NO_BORDER);
 		this.contentDefaultSize = getCurrentFontSize();
 	}
 
@@ -109,6 +113,22 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 			setLocation(text.getLocation());
 			setSize(text.getWidth(), text.getHeight());
 		}
+	}
+
+	public void setBorderColor(GColor borderCol) {
+		borderColor = borderCol;
+	}
+
+	public GColor getBorderColor() {
+		return borderColor;
+	}
+
+	public void setBorderThickness(int borderThickness) {
+		setLineThickness(borderThickness);
+	}
+
+	public int getBorderThickness() {
+		return getLineThickness();
 	}
 
 	@Override
@@ -236,4 +256,13 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 			// unlikely
 		}
     }
+
+	@Override
+	protected void getXMLtags(StringBuilder sb) {
+		super.getXMLtags(sb);
+		XMLBuilder.appendBorder(sb, this);
+		if (getBorderThickness() != 0) {
+			getLineStyleXML(sb);
+		}
+	}
 }

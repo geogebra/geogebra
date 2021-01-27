@@ -104,7 +104,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	protected double intervalMax;
 	private boolean evalSwapped;
 	// parent conditional function
-	// private GeoFunctionConditional parentCondFun = null;
 
 	private Boolean isInequality = null;
 	private String shortLHS;
@@ -416,6 +415,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 *            function
 	 */
 	public void setFunction(Function f) {
+		if (fun != null && f != null && fun.isForceInequality()) {
+			f.setForceInequality(true);
+		}
 		fun = f;
 		// reset this for garbage collection, also the flag needs update for
 		// #5054
@@ -582,8 +584,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		GeoFunction ff = (GeoFunction) f;
 
 		if (ff.isDefined()) {
-			fun = (Function) ff.fun.evalCasCommand(ggbCasCmd, symbolic,
-					arbconst);
+			setFunction((Function) ff.fun.evalCasCommand(ggbCasCmd, symbolic,
+					arbconst));
 
 			checkDefined();
 
@@ -808,7 +810,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public boolean isDefined() {
-		return isDefined && fun != null;
+		return isDefined && fun != null && isFunctionDefined(fun);
 	}
 
 	@Override
@@ -1475,7 +1477,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		GeoFunction geoFun = (GeoFunction) geo;
 		// check equality in two points; avoid discontinuities of common functions (1/x, tan(x))
 		if (differAt(this, geoFun, 0.31) || differAt(this, geoFun, 10.89)
-				|| !isFunctionDefined() || !geoFun.isFunctionDefined()) {
+				|| !isDefined() || !geoFun.isDefined()) {
 			return false;
 		}
 		PolyFunction poly1 = getFunction()
@@ -1496,10 +1498,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return isDifferenceZeroInCAS(geo);
 	}
 
-	private boolean isFunctionDefined() {
-		if (!isDefined()) {
-			return false;
-		}
+	protected static boolean isFunctionDefined(FunctionNVar fun) {
 		// function defined as "?"
 		ExpressionValue def = fun.getExpression().unwrap();
 		return !(def instanceof MyDouble && def.isConstant()

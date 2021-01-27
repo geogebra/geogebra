@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.spotbugs' version '1.6.9'
+    id "com.github.spotbugs" version "4.6.0"
 }
 
 description 'Common parts of GeoGebra that depends on JRE support.'
@@ -27,7 +27,7 @@ dependencies {
     testCompile project(':ggbjdk')
 
     testCompile "junit:junit:$junitVersion"
-    testCompile "org.hamcrest:hamcrest:$hamcrestVersion"
+    testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
     testCompile "org.mockito:mockito-core:$mockitoVersion"
 }
 
@@ -47,21 +47,17 @@ if (hasProperty("eclipse")) {
 }
 
 spotbugs {
-     ignoreFailures = true
-     excludeFilter = file("config/findbugs.xml")
+    ignoreFailures = true
+    excludeFilter = file("config/findbugs.xml")
 }
 
 pmd {
-     ignoreFailures = true
-     ruleSets = []
-     ruleSetFiles = files("config/pmd.xml")
+    ignoreFailures = true
+    ruleSets = []
+    ruleSetFiles = files("../config/pmd.xml")
 }
 test {
     ignoreFailures = true
-}
-
-checkstyle {
-    toolVersion = "8.8"
 }
 
 // http://stackoverflow.com/questions/20638039/gradle-and-jacoco-instrument-classes-from-a-separate-subproject
@@ -81,12 +77,23 @@ gradle.projectsEvaluated {
 
 jacocoTestReport {
    afterEvaluate {
-        setClassDirectories files(classDirectories.files.collect {
+       getClassDirectories().setFrom( files(classDirectories.files.collect {
             fileTree(dir: it, exclude: ['org/mozilla/**'])
-        })
+        }))
     }
     reports {
         xml.enabled true
         html.enabled false
     }
+}
+
+configurations {
+    testArtifacts.extendsFrom testCompile
+}
+task testJar(type: Jar) {
+    classifier "test"
+    from sourceSets.test.output
+}
+artifacts {
+    testArtifacts testJar
 }

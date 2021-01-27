@@ -29,7 +29,6 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.euclidian.GGraphics2DE;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
@@ -44,6 +43,7 @@ import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.GestureChangeEvent;
@@ -109,11 +109,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 		Canvas canvas = euclidianViewPanel.getCanvas();
 		setEvNo();
-		if (canvas != null) {
-			this.g2p = new GGraphics2DW(canvas);
-		} else {
-			this.g2p = new GGraphics2DE();
-		}
+		this.g2p = new GGraphics2DW(canvas);
 
 		updateFonts();
 		initView(true);
@@ -541,13 +537,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	@Override
 	public String getExportImageDataUrl(double scale, boolean transparent,
 			ExportType format, boolean greyscale) {
-		((RendererWInterface) this.renderer).setBuffering(true);
-		this.doRepaint2();
-
-		String url = ((Canvas) renderer.getCanvas()).toDataUrl(
+		return getExportCanvas().toDataUrl(
 				format == ExportType.WEBP ? "image/webp" : "image/png");
-		((RendererWInterface) this.renderer).setBuffering(false);
-		return url;
 	}
 
 	@Override
@@ -704,5 +695,14 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	@Override
 	public boolean isAttached() {
 		return g2p != null && g2p.isAttached();
+	}
+
+	@Override
+	public CanvasElement getExportCanvas() {
+		RendererWInterface rendererW = (RendererWInterface) this.renderer;
+		rendererW.setBuffering(true);
+		this.doRepaint2();
+		rendererW.setBuffering(true);
+		return rendererW.getCanvas().getCanvasElement();
 	}
 }

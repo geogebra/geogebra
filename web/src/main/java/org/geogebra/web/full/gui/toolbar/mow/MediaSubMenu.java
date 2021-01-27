@@ -19,7 +19,6 @@ public class MediaSubMenu extends SubMenuPanel {
 	 */
 	public MediaSubMenu(AppW app) {
 		super(app);
-		addStyleName("mediaSubMenu");
 	}
 
 	@Override

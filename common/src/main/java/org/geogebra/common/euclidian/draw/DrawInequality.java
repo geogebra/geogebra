@@ -399,7 +399,8 @@ public class DrawInequality extends Drawable {
 	@Override
 	final public void update() {
 		// take line g here, not geo this object may be used for conics too
-		isVisible = geo.isEuclidianVisible();
+		isVisible = geo.isEuclidianVisible() && function.isBooleanFunction()
+				&& function.getFunctionVariables().length < 3;
 		if (!isVisible) {
 			return;
 		}

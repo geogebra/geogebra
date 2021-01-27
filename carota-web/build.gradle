@@ -14,13 +14,13 @@ targetCompatibility = 1.8
 
 dependencies {
     compile 'com.google.elemental2:elemental2-core:1.0.0',
-            'org.murok:editor:1.0.202010050808',
-            'org.murok:editor:1.0.202010050808:sources',
+            'org.murok:editor:1.0.202101141049',
+            'org.murok:editor:1.0.202101141049:sources',
             'org.gwtproject.timer:gwt-timer:1.0-SNAPSHOT'
 }
 
 pmd {
      ignoreFailures = true
      ruleSets = []
-     ruleSetFiles = files("../web/config/pmd.xml")
+     ruleSetFiles = files("../config/pmd.xml")
 }

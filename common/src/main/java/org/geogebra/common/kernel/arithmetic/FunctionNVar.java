@@ -198,7 +198,7 @@ public class FunctionNVar extends ValidExpression
 	/**
 	 * @return function expression
 	 */
-	final public ExpressionNode getExpression() {
+	public ExpressionNode getExpression() {
 		return expression;
 	}
 

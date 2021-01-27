@@ -74,7 +74,7 @@ public class AlgebraItemTest extends BaseUnitTest {
         GeoVector vector = addAvInput("v = (a, 1)");
         String latexString =
                 AlgebraItem.getLatexString(vector, LATEX_MAX_EDIT_LENGHT, false);
-        assertThat(latexString, equalTo("v\\, \\text{undefined} "));
+        assertThat(latexString, equalTo("v\\, = \\,?"));
     }
 
     @Test

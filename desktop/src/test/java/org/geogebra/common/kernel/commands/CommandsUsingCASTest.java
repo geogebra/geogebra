@@ -383,7 +383,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@Test
 	public void cmdIntegralSymbolic() {
-		// Tested in __giac.js
+		// Tested in giacTests.js
 	}
 
 	@Test
@@ -411,8 +411,8 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@Test
 	public void functionComparisonShouldWorkForTrig() {
-		t("f(x)=sin(x)^2", "sin(x)^(2)");
-		t("g(x)=1-cos(x)^2", "1 - cos(x)^(2)");
+		t("f(x)=sin(x)^2", "(sin(x))^(2)");
+		t("g(x)=1-cos(x)^2", "1 - (cos(x))^(2)");
 		t("f==g", "true");
 	}
 
@@ -428,8 +428,8 @@ public class CommandsUsingCASTest extends AlgebraTest {
 			}
 		});
 		// one or both functions undefined
-		t("f(x)=?", "NaN");
-		t("g(x)=?", "NaN");
+		t("f(x)=?", "?");
+		t("g(x)=?", "?");
 		t("f==g", "false");
 
 		// same string

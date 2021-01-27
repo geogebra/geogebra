@@ -5,7 +5,6 @@ import java.util.Locale;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.html5.webcam.WebCamAPI;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -19,6 +18,7 @@ import com.google.gwt.user.client.Window.Navigator;
 import elemental2.core.Function;
 import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
+import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 public class Browser {
@@ -132,19 +132,17 @@ public class Browser {
 	 *
 	 * @return true if WebAssembly supported
 	 */
-	public static native boolean webAssemblySupported()/*-{
+	public static boolean webAssemblySupported() {
+		return hasGlobal("WebAssembly");
+	}
 
-		// currently iOS11 giac.wasm gives slightly wrong results
-		// eg Numeric(fractionalPart(2.7)) gives 0.6999999999999 rather than 0.7
-		var iOS = /iPad|iPhone|iPod/.test($wnd.navigator.userAgent)
-				&& !$wnd.MSStream;
+	public static boolean hasGlobal(String propertyName) {
+		return Js.isTruthy(Js.asPropertyMap(DomGlobal.window).get(propertyName));
+	}
 
-		return !iOS && !!$wnd.WebAssembly;
-	}-*/;
-
-	public static native boolean supportsPointerEvents() /*-{
-		return !!$wnd.PointerEvent;
-	}-*/;
+	public static boolean supportsPointerEvents() {
+		return hasGlobal("PointerEvent");
+	}
 
 	private static boolean isHTTP() {
 		return !"file:".equals(Location.getProtocol());
@@ -217,14 +215,6 @@ public class Browser {
 		} catch (e) {
 			return false;
 		}
-	}-*/;
-
-	/**
-	 * @return whether TRIANGLE_FAN is supported in WebGL
-	 */
-	public static native boolean supportsWebGLTriangleFan()/*-{
-		return $wnd.WebGLRenderingContext
-				&& (!!$wnd.WebGLRenderingContext.TRIANGLE_FAN);
 	}-*/;
 
 	/**
@@ -312,7 +302,7 @@ public class Browser {
 	 * @return whether webcam input is supported in the browser
 	 */
 	public static boolean supportsWebcam() {
-		return WebCamAPI.isSupported();
+		return DomGlobal.window.navigator.mediaDevices != null;
 	}
 
 	/**

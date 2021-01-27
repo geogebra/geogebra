@@ -25,8 +25,9 @@ public final class MultiuserManager {
 	 * @param user user that changed this object
 	 * @param color color associated with the user
 	 * @param label label of the changed object
+	 * @param update if inline selected by notify update prevent it
 	 */
-	public void addSelection(App app, String user, GColor color, String label) {
+	public void addSelection(App app, String user, GColor color, String label, String update) {
 		User currentUser = activeInteractions
 				.computeIfAbsent(user, k -> new User(user, color));
 		for (User u : activeInteractions.values()) {
@@ -34,17 +35,23 @@ public final class MultiuserManager {
 				u.removeSelection(label);
 			}
 		}
-		currentUser.addSelection(app.getActiveEuclidianView(), label);
+		currentUser.addSelection(app.getActiveEuclidianView(), label, update);
 	}
 
 	/**
 	 * Deselect objects associated with given user
+	 * @param app application
 	 * @param user user ID
+	 * @param force on new object creation or obj selection force deselection
 	 */
-	public void deselect(String user) {
+	public void deselect(App app, String user, String force) {
 		User currentUser = activeInteractions.get(user);
 		if (currentUser != null) {
-			currentUser.scheduleDeselection();
+			if (force.isEmpty()) {
+				currentUser.scheduleDeselection();
+			} else {
+				currentUser.deselectAll(app.getActiveEuclidianView());
+			}
 		}
 	}
 
@@ -56,7 +63,7 @@ public final class MultiuserManager {
 	 */
 	public void paintInteractionBoxes(EuclidianView view, GGraphics2D graphics) {
 		graphics.setStroke(AwtFactory.getPrototype()
-				.newBasicStroke(5, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND));
+				.newBasicStroke(6, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND));
 		for (User user : activeInteractions.values()) {
 			user.paintInteractionBoxes(view, graphics);
 		}

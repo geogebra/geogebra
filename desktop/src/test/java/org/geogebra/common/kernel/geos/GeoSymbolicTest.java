@@ -29,6 +29,7 @@ import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
+import org.geogebra.test.UndoRedoTester;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
@@ -537,7 +538,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testTrigSimplify() {
-		t("TrigSimplify(1-sin(x)^2)", "cos(x)^(2)");
+		t("TrigSimplify(1-sin(x)^2)", "(cos(x))^(2)");
 	}
 
 	@Test
@@ -1366,7 +1367,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testAssumeCommand() {
 		t("Assume(a > 0, Integral(exp(-a x), 0, infinity))", "1 / a");
-		t("Assume(x>0 && n>0, Solve(log(n^2*(x/n)^lg(x))=log(x^2), x))",
+		t("Assume(n>0, Solve(log(n^2*(x/n)^lg(x))=log(x^2), x))",
 				"{x = 100, x = n}");
 		t("Assume(x<2,Simplify(sqrt(x-2sqrt(x-1))))", "-sqrt(x - 1) + 1");
 		t("Assume(x>2,Simplify(sqrt(x-2sqrt(x-1))))", "sqrt(x - 1) - 1");
@@ -1374,5 +1375,26 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				"{(2 / (3 * k), (-1) / (3 * k))}");
 		t("Assume(k>0, InflectionPoint(0.25 k x^3 - 0.5x^2 + k))",
 				"{(2 / (3 * k), (27 * k^(3) - 4) / (27 * k^(2)))}");
+	}
+
+	@Test
+	public void testExtremum() {
+		GeoSymbolic extremum = add("Extremum(x*ln(x^2))");
+		GeoList twin = (GeoList) extremum.getTwinGeo();
+		assertThat(twin.size(), equalTo(2));
+	}
+
+	@Test
+	public void testVariableAfterUndo() {
+		UndoRedoTester undoRedo = new UndoRedoTester(app);
+		undoRedo.setupUndoRedo();
+
+		GeoSymbolic a = add("a = 3");
+		app.storeUndoInfo();
+		assertThat(a.getDefinitionForInputBar(), is("a = 3"));
+		add("b = 3");
+		app.storeUndoInfo();
+		a = undoRedo.getAfterUndo("a");
+		assertThat(a.getDefinitionForInputBar(), is("a = 3"));
 	}
 }

@@ -2120,7 +2120,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/**
 	 * @return space denoting multiplication
 	 */
-	protected String multiplicationSpace() {
+	public String multiplicationSpace() {
 		// wide space for multiplication space in LaTeX
 		return (stringType.equals(StringType.LATEX)) ? " \\; " : " ";
 	}
@@ -2847,14 +2847,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 				break;
 
 			case LATEX:
-
-				// checks if the basis is leaf and if so
-				// omits the brackets
-				if (left.isLeaf() && (leftStr.charAt(0) != '-')) {
-					sb.append(leftStr);
-					break;
-				}
-				// else fall through
 			case LIBRE_OFFICE:
 			default:
 
@@ -2869,10 +2861,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 				// left wing
 				if ((leftStr.charAt(0) != '-') && // no unary
-						(left.isLeaf() || ((ExpressionNode
-								.opID(left) > Operation.POWER.ordinal())
-								&& (ExpressionNode.opID(left) != Operation.EXP
-										.ordinal())))) { // not +, -, *, /, ^,
+						left.isLeaf() || left.isOperation(Operation.NROOT)
+						|| left.isOperation(Operation.CBRT)) { // not +, -, *, /, ^,
 					// e^x
 
 					// we might need more brackets here #4764
@@ -3533,16 +3523,22 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Get the undefined string equivalent
+	 * Appends brackets to log argument if necessary
 	 *
-	 * @param localization localization if needed
-	 * @return undefined string
+	 * @param sb
+	 *            builder
+	 * @param str
+	 *            serialized expression
+	 * @param left
+	 *            left subtree
 	 */
-	public String getUndefined(Localization localization) {
-		if (localizeCmds) {
-			return localization.getMenu("Undefined");
+	public void addLogBracketsIfNecessary(StringBuilder sb, String str, ExpressionValue left) {
+		if ((forEditorParser || stringType == StringType.LATEX)
+				&& left.isOperation(Operation.ABS)) {
+			sb.append(str);
+		} else {
+			appendWithBrackets(sb, str);
 		}
-		return "Undefined";
 	}
 
 	public boolean allowShortLhs() {

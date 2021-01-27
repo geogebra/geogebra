@@ -93,9 +93,7 @@ public class MaterialListElement extends FlowPanel
 		this.ownMaterial = app.getLoginOperation().getGeoGebraTubeAPI().owns(m);
 		this.setStyleName("materialListElement");
 		this.addStyleName("default");
-		if (!isLocal) {
-			// this.material.setSyncStamp(-1);
-		}
+
 		this.editMaterial = activeMaterial -> onEdit();
 		initMaterialInfos();
 
@@ -462,7 +460,6 @@ public class MaterialListElement extends FlowPanel
 	protected void addViewButton() {
 		this.viewButton = new StandardButton(
 				BrowseResources.INSTANCE.document_view(), "", 20);
-		this.viewButton.addStyleName("viewButton");
 		this.infoPanel.add(this.viewButton);
 		this.viewButton.addFastClickHandler(source -> onView());
 	}

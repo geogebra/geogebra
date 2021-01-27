@@ -310,6 +310,22 @@ public class ArithmeticTest extends Assert {
 		t("p4:a < (x + x) < b", "1 < x + x < 2");
 	}
 
+	@Test
+	public void complexPowers() {
+		t("real((1+i)^(0..8))",
+				"{1, 1, 0, -2, -4, -4, 0, 8, 16}", StringTemplate.editTemplate);
+		t("imaginary((1+i)^(0..8))",
+				"{0, 1, 2, 2, 0, -4, -8, -8, 0}", StringTemplate.editTemplate);
+	}
+
+	@Test
+	public void powerWithNegativeFractionAsExponent() {
+		t("(-8)^(-(1/3))", "-0.5");
+		t("-8^(-1/3)", "-0.5");
+		t("-8^(-2/3)", "-0.25");
+		t("32^(-1/5)", "0.5");
+	}
+
 	private GeoElement lookup(String g) {
 		return app.getKernel().lookupLabel(g);
 	}

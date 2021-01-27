@@ -1,6 +1,7 @@
 /**
  * The file contains some styles.
  */
+@import 'colors';
 @import 'z-index';
 
 .GeoGebraFrame {
@@ -469,7 +470,7 @@
 		cursor: pointer;
 	}
 
-	.button-up-disabled, .MyToggleButton.gwt-ToggleButton-up-disabled, .MyToggleButton.gwt-ToggleButton-down-disabled,
+	.button:disabled, .MyToggleButton.gwt-ToggleButton-up-disabled, .MyToggleButton.gwt-ToggleButton-down-disabled,
 	.MyCanvasButton.disabled {
 		cursor: default !important;
 		opacity: .5;
@@ -486,12 +487,12 @@
 		}
 	}
 
-	.button-up-disabled:focus, .MyToggleButton.gwt-ToggleButton-up-disabled:focus, .MyToggleButton.gwt-ToggleButton-down-disabled:focus {
+	.button:disabled, .MyToggleButton.gwt-ToggleButton-up-disabled:focus, .MyToggleButton.gwt-ToggleButton-down-disabled:focus {
 		outline: none;
 	}
 
-	.button-up-disabled:active, .MyToggleButton.gwt-ToggleButton-up-disabled:active, .MyToggleButton.gwt-ToggleButton-down-disabled:active {
-		border: 1px solid #6161FF;
+	.MyToggleButton.gwt-ToggleButton-up-disabled:active, .MyToggleButton.gwt-ToggleButton-down-disabled:active {
+		border: 1px solid $toolbar-header;
 	}
 
 	.gwt-Tree .gwt-TreeItem {
@@ -1326,7 +1327,6 @@
 
 	.GeoGebraFileChooser .titlePanel input {
 		float: right;
-		min-width: 450px;
 	}
 
 	.GeoGebraFileChooser .titlePanel .gwt-Label {
@@ -2082,7 +2082,7 @@
 		margin-right: 20px;
 	}
 
-	.checkBoxPanel .gwt-Label, .panelRow .gwt-Label, .listBoxPanel .gwt-Label, .panelRowIndent .gwt-Label,
+	.checkBoxPanel .gwt-Label, .listBoxPanel .gwt-Label,
 	.optionsPanel .gwt-Label, .optionsPanelIndent .gwt-Label {
 		margin-right: 10px;
 	}
@@ -3104,8 +3104,13 @@
 		margin-right: 5px;
 	}
 
-	.ggbScreenshot .InputTreeItem {
-		overflow-x: hidden;
+	.ggbScreenshot {
+		.InputTreeItem {
+			overflow-x: hidden;
+		}
+		.algebraPanel {
+			overflow: hidden !important;
+		}
 	}
 
 	.cpScrollPanel td {

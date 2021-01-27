@@ -32,7 +32,6 @@ import java.io.OutputStreamWriter;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import org.geogebra.common.euclidian.EuclidianView;
@@ -45,12 +44,13 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.TitlePanel;
+import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.util.UtilD;
 
-public class ConstructionProtocolExportDialogD extends JDialog
+public class ConstructionProtocolExportDialogD extends Dialog
 		implements KeyListener {
 
 	private static final long serialVersionUID = -2626950140196416416L;

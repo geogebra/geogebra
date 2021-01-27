@@ -1542,7 +1542,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "ContextMenu.Group": "Groepeer",
     "ContextMenu.Heading": "Kop",
     "ContextMenu.Row": "Rij",
-    "ContextMenu.SendBackward": "Naar achteren",
+    "ContextMenu.SendBackward": "Naar achter",
     "ContextMenu.SendToBack": "Naar achtergrond",
     "ContextMenu.Ungroup": "Degroeperen",
     "ContextMenu.clip": "Afknippen",

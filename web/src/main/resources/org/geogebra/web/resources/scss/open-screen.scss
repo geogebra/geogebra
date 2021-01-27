@@ -179,6 +179,7 @@
 	
 	.materialListElement.selected .infoPanel .button {
 		cursor: pointer;
+		width: 100%;
 		padding: 2px 0px 2px 0px;
 	}
 	
@@ -313,10 +314,13 @@
 				border: 0;
 		 	}			
 		}
-		 .logoutButton {
+		.logoutButton {
 			@extend %matButton;
+			display: block;
+			width: calc(100% - 48px);
 			color: $black;
 			border: 0;
+
 			&:hover {			
 				background-color: $white;
 			}

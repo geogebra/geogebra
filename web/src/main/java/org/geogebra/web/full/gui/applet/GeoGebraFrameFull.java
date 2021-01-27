@@ -50,10 +50,12 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
+import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.gwtproject.timer.client.Timer;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
@@ -825,7 +827,8 @@ public class GeoGebraFrameFull
 		if (!Dom.eventTargetsElement(event, getMenuElement())
 				&& !Dom.eventTargetsElement(event, getToolbarMenuElement())
 				&& !getGlassPane().isDragInProgress()
-				&& !app.isUnbundled() && panelTransitioner.getCurrentPanel() == null) {
+				&& !app.isUnbundledOrWhiteboard()
+				&& panelTransitioner.getCurrentPanel() == null) {
 			app.hideMenu();
 		}
 	}
@@ -985,5 +988,11 @@ public class GeoGebraFrameFull
 	@Override
 	protected ResourcesInjectorFull getResourcesInjector(AppletParameters appletParameters) {
 		return new ResourcesInjectorFull();
+	}
+
+	@Override
+	public void getScreenshotBase64(StringConsumer callback) {
+		Canvas c = Canvas.createIfSupported();
+		((DockManagerW) app.getGuiManager().getLayout().getDockManager()).paintPanels(c, callback);
 	}
 }

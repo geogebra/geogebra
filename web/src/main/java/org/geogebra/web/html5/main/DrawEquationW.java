@@ -162,7 +162,7 @@ public class DrawEquationW extends DrawEquation {
 			c.getContext2d().fillRect(0, 0, c.getCoordinateSpaceWidth(),
 					c.getCoordinateSpaceHeight());
 		}
-		JLMContext2d ctx = (JLMContext2d) c.getContext2d();
+		JLMContext2d ctx = JLMContext2d.forCanvas(c);
 
 		app.getDrawEquation().checkFirstCall(app);
 		GFont font = AwtFactory.getPrototype().newFont("geogebra", GFont.PLAIN,

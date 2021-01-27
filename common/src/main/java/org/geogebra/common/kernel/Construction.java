@@ -54,6 +54,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.StringUtil;
@@ -1060,6 +1061,10 @@ public class Construction {
 		}
 	}
 
+	public final boolean isRegisteredEuclidianViewCE(EuclidianViewCE elem) {
+		return euclidianViewCE.contains(elem);
+	}
+
 	/**
 	 * Unregisters an algorithm that wants to be notified when
 	 * setEuclidianViewBounds() is called.
@@ -1624,7 +1629,7 @@ public class Construction {
 			// use setLoadedLabel() instead of setLabel() to make sure that
 			// hidden objects also get the label, see #379
 			newGeo.setLoadedLabel(oldGeoLabel);
-
+			layerManager.replace(oldGeo.getOrdering(), newGeo);
 			if (newGeo.isGeoText()) {
 				newGeo.updateRepaint();
 			}

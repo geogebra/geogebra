@@ -3293,7 +3293,7 @@ __GGB__keysVar["es-UY"].menu = {
     "clockwise": "sentido horario",
     "counterClockwise": "sentido antihorario",
     "dependent": "dependiente",
-    "editLink": "Editar enlace",
+    "editLink": "Enlace para editar",
     "emf": "EMF (metaarchivo mejorado)",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Saved files will appear here",

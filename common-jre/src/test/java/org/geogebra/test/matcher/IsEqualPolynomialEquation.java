@@ -1,4 +1,4 @@
-package org.geogebra.test.util;
+package org.geogebra.test.matcher;
 
 import java.util.HashMap;
 import java.util.Iterator;

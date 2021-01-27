@@ -1865,10 +1865,11 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public DescriptionMode getDescriptionMode() {
 		if (getDefinition() != null
-				&& (getDefinition().isFraction() || value != Math.round(value))) {
+				&& (getDefinition().isFraction() || value != Math.round(value))
+				&& !"?".equals(getDefinition(StringTemplate.defaultTemplate))) {
 			return DescriptionMode.DEFINITION_VALUE;
 		}
-		if (isSimple()) {
+		if (isSimple() || (!isDefined() && isIndependent())) {
 			// matters in scientific where we don't have AV sliders
 			return DescriptionMode.VALUE;
 		}

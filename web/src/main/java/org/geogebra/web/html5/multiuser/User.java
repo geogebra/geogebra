@@ -19,6 +19,8 @@ import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.HasTransformation;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInline;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.RectangleTransformable;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.web.html5.main.AppW;
@@ -37,7 +39,14 @@ class User {
 		this.color = color;
 	}
 
-	public void addSelection(EuclidianView view, String label) {
+	public void addSelection(EuclidianView view, String label, String update) {
+		GeoElement geo = view.getApplication().getKernel().lookupLabel(label);
+		if (geo instanceof GeoInline && "update".equals(update)) {
+			// if the inline element gets updated after it was deselected
+			// don't add to interactions
+			return;
+		}
+
 		interactions.compute(label, (k, v) -> {
 			if (v == null) {
 				v = new Timer() {
@@ -53,6 +62,16 @@ class User {
 			return v;
 		});
 
+		// make sure to deselect stroke in case deselect wouldn't be sent
+		if (geo instanceof GeoLocusStroke && "update".equals(update)) {
+			interactions.get(label).schedule(2000);
+		}
+
+		view.repaintView();
+	}
+
+	public void deselectAll(EuclidianView view) {
+		interactions.clear();
 		view.repaintView();
 	}
 
@@ -97,7 +116,7 @@ class User {
 						.newBasicStroke(geo.getLineThickness() / 2d, GBasicStroke.CAP_ROUND,
 								GBasicStroke.JOIN_ROUND);
 				GBasicStroke outline = AwtFactory.getPrototype()
-						.newBasicStroke(geo.getLineThickness() / 2d + 10, GBasicStroke.CAP_ROUND,
+						.newBasicStroke(geo.getLineThickness() / 2d + 4, GBasicStroke.CAP_ROUND,
 								GBasicStroke.JOIN_ROUND);
 				GShape gp = d instanceof DrawLocus
 						? ((DrawLocus) d).getPath()

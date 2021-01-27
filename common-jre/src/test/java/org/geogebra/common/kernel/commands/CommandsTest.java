@@ -1630,8 +1630,8 @@ public class CommandsTest {
 		tRound("y1 = -l cos(y(Point(nint_1, 0)))", "-0.56732");
 		tRound("Segment((0, 0), (x1, y1))", "2");
 		// undefined testcase
-		t("yu1'(t, y1, y2) = ?", "NaN");
-		t("yu2'(t, y1, y2) = ?", "NaN");
+		t("yu1'(t, y1, y2) = ?", "?");
+		t("yu2'(t, y1, y2) = ?", "?");
 		t("NSolveODE({yu1', yu2'}, 0, {a, b}, 20)",
 				new String[] { "NSolveODE[{yu1', yu2'}, 0, {a, b}, 20]",
 						"NSolveODE[{yu1', yu2'}, 0, {a, b}, 20]" });

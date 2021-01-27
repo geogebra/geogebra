@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel;
+package org.geogebra.common.main.undo;
 
 /**
  * Interface for application state
