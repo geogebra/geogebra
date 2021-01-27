@@ -36,7 +36,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -99,17 +98,20 @@ public class Variable extends ValidExpression {
 	 * @param throwError
 	 *            when true, error is thrown when geo not found. Otherwise null
 	 *            is returned in such case.
+	 * @param allowMultiLetterVariables
+	 * 			  when false, allow only single letter variables
+	 * 			  or followed by apostrophes or subscript (only for inputbox)
 	 * @param mode
 	 *            symbolic mode
 	 * @return GeoElement with same label
 	 */
 	public GeoElement resolve(boolean allowAutoCreateGeoElement, boolean throwError,
-							  SymbolicMode mode, boolean variablesAllowed) {
+							  SymbolicMode mode, boolean allowMultiLetterVariables) {
 		if (mode == SymbolicMode.SYMBOLIC) {
 			return new GeoDummyVariable(kernel.getConstruction(), name);
 		}
 		GeoElement resolvedElement = lookupLabel(allowAutoCreateGeoElement, mode);
-		boolean resolveVariable = variablesAllowed || acceptLabelInputbox();
+		boolean resolveVariable = allowMultiLetterVariables || acceptLabelInputbox();
 		if ((resolvedElement != null || !throwError) && resolveVariable) {
 			return resolvedElement;
 		}
@@ -125,7 +127,6 @@ public class Variable extends ValidExpression {
 	}
 
 	private boolean acceptLabelInputbox() {
-		Log.debug("VAR NAME: " + name);
 		// single letter
 		if (name.length() == 1) {
 			return true;
@@ -153,17 +154,17 @@ public class Variable extends ValidExpression {
 	 *            symbolic mode
 	 * @param multipleUnassignedAllowed
 	 *            whether to allow splitting into multiple unassigned variables
-	 * @param variablesAllowed
+	 * @param allowMultiLetterVariables
 	 * 			  whether multiple letter variable name are allowed
 	 * @return GeoElement whose label is name of this variable or ExpressionNode
 	 *         wrapping spreadsheet reference
 	 */
 	final public ExpressionValue resolveAsExpressionValue(SymbolicMode mode,
-				boolean multipleUnassignedAllowed, boolean variablesAllowed) {
+				boolean multipleUnassignedAllowed, boolean allowMultiLetterVariables) {
 		variableReplacerAlgorithm.setMultipleUnassignedAllowed(multipleUnassignedAllowed);
 		boolean allowAutoCreateGeoElement = (mode == SymbolicMode.NONE)
 					&& !multipleUnassignedAllowed;
-		GeoElement geo = resolve(allowAutoCreateGeoElement, false, mode, variablesAllowed);
+		GeoElement geo = resolve(allowAutoCreateGeoElement, false, mode, allowMultiLetterVariables);
 		if (geo == null) {
 			if (kernel.getConstruction().isRegisteredFunctionVariable(name)) {
 				return new FunctionVariable(kernel, name);
@@ -175,7 +176,7 @@ public class Variable extends ValidExpression {
 			if (mode == SymbolicMode.SYMBOLIC_AV) {
 				return new GeoDummyVariable(kernel.getConstruction(), name);
 			}
-			return resolve(allowAutoCreateGeoElement, true, mode, variablesAllowed);
+			return resolve(allowAutoCreateGeoElement, true, mode, allowMultiLetterVariables);
 		}
 
 		// spreadsheet dollar sign reference

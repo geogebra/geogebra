@@ -258,7 +258,7 @@ public class Equation extends ValidExpression implements EquationValue {
 			// e.g. A4 = x^2
 			Variable leftVar = (Variable) lhs.getLeft();
 			lhs.setLeft(leftVar.resolve(false, true,
-					SymbolicMode.NONE, info.isVariablesAllowed())); // don't allow
+					SymbolicMode.NONE, info.isMultiLetterVariablesAllowed())); // don't allow
 																// auto
 														// creation of variables
 		} else {

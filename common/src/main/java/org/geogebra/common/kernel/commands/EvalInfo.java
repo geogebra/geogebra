@@ -429,7 +429,7 @@ public class EvalInfo {
 		return multipleUnassignedAllowed;
 	}
 
-	public boolean isVariablesAllowed() {
+	public boolean isMultiLetterVariablesAllowed() {
 		return allowMultiLetterVariables;
 	}
 
