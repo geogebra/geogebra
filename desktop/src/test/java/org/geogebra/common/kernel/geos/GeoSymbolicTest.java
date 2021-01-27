@@ -1400,8 +1400,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testNestedFunction() {
-		UndoRedoTester undoRedo = new UndoRedoTester(app);
-		undoRedo.setupUndoRedo();
+		app.setUndoActive(true);
 
 		add("f(x)=1+7*e^(-0.2x)");
 		app.storeUndoInfo();
@@ -1410,8 +1409,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		app.storeUndoInfo();
 		assertThat(r.getTwinGeo(), instanceOf(GeoFunction.class));
 
-		undoRedo.undo();
-		undoRedo.redo();
+		undoRedo();
 
 		r = (GeoSymbolic) lookup("r");
 		assertThat(r.isEuclidianShowable(), is(true));
