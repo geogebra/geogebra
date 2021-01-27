@@ -92,9 +92,8 @@
                             let xml = that.api.getXML(label);
                             that.sendEvent("evalXML", xml, label);
                         }
-                        that.sendEvent("select", label);
+                        that.sendEvent("select", label, "update");
                     }
-                    that.sendEvent("deselect");
 
                     updateCallback = null;
                 }, 200);
@@ -134,8 +133,8 @@
             } else {
                 this.sendEvent("evalXML", xml, label);
             }
-            this.sendEvent("select", label);
-            this.sendEvent("deselect");
+            this.sendEvent("select", label, "");
+            this.sendEvent("deselect", "");
             window.setTimeout(function(){
                 that.initEmbed(label);
             },500); //TODO avoid timeout
@@ -147,7 +146,7 @@
             console.log(label + " is removed");
             this.sendEvent("deleteObject", label);
         }).bind(this);
-        
+
         var renameListener = (function(oldName, newName) {
             this.sendEvent("renameObject", oldName, newName);
         }).bind(this);
@@ -178,11 +177,11 @@
                     break;
 
                 case "deselect":
-                    this.sendEvent(event[0]);
+                    this.sendEvent(event[0], event[2]);
                     break;
 
                 case "select":
-                    this.sendEvent(event[0], event[1]);
+                    this.sendEvent(event[0], event[1], event[2]);
                     break;
 
                 case "undo":
@@ -295,12 +294,14 @@
                 } else if (last.type == "select") {
                     let user = this.users[last.clientId];
                     if (user && last.content) {
-                        target.api.addMultiuserSelection(user.name, user.color, last.content);
+                    	// user name, user color, label of geo selected, 'update' if it was called by update callback
+                        target.api.addMultiuserSelection(user.name, user.color, last.content, last.label);
                     }
                 } else if (last.type == "deselect") {
                     let user = this.users[last.clientId];
                     if (user) {
-                        target.api.removeMultiuserSelections(user.name);
+                    	// user name, 'force' if selection should be cleared
+                        target.api.removeMultiuserSelections(user.name, last.content);
                     }
                 } else if (last.type == "orderingChange") {
 					target.api.updateOrdering(last.content);

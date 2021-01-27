@@ -1091,13 +1091,20 @@ public class GgbAPIW extends GgbAPI {
 	 * @param user tooltip content
 	 * @param label label of an object to use as anchor
 	 * @param color color CSS string
+	 * @param update "update" if selection called by notify update, empty otherwise
 	 */
-	public void addMultiuserSelection(String user, String color, String label) {
-		MultiuserManager.INSTANCE.addSelection(app, user, GColor.parseHexColor(color), label);
+	public void addMultiuserSelection(String user, String color, String label, String update) {
+		MultiuserManager.INSTANCE.addSelection(app, user, GColor.parseHexColor(color),
+				label, update);
 	}
 
-	public void removeMultiuserSelections(String user) {
-		MultiuserManager.INSTANCE.deselect(user);
+	/**
+	 * Remove a multiuser interaction
+	 * @param user tooltip content
+	 * @param force "force" if force deselection, empty otherwise
+	 */
+	public void removeMultiuserSelections(String user, String force) {
+		MultiuserManager.INSTANCE.deselect(app, user, force);
 	}
 
 	public void asyncEvalCommand(String command, ResolveCallbackFn<String> onSuccess,

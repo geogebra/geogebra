@@ -6,6 +6,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Label;
 
 public class TooltipChip extends Label {
+	public static final int LEFT_MARGIN = 8;
 
 	/**
 	 * Create a tooltip showing user interaction
@@ -31,7 +32,7 @@ public class TooltipChip extends Label {
 	public void show(double x, double y) {
 		getElement().removeClassName("invisible");
 		Style style = getElement().getStyle();
-		style.setLeft(x, Style.Unit.PX);
-		style.setTop(y, Style.Unit.PX);
+		style.setLeft(x + LEFT_MARGIN, Style.Unit.PX);
+		style.setTop(y - (getOffsetHeight() / 2d), Style.Unit.PX);
 	}
 }
