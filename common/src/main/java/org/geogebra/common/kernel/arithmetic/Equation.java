@@ -782,7 +782,7 @@ public class Equation extends ValidExpression implements EquationValue {
 				.getName(StringTemplate.defaultTemplate);
 		if (GParser.shouldSplitLabel(name)) {
 			lhs = ((Variable) lhsUnwrapped).resolveAsExpressionValue(SymbolicMode.NONE,
-					true, false).wrap();
+					true, true).wrap();
 			return this;
 		}
 		if (!rhsConstant) {
