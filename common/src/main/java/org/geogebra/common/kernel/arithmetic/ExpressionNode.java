@@ -423,8 +423,8 @@ public class ExpressionNode extends ValidExpression
 	private void doResolveVariables(EvalInfo info) {
 		// resolve left wing
 		if (left.isVariable()) {
-			left = ((Variable) left).resolveAsExpressionValue(
-					info.getSymbolicMode(), info.isMultipleUnassignedAllowed(), info.isMultiLetterVariablesAllowed());
+			left = ((Variable) left).resolveAsExpressionValue(info.getSymbolicMode(),
+					info.isMultipleUnassignedAllowed(), info.isMultiLetterVariablesAllowed());
 			if (operation == Operation.POWER
 					|| operation == Operation.FACTORIAL) {
 				fixPowerFactorial(Operation.MULTIPLY);
@@ -442,8 +442,8 @@ public class ExpressionNode extends ValidExpression
 		// resolve right wing
 		if (right != null) {
 			if (right.isVariable()) {
-				right = ((Variable) right).resolveAsExpressionValue(
-						info.getSymbolicMode(), info.isMultipleUnassignedAllowed(), info.isMultiLetterVariablesAllowed());
+				right = ((Variable) right).resolveAsExpressionValue(info.getSymbolicMode(),
+						info.isMultipleUnassignedAllowed(), info.isMultiLetterVariablesAllowed());
 				right = groupPowers(right);
 			} else {
 				right.resolveVariables(info);

@@ -133,7 +133,7 @@ public class Variable extends ValidExpression {
 		}
 		// single letter followed by subscript
 		if (name.charAt(1) == '_' && name.charAt(2) == '{'
-				&& name.charAt(name.length()-1) == '}') {
+				&& name.charAt(name.length() - 1) == '}') {
 			return true;
 		}
 		// single letter followed by apostrophes
