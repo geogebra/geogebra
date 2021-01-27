@@ -152,7 +152,7 @@ public class InputBoxProcessor {
 				false, false).withSliders(false)
 				.withNoRedefinitionAllowed().withPreventingTypeChange()
 				.withRedefinitionRule(createRedefinitionRule())
-				.withMultipleUnassignedAllowed();
+				.withMultipleUnassignedAllowed().withPreventVariable();
 	}
 
 	private String preprocess(EditorContent content, StringTemplate tpl) {
