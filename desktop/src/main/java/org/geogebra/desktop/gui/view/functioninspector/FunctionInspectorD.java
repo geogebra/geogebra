@@ -57,6 +57,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
+import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
@@ -128,7 +129,7 @@ public class FunctionInspectorD extends FunctionInspector
 
 	@Override
 	protected void createGUI() {
-		wrappedDialog = new JDialog(getAppD().getFrame(), false) {
+		wrappedDialog = new Dialog(getAppD().getFrame(), false) {
 			/**
 			 * } else {
 			 * 

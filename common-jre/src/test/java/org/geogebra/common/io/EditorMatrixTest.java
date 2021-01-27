@@ -30,7 +30,7 @@ public class EditorMatrixTest {
 	@Test
 	public void testCaretShouldStayInsideOnHome() {
 		checker.matrixFromParser(matix3x3)
-				.repeatKey(JavaKeyCodes.VK_RIGHT, 6)
+				.right(6)
 				.typeKey(JavaKeyCodes.VK_HOME).checkPath(0, 0, 0);
 	}
 
@@ -42,13 +42,13 @@ public class EditorMatrixTest {
 	@Test
 	public void testCaretShouldStayInsideOnLeftArrow() {
 		checker.matrixFromParser(matix3x3)
-			.repeatKey(JavaKeyCodes.VK_RIGHT, 6)
-			.repeatKey(JavaKeyCodes.VK_LEFT, 20).checkPath(0, 0, 0);
+			.right(6)
+			.left(20).checkPath(0, 0, 0);
 	}
 
 	@Test
 	public void testCaretShouldStayInsideOnRightArrow() {
-		checker.matrixFromParser(matix3x3).repeatKey(JavaKeyCodes.VK_RIGHT, 20).checkPath(1, 8, 0);
+		checker.matrixFromParser(matix3x3).right(20).checkPath(1, 8, 0);
 	}
 
 	@Test

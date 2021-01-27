@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -38,6 +39,8 @@ import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
+import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -1670,7 +1673,9 @@ public abstract class AlgoElement extends ConstructionElement
 			sb.append("\"");
 		}
 
-		if (this instanceof SetRandomValue && getOutput(0) instanceof GeoList) {
+		if (this instanceof SetRandomValue && (getOutput(0) instanceof GeoList
+				|| getOutput(0) instanceof VarString
+				|| getOutput(0) instanceof GeoText)) {
 			sb.append(" randomResult=\"");
 			sb.append(StringUtil.encodeXML(getOutput(0).toOutputValueString(tpl)));
 			sb.append("\"");
@@ -1918,9 +1923,13 @@ public abstract class AlgoElement extends ConstructionElement
 			GeoElement geoElement,
 			StringTemplate tpl,
 			boolean substituteNumbers) {
-		return !geoElement.isAllowedToShowValue()
+		return shouldPrintDefinition(geoElement)
 				? geoElement.getDefinition(tpl)
 				: geoElement.getFormulaString(tpl, substituteNumbers);
 	}
 
+	private boolean shouldPrintDefinition(GeoElement element) {
+		return !element.isAllowedToShowValue()
+				|| (element instanceof GeoVector && element.getDefinition() != null);
+	}
 }

@@ -159,16 +159,16 @@ public enum Greek {
 			if (!greek.upperCase && greek.unicode != Unicode.pi) {
 
 				// \u03d5 in place of \u03c6
-				if (greek.unicode == Unicode.phi) {
-					greekLowerCaseNoPi[i++] = Unicode.phi_symbol;
-				} else {
-					greekLowerCaseNoPi[i++] = greek.unicode;
-				}
+				greekLowerCaseNoPi[i++] = greek.getUnicodeNonCurly();
 			}
 		}
 
 		return greekLowerCaseNoPi;
 
+	}
+
+	public char getUnicodeNonCurly() {
+		return unicode == Unicode.phi ? Unicode.phi_symbol : unicode;
 	}
 
 	/**

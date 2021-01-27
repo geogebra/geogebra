@@ -2344,6 +2344,26 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return false;
 	}
 
+	@Override
+	public void groupObjects(String[] objects) {
+		kernel.getConstruction().groupObjects(objects);
+	}
+
+	@Override
+	public void ungroupObjects(String[] objects) {
+		kernel.getConstruction().ungroupObjects(objects);
+	}
+
+	@Override
+	public String[] getObjectsOfItsGroup(String object) {
+		return kernel.getConstruction().getObjectsOfItsGroup(object);
+	}
+
+	@Override
+	public void addToGroup(String object, String[] objectsInGroup) {
+		kernel.getConstruction().addToGroup(object, objectsInGroup);
+	}
+
 	/**
 	 * @return exercise fraction (same as getValue("correct"))
 	 */
@@ -2374,5 +2394,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public void endDrawRecordingAndLogResults() {
 		app.endDrawRecordingAndLogResults();
+	}
+
+	/**
+	 * Update geo ordering in notes
+	 * @param labels comma separated list of labels
+	 */
+	public void updateOrdering(String labels) {
+		construction.getLayerManager().updateOrdering(labels, kernel);
+		app.getActiveEuclidianView().invalidateDrawableList();
 	}
 }

@@ -52,6 +52,12 @@
 			visibility: hidden;
 			z-index: 2000;
 		}
+
+		.popupImg {
+			position: absolute;
+			z-index: 3000;
+			left: 0;
+		}
 	</style>
 
 	<script type="text/javascript">
@@ -171,6 +177,18 @@
 		}
 
 		window.addEventListener("load", function () {
+			document.getElementById("snap").addEventListener("click", function() {
+				ggbApplet.getScreenshotBase64(function(base64) {
+					var popup = document.createElement("img");
+					popup.src = "data:image/png;base64," + base64;
+					popup.className = "popupImg";
+					popup.addEventListener("click", function() {
+						popup.remove()
+					});
+					document.body.appendChild(popup);
+				});
+			});
+
 			var article = document.createElement("div");
 
 			for (param in params) {
@@ -261,6 +279,7 @@
 	</script>
 </head>
 <body>
+	<button id="snap">SCREENSHOT</button>
 	<div id="settings"></div>
 	<div id="scaleContainer">
 		<div>

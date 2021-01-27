@@ -27,7 +27,7 @@ public class InputTokenizerTest extends TokenizerBaseTest {
 	@Test
 	public void testRhoIndexedB() {
 		String rhoW = Unicode.rho + "_{w}";
-		withGeos(Unicode.rho + "", "ρ_{w}", "h");
+		withGeos(Unicode.rho + "", rhoW, "h");
 		shouldBeSplitTo(rhoW + "h", rhoW, "h");
 	}
 

@@ -41,7 +41,6 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ComponentEvent;
@@ -155,7 +154,6 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.HTML5Export;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.main.SingularWSSettings;
@@ -223,11 +221,11 @@ import org.geogebra.desktop.headless.GFileHandler;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.io.OFFReader;
 import org.geogebra.desktop.javax.swing.GImageIconD;
-import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.main.settings.DefaultSettingsD;
 import org.geogebra.desktop.main.settings.SettingsBuilderD;
 import org.geogebra.desktop.main.settings.updater.FontSettingsUpdaterD;
+import org.geogebra.desktop.main.undo.UndoManagerD;
 import org.geogebra.desktop.move.OpenFromGGTOperation;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
@@ -969,7 +967,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			String filename = args.getStringValue("giacJSONtests");
 
 			if (filename == null || "".equals(filename)) {
-				filename = "../common/src/main/resources/giac/__giac.js";
+				filename = "../common/src/main/resources/giac/giacTests.js";
 			}
 
 			int count = 0;
@@ -3527,30 +3525,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
-	@Override
-	public void setXML(String xml, boolean clearAll) {
-		if (xml == null) {
-			return;
-		}
-		if (clearAll) {
-			setCurrentFile(null);
-		}
-
-		try {
-
-			// make sure objects are displayed in the correct View
-			setActiveView(App.VIEW_EUCLIDIAN);
-
-			getXMLio().processXMLString(xml, clearAll, false);
-		} catch (MyError err) {
-			err.printStackTrace();
-			showError(err);
-		} catch (Exception e) {
-			e.printStackTrace();
-			showError(Errors.LoadFileFailed);
-		}
-	}
-
 	public byte[] getMacroFileAsByteArray() {
 		try {
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -4381,7 +4355,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		if (getGuiManager() != null && getGuiManager().hasSpreadsheetView()) {
 			getGuiManager().getSpreadsheetView().repaintView();
 		}
-
 	}
 
 	@Override
@@ -4459,6 +4432,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	private static final String OS = StringUtil
 			.toLowerCaseUS(System.getProperty("os.name"));
+	private static final String VERSION = StringUtil
+			.toLowerCaseUS(System.getProperty("os.version"));
 
 	public static final boolean MAC_OS = OS.startsWith("mac");
 	public static final boolean WINDOWS = OS.startsWith("windows");
@@ -4476,6 +4451,21 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	public static final boolean WINDOWS_VISTA_OR_EARLIER = WINDOWS_XP_OR_EARLIER
 			|| OS.startsWith("windows vista");
+
+	/**
+	 * @return true if running on Mac OS Big Sur or later versions.
+	 */
+	public static boolean isMacOsBigSurOrLater() {
+		if (!MAC_OS) {
+			return false;
+		}
+		try {
+			double version = Double.parseDouble(VERSION);
+			return version > 10.15;
+		} catch (NumberFormatException exception) {
+			return false;
+		}
+	}
 
 	@Override
 	public boolean isHTML5Applet() {

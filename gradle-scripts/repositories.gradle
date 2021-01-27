@@ -22,6 +22,7 @@ allprojects {
             mavenCentral()
             jcenter()
             google()
+            maven { url 'http://dev.geogebra.org/maven2' }
         }
     }
 

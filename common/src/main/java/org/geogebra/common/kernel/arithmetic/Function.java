@@ -498,7 +498,7 @@ public class Function extends FunctionNVar
 	public LinkedList<PolyFunction> getSymbolicPolynomialFactors(
 			boolean rootFindingSimplification, boolean assumeFalseIfCASNeeded) {
 		int rootIdx = rootFindingSimplification ? 1 : 0;
-		if (factorParentExp != expression) {
+		if (factorParentExp != expression || expression.inspect(getVariableDegreeCheck())) {
 			// new expression
 			factorParentExp = expression;
 			if (symbolicPolyFactorList.size() < 1) {
@@ -526,6 +526,15 @@ public class Function extends FunctionNVar
 			return symbolicPolyFactorList.get(rootIdx);
 		}
 		return null;
+	}
+
+	private Inspecting getVariableDegreeCheck() {
+		return new Inspecting() {
+			@Override
+			public boolean check(ExpressionValue v) {
+				return v.isOperation(Operation.POWER) && !v.wrap().getRight().isConstant();
+			}
+		};
 	}
 
 	/**

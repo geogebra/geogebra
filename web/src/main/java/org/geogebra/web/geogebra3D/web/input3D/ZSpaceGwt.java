@@ -3,7 +3,8 @@ package org.geogebra.web.geogebra3D.web.input3D;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.dom.client.Element;
-import com.googlecode.gwtgl.binding.WebGLRenderingContext;
+
+import elemental2.webgl.WebGLRenderingContext;
 
 /**
  * GWT connector for zSpace

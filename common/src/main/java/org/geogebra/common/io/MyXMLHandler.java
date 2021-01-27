@@ -693,7 +693,7 @@ public class MyXMLHandler implements DocHandler {
 		ts.setValuesStep(getNumber(attrs.get("step")).getDouble());
 	}
 
-	private GeoNumberValue getNumber(String string) {
+	protected GeoNumberValue getNumber(String string) {
 		return getAlgProcessor().evaluateToNumeric(string, handler);
 	}
 
@@ -1762,6 +1762,9 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleAngleUnit(LinkedHashMap<String, String> attrs) {
+		if (!app.getConfig().isAngleUnitSettingEnabled()) {
+			return false;
+		}
 		if (attrs == null) {
 			return false;
 		}
@@ -2519,7 +2522,10 @@ public class MyXMLHandler implements DocHandler {
 			if (tabId != null) {
 				dp.setTabId(tabId); // explicitly stored tab overrides config
 			}
-			if (dp.isVisible() && dp.getViewId() == App.VIEW_EUCLIDIAN3D) {
+			// If we are loading a classic app with 3D visible, we should
+			// open it in the 3d subApp
+			if (GeoGebraConstants.CLASSIC_APPCODE.equals(subAppCode) && dp.isVisible()
+					&& dp.getViewId() == App.VIEW_EUCLIDIAN3D) {
 				this.subAppCode = GeoGebraConstants.G3D_APPCODE;
 			}
 			tmp_views.add(dp);
@@ -3069,7 +3075,7 @@ public class MyXMLHandler implements DocHandler {
 	// <element>
 	// ====================================
 
-	private void processEvSizes() {
+	protected void processEvSizes() {
 		// Set<EuclidianSettings> eSet0 = xmin.keySet();
 		ArrayList<EuclidianSettings> eSet = new ArrayList<>(
 				xmin.keySet());
@@ -3680,5 +3686,21 @@ public class MyXMLHandler implements DocHandler {
 		casMap = new TreeMap<>();
 		constMode = MODE_CAS_MAP;
 		casMapParent = MODE_CONST_GEO_ELEMENT;
+	}
+
+	public HashMap<EuclidianSettings, String> getXmin() {
+		return xmin;
+	}
+
+	public HashMap<EuclidianSettings, String> getXmax() {
+		return xmax;
+	}
+
+	public HashMap<EuclidianSettings, String> getYmin() {
+		return ymin;
+	}
+
+	public HashMap<EuclidianSettings, String> getYmax() {
+		return ymax;
 	}
 }

@@ -5,6 +5,7 @@ import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -157,21 +158,6 @@ public class RedefineTest extends Assert {
 	}
 
 	@Test
-	public void undoShouldNotRandomizeBinomial() {
-		app.setRandomSeed(42);
-		app.setUndoRedoEnabled(true);
-		app.setUndoActive(true);
-		t("a=RandomBinomial(100, 0.6)", "61");
-
-		app.storeUndoInfo();
-		t("1", "1");
-		app.storeUndoInfo();
-		app.getKernel().undo();
-
-		t("a", "61");
-	}
-
-	@Test
 	public void randomizeUpdateConstruction() {
 		app.setRandomSeed(42);
 		app.setUndoRedoEnabled(true);
@@ -225,36 +211,6 @@ public class RedefineTest extends Assert {
 		t("P=RandomElement((1..10,1..10))", "(8, 8)");
 		t("SetValue(P, (7, 7))", new String[0]);
 		t("P", "(7, 7)");
-	}
-
-	@Test
-	public void undoShouldNotRandomizeRandomElement() {
-		app.setRandomSeed(42);
-		app.setUndoRedoEnabled(true);
-		app.setUndoActive(true);
-		t("P=RandomElement((1..10,1..10))", "(8, 8)");
-
-		app.storeUndoInfo();
-		t("1", "1");
-		app.storeUndoInfo();
-		app.getKernel().undo();
-
-		t("P", "(8, 8)");
-	}
-
-	@Test
-	public void undoShouldNotRandomizeRandomElementWithListOfLists() {
-		app.setRandomSeed(42);
-		app.setUndoRedoEnabled(true);
-		app.setUndoActive(true);
-		t("P=RandomElement(Identity(10))", "{0, 0, 0, 0, 0, 0, 0, 1, 0, 0}");
-
-		app.storeUndoInfo();
-		t("1", "1");
-		app.storeUndoInfo();
-		app.getKernel().undo();
-
-		t("P", "{0, 0, 0, 0, 0, 0, 0, 1, 0, 0}");
 	}
 
 	@Test
@@ -411,6 +367,31 @@ public class RedefineTest extends Assert {
 		t("A", "(NaN, NaN)");
 		add("SetValue(a, 1)");
 		t("A", "(1, 1)");
+	}
+
+	@Test
+	public void functionShouldStayInequality() {
+		// old format: only NaN
+		app.getGgbApi().evalXML("<expression label=\"studans\" "
+				+ "exp=\"studans: NaN\" type=\"inequality\"/>\n"
+				+ "<element type=\"function\" label=\"studans\">\n"
+				+ "\t<show object=\"false\" label=\"false\" ev=\"4\"/>\n"
+				+ "</element>");
+		assertTrue(((GeoFunction) app.getKernel().lookupLabel("studans")).isForceInequality());
+		// new format: includes function variables
+		app.getGgbApi().evalXML("<expression label=\"studans2\" "
+				+ "exp=\"studans2(x) = ?\" type=\"inequality\"/>\n"
+				+ "<element type=\"function\" label=\"studans2\">\n"
+				+ "\t<show object=\"false\" label=\"false\" ev=\"4\"/>\n"
+				+ "</element>");
+		assertTrue(((GeoFunction) app.getKernel().lookupLabel("studans2")).isForceInequality());
+	}
+
+	@Test
+	public void avRedefineShouldChangeInequalityToFunction() {
+		add("f:x>3");
+		add("f(x)=x+3");
+		assertFalse(((GeoFunction) app.getKernel().lookupLabel("f")).isForceInequality());
 	}
 
 }

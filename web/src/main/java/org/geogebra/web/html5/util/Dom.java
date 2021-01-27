@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.util;
 
+import org.geogebra.common.util.debug.Log;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;
@@ -156,5 +158,20 @@ public final class Dom {
 	public static void addEventListener(Element element, String name, EventListener listener) {
 		elemental2.dom.Element el = Js.uncheckedCast(element);
 		el.addEventListener(name, listener);
+	}
+
+	/**
+	 * @param element element
+	 * @param width CSS property name
+	 * @return value, if it was a number in px; otherwise 0
+	 */
+	public static int getPxProperty(Element element, String width) {
+		try {
+			return Integer.parseInt(element.getStyle().getProperty(width)
+					.replace("px", ""));
+		} catch (RuntimeException ex) {
+			Log.warn(ex.getMessage());
+		}
+		return 0;
 	}
 }

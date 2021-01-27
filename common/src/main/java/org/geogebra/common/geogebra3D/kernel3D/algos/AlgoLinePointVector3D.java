@@ -27,9 +27,9 @@ import org.geogebra.common.kernel.matrix.Coords;
  */
 public class AlgoLinePointVector3D extends AlgoLinePoint {
 
-	public AlgoLinePointVector3D(Construction cons, String label,
+	public AlgoLinePointVector3D(Construction cons,
 			GeoPointND point, GeoVectorND v) {
-		super(cons, label, point, (GeoElement) v);
+		super(cons, point, (GeoElement) v);
 	}
 
 	@Override

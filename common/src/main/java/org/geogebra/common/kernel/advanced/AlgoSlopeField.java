@@ -302,7 +302,24 @@ public class AlgoSlopeField extends AlgoElement {
 		double dy = dy0 * length / coeff;
 		al.add(new MyPoint(xx - dx, yy - dy, SegmentType.MOVE_TO));
 		al.add(new MyPoint(xx + dx, yy + dy, SegmentType.LINE_TO));
+		if (locus.isDrawArrows()) {
+			drawArrowHead(xx - dx, yy - dy, xx + dx, yy + dy);
+		}
+	}
 
+	private void drawArrowHead(double x0, double y0, double x1, double y1) {
+		double vx = (x1 - x0) / 4;
+		double vy = (y1 - y0) / 4;
+
+		double fx = x1 - vx;
+		double fy = y1 - vy;
+
+		vx /= 2.0;
+		vy /= 2.0;
+
+		al.add(new MyPoint(fx - vy, fy + vx, SegmentType.MOVE_TO));
+		al.add(new MyPoint(x1, y1, SegmentType.LINE_TO));
+		al.add(new MyPoint(fx + vy, fy - vx, SegmentType.LINE_TO));
 	}
 
 	@Override

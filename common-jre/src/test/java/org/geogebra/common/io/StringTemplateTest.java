@@ -1,5 +1,6 @@
 package org.geogebra.common.io;
 
+import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
@@ -9,11 +10,13 @@ import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.test.OrderingComparison;
 import org.geogebra.test.TestErrorHandler;
@@ -178,11 +181,26 @@ public class StringTemplateTest {
 	public void shouldUseTrigPowerForVarExponent() {
 		FunctionVariable x = new FunctionVariable(app.getKernel());
 		ExpressionNode node = x.wrap().sin().power(x.wrap().cos());
-		assertEquals("sin(x)^cos(x)",
+		assertEquals("(sin(x))^cos(x)",
 				node.toString(StringTemplate.editTemplate));
-		assertEquals("\\operatorname{sin} \\left( x \\right)"
+		assertEquals("\\left(\\operatorname{sin} \\left( x \\right) \\right)"
 						+ "^{\\operatorname{cos} \\left( x \\right)}",
 				node.toString(StringTemplate.latexTemplate));
+	}
+
+	@Test
+	public void shouldUseBracketsForFunctionPowers() {
+		ExpressionNode node = functionPower(Operation.LOG, 2);
+		assertEquals(unicode("(ln(x))^2"),
+				node.toString(StringTemplate.editTemplate));
+		node = functionPower(Operation.ARCSIN, 3);
+		assertEquals(unicode("(sin^-1(x))^3"),
+				node.toString(StringTemplate.editTemplate));
+	}
+
+	private ExpressionNode functionPower(Operation op, int exponent) {
+		FunctionVariable x = new FunctionVariable(app.getKernel());
+		return x.wrap().apply(op).power(new MyDouble(app.getKernel(), exponent));
 	}
 
 	@Test

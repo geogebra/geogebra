@@ -12,6 +12,7 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.LoadFilePresenter;
+import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.Visibility;
 import org.geogebra.web.html5.util.debug.LoggerW;
@@ -30,6 +31,8 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+
+import elemental2.core.Function;
 
 /**
  * The main frame containing every view / menu bar / .... This Panel (Frame is
@@ -653,8 +656,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * callback when renderGGBElement is ready
 	 */
 	public static void renderGGBElementReady() {
-		if (GeoGebraGlobal.getRenderGGBElementReady() != null) {
-			GeoGebraGlobal.renderGGBElementReady();
+		Function renderGGBElementReady = GeoGebraGlobal.getRenderGGBElementReady();
+		if (renderGGBElementReady != null) {
+			renderGGBElementReady.call();
 		}
 	}
 
@@ -681,5 +685,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if (splash != null) {
 			splash.canNowHide();
 		}
+	}
+
+	public void getScreenshotBase64(StringConsumer callback) {
+		callback.consume(app.getEuclidianView1().getCanvasBase64WithTypeString());
 	}
 }

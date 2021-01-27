@@ -54,7 +54,7 @@ import org.geogebra.desktop.util.UtilD;
  * 
  * @author Markus Hohenwarter
  */
-public class ToolManagerDialogD extends javax.swing.JDialog
+public class ToolManagerDialogD extends Dialog
 		implements ToolManagerDialogListener {
 
 	private static final long serialVersionUID = 1L;

@@ -5,6 +5,8 @@ import java.util.Iterator;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.SetRandomValue;
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoInputBox;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyList;
@@ -204,6 +206,17 @@ public class CmdSetValue extends CmdScripting {
 			String textString = ((GeoText) arg1).getTextString();
 			GeoInputBox geoInputBox = (GeoInputBox) arg0;
 			geoInputBox.updateLinkedGeo(textString);
+		}
+		resetInputboxes(arg0);
+	}
+
+	private static void resetInputboxes(GeoElement arg0) {
+		if (arg0.getAlgoUpdateSet() != null) {
+			for (AlgoElement childAlgo : arg0.getAlgoUpdateSet()) {
+				if (childAlgo instanceof AlgoInputBox) {
+					((AlgoInputBox) childAlgo).getResult().clearTempUserInput();
+				}
+			}
 		}
 	}
 }

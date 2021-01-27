@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '1.6.9'
+    id "com.github.spotbugs" version "4.6.0"
     id 'ca.coglinc.javacc' version '2.4.0'
 }
 
@@ -93,9 +93,5 @@ spotbugsMain.maxHeapSize = '1g'
 pmd {
     ignoreFailures = true
     ruleSets = []
-    ruleSetFiles = files("config/pmd.xml")
-}
-
-checkstyle {
-    toolVersion = "8.8"
+    ruleSetFiles = files("../config/pmd.xml")
 }

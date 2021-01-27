@@ -8,7 +8,6 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
@@ -66,7 +65,6 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 		imgMenu = new NoDragImage(MaterialDesignResources.INSTANCE.toolbar_menu_black(), 24);
 		createCenter();
 		setLabels();
-		ClickStartHandler.initDefaults(this, true, true);
 		setTabIndexes();
 		lastOrientation = app.isPortrait();
 		setStyleName("header");
@@ -106,7 +104,7 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 				"Algebra", 24);
 		btnAlgebra.addStyleName("tabButton");
 		btnAlgebra.addFastClickHandler(source -> onAlgebraPressed());
-		btnAlgebra.addKeyDownHandler(this);
+		//btnAlgebra.addKeyDownHandler(this);
 		AriaHelper.hide(btnAlgebra);
 	}
 
@@ -116,7 +114,7 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 				"Tools", 24);
 		btnTools.addStyleName("tabButton");
 		btnTools.addFastClickHandler(source -> onToolsPressed());
-		btnTools.addKeyDownHandler(this);
+		//btnTools.addKeyDownHandler(this);
 		AriaHelper.hide(btnTools);
 	}
 
@@ -127,7 +125,7 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 		btnTableView.addStyleName("tabButton");
 		btnTableView.addFastClickHandler(source -> onTableViewPressed());
 
-		btnTableView.addKeyDownHandler(this);
+		//btnTableView.addKeyDownHandler(this);
 		AriaHelper.hide(btnTableView);
 	}
 

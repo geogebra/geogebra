@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OpenFileListener;
+import org.geogebra.common.main.undo.ActionExecutor;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
@@ -61,7 +62,7 @@ import jsinterop.base.JsPropertyMap;
  * @author Zbynek
  *
  */
-public class EmbedManagerW implements EmbedManager, EventRenderable {
+public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecutor {
 
 	private AppWFull app;
 	private HashMap<DrawWidget, EmbedElement> widgets = new HashMap<>();
@@ -80,6 +81,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 		this.app = app;
 		this.counter = 0;
 		app.getLoginOperation().getView().add(this);
+		app.getUndoManager().addActionExecutor(this);
 	}
 
 	@Override
@@ -487,15 +489,13 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 	 *            embed ID
 	 */
 	public void createUndoAction(int id) {
-		app.getKernel().getConstruction().getUndoManager()
-				.storeAction(EventType.EMBEDDED_STORE_UNDO,
+		app.getUndoManager().storeAction(EventType.EMBEDDED_STORE_UNDO,
 				String.valueOf(id));
 	}
 
-	@Override
-	public void executeAction(EventType action, int embedId) {
+	private void executeAction(EventType action, int embedId) {
 		restoreEmbeds();
-		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
+		for (Entry<DrawWidget, EmbedElement> entry: widgets.entrySet()) {
 			if (entry.getKey().getEmbedID() == embedId) {
 				entry.getValue().executeAction(action);
 			}
@@ -574,5 +574,33 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 	private boolean isJsEnabled() {
 		return !app.isMebis()
 				|| app.getLoginOperation().isTeacherLoggedIn();
+	}
+
+	@Override
+	public boolean executeAction(EventType action, String[] args) {
+		if (action == EventType.EMBEDDED_STORE_UNDO) {
+			embeddedAction(EventType.REDO, args[0]);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean undoAction(EventType action, String... args) {
+		if (action == EventType.EMBEDDED_STORE_UNDO) {
+			embeddedAction(EventType.UNDO, args[0]);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void embeddedAction(EventType action, String id) {
+		try {
+			int embedId = Integer.parseInt(id);
+			executeAction(action, embedId);
+		} catch (RuntimeException e) {
+			Log.warn("No undo possible for embed " + id);
+		}
 	}
 }

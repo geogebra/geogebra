@@ -36,6 +36,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/color_black.svg")
 	SVGResource color_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/border-all-variant.svg")
+	SVGResource color_border();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/ic_crop_black_24px.svg")
 	SVGResource crop_black();
 

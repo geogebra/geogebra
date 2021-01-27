@@ -65,7 +65,6 @@ public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 		setStyleName("TitleBarPanel");
 		addStyleName("TitleBarClassic");
 		addStyleName("cursor_drag");
-		initToggleButton();
 	}
 
 	private void updateStyles() {

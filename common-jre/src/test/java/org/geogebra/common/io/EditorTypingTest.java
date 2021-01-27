@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
@@ -102,13 +103,13 @@ public class EditorTypingTest {
 
 	@Test
 	public void testTrig5() {
-		checker.type("sin^2").typeKey(JavaKeyCodes.VK_RIGHT).type("(x)")
+		checker.type("sin^2").right(1).type("(x)")
 				.checkGGBMath("sin" + Unicode.SUPERSCRIPT_2 + "(x)");
 	}
 
 	@Test
 	public void testTrig6() {
-		checker.type("sin^-1").typeKey(JavaKeyCodes.VK_RIGHT).type("(x)")
+		checker.type("sin^-1").right(1).type("(x)")
 				.checkGGBMath("sin" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
 	}
 
@@ -343,59 +344,59 @@ public class EditorTypingTest {
 	private String convertKoreanTyping(String s) {
 		String ret = s;
 
-		ret = ret.replace('a', 'ㅁ');
-		ret = ret.replace('b', 'ㅠ');
-		ret = ret.replace('c', 'ㅊ');
-		ret = ret.replace('d', 'ㅇ');
-		ret = ret.replace('e', 'ㄷ');
-		ret = ret.replace('f', 'ㄹ');
-		ret = ret.replace('g', 'ㅎ');
-		ret = ret.replace('h', 'ㅗ');
-		ret = ret.replace('i', 'ㅑ');
-		ret = ret.replace('j', 'ㅓ');
-		ret = ret.replace('k', 'ㅏ');
-		ret = ret.replace('l', 'ㅣ');
-		ret = ret.replace('m', 'ㅡ');
-		ret = ret.replace('n', 'ㅜ');
-		ret = ret.replace('o', 'ㅐ');
-		ret = ret.replace('p', 'ㅔ');
-		ret = ret.replace('q', 'ㅂ');
-		ret = ret.replace('r', 'ㄱ');
-		ret = ret.replace('s', 'ㄴ');
-		ret = ret.replace('t', 'ㅅ');
-		ret = ret.replace('u', 'ㅕ');
-		ret = ret.replace('v', 'ㅍ');
-		ret = ret.replace('w', 'ㅈ');
-		ret = ret.replace('x', 'ㅌ');
-		ret = ret.replace('y', 'ㅛ');
-		ret = ret.replace('z', 'ㅋ');
+		ret = ret.replace('a', '\u3141');
+		ret = ret.replace('b', '\u3160');
+		ret = ret.replace('c', '\u314A');
+		ret = ret.replace('d', '\u3147');
+		ret = ret.replace('e', '\u3137');
+		ret = ret.replace('f', '\u3139');
+		ret = ret.replace('g', '\u314E');
+		ret = ret.replace('h', '\u3157');
+		ret = ret.replace('i', '\u3151');
+		ret = ret.replace('j', '\u3153');
+		ret = ret.replace('k', '\u314F');
+		ret = ret.replace('l', '\u3163');
+		ret = ret.replace('m', '\u3161');
+		ret = ret.replace('n', '\u315C');
+		ret = ret.replace('o', '\u3150');
+		ret = ret.replace('p', '\u3154');
+		ret = ret.replace('q', '\u3142');
+		ret = ret.replace('r', '\u3131');
+		ret = ret.replace('s', '\u3134');
+		ret = ret.replace('t', '\u3145');
+		ret = ret.replace('u', '\u3155');
+		ret = ret.replace('v', '\u314D');
+		ret = ret.replace('w', '\u3148');
+		ret = ret.replace('x', '\u314C');
+		ret = ret.replace('y', '\u315B');
+		ret = ret.replace('z', '\u314B');
 
-		ret = ret.replace('A', 'ㅁ');
-		ret = ret.replace('B', 'ㅠ');
-		ret = ret.replace('C', 'ㅊ');
-		ret = ret.replace('D', 'ㅇ');
-		ret = ret.replace('E', 'ㄸ');
-		ret = ret.replace('F', 'ㄹ');
-		ret = ret.replace('G', 'ㅎ');
-		ret = ret.replace('H', 'ㅗ');
-		ret = ret.replace('I', 'ㅑ');
-		ret = ret.replace('J', 'ㅓ');
-		ret = ret.replace('K', 'ㅏ');
-		ret = ret.replace('L', 'ㅣ');
-		ret = ret.replace('M', 'ㅡ');
-		ret = ret.replace('N', 'ㅜ');
-		ret = ret.replace('O', 'ㅒ');
-		ret = ret.replace('P', 'ㅖ');
-		ret = ret.replace('Q', 'ㅃ');
-		ret = ret.replace('R', 'ㄲ');
-		ret = ret.replace('S', 'ㄴ');
-		ret = ret.replace('T', 'ㅆ');
-		ret = ret.replace('U', 'ㅕ');
-		ret = ret.replace('V', 'ㅍ');
-		ret = ret.replace('W', 'ㅉ');
-		ret = ret.replace('X', 'ㅌ');
-		ret = ret.replace('Y', 'ㅛ');
-		return ret.replace('Z', 'ㅋ');
+		ret = ret.replace('A', '\u3141');
+		ret = ret.replace('B', '\u3160');
+		ret = ret.replace('C', '\u314A');
+		ret = ret.replace('D', '\u3147');
+		ret = ret.replace('E', '\u3138');
+		ret = ret.replace('F', '\u3139');
+		ret = ret.replace('G', '\u314E');
+		ret = ret.replace('H', '\u3157');
+		ret = ret.replace('I', '\u3151');
+		ret = ret.replace('J', '\u3153');
+		ret = ret.replace('K', '\u314F');
+		ret = ret.replace('L', '\u3163');
+		ret = ret.replace('M', '\u3161');
+		ret = ret.replace('N', '\u315C');
+		ret = ret.replace('O', '\u3152');
+		ret = ret.replace('P', '\u3156');
+		ret = ret.replace('Q', '\u3143');
+		ret = ret.replace('R', '\u3132');
+		ret = ret.replace('S', '\u3134');
+		ret = ret.replace('T', '\u3146');
+		ret = ret.replace('U', '\u3155');
+		ret = ret.replace('V', '\u314D');
+		ret = ret.replace('W', '\u3149');
+		ret = ret.replace('X', '\u314C');
+		ret = ret.replace('Y', '\u315B');
+		return ret.replace('Z', '\u314B');
 	}
 
 	@Test
@@ -409,13 +410,13 @@ public class EditorTypingTest {
 
 	@Test
 	public void testLogBase() {
-		checker.type("log_2").typeKey(JavaKeyCodes.VK_RIGHT).type("(4)").checkRaw(
+		checker.type("log_2").right(1).type("(4)").checkRaw(
 				"MathSequence[FnLOG[MathSequence[2], MathSequence[4]]]");
 	}
 
 	@Test
 	public void testSlash1() {
-		checker.type("/1").typeKey(JavaKeyCodes.VK_RIGHT).type("2")
+		checker.type("/1").right(1).type("2")
 				.checkAsciiMath("(1)/(2)");
 	}
 
@@ -426,13 +427,13 @@ public class EditorTypingTest {
 
 	@Test
 	public void testSlash3() {
-		checker.type("12").typeKey(JavaKeyCodes.VK_LEFT).type("/")
+		checker.type("12").left(1).type("/")
 				.checkAsciiMath("(1)/()2");
 	}
 
 	@Test
 	public void testDivision1() {
-		checker.type(Unicode.DIVIDE + "1").typeKey(JavaKeyCodes.VK_RIGHT).type("2")
+		checker.type(Unicode.DIVIDE + "1").right(1).type("2")
 				.checkAsciiMath("1/2");
 	}
 
@@ -443,22 +444,20 @@ public class EditorTypingTest {
 
 	@Test
 	public void testDivision3() {
-		checker.type("12").typeKey(JavaKeyCodes.VK_LEFT).type(Unicode.DIVIDE + "")
+		checker.type("12").left(1).type(Unicode.DIVIDE + "")
 				.checkAsciiMath("1/2");
 	}
 
 	@Test
 	public void testBracketsAroundFunction() {
-		checker.type("ln(x").typeKey(JavaKeyCodes.VK_LEFT)
-				.typeKey(JavaKeyCodes.VK_LEFT).typeKey(JavaKeyCodes.VK_LEFT)
-				.typeKey(JavaKeyCodes.VK_LEFT).type("(")
+		checker.type("ln(x").left(4).type("(")
 				.checkAsciiMath("(ln(x))");
 	}
 
 	@Test
 	public void testBracketsAfterEquals() {
-		checker.type("f(p").typeKey(JavaKeyCodes.VK_RIGHT)
-				.type("=ln(p*2.72").typeKey(JavaKeyCodes.VK_RIGHT)
+		checker.type("f(p").right(1)
+				.type("=ln(p*2.72").right(1)
 				.type("+3)").checkAsciiMath("f(p)=(ln(p*2.72)+3)");
 	}
 
@@ -467,6 +466,18 @@ public class EditorTypingTest {
 		checker.type("8" + Unicode.DIVIDE).typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.type(Unicode.DIVIDE + "2")
 				.checkAsciiMath("8/2");
+	}
+
+	@Test
+	public void testBackspaceAfterBrackets() {
+		checker.type("x(x+1)").typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("x(x+)");
+	}
+
+	@Test
+	public void testBackspaceAfterFraction() {
+		checker.type("12/34").typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("(12)/(3)");
 	}
 
 	@Test
@@ -493,11 +504,11 @@ public class EditorTypingTest {
 		inputBoxChecker.type("xsinxcosx").checkAsciiMath("xsin(xcos(x))");
 		inputBoxChecker.fromParser("");
 
-		inputBoxChecker.type("sin^2").typeKey(JavaKeyCodes.VK_RIGHT).type("a")
+		inputBoxChecker.type("sin^2").right(1).type("a")
 				.checkAsciiMath("sin^(2)(a)");
 		inputBoxChecker.fromParser("");
 
-		inputBoxChecker.type("log_3").typeKey(JavaKeyCodes.VK_RIGHT).type("x")
+		inputBoxChecker.type("log_3").right(1).type("x")
 				.checkAsciiMath("log(3,x)");
 	}
 
@@ -513,6 +524,14 @@ public class EditorTypingTest {
 		model.enableSubstitutions();
 		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
 		inputBoxChecker.type("sin(pix)").checkAsciiMath("sin(" + Unicode.PI_STRING + "x)");
+	}
+
+	@Test
+	public void typingEpsilonShouldProduceUnicode() {
+		MetaModel model = new MetaModel();
+		model.enableSubstitutions();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		inputBoxChecker.type("1+epsilon").checkAsciiMath("1+" + Unicode.epsilon);
 	}
 
 	@Test
@@ -545,5 +564,37 @@ public class EditorTypingTest {
 		model.enableSubstitutions();
 		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
 		inputBoxChecker.type("3pii").checkAsciiMath("3" + Unicode.PI_STRING + "i");
+	}
+
+	@Test
+	public void testBracketsForSelection() {
+		checker.type("x^2").right(1).type("+1")
+				.setModifiers(KeyEvent.SHIFT_MASK)
+				.left(5)
+				.setModifiers(0).type("(").checkAsciiMath("(x^(2)+1)");
+	}
+
+	@Test
+	public void testBracketsForSelectionSin() {
+		checker.type("sinx^2").right(1).type("+1")
+				.setModifiers(KeyEvent.SHIFT_MASK)
+				.left(5)
+				.setModifiers(0).type("(").checkAsciiMath("sin(x^(2)+1)");
+	}
+
+	@Test
+	public void testBracketsForSelectionSingleChar() {
+		checker.type("x^2").right(1).type("+1")
+				.setModifiers(KeyEvent.SHIFT_MASK)
+				.left(1)
+				.setModifiers(0).type("(").checkAsciiMath("x^(2)+(1)");
+	}
+
+	@Test
+	public void testBracketsForSelectionAfterScript() {
+		checker.type("x^2").right(1).type("+1")
+				.setModifiers(KeyEvent.SHIFT_MASK)
+				.left(2)
+				.setModifiers(0).type("(").checkAsciiMath("x^(2)(+1)");
 	}
 }

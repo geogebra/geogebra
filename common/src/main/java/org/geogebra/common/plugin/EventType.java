@@ -173,7 +173,23 @@ public enum EventType {
 	START_ANIMATION("startAnimation"),
 
 	/** stop animation event */
-	STOP_ANIMATION("stopAnimation");
+	STOP_ANIMATION("stopAnimation"),
+
+	/** dropdown opened */
+	DROPDOWN_OPENED("dropdownOpened"),
+
+	/** dropdown closed */
+	DROPDOWN_CLOSED("dropdownClosed"),
+
+	/** dropdown item focused */
+	DROPDOWN_ITEM_FOCUSED("dropdownItemFocused"),
+
+	/** Layer change in notes*/
+	ORDERING_CHANGE("orderingChange"),
+
+	GROUP_OBJECTS("groupObjects"),
+
+	UNGROUP_OBJECTS("ungroupObjects");
 
 	private String eventName;
 

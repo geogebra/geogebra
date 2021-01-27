@@ -112,7 +112,7 @@ public class KeyboardManager
 	 * @return height inside of the geogebra window
 	 */
 	public int estimateKeyboardHeight() {
-		ensureKeyboardExists();
+		ensureKeyboardsExist();
 		int realHeight = keyboard.getOffsetHeight();
 		if (realHeight > 0) {
 			return realHeight;
@@ -132,7 +132,7 @@ public class KeyboardManager
 	 *            frame of the applet
 	 */
 	public void addKeyboard(Panel appFrame) {
-		ensureKeyboardExists();
+		ensureKeyboardsExist();
 		if (!shouldDetach()) {
 			appFrame.add(keyboard);
 		} else {
@@ -181,7 +181,8 @@ public class KeyboardManager
 	 */
 	public void setListeners(MathKeyboardListener textField,
 			UpdateKeyBoardListener listener) {
-		ensureKeyboardExists();
+		ensureKeyboardsExist();
+		((OnscreenTabbedKeyboard) keyboard).clearAndUpdate();
 		if (textField != null) {
 			setOnScreenKeyboardTextField(textField);
 		}
@@ -194,16 +195,15 @@ public class KeyboardManager
 	 */
 	@Nonnull
 	public VirtualKeyboardGUI getOnScreenKeyboard() {
-		ensureKeyboardExists();
+		ensureKeyboardsExist();
 		return keyboard;
 	}
 
-	private void ensureKeyboardExists() {
+	private void ensureKeyboardsExist() {
 		if (keyboard == null) {
 			boolean showMoreButton = app.getConfig().showKeyboardHelpButton()
 					&& !shouldDetach();
-			keyboard = new OnscreenTabbedKeyboard((HasKeyboard) app,
-					showMoreButton);
+			keyboard = new OnscreenTabbedKeyboard((HasKeyboard) app, showMoreButton);
 		}
 	}
 
@@ -211,6 +211,13 @@ public class KeyboardManager
 	public void updateKeyboardLanguage() {
 		if (keyboard != null) {
 			keyboard.checkLanguage();
+		}
+	}
+
+	@Override
+	public void clearAndUpdateKeyboard() {
+		if (keyboard != null) {
+			keyboard.clearAndUpdate();
 		}
 	}
 

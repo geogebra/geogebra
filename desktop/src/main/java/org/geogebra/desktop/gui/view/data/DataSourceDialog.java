@@ -9,13 +9,13 @@ import java.awt.event.WindowFocusListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.GuiManagerD;
+import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 
@@ -25,7 +25,7 @@ import org.geogebra.desktop.main.AppD;
  * @author G. Sturr
  * 
  */
-public class DataSourceDialog extends JDialog
+public class DataSourceDialog extends Dialog
 		implements ActionListener, WindowFocusListener {
 
 	private static final long serialVersionUID = 1L;

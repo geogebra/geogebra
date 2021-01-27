@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.kernel.commands.CommandsConstants;
@@ -97,6 +98,10 @@ public class InputBarHelpPanel {
 	 * Update command dictionaries.
 	 */
 	public void updateDictionaries() {
+		// CAS-Specific Syntaxes
+		if (mApp.getConfig().getVersion() == GeoGebraConstants.Version.CAS) {
+			mApp.getCommandDictionaryCAS();
+		}
 		// math functions
 		String[] translatedFunctions = TableSymbols
 				.getTranslatedFunctions(mApp);

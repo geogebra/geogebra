@@ -54,7 +54,8 @@ public class VoiceInputSegment implements VoiceInputCommandInterface {
 		GeoPoint point2 = new GeoPoint(appW.getKernel().getConstruction(), "B",
 				xCoord2, yCoord2, 1.0);
 		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(
-				appW.getKernel().getConstruction(), "S", point1, point2);
+				appW.getKernel().getConstruction(), point1, point2);
+		algo.getSegment().setLabel("S");
 		return algo.getSegment();
 	}
 

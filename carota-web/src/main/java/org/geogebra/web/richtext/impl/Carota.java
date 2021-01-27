@@ -4,14 +4,14 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
-@JsType(isNative = true, namespace = JsPackage.GLOBAL, name="window")
+@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
 public class Carota {
 
 	protected Carota() {
 		// use Carota.get() instead, may return null
 	}
 
-	@JsProperty(name="murok")
+	@JsProperty(name = "murok")
 	public static native Carota get();
 
 	@JsProperty
