@@ -532,7 +532,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	}
 
 	/**
-	 * @param tpl
 	 *            TODO unused
 	 */
 	private void appendUndefined(StringBuilder sb1,
@@ -799,7 +798,11 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 					if (!positive) {
 						// make sure minus sign is before fraction
-						en = en.divide(c).multiplyR(-1);
+						if (DoubleUtil.isEqual(c, 1)) {
+							en = (new ExpressionNode(kernel, b2)).sqrt().multiplyR(-b1);
+						} else {
+							en = en.divide(c).multiplyR(-1);
+						}
 						sBuilder.append(en.toString(tpl));
 						return;
 
