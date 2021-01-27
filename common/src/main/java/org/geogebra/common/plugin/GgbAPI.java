@@ -2375,4 +2375,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public void endDrawRecordingAndLogResults() {
 		app.endDrawRecordingAndLogResults();
 	}
+
+	/**
+	 * Update geo ordering in notes
+	 * @param labels comma separated list of labels
+	 */
+	public void updateOrdering(String labels) {
+		construction.getLayerManager().updateOrdering(labels, kernel);
+		app.getActiveEuclidianView().invalidateDrawableList();
+	}
 }

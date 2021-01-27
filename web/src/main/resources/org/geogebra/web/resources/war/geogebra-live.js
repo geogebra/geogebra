@@ -203,6 +203,7 @@
                 case "moveSlide":
                 case "selectSlide":
                 case "clearSlide":
+                case "orderingChange":
                     this.sendEvent(event[0], event[2]);
                     break;
 
@@ -301,7 +302,9 @@
                     if (user) {
                         target.api.removeMultiuserSelections(user.name);
                     }
-                }
+                } else if (last.type == "orderingChange") {
+					target.api.updateOrdering(last.content);
+				}
             }
         };
    }

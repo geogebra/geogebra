@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.groups.Group;
@@ -261,6 +262,20 @@ public class LayerManager {
 	}
 
 	/**
+	 * @param labels comma separated list of labels
+	 * @param kernel kernel for geo lookup
+	 */
+	public void updateOrdering(String labels, Kernel kernel) {
+		drawingOrder.clear();
+		int counter = 0;
+		for (String label : labels.split(",")) {
+			GeoElement geo = kernel.lookupLabel(label);
+			drawingOrder.add(geo);
+			geo.setOrdering(counter++);
+		}
+	}
+
+	/**
 	 * Moves geo to the top of drawables
 	 * within its group.
 	 *
@@ -375,5 +390,33 @@ public class LayerManager {
 
 	public void setRenameRunning(boolean renaming) {
 		this.renaming = renaming;
+	}
+
+	/**
+	 * @return comma separated labels in drawing order
+	 */
+	public String getOrder() {
+		StringBuilder sb = new StringBuilder();
+		for (GeoElement geo: drawingOrder) {
+			if (sb.length() != 0) {
+				sb.append(",");
+			}
+			sb.append(geo.getLabelSimple());
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * @param pos new ordering
+	 * @param newGeo construction element
+	 */
+	public void replace(int pos, GeoElement newGeo) {
+		if (!drawingOrder.isEmpty()) {
+			drawingOrder.remove(newGeo);
+			drawingOrder.add(pos, newGeo);
+			updateOrdering();
+			newGeo.getKernel().getApplication()
+					.getActiveEuclidianView().invalidateDrawableList();
+		}
 	}
 }

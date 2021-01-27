@@ -954,6 +954,10 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.selectSlide(pageIdx + "");
 	}
 
+	public void updateOrdering(String labels) {
+		ggbAPI.updateOrdering(labels);
+	}
+
 	public void previewRefresh() {
 		ggbAPI.previewRefresh();
 	}

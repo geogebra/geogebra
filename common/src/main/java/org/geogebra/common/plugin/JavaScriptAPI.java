@@ -1134,4 +1134,5 @@ public interface JavaScriptAPI {
 	 * refresh slide
 	 */
 	void previewRefresh();
+
 }

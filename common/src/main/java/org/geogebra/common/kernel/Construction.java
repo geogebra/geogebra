@@ -1628,7 +1628,7 @@ public class Construction {
 			// use setLoadedLabel() instead of setLabel() to make sure that
 			// hidden objects also get the label, see #379
 			newGeo.setLoadedLabel(oldGeoLabel);
-
+			layerManager.replace(oldGeo.getOrdering(), newGeo);
 			if (newGeo.isGeoText()) {
 				newGeo.updateRepaint();
 			}
