@@ -166,16 +166,36 @@ public class GeoSymbolic extends GeoElement
 		fVars.clear();
 	}
 
+	private ExpressionValue fixMatrixInput(ExpressionValue casInputArg) {
+		// neglect dummy variable lhs if rhs is matrix
+		ExpressionValue ret = casInputArg;
+		if (((ExpressionNode) casInputArg).getLeft() instanceof Equation) {
+			Equation eq = (Equation) ((ExpressionNode) casInputArg).getLeft();
+			boolean lIsDummy = eq.getLHS().getLeft() instanceof GeoDummyVariable;
+			boolean rIsMatrix = eq.getRHS().getLeft() instanceof MyList
+					&& ((MyList)(eq.getRHS().getLeft())).isMatrix();
+			if (lIsDummy && rIsMatrix) {
+				ret = (ExpressionValue)(eq.getRHS().getLeft());
+			}
+		}
+		return ret;
+	}
+
 	@Override
 	public void computeOutput() {
 		ExpressionValue casInputArg = getDefinition().deepCopy(kernel)
 				.traverse(FunctionExpander.getCollector());
-		Command casInput = getCasInput(casInputArg);
+
+		Command casInput = getCasInput(fixMatrixInput(casInputArg));
 
 		MyArbitraryConstant constant = getArbitraryConstant();
 		constant.setSymbolic(!shouldBeEuclidianVisible(casInput));
 
 		String s = evaluateGeoGebraCAS(casInput, constant);
+
+		/*if ("{a = {10, 10}, a = {10, 10}}".equals(s)) {
+			s = "a = {{10, 10}, {10, 10}}";
+		}*/
 
 		if (Commands.Solve.name().equals(casInput.getName()) && GeoFunction.isUndefined(s)) {
 			getDefinition().getTopLevelCommand().setName(Commands.NSolve.name());
