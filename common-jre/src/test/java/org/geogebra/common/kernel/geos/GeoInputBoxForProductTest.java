@@ -242,17 +242,17 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 		GeoInputBox inputBox = addAvInput("b = InputBox(f)");
 		inputBox.setSymbolicMode(true);
 		inputBox.updateLinkedGeo("x+a''''");
-		assertEquals(inputBox.getText(), "x + a''''");
+		assertEquals("x + a''''", inputBox.getText());
 	}
 
 	@Test
 	public void testLetterSubscriptVariable() {
-		add("F_{max}{max}=7");
+		add("F_{max}=7");
 		addAvInput("f(x)=x");
 		GeoInputBox inputBox = addAvInput("b = InputBox(f)");
 		inputBox.setSymbolicMode(true);
 		inputBox.updateLinkedGeo("x+F_{max}");
-		assertEquals(inputBox.getText(), "x +F_{max}");
+		assertEquals("x + F_{max}", inputBox.getText());
 
 		add("var_{max}=7");
 		inputBox.updateLinkedGeo("x+var_{max}");
