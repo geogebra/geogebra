@@ -112,7 +112,8 @@ public class Variable extends ValidExpression {
 		}
 		GeoElement resolvedElement = lookupLabel(allowAutoCreateGeoElement, mode);
 		boolean resolveVariable = allowMultiLetterVariables || acceptLabelInputbox();
-		if ((resolvedElement != null && resolveVariable) || !throwError) {
+		if ((resolvedElement != null && resolveVariable)
+				|| (resolvedElement == null && !throwError)) {
 			return resolvedElement;
 		}
 		if (mode == SymbolicMode.SYMBOLIC_AV) {
