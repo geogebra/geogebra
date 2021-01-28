@@ -311,7 +311,7 @@ __GGB__keysVar["es-UY"].command = {
     "Excentricity": "SemiFocal",
     "Excentricity.Syntax": "[ <C\xf3nica> ]",
     "Execute": "Ejecuta",
-    "Execute.Syntax": "[ <Lista (textos)> ]\n[ <Lista (textos)>, <Par\xe1metro>, <Par\xe1metro>, ... ]",
+    "Execute.Syntax": "[ <Lista de textos> ]\n[ <Lista de textos>, <Par\xe1metro>, <Par\xe1metro>, ... ]",
     "Expand": "Desarrolla",
     "Expand.Syntax": "[ <Expresi\xf3n> ]",
     "Exponential": "Exponencial",
