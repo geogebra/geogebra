@@ -159,6 +159,7 @@ public class EvalInfo {
 		ret.redefinitionRule = this.redefinitionRule;
 		ret.constant = this.constant;
 		ret.keepDefinition = this.keepDefinition;
+		ret.multipleUnassignedAllowed = this.multipleUnassignedAllowed;
 		ret.allowMultiLetterVariables = this.allowMultiLetterVariables;
 		return ret;
 	}
