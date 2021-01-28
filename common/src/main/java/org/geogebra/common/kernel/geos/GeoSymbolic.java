@@ -173,9 +173,9 @@ public class GeoSymbolic extends GeoElement
 			Equation eq = (Equation) ((ExpressionNode) casInputArg).getLeft();
 			boolean lIsDummy = eq.getLHS().getLeft() instanceof GeoDummyVariable;
 			boolean rIsMatrix = eq.getRHS().getLeft() instanceof MyList
-					&& ((MyList)(eq.getRHS().getLeft())).isMatrix();
+					&& ((MyList) (eq.getRHS().getLeft())).isMatrix();
 			if (lIsDummy && rIsMatrix) {
-				ret = (ExpressionValue)(eq.getRHS().getLeft());
+				ret = (ExpressionValue) (eq.getRHS().getLeft());
 			}
 		}
 		return ret;
