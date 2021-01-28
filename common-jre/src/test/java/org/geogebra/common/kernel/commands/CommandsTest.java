@@ -1931,7 +1931,7 @@ public class CommandsTest {
 	}
 
 	@Test
-	public void cmdSurdTest() {
+	public void cmdSurdText() {
 		t("SurdText((-7 * 3^(1 / 2)) / 2)", "-\\frac{7 \\; \\sqrt{3}}{2}");
 		t("SurdText(-sqrt(2))", "-\\sqrt{2}");
 		t("SurdText(-sqrt(4^2 + 4^2))", "-4 \\; \\sqrt{2}");
