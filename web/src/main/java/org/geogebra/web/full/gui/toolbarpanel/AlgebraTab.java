@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
  */
 public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 
+	private static final int SCROLLBAR_WIDTH = 8; // 8px in FF, 4px in Chrome => take 8px
 	final private App app;
 	private final ToolbarPanel toolbarPanel;
 	private SimplePanel simplep;
@@ -86,7 +87,7 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 		if (aview != null) {
 			int w = this.toolbarPanel.getTabWidth();
 			aview.setUserWidth(w);
-			aview.resize(this.toolbarPanel.getTabWidth());
+			aview.resize(this.toolbarPanel.getTabWidth() - SCROLLBAR_WIDTH);
 		}
 	}
 

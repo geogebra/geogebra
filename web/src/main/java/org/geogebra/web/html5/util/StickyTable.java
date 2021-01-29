@@ -3,7 +3,6 @@ package org.geogebra.web.html5.util;
 import java.util.List;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.NodeList;
@@ -38,6 +37,7 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 
 		scroller = new ScrollPanel();
 		scroller.addStyleName("scroller");
+		scroller.addStyleName("customScrollbar");
 
 		scroller.setWidget(cellTable);
 		add(scroller);
@@ -169,13 +169,7 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	 *            to scroll.
 	 */
 	public void setHorizontalScrollPosition(final int pos) {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				getScroller().setHorizontalScrollPosition(pos);
-			}
-		});
+		Scheduler.get().scheduleDeferred(() -> getScroller().setHorizontalScrollPosition(pos));
 	}
 
 	/**
