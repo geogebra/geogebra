@@ -218,13 +218,14 @@ $duration: 0.2s;
 			}
 	}
 
-	.customScrollbar {
-		&:hover {
-			scrollbar-color: $black-38 $white;
-			&::-webkit-scrollbar-thumb {
-				background: $black-38;
-			}
+	.showScroll .customScrollbar:hover {
+		scrollbar-color: $black-38 $white;
+		&::-webkit-scrollbar-thumb {
+			background: $black-38;
 		}
+	}
+
+	.customScrollbar {
 		scrollbar-width: thin;
 		scrollbar-color: $white $white;
 		&::-webkit-scrollbar {
