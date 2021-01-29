@@ -217,11 +217,12 @@ $duration: 0.2s;
     			}
 			}
 	}
+
 	.customScrollbar {
 		&:hover {
-			scrollbar-color: rgba(0, 0, 0, 0.38) $white;
+			scrollbar-color: $black-38 $white;
 			&::-webkit-scrollbar-thumb {
-				background: rgba(0, 0, 0, 0.38);
+				background: $black-38;
 			}
 		}
 		scrollbar-width: thin;
@@ -238,6 +239,7 @@ $duration: 0.2s;
 			border-radius: 2px
 		}
 	}
+
 	.matAvDesign  {
 
 		.matMinMaxPanel {
