@@ -455,7 +455,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	private void createBtnAddColumn() {
 		btnAddColumn = new PopupMenuButtonW((AppW) app,
 		        ImageOrText.convert(getModel().getColumnNames()), -1, 1,
-				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT, false) {
+				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 			@Override
 			public void handlePopupActionEvent() {
 				super.handlePopupActionEvent();
@@ -611,7 +611,7 @@ public class FunctionInspectorW extends FunctionInspector {
 				app.getLocalization().getMenu("CopyToSpreadsheet")) };
 		btnOptions = new PopupMenuButtonW((AppW) app, strOptions,
 				strOptions.length, 1,
-				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT, false);
+				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 
 		ImageOrText icon = new ImageOrText(
 				GuiResources.INSTANCE.menu_icon_tools());

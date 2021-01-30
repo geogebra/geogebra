@@ -31,7 +31,7 @@ class RotateViewPopup extends PopupMenuButtonW {
 	public RotateViewPopup(EuclidianStyleBar3DW euclidianStyleBar3DW,
 			ImageResource playIcon, ImageResource pauseIcon) {
 		super(euclidianStyleBar3DW.app, null, -1, -1, SelectionTable.MODE_ICON,
-				false, true, null, false);
+				false, true, null);
 		this.euclidianStyleBar3DW = euclidianStyleBar3DW;
 
 		this.playIcon = new ImageOrText(playIcon);

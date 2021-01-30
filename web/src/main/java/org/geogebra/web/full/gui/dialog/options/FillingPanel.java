@@ -371,8 +371,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		// // panel for button to open external file
 		//
 		btnImage = new PopupMenuButtonW(app, iconArray, -1, 4,
-				SelectionTable.MODE_ICON,
-				app.isUnbundledOrWhiteboard()) {
+				SelectionTable.MODE_ICON) {
 			@Override
 			public void handlePopupActionEvent() {
 				super.handlePopupActionEvent();
