@@ -26,15 +26,6 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/common/icons/png/web/toolbar-further-tools-icon.png")
 	ImageResource toolbar_further_tools();
 
-	// HEADER MENU
-
-	// SMART MENUBAR
-	@Source("org/geogebra/common/icons/png/web/menuBarSubMenuIconRTL.png")
-	ImageResource menuBarSubMenuIconRTL();
-
-	@Source("org/geogebra/common/icons/png/web/menuBarSubMenuIconLTR.png")
-	ImageResource menuBarSubMenuIconLTR();
-
 	// Icons
 	@Source("org/geogebra/common/menu_icons/p20/menu-file-export.png")
 	ImageResource menu_icons_file_export();
@@ -42,29 +33,8 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/common/icons/png/web/menu_icons24/menu_view_exam.png")
 	ImageResource menu_icon_exam24();
 
-	@Source("org/geogebra/common/menu_icons/p20/menu-edit.png")
-	ImageResource menu_icon_edit();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-edit-copy.png")
-	ImageResource menu_icon_edit_copy();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-edit-paste.png")
-	ImageResource menu_icon_edit_paste();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-edit-delete.png")
-	ImageResource menu_icon_edit_delete();
-
 	@Source("org/geogebra/common/menu_icons/p20/menu-options.png")
 	ImageResource menu_icon_options();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-options-point-capturing.png")
-	ImageResource menu_icon_options_point_capturing();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-options-labeling.png")
-	ImageResource menu_icon_options_labeling();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-options-font-size.png")
-	ImageResource menu_icon_options_font_size();
 
 	@Source("org/geogebra/common/icons/png/web/menu-help.png")
 	ImageResource icon_help();
@@ -72,18 +42,10 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/common/menu_icons/p20/menu-tools.png")
 	ImageResource menu_icon_tools();
 
-	// Menu icons views and perspectives
-
-	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_input_bar.png")
-	ImageResource menu_icon_input_bar();
-
 	// OTHER MENUICONS
 
 	@Source("org/geogebra/common/stylingbar/p20/stylingbar_dots.png")
 	ImageResource menu_dots();
-
-	@Source("org/geogebra/common/stylingbar/p20/stylingbar_dots_hover.png")
-	ImageResource menu_dots_hover();
 
 	// SUBMENUS
 	@Source("org/geogebra/common/icons/png/web/arrow-submenu-right.png")
@@ -91,13 +53,6 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 
 	@Source("org/geogebra/common/icons/png/web/arrow-submenu-left.png")
 	ImageResource arrow_submenu_left();
-
-	// ALGEBRA INPUT
-	@Source("org/geogebra/common/icons/png/web/dockbar_triangle_left_darker.png")
-	ImageResource input_help_left();
-
-	@Source("org/geogebra/common/icons/png/web/dockbar_triangle_up_darker.png")
-	ImageResource input_help_up();
 
 	// DIALOGS
 	@Source("org/geogebra/common/icons/png/web/triangle_right.png")
@@ -119,9 +74,6 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/common/menu_icons/p20/menu-view-close.png")
 	ImageResource dockbar_close();
 
-	@Source("org/geogebra/common/menu_icons/p20/menu-file-new.png")
-	ImageResource dockbar_open();
-
 	// PROPABILITY CALCULATOR
 	@Source("org/geogebra/common/icons/png/web/probability_calculator_cumulative_distribution.png")
 	ImageResource cumulative_distribution();
@@ -138,34 +90,15 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/common/icons/png/web/probability_calculator_interval_right.png")
 	ImageResource interval_right();
 
-	@Source("org/geogebra/common/icons/png/web/probability_calculator_line_graph.png")
-	ImageResource line_graph();
-
 	@Source("org/geogebra/common/icons/png/web/probability_calculator_normal_overlay.png")
 	ImageResource normal_overlay();
-
-	@Source("org/geogebra/common/icons/png/web/probability_calculator_step_graph.png")
-	ImageResource step_graph();
 
 	// OBJECT PROPERTIES
 	@Source("org/geogebra/common/icons/png/web/little-triangle-down.png")
 	ImageResource little_triangle_down();
 
-	@Source("org/geogebra/common/icons/png/web/little-triangle-down-active.png")
-	ImageResource little_triangle_down_active();
-
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_properties_object.png")
 	ImageResource properties_object();
-
-	/*
-	 * @Source(
-	 * "org/geogebra/common/icons/png/web/stylingbar/stylingbar_properties_graphics_view.png"
-	 * ) ImageResource properties_graphics();
-	 * 
-	 * @Source(
-	 * "org/geogebra/common/icons/png/web/stylingbar/stylingbar_properties_graphics_view2.png"
-	 * ) ImageResource properties_graphics2();
-	 */
 
 	// DECORATIONS
 	// ANGLE
@@ -235,34 +168,9 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	 * STYLINGBARS
 	 * 
 	 */
-	// General stylingbar icons
-	@Source("org/geogebra/common/stylingbar/p24/stylingbar_dots.png")
-	ImageResource dots();
-
-	@Source("org/geogebra/common/stylingbar/p24/stylingbar_dots_hover.png")
-	ImageResource dots_hover();
 
 	@Source("org/geogebra/common/stylingbar/p24/stylebar_more.png")
 	ImageResource stylebar_more();
-
-	// ALGEBRA VIEW SPECIAL EDITING
-	@Source("org/geogebra/common/icons/png/web/stylingbar/algebra_matrix_size.png")
-	ImageResource algebra_matrix_size();
-
-	@Source("org/geogebra/common/icons/png/web/stylingbar/algebra_matrix_size_hover.png")
-	ImageResource algebra_matrix_size_hover();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-remove.png")
-	ImageResource algebra_remove();
-
-	@Source("org/geogebra/common/icons/png/web/menu_icons/stylingbar_algebraview_new_matrix.png")
-	ImageResource algebra_new_matrix();
-
-	@Source("org/geogebra/common/icons/png/web/menu_icons/stylingbar_algebraview_new_piecewise_function.png")
-	ImageResource algebra_new_piecewise();
-
-	@Source("org/geogebra/common/icons/png/web/menu_icons/stylingbar_algebraview_new_parametric_curve.png")
-	ImageResource algebra_new_parametric();
 
 	// PLAY, PAUSE, REWIND, ETC. USED IN ALGEBRA VIEW, EV AND IN NAVIGATION BAR
 
@@ -293,12 +201,6 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	// Show construction protocol icon in navigation bar
 	@Source("org/geogebra/common/icons_view_perspectives/p24/menu_view_construction_protocol.png")
 	ImageResource icons_view_construction_protocol_p24();
-
-	@Source("org/geogebra/common/icons/png/web/general/collapse24.png")
-	ImageResource collapse();
-
-	@Source("org/geogebra/common/icons/png/web/general/expand24.png")
-	ImageResource expand();
 
 	@Source("org/geogebra/web/resources/css/fonts.css")
 	TextResource fonts();
