@@ -187,7 +187,7 @@
     height: 32px;
 }
 
-.GeoGebraFrame .panelRow>*, .GeoGebraFrame .listBoxPanel>*, .GeoGebraFrame .panelRowIndent>*, .GeoGebraFrame .panelRowCell>*, .GeoGebraFrame .panelRowCell>*, .GeoGebraFrame .optionsPanel>*, .GeoGebraFrame .optionsPanelIndent>*, .GeoGebraFrame .optionsPanelCell>*, .GeoGebraFrame .propertiesTab .sliderIntervalPanel>*, .GeoGebraFrame .propertiesTab .sliderWidthPanel>*, .GeoGebraFrame .textOptionsToolBar>*, .GeoGebraFrame .BackgroundColorPanel>*, .GeoGebraFrame .minMaxPanel>* {
+.GeoGebraFrame .panelRow>*, .GeoGebraFrame .listBoxPanel>*, .GeoGebraFrame .panelRowIndent>*, .GeoGebraFrame .panelRowCell>*, .GeoGebraFrame .panelRowCell>*, .GeoGebraFrame .optionsPanel>*, .GeoGebraFrame .optionsPanelIndent>*, .GeoGebraFrame .optionsPanelCell>*, .GeoGebraFrame .textOptionsToolBar>*, .GeoGebraFrame .BackgroundColorPanel>*, .GeoGebraFrame .minMaxPanel>* {
     display: inline-block;
     vertical-align: middle;
     margin: 3px 10px 3px 0;

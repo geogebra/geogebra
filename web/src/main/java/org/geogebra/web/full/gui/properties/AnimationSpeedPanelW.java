@@ -44,17 +44,15 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 		InputPanelW inputPanel = new InputPanelW(app, -1, false);
 		tfAnimSpeed = inputPanel.getTextComponent();
         FlowPanel mainPanel = new FlowPanel();
-        FlowPanel speedPanel = new FlowPanel();
-        FlowPanel repeatPanel = new FlowPanel();
-		speedPanel.setStyleName("optionsPanel rows");
-		repeatPanel.setStyleName("optionsPanel rows");
-        speedPanel.add(getLabel());
-        speedPanel.add(tfAnimSpeed);
-        repeatPanel.add(modeLabel);
-        repeatPanel.add(getListBox());
-		// mainPanel.add(LayoutUtil.panelRow(speedPanel, repeatPanel));
-		mainPanel.add(LayoutUtilW.panelRowVertical(getLabel(), tfAnimSpeed));
-		mainPanel.add(LayoutUtilW.panelRowVertical(modeLabel, getListBox()));
+
+        FlowPanel speedPanel = LayoutUtilW.panelRow(getLabel(), tfAnimSpeed);
+        FlowPanel repeatPanel = LayoutUtilW.panelRow(modeLabel, getListBox());
+
+        speedPanel.setStyleName("sliderWidthPanel");
+		repeatPanel.setStyleName("sliderWidthPanel");
+
+        mainPanel.add(speedPanel);
+		mainPanel.add(repeatPanel);
         setWidget(mainPanel);
 
 		tfAnimSpeed.addKeyHandler(new KeyHandler() {
@@ -91,15 +89,9 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 	public void setLabels() {
 		super.setLabels();
 		Localization loc = app.getLocalization();
-		if (app.isUnbundledOrWhiteboard()) {
-			getLabel().setStyleName("coloredLabel");
-			modeLabel.setStyleName("coloredLabel");
-		}
-		getLabel().setText(
-				app.isUnbundledOrWhiteboard() ? loc.getMenu("AnimationSpeed")
-						: loc.getMenu("AnimationSpeed") + ":");
-		modeLabel.setText(app.isUnbundledOrWhiteboard() ? loc.getMenu("Repeat")
-				: loc.getMenu("Repeat") + ": ");
+
+		getLabel().setText(loc.getMenu("AnimationSpeed"));
+		modeLabel.setText(loc.getMenu("Repeat"));
 	}
 
 	@Override

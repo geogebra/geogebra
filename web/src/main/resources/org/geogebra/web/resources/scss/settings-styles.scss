@@ -84,12 +84,6 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			padding-left: 25px;
 		}
 
-		.coloredLabel {
-			cursor: default;
-			font-size: 80%;
-			color: $teal-default;
-		}
-
 		input[type="range"] {
 			cursor: pointer;
 		}
@@ -113,7 +107,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			label {
 				font-size: 90%;
 				display: inline-block;
-				margin: 3px 10px 8px 18px;
+				margin: 6px 18px;
 			}
 		}
 
@@ -225,7 +219,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			margin-bottom: 10px;
 
 			.gwt-Label {
-				cursor: default;
+				color: $teal-default;
 				font-size: 80%;
 			}
 
@@ -241,6 +235,16 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		}
 
 		.sliderWidthPanel {
+			.gwt-Label {
+				font-size: 80%;
+				color: $teal-default;
+			}
+
+			select {
+				display: block;
+				width: 100%;
+			}
+
 			.AutoCompleteTextFieldW {
 				display: flex;
 
