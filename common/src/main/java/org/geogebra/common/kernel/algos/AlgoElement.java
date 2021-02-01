@@ -1923,13 +1923,8 @@ public abstract class AlgoElement extends ConstructionElement
 			GeoElement geoElement,
 			StringTemplate tpl,
 			boolean substituteNumbers) {
-		return shouldPrintDefinition(geoElement)
+		return !geoElement.isAllowedToShowValue()
 				? geoElement.getDefinition(tpl)
 				: geoElement.getFormulaString(tpl, substituteNumbers);
-	}
-
-	private boolean shouldPrintDefinition(GeoElement element) {
-		return !element.isAllowedToShowValue()
-				|| (element instanceof GeoVector && element.getDefinition() != null);
 	}
 }
