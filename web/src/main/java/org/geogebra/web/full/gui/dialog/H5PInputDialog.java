@@ -1,12 +1,5 @@
 package org.geogebra.web.full.gui.dialog;
 
-import org.geogebra.common.euclidian.EmbedManager;
-import org.geogebra.common.move.ggtapi.models.AjaxCallback;
-import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
-import org.geogebra.common.move.ggtapi.models.json.JSONException;
-import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.ComponentOrDivider;
@@ -16,11 +9,10 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
 import elemental2.dom.File;
-import elemental2.dom.FileReader;
 import elemental2.dom.HTMLInputElement;
 import jsinterop.base.Js;
 
-public class H5PInputDialog extends EmbedInputDialog implements AjaxCallback {
+public class H5PInputDialog extends EmbedInputDialog {
 
 	private FileUpload h5pChooser = getH5PChooser();
 
@@ -84,41 +76,8 @@ public class H5PInputDialog extends EmbedInputDialog implements AjaxCallback {
 	 *
 	 */
 	void loadH5PElement(File file) {
-		FileReader reader = new FileReader();
-
-		reader.addEventListener("load", (ev) -> {
-			if (reader.readyState == FileReader.DONE) {
-				String[] splitted = reader.result.asString().split("base64,");
-				if (splitted != null && splitted.length == 2) {
-					((MaterialRestAPI) app.getLoginOperation().getGeoGebraTubeAPI())
-							.uploadAndUnzipH5P(splitted[1], this);
-				}
-
-			}
-		});
-
-		reader.readAsDataURL(file);
+		new H5PReader(app).load(file);
 		hide();
 	}
 
-	@Override
-	public void onSuccess(String response) {
-		JSONTokener tokener = new JSONTokener(response);
-		try {
-			JSONObject h5p = new JSONObject(tokener);
-			String unzippedPath = h5p.getString("url");
-			EmbedManager em = app.getEmbedManager();
-			if (em != null && unzippedPath != null && !unzippedPath.isEmpty()) {
-				em.openH5PTool(unzippedPath);
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void onError(String error) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization()
-				.getMenu("PdfErrorText"), true, (AppW) app);
-	}
 }

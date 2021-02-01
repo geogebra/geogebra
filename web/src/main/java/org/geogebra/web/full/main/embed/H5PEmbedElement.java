@@ -5,7 +5,6 @@ import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.h5pviewer.H5P;
 import org.geogebra.web.html5.util.h5pviewer.H5PPaths;
@@ -39,7 +38,6 @@ public class H5PEmbedElement extends EmbedElement {
 		app = geoEmbed.getApp();
 		euclidianController = app.getActiveEuclidianView().getEuclidianController();
 		widget.addStyleName("h5pEmbed");
-		Log.error("H5P");
 		load();
 	}
 
