@@ -15,7 +15,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.FileInputDialog;
-import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.util.BarList;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
@@ -392,10 +391,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		btnImage.setSelectedIndex(-1);
 		btnImage.setKeepVisible(false);
 		btnClearImage = new GPushButton(
-				new NoDragImage(app.isUnbundledOrWhiteboard()
-						? 
-						MaterialDesignResources.INSTANCE.delete_black()
-						: AppResources.INSTANCE.delete_small(), 24));
+				new NoDragImage(MaterialDesignResources.INSTANCE.delete_black(), 24));
 		btnClearImage.addClickHandler(new ClickHandler() {
 
 			@Override
