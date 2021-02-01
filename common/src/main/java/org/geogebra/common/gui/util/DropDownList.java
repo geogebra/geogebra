@@ -93,7 +93,7 @@ public class DropDownList {
 		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
 		// TF Rectangle
-		g2.setPaint(geo.doHighlighting() ? GColor.BLUE : GColor.LIGHT_GRAY);
+		g2.setPaint(geo.doHighlighting() ? GColor.BLUE : GColor.BLACK);
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 	}
 
