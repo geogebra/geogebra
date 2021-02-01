@@ -435,7 +435,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		}
 
 		iframe.objectPropertiesTextEditor {
-			border: #dcdcdc solid 1px;
+			border: $tool-border solid 1px;
 			background: $white;
 			padding: 4px 5px;
 			color: #666;
@@ -455,7 +455,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
 		.selected,
 		.gwt-MenuItem.selected:hover {
-			background-image: -webkit-linear-gradient(right, #dcdcdc, #f8f8f8);
+			background-image: linear-gradient(right, $tool-border, #f8f8f8);
 		}
 
 		.menuProperties {
@@ -485,12 +485,12 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 	.dropdownButton, .gwt-ListBox {
 		font-size: 90%;
 		color: #666666;
-		cursor: pointer;;
+		cursor: pointer;
 		box-shadow: none;
 		padding: 8px;
 		border-radius: 0;
 		border: none;
-		border-bottom: 1px solid #dcdcdc;
+		border-bottom: 1px solid $tool-border;
 		transition: border-bottom 0.3s ease-out;
 		background-color: transparent;
 
