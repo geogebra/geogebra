@@ -3592,7 +3592,7 @@ public class MyXMLHandler implements DocHandler {
 							new EvalInfo(!cons.isSuppressLabelsActive(), true)
 									.withSymbolicMode(
 											kernel.getSymbolicMode()));
-
+			cons.registerFunctionVariable(null);
 			// ensure that labels are set for invisible objects too
 			if (result != null && label != null && result.length == 1) {
 				result[0].setLoadedLabel(label);

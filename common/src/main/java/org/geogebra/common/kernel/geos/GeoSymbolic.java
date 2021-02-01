@@ -385,7 +385,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private ExpressionNode getNodeFromOutput() throws ParseException {
-		return kernel.getParser().parseGeoGebraExpression(casOutputString).wrap();
+		return kernel.getParser().parseGiac(casOutputString).wrap();
 	}
 
 	private ExpressionNode getNodeFromInput() {

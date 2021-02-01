@@ -459,9 +459,6 @@ public abstract class MyXMLio {
 				// spurious traces
 				app.getTraceManager().loadTraceGeoCollection();
 			}
-			if (cons != null) {
-				cons.registerFunctionVariable(null);
-			}
 		}
 
 		// handle construction step stored in XMLhandler
