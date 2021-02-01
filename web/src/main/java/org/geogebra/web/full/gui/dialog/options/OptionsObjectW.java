@@ -146,6 +146,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			mainWidget = new FlowPanel();
 			showLabelCB = new CheckBox(localize("ShowLabel") + ":");
 			mainWidget.add(showLabelCB);
+			mainWidget.setStyleName("checkBoxPanel");
 			setWidget(mainWidget);
 
 			model = new ShowLabelModel(app, this);

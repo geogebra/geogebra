@@ -94,21 +94,27 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			cursor: pointer;
 		}
 
-		.gwt-CheckBox, .checkBoxPanel {
-			input[type="checkbox"] {
-				cursor: pointer;
-			}
+		input[type="checkbox"] {
+			cursor: pointer;
+			display: inline-block;
+			vertical-align: middle;
+			margin-bottom: 2px;
+		}
 
-			label {
-				cursor: default;
-				font-size: 90%;
-				margin-left: 8px;
-				margin-right: 16px;
-			}
+		.gwt-CheckBox label {
+			font-size: 90%;
+			margin-left: 8px;
+			margin-right: 16px;
 		}
 
 		.checkBoxPanel {
-			margin-bottom: 8px;
+			display: block;
+
+			label {
+				font-size: 90%;
+				display: inline-block;
+				margin: 3px 10px 8px 18px;
+			}
 		}
 
 		.checkBoxPanel-disabled {

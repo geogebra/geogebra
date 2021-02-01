@@ -232,11 +232,6 @@
 		text-decoration: underline;
 	}
 
-	.gwt-CheckBox-disabled,
-	.checkBoxPanel-disabled {
-		color: #CCCCCC;
-	}
-
 	.gwt-DisclosurePanel {
 		margin-top: 5px;
 	}
@@ -1849,10 +1844,6 @@
 		min-width: 110px;
 	}
 
-	.axisPanel > .checkBoxPanel > *:first-child {
-		min-width: 0;
-	}
-
 	/* OBJECT PROPERTIES */
 
 	.settingsBtn {
@@ -1862,20 +1853,6 @@
 	.propView_deckPanel {
 		flex: 1;
 		overflow-x: hidden;
-	}
-
-	.axisPanel > .checkBoxPanel {
-		margin-bottom: 10px;
-		display: block;
-	}
-
-	.propertiesPanel > .checkBoxPanel {
-		white-space: nowrap;
-		margin-bottom: 10px;
-	}
-
-	.propertiesPanel > .checkBoxPanel:last-child {
-		margin-bottom: 0;
 	}
 
 	.panelTitle {
@@ -1889,7 +1866,7 @@
 		border-bottom: 1px solid $tool-border;
 	}
 
-	.checkBoxPanel, .panelRow, .panelRowIndent, .panelIndent, .listBoxPanel, .optionsInput, .optionsPanel,
+	.panelRow, .panelRowIndent, .panelIndent, .listBoxPanel, .optionsInput, .optionsPanel,
 	.optionsPanel .optionsPanelIndent, .minMaxPanel {
 		display: block;
 	}
@@ -1902,7 +1879,7 @@
 		margin-bottom: 10px;
 	}
 
-	.checkBoxPanel > *, .panelRow > *, .listBoxPanel > *, .panelRowIndent > *, .panelRowCell > *,
+	.panelRow > *, .listBoxPanel > *, .panelRowIndent > *, .panelRowCell > *,
 	.panelRowCell > *, .optionsPanel > *, .optionsPanelIndent > *, .optionsPanelCell > *,
 	.textOptionsToolBar > *, .BackgroundColorPanel > *, .minMaxPanel > * {
 		display: inline-block;
@@ -1918,11 +1895,6 @@
 	.panelRowCell {
 		white-space: nowrap;
 		margin-right: 20px;
-	}
-
-	.checkBoxPanel .gwt-Label, .listBoxPanel .gwt-Label,
-	.optionsPanel .gwt-Label, .optionsPanelIndent .gwt-Label {
-		margin-right: 10px;
 	}
 
 	.optionsPanelCell {
