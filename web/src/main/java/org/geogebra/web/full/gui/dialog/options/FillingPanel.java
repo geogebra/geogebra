@@ -41,7 +41,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.himamis.retex.editor.share.util.Unicode;
 
 import elemental2.dom.File;
 import elemental2.dom.FileReader;
@@ -401,10 +400,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		});
 		btnOpenFile = new Button();
-		if (app.isUnbundledOrWhiteboard()) {
-			btnOpenFile.addStyleName("openFileBtn");
-			btnClearImage.addStyleName("clearImgBtn");
-		}
+		btnOpenFile.addStyleName("openFileBtn");
+		btnClearImage.addStyleName("clearImgBtn");
 		btnOpenFile.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -546,10 +543,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		fillingSliderTitle.setText(loc.getMenu("Opacity"));
 		angleSliderTitle.setText(loc.getMenu("Angle"));
 		distanceSliderTitle.setText(loc.getMenu("Spacing"));
-		btnOpenFile.setText(
-				app.isUnbundledOrWhiteboard()
-				? loc.getMenu("ChooseFromFile")
-				: loc.getMenu("ChooseFromFile") + Unicode.ELLIPSIS);
+		btnOpenFile.setText(loc.getMenu("ChooseFromFile"));
 	}
 
 	@Override
