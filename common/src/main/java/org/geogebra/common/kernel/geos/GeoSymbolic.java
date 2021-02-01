@@ -193,10 +193,6 @@ public class GeoSymbolic extends GeoElement
 
 		String s = evaluateGeoGebraCAS(casInput, constant);
 
-		/*if ("{a = {10, 10}, a = {10, 10}}".equals(s)) {
-			s = "a = {{10, 10}, {10, 10}}";
-		}*/
-
 		if (Commands.Solve.name().equals(casInput.getName()) && GeoFunction.isUndefined(s)) {
 			getDefinition().getTopLevelCommand().setName(Commands.NSolve.name());
 			casInput = getCasInput(getDefinition().deepCopy(kernel)
