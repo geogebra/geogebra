@@ -8,6 +8,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.h5pviewer.H5P;
 import org.geogebra.web.html5.util.h5pviewer.H5PPaths;
+import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Widget;
@@ -18,11 +19,11 @@ import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 public class H5PEmbedElement extends EmbedElement {
+	private static final int H5P_INITIAL_HEIGHT = 150;
 	private final Widget widget;
 	private final GeoEmbed geoEmbed;
-	public static final int BOTTOM_BAR = 48;
 	private final int embedId;
-	public static final int DEFAULT_WIDTH = 420;
+	public static final int DEFAULT_WIDTH = 600;
 	private final App app;
 	private final EuclidianController euclidianController;
 	private String url;
@@ -64,8 +65,28 @@ public class H5PEmbedElement extends EmbedElement {
 			if (embedManager != null) {
 				embedManager.onLoaded(geoEmbed, this::update);
 			}
+			initializeSizingTimer();
 			return null;
 		});
+	}
+
+	private void initializeSizingTimer() {
+		final HTMLIFrameElement frame = getFrame();
+		// the resize event from H5P is not fired by the initial resize
+		// use a timer to wait for height change instead
+		Timer t = new Timer() {
+			@Override
+			public void run() {
+				if (frame != null && frame.contentWindow != null
+						&& frame.offsetHeight != H5P_INITIAL_HEIGHT) {
+					geoEmbed.setSize(geoEmbed.getWidth(),
+							Math.min(frame.offsetHeight, geoEmbed.getHeight()));
+					geoEmbed.updateRepaint();
+					cancel();
+				}
+			}
+		};
+		t.scheduleRepeating(100);
 	}
 
 	private void update() {
