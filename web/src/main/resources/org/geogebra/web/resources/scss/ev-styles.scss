@@ -70,26 +70,6 @@
 			img , .buttonContent {
 				opacity: 0.7;
 			}
-
-			&:hover {
-				border: $purple-default solid 1px;
-			}
-
-			&.active {
-				border: $purple-default solid 1px;
-			}
-
-			&.withIcon {
-				border: $tool-border solid 1px;
-
-				.buttonContent {
-					opacity: 0.7;
-				}
-
-				&:hover {
-					border: $purple-default solid 1px;
-				}
-			}
 		}
 
 		.btnBold,.btnItalic {
@@ -155,18 +135,6 @@
 
     			&:hover {
     				background-color: $selected-menuitem-background;
-    				color: $black;
-    				/*background-color: $white-90;*/
-    				/*color: $toolbar-header-54;	*/
-    			}
-
-    			&.selected {
-    				/*border: 1px solid $purple-default;*/
-    				color: $purple-default;
-
-    				&:hover {
-    					color: $purple-default !important;
-    				}
     			}
     		}
     	}
@@ -295,14 +263,6 @@
 
     		.gwt-Label.border {
     			border-radius: 2px;
-
-    			&:hover {
-    				border: 1px solid $purple-default;
-    			}
-    		}
-
-    		.gwt-Label.border.selected,.gwt-Label.border.selected:hover {
-    			border: 1px solid $purple-default;
     		}
 
     		 .gwt-Label.borderButton {
@@ -321,7 +281,6 @@
 
     				&:hover {
     					opacity: 1;
-    					border: 1px solid $purple-default;
     					background-color: $white-90;
     				}
     			}

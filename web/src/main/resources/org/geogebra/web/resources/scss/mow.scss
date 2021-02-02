@@ -57,8 +57,16 @@
 	}
 
 	.MyCanvasButton, .MyToggleButton {
+		border: $tool-border solid 1px;
+
 		&:hover, &.active, &.selected {
 			border: $mow_primary solid 1px;
+		}
+
+		&.withIcon {
+			.buttonContent {
+				opacity: 0.7;
+			}
 		}
 	}
 
@@ -66,16 +74,6 @@
 *   STYLEBAR with Feature.MOW_COLOR_FILLING_LINE
 ******************/
 	.mowDynStyleBar {
-		.MyCanvasButton {
-			&.withIcon {
-				border: $tool-border solid 1px !important;
-
-				.buttonContent {
-					opacity: 0.7;
-				}
-			}
-		}
-
 		.btnCrop,.btnBold,.btnItalic,.btnUnderline,
 		 {
 			border-radius: 2px;
