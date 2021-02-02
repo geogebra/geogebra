@@ -56,7 +56,7 @@ public class TeXBuilder {
 		if (mathFormula.size() == 0) {
 			Atom a;
 			if (mathFormula == currentField) {
-				Atom placeholder = new CharAtom('g');
+				Atom placeholder = new CharAtom('1');
 				atomToComponent.put(placeholder, SELECTION);
 				a = new ScaleAtom(new PhantomAtom(placeholder), 0.1, 1);
 			} else {
