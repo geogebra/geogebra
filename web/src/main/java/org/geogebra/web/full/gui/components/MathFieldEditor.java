@@ -87,7 +87,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 		model.enableSubstitutions();
 		model.setForceBracketAfterFunction(true);
 		mathField = new MathFieldW(new SyntaxAdapterImpl(kernel), main,
-				canvas, listener, directFormulaConversion, model);
+				canvas, listener, model);
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		mathField.setClickListener(this);
 		mathField.setOnBlur(this);

@@ -148,7 +148,6 @@ public class MathFieldController {
 		}
 	}
 
-
 	/**
 	 * 
 	 * @param mathFormula

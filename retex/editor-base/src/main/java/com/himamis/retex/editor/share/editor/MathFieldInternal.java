@@ -88,7 +88,6 @@ public class MathFieldInternal
 
 	private Runnable enterCallback;
 
-	private boolean directFormulaBuilder;
 	private boolean scrollOccured = false;
 
 	private boolean longPressOccured = false;
@@ -103,18 +102,7 @@ public class MathFieldInternal
 	 *            editor component
 	 */
 	public MathFieldInternal(MathField mathField) {
-		this(mathField, false);
-	}
-
-	/**
-	 * @param mathField
-	 *            editor component
-	 * @param directFormulaBuilder
-	 *            whether to create JLM atoms directly (experimental)
-	 */
-	public MathFieldInternal(MathField mathField, boolean directFormulaBuilder) {
 		this.mathField = mathField;
-		this.directFormulaBuilder = directFormulaBuilder;
 		cursorController = new CursorController();
 		inputController = new InputController(mathField.getMetaModel());
 		keyListener = new KeyListenerImpl(cursorController, inputController);

@@ -19,7 +19,6 @@ public class CursorBoxConsumer implements BoxConsumer {
 	private BoxPosition cursorPosition;
 	private double boxWidth;
 
-
 	CursorBoxConsumer(TeXBuilder texBuilder, MathSequence currentField, int currentOffset) {
 		this.texBuilder = texBuilder;
 

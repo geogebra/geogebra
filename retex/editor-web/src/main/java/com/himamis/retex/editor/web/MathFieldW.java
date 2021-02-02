@@ -140,7 +140,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public MathFieldW(SyntaxAdapter converter, Panel parent, Canvas canvas,
 					  MathFieldListener listener, boolean directFormulaBuilder) {
-		this(converter, parent, canvas, listener, directFormulaBuilder, sMetaModel);
+		this(converter, parent, canvas, listener, sMetaModel);
 	}
 
 	/**
@@ -153,14 +153,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            drawing context
 	 * @param listener
 	 *            listener for special events
-	 * @param directFormulaBuilder
-	 *            whether to convert content into JLM atoms directly without
-	 *            reparsing
 	 * @param metaModel
 	 *            model
 	 */
 	public MathFieldW(SyntaxAdapter converter, Panel parent, Canvas canvas,
-			MathFieldListener listener, boolean directFormulaBuilder, MetaModel metaModel) {
+			MathFieldListener listener, MetaModel metaModel) {
 
 		this.converter = converter;
 		this.metaModel = metaModel;
@@ -170,7 +167,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		html = canvas;
 		bottomOffset = 10;
 		this.parent = parent;
-		mathFieldInternal = new MathFieldInternal(this, directFormulaBuilder);
+		mathFieldInternal = new MathFieldInternal(this);
 		mathFieldInternal.getInputController().setFormatConverter(converter);
 		mathFieldInternal.setSyntaxAdapter(converter);
 		getHiddenTextArea();
