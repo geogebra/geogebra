@@ -145,19 +145,19 @@ public class TeXBuilder {
 			final SymbolAtom op = SymbolAtom.get(lookupBracket('('));
 			final SymbolAtom cl = SymbolAtom.get(lookupBracket(')'));
 
-			ArrayOfAtoms aoa = new ArrayOfAtoms();
+			ArrayOfAtoms atoms = new ArrayOfAtoms();
 			for (int i = 0; i < array.rows(); i++) {
 				for (int j = 0; j < array.columns(); j++) {
 					if (j != 0) {
-						aoa.add(EnvArray.ColSep.get());
+						atoms.add(EnvArray.ColSep.get());
 					}
-					aoa.add(build(array.getArgument(i, j)));
+					atoms.add(build(array.getArgument(i, j)));
 				}
-				aoa.add(EnvArray.RowSep.get());
+				atoms.add(EnvArray.RowSep.get());
 			}
-			aoa.checkDimensions();
+			atoms.checkDimensions();
 
-			final Atom mat = new SMatrixAtom(aoa, false);
+			final Atom mat = new SMatrixAtom(atoms, false);
 			return new FencedAtom(mat, op, cl);
 		} else {
 			return buildFenced(array.getOpenKey(), array.getCloseKey(), array, 0);
