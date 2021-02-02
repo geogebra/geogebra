@@ -1766,6 +1766,7 @@ __GGB__keysVar["si"].menu = {
     "Edit": "\u0dc3\u0d82\u0dc3\u0dca\u0d9a\u0dbb\u0dab\u0dba \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "EditMenu": "\u0dc3\u0d9a\u0dc3\u0dca \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "EditProfile": "Edit your Profile",
+    "ElementASelected": "Element %0 selected",
     "Elementary12": "Elementary 1/2",
     "Elementary12Colored": "Elementary 1/2 colored",
     "Elementary12WithHouse": "Elementary 1/2 with house",

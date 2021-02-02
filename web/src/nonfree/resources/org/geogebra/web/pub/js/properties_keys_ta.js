@@ -1766,6 +1766,7 @@ __GGB__keysVar["ta"].menu = {
     "Edit": "\u0b9a\u0bc6\u0bb5\u0bcd\u0bb5\u0bc8\u0baa\u0bcd\u0baa\u0b9f\u0bc1\u0ba4\u0bcd\u0ba4\u0bc1\u0b95",
     "EditMenu": "\u0b9a\u0bc6\u0bb5\u0bcd\u0bb5\u0bc8\u0baf\u0bbe\u0b95\u0bcd\u0b95\u0bc1\u0b95",
     "EditProfile": "Edit your Profile",
+    "ElementASelected": "Element %0 selected",
     "Elementary12": "Elementary 1/2",
     "Elementary12Colored": "Elementary 1/2 colored",
     "Elementary12WithHouse": "Elementary 1/2 with house",

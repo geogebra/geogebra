@@ -1766,6 +1766,7 @@ __GGB__keysVar["az"].menu = {
     "Edit": "Redakt\u0259 et",
     "EditMenu": "Redakt\u0259 edin",
     "EditProfile": "Profiliniz\u0259 d\xfcz\u0259li\u015f edin",
+    "ElementASelected": "Element %0 selected",
     "Elementary12": "\u0130btidai 1/2",
     "Elementary12Colored": "\u0130btidai 1/2 r\u0259nglidir",
     "Elementary12WithHouse": "Elementary 1/2 with house",

@@ -1766,6 +1766,7 @@ __GGB__keysVar["ko"].menu = {
     "Edit": "\ud3b8\uc9d1",
     "EditMenu": "\ud3b8\uc9d1",
     "EditProfile": "\ud504\ub85c\ud544 \uc218\uc815",
+    "ElementASelected": "Element %0 selected",
     "Elementary12": "\ucd08\ub4f1 1/2",
     "Elementary12Colored": "\ucd08\ub4f1 1/2 (\uc0c9\uc0c1)",
     "Elementary12WithHouse": "\ucd08\ub4f1 1/2 (\uc9d1 \ubaa8\uc591)",

@@ -1766,6 +1766,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "Edit": "\u062a\u062d\u0631\u064a\u0631",
     "EditMenu": "\u062a\u062d\u0631\u064a\u0631",
     "EditProfile": "\u062d\u0631\u0651\u0650\u0631 \u0645\u0644\u0641\u064e\u0643 \u0627\u0644\u0634\u062e\u0635\u064a",
+    "ElementASelected": "Element %0 selected",
     "Elementary12": "Elementary 1/2",
     "Elementary12Colored": "Elementary 1/2 colored",
     "Elementary12WithHouse": "Elementary 1/2 with house",

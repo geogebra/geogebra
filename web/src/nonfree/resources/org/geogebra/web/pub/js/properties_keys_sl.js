@@ -1766,6 +1766,7 @@ __GGB__keysVar["sl"].menu = {
     "Edit": "Uredi",
     "EditMenu": "Urejanje",
     "EditProfile": "Urejanje profila",
+    "ElementASelected": "Element %0 selected",
     "Elementary12": "Osnovno 1/2",
     "Elementary12Colored": "Osnovno 1/2 obarvano",
     "Elementary12WithHouse": "Osnovno 1/2 s hi\u0161o",

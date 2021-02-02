@@ -1766,6 +1766,7 @@ __GGB__keysVar["eu"].menu = {
     "Edit": "Editatu",
     "EditMenu": "Editatu",
     "EditProfile": "Editatu zure Profila",
+    "ElementASelected": "Element %0 selected",
     "Elementary12": "Lehen Hezkuntza 1/2",
     "Elementary12Colored": "Elementary 1/2 colored",
     "Elementary12WithHouse": "Lehen Hezkuntza 1/2 etxearekin",

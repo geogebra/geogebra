@@ -1766,6 +1766,7 @@ __GGB__keysVar["uz"].menu = {
     "Edit": "Tahrirlash",
     "EditMenu": "Tahrirlash",
     "EditProfile": "Edit your Profile",
+    "ElementASelected": "Element %0 selected",
     "Elementary12": "Elementar 1/2",
     "Elementary12Colored": "Elementary 1/2 colored",
     "Elementary12WithHouse": "Elementary 1/2 with house",

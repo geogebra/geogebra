@@ -1766,6 +1766,7 @@ __GGB__keysVar["da"].menu = {
     "Edit": "Rediger",
     "EditMenu": "Rediger",
     "EditProfile": "Tilpas din profil",
+    "ElementASelected": "Element %0 selected",
     "Elementary12": "Felter 3-delt",
     "Elementary12Colored": "Standard 1/2 farvet",
     "Elementary12WithHouse": "Felter 3-delt med hus",

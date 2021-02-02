@@ -1766,6 +1766,7 @@ __GGB__keysVar["tr"].menu = {
     "Edit": "D\xfczenle",
     "EditMenu": "D\xfczenle",
     "EditProfile": "Profilinizi d\xfczenleyin",
+    "ElementASelected": "Element %0 selected",
     "Elementary12": "Temel 1/2",
     "Elementary12Colored": "Temel 1/2 renkli",
     "Elementary12WithHouse": "Temel 1/2 ev ile",

@@ -1766,6 +1766,7 @@ __GGB__keysVar["hu"].menu = {
     "Edit": "Szerkeszt\xe9s",
     "EditMenu": "Szerkeszt\xe9s",
     "EditProfile": "Saj\xe1t profil szerkeszt\xe9se",
+    "ElementASelected": "Element %0 selected",
     "Elementary12": "Elementary 1/2",
     "Elementary12Colored": "Elementary 1/2 colored",
     "Elementary12WithHouse": "Elementary 1/2 with house",

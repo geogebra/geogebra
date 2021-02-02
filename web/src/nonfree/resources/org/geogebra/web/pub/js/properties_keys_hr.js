@@ -1766,6 +1766,7 @@ __GGB__keysVar["hr"].menu = {
     "Edit": "Ure\u0111ivanje",
     "EditMenu": "Ure\u0111ivanje",
     "EditProfile": "Izmijenite svoj profil",
+    "ElementASelected": "Element %0 odabran",
     "Elementary12": "Crtovlje 1/2",
     "Elementary12Colored": "Crtovlje 1/2 obojeno",
     "Elementary12WithHouse": "Crtovlje 1/2 s ku\u0107icom",

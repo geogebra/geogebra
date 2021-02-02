@@ -1766,6 +1766,7 @@ __GGB__keysVar["cs"].menu = {
     "Edit": "\xdapravy",
     "EditMenu": "\xdapravy",
     "EditProfile": "Upravit profil",
+    "ElementASelected": "Element %0 selected",
     "Elementary12": "Z\xe1kladn\xed \u0161kola 1/2",
     "Elementary12Colored": "Z\xe1kladn\xed \u0161kola 1/2 barevn\xe9",
     "Elementary12WithHouse": "Z\xe1kladn\xed \u0161kola 1/2 s dome\u010dkem",

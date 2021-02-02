@@ -1766,6 +1766,7 @@ __GGB__keysVar["uk"].menu = {
     "Edit": "\u041f\u0440\u0430\u0432\u043a\u0430",
     "EditMenu": "\u041f\u0440\u0430\u0432\u043a\u0430",
     "EditProfile": "\u0420\u0435\u0434\u0430\u0433\u0443\u0432\u0430\u0442\u0438 \u041f\u0440\u043e\u0444\u0456\u043b\u044c",
+    "ElementASelected": "Element %0 selected",
     "Elementary12": "\u041f\u043e\u0447\u0430\u0442\u043a\u043e\u0432\u0430 \u0448\u043a\u043e\u043b\u0430 1/2",
     "Elementary12Colored": "Elementary 1/2 colored",
     "Elementary12WithHouse": "\u041f\u043e\u0447\u0430\u0442\u043a\u043e\u0432\u0430 \u0448\u043a\u043e\u043b\u0430 1/2 \u0437 \u0431\u0443\u0434\u0438\u043d\u043a\u043e\u043c",

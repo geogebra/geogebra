@@ -1766,6 +1766,7 @@ __GGB__keysVar["fr"].menu = {
     "Edit": "\xc9diter",
     "EditMenu": "\xc9diter",
     "EditProfile": "\xc9ditez votre profil",
+    "ElementASelected": "Element %0 selected",
     "Elementary12": "El\xe9mentaire CP/CE1",
     "Elementary12Colored": "Elementary 1/2 colored",
     "Elementary12WithHouse": "El\xe9mentaire CP/CE1 avec maison",
