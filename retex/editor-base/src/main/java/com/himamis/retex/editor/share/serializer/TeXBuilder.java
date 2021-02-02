@@ -30,7 +30,6 @@ import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.UnderOverArrowAtom;
 import com.himamis.retex.renderer.share.commands.CommandOpName;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 /**
  * Directly convert MathComponents into atoms
@@ -51,9 +50,6 @@ public class TeXBuilder {
 	private HashMap<Atom, MathComponent> atomToComponent;
 	private TeXParser parser;
 
-	private final Color placeholderColor = FactoryProvider.getInstance().getGraphicsFactory()
-			.createColor(0xDCDCDC);
-
 	private Atom buildSequence(MathSequence mathFormula) {
 		RowAtom ra = new RowAtom();
 
@@ -66,7 +62,7 @@ public class TeXBuilder {
 			} else {
 				a = new ColorAtom(
 						new ScaleAtom(new PhantomAtom(new CharAtom('g')), 1, 1.6),
-						placeholderColor,
+						FactoryProvider.getInstance().getGraphicsFactory().createColor(0xDCDCDC),
 						null
 				);
 			}
@@ -136,7 +132,7 @@ public class TeXBuilder {
 		if (parser == null) {
 			parser = new TeXParser("");
 		}
-		Atom ret = parser.getAtomFromUnicode(unicode, false);
+		Atom ret = parser.getAtomFromUnicode(unicode, true);
 		if (ret instanceof SymbolAtom) {
 			ret = ((SymbolAtom) ret).duplicate();
 		}

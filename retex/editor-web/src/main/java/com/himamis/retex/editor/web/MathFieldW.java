@@ -605,9 +605,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		int margin = getMargin(lastIcon);
 
 		paint(ctx, margin);
-		if (CursorBox.visible() || mathFieldInternal.getEditorState().hasSelection()) {
-			lastIcon.paintCursor(new Graphics2DW(ctx), margin);
-		}
+		lastIcon.paintCursor(new Graphics2DW(ctx), margin);
 	}
 
 	private double computeWidth() {

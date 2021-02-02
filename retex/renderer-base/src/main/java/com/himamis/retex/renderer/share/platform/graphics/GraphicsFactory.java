@@ -80,6 +80,10 @@ public abstract class GraphicsFactory {
 
 	public abstract Transform createTransform();
 
+	public Color createColor(int r, int g, int b) {
+		return createColor(r, g, b, 255);
+	}
+
 	public Color createColor(int rgb) {
 		int red = (rgb >> 16) & 0xFF;
 		int green = (rgb >> 8) & 0xFF;

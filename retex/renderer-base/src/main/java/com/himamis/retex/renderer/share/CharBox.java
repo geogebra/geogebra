@@ -161,6 +161,6 @@ public class CharBox extends Box {
 
 	@Override
 	public void inspect(BoxConsumer handler, BoxPosition position) {
-		super.inspect(handler, position.withScale(size / cf.fontInfo.getFont().getScale()));
+		super.inspect(handler, position.withScale(size));
 	}
 }

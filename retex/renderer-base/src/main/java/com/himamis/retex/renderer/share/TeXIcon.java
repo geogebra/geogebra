@@ -308,7 +308,7 @@ public class TeXIcon implements Icon {
 			ctx.setColor(FactoryProvider.getInstance().getGraphicsFactory()
 					.createColor(204, 204, 255, 100));
 			ctx.fillRect((int) x, (int) y, (int) width, (int) height);
-		} else if (cursorPosition != null) {
+		} else if (cursorPosition != null && CursorBox.visible()) {
 			double x = cursorPosition.getX() * size + insets.left;
 			double y = (box.getHeight() + cursorPosition.getY()) * size + insets.top + margin;
 			double height = cursorPosition.getHeight() * size;
