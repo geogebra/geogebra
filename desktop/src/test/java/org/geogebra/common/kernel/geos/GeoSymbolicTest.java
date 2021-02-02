@@ -1408,9 +1408,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic r = add("r(s)=s*(f(s)-1)");
 		app.storeUndoInfo();
 		assertThat(r.getTwinGeo(), instanceOf(GeoFunction.class));
+		assertThat(r.isEuclidianShowable(), is(true));
 
 		undoRedo();
+		r = (GeoSymbolic) lookup("r");
+		assertThat(r.isEuclidianShowable(), is(true));
 
+		add("f(x) = x");
 		r = (GeoSymbolic) lookup("r");
 		assertThat(r.isEuclidianShowable(), is(true));
 	}
