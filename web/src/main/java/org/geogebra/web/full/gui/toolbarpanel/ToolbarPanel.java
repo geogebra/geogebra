@@ -248,8 +248,8 @@ public class ToolbarPanel extends FlowPanel
 				if ("mousemove".equals(type) && !getElement().isOrHasChild(el)) {
 					removeStyleName("showScroll");
 				}
-			} catch(Throwable t) {
-				Log.error(t+"");
+			} catch (Throwable t) {
+				Log.error(t.getMessage());
 			}
 		});
 	}
