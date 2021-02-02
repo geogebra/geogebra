@@ -5,6 +5,7 @@ import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -366,6 +367,31 @@ public class RedefineTest extends Assert {
 		t("A", "(NaN, NaN)");
 		add("SetValue(a, 1)");
 		t("A", "(1, 1)");
+	}
+
+	@Test
+	public void functionShouldStayInequality() {
+		// old format: only NaN
+		app.getGgbApi().evalXML("<expression label=\"studans\" "
+				+ "exp=\"studans: NaN\" type=\"inequality\"/>\n"
+				+ "<element type=\"function\" label=\"studans\">\n"
+				+ "\t<show object=\"false\" label=\"false\" ev=\"4\"/>\n"
+				+ "</element>");
+		assertTrue(((GeoFunction) app.getKernel().lookupLabel("studans")).isForceInequality());
+		// new format: includes function variables
+		app.getGgbApi().evalXML("<expression label=\"studans2\" "
+				+ "exp=\"studans2(x) = ?\" type=\"inequality\"/>\n"
+				+ "<element type=\"function\" label=\"studans2\">\n"
+				+ "\t<show object=\"false\" label=\"false\" ev=\"4\"/>\n"
+				+ "</element>");
+		assertTrue(((GeoFunction) app.getKernel().lookupLabel("studans2")).isForceInequality());
+	}
+
+	@Test
+	public void avRedefineShouldChangeInequalityToFunction() {
+		add("f:x>3");
+		add("f(x)=x+3");
+		assertFalse(((GeoFunction) app.getKernel().lookupLabel("f")).isForceInequality());
 	}
 
 }

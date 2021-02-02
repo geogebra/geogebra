@@ -11,6 +11,7 @@ import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.voiceInput.SpeechRecognitionPanel;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
@@ -23,6 +24,10 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InsertPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.HTMLCanvasElement;
+import jsinterop.base.Js;
 
 /**
  * Abstract class for all "euclidian" panels.
@@ -424,5 +429,20 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			return ((EuclidianViewW) ev).getKeyboardListener();
 		}
 		return null;
+	}
+
+	@Override
+	public void paintToCanvas(CanvasRenderingContext2D context2d,
+			Runnable callback, int left, int top) {
+		if (getEuclidianView() != null) {
+			HTMLCanvasElement evCanvas =
+					Js.uncheckedCast(((EuclidianViewWInterface) getEuclidianView())
+							.getExportCanvas());
+			double pixelRatio = app.getPixelRatio();
+			context2d.scale(1 / pixelRatio, 1 / pixelRatio);
+			context2d.drawImage(evCanvas, pixelRatio * left, pixelRatio * top);
+			context2d.scale(pixelRatio, pixelRatio);
+		}
+		callback.run();
 	}
 }

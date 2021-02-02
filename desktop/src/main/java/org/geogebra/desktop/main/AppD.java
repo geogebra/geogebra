@@ -153,7 +153,6 @@ import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.HTML5Export;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.main.SingularWSSettings;
@@ -2206,17 +2205,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public void copyGraphicsViewToClipboard() {
 
 		copyGraphicsViewToClipboard(getActiveEuclidianView());
-	}
-
-	@Override
-	public void copyBase64ToClipboard() {
-		// don't include preview bitmap
-		copyPaste.copyTextToSystemClipboard(getGgbApi().getBase64(false));
-	}
-
-	@Override
-	public void copyFullHTML5ExportToClipboard() {
-		copyPaste.copyTextToSystemClipboard(HTML5Export.getFullString(this));
 	}
 
 	public void copyGraphicsViewToClipboard(final EuclidianView copyView) {
@@ -5250,7 +5238,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public void handleImageExport(String base64image) {
 		if (base64image.startsWith("<svg") || base64image.startsWith("<?xml")
 				|| base64image.startsWith("%PDF")) {
-			copyPaste.copyTextToSystemClipboard(base64image);
+			getCopyPaste().copyTextToSystemClipboard(base64image);
 			return;
 		}
 

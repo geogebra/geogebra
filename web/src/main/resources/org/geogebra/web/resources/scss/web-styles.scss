@@ -3104,8 +3104,13 @@
 		margin-right: 5px;
 	}
 
-	.ggbScreenshot .InputTreeItem {
-		overflow-x: hidden;
+	.ggbScreenshot {
+		.InputTreeItem {
+			overflow-x: hidden;
+		}
+		.algebraPanel {
+			overflow: hidden !important;
+		}
 	}
 
 	.cpScrollPanel td {

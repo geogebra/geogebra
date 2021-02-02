@@ -18,6 +18,7 @@ import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.ExtendedBoolean;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
@@ -29,13 +30,19 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.StringConsumer;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.BaseRenderingContext2D;
+import elemental2.dom.CanvasRenderingContext2D;
+import jsinterop.base.Js;
 
 /**
  * Class responsible to manage the whole docking area of the window.
@@ -1785,6 +1792,39 @@ public class DockManagerW extends DockManager {
 			DockPanelW panel = getPanel(dpData.getViewId());
 			if (panel != null) {
 				panel.setTabId(dpData.getTabId());
+			}
+		}
+	}
+
+	/**
+	 * Paint all panels to a canvas
+	 * @param c canvas
+	 * @param callback consumer for the resulting base64 string (without marker)
+	 */
+	public void paintPanels(Canvas c, StringConsumer callback) {
+		c.setCoordinateSpaceWidth(rootPane.getOffsetWidth());
+		c.setCoordinateSpaceHeight(rootPane.getOffsetHeight());
+		Runnable counter = new Runnable() {
+			private int count = dockPanels.size();
+			@Override
+			public void run() {
+				count--;
+				if (count == 0) {
+					callback.consume(c.toDataUrl().replace(StringUtil.pngMarker, ""));
+				}
+			}
+		};
+		CanvasRenderingContext2D context2d = Js.uncheckedCast(c.getContext("2d"));
+		// gray color for the dividers in Classic
+		context2d.fillStyle = BaseRenderingContext2D.FillStyleUnionType.of("rgb(200,200,200)");
+		context2d.fillRect(0, 0, rootPane.getOffsetWidth(), rootPane.getOffsetHeight());
+		for (DockPanelW panel: dockPanels) {
+			if (panel.isAttached() && panel.isVisible()) {
+				panel.paintToCanvas(context2d, counter,
+						panel.getAbsoluteLeft() - rootPane.getAbsoluteLeft(),
+						panel.getAbsoluteTop() - rootPane.getAbsoluteTop());
+			} else {
+				counter.run();
 			}
 		}
 	}

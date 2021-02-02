@@ -610,6 +610,15 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testSingleIneqRedefinedSetValue() {
+		add("a:x<6");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("?");
+		add("SetValue(a,?)");
+		assertThat(((GeoFunction) lookup("a")).isForceInequality(), equalTo(true));
+	}
+
+	@Test
 	public void testCommandLikeImplicitMultiplicationParsesCorrectly() {
 		add("f(g, L) = ?");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");

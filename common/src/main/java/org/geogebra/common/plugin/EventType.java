@@ -182,7 +182,14 @@ public enum EventType {
 	DROPDOWN_CLOSED("dropdownClosed"),
 
 	/** dropdown item focused */
-	DROPDOWN_ITEM_FOCUSED("dropdownItemFocused");
+	DROPDOWN_ITEM_FOCUSED("dropdownItemFocused"),
+
+	/** Layer change in notes*/
+	ORDERING_CHANGE("orderingChange"),
+
+	GROUP_OBJECTS("groupObjects"),
+
+	UNGROUP_OBJECTS("ungroupObjects");
 
 	private String eventName;
 

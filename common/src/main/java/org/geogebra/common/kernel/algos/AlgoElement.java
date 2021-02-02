@@ -1926,5 +1926,4 @@ public abstract class AlgoElement extends ConstructionElement
 				? geoElement.getDefinition(tpl)
 				: geoElement.getFormulaString(tpl, substituteNumbers);
 	}
-
 }
