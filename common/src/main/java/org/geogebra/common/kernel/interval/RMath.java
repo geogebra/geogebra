@@ -191,4 +191,12 @@ public class RMath {
 	public static double logHigh(double x) {
 		return next(Math.log(x));
 	}
+
+	public static double secLow(double x) {
+		return prev(1 / Math.cos(x));
+	}
+
+	public static double secHigh(double x) {
+		return next(1 / Math.cos(x));
+	}
 }

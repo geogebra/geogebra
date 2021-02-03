@@ -54,7 +54,8 @@ import org.geogebra.common.util.debug.Log;
 
 	private Interval evaluateLeaf(Interval x, ExpressionNode node, Operation operation)
 			throws Exception {
-		if (node.isConstant()) {
+		if (node.isConstant()
+				|| (node.unwrap().isNumberValue()) && !node.containsFunctionVariable()) {
 			return new Interval(node.evaluateDouble());
 		}
 		return x.evaluate(operation);
@@ -71,7 +72,7 @@ import org.geogebra.common.util.debug.Log;
 			case MULTIPLY:
 				return left.multiply(right);
 			case DIVIDE:
-				return left.divide(right);
+				return divide(left, right);
 			case POWER:
 				return left.pow(right);
 			case NROOT:
@@ -80,8 +81,14 @@ import org.geogebra.common.util.debug.Log;
 				return left.difference(right);
 			case SIN:
 				return left.sin();
+			case SEC:
+				return left.sec();
 			case COS:
 				return left.cos();
+			case CSC:
+				return left.csc();
+			case COT:
+				return left.cot();
 			case SQRT:
 				return left.sqrt();
 			case TAN:
@@ -116,6 +123,13 @@ import org.geogebra.common.util.debug.Log;
 				return IntervalConstants.empty();
 			}
 		}
+
+	private Interval divide(Interval left, Interval right) {
+		if (left.isSingleton()) {
+			return right.multiplicativeInverse().multiply(left);
+		}
+		return left.divide(right);
+	}
 
 	/**
 	 *

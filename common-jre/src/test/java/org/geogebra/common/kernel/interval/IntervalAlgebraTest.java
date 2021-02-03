@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -26,7 +28,7 @@ public class IntervalAlgebraTest {
 		assertTrue(n.isEmpty());
 
 		n = interval(2, 2).fmod(interval(2, 2));
-		assertTrue(n.almostEqual(IntervalConstants.zero()));
+		assertTrue(n.almostEqual(zero()));
 	}
 
 	@Test
@@ -56,14 +58,14 @@ public class IntervalAlgebraTest {
 	}
 
 	@Test
-	public void testMultiplicativeInverseResultWhole() {
-		assertEquals(IntervalConstants.whole(), interval(-6, 2)
+	public void testMultiplicativeInverseResultUndefined() {
+		assertEquals(undefined(), interval(-6, 2)
 				.multiplicativeInverse());
 	}
 
 	@Test
 	public void testMultiplicativeInverseZero() {
-		assertTrue(IntervalConstants.zero().multiplicativeInverse().isEmpty());
+		assertEquals(undefined(), zero().multiplicativeInverse());
 	}
 
 	@Test
@@ -80,7 +82,7 @@ public class IntervalAlgebraTest {
 
 	@Test
 	public void testZeroPowerOfZero() {
-		assertTrue(IntervalConstants.zero().pow(0).isEmpty());
+		assertTrue(zero().pow(0).isEmpty());
 	}
 
 	@Test
@@ -171,8 +173,7 @@ public class IntervalAlgebraTest {
 
 	@Test
 	public void testNegativeAndPositivePowerOfNegatives() {
-		assertTrue(IntervalConstants.whole().almostEqual(
-				interval(-2, 3).pow(-3)));
+		assertEquals(undefined(), interval(-2, 3).pow(-3));
 	}
 
 	@Test
@@ -213,5 +214,15 @@ public class IntervalAlgebraTest {
 		assertTrue(interval(-3, -2).almostEqual(interval(-27, -8).nthRoot(interval(3, 3))));
 		assertTrue(interval(-27, -8).nthRoot(interval(4, 3)).isEmpty());
 
+	}
+
+	@Test
+	public void testSqrtSinUndef() {
+		assertTrue(interval(4, 5).sin().sqrt().isEmpty());
+	}
+
+	@Test
+	public void testNegativeDividedZero() {
+		assertEquals(undefined(),  interval(-7, -3).divide(zero()));
 	}
 }

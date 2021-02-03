@@ -6,7 +6,7 @@ import static org.apache.commons.math3.util.FastMath.nextAfter;
 import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
-import static org.geogebra.common.kernel.interval.IntervalTest.shouldEqual;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -15,37 +15,38 @@ public class IntervalMiscTest {
 
 	@Test
 	public void testExp() {
-		shouldEqual(interval(0.36787944117, 2.71828182846), interval(-1, 1).exp());
-		shouldEqual(interval(0.04978706836, 20.0855369232), interval(-3, 3).exp());
+		assertEquals(interval(0.36787944117, 2.71828182846), interval(-1, 1).exp());
+		assertEquals(interval(0.04978706836, 20.0855369232), interval(-3, 3).exp());
 	}
 
 	@Test
 	public void testLog() {
-		shouldEqual(interval(0, 0), interval(1, 1).log());
-		shouldEqual(interval(0, 3), interval(1, Math.exp(3)).log());
+		assertEquals(interval(0, 0), interval(1, 1).log());
+		assertEquals(interval(0, 3), interval(1, Math.exp(3)).log());
+		assertEquals(IntervalConstants.empty(), interval(NEGATIVE_INFINITY, -1).log());
 	}
 
 	@Test
 	public void testLog10() {
-		shouldEqual(interval(0, 0), interval(1, 1).log10());
-		shouldEqual(interval(0, 1), interval(1, 10).log10());
-		shouldEqual(interval(0, 2), interval(1, 100).log10());
+		assertEquals(interval(0, 0), interval(1, 1).log10());
+		assertEquals(interval(0, 1), interval(1, 10).log10());
+		assertEquals(interval(0, 2), interval(1, 100).log10());
 	}
 
 	@Test
 	public void testLog2() {
-		shouldEqual(interval(0, 0), interval(1, 1).log2());
-		shouldEqual(interval(0, 1), interval(1, 2).log2());
-		shouldEqual(interval(0, 3), interval(1, 8).log2());
+		assertEquals(interval(0, 0), interval(1, 1).log2());
+		assertEquals(interval(0, 1), interval(1, 2).log2());
+		assertEquals(interval(0, 3), interval(1, 8).log2());
 	}
 
 	@Test
 	public void testHull() {
-		shouldEqual(interval(-1, 7),
+		assertEquals(interval(-1, 7),
 				interval(-1, 1).hull(interval(5, 7)));
-		shouldEqual(interval(-1, 1),
+		assertEquals(interval(-1, 1),
 				interval(-1, 1).hull(new Interval(empty())));
-		shouldEqual(interval(-1 , 1),
+		assertEquals(interval(-1 , 1),
 				new Interval(empty()).hull(interval(-1, 1)));
 		assertTrue(empty().hull(empty()).isEmpty());
 	}
@@ -54,13 +55,13 @@ public class IntervalMiscTest {
 	public void testIntersection() {
 		assertTrue(interval(-1, 1).intersect(interval(5, 7)).isEmpty());
 		assertTrue(interval(-1, 1).intersect(empty()).isEmpty());
-		shouldEqual(interval(0, 1),
+		assertEquals(interval(0, 1),
 				interval(-1, 1).intersect(interval(0, 7)));
 	}
 
 	@Test
 	public void testUnion() throws IntervalsNotOverlapException {
-		shouldEqual(interval(1, 4),
+		assertEquals(interval(1, 4),
 				interval(1, 3).union(interval(2, 4)));
 	}
 
@@ -71,13 +72,13 @@ public class IntervalMiscTest {
 
 	@Test
 	public void testDifference() throws IntervalsDifferenceException {
-		shouldEqual(interval(3, 4),
+		assertEquals(interval(3, 4),
 				interval(3, 5).difference(interval(4, 6)));
 
-		shouldEqual(interval(5, 6),
+		assertEquals(interval(5, 6),
 				interval(4, 6).difference(interval(3, 5)));
 
-		shouldEqual(interval(4, 6),
+		assertEquals(interval(4, 6),
 				interval(4, 6).difference(interval(8, 9)));
 
 		Interval diff = interval(0, 3).difference(interval(0, 1));
@@ -89,7 +90,7 @@ public class IntervalMiscTest {
 		assertTrue(interval(0, 3).difference(interval(0, 3))
 				.isEmpty());
 
-		shouldEqual(interval(0, 1),
+		assertEquals(interval(0, 1),
 				interval(0, 1).difference(empty()));
 
 		assertTrue(interval(0, 1).difference(whole()).isEmpty());
@@ -106,7 +107,7 @@ public class IntervalMiscTest {
 				.difference(interval(4, 6));
 		assertTrue(diff.getLow() == 3 && diff.getHigh() < 4);
 
-		shouldEqual(interval(5, 6),
+		assertEquals(interval(5, 6),
 				interval(4, 6)
 						.difference(interval(3, nextAfter(5, NEGATIVE_INFINITY))));
 	}
@@ -118,24 +119,24 @@ public class IntervalMiscTest {
 
 	@Test
 	public void testAbs() {
-		shouldEqual(interval(0, 1), interval(-1, 1).abs());
-		shouldEqual(interval(2, 3), interval(-3, -2).abs());
-		shouldEqual(interval(2, 3), interval(2, 3).abs());
+		assertEquals(interval(0, 1), interval(-1, 1).abs());
+		assertEquals(interval(2, 3), interval(-3, -2).abs());
+		assertEquals(interval(2, 3), interval(2, 3).abs());
 	}
 
 	@Test
 	public void testMax() {
-		shouldEqual(interval(5, 7), Interval.max(interval(-1, 1),
+		assertEquals(interval(5, 7), Interval.max(interval(-1, 1),
 				interval(5, 7)));
-		shouldEqual(interval(-1, 1),
+		assertEquals(interval(-1, 1),
 				Interval.max(empty(), interval(-1, 1)));
-		shouldEqual(interval(-1, 1),
+		assertEquals(interval(-1, 1),
 				Interval.max(interval(-1, 1), empty()));
 	}
 
 	@Test
 	public void testMin() {
-		shouldEqual(interval(-1, 1),
+		assertEquals(interval(-1, 1),
 				Interval.min(interval(-1, 1), interval(5, 7)));
 	}
 }

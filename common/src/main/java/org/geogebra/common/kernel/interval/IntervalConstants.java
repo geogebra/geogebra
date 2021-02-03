@@ -45,6 +45,14 @@ public class IntervalConstants {
 
 	/**
 	 *
+	 * @return a newly created undefined interval.
+	 */
+	public static Interval undefined() {
+		return new Interval(Double.NaN);
+	}
+
+	/**
+	 *
 	 * @return a newly created PI interval.
 	 */
 	public static Interval pi() {

@@ -57,7 +57,6 @@ public class IntervalPlotModel {
 		updateRanges();
 		updateSampler();
 		updatePath();
-		logDomain();
 		updateLabelPosition();
 	}
 
@@ -76,7 +75,6 @@ public class IntervalPlotModel {
 	private void updateRanges() {
 		range.set(view.domain(), view.range());
 		oldDomain = view.domain();
-		logDomain();
 	}
 
 	void updateSampler() {
@@ -112,19 +110,13 @@ public class IntervalPlotModel {
 		} else {
 			moveDomain(oldMax - max);
 		}
-
-		logDomain();
-
-	}
-
-	private void logDomain() {
-		if (points == null) {
-			return;
-		}
-//		Log.debug("points: " + points.count());
 	}
 
 	private void shrinkDomain() {
+		if (isEmpty()) {
+			return;
+		}
+
 		shrinkMin();
 		shrinkMax();
 	}
@@ -134,26 +126,50 @@ public class IntervalPlotModel {
 		extendMax();
 	}
 
-	private int extendMin() {
+	private void extendMin() {
 		IntervalTupleList newPoints = sampler.extendMin(view.getXmin());
 		points.prepend(newPoints);
-		return newPoints.count();
 	}
 
 	private void shrinkMin() {
-		int removeCount = sampler.shrinkMin(view.getXmin());
-		points.removeFromHead(removeCount);
+		int offscreenCount = sampler.shrinkMin(view.getXmin());
+		int maxPointsToRemove = Math.min(points.count(), offscreenCount);
+		int keepPointCount = countVisibleFrom(maxPointsToRemove);
+
+		int toRemove = maxPointsToRemove - keepPointCount;
+		if (toRemove > 0 && toRemove < points.count()) {
+			points.removeFromHead(toRemove);
+		}
+	}
+
+	private int countVisibleFrom(int maxPointsToRemove) {
+		int count = 0;
+		for (int i = 0; i < maxPointsToRemove; i++) {
+			if (points.get(i).x().getLow() > view.getXmin()) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 	private void shrinkMax() {
 		int removeCount = sampler.shrinkMax(view.getXmax());
-		points.removeFromTail(removeCount);
+		int count = 0;
+		for (int i = points.count() - 1; i > points.count() - 1 - removeCount; i--) {
+			if (i >= 0 && points.get(i).x().getHigh() < view.getXmax()) {
+				count++;
+			}
+		}
+
+		int toRemove = removeCount - count;
+		if (toRemove > 0 && toRemove < points.count()) {
+			points.removeFromTail(toRemove);
+		}
 	}
 
-	private int extendMax() {
+	private void extendMax() {
 		IntervalTupleList newPoints = sampler.extendMax(view.getXmax());
 		points.append(newPoints);
-		return newPoints.count();
 	}
 
 	private void moveDomain(double difference) {
@@ -174,5 +190,23 @@ public class IntervalPlotModel {
 
 	GPoint getLabelPoint() {
 		return labelPoint;
+	}
+
+	public IntervalTuple pointAt(int index) {
+		return points.get(index);
+	}
+
+	/**
+	 *
+	 * @param point to check around
+	 * @return if the function is ascending from point to the right.
+	 */
+	public boolean isAscending(IntervalTuple point) {
+		if (point.index() > points.count() - 1) {
+			return false;
+		}
+
+		IntervalTuple next = pointAt(point.index() + 1);
+		return next != null && next.y().isGreaterThan(point.y());
 	}
 }

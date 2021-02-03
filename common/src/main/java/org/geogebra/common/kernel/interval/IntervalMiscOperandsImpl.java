@@ -24,9 +24,13 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 	@Override
 	public Interval log() {
 		if (!interval.isEmpty()) {
-			double low = interval.getLow();
-			interval.set(low <= 0 ? NEGATIVE_INFINITY : RMath.logLow(low),
-					RMath.logHigh(interval.getHigh()));
+			if (interval.getHigh() < 0) {
+				interval.setEmpty();
+			} else {
+				double low = interval.getLow();
+				interval.set(low <= 0 ? NEGATIVE_INFINITY : RMath.logLow(low),
+						RMath.logHigh(interval.getHigh()));
+			}
 		}
 		return interval;
 	}

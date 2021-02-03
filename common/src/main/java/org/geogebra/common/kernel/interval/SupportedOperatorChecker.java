@@ -22,6 +22,9 @@ public class SupportedOperatorChecker implements Inspecting {
 		case DIFF:
 		case SIN:
 		case COS:
+		case SEC:
+		case COT:
+		case CSC:
 		case SQRT:
 		case TAN:
 		case EXP:
@@ -36,6 +39,7 @@ public class SupportedOperatorChecker implements Inspecting {
 		case ACOSH:
 		case LOG10:
 		case LOG2:
+//		case IF_ELSE:
 			return true;
 		default:
 			return false;
