@@ -389,6 +389,7 @@ public class FormulaEditor extends View implements MathField {
         mGraphics.setCanvas(canvas);
         teXIcon.setForeground(mForegroundColor);
         teXIcon.paintIcon(null, mGraphics, shiftX, y);
+        teXIcon.paintCursor(mGraphics, shiftX);
     }
 
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
