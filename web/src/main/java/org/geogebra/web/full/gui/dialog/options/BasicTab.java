@@ -343,8 +343,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		axesStylePopup = new PopupMenuButtonW(this.optionsEuclidianW.app,
 				iconArray, -1, 1,
-				org.geogebra.common.gui.util.SelectionTable.MODE_ICON,
-				this.optionsEuclidianW.app.isUnbundledOrWhiteboard()) {
+				org.geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 			@Override
 			public void handlePopupActionEvent() {
 				int idx = getSelectedIndex();

@@ -460,16 +460,6 @@
 		color: #6666FF;
 	}
 
-	.MyToggleButton.gwt-ToggleButton-down, .MyToggleButton.gwt-ToggleButton-down-hovering {
-		border-color: #6666FF;
-		cursor: pointer;
-	}
-
-	.MyToggleButton.gwt-ToggleButton-up-hovering, .MyCanvasButton:hover {
-		border-color: #CCCCFF;
-		cursor: pointer;
-	}
-
 	.button:disabled, .MyToggleButton.gwt-ToggleButton-up-disabled, .MyToggleButton.gwt-ToggleButton-down-disabled,
 	.MyCanvasButton.disabled {
 		cursor: default !important;
@@ -489,10 +479,6 @@
 
 	.button:disabled, .MyToggleButton.gwt-ToggleButton-up-disabled:focus, .MyToggleButton.gwt-ToggleButton-down-disabled:focus {
 		outline: none;
-	}
-
-	.MyToggleButton.gwt-ToggleButton-up-disabled:active, .MyToggleButton.gwt-ToggleButton-down-disabled:active {
-		border: 1px solid $toolbar-header;
 	}
 
 	.gwt-Tree .gwt-TreeItem {
@@ -973,7 +959,7 @@
 		cursor: pointer;
 	}
 
-	.MyCanvasButton-borderless {
+	.MyCanvasButton.MyCanvasButton-borderless {
 		border: none;
 		padding: 4px; /* more padding for the missing border*/
 		margin-right: 15px;
@@ -981,11 +967,6 @@
 
 	.MyCanvasButton-rightaligned {
 		float: right;
-	}
-
-	.MyToggleButton.selected,
-	.MyCanvasButton.selected {
-		border-color: #6666FF;
 	}
 
 	.MyCanvasButton .buttonContent {
@@ -1025,21 +1006,9 @@
 		width: 169px;
 	}
 
-	.SelectionTable .gwt-Label {
-		background-repeat: no-repeat;
-		background-position: center center;
-		padding: 3px;
-		cursor: pointer;
-	}
-
 	.gwt-Label.stylebarButton {
 		height: 24px;
 		width: 24px;
-	}
-
-	.SelectionTable .gwt-Label.border:hover, .SelectionTable .gwt-Label.border:active, .SelectionTable .gwt-Label.border.selected {
-		background-color: transparent !important;
-		border: 1px solid #6161FF;
 	}
 
 	.gwt-Label.border {
@@ -1054,45 +1023,6 @@
 		padding-left: 28px;
 		border: none;
 		text-align: left;
-	}
-
-	.gwt-Label.textIconButton:hover, .gwt-Label.textIconButton:active {
-		background-color: transparent;
-	}
-
-	.SelectionTable {
-		border-collapse: collapse;
-
-		td {
-			padding: 2px;
-		}
-
-		.gwt-Label.borderButton {
-			border: 1px solid;
-			border-radius: 5px;
-			height: 24px;
-			width: 24px;
-		}
-
-		.plusButton {
-			text-align: center;
-			font-size: larger;
-		}
-
-		a {
-			text-decoration: none;
-			color: #666666;
-			display: block;
-			padding: 1px;
-		}
-
-		a:hover, a:focus, .gwt-Label:hover, .gwt-Label:focus, .stylebarButton.selected, canvas:hover, canvas:focus {
-			background-color: #CCCCFF;
-		}
-
-		.gwt-Label.selected {
-			color: #6161FF;
-		}
 	}
 
 	.editorPanel {

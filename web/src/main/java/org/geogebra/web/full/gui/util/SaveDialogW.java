@@ -168,8 +168,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 		}
 		providerPopup = new PopupMenuButtonW(((AppW) app), ImageOrText.convert(
 		        providerImages, 24), 1, providerCount,
-				SelectionTable.MODE_ICON,
-				app.isUnbundledOrWhiteboard());
+				SelectionTable.MODE_ICON);
 		this.providerPopup.getMyPopup().addStyleName("providersPopup");
 
 		if (((AppW) app).getLAF().supportsGoogleDrive()) {
