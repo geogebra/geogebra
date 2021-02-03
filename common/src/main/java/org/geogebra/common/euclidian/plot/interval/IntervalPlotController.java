@@ -12,6 +12,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 public class IntervalPlotController implements CoordSystemAnimationListener {
 
 	private final IntervalPlotModel model;
+	private EuclidianController euclidianController;
 
 	/**
 	 * Constructor.
@@ -25,7 +26,8 @@ public class IntervalPlotController implements CoordSystemAnimationListener {
 	 * @param controller {@link EuclidianController}
 	 */
 	public void attachEuclidianController(EuclidianController controller) {
-		controller.addZoomerAnimationListener(this);
+		euclidianController = controller;
+		euclidianController.addZoomerAnimationListener(this);
 	}
 
 	@Override
@@ -45,5 +47,12 @@ public class IntervalPlotController implements CoordSystemAnimationListener {
 			return;
 		}
 		model.updateDomain();
+	}
+
+	/**
+	 * Remove controller as zoomer animation listener.
+	 */
+	public void detach() {
+		euclidianController.removeZoomerAnimationListener(this);
 	}
 }

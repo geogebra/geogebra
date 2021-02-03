@@ -35,7 +35,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	 * @return the tuple on the given index.
 	 */
 	public IntervalTuple get(int index) {
-		return list.get(index);
+		return index > -1 && index < list.size() ? list.get(index) : null;
 	}
 
 	@Nonnull
@@ -71,11 +71,15 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 
 	private boolean isAllUndefined() {
 		for (IntervalTuple tuple: list) {
-			if (!tuple.y().isEmpty()) {
+			if (hasTupleValue(tuple)) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	private boolean hasTupleValue(IntervalTuple tuple) {
+		return tuple != null && tuple.y() != null && !tuple.y().isEmpty();
 	}
 
 	/**
@@ -140,5 +144,9 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 
 	public void clear() {
 		list.clear();
+	}
+
+	public Interval valueAt(int index) {
+		return get(index).y();
 	}
 }

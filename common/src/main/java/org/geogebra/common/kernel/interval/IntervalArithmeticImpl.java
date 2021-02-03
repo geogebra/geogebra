@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.interval;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.RMath.mulHigh;
 import static org.geogebra.common.kernel.interval.RMath.mulLow;
 
@@ -31,7 +32,7 @@ public class IntervalArithmeticImpl implements IntervalArithmetic {
 				if (other.getHigh() != 0) {
 					return divisionByPositive(other.getHigh());
 				} else {
-					interval.setEmpty();
+					interval.setUndefined();
 				}
 			}
 		} else {
@@ -73,7 +74,7 @@ public class IntervalArithmeticImpl implements IntervalArithmetic {
 		}
 
 		if (interval.hasZero()) {
-			return IntervalConstants.whole();
+			return undefined();
 		}
 
 		if (interval.getHigh() < 0) {
@@ -90,7 +91,8 @@ public class IntervalArithmeticImpl implements IntervalArithmetic {
 		}
 
 		if (interval.hasZero()) {
-			return IntervalConstants.whole();
+			interval.setUndefined();
+			return interval;
 		}
 
 		if (interval.getHigh() < 0) {
@@ -105,7 +107,7 @@ public class IntervalArithmeticImpl implements IntervalArithmetic {
 		if (interval.isZero()) {
 			return interval;
 		}
-		interval.setWhole();
+		interval.setUndefined();
 		return interval;
 	}
 
@@ -114,6 +116,11 @@ public class IntervalArithmeticImpl implements IntervalArithmetic {
 		if (interval.isEmpty() || other.isEmpty()) {
 			return empty();
 		}
+
+		if (interval.isUndefined() || other.isUndefined()) {
+			return undefined();
+		}
+
 		double xl = interval.getLow();
 		double xh = interval.getHigh();
 		double yl = other.getLow();

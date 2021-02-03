@@ -30,6 +30,11 @@ class IntervalAlgebra {
 			return interval;
 		}
 
+		if (interval.isUndefined()) {
+			interval.setWhole();
+			return interval;
+		}
+
 		double yb = interval.getLow() < 0 ? other.getLow() : other.getHigh();
 		double n = interval.getLow() / yb;
 		if (n < 0) {
@@ -130,6 +135,11 @@ class IntervalAlgebra {
 	 * @return square root of the interval.
 	 */
 	Interval sqrt() {
+		if (interval.isEmpty()) {
+			interval.setEmpty();
+			return interval;
+		}
+
 		return nthRoot(2);
 	}
 
@@ -144,6 +154,7 @@ class IntervalAlgebra {
 			interval.setEmpty();
 			return interval;
 		}
+
 		return nthRoot(other.getLow());
 	}
 
@@ -157,6 +168,7 @@ class IntervalAlgebra {
 			interval.setEmpty();
 			return interval;
 		}
+
 		double power = 1 / n;
 		if (interval.getHigh() < 0) {
 			if (DoubleUtil.isInteger(n) && ((int) n & 1) == 1) {

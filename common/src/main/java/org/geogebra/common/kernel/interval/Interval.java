@@ -1,10 +1,10 @@
 package org.geogebra.common.kernel.interval;
 
-import static org.geogebra.common.kernel.arithmetic.MyDouble.isFinite;
 import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
 
 import java.util.Objects;
 
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -28,6 +28,20 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 */
 	public Interval(double value) {
 		this(value, value);
+	}
+
+	/**
+	 * Creates an interval with bounds [low, high]
+	 *
+	 * @param low lower bound of the interval
+	 * @param high higher bound of the interval
+	 */
+	public Interval(double low, double high) {
+		if (high < low) {
+			setEmpty();
+		} else {
+			set(low, high);
+		}
 	}
 
 	/**
@@ -86,22 +100,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 
 	/** Empty interval is represented by [∞, -∞]
 	 * as in the original lib. */
-	void setEmpty() {
+	public void setEmpty() {
 		set(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
-	}
-
-	/**
-	 * Creates an interval with bounds [low, high]
-	 *
-	 * @param low lower bound of the interval
-	 * @param high higher bound of the interval
-	 */
-	public Interval(double low, double high) {
-		if (high < low) {
-			setEmpty();
-		} else {
-			set(low, high);
-		}
 	}
 
 	/**
@@ -150,8 +150,12 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return this as result.
 	 */
 	public Interval subtract(Interval other) {
-		low -= other.high;
-		high -= other.low;
+		if (isUndefined() || other.isUndefined()) {
+			setUndefined();
+		} else {
+			low -= other.high;
+			high -= other.low;
+		}
 		return this;
 	}
 
@@ -186,7 +190,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return if interval is in the form [n, n] where n is finite.
 	 */
 	public boolean isSingleton() {
-		return isFinite(low) && DoubleUtil.isEqual(high, low, 1E-7);
+		return MyDouble.isFinite(low) && DoubleUtil.isEqual(high, low, 1E-7);
 	}
 
 	@Override
@@ -248,6 +252,10 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return if the other interval is equal with a precision
 	 */
 	public boolean almostEqual(Interval other) {
+		if (isUndefined() && other.isUndefined()) {
+			return true;
+		}
+
 		return DoubleUtil.isEqual(low, other.low, 1E-7)
 			&& DoubleUtil.isEqual(high, other.high, 1E-7);
 	}
@@ -261,11 +269,15 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 			return empty();
 		}
 
+		if (isUndefined()) {
+			return this;
+		}
+
 		if (hasZero()) {
 			if (low != 0) {
 				if (high != 0) {
 					// [negative, positive]
-					setWhole();
+					setUndefined();
 				} else {
 					// [negative, zero]
 					double d = low;
@@ -279,7 +291,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 					high = Double.POSITIVE_INFINITY;
 				} else {
 					// [zero, zero]
-					setEmpty();
+					setUndefined();
 				}
 			}
 		} else {
@@ -404,8 +416,36 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 		return algebra.nthRoot(n);
 	}
 
+	/**
+	 *
+	 * @return cosine of the interval.
+	 */
 	public Interval cos() {
 		return trigonometric.cos();
+	}
+
+	/**
+	 *
+	 * @return secant of the interval
+	 */
+	public Interval sec() {
+		return trigonometric.sec();
+	}
+
+	/**
+	 *
+	 * @return 1 / sin(x)
+	 */
+	public Interval csc() {
+		return trigonometric.csc();
+	}
+
+	/**
+	 *
+	 * @return cotangent of the interval
+	 */
+	public Interval cot() {
+		return trigonometric.cot();
 	}
 
 	/**
@@ -415,7 +455,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return true if infinite.
 	 */
 	public boolean isOnlyInfinity() {
-		return Double.isInfinite(low) && DoubleUtil.isEqual(high, low);
+		return (isLowInfinite() || isHighInfinite()) && DoubleUtil.isEqual(high, low);
 	}
 
 	/**
@@ -620,7 +660,10 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return the length of the interval
 	 */
 	public double getLength() {
-		return high - low;
+		if (isEmpty()) {
+			return 0;
+		}
+		return Math.abs(high - low);
 	}
 
 	/**
@@ -637,5 +680,73 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 */
 	public void setHigh(double high) {
 		this.high = high;
+	}
+
+	public boolean isHalfPositiveInfinity() {
+		return DoubleUtil.isEqual(0, low, 1E-5) && high == Double.POSITIVE_INFINITY;
+	}
+
+	public boolean isHalfNegativeInfinity() {
+		return low == Double.NEGATIVE_INFINITY && DoubleUtil.isEqual(high, 0, 1E-5);
+	}
+
+	/**
+	 *
+	 * @return true if interval one or both border is infinite.
+	 */
+	public boolean hasInfinity() {
+		return !isEmpty() && isLowInfinite() || isHighInfinite();
+	}
+
+	/**
+	 *
+	 * @return true if high is infinite
+	 */
+	public boolean isHighInfinite() {
+		return high == Double.POSITIVE_INFINITY;
+	}
+
+	/**
+	 *
+	 * @return true if low is infinite
+	 */
+	public boolean isLowInfinite() {
+		return low == Double.NEGATIVE_INFINITY;
+	}
+
+	/**
+	 *
+	 * @return if the interval is the unit one.
+	 */
+	public boolean isOne() {
+		return low == 1 && high == 1;
+	}
+
+	public boolean isFinite() {
+		return MyDouble.isFinite(low) && MyDouble.isFinite(high);
+	}
+
+	/**
+	 *
+	 * @return true if any of the bounds is infinite but not both.
+	 */
+	public boolean isSemiInfinite() {
+		return (isLowInfinite() && !isHighInfinite())
+				|| (!isLowInfinite() && isHighInfinite());
+	}
+
+	/**
+	 *
+	 * @return true if interval is undefined (division by zero).
+	 */
+	public boolean isUndefined() {
+		return Double.isNaN(low) && Double.isNaN(high);
+	}
+
+	/**
+	 * Sets interval undefined (result of division by zero).
+	 */
+	public void setUndefined() {
+		set(Double.NaN, Double.NaN);
 	}
 }

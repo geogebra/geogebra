@@ -125,22 +125,61 @@ public class DrawParametricCurve extends Drawable {
 		}
 
 		labelVisible = getTopLevelGeo().isLabelVisible();
-		if (IntervalFunction.isSupported(geo) && intervalPlotter.isEnabled()) {
+		if (isIntervalPlotterActive()) {
 			updateStrokes(geo);
 			updateIntervalPlot();
-			Log.debug("[Plotter] Interval");
 		} else {
 			updateParametric();
-			Log.debug("[Plotter] Segment");
 		}
+	}
+
+	private void enableIntervalPlotterIfSupported() {
+		if (IntervalFunction.isSupported(geo)) {
+			if (!intervalPlotter.isEnabled()) {
+				Log.debug("[PLOTTET] interval");
+				intervalPlotter.enableFor((GeoFunction) geo);
+			}
+		} else {
+			Log.debug("[PLOTTET] segment");
+			intervalPlotter.disable();
+		}
+	}
+
+	private boolean isIntervalPlotterActive() {
+		return IntervalFunction.isSupported(geo)
+				&& intervalPlotter.isEnabled();
 	}
 
 	private void updateIntervalPlot() {
 		gp.reset();
 		intervalPlotter.update();
+		updateLabelPoint();
+	}
+
+	private void updateLabelPoint() {
 		GPoint labelPoint = intervalPlotter.getLabelPoint();
 		if (labelPoint != null) {
 			updateLabel(labelPoint);
+		}
+	}
+
+	@Override
+	public void updateIfNeeded() {
+		if (needsUpdate()) {
+			setNeedsUpdate(false);
+			updateIntervalPlotterIfNeeded();
+			update();
+		}
+	}
+
+	private void updateIntervalPlotterIfNeeded() {
+		if (intervalPlotter == null) {
+			return;
+		}
+
+		enableIntervalPlotterIfSupported();
+		if (isIntervalPlotterActive()) {
+			intervalPlotter.needsUpdateAll();
 		}
 	}
 

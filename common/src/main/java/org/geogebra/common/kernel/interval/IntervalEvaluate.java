@@ -60,6 +60,10 @@ class IntervalEvaluate {
 			return interval.cos();
 		case SIN:
 			return interval.sin();
+		case SEC:
+			return interval.sec();
+		case COT:
+			return interval.cot();
 		case TAN:
 			return interval.tan();
 		case EXP:

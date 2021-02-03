@@ -14,8 +14,18 @@ class IntervalTrigonometric {
 	}
 
 	Interval cos() {
+		if (interval.isUndefined()) {
+			return interval;
+		}
+
 		if (interval.isEmpty() || interval.isOnlyInfinity()) {
-			return IntervalConstants.empty();
+			interval.setEmpty();
+			return interval;
+		}
+
+		if (interval.isWhole()) {
+			interval.set(-1, 1);
+			return interval;
 		}
 
 		Interval cache = new Interval(interval);
@@ -76,7 +86,11 @@ class IntervalTrigonometric {
 	 * @return sine of the interval
 	 */
 	public Interval sin() {
-		if (interval.isEmpty() || interval.isOnlyInfinity()) {
+		if (interval.isUndefined()) {
+			return interval;
+		} if (interval.isWhole()) {
+			interval.set(-1, 1);
+		} else if (interval.isEmpty() || interval.isOnlyInfinity()) {
 			interval.setEmpty();
 		} else {
 			interval.subtract(IntervalConstants.piHalf()).cos();
@@ -86,11 +100,38 @@ class IntervalTrigonometric {
 
 	/**
 	 *
+	 * @return secant of the interval
+	 */
+	public Interval sec() {
+		Interval interval = new Interval(this.interval);
+		return interval.cos().multiplicativeInverse();
+	}
+
+	/**
+	 *
+	 * @return cotangent of the interval
+	 */
+	public Interval cot() {
+		Interval interval = new Interval(this.interval);
+		return interval.tan().multiplicativeInverse();
+	}
+
+	/**
+	 *
 	 * @return tangent of the interval.
 	 */
 	public Interval tan() {
 		if (interval.isEmpty() || interval.isOnlyInfinity()) {
 			interval.setEmpty();
+			return interval;
+		}
+
+		if (interval.isUndefined()) {
+			return interval;
+		}
+
+		if (interval.isWhole()) {
+			interval.setUndefined();
 			return interval;
 		}
 
@@ -170,6 +211,10 @@ class IntervalTrigonometric {
 	 * @return hyperbolic cosine of the interval
 	 */
 	public Interval cosh() {
+		if (interval.isUndefined()) {
+			return interval;
+		}
+
 		if (!interval.isEmpty()) {
 			double low = interval.getLow();
 			double high = interval.getHigh();
@@ -194,5 +239,14 @@ class IntervalTrigonometric {
 			interval.set(RMath.tanhLow(interval.getLow()), RMath.tanhHigh(interval.getHigh()));
 		}
 		return interval;
+	}
+
+	/**
+	 *
+	 * @return 1 / sin(x)
+	 */
+	public Interval csc() {
+		Interval interval = new Interval(this.interval);
+		return interval.sin().multiplicativeInverse();
 	}
 }

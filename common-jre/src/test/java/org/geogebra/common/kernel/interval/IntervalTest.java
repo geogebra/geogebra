@@ -35,8 +35,8 @@ public class IntervalTest {
 		return new Interval(low, high);
 	}
 
-	static void shouldEqual(Interval interval1, Interval interval2) {
-		assertTrue(interval1.almostEqual(interval2));
+	static Interval interval(double singleton) {
+		return new Interval(singleton);
 	}
 
 	@Test
@@ -109,9 +109,9 @@ public class IntervalTest {
 
 	@Test
 	public void testNegative() {
-		shouldEqual(interval(-3, -2), interval(2, 3).negative());
-		shouldEqual(interval(-2, 1), interval(-1, 2).negative());
-		shouldEqual(interval(2, 3), interval(-3, -2).negative());
+		assertEquals(interval(-3, -2), interval(2, 3).negative());
+		assertEquals(interval(-2, 1), interval(-1, 2).negative());
+		assertEquals(interval(2, 3), interval(-3, -2).negative());
 		assertTrue(whole().negative().isWhole());
 	}
 

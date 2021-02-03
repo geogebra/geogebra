@@ -16,8 +16,11 @@ import org.geogebra.common.kernel.interval.IntervalTuple;
 public class IntervalPlotter {
 	private final EuclidianView view;
 	private final IntervalPathPlotter gp;
+	private int numberOfSamples;
 	private boolean enabled;
 	private IntervalPlotModel model = null;
+	private boolean updateAll = true;
+	private IntervalPlotController controller;
 
 	/**
 	 * Creates a disabled plotter
@@ -25,6 +28,18 @@ public class IntervalPlotter {
 	public IntervalPlotter(EuclidianView view, GeneralPathClipped gp) {
 		this.view = view;
 		this.gp = new IntervalPathPlotterImpl(gp);
+		this.enabled = false;
+		numberOfSamples = 0;
+	}
+
+	/**
+	 * Creates a disabled plotter
+	 */
+	public IntervalPlotter(EuclidianView view, IntervalPathPlotter pathPlotter,
+			int numberOfSamples) {
+		this.view = view;
+		this.gp = pathPlotter;
+		this.numberOfSamples = numberOfSamples;
 		this.enabled = false;
 	}
 
@@ -35,29 +50,39 @@ public class IntervalPlotter {
 		enabled = true;
 		createModel(function);
 		createController();
-		model.updateAll();
+		needsUpdateAll();
+		update();
 	}
 
 	private void createController() {
-		IntervalPlotController controller = new IntervalPlotController(model);
+		controller = new IntervalPlotController(model);
 		controller.attachEuclidianController(view.getEuclidianController());
 	}
 
 	private void createModel(GeoFunction function) {
 		IntervalTuple range = new IntervalTuple();
-		int numberOfSamples = view.getWidth();
 		IntervalFunctionSampler sampler =
-				new IntervalFunctionSampler(function, range, numberOfSamples);
+				new IntervalFunctionSampler(function, range,
+						calculateNumberOfSamples());
 		model = new IntervalPlotModel(range, sampler, view);
 		IntervalPath path = new IntervalPath(gp, view, model);
 		model.setPath(path);
+	}
+
+	private int calculateNumberOfSamples() {
+		return numberOfSamples > 0 ? numberOfSamples : view.getWidth();
 	}
 
 	/**
 	 * Update path to draw.
 	 */
 	public void update() {
-		model.update();
+		if (updateAll) {
+			model.updateAll();
+			updateAll = false;
+		} else {
+			model.update();
+		}
 	}
 
 	/**
@@ -85,6 +110,10 @@ public class IntervalPlotter {
 		if (model != null) {
 			model.clear();
 		}
+
+		if (controller != null) {
+			controller.detach();
+		}
 	}
 
 	/**
@@ -92,5 +121,12 @@ public class IntervalPlotter {
 	 */
 	public GPoint getLabelPoint() {
 		return model.getLabelPoint();
+	}
+
+	/**
+	 * Call it when plotter needs a full update
+	 */
+	public void needsUpdateAll() {
+		updateAll = true;
 	}
 }
