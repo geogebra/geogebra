@@ -1157,6 +1157,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (!this.isAttachedToKernel()) {
 			return;
 		}
+		int oldWidth = getOffsetWidth();
 		cancelEditItem();
 
 		this.isShowingAuxiliaryObjects = showAuxiliaryObjects();
@@ -1175,11 +1176,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 			addRadioTreeItem(parent, node);
 
-			// if (node != null && !node.isInputTreeItem()) {
-			// setActiveTreeItem(node);
-			// }
-
-			RadioTreeItem.as(node).setItemWidth(getFullWidth());
+			// offset width may be 0 when not attached to DOM
+			int currentWidth = getOffsetWidth();
+			if (currentWidth != oldWidth && currentWidth != 0) {
+				resize(0);
+			}
+			RadioTreeItem.as(node).setItemWidth(currentWidth == 0 ? getFullWidth() : currentWidth);
 
 			boolean wasEmpty = isNodeTableEmpty();
 			nodeTable.put(geo, node);

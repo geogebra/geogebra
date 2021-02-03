@@ -217,6 +217,30 @@ $duration: 0.2s;
     			}
 			}
 	}
+
+	.showScroll .customScrollbar:hover {
+		scrollbar-color: $black-38 $white;
+		&::-webkit-scrollbar-thumb {
+			background: $black-38;
+		}
+	}
+
+	.customScrollbar {
+		scrollbar-width: thin;
+		scrollbar-color: $white $white;
+		&::-webkit-scrollbar {
+			height: 4px;
+			width: 4px;
+		}
+		&::-webkit-scrollbar-track {
+			background: $white;
+		}
+		&::-webkit-scrollbar-thumb {
+			background: $white;
+			border-radius: 2px;
+		}
+	}
+
 	.matAvDesign  {
 
 		.matMinMaxPanel {

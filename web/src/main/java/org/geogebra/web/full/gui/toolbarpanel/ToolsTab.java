@@ -6,14 +6,12 @@ import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * tab of tools
@@ -45,7 +43,7 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 	 */
 	private ScrollPanel sp;
 
-	private App app;
+	private final App app;
 
 	public boolean isCustomToolbar = false;
 
@@ -88,21 +86,9 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 		AriaHelper.hide(lessBtn);
 		lessBtn.addStyleName("moreLessBtn");
 		lessBtn.removeStyleName("button");
-		moreBtn.addFastClickHandler(new FastClickHandler() {
+		moreBtn.addFastClickHandler(source -> onMorePressed());
 
-			@Override
-			public void onClick(Widget source) {
-				onMorePressed();
-			}
-		});
-
-		lessBtn.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				onLessPressed();
-			}
-		});
+		lessBtn.addFastClickHandler(source -> onLessPressed());
 	}
 
 	/** More button handler */
@@ -135,6 +121,7 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 
 	private void createContents() {
 		sp = new ScrollPanel();
+		sp.addStyleName("customScrollbar");
 		sp.setAlwaysShowScrollBars(false);
 		toolsPanel = new Tools((AppW) app, this);
 		sp.add(toolsPanel);
