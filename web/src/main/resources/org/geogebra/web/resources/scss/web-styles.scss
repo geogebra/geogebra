@@ -534,12 +534,6 @@
 		border: 1px solid #DCDCDC;
 	}
 
-	.propertiesPanel {
-		box-sizing: border-box;
-		height: 100%;
-		border-bottom: none;
-	}
-
 	.gwt-TabBar .gwt-TabBarFirst,
 	.gwt-TabBar .gwt-TabBarRest {
 		width: 0;
@@ -1836,12 +1830,6 @@
 
 	.ggb-MultiRowsTabPanel > * {
 		float: left;
-	}
-
-	/* EUCLIDIAN PROPERTIES */
-
-	.axisPanel > * > *:first-child {
-		min-width: 110px;
 	}
 
 	/* OBJECT PROPERTIES */

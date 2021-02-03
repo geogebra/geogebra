@@ -75,6 +75,7 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 
 		optionsPanel = new FlowPanel();
 		optionsPanel.addStyleName("propertiesPanel");
+		optionsPanel.addStyleName("simplePropertiesPanel");
 
 	//	optionsPanel.add(cbShowFormulaBar);
 		optionsPanel.add(cbShowGrid);

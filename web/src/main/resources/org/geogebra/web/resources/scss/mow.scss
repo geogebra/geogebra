@@ -59,7 +59,7 @@
 	.MyCanvasButton, .MyToggleButton {
 		border: $tool-border solid 1px;
 
-		&:hover, &.active, &.selected {
+		&:hover, &.active, &.selected, &.gwt-ToggleButton-down {
 			border: $mow_primary solid 1px;
 		}
 
