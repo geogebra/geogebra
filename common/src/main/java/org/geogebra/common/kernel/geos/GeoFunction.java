@@ -14,10 +14,8 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -2519,13 +2517,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * Reset all inequalities (slow, involves parser)
 	 */
 	public void resetIneqs() {
-		isInequality = fun.initIneqs(getFunctionExpression(), this);
+		isInequality = fun.initIneqs(getFunctionExpression());
 	}
 
 	@Override
 	public IneqTree getIneqs() {
 		if (fun.getIneqs() == null) {
-			isInequality = fun.initIneqs(fun.getExpression(), this);
+			isInequality = fun.initIneqs(fun.getExpression());
 		} else if (isInequality == null) {
 			isInequality = fun.getIneqs().isValid();
 		}

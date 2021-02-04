@@ -49,6 +49,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
@@ -2166,9 +2167,9 @@ public class AlgebraProcessor {
 	}
 
 	private static boolean isFunctionIneq(GeoElement geo) {
-		return geo instanceof GeoFunction
-				&& (((GeoFunction) geo).isInequality()
-				|| ((GeoFunction) geo).isForceInequality());
+		return geo instanceof FunctionalNVar
+				&& (((FunctionalNVar) geo).isBooleanFunction()
+				|| ((FunctionalNVar) geo).isForceInequality());
 	}
 
 	private boolean compatibleFunctions(GeoElement replaceableGeo, GeoElement returnGeo) {
@@ -2388,12 +2389,12 @@ public class AlgebraProcessor {
 				fun.getFunctionVariable().getSetVarString());
 	}
 
-	private boolean forceInequality(ExpressionNode en, GeoFunction fun) {
+	private boolean forceInequality(ExpressionNode en, FunctionalNVar fun) {
 		// use parser flags if undefined, actual expression type otherwise
 		if (en.unwrap() instanceof MyDouble && Double.isNaN(en.evaluateDouble())) {
 			return en.isForceInequality();
 		}
-		return fun.isInequality();
+		return fun.isBooleanFunction();
 	}
 
 	private GeoElement[] processFunctionAsSurface(Function fun, EvalInfo info) {
@@ -2654,7 +2655,11 @@ public class AlgebraProcessor {
 		if (isIndependent) {
 			gf = new GeoFunctionNVar(cons, fun, info.isSimplifyingIntegers());
 			gf.getIneqs();
-			gf.setForceInequality(gf.isInequality() || fun.isForceInequality());
+			final ExpressionNode en = fun.getExpression();
+			if (fun.isForceInequality()) {
+				en.setForceInequality();
+			}
+			gf.setForceInequality(forceInequality(en, gf));
 		} else {
 			gf = dependentFunctionNVar(fun);
 		}

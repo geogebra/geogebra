@@ -158,7 +158,7 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 
 	private void computeRootBoolean(GeoFunction bool, GeoFunctionable real) {
 		if (bool.getFunction().getIneqs() == null) {
-			bool.getFunction().initIneqs(bool.getFunctionExpression(), bool);
+			bool.getFunction().initIneqs(bool.getFunctionExpression());
 		} else if (!bool.isLabelSet()) {
 			bool.getFunction().updateIneqs();
 		}

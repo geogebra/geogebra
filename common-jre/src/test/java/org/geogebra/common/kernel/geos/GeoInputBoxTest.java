@@ -574,7 +574,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		assertThat(lookup("a"), isDefined());
 		inputBox.updateLinkedGeo("?");
 		getApp().setXML(getApp().getXML(), true);
-		assertEquals(lookup("a").toString(StringTemplate.xmlTemplate), "a(y) = NaN");
+		assertEquals(lookup("a").toString(StringTemplate.xmlTemplate), "a(y) = ?");
 	}
 
 	@Test
@@ -593,6 +593,16 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testInequalityCannotRedefineAsFunction2Var() {
+		add("a:x+y<6");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("xx");
+		assertTrue(((GeoFunctionNVar) lookup("a")).isForceInequality());
+		assertThat(lookup("a"), not(isDefined()));
+		assertThat(inputBox.getText(), equalTo("xx")); // still preserves user input
+	}
+
+	@Test
 	public void testFunctionCannotRedefineAsInequality() {
 		add("f(x)=xx");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
@@ -605,6 +615,15 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		inputBox2.updateLinkedGeo("2<x<10");
 		assertThat(lookup("g"), not(isDefined()));
 		assertThat(inputBox2.getText(), equalTo("2<x<10")); // still preserves user input
+	}
+
+	@Test
+	public void testFunction2VarCannotRedefineAsInequality() {
+		add("a:x+y");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("x+y<6");
+		assertThat(lookup("a"), not(isDefined()));
+		assertThat(inputBox.getText(), equalTo("x+y<6")); // still preserves user input
 	}
 
 	@Test
