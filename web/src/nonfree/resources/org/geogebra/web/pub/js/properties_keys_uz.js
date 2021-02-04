@@ -1757,6 +1757,7 @@ __GGB__keysVar["uz"].menu = {
     "DropDownItemSelected": "%0 element tanlandi va tushuvchi ro'yxat yopildi",
     "DropDownOpened": "%0 ro'yxat ochilgan",
     "DropDownSelected": "%0 tushuvchi ro'yxat tanlandi",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "Dublikat",
     "Duration": "Davomiyligi",
     "DynamicColors": "Dinamik ranglar",

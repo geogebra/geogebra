@@ -1757,6 +1757,7 @@ __GGB__keysVar["cs"].menu = {
     "DropDownItemSelected": "Polo\u017eka %0 vybr\xe1na. Rozbalovac\xed seznam zav\u0159en.",
     "DropDownOpened": "Rozbalovac\xed seznam %0 otev\u0159en.",
     "DropDownSelected": "Ozna\u010den rozbalovac\xed seznam %0.",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "Vlo\u017eit kopii",
     "Duration": "Trv\xe1n\xed",
     "DynamicColors": "Dynamick\xe9 barvy",

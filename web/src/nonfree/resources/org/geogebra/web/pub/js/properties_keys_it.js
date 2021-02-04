@@ -1757,6 +1757,7 @@ __GGB__keysVar["it"].menu = {
     "DropDownItemSelected": "Hai selezionato l'oggetto %0 Il menu a discesa \xe8 chiuso",
     "DropDownOpened": "Hai aperto il menu a discesa %0",
     "DropDownSelected": "Hai selezionato il menu a discesa %0",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "Duplica",
     "Duration": "Durata",
     "DynamicColors": "Colori dinamici",

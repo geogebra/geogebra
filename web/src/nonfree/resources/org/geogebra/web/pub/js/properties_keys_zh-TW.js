@@ -1757,6 +1757,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "DropDownItemSelected": "\u5df2\u9078\u53d6\u9805\u76ee %0 \u4e0b\u62c9\u5f0f\u9078\u55ae\u5df2\u95dc\u9589",
     "DropDownOpened": "\u4e0b\u62c9\u5f0f\u9078\u55ae %0 \u5df2\u958b\u555f",
     "DropDownSelected": "\u5df2\u9078\u53d6\u4e0b\u62c9\u5f0f\u9078\u55ae %0",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "Duplicate",
     "Duration": "Duration",
     "DynamicColors": "\u52d5\u614b\u8272\u5f69",

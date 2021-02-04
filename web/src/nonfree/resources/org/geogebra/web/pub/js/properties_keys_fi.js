@@ -1757,6 +1757,7 @@ __GGB__keysVar["fi"].menu = {
     "DropDownItemSelected": "%0 valittu. Pudotusvalikko suljettu.",
     "DropDownOpened": "Pudotusvalikko %0 avattu.",
     "DropDownSelected": "Pudotusvalikko %0 valittu.",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "Monista",
     "Duration": "Aikaa kulunut",
     "DynamicColors": "Dynaamiset v\xe4rit",

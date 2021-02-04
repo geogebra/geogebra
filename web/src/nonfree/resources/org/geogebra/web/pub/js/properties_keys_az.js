@@ -1757,6 +1757,7 @@ __GGB__keysVar["az"].menu = {
     "DropDownItemSelected": "Madd\u0259% 0 se\xe7ildi A\xe7\u0131lan ba\u011fland\u0131",
     "DropDownOpened": "Drop down %0 opened",
     "DropDownSelected": "Drop down menu %0 selected",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "N\xfcsx\u0259",
     "Duration": "M\xfcdd\u0259t",
     "DynamicColors": "Dinamik r\u0259ngl\u0259r",

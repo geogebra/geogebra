@@ -1757,6 +1757,7 @@ __GGB__keysVar["bg"].menu = {
     "DropDownItemSelected": "Item %0 selected Drop down closed",
     "DropDownOpened": "Drop down %0 opened",
     "DropDownSelected": "Drop down menu %0 selected",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "Duplicate",
     "Duration": "Duration",
     "DynamicColors": "\u0414\u0438\u043d\u0430\u043c\u0438\u0447\u043d\u0438 \u0446\u0432\u0435\u0442\u043e\u0432\u0435",

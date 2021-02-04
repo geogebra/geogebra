@@ -1757,6 +1757,7 @@ __GGB__keysVar["gl"].menu = {
     "DropDownItemSelected": "\xcdtem %0 seleccionado. Lista despregable pechada.",
     "DropDownOpened": "Lista despregable %0 aberta.",
     "DropDownSelected": "Men\xfa despregable %0 seleccionado.",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "Duplicar",
     "Duration": "Duraci\xf3n",
     "DynamicColors": "Cores din\xe1micas",

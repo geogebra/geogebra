@@ -1757,6 +1757,7 @@ __GGB__keysVar["nl"].menu = {
     "DropDownItemSelected": "Item %0 van geselecteerde dropdown werd gesloten",
     "DropDownOpened": "Dropdown menu %0 werd geopend",
     "DropDownSelected": "Dropdown menu %0 werd geselecteerd.",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "Dupliceren",
     "Duration": "Duur",
     "DynamicColors": "Dynamische kleuren",

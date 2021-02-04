@@ -1757,6 +1757,7 @@ __GGB__keysVar["ko"].menu = {
     "DropDownItemSelected": "%0 \ud56d\ubaa9\uc774 \uc120\ud0dd\ub418\uc5c8\uc2b5\ub2c8\ub2e4. \ub4dc\ub86d\ub2e4\uc6b4 \uba54\ub274\uac00 \ub2eb\ud799\ub2c8\ub2e4.",
     "DropDownOpened": "\ub4dc\ub86d\ub2e4\uc6b4 \uba54\ub274 %0\uac00 \uc5f4\ub838\uc2b5\ub2c8\ub2e4.",
     "DropDownSelected": "\ub4dc\ub86d\ub2e4\uc6b4 \uba54\ub274\uc758 %0\uac00 \uc120\ud0dd\ub418\uc5c8\uc2b5\ub2c8\ub2e4.",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "\ubcf5\uc0ac",
     "Duration": "\uae30\uac04",
     "DynamicColors": "\ub3d9\uc801 \uc0c9\uc0c1",
