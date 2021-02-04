@@ -6,7 +6,6 @@ import java.util.List;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
@@ -65,7 +64,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 */
 	public MathFieldEditor(App app, MathFieldListener listener) {
 		this(app);
-		createMathField(listener, app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION));
+		createMathField(listener);
 		mathField.getInputTextArea().getElement().setAttribute("data-test", "mathFieldTextArea");
 		main.getElement().setAttribute("data-test", "mathFieldEditor");
 	}
@@ -79,7 +78,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 		this.frame = this.app.getAppletFrame();
 	}
 
-	protected void createMathField(MathFieldListener listener, boolean directFormulaConversion) {
+	protected void createMathField(MathFieldListener listener) {
 		main = new KeyboardFlowPanel();
 		Canvas canvas = Canvas.createIfSupported();
 

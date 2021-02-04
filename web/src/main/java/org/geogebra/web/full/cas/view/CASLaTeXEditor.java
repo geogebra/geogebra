@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.web.editor.MathFieldProcessing;
@@ -69,8 +68,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		this.controller = controller;
 		canvas = Canvas.createIfSupported();
 		mf = new MathFieldW(new SyntaxAdapterImpl(app.getKernel()), this,
-				canvas, this,
-				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION));
+				canvas, this);
 		retexListener = new RetexKeyboardListener(canvas, mf);
 		mf.setOnBlur(this);
 		add(mf);
