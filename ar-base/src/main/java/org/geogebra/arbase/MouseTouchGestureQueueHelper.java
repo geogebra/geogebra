@@ -4,24 +4,26 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
+import org.geogebra.common.geogebra3D.euclidian3D.xr.XRMotionEvent;
+
 public class MouseTouchGestureQueueHelper {
 
-    private final BlockingDeque<ARMotionEvent> queuedMotionEvent = new
+    private final BlockingDeque<XRMotionEvent> queuedMotionEvent = new
             LinkedBlockingDeque<>(32);
 
-    private ARMotionEvent lastExecutedMotionEvent;
+    private XRMotionEvent lastExecutedMotionEvent;
 
     public MouseTouchGestureQueueHelper() {
         lastExecutedMotionEvent = null;
     }
 
-    public void add(ARMotionEvent event) {
-        ARMotionEvent mEvent = event;
+    public void add(XRMotionEvent event) {
+        XRMotionEvent mEvent = event;
         if (mEvent != null) {
-            if (mEvent.getAction() == ARMotionEvent.ON_MOVE) {
+            if (mEvent.getAction() == XRMotionEvent.ON_MOVE) {
                 // remove another not necessary ACTION_MOVE in a queue
                 try {
-                    if (queuedMotionEvent.getLast().getAction() == ARMotionEvent
+                    if (queuedMotionEvent.getLast().getAction() == XRMotionEvent
                             .ON_MOVE) {
                         queuedMotionEvent.removeLast();
                     }
@@ -35,8 +37,8 @@ public class MouseTouchGestureQueueHelper {
         }
     }
 
-    public ARMotionEvent poll() {
-        ARMotionEvent ret = queuedMotionEvent.poll();
+    public XRMotionEvent poll() {
+        XRMotionEvent ret = queuedMotionEvent.poll();
         if (ret != null) {
             lastExecutedMotionEvent = ret;
         }
@@ -45,6 +47,6 @@ public class MouseTouchGestureQueueHelper {
 
     public boolean isCurrentlyUp() {
         return lastExecutedMotionEvent == null
-                || lastExecutedMotionEvent.getAction() == ARMotionEvent.FIRST_FINGER_UP;
+                || lastExecutedMotionEvent.getAction() == XRMotionEvent.FIRST_FINGER_UP;
     }
 }

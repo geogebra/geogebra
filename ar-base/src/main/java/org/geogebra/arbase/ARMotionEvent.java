@@ -1,13 +1,8 @@
 package org.geogebra.arbase;
 
-abstract public class ARMotionEvent {
+import org.geogebra.common.geogebra3D.euclidian3D.xr.XRMotionEvent;
 
-    final public static int FIRST_FINGER_DOWN = 0;
-    final public static int FIRST_FINGER_UP = 1;
-    final public static int ON_MOVE = 2;
-    final public static int ACTION_CANCEL = 3;
-    final public static int SECOND_FINGER_DOWN = 5;
-    final public static int SECOND_FINGER_UP = 6;
+abstract public class ARMotionEvent implements XRMotionEvent {
 
     public abstract float getX();
 

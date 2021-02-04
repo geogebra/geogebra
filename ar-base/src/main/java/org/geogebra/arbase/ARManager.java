@@ -180,7 +180,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         proceedARLogic(); // Feature.G3D_AR_REGULAR_TOOLS: pass the touch event
         viewModelMatrix.setMul(viewMatrix, modelMatrix);
         ARMotionEvent arMotionEvent = null;
-        arMotionEvent = mouseTouchGestureQueueHelper.poll();
+        arMotionEvent = (ARMotionEvent) mouseTouchGestureQueueHelper.poll();
         // to update hitting o&d
         if (isDrawing()) {
             renderer.getView().setARDrawing(true);
