@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
+import org.geogebra.common.geogebra3D.euclidian3D.xr.XRManagerInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.xr.MouseTouchGestureQueueHelper;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
@@ -14,7 +14,7 @@ import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 
-abstract public class ARManager<TouchEventType> implements ARManagerInterface<TouchEventType> {
+abstract public class ARManager<TouchEventType> implements XRManagerInterface<TouchEventType> {
 
     protected CoordMatrix4x4 viewMatrix = new CoordMatrix4x4();
     protected CoordMatrix4x4 projectMatrix = new CoordMatrix4x4();
@@ -422,7 +422,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         return view3D.dipToPx(THICKNESS_MIN_FACTOR) * distance / projectMatrix.get(1 ,1);
     }
 
-    public void setARScaleAtStart() {
+    public void setXRScaleAtStart() {
         float mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
 
         double ggbToRw = 1.0 / view3D.getXscale();
@@ -443,7 +443,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                 arScale * arGestureManager.getScaleFactor() * ratioUtil.getRatioChange();
     }
 
-    public void fromARCoordsToGGBCoords(Coords coords, Coords ret) {
+    public void fromXRCoordsToGGBCoords(Coords coords, Coords ret) {
         // undo model matrix
         modelMatrix.solve(coords, ret);
         // undo scale matrix
@@ -454,7 +454,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         ret.setMul(view3D.getToSceneMatrix(), tmpCoords1);
     }
 
-    public void setProjectionMatrixViewForAR(CoordMatrix4x4 projectionMatrix) {
+    public void setProjectionMatrixViewForXR(CoordMatrix4x4 projectionMatrix) {
         // scaleMatrix
         CoordMatrix4x4.setZero(tmpMatrix1);
         CoordMatrix4x4.setDilate(tmpMatrix1, getARScaleParameter());
@@ -520,11 +520,11 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                 settings.getZscale() * factor);
     }
 
-    public float getArScaleFactor() {
+    public float getXRScaleFactor() {
         return arScaleFactor;
     }
 
-    public void resetScaleFromAR() {
+    public void resetScaleFromXR() {
         EuclidianSettings3D s = view3D.getSettings();
         s.setXYZscaleValues(s.getXscale() / arScaleFactor,
                 s.getYscale() / arScaleFactor,
@@ -532,11 +532,11 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         arScaleFactor = 1f;
     }
 
-    public String getARRatioInString() {
+    public String getXRRatioInString() {
         return ratioUtil.getRatioText();
     }
 
-    public void setARRatio(double ratio) {
+    public void setXRRatio(double ratio) {
         ratioUtil.setARRatio(ratio, view3D);
         arGestureManager.resetScaleFactor();
         fitThickness();

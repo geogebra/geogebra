@@ -2,7 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
+import org.geogebra.common.geogebra3D.euclidian3D.xr.XRManagerInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
@@ -161,9 +161,9 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		double top = renderer.getTop();
 
 		if (view.isAREnabled()) {
-			ARManagerInterface<?> arManager = renderer.getARManager();
+			XRManagerInterface<?> arManager = renderer.getXRManager();
 			if (arManager != null) {
-				double arScaleFactor = renderer.getARManager().getArScaleFactor();
+				double arScaleFactor = renderer.getXRManager().getXRScaleFactor();
 				halfWidth *= arScaleFactor;
 				bottom *= arScaleFactor;
 				top *= arScaleFactor;

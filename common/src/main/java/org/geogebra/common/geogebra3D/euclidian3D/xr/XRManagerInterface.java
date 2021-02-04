@@ -1,16 +1,16 @@
-package org.geogebra.common.geogebra3D.euclidian3D.ar;
+package org.geogebra.common.geogebra3D.euclidian3D.xr;
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.Coords;
 
 /**
- * Interface for Augmented Reality managers
+ * Interface for Mixed Reality managers and Augmented Reality managers
  * 
  * @param <T>
  *            touch event type
  */
-public interface ARManagerInterface<T> {
+public interface XRManagerInterface<T> {
 
     /** desk max distance is 50 cm */
     final static public double DESK_DISTANCE_MAX = 0.5;
@@ -51,25 +51,25 @@ public interface ARManagerInterface<T> {
 
     void setFirstFloor(double z);
 
-    void setARScaleAtStart();
+    void setXRScaleAtStart();
 
     CoordMatrix4x4 getUndoRotationMatrix();
 
     CoordMatrix4x4 getViewModelMatrix();
 
-    void fromARCoordsToGGBCoords(Coords coords, Coords ret);
+    void fromXRCoordsToGGBCoords(Coords coords, Coords ret);
 
-    void setProjectionMatrixViewForAR(CoordMatrix4x4 projectionMatrix);
+    void setProjectionMatrixViewForXR(CoordMatrix4x4 projectionMatrix);
 
     void fitThickness();
 
-    float getArScaleFactor();
+    float getXRScaleFactor();
 
-    void resetScaleFromAR();
+    void resetScaleFromXR();
 
-    String getARRatioInString();
+    String getXRRatioInString();
 
-    void setARRatio(double ratio);
+    void setXRRatio(double ratio);
 
     void setRatioIsShown(boolean ratioIsShown);
 

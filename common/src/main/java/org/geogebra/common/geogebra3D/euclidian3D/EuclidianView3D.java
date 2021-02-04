@@ -28,7 +28,7 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.euclidian3D.Mouse3DEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimator;
 import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimator.AnimationType;
-import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
+import org.geogebra.common.geogebra3D.euclidian3D.xr.XRManagerInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawAngle3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawAxis3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawClippingCube3D;
@@ -5228,7 +5228,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void setARRatioIsShown(boolean arRatioIsShown) {
 		this.arRatioIsShown = arRatioIsShown;
-		ARManagerInterface arManager = renderer.getARManager();
+		XRManagerInterface arManager = renderer.getXRManager();
 		if (arManager != null) {
 			arManager.setRatioIsShown(arRatioIsShown);
 		}
@@ -5260,7 +5260,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void setARRatioMetricSystem(int arRatioMetricSystem) {
 		this.arRatioMetricSystem = arRatioMetricSystem;
-		ARManagerInterface arManager = renderer.getARManager();
+		XRManagerInterface arManager = renderer.getXRManager();
 		if (arManager != null) {
 			arManager.calculateAndShowRatio();
 		}
