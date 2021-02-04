@@ -26,7 +26,6 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasValue;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
@@ -48,8 +47,6 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 	private AutoCompleteTextFieldW selectedValue;
 	/** a choice button */
 	private MyToggleButton choiceButton;
-	/** a choice button image */
-	private Image choiceButtonImage;
 	/** this flag means whether it's possible to enter a custom text */
 	private boolean customTextAllowed;
 
@@ -103,16 +100,6 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 	public void setCustomTextAllowed(boolean customTextAllowed) {
 		this.customTextAllowed = customTextAllowed;
 		prepareSelectedValue();
-	}
-
-	/**
-	 * Setter for property 'choiceButtonImage'.
-	 *
-	 * @param choiceButtonImage
-	 *            Value to set for property 'choiceButtonImage'.
-	 */
-	public void setChoiceButtonImage(Image choiceButtonImage) {
-		this.choiceButtonImage = choiceButtonImage;
 	}
 
 	/**

@@ -44,6 +44,7 @@ implements ITextFieldListener {
 		label = new Label();
 		tfAnimStep = new AngleTextFieldW(6, app);
 		FlowPanel mainPanel = new FlowPanel();
+		mainPanel.addStyleName("optionsInput");
 		mainPanel.add(label);
 		mainPanel.add(tfAnimStep);
 		setWidget(mainPanel);

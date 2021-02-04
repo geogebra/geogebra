@@ -35,25 +35,25 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 	public AnimationSpeedPanelW(AnimationSpeedModel m, final AppW app) {
 		super(app.getLocalization(), app.getLocalization().getMenu(
 				"AnimationSpeed"));
-        this.app = app;
+		this.app = app;
 		model = m;
 		model.setListener(this);
-    	setModel(model);
-    	modeLabel = new Label();
+		setModel(model);
+		modeLabel = new Label();
 
 		InputPanelW inputPanel = new InputPanelW(app, -1, false);
 		tfAnimSpeed = inputPanel.getTextComponent();
-        FlowPanel mainPanel = new FlowPanel();
+		FlowPanel mainPanel = new FlowPanel();
 
-        FlowPanel speedPanel = LayoutUtilW.panelRow(getLabel(), tfAnimSpeed);
-        FlowPanel repeatPanel = LayoutUtilW.panelRow(modeLabel, getListBox());
+		FlowPanel speedPanel = LayoutUtilW.panelRow(getLabel(), tfAnimSpeed);
+		FlowPanel repeatPanel = LayoutUtilW.panelRow(modeLabel, getListBox());
 
-        speedPanel.setStyleName("sliderWidthPanel");
+		speedPanel.setStyleName("sliderWidthPanel");
 		repeatPanel.setStyleName("sliderWidthPanel");
 
-        mainPanel.add(speedPanel);
+		mainPanel.add(speedPanel);
 		mainPanel.add(repeatPanel);
-        setWidget(mainPanel);
+		setWidget(mainPanel);
 
 		tfAnimSpeed.addKeyHandler(new KeyHandler() {
 

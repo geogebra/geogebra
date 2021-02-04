@@ -198,7 +198,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		widthUnitLabel.setStyleName("unitLabel");
 		widthPanel.add(tfWidth);
 
-		createSliderStylePanel(app);
+		createSliderStylePanel();
 
 		// add increment to intervalPanel
 		stepPanel = new AnimationStepPanelW(app);
@@ -217,7 +217,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		return model;
 	}
 
-	private void createPointStylePanel(AppW app) {
+	private void createPointStylePanel() {
 		FlowPanel blobSizePanel = new FlowPanel();
 		blobSizePanel.setStyleName("sliderWidthPanel");
 		blobSizePanel.add(blobSizeLabel);
@@ -230,7 +230,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				.add(LayoutUtilW.panelRow(blobColorLbl, blobColorChooserBtn));
 	}
 
-	private void createLineStylePanel(AppW app) {
+	private void createLineStylePanel() {
 		sliderStylePanel.add(widthPanel);
 		FlowPanel lineThicknessPanel = new FlowPanel();
 		lineThicknessPanel.setStyleName("sliderWidthPanel");
@@ -249,13 +249,13 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		sliderStylePanel.add(transparencySliderPanel);
 	}
 
-	private void createSliderStylePanel(AppW app) {
+	private void createSliderStylePanel() {
 		pointStyleTitleLbl.addStyleName("panelTitle");
 		sliderStylePanel.add(pointStyleTitleLbl);
-		createPointStylePanel(app);
+		createPointStylePanel();
 		lineStyleTitleLbl.addStyleName("panelTitle");
 		sliderStylePanel.add(lineStyleTitleLbl);
-		createLineStylePanel(app);
+		createLineStylePanel();
 	}
 
 	private void createTransparencySlider() {
