@@ -1,10 +1,8 @@
-package org.geogebra.arbase;
+package org.geogebra.common.geogebra3D.euclidian3D.xr;
 
 import java.util.NoSuchElementException;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
-
-import org.geogebra.common.geogebra3D.euclidian3D.xr.XRMotionEvent;
 
 public class MouseTouchGestureQueueHelper {
 
