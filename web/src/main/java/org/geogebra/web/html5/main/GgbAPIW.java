@@ -1491,4 +1491,11 @@ public class GgbAPIW extends GgbAPI {
 			pageController.updatePreviewImage();
 		}
 	}
+
+	public void setEmbedContent(String label, String base64) {
+		EmbedManager embedManager = app.getEmbedManager();
+		if (embedManager != null) {
+			embedManager.setBase64(label, base64);
+		}
+	}
 }

@@ -187,7 +187,9 @@
                 case "select":
                     this.sendEvent(event[0], event[1], event[2]);
                     break;
-
+                case "embeddedContentChanged":
+                    this.sendEvent(event[0], event[2], event[1]);
+                    break;
                 case "undo":
                 case "redo":
                 case "addPolygonComplete":
@@ -316,13 +318,15 @@
                         target.api.removeMultiuserSelections(user.name, last.content);
                     }
                 } else if (last.type == "orderingChange") {
-					target.api.updateOrdering(last.content);
+                    target.api.updateOrdering(last.content);
                 } else if (last.type == "groupObjects") {
                     target.api.groupObjects(last.content);
                 } else if (last.type == "ungroupObjects") {
                     target.api.ungroupObjects(last.content);
                 } else if (last.type == "addToGroup") {
                     target.api.addToGroup(last.content, last.label);
+                } else if (last.type == "embeddedContentChanged") {
+                    target.api.setEmbedContent(last.label, last.content);
                 }
             }
         };

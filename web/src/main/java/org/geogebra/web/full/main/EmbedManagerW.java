@@ -23,6 +23,7 @@ import org.geogebra.common.main.undo.ActionExecutor;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -158,8 +159,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		}
 		String currentBase64 = base64.get(drawEmbed.getEmbedID());
 		if (currentBase64 != null) {
-			parameters.setAttribute("appName", "auto")
-					.setAttribute("ggbBase64", currentBase64);
+			parameters.setAttribute("ggbBase64", currentBase64);
 		}
 		fr.setComputedWidth(parameters.getDataParamWidth()
 				- parameters.getBorderThickness());
@@ -447,6 +447,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		ge.setSize(material.getWidth(), material.getHeight());
 		ge.setContentWidth(material.getWidth());
 		ge.setContentHeight(material.getHeight());
+		ge.setAppName(StringUtil.empty(material.getAppName()) ? "auto" : material.getAppName());
 		ge.attr("showToolBar", material.getShowToolbar() || material.getShowMenu());
 		ge.attr("showMenuBar", material.getShowMenu());
 		ge.attr("allowStyleBar", material.getAllowStylebar());
@@ -454,6 +455,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		ge.setEmbedId(id);
 		ge.initPosition(app.getActiveEuclidianView());
 		showAndSelect(ge);
+		app.dispatchEvent(new Event(EventType.EMBEDDED_CONTENT_CHANGED, ge, material.getBase64()));
 	}
 
 	private void showAndSelect(final GeoEmbed ge) {
@@ -601,6 +603,19 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			executeAction(action, embedId);
 		} catch (RuntimeException e) {
 			Log.warn("No undo possible for embed " + id);
+		}
+	}
+
+	@Override
+	public void setBase64(String label, String contentBase64) {
+		GeoElement el = app.getKernel().lookupLabel(label);
+		if (el instanceof GeoEmbed) {
+			DrawableND de = app.getActiveEuclidianView().getDrawableFor(el);
+			if (de instanceof DrawWidget && widgets.get(de) != null) {
+				widgets.get(de).setContent(contentBase64);
+			} else {
+				base64.put(((GeoEmbed) el).getEmbedID(), contentBase64);
+			}
 		}
 	}
 }

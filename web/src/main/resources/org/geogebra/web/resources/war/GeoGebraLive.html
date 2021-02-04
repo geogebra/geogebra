@@ -59,7 +59,7 @@
                 localStorage.setItem("ggbEvents", JSON.stringify(events));
             };
         var parameters1 = {
-            //"id": "ggbApplet1",
+            "id": "ggbApplet1",
             "width": 800,
             "height": 700,
             "showMenuBar": true,
@@ -84,8 +84,6 @@
             "multiuserApplet": true,
         };
 
-
-        parameters1.id = "ggbApplet1";
         parameters1.appletOnLoad = function(api) {
             if (api1) {
                return;
