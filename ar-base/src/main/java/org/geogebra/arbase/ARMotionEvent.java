@@ -18,7 +18,7 @@ abstract public class ARMotionEvent implements XRMotionEvent {
 
     public abstract void setLocation(int x, int y);
 
-    public Object getAREvent(){
+    public Object getXREvent(){
         return null;
     }
 }

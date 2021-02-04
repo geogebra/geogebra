@@ -12,5 +12,5 @@ public interface XRMotionEvent  {
 
 	int getAction();
 
-	Object getAREvent(); // refactor to XREvent
+	Object getXREvent();
 }
