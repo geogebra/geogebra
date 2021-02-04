@@ -50,7 +50,7 @@ public class ScreenReaderBuilder {
 	 * Append space, avoid double space.
 	 */
 	public void appendSpace() {
-		if (sb.length() > 1 && sb.charAt(sb.length() - 1) != ' ') {
+		if (sb.length() > 0 && sb.charAt(sb.length() - 1) != ' ') {
 			sb.append(" ");
 		}
 	}

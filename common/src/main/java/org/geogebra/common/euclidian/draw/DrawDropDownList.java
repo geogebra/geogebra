@@ -142,7 +142,7 @@ public final class DrawDropDownList extends CanvasDrawable
 							StringTemplate.latexTemplate);
 					latex = true;
 				} else {
-					text = GeoList.getItemDisplayString(geoItem,
+					text = geoList.getItemDisplayString(geoItem,
 							StringTemplate.defaultTemplate);
 					latex = isLatexString(text);
 				}
@@ -914,9 +914,7 @@ public final class DrawDropDownList extends CanvasDrawable
 				getView().repaintView();
 			}
 
-			ScreenReader.readDropDownSelectorMoved(geoList.getKernel().getApplication(),
-					geoList.getItemDisplayString(idx,
-							StringTemplate.screenReader));
+			ScreenReader.readDropDownSelectorMoved(view.getApplication(), geoList, selectedIndex);
 		}
 
 		private void cancelDrag() {
@@ -1209,7 +1207,7 @@ public final class DrawDropDownList extends CanvasDrawable
 			seLatex = true;
 		} else {
 			// realTemplate: make sure Sequence((t,t),t,1,5) works
-			selectedText = GeoList.getItemDisplayString(geoItem,
+			selectedText = geoList.getItemDisplayString(geoItem,
 					StringTemplate.realTemplate);
 			seLatex = isLatexString(selectedText);
 		}
