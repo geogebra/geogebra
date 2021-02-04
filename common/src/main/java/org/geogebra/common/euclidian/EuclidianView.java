@@ -6311,7 +6311,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * 
 	 * @return true if AR is enabled
 	 */
-    public boolean isAREnabled() {
+    public boolean isXREnabled() {
         return false;
     }
 

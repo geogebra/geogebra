@@ -428,7 +428,7 @@ public class DrawLabel3D {
 		labelOrigin[1] *= view.getYscale();
 		labelOrigin[2] *= view.getZscale();
 
-		if (!view.isAREnabled() || !anchor) {
+		if (!view.isXREnabled() || !anchor) {
 			drawX = (int) (vScreen.getX() + xOffset);
 			if (anchor && xOffset < 0) {
 				drawX -= width / getFontScale();
@@ -542,7 +542,7 @@ public class DrawLabel3D {
 			return;
 		}
 
-		if (view.isARDrawing()) {
+		if (view.isXRDrawing()) {
 		    if (positionMatrix == null) {
                 positionMatrix = new CoordMatrix4x4();
             }
@@ -732,8 +732,8 @@ public class DrawLabel3D {
 		}
 
 		int old = textIndex;
-        if (view.isARDrawing()) {
-			if (!view.isAREnabled() || !anchor) {
+        if (view.isXRDrawing()) {
+			if (!view.isXREnabled() || !anchor) {
 				textIndex = drawRectangle(renderer, 0, 0, 0,
 						width2 / getFontScale(), height2 / getFontScale(), textIndex);
 			} else {
@@ -758,7 +758,7 @@ public class DrawLabel3D {
 		renderer.getGeometryManager().remove(old);
 
 		old = backgroundIndex;
-		if (view.isARDrawing()) {
+		if (view.isXRDrawing()) {
 			backgroundIndex = drawRectangle(renderer, 0, 0, 0,
 					width / getFontScale(),
 					height / getFontScale(), backgroundIndex);

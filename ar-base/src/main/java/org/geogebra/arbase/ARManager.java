@@ -184,7 +184,7 @@ abstract public class ARManager<TouchEventType> implements XRManagerInterface<To
         arMotionEvent = (ARMotionEvent) mouseTouchGestureQueueHelper.poll();
         // to update hitting o&d
         if (isDrawing()) {
-            renderer.getView().setARDrawing(true);
+            renderer.getView().setXRDrawing(true);
             renderer.setView();
             if (((EuclidianController3D) renderer.getView().getEuclidianController())
                     .isCurrentModeForCreatingPoint()) {
@@ -235,7 +235,7 @@ abstract public class ARManager<TouchEventType> implements XRManagerInterface<To
             proceedARMotionEvent(arMotionEvent);
             renderer.drawScene();
         } else {
-            renderer.getView().setARDrawing(false);
+            renderer.getView().setXRDrawing(false);
             renderer.endOfDrawScene();
         }
     }

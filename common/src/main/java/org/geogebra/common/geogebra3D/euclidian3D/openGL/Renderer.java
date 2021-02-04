@@ -402,7 +402,7 @@ public abstract class Renderer {
 				draw();
 			} else {
 				rendererImpl.clearDepthBuffer();
-				if (!view3D.isAREnabled()) {
+				if (!view3D.isXREnabled()) {
 					setView();
 				}
 				draw();
@@ -688,7 +688,7 @@ public abstract class Renderer {
 		if (enableClipPlanes) {
 			rendererImpl.enableClipPlanes();
 		}
-        if (view3D.isARDrawing()) {
+        if (view3D.isXRDrawing()) {
             view3D.updateAxesDecorationPosition();
         }
 		drawFaceToScreen();
@@ -1194,7 +1194,7 @@ public abstract class Renderer {
 	 * Update projection matrix for view's projection.
 	 */
 	public final void setProjectionMatrix() {
-		if (view3D.isARDrawing()) {
+		if (view3D.isXRDrawing()) {
 			rendererImpl.setProjectionMatrixViewForAR();
 		} else {
 			switch (view3D.getProjection()) {
@@ -1678,7 +1678,7 @@ public abstract class Renderer {
 	 * @return true (default) if reduce "window" for clipping box
 	 */
 	public boolean reduceForClipping() {
-		return !view3D.isAREnabled();
+		return !view3D.isXREnabled();
 	}
 
 	/**
@@ -2041,8 +2041,8 @@ public abstract class Renderer {
 		resetScaleFromAR();
 		killARSession();
 		view3D.resetViewFromAR();
-		view3D.setARDrawing(false);
-		view3D.setAREnabled(false);
+		view3D.setXRDrawing(false);
+		view3D.setXREnabled(false);
 	}
 
 	/**
