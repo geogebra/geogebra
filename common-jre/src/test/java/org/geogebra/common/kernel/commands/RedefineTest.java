@@ -1,10 +1,16 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -17,34 +23,31 @@ import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.ErrorAccumulator;
-import org.junit.Assert;
+import org.hamcrest.Description;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class RedefineTest extends Assert {
-	static AppCommon3D app;
-	static AlgebraProcessor ap;
+public class RedefineTest extends BaseUnitTest {
 
-	@Before
-	public void resetSyntaxes() {
-		app.getKernel().clearConstruction(true);
-		if (app.getExam() != null) {
-			app.getExam().closeExam();
-			app.setExam(null);
-		}
-	}
+	private static AlgebraProcessor ap;
+	private static App app;
 
 	/**
-	 * Initialize app.
+	 * Initialize app & algebra processor.
 	 */
-	@BeforeClass
-	public static void setupApp() {
-		app = new AppCommon3D(new LocalizationCommon(3),
+	@Before
+	public void setAppAndAlgebraProcessor() {
+		ap = getApp().getKernel().getAlgebraProcessor();
+		app = getApp();
+	}
+
+	@Override
+	public AppCommon createAppCommon() {
+		return new AppCommon3D(new LocalizationCommon(3),
 				new AwtFactoryCommon());
-		ap = app.getKernel().getAlgebraProcessor();
 	}
 
 	private static void t(String input, String expected) {
@@ -68,12 +71,6 @@ public class RedefineTest extends Assert {
 				.processAlgebraCommandNoExceptionHandling(s, false, errorStore,
 						false, null);
 		assertEquals(msg, errorStore.getErrors());
-	}
-
-	private void add(String s) {
-		app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommandNoExceptionHandling(s, true,
-						app.getDefaultErrorHandler(), false, null);
 	}
 
 	@Test
@@ -133,11 +130,10 @@ public class RedefineTest extends Assert {
 		t("C=(0,0)", "(0, 0)");
 		t("D=(0,1)", "(0, 1)");
 		t("poly1=Polygon[A,B,C,D]", new String[] { "1", "1", "1", "1", "1" });
-		Kernel kernel = app.getKernel();
 		assertEquals("a_1 = Segment(A, B, poly1)",
-				kernel.lookupLabel("a_1").getDefinitionForInputBar());
+				lookup("a_1").getDefinitionForInputBar());
 		t("a_{1} = Segment(A, B, poly1)", new String[0]);
-		kernel.getAlgebraProcessor().changeGeoElement(kernel.lookupLabel("a_1"),
+		ap.changeGeoElement(lookup("a_1"),
 				"a_{1} = Segment(A, B, poly1)", true, true,
 				TestErrorHandler.INSTANCE, null);
 	}
@@ -164,14 +160,10 @@ public class RedefineTest extends Assert {
 		app.setUndoActive(true);
 		t("b=100", "100");
 		t("a=randomUniform(0,b)", "72.75636800328681");
-		((GeoNumeric) get("b")).setValue(10);
-		((GeoNumeric) get("b")).resetDefinition();
+		((GeoNumeric) lookup("b")).setValue(10);
+		((GeoNumeric) lookup("b")).resetDefinition();
 		app.getKernel().updateConstruction(false);
 		t("a", "10");
-	}
-
-	private static GeoElement get(String string) {
-		return app.getKernel().lookupLabel(string);
 	}
 
 	@Test
@@ -224,13 +216,13 @@ public class RedefineTest extends Assert {
 	public void functionLHSShouldRemainConic() {
 		t("f(x,y)=xx+y", "x^(2) + y");
 		t("a:f(x,y)=0", TestStringUtil.unicode("x^2 + y = 0"));
-		Assert.assertEquals(get("a").getGeoClassType(), GeoClass.CONIC);
+		assertEquals(lookup("a").getGeoClassType(), GeoClass.CONIC);
 		app.setXML(app.getXML(), true);
 		hasType("a", GeoClass.CONIC);
 	}
 
-	private static void hasType(String label, GeoClass geoClass) {
-		Assert.assertEquals(get(label).getGeoClassType(), geoClass);
+	private void hasType(String label, GeoClass geoClass) {
+		assertEquals(lookup(label).getGeoClassType(), geoClass);
 	}
 
 	@Test
@@ -238,12 +230,12 @@ public class RedefineTest extends Assert {
 
 		t("B20:x^2+y=0", TestStringUtil.unicode("x^2 + y = 0"));
 		t("D20=B20", TestStringUtil.unicode("x^2 + y = 0"));
-		Assert.assertEquals(
-				app.getKernel().lookupLabel("D20").getGeoClassType(),
+		assertEquals(
+				lookup("D20").getGeoClassType(),
 				GeoClass.CONIC);
 		app.setXML(app.getXML(), true);
-		Assert.assertEquals(
-				app.getKernel().lookupLabel("D20").getGeoClassType(),
+		assertEquals(
+				lookup("D20").getGeoClassType(),
 				GeoClass.CONIC);
 	}
 
@@ -302,19 +294,19 @@ public class RedefineTest extends Assert {
 	public void updateImplicitCurve() {
 		add("a=2");
 		t("c:y^2 = (x^2-a^2)/x^2", "y^(2) = (x^(2) - 2^(2)) / x^(2)");
-		Assert.assertFalse("Implicit curve with var should be dependent.",
-				get("c").isIndependent());
+		assertFalse("Implicit curve with var should be dependent.",
+				lookup("c").isIndependent());
 		t("c1:y^2 = (x^2-2^2)/x^2", "y^(2) = (x^(2) - 2^(2)) / x^(2)");
-		Assert.assertTrue("Implicit curve without vars should be independent.",
-				get("c1").isIndependent());
-		Assert.assertEquals(
+		assertTrue("Implicit curve without vars should be independent.",
+				lookup("c1").isIndependent());
+		assertEquals(
 				TestStringUtil.unicode("c: y^2 = (x^2 - 2^2) / x^2"),
-				get("c").getAlgebraDescriptionTextOrHTMLDefault(
+				lookup("c").getAlgebraDescriptionTextOrHTMLDefault(
 						new IndexHTMLBuilder(true)));
 		t("a=3", "3");
-		Assert.assertEquals(
+		assertEquals(
 				TestStringUtil.unicode("c: y^2 = (x^2 - 3^2) / x^2"),
-				get("c").getAlgebraDescriptionTextOrHTMLDefault(
+				lookup("c").getAlgebraDescriptionTextOrHTMLDefault(
 						new IndexHTMLBuilder(true)));
 	}
 
@@ -322,7 +314,7 @@ public class RedefineTest extends Assert {
 	public void derivativeShouldNotThrowCircularException() {
 		t("f(x)=x^2", "x^(2)");
 		t("f'(x)=f'", "(2 * x)");
-		ap.changeGeoElement(get("f'"), "f'(x)", true, true,
+		ap.changeGeoElement(lookup("f'"), "f'(x)", true, true,
 				TestErrorHandler.INSTANCE, new AsyncOperation<GeoElementND>() {
 					@Override
 					public void callback(GeoElementND obj) {
@@ -339,11 +331,11 @@ public class RedefineTest extends Assert {
 		add("d:xx+yy");
 		app.setNewExam();
 		app.startExam();
-		Assert.assertFalse(get("b").isLocked());
-		Assert.assertTrue(get("c").isLocked());
-		Assert.assertFalse(get("d").isLocked());
+		assertFalse(lookup("b").isLocked());
+		assertTrue(lookup("c").isLocked());
+		assertFalse(lookup("d").isLocked());
 		add("d:xx+yy=2");
-		Assert.assertTrue(get("d").isLocked());
+		assertTrue(lookup("d").isLocked());
 	}
 
 	@Test
@@ -352,11 +344,11 @@ public class RedefineTest extends Assert {
 		add("a=1");
 		add("Segment(A,a)");
 		add("cb=Cube(A,B)");
-		Assert.assertTrue(get("cb").isDefined());
+		assertThat(lookup("cb"), isDefined());
 		add("SetValue(a,-1)");
-		Assert.assertFalse(get("cb").isDefined());
+		assertThat(lookup("cb"), not(isDefined()));
 		add("SetValue(a,1)");
-		Assert.assertTrue(get("cb").isDefined());
+		assertThat(lookup("cb"), isDefined());
 	}
 
 	@Test
@@ -377,21 +369,38 @@ public class RedefineTest extends Assert {
 				+ "<element type=\"function\" label=\"studans\">\n"
 				+ "\t<show object=\"false\" label=\"false\" ev=\"4\"/>\n"
 				+ "</element>");
-		assertTrue(((GeoFunction) app.getKernel().lookupLabel("studans")).isForceInequality());
+		assertThat(lookup("studans"), isForceInequality());
 		// new format: includes function variables
 		app.getGgbApi().evalXML("<expression label=\"studans2\" "
 				+ "exp=\"studans2(x) = ?\" type=\"inequality\"/>\n"
 				+ "<element type=\"function\" label=\"studans2\">\n"
 				+ "\t<show object=\"false\" label=\"false\" ev=\"4\"/>\n"
 				+ "</element>");
-		assertTrue(((GeoFunction) app.getKernel().lookupLabel("studans2")).isForceInequality());
+		assertThat(lookup("studans2"), isForceInequality());
 	}
 
 	@Test
 	public void avRedefineShouldChangeInequalityToFunction() {
 		add("f:x>3");
 		add("f(x)=x+3");
-		assertFalse(((GeoFunction) app.getKernel().lookupLabel("f")).isForceInequality());
+		assertThat(lookup("f"), not(isForceInequality()));
+	}
+
+	/**
+	 * @return matcher for inequalities
+	 */
+	public static TypeSafeMatcher<GeoElementND> isForceInequality() {
+		return new TypeSafeMatcher<GeoElementND>() {
+			@Override
+			protected boolean matchesSafely(GeoElementND item) {
+				return item instanceof GeoFunction && ((GeoFunction) item).isForceInequality();
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("Forced inequality");
+			}
+		};
 	}
 
 }

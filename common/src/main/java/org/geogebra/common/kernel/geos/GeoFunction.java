@@ -307,7 +307,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		// If labels are suppressed (processing command arguments) accept y and
 		// z as
 		// functions
-		if (suppressLabel || isBooleanFunction()) {
+		if (suppressLabel || isBooleanFunction() || isForceInequality()) {
 			return true;
 		}
 		if ((this.isFunctionOfY()
