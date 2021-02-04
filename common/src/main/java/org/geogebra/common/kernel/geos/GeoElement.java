@@ -6206,14 +6206,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * @return true for intervals
-	 */
-	@Override
-	public boolean isGeoInterval() {
-		return false;
-	}
-
-	/**
 	 * Removes dependencies (conditional visibility, min, max, corner, EV
 	 * bounds) from oldgeo and moves them to this
 	 * 

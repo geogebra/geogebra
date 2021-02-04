@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.algos.AlgoMin;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoInterval;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
@@ -42,9 +41,9 @@ public class CmdMin extends CommandProcessor {
 				algo.getMin().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getMin() };
 				return ret;
-			} else if (arg[0].isGeoInterval()) {
+			} else if (arg[0].isGeoFunctionBoolean()) {
 				AlgoIntervalMin algo = new AlgoIntervalMin(cons, c.getLabel(),
-						(GeoInterval) arg[0]);
+						(GeoFunction) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

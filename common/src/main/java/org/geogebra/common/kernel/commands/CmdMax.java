@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.algos.AlgoMax;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoInterval;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
@@ -42,10 +41,10 @@ public class CmdMax extends CommandProcessor {
 				algo.getMax().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getMax() };
 				return ret;
-			} else if (arg[0].isGeoInterval()) {
+			} else if (arg[0].isGeoFunctionBoolean()) {
 
 				AlgoIntervalMax algo = new AlgoIntervalMax(cons, c.getLabel(),
-						(GeoInterval) arg[0]);
+						(GeoFunction) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

@@ -14,8 +14,10 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -120,14 +122,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	protected StringBuilder sbToString = new StringBuilder(80);
 
 	private boolean showOnAxis;
-	/**
-	 * we don't care about values of these
-	 */
-	final private static String[] dummy1 = { "", "" };
-	/**
-	 * we don't care about values of these
-	 */
-	final private static char[] dummy2 = { ' ', ' ' };
 
 	private double[] bounds;
 
@@ -1011,10 +1005,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			return;
 
 		case AND_INTERVAL:
-
-			GeoInterval.updateBoundaries(inequalityEn, bounds0,
-					GeoFunction.dummy1, GeoFunction.dummy2);
-
+			GeoIntervalUtil.updateBoundaries(inequalityEn, bounds0);
 			break;
 
 		case LESS:
@@ -1086,8 +1077,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 							if (bounds == null) {
 								bounds = new double[2];
 							}
-							GeoInterval.updateBoundaries(inequalityEn, bounds,
-									dummy1, dummy2);
+							GeoIntervalUtil.updateBoundaries(inequalityEn, bounds);
 
 							if (P.getX() < bounds[0]) {
 								P.setX(bounds[0]);
@@ -1469,8 +1459,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			return ((GeoLine) geo).isEqual(this);
 		}
 
-		if (!geo.isGeoFunction()
-				|| geo.getGeoClassType().equals(GeoClass.INTERVAL)) {
+		if (!geo.isGeoFunction()) {
 			return false;
 		}
 
@@ -3048,5 +3037,23 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		if (fun != null) {
 			fun.setForceInequality(forceInequality);
 		}
+	}
+
+	/**
+	 * @return the left bound if this is an interval
+	 */
+	public double getMin() {
+		double[] minmax = new double[2];
+		GeoIntervalUtil.updateBoundaries(fun.getExpression(), minmax);
+		return minmax[0];
+	}
+
+	/**
+	 * @return the right bound if this is an interval
+	 */
+	public double getMax() {
+		double[] minmax = new double[2];
+		GeoIntervalUtil.updateBoundaries(fun.getExpression(), minmax);
+		return minmax[1];
 	}
 }
