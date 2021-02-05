@@ -239,9 +239,9 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 		case Div:
 			return new CmdDiv(kernel);
 		case Min:
-			return new CmdMin(kernel);
+			return new CmdMinMax(kernel, Commands.Min);
 		case Max:
-			return new CmdMax(kernel);
+			return new CmdMinMax(kernel, Commands.Max);
 		case Append:
 			return new CmdAppend(kernel);
 		case First:

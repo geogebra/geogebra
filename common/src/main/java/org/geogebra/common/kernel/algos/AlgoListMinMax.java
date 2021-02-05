@@ -26,8 +26,9 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * @version 15-07-2007
  */
 
-public class AlgoListMin extends AlgoElement {
+public class AlgoListMinMax extends AlgoElement {
 
+	private final boolean isMin;
 	private GeoList geoList; // input
 	private GeoList freqList; // input
 	private GeoNumeric min; // output
@@ -38,8 +39,8 @@ public class AlgoListMin extends AlgoElement {
 	 * @param geoList
 	 *            list
 	 */
-	public AlgoListMin(Construction cons, GeoList geoList) {
-		this(cons, geoList, null);
+	public AlgoListMinMax(Construction cons, GeoList geoList, boolean isMin) {
+		this(cons, geoList, null, isMin);
 	}
 
 	/**
@@ -50,19 +51,19 @@ public class AlgoListMin extends AlgoElement {
 	 * @param freqList
 	 *            frequencies
 	 */
-	public AlgoListMin(Construction cons, GeoList geoList, GeoList freqList) {
+	public AlgoListMinMax(Construction cons, GeoList geoList, GeoList freqList, boolean isMin) {
 		super(cons);
 		this.geoList = geoList;
 		this.freqList = freqList;
 		min = new GeoNumeric(cons);
-
+		this.isMin = isMin;
 		setInputOutput();
 		compute();
 	}
 
 	@Override
 	public Commands getClassName() {
-		return Commands.Min;
+		return isMin ? Commands.Min : Commands.Max;
 	}
 
 	@Override
@@ -101,7 +102,7 @@ public class AlgoListMin extends AlgoElement {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = geoList.get(i);
 				if (geo instanceof NumberValue) {
-					minVal = Math.min(minVal, geo.evaluateDouble());
+					minVal = minMax(minVal, geo.evaluateDouble());
 				} else {
 					min.setUndefined();
 					return;
@@ -136,7 +137,7 @@ public class AlgoListMin extends AlgoElement {
 				}
 				hasPositiveFrequency = true;
 
-				minVal = Math.min(minVal, geo.evaluateDouble());
+				minVal = minMax(minVal, geo.evaluateDouble());
 			}
 
 			// make sure not all frequencies are zero
@@ -148,6 +149,10 @@ public class AlgoListMin extends AlgoElement {
 		}
 
 		min.setValue(minVal);
+	}
+
+	private double minMax(double a, double b) {
+		return isMin ? Math.min(a, b) : Math.max(a, b);
 	}
 
 }

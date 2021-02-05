@@ -1075,7 +1075,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt instanceof Evaluatable) {
 				NumberValue arg = (NumberValue) rt;
 				if ((lt instanceof GeoFunction)
-						&& ((GeoFunction) lt).isBooleanFunction()) {
+						&& ((GeoFunction) lt).isGeoFunctionBoolean()) {
 					return new MyBoolean(kernel, ((GeoFunction) lt)
 							.evaluateBoolean(arg.getDouble()));
 				}

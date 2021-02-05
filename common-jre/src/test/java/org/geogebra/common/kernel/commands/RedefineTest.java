@@ -386,6 +386,24 @@ public class RedefineTest extends BaseUnitTest {
 		assertThat(lookup("f"), not(isForceInequality()));
 	}
 
+	@Test
+	public void minMaxShouldWorkForUndefinedFunctions() {
+		add("a:-3<x<6");
+		add("b:x<3");
+		t("min=Min(a)", "-3");
+		t("max=Max(a)", "6");
+		t("minB=Min(b)", "-Infinity");
+		t("maxB=Max(b)", "3");
+		add("SetValue(a,?)");
+		add("SetValue(b,?)");
+		add("c=a(3)");
+		add("d=b(3)");
+		assertEquals(lookup("d").toValueString(StringTemplate.defaultTemplate), "false");
+		assertEquals(lookup("c").toValueString(StringTemplate.defaultTemplate), "false");
+		app.setXML(app.getXML(), true);
+		assertEquals(lookup("c").toValueString(StringTemplate.defaultTemplate), "false");
+	}
+
 	/**
 	 * @return matcher for inequalities
 	 */

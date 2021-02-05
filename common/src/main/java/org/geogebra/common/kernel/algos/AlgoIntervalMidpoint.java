@@ -18,9 +18,8 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 
 public class AlgoIntervalMidpoint extends AlgoIntervalAbstract {
 
-	public AlgoIntervalMidpoint(Construction cons, String label,
-			GeoFunction s) {
-		super(cons, label, s);
+	public AlgoIntervalMidpoint(Construction cons, GeoFunction s) {
+		super(cons, s);
 	}
 
 	@Override

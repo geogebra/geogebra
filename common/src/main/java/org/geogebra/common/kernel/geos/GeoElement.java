@@ -5053,7 +5053,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * @return true for boolean functions
+	 * @return true for boolean functions (including undefined that were saved as boolean in XML)
 	 */
 	public boolean isGeoFunctionBoolean() {
 		return false;

@@ -17,16 +17,29 @@ public class GeoIntervalUtil {
 	 */
 	public static void updateBoundaries(ExpressionNode en,
 			double[] leftRightDouble) {
+		leftRightDouble[0] = Double.NEGATIVE_INFINITY;
+		leftRightDouble[1] = Double.POSITIVE_INFINITY;
+		doUpdateBoundaries(en, leftRightDouble);
+	}
 
-		leftRightDouble[0] = Double.NaN;
-		leftRightDouble[1] = Double.NaN;
-
-		if (en.getOperation().equals(Operation.AND)
-				|| en.getOperation().equals(Operation.AND_INTERVAL)) {
+	private static void doUpdateBoundaries(ExpressionNode en,
+		double[] leftRightDouble) {
+		Operation op = en.getOperation();
+		if (op.equals(Operation.AND)
+				|| op.equals(Operation.AND_INTERVAL)) {
 			ExpressionNode enLeft = en.getLeftTree();
 			ExpressionNode enRight = en.getRightTree();
-			updateBoundariesSingle(enLeft, leftRightDouble);
-			updateBoundariesSingle(enRight, leftRightDouble);
+			doUpdateBoundaries(enLeft, leftRightDouble);
+			doUpdateBoundaries(enRight, leftRightDouble);
+		} else if (op.equals(Operation.LESS)
+				|| op.equals(Operation.LESS_EQUAL)) {
+			// x < c
+			updateBoundariesSingle(en.getLeft(), en.getRight(), leftRightDouble);
+		} else if (op.equals(Operation.GREATER)
+				|| op.equals(Operation.GREATER_EQUAL)) {
+			updateBoundariesSingle(en.getRight(), en.getLeft(), leftRightDouble);
+		} else {
+			leftRightDouble[0] = leftRightDouble[1] = Double.NaN;
 		}
 
 		if (leftRightDouble[1] < leftRightDouble[0]) {
@@ -34,31 +47,23 @@ public class GeoIntervalUtil {
 		}
 	}
 
-	private static void updateBoundariesSingle(ExpressionNode ineq, double[] leftRightDouble) {
-		Operation opLeft = ineq.getOperation();
-		ExpressionValue ineqLeft = ineq.getLeft();
-		ExpressionValue ineqRight = ineq.getRight();
-		if ((opLeft.equals(Operation.LESS)
-				|| opLeft.equals(Operation.LESS_EQUAL))) {
-			if (ineqLeft instanceof FunctionVariable
-					&& ineqRight.isNumberValue()) {
-
-				leftRightDouble[1] = ineqRight.evaluateDouble();
-			} else if (ineqRight instanceof FunctionVariable
-					&& ineqLeft.isNumberValue()) {
-				leftRightDouble[0] = ineqLeft.evaluateDouble();
-			}
-
-		} else if ((opLeft.equals(Operation.GREATER)
-				|| opLeft.equals(Operation.GREATER_EQUAL))) {
-			if (ineqLeft instanceof FunctionVariable
-					&& ineqRight.isNumberValue()) {
-				leftRightDouble[0] = ineqRight.evaluateDouble();
-			} else if (ineqRight instanceof FunctionVariable
-					&& ineqLeft.isNumberValue()) {
-				leftRightDouble[1] = ineqLeft.evaluateDouble();
-			}
+	private static void updateBoundariesSingle(ExpressionValue smaller,
+			ExpressionValue greater, double[] leftRightDouble) {
+		if (smaller instanceof FunctionVariable
+				&& isConstant(greater)) {
+			leftRightDouble[1] = Math.min(leftRightDouble[1], greater.evaluateDouble());
+		} else if (greater instanceof FunctionVariable
+				&& isConstant(smaller)) {
+			leftRightDouble[0] = Math.max(leftRightDouble[0], smaller.evaluateDouble());
+		} else {
+			leftRightDouble[0] = leftRightDouble[1] = Double.NaN;
 		}
+	}
+
+	private static boolean isConstant(ExpressionValue greater) {
+		return greater.isExpressionNode()
+				? !greater.wrap().containsFreeFunctionVariable(null)
+				: !(greater instanceof FunctionVariable);
 	}
 
 }

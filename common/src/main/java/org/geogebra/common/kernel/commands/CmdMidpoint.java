@@ -85,9 +85,8 @@ public class CmdMidpoint extends CommandProcessor {
 		} else if (arg.isGeoSegment()) {
 			return segment(c.getLabel(), (GeoSegmentND) arg);
 		} else if (arg.isGeoFunctionBoolean()) {
-			AlgoIntervalMidpoint algo = new AlgoIntervalMidpoint(cons,
-					c.getLabel(), (GeoFunction) arg);
-
+			AlgoIntervalMidpoint algo = new AlgoIntervalMidpoint(cons, (GeoFunction) arg);
+			algo.getResult().setLabel(c.getLabel());
 			GeoElement[] ret = { algo.getResult() };
 			return ret;
 		} else {

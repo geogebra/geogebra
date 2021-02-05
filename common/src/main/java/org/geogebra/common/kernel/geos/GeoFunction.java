@@ -2558,7 +2558,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public boolean isGeoFunctionBoolean() {
-		return isBooleanFunction();
+		return isBooleanFunction() || isForceInequality();
 	}
 
 	@Override

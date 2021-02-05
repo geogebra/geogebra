@@ -18,8 +18,8 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 
 public class AlgoIntervalMin extends AlgoIntervalAbstract {
 
-	public AlgoIntervalMin(Construction cons, String label, GeoFunction s) {
-		super(cons, label, s);
+	public AlgoIntervalMin(Construction cons, GeoFunction s) {
+		super(cons, s);
 	}
 
 	@Override
