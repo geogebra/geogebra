@@ -96,7 +96,7 @@
                             let xml = that.api.getXML(label);
                             that.sendEvent("evalXML", xml, label);
                         }
-                        that.sendEvent("select", label, "update");
+                        that.sendEvent("select", label, "true");
                     }
 
                     updateCallback = null;
@@ -138,7 +138,7 @@
                 this.sendEvent("evalXML", xml, label);
             }
             this.sendEvent("deselect");
-            this.sendEvent("select", label, "update");
+            this.sendEvent("select", label, "true");
             window.setTimeout(function(){
                 that.initEmbed(label);
             },500); //TODO avoid timeout
@@ -306,8 +306,8 @@
                 } else if (last.type == "select") {
                     let user = this.users[last.clientId];
                     if (user && last.content) {
-                    	// user name, user color, label of geo selected, 'update' if it was called by update callback
-                        target.api.addMultiuserSelection(user.name, user.color, last.content, last.label);
+                    	// user name, user color, label of geo selected, 'true' if the geo was just added
+                        target.api.addMultiuserSelection(user.name, user.color, last.content, !!last.label);
                     }
                 } else if (last.type == "deselect") {
                     let user = this.users[last.clientId];

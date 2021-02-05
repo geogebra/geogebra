@@ -1091,11 +1091,11 @@ public class GgbAPIW extends GgbAPI {
 	 * @param user tooltip content
 	 * @param label label of an object to use as anchor
 	 * @param color color CSS string
-	 * @param update "update" if selection called by notify update, empty otherwise
+	 * @param newGeo if the geo was added
 	 */
-	public void addMultiuserSelection(String user, String color, String label, String update) {
+	public void addMultiuserSelection(String user, String color, String label, boolean newGeo) {
 		MultiuserManager.INSTANCE.addSelection(app, user, GColor.parseHexColor(color),
-				label, update);
+				label, newGeo);
 	}
 
 	/**

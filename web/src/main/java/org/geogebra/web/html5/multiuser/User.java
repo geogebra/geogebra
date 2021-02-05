@@ -43,30 +43,23 @@ class User {
 		this.color = color;
 	}
 
-	public void addSelection(EuclidianView view, String label, String update) {
+	public void addSelection(EuclidianView view, String label, boolean newGeo) {
 		GeoElement geo = view.getApplication().getKernel().lookupLabel(label);
-		if (geo instanceof GeoInline && "update".equals(update)) {
+		if (geo instanceof GeoInline && newGeo) {
 			// if the inline element gets updated after it was deselected
 			// don't add to interactions
 			return;
 		}
 
-		if ("update".equals(update)) {
+		if (newGeo) {
 			if (geo instanceof GeoLocusStroke) {
-				updatedGeos.compute(label, (k, v) -> {
-					if (v == null) {
-						v = new Timer() {
-							@Override
-							public void run() {
-								updatedGeos.remove(label);
-								view.repaintView();
-							}
-						};
+				updatedGeos.computeIfAbsent(label, k -> new Timer() {
+					@Override
+					public void run() {
+						updatedGeos.remove(label);
+						view.repaintView();
 					}
-
-					v.schedule(2000);
-					return v;
-				});
+				}).schedule(2000);
 			}
 		} else {
 			selectedGeos.add(label);
