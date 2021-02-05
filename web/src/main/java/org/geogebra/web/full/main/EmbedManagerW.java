@@ -125,13 +125,13 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 
 	private CalcEmbedElement getCalcEmbed(DrawEmbed drawEmbed) {
 		CalcEmbedElement element;
-		if (cache.containsKey(drawEmbed.getEmbedID())) {
+		if (cache.get(drawEmbed.getEmbedID()) instanceof CalcEmbedElement) {
 			element = (CalcEmbedElement) cache.get(drawEmbed.getEmbedID());
 			element.setVisible(true);
-			cache.remove(drawEmbed.getEmbedID());
 		} else {
 			element = createCalcEmbed(drawEmbed);
 		}
+		cache.remove(drawEmbed.getEmbedID());
 		return element;
 	}
 
@@ -171,12 +171,14 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		addDragHandler(Js.uncheckedCast(fr.getElement()));
 
 		element.setJsEnabled(isJsEnabled());
+		AppWFull appEmbedded = fr.getApp();
 		if (currentBase64 != null) {
-			fr.getApp().registerOpenFileListener(
-					getListener(drawEmbed, parameters));
+			appEmbedded.registerOpenFileListener(
+					getListener(drawEmbed, parameters, appEmbedded));
+			appEmbedded.getScriptManager().disableListeners();
 		} else if (content.get(drawEmbed.getEmbedID()) != null) {
 			boolean oldWidget = hasWidgetWithId(drawEmbed.getEmbedID());
-			fr.getApp().getGgbApi().setFileJSON(
+			appEmbedded.getGgbApi().setFileJSON(
 					Global.JSON.parse(content.get(drawEmbed.getEmbedID())));
 			if (oldWidget) {
 				drawEmbed.getGeoEmbed().setEmbedId(nextID());
@@ -256,10 +258,11 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	private static OpenFileListener getListener(final DrawEmbed drawEmbed,
-			final AppletParameters parameters) {
+			final AppletParameters parameters, final AppWFull fr) {
 		return () -> {
 			drawEmbed.getGeoEmbed()
 					.setAppName(parameters.getDataParamAppName());
+			fr.getScriptManager().enableListeners();
 			return true;
 		};
 	}
@@ -611,10 +614,12 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		GeoElement el = app.getKernel().lookupLabel(label);
 		if (el instanceof GeoEmbed) {
 			DrawableND de = app.getActiveEuclidianView().getDrawableFor(el);
+			int embedID = ((GeoEmbed) el).getEmbedID();
+			counter = Math.max(counter, embedID + 1);
 			if (de instanceof DrawWidget && widgets.get(de) != null) {
 				widgets.get(de).setContent(contentBase64);
 			} else {
-				base64.put(((GeoEmbed) el).getEmbedID(), contentBase64);
+				base64.put(embedID, contentBase64);
 			}
 		}
 	}

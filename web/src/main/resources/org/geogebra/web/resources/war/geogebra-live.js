@@ -86,13 +86,16 @@
                         }
 
                         let commandString = that.api.getCommandString(label, false);
+                        // send command for dependent objects
                         if (commandString) {
                             that.sendEvent("evalCommand", label + " = " + commandString, label);
                             var group = that.api.getObjectsOfItsGroup(label);
                             if (group != null) {
                                 that.sendEvent("addToGroup", label, group);
                             }
-                        } else {
+                        }
+                        // send XML for free and moveable objects (point on line)
+                        if (!commandString || that.api.isMoveable(label)) {
                             let xml = that.api.getXML(label);
                             that.sendEvent("evalXML", xml, label);
                         }
