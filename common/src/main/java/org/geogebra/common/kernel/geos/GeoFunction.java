@@ -327,7 +327,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public String getTypeString() {
-		return (isInequality != null && isInequality) ? "Inequality"
+		return ((isInequality != null && isInequality) || isForceInequality()) ? "Inequality"
 				: "Function";
 	}
 

@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.plugin.JavaScriptAPI;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.test.UndoRedoTester;
 import org.junit.Before;
@@ -771,6 +772,30 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		getApp().getLocalization().setLocale(Locale.GERMAN);
 		shouldReparseAs("3,141", "3.141");
 		// more cases in ParserTest, no duplication here
+	}
+
+	@Test
+	public void typeShouldStayInequality() {
+		add("a:x<3");
+		assertEquals("inequality", getApi().getObjectType("a"));
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("");
+		add("SetValue(a,?)");
+		assertEquals("inequality", getApi().getObjectType("a"));
+	}
+
+	@Test
+	public void typeShouldStayForInequality2Var() {
+		add("a:x+y<3");
+		assertEquals("inequality", getApi().getObjectType("a"));
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("");
+		add("SetValue(a,?)");
+		assertEquals("inequality", getApi().getObjectType("a"));
+	}
+
+	private JavaScriptAPI getApi() {
+		return getApp().getGgbApi();
 	}
 
 	private void shouldReparseAs(String s, String s1) {
