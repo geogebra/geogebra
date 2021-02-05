@@ -705,8 +705,8 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.addMultiuserSelection(user + "", color + "", label + "", update + "");
 	}
 
-	public void removeMultiuserSelections(Object user, Object force) {
-		ggbAPI.removeMultiuserSelections(user + "", force + "");
+	public void removeMultiuserSelections(Object user) {
+		ggbAPI.removeMultiuserSelections(user + "");
 	}
 
 	// APPS-646 deprecated, needs changing to getValue("correct")

@@ -181,7 +181,7 @@
                     break;
 
                 case "deselect":
-                    this.sendEvent(event[0], event[2]);
+                    this.sendEvent(event[0]);
                     break;
 
                 case "select":
@@ -312,8 +312,7 @@
                 } else if (last.type == "deselect") {
                     let user = this.users[last.clientId];
                     if (user) {
-                    	// user name, 'force' if selection should be cleared
-                        target.api.removeMultiuserSelections(user.name, last.content);
+                        target.api.removeMultiuserSelections(user.name);
                     }
                 } else if (last.type == "orderingChange") {
 					target.api.updateOrdering(last.content);

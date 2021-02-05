@@ -1101,10 +1101,9 @@ public class GgbAPIW extends GgbAPI {
 	/**
 	 * Remove a multiuser interaction
 	 * @param user tooltip content
-	 * @param force "force" if force deselection, empty otherwise
 	 */
-	public void removeMultiuserSelections(String user, String force) {
-		MultiuserManager.INSTANCE.deselect(app, user, force);
+	public void removeMultiuserSelections(String user) {
+		MultiuserManager.INSTANCE.deselect(app, user);
 	}
 
 	public void asyncEvalCommand(String command, ResolveCallbackFn<String> onSuccess,

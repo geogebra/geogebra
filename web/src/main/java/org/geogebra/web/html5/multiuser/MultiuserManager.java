@@ -42,9 +42,8 @@ public final class MultiuserManager {
 	 * Deselect objects associated with given user
 	 * @param app application
 	 * @param user user ID
-	 * @param force on new object creation or obj selection force deselection
 	 */
-	public void deselect(App app, String user, String force) {
+	public void deselect(App app, String user) {
 		User currentUser = activeInteractions.get(user);
 		if (currentUser != null) {
 			currentUser.deselectAll(app.getActiveEuclidianView());
