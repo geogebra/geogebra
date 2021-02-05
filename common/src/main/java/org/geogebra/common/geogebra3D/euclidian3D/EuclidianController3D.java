@@ -1951,7 +1951,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		switchModeForMousePressed(event);
 	}
 
-	private void processPressForRotate3D(PointerEventType pointerEventType) {
+	protected void processPressForRotate3D(PointerEventType pointerEventType) {
 		if (view3D.isRotAnimated()) {
 			view3D.stopAnimation();
 			viewRotationOccured = true;
