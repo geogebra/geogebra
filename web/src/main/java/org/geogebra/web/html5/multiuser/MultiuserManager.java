@@ -47,11 +47,7 @@ public final class MultiuserManager {
 	public void deselect(App app, String user, String force) {
 		User currentUser = activeInteractions.get(user);
 		if (currentUser != null) {
-			if (force.isEmpty()) {
-				currentUser.scheduleDeselection();
-			} else {
-				currentUser.deselectAll(app.getActiveEuclidianView());
-			}
+			currentUser.deselectAll(app.getActiveEuclidianView());
 		}
 	}
 

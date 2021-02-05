@@ -137,8 +137,8 @@
             } else {
                 this.sendEvent("evalXML", xml, label);
             }
-            this.sendEvent("select", label, "");
-            this.sendEvent("deselect", "");
+            this.sendEvent("deselect");
+            this.sendEvent("select", label, "update");
             window.setTimeout(function(){
                 that.initEmbed(label);
             },500); //TODO avoid timeout
