@@ -1785,7 +1785,7 @@ __GGB__keysVar["nl"].menu = {
     "EmbedFrameWarning": "Wanneer je een webpagina niet kunt embedden, wordt een leeg kader getoond dat je kunt wissen.",
     "EmphasizeRightAngle": "Beklemtoon rechte hoek",
     "EmptyBox": "(leeg vakje)",
-    "EmptyItem": "Leeg onderwerp",
+    "EmptyItem": "Leeg element",
     "EmptySet": "Lege verzameling",
     "EnableLabelDrags": "Verslepen van labels activeren",
     "EnableRightClick": "Rechtsklikken, zoomen en wijziging met toetsenbord toelaten",
