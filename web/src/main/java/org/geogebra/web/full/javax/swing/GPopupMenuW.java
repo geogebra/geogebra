@@ -101,9 +101,7 @@ public class GPopupMenuW implements AttachedToDOM {
 		this.app = app;
 		popupPanel = new GPopupPanel(app.getPanel(), app);
 		popupPanel.add(mb);
-		if (app.isUnbundledOrWhiteboard()) {
-			popupPanel.addStyleName("matSubMenu");
-		}
+		popupPanel.addStyleName("contextSubMenu");
 	}
 
 	/**
@@ -327,7 +325,6 @@ public class GPopupMenuW implements AttachedToDOM {
 
 		}
 		popupMenuSize++;
-		item.addStyleName("gPopupMenu_item");
 	}
 
 	/**

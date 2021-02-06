@@ -39,7 +39,6 @@ public class ComponentDropDownPopup {
 		this.itemHeight = itemHeight;
 		this.anchor = anchor;
 		menu = new GPopupMenuW(app);
-		menu.getPopupPanel().addStyleName("matMenu");
 		menu.getPopupPanel().addStyleName("dropDownPopup");
 		app.registerAutoclosePopup(menu.getPopupPanel());
 	}

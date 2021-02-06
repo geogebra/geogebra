@@ -282,20 +282,6 @@
 		color: #6161FF;
 	}
 
-	.gwt-MenuBar .gwt-MenuItem-disabled,
-	.gwt-MenuBar-horizontal .gwt-MenuItem-disabled {
-		color: #DCDCDC;
-	}
-
-	.gwt-MenuItem-disabled img {
-		opacity: 0.26 !important;
-	}
-
-	.listMenuItem {
-		box-sizing: border-box;
-		list-style: none;
-	}
-
 	.selectedItem {
 		background: #eeeeee;
 	}
@@ -331,9 +317,6 @@
 	}
 
 	.gwt-PopupPanel {
-		border-radius: 2px;
-		padding: 5px;
-		background-color: white;
 		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
 		z-index: $z-dialog;
 
@@ -709,31 +692,17 @@
 	Paddings for menuitems.
 	*/
 
-	.gwt-MenuBar-vertical .mi_with_image {
-		padding-left: 21px;
-	}
-
 	.gwt-MenuItem {
 		white-space: nowrap;
-	}
-
-	.gPopupMenu_item img, .gwt-MenuItem img {
-		vertical-align: top;
-		width: 20px;
-		height: 20px;
-	}
-
-	.submenuArrow {
-		position: absolute;
-		right: 0;
-		padding-right: 4px;
+		list-style: none;
 	}
 
 	.menuSeparator {
-		background-color: #dcdcdc;
-		height: 2px;
-		width: 100%;
+		background-color: #dedede;
+		height: 1px;
+		width: calc(100% - 56px);
 		list-style: none;
+		margin: 6px 0 6px auto;
 	}
 
 	.menuPanel .menuSeparator {
@@ -742,59 +711,6 @@
 
 	.menuImg {
 		padding-right: 4px;
-	}
-
-	.contextMenu {
-		padding-left: 21px;
-	}
-
-	.contextMenu img {
-		opacity: 0.54;
-	}
-
-	.avPlusButton {
-		left: 2px;
-	}
-
-	.mioMenu.gwt-PopupPanel {
-		padding: 8px 0 8px 0;
-		border-radius: 2px;
-		min-width: 182px;
-
-		.gwt-MenuItem {
-			height: 32px;
-			min-width: 182px;
-			cursor: pointer;
-			padding-left: 64px;
-		}
-
-		.gwt-MenuItem:hover {
-			background-color: #eeeeee;
-
-			img {
-				opacity: 0.87;
-			}
-
-			color: black;
-		}
-
-		.gwt-MenuItem-disabled,
-		.gwt-MenuItem-disabled:hover {
-			img {
-				opacity: 0.38;
-			}
-
-			color: black;
-			opacity: 0.38;
-		}
-
-		img {
-			width: 24px !important;
-			height: 24px !important;
-			position: absolute;
-			margin-left: -40px;
-			opacity: 0.54;
-		}
 	}
 
 	/*#####################################################################################
@@ -2966,11 +2882,6 @@
 
 	.upperBorder div {
 		padding-top: 0;
-	}
-
-	.matMenu.gwt-PopupPanel .gwt-MenuItem.listMenuItem {
-		line-height: 24px;
-		padding-top: 4px;
 	}
 
 	.menubarSMART .GeoGebraMenuImage.menuImg {
