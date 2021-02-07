@@ -1583,6 +1583,12 @@ public class GeoList extends GeoElement
 
 	@Override
 	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
+		return toLaTeXString(symbolic, false, tpl);
+	}
+
+	@Override
+	public String toLaTeXString(
+			final boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
 		if (isMatrix()) {
 
 			// int rows = size();
@@ -1601,7 +1607,7 @@ public class GeoList extends GeoElement
 				for (int j = 0; j < row.size(); j++) {
 					GeoElement geo = row.get(j);
 					sb.append(symbolic ? geo.getLabel(tpl)
-							: geo.toLaTeXString(false, tpl));
+							: geo.toLaTeXString(false, symbolicContext, tpl));
 					if (j < row.size() - 1) {
 						sb.append("&");
 					}
