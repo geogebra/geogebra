@@ -150,7 +150,7 @@ public class MathFieldProcessing implements KeyboardListener {
 				mf.insertFunction(text);
 				return;
 			}
-			type(text);
+			KeyboardInputAdapter.insertString(mf.getInternal(), text);
 		}
 	}
 
