@@ -404,14 +404,18 @@ public class InlineTableControllerW implements InlineTableController {
 				table.getKernel().notifyUpdateVisualStyle(table, GProperty.TEXT_SELECTION);
 			}
 		});
-		tableImpl.sizeChanged(() -> onEditorChanged(getContent()));
+		tableImpl.sizeChanged(() -> changeContent(getContent()));
 		update();
 	}
 
 	private void onEditorChanged(String content) {
+		changeContent(content);
+		view.getApplication().storeUndoInfo();
+	}
+
+	private void changeContent(String content) {
 		if (!content.equals(table.getContent())) {
 			table.setContent(content);
-			view.getApplication().storeUndoInfo();
 			table.notifyUpdate();
 		}
 	}
