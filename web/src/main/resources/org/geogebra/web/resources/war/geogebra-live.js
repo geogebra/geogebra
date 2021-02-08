@@ -55,14 +55,12 @@
                 return;
             }
             var calc = (this.api.getEmbeddedCalculators() || {})[label];
-            if (calc) {
-                if (calc.registerClientListener) {
-                    var calcLive = new LiveApp(this.clientId, label, this.users);
-                    calcLive.api = calc;
-                    calcLive.eventCallbacks = this.eventCallbacks;
-                    calcLive.registerListeners();
-                    this.embeds[label] = calcLive;
-                }
+            if (calc && calc.registerClientListener) {
+                var calcLive = new LiveApp(this.clientId, label, this.users);
+                calcLive.api = calc;
+                calcLive.eventCallbacks = this.eventCallbacks;
+                calcLive.registerListeners();
+                this.embeds[label] = calcLive;
             }
         }
 
@@ -152,6 +150,7 @@
         var removeListener = (function(label) {
             console.log(label + " is removed");
             this.sendEvent("deleteObject", label);
+            delete(this.embeds[label]);
         }).bind(this);
 
         var renameListener = (function(oldName, newName) {
