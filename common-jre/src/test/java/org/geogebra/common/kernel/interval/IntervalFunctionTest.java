@@ -218,12 +218,4 @@ public class IntervalFunctionTest extends BaseUnitTest {
 		Interval actual = function.evaluate(interval(1.57, 1.58));
 		assertEquals(undefined(), actual);
 	}
-
-	@Test
-	public void evaluateTwoPowerX() throws Exception {
-		GeoFunction geo = add("x^2");
-		IntervalFunction function = new IntervalFunction(geo);
-		Interval actual = function.evaluate(interval(0, 2));
-		assertEquals(undefined(), actual);
-	}
 }
