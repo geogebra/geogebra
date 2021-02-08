@@ -264,9 +264,8 @@ public class TeXSerializer extends SerializerAdapter {
 			serialize(function.getArgument(0), functionName);
 
 			stringBuilder.append("{");
-			if (syntaxAdapter == null
-					|| syntaxAdapter.isFunction(functionName.toString().replace(cursor, ""))) {
-				stringBuilder.append("\\mathrm{").append(functionName).append("}");
+			if (syntaxAdapter == null || isFunction(functionName.toString())) {
+				stringBuilder.append("{\\mathrm{").append(functionName).append("}}");
 			} else {
 				stringBuilder.append(functionName);
 			}
@@ -288,6 +287,15 @@ public class TeXSerializer extends SerializerAdapter {
 		if (function == currentSelEnd) {
 			stringBuilder.append(selection_end);
 		}
+	}
+
+	private boolean isFunction(String name) {
+		String trimmed = name.replace(cursor, "");
+		if (trimmed.indexOf('^') > 0) {
+			trimmed = trimmed.substring(0, trimmed.indexOf('^'));
+		}
+
+		return syntaxAdapter.isFunction(trimmed);
 	}
 
 	private void serializeArguments(StringBuilder stringBuilder,
