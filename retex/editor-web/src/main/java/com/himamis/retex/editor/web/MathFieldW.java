@@ -76,6 +76,7 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.ColorW;
 
+import elemental2.dom.ClipboardEvent;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.KeyboardEvent;
 import jsinterop.base.Js;
@@ -745,7 +746,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			focusTextArea();
 			if (!pasteInstalled) {
 				pasteInstalled = true;
-				installPaste(this.getHiddenTextArea());
+				installPaste(Js.uncheckedCast(getHiddenTextArea()));
 			}
 		} else {
 			if (focuser != null) {
@@ -775,25 +776,17 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		startBlink();
 	}
 
-	private native void installPaste(Element target) /*-{
-		var that = this;
-		target
-				.addEventListener(
-						'paste',
-						function(a) {
-							var exp;
-							if (a.clipboardData) {
-								exp = a.clipboardData.getData("text/plain");
-							} else if ($wnd.clipboardData) {
-								exp = $wnd.clipboardData.getData("Text");
-							}
-
-							exp = that.@com.himamis.retex.editor.web.MathFieldW::convert(Ljava/lang/String;)(exp);
-
-							that.@com.himamis.retex.editor.web.MathFieldW::insertString(Ljava/lang/String;)(exp);
-						});
-
-	}-*/;
+	private void installPaste(elemental2.dom.Element target) {
+		target.onpaste = (e) -> {
+			ClipboardEvent event = (ClipboardEvent) e;
+			if (event.clipboardData != null) {
+				String exp = event.clipboardData.getData("text/plain");
+				exp = convert(exp);
+				insertString(exp);
+			}
+			return null;
+		};
+	}
 
 	private void startEditing() {
 		if (mathFieldInternal.getEditorState().getCurrentField() == null) {
