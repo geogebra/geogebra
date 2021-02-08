@@ -64,6 +64,11 @@ public class CommandsTest {
 				StringTemplate.xmlTemplate);
 	}
 
+	private static void t(String s, StringTemplate tpl, String... expected) {
+		testSyntax(s, AlgebraTestHelper.getMatchers(expected), app, ap,
+				tpl);
+	}
+
 	private static void t(String s, Matcher<String> expected) {
 		testSyntax(s, Arrays.asList(expected), app, ap,
 				StringTemplate.xmlTemplate);
@@ -1935,5 +1940,70 @@ public class CommandsTest {
 		t("SurdText((-7 * 3^(1 / 2)) / 2)", "-\\frac{7 \\; \\sqrt{3}}{2}");
 		t("SurdText(-sqrt(2))", "-\\sqrt{2}");
 		t("SurdText(-sqrt(4^2 + 4^2))", "-4 \\; \\sqrt{2}");
+	}
+
+	@Test
+	public void cmdInverseBinomial() {
+		t("InverseBinomial[ 5, 0.5, 0.5 ]", "2");
+	}
+
+	@Test
+	public void cmdInverseCauchy() {
+		t("InverseCauchy[ 3, 5, 0.5 ]", "3");
+	}
+
+	@Test
+	public void cmdInverseExponential() {
+		t("InverseExponential[ 2, 0.5 ]", StringTemplate.editTemplate, "0.34657");
+	}
+
+	@Test
+	public void cmdInverseFDistribution() {
+		t("InverseFDistribution[ 3, 5, 0.5 ]", StringTemplate.editTemplate, "0.90715");
+	}
+
+	@Test
+	public void cmdInverseGamma() {
+		t("InverseGamma[ 3, 5, 0.5 ]", StringTemplate.editTemplate, "13.3703");
+	}
+
+	@Test
+	public void cmdInverseHyperGeometric() {
+		t("InverseHyperGeometric(60, 10, 20, 0.5)", "3");
+	}
+
+	@Test
+	public void cmdInverseChiSquared() {
+		t("InverseChiSquared[ 5, 0.5 ]", StringTemplate.editTemplate, "4.35146");
+	}
+
+	@Test
+	public void cmdInverseNormal() {
+		t("InverseNormal[ 0, 5, 0.5 ]", "0");
+	}
+
+	@Test
+	public void cmdInversePascal() {
+		t("InversePascal(10, 0.3, 0.5)", "22");
+	}
+
+	@Test
+	public void cmdInversePoisson() {
+		t("InversePoisson(5, 0.5)", "5");
+	}
+
+	@Test
+	public void cmdInverseTDistribution() {
+		t("InverseTDistribution(5, 0.5)", "0");
+	}
+
+	@Test
+	public void cmdInverseWeibull() {
+		t("InverseWeibull(1, 2, 0.5)", StringTemplate.editTemplate, "1.38629");
+	}
+
+	@Test
+	public void cmdInverseZipf() {
+		t("InverseZipf(19, 1, 0.85)", "11");
 	}
 }
