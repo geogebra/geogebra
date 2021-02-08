@@ -357,38 +357,13 @@ public final class DrawPoint extends SetDrawable {
 		hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
 	}
 
-	private void drawClippedSection(GeoElement geo2, GGraphics2D g2) {
-		Drawable drawable;
-		switch (geo2.getGeoClassType()) {
-		case LINE:
-			drawable = new DrawLine(view, (GeoLine) geo2);
-			break;
-		case SEGMENT:
-			drawable = new DrawSegment(view, (GeoSegment) geo2);
-			break;
-		case RAY:
-			drawable = new DrawRay(view, (GeoLineND) geo2);
-			break;
-		case CONIC:
-			drawable = new DrawConic(view, (GeoConic) geo2, false);
-			break;
-		case FUNCTION:
-			drawable = new DrawParametricCurve(view, (GeoFunction) geo2);
-			break;
-		case AXIS:
-			drawable = null;
-			break;
-		case CONICPART:
-			drawable = new DrawConicPart(view, (GeoConicPart) geo2);
-			break;
+	private void drawClippedSection(GeoElement geo2, GeoElement geo3, GGraphics2D g2) {
+		Drawable drawable2;
+		Drawable drawable3;
+		drawable2 = getClippedDrawable(geo2);
+		drawable3 = getClippedDrawable(geo3);
 
-		default:
-			drawable = null;
-			Log.debug("Unsupported type for restricted drawing "
-					+ geo2.getGeoClassType());
-		}
-
-		if (drawable != null) {
+		if (drawable2 != null) {
 			P.getInhomCoords(coords1);
 
 			view.toScreenCoords(coords1);
@@ -397,12 +372,61 @@ public final class DrawPoint extends SetDrawable {
 					.newEllipse2DDouble(coords1[0] - 30, coords1[1] - 30, 60,
 							60);
 			g2.setClip(circleClip);
-			geo2.forceEuclidianVisible(true);
-			drawable.update();
-			drawable.draw(g2);
-			geo2.forceEuclidianVisible(false);
+
+			forceDraw(g2, geo2, drawable2);
+			if (drawable3 != null) {
+				forceDraw(g2, geo3, drawable3);
+			}
+
 			g2.resetClip();
 		}
+	}
+
+	private void forceDraw(GGraphics2D g2, GeoElement geo2, Drawable drawable2) {
+		geo2.forceEuclidianVisible(true);
+		drawable2.update();
+		drawable2.draw(g2);
+		geo2.forceEuclidianVisible(false);
+	}
+
+	private Drawable getClippedDrawable(GeoElement geo2) {
+
+		if (geo2 == null) {
+			return null;
+		}
+
+		Drawable ret;
+		switch (geo2.getGeoClassType()) {
+		case LINE:
+			ret = new DrawLine(view, (GeoLine) geo2);
+			break;
+		case SEGMENT:
+			ret = new DrawSegment(view, (GeoSegment) geo2);
+			break;
+		case RAY:
+			ret = new DrawRay(view, (GeoLineND) geo2);
+			break;
+		case CONIC:
+			ret = new DrawConic(view, (GeoConic) geo2, false);
+			break;
+		case FUNCTION:
+			ret = new DrawParametricCurve(view, (GeoFunction) geo2);
+			break;
+		case AXIS:
+			ret = null;
+			break;
+		case CONICPART:
+			ret = new DrawConicPart(view, (GeoConicPart) geo2);
+			break;
+
+		default:
+			ret = null;
+			Log.debug("Unsupported type for restricted drawing "
+					+ geo2.getGeoClassType());
+		}
+
+		return ret;
+
 	}
 
 	@Override
@@ -421,9 +445,8 @@ public final class DrawPoint extends SetDrawable {
 
 				if (algo instanceof AlgoIntersectAbstract) {
 					GeoElement[] geos = algo.getInput();
-					drawClippedSection(geos[0], g2);
 					if (geos.length > 1) {
-						drawClippedSection(geos[1], g2);
+						drawClippedSection(geos[0], geos[1], g2);
 					}
 				}
 			}
