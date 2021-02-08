@@ -30,8 +30,6 @@ public enum GeoClass {
 
 	/** FUNCTION */
 	FUNCTION("Function", 90, false),
-	/** INTERVAL */
-	INTERVAL("Interval", "function", 90, false),
 
 	/** IMAGE */
 	IMAGE("Image", 20, false),

@@ -256,13 +256,6 @@ public enum TestGeo {
 			return ob instanceof GeoCurveCartesianND;
 		}
 	},
-	/** Test for GEOINTERVAL */
-	GEOINTERVAL {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof GeoInterval;
-		}
-	},
 
 	/** Test for GEOFUNCTION */
 	GEOFUNCTION {

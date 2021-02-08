@@ -147,7 +147,7 @@ public class GeoFunctionNVar extends GeoElement
 		this(c, false);
 		setFunction(f);
 		fun.initFunction(simplifyInt);
-		isInequality = fun.initIneqs(this.getFunctionExpression(), this);
+		isInequality = fun.initIneqs(this.getFunctionExpression());
 
 		setConstructionDefaults();
 	}
@@ -180,7 +180,7 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public String getTypeString() {
-		return (isInequality != null && isInequality) ? GeoClass.INEQUALITY
+		return ((isInequality != null && isInequality) || isForceInequality()) ? GeoClass.INEQUALITY
 				: GeoClass.MULTIVARIABLE_FUNCTION;
 	}
 
@@ -240,7 +240,7 @@ public class GeoFunctionNVar extends GeoElement
 		if (geo instanceof GeoFunctionNVar) {
 			setForceInequality(((GeoFunctionNVar) geo).isForceInequality());
 		}
-		isInequality = fun.initIneqs(this.getFunctionExpression(), this);
+		isInequality = fun.initIneqs(this.getFunctionExpression());
 	}
 
 	/**
@@ -742,7 +742,7 @@ public class GeoFunctionNVar extends GeoElement
 	 * Reset all inequalities (slow, involves parser)
 	 */
 	public void resetIneqs() {
-		isInequality = fun.initIneqs(getFunctionExpression(), this);
+		isInequality = fun.initIneqs(getFunctionExpression());
 	}
 
 	/**
@@ -751,7 +751,7 @@ public class GeoFunctionNVar extends GeoElement
 	@Override
 	public IneqTree getIneqs() {
 		if (fun.getIneqs() == null) {
-			isInequality = fun.initIneqs(fun.getExpression(), this);
+			isInequality = fun.initIneqs(fun.getExpression());
 		}
 		return fun.getIneqs();
 	}
@@ -760,7 +760,7 @@ public class GeoFunctionNVar extends GeoElement
 	public void update(boolean drag) {
 		if (fun != null && fun.isBooleanFunction()) {
 			if (fun.getIneqs() == null) {
-				fun.initIneqs(fun.getFunctionExpression(), fun);
+				fun.initIneqs(fun.getFunctionExpression());
 			}
 			isInequality = fun.updateIneqs();
 		}
