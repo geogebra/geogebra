@@ -17,8 +17,6 @@ public class SupportedOperatorChecker implements Inspecting {
 		case MINUS:
 		case MULTIPLY:
 		case DIVIDE:
-		case POWER:
-			return checkPower(v);
 		case NROOT:
 		case DIFF:
 		case SIN:
@@ -40,8 +38,9 @@ public class SupportedOperatorChecker implements Inspecting {
 		case ACOSH:
 		case LOG10:
 		case LOG2:
-//		case IF_ELSE:
 			return true;
+		case POWER:
+			return checkPower(v);
 		default:
 			return false;
 		}
