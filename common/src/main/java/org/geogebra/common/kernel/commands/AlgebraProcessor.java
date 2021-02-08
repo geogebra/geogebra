@@ -2899,7 +2899,7 @@ public class AlgebraProcessor {
 				.trim();
 
 		if ("y".equals(lhsStr)
-				&& canEvaluateToFunction(equ, info)
+				&& canEvaluateToFunction(equ)
 				&& !equ.getRHS().containsFreeFunctionVariable("y")
 				&& !equ.getRHS().containsFreeFunctionVariable("z")) {
 
@@ -2929,10 +2929,10 @@ public class AlgebraProcessor {
 		return processImplicitPoly(equ, def, info);
 	}
 
-	private boolean canEvaluateToFunction(Equation equ, EvalInfo info) {
-		return (!equ.isForcedImplicitPoly()
+	private boolean canEvaluateToFunction(Equation equ) {
+		return !equ.isForcedImplicitPoly()
 				&& !equ.isForcedConic()
-				&& !equ.isForcedLine()) || !info.isPreventingTypeChange();
+				&& !equ.isForcedLine();
 	}
 
 	private void checkNoTheta(Equation equ) {
