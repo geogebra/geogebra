@@ -18,6 +18,7 @@ public class SupportedOperatorChecker implements Inspecting {
 		case MULTIPLY:
 		case DIVIDE:
 		case POWER:
+			return checkPower(v);
 		case NROOT:
 		case DIFF:
 		case SIN:
@@ -44,5 +45,9 @@ public class SupportedOperatorChecker implements Inspecting {
 		default:
 			return false;
 		}
+	}
+
+	private boolean checkPower(ExpressionValue v) {
+		return !v.wrap().getRightTree().containsFunctionVariable();
 	}
 }
