@@ -1488,7 +1488,7 @@ public abstract class AlgoElement extends ConstructionElement
 			} else if (getOutput(0).isGeoQuadric()) {
 				sb.append(" type=\"quadric\"");
 			} else if (getOutput(0).isGeoImplicitCurve()) {
-				sb.append(" type=\"implicitPoly\"");
+				sb.append(" type=\"implicitpoly\"");
 			} else if (getOutput(0).isGeoSurfaceCartesian()) {
 				sb.append(" type=\"surfacecartesian\"");
 			}

@@ -2863,7 +2863,7 @@ public class AlgebraProcessor {
 
 		}
 
-		if (equ.isFunctionDependent()) {
+		if (equ.isFunctionDependent() || equ.isForceFunction()) {
 			return functionOrImplicitPoly(equ, def, info);
 		}
 		int deg = equ.mayBePolynomial() && !equ.hasVariableDegree()
