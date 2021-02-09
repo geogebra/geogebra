@@ -409,15 +409,19 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	private void onEditorChanged(String content) {
-		changeContent(content);
-		view.getApplication().storeUndoInfo();
+		if (changeContent(content)) {
+			view.getApplication().storeUndoInfo();
+		}
 	}
 
-	private void changeContent(String content) {
-		if (!content.equals(table.getContent())) {
-			table.setContent(content);
-			table.notifyUpdate();
+	private boolean changeContent(String content) {
+		if (content.equals(table.getContent())) {
+			return false;
 		}
+
+		table.setContent(content);
+		table.notifyUpdate();
+		return true;
 	}
 
 	private Runnable getCallback() {
