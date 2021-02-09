@@ -13,7 +13,8 @@ import org.geogebra.common.util.debug.Log;
  * @author laszlo
  */
  public class IntervalFunction {
-	private static final SupportedOperatorChecker operatorChecker = new SupportedOperatorChecker();
+	private static final UnsupportedOperatorChecker
+			operatorChecker = new UnsupportedOperatorChecker();
 	private final GeoFunction function;
 
 	/**
@@ -152,7 +153,7 @@ import org.geogebra.common.util.debug.Log;
 		if (expression == null) {
 			return false;
 		}
-		return expression.inspect(operatorChecker);
+		return !expression.inspect(operatorChecker);
 	}
 
 	private static boolean hasMoreVariables(GeoFunction function) {
