@@ -270,7 +270,9 @@
                     target.evalCommand(last.content);
                     target.api.previewRefresh();
                 } else if (last.type == "deleteObject") {
+                	target.unregisterListeners();
                     target.api.deleteObject(last.content);
+                    target.registerListeners();
                 } else if (last.type == "setEditorState") {
                     target.unregisterListeners();
                     target.api.setEditorState(last.content, last.label);
