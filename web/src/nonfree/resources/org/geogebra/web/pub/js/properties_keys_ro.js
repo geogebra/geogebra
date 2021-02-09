@@ -1757,6 +1757,7 @@ __GGB__keysVar["ro"].menu = {
     "DropDownItemSelected": "Itemul %0 este selectat, lista vertical\u0103 este \xeenchis\u0103",
     "DropDownOpened": "Lista vertical\u0103 %0 este deschis\u0103",
     "DropDownSelected": "Drop down menu %0 selected",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "Duplicare",
     "Duration": "Durat\u0103",
     "DynamicColors": "Culori dinamice",

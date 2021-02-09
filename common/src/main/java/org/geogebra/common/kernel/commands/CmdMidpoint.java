@@ -4,7 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoIntervalMidpoint;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoInterval;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -84,10 +84,9 @@ public class CmdMidpoint extends CommandProcessor {
 			return conic(c.getLabel(), (GeoConicND) arg);
 		} else if (arg.isGeoSegment()) {
 			return segment(c.getLabel(), (GeoSegmentND) arg);
-		} else if (arg.isGeoInterval()) {
-			AlgoIntervalMidpoint algo = new AlgoIntervalMidpoint(cons,
-					c.getLabel(), (GeoInterval) arg);
-
+		} else if (arg.isGeoFunctionBoolean()) {
+			AlgoIntervalMidpoint algo = new AlgoIntervalMidpoint(cons, (GeoFunction) arg);
+			algo.getResult().setLabel(c.getLabel());
 			GeoElement[] ret = { algo.getResult() };
 			return ret;
 		} else {

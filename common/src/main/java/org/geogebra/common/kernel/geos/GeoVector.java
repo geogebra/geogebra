@@ -769,7 +769,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	private static String buildTabular(String[] inputs, StringBuilder sb) {
-		Log.error(inputs[0]);
 		boolean alignOnDecimalPoint = true;
 		for (String s : inputs) {
 			if (s.indexOf('.') == -1) {

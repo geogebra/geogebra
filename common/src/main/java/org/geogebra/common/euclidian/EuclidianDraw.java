@@ -159,7 +159,6 @@ public class EuclidianDraw {
 			break;
 
 		case FUNCTION_NVAR:
-		case INTERVAL:
 			// create inequality drawable for *all* functions as a placeholder
 			// x+y may later become x>y via SetValue / input box
 			d = new DrawInequality(ev, (FunctionalNVar) geo);

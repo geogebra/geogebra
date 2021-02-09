@@ -1757,6 +1757,7 @@ __GGB__keysVar["eu"].menu = {
     "DropDownItemSelected": "%0 Itema aukeratu da. Goitiberako menu itxi egin da.",
     "DropDownOpened": "Goitiberako %0 ireki da.",
     "DropDownSelected": "Goitibeherako %0 menua aukeratuta.",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "Bikoiztu",
     "Duration": "Iraupena",
     "DynamicColors": "Kolore Dinamikoak",

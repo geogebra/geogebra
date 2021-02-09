@@ -338,15 +338,6 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     					}
     				}
     			
-    				.MyCanvasButton {
-    					border-radius: 2px;
-    					transition: border 0.3s ease-out;
-    					
-    					&:hover {
-    						border: 1px solid $teal-default;	
-    					}
-    				}
-    			
     				.checkBoxPanel {
 						margin-bottom: 8px;	
 					}

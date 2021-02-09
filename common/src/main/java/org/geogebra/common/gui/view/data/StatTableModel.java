@@ -7,8 +7,7 @@ import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoListLength;
-import org.geogebra.common.kernel.algos.AlgoListMax;
-import org.geogebra.common.kernel.algos.AlgoListMin;
+import org.geogebra.common.kernel.algos.AlgoListMinMax;
 import org.geogebra.common.kernel.algos.AlgoMedian;
 import org.geogebra.common.kernel.algos.AlgoQ1;
 import org.geogebra.common.kernel.algos.AlgoQ3;
@@ -334,7 +333,7 @@ public class StatTableModel {
 		case SIGMAXX:
 			return new AlgoSigmaXX(getConstruction(), dataList);
 		case MIN:
-			return new AlgoListMin(getConstruction(), dataList);
+			return new AlgoListMinMax(getConstruction(), dataList, true);
 		case Q1:
 			return new AlgoQ1(getConstruction(), dataList);
 		case MEDIAN:
@@ -342,7 +341,7 @@ public class StatTableModel {
 		case Q3:
 			return new AlgoQ3(getConstruction(), dataList);
 		case MAX:
-			return new AlgoListMax(getConstruction(), dataList);
+			return new AlgoListMinMax(getConstruction(), dataList, false);
 		case MEANX:
 			return new AlgoListMeanX(getConstruction(), dataList);
 		case MEANY:
@@ -409,7 +408,7 @@ public class StatTableModel {
 		case SIGMAXX:
 			return new AlgoSigmaXX(getConstruction(), dataList, freqList);
 		case MIN:
-			return new AlgoListMin(getConstruction(), dataList, freqList);
+			return new AlgoListMinMax(getConstruction(), dataList, freqList, true);
 		case Q1:
 			return new AlgoQ1(getConstruction(), dataList, freqList);
 		case MEDIAN:
@@ -417,7 +416,7 @@ public class StatTableModel {
 		case Q3:
 			return new AlgoQ3(getConstruction(), dataList, freqList);
 		case MAX:
-			return new AlgoListMax(getConstruction(), dataList, freqList);
+			return new AlgoListMinMax(getConstruction(), dataList, freqList, false);
 		default:
 			return null;
 		}

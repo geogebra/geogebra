@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRules;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.geos.GeoInterval;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -186,15 +185,10 @@ public class InputBoxProcessor {
 		}
 
 		if (linkedGeo instanceof FunctionalNVar	|| isComplexFunction()) {
-			if (linkedGeo instanceof GeoInterval) {
-				defineText = linkedGeo.getLabel(tpl) + ":"
-						+ defineText;
-			} else {
-				// string like f(x,y)=x^2
-				// or f(\theta) = \theta
-				defineText = linkedGeo.getLabel(tpl) + "("
-						+ ((VarString) linkedGeo).getVarString(tpl) + ")=" + defineText;
-			}
+			// string like f(x,y)=x^2
+			// or f(\theta) = \theta
+			defineText = linkedGeo.getLabel(tpl) + "("
+					+ ((VarString) linkedGeo).getVarString(tpl) + ")=" + defineText;
 		}
 
 		if (GeoPoint.isComplexNumber(linkedGeo)) {
@@ -223,10 +217,6 @@ public class InputBoxProcessor {
 				GeoClass.POINT3D, GeoClass.POINT);
 		RedefinitionRule vector = RedefinitionRules.oneWayRule(
 				GeoClass.VECTOR3D, GeoClass.VECTOR);
-		RedefinitionRule inequality = RedefinitionRules.oneWayRule(
-				GeoClass.INTERVAL, GeoClass.FUNCTION);
-		RedefinitionRule inequality2 = RedefinitionRules.oneWayRule(
-				GeoClass.FUNCTION, GeoClass.INTERVAL);
-		return RedefinitionRules.anyRule(same, point, vector, inequality, inequality2);
+		return RedefinitionRules.anyRule(same, point, vector);
 	}
 }

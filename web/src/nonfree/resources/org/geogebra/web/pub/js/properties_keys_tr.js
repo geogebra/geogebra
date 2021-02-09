@@ -1757,6 +1757,7 @@ __GGB__keysVar["tr"].menu = {
     "DropDownItemSelected": "\xd6\u011fe %0 se\xe7ildi A\u015fa\u011f\u0131 a\xe7\u0131l\u0131r men\xfc kapat\u0131ld\u0131",
     "DropDownOpened": "A\u015fa\u011f\u0131 a\xe7\u0131l\u0131r %0 men\xfcs\xfc a\xe7\u0131ld\u0131",
     "DropDownSelected": "A\u015fa\u011f\u0131 a\xe7\u0131l\u0131r men\xfc %0 se\xe7ildi",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "\xc7o\u011falt",
     "Duration": "Ge\xe7en S\xfcre",
     "DynamicColors": "De\u011fi\u015fken Renkler",

@@ -1757,6 +1757,7 @@ __GGB__keysVar["hu"].menu = {
     "DropDownItemSelected": "Item %0 selected Drop down closed",
     "DropDownOpened": "Drop down %0 opened",
     "DropDownSelected": "Drop down menu %0 selected",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "Duplicate",
     "Duration": "Duration",
     "DynamicColors": "Dinamikus sz\xednek",

@@ -1757,6 +1757,7 @@ __GGB__keysVar["sv"].menu = {
     "DropDownItemSelected": "Aternativet %0 valdes. Rullgardinsmenyn st\xe4ngdes.",
     "DropDownOpened": "Rullgardinsmeny %0 \xf6ppnades.",
     "DropDownSelected": "Rullgardinsmeny %0 \xe4r vald.",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "Kopiera",
     "Duration": "Aktiv tid",
     "DynamicColors": "Dynamiska f\xe4rger",

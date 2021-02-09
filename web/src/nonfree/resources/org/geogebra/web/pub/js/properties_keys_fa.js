@@ -1757,6 +1757,7 @@ __GGB__keysVar["fa"].menu = {
     "DropDownItemSelected": "Item %0 selected Drop down closed",
     "DropDownOpened": "Drop down %0 opened",
     "DropDownSelected": "Drop down menu %0 selected",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "\u062a\u06a9\u0631\u0627\u0631\u06cc",
     "Duration": "\u0645\u062f\u062a \u0632\u0645\u0627\u0646",
     "DynamicColors": "\u0631\u0646\u06af\u200c\u0647\u0627\u06cc \u067e\u0648\u06cc\u0627",

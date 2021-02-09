@@ -1757,6 +1757,7 @@ __GGB__keysVar["bs"].menu = {
     "DropDownItemSelected": "Objekt %0 ozna\u010den. Padaju\u0107i meni je zatvoren.",
     "DropDownOpened": "Padaju\u0107i meni  %0 je otvoren",
     "DropDownSelected": "Padaju\u0107i meni %0 ozna\u010den.",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "Duplikat",
     "Duration": "Trajanje",
     "DynamicColors": "Dinami\u010dke boje",

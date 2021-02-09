@@ -14,22 +14,22 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoInterval;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public abstract class AlgoIntervalAbstract extends AlgoElement {
 
-	protected GeoInterval interval; // input
+	protected GeoFunction interval; // input
 	protected GeoNumeric result; // output
 
 	AlgoIntervalAbstract(Construction cons, String label,
-			GeoInterval interval) {
+			GeoFunction interval) {
 		this(cons, interval);
 
 		result.setLabel(label);
 	}
 
-	AlgoIntervalAbstract(Construction cons, GeoInterval interval) {
+	AlgoIntervalAbstract(Construction cons, GeoFunction interval) {
 		super(cons);
 		this.interval = interval;
 

@@ -33,7 +33,7 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 			Integer columns, boolean hasSlider) {
 		super(app, LineStylePopup.getLineStyleIcons(), -1, columns,
 				SelectionTable.MODE_ICON, true, hasSlider,
-				LineStylePopup.createLineStyleMap(), false);
+				LineStylePopup.createLineStyleMap());
 		model = new LineStyleModel(app);
 		model.setListener(this);
 		this.setKeepVisible(false);

@@ -43,7 +43,7 @@ public class MOWPointStyleButton extends PointStylePopup {
 	 */
 	public MOWPointStyleButton(AppW app, ImageOrText[] data) {
 		super(app, data, 2, SelectionTable.MODE_ICON, true, true,
-				new PointStyleModel(app), false);
+				new PointStyleModel(app));
 
 		// Rearranging content.
 		VerticalPanel panel = ((ButtonPopupMenu) getMyPopup()).getPanel();

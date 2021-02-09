@@ -1757,6 +1757,7 @@ __GGB__keysVar["da"].menu = {
     "DropDownItemSelected": "Menupunktet %0 valgt. Drop down menu lukket",
     "DropDownOpened": "Drop down %0 \xe5bnet",
     "DropDownSelected": "Drop down menu %0 valgt",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "Dupliker",
     "Duration": "Varighed",
     "DynamicColors": "Dynamiske farver",

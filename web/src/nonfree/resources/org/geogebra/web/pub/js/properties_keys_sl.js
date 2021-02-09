@@ -1757,6 +1757,7 @@ __GGB__keysVar["sl"].menu = {
     "DropDownItemSelected": "Izbrana enota %0 spustni menu zaprt",
     "DropDownOpened": "Spustni menu %0 odprt",
     "DropDownSelected": "Izbran spustni meni %0 .",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "Podvoji",
     "Duration": "\u010cas trajanja",
     "DynamicColors": "Pogojno spreminjanje barv",

@@ -390,8 +390,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private void initGridStylePanel() {
 
 			// line style
-			btnGridStyle = LineStylePopup.create(app, -1, false,
-					app.isUnbundledOrWhiteboard());
+			btnGridStyle = LineStylePopup.create(app, false);
 			
 			lblGridStyle = new Label();
 			addOnlyFor2D(lblGridStyle);

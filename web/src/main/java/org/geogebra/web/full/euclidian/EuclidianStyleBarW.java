@@ -762,7 +762,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		 */
 		public ProjectionPopup(AppW app, ImageOrText[] projectionIcons) {
 			super(app, projectionIcons, 1, projectionIcons.length,
-					SelectionTable.MODE_ICON, true, false, null, false);
+					SelectionTable.MODE_ICON, true, false, null);
 		}
 
 		@Override
@@ -833,7 +833,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				loc.getMenu("Labeling.automatic"), loc.getMenu("SnapToGrid"),
 				loc.getMenu("FixedToGrid"), loc.getMenu("Off") });
 		btnPointCapture = new PopupMenuButtonW(app, strPointCapturing, -1, 1,
-				SelectionTable.MODE_TEXT, false) {
+				SelectionTable.MODE_TEXT) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
@@ -873,7 +873,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		});
 
 		btnLabelStyle = new PopupMenuButtonW(app, captionArray, -1, 1,
-				SelectionTable.MODE_TEXT, false) {
+				SelectionTable.MODE_TEXT) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
@@ -912,7 +912,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				.convert(angleIntervalString);
 
 		btnAngleInterval = new PopupMenuButtonW(app, angleIntervalArray, -1, 1,
-				SelectionTable.MODE_TEXT, false) {
+				SelectionTable.MODE_TEXT) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
@@ -1451,7 +1451,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		};
 
 		btnHorizontalAlignment = new PopupMenuButtonW(app, verticalAlignments, 1, 3,
-				SelectionTable.MODE_ICON, false) {
+				SelectionTable.MODE_ICON) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
@@ -1489,7 +1489,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		};
 
 		btnVerticalAlignment = new PopupMenuButtonW(app, verticalAlignments, 1, 3,
-				SelectionTable.MODE_ICON, false) {
+				SelectionTable.MODE_ICON) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
@@ -1525,7 +1525,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				.convert(app.getLocalization().getFontSizeStrings());
 
 		btnTextSize = new PopupMenuButtonW(app, textSizeArray, -1, 1,
-				SelectionTable.MODE_TEXT, false) {
+				SelectionTable.MODE_TEXT) {
 
 			@Override
 			public void update(List<GeoElement> geos) {

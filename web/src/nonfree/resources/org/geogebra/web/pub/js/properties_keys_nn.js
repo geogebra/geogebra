@@ -1757,6 +1757,7 @@ __GGB__keysVar["nn"].menu = {
     "DropDownItemSelected": "Du har valt element %0.  Nedtrekksmenyen er lukka.",
     "DropDownOpened": "Nedtrekksval %0 blei opna.",
     "DropDownSelected": "Nedtrekksmeny %0 er valt",
+    "DropdownClosed": "Dropdown closed",
     "Duplicate": "Lag kopi",
     "Duration": "Pr\xf8va varte i",
     "DynamicColors": "Dynamiske fargar",
