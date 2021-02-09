@@ -259,15 +259,23 @@ public class ArithmeticTest extends Assert {
 
 	@Test
 	public void crossProductMissingBracketsTest() {
-		t("A = (1,2)", "(1, 2)");
-		t("B = (2,3)", "(2, 3)");
-		t("C = (6,3)", "(6, 3)");
-		t("D = (0,4)", "(0, 4)");
-		t("E=Cross(A-B, C-D)", "7");
-		assertEquals(
-				lookup("E")
-						.getDefinition(StringTemplate.defaultTemplate),
-				"(A - B) " + Unicode.VECTOR_PRODUCT + " (C - D)");
+		t("A = (1, 2)", "(1, 2)");
+		t("B = (2, 3)", "(2, 3)");
+		t("C = (6, 3)", "(6, 3)");
+		t("D = (0, 4)", "(0, 4)");
+		t("E = Cross(A - B, C - D)", "7");
+		assertEquals("(A - B) " + Unicode.VECTOR_PRODUCT + " (C - D)",
+				lookup("E").getDefinition(StringTemplate.defaultTemplate));
+
+		t("F = Cross(A, B)^2", "1");
+		assertEquals("(A " + Unicode.VECTOR_PRODUCT + " B)" + Unicode.SUPERSCRIPT_2,
+				lookup("F").getDefinition(StringTemplate.defaultTemplate));
+
+		t("G = (1, 2, 3)", "(1, 2, 3)");
+		t("H = (2, 3, 4)", "(2, 3, 4)");
+		t("I = Cross(G, H)^2", "6");
+		assertEquals("(G " + Unicode.VECTOR_PRODUCT + " H)" + Unicode.SUPERSCRIPT_2,
+				lookup("I").getDefinition(StringTemplate.defaultTemplate));
 	}
 
 	@Test
