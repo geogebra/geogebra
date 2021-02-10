@@ -61,4 +61,6 @@ public interface ParserInterface {
 	 *             if parsing fails
 	 */
 	String parseLabel(String label) throws ParseException;
+
+	ValidExpression parseGeoGebraExpressionLowPrecision(String str) throws ParseException;
 }

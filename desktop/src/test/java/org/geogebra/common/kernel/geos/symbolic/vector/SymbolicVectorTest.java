@@ -43,7 +43,7 @@ public class SymbolicVectorTest extends BaseSymbolicTest {
 		t("abs(Vector((1,2)))", "sqrt(5)");
 		t("UnitVector((1,2))", "(1 / 5 * sqrt(5), 2 / 5 * sqrt(5))");
 		t("UnitVector((p,q))", "(p / sqrt(p^(2) + q^(2)), q / sqrt(p^(2) + q^(2)))");
-		t("UnitPerpendicularVector((1,2))", "((-2) / sqrt(5), 1 / sqrt(5))");
+		t("UnitPerpendicularVector((1,2))", "(-2 / sqrt(5), 1 / sqrt(5))");
 		t("UnitPerpendicularVector((p,q))", "((-q) / sqrt(p^(2) + q^(2)), p / sqrt(p^(2) + q^(2)))");
 		t("PerpendicularVector((1,2))", "(-2, 1)");
 		t("PerpendicularVector((p,q))", "(-q, p)");
