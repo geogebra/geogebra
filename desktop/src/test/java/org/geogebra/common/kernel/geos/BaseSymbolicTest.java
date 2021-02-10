@@ -31,7 +31,6 @@ public class BaseSymbolicTest {
         ap = kernel.getAlgebraProcessor();
 
         kernel.setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
-        kernel.getParser().setHighPrecisionParsing(true);
         app.setRounding("10");
         kernel.getGeoGebraCAS().evaluateGeoGebraCAS("1+1", null,
                 StringTemplate.defaultTemplate, app.getKernel());

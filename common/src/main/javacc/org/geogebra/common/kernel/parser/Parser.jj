@@ -107,16 +107,6 @@ public class Parser implements ParserInterface {
       return kernel;
     }
 
-    /**
-     * Set the parser to parse numbers with high precision.
-     * It keeps the original input for further processing.
-     *
-     * @param highPrecisionParsing true to parse high precision
-     */
-    public void setHighPrecisionParsing(boolean highPrecisionParsing) {
-        this.highPrecisionParsing = highPrecisionParsing;
-    }
-
 	private void myReInit(String parseString) {
 		myReInit(parseString, false);
 	}
@@ -131,6 +121,7 @@ public class Parser implements ParserInterface {
 		geoGebraCASParsing = false;
 		externalCASParsing = false;
 		giacParsing = false;
+		highPrecisionParsing = true;
 		functionParser.setInputBoxParsing(false);
 		enableStructures = kernel.getAlgebraProcessor().enableStructures();
 		undecided.clear();
@@ -141,6 +132,14 @@ public class Parser implements ParserInterface {
 	 */
 	public ValidExpression parseGeoGebraExpression(String parseString) throws ParseException {
 		myReInit(stripEqualSign(parseString));
+		ValidExpression ret = buildValidExpression();
+		processUndecided();
+		return ret;
+	}
+
+	public ValidExpression parseGeoGebraExpressionLowPrecision(String parseString) throws ParseException {
+		myReInit(stripEqualSign(parseString));
+		highPrecisionParsing = false;
 		ValidExpression ret = buildValidExpression();
 		processUndecided();
 		return ret;

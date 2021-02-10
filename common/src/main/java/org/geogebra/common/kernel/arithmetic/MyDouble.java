@@ -1279,4 +1279,8 @@ public class MyDouble extends ValidExpression
 		return true;
 	}
 
+	protected ExpressionValue unaryMinus(Kernel kernel2) {
+		return new MyDouble(kernel2, -getDouble());
+	}
+
 }
