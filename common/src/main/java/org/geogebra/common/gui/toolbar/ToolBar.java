@@ -363,6 +363,8 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_AUDIO);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PDF);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_MIND_MAP);
 		sb.append(" | ");
 		return sb.toString();
 	}

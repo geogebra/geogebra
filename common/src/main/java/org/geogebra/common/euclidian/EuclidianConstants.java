@@ -927,6 +927,8 @@ public final class EuclidianConstants {
 			return "Table";
 		case EuclidianConstants.MODE_EQUATION:
 			return "Equation";
+		case EuclidianConstants.MODE_MIND_MAP:
+			return "Mindmap";
 
 		default:
 			Log.error("Unknown mode " + mode);
