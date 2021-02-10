@@ -154,7 +154,7 @@ public class SaveControllerW implements SaveController {
 			app.getKernel().getConstruction().setTitle(name);
 			app.getFileManager().export(app);
 		} else if (app.isOffline() || !app.getLoginOperation().isLoggedIn()) {
-			saveLocal();
+			getAppW().getGuiManager().exportGGB(true);
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
 			uploadToDrive();
 		} else {
@@ -180,19 +180,6 @@ public class SaveControllerW implements SaveController {
 	private void syncIdAndType(Material mat) {
 		getAppW().setTubeId(mat.getSharingKeyOrId());
 		setSaveType(mat.getType());
-	}
-
-	/**
-	 * Offline saving
-	 */
-	private void saveLocal() {
-		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), false, app);
-		if (!fileName.equals(app.getKernel().getConstruction().getTitle())) {
-			app.setTubeId(null);
-			app.setLocalID(-1);
-		}
-		app.getKernel().getConstruction().setTitle(fileName);
-		app.getGgbApi().getBase64(true, newBase64Callback());
 	}
 
 	/**
