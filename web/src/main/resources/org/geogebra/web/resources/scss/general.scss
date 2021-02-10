@@ -24,6 +24,11 @@
 		vertical-align: baseline;
 	}
 
+	button {
+		font-family: geogebra-sans-serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-size: 16px;
+	}
+
 	.button,
 	.gwt-PushButton,
 	.gwt-MenuItem {
@@ -92,10 +97,6 @@
 	input[type="text"], input[type="number"], select {
 		min-height: 0;
 		min-width: 0;
-	}
-
-	.titlePanel input[type="text"] {
-		min-width: 450px;
 	}
 
 	.Dialog-messagePanel {

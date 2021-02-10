@@ -14,12 +14,12 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoInterval;
+import org.geogebra.common.kernel.geos.GeoFunction;
 
 public class AlgoIntervalMax extends AlgoIntervalAbstract {
 
-	public AlgoIntervalMax(Construction cons, String label, GeoInterval s) {
-		super(cons, label, s);
+	public AlgoIntervalMax(Construction cons, GeoFunction s) {
+		super(cons, s);
 	}
 
 	@Override

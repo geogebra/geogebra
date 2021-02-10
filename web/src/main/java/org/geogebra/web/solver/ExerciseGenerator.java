@@ -5,7 +5,8 @@ import org.geogebra.common.util.DoubleUtil;
 public class ExerciseGenerator {
 
 	// static class
-	private ExerciseGenerator() { }
+	private ExerciseGenerator() {
+	}
 
 	public static class Exercise {
 
@@ -14,10 +15,8 @@ public class ExerciseGenerator {
 		public final double[] solutions;
 
 		/**
-		 * @param equation
-		 *            equation to solve
-		 * @param solutions
-		 *            all solutions
+		 * @param equation equation to solve
+		 * @param solutions all solutions
 		 */
 		public Exercise(String equation, double... solutions) {
 			this.equation = equation;
@@ -39,8 +38,7 @@ public class ExerciseGenerator {
 	}
 
 	/**
-	 * @param level
-	 *            difficulty 1 to 4; other values = random difficulty
+	 * @param level difficulty 1 to 4; other values = random difficulty
 	 * @return random exercise with given difficulty
 	 */
 	public static Exercise getExercise(int level) {
@@ -310,7 +308,7 @@ public class ExerciseGenerator {
 			if (!DoubleUtil.isEqual(c * b, a * d)) {
 				// 2 answers
 				return new Exercise("(" + a + " x - " + b + ")(" + c + " x - " + d + ") = 0",
-						b / a,  d / c);
+						b / a, d / c);
 			}
 			return new Exercise("(" + a + " x - " + b + ")(" + c + " x - " + d + ") = 0",
 					b / a);

@@ -73,6 +73,8 @@ public class FunctionNVar extends ValidExpression
 	private ExpressionNode casEvalExpression;
 	private String casEvalStringSymbolic;
 
+	private boolean forceInequality;
+
 	private static ArrayList<ExpressionNode> undecided = new ArrayList<>();
 
 	private final static class RandomCheck implements Inspecting {
@@ -196,7 +198,7 @@ public class FunctionNVar extends ValidExpression
 	/**
 	 * @return function expression
 	 */
-	final public ExpressionNode getExpression() {
+	public ExpressionNode getExpression() {
 		return expression;
 	}
 
@@ -782,20 +784,18 @@ public class FunctionNVar extends ValidExpression
 	 * 
 	 * @param fe
 	 *            expression node
-	 * @param functional
-	 *            function to which ineqs are associated
 	 * @return true if the functions consists of inequalities
 	 */
-	public boolean initIneqs(ExpressionNode fe, FunctionalNVar functional) {
+	public boolean initIneqs(ExpressionNode fe) {
 		if (ineqs == null || fe == getExpression()) {
 			ineqs = new IneqTree();
 		}
-		boolean b = initIneqs(fe, functional, ineqs, false);
+		boolean b = initIneqs(fe, ineqs, false);
 		ineqs.recomputeSize();
 		return b;
 	}
 
-	private boolean initIneqs(ExpressionNode fe, FunctionalNVar functional,
+	private boolean initIneqs(ExpressionNode fe,
 			IneqTree tree, boolean negate) {
 		Operation op = fe.getOperation();
 		ExpressionNode leftTree = fe.getLeftTree();
@@ -819,17 +819,17 @@ public class FunctionNVar extends ValidExpression
 			tree.setOperation(adjustOp(op, negate));
 			tree.setLeft(new IneqTree());
 			tree.setRight(new IneqTree());
-			return initIneqs(leftTree, functional, tree.getLeft(), negate)
-					&& initIneqs(rightTree, functional, tree.getRight(),
+			return initIneqs(leftTree,  tree.getLeft(), negate)
+					&& initIneqs(rightTree,  tree.getRight(),
 							negate);
 		} else if (op.equals(Operation.NOT)) {
-			return initIneqs(leftTree, functional, tree, !negate);
+			return initIneqs(leftTree,  tree, !negate);
 		} else if (op.equals(Operation.IMPLICATION)) {
 			tree.setOperation(adjustOp(Operation.OR, negate));
 			tree.setLeft(new IneqTree());
 			tree.setRight(new IneqTree());
-			return initIneqs(leftTree, functional, tree.getLeft(), !negate)
-					&& initIneqs(rightTree, functional, tree.getRight(),
+			return initIneqs(leftTree,  tree.getLeft(), !negate)
+					&& initIneqs(rightTree,  tree.getRight(),
 							negate);
 		} else if (op.equals(Operation.FUNCTION_NVAR)) {
 			FunctionalNVar nv = (FunctionalNVar) leftTree.getLeft();
@@ -841,7 +841,7 @@ public class FunctionNVar extends ValidExpression
 				subExpr.replace(subVars[i],
 						((MyList) rightTree.getLeft()).getListElement(i));
 			}
-			return initIneqs(subExpr, functional, tree, negate);
+			return initIneqs(subExpr,  tree, negate);
 		} else {
 			return false;
 		}
@@ -1207,7 +1207,7 @@ public class FunctionNVar extends ValidExpression
 			expression = expression.replace(fVars[0], newX).wrap();
 			expression = expression.replace(fVars[1], newY).wrap();
 			expression = expression.replace(fVars[zIndex], newZ).wrap();
-			this.initIneqs(expression, this);
+			this.initIneqs(expression);
 			this.translate(s.getX(), s.getY(), s.getZ());
 		} else {
 			this.translate(-s.getX(), -s.getY());
@@ -1306,7 +1306,7 @@ public class FunctionNVar extends ValidExpression
 		expression = expression.traverse(
 				CopyReplacer.getReplacer(dummy, newX.divide(newZ), kernel))
 				.wrap();
-		this.initIneqs(expression, this);
+		this.initIneqs(expression);
 	}
 
 	@Override
@@ -1533,4 +1533,13 @@ public class FunctionNVar extends ValidExpression
 		getExpression().setSecret(algo);
 	}
 
+	@Override
+	public boolean isForceInequality() {
+		return forceInequality;
+	}
+
+	@Override
+	public void setForceInequality(boolean forceInequality) {
+		this.forceInequality = forceInequality;
+	}
 }

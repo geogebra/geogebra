@@ -812,9 +812,6 @@ public class ConstructionDefaults {
 				type = DEFAULT_FUNCTION;
 			}
 			break;
-		case INTERVAL:
-			type = DEFAULT_INEQUALITY;
-			break;
 
 		case IMAGE:
 			type = DEFAULT_IMAGE;

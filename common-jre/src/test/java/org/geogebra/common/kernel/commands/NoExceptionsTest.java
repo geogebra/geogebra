@@ -1009,14 +1009,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdMidpoint() {
-		t("Midpoint[ c1 ]");
-		t("MidPoint[ interval1 ]");
-		t("Midpoint[ Pt1,Pt2 ]");
-		t("Midpoint[ seg1 ]");
-	}
-
-	@Test
 	public void cmdMin() {
 		t("Min[ f1, n2, n3 ]");
 		t("Min[ interval1 ]");

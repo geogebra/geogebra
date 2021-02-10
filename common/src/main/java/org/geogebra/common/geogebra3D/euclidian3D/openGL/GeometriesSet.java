@@ -152,7 +152,7 @@ public class GeometriesSet extends ArrayList<Geometry> {
 	 *            type for element indices
 	 */
 	public void bindGeometry(int size, TypeElement type) {
-		currentGeometry.bind(this.manager.getRenderer(), size, type);
+		currentGeometry.bind(size, type);
 	}
 
 	/**

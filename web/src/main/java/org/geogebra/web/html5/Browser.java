@@ -5,7 +5,6 @@ import java.util.Locale;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.html5.webcam.WebCamAPI;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -16,8 +15,11 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.Window.Navigator;
 
+import elemental2.core.Function;
 import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 public class Browser {
 	public static final String ACTION_RESET_URL = "{\"action\": \"resetUrl\"}";
@@ -130,19 +132,17 @@ public class Browser {
 	 *
 	 * @return true if WebAssembly supported
 	 */
-	public static native boolean webAssemblySupported()/*-{
+	public static boolean webAssemblySupported() {
+		return hasGlobal("WebAssembly");
+	}
 
-		// currently iOS11 giac.wasm gives slightly wrong results
-		// eg Numeric(fractionalPart(2.7)) gives 0.6999999999999 rather than 0.7
-		var iOS = /iPad|iPhone|iPod/.test($wnd.navigator.userAgent)
-				&& !$wnd.MSStream;
+	public static boolean hasGlobal(String propertyName) {
+		return Js.isTruthy(Js.asPropertyMap(DomGlobal.window).get(propertyName));
+	}
 
-		return !iOS && !!$wnd.WebAssembly;
-	}-*/;
-
-	public static native boolean supportsPointerEvents() /*-{
-		return !!$wnd.PointerEvent;
-	}-*/;
+	public static boolean supportsPointerEvents() {
+		return hasGlobal("PointerEvent");
+	}
 
 	private static boolean isHTTP() {
 		return !"file:".equals(Location.getProtocol());
@@ -215,14 +215,6 @@ public class Browser {
 		} catch (e) {
 			return false;
 		}
-	}-*/;
-
-	/**
-	 * @return whether TRIANGLE_FAN is supported in WebGL
-	 */
-	public static native boolean supportsWebGLTriangleFan()/*-{
-		return $wnd.WebGLRenderingContext
-				&& (!!$wnd.WebGLRenderingContext.TRIANGLE_FAN);
 	}-*/;
 
 	/**
@@ -310,7 +302,7 @@ public class Browser {
 	 * @return whether webcam input is supported in the browser
 	 */
 	public static boolean supportsWebcam() {
-		return WebCamAPI.isSupported();
+		return DomGlobal.window.navigator.mediaDevices != null;
 	}
 
 	/**
@@ -524,19 +516,26 @@ public class Browser {
 				&& !Location.getPath().contains(".html");
 	}
 
-	public static native void changeMetaTitle(String title) /*-{
-		$wnd.changeMetaTitle && $wnd.changeMetaTitle(title);
-	}-*/;
+	/**
+	 * Change title and OpenGraph title using a global function from app.html
+	 * @param title document title
+	 */
+	public static void changeMetaTitle(String title) {
+		Function changeTitle = GeoGebraGlobal.getChangeMetaTitle();
+		if (changeTitle != null) {
+			changeTitle.call(DomGlobal.window, title);
+		}
+	}
 
-	private static native void nativeChangeUrl(String name) /*-{
-		if (name && $wnd.history && $wnd.history.pushState) {
+	private static void nativeChangeUrl(String name) {
+		if (!StringUtil.empty(name)) {
 			try {
-				$wnd.history.pushState({}, "GeoGebra", name);
-			} catch (e) {
+				DomGlobal.history.pushState(JsPropertyMap.of(), "GeoGebra", name);
+			} catch (Exception e) {
 				// on dev server trying to push production URL
 			}
 		}
-	}-*/;
+	}
 
 	/**
 	 * resets url to base: no materials or query string.
@@ -551,9 +550,9 @@ public class Browser {
 	 * @param url
 	 *            GeoGebraTube url
 	 */
-	public native static void openWindow(String url)/*-{
-		$wnd.open(url, '_blank');
-	}-*/;
+	public static void openWindow(String url) {
+		DomGlobal.window.open(url, "_blank");
+	}
 
 	/**
 	 * Returns a string based on base 64 encoded value
@@ -589,10 +588,6 @@ public class Browser {
 				allow ? e.stopPropagation() : e.preventDefault();
 			}, false);
 		}
-	}-*/;
-
-	public static native boolean isXWALK() /*-{
-		return !!$wnd.ggbExamXWalkExtension;
 	}-*/;
 
 	public native static boolean isAndroid()/*-{

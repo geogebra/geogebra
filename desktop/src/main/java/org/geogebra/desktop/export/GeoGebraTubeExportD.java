@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -297,7 +298,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
 		// dialog options
-		progressDialog = new JDialog();
+		progressDialog = new Dialog();
 		progressDialog
 				.setTitle(app.getLocalization().getMenu("UploadGeoGebraTube"));
 		progressDialog.setResizable(false);

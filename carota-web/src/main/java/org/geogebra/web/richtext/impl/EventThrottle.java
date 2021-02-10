@@ -9,6 +9,7 @@ public class EventThrottle {
 
 	private final HasContent editor;
 	private Timer updateTimer;
+
 	public EventThrottle(HasContent editor) {
 		this.editor = editor;
 	}

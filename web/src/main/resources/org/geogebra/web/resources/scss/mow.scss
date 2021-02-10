@@ -16,83 +16,64 @@
 	$shadow-elevation-8: 0px 5px 5px -3px $black-20, 0px 8px 10px 1px $black-14, 0px 3px 14px 2px $black-12;
 	$shadow-elevation-16: 0px 8px 10px -5px $black-20, 0px 16px 24px 2px $black-14, 0px 6px 30px 5px $black-12;
 
+	.SelectionTable {
+		border-collapse: collapse;
 
-/*****************
-*   STYLEBAR
-******************/
-
-	.mowColorPopup input[type="range"]{
-		width: 130px;
-		margin: 0 0 0 4px;
-		background-color: transparent;
+		td {
+			padding: 2px;
 		}
-	.mowColorPopup .popupSliderLabel{
-		margin-right: 3px !important;
-		margin-top: 0px;
-	}
-	.mowColorPopup {
-		.SelectionTable .gwt-Label.borderButton{
-			border: 2px solid;
+
+		.gwt-Label.borderButton {
+			border: 1px solid;
 			border-radius: 5px;
-			height: 22px;
-			width: 22px;
+			height: 24px;
+			width: 24px;
+		}
+
+		.gwt-Label {
+			background-repeat: no-repeat;
+			background-position: center center;
+			padding: 3px;
+			cursor: pointer;
+
+			&.selected {
+				color: $mow-primary;
+			}
+
+			&:hover {
+				background-color: $menu-focus-default;
+			}
+
+			&.border.selected, &.border:hover {
+				background-color: transparent !important;
+				border: 1px solid $mow_primary;
+			}
+		}
+
+		.plusButton {
+			text-align: center;
+			font-size: larger;
 		}
 	}
 
-	.mowLinePopup .preview{
-			margin: 3px 0px 3px 12px;
-	}
-	.mowLinePopup input[type="range"]{
-		width: 130px;
-		margin: 0 0 0 4px;
-		background-color: transparent;
-	}
+	.MyCanvasButton, .MyToggleButton {
+		border: $tool-border solid 1px;
 
-	.mowLinePopup .popupSliderLabel{
-		margin-right: 0px;
-	}
+		&:hover, &.active, &.selected, &.gwt-ToggleButton-down {
+			border: $mow_primary solid 1px;
+		}
 
-	.mowColorPopup .SelectionTable .gwt-Label.border.selected,
-	.mowColorPopup .SelectionTable .gwt-Label.border:hover,
-	.mowColorPopup .SelectionTable .gwt-Label.border:active,
-	.mowStylePopup .SelectionTable .gwt-Label.border.selected,
-	.mowStylePopup .SelectionTable .gwt-Label.border:hover,
-	.mowStylePopup .SelectionTable .gwt-Label.border:active{
-		background-color: transparent !important;
-		border: 2px solid $mow_primary;
-		padding: 2px;
-	}
-
-	.mowBorderlessButton {
-		border: none !important;
+		&.withIcon {
+			.buttonContent {
+				opacity: 0.7;
+			}
+		}
 	}
 
 /*****************
 *   STYLEBAR with Feature.MOW_COLOR_FILLING_LINE
 ******************/
 	.mowDynStyleBar {
-		.MyCanvasButton {
-			&:hover {
-				border: $mow_primary solid 1px !important;
-			}
-			&.active {
-				border: $mow_primary solid 1px !important;
-			}
-			&.selected {
-				border: $mow_primary solid 1px !important;
-			}
-			&.withIcon {
-				border: $tool-border solid 1px !important;
-
-				.buttonContent {
-					opacity: 0.7;
-				}
-				&:hover {
-					border: $mow_primary solid 1px !important;
-				}
-			}
-		}
-
 		.btnCrop,.btnBold,.btnItalic,.btnUnderline,
 		 {
 			border-radius: 2px;
@@ -299,7 +280,7 @@
 		right: 0px;
 		box-shadow: $shadow-elevation-16;
 		background-color: $white;
-		z-index: $z-on-top-of-graphics;
+		z-index: $z-page-control-panel;
 		height: 100%;
 		width: $pagecontrolpanelWidth;
 		overflow: hidden;

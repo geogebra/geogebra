@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -111,6 +112,11 @@ public class DrawFormula extends Drawable implements DrawInline {
 		if (formulaController != null) {
 			formula.setContent(formulaController.getText());
 		}
+	}
+
+	@Override
+	public GAffineTransform getTransform() {
+		return rectangle.getDirectTransform();
 	}
 
 	@Override

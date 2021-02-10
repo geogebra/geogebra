@@ -14,13 +14,12 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoInterval;
+import org.geogebra.common.kernel.geos.GeoFunction;
 
 public class AlgoIntervalMidpoint extends AlgoIntervalAbstract {
 
-	public AlgoIntervalMidpoint(Construction cons, String label,
-			GeoInterval s) {
-		super(cons, label, s);
+	public AlgoIntervalMidpoint(Construction cons, GeoFunction s) {
+		super(cons, s);
 	}
 
 	@Override
@@ -30,7 +29,7 @@ public class AlgoIntervalMidpoint extends AlgoIntervalAbstract {
 
 	@Override
 	public final void compute() {
-		result.setValue(interval.getMidPoint());
+		result.setValue((interval.getMin() + interval.getMax()) / 2.0);
 	}
 
 }

@@ -365,4 +365,8 @@ public class DrawLocus extends Drawable {
 			((GeoLocusStroke) locus).resetXMLPointBuilder();
 		}
 	}
+
+	public GeneralPathClippedForCurvePlotter getPath() {
+		return gp;
+	}
 }

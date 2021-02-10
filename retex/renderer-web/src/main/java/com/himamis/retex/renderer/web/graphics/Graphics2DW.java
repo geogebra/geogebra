@@ -92,7 +92,7 @@ public class Graphics2DW implements Graphics2DInterface {
 	}
 
 	public Graphics2DW(Canvas canvas) {
-		this(canvas.getContext2d());
+		this(JLMContext2d.forCanvas(canvas));
 	}
 
 	private void initBasicStroke() {

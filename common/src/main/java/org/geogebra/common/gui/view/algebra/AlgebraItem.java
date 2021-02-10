@@ -269,6 +269,7 @@ public class AlgebraItem {
 	public static boolean buildPlainTextItemSimple(GeoElement geo1,
 			IndexHTMLBuilder builder, StringTemplate stringTemplate) {
 		int avStyle = geo1.getKernel().getAlgebraStyle();
+		boolean showLabel =  geo1.getApp().getConfig().hasLabelForDescription();
 		if (geo1.isIndependent() && geo1.isGeoPoint()
 				&& avStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
 			builder.clear();
@@ -282,10 +283,14 @@ public class AlgebraItem {
 		}
 		switch (avStyle) {
 		case Kernel.ALGEBRA_STYLE_VALUE:
-			if (!geo1.isAllowedToShowValue()) {
-				buildDefinitionString(geo1, builder, stringTemplate);
+			if (geo1.isAllowedToShowValue()) {
+				if (showLabel) {
+					geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
+				} else {
+					geo1.getAlgebraDescriptionTextOrHTMLRHS(builder);
+				}
 			} else {
-				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
+				buildDefinitionString(geo1, builder, stringTemplate);
 			}
 			return true;
 
@@ -293,8 +298,13 @@ public class AlgebraItem {
 			if (needsPacking(geo1)) {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
 			} else {
-				geo1.addLabelTextOrHTML(
-						geo1.getDefinitionDescription(stringTemplate), builder);
+				if (showLabel) {
+					geo1.addLabelTextOrHTML(geo1
+							.getDefinitionDescription(StringTemplate.defaultTemplate), builder);
+				} else {
+					builder.clear();
+					builder.append(geo1.getDefinitionDescription(stringTemplate));
+				}
 			}
 			return true;
 
@@ -427,6 +437,7 @@ public class AlgebraItem {
 						&& (!geoElement.isIndependent() || (geoElement
 						.getDescriptionMode() == DescriptionMode.DEFINITION_VALUE
 						&& geoElement.getParentAlgorithm() == null))
+						|| geoElement.evaluatesToNumber(false)
 						? DescriptionMode.DEFINITION_VALUE
 						: DescriptionMode.DEFINITION;
 			case AlgebraStyle.DEFINITION:
@@ -445,6 +456,7 @@ public class AlgebraItem {
 	 * @return whether the output should be shown or not
 	 */
 	public static boolean shouldShowOutputRowForAlgebraStyle(GeoElement geoElement, int style) {
+
 		if (style == AlgebraStyle.DESCRIPTION) {
 			return getDescriptionModeForGeo(geoElement, style) != DescriptionMode.DEFINITION;
 		} else if ((style == AlgebraStyle.DEFINITION_AND_VALUE

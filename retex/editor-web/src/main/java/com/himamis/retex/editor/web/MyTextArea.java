@@ -2,7 +2,6 @@ package com.himamis.retex.editor.web;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 
@@ -39,12 +38,12 @@ public class MyTextArea extends TextArea {
 	/**
 	 * @param handler
 	 *            composition event handler
-	 * @return handler registration
 	 */
-	public HandlerRegistration addCompositionUpdateHandler(
-			EditorCompositionHandler handler) {
-		addDomHandler(handler, CompositionEndEvent.getType());
-		return addDomHandler(handler, CompositionUpdateEvent.getType());
+	public void addCompositionUpdateHandler(EditorCompositionHandler handler) {
+		addDomHandler(handler, CompositionUpdateEvent.getType());
+	}
 
+	public void addCompositionEndHandler(EditorCompositionHandler handler) {
+		addDomHandler(handler, CompositionEndEvent.getType());
 	}
 }

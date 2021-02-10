@@ -15,7 +15,15 @@ public interface KeyboardListener {
 		/**
 		 * right arrow
 		 */
-		right
+		right,
+		/**
+		 * up arrow
+		 */
+		up,
+		/**
+		 * down arrow
+		 */
+		down
 	}
 
 	/** ASCII */

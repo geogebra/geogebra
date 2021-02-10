@@ -3,7 +3,6 @@ package org.geogebra.cas;
 import static org.junit.Assume.assumeTrue;
 
 import org.geogebra.desktop.main.AppD;
-
 import org.junit.Test;
 
 public class CASRegressionTest extends BaseCASIntegrationTest {

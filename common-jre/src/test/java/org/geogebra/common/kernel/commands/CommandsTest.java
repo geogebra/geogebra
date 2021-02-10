@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.main.App;
@@ -53,6 +52,11 @@ public class CommandsTest {
 	private static void tRound(String s, String... expected) {
 		testSyntax(s, AlgebraTestHelper.getMatchers(expected), app, ap,
 				StringTemplate.editTemplate);
+	}
+
+	private static void tRoundMaxPrecision(String s, String... expected) {
+		testSyntax(s, AlgebraTestHelper.getMatchers(expected), app, ap,
+				StringTemplate.maxPrecision);
 	}
 
 	private static void t(String s, String... expected) {
@@ -136,17 +140,6 @@ public class CommandsTest {
 
 	private static GeoElement get(String label) {
 		return app.getKernel().lookupLabel(label);
-	}
-
-	@Test
-	public void listPropertiesTest() {
-		t("mat1={{1,2,3}}", "{{1, 2, 3}}");
-		Assert.assertTrue(((GeoList) get("mat1")).hasSpecialEditor());
-		t("slider1=7", "7");
-		t("mat2={{1,2,slider1}}", "{{1, 2, 7}}");
-		Assert.assertTrue(((GeoList) get("mat2")).hasSpecialEditor());
-		t("mat2={{1,2,slider1},Reverse[{1,2,3}]}", "{{1, 2, 7}, {3, 2, 1}}");
-		Assert.assertFalse(((GeoList) get("mat2")).hasSpecialEditor());
 	}
 
 	@Test
@@ -456,6 +449,11 @@ public class CommandsTest {
 		t("Numerator(0.125/0.166666666666666666)", "3");
 		t("Numerator(0.125/3)", "1");
 		t("Numerator(3/0.166666666666666666)", "18");
+		t("Numerator[ 1/(-3) ]", "-1");
+		t("Numerator[ 2/(-3) ]", "-2");
+		t("Numerator[ infinity ]", "1");
+		t("Numerator[ -infinity ]", "-1");
+		t("Numerator[ 0 ]", "0");
 	}
 
 	@Test
@@ -477,6 +475,11 @@ public class CommandsTest {
 		t("Denominator(0.125/0.166666666666666666)", "4");
 		t("Denominator(0.125/3)", "24");
 		t("Denominator(3/0.166666666666666666)", "1");
+		t("Denominator[ 1/(-3) ]", "3");
+		t("Denominator[ 2/(-3) ]", "3");
+		t("Denominator[ infinity ]", "0");
+		t("Denominator[ -infinity ]", "0");
+		t("Denominator[ 0 ]", "1");
 	}
 
 	@Test
@@ -1462,6 +1465,11 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdPoissonWithDoubles() {
+		tRoundMaxPrecision("Poisson[10.5, 11..16]", "0.439655709066945");
+	}
+
+	@Test
 	public void cmdPascal() {
 		intProb("Pascal", "3,0.5", "4", "0.11719", "0.77344");
 	}
@@ -1622,8 +1630,8 @@ public class CommandsTest {
 		tRound("y1 = -l cos(y(Point(nint_1, 0)))", "-0.56732");
 		tRound("Segment((0, 0), (x1, y1))", "2");
 		// undefined testcase
-		t("yu1'(t, y1, y2) = ?", "NaN");
-		t("yu2'(t, y1, y2) = ?", "NaN");
+		t("yu1'(t, y1, y2) = ?", "?");
+		t("yu2'(t, y1, y2) = ?", "?");
 		t("NSolveODE({yu1', yu2'}, 0, {a, b}, 20)",
 				new String[] { "NSolveODE[{yu1', yu2'}, 0, {a, b}, 20]",
 						"NSolveODE[{yu1', yu2'}, 0, {a, b}, 20]" });
@@ -1920,5 +1928,12 @@ public class CommandsTest {
 		t("ReplaceAll(\"3cos(t)+cos(2y)\", \"cos\", \"sin\") ", "3sin(t)+sin(2y)");
 		t("ReplaceAll(\"3cos(t)+cos(2y)\", \"(\", \"[\") ", "3cos[t)+cos[2y)");
 		t("ReplaceAll(\"3cos(t)\", \"\", \"*\") ", "*3*c*o*s*(*t*)*");
+	}
+
+	@Test
+	public void cmdSurdText() {
+		t("SurdText((-7 * 3^(1 / 2)) / 2)", "-\\frac{7 \\; \\sqrt{3}}{2}");
+		t("SurdText(-sqrt(2))", "-\\sqrt{2}");
+		t("SurdText(-sqrt(4^2 + 4^2))", "-4 \\; \\sqrt{2}");
 	}
 }

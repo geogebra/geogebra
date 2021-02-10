@@ -283,7 +283,6 @@ public class Macro {
 			case RAY:
 			case POLYGON:
 			case FUNCTION:
-			case INTERVAL:
 			case POLYHEDRON:
 			case CURVE_CARTESIAN:// needed for
 				// https://help.geogebra.org/topic/tool-creator-confuses-curves-with-conics

@@ -1888,7 +1888,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	protected StringBuilder buildValueString(StringTemplate tpl) {
-
+		if (!isDefined()) {
+			return new StringBuilder("?");
+		}
 		StringBuilder sbToValueString = new StringBuilder();
 		if (getDefinition() != null
 				&& (getToStringMode() == GeoConicND.EQUATION_USER)) {

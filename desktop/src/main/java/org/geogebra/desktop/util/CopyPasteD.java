@@ -391,8 +391,7 @@ public class CopyPasteD extends CopyPaste {
 		copiedXMLforSameWindow = new StringBuilder();
 		copiedXMLlabelsforSameWindow = new ArrayList<>();
 		copySource = app.getActiveEuclidianView();
-		copyObject = app.getKernel().getConstruction().getUndoManager()
-				.getCurrentUndoInfo();
+		copyObject = app.getUndoManager().getCurrentUndoInfo();
 		copiedMacros = new HashSet<>();
 
 		// create geoslocal and geostohide
@@ -550,8 +549,7 @@ public class CopyPasteD extends CopyPaste {
 			return;
 		}
 
-		copyObject2 = app.getKernel().getConstruction().getUndoManager()
-				.getCurrentUndoInfo();
+		copyObject2 = app.getUndoManager().getCurrentUndoInfo();
 
 		if (pasteFast(app) && !putdown) {
 			if (copiedXMLforSameWindow == null
@@ -641,8 +639,7 @@ public class CopyPasteD extends CopyPaste {
 	 */
 	public void pastePutDownCallback(App app) {
 		if (pasteFast(app)) {
-			copyObject = app.getKernel().getConstruction().getUndoManager()
-					.getCurrentUndoInfo();
+			copyObject = app.getUndoManager().getCurrentUndoInfo();
 			copyObject2 = null;
 		}
 	}

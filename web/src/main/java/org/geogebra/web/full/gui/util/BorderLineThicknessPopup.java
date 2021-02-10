@@ -37,11 +37,11 @@ public class BorderLineThicknessPopup extends GPopupPanel {
 	private void initGUI() {
 		FlowPanel popupContent = new FlowPanel();
 
-		thin = new LineThicknessCheckMarkItem("thin");
+		thin = new LineThicknessCheckMarkItem("thin", 1);
 		popupContent.add(thin);
 		thin.setSelected(true);
 
-		thick = new LineThicknessCheckMarkItem("thick");
+		thick = new LineThicknessCheckMarkItem("thick", 3);
 		popupContent.add(thick);
 		thick.setSelected(false);
 
@@ -99,6 +99,7 @@ public class BorderLineThicknessPopup extends GPopupPanel {
 	public void setBorderThickness(int thickness) {
 		selectThickness(thickness == BORDER_THIN,
 				thickness == BORDER_THICK);
+
 	}
 
 	private void selectThickness(boolean isThin, boolean isThick) {

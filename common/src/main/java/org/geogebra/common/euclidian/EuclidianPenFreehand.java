@@ -163,7 +163,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	}
 
 	@Override
-	public boolean handleMouseReleasedForPenMode(boolean right, int x, int y,
+	public void handleMouseReleasedForPenMode(boolean right, int x, int y,
 												 boolean isPinchZooming) {
 		penPoints.add(new GPoint(x, y));
 
@@ -176,8 +176,9 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		minX = Integer.MAX_VALUE;
 		maxX = Integer.MIN_VALUE;
-
-		return shape != null;
+		if (shape != null) {
+			app.storeUndoInfo();
+		}
 	}
 
 	@Override
@@ -1098,14 +1099,14 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 	private GeoElement getJoinPointsSegment(GeoPoint first, GeoPoint last) {
 		Construction cons = app.getKernel().getConstruction();
-		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(cons, null,
+		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(cons,
 				first, last);
 		first.setEuclidianVisible(false);
 		last.setEuclidianVisible(false);
 		GeoElement line = algo.getOutput(0);
-		line.updateRepaint();
 		line.setIsShape(app.isWhiteboardActive());
 		line.setLabelVisible(false);
+		line.setLabel(null);
 		return line;
 	}
 

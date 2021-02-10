@@ -1,1 +1,0 @@
-when(is_polynomial(((3)*((5)*(sin(ggbtmpvart))))+((-4)*((5)*(cos(ggbtmpvart)))),ggbtmpvart),coeff(((3)*((5)*(sin(ggbtmpvart))))+((-4)*((5)*(cos(ggbtmpvart)))),ggbtmpvart),{})

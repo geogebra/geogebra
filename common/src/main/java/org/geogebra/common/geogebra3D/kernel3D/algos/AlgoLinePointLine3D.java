@@ -26,9 +26,9 @@ import org.geogebra.common.kernel.matrix.Coords;
  */
 public class AlgoLinePointLine3D extends AlgoLinePoint {
 
-	public AlgoLinePointLine3D(Construction cons, String label,
+	public AlgoLinePointLine3D(Construction cons,
 			GeoPointND point, GeoLineND line) {
-		super(cons, label, point, (GeoElement) line);
+		super(cons, point, (GeoElement) line);
 	}
 
 	@Override

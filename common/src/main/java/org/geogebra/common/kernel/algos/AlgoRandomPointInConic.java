@@ -18,14 +18,17 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-public class AlgoRandomPointInConic extends AlgoElement {
+public class AlgoRandomPointInConic extends AlgoElement implements SetRandomValue {
 
 	protected GeoConicND conic; // input
 	protected GeoPoint randomPoint; // output
@@ -134,4 +137,12 @@ public class AlgoRandomPointInConic extends AlgoElement {
 		}
 	}
 
+	@Override
+	public boolean setRandomValue(GeoElementND val) {
+		if (val instanceof GeoPointND && conic.isInRegion((GeoPointND) val)) {
+			randomPoint.setCoords(((GeoPointND) val).getCoords(), true);
+			return true;
+		}
+		return false;
+	}
 }

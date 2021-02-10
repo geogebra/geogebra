@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -33,8 +34,8 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.TooltipChipView;
 import org.geogebra.web.html5.js.ResourcesInjector;
+import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.AnimationExporter;
 import org.geogebra.web.html5.util.FileConsumer;
 import org.geogebra.web.html5.util.ImageManagerW;
@@ -59,7 +60,6 @@ import jsinterop.base.JsPropertyMap;
  */
 public class GgbAPIW extends GgbAPI {
 	private MathEditorAPI editor;
-	private TooltipChipView tooltipChips;
 
 	/**
 	 * @param app
@@ -457,7 +457,7 @@ public class GgbAPIW extends GgbAPI {
 			bytes[i] = binary_string.charCodeAt(i);
 		}
 
-		// change / add pHYs chunk 
+		// change / add pHYs chunk
 		// pixels per metre
 		var ppm = Math.round(dpi / 2.54 * 100);
 
@@ -722,7 +722,7 @@ public class GgbAPIW extends GgbAPI {
 													.indexOf(item.fileName
 															.substr(ind + 1)
 															.toLowerCase()) > -1) {
-										//if (item.fileName.indexOf(".png") > -1) 
+										//if (item.fileName.indexOf(".png") > -1)
 										//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("image zipped: " + item.fileName);
 										addImage(item.fileName,
 												item.fileContent, function() {
@@ -1087,16 +1087,24 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * @param tooltip tooltip content
+	 * Add a multiuser interaction
+	 * @param user tooltip content
 	 * @param label label of an object to use as anchor
 	 * @param color color CSS string
+	 * @param update "update" if selection called by notify update, empty otherwise
 	 */
-	public void showTooltip(Object tooltip, Object label, Object color) {
-		if (tooltipChips == null) {
-			tooltipChips = new TooltipChipView();
-		}
-		tooltipChips.showMessage(tooltip == null ? null : String.valueOf(tooltip),
-				String.valueOf(label), String.valueOf(color), (AppW) app);
+	public void addMultiuserSelection(String user, String color, String label, String update) {
+		MultiuserManager.INSTANCE.addSelection(app, user, GColor.parseHexColor(color),
+				label, update);
+	}
+
+	/**
+	 * Remove a multiuser interaction
+	 * @param user tooltip content
+	 * @param force "force" if force deselection, empty otherwise
+	 */
+	public void removeMultiuserSelections(String user, String force) {
+		MultiuserManager.INSTANCE.deselect(app, user, force);
 	}
 
 	public void asyncEvalCommand(String command, ResolveCallbackFn<String> onSuccess,
@@ -1178,30 +1186,8 @@ public class GgbAPIW extends GgbAPI {
 	 *            callback
 	 */
 	public void getScreenshotBase64(StringConsumer callback) {
-		getScreenshotURL(((AppW) app).getPanel().getElement(), callback);
+		((AppW) app).getAppletFrame().getScreenshotBase64(callback);
 	}
-
-	/**
-	 * Make a screenshot of given element.
-	 * 
-	 * @param el
-	 *            element
-	 * @param callback
-	 *            callback
-	 */
-	public native void getScreenshotURL(Element el,	Object callback) /*-{
-		var canvas = document.createElement("canvas");
-		canvas.height = el.offsetHeight;
-		canvas.width = el.offsetWidth;
-		var context = canvas.getContext('2d');
-		el.className = el.className + " ggbScreenshot";
-		$wnd.domvas.toImage(el, function() {
-			// Look ma, I just converted this element to an image and can now to funky stuff!
-			context.drawImage(this, 0, 0);
-			el.className = el.className.replace(/\bggbScreenshot\b/, '');
-			callback(@org.geogebra.web.html5.main.GgbAPIW::pngBase64(Ljava/lang/String;)(canvas.toDataURL()));
-		});
-	}-*/;
 
 	/**
 	 * @param workerUrls
@@ -1486,8 +1472,7 @@ public class GgbAPIW extends GgbAPI {
 				break;
 		}
 		if (event != null) {
-			((AppW) app).getPageController().executeAction(event,
-					null, args);
+			((AppW) app).getPageController().executeAction(event, args);
 		}
 	}
 

@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -47,8 +46,6 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.MaterialsManagerI;
-import org.geogebra.common.main.MyError;
-import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -57,6 +54,7 @@ import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingsBuilder;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
+import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.move.events.BaseEventPool;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
@@ -846,7 +844,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				setRandomSeed(seed);
 			}
 			getXMLio().processXMLString(def.getConstruction(), true, false,
-					true);
+					getAppletParameters().getParamRandomize());
 			// defaults (optional)
 			if (def.hasDefaults2d()) {
 				getXMLio().processXMLString(def.getDefaults2d(), false, true);
@@ -960,26 +958,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	public final void setXML(String xml, boolean clearAll) {
-		if (clearAll) {
-			setCurrentFile(null);
-		}
-
-		try {
-			// make sure objects are displayed in the correct View
-			setActiveView(App.VIEW_EUCLIDIAN);
-			getXMLio().processXMLString(xml, clearAll, false);
-		} catch (MyError err) {
-			err.printStackTrace();
-			showError(err);
-		} catch (Exception e) {
-			e.printStackTrace();
-			showError(Errors.LoadFileFailed);
-		}
-	}
-
-	@Override
 	public boolean clearConstruction() {
+		getSelectionManager().clearSelectedGeos(false);
 		kernel.clearConstruction(true);
 
 		kernel.initUndoInfo();
@@ -1644,6 +1624,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	protected void initCoreObjects() {
 		kernel = newKernel(this);
+		kernel.setAngleUnit(kernel.getApplication().getConfig().getDefaultAngleUnit());
 
 		initSettings();
 
@@ -2013,7 +1994,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		translateHeader();
 	}
 
-	private void setTitle() {
+	protected void setTitle() {
 		String titleTransKey = getVendorSettings().getAppTitle(getConfig());
 		String title = getLocalization().getMenu(titleTransKey);
 		if (getAppletParameters().getLoginAPIurl() != null) {
@@ -3081,6 +3062,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
+	public void updateMaterialURL(Material material) {
+		updateMaterialURL(material.getId(), material.getSharingKeyOrId(), material.getTitle());
+	}
+
 	/**
 	 * @param sharingKey
 	 *            material sharing key
@@ -3400,12 +3385,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	}
 
-	/**
-	 * When multiple slides are present give ID of the current one, otherwise
-	 * give default slide ID
-	 *
-	 * @return the string ID of current slide
-	 */
+	@Override
 	public String getSlideID() {
 		return getPageController() == null
 				? GgbFile.SLIDE_PREFIX + GgbFile.getCounter()
@@ -3414,7 +3394,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void copyGraphicsViewToClipboard() {
-		EuclidianViewW ev = (EuclidianViewW) getActiveEuclidianView();
+		EuclidianViewWInterface ev = (EuclidianViewWInterface) getActiveEuclidianView();
 		copyImageToClipboard(ev.getExportImageDataUrl(3, false, false));
 	}
 

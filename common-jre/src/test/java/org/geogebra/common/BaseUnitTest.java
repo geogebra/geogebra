@@ -9,6 +9,8 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
+import org.hamcrest.Description;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 
 /**
@@ -19,10 +21,11 @@ public class BaseUnitTest {
 	/** allowed error for double comparison */
 	protected static final double DELTA = 1E-15;
 
-    private Kernel kernel;
-    private Construction construction;
-    private AppCommon app;
-    private GeoElementFactory elementFactory;
+	private Kernel kernel;
+	private Construction construction;
+	private AppCommon app;
+	private GeoElementFactory elementFactory;
+	private TypeSafeMatcher<GeoElementND> isDefined;
 
     /**
      * Setup test class before every test.
@@ -136,15 +139,22 @@ public class BaseUnitTest {
 	 * @return resulting element
 	 */
 	protected <T extends GeoElement> T add(String command, EvalInfo info) {
-		GeoElementND[] geoElements =
-				getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionHandling(
-								command,
-								false,
-								app.getErrorHandler(),
-								info,
-								null);
+		GeoElementND[] geoElements = getElements(command, info);
 		return getFirstElement(geoElements);
+	}
+
+	protected <T extends GeoElementND> T[] getElements(String command) {
+		return getElements(command, EvalInfoFactory.getEvalInfoForAV(app, false));
+	}
+
+	private <T extends GeoElementND> T[] getElements(String command, EvalInfo info) {
+		return (T[]) getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(
+						command,
+						false,
+						app.getErrorHandler(),
+						info,
+						null);
 	}
 
 	/**
@@ -154,5 +164,22 @@ public class BaseUnitTest {
 	 */
 	protected GeoElement lookup(String label) {
 		return kernel.lookupLabel(label);
+	}
+
+	protected TypeSafeMatcher<GeoElementND> isDefined() {
+		if (isDefined == null) {
+			isDefined = new TypeSafeMatcher<GeoElementND>() {
+				@Override
+				protected boolean matchesSafely(GeoElementND item) {
+					return item.isDefined();
+				}
+
+				@Override
+				public void describeTo(Description description) {
+					description.appendText("defined");
+				}
+			};
+		}
+		return isDefined;
 	}
 }

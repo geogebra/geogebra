@@ -98,7 +98,7 @@ public class ExamDialog implements ClickHandler {
 			cas.addClickHandler(this); 
 		}
 		
-		if (!app.getSettings().getEuclidian(-1).isEnabledSet()) {
+		if (!app.getAppletParameters().hasDataParamEnable3D()) {
 			checkboxes++;
 			final CheckBox allow3D = new CheckBox(loc.getMenu("Perspective.3DGraphics"));
 			allow3D.addStyleName("examCheckbox");

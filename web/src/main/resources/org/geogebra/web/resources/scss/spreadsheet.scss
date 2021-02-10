@@ -79,6 +79,10 @@
 	
 	.geogebraweb-popup-spreadsheet {
 		z-index: $z-spreadsheet-popup;
+
+		.menuImg {
+			opacity: 0.5;
+		}
 	}
  
 	.geogebraweb-button-spreadsheet,.geogebraweb-checkbox-spreadsheet,.geogebraweb-select-spreadsheet {

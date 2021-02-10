@@ -337,4 +337,9 @@ public class AppConfigGraphing extends AbstractAppConfig {
 	public boolean sendKeyboardEvents() {
 		return false;
 	}
+
+	@Override
+	public boolean hasLabelForDescription() {
+		return true;
+	}
 }

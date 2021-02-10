@@ -102,7 +102,7 @@ public class AppConfigUnrestrictedGraphing extends AppConfigGraphing {
 
 	@Override
 	public boolean hasAnsButtonInAv() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -127,6 +127,11 @@ public class AppConfigUnrestrictedGraphing extends AppConfigGraphing {
 
 	@Override
 	public boolean isCoordinatesObjectSettingEnabled() {
+		return true;
+	}
+
+	@Override
+	public boolean hasLabelForDescription() {
 		return true;
 	}
 }
