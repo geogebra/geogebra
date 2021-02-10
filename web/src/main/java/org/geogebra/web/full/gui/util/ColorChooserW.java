@@ -496,13 +496,9 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			foregroundButton = new RadioButton("fg");
 			backgroundButton.setName("bgfg");
 			foregroundButton.setName("bgfg");
-			if (app.isUnbundled()) {
-				btnClearBackground = new GPushButton(new NoDragImage(
-						MaterialDesignResources.INSTANCE.delete_black(), 24));
-			} else {
-				btnClearBackground = new GPushButton(
-						new Image(AppResources.INSTANCE.delete_small()));
-			}
+
+			btnClearBackground = new GPushButton(new NoDragImage(
+					MaterialDesignResources.INSTANCE.delete_black(), 24));
 			btnClearBackground.setStyleName("ClearBackgroundButton");
 
 			updateBackgroundButtons(false);

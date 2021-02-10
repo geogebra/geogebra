@@ -223,16 +223,9 @@ class NamePanel extends OptionPanel
 	@Override
 	public void setLabels() {
 		Localization loc = app.getLocalization();
-		nameLabel.setText(app.isUnbundledOrWhiteboard()
-				? loc.getMenu("Name")
-				: loc.getMenu("Name") + ":");
-		defLabel.setText(app.isUnbundledOrWhiteboard()
-				? loc.getMenu("Definition")
-				: loc.getMenu("Definition") + ":");
-		captionLabel
-				.setText(app.isUnbundledOrWhiteboard()
-						? loc.getMenu("Button.Caption")
-						: loc.getMenu("Button.Caption") + ":");
+		nameLabel.setText(loc.getMenu("Name"));
+		defLabel.setText(loc.getMenu("Definition"));
+		captionLabel.setText(loc.getMenu("Button.Caption"));
 		dynamicCaptionPanel.setLabels();
 	}
 

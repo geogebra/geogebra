@@ -64,12 +64,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	protected static abstract class EuclidianTab extends FlowPanel
 			implements SetLabels {
 		
-		protected EuclidianTab(AppW app) {
-			if (app.isUnbundledOrWhiteboard()) {
-				setStyleName("propMaterialTab");
-			} else {
-				setStyleName("propertiesTab");
-			}
+		protected EuclidianTab() {
+			setStyleName("propertiesTab");
 		}
 		
 		public void onResize(int height, int width) {
@@ -82,7 +78,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private AxisPanel axisPanel;
 			
 		public AxisTab(int axis, boolean view3D) {
-			super(app);
+			super();
 			axisPanel = new AxisPanel(app, view, axis, view3D);
 			add(axisPanel);
 		}
@@ -129,7 +125,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private FlowPanel stylePanel;
 
 		public GridTab() {
-			super(app);
+			super();
 			mainPanel = new FlowPanel();
 			if (gridOptions) {
 				cbShowGrid = new CheckBox();

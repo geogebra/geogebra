@@ -130,11 +130,7 @@ public class OptionsTab extends FlowPanel {
 		this.loc = loc;
 		this.tabPanel = tabPanel;
 		models = new ArrayList<>();
-		if (app.isUnbundledOrWhiteboard()) {
-			setStyleName("propMaterialTab");
-		} else {
-			setStyleName("propertiesTab");
-		}
+		setStyleName("propertiesTab");
 	}
 
 	/**
