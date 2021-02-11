@@ -54,6 +54,7 @@ public class Equation extends ValidExpression implements EquationValue {
 	private boolean forceImplicitPoly = false;
 	private boolean forceQuadric = false;
 	private boolean forceSurface = false;
+	private boolean forceFunction = false;
 	private ArrayList<ExpressionValue> variableDegrees = null;
 	private boolean isPolynomial = true;
 
@@ -207,6 +208,14 @@ public class Equation extends ValidExpression implements EquationValue {
 	 */
 	public void setForceImplicitPoly() {
 		this.forceImplicitPoly = true;
+	}
+
+	public boolean isForceFunction() {
+		return forceFunction;
+	}
+
+	public void setForceFunction() {
+		this.forceFunction = true;
 	}
 
 	/**

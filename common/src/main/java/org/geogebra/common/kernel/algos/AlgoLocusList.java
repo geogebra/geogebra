@@ -338,7 +338,7 @@ public class AlgoLocusList extends AlgoElement {
 	}
 
 	private static boolean isPathIterable(GeoElement geoElement) {
-		if (geoElement.isGeoImplicitPoly()) {
+		if (geoElement.isGeoImplicitCurve()) {
 			return ((GeoImplicit) geoElement).isOnScreen();
 		}
 		return geoElement.isDefined();
