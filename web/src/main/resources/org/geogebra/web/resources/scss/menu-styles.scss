@@ -156,8 +156,9 @@ $menuWidth: 320px;
 	.menuPanelGlass {
 		width: 100%;
 		height: 100%;
-		position: absolute;
+		//position: absolute;
 		overflow: hidden;
+		//top: 0;
 	}
 }
 
