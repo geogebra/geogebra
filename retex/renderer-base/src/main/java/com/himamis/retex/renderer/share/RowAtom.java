@@ -169,6 +169,11 @@ public class RowAtom extends Atom implements Row {
 	public final void add(Atom... atoms) {
 		for (Atom a : atoms) {
 			if (a != null) {
+				if (a instanceof RowAtom) {
+					elements.addAll(((RowAtom) a).getElements());
+					return;
+				}
+
 				elements.add(a);
 				if (a instanceof TypedAtom) {
 					// TODO: check this stuff (added for back comp)
