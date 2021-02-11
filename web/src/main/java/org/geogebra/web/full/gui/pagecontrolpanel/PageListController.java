@@ -380,10 +380,10 @@ public class PageListController implements PageListControllerInterface,
 			for (int i = 0; i < pages.length(); i++) {
 				slides.add(createCardFromArchive(archive, pages, i));
 			}
-
+			// select card first to make sure we have the correct slide ID
+			setCardSelected(0);
 			app.loadGgbFile(slides.get(0).getFile(), false);
 			listener.update();
-			setCardSelected(0);
 		} catch (Exception e) {
 			Log.debug(e);
 			e.printStackTrace();
