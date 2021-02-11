@@ -191,7 +191,6 @@
 		background-color: transparent;
 	}
 
-	.gwt-Button:active,
 	.buttonPanel .button:active,
 	.headerbar .headerSecond .signInButton:active {
 		border: 1px inset #6666FF;
@@ -231,11 +230,6 @@
 
 	.textButton:hover {
 		text-decoration: underline;
-	}
-
-	.gwt-CheckBox-disabled,
-	.checkBoxPanel-disabled {
-		color: #CCCCCC;
 	}
 
 	.gwt-DisclosurePanel {
@@ -491,30 +485,28 @@
 		margin-left: 0;
 	}
 
-	.gwt-TabLayoutPanel {
-		background-color: #F8F8F8;
-	}
-
-	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs, .gwt-TabBar {
+	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs {
 		border-bottom: 1px solid #DCDCDC;
 	}
 
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab, .gwt-TabBar .gwt-TabBarItem {
 		position: relative;
 		bottom: -1px;
-	}
-
-	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab, .gwt-TabBar .gwt-TabBarItem {
 		margin-right: 4px;
-		padding: 4px 8px;
-		height: 30px;
+		padding: 8px;
+		height: 36px;
 		cursor: pointer;
+		font-size: 100%;
 		font-weight: normal;
 		text-align: center;
-		background: #FFFFFF;
+		background: $white;
 		border-radius: 3px 3px 0 0;
-		border: 1px solid #DCDCDC;
+		border: 1px solid $tool-border;
 		box-sizing: border-box;
+
+		&:hover {
+			color: $teal-light;
+		}
 	}
 
 	.gwt-TabBarItem div.gwt-Label {
@@ -528,7 +520,7 @@
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected, .gwt-TabBar .gwt-TabBarItem-selected {
 		cursor: default;
 		background: white;
-		color: #6666FF;
+		color: $teal-default;
 		border-bottom: 1px solid white;
 	}
 
@@ -536,22 +528,10 @@
 		display: none;
 	}
 
-	.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent,
 	.gwt-TabPanelBottom,
-	.objectPropertiesPanel {
-		overflow: auto;
-		padding-left: 8px;
-		padding-right: 8px;
-		padding-top: 8px;
-		background-color: #FFFFFF;
+	.gwt-TabLayoutPanelContent {
+		padding: 8px;
 		border: 1px solid #DCDCDC;
-		border-top: none;
-	}
-
-	.objectPropertiesPanel {
-		box-sizing: border-box;
-		height: 100%;
-		border-bottom: none;
 	}
 
 	.gwt-TabBar .gwt-TabBarFirst,
@@ -1628,7 +1608,6 @@
 	.textEditorDisclosurePanelContent {
 		margin: 0;
 		padding: 0;
-		border: none;
 		font-size: 80%;
 	}
 
@@ -1839,12 +1818,6 @@
 		PROPERTIES
 	###################################################################*/
 
-	.PropertiesViewW {
-		background-color: #F8F8F8;
-		border-radius: 0;
-		padding: 0;
-	}
-
 	.contentsPanel {
 		overflow-x: hidden;
 		overflow-y: hidden;
@@ -1855,86 +1828,14 @@
 		width: 100%;
 	}
 
-	.propertiesStyleBar {
-		width: 34px;
-		position: absolute;
-		right: 0;
-		top: 0;
-		max-width: 100%;
-		overflow: hidden;
-	}
-
-	.menuProperties {
-		margin: 0;
-		padding: 0;
-	}
-
-	.menuProperties table {
-		cellpadding: 0px;
-		border-collapse: collapse;
-	}
-
-	.menuProperties .gwt-MenuItem {
-		padding: 5px;
-		cursor: pointer;
-	}
-
-	.menuProperties .gwt-MenuItem:hover {
-		background: #F0F0F0;
-		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-	}
-
-	.propertiesStyleBar .selected,
-	.propertiesStyleBar .gwt-MenuItem.selected:hover {
-		background-image: linear-gradient(left, #DCDCDC, #F8F8F8);
-		zoom: 1;
-		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-	}
-
-	.menuProperties .gwt-MenuItem img {
-		width: 24px !important;
-		height: 24px !important;
-	}
-
 	.ggb-MultiRowsTabPanel > * {
 		float: left;
 	}
 
-	.propertiesPanel2 {
-		height: 100%;
-	}
-
-	/* EUCLIDIAN PROPERTIES */
-
-	.axisPanel > * > *:first-child {
-		min-width: 110px;
-	}
-
-	.axisPanel > .checkBoxPanel > *:first-child {
-		min-width: 0;
-	}
-
 	/* OBJECT PROPERTIES */
-
-	.propertiesTab {
-		overflow: auto;
-		padding-right: 8px;
-		box-sizing: border-box;
-	}
 
 	.settingsBtn {
 		min-width: 160px;
-	}
-
-	.propertiesTabPanel {
-		width: 100%;
-		height: 100%;
-		display: flex;
-		flex-flow: column;
-
-		.optionsSlider {
-			display: flex;
-		}
 	}
 
 	.propView_deckPanel {
@@ -1942,47 +1843,19 @@
 		overflow-x: hidden;
 	}
 
-	.propertiesTab > *,
-	.axisPanel > .checkBoxPanel {
-		margin-bottom: 10px;
-		display: block;
-	}
-
-	.objectPropertiesPanel > .checkBoxPanel {
-		white-space: nowrap;
-		margin-bottom: 10px;
-	}
-
-	.objectPropertiesPanel > .checkBoxPanel:last-child {
-		margin-bottom: 0;
-	}
-
-	.propertiesTab .panelRow + .checkBoxPanel {
-		margin-top: 10px;
-	}
-
-	.propertiesTab .panelTitle:first-child {
-		margin-top: 0;
-	}
-
-	.propertiesTab .scriptTabPanel {
-		display: table;
-	}
-
-	.propertiesTab .MyCanvasButton, .propertiesTab .gwt-Button {
-		margin-left: 0;
-	}
-
 	.panelTitle {
-		padding-bottom: 5px;
-		color: #6666FF;
+		margin-bottom: 8px;
+		margin-top: 16px;
+		padding-bottom: 0px;
 		display: block;
-		border-bottom: 1px solid #CCCCFF;
+		color: $black;
+		font-size: 95%;
+		opacity: 0.7;
+		border-bottom: 1px solid $tool-border;
 	}
 
-	.checkBoxPanel, .panelRow, .panelRowIndent, .panelIndent, .listBoxPanel, .optionsInput, .optionsPanel,
-	.optionsPanel .optionsPanelIndent, .propertiesTab .sliderIntervalPanel,
-	.propertiesTab .sliderWidthPanel, .minMaxPanel {
+	.panelRow, .panelRowIndent, .panelIndent, .listBoxPanel, .optionsInput, .optionsPanel,
+	.optionsPanel .optionsPanelIndent, .minMaxPanel {
 		display: block;
 	}
 
@@ -1990,19 +1863,19 @@
 		padding-left: 25px;
 	}
 
-	.optionsInput, .optionsPanel, .propertiesTab .sliderIntervalPanel, .propertiesTab .sliderWidthPanel, .textPropertiesTab > * {
+	.optionsInput, .optionsPanel, .textPropertiesTab > * {
 		margin-bottom: 10px;
 	}
 
-	.checkBoxPanel > *, .panelRow > *, .listBoxPanel > *, .panelRowIndent > *, .propertiesTab .gwt-CheckBox > *, .panelRowCell > *,
-	.panelRowCell > *, .optionsPanel > *, .optionsPanelIndent > *, .optionsPanelCell > *, .propertiesTab .sliderIntervalPanel > *,
-	.propertiesTab .sliderWidthPanel > *, .textOptionsToolBar > *, .BackgroundColorPanel > *, .minMaxPanel > * {
+	.panelRow > *, .listBoxPanel > *, .panelRowIndent > *, .panelRowCell > *,
+	.panelRowCell > *, .optionsPanel > *, .optionsPanelIndent > *, .optionsPanelCell > *,
+	.textOptionsToolBar > *, .BackgroundColorPanel > *, .minMaxPanel > * {
 		display: inline-block;
 		vertical-align: middle;
 		margin: 3px 10px 3px 0;
 	}
 
-	.optionsInput > *, .propertiesTab .sliderIntervalPanel > div > *, .CustomColorPreview > * {
+	.optionsInput > *, .CustomColorPreview > * {
 		display: block;
 		margin: 3px 0 3px 0;
 	}
@@ -2010,11 +1883,6 @@
 	.panelRowCell {
 		white-space: nowrap;
 		margin-right: 20px;
-	}
-
-	.checkBoxPanel .gwt-Label, .listBoxPanel .gwt-Label,
-	.optionsPanel .gwt-Label, .optionsPanelIndent .gwt-Label {
-		margin-right: 10px;
 	}
 
 	.optionsPanelCell {
@@ -2060,10 +1928,6 @@
 		border: 1px solid #DCDCDC;
 	}
 
-	.propertiesTab .colorChooserPreview canvas {
-		cursor: pointer;
-	}
-
 	.gwt-PopupPanel .panelTitle {
 		padding: 5px 10px 10px 10px;
 	}
@@ -2074,10 +1938,6 @@
 
 	iframe.objectPropertiesTextEditor {
 		margin-bottom: 10px;
-	}
-
-	.propertiesTab .gwt-TabLayoutPanel {
-		background: #FFFFFF;
 	}
 
 	.colorComponent {
@@ -2123,10 +1983,6 @@
 		border: 2px inset #555555 !important;
 	}
 
-	.propertiesTab .gwt-TabPanelBottom {
-		box-sizing: border-box;
-	}
-
 	.scriptArea {
 		height: 300px;
 		width: 100%;
@@ -2154,8 +2010,7 @@
 		margin: 3px 0;
 	}
 
-	.advanced-TextButtonPanel input[disabled=""],
-	.advanced-TextButtonPanel .choice-button-up-disabled {
+	.advanced-TextButtonPanel input[disabled=""] {
 		opacity: 1;
 		cursor: default;
 	}
@@ -2169,26 +2024,6 @@
 		right: 0.3em;
 		top: 0.3em;
 		cursor: pointer;
-	}
-
-	.advanced-ListPopupPanel {
-		border-radius: 5px;
-		padding: 5px;
-		background-color: rgba(255, 255, 255, 0.9);
-		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
-		overflow: visible;
-		position: absolute;
-		background-color: white;
-		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-	}
-
-	.advanced-ListPopupPanel .item {
-		cursor: pointer;
-		padding: 0 5px;
-	}
-
-	.advanced-ListPopupPanel .item:hover {
-		background: #CCCCFF;
 	}
 
 	.geoSelectFirst {

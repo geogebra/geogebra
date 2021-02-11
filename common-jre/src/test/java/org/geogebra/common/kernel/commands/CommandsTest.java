@@ -389,6 +389,24 @@ public class CommandsTest {
 				+ Unicode.lambda + " (1, -1, 0)");
 	}
 
+	@Test
+	public void cmdMin() {
+		tRound("Min[ x, 1, 2 ]", "(1, 1)");
+		t("Min[ 2 < x < 3 ]", "2");
+		t("Min[ {3,4,5,6} ]", "3");
+		t("Min[ {3,4,5}, {0,1,2} ]", "4");
+		t("Min[ 7, 5 ]", "5");
+	}
+
+	@Test
+	public void cmdMax() {
+		tRound("Max[ x, 1, 2 ]", "(2, 2)");
+		t("Max[ 2 < x < 3 ]", "3");
+		t("Max[ {3,4,5,6} ]", "6");
+		t("Max[ {3,4,5}, {2,1,0} ]", "4");
+		t("Max[ 7, 5 ]", "7");
+	}
+
 	private static void intersect(String arg1, String arg2, boolean num,
 			String... results) {
 		intersect(arg1, arg2, num, num, results);
@@ -1487,10 +1505,61 @@ public class CommandsTest {
 	@Test
 	public void yLHSFunctions() {
 		t("f:y=sin(x)", "sin(x)");
-		t("SetValue(f,x^2)", new String[0]);
-		Assert.assertEquals(get("f").getGeoClassType(), GeoClass.FUNCTION);
+		Assert.assertEquals(GeoClass.FUNCTION, get("f").getGeoClassType());
+		t("SetValue(f, x^2)");
+		Assert.assertEquals(GeoClass.FUNCTION, get("f").getGeoClassType());
+		System.out.println(app.getXML());
+		Assert.assertEquals(GeoClass.FUNCTION, get("f").getGeoClassType());
+	}
+
+	@Test
+	public void yLHSImplicitCurves() {
+		t("f:y^2=sin(x)", "y^(2) = sin(x)");
+		Assert.assertEquals(GeoClass.IMPLICIT_POLY, get("f").getGeoClassType());
+		t("SetValue(f, y = sin(x))");
+		Assert.assertEquals(GeoClass.IMPLICIT_POLY, get("f").getGeoClassType());
 		app.setXML(app.getXML(), true);
-		Assert.assertEquals(get("f").getGeoClassType(), GeoClass.FUNCTION);
+		Assert.assertEquals(GeoClass.IMPLICIT_POLY, get("f").getGeoClassType());
+	}
+
+	@Test
+	public void yLHSLines() {
+		t("l: y = 2x", "y = 2x");
+		Assert.assertEquals(GeoClass.LINE, get("l").getGeoClassType());
+		t("SetValue(l, y = 2x - 3)");
+		Assert.assertEquals(GeoClass.LINE, get("l").getGeoClassType());
+		app.setXML(app.getXML(), true);
+		Assert.assertEquals(GeoClass.LINE, get("l").getGeoClassType());
+	}
+
+	@Test
+	public void yLHSConics() {
+		t("c: y = 2x^2", "y = 2x²");
+		Assert.assertEquals(GeoClass.CONIC, get("c").getGeoClassType());
+		t("SetValue(c, y = 2x - 3)");
+		Assert.assertEquals(GeoClass.CONIC, get("c").getGeoClassType());
+		app.setXML(app.getXML(), true);
+		Assert.assertEquals(GeoClass.CONIC, get("c").getGeoClassType());
+	}
+
+	@Test
+	public void yLHSPlanes() {
+		t("a: y = 2x + 3z", "-2x + y - 3z = 0");
+		Assert.assertEquals(GeoClass.PLANE3D, get("a").getGeoClassType());
+		t("SetValue(a, y = 2x - 3z + 4)");
+		Assert.assertEquals(GeoClass.PLANE3D, get("a").getGeoClassType());
+		app.setXML(app.getXML(), true);
+		Assert.assertEquals(GeoClass.PLANE3D, get("a").getGeoClassType());
+	}
+
+	@Test
+	public void yLHSQuadrics() {
+		t("q: y = 2x^2 + 3z", "-2x² + 0z² + y - 3z = 0");
+		Assert.assertEquals(GeoClass.QUADRIC, get("q").getGeoClassType());
+		t("SetValue(q, y = 2x² - 3z² + 4)");
+		Assert.assertEquals(GeoClass.QUADRIC, get("q").getGeoClassType());
+		app.setXML(app.getXML(), true);
+		Assert.assertEquals(GeoClass.QUADRIC, get("q").getGeoClassType());
 	}
 
 	@Test

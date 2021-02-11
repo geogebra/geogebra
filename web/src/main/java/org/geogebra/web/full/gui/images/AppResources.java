@@ -42,12 +42,6 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-edit-delete.png")
 	ImageResource delete_small();
 
-	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-edit-cut.png")
-	ImageResource edit_cut();
-
-	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-edit-paste.png")
-	ImageResource edit_paste();
-
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-edit.png")
 	ImageResource edit();
 
@@ -71,12 +65,6 @@ public interface AppResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/web/general/line_graph.png")
 	ImageResource line_graph();
-
-	@Source("org/geogebra/common/icons/png/web/general/object_fixed.png")
-	ImageResource lock();
-
-	@Source("org/geogebra/common/icons/png/web/general/object_unfixed.png")
-	ImageResource unlock();
 
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_object_fixed.png")
 	ImageResource objectFixed();
@@ -162,41 +150,14 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/context_menu_20/animation.png")
 	ImageResource animation20();
 
-	@Source("org/geogebra/common/icons/png/web/context_menu_20/copy.png")
-	ImageResource copy20();
-
-	@Source("org/geogebra/common/icons/png/web/context_menu_20/cut.png")
-	ImageResource cut20();
-
-	@Source("org/geogebra/common/icons/png/web/context_menu_20/delete.png")
-	ImageResource delete20();
-
-	@Source("org/geogebra/common/icons/png/web/context_menu_20/duplicate.png")
-	ImageResource duplicate20();
-
-	@Source("org/geogebra/common/icons/png/web/context_menu_20/label.png")
-	ImageResource label20();
-
-	@Source("org/geogebra/common/icons/png/web/context_menu_20/label_off.png")
-	ImageResource label_off20();
-
 	@Source("org/geogebra/common/icons/png/web/context_menu_20/lock.png")
 	ImageResource lock20();
-
-	@Source("org/geogebra/common/icons/png/web/context_menu_20/paste.png")
-	ImageResource paste20();
 
 	@Source("org/geogebra/common/icons/png/web/context_menu_20/pin.png")
 	ImageResource pin20();
 
 	@Source("org/geogebra/common/icons/png/web/context_menu_20/unpin.png")
 	ImageResource unpin20();
-
-	@Source("org/geogebra/common/icons/png/web/context_menu_20/properties.png")
-	ImageResource properties20();
-
-	@Source("org/geogebra/common/icons/png/web/context_menu_20/record_to_spreadsheet.png")
-	ImageResource record_to_spreadsheet20();
 
 	@Source("org/geogebra/common/icons/png/web/context_menu_20/rename.png")
 	ImageResource rename20();

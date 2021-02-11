@@ -984,15 +984,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdMax() {
-		t("Max[ f1, n2, n3 ]");
-		t("Max[ interval1 ]");
-		t("Max[ list1 ]");
-		t("Max[ list1, list1 ]");
-		t("Max[ n1, n1 ]");
-	}
-
-	@Test
 	public void cmdMeanX() {
 		t("MeanX[ ptlist1 ]");
 	}
@@ -1006,15 +997,6 @@ public class NoExceptionsTest {
 	public void cmdMedian() {
 		t("Median[ list1 ]");
 		t("Median[ list1, list1 ]");
-	}
-
-	@Test
-	public void cmdMin() {
-		t("Min[ f1, n2, n3 ]");
-		t("Min[ interval1 ]");
-		t("Min[ list1 ]");
-		t("Min[ list1, list1 ]");
-		t("Min[ n1, n1 ]");
 	}
 
 	@Test

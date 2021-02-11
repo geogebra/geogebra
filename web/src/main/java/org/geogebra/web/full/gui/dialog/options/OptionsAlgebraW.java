@@ -70,11 +70,7 @@ public class OptionsAlgebraW
 		public AlgebraTab() {
 			createGUI();
 			updateGUI();
-			if (getApp().isUnbundledOrWhiteboard()) {
-				setStyleName("propMaterialTab");
-			} else {
-				setStyleName("propertiesTab");
-			}
+			setStyleName("propertiesTab");
 			add(optionsPanel);
 		}
 

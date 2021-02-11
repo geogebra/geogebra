@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.input.Character;
@@ -33,9 +34,9 @@ public class MySpecialDouble extends MyDouble {
 
 	private String strToString;
 	private final String originalString;
-	private boolean keepOriginalString;
-	private boolean isLetterConstant; // for Pi, Euler, or Degree constant
-	private boolean scientificNotation = false;
+	private final boolean keepOriginalString;
+	private final boolean isLetterConstant; // for Pi, Euler, or Degree constant
+	private final boolean scientificNotation;
 	private boolean setFromOutside;
 
 	/**
@@ -60,9 +61,9 @@ public class MySpecialDouble extends MyDouble {
 				|| firstChar == Unicode.DEGREE_CHAR
 				|| strToString.equals(Unicode.EULER_GAMMA_STRING)
 				|| "euler_gamma".equals(strToString);
-		scientificNotation = strToString.indexOf("E") > 0;
+		boolean containsE = strToString.indexOf("E") > 0;
 		keepOriginalString = !isLetterConstant
-				&& (scientificNotation || Double.isInfinite(val));
+				&& (containsE || Double.isInfinite(val));
 
 		if (keepOriginalString) {
 			BigDecimal bd = new BigDecimal(strToString);
@@ -78,9 +79,10 @@ public class MySpecialDouble extends MyDouble {
 			} else {
 				// use E notation if necessary
 				strToString = MyDouble.toString(bd);
-				scientificNotation = strToString.indexOf("E") > 0;
+				containsE = strToString.indexOf("E") > 0;
 			}
 		}
+		scientificNotation = containsE;
 	}
 
 	/**
@@ -109,13 +111,6 @@ public class MySpecialDouble extends MyDouble {
 		MySpecialDouble ret = new MySpecialDouble(this);
 		ret.kernel = kernel1;
 		return ret;
-	}
-
-	/**
-	 * Force this number to keep original input
-	 */
-	public void setKeepOriginalString() {
-		keepOriginalString = true;
 	}
 
 	/**
@@ -230,5 +225,18 @@ public class MySpecialDouble extends MyDouble {
 	@Override
 	public boolean isDigits() {
 		return StringUtil.isDigit(strToString.charAt(0));
+	}
+
+	@Override
+	public ExpressionValue unaryMinus(Kernel kernel) {
+		if (!isLetterConstant && !scientificNotation) {
+			return new MySpecialDouble(kernel, -getDouble(), "-" + originalString);
+		}
+		return new ExpressionNode(kernel, new MinusOne(kernel),
+				Operation.MULTIPLY, this);
+	}
+
+	public boolean isScientificNotation() {
+		return scientificNotation;
 	}
 }

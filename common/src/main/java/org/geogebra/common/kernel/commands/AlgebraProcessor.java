@@ -1493,7 +1493,7 @@ public class AlgebraProcessor {
 
 		GeoList list = null;
 		try {
-			ValidExpression ve = parser.parseGeoGebraExpression(str);
+			ValidExpression ve = parser.parseGeoGebraExpressionLowPrecision(str);
 			GeoElementND[] temp = processValidExpression(ve);
 			// CAS in GeoGebraWeb dies badly if we don't handle this case
 			// (Simon's hack):
@@ -2807,7 +2807,7 @@ public class AlgebraProcessor {
 
 		}
 
-		if (equ.isFunctionDependent()) {
+		if (equ.isFunctionDependent() || equ.isForceFunction()) {
 			return functionOrImplicitPoly(equ, def, info);
 		}
 		int deg = equ.mayBePolynomial() && !equ.hasVariableDegree()
@@ -2843,7 +2843,7 @@ public class AlgebraProcessor {
 				.trim();
 
 		if ("y".equals(lhsStr)
-				&& canEvaluateToFunction(equ, info)
+				&& canEvaluateToFunction(equ)
 				&& !equ.getRHS().containsFreeFunctionVariable("y")
 				&& !equ.getRHS().containsFreeFunctionVariable("z")) {
 
@@ -2873,10 +2873,10 @@ public class AlgebraProcessor {
 		return processImplicitPoly(equ, def, info);
 	}
 
-	private boolean canEvaluateToFunction(Equation equ, EvalInfo info) {
-		return (!equ.isForcedImplicitPoly()
+	private boolean canEvaluateToFunction(Equation equ) {
+		return !equ.isForcedImplicitPoly()
 				&& !equ.isForcedConic()
-				&& !equ.isForcedLine()) || !info.isPreventingTypeChange();
+				&& !equ.isForcedLine();
 	}
 
 	private void checkNoTheta(Equation equ) {

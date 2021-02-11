@@ -422,8 +422,8 @@ public class ExpressionNode extends ValidExpression
 	private void doResolveVariables(EvalInfo info) {
 		// resolve left wing
 		if (left.isVariable()) {
-			left = ((Variable) left).resolveAsExpressionValue(
-					info.getSymbolicMode(), info.isMultipleUnassignedAllowed());
+			left = ((Variable) left).resolveAsExpressionValue(info.getSymbolicMode(),
+					info.isMultipleUnassignedAllowed(), info.isMultiLetterVariablesAllowed());
 			if (operation == Operation.POWER
 					|| operation == Operation.FACTORIAL) {
 				fixPowerFactorial(Operation.MULTIPLY);
@@ -441,8 +441,8 @@ public class ExpressionNode extends ValidExpression
 		// resolve right wing
 		if (right != null) {
 			if (right.isVariable()) {
-				right = ((Variable) right).resolveAsExpressionValue(
-						info.getSymbolicMode(), info.isMultipleUnassignedAllowed());
+				right = ((Variable) right).resolveAsExpressionValue(info.getSymbolicMode(),
+						info.isMultipleUnassignedAllowed(), info.isMultiLetterVariablesAllowed());
 				right = groupPowers(right);
 			} else {
 				right.resolveVariables(info);
@@ -3424,9 +3424,8 @@ public class ExpressionNode extends ValidExpression
 	public static ExpressionValue unaryMinus(Kernel kernel2,
 			ExpressionValue f) {
 		if (f instanceof MyDouble && f.isConstant()
-				&& !(f instanceof MySpecialDouble)
 				&& !(f instanceof MyDoubleDegreesMinutesSeconds)) {
-			return new MyDouble(kernel2, -f.evaluateDouble());
+			return ((MyDouble) f).unaryMinus(kernel2);
 		}
 		return new ExpressionNode(kernel2, new MinusOne(kernel2), Operation.MULTIPLY, f);
 	}
