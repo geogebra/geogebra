@@ -389,6 +389,24 @@ public class CommandsTest {
 				+ Unicode.lambda + " (1, -1, 0)");
 	}
 
+	@Test
+	public void cmdMin() {
+		tRound("Min[ x, 1, 2 ]", "(1, 1)");
+		t("Min[ 2 < x < 3 ]", "2");
+		t("Min[ {3,4,5,6} ]", "3");
+		t("Min[ {3,4,5}, {0,1,2} ]", "4");
+		t("Min[ 7, 5 ]", "5");
+	}
+
+	@Test
+	public void cmdMax() {
+		tRound("Max[ x, 1, 2 ]", "(2, 2)");
+		t("Max[ 2 < x < 3 ]", "3");
+		t("Max[ {3,4,5,6} ]", "6");
+		t("Max[ {3,4,5}, {2,1,0} ]", "4");
+		t("Max[ 7, 5 ]", "7");
+	}
+
 	private static void intersect(String arg1, String arg2, boolean num,
 			String... results) {
 		intersect(arg1, arg2, num, num, results);
