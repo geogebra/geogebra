@@ -26,6 +26,7 @@ public class EvalInfo {
 	private boolean copyingPlainVariables = false;
 	private boolean allowTypeChange = true;
 	private boolean multipleUnassignedAllowed = false;
+	private boolean allowMultiLetterVariables = true;
 	private boolean keepDefinition = true;
 	private SymbolicMode symbolicMode = SymbolicMode.NONE;
 	private GPredicate<String> labelFilter;
@@ -158,6 +159,8 @@ public class EvalInfo {
 		ret.redefinitionRule = this.redefinitionRule;
 		ret.constant = this.constant;
 		ret.keepDefinition = this.keepDefinition;
+		ret.multipleUnassignedAllowed = this.multipleUnassignedAllowed;
+		ret.allowMultiLetterVariables = this.allowMultiLetterVariables;
 		return ret;
 	}
 
@@ -425,6 +428,22 @@ public class EvalInfo {
 
 	public boolean isMultipleUnassignedAllowed() {
 		return multipleUnassignedAllowed;
+	}
+
+	public boolean isMultiLetterVariablesAllowed() {
+		return allowMultiLetterVariables;
+	}
+
+	/**
+	 * EvalInfo with preventing variable parsing if label is more than one letter
+	 * for example: abc slider label is not allowed in inputbox,
+	 * only single letter followed by apostrophes or subscript
+	 * @return a copy of the eval info
+	 */
+	public EvalInfo withPreventVariable() {
+		EvalInfo info = copy();
+		info.allowMultiLetterVariables = false;
+		return info;
 	}
 
 	/**

@@ -258,7 +258,7 @@ public class Equation extends ValidExpression implements EquationValue {
 			// e.g. A4 = x^2
 			Variable leftVar = (Variable) lhs.getLeft();
 			lhs.setLeft(leftVar.resolve(false, true,
-					SymbolicMode.NONE)); // don't allow
+					SymbolicMode.NONE, info.isMultiLetterVariablesAllowed())); // don't allow
 																// auto
 														// creation of variables
 		} else {
@@ -782,7 +782,7 @@ public class Equation extends ValidExpression implements EquationValue {
 				.getName(StringTemplate.defaultTemplate);
 		if (GParser.shouldSplitLabel(name)) {
 			lhs = ((Variable) lhsUnwrapped).resolveAsExpressionValue(SymbolicMode.NONE,
-					true).wrap();
+					true, true).wrap();
 			return this;
 		}
 		if (!rhsConstant) {
