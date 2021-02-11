@@ -3575,11 +3575,12 @@ public class MyXMLHandler implements DocHandler {
 					} else if ("quadric".equals(type)) {
 						((Equation) ve).setForceQuadric();
 					} else if ("implicitpoly".equals(type)
-							|| "function".equals(type)
 							|| "implicitPoly".equals(type)) {
 						((Equation) ve).setForceImplicitPoly();
 					} else if ("implicitsurface".equals(type)) {
 						((Equation) ve).setForceSurface();
+					} else if ("function".equals(type)) {
+						((Equation) ve).setForceFunction();
 					}
 				}
 			}

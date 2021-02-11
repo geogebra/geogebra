@@ -94,9 +94,6 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	ImageResource normal_overlay();
 
 	// OBJECT PROPERTIES
-	@Source("org/geogebra/common/icons/png/web/little-triangle-down.png")
-	ImageResource little_triangle_down();
-
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_properties_object.png")
 	ImageResource properties_object();
 

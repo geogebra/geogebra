@@ -41,7 +41,8 @@ public class OptionsCASW implements OptionPanelW, ClickHandler {
 		showNavigation.setStyleName("checkBoxPanel");
 
 		optionsPanel = new FlowPanel();
-		optionsPanel.addStyleName("objectPropertiesPanel");
+		optionsPanel.addStyleName("propertiesPanel");
+		optionsPanel.addStyleName("simplePropertiesPanel");
 
 		// optionsPanel.add(cbShowFormulaBar);
 		optionsPanel.add(showRoots);

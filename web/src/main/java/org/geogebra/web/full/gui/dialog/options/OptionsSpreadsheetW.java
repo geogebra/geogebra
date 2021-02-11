@@ -4,6 +4,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
@@ -11,8 +12,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -74,24 +73,18 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 		cbShowNavigation = newCheckBox();
 
 		optionsPanel = new FlowPanel();
-		optionsPanel.addStyleName("objectPropertiesPanel");
+		optionsPanel.addStyleName("propertiesPanel");
+		optionsPanel.addStyleName("simplePropertiesPanel");
 
-	//	optionsPanel.add(cbShowFormulaBar);
 		optionsPanel.add(cbShowGrid);
 		optionsPanel.add(cbShowColumnHeader);
 		optionsPanel.add(cbShowRowHeader);
 		optionsPanel.add(cbShowVScrollbar);
 		optionsPanel.add(cbShowHScrollbar);
 
-		// spacer
-		// layoutOptions.add(Box.createVerticalStrut(16));
 		description = new AlgebraStyleListBox(app, true);
 		descriptionLabel = new Label();
-		HorizontalPanel descriptionPanel = new HorizontalPanel();
-		descriptionPanel.add(descriptionLabel);
-		descriptionPanel.add(description);
-		optionsPanel.add(descriptionPanel);
-		optionsPanel.add(new HTML("<HR>"));
+		optionsPanel.add(LayoutUtilW.panelRow(descriptionLabel, description));
 		optionsPanel.add(cbAllowSpecialEditor);
 		optionsPanel.add(cbAllowToolTips);
 		optionsPanel.add(cbPrependCommands);

@@ -1757,7 +1757,7 @@ __GGB__keysVar["de"].menu = {
     "DropDownItemSelected": "Element %0 ausgew\xe4hlt. Dropdown-Liste geschlossen.",
     "DropDownOpened": "Dropdown %0 ge\xf6ffnet.",
     "DropDownSelected": "Dropdown-Men\xfc %0 ausgew\xe4hlt",
-    "DropdownClosed": "Dropdown closed",
+    "DropdownClosed": "Dropdown geschlossen",
     "Duplicate": "Duplizieren",
     "Duration": "Dauer",
     "DynamicColors": "Dynamische Farben",

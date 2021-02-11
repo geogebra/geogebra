@@ -95,7 +95,7 @@ public class AlgoListMinMax extends AlgoElement {
 			return;
 		}
 
-		double minVal = Double.POSITIVE_INFINITY;
+		double minVal = isMin ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
 
 		if (freqList == null) {
 

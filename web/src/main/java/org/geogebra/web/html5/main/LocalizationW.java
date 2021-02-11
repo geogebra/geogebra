@@ -20,8 +20,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ScriptElement;
 
-import elemental2.dom.DomGlobal;
-
 /**
  * JSON based localization for Web
  *
@@ -105,7 +103,7 @@ public final class LocalizationW extends Localization {
 			String fallback, String category) {
 		String ret = getPropertyNative(lang, key, category);
 		if (ret == null || "".equals(ret)) {
-			if (DomGlobal.console != null) { // no error message in test
+			if (GWT.isScript()) { // no error message in test
 				Log.debug(category + " key not found: " + key);
 			}
 			return fallback;
