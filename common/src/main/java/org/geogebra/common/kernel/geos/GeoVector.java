@@ -757,9 +757,8 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	public static void buildLatexValueStringCoordCartesian3D(
 			Kernel kernel, StringTemplate tpl, double x, double y, double z,
 			StringBuilder sb, GeoVectorND vector, boolean symbolic) {
-		ExpressionNode definition = vector.getDefinition();
-		if (symbolic && definition != null && definition.isLeaf()) {
-			sb.append(getColumnLaTeXfromExpression(definition, tpl));
+		if (symbolic && vector.getDefinition() != null) {
+			sb.append(getColumnLaTeXfromExpression(vector.getDefinition(), tpl));
 		} else {
 			String[] inputs = new String[3];
 			inputs[0] = kernel.format(x, tpl);
@@ -770,7 +769,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	private static String buildTabular(String[] inputs, StringBuilder sb) {
-		Log.error(inputs[0]);
 		boolean alignOnDecimalPoint = true;
 		for (String s : inputs) {
 			if (s.indexOf('.') == -1) {
@@ -865,7 +863,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		default: // CARTESIAN
 
 			ExpressionNode definition = vector.getDefinition();
-			if (symbolic && definition != null && definition.isLeaf()) {
+			if (symbolic && definition != null) {
 				return getColumnLaTeXfromExpression(definition, tpl);
 			}
 			String[] inputs = new String[2];

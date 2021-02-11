@@ -24,7 +24,7 @@ public class BorderStylePopup extends PopupMenuButtonW {
 	 */
 	public BorderStylePopup(AppW app, ImageOrText[] borderStyles) {
 		super(app, borderStyles, 1, 4,
-				SelectionTable.MODE_ICON, false);
+				SelectionTable.MODE_ICON);
 		getMyPopup().removeStyleName("matPopupPanel");
 		getMyPopup().addStyleName("mowPopup");
 		getMyPopup().addStyleName("borderStylePopup");

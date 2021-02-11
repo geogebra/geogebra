@@ -42,8 +42,7 @@ public abstract class DecoOptionPanel extends OptionPanel
 		decoLabel = new Label();
 		mainWidget.add(decoLabel);
 
-		decoPopup = new PopupMenuButtonW(app, iconArray, -1, 1,
-				SelectionTable.MODE_ICON, app.isUnbundledOrWhiteboard()) {
+		decoPopup = new PopupMenuButtonW(app, iconArray, -1, 1, SelectionTable.MODE_ICON) {
 			@Override
 			public void handlePopupActionEvent() {
 				super.handlePopupActionEvent();

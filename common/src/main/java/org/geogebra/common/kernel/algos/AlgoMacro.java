@@ -396,7 +396,6 @@ public class AlgoMacro extends AlgoElement
 			GeoElement algoGeo) {
 
 		switch (macroGeo.getGeoClassType()) {
-		case INTERVAL:
 		case FUNCTION:
 			initFunction(((GeoFunction) algoGeo).getFunction());
 			break;

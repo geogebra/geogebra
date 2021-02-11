@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.geos.GeoInterval;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
@@ -99,6 +98,7 @@ public class GeoFactory {
 			return new GeoFormula(cons1, null);
 		case "function":
 		case "functionconditional":
+		case "interval":
 			return new GeoFunction(cons1);
 		case "functionnvar":
 			return new GeoFunctionNVar(cons1);
@@ -108,8 +108,6 @@ public class GeoFactory {
 			return newImplicitPoly(cons1).toGeoElement();
 		case "inlinetext":
 			return new GeoInlineText(cons1, null);
-		case "interval":
-			return new GeoInterval(cons1);
 		case "line":
 			GeoLine geoLine = new GeoLine(cons1);
 			geoLine.showUndefinedInAlgebraView(true);

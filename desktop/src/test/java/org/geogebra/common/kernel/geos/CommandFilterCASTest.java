@@ -8,7 +8,7 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
 
     @Test
     public void cmdInvert() {
-        t("Invert({{1, 2}, {3, 4}})", "{{-2, 1}, {3 / 2, (-1) / 2}}");
+        t("Invert({{1, 2}, {3, 4}})", "{{-2, 1}, {3 / 2, -1 / 2}}");
         t("Invert({{a, b}, {c, d}})", "{{d / (a * d - b * c), (-b) / (a * d - b * c)},"
                 + " {(-c) / (a * d - b * c), a / (a * d - b * c)}}");
         String[][] expected;
@@ -49,12 +49,12 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
     public void cmdReducedRowEchelonForm() {
         t("ReducedRowEchelonForm({{1, 6, 4}, {2, 8, 9}, {4, 5, 6}})",
                 "{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}");
-        t("ReducedRowEchelonForm({{2, 10, 11, 4}, {2, (-5), (-6), 12}, {2, 5, 3, 2}})",
-                "{{1, 0, 0, 5}, {0, 1, 0, (-14) / 5}, {0, 0, 1, 2}}");
+        t("ReducedRowEchelonForm({{2, 10, 11, 4}, {2, -5, -6, 12}, {2, 5, 3, 2}})",
+                "{{1, 0, 0, 5}, {0, 1, 0, -14 / 5}, {0, 0, 1, 2}}");
         t("ReducedRowEchelonForm({{1, 6, 4}, {2, 8, 9}, {4, 5, 6}})",
                 "{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}");
-        t("ReducedRowEchelonForm({{2, 10, 11, 4}, {2, (-5), (-6), 12}, {2, 5, 3, 2}})",
-                "{{1, 0, 0, 5}, {0, 1, 0, (-14) / 5}, {0, 0, 1, 2}}");
+        t("ReducedRowEchelonForm({{2, 10, 11, 4}, {2, -5, -6, 12}, {2, 5, 3, 2}})",
+                "{{1, 0, 0, 5}, {0, 1, 0, -14 / 5}, {0, 0, 1, 2}}");
     }
 
     @Test

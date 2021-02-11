@@ -130,11 +130,7 @@ public class OptionsTab extends FlowPanel {
 		this.loc = loc;
 		this.tabPanel = tabPanel;
 		models = new ArrayList<>();
-		if (app.isUnbundledOrWhiteboard()) {
-			setStyleName("propMaterialTab");
-		} else {
-			setStyleName("propertiesTab");
-		}
+		setStyleName("propertiesTab");
 	}
 
 	/**
@@ -733,8 +729,7 @@ public class OptionsTab extends FlowPanel {
 			mainPanel.setStyleName("optionsPanel");
 			titleLabel = new Label("-");
 			mainPanel.add(titleLabel);
-			btnPointStyle = PointStylePopup.create(app, -1, false,
-					model, app.isUnbundledOrWhiteboard());
+			btnPointStyle = PointStylePopup.create(app, -1, false, model);
 			if (btnPointStyle != null) {
 				btnPointStyle.setKeepVisible(false);
 				mainPanel.add(btnPointStyle);
@@ -834,8 +829,7 @@ public class OptionsTab extends FlowPanel {
 			stylePanel.setStyleName("optionsPanel");
 			popupLabel = new Label();
 			stylePanel.add(popupLabel);
-			btnLineStyle = LineStylePopup.create(app, -1, false,
-					app.isUnbundledOrWhiteboard());
+			btnLineStyle = LineStylePopup.create(app, false);
 			// slider.setSnapToTicks(true);
 			btnLineStyle.addPopupHandler(new PopupMenuHandler() {
 

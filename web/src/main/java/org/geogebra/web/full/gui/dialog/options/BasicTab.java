@@ -12,7 +12,6 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.MyCJButton;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
@@ -85,7 +84,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	 *            euclidian options panel
 	 */
 	public BasicTab(OptionsEuclidianW optionsEuclidianW) {
-		super(optionsEuclidianW.app);
+		super();
 		this.optionsEuclidianW = optionsEuclidianW;
 		this.model = optionsEuclidianW.model;
 		addDimensionPanel();
@@ -168,19 +167,15 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		enableAxesRatio(this.optionsEuclidianW.view.isZoomable()
 				&& !this.optionsEuclidianW.view.isLockedAxesRatio());
 
-		imgLock = new Image(this.optionsEuclidianW.app.isUnbundledOrWhiteboard()
-				? new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.lock_black()
-								.getSafeUri(),
-						0, 0, 18, 18, false, false)
-				: AppResources.INSTANCE.lock());
+		imgLock = new Image(new ImageResourcePrototype(null,
+				MaterialDesignResources.INSTANCE.lock_black()
+						.getSafeUri(),
+				0, 0, 18, 18, false, false));
 		imgUnlock = new Image(
-				this.optionsEuclidianW.app.isUnbundledOrWhiteboard()
-						? new ImageResourcePrototype(null,
-								MaterialDesignResources.INSTANCE
-										.lock_open_black().getSafeUri(),
-								0, 0, 18, 18, false, false)
-						: AppResources.INSTANCE.unlock());
+				new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE
+								.lock_open_black().getSafeUri(),
+						0, 0, 18, 18, false, false));
 
 		tbLockRatio = new GToggleButton(imgLock);
 		tbLockRatio.setValue(this.optionsEuclidianW.view.isLockedAxesRatio());
@@ -343,8 +338,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		axesStylePopup = new PopupMenuButtonW(this.optionsEuclidianW.app,
 				iconArray, -1, 1,
-				org.geogebra.common.gui.util.SelectionTable.MODE_ICON,
-				this.optionsEuclidianW.app.isUnbundledOrWhiteboard()) {
+				org.geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 			@Override
 			public void handlePopupActionEvent() {
 				int idx = getSelectedIndex();

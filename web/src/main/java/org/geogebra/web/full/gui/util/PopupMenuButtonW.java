@@ -17,17 +17,12 @@ import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.gui.util.SliderInputHandler;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -85,12 +80,10 @@ public class PopupMenuButtonW extends MyCJButton
 	 *            {@code Integer}
 	 * @param mode
 	 *            {@link SelectionTableW}
-	 * @param isBorderTeal
-	 *            - true if the border should be teal
 	 */
 	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
-			Integer columns, SelectionTable mode, boolean isBorderTeal) {
-		this(app, data, rows, columns, mode, true, false, null, isBorderTeal);
+			Integer columns, SelectionTable mode) {
+		this(app, data, rows, columns, mode, true, false, null);
 	}
 
 	/**
@@ -110,15 +103,12 @@ public class PopupMenuButtonW extends MyCJButton
 	 *            {@code boolean}
 	 * @param lineStyleMap0
 	 *            maps item index to line style
-	 * @param isBorderTeal
-	 *            - true if the border should be teal
 	 */
 	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
-			boolean hasSlider, HashMap<Integer, Integer> lineStyleMap0,
-			boolean isBorderTeal) {
+			boolean hasSlider, HashMap<Integer, Integer> lineStyleMap0) {
 		this(app, data, rows, columns, mode, hasTable, hasSlider, null,
-				lineStyleMap0, isBorderTeal);
+				lineStyleMap0);
 	}
 
 	/**
@@ -140,14 +130,11 @@ public class PopupMenuButtonW extends MyCJButton
 	 *            which items are selected
 	 * @param lineStyleMap0
 	 *            maps item index to line style
-	 * @param isBorderTeal
-	 *            - true if the border should be teal
 	 */
 	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
 			boolean hasSlider, boolean[] selected,
-			HashMap<Integer, Integer> lineStyleMap0,
-			final boolean isBorderTeal) {
+			HashMap<Integer, Integer> lineStyleMap0) {
 		super();
 		this.app = app;
 		this.hasTable = hasTable;
@@ -156,16 +143,10 @@ public class PopupMenuButtonW extends MyCJButton
 			multiselectionEnabled = true;
 		}
 
-		createPopup(isBorderTeal);
+		createPopup();
 
 		// add a mouse listener to our button that triggers the popup
-		addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				event.stopPropagation();
-			}
-		});
+		addClickHandler(DomEvent::stopPropagation);
 
 		// merge mousedown + touchstart
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
@@ -175,43 +156,14 @@ public class PopupMenuButtonW extends MyCJButton
 				if (!PopupMenuButtonW.this.isEnabled()) {
 					return;
 				}
-				handleClick(isBorderTeal);
-
+				handleClick();
 			}
 		});
-		this.addMouseOverHandler(new MouseOverHandler() {
 
-			@Override
-			public void onMouseOver(MouseOverEvent event) {
-				updateBorderColor(getElement(), isBorderTeal, getApp());
-			}
-		});
-		this.addMouseOutHandler(new MouseOutHandler() {
-
-			@Override
-			public void onMouseOut(MouseOutEvent event) {
-				if (getMyPopup() != null && getMyPopup().isVisible()
-						&& EuclidianStyleBarW.getCurrentPopup() != null
-						&& getMyPopup()
-								.equals(EuclidianStyleBarW.getCurrentPopup())) {
-					updateBorderColor(getElement(), isBorderTeal, getApp());
-				} else {
-					getElement().getStyle().setBorderColor("#dcdcdc");
-				}
-			}
-		});
-		addBitlessDomHandler(new TouchEndHandler() {
-			@Override
-			public void onTouchEnd(TouchEndEvent event) {
-				event.stopPropagation();
-			}
-		}, TouchEndEvent.getType());
+		addBitlessDomHandler(DomEvent::stopPropagation, TouchEndEvent.getType());
 
 		if (hasTable) {
 			createSelectionTable(data, rows, columns, mode, selected);
-		}
-		if (selected != null) {
-			// myTable.initSelectedItems(selected); // TODO remove?
 		}
 
 		// create slider
@@ -224,7 +176,7 @@ public class PopupMenuButtonW extends MyCJButton
 	/**
 	 * creates a new {@link ButtonPopupMenu}
 	 */
-	private void createPopup(boolean isBorderTeal) {
+	private void createPopup() {
 		myPopup = new ButtonPopupMenu(app.getPanel(), app) {
 			@Override
 			public void setVisible(boolean visible) {
@@ -246,58 +198,29 @@ public class PopupMenuButtonW extends MyCJButton
 		};
 		if (app.isUnbundledOrWhiteboard()) {
 			myPopup.addStyleName("matPopupPanel");
-			if (isBorderTeal) {
-				myPopup.addStyleName("tealBorder");
-			}
 		}
 		myPopup.setAutoHideEnabled(true);
 	}
 
 	/**
 	 * handle click on {@link PopupMenuButtonW this button}
-	 * 
-	 * @param isBorderTeal
-	 *            - true if the border should be teal
 	 */
-	void handleClick(boolean isBorderTeal) {
+	void handleClick() {
 		onClickAction();
 		if (EuclidianStyleBarW.getCurrentPopup() != myPopup) {
 			if (EuclidianStyleBarW.getCurrentPopup() != null) {
 				EuclidianStyleBarW.getCurrentPopup().hide();
-				if (EuclidianStyleBarW.getCurrentPopupButton() != null) {
-					EuclidianStyleBarW.getCurrentPopupButton().getElement()
-							.getStyle().setBorderColor("#dcdcdc");
-				}
-				/* getWidget().removeStyleName("active"); */
 			}
 			EuclidianStyleBarW.setCurrentPopup(myPopup);
 			EuclidianStyleBarW.setCurrentPopupButton(this);
-			updateBorderColor(getElement(), isBorderTeal, app);
 			app.registerPopup(myPopup);
-			/* getWidget().addStyleName("active"); */
 			myPopup.showRelativeTo(getWidget());
 			myPopup.getFocusPanel().getElement().focus();
 		} else {
-			/* getWidget().removeStyleName("active"); */
 			myPopup.setVisible(false);
-			this.getElement().getStyle().setBorderColor("#dcdcdc");
 			EuclidianStyleBarW.setCurrentPopup(null);
 			EuclidianStyleBarW.setCurrentPopupButton(null);
 		}
-	}
-
-	/**
-	 * @param element
-	 *            element
-	 * @param isBorderTeal
-	 *            whether border should be teal (otherwise purple)
-	 * @param app
-	 *            application
-	 */
-	static void updateBorderColor(Element element, boolean isBorderTeal,
-			AppW app) {
-		element.getStyle().setBorderColor(isBorderTeal ? "#008475"
-				: app.getPrimaryColor().toString());
 	}
 
 	/**

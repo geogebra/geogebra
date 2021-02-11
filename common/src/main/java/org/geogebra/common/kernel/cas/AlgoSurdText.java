@@ -531,10 +531,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 	}
 
-	/**
-	 * @param tpl
-	 *            TODO unused
-	 */
 	private void appendUndefined(StringBuilder sb1,
 			double num1) {
 
@@ -793,17 +789,26 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			} else {
 				en = (new ExpressionNode(kernel, b2)).sqrt().multiplyR(b1);
 
-				if (positive) {
-					en = en.plusR(a);
+				// eg SurdText((-7 * 3^(1 / 2)) / 2)
+				if (DoubleUtil.isZero(a)) {
+					if (!positive) {
+						// make sure minus sign is before fraction
+						if (DoubleUtil.isEqual(c, 1)) {
+							en = (new ExpressionNode(kernel, b2)).sqrt().multiplyR(-b1);
+						} else {
+							en = en.divide(c).multiplyR(-1);
+						}
+						sBuilder.append(en.toString(tpl));
+						return;
+					}
 				} else {
-					en = en.subtractR(a);
+					en = positive ? en.plusR(a) : en.subtractR(a);
 				}
 			}
 			en = en.divide(c);
 
 			sBuilder.append(en.toString(tpl));
 		}
-
 	}
 
 	private static int[] pslq(double[] x, double AccuracyFactor, int bound) {

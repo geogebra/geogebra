@@ -1929,4 +1929,11 @@ public class CommandsTest {
 		t("ReplaceAll(\"3cos(t)+cos(2y)\", \"(\", \"[\") ", "3cos[t)+cos[2y)");
 		t("ReplaceAll(\"3cos(t)\", \"\", \"*\") ", "*3*c*o*s*(*t*)*");
 	}
+
+	@Test
+	public void cmdSurdText() {
+		t("SurdText((-7 * 3^(1 / 2)) / 2)", "-\\frac{7 \\; \\sqrt{3}}{2}");
+		t("SurdText(-sqrt(2))", "-\\sqrt{2}");
+		t("SurdText(-sqrt(4^2 + 4^2))", "-4 \\; \\sqrt{2}");
+	}
 }

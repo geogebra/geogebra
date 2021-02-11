@@ -729,7 +729,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 
 	@Test
 	public void integral_Indefinite_2() {
-		s("Integral[-x^3 + x^2]", "(-1) / 4 * x^(4) + 1 / 3 * x^(3) + c_INDEX");
+		s("Integral[-x^3 + x^2]", "-1 / 4 * x^(4) + 1 / 3 * x^(3) + c_INDEX");
 	}
 
 	/* LeftSide */
@@ -1161,7 +1161,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	@Test
 	public void solve_Several_22() {
 		t("Solve[8 = 3 + 5 t^2 + 10 s, {t, s}]",
-				"{{t = t, s = (-1) / 2 * t^(2) + 1 / 2}}");
+				"{{t = t, s = -1 / 2 * t^(2) + 1 / 2}}");
 	}
 
 	@Test
@@ -1275,7 +1275,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	@Test
 	public void solve_ParametricEMP_3() {
 		t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), {s, t}]",
-				"{{s = (-1) / 2 * t + 1, t = t}}");
+				"{{s = -1 / 2 * t + 1, t = t}}");
 	}
 
 	@Test
@@ -1287,7 +1287,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	@Test
 	public void solve_ParametricEMP_5() {
 		t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), s]",
-				"{s = (-1) / 2 * t + 1}");
+				"{s = -1 / 2 * t + 1}");
 	}
 
 	@Test
@@ -1336,7 +1336,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("f(t, s) := (3, 2) + t * (5, 1) + s * (10, 2)",
 				"(10 * s + 5 * t + 3, 2 * s + t + 2)");
 		t("Solve[f(t, s) = (13, 4), {s, t}]",
-				"{{s = (-1) / 2 * t + 1, t = t}}");
+				"{{s = -1 / 2 * t + 1, t = t}}");
 	}
 
 	@Test
@@ -1351,7 +1351,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	public void solve_ParametricFMP_6() {
 		t("f(t, s) := (3, 2) + t * (5, 1) + s * (10, 2)",
 				"(10 * s + 5 * t + 3, 2 * s + t + 2)");
-		t("Solve[f(t, s) = (13, 4), s]", "{s = (-1) / 2 * t + 1}");
+		t("Solve[f(t, s) = (13, 4), s]", "{s = -1 / 2 * t + 1}");
 	}
 
 	@Test
@@ -1372,7 +1372,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	public void solve_ParametricFMP_9() {
 		t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)",
 				"(-s + 5 * t + 3, 7 * s + t + 2)");
-		t("Solve[f(t, s) = (7, -8), {t, s}]", "{{t = 1 / 2, s = (-3) / 2}}");
+		t("Solve[f(t, s) = (7, -8), {t, s}]", "{{t = 1 / 2, s = -3 / 2}}");
 	}
 
 	@Test
@@ -1414,7 +1414,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	@Test
 	public void solve_ParametricET_3() {
 		t("Solve[(3, 2) + t (5, 1) = (4, 1) + s (2, -2), {t, s}]",
-				"{{t = 0, s = (-1) / 2}}");
+				"{{t = 0, s = -1 / 2}}");
 	}
 
 	@Test
@@ -1454,7 +1454,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	@Test
 	public void solve_ParametricMEE_3() {
 		t("Solve[{(x, y) = (3, 2) + t (5, 1), (x, y) = (4, 1) + s (2, -2)}, {x, y, t, s}]",
-				"{{x = 3, y = 2, t = 0, s = (-1) / 2}}");
+				"{{x = 3, y = 2, t = 0, s = -1 / 2}}");
 	}
 
 	@Test
@@ -1520,14 +1520,14 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("f: (x, y) = (3, 2) + t (5, 1)", "(x, y) = (5 * t + 3, t + 2)");
 		t("g: (x, y) = (4, 1) + s (2, -2)", "(x, y) = (2 * s + 4, -2 * s + 1)");
 		t("Solve[{f, g}, {t, s, x, y}]",
-				"{{t = 0, s = (-1) / 2, x = 3, y = 2}}");
+				"{{t = 0, s = -1 / 2, x = 3, y = 2}}");
 	}
 
 	@Test
 	public void solve_ParametricMEL_1() {
 		t("f: X = (3, 2) + t (5, 1)", "X = (5 * t + 3, t + 2)");
 		t("g: X = (4, 1) + s (2, -2)", "X = (2 * s + 4, -2 * s + 1)");
-		t("Solve[{f, g}, {t, s}]", "{{t = 0, s = (-1) / 2}}");
+		t("Solve[{f, g}, {t, s}]", "{{t = 0, s = -1 / 2}}");
 	}
 
 	@Test
@@ -1591,7 +1591,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	public void solve_ParametricMF_3() {
 		t("f(t) := (3, 2) + t (5, 1)", "(5 * t + 3, t + 2)");
 		t("g(s) := (4, 1) + s (2, -2)", "(2 * s + 4, -2 * s + 1)");
-		t("Solve[f(u) = g(v), {u, v}]", "{{u = 0, v = (-1) / 2}}");
+		t("Solve[f(u) = g(v), {u, v}]", "{{u = 0, v = -1 / 2}}");
 	}
 
 	@Test
@@ -1614,7 +1614,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	public void solve_ParametricMF_6() {
 		t("f(t) := (1, 2) + t * (2, 8)", "(2 * t + 1, 8 * t + 2)");
 		t("g(t) := (1, 1) + t * (2, 1)", "(2 * t + 1, t + 1)");
-		t("Solve[f(t) = g(s), {t, s}]", "{{t = (-1) / 7, s = (-1) / 7}}");
+		t("Solve[f(t) = g(s), {t, s}]", "{{t = -1 / 7, s = -1 / 7}}");
 	}
 
 	/* Parametrics Three Dimensions */
@@ -2320,7 +2320,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 
 	@Test
 	public void casRundbrief_Figure3_5() {
-		t("Solve[225 = 100 * a^2, a]", "{a = (-3) / 2 , a = 3 / 2}");
+		t("Solve[225 = 100 * a^2, a]", "{a = -3 / 2 , a = 3 / 2}");
 	}
 
 	/*
@@ -2595,7 +2595,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("Solve[f(x)=0]",
 				"{x = (sqrt(20 * a + 9) - 3) / (2 * a), x = (-sqrt(20 * a + 9) - 3) / (2 * a)}",
 				"{x = (-sqrt(20 * a + 9) - 3) / (2 * a), x = (sqrt(20 * a + 9) - 3) / (2 * a)}");
-		t("Solve[20a + 9 = 0]", "{a = (-9) / 20}");
+		t("Solve[20a + 9 = 0]", "{a = -9 / 20}");
 	}
 
 	@Test

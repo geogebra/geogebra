@@ -441,8 +441,7 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void onResize() {
-		int width = getWrappedPanel().getOffsetWidth()
-				- (app.isUnbundledOrWhiteboard() ? 40 : 37);
+		int width = getWrappedPanel().getOffsetWidth() - 40;
 		int height = getWrappedPanel().getOffsetHeight();
 		if (height > 0 && width > 0) {
 			contentsPanel.setWidth(width + "px");
