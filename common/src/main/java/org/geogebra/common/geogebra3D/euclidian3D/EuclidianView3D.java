@@ -5075,7 +5075,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * set AR enabled/disabled
+	 * set XR enabled/disabled
 	 * 
 	 * @param isXREnabled
 	 *            flag
