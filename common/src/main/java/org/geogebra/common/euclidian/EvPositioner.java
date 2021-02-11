@@ -12,6 +12,7 @@ public abstract class EvPositioner {
     private EuclidianSettings settings;
     private int moveToX;
     private int moveToY;
+    private int oldWidth = -1;
     private boolean isAnimationEnabled;
 
     protected EvPositioner(EuclidianView euclidianView) {
@@ -19,17 +20,77 @@ public abstract class EvPositioner {
         settings = euclidianView.getSettings();
     }
 
-    /**
-     * Recenters the Euclidian View on app start and on Clear all.
-     */
-    public abstract void reCenter();
+    protected abstract int getAvWidth();
+
+    protected abstract int getAvHeight();
 
     protected abstract boolean isPortrait();
 
     protected abstract int translateToDp(int pixels);
 
     /**
+     * Initializes the xZero and yZero.
+     *
+     * @param width width
+     * @param height height
+     */
+    public void init(int width, int height) {
+        oldWidth = settings.getRawWidth();
+
+        if (oldWidth < 0) {
+            oldWidth = width;
+            settings.setVisibleFromX(0);
+            settings.setVisibleUntilY(height);
+            double xZero = width / 2.0;
+            double yZero = height / 2.0;
+            settings.setOriginNoUpdate(xZero, yZero);
+            euclidianView.xZero = xZero;
+            euclidianView.yZero = yZero;
+        }
+    }
+
+    /**
+     * Centers the EV on app start or after orientation change
+     */
+    public void reCenter() {
+        centerWithAvSize(getAvWidth(), getAvHeight());
+    }
+
+    private void centerWithAvSize(int overlappedWidth, int overlappedHeight) {
+        boolean isPortrait = isPortrait();
+        int newVisibleFromX = isPortrait ? 0 : translateToDp(overlappedWidth);
+        int newVisibleUntilY =
+                isPortrait
+                        ? settings.getHeight() - translateToDp(overlappedHeight)
+                        : settings.getHeight();
+
+        euclidianView.xZero = getNewXZero(newVisibleFromX);
+        euclidianView.yZero = getNewYZero(newVisibleUntilY);
+        oldWidth = settings.getRawWidth();
+
+        settings.setVisibleFromX(newVisibleFromX);
+        settings.setVisibleUntilY(newVisibleUntilY);
+
+        settings.setOriginNoUpdate(euclidianView.xZero, euclidianView.yZero);
+
+        euclidianView.updateSizeChange();
+    }
+
+    private double getNewXZero(int newVisibleFromX) {
+        double newSize = newVisibleFromX + settings.getWidth();
+        double oldSize = settings.getVisibleFromX() + oldWidth;
+        double dx = (newSize - oldSize) / 2.0;
+        return settings.getXZero() + dx;
+    }
+
+    private double getNewYZero(int newVisibleUntilY) {
+        double dy = (newVisibleUntilY - settings.getVisibleUntilY()) / 2.0;
+        return settings.getYZero() + dy;
+    }
+
+    /**
      * Pans the EV after AV (and keyboard) animations
+     *
      * @param avWidth av width
      * @param avHeight av height
      */
@@ -72,18 +133,6 @@ public abstract class EvPositioner {
         euclidianView.xZero = moveToX;
         euclidianView.yZero = moveToY;
         settings.setOriginNoUpdate(moveToX, moveToY);
-        updateEvSizeChange();
-    }
-
-    protected EuclidianView getEuclidianView() {
-        return euclidianView;
-    }
-
-    protected void updateEvSizeChange() {
         euclidianView.updateSizeChange();
-    }
-
-    protected EuclidianSettings getSettings() {
-        return settings;
     }
 }
