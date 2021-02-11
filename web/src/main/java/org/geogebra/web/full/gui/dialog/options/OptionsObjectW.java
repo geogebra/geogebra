@@ -146,6 +146,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			mainWidget = new FlowPanel();
 			showLabelCB = new CheckBox(localize("ShowLabel") + ":");
 			mainWidget.add(showLabelCB);
+			mainWidget.setStyleName("checkBoxPanel");
 			setWidget(mainWidget);
 
 			model = new ShowLabelModel(app, this);
@@ -816,10 +817,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	private void initGUI(final Runnable onTabSelection) {
 		wrappedPanel = new FlowPanel();
 		wrappedPanel.setStyleName("propertiesPanel");
-
-		// TODO after release MULTIROW_TAB_PROPERTIES feature: propertiesPanel
-		// and propertiesPanel2 classes should be merged
-		wrappedPanel.addStyleName("propertiesPanel2");
 		tabPanel = new MultiRowsTabPanel();
 
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
@@ -833,7 +830,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 				onTabSelection.run();
 			}
 		});
-		((Widget) tabPanel).setStyleName("propertiesTabPanel");
+		((Widget) tabPanel).setStyleName("propertiesPanel");
 		createBasicTab();
 		if (!(app.isExam())) {
 			tabs = Arrays.asList(basicTab, addTextTab(), addSliderTab(),

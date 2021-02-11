@@ -400,7 +400,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		}
 
 		public ProjectionTab() {
-			super(app);
+			super();
 
 			projectionButtons = new ProjectionButtons();
 

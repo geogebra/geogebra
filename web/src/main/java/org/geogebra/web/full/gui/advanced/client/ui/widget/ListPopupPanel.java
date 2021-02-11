@@ -108,9 +108,6 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 		this.comboBox = selectionTextBox;
 
 		setStyleName("advanced-ListPopupPanel");
-		if (app.isUnbundledOrWhiteboard()) {
-			addStyleName("matDesign");
-		}
 
 		setWidget(getScrollPanel());
 

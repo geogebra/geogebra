@@ -44,7 +44,6 @@ public class CASActivity extends BaseActivity {
 	public void start(AppW app) {
 		Kernel kernel = app.getKernel();
 		kernel.getGeoGebraCAS().initCurrentCAS();
-		kernel.getParser().setHighPrecisionParsing(true);
 		CommandDispatcher dispatcher = kernel.getAlgebraProcessor().getCommandDispatcher();
 		tryLoadingCasDispatcher(dispatcher);
 		tryLoadingAdvancedDispatcher(dispatcher);

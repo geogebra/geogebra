@@ -26,7 +26,7 @@ public class LabelController {
 	 *
 	 * @param element the element
 	 */
-	public void hideLabel(GeoElement element) {
+	public void hideLabel(GeoElementND element) {
 		updateLabel(element, false);
 	}
 
@@ -35,11 +35,11 @@ public class LabelController {
 	 *
 	 * @param element the element
 	 */
-	public void showLabel(GeoElement element) {
+	public void showLabel(GeoElementND element) {
 		updateLabel(element, true);
 	}
 
-	private static void updateLabel(GeoElement element, boolean show) {
+	private static void updateLabel(GeoElementND element, boolean show) {
 		String label = element.getFreeLabel(show ? null : LabelManager.HIDDEN_PREFIX);
 		element.setAlgebraLabelVisible(show);
 		element.setLabel(label);
@@ -47,7 +47,7 @@ public class LabelController {
 		if (definition != null) {
 			definition.setLabel(label);
 		}
-		element.getKernel().notifyUpdate(element);
+		element.getKernel().notifyUpdate(element.toGeoElement());
 	}
 
 	/**

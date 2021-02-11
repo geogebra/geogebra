@@ -4481,7 +4481,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 				sb.append(" type=\"conic\"");
 			} else if (isGeoQuadric()) {
 				sb.append(" type=\"quadric\"");
-			} else if (isGeoImplicitPoly()) {
+			} else if (isGeoImplicitCurve()) {
 				sb.append(" type=\"implicitpoly\"");
 			} else if (isGeoImplicitSurface()) {
 				sb.append(" type=\"implicitsurface\"");
@@ -5012,13 +5012,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * @return true for implicit polynomials
-	 */
-	public boolean isGeoImplicitPoly() {
-		return false;
-	}
-
-	/**
 	 * @return true for implicit surfaces
 	 */
 	public boolean isGeoImplicitSurface() {
@@ -5053,7 +5046,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * @return true for boolean functions
+	 * @return true for boolean functions (including undefined that were saved as boolean in XML)
 	 */
 	public boolean isGeoFunctionBoolean() {
 		return false;
@@ -6203,14 +6196,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public boolean isPickable() {
 		return isPickable && isSelectionAllowed(null);
-	}
-
-	/**
-	 * @return true for intervals
-	 */
-	@Override
-	public boolean isGeoInterval() {
-		return false;
 	}
 
 	/**

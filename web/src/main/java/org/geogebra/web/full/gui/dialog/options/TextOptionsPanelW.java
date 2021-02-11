@@ -123,37 +123,24 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 			updatePreviewPanel();
 		});
 
-		// font size
-		// TODO require font phrases F.S.
-		// toggle buttons for bold and italic
-		if (appw.isUnbundledOrWhiteboard()) {
-			btnItalic = new MyToggleButtonW(
-					new ImageResourcePrototype(
-							null, MaterialDesignResources.INSTANCE
-									.text_italic_black().getSafeUri(),
-							0, 0, 24, 24, false, false));
-			btnItalic.addStyleName("btnItalic");
+		btnItalic = new MyToggleButtonW(
+				new ImageResourcePrototype(
+						null, MaterialDesignResources.INSTANCE
+								.text_italic_black().getSafeUri(),
+						0, 0, 24, 24, false, false));
+		btnItalic.addStyleName("btnItalic");
 
-			btnBold = new MyToggleButtonW(
-					new ImageResourcePrototype(
-							null, MaterialDesignResources.INSTANCE
-									.text_bold_black().getSafeUri(),
-							0, 0, 24, 24, false, false));
-			btnBold.addStyleName("btnBold");
-			if (app.isWhiteboardActive()) {
-				btnUnderline = new MyToggleButtonW(new NoDragImage(
-						MaterialDesignResources.INSTANCE.text_underline_black(), 24));
-				btnUnderline.addStyleName("btnUnderline");
-			}
-		} else {
-			btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short"));
-			btnBold.addStyleName("btnBold");
+		btnBold = new MyToggleButtonW(
+				new ImageResourcePrototype(
+						null, MaterialDesignResources.INSTANCE
+								.text_bold_black().getSafeUri(),
+						0, 0, 24, 24, false, false));
+		btnBold.addStyleName("btnBold");
 
-			btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short"));
-			btnItalic.addStyleName("btnItalic");
-
-			btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
-			btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
+		if (app.isWhiteboardActive()) {
+			btnUnderline = new MyToggleButtonW(new NoDragImage(
+					MaterialDesignResources.INSTANCE.text_underline_black(), 24));
+			btnUnderline.addStyleName("btnUnderline");
 		}
 
 		btnLatex = new MyToggleButtonW("LaTeX");
@@ -233,10 +220,8 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 		btnCancel = new Button();
 		btnPanel.add(btnCancel);
-		if (appw.isUnbundledOrWhiteboard()) {
-			btnOk.addStyleName("okBtn");
-			btnCancel.addStyleName("cancelBtn");
-		}
+		btnOk.addStyleName("okBtn");
+		btnCancel.addStyleName("cancelBtn");
 		btnCancel.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -315,16 +300,9 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 		decimalLabel.setText(loc.getMenu("Rounding") + ":");
 
-		if (!app.isUnbundledOrWhiteboard()) {
-			btnBold.setText(loc.getMenu("Bold.Short"));
-			btnItalic.setText(loc.getMenu("Italic.Short"));
-		}
-
 		btnLatex.setText(loc.getMenu("LaTeXFormula"));
-		if (!app.isUnbundledOrWhiteboard()) {
-			btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
-			btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
-		}
+		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
+		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
 
 		if (advancedPanel != null) {
 			advancedPanel.setLabels();

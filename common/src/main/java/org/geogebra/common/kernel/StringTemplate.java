@@ -2861,7 +2861,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 				// left wing
 				if ((leftStr.charAt(0) != '-') && // no unary
-						left.isLeaf() || left.isOperation(Operation.NROOT)
+						isSinglePowerArg(left) || left.isOperation(Operation.NROOT)
 						|| left.isOperation(Operation.CBRT)) { // not +, -, *, /, ^,
 					// e^x
 
@@ -2907,20 +2907,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 				break;
 
 			default:
-				if ((right.isLeaf() && !isFraction(right))
+				if ((isSinglePowerArg(right) && !isFraction(right))
 						|| ((ExpressionNode
 						.opID(right) > Operation.POWER.ordinal())
 						&& (ExpressionNode.opID(right) != Operation.EXP
-								.ordinal()))) { // not
-					// +,
-					// -,
-					// *,
-					// /,
-					// ^,
-					// e^x
-					// Michael Borcherds 2008-05-14
-					// display powers over 9 as unicode superscript
+								.ordinal()))) {
+					// not +, -, *, /, ^, e^x
 					try {
+						// display integer powers as unicode superscript
 						int i = Integer.parseInt(rightStr);
 						StringUtil.numberToIndex(i, sb);
 					} catch (RuntimeException e) {
@@ -2935,6 +2929,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 			}
 			return sb.toString();
 		}
+	}
+
+	/**
+	 * Checks for composite expressions and numbers like -5, 2*10^5
+	 * @param val expression value
+	 * @return whether val can be used as argument for power/factorial without brackets
+	 */
+	public boolean isSinglePowerArg(ExpressionValue val) {
+		return val instanceof MySpecialDouble
+				? !((MySpecialDouble) val).isScientificNotation() : val.isLeaf();
 	}
 
 	private boolean isTrigFunction(ExpressionNode expr) {
@@ -3013,11 +3017,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(")");
 			}
 		}
-		if (Efound && !this.isPrintLocalizedCommandNames()) {
-			sb.insert(0, '(');
-			sb.append(')');
-		}
-
 		return sb.toString();
 	}
 

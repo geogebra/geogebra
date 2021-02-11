@@ -845,7 +845,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			sb.append("\" exp=\"");
 			StringUtil.encodeXML(sb, getXmlString());
 			// expression
-			sb.append("\"/>\n");
+			sb.append("\" type=\"implicitpoly\"/>\n");
 		}
 	}
 

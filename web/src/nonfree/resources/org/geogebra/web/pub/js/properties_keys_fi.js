@@ -1767,7 +1767,7 @@ __GGB__keysVar["fi"].menu = {
     "Edit": "Muokkaa",
     "EditMenu": "Muokkaa",
     "EditProfile": "Muokkaa profiiliasi",
-    "ElementASelected": "Element %0 selected",
+    "ElementASelected": "Valittu %0",
     "Elementary12": "Elementary 1/2",
     "Elementary12Colored": "Alakoulu 1/2 v\xe4ritys",
     "Elementary12WithHouse": "Alakoulu 1/2 talolla",
