@@ -250,9 +250,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		if (tempUserDisplayInput != null
 				&& inputBoxRenderer.tempUserEvalInput != null) {
 			sb.append("\t<tempUserInput display=\"");
-			sb.append(tempUserDisplayInput);
+			StringUtil.encodeXML(sb, tempUserDisplayInput);
 			sb.append("\" eval=\"");
-			sb.append(inputBoxRenderer.tempUserEvalInput);
+			StringUtil.encodeXML(sb, inputBoxRenderer.tempUserEvalInput);
 			sb.append("\"/>\n");
 		}
 
