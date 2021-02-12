@@ -1,4 +1,4 @@
-package org.geogebra.common.geogebra3D.euclidian3D.xr;
+package org.geogebra.xr;
 
 public interface XRMotionEvent  {
 	public static int FIRST_FINGER_DOWN = 0;

@@ -1,6 +1,6 @@
-package org.geogebra.arbase;
+package org.geogebra.ar;
 
-import org.geogebra.common.geogebra3D.euclidian3D.xr.XRMotionEvent;
+import org.geogebra.xr.XRMotionEvent;
 
 abstract public class ARMotionEvent implements XRMotionEvent {
 

@@ -1,4 +1,4 @@
-package org.geogebra.arbase;
+package org.geogebra.ar;
 
 import static org.geogebra.common.geogebra3D.euclidian3D.xr.XRManagerInterface.DESK_DISTANCE_AVERAGE;
 import static org.geogebra.common.geogebra3D.euclidian3D.xr.XRManagerInterface.DESK_DISTANCE_MAX;
