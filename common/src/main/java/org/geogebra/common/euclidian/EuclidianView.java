@@ -1400,8 +1400,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			double ymin2, double ymax2) {
 		double calcXscale = getVisibleWidth() / (xmax2 - xmin2);
 		double calcYscale = getVisibleHeight() / (ymax2 - ymin2);
-		double calcXzero = calcXscale * -xmin2 + settings.getVisibleFromX();
+
+		int visibleFromX = settings != null ? settings.getVisibleFromX() : 0;
+		double calcXzero = calcXscale * -xmin2 + visibleFromX;
 		double calcYzero = calcYscale * ymax2;
+
 		setCoordSystem(calcXzero, calcYzero, calcXscale, calcYscale);
 	}
 
@@ -1734,7 +1737,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		ymax = getYZero() * getInvYscale();
 		ymin = (getYZero() - getHeight()) * getInvYscale();
 
-		visibleRect.minX = -(getXZero() - settings.getVisibleFromX()) * getInvXscale();
+		int visibleFromX = settings != null ? settings.getVisibleFromX() : 0;
+		visibleRect.minX = -(getXZero() - visibleFromX) * getInvXscale();
 		visibleRect.maxX = xmax;
 		visibleRect.minY = (getYZero() - getVisibleHeight()) * getInvYscale();
 		visibleRect.maxY = ymax;
