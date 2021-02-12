@@ -439,7 +439,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Weak
 	protected App app;
 
-	@CheckForNull
 	private EuclidianSettings settings;
 
 	// member variables
