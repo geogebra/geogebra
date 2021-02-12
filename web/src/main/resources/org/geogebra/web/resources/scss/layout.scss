@@ -56,14 +56,14 @@
 		}
 
 		.gwt-SplitLayoutPanel-HDragger:after {
-			top: 50%;
+			top: calc(50% - 14px);
 			left: 2px;
 			height: 28px;
 			width: 4px;
 		}
 
 		.gwt-SplitLayoutPanel-VDragger:after {
-			left: 50%;
+			left: calc(50% - 14px);
 			bottom: 2px;
 			width: 28px;
 			height: 4px;
