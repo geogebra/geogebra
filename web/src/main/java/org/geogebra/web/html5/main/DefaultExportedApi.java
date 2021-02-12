@@ -977,4 +977,8 @@ public class DefaultExportedApi implements ExportedApi {
 	public void addToGroup(String item, String[] objectsInGroup) {
 		ggbAPI.addToGroup(item, objectsInGroup);
 	}
+
+	public void setEmbedContent(String label, String base64) {
+		ggbAPI.setEmbedContent(label, base64);
+	}
 }

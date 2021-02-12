@@ -139,6 +139,11 @@ public enum EventType {
 	/** Prune state list in external object */
 	EMBEDDED_PRUNE_STATE_LIST("embeddedPruneStateList"),
 
+	/**
+	 * Change the whole content (base64) of embedded applet
+	 */
+	EMBEDDED_CONTENT_CHANGED("embeddedContentChanged"),
+
 	/** Algebra Panel selected */
 	ALGEBRA_PANEL_SELECTED("algebraPanelSelected"),
 	/** Tools Panel selected */
