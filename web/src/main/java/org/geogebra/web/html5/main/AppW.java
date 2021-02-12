@@ -78,7 +78,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -2092,19 +2091,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	protected void getLayoutXML(StringBuilder sb, boolean asPreference) {
-
 		if (getGuiManager() == null) {
 			initGuiManager();
 		}
 		if (getGuiManager() != null) {
 			getGuiManager().getLayout().getXml(sb, asPreference);
-		}
-
-		if (isWhiteboardActive()) {
-			sb.append("\t<notesToolbarOpen");
-			sb.append(" val=\"");
-			sb.append(((GeoGebraFrameFull) getAppletFrame()).isNotesToolbarOpen());
-			sb.append("\"/>\n");
 		}
 	}
 
@@ -3655,10 +3646,5 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public boolean isMultipleSlidesOpen() {
 		return getPageController() != null && getPageController().getSlideCount() > 1;
-	}
-
-	@Override
-	public void setNotesToolbarOpen(boolean open) {
-		((GeoGebraFrameFull) getAppletFrame()).setNotesToolbarOpen(open);
 	}
 }
