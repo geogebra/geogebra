@@ -2246,6 +2246,7 @@ __GGB__keysVar["sv"].menu = {
     "MidpointOfAB": "Mittpunkten mellan %0,%1",
     "MinCells": "Minimum",
     "MinCells.Help": "Best\xe4mmer minimum av de valda cellerna",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Speglingspunkt till cirkel",
     "MirrorAtCircle.Help": "V\xe4lj punkt och cirkel",

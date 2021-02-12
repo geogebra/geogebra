@@ -2246,6 +2246,7 @@ __GGB__keysVar["lt"].menu = {
     "MidpointOfAB": "%0, %1 vidurio ta\u0161kas",
     "MinCells": "Surasti minimali\u0105 vert\u0119 laukeliuose",
     "MinCells.Help": "Pasirinkite laukelius",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Atspind\u0117ti apskritimo at\u017evilgiu",
     "MirrorAtCircle.Help": "Pasitinkite ta\u0161k\u0105, tuomet apskritim\u0105",

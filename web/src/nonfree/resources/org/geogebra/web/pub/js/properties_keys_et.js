@@ -2246,6 +2246,7 @@ __GGB__keysVar["et"].menu = {
     "MidpointOfAB": "%0 keskpunkt %1",
     "MinCells": "Leia lahtrite hulga miinimumv\xe4\xe4rtus",
     "MinCells.Help": "Vali lahtrite hulk",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Peegelda objekti ringjoonest",
     "MirrorAtCircle.Help": "Kl\xf5psake objektil, siis ringjoonel",

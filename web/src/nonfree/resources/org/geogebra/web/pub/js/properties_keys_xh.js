@@ -2246,6 +2246,7 @@ __GGB__keysVar["xh"].menu = {
     "MidpointOfAB": "IchaphazaLombindi lika %0, %1",
     "MinCells": "isiThintelosaNgentla",
     "MinCells.Help": "Khetha iqela lamagumbi",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Riflekta kwi Sangqa",
     "MirrorAtCircle.Help": "Khetha into ozakuyi riflekta, ulandelise ngesangqa",

@@ -2246,6 +2246,7 @@ __GGB__keysVar["fi"].menu = {
     "MidpointOfAB": "Janan %0%1 keskipiste",
     "MinCells": "Pienin arvo",
     "MinCells.Help": "M\xe4\xe4ritt\xe4\xe4 solualueen, josta pienin arvo etsit\xe4\xe4n",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Peilaus ympyr\xe4n suhteen",
     "MirrorAtCircle.Help": "Valitse piste ja sitten ympyr\xe4",

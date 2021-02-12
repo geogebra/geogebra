@@ -2246,6 +2246,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "MidpointOfAB": "Ponto M\xe9dio de %0, %1",
     "MinCells": "M\xednimo",
     "MinCells.Help": "Determina o m\xednimo das c\xe9lulas selecionadas",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Invers\xe3o (Objeto, Circunfer\xeancia)",
     "MirrorAtCircle.Help": "Selecione o objeto e depois a circunfer\xeancia",

@@ -2246,6 +2246,7 @@ __GGB__keysVar["cy"].menu = {
     "MidpointOfAB": "Canolbwynt o %0, %1",
     "MinCells": "Darganfod y gwerth minimwm mewn set o gelloedd",
     "MinCells.Help": "Dewis set o gelloedd",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Adlewyrchu pwynt yn y cylch",
     "MirrorAtCircle.Help": "Dewis pwynt i'w adlewyrchu ac yna'r cylch",

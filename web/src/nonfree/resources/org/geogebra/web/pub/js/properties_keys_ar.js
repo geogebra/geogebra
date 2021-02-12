@@ -2246,6 +2246,7 @@ __GGB__keysVar["ar"].menu = {
     "MidpointOfAB": "[%0%1]\u0645\u0646\u062a\u0635\u0641",
     "MinCells": "\u0627\u0644\u062d\u062f \u0627\u0644\u0623\u062f\u0646\u0649",
     "MinCells.Help": "\u062d\u062f\u062f \u0645\u062c\u0645\u0648\u0639\u0629 \u062e\u0627\u0646\u0627\u062a",
+    "Mindmap": "Mindmap",
     "Minimum.short": "\u0627\u0644\u062d\u062f\u0627\u0644\u0623\u062f\u0646\u0649",
     "MirrorAtCircle": "\u062a\u0639\u0627\u0643\u0633",
     "MirrorAtCircle.Help": "\u062d\u062f\u062f \u0646\u0642\u0637\u0629, \u062b\u0645 \u062f\u0627\u0626\u0631\u0629",

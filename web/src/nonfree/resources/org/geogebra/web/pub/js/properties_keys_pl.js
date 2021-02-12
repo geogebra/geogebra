@@ -2246,6 +2246,7 @@ __GGB__keysVar["pl"].menu = {
     "MidpointOfAB": "\u015arodek %0, %1",
     "MinCells": "Minimum",
     "MinCells.Help": "Zaznacz zestaw kom\xf3rek",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Inwersja punktu wzgl\u0119dem okr\u0119gu",
     "MirrorAtCircle.Help": "Wybierz najpierw obiekt do inwersji, potem okr\u0105g",

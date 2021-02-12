@@ -2246,6 +2246,7 @@ __GGB__keysVar["ro"].menu = {
     "MidpointOfAB": "Mijlocul lui %0, %1",
     "MinCells": "Minim",
     "MinCells.Help": "Determin\u0103 valoarea minim\u0103 a celulelor selectate",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Reflectare obiect relativ la un cerc",
     "MirrorAtCircle.Help": "Selecta\u0163i obiectul de reflectat, apoi cercul",

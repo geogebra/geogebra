@@ -2246,6 +2246,7 @@ __GGB__keysVar["az"].menu = {
     "MidpointOfAB": "% 0,% 1 orta n\xf6qt\u0259si",
     "MinCells": "Minimum",
     "MinCells.Help": "Determines the minimum of selected cells",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Minimum",
     "MirrorAtCircle": "Reflect about Circle",
     "MirrorAtCircle.Help": "\u018fks etdirm\u0259k \xfc\xe7\xfcn cism se\xe7, sonra dair\u0259",

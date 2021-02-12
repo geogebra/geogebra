@@ -2246,6 +2246,7 @@ __GGB__keysVar["hu"].menu = {
     "MidpointOfAB": "%0, %1 k\xf6z\xe9ppontja",
     "MinCells": "Minimum",
     "MinCells.Help": "Cell\xe1k kijel\xf6l\xe9se",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Inverzi\xf3",
     "MirrorAtCircle.Help": "Pont, majd alapk\xf6r",

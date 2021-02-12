@@ -2246,6 +2246,7 @@ __GGB__keysVar["tg"].menu = {
     "MidpointOfAB": "Midpoint of %0, %1",
     "MinCells": "Minimum",
     "MinCells.Help": "Determines the minimum of selected cells",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Reflect about Circle",
     "MirrorAtCircle.Help": "Select object to reflect, then circle",

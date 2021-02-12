@@ -2246,6 +2246,7 @@ __GGB__keysVar["vi"].menu = {
     "MidpointOfAB": "Trung \u0111i\u1ec3m c\u1ee7a %0, %1",
     "MinCells": "Nh\u1ecf nh\u1ea5t c\xe1c \xf4",
     "MinCells.Help": "Ch\u1ecdn t\u1eadp h\u1ee3p c\xe1c \xf4",
+    "Mindmap": "Mindmap",
     "Minimum.short": "GTNN",
     "MirrorAtCircle": "\u0110\u1ed1i x\u1ee9ng \u0111i\u1ec3m qua \u0111\u01b0\u1eddng tr\xf2n",
     "MirrorAtCircle.Help": "Ch\u1ecdn \u0111i\u1ec3m \u0111\u1ed1i x\u1ee9ng, r\u1ed3i \u0111\u1ebfn \u0111\u01b0\u1eddng tr\xf2n",

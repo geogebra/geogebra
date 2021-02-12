@@ -2246,6 +2246,7 @@ __GGB__keysVar["sr"].menu = {
     "MidpointOfAB": "Sredi\u0161te od %0, %1",
     "MinCells": "Nalazi najmanju vrednost u skupu \u0107elija",
     "MinCells.Help": "Odaberite skup \u0107elija",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Inverzija u odnosu na kru\u017enicu",
     "MirrorAtCircle.Help": "Izaberite ta\u010dku i kru\u017enicu",

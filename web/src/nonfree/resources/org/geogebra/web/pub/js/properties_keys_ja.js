@@ -2246,6 +2246,7 @@ __GGB__keysVar["ja"].menu = {
     "MidpointOfAB": "%0, %1 \u306e\u4e2d\u70b9",
     "MinCells": "\u6700\u5c0f\u5024",
     "MinCells.Help": "\u9078\u629e\u3057\u305f\u30bb\u30eb\u7bc4\u56f2\u306e\u6700\u5c0f\u5024\u3092\u6c7a\u5b9a",
+    "Mindmap": "Mindmap",
     "Minimum.short": "\u6700\u5c0f",
     "MirrorAtCircle": "\u5186\u306b\u95a2\u3059\u308b\u93e1\u6620",
     "MirrorAtCircle.Help": "\u70b9\u3068\u5186\u3092\u9078\u629e",

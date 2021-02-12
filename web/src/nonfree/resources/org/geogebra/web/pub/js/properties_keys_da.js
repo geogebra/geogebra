@@ -2246,6 +2246,7 @@ __GGB__keysVar["da"].menu = {
     "MidpointOfAB": "Midtpunkt p\xe5 %0%1",
     "MinCells": "Finder mindstev\xe6rdi i et udvalg af celler",
     "MinCells.Help": "V\xe6lg minimum antal celler",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Spejl i cirkel",
     "MirrorAtCircle.Help": "Punkt og cirkel",

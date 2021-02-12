@@ -2246,6 +2246,7 @@ __GGB__keysVar["fil"].menu = {
     "MidpointOfAB": "Kalagitnaan ng %0, %1",
     "MinCells": "Minimum",
     "MinCells.Help": "Pumili ng grupo ng cells",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Reflect Object about Circle",
     "MirrorAtCircle.Help": "Pumili ng object na ire-reflect, pagkatapos pumili ng circle",

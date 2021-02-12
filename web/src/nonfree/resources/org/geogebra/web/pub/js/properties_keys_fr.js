@@ -2246,6 +2246,7 @@ __GGB__keysVar["fr"].menu = {
     "MidpointOfAB": "Milieu de [%0%1]",
     "MinCells": "Minimum",
     "MinCells.Help": "S\xe9lectionner une plage de cellules",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Inversion",
     "MirrorAtCircle.Help": "Point[cr\xe9\xe9 ou non] et cercle[cr\xe9\xe9] dont le centre est le p\xf4le et le carr\xe9 du rayon, la puissance",

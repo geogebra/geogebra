@@ -2246,6 +2246,7 @@ __GGB__keysVar["ca"].menu = {
     "MidpointOfAB": "Punt mitj\xe0 entre %0 i %1",
     "MinCells": "M\xednim",
     "MinCells.Help": "Seleccioneu un conjunt de cel\xb7les",
+    "Mindmap": "Mindmap",
     "Minimum.short": "M\xedn",
     "MirrorAtCircle": "Inversi\xf3",
     "MirrorAtCircle.Help": "Seleccioneu l'objete a transformar i la circumfer\xe8ncia d'autoinversi\xf3",
