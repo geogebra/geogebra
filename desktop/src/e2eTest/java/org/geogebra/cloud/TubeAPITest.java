@@ -250,28 +250,6 @@ public class TubeAPITest extends Assert {
 		awaitValidTitles("delete",  titles, 1);
 	}
 
-	@Test
-	public void testSync() {
-		final ClientInfo client = getAuthClient(app.getLoginOperation(),
-				getToken());
-		app.getLoginOperation().getGeoGebraTubeAPI().setClient(client);
-		final TestMaterialsManager man = new TestMaterialsManager(app);
-		Material mat = new Material(0, MaterialType.ggb);
-		mat.setTitle("test-sync-" + new Date() + Math.random());
-		mat.setBase64(circleBase64);
-		mat.setLanguage("en");
-		man.insertFile(mat);
-		app.getLoginOperation().getGeoGebraTubeAPI().sync(0,
-				man::uploadUsersMaterials);
-		for (int i = 0; i < 20; i++) {
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
 
 	private GeoGebraTubeAPID getAuthAPI() {
 		return getAuthAPI(getToken());

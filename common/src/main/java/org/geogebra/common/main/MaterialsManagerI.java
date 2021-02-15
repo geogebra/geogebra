@@ -18,8 +18,6 @@ public interface MaterialsManagerI {
 	 */
 	void delete(Material material, boolean permanent, Runnable onSuccess);
 
-	void uploadUsersMaterials(ArrayList<SyncEvent> events);
-
 	void getUsersMaterials();
 
 	void search(String query);

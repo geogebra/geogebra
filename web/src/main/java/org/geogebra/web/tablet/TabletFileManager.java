@@ -228,49 +228,6 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}-*/;
 
-	@Override
-	public void uploadUsersMaterials(final ArrayList<SyncEvent> events) {
-		final int callbackParent = addNewCallback(new MyCallback() {
-			@Override
-			public void onSuccess(Object resultParent) {
-				int length = (Integer) resultParent;
-				setNotSyncedFileCount(length, events);
-				for (int i = 0; i < length; i++) {
-					int callback = addNewCallback(new MyCallback() {
-						@Override
-						public void onSuccess(Object result) {
-							try {
-								String[] resultStrings = (String[]) result;
-								String name = resultStrings[0];
-								String data = resultStrings[1];
-								Material mat = JSONParserGGT.prototype
-										.toMaterial(new JSONObject(data));
-								mat.setLocalID(
-										MaterialsManager.getIDFromKey(name));
-								sync(mat, events);
-							} catch (JSONException e) {
-								ignoreNotSyncedFile(events);
-								e.printStackTrace();
-							}
-						}
-
-						@Override
-						public void onFailure(Object result) {
-							// not needed
-								ignoreNotSyncedFile(events);
-							}
-					});
-					getMetaDataNative(i, callback, getId());
-				}
-			}
-
-			@Override
-			public void onFailure(Object result) {
-				// not needed
-			}
-		});
-		listLocalFilesNative(callbackParent);
-	}
 
 	@Override
 	public void upload(final Material mat) {

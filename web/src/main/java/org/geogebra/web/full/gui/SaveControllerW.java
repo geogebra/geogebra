@@ -154,6 +154,7 @@ public class SaveControllerW implements SaveController {
 			app.getKernel().getConstruction().setTitle(name);
 			app.getFileManager().export(app);
 		} else if (app.isOffline() || !app.getLoginOperation().isLoggedIn()) {
+			ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("phone_loading_materials_offline"), true, app);
 			getAppW().getGuiManager().exportGGB(true);
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
 			uploadToDrive();
