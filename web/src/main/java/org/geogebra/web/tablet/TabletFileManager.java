@@ -1,6 +1,5 @@
 package org.geogebra.web.tablet;
 
-import java.util.ArrayList;
 import java.util.TreeMap;
 
 import org.geogebra.common.main.MaterialsManager;
@@ -8,7 +7,6 @@ import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
-import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
