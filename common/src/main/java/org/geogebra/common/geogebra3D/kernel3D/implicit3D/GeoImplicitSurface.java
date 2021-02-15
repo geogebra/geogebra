@@ -172,6 +172,10 @@ public class GeoImplicitSurface extends GeoElement3D
 	private void setDerivatives(FunctionVariable x, FunctionVariable y,
 			FunctionVariable z) {
 		FunctionNVar fn = expression.getFunction();
+		if (fn == null) {
+			this.hasDerivatives = false;
+			return;
+		}
 		try {
 			derivFunc[0] = fn.getDerivativeNoCAS(x, 1);
 			derivFunc[1] = fn.getDerivativeNoCAS(y, 1);

@@ -91,7 +91,10 @@ public class AlgoIntegral extends AlgoCasBase {
 		computedSymbolically = true;
 		if (f instanceof GeoFunction) {
 			Function inFun = ((GeoFunction) f).getFunction();
-
+			if (inFun == null) {
+				g.setUndefined();
+				return;
+			}
 			if (!kernel.useCASforIntegrals() || numeric) {
 
 				inFun = inFun.getIntegralNoCAS();
@@ -125,6 +128,10 @@ public class AlgoIntegral extends AlgoCasBase {
 
 		if (f instanceof GeoFunctionNVar && numeric) {
 			FunctionNVar inFun = ((GeoFunctionNVar) f).getFunction();
+			if (inFun == null) {
+				g.setUndefined();
+				return;
+			}
 			FunctionVariable fv = inFun.getFunctionVariables()[0];
 			for (int i = 1; i < inFun.getVarNumber(); i++) {
 				if (inFun.getFunctionVariables()[i]

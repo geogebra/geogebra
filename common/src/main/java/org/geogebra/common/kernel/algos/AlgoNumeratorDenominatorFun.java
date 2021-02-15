@@ -128,11 +128,9 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 				((GeoFunction) g).setFunction(tempFun);
 
 			} else {
-
 				// construct eg f(a,b)=b
-				GeoFunctionNVar ff = ((GeoFunctionNVar) f);
-				FunctionNVar fun = ff.getFunction();
-				FunctionVariable[] vars = fun.getFunctionVariables();
+				GeoFunctionNVar ff = (GeoFunctionNVar) f;
+				FunctionVariable[] vars = ff.getFunctionVariables();
 				ExpressionNode en = new ExpressionNode(kernel, ev);
 				FunctionNVar newFun = new FunctionNVar(en, vars);
 				((GeoFunctionNVar) g).setFunction(newFun);
@@ -153,8 +151,7 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 
 				// construct eg f(a,b)=3
 				GeoFunctionNVar ff = ((GeoFunctionNVar) f);
-				FunctionNVar fun = ff.getFunction();
-				FunctionVariable[] vars = fun.getFunctionVariables();
+				FunctionVariable[] vars = ff.getFunctionVariables();
 				ExpressionNode en = new ExpressionNode(kernel, ev);
 				FunctionNVar newFun = new FunctionNVar(en, vars);
 				((GeoFunctionNVar) g).setFunction(newFun);
@@ -167,7 +164,6 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 		}
 
 		((FunctionalNVar) g).setDefined(true);
-
 	}
 
 	/**
