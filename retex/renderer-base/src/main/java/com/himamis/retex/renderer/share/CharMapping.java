@@ -193,9 +193,14 @@ public final class CharMapping {
 		@Override
 		public void map(final TeXParser tp, final boolean mathMode) {
 			if (sup) {
-				tp.cumSupSymbols(new CharAtom(c, tp.isMathMode()));
+				tp.processSubSup('^');
 			} else {
-				tp.cumSubSymbols(new CharAtom(c, tp.isMathMode()));
+				tp.processSubSup('_');
+			}
+			if (defaultMappings.hasMapping(c)) {
+				tp.addToConsumer(defaultMappings.get(c, tp));
+			} else {
+				tp.addToConsumer(new CharAtom(c));
 			}
 		}
 	}
