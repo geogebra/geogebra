@@ -2246,7 +2246,7 @@ __GGB__keysVar["it"].menu = {
     "MidpointOfAB": "Punto medio tra %0 e %1",
     "MinCells": "Minimo",
     "MinCells.Help": "Determina il minimo delle celle selezionate",
-    "Mindmap": "Mindmap",
+    "Mindmap": "Mappa mentale",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Inversione circolare",
     "MirrorAtCircle.Help": "Seleziona l'oggetto da trasformare, quindi la circonferenza",

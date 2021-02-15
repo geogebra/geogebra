@@ -1757,7 +1757,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "DropDownItemSelected": "Item% 0 selecionado. Menu suspenso fechado.",
     "DropDownOpened": "Menu suspenso %0 aberto.",
     "DropDownSelected": "Menu suspenso %0 selecionado.",
-    "DropdownClosed": "Dropdown closed",
+    "DropdownClosed": "Menu pendente fechado",
     "Duplicate": "Duplicar",
     "Duration": "Dura\xe7\xe3o",
     "DynamicColors": "Cores Din\xe2micas",
