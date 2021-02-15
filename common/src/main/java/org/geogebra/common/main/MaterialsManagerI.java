@@ -1,10 +1,7 @@
 package org.geogebra.common.main;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
-import org.geogebra.common.move.ggtapi.models.SyncEvent;
 
 public interface MaterialsManagerI {
 

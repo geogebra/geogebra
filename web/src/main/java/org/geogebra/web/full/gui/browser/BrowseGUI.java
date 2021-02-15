@@ -12,8 +12,6 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
-import org.geogebra.common.move.ggtapi.models.SyncEvent;
-import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;

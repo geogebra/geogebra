@@ -228,7 +228,6 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}-*/;
 
-
 	@Override
 	public void upload(final Material mat) {
 		int callback = addNewCallback(new MyCallback() {
