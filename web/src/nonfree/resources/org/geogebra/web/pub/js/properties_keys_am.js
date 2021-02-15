@@ -2246,6 +2246,7 @@ __GGB__keysVar["am"].menu = {
     "MidpointOfAB": "\u12e8 %0\u1363 %1 \u1218\u1203\u120d \u1290\u1325\u1265",
     "MinCells": "\u12dd\u1245\u1270\u129b",
     "MinCells.Help": "\u12e8\u1234\u120e\u127d \u1235\u1265\u1235\u1265 \u121d\u1228\u1325",
+    "Mindmap": "Mindmap",
     "Minimum.short": "\u12a5\u1305\u130d \u1262\u12eb\u1295\u1235",
     "MirrorAtCircle": "Reflect about Circle",
     "MirrorAtCircle.Help": "Select object to reflect, then circle",

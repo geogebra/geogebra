@@ -2246,6 +2246,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "MidpointOfAB": "%0 \u4e0e %1 \u7684\u4e2d\u70b9",
     "MinCells": "\u6700\u5c0f\u503c",
     "MinCells.Help": "\u786e\u5b9a\u9009\u5b9a\u5355\u5143\u683c\u7684\u6700\u5c0f\u503c",
+    "Mindmap": "\u601d\u7ef4\u5bfc\u56fe",
     "Minimum.short": "\u6700\u5c0f\u503c",
     "MirrorAtCircle": "\u53cd\u6f14",
     "MirrorAtCircle.Help": "\u9009\u62e9\u8981\u53cd\u6f14\u7684\u5bf9\u8c61, \u518d\u9009\u62e9\u5706\u3001\u5706\u5f27\u6216\u8005\u6247\u5f62",

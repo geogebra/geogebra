@@ -2246,6 +2246,7 @@ __GGB__keysVar["cs"].menu = {
     "MidpointOfAB": "St\u0159ed %0, %1",
     "MinCells": "Minimum",
     "MinCells.Help": "Vybrat soubor bun\u011bk",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Kruhov\xe1 inverze",
     "MirrorAtCircle.Help": "Vyber bod - vzor, pak kru\u017enici",

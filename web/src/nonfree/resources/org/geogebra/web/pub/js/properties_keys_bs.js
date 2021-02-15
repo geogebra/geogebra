@@ -2246,6 +2246,7 @@ __GGB__keysVar["bs"].menu = {
     "MidpointOfAB": "Sredi\u0161te odsje\u010dka izme\u0111u %0 i %1",
     "MinCells": "Minimum",
     "MinCells.Help": "Ozna\u010dite skup \u0107elija",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Inverzija objekta u odnosu na kru\u017enicu",
     "MirrorAtCircle.Help": "Ozna\u010dite figuru koju \u017eelite preslikati, zatim kru\u017enicu",

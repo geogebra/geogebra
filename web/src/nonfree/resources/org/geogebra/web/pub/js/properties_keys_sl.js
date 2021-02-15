@@ -2246,6 +2246,7 @@ __GGB__keysVar["sl"].menu = {
     "MidpointOfAB": "Sredi\u0161\u010de %0, %1",
     "MinCells": "Minimum",
     "MinCells.Help": "Dolo\u010di minimum izbranih celic",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Zrcaljenje glede na kro\u017enico",
     "MirrorAtCircle.Help": "Izberi to\u010dko in kro\u017enico",

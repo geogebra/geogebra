@@ -25,9 +25,9 @@ public final class MultiuserManager {
 	 * @param user user that changed this object
 	 * @param color color associated with the user
 	 * @param label label of the changed object
-	 * @param update if inline selected by notify update prevent it
+	 * @param newGeo if the geo was added
 	 */
-	public void addSelection(App app, String user, GColor color, String label, String update) {
+	public void addSelection(App app, String user, GColor color, String label, boolean newGeo) {
 		User currentUser = activeInteractions
 				.computeIfAbsent(user, k -> new User(user, color));
 		for (User u : activeInteractions.values()) {
@@ -35,23 +35,18 @@ public final class MultiuserManager {
 				u.removeSelection(label);
 			}
 		}
-		currentUser.addSelection(app.getActiveEuclidianView(), label, update);
+		currentUser.addSelection(app.getActiveEuclidianView(), label, newGeo);
 	}
 
 	/**
 	 * Deselect objects associated with given user
 	 * @param app application
 	 * @param user user ID
-	 * @param force on new object creation or obj selection force deselection
 	 */
-	public void deselect(App app, String user, String force) {
+	public void deselect(App app, String user) {
 		User currentUser = activeInteractions.get(user);
 		if (currentUser != null) {
-			if (force.isEmpty()) {
-				currentUser.scheduleDeselection();
-			} else {
-				currentUser.deselectAll(app.getActiveEuclidianView());
-			}
+			currentUser.deselectAll(app.getActiveEuclidianView());
 		}
 	}
 

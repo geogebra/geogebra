@@ -2246,6 +2246,7 @@ __GGB__keysVar["is"].menu = {
     "MidpointOfAB": "Mi\xf0punktur %0, %1",
     "MinCells": "Minnsta gildi \xed reitum",
     "MinCells.Help": "Velji\xf0 reiti",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Spegla um hring",
     "MirrorAtCircle.Help": "Velji\xf0 punkt, s\xed\xf0an hring",

@@ -2246,6 +2246,7 @@ __GGB__keysVar["es"].menu = {
     "MidpointOfAB": "Punto medio de %0, %1",
     "MinCells": "M\xednimo",
     "MinCells.Help": "Determina el m\xednimo de un conjunto de celdas",
+    "Mindmap": "Mindmap",
     "Minimum.short": "M\xedn",
     "MirrorAtCircle": "Inversi\xf3n",
     "MirrorAtCircle.Help": "Objeto a invertir; luego, circunferencia",

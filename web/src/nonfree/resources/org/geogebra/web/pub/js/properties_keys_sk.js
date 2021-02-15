@@ -2246,6 +2246,7 @@ __GGB__keysVar["sk"].menu = {
     "MidpointOfAB": "Stred \xfase\u010dky %0 %1",
     "MinCells": "Minimum hodn\xf4t buniek vyzna\u017eenej oblasti",
     "MinCells.Help": "Vyber oblas\u0165 buniek",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Kru\u017enicov\xe1 inverzia",
     "MirrorAtCircle.Help": "Vyzna\u010d bod a ur\u010duj\xfacu kru\u017enicu inverzie!",

@@ -1219,7 +1219,7 @@ __GGB__keysVar["zh-TW"].error = {
  ***********************************************/
 
 __GGB__keysVar["zh-TW"].menu = {
-    "ACommand": "%0 Command",
+    "ACommand": "%0 \u6307\u4ee4",
     "ADecimalPlace": "%0 \u4f4d\u5c0f\u6578",
     "ADecimalPlaces": "%0 \u4f4d\u5c0f\u6578",
     "ADerivativeOfB": "%1 \u7684\u7b2c %0 \u6b21\u5fae\u5206",
@@ -1987,7 +1987,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "GraphicsViewForPlaneA": "%0 \u7684\u5e73\u9762\u5716",
     "Graphing": "\u7e6a\u5716\u8a08\u7b97",
     "Graphing3D": "3D \u8a08\u7b97\u6a5f",
-    "GraphingCalculator": "\u8a08\u7b97\u8207\u7e6a\u5716",
+    "GraphingCalculator": "\u7e6a\u5716\u8a08\u7b97\u6a5f",
     "GraphingCalculator.short": "\u7e6a\u5716\u8a08\u7b97",
     "GraphingCalculator3D.Function3D": "z=f(x,y) \u51fd\u6578",
     "GraphingCalculator3D.LinearEquations": "Linear Equations",
@@ -2081,7 +2081,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "Insert": "\u63d2\u5165",
     "InsertAbove": "\u5f9e\u4e0a\u65b9\u63d2\u5165",
     "InsertBelow": "\u5f9e\u4e0b\u65b9\u63d2\u5165",
-    "InsertCommand": "Insert command",
+    "InsertCommand": "\u63d2\u5165\u6307\u4ee4",
     "InsertFile": "\u63d2\u5165\u6a94\u6848",
     "InsertImageFrom": "\u63d2\u5165\u5716\u7247 ...",
     "InsertLeft": "\u5f9e\u5de6\u65b9\u63d2\u5165",
@@ -2246,6 +2246,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "MidpointOfAB": "%0 \u548c %1 \u7684\u4e2d\u9ede",
     "MinCells": "\u6c42\u6240\u9078\u5132\u5b58\u683c\u7684\u6700\u5c0f\u503c",
     "MinCells.Help": "\u8acb\u9078\u64c7\u4e00\u7d44\u5132\u5b58\u683c",
+    "Mindmap": "Mindmap",
     "Minimum.short": "\u6700\u5c0f\u503c",
     "MirrorAtCircle": "\u53cd\u6f14",
     "MirrorAtCircle.Help": "\u9078\u64c7\u8981\u4f5c\u53cd\u6f14\u7684\u9ede\uff0c\u518d\u9078\u53cd\u6f14\u5713",

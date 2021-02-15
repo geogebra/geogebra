@@ -2246,6 +2246,7 @@ __GGB__keysVar["de"].menu = {
     "MidpointOfAB": "Mittelpunkt von %0, %1",
     "MinCells": "Minimum",
     "MinCells.Help": "Bestimmt Minimum der ausgew\xe4hlten Zellen",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Spiegle an Kreis",
     "MirrorAtCircle.Help": "W\xe4hle das zu spiegelnde Objekt, dann den Kreis",

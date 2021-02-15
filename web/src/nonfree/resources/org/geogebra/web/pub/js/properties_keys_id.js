@@ -2246,6 +2246,7 @@ __GGB__keysVar["id"].menu = {
     "MidpointOfAB": "Titik tengah dari %0, %1",
     "MinCells": "Minimum",
     "MinCells.Help": "Pilih suatu himpunan sel",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Refleksi Titik pada Lingkaran",
     "MirrorAtCircle.Help": "Pilih titik kemudian lingkaran",

@@ -2246,6 +2246,7 @@ __GGB__keysVar["tr"].menu = {
     "MidpointOfAB": "%0 ve %1 Orta Noktas\u0131",
     "MinCells": "Bir h\xfccre k\xfcmesindeki en k\xfc\xe7\xfck de\u011feri bulur",
     "MinCells.Help": "Se\xe7ili h\xfccrelerin minimumunu belirler",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "\xc7emberde Yans\u0131t",
     "MirrorAtCircle.Help": "\xd6nce noktay\u0131 sonra \xe7emberi se\xe7in",

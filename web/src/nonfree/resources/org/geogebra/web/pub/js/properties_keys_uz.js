@@ -2246,6 +2246,7 @@ __GGB__keysVar["uz"].menu = {
     "MidpointOfAB": "%0, %1 ning o'rta nuqtasi",
     "MinCells": "Minimum",
     "MinCells.Help": "Tanlangan kataklarning minimumini aniqlaydi",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Aylanaga nisbatan akslantirish",
     "MirrorAtCircle.Help": "Akslantiriladigan obyektni va aylanani tanlang",

@@ -2246,6 +2246,7 @@ __GGB__keysVar["eo"].menu = {
     "MidpointOfAB": "Mezo de [%0%1]",
     "MinCells": "Minimumo",
     "MinCells.Help": "Elektu \u0109elintervalon",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Inversigo",
     "MirrorAtCircle.Help": "Elektu objekton kaj cirklon",

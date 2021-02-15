@@ -2246,6 +2246,7 @@ __GGB__keysVar["gl"].menu = {
     "MidpointOfAB": "Punto medio entre %0, %1",
     "MinCells": "M\xednimo",
     "MinCells.Help": "Selecciona un conxunto de celas",
+    "Mindmap": "Mindmap",
     "Minimum.short": "M\xedn",
     "MirrorAtCircle": "Inverter punto respecto \xe1 circunferencia",
     "MirrorAtCircle.Help": "Escoller o punto, despois a circunferencia",

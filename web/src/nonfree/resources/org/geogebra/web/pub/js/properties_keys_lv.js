@@ -2246,6 +2246,7 @@ __GGB__keysVar["lv"].menu = {
     "MidpointOfAB": "Viduspunkts %0, %1",
     "MinCells": "Minimums",
     "MinCells.Help": "Izv\u0113lies \u0161\u016bnas",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Att\u0113lot ri\u0146\u0137a l\u012bnij\u0101",
     "MirrorAtCircle.Help": "Izv\u0113l\u0113ties objektu, ko att\u0113lot, tad ri\u0146\u0137a l\u012bniju",

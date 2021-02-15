@@ -2246,6 +2246,7 @@ __GGB__keysVar["ko"].menu = {
     "MidpointOfAB": "%0, %1\uc758 \uc911\uc810",
     "MinCells": "\ucd5c\uc19f\uac12",
     "MinCells.Help": "\uc120\ud0dd\ub41c \uc140\uc758 \ucd5c\uc19f\uac12\uc744 \uacb0\uc815\ud558\uc138\uc694.",
+    "Mindmap": "\ub9c8\uc778\ub4dc\ub9f5",
     "Minimum.short": "\ucd5c\uc19f\uac12",
     "MirrorAtCircle": "\uc6d0\uc5d0 \ub300\ud558\uc5ec \ub300\uce6d",
     "MirrorAtCircle.Help": "\ubc18\uc804\uc2dc\ud0ac \ub300\uc0c1\uc744 \uc120\ud0dd\ud55c \ud6c4 \uc6d0\uc744 \uc120\ud0dd\ud558\uc138\uc694.",

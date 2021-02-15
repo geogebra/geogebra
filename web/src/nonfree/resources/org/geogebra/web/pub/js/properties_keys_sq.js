@@ -2246,6 +2246,7 @@ __GGB__keysVar["sq"].menu = {
     "MidpointOfAB": "Pike Mesi e %0%1",
     "MinCells": "Minimum",
     "MinCells.Help": "Selekto nje bashkesi qelizash",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Pasqyro piken ne rreth",
     "MirrorAtCircle.Help": "Zgjidh piken per pasqyrim, pastaj rrethin",

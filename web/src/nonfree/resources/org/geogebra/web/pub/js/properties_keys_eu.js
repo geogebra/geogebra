@@ -2246,6 +2246,7 @@ __GGB__keysVar["eu"].menu = {
     "MidpointOfAB": "%0 eta %1-(r)en erdigunea",
     "MinCells": "Minimoa",
     "MinCells.Help": "Hautatu dituzun gelaxken minimoa determinatzen du",
+    "Mindmap": "Mindmap",
     "Minimum.short": "Min",
     "MirrorAtCircle": "Islatu puntua zirkunferentzia batean",
     "MirrorAtCircle.Help": "Islatu nahi den puntua eta ondoren, zirkunferentzia",
