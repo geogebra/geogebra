@@ -2580,10 +2580,8 @@ public class TeXParser {
 	}
 
 	public void convertCharacter(int c) throws ParseException {
-		if (!charMapping.replace(c, this)) {
-			final String r = new String(new int[] { c }, 0, 1);
-			addToConsumer(new JavaFontRenderingAtom(r));
-		}
+		final String r = new String(new int[] { c }, 0, 1);
+		addToConsumer(new JavaFontRenderingAtom(r));
 	}
 
 	public Atom getAtomFromUnicode(char c, final boolean oneChar) {
