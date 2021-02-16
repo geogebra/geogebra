@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -14,7 +15,9 @@ import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.euclidian.inline.InlineTextController;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoInline;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 
 /**
  * Class that handles drawing inline text elements.
@@ -23,10 +26,15 @@ public class DrawInlineText extends Drawable implements DrawInline {
 
 	public static final int PADDING = 8;
 
-	private final GeoInline text;
-	private InlineTextController textController;
+	protected final GeoInline text;
+	protected InlineTextController textController;
 
-	private final TransformableRectangle rectangle;
+	protected final TransformableRectangle rectangle;
+
+	private final GBasicStroke border1 = AwtFactory.getPrototype().newBasicStroke(1f,
+			GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
+	private final GBasicStroke border3 = AwtFactory.getPrototype().newBasicStroke(3f,
+			GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
 
 	/**
 	 * Create a new DrawInlineText instance.
@@ -126,8 +134,37 @@ public class DrawInlineText extends Drawable implements DrawInline {
 
 	@Override
 	public void draw(GGraphics2D g2) {
+		draw(g2, 0);
+	}
+
+	protected void draw(GGraphics2D g2, int borderRadius) {
 		if (text.isEuclidianVisible() && textController != null) {
-			textController.draw(g2, rectangle.getDirectTransform());
+			g2.saveTransform();
+			g2.transform(rectangle.getDirectTransform());
+
+			if (geo.getBackgroundColor() != null) {
+				g2.setPaint(geo.getBackgroundColor());
+				g2.fillRoundRect(0, 0, (int) text.getWidth(), (int) text.getHeight(),
+						2 * borderRadius, 2 * borderRadius);
+			}
+			if (geo.getLineThickness() != GeoInlineText.NO_BORDER) {
+				g2.setPaint(text.getBorderColor());
+				g2.setStroke(getBorderStroke());
+				g2.drawRoundRect(0, 0, (int) text.getWidth(), (int) text.getHeight(),
+						2 * borderRadius, 2 * borderRadius);
+			}
+
+			textController.draw(g2);
+
+			g2.restoreTransform();
+		}
+	}
+
+	protected GBasicStroke getBorderStroke() {
+		if (geo.getLineThickness() == 1) {
+			return border1;
+		} else {
+			return border3;
 		}
 	}
 

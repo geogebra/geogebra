@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui;
 
-import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 
@@ -85,7 +84,7 @@ public class InlineTextControllerMock implements InlineTextController {
 	}
 
 	@Override
-	public void draw(GGraphics2D g2, GAffineTransform transform) {
+	public void draw(GGraphics2D g2) {
 
 	}
 

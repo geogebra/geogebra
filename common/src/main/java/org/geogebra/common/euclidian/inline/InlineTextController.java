@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian.inline;
 
-import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 
@@ -60,10 +59,8 @@ public interface InlineTextController extends HasTextFormat {
 	/**
 	 * @param g2
 	 * 	          graphics
-	 * @param transform
-	 *            transform w.r.t. top left corner, does not include padding
 	 */
-	void draw(GGraphics2D g2, GAffineTransform transform);
+	void draw(GGraphics2D g2);
 
 	String urlByCoordinate(int x, int y);
 

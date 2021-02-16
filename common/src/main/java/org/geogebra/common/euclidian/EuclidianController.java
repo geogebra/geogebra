@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -5262,7 +5263,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			changedKernel = createInlineObject(selectionPreview, new GeoInlineFactory() {
 				@Override
 				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
-					return new GeoMindMapNode(cons, location);
+					GeoMindMapNode mindMap = new GeoMindMapNode(cons, location);
+
+					if (app.isMebis()) {
+						mindMap.setBackgroundColor(GColor.MOW_MIND_MAP_BG_COLOR);
+						mindMap.setBorderColor(GColor.MOW_MIND_MAP_BORDER_COLOR);
+					} else {
+						mindMap.setBackgroundColor(GColor.MIND_MAP_BG_COLOR);
+						mindMap.setBorderColor(GColor.MIND_MAP_BORDER_COLOR);
+					}
+
+					return mindMap;
 				}
 			});
 			break;

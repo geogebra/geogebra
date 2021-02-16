@@ -1,7 +1,6 @@
 package org.geogebra.web.full.euclidian.inline;
 
 import org.geogebra.common.awt.GAffineTransform;
-import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -10,7 +9,6 @@ import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInline;
-import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -42,13 +40,6 @@ public class InlineTextControllerW implements InlineTextController {
 
 	private int contentDefaultSize;
 
-	private final EuclidianView view;
-
-	private final GBasicStroke border1 = AwtFactory.getPrototype().newBasicStroke(1f,
-	GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
-	private final GBasicStroke border3 = AwtFactory.getPrototype().newBasicStroke(3f,
-			GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
-
 	/**
 	 * @param geo
 	 *            text
@@ -57,7 +48,6 @@ public class InlineTextControllerW implements InlineTextController {
 	 */
 	public InlineTextControllerW(GeoInline geo, EuclidianView view, Element parent) {
 		this.geo = geo;
-		this.view = view;
 		this.parent = parent;
 		CarotaUtil.ensureInitialized(view.getFontSize());
 		if (view.getApplication().isMebis()) {
@@ -260,20 +250,7 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
-	public void draw(GGraphics2D g2, GAffineTransform transform) {
-		g2.saveTransform();
-
-		g2.transform(transform);
-
-		if (geo.getBackgroundColor() != null) {
-			g2.setPaint(geo.getBackgroundColor());
-			g2.fillRect(0, 0, (int) geo.getWidth(), (int) geo.getHeight());
-		}
-		if (geo.getLineThickness() != GeoInlineText.NO_BORDER) {
-			g2.setPaint(geo.getBorderColor());
-			g2.setStroke(getBorderStroke());
-			g2.drawRect(0, 0, (int) geo.getWidth(), (int) geo.getHeight());
-		}
+	public void draw(GGraphics2D g2) {
 		if (editor.getWidget().getElement().hasClassName(INVISIBLE)) {
 			GAffineTransform res = AwtFactory.getTranslateInstance(DrawInlineText.PADDING,
 					DrawInlineText.PADDING);
@@ -281,17 +258,7 @@ public class InlineTextControllerW implements InlineTextController {
 			g2.setColor(GColor.BLACK);
 			editor.draw(((GGraphics2DWI) g2).getContext());
 		}
-
-		g2.restoreTransform();
 	}
-
-	private GBasicStroke getBorderStroke() {
-		if (geo.getLineThickness() == 1) {
-			return border1;
-		} else {
-			return border3;
-		}
- 	}
 
 	@Override
 	public void insertHyperlink(String url, String text) {
