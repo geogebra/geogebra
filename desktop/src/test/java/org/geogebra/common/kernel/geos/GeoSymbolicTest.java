@@ -488,6 +488,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testPolynomialCommand() {
 		t("Polynomial((x+(1/aaa)x^2)^2)",
 				"1 / aaa^(2) * x^(4) + 2 * aaa / aaa^(2) * x^(3) + x^(2)");
+		t("Polynomial((x!)/(x-2)!)", "x^(2) - x");
+		t("Polynomial((x!)/(x-2)!, x)", "x^(2) - x");
+		t("Polynomial((y!)/(y-2)!, y)", "y^(2) - y");
 	}
 
 	@Test
