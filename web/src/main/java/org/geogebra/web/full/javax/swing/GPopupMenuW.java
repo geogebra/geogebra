@@ -499,14 +499,6 @@ public class GPopupMenuW implements AttachedToDOM {
 	}
 
 	/**
-	 * @param item
-	 *            check box menu item
-	 */
-	public void addItem(GCheckBoxMenuItem item) {
-		addItem(item.getMenuItem());
-	}
-
-	/**
 	 * @param s
 	 *            title
 	 * @param c

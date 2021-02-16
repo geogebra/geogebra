@@ -15,7 +15,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.layout.panels.ConstructionProtocolStyleBarW;
 import org.geogebra.web.full.gui.util.StyleBarW;
-import org.geogebra.web.full.javax.swing.GCheckBoxMenuItem;
+import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -77,7 +77,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	/** index of dragged row **/
 	protected int dragIndex;
 	GPopupMenuW popupMenu;
-	GCheckBoxMenuItem miShowOnlyBreakpoints = null;
 
 	CellTable<RowData> headerTable;
 	MyPanel outerScrollPanel;
@@ -97,17 +96,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		table = new CellTable<>();
 		table.addStyleName("cpTable");
-
-		// first attempt with flextable
-		// table = new FlexTable();
-		// for (int k = 0; k < data.columns.length; k++) {
-		// if ((data.columns[k].getTitle() == "number") ||
-		// (data.columns[k].getTitle() == "name") ||
-		// (data.columns[k].getTitle() == "definition"))
-		// table.setText(0, k, data.columns[k].getTitle());
-		// }
-		//
-		//
 
 		scrollPane = new ScrollPanel(table);
 
@@ -369,29 +357,22 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	}
 
 	protected void initPopupMenu() {
-
 		popupMenu = new GPopupMenuW((AppW) app);
-		ScheduledCommand com;
+		popupMenu.getPopupPanel().addStyleName("contextSubMenu");
 
 		if (app.getGuiManager().getLayout().getDockManager()
 				.getNumberOfOpenViews() > 1) {
 			popupMenu.addItem(app.getLocalization().getMenu("Close"),
-					new ScheduledCommand() {
-
-						@Override
-						public void execute() {
-							app.getGuiManager().setShowView(false,
-									App.VIEW_CONSTRUCTION_PROTOCOL);
-							app.updateMenubar();
-							((AppW) app).fireViewsChangedEvent();
-						}
-
+					() -> {
+						app.getGuiManager().setShowView(false,
+								App.VIEW_CONSTRUCTION_PROTOCOL);
+						app.updateMenubar();
+						((AppW) app).fireViewsChangedEvent();
 					});
 
 			popupMenu.addVerticalSeparator();
 		}
 
-		// boolean hasColInPopup = false;
 		for (int k = 1; k < data.getColumnCount(); k++) {
 			ColumnData colData = data.getColumns()[k];
 			// On web there is no all columns yet, so temporary must hide
@@ -400,50 +381,37 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			final boolean breakpoint = "Breakpoint".equals(colData.getTitle());
 			if (!"No.".equals(colData.getTitle())) {
 				final int j = k;
-				com = new ScheduledCommand() {
-					@Override
-					public void execute() {
-						if (breakpoint && !data.columns[j].isVisible()) {
-							app.getKernel().getConstruction()
-									.setShowOnlyBreakpoints(false);
-							data.initView();
-						}
-						data.columns[j]
-								.setVisible(!data.columns[j].isVisible());
-						initGUI();
+				ScheduledCommand com = () -> {
+					if (breakpoint && !data.columns[j].isVisible()) {
+						app.getKernel().getConstruction()
+								.setShowOnlyBreakpoints(false);
+						data.initView();
 					}
+					data.columns[j]
+							.setVisible(!data.columns[j].isVisible());
+					initGUI();
 				};
 
-				GCheckBoxMenuItem columnItem = new GCheckBoxMenuItem(
-						data.columns[j].getTranslatedTitle(), com, true, app);
-				columnItem.setForceCheckbox(true);
-				columnItem.setSelected(data.columns[j].isVisible(),
-						popupMenu.getPopupMenu());
+				GCheckmarkMenuItem columnItem = new GCheckmarkMenuItem(
+						data.columns[j].getTranslatedTitle(),
+						data.columns[j].isVisible(), com);
 				popupMenu.addItem(columnItem);
 			}
 		}
 
 		popupMenu.addVerticalSeparator();
 
-		miShowOnlyBreakpoints = new GCheckBoxMenuItem(
+		GCheckmarkMenuItem miShowOnlyBreakpoints = new GCheckmarkMenuItem(
 				app.getLocalization().getMenu("ShowOnlyBreakpoints"),
-				new ScheduledCommand() {
+				app.getKernel().getConstruction().showOnlyBreakpoints());
 
-					@Override
-					public void execute() {
-						showOnlyBreakpointsAction();
-						miShowOnlyBreakpoints.setSelected(app.getKernel()
-								.getConstruction().showOnlyBreakpoints(),
-								popupMenu.getPopupMenu());
-					}
+		miShowOnlyBreakpoints.setCommand(() -> {
+			showOnlyBreakpointsAction();
+			boolean checked = app.getKernel().getConstruction().showOnlyBreakpoints();
+			miShowOnlyBreakpoints.setChecked(checked);
+		});
 
-				}, true, app);
-		miShowOnlyBreakpoints.setForceCheckbox(true);
-		miShowOnlyBreakpoints.setSelected(
-				app.getKernel().getConstruction().showOnlyBreakpoints(),
-				popupMenu.getPopupMenu());
 		popupMenu.addItem(miShowOnlyBreakpoints);
-
 	}
 
 	private void addHeaderClickHandler() {
