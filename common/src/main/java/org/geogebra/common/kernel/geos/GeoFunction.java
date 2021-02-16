@@ -1649,9 +1649,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		}
 		if (lt instanceof GeoFunctionNVar) {
 			MyList varList = new MyList(kernel);
-			for (int i = 0; i < lt.getFunction().getVarNumber(); i++) {
-				varList.addListElement(varMap.get(lt.getFunction()
-						.getVarString(i, StringTemplate.defaultTemplate)));
+			FunctionNVar function = lt.getFunction();
+			if (function != null) {
+				for (int i = 0; i < function.getVarNumber(); i++) {
+					varList.addListElement(varMap.get(function
+							.getVarString(i, StringTemplate.defaultTemplate)));
+				}
 			}
 			return new ExpressionNode(kernel, lt, Operation.FUNCTION_NVAR,
 					varList);
