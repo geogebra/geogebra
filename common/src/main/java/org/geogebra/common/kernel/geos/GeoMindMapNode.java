@@ -91,4 +91,13 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 	public double getFontSizeMultiplier() {
 		return GeoText.getRelativeFontSize(GeoText.FONTSIZE_SMALL);
 	}
+
+	@Override
+	protected void getXMLtags(StringBuilder sb) {
+		super.getXMLtags(sb);
+		XMLBuilder.appendBorder(sb, this);
+		if (getLineThickness() != 0) {
+			getLineStyleXML(sb);
+		}
+	}
 }

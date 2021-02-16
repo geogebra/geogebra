@@ -436,7 +436,7 @@ public class XMLBuilder {
 	 * @param sb XML builder
 	 * @param text inline text
 	 */
-	public static void appendBorder(StringBuilder sb, GeoInlineText text) {
+	public static void appendBorder(StringBuilder sb, GeoInline text) {
 		GColor borderColor = text.getBorderColor();
 		if (borderColor != null) {
 			sb.append("\t<borderColor");
