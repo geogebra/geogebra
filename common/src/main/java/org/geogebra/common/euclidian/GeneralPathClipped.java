@@ -211,8 +211,8 @@ public class GeneralPathClipped implements GShape {
 		} else {
 			// line is off screen
 			// draw line to off screen end point
-			addToGeneralPath(getPointCloseToScreen(curP.getX(), curP.getY()),
-					SegmentType.LINE_TO);
+//			addToGeneralPath(getPointCloseToScreen(curP.getX(), curP.getY()),
+//					SegmentType.LINE_TO);
 		}
 	}
 
