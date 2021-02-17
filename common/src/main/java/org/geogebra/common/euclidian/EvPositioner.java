@@ -34,19 +34,22 @@ public abstract class EvPositioner {
      * @param width width
      * @param height height
      */
-    public void init(int width, int height) {
+    public void initIfEvSizeNotSet(int width, int height) {
         oldWidth = settings.getRawWidth();
-
         if (oldWidth < 0) {
-            oldWidth = width;
-            settings.setVisibleFromX(0);
-            settings.setVisibleUntilY(height);
-            double xZero = width / 2.0;
-            double yZero = height / 2.0;
-            settings.setOriginNoUpdate(xZero, yZero);
-            euclidianView.xZero = xZero;
-            euclidianView.yZero = yZero;
+            initialize(width, height);
         }
+    }
+
+    protected void initialize(int width, int height) {
+        oldWidth = width;
+        settings.setVisibleFromX(0);
+        settings.setVisibleUntilY(height);
+        double xZero = width / 2.0;
+        double yZero = height / 2.0;
+        settings.setOriginNoUpdate(xZero, yZero);
+        euclidianView.xZero = xZero;
+        euclidianView.yZero = yZero;
     }
 
     /**
@@ -134,5 +137,9 @@ public abstract class EvPositioner {
         euclidianView.yZero = moveToY;
         settings.setOriginNoUpdate(moveToX, moveToY);
         euclidianView.updateSizeChange();
+    }
+
+    protected void setOldWidth(int oldWidth) {
+        this.oldWidth = oldWidth;
     }
 }
