@@ -142,4 +142,8 @@ public abstract class EvPositioner {
     protected void setOldWidth(int oldWidth) {
         this.oldWidth = oldWidth;
     }
+
+    protected EuclidianView getEuclidianView() {
+        return euclidianView;
+    }
 }
