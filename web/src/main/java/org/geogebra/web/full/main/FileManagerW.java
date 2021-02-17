@@ -17,6 +17,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.full.util.SaveCallback.SaveState;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.StringConsumer;
@@ -265,6 +266,7 @@ public class FileManagerW extends FileManager {
 
 	@Override
 	public void saveLoggedOut(App app1) {
+		showOfflineSaveMessage((AppW) app1);
 		((AppW) app1).getGuiManager().exportGGB(true);
 	}
 	
@@ -357,6 +359,18 @@ public class FileManagerW extends FileManager {
 
 	private static void dialogEvent(AppW app, String string) {
 		app.dispatchEvent(new Event(EventType.OPEN_DIALOG, null, string));
+	}
+
+	private void showOfflineSaveMessage(AppW appw) {
+		if (!appw.getNetworkOperation().isOnline()) {
+			ToolTipManagerW.sharedInstance().showBottomMessage(appw
+					.getLocalization()
+					.getMenu("phone_loading_materials_offline"), true, appw);
+		} else if (!appw.getLoginOperation().isLoggedIn()) {
+			ToolTipManagerW.sharedInstance().showBottomMessage(appw
+					.getLocalization()
+					.getMenu("SaveAccountFailed"), true, appw);
+		}
 	}
 
 }
