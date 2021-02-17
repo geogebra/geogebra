@@ -2332,7 +2332,7 @@ public class MyXMLHandler implements DocHandler {
 	private static boolean handleNotesToolbarOpen(App app,
 			LinkedHashMap<String, String> attrs) {
 		try {
-			boolean open = Boolean.valueOf(attrs.get("val"));
+			boolean open = Boolean.parseBoolean(attrs.get("val"));
 			app.setNotesToolbarOpen(open);
 			return true;
 		} catch (RuntimeException e) {
