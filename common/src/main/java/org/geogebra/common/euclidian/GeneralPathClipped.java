@@ -62,11 +62,9 @@ public class GeneralPathClipped implements GShape {
 	 *            view
 	 */
 	public GeneralPathClipped(EuclidianViewInterfaceSlim view) {
-		// this.view = (EuclidianView)view;
 		this.view = view;
 		pathPoints = new ArrayList<>();
 		gp = AwtFactory.getPrototype().newGeneralPath();
-		// bounds = new Rectangle();
 		reset();
 	}
 
@@ -127,12 +125,12 @@ public class GeneralPathClipped implements GShape {
 
 	private void addSimpleSegments() {
 		for (int i = 0; i < pathPoints.size(); i++) {
-			MyPoint curP = pathPoints.get(i);
+			MyPoint currentPoint = pathPoints.get(i);
 			/// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException&tf=SourceFile&tc=org.geogebra.common.euclidian.GeneralPathClipped&tm=addSimpleSegments&nid&an&c&s=new_status_desc
-			if (curP != null) {
-				addToGeneralPath(curP, curP.getSegmentType());
+			if (currentPoint != null) {
+				addToGeneralPath(currentPoint, currentPoint.getSegmentType());
 			} else {
-				Log.error("curP shouldn't be null here");
+				Log.error("current point shouldn't be null here");
 			}
 		}
 		if (needClosePath) {
@@ -312,10 +310,10 @@ public class GeneralPathClipped implements GShape {
 		return new MyPoint(x, y, SegmentType.LINE_TO);
 	}
 
-	private void addToGeneralPath(GPoint2D q, SegmentType lineTo) {
+	private void addToGeneralPath(GPoint2D q, SegmentType segmentType) {
 		GPoint2D p = gp.getCurrentPoint();
 
-		if (lineTo == SegmentType.CONTROL) {
+		if (segmentType == SegmentType.CONTROL) {
 			if (Double.isNaN(cont1X) && Double.isNaN(cont1Y)) {
 				cont1X = q.getX();
 				cont1Y = q.getY();
@@ -323,7 +321,7 @@ public class GeneralPathClipped implements GShape {
 				cont2X = q.getX();
 				cont2Y = q.getY();
 			}
-		} else if (lineTo == SegmentType.CURVE_TO) {
+		} else if (segmentType == SegmentType.CURVE_TO) {
 			if (!Double.isNaN(cont1X) && !Double.isNaN(cont1Y)
 					&& !Double.isNaN(cont2X) && !Double.isNaN(cont2Y)) {
 				gp.curveTo(cont1X, cont1Y, cont2X, cont2Y, q.getX(), q.getY());
@@ -333,10 +331,10 @@ public class GeneralPathClipped implements GShape {
 				cont2Y = Double.NaN;
 			}
 		}
-		else if (lineTo == SegmentType.AUXILIARY) {
+		else if (segmentType == SegmentType.AUXILIARY) {
 			auxX = q.getX();
 			auxY = q.getY();
-		} else if (lineTo == SegmentType.ARC_TO && p != null) {
+		} else if (segmentType == SegmentType.ARC_TO && p != null) {
 			try {
 
 				double dx1 = (auxX - p.getX());
@@ -353,7 +351,7 @@ public class GeneralPathClipped implements GShape {
 				gp.moveTo(q.getX(), q.getY());
 			}
 		}
-		else if (lineTo == SegmentType.LINE_TO && p != null) {
+		else if (segmentType == SegmentType.LINE_TO && p != null) {
 			try {
 				gp.lineTo(q.getX(), q.getY());
 			} catch (Exception e) {
