@@ -27,6 +27,7 @@ public class H5PEmbedElement extends EmbedElement {
 	private final App app;
 	private final EuclidianController euclidianController;
 	private String url;
+	private static boolean isRendered = false;
 
 	/**
 	 * @param widget UI widget
@@ -46,9 +47,16 @@ public class H5PEmbedElement extends EmbedElement {
 	public void setContent(String url) {
 		this.url = url;
 
-		if (H5PLoader.isLoaded()) {
-			render();
-		}
+		final Timer timer = new Timer() {
+			@Override
+			public void run() {
+				if (H5PLoader.isLoaded() && isRendered) {
+					render();
+					cancel();
+				}
+			}
+		};
+		timer.scheduleRepeating(100);
 	}
 
 	private void render() {
@@ -56,6 +64,7 @@ public class H5PEmbedElement extends EmbedElement {
 		if (element == null) {
 			return;
 		}
+		isRendered = false;
 
 		H5P h5P = new H5P(Js.cast(element), url,
 				getOptions(), getDisplayOptions());
@@ -65,6 +74,7 @@ public class H5PEmbedElement extends EmbedElement {
 			if (embedManager != null) {
 				embedManager.onLoaded(geoEmbed, this::update);
 			}
+			isRendered = true;
 			initializeSizingTimer();
 			return null;
 		});
