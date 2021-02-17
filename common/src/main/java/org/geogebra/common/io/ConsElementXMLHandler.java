@@ -1547,14 +1547,14 @@ public class ConsElementXMLHandler {
 	}
 
 	private void handleBorderColor(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoInlineText)) {
+		if (!(geo instanceof GeoInline)) {
 			return;
 		}
 		int red = Integer.parseInt(attrs.get("r"));
 		int green = Integer.parseInt(attrs.get("g"));
 		int blue = Integer.parseInt(attrs.get("b"));
 		GColor col = GColor.newColor(red, green, blue);
-		((GeoInlineText) geo).setBorderColor(col);
+		((GeoInline) geo).setBorderColor(col);
 	}
 
 	private void handleBoundingBox(LinkedHashMap<String, String> attrs) {
