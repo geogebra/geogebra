@@ -104,11 +104,12 @@ public class GeneralPathClipped implements GShape {
 		}
 
 		gp.reset();
-		if (largestCoord < MAX_COORD_VALUE || !polygon) {
-			addSimpleSegments();
-		} else {
+//		if (largestCoord < MAX_COORD_VALUE || !polygon) {
+//			addSimpleSegments();
+//		} else {
+//			addSegmentsWithSutherladHoloman();
+//		}
 			addSegmentsWithSutherladHoloman();
-		}
 
 		// clear pathPoints to free up memory
 		pathPoints.clear();
@@ -117,11 +118,13 @@ public class GeneralPathClipped implements GShape {
 	}
 
 	private void addSegmentsWithSutherladHoloman() {
+		Log.debug("addSegmentsWithSutherladHoloman()");
+		int padding = 5;
 		double[][] clipPoints = {
-				{ -5, -5 },
-				{ view.getWidth() + 5, -5 },
-				{ view.getWidth() + 5, view.getHeight() + 5 },
-				{ -5, view.getHeight() + 5 },
+				{ -padding, -padding},
+				{ view.getWidth() + padding, -padding},
+				{ view.getWidth() + padding, view.getHeight() + padding},
+				{ -padding, view.getHeight() + padding},
 		};
 
 		ArrayList<MyPoint> result = clipAlgoSutherlandHodogman.process(pathPoints, clipPoints);
@@ -133,7 +136,6 @@ public class GeneralPathClipped implements GShape {
 		if (result.size() > 0 && needClosePath) {
 			gp.closePath();
 		}
-
 	}
 
 

@@ -1,7 +1,6 @@
 package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.geogebra.common.kernel.MyPoint;
 
@@ -12,21 +11,19 @@ public class ClipAlgoSutherlandHodogman {
 	public ClipAlgoSutherlandHodogman() {
 	}
 
-	public ArrayList<MyPoint> process(ArrayList<MyPoint> pathPoinst, double[][] clipPoints) {
-		ArrayList<MyPoint> output = new ArrayList<>(pathPoinst);
-		for (int i = 0; i < EDGE_COUNT; i++) {
-			int len2 = output.size();
-			List<MyPoint> input = output;
-			output = new ArrayList<>(len2);
+	public ArrayList<MyPoint> process(ArrayList<MyPoint> input, double[][] clipPoints) {
+		int inputSize = input.size();
+		ArrayList<MyPoint> output = new ArrayList<>(inputSize);
 
+		for (int i = 0; i < EDGE_COUNT; i++) {
 			double[] A = clipPoints[(i + 3) % EDGE_COUNT];
 			double[] B = clipPoints[i];
 			double[] C = clipPoints[(i + 1) % EDGE_COUNT];
 
 			boolean inside = isInside(A, B, new MyPoint(C[0], C[1]));
 
-			for (int j = 0; j < len2; j++) {
-				MyPoint P = input.get((j + len2 - 1) % len2);
+			for (int j = 0; j < inputSize; j++) {
+				MyPoint P = input.get((j + inputSize - 1) % inputSize);
 				MyPoint Q = input.get(j);
 
 				if (isInside(A, B, P) == inside) {
