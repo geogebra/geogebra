@@ -59,7 +59,7 @@ public abstract class EvPositioner {
         centerWithAvSize(getAvWidth(), getAvHeight());
     }
 
-    private void centerWithAvSize(int overlappedWidth, int overlappedHeight) {
+    public void centerWithAvSize(int overlappedWidth, int overlappedHeight) {
         boolean isPortrait = isPortrait();
         int newVisibleFromX = isPortrait ? 0 : translateToDp(overlappedWidth);
         int newVisibleUntilY =
