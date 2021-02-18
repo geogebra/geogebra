@@ -56,12 +56,10 @@ public class GeneralPathClipped implements GShape {
 	 *            view
 	 */
 	public GeneralPathClipped(EuclidianViewInterfaceSlim view) {
-		// this.view = (EuclidianView)view;
 		this.view = view;
 		pathPoints = new ArrayList<>();
 		clipAlgoSutherlandHodogman = new ClipAlgoSutherlandHodogman();
 		gp = AwtFactory.getPrototype().newGeneralPath();
-		// bounds = new Rectangle();
 		reset();
 	}
 
@@ -141,12 +139,12 @@ public class GeneralPathClipped implements GShape {
 
 	private void addSimpleSegments() {
 		for (int i = 0; i < pathPoints.size(); i++) {
-			MyPoint curP = pathPoints.get(i);
+			MyPoint currentPoint = pathPoints.get(i);
 			/// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException&tf=SourceFile&tc=org.geogebra.common.euclidian.GeneralPathClipped&tm=addSimpleSegments&nid&an&c&s=new_status_desc
-			if (curP != null) {
-				addToGeneralPath(curP, curP.getSegmentType());
+			if (currentPoint != null) {
+				addToGeneralPath(currentPoint, currentPoint.getSegmentType());
 			} else {
-				Log.error("curP shouldn't be null here");
+				Log.error("current point shouldn't be null here");
 			}
 		}
 		if (needClosePath) {
@@ -154,11 +152,182 @@ public class GeneralPathClipped implements GShape {
 		}
 	}
 
+	/**
+	 * Clip all segments at screen to make sure we don't have to render huge
+	 * coordinates. This is especially important for fill the GeneralPath.
+	 */
+	private void addClippedSegments() {
+		GRectangle viewRect = AwtFactory.getPrototype().newRectangle(0, 0,
+				view.getWidth(), view.getHeight());
+		MyPoint curP = null, prevP;
 
-	private void addToGeneralPath(GPoint2D q, SegmentType lineTo) {
+		int size = pathPoints.size();
+		// GGB-975: under unknown conditions pathPoints may shrink so we need
+		// double comparison
+		for (int i = 0; i < size && i < pathPoints.size(); i++) {
+			prevP = curP;
+			curP = pathPoints.get(i);
+			if (!curP.getLineTo() || prevP == null) {
+				// moveTo point, make sure it is only slightly outside screen
+				GPoint2D p = getPointCloseToScreen(curP.getX(), curP.getY());
+				addToGeneralPath(p, SegmentType.MOVE_TO);
+			} else {
+				// clip line at screen
+				addClippedLine(prevP, curP, viewRect);
+			}
+		}
+
+		if (needClosePath) {
+			// line from last point to first point
+			addClippedLine(curP, pathPoints.get(0), viewRect);
+			gp.closePath();
+		}
+	}
+
+	private void addClippedLine(MyPoint prevP, MyPoint curP,
+			GRectangle viewRect) {
+		// check if both points on screen
+		if (viewRect.contains(prevP) && viewRect.contains(curP)) {
+			// draw line to point
+			addToGeneralPath(curP, SegmentType.LINE_TO);
+			return;
+		}
+
+		// at least one point is not on screen: clip line at screen
+		GPoint2D[] clippedPoints = ClipLine.getClipped(prevP.getX(),
+				prevP.getY(), curP.getX(), curP.getY(), -10,
+				view.getWidth() + 10, -10, view.getHeight() + 10,
+				tmpClipPoints);
+
+		if (clippedPoints != null) {
+			// we have two intersection points with the screen
+			// get closest clip point to prevP
+			int first = 0;
+			int second = 1;
+			if (clippedPoints[first].distance(prevP.getX(),
+					prevP.getY()) > clippedPoints[second].distance(prevP.getX(),
+					prevP.getY())) {
+				first = 1;
+				second = 0;
+			}
+
+			// draw line to first clip point
+			addToGeneralPath(clippedPoints[first], SegmentType.LINE_TO);
+			// draw line between clip points: this ensures high quality
+			// rendering
+			// which Java2D doesn't deliver with the regular float GeneralPath
+			// and huge coords
+			addToGeneralPath(clippedPoints[second], SegmentType.LINE_TO);
+
+			// draw line to end point if not already there
+			addToGeneralPath(getPointCloseToScreen(curP.getX(), curP.getY()),
+					SegmentType.LINE_TO);
+		} else {
+			// line is off screen
+			// draw line to off screen end point
+			addToGeneralPath(getPointCloseToScreen(curP.getX(), curP.getY()),
+					SegmentType.LINE_TO);
+		}
+	}
+
+	private GPoint2D getPointCloseToScreen(double ptx, double pty) {
+		double x = ptx;
+		double y = pty;
+		double border = 10;
+		double right = view.getWidth() + border;
+		double bottom = view.getHeight() + border;
+		if (x > right) {
+			x = right;
+		} else if (x < -border) {
+			x = -border;
+		}
+		if (y > bottom) {
+			y = bottom;
+		} else if (y < -border) {
+			y = -border;
+		}
+		return new GPoint2D(x, y);
+	}
+
+	private void addClippedSegmentsSH() {
+		double[][] clipPoints = {
+				{ -5, -5 }, { view.getWidth() + 5, -5 },
+				{ view.getWidth() + 5, view.getHeight() + 5 },
+				{ -5, view.getHeight() + 5 },
+		};
+
+		ArrayList<MyPoint> result = new ArrayList<>(pathPoints);
+		ArrayList<double[]> clipper = new ArrayList<>(Arrays.asList(clipPoints));
+
+		int len = clipper.size();
+		for (int i = 0; i < len; i++) {
+			int len2 = result.size();
+			List<MyPoint> input = result;
+			result = new ArrayList<>(len2);
+
+			double[] A = clipper.get((i + len - 1) % len);
+			double[] B = clipper.get(i);
+			double[] C = clipper.get((i + 1) % len);
+
+			boolean inside = isInside(A, B, new MyPoint(C[0], C[1]));
+
+			for (int j = 0; j < len2; j++) {
+				MyPoint P = input.get((j + len2 - 1) % len2);
+				MyPoint Q = input.get(j);
+
+				if (isInside(A, B, P) == inside) {
+					if (isInside(A, B, Q) == inside) {
+						result.add(Q);
+					} else {
+						result.add(intersection(A, B, P, Q));
+					}
+				} else if (isInside(A, B, Q) == inside) {
+					result.add(intersection(A, B, P, Q));
+					result.add(Q);
+				}
+			}
+		}
+
+		for (int i = 0; i < result.size(); i++) {
+			MyPoint curP = result.get(i);
+			if (i == 0) {
+				addToGeneralPath(curP, SegmentType.MOVE_TO);
+			} else {
+				addToGeneralPath(curP, SegmentType.LINE_TO);
+			}
+		}
+
+		if (result.size() > 0 && needClosePath) {
+			gp.closePath();
+		}
+	}
+
+	private static boolean isInside(double[] a, double[] b, MyPoint c) {
+		return (a[0] - c.x) * (b[1] - c.y) > (a[1] - c.y) * (b[0] - c.x);
+	}
+
+	private static MyPoint intersection(double[] a, double[] b, MyPoint p,
+			MyPoint q) {
+		double A1 = b[1] - a[1];
+		double B1 = a[0] - b[0];
+		double C1 = A1 * a[0] + B1 * a[1];
+
+		double A2 = q.y - p.y;
+		double B2 = p.x - q.x;
+		double C2 = A2 * p.x + B2 * p.y;
+
+		double det = A1 * B2 - A2 * B1;
+
+		double x = (B2 * C1 - B1 * C2) / det;
+		double y = (A1 * C2 - A2 * C1) / det;
+
+		return new MyPoint(x, y, SegmentType.LINE_TO);
+	}
+
+	private void addToGeneralPath(GPoint2D q, SegmentType segmentType) {
 		GPoint2D p = gp.getCurrentPoint();
 
-		if (lineTo == SegmentType.CONTROL) {
+		if (segmentType == SegmentType.CONTROL) {
 			if (Double.isNaN(cont1X) && Double.isNaN(cont1Y)) {
 				cont1X = q.getX();
 				cont1Y = q.getY();
@@ -166,7 +335,7 @@ public class GeneralPathClipped implements GShape {
 				cont2X = q.getX();
 				cont2Y = q.getY();
 			}
-		} else if (lineTo == SegmentType.CURVE_TO) {
+		} else if (segmentType == SegmentType.CURVE_TO) {
 			if (!Double.isNaN(cont1X) && !Double.isNaN(cont1Y)
 					&& !Double.isNaN(cont2X) && !Double.isNaN(cont2Y)) {
 				gp.curveTo(cont1X, cont1Y, cont2X, cont2Y, q.getX(), q.getY());
@@ -176,10 +345,10 @@ public class GeneralPathClipped implements GShape {
 				cont2Y = Double.NaN;
 			}
 		}
-		else if (lineTo == SegmentType.AUXILIARY) {
+		else if (segmentType == SegmentType.AUXILIARY) {
 			auxX = q.getX();
 			auxY = q.getY();
-		} else if (lineTo == SegmentType.ARC_TO && p != null) {
+		} else if (segmentType == SegmentType.ARC_TO && p != null) {
 			try {
 
 				double dx1 = (auxX - p.getX());
@@ -196,7 +365,7 @@ public class GeneralPathClipped implements GShape {
 				gp.moveTo(q.getX(), q.getY());
 			}
 		}
-		else if (lineTo == SegmentType.LINE_TO && p != null) {
+		else if (segmentType == SegmentType.LINE_TO && p != null) {
 			try {
 				gp.lineTo(q.getX(), q.getY());
 			} catch (Exception e) {
