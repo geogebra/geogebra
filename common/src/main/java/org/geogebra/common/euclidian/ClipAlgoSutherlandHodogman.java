@@ -8,9 +8,6 @@ public class ClipAlgoSutherlandHodogman {
 
 	public static final int EDGE_COUNT = 4;
 
-	public ClipAlgoSutherlandHodogman() {
-	}
-
 	public ArrayList<MyPoint> process(ArrayList<MyPoint> input, double[][] clipPoints) {
 		int inputSize = input.size();
 		ArrayList<MyPoint> output = new ArrayList<>(inputSize);
