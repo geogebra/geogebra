@@ -3435,6 +3435,7 @@ __GGB__keysVar["sr"].menu = {
     "removeLink": "Remove link",
     "rename.resource": "Rename Resource",
     "resetConstruction": "resetuj konstrukciju",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Pretra\u017ei GeoGebra Materijale",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",

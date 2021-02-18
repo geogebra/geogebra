@@ -3435,6 +3435,7 @@ __GGB__keysVar["sq"].menu = {
     "removeLink": "Remove link",
     "rename.resource": "Rename Resource",
     "resetConstruction": "Rivendos Ndertimin",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Search GeoGebra Resources",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",

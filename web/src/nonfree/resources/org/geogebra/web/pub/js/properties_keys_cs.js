@@ -3435,6 +3435,7 @@ __GGB__keysVar["cs"].menu = {
     "removeLink": "Odebrat odkaz",
     "rename.resource": "P\u0159ejmenovat materi\xe1l",
     "resetConstruction": "znovunastaven\xed konstrukce",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Ulo\u017eit jako \u0161ablonu",
     "search_geogebra_materials": "Hledat GeoGebra materi\xe1ly",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",

@@ -3435,6 +3435,7 @@ __GGB__keysVar["tr"].menu = {
     "removeLink": "Ba\u011flant\u0131y\u0131 kald\u0131r",
     "rename.resource": "Kayna\u011f\u0131 Yeniden \u0130simlendir",
     "resetConstruction": "\u0130n\u015fay\u0131 s\u0131f\u0131rla",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "\u015eablon olarak kaydet",
     "search_geogebra_materials": "GeoGebra Kaynaklar\u0131 Ara",
     "sessionExpireNotify": "Oturumunuz sonlanmak \xfczere. Oturumda kalmak i\xe7in l\xfctfen dosyan\u0131z\u0131 kaydedin.",

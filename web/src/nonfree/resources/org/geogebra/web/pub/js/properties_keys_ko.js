@@ -3435,6 +3435,7 @@ __GGB__keysVar["ko"].menu = {
     "removeLink": "\ub9c1\ud06c \uc81c\uac70",
     "rename.resource": "\ub2e4\ub978 \uc774\ub984\uc73c\ub85c \uc790\ub8cc \uc800\uc7a5\ud558\uae30",
     "resetConstruction": "\uad6c\uc131 \uc7ac\uc124\uc815",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "\uc591\uc2dd\uc73c\ub85c \uc800\uc7a5\ud558\uae30",
     "search_geogebra_materials": "\uc9c0\uc624\uc9c0\ube0c\ub77c \uc790\ub8cc \uac80\uc0c9",
     "sessionExpireNotify": "\uc138\uc158\uc774 \uace7 \ub9cc\ub8cc\uc689\ub2c8\ub2e4. \ub85c\uadf8\uc778 \uc0c1\ud0dc\ub97c \uc720\uc9c0\ud558\ub824\uba74 \ud30c\uc77c\uc744 \uc800\uc7a5\ud558\uc2ed\uc2dc\uc624.",

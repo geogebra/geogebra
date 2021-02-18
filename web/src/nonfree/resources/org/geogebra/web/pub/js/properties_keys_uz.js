@@ -3435,6 +3435,7 @@ __GGB__keysVar["uz"].menu = {
     "removeLink": "Remove link",
     "rename.resource": "Resursni qayta nomlash",
     "resetConstruction": "Reset construction",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "GeoGebra Resurslarini izlash",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",

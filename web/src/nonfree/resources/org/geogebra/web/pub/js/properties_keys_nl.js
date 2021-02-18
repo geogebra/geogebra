@@ -3435,6 +3435,7 @@ __GGB__keysVar["nl"].menu = {
     "removeLink": "Verwijder link",
     "rename.resource": "Hernoem materiaal",
     "resetConstruction": "Constructie herstarten",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Sla op als sjabloon",
     "search_geogebra_materials": "Zoek in het GeoGebra materiaal",
     "sessionExpireNotify": "Je sessie loopt bijna af. Sla a.u.b. je bestand op om aangemeld te blijven.",

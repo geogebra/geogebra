@@ -3435,6 +3435,7 @@ __GGB__keysVar["xh"].menu = {
     "removeLink": "Remove link",
     "rename.resource": "Rename Resource",
     "resetConstruction": "Phinda ulungise uLwakhiwo",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Khangela kwiziXhobo zeJiyoJebra",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",

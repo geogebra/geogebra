@@ -3435,6 +3435,7 @@ __GGB__keysVar["sv"].menu = {
     "removeLink": "Remove link",
     "rename.resource": "D\xf6p om resursen",
     "resetConstruction": "Nollst\xe4ll konstruktion",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "S\xf6k efter GeoGebraresurser",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",

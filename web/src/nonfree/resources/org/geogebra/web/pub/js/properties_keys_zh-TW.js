@@ -3435,6 +3435,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "removeLink": "Remove link",
     "rename.resource": "Rename Resource",
     "resetConstruction": "\u91cd\u65b0\u958b\u59cb",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "\u5132\u5b58\u70ba\u7bc4\u672c",
     "search_geogebra_materials": "\u641c\u5c0b\u5716\u6a94",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",

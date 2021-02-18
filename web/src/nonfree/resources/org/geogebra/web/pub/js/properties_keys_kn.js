@@ -3435,6 +3435,7 @@ __GGB__keysVar["kn"].menu = {
     "removeLink": "Remove link",
     "rename.resource": "\u0cb8\u0c82\u0caa\u0ca8\u0ccd\u0cae\u0cc2\u0cb2\u0cb5\u0ca8\u0ccd\u0ca8\u0cc1 \u0cae\u0cb0\u0cc1\u0cb9\u0cc6\u0cb8\u0cb0\u0cbf\u0cb8\u0cbf",
     "resetConstruction": "\u0ca8\u0cbf\u0cb0\u0ccd\u0cae\u0cbe\u0ca3\u0cb5\u0ca8\u0ccd\u0ca8\u0cc1 \u0cae\u0cb0\u0cc1\u0cb9\u0cca\u0c82\u0ca6\u0cbf\u0cb8\u0cbf",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "\u0c9c\u0cbf\u0caf\u0ccb\u0c9c\u0cbf\u0cac\u0ccd\u0cb0\u0cbe \u0cb8\u0c82\u0caa\u0ca8\u0ccd\u0cae\u0cc2\u0cb2\u0c97\u0cb3\u0ca8\u0ccd\u0ca8\u0cc1 \u0cb9\u0cc1\u0ca1\u0cc1\u0c95\u0cbf",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",

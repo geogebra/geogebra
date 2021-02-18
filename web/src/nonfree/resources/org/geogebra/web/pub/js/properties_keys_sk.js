@@ -3435,6 +3435,7 @@ __GGB__keysVar["sk"].menu = {
     "removeLink": "Remove link",
     "rename.resource": "Rename Resource",
     "resetConstruction": "resetova\u0165 kon\u0161trukciu",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Vyh\u013ead\xe1vanie medzi materi\xe1lmi",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",

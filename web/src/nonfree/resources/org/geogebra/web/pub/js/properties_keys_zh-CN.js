@@ -3435,6 +3435,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "removeLink": "\u5220\u9664\u94fe\u63a5",
     "rename.resource": "\u91cd\u65b0\u547d\u540d\u8d44\u6e90",
     "resetConstruction": "\u91cd\u7f6e\u4f5c\u56fe",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "\u4e0e\u6a21\u677f\u76f8\u540c",
     "search_geogebra_materials": "\u641c\u7d22 GeoGebra \u8d44\u6e90",
     "sessionExpireNotify": "\u60a8\u7684\u4f1a\u8bdd\u5373\u5c06\u7ed3\u675f, \u8bf7\u4fdd\u5b58\u6587\u4ef6\u4ee5\u4fdd\u6301\u767b\u5f55\u72b6\u6001.",

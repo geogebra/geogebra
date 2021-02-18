@@ -3435,6 +3435,7 @@ __GGB__keysVar["is"].menu = {
     "removeLink": "Fjarl\xe6gja hlekk",
     "rename.resource": "Rename Resource",
     "resetConstruction": "Endursetja sm\xed\xf0",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Vista sem sni\xf0",
     "search_geogebra_materials": "Leit \xe1 GeoGebra Materials",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",

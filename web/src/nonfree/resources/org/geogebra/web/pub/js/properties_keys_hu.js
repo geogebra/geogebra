@@ -3435,6 +3435,7 @@ __GGB__keysVar["hu"].menu = {
     "removeLink": "Remove link",
     "rename.resource": "Rename Resource",
     "resetConstruction": "Szerkeszt\xe9s t\xf6rl\xe9se",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "GeoGebra anyagok keres\xe9se",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
