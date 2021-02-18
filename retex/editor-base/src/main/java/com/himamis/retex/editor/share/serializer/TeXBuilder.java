@@ -60,11 +60,7 @@ public class TeXBuilder {
 				atomToComponent.put(placeholder, SELECTION);
 				a = new ScaleAtom(new PhantomAtom(placeholder), 0.1, 1);
 			} else {
-				a = new ColorAtom(
-						new ScaleAtom(new PhantomAtom(new CharAtom('g')), 1, 1.6),
-						FactoryProvider.getInstance().getGraphicsFactory().createColor(0xDCDCDC),
-						null
-				);
+				a = getPlaceholder(mathFormula);
 			}
 			ra.add(a);
 			return ra;
@@ -90,6 +86,34 @@ public class TeXBuilder {
 		}
 
 		return ra;
+	}
+
+	private Atom getPlaceholder(MathSequence sequence) {
+		MathContainer parent = sequence.getParent();
+		if (parent == null
+				|| (parent instanceof MathArray	&& parent.size() == 1)) {
+			return getInvisiblePlaceholder();
+		}
+		if (parent instanceof MathFunction) {
+			Tag fn = ((MathFunction) parent).getName();
+			if (fn == Tag.APPLY || fn == Tag.LOG) {
+				return getInvisiblePlaceholder();
+			}
+		}
+
+		return getPlaceholderBox();
+	}
+
+	private Atom getInvisiblePlaceholder() {
+		return new PhantomAtom(new CharAtom('1'));
+	}
+
+	private Atom getPlaceholderBox() {
+		return new ColorAtom(
+				new ScaleAtom(new PhantomAtom(new CharAtom('g')), 1, 1.6),
+				FactoryProvider.getInstance().getGraphicsFactory().createColor(0xDCDCDC),
+				null
+		);
 	}
 
 	private Atom addToSub(Atom lastAtom, Atom sub) {
