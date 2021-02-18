@@ -712,12 +712,19 @@
 		border: 1px solid blue;
 	}
 
-	 .accessibilityView {
+	 .accessibilityControl {
 		opacity: 0.01;
 		position: fixed;
 		width: 1px;
 		height: 1px;
 		overflow: scroll;
+	 }
+
+	 .accessibleInput {
+	 	width: 20px;
+        height: 20px;
+        z-index: 200;
+        position: absolute;
 	 }
 
 	.invisible {

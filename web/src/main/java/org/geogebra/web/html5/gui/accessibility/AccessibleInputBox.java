@@ -3,19 +3,22 @@ package org.geogebra.web.html5.gui.accessibility;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 public class AccessibleInputBox implements AccessibleWidget {
 	private final GeoInputBox geo;
-	private final AutoCompleteTextFieldW inputBox;
+	private final GTextBox inputBox;
 	private final FormLabel formLabel;
+	private final AppW app;
 
 	/**
 	 * @param geo input box
@@ -24,14 +27,17 @@ public class AccessibleInputBox implements AccessibleWidget {
 	 */
 	public AccessibleInputBox(GeoInputBox geo, AppW app, final AccessibilityView view) {
 		this.geo = geo;
-		this.inputBox = new AutoCompleteTextFieldW(-1, app);
+		this.app = app;
+		this.inputBox = new GTextBox();
 		this.formLabel = new FormLabel();
 		formLabel.setFor(inputBox);
-		inputBox.setUsedForInputBox(geo);
-		inputBox.addFocusHandler(new FocusHandler() {
+		inputBox.addStyleName("accessibileInput");
+		inputBox.addKeyDownHandler(new KeyDownHandler() {
 			@Override
-			public void onFocus(FocusEvent focusEvent) {
-				view.show();
+			public void onKeyDown(KeyDownEvent event) {
+				if (event.getNativeKeyCode() == GWTKeycodes.KEY_ENTER) {
+					geo.updateLinkedGeo(inputBox.getText());
+				}
 			}
 		});
 		update();
@@ -44,6 +50,7 @@ public class AccessibleInputBox implements AccessibleWidget {
 
 	@Override
 	public void update() {
+		AccessibleDropDown.updatePosition(geo, inputBox, app);
 		formLabel.setText(geo.getAuralText());
 		inputBox.setText(geo.getTextForEditor());
 	}
@@ -51,5 +58,10 @@ public class AccessibleInputBox implements AccessibleWidget {
 	@Override
 	public void setFocus(boolean focus) {
 		inputBox.setFocus(focus);
+	}
+
+	@Override
+	public boolean isCompatible(GeoElement geo) {
+		return true;
 	}
 }

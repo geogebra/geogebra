@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -88,6 +89,8 @@ public class AccessibilityView implements View {
 			control = new AccessiblePoint((GeoPointND) geo, sliderFactory, this);
 		} else if (geo instanceof GeoInputBox) {
 			control = new AccessibleInputBox((GeoInputBox) geo, app, this);
+		} else if (geo instanceof GeoList && ((GeoList) geo).drawAsComboBox()) {
+			control = new AccessibleDropDown((GeoList) geo, app, this);
 		} else  {
 			control = new AccessibleGeoElement(geo, app, this, sliderFactory);
 		}
@@ -133,6 +136,7 @@ public class AccessibilityView implements View {
 			position = findLastControlOf(prevWidget);
 		}
 		for (Widget control : widget.getWidgets()) {
+			control.addStyleName("accessibilityControl");
 			controls.insert(control, position + 1);
 			position++;
 		}
@@ -169,7 +173,13 @@ public class AccessibilityView implements View {
 		} else if (!widgets.containsKey(geo)) {
 			add(geo);
 		} else {
-			widgets.get(geo).update();
+			AccessibleWidget widget = widgets.get(geo);
+			if (widget.isCompatible(geo)) {
+				widget.update();
+			} else {
+				remove(geo);
+				add(geo);
+			}
 		}
 	}
 
@@ -282,5 +292,13 @@ public class AccessibilityView implements View {
 
 	public void show() {
 		controls.removeStyleName("accessibilityView");
+	}
+
+	public void closeAllDropdowns() {
+		for (AccessibleWidget widget: widgets.values()) {
+			if (widget instanceof AccessibleDropDown) {
+				((AccessibleDropDown) widget).close();
+			}
+		}
 	}
 }
