@@ -9,31 +9,44 @@ public class ClipAlgoSutherlandHodogman {
 	public static final int EDGE_COUNT = 4;
 
 	public ArrayList<MyPoint> process(ArrayList<MyPoint> input, double[][] clipPoints) {
-		int inputSize = input.size();
-		ArrayList<MyPoint> output = new ArrayList<>(inputSize);
+		ArrayList<MyPoint> output = new ArrayList<>(input);
 
 		for (int i = 0; i < EDGE_COUNT; i++) {
-			double[] A = clipPoints[(i + 3) % EDGE_COUNT];
-			double[] B = clipPoints[i];
-			double[] C = clipPoints[(i + 1) % EDGE_COUNT];
+			double[] edgeStartPoint = clipPoints[(i + 3) % EDGE_COUNT];
+			double[] edgeEndPoint = clipPoints[i];
+			output = clipWithEdge(edgeStartPoint, edgeEndPoint, output);
+		}
 
-			boolean inside = isInside(A, B, new MyPoint(C[0], C[1]));
+		return output;
+	}
 
-			for (int j = 0; j < inputSize; j++) {
-				MyPoint P = input.get((j + inputSize - 1) % inputSize);
-				MyPoint Q = input.get(j);
+	private ArrayList<MyPoint> clipWithEdge(double[] a, double[] b,
+			ArrayList<MyPoint> input) {
 
-				if (isInside(A, B, P) == inside) {
-					if (isInside(A, B, Q) == inside) {
-						output.add(Q);
-					} else {
-						output.add(intersection(A, B, P, Q));
-					}
-				} else if (isInside(A, B, Q) == inside) {
-					output.add(intersection(A, B, P, Q));
-					output.add(Q);
-				}
+		ArrayList<MyPoint> output = new ArrayList<>();
+
+		for (int i = 0; i < input.size(); i++) {
+			MyPoint prev = i > 0 ?
+					input.get((i - 1) % input.size())
+					: input.get(input.size() - 1);
+			MyPoint current = input.get(i);
+			output.addAll(addClippedOutput(a, b, prev, current));
+		}
+		return output;
+	}
+
+	private ArrayList<MyPoint> addClippedOutput(double[] A, double[] B,
+			MyPoint prev, MyPoint current) {
+		ArrayList<MyPoint> output = new ArrayList<>();
+		MyPoint intersectionPoint = intersection(A, B, prev, current);
+		if (isInside(A, B, current)) {
+			if (!isInside(A, B, prev)) {
+				output.add(intersectionPoint);
 			}
+			output.add(current);
+
+		} else if (isInside(A, B, prev)) {
+			output.add(intersectionPoint);
 		}
 		return output;
 	}
@@ -57,6 +70,7 @@ public class ClipAlgoSutherlandHodogman {
 		double x = (B2 * C1 - B1 * C2) / det;
 		double y = (A1 * C2 - A2 * C1) / det;
 
-		return new MyPoint(x, y, q.getSegmentType());
+		// add 0.0 to avoid -0.0 problem.
+		return new MyPoint(x + 0.0, y + 0.0, q.getSegmentType());
 	}
 }
