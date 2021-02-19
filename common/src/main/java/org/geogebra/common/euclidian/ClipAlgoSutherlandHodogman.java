@@ -35,17 +35,17 @@ public class ClipAlgoSutherlandHodogman {
 		return output;
 	}
 
-	private ArrayList<MyPoint> addClippedOutput(double[] A, double[] B,
+	private ArrayList<MyPoint> addClippedOutput(double[] a, double[] b,
 			MyPoint prev, MyPoint current) {
 		ArrayList<MyPoint> output = new ArrayList<>();
-		MyPoint intersectionPoint = intersection(A, B, prev, current);
-		if (isInside(A, B, current)) {
-			if (!isInside(A, B, prev)) {
+		MyPoint intersectionPoint = intersection(a, b, prev, current);
+		if (isInside(a, b, current)) {
+			if (!isInside(a, b, prev)) {
 				output.add(intersectionPoint);
 			}
 			output.add(current);
 
-		} else if (isInside(A, B, prev)) {
+		} else if (isInside(a, b, prev)) {
 			output.add(intersectionPoint);
 		}
 		return output;

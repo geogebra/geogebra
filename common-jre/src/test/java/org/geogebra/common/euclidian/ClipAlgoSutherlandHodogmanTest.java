@@ -74,6 +74,20 @@ public class ClipAlgoSutherlandHodogmanTest {
 		assertOutput();
 	}
 
+	@Test
+	public void rightOutsideTest() {
+		addInput(20, 20);
+		addInput(150, 20);
+		addInput(20, 80);
+		addInput(150, 80);
+
+		addOutput(100, 80);
+		addOutput(20, 80);
+		addOutput(20, 20);
+		addOutput(100, 20);
+		assertOutput();
+	}
+
 	private ArrayList<MyPoint> processAlgo() {
 		return algo.process(input, defaultClipPolygon);
 	}
