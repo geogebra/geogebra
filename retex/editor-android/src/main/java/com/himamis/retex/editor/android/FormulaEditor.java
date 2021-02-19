@@ -37,6 +37,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.text.InputType;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.BaseInputConnection;
 import android.view.inputmethod.EditorInfo;
@@ -389,7 +390,7 @@ public class FormulaEditor extends View implements MathField {
         mGraphics.setCanvas(canvas);
         teXIcon.setForeground(mForegroundColor);
         teXIcon.paintIcon(null, mGraphics, shiftX, y);
-        teXIcon.paintCursor(mGraphics, shiftX);
+        teXIcon.paintCursor(mGraphics, y);
     }
 
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
