@@ -1995,6 +1995,10 @@ public class CommandsTest {
 		t("Split(\"4(x+1)(x+2)\", {\"(\", \")\"})", "{\"4\", \"x+1\", \"x+2\"}");
 		t("Split(\"4(x+1)(x+2)\", {\"(\", \")\", \"x\"})", "{\"4\", \"+1\", \"+2\"}");
 		t("Split(\"4(x+1)(x+2)\", {\"(x\", \")\"})", "{\"4\", \"+1\", \"+2\"}");
+		t("Split(\"kjhkjhk\", {})", "{\"kjhkjhk\"}");
+		t("undefinedText=Element({\"a\"},7)", "");
+		t("Split(undefinedText, {\",\"})", "?");
+		t("Split(\"abcde\", {undefinedText})", "?");
 	}
 
 	@Test
