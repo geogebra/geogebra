@@ -1104,17 +1104,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				tpl);
 
 		if (!implicit && !isZeroFigure(temp[vars.length], tpl)) {
-			String sign;
-			double abs;
-			if (temp[vars.length] < 0.0) {
-				sign = " - ";
-				abs = -temp[vars.length];
-			} else {
-				sign = " + ";
-				abs = temp[vars.length];
-			}
-			sbBuildImplicitEquation.append(sign);
-			sbBuildImplicitEquation.append(format(abs, tpl));
+			sbBuildImplicitEquation.append(' ');
+			formatSigned(temp[vars.length], sbBuildImplicitEquation, tpl);
 		}
 
 		sbBuildImplicitEquation.append(' ');
@@ -1162,12 +1153,13 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	final public void formatSigned(double x, StringBuilder sb,
 			StringTemplate tpl) {
+		boolean screenReader = tpl.hasType(StringType.SCREEN_READER);
 		if (x >= 0.0d) {
-			sb.append("+ ");
+			sb.append(screenReader ? " plus " : "+ ");
 			sb.append(format(x, tpl));
 			return;
 		}
-		sb.append("- ");
+		sb.append(screenReader ? " minus " : "- ");
 		sb.append(format(-x, tpl));
 	}
 
@@ -1223,11 +1215,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		} else {
 			String ret = formatterMap.get(x);
 			if (ret != null) {
-				// Log.debug("found " + x + " " + ret);
 				return ret;
 			}
-
-			// Log.debug("not found " + x);
 		}
 
 		// PI
@@ -1833,21 +1822,13 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		sbBuildImplicitVarPart.append(vars[leadingNonZero]);
 
 		// other coefficients on lhs
-		String sign;
 		double abs;
 		for (int i = leadingNonZero + 1; i < vars.length; i++) {
-			if (temp[i] < 0.0) {
-				sign = " - ";
-				abs = -temp[i];
-			} else {
-				sign = " + ";
-				abs = temp[i];
-			}
-
+			abs = Math.abs(temp[i]);
 			if ((abs >= tpl.getPrecision(nf)) || useSignificantFigures
 					|| (needsZ && i == 2)) {
-				sbBuildImplicitVarPart.append(sign);
-				sbBuildImplicitVarPart.append(formatCoeff(abs, tpl));
+				sbBuildImplicitVarPart.append(' ');
+				formatSignedCoefficient(temp[i], sbBuildImplicitVarPart, tpl);
 				sbBuildImplicitVarPart.append(vars[i]);
 			}
 		}

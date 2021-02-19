@@ -6985,10 +6985,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public boolean addAuralCaption(ScreenReaderBuilder sb) {
 		if (!StringUtil.empty(getCaptionSimple())) {
-			String myCaption = getCaption(StringTemplate.defaultTemplate);
-			if (CanvasDrawable.isLatexString(myCaption)) {
-				sb.appendLaTeX(caption);
+			if (CanvasDrawable.isLatexString(caption)) {
+				String myCaption = getCaption(StringTemplate.latexTemplate);
+				sb.appendLaTeX(myCaption);
 			} else {
+				String myCaption = getCaption(StringTemplate.screenReader);
 				sb.append(myCaption);
 			}
 			sb.endSentence();
@@ -6998,22 +6999,22 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	@Override
-	public void addAuralType(Localization loc, ScreenReaderBuilder sb) {
+	public void addAuralType(ScreenReaderBuilder sb) {
 		sb.append(translatedTypeStringForAlgebraView());
 		sb.appendSpace();
 	}
 
 	@Override
-	public void addAuralLabel(Localization loc, ScreenReaderBuilder sb) {
+	public void addAuralLabel(ScreenReaderBuilder sb) {
 		sb.append(getLabelSimple());
 		sb.endSentence();
 	}
 
 	@Override
-	public void addAuralName(Localization loc, ScreenReaderBuilder sb) {
-		addAuralType(loc, sb);
+	public void addAuralName(ScreenReaderBuilder sb) {
+		addAuralType(sb);
 		if (!addAuralCaption(sb)) {
-			addAuralLabel(loc, sb);
+			addAuralLabel(sb);
 		}
 	}
 
@@ -7030,7 +7031,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public String getAuralText(ScreenReaderBuilder sb) {
 		Localization loc = kernel.getLocalization();
-		addAuralName(loc, sb);
+		addAuralName(sb);
 		sb.appendSpace();
 		addAuralStatus(loc, sb);
 		sb.appendSpace();

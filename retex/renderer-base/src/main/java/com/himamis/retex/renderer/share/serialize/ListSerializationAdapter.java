@@ -4,7 +4,7 @@ package com.himamis.retex.renderer.share.serialize;
  * Transforms brackets in expression
  *
  */
-public class ListBracketsAdapter extends DefaultBracketsAdapter {
+public class ListSerializationAdapter extends DefaultSerializationAdapter {
 
 	@Override
 	public String transformBrackets(String left, String base, String right) {

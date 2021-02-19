@@ -1353,7 +1353,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	}
 
-	private void getPlus(StringBuilder sb, Localization loc) {
+	public void getPlus(StringBuilder sb, Localization loc) {
 		if (stringType == StringType.SCREEN_READER) {
 			sb.append(ScreenReader.getPlus(loc));
 		} else {
@@ -1363,7 +1363,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
-	private void getMinus(StringBuilder sb, Localization loc) {
+	public void getMinus(StringBuilder sb, Localization loc) {
 		if (stringType == StringType.SCREEN_READER) {
 			sb.append(ScreenReader.getMinus(loc));
 		} else {
@@ -1378,7 +1378,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public String leftBracket() {
 		if (stringType == StringType.SCREEN_READER) {
-			return ScreenReader.getLeftBracket();
+			return ScreenReader.getOpenParenthesis();
 		}
 		return left() + "(";
 	}
@@ -1388,7 +1388,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public String rightBracket() {
 		if (stringType == StringType.SCREEN_READER) {
-			return ScreenReader.getRightBracket();
+			return ScreenReader.getCloseParenthesis();
 		}
 		return right() + ")";
 	}
@@ -3180,6 +3180,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public void leftCurlyBracket(StringBuilder sb) {
 		if (hasType(StringType.LATEX)) {
 			sb.append("\\left\\{");
+		} else if (hasType(StringType.SCREEN_READER)) {
+			sb.append(ScreenReader.getOpenBrace());
 		} else {
 			sb.append("{");
 		}
@@ -3194,6 +3196,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public void rightCurlyBracket(StringBuilder sb) {
 		if (hasType(StringType.LATEX)) {
 			sb.append("\\right\\}");
+		} else if (hasType(StringType.SCREEN_READER)) {
+			sb.append(ScreenReader.getCloseBrace());
 		} else {
 			sb.append("}");
 		}

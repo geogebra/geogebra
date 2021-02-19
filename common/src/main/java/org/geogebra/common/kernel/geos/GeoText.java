@@ -1508,17 +1508,18 @@ public class GeoText extends GeoElement
 					.checkFirstCall(kernel.getApplication());
 			// TeXAtomSerializer makes formula human readable.
 			TeXFormula tf = new TeXFormula(getTextString());
-			ret = new TeXAtomSerializer(new ScreenReaderBracketsAdapter())
-					.serialize(tf.root);
+			ScreenReaderSerializationAdapter adapter =
+					new ScreenReaderSerializationAdapter(kernel.getLocalization());
+			ret = new TeXAtomSerializer(adapter).serialize(tf.root);
 		} else {
-			ret = getTextString();
+			ret = ScreenReader.convertToReadable(getTextString());
 		}
 
-		return ScreenReader.convertToReadable(ret);
+		return ret;
 	}
 
 	@Override
-	public void addAuralName(Localization loc, ScreenReaderBuilder sb) {
+	public void addAuralName(ScreenReaderBuilder sb) {
 		// only read content, no prefix
 	}
 
