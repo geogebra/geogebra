@@ -3548,4 +3548,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public boolean allowShortLhs() {
 		return allowShortLhs;
 	}
+
+	public void getComma(StringBuilder sb, Localization localization) {
+		if (hasType(StringType.SCREEN_READER)) {
+			sb.append(ScreenReader.getComma());
+		} else {
+			sb.append(localization.getComma());
+		}
+	}
 }

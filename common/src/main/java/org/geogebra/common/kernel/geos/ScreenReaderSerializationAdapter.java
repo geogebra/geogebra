@@ -48,6 +48,8 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 		switch (character) {
 		case '+': return " plus ";
 		case '-': return " minus ";
+		case ',':
+			return ScreenReader.getComma();
 		case '(':
 			return ScreenReader.getOpenParenthesis();
 		case ')':

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.util.debug.Log;
@@ -133,6 +134,13 @@ public class AuralTextTest {
 		GeoElementND[] pointB = add("B = (2,2)");
 		pointB[0].setCaption(" $ \\text{this is my nice caption}$");
 		auralWhichContainsTheOutput("B", "this is my nice caption");
+	}
+
+	@Test
+	public void readComma() {
+		GeoElementND[] pointA = add("A = (1,2)");
+		assertEquals("open parenthesis 1 comma  2 close parenthesis",
+				pointA[0].toValueString(StringTemplate.screenReader));
 	}
 
 	@Test

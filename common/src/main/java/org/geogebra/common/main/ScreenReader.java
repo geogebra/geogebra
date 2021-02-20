@@ -497,4 +497,8 @@ public class ScreenReader {
 	public static void debug(String text) {
 		Log.debug("read text: " + text);
 	}
+
+	public static String getComma() {
+		return " comma ";
+	}
 }
