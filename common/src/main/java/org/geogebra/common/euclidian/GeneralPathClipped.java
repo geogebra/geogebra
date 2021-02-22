@@ -122,10 +122,14 @@ public class GeneralPathClipped implements GShape {
 		int padding = 5;
 		double[][] clipPoints = {
 				{ -padding, -padding},
-				{ view.getWidth() + padding, -padding},
-				{ view.getWidth() + padding, view.getHeight() + padding},
 				{ -padding, view.getHeight() + padding},
+				{ view.getWidth() + padding, view.getHeight() + padding},
+				{ view.getWidth() + padding, -padding},
 		};
+
+		if (needClosePath) {
+			pathPoints.get(0).setLineTo(true);
+		}
 
 		ArrayList<MyPoint> result = clipAlgoSutherlandHodogman.process(pathPoints, clipPoints);
 
