@@ -115,12 +115,12 @@ public abstract class EvPositioner {
     }
 
     private void updateVisibleFromX(int x) {
-        moveToX = (int) (settings.getXZero() + (x - settings.getVisibleFromX()) / 2);
+        moveToX = (int) (settings.getXZero() + (x - settings.getVisibleFromX()) / 2.0);
         settings.setVisibleFromX(x);
     }
 
     private void updateVisibleUntilY(int y) {
-        moveToY = (int) (settings.getYZero() + (y - settings.getVisibleUntilY()) / 2);
+        moveToY = (int) (settings.getYZero() + (y - settings.getVisibleUntilY()) / 2.0);
         settings.setVisibleUntilY(y);
     }
 
