@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
+import org.geogebra.common.kernel.geos.ScreenReaderSerializationAdapter;
 import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
@@ -486,8 +487,18 @@ public class ScreenReader {
 	 *            String to convert eg M_R-a
 	 * @return converted String eg M subscript R minus a
 	 */
-	public static String convertToReadable(String s) {
-		return s.replace("_", " subscript ").replace("-", " minus ");
+	public static String convertToReadable(String s, Localization loc) {
+		StringBuilder sb = new StringBuilder();
+		ScreenReaderSerializationAdapter adapter = new ScreenReaderSerializationAdapter(loc);
+		for (int i = 0; i < s.length(); i++) {
+			char character = s.charAt(i);
+			if (character == '_') {
+				sb.append(" subscript ");
+			} else {
+				sb.append(adapter.convertCharacter(character));
+			}
+		}
+		return sb.toString();
 	}
 
 	/**

@@ -9,7 +9,7 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 
 	private final Localization loc;
 
-	ScreenReaderSerializationAdapter(Localization loc) {
+	public ScreenReaderSerializationAdapter(Localization loc) {
 		this.loc = loc;
 	}
 
@@ -48,6 +48,7 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 		switch (character) {
 		case '+': return " plus ";
 		case '-': return " minus ";
+		case '=': return " equals ";
 		case ',':
 			return ScreenReader.getComma();
 		case '(':

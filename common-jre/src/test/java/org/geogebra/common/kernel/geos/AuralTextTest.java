@@ -8,7 +8,6 @@ import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.RegexpMatch;
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,7 +26,6 @@ public class AuralTextTest {
 	private static void aural(String in, String... out) {
 		GeoElementND[] geos = add(in);
 		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot(app.getLocalization()));
-		Log.debug("aural = " + aural);
 		String[] sentences = aural.split("\\.");
 		Assert.assertTrue(aural.endsWith("."));
 		assertEquals(out.length, sentences.length);
@@ -59,7 +57,7 @@ public class AuralTextTest {
 	public void numberAural() {
 		aural("sl=Slider(-5,5)", "Slider", "start animation", "increase",
 				"decrease", "edit");
-		assertEquals("sl = 0",
+		assertEquals("sl equals 0",
 				((GeoNumeric) get("sl")).getAuralCurrentValue());
 		aural("4", "Number");
 	}
@@ -72,9 +70,9 @@ public class AuralTextTest {
 	public void numberCaptionAural() {
 		add("vec=Slider(-5,5)");
 		add("SetCaption(vec,\"Vector v = %v\")");
-		aural("vec", "Vector v = 0", "start animation", "increase",
+		aural("vec", "Vector v  equals  0", "start animation", "increase",
 				"decrease", "edit");
-		assertEquals("Vector v = 0",
+		assertEquals("Vector v  equals  0",
 				((GeoNumeric) get("vec")).getAuralCurrentValue());
 	}
 
@@ -86,7 +84,7 @@ public class AuralTextTest {
 
 	@Test
 	public void textAural() {
-		aural("LaTeX(\"a+\\mathbf{x^2}\")", "a plus x squared", "edit");
+		aural("LaTeX(\"b=a+\\mathbf{x^2}\")", "b equals a plus x squared", "edit");
 		aural("LaTeX(\"a+\\mathbf{x^3}\")", "a plus x cubed", "edit");
 		aural("LaTeX(\"a+\\mathbf{x^4}\")", "a plus x to the power of 4 end power", "edit");
 		aural("LaTeX(\"a_{bcd}\")", "a start subscript bcd end subscript", "edit");
@@ -140,7 +138,7 @@ public class AuralTextTest {
 	public void readComma() {
 		GeoElementND[] pointA = add("A = (1,2)");
 		assertEquals("open parenthesis 1 comma  2 close parenthesis",
-				pointA[0].toValueString(StringTemplate.screenReader));
+				pointA[0].toValueString(StringTemplate.screenReader).trim());
 	}
 
 	@Test

@@ -94,6 +94,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -6990,7 +6991,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 				sb.appendLaTeX(myCaption);
 			} else {
 				String myCaption = getCaption(StringTemplate.screenReader);
-				sb.append(myCaption);
+				sb.append(ScreenReader.convertToReadable(myCaption, getLoc()));
 			}
 			sb.endSentence();
 			return true;

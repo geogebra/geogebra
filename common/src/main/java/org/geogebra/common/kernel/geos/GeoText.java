@@ -1512,7 +1512,7 @@ public class GeoText extends GeoElement
 					new ScreenReaderSerializationAdapter(kernel.getLocalization());
 			ret = new TeXAtomSerializer(adapter).serialize(tf.root);
 		} else {
-			ret = ScreenReader.convertToReadable(getTextString());
+			ret = ScreenReader.convertToReadable(getTextString(), getLoc());
 		}
 
 		return ret;

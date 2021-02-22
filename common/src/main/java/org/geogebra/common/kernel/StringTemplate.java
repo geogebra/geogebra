@@ -3515,7 +3515,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 		if (forEditorParser) {
 			return "=";
 		}
-		return stringType == StringType.LATEX ? "\\, = \\," : " = ";
+		switch (stringType) {
+		case LATEX:
+			return "\\, = \\,";
+		case SCREEN_READER:
+			return " equals ";
+		default:
+			return " = ";
+		}
 	}
 
 	public boolean isLatex() {
