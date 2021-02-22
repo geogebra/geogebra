@@ -454,8 +454,7 @@ public class DialogManagerW extends DialogManager
 			saveDialog = doYouWantSaveChanges
 					? new DoYouWantToSaveChangesDialog((AppW) app, data, true)
 					: new SaveDialogMow((AppW) app, data, addTempCheckBox);
-		} else if (saveDialog == null
-				|| app.getConfig().getAppCode().equals(GeoGebraConstants.SUITE_APPCODE)) {
+		} else if (saveDialog == null || isSuite()) {
 			DialogData data = new DialogData(getSaveDialogTitle(), "DontSave", "Save");
 			saveDialog = new SaveDialogW((AppW) app, data, widgetFactory);
 		}
@@ -466,11 +465,15 @@ public class DialogManagerW extends DialogManager
 	}
 
 	private String getSaveDialogTitle() {
-		if (app.getConfig().getAppCode().equals(GeoGebraConstants.SUITE_APPCODE)) {
+		if (isSuite()) {
 			return app.getLocalization().getPlain("saveDialog.saveApp",
 					app.getLocalization().getMenu(app.getConfig().getAppNameWithoutCalc()));
 		}
 		return "Save";
+	}
+
+	private boolean isSuite() {
+		return app.getConfig().getAppCode().equals(GeoGebraConstants.SUITE_APPCODE);
 	}
 
 	/**
