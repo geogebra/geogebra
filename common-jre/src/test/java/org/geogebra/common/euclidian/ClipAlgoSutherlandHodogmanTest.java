@@ -46,7 +46,6 @@ public class ClipAlgoSutherlandHodogmanTest {
 		assertOutput();
 	}
 
-
 	@Test
 	public void rectTest() {
 		addInput(20, -50);

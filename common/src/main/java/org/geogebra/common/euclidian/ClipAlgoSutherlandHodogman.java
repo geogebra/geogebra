@@ -42,7 +42,7 @@ public class ClipAlgoSutherlandHodogman {
 		ArrayList<MyPoint> output = new ArrayList<>();
 
 		for (int i = 0; i < input.size(); i++) {
-			MyPoint prev = input.get((i > 0 ? i: input.size()) - 1);
+			MyPoint prev = input.get((i > 0 ? i : input.size()) - 1);
 			MyPoint current = input.get(i);
 			output.addAll(addClippedOutput(edge, prev, current));
 		}
@@ -66,8 +66,8 @@ public class ClipAlgoSutherlandHodogman {
 	}
 
 	private static boolean isInside(Edge edge, MyPoint c) {
-		return (edge.start.x - c.x) * (edge.end.y - c.y) <
-				(edge.start.y - c.y) * (edge.end.x - c.x);
+		return (edge.start.x - c.x) * (edge.end.y - c.y)
+				< (edge.start.y - c.y) * (edge.end.x - c.x);
 	}
 
 	private static MyPoint intersection(Edge edge, MyPoint p,
