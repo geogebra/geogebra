@@ -45,20 +45,43 @@ public enum EuclidianBoundingBoxHandler {
 	 */
 	ROTATION(0, 0),
 	/**
+	 * mind map: add node to the top
+	 */
+	ADD_TOP(0, -1),
+	/**
+	 * mind map: add node to the right
+	 */
+	ADD_RIGHT(-1, 0),
+	/**
+	 * mind map: add node to the bottom
+	 */
+	ADD_BOTTOM(0, 1),
+	/**
+	 * mind map: add node to the left
+	 */
+	ADD_LEFT(1, 0),
+	/**
 	 * undefined handler
 	 */
 	UNDEFINED(0, 0);
 
-	private int dx;
-	private int dy;
+	private final int dx;
+	private final int dy;
 
-	private EuclidianBoundingBoxHandler(int dx, int dy) {
+	EuclidianBoundingBoxHandler(int dx, int dy) {
 		this.dx = dx;
 		this.dy = dy;
 	}
 
 	public boolean isDiagonal() {
 		return dx != 0 && dy != 0;
+	}
+
+	public boolean isAddHandler() {
+		return this == ADD_TOP
+				|| this == ADD_RIGHT
+				|| this == ADD_BOTTOM
+				|| this == ADD_LEFT;
 	}
 
 	public int getDx() {

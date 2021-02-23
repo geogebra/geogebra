@@ -148,11 +148,14 @@ public class InlineTextControllerW implements InlineTextController {
 
 			@Override
 			public void onInput() {
+				double oldMinHeight = geo.getMinHeight();
 				int actualMinHeight = editor.getMinHeight() + 2 * DrawInlineText.PADDING;
-				if (geo.getMinHeight() != actualMinHeight) {
+				if (oldMinHeight != actualMinHeight) {
 					geo.setSize(geo.getWidth(), Math.max(actualMinHeight, geo.getHeight()));
 					geo.setMinHeight(actualMinHeight);
-					geo.updateRepaint();
+					if (oldMinHeight < actualMinHeight) {
+						geo.updateRepaint();
+					}
 				}
 			}
 

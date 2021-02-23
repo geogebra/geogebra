@@ -35,6 +35,7 @@ import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawInline;
+import org.geogebra.common.euclidian.draw.DrawMindMap;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
@@ -6410,10 +6411,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, event.getType());
-		if (mode == EuclidianConstants.MODE_SHAPE_FREEFORM && view
-				.getHitHandler() == EuclidianBoundingBoxHandler.UNDEFINED) {
-			view.setCursor(EuclidianCursor.DEFAULT);
+		if (mode == EuclidianConstants.MODE_SHAPE_FREEFORM) {
 			getShapeMode().handleMouseMoveForShapeMode(event);
 			return;
 		}
@@ -6435,23 +6433,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				tempArrayList.add(geo);
 				hits = tempArrayList;
 			}
-			if (view.getBoundingBox() != null && geo == null) {
-				if (d != null && view.getBoundingBox() == d.getBoundingBox()) {
+
+			if (view.getBoundingBox() != null) {
+				view.getBoundingBoxHandlerHit(mouseLoc, event.getType());
+
+				if (view.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
 					setBoundingBoxCursor();
-					return;
-				} else if (view.getBoundingBox()
-						.hitSideOfBoundingBox(event.getX(), event.getY(),
-								app.getCapturingThreshold(event.getType()))) {
-					EuclidianBoundingBoxHandler handler = view.getBoundingBox()
-							.getHitHandler(event.getX(), event.getY(),
-									app.getCapturingThreshold(event.getType()));
-					// set handler and cursor
-					view.setHitHandler(handler);
-					setBoundingBoxCursor();
-					// if handler is UNDEFINED the side of the bounding box
-					// was hit
-					if (handler == EuclidianBoundingBoxHandler.UNDEFINED) {
-						setDragCursor();
+					if (view.getHitHandler().isAddHandler()) {
+						view.repaint();
 					}
 					return;
 				}
@@ -8095,12 +8084,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// reset
 		isMultiResize = false;
 		startBoundingBoxState = null;
-		// set handler
-		if (view.getHitHandler() == EuclidianBoundingBoxHandler.UNDEFINED
-				&& view.getBoundingBox() != null) {
-			view.setHitHandler(view.getBoundingBox().getHitHandler(e.getX(),
-					e.getY(), app.getCapturingThreshold(e.getType())));
-		}
+
 		// fix for meta-click to work on Mac/Linux
 		if (app.isControlDown(e)) {
 			return;
@@ -8117,16 +8101,23 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			setDragCursor();
 			return;
 		}
+
 		// bounding box handler hit
-		if (view.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
-			Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, e.getType());
-			if (d != null) {
-				setBoundingBoxCursor();
-				setResizedShape(d);
-			} else if (isMultiSelection() && wasBoundingBoxHit) {
-				isMultiResize = true;
+		Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, e.getType());
+		if (d != null) {
+			if (view.getHitHandler().isAddHandler()) {
+				GeoMindMapNode child = ((DrawMindMap) d).addChildNode(view.getHitHandler());
+				child.setLabel(null);
+				selectAndShowSelectionUI(child);
+				return;
 			}
+
+			setBoundingBoxCursor();
+			setResizedShape(d);
+		} else if (isMultiSelection() && wasBoundingBoxHit) {
+			isMultiResize = true;
 		}
+
 		// find and set movedGeoElement
 		setViewHits(e.getType());
 		Hits viewHits = view.getHits();
@@ -9208,6 +9199,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						event.getY(), app.getCapturingThreshold(event.getType()));
 
 		view.getBoundingBoxHandlerHit(new GPoint(event.getX(), event.getY()), event.getType());
+
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
 			getShapeMode().handleMousePressedForShapeMode(event);

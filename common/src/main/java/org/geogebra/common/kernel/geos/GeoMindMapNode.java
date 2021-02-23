@@ -1,15 +1,45 @@
 package org.geogebra.common.kernel.geos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 
 public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextFormatter {
 
 	private static final double MIN_WIDTH = 200;
-	private static final double MIN_HEIGHT = 72;
+
+	private static final double ROOT_HEIGHT = 72;
+	private static final double CHILD_HEIGHT = 48;
+
+	public enum NodeAlignment {
+		TOP		(0.5, 0, 0.5, 1),
+		RIGHT	(0, 0.5, 1, 0.5),
+		BOTTOM	(0.5, 1, 0.5, 0),
+		LEFT	(1, 0.5, 0, 0.5);
+
+		public final double dx0;
+		public final double dy0;
+		public final double dx1;
+		public final double dy1;
+
+		NodeAlignment(double dx0, double dy0, double dx1, double dy1) {
+			this.dx0 = dx0;
+			this.dy0 = dy0;
+			this.dx1 = dx1;
+			this.dy1 = dy1;
+		}
+	}
+
+	private GeoMindMapNode parent;
+	private NodeAlignment nodeAlignment;
+
+	private final ArrayList<GeoMindMapNode> children = new ArrayList<>();
 
 	private String content;
 	private boolean defined = true;
@@ -18,8 +48,17 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 	public GeoMindMapNode(Construction cons, GPoint2D location) {
 		super(cons);
 		setLocation(location);
-		setSize(MIN_WIDTH, MIN_HEIGHT);
+		setSize(MIN_WIDTH, ROOT_HEIGHT);
 		setLineThickness(1);
+	}
+
+	public GeoMindMapNode(GeoMindMapNode parent, NodeAlignment nodeAlignment, GPoint2D location) {
+		super(parent.cons);
+		setLocation(location);
+		setSize(MIN_WIDTH, CHILD_HEIGHT);
+		setLineThickness(1);
+		this.parent = parent;
+		this.nodeAlignment = nodeAlignment;
 	}
 
 	@Override
@@ -79,7 +118,7 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 
 	@Override
 	public double getMinHeight() {
-		return Math.max(minHeight, MIN_HEIGHT);
+		return Math.max(minHeight, parent == null ? ROOT_HEIGHT : CHILD_HEIGHT);
 	}
 
 	@Override
@@ -99,5 +138,29 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 		if (getLineThickness() != 0) {
 			getLineStyleXML(sb);
 		}
+	}
+
+	@Override
+	public void translate(Coords v) {
+		super.translate(v);
+		for (GeoMindMapNode child : children) {
+			child.translate(v);
+		}
+	}
+
+	public GeoMindMapNode getParent() {
+		return parent;
+	}
+
+	public List<GeoMindMapNode> getChildren() {
+		return children;
+	}
+
+	public void addChild(GeoMindMapNode child) {
+		children.add(child);
+	}
+
+	public NodeAlignment getAlignment() {
+		return nodeAlignment;
 	}
 }

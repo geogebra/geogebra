@@ -80,7 +80,7 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 		setHandlerTransformed(5, 0, height / 2);
 		setHandlerTransformed(6, width / 2, height);
 		setHandlerTransformed(7, width, height / 2);
-		if (!isCropBox()) {
+		if (handlers.size() > 8) {
 			setHandlerTransformed(8, width / 2, -BoundingBox.ROTATION_HANDLER_DISTANCE);
 		}
 	}
