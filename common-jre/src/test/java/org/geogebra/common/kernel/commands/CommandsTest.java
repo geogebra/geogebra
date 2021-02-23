@@ -139,16 +139,20 @@ public class CommandsTest {
 		app.setRandomSeed(42);
 	}
 
+	private static GeoElement get(String label) {
+		return app.getKernel().lookupLabel(label);
+	}
+
+	private static String deg(String string) {
+		return string + "*" + DEGREE_STRING;
+	}
+
 	@Test
 	public void testQuadricExpr() {
 		t("-y^2=z-1", "-y" + Unicode.SUPERSCRIPT_2 + " + 0z"
 				+ Unicode.SUPERSCRIPT_2 + " - z = -1");
 		t("y^2=1-z", "y" + Unicode.SUPERSCRIPT_2 + " + 0z"
 				+ Unicode.SUPERSCRIPT_2 + " + z = 1");
-	}
-
-	private static GeoElement get(String label) {
-		return app.getKernel().lookupLabel(label);
 	}
 
 	@Test
@@ -215,10 +219,6 @@ public class CommandsTest {
 		t("s(1,2)*x=1", "x = 0.3333333333333333");
 	}
 
-	private static String deg(String string) {
-		return string + "*" + DEGREE_STRING;
-	}
-
 	@Test
 	public void piecewiseIntegration() {
 		t("f(x):=x^2", "x^(2)");
@@ -245,13 +245,6 @@ public class CommandsTest {
 		t("Integral(If(x>2,1,2),0,2.01)", "4.01");
 		t("Integral(If(x^4>1,1,0),-2,2)", "2");
 		tRound("Integral(If(x>2,3,x>1,2,1),0.99,3.01)", "5.04");
-	}
-
-	@Test
-	public void cmdAreCongruent() {
-		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(1,0),(0,1)]]", "true");
-		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(-1,0),(0,-1)]]", "true");
-		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(2,0),(0,2)]]", "false");
 	}
 
 	@Test
@@ -693,11 +686,10 @@ public class CommandsTest {
 		}
 	}
 
-
-	/** TODO new tests*/
 	@Test
 	public void cmdAffineRatio() {
 		t("AffineRatio[ (1,1), (2,1/2), (3,1/3) ]", "NaN");
+		t("AffineRatio[ (-1, 1), (1, 1), (4, 1) ]", "2.5");
 	}
 
 	@Test
@@ -750,12 +742,19 @@ public class CommandsTest {
 
 	@Test
 	public void cmdAreCollinear() {
-		t("AreCollinear[ (1,1),(2,1/2),(3,1/3) ]","false");
+		t("AreCollinear[ (1,1),(2,1/2),(3,1/3) ]", "false");
 	}
 
 	@Test
 	public void cmdAreConcurrent() {
 		t("AreConcurrent[x+y=17,x=4, x=0]", "false");
+	}
+
+	@Test
+	public void cmdAreCongruent() {
+		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(1,0),(0,1)]]", "true");
+		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(-1,0),(0,-1)]]", "true");
+		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(2,0),(0,2)]]", "false");
 	}
 
 	@Test
@@ -870,7 +869,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdCellRange() {
-		t("CellRange[ A1, A1 ]","{}");
+		t("CellRange[ A1, A1 ]", "{}");
 	}
 
 	@Test
@@ -1146,13 +1145,16 @@ public class CommandsTest {
 
 	@Test
 	public void cmdCubic() {
-		t("Cubic[ (1,1),(2,1/2),(3,1/3),42 ]", "-12817.721707818935x^3 - 86298.35010859629x^2 y + 122469.63661217807x^2 - 129048.41967687852x y^2 + 481421.6333812809x y - 371104.61727442464x + 653.9626105014759y^3 + 256970.21097996994y^2 - 616987.5503638929y = -354741.21554768074");
+		t("Cubic[ (1,1),(2,1/2),(3,1/3),42 ]",
+				"-12817.721707818935x^3 - 86298.35010859629x^2 y + 122469.63661217807x^2 - 129048.41967687852x y^2 + 481421.6333812809x y - 371104.61727442464x + 653.9626105014759y^3 + 256970.21097996994y^2 - 616987.5503638929y = -354741.21554768074");
 	}
 
 	@Test
 	public void cmdContinuedFraction() {
 		t("ContinuedFraction[(sqrt(5)-1)/2]",
-				"0+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\cdots}}}}}}}}}}}}}}");
+				"0+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+"
+						+ "\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}"
+						+ "{1+\\frac{1}{1+\\frac{1}{1+\\cdots}}}}}}}}}}}}}}");
 		t("ContinuedFraction[(sqrt(5)-1)/2,true]",
 				"[0;1,1,1,1,1,1,1,1,1,1,1,1,1,1,\\ldots]");
 		t("ContinuedFraction[(sqrt(5)-1)/2,10]",
@@ -1776,7 +1778,6 @@ public class CommandsTest {
 		}
 	}
 
-
 	@Test
 	public void cmdIncircle() {
 		t("Incircle[ (1,1),(2,1/2),(3,1/3) ]",
@@ -1921,7 +1922,6 @@ public class CommandsTest {
 		intersect("x^2+x", "x^2+x", false, "(?, ?)");
 		intersect("x^2+x", "x^2+x+1", false, "(?, ?)");
 	}
-
 
 	@Test
 	public void cmdInverseBinomial() {
@@ -3035,7 +3035,7 @@ public class CommandsTest {
 	@Test
 	public void cmdRotate() {
 		t("Rotate[ Polygon[(1,1),(2,1/2),4], 30" + Unicode.DEGREE_STRING + "]", "1.25");
-		t("Rotate[ Polygon[(1,1),(2,1/2),4],  30" + Unicode.DEGREE_STRING +", (1,1) ]", "1.25");
+		t("Rotate[ Polygon[(1,1),(2,1/2),4], 30" + Unicode.DEGREE_STRING + ", (1,1) ]", "1.25");
 	}
 
 	@Test
@@ -3059,17 +3059,9 @@ public class CommandsTest {
 		t("RunUpdateScript[(1,1)]");
 	}
 
-
 	@Test
 	public void cmdRSquare() {
 		t("RSquare[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)}, sin(x) ]", "-1.0312547732729542");
-	}
-
-
-	@Test
-	public void cmdSample() {
-	//	t("Sample[ {1,2,3,4,5}, 4, false ]", "{2, 5, 4, 1}");
-	//	t("Sample[ {1,2,3,4,5}, 50 ]", "1");
 	}
 
 	@Test
@@ -4060,7 +4052,7 @@ public class CommandsTest {
 	}
 
 	@Test
-	public void ZProportion2Test() {
+	public void cmdZProportion2Test() {
 		t("ZProportion2Test[ 13, 50, 42, 42, \">\" ]", "{NaN, NaN}");
 	}
 
