@@ -697,7 +697,7 @@ public class CommandsTest {
 		t("Angle[ x+y=17, x=4 ]", "315*" + DEGREE_STRING);
 		t("Angle[ (1,1) ]", "45*" + DEGREE_STRING);
 		t("Angle[ (1,1), (3,1/3), (2,1/2) ]", "8.972626614896395*" + DEGREE_STRING);
-		t("Angle[ (1,1), (4,1/4), 30" + DEGREE_STRING +" ]", "30*" + DEGREE_STRING,
+		t("Angle[ (1,1), (4,1/4), 30" + DEGREE_STRING + " ]", "30*" + DEGREE_STRING,
 				"(1.026923788646684, -0.6004809471616708)");
 		tRound("Angle[ Segment[(1,1),(2,1/2)], x+y=17 ]", "341.56505" + DEGREE_STRING);
 		t("Angle((1, -1, 0),(0, 0, 0),(-1, -1, 0), zAxis)", "270*" + DEGREE_STRING);
@@ -1115,8 +1115,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdCorner() {
-		t("Corner[ 1, 1 ]", "(-4.32, -5.72)");
-		t("Corner[ 2 ]", "(11.72, -5.72)");
+		t("Corner[ 42 ]", "(NaN, NaN)");
 		t("txt = \"GeoGebra\"", "GeoGebra");
 		t("Corner[ txt, 3 ]", "(0.06, 0.3)");
 		GeoImage ge = new GeoImage(app.getKernel().getConstruction());
@@ -1139,7 +1138,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdCrossRatio() {
-		t("CrossRatio[ (1,1),(2,1/2),(3,1/3),(4,1/4) ]", "NaN");
+		t("CrossRatio[ (1,1), (2,1/2), (3,1/3), (4,1/4) ]", "NaN");
 	}
 
 	@Test
@@ -1201,13 +1200,6 @@ public class CommandsTest {
 	}
 
 	@Test
-	public void cmdCornerThreeD() {
-		for (int i = 1; i < 12; i++) {
-			t("Corner[-1," + i + "]", "(NaN, NaN, NaN)");
-		}
-	}
-
-	@Test
 	public void cmdDataFunction() {
 		t("DataFunction[]", "DataFunction[{}, {},x]");
 		tRound("DataFunction[]", new String[] { "DataFunction[x]" });
@@ -1220,7 +1212,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdDegree() {
-		t("Degree[sin(x)]", "NaN");
+		t("Degree[x^4 + 2 x^2]", "4");
 	}
 
 	@Test
@@ -1273,8 +1265,13 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdDirection() {
+		t("Direction[-2x + 3y + 1 = 0]", "(3, 2)");
+	}
+
+	@Test
 	public void cmdDirectrix() {
-		t("Directrix[ x^2+y^2=1 ]", "?", "?");
+		t("Directrix[ x^2 - 3x + 3y = 9 ]", "y = 4.5", "?");
 	}
 
 	@Test
@@ -1817,10 +1814,11 @@ public class CommandsTest {
 
 	@Test
 	public void cmdIndexOf() {
-		t("IndexOf[ Polygon[(1,1),(2,1/2),4], {1,2,3,4,5} ]", "NaN");
-		t("IndexOf[ Polygon[(1,1),(2,1/2),4], {1,2,3,4,5}, 4 ]", "NaN");
+		t("IndexOf[ 5, {1, 3, 5, 2, 5, 4} ]", "3");
+		t("IndexOf[ 5, {1, 3, 5, 2, 5, 4}, 4 ]", "5");
+		t("IndexOf[ 5, {1, 3, 5, 2, 5, 4}, 6 ]", "NaN");
 		t("IndexOf[ \"GeoGebra\", \"GeoGebra\"]", "1");
-		t("IndexOf[ \"GeoGebra\", \"GeoGebra\", 4 ]", "NaN");
+		t("IndexOf[ \"Ge\", \"GeoGebra\", 4 ]", "4");
 	}
 
 	@Test
@@ -2171,7 +2169,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdLimitAbove() {
-		t("LimitAbove[ 1/x, 0 ]", "NaN");
+		t("LimitAbove[ 1 / x, 0 ]", "NaN");
 	}
 
 	@Test
@@ -2570,8 +2568,9 @@ public class CommandsTest {
 
 	@Test
 	public void cmdOsculatingCircle() {
-		t("OsculatingCircle[ (1,1), Curve[sin(t),cos(t),t,0,3] ]", "?");
-		t("OsculatingCircle[ (1,1), sin(x) ]", "?");
+		t("OsculatingCircle[ (-1, 0), Conic[{1, 1, 1, 2, 2, 3}] ]",
+				"x² + y² + 1.9999999999999991x + 0.9999999999999971y = -0.9999999999999991");
+		t("OsculatingCircle[ (0, 0), x^2 ]", "x² + y² - y = 0");
 		t("OsculatingCircle[ (1,1), (x - 2)² + (y - 3)² = 4 ]", "?");
 	}
 
@@ -2637,12 +2636,16 @@ public class CommandsTest {
 
 	@Test
 	public void cmdParseToFunction() {
-		// t("ParseToFunction[ sin(x), "GeoGebra" ]");
+		t("f(x) = 3x² + 2", "(3 * x^(2)) + 2");
+		t("txt = \"f(x) = 3x + 1\"", "f(x) = 3x + 1");
+		t("ParseToFunction[ f, txt ]", "(3 * x) + 1");
 	}
 
 	@Test
 	public void cmdParseToNumber() {
-		t("ParseToNumber[ 42, \"n1+n2\" ]", "NaN"); // valid
+		t("n1 = 5", "5");
+		t("txt = \"6\"", "6");
+		t("ParseToNumber[ n1, txt ]", "6"); // valid
 		t("ParseToNumber[ 42, \"GeoGebra\" ]", "NaN"); // invalid, but all exceptions should be
 		// caught
 	}
@@ -2714,9 +2717,8 @@ public class CommandsTest {
 
 	@Test
 	public void cmdPeriods() {
-		t("Periods[ 42, 4, 13]", "NaN");
-		t("Periods[ 42, 4, 13,1]", "NaN");
-		t("Periods[ 42, 4, 13,0,1]", "NaN");
+		t("Periods[ 10%/12, -200, -400, 10000 ]", "39.97894632819951");
+		t("Periods[ 10%/12, -200, -400, 10000, 1 ]", "39.70201587954573");
 	}
 
 	@Test
@@ -2876,16 +2878,21 @@ public class CommandsTest {
 	}
 
 	@Test
-	public void cmdRandomBinomial() {
-		t("RandomBinomial[ 42, 0.05 ]", "1");
-	}
-
-	@Test
 	public void cmdRandom() {
 		t("RandomBetween[ ]", "0.30871945533265976"); // since RandomBetween is alias for Random and
 				// both Random() and random() should do the same
 		t("RandomBetween[ 42, 50 ]", "47");
 		t("RandomBetween[ 42, 50, true ]", "44");
+	}
+
+	@Test
+	public void cmdRandomBinomial() {
+		t("RandomBinomial[ 42, 0.05 ]", "1");
+	}
+
+	@Test
+	public void cmdRandomElement() {
+		t("RandomElement[{-4}]", "-4");
 	}
 
 	@Test
@@ -2934,7 +2941,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdRate() {
-		t("Rate[ 42, 4, 13]", "NaN");
+		t("Rate[ 5*12, -300, 10000 ]", "0.021750422875496778");
 		t("Rate[ 42, 4, 13, 1]", "NaN");
 		t("Rate[ 42, 4, 13, 0, 1]", "-0.9999999999997204");
 		t("Rate[ 42, 4, 13, 0, 1, 42]", "NaN");
@@ -2974,6 +2981,11 @@ public class CommandsTest {
 	@Test
 	public void cmdReducedRowEchelonForm() {
 		t("ReducedRowEchelonForm[{{1,2},{3,4}}]", "{{1, 0}, {0, 1}}");
+	}
+
+	@Test
+	public void cmdRelation() {
+		// don't test; user interaction needed
 	}
 
 	@Test
@@ -3127,6 +3139,12 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdSample() {
+		t("Sample({3}, 1)", "{3}");
+		t("Sample({3}, 1, true)", "{3}");
+	}
+
+	@Test
 	public void cmdSampleSD() {
 		t("SampleSD[ {1,2,3,4,5} ]", "1.5811388300841898");
 		t("SampleSD[ {1,2,3,4,5}, {1,2,3,4,5} ]", "1.2909944487358058");
@@ -3162,8 +3180,8 @@ public class CommandsTest {
 
 	@Test
 	public void cmdScientificText() {
-		t("ScientificText[pi,1]", "");
-		t("ScientificText[pi]", "");
+		t("ScientificText[e,5]", "2.7183 \\times 10^{0}");
+		t("ScientificText[0.002]", "2 \\times 10^{-3}");
 	}
 
 	@Test
@@ -3244,6 +3262,13 @@ public class CommandsTest {
 	@Test
 	public void cmdSetConditionToShowObject() {
 		t("SetConditionToShowObject[ Polygon[(1,1),(2,1/2),4], false ]");
+	}
+
+	@Test
+	public void cmdSetViewDirection() {
+		t("SetViewDirection[]");
+		t("SetViewDirection[Vector[(0, 0, 1)]]");
+		t("SetViewDirection[Vector[(1; α; -30°)], false]");
 	}
 
 	@Test
@@ -3855,14 +3880,14 @@ public class CommandsTest {
 
 	@Test
 	public void cmdTrigCombine() {
-		t("TrigCombine[sin(x+y)]", "?");
+		t("TrigCombine[sin(x) cos(3x)]", "?");
 		t("TrigCombine[sin(x+y),sin(x)]", "?");
 	}
 
 	@Test
 	public void cmdTrigExpand() {
 		t("TrigExpand[sin(x+y)]", "?");
-		t("TrigExpand[sin(x+y),sin(x)]", "?");
+		t("TrigExpand[sin(x) + cos(x), sin(x)]", "?");
 	}
 
 	@Test
@@ -3915,7 +3940,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdTTestPaired() {
-		t("TTestPaired[ {1,2,3,4,5}, {1,2,3,4,5}, \">\"]", "{NaN, NaN}");
+		t("TTestPaired[ {1, 2, 3, 4, 5}, {1, 1, 3, 5, 5}, \"<\"]", "{0.5, 0}");
 	}
 
 	@Test
@@ -3927,7 +3952,12 @@ public class CommandsTest {
 
 	@Test
 	public void cmdTurningPoint() {
-		t("InflectionPoint[ x^2 ]", "(NaN, NaN)");
+		t("InflectionPoint[ x^3 ]", "(0, 0)");
+	}
+
+	@Test
+	public void cmdTurtle() {
+		// tested in the followings
 	}
 
 	@Test
@@ -4107,7 +4137,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdZProportionTest() {
-		t("ZProportionTest[ 42, 42, 4, \">\" ]", "{NaN, NaN}");
+		t("ZProportionTest[ 42, 42, 4, \"<\" ]", "{NaN, NaN}");
 	}
 
 	@Test
