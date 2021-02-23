@@ -2404,4 +2404,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		construction.getLayerManager().updateOrdering(labels, kernel);
 		app.getActiveEuclidianView().invalidateDrawableList();
 	}
+
+	@Override
+	public boolean hasUnlabeledPredecessors(String label) {
+		return kernel.getConstruction().hasUnlabeledPredecessors(label);
+	}
 }

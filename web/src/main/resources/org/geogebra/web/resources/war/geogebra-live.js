@@ -107,11 +107,13 @@
 
         // *** UPDATE LISTENERS ***
         let updateListener = (function(label) {
-            if (!(this.currentAnimations.includes(label))) {
-                console.log("update event for " + label);
-                if (!objectsInWaiting.includes(label)) {
-                    objectsInWaiting.push(label);
-                    dispatchUpdates();
+            if (this.api.hasUnlabeledPredecessors(label) || this.api.isMoveable(label)) {
+                if (!(this.currentAnimations.includes(label))) {
+                    console.log("update event for " + label);
+                    if (!objectsInWaiting.includes(label)) {
+                        objectsInWaiting.push(label);
+                        dispatchUpdates();
+                    }
                 }
             }
         }).bind(this);
