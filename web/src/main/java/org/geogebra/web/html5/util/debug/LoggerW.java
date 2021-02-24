@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.util.debug;
 
-import java.util.Date;
-
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.util.AppletParameters;
 
@@ -17,12 +15,6 @@ import jsinterop.base.Js;
  */
 public class LoggerW extends Log {
 
-	private String getTimeInfo() {
-		Date date = new Date();
-		return date.getHours() + ":" + date.getMinutes() + ":"
-				+ date.getSeconds() + ": ";
-	}
-
 	@Override
 	public void print(Level level, Object logEntry) {
 		if (logEntry instanceof Throwable) {
@@ -32,20 +24,20 @@ public class LoggerW extends Log {
 
 		switch (level) {
 		case INFO:
-			DomGlobal.console.info(getTimeInfo(), logEntry);
+			DomGlobal.console.info(logEntry);
 			break;
 		case WARN:
-			DomGlobal.console.warn(getTimeInfo(), logEntry);
+			DomGlobal.console.warn(logEntry);
 			break;
 		case ERROR:
-			DomGlobal.console.error(getTimeInfo(), logEntry);
+			DomGlobal.console.error(logEntry);
 			break;
 		case TRACE:
-			DomGlobal.console.trace(getTimeInfo(), logEntry);
+			DomGlobal.console.trace(logEntry);
 			break;
 		default:
 		case DEBUG:
-			DomGlobal.console.log(getTimeInfo(), logEntry);
+			DomGlobal.console.log(logEntry);
 			break;
 		}
 	}

@@ -1,6 +1,7 @@
 package org.geogebra.common.util.debug;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * Common logging class
@@ -88,7 +89,7 @@ public abstract class Log {
 		}
 
 		try {
-			this.logLevel = Level.valueOf(logLevel);
+			this.logLevel = Level.valueOf(logLevel.toUpperCase(Locale.US));
 		} catch (IllegalArgumentException e) {
 			this.logLevel = Level.DEBUG;
 		}
@@ -164,17 +165,19 @@ public abstract class Log {
 		logger.levelShown = levelShown;
 	}
 
-	private static void log(Level level, Object message) {
-		if (message instanceof int[]) {
-			logger.print(level, Arrays.toString((int[]) message));
-		} else if (message instanceof double[]) {
-			logger.print(level, Arrays.toString((double[]) message));
-		} else if (message instanceof Object[]) {
-			logger.print(level, Arrays.deepToString((Object[]) message));
-		} else if (message instanceof HasDebugString) {
-			logger.print(level, ((HasDebugString) message).getDebugString());
-		} else {
-			logger.print(level, message);
+	private void log(Level level, Object message) {
+		if (logLevel.ordinal() >= level.ordinal()) {
+			if (message instanceof int[]) {
+				print(level, Arrays.toString((int[]) message));
+			} else if (message instanceof double[]) {
+				print(level, Arrays.toString((double[]) message));
+			} else if (message instanceof Object[]) {
+				print(level, Arrays.deepToString((Object[]) message));
+			} else if (message instanceof HasDebugString) {
+				print(level, ((HasDebugString) message).getDebugString());
+			} else {
+				print(level, message);
+			}
 		}
 	}
 
@@ -196,7 +199,7 @@ public abstract class Log {
 	 */
 	public static void notice(String message) {
 		if (logger != null) {
-			log(Level.NOTICE, message);
+			logger.log(Level.NOTICE, message);
 		}
 	}
 
@@ -209,7 +212,7 @@ public abstract class Log {
 	 */
 	public static void debug(Object s) {
 		if (logger != null) {
-			log(Level.DEBUG, s);
+			logger.log(Level.DEBUG, s);
 		}
 	}
 
@@ -221,7 +224,7 @@ public abstract class Log {
 	 */
 	public static void info(String message) {
 		if (logger != null) {
-			log(Level.INFO, message);
+			logger.log(Level.INFO, message);
 		}
 	}
 
@@ -233,7 +236,7 @@ public abstract class Log {
 	 */
 	public static void error(Object message) {
 		if (logger != null) {
-			log(Level.ERROR, message);
+			logger.log(Level.ERROR, message);
 		}
 	}
 
@@ -245,7 +248,7 @@ public abstract class Log {
 	 */
 	public static void warn(String message) {
 		if (logger != null) {
-			log(Level.WARN, message);
+			logger.log(Level.WARN, message);
 		}
 	}
 
@@ -257,7 +260,7 @@ public abstract class Log {
 	 */
 	public static void emergency(String message) {
 		if (logger != null) {
-			log(Level.EMERGENCY, message);
+			logger.log(Level.EMERGENCY, message);
 		}
 	}
 
@@ -269,7 +272,7 @@ public abstract class Log {
 	 */
 	public static void alert(String message) {
 		if (logger != null) {
-			log(Level.ALERT, message);
+			logger.log(Level.ALERT, message);
 		}
 	}
 
@@ -281,7 +284,7 @@ public abstract class Log {
 	 */
 	public static void trace(String message) {
 		if (logger != null) {
-			log(Level.TRACE, message);
+			logger.log(Level.TRACE, message);
 		}
 	}
 
@@ -293,7 +296,7 @@ public abstract class Log {
 	 */
 	public static void critical(String message) {
 		if (logger != null) {
-			log(Level.CRITICAL, message);
+			logger.log(Level.CRITICAL, message);
 		}
 	}
 

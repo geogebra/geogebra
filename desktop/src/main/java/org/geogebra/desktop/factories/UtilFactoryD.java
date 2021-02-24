@@ -6,10 +6,8 @@ import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.URLEncoder;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.HttpRequestD;
-import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.ProverD;
 import org.geogebra.desktop.util.URLEncoderD;
 
@@ -27,11 +25,6 @@ public class UtilFactoryD extends UtilFactoryJre {
 	@Override
 	public URLEncoder newURLEncoder() {
 		return new URLEncoderD();
-	}
-
-	@Override
-	public Log newGeoGebraLogger() {
-		return new LoggerD();
 	}
 
 	@Override

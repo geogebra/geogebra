@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -29,7 +30,7 @@ public class LoggerD extends Log {
 	 * @param timeShown
 	 *            if the timestamp should be printed
 	 */
-	final public static void setTimeShown(boolean timeShown) {
+	public static void setTimeShown(boolean timeShown) {
 		LoggerD.timeShown = timeShown;
 	}
 
@@ -42,32 +43,30 @@ public class LoggerD extends Log {
 			return;
 		}
 
-		if (logLevel.ordinal() >= level.ordinal()) {
-			String caller = "";
-			if (callerShown) {
-				caller = getCaller(4);
-			}
-			String timeInfo = "";
-			if (timeShown) {
-				timeInfo = getTimeInfo();
-				if (!"".equals(timeInfo)) {
-					timeInfo += " ";
-				}
-			}
-			// Creating logEntry
-			String logEntry = timeInfo;
-			if (levelShown) {
-				logEntry += level.toString() + ": ";
-			}
-			logEntry += caller + message;
-			print(logEntry, level);
-
-			if (memoryLog.length() > LOGFILE_MAXLENGTH) {
-				memoryLog.setLength(0);
-			}
-			memoryLog.append(logEntry);
-			memoryLog.append("\n");
+		String caller = "";
+		if (callerShown) {
+			caller = getCaller(4);
 		}
+		String timeInfo = "";
+		if (timeShown) {
+			timeInfo = getTimeInfo();
+			if (!"".equals(timeInfo)) {
+				timeInfo += " ";
+			}
+		}
+		// Creating logEntry
+		String logEntry = timeInfo;
+		if (levelShown) {
+			logEntry += level.toString() + ": ";
+		}
+		logEntry += caller + message;
+		print(logEntry, level);
+
+		if (memoryLog.length() > LOGFILE_MAXLENGTH) {
+			memoryLog.setLength(0);
+		}
+		memoryLog.append(logEntry);
+		memoryLog.append("\n");
 	}
 
 	private String getTimeInfo() {
@@ -122,7 +121,7 @@ public class LoggerD extends Log {
 		logFile = new File(logFileName);
 		try {
 			logFileWriter = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(logFile), "UTF-8"));
+					new FileOutputStream(logFile), StandardCharsets.UTF_8));
 		} catch (IOException e) {
 			print(Level.WARN, "Log file " + logFileName + "cannot be opened");
 		}
@@ -132,7 +131,7 @@ public class LoggerD extends Log {
 		if (getLogDestination() == LogDestination.FILE) {
 			if (logFileWriter != null) {
 				try {
-					logFileWriter.append(logEntry + "\n");
+					logFileWriter.append(logEntry).append("\n");
 					logFileWriter.flush();
 					return;
 				} catch (IOException e) {
