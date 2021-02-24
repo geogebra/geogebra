@@ -3435,6 +3435,7 @@ __GGB__keysVar["eu"].menu = {
     "removeLink": "Remove link",
     "rename.resource": "Berrizendatu Baliabidea",
     "resetConstruction": "Hasi eraikuntza berriro",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Behatu GeoGebra-baliabideak",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",

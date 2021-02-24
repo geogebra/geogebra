@@ -3435,6 +3435,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "removeLink": "Remove link",
     "rename.resource": "Canviar el nom del material",
     "resetConstruction": "Reinicia la construcci\xf3",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Recerca de materials de GeoGebra",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",

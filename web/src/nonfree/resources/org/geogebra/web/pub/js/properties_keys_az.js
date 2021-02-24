@@ -3435,6 +3435,7 @@ __GGB__keysVar["az"].menu = {
     "removeLink": "Linki silin",
     "rename.resource": "Resursun ad\u0131n\u0131 d\u0259yi\u015fin",
     "resetConstruction": "Reset construction",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "\u015eablon olaraq saxla",
     "search_geogebra_materials": "GeoGebra Resurslar\u0131n\u0131 axtar\u0131n",
     "sessionExpireNotify": "Sessiyan\u0131z\u0131n vaxt\u0131 bitm\u0259k \xfczr\u0259dir. Z\u0259hm\u0259t olmasa daxil olmaq \xfc\xe7\xfcn dosyan\u0131z\u0131 qeyd edin.",

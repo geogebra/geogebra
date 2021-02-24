@@ -3435,6 +3435,7 @@ __GGB__keysVar["ru"].menu = {
     "removeLink": "Remove link",
     "rename.resource": "Rename Resource",
     "resetConstruction": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u0447\u0435\u0440\u0442\u0451\u0436",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "\u041f\u043e\u0438\u0441\u043a \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u043e\u0432 GeoGebra",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",

@@ -3435,6 +3435,7 @@ __GGB__keysVar["fi"].menu = {
     "removeLink": "Poista linkki",
     "rename.resource": "Nime\xe4 resurssi uudelleen",
     "resetConstruction": "Aloita piirros alusta",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Tallenna ty\xf6pohjana",
     "search_geogebra_materials": "Hae GeoGebra Materiaaleista",
     "sessionExpireNotify": "Istuntosi on loppumassa ja sinut kirjataan ulos.",

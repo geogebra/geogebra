@@ -3435,6 +3435,7 @@ __GGB__keysVar["da"].menu = {
     "removeLink": "Fjern link",
     "rename.resource": "Omd\xf8b materiale",
     "resetConstruction": "nulstil konstruktionen",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Gem som skabelon",
     "search_geogebra_materials": "S\xf8g blandt GeoGebra Materialer",
     "sessionExpireNotify": "Din session er ved at udl\xf8be. Gem venligst dit arbejde for fortsat at v\xe6re logget ind.",

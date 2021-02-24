@@ -3435,6 +3435,7 @@ __GGB__keysVar["hr"].menu = {
     "removeLink": "Ukloni poveznicu",
     "rename.resource": "Preimenuj materijal",
     "resetConstruction": "Vrati po\u010detno stanje konstrukcije",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Spremi kao predlo\u017eak",
     "search_geogebra_materials": "Pretra\u017ei GeoGebra materijale",
     "sessionExpireNotify": "Va\u0161a \u0107e sesija uskoro iste\u0107i. Spremite datoteku kako biste ostali prijavljeni.",

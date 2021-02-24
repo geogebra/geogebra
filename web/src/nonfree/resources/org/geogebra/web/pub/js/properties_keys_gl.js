@@ -3435,6 +3435,7 @@ __GGB__keysVar["gl"].menu = {
     "removeLink": "Eliminar hiperligaz\xf3n",
     "rename.resource": "Renomear recurso",
     "resetConstruction": "Reinicializar construci\xf3n",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Gardar como plantilla",
     "search_geogebra_materials": "B\xfasqueda de Materiais GeoGebra",
     "sessionExpireNotify": "A sesi\xf3n est\xe1 a piques de caducar. Garda o teu arquivo para permanecer conectado.",

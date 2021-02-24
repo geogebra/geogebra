@@ -3435,6 +3435,7 @@ __GGB__keysVar["ms"].menu = {
     "removeLink": "Remove link",
     "rename.resource": "Rename Resource",
     "resetConstruction": "Set Semula pembinaan",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Cari Bahan-bahan GeoGebra",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",

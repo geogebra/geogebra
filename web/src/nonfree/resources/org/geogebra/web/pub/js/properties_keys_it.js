@@ -3435,6 +3435,7 @@ __GGB__keysVar["it"].menu = {
     "removeLink": "Elimina collegamento",
     "rename.resource": "Rinomina risorsa",
     "resetConstruction": "Reimposta costruzione",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Salva come modello",
     "search_geogebra_materials": "Cerca risorse di GeoGebra",
     "sessionExpireNotify": "La tua sessione sta per terminare. Salva il tuo file per rimanere connesso.",

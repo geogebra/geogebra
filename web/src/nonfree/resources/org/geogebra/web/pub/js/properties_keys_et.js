@@ -3435,6 +3435,7 @@ __GGB__keysVar["et"].menu = {
     "removeLink": "Remove link",
     "rename.resource": "Rename Resource",
     "resetConstruction": "Taasalusta konstruktsiooni",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Otsi GeoGebra materjale",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",

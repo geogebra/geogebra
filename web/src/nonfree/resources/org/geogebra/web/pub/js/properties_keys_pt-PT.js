@@ -3435,6 +3435,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "removeLink": "Apagar liga\xe7\xe3o",
     "rename.resource": "Renomear Recusro",
     "resetConstruction": "Reiniciar a constru\xe7\xe3o",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Guardar como modelo",
     "search_geogebra_materials": "Pesquisar nos materiais do GeoGebra",
     "sessionExpireNotify": "A sua sess\xe3o est\xe1 prestes a expirar. Por favor, guarde o seu ficheiro para se manter ligado.",

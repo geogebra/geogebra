@@ -3435,6 +3435,7 @@ __GGB__keysVar["ne"].menu = {
     "removeLink": "Remove link",
     "rename.resource": "Rename Resource",
     "resetConstruction": "\u0930\u091a\u0928\u093e\u0915\u094b \u092a\u0930\u094d\u0928\u0902\u092c\u094d\u092f\u093e\u0935\u0938\u094d\u0925\u093e\u092a\u0928",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Search GeoGebra Resources",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",

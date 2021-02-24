@@ -3435,6 +3435,7 @@ __GGB__keysVar["de"].menu = {
     "removeLink": "Link entfernen",
     "rename.resource": "Material umbenennen",
     "resetConstruction": "Konstruktion zur\xfccksetzen",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Als Vorlage speichern",
     "search_geogebra_materials": "GeoGebra Materialien suchen",
     "sessionExpireNotify": "Ihre Sitzung l\xe4uft bald ab. Bitte speichern Sie Ihr Tafelbild, um angemeldet zu bleiben.",

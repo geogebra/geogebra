@@ -3435,6 +3435,7 @@ __GGB__keysVar["sl"].menu = {
     "removeLink": "Odstrani povezavo",
     "rename.resource": "Preimenuj vir",
     "resetConstruction": "Ponovno za\u010dni konstrukcijo",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Shrani kot vzorec",
     "search_geogebra_materials": "Prei\u0161\u010di GeoGebra vire",
     "sessionExpireNotify": "Seja se bo zaklju\u010dila. \u010ce shranite datoteko, ostanete prijavljeni.",

@@ -3435,6 +3435,7 @@ __GGB__keysVar["am"].menu = {
     "removeLink": "Remove link",
     "rename.resource": "Rename Resource",
     "resetConstruction": "Reset construction",
+    "saveDialog.saveApp": "Save %0",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "GeoGebra \u121b\u1274\u122a\u12eb\u120e\u127d \u1348\u120d\u130d",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
