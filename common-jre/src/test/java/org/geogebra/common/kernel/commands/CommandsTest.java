@@ -1693,6 +1693,11 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdGetTime() {
+		// don't test this
+	}
+
+	@Test
 	public void cmdGeometricMean() {
 		t("GeometricMean[ {1,2,3,4,5} ]", "2.6051710846973517");
 	}
