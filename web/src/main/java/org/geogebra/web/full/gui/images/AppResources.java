@@ -87,12 +87,6 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png16x16/bar_graph.png")
 	ImageResource bar_graph();
 
-	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_dots.png")
-	ImageResource dots();
-
-	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_dots_active.png")
-	ImageResource dots_active();
-
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_data_analysis_show_statistics.png")
 	ImageResource dataview_showstatistics();
 

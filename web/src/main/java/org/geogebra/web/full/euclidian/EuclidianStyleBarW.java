@@ -53,6 +53,8 @@ import org.geogebra.common.util.GPredicate;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.ContextMenuGeoElementW;
+import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.color.BgColorPopup;
 import org.geogebra.web.full.gui.color.BorderTextPopup;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
@@ -614,7 +616,15 @@ public class EuclidianStyleBarW extends StyleBarW2
 	// For unbundled apps: three dot button instead of view dropdown
 	private void addContextMenuButton() {
 		if (btnContextMenu == null) {
-			btnContextMenu = new ContextMenuPopup(app);
+			ContextMenuGeoElementW contextMenu = ((GuiManagerW) app.getGuiManager())
+					.getPopupMenu(ec.getAppSelectedGeos());
+			btnContextMenu = new ContextMenuPopup(app, contextMenu.getWrappedPopup()) {
+
+				@Override
+				public void updatePopup() {
+					contextMenu.update();
+				}
+			};
 		}
 		btnContextMenu.addStyleName("matDynStyleContextButton");
 		add(btnContextMenu);
@@ -2216,7 +2226,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		this.visible = visible;
 		super.setVisible(visible);
 		if (btnContextMenu != null) {
-			btnContextMenu.close();
+			btnContextMenu.hideMenu();
 		}
 	}
 
