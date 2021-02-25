@@ -43,22 +43,34 @@
 				right: 8px;
 				margin: 0;
 			}
+		}
 
-			$collapse-trans: all 0.2s ease;
+		$collapse-trans: all 0.2s ease;
 
-			&.expanded {
-				padding: 0 56px 0 32px;
-				max-height: 32px;
-				height: 32px;
-				transition: $collapse-trans;
-			}
+		.collapseSubMenu {
+			.listMenuItem {
+				.menuImg {
+					position: relative;
+					vertical-align: bottom;
+					margin-left: 0;
+				}
 
-			&.collapsed {
-				padding: 0 16px 0 32px;
-				max-height: 0;
-				height: 0;
-				overflow: hidden;
-				transition: $collapse-trans;
+				&.collapsed {
+					transition: $collapse-trans;
+					max-height: 0;
+					overflow: hidden;
+					padding: 0 16px 0 32px;
+
+					img {
+						visibility: hidden;
+					}
+				}
+
+				&.expanded {
+					max-height: 32px;
+					transition: $collapse-trans;
+					padding: 0 56px 0 32px;
+				}
 			}
 		}
 
