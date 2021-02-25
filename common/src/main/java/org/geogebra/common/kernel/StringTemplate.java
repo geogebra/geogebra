@@ -1377,7 +1377,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return ( or \left(
 	 */
 	public String leftBracket() {
-		Log.error("left");
 		if (stringType == StringType.SCREEN_READER) {
 			return ScreenReader.getLeftBracket();
 		}

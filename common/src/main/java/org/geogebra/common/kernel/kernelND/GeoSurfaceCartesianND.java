@@ -870,8 +870,10 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	@Override
 	public FunctionVariable[] getFunctionVariables() {
-		// TODO Auto-generated method stub
-		return null;
+		if (complexVariable != null) {
+			return new FunctionVariable[]{complexVariable};
+		}
+		return fun[0].getFunctionVariables();
 	}
 
 	@Override

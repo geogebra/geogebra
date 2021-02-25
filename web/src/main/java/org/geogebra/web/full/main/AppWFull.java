@@ -1537,9 +1537,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 										// constructor because we have to delay
 										// scripts until the EuclidianView is
 										// shown
-		if (!asSlide) {
-			initUndoInfoSilent();
-		}
 
 		getEuclidianView1().synCanvasSize();
 
@@ -1586,6 +1583,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		kernel.notifyScreenChanged();
 		if (isWhiteboardActive()) {
 			AdjustScreen.adjustCoordSystem(getActiveEuclidianView());
+		}
+		if (!asSlide) {
+			// should run after coord system changed
+			initUndoInfoSilent();
 		}
 	}
 

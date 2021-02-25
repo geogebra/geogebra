@@ -27,8 +27,6 @@ public class AlgoInverseHyperGeometric extends AlgoDistribution {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label for output
 	 * @param a
 	 *            population size
 	 * @param b
@@ -38,10 +36,9 @@ public class AlgoInverseHyperGeometric extends AlgoDistribution {
 	 * @param d
 	 *            variable value
 	 */
-	public AlgoInverseHyperGeometric(Construction cons, String label,
-			GeoNumberValue a, GeoNumberValue b, GeoNumberValue c,
-			GeoNumberValue d) {
-		super(cons, label, a, b, c, d);
+	public AlgoInverseHyperGeometric(Construction cons, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d) {
+		super(cons, a, b, c, d);
 	}
 
 	@Override
@@ -51,7 +48,6 @@ public class AlgoInverseHyperGeometric extends AlgoDistribution {
 
 	@Override
 	public final void compute() {
-
 		if (input[0].isDefined() && input[1].isDefined()
 				&& input[2].isDefined()) {
 			int param = (int) Math.round(a.getDouble());
@@ -61,10 +57,8 @@ public class AlgoInverseHyperGeometric extends AlgoDistribution {
 			try {
 				HypergeometricDistribution dist = getHypergeometricDistribution(
 						param, param2, param3);
-				num.setValue(dist.inverseCumulativeProbability(val) + 1); // P(T
-																			// <=
-																			// val)
-
+				// P(T <= val)
+				num.setValue(dist.inverseCumulativeProbability(val));
 			} catch (Exception e) {
 				num.setUndefined();
 			}

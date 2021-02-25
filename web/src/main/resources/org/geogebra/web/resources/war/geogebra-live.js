@@ -55,14 +55,12 @@
                 return;
             }
             var calc = (this.api.getEmbeddedCalculators() || {})[label];
-            if (calc) {
-                if (calc.registerClientListener) {
-                    var calcLive = new LiveApp(this.clientId, label, this.users);
-                    calcLive.api = calc;
-                    calcLive.eventCallbacks = this.eventCallbacks;
-                    calcLive.registerListeners();
-                    this.embeds[label] = calcLive;
-                }
+            if (calc && calc.registerClientListener) {
+                var calcLive = new LiveApp(this.clientId, label, this.users);
+                calcLive.api = calc;
+                calcLive.eventCallbacks = this.eventCallbacks;
+                calcLive.registerListeners();
+                this.embeds[label] = calcLive;
             }
         }
 
@@ -86,17 +84,20 @@
                         }
 
                         let commandString = that.api.getCommandString(label, false);
+                        // send command for dependent objects
                         if (commandString) {
                             that.sendEvent("evalCommand", label + " = " + commandString, label);
                             var group = that.api.getObjectsOfItsGroup(label);
                             if (group != null) {
                                 that.sendEvent("addToGroup", label, group);
                             }
-                        } else {
+                        }
+                        // send XML for free and moveable objects (point on line)
+                        if (!commandString || that.api.isMoveable(label)) {
                             let xml = that.api.getXML(label);
                             that.sendEvent("evalXML", xml, label);
                         }
-                        that.sendEvent("select", label, "update");
+                        that.sendEvent("select", label, "true");
                     }
 
                     updateCallback = null;
@@ -137,8 +138,8 @@
             } else {
                 this.sendEvent("evalXML", xml, label);
             }
-            this.sendEvent("select", label, "");
-            this.sendEvent("deselect", "");
+            this.sendEvent("deselect");
+            this.sendEvent("select", label, "true");
             window.setTimeout(function(){
                 that.initEmbed(label);
             },500); //TODO avoid timeout
@@ -149,6 +150,7 @@
         var removeListener = (function(label) {
             console.log(label + " is removed");
             this.sendEvent("deleteObject", label);
+            delete(this.embeds[label]);
         }).bind(this);
 
         var renameListener = (function(oldName, newName) {
@@ -181,13 +183,15 @@
                     break;
 
                 case "deselect":
-                    this.sendEvent(event[0], event[2]);
+                    this.sendEvent(event[0]);
                     break;
 
                 case "select":
                     this.sendEvent(event[0], event[1], event[2]);
                     break;
-
+                case "embeddedContentChanged":
+                    this.sendEvent(event[0], event[2], event[1]);
+                    break;
                 case "undo":
                 case "redo":
                 case "addPolygonComplete":
@@ -270,7 +274,9 @@
                     target.evalCommand(last.content);
                     target.api.previewRefresh();
                 } else if (last.type == "deleteObject") {
+                	target.unregisterListeners();
                     target.api.deleteObject(last.content);
+                    target.registerListeners();
                 } else if (last.type == "setEditorState") {
                     target.unregisterListeners();
                     target.api.setEditorState(last.content, last.label);
@@ -306,23 +312,24 @@
                 } else if (last.type == "select") {
                     let user = this.users[last.clientId];
                     if (user && last.content) {
-                    	// user name, user color, label of geo selected, 'update' if it was called by update callback
-                        target.api.addMultiuserSelection(user.name, user.color, last.content, last.label);
+                    	// user name, user color, label of geo selected, 'true' if the geo was just added
+                        target.api.addMultiuserSelection(user.name, user.color, last.content, !!last.label);
                     }
                 } else if (last.type == "deselect") {
                     let user = this.users[last.clientId];
                     if (user) {
-                    	// user name, 'force' if selection should be cleared
-                        target.api.removeMultiuserSelections(user.name, last.content);
+                        target.api.removeMultiuserSelections(user.name);
                     }
                 } else if (last.type == "orderingChange") {
-					target.api.updateOrdering(last.content);
+                    target.api.updateOrdering(last.content);
                 } else if (last.type == "groupObjects") {
                     target.api.groupObjects(last.content);
                 } else if (last.type == "ungroupObjects") {
                     target.api.ungroupObjects(last.content);
                 } else if (last.type == "addToGroup") {
                     target.api.addToGroup(last.content, last.label);
+                } else if (last.type == "embeddedContentChanged") {
+                    target.api.setEmbedContent(last.label, last.content);
                 }
             }
         };

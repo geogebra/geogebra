@@ -35,10 +35,10 @@ public class CmdInverseZipf extends CommandProcessor {
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
-				AlgoInverseZipf algo = new AlgoInverseZipf(cons, c.getLabel(),
+				AlgoInverseZipf algo = new AlgoInverseZipf(cons,
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoNumberValue) arg[2]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
