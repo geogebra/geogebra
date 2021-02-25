@@ -118,7 +118,7 @@ public class TeXAtomSerializer {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; row.getElement(i) != null; i++) {
 				sb.append(serialize(row.getElement(i)));
-				sb.append(" new line ");
+				sb.append(' ');
 			}
 			return sb.toString();
 		}
