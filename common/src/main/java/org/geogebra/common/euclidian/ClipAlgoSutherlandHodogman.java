@@ -44,14 +44,13 @@ public class ClipAlgoSutherlandHodogman {
 		for (int i = 0; i < input.size(); i++) {
 			MyPoint prev = input.get((i > 0 ? i : input.size()) - 1);
 			MyPoint current = input.get(i);
-			output.addAll(addClippedOutput(edge, prev, current));
+			addClippedOutput(edge, prev, current, output);
 		}
 		return output;
 	}
 
-	private ArrayList<MyPoint> addClippedOutput(Edge edge,
-			MyPoint prev, MyPoint current) {
-		ArrayList<MyPoint> output = new ArrayList<>();
+	private void addClippedOutput(Edge edge,
+			MyPoint prev, MyPoint current, ArrayList<MyPoint> output) {
 		MyPoint intersectionPoint = intersection(edge, prev, current);
 		if (isInside(edge, current)) {
 			if (!isInside(edge, prev)) {
@@ -62,7 +61,6 @@ public class ClipAlgoSutherlandHodogman {
 		} else if (isInside(edge, prev)) {
 			output.add(intersectionPoint);
 		}
-		return output;
 	}
 
 	private static boolean isInside(Edge edge, MyPoint c) {
