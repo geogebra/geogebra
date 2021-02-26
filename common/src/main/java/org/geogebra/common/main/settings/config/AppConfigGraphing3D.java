@@ -61,6 +61,11 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	}
 
 	@Override
+	public String getAppNameWithoutCalc() {
+		return "GeoGebra3DGrapher.short";
+	}
+
+	@Override
 	public String getTutorialKey() {
 		return getSubAppCode() == null ? "Tutorial3D" : "TutorialSuite";
 	}

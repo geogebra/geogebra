@@ -73,8 +73,6 @@ public abstract class AlgoDistribution extends AlgoElement {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label for output
 	 * @param a
 	 *            first input element
 	 * @param b
@@ -84,7 +82,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 * @param d
 	 *            fourth input element
 	 */
-	public AlgoDistribution(Construction cons, String label, GeoNumberValue a,
+	public AlgoDistribution(Construction cons, GeoNumberValue a,
 			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d) {
 		super(cons);
 		this.a = a;
@@ -96,7 +94,6 @@ public abstract class AlgoDistribution extends AlgoElement {
 
 		setInputOutput();
 		compute();
-		num.setLabel(label);
 	}
 
 	/**

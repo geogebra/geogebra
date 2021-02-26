@@ -93,7 +93,7 @@ public class EmbedInputDialog extends MediaDialog
 	}
 
 	private void showEmptyEmbeddedElement() {
-		createAndShowEmbeddedElement("");
+		createAndShowEmbeddedElement(extractURL(mediaInputPanel.getInput()));
 	}
 
 	private GeoElement createAndShowEmbeddedElement(String url) {

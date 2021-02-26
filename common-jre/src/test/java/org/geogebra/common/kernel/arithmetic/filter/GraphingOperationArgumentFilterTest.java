@@ -5,41 +5,46 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.plugin.Operation;
-import org.junit.Assert;
+import org.hamcrest.Matcher;
 import org.junit.Test;
 
 public class GraphingOperationArgumentFilterTest extends BaseUnitTest {
 
-	private OperationArgumentFilter filter = new GraphingOperationArgumentFilter();
+	private final OperationArgumentFilter filter = new GraphingOperationArgumentFilter();
 
 	@Test
 	public void testFiltersCrossProduct() {
-		ExpressionValue value = new MyVecNode(getKernel());
-		Assert.assertFalse(filter.isAllowed(Operation.MULTIPLY, value, value));
+		ExpressionValue value = getVector();
+		assertAllowed(Operation.MULTIPLY, value, value, is(false));
 	}
 
 	@Test
 	public void testFiltersVectorProduct() {
-		ExpressionValue value = new MyVecNode(getKernel());
-		Assert.assertFalse(filter.isAllowed(Operation.VECTORPRODUCT, value, value));
+		ExpressionValue value = getVector();
+		ExpressionValue list = new MyList(getKernel());
+		assertAllowed(Operation.VECTORPRODUCT, value, value, is(false));
+		assertAllowed(Operation.VECTORPRODUCT, list, list, is(false));
 	}
 
 	@Test
 	public void testFiltersAbs() {
-		ExpressionValue vector = new MyVecNode(getKernel());
-		Assert.assertFalse(filter.isAllowed(Operation.ABS, vector, null));
+		ExpressionValue vector = getVector();
+		assertAllowed(Operation.ABS, vector, null, is(false));
 
 		ExpressionValue number = new MyDouble(getKernel());
-		Assert.assertTrue(filter.isAllowed(Operation.ABS, number, null));
+		assertAllowed(Operation.ABS, number, null, is(true));
 
-		ExpressionValue function = new Function(getKernel());
-		Assert.assertTrue(filter.isAllowed(Operation.ABS, function, null));
+		ExpressionValue function = new Function(getKernel(),
+				new ExpressionNode(getKernel(), 0));
+		assertAllowed(Operation.ABS, function, null, is(true));
 	}
 
 	@Test
@@ -49,6 +54,17 @@ public class GraphingOperationArgumentFilterTest extends BaseUnitTest {
 		GeoVec2D vectorB = new GeoVec2D(getKernel(), 1, 2);
 		vectorB.setMode(Kernel.COORD_COMPLEX);
 
-		assertThat(filter.isAllowed(Operation.VECTORPRODUCT, vectorA, vectorB), is(true));
+		assertAllowed(Operation.MULTIPLY, vectorA, vectorB, is(true));
+	}
+
+	private void assertAllowed(Operation op, ExpressionValue left, ExpressionValue right,
+			Matcher<Boolean> check) {
+		assertThat(op + " should be allowed for " + left + ", " + right,
+				filter.isAllowed(op, left, right), check);
+	}
+
+	private ExpressionValue getVector() {
+		return new MyVecNode(getKernel(), new ExpressionNode(getKernel(), 0),
+				new ExpressionNode(getKernel(), 0));
 	}
 }

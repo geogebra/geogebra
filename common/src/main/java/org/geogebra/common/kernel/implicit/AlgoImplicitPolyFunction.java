@@ -44,8 +44,8 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 	public void compute() {
 		implicitPoly.setDefined();
 		FunctionNVar f = function.getFunction();
-		FunctionVariable[] fvars = f.getFunctionVariables();
-		if (fvars.length != 2) {
+		FunctionVariable[] fvars = function.getFunctionVariables();
+		if (fvars.length != 2 || f == null) {
 			implicitPoly.setUndefined();
 			return;
 		}

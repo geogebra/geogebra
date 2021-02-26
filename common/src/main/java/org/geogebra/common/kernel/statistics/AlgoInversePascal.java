@@ -63,7 +63,6 @@ public class AlgoInversePascal extends AlgoDistribution {
 
 	@Override
 	public final void compute() {
-
 		if (input[0].isDefined() && input[1].isDefined()
 				&& input[2].isDefined()) {
 			int param = (int) Math.round(a.getDouble());
@@ -78,7 +77,7 @@ public class AlgoInversePascal extends AlgoDistribution {
 				if (result >= Integer.MAX_VALUE) {
 					num.setValue(param);
 				} else {
-					num.setValue(result + 1);
+					num.setValue(result);
 				}
 
 			} catch (Exception e) {

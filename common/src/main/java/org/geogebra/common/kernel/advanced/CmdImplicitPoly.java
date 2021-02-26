@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.advanced;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -12,7 +11,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.implicit.AlgoImplicitPolyThroughPoints;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -55,18 +53,16 @@ public class CmdImplicitPoly extends CommandProcessor {
 						doCommand(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 			} else if (arg[0] instanceof GeoFunctionNVar) {
-				FunctionNVar f = ((GeoFunctionNVar) arg[0]).getFunction();
-				FunctionVariable[] fvars = f.getFunctionVariables();
+				GeoFunctionNVar geoFunctionNVar = (GeoFunctionNVar) arg[0];
+				FunctionVariable[] fvars = geoFunctionNVar.getFunctionVariables();
 				if (fvars.length != 2) {
 					throw new MyError(app.getLocalization(), "InvalidEquation");
 				}
 				GeoElement[] ret = { getAlgoDispatcher()
-						.implicitPoly(c.getLabel(), ((GeoFunctionNVar) arg[0]))
+						.implicitPoly(c.getLabel(), geoFunctionNVar)
 						.toGeoElement() };
 				return ret;
 			} else {
-				Log.debug(arg[0] + ": " + arg[0].getGeoClassType() + "; "
-						+ arg[0].getClass());
 				throw argErr(c, arg[0]);
 			}
 

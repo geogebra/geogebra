@@ -7,6 +7,10 @@ pipeline {
                 sh 'git checkout master'
                 sh 'git reset --hard origin/master'
                 sh './gradlew :common:versionBump'
+                script {
+                    def version = readFile('common/build/version.txt')
+                    currentBuild.displayName = "${currentBuild.displayName} (${version})"
+                }
                 sh 'git add common/src'
                 sh 'git commit --author "Jenkins <jenkins@geogebra.org>" -m "Version bump `cat common/build/version.txt`"'
                 withCredentials([usernamePassword(credentialsId: "gitlab", 

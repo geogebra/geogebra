@@ -404,7 +404,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			initSignInEventFlow(new LoginOperationW(this));
 			MenuViewController menuController = new MenuViewController(this);
 			menuController.setMenuViewListener(this);
-			frame.add(menuController.getView());
 			menuViewController = menuController;
 			isMenuInited = true;
 		}
@@ -1752,7 +1751,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				frame.getMenuBar(this).init(this);
 				isMenuInited = true;
 			} else if (menuViewController != null) {
-				menuViewController.setMenuVisible(true);
+				if (!menuViewController.getView().isAttached()) {
+					frame.add(menuViewController.getView());
+					frame.getApp().invokeLater(() -> menuViewController.setMenuVisible(true));
+				} else {
+					menuViewController.setMenuVisible(true);
+				}
 				return;
 			}
 			splitPanelWrapper.add(frame.getMenuBar(this));

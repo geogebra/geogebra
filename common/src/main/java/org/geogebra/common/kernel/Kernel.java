@@ -10,7 +10,6 @@ import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.cas.GeoGebraCAS;
-import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -78,7 +77,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
-import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
@@ -4310,39 +4308,13 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	public void redo() {
 		if (undoActive && cons.getUndoManager().redoPossible()) {
 			app.batchUpdateStart();
-			resetBeforeReload();
 			cons.redo();
-			restoreAfterReload();
 			app.batchUpdateEnd();
 			storeStateForModeStarting();
 			app.getEventDispatcher()
 					.dispatchEvent(new Event(EventType.REDO));
 			app.setUnAutoSaved();
 		}
-	}
-
-	private void resetBeforeReload() {
-		app.getSelectionManager().storeSelectedGeosNames();
-		app.getCompanion().storeViewCreators();
-		notifyReset();
-		clearJustCreatedGeosInViews();
-		getApplication().getActiveEuclidianView().getEuclidianController().clearSelections();
-		VideoManager videoManager = getApplication().getVideoManager();
-		if (videoManager != null) {
-			videoManager.storeVideos();
-		}
-		EmbedManager embedManager = getApplication().getEmbedManager();
-		if (embedManager != null) {
-			embedManager.storeEmbeds();
-		}
-		app.getActiveEuclidianView().resetInlineObjects();
-	}
-
-	private void restoreAfterReload() {
-		notifyReset();
-		app.getCompanion().recallViewCreators();
-		app.getSelectionManager().recallSelectedGeosNames(this);
-		getApplication().getActiveEuclidianView().restoreDynamicStylebar();
 	}
 
 	/**
@@ -4413,9 +4385,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 			if (cons.getUndoManager().undoPossible()) {
 				app.batchUpdateStart();
-				resetBeforeReload();
 				cons.undo();
-				restoreAfterReload();
 
 				// repaint needed for last undo in second EuclidianView (bugfix)
 				if (!undoPossible()) {

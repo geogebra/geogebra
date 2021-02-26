@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.main.App;
+import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 
@@ -173,7 +174,7 @@ public abstract class UndoManager {
 	public synchronized void undo() {
 		if (undoPossible()) {
 			UndoCommand last = iterator.previous();
-			last.undo(this, iterator);
+			last.undo(this);
 			updateUndoActions();
 		}
 	}
@@ -504,5 +505,29 @@ public abstract class UndoManager {
 	 */
 	public void runAfterSlideLoaded(String slideID, Runnable run) {
 		run.run();
+	}
+
+	public void resetBeforeReload() {
+		app.getSelectionManager().storeSelectedGeosNames();
+		app.getCompanion().storeViewCreators();
+		app.getKernel().notifyReset();
+		app.getKernel().clearJustCreatedGeosInViews();
+		app.getActiveEuclidianView().getEuclidianController().clearSelections();
+		VideoManager videoManager = app.getVideoManager();
+		if (videoManager != null) {
+			videoManager.storeVideos();
+		}
+		EmbedManager embedManager = app.getEmbedManager();
+		if (embedManager != null) {
+			embedManager.storeEmbeds();
+		}
+		app.getActiveEuclidianView().resetInlineObjects();
+	}
+
+	public void restoreAfterReload() {
+		app.getKernel().notifyReset();
+		app.getCompanion().recallViewCreators();
+		app.getSelectionManager().recallSelectedGeosNames(app.getKernel());
+		app.getActiveEuclidianView().restoreDynamicStylebar();
 	}
 }

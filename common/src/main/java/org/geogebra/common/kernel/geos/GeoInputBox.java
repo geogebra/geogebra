@@ -17,7 +17,9 @@ import org.geogebra.common.kernel.geos.inputbox.EditorContent;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxProcessor;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -597,6 +599,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		if (linkedGeo instanceof GeoFunction) {
 			return ((GeoFunction) linkedGeo).isInequality()
 					? InputBoxType.INEQ_BOOL : InputBoxType.FUNCTION;
+		} else if (linkedGeo instanceof GeoSurfaceCartesianND
+			|| linkedGeo instanceof GeoCurveCartesianND) {
+			return InputBoxType.FUNCTION;
 		} else if (linkedGeo instanceof GeoFunctionNVar) {
 			return ((GeoFunctionNVar) linkedGeo).isInequality()
 					? InputBoxType.INEQ_BOOL : InputBoxType.FUNCTION;
@@ -617,8 +622,10 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		if (linkedGeo instanceof VarString) {
 			FunctionVariable[] fVars = ((VarString) linkedGeo).getFunctionVariables();
 			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < fVars.length; i++) {
-				sb.append(fVars[i].getSetVarString().charAt(0));
+			if (fVars != null) {
+				for (int i = 0; i < fVars.length; i++) {
+					sb.append(fVars[i].getSetVarString().charAt(0));
+				}
 			}
 			return sb.toString();
 		}

@@ -620,29 +620,18 @@ public class GGraphics2DW implements GGraphics2DWI {
 	}
 
 	@Override
-	public void setClip(GShape shape, boolean restoreSaveContext) {
+	public void setClip(GShape shape, boolean saveContext) {
 		if (shape == null) {
-			Log.warn("Set clip should not be called with null, use resetClip instead");
 			resetClip();
 			return;
 		}
-		Shape shape2 = (Shape) shape;
 
-		doDrawShape(shape2);
-		// quick hack to make sure this is called only from
-		// DrawPoint.drawClippedSection()
-		// TODO: add boolean parameter to setClip()
-		// old hack
-		// if (shape instanceof Ellipse2D.Double) {
-		// needed for dropdowns on iOS after scrolling for some reason
-		if (restoreSaveContext) {
-			// we should call this only if no clip was set or just after another
-			// clip to overwrite
-			// in this case we don't want to double-clip something so let's
-			// restore the context
-			context.restoreTransform();
+		if (saveContext) {
 			context.saveTransform();
 		}
+
+		doDrawShape((Shape) shape);
+
 		context.clip();
 	}
 
@@ -714,13 +703,13 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void setClip(int x, int y, int width, int height,
-			boolean restoreSaveContext) {
+			boolean saveContext) {
 
 		double[] dashArraySave = dashArray;
 		dashArray = null;
 		GShape sh = AwtFactory.getPrototype().newRectangle(x, y,
 		        width, height);
-		setClip(sh, restoreSaveContext);
+		setClip(sh, saveContext);
 		dashArray = dashArraySave;
 
 		/*
