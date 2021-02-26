@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.junit.Test;
 
 public class ClipAlgoSutherlandHodogmanTest {
@@ -88,15 +89,47 @@ public class ClipAlgoSutherlandHodogmanTest {
 		assertOutput();
 	}
 
+	@Test
+	public void clipSkipPoint() {
+		addInputMoveTo(-30, 20);
+		addInput(130, 20);
+		addInputMoveTo(-50, 40);
+		addInput(150, 40);
+
+		addOutputMoveTo(0, 20);
+		addOutput(100, 20);
+		// extra move to -- artifact of the algorithm, not worth filtering
+		addOutputMoveTo(0, 310 / 9.0);
+		addOutputMoveTo(0, 40);
+		addOutput(100, 40);
+		assertOutput();
+	}
+
+	private void addInputMoveTo(int x, int y) {
+		addInput(x, y, SegmentType.MOVE_TO);
+	}
+
+	private void addInput(double x, double y, SegmentType segmentType) {
+		input.add(new MyPoint(x, y, segmentType));
+	}
+
+	private void addInput(double x, double y) {
+		addInput(x, y, SegmentType.LINE_TO);
+	}
+
 	private ArrayList<MyPoint> processAlgo() {
 		return algo.process(input, defaultClipPolygon);
 	}
 
-	private void addInput(double x, double y) {
-		input.add(new MyPoint(x, y));
+	private void addOutputMoveTo(double x, double y) {
+		addOutput(x, y, SegmentType.MOVE_TO);
+	}
+
+	private void addOutput(double x, double y, SegmentType segmentType) {
+		output.add(new MyPoint(x, y, segmentType));
 	}
 
 	private void addOutput(double x, double y) {
-		output.add(new MyPoint(x, y));
+		addOutput(x, y, SegmentType.LINE_TO);
 	}
 }
