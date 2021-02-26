@@ -287,6 +287,6 @@ public class Hitting {
      * @return true if discards positive hits
      */
 	public boolean discardPositiveHits() {
-	    return view.isAREnabled();
+	    return view.isXREnabled();
     }
 }

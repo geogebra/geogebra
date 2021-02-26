@@ -1,9 +1,9 @@
-package org.geogebra.arbase;
+package org.geogebra.ar;
 
-import static org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface.DESK_DISTANCE_AVERAGE;
-import static org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface.DESK_DISTANCE_MAX;
-import static org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface.MAX_FACTOR_TO_EMPHASIZE;
-import static org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface.PROJECT_FACTOR_RELATIVE_PRECISION;
+import static org.geogebra.common.geogebra3D.euclidian3D.xr.XRManagerInterface.DESK_DISTANCE_AVERAGE;
+import static org.geogebra.common.geogebra3D.euclidian3D.xr.XRManagerInterface.DESK_DISTANCE_MAX;
+import static org.geogebra.common.geogebra3D.euclidian3D.xr.XRManagerInterface.MAX_FACTOR_TO_EMPHASIZE;
+import static org.geogebra.common.geogebra3D.euclidian3D.xr.XRManagerInterface.PROJECT_FACTOR_RELATIVE_PRECISION;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawClippingCube3D;

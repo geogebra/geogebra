@@ -1,4 +1,4 @@
-package org.geogebra.arbase;
+package org.geogebra.ar;
 
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
