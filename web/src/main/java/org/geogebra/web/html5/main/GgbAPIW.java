@@ -1091,20 +1091,19 @@ public class GgbAPIW extends GgbAPI {
 	 * @param user tooltip content
 	 * @param label label of an object to use as anchor
 	 * @param color color CSS string
-	 * @param update "update" if selection called by notify update, empty otherwise
+	 * @param newGeo if the geo was added
 	 */
-	public void addMultiuserSelection(String user, String color, String label, String update) {
+	public void addMultiuserSelection(String user, String color, String label, boolean newGeo) {
 		MultiuserManager.INSTANCE.addSelection(app, user, GColor.parseHexColor(color),
-				label, update);
+				label, newGeo);
 	}
 
 	/**
 	 * Remove a multiuser interaction
 	 * @param user tooltip content
-	 * @param force "force" if force deselection, empty otherwise
 	 */
-	public void removeMultiuserSelections(String user, String force) {
-		MultiuserManager.INSTANCE.deselect(app, user, force);
+	public void removeMultiuserSelections(String user) {
+		MultiuserManager.INSTANCE.deselect(app, user);
 	}
 
 	public void asyncEvalCommand(String command, ResolveCallbackFn<String> onSuccess,
@@ -1489,6 +1488,13 @@ public class GgbAPIW extends GgbAPI {
 		PageListControllerInterface pageController = ((AppW) app).getPageController();
 		if (pageController != null) {
 			pageController.updatePreviewImage();
+		}
+	}
+
+	public void setEmbedContent(String label, String base64) {
+		EmbedManager embedManager = app.getEmbedManager();
+		if (embedManager != null) {
+			embedManager.setBase64(label, base64);
 		}
 	}
 }

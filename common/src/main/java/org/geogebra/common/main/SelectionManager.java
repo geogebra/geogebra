@@ -303,12 +303,12 @@ public class SelectionManager {
 
 	private void dispatchSelected(GeoElement geo) {
 		kernel.getApplication().getEventDispatcher()
-				.dispatchEvent(EventType.SELECT, geo);
+				.dispatchEvent(new Event(EventType.SELECT, geo, ""));
 	}
 
 	private void dispatchDeselected(GeoElement geo) {
 		kernel.getApplication().getEventDispatcher()
-				.dispatchEvent(new Event(EventType.DESELECT, geo, "force"));
+				.dispatchEvent(EventType.DESELECT, geo);
 	}
 
 	private void setGeoToggled(boolean flag) {

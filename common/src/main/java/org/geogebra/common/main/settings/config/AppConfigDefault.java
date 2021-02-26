@@ -67,6 +67,11 @@ public class AppConfigDefault extends AbstractAppConfig {
 		return getAppTitle();
 	}
 
+	@Override
+	public String getAppNameWithoutCalc() {
+		return getAppNameShort();
+	}
+
 	/**
 	 * @param appName app name
 	 * @return whether app name is one of the unbundled apps

@@ -14,6 +14,8 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.TreeMap;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -286,7 +288,7 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	@Override
-	final public FunctionNVar getFunction() {
+	final public @CheckForNull FunctionNVar getFunction() {
 		return fun;
 	}
 
@@ -544,7 +546,7 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public boolean isEqual(GeoElementND geo) {
-		if (!(geo instanceof GeoFunctionNVar)) {
+		if (!(geo instanceof GeoFunctionNVar) || !isDefined() || !geo.isDefined()) {
 			return false;
 		}
 
@@ -1233,7 +1235,7 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public FunctionVariable[] getFunctionVariables() {
-		return fun.getFunctionVariables();
+		return fun == null ? new FunctionVariable[0] : fun.getFunctionVariables();
 	}
 
 	/**
@@ -1263,11 +1265,11 @@ public class GeoFunctionNVar extends GeoElement
 			ret = toValueString(tpl);
 		} else {
 
-			if (getFunction() == null) {
+			if (fun == null) {
 				ret = "?";
 			} else {
-				ret = substituteNumbers ? getFunction().toValueString(tpl)
-						: getFunction().toString(tpl);
+				ret = substituteNumbers ? fun.toValueString(tpl)
+						: fun.toString(tpl);
 			}
 		}
 
@@ -1424,8 +1426,8 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public void setSecret(AlgoElement algo) {
-		if (getFunction() != null) {
-			getFunction().setSecret(algo);
+		if (fun != null) {
+			fun.setSecret(algo);
 		}
 	}
 

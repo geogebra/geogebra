@@ -123,11 +123,8 @@ public class CommandUnicode extends Command {
 						}
 					}
 				} else {
-					atom = tp.getCharMapping().getAtom(c, tp.isMathMode());
-					if (atom == null) {
-						atom = new JavaFontRenderingAtom(
-								new String(new int[] { c }, 0, 1));
-					}
+					atom = new JavaFontRenderingAtom(
+							new String(new int[] { c }, 0, 1));
 				}
 				tp.addToConsumer(new HeightDepthAtom(hd[0], hd[1], atom));
 			}

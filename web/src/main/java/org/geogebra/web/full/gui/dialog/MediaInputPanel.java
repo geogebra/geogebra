@@ -4,10 +4,12 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.shared.components.ComponentDialog;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Label;
 
 public class MediaInputPanel extends FlowPanel implements ProcessInput {
@@ -151,24 +153,25 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * Add handler for input event
 	 */
 	private void addInputHandler() {
-		new MediaInputKeyHandler(this).attachTo(inputField.getTextComponent());
+		// do NOT handle Enter, it's handled on dialog level
+		Dom.addEventListener(getTextBox().getElement(), "input", event -> onInput());
 	}
 
 	/**
 	 * Add mouse over/ out handlers
 	 */
 	private void addHoverHandlers() {
-		inputField.getTextComponent().getTextBox().addMouseOverHandler(
-				event -> this.addStyleName("hoverState"));
-
-		inputField.getTextComponent().getTextBox().addMouseOutHandler(
-				event -> this.removeStyleName("hoverState"));
+		getTextBox().addMouseOverHandler(event -> addStyleName("hoverState"));
+		getTextBox().addMouseOutHandler(event -> removeStyleName("hoverState"));
 	}
 
 	private void addFocusBlurHandlers() {
-		inputField.getTextComponent().getTextBox().addFocusHandler(event -> setFocusState());
+		getTextBox().addFocusHandler(event -> setFocusState());
+		getTextBox().addBlurHandler(event -> resetInputField());
+	}
 
-		inputField.getTextComponent().getTextBox().addBlurHandler(event -> resetInputField());
+	private FocusWidget getTextBox() {
+		return inputField.getTextComponent().getTextBox();
 	}
 
 	/**

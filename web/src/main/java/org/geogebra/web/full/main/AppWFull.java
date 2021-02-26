@@ -405,7 +405,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			initSignInEventFlow(new LoginOperationW(this));
 			MenuViewController menuController = new MenuViewController(this);
 			menuController.setMenuViewListener(this);
-			frame.add(menuController.getView());
 			menuViewController = menuController;
 			isMenuInited = true;
 		}
@@ -1537,9 +1536,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 										// constructor because we have to delay
 										// scripts until the EuclidianView is
 										// shown
-		if (!asSlide) {
-			initUndoInfoSilent();
-		}
 
 		getEuclidianView1().synCanvasSize();
 
@@ -1586,6 +1582,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		kernel.notifyScreenChanged();
 		if (isWhiteboardActive()) {
 			AdjustScreen.adjustCoordSystem(getActiveEuclidianView());
+		}
+		if (!asSlide) {
+			// should run after coord system changed
+			initUndoInfoSilent();
 		}
 	}
 
@@ -1752,7 +1752,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				frame.getMenuBar(this).init(this);
 				isMenuInited = true;
 			} else if (menuViewController != null) {
-				menuViewController.setMenuVisible(true);
+				if (!menuViewController.getView().isAttached()) {
+					frame.add(menuViewController.getView());
+					frame.getApp().invokeLater(() -> menuViewController.setMenuVisible(true));
+				} else {
+					menuViewController.setMenuVisible(true);
+				}
 				return;
 			}
 			splitPanelWrapper.add(frame.getMenuBar(this));

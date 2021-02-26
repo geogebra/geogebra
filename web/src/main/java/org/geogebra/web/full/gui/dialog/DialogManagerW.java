@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.dialog;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -459,15 +460,26 @@ public class DialogManagerW extends DialogManager
 			saveDialog = doYouWantSaveChanges
 					? new DoYouWantToSaveChangesDialog((AppW) app, data, true)
 					: new SaveDialogMow((AppW) app, data, addTempCheckBox);
-		} else if (saveDialog == null) {
-			DialogData data = new DialogData("Save", "DontSave", "Save");
+		} else if (saveDialog == null || isSuite()) {
+			DialogData data = new DialogData(getSaveDialogTitle(), "DontSave", "Save");
 			saveDialog = new SaveDialogW((AppW) app, data, widgetFactory);
-
 		}
 		// set default saveType
 		saveDialog.setSaveType(
 				app.isWhiteboardActive() ? MaterialType.ggs : MaterialType.ggb);
 		return saveDialog;
+	}
+
+	private String getSaveDialogTitle() {
+		if (isSuite()) {
+			return app.getLocalization().getPlain("saveDialog.saveApp",
+					app.getLocalization().getMenu(app.getConfig().getAppNameWithoutCalc()));
+		}
+		return "Save";
+	}
+
+	private boolean isSuite() {
+		return app.getConfig().getAppCode().equals(GeoGebraConstants.SUITE_APPCODE);
 	}
 
 	/**

@@ -4481,7 +4481,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 				sb.append(" type=\"conic\"");
 			} else if (isGeoQuadric()) {
 				sb.append(" type=\"quadric\"");
-			} else if (isGeoImplicitPoly()) {
+			} else if (isGeoImplicitCurve()) {
 				sb.append(" type=\"implicitpoly\"");
 			} else if (isGeoImplicitSurface()) {
 				sb.append(" type=\"implicitsurface\"");
@@ -5008,13 +5008,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public boolean isGeoPolyLine() {
-		return false;
-	}
-
-	/**
-	 * @return true for implicit polynomials
-	 */
-	public boolean isGeoImplicitPoly() {
 		return false;
 	}
 

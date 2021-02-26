@@ -32,27 +32,8 @@ public class CmdCAStoOperation extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
-		ExpressionNode en = null;
-		switch (op) {
-		case YCOORD:
-		case XCOORD:
-			if (c.getArgumentNumber() != 1) {
-				throw argNumErr(c);
-			}
-			en = new ExpressionNode(kernel, c.getArgument(0).unwrap(), op, null);
-			break;
-		case MULTIPLY:
-		case VECTORPRODUCT:
-		case NPR:
-			if (c.getArgumentNumber() != 2) {
-				throw argNumErr(c);
-			}
-			en = new ExpressionNode(kernel, c.getArgument(0).unwrap(), op,
-					c.getArgument(1).unwrap());
-			break;
-		default:
-			throw new Error("Unhandled operation " + op);
-		}
+		ExpressionNode en = simplify(c);
+
 		GeoElement[] ret = kernel.getAlgebraProcessor()
 				.processExpressionNode(en, info);
 
@@ -61,6 +42,33 @@ public class CmdCAStoOperation extends CommandProcessor {
 		}
 
 		return ret;
+	}
+
+	@Override
+	public ExpressionNode simplify(Command c) {
+		EvalInfo info = new EvalInfo(false);
+		switch (op) {
+		case YCOORD:
+		case XCOORD:
+			if (c.getArgumentNumber() != 1) {
+				throw argNumErr(c);
+			}
+			c.getArgument(0).resolveVariables(info);
+			return new ExpressionNode(kernel, c.getArgument(0).unwrap(), op, null);
+
+		case MULTIPLY:
+		case VECTORPRODUCT:
+		case NPR:
+			if (c.getArgumentNumber() != 2) {
+				throw argNumErr(c);
+			}
+			c.getArgument(0).resolveVariables(info);
+			c.getArgument(1).resolveVariables(info);
+			return new ExpressionNode(kernel, c.getArgument(0).unwrap(), op,
+					c.getArgument(1).unwrap());
+		default:
+			throw new Error("Unhandled operation " + op);
+		}
 	}
 
 }
