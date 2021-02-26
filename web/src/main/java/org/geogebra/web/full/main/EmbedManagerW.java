@@ -128,27 +128,11 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			element.getStyle().setZIndex(layer);
 		}
 	}
-	private void addCalcEmbed(DrawEmbed drawEmbed) {
-		CalcEmbedElement element = getCalcEmbed(drawEmbed);
-		widgets.put(drawEmbed, element);
-	}
-
-	private CalcEmbedElement getCalcEmbed(DrawEmbed drawEmbed) {
-		CalcEmbedElement element;
-		if (cache.get(drawEmbed.getEmbedID()) instanceof CalcEmbedElement) {
-			element = (CalcEmbedElement) cache.get(drawEmbed.getEmbedID());
-			element.setVisible(true);
-		} else {
-			element = createCalcEmbed(drawEmbed);
-		}
-		cache.remove(drawEmbed.getEmbedID());
-		return element;
-	}
 
 	private void addEmbed(DrawEmbed drawEmbed) {
 		EmbedElement element;
 		if (cache.containsKey(drawEmbed.getEmbedID())) {
-			element = cache.remove(drawEmbed.getEmbedID());
+			element = cache.get(drawEmbed.getEmbedID());
 			element.setVisible(true);
 		} else {
 			if ("h5p".equals(drawEmbed.getGeoEmbed().getAppName())) {
@@ -158,6 +142,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			}
 		}
 		widgets.put(drawEmbed, element);
+		cache.remove(drawEmbed.getEmbedID());
 	}
 
 	private CalcEmbedElement createCalcEmbed(DrawEmbed drawEmbed) {
