@@ -1967,20 +1967,31 @@ public enum Operation {
 	}
 
 	/**
-	 * 
-	 * @param op
-	 *            function
 	 * @return true if it's a trig function that takes degrees as input ie not
 	 *         inverse, not hyperbolic
 	 */
-	public static boolean isTrigDegrees(Operation op) {
-		switch (op) {
+	public boolean hasDegreeInput() {
+		switch (this) {
 		case SIN:
 		case COS:
 		case TAN:
 		case CSC:
 		case SEC:
 		case COT:
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @return true if it's a trig function that returns degrees
+	 */
+	public boolean doesReturnDegrees() {
+		switch (this) {
+		case ARCSIND:
+		case ARCCOSD:
+		case ARCTAND:
+		case ARCTAN2D:
 			return true;
 		}
 		return false;

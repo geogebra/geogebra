@@ -197,7 +197,7 @@ public interface Traversing {
 				ExpressionNode en = (ExpressionNode) ev;
 
 				Operation op = en.getOperation();
-				if (Operation.isTrigDegrees(op)) {
+				if (op.hasDegreeInput()) {
 					ExpressionValue arg = en.getLeft().unwrap();
 					if (!(arg instanceof MyDoubleDegreesMinutesSeconds)
 							&& arg.isLeaf()
@@ -251,7 +251,7 @@ public interface Traversing {
 				Operation op = en.getOperation();
 				ExpressionValue arg;
 
-				if (Operation.isTrigDegrees(op) && (arg = en.getLeft()
+				if (op.hasDegreeInput() && (arg = en.getLeft()
 						.unwrap()) instanceof FunctionVariable) {
 
 					FunctionVariable fv = (FunctionVariable) arg;
