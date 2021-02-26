@@ -52,6 +52,11 @@ public class AppConfigCas extends AppConfigGraphing {
 	}
 
 	@Override
+	public String getAppNameWithoutCalc() {
+		return "CAS";
+	}
+
+	@Override
 	public String getTutorialKey() {
 		return getSubAppCode() == null ? "cas_tutorials" : "TutorialSuite";
 	}
