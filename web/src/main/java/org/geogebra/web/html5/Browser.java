@@ -108,18 +108,18 @@ public class Browser {
 		if (navigator.userAgent.toLowerCase().indexOf("firefox") != -1
 			|| navigator.userAgent.toLowerCase().indexOf("safari") != -1
 			&& navigator.userAgent.toLowerCase().indexOf("chrome") == -1) {
-			@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("INIT: workers might not be supported");
+			@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("INIT: workers might not be supported");
 			return false;
 		}
 
 		try {
 			var worker = new $wnd.Worker(workerpath+"js/workercheck.js");
 		} catch (e) {
-			@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("INIT: workers are not supported (no worker at " + workerpath + "), fallback for simple js");
+			@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("INIT: workers are not supported (no worker at " + workerpath + "), fallback for simple js");
 			return false;
 		}
 
-		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("INIT: workers are supported");
+		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("INIT: workers are supported");
 		worker.terminate();
 		return true;
 	}-*/;
@@ -768,7 +768,7 @@ public class Browser {
 	public native static int getIOSArrowKeys(NativeEvent event) /*-{
 
 		var key = event.key;
-		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("KeyDownEvent: " + key);
+		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("KeyDownEvent: " + key);
 		switch (key) {
 		case "UIKeyInputUpArrow":
 			return @com.himamis.retex.editor.share.util.GWTKeycodes::KEY_UP;
