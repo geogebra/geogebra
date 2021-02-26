@@ -51,15 +51,14 @@ public class ClipAlgoSutherlandHodogman {
 
 	private void addClippedOutput(Edge edge,
 			MyPoint prev, MyPoint current, ArrayList<MyPoint> output) {
-		MyPoint intersectionPoint = intersection(edge, prev, current);
 		if (isInside(edge, current)) {
 			if (!isInside(edge, prev)) {
-				output.add(intersectionPoint);
+				output.add(intersection(edge, prev, current));
 			}
 			output.add(current);
 
 		} else if (isInside(edge, prev)) {
-			output.add(intersectionPoint);
+			output.add(intersection(edge, prev, current));
 		}
 	}
 
