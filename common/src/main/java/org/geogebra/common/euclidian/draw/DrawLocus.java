@@ -41,7 +41,7 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public class DrawLocus extends Drawable {
-	private static final int BITMAP_PADDING = 10;
+	private static final int BITMAP_PADDING = 20;
 
 	private GeoLocusND<? extends MyPoint> locus;
 

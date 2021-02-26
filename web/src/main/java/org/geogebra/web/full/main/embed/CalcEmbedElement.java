@@ -86,6 +86,11 @@ public class CalcEmbedElement extends EmbedElement {
 		}
 	}
 
+	@Override
+	public void setContent(String base64) {
+		frame.getApp().getGgbApi().setBase64(base64);
+	}
+
 	private static class UndoRedoGlue implements UndoInfoStoredListener {
 
 		private int embedId;

@@ -36,9 +36,14 @@ public class AlgoTransformation3D {
 		if (t == null) {
 			t = new FunctionVariable(kernel, "t");
 		}
-		FunctionVariable x = geoFun.getFunction().getFunctionVariable();
-		ExpressionNode yExp = (ExpressionNode) geoFun
-				.getFunction().getExpression().deepCopy(kernel).replace(x, t);
+		Function function = geoFun.getFunction();
+		if (function == null) {
+			curve.setUndefined();
+			return;
+		}
+		FunctionVariable x = function.getFunctionVariable();
+		ExpressionNode yExp = (ExpressionNode) function
+				.getExpression().deepCopy(kernel).replace(x, t);
 		Function[] fun = new Function[3];
 		fun[0] = new Function(new ExpressionNode(kernel, t), t);
 		fun[1] = new Function(yExp, t);
@@ -66,9 +71,14 @@ public class AlgoTransformation3D {
 			GeoFunctionNVar geoFun, GeoSurfaceCartesian3D surface) {
 		FunctionVariable u = new FunctionVariable(kernel, "u");
 		FunctionVariable v = new FunctionVariable(kernel, "v");
-		FunctionVariable x = geoFun.getFunction().getFunctionVariables()[0];
-		FunctionVariable y = geoFun.getFunction().getFunctionVariables()[1];
-		ExpressionNode yExp = (ExpressionNode) geoFun.getFunction()
+		FunctionNVar function = geoFun.getFunction();
+		if (function == null) {
+			surface.setUndefined();
+			return;
+		}
+		FunctionVariable x = function.getFunctionVariables()[0];
+		FunctionVariable y = function.getFunctionVariables()[1];
+		ExpressionNode yExp = (ExpressionNode) function
 				.getExpression().deepCopy(kernel).replace(x, u).wrap()
 				.replace(y, v);
 		FunctionNVar[] fun = new FunctionNVar[3];

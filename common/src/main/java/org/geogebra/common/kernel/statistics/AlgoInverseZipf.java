@@ -27,8 +27,6 @@ public class AlgoInverseZipf extends AlgoDistribution {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label for output
 	 * @param a
 	 *            number of elements
 	 * @param b
@@ -36,9 +34,9 @@ public class AlgoInverseZipf extends AlgoDistribution {
 	 * @param c
 	 *            variable value
 	 */
-	public AlgoInverseZipf(Construction cons, String label, GeoNumberValue a,
+	public AlgoInverseZipf(Construction cons, GeoNumberValue a,
 			GeoNumberValue b, GeoNumberValue c) {
-		super(cons, label, a, b, c, null);
+		super(cons, a, b, c, null);
 	}
 
 	@Override
@@ -48,7 +46,6 @@ public class AlgoInverseZipf extends AlgoDistribution {
 
 	@Override
 	public final void compute() {
-
 		if (input[0].isDefined() && input[1].isDefined()
 				&& input[2].isDefined()) {
 			int param = (int) a.getDouble();
@@ -56,7 +53,7 @@ public class AlgoInverseZipf extends AlgoDistribution {
 			double val = c.getDouble();
 			try {
 				ZipfDistribution dist = getZipfDistribution(param, param2);
-				num.setValue(dist.inverseCumulativeProbability(val) + 1);
+				num.setValue(dist.inverseCumulativeProbability(val));
 
 			} catch (Exception e) {
 				num.setUndefined();

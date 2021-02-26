@@ -168,17 +168,35 @@ public class RowAtom extends Atom implements Row {
 
 	public final void add(Atom... atoms) {
 		for (Atom a : atoms) {
-			if (a != null) {
-				elements.add(a);
-				if (a instanceof TypedAtom) {
-					// TODO: check this stuff (added for back comp)
-					final int rtype = a.getRightType();
-					if (rtype == TeXConstants.TYPE_BINARY_OPERATOR
-							|| rtype == TeXConstants.TYPE_RELATION) {
-						elements.add(BreakMarkAtom.get());
-					}
-				}
+			addAtom(a);
+		}
+	}
+
+	private void addAtom(Atom atom) {
+		if (atom == null) {
+			return;
+		}
+
+		if (atom instanceof RowAtom) {
+			addRowAtom((RowAtom) atom);
+		} else {
+			elements.add(atom);
+			if (atom instanceof TypedAtom) {
+				addTypedAtom(atom);
 			}
+		}
+	}
+
+	private void addRowAtom(RowAtom row) {
+		elements.addAll(row.getElements());
+	}
+
+	private void addTypedAtom(Atom a) {
+		// TODO: check this stuff (added for back comp)
+		final int rtype = a.getRightType();
+		if (rtype == TeXConstants.TYPE_BINARY_OPERATOR
+				|| rtype == TeXConstants.TYPE_RELATION) {
+			elements.add(BreakMarkAtom.get());
 		}
 	}
 

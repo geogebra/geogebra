@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
+import static com.himamis.retex.editor.share.util.Unicode.INFINITY;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -447,5 +448,52 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	private void frac(String def, String expect) {
 		EvalInfo evalInfo = new EvalInfo(true, true).withFractions(true);
 		checkWithEvalInfo(def, expect, evalInfo);
+	}
+
+	@Test
+	public void cmdLimitAbove() {
+		t("LimitAbove[ 1/x, 0 ]", "Infinity");
+	}
+
+	@Test
+	public void cmdLimitBelow() {
+		t("LimitBelow[ 1/x, 0 ]", "-Infinity");
+	}
+
+	@Test
+	public void cmdLimit() {
+		t("Limit[ (x^2 + x) / x^2, " + INFINITY + " ]", "1");
+	}
+
+	@Test
+	public void cmdNextPrime() {
+		t("NextPrime[10000]", "10007");
+	}
+
+	@Test
+	public void cmdPartialFractions() {
+		t("PartialFractions[ x^2 / (x^2 - 2x + 1) ]", "1 + 1 / (x - 1)^(2) + 2 / (x - 1)");
+	}
+
+	@Test
+	public void cmdPreviousPrime() {
+		t("PreviousPrime[ 22 ]", "19");
+	}
+
+	@Test
+	public void cmdTrigCombine() {
+		t("TrigCombine[sin(x) cos(3x)]", "(1 / 2 * sin((4 * x))) - (1 / 2 * sin((2 * x)))");
+		t("TrigCombine[sin(x) + cos(x), sin(x)]", "(sqrt(2) * sin(x + (1 / 4 * π)))");
+	}
+
+	@Test
+	public void cmdTrigExpand() {
+		t("TrigExpand[sin(x+y)]", "(sin(x) * cos(y)) + (cos(x) * sin(y))");
+		t("TrigExpand[tan(x + y), tan(x)]", "(tan(x) + tan(y)) / (1 - (tan(x) * tan(y)))");
+	}
+
+	@Test
+	public void cmdTrigSimplify() {
+		t("TrigSimplify[1 - sin(x)^2]", "(cos(x))^(2)");
 	}
 }

@@ -151,4 +151,6 @@ public interface EmbedManager {
 	 *            embed ID
 	 */
 	void embeddedAction(EventType action, String id);
+
+	void setBase64(String label, String base64);
 }

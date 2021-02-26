@@ -1,9 +1,10 @@
 package org.geogebra.web.html5.multiuser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
@@ -30,64 +31,60 @@ class User {
 
 	private final TooltipChip tooltip;
 	// we are storing the labels since the geo might be recreated
-	private final Map<String, Timer> interactions;
+	private final ArrayList<String> selectedGeos;
+	private final HashMap<String, Timer> updatedGeos;
+
 	private final GColor color;
 
 	User(String user, GColor color) {
 		this.tooltip = new TooltipChip(user, color);
-		this.interactions = new HashMap<>();
+		this.selectedGeos = new ArrayList<>();
+		this.updatedGeos = new HashMap<>();
 		this.color = color;
 	}
 
-	public void addSelection(EuclidianView view, String label, String update) {
+	public void addSelection(EuclidianView view, String label, boolean newGeo) {
 		GeoElement geo = view.getApplication().getKernel().lookupLabel(label);
-		if (geo instanceof GeoInline && "update".equals(update)) {
+		if (geo instanceof GeoInline && newGeo) {
 			// if the inline element gets updated after it was deselected
 			// don't add to interactions
 			return;
 		}
 
-		interactions.compute(label, (k, v) -> {
-			if (v == null) {
-				v = new Timer() {
+		if (newGeo) {
+			if (geo instanceof GeoLocusStroke) {
+				updatedGeos.computeIfAbsent(label, k -> new Timer() {
 					@Override
 					public void run() {
-						interactions.remove(label);
+						updatedGeos.remove(label);
 						view.repaintView();
 					}
-				};
+				}).schedule(2000);
 			}
-
-			v.cancel();
-			return v;
-		});
-
-		// make sure to deselect stroke in case deselect wouldn't be sent
-		if (geo instanceof GeoLocusStroke && "update".equals(update)) {
-			interactions.get(label).schedule(2000);
+		} else {
+			selectedGeos.add(label);
 		}
 
 		view.repaintView();
 	}
 
 	public void deselectAll(EuclidianView view) {
-		interactions.clear();
+		selectedGeos.clear();
+		updatedGeos.clear();
 		view.repaintView();
 	}
 
-	public void scheduleDeselection() {
-		for (Timer t : interactions.values()) {
-			t.schedule(2000);
-		}
-	}
-
 	public void removeSelection(String label) {
-		interactions.remove(label);
+		selectedGeos.remove(label);
 	}
 
 	public void paintInteractionBoxes(EuclidianView view, GGraphics2D graphics) {
 		SelectionManager selection = view.getApplication().getSelectionManager();
-		List<GeoElement> geos = interactions.keySet().stream()
+
+		Stream<String> startingStream = selectedGeos.isEmpty()
+				? updatedGeos.keySet().stream()
+				: selectedGeos.stream();
+		List<GeoElement> geos = startingStream
 				.map((label) -> view.getApplication().getKernel().lookupLabel(label))
 				.filter((geo) -> !selection.containsSelectedGeo(geo))
 				.collect(Collectors.toList());
