@@ -53,7 +53,9 @@ public class ClipAlgoSutherlandHodogman {
 			MyPoint prev, MyPoint current, ArrayList<MyPoint> output) {
 		if (isInside(edge, current)) {
 			if (!isInside(edge, prev)) {
-				output.add(intersection(edge, prev, current));
+				MyPoint intersection = intersection(edge, prev, current);
+				intersection.setLineTo(false);
+				output.add(intersection);
 			}
 			output.add(current);
 
