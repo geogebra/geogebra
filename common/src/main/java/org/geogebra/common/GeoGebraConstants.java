@@ -178,12 +178,6 @@ public interface GeoGebraConstants {
 
 	/** GeoGebra URL */
 	public final static String GEOGEBRA_WEBSITE = "https://www.geogebra.org/";
-	/** 4.2 desktop bug reports */
-	public final static String GEOGEBRA_REPORT_BUG_DESKTOP = "https://help.geogebra.org/bugs/?v=5.0";
-	/** web bug reports */
-	public final static String GEOGEBRA_REPORT_BUG_WEB = "https://help.geogebra.org/bugs/?v=web";
-	/** bug reports 8 */
-	public final static String GEOGEBRA_REPORT_BUG = "https://help.geogebra.org/bugs/";
 	/** GeoGebraTube beta URL, used when Feature.TUBE_BETA == true */
 	public final static String GEOGEBRA_WEBSITE_BETA = "https://beta.geogebra.org/";
 
@@ -248,7 +242,7 @@ public interface GeoGebraConstants {
 	public static final String USERINFO_PROFILE_SCOPE = "https://www.googleapis.com/auth/userinfo.profile";
 	public static final String API_USERINFO = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=";
 
-	public static final String FORUM_URL = "https://help.geogebra.org/";
+	public static final String FORUM_URL = "https://www.reddit.com/r/geogebra/";
 
 	public static final String WIDGET_URL = "https://www.geogebra.org/widgetprovider/index/widgettype/";
 

@@ -768,9 +768,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	@Override
 	public String getReportBugUrl() {
-		return GeoGebraConstants.GEOGEBRA_REPORT_BUG
-				+ "?v=" + app.getPlatform().getName()
-				+ "&lang=" + app.getLocalization().getLanguage();
+		return GeoGebraConstants.FORUM_URL;
 	}
 
 	@Override
