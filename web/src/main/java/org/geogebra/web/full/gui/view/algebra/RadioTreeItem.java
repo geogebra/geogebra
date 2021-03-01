@@ -353,7 +353,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			definitionFromTeX(lastTeX);
 		} else if (latex || AlgebraItem.isGeoFraction(geo)) {
 			String text = getTextForEditing(false,
-					StringTemplate.latexTemplate);
+					StringTemplate.numericLatex);
 			definitionFromTeX(text);
 		} else if (geo != null) {
 			IndexHTMLBuilder sb = new DOMIndexHTMLBuilder(definitionPanel, app);

@@ -1430,4 +1430,15 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		a = undoRedo.getAfterUndo("a");
 		assertThat(a.getDefinitionForInputBar(), is("a = 3"));
 	}
+
+	@Test
+	public void testRounding() {
+		kernel.setPrintFigures(20);
+		GeoSymbolic number = add("11.3 * 1.5");
+		AlgebraItem.toggleSymbolic(number);
+		String output = AlgebraItem.getOutputTextForGeoElement(number);
+		assertThat(output, equalTo("16.95"));
+		// Reset
+		kernel.setPrintDecimals(5);
+	}
 }
