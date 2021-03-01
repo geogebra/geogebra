@@ -58,6 +58,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -1964,7 +1965,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private static boolean needsSynchUpdate(GeoElement geo, boolean tracing) {
 		// Keep update of input boxes synchronous #4416
 		return (geo.isGeoText() && ((GeoText) geo).isNeedsUpdatedBoundingBox())
-				|| geo.isGeoInputBox() || (geo.getTrace() && !tracing) || geo.isMask();
+				|| geo.isGeoInputBox()
+				|| (geo.getTrace() && !tracing)
+				|| geo.isMask()
+				|| geo instanceof GeoMindMapNode;
 	}
 
 	/**

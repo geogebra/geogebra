@@ -18,10 +18,10 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 	private static final double CHILD_HEIGHT = 48;
 
 	public enum NodeAlignment {
-		TOP		(0.5, 0, 0.5, 1),
-		RIGHT	(0, 0.5, 1, 0.5),
-		BOTTOM	(0.5, 1, 0.5, 0),
-		LEFT	(1, 0.5, 0, 0.5);
+		TOP(0.5, 0, 0.5, 1),
+		RIGHT(0, 0.5, 1, 0.5),
+		BOTTOM(0.5, 1, 0.5, 0),
+		LEFT(1, 0.5, 0, 0.5);
 
 		public final double dx0;
 		public final double dy0;
@@ -59,6 +59,14 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 		setLineThickness(1);
 		this.parent = parent;
 		this.nodeAlignment = nodeAlignment;
+	}
+
+	@Override
+	public void update(boolean dragging) {
+		super.update(dragging);
+		for (GeoMindMapNode child : children) {
+			child.update(dragging);
+		}
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
@@ -258,6 +259,10 @@ public class TransformableRectangle {
 					: new MediaBoundingBox();
 			boundingBox.setRectangle(getBounds());
 			boundingBox.setColor(view.getApplication().getPrimaryColor());
+			boundingBox.setSecondaryColor(view.getApplication().isMebis()
+				? GColor.MOW_MIND_MAP_PLUS_ACTIVE
+				: GColor.MIND_MAP_PLUS_ACTIVE
+			);
 		}
 		boundingBox.updateFrom(geo.toGeoElement());
 		return boundingBox;

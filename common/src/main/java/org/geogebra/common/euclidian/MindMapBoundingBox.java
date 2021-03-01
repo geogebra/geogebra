@@ -66,9 +66,9 @@ public class MindMapBoundingBox extends MediaBoundingBox {
 
 	private void drawPlus(GGraphics2D g2, boolean focused, double x, double y) {
 		if (focused) {
-			g2.setColor(color);
+			g2.setColor(secondaryColor);
 		} else {
-			g2.setColor(GColor.LIGHT_GRAY);
+			g2.setColor(GColor.MIND_MAP_PLUS_INACTIVE);
 		}
 		CIRCLE.setFrameFromCenter(x, y, x - PLUS_RADIUS, y - PLUS_RADIUS);
 		g2.fill(CIRCLE);

@@ -90,6 +90,12 @@ public final class GColor implements GPaint {
 
 	public static final GColor MOW_MIND_MAP_BORDER_COLOR = newColor(0, 121, 163);
 
+	public static final GColor MIND_MAP_PLUS_INACTIVE = newColor(189, 189, 189);
+
+	public static final GColor MIND_MAP_PLUS_ACTIVE = newColor(0, 132, 117);
+
+	public static final GColor MOW_MIND_MAP_PLUS_ACTIVE = MOW_MEBIS_TEAL;
+
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer
 	 * directly to

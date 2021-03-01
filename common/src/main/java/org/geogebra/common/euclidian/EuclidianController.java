@@ -9200,7 +9200,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		view.getBoundingBoxHandlerHit(new GPoint(event.getX(), event.getY()), event.getType());
 
-
 		if (shapeMode(mode) && !app.isRightClick(event)) {
 			getShapeMode().handleMousePressedForShapeMode(event);
 		}

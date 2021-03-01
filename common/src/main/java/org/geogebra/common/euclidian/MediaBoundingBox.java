@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GShape;
@@ -14,10 +15,15 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 	protected RectangleTransformable geo;
 	protected GAffineTransform transform;
 	protected GPoint2D[] corners = new GPoint2D[9];
+	protected GColor secondaryColor;
 	BoundingBoxDelegate delegate;
 
 	public MediaBoundingBox() {
 		delegate = new RotatableBoundingBox(this);
+	}
+
+	public void setSecondaryColor(GColor secondaryColor) {
+		this.secondaryColor = secondaryColor;
 	}
 
 	@Override

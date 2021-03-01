@@ -23,16 +23,6 @@ public class DrawMindMap extends DrawInlineText {
 	}
 
 	@Override
-	public void update() {
-		super.update();
-		if (node != null) {
-			for (GeoMindMapNode child : node.getChildren()) {
-				view.getDrawableFor(child).update();
-			}
-		}
-	}
-
-	@Override
 	public void draw(GGraphics2D g2) {
 		for (GeoMindMapNode childGeo : node.getChildren()) {
 			DrawMindMap child = (DrawMindMap) view.getDrawableFor(childGeo);
