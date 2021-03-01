@@ -110,12 +110,11 @@ public class GeneralPathClipped implements GShape {
 	}
 
 	private void addSegmentsWithSutherladHoloman() {
-		int padding = 5;
 		double[][] clipPoints = {
-				{ -padding, -padding},
-				{ -padding, view.getHeight() + padding},
-				{ view.getWidth() + padding, view.getHeight() + padding},
-				{ view.getWidth() + padding, -padding},
+				{ -0, -0},
+				{ -0, view.getHeight()},
+				{ view.getWidth(), view.getHeight()},
+				{ view.getWidth(), -0},
 		};
 
 		if (needClosePath) {
