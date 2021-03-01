@@ -5265,6 +5265,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				@Override
 				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
 					GeoMindMapNode mindMap = new GeoMindMapNode(cons, location);
+					mindMap.setSize(GeoMindMapNode.MIN_WIDTH, GeoMindMapNode.ROOT_HEIGHT);
 
 					if (app.isMebis()) {
 						mindMap.setBackgroundColor(GColor.MOW_MIND_MAP_BG_COLOR);

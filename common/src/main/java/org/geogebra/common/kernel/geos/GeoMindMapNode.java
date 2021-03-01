@@ -12,10 +12,10 @@ import org.geogebra.common.plugin.GeoClass;
 
 public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextFormatter {
 
-	private static final double MIN_WIDTH = 200;
+	public static final double MIN_WIDTH = 200;
 
-	private static final double ROOT_HEIGHT = 72;
-	private static final double CHILD_HEIGHT = 48;
+	public static final double ROOT_HEIGHT = 72;
+	public static final double CHILD_HEIGHT = 48;
 
 	public enum NodeAlignment {
 		TOP(0.5, 0, 0.5, 1),
@@ -48,17 +48,7 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 	public GeoMindMapNode(Construction cons, GPoint2D location) {
 		super(cons);
 		setLocation(location);
-		setSize(MIN_WIDTH, ROOT_HEIGHT);
 		setLineThickness(1);
-	}
-
-	public GeoMindMapNode(GeoMindMapNode parent, NodeAlignment nodeAlignment, GPoint2D location) {
-		super(parent.cons);
-		setLocation(location);
-		setSize(MIN_WIDTH, CHILD_HEIGHT);
-		setLineThickness(1);
-		this.parent = parent;
-		this.nodeAlignment = nodeAlignment;
 	}
 
 	@Override
@@ -143,6 +133,7 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 		XMLBuilder.appendBorder(sb, this);
+		XMLBuilder.appendParent(sb, parent, nodeAlignment);
 		if (getLineThickness() != 0) {
 			getLineStyleXML(sb);
 		}
@@ -158,6 +149,12 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 
 	public GeoMindMapNode getParent() {
 		return parent;
+	}
+
+	public void setParent(GeoMindMapNode parent, NodeAlignment nodeAlignment) {
+		this.parent = parent;
+		this.nodeAlignment = nodeAlignment;
+		parent.addChild(this);
 	}
 
 	public List<GeoMindMapNode> getChildren() {

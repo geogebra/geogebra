@@ -70,8 +70,9 @@ public class DrawMindMap extends DrawInlineText {
 
 	public GeoMindMapNode addChildNode(EuclidianBoundingBoxHandler addHandler) {
 		GPoint2D newLocation = new GPoint2D(node.getLocation().x, node.getLocation().y);
-		GeoMindMapNode child = new GeoMindMapNode(node, toAlignment(addHandler), newLocation);
-		node.addChild(child);
+		GeoMindMapNode child = new GeoMindMapNode(node.getConstruction(), newLocation);
+		child.setSize(GeoMindMapNode.MIN_WIDTH, GeoMindMapNode.CHILD_HEIGHT);
+		child.setParent(node, toAlignment(addHandler));
 		return child;
 	}
 }
