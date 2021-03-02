@@ -26,14 +26,7 @@ public class ToolbarDockPanelW extends DockPanelW
 	 * New panel with AV and tools
 	 */
 	public ToolbarDockPanelW() {
-		super(
-				App.VIEW_ALGEBRA, // view id
-				"ToolbarWindow", 			// view title phrase
-				null,						// toolbar string
-				false,						// style bar?
-				2, 							// menu order
-				'A'							// menu shortcut
-			);
+		super(App.VIEW_ALGEBRA, null, false);
 	}
 	
 	@Override
@@ -41,6 +34,16 @@ public class ToolbarDockPanelW extends DockPanelW
 		toolbar = new ToolbarPanel(app);
 		setTabId(tabId);
 		return toolbar;
+	}
+
+	@Override
+	public void setAlone(boolean alone) {
+		if (toolbar != null) {
+			toolbar.setAlone(alone);
+		}
+		tryBuildZoomPanel();
+		// call super last to make sure we rebuild *after* zoom panel init
+		super.setAlone(alone);
 	}
 
 	@Override
@@ -168,7 +171,7 @@ public class ToolbarDockPanelW extends DockPanelW
 
 	@Override
 	public int getNavigationRailWidth() {
-		return toolbar.getNavigationRailWidth();
+		return toolbar == null ? 0 : toolbar.getNavigationRailWidth();
 	}
 
 	@Override
@@ -176,5 +179,18 @@ public class ToolbarDockPanelW extends DockPanelW
 		int rows = keyboard ? MIN_ROWS_WITH_KEYBOARD
 				: MIN_ROWS_WITHOUT_KEYBOARD;
 		return rows * ToolbarPanel.CLOSED_HEIGHT_PORTRAIT;
+	}
+
+	@Override
+	public void onOrientationChange() {
+		if (toolbar != null) {
+			toolbar.onOrientationChange(isAlone());
+		}
+	}
+
+	public void hideOppositeView() {
+		if (toolbar != null) {
+			toolbar.hideOppositeView();
+		}
 	}
 }

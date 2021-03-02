@@ -6,6 +6,8 @@ import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.io.layout.DockSplitPaneData;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -526,16 +528,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	}
 
 	@Override
-	public String toString(String prefix) {
-		String prefix2 = prefix + "-";
-		return "\n" + prefix + "split=" + getDividerLocation() + "\n" + prefix
-				+ "width=" + getOffsetWidth() + "\n" + prefix + "left"
-				+ ((DockComponent) getLeftComponent()).toString(prefix2) + "\n"
-				+ prefix + "right"
-				+ ((DockComponent) getRightComponent()).toString(prefix2);
-	}
-
-	@Override
 	public boolean updateResizeWeight() {
 		boolean takesNewSpaceLeft = false;
 		boolean takesNewSpaceRight = false;
@@ -573,6 +565,11 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		if (rightComponent != null) {
 			((DockComponent) rightComponent).setDockPanelsVisible(visible);
 		}
+	}
+
+	public void setComponentOrder(DockPanelW left, DockPanelW right) {
+		leftComponent = left;
+		rightComponent = right;
 	}
 
 	/*************************************************************************
@@ -812,5 +809,55 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 			return ((DockSplitPaneW) rightChild).isBottomRight(needle);
 		}
 		return false;
+	}
+
+	@Override
+	public void onDragEnd() {
+		if (!app.isUnbundled()) {
+			return;
+		}
+		if (!app.isPortrait() && getDividerLocation() > 0.9 * getOffsetWidth()) {
+			hideView(leftComponent);
+		}
+		if (app.isPortrait() && getDividerLocation() < 0.1 * getOffsetHeight()) {
+			hideView(rightComponent);
+		}
+	}
+
+	private void hideView(Widget hide) {
+		if (hide instanceof ToolbarDockPanelW) {
+			((ToolbarDockPanelW) hide).hideOppositeView();
+		}
+	}
+
+	@Override
+	public void setWidgetSize(Widget widget, double size) {
+		LayoutData data = (LayoutData) widget.getLayoutData();
+		if (data.direction == Direction.CENTER) {
+			Widget opposite = getOpposite(widget);
+			if (opposite == null) {
+				Log.error("no opposite");
+				return;
+			}
+			double fullSize = getMaxWidgetSize();
+
+			super.setWidgetSize(opposite, fullSize - size);
+		} else {
+			super.setWidgetSize(widget, size);
+		}
+	}
+
+	/**
+	 * @return total height if for vertical split, width otherwise
+	 */
+	public int getMaxWidgetSize() {
+		return this.orientation == SwingConstants.VERTICAL_SPLIT
+				? getOffsetHeight() : getOffsetWidth();
+	}
+
+	@Override
+	public String toString() {
+		char splitter = this.orientation == SwingConstants.VERTICAL_SPLIT ? '-' : '|';
+		return "[" + leftComponent + splitter + rightComponent + "]";
 	}
 }

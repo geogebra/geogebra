@@ -231,7 +231,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
 			Event.releaseCapture(getElement());
 			event.preventDefault();
-
+			splitPanel.onDragEnd();
 		}
 
 		private void startDrag(Event event, boolean horizontal) {
@@ -350,7 +350,11 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 		}
   }
 
-  class VSplitter extends Splitter {
+	protected void onDragEnd() {
+		// overridden in subclasses
+	}
+
+	class VSplitter extends Splitter {
     public VSplitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
       super(target, reverse, splitPanel);
       impl.setToVertical(splitterSize);
