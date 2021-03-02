@@ -318,7 +318,7 @@ public interface GGraphics2D {
 
 	void setClip(GShape shape);
 
-	void setClip(GShape shape, boolean restoreSaveContext);
+	void setClip(GShape shape, boolean saveContext);
 
 	void resetClip();
 
@@ -327,7 +327,7 @@ public interface GGraphics2D {
 	void setClip(int x, int y, int width, int height);
 
 	void setClip(int x, int y, int width, int height,
-			boolean restoreSaveContext);
+			boolean saveContext);
 
 	void drawRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight);

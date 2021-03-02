@@ -44,7 +44,7 @@ public class G3DPropertiesFactory implements PropertiesFactory {
         ArrayList<Property> propertyList = new ArrayList<>();
 
         propertyList.add(new GraphicsPositionProperty(app));
-        if (app.getActiveEuclidianView().isAREnabled()) {
+        if (app.getActiveEuclidianView().isXREnabled()) {
             propertyList.add(new ARRatioPropertyCollection(app, localization));
             propertyList.add(new BackgroundProperty(app, localization));
         }

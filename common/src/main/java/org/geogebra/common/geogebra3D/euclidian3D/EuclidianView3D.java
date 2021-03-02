@@ -28,7 +28,6 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.euclidian3D.Mouse3DEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimator;
 import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimator.AnimationType;
-import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawAngle3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawAxis3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawClippingCube3D;
@@ -67,6 +66,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
+import org.geogebra.common.geogebra3D.euclidian3D.xr.XRManagerInterface;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
@@ -303,9 +303,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	private EuclidianView3DAnimator animator;
 
-	//Augmented Reality
-	private boolean mIsARDrawing;
-	private boolean mIsAREnabled;
+	//Mixed Reality and Augmented Reality
+	private boolean mIsXRDrawing;
+	private boolean mIsXREnabled;
 	private Target target;
 
 	// AR Ratio
@@ -867,7 +867,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	private void updateRotationMatrix() {
-		if (mIsARDrawing) {
+		if (mIsXRDrawing) {
             CoordMatrix.setRotation3DMatrix(CoordMatrix.X_AXIS,
                     (-90) * EuclidianController3D.ANGLE_TO_DEGREES, tmpMatrix1);
             CoordMatrix.setRotation3DMatrix(CoordMatrix.Z_AXIS,
@@ -1037,7 +1037,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            returned direction
 	 */
 	final public void getHittingDirection(Coords ret) {
-		if (mIsAREnabled) {
+		if (mIsXREnabled) {
 			renderer.getHittingDirectionAR(ret);
 		} else {
 			getCompanion().getHittingDirection(ret);
@@ -1497,7 +1497,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            returned origin
 	 */
 	final public void getHittingOrigin(GPoint mouse, Coords ret) {
-		if (isAREnabled()) {
+		if (isXREnabled()) {
 			renderer.getHittingOriginAR(ret);
 		} else {
 			getCompanion().getHittingOrigin(mouse, ret);
@@ -2033,7 +2033,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void setHits(GPoint p, PointerEventType type) {
-	    if (isAREnabled() && ((EuclidianController3D) euclidianController)
+	    if (isXREnabled() && ((EuclidianController3D) euclidianController)
                 .isCurrentModeForCreatingPoint()) {
             renderer.setHits(p, getCapturingThreshold(PointerEventType.MOUSE));
         } else {
@@ -2379,7 +2379,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	private void flipCursorNormal() {
-	    if (isAREnabled()) {
+	    if (isXREnabled()) {
 	        getHittingDirection(tmpCoordsLength4);
             if (cursorNormal.dotproduct3(tmpCoordsLength4) > 0) {
                 cursorNormal.mulInside(-1);
@@ -2396,7 +2396,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * update cursor3D matrix
 	 */
 	public void updateMatrixForCursor3D() {
-	    if (isAREnabled() && !isARDrawing()) {
+	    if (isXREnabled() && !isXRDrawing()) {
 	        return;
         }
 		double t;
@@ -3540,7 +3540,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		// update, but not in case where view changed by rotation
 		if (viewChangedByTranslate() || viewChangedByZoom()) {
 			// update clipping cube
-			double[][] minMax = isAREnabled()
+			double[][] minMax = isXREnabled()
 					? clippingCubeDrawable.updateMinMaxLarge()
 					: updateClippingCubeMinMax();
 			// e.g. Corner[] algos are updated by clippingCubeDrawable
@@ -4015,7 +4015,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public boolean isGrayScaled() {
 		return projection == PROJECTION_GLASSES
-                && !isAREnabled()
+                && !isXREnabled()
 				&& !getCompanion().isStereoBuffered()
 				&& isGlassesGrayScaled();
 	}
@@ -4639,7 +4639,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		if (renderer != null) {
 			renderer.setWaitForUpdateClearColor();
 		}
-		if (isAREnabled()) {
+		if (isXREnabled()) {
 			renderer.setBackgroundColor();
 		}
 	}
@@ -4999,13 +4999,13 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * @param isARDrawing
-	 *            whether AR is active
+	 * @param isXRDrawing
+	 *            whether XR is active
 	 */
-	public void setARDrawing(boolean isARDrawing) {
-		if (mIsARDrawing != isARDrawing) {
-			mIsARDrawing = isARDrawing;
-			if (isARDrawing) {
+	public void setXRDrawing(boolean isXRDrawing) {
+		if (mIsXRDrawing != isXRDrawing) {
+			mIsXRDrawing = isXRDrawing;
+			if (isXRDrawing) {
                 boolean boundsNeededUpdate = updateObjectsBounds(true,
                         false, true);
                 if (boundsNeededUpdate) {
@@ -5068,20 +5068,20 @@ public abstract class EuclidianView3D extends EuclidianView
     }
 
 	/**
-	 * @return whether AR is active
+	 * @return whether XR is active
 	 */
-	public boolean isARDrawing() {
-		return mIsARDrawing;
+	public boolean isXRDrawing() {
+		return mIsXRDrawing;
 	}
 
 	/**
-	 * set AR enabled/disabled
+	 * set XR enabled/disabled
 	 * 
-	 * @param isAREnabled
+	 * @param isXREnabled
 	 *            flag
 	 */
-	public void setAREnabled(boolean isAREnabled) {
-		mIsAREnabled = isAREnabled;
+	public void setXREnabled(boolean isXREnabled) {
+		mIsXREnabled = isXREnabled;
         if (euclidianController.isCreatingPointAR()) {
             target.updateType(this);
         }
@@ -5090,8 +5090,8 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	@Override
-	public boolean isAREnabled() {
-		return mIsAREnabled;
+	public boolean isXREnabled() {
+		return mIsXREnabled;
 	}
 
 	@Override
@@ -5100,7 +5100,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	public boolean showPlaneOutlineIfNeeded() {
-		return !isARDrawing();
+		return !isXRDrawing();
 	}
 
 	@Override
@@ -5148,7 +5148,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            point
 	 */
     public void enlargeClippingForPoint(GeoPointND point) {
-        if (isAREnabled()) {
+        if (isXREnabled()) {
             if (clippingCubeDrawable.enlargeFor(point.getInhomCoordsInD3())) {
                 setViewChangedByZoom();
                 setWaitForUpdate();
@@ -5160,7 +5160,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * enlarge clipping for AR
      */
     public void enlargeClippingWhenAREnabled() {
-        if (isAREnabled()) {
+        if (isXREnabled()) {
             if (updateObjectsBounds(true, true, true)) {
                 boolean needsUpdate1 = clippingCubeDrawable.enlargeFor(boundsMin);
                 boolean needsUpdate2 = clippingCubeDrawable.enlargeFor(boundsMax);
@@ -5228,7 +5228,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void setARRatioIsShown(boolean arRatioIsShown) {
 		this.arRatioIsShown = arRatioIsShown;
-		ARManagerInterface arManager = renderer.getARManager();
+		XRManagerInterface arManager = renderer.getXRManager();
 		if (arManager != null) {
 			arManager.setRatioIsShown(arRatioIsShown);
 		}
@@ -5260,7 +5260,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void setARRatioMetricSystem(int arRatioMetricSystem) {
 		this.arRatioMetricSystem = arRatioMetricSystem;
-		ARManagerInterface arManager = renderer.getARManager();
+		XRManagerInterface arManager = renderer.getXRManager();
 		if (arManager != null) {
 			arManager.calculateAndShowRatio();
 		}

@@ -33,6 +33,7 @@ publishing {
 dependencies {
 	api project(':editor-base')
     implementation project(':renderer-android')
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
 }
 
 android {
@@ -41,10 +42,12 @@ android {
 
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
+        multiDexEnabled true
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }

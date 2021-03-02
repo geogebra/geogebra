@@ -442,7 +442,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	protected boolean checkXYMinMax(Coords v) {
-	    if (view3D.isAREnabled()) {
+	    if (view3D.isXREnabled()) {
 	        return false;
         }
 
@@ -1404,7 +1404,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			Coords vn = geo.getMainDirection();
 			if (vn != null) {
 				if (view3D.hasMouse()) {
-				    if (view3D.isAREnabled()) {
+				    if (view3D.isXREnabled()) {
 				        view3D.setRotAnimationAR(view3D.getCursorNormal());
                     } else {
                         view3D.setRotAnimation(view3D.getCursorNormal());
@@ -1951,7 +1951,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		switchModeForMousePressed(event);
 	}
 
-	private void processPressForRotate3D(PointerEventType pointerEventType) {
+	protected void processPressForRotate3D(PointerEventType pointerEventType) {
 		if (view3D.isRotAnimated()) {
 			view3D.stopAnimation();
 			viewRotationOccured = true;
@@ -3487,7 +3487,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected boolean viewHasHitsForMouseDragged() {
 		if (moveMode == MOVE_POINT
                 && (view3D.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_ALREADY
-                || view3D.isAREnabled())) {
+                || view3D.isXREnabled())) {
 			// if already a point moved, or
 		    // if a point is under the mouse, don't try to find another hit
 			return movedGeoPoint != null || getView().getHits().containsGeoPoint();
@@ -4470,7 +4470,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 */
     public void scheduleMouseExit(AbstractEvent event) {
         cancelMouseExit();
-        if (!view3D.isAREnabled() || !isCurrentModeForCreatingPoint()) {
+        if (!view3D.isXREnabled() || !isCurrentModeForCreatingPoint()) {
             if (schedulerForMouseExit == null) {
                 SchedulerFactory factory = SchedulerFactory.getPrototype();
                 if (factory != null) {
@@ -4511,7 +4511,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	public boolean isCreatingPointAR() {
-		return view3D.isAREnabled() && isCurrentModeForCreatingPoint();
+		return view3D.isXREnabled() && isCurrentModeForCreatingPoint();
 	}
 
 	@Override

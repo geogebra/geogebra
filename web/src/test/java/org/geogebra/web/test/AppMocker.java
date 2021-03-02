@@ -28,14 +28,8 @@ public class AppMocker {
 	private static class MyLog extends Log {
 
 		@Override
-		protected void print(String logEntry, Level level) {
+		public void print(Level level, Object logEntry) {
 			System.out.println(logEntry);
-		}
-
-		@Override
-		public void doPrintStacktrace(String message) {
-			new Throwable(message).printStackTrace();
-
 		}
 	}
 
