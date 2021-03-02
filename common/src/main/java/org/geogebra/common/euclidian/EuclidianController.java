@@ -5268,11 +5268,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					mindMap.setSize(GeoMindMapNode.MIN_WIDTH, GeoMindMapNode.ROOT_HEIGHT);
 
 					if (app.isMebis()) {
-						mindMap.setBackgroundColor(GColor.MOW_MIND_MAP_BG_COLOR);
-						mindMap.setBorderColor(GColor.MOW_MIND_MAP_BORDER_COLOR);
+						mindMap.setBackgroundColor(GColor.MOW_MIND_MAP_PARENT_BG_COLOR);
+						mindMap.setBorderColor(GColor.MOW_MIND_MAP_PARENT_BORDER_COLOR);
 					} else {
-						mindMap.setBackgroundColor(GColor.MIND_MAP_BG_COLOR);
-						mindMap.setBorderColor(GColor.MIND_MAP_BORDER_COLOR);
+						mindMap.setBackgroundColor(GColor.MIND_MAP_PARENT_BG_COLOR);
+						mindMap.setBorderColor(GColor.MIND_MAP_PARENT_BORDER_COLOR);
 					}
 
 					return mindMap;

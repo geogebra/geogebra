@@ -82,13 +82,21 @@ public final class GColor implements GPaint {
 
 	public static final GColor MOW_TABLE_HEADING_COLOR = newColor(65, 121, 140, 102);
 
-	public static final GColor MIND_MAP_BG_COLOR = newColor(76, 66, 161, 41);
+	public static final GColor MIND_MAP_PARENT_BG_COLOR = newColor(76, 66, 161, 41);
 
-	public static final GColor MIND_MAP_BORDER_COLOR = newColor(76, 66, 161);
+	public static final GColor MIND_MAP_PARENT_BORDER_COLOR = newColor(76, 66, 161);
 
-	public static final GColor MOW_MIND_MAP_BG_COLOR = newColor(179, 201, 209, 97);
+	public static final GColor MIND_MAP_CHILD_BG_COLOR = newColor(153, 132, 255, 20);
 
-	public static final GColor MOW_MIND_MAP_BORDER_COLOR = newColor(0, 121, 163);
+	public static final GColor MIND_MAP_CHILD_BORDER_COLOR = newColor(153, 132, 255);
+
+	public static final GColor MOW_MIND_MAP_PARENT_BG_COLOR = newColor(179, 201, 209, 97);
+
+	public static final GColor MOW_MIND_MAP_PARENT_BORDER_COLOR = newColor(0, 121, 163);
+
+	public static final GColor MOW_MIND_MAP_CHILD_BG_COLOR = newColor(0, 168, 213, 20);
+
+	public static final GColor MOW_MIND_MAP_CHILD_BORDER_COLOR = newColor(0, 168, 213);
 
 	public static final GColor MIND_MAP_PLUS_INACTIVE = newColor(189, 189, 189);
 

@@ -73,6 +73,10 @@ public class DrawMindMap extends DrawInlineText {
 		GeoMindMapNode child = new GeoMindMapNode(node.getConstruction(), newLocation);
 		child.setSize(GeoMindMapNode.MIN_WIDTH, GeoMindMapNode.CHILD_HEIGHT);
 		child.setParent(node, toAlignment(addHandler));
+		child.setBackgroundColor(child.getKernel().getApplication().isMebis()
+				? GColor.MOW_MIND_MAP_CHILD_BG_COLOR : GColor.MIND_MAP_CHILD_BG_COLOR);
+		child.setBorderColor(child.getKernel().getApplication().isMebis()
+				? GColor.MOW_MIND_MAP_CHILD_BORDER_COLOR : GColor.MIND_MAP_CHILD_BORDER_COLOR);
 		return child;
 	}
 }
