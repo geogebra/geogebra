@@ -335,7 +335,8 @@
 		padding: 5px;
 		background-color: white;
 		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
-		z-index: $z-dialog;
+		z-index: $z-dialog-over-keyboard;
+		will-change: transform;
 
 		&.loadinganimation {
 			background-color: rgba(255, 255, 255, 0);
