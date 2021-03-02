@@ -138,14 +138,14 @@ public class MathFunction extends MathContainer {
 	/**
 	 * @return opening bracket
 	 */
-	public String getOpeningBracket() {
+	public char getOpeningBracket() {
 		return meta.getOpeningBracket();
 	}
 
 	/**
 	 * @return closing bracket
 	 */
-	public String getClosingBracket() {
+	public char getClosingBracket() {
 		return meta.getClosingBracket();
 	}
 

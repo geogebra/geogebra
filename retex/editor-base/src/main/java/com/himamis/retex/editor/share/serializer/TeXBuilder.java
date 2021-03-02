@@ -313,7 +313,8 @@ public class TeXBuilder {
 		default:
 			return new RowAtom(
 				build(argument.getArgument(0)),
-				buildFenced('(', ')', argument, 1)
+				buildFenced(argument.getOpeningBracket(), argument.getClosingBracket(),
+						argument, 1)
 			);
 		}
 	}
