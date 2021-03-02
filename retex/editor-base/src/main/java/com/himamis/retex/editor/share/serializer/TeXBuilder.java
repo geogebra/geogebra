@@ -9,6 +9,7 @@ import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.ArrayOfAtoms;
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.CharAtom;
@@ -19,6 +20,7 @@ import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.NthRoot;
 import com.himamis.retex.renderer.share.PhantomAtom;
+import com.himamis.retex.renderer.share.RomanAtom;
 import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.SMatrixAtom;
 import com.himamis.retex.renderer.share.ScaleAtom;
@@ -27,6 +29,8 @@ import com.himamis.retex.renderer.share.SymbolAtom;
 import com.himamis.retex.renderer.share.Symbols;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXParser;
+import com.himamis.retex.renderer.share.TextStyle;
+import com.himamis.retex.renderer.share.TextStyleAtom;
 import com.himamis.retex.renderer.share.UnderOverArrowAtom;
 import com.himamis.retex.renderer.share.commands.CommandOpName;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -183,6 +187,11 @@ public class TeXBuilder {
 
 			final Atom mat = new SMatrixAtom(atoms, false);
 			return new FencedAtom(mat, op, cl);
+		} else if (array.getOpenKey() == '"') {
+			Atom argument = new RowAtom(newCharAtom(Unicode.OPEN_DOUBLE_QUOTE),
+					build(array.getArgument(0)), newCharAtom(Unicode.CLOSE_DOUBLE_QUOTE));
+
+			return new RomanAtom(new TextStyleAtom(argument, TextStyle.MATHNORMAL));
 		} else {
 			return buildFenced(array.getOpenKey(), array.getCloseKey(), array, 0);
 		}
