@@ -299,4 +299,17 @@ public class PerspectiveDecoder {
 			Log.error("id '" + viewShortName + "' doesn't exist");
 		}
 	}
+
+	/**
+	 * Checks allowed views, asssumes we're in an unbundled app
+	 * @param viewId view ID
+	 * @param forcedPerspective perspective number (as string)
+	 * @return which views are allowed in the perspective
+	 */
+	public static boolean isAllowed(int viewId, String forcedPerspective) {
+		if (String.valueOf(Perspective.GRAPHER_3D).equals(forcedPerspective)) {
+			return viewId == App.VIEW_ALGEBRA || viewId == App.VIEW_EUCLIDIAN3D;
+		}
+		return viewId == App.VIEW_ALGEBRA || viewId == App.VIEW_EUCLIDIAN;
+	}
 }
