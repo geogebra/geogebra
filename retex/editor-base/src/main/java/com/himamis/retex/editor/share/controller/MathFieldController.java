@@ -224,6 +224,7 @@ public class MathFieldController {
 	}
 
 	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
-		this.texSerializer = new TeXSerializer(syntaxAdapter);
+		texSerializer.setSyntaxAdapter(syntaxAdapter);
+		texBuilder.setSyntaxAdapter(syntaxAdapter);
 	}
 }

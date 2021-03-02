@@ -2,6 +2,7 @@ package com.himamis.retex.editor.share.serializer;
 
 import java.util.HashMap;
 
+import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
@@ -52,7 +53,14 @@ public class TeXBuilder {
 
 	private MathSequence currentField;
 	private HashMap<Atom, MathComponent> atomToComponent;
-	private TeXParser parser;
+	private SyntaxAdapter syntaxAdapter;
+	private final TeXParser parser;
+	private final TeXSerializer teXSerializer;
+
+	public TeXBuilder() {
+		parser = new TeXParser("");
+		teXSerializer = new TeXSerializer();
+	}
 
 	private Atom buildSequence(MathSequence mathFormula) {
 		RowAtom ra = new RowAtom();
@@ -157,9 +165,6 @@ public class TeXBuilder {
 	}
 
 	private Atom newCharAtom(char unicode) {
-		if (parser == null) {
-			parser = new TeXParser("");
-		}
 		Atom ret = parser.getAtomFromUnicode(unicode, true);
 		if (ret instanceof SymbolAtom) {
 			ret = ((SymbolAtom) ret).duplicate();
@@ -320,8 +325,16 @@ public class TeXBuilder {
 		case VEC:
 			return new UnderOverArrowAtom(build(argument.getArgument(0)), false, true);
 		default:
+			StringBuilder functionName = new StringBuilder();
+			teXSerializer.serialize(argument.getArgument(0), functionName);
+			Atom function = build(argument.getArgument(0));
+
+			if (teXSerializer.isFunction(functionName.toString())) {
+				function = new RomanAtom(function);
+			}
+
 			return new RowAtom(
-				build(argument.getArgument(0)),
+				function,
 				buildFenced(argument.getOpeningBracket(), argument.getClosingBracket(),
 						argument, 1)
 			);
@@ -353,4 +366,7 @@ public class TeXBuilder {
 		return atomToComponent.get(atom);
 	}
 
+	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
+		this.syntaxAdapter = syntaxAdapter;
+	}
 }
