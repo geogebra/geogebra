@@ -161,20 +161,15 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	private void updateModelValues() {
-		double[] range = getRangeOrResetDefaults();
+		double[] range = createRangeOrDefault();
 		model.setValues(range);
 	}
 
-	private double[] getRangeOrResetDefaults() {
+	private double[] createRangeOrDefault() {
 		try {
 			return DoubleUtil.range(getValuesMin(), getValuesMax(), getValuesStep());
 		} catch (OutOfMemoryError error) {
-			try {
-				setValues(TableSettings.DEFAULT_MIN, TableSettings.DEFAULT_MAX, TableSettings.DEFAULT_STEP);
-				return DoubleUtil.range(getValuesMin(), getValuesMax(), getValuesStep());
-			} catch (InvalidValuesException | OutOfMemoryError ignored) {
-				return DEFAULT_RANGE;
-			}
+			return DEFAULT_RANGE;
 		}
 	}
 
