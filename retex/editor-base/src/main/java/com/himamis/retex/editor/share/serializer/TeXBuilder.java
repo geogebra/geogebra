@@ -165,6 +165,9 @@ public class TeXBuilder {
 	}
 
 	private Atom newCharAtom(char unicode) {
+		if (unicode == '*') {
+			return SymbolAtom.get("cdot");
+		}
 		Atom ret = parser.getAtomFromUnicode(unicode, true);
 		if (ret instanceof SymbolAtom) {
 			ret = ((SymbolAtom) ret).duplicate();
