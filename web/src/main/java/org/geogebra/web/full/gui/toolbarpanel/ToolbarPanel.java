@@ -68,7 +68,6 @@ public class ToolbarPanel extends FlowPanel
 	public static final int OPEN_MIN_WIDTH_LANDSCAPE = 160;
 	/** Closed height of header in portrait mode */
 	public static final int CLOSED_HEIGHT_PORTRAIT = 56;
-	private static final int HDRAGGER_WIDTH = 8;
 	private static final int OPEN_ANIM_TIME = 200;
 	/** Header of the panel with buttons and tabs */
 	NavigationRail navRail;
@@ -227,7 +226,8 @@ public class ToolbarPanel extends FlowPanel
 	public int getTabWidth() {
 		int w = this.getOffsetWidth() - getNavigationRailWidth();
 		if (isAnimating() && !app.isPortrait() && lastOpenWidth != null) {
-			w = lastOpenWidth - getNavigationRailWidth() - HDRAGGER_WIDTH;
+			w = Math.max(lastOpenWidth, this.getOffsetWidth())
+					- getNavigationRailWidth();
 		}
 		return Math.max(w, 0);
 	}
@@ -329,6 +329,7 @@ public class ToolbarPanel extends FlowPanel
 		close.addFastClickHandler(source -> {
 			navRail.setAnimating(true);
 			showOppositeView();
+			resizeTabs();
 			app.invokeLater(this::closeAnimation);
 		});
 		heading.add(close);
@@ -340,12 +341,12 @@ public class ToolbarPanel extends FlowPanel
 			dockParent.addStyleName("singlePanel");
 			int parentOffsetWidth = dockParent.getMaxWidgetSize();
 			dockParent.setWidgetSize(getToolbarDockPanel(), parentOffsetWidth - 1);
-			setLastOpenWidth(parentOffsetWidth);
+			double targetSize = 2 * parentOffsetWidth / 3.0;
+			setLastOpenWidth((int) targetSize);
 			dockParent.forceLayout();
 			updateDraggerStyle();
 			undoRedoPanel.addStyleName("withTransition");
-			dockParent.setWidgetSize(getToolbarDockPanel(),
-					2 * parentOffsetWidth / 3.0);
+			dockParent.setWidgetSize(getToolbarDockPanel(),	targetSize);
 			dockParent.animate(OPEN_ANIM_TIME, fullscreenClose(dockParent));
 		}
 	}
@@ -354,7 +355,6 @@ public class ToolbarPanel extends FlowPanel
 		return new AnimationCallback() {
 			@Override
 			public void onAnimationComplete() {
-				Log.error("complete");
 				navRail.setAnimating(false);
 				undoRedoPanel.removeStyleName("withTransition");
 				setLastOpenWidth(getOffsetWidth());
@@ -1225,7 +1225,6 @@ public class ToolbarPanel extends FlowPanel
 		if (heading != null) {
 			updateHeadingStyle(alone);
 		}
-		//getToolbarDockPanel().tryBuildZoomPanel();
 	}
 
 	private void updateHeadingStyle(boolean alone) {
