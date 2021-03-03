@@ -844,24 +844,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		KeyboardInputAdapter.insertString(mathFieldInternal, text);
 	}
 
-	/**
-	 * add derivative and move cursor back before /
-	 * @param text - d/dx
-	 */
-	public void handleDerivative(String text) {
-		String[] parts = text.split("/");
-		insertString(parts[0]);
-		insertFunction("frac");
-		insertString(parts[1]);
-		pressKeyLeft();
-		pressKeyLeft();
-		pressKeyLeft();
-	}
-
-	private void pressKeyLeft() {
-		getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
-	}
-
 	private Element getHiddenTextArea() {
 		if (clip == null) {
 			clip = new SimplePanel();

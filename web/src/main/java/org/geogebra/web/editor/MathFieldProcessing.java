@@ -4,15 +4,12 @@ import javax.annotation.Nullable;
 
 import org.geogebra.common.gui.inputfield.AnsProvider;
 import org.geogebra.common.gui.inputfield.HasLastItem;
-import org.geogebra.keyboard.web.KeyboardConstants;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
-import com.himamis.retex.editor.share.meta.FunctionGroup;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
-import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.editor.web.MathFieldW;
 
 /**
@@ -98,71 +95,7 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	@Override
 	public void insertString(String text) {
-		if (text.equals(KeyboardConstants.A_POWER_X)) {
-			mf.insertFunction("^");
-		} else if (text.equals(Unicode.SUPERSCRIPT_2 + "")) {
-			mf.insertFunction("^");
-			type("2");
-			mf.getKeyListener().onKeyPressed(
-					new KeyEvent(JavaKeyCodes.VK_RIGHT, 0, '\0'));
-		} else if (text.equals(Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "")) {
-			mf.insertFunction("^");
-			type("-1");
-			mf.getKeyListener()
-					.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_RIGHT, 0, '\0'));
-		} else if ((Unicode.DIVIDE + "").equals(text)) {
-			KeyboardInputAdapter.emulateInput(mf.getInternal(),
-					Unicode.DIVIDE + "");
-			mf.getInternal().onDivisionInserted();
-		} else if ("/".equals(text)) {
-			mf.insertFunction("frac");
-		} else if (text.charAt(0) == Unicode.SQUARE_ROOT) {
-			mf.insertFunction("sqrt");
-		} else if ("log10".equals(text)) {
-			type("log_10");
-			mf.getKeyListener()
-					.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_RIGHT, 0, '\0'));
-			type("(");
-		} else if ("10^".equals(text)) {
-			type("10");
-			mf.insertFunction("^");
-		} else if (text.equals(Unicode.EULER_CHAR + "^")) {
-			mf.getKeyListener()
-					.onKeyTyped(new KeyEvent(0, 0, Unicode.EULER_CHAR));
-			mf.insertFunction("^");
-		} else if ("log_".equals(text)) {
-			type("log(");
-			mf.getKeyListener()
-					.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT, 0, '\0'));
-		} else if ("$defint".equals(text) || "$prodeq".equals(text) || "$sumeq".equals(text)
-				|| "$limeq".equals(text) || "$vec".equals(text)) {
-			mf.insertFunction(text);
-		} else {
-			if ("d/dx".equals(text)) {
-				mf.handleDerivative(text);
-				return;
-			}
-			if (text.contains("/") || text.contains("^")) {
-				mf.insertString(text);
-				return;
-			}
-			if (text.length() > 1 && FunctionGroup.isAcceptable(text)) {
-				mf.insertFunction(text);
-				return;
-			}
-			KeyboardInputAdapter.insertString(mf.getInternal(), text);
-		}
-	}
-
-	private void type(String text) {
-		for (int i = 0; i < text.length(); i++) {
-			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, text.charAt(i)),
-					i == text.length() - 1);
-
-		}
-		if ("()".equals(text) || "{}".equals(text) || "[]".equals(text)) {
-			onArrow(ArrowType.left);
-		}
+		KeyboardInputAdapter.onKeyboardInput(mf.getInternal(), text);
 	}
 
 	@Override
