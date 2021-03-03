@@ -8106,15 +8106,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// bounding box handler hit
 		Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, e.getType());
 		if (d != null) {
-			if (view.getHitHandler().isAddHandler()) {
-				GeoMindMapNode child = ((DrawMindMap) d).addChildNode(view.getHitHandler());
-				child.setLabel(null);
-				selectAndShowSelectionUI(child);
+			setBoundingBoxCursor();
+			if (!view.getHitHandler().isAddHandler()) {
+				setResizedShape(d);
+			} else {
 				return;
 			}
-
-			setBoundingBoxCursor();
-			setResizedShape(d);
 		} else if (isMultiSelection() && wasBoundingBoxHit) {
 			isMultiResize = true;
 		}
@@ -9922,6 +9919,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						new GeoNumeric(kernel.getConstruction(), distance));
 				firstSelectedPoint = null;
 				storeUndoInfo();
+				return;
+			}
+		}
+
+		if (view.getHitHandler().isAddHandler() && !draggingBeyondThreshold) {
+			Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, event.getType());
+			if (d instanceof DrawMindMap) {
+				GeoMindMapNode child = ((DrawMindMap) d).addChildNode(view.getHitHandler());
+				child.setLabel(null);
+				selectAndShowSelectionUI(child);
+				view.setHitHandler(null);
 				return;
 			}
 		}

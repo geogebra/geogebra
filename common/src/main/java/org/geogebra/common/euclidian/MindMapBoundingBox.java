@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.geos.GeoMindMapNode;
 
 public class MindMapBoundingBox extends MediaBoundingBox {
 
@@ -20,7 +21,13 @@ public class MindMapBoundingBox extends MediaBoundingBox {
 			EuclidianBoundingBoxHandler.ADD_LEFT
 	};
 
-	private EuclidianBoundingBoxHandler focusedHandler;
+	private final EuclidianView view;
+	private final GeoMindMapNode node;
+
+	public MindMapBoundingBox(EuclidianView view, GeoMindMapNode node) {
+		this.view = view;
+		this.node = node;
+	}
 
 	@Override
 	protected void createHandlers() {
@@ -32,9 +39,13 @@ public class MindMapBoundingBox extends MediaBoundingBox {
 		drawRectangle(g2);
 		drawHandlers(g2);
 		for (int i = 0; i < ADD_HANDLERS.length; i++) {
+			if (node.getAlignment() != null && i == node.getAlignment().ordinal()) {
+				continue;
+			}
+
 			drawPlus(
 					g2,
-					focusedHandler == ADD_HANDLERS[i],
+					view.getHitHandler() == ADD_HANDLERS[i],
 					corners[4 + i].x + ADD_HANDLERS[i].getDx() * PLUS_DISTANCE,
 					corners[4 + i].y + ADD_HANDLERS[i].getDy() * PLUS_DISTANCE
 			);
@@ -48,11 +59,11 @@ public class MindMapBoundingBox extends MediaBoundingBox {
 			double plusY = corners[4 + i].y + ADD_HANDLERS[i].getDy() * PLUS_DISTANCE;
 
 			if (Math.hypot(x - plusX, y - plusY) < PLUS_RADIUS) {
-				return focusedHandler = ADD_HANDLERS[i];
+				return ADD_HANDLERS[i];
 			}
 		}
 
-		return focusedHandler = super.getHitHandler(x, y, hitThreshold);
+		return super.getHitHandler(x, y, hitThreshold);
 	}
 
 	@Override

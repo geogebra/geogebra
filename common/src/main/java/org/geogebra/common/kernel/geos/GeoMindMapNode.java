@@ -18,10 +18,11 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 	public static final double CHILD_HEIGHT = 48;
 
 	public enum NodeAlignment {
-		TOP(0.5, 0, 0.5, 1),
-		RIGHT(0, 0.5, 1, 0.5),
+		// The order is intentionally inverted
 		BOTTOM(0.5, 1, 0.5, 0),
-		LEFT(1, 0.5, 0, 0.5);
+		LEFT(1, 0.5, 0, 0.5),
+		TOP(0.5, 0, 0.5, 1),
+		RIGHT(0, 0.5, 1, 0.5);
 
 		public final double dx0;
 		public final double dy0;

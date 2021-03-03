@@ -255,7 +255,7 @@ public class TransformableRectangle {
 	public MediaBoundingBox getBoundingBox() {
 		if (boundingBox == null) {
 			boundingBox = geo instanceof GeoMindMapNode
-					? new MindMapBoundingBox()
+					? new MindMapBoundingBox(view, (GeoMindMapNode) geo)
 					: new MediaBoundingBox();
 			boundingBox.setRectangle(getBounds());
 			boundingBox.setColor(view.getApplication().getPrimaryColor());
