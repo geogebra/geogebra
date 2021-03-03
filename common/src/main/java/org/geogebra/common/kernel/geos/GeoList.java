@@ -1901,7 +1901,7 @@ public class GeoList extends GeoElement
 	}
 
 	private int getIndexFromParameter(double t) {
-		int index = (int) Math.floor(t);
+		int index = t < 0 ? 0 : (int) Math.floor(t);
 		if (index > elements.size() - 1 || !(elements.get(index).isGeoPoint())) {
 			return index;
 		}
