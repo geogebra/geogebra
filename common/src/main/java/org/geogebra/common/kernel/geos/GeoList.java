@@ -1839,7 +1839,7 @@ public class GeoList extends GeoElement
 		final PathParameter pp = PI.getPathParameter();
 
 		double t = pp.getT();
-		int n0 = (int) Math.floor(t);
+		int n0 = (int) Math.round(t);
 		int n = n0;
 
 		// check n is in a sensible range
