@@ -31,9 +31,9 @@ public class DrawInlineText extends Drawable implements DrawInline {
 
 	protected final TransformableRectangle rectangle;
 
-	private final GBasicStroke border1 = AwtFactory.getPrototype().newBasicStroke(1f,
+	protected final static GBasicStroke border1 = AwtFactory.getPrototype().newBasicStroke(1f,
 			GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
-	private final GBasicStroke border3 = AwtFactory.getPrototype().newBasicStroke(3f,
+	protected final static GBasicStroke border3 = AwtFactory.getPrototype().newBasicStroke(3f,
 			GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
 
 	/**

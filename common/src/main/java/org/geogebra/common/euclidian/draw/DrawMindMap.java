@@ -40,12 +40,12 @@ public class DrawMindMap extends DrawInlineText {
 			GGeneralPath path = AwtFactory.getPrototype().newGeneralPath();
 			path.moveTo(x0, y0);
 			if (alignment == NodeAlignment.TOP || alignment == NodeAlignment.BOTTOM) {
-				path.curveTo(x0, y1, x1, y0, x1, y1);
+				path.curveTo(x0, (y0 + 3 * y1) / 4, x1, (3 * y0 + y1) / 4, x1, y1);
 			} else {
-				path.curveTo(x1, y0, x0, y1, x1, y1);
+				path.curveTo((x0 + 3 * x1) / 4, y0, (3 * x0 + x1) / 4, y1, x1, y1);
 			}
 
-			g2.setStroke(getBorderStroke());
+			g2.setStroke(border1);
 			g2.setColor(GColor.BLACK);
 			g2.draw(path);
 		}
