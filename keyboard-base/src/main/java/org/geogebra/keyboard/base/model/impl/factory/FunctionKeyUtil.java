@@ -1,4 +1,4 @@
-package org.geogebra.keyboard.web.factory.model.inputbox.util;
+package org.geogebra.keyboard.base.model.impl.factory;
 
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.EULER;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.GEQ;
@@ -12,7 +12,6 @@ import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInp
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
-import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
 
 public class FunctionKeyUtil {
 

@@ -51,6 +51,8 @@ import com.himamis.retex.renderer.web.font.FontFactoryGWT;
 import com.himamis.retex.renderer.web.geom.GeomFactoryGWT;
 import com.himamis.retex.renderer.web.graphics.GraphicsFactoryGWT;
 
+import elemental2.dom.DomGlobal;
+
 public class FactoryProviderGWT extends FactoryProvider {
 
 	@Override
@@ -70,33 +72,15 @@ public class FactoryProviderGWT extends FactoryProvider {
 
 	@Override
 	public void debug(Object string) {
-		if (string instanceof Throwable) {
-			debugN((Throwable) string);
-		} else {
-			debugN(string + "");
-		}
+		DomGlobal.console.debug("[LaTeX]", string);
 	}
-
-	private native void debugN(String string) /*-{
-		$wnd.console && $wnd.console.log("[LaTeX] " + string);
-	}-*/;
-
-	private native void debugN(Throwable string) /*-{
-		$wnd.console && $wnd.console.log("[LaTeX]", string);
-	}-*/;
 
 	@Override
 	public void printStacktrace() {
-
-		traceNative();
+		DomGlobal.console.trace();
 	}
-
-	private native void traceNative() /*-{
-		$wnd.console.trace();
-	}-*/;
 
 	public boolean isHTML5() {
 		return true;
 	}
-
 }

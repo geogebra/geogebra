@@ -602,12 +602,12 @@ public class TabbedKeyboard extends FlowPanel
 					"altText.PowE");
 		} else if (resourceName.equals(Resource.LOG_10.name())) {
 			return new KeyBoardButtonBase("log_10",
-					loc.getAltText("altText.log10"), "log10",
-					bh);
+					loc.getAltText("altText.log10"),
+					button.getPrimaryActionName(), bh);
 		} else if (resourceName.equals(Resource.LOG_B.name())) {
 			return  new KeyBoardButtonFunctionalBase(
-							KeyboardResources.INSTANCE.log(),
-					"log_", bh, true, loc, "altText.LogB");
+					KeyboardResources.INSTANCE.log(),
+					button.getPrimaryActionName(), bh, true, loc, "altText.LogB");
 		} else if (resourceName.equals(Resource.A_N.name())) {
 			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.subscript(),
@@ -916,8 +916,7 @@ public class TabbedKeyboard extends FlowPanel
 				// matches sin, cos, tan, asin, acos, atan
 				if ((text.length() == 3 || text.length() == 4)
 						&& "asin acos atan".indexOf(text) > -1) {
-					text = hasKeyboard.getLocalization().getFunction(text)
-							+ "(";
+					text = hasKeyboard.getLocalization().getFunction(text);
 				}
 
 				processField.insertString(text);
