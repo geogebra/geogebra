@@ -314,7 +314,7 @@ public class TeXIcon implements Icon {
 			double height = cursorPosition.getHeight() * size;
 
 			ctx.setColor(FactoryProvider.getInstance().getGraphicsFactory().createColor(0x4c42a1));
-			ctx.fillRect((int) x, (int) y, 1, (int) height);
+			ctx.fillRect((int) x, (int) y, Math.max(1, (int) height / 20), (int) height);
 		}
 	}
 }
