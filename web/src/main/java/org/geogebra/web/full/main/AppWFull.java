@@ -1752,7 +1752,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				isMenuInited = true;
 			} else if (menuViewController != null) {
 				if (!menuViewController.getView().isAttached()) {
-					frame.add(menuViewController.getView());
+					frame.insert(menuViewController.getView(), 0);
 					frame.getApp().invokeLater(() -> menuViewController.setMenuVisible(true));
 				} else {
 					menuViewController.setMenuVisible(true);
