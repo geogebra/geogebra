@@ -192,7 +192,7 @@ public class DrawLocus extends Drawable {
 
 	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
 		if (gp == null) {
-			gp = new GeneralPathClippedForCurvePlotter(view);
+			gp = new GeneralPathClippedForCurvePlotter(view, geo.getLineThickness());
 		} else {
 			gp.reset();
 		}

@@ -125,7 +125,7 @@ public class DrawBoxPlot extends Drawable {
 		updateStrokes(sum);
 
 		if (gp == null) {
-			gp = new GeneralPathClipped(view);
+			gp = new GeneralPathClipped(view, geo.getLineThickness());
 		}
 		// init gp
 		gp.reset();

@@ -101,7 +101,7 @@ public class DrawIntegral extends DrawFunctionArea {
 		}
 
 		if (gp == null) {
-			gp = new GeneralPathClippedForCurvePlotter(view);
+			gp = new GeneralPathClippedForCurvePlotter(view, geo.getLineThickness());
 		} else {
 			gp.reset();
 		}

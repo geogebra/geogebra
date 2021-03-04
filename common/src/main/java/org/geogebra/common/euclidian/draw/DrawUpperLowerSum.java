@@ -82,7 +82,7 @@ public class DrawUpperLowerSum extends Drawable {
 		updateStrokes(sum);
 
 		if (gp == null) {
-			gp = new GeneralPathClipped(view);
+			gp = new GeneralPathClipped(view, geo.getLineThickness());
 		}
 
 		if (histogram) {

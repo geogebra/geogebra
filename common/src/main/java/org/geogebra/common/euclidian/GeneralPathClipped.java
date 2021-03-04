@@ -13,6 +13,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * A GeneralPath implementation that does clipping of line segments at the
@@ -29,6 +30,7 @@ public class GeneralPathClipped implements GShape {
 
 	/** view */
 	protected EuclidianViewInterfaceSlim view;
+	private int lineThickness;
 
 	private double largestCoord;
 
@@ -48,17 +50,17 @@ public class GeneralPathClipped implements GShape {
 
 	/**
 	 * Creates new clipped general path
-	 * 
+	 *
 	 * @param view
 	 *            view
+	 * @param lineThickness
 	 */
-	public GeneralPathClipped(EuclidianViewInterfaceSlim view) {
-		// this.view = (EuclidianView)view;
+	public GeneralPathClipped(EuclidianViewInterfaceSlim view, int lineThickness) {
 		this.view = view;
+		this.lineThickness = lineThickness;
 		pathPoints = new ArrayList<>();
 		clipAlgoSutherlandHodogman = new ClipAlgoSutherlandHodogman();
 		gp = AwtFactory.getPrototype().newGeneralPath();
-		// bounds = new Rectangle();
 		reset();
 	}
 
@@ -110,11 +112,13 @@ public class GeneralPathClipped implements GShape {
 	}
 
 	private void addSegmentsWithSutherladHoloman() {
+		int padding = lineThickness + 5;
+		Log.debug("PADDING: " + padding);
 		double[][] clipPoints = {
-				{ -0, -0},
-				{ -0, view.getHeight()},
-				{ view.getWidth(), view.getHeight()},
-				{ view.getWidth(), -0},
+				{ -padding, -padding},
+				{ -padding, view.getHeight() + padding},
+				{ view.getWidth() + padding, view.getHeight() + padding},
+				{ view.getWidth(), -padding},
 		};
 
 		if (needClosePath) {

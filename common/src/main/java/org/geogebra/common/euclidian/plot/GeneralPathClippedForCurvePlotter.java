@@ -34,8 +34,8 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 	 * @param view
 	 *            Euclidian view
 	 */
-	public GeneralPathClippedForCurvePlotter(EuclidianViewInterfaceSlim view) {
-		super(view);
+	public GeneralPathClippedForCurvePlotter(EuclidianViewInterfaceSlim view, int lineThickness) {
+		super(view, lineThickness);
 	}
 
 	@Override

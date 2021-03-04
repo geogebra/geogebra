@@ -138,7 +138,7 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 
 		// plot area between f and g
 		if (gp == null) {
-			gp = new GeneralPathClippedForCurvePlotter(view);
+			gp = new GeneralPathClippedForCurvePlotter(view, geo.getLineThickness());
 		}
 		gp.reset();
 		gp.moveTo(ax, ay);

@@ -744,7 +744,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 	 * @return one halfplane wrt this line
 	 */
 	public GArea getShape(boolean forConic) {
-		GeneralPathClipped gpc = new GeneralPathClipped(view);
+		GeneralPathClipped gpc = new GeneralPathClipped(view, geo.getLineThickness());
 		boolean invert = g.isInverseFill();
 		if (x1 > x2) {
 			double swap = x1;

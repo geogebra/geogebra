@@ -118,7 +118,7 @@ public class DrawParametricCurve extends Drawable {
 			return;
 		}
 		if (gp == null) {
-			gp = new GeneralPathClippedForCurvePlotter(view);
+			gp = new GeneralPathClippedForCurvePlotter(view, geo.getLineThickness());
 		}
 		gp.reset();
 

@@ -540,7 +540,7 @@ public class DrawConicSection extends DrawConic {
 		if (firstHyperbola) {
 			firstHyperbola = false;
 			points = PLOT_POINTS;
-			hyp = new GeneralPathClipped(view);
+			hyp = new GeneralPathClipped(view, geo.getLineThickness());
 		} else {
 			hyp.reset();
 		}

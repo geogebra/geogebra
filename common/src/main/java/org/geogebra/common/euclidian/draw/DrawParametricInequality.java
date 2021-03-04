@@ -96,7 +96,7 @@ class DrawParametricInequality extends SetDrawable {
 	@Override
 	public void update() {
 		if (gp == null) {
-			gp = new GeneralPathClippedForCurvePlotter(view);
+			gp = new GeneralPathClippedForCurvePlotter(view, geo.getLineThickness());
 		} else {
 			gp.reset();
 		}

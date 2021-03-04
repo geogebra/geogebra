@@ -101,7 +101,7 @@ public class DrawSlope extends Drawable {
 			double y = coords[1];
 			double xright = x + view.getXscale() * slopeTriangleSize;
 			if (gp == null) {
-				gp = new GeneralPathClipped(view);
+				gp = new GeneralPathClipped(view, geo.getLineThickness());
 			}
 			gp.reset();
 			gp.moveTo(x, y);

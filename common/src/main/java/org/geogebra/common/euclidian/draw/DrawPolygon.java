@@ -70,7 +70,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		this.view = view;
 		this.poly = poly;
 		geo = poly;
-		gp = new GeneralPathClipped(view);
+		gp = new GeneralPathClipped(view, geo.getLineThickness());
 		update();
 	}
 
@@ -87,7 +87,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		this.points = points;
 		geo = view.getKernel().getConstruction().getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_POLYGON);
-		gp = new GeneralPathClipped(view);
+		gp = new GeneralPathClipped(view, geo.getLineThickness());
 		updatePreview();
 	}
 
