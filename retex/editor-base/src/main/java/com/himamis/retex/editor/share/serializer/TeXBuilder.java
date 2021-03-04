@@ -53,7 +53,6 @@ public class TeXBuilder {
 
 	private MathSequence currentField;
 	private HashMap<Atom, MathComponent> atomToComponent;
-	private SyntaxAdapter syntaxAdapter;
 	private final TeXParser parser;
 	private final TeXSerializer teXSerializer;
 
@@ -370,6 +369,6 @@ public class TeXBuilder {
 	}
 
 	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
-		this.syntaxAdapter = syntaxAdapter;
+		teXSerializer.setSyntaxAdapter(syntaxAdapter);
 	}
 }
