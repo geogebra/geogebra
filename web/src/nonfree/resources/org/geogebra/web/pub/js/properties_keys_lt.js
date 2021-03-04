@@ -2367,7 +2367,6 @@ __GGB__keysVar["lt"].menu = {
     "OpenFileFolder": "Atidaryti dokumento katalog\u0105",
     "OpenFromGeoGebraTube": "Atidaryti i\u0161 GeoGebra",
     "OpenFromGoogleDrive": "Atidaryti i\u0161 Google disko",
-    "OpenFromSkyDrive": "Atidaryti i\u0161 SkyDrive",
     "OpenFromWebpage": "Atidaryti i\u0161 tinklalapio",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Atidaryti tinklalap\u012f",

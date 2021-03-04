@@ -2367,7 +2367,6 @@ __GGB__keysVar["sv"].menu = {
     "OpenFileFolder": "\xd6ppen mapp",
     "OpenFromGeoGebraTube": "\xd6ppna fr\xe5n GeoGebra",
     "OpenFromGoogleDrive": "\xd6ppna fr\xe5n Google Drive",
-    "OpenFromSkyDrive": "\xd6ppna fr\xe5n SkyDrive",
     "OpenFromWebpage": "\xd6ppna fr\xe5n webbsida",
     "OpenTutorial": "\xd6ppen guide",
     "OpenWebpage": "\xd6ppna webbsida",

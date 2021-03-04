@@ -2367,7 +2367,6 @@ __GGB__keysVar["sq"].menu = {
     "OpenFileFolder": "Hap Dosjen e Dokumentave",
     "OpenFromGeoGebraTube": "Open from GeoGebra",
     "OpenFromGoogleDrive": "Open from Google Drive",
-    "OpenFromSkyDrive": "Open from SkyDrive",
     "OpenFromWebpage": "Hap nga Web-faqe",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Hap Web-faqe",

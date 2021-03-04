@@ -2367,7 +2367,6 @@ __GGB__keysVar["et"].menu = {
     "OpenFileFolder": "Ava faili kaust",
     "OpenFromGeoGebraTube": "Avamine GeoGebra-st",
     "OpenFromGoogleDrive": "Ava Google Draivist",
-    "OpenFromSkyDrive": "Ava SkyDraivist",
     "OpenFromWebpage": "Ava veebist",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Ava veebileht",

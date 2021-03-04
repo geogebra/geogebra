@@ -2367,7 +2367,6 @@ __GGB__keysVar["sl"].menu = {
     "OpenFileFolder": "Odpri mapo",
     "OpenFromGeoGebraTube": "Prenos z GeoGebra",
     "OpenFromGoogleDrive": "Odpri z mesta Google Drive",
-    "OpenFromSkyDrive": "Odpri z mesta SkyDrive",
     "OpenFromWebpage": "Odpri iz spletne strani",
     "OpenTutorial": "Prosto dostopen vodi\u010d",
     "OpenWebpage": "Odpri spletno stran",

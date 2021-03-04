@@ -2367,7 +2367,6 @@ __GGB__keysVar["cy"].menu = {
     "OpenFileFolder": "Agorwch Ffolder Ffeil",
     "OpenFromGeoGebraTube": "Agor o GeoGebra",
     "OpenFromGoogleDrive": "Open from Google Drive",
-    "OpenFromSkyDrive": "Open from SkyDrive",
     "OpenFromWebpage": "Agorwch o Dudalen We",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Agor Tudalen We",

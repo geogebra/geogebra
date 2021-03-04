@@ -2367,7 +2367,6 @@ __GGB__keysVar["ne"].menu = {
     "OpenFileFolder": "\u092b\u093e\u092f\u0932 \u092b\u094b\u0932\u094d\u0921\u0930 \u0916\u094b\u0932\u094d\u0928\u0941\u0939\u094b\u0938",
     "OpenFromGeoGebraTube": "Open from GeoGebra",
     "OpenFromGoogleDrive": "Open from Google Drive",
-    "OpenFromSkyDrive": "Open from SkyDrive",
     "OpenFromWebpage": "\u0935\u0947\u092c\u092a\u0947\u091c\u092c\u093e\u091f \u0916\u094b\u0932\u093f\u090f\u0915\u094b",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "\u0935\u0947\u092c\u092a\u0947\u091c \u0916\u094b\u0932\u094d\u0928\u0941\u0939\u094b\u0938",

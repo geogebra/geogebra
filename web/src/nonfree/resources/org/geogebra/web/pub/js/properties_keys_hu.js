@@ -2367,7 +2367,6 @@ __GGB__keysVar["hu"].menu = {
     "OpenFileFolder": "Mapp\xe1t megnyit",
     "OpenFromGeoGebraTube": "Megnyit\xe1s a GeoGebr\xe1b\xf3l",
     "OpenFromGoogleDrive": "Megnyit\xe1s Google Drive-r\xf3l",
-    "OpenFromSkyDrive": "Megnyit\xe1s SkyDrive-r\xf3l",
     "OpenFromWebpage": "Weblapr\xf3l megnyit",
     "OpenTutorial": "\xdatmutat\xf3 megnyit\xe1sa",
     "OpenWebpage": "Weboldalt megnyit",

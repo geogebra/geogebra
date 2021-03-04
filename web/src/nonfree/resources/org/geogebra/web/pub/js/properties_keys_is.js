@@ -2367,7 +2367,6 @@ __GGB__keysVar["is"].menu = {
     "OpenFileFolder": "Opna skr\xe1am\xf6ppu",
     "OpenFromGeoGebraTube": "Opna me\xf0 GeoGebra",
     "OpenFromGoogleDrive": "Opna \xed Google Drive",
-    "OpenFromSkyDrive": "Opna \xed SkyDrive",
     "OpenFromWebpage": "Opna fr\xe1 vefs\xed\xf0u",
     "OpenTutorial": "Opin handb\xf3k",
     "OpenWebpage": "Opna vefs\xed\xf0u",

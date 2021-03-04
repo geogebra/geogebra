@@ -2367,7 +2367,6 @@ __GGB__keysVar["sk"].menu = {
     "OpenFileFolder": "Otvori\u0165 adres\xe1r s\xfaboru",
     "OpenFromGeoGebraTube": "Otvori\u0165 z GeoGebra",
     "OpenFromGoogleDrive": "Otvori\u0165 z Google Drive",
-    "OpenFromSkyDrive": "Otvori\u0165 z SkyDrive",
     "OpenFromWebpage": "Otvori\u0165 z webstr\xe1nky",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Otvori\u0165 webov\xfa str\xe1nku",

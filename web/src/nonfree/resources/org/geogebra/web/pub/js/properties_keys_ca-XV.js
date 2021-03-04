@@ -2367,7 +2367,6 @@ __GGB__keysVar["ca-XV"].menu = {
     "OpenFileFolder": "Obri la carpeta del fitxer",
     "OpenFromGeoGebraTube": "Obri des del GeoGebra",
     "OpenFromGoogleDrive": "Obri des del Google Drive",
-    "OpenFromSkyDrive": "Obri des de l'SkyDrive",
     "OpenFromWebpage": "Obri des d\u2019una p\xe0gina web",
     "OpenTutorial": "Obri el tutorial",
     "OpenWebpage": "Obri una p\xe0gina web",
