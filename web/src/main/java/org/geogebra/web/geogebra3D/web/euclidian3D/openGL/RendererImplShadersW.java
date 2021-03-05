@@ -16,6 +16,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 
 import elemental2.core.Uint8Array;
+import elemental2.dom.HTMLImageElement;
+import elemental2.dom.ImageData;
 import elemental2.webgl.WebGLBuffer;
 import elemental2.webgl.WebGLFramebuffer;
 import elemental2.webgl.WebGLProgram;
@@ -25,9 +27,6 @@ import elemental2.webgl.WebGLShader;
 import elemental2.webgl.WebGLTexture;
 import elemental2.webgl.WebGLUniformLocation;
 import jsinterop.base.Js;
-
-import elemental2.dom.HTMLImageElement;
-import elemental2.dom.ImageData;
 
 /**
  * Renderer using shaders
