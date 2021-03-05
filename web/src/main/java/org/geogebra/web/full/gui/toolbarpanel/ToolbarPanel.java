@@ -69,6 +69,7 @@ public class ToolbarPanel extends FlowPanel
 	/** Closed height of header in portrait mode */
 	public static final int CLOSED_HEIGHT_PORTRAIT = 56;
 	private static final int OPEN_ANIM_TIME = 200;
+	public static final int HEADING_HEIGHT = 48;
 	/** Header of the panel with buttons and tabs */
 	NavigationRail navRail;
 	/** Application */
@@ -372,7 +373,7 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void showOppositeView() {
-		animateHeadingHeight(48, 0);
+		animateHeadingHeight(HEADING_HEIGHT, 0);
 		int viewId = App.VIEW_EUCLIDIAN;
 		if ((Perspective.GRAPHER_3D + "").equals(
 				app.getConfig().getForcedPerspective())) {
@@ -1224,6 +1225,9 @@ public class ToolbarPanel extends FlowPanel
 	public void setAlone(boolean alone) {
 		if (heading != null) {
 			updateHeadingStyle(alone);
+			if (alone) { // not animated (e.g. from setPerspective API)
+				setHeadingHeight(HEADING_HEIGHT);
+			}
 		}
 	}
 
@@ -1242,7 +1246,7 @@ public class ToolbarPanel extends FlowPanel
 
 	public void hideOppositeView() {
 		DockSplitPaneW dockParent = getDockParent();
-		animateHeadingHeight(0, 48);
+		animateHeadingHeight(0, HEADING_HEIGHT);
 		if (dockParent != null) {
 			dockParent.addStyleName("singlePanel");
 			DockPanelW opposite = (DockPanelW) dockParent.getOpposite(getToolbarDockPanel());
@@ -1268,13 +1272,16 @@ public class ToolbarPanel extends FlowPanel
 
 	private void animateHeadingHeight(int from, int to) {
 		if (!app.isPortrait()) {
-			heading.setHeight(from + "px");
-			heading.setVisible(true);
+			setHeadingHeight(from);
 			app.invokeLater(() -> heading.setHeight(to + "px"));
 		} else {
-			heading.setVisible(true);
-			heading.setHeight(to + "px");
+			setHeadingHeight(to);
 		}
+	}
+
+	private void setHeadingHeight(int to) {
+		heading.setVisible(true);
+		heading.setHeight(to + "px");
 	}
 
 	/**

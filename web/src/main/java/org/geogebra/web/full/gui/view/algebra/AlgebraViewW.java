@@ -2010,7 +2010,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	public void resize(int minWidth) {
 		int resizedWidth = getOffsetWidth();
-		Log.error(Math.max(minWidth, resizedWidth));
 		setWidths(Math.max(minWidth, resizedWidth));
 		if (activeItem != null) {
 			activeItem.updateButtonPanelPosition();
