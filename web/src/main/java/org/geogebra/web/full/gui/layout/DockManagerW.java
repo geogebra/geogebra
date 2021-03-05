@@ -231,10 +231,10 @@ public class DockManagerW extends DockManager {
 				// skip panels which will not be drawn in the main window
 				if (!dpItem.isVisible() || dpItem.isOpenInFrame()
 				// eg run "no 3D" with 3D View open in saved settings
-						|| panel == null) {
+						|| panel == null || !PerspectiveDecoder.isAllowed(panel.getViewId(),
+						app.getConfig().getForcedPerspective())) {
 					continue;
 				}
-
 				// attach view to kernel (being attached multiple times is
 				// ignored)
 				app.getGuiManager().attachView(panel.getViewId());
@@ -252,18 +252,17 @@ public class DockManagerW extends DockManager {
 				 * last direction as its reserved for the position of the dock
 				 * panel itself.
 				 * 
-				 * In contrast to the algorithm used in the show() method we'll
-				 * not take care of invalid positions as the data should not be
-				 * corrupted.
 				 */
 				for (int j = 0; j < directions.length - 1; ++j) {
+					Widget current;
 					if (directions[j].equals("0")
 							|| directions[j].equals("3")) {
-						currentParent = (DockSplitPaneW) currentParent
-								.getLeftComponent();
+						current = currentParent.getLeftComponent();
 					} else {
-						currentParent = (DockSplitPaneW) currentParent
-								.getRightComponent();
+						current = currentParent.getRightComponent();
+					}
+					if (current instanceof  DockSplitPaneW) {
+						currentParent = (DockSplitPaneW) current;
 					}
 				}
 				if (currentParent == null) {
@@ -1092,7 +1091,7 @@ public class DockManagerW extends DockManager {
 	 */
 	public boolean hide(DockPanelW panel, boolean isPermanent,
 			boolean fromDrop) {
-		if (!panel.isVisible()) {
+		if (!panel.isVisible() || panel.getParentSplitPane() == null) {
 			// some views (especially CAS) will close so slowly that the user is
 			// able
 			// to issue another "close" call, therefore we quit quietly

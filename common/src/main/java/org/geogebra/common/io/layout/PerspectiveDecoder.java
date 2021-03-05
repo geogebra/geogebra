@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -307,6 +308,9 @@ public class PerspectiveDecoder {
 	 * @return which views are allowed in the perspective
 	 */
 	public static boolean isAllowed(int viewId, String forcedPerspective) {
+		if (StringUtil.empty(forcedPerspective)) {
+			return true;
+		}
 		if (String.valueOf(Perspective.GRAPHER_3D).equals(forcedPerspective)) {
 			return viewId == App.VIEW_ALGEBRA || viewId == App.VIEW_EUCLIDIAN3D;
 		}
