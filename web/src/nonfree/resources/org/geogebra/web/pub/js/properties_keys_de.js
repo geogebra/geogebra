@@ -2367,7 +2367,6 @@ __GGB__keysVar["de"].menu = {
     "OpenFileFolder": "Ordner \xf6ffnen",
     "OpenFromGeoGebraTube": "\xd6ffne von GeoGebra",
     "OpenFromGoogleDrive": "\xd6ffnen von Google Drive",
-    "OpenFromSkyDrive": "\xd6ffnen von SkyDrive",
     "OpenFromWebpage": "Von Webseite \xf6ffnen",
     "OpenTutorial": "Anleitung \xf6ffnen",
     "OpenWebpage": "Webseite \xf6ffnen",

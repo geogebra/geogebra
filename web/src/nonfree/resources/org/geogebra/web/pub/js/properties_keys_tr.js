@@ -2367,7 +2367,6 @@ __GGB__keysVar["tr"].menu = {
     "OpenFileFolder": "Dosya Klas\xf6r\xfcn\xfc A\xe7",
     "OpenFromGeoGebraTube": "GeoGebra'dan A\xe7",
     "OpenFromGoogleDrive": "Google Drive'dan A\xe7",
-    "OpenFromSkyDrive": "SkyDrive'dan A\xe7",
     "OpenFromWebpage": "Web sayfas\u0131ndan A\xe7",
     "OpenTutorial": "\xd6\u011fretim Materyalini A\xe7",
     "OpenWebpage": "Web Sayfas\u0131n\u0131 A\xe7",

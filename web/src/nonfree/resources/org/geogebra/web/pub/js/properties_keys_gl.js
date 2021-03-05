@@ -2367,7 +2367,6 @@ __GGB__keysVar["gl"].menu = {
     "OpenFileFolder": "Abre carpeta de arquivos",
     "OpenFromGeoGebraTube": "Abre dende GeoGebra",
     "OpenFromGoogleDrive": "Abre dende Google Drive",
-    "OpenFromSkyDrive": "Abre dende SkyDrive",
     "OpenFromWebpage": "Abre dende sitio Web",
     "OpenTutorial": "Abrir Titorial",
     "OpenWebpage": "Abre p\xe1xina WEB",

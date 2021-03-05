@@ -2367,7 +2367,6 @@ __GGB__keysVar["pl"].menu = {
     "OpenFileFolder": "Otw\xf3rz folder plik\xf3w",
     "OpenFromGeoGebraTube": "Otw\xf3rz z GeoGebra",
     "OpenFromGoogleDrive": "Otw\xf3rz z Google Drive",
-    "OpenFromSkyDrive": "Otw\xf3rz z SkyDrive",
     "OpenFromWebpage": "Otw\xf3rz ze strony internetowej",
     "OpenTutorial": "Otw\xf3rz Samouczek",
     "OpenWebpage": "Otw\xf3rz Stron\u0119 Internetow\u0105",

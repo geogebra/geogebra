@@ -2367,7 +2367,6 @@ __GGB__keysVar["vi"].menu = {
     "OpenFileFolder": "M\u1edf th\u01b0 m\u1ee5c",
     "OpenFromGeoGebraTube": "M\u1edf t\u1eadp tin t\u1eeb GeoGebra",
     "OpenFromGoogleDrive": "M\u1edf t\u1eadp tin t\u1eeb Google Drive",
-    "OpenFromSkyDrive": "M\u1edf t\u1eadp tin t\u1eeb SkyDrive",
     "OpenFromWebpage": "M\u1edf t\u1eeb trang web",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "M\u1edf trang web",

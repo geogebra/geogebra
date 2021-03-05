@@ -2367,7 +2367,6 @@ __GGB__keysVar["ta"].menu = {
     "OpenFileFolder": "Open File Folder",
     "OpenFromGeoGebraTube": "Open from GeoGebra",
     "OpenFromGoogleDrive": "Open from Google Drive",
-    "OpenFromSkyDrive": "Open from SkyDrive",
     "OpenFromWebpage": "Open from Webpage",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Open Webpage",

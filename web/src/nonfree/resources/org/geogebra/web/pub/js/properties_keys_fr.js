@@ -2367,7 +2367,6 @@ __GGB__keysVar["fr"].menu = {
     "OpenFileFolder": "Ouvrir un r\xe9pertoire",
     "OpenFromGeoGebraTube": "Ouvrir depuis GeoGebra",
     "OpenFromGoogleDrive": "Ouvrir \xe0 partir de Google Drive",
-    "OpenFromSkyDrive": "Ouvrir \xe0 partir de SkyDrive",
     "OpenFromWebpage": "Ouvrir \xe0 partir d'une page Web",
     "OpenTutorial": "Ouvrir le Tutoriel",
     "OpenWebpage": "Ouvrir une page Web",

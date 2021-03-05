@@ -2367,7 +2367,6 @@ __GGB__keysVar["eo"].menu = {
     "OpenFileFolder": "Malfermi dosierujon",
     "OpenFromGeoGebraTube": "Open from GeoGebra",
     "OpenFromGoogleDrive": "Open from Google Drive",
-    "OpenFromSkyDrive": "Malfermi el SkyDrive",
     "OpenFromWebpage": "Malfermi el TTT-pa\u011do",
     "OpenTutorial": "Malfermi la lernilon",
     "OpenWebpage": "Malfermi TTT-pa\u011don",

@@ -2367,7 +2367,6 @@ __GGB__keysVar["xh"].menu = {
     "OpenFileFolder": "Vula uvimba weefayile",
     "OpenFromGeoGebraTube": "Vula ku GeoGebra",
     "OpenFromGoogleDrive": "Vula kuGoogle Drive",
-    "OpenFromSkyDrive": "Vula kuSkyDrive",
     "OpenFromWebpage": "Vula kwiWebpage",
     "OpenTutorial": "I Tutorial evuleke nakubani",
     "OpenWebpage": "Vula iWebpage",

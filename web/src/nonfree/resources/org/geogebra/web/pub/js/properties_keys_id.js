@@ -2367,7 +2367,6 @@ __GGB__keysVar["id"].menu = {
     "OpenFileFolder": "Buka Folder File",
     "OpenFromGeoGebraTube": "Open from GeoGebra",
     "OpenFromGoogleDrive": "Open from Google Drive",
-    "OpenFromSkyDrive": "Open from SkyDrive",
     "OpenFromWebpage": "Buka dari halaman web",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Buka halaman web",

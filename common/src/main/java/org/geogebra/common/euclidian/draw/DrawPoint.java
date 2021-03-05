@@ -27,24 +27,18 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoIntersectAbstract;
-import org.geogebra.common.kernel.geos.GeoConic;
-import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoSegment;
-import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -357,51 +351,32 @@ public final class DrawPoint extends SetDrawable {
 		hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
 	}
 
-	private void drawClippedSection(GeoElement geo2, GGraphics2D g2) {
-		Drawable drawable;
-		switch (geo2.getGeoClassType()) {
-		case LINE:
-			drawable = new DrawLine(view, (GeoLine) geo2);
-			break;
-		case SEGMENT:
-			drawable = new DrawSegment(view, (GeoSegment) geo2);
-			break;
-		case RAY:
-			drawable = new DrawRay(view, (GeoLineND) geo2);
-			break;
-		case CONIC:
-			drawable = new DrawConic(view, (GeoConic) geo2, false);
-			break;
-		case FUNCTION:
-			drawable = new DrawParametricCurve(view, (GeoFunction) geo2);
-			break;
-		case AXIS:
-			drawable = null;
-			break;
-		case CONICPART:
-			drawable = new DrawConicPart(view, (GeoConicPart) geo2);
-			break;
+	private void drawClippedSection(GeoElement path1, GeoElement path2, GGraphics2D g2) {
+		DrawableND drawPath1 = view.newDrawable(path1);
+		DrawableND drawPath2 = view.newDrawable(path2);
 
-		default:
-			drawable = null;
-			Log.debug("Unsupported type for restricted drawing "
-					+ geo2.getGeoClassType());
-		}
-
-		if (drawable != null) {
+		if (drawPath1 != null || drawPath2 != null) {
 			P.getInhomCoords(coords1);
 
 			view.toScreenCoords(coords1);
-
+			double radius = 30;
 			GEllipse2DDouble circleClip = AwtFactory.getPrototype()
-					.newEllipse2DDouble(coords1[0] - 30, coords1[1] - 30, 60,
-							60);
+					.newEllipse2DDouble(coords1[0] - radius, coords1[1] - radius,
+							2 * radius, 2 * radius);
 			g2.setClip(circleClip);
-			geo2.forceEuclidianVisible(true);
-			drawable.update();
-			drawable.draw(g2);
-			geo2.forceEuclidianVisible(false);
+
+			forceDraw(g2, path1, drawPath1);
+			forceDraw(g2, path2, drawPath2);
 			g2.resetClip();
+		}
+	}
+
+	private void forceDraw(GGraphics2D g2, GeoElement path, DrawableND drawPath) {
+		if (drawPath != null) {
+			path.forceEuclidianVisible(true);
+			drawPath.update();
+			((Drawable) drawPath).draw(g2);
+			path.forceEuclidianVisible(false);
 		}
 	}
 
@@ -421,9 +396,8 @@ public final class DrawPoint extends SetDrawable {
 
 				if (algo instanceof AlgoIntersectAbstract) {
 					GeoElement[] geos = algo.getInput();
-					drawClippedSection(geos[0], g2);
 					if (geos.length > 1) {
-						drawClippedSection(geos[1], g2);
+						drawClippedSection(geos[0], geos[1], g2);
 					}
 				}
 			}

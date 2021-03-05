@@ -2367,7 +2367,6 @@ __GGB__keysVar["pt"].menu = {
     "OpenFileFolder": "Abrir Pasta de Arquivos",
     "OpenFromGeoGebraTube": "Abrir do GeoGebra",
     "OpenFromGoogleDrive": "Abrir do Google Drive",
-    "OpenFromSkyDrive": "Abrir do SkyDrive",
     "OpenFromWebpage": "Abrir de P\xe1gina WEB",
     "OpenTutorial": "Abrir Tutorial",
     "OpenWebpage": "Abrir P\xe1gina WEB",

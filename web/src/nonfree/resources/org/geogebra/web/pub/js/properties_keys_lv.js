@@ -2367,7 +2367,6 @@ __GGB__keysVar["lv"].menu = {
     "OpenFileFolder": "Atv\u0113rt datnes mapi",
     "OpenFromGeoGebraTube": "Atv\u0113rt no GeoGebra",
     "OpenFromGoogleDrive": "Atv\u0113rt no Google Diska",
-    "OpenFromSkyDrive": "Atv\u0113rt no SkyDrive",
     "OpenFromWebpage": "Atv\u0113rt no Webpage",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Atv\u0113rt Webpage",

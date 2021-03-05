@@ -2,9 +2,9 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.geogebra3D.euclidian3D.xr.XRManagerInterface;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.kernel.matrix.Coords;
 
@@ -160,10 +160,10 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		double bottom = renderer.getBottom();
 		double top = renderer.getTop();
 
-		if (view.isAREnabled()) {
-			ARManagerInterface<?> arManager = renderer.getARManager();
+		if (view.isXREnabled()) {
+			XRManagerInterface<?> arManager = renderer.getXRManager();
 			if (arManager != null) {
-				double arScaleFactor = renderer.getARManager().getArScaleFactor();
+				double arScaleFactor = renderer.getXRManager().getXRScaleFactor();
 				halfWidth *= arScaleFactor;
 				bottom *= arScaleFactor;
 				top *= arScaleFactor;
@@ -195,7 +195,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         double yr = (currentBounds[Y][MAX] - currentBounds[Y][MIN]);
         double zr = (currentBounds[Z][MAX] - currentBounds[Z][MIN]);
 
-        if (view.isAREnabled()) {
+        if (view.isXREnabled()) {
             for (int i = 0; i < 3; i++) {
                 mayEnlarge(currentBounds[i], minMaxObjects[i]);
             }
@@ -217,7 +217,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         double scaleMax = Math.max(Math.max(xscale, yscale), zscale);
         double scaleMin = Math.min(Math.min(xscale, yscale), zscale);
         double w, h, d;
-        if (view.isAREnabled()) {
+        if (view.isXREnabled()) {
             w = (currentBounds[X][MAX] - currentBounds[X][MIN]) * xscale;
             h = (currentBounds[Y][MAX] - currentBounds[Y][MIN]) * yscale;
             d = (currentBounds[Z][MAX] - currentBounds[Z][MIN]) * zscale;
@@ -252,7 +252,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
     private void standsOnFloorIfAR(double[][] mm) {
         EuclidianView3D view = getView3D();
-        if (view.isAREnabled()) {
+        if (view.isXREnabled()) {
 			mm[Z][MIN] = view.getARMinZ();
         }
     }

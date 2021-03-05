@@ -2367,7 +2367,6 @@ __GGB__keysVar["eu"].menu = {
     "OpenFileFolder": "Ireki Fitxategi-karpeta",
     "OpenFromGeoGebraTube": "GeoGebra-n ireki",
     "OpenFromGoogleDrive": "Google Drive-etik Ireki",
-    "OpenFromSkyDrive": "SkyDrive-etik Ireki",
     "OpenFromWebpage": "Ireki Web-orrialdetik",
     "OpenTutorial": "Tutoretza Irekia",
     "OpenWebpage": "Ireki Web-Orrialdea",
