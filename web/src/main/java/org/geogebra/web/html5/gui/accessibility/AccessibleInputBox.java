@@ -9,8 +9,6 @@ import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
@@ -23,21 +21,17 @@ public class AccessibleInputBox implements AccessibleWidget {
 	/**
 	 * @param geo input box
 	 * @param app app
-	 * @param view accessibility view
 	 */
-	public AccessibleInputBox(GeoInputBox geo, AppW app, final AccessibilityView view) {
+	public AccessibleInputBox(GeoInputBox geo, AppW app) {
 		this.geo = geo;
 		this.app = app;
 		this.inputBox = new GTextBox();
 		this.formLabel = new FormLabel();
 		formLabel.setFor(inputBox);
-		inputBox.addStyleName("accessibileInput");
-		inputBox.addKeyDownHandler(new KeyDownHandler() {
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				if (event.getNativeKeyCode() == GWTKeycodes.KEY_ENTER) {
-					geo.updateLinkedGeo(inputBox.getText());
-				}
+		inputBox.addStyleName("accessibleInput");
+		inputBox.addKeyDownHandler(event -> {
+			if (event.getNativeKeyCode() == GWTKeycodes.KEY_ENTER) {
+				geo.updateLinkedGeo(inputBox.getText());
 			}
 		});
 		update();

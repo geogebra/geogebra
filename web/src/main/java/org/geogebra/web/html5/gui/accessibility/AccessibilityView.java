@@ -44,7 +44,6 @@ public class AccessibilityView implements View {
 	public AccessibilityView(final AppW app, BaseWidgetFactory sliderFactory) {
 		this.app = app;
 		this.controls = sliderFactory.newPanel();
-		controls.addStyleName("accessibilityView");
 		this.sliderFactory = sliderFactory;
 		widgets = new HashMap<>();
 		app.getKernel().attach(this);
@@ -88,7 +87,7 @@ public class AccessibilityView implements View {
 		} else if (geo instanceof GeoPointND) {
 			control = new AccessiblePoint((GeoPointND) geo, sliderFactory, this);
 		} else if (geo instanceof GeoInputBox) {
-			control = new AccessibleInputBox((GeoInputBox) geo, app, this);
+			control = new AccessibleInputBox((GeoInputBox) geo, app);
 		} else if (geo instanceof GeoList && ((GeoList) geo).drawAsComboBox()) {
 			control = new AccessibleDropDown((GeoList) geo, app, this);
 		} else  {
@@ -288,10 +287,6 @@ public class AccessibilityView implements View {
 	public void updateValueText(SliderW range, double value, String unit) {
 		range.getElement().setAttribute("aria-valuetext",
 				app.getKernel().format(value, StringTemplate.screenReader) + " " + unit);
-	}
-
-	public void show() {
-		controls.removeStyleName("accessibilityView");
 	}
 
 	public void closeAllDropdowns() {

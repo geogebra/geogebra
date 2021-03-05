@@ -720,12 +720,12 @@
 		overflow: scroll;
 	 }
 
-	 .accessibleInput {
-	 	width: 20px;
-        height: 20px;
-        z-index: 200;
-        position: absolute;
-	 }
+	.accessibleInput {
+		width: 20px;
+		height: 20px;
+		z-index: $z-accessible-input;
+		position: absolute;
+	}
 
 	.invisible {
 		visibility: hidden;

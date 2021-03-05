@@ -598,8 +598,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		private boolean prepareTable(GGraphics2D g2) {
 			createItems(g2);
-			return getTableScale(g2);
-
+			return getTableScale();
 		}
 
 		private void getMetrics(GGraphics2D g2) {
@@ -768,7 +767,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		 * @return true if all table columns are full, ie no column with fewer
 		 *         items at the end.
 		 */
-		private boolean getTableScale(GGraphics2D g2) {
+		private boolean getTableScale() {
 			int maxItems = geoList.size();
 			int maxRows = ((viewOpt.getHeight() - 2 * MARGIN)
 					/ dimItem.getHeight()) + 1;
