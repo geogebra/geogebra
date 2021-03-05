@@ -82,17 +82,15 @@ public class DrawUpperLowerSum extends Drawable {
 		updateStrokes(sum);
 
 		if (gp == null) {
-			gp = new GeneralPathClipped(view, geo.getLineThickness());
+			gp = new GeneralPathClipped(view);
 		}
-
+		gp.resetWithThickness(geo.getLineThickness());
 		if (histogram) {
 			updateBarChart();
 			return;
 		}
 
 		// init gp
-		gp.reset();
-
 		double aRW = a.getDouble();
 		double bRW = b.getDouble();
 
@@ -169,7 +167,6 @@ public class DrawUpperLowerSum extends Drawable {
 	}
 
 	private void updateBarChart() {
-		gp.reset();
 		double base = view.getYZero();
 
 		int N = algo.getIntervals();

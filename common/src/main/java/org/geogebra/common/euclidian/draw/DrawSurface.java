@@ -119,9 +119,9 @@ public class DrawSurface extends Drawable {
 		boolean labelVisible = geo.isLabelVisible();
 
 		if (gp == null) {
-			gp = new GeneralPathClippedForCurvePlotter(view, geo.getLineThickness());
+			gp = new GeneralPathClippedForCurvePlotter(view);
 		}
-		gp.reset();
+		gp.resetWithThickness(geo.getLineThickness());
 		if (!geo.isEuclidianVisible() || !geo.isDefined()) {
 			return;
 		}

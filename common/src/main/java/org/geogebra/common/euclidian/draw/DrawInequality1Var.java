@@ -279,7 +279,8 @@ public class DrawInequality1Var extends SetDrawable {
 					view.toRealWorldCoordY(view.getHeight() + 10)) <= 0 ? 1 : 0;
 			GArea a = AwtFactory.getPrototype().newArea();
 			for (int i = 0; 2 * i + j + 1 < numOfX; i++) {
-				gp[i] = new GeneralPathClipped(view, geo.getLineThickness());
+				gp[i] = new GeneralPathClipped(view);
+				gp[i].resetWithThickness(geo.getLineThickness());
 				gp[i].moveTo(-10, x[2 * i + j]);
 				gp[i].lineTo(view.getWidth() + 10, x[2 * i + j]);
 				gp[i].lineTo(view.getWidth() + 10, x[2 * i + j + 1]);
@@ -344,7 +345,8 @@ public class DrawInequality1Var extends SetDrawable {
 						.value(view.toRealWorldCoordX(-10)) <= 0 ? 1 : 0;
 
 				for (int i = 0; 2 * i + j + 1 < numOfX; i++) {
-					gp[i] = new GeneralPathClipped(view, geo.getLineThickness());
+					gp[i] = new GeneralPathClipped(view);
+					gp[i].resetWithThickness(geo.getLineThickness());
 					gp[i].moveTo(x[2 * i + j], -10);
 					gp[i].lineTo(x[2 * i + j], view.getHeight() + 10);
 					gp[i].lineTo(x[2 * i + j + 1], view.getHeight() + 10);

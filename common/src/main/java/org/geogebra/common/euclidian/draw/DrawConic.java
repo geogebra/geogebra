@@ -761,10 +761,9 @@ public class DrawConic extends SetDrawable implements Previewable {
 			// set general path for filling the arc to screen borders
 			if (conic.isFilled() && !fullAngle) {
 				if (gp == null) {
-					gp = new GeneralPathClipped(view, geo.getLineThickness());
-				} else {
-					gp.reset();
+					gp = new GeneralPathClipped(view);
 				}
+				gp.resetWithThickness(geo.getLineThickness());
 				GPoint2D sp = arc.getStartPoint();
 				GPoint2D ep = arc.getEndPoint();
 				if (!conic.isInverseFill()) {
@@ -1109,12 +1108,11 @@ public class DrawConic extends SetDrawable implements Previewable {
 		if (firstHyperbola) {
 			firstHyperbola = false;
 			points = PLOT_POINTS;
-			hypRight = new GeneralPathClipped(view, geo.getLineThickness()); // right wing
-			hypLeft = new GeneralPathClipped(view, geo.getLineThickness()); // left wing
-		} else {
-			hypRight.reset();
-			hypLeft.reset();
+			hypRight = new GeneralPathClipped(view); // right wing
+			hypLeft = new GeneralPathClipped(view); // left wing
 		}
+		hypRight.resetWithThickness(geo.getLineThickness());
+		hypLeft.resetWithThickness(geo.getLineThickness());
 	}
 
 	/**

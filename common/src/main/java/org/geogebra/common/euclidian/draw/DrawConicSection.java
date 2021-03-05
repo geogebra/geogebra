@@ -536,14 +536,12 @@ public class DrawConicSection extends DrawConic {
 
 	@Override
 	protected void updateHyperbolaResetPaths() {
-
 		if (firstHyperbola) {
 			firstHyperbola = false;
 			points = PLOT_POINTS;
-			hyp = new GeneralPathClipped(view, geo.getLineThickness());
-		} else {
-			hyp.reset();
+			hyp = new GeneralPathClipped(view);
 		}
+		hyp.resetWithThickness(geo.getLineThickness());
 	}
 
 	@Override

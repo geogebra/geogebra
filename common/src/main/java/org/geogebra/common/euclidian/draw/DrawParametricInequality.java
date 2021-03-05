@@ -96,10 +96,9 @@ class DrawParametricInequality extends SetDrawable {
 	@Override
 	public void update() {
 		if (gp == null) {
-			gp = new GeneralPathClippedForCurvePlotter(view, geo.getLineThickness());
-		} else {
-			gp.reset();
+			gp = new GeneralPathClippedForCurvePlotter(view);
 		}
+		gp.resetWithThickness(geo.getLineThickness());
 		GeoFunction border = paramIneq.getFunBorder();
 		border.setLineThickness(geo.getLineThickness());
 		updateStrokes(border);

@@ -53,15 +53,12 @@ public class GeneralPathClipped implements GShape {
 	 *
 	 * @param view
 	 *            view
-	 * @param lineThickness
 	 */
-	public GeneralPathClipped(EuclidianViewInterfaceSlim view, int lineThickness) {
+	public GeneralPathClipped(EuclidianViewInterfaceSlim view) {
 		this.view = view;
-		this.lineThickness = lineThickness;
 		pathPoints = new ArrayList<>();
 		clipAlgoSutherlandHodogman = new ClipAlgoSutherlandHodogman();
 		gp = AwtFactory.getPrototype().newGeneralPath();
-		reset();
 	}
 
 	/**
@@ -76,8 +73,9 @@ public class GeneralPathClipped implements GShape {
 
 	/**
 	 * Clears all points and resets internal variables
+	 * @param lineThickness line thickness
 	 */
-	final public void reset() {
+	final public void resetWithThickness(int lineThickness) {
 		pathPoints.clear();
 		gp.reset();
 		// save object
@@ -85,6 +83,7 @@ public class GeneralPathClipped implements GShape {
 		bounds = null;
 		largestCoord = 0;
 		needClosePath = false;
+		this.lineThickness = lineThickness;
 	}
 
 	/**
