@@ -18,9 +18,8 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
 
-import elemental2.webgl.WebGLRenderingContext;
-
 import elemental2.dom.HTMLImageElement;
+import elemental2.webgl.WebGLRenderingContext;
 
 /**
  * 

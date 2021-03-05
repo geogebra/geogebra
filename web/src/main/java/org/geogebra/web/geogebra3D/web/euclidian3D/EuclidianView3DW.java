@@ -42,7 +42,6 @@ import org.geogebra.web.html5.main.TimerSystemW;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.GestureChangeEvent;
