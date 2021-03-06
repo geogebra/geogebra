@@ -130,7 +130,7 @@ public class InputBarHelpPanel {
 		mSubDict = mApp.getSubCommandDictionary();
 
 		int n = getCategoriesCount();
-		mCommands = new ArrayList<Collection<String>>(n);
+		mCommands = new ArrayList<>(n);
 		mCategoryNameToTableIndex = new TreeMap<>();
 
 		for (int i = 0; i < n; i++) {

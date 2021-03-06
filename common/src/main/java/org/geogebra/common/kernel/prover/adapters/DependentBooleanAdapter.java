@@ -335,7 +335,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 				botanaVars[index] = new PVariable(kernel);
 			}
 			// collect substitution of segments with variables
-			Entry<GeoElement, PVariable> subst = new AbstractMap.SimpleEntry<GeoElement, PVariable>(
+			Entry<GeoElement, PVariable> subst = new AbstractMap.SimpleEntry<>(
 					segment, botanaVars[index]);
 			if (!varSubstListOfSegs.isEmpty()) {
 				Iterator<Entry<GeoElement, PVariable>> it = varSubstListOfSegs
