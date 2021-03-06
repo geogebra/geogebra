@@ -47,16 +47,12 @@ import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.export.PrintPreviewD;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.dialog.DialogManagerD;
 import org.geogebra.desktop.gui.layout.DockManagerD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
-import org.geogebra.desktop.util.UtilD;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	private static final long serialVersionUID = 1736020764918189176L;
@@ -203,11 +199,6 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (UtilD.isJava7()) {
-					app.showReinstallMessage();
-					return;
-				}
-
 				app.getGuiManager().login();
 			}
 		};
@@ -335,22 +326,17 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			// Show a login success message
 			if (!automatic) {
 				Object[] options = {
-						loc.getMenu("OpenFromGeoGebraTube") + Unicode.ELLIPSIS,
 						loc.getMenu("OK") };
-				int n = JOptionPane.showOptionDialog(app.getMainComponent(),
+				JOptionPane.showOptionDialog(app.getMainComponent(),
 						loc.getMenu("ThanksForSigningIn"),
 						loc.getMenu("SignInSuccessful"),
 						JOptionPane.DEFAULT_OPTION,
 						JOptionPane.INFORMATION_MESSAGE, null, options,
 						options[0]);
-				if (n == 0) {
-					((DialogManagerD) app.getDialogManager())
-							.showOpenFromGGTDialog();
-				} else {
-					// open perspective popup after logging in
-					if (app.isShowDockBar()) {
-						app.getDockBar().showPopup();
-					}
+
+				// open perspective popup after logging in
+				if (app.isShowDockBar()) {
+					app.getDockBar().showPopup();
 				}
 			}
 		} else {

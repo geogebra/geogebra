@@ -494,18 +494,6 @@ public class DialogManagerD extends DialogManagerMinimal {
 	}
 
 	/**
-	 * Opens dialog for Tube
-	 */
-	public void showOpenFromGGTDialog() {
-		app.setWaitCursor();
-
-		WebViewDialog dialog = new OpenFromGGTDialogD((AppD) app);
-		dialog.setVisible(true);
-
-		app.setDefaultCursor();
-	}
-
-	/**
 	 * Creates a new JavaScript button at given location (screen coords).
 	 * 
 	 * @return whether a new slider (number) was create or not
