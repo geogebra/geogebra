@@ -16,6 +16,7 @@ import org.junit.Test;
 
 public class GeoQuadric3DTest extends BaseUnitTest {
 
+	@Override
 	public AppCommon createAppCommon() {
 		return new AppCommon3D(new LocalizationCommon(3), new AwtFactoryCommon());
 	}

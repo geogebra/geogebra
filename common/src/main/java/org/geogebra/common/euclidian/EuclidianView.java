@@ -476,7 +476,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * Get styleBar
 	 */
-	protected org.geogebra.common.euclidian.EuclidianStyleBar styleBar;
+	protected EuclidianStyleBar styleBar;
 	private DrawGrid drawGrid;
 	private DrawAxis da;
 

@@ -15,7 +15,7 @@ public abstract class BaseOperation<T> {
 	/**
 	 * The Common view component to operate on (if exists)
 	 */
-	private final BaseView<T> view = new BaseView<T>();
+	private final BaseView<T> view = new BaseView<>();
 
 	/**
 	 * @return the Common View to operate on

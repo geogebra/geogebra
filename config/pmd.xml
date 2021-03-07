@@ -40,6 +40,9 @@
         <exclude name="ForLoopVariableCount"/>
         <exclude name="UnusedPrivateMethod"/>
         <exclude name="UnusedPrivateField"/>
+        <exclude name="JUnitAssertionsShouldIncludeMessage"/>
+        <exclude name="JUnitTestContainsTooManyAsserts"/>
+        <exclude name="JUnitTestsShouldIncludeAssert"/>
     </rule>
     <rule ref="category/java/codestyle.xml">
         <exclude name="AtLeastOneConstructor"/>
@@ -72,7 +75,6 @@
         <exclude name="LinguisticNaming"/>
         <exclude name="UseUnderscoresInNumericLiterals"/>
         <exclude name="UnnecessaryFullyQualifiedName"/>
-        <exclude name="UseDiamondOperator"/>
         <exclude name="UseShortArrayInitializer"/>
         <exclude name="UnnecessaryCast"/>
     </rule>

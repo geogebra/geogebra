@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.table;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -256,7 +257,7 @@ public class TableValuesViewTest extends BaseUnitTest {
         model.getCellAt(0, 1);
         long cachedElapsed = stopwatch.stop();
 
-		Assert.assertThat(
+		assertThat(
 				"Querying with the cache is not at least 10 times faster",
 				elapsed, OrderingComparison.greaterThan(cachedElapsed * 10));
     }
@@ -345,7 +346,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		GeoElementFactory factory = getElementFactory();
 		GeoFunction fn = factory.createFunction("f:x^2");
 		showColumn(fn);
-		Assert.assertThat(getApp().getXML(),
+		assertThat(getApp().getXML(),
 				RegexpMatch.matches(
 						".*<tableview min=\"0.0\" max=\"10.0\".*"
 								+ "<tableview column=\"1\" points=\"true\"\\/>.*"));
@@ -403,7 +404,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		GeoFunction fn = factory.createFunction("f:x^2");
 		fn.setPointsVisible(false);
 		showColumn(fn);
-		assertEquals(false, fn.isPointsVisible());
+		assertFalse(fn.isPointsVisible());
 
 		String xml = getApp().getXML();
 
@@ -411,7 +412,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		getApp().setXML(xml, true);
 		GeoEvaluatable fnReload = lookupFunction("f");
 
-		assertEquals(false, fnReload.isPointsVisible());
+		assertFalse(fnReload.isPointsVisible());
 	}
 
 	@Test
@@ -583,13 +584,13 @@ public class TableValuesViewTest extends BaseUnitTest {
 		showColumn(lines[2]);
 		lines[1].setPointsVisible(false);
 		reload();
-		assertEquals(false, tablePoints.arePointsVisible(1));
-		assertEquals(true, tablePoints.arePointsVisible(2));
-		assertEquals(true, tablePoints.arePointsVisible(3));
+		assertFalse(tablePoints.arePointsVisible(1));
+		assertTrue(tablePoints.arePointsVisible(2));
+		assertTrue(tablePoints.arePointsVisible(3));
 		// remove the first column: shift flags to the left
 		lookupFunction(lines[1].getLabelSimple()).remove();
-		assertEquals(true, tablePoints.arePointsVisible(1));
-		assertEquals(true, tablePoints.arePointsVisible(2));
+		assertTrue(tablePoints.arePointsVisible(1));
+		assertTrue(tablePoints.arePointsVisible(2));
 	}
 
 	@Test
@@ -603,13 +604,13 @@ public class TableValuesViewTest extends BaseUnitTest {
 		showColumn(f);
 		g.setPointsVisible(false);
 		showColumn(g);
-		assertEquals(true, tablePoints.arePointsVisible(1));
+		assertTrue(tablePoints.arePointsVisible(1));
 		factory.create("f(x)=x+a");
-		assertEquals(true, tablePoints.arePointsVisible(1));
+		assertTrue(tablePoints.arePointsVisible(1));
 		factory.create("g:x+a+y=0");
-		assertEquals(true, tablePoints.arePointsVisible(1));
-		assertEquals(false, tablePoints.arePointsVisible(2));
-		assertEquals(false, tablePoints.arePointsVisible(3));
+		assertTrue(tablePoints.arePointsVisible(1));
+		assertFalse(tablePoints.arePointsVisible(2));
+		assertFalse(tablePoints.arePointsVisible(3));
 	}
 
 	@Test
