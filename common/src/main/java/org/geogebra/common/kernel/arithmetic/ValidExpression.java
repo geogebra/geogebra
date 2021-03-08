@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MacroConstruction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.HasDebugString;
 import org.geogebra.common.util.debug.Log;
@@ -311,7 +312,7 @@ public abstract class ValidExpression
 		ExpressionValue ev;
 		try {
 			ev = evaluate(StringTemplate.defaultTemplate);
-		} catch (Exception ex) {
+		} catch (Error | Exception e) {
 			return Double.NaN;
 		}
 		if (ev instanceof NumberValue) {
