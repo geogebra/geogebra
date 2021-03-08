@@ -74,7 +74,6 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	private int counter;
 	private HashMap<Integer, String> content = new HashMap<>();
 	private HashMap<Integer, String> base64 = new HashMap<>();
-	private final ArrayList<GeoEmbed> embedsLoading = new ArrayList<>();
 
 	/**
 	 * @param app
@@ -570,14 +569,15 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	@Override
-	public void openH5PTool(String url) {
+	public GeoEmbed openH5PTool() {
 		int embedId = nextID();
 		GeoEmbed geoEmbed = new GeoEmbed(app.getKernel().getConstruction());
-		embedsLoading.add(geoEmbed);
-		geoEmbed.setUrl(url);
 		geoEmbed.setEmbedId(embedId);
 		geoEmbed.setAppName("h5p");
+		geoEmbed.setSize(600, 300);
+		geoEmbed.initPosition(app.getActiveEuclidianView());
 		geoEmbed.setLabel(null);
+		return geoEmbed;
 	}
 
 	@Override
@@ -625,14 +625,6 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	@Override
-	public void onLoaded(GeoEmbed geoEmbed, Runnable callback) {
-		if (embedsLoading.contains(geoEmbed)) {
-			embedsLoading.remove(geoEmbed);
-			callback.run();
-		}
-	}
-
-	@Override
 	public void renderEvent(BaseEvent event) {
 		for (Entry<DrawWidget, EmbedElement> e : widgets.entrySet()) {
 			e.getValue().setJsEnabled(isJsEnabled());
@@ -673,7 +665,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	@Override
-	public void setBase64(String label, String contentBase64) {
+	public void setContentSync(String label, String contentBase64) {
 		GeoElement el = app.getKernel().lookupLabel(label);
 		if (el instanceof GeoEmbed) {
 			DrawableND de = app.getActiveEuclidianView().getDrawableFor(el);

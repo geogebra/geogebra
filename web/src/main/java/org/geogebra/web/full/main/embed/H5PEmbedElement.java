@@ -1,10 +1,12 @@
 package org.geogebra.web.full.main.embed;
 
+import java.util.HashSet;
+
 import org.geogebra.common.euclidian.DrawableND;
-import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.gui.laf.LoadSpinner;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.h5pviewer.H5P;
 import org.geogebra.web.html5.util.h5pviewer.H5PPaths;
@@ -20,6 +22,7 @@ import jsinterop.base.JsPropertyMap;
 
 public class H5PEmbedElement extends EmbedElement {
 	private static final int H5P_INITIAL_HEIGHT = 150;
+	public static final String H5P_PREVIEW = "h5pPreview";
 	private final Widget widget;
 	private final GeoEmbed geoEmbed;
 	private final int embedId;
@@ -27,7 +30,8 @@ public class H5PEmbedElement extends EmbedElement {
 	private final App app;
 	private final EuclidianController euclidianController;
 	private String url;
-	private static boolean isRendered = false;
+	private static boolean isRendererBusy = false;
+	private static final HashSet<H5PEmbedElement> renderQueue = new HashSet<>();
 
 	/**
 	 * @param widget UI widget
@@ -40,44 +44,63 @@ public class H5PEmbedElement extends EmbedElement {
 		app = geoEmbed.getApp();
 		euclidianController = app.getActiveEuclidianView().getEuclidianController();
 		widget.addStyleName("h5pEmbed");
+		this.url = geoEmbed.getURL();
 		load();
 	}
 
 	@Override
 	public void setContent(String url) {
 		this.url = url;
-
-		final Timer timer = new Timer() {
-			@Override
-			public void run() {
-				if (H5PLoader.isLoaded() && isRendered) {
-					render();
-					cancel();
-				}
-			}
-		};
-		timer.scheduleRepeating(100);
+		load();
 	}
 
 	private void render() {
 		Element element = widget.getElement();
 		if (element == null) {
+			renderNext();
 			return;
 		}
-		isRendered = false;
+		if (url == null) {
+			element.addClassName(H5P_PREVIEW);
+			element.removeAllChildren();
+			LoadSpinner spinner = new LoadSpinner();
+			element.appendChild(spinner.getElement());
+			update();
+			renderNext();
+			return;
+		}
+		if (isRendererBusy || !H5PLoader.INSTANCE.isLoaded()) {
+			renderQueue.add(this);
+			return;
+		}
+
+		isRendererBusy = true;
 
 		H5P h5P = new H5P(Js.cast(element), url,
 				getOptions(), getDisplayOptions());
 		h5P.then(p -> {
 			Js.asPropertyMap(DomGlobal.window).set("myh5p", h5P);
-			EmbedManager embedManager = app.getEmbedManager();
-			if (embedManager != null) {
-				embedManager.onLoaded(geoEmbed, this::update);
-			}
-			isRendered = true;
+			updatePreview();
+			renderQueue.remove(this);
+			isRendererBusy = false;
 			initializeSizingTimer();
+			renderNext();
 			return null;
 		});
+	}
+
+	private void updatePreview() {
+		if (widget.getElement().hasClassName(H5P_PREVIEW)) {
+			widget.getElement().removeClassName(H5P_PREVIEW);
+			this.update();
+			app.storeUndoInfo();
+		}
+	}
+
+	private static void renderNext() {
+		if (!renderQueue.isEmpty()) {
+			renderQueue.iterator().next().render();
+		}
 	}
 
 	private void initializeSizingTimer() {
@@ -105,10 +128,9 @@ public class H5PEmbedElement extends EmbedElement {
 		double initialRatio = h / w;
 		geoEmbed.setSize(DEFAULT_WIDTH, initialRatio * DEFAULT_WIDTH);
 		geoEmbed.initPosition(euclidianController.getView());
-		app.storeUndoInfo();
+		geoEmbed.updateRepaint();
 		DrawableND drawable = euclidianController.getView().getDrawableFor(geoEmbed);
 		if (drawable != null) {
-			drawable.update();
 			euclidianController.selectAndShowSelectionUI(geoEmbed);
 		}
 	}
@@ -156,9 +178,7 @@ public class H5PEmbedElement extends EmbedElement {
 	}
 
 	private void load() {
-		if (H5PLoader.isLoaded()) {
-			return;
-		}
-		H5PLoader.INSTANCE.load(this::render);
+		H5PLoader.INSTANCE.loadIfNeeded(H5PEmbedElement::renderNext);
+		render();
 	}
 }

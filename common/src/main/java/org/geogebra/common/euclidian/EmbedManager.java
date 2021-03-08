@@ -126,9 +126,9 @@ public interface EmbedManager {
 
 	/**
 	 * opens the H5P tool
-	 * @param url of the unzipped h5p file
+	 * @return embed element
 	 */
-	void openH5PTool(String url);
+	GeoEmbed openH5PTool();
 
 	void initAppEmbed(GeoEmbed ge);
 
@@ -151,13 +151,6 @@ public interface EmbedManager {
 	void setContent(int embedID, String content);
 
 	/**
-	 * Notify when H5P object was loaded
-	 * @param geoEmbed embed
-	 * @param callback callback
-	 */
-	void onLoaded(GeoEmbed geoEmbed, Runnable callback);
-
-	/**
 	 * @param action
 	 *            action to be executed
 	 * @param id
@@ -165,5 +158,5 @@ public interface EmbedManager {
 	 */
 	void embeddedAction(EventType action, String id);
 
-	void setBase64(String label, String base64);
+	void setContentSync(String label, String base64);
 }

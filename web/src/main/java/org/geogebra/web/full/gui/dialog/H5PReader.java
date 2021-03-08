@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.euclidian.EmbedManager;
+import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
@@ -16,6 +17,7 @@ import elemental2.dom.FileReader;
 public class H5PReader implements AjaxCallback {
 
 	private final App app;
+	private GeoEmbed embed;
 
 	public H5PReader(App app) {
 		this.app = app;
@@ -27,7 +29,10 @@ public class H5PReader implements AjaxCallback {
 	 */
 	public void load(File file) {
 		FileReader reader = new FileReader();
-
+		EmbedManager em = app.getEmbedManager();
+		if (em != null) {
+			embed = em.openH5PTool();
+		}
 		reader.addEventListener("load", (ev) -> {
 			if (reader.readyState == FileReader.DONE) {
 				String[] splitted = reader.result.asString().split("base64,");
@@ -50,7 +55,8 @@ public class H5PReader implements AjaxCallback {
 			String unzippedPath = h5p.getString("url");
 			EmbedManager em = app.getEmbedManager();
 			if (em != null && unzippedPath != null && !unzippedPath.isEmpty()) {
-				em.openH5PTool(unzippedPath);
+				embed.setUrl(unzippedPath);
+				em.setContentSync(embed.getLabelSimple(), embed.getURL());
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
