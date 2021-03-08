@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.himamis.retex.editor.share.controller.CursorController;
-import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.controller.InputController;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.input.adapter.FunctionAdapter;
@@ -154,45 +153,41 @@ public class KeyboardInputAdapter {
 			}
 		});
 
-		commandAdapter = new KeyboardAdapter() {
-			@Override
-			public void commit(MathFieldInternal mfi, String commandName) {
-				EditorState editorState = mfi.getEditorState();
-				InputController inputController = mfi.getInputController();
-				for (int i = 0; i < commandName.length(); i++) {
-					inputController.newCharacter(editorState, commandName.charAt(i));
-				}
-				inputController.newBraces(editorState, '(');
-
-			}
-
-			@Override
-			public boolean test(String input) {
-				return Character.areLettersOrDigits(input);
-			}
-		};
-
 		adapters.add(new StringInput() {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {
 				String command = input.substring(0, input.length() - Unicode
 						.SUPERSCRIPT_MINUS_ONE_STRING.length());
-				getCommandAdapter().commit(mfi, command);
-				mfi.getCursorController().prevCharacter(mfi.getEditorState());
+				insertString(mfi, command);
 				typeCharacter(mfi, '^');
 				typeCharacter(mfi, '-');
 				typeCharacter(mfi, '1');
 				CursorController.nextCharacter(mfi.getEditorState());
-				CursorController.nextCharacter(mfi.getEditorState());
+				mfi.getInputController().newBraces(mfi.getEditorState(), '(');
 			}
 
 			@Override
 			public boolean test(String keyboard) {
 				return keyboard.endsWith(Unicode.SUPERSCRIPT_MINUS_ONE_STRING)
-						&& getCommandAdapter().test(keyboard.substring(0,
+						&& Character.areLettersOrDigits(keyboard.substring(0,
 								keyboard.length() - Unicode.SUPERSCRIPT_MINUS_ONE_STRING.length()));
 			}
 		});
+
+		commandAdapter = new KeyboardAdapter() {
+			@Override
+			public void commit(MathFieldInternal mfi, String commandName) {
+				insertString(mfi, commandName);
+				if (!commandName.contains("(")) {
+					mfi.getInputController().newBraces(mfi.getEditorState(), '(');
+				}
+			}
+
+			@Override
+			public boolean test(String input) {
+				return true;
+			}
+		};
 
 		adapters.add(commandAdapter);
 	}
@@ -231,13 +226,6 @@ public class KeyboardInputAdapter {
 			KeyboardInputAdapter.onKeyboardInput(mathFieldInternal,
 					text.charAt(i) + "");
 		}
-	}
-
-	/**
-	 * @return command adapter
-	 */
-	protected static KeyboardAdapter getCommandAdapter() {
-		return commandAdapter;
 	}
 
 	/**
