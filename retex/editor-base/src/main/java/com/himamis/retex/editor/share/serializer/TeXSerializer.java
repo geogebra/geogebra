@@ -202,6 +202,7 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("}}");
 			break;
 		case SQRT:
+		case CBRT:
 			stringBuilder.append(function.getTexName());
 			stringBuilder.append("{");
 			serialize(function.getArgument(0), stringBuilder);
