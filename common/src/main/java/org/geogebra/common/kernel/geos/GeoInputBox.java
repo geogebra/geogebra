@@ -118,10 +118,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 */
 	public String getTextForEditor() {
 		String textForEditor = getTextForEditor(StringTemplate.editorTemplate);
-		if (InputBoxRenderer.isComplex(linkedGeo)) {
-			return textForEditor.replace(Unicode.IMAGINARY, 'i');
-		}
-		return textForEditor;
+		return textForEditor.replace(Unicode.IMAGINARY, 'i');
 	}
 
 	private String getTextForEditor(StringTemplate tpl) {
