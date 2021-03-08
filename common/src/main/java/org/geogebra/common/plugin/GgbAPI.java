@@ -1859,6 +1859,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return GeoGebraConstants.VERSION_STRING;
 	}
 
+	public void updateConstruction() {
+		kernel.updateConstruction();
+	}
+
 	/**
 	 * Changes display style of line or conic
 	 *

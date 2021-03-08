@@ -35,7 +35,7 @@
         this.evalXML = function(xml) {
             this.unregisterListeners();
             this.api.evalXML(xml);
-            this.api.evalCommand("UpdateConstruction()");
+            this.api.updateConstruction();
             this.registerListeners();
             var that = this;
             setTimeout(function() {
@@ -46,7 +46,7 @@
         this.setXML = function(xml) {
             this.unregisterListeners();
             this.api.setXML(xml);
-            this.api.evalCommand("UpdateConstruction()");
+            this.api.updateConstruction();
             this.registerListeners();
         };
 
