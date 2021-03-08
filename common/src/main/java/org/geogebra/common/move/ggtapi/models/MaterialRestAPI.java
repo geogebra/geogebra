@@ -474,17 +474,10 @@ public class MaterialRestAPI implements BackendAPI {
 	 * @param callback to handle api response
 	 */
 	public void uploadAndUnzipH5P(String base64, AjaxCallback callback) {
-		JSONObject json = new JSONObject();
-		try {
-			json.put("file", base64);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
 		HttpRequest request = service.createRequest(model);
 		request.setContentTypeJson();
-
+		String json = "{\"file\":\"" + base64 + "\"}";
 		request.sendRequestPost("POST", baseURL + "/media/h5p",
-				json.toString(), callback);
+				json, callback);
 	}
 }

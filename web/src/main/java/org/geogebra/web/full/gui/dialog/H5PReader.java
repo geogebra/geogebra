@@ -27,13 +27,13 @@ public class H5PReader implements AjaxCallback {
 	 */
 	public void load(File file) {
 		FileReader reader = new FileReader();
-
 		reader.addEventListener("load", (ev) -> {
 			if (reader.readyState == FileReader.DONE) {
-				String[] splitted = reader.result.asString().split("base64,");
-				if (splitted != null && splitted.length == 2) {
+				String dataUrl = reader.result.asString();
+				int offset = dataUrl.indexOf(',');
+				if (offset > 0) {
 					((MaterialRestAPI) app.getLoginOperation().getGeoGebraTubeAPI())
-							.uploadAndUnzipH5P(splitted[1], this);
+							.uploadAndUnzipH5P(dataUrl.substring(offset + 1), this);
 				}
 
 			}
