@@ -250,8 +250,6 @@ public interface GeoGebraConstants {
 
 	public static final String FORUM_URL = "https://help.geogebra.org/";
 
-	public static final String WIDGET_URL = "https://www.geogebra.org/widgetprovider/index/widgettype/";
-
 	public static final String EDIT_URL_BASE = "https://www.geogebra.org/material/edit/id/";
 
 	public static final String CDN_APPS = "https://cdn.geogebra.org/apps/";

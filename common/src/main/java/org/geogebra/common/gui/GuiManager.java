@@ -41,10 +41,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
-import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
-import org.geogebra.common.media.GeoGebraURLParser;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;

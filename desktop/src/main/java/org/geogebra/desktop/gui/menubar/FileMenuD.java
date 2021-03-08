@@ -154,11 +154,8 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 		submenu.add(exportAnimationAction);
 
-		// Graphical clipboard is not working under Mac when Java == 7:
-		if (!app.isMacOS() || !AppD.isJava7()) {
-			mi = submenu.add(drawingPadToClipboardAction);
-			setMenuShortCutShiftAccelerator(mi, 'C');
-		}
+		mi = submenu.add(drawingPadToClipboardAction);
+		setMenuShortCutShiftAccelerator(mi, 'C');
 
 		submenu.addSeparator();
 		mi = submenu.add(exportPSTricksAction);
@@ -206,7 +203,6 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
-
 	}
 
 	/**
@@ -274,22 +270,6 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				exportGeoGebraTubeAction.actionPerformed(e);
 			}
 		};
-
-		/*
-		 * printProtocolAction = new AbstractAction(
-		 * loc.getMenu("ConstructionProtocol") + " ...") { private static final
-		 * long serialVersionUID = 1L;
-		 * 
-		 * public void actionPerformed(ActionEvent e) { Thread runner = new
-		 * Thread() { public void run() { ConstructionProtocol constProtocol =
-		 * app.getConstructionProtocol(); if (constProtocol == null) {
-		 * constProtocol = new ConstructionProtocol(app); }
-		 * constProtocol.initProtocol();
-		 * 
-		 * try { new PrintPreview(app, constProtocol, PageFormat.PORTRAIT); }
-		 * catch (Exception e) { Application.debug("Print preview not available"
-		 * ); } } }; runner.start(); } };
-		 */
 
 		printEuclidianViewAction = new AbstractAction(
 				loc.getMenu("DrawingPad") + " ...") {
@@ -364,13 +344,6 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				runner.start();
 			}
 		};
-
-		/*
-		 * updateAction = new AbstractAction(getMenu("Update"), getEmptyIcon())
-		 * { private static final long serialVersionUID = 1L; public void
-		 * actionPerformed(ActionEvent e) { Thread runner = new Thread() {
-		 * public void run() { updateGeoGebra(); } }; runner.start(); } };
-		 */
 
 		exportGraphicAction = new AbstractAction(
 				loc.getMenu("DrawingPadAsPicture") + " (" + FileExtensions.PNG
