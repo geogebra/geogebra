@@ -174,7 +174,7 @@ public class ViewW {
 			      (function(entry){	            		
 			      var filename = entry.filename;
 			      if (entry.filename.match(imageRegex)) {
-				      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(filename+" : image");
+				      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)(filename+" : image");
 				      var filenameParts = filename.split(".");
 				      var filenameSimple = filenameParts[filenameParts.length - 1];
 				      var dataWriter = new $wnd.zip.Data64URIWriter("image/" + filenameSimple);
@@ -182,17 +182,17 @@ public class ViewW {
 				      view.@org.geogebra.web.html5.util.ViewW::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
 				      });
 			      } else {
-				      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(entry.filename+" : text");
+				      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)(entry.filename+" : text");
 				      var forceDataURI = typeof $wnd.zip.forceDataURIWriter !== "undefined" 
 				          && $wnd.zip.forceDataURIWriter === true;
 				      if ($wnd.zip.useWebWorkers === false || forceDataURI) {
-					      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
+					      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("no worker of forced dataURIWriter");
 					      entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
 					      var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
 					      view.@org.geogebra.web.html5.util.ViewW::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
 					      });
 				      } else {
-					      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("worker");
+					      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("worker");
 					      entry.getData(new ASCIIWriter(), function(text) {
 					      view.@org.geogebra.web.html5.util.ViewW::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(text));
 					      });

@@ -2980,9 +2980,6 @@ public class Construction {
 	 * Redoes last undone step
 	 */
 	public void redo() {
-		// undo unavailable in applets
-		// if (getApplication().isApplet()) return;
-
 		undoManager.redo();
 	}
 
@@ -2990,9 +2987,6 @@ public class Construction {
 	 * Undoes last operation
 	 */
 	public void undo() {
-		// undo unavailable in applets
-		// if (getApplication().isApplet()) return;
-
 		undoManager.undo();
 	}
 

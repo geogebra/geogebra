@@ -9238,7 +9238,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					|| needsAxisZoom(hits, event) || specialMoveEvent(event)) {
 				temporaryMode = true;
 				oldMode = mode; // remember current mode
-				if (!view.isAREnabled()) {
+				if (!view.isXREnabled()) {
 					view.setMode(getModeForShallMoveView(event));
 				}
 
@@ -11234,7 +11234,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		view.rememberOrigins();
 
-		if (view.isAREnabled()) {
+		if (view.isXREnabled()) {
 			return;
 		}
 
@@ -11360,7 +11360,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
-		if (view.isAREnabled()) {
+		if (view.isXREnabled()) {
 			return;
 		}
 

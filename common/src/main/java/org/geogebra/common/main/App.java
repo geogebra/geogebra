@@ -5269,4 +5269,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public String getThreadId() {
 		return "[main thread]";
 	}
+
+	/**
+	 * opens/closes notes toolbar
+	 * @param open true if should open notes toolbar
+	 */
+	public void setNotesToolbarOpen(boolean open) {
+		// nothing to do here
+	}
 }

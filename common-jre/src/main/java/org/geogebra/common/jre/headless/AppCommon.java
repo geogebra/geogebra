@@ -92,14 +92,8 @@ public class AppCommon extends App {
 		Log.setLogger(new Log() {
 
 			@Override
-			protected void print(String logEntry, Level level) {
+			public void print(Level level, Object logEntry) {
 				System.out.println(logEntry); // NOPMD
-			}
-
-			@Override
-			public void doPrintStacktrace(String message) {
-				new Throwable(message).printStackTrace();
-
 			}
 		});
     }

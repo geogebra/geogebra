@@ -924,142 +924,14 @@ public class TeXParser {
 
 	public void cumSupSymbols(Atom... syms) {
 		final RowAtom ra = new RowAtom(syms);
-		while (pos < len) {
-			final char c = parseString.charAt(pos);
-			if (convSup(c, ra)) {
-				++pos;
-			} else {
-				break;
-			}
-		}
 		processSubSup('^');
 		addToConsumer(ra);
 	}
 
 	public void cumSubSymbols(Atom... syms) {
 		final RowAtom ra = new RowAtom(syms);
-		while (pos < len) {
-			final char c = parseString.charAt(pos);
-			if (convSub(c, ra)) {
-				++pos;
-			} else {
-				break;
-			}
-		}
 		processSubSup('_');
 		addToConsumer(ra);
-	}
-
-	private boolean convSup(final char c, final RowAtom ra) {
-		switch (c) {
-		case CharMapping.APOSTROPHE:
-			ra.add(Symbols.PRIME);
-			break;
-		case CharMapping.SUPZERO:
-			ra.add(new CharAtom('0', isMathMode()));
-			break;
-		case CharMapping.SUPONE:
-			ra.add(new CharAtom('1', isMathMode()));
-			break;
-		case CharMapping.SUPTWO:
-			ra.add(new CharAtom('2', isMathMode()));
-			break;
-		case CharMapping.SUPTHREE:
-			ra.add(new CharAtom('3', isMathMode()));
-			break;
-		case CharMapping.SUPFOUR:
-			ra.add(new CharAtom('4', isMathMode()));
-			break;
-		case CharMapping.SUPFIVE:
-			ra.add(new CharAtom('5', isMathMode()));
-			break;
-		case CharMapping.SUPSIX:
-			ra.add(new CharAtom('6', isMathMode()));
-			break;
-		case CharMapping.SUPSEVEN:
-			ra.add(new CharAtom('7', isMathMode()));
-			break;
-		case CharMapping.SUPEIGHT:
-			ra.add(new CharAtom('8', isMathMode()));
-			break;
-		case CharMapping.SUPNINE:
-			ra.add(new CharAtom('9', isMathMode()));
-			break;
-		case CharMapping.SUPPLUS:
-			ra.add(charMapping.get('+', this));
-			break;
-		case CharMapping.SUPMINUS:
-			ra.add(charMapping.get('-', this));
-			break;
-		case CharMapping.SUPEQUAL:
-			ra.add(charMapping.get('=', this));
-			break;
-		case CharMapping.SUPLPAR:
-			ra.add(charMapping.get('(', this));
-			break;
-		case CharMapping.SUPRPAR:
-			ra.add(charMapping.get(')', this));
-			break;
-		case CharMapping.SUPN:
-			ra.add(new CharAtom('n', isMathMode()));
-			break;
-		default:
-			return false;
-		}
-		return true;
-	}
-
-	private boolean convSub(final char c, final RowAtom ra) {
-		switch (c) {
-		case CharMapping.SUBZERO:
-			ra.add(new CharAtom('0', isMathMode()));
-			break;
-		case CharMapping.SUBONE:
-			ra.add(new CharAtom('1', isMathMode()));
-			break;
-		case CharMapping.SUBTWO:
-			ra.add(new CharAtom('2', isMathMode()));
-			break;
-		case CharMapping.SUBTHREE:
-			ra.add(new CharAtom('3', isMathMode()));
-			break;
-		case CharMapping.SUBFOUR:
-			ra.add(new CharAtom('4', isMathMode()));
-			break;
-		case CharMapping.SUBFIVE:
-			ra.add(new CharAtom('5', isMathMode()));
-			break;
-		case CharMapping.SUBSIX:
-			ra.add(new CharAtom('6', isMathMode()));
-			break;
-		case CharMapping.SUBSEVEN:
-			ra.add(new CharAtom('7', isMathMode()));
-			break;
-		case CharMapping.SUBEIGHT:
-			ra.add(new CharAtom('8', isMathMode()));
-			break;
-		case CharMapping.SUBNINE:
-			ra.add(new CharAtom('9', isMathMode()));
-			break;
-		case CharMapping.SUBPLUS:
-			ra.add(charMapping.get('+', this));
-			break;
-		case CharMapping.SUBMINUS:
-			ra.add(charMapping.get('-', this));
-			break;
-		case CharMapping.SUBEQUAL:
-			ra.add(charMapping.get('=', this));
-			break;
-		case CharMapping.SUBLPAR:
-			ra.add(charMapping.get('(', this));
-			break;
-		case CharMapping.SUBRPAR:
-			ra.add(charMapping.get(')', this));
-			break;
-		default:
-			return false;
-		}
-		return true;
 	}
 
 	protected static final boolean isRomanLetter(final char c) {
@@ -2708,10 +2580,8 @@ public class TeXParser {
 	}
 
 	public void convertCharacter(int c) throws ParseException {
-		if (!charMapping.replace(c, this)) {
-			final String r = new String(new int[] { c }, 0, 1);
-			addToConsumer(new JavaFontRenderingAtom(r));
-		}
+		final String r = new String(new int[] { c }, 0, 1);
+		addToConsumer(new JavaFontRenderingAtom(r));
 	}
 
 	public Atom getAtomFromUnicode(char c, final boolean oneChar) {

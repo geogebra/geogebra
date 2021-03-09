@@ -167,7 +167,7 @@ public class DrawAxis3D extends DrawLine3D {
 		} else {
 			label.setAnchor(true);
 
-			if (getView3D().isARDrawing()) {
+			if (getView3D().isXRDrawing()) {
 				updateDrawPositionLabel();
 			} else {
 				label.update(text, getView3D().getAxisLabelFont(axisIndex),
@@ -270,7 +270,7 @@ public class DrawAxis3D extends DrawLine3D {
 	 */
 	public void updateDecorations() {
 
-		if (getView3D().isARDrawing()) {
+		if (getView3D().isXRDrawing()) {
 			// update decorations
 			GeoAxisND axis = (GeoAxisND) getGeoElement();
 			// getToScreenMatrixForGL = rotation + translation
@@ -311,7 +311,7 @@ public class DrawAxis3D extends DrawLine3D {
 			// calc orthogonal offsets
 			int vx = (int) (v.get(1) * 1.5 * axis.getTickSize());
 			int vy = (int) (v.get(2) * 1.5 * axis.getTickSize());
-			if (getView3D().isARDrawing() && axis.getType() == GeoAxisND.Y_AXIS
+			if (getView3D().isXRDrawing() && axis.getType() == GeoAxisND.Y_AXIS
 					&& vx == 0 && vy == 0) {
 				vx = (int) (-SQRT3_DIV_3 * 1.5 * axis.getTickSize());
 				vy = (int) (-SQRT3_DIV_3 * 1.5 * axis.getTickSize());

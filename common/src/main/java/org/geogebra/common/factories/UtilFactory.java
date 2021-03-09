@@ -6,7 +6,6 @@ import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.Reflection;
 import org.geogebra.common.util.URLEncoder;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Various util-like factories for common usage
@@ -47,11 +46,6 @@ public abstract class UtilFactory {
 	 * @return URLEncoder object Creates a URLEncoder object
 	 */
 	public abstract URLEncoder newURLEncoder();
-
-	/**
-	 * @return GeoGebraLogger Creates a GeoGebraLogger object
-	 */
-	public abstract Log newGeoGebraLogger();
 
 	/**
 	 * @return Prover Creates a Prover object

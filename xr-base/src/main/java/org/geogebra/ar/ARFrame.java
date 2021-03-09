@@ -1,4 +1,4 @@
-package org.geogebra.arbase;
+package org.geogebra.ar;
 
 public interface ARFrame {
 

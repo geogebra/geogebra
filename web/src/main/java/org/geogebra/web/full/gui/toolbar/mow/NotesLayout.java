@@ -224,4 +224,18 @@ public class NotesLayout implements SetLabels {
 	public Widget getToolbar() {
 		return toolbar;
 	}
+
+	/**
+	 * @return true if toolbar open, false otherwise
+	 */
+	public boolean isNotesToolbarOpen() {
+		return toolbar.isOpen();
+	}
+
+	/**
+	 * @param open true if should open notes toolbar
+	 */
+	public void setToolbarOpen(boolean open) {
+		toolbar.openCloseNotesToolbar(open);
+	}
 }

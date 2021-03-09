@@ -121,10 +121,8 @@ public class EditorScreenReaderTest {
 	public void testCbrt() {
 		checkReader("cbrt(x+1)",
 				"start of formula start cube root x plus 1 end cube root",
-				"before cbrt", "after c before brt", "after cb before rt",
-				"after cbr before t", "after cbrt before parenthesis",
-				"start of parentheses before x", "after x before plus",
-				"after plus before 1", "end of parentheses after 1",
+				"start of cube root before x", "after x before plus",
+				"after plus before 1", "end of cube root after 1",
 				"end of formula start cube root x plus 1 end cube root");
 	}
 

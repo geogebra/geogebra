@@ -31,14 +31,17 @@ public class CarotaTable implements HasContent {
 
 	public native void init(int rows, int cols);
 
+	@Override
 	public native JavaScriptObject save();
 
 	public native void load(Object data);
 
+	@Override
 	public native void contentChanged(EditorCallback editorCallback);
 
 	public native void sizeChanged(EditorCallback editorCallback);
 
+	@Override
 	public native void selectionChanged(EditorCallback editorCallback);
 
 	@JsOverlay

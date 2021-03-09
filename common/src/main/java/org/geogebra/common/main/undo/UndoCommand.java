@@ -1,6 +1,5 @@
 package org.geogebra.common.main.undo;
 
-import java.util.ListIterator;
 import java.util.Objects;
 
 import org.geogebra.common.plugin.EventType;
@@ -72,7 +71,9 @@ public class UndoCommand {
 	 */
 	public void redo(final UndoManager undoManager) {
 		if (appState != null) {
+			undoManager.resetBeforeReload();
 			undoManager.loadUndoInfo(appState, slideID);
+			undoManager.restoreAfterReload();
 		} else {
 			withCurrentSlide(undoManager, new Runnable() {
 
@@ -116,11 +117,8 @@ public class UndoCommand {
 	/**
 	 * @param undoManager
 	 *            undo manager
-	 * @param iterator
-	 *            pointer to current undo point in manager
 	 */
-	public void undo(final UndoManager undoManager,
-			ListIterator<UndoCommand> iterator) {
+	public void undo(final UndoManager undoManager) {
 		if (getAction() != null) {
 			withCurrentSlide(undoManager, new Runnable() {
 				@Override
@@ -132,12 +130,14 @@ public class UndoCommand {
 				}
 			});
 		} else {
+			undoManager.resetBeforeReload();
 			UndoCommand checkpoint = undoManager.getCheckpoint(slideID);
 			if (checkpoint != null) {
 				undoManager.loadUndoInfo(checkpoint, slideID, this);
 			} else {
 				undoManager.redoCreationCommand(slideID);
 			}
+			undoManager.restoreAfterReload();
 		}
 	}
 
