@@ -56,6 +56,14 @@ public class TeXBuilder {
 	private final TeXParser parser;
 	private final TeXSerializer teXSerializer;
 
+	private final static HashMap<Character, String> replacements
+			= new HashMap<Character, String>() {{
+		put('*', "cdot");
+		put('%', "textpercent");
+		put('$', "textdollar");
+		put('&', "textampersand");
+	}};
+
 	public TeXBuilder() {
 		parser = new TeXParser("");
 		teXSerializer = new TeXSerializer();
@@ -93,6 +101,17 @@ public class TeXBuilder {
 			}
 
 			Atom argument = build(mathFormula.getArgument(i));
+
+			// same ugly hack for ln as we have in TeXSerializer
+			if (argument instanceof CharAtom
+					&& ((CharAtom) argument).getCharacter() == 'n'
+					&& ra.last() instanceof CharAtom
+					&& ((CharAtom) ra.last()).getCharacter() == 'l') {
+				Atom last = ra.getLastAtom();
+				ra.add(new RomanAtom(new RowAtom(last, argument)));
+				continue;
+			}
+
 			ra.add(argument);
 		}
 
@@ -164,9 +183,11 @@ public class TeXBuilder {
 	}
 
 	private Atom newCharAtom(char unicode) {
-		if (unicode == '*') {
-			return SymbolAtom.get("cdot");
+		String replacement = replacements.get(unicode);
+		if (replacement != null) {
+			return SymbolAtom.get(replacement).duplicate();
 		}
+
 		Atom ret = parser.getAtomFromUnicode(unicode, true);
 		if (ret instanceof SymbolAtom) {
 			ret = ((SymbolAtom) ret).duplicate();
@@ -285,8 +306,9 @@ public class TeXBuilder {
 			return new NthRoot(build(argument.getArgument(1)),
 					build(argument.getArgument(0)));
 		case LOG:
-			Atom log = buildString("log");
-			if (argument.getArgument(0).size() > 0) {
+			Atom log = new RomanAtom(buildString("log"));
+			if (argument.getArgument(0).size() > 0
+					|| currentField == argument.getArgument(0)) {
 				log = new ScriptsAtom(log, build(argument.getArgument(0)), null);
 			}
 
