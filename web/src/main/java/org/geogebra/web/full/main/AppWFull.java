@@ -1608,6 +1608,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			if (panel instanceof ToolbarDockPanelW) {
 				dm.show(panel);
 				updateToolbarPanelVisibility((ToolbarDockPanelW) panel, panelData.isVisible());
+			} else if (!panelData.isVisible()) {
+				dm.hide(panel);
 			}
 			if (panel != null && !isPortrait()) {
 				updateDividerLocation(dm, panelData);
@@ -2192,6 +2194,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		activity.start(this);
 
 		clearConstruction();
+		resetToolbarPanel();
 		Perspective perspective = PerspectiveDecoder.decode(getConfig().getForcedPerspective(),
 				kernel.getParser(), ToolBar.getAllToolsNoMacros(isHTML5Applet(), isExam(), this));
 		updateSymbolicFlag(subAppCode, perspective);

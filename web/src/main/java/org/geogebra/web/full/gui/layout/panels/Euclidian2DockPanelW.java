@@ -35,15 +35,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
 	 *            index for app.getEuclidianView2(idx)
 	 */
 	public Euclidian2DockPanelW(boolean stylebar, int idx) {
-		super(App.VIEW_EUCLIDIAN2, // view id
-				"DrawingPad2", // view title
-				// ToolBar.getAllToolsNoMacros(true), // toolbar string... TODO:
-				// ToolBarW.getAllTools(app);
-				null, stylebar, // style bar?
-				false, // zoom panel
-				6, // menu order
-				'2' // ctrl-shift-1
-		);
+		super(App.VIEW_EUCLIDIAN2, null, stylebar, false);
 
 		this.idx = idx;
 		// copied here from loadComponent

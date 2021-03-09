@@ -40,7 +40,6 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {
 			dp.setLocation("3");
 		} else if (dp.getViewId() == App.VIEW_EUCLIDIAN3D) {
-			dp.makeVisible();
 			dp.setLocation("1");
 		}
 	}

@@ -1655,11 +1655,6 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	}
 
 	@Override
-	public String toString(String prefix) {
-		return "\n" + prefix + this.toString();
-	}
-
-	@Override
 	public boolean updateResizeWeight() {
 		return false;
 	}

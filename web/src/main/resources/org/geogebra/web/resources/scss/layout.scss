@@ -60,6 +60,7 @@
 			left: 2px;
 			height: 28px;
 			width: 4px;
+			transition: top 0.2s;
 		}
 
 		.gwt-SplitLayoutPanel-VDragger:after {
@@ -67,6 +68,15 @@
 			bottom: 2px;
 			width: 28px;
 			height: 4px;
+			transition: left 0.2s;
+		}
+
+		&.singlePanel .gwt-SplitLayoutPanel-HDragger:after {
+			top: 12px;
+		}
+
+		&.singlePanel .gwt-SplitLayoutPanel-VDragger:after {
+			left: calc(100% - 48px);
 		}
 
 		.draggerParentHorizontal {

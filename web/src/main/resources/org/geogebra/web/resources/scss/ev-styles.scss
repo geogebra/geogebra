@@ -472,11 +472,12 @@
 	}
 
 	.undoRedoPanel {
-		padding-top: 4px;
-		padding-bottom: 4px;
 		padding-left: 12px;
 		position: absolute;
 		z-index: $z-on-top-of-graphics;
+		&.withTransition {
+			transition: left 0.2s;
+		}
 
 		.flatButton {
 			display: inline-block;

@@ -184,9 +184,6 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 		setAnimating(true);
 		updateIcons(null, app.isExamStarted());
 		addCloseOrientationStyles();
-		if (!app.isPortrait()) {
-			toolbarPanel.setLastOpenWidth(getOffsetWidth());
-		}
 		toolbarPanel.setMoveMode();
 		toolbarPanel.close();
 		app.getAccessibilityManager().focusAnchorOrMenu();

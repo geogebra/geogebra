@@ -471,23 +471,23 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void setShowView(final boolean flag, final int viewId) {
-		setShowView(flag, viewId, true);
+	public void setShowView(final boolean visible, final int viewId) {
+		setShowView(visible, viewId, true);
 	}
 
 	@Override
-	public void setShowView(final boolean flag, final int viewId, final boolean isPermanent) {
+	public void setShowView(final boolean visible, final int viewId, final boolean isPermanent) {
 		ToolbarPanel sidePanel = getUnbundledToolbar();
 		ShowableTab sidePanelTab = sidePanel != null ? sidePanel.getTab(viewId) : null;
 		if (sidePanelTab != null) {
-			if (flag) {
+			if (visible) {
 				sidePanelTab.open();
 			} else {
 				sidePanelTab.close();
 			}
-			onToolbarVisibilityChanged(viewId, flag);
+			onToolbarVisibilityChanged(viewId, visible);
 		} else {
-			if (flag) {
+			if (visible) {
 				showViewWithId(viewId);
 			} else {
 				hideViewWith(viewId, isPermanent);

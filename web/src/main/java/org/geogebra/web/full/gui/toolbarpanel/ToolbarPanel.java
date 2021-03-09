@@ -4,10 +4,10 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
+import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -20,6 +20,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.layout.DockManagerW;
+import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
@@ -37,11 +38,14 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.layout.client.Layout;
 import com.google.gwt.layout.client.Layout.AnimationCallback;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -64,8 +68,8 @@ public class ToolbarPanel extends FlowPanel
 	public static final int OPEN_MIN_WIDTH_LANDSCAPE = 160;
 	/** Closed height of header in portrait mode */
 	public static final int CLOSED_HEIGHT_PORTRAIT = 56;
-	private static final int HDRAGGER_WIDTH = 8;
 	private static final int OPEN_ANIM_TIME = 200;
+	public static final int HEADING_HEIGHT = 48;
 	/** Header of the panel with buttons and tabs */
 	NavigationRail navRail;
 	/** Application */
@@ -81,6 +85,7 @@ public class ToolbarPanel extends FlowPanel
 	private boolean isOpen;
 	private final ScheduledCommand deferredOnRes = this::resize;
 	private UndoRedoPanel undoRedoPanel;
+	private FlowPanel heading;
 
 	/**
 	 * @param app application
@@ -134,20 +139,32 @@ public class ToolbarPanel extends FlowPanel
 	 * update position of undo+redo panel
 	 */
 	public void updateUndoRedoPosition() {
-		final EuclidianView ev = app.getActiveEuclidianView();
-		if (ev != null && undoRedoPanel != null) {
-			double evTop = (ev.getAbsoluteTop() - (int) app.getAbsTop())
+		DockSplitPaneW dockParent = getDockParent();
+		if (dockParent == null) {
+			return;
+		}
+		if (getToolbarDockPanel().isAlone() && undoRedoPanel != null) {
+			setUndoPosition(0, getNavigationRailWidth());
+			return;
+		}
+		Widget evPanel = dockParent.getOpposite(getToolbarDockPanel());
+		if (evPanel != null && undoRedoPanel != null) {
+			double evTop = (evPanel.getAbsoluteTop() - (int) app.getAbsTop())
 					/ app.getGeoGebraElement().getScaleY();
-			double evLeft = (ev.getAbsoluteLeft() - (int) app.getAbsLeft())
+			double evLeft = (evPanel.getAbsoluteLeft() - (int) app.getAbsLeft())
 					/ app.getGeoGebraElement().getScaleX();
 			if ((evLeft <= 0) && !app.isPortrait()) {
 				return;
 			}
 			int move = app.isPortrait() && app.showMenuBar() && !navRail.needsHeader() ? 48 : 0;
-			undoRedoPanel.getElement().getStyle().setTop(evTop, Style.Unit.PX);
-			undoRedoPanel.getElement().getStyle().setLeft(evLeft + move,
-					Style.Unit.PX);
+			setUndoPosition(evTop, evLeft + move);
 		}
+	}
+
+	private void setUndoPosition(double top, double left) {
+		undoRedoPanel.setVisible(true);
+		undoRedoPanel.getElement().getStyle().setTop(top, Style.Unit.PX);
+		undoRedoPanel.getElement().getStyle().setLeft(left, Style.Unit.PX);
 	}
 
 	/**
@@ -181,6 +198,7 @@ public class ToolbarPanel extends FlowPanel
 			undoRedoPanel = new UndoRedoPanel(app);
 		}
 		getFrame().add(undoRedoPanel);
+		undoRedoPanel.setVisible(false);
 	}
 
 	/**
@@ -209,7 +227,8 @@ public class ToolbarPanel extends FlowPanel
 	public int getTabWidth() {
 		int w = this.getOffsetWidth() - getNavigationRailWidth();
 		if (isAnimating() && !app.isPortrait() && lastOpenWidth != null) {
-			w = lastOpenWidth - getNavigationRailWidth() - HDRAGGER_WIDTH;
+			w = Math.max(lastOpenWidth, this.getOffsetWidth())
+					- getNavigationRailWidth();
 		}
 		return Math.max(w, 0);
 	}
@@ -218,7 +237,11 @@ public class ToolbarPanel extends FlowPanel
 	 * @return the height of one tab
 	 */
 	public int getTabHeight() {
-		return getOffsetHeight() - getNavigationRailHeight();
+		return getOffsetHeight() - getNavigationRailHeight() - getHeadingHeight();
+	}
+
+	private int getHeadingHeight() {
+		return heading == null ? 0 : heading.getOffsetHeight();
 	}
 
 	private int getNavigationRailHeight() {
@@ -286,10 +309,92 @@ public class ToolbarPanel extends FlowPanel
 			tabTable = null;
 		}
 		addMoveBtn();
+		heading = new FlowPanel();
+		heading.setVisible(getToolbarDockPanel().isAlone());
+		createCloseButton();
+		heading.setStyleName("toolPanelHeading");
+		add(heading);
 		add(main);
 		ClickStartHandler.initDefaults(main, false, true);
 		hideDragger();
 		doOpen();
+	}
+
+	private void createCloseButton() {
+		SVGResource icon = app.isPortrait() ? MaterialDesignResources.INSTANCE
+				.toolbar_close_portrait_black() : MaterialDesignResources.INSTANCE
+				.toolbar_close_landscape_black();
+		StandardButton close = new StandardButton(icon, null, 24, 24);
+		close.addStyleName("flatButton");
+		close.getElement().getStyle().setFloat(Style.Float.RIGHT);
+		close.addFastClickHandler(source -> {
+			navRail.setAnimating(true);
+			showOppositeView();
+			resizeTabs();
+			app.invokeLater(this::closeAnimation);
+		});
+		heading.add(close);
+	}
+
+	private void closeAnimation() {
+		DockSplitPaneW dockParent = getDockParent();
+		if (dockParent != null) {
+			dockParent.addStyleName("singlePanel");
+			int parentOffsetWidth = dockParent.getMaxWidgetSize();
+			dockParent.setWidgetSize(getToolbarDockPanel(), parentOffsetWidth - 1);
+			double targetSize = 2 * parentOffsetWidth / 3.0;
+			setLastOpenWidth((int) targetSize);
+			dockParent.forceLayout();
+			updateDraggerStyle();
+			undoRedoPanel.addStyleName("withTransition");
+			dockParent.setWidgetSize(getToolbarDockPanel(),	targetSize);
+			dockParent.animate(OPEN_ANIM_TIME, fullscreenClose(dockParent));
+		}
+	}
+
+	private AnimationCallback fullscreenClose(final DockSplitPaneW parent) {
+		return new AnimationCallback() {
+			@Override
+			public void onAnimationComplete() {
+				navRail.setAnimating(false);
+				undoRedoPanel.removeStyleName("withTransition");
+				setLastOpenWidth(getOffsetWidth());
+				updateUndoRedoPosition();
+				heading.setVisible(false);
+				parent.forceLayout();
+				parent.removeStyleName("singlePanel");
+			}
+
+			@Override
+			public void onLayout(Layout.Layer layer, double progress) {
+				updateUndoRedoPosition();
+			}
+		};
+	}
+
+	private void showOppositeView() {
+		animateHeadingHeight(HEADING_HEIGHT, 0);
+		int viewId = App.VIEW_EUCLIDIAN;
+		if ((Perspective.GRAPHER_3D + "").equals(
+				app.getConfig().getForcedPerspective())) {
+			viewId = App.VIEW_EUCLIDIAN3D;
+		}
+		DockPanelW opposite =
+				(DockPanelW) app.getGuiManager().getLayout().getDockManager().getPanel(viewId);
+		DockSplitPaneW dockParent = getDockParent();
+		if (dockParent == null) {
+			return;
+		}
+		if (app.isPortrait()) {
+			opposite.setEmbeddedDef("0");
+			getToolbarDockPanel().setEmbeddedDef("2");
+			dockParent.setComponentOrder(null, getToolbarDockPanel());
+		} else {
+			opposite.setEmbeddedDef("1");
+			getToolbarDockPanel().setEmbeddedDef("3");
+			dockParent.setComponentOrder(getToolbarDockPanel(), null);
+		}
+		app.getGuiManager().setShowView(true, viewId);
 	}
 
 	private boolean isToolsTabExpected() {
@@ -384,7 +489,7 @@ public class ToolbarPanel extends FlowPanel
 	private void doOpen() {
 		isOpen = true;
 		updateDraggerStyle();
-		updateSizes();
+		updateSizes(null);
 		updateKeyboardVisibility();
 		updatePanelVisibility(isOpen);
 	}
@@ -397,11 +502,32 @@ public class ToolbarPanel extends FlowPanel
 			return;
 		}
 		isOpen = false;
+		final Integer finalWidth = getPreferredWidth();
+		if (getToolbarDockPanel().isAlone()) {
+			showOppositeView();
+		}
 		updateDraggerStyle();
-		updateSizes();
-		updateKeyboardVisibility();
-		dispatchEvent(EventType.SIDE_PANEL_CLOSED);
-		updatePanelVisibility(isOpen);
+		app.invokeLater(() -> {
+			updateSizes(() -> setLastOpenWidth(finalWidth));
+			updateKeyboardVisibility();
+			dispatchEvent(EventType.SIDE_PANEL_CLOSED);
+			updatePanelVisibility(isOpen);
+		});
+	}
+
+	private Integer getPreferredWidth() {
+		if (getToolbarDockPanel().isAlone()) {
+			if (!app.isPortrait()) {
+				double ratio = PerspectiveDecoder.landscapeRatio(app,
+						app.getWidth());
+				return (int) (app.getWidth() * ratio);
+			}
+		} else {
+			if (getOffsetWidth() > 0) {
+				return getOffsetWidth();
+			}
+		}
+		return null;
 	}
 
 	private void updateDraggerStyle() {
@@ -418,11 +544,11 @@ public class ToolbarPanel extends FlowPanel
 		return dockPanel != null ? dockPanel.getParentSplitPane() : null;
 	}
 
-	private void updateSizes() {
+	private void updateSizes(Runnable callback) {
 		if (app.isPortrait()) {
 			updateHeight();
 		} else {
-			updateWidth();
+			updateWidth(callback);
 		}
 	}
 
@@ -442,7 +568,7 @@ public class ToolbarPanel extends FlowPanel
 	/**
 	 * updates panel width according to its state in landscape mode.
 	 */
-	public void updateWidth() {
+	public void updateWidth(Runnable callback) {
 		if (app.isPortrait()) {
 			return;
 		}
@@ -451,6 +577,9 @@ public class ToolbarPanel extends FlowPanel
 				? dockPanel.getParentSplitPane() : null;
 		if (dockParent != null) {
 			final Widget opposite = dockParent.getOpposite(dockPanel);
+			if (opposite == null) {
+				 return;
+			}
 			AnimationCallback animCallback = null;
 			updateDraggerStyle();
 			opposite.addStyleName("hiddenHDraggerRightPanel");
@@ -469,6 +598,9 @@ public class ToolbarPanel extends FlowPanel
 						super.onEnd();
 						dockParent.addStyleName("hide-HDragger");
 						opposite.addStyleName("hiddenHDraggerRightPanel");
+						if (callback != null) {
+							callback.run();
+						}
 					}
 				};
 			}
@@ -481,7 +613,7 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void updateWidthForClosing(ToolbarDockPanelW dockPanel, DockSplitPaneW dockParent) {
-		lastOpenWidth = getOffsetWidth();
+		setLastOpenWidth(getOffsetWidth());
 		dockParent.setWidgetMinSize(dockPanel, getNavigationRailWidth());
 		dockParent.setWidgetSize(dockPanel, getNavigationRailWidth());
 	}
@@ -507,7 +639,7 @@ public class ToolbarPanel extends FlowPanel
 		ToolbarDockPanelW dockPanel = getToolbarDockPanel();
 		final DockSplitPaneW dockParent = dockPanel != null ? dockPanel.getParentSplitPane() : null;
 		Widget evPanel = dockParent != null ? dockParent.getOpposite(dockPanel) : null;
-		if (evPanel != null) {
+		if (evPanel != null && dockParent.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
 			if (isOpen()) {
 				updateHeightForOpening(dockParent, evPanel);
 			} else {
@@ -767,7 +899,7 @@ public class ToolbarPanel extends FlowPanel
 		main.getElement().getStyle().setProperty("left",
 				getNavigationRailWidth() + "px");
 		main.getElement().getStyle().setProperty("height",
-				"calc(100% - " + getNavigationRailHeight() + "px)");
+				"calc(100% - " + (getNavigationRailHeight() + getHeadingHeight()) + "px)");
 		main.getElement().getStyle().setProperty("width", "calc(100% - "
 				+ getNavigationRailWidth() + "px)");
 
@@ -924,9 +1056,12 @@ public class ToolbarPanel extends FlowPanel
 	/**
 	 * Called when app changes orientation.
 	 */
-	public void onOrientationChange() {
+	public void onOrientationChange(boolean isAlone) {
 		navRail.onOrientationChange();
 		hideDragger();
+		heading.clear();
+		createCloseButton();
+		updateHeadingStyle(isAlone);
 	}
 
 	/**
@@ -1085,6 +1220,68 @@ public class ToolbarPanel extends FlowPanel
 		if (undoRedoPanel != null) {
 			undoRedoPanel.redoAnchor = focusableMenuButton;
 		}
+	}
+
+	public void setAlone(boolean alone) {
+		if (heading != null) {
+			updateHeadingStyle(alone);
+			if (alone) { // not animated (e.g. from setPerspective API)
+				setHeadingHeight(HEADING_HEIGHT);
+			}
+		}
+	}
+
+	private void updateHeadingStyle(boolean alone) {
+		Element globalHeader = Dom.querySelector("GeoGebraHeader");
+		boolean localShadow = app.isPortrait() && alone;
+		if (globalHeader != null) {
+			if (localShadow) {
+				globalHeader.addClassName("noShadow");
+			} else {
+				globalHeader.removeClassName("noShadow");
+			}
+			heading.setStyleName("withShadow", localShadow);
+		}
+	}
+
+	public void hideOppositeView() {
+		DockSplitPaneW dockParent = getDockParent();
+		animateHeadingHeight(0, HEADING_HEIGHT);
+		if (dockParent != null) {
+			dockParent.addStyleName("singlePanel");
+			DockPanelW opposite = (DockPanelW) dockParent.getOpposite(getToolbarDockPanel());
+			navRail.setAnimating(true);
+			setLastOpenWidth(getOffsetWidth());
+			dockParent.setWidgetSize(opposite, 0);
+			dockParent.animate(OPEN_ANIM_TIME, new AnimationCallback() {
+				@Override
+				public void onAnimationComplete() {
+					dockParent.removeStyleName("singlePanel");
+					app.getGuiManager().setShowView(false, opposite.getViewId());
+					navRail.setAnimating(false);
+					dockParent.forceLayout();
+				}
+
+				@Override
+				public void onLayout(Layout.Layer layer, double progress) {
+					// nothing to do
+				}
+			});
+		}
+	}
+
+	private void animateHeadingHeight(int from, int to) {
+		if (!app.isPortrait()) {
+			setHeadingHeight(from);
+			app.invokeLater(() -> heading.setHeight(to + "px"));
+		} else {
+			setHeadingHeight(to);
+		}
+	}
+
+	private void setHeadingHeight(int to) {
+		heading.setVisible(true);
+		heading.setHeight(to + "px");
 	}
 
 	/**
