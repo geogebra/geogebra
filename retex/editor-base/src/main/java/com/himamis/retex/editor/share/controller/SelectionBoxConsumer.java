@@ -16,7 +16,7 @@ public class SelectionBoxConsumer implements BoxConsumer {
 	private final int selectionStartIndex;
 	private final int selectionEndIndex;
 
-	private double selectionBaseline;
+	private Double selectionBaseline;
 	private double selectionX1 = Double.POSITIVE_INFINITY;
 	private double selectionX2 = Double.NEGATIVE_INFINITY;
 	private double selectionHeight = Double.NEGATIVE_INFINITY;
@@ -34,15 +34,15 @@ public class SelectionBoxConsumer implements BoxConsumer {
 	public void handle(Box box, BoxPosition position) {
 		MathComponent component = texBuilder.getComponent(box.getAtom());
 
-		if (component != null && component == selectionParent) {
-			selectionBaseline = position.baseline;
-		}
-
 		if (selectionParent == null
 				|| (component != null
 				&& component.getParent() == selectionParent
 				&& selectionStartIndex <= component.getParentIndex()
 				&& component.getParentIndex() <= selectionEndIndex)) {
+			if (selectionBaseline == null) {
+				selectionBaseline = position.baseline;
+			}
+
 			selectionX1 = Math.min(selectionX1, position.x);
 			selectionX2 = Math.max(selectionX2, position.x + box.getWidth());
 
@@ -54,9 +54,9 @@ public class SelectionBoxConsumer implements BoxConsumer {
 	public Rectangle2D getPosition() {
 		return FactoryProvider.getInstance().getGeomFactory().createRectangle2D(
 				selectionX1,
-				selectionBaseline - selectionHeight,
+				(selectionBaseline == null ? 0 : selectionBaseline) - selectionHeight,
 				selectionX2 - selectionX1,
-				selectionHeight + selectionDepth
+				(selectionHeight + selectionDepth) * 1.2
 		);
 	}
 }
