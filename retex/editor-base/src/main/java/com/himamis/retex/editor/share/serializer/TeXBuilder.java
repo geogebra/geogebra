@@ -304,6 +304,8 @@ public class TeXBuilder {
 					build(argument.getArgument(1)));
 		case SQRT:
 			return new NthRoot(build(argument.getArgument(0)), new EmptyAtom());
+		case CBRT:
+			return new NthRoot(build(argument.getArgument(0)), newCharAtom('3'));
 		case NROOT:
 			return new NthRoot(build(argument.getArgument(1)),
 					build(argument.getArgument(0)));
