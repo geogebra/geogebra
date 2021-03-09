@@ -7,7 +7,6 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 
 public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextFormatter {
@@ -137,14 +136,6 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 		XMLBuilder.appendParent(sb, parent, nodeAlignment);
 		if (getLineThickness() != 0) {
 			getLineStyleXML(sb);
-		}
-	}
-
-	@Override
-	public void translate(Coords v) {
-		super.translate(v);
-		for (GeoMindMapNode child : children) {
-			child.translate(v);
 		}
 	}
 

@@ -5409,45 +5409,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * @param rwTransVec
-	 *            translation vector
-	 * @param endPosition
-	 *            end position
-	 * @return true if successful
-	 */
-	protected boolean moveVector(final Coords rwTransVec,
-			final Coords endPosition) {
-
-		boolean movedGeo = false;
-
-		final GeoVector vector = (GeoVector) this;
-		if (endPosition != null) {
-			vector.setCoords(endPosition.getX(), endPosition.getY(), 0);
-			movedGeo = true;
-		}
-
-		// translate point
-		else {
-			double x = vector.getX() + rwTransVec.getX();
-			double y = vector.getY() + rwTransVec.getY();
-
-			// round to decimal fraction, e.g. 2.800000000001 to 2.8
-			if (Math.abs(rwTransVec.getX()) > Kernel.MIN_PRECISION) {
-				x = DoubleUtil.checkDecimalFraction(x);
-			}
-			if (Math.abs(rwTransVec.getY()) > Kernel.MIN_PRECISION) {
-				y = DoubleUtil.checkDecimalFraction(y);
-			}
-
-			// set translated point coords
-			vector.setCoords(x, y, 0);
-			movedGeo = true;
-		}
-
-		return movedGeo;
-	}
-
-	/**
 	 * try to move the geo with coord parent numbers (e.g. point defined by
 	 * sliders)
 	 * 

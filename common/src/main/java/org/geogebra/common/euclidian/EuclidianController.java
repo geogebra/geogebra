@@ -6140,7 +6140,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		splitSelectedStrokes(true);
 		ArrayList<GeoElement> moveMultipleObjectsList = companion
 				.removeParentsOfView(getAppSelectedGeos());
-		addFreePoints(moveMultipleObjectsList);
 
 		MoveGeos.moveObjects(moveMultipleObjectsList, translationVec, tmpCoordsL3, null, view);
 		if (repaint) {
@@ -12252,7 +12251,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		boolean fixed = false;
 
 		for (GeoElement geo : geos) {
-			if (!(geo instanceof PointRotateable)) {
+			if (!(geo instanceof PointRotateable)
+				|| (geo instanceof GeoMindMapNode)) {
 				hasRotationHandler = false;
 			}
 			if (geo.isLocked()) {
