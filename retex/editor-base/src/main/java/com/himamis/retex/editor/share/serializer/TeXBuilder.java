@@ -57,12 +57,14 @@ public class TeXBuilder {
 	private final TeXSerializer teXSerializer;
 
 	private final static HashMap<Character, String> replacements
-			= new HashMap<Character, String>() {{
-		put('*', "cdot");
-		put('%', "textpercent");
-		put('$', "textdollar");
-		put('&', "textampersand");
-	}};
+			= new HashMap<Character, String>();
+
+	static {
+		replacements.put('*', "cdot");
+		replacements.put('%', "textpercent");
+		replacements.put('$', "textdollar");
+		replacements.put('&', "textampersand");
+	}
 
 	public TeXBuilder() {
 		parser = new TeXParser("");
