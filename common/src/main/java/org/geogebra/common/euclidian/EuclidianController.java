@@ -6147,25 +6147,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	/**
-	 * Add free input points of all parent algos of geos in the list.
-	 * 
-	 * @param geoList
-	 *            input/output list of geos
-	 */
-	public void addFreePoints(ArrayList<GeoElement> geoList) {
-		int initialSize = geoList.size();
-		for (int i = 0; i < initialSize; i++) {
-			GeoElement geo = geoList.get(i);
-			AlgoElement algo = geo.getParentAlgorithm();
-			if (algo != null) { // add input points from algo
-				for (GeoPointND point : geo.getFreeInputPoints(getView())) {
-					geoList.add((GeoElement) point);
-				}
-			}
-		}
-	}
-
 	protected double getStartPointX() {
 		return startPoint.x;
 	}
@@ -8111,7 +8092,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			} else {
 				return;
 			}
-		} else if (isMultiSelection() && wasBoundingBoxHit) {
+		} else if (isMultiSelection()
+				&& view.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
 			isMultiResize = true;
 		}
 
@@ -9928,13 +9910,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				GeoMindMapNode child = ((DrawMindMap) d).addChildNode(view.getHitHandler());
 				child.setLabel(null);
 				selectAndShowSelectionUI(child);
-				view.setHitHandler(null);
+				view.resetHitHandler();
 				return;
 			}
 		}
 
 		if (getResizedShape() != null) { // resize, single selection
-			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
+			view.resetHitHandler();
 			selection.addSelectedGeo(getResizedShape().getGeoElement());
 			if (!isDraggingOccuredBeyondThreshold()) {
 				showDynamicStylebar();
@@ -9942,7 +9924,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			storeUndoInfo();
 			setResizedShape(null);
 		} else if (isMultiResize) { // resize, multi selection
-			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
+			view.resetHitHandler();
 			storeUndoInfo();
 			isMultiResize = false;
 			setBoundingBoxFromList(selection.getSelectedGeos());
@@ -10033,7 +10015,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (getResizedShape() != null) {
-			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
+			view.resetHitHandler();
 			setResizedShape(null);
 		}
 
@@ -10333,7 +10315,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (drawable != null) {
 			BoundingBox<? extends GShape> bb = drawable
 					.getSelectionBoundingBox();
-			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
+			view.resetHitHandler();
 			view.setFocusedGroupGeoBoundingBox(bb);
 			view.update(geo);
 		}
