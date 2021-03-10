@@ -475,7 +475,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 				NumberValue n = getNumber(zmax.get(ev));
 				ev.setZmaxObject(n, true);
 			}
-			ev.setUpdateScaleOrigin(true);
 		}
 	}
 
