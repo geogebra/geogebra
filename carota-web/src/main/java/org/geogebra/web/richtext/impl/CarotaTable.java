@@ -25,15 +25,18 @@ public class CarotaTable implements HasContentAndFormat {
 		load(save());
 	}
 
+	@Override
 	public native void draw(Context2d ctx);
 
 	public native void repaint();
 
+	@Override
 	public native void init(int rows, int cols);
 
 	@Override
 	public native JavaScriptObject save();
 
+	@Override
 	public native void load(Object data);
 
 	@Override
@@ -72,12 +75,15 @@ public class CarotaTable implements HasContentAndFormat {
 
 	private native void startEditing(CarotaSelection selection, int x, int y);
 
+	@Override
 	public native void stopEditing();
 
 	public native void removeSelection();
 
+	@Override
 	public native void setFormatting(String key, Object val);
 
+	@Override
 	public native <T> T getFormatting(String key, T fallback);
 
 	public native void setCellProperty(String property, String value);
@@ -104,18 +110,22 @@ public class CarotaTable implements HasContentAndFormat {
 
 	public native int getMinHeight();
 
+	@Override
 	public native void insert(String text);
 
 	public native CarotaRange selectedRange();
 
 	public native CarotaRange hyperlinkRange();
 
+	@Override
 	public native void insertHyperlink(String url, String text);
 
+	@Override
 	public native void setHyperlinkUrl(String url);
 
 	public native String getListStyle();
 
+	@Override
 	public native void switchListTo(String listType);
 
 	public native String urlByCoordinate(int x, int y);
