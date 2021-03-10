@@ -731,19 +731,6 @@ public class CommandsTest {
 		return string.replaceAll("i", Unicode.IMAGINARY + "");
 	}
 
-	private static void checkSize(String string, int cols, int rows) {
-		GDimension d = ((AlgoTableText) get(string).getParentAlgorithm())
-				.getSize();
-		if (((AlgoTableText) get(string).getParentAlgorithm())
-				.getAlignment() == 'h') {
-			assertEquals(cols, d.getWidth());
-			assertEquals(rows, d.getHeight());
-		} else {
-			assertEquals(rows, d.getWidth());
-			assertEquals(cols, d.getHeight());
-		}
-	}
-
 	@Test
 	public void cmdAffineRatio() {
 		t("AffineRatio[ (1,1), (2,1/2), (3,1/3) ]", "NaN");
