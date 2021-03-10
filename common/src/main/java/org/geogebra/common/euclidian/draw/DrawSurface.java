@@ -121,7 +121,7 @@ public class DrawSurface extends Drawable {
 		if (gp == null) {
 			gp = new GeneralPathClippedForCurvePlotter(view);
 		}
-		gp.reset();
+		gp.resetWithThickness(geo.getLineThickness());
 		if (!geo.isEuclidianVisible() || !geo.isDefined()) {
 			return;
 		}

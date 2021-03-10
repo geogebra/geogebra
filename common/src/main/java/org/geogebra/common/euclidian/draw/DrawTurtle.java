@@ -115,6 +115,7 @@ public class DrawTurtle extends Drawable {
 
 		public DrawState() {
 			currentPath = new GeneralPathClipped(getView());
+			currentPath.resetWithThickness(geo.getLineThickness());
 			penDown = false;
 			move(turtle.getStartPoint());
 			penDown = true;
@@ -185,6 +186,7 @@ public class DrawTurtle extends Drawable {
 						new PartialPath(penColor, penThickness, currentPath));
 			}
 			currentPath = new GeneralPathClipped(getView());
+			currentPath.resetWithThickness(geo.getLineThickness());
 			currentPath.moveTo(coords[0], coords[1]);
 		}
 	}

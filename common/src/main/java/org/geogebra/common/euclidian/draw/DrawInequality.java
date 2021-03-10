@@ -429,6 +429,7 @@ public class DrawInequality extends Drawable {
 							.evaluateBoolean(0.5 * (last + zero));
 					if (value) {
 						gpAxis[gpCount] = new GeneralPathClipped(view);
+						gpAxis[gpCount].resetWithThickness(geo.getLineThickness());
 						gpAxis[gpCount].moveTo(
 								view.toScreenCoordXd(last) + radius,
 								view.toScreenCoordYd(0));

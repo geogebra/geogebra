@@ -193,10 +193,8 @@ public class DrawLocus extends Drawable {
 	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
 		if (gp == null) {
 			gp = new GeneralPathClippedForCurvePlotter(view);
-		} else {
-			gp.reset();
 		}
-
+		gp.resetWithThickness(geo.getLineThickness());
 		// Use the last plotted point for positioning the label:
 		labelPosition = CurvePlotter.draw(gp, pointList, transformSys);
 		/*

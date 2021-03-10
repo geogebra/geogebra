@@ -103,7 +103,7 @@ public class DrawSlope extends Drawable {
 			if (gp == null) {
 				gp = new GeneralPathClipped(view);
 			}
-			gp.reset();
+			gp.resetWithThickness(geo.getLineThickness());
 			gp.moveTo(x, y);
 			gp.lineTo(xright, y);
 			gp.lineTo(xright, y - height);

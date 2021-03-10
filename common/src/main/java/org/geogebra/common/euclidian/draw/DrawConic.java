@@ -762,9 +762,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 			if (conic.isFilled() && !fullAngle) {
 				if (gp == null) {
 					gp = new GeneralPathClipped(view);
-				} else {
-					gp.reset();
 				}
+				gp.resetWithThickness(geo.getLineThickness());
 				GPoint2D sp = arc.getStartPoint();
 				GPoint2D ep = arc.getEndPoint();
 				if (!conic.isInverseFill()) {
@@ -1111,10 +1110,9 @@ public class DrawConic extends SetDrawable implements Previewable {
 			points = PLOT_POINTS;
 			hypRight = new GeneralPathClipped(view); // right wing
 			hypLeft = new GeneralPathClipped(view); // left wing
-		} else {
-			hypRight.reset();
-			hypLeft.reset();
 		}
+		hypRight.resetWithThickness(geo.getLineThickness());
+		hypLeft.resetWithThickness(geo.getLineThickness());
 	}
 
 	/**
