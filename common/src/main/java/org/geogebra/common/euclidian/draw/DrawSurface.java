@@ -163,9 +163,4 @@ public class DrawSurface extends Drawable {
 		return false;
 	}
 
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
-	}
-
 }

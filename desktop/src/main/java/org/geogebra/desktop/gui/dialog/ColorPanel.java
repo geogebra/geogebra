@@ -36,8 +36,10 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
-import org.geogebra.common.kernel.algos.AlgoBarChart;
+import org.geogebra.common.kernel.algos.ChartStyle;
+import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.statistics.AlgoPieChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.awt.GColorD;
@@ -261,7 +263,6 @@ class ColorPanel extends JPanel
 		}
 
 		model.updateProperties();
-
 		rbtnBackgroundColor.setVisible(model.hasBackground());
 		rbtnForegroundColor.setVisible(model.hasBackground());
 		btnClearBackground.setVisible(
@@ -280,30 +281,32 @@ class ColorPanel extends JPanel
 	// and bar has tag for value
 
 	private void setPreview(GeoElement geo, double alpha0) {
-		AlgoBarChart algo = (AlgoBarChart) geo.getParentAlgorithm();
+		ChartStyleAlgo algo = (ChartStyleAlgo) geo.getParentAlgorithm();
 		double alpha = alpha0;
 		if (selectedBarButton != 0
-				&& (algo.getBarAlpha(selectedBarButton) != -1)) {
-			alpha = algo.getBarAlpha(selectedBarButton);
+				&& (algo.getStyle().getBarAlpha(selectedBarButton) != -1)) {
+			alpha = algo.getStyle().getBarAlpha(selectedBarButton);
 		}
 		previewPanel.setPreview(selectedColor, alpha);
 	}
 
-	private void setOpacitySlider(GeoElement geo, double alpha) {
-		/*
-		 * AlgoBarChart algo=(AlgoBarChart) geo.getParentAlgorithm(); if
-		 * (selectedBarButton != 0 && algo.getBarAlpha(selectedBarButton) != -1)
-		 * { alpha = algo.getBarAlpha(selectedBarButton); }
-		 * opacitySlider.setValue(Math.round(alpha * 100));
-		 */
+	private void setOpacitySliderForChart(GeoElement geo, double alpha0) {
+		ChartStyleAlgo algo= (ChartStyleAlgo) geo.getParentAlgorithm();
+		double alpha = alpha0;
+		if (selectedBarButton != 0 && algo.getStyle().getBarAlpha(selectedBarButton) > -1) {
+			alpha = algo.getStyle().getBarAlpha(selectedBarButton);
+		}
+		opacitySlider.removeChangeListener(this);
+		opacitySlider.setValue((int) Math.round(alpha * 100));
+		opacitySlider.addChangeListener(this);
 	}
 
 	private void setChooser(GeoElement geo0) {
-		if (geo0.getParentAlgorithm() instanceof AlgoBarChart) {
-			AlgoBarChart algo = (AlgoBarChart) geo0.getParentAlgorithm();
+		if (geo0.getParentAlgorithm() instanceof ChartStyleAlgo) {
+			ChartStyleAlgo algo = (ChartStyleAlgo) geo0.getParentAlgorithm();
 			if (selectedBarButton != 0
-					&& algo.getBarColor(selectedBarButton) != null) {
-				GColor color = algo.getBarColor(selectedBarButton);
+					&& algo.getStyle().getBarColor(selectedBarButton) != null) {
+				GColor color = algo.getStyle().getBarColor(selectedBarButton);
 				selectedColor = new Color(color.getRed(), color.getGreen(),
 						color.getBlue(), color.getAlpha());
 			}
@@ -342,7 +345,7 @@ class ColorPanel extends JPanel
 	private void updateBarsColorAndAlpha(GeoElement geo, Color col,
 			double alpha,
 			boolean updateAlphaOnly) {
-		AlgoBarChart algo = (AlgoBarChart) geo.getParentAlgorithm();
+		ChartStyle algo = ((ChartStyleAlgo) geo.getParentAlgorithm()).getStyle();
 		if (selectedBarButton == 0) {
 			for (int i = 1; i < selectionBarButtons.length; i++) {
 				algo.setBarColor(null, i);
@@ -380,12 +383,13 @@ class ColorPanel extends JPanel
 			isBarChart = true;
 			selectionBarButtons = new JToggleButton[numBar + 1];
 			ButtonGroup group = new ButtonGroup();
+			boolean isPie = model.getGeoAt(0).getParentAlgorithm() instanceof AlgoPieChart;
 			barsPanel = new JPanel(new GridLayout(0, 3, 5, 5));
 			barsPanel.setBorder(new TitledBorder(
-					this.propertiesPanelD.loc.getMenu("SelectedBar")));
+					this.propertiesPanelD.loc.getMenu(isPie ? "SelectedSlice" : "SelectedBar")));
 			for (int i = 0; i < numBar + 1; i++) {
 				selectionBarButtons[i] = new JToggleButton(
-						this.propertiesPanelD.loc.getPlain("BarA", i + ""));
+						this.propertiesPanelD.loc.getPlain(isPie ? "SliceA" : "BarA", i + ""));
 				selectionBarButtons[i].setSelected(false);
 				selectionBarButtons[i].setActionCommand("" + i);
 				selectionBarButtons[i].addActionListener(new ActionListener() {
@@ -403,9 +407,9 @@ class ColorPanel extends JPanel
 				group.add(selectionBarButtons[i]);
 			}
 			selectionBarButtons[0]
-					.setText(this.propertiesPanelD.loc.getMenu("AllBars"));
+					.setText(this.propertiesPanelD.loc.getMenu(isPie ? "AllSlices" : "AllBars"));
 			selectionBarButtons[selectedBarButton].setSelected(true);
-			add(barsPanel, this.propertiesPanelD.loc.borderEast());
+			add(barsPanel, BorderLayout.SOUTH);
 		}
 	}
 
@@ -490,7 +494,7 @@ class ColorPanel extends JPanel
 		// initialize selected color and opacity
 		selectedColor = null;
 		Color selectedBGColor = null;
-		double alpha = 1;
+
 		GeoElement geo0 = model.getGeoAt(0);
 		if (equalObjColorBackground) {
 			selectedBGColor = GColorD.getAwtColor(geo0.getBackgroundColor());
@@ -503,12 +507,6 @@ class ColorPanel extends JPanel
 			if (equalObjColor) {
 				if (allFillable) {
 					selectedColor = GColorD.getAwtColor(geo0.getFillColor());
-					alpha = geo0.getAlphaValue();
-
-					// can be -1 for lists
-					if (alpha < 0) {
-						alpha = 0;
-					}
 				} else {
 					selectedColor = GColorD.getAwtColor(geo0.getObjectColor());
 				}
@@ -531,6 +529,7 @@ class ColorPanel extends JPanel
 
 		// set the opacity
 		opacitySlider.removeChangeListener(this);
+		double alpha;
 		if (allFillable && hasOpacity) { // show opacity slider and set to
 			// first geo's
 			// alpha value
@@ -543,7 +542,7 @@ class ColorPanel extends JPanel
 			}
 
 			if (isBarChart) {
-				setOpacitySlider(geo0, alpha);
+				setOpacitySliderForChart(geo0, alpha);
 			} else {
 				opacitySlider.setValue((int) Math.round(alpha * 100));
 			}
@@ -556,7 +555,7 @@ class ColorPanel extends JPanel
 
 		// set the preview panel (do this after the alpha level is set
 		// above)
-		if (geo0.getParentAlgorithm() instanceof AlgoBarChart) {
+		if (geo0.getParentAlgorithm() instanceof ChartStyleAlgo) {
 			isBarChart = true;
 			setPreview(geo0, alpha);
 		} else {
@@ -589,7 +588,7 @@ class ColorPanel extends JPanel
 		Color color = GColorD.getAwtColor(col);
 		if (!updateAlphaOnly) {
 			if (isBarChart) {
-				updateBarsColorAndAlpha(geo, color, alpha, updateAlphaOnly);
+				updateBarsColorAndAlpha(geo, color, alpha, false);
 			} else {
 				geo.setObjColor(col);
 			}

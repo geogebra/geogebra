@@ -1807,11 +1807,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 	}
 
 	@Override
-	public GeoElement getGeoElement() {
-		return geo;
-	}
-
-	@Override
 	public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 		if (drawLines != null) {

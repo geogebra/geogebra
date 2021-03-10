@@ -24,7 +24,6 @@ import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoSlope;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
@@ -202,11 +201,6 @@ public class DrawSlope extends Drawable {
 	@Override
 	final public boolean isInside(GRectangle rect) {
 		return false;
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 	/**

@@ -226,11 +226,6 @@ public class DrawInequality1Var extends SetDrawable {
 	}
 
 	@Override
-	public GeoElement getGeoElement() {
-		return geo;
-	}
-
-	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
 		for (int i = 0; i < gp.length; i++) {
 			if (gp[i] != null && gp[i].contains(x, y)) {

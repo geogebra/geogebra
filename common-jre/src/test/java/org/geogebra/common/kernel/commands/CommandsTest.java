@@ -6,6 +6,8 @@ import static com.himamis.retex.editor.share.util.Unicode.PI_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.theta_STRING;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -727,19 +729,6 @@ public class CommandsTest {
 
 	private static String complex(String string) {
 		return string.replaceAll("i", Unicode.IMAGINARY + "");
-	}
-
-	private static void checkSize(String string, int cols, int rows) {
-		GDimension d = ((AlgoTableText) get(string).getParentAlgorithm())
-				.getSize();
-		if (((AlgoTableText) get(string).getParentAlgorithm())
-				.getAlignment() == 'h') {
-			assertEquals(cols, d.getWidth());
-			assertEquals(rows, d.getHeight());
-		} else {
-			assertEquals(rows, d.getWidth());
-			assertEquals(cols, d.getHeight());
-		}
 	}
 
 	@Test
@@ -3062,13 +3051,13 @@ public class CommandsTest {
 				get("cc").toValueString(StringTemplate.defaultTemplate), "42");
 		Assert.assertNull(get("b"));
 		AlgebraTestHelper.shouldFail("Rename[ cc, \"\" ]", "Illegal", app);
-		Assert.assertNotNull(get("cc"));
+		assertNotNull(get("cc"));
 		AlgebraTestHelper.shouldFail("Rename[ cc, \"42\" ]", "Illegal", app);
-		Assert.assertNotNull(get("cc"));
+		assertNotNull(get("cc"));
 		AlgebraTestHelper.shouldFail("Rename[ cc, \"A_{}\" ]", "Illegal", app);
-		Assert.assertNotNull(get("cc"));
+		assertNotNull(get("cc"));
 		AlgebraTestHelper.shouldFail("Rename[ cc, \"A_{\" ]", "Illegal", app);
-		Assert.assertNotNull(get("cc"));
+		assertNotNull(get("cc"));
 		t("Rename[ cc, \"A_\" ]", new String[0]);
 		Assert.assertNull(get("cc"));
 		Assert.assertEquals(
@@ -3970,6 +3959,28 @@ public class CommandsTest {
 	@Test
 	public void cmdTurningPoint() {
 		t("InflectionPoint[ x^3 ]", "(0, 0)");
+	}
+
+	@Test
+	public void cmdPieChart() {
+		t("p1=PieChart({1,2,3})", "PieChart[{1, 2, 3}, (0, 0)]");
+		t("p2=PieChart({1,2,3}, (1,1), 2)", "PieChart[{1, 2, 3}, (1, 1), 2]");
+		assertTrue(get("p2").isDefined());
+		t("p3=PieChart({1,2,-3})", "PieChart[{1, 2, -3}, (0, 0)]");
+		assertFalse(get("p3").isDefined());
+	}
+
+	private static void checkSize(String string, int cols, int rows) {
+		AlgoTableText parentAlgorithm = (AlgoTableText) get(string).getParentAlgorithm();
+		assertNotNull(parentAlgorithm);
+		GDimension d = parentAlgorithm.getSize();
+		if (parentAlgorithm.getAlignment() == 'h') {
+			assertEquals(cols, d.getWidth());
+			assertEquals(rows, d.getHeight());
+		} else {
+			assertEquals(rows, d.getWidth());
+			assertEquals(cols, d.getHeight());
+		}
 	}
 
 	@Test

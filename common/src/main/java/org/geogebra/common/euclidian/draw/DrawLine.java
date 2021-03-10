@@ -723,11 +723,6 @@ public class DrawLine extends SetDrawable implements Previewable {
 	}
 
 	@Override
-	final public GeoElement getGeoElement() {
-		return geo;
-	}
-
-	@Override
 	final public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 	}

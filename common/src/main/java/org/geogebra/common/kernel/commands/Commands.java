@@ -480,6 +480,8 @@ public enum Commands implements CommandsConstants,
 
 	LineGraph(TABLE_CHARTS),
 
+	PieChart(TABLE_CHARTS),
+
 	ContingencyTable(TABLE_CHARTS),
 
 	// =============================================================
