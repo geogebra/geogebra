@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
@@ -990,16 +991,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return handler that was hit
 	 */
-	public EuclidianBoundingBoxHandler getHitHandler() {
+	public @Nonnull EuclidianBoundingBoxHandler getHitHandler() {
 		return hitHandler;
 	}
 
 	/**
-	 * @param hitHandler
-	 *            - handler that was hit
+	 * Set handler to undefined.
 	 */
-	public void setHitHandler(EuclidianBoundingBoxHandler hitHandler) {
-		this.hitHandler = hitHandler;
+	public void resetHitHandler() {
+		this.hitHandler = EuclidianBoundingBoxHandler.UNDEFINED;
 	}
 
 	protected void setSizeListeners() {

@@ -783,7 +783,7 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	@Override
-	protected boolean moveVector(Coords rwTransVec, Coords endPosition) {
+	public boolean moveVector(Coords rwTransVec, Coords endPosition) {
 
 		boolean movedGeo = false;
 
