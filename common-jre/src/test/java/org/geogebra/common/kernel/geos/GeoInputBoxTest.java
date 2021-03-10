@@ -1,11 +1,13 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.common.kernel.commands.RedefineTest.isForceInequality;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -23,6 +25,7 @@ import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.plugin.JavaScriptAPI;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.test.UndoRedoTester;
 import org.junit.Before;
@@ -558,10 +561,21 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		add("a:x<6");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
 		inputBox.updateLinkedGeo("3<x<7");
-		assertThat(lookup("a").isDefined(), equalTo(true));
+		assertThat(lookup("a"), isDefined());
 
 		inputBox.updateLinkedGeo("3<x");
-		assertThat(lookup("a").isDefined(), equalTo(true));
+		assertThat(lookup("a"), isDefined());
+	}
+
+	@Test
+	public void testSingleIneqInY() {
+		add("a:y<6");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("3<y<7");
+		assertThat(lookup("a"), isDefined());
+		inputBox.updateLinkedGeo("?");
+		getApp().setXML(getApp().getXML(), true);
+		assertEquals(lookup("a").toString(StringTemplate.xmlTemplate), "a(y) = ?");
 	}
 
 	@Test
@@ -569,14 +583,24 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		add("a:x<6");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
 		inputBox.updateLinkedGeo("xx");
-		assertThat(lookup("a").isDefined(), equalTo(false));
+		assertThat(lookup("a"), not(isDefined()));
 		assertThat(inputBox.getText(), equalTo("xx")); // still preserves user input
 
 		add("b:2<x<9");
 		GeoInputBox inputBox2 = addAvInput("ib2 = InputBox(b)");
 		inputBox2.updateLinkedGeo("x+5");
-		assertThat(lookup("b").isDefined(), equalTo(false));
+		assertThat(lookup("b"), not(isDefined()));
 		assertThat(inputBox2.getText(), equalTo("x+5")); // still preserves user input
+	}
+
+	@Test
+	public void testInequalityCannotRedefineAsFunction2Var() {
+		add("a:x+y<6");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("xx");
+		assertTrue(((GeoFunctionNVar) lookup("a")).isForceInequality());
+		assertThat(lookup("a"), not(isDefined()));
+		assertThat(inputBox.getText(), equalTo("xx")); // still preserves user input
 	}
 
 	@Test
@@ -584,14 +608,23 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		add("f(x)=xx");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
 		inputBox.updateLinkedGeo("x<5");
-		assertThat(lookup("f").isDefined(), equalTo(false));
+		assertThat(lookup("f"), not(isDefined()));
 		assertThat(inputBox.getText(), equalTo("x<5")); // still preserves user input
 
 		add("g(x)=x+8");
 		GeoInputBox inputBox2 = addAvInput("ib2 = InputBox(g)");
 		inputBox2.updateLinkedGeo("2<x<10");
-		assertThat(lookup("g").isDefined(), equalTo(false));
+		assertThat(lookup("g"), not(isDefined()));
 		assertThat(inputBox2.getText(), equalTo("2<x<10")); // still preserves user input
+	}
+
+	@Test
+	public void testFunction2VarCannotRedefineAsInequality() {
+		add("a:x+y");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("x+y<6");
+		assertThat(lookup("a"), not(isDefined()));
+		assertThat(inputBox.getText(), equalTo("x+y<6")); // still preserves user input
 	}
 
 	@Test
@@ -599,14 +632,23 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		add("a:x<6");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
 		add("SetValue(a,?)");
-		assertThat(lookup("a").isDefined(), equalTo(false));
+		assertThat(lookup("a"), not(isDefined()));
 		assertThat(inputBox.getText(), equalTo("")); // still preserves user input
 
 		add("b:2<x<9");
 		GeoInputBox inputBox2 = addAvInput("ib2 = InputBox(b)");
 		add("SetValue(b,?)");
-		assertThat(lookup("b").isDefined(), equalTo(false));
+		assertThat(lookup("b"), not(isDefined()));
 		assertThat(inputBox2.getText(), equalTo("")); // still preserves user input
+	}
+
+	@Test
+	public void testSingleIneqRedefinedSetValue() {
+		add("a:x<6");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("?");
+		add("SetValue(a,?)");
+		assertThat(lookup("a"), isForceInequality());
 	}
 
 	@Test
@@ -652,7 +694,8 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		assertEquals("floor(1 + 2) + 3 + 4", inputBox.getText());
 
 		inputBox.updateLinkedGeo("e^36-1");
-		assertEquals("ℯ³⁶ - 1", inputBox.getText());
+		assertEquals(Unicode.EULER_STRING + Unicode.SUPERSCRIPT_3
+				+ Unicode.SUPERSCRIPT_6 + " - 1", inputBox.getText());
 	}
 
 	@Test
@@ -665,7 +708,8 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		assertEquals("1 + 1 + t", inputBox.getText());
 
 		inputBox.updateLinkedGeo("10^10 + t");
-		assertEquals("10¹⁰ + t", inputBox.getText());
+		assertEquals("10" + Unicode.SUPERSCRIPT_1
+				+ Unicode.SUPERSCRIPT_0 + " + t", inputBox.getText());
 
 		inputBox.updateLinkedGeo("-3/4t + 2*3/2");
 		assertEquals("-3 / 4 t + 2 * 3 / 2", inputBox.getText());
@@ -728,6 +772,30 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		getApp().getLocalization().setLocale(Locale.GERMAN);
 		shouldReparseAs("3,141", "3.141");
 		// more cases in ParserTest, no duplication here
+	}
+
+	@Test
+	public void typeShouldStayInequality() {
+		add("a:x<3");
+		assertEquals("inequality", getApi().getObjectType("a"));
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("");
+		add("SetValue(a,?)");
+		assertEquals("inequality", getApi().getObjectType("a"));
+	}
+
+	@Test
+	public void typeShouldStayForInequality2Var() {
+		add("a:x+y<3");
+		assertEquals("inequality", getApi().getObjectType("a"));
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("");
+		add("SetValue(a,?)");
+		assertEquals("inequality", getApi().getObjectType("a"));
+	}
+
+	private JavaScriptAPI getApi() {
+		return getApp().getGgbApi();
 	}
 
 	private void shouldReparseAs(String s, String s1) {

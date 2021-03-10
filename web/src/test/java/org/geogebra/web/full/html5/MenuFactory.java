@@ -12,7 +12,6 @@ import org.geogebra.web.full.javax.swing.InlineTextToolbar;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.Scheduler;
 
@@ -42,8 +41,8 @@ public class MenuFactory extends ContextMenuFactory {
 	}
 
 	@Override
-	public GCheckmarkMenuItem newCheckmarkMenuItem(String title, SVGResource checkmark,
+	public GCheckmarkMenuItem newCheckmarkMenuItem(String title,
 			boolean checked) {
-		return new GCheckmarkMenuItemMock(title, checkmark, checked);
+		return new GCheckmarkMenuItemMock(title, checked);
 	}
 }

@@ -108,7 +108,10 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 				// cancel down to lowest terms
 				long num = (long) top.evaluateDouble();
 				long den = (long) bottom.evaluateDouble();
-				long gcd = Kernel.gcd(num, den);
+				long gcd = Math.abs(Kernel.gcd(num, den));
+				int denSign = den < 0 ? -1 : 1;
+				num = num * denSign;
+				den = den * denSign;
 
 				long val;
 				if (gcd == 0) {

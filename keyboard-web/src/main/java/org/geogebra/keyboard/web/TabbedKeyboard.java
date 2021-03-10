@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.Localization;
@@ -23,6 +24,8 @@ import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificFunctionKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificLettersKeyboardFactory;
+import org.geogebra.keyboard.web.factory.KeyboardInputBox;
+import org.geogebra.keyboard.web.factory.KeyboardMow;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 
 import com.google.gwt.core.client.Scheduler;
@@ -125,21 +128,30 @@ public class TabbedKeyboard extends FlowPanel
 		BrowserStorage.LOCAL.setItem(BrowserStorage.KEYBOARD_WANTED, "false");
 	}
 
-	private void buildGUIGgb() {
+	private KeyboardFactory initKeyboardFactory(InputBoxType inputBoxType) {
+		KeyboardFactory factory;
+		if (inputBoxType != null) {
+			factory = new KeyboardInputBox(inputBoxType, hasKeyboard.getInputBoxFunctionVars());
+		} else {
+			switch (hasKeyboard.getKeyboardType()) {
+			case MOW:
+				factory = new KeyboardMow();
+				break;
+			default:
+				factory = new KeyboardFactory();
+			}
+		}
+		return factory;
+	}
+
+	private void buildGUIGgb(InputBoxType inputBoxType) {
 		// more button must be first because of float (Firefox)
 		if (hasMoreButton) {
 			switcher.addMoreButton();
 		}
 		tabs = new FlowPanel();
 
-		KeyboardFactory factory;
-		switch (hasKeyboard.getKeyboardType()) {
-			case MOW:
-				factory = new KeyboardMow();
-				break;
-			default:
-				factory = new KeyboardFactory();
-		}
+		KeyboardFactory factory = initKeyboardFactory(inputBoxType);
 
 		createAnsMathKeyboard(factory);
 		createDefaultKeyboard(factory);
@@ -543,12 +555,19 @@ public class TabbedKeyboard extends FlowPanel
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_arrowRight_black(), bh,
 					Action.RIGHT_CURSOR, loc, "altText.RightArrow");
+		}  else if (resourceName.equals(Resource.DOWN_ARROW.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.keyboard_arrowDown_black(), bh,
+					Action.DOWN_CURSOR, loc, "altText.DownArrow");
+		}  else if (resourceName.equals(Resource.UP_ARROW.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.keyboard_arrowUp_black(), bh,
+					Action.UP_CURSOR, loc, "altText.UpArrow");
 		} else if (resourceName.equals(Resource.POWA2.name())) {
 			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.square(),
 					button.getPrimaryActionName(), bh, false, loc,
 					"altText.Square");
-			
 		} else if (resourceName.equals(Resource.FRACTION.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.fraction(),
@@ -583,12 +602,12 @@ public class TabbedKeyboard extends FlowPanel
 					"altText.PowE");
 		} else if (resourceName.equals(Resource.LOG_10.name())) {
 			return new KeyBoardButtonBase("log_10",
-					loc.getAltText("altText.log10"), "log10",
-					bh);
+					loc.getAltText("altText.log10"),
+					button.getPrimaryActionName(), bh);
 		} else if (resourceName.equals(Resource.LOG_B.name())) {
 			return  new KeyBoardButtonFunctionalBase(
-							KeyboardResources.INSTANCE.log(),
-					"log_", bh, true, loc, "altText.LogB");
+					KeyboardResources.INSTANCE.log(),
+					button.getPrimaryActionName(), bh, true, loc, "altText.LogB");
 		} else if (resourceName.equals(Resource.A_N.name())) {
 			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.subscript(),
@@ -733,17 +752,27 @@ public class TabbedKeyboard extends FlowPanel
 		}
 
 		clear();
-		buildGUI();
+		buildGUI(hasKeyboard.getInputBoxType());
+	}
+
+	/**
+	 * rebuilds the keyboard layout based on the inputbox type
+	 */
+	public void clearAndUpdate() {
+		switcher.clear();
+		switcher.setup();
+		clear();
+		buildGUI(hasKeyboard.getInputBoxType());
 	}
 
 	/**
 	 * (Re)build the UI.
 	 */
-	public void buildGUI() {
+	public void buildGUI(InputBoxType inputBoxType) {
 		if (hasKeyboard.getKeyboardType().equals(AppKeyboardType.SCIENTIFIC)) {
 			buildGUIScientific();
 		} else {
-			buildGUIGgb();
+			buildGUIGgb(inputBoxType);
 		}
 	}
 
@@ -887,8 +916,7 @@ public class TabbedKeyboard extends FlowPanel
 				// matches sin, cos, tan, asin, acos, atan
 				if ((text.length() == 3 || text.length() == 4)
 						&& "asin acos atan".indexOf(text) > -1) {
-					text = hasKeyboard.getLocalization().getFunction(text)
-							+ "(";
+					text = hasKeyboard.getLocalization().getFunction(text);
 				}
 
 				processField.insertString(text);
@@ -912,6 +940,8 @@ public class TabbedKeyboard extends FlowPanel
 		case BACKSPACE_DELETE:
 		case LEFT_CURSOR:
 		case RIGHT_CURSOR:
+		case UP_CURSOR:
+		case DOWN_CURSOR:
 			startRepeater(action);
 			break;
 		case RETURN_ENTER:
@@ -964,6 +994,12 @@ public class TabbedKeyboard extends FlowPanel
 			break;
 		case RIGHT_CURSOR:
 			processField.onArrow(KeyboardListener.ArrowType.right);
+			break;
+		case UP_CURSOR:
+			processField.onArrow(KeyboardListener.ArrowType.up);
+			break;
+		case DOWN_CURSOR:
+			processField.onArrow(KeyboardListener.ArrowType.down);
 			break;
 		}
 	}

@@ -12,7 +12,6 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.MyCJButton;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
@@ -34,7 +33,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
 
 public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
@@ -86,7 +84,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	 *            euclidian options panel
 	 */
 	public BasicTab(OptionsEuclidianW optionsEuclidianW) {
-		super(optionsEuclidianW.app);
+		super();
 		this.optionsEuclidianW = optionsEuclidianW;
 		this.model = optionsEuclidianW.model;
 		addDimensionPanel();
@@ -159,8 +157,9 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	private void addDimensionPanel() {
 		dimTitle = new Label("");
 		dimTitle.setStyleName("panelTitle");
-		dimLabel = new FormLabel[4]; // "Xmin", "Xmax" etc.
-		dimField = new AutoCompleteTextFieldW[4];
+		int dimension = this.optionsEuclidianW.view.getDimension();
+		dimLabel = new FormLabel[dimension * 2]; // "Xmin", "Xmax" etc.
+		dimField = new AutoCompleteTextFieldW[dimension * 2];
 
 		tfAxesRatioX = this.optionsEuclidianW.getTextField();
 		tfAxesRatioY = this.optionsEuclidianW.getTextField();
@@ -168,19 +167,15 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		enableAxesRatio(this.optionsEuclidianW.view.isZoomable()
 				&& !this.optionsEuclidianW.view.isLockedAxesRatio());
 
-		imgLock = new Image(this.optionsEuclidianW.app.isUnbundledOrWhiteboard()
-				? new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.lock_black()
-								.getSafeUri(),
-						0, 0, 18, 18, false, false)
-				: AppResources.INSTANCE.lock());
+		imgLock = new Image(new ImageResourcePrototype(null,
+				MaterialDesignResources.INSTANCE.lock_black()
+						.getSafeUri(),
+				0, 0, 18, 18, false, false));
 		imgUnlock = new Image(
-				this.optionsEuclidianW.app.isUnbundledOrWhiteboard()
-						? new ImageResourcePrototype(null,
-								MaterialDesignResources.INSTANCE
-										.lock_open_black().getSafeUri(),
-								0, 0, 18, 18, false, false)
-						: AppResources.INSTANCE.unlock());
+				new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE
+								.lock_open_black().getSafeUri(),
+						0, 0, 18, 18, false, false));
 
 		tbLockRatio = new GToggleButton(imgLock);
 		tbLockRatio.setValue(this.optionsEuclidianW.view.isLockedAxesRatio());
@@ -189,10 +184,17 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		axesRatioLabel = new Label("");
 
 		dimPanel = new FlowPanel();
-		addToDimPanel(dimTitle);
-		FlowPanel[] axisRangePanel = new FlowPanel[4];
-		MinMaxType[] fields = new MinMaxType[] { MinMaxType.minX,
-				MinMaxType.maxX, MinMaxType.minY, MinMaxType.maxY };
+		add(dimTitle);
+		FlowPanel[] axisRangePanel = new FlowPanel[dimension * 2];
+		MinMaxType[] fields;
+		if (dimension == 2) {
+			fields = new MinMaxType[]{MinMaxType.minX,
+					MinMaxType.maxX, MinMaxType.minY, MinMaxType.maxY};
+		} else {
+			fields = new MinMaxType[]{MinMaxType.minX,
+					MinMaxType.maxX, MinMaxType.minY, MinMaxType.maxY, MinMaxType.minZ,
+					MinMaxType.maxZ};
+		}
 		for (int i = 0; i < fields.length; i++) {
 			dimLabel[i] = new FormLabel();
 			dimField[i] = this.optionsEuclidianW.getTextField();
@@ -207,12 +209,18 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 				LayoutUtilW.panelRow(axisRangePanel[0], axisRangePanel[1]));
 		dimPanel.add(
 				LayoutUtilW.panelRow(axisRangePanel[2], axisRangePanel[3]));
+		if (dimension == 3) {
+			dimPanel.add(
+					LayoutUtilW.panelRow(axisRangePanel[4], axisRangePanel[5]));
+		}
 
-		dimPanel.add(LayoutUtilW.panelRow(axesRatioLabel));
-		dimPanel.add(LayoutUtilW.panelRow(tfAxesRatioX, new Label(" : "),
-				tfAxesRatioY, tbLockRatio));
+		if (dimension == 2) {
+			dimPanel.add(LayoutUtilW.panelRow(axesRatioLabel));
+			dimPanel.add(LayoutUtilW.panelRow(tfAxesRatioX, new Label(" : "),
+					tfAxesRatioY, tbLockRatio));
+		}
 
-		indentDimPanel();
+		indent(dimPanel);
 		addAxesRatioHandler(tfAxesRatioX);
 		addAxesRatioHandler(tfAxesRatioY);
 
@@ -230,12 +238,8 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		});
 	}
 
-	protected void indentDimPanel() {
-		indent(dimPanel);
-	}
-
-	protected void addToDimPanel(Widget w) {
-		add(w);
+	protected int setDimension() {
+		return 4;
 	}
 
 	protected void indent(FlowPanel panel) {
@@ -334,8 +338,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		axesStylePopup = new PopupMenuButtonW(this.optionsEuclidianW.app,
 				iconArray, -1, 1,
-				org.geogebra.common.gui.util.SelectionTable.MODE_ICON,
-				this.optionsEuclidianW.app.isUnbundledOrWhiteboard()) {
+				org.geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 			@Override
 			public void handlePopupActionEvent() {
 				int idx = getSelectedIndex();
@@ -721,6 +724,30 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	}
 
 	/**
+	 * @param minX
+	 *            min x
+	 * @param maxX
+	 *            max x
+	 * @param minY
+	 *            min y
+	 * @param maxY
+	 *            max y
+	 * @param minZ
+	 *            min z
+	 * @param maxZ
+	 *            max z
+	 */
+	public void setMinMaxText(String minX, String maxX, String minY,
+			String maxY, String minZ, String maxZ) {
+		dimField[0].setText(minX);
+		dimField[1].setText(maxX);
+		dimField[2].setText(minY);
+		dimField[3].setText(maxY);
+		dimField[4].setText(minZ);
+		dimField[5].setText(maxZ);
+	}
+
+	/**
 	 * Updates color, visible and bold checkboxes using current view settings.
 	 * 
 	 * @param color
@@ -785,19 +812,18 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		tbLockRatio.setEnabled(value);
 	}
 
-	final protected void updateMinMax() {
+	protected void updateMinMax() {
 		this.optionsEuclidianW.view.updateBoundObjects();
 
-		setMinMaxText(
-				this.optionsEuclidianW.view.getXminObject()
-						.getLabel(StringTemplate.editTemplate),
-				this.optionsEuclidianW.view.getXmaxObject()
-						.getLabel(StringTemplate.editTemplate),
-				this.optionsEuclidianW.view.getYminObject()
-						.getLabel(StringTemplate.editTemplate),
-				this.optionsEuclidianW.view.getYmaxObject()
-						.getLabel(StringTemplate.editTemplate));
-
+			setMinMaxText(
+					this.optionsEuclidianW.view.getXminObject()
+							.getLabel(StringTemplate.editTemplate),
+					this.optionsEuclidianW.view.getXmaxObject()
+							.getLabel(StringTemplate.editTemplate),
+					this.optionsEuclidianW.view.getYminObject()
+							.getLabel(StringTemplate.editTemplate),
+					this.optionsEuclidianW.view.getYmaxObject()
+							.getLabel(StringTemplate.editTemplate));
 	}
 
 	/**
@@ -821,4 +847,11 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 	}
 
+	public FormLabel[] getDimLabel() {
+		return dimLabel;
+	}
+
+	public OptionsEuclidianW getOptionsEuclidianW() {
+		return optionsEuclidianW;
+	}
 }

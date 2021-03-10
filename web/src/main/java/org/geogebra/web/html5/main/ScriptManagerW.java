@@ -171,14 +171,20 @@ public class ScriptManagerW extends ScriptManager {
 		JsPropertyMap<Object> jsMap = Js.asPropertyMap(jsObject);
 		for (Entry<String, Object> entry : map.entrySet()) {
 			Object object = entry.getValue();
-
-			if (object instanceof Integer || object instanceof Double
+			if (object instanceof Integer) {
+				jsMap.set(entry.getKey(), unbox((Integer) object));
+			} else if (object instanceof Double
 					|| object instanceof String[]) {
 				jsMap.set(entry.getKey(), object);
 			} else {
 				jsMap.set(entry.getKey(), object.toString());
 			}
 		}
+	}
+
+	/* Workaround for strange autoboxing */
+	private static int unbox(Integer object) {
+		return object;
 	}
 
 	private static native void set(JavaScriptObject json, String key, Object value) /*-{

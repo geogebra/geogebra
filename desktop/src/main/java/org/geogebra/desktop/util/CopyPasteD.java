@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.util;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -389,8 +391,7 @@ public class CopyPasteD extends CopyPaste {
 		copiedXMLforSameWindow = new StringBuilder();
 		copiedXMLlabelsforSameWindow = new ArrayList<>();
 		copySource = app.getActiveEuclidianView();
-		copyObject = app.getKernel().getConstruction().getUndoManager()
-				.getCurrentUndoInfo();
+		copyObject = app.getUndoManager().getCurrentUndoInfo();
 		copiedMacros = new HashSet<>();
 
 		// create geoslocal and geostohide
@@ -548,8 +549,7 @@ public class CopyPasteD extends CopyPaste {
 			return;
 		}
 
-		copyObject2 = app.getKernel().getConstruction().getUndoManager()
-				.getCurrentUndoInfo();
+		copyObject2 = app.getUndoManager().getCurrentUndoInfo();
 
 		if (pasteFast(app) && !putdown) {
 			if (copiedXMLforSameWindow == null
@@ -639,8 +639,7 @@ public class CopyPasteD extends CopyPaste {
 	 */
 	public void pastePutDownCallback(App app) {
 		if (pasteFast(app)) {
-			copyObject = app.getKernel().getConstruction().getUndoManager()
-					.getCurrentUndoInfo();
+			copyObject = app.getUndoManager().getCurrentUndoInfo();
 			copyObject2 = null;
 		}
 	}
@@ -669,5 +668,11 @@ public class CopyPasteD extends CopyPaste {
 		if (copiedXMLforSameWindow != null) {
 			copiedXMLforSameWindow.setLength(0);
 		}
+	}
+
+	@Override
+	public void copyTextToSystemClipboard(String text) {
+		Toolkit.getDefaultToolkit().getSystemClipboard()
+				.setContents(new StringSelection(text), null);
 	}
 }

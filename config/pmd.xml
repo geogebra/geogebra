@@ -1,0 +1,203 @@
+<?xml version="1.0"?>
+<ruleset name="Custom ruleset" xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
+         xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+
+    <description>
+        This ruleset checks my code for bad stuff
+    </description>
+    <exclude-pattern>.*/org/apache/.*</exclude-pattern>
+    <exclude-pattern>.*/com/github/.*</exclude-pattern>
+    <exclude-pattern>.*/com/google/.*</exclude-pattern>
+    <exclude-pattern>.*/edu/uci/.*</exclude-pattern>
+    <exclude-pattern>.*/org/mozilla/.*</exclude-pattern>
+    <exclude-pattern>.*/org/geogebra/common/kernel/parser/.*</exclude-pattern>
+    <exclude-pattern>.*/org/geogebra/common/kernel/prover/polynomial/.*</exclude-pattern>
+    <exclude-pattern>.*/com/himamis/retex/editor/share/io/latex.*</exclude-pattern>
+    <!-- We'll use the entire 'strings' ruleset -->
+    <rule ref="category/java/bestpractices.xml">
+        <exclude name="PreserveStackTrace"/>
+        <exclude name="AccessorMethodGeneration"/>
+        <exclude name="UseCollectionIsEmpty"/>
+        <exclude name="ConstantsInInterface"/>
+        <exclude name="UseVarargs"/>
+        <exclude name="GuardLogStatement"/>
+        <exclude name="ForLoopCanBeForeach"/>
+        <exclude name="LooseCoupling"/>
+        <exclude name="ArrayIsStoredDirectly"/>
+        <exclude name="AvoidStringBufferField"/>
+        <exclude name="MethodReturnsInternalArray"/>
+        <exclude name="DefaultLabelNotLastInSwitchStmt"/>
+        <exclude name="AbstractClassWithoutAbstractMethod"/>
+        <exclude name="SwitchStmtsShouldHaveDefault"/>
+        <exclude name="AvoidPrintStackTrace"/>
+        <exclude name="OneDeclarationPerLine"/>
+        <exclude name="ReplaceVectorWithList"/>
+        <exclude name="UnusedAssignment"/>
+        <exclude name="AvoidReassigningLoopVariables"/>
+        <exclude name="LiteralsFirstInComparisons"/>
+        <exclude name="ForLoopVariableCount"/>
+        <exclude name="UnusedPrivateMethod"/>
+        <exclude name="UnusedPrivateField"/>
+        <exclude name="JUnitAssertionsShouldIncludeMessage"/>
+        <exclude name="JUnitTestContainsTooManyAsserts"/>
+        <exclude name="JUnitTestsShouldIncludeAssert"/>
+    </rule>
+    <rule ref="category/java/codestyle.xml">
+        <exclude name="AtLeastOneConstructor"/>
+        <exclude name="ShortClassName"/>
+        <exclude name="TooManyStaticImports"/>
+        <exclude name="ShortMethodName"/>
+        <exclude name="OnlyOneReturn"/>
+        <exclude name="CallSuperInConstructor"/>
+        <exclude name="ConfusingTernary"/>
+        <exclude name="ClassNamingConventions"/>
+        <exclude name="FieldNamingConventions"/>
+        <exclude name="LocalVariableNamingConventions"/>
+        <exclude name="FormalParameterNamingConventions"/>
+        <exclude name="MethodNamingConventions"/>
+        <exclude name="CommentDefaultAccessModifier"/>
+        <exclude name="DefaultPackage"/>
+        <exclude name="AvoidFinalLocalVariable"/>
+        <exclude name="PackageCase"/>
+        <exclude name="ShortVariable"/>
+        <exclude name="BooleanGetMethodName"/>
+        <exclude name="MethodArgumentCouldBeFinal"/>
+        <exclude name="LocalVariableCouldBeFinal"/>
+        <exclude name="LongVariable"/>
+        <exclude name="UnnecessaryModifier"/>
+        <exclude name="UnnecessaryLocalBeforeReturn"/>
+        <exclude name="EmptyMethodInAbstractClassShouldBeAbstract"/>
+        <exclude name="UselessParentheses"/>
+        <exclude name="IdenticalCatchBranches"/>
+        <exclude name="PrematureDeclaration"/>
+        <exclude name="LinguisticNaming"/>
+        <exclude name="UseUnderscoresInNumericLiterals"/>
+        <exclude name="UnnecessaryFullyQualifiedName"/>
+        <exclude name="UseShortArrayInitializer"/>
+        <exclude name="UnnecessaryCast"/>
+    </rule>
+    <rule ref="category/java/design.xml">
+        <exclude name="ImmutableField"/>
+        <exclude name="UseObjectForClearerAPI"/>
+        <exclude name="ExcessiveImports"/>
+        <exclude name="ExcessiveClassLength"/>
+        <exclude name="DataClass"/>
+        <exclude name="TooManyFields"/>
+        <exclude name="AvoidRethrowingException"/>
+        <exclude name="ExcessivePublicCount"/>
+        <exclude name="AvoidThrowingNullPointerException"/>
+        <exclude name="LoosePackageCoupling"/>
+        <exclude name="ExcessiveParameterList"/>
+        <exclude name="SignatureDeclareThrowsException"/>
+        <exclude name="AvoidCatchingGenericException"/>
+        <exclude name="AvoidThrowingRawExceptionTypes"/>
+        <exclude name="SingularField"/>
+        <exclude name="UselessOverridingMethod"/>
+        <exclude name="CyclomaticComplexity"/>
+        <exclude name="NPathComplexity"/>
+        <exclude name="NcssCount"/>
+        <exclude name="ExcessiveMethodLength"/>
+        <exclude name="CollapsibleIfStatements"/>
+        <exclude name="GodClass"/>
+        <exclude name="CouplingBetweenObjects"/>
+        <exclude name="TooManyMethods"/>
+        <exclude name="TooManyFields"/>
+        <exclude name="LawOfDemeter"/>
+        <exclude name="SwitchDensity"/>
+        <exclude name="UseUtilityClass"/>
+        <exclude name="SimplifyBooleanReturns"/>
+        <exclude name="AbstractClassWithoutAnyMethod"/>
+        <exclude name="DoNotExtendJavaLangError"/>
+        <exclude name="AvoidUncheckedExceptionsInSignatures"/>
+    </rule>
+    <rule ref="category/java/design.xml/AvoidDeeplyNestedIfStmts">
+        <properties>
+            <property name="problemDepth" value="4"/>
+        </properties>
+    </rule>
+    <rule ref="category/java/documentation.xml">
+        <exclude name="CommentRequired"/>
+        <exclude name="CommentSize"/>
+        <exclude name="UncommentedEmptyConstructor"/>
+    </rule>
+    <rule ref="category/java/errorprone.xml">
+        <exclude name="MissingSerialVersionUID"/>
+        <exclude name="ReturnEmptyArrayRatherThanNull"/>
+        <exclude name="CompareObjectsWithEquals"/>
+        <exclude name="AvoidDuplicateLiterals"/>
+        <exclude name="AvoidCatchingThrowable"/>
+        <exclude name="MissingBreakInSwitch"/>
+        <exclude name="ConstructorCallsOverridableMethod"/>
+        <exclude name="UseLocaleWithCaseConversions"/>
+        <exclude name="DataflowAnomalyAnalysis"/>
+        <exclude name="AvoidLiteralsInIfCondition"/>
+        <exclude name="BeanMembersShouldSerialize"/>
+        <exclude name="NullAssignment"/>
+        <exclude name="EmptyIfStmt"/>
+        <exclude name="AvoidDecimalLiteralsInBigDecimalConstructor"/>
+        <exclude name="ProperLogger"/>
+        <exclude name="EmptyCatchBlock"/>
+        <exclude name="AssignmentInOperand"/>
+        <exclude name="AvoidFieldNameMatchingMethodName"/>
+        <exclude name="CloseResource"/>
+    </rule>
+    <rule ref="category/java/multithreading.xml">
+        <exclude name="NonThreadSafeSingleton"/>
+        <exclude name="DoNotUseThreads"/>
+        <exclude name="AvoidUsingVolatile"/>
+        <exclude name="UseConcurrentHashMap"/>
+        <exclude name="AvoidSynchronizedAtMethodLevel"/>
+        <exclude name="UnsynchronizedStaticFormatter"/>
+    </rule>
+    <rule ref="category/java/performance.xml">
+        <exclude name="InsufficientStringBufferDeclaration"/>
+        <exclude name="TooFewBranchesForASwitchStatement"/>
+        <exclude name="AppendCharacterWithChar"/>
+        <exclude name="RedundantFieldInitializer"/>
+        <exclude name="AvoidInstantiatingObjectsInLoops"/>
+        <exclude name="AddEmptyString"/>
+        <exclude name="StringInstantiation"/>
+        <exclude name="AvoidArrayLoops"/>
+        <exclude name="OptimizableToArrayCall"/>
+        <exclude name="ConsecutiveLiteralAppends"/>
+        <exclude name="AvoidUsingShortType"/>
+        <exclude name="UseArrayListInsteadOfVector"/>
+        <exclude name="UseIndexOfChar"/>
+        <exclude name="ConsecutiveAppendsShouldReuse"/>
+        <exclude name="SimplifyStartsWith"/>
+        <exclude name="UseArraysAsList"/>
+        <exclude name="UseStringBufferForStringAppends"/>
+        <exclude name="AvoidFileStream"/>
+    </rule>
+
+    <rule name="AbstractClassWithManyAbstractMethods"
+          language="java"
+          since="4.2"
+          class="net.sourceforge.pmd.lang.rule.XPathRule"
+          typeResolution="true"
+          message="Common project should define abstract methods in interfaces."
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_design.html#abstractclasswithoutanymethod">
+        <description>
+            Common project should define abstract methods in interfaces. Only filters classes with many violations, should be made incrementally stricter.
+        </description>
+        <priority>1</priority>
+        <properties>
+            <property name="xpath">
+                <value>
+                    <![CDATA[
+//ClassOrInterfaceDeclaration
+    [@Abstract = 'true']
+    [count(//MethodDeclaration[@Abstract = 'true']) > 200]
+]]>
+                </value>
+            </property>
+        </properties>
+        <example>
+            <![CDATA[
+Class with too many abstract methods will fail.
+]]>
+        </example>
+    </rule>
+</ruleset>

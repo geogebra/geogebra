@@ -13,6 +13,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.LayerManager;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
@@ -53,11 +54,13 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.input.Character;
 
 /**
@@ -102,6 +105,7 @@ public class Construction {
 	private boolean showOnlyBreakpoints;
 
 	/** construction belongs to kernel */
+	@Weak
 	protected Kernel kernel;
 
 	// current construction step (-1 ... ceList.size() - 1)
@@ -1057,6 +1061,10 @@ public class Construction {
 		}
 	}
 
+	public final boolean isRegisteredEuclidianViewCE(EuclidianViewCE elem) {
+		return euclidianViewCE.contains(elem);
+	}
+
 	/**
 	 * Unregisters an algorithm that wants to be notified when
 	 * setEuclidianViewBounds() is called.
@@ -1621,7 +1629,7 @@ public class Construction {
 			// use setLoadedLabel() instead of setLabel() to make sure that
 			// hidden objects also get the label, see #379
 			newGeo.setLoadedLabel(oldGeoLabel);
-
+			layerManager.replace(oldGeo.getOrdering(), newGeo);
 			if (newGeo.isGeoText()) {
 				newGeo.updateRepaint();
 			}
@@ -2972,9 +2980,6 @@ public class Construction {
 	 * Redoes last undone step
 	 */
 	public void redo() {
-		// undo unavailable in applets
-		// if (getApplication().isApplet()) return;
-
 		undoManager.redo();
 	}
 
@@ -2982,9 +2987,6 @@ public class Construction {
 	 * Undoes last operation
 	 */
 	public void undo() {
-		// undo unavailable in applets
-		// if (getApplication().isApplet()) return;
-
 		undoManager.undo();
 	}
 
@@ -3662,4 +3664,125 @@ public class Construction {
 	public LayerManager getLayerManager() {
 		return layerManager;
 	}
+
+	/**
+	 * creates group of geos
+	 * @param geos - list of geos to be grouped
+	 */
+	public void createGroupFromSelected(ArrayList<GeoElement> geos) {
+		EuclidianView ev = getApplication().getActiveEuclidianView();
+
+		ungroupGroups(geos);
+		unfixAll(geos);
+		ev.getEuclidianController().splitSelectedStrokes(true);
+
+		createGroup(geos);
+		getLayerManager().groupObjects(geos);
+		ev.invalidateDrawableList();
+	}
+
+	/**
+	 * ungroups a group of geos
+	 * @param geos - list of geos to be ungrouped
+	 */
+	public void ungroupGroups(ArrayList<GeoElement> geos) {
+		for (GeoElement geo : geos) {
+			Group groupOfGeo = geo.getParentGroup();
+			if (groupOfGeo != null) {
+				removeGroupFromGroupList(groupOfGeo);
+				geo.setParentGroup(null);
+			}
+		}
+	}
+
+	private void unfixAll(ArrayList<GeoElement> geos) {
+		for (GeoElement geo : geos) {
+			geo.setFixed(false);
+		}
+	}
+
+	/**
+	 * creates group of objects given by their labels
+	 * @param objects - list of labels of objects to be grouped
+	 */
+	public void groupObjects(String[] objects) {
+		ArrayList<GeoElement> geos = getGeosByLabel(objects);
+		createGroupFromSelected(geos);
+	}
+
+	/**
+	 * ungroups group of objects given by their labels
+	 * @param objects - list of labels of objects to be ungrouped
+	 */
+	public void ungroupObjects(String[] objects) {
+		ArrayList<GeoElement> geos = getGeosByLabel(objects);
+		ungroupGroups(geos);
+	}
+
+	/**
+	 * @param object
+	 *            label of object
+	 * @return array of labels of objects in the same group as the given object
+	 */
+	public String[] getObjectsOfItsGroup(String object) {
+		Group parentGroup = getParentGroup(object);
+		if (parentGroup != null) {
+			ArrayList<GeoElement> geos = parentGroup.getGroupedGeos();
+			String[] objectsInGroup = new String[geos.size()];
+			for (int i = 0; i < objectsInGroup.length; i++) {
+				objectsInGroup[i] = geos.get(i).getLabelSimple();
+			}
+			return objectsInGroup;
+		}
+		return null;
+	}
+
+	/**
+	 * adds an object to a group
+	 * @param object
+	 *            label of object to be added to the group
+	 * @param objectsInGroup
+	 *            list of labels of objects in the group the given object has to be added to
+	 */
+	public void addToGroup(String object, String[] objectsInGroup) {
+		GeoElement geo = geoTable.get(object);
+		for (String i : objectsInGroup) {
+			Group parentGroup = getParentGroup(i);
+			if (parentGroup != null) {
+				parentGroup.setFixed(geo.isLocked());
+				parentGroup.getGroupedGeos().add(geo);
+				geo.setParentGroup(parentGroup);
+				return;
+			}
+		}
+	}
+
+	private Group getParentGroup(String object) {
+		GeoElement geoInGroup = geoTable.get(object);
+		return geoInGroup.getParentGroup();
+	}
+
+	private ArrayList<GeoElement> getGeosByLabel(String[] list) {
+		ArrayList<GeoElement> geos = new ArrayList<>();
+		for (String g : list) {
+			geos.add(geoTable.get(g));
+		}
+		return geos;
+	}
+
+	/**
+	 * @param label
+	 *            label of object
+	 * @return whether object has unlabeled predecessors
+	 */
+	public boolean hasUnlabeledPredecessors(String label) {
+		final TreeSet<GeoElement> set = geoTable.get(label).getAllPredecessors();
+		for (GeoElement el : set) {
+			if (el.getLabelSimple() == null) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

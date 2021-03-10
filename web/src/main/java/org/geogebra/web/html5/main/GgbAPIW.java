@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -33,8 +34,8 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.TooltipChipView;
 import org.geogebra.web.html5.js.ResourcesInjector;
+import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.AnimationExporter;
 import org.geogebra.web.html5.util.FileConsumer;
 import org.geogebra.web.html5.util.ImageManagerW;
@@ -59,7 +60,6 @@ import jsinterop.base.JsPropertyMap;
  */
 public class GgbAPIW extends GgbAPI {
 	private MathEditorAPI editor;
-	private TooltipChipView tooltipChips;
 
 	/**
 	 * @param app
@@ -457,7 +457,7 @@ public class GgbAPIW extends GgbAPI {
 			bytes[i] = binary_string.charCodeAt(i);
 		}
 
-		// change / add pHYs chunk 
+		// change / add pHYs chunk
 		// pixels per metre
 		var ppm = Math.round(dpi / 2.54 * 100);
 
@@ -714,7 +714,7 @@ public class GgbAPIW extends GgbAPI {
 								var item, imgExtensions = [ "jpg", "jpeg",
 										"png", "gif", "bmp" ];
 								if (arch.archive.length > 0) {
-									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("arch.archive.length: "+arch.archive.length);
+									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("arch.archive.length: "+arch.archive.length);
 									item = arch.archive.shift();
 									var ind = item.fileName.lastIndexOf('.');
 									if (ind > -1
@@ -722,14 +722,14 @@ public class GgbAPIW extends GgbAPI {
 													.indexOf(item.fileName
 															.substr(ind + 1)
 															.toLowerCase()) > -1) {
-										//if (item.fileName.indexOf(".png") > -1) 
-										//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("image zipped: " + item.fileName);
+										//if (item.fileName.indexOf(".png") > -1)
+										//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("image zipped: " + item.fileName);
 										addImage(item.fileName,
 												item.fileContent, function() {
 													checkIfStillFilesToAdd();
 												});
 									} else {
-										//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("text zipped: " + item.fileName);
+										//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("text zipped: " + item.fileName);
 										addText(item.fileName,
 												encodeUTF8(item.fileContent),
 												function() {
@@ -744,8 +744,8 @@ public class GgbAPIW extends GgbAPI {
 													// that's right, this truncation is necessary
 													//clb(dataURI.substr(dataURI.indexOf(',')+1));
 												} else {
-													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("not callback was given");
-													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(dataURI);
+													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("not callback was given");
+													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)(dataURI);
 												}
 											});
 								}
@@ -758,7 +758,7 @@ public class GgbAPIW extends GgbAPI {
 							if (typeof errorClb === "function") {
 								errorClb(error + "");
 							}
-							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("error occured while creating ggb zip");
+							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("error occured while creating ggb zip");
 						});
 
 	}-*/;
@@ -877,13 +877,13 @@ public class GgbAPIW extends GgbAPI {
 															.substr(ind + 1)
 															.toLowerCase()) > -1) {
 
-										@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("image zipped: " + item.fileName);
+										@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("image zipped: " + item.fileName);
 										addImage(item.fileName,
 												item.fileContent, function() {
 													checkIfStillFilesToAdd();
 												});
 									} else {
-										@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("text zipped: " + item.fileName);
+										@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("text zipped: " + item.fileName);
 										addText(item.fileName,
 												encodeUTF8(item.fileContent),
 												function() {
@@ -898,8 +898,8 @@ public class GgbAPIW extends GgbAPI {
 													clb(dataURI.substr(dataURI
 															.indexOf(',') + 1));
 												} else {
-													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("not callback was given");
-													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(dataURI);
+													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("not callback was given");
+													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)(dataURI);
 												}
 											});
 								}
@@ -909,7 +909,7 @@ public class GgbAPIW extends GgbAPI {
 
 						},
 						function(error) {
-							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("error occured while creating base64 zip");
+							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("error occured while creating base64 zip");
 							if (typeof errorClb === "function") {
 								errorClb(error + "");
 							}
@@ -1087,16 +1087,23 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * @param tooltip tooltip content
+	 * Add a multiuser interaction
+	 * @param user tooltip content
 	 * @param label label of an object to use as anchor
 	 * @param color color CSS string
+	 * @param newGeo if the geo was added
 	 */
-	public void showTooltip(Object tooltip, Object label, Object color) {
-		if (tooltipChips == null) {
-			tooltipChips = new TooltipChipView();
-		}
-		tooltipChips.showMessage(tooltip == null ? null : String.valueOf(tooltip),
-				String.valueOf(label), String.valueOf(color), (AppW) app);
+	public void addMultiuserSelection(String user, String color, String label, boolean newGeo) {
+		MultiuserManager.INSTANCE.addSelection(app, user, GColor.parseHexColor(color),
+				label, newGeo);
+	}
+
+	/**
+	 * Remove a multiuser interaction
+	 * @param user tooltip content
+	 */
+	public void removeMultiuserSelections(String user) {
+		MultiuserManager.INSTANCE.deselect(app, user);
 	}
 
 	public void asyncEvalCommand(String command, ResolveCallbackFn<String> onSuccess,
@@ -1178,30 +1185,8 @@ public class GgbAPIW extends GgbAPI {
 	 *            callback
 	 */
 	public void getScreenshotBase64(StringConsumer callback) {
-		getScreenshotURL(((AppW) app).getPanel().getElement(), callback);
+		((AppW) app).getAppletFrame().getScreenshotBase64(callback);
 	}
-
-	/**
-	 * Make a screenshot of given element.
-	 * 
-	 * @param el
-	 *            element
-	 * @param callback
-	 *            callback
-	 */
-	public native void getScreenshotURL(Element el,	Object callback) /*-{
-		var canvas = document.createElement("canvas");
-		canvas.height = el.offsetHeight;
-		canvas.width = el.offsetWidth;
-		var context = canvas.getContext('2d');
-		el.className = el.className + " ggbScreenshot";
-		$wnd.domvas.toImage(el, function() {
-			// Look ma, I just converted this element to an image and can now to funky stuff!
-			context.drawImage(this, 0, 0);
-			el.className = el.className.replace(/\bggbScreenshot\b/, '');
-			callback(@org.geogebra.web.html5.main.GgbAPIW::pngBase64(Ljava/lang/String;)(canvas.toDataURL()));
-		});
-	}-*/;
 
 	/**
 	 * @param workerUrls
@@ -1486,8 +1471,7 @@ public class GgbAPIW extends GgbAPI {
 				break;
 		}
 		if (event != null) {
-			((AppW) app).getPageController().executeAction(event,
-					null, args);
+			((AppW) app).getPageController().executeAction(event, args);
 		}
 	}
 
@@ -1504,6 +1488,13 @@ public class GgbAPIW extends GgbAPI {
 		PageListControllerInterface pageController = ((AppW) app).getPageController();
 		if (pageController != null) {
 			pageController.updatePreviewImage();
+		}
+	}
+
+	public void setEmbedContent(String label, String base64) {
+		EmbedManager embedManager = app.getEmbedManager();
+		if (embedManager != null) {
+			embedManager.setBase64(label, base64);
 		}
 	}
 }

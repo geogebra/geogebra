@@ -44,6 +44,8 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * This class provides an interface for GeoGebra to use an underlying computer
  * algebra system like Giac.
@@ -51,6 +53,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoGebraCAS implements GeoGebraCasInterface {
 
+	@Weak
 	private App app;
 	private CASparser casParser;
 	private CASGenericInterface cas;
@@ -352,7 +355,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						.geoCeListLookup(str);
 				// get variables of obtained equation
 				HashSet<GeoElement> varsFromEquOfCurrVars = node == null
-						? new HashSet<GeoElement>()
+						? new HashSet<>()
 						: node.getVariables(symbolicMode);
 				HashSet<String> stringVarsFromEquOfCurrVars = new HashSet<>(
 						varsFromEquOfCurrVars.size());

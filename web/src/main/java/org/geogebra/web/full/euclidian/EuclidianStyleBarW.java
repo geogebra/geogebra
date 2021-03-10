@@ -19,6 +19,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -26,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -49,9 +51,13 @@ import org.geogebra.common.util.GPredicate;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.ContextMenuGeoElementW;
+import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.color.BgColorPopup;
+import org.geogebra.web.full.gui.color.BorderTextPopup;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.full.gui.color.FillingStyleButton;
+import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.StyleBarResources;
 import org.geogebra.web.full.gui.util.BorderStylePopup;
@@ -123,6 +129,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private MyToggleButtonW btnUnderline;
 
 	private BorderStylePopup btnBorderStyle;
+	private BorderTextPopup btnBorderText;
 	private PopupMenuButtonW btnHorizontalAlignment;
 	private PopupMenuButtonW btnVerticalAlignment;
 
@@ -426,6 +433,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 		// add graphics decoration buttons
 		addGraphicsDecorationsButtons();
 		add(btnPointCapture);
+		if (btnBorderText != null) {
+			add(btnBorderText);
+		}
 
 		// add color and style buttons
 		if (btnTextBgColor != null) {
@@ -584,7 +594,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 
 		StandardButton btnDelete = new StandardButton(
-				MaterialDesignResources.INSTANCE.delete_black(), null, 24, app);
+				MaterialDesignResources.INSTANCE.delete_black(), null, 24);
 		btnDelete.setStyleName("MyCanvasButton");
 		FastClickHandler btnDelHandler = source -> {
 			app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
@@ -603,7 +613,15 @@ public class EuclidianStyleBarW extends StyleBarW2
 	// For unbundled apps: three dot button instead of view dropdown
 	private void addContextMenuButton() {
 		if (btnContextMenu == null) {
-			btnContextMenu = new ContextMenuPopup(app);
+			ContextMenuGeoElementW contextMenu = ((GuiManagerW) app.getGuiManager())
+					.getPopupMenu(ec.getAppSelectedGeos());
+			btnContextMenu = new ContextMenuPopup(app, contextMenu.getWrappedPopup()) {
+
+				@Override
+				public void updatePopup() {
+					contextMenu.update();
+				}
+			};
 		}
 		btnContextMenu.addStyleName("matDynStyleContextButton");
 		add(btnContextMenu);
@@ -687,7 +705,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	protected PopupMenuButtonW[] newPopupBtnList() {
-		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(),
+		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(), btnBorderText,
 				btnColor, btnBgColor, btnTextColor, btnTextBgColor, btnFilling,
 				btnLineStyle, btnPointStyle, btnTextSize, btnAngleInterval, btnBorderStyle,
 				btnHorizontalAlignment, btnVerticalAlignment, btnLabelStyle, btnPointCapture,
@@ -713,6 +731,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		createColorBtn();
 		if (app.isWhiteboardActive()) {
 			createFillingBtn();
+			createTextBorderColorBtn();
 			createTextBgColorBtn();
 		}
 		createBgColorBtn();
@@ -750,7 +769,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		 */
 		public ProjectionPopup(AppW app, ImageOrText[] projectionIcons) {
 			super(app, projectionIcons, 1, projectionIcons.length,
-					SelectionTable.MODE_ICON, true, false, null, false);
+					SelectionTable.MODE_ICON, true, false, null);
 		}
 
 		@Override
@@ -821,7 +840,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				loc.getMenu("Labeling.automatic"), loc.getMenu("SnapToGrid"),
 				loc.getMenu("FixedToGrid"), loc.getMenu("Off") });
 		btnPointCapture = new PopupMenuButtonW(app, strPointCapturing, -1, 1,
-				SelectionTable.MODE_TEXT, false) {
+				SelectionTable.MODE_TEXT) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
@@ -861,7 +880,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		});
 
 		btnLabelStyle = new PopupMenuButtonW(app, captionArray, -1, 1,
-				SelectionTable.MODE_TEXT, false) {
+				SelectionTable.MODE_TEXT) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
@@ -900,7 +919,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				.convert(angleIntervalString);
 
 		btnAngleInterval = new PopupMenuButtonW(app, angleIntervalArray, -1, 1,
-				SelectionTable.MODE_TEXT, false) {
+				SelectionTable.MODE_TEXT) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
@@ -1079,6 +1098,31 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnBgColor.setEnableTable(true);
 		btnBgColor.setKeepVisible(!app.isUnbundledOrWhiteboard());
 		btnBgColor.addPopupHandler(this);
+	}
+
+	private void createTextBorderColorBtn() {
+		btnBorderText = new BorderTextPopup(app, ColorPopupMenuButton.COLORSET_DEFAULT,
+				false, selection) {
+
+			@Override
+			public void update(List<GeoElement> geos) {
+				boolean geosOK = checkGeos(geos, geo -> geo instanceof GeoInlineText);
+				super.setVisible(geosOK);
+
+				if (geosOK) {
+					int borderThickness = ((GeoInlineText) geos.get(0)).getBorderThickness();
+					btnBorderText.selectBorderThickness(borderThickness);
+				}
+			}
+
+			@Override
+			public ImageOrText getButtonIcon() {
+				return new ImageOrText(
+						MaterialDesignResources.INSTANCE.color_border(), 24);
+			}
+		};
+		btnBorderText.setEnableTable(true);
+		btnBorderText.addPopupHandler(this);
 	}
 
 	private void createTextBgColorBtn() {
@@ -1300,7 +1344,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		};
 
 		btnHorizontalAlignment = new PopupMenuButtonW(app, verticalAlignments, 1, 3,
-				SelectionTable.MODE_ICON, false) {
+				SelectionTable.MODE_ICON) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
@@ -1338,7 +1382,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		};
 
 		btnVerticalAlignment = new PopupMenuButtonW(app, verticalAlignments, 1, 3,
-				SelectionTable.MODE_ICON, false) {
+				SelectionTable.MODE_ICON) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
@@ -1374,7 +1418,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				.convert(app.getLocalization().getFontSizeStrings());
 
 		btnTextSize = new PopupMenuButtonW(app, textSizeArray, -1, 1,
-				SelectionTable.MODE_TEXT, false) {
+				SelectionTable.MODE_TEXT) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
@@ -1564,6 +1608,16 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 				return false;
 			});
+		} else if (source == btnBorderText) {
+			if (btnBorderText.getSelectedIndex() >= 0) {
+				GColor color = btnBorderText.getSelectedColor();
+				if (color == null) {
+					handleBorderColorChooser(targetGeos);
+					return false;
+				}
+				needUndo = applyBorderColorText(targetGeos,
+						color);
+			}
 		} else if (source == btnVerticalAlignment) {
 			VerticalAlignment alignment
 					= VerticalAlignment.values()[btnVerticalAlignment.getSelectedIndex()];
@@ -1603,6 +1657,49 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return true;
 	}
 
+	private void handleBorderColorChooser(final ArrayList<GeoElement> targetGeos) {
+		final GeoElement geo0 = targetGeos.get(0);
+		GColor originalColor = ((GeoInlineText) geo0).getBorderColor();
+
+		DialogManagerW dm = (DialogManagerW) (app.getDialogManager());
+		dm.showColorChooserDialog(originalColor, new ColorChangeHandler() {
+
+			@Override
+			public void onForegroundSelected() {
+				// no foreground/background switcher
+			}
+
+			@Override
+			public void onColorChange(GColor color) {
+				boolean changed = applyBorderColorText(targetGeos, color);
+
+				if (changed) {
+					app.storeUndoInfo();
+				}
+			}
+
+			@Override
+			public void onClearBackground() {
+				// no clear background button
+			}
+
+			@Override
+			public void onBarSelected() {
+				// no bar chart support
+			}
+
+			@Override
+			public void onBackgroundSelected() {
+				// no foreground / background switcher
+			}
+
+			@Override
+			public void onAlphaChange() {
+				// no alpha slider
+			}
+		});
+	}
+
 	/**
 	 * @param targetGeos
 	 *            geos to selected (non-tables are ignored)
@@ -1628,6 +1725,28 @@ public class EuclidianStyleBarW extends StyleBarW2
 				}
 				if (formatter.getBorderThickness() != borderThickness) {
 					formatter.setBorderThickness(borderThickness);
+					changed = true;
+				}
+			}
+		}
+
+		return changed;
+	}
+
+	/**
+	 * @param targetGeos
+	 *            geos to selected (non-inlinetexts are ignored)
+	 * @param borderColor
+	 *            border color
+	 * @return whether border color changed
+	 */
+	private boolean applyBorderColorText(List<GeoElement> targetGeos, GColor borderColor) {
+		boolean changed = false;
+		for (GeoElement geo : targetGeos) {
+			if (geo instanceof GeoInlineText) {
+				if (borderColor != null && !((GeoInlineText) geo)
+						.getBorderColor().equals(borderColor)) {
+					((GeoInlineText) geo).setBorderColor(borderColor);
 					changed = true;
 				}
 			}
@@ -1927,6 +2046,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		setToolTipText(btnFixObject, "FixObject");
 		setToolTipText(btnTextColor, "stylebar.Color");
 		setToolTipText(btnTextBgColor, "stylebar.BgColor");
+		setToolTipText(btnBorderText, "stylebar.Borders");
 
 		setToolTipText(btnBorderStyle, "stylebar.Borders");
 		setPopupTooltips(btnBorderStyle, new String[] { "AllBorders", "InnerBorders",
@@ -1989,7 +2109,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		this.visible = visible;
 		super.setVisible(visible);
 		if (btnContextMenu != null) {
-			btnContextMenu.close();
+			btnContextMenu.hideMenu();
 		}
 	}
 

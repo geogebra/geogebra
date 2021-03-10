@@ -92,9 +92,6 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 		add(new ScrollPanel(getPreviewer().getPanel()),
 				previewLabel);
 		add(new ScrollPanel(geoPanel), geoTabImage);
-		if (app.isUnbundledOrWhiteboard()) {
-			getTabWidget(1).getParent().addStyleName("ggbTab");
-		}
 		add(new ScrollPanel(symbolPanel), Unicode.ALPHA_BETA_GAMMA);
 		latexLabel = new Label(loc.getMenu("LaTeXFormula"));
 		add(new ScrollPanel(latexPanel), latexLabel);
@@ -283,9 +280,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 		int defaultRowSize = 15;
 
 		latexPanel = new VerticalPanel();
-		if (app.isUnbundledOrWhiteboard()) {
-			latexPanel.addStyleName("latexPanel");
-		}
+		latexPanel.addStyleName("latexPanel");
 		latexPanel.setWidth("100%");
 		latexPanel.setHeight("100%");
 

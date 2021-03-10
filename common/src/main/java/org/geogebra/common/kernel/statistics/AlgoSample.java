@@ -15,12 +15,14 @@ package org.geogebra.common.kernel.statistics;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Sample from a list. Adapted from AlgoMode
@@ -28,7 +30,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  * @author Michael Borcherds
  */
 
-public class AlgoSample extends AlgoElement {
+public class AlgoSample extends AlgoElement implements SetRandomValue {
 
 	// maximum size for a sample
 	private static int SAMPLE_MAXSIZE = 10000;
@@ -97,17 +99,10 @@ public class AlgoSample extends AlgoElement {
 			return;
 		}
 
-		boolean withReplacement = true;
-
-		if (replacement != null) {
-			withReplacement = replacement.getBoolean();
-		}
-
 		int inputListSize = inputList.size();
-
 		outputList.clear();
 
-		if (withReplacement) {
+		if (withReplacement()) {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo;
 
@@ -125,12 +120,7 @@ public class AlgoSample extends AlgoElement {
 				return;
 			}
 
-			ArrayList<GeoElement> list = new ArrayList<>();
-
-			// copy inputList into arraylist
-			for (int i = 0; i < inputListSize; i++) {
-				list.add(inputList.get(i));
-			}
+			ArrayList<GeoElement> list = copyInput();
 
 			// copy the geos back into a GeoList in a random order
 			for (int i = 0; i < size; i++) {
@@ -144,7 +134,20 @@ public class AlgoSample extends AlgoElement {
 		}
 
 		outputList.setDefined(true);
+	}
 
+	private ArrayList<GeoElement> copyInput() {
+		ArrayList<GeoElement> copy = new ArrayList<>();
+		int inputListSize = inputList.size();
+		// copy inputList into arraylist
+		for (int i = 0; i < inputListSize; i++) {
+			copy.add(inputList.get(i));
+		}
+		return copy;
+	}
+
+	private boolean withReplacement() {
+		return replacement != null && replacement.getBoolean();
 	}
 
 	// copied from AlgoIterationList.java
@@ -167,4 +170,38 @@ public class AlgoSample extends AlgoElement {
 
 	}
 
+	@Override
+	public boolean setRandomValue(GeoElementND d) {
+		if (d instanceof GeoList) {
+			GeoList otherList = (GeoList) d;
+			if (withReplacement()) {
+				for (int i = 0; i < otherList.size(); i++) {
+					if (!inputContains(otherList.get(i))) {
+						return false;
+					}
+				}
+			} else {
+				ArrayList<GeoElement> copy = copyInput();
+				for (int i = 0; i < otherList.size(); i++) {
+					if (!AlgoShuffle.removeFromList(otherList.get(i), copy)) {
+						return false;
+					}
+				}
+			}
+			if (outputList != otherList) {
+				outputList.set(otherList);
+			}
+			return true;
+		}
+		return false;
+	}
+
+	private boolean inputContains(GeoElement geoElement) {
+		for (int i = 0; i < inputList.size(); i++) {
+			if (inputList.get(i).isEqual(geoElement)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

@@ -697,12 +697,16 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.setLanguage(lang + "");
 	}
 
-	public void showTooltip(Object tooltip, Object label, Object color) {
-		if (label != null) {
-			ggbAPI.showTooltip(tooltip, label, color);
-		} else {
-			ggbAPI.showTooltip(tooltip + "");
-		}
+	public void showTooltip(Object tooltip) {
+		ggbAPI.showTooltip(tooltip + "");
+	}
+
+	public void addMultiuserSelection(Object user, Object color, Object label, boolean newGeo) {
+		ggbAPI.addMultiuserSelection(user + "", color + "", label + "", newGeo);
+	}
+
+	public void removeMultiuserSelections(Object user) {
+		ggbAPI.removeMultiuserSelections(user + "");
 	}
 
 	// APPS-646 deprecated, needs changing to getValue("correct")
@@ -950,7 +954,35 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.selectSlide(pageIdx + "");
 	}
 
+	public void updateOrdering(String labels) {
+		ggbAPI.updateOrdering(labels);
+	}
+
 	public void previewRefresh() {
 		ggbAPI.previewRefresh();
+	}
+
+	public void groupObjects(String[] objects) {
+		ggbAPI.groupObjects(objects);
+	}
+
+	public void ungroupObjects(String[] objects) {
+		ggbAPI.ungroupObjects(objects);
+	}
+
+	public String[] getObjectsOfItsGroup(String object) {
+		return ggbAPI.getObjectsOfItsGroup(object);
+	}
+
+	public void addToGroup(String item, String[] objectsInGroup) {
+		ggbAPI.addToGroup(item, objectsInGroup);
+	}
+
+	public void setEmbedContent(String label, String base64) {
+		ggbAPI.setEmbedContent(label, base64);
+	}
+
+	public boolean hasUnlabeledPredecessors(String label) {
+		return ggbAPI.hasUnlabeledPredecessors(label);
 	}
 }

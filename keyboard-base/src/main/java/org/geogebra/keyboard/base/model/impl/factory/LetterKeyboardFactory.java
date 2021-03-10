@@ -152,7 +152,7 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 		if (controlActionLeft != null) {
 			addActionButton(controlRowImpl, buttonFactory, controlActionLeft, actionButtonSize);
 		}
-		addButtons(controlRowImpl, buttonFactory, controlRow);
+		addControlButtons(controlRowImpl, buttonFactory, controlRow);
 		// this contains left, right and return enter
 		int controlSpecialLength = (controlActionLeft == null ? 0 : 1) + 3;
 		float spaceSize = rowWeightSum - controlRowLength - controlSpecialLength;
@@ -181,6 +181,17 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 		for (int i = 0; i < definition.length(); i++) {
 			addButtonCharacter(rowImpl, buttonFactory, definition.charAt(i));
 		}
+	}
+
+	/**
+	 * add control buttons
+	 * @param rowImpl row
+	 * @param buttonFactory factory
+	 * @param definition characters of control buttons
+	 */
+	public void addControlButtons(RowImpl rowImpl, ButtonFactory buttonFactory,
+			String definition) {
+		addButtons(rowImpl, buttonFactory, definition);
 	}
 
 	private void addActionButton(RowImpl rowImpl, ButtonFactory buttonFactory, Integer action,

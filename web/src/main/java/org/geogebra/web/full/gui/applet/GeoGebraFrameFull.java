@@ -50,10 +50,12 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
+import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.gwtproject.timer.client.Timer;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
@@ -237,6 +239,7 @@ public class GeoGebraFrameFull
 		}
 
 		if (this.isKeyboardShowing() == show) {
+			getKeyboardManager().clearAndUpdateKeyboard();
 			getKeyboardManager().setOnScreenKeyboardTextField(textField);
 			return;
 		}
@@ -725,8 +728,7 @@ public class GeoGebraFrameFull
 
 	private void attachMowMainMenu(final AppW app) {
 		StandardButton openMenuButton = new StandardButton(
-				MaterialDesignResources.INSTANCE.menu_black_whiteBorder(), null,
-				24, app);
+				MaterialDesignResources.INSTANCE.menu_black_whiteBorder(), null, 24);
 
 		openMenuButton.addFastClickHandler(source -> {
 			onMenuButtonPressed();
@@ -770,6 +772,25 @@ public class GeoGebraFrameFull
 	private void initNotesLayoutIfNull(AppW app) {
 		if (notesLayout == null) {
 			notesLayout = new NotesLayout(app);
+		}
+	}
+
+	/**
+	 * @return true if toolbar open, false otherwise
+	 */
+	public boolean isNotesToolbarOpen() {
+		if (notesLayout != null) {
+			return notesLayout.isNotesToolbarOpen();
+		}
+		return false;
+	}
+
+	/**
+	 * @param open true if should open notes toolbar
+	 */
+	public void setNotesToolbarOpen(boolean open) {
+		if (notesLayout != null) {
+			notesLayout.setToolbarOpen(open);
 		}
 	}
 
@@ -825,7 +846,8 @@ public class GeoGebraFrameFull
 		if (!Dom.eventTargetsElement(event, getMenuElement())
 				&& !Dom.eventTargetsElement(event, getToolbarMenuElement())
 				&& !getGlassPane().isDragInProgress()
-				&& !app.isUnbundled() && panelTransitioner.getCurrentPanel() == null) {
+				&& !app.isUnbundledOrWhiteboard()
+				&& panelTransitioner.getCurrentPanel() == null) {
 			app.hideMenu();
 		}
 	}
@@ -985,5 +1007,11 @@ public class GeoGebraFrameFull
 	@Override
 	protected ResourcesInjectorFull getResourcesInjector(AppletParameters appletParameters) {
 		return new ResourcesInjectorFull();
+	}
+
+	@Override
+	public void getScreenshotBase64(StringConsumer callback) {
+		Canvas c = Canvas.createIfSupported();
+		((DockManagerW) app.getGuiManager().getLayout().getDockManager()).paintPanels(c, callback);
 	}
 }

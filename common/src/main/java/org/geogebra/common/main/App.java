@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
@@ -63,7 +64,6 @@ import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.kernel.AnimationManager;
-import org.geogebra.common.kernel.AppState;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -108,6 +108,7 @@ import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.common.main.settings.updater.LabelSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
+import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -1035,16 +1036,19 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 	}
 
+	public UndoManager getUndoManager() {
+		return kernel.getConstruction().getUndoManager();
+	}
+
 	public void setPropertiesOccured() {
-		getKernel().getConstruction().getUndoManager().setPropertiesOccured();
+		getUndoManager().setPropertiesOccured();
 	}
 
 	/**
 	 * Store undo point for properties change.
 	 */
 	public void storeUndoInfoForProperties() {
-		getKernel().getConstruction().getUndoManager()
-				.storeUndoInfoForProperties(isUndoActive());
+		getUndoManager().storeUndoInfoForProperties(isUndoActive());
 	}
 
 	public boolean letRename() {
@@ -2061,6 +2065,23 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * Update the UI perspective.
+	 * @param p perspective
+	 */
+	public void setPerspective(Perspective p) {
+		try {
+			persistWidthAndHeight();
+			getGuiManager().getLayout().applyPerspective(p);
+			updateViewSizes();
+			getGuiManager().updateMenubar();
+			getGuiManager().updateToolbar();
+			updateKeyboard();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * @param idx
 	 *            view index; 1 for EV2
 	 * @return EV2
@@ -2163,6 +2184,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	final public void initKernel() {
 		kernel = companion.newKernel();
+		kernel.setAngleUnit(appConfig.getDefaultAngleUnit());
 		// ensure that the selection manager is created
 		getSelectionManager();
 	}
@@ -3052,14 +3074,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * copy base64 of current .ggb file to clipboard
 	 */
 	public void copyBase64ToClipboard() {
-		copyTextToSystemClipboard(getGgbApi().getBase64());
+		getCopyPaste().copyTextToSystemClipboard(getGgbApi().getBase64());
 	}
 
 	/**
 	 * copy full HTML5 export for current .ggb file to clipboard
 	 */
 	public void copyFullHTML5ExportToClipboard() {
-		copyTextToSystemClipboard(HTML5Export.getFullString(this));
+		getCopyPaste().copyTextToSystemClipboard(HTML5Export.getFullString(this));
 	}
 
 	/**
@@ -3891,9 +3913,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case ADJUST_WIDGETS:
 			return false;
 
-		case SYMBOLIC_AV:
-			return true;
-
 		/** GGB-2255 */
 		case GEOMETRIC_DISCOVERY:
 			return prerelease;
@@ -4138,7 +4157,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public boolean isExam() {
-		return exam != null;
+		return getExam() != null;
 	}
 
 	public boolean isExamStarted() {
@@ -4149,8 +4168,21 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		this.exam = exam;
 	}
 
+	/**
+	 * Initializes a new ExamEnvironment instance.
+	 */
 	public void setNewExam() {
-		setExam(new ExamEnvironment(this));
+		ExamEnvironment examEnvironment = newExamEnvironment();
+		setExam(examEnvironment);
+		examEnvironment.setAppNameWith(getConfig());
+		CommandDispatcher commandDispatcher =
+				getKernel().getAlgebraProcessor().getCommandDispatcher();
+		examEnvironment.setCommandDispatcher(commandDispatcher);
+		updateExam(examEnvironment);
+	}
+
+	protected ExamEnvironment newExamEnvironment() {
+		return new ExamEnvironment(getLocalization());
 	}
 
 	/**
@@ -4239,6 +4271,24 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void readLater(GeoNumeric geo) {
 		// implemented in AppW
+	}
+
+	/**
+	 * @param subApp subapp code
+	 * @param p perspective
+	 */
+	public void updateAppCodeSuite(String subApp, Perspective p) {
+		// only in Web
+	}
+
+	/**
+	 * When multiple slides are present give ID of the current one, otherwise
+	 * give default slide ID when slides supported or empty string if not.
+	 *
+	 * @return the string ID of current slide
+	 */
+	public String getSlideID() {
+		return "";
 	}
 
 	/**
@@ -4646,14 +4696,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @param text
-	 *            text to be copied
-	 */
-	public void copyTextToSystemClipboard(String text) {
-		// overridden in AppD, AppW
-	}
-
-	/**
 	 * last commands selected from help (used in Android & iOS native)
 	 *
 	 * @param commandName
@@ -4894,20 +4936,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @param action
-	 *            command to execute
-	 * @param state
-	 *            file content
-	 * @param args
-	 *            arguments
-	 *
-	 */
-	public void executeAction(EventType action, AppState state, String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
 	 * @param slideID
 	 *            slide name
 	 */
@@ -5038,6 +5066,16 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			SettingsUpdaterBuilder settingsUpdaterBuilder = newSettingsUpdaterBuilder();
 			settingsUpdater = settingsUpdaterBuilder.newSettingsUpdater();
 		}
+		return settingsUpdater;
+	}
+
+	/**
+	 * make sure we create a new settings updater according the new appConfig
+	 * @return setting updater
+	 */
+	public SettingsUpdater initSettingsUpdater() {
+		SettingsUpdaterBuilder settingsUpdaterBuilder = newSettingsUpdaterBuilder();
+		settingsUpdater = settingsUpdaterBuilder.newSettingsUpdater();
 		return settingsUpdater;
 	}
 
@@ -5191,7 +5229,55 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// nothing here
 	}
 
+	/**
+	 * Updates the objects that depend on the command dispatcher.
+	 *
+	 * @param commandDispatcher command dispatcher
+	 */
+	public void onCommandDispatcherSet(CommandDispatcher commandDispatcher) {
+		ExamEnvironment examEnvironment = getExam();
+		if (examEnvironment != null) {
+			examEnvironment.setCommandDispatcher(commandDispatcher);
+			updateExam(examEnvironment);
+		}
+	}
+
+	protected void updateExam(@Nonnull ExamEnvironment examEnvironment) {
+		examEnvironment.setIncludingSettingsInLog(!isUnbundled());
+		examEnvironment.setCopyPaste(getCopyPaste());
+	}
+
+	@Override
+	public void setXML(String xml, boolean clearAll) {
+		if (xml == null) {
+			return;
+		}
+		if (clearAll) {
+			resetCurrentFile();
+		}
+
+		try {
+			// make sure objects are displayed in the correct View
+			setActiveView(App.VIEW_EUCLIDIAN);
+			getXMLio().processXMLString(xml, clearAll, false);
+		} catch (MyError err) {
+			err.printStackTrace();
+			showError(err);
+		} catch (Exception e) {
+			e.printStackTrace();
+			showError(Errors.LoadFileFailed);
+		}
+	}
+
 	public String getThreadId() {
 		return "[main thread]";
+	}
+
+	/**
+	 * opens/closes notes toolbar
+	 * @param open true if should open notes toolbar
+	 */
+	public void setNotesToolbarOpen(boolean open) {
+		// nothing to do here
 	}
 }

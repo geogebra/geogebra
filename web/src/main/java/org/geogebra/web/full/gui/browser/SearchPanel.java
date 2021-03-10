@@ -7,7 +7,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.move.views.BooleanRenderable;
-import org.geogebra.web.html5.gui.FastButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -36,7 +35,7 @@ public class SearchPanel extends FlowPanel
 		implements BooleanRenderable, SetLabels {
 
 	private TextBox query;
-	private FastButton cancelButton;
+	private StandardButton cancelButton;
 	private final List<SearchListener> listeners;
 	private NetworkOperation op;
 	private final Localization loc;
@@ -94,7 +93,7 @@ public class SearchPanel extends FlowPanel
 		});
 
 		StandardButton searchButton = new StandardButton(
-				BrowseResources.INSTANCE.search(), app);
+				BrowseResources.INSTANCE.search());
 		searchButton.addStyleName("searchButton");
 		searchButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -104,7 +103,7 @@ public class SearchPanel extends FlowPanel
 		});
 
 		this.cancelButton = new StandardButton(
-				SharedResources.INSTANCE.dialog_cancel(), app);
+				SharedResources.INSTANCE.dialog_cancel());
 		this.cancelButton.addStyleName("cancelButton");
 		this.cancelButton.setVisible(false);
 		this.cancelButton.addFastClickHandler(new FastClickHandler() {

@@ -70,6 +70,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		this.poly = poly;
 		geo = poly;
 		gp = new GeneralPathClipped(view);
+		gp.resetWithThickness(geo.getLineThickness());
 		update();
 	}
 
@@ -87,6 +88,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		geo = view.getKernel().getConstruction().getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_POLYGON);
 		gp = new GeneralPathClipped(view);
+		gp.resetWithThickness(geo.getLineThickness());
 		updatePreview();
 	}
 
@@ -147,7 +149,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	// return false if a point doesn't lie on the plane
 	private boolean addPointsToPath(int length) {
-		gp.reset();
+		gp.resetWithThickness(geo.getLineThickness());
 
 		if (length <= 0) {
 			return false;

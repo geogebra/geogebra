@@ -71,7 +71,6 @@ public class ContextMenuTV {
 
 	private void buildGui() {
 		wrappedPopup = new GPopupMenuW(app);
-		wrappedPopup.getPopupPanel().addStyleName("matMenu");
 		if (getColumnIdx() >= 0) {
 			// column index >= 0 -> edit function
 			addShowHide();

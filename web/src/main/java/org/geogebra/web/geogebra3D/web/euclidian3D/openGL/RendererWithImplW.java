@@ -20,7 +20,8 @@ import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
-import com.googlecode.gwtgl.binding.WebGLRenderingContext;
+
+import elemental2.webgl.WebGLRenderingContext;
 
 /**
  * 
@@ -208,13 +209,17 @@ public class RendererWithImplW extends Renderer implements
 			glContext = getBufferedContext(webGLCanvas.getElement());
 
 		} else {
-			glContext = (WebGLRenderingContext) webGLCanvas
-					.getContext("experimental-webgl");
+			glContext = getWebGLContext(webGLCanvas);
 			((RendererImplShadersW) getRendererImpl()).setGL(glContext);
 		}
 		if (glContext == null) {
 			Window.alert("Sorry, Your Browser doesn't support WebGL!");
 		}
+	}
+
+	protected static WebGLRenderingContext getWebGLContext(Canvas webGLCanvas) {
+		return (WebGLRenderingContext) webGLCanvas
+				.getContext("experimental-webgl");
 	}
 
 	private static native WebGLRenderingContext getBufferedContext(

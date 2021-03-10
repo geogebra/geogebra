@@ -23,9 +23,7 @@ import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.DefaultUndoManager;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -37,8 +35,6 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.main.GuiManagerInterface;
-import org.geogebra.common.main.MyError;
-import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.settings.DefaultSettings;
@@ -47,6 +43,9 @@ import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
+import org.geogebra.common.main.settings.config.AppConfigNotes;
+import org.geogebra.common.main.undo.DefaultUndoManager;
+import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.sound.SoundManager;
@@ -93,14 +92,8 @@ public class AppCommon extends App {
 		Log.setLogger(new Log() {
 
 			@Override
-			protected void print(String logEntry, Level level) {
+			public void print(Level level, Object logEntry) {
 				System.out.println(logEntry); // NOPMD
-			}
-
-			@Override
-			public void doPrintStacktrace(String message) {
-				new Throwable(message).printStackTrace();
-
 			}
 		});
     }
@@ -372,31 +365,6 @@ public class AppCommon extends App {
 		}
 		return tableModel;
 	}
-
-    @Override
-	public void setXML(String xml, boolean clearAll) {
-		// TODO copied from AppDNoGui
-		if (xml == null) {
-			return;
-		}
-		if (clearAll) {
-			resetCurrentFile();
-		}
-
-		try {
-
-			// make sure objects are displayed in the correct View
-			setActiveView(App.VIEW_EUCLIDIAN);
-
-			getXMLio().processXMLString(xml, clearAll, false);
-		} catch (MyError err) {
-			err.printStackTrace();
-			showError(err);
-		} catch (Exception e) {
-			e.printStackTrace();
-			showError(Errors.LoadFileFailed);
-		}
-    }
 
     @Override
     public GgbAPI getGgbApi() {
@@ -803,5 +771,10 @@ public class AppCommon extends App {
 
 	public void setAppletFlag(boolean appletFlag) {
 		this.appletFlag = appletFlag;
+	}
+
+	@Override
+	public boolean isWhiteboardActive() {
+		return getConfig() instanceof AppConfigNotes;
 	}
 }

@@ -59,12 +59,11 @@ public class ShareLinkDialog extends ComponentDialog {
 		linkBox.setStyleName("linkBox");
 		addLinkBoxHandlers();
 
-		StandardButton copyBtn = new StandardButton(localize("Copy"),
-				app);
+		StandardButton copyBtn = new StandardButton(localize("Copy"));
 		copyBtn.setStyleName("copyButton");
 
 		copyBtn.addFastClickHandler(source -> {
-			app.copyTextToSystemClipboard(linkBox.getText());
+			app.getCopyPaste().copyTextToSystemClipboard(linkBox.getText());
 			hide();
 		});
 
@@ -115,7 +114,7 @@ public class ShareLinkDialog extends ComponentDialog {
 
 	private StandardButton roundButton(SVGResource icon, String titleKey) {
 		StandardButton btn = new StandardButton(icon,
-				localize(titleKey), 24, app);
+				localize(titleKey), 24);
 		btn.setStyleName("roundButton");
 		return btn;
 	}
@@ -144,7 +143,7 @@ public class ShareLinkDialog extends ComponentDialog {
 					+ " width=\"800\" height=\"600\" allowfullscreen"
 					+ " style=\"border: 1px solid #e4e4e4;border-radius: 4px;\""
 					+ " frameborder=\"0\"></iframe>";
-			this.app.copyTextToSystemClipboard(code);
+			this.app.getCopyPaste().copyTextToSystemClipboard(code);
 			ToolTipManagerW.sharedInstance().showBottomMessage(
 					localize("CopiedToClipboard"), true, appW);
 		}

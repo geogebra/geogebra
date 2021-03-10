@@ -40,7 +40,7 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public class DrawLocus extends Drawable {
-	private static final int BITMAP_PADDING = 10;
+	private static final int BITMAP_PADDING = 20;
 
 	private GeoLocusND<? extends MyPoint> locus;
 
@@ -192,10 +192,8 @@ public class DrawLocus extends Drawable {
 	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
 		if (gp == null) {
 			gp = new GeneralPathClippedForCurvePlotter(view);
-		} else {
-			gp.reset();
 		}
-
+		gp.resetWithThickness(geo.getLineThickness());
 		// Use the last plotted point for positioning the label:
 		labelPosition = CurvePlotter.draw(gp, pointList, transformSys);
 		/*
@@ -358,5 +356,9 @@ public class DrawLocus extends Drawable {
 		if (locus instanceof GeoLocusStroke) {
 			((GeoLocusStroke) locus).resetXMLPointBuilder();
 		}
+	}
+
+	public GeneralPathClippedForCurvePlotter getPath() {
+		return gp;
 	}
 }

@@ -784,11 +784,6 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	 */
 	boolean isGeoFunction();
 
-	/**
-	 * @return true for inequality
-	 */
-	boolean isGeoInterval();
-
 	/** @return true if tracing is posible */
 	boolean isTraceable();
 

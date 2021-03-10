@@ -50,6 +50,8 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Tree node for expressions like "3*a - b/5"
  * 
@@ -59,6 +61,7 @@ public class ExpressionNode extends ValidExpression
 		implements ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	private Localization loc;
+	@Weak
 	private Kernel kernel;
 	private ExpressionValue left;
 	private ExpressionValue right;
@@ -68,7 +71,6 @@ public class ExpressionNode extends ValidExpression
 	private boolean forceFunction = false;
 	private boolean forceInequality = false;
 	private boolean forceSurface = false;
-	private boolean wasInterval = false;
 
 	/** true if this holds text and the text is in LaTeX format */
 	public boolean holdsLaTeXtext = false;
@@ -420,8 +422,8 @@ public class ExpressionNode extends ValidExpression
 	private void doResolveVariables(EvalInfo info) {
 		// resolve left wing
 		if (left.isVariable()) {
-			left = ((Variable) left).resolveAsExpressionValue(
-					info.getSymbolicMode(), info.isMultipleUnassignedAllowed());
+			left = ((Variable) left).resolveAsExpressionValue(info.getSymbolicMode(),
+					info.isMultipleUnassignedAllowed(), info.isMultiLetterVariablesAllowed());
 			if (operation == Operation.POWER
 					|| operation == Operation.FACTORIAL) {
 				fixPowerFactorial(Operation.MULTIPLY);
@@ -439,8 +441,8 @@ public class ExpressionNode extends ValidExpression
 		// resolve right wing
 		if (right != null) {
 			if (right.isVariable()) {
-				right = ((Variable) right).resolveAsExpressionValue(
-						info.getSymbolicMode(), info.isMultipleUnassignedAllowed());
+				right = ((Variable) right).resolveAsExpressionValue(info.getSymbolicMode(),
+						info.isMultipleUnassignedAllowed(), info.isMultiLetterVariablesAllowed());
 				right = groupPowers(right);
 			} else {
 				right.resolveVariables(info);
@@ -1221,20 +1223,6 @@ public class ExpressionNode extends ValidExpression
 	 */
 	final public boolean isForceInequality() {
 		return forceInequality;
-	}
-
-	/**
-	 * remember if was interval
-	 */
-	public void setWasInterval() {
-		wasInterval = true;
-	}
-
-	/**
-	 * @return true iff was interval
-	 */
-	final public boolean wasInterval() {
-		return wasInterval;
 	}
 
 	/**
@@ -3155,11 +3143,29 @@ public class ExpressionNode extends ValidExpression
 			return super.evaluateDouble();
 		}
 		double lt = left.evaluateDouble();
-		if (lt < 0 && right.isExpressionNode() && ((ExpressionNode) right)
-				.getOperation() == Operation.DIVIDE) {
-			return ExpressionNodeEvaluator.negPower(lt, right);
+		if (lt < 0 && right.isExpressionNode()) {
+			Double negPower = right.wrap().calculateNegPower(lt);
+			if (negPower != null) {
+				return negPower;
+			}
 		}
 		return Math.pow(left.evaluateDouble(), right.evaluateDouble());
+	}
+
+	/**
+	 * @param base
+	 *            base of power term
+	 * @return negPower if exponent is negative fraction
+	 */
+	public Double calculateNegPower(double base) {
+		if (isOperation(Operation.DIVIDE)) {
+			return ExpressionNodeEvaluator.negPower(base, this);
+		} else if (getOperation() == Operation.MULTIPLY
+				&& getLeft() instanceof MinusOne
+				&& getRight().isOperation(Operation.DIVIDE)) {
+			return 1.0 / ExpressionNodeEvaluator.negPower(base, getRight());
+		}
+		return null;
 	}
 
 	/**
@@ -3418,9 +3424,8 @@ public class ExpressionNode extends ValidExpression
 	public static ExpressionValue unaryMinus(Kernel kernel2,
 			ExpressionValue f) {
 		if (f instanceof MyDouble && f.isConstant()
-				&& !(f instanceof MySpecialDouble)
 				&& !(f instanceof MyDoubleDegreesMinutesSeconds)) {
-			return new MyDouble(kernel2, -f.evaluateDouble());
+			return ((MyDouble) f).unaryMinus(kernel2);
 		}
 		return new ExpressionNode(kernel2, new MinusOne(kernel2), Operation.MULTIPLY, f);
 	}
@@ -3720,7 +3725,6 @@ public class ExpressionNode extends ValidExpression
 		newNode.forceSurface = forceSurface;
 		newNode.brackets = brackets;
 		newNode.secretMaskingAlgo = secretMaskingAlgo;
-		newNode.wasInterval = wasInterval;
 		newNode.holdsLaTeXtext = holdsLaTeXtext;
 	}
 

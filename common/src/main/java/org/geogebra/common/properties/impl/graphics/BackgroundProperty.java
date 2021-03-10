@@ -28,7 +28,7 @@ public class BackgroundProperty extends AbstractEnumerableProperty {
 	protected void setValueSafe(String value, int index) {
 		// after settings
 		EuclidianView3D euclidianView3D = (EuclidianView3D) app.getActiveEuclidianView();
-		if (euclidianView3D.isAREnabled()) {
+		if (euclidianView3D.isXREnabled()) {
             euclidianView3D.getRenderer().setBackgroundStyle(
                     Renderer.BackgroundStyle.values()[index]);
 		}

@@ -27,6 +27,8 @@ import org.geogebra.common.kernel.algos.AlgoSlope;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * 
  * @author Markus Hohenwarter
@@ -44,6 +46,7 @@ public class DrawSlope extends Drawable {
 
 	private double[] coords = new double[2];
 	private GeneralPathClipped gp;
+	@Weak
 	private Kernel kernel;
 
 	/**
@@ -99,7 +102,7 @@ public class DrawSlope extends Drawable {
 			if (gp == null) {
 				gp = new GeneralPathClipped(view);
 			}
-			gp.reset();
+			gp.resetWithThickness(geo.getLineThickness());
 			gp.moveTo(x, y);
 			gp.lineTo(xright, y);
 			gp.lineTo(xright, y - height);

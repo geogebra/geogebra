@@ -86,6 +86,11 @@ public class AppConfigGraphing extends AbstractAppConfig {
 	}
 
 	@Override
+	public String getAppNameWithoutCalc() {
+		return "GraphingCalculator.short";
+	}
+
+	@Override
 	public String getTutorialKey() {
 		return "TutorialGraphing";
 	}
@@ -336,5 +341,10 @@ public class AppConfigGraphing extends AbstractAppConfig {
 	@Override
 	public boolean sendKeyboardEvents() {
 		return false;
+	}
+
+	@Override
+	public boolean hasLabelForDescription() {
+		return true;
 	}
 }

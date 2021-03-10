@@ -9,12 +9,17 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.inputbox.EditorContent;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxProcessor;
+import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -113,10 +118,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 */
 	public String getTextForEditor() {
 		String textForEditor = getTextForEditor(StringTemplate.editorTemplate);
-		if (InputBoxRenderer.isComplex(linkedGeo)) {
-			return textForEditor.replace(Unicode.IMAGINARY, 'i');
-		}
-		return textForEditor;
+		return textForEditor.replace(Unicode.IMAGINARY, 'i');
 	}
 
 	private String getTextForEditor(StringTemplate tpl) {
@@ -130,7 +132,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 		String linkedGeoText;
 		if (hasLaTeXEditableVector()) {
-			linkedGeoText = getColumnMatrix((GeoVectorND) linkedGeo);
+			linkedGeoText = ((GeoVectorND) linkedGeo).toValueStringAsColumnVector(this.tpl);
+		} else if (linkedGeo.isPointInRegion() || linkedGeo.isPointOnPath()) {
+			linkedGeoText = linkedGeo.toValueString(StringTemplate.editorTemplate);
 		} else {
 			linkedGeoText = linkedGeo.getRedefineString(true, true, tpl);
 		}
@@ -162,10 +166,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 */
 	public String getText() {
 		return inputBoxRenderer.getText();
-	}
-
-	private String getColumnMatrix(GeoVectorND vector) {
-		return vector.toValueStringAsColumnVector(tpl);
 	}
 
 	@Override
@@ -249,9 +249,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		if (tempUserDisplayInput != null
 				&& inputBoxRenderer.tempUserEvalInput != null) {
 			sb.append("\t<tempUserInput display=\"");
-			sb.append(tempUserDisplayInput);
+			StringUtil.encodeXML(sb, tempUserDisplayInput);
 			sb.append("\" eval=\"");
-			sb.append(inputBoxRenderer.tempUserEvalInput);
+			StringUtil.encodeXML(sb, inputBoxRenderer.tempUserEvalInput);
 			sb.append("\"/>\n");
 		}
 
@@ -440,7 +440,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 				|| linkedGeo.isGeoPoint() || linkedGeo.isGeoVector()
 				|| (linkedGeo instanceof EquationValue && !linkedGeo.isGeoConicPart())
 				|| linkedGeo.isGeoList() || linkedGeo.isGeoLine()
-				|| linkedGeo.isGeoSurfaceCartesian();
+				|| linkedGeo.isGeoSurfaceCartesian() || linkedGeo.isGeoBoolean();
 	}
 
 	boolean hasSymbolicFunction() {
@@ -586,5 +586,46 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private int getRows() {
 		return linkedGeo instanceof GeoList  ? ((GeoList) linkedGeo).size()
 				: (linkedGeo instanceof GeoVectorND ? ((GeoVectorND) linkedGeo).getDimension() : 1);
+	}
+
+	/**
+	 * linked geo type (needed for input box specific keyboard)
+	 * @return input box type
+	 */
+	public InputBoxType getInputBoxType() {
+		if (linkedGeo instanceof GeoFunction) {
+			return ((GeoFunction) linkedGeo).isInequality()
+					? InputBoxType.INEQ_BOOL : InputBoxType.FUNCTION;
+		} else if (linkedGeo instanceof GeoSurfaceCartesianND
+			|| linkedGeo instanceof GeoCurveCartesianND) {
+			return InputBoxType.FUNCTION;
+		} else if (linkedGeo instanceof GeoFunctionNVar) {
+			return ((GeoFunctionNVar) linkedGeo).isInequality()
+					? InputBoxType.INEQ_BOOL : InputBoxType.FUNCTION;
+		} else if (linkedGeo instanceof GeoBoolean) {
+			return InputBoxType.INEQ_BOOL;
+		} else if (linkedGeo instanceof GeoList || linkedGeo instanceof GeoVectorND) {
+			return InputBoxType.VECTOR_MATRIX;
+		} else {
+			return InputBoxType.DEFAULT;
+		}
+	}
+
+	/**
+	 * variables of linked geo if it is a function
+	 * @return variables of linked geo
+	 */
+	public String getFunctionVars() {
+		if (linkedGeo instanceof VarString) {
+			FunctionVariable[] fVars = ((VarString) linkedGeo).getFunctionVariables();
+			StringBuilder sb = new StringBuilder();
+			if (fVars != null) {
+				for (int i = 0; i < fVars.length; i++) {
+					sb.append(fVars[i].getSetVarString().charAt(0));
+				}
+			}
+			return sb.toString();
+		}
+		return "";
 	}
 }

@@ -90,7 +90,7 @@ public class HeaderMow extends FlowPanel
 	}
 
 	private StandardButton createButton(SVGResource resource, String tooltip) {
-		StandardButton button = new StandardButton(resource, null, 24, appW);
+		StandardButton button = new StandardButton(resource, null, 24);
 		button.setTitle(appW.getLocalization().getMenu(tooltip));
 		button.addFastClickHandler(this);
 		return button;
@@ -152,21 +152,22 @@ public class HeaderMow extends FlowPanel
 	 * on open/close toolbar
 	 */
 	public void onOpenClose() {
-		toggleCloseButton();
+		toggleCloseButton(toolbar.isOpen());
 		toolbar.onOpenClose();
 	}
 
 	/**
 	 * Toggles the open/close icon for open/close button
+	 * @param open true if toolbar is open
 	 */
-	private void toggleCloseButton() {
+	public void toggleCloseButton(boolean open) {
 		Image upFace = new Image(getIcon(MaterialDesignResources.INSTANCE
 				.toolbar_open_portrait_white()));
 		upFace.getElement().setAttribute("draggable", "false");
 		Image downFace = new Image(getIcon(MaterialDesignResources.INSTANCE
 				.toolbar_close_portrait_white()));
 		downFace.getElement().setAttribute("draggable", "false");
-		openCloseBtn.getUpFace().setImage(toolbar.isOpen() ? upFace : downFace);
+		openCloseBtn.getUpFace().setImage(open ? upFace : downFace);
 		openCloseBtn.setTitle(
 				appW.getLocalization()
 						.getMenu(toolbar.isOpen() ? "Open" : "Close"));

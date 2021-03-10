@@ -66,6 +66,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	private boolean shouldPrintMethodsWithParenthesis;
 	private boolean forEditorParser = false;
+	private boolean allowShortLhs = true;
 
 	/**
 	 * Default template, but do not localize commands
@@ -405,6 +406,17 @@ public class StringTemplate implements ExpressionNodeConstants {
 		maxDecimals.allowMoreDigits = false;
 		maxDecimals.forceNF = true;
 		maxDecimals.localizeCmds = false;
+	}
+
+	public static final StringTemplate casCompare = new StringTemplate(
+			"casCompare");
+
+	static {
+		casCompare.nf = FormatFactory.getPrototype().getNumberFormat(10);
+		casCompare.allowMoreDigits = false;
+		casCompare.forceNF = true;
+		casCompare.localizeCmds = false;
+		casCompare.allowShortLhs = false;
 	}
 
 	/**
@@ -2108,7 +2120,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/**
 	 * @return space denoting multiplication
 	 */
-	protected String multiplicationSpace() {
+	public String multiplicationSpace() {
 		// wide space for multiplication space in LaTeX
 		return (stringType.equals(StringType.LATEX)) ? " \\; " : " ";
 	}
@@ -2835,14 +2847,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 				break;
 
 			case LATEX:
-
-				// checks if the basis is leaf and if so
-				// omits the brackets
-				if (left.isLeaf() && (leftStr.charAt(0) != '-')) {
-					sb.append(leftStr);
-					break;
-				}
-				// else fall through
 			case LIBRE_OFFICE:
 			default:
 
@@ -2857,10 +2861,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 				// left wing
 				if ((leftStr.charAt(0) != '-') && // no unary
-						(left.isLeaf() || ((ExpressionNode
-								.opID(left) > Operation.POWER.ordinal())
-								&& (ExpressionNode.opID(left) != Operation.EXP
-										.ordinal())))) { // not +, -, *, /, ^,
+						isSinglePowerArg(left) || left.isOperation(Operation.NROOT)
+						|| left.isOperation(Operation.CBRT)) { // not +, -, *, /, ^,
 					// e^x
 
 					// we might need more brackets here #4764
@@ -2905,20 +2907,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 				break;
 
 			default:
-				if ((right.isLeaf() && !isFraction(right))
+				if ((isSinglePowerArg(right) && !isFraction(right))
 						|| ((ExpressionNode
 						.opID(right) > Operation.POWER.ordinal())
 						&& (ExpressionNode.opID(right) != Operation.EXP
-								.ordinal()))) { // not
-					// +,
-					// -,
-					// *,
-					// /,
-					// ^,
-					// e^x
-					// Michael Borcherds 2008-05-14
-					// display powers over 9 as unicode superscript
+								.ordinal()))) {
+					// not +, -, *, /, ^, e^x
 					try {
+						// display integer powers as unicode superscript
 						int i = Integer.parseInt(rightStr);
 						StringUtil.numberToIndex(i, sb);
 					} catch (RuntimeException e) {
@@ -2933,6 +2929,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 			}
 			return sb.toString();
 		}
+	}
+
+	/**
+	 * Checks for composite expressions and numbers like -5, 2*10^5
+	 * @param val expression value
+	 * @return whether val can be used as argument for power/factorial without brackets
+	 */
+	public boolean isSinglePowerArg(ExpressionValue val) {
+		return val instanceof MySpecialDouble
+				? !((MySpecialDouble) val).isScientificNotation() : val.isLeaf();
 	}
 
 	private boolean isTrigFunction(ExpressionNode expr) {
@@ -3011,11 +3017,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(")");
 			}
 		}
-		if (Efound && !this.isPrintLocalizedCommandNames()) {
-			sb.insert(0, '(');
-			sb.append(')');
-		}
-
 		return sb.toString();
 	}
 
@@ -3521,15 +3522,25 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Get the undefined string equivalent
+	 * Appends brackets to log argument if necessary
 	 *
-	 * @param localization localization if needed
-	 * @return undefined string
+	 * @param sb
+	 *            builder
+	 * @param str
+	 *            serialized expression
+	 * @param left
+	 *            left subtree
 	 */
-	public String getUndefined(Localization localization) {
-		if (localizeCmds) {
-			return localization.getMenu("Undefined");
+	public void addLogBracketsIfNecessary(StringBuilder sb, String str, ExpressionValue left) {
+		if ((forEditorParser || stringType == StringType.LATEX)
+				&& left.isOperation(Operation.ABS)) {
+			sb.append(str);
+		} else {
+			appendWithBrackets(sb, str);
 		}
-		return "Undefined";
+	}
+
+	public boolean allowShortLhs() {
+		return allowShortLhs;
 	}
 }

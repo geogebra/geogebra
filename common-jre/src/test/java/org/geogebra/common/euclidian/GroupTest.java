@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.groups.Group;
+import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,12 +25,8 @@ public class GroupTest {
 	@Before
 	public void setUp() {
 		AwtFactoryCommon factoryCommon = new AwtFactoryCommon();
-		app = new AppCommon(new LocalizationCommon(2), factoryCommon) {
-			@Override
-			public boolean isWhiteboardActive() {
-				return true;
-			}
-		};
+		app = new AppCommon(new LocalizationCommon(2), factoryCommon);
+		app.setConfig(new AppConfigNotes());
 		construction = app.getKernel().getConstruction();
 	}
 

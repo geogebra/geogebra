@@ -92,7 +92,7 @@ public class Graphics2DW implements Graphics2DInterface {
 	}
 
 	public Graphics2DW(Canvas canvas) {
-		this(canvas.getContext2d());
+		this(JLMContext2d.forCanvas(canvas));
 	}
 
 	private void initBasicStroke() {
@@ -384,7 +384,7 @@ public class Graphics2DW implements Graphics2DInterface {
 
 				@Override
 				public void onFontError(AsyncLoadedFont font) {
-					GWT.log("Error loading font " + font);
+					FactoryProvider.debugS("Error loading font " + font);
 					charDrawingRequests -= 1;
 					maybeNotifyDrawingFinishedCallback(true);
 				}

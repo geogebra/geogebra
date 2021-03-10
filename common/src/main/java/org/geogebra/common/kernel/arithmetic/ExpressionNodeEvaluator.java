@@ -24,6 +24,8 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * @author ggb3D
  * 
@@ -37,6 +39,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	/**
 	 * Kernel used to create the results
 	 */
+	@Weak
 	protected Kernel kernel;
 
 	/**
@@ -906,12 +909,15 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 			// special case: left side is negative and
 			// right side is a fraction a/b with a and b integers
+			// where a/b can be positive or negative
 			// x^(a/b) := (x^a)^(1/b)
-			if ((base < 0) && right.isExpressionNode()
-					&& ((ExpressionNode) right)
-							.getOperation() == Operation.DIVIDE) {
-				num.set(ExpressionNodeEvaluator.negPower(base, right));
-				return num;
+
+			if (base < 0 && right.isExpressionNode()) {
+				Double negPower = right.wrap().calculateNegPower(base);
+				if (negPower != null) {
+					num.set(negPower);
+					return num;
+				}
 			}
 
 			// standard case
@@ -1069,7 +1075,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt instanceof Evaluatable) {
 				NumberValue arg = (NumberValue) rt;
 				if ((lt instanceof GeoFunction)
-						&& ((GeoFunction) lt).isBooleanFunction()) {
+						&& ((GeoFunction) lt).isGeoFunctionBoolean()) {
 					return new MyBoolean(kernel, ((GeoFunction) lt)
 							.evaluateBoolean(arg.getDouble()));
 				}
@@ -1138,6 +1144,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			ExpressionValue rt) {
 		if (rt instanceof ListValue && (lt instanceof FunctionalNVar)) {
 			FunctionNVar funN = ((FunctionalNVar) lt).getFunction();
+			if (funN == null) {
+				return new MyDouble(kernel, Double.NaN);
+			}
 			ListValue list = (ListValue) rt;
 			if (funN.getVarNumber() == list.size()
 					|| funN.getVarNumber() == 1) {

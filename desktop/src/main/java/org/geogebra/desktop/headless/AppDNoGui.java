@@ -9,7 +9,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.jre.gui.MyImageJre;
@@ -22,7 +21,6 @@ import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.main.App;
@@ -42,9 +40,9 @@ import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.factories.LoggingCASFactoryD;
 import org.geogebra.desktop.factories.UtilFactoryD;
 import org.geogebra.desktop.io.MyXMLioD;
-import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.main.undo.UndoManagerD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.sound.SoundManagerD;
@@ -79,6 +77,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 
 		UtilFactory.setPrototypeIfNull(new UtilFactoryD());
 		loginOperation = new LoginOperationD(this);
+		setCASFactory(new LoggingCASFactoryD());
 	}
 
 	public void addExternalImage(String name, MyImageJre img) {
@@ -176,11 +175,6 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	}
 
 	@Override
-	public CASFactory getCASFactory() {
-		return new LoggingCASFactoryD();
-	}
-
-	@Override
 	public GgbAPI getGgbApi() {
 		if (ggbapi == null) {
 			ggbapi = new GgbAPIHeadless(this);
@@ -228,7 +222,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	}
 
 	@Override
-	public UndoManager getUndoManager(Construction cons) {
+	public UndoManagerD getUndoManager(Construction cons) {
 		return new UndoManagerD(cons, true);
 	}
 

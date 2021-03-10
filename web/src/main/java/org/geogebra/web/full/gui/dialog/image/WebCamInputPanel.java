@@ -1,40 +1,34 @@
 package org.geogebra.web.full.gui.dialog.image;
 
-import org.geogebra.common.GeoGebraConstants.Platform;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.laf.BundleLookAndFeel;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.webcam.WebCamAPI;
-import org.geogebra.web.html5.webcam.WebCamInterface;
+import org.geogebra.web.html5.webcam.WebCamPanelInterface;
 import org.geogebra.web.html5.webcam.WebcamDialogInterface;
 import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.safehtml.client.SafeHtmlTemplates;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLVideoElement;
+import jsinterop.base.Js;
 
 /**
  * Panel for HTML5 webcam input
  */
-public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
+public class WebCamInputPanel extends VerticalPanel implements WebCamPanelInterface {
 	private final boolean isElectronMac;
 	private SimplePanel inputWidget;
-	private Element video;
-	private Element errorPanel;
+	private HTMLVideoElement video;
 	private int canvasWidth = 640;
 	private int canvasHeight = 480; // overwritten by real
 									// dimensions
 	private final AppW app;
 	private final WebcamDialogInterface webcamDialog;
 	private WebcamPermissionDialog permissionDialog;
-	private static final VideoTemplate TEMPLATE = GWT.create(VideoTemplate.class);
 	private final WebCamAPI webCam;
 
 	/**
@@ -62,7 +56,7 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 	}
 
 	@Override
-	public void onCameraSuccess(JavaScriptObject bs) {
+	public void onCameraSuccess() {
 		hidePermissionDialog();
 		webcamDialog.onCameraSuccess();
 	}
@@ -74,7 +68,7 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 		if (video == null) {
 			return null;
 		}
-		String capture = webCam.takeScreenshot(video.getFirstChildElement());
+		String capture = webCam.takeScreenshot(video);
 		if (!app.isWhiteboardActive()) {
 			webCam.stop();
 		}
@@ -91,33 +85,12 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 	}
 
 	private void resetVideo() {
-		Localization loc = app.getLocalization();
-		String message;
-		if (app.getPlatform() == Platform.WEB) {
-			message = "";
-		} else if (Browser.isFirefox()) {
-			message = loc.getMenu("Webcam.Firefox");
-		} else if (Browser.isEdge()) {
-			message = loc.getMenu("Webcam.Edge");
-		} else {
-			message = loc.getMenu("Webcam.Chrome");
-		}
+		video = (HTMLVideoElement) DomGlobal.document.createElement("video");
+		video.setAttribute("autoplay", "");
+		video.className = "webcamInputPanel";
 
-		errorPanel = DOM.createSpan();
-		video = DOM.createSpan();
-		errorPanel.setInnerSafeHtml(TEMPLATE.error(getStyle(), message));
-		inputWidget.getElement().appendChild(video);
-		inputWidget.getElement().appendChild(errorPanel);
-		video.setInnerSafeHtml(TEMPLATE.video(getStyle(),
-				loc.getMenu("Webcam.Problem")));
-		webCam.start(video, errorPanel);
-	}
-
-	private String getStyle() {
-		if (app.isWhiteboardActive()) {
-			return "mowCameraInputPanel";
-		}
-		return "webcamInputPanel";
+		inputWidget.getElement().appendChild(Js.uncheckedCast(video));
+		webCam.start(video);
 	}
 
 	/**
@@ -232,14 +205,5 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 	@Override
 	public void onNotSupported() {
 		showNotSupportedDialog();
-	}
-	
-	public interface VideoTemplate extends SafeHtmlTemplates {
-		@SafeHtmlTemplates.Template("<video autoplay class=\"{0}\"><br>\r\n"
-				+ "  {1}</video>")
-		SafeHtml video(String style, String err);
-
-		@SafeHtmlTemplates.Template("<span class=\"{0}\">{1}</span>")
-		SafeHtml error(String style, String message);
 	}
 }

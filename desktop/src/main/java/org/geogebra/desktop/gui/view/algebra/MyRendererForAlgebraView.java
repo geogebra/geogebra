@@ -30,16 +30,16 @@ public class MyRendererForAlgebraView extends MyRendererForAlgebraTree {
 	}
 
 	@Override
-	protected String getDescription(GeoElement geo) {
+	protected String getDescription(GeoElement geo,	GeoMutableTreeNode node) {
 
 		String text = null;
 		if (geo.isIndependent() && geo.getDefinition() == null) {
-			text = getAlgebraDescriptionTextOrHTML(geo);
+			text = node.getAlgebraDescription();
 		} else {
 			switch (kernel.getAlgebraStyle()) {
 			default:
 			case Kernel.ALGEBRA_STYLE_VALUE:
-				text = getAlgebraDescriptionTextOrHTML(geo);
+				text = node.getAlgebraDescription();
 				break;
 
 			case Kernel.ALGEBRA_STYLE_DESCRIPTION:

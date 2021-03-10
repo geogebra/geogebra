@@ -67,14 +67,23 @@ public class AppConfigDefault extends AbstractAppConfig {
 		return getAppTitle();
 	}
 
+	@Override
+	public String getAppNameWithoutCalc() {
+		return getAppNameShort();
+	}
+
 	/**
 	 * @param appName app name
 	 * @return whether app name is one of the unbundled apps
 	 */
-	public static boolean isUnbundledOrNotes(String appName) {
+	public static boolean isUnbundled(String appName) {
 		return "graphing".equals(appName) || "geometry".equals(appName)
-				|| "cas".equals(appName) || "notes".equals(appName)
-				|| "3d".equals(appName) || "scientific".equals(appName) || "suite".equals(appName);
+				|| "cas".equals(appName) || "3d".equals(appName)
+				|| "scientific".equals(appName) || "suite".equals(appName);
+	}
+
+	public static boolean isUnbundledOrNotes(String appName) {
+		return isUnbundled(appName) || "notes".equals(appName);
 	}
 
 	@Override
@@ -326,5 +335,10 @@ public class AppConfigDefault extends AbstractAppConfig {
 	@Override
 	public boolean sendKeyboardEvents() {
 		return false;
+	}
+
+	@Override
+	public boolean hasLabelForDescription() {
+		return true;
 	}
 }

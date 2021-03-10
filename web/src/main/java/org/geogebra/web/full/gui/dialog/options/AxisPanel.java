@@ -67,8 +67,6 @@ public class AxisPanel extends FlowPanel
 		this.view = view;
 		model = new AxisModel(app, view, axis, this);
 
-		this.addStyleName("axisPanel");
-
 		String strAxisEn = model.getAxisName();
 		// this.setBorder(LayoutUtil.titleBorder(loc.getMenu(strAxisEn)));
 
@@ -99,7 +97,6 @@ public class AxisPanel extends FlowPanel
 			@Override
 			public void onClick(ClickEvent event) {
 				model.applyPositiveAxis(cbPositiveAxis.getValue());
-
 			}
 		});
 

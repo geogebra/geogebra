@@ -62,6 +62,17 @@ public class ParserFunctionsFactoryTest {
 				"nrot( <x>, <n> )"));
 	}
 
+	@Test
+	public void testParserFunctionsForSpanish() {
+		ParserFunctions functions = ParserFunctionsFactory
+				.createParserFunctionsFactory().createParserFunctions();
+		setLanguage(functions, new Locale("es"));
+		assertEquals(functions.get("sen", 1), Operation.SIN);
+		assertEquals(functions.get("arcsen", 1), Operation.ARCSIN);
+		assertEquals(functions.get("senh", 1), Operation.SINH);
+		assertEquals(functions.get("arcsenh", 1), Operation.ASINH);
+	}
+
 	private void setLanguage(ParserFunctions functions, Locale es) {
 		loc.setLocale(es);
 		functions.updateLocale(loc);

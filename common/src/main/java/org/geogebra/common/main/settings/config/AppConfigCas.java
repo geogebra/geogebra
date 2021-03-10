@@ -48,12 +48,17 @@ public class AppConfigCas extends AppConfigGraphing {
 
 	@Override
 	public String getAppNameShort() {
-		return "CasCalculator.short";
+		return "CAS";
+	}
+
+	@Override
+	public String getAppNameWithoutCalc() {
+		return "CAS";
 	}
 
 	@Override
 	public String getTutorialKey() {
-		return "cas_tutorials";
+		return getSubAppCode() == null ? "cas_tutorials" : "TutorialSuite";
 	}
 
 	@Override
@@ -165,5 +170,10 @@ public class AppConfigCas extends AppConfigGraphing {
 	@Override
 	public StringTemplate getOutputStringTemplate() {
 		return StringTemplate.numericLatex;
+	}
+
+	@Override
+	public boolean hasLabelForDescription() {
+		return false;
 	}
 }

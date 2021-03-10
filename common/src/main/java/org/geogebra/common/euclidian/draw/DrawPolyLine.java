@@ -131,9 +131,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	private void addPointsToPath(GeoPointND[] pts) {
 		if (gp == null) {
 			gp = new GeneralPathClipped(view);
-		} else {
-			gp.reset();
 		}
+		gp.resetWithThickness(geo.getLineThickness());
 
 		pointList.clear();
 

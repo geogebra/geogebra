@@ -12,8 +12,7 @@
 		content: "";
 	}
 
-	div[data-title]:hover:after { 
-		opacity: 1;
+	div[data-title]:hover:after {
 		transition: opacity 0s linear 1s;
 		content: attr(data-title);
 		font-size: 65%;
@@ -130,94 +129,11 @@
 		}
 	}
 
-	.collapseMenuItem,
-	.checkMarkMenuItem {
-		height: 32px;
-		padding-left: 24px;
-
-		.gwt-HTML {
-			margin-left: -30px;
-
-			img {
-				left: 56px;
-			}
-		}
-
-		img  {
-			position: absolute;
-			right: 8px;
-		}
-	}
-
 	.textWrap{
 		white-space: normal;
 	}
 
-	/*.collapseMenuItem {
-
-		img.expandImg.animeExpand {
-			transition:  0.6s ease-out;
-			transform: rotateZ(180deg);
-		}
-	}*/
-
-	.collapseMenuItem >*,
-	.checkMarkMenuItem >* {
-		padding: 8px;
-		display: inline-block;
-	}
-
-$collapse-trans: all 0.2s ease;
-
-	.expanded {
-		padding: 0px 16px 0px 64px;
-		max-height: 32px;
-		height: 32px;
-		transition: $collapse-trans; 
-
-		.checkMarkMenuItem {
-			max-height: 32px;
-			transition: $collapse-trans;
-
-			.gwt-HTML {
-				position: relative;
-				left: -24px;
-			}
-		}
-	}
-
-	.expanded >* {
-		max-height: 32px;
-		height: 32px;
-		transition: $collapse-trans; 
-	}
-
-	.collapsed {
-		padding: 0px 16px 0px 64px;
-		max-height: 0px;
-		height: 0px;
-		overflow: hidden;
-		transition: $collapse-trans;
-
-			.checkMarkMenuItem {
-			transition: $collapse-trans;
-			max-height: 0px;
-			.gwt-HTML {
-				position: relative;
-				left: -24px;
-			}
-			img  {
-				max-height: 0px;
-		}
-	}
-
-	}
-	.collapsed >*{
-		max-height: 0px;
-		transition: $collapse-trans;
-	} 
-
-	.advanced-ListPopupPanel.matDesign {
+	.advanced-ListPopupPanel {
 		z-index: $z-dialog;
 		background: $white;
 		border: 1px solid #dcdcdc;

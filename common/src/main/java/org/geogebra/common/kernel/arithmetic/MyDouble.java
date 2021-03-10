@@ -39,6 +39,8 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.MyMath2;
 import org.geogebra.common.util.StringUtil;
 
+import com.google.j2objc.annotations.Weak;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -58,6 +60,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * kernel
 	 */
+	@Weak
 	protected Kernel kernel;
 
 	/**
@@ -1274,6 +1277,10 @@ public class MyDouble extends ValidExpression
 	 */
 	public boolean isDigits() {
 		return true;
+	}
+
+	protected ExpressionValue unaryMinus(Kernel kernel2) {
+		return new MyDouble(kernel2, -getDouble());
 	}
 
 }

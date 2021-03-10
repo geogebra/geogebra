@@ -740,6 +740,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 	 */
 	public GArea getShape(boolean forConic) {
 		GeneralPathClipped gpc = new GeneralPathClipped(view);
+		gpc.resetWithThickness(geo.getLineThickness());
 		boolean invert = g.isInverseFill();
 		if (x1 > x2) {
 			double swap = x1;

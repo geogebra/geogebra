@@ -145,7 +145,7 @@ public class OpenFileView extends MyHeaderPanel
 		buttonPanel = new FlowPanel();
 		newFileBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.file_plus(),
-				localize("New.Mebis"), 18, app);
+				localize("New.Mebis"), 18);
 		newFileBtn.addFastClickHandler(source -> newFile());
 		openFileBtn.setImageAndText(
 				MaterialDesignResources.INSTANCE.mow_pdf_open_folder()

@@ -44,6 +44,7 @@ implements ITextFieldListener {
 		label = new Label();
 		tfAnimStep = new AngleTextFieldW(6, app);
 		FlowPanel mainPanel = new FlowPanel();
+		mainPanel.addStyleName("optionsInput");
 		mainPanel.add(label);
 		mainPanel.add(tfAnimStep);
 		setWidget(mainPanel);
@@ -89,13 +90,7 @@ implements ITextFieldListener {
 
 	@Override
 	public void setLabels() {
-		if (kernel.getApplication().isUnbundledOrWhiteboard()) {
-			label.setStyleName("coloredLabel");
-		}
-		label.setText(
-				kernel.getApplication().isUnbundledOrWhiteboard()
-				? kernel.getLocalization().getMenu("AnimationStep")
-				: kernel.getLocalization().getMenu("AnimationStep") + ": ");
+		label.setText(kernel.getLocalization().getMenu("AnimationStep"));
 	}
 
 	public void setPartOfSliderPanel() {

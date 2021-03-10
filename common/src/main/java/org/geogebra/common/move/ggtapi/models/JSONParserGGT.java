@@ -111,6 +111,8 @@ public class JSONParserGGT {
 		material.setShiftDragZoom(getBoolean(obj, "shiftdragzoom", false));
 		material.setRightClick(getBoolean(obj, "rightclick", false));
 		material.setShowResetIcon(getBoolean(obj, "reseticon", false));
+		material.setUndoRedo(getBoolean(obj, "undoredo", false));
+		material.setShowZoomButtons(getBoolean(obj, "zoombuttons", false));
 		material.setBase64(getString(obj, "ggbBase64"));
 		material.setDeleted(getBoolean(obj, "deleted", false));
 		material.setFromAnotherDevice(

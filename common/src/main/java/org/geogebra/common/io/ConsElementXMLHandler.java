@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -80,6 +81,8 @@ import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+
+import com.google.j2objc.annotations.Weak;
 
 /**
  * XML handler for GeoElement properties
@@ -122,7 +125,9 @@ public class ConsElementXMLHandler {
 	 * The point style of the document, for versions < 3.3
 	 */
 	private int docPointStyle;
+	@Weak
 	private App app;
+	@Weak
 	private MyXMLHandler xmlHandler;
 
 	private static class GeoExpPair {
@@ -385,6 +390,9 @@ public class ConsElementXMLHandler {
 			return false;
 		}
 		String variableString = attrs.get("val");
+		if (variableString.isEmpty()) {
+			return false;
+		}
 		String[] variables = variableString.split(",");
 		FunctionVariable[] fVars = new FunctionVariable[variables.length];
 		for (int i = 0; i < variables.length; i++) {
@@ -1285,6 +1293,10 @@ public class ConsElementXMLHandler {
 			if (opacity != null) {
 				geo.setLineOpacity(Integer.parseInt(opacity));
 			}
+			String drawArrows = attrs.get("drawArrow");
+			if (drawArrows != null && geo instanceof GeoLocus) {
+				((GeoLocus) geo).drawAsArrows(MyXMLHandler.parseBoolean(drawArrows));
+			}
 
 			return true;
 		} catch (RuntimeException e) {
@@ -1532,6 +1544,17 @@ public class ConsElementXMLHandler {
 		geo.setBackgroundColor(col);
 
 		return true;
+	}
+
+	private void handleBorderColor(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoInlineText)) {
+			return;
+		}
+		int red = Integer.parseInt(attrs.get("r"));
+		int green = Integer.parseInt(attrs.get("g"));
+		int blue = Integer.parseInt(attrs.get("b"));
+		GColor col = GColor.newColor(red, green, blue);
+		((GeoInlineText) geo).setBorderColor(col);
 	}
 
 	private void handleBoundingBox(LinkedHashMap<String, String> attrs) {
@@ -2050,6 +2073,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "bgColor":
 				handleBgColor(attrs);
+				break;
+			case "borderColor":
+				handleBorderColor(attrs);
 				break;
 			case "boundingBox":
 				handleBoundingBox(attrs);

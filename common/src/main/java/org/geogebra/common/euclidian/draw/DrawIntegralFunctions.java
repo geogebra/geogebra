@@ -139,7 +139,7 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 		if (gp == null) {
 			gp = new GeneralPathClippedForCurvePlotter(view);
 		}
-		gp.reset();
+		gp.resetWithThickness(geo.getLineThickness());
 		gp.moveTo(ax, ay);
 		CurvePlotter.plotCurve(f, aRW, bRW, view, gp, false, Gap.LINE_TO);
 		CurvePlotter.plotCurve(g, bRW, aRW, view, gp, false, Gap.LINE_TO);

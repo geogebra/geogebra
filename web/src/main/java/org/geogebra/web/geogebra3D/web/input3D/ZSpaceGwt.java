@@ -3,7 +3,8 @@ package org.geogebra.web.geogebra3D.web.input3D;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.dom.client.Element;
-import com.googlecode.gwtgl.binding.WebGLRenderingContext;
+
+import elemental2.webgl.WebGLRenderingContext;
 
 /**
  * GWT connector for zSpace
@@ -28,9 +29,9 @@ public class ZSpaceGwt {
 	 * @return zSpace avialable?
 	 */
 	public static native boolean zspaceIsAvailable() /*-{
-		//		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("navigator.userAgent = "+ navigator.userAgent);
+		//		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("navigator.userAgent = "+ navigator.userAgent);
 		var index = navigator.userAgent.indexOf("zSpace Beta");
-		//		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("indexOf = "+ index);
+		//		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("indexOf = "+ index);
 		return index !== -1;
 	}-*/;
 

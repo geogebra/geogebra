@@ -1771,16 +1771,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			}
 			return;
 		}
-		try {
-			app.persistWidthAndHeight();
-			app.getGuiManager().getLayout().applyPerspective(ps);
-			app.updateViewSizes();
-			app.getGuiManager().updateMenubar();
-			app.getGuiManager().updateToolbar();
-			app.updateKeyboard();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
+		app.setPerspective(ps);
 	}
 
 	@Override
@@ -2113,7 +2105,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 *            text to copy to system clipboard
 	 */
 	final public void copyTextToClipboard(String text) {
-		app.copyTextToSystemClipboard(text);
+		app.getCopyPaste().copyTextToSystemClipboard(text);
 	}
 
 	/**
@@ -2352,6 +2344,26 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return false;
 	}
 
+	@Override
+	public void groupObjects(String[] objects) {
+		kernel.getConstruction().groupObjects(objects);
+	}
+
+	@Override
+	public void ungroupObjects(String[] objects) {
+		kernel.getConstruction().ungroupObjects(objects);
+	}
+
+	@Override
+	public String[] getObjectsOfItsGroup(String object) {
+		return kernel.getConstruction().getObjectsOfItsGroup(object);
+	}
+
+	@Override
+	public void addToGroup(String object, String[] objectsInGroup) {
+		kernel.getConstruction().addToGroup(object, objectsInGroup);
+	}
+
 	/**
 	 * @return exercise fraction (same as getValue("correct"))
 	 */
@@ -2382,5 +2394,19 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public void endDrawRecordingAndLogResults() {
 		app.endDrawRecordingAndLogResults();
+	}
+
+	/**
+	 * Update geo ordering in notes
+	 * @param labels comma separated list of labels
+	 */
+	public void updateOrdering(String labels) {
+		construction.getLayerManager().updateOrdering(labels, kernel);
+		app.getActiveEuclidianView().invalidateDrawableList();
+	}
+
+	@Override
+	public boolean hasUnlabeledPredecessors(String label) {
+		return kernel.getConstruction().hasUnlabeledPredecessors(label);
 	}
 }

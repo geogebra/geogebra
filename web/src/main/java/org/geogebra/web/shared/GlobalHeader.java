@@ -1,14 +1,12 @@
 package org.geogebra.web.shared;
 
-import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.kernel.undoredo.UndoRedoExecutor;
+import org.geogebra.common.main.undo.UndoRedoButtonsController;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
@@ -60,14 +58,31 @@ public class GlobalHeader implements EventRenderable {
 		if (signIn == null) {
 			return;
 		}
-		ClickStartHandler.init(signIn, new ClickStartHandler(true, true) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				appW.getSignInController().login();
-			}
+		Dom.addEventListener(signIn.getElement(), "click", (e) -> {
+			appW.getSignInController().login();
+			e.stopPropagation();
+			e.preventDefault();
 		});
 		app.getLoginOperation().getView().add(this);
+	}
+
+	/**
+	 * Add app picker button in external header for suite
+	 *
+	 * @param appW
+	 *            application
+	 * @return app picker button
+	 */
+	public SuiteHeaderAppPicker addSuiteAppPicker(final AppW appW) {
+		this.app = appW;
+		RootPanel appPickerPanel = RootPanel.get("suiteAppPicker");
+		if (appPickerPanel != null) {
+			SuiteHeaderAppPicker suiteHeaderAppPicker = new SuiteHeaderAppPicker(app);
+			appPickerPanel.add(suiteHeaderAppPicker);
+			suiteHeaderAppPicker.checkButtonVisibility();
+			return suiteHeaderAppPicker;
+		}
+		return null;
 	}
 
 	@Override
@@ -100,12 +115,10 @@ public class GlobalHeader implements EventRenderable {
 		final RootPanel rp = getShareButton();
 		if (rp != null && !shareButtonInitialized) {
 			shareButtonInitialized = true;
-			ClickStartHandler.init(rp, new ClickStartHandler(true, true) {
-
-				@Override
-				public void onClickStart(int x, int y, PointerEventType type) {
-					callback.callback(rp);
-				}
+			Dom.addEventListener(rp.getElement(), "click", (e) -> {
+				callback.callback(rp);
+				e.stopPropagation();
+				e.preventDefault();
 			});
 		}
 	}
@@ -176,10 +189,11 @@ public class GlobalHeader implements EventRenderable {
 	 * Initialize the undo and redo buttons if these are on the header
 	 */
 	public void initUndoRedoButtonsIfOnHeader() {
-		ActionButton undoButton =  getUndoButton();
+		ActionButton undoButton = getUndoButton();
 		ActionButton redoButton = getRedoButton();
 		if (undoButton != null && redoButton != null) {
-			UndoRedoExecutor.addUndoRedoFunctionality(undoButton, redoButton, app.getKernel());
+			UndoRedoButtonsController.addUndoRedoFunctionality(undoButton,
+					redoButton, app.getKernel());
 		}
 	}
 
@@ -248,7 +262,7 @@ public class GlobalHeader implements EventRenderable {
 		timer = new Label("0:00");
 		timer.setStyleName("examTimer");
 		examInfoBtn = new StandardButton(
-				SharedResources.INSTANCE.info_black(), null, 24, app);
+				SharedResources.INSTANCE.info_black(), null, 24);
 		examInfoBtn.addStyleName("flatButtonHeader");
 		examInfoBtn.addStyleName("examInfoBtn");
 		// add exam panel to

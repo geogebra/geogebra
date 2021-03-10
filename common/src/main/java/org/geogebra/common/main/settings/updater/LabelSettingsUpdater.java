@@ -12,6 +12,8 @@ import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.settings.LabelSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Updates the label settings.
  * Every complex (longer than 1 line) logic related to label settings
@@ -19,8 +21,11 @@ import org.geogebra.common.main.settings.LabelVisibility;
  */
 public class LabelSettingsUpdater {
 
+	@Weak
 	private App app;
+	@Weak
 	private Construction construction;
+	@Weak
 	private LabelSettings labelSettings;
 
 	LabelSettingsUpdater(App app) {

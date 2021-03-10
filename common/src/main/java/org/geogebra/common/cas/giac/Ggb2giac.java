@@ -1164,7 +1164,7 @@ public class Ggb2giac {
 				+ ","
 				// eg Polynomial[x^2+a x+b x +c]
 				// eg Polynomial[y^2+a y+b y +c,y]
-				+ "[[ggbinput:=when(type(ggbinput)==DOM_LIST,[[ggbvar:=ggbinput[1]],coeffs(ggbinput[0],ggbinput[1])][1],coeffs(ggbinput,x))],"
+				+ "[[ggbinput:=when(type(ggbinput)==DOM_LIST,[[ggbvar:=ggbinput[1]],coeffs(simplify(ggbinput[0]),ggbinput[1])][1],coeffs(simplify(ggbinput),x))],"
 				+ "[ggbpolans:=add(seq(ggbinput[j]*ggbvar^(size(ggbinput)-1-j),j=0..size(ggbinput)-1))]]"
 				+ ")],ggbpolans][1]");
 
@@ -1441,7 +1441,10 @@ public class Ggb2giac {
 
 		// eg tlin(halftan(csc(x)-cot(x)+csc(y)-cot(y))) ->
 		// tan(x/2)+tan(y/2)
-		p("TrigExpand.1", "tan2sincos(trigexpand(%0))");
+		// check both methods and pick the *longer* answer
+		p("TrigExpand.1",
+				"[[[ggbsimparg0:=%0],[ggbsimpans:=?],[ggbsimpans:=tan2sincos(trigexpand(ggbsimparg0))],[ggbsimpans2:=tlin(ggbsimparg0)]],"
+						+ "when(length(\"\"+ggbsimpans)>length(\"\"+ggbsimpans2),ggbsimpans,ggbsimpans2)][1]");
 		p("TrigExpand.2",
 				"[[ggbtrigarg0:=%0],when((%1)[0]=='tan',trigexpand(ggbtrigarg0),tan2sincos(trigexpand(ggbtrigarg0)))][1]");
 

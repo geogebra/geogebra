@@ -279,7 +279,7 @@ public final class DrawBoolean extends Drawable {
 
 			// outer bevel
 			// Draw rounded border
-			g.setColor(GColor.DARK_GRAY);
+			g.setColor(GColor.BLACK);
 			g.drawRoundRect(x, y, csize, csize, csize / 5, csize / 5);
 
 			g.setColor(GColor.WHITE);

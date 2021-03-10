@@ -18,7 +18,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -32,6 +31,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.gui.GuiManagerD;
+import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.gui.util.AnimatedGifEncoder;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -42,7 +42,7 @@ import org.geogebra.desktop.util.FrameCollector;
  * 
  * TODO What happens with the slider context menu entry
  */
-public class AnimationExportDialogD extends JDialog {
+public class AnimationExportDialogD extends Dialog {
 	/**	 */
 	private static final long serialVersionUID = 1L;
 

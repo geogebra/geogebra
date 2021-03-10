@@ -37,10 +37,10 @@ public class CmdInverseHyperGeometric extends CommandProcessor {
 					&& (ok[3] = arg[3] instanceof GeoNumberValue)) {
 
 				AlgoInverseHyperGeometric algo = new AlgoInverseHyperGeometric(
-						cons, c.getLabel(), (GeoNumberValue) arg[0],
+						cons, (GeoNumberValue) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

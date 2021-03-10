@@ -232,7 +232,7 @@ public class DrawBarGraph extends Drawable {
 		gp = new GeneralPathClipped[algo.getIntervals()];
 		for (int i = 0; i < gp.length; i++) {
 			gp[i] = new GeneralPathClipped(view);
-			gp[i].reset();
+			gp[i].resetWithThickness(geo.getLineThickness());
 		}
 
 		double[] xVal = algo.getLeftBorder();

@@ -19,8 +19,6 @@ package org.geogebra.web.html5.util;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.geogebra.common.util.debug.Log;
-
 /**
  * 
  * GWT NumberFormat class with Currency Code removed
@@ -481,7 +479,6 @@ public class MyNumberFormat {
 		int startLen = buf.length();
 
 		String full = toPrecision(val, 20);
-		Log.debugSpecial(full);
 
 		buf.append(full);
 		int scale = 0;

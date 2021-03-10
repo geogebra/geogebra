@@ -38,7 +38,7 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
 
     @Override
     public Runnable[] getActions() {
-        if (euclidianView.isAREnabled()) {
+        if (euclidianView.isXREnabled()) {
             if (callbacksAR == null) {
                 callbacksAR = new Runnable[]{
                         new Runnable() {
@@ -83,7 +83,7 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
 
     @Override
     public PropertyResource[] getIcons() {
-        if (euclidianView.isAREnabled()) {
+        if (euclidianView.isXREnabled()) {
             if (iconsAR == null) {
                 iconsAR = new PropertyResource[]{
                         PropertyResource.ICON_RELOAD_AR,
@@ -104,7 +104,7 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
 
     @Override
     public String[] getValues() {
-        if (euclidianView.isAREnabled()) {
+        if (euclidianView.isXREnabled()) {
             if (valuesAR == null) {
                 valuesAR = new String[]{
                         "ar.restart",

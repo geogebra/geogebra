@@ -47,14 +47,13 @@ import org.geogebra.desktop.gui.ToolNameIconPanelD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
-import org.geogebra.desktop.util.UtilD;
 
 /**
  * Dialog to manage existing user defined tools (macros).
  * 
  * @author Markus Hohenwarter
  */
-public class ToolManagerDialogD extends javax.swing.JDialog
+public class ToolManagerDialogD extends Dialog
 		implements ToolManagerDialogListener {
 
 	private static final long serialVersionUID = 1L;
@@ -212,11 +211,7 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 					} else if (src == btSave) {
 						saveTools(toolList);
 					} else if (src == btShare) {
-						if (UtilD.isJava7()) {
-							app.showReinstallMessage();
-						} else {
-							uploadToGeoGebraTube(toolList);
-						}
+						uploadToGeoGebraTube(toolList);
 					}
 				}
 

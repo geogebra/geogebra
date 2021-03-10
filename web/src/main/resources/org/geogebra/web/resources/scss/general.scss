@@ -24,6 +24,11 @@
 		vertical-align: baseline;
 	}
 
+	button {
+		font-family: geogebra-sans-serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-size: 16px;
+	}
+
 	.button,
 	.gwt-PushButton,
 	.gwt-MenuItem {
@@ -34,11 +39,6 @@
 			cursor: default;
 			opacity: 0.3;
 		}
-	}
-
-	.gwt-MenuItem-disabled {
-		cursor: default;
-		opacity: 0.3;
 	}
 
 	.SpreadsheetEditorCell input[type="text"]:disabled {
@@ -58,44 +58,9 @@
 		cursor: default;
 	}
 
-	// Used for SMART Menu
-	.gwt-MenuBar-vertical {
-		table {
-			border-collapse: collapse;
-		}
-
-		.subMenuIcon {
-			padding-right: 4px;
-		}
-
-		.subMenuIcon-selected {
-			background: #CCCCFF;
-		}
-
-		.gwt-MenuItem {
-			padding: 2px 40px 2px 1px;
-		}
-
-		.gwt-MenuItemSeparator {
-			padding: 1px 0;
-
-			.menuSeparatorInner {
-				height: 0;
-				padding: 0;
-				border: 0;
-				border-top: 1px solid $tool-border;
-				overflow: hidden;
-			}
-		}
-	}
-
 	input[type="text"], input[type="number"], select {
 		min-height: 0;
 		min-width: 0;
-	}
-
-	.titlePanel input[type="text"] {
-		min-width: 450px;
 	}
 
 	.Dialog-messagePanel {

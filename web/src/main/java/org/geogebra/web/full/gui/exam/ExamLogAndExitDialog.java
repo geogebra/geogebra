@@ -91,9 +91,9 @@ public class ExamLogAndExitDialog extends DialogBoxW
 						&& activityPanel.getWidgetCount() > 7)) {
 			buttonPanel.addStyleName("withDivider");
 		}
-		okBtn = new StandardButton("", app);
+		okBtn = new StandardButton("");
 		okBtn.addFastClickHandler(this);
-		exitBtn = new StandardButton("", app);
+		exitBtn = new StandardButton("");
 		exitBtn.addFastClickHandler(this);
 		buttonPanel.add(isLogDialog ? okBtn : exitBtn);
 		// build whole dialog

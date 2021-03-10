@@ -399,7 +399,8 @@ public class DrawInequality extends Drawable {
 	@Override
 	final public void update() {
 		// take line g here, not geo this object may be used for conics too
-		isVisible = geo.isEuclidianVisible();
+		isVisible = geo.isEuclidianVisible() && function.isBooleanFunction()
+				&& function.getFunctionVariables().length < 3;
 		if (!isVisible) {
 			return;
 		}
@@ -428,6 +429,7 @@ public class DrawInequality extends Drawable {
 							.evaluateBoolean(0.5 * (last + zero));
 					if (value) {
 						gpAxis[gpCount] = new GeneralPathClipped(view);
+						gpAxis[gpCount].resetWithThickness(geo.getLineThickness());
 						gpAxis[gpCount].moveTo(
 								view.toScreenCoordXd(last) + radius,
 								view.toScreenCoordYd(0));

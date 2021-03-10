@@ -23,6 +23,7 @@ import org.geogebra.common.gui.dialog.options.model.CoordsModel;
 import org.geogebra.common.gui.dialog.options.model.DecoAngleModel;
 import org.geogebra.common.gui.dialog.options.model.DecoAngleModel.IDecoAngleListener;
 import org.geogebra.common.gui.dialog.options.model.DecoSegmentModel;
+import org.geogebra.common.gui.dialog.options.model.DrawArrowsModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.ISliderListener;
@@ -129,11 +130,7 @@ public class OptionsTab extends FlowPanel {
 		this.loc = loc;
 		this.tabPanel = tabPanel;
 		models = new ArrayList<>();
-		if (app.isUnbundledOrWhiteboard()) {
-			setStyleName("propMaterialTab");
-		} else {
-			setStyleName("propertiesTab");
-		}
+		setStyleName("propertiesTab");
 	}
 
 	/**
@@ -350,6 +347,9 @@ public class OptionsTab extends FlowPanel {
 		}
 		if (m instanceof TextFieldAlignmentModel) {
 			return new TextFieldAlignmentPanel((TextFieldAlignmentModel) m, app);
+		}
+		if (m instanceof DrawArrowsModel) {
+			return new CheckboxPanel("DrawArrows", loc, (DrawArrowsModel) m);
 		}
 
 		return null;
@@ -730,8 +730,7 @@ public class OptionsTab extends FlowPanel {
 			mainPanel.setStyleName("optionsPanel");
 			titleLabel = new Label("-");
 			mainPanel.add(titleLabel);
-			btnPointStyle = PointStylePopup.create(app, -1, false,
-					model, app.isUnbundledOrWhiteboard());
+			btnPointStyle = PointStylePopup.create(app, -1, false, model);
 			if (btnPointStyle != null) {
 				btnPointStyle.setKeepVisible(false);
 				mainPanel.add(btnPointStyle);
@@ -831,8 +830,7 @@ public class OptionsTab extends FlowPanel {
 			stylePanel.setStyleName("optionsPanel");
 			popupLabel = new Label();
 			stylePanel.add(popupLabel);
-			btnLineStyle = LineStylePopup.create(app, -1, false,
-					app.isUnbundledOrWhiteboard());
+			btnLineStyle = LineStylePopup.create(app, false);
 			// slider.setSnapToTicks(true);
 			btnLineStyle.addPopupHandler(new PopupMenuHandler() {
 

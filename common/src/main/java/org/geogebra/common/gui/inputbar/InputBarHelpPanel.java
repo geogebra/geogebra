@@ -7,14 +7,18 @@ import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.LowerCaseDictionary;
 
+import com.google.j2objc.annotations.Weak;
+
 public class InputBarHelpPanel {
 
+	@Weak
 	protected App mApp;
 	private LowerCaseDictionary mMathFuncDict;
 	private LowerCaseDictionary mDict;
@@ -94,6 +98,10 @@ public class InputBarHelpPanel {
 	 * Update command dictionaries.
 	 */
 	public void updateDictionaries() {
+		// CAS-Specific Syntaxes
+		if (mApp.getConfig().getVersion() == GeoGebraConstants.Version.CAS) {
+			mApp.getCommandDictionaryCAS();
+		}
 		// math functions
 		String[] translatedFunctions = TableSymbols
 				.getTranslatedFunctions(mApp);
@@ -122,7 +130,7 @@ public class InputBarHelpPanel {
 		mSubDict = mApp.getSubCommandDictionary();
 
 		int n = getCategoriesCount();
-		mCommands = new ArrayList<Collection<String>>(n);
+		mCommands = new ArrayList<>(n);
 		mCategoryNameToTableIndex = new TreeMap<>();
 
 		for (int i = 0; i < n; i++) {

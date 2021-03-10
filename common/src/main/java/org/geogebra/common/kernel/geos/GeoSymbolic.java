@@ -6,8 +6,10 @@ import java.util.Arrays;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -39,8 +41,9 @@ import org.geogebra.common.util.StringUtil;
  * Symbolic geo for CAS computations in AV
  * @author Zbynek
  */
-public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
-		GeoEvaluatable, GeoFunctionable, DelegateProperties, HasArbitraryConstant {
+public class GeoSymbolic extends GeoElement
+		implements GeoSymbolicI, VarString, GeoEvaluatable, GeoFunctionable, DelegateProperties,
+		HasArbitraryConstant, EuclidianViewCE {
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
@@ -163,11 +166,27 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		fVars.clear();
 	}
 
+	private ExpressionValue fixMatrixInput(ExpressionValue casInputArg) {
+		// neglect dummy variable lhs if rhs is matrix
+		ExpressionValue ret = casInputArg;
+		if (((ExpressionNode) casInputArg).getLeft() instanceof Equation) {
+			Equation eq = (Equation) ((ExpressionNode) casInputArg).getLeft();
+			boolean lIsDummy = eq.getLHS().getLeft() instanceof GeoDummyVariable;
+			boolean rIsMatrix = eq.getRHS().getLeft() instanceof MyList
+					&& ((MyList) (eq.getRHS().getLeft())).isMatrix();
+			if (lIsDummy && rIsMatrix) {
+				ret = (ExpressionValue) (eq.getRHS().getLeft());
+			}
+		}
+		return ret;
+	}
+
 	@Override
 	public void computeOutput() {
 		ExpressionValue casInputArg = getDefinition().deepCopy(kernel)
 				.traverse(FunctionExpander.getCollector());
-		Command casInput = getCasInput(casInputArg);
+
+		Command casInput = getCasInput(fixMatrixInput(casInputArg));
 
 		MyArbitraryConstant constant = getArbitraryConstant();
 		constant.setSymbolic(!shouldBeEuclidianVisible(casInput));
@@ -422,7 +441,23 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			expressionNode.setForceVector();
 		}
 		GeoElement[] elements = algebraProcessor.processValidExpression(expressionNode);
-		return elements[0];
+		GeoElement result = elements.length > 1 ? toGeoList(elements) : elements[0];
+		AlgoElement parentAlgo = elements[0].getParentAlgorithm();
+		if (cons.isRegisteredEuclidianViewCE(parentAlgo)) {
+			cons.unregisterEuclidianViewCE(parentAlgo);
+			cons.registerEuclidianViewCE(this);
+		} else {
+			cons.unregisterEuclidianViewCE(this);
+		}
+		return result;
+	}
+
+	private GeoElement toGeoList(GeoElement[] elements) {
+		GeoList geoList = new GeoList(cons);
+		for (GeoElement element : elements) {
+			geoList.add(element);
+		}
+		return geoList;
 	}
 
 	@Override
@@ -642,6 +677,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	private void getFVarsXML(StringBuilder sb) {
+		if (fVars.isEmpty()) {
+			return;
+		}
 		String prefix = "";
 		sb.append("\t<variables val=\"");
 		for (FunctionVariable variable : fVars) {
@@ -731,7 +769,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return twinGeo != null
-				? twinGeo.toLaTeXString(symbolic || isSymbolicMode(), tpl)
+				? twinGeo.toLaTeXString(symbolic, tpl)
 				: symbolic ? getDefinition(tpl) : toValueString(tpl);
 	}
 
@@ -758,5 +796,17 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	public boolean isFixable() {
 		return false;
+	}
+
+	@Override
+	public boolean euclidianViewUpdate() {
+		isTwinUpToDate = false;
+		return true;
+	}
+
+	@Override
+	public void doRemove() {
+		super.doRemove();
+		cons.unregisterEuclidianViewCE(this);
 	}
 }

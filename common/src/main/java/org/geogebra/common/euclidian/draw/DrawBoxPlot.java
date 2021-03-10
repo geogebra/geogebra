@@ -122,7 +122,7 @@ public class DrawBoxPlot extends Drawable {
 			gp = new GeneralPathClipped(view);
 		}
 		// init gp
-		gp.reset();
+		gp.resetWithThickness(geo.getLineThickness());
 		double yOff = a.getDouble();
 		double yScale = b.getDouble();
 

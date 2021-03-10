@@ -87,6 +87,7 @@ import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.xml.sax.SAXException;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -145,6 +146,7 @@ public class MyXMLHandler implements DocHandler {
 	private Command cmd;
 	private Macro macro;
 	/** application */
+	@Weak
 	protected final App app;
 	/** lacalization */
 	protected final Localization loc;
@@ -154,11 +156,13 @@ public class MyXMLHandler implements DocHandler {
 	private GeoElementND[] cmdOutput;
 	private boolean startAnimation;
 
+	@Weak
 	Kernel kernel;
 	// for macros we need to change the kernel, so remember the original kernel
 	// too
 	private Kernel origKernel;
 	/** construction */
+	@Weak
 	protected Construction cons;
 
 	Parser parser;
@@ -213,6 +217,7 @@ public class MyXMLHandler implements DocHandler {
 	private HashMap<EuclidianSettings, String> ztick = new HashMap<>();
 	private HashMap<EuclidianSettings, String> ymax = new HashMap<>();
 	private ArrayList<String> entries;
+	private String subAppCode;
 
 	/**
 	 * Creates a new instance of MyXMLHandler
@@ -430,10 +435,15 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			String ggbVersion = attrs.get("version");
-			app.setFileVersion(ggbVersion, nomalizeApp(attrs.get("app")));
+			String appCode = nomalizeApp(attrs.get("app"));
+			this.app.setFileVersion(ggbVersion, appCode);
+			this.subAppCode = nomalizeApp(attrs.get("subApp"));
+			if (subAppCode == null) {
+				subAppCode = appCode;
+			}
 			String uniqueId = attrs.get("id");
 			if (uniqueId != null) {
-				app.setUniqueId(uniqueId);
+				this.app.setUniqueId(uniqueId);
 			}
 		}
 	}
@@ -683,7 +693,7 @@ public class MyXMLHandler implements DocHandler {
 		ts.setValuesStep(getNumber(attrs.get("step")).getDouble());
 	}
 
-	private GeoNumberValue getNumber(String string) {
+	protected GeoNumberValue getNumber(String string) {
 		return getAlgProcessor().evaluateToNumeric(string, handler);
 	}
 
@@ -1752,6 +1762,9 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleAngleUnit(LinkedHashMap<String, String> attrs) {
+		if (!app.getConfig().isAngleUnitSettingEnabled()) {
+			return false;
+		}
 		if (attrs == null) {
 			return false;
 		}
@@ -1921,6 +1934,9 @@ public class MyXMLHandler implements DocHandler {
 			break;
 		case "menuFont":
 			ok = handleMenuFont(app, attrs);
+			break;
+		case "notesToolbarOpen":
+			ok = handleNotesToolbarOpen(app, attrs);
 			break;
 		case "labelingStyle":
 			ok = handleLabelingStyle(app, attrs);
@@ -2313,6 +2329,17 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
+	private static boolean handleNotesToolbarOpen(App app,
+			LinkedHashMap<String, String> attrs) {
+		try {
+			boolean open = Boolean.parseBoolean(attrs.get("val"));
+			app.setNotesToolbarOpen(open);
+			return true;
+		} catch (RuntimeException e) {
+			return false;
+		}
+	}
+
 	private static boolean handleLabelingStyle(App app,
 			LinkedHashMap<String, String> attrs) {
 		try {
@@ -2509,6 +2536,12 @@ public class MyXMLHandler implements DocHandler {
 			if (tabId != null) {
 				dp.setTabId(tabId); // explicitly stored tab overrides config
 			}
+			// If we are loading a classic app with 3D visible, we should
+			// open it in the 3d subApp
+			if (GeoGebraConstants.CLASSIC_APPCODE.equals(subAppCode) && dp.isVisible()
+					&& dp.getViewId() == App.VIEW_EUCLIDIAN3D) {
+				this.subAppCode = GeoGebraConstants.G3D_APPCODE;
+			}
 			tmp_views.add(dp);
 
 			return true;
@@ -2576,6 +2609,9 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 	private void handleConstruction(LinkedHashMap<String, String> attrs) {
 		try {
+			if (!(kernel instanceof MacroKernel)) {
+				app.updateAppCodeSuite(subAppCode, tmp_perspective);
+			}
 			cons.setAllowUnboundedAngles(
 					DoubleUtil.isGreaterEqual(ggbFileFormat, 4.4));
 			String title = attrs.get("title");
@@ -3053,7 +3089,7 @@ public class MyXMLHandler implements DocHandler {
 	// <element>
 	// ====================================
 
-	private void processEvSizes() {
+	protected void processEvSizes() {
 		// Set<EuclidianSettings> eSet0 = xmin.keySet();
 		ArrayList<EuclidianSettings> eSet = new ArrayList<>(
 				xmin.keySet());
@@ -3554,17 +3590,18 @@ public class MyXMLHandler implements DocHandler {
 					} else if ("quadric".equals(type)) {
 						((Equation) ve).setForceQuadric();
 					} else if ("implicitpoly".equals(type)
-							|| "function".equals(type)
 							|| "implicitPoly".equals(type)) {
 						((Equation) ve).setForceImplicitPoly();
 					} else if ("implicitsurface".equals(type)) {
 						((Equation) ve).setForceSurface();
+					} else if ("function".equals(type)) {
+						((Equation) ve).setForceFunction();
 					}
 				}
 			}
 
 			// Application.debug(""+getAlgProcessor());
-
+			ve.setAsRootNode();
 			GeoElementND[] result = getAlgProcessor()
 					.processValidExpression(ve,
 							new EvalInfo(!cons.isSuppressLabelsActive(), true)
@@ -3664,5 +3701,21 @@ public class MyXMLHandler implements DocHandler {
 		casMap = new TreeMap<>();
 		constMode = MODE_CAS_MAP;
 		casMapParent = MODE_CONST_GEO_ELEMENT;
+	}
+
+	public HashMap<EuclidianSettings, String> getXmin() {
+		return xmin;
+	}
+
+	public HashMap<EuclidianSettings, String> getXmax() {
+		return xmax;
+	}
+
+	public HashMap<EuclidianSettings, String> getYmin() {
+		return ymin;
+	}
+
+	public HashMap<EuclidianSettings, String> getYmax() {
+		return ymax;
 	}
 }

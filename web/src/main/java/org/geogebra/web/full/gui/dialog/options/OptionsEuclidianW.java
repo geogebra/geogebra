@@ -59,17 +59,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	AxisTab yAxisTab;
 	private GridTab gridTab;
 	private boolean isIniting;
-	protected Localization loc;
+	public Localization loc;
 
 	protected static abstract class EuclidianTab extends FlowPanel
 			implements SetLabels {
 		
-		protected EuclidianTab(AppW app) {
-			if (app.isUnbundledOrWhiteboard()) {
-				setStyleName("propMaterialTab");
-			} else {
-				setStyleName("propertiesTab");
-			}
+		protected EuclidianTab() {
+			setStyleName("propertiesTab");
 		}
 		
 		public void onResize(int height, int width) {
@@ -82,7 +78,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private AxisPanel axisPanel;
 			
 		public AxisTab(int axis, boolean view3D) {
-			super(app);
+			super();
 			axisPanel = new AxisPanel(app, view, axis, view3D);
 			add(axisPanel);
 		}
@@ -129,7 +125,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private FlowPanel stylePanel;
 
 		public GridTab() {
-			super(app);
+			super();
 			mainPanel = new FlowPanel();
 			if (gridOptions) {
 				cbShowGrid = new CheckBox();
@@ -390,8 +386,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private void initGridStylePanel() {
 
 			// line style
-			btnGridStyle = LineStylePopup.create(app, -1, false,
-					app.isUnbundledOrWhiteboard());
+			btnGridStyle = LineStylePopup.create(app, false);
 			
 			lblGridStyle = new Label();
 			addOnlyFor2D(lblGridStyle);
@@ -715,6 +710,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		this.view = (EuclidianView) activeEuclidianView;
 		model = new EuclidianOptionsModel(app, view, this);
 		initGUI();
+		view.setOptionPanel(this);
 		isIniting = false;
 	}
 
@@ -881,11 +877,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	@Override
 	public void enableAxesRatio(boolean value) {
 		basicTab.enableAxesRatio(value);
-	}		
+	}
 
 	@Override
-	public void setMinMaxText(String minX, String maxX, String minY, String maxY) {
-		basicTab.setMinMaxText(minX, maxX, minY, maxY);
+	public void setMinMaxText(String minX, String maxX, String minY, String maxY, String minZ,
+			String maxZ) {
+		basicTab.setMinMaxText(minX, maxX, minY, maxY, minZ, maxZ);
 	}
 
 	@Override
@@ -1020,6 +1017,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	@Override
 	public void updateRuler(int typeIdx, GColor color, int lineStyle, boolean bold) {
 		gridTab.updateRuler(typeIdx, color, lineStyle, bold);
+	}
+
+	public EuclidianView getView() {
+		return view;
 	}
 }
 

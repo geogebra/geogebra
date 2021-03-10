@@ -55,14 +55,12 @@
                 return;
             }
             var calc = (this.api.getEmbeddedCalculators() || {})[label];
-            if (calc) {
-                if (calc.registerClientListener) {
-                    var calcLive = new LiveApp(this.clientId, label, this.users);
-                    calcLive.api = calc;
-                    calcLive.eventCallbacks = this.eventCallbacks;
-                    calcLive.registerListeners();
-                    this.embeds[label] = calcLive;
-                }
+            if (calc && calc.registerClientListener) {
+                var calcLive = new LiveApp(this.clientId, label, this.users);
+                calcLive.api = calc;
+                calcLive.eventCallbacks = this.eventCallbacks;
+                calcLive.registerListeners();
+                this.embeds[label] = calcLive;
             }
         }
 
@@ -78,7 +76,7 @@
 
                     for (let i = 0; i < tempObjects.length; i++) {
                         const label = tempObjects[i];
-                        const calculators= that.api.getEmbeddedCalculators(true);
+                        const calculators = that.api.getEmbeddedCalculators(true);
                         const embed = calculators && calculators[label];
 
                         if (embed && embed.controller) {
@@ -86,12 +84,20 @@
                         }
 
                         let commandString = that.api.getCommandString(label, false);
+                        // send command for dependent objects
                         if (commandString) {
                             that.sendEvent("evalCommand", label + " = " + commandString, label);
-                        } else {
+                            var group = that.api.getObjectsOfItsGroup(label);
+                            if (group != null) {
+                                that.sendEvent("addToGroup", label, group);
+                            }
+                        }
+                        // send XML for free and moveable objects (point on line)
+                        if (!commandString || that.api.isMoveable(label)) {
                             let xml = that.api.getXML(label);
                             that.sendEvent("evalXML", xml, label);
                         }
+                        that.sendEvent("select", label, "true");
                     }
 
                     updateCallback = null;
@@ -101,9 +107,8 @@
 
         // *** UPDATE LISTENERS ***
         let updateListener = (function(label) {
-            if (this.api.isIndependent(label) && !(this.currentAnimations.includes(label))) {
+            if ((this.api.hasUnlabeledPredecessors(label) || this.api.isMoveable(label)) && !(this.currentAnimations.includes(label))) {
                 console.log("update event for " + label);
-                this.api.showTooltip(null, label);
                 if (!objectsInWaiting.includes(label)) {
                     objectsInWaiting.push(label);
                     dispatchUpdates();
@@ -133,6 +138,8 @@
             } else {
                 this.sendEvent("evalXML", xml, label);
             }
+            this.sendEvent("deselect");
+            this.sendEvent("select", label, "true");
             window.setTimeout(function(){
                 that.initEmbed(label);
             },500); //TODO avoid timeout
@@ -143,8 +150,9 @@
         var removeListener = (function(label) {
             console.log(label + " is removed");
             this.sendEvent("deleteObject", label);
+            delete(this.embeds[label]);
         }).bind(this);
-        
+
         var renameListener = (function(oldName, newName) {
             this.sendEvent("renameObject", oldName, newName);
         }).bind(this);
@@ -152,7 +160,6 @@
         // *** CLIENT LISTENERS ***
         var clientListener = (function(event) {
             var editorEventBus = this.eventCallbacks["editor"];
-            var selectionEventBus = this.eventCallbacks["selection"];
             switch (event[0]) {
                 case "updateStyle":
                     var label = event[1];
@@ -176,17 +183,15 @@
                     break;
 
                 case "deselect":
-                    if (selectionEventBus) {
-                        this.createEvent("evalCommand", "SelectObjects[]").fire(selectionEventBus);
-                    }
+                    this.sendEvent(event[0]);
                     break;
 
                 case "select":
-                    if (selectionEventBus) {
-                        this.sendEvent("evalCommand", "SelectObjects[" + event[1] + "]").fire(selectionEventBus);
-                    }
+                    this.sendEvent(event[0], event[1], event[2]);
                     break;
-
+                case "embeddedContentChanged":
+                    this.sendEvent(event[0], event[2], event[1]);
+                    break;
                 case "undo":
                 case "redo":
                 case "addPolygonComplete":
@@ -205,6 +210,7 @@
                 case "moveSlide":
                 case "selectSlide":
                 case "clearSlide":
+                case "orderingChange":
                     this.sendEvent(event[0], event[2]);
                     break;
 
@@ -224,6 +230,14 @@
                     console.log("animation stopped for " + label);
                     this.currentAnimations.splice(this.currentAnimations.indexOf(label), 1);
                     this.sendEvent(event[0], label, label);
+                    break;
+
+                case "groupObjects":
+                    this.sendEvent(event[0], event.targets);
+                    break;
+
+                case "ungroupObjects":
+                    this.sendEvent(event[0], event.targets);
                     break;
 
                 default:
@@ -248,13 +262,6 @@
             this.api.unregisterRenameListener(renameListener);
         };
 
-        this.showHint = function(event) {
-            var user = this.users[event.clientId];
-            if (user && event.label) {
-                this.api.showTooltip(user.name, event.label, user.color);
-            }
-        }
-
         this.dispatch = function(last) {
             if (last && last.clientId != this.clientId) {
                 target = last.embedLabel ? this.embeds[last.embedLabel] : this;
@@ -267,7 +274,9 @@
                     target.evalCommand(last.content);
                     target.api.previewRefresh();
                 } else if (last.type == "deleteObject") {
+                	target.unregisterListeners();
                     target.api.deleteObject(last.content);
+                    target.registerListeners();
                 } else if (last.type == "setEditorState") {
                     target.unregisterListeners();
                     target.api.setEditorState(last.content, last.label);
@@ -300,9 +309,27 @@
                     target.api.startAnimation();
                 } else if (last.type == "stopAnimation") {
                     target.api.setAnimating(last.label, false);
-                }
-                if (last.type != "pasteSlide") { // for slides the label slide label => no hint
-                    target.showHint(last);
+                } else if (last.type == "select") {
+                    let user = this.users[last.clientId];
+                    if (user && last.content) {
+                    	// user name, user color, label of geo selected, 'true' if the geo was just added
+                        target.api.addMultiuserSelection(user.name, user.color, last.content, !!last.label);
+                    }
+                } else if (last.type == "deselect") {
+                    let user = this.users[last.clientId];
+                    if (user) {
+                        target.api.removeMultiuserSelections(user.name);
+                    }
+                } else if (last.type == "orderingChange") {
+                    target.api.updateOrdering(last.content);
+                } else if (last.type == "groupObjects") {
+                    target.api.groupObjects(last.content);
+                } else if (last.type == "ungroupObjects") {
+                    target.api.ungroupObjects(last.content);
+                } else if (last.type == "addToGroup") {
+                    target.api.addToGroup(last.content, last.label);
+                } else if (last.type == "embeddedContentChanged") {
+                    target.api.setEmbedContent(last.label, last.content);
                 }
             }
         };

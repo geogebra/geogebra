@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -35,7 +36,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	/**
 	 * enter/exit fullscreen mode
 	 */
-	private StandardButton fullscreenBtn;
+	private GToggleButton fullscreenBtn;
 
 	/** application */
 	private AppW app;
@@ -115,33 +116,22 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 * add fullscreen button
 	 */
 	public void addFullscreenButton() {
-		fullscreenBtn = new StandardButton(
-				ZoomPanelResources.INSTANCE.fullscreen_black18(), null, 24,
-				app);
+		fullscreenBtn = new GToggleButton();
+
+		fullscreenBtn.getUpFace().setImage(
+				new NoDragImage(ZoomPanelResources.INSTANCE.fullscreen_black18(), 24));
+		fullscreenBtn.getDownFace().setImage(
+				new NoDragImage(ZoomPanelResources.INSTANCE.fullscreen_exit_black18(), 24));
 		registerFocusable(fullscreenBtn, AccessibilityGroup.ViewControlId.FULL_SCREEN);
-		NoDragImage exitFullscreenImage = new NoDragImage(ZoomPanelResources.INSTANCE
-				.fullscreen_exit_black18(), 24);
-		exitFullscreenImage.setPresentation();
-		fullscreenBtn.getDownFace()
-				.setImage(exitFullscreenImage);
 
 		fullscreenBtn.setStyleName("zoomPanelBtn");
 
-		FastClickHandler handlerFullscreen = new FastClickHandler.Typed() {
-			@Override
-			public void onClick(Widget source) {
-				// never called - do nothing
-			}
+		fullscreenBtn.addValueChangeHandler(source -> {
+			getZoomController().onFullscreenPressed(getPanelElement(),
+					fullscreenBtn);
+			setFullScreenAuralText();
+		});
 
-			@Override
-			public void onClick(String type) {
-				getZoomController().onFullscreenPressed(getPanelElement(),
-						fullscreenBtn, type);
-				setFullScreenAuralText();
-			}
-		};
-
-		fullscreenBtn.addFastClickHandler(handlerFullscreen);
 		Browser.addFullscreenListener(obj -> {
 			if (!"true".equals(obj)) {
 				onExitFullscreen();
@@ -174,7 +164,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	public void addZoomButtons() {
 		homeBtn = new StandardButton(
 				ZoomPanelResources.INSTANCE.home_zoom_black18(),
-				null, 20, app);
+				null, 20);
 		homeBtn.setStyleName("zoomPanelBtn");
 		homeBtn.addStyleName("zoomPanelBtnSmall");
 		getZoomController().hideHomeButton(homeBtn);
@@ -196,14 +186,14 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		}
 	}
 
-	private void registerFocusable(StandardButton btn, AccessibilityGroup.ViewControlId group) {
+	private void registerFocusable(Widget btn, AccessibilityGroup.ViewControlId group) {
 		new FocusableWidget(AccessibilityGroup.getViewGroup(getViewID()), group, btn).attachTo(app);
 	}
 
 	private void addZoomOutButton() {
 		zoomOutBtn = new StandardButton(
-					ZoomPanelResources.INSTANCE.zoomout_black24(), null, 24,
-					app);
+					ZoomPanelResources.INSTANCE.zoomout_black24(), null, 24
+		);
 		zoomOutBtn.setStyleName("zoomPanelBtn");
 
 		FastClickHandler handlerZoomOut = new FastClickHandler() {
@@ -218,8 +208,8 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 
 	private void addZoomInButton() {
 		zoomInBtn = new StandardButton(
-					ZoomPanelResources.INSTANCE.zoomin_black24(), null, 24,
-					app);
+					ZoomPanelResources.INSTANCE.zoomin_black24(), null, 24
+		);
 		zoomInBtn.setStyleName("zoomPanelBtn");
 
 		FastClickHandler handlerZoomIn = new FastClickHandler() {
@@ -273,7 +263,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		if (!Browser.needsAccessibilityView()) {
 			addFullscreenKeyboardControls(sb);
 		}
-		setButtonTitleAndAltText(fullscreenBtn, sb.toString());
+		setButtonTitleAndAltText(fullscreenBtn, loc.getMenu("Fullscreen"), sb.toString());
 	}
 
 	private void addFullscreenKeyboardControls(ScreenReaderBuilder sb) {
@@ -287,13 +277,15 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		if (btn == null) {
 			return;
 		}
+		String title = loc.getMenuDefault(transKey, auralDefault);
+
 		ScreenReaderBuilder sb = new ScreenReaderBuilder();
-		sb.append(loc.getMenuDefault(transKey, auralDefault));
+		sb.append(title);
 		if (!Browser.needsAccessibilityView()) {
 			addZoomKeyboardControls(sb, controlNext);
 		}
 
-		setButtonTitleAndAltText(btn, sb.toString());
+		setButtonTitleAndAltText(btn, title, sb.toString());
 	}
 
 	private void addZoomKeyboardControls(ScreenReaderBuilder sb, boolean controlNext) {
@@ -313,10 +305,11 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		sb.endSentence();
 	}
 
-	private static void setButtonTitleAndAltText(StandardButton btn, String string) {
+	private static void setButtonTitleAndAltText(Widget btn, String dataTitle,
+			String ariaLabel) {
 		if (btn != null) {
-			btn.setTitle(string);
-			btn.setAltText(string);
+			btn.getElement().setAttribute("data-title", dataTitle);
+			btn.getElement().setAttribute("aria-label", ariaLabel);
 		}
 	}
 

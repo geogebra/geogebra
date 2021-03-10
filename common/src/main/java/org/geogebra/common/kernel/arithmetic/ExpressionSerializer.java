@@ -371,7 +371,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 			default:
 				if (((leftStr.charAt(0) != '-') && // no unary
-						left.isLeaf() && !StringTemplate.isFraction(left))
+						tpl.isSinglePowerArg(left) && !StringTemplate.isFraction(left))
 						|| (ExpressionNode.opID(left) > Operation.POWER.ordinal()
 								&& ExpressionNode.opID(left) != Operation.FACTORIAL.ordinal())) {
 					// not +, -, *, /, ^
@@ -671,7 +671,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 					sb.append("ln");
 					break;
 				}
-				tpl.appendWithBrackets(sb, leftStr);
+				tpl.addLogBracketsIfNecessary(sb, leftStr, left);
 			}
 			break;
 

@@ -41,6 +41,11 @@ public interface AppConfig {
 	 */
 	String getAppNameShort();
 
+	/**
+	 * @return translation key for short app name (Graphing)
+	 */
+	String getAppNameWithoutCalc();
+
 	String getTutorialKey();
 
 	boolean showKeyboardHelpButton();
@@ -299,4 +304,9 @@ public interface AppConfig {
 	 * 	 (only for evaluator for now)
  	 */
 	boolean sendKeyboardEvents();
+
+	/**
+	 * @return true if label should be shown for description AV style
+	 */
+	boolean hasLabelForDescription();
 }

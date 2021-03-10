@@ -14,7 +14,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.FileInputDialog;
-import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.util.BarList;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
@@ -41,7 +40,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.himamis.retex.editor.share.util.Unicode;
 
 import elemental2.dom.File;
 import elemental2.dom.FileReader;
@@ -370,8 +368,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		// // panel for button to open external file
 		//
 		btnImage = new PopupMenuButtonW(app, iconArray, -1, 4,
-				SelectionTable.MODE_ICON,
-				app.isUnbundledOrWhiteboard()) {
+				SelectionTable.MODE_ICON) {
 			@Override
 			public void handlePopupActionEvent() {
 				super.handlePopupActionEvent();
@@ -392,10 +389,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		btnImage.setSelectedIndex(-1);
 		btnImage.setKeepVisible(false);
 		btnClearImage = new GPushButton(
-				new NoDragImage(app.isUnbundledOrWhiteboard()
-						? 
-						MaterialDesignResources.INSTANCE.delete_black()
-						: AppResources.INSTANCE.delete_small(), 24));
+				new NoDragImage(MaterialDesignResources.INSTANCE.delete_black(), 24));
 		btnClearImage.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -405,10 +399,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		});
 		btnOpenFile = new Button();
-		if (app.isUnbundledOrWhiteboard()) {
-			btnOpenFile.addStyleName("openFileBtn");
-			btnClearImage.addStyleName("clearImgBtn");
-		}
+		btnOpenFile.addStyleName("openFileBtn");
+		btnClearImage.addStyleName("clearImgBtn");
 		btnOpenFile.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -550,10 +542,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		fillingSliderTitle.setText(loc.getMenu("Opacity"));
 		angleSliderTitle.setText(loc.getMenu("Angle"));
 		distanceSliderTitle.setText(loc.getMenu("Spacing"));
-		btnOpenFile.setText(
-				app.isUnbundledOrWhiteboard()
-				? loc.getMenu("ChooseFromFile")
-				: loc.getMenu("ChooseFromFile") + Unicode.ELLIPSIS);
+		btnOpenFile.setText(loc.getMenu("ChooseFromFile"));
 	}
 
 	@Override

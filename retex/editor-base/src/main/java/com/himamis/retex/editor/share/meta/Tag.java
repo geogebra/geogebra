@@ -25,15 +25,11 @@ public enum Tag {
 
 	SQRT("sqrt"),
 
+	CBRT("cbrt"),
+
 	NROOT("nroot"),
 
 	LOG("log"),
-
-	PROD("prod"),
-
-	INT("int"),
-
-	LIM("lim"),
 
 	DEF_INT("$defint"),
 
@@ -48,8 +44,6 @@ public enum Tag {
 	APPLY,
 
 	ABS("abs"),
-
-	SUM("sum"),
 
 	APPLY_SQUARE;
 

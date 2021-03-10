@@ -32,12 +32,10 @@ public class PointStylePopup extends PopupMenuButtonW
 	 *            whether to include size slider
 	 * @param model
 	 *            model
-	 * @param isTealBorder
-	 *            whether to use MOW teal
 	 * @return point stylle popup
 	 */
 	public static PointStylePopup create(AppW app, int mode, boolean hasSlider,
-			PointStyleModel model, boolean isTealBorder) {
+			PointStyleModel model) {
 		
 		pointStyleMap = new HashMap<>();
 		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
@@ -53,7 +51,7 @@ public class PointStylePopup extends PopupMenuButtonW
 
 		PointStylePopup popup = new PointStylePopup(app, pointStyleIcons, 2,
 				SelectionTable.MODE_ICON, true,
-				hasSlider, model, isTealBorder);
+				hasSlider, model);
 		popup.mode = mode;
 		return popup;
 	}
@@ -65,14 +63,12 @@ public class PointStylePopup extends PopupMenuButtonW
 	 *            mode
 	 * @param model
 	 *            model
-	 * @param isTealBorder
-	 *            whether to use MOW teal
 	 * @return point stylle popup
 	 */
 	public static PointStylePopup create(AppW app, int mode,
-			PointStyleModel model, boolean isTealBorder) {
+			PointStyleModel model) {
 		return new PointStylePopup(app, null, 1, 
-				SelectionTable.MODE_ICON, false, true, model, isTealBorder);
+				SelectionTable.MODE_ICON, false, true, model);
 	}
 
 	/**
@@ -90,15 +86,11 @@ public class PointStylePopup extends PopupMenuButtonW
 	 *            whether size slider is used
 	 * @param model
 	 *            options model
-	 * @param isTealBorder
-	 *            whether to use MOW teal
 	 */
 	public PointStylePopup(AppW app, ImageOrText[] data, Integer rows,
 			SelectionTable tableMode, boolean hasTable, boolean hasSlider,
-			PointStyleModel model,
-			boolean isTealBorder) {
-		super(app, data, rows, -1, tableMode, hasTable, hasSlider, null,
-				isTealBorder);
+			PointStyleModel model) {
+		super(app, data, rows, -1, tableMode, hasTable, hasSlider, null);
 		getMyPopup().addStyleName("pointSizeSlider");
 		this.model = model;
 		euclidian3D = false;

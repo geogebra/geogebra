@@ -65,7 +65,6 @@ public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 		setStyleName("TitleBarPanel");
 		addStyleName("TitleBarClassic");
 		addStyleName("cursor_drag");
-		initToggleButton();
 	}
 
 	private void updateStyles() {
@@ -76,7 +75,7 @@ public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 	private void initToggleButton() {
 		// always show the view-icon; othrwise use showStylebar as parameter
 		toggleStyleBarButton = new StandardButton(getToggleImage(false), null,
-				32, 24, app);
+				32, 24);
 		toggleStyleBarButton.addStyleName("toggleStyleBar");
 
 		if (!dockPanel.showStyleBar && dockPanel.viewImage != null) {

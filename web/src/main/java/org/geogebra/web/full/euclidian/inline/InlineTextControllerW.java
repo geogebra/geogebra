@@ -1,6 +1,7 @@
 package org.geogebra.web.full.euclidian.inline;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -36,6 +37,10 @@ public class InlineTextControllerW implements InlineTextController {
 	private Element parent;
 	private Editor editor;
 	private Style style;
+	private final GBasicStroke border1 = AwtFactory.getPrototype().newBasicStroke(1f,
+	GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
+	private final GBasicStroke border3 = AwtFactory.getPrototype().newBasicStroke(3f,
+			GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
 
 	/**
 	 * @param geo
@@ -211,6 +216,11 @@ public class InlineTextControllerW implements InlineTextController {
 			g2.setPaint(geo.getBackgroundColor());
 			g2.fillRect(0, 0, (int) geo.getWidth(), (int) geo.getHeight());
 		}
+		if (geo.getBorderThickness() != GeoInlineText.NO_BORDER) {
+			g2.setPaint(geo.getBorderColor());
+			g2.setStroke(getBorderStroke());
+			g2.drawRect(0, 0, (int) geo.getWidth(), (int) geo.getHeight());
+		}
 		if (editor.getWidget().getElement().hasClassName(INVISIBLE)) {
 			GAffineTransform res = AwtFactory.getTranslateInstance(DrawInlineText.PADDING,
 					DrawInlineText.PADDING);
@@ -221,6 +231,14 @@ public class InlineTextControllerW implements InlineTextController {
 
 		g2.restoreTransform();
 	}
+
+	private GBasicStroke getBorderStroke() {
+		if (geo.getBorderThickness() == 1) {
+			return border1;
+		} else {
+			return border3;
+		}
+ 	}
 
 	@Override
 	public void insertHyperlink(String url, String text) {

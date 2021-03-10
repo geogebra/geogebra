@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.commands.Commands;
@@ -62,13 +63,14 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 			return;
 		}
 
-		if (!surface.isDefined()) {
+		FunctionNVar function = surface.getFunction();
+		if (!surface.isDefined() || function == null) {
 			curve.setUndefined();
 			return;
 		}
 
 		curve.setDefined();
-		curve.setFunctionExpression(surface.getFunction());
+		curve.setFunctionExpression(function);
 
 		// a*x+b*y+c*z=d, z=d/c-a/c*x-b/c*y
 		Coords norm = plane.getCoordSys().getEquationVector();

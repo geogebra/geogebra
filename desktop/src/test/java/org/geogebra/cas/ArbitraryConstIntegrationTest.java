@@ -1,22 +1,23 @@
 package org.geogebra.cas;
 
-import static org.geogebra.test.util.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
+import static org.geogebra.test.matcher.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
 import static org.junit.Assert.assertThat;
 
 import java.util.HashSet;
 import java.util.Locale;
 
-import org.geogebra.cas.logging.CASTestLogger;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
+import org.geogebra.common.kernel.cas.CasTestJsonCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.test.CASTestLogger;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
@@ -96,30 +97,13 @@ public class ArbitraryConstIntegrationTest {
 
 			result = getOutput(f);
 		} catch (Throwable t) {
-			String sts = stacktrace(t);
+			String sts = CasTestJsonCommon.stacktrace(t);
 
 			result = t.getClass().getName() + ":" + t.getMessage() + sts;
 		}
 
 		assertThat(result, equalToIgnoreWhitespaces(logger, input,
 				expectedResult, validResults));
-	}
-
-	// 100 seconds max per method tested
-	// @Rule
-	// public Timeout globalTimeout = new Timeout(100, TimeUnit.SECONDS);
-
-	static String stacktrace(Throwable t) {
-		StringBuilder sts = new StringBuilder();
-		StackTraceElement[] st = t.getStackTrace();
-
-		for (int i = 0; i < 10 && i < st.length; i++) {
-			StackTraceElement stElement = st[i];
-			sts.append(stElement.getClassName()).append(":")
-					.append(stElement.getMethodName())
-					.append(stElement.getLineNumber()).append("\n");
-		}
-		return sts.toString();
 	}
 
 	@Test
@@ -160,7 +144,7 @@ public class ArbitraryConstIntegrationTest {
 	@Test
 	public void solveODE_6() {
 		ta("SolveODE[y' = y(y - 2)]",
-				"y = (-2) / (c_{1} *" + Unicode.EULER_STRING + "^(2*x) - 1)");
+				"y = -2 / (c_{1} *" + Unicode.EULER_STRING + "^(2*x) - 1)");
 	}
 
 	@Test
@@ -234,7 +218,7 @@ public class ArbitraryConstIntegrationTest {
 
 			result = getOutput(f);
 		} catch (Throwable t) {
-			String sts = stacktrace(t);
+			String sts = CasTestJsonCommon.stacktrace(t);
 
 			result = t.getClass().getName() + ":" + t.getMessage() + sts;
 		}
@@ -281,10 +265,10 @@ public class ArbitraryConstIntegrationTest {
 	 *            The input to update first cell.
 	 * @param cell2InputUpdate
 	 *            The input to update second cell.
-	 * @param expectedResult
-	 *            The expected result.
-	 * @param validResults
-	 *            Valid, but undesired results.
+	 * @param expectedResult1
+	 *            The expected result for the first cell.
+	 * @param expectedResult2
+	 *            The expected result for the second cell.
 	 */
 	private static void casCellupdate2(String cell1Input, String cell2Input,
 			String cell1InputUpdate, String cell2InputUpdate,
@@ -315,7 +299,7 @@ public class ArbitraryConstIntegrationTest {
 			result1 = getOutput(f1);
 
 		} catch (Throwable t) {
-			String sts = stacktrace(t);
+			String sts = CasTestJsonCommon.stacktrace(t);
 			result1 = t.getClass().getName() + ":" + t.getMessage() + sts;
 			result2 = t.getClass().getName() + ":" + t.getMessage() + sts;
 		}
@@ -375,15 +359,14 @@ public class ArbitraryConstIntegrationTest {
 	 *            The input to update first cell.
 	 * @param cell2InputUpdate
 	 *            The input to update second cell.
-	 * @param expectedResult
-	 *            The expected result.
-	 * @param validResults
-	 *            Valid, but undesired results.
+	 * @param expectedResult1
+	 *            The expected result for cell 1.
+	 * @param expectedResult2
+	 *            The expected result for cell 2.
 	 */
 	private static void casCellupdate3(String cell1Input, String cell2Input,
 			String cell1InputUpdate, String cell2InputUpdate,
-			String expectedResult1, String expectedResult2,
-			String... validResults) {
+			String expectedResult1, String expectedResult2) {
 		String result1, result2;
 
 		try {
@@ -410,15 +393,15 @@ public class ArbitraryConstIntegrationTest {
 			result2 = getOutput(f2);
 
 		} catch (Throwable t) {
-			String sts = stacktrace(t);
+			String sts = CasTestJsonCommon.stacktrace(t);
 			result1 = t.getClass().getName() + ":" + t.getMessage() + sts;
 			result2 = t.getClass().getName() + ":" + t.getMessage() + sts;
 		}
 
 		assertThat(result1, equalToIgnoreWhitespaces(logger, cell1Input,
-				expectedResult1, validResults));
+				expectedResult1));
 		assertThat(result2, equalToIgnoreWhitespaces(logger, cell2Input,
-				expectedResult2, validResults));
+				expectedResult2));
 	}
 
 	@Test

@@ -139,6 +139,11 @@ public enum EventType {
 	/** Prune state list in external object */
 	EMBEDDED_PRUNE_STATE_LIST("embeddedPruneStateList"),
 
+	/**
+	 * Change the whole content (base64) of embedded applet
+	 */
+	EMBEDDED_CONTENT_CHANGED("embeddedContentChanged"),
+
 	/** Algebra Panel selected */
 	ALGEBRA_PANEL_SELECTED("algebraPanelSelected"),
 	/** Tools Panel selected */
@@ -173,7 +178,23 @@ public enum EventType {
 	START_ANIMATION("startAnimation"),
 
 	/** stop animation event */
-	STOP_ANIMATION("stopAnimation");
+	STOP_ANIMATION("stopAnimation"),
+
+	/** dropdown opened */
+	DROPDOWN_OPENED("dropdownOpened"),
+
+	/** dropdown closed */
+	DROPDOWN_CLOSED("dropdownClosed"),
+
+	/** dropdown item focused */
+	DROPDOWN_ITEM_FOCUSED("dropdownItemFocused"),
+
+	/** Layer change in notes*/
+	ORDERING_CHANGE("orderingChange"),
+
+	GROUP_OBJECTS("groupObjects"),
+
+	UNGROUP_OBJECTS("ungroupObjects");
 
 	private String eventName;
 

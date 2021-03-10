@@ -3,6 +3,7 @@ package org.geogebra.web.test;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+import elemental2.dom.Console;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLDocument;
 import elemental2.dom.HTMLHtmlElement;
@@ -12,6 +13,7 @@ public class ElementalMocker {
 
 	public static void setupElemental() {
 		try {
+			DomGlobal.console = new Console();
 			DomGlobal.window = new WebStorageWindow();
 			setFinalStatic(DomGlobal.class.getField("document"), new HTMLDocument());
 			DomGlobal.document.documentElement = new HTMLHtmlElement();

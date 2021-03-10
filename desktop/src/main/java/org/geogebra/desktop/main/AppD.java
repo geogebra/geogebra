@@ -41,7 +41,6 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ComponentEvent;
@@ -154,8 +153,6 @@ import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.HTML5Export;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.main.SingularWSSettings;
@@ -217,18 +214,16 @@ import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.menubar.OptionsMenuController;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
 import org.geogebra.desktop.gui.toolbar.ToolbarD;
-import org.geogebra.desktop.gui.util.BrowserLauncher;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.headless.GFileHandler;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.io.OFFReader;
 import org.geogebra.desktop.javax.swing.GImageIconD;
-import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.main.settings.DefaultSettingsD;
 import org.geogebra.desktop.main.settings.SettingsBuilderD;
 import org.geogebra.desktop.main.settings.updater.FontSettingsUpdaterD;
-import org.geogebra.desktop.move.OpenFromGGTOperation;
+import org.geogebra.desktop.main.undo.UndoManagerD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.plugin.ScriptManagerD;
@@ -440,7 +435,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				Log.setCallerShown(args.getBooleanValue("logShowCaller", true));
 			}
 			if (args.containsArg("logShowTime")) {
-				Log.setTimeShown(args.getBooleanValue("logShowTime", true));
+				LoggerD.setTimeShown(args.getBooleanValue("logShowTime", true));
 			}
 			if (args.containsArg("logShowLevel")) {
 				Log.setLevelShown(args.getBooleanValue("logShowLevel", true));
@@ -572,7 +567,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			getGuiManager().getLayout()
 					.setPerspectives(getTmpPerspectives(),
 							PerspectiveDecoder.decode(
-							this.perspectiveParam, getKernel().getParser(),
+							"", getKernel().getParser(),
 							ToolBar.getAllToolsNoMacros(false, false, this)));
 		}
 
@@ -613,40 +608,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			initSignInEventFlow();
 		}
 
-		if (isJava7() && isWindows() && getVersionCheckAllowed()) {
-			showJava7Warning();
-		}
-
 		if (kernel.wantAnimationStarted()) {
 			kernel.getAnimatonManager().startAnimation();
 			kernel.setWantAnimationStarted(false);
 		}
 
-	}
-
-	private void showJava7Warning() {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				if (downloadAppUpdateDialog() == JOptionPane.OK_OPTION) {
-					Log.debug("downloading");
-					BrowserLauncher.openURL(GeoGebraConstants.DOWNLOAD_PACKAGE_WIN);
-					exit();
-				}
-			}
-		});
-	}
-
-	private int downloadAppUpdateDialog() {
-		String[] options = {loc.getMenu("Download"), loc.getMenu("Cancel")};
-		return JOptionPane.showOptionDialog(frame,
-				loc.getMenu("java7.warning"),
-				loc.getMenu("SystemInformation"),
-				JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.WARNING_MESSAGE,
-				null,
-				options,
-				options[0]);
 	}
 
 	// **************************************************************************
@@ -969,7 +935,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			String filename = args.getStringValue("giacJSONtests");
 
 			if (filename == null || "".equals(filename)) {
-				filename = "../common/src/main/resources/giac/__giac.js";
+				filename = "../common/src/main/resources/giac/giacTests.js";
 			}
 
 			int count = 0;
@@ -2208,25 +2174,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public void copyGraphicsViewToClipboard() {
 
 		copyGraphicsViewToClipboard(getActiveEuclidianView());
-	}
-
-	@Override
-	public void copyTextToSystemClipboard(String text) {
-		Toolkit.getDefaultToolkit().getSystemClipboard()
-				.setContents(new StringSelection(text), null);
-	}
-
-	@Override
-	public void copyBase64ToClipboard() {
-
-		// don't include preview bitmap
-		copyTextToSystemClipboard(getGgbApi().getBase64(false));
-	}
-
-	@Override
-	public void copyFullHTML5ExportToClipboard() {
-
-		copyTextToSystemClipboard(HTML5Export.getFullString(this));
 	}
 
 	public void copyGraphicsViewToClipboard(final EuclidianView copyView) {
@@ -3535,30 +3482,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
-	@Override
-	public void setXML(String xml, boolean clearAll) {
-		if (xml == null) {
-			return;
-		}
-		if (clearAll) {
-			setCurrentFile(null);
-		}
-
-		try {
-
-			// make sure objects are displayed in the correct View
-			setActiveView(App.VIEW_EUCLIDIAN);
-
-			getXMLio().processXMLString(xml, clearAll, false);
-		} catch (MyError err) {
-			err.printStackTrace();
-			showError(err);
-		} catch (Exception e) {
-			e.printStackTrace();
-			showError(Errors.LoadFileFailed);
-		}
-	}
-
 	public byte[] getMacroFileAsByteArray() {
 		try {
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -4025,7 +3948,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					if (msg == null) {
 						return;
 					}
-					Log.printStacktrace("" + msg);
+					Log.trace("" + msg);
 
 					// make sure splash screen not showing (will be in front)
 					GeoGebra.hideSplash();
@@ -4191,7 +4114,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		logFile.append(".txt");
 
 		Log.debug("Logging is redirected to " + logFile.toString());
-		Log.setTimeShown(false); // do not print the time twice
+		LoggerD.setTimeShown(false); // do not print the time twice
 
 		// log file max size 10K, 1 file, append-on-open
 		Handler fileHandler;
@@ -4324,8 +4247,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	private DialogManager dialogManager;
 
-	private OpenFromGGTOperation openFromGGTOperation;
-
 	@Override
 	public void callAppletJavaScript(String string, String args) {
 		// not needed in desktop
@@ -4389,7 +4310,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		if (getGuiManager() != null && getGuiManager().hasSpreadsheetView()) {
 			getGuiManager().getSpreadsheetView().repaintView();
 		}
-
 	}
 
 	@Override
@@ -4450,15 +4370,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return WINDOWS;
 	}
 
-	/**
-	 * Whether we are using Java 7 (can't use clipboard on OSX)
-	 * 
-	 * @return whether we are using Java 7
-	 */
-	public static boolean isJava7() {
-		return System.getProperty("java.version").startsWith("1.7.");
-	}
-
 	/*
 	 * current possible values http://mindprod.com/jgloss/properties.html AIX
 	 * Digital Unix FreeBSD HP UX Irix Linux Mac OS Mac OS X MPE/iX Netware 4.11
@@ -4467,6 +4378,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	private static final String OS = StringUtil
 			.toLowerCaseUS(System.getProperty("os.name"));
+	private static final String VERSION = StringUtil
+			.toLowerCaseUS(System.getProperty("os.version"));
 
 	public static final boolean MAC_OS = OS.startsWith("mac");
 	public static final boolean WINDOWS = OS.startsWith("windows");
@@ -4484,6 +4397,21 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	public static final boolean WINDOWS_VISTA_OR_EARLIER = WINDOWS_XP_OR_EARLIER
 			|| OS.startsWith("windows vista");
+
+	/**
+	 * @return true if running on Mac OS Big Sur or later versions.
+	 */
+	public static boolean isMacOsBigSurOrLater() {
+		if (!MAC_OS) {
+			return false;
+		}
+		try {
+			double version = Double.parseDouble(VERSION);
+			return version > 10.15;
+		} catch (NumberFormatException exception) {
+			return false;
+		}
+	}
 
 	@Override
 	public boolean isHTML5Applet() {
@@ -4796,24 +4724,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * stored token
 	 */
 	protected void initSignInEventFlow() {
-
 		// Inizialize the login operation
 		loginOperation = new LoginOperationD(this);
 
-		if (!isJava7()) {
-			// Try to login the stored user
-			loginOperation.performTokenLogin();
-		}
-	}
-
-	public void initOpenFromGGTEventFlow() {
-		if (openFromGGTOperation == null) {
-			openFromGGTOperation = new OpenFromGGTOperation(this);
-		}
-	}
-
-	public OpenFromGGTOperation getOpenFromGGTOperation() {
-		return openFromGGTOperation;
+		// Try to login the stored user
+		loginOperation.performTokenLogin();
 	}
 
 	@Override
@@ -4832,13 +4747,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public void uploadToGeoGebraTubeOnCallback() {
 
 		uploadToGeoGebraTube();
-	}
-
-	private String perspectiveParam = "";
-
-	public void setPerspectiveParam(String perspective) {
-		this.perspectiveParam = perspective;
-
 	}
 
 	@Override
@@ -5268,7 +5176,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public void handleImageExport(String base64image) {
 		if (base64image.startsWith("<svg") || base64image.startsWith("<?xml")
 				|| base64image.startsWith("%PDF")) {
-			copyTextToSystemClipboard(base64image);
+			getCopyPaste().copyTextToSystemClipboard(base64image);
 			return;
 		}
 
@@ -5281,29 +5189,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 
 	private static void copyImageToClipboard(Image img) {
 		ImageSelection imgSel = new ImageSelection(img);
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel,
 				null);
-	}
-
-	public void showReinstallMessage() {
-		Object[] options = { loc.getMenu("Cancel"), loc.getMenu("Download") };
-		int n = JOptionPane.showOptionDialog(mainComp, loc.getMenu("FullReinstallNeeded"),
-				GeoGebraConstants.APPLICATION_NAME + " - "
-						+ getLocalization().getError("Error"),
-				JOptionPane.YES_NO_OPTION,
-				JOptionPane.QUESTION_MESSAGE, null,
-				options, // the titles of buttons
-				options[1]); // default button title
-
-		if (n == 1) {
-			showURLinBrowser(GeoGebraConstants.INSTALLERS_URL);
-		}
 	}
 
 	@Override

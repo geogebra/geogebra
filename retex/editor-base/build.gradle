@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '1.6.9'
+    id "com.github.spotbugs" version "4.6.0"
     id 'ca.coglinc.javacc' version '2.4.0'
 }
 
@@ -19,8 +19,8 @@ publishing {
 	}
 }
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 dependencies {
 	compile project(':renderer-base')
@@ -40,11 +40,7 @@ task cleanJavacc(type: Delete) {
 pmd {
      ignoreFailures = true
      ruleSets = []
-     ruleSetFiles = files("config/pmd.xml")
-}
-
-checkstyle {
-    toolVersion = "8.8"
+     ruleSetFiles = files("../../config/pmd.xml")
 }
 
 spotbugs {
