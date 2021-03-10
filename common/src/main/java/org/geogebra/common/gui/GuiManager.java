@@ -41,10 +41,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
-import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
-import org.geogebra.common.media.GeoGebraURLParser;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
@@ -206,82 +204,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public void updateConstructionProtocol() {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public boolean loadURL(String urlString) {
-		return loadURL(urlString, true);
-	}
-
-	@Override
-	public boolean loadURL(String urlString, boolean suppressErrorMsg) {
-		String processedUrlString = urlString.trim();
-
-		boolean success = false;
-		boolean isMacroFile = false;
-		getApp().setWaitCursor();
-
-		try {
-			// check first for ggb/ggt file
-			if ((processedUrlString.endsWith(".ggb")
-					|| processedUrlString.endsWith(".ggt"))
-					&& (!processedUrlString.contains("?"))) {
-				// This isn't a ggb file,
-				// however ends with ".ggb":
-				// script.php?file=_circles5.ggb
-				// loadURL_GGB(processedUrlString);
-				getApp().getGgbApi().openFile(processedUrlString);
-
-				// special case: urlString is from GeoGebraTube
-				// eg http://www.geogebratube.org/student/105 changed to
-				// http://www.geogebratube.org/files/material-105.ggb
-			} else if (GeoGebraURLParser.isGeoGebraURL(processedUrlString)) {
-
-				String id = GeoGebraURLParser.getIDfromURL(processedUrlString);
-				if (id == null) {
-					return false;
-				}
-				processedUrlString = "https://www.geogebra.org/files/material-";
-
-				// Add the login token to assure that private files of the
-				// logged in user can be accessed
-				processedUrlString += id + ".ggb";
-				if (getApp().getLoginOperation().isLoggedIn()) {
-					String token = getApp().getLoginOperation().getModel()
-							.getLoggedInUser().getLoginToken();
-					if (token != null) {
-						processedUrlString += "?lt=" + token;
-					}
-				}
-
-				// Log.debug(processedUrlString);
-				// success = loadURL_GGB(processedUrlString);
-				getApp().getGgbApi().openFile(processedUrlString);
-
-				// special case: urlString is actually a base64 encoded ggb file
-			} else if (processedUrlString.startsWith("UEs")) {
-				success = true;
-				getApp().getGgbApi()
-						.setBase64(
-						processedUrlString.replace("\\/", "/"));
-
-				// special case: urlString is actually a GeoGebra XML file
-			} else if (processedUrlString.startsWith("<?xml ")
-					&& processedUrlString.endsWith("</geogebra>")) {
-				success = getApp().loadXML(processedUrlString);
-
-				// 'standard' case: url with GeoGebra applet (Java or HTML5)
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-
-		if (!success && !suppressErrorMsg) {
-			getApp().showError(Errors.LoadFileFailed, processedUrlString);
-		}
-
-		updateGUIafterLoadFile(success, isMacroFile);
-		return success;
 	}
 
 	/**
