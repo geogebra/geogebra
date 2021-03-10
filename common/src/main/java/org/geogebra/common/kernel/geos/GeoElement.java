@@ -2530,6 +2530,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			}
 		}
 
+		if (newLabel.startsWith(LabelManager.HIDDEN_PREFIX)) {
+			setAlgebraLabelVisible(false);
+		}
+
 		setLabelSimple(newLabel); // set new label
 
 		setLabelSet(true);
@@ -2550,13 +2554,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (addToConstr) {
 			notifyAdd();
 		}
-		/*
-		 * if(cons.getCASdummies().contains(newLabel)){
-		 * cons.moveInConstructionList(this, 0);
-		 * cons.getCASdummies().remove(newLabel); for(int
-		 * i=0;cons.getCasCell(i)!=null;i++){
-		 * kernel.getAlgebraProcessor().processCasCell(cons.getCasCell(i)); } }
-		 */
 	}
 
 	private void updateSpreadsheetCoordinates() {
