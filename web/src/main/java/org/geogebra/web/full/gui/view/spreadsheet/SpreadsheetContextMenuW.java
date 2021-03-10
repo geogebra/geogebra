@@ -6,13 +6,13 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
-import org.geogebra.web.full.javax.swing.GCheckBoxMenuItem;
+import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
 
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 
 /**
@@ -72,46 +72,28 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
 	@Override
 	public void addMenuItem(final String cmdString, String text, boolean enabled) {
-		String html = MainMenu.getMenuBarHtmlClassic(getIconUrl(cmdString), text);
+		String html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
 
 		AriaMenuItem mi;
 		mi = new AriaMenuItem(html, true, getCommand(cmdString));
-		mi.addStyleName("mi_with_image");
 		mi.setEnabled(enabled);
 
 		popup.addItem(mi);
 	}
 
 	@Override
-	public void addCheckBoxMenuItem(final String cmdString, String nonSelected,
-			String selected,
-			boolean isSelected) {
+	public void addCheckBoxMenuItem(final String cmdString, String text, boolean isSelected) {
+		String html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
 
-		String html = MainMenu.getMenuBarHtmlClassic(getIconUrl(cmdString), "");
-
-		GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(html, selected,
-				nonSelected,
-				getCommand(cmdString), true, app);
-		cbItem.setSelected(isSelected, popup.getPopupMenu());
-		popup.addItem(cbItem);
-	}
-
-	@Override
-	public void addCheckBoxMenuItem(final String cmdString, String text,
-	        boolean isSelected) {
-
-		String html = MainMenu.getMenuBarHtmlClassic(getIconUrl(cmdString), text);
-
-		GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(html,
-				getCommand(cmdString), true, app);
-		cbItem.setSelected(isSelected, popup.getPopupMenu());
+		GCheckmarkMenuItem cbItem = new GCheckmarkMenuItem(
+				html, isSelected, getCommand(cmdString));
 		popup.addItem(cbItem);
 	}
 
 	@Override
 	public AriaMenuItem addSubMenu(String text, String cmdString) {
 
-		String html = MainMenu.getMenuBarHtmlClassic(getIconUrl(cmdString), text);
+		String html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
 
 		AriaMenuBar subMenu = new AriaMenuBar();
 		AriaMenuItem menuItem = new AriaMenuItem(html, true, subMenu);
@@ -124,14 +106,10 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	public void addSubMenuItem(Object menu, final String cmdString,
 	        String text, boolean enabled) {
 
-		String html = MainMenu.getMenuBarHtmlClassic(getIconUrl(cmdString), text);
-
-		AriaMenuItem mi = new AriaMenuItem(html, true, getCommand(cmdString));
-		mi.addStyleName("mi_with_image");
+		AriaMenuItem mi = new AriaMenuItem(text, true, getCommand(cmdString));
 		mi.setEnabled(enabled);
 
 		((AriaMenuItem) menu).getSubMenu().addItem(mi);
-
 	}
 
 	@Override
@@ -143,45 +121,34 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		return () -> doCommand(cmdString);
 	}
 
-	private static String getIconUrl(String cmdString) {
+	private static ResourcePrototype getIconUrl(String cmdString) {
 		if (cmdString == null) {
-			return AppResources.INSTANCE.empty().getSafeUri().asString();
+			return AppResources.INSTANCE.empty();
 		}
 
-		SVGResource resource;
 		switch (MenuCommand.valueOf(cmdString)) {
 		case ShowLabel:
-			resource = MaterialDesignResources.INSTANCE.label_black();
-			break;
+			return MaterialDesignResources.INSTANCE.label_black();
 		case Copy:
-			resource = MaterialDesignResources.INSTANCE.copy_black();
-			break;
+			return MaterialDesignResources.INSTANCE.copy_black();
 		case Cut:
-			resource = MaterialDesignResources.INSTANCE.cut_black();
-			break;
+			return MaterialDesignResources.INSTANCE.cut_black();
 		case Paste:
-			resource = MaterialDesignResources.INSTANCE.paste_black();
-			break;
+			return MaterialDesignResources.INSTANCE.paste_black();
 		case Duplicate:
-			resource = MaterialDesignResources.INSTANCE.duplicate_black();
-			break;
+			return MaterialDesignResources.INSTANCE.duplicate_black();
 		case Delete:
 		case DeleteObjects:
-			resource = MaterialDesignResources.INSTANCE.delete_black();
-			break;
+			return MaterialDesignResources.INSTANCE.delete_black();
 		case RecordToSpreadsheet:
-			resource = MaterialDesignResources.INSTANCE.record_to_spreadsheet_black();
-			break;
+			return MaterialDesignResources.INSTANCE.record_to_spreadsheet_black();
 		case Properties:
 		case SpreadsheetOptions:
-			resource = MaterialDesignResources.INSTANCE.gear();
-			break;
+			return MaterialDesignResources.INSTANCE.gear();
 		case Create:
-			resource = MaterialDesignResources.INSTANCE.add_black();
-			break;
+			return MaterialDesignResources.INSTANCE.add_black();
 		default:
-			return AppResources.INSTANCE.empty().getSafeUri().asString();
+			return AppResources.INSTANCE.empty();
 		}
-		return resource.getSafeUri().asString();
 	}
 }
