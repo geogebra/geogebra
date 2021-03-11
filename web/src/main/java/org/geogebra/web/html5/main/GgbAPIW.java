@@ -1494,7 +1494,7 @@ public class GgbAPIW extends GgbAPI {
 	public void setEmbedContent(String label, String base64) {
 		EmbedManager embedManager = app.getEmbedManager();
 		if (embedManager != null) {
-			embedManager.setBase64(label, base64);
+			embedManager.setContentSync(label, base64);
 		}
 	}
 }

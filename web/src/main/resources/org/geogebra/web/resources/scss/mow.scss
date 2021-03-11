@@ -519,4 +519,11 @@
 	.embedContainer .EuclidianPanel {
 		z-index: 0;
 	}
+
+	.h5pPreview {
+		width: 600px;
+		height: 300px;
+		box-sizing: border-box;
+		border: $mow_primary 2px solid;
+	}
 }

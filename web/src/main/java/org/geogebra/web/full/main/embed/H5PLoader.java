@@ -15,11 +15,15 @@ import com.google.gwt.dom.client.ScriptElement;
  */
 public class H5PLoader {
 	public static final H5PLoader INSTANCE = new H5PLoader();
-	private static boolean loaded = false;
+	private boolean loaded = false;
 	private boolean loadingStarted = false;
 
-	public static boolean isLoaded() {
+	public boolean isLoaded() {
 		return loaded;
+	}
+
+	public boolean isLoadingStarted() {
+		return loadingStarted;
 	}
 
 	/**
@@ -27,7 +31,7 @@ public class H5PLoader {
 	 *
 	 * @param onLoadCallback to run after success.
 	 */
-	public void load(Runnable onLoadCallback) {
+	public void loadIfNeeded(Runnable onLoadCallback) {
 		if (loadingStarted) {
 			return;
 		}
