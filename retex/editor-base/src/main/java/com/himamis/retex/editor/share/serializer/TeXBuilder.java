@@ -56,8 +56,7 @@ public class TeXBuilder {
 	private final TeXParser parser;
 	private final TeXSerializer teXSerializer;
 
-	private final static HashMap<Character, String> replacements
-			= new HashMap<Character, String>();
+	private final static HashMap<Character, String> replacements = new HashMap<>();
 
 	static {
 		replacements.put('*', "cdot");
