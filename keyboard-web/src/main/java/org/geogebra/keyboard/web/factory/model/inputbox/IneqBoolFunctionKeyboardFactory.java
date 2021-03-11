@@ -7,7 +7,7 @@ import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
 import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
-import org.geogebra.keyboard.web.factory.model.inputbox.util.FunctionKeyUtil;
+import org.geogebra.keyboard.base.model.impl.factory.FunctionKeyUtil;
 import org.geogebra.keyboard.web.factory.model.inputbox.util.MathKeyUtil;
 
 public class IneqBoolFunctionKeyboardFactory implements KeyboardModelFactory {

@@ -67,12 +67,6 @@ class DrawParametricInequality extends SetDrawable {
 			g2.setStroke(objStroke);
 			g2.draw(gp);
 		}
-
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 	@Override
@@ -97,9 +91,8 @@ class DrawParametricInequality extends SetDrawable {
 	public void update() {
 		if (gp == null) {
 			gp = new GeneralPathClippedForCurvePlotter(view);
-		} else {
-			gp.reset();
 		}
+		gp.resetWithThickness(geo.getLineThickness());
 		GeoFunction border = paramIneq.getFunBorder();
 		border.setLineThickness(geo.getLineThickness());
 		updateStrokes(border);

@@ -29,9 +29,9 @@ public class ZSpaceGwt {
 	 * @return zSpace avialable?
 	 */
 	public static native boolean zspaceIsAvailable() /*-{
-		//		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("navigator.userAgent = "+ navigator.userAgent);
+		//		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("navigator.userAgent = "+ navigator.userAgent);
 		var index = navigator.userAgent.indexOf("zSpace Beta");
-		//		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("indexOf = "+ index);
+		//		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("indexOf = "+ index);
 		return index !== -1;
 	}-*/;
 

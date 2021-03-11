@@ -301,6 +301,7 @@ public class InputController {
 				MathFunction function = (MathFunction) currentField
 						.getArgument(currentOffset - 1);
 				if (Tag.SQRT.equals(function.getName())
+						|| Tag.CBRT.equals(function.getName())
 						|| Tag.NROOT.equals(function.getName())
 						|| Tag.FRAC.equals(function.getName())) {
 

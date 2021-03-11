@@ -196,9 +196,7 @@ public class PopupMenuButtonW extends MyCJButton
 				}
 			}
 		};
-		if (app.isUnbundledOrWhiteboard()) {
-			myPopup.addStyleName("matPopupPanel");
-		}
+		myPopup.addStyleName("matPopupPanel");
 		myPopup.setAutoHideEnabled(true);
 	}
 

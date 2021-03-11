@@ -30,6 +30,7 @@ import com.google.j2objc.annotations.Weak;
  */
 public class TableValuesView implements TableValues, SettingListener {
 
+	private static final double[] DEFAULT_RANGE = new double[] {-2.0, -1.0, 0.0, 1.0, 2.0};
 	private static final int MAX_ROWS = 200;
 
 	@Weak
@@ -160,7 +161,16 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	private void updateModelValues() {
-		model.setValues(DoubleUtil.range(getValuesMin(), getValuesMax(), getValuesStep()));
+		double[] range = createRangeOrDefault();
+		model.setValues(range);
+	}
+
+	private double[] createRangeOrDefault() {
+		try {
+			return DoubleUtil.range(getValuesMin(), getValuesMax(), getValuesStep());
+		} catch (OutOfMemoryError error) {
+			return DEFAULT_RANGE;
+		}
 	}
 
 	@Override

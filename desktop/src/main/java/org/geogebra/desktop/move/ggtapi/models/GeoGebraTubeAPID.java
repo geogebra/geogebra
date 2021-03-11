@@ -8,7 +8,6 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.desktop.util.HttpRequestD;
-import org.geogebra.desktop.util.UtilD;
 
 /**
  * API Interface for GeoGebraTube requests and responses
@@ -34,9 +33,6 @@ public class GeoGebraTubeAPID extends GeoGebraTubeAPI {
 	public GeoGebraTubeAPID(boolean beta, ClientInfo client) {
 		super(beta);
 		this.client = client;
-		if (UtilD.isJava7()) {
-			setURL("null");
-		}
 		// just for testing (or certificate emergency)
 		// HttpRequestD.ignoreSSL();
 	}

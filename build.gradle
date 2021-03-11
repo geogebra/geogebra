@@ -52,12 +52,6 @@ wrapper {
 	gradleVersion = gradleVersionGGB
 }
 
-task checkPmd(dependsOn: [':common:pmdMain', ':common-jre:pmdMain', ':web:pmdMain', 
-	':editor-base:pmdMain', ':editor-web:pmdMain',
-	':keyboard-web:pmdMain', ':keyboard-base:pmdMain']){
-	description "run PMD for all subprojects with pmd conf"
-}
-
 task checkAllStyles(dependsOn: [':common:checkstyleMain', ':common-jre:checkstyleMain', ':web:checkstyleMain',
         ':editor-base:checkstyleMain', ':editor-web:checkstyleMain',
         ':keyboard-web:checkstyleMain', ':keyboard-base:checkstyleMain', ':keyboard-scientific:checkstyleMain',

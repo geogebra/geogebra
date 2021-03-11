@@ -1017,7 +1017,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 			tempLine = new GeoLine(cons);
 		}
 
-		ArrayList<MyPoint> set = new ArrayList<MyPoint>();
+		ArrayList<MyPoint> set = new ArrayList<>();
 
 		// intersect vertical lines
 		fillQuarticRoots(eqn, c, d, e, f, k, l, m, o, p);

@@ -50,7 +50,7 @@ public class ProjectionsProperty extends AbstractEnumerableProperty
 
 	@Override
 	public int getIndex() {
-	    if (view.isAREnabled()) {
+	    if (view.isXREnabled()) {
 	        return EuclidianView3DInterface.PROJECTION_PERSPECTIVE;
         }
 		return euclidianSettings.getProjection();
@@ -68,6 +68,6 @@ public class ProjectionsProperty extends AbstractEnumerableProperty
 
     @Override
     public boolean isEnabled() {
-        return !view.isAREnabled();
+        return !view.isXREnabled();
     }
 }

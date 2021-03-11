@@ -37,7 +37,6 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
@@ -120,7 +119,7 @@ public class DrawParametricCurve extends Drawable {
 		if (gp == null) {
 			gp = new GeneralPathClippedForCurvePlotter(view);
 		}
-		gp.reset();
+		gp.resetWithThickness(geo.getLineThickness());
 
 		fillCurve = filling(curve);
 
@@ -520,11 +519,6 @@ public class DrawParametricCurve extends Drawable {
 	@Override
 	final public boolean isInside(GRectangle rect) {
 		return gp != null && rect.contains(gp.getBounds());
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 	/**

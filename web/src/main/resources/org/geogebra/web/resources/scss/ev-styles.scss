@@ -144,7 +144,7 @@
 	/*dyn stylebar popup panel*/
 	.matPopupPanel {
 		border-radius: 2px;
-		padding: 0px 8px 0px 8px;
+		padding: 5px !important;
 		background-color: $white;
 		box-shadow: 0 0 2px 1px $tool-border;
 		z-index: $z-dialog-over-keyboard;

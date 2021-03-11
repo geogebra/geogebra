@@ -51,7 +51,7 @@ public class ArcTrigReplacer implements Traversing {
 	/**
 	 * @return replacer
 	 */
-	public static org.geogebra.common.kernel.arithmetic.ArcTrigReplacer getReplacer() {
+	public static ArcTrigReplacer getReplacer() {
 		return replacer;
 	}
 }

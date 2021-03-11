@@ -259,9 +259,4 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 				|| (geoItem.isGeoText() && geoItem.isLaTeXDrawableGeo());
 	}
 
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
-	}
-
 }

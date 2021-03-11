@@ -22,7 +22,7 @@ public class ErrorHandlerW implements ErrorHandler {
 
 	@Override
 	public void showError(String msg) {
-		Log.printStacktrace("");
+		Log.trace("");
 		if (!app.isErrorDialogsActive()) {
 			return;
 		}

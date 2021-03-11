@@ -976,10 +976,8 @@ public class GGraphics2DW implements GGraphics2DWI {
 	}
 
 	@Override
-	public boolean setAltText(String altStr) {
-		boolean ret = !(getElement().getInnerText() + "").equals(altStr);
+	public void setAltText(String altStr) {
 		getElement().setInnerText(altStr);
-		return ret;
 	}
 
 	public String getAltText() {

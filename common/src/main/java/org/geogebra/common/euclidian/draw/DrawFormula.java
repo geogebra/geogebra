@@ -15,7 +15,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 
 public class DrawFormula extends Drawable implements DrawInline {
@@ -90,11 +89,6 @@ public class DrawFormula extends Drawable implements DrawInline {
 	@Override
 	public boolean isInside(GRectangle rect) {
 		return rect.contains(getBounds());
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 	@Override

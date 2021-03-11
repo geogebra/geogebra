@@ -54,7 +54,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
-import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
 import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -63,6 +62,7 @@ import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoName;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.algos.Algos;
+import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.algos.TableAlgo;
@@ -1961,6 +1961,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			return hasOnlyFreeInputPoints(view)
 					&& containsOnlyMoveableGeos(getFreeInputPoints(view));
 
+		case PIECHART:
 		case POLYGON:
 		case POLYGON3D:
 		case POLYLINE:
@@ -4771,8 +4772,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	private void getExtraTagsXML(StringBuilder sb) {
-		if (this.getParentAlgorithm() instanceof AlgoBarChart) {
-			((AlgoBarChart) this.getParentAlgorithm()).barXml(sb);
+		if (this.getParentAlgorithm() instanceof ChartStyleAlgo) {
+			((ChartStyleAlgo) this.getParentAlgorithm()).getStyle().barXml(sb,
+					((ChartStyleAlgo) this.getParentAlgorithm()).getIntervals());
 		}
 	}
 

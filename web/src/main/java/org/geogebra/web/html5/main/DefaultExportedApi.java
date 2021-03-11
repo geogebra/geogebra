@@ -981,4 +981,8 @@ public class DefaultExportedApi implements ExportedApi {
 	public void setEmbedContent(String label, String base64) {
 		ggbAPI.setEmbedContent(label, base64);
 	}
+
+	public boolean hasUnlabeledPredecessors(String label) {
+		return ggbAPI.hasUnlabeledPredecessors(label);
+	}
 }

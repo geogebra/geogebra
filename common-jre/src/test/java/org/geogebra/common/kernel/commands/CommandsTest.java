@@ -6,6 +6,8 @@ import static com.himamis.retex.editor.share.util.Unicode.PI_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.theta_STRING;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -729,19 +731,6 @@ public class CommandsTest {
 		return string.replaceAll("i", Unicode.IMAGINARY + "");
 	}
 
-	private static void checkSize(String string, int cols, int rows) {
-		GDimension d = ((AlgoTableText) get(string).getParentAlgorithm())
-				.getSize();
-		if (((AlgoTableText) get(string).getParentAlgorithm())
-				.getAlignment() == 'h') {
-			assertEquals(cols, d.getWidth());
-			assertEquals(rows, d.getHeight());
-		} else {
-			assertEquals(rows, d.getWidth());
-			assertEquals(cols, d.getHeight());
-		}
-	}
-
 	@Test
 	public void cmdAffineRatio() {
 		t("AffineRatio[ (1,1), (2,1/2), (3,1/3) ]", "NaN");
@@ -1011,8 +1000,12 @@ public class CommandsTest {
 	@Test
 	public void cmdConic() {
 		t("Conic[ {42,4,13,50,5,7} ]", "42x² + 50x y + 4y² + 5x + 7y = -13");
+		t("Conic[ {2, 3, -1, 4, 2, -3} ]", "2x² + 4x y + 3y² + 2x - 3y = 1");
 		t("Conic[ (1,1),(2,1/2),(3,1/3),(4,1/4),(5,1/5) ]", "2.560000000000155x y ="
 				+ " 2.559999999999828");
+		t("Conic[ (0, -4), (2, 4), (3,1), (-2,3), (-3,-1) ]",
+				"151x² - 37x y + 72y² + 14x - 42y = 1320");
+		t("Conic[ 2, 3, -1, 4, 2, -3 ]", "2x² + 4x y + 3y² + 2x - 3y = 1");
 	}
 
 	@Test
@@ -3058,13 +3051,13 @@ public class CommandsTest {
 				get("cc").toValueString(StringTemplate.defaultTemplate), "42");
 		Assert.assertNull(get("b"));
 		AlgebraTestHelper.shouldFail("Rename[ cc, \"\" ]", "Illegal", app);
-		Assert.assertNotNull(get("cc"));
+		assertNotNull(get("cc"));
 		AlgebraTestHelper.shouldFail("Rename[ cc, \"42\" ]", "Illegal", app);
-		Assert.assertNotNull(get("cc"));
+		assertNotNull(get("cc"));
 		AlgebraTestHelper.shouldFail("Rename[ cc, \"A_{}\" ]", "Illegal", app);
-		Assert.assertNotNull(get("cc"));
+		assertNotNull(get("cc"));
 		AlgebraTestHelper.shouldFail("Rename[ cc, \"A_{\" ]", "Illegal", app);
-		Assert.assertNotNull(get("cc"));
+		assertNotNull(get("cc"));
 		t("Rename[ cc, \"A_\" ]", new String[0]);
 		Assert.assertNull(get("cc"));
 		Assert.assertEquals(
@@ -3966,6 +3959,28 @@ public class CommandsTest {
 	@Test
 	public void cmdTurningPoint() {
 		t("InflectionPoint[ x^3 ]", "(0, 0)");
+	}
+
+	@Test
+	public void cmdPieChart() {
+		t("p1=PieChart({1,2,3})", "PieChart[{1, 2, 3}, (0, 0)]");
+		t("p2=PieChart({1,2,3}, (1,1), 2)", "PieChart[{1, 2, 3}, (1, 1), 2]");
+		assertTrue(get("p2").isDefined());
+		t("p3=PieChart({1,2,-3})", "PieChart[{1, 2, -3}, (0, 0)]");
+		assertFalse(get("p3").isDefined());
+	}
+
+	private static void checkSize(String string, int cols, int rows) {
+		AlgoTableText parentAlgorithm = (AlgoTableText) get(string).getParentAlgorithm();
+		assertNotNull(parentAlgorithm);
+		GDimension d = parentAlgorithm.getSize();
+		if (parentAlgorithm.getAlignment() == 'h') {
+			assertEquals(cols, d.getWidth());
+			assertEquals(rows, d.getHeight());
+		} else {
+			assertEquals(rows, d.getWidth());
+			assertEquals(cols, d.getHeight());
+		}
 	}
 
 	@Test

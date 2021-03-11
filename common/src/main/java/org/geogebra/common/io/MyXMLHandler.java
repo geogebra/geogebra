@@ -1935,6 +1935,9 @@ public class MyXMLHandler implements DocHandler {
 		case "menuFont":
 			ok = handleMenuFont(app, attrs);
 			break;
+		case "notesToolbarOpen":
+			ok = handleNotesToolbarOpen(app, attrs);
+			break;
 		case "labelingStyle":
 			ok = handleLabelingStyle(app, attrs);
 			break;
@@ -2326,6 +2329,17 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
+	private static boolean handleNotesToolbarOpen(App app,
+			LinkedHashMap<String, String> attrs) {
+		try {
+			boolean open = Boolean.parseBoolean(attrs.get("val"));
+			app.setNotesToolbarOpen(open);
+			return true;
+		} catch (RuntimeException e) {
+			return false;
+		}
+	}
+
 	private static boolean handleLabelingStyle(App app,
 			LinkedHashMap<String, String> attrs) {
 		try {
@@ -2524,7 +2538,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 			// If we are loading a classic app with 3D visible, we should
 			// open it in the 3d subApp
-			if (GeoGebraConstants.CLASSIC_APPCODE.equals(subAppCode) && dp.isVisible()
+			if (isClassicFile() && dp.isVisible()
 					&& dp.getViewId() == App.VIEW_EUCLIDIAN3D) {
 				this.subAppCode = GeoGebraConstants.G3D_APPCODE;
 			}
@@ -2535,6 +2549,11 @@ public class MyXMLHandler implements DocHandler {
 			Log.debug(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
+	}
+
+	private boolean isClassicFile() {
+		return StringUtil.empty(subAppCode)
+				|| GeoGebraConstants.CLASSIC_APPCODE.equals(subAppCode);
 	}
 
 	private DockPanelData.TabIds getTabId(String tab) {

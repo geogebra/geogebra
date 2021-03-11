@@ -33,12 +33,7 @@ public class FunctionKeyboardFactory implements KeyboardModelFactory {
         addInputButton(row, buttonFactory, DEGREE);
 
         row = functionKeyboard.nextRow(9.2f);
-		addTranslateInputCommandButton(row, buttonFactory, "asin",
-				"altText.asin", "asin", width);
-		addTranslateInputCommandButton(row, buttonFactory, "acos",
-				"altText.acos", "acos", width);
-		addTranslateInputCommandButton(row, buttonFactory, "atan",
-				"altText.atan", "atan", width);
+        FunctionKeyUtil.addInverseSinCosTan(row, buttonFactory, width);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addInputButton(row, buttonFactory, "{");
         addInputButton(row, buttonFactory, "}");

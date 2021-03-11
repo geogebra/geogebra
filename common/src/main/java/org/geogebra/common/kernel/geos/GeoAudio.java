@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.media.MediaFormat;
 import org.geogebra.common.plugin.GeoClass;
@@ -77,11 +76,6 @@ public class GeoAudio extends GeoMedia {
 	public void remove() {
 		pause();
 		super.remove();
-	}
-
-	@Override
-	public String toValueString(StringTemplate tpl) {
-		return null;
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public class InputDialogOpenURL extends InputDialogD {
 		super(app.getFrame(), false, app.getLocalization());
 		this.app = app;
 
-		setInitString("http://");
+		setInitString("https://");
 
 		// check if there's a string starting http:// already on the clipboard
 		// (quite likely!!)
@@ -65,7 +65,7 @@ public class InputDialogOpenURL extends InputDialogD {
 	}
 
 	private boolean processInput() {
-		return app.getGuiManager().loadURL(inputPanel.getText());
+		return app.getGuiManager().loadURL(inputPanel.getText(), true);
 	}
 
 }
