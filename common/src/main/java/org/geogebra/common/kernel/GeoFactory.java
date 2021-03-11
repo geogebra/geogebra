@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel;
 
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.algos.AlgoFunctionableToFunction;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -52,10 +51,10 @@ import org.geogebra.common.util.debug.Log;
 public class GeoFactory {
 	/**
 	 * Creates a new GeoElement object for the given type string.
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
-	 * 
+	 *
 	 * @param type
 	 *            String as produced by GeoElement.getXMLtypeString()
 	 * @return created element
@@ -96,7 +95,7 @@ public class GeoFactory {
 		case "embed":
 			return new GeoEmbed(cons1);
 		case "formula":
-			return new GeoFormula(cons1, new GPoint2D());
+			return new GeoFormula(cons1, null);
 		case "function":
 		case "functionconditional":
 		case "interval":
@@ -108,7 +107,7 @@ public class GeoFactory {
 		case "implicitpoly":
 			return newImplicitPoly(cons1).toGeoElement();
 		case "inlinetext":
-			return new GeoInlineText(cons1, new GPoint2D());
+			return new GeoInlineText(cons1, null);
 		case "line":
 			GeoLine geoLine = new GeoLine(cons1);
 			geoLine.showUndefinedInAlgebraView(true);
@@ -138,7 +137,7 @@ public class GeoFactory {
 		case "textfield":
 			return new GeoInputBox(cons1);
 		case "table":
-			return new GeoInlineTable(cons1, new GPoint2D());
+			return new GeoInlineTable(cons1, null);
 		case "video":
 			return new GeoVideo(cons1);
 		case "vector":
