@@ -9930,14 +9930,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (shapeMode(mode) && !app.isRightClick(event)) {
 			GeoElement geo = getShapeMode()
 						.handleMouseReleasedForShapeMode(event);
-			if (geo != null && geo.isShape() && view.getDrawableFor(geo) != null) {
-				selectAndShowSelectionUI(geo);
+			if (geo == null) {
+				return;
 			}
-			if (!isDraggingOccuredBeyondThreshold()) {
-				showDynamicStylebar();
-			}
-			view.setCursor(EuclidianCursor.DEFAULT);
-			storeUndoInfo();
+
+			selectAndShowSelectionUI(geo);
+			showDynamicStylebar();
+			app.getUndoManager().storeAddGeo(geo);
 			return;
 		}
 
