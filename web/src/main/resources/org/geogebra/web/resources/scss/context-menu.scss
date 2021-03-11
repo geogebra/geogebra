@@ -85,6 +85,13 @@
 			max-height: calc(100vh - 48px);
 
 			.listMenuItem {
+				.menuImg {
+					position: relative;
+					vertical-align: bottom;
+					margin-left: 0;
+					padding-left: 0;
+				}
+
 				min-width: 64px;
 				padding: 0 16px;
 			}
