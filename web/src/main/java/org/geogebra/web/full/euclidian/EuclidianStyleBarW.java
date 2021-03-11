@@ -1582,7 +1582,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			}
 		} else if (source == btnFilling) {
 			FillType fillType = btnFilling.getSelectedFillType();
-			EuclidianStyleBarStatic.applyFillType(targetGeos, fillType);
+			needUndo = EuclidianStyleBarStatic.applyFillType(targetGeos, fillType);
 
 		} else if (source == btnBold) {
 			needUndo = applyFontStyle(targetGeos,
