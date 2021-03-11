@@ -1961,7 +1961,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void updateAppCodeSuite(String subApp, Perspective p) {
 		if ("suite".equals(getAppletParameters().getDataParamAppName())) {
 			String appCode = getConfig().getAppCode();
-			Log.error(subApp);
 			if (!appCode.equals(subApp)) {
 				this.activity = new SuiteActivity(subApp);
 				updateSymbolicFlag(subApp, p);
