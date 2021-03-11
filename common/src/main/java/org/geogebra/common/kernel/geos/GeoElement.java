@@ -2959,6 +2959,16 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 					this, false, !cons.isRemovingGeoToReplaceIt());
 		}
 
+		if (getParentGroup() != null) {
+			cons.removeGroupFromGroupList(getParentGroup());
+			for (GeoElement geo : getParentGroup().getGroupedGeos()) {
+				if (geo != this) {
+					geo.setParentGroup(null);
+					geo.remove();
+				}
+			}
+		}
+
 		// notify views before we change labelSet
 		notifyRemove();
 
@@ -2970,10 +2980,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			// remove old key from cache
 			// JLaTeXMathCache.removeCachedTeXFormula(keyLaTeX);
 			latexCache.remove();
-		}
-
-		if (getParentGroup() != null) {
-			cons.removeGroupFromGroupList(getParentGroup());
 		}
 	}
 
