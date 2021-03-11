@@ -95,6 +95,25 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 	}
 
 	@Override
+	public void doRemove() {
+		if (parent != null) {
+			parent.getChildren().remove(this);
+		}
+		removeWithChildren();
+	}
+
+	/**
+	 * doRemove cannot be recursive, because breaking the link between parent
+	 * and current node would cause ConcurrentModificationException
+	 */
+	private void removeWithChildren() {
+		super.doRemove();
+		for (GeoMindMapNode child : children) {
+			child.removeWithChildren();
+		}
+	}
+
+	@Override
 	public void setContent(String content) {
 		this.content = content;
 	}
