@@ -131,12 +131,8 @@ public class DialogManagerW extends DialogManager
 	public void showNumberInputDialog(String title, String message,
 			String initText, AsyncOperation<GeoNumberValue> callback) {
 		// avoid labeling of num
-		final Construction cons = app.getKernel().getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
+				app.getKernel().getAlgebraProcessor(), callback, app);
 		ComponentInputDialog inputDialog = new NumberInputDialog((AppW) app,
 			new DialogData(title), false, true, handler, message,
 				initText, 1, -1, false);
@@ -206,11 +202,10 @@ public class DialogManagerW extends DialogManager
 			String initText, AsyncOperation<GeoNumberValue> callback) {
 		// avoid labeling of num
 		Construction cons = app.getKernel().getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
+				app.getKernel().getAlgebraProcessor(), callback, app);
 		DialogData data = new DialogData(title);
 		AngleInputDialogW angleInputDialog = new AngleInputDialogW(((AppW) app), message,
 				data, initText, handler, true);
@@ -366,11 +361,9 @@ public class DialogManagerW extends DialogManager
 	public void showNumberInputDialog(String title, String message,
 			String initText, boolean changingSign, String checkBoxText,
 			AsyncOperation<GeoNumberValue> callback) {
-		boolean oldVal = app.getKernel().getConstruction()
-				.isSuppressLabelsActive();
 		// avoid labeling of num
 		NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
+				app.getKernel().getAlgebraProcessor(), callback, app);
 		DialogData data = new DialogData(title);
 		NumberChangeSignInputDialogW extrudeInputDialog = new NumberChangeSignInputDialogW(
 				((AppW) app), message, data, initText, handler, changingSign,

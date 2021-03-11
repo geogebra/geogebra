@@ -25,7 +25,6 @@ import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.view.properties.PropertiesView;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -307,20 +306,10 @@ public class DialogManagerD extends DialogManagerMinimal {
 	public void showNumberInputDialog(String title, String message,
 			String initText, AsyncOperation<GeoNumberValue> callback) {
 		// avoid labeling of num
-		final Construction cons = app.getKernel().getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
+				app.getKernel().getAlgebraProcessor(), callback, app);
 		InputDialogD id = new InputDialogD(((AppD) app), message, title,
-				initText, false, handler, true, false, null) {
-			@Override
-			protected void cancel() {
-				cons.setSuppressLabelCreation(false);
-				super.cancel();
-			}
-		};
+				initText, false, handler, true, false, null);
 		id.setVisible(true);
 	}
 
@@ -332,19 +321,12 @@ public class DialogManagerD extends DialogManagerMinimal {
 			String initText, boolean changingSign, String checkBoxText,
 			AsyncOperation<GeoNumberValue> callback) {
 		// avoid labeling of num
-		Construction cons = app.getKernel().getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
+				app.getKernel().getAlgebraProcessor(), callback, app);
 		NumberChangeSignInputDialog id = new NumberChangeSignInputDialog(
 				((AppD) app), message, title, initText, handler, changingSign,
 				checkBoxText);
 		id.setVisible(true);
-
-		cons.setSuppressLabelCreation(oldVal);
-
 	}
 
 	@Override
@@ -428,12 +410,8 @@ public class DialogManagerD extends DialogManagerMinimal {
 	public void showAngleInputDialog(String title, String message,
 			String initText, AsyncOperation<GeoNumberValue> callback) {
 		// avoid labeling of num
-		Construction cons = app.getKernel().getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
+				app.getKernel().getAlgebraProcessor(), callback, app);
 		AngleInputDialogD id = new AngleInputDialogD(((AppD) app), message, title,
 				initText, false, handler, true);
 		id.setVisible(true);
