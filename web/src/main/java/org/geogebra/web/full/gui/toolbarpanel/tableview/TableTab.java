@@ -52,7 +52,7 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels {
 
 	@Override
 	public void close() {
-		toolbarPanel.close();
+		toolbarPanel.close(false);
 	}
 
 	@Override

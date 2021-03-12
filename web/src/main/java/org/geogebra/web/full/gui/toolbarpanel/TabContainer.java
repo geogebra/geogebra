@@ -18,7 +18,7 @@ public class TabContainer implements ShowableTab {
 
 	@Override
 	public void close() {
-		toolbarPanel.close();
+		toolbarPanel.close(false);
 	}
 
 }
