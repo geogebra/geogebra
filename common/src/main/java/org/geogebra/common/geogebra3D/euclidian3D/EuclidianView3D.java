@@ -3490,7 +3490,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				double width = renderer.getWidth();
 				double top = renderer.getTop();
 				double bottom = renderer.getBottom();
-				double rv = clippingCubeDrawable.getRV(1);
+				double rv = clippingCubeDrawable.getRV(clippingCube.getReduction());
 				xZero = (xmin2 * (width / 2.0 - rv * width) - xmax2 * (-width / 2.0 + rv * width))
 						/ (2 * rv * width - width);
 				double xscale = (-width / 2.0 + rv * width) / (xmin2 + xZero);
