@@ -58,6 +58,7 @@ public class NumberInputHandler implements InputHandler {
 		try {
 			handler.resetError();
 			final Construction cons = algebraProcessor.getKernel().getConstruction();
+			// avoid label for the number
 			boolean oldVal = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			algebraProcessor.processAlgebraCommandNoExceptionHandling(
@@ -66,6 +67,8 @@ public class NumberInputHandler implements InputHandler {
 
 						@Override
 						public void callback(GeoElementND[] result) {
+							// allow labels again
+							cons.setSuppressLabelCreation(oldVal);
 							boolean success = result != null
 									&& result[0] instanceof GeoNumberValue;
 							if (success) {
@@ -77,7 +80,6 @@ public class NumberInputHandler implements InputHandler {
 								handler.showError(
 										Errors.NumberExpected.getError(app.getLocalization()));
 							}
-							cons.setSuppressLabelCreation(oldVal);
 							if (callback0 != null) {
 								callback0.callback(success);
 							}
