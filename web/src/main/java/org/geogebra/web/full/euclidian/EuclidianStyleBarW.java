@@ -409,7 +409,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 		addButtons();
 		popupBtnList = newPopupBtnList();
 		toggleBtnList = newToggleBtnList();
-		ClickStartHandler.initDefaults(this, true, true);
 	}
 
 	protected void setActionCommands() {

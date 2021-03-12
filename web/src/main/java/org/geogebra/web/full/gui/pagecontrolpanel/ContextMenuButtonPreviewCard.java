@@ -11,6 +11,7 @@ import org.geogebra.web.full.gui.dialog.PreviewCardRenameDialog;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.DialogData;
 
@@ -31,6 +32,7 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 	public ContextMenuButtonPreviewCard(AppW app, PagePreviewCard card) {
 		super(app);
 		this.card = card;
+		ClickStartHandler.initDefaults(this, true, true);
 	}
 
 	@Override
