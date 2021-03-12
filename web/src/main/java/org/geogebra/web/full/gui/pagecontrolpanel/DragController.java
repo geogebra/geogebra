@@ -240,6 +240,7 @@ class DragController {
 			dragged.removeStyleName("dragCanStart");
 		}
 		dragged = null;
+		clicked = null;
 	}
 
 	/**
