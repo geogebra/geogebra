@@ -4317,6 +4317,39 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		}
 	}
 
+	private void resetBeforeReload() {
+		app.getSelectionManager().storeSelectedGeosNames();
+		app.getCompanion().storeViewCreators();
+		notifyReset();
+		clearJustCreatedGeosInViews();
+		EuclidianView ev = app.getActiveEuclidianView();
+		if (ev != null) {
+			ev.getEuclidianController().clearSelections();
+		}
+		VideoManager videoManager = getApplication().getVideoManager();
+		if (videoManager != null) {
+			videoManager.storeVideos();
+		}
+		EmbedManager embedManager = getApplication().getEmbedManager();
+		if (embedManager != null) {
+			embedManager.storeEmbeds();
+		}
+		if (ev != null) {
+			ev.resetInlineObjects();
+		}
+	}
+
+	private void restoreAfterReload() {
+		notifyReset();
+		app.getCompanion().recallViewCreators();
+		app.getSelectionManager().recallSelectedGeosNames(this);
+
+		EuclidianView ev = getApplication().getActiveEuclidianView();
+		if (ev != null) {
+			ev.restoreDynamicStylebar();
+		}
+	}
+
 	/**
 	 * Restore state from mode-specific undo point.
 	 */
@@ -4372,8 +4405,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	public void undo() {
 		if (undoActive) {
-			if (getApplication().getActiveEuclidianView()
-					.getEuclidianController().isUndoableMode()) {
+			EuclidianView ev = getApplication().getActiveEuclidianView();
+			if (ev != null && ev.getEuclidianController().isUndoableMode()) {
 				if (getSelectionManager().isGeoToggled()
 						&& !getSelectionManager().getSelectedGeos().isEmpty()) {
 
