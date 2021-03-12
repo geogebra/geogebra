@@ -1665,7 +1665,7 @@ public class DockManagerW extends DockManager {
 			if (split.getLeftComponent() == avPanel
 					&& split
 					.getDividerLocation() <= closedWidth) {
-				toolbar.close();
+				toolbar.close(false);
 			}
 			if (toolbar != null && !toolbar.isOpen()) {
 				ratio = closedWidth / app.getWidth();

@@ -66,6 +66,8 @@ public class ToolbarPanel extends FlowPanel
 	public static final int CLOSED_WIDTH_LANDSCAPE_COMPACT = 56;
 	/** Min width of open header in landscape mode */
 	public static final int OPEN_MIN_WIDTH_LANDSCAPE = 160;
+	/** Loading width of open header in landscape mode */
+	public static final int OPEN_START_WIDTH_LANDSCAPE = 380;
 	/** Closed height of header in portrait mode */
 	public static final int CLOSED_HEIGHT_PORTRAIT = 56;
 	private static final int OPEN_ANIM_TIME = 200;
@@ -497,12 +499,14 @@ public class ToolbarPanel extends FlowPanel
 	/**
 	 * Closes the toolbar.
 	 */
-	public void close() {
+	public void close(boolean snap) {
 		if (!isOpen) {
 			return;
 		}
 		isOpen = false;
-		final Integer finalWidth = getPreferredWidth();
+		final Integer finalWidth = snap && !app.isPortrait()
+				? (Integer) OPEN_START_WIDTH_LANDSCAPE
+				: getPreferredWidth();
 		if (getToolbarDockPanel().isAlone()) {
 			showOppositeView();
 		}
@@ -624,8 +628,7 @@ public class ToolbarPanel extends FlowPanel
 				? dockPanel.getParentSplitPane() : null;
 		if (dockParent != null) {
 			dockParent.setWidgetMinSize(dockPanel,
-					isOpen() ? OPEN_MIN_WIDTH_LANDSCAPE
-							: getNavigationRailWidth());
+					getNavigationRailWidth());
 		}
 	}
 
@@ -1270,17 +1273,21 @@ public class ToolbarPanel extends FlowPanel
 		}
 	}
 
+	public void hideToolbar() {
+		navRail.onClosePressed(true);
+	}
+
 	private void animateHeadingHeight(int from, int to) {
 		if (!app.isPortrait()) {
 			setHeadingHeight(from);
-			app.invokeLater(() -> heading.setHeight(to + "px"));
+			app.invokeLater(() -> setHeadingHeight(to));
 		} else {
 			setHeadingHeight(to);
 		}
 	}
 
 	private void setHeadingHeight(int to) {
-		heading.setVisible(true);
+		heading.setVisible(to > 0);
 		heading.setHeight(to + "px");
 	}
 

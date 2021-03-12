@@ -193,4 +193,10 @@ public class ToolbarDockPanelW extends DockPanelW
 			toolbar.hideOppositeView();
 		}
 	}
+
+	public void hideToolbar() {
+		if (toolbar != null) {
+			toolbar.hideToolbar();
+		}
+	}
 }

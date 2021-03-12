@@ -699,7 +699,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	 * needed
 	 */
 	public void checkDividerIsOutside() {
-
 		// w, h should contain the dimensions visible on screen
 		int w = this.getElement().getClientWidth();
 		int h = this.getElement().getClientHeight();
@@ -816,11 +815,31 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		if (!app.isUnbundled()) {
 			return;
 		}
-		if (!app.isPortrait() && getDividerLocation() > 0.9 * getOffsetWidth()) {
-			hideView(leftComponent);
+		if (!app.isPortrait()) {
+			if (getDividerLocation() > 0.9 * getOffsetWidth()) {
+				hideView(leftComponent);
+			}
+			// 72px is the width of navigation rail
+			int dividerPosition = getDividerLocation() - 72;
+			if (dividerPosition < 0.1 * getOffsetWidth()) {
+				hideToolbar(leftComponent);
+			}
 		}
-		if (app.isPortrait() && getDividerLocation() < 0.1 * getOffsetHeight()) {
-			hideView(rightComponent);
+		if (app.isPortrait()) {
+			if (getDividerLocation() < 0.1 * getOffsetHeight()) {
+				hideView(rightComponent);
+			}
+			// 56 is the height of the navigation rail
+			int dividerPosition = getDividerLocation() + 56;
+			if (dividerPosition > 0.9 * getOffsetHeight()) {
+				hideToolbar(rightComponent);
+			}
+		}
+	}
+
+	private void hideToolbar(Widget hide) {
+		if (hide instanceof ToolbarDockPanelW) {
+			((ToolbarDockPanelW) hide).hideToolbar();
 		}
 	}
 
