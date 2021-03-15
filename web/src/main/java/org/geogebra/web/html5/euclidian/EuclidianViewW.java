@@ -1256,20 +1256,10 @@ public class EuclidianViewW extends EuclidianView implements
 			}
 			return;
 		case PEN:
-			if (appW.isWhiteboardActive() && getEuclidianController()
-					.getDefaultEventType() != PointerEventType.MOUSE) {
-				setTransparentCursor();
-			} else {
-				setPenCursor();
-			}
+			setPenCursor();
 			return;
 		case HIGHLIGHTER:
-			if (appW.isWhiteboardActive() && getEuclidianController()
-					.getDefaultEventType() != PointerEventType.MOUSE) {
-				setTransparentCursor();
-			} else {
-				setHighlighterCursor();
-			}
+			setHighlighterCursor();
 			return;
 		case ROTATION:
 			if (appW.isWhiteboardActive() && getEuclidianController()
