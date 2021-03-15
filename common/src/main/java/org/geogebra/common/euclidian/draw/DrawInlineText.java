@@ -126,7 +126,8 @@ public class DrawInlineText extends Drawable implements DrawInline {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		if (text.isEuclidianVisible() && textController != null) {
+		if (text.isEuclidianVisible() && textController != null
+			&& rectangle.getDirectTransform() != null) {
 			textController.draw(g2, rectangle.getDirectTransform());
 		}
 	}

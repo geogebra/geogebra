@@ -5240,30 +5240,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_MEDIA_TEXT:
-			changedKernel = createInlineObject(selectionPreview, new GeoInlineFactory() {
-				@Override
-				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
-					return new GeoInlineText(cons, location);
-				}
-			});
+			changedKernel = createInlineObject(selectionPreview,
+					(cons, location) -> new GeoInlineText(cons, location));
 			break;
 
 		case EuclidianConstants.MODE_TABLE:
-			changedKernel = createInlineObject(selectionPreview, new GeoInlineFactory() {
-				@Override
-				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
-					return new GeoInlineTable(cons, location);
-				}
-			});
+			changedKernel = createInlineObject(selectionPreview,
+					(cons, location) -> new GeoInlineTable(cons, location));
 			break;
 
 		case EuclidianConstants.MODE_EQUATION:
-			changedKernel = createInlineObject(selectionPreview, new GeoInlineFactory() {
-				@Override
-				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
-					return new GeoFormula(cons, location);
-				}
-			});
+			changedKernel = createInlineObject(selectionPreview,
+					(cons, location) -> new GeoFormula(cons, location));
 			break;
 
 		// new image
