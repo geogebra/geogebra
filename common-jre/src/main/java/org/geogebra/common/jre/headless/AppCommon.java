@@ -22,6 +22,7 @@ import org.geogebra.common.jre.io.MyXMLioCommon;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
+import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -113,9 +114,10 @@ public class AppCommon extends App {
     }
 
 	private static void initFactories() {
-        FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
+		FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
 		StringUtil.setPrototypeIfNull(new StringUtil());
-    }
+		UtilFactoryJre.setupRegexFactory();
+	}
 
     @Override
     protected void showErrorDialog(String msg) {

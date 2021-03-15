@@ -25,7 +25,7 @@ import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 
-import com.google.gwt.regexp.shared.MatchResult;
+import org.gwtproject.regexp.shared.MatchResult;
 
 public class SpreadsheetMouseListenerD
 		implements MouseListener, MouseMotionListener {
