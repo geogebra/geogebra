@@ -10,8 +10,6 @@ import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 
-import com.google.gwt.dom.client.Style.Unit;
-
 import elemental2.core.Global;
 
 /**
@@ -55,10 +53,6 @@ public class CalcEmbedElement extends EmbedElement {
 	@Override
 	public void setSize(int contentWidth, int contentHeight) {
 		frame.getApp().getGgbApi().setSize(contentWidth, contentHeight);
-		// 1px border
-		frame.getElement().getStyle().setWidth(contentWidth - 2, Unit.PX);
-		frame.getElement().getStyle().setHeight(contentHeight - 2, Unit.PX);
-		frame.getApp().checkScaleContainer();
 	}
 
 	@Override

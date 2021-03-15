@@ -5,6 +5,7 @@
 
 	&.appletStyle {
 		overflow: hidden;
+		box-sizing: border-box;
 	}
 
 	div[data-title]:after {

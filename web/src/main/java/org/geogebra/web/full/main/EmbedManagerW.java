@@ -161,10 +161,8 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		if (currentBase64 != null) {
 			parameters.setAttribute("ggbBase64", currentBase64);
 		}
-		fr.setComputedWidth(parameters.getDataParamWidth()
-				- parameters.getBorderThickness());
-		fr.setComputedHeight(parameters.getDataParamHeight()
-				- parameters.getBorderThickness());
+		fr.setComputedWidth(parameters.getDataParamWidth());
+		fr.setComputedHeight(parameters.getDataParamHeight());
 		fr.runAsyncAfterSplash();
 
 		CalcEmbedElement element = new CalcEmbedElement(fr, this, drawEmbed.getEmbedID());
