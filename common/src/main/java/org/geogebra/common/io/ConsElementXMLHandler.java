@@ -423,6 +423,8 @@ public class ConsElementXMLHandler {
 			((GeoAngle) geo).setEmphasizeRightAngle(true);
 		} else if (geo instanceof GeoText) {
 			geo.setBackgroundColor(null);
+		} else if (geo instanceof GeoInlineText) {
+			geo.setLineThickness(0);
 		}
 	}
 
@@ -1940,6 +1942,7 @@ public class ConsElementXMLHandler {
 				|| geo.isGeoSurfaceCartesian())) {
 			geo.setLineThickness(0);
 		}
+
 		if (!symbolicTagProcessed && geo.isGeoText()) {
 			((GeoText) geo).setSymbolicMode(false, false);
 		}

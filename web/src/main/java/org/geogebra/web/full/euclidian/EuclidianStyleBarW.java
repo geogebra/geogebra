@@ -22,6 +22,7 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.AngleProperties;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -1744,9 +1745,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 		boolean changed = false;
 		for (GeoElement geo : targetGeos) {
 			if (geo instanceof GeoInlineText) {
-				if (borderColor != null && !((GeoInlineText) geo)
+				GeoInlineText text = (GeoInlineText) geo;
+				if (borderColor != null && !text
 						.getBorderColor().equals(borderColor)) {
-					((GeoInlineText) geo).setBorderColor(borderColor);
+					text.setBorderColor(borderColor);
+					geo.updateVisualStyle(GProperty.LINE_STYLE);
 					changed = true;
 				}
 			}
