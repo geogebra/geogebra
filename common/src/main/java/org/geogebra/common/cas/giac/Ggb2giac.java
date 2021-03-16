@@ -852,7 +852,10 @@ public class Ggb2giac {
 						+ ")),"
 
 						// Intersect[2dLine,2dLine]
+						// e.g. Intersect(x^2+y^2=5, x+y=0)
 						+ "when((type(xcoord(ggbinarg1))==DOM_INT&&type(grad(ggbinarg1,x)[1])==DOM_INT)"
+						// e.g. Intersect(x+y=0, x^2+y^2=5)
+						+ "|| (type(xcoord(ggbinarg0))==DOM_INT&&type(grad(ggbinarg0,x)[1])==DOM_INT)"
 						// Intersect[2dLine,Cmd2dLine]
 						// Intersect[Cmd2dLine,Cmd2dLine]
 						+ "|| ((ggbinarg1)[0]=='='&&(ggbinarg1)[1]=='y'),"
