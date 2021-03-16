@@ -30,8 +30,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -630,14 +628,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 		btnCustomColor = new Button("+");
 		btnCustomColor.setStyleName("CustomColorButton");
-		btnCustomColor.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				showCustomColorDialog();
-			}
-
-		});
+		btnCustomColor.addClickHandler(event -> showCustomColorDialog());
 		SimplePanel sp = new SimplePanel(btnCustomColor);
 		sp.addStyleName("CustomColorButtonParent");
 
@@ -648,42 +639,31 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		add(backgroundColorPanel);
 		add(lbBars);
 
-		canvas.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				for (ColorTable table : tables) {
-					GColor color = table.getSelectedColor();
-					if (color != null) {
-						colorChanged(table, color);
-						break;
-					}
+		canvas.addClickHandler(event -> {
+			for (ColorTable table : tables) {
+				GColor color = table.getSelectedColor();
+				if (color != null) {
+					colorChanged(table, color);
+					break;
 				}
+			}
 
+		});
+
+		canvas.addMouseMoveHandler(event -> {
+			int mx = event.getRelativeX(canvas.getElement());
+			int my = event.getRelativeY(canvas.getElement());
+			for (ColorTable table : tables) {
+				table.setFocus(mx, my);
 			}
 		});
 
-		canvas.addMouseMoveHandler(new MouseMoveHandler() {
+		lbBars.addChangeHandler(event -> {
+			int idx = lbBars.getSelectedIndex();
+			setSelectedBar(idx);
 
-			@Override
-			public void onMouseMove(MouseMoveEvent event) {
-				int mx = event.getRelativeX(canvas.getElement());
-				int my = event.getRelativeY(canvas.getElement());
-				for (ColorTable table : tables) {
-					table.setFocus(mx, my);
-				}
-			}
-		});
-
-		lbBars.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				int idx = lbBars.getSelectedIndex();
-				setSelectedBar(idx);
-
-				if (changeHandler != null) {
-					changeHandler.onBarSelected();
-				}
+			if (changeHandler != null) {
+				changeHandler.onBarSelected();
 			}
 		});
 	}
