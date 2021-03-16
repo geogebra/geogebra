@@ -491,6 +491,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 */
 	@Override
 	public CoordSys getCoordSys() {
+		if (coordSys == null) {
+			coordSys = CoordSys.Identity3D;
+		}
 		return coordSys;
 	}
 
