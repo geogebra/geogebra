@@ -16,9 +16,9 @@ public class MindMapBoundingBox extends MediaBoundingBox {
 
 	private static final EuclidianBoundingBoxHandler[] ADD_HANDLERS = {
 			EuclidianBoundingBoxHandler.ADD_TOP,
-			EuclidianBoundingBoxHandler.ADD_RIGHT,
+			EuclidianBoundingBoxHandler.ADD_LEFT,
 			EuclidianBoundingBoxHandler.ADD_BOTTOM,
-			EuclidianBoundingBoxHandler.ADD_LEFT
+			EuclidianBoundingBoxHandler.ADD_RIGHT
 	};
 
 	private final EuclidianView view;

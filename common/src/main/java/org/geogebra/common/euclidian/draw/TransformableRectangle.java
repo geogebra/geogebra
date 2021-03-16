@@ -110,6 +110,22 @@ public class TransformableRectangle {
 				Math.min(corner2.getY(), corner3.getY()));
 	}
 
+	/**
+	 * @return right (in screen coords)
+	 */
+	public int getRight() {
+		return (int) Math.max(Math.max(corner0.getX(), corner1.getX()),
+				Math.max(corner2.getX(), corner3.getX()));
+	}
+
+	/**
+	 * @return top (in screen coords)
+	 */
+	public int getBottom() {
+		return (int) Math.max(Math.max(corner0.getY(), corner1.getY()),
+				Math.max(corner2.getY(), corner3.getY()));
+	}
+
 	public List<GPoint2D> toPoints() {
 		return Arrays.asList(corner0, corner1, corner3);
 	}

@@ -19,9 +19,9 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 	public enum NodeAlignment {
 		// The order is intentionally inverted
 		BOTTOM(0.5, 1, 0.5, 0),
-		LEFT(1, 0.5, 0, 0.5),
+		RIGHT(1, 0.5, 0, 0.5),
 		TOP(0.5, 0, 0.5, 1),
-		RIGHT(0, 0.5, 1, 0.5);
+		LEFT(0, 0.5, 1, 0.5);
 
 		public final double dx0;
 		public final double dy0;
