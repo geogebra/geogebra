@@ -15,7 +15,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 
 public class DrawFormula extends Drawable implements DrawInline {
@@ -64,7 +63,8 @@ public class DrawFormula extends Drawable implements DrawInline {
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (formula.isEuclidianVisible()
-				&& (formulaController == null || !formulaController.isInForeground())) {
+				&& (formulaController == null || !formulaController.isInForeground())
+			&& rectangle.getDirectTransform() != null) {
 			g2.setPaint(geo.getObjectColor());
 			g2.setFont(view.getFont());
 			g2.setStroke(objStroke); // needed eg for \sqrt
@@ -90,11 +90,6 @@ public class DrawFormula extends Drawable implements DrawInline {
 	@Override
 	public boolean isInside(GRectangle rect) {
 		return rect.contains(getBounds());
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 	@Override

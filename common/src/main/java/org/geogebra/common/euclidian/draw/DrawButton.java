@@ -121,11 +121,6 @@ public final class DrawButton extends Drawable {
 	}
 
 	@Override
-	public GeoElement getGeoElement() {
-		return geo;
-	}
-
-	@Override
 	public GRectangle getBounds() {
 		return myButton.getBounds();
 	}

@@ -145,6 +145,7 @@ import org.geogebra.common.kernel.kernelND.HasSegments;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.statistics.AlgoFitLineY;
 import org.geogebra.common.kernel.statistics.CmdFitLineY;
+import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
@@ -5239,30 +5240,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_MEDIA_TEXT:
-			changedKernel = createInlineObject(selectionPreview, new GeoInlineFactory() {
-				@Override
-				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
-					return new GeoInlineText(cons, location);
-				}
-			});
+			changedKernel = createInlineObject(selectionPreview,
+					(cons, location) -> new GeoInlineText(cons, location));
 			break;
 
 		case EuclidianConstants.MODE_TABLE:
-			changedKernel = createInlineObject(selectionPreview, new GeoInlineFactory() {
-				@Override
-				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
-					return new GeoInlineTable(cons, location);
-				}
-			});
+			changedKernel = createInlineObject(selectionPreview,
+					(cons, location) -> new GeoInlineTable(cons, location));
 			break;
 
 		case EuclidianConstants.MODE_EQUATION:
-			changedKernel = createInlineObject(selectionPreview, new GeoInlineFactory() {
-				@Override
-				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
-					return new GeoFormula(cons, location);
-				}
-			});
+			changedKernel = createInlineObject(selectionPreview,
+					(cons, location) -> new GeoFormula(cons, location));
 			break;
 
 		// new image
@@ -6865,6 +6854,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// allow only moving of the following object types
 			if (movedGeoElement.isGeoLine() || movedGeoElement.isGeoPolygon()
 					|| (movedGeoElement instanceof GeoPolyLine)
+					|| (movedGeoElement instanceof GeoPieChart)
 					|| movedGeoElement.isGeoConic()
 					|| movedGeoElement.isGeoImage()
 					|| movedGeoElement.isGeoList()
@@ -9238,7 +9228,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					|| needsAxisZoom(hits, event) || specialMoveEvent(event)) {
 				temporaryMode = true;
 				oldMode = mode; // remember current mode
-				if (!view.isAREnabled()) {
+				if (!view.isXREnabled()) {
 					view.setMode(getModeForShallMoveView(event));
 				}
 
@@ -9928,14 +9918,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (shapeMode(mode) && !app.isRightClick(event)) {
 			GeoElement geo = getShapeMode()
 						.handleMouseReleasedForShapeMode(event);
-			if (geo != null && geo.isShape() && view.getDrawableFor(geo) != null) {
-				selectAndShowSelectionUI(geo);
+			if (geo == null) {
+				return;
 			}
-			if (!isDraggingOccuredBeyondThreshold()) {
-				showDynamicStylebar();
-			}
-			view.setCursor(EuclidianCursor.DEFAULT);
-			storeUndoInfo();
+
+			selectAndShowSelectionUI(geo);
+			showDynamicStylebar();
+			app.getUndoManager().storeAddGeo(geo);
 			return;
 		}
 
@@ -11234,7 +11223,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		view.rememberOrigins();
 
-		if (view.isAREnabled()) {
+		if (view.isXREnabled()) {
 			return;
 		}
 
@@ -11360,7 +11349,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
-		if (view.isAREnabled()) {
+		if (view.isXREnabled()) {
 			return;
 		}
 

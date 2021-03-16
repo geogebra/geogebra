@@ -350,7 +350,7 @@ public final class GColor implements GPaint {
 			r = g = b = (int) (brightness * 255.0f + 0.5f);
 		} else {
 			double h = (hue - Math.floor(hue)) * 6.0f;
-			double f = h - java.lang.Math.floor(h);
+			double f = h - Math.floor(h);
 			double p = brightness * (1.0f - saturation);
 			double q = brightness * (1.0f - saturation * f);
 			double t = brightness * (1.0f - (saturation * (1.0f - f)));

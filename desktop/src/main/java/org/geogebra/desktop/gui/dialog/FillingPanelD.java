@@ -39,10 +39,11 @@ import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.kernel.algos.AlgoBarChart;
+import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.properties.FillType;
+import org.geogebra.common.kernel.statistics.AlgoPieChart;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
@@ -631,15 +632,17 @@ class FillingPanelD extends JPanel
 		}
 		GeoElement geo0 = model.getGeoAt(0);
 		AlgoElement algo = geo0.getParentAlgorithm();
-		if (algo instanceof AlgoBarChart) {
-			int numBar = ((AlgoBarChart) algo).getIntervals();
+		if (algo instanceof ChartStyleAlgo) {
+			int numBar = ((ChartStyleAlgo) algo).getIntervals();
+			boolean isPie = algo instanceof AlgoPieChart;
 			selectionBarButtons = new JToggleButton[numBar + 1];
 			ButtonGroup group = new ButtonGroup();
 			barsPanel = new JPanel(new GridLayout(0, 5, 5, 5));
-			barsPanel.setBorder(new TitledBorder(loc.getMenu("SelectedBar")));
+			barsPanel.setBorder(new TitledBorder(loc.getMenu(isPie ?
+					"SelectedSlice" : "SelectedBar")));
 			for (int i = 0; i < numBar + 1; i++) {
 				selectionBarButtons[i] = new JToggleButton(
-						loc.getPlain("BarA", i + ""));
+						loc.getPlain(isPie? "SliceA" : "BarA", i + ""));
 				selectionBarButtons[i].setSelected(false);
 				selectionBarButtons[i].setActionCommand("" + i);
 				selectionBarButtons[i].addActionListener(new ActionListener() {
@@ -656,7 +659,7 @@ class FillingPanelD extends JPanel
 				group.add(selectionBarButtons[i]);
 				barsPanel.add(selectionBarButtons[i]);
 			}
-			selectionBarButtons[0].setText(loc.getMenu("AllBars"));
+			selectionBarButtons[0].setText(loc.getMenu(isPie ? "AllSlices" : "AllBars"));
 			selectionBarButtons[selectedBarButton].setSelected(true);
 			add(barsPanel);
 		}
@@ -916,7 +919,7 @@ class FillingPanelD extends JPanel
 	}
 
 	@Override
-	public void setBarChart(AlgoBarChart algo) {
+	public void setBarChart(int cols) {
 		// TODO Auto-generated method stub
 
 	}

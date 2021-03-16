@@ -88,7 +88,7 @@ public class ContextMenuButtonCard extends StandardButton
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addCloseHandler(this);
 		wrappedPopup.getPopupPanel().addAutoHidePartner(this.getElement());
-		wrappedPopup.getPopupPanel().addStyleName("matMenu mowMatMenu");
+		wrappedPopup.getPopupPanel().addStyleName("mowMatMenu");
 	}
 
 	@Override

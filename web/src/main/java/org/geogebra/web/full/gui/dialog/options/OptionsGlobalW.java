@@ -77,11 +77,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			optionsMenu = new OptionsMenu(app.getLocalization());
 			createGUI();
 			updateGUI();
-			if (app.isUnbundledOrWhiteboard()) {
-				setStyleName("propMaterialTab");
-			} else {
-				setStyleName("propertiesTab");
-			}
+			setStyleName("propertiesTab");
 			add(optionsPanel);
 		}
 
@@ -105,7 +101,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					app.getLocalization().getMenu("Rounding") + ":")
 							.setFor(roundingList);
 			optionsPanel
-					.add(LayoutUtilW.panelRowIndent(lblRounding, roundingList));
+					.add(LayoutUtilW.panelRow(lblRounding, roundingList));
 			roundingList.addChangeHandler(new ChangeHandler() {
 
 				@Override
@@ -132,7 +128,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 							.setFor(labelingList);
 
 			optionsPanel
-					.add(LayoutUtilW.panelRowIndent(lblLabeling, labelingList));
+					.add(LayoutUtilW.panelRow(lblLabeling, labelingList));
 			labelingList.addChangeHandler(new ChangeHandler() {
 
 				@Override
@@ -153,7 +149,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					app.getLocalization().getMenu("FontSize") + ":")
 							.setFor(fontSizeList);
 			optionsPanel
-					.add(LayoutUtilW.panelRowIndent(lblFontSize, fontSizeList));
+					.add(LayoutUtilW.panelRow(lblFontSize, fontSizeList));
 			fontSizeList.addChangeHandler(new ChangeHandler() {
 
 				@Override
@@ -191,7 +187,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					app.getLocalization().getMenu("Language") + ":")
 							.setFor(languageList);
 			optionsPanel
-					.add(LayoutUtilW.panelRowIndent(lblLanguage, languageList));
+					.add(LayoutUtilW.panelRow(lblLanguage, languageList));
 			languageList.addChangeHandler(new ChangeHandler() {
 
 				@Override
@@ -264,7 +260,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 				}
 			});
 			saveRestoreRow = LayoutUtilW
-					.panelRowIndent(saveSettingsBtn, restoreSettingsBtn);
+					.panelRow(saveSettingsBtn, restoreSettingsBtn);
 			saveRestoreRow.setVisible(!app.isExam());
 			optionsPanel.add(saveRestoreRow);
 		}

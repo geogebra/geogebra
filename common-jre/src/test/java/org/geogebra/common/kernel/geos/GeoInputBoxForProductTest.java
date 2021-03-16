@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.geos;
 
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.junit.Test;
@@ -222,5 +223,39 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 		inputBox.setSymbolicMode(true);
 		inputBox.updateLinkedGeo("-" + Unicode.EULER_STRING + " + 1");
 		assertEquals("-" + Unicode.EULER_STRING + " + 1", inputBox.getText());
+	}
+
+	@Test
+	public void testMultiLetterVariable() {
+		add("abc=7");
+		addAvInput("f(x)=x");
+		GeoInputBox inputBox = addAvInput("b = InputBox(f)");
+		inputBox.setSymbolicMode(true);
+		inputBox.updateLinkedGeo("x+abc");
+		assertTrue(inputBox.hasError());
+	}
+
+	@Test
+	public void testLetterApostrophesVariable() {
+		add("a''''=7");
+		addAvInput("f(x)=x");
+		GeoInputBox inputBox = addAvInput("b = InputBox(f)");
+		inputBox.setSymbolicMode(true);
+		inputBox.updateLinkedGeo("x+a''''");
+		assertEquals("x + a''''", inputBox.getText());
+	}
+
+	@Test
+	public void testLetterSubscriptVariable() {
+		add("F_{max}=7");
+		addAvInput("f(x)=x");
+		GeoInputBox inputBox = addAvInput("b = InputBox(f)");
+		inputBox.setSymbolicMode(true);
+		inputBox.updateLinkedGeo("x+F_{max}");
+		assertEquals("x + F_{max}", inputBox.getText());
+
+		add("var_{max}=7");
+		inputBox.updateLinkedGeo("x+var_{max}");
+		assertTrue(inputBox.hasError());
 	}
 }

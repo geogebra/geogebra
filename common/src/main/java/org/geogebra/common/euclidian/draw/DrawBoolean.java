@@ -26,7 +26,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 
@@ -203,11 +202,6 @@ public final class DrawBoolean extends Drawable {
 		return false;
 	}
 
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
-	}
-
 	/**
 	 * Replcement for Swing component
 	 * 
@@ -285,7 +279,7 @@ public final class DrawBoolean extends Drawable {
 
 			// outer bevel
 			// Draw rounded border
-			g.setColor(GColor.DARK_GRAY);
+			g.setColor(GColor.BLACK);
 			g.drawRoundRect(x, y, csize, csize, csize / 5, csize / 5);
 
 			g.setColor(GColor.WHITE);

@@ -282,7 +282,7 @@ public class ProbabilityManager {
 			ret = new AlgoInversePoisson(cons, param1, x);
 			break;
 		case HYPERGEOMETRIC:
-			ret = new AlgoInverseHyperGeometric(cons, null, param1, param2,
+			ret = new AlgoInverseHyperGeometric(cons, param1, param2,
 					param3, x);
 			break;
 

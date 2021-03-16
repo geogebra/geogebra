@@ -76,6 +76,10 @@ public interface InlineTableController extends HasTextFormat {
 
 	String getWrapping();
 
+	void setRotation(String setting);
+
+	String getRotation();
+
 	VerticalAlignment getVerticalAlignment();
 
 	void setVerticalAlignment(VerticalAlignment alignment);

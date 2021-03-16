@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.GeoAngle;
-import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -31,11 +30,12 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.css.ToolbarSvgResources;
+import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.contextmenu.OrderSubMenu;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.html5.AttachedToDOM;
-import org.geogebra.web.full.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -110,9 +110,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		this.setGeos(geos);
 		setGeo(geos.get(0));
 
-		if (app.isUnbundledOrWhiteboard()) {
-			wrappedPopup.getPopupPanel().addStyleName("matMenu");
-		} else {
+		if (!app.isUnbundledOrWhiteboard()) {
 			String title;
 			if (geos.size() == 1) {
 				title = getGeoTitle();
@@ -190,7 +188,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (app.isUnbundled()) {
 			addDuplicate();
 			addAnglePropertiesForUnbundled();
-			addPinForUnbundled();
+			addPinItem();
 			addFixForUnbundledOrNotes();
 		} else if (app.isWhiteboardActive()) {
 			InlineFormattingItems textItems = addInlineTextItems(getGeos());
@@ -227,7 +225,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 			if (!app.isUnbundledOrWhiteboard()) {
 				addLockForClassic();
-				addPinForClassic();
+				addPinItem();
 			}
 			if (!app.isWhiteboardActive()) {
 				wrappedPopup.addSeparator();
@@ -283,14 +281,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				wrappedPopup.addSeparator();
 			}
 
-			String img;
-			if (app.isUnbundledOrWhiteboard()) {
-				img = MaterialDesignResources.INSTANCE.gear().getSafeUri()
+			String img = MaterialDesignResources.INSTANCE.gear().getSafeUri()
 						.asString();
-			} else {
-				img = AppResources.INSTANCE.view_properties16().getSafeUri()
-						.asString();
-			}
 
 			// open properties dialog
 			addHtmlAction(() -> openPropertiesDialogCmd(), MainMenu.getMenuBarHtmlClassic(img,
@@ -302,14 +294,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (app.letDelete() && !getGeo().isProtected(EventType.REMOVE)
 				&& !app.isUnbundledOrWhiteboard()) {
 
-			String img;
-			if (app.isUnbundled()) {
-				img = MaterialDesignResources.INSTANCE.delete_black()
+			String img = MaterialDesignResources.INSTANCE.delete_black()
 						.getSafeUri().asString();
-			} else {
-				img = AppResources.INSTANCE.delete_small().getSafeUri()
-						.asString();
-			}
 
 			addHtmlAction(() -> deleteCmd(false),
 					MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("Delete")));
@@ -318,170 +304,119 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	private void addAnimationItem() {
 		if (getGeo().isAnimatable()) {
-			GCheckBoxMenuItem cbItem;
-			String img;
-			if (app.isUnbundledOrWhiteboard()) {
-				img = GuiResourcesSimple.INSTANCE.play_black().getSafeUri()
-						.asString();
-			} else {
-				img = AppResources.INSTANCE.empty().getSafeUri().asString();
-			}
+			ResourcePrototype img = GuiResourcesSimple.INSTANCE.play_black();
 
-			cbItem = new GCheckBoxMenuItem(
-					MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("Animation")),
-					() -> animationCmd(), true, app);
-			cbItem.setSelected(getGeo().isAnimating()
-					&& app.getKernel().getAnimatonManager().isRunning(),
-					wrappedPopup.getPopupMenu());
-			wrappedPopup.addItem(cbItem);
+			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
+					MainMenu.getMenuBarHtml(img, loc.getMenu("Animation")),
+					getGeo().isAnimating()
+							&& app.getKernel().getAnimatonManager().isRunning(),
+					this::animationCmd
+			);
+			wrappedPopup.addItem(cmItem);
 		}
 	}
 
 	private void addAuxiliaryItem() {
-		GCheckBoxMenuItem cbItem;
 		if (app.getGuiManager() != null
 				&& app.getGuiManager().showView(App.VIEW_ALGEBRA)
 				&& app.showAuxiliaryObjects() && getGeo().isAlgebraShowable()) {
-			cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtmlClassic(
-					AppResources.INSTANCE.aux_folder().getSafeUri().asString(),
-					loc.getMenu("AuxiliaryObject")), () -> showObjectAuxiliaryCmd(),
-					true, app);
-			cbItem.setSelected(getGeo().isAuxiliaryObject(),
-					wrappedPopup.getPopupMenu());
-			wrappedPopup.addItem(cbItem);
+			ResourcePrototype img = AppResources.INSTANCE.aux_folder();
+
+			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
+					MainMenu.getMenuBarHtml(img, loc.getMenu("AuxiliaryObject")),
+					getGeo().isAuxiliaryObject(),
+					this::showObjectAuxiliaryCmd
+			);
+			wrappedPopup.addItem(cmItem);
 		}
 	}
 
 	private void addSpreadsheetTraceItem() {
 		if (getGeo().isSpreadsheetTraceable()
 				&& app.getGuiManager().showView(App.VIEW_SPREADSHEET)) {
-			GCheckBoxMenuItem cbItem;
-			boolean showRecordToSpreadsheet = true;
 			// check if other geos are recordable
-			for (int i = 1; i < getGeos().size()
-					&& showRecordToSpreadsheet; i++) {
-				showRecordToSpreadsheet = getGeos().get(i)
-						.isSpreadsheetTraceable();
+			for (int i = 1; i < getGeos().size(); i++) {
+				if (!getGeos().get(i).isSpreadsheetTraceable()) {
+					return;
+				}
 			}
 
-			if (showRecordToSpreadsheet) {
-				String img = AppResources.INSTANCE.spreadsheettrace()
-						.getSafeUri()
-							.asString();
-					cbItem = new GCheckBoxMenuItem(
-							MainMenu.getMenuBarHtmlClassic(img,
-									loc.getMenu("RecordToSpreadsheet")),
-									() -> recordToSpreadSheetCmd(), true, app);
-				cbItem.setSelected(getGeo().getSpreadsheetTrace(),
-						wrappedPopup.getPopupMenu());
-				wrappedPopup.addItem(cbItem);
-			}
+			ResourcePrototype img = MaterialDesignResources.INSTANCE.record_to_spreadsheet_black();
+
+			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
+					MainMenu.getMenuBarHtml(img, loc.getMenu("RecordToSpreadsheet")),
+					getGeo().getSpreadsheetTrace(),
+					this::recordToSpreadSheetCmd
+			);
+			wrappedPopup.addItem(cmItem);
 		}
 	}
 
 	private void addTraceItem() {
-		GCheckBoxMenuItem cbItem;
-		if (getGeo().isTraceable()) {
+		if (getGeo().isTraceable() && !app.getConfig().disableTraceCM()) {
+			ResourcePrototype img = MaterialDesignResources.INSTANCE.trace_black();
 
-			ResourcePrototype img;
-			if (app.getConfig().disableTraceCM()) {
-				return;
-			}
-			if (app.isUnbundled()) {
-				img = MaterialDesignResources.INSTANCE.trace_black();
-				final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
-						MainMenu.getMenuBarHtml(img, loc.getMenu("ShowTrace")),
-						MaterialDesignResources.INSTANCE.check_black(),
-						isTracing());
-				Command cmdTrace = () -> {
-					traceCmd();
-					cmItem.setChecked(isTracing());
-				};
-				cmItem.setCommand(cmdTrace);
-				wrappedPopup.addItem(cmItem);
-			} else {
-				img = AppResources.INSTANCE.trace_on();
-				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(img,
-						loc.getMenu("ShowTrace")), () -> traceCmd(), true, app);
-				cbItem.setSelected(getGeo().getTrace(),
-						wrappedPopup.getPopupMenu());
-				wrappedPopup.addItem(cbItem);
-			}
+			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
+					MainMenu.getMenuBarHtml(img, loc.getMenu("ShowTrace")),
+					isTracing(),
+					this::traceCmd
+			);
+			wrappedPopup.addItem(cmItem);
 		}
 	}
 
 	private void addShowLabelItem() {
-		GCheckBoxMenuItem cbItem;
 		if (!app.isUnbundledOrWhiteboard() && getGeo().isLabelShowable()) {
-			cbItem = new GCheckBoxMenuItem(
-					MainMenu.getMenuBarHtmlClassic(
-							AppResources.INSTANCE.mode_showhidelabel_16()
-									.getSafeUri().asString(),
-							loc.getMenu("ShowLabel")),
-							() -> showLabelCmd(), true, app);
-			cbItem.setSelected(isLabelShown(), wrappedPopup.getPopupMenu());
-			wrappedPopup.addItem(cbItem);
+			ResourcePrototype img = ToolbarSvgResourcesSync.INSTANCE.mode_showhidelabel_32();
+			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
+					MainMenu.getMenuBarHtml(img, loc.getMenu("ShowLabel")),
+					isLabelShown(),
+					this::showLabelCmd
+			);
+			wrappedPopup.addItem(cmItem);
 		}
 	}
 
 	private void addShowObjectItem() {
-		GCheckBoxMenuItem cbItem;
-		if (!app.isUnbundledOrWhiteboard()
-				&& getGeo().isEuclidianToggleable()) {
-			cbItem = new GCheckBoxMenuItem(
-					MainMenu.getMenuBarHtmlClassic(
-							AppResources.INSTANCE.mode_showhideobject_16()
-									.getSafeUri().asString(),
-							loc.getMenu("ShowObject")),
-							() -> showObjectCmd(), true, app);
-			cbItem.setSelected(getGeo().isSetEuclidianVisible(),
-					wrappedPopup.getPopupMenu());
-			wrappedPopup.addItem(cbItem);
-
+		if (!app.isUnbundledOrWhiteboard() && getGeo().isEuclidianToggleable()) {
+			ResourcePrototype img = ToolbarSvgResources.INSTANCE.mode_showhideobject_32();
+			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
+					MainMenu.getMenuBarHtml(img, loc.getMenu("ShowObject")),
+					getGeo().isSetEuclidianVisible(),
+					this::showObjectCmd
+			);
+			wrappedPopup.addItem(cmItem);
 		}
 	}
 
 	private void addLockForClassic() {
-		GCheckBoxMenuItem cbItem;
+		ResourcePrototype img = MaterialDesignResources.INSTANCE.lock_black();
+
 		if (getGeo().isFixable() && (getGeo().isGeoText()
 				|| getGeo().isGeoImage() || getGeo().isGeoButton())) {
-
-			String img = AppResources.INSTANCE.objectFixed().getSafeUri()
-					.asString();
-
-			cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtmlClassic(img,
-					loc.getMenu("LockObject")), () ->
-					fixObjectCmd(!getGeo().isLocked()), true, app);
-
-			cbItem.setSelected(getGeo().isLocked(),
-					wrappedPopup.getPopupMenu());
-			wrappedPopup.addItem(cbItem);
+			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
+					MainMenu.getMenuBarHtml(img, loc.getMenu("LockObject")),
+					getGeo().isLocked(),
+					() -> fixObjectCmd(!getGeo().isLocked())
+			);
+			wrappedPopup.addItem(cmItem);
 		} else if (getGeo().isGeoNumeric()) {
 			final GeoNumeric num = (GeoNumeric) getGeo();
 			if (num.isSlider()) {
-
-				String img = AppResources.INSTANCE.objectFixed().getSafeUri()
-						.asString();
-
-				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtmlClassic(
-						img, loc.getMenu("LockObject")), () ->
-						fixObjectNumericCmd(num), true, app);
-
-				cbItem.setSelected(num.isLockedPosition(),
-						wrappedPopup.getPopupMenu());
-				wrappedPopup.addItem(cbItem);
+				GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
+						MainMenu.getMenuBarHtml(img, loc.getMenu("LockObject")),
+						num.isLockedPosition(),
+						() -> fixObjectNumericCmd(num)
+				);
+				wrappedPopup.addItem(cmItem);
 			}
 		} else if (getGeo().isGeoBoolean()) {
-
-			String img = AppResources.INSTANCE.objectFixed().getSafeUri()
-					.asString();
-
-			cbItem = new GCheckBoxMenuItem(
-					MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("FixCheckbox")),
-					() -> fixCheckboxCmd(), true, app);
-			cbItem.setSelected(((GeoBoolean) getGeo()).isLockedPosition(),
-					wrappedPopup.getPopupMenu());
-			wrappedPopup.addItem(cbItem);
+			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
+					MainMenu.getMenuBarHtml(img, loc.getMenu("FixCheckbox")),
+					getGeo().isLockedPosition(),
+					this::fixCheckboxCmd
+			);
+			wrappedPopup.addItem(cmItem);
 		}
 	}
 
@@ -491,7 +426,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			return;
 		}
 
-		String img = AppResources.INSTANCE.rename20().getSafeUri().asString();
+		String img = MaterialDesignResources.INSTANCE.rename_black().getSafeUri().asString();
 
 		addHtmlAction(() -> renameCmd(),
 				MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("Rename")));
@@ -500,7 +435,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				&& !getGeo().isTextCommand()
 				&& !getGeo().isProtected(EventType.UPDATE)) {
 
-			String img2 = AppResources.INSTANCE.edit().getSafeUri().asString();
+			String img2 = MaterialDesignResources.INSTANCE.edit_black().getSafeUri().asString();
 
 			addHtmlAction(() -> editCmd(),
 					MainMenu.getMenuBarHtmlClassic(img2, loc.getMenu("Edit")));
@@ -516,26 +451,18 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 	}
 
-	private void addPinForUnbundled() {
+	private void addPinItem() {
 		final GeoElement geo = getGeo();
 
 		if (geo.isPinnable()) {
-			final boolean pinned = geo.isPinned();
-
-			String img = MaterialDesignResources.INSTANCE.pin_black().getSafeUri()
-					.asString();
+			ResourcePrototype img = MaterialDesignResources.INSTANCE.pin_black();
 
 			final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
-					MainMenu.getMenuBarHtmlClassic(img,
-							loc.getMenu("PinToScreen")),
-					MaterialDesignResources.INSTANCE.check_black(),
-					pinned);
+					MainMenu.getMenuBarHtml(img, loc.getMenu("PinToScreen")),
+					geo.isPinned(),
+					() -> pinCmd(geo.isPinned())
+			);
 
-			Command cmdPin = () -> {
-				pinCmd(pinned);
-				cmItem.setChecked(pinned);
-			};
-			cmItem.setCommand(cmdPin);
 			wrappedPopup.addItem(cmItem);
 		}
 	}
@@ -563,7 +490,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				.asString();
 		final GCheckmarkMenuItem cmItem = factory.newCheckmarkMenuItem(
 				MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("FixObject")),
-				MaterialDesignResources.INSTANCE.check_black(),
 				locked);
 		cmItem.setCommand(command::run);
 		cmItem.setChecked(locked);
@@ -647,21 +573,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				loc.getMenu("Paste")));
 
 		CopyPasteW.checkClipboard(menuPaste::setEnabled);
-	}
-
-	private void addPinForClassic() {
-		if (getGeo().isPinnable()) {
-			final boolean pinned = getGeo().isPinned();
-			String img = AppResources.INSTANCE.pin().getSafeUri().asString();
-			GCheckBoxMenuItem cbItem;
-			cbItem = new GCheckBoxMenuItem(
-						MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("PinToScreen")),
-						() -> pinCmd(pinned), true, app);
-
-			cbItem.setSelected(pinned, wrappedPopup.getPopupMenu());
-
-			wrappedPopup.addItem(cbItem);
-		}
 	}
 
 	private void addPlaneItems() {
@@ -899,10 +810,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 */
 	private AriaMenuItem addHtmlAction(Command action, String html) {
 		AriaMenuItem mi = factory.newAriaMenuItem(html, true, action);
-		if (!app.isUnbundledOrWhiteboard()) {
-			mi.addStyleName("mi_with_image");
-		}
-
 		wrappedPopup.addItem(mi);
 		return mi;
 	}
@@ -920,9 +827,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		AriaMenuItem mi;
 		if (html != null) {
 			mi = factory.newAriaMenuItem(html, true, subMenu);
-			if (!app.isUnbundledOrWhiteboard()) {
-				mi.addStyleName("mi_with_image"); // TEMP
-			}
 		} else {
 			mi = factory.newAriaMenuItem(text, true, subMenu);
 		}

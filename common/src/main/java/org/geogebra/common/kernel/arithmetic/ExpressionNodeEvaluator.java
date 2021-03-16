@@ -1075,7 +1075,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt instanceof Evaluatable) {
 				NumberValue arg = (NumberValue) rt;
 				if ((lt instanceof GeoFunction)
-						&& ((GeoFunction) lt).isBooleanFunction()) {
+						&& ((GeoFunction) lt).isGeoFunctionBoolean()) {
 					return new MyBoolean(kernel, ((GeoFunction) lt)
 							.evaluateBoolean(arg.getDouble()));
 				}
@@ -1144,6 +1144,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			ExpressionValue rt) {
 		if (rt instanceof ListValue && (lt instanceof FunctionalNVar)) {
 			FunctionNVar funN = ((FunctionalNVar) lt).getFunction();
+			if (funN == null) {
+				return new MyDouble(kernel, Double.NaN);
+			}
 			ListValue list = (ListValue) rt;
 			if (funN.getVarNumber() == list.size()
 					|| funN.getVarNumber() == 1) {

@@ -849,7 +849,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 
 	@Override
 	public void setClip(int x, int y, int width, int height,
-			boolean restoreSaveContext) {
+			boolean saveContext) {
 		setClip(x, y, width, height);
 	}
 
@@ -898,7 +898,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	}
 
 	@Override
-	public void setClip(GShape clip, boolean restoreSaveContext) {
+	public void setClip(GShape clip, boolean saveContext) {
 		setClip(clip);
 	}
 

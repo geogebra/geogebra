@@ -24,6 +24,7 @@ import org.geogebra.common.euclidian.draw.DrawIntegralFunctions;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.draw.DrawLocus;
+import org.geogebra.common.euclidian.draw.DrawPieChart;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPointPlot;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
@@ -84,6 +85,7 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.statistics.AlgoDotPlot;
+import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -128,6 +130,9 @@ public class EuclidianDraw {
 		case SEGMENT3D:
 			d = new DrawSegment(ev, (GeoSegmentND) geo);
 			break;
+		case PIECHART:
+			d = new DrawPieChart(ev, (GeoPieChart) geo);
+			break;
 
 		case RAY:
 		case RAY3D:
@@ -159,7 +164,6 @@ public class EuclidianDraw {
 			break;
 
 		case FUNCTION_NVAR:
-		case INTERVAL:
 			// create inequality drawable for *all* functions as a placeholder
 			// x+y may later become x>y via SetValue / input box
 			d = new DrawInequality(ev, (FunctionalNVar) geo);

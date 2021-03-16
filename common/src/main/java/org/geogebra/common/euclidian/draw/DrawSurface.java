@@ -121,7 +121,7 @@ public class DrawSurface extends Drawable {
 		if (gp == null) {
 			gp = new GeneralPathClippedForCurvePlotter(view);
 		}
-		gp.reset();
+		gp.resetWithThickness(geo.getLineThickness());
 		if (!geo.isEuclidianVisible() || !geo.isDefined()) {
 			return;
 		}
@@ -161,11 +161,6 @@ public class DrawSurface extends Drawable {
 	public boolean isInside(GRectangle rect) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 }

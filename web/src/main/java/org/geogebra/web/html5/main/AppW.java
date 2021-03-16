@@ -2091,7 +2091,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	protected void getLayoutXML(StringBuilder sb, boolean asPreference) {
-
 		if (getGuiManager() == null) {
 			initGuiManager();
 		}

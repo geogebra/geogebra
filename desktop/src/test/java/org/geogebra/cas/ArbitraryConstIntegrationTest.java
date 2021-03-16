@@ -144,7 +144,7 @@ public class ArbitraryConstIntegrationTest {
 	@Test
 	public void solveODE_6() {
 		ta("SolveODE[y' = y(y - 2)]",
-				"y = (-2) / (c_{1} *" + Unicode.EULER_STRING + "^(2*x) - 1)");
+				"y = -2 / (c_{1} *" + Unicode.EULER_STRING + "^(2*x) - 1)");
 	}
 
 	@Test
@@ -265,10 +265,10 @@ public class ArbitraryConstIntegrationTest {
 	 *            The input to update first cell.
 	 * @param cell2InputUpdate
 	 *            The input to update second cell.
-	 * @param expectedResult
-	 *            The expected result.
-	 * @param validResults
-	 *            Valid, but undesired results.
+	 * @param expectedResult1
+	 *            The expected result for the first cell.
+	 * @param expectedResult2
+	 *            The expected result for the second cell.
 	 */
 	private static void casCellupdate2(String cell1Input, String cell2Input,
 			String cell1InputUpdate, String cell2InputUpdate,
@@ -359,15 +359,14 @@ public class ArbitraryConstIntegrationTest {
 	 *            The input to update first cell.
 	 * @param cell2InputUpdate
 	 *            The input to update second cell.
-	 * @param expectedResult
-	 *            The expected result.
-	 * @param validResults
-	 *            Valid, but undesired results.
+	 * @param expectedResult1
+	 *            The expected result for cell 1.
+	 * @param expectedResult2
+	 *            The expected result for cell 2.
 	 */
 	private static void casCellupdate3(String cell1Input, String cell2Input,
 			String cell1InputUpdate, String cell2InputUpdate,
-			String expectedResult1, String expectedResult2,
-			String... validResults) {
+			String expectedResult1, String expectedResult2) {
 		String result1, result2;
 
 		try {
@@ -400,9 +399,9 @@ public class ArbitraryConstIntegrationTest {
 		}
 
 		assertThat(result1, equalToIgnoreWhitespaces(logger, cell1Input,
-				expectedResult1, validResults));
+				expectedResult1));
 		assertThat(result2, equalToIgnoreWhitespaces(logger, cell2Input,
-				expectedResult2, validResults));
+				expectedResult2));
 	}
 
 	@Test

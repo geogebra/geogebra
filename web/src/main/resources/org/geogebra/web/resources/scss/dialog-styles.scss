@@ -255,24 +255,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.gwt-DisclosurePanel {
 			.textEditorAdvancedPanel.textEditorDisclosurePanelContent {
-				.gwt-TabLayoutPanelTabInner {
-					.gwt-Label {
-						margin-top: 0px !important;
-					}
-				}
-
-				.ggbTab {
-					top: 4px;
-					padding-top: 6px;
-				}
-
 				.latexPanel canvas:hover {
-					background-color: $teal-light;
 					cursor: pointer;
 				}
 			}
 
-			.gwt-TabLayoutPanelTab.com-google-gwt-resources-client-CommonResources-InlineBlockStyle-inlineBlock {
+			.gwt-TabLayoutPanelTab {
+				padding-top: 6px;
 				height: 28px;
 			}
 
@@ -280,11 +269,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				background: $white;
 				color: $teal-default;
 			}
-		}
-
-		.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected,
-			 .GeoGebraFrame .gwt-TabBar .gwt-TabBarItem-selected {
-			color: $teal-default;
 		}
 
 		.gwt-TabLayoutPanelTabInner:hover {
@@ -408,10 +392,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			.gwt-Label {
 				font-size: 100% !important;
 			}
-		}
-
-		.gwt-TabBar .gwt-TabBarItem-selected {
-			color: $teal-default;
 		}
 
 		.gwt-TabPanelBottom {
@@ -1738,10 +1718,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.textEditorDisclosurePanelContent .gwt-Label {
 			font-size: 100%;
 			margin-top: 0px;
-		}
-
-		.gwt-TabLayoutPanelTab-selected .gwt-Label {
-			color: $mow_primary;
 		}
 	}
 

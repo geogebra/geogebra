@@ -131,7 +131,7 @@ public class ErrorHelper {
 
 			@Override
 			public void showError(String msg) {
-				Log.printStacktrace(msg);
+				Log.trace(msg);
 
 			}
 

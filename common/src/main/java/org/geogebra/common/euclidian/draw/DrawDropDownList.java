@@ -367,7 +367,7 @@ public final class DrawDropDownList extends CanvasDrawable
 			g2.setPaint(geoList.getBackgroundColor());
 			g2.fillRoundRect(left - 1, top - 1, dimTable.getWidth() + 2,
 					dimTable.getHeight() + 2, ROUND, ROUND);
-			g2.setPaint(GColor.LIGHT_GRAY);
+			g2.setPaint(GColor.DARK_GRAY);
 			g2.drawRoundRect(left - 1, top - 1, dimTable.getWidth() + 2,
 					dimTable.getHeight() + 2, ROUND, ROUND);
 		}

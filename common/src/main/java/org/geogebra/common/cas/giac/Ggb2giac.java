@@ -1164,7 +1164,7 @@ public class Ggb2giac {
 				+ ","
 				// eg Polynomial[x^2+a x+b x +c]
 				// eg Polynomial[y^2+a y+b y +c,y]
-				+ "[[ggbinput:=when(type(ggbinput)==DOM_LIST,[[ggbvar:=ggbinput[1]],coeffs(ggbinput[0],ggbinput[1])][1],coeffs(ggbinput,x))],"
+				+ "[[ggbinput:=when(type(ggbinput)==DOM_LIST,[[ggbvar:=ggbinput[1]],coeffs(simplify(ggbinput[0]),ggbinput[1])][1],coeffs(simplify(ggbinput),x))],"
 				+ "[ggbpolans:=add(seq(ggbinput[j]*ggbvar^(size(ggbinput)-1-j),j=0..size(ggbinput)-1))]]"
 				+ ")],ggbpolans][1]");
 

@@ -40,10 +40,13 @@ public class CarotaDocument implements HasContent {
 
 	public native void load(Object content, boolean focus);
 
+	@Override
 	public native void selectionChanged(EditorCallback editorCallback);
 
+	@Override
 	public native void contentChanged(EditorCallback editorCallback);
 
+	@Override
 	public native JavaScriptObject save();
 
 }

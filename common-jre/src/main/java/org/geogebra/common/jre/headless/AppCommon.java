@@ -92,14 +92,8 @@ public class AppCommon extends App {
 		Log.setLogger(new Log() {
 
 			@Override
-			protected void print(String logEntry, Level level) {
+			public void print(Level level, Object logEntry) {
 				System.out.println(logEntry); // NOPMD
-			}
-
-			@Override
-			public void doPrintStacktrace(String message) {
-				new Throwable(message).printStackTrace();
-
 			}
 		});
     }
@@ -142,7 +136,7 @@ public class AppCommon extends App {
 				createGraphics());
     }
 
-	private static GGraphics2D createGraphics() {
+	protected GGraphics2D createGraphics() {
 		return AwtFactory.getPrototype().createBufferedImage(800, 600, false)
 				.createGraphics();
 	}

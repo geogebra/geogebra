@@ -8,14 +8,12 @@ import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.FileInputDialog;
-import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.util.BarList;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
@@ -42,7 +40,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.himamis.retex.editor.share.util.Unicode;
 
 import elemental2.dom.File;
 import elemental2.dom.FileReader;
@@ -392,10 +389,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		btnImage.setSelectedIndex(-1);
 		btnImage.setKeepVisible(false);
 		btnClearImage = new GPushButton(
-				new NoDragImage(app.isUnbundledOrWhiteboard()
-						? 
-						MaterialDesignResources.INSTANCE.delete_black()
-						: AppResources.INSTANCE.delete_small(), 24));
+				new NoDragImage(MaterialDesignResources.INSTANCE.delete_black(), 24));
 		btnClearImage.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -405,10 +399,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		});
 		btnOpenFile = new Button();
-		if (app.isUnbundledOrWhiteboard()) {
-			btnOpenFile.addStyleName("openFileBtn");
-			btnClearImage.addStyleName("clearImgBtn");
-		}
+		btnOpenFile.addStyleName("openFileBtn");
+		btnClearImage.addStyleName("clearImgBtn");
 		btnOpenFile.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -550,10 +542,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		fillingSliderTitle.setText(loc.getMenu("Opacity"));
 		angleSliderTitle.setText(loc.getMenu("Angle"));
 		distanceSliderTitle.setText(loc.getMenu("Spacing"));
-		btnOpenFile.setText(
-				app.isUnbundledOrWhiteboard()
-				? loc.getMenu("ChooseFromFile")
-				: loc.getMenu("ChooseFromFile") + Unicode.ELLIPSIS);
+		btnOpenFile.setText(loc.getMenu("ChooseFromFile"));
 	}
 
 	@Override
@@ -581,7 +570,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 			String fileName = imageFileName.substring(imageFileName.indexOf('/') + 1);
 
 			int idx = iconNameList.lastIndexOf(fileName);
-			itemIndex = idx > 0 ? idx : 0;
+			itemIndex = Math.max(idx, 0);
 		}
 
 		btnImage.setSelectedIndex(itemIndex);
@@ -650,11 +639,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	}
 
 	@Override
-	public void setBarChart(AlgoBarChart algo) {
-		if (algo != null) {
-			lbBars.setBarCount(algo.getIntervals());
-		}
-
-		lbBars.update(algo != null);
+	public void setBarChart(int cols) {
+		lbBars.updateTranslationKeys(model.getGeos());
+		lbBars.setBarCount(cols);
 	}
 }

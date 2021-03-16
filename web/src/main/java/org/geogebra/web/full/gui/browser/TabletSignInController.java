@@ -27,7 +27,7 @@ public class TabletSignInController extends SignInController {
 		if ($wnd.android) {
 			$wnd.android.login(locale);
 		} else {
-			@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("External login not possible");
+			@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("External login not possible");
 		}
 	}-*/;
 

@@ -30,19 +30,22 @@ publishing {
 }
 
 dependencies {
-	api project(':renderer-base')
+    api project(':renderer-base')
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
 }
 
 android {
-	compileSdkVersion rootProject.compileSdkVersion
+    compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     defaultConfig {
         targetSdkVersion rootProject.targetSdkVersion
+        multiDexEnabled true
     }
 }

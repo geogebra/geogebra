@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.advanced;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -57,15 +58,17 @@ public class AlgoCurvatureSurface extends AlgoElement {
 
 	private void expand() {
 		FunctionVariable[] vars = f.getFunctionVariables();
-		if (vars.length != 2) {
+		FunctionNVar function = f.getFunction();
+		if (vars.length != 2 || function == null) {
 			return;
 		}
 
 		FunctionVariable x = vars[0];
 		FunctionVariable y = vars[1];
 		// First derivative of function f
-		fx = f.getFunction().derivative(x, kernel).wrap();
-		fy = f.getFunction().derivative(y, kernel).wrap();
+
+		fx = function.derivative(x, kernel).wrap();
+		fy = function.derivative(y, kernel).wrap();
 
 		// Second derivative of function f
 		this.fxx = fx.derivative(x, kernel).wrap();

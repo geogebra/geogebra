@@ -23,6 +23,7 @@ import org.geogebra.common.main.undo.ActionExecutor;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -124,13 +125,13 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 
 	private CalcEmbedElement getCalcEmbed(DrawEmbed drawEmbed) {
 		CalcEmbedElement element;
-		if (cache.containsKey(drawEmbed.getEmbedID())) {
+		if (cache.get(drawEmbed.getEmbedID()) instanceof CalcEmbedElement) {
 			element = (CalcEmbedElement) cache.get(drawEmbed.getEmbedID());
 			element.setVisible(true);
-			cache.remove(drawEmbed.getEmbedID());
 		} else {
 			element = createCalcEmbed(drawEmbed);
 		}
+		cache.remove(drawEmbed.getEmbedID());
 		return element;
 	}
 
@@ -158,25 +159,24 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		}
 		String currentBase64 = base64.get(drawEmbed.getEmbedID());
 		if (currentBase64 != null) {
-			parameters.setAttribute("appName", "auto")
-					.setAttribute("ggbBase64", currentBase64);
+			parameters.setAttribute("ggbBase64", currentBase64);
 		}
-		fr.setComputedWidth(parameters.getDataParamWidth()
-				- parameters.getBorderThickness());
-		fr.setComputedHeight(parameters.getDataParamHeight()
-				- parameters.getBorderThickness());
+		fr.setComputedWidth(parameters.getDataParamWidth());
+		fr.setComputedHeight(parameters.getDataParamHeight());
 		fr.runAsyncAfterSplash();
 
 		CalcEmbedElement element = new CalcEmbedElement(fr, this, drawEmbed.getEmbedID());
 		addDragHandler(Js.uncheckedCast(fr.getElement()));
 
 		element.setJsEnabled(isJsEnabled());
+		AppWFull appEmbedded = fr.getApp();
 		if (currentBase64 != null) {
-			fr.getApp().registerOpenFileListener(
-					getListener(drawEmbed, parameters));
+			appEmbedded.registerOpenFileListener(
+					getListener(drawEmbed, parameters, appEmbedded));
+			appEmbedded.getScriptManager().disableListeners();
 		} else if (content.get(drawEmbed.getEmbedID()) != null) {
 			boolean oldWidget = hasWidgetWithId(drawEmbed.getEmbedID());
-			fr.getApp().getGgbApi().setFileJSON(
+			appEmbedded.getGgbApi().setFileJSON(
 					Global.JSON.parse(content.get(drawEmbed.getEmbedID())));
 			if (oldWidget) {
 				drawEmbed.getGeoEmbed().setEmbedId(nextID());
@@ -256,10 +256,11 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	private static OpenFileListener getListener(final DrawEmbed drawEmbed,
-			final AppletParameters parameters) {
+			final AppletParameters parameters, final AppWFull fr) {
 		return () -> {
 			drawEmbed.getGeoEmbed()
 					.setAppName(parameters.getDataParamAppName());
+			fr.getScriptManager().enableListeners();
 			return true;
 		};
 	}
@@ -447,6 +448,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		ge.setSize(material.getWidth(), material.getHeight());
 		ge.setContentWidth(material.getWidth());
 		ge.setContentHeight(material.getHeight());
+		ge.setAppName(StringUtil.empty(material.getAppName()) ? "auto" : material.getAppName());
 		ge.attr("showToolBar", material.getShowToolbar() || material.getShowMenu());
 		ge.attr("showMenuBar", material.getShowMenu());
 		ge.attr("allowStyleBar", material.getAllowStylebar());
@@ -454,6 +456,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		ge.setEmbedId(id);
 		ge.initPosition(app.getActiveEuclidianView());
 		showAndSelect(ge);
+		app.dispatchEvent(new Event(EventType.EMBEDDED_CONTENT_CHANGED, ge, material.getBase64()));
 	}
 
 	private void showAndSelect(final GeoEmbed ge) {
@@ -601,6 +604,21 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			executeAction(action, embedId);
 		} catch (RuntimeException e) {
 			Log.warn("No undo possible for embed " + id);
+		}
+	}
+
+	@Override
+	public void setBase64(String label, String contentBase64) {
+		GeoElement el = app.getKernel().lookupLabel(label);
+		if (el instanceof GeoEmbed) {
+			DrawableND de = app.getActiveEuclidianView().getDrawableFor(el);
+			int embedID = ((GeoEmbed) el).getEmbedID();
+			counter = Math.max(counter, embedID + 1);
+			if (de instanceof DrawWidget && widgets.get(de) != null) {
+				widgets.get(de).setContent(contentBase64);
+			} else {
+				base64.put(embedID, contentBase64);
+			}
 		}
 	}
 }

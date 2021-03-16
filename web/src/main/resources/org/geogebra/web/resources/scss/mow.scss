@@ -59,7 +59,7 @@
 	.MyCanvasButton, .MyToggleButton {
 		border: $tool-border solid 1px;
 
-		&:hover, &.active, &.selected {
+		&:hover, &.active, &.selected, &.gwt-ToggleButton-down {
 			border: $mow_primary solid 1px;
 		}
 
@@ -474,14 +474,6 @@
 		}
 		box-sizing: border-box;
 		border: 1px solid;
-	}
-
-	.mowMenuSeparator {
-		background-color: #dedede;
-		height: 1px;
-		width: calc(100% - 56px);
-		list-style: none;
-		margin: 6px 0 6px auto;
 	}
 
 	.inlineTextToolbar {

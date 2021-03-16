@@ -212,4 +212,42 @@ public class StringTemplateTest {
 		MatcherAssert.assertThat(template.convertScientificNotationGiac("3.33E2"), is("333"));
 		MatcherAssert.assertThat(template.convertScientificNotationGiac("3.33E3"), is("3330"));
 	}
+
+	@Test
+	public void definitionShouldKeepSmallNumbers() {
+		GeoElementND num = add("a=1E-20");
+		assertEquals("1*10^(-20)",
+				num.getDefinition(StringTemplate.editTemplate));
+	}
+
+	@Test
+	public void definitionShouldKeepSmallNumbersScientific() {
+		GeoElementND num = add("a=1E-20");
+		StringTemplate latexNoLocal = StringTemplate.defaultTemplate.deriveLaTeXTemplate();
+		latexNoLocal.setLocalizeCmds(false);
+		assertEquals("1 \\cdot 10^{-20}", num.getDefinition(latexNoLocal));
+	}
+
+	@Test
+	public void powerWithScientificNotationShouldHaveBrackets() {
+		GeoElementND fn = add("x^(3E-20)");
+		assertEquals("f(x) = x^(3*10^(-20))",
+				fn.toString(StringTemplate.editTemplate));
+		GeoElementND fn2 = add("3E20^x");
+		assertEquals("g(x) = (3*10^(20))^x",
+				fn2.toString(StringTemplate.editTemplate));
+		GeoElementND fn3 = add("x^3E20");
+		assertEquals("h(x) = x^(3*10^(20))",
+				fn3.toString(StringTemplate.editTemplate));
+		GeoElementND num = add("3E-20!");
+		assertEquals("(3*10^(-20))!",
+				num.getDefinition(StringTemplate.editTemplate));
+	}
+
+	@Test
+	public void factorialWithScientificNotationShouldHaveBrackets() {
+		GeoElementND num = add("3E-20!");
+		assertEquals("(3*10^(-20))!",
+				num.getDefinition(StringTemplate.editTemplate));
+	}
 }

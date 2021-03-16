@@ -132,6 +132,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -623,10 +624,8 @@ public class GuiManagerW extends GuiManager
 					getPxHeight(root) + heightChanged);
 			root.onResize();
 		} else {
-			geogebraFrame.getStyle().setProperty("height",
-					height - borderThickness + "px");
-			geogebraFrame.getStyle().setProperty("width",
-					width - borderThickness + "px");
+			geogebraFrame.getStyle().setHeight(height, Style.Unit.PX);
+			geogebraFrame.getStyle().setWidth(width, Style.Unit.PX);
 			getApp().getEuclidianViewpanel().setPixelSize(width, height);
 
 			// maybe onResize is OK too

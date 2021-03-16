@@ -148,7 +148,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Sequence(Sequence(Sequence(k+1/j+m^2,k,1,2),j,1,2),m,1,2)",
 				"{{{3, 4}, {5 / 2, 7 / 2}}, {{6, 7}, {11 / 2, 13 / 2}}}");
 		t("Invert(Sequence(Sequence(1/k^2+j^3+(k+j)^2,k,1,3),j,1,3))",
-				"{{3593 / 1316, (-4449) / 1316, 340 / 329}, {(-1444) / 329, 1684 / 329, (-492) / 329}, {2277 / 1316, (-2475) / 1316, 351 / 658}}");
+				"{{3593 / 1316, -4449 / 1316, 340 / 329}, {-1444 / 329, 1684 / 329, -492 / 329}, {2277 / 1316, -2475 / 1316, 351 / 658}}");
 
 	}
 
@@ -250,20 +250,20 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testMultiStep2() {
 		t("h(t):=8/(1+15exp(-0.46t))",
-				"8 / (15 * " + EULER_STRING + "^((-23) / 50 * t) + 1)");
+				"8 / (15 * " + EULER_STRING + "^(-23 / 50 * t) + 1)");
 		t("a=h(10)-h(0)",
-				"(-1) / 2 + 8 / (15 * 1 / nroot(" + EULER_STRING + "^(23),5) + 1)");
+				"-1 / 2 + 8 / (15 * 1 / nroot(" + EULER_STRING + "^(23),5) + 1)");
 		t("b=a/(7-0.6)",
-				"5 / 32 * ((-1) / 2 + 8 / (15 / nroot(" + EULER_STRING + "^(23),5) + 1))");
+				"5 / 32 * (-1 / 2 + 8 / (15 / nroot(" + EULER_STRING + "^(23),5) + 1))");
 		t("Solve(h''(t)=0)", "{t = 50 / 23 * ln(15)}");
 		testValidResultCombinations(
 				"h'(5.8871)",
-				"276 * " + EULER_STRING + "^((-1354033) / 500000) / (1125 * (" + EULER_STRING
-						+ "^((-1354033) / 500000))^(2) + 150 * " + EULER_STRING
-						+ "^((-1354033) / 500000) + 5)",
-				"276 * " + EULER_STRING + "^((-1354033) / 500000) / "
-						+ "(150 * " + EULER_STRING + "^((-1354033) / 500000) + "
-						+ "1125 * (" + EULER_STRING + "^((-1354033) / 500000))^(2)"
+				"276 * " + EULER_STRING + "^(-1354033 / 500000) / (1125 * (" + EULER_STRING
+						+ "^(-1354033 / 500000))^(2) + 150 * " + EULER_STRING
+						+ "^(-1354033 / 500000) + 5)",
+				"276 * " + EULER_STRING + "^(-1354033 / 500000) / "
+						+ "(150 * " + EULER_STRING + "^(-1354033 / 500000) + "
+						+ "1125 * (" + EULER_STRING + "^(-1354033 / 500000))^(2)"
 						+ " + 5)");
 	}
 
@@ -278,7 +278,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testMultiStep4() {
 		t("f(t)=21000000-21000000exp(-0.18t)",
-				"-21000000 * " + EULER_STRING + "^((-9) / 50 * t) + 21000000");
+				"-21000000 * " + EULER_STRING + "^(-9 / 50 * t) + 21000000");
 		t("b=(f(8)-f(7))/f(7)", "(1 / nroot(" + EULER_STRING + "^(36),25) - 1 / nroot("
 				+ EULER_STRING + "^(63),50)) / (1 / nroot(" + EULER_STRING + "^(63),50) - 1)");
 		t("Solve(f(t)=20*10^6)", "{t = 50 / 9 * ln(21)}");
@@ -313,7 +313,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("4x+3y-2x+y", "2 * x + 4 * y");
 		testValidResultCombinations(
 				"(1/(x+y)-1/x)/y",
-				"(-1) / (x^(2) + x * y)", "(-1) / (x * y + x^(2))");
+				"-1 / (x^(2) + x * y)", "-1 / (x * y + x^(2))");
 		t("(x+y)(x-y)(x-y)", "(x + y) * (x - y)^(2)");
 		t("Expand((x+y)(x-y)(x-y))", "x^(3) - x^(2) * y - x * y^(2) + y^(3)");
 		t("Factor(x^2+2x+1)", "(x + 1)^(2)");
@@ -321,7 +321,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Factor((x^2+2x-15)/(x^3+3x^2-4))", "(x - 3) * (x + 5) / ((x - 1) * (x + 2)^(2))");
 		t("Substitute(x^2-2x+23,x,y^2)", "y^(4) - 2 * y^(2) + 23");
 		t("Solve(3(x-2)=5x+14)", "{x = -10}");
-		t("Solve(2x^2-x=15)", "{x = (-5) / 2, x = 3}");
+		t("Solve(2x^2-x=15)", "{x = -5 / 2, x = 3}");
 		t("Solve(2x^2-x=21)", "{x = -3, x = 7 / 2}");
 		t("Solve(6x/(x+3)-x/(x-3)=2)", "{x = 1, x = 6}");
 		t("Solve(12exp(x)=150)", "{x = ln(25 / 2)}");
@@ -367,7 +367,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("eq4:f''(4)=0", "192 * p + 24 * q + 2 * r = 0");
 		t("eq5:f(-3)=0", "k + 81 * p - 27 * q + 9 * r - 3 * s = 0");
 		t("u=Solve({eq1, eq2, eq3, eq4, eq5})",
-				"{{k = 18659 / 2142, p = 437 / 12852, q = (-535) / 2856, r = (-311) / 306, s = 63197 / 25704}}");
+				"{{k = 18659 / 2142, p = 437 / 12852, q = -535 / 2856, r = -311 / 306, s = 63197 / 25704}}");
 		t("Substitute(f,u)",
 				"437 / 12852 * x^(4) - 535 / 2856 * x^(3) - 311 / 306 * x^(2) + 63197 / 25704 * x + 18659 / 2142");
 	}
@@ -443,7 +443,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solutions(x^2=4x)", "{0, 4}");
 		t("Solutions({x=4x+y,y+x=2},{x, y})", "{{-1, 3}}");
 		t("Solutions(sin(x)=cos(x))",
-				"{(-3) / 4 * " + pi + ", 1 / 4 * " + pi + "}");
+				"{-3 / 4 * " + pi + ", 1 / 4 * " + pi + "}");
 		t("Solutions(x^2=1)", "{-1, 1}");
 		t("Solutions({x+y=1, x-y=3})", "{{2, -1}}");
 		t("Solutions({aa+bb=1, aa-bb=3})", "{{2, -1}}");
@@ -465,7 +465,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testIntegralCommand() {
 		t("Integral(x*y^2,x,0,2)", "2 * y^(2)");
-		t("Integral(x*y^2,x,aaa,bbb)", "y^(2) * ((-1) / 2 * aaa^(2) + 1 / 2 * bbb^(2))");
+		t("Integral(x*y^2,x,aaa,bbb)", "y^(2) * (-1 / 2 * aaa^(2) + 1 / 2 * bbb^(2))");
 		t("Integral(Integral(x*y^2,x,0,2),y,0,1)", "2 / 3");
 		t("Integral(Integral(x*y^2,x,0,2),y,0,q)", "2 / 3 * q^(3)");
 		t("Integral(exp(-x^2),-inf,inf)", "sqrt(" + pi + ")");
@@ -488,6 +488,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testPolynomialCommand() {
 		t("Polynomial((x+(1/aaa)x^2)^2)",
 				"1 / aaa^(2) * x^(4) + 2 * aaa / aaa^(2) * x^(3) + x^(2)");
+		t("Polynomial((x!)/(x-2)!)", "x^(2) - x");
+		t("Polynomial((x!)/(x-2)!, x)", "x^(2) - x");
+		t("Polynomial((y!)/(y-2)!, y)", "y^(2) - y");
 	}
 
 	@Test
@@ -573,9 +576,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Intersect(x^2+y^2=5, x+y=sqrt(2))",
 				"{((-sqrt(2)) / 2, 3 * sqrt(2) / 2), (3 * sqrt(2) / 2, (-sqrt(2)) / 2)}");
 		t("Intersect(x+y=sqrt(2), y-x=pi)",
-				"{((-1) / 2 * " + pi + " + sqrt(2) / 2, 1 / 2 * " + pi + " + sqrt(2) / 2)}");
+				"{(-1 / 2 * " + pi + " + sqrt(2) / 2, 1 / 2 * " + pi + " + sqrt(2) / 2)}");
 		t("Intersect((x+8)^2+(y-4)^2=13,(x+4)^2+(y-4)^2=2)",
-				"{((-37) / 8, (sqrt(103) + 32) / 8), ((-37) / 8, (-sqrt(103) + 32) / 8)}");
+				"{(-37 / 8, (sqrt(103) + 32) / 8), (-37 / 8, (-sqrt(103) + 32) / 8)}");
 		// t("Intersect((x+1)^2+(y+1)^2=9-4sqrt(2), y^2+(x-2)^2=10)", "");
 	}
 
@@ -599,7 +602,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("eq3: 7=a*4^3+b*4^2+c*4+d", "7 = 64 * a + 16 * b + 4 * c + d");
 		t("eq4: 1=a*1^3+b*1^2+c*1+d", "1 = a + b + c + d");
 		t("Solve({eq1,eq2,eq3,eq4}, {a,b,c,d})",
-				"{{a = (-3) / 2, b = 10, c = (-33) / 2, d = 9}}");
+				"{{a = -3 / 2, b = 10, c = -33 / 2, d = 9}}");
 	}
 
 	@Test
@@ -1224,7 +1227,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic derivative = add("Derivative(25.8-0.2ℯ^(-0.025x))");
 		assertThat(
 				derivative.toValueString(StringTemplate.defaultTemplate),
-				equalTo("1 / 200 ℯ^((-1) / 40 x)"));
+				equalTo("1 / 200 ℯ^(-1 / 40 x)"));
 	}
 
 	@Test
@@ -1232,7 +1235,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Min({-2, 12, -23, 17, 15})", "-23");
 		t("Min(2 < x < 3)", "2");
 		t("Min(12, 15)", "12");
-		t("Min(ℯ^x*x^3,-4,-2)", "(-3, (-27) / ℯ^(3))");
+		t("Min(ℯ^x*x^3,-4,-2)", "(-3, -27 / ℯ^(3))");
 		t("Min({1, 2, 3, 4, 5}, {0, 3, 4, 2, 3})", "2");
 		t("Min(1, 2)", "1");
 		t("Min(2, 1, 3)", "1");
@@ -1372,7 +1375,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Assume(x<2,Simplify(sqrt(x-2sqrt(x-1))))", "-sqrt(x - 1) + 1");
 		t("Assume(x>2,Simplify(sqrt(x-2sqrt(x-1))))", "sqrt(x - 1) - 1");
 		t("Assume(k>0, Extremum(k*3*x^2/4-2*x/2))",
-				"{(2 / (3 * k), (-1) / (3 * k))}");
+				"{(2 / (3 * k), -1 / (3 * k))}");
 		t("Assume(k>0, InflectionPoint(0.25 k x^3 - 0.5x^2 + k))",
 				"{(2 / (3 * k), (27 * k^(3) - 4) / (27 * k^(2)))}");
 	}

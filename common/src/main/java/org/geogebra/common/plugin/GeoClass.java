@@ -30,8 +30,6 @@ public enum GeoClass {
 
 	/** FUNCTION */
 	FUNCTION("Function", 90, false),
-	/** INTERVAL */
-	INTERVAL("Interval", "function", 90, false),
 
 	/** IMAGE */
 	IMAGE("Image", 20, false),
@@ -180,7 +178,9 @@ public enum GeoClass {
 	INLINE_TEXT("InlineText", 150, false),
 
 	/** Inline editable table */
-	TABLE("Table", 150, false);
+	TABLE("Table", 150, false),
+
+	PIECHART("PieChart", 80, false);
 
 	/**
 	 * name MUST be in ggbtrans/properties

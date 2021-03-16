@@ -2980,9 +2980,6 @@ public class Construction {
 	 * Redoes last undone step
 	 */
 	public void redo() {
-		// undo unavailable in applets
-		// if (getApplication().isApplet()) return;
-
 		undoManager.redo();
 	}
 
@@ -2990,9 +2987,6 @@ public class Construction {
 	 * Undoes last operation
 	 */
 	public void undo() {
-		// undo unavailable in applets
-		// if (getApplication().isApplet()) return;
-
 		undoManager.undo();
 	}
 
@@ -3774,6 +3768,21 @@ public class Construction {
 			geos.add(geoTable.get(g));
 		}
 		return geos;
+	}
+
+	/**
+	 * @param label
+	 *            label of object
+	 * @return whether object has unlabeled predecessors
+	 */
+	public boolean hasUnlabeledPredecessors(String label) {
+		final TreeSet<GeoElement> set = geoTable.get(label).getAllPredecessors();
+		for (GeoElement el : set) {
+			if (el.getLabelSimple() == null) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

@@ -101,6 +101,7 @@ PARSER_END(Parser)
 	| < RFLOOR : "\u230b" >
 	| < QUOTE_START : "\""> : IN_QUOTE
 	| < SQRT : "sqrt(" >
+	| < CBRT : "cbrt(" >
 	| < NROOT : "nroot(" >
 	| < LOG : "log(" >
 	| < ABS : "abs(" >
@@ -132,8 +133,6 @@ void mathContainer(MathContainer currentField) : {}
 		subscript(currentField)
 	|
 		fraction(currentField)
-	|
-		sqrt(currentField)
 	|
 		nroot(currentField)
 	|
@@ -179,8 +178,6 @@ void mathAtomOrPower(MathContainer currentField) : {
 		subscript(currentField)
 	|
 		fraction(currentField)
-	|
-		sqrt(currentField)
 	|
 		nroot(currentField)
 	|
@@ -273,17 +270,6 @@ void subscript(MathContainer currentField) :
 	}
 }
 
-void sqrt(MathContainer currentField) : {}
-{
-	<SQRT> {
-		MathFunction sqrt = new MathFunction(metaModel.getGeneral(Tag.SQRT));
-		MathSequence mathSequence = new MathSequence();
-		mathContainer(mathSequence);
-		sqrt.setArgument(0, mathSequence);
-		currentField.addArgument(sqrt);
-	} <PARANTHESES_CLOSE>
-}
-
 void nroot(MathContainer currentField) : {}
 {
 	<NROOT> {
@@ -320,7 +306,7 @@ void absVecLimeq(MathContainer currentField) : {
 	Token symbol;
 }
 {
-	(symbol = <ABS> | symbol = <VEC> | symbol = <LIM_EQ>) {
+	(symbol = <ABS> | symbol = <VEC> | symbol = <LIM_EQ> | symbol = <SQRT> | symbol = <CBRT>) {
         // cut off the parentheses from the end
         String image = symbol.image.substring(0, symbol.image.length() - 1);
 		MathFunction vec = new MathFunction(metaModel.getGeneral(Tag.lookup(image)));

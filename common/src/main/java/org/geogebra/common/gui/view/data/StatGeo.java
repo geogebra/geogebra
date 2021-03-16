@@ -16,8 +16,7 @@ import org.geogebra.common.kernel.algos.AlgoDependentListExpression;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import org.geogebra.common.kernel.algos.AlgoListElement;
-import org.geogebra.common.kernel.algos.AlgoListMax;
-import org.geogebra.common.kernel.algos.AlgoListMin;
+import org.geogebra.common.kernel.algos.AlgoListMinMax;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.algos.AlgoText;
 import org.geogebra.common.kernel.algos.ConstructionElement;
@@ -139,8 +138,8 @@ public class StatGeo {
 			GeoList list = (GeoList) le.getOutput(0);
 
 			// create algos to find the max and min values of the list
-			AlgoListMax maxAlgo = new AlgoListMax(cons, list);
-			AlgoListMin minAlgo = new AlgoListMin(cons, list);
+			AlgoListMinMax maxAlgo = new AlgoListMinMax(cons, list, false);
+			AlgoListMinMax minAlgo = new AlgoListMinMax(cons, list, true);
 			removeFromConstructionList(minAlgo);
 			removeFromConstructionList(maxAlgo);
 
@@ -178,17 +177,17 @@ public class StatGeo {
 			AlgoDependentListExpression listY = new AlgoDependentListExpression(
 					cons, enY);
 
-			AlgoListMax maxX = new AlgoListMax(cons,
-					(GeoList) listX.getOutput(0));
+			AlgoListMinMax maxX = new AlgoListMinMax(cons,
+					(GeoList) listX.getOutput(0), false);
 			removeFromConstructionList(maxX);
-			AlgoListMax maxY = new AlgoListMax(cons,
-					(GeoList) listY.getOutput(0));
+			AlgoListMinMax maxY = new AlgoListMinMax(cons,
+					(GeoList) listY.getOutput(0), false);
 			removeFromConstructionList(maxY);
-			AlgoListMin minX = new AlgoListMin(cons,
-					(GeoList) listX.getOutput(0));
+			AlgoListMinMax minX = new AlgoListMinMax(cons,
+					(GeoList) listX.getOutput(0), true);
 			removeFromConstructionList(minX);
-			AlgoListMin minY = new AlgoListMin(cons,
-					(GeoList) listY.getOutput(0));
+			AlgoListMinMax minY = new AlgoListMinMax(cons,
+					(GeoList) listY.getOutput(0), true);
 			removeFromConstructionList(minY);
 
 			listX.getOutput()[0].setSelectionAllowed(false);
@@ -203,8 +202,8 @@ public class StatGeo {
 			dataBounds[3] = ((GeoNumeric) maxY.getOutput(0)).getDouble();
 
 		} else {
-			AlgoListMax max = new AlgoListMax(cons, dataList);
-			AlgoListMin min = new AlgoListMin(cons, dataList);
+			AlgoListMinMax max = new AlgoListMinMax(cons, dataList, false);
+			AlgoListMinMax min = new AlgoListMinMax(cons, dataList, true);
 			removeFromConstructionList(min);
 			removeFromConstructionList(max);
 
@@ -844,8 +843,8 @@ public class StatGeo {
 					Operation.YCOORD, null);
 			AlgoDependentListExpression list = new AlgoDependentListExpression(
 					cons, en);
-			AlgoListMax max = new AlgoListMax(cons,
-					(GeoList) list.getOutput(0));
+			AlgoListMinMax max = new AlgoListMinMax(cons,
+					(GeoList) list.getOutput(0), false);
 
 			removeFromConstructionList(list);
 			removeFromConstructionList(max);

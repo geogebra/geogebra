@@ -856,7 +856,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 			return true;
 		} catch (Throwable t) {
 			app.showError(Errors.SaveFileFailed);
-			Log.printStacktrace(t.getMessage());
+			Log.trace(t.getMessage());
 			return false;
 		}
 	}

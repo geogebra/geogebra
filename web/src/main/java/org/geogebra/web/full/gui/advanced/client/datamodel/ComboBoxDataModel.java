@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.core.client.GWT;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * This is an implementation of the data model interface for the ComboBox
@@ -41,7 +41,7 @@ public class ComboBoxDataModel implements ListDataModel {
 	private Map<String, Object> items = new HashMap<>();
 	/** a selected item ID */
 	private String selectedId;
-	/** {@link org.gwt.advanced.client.datamodel.ListModelListener}s */
+	/** {@link ListModelListener}s */
 	private List<ListModelListener> listeners = new ArrayList<>();
 
 	/** {@inheritDoc} */
@@ -222,7 +222,7 @@ public class ComboBoxDataModel implements ListDataModel {
 			try {
 				listener.onModelEvent(event);
 			} catch (Throwable t) {
-				GWT.log("Unknown listener error", t);
+				Log.debug("Unknown listener error" + t);
 			}
 		}
 	}

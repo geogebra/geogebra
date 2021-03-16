@@ -22,6 +22,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
@@ -1751,18 +1752,17 @@ public class GeoList extends GeoElement
 			}
 		}
 
+		double normalized = PathNormalizer.toNormalizedPathParameter(pp.t,
+				path.getMinParameter(), path.getMaxParameter());
+		if (path.isGeoPoint()) {
+			normalized = Kernel.STANDARD_PRECISION; // to avoid rounding errors
+		}
 		if ((directionInfoArray == null)
 				|| directionInfoArray[closestPointIndex]) {
-			pp.t = closestPointIndexBack
-					+ PathNormalizer.toNormalizedPathParameter(pp.t,
-							path.getMinParameter(), path.getMaxParameter());
+			pp.t = closestPointIndexBack + normalized;
 		} else {
-			pp.t = closestPointIndexBack + 1
-					- PathNormalizer.toNormalizedPathParameter(pp.t,
-							path.getMinParameter(), path.getMaxParameter());
+			pp.t = closestPointIndexBack + 1 - normalized;
 		}
-
-		// Application.debug(pp.t);
 	}
 
 	/**
@@ -1839,8 +1839,7 @@ public class GeoList extends GeoElement
 		final PathParameter pp = PI.getPathParameter();
 
 		double t = pp.getT();
-		int n0 = (int) Math.floor(t);
-		int n = n0;
+		int n = getIndexFromParameter(t);
 
 		// check n is in a sensible range
 		if ((n >= size()) || (n < 0)) {
@@ -1899,6 +1898,10 @@ public class GeoList extends GeoElement
 		}
 
 		pp.setPathType(pt);
+	}
+
+	private int getIndexFromParameter(double t) {
+		return t < 0 ? 0 : Math.min((int) Math.floor(t), size() - 1);
 	}
 
 	@Override

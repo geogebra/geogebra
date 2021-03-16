@@ -404,7 +404,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			initSignInEventFlow(new LoginOperationW(this));
 			MenuViewController menuController = new MenuViewController(this);
 			menuController.setMenuViewListener(this);
-			frame.add(menuController.getView());
 			menuViewController = menuController;
 			isMenuInited = true;
 		}
@@ -1536,9 +1535,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 										// constructor because we have to delay
 										// scripts until the EuclidianView is
 										// shown
-		if (!asSlide) {
-			initUndoInfoSilent();
-		}
 
 		getEuclidianView1().synCanvasSize();
 
@@ -1585,6 +1581,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		kernel.notifyScreenChanged();
 		if (isWhiteboardActive()) {
 			AdjustScreen.adjustCoordSystem(getActiveEuclidianView());
+		}
+		if (!asSlide) {
+			// should run after coord system changed
+			initUndoInfoSilent();
 		}
 	}
 
@@ -1742,6 +1742,18 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
+	protected void getLayoutXML(StringBuilder sb, boolean asPreference) {
+		super.getLayoutXML(sb, asPreference);
+
+		if (isWhiteboardActive()) {
+			sb.append("\t<notesToolbarOpen");
+			sb.append(" val=\"");
+			sb.append(getAppletFrame().isNotesToolbarOpen());
+			sb.append("\"/>\n");
+		}
+	}
+
+	@Override
 	public void toggleMenu() {
 		if (!menuShowing) {
 			getAppletFrame().hidePanel(null);
@@ -1751,7 +1763,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				frame.getMenuBar(this).init(this);
 				isMenuInited = true;
 			} else if (menuViewController != null) {
-				menuViewController.setMenuVisible(true);
+				if (!menuViewController.getView().isAttached()) {
+					frame.insert(menuViewController.getView(), 0);
+					frame.getApp().invokeLater(() -> menuViewController.setMenuVisible(true));
+				} else {
+					menuViewController.setMenuVisible(true);
+				}
 				return;
 			}
 			splitPanelWrapper.add(frame.getMenuBar(this));
@@ -1944,7 +1961,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void updateAppCodeSuite(String subApp, Perspective p) {
 		if ("suite".equals(getAppletParameters().getDataParamAppName())) {
 			String appCode = getConfig().getAppCode();
-			Log.error(subApp);
 			if (!appCode.equals(subApp)) {
 				this.activity = new SuiteActivity(subApp);
 				updateSymbolicFlag(subApp, p);
@@ -2252,5 +2268,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			suiteAppPickerButton.setIconAndLabel(subappCode);
 			suiteAppPickerButton.checkButtonVisibility();
 		}
+	}
+
+	@Override
+	public void setNotesToolbarOpen(boolean open) {
+		getAppletFrame().setNotesToolbarOpen(open);
 	}
 }

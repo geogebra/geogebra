@@ -527,7 +527,7 @@ public class DoubleUtil {
 	 * 		otherwise, where min + i*step is the greatest such number
 	 * 		that is smaller than max
 	 */
-	public static double[] range(double min, double max, double step) {
+	public static double[] range(double min, double max, double step) throws OutOfMemoryError {
 		// To any future developer who wants to simplify this code:
 		// please double-triple check what you are doing, floating
 		// point numbers are _not_ easy to handle (APPS-158, APPS-1824)
