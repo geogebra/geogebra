@@ -92,6 +92,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			return;
 		}
 		int embedID = drawEmbed.getEmbedID();
+		counter = Math.max(counter, embedID + 1);
 		String appName = drawEmbed.getGeoEmbed().getAppName();
 		if ("extension".equals(appName)) {
 			addExtension(drawEmbed);
@@ -670,7 +671,6 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		if (el instanceof GeoEmbed) {
 			DrawableND de = app.getActiveEuclidianView().getDrawableFor(el);
 			int embedID = ((GeoEmbed) el).getEmbedID();
-			counter = Math.max(counter, embedID + 1);
 			if (de instanceof DrawWidget && widgets.get(de) != null) {
 				widgets.get(de).setContent(contentBase64);
 			} else {
