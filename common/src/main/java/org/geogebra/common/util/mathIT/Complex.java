@@ -1409,7 +1409,6 @@ public class Complex {
 	 * standard format.
 	 * 
 	 * @return a string representing <i>z</i>
-	 * @see #toString(double[],java.text.DecimalFormat)
 	 */
 	@Override
 	public String toString() {
