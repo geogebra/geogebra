@@ -2550,6 +2550,7 @@ var __giac = [ {},
 { cat:"Q3.1", cmd:"Quartile3({4})", result:"?" },
 { cat:"Q1.1", cmd:"Quartile1({})", result:"?" },
 { cat:"Q3.1", cmd:"Quartile3({})", result:"?" },
+{ cat:"Solve", cmd:"Solve({a*log(b)=1, a=-1},{a,b})", result:"{{a = -1, b = 1 / 10}}" },
 
 //JSONEND
 
