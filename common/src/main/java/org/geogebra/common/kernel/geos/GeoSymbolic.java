@@ -117,6 +117,7 @@ public class GeoSymbolic extends GeoElement
 			fVars.addAll(symbolic.fVars);
 			value = symbolic.getValue();
 			casOutputString = symbolic.casOutputString;
+			numericValue = null;
 			isTwinUpToDate = false;
 		}
 	}
