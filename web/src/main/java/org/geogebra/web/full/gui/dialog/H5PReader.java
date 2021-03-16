@@ -8,6 +8,7 @@ import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
@@ -50,6 +51,9 @@ public class H5PReader implements AjaxCallback {
 
 	@Override
 	public void onSuccess(String response) {
+		if (!embed.isInConstructionList()) {
+			return; // deleted by user meanwhile
+		}
 		JSONTokener tokener = new JSONTokener(response);
 		try {
 			JSONObject h5p = new JSONObject(tokener);
@@ -60,12 +64,15 @@ public class H5PReader implements AjaxCallback {
 				em.setContentSync(embed.getLabelSimple(), embed.getURL());
 			}
 		} catch (JSONException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
 	@Override
 	public void onError(String error) {
+		if (embed != null) {
+			embed.remove();
+		}
 		ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization()
 				.getMenu("PdfErrorText"), true, (AppW) app);
 	}
