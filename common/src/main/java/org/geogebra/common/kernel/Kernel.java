@@ -4143,10 +4143,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * Notify views about finished paste.
 	 */
-	public void notifyPasteComplete() {
+	public void notifyPasteComplete(ArrayList<GeoElement> pastedGeos) {
 		if (notifyViewsActive && app.hasEventDispatcher()) {
-			app.getEventDispatcher().pasteElmsComplete(
-							app.getSelectionManager().getSelectedGeos());
+			app.getEventDispatcher().pasteElmsComplete(pastedGeos);
 
 		}
 	}
