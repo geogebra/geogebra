@@ -317,4 +317,21 @@ public class TeXIcon implements Icon {
 			ctx.fillRect((int) x, (int) y, Math.max(1, (int) height / 20), (int) height);
 		}
 	}
+
+	public int getCursorX() {
+		if (cursorPosition == null) {
+			return 0;
+		}
+
+		return (int) (insets.left + cursorPosition.getX() * size);
+	}
+
+	public int getCursorY() {
+		if (cursorPosition == null) {
+			return 0;
+		}
+
+		return (int) (insets.top
+				+ size * (cursorPosition.getY() + cursorPosition.getHeight() / 2));
+	}
 }

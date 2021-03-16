@@ -89,7 +89,6 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
-import com.himamis.retex.editor.web.MathFieldScroller;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
@@ -175,7 +174,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private String ariaPreview;
 	private Label ariaLabel = null;
 	InputItemControl inputControl;
-	private MathFieldScroller scroller;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -1822,10 +1820,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * Cursor listener
 	 */
 	public void onCursorMove() {
-		if (scroller == null) {
-			scroller = new MathFieldScroller(latexItem);
-		}
-		scroller.scrollHorizontallyToCursor(20);
+		getMathField().scrollParentHorizontally(latexItem, 20);
 	}
 
 	/**

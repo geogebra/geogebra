@@ -27,7 +27,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.web.MathFieldScroller;
 import com.himamis.retex.editor.web.MathFieldW;
 
 /**
@@ -46,7 +45,6 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	private final GeoGebraFrameFull frame;
 	private KeyboardFlowPanel main;
 	private MathFieldW mathField;
-	private MathFieldScroller scroller;
 	private RetexKeyboardListener retexListener;
 	private boolean preventBlur;
 	private List<BlurHandler> blurHandlers;
@@ -92,7 +90,6 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 		mathField.setOnBlur(this);
 
 		getMathField().setBackgroundCssColor("rgba(255,255,255,0)");
-		scroller = new MathFieldScroller(main);
 		main.add(mathField);
 		retexListener = new RetexKeyboardListener(canvas, mathField);
 		initEventHandlers();
@@ -146,14 +143,14 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 * Scroll content horizontally if needed.
 	 */
 	public void scrollHorizontally() {
-		scroller.scrollHorizontallyToCursor(PADDING_LEFT_SCROLL);
+		mathField.scrollParentHorizontally(main, PADDING_LEFT_SCROLL);
 	}
 
 	/**
 	 * Scroll content vertically if needed.
 	 */
 	public void scrollVertically() {
-		scroller.scrollVerticallyToCursor(PADDING_TOP);
+		mathField.scrollParentVertically(main, PADDING_TOP);
 	}
 
 	@Override

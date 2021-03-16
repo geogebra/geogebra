@@ -45,6 +45,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.user.client.Window.Navigator;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -1209,5 +1210,29 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public void setMinHeight(int minHeight) {
 		this.minHeight = minHeight;
+	}
+
+	/**
+	 * Scrolls content horizontally,  based on the cursor position
+	 *
+	 * @param parentPanel
+	 *            panel to be scrolled
+	 * @param margin
+	 *            minimal distance from cursor to left/right border
+	 */
+	public void scrollParentHorizontally(FlowPanel parentPanel, int margin) {
+		MathFieldScroller.scrollHorizontallyToCursor(parentPanel, margin, lastIcon.getCursorX());
+	}
+
+	/**
+	 * Scrolls content verically, based on the cursor position
+	 *
+	 * @param parentPanel
+	 *            panel to be scrolled
+	 * @param margin
+	 *            minimal distance from cursor to left/right border
+	 */
+	public void scrollParentVertically(FlowPanel parentPanel, int margin) {
+		MathFieldScroller.scrollVerticallyToCursor(parentPanel, margin, lastIcon.getCursorY());
 	}
 }
