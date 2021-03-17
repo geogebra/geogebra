@@ -822,6 +822,10 @@ public class DefaultExportedApi implements ExportedApi {
 		}
 	}
 
+	public void updateConstruction() {
+		ggbAPI.updateConstruction();
+	}
+
 	public double getConstructionSteps(Object breakpoints) {
 		return ggbAPI.getConstructionSteps(Js.isTruthy(breakpoints));
 	}
