@@ -48,7 +48,8 @@ public class ScreenReaderTest {
 		String funct = "sin((2x)/(3) (4-5)) + 0";
 		tsc(funct,
 				"sin open parenthesis start fraction 2 times x over 3 end fraction "
-						+ "times open parenthesis 4 minus 5 close parenthesis close parenthesis plus 0");
+						+ "times open parenthesis 4 minus 5 close parenthesis close parenthesis "
+						+ "plus 0");
 	}
 
 	@Test
