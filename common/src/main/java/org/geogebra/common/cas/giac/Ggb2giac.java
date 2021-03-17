@@ -859,7 +859,7 @@ public class Ggb2giac {
 						// Intersect[2dLine,Cmd2dLine]
 						// Intersect[Cmd2dLine,Cmd2dLine]
 						+ "|| ((ggbinarg1)[0]=='='&&(ggbinarg1)[1]=='y'),"
-						+ "inter(ggbinarg0,ggbinarg1),"
+						+ "normal(inter(ggbinarg0,ggbinarg1)),"
 						// Intersect[2dLine,3dLine]
 						// Intersect[Cmd2dLine,3dLine]
 						+ "when((xcoord(ggbinarg1))[0]=='='&&string((xcoord(ggbinarg1))[1])==string(X),"
