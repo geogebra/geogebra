@@ -2308,10 +2308,13 @@ public class CommandsTest {
 	@Test
 	public void cmdMax() {
 		tRound("Max[ x, 1, 2 ]", "(2, 2)");
-		t("Max[ 2 < x < 3 ]", "3");
+		t("interval = 2 < x < 3", "2 < x < 3");
+		t("intervalMax = Max[ interval ]", "3");
 		t("Max[ {3,4,5,6} ]", "6");
 		t("Max[ {3,4,5}, {2,1,0} ]", "4");
 		t("Max[ 7, 5 ]", "7");
+		t("SetValue(interval, ?)");
+		t("intervalMax", "NaN");
 	}
 
 	@Test
