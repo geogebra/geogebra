@@ -639,11 +639,6 @@ public class TabbedKeyboard extends FlowPanel
 					KeyboardResources.INSTANCE.floor(),
 					button.getPrimaryActionName(), bh, false, loc,
 					"altText.Floor");
-		} else if (resourceName.equals(Resource.FLOOR.name())) {
-			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.floor(),
-					button.getPrimaryActionName(), bh, false, loc,
-					"altText.Floor");
 		} else if (resourceName.equals(Resource.DEFINITE_INTEGRAL.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.definite_integral(),
