@@ -200,9 +200,9 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	void removeGeoFromTV(String label);
 
 	/**
-	 * @param min
-	 * @param max
-	 * @param step
+	 * @param min - starting value of table
+	 * @param max - ending value of table
+	 * @param step - step value of table
 	 */
 	void setValues(double min, double max, double step) throws InvalidValuesException;
 }
