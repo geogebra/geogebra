@@ -240,6 +240,14 @@
                     this.sendEvent(event[0], event.targets);
                     break;
 
+                case "pasteElmsComplete":
+                    let pastedGeos = "";
+                    for (const geo of event.targets) {
+                        pastedGeos += this.api.getXML(geo);
+                    }
+                    this.sendEvent("evalXML", pastedGeos);
+                    break;
+
                 default:
                     // console.log("unhandled event ", event[0], event);
             }
