@@ -8,6 +8,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.Base64ZipFile;
 import org.geogebra.common.kernel.Macro;
@@ -28,6 +29,7 @@ import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -1495,6 +1497,25 @@ public class GgbAPIW extends GgbAPI {
 		EmbedManager embedManager = app.getEmbedManager();
 		if (embedManager != null) {
 			embedManager.setBase64(label, base64);
+		}
+	}
+
+	public void addGeoToTV(String label) {
+		GuiManagerW guiManagerW = (GuiManagerW) app.getGuiManager();
+		GeoElement geo = app.getKernel().lookupLabel(label);
+		if (guiManagerW != null && geo != null) {
+			guiManagerW.addGeoToTV(geo);
+		}
+	}
+
+	public void setValuesOfTV(String values) throws InvalidValuesException {
+		GuiManagerW guiManagerW = (GuiManagerW) app.getGuiManager();
+		if (guiManagerW != null && !values.isEmpty()) {
+			String[] valueArray = values.split(",");
+			if (valueArray.length == 3) {
+				guiManagerW.getTableValuesView().setValues(Double.parseDouble(valueArray[0]),
+						Double.parseDouble(valueArray[1]), Double.parseDouble(valueArray[2]));
+			}
 		}
 	}
 }

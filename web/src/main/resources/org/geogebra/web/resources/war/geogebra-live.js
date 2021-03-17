@@ -240,6 +240,14 @@
                     this.sendEvent(event[0], event.targets);
                     break;
 
+                case "addGeoToTV":
+                	this.sendEvent(event[0], event[1]);
+                	break;
+
+                case "setValuesOfTV":
+                	this.sendEvent(event[0], event[2]);
+                	break;
+
                 default:
                     // console.log("unhandled event ", event[0], event);
             }
@@ -330,6 +338,10 @@
                     target.api.addToGroup(last.content, last.label);
                 } else if (last.type == "embeddedContentChanged") {
                     target.api.setEmbedContent(last.label, last.content);
+                } else if (last.type == "addGeoToTV") {
+                	target.api.addGeoToTV(last.content);
+                } else if (last.type == "setValuesOfTV") {
+                	target.api.setValuesOfTV(last.content);
                 }
             }
         };
