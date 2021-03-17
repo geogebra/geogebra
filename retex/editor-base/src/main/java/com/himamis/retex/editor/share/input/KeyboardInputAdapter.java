@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.himamis.retex.editor.share.controller.CursorController;
+import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.controller.InputController;
+import com.himamis.retex.editor.share.controller.KeyListenerImpl;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.input.adapter.FunctionAdapter;
 import com.himamis.retex.editor.share.input.adapter.FunctionsAdapter;
 import com.himamis.retex.editor.share.input.adapter.KeyboardAdapter;
-import com.himamis.retex.editor.share.input.adapter.StringCharAdapter;
+import com.himamis.retex.editor.share.input.adapter.StringAdapter;
 import com.himamis.retex.editor.share.input.adapter.StringInput;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -25,103 +26,63 @@ public class KeyboardInputAdapter {
 	static {
 		adapters = new ArrayList<>();
 		adapters.add(new FunctionsAdapter());
-		adapters.add(new StringCharAdapter(times, '*'));
-		adapters.add(new StringCharAdapter(minus, '-'));
-		adapters.add(new FunctionAdapter("random"));
-		adapters.add(new FunctionAdapter("nroot"));
+
+		adapters.add(new StringAdapter(times, "*"));
+		adapters.add(new StringAdapter(minus, "-"));
+		adapters.add(new StringAdapter("10^", "10^"));
+		adapters.add(new StringAdapter("a_n", "_"));
+		adapters.add(new StringAdapter(e + "^", e + "^"));
+
 		adapters.add(new StringInput("x^(-1)") {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {
-				typeCharacter(mfi, '^');
-				typeCharacter(mfi, '-');
-				typeCharacter(mfi, '1');
+				type(mfi, "^-1");
 				CursorController.nextCharacter(mfi.getEditorState());
 			}
 		});
+
 		adapters.add(new StringInput(divide + "") {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {
 				InputController controller = mfi.getInputController();
 				boolean createFrac = controller.getCreateFrac();
 				controller.setCreateFrac(false);
-				typeCharacter(mfi, '/');
+				type(mfi, "/");
 				if (createFrac) {
 					mfi.onDivisionInserted();
 				}
 				controller.setCreateFrac(createFrac);
 			}
 		});
+
 		adapters.add(new StringInput(Unicode.SQUARE_ROOT + "") {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {
 				commitFunction(mfi, "sqrt");
 			}
 		});
-		adapters.add(new StringInput() {
-			@Override
-			public void commit(MathFieldInternal mfi, String input) {
-				commitFunction(mfi, input);
-			}
 
-			@Override
-			public boolean test(String input) {
-				return "$defint".equals(input) || "$prodeq".equals(input) || "$sumeq".equals(input)
-						|| "$limeq".equals(input) || "$vec".equals(input);
-			}
-		});
-		adapters.add(new StringInput(e + "^") {
-			@Override
-			public void commit(MathFieldInternal mfi, String input) {
-				typeCharacter(mfi, e);
-				typeCharacter(mfi, '^');
-			}
-		});
 		adapters.add(new StringInput("log_{10}") {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {
-				typeCharacter(mfi, 'l');
-				typeCharacter(mfi, 'o');
-				typeCharacter(mfi, 'g');
-				typeCharacter(mfi, '_');
-				typeCharacter(mfi, '1');
-				typeCharacter(mfi, '0');
+				type(mfi, "log_10");
 				CursorController.nextCharacter(mfi.getEditorState());
-				typeCharacter(mfi, '(');
-				CursorController.nextCharacter(mfi.getEditorState());
-				mfi.getCursorController().prevCharacter(mfi.getEditorState());
+				type(mfi, "(");
 			}
 		});
+
 		adapters.add(new StringInput("logb") {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {
-				typeCharacter(mfi, 'l');
-				typeCharacter(mfi, 'o');
-				typeCharacter(mfi, 'g');
-				typeCharacter(mfi, '(');
+				type(mfi, "log(");
 				mfi.getCursorController().prevCharacter(mfi.getEditorState());
 			}
 		});
-		adapters.add(new StringInput("10^") {
-			@Override
-			public void commit(MathFieldInternal mfi, String input) {
-				typeCharacter(mfi, '1');
-				typeCharacter(mfi, '0');
-				typeCharacter(mfi, '^');
-			}
-		});
-		adapters.add(new StringInput("a_n") {
-			@Override
-			public void commit(MathFieldInternal mfi, String input) {
-				typeCharacter(mfi, '_');
-			}
-		});
+
 		adapters.add(new StringInput("d/dx") {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {
-				typeCharacter(mfi, 'd');
-				typeCharacter(mfi, '/');
-				typeCharacter(mfi, 'd');
-				typeCharacter(mfi, 'x');
+				type(mfi, "d/dx");
 				mfi.getCursorController().prevCharacter(mfi.getEditorState());
 				mfi.getCursorController().prevCharacter(mfi.getEditorState());
 				mfi.getCursorController().prevCharacter(mfi.getEditorState());
@@ -132,7 +93,7 @@ public class KeyboardInputAdapter {
 		adapters.add(new StringInput() {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {
-				typeCharacter(mfi, input.charAt(0));
+				type(mfi, input);
 			}
 
 			@Override
@@ -144,9 +105,10 @@ public class KeyboardInputAdapter {
 		commandAdapter = new KeyboardAdapter() {
 			@Override
 			public void commit(MathFieldInternal mfi, String commandName) {
-				insertString(mfi, commandName);
+				emulateInput(mfi, commandName);
 				if (!commandName.contains("(")) {
 					mfi.getInputController().newBraces(mfi.getEditorState(), '(');
+					mfi.notifyAndUpdate("(");
 				}
 			}
 
@@ -157,6 +119,15 @@ public class KeyboardInputAdapter {
 		};
 
 		adapters.add(commandAdapter);
+	}
+
+	public static void type(MathFieldInternal mfi, String input) {
+		EditorState editorState = mfi.getEditorState();
+		KeyListenerImpl keyListener = mfi.getKeyListener();
+		for (int i = 0; i < input.length(); i++) {
+			keyListener.onKeyTyped(input.charAt(i), editorState);
+		}
+		mfi.notifyAndUpdate(String.valueOf(input.charAt(input.length() - 1)));
 	}
 
 	/**
