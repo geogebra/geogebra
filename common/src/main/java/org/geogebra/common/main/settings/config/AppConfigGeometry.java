@@ -49,7 +49,6 @@ public class AppConfigGeometry extends AbstractAppConfig {
 			dp.setLocation("3");
 			dp.setTabId(DockPanelData.TabIds.TOOLS);
 		} else if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
-			dp.makeVisible();
 			dp.setLocation("1");
 		}
 	}
