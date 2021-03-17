@@ -987,6 +987,10 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.addGeoToTV(label);
 	}
 
+	public void removeGeoFromTV(String label) {
+		ggbAPI.removeGeoFromTV(label);
+	}
+
 	public void setValuesOfTV(String values) throws InvalidValuesException {
 		ggbAPI.setValuesOfTV(values);
 	}

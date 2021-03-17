@@ -241,6 +241,7 @@
                     break;
 
                 case "addGeoToTV":
+                case "removeGeoFromTV":
                 	this.sendEvent(event[0], event[1]);
                 	break;
 
@@ -342,6 +343,8 @@
                 	target.api.addGeoToTV(last.content);
                 } else if (last.type == "setValuesOfTV") {
                 	target.api.setValuesOfTV(last.content);
+                } else if (last.type == "removeGeoFromTV") {
+                	target.api.removeGeoFromTV(last.content);
                 }
             }
         };

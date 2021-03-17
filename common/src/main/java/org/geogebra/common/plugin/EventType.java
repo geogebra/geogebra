@@ -198,6 +198,8 @@ public enum EventType {
 
 	ADD_TV("addGeoToTV"),
 
+	REMOVE_TV("removeGeoFromTV"),
+
 	/** min, max and step */
 	SET_VALUES_TV("setValuesOfTV");
 

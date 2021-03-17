@@ -1508,6 +1508,13 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
+	public void removeGeoFromTV(String label) {
+		GuiManagerW guiManagerW = (GuiManagerW) app.getGuiManager();
+		if (guiManagerW != null) {
+			guiManagerW.removeGeoFromTV(label);
+		}
+	}
+
 	public void setValuesOfTV(String values) throws InvalidValuesException {
 		GuiManagerW guiManagerW = (GuiManagerW) app.getGuiManager();
 		if (guiManagerW != null && !values.isEmpty()) {

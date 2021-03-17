@@ -2261,6 +2261,17 @@ public class GuiManagerW extends GuiManager
 		getUnbundledToolbar().openTableView((GeoEvaluatable) geo, true);
 	}
 
+	/**
+	 * @param label
+	 * 					gep to be removed
+	 */
+	public void removeGeoFromTV(String label) {
+		GeoElement geo = app.getKernel().lookupLabel(label);
+		if (getTableValuesView() != null && geo instanceof GeoEvaluatable) {
+			getTableValuesView().hideColumn((GeoEvaluatable) geo);
+		}
+	}
+
 	/** add geo without showing table
 	 * @param geo
 	 * 			  geo to be added
