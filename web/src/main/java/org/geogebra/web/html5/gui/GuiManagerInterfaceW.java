@@ -10,6 +10,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
+import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -187,4 +188,21 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * @param runAfterLogin - callback
 	 */
 	void setRunAfterLogin(Runnable runAfterLogin);
+
+	/**
+	 * @param geo - to add to table of values
+	 */
+	void addGeoToTV(GeoElement geo);
+
+	/**
+	 * @param label - of geo to be removed from the table of values
+	 */
+	void removeGeoFromTV(String label);
+
+	/**
+	 * @param min
+	 * @param max
+	 * @param step
+	 */
+	void setValues(double min, double max, double step) throws InvalidValuesException;
 }

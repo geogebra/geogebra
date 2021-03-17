@@ -29,7 +29,6 @@ import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -1501,7 +1500,7 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	public void addGeoToTV(String label) {
-		GuiManagerW guiManagerW = (GuiManagerW) app.getGuiManager();
+		GuiManagerInterfaceW guiManagerW = (GuiManagerInterfaceW) app.getGuiManager();
 		GeoElement geo = app.getKernel().lookupLabel(label);
 		if (guiManagerW != null && geo != null) {
 			guiManagerW.addGeoToTV(geo);
@@ -1509,18 +1508,18 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	public void removeGeoFromTV(String label) {
-		GuiManagerW guiManagerW = (GuiManagerW) app.getGuiManager();
+		GuiManagerInterfaceW guiManagerW = (GuiManagerInterfaceW) app.getGuiManager();
 		if (guiManagerW != null) {
 			guiManagerW.removeGeoFromTV(label);
 		}
 	}
 
 	public void setValuesOfTV(String values) throws InvalidValuesException {
-		GuiManagerW guiManagerW = (GuiManagerW) app.getGuiManager();
+		GuiManagerInterfaceW guiManagerW = (GuiManagerInterfaceW) app.getGuiManager();
 		if (guiManagerW != null && !values.isEmpty()) {
 			String[] valueArray = values.split(",");
 			if (valueArray.length == 3) {
-				guiManagerW.getTableValuesView().setValues(Double.parseDouble(valueArray[0]),
+				guiManagerW.setValues(Double.parseDouble(valueArray[0]),
 						Double.parseDouble(valueArray[1]), Double.parseDouble(valueArray[2]));
 			}
 		}
