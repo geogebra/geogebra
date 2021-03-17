@@ -1120,6 +1120,16 @@ public class InputController {
 			} else if (allowFrac && ch == '^') {
 				newScript(editorState, Tag.SUPERSCRIPT);
 				handled = true;
+			} else if (allowFrac && Unicode.isSuperscriptDigit(ch)) {
+				newScript(editorState, Tag.SUPERSCRIPT);
+				newCharacter(editorState, (char) (Unicode.superscriptToNumber(ch) + '0'));
+				CursorController.nextCharacter(editorState);
+				handled = true;
+			} else if (allowFrac && ch == Unicode.SUPERSCRIPT_MINUS) {
+				newScript(editorState, Tag.SUPERSCRIPT);
+				newCharacter(editorState, '-');
+				CursorController.nextCharacter(editorState);
+				handled = true;
 			} else if (allowFrac && ch == '_') {
 				newScript(editorState, Tag.SUBSCRIPT);
 				handled = true;

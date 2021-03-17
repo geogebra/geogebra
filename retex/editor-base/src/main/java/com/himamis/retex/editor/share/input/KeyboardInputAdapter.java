@@ -29,18 +29,6 @@ public class KeyboardInputAdapter {
 		adapters.add(new StringCharAdapter(minus, '-'));
 		adapters.add(new FunctionAdapter("random"));
 		adapters.add(new FunctionAdapter("nroot"));
-		adapters.add(new StringInput(Unicode.SUPERSCRIPT_2 + "") {
-			@Override
-			public void commit(MathFieldInternal mfi, String input) {
-				if (mfi.getInputController().getCreateFrac()) {
-					typeCharacter(mfi, '^');
-					typeCharacter(mfi, '2');
-					CursorController.nextCharacter(mfi.getEditorState());
-				} else {
-					typeCharacter(mfi, Unicode.SUPERSCRIPT_2);
-				}
-			}
-		});
 		adapters.add(new StringInput("x^(-1)") {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {
@@ -150,27 +138,6 @@ public class KeyboardInputAdapter {
 			@Override
 			public boolean test(String input) {
 				return input.length() == 1;
-			}
-		});
-
-		adapters.add(new StringInput() {
-			@Override
-			public void commit(MathFieldInternal mfi, String input) {
-				String command = input.substring(0, input.length() - Unicode
-						.SUPERSCRIPT_MINUS_ONE_STRING.length());
-				insertString(mfi, command);
-				typeCharacter(mfi, '^');
-				typeCharacter(mfi, '-');
-				typeCharacter(mfi, '1');
-				CursorController.nextCharacter(mfi.getEditorState());
-				mfi.getInputController().newBraces(mfi.getEditorState(), '(');
-			}
-
-			@Override
-			public boolean test(String keyboard) {
-				return keyboard.endsWith(Unicode.SUPERSCRIPT_MINUS_ONE_STRING)
-						&& Character.areLettersOrDigits(keyboard.substring(0,
-								keyboard.length() - Unicode.SUPERSCRIPT_MINUS_ONE_STRING.length()));
 			}
 		});
 
