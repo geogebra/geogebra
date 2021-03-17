@@ -252,13 +252,13 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		if (fullscreenBtn == null) {
 			return;
 		}
-		ScreenReaderBuilder sb = new ScreenReaderBuilder();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
 		if (isFullScreen()) {
-			sb.append(loc.getMenuDefault("FullscreenExitButtonSelected",
-					"Full screen button selected (currently full screen)"));
+			sb.appendMenuDefault("FullscreenExitButtonSelected",
+					"Full screen button selected (currently full screen)");
 		} else {
-			sb.append(loc.getMenuDefault("FullscreenButtonSelected",
-					"Full screen button selected (currently not full screen)"));
+			sb.appendMenuDefault("FullscreenButtonSelected",
+					"Full screen button selected (currently not full screen)");
 		}
 		if (!Browser.needsAccessibilityView()) {
 			addFullscreenKeyboardControls(sb);
@@ -279,7 +279,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		}
 		String title = loc.getMenuDefault(transKey, auralDefault);
 
-		ScreenReaderBuilder sb = new ScreenReaderBuilder();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
 		sb.append(title);
 		if (!Browser.needsAccessibilityView()) {
 			addZoomKeyboardControls(sb, controlNext);
@@ -291,17 +291,17 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	private void addZoomKeyboardControls(ScreenReaderBuilder sb, boolean controlNext) {
 		addSpaceControl(sb);
 		if (controlNext) {
-			sb.append(loc.getMenuDefault("PressTabToSelectControls",
-					"Press tab to select controls"));
+			sb.appendMenuDefault("PressTabToSelectControls",
+					"Press tab to select controls");
 		} else {
-			sb.append(loc.getMenuDefault("PressTabToSelectNext",
-					"Press tab to select next object"));
+			sb.appendMenuDefault("PressTabToSelectNext",
+					"Press tab to select next object");
 		}
 	}
 
 	private void addSpaceControl(ScreenReaderBuilder sb) {
 		sb.appendSpace();
-		sb.append(loc.getMenuDefault("PressSpaceToActivate", "press space to activate"));
+		sb.appendMenuDefault("PressSpaceToActivate", "press space to activate");
 		sb.endSentence();
 	}
 

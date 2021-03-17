@@ -1,10 +1,12 @@
 package org.geogebra.common.kernel;
 
+import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.desktop.headless.AppDNoGui;
-import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.test.TestErrorHandler;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,11 +16,11 @@ import org.junit.Test;
 @SuppressWarnings("javadoc")
 public class ScreenReaderTest {
 
-	static AppDNoGui app;
+	static AppCommon app;
 
 	@BeforeClass
 	public static void initialize() {
-		app = new AppDNoGui(new LocalizationD(3), true);
+		app = new AppCommon3D(new LocalizationCommon(3), new AwtFactoryCommon());
 	}
 
 	@Before
@@ -54,7 +56,8 @@ public class ScreenReaderTest {
 		String funct = "sin((2x)/(3) (4-5)) + -2";
 		tsc(funct,
 				"sin open parenthesis start fraction 2 times x over 3 end fraction times"
-						+ " open parenthesis 4 minus 5 close parenthesis close parenthesis minus 2");
+						+ " open parenthesis 4 minus 5 close parenthesis close parenthesis"
+						+ " minus 2");
 	}
 
 	@Test

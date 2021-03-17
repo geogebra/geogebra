@@ -1078,14 +1078,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            coefficients
 	 * @param vars
 	 *            variables
-	 * @param keepLeadingSign
-	 *            whether to keep sign of first coefficient
 	 * @param cancelDown
 	 *            whether to cancel GCDs
 	 * @param needsZ
 	 *            whether term in z is needed
-	 * @param op
-	 *            equality operator
 	 * @param tpl
 	 *            string template
 	 * @param implicit
@@ -1093,35 +1089,22 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return serialized equation
 	 */
 	public final StringBuilder buildImplicitEquation(double[] numbers,
-			String[] vars, boolean keepLeadingSign, boolean cancelDown,
-			boolean needsZ, char op, StringTemplate tpl, boolean implicit) {
+			String[] vars, boolean cancelDown,
+			boolean needsZ, StringTemplate tpl, boolean implicit) {
 
 		sbBuildImplicitEquation.setLength(0);
-		double[] temp = buildImplicitVarPart(sbBuildImplicitEquation, numbers,
-				vars, keepLeadingSign || (op == '='), cancelDown, needsZ,
+		double lastCoeff = buildImplicitVarPart(sbBuildImplicitEquation, numbers,
+				vars, cancelDown, needsZ,
 				tpl);
 
-		if (!implicit && !isZeroFigure(temp[vars.length], tpl)) {
-			String sign;
-			double abs;
-			if (temp[vars.length] < 0.0) {
-				sign = " - ";
-				abs = -temp[vars.length];
-			} else {
-				sign = " + ";
-				abs = temp[vars.length];
-			}
-			sbBuildImplicitEquation.append(sign);
-			sbBuildImplicitEquation.append(format(abs, tpl));
+		if (!implicit && !isZeroFigure(lastCoeff, tpl)) {
+			sbBuildImplicitEquation.append(' ');
+			formatSigned(lastCoeff, sbBuildImplicitEquation, tpl);
 		}
-
-		sbBuildImplicitEquation.append(' ');
-		sbBuildImplicitEquation.append(op);
-		sbBuildImplicitEquation.append(' ');
-
+		sbBuildImplicitEquation.append(tpl.getEqualsWithSpace());
 		if (implicit) {
 			// temp is set by buildImplicitVarPart
-			sbBuildImplicitEquation.append(format(-temp[vars.length], tpl));
+			sbBuildImplicitEquation.append(format(-lastCoeff, tpl));
 		} else {
 			sbBuildImplicitEquation.append(format(0.0, tpl));
 		}
@@ -1160,12 +1143,13 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	final public void formatSigned(double x, StringBuilder sb,
 			StringTemplate tpl) {
+		boolean screenReader = tpl.hasType(StringType.SCREEN_READER);
 		if (x >= 0.0d) {
-			sb.append("+ ");
+			sb.append(screenReader ? " plus " : "+ ");
 			sb.append(format(x, tpl));
 			return;
 		}
-		sb.append("- ");
+		sb.append(screenReader ? " minus " : "- ");
 		sb.append(format(-x, tpl));
 	}
 
@@ -1221,11 +1205,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		} else {
 			String ret = formatterMap.get(x);
 			if (ret != null) {
-				// Log.debug("found " + x + " " + ret);
 				return ret;
 			}
-
-			// Log.debug("not found " + x);
 		}
 
 		// PI
@@ -1567,20 +1548,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * change signs of double array values, write result to array b
-	 * 
-	 * @param a
-	 *            input array
-	 * @param b
-	 *            output array
-	 */
-	final static void negative(double[] a, double[] b) {
-		for (int i = 0; i < a.length; i++) {
-			b[i] = -a[i];
-		}
-	}
-
-	/**
 	 * Computes c[] = a[] / b
 	 * 
 	 * @param a
@@ -1659,8 +1626,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            coefficients
 	 * @param vars
 	 *            variables
-	 * @param keepLeadingSign
-	 *            whether output may start with -
 	 * @param cancelDown
 	 *            whether we want to cancel GCD
 	 * @param needsZ
@@ -1669,11 +1634,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            template
 	 * @return LHS string
 	 */
-	final public StringBuilder buildLHS(double[] numbers, String[] vars,
-			boolean keepLeadingSign, boolean cancelDown, boolean needsZ,
-			StringTemplate tpl) {
+	final public StringBuilder buildLHS(double[] numbers, String[] vars, boolean cancelDown,
+			boolean needsZ,	StringTemplate tpl) {
 
-		return buildLHS(numbers, vars, keepLeadingSign, cancelDown, needsZ,
+		return buildLHS(numbers, vars, cancelDown, needsZ,
 				false, tpl);
 	}
 
@@ -1684,9 +1648,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            coefficients
 	 * @param vars
 	 *            variable names
-	 * @param KEEP_LEADING_SIGN
-	 *            true to keep leading sign
-	 * @param CANCEL_DOWN
+	 * @param cancelDown
 	 *            true to allow canceling 2x+4y -&gt; x+2y
 	 * @param needsZ
 	 *            whether "+0z" is needed when z is not present
@@ -1697,16 +1659,15 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return string representing LHS
 	 */
 	final public StringBuilder buildLHS(double[] numbers, String[] vars,
-			boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN, boolean needsZ,
+			boolean cancelDown, boolean needsZ,
 			boolean setConstantIfNoLeading, StringTemplate tpl) {
 		sbBuildLHS.setLength(0);
-		double[] temp = buildImplicitVarPart(sbBuildLHS, numbers, vars,
-				KEEP_LEADING_SIGN, CANCEL_DOWN, needsZ, setConstantIfNoLeading,
+		double lastCoeff = buildImplicitVarPart(sbBuildLHS, numbers, vars,
+				cancelDown, needsZ, setConstantIfNoLeading,
 				tpl);
 
 		// add constant coeff
-		double coeff = temp[vars.length];
-		appendConstant(sbBuildLHS, coeff, tpl);
+		appendConstant(sbBuildLHS, lastCoeff, tpl);
 		return sbBuildLHS;
 	}
 
@@ -1731,49 +1692,21 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		}
 	}
 
-	// y = k x + d
-	/**
-	 * Inverts the &gt; or &lt; sign
-	 * 
-	 * @param op
-	 *            =,&lt;,&gt;,\u2264 or \u2265
-	 * @return opposite sign
-	 */
-	public static char oppositeSign(char op) {
-		switch (op) {
-		case '=':
-			return '=';
-		case '<':
-			return '>';
-		case '>':
-			return '<';
-		case '\u2264':
-			return '\u2265';
-		case '\u2265':
-			return '\u2264';
-		default:
-			return '?'; // should never happen
-		}
-	}
-
 	// lhs of implicit equation without constant coeff
-	final private double[] buildImplicitVarPart(
+	final private double buildImplicitVarPart(
 			StringBuilder sbBuildImplicitVarPart, double[] numbers,
-			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN,
+			String[] vars, boolean CANCEL_DOWN,
 			boolean needsZ, StringTemplate tpl) {
 		return buildImplicitVarPart(sbBuildImplicitVarPart, numbers, vars,
-				KEEP_LEADING_SIGN, CANCEL_DOWN, needsZ, false, tpl);
+				CANCEL_DOWN, needsZ, false, tpl);
 	}
 
 	// lhs of implicit equation without constant coeff
-	final private double[] buildImplicitVarPart(
+	final private double buildImplicitVarPart(
 			StringBuilder sbBuildImplicitVarPart, double[] numbers,
-			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN,
+			String[] vars, boolean CANCEL_DOWN,
 			boolean needsZ, boolean setConstantIfNoLeading,
 			StringTemplate tpl) {
-
-		double[] temp = new double[numbers.length];
-
 		int leadingNonZero = -1;
 		sbBuildImplicitVarPart.setLength(0);
 
@@ -1806,50 +1739,31 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				} else {
 					sbBuildImplicitVarPart.append("0");
 				}
-				return temp;
+				return 0;
 			}
 			sbBuildImplicitVarPart.append("0");
-			return temp;
-		}
-
-		// don't change leading coefficient
-		if (KEEP_LEADING_SIGN) {
-			copy(numbers, temp);
-		} else {
-			if (numbers[leadingNonZero] < 0) {
-				negative(numbers, temp);
-			} else {
-				copy(numbers, temp);
-			}
+			return 0;
 		}
 
 		// BUILD EQUATION STRING
 		// valid left hand side
 		// leading coefficient
-		String strCoeff = formatCoeff(temp[leadingNonZero], tpl);
+		String strCoeff = formatCoeff(numbers[leadingNonZero], tpl);
 		sbBuildImplicitVarPart.append(strCoeff);
 		sbBuildImplicitVarPart.append(vars[leadingNonZero]);
 
 		// other coefficients on lhs
-		String sign;
 		double abs;
 		for (int i = leadingNonZero + 1; i < vars.length; i++) {
-			if (temp[i] < 0.0) {
-				sign = " - ";
-				abs = -temp[i];
-			} else {
-				sign = " + ";
-				abs = temp[i];
-			}
-
+			abs = Math.abs(numbers[i]);
 			if ((abs >= tpl.getPrecision(nf)) || useSignificantFigures
 					|| (needsZ && i == 2)) {
-				sbBuildImplicitVarPart.append(sign);
-				sbBuildImplicitVarPart.append(formatCoeff(abs, tpl));
+				sbBuildImplicitVarPart.append(' ');
+				formatSignedCoefficient(numbers[i], sbBuildImplicitVarPart, tpl);
 				sbBuildImplicitVarPart.append(vars[i]);
 			}
 		}
-		return temp;
+		return numbers[vars.length];
 	}
 
 	/**
@@ -1873,21 +1787,18 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            variables
 	 * @param pos
 	 *            position of y^2 coefficient
-	 * @param KEEP_LEADING_SIGN
-	 *            whether leading sign should be kept
 	 * @param tpl
 	 *            string template
 	 * @return explicit equation of conic
 	 */
 	public final StringBuilder buildExplicitConicEquation(double[] numbers,
-			String[] vars, int pos, boolean KEEP_LEADING_SIGN,
-			StringTemplate tpl) {
+			String[] vars, int pos, StringTemplate tpl) {
 		// y^2-coeff is 0
 		double d, dabs, q = numbers[pos];
 		// coeff of y^2 is 0 or coeff of y is not 0
 		if (DoubleUtil.isZero(q)) {
-			return buildImplicitEquation(numbers, vars, KEEP_LEADING_SIGN, true,
-					false, '=', tpl, true);
+			return buildImplicitEquation(numbers, vars, true,
+					false, tpl, true);
 		}
 
 		int i, leadingNonZero = numbers.length;
@@ -2167,8 +2078,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            coefficients
 	 * @param vars
 	 *            expressions
-	 * @param opDefault
-	 *            equality sign; may be flipped for inequalities
 	 * @param tpl
 	 *            string template
 	 * @param explicit
@@ -2176,10 +2085,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return explicit equation
 	 */
 	public final StringBuilder buildExplicitEquation(double[] numbers,
-			String[] vars, char opDefault, StringTemplate tpl,
-			boolean explicit) {
+			String[] vars, StringTemplate tpl, boolean explicit) {
 
-		char op = opDefault;
 		double d, dabs, q = numbers[1];
 		sbBuildExplicitLineEquation.setLength(0);
 
@@ -2189,12 +2096,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		// if general eq: form x + constant = 0
 		if (DoubleUtil.isZero(q)) {
 			sbBuildExplicitLineEquation.append(vars[0]);
-
-			sbBuildExplicitLineEquation.append(' ');
-			if (numbers[0] < MIN_PRECISION) {
-				op = oppositeSign(op);
-			}
-
 			if (!explicit) {
 				double constant = numbers[2] / numbers[0];
 				String sign;
@@ -2210,18 +2111,16 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				String absStr = format(abs, tpl);
 				if (!"0".equals(absStr)) {
 					sbBuildExplicitLineEquation
-							.append(sign + " " + absStr + " ");
+							.append(sign + " " + absStr);
 				}
 			}
 
-			sbBuildExplicitLineEquation.append(op);
-			sbBuildExplicitLineEquation.append(' ');
+			sbBuildExplicitLineEquation.append(tpl.getEqualsWithSpace());
 
 			if (explicit) {
 				sbBuildExplicitLineEquation
 						.append(format(-numbers[2] / numbers[0], tpl));
 			} else {
-				Log.debug("HHH");
 				sbBuildExplicitLineEquation.append(format(0.0, tpl));
 			}
 
@@ -2231,13 +2130,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		// standard case: y-coeff not 0
 		sbBuildExplicitLineEquation.append(vars[1]);
 
-		sbBuildExplicitLineEquation.append(' ');
-		if (numbers[1] < MIN_PRECISION) {
-			op = oppositeSign(op);
-		}
-
 		// general line equation, coeff of x is null
 		if (!explicit) {
+			sbBuildExplicitLineEquation.append(' ');
 			if (useSignificantFigures) {
 				sbBuildExplicitLineEquation
 						.append("+ " + format(0.0, tpl) + vars[0]);
@@ -2247,14 +2142,12 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			sbBuildExplicitLineEquation.append(sign(d));
 			sbBuildExplicitLineEquation.append(' ');
 			sbBuildExplicitLineEquation.append(format(dabs, tpl));
-			sbBuildExplicitLineEquation.append(' ');
-			sbBuildExplicitLineEquation.append(op);
+			sbBuildExplicitLineEquation.append(tpl.getEqualsWithSpace());
 			sbBuildExplicitLineEquation.append(formatCoeff(0.0, tpl));
 			return sbBuildExplicitLineEquation;
 		}
 
-		sbBuildExplicitLineEquation.append(op);
-		sbBuildExplicitLineEquation.append(' ');
+		sbBuildExplicitLineEquation.append(tpl.getEqualsWithSpace());
 
 		// x coeff
 		d = -numbers[0] / q;

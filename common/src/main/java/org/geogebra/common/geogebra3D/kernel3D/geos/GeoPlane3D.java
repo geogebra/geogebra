@@ -46,7 +46,6 @@ public class GeoPlane3D extends GeoElement3D
 		Translateable, Traceable, RotateableND, MirrorableAtPlane,
 		Transformable, Dilateable {
 
-	private static final boolean KEEP_LEADING_SIGN = true;
 	// values for grid and interactions
 	private double xmin;
 	private double xmax;
@@ -492,7 +491,7 @@ public class GeoPlane3D extends GeoElement3D
 	static public StringBuilder buildValueString(StringTemplate tpl,
 			Kernel kernel, Coords coords, boolean needsZ) {
 		return kernel.buildImplicitEquation(coords.get(), VAR_STRING,
-				KEEP_LEADING_SIGN, true, needsZ, '=', tpl, true);
+				true, needsZ, tpl, true);
 	}
 
 	/** to be able to fill it with an alpha value */

@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
+import org.geogebra.common.kernel.geos.ScreenReaderSerializationAdapter;
 import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
@@ -50,7 +51,8 @@ public class ScreenReader {
 	 *            selected element
 	 */
 	public static void readText(GeoElement geo) {
-		readText(getAuralText(geo, new ScreenReaderBuilder()), geo.getKernel().getApplication());
+		readText(getAuralText(geo, new ScreenReaderBuilder(geo.getKernel().getLocalization())),
+				geo.getKernel().getApplication());
 	}
 
 	private static void readText(String text, App app) {
@@ -205,11 +207,11 @@ public class ScreenReader {
 	}
 
 	public static String getStartPower(Localization loc) {
-		return localize(loc, "startSuperscript", "start superscript");
+		return localize(loc, "startPower", "to the power of");
 	}
 
 	public static String getEndPower(Localization loc) {
-		return " " + localize(loc, "endSuperscript", "end superscript");
+		return " " + localize(loc, "endPower", "end power");
 	}
 
 	/**
@@ -280,7 +282,8 @@ public class ScreenReader {
 				if (StringUtil.emptyTrim(content)) {
 					return localize("empty %0", "parentheses");
 				}
-				return ScreenReader.getLeftBracket() + content + ScreenReader.getRightBracket();
+				return ScreenReader.getOpenParenthesis() + content
+						+ ScreenReader.getCloseParenthesis();
 			}
 		};
 	}
@@ -310,12 +313,20 @@ public class ScreenReader {
 		return sb.toString();
 	}
 
-	public static String getLeftBracket() {
+	public static String getOpenParenthesis() {
 		return " open parenthesis ";
 	}
 
-	public static String getRightBracket() {
+	public static String getCloseParenthesis() {
 		return " close parenthesis ";
+	}
+
+	public static String getOpenBrace() {
+		return " open brace ";
+	}
+
+	public static String getCloseBrace() {
+		return " close brace ";
 	}
 
 	/**
@@ -332,6 +343,11 @@ public class ScreenReader {
 		StringBuilder sb = new StringBuilder();
 		sb.append(leftStr);
 		sb.append(" ");
+		appendPower(sb, rightStr, loc);
+		return sb.toString();
+	}
+
+	public static void appendPower(StringBuilder sb, String rightStr, Localization loc) {
 		if ("2".equals(rightStr)) {
 			sb.append(ScreenReader.getSquared(loc));
 		} else if ("3".equals(rightStr)) {
@@ -341,7 +357,6 @@ public class ScreenReader {
 			sb.append(rightStr);
 			sb.append(ScreenReader.getEndPower(loc));
 		}
-		return sb.toString();
 	}
 
 	/**
@@ -355,6 +370,22 @@ public class ScreenReader {
 	 */
 	public static String nroot(String leftStr, String rightStr, Localization loc) {
 		StringBuilder sb = new StringBuilder();
+		sb.append(loc.getPlainDefault("ScreenReader.startRoot",
+				"start %0 root", asRootIndex(rightStr, loc)));
+		sb.append(' ');
+		sb.append(leftStr);
+		sb.append(' ');
+		sb.append(loc.getPlainDefault("ScreenReader.endRoot", "end root"));
+		return sb.toString();
+	}
+
+	private static String asRootIndex(String rightStr, Localization loc) {
+		if ("2".equals(rightStr)) {
+			return "square";
+		}
+		if ("3".equals(rightStr)) {
+			return "cube";
+		}
 		String index = rightStr;
 		try {
 			double indexVal = MyDouble.parseDouble(loc, index);
@@ -364,12 +395,7 @@ public class ScreenReader {
 		} catch (MyError e) {
 			Log.trace("Not a number");
 		}
-		sb.append(loc.getPlainDefault("ScreenReader.startRoot", "start %0 root", index));
-		sb.append(' ');
-		sb.append(leftStr);
-		sb.append(' ');
-		sb.append(loc.getPlainDefault("ScreenReader.endRoot", "end root"));
-		return sb.toString();
+		return index;
 	}
 
 	/**
@@ -399,7 +425,7 @@ public class ScreenReader {
 	 */
 	public static void readEVPlay(App app) {
 		Localization loc = app.getLocalization();
-		ScreenReaderBuilder sb = new ScreenReaderBuilder();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
 		sb.append(loc.getMenu("PlayButton"));
 		sb.endSentence();
 		if (app.getKernel().getAnimatonManager().isRunning()) {
@@ -461,8 +487,18 @@ public class ScreenReader {
 	 *            String to convert eg M_R-a
 	 * @return converted String eg M subscript R minus a
 	 */
-	public static String convertToReadable(String s) {
-		return s.replace("_", " subscript ").replace("-", " minus ");
+	public static String convertToReadable(String s, Localization loc) {
+		StringBuilder sb = new StringBuilder();
+		ScreenReaderSerializationAdapter adapter = new ScreenReaderSerializationAdapter(loc);
+		for (int i = 0; i < s.length(); i++) {
+			char character = s.charAt(i);
+			if (character == '_') {
+				sb.append(" subscript ");
+			} else {
+				sb.append(adapter.convertCharacter(character));
+			}
+		}
+		return sb.toString();
 	}
 
 	/**
@@ -471,5 +507,9 @@ public class ScreenReader {
 	 */
 	public static void debug(String text) {
 		Log.debug("read text: " + text);
+	}
+
+	public static String getComma() {
+		return " comma ";
 	}
 }

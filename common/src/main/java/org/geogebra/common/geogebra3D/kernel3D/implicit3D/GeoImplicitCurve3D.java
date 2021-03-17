@@ -135,7 +135,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 				planeEquationNumbers[2] = -planeEquation.getW()
 						/ planeEquation.getZ() - translateZ;
 				valueSb.append(kernel.buildLHS(planeEquationNumbers, VAR_STRING,
-						true, false, false, true, tpl));
+						false, false, true, tpl));
 			}
 		} else {
 			valueSb.append(getExpression().toValueString(tpl));
