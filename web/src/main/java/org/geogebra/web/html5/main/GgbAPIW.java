@@ -1499,6 +1499,9 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
+	/**
+	 * @param label name of the function
+	 */
 	public void addGeoToTV(String label) {
 		GuiManagerInterfaceW guiManagerW = (GuiManagerInterfaceW) app.getGuiManager();
 		GeoElement geo = app.getKernel().lookupLabel(label);
@@ -1507,6 +1510,9 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
+	/**
+	 * @param label name of the function
+	 */
 	public void removeGeoFromTV(String label) {
 		GuiManagerInterfaceW guiManagerW = (GuiManagerInterfaceW) app.getGuiManager();
 		if (guiManagerW != null) {
@@ -1514,6 +1520,10 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
+	/**
+	 * @param values comma separated list min,max,step
+	 * @throws InvalidValuesException if min/max/step are not valid numbers
+	 */
 	public void setValuesOfTV(String values) throws InvalidValuesException {
 		GuiManagerInterfaceW guiManagerW = (GuiManagerInterfaceW) app.getGuiManager();
 		if (guiManagerW != null && !values.isEmpty()) {
