@@ -573,6 +573,9 @@
 	PDFKitMini.prototype.imageLoadFromCanvas = function(a) {
 	    a = new PDFImage(a);
 	    this.add(a);
+	    if (a.mask) {
+	    	this.add(a.mask);
+	    }
 	    this.currentImage = a;
 	};
 
@@ -1380,28 +1383,7 @@
 	    return PDFObject.makeObject(props, this.id, stream);
 	};
 
-	function PDFImage(canvas) {
-	    this.width = canvas.width;
-	    this.height = canvas.height;
-	    var ctx = canvas.getContext("2d");
-	    var buffer = new Uint8Array(this.height * this.width * 3);//[];
-	    var rawData = ctx.getImageData(0, 0, this.width, this.height);
-		var i = 0;
-	    for (var y = 0; y < this.height; y++) {
-	        for (var x = 0; x < this.width; x++) {
-	            var red = rawData.data[(x + y * this.width) * 4];
-	            var green = rawData.data[(x + y * this.width) * 4 + 1];
-	            var blue = rawData.data[(x + y * this.width) * 4 + 2];
-
-	            //buffer.push(String.fromCharCode(red));
-	            //buffer.push(String.fromCharCode(green));
-	            //buffer.push(String.fromCharCode(blue));
-	            buffer[i++] = red;
-	            buffer[i++] = green;
-	            buffer[i++] = blue;
-	        }
-		}
-
+	var bufferToString = function(buffer) {
 		if (canvas2pdf.usePako) {
 			buffer = pako.deflate(buffer);
 		}
@@ -1410,9 +1392,47 @@
 		for (var i = 0 ; i < buffer.length ; i++) {
 			buffer2.push(String.fromCharCode(buffer[i]));
 		}
+		return buffer2.join("");
+	}
 
-	    this.stream = buffer2.join("");
+	function PDFImage(canvas, alphaBuffer) {
+		this.width = canvas.width;
+		this.height = canvas.height;
+		this.isMask = !!alphaBuffer;
+		if (!alphaBuffer) {
+			this.loadData(canvas);
+		} else {
+			this.stream = bufferToString(alphaBuffer);
+		}
+	}
 
+	PDFImage.prototype.loadData = function(canvas) {
+	    var ctx = canvas.getContext("2d");
+		var buffer = new Uint8Array(this.height * this.width * 3);//[];
+		var rawData = ctx.getImageData(0, 0, this.width, this.height);
+		var i = 0;
+		var alphaBuffer = new Uint8Array(this.height * this.width);
+		var alphaI = 0;
+		var needsAlpha = false;
+		for (var y = 0; y < this.height; y++) {
+			for (var x = 0; x < this.width; x++) {
+				var red = rawData.data[(x + y * this.width) * 4];
+				var green = rawData.data[(x + y * this.width) * 4 + 1];
+				var blue = rawData.data[(x + y * this.width) * 4 + 2];
+				var alpha = rawData.data[(x + y * this.width) * 4 + 3];
+				buffer[i++] = red;
+				buffer[i++] = green;
+				buffer[i++] = blue;
+				alphaBuffer[alphaI++] = alpha;
+				if (alpha != 255) {
+					needsAlpha = true;
+				}
+			}
+		}
+		if (needsAlpha) {
+			this.mask = new PDFImage(canvas, alphaBuffer);
+		}
+		this.stream = bufferToString(buffer);
 	}
 
 	PDFImage.prototype.writeImage = function(a) {
@@ -1426,12 +1446,14 @@
 	        "Width": this.width,
 	        "Height": this.height,
 	        "Subtype": "Image",
-	        "ColorSpace": "DeviceRGB",
+	        "ColorSpace": this.isMask ? "DeviceGray" : "DeviceRGB",
 	        "BitsPerComponent": 8,
 	        "Name": "Image" + this.id,
 	        "Length": this.stream.length
 	    }
-
+		if (this.mask) {
+			props["SMask"] = new PDFReference(this.mask.id + " 0 R");
+		}
 		if (canvas2pdf.usePako) {
 			props["Filter"] = "FlateDecode";
 		}
