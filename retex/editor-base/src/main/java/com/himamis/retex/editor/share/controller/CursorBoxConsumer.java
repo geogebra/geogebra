@@ -39,6 +39,9 @@ public class CursorBoxConsumer implements BoxConsumer {
 		}
 	}
 
+	/**
+	 * @return cursor rectangle
+	 */
 	public Rectangle2D getPosition() {
 		if (cursorPosition == null) {
 			return null;

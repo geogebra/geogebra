@@ -51,6 +51,9 @@ public class SelectionBoxConsumer implements BoxConsumer {
 		}
 	}
 
+	/**
+	 * @return selection rectangle
+	 */
 	public Rectangle2D getPosition() {
 		return FactoryProvider.getInstance().getGeomFactory().createRectangle2D(
 				selectionX1,

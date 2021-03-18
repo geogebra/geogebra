@@ -65,6 +65,9 @@ public class TeXBuilder {
 		replacements.put('&', "textampersand");
 	}
 
+	/**
+	 * New formula to atom converter
+	 */
 	public TeXBuilder() {
 		parser = new TeXParser("");
 		teXSerializer = new TeXSerializer();

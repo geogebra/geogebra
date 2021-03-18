@@ -290,6 +290,10 @@ public class TeXSerializer extends SerializerAdapter {
 		}
 	}
 
+	/**
+	 * @param name function name
+	 * @return whether this is a builtin function (sin/cos/...)
+	 */
 	public boolean isFunction(String name) {
 		if (syntaxAdapter == null) {
 			return true;
