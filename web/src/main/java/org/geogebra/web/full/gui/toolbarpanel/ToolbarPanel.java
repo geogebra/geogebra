@@ -36,6 +36,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
+import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.resources.SVGResource;
@@ -365,6 +366,7 @@ public class ToolbarPanel extends FlowPanel
 				heading.setVisible(false);
 				parent.forceLayout();
 				parent.removeStyleName("singlePanel");
+				resetFullscreenButton();
 			}
 
 			@Override
@@ -372,6 +374,12 @@ public class ToolbarPanel extends FlowPanel
 				updateUndoRedoPosition();
 			}
 		};
+	}
+
+	private void resetFullscreenButton() {
+		ZoomPanel fullscreenBtn = app.getZoomPanel();
+		removeStyleNamesFromFullscreenBtn();
+		fullscreenBtn.addStyleName("zoomPanelPosition");
 	}
 
 	private void showOppositeView() {
@@ -695,7 +703,7 @@ public class ToolbarPanel extends FlowPanel
 
 	private void updateMoveButton(int mode) {
 		setMoveFloatingButtonVisible(mode != EuclidianConstants.MODE_MOVE
-			&& getSelectedTabId() == TabIds.TOOLS);
+				&& getSelectedTabId() == TabIds.TOOLS);
 	}
 
 	/**
@@ -706,6 +714,27 @@ public class ToolbarPanel extends FlowPanel
 			return;
 		}
 		Dom.toggleClass(moveBtn, "showMoveBtn", "hideMoveBtn", visible);
+	}
+
+	private void moveFullScreenButtonUpOrDown(String withMoveBtn, String noMoveBtn) {
+		if (!app.isPortrait()) {
+			ZoomPanel fullscreenBtn = app.getZoomPanel();
+			removeStyleNamesFromFullscreenBtn();
+			if (app.getMode() != EuclidianConstants.MODE_MOVE
+					&& getSelectedTabId() == TabIds.TOOLS) {
+				fullscreenBtn.addStyleName(withMoveBtn);
+			} else {
+				fullscreenBtn.addStyleName(noMoveBtn);
+			}
+		}
+	}
+
+	private void removeStyleNamesFromFullscreenBtn() {
+		ZoomPanel fullscreenBtn = app.getZoomPanel();
+		fullscreenBtn.removeStyleName("zoomPanelPosition");
+		fullscreenBtn.removeStyleName("zoomPanelForFullscreenAVMoveUp");
+		fullscreenBtn.removeStyleName("zoomPanelForFullscreenAV");
+		fullscreenBtn.removeStyleName("zoomPanelForFullscreenAVMoveUpNoMoveBtn");
 	}
 
 	/**
@@ -727,6 +756,10 @@ public class ToolbarPanel extends FlowPanel
 					moveBtn.removeStyleName("moveMoveBtnDownSmall");
 					moveBtn.addStyleName("moveMoveBtnUpSmall");
 				} else {
+					if (heading.isVisible()) {
+						moveFullScreenButtonUpOrDown("zoomPanelForFullscreenAVMoveUp",
+								"zoomPanelForFullscreenAVMoveUpNoMoveBtn");
+					}
 					moveBtn.removeStyleName("moveMoveBtnDown");
 					moveBtn.addStyleName("moveMoveBtnUp");
 				}
@@ -748,6 +781,9 @@ public class ToolbarPanel extends FlowPanel
 				moveBtn.addStyleName("moveMoveBtnDownSmall");
 				moveBtn.removeStyleName("moveMoveBtnUpSmall");
 			} else {
+				if (heading.isVisible()) {
+					moveFullScreenButtonUpOrDown("zoomPanelForFullscreenAV", "zoomPanelPosition");
+				}
 				moveBtn.addStyleName("moveMoveBtnDown");
 				moveBtn.removeStyleName("moveMoveBtnUp");
 			}
@@ -815,6 +851,9 @@ public class ToolbarPanel extends FlowPanel
 			}
 		});
 		updateMoveButton();
+		if (tab != TabIds.TOOLS) {
+			resetFullscreenButton();
+		}
 	}
 
 	/**
@@ -1263,6 +1302,11 @@ public class ToolbarPanel extends FlowPanel
 					app.getGuiManager().setShowView(false, opposite.getViewId());
 					navRail.setAnimating(false);
 					dockParent.forceLayout();
+					if (app.getMode() != EuclidianConstants.MODE_MOVE
+							&& getSelectedTabId() == TabIds.TOOLS) {
+						moveFullScreenButtonUpOrDown("zoomPanelForFullscreenAV",
+								"zoomPanelPosition");
+					}
 				}
 
 				@Override
