@@ -1,5 +1,7 @@
 package org.geogebra.common.plugin;
 
+import org.geogebra.common.gui.view.table.InvalidValuesException;
+
 /**
  * JavaScript interface of GeoGebra applets.
  * 
@@ -1165,4 +1167,19 @@ public interface JavaScriptAPI {
 	 * @return whether element has unlabeled predecessors
 	 */
 	boolean hasUnlabeledPredecessors(String label);
+
+	/**
+	 * @param label - label of geo to add to table of values
+	 */
+	void addGeoToTV(String label);
+
+	/**
+	 * @param label - label of geo to be removed from table of values
+	 */
+	void removeGeoFromTV(String label);
+
+	/**
+	 * @param values - min, max and step of table of values with comma delimiter
+	 */
+	void setValuesOfTV(String values) throws InvalidValuesException;
 }
