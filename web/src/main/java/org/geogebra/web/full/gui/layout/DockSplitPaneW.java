@@ -567,6 +567,11 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		}
 	}
 
+	/**
+	 * Reorder components; only a setter, GuiManager::setShowView needs to be called after.
+	 * @param left new left
+	 * @param right new right
+	 */
 	public void setComponentOrder(DockPanelW left, DockPanelW right) {
 		leftComponent = left;
 		rightComponent = right;

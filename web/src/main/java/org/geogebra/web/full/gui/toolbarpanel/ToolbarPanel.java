@@ -1264,6 +1264,10 @@ public class ToolbarPanel extends FlowPanel
 		}
 	}
 
+	/**
+	 * Update state depending on whether the opposite panel is visible.
+	 * @param alone whether toolbar panel is the only open one
+	 */
 	public void setAlone(boolean alone) {
 		if (heading != null) {
 			updateHeadingStyle(alone);
@@ -1286,6 +1290,9 @@ public class ToolbarPanel extends FlowPanel
 		}
 	}
 
+	/**
+	 * Hide the view opposite to the toolbar panel
+	 */
 	public void hideOppositeView() {
 		DockSplitPaneW dockParent = getDockParent();
 		animateHeadingHeight(0, HEADING_HEIGHT);

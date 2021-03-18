@@ -188,12 +188,18 @@ public class ToolbarDockPanelW extends DockPanelW
 		}
 	}
 
+	/**
+	 * Hide view opposite to AV
+	 */
 	public void hideOppositeView() {
 		if (toolbar != null) {
 			toolbar.hideOppositeView();
 		}
 	}
 
+	/**
+	 * Close the toolbar panel
+	 */
 	public void hideToolbar() {
 		if (toolbar != null) {
 			toolbar.hideToolbar();
