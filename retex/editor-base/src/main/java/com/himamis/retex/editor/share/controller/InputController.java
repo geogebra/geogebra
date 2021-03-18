@@ -36,6 +36,9 @@ public class InputController {
 	private boolean createNroot = true;
 	private SyntaxAdapter formatConverter;
 
+	/**
+	 * @param metaModel model
+	 */
 	public InputController(MetaModel metaModel) {
 		this.metaModel = metaModel;
 		removeContainer = new RemoveContainer();

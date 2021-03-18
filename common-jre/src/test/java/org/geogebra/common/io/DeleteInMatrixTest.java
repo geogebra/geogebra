@@ -13,6 +13,9 @@ public class DeleteInMatrixTest {
 	public static final String MATRIX_MULIFIGURE = "{{123,456},{321,654}}";
 	private static final AppCommon app = AppCommonFactory.create();
 
+	/**
+	 * Setup LaTeX
+	 */
 	@BeforeClass
 	public static void prepare() {
 		if (FactoryProvider.getInstance() == null) {

@@ -525,6 +525,9 @@ public abstract class UndoManager {
 		run.run();
 	}
 
+	/**
+	 * Reset before reloading
+	 */
 	public void resetBeforeReload() {
 		app.getSelectionManager().storeSelectedGeosNames();
 		app.getCompanion().storeViewCreators();
@@ -542,6 +545,9 @@ public abstract class UndoManager {
 		app.getActiveEuclidianView().resetInlineObjects();
 	}
 
+	/**
+	 * Restore state after reload
+	 */
 	public void restoreAfterReload() {
 		app.getKernel().notifyReset();
 		app.getCompanion().recallViewCreators();
