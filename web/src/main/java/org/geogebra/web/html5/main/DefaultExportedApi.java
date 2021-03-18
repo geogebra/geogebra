@@ -995,6 +995,10 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.setValuesOfTV(values);
 	}
 
+	public void showPointsTV(String column, String show) {
+		ggbAPI.showPointsTV(column, show);
+	}
+
 	public boolean hasUnlabeledPredecessors(String label) {
 		return ggbAPI.hasUnlabeledPredecessors(label);
 	}

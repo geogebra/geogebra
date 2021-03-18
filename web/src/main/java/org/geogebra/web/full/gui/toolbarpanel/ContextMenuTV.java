@@ -1,5 +1,8 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -103,9 +106,19 @@ public class ContextMenuTV {
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml((SVGResource) null,
 						app.getLocalization().getMenu(transKey)),
-				true, (Command) () -> tvPoints.setPointsVisible(column,
-						!tvPoints.arePointsVisible(column)));
+				true, (Command) () -> {
+					dispatchShowPointsTV(column, !tvPoints.arePointsVisible(column));
+					tvPoints.setPointsVisible(column,
+						!tvPoints.arePointsVisible(column));
+				}) ;
 		addItem(mi, "showhide");
+	}
+
+	private void dispatchShowPointsTV(int column, boolean show) {
+		Map<String, Object> showPointsJson = new HashMap<>();
+		showPointsJson.put("column", column);
+		showPointsJson.put("show",  show);
+		app.dispatchEvent(new Event(EventType.SHOW_POINTS_TV).setJsonArgument(showPointsJson));
 	}
 
 	private void addItem(AriaMenuItem mi, String title) {

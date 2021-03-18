@@ -2278,6 +2278,13 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
+	public void showPointsTV(int column, boolean show) {
+		if (getTableValuesPoints() != null) {
+			getTableValuesPoints().setPointsVisible(column, show);
+		}
+	}
+
+	@Override
 	public void addGeoToTV(GeoElement geo) {
 		getTableValuesView().add(geo);
 		getTableValuesView().showColumn((GeoEvaluatable) geo);

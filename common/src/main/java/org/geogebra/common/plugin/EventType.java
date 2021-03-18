@@ -201,7 +201,10 @@ public enum EventType {
 	REMOVE_TV("removeGeoFromTV"),
 
 	/** min, max and step */
-	SET_VALUES_TV("setValuesOfTV");
+	SET_VALUES_TV("setValuesOfTV"),
+
+	/** column, true if show, false otherwise */
+	SHOW_POINTS_TV("showPointsTV");
 
 	private String eventName;
 
