@@ -24,6 +24,9 @@ public class RegExpFactory {
 	private static RegExpFactory prototype;
 	private static final Object lock = new Object();
 
+	/**
+	 * @param proto factory prototype
+	 */
 	public static void setPrototypeIfNull(RegExpFactory proto) {
 		synchronized (lock) {
 			if (prototype == null) {

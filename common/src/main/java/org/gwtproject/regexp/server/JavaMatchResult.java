@@ -22,13 +22,13 @@ import java.util.List;
 import org.gwtproject.regexp.shared.MatchResult;
 
 /** Pure Java implementation of a regular expression match result. */
-public class JavaMatchResult implements MatchResult {
+public final class JavaMatchResult implements MatchResult {
 
 	private final List<String> groups;
 	private final int index;
 	private final String input;
 
-	public JavaMatchResult(int index, String input, List<String> groups) {
+	JavaMatchResult(int index, String input, List<String> groups) {
 		this.index = index;
 		this.input = input;
 		this.groups = new ArrayList<>(groups);
