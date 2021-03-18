@@ -1499,7 +1499,6 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
-	@Override
 	public void addGeoToTV(String label) {
 		GuiManagerInterfaceW guiManagerW = (GuiManagerInterfaceW) app.getGuiManager();
 		GeoElement geo = app.getKernel().lookupLabel(label);
@@ -1508,7 +1507,6 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
-	@Override
 	public void removeGeoFromTV(String label) {
 		GuiManagerInterfaceW guiManagerW = (GuiManagerInterfaceW) app.getGuiManager();
 		if (guiManagerW != null) {
@@ -1516,7 +1514,6 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
-	@Override
 	public void setValuesOfTV(String values) throws InvalidValuesException {
 		GuiManagerInterfaceW guiManagerW = (GuiManagerInterfaceW) app.getGuiManager();
 		if (guiManagerW != null && !values.isEmpty()) {
