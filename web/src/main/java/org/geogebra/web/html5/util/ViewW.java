@@ -100,8 +100,12 @@ public class ViewW {
 		archiveContent = new GgbFile();
 		FFlate.get().unzip(Base64.base64ToBytes(base64String), (err, data) -> {
 			data.forEach(name -> {
-				if (name.matches("^.*\\.(png|jpg|jpeg|gif|bmp|tif|tiff)$")) {
-					archiveContent.put(name, "data:image/png;base64," + Base64.bytesToBase64(data.get(name)));
+				int dotIndex = name.lastIndexOf('.');
+				String extension = dotIndex == -1 ? "" : name.substring(dotIndex + 1);
+
+				if (extension.matches("(png|jpg|jpeg|gif|bmp|tif|tiff)")) {
+					String prefix = "data:image/" + extension + ";base64,";
+					archiveContent.put(name, prefix + Base64.bytesToBase64(data.get(name)));
 				} else {
 					archiveContent.put(name, FFlate.get().strFromU8(data.get(name)));
 				}
