@@ -74,6 +74,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	private int counter;
 	private HashMap<Integer, String> content = new HashMap<>();
 	private HashMap<Integer, String> base64 = new HashMap<>();
+	private final HashMap<GeoElement, Runnable> errorHandlers = new HashMap<>();
 
 	/**
 	 * @param app
@@ -570,7 +571,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	@Override
-	public GeoEmbed openH5PTool() {
+	public GeoEmbed openH5PTool(Runnable onError) {
 		int embedId = nextID();
 		GeoEmbed geoEmbed = new GeoEmbed(app.getKernel().getConstruction());
 		geoEmbed.setEmbedId(embedId);
@@ -578,6 +579,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		geoEmbed.setSize(600, 300);
 		geoEmbed.initPosition(app.getActiveEuclidianView());
 		geoEmbed.setLabel(null);
+		errorHandlers.put(geoEmbed, onError);
 		return geoEmbed;
 	}
 
@@ -676,6 +678,14 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			} else {
 				base64.put(embedID, contentBase64);
 			}
+		}
+	}
+
+	@Override
+	public void onError(GeoEmbed geoEmbed) {
+		Runnable handler = errorHandlers.get(geoEmbed);
+		if (handler != null) {
+			handler.run();
 		}
 	}
 }

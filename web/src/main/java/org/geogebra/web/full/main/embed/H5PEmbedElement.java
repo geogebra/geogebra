@@ -86,6 +86,9 @@ public class H5PEmbedElement extends EmbedElement {
 			initializeSizingTimer();
 			renderNext();
 			return null;
+		}).catch_(err -> {
+			app.getEmbedManager().onError(geoEmbed);
+			return null;
 		});
 	}
 

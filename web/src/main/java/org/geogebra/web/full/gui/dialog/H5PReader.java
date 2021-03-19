@@ -32,7 +32,7 @@ public class H5PReader implements AjaxCallback {
 		FileReader reader = new FileReader();
 		EmbedManager em = app.getEmbedManager();
 		if (em != null) {
-			embed = em.openH5PTool();
+			embed = em.openH5PTool(() -> onError(""));
 		}
 		reader.addEventListener("load", (ev) -> {
 			if (reader.readyState == FileReader.DONE) {
