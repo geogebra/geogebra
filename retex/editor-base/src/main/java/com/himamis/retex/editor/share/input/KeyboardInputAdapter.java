@@ -121,6 +121,10 @@ public class KeyboardInputAdapter {
 		adapters.add(commandAdapter);
 	}
 
+	/**
+	 * @param mfi math field
+	 * @param input string to type
+	 */
 	public static void type(MathFieldInternal mfi, String input) {
 		EditorState editorState = mfi.getEditorState();
 		KeyListenerImpl keyListener = mfi.getKeyListener();
