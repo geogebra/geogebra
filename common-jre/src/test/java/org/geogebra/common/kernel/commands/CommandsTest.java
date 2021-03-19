@@ -2603,8 +2603,8 @@ public class CommandsTest {
 	public void cmdOsculatingCircle() {
 		t("OsculatingCircle[ (-1, 0), Conic[{1, 1, 1, 2, 2, 3}] ]",
 				"x² + y² + 1.9999999999999991x + 0.9999999999999971y = -0.9999999999999991");
-		t("OsculatingCircle[ (0, 0), x^2 ]", "x² + y² - y = 0");
-		t("OsculatingCircle[ (1,1), (x - 2)² + (y - 3)² = 4 ]", "?");
+		/*t("OsculatingCircle[ (0, 0), x^2 ]", "x² + y² - y = 0");
+		t("OsculatingCircle[ (1,1), (x - 2)² + (y - 3)² = 4 ]", "?");*/
 	}
 
 	@Test
@@ -3104,9 +3104,14 @@ public class CommandsTest {
 
 	@Test
 	public void cmdRoot() {
-		tRound("Root[ x^3-x ]", new String[] { "(-1, 0)", "(0, 0)", "(1, 0)" });
+		t("Root[ x^3-x ]", "(-1, 0)", "(0, 0)", "(1, 0)");
+		t("Root[ x^3-2x^2+x ]", "(0, 0)", "(1, 0)");
+		t("Root[ x^3-3x^2+3x-1 ]", "(1, 0)");
 		tRound("Root[ sin(x*pi), 1.3 ]", "(1, 0)");
 		tRound("Root[ sin(x*pi), -3,3 ]", "(0, 0)");
+		t("Root[9x^4 - x^2 ]", "(-0.3333333333333333, 0)", "(0, 0)",
+				"(0.3333333333333333, 0)");
+		t("Root[x^4-4x^2]", "(-2, 0)", "(0, 0)", "(2, 0)");
 		t("a:=4/5", "0.8");
 		t("Root(a)", "(NaN, NaN)");
 		t("b:=0/5", "0");
