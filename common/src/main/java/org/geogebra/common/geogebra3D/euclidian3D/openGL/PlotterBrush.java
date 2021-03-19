@@ -2,7 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.DrawVector;
-import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
+import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.PathPlotter;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrushSection.TickStep;
 import org.geogebra.common.kernel.Kernel;

@@ -1,6 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
-import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
+import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrushSection.TickStep;
 import org.geogebra.common.kernel.matrix.Coords;
