@@ -790,131 +790,22 @@ public class GgbAPIW extends GgbAPI {
 
 	private native void getBase64ZipJs(Object arch,
 			StringConsumer clb, StringConsumer errorClb) /*-{
+		var imgExtensions = [ "jpg", "jpeg", "png", "gif", "bmp" ]
 
-		function encodeUTF8(string) {
-			var n, c1, enc, utftext = [], start = 0, end = 0, stringl = string.length;
-			for (n = 0; n < stringl; n++) {
-				c1 = string.charCodeAt(n);
-				enc = null;
-				if (c1 < 128)
-					end++;
-				else if (c1 > 127 && c1 < 2048)
-					enc = String.fromCharCode((c1 >> 6) | 192)
-							+ String.fromCharCode((c1 & 63) | 128);
-				else
-					enc = String.fromCharCode((c1 >> 12) | 224)
-							+ String.fromCharCode(((c1 >> 6) & 63) | 128)
-							+ String.fromCharCode((c1 & 63) | 128);
-				if (enc != null) {
-					if (end > start)
-						utftext += string.slice(start, end);
-					utftext += enc;
-					start = end = n + 1;
-				}
+		var fflatePrepared = {};
+		while (arch.archive.length > 0) {
+			var item = arch.archive.shift();
+			var ind = item.fileName.lastIndexOf('.');
+
+			if (ind > -1 && imgExtensions.indexOf(item.fileName.substr(ind + 1).toLowerCase()) > -1) {
+				var base64 = item.fileContent.slice(item.fileContent.indexOf(',') + 1);
+				fflatePrepared[item.fileName] = [$wnd.base64ToBytes(base64)];
+			} else {
+				fflatePrepared[item.fileName] = $wnd.fflate.strToU8(item.fileContent);
 			}
-			if (end > start)
-				utftext += string.slice(start, stringl);
-			return utftext;
 		}
 
-		function ASCIIReader(text) {
-			var that = this;
-
-			function init(callback, onerror) {
-				that.size = text.length;
-				callback();
-			}
-
-			function readUint8Array(index, length, callback, onerror) {
-				if (text.length <= index) {
-					return new $wnd.Uint8Array(0);
-				} else if (index < 0) {
-					return new $wnd.Uint8Array(0);
-				} else if (length <= 0) {
-					return new $wnd.Uint8Array(0);
-				} else if (text.length < index + length) {
-					length = text.length - index;
-				}
-				var i, data = new $wnd.Uint8Array(length);
-				for (i = index; i < index + length; i++)
-					data[i - index] = text.charCodeAt(i);
-				callback(data);
-			}
-
-			that.size = 0;
-			that.init = init;
-			that.readUint8Array = readUint8Array;
-		}
-		ASCIIReader.prototype = new $wnd.zip.Reader();
-		ASCIIReader.prototype.constructor = ASCIIReader;
-
-		//$wnd.zip.useWebWorkers = false;
-		$wnd.zip
-				.createWriter(
-						new $wnd.zip.Data64URIWriter(
-								"application/vnd.geogebra.file"),
-						function(zipWriter) {
-							function addImage(name, data, callback) {
-								var data2 = data.substr(data.indexOf(',') + 1);
-								zipWriter.add(name,
-										new $wnd.zip.Data64URIReader(data2),
-										callback);
-							}
-
-							function addText(name, data, callback) {
-								zipWriter.add(name, new ASCIIReader(data),
-										callback);
-							}
-
-							function checkIfStillFilesToAdd() {
-								var item, imgExtensions = [ "jpg", "jpeg",
-										"png", "gif", "bmp" ];
-								if (arch.archive.length > 0) {
-									item = arch.archive.shift();
-									var ind = item.fileName.lastIndexOf('.');
-									if (ind > -1
-											&& imgExtensions
-													.indexOf(item.fileName
-															.substr(ind + 1)
-															.toLowerCase()) > -1) {
-
-										@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("image zipped: " + item.fileName);
-										addImage(item.fileName,
-												item.fileContent, function() {
-													checkIfStillFilesToAdd();
-												});
-									} else {
-										@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("text zipped: " + item.fileName);
-										addText(item.fileName,
-												encodeUTF8(item.fileContent),
-												function() {
-													checkIfStillFilesToAdd();
-												});
-									}
-								} else {
-									zipWriter
-											.close(function(dataURI) {
-												if (typeof clb === "function") {
-													// that's right, this truncation is necessary
-													clb(dataURI.substr(dataURI
-															.indexOf(',') + 1));
-												} else {
-													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("not callback was given");
-													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)(dataURI);
-												}
-											});
-								}
-							}
-
-							checkIfStillFilesToAdd();
-
-						},
-						function(error) {
-							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("error occured while creating base64 zip");
-							if (typeof errorClb === "function") {
-								errorClb(error + "");
-							}
-						});
+		clb($wnd.bytesToBase64($wnd.fflate.zipSync(fflatePrepared)));
 	}-*/;
 
 	private void writeMacroImages(GgbFile archive) {

@@ -41,6 +41,9 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.zipJs());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.clipboardJs());
 
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.fflateJs());
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.base64Js());
+
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.visibilityJs());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.domvas());
 
