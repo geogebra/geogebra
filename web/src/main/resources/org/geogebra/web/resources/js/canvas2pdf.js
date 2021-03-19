@@ -476,9 +476,26 @@
 	    this.lineEndType = 0;
 	    this.alpha = 1;
 
-		// use pako to compress streams if available
+		// use pako/fflate to compress streams if available
 		// https://github.com/nodeca/pako (MIT)
-		canvas2pdf.usePako = false;//!!window.pako;
+		// https://github.com/101arrowz/fflate/ (MIT)
+		canvas2pdf.useFlateDecode = !!window.pako || !!window.fflate;
+
+		canvas2pdf.deflate = function(input) {
+			var input = input;
+			if (window.pako) {
+				return window.pako.deflate(input);
+			}
+			if (window.fflate) {
+				if (typeof input == "string") {
+					var enc = new TextEncoder();
+					input = enc.encode(input);
+				}
+
+				return window.fflate.zlibSync(input);
+			}
+			return input;
+		}
 
 	}
 
@@ -1347,45 +1364,28 @@
 	        this.stream += a;
 	    }
 	};
+
 	PDFStream.prototype.replaceText = function(a, b) {
 	    this.stream = this.stream.replace(a, b)
 	};
+
 	PDFStream.prototype.getObject = function(a) {
-
-		var stream = this.stream;
-
-		if (canvas2pdf.usePako) {
-
-			// if we need to pass options:
-			//var deflate = new pako.Deflate({ level: pako.Z_BEST_COMPRESSION});
-			//deflate.push(stream, true)
-			//stream = deflate.result;
-
-			// simpler:
-			stream = pako.deflate(stream);
-
-			var buffer = [];
-			for (var i = 0 ; i < stream.length ; i++) {
-				buffer.push(String.fromCharCode(stream[i]));
-			}
-			stream = buffer.join("");
-
-		}
-
-	    var props = {
-	        "Length": stream.length,
-	    };
-
-		if (canvas2pdf.usePako) {
+		var stream = bufferToString(this.stream);
+		var props = {
+			"Length": stream.length,
+		};
+		if (canvas2pdf.useFlateDecode) {
 			props["Filter"] = "FlateDecode";
 		}
-
-	    return PDFObject.makeObject(props, this.id, stream);
+		return PDFObject.makeObject(props, this.id, stream);
 	};
 
+	// input may be string or Uint8Array
 	var bufferToString = function(buffer) {
-		if (canvas2pdf.usePako) {
-			buffer = pako.deflate(buffer);
+		if (canvas2pdf.useFlateDecode) {
+			buffer = canvas2pdf.deflate(buffer);
+		} else if (typeof buffer === "string") {
+			return buffer;
 		}
 
 		var buffer2 = [];
@@ -1454,7 +1454,7 @@
 		if (this.mask) {
 			props["SMask"] = new PDFReference(this.mask.id + " 0 R");
 		}
-		if (canvas2pdf.usePako) {
+		if (canvas2pdf.useFlateDecode) {
 			props["Filter"] = "FlateDecode";
 		}
 	    return PDFObject.makeObject(props, this.id, this.stream);
