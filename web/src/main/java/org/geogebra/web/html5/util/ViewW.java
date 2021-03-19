@@ -2,7 +2,6 @@ package org.geogebra.web.html5.util;
 
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
-import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
@@ -59,8 +58,8 @@ public class ViewW {
 		// reiniting of navigation bar, to show the correct numbers on the label
 		if (app.getGuiManager() != null && app.getUseFullGui()) {
 			ConstructionProtocolNavigation cpNav = this.getApplication()
-			        .getGuiManager()
-			        .getCPNavigationIfExists();
+					.getGuiManager()
+					.getCPNavigationIfExists();
 			if (cpNav != null) {
 				cpNav.update();
 			}
@@ -87,131 +86,32 @@ public class ViewW {
 	}
 
 	/**
-	 * @param dataParamBase64String
+	 * @param base64String
 	 *            base64 encoded file
 	 */
-	public void processBase64String(String dataParamBase64String) {
-		populateArchiveContent(getBase64Reader(dataParamBase64String));
-	}
-
-	@ExternalAccess
-	protected void putIntoArchiveContent(String key, String value) {
-		archiveContent.put(key, value);
-		if (archiveContent.size() == zippedLength) {
-			maybeLoadFile();
-		}
+	public void processBase64String(String base64String) {
+		populateArchiveContent(base64String.substring(base64String.indexOf(',') + 1));
 	}
 
 	private void populateArchiveContent(JavaScriptObject ggbReader) {
 		String workerUrls = prepareFileReading();
 		GgbAPIW.setWorkerURL(workerUrls, false);
-		populateArchiveContent(workerUrls, this, ggbReader);
 	}
 
-	private native void populateArchiveContent(String workerUrls, ViewW view,
-			JavaScriptObject ggbReader) /*-{
-      // Writer for ASCII strings
-      function ASCIIWriter() {
-	      var that = this, data;
-	      
-	      function init(callback, onerror) {
-		      data = "";
-		      callback();
-	      }
-	      
-	      function writeUint8Array(array, callback, onerror) {
-		      var i;
-		      for (i = 0; i < array.length; i++) {
-		      	data += $wnd.String.fromCharCode(array[i]);
-		      }
-		      callback();
-	      }
-	      
-	      function getData(callback) {		
-	      	callback(data);
-	      }
-	      
-	      that.init = init;
-	      that.writeUint8Array = writeUint8Array;
-	      that.getData = getData;
-      }
-      ASCIIWriter.prototype = new $wnd.zip.Writer();
-      ASCIIWriter.prototype.constructor = ASCIIWriter;
-      
-      function decodeUTF8(str_data) {
-	      var tmp_arr = [], i = 0, ac = 0, c1 = 0, c2 = 0, c3 = 0;
-	      
-	      str_data += '';
-	      
-	      while (i < str_data.length) {
-		      c1 = str_data.charCodeAt(i);
-		      if (c1 < 128) {
-			      tmp_arr[ac++] = String.fromCharCode(c1);
-			      i++;
-		      } else if (c1 > 191 && c1 < 224) {
-			      c2 = str_data.charCodeAt(i + 1);
-			      tmp_arr[ac++] = String.fromCharCode(((c1 & 31) << 6) | (c2 & 63));
-			      i += 2;
-		      } else {
-			      c2 = str_data.charCodeAt(i + 1);
-			      c3 = str_data.charCodeAt(i + 2);
-			      tmp_arr[ac++] = String.fromCharCode(
-			          ((c1 & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
-			      i += 3;
-		      }
-	      }
-	      
-	      return tmp_arr.join('');
-      }		
-      
-      // see GGB-63
-      var imageRegex = /\.(png|jpg|jpeg|gif|bmp|tif|tiff)$/i;    
-      
-      var readerCallback = function(reader) {
-	      reader.getEntries(function(entries) {
-		      view.@org.geogebra.web.html5.util.ViewW::zippedLength = entries.length;
-		      for (var i = 0, l = entries.length; i < l; i++) {
-			      (function(entry){	            		
-			      var filename = entry.filename;
-			      if (entry.filename.match(imageRegex)) {
-				      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)(filename+" : image");
-				      var filenameParts = filename.split(".");
-				      var filenameSimple = filenameParts[filenameParts.length - 1];
-				      var dataWriter = new $wnd.zip.Data64URIWriter("image/" + filenameSimple);
-				      entry.getData(dataWriter, function (data) {
-				      view.@org.geogebra.web.html5.util.ViewW::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
-				      });
-			      } else {
-				      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)(entry.filename+" : text");
-				      var forceDataURI = typeof $wnd.zip.forceDataURIWriter !== "undefined" 
-				          && $wnd.zip.forceDataURIWriter === true;
-				      if ($wnd.zip.useWebWorkers === false || forceDataURI) {
-					      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("no worker of forced dataURIWriter");
-					      entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
-					      var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
-					      view.@org.geogebra.web.html5.util.ViewW::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
-					      });
-				      } else {
-					      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("worker");
-					      entry.getData(new ASCIIWriter(), function(text) {
-					      view.@org.geogebra.web.html5.util.ViewW::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(text));
-					      });
-				      }
-	      
-	      		}
-		      })(entries[i]);
-		      } 
-	     // reader.close();
-	      });
-      };
-      
-      var errorCallback = function (error) {
-      	view.@org.geogebra.web.html5.util.ViewW::onError(Ljava/lang/String;)(error);
-      };
-      
-      $wnd.zip.createReader(ggbReader,readerCallback, errorCallback);
-       
-    }-*/;
+	private void populateArchiveContent(String base64String) {
+		archiveContent = new GgbFile();
+		FFlate.get().unzip(Base64.base64ToBytes(base64String), (err, data) -> {
+			data.forEach(name -> {
+				if (name.matches("^.*\\.(png|jpg|jpeg|gif|bmp|tif|tiff)$")) {
+					archiveContent.put(name, "data:image/png;base64," + Base64.bytesToBase64(data.get(name)));
+				} else {
+					archiveContent.put(name, FFlate.get().strFromU8(data.get(name)));
+				}
+			});
+
+			maybeLoadFile();
+		});
+	}
 
 	/**
 	 * Handle file loading error

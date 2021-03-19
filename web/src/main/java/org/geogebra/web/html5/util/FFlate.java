@@ -15,6 +15,11 @@ public class FFlate {
 		void call(Object err, ArrayBuffer data);
 	}
 
+	@JsFunction
+	public interface UnzipCallback {
+		void call(Object err, JsPropertyMap<ArrayBuffer> data);
+	}
+
 	private FFlate() {
 		// use FFlate.get() instead, may return null
 	}
@@ -26,6 +31,10 @@ public class FFlate {
 
 	public native void zip(JsPropertyMap<Object> fflatePrepared, ZipCallback callback);
 
+	public native void unzip(Object bytes, UnzipCallback callback);
+
 	public native Object strToU8(String str);
+
+	public native String strFromU8(Object obj);
 
 }
