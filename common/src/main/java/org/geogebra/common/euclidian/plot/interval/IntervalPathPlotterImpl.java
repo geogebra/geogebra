@@ -4,7 +4,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 
 public class IntervalPathPlotterImpl implements IntervalPathPlotter {
-	private GeneralPathClipped gp;
+	private final GeneralPathClipped gp;
 
 	public IntervalPathPlotterImpl(GeneralPathClipped gp) {
 		this.gp = gp;
