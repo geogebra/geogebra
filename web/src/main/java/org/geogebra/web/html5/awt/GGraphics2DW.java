@@ -976,15 +976,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 	}
 
 	@Override
-	public void setAltText(String altStr) {
-		getElement().setInnerText(altStr);
-	}
-
-	public String getAltText() {
-		return getElement().getInnerText();
-	}
-
-	@Override
 	public void forceResize() {
 		int width = canvas.getOffsetWidth();
 		int height = canvas.getOffsetHeight();

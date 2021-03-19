@@ -632,8 +632,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	private void setAltText(String text) {
 		if (renderer != null && renderer.getCanvas() != null) {
 			((Canvas) renderer.getCanvas()).getElement().setInnerText(text);
-		} else {
-			g2p.setAltText(text);
 		}
 	}
 

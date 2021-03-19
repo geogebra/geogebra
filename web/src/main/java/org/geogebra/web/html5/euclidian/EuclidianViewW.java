@@ -1131,15 +1131,21 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void setAltText() {
-		GeoElement alt = appW.getKernel().lookupLabel("altText" + evNo);
-		if (alt == null) {
-			alt = appW.getKernel().lookupLabel("altText");
+		GeoElement altGeo = appW.getAccessibilityManager().getAltGeoForView();
+		if (altGeo == null) {
+			return;
 		}
-		String altStr = appW.getLocalization().getMenu("DrawingPad");
-		if (alt instanceof GeoText) {
-			altStr = ((GeoText) alt).getAuralText();
+		String content = getAltTextFrom(altGeo);
+
+		if (altGeo.isGeoText()) {
+			getScreenReader().readText(content);
 		}
-		g2p.setAltText(altStr);
+	}
+
+	private String getAltTextFrom(GeoElement altGeo) {
+		return altGeo.isGeoText()
+				? ((GeoText) altGeo).getAuralText()
+				: appW.getLocalization().getMenu("DrawingPad");
 	}
 
 	@Override

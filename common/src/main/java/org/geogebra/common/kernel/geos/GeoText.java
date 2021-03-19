@@ -403,7 +403,7 @@ public class GeoText extends GeoElement
 	public void update(boolean drag) {
 
 		super.update(drag);
-		if (getLabelSimple() != null
+		if (!cons.isFileLoading() && getLabelSimple() != null
 				&& getLabelSimple().startsWith("altText")) {
 			kernel.getApplication().setAltText();
 		}

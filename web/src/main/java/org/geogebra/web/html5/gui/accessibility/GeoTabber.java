@@ -3,23 +3,30 @@ package org.geogebra.web.html5.gui.accessibility;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.SelectionManager;
 
 public class GeoTabber implements MayHaveFocus {
 
 	private final App app;
 	private boolean selected;
+	private final SelectionManager selectionManager;
 
+	/**
+	 * @param app Application
+	 */
 	public GeoTabber(App app) {
 		this.app = app;
+		selectionManager = app.getSelectionManager();
 	}
 
 	@Override
 	public boolean focusIfVisible(boolean reverse) {
-		app.getSelectionManager().clearSelectedGeos(false);
+		selectionManager.clearSelectedGeos(false);
 		if (reverse) {
-			selected = app.getSelectionManager().selectPreviousGeo();
+			selected = selectionManager.selectPreviousGeo();
 		} else {
-			selected = app.getSelectionManager().selectNextGeo();
+			selected = selectionManager.selectNextGeo();
+
 		}
 		if (selected) {
 			app.getActiveEuclidianView().requestFocus();
@@ -34,13 +41,13 @@ public class GeoTabber implements MayHaveFocus {
 
 	@Override
 	public boolean focusNext() {
-		selected = app.getSelectionManager().selectNextGeo();
+		selected = selectionManager.selectNextGeo();
 		return selected;
 	}
 
 	@Override
 	public boolean focusPrevious() {
-		selected = app.getSelectionManager().selectPreviousGeo();
+		selected = selectionManager.selectPreviousGeo();
 		return selected;
 	}
 
