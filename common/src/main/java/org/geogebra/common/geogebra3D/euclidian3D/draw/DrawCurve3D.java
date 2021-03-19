@@ -91,8 +91,6 @@ public class DrawCurve3D extends Drawable3DCurves implements HasZPick {
 			max = curve.getMaxParameter();
 		}
 
-		// Log.debug(min+","+max);
-
 		CurvePlotter.plotCurve(curve, min, max, view, brush, false,
 				Gap.MOVE_TO);
 

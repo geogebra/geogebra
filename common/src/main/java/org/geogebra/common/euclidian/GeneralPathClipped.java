@@ -13,7 +13,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * A GeneralPath implementation that does clipping of line segments at the
@@ -116,7 +115,6 @@ public class GeneralPathClipped implements GShape {
 
 	private void addSegmentsWithSutherladHoloman() {
 		int padding = lineThickness + 5;
-		Log.debug("PADDING: " + padding);
 		double[][] clipPoints = {
 				{ -padding, -padding},
 				{ -padding, view.getHeight() + padding},

@@ -135,11 +135,9 @@ public class DrawParametricCurve extends Drawable {
 	private void enableIntervalPlotterIfSupported() {
 		if (IntervalFunction.isSupported(geo)) {
 			if (!intervalPlotter.isEnabled()) {
-				Log.debug("[PLOTTET] interval");
 				intervalPlotter.enableFor((GeoFunction) geo);
 			}
 		} else {
-			Log.debug("[PLOTTET] segment");
 			intervalPlotter.disable();
 		}
 	}

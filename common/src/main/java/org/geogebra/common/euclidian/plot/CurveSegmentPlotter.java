@@ -6,7 +6,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to plot x->f(x) functions and 2D/3D parametric curves
@@ -219,15 +218,9 @@ public class CurveSegmentPlotter {
 
 	private boolean hasNoSingularity(double t, double interval) {
 		// check if c(t-eps) and c(t+eps) are both defined
-		boolean singularity = isContinuousAround(curve, t,
-				interval, view, eval);
 
-		// split interval: f(t+eps) or f(t-eps) not defined
-		if (!singularity) {
-			return true;
-		}
-		Log.debug("SINGULARITY AT" + t);
-		return false;
+		return !isContinuousAround(curve, t,
+				interval, view, eval);
 	}
 
 	private boolean isCurveUndefinedAt(double x) {
