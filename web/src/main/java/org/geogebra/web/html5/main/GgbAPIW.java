@@ -37,7 +37,6 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.AnimationExporter;
 import org.geogebra.web.html5.util.Base64;
@@ -50,7 +49,6 @@ import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 
@@ -265,30 +263,11 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void getGGBfile(final boolean includeThumbnail,
 			final FileConsumer callback) {
-		final boolean oldWorkers = setWorkerURL(zipJSworkerURL(), false);
 		final JsPropertyMap<Object> arch = getFileJSON(includeThumbnail);
-		getGGBZipJs(arch, callback,
-				() -> {
-					if (oldWorkers && !isUsingWebWorkers()) {
-						Log.warn(
-								"Saving with workers failed, trying without workers.");
-						ResourcesInjector.loadCodecs();
-						getGGBZipJs(arch, callback, null);
-					}
-				});
-	}
-
-	/**
-	 * @return URL of zip worker directory
-	 */
-	public static String zipJSworkerURL() {
-		// FIXME disabled workers in Touch for now
-		if ("tablet".equals(GWT.getModuleName())
-				|| "tabletWin".equals(GWT.getModuleName())) {
-			return "false";
-		}
-		return Browser.webWorkerSupported()
-				? GWT.getModuleBaseURL() + "js/zipjs/" : "false";
+		getGGBZipJs(arch, callback, () -> {
+				Log.warn("Saving with workers failed, trying without workers.");
+				// getGGBZipJs(arch, callback, null);
+		});
 	}
 
 	/**
@@ -298,8 +277,7 @@ public class GgbAPIW extends GgbAPI {
 	 *            callback
 	 */
 	public void getBase64(boolean includeThumbnail, StringConsumer callback) {
-		getBase64ZipJs(getFileJSON(includeThumbnail), callback,
-				zipJSworkerURL(), false);
+		getBase64ZipJs(getFileJSON(includeThumbnail), callback, false);
 	}
 
 	/**
@@ -314,8 +292,7 @@ public class GgbAPIW extends GgbAPI {
 			StringConsumer callback) {
 		GgbFile archiveContent = createMacrosArchive();
 		JsPropertyMap<Object> jso = JsPropertyMap.of();
-		getBase64ZipJs(prepareToEntrySet(archiveContent, jso, "", null),
-				callback, zipJSworkerURL(), false);
+		getBase64ZipJs(prepareToEntrySet(archiveContent, jso, "", null), callback, false);
 	}
 
 	/**
@@ -409,10 +386,7 @@ public class GgbAPIW extends GgbAPI {
 	public String getBase64(boolean includeThumbnail) {
 		StoreString storeString = new StoreString();
 		JsPropertyMap<Object> jso = getFileJSON(includeThumbnail);
-		if (Browser.webWorkerSupported()) {
-			ResourcesInjector.loadCodecs();
-		}
-		getBase64ZipJs(jso, storeString, "false", true);
+		getBase64ZipJs(jso, storeString, true);
 		return storeString.getResult();
 
 	}
@@ -425,10 +399,7 @@ public class GgbAPIW extends GgbAPI {
 		GgbFile archiveContent = createMacrosArchive();
 		JsPropertyMap<Object> jso = prepareToEntrySet(archiveContent,
 				JsPropertyMap.of(), "", null);
-		if (Browser.webWorkerSupported()) {
-			ResourcesInjector.loadCodecs();
-		}
-		getBase64ZipJs(jso, storeString, "false", true);
+		getBase64ZipJs(jso, storeString, true);
 		return storeString.getResult();
 	}
 
@@ -685,22 +656,13 @@ public class GgbAPIW extends GgbAPI {
 	 *            archive
 	 * @param clb
 	 *            callback for file loaded
-	 * @param workerUrls
-	 *            URL of webworker directory (or "false" to switch them off)
 	 * @param sync
 	 *            whether zip should run synchronously
 	 */
-	void getBase64ZipJs(final JsPropertyMap<Object> arch, final StringConsumer clb,
-			String workerUrls, boolean sync) {
-		final boolean oldWorkers = setWorkerURL(workerUrls, sync);
+	void getBase64ZipJs(final JsPropertyMap<Object> arch, final StringConsumer clb, boolean sync) {
 		getBase64ZipJs(arch, clb, s -> {
-			if (oldWorkers && !isUsingWebWorkers()) {
-				Log.warn(
-						"Saving with workers failed, trying without workers.");
-				ResourcesInjector.loadCodecs();
-				getBase64ZipJs(arch, clb, "false", false);
-			}
-
+				Log.warn("Saving with workers failed, trying without workers.");
+				// getBase64ZipJs(arch, clb, "false", false);
 		});
 	}
 
@@ -975,42 +937,6 @@ public class GgbAPIW extends GgbAPI {
 	public void getScreenshotBase64(StringConsumer callback) {
 		((AppW) app).getAppletFrame().getScreenshotBase64(callback);
 	}
-
-	/**
-	 * @param workerUrls
-	 *            worker folder URL
-	 * @param sync
-	 *            whether to use zipjs synchronously
-	 * @return whether webworkers can be used
-	 */
-	public static native boolean setWorkerURL(String workerUrls,
-			boolean sync) /*-{
-		if (workerUrls === "false" || !workerUrls || sync) {
-			$wnd.zip.useWebWorkers = false;
-			$wnd.zip.synchronous = sync;
-		} else {
-			$wnd.zip.synchronous = false;
-			$wnd.zip.useWebWorkers = true;
-
-			$wnd.zip.workerScripts = {
-				deflater : [ workerUrls + "z-worker.js",
-						workerUrls + "pako1.0.6_min.js",
-						workerUrls + "codecs.js" ],
-				inflater : [ workerUrls + "z-worker.js",
-						workerUrls + "pako1.0.6_min.js",
-						workerUrls + "codecs.js" ]
-			};
-
-		}
-		return $wnd.zip.useWebWorkers;
-	}-*/;
-
-	/**
-	 * @return whether webworkers are used in zipjs
-	 */
-	native boolean isUsingWebWorkers()/*-{
-		return $wnd.zip.useWebWorkers;
-	}-*/;
 
 	/**
 	 * GGB-1780

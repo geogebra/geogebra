@@ -5,7 +5,6 @@ import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.GgbAPIW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.gwtproject.timer.client.Timer;
 
@@ -94,8 +93,7 @@ public class ViewW {
 	}
 
 	private void populateArchiveContent(JavaScriptObject ggbReader) {
-		String workerUrls = prepareFileReading();
-		GgbAPIW.setWorkerURL(workerUrls, false);
+		// xx
 	}
 
 	private void populateArchiveContent(String base64String) {
@@ -190,17 +188,6 @@ public class ViewW {
 	private native JavaScriptObject getBinaryReader(Object blob) /*-{
 		return new $wnd.zip.BlobReader(blob);
 	}-*/;
-
-	private native JavaScriptObject getBase64Reader(String base64str)/*-{
-		return new $wnd.zip.Data64URIReader(base64str);
-	}-*/;
-
-	private String prepareFileReading() {
-		archiveContent = new GgbFile();
-		String workerUrls = GgbAPIW.zipJSworkerURL();
-		Log.debug("start unzipping" + System.currentTimeMillis());
-		return workerUrls;
-	}
 
 	/**
 	 * @param encoded
