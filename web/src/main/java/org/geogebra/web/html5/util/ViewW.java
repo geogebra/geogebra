@@ -8,8 +8,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.gwtproject.timer.client.Timer;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
+import elemental2.core.ArrayBuffer;
 import elemental2.core.Global;
 import elemental2.core.JsArray;
 import jsinterop.base.Js;
@@ -86,19 +85,25 @@ public class ViewW {
 
 	/**
 	 * @param base64String
-	 *            base64 encoded file
+	 *            base64 encoded, zipped GGB file
 	 */
 	public void processBase64String(String base64String) {
-		populateArchiveContent(base64String.substring(base64String.indexOf(',') + 1));
+		String suffix = base64String.substring(base64String.indexOf(',') + 1);
+		ArrayBuffer binaryData = Base64.base64ToBytes(suffix);
+		populateArchiveContent(binaryData);
 	}
 
-	private void populateArchiveContent(JavaScriptObject ggbReader) {
-		// xx
+	/**
+	 * @param binary
+	 *            raw zipped GGB file
+	 */
+	public void processBinaryData(ArrayBuffer binary) {
+		populateArchiveContent(binary);
 	}
 
-	private void populateArchiveContent(String base64String) {
+	private void populateArchiveContent(ArrayBuffer binaryData) {
 		archiveContent = new GgbFile();
-		FFlate.get().unzip(Base64.base64ToBytes(base64String), (err, data) -> {
+		FFlate.get().unzip(binaryData, (err, data) -> {
 			data.forEach(name -> {
 				int dotIndex = name.lastIndexOf('.');
 				String extension = dotIndex == -1 ? "" : name.substring(dotIndex + 1);
@@ -139,59 +144,26 @@ public class ViewW {
 	 *            file URL
 	 */
 	public void processFileName(String url) {
-		if (url.endsWith(".off")) {
+		HttpRequestW request = new HttpRequestW();
+		request.sendRequestPost("GET", url, null, new AjaxCallback() {
 
-			HttpRequestW request = new HttpRequestW();
-			request.sendRequestPost("GET", url, null, new AjaxCallback() {
-
-				@Override
-				public void onSuccess(String response) {
+			@Override
+			public void onSuccess(String response) {
+				if (url.endsWith(".off")) {
 					getApplication().openOFF(response);
-				}
-
-				@Override
-				public void onError(String error) {
-					Log.error("Problem opening file:" + error);
-				}
-			});
-			return;
-		}
-		if (url.endsWith(".csv")) {
-
-			HttpRequestW request = new HttpRequestW();
-			request.sendRequestPost("GET", url, null, new AjaxCallback() {
-
-				@Override
-				public void onSuccess(String response) {
+				} else if (url.endsWith(".csv")) {
 					getApplication().openCSV(response);
+				} else {
+					// XXX
 				}
+			}
 
-				@Override
-				public void onError(String error) {
-					Log.error("Problem opening file:" + error);
-				}
-			});
-			return;
-		}
-
-		populateArchiveContent(getHTTPReader(url));
+			@Override
+			public void onError(String error) {
+				Log.error("Problem opening file:" + error);
+			}
+		});
 	}
-
-	private native JavaScriptObject getHTTPReader(String url)/*-{
-		return new $wnd.zip.HttpReader(url);
-	}-*/;
-
-	/**
-	 * @param binary
-	 *            string (zipped GGB)
-	 */
-	public void processBinaryString(JavaScriptObject binary) {
-		populateArchiveContent(getBinaryReader(binary));
-	}
-
-	private native JavaScriptObject getBinaryReader(Object blob) /*-{
-		return new $wnd.zip.BlobReader(blob);
-	}-*/;
 
 	/**
 	 * @param encoded

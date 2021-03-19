@@ -27,7 +27,7 @@ public class FFlate {
 	@JsProperty(name = "fflate")
 	public static native FFlate get();
 
-	public native String zipSync(JsPropertyMap<Object> fflatePrepared);
+	public native ArrayBuffer zipSync(JsPropertyMap<Object> fflatePrepared);
 
 	public native void zip(JsPropertyMap<Object> fflatePrepared, ZipCallback callback);
 

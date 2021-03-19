@@ -52,11 +52,13 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 
+import elemental2.core.ArrayBuffer;
 import elemental2.core.Global;
 import elemental2.core.JsArray;
 import elemental2.dom.Blob;
 import elemental2.promise.Promise.PromiseExecutorCallbackFn.RejectCallbackFn;
 import elemental2.promise.Promise.PromiseExecutorCallbackFn.ResolveCallbackFn;
+import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 /**
@@ -259,25 +261,10 @@ public class GgbAPIW extends GgbAPI {
 	 * @param includeThumbnail
 	 *            whether to include thumbnail
 	 * @param callback
-	 *            handler for the file
-	 */
-	public void getGGBfile(final boolean includeThumbnail,
-			final FileConsumer callback) {
-		final JsPropertyMap<Object> arch = getFileJSON(includeThumbnail);
-		getGGBZipJs(arch, callback, () -> {
-				Log.warn("Saving with workers failed, trying without workers.");
-				// getGGBZipJs(arch, callback, null);
-		});
-	}
-
-	/**
-	 * @param includeThumbnail
-	 *            whether to include thumbnail
-	 * @param callback
 	 *            callback
 	 */
 	public void getBase64(boolean includeThumbnail, StringConsumer callback) {
-		getBase64ZipJs(getFileJSON(includeThumbnail), callback, false);
+		getZippedBase64Async(getFileJSON(includeThumbnail), callback);
 	}
 
 	/**
@@ -292,7 +279,7 @@ public class GgbAPIW extends GgbAPI {
 			StringConsumer callback) {
 		GgbFile archiveContent = createMacrosArchive();
 		JsPropertyMap<Object> jso = JsPropertyMap.of();
-		getBase64ZipJs(prepareToEntrySet(archiveContent, jso, "", null), callback, false);
+		getZippedBase64Async(prepareToEntrySet(archiveContent, jso, "", null), callback);
 	}
 
 	/**
@@ -365,29 +352,10 @@ public class GgbAPIW extends GgbAPI {
 		return Global.JSON.stringify(jso);
 	}
 
-	private static final class StoreString implements StringConsumer {
-		private String result = "";
-
-		protected StoreString() {
-
-		}
-
-		@Override
-		public void consume(String s) {
-			this.result = s;
-		}
-
-		public String getResult() {
-			return result;
-		}
-	}
-
 	@Override
 	public String getBase64(boolean includeThumbnail) {
-		StoreString storeString = new StoreString();
 		JsPropertyMap<Object> jso = getFileJSON(includeThumbnail);
-		getBase64ZipJs(jso, storeString, true);
-		return storeString.getResult();
+		return getZippedBase64Sync(jso);
 
 	}
 
@@ -395,12 +363,10 @@ public class GgbAPIW extends GgbAPI {
 	 * @return base64 for ggt file
 	 */
 	public String getMacrosBase64() {
-		StoreString storeString = new StoreString();
 		GgbFile archiveContent = createMacrosArchive();
 		JsPropertyMap<Object> jso = prepareToEntrySet(archiveContent,
 				JsPropertyMap.of(), "", null);
-		getBase64ZipJs(jso, storeString, true);
-		return storeString.getResult();
+		return getZippedBase64Sync(jso);
 	}
 
 	/**
@@ -630,39 +596,52 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * @param arch
-	 *            archive
+	 * @param includeThumbnail
+	 *            whether to include thumbnail
 	 * @param clb
-	 *            callback when zipped
-	 * @param errorClb
-	 *            callback for errors
+	 *            handler for the file
 	 */
-	private void getGGBZipJs(JsPropertyMap<Object> arch, FileConsumer clb,
-			JsRunnable errorClb) {
+	public void getZippedGgbAsync(final boolean includeThumbnail, final FileConsumer clb) {
+		final JsPropertyMap<Object> arch = getFileJSON(includeThumbnail);
 		JsPropertyMap<Object> fflatePrepared = prepareFileForFFlate(arch);
+
 		FFlate.get().zip(fflatePrepared, (err, data) -> {
-			clb.consume(new Blob(new JsArray<>(Blob.ConstructorBlobPartsArrayUnionType.of(data))));
+			if (Js.isTruthy(err)) {
+				Log.error("Async zipping failed, trying synchronous zip");
+				Log.error(err);
+
+				ArrayBuffer syncZipped = FFlate.get().zipSync(fflatePrepared);
+				clb.consume(new Blob(new JsArray<>(
+						Blob.ConstructorBlobPartsArrayUnionType.of(syncZipped))));
+			} else {
+				clb.consume(new Blob(new JsArray<>(
+						Blob.ConstructorBlobPartsArrayUnionType.of(data))));
+			}
 		});
 	}
 
-	private void getBase64ZipJs(JsPropertyMap<Object> arch,
-			StringConsumer clb, StringConsumer errorClb) {
+	public String getZippedBase64Sync(final JsPropertyMap<Object> arch) {
 		JsPropertyMap<Object> fflatePrepared = prepareFileForFFlate(arch);
-		clb.consume(Base64.bytesToBase64(FFlate.get().zipSync(fflatePrepared)));
+		return Base64.bytesToBase64(FFlate.get().zipSync(fflatePrepared));
 	}
 
 	/**
 	 * @param arch
 	 *            archive
 	 * @param clb
-	 *            callback for file loaded
-	 * @param sync
-	 *            whether zip should run synchronously
 	 */
-	void getBase64ZipJs(final JsPropertyMap<Object> arch, final StringConsumer clb, boolean sync) {
-		getBase64ZipJs(arch, clb, s -> {
-				Log.warn("Saving with workers failed, trying without workers.");
-				// getBase64ZipJs(arch, clb, "false", false);
+	public void getZippedBase64Async(final JsPropertyMap<Object> arch, final StringConsumer clb) {
+		JsPropertyMap<Object> fflatePrepared = prepareFileForFFlate(arch);
+
+		FFlate.get().zip(fflatePrepared, (err, data) -> {
+			if (Js.isTruthy(err)) {
+				Log.error("Async zipping failed, trying synchronous zip");
+				Log.error(err);
+
+				clb.consume(Base64.bytesToBase64(FFlate.get().zipSync(fflatePrepared)));
+			} else {
+				clb.consume(Base64.bytesToBase64(data));
+			}
 		});
 	}
 
