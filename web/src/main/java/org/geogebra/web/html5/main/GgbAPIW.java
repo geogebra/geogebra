@@ -1491,6 +1491,10 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
+	/**
+	 * @param label label of the embed
+	 * @param base64 applet content as base64
+	 */
 	public void setEmbedContent(String label, String base64) {
 		EmbedManager embedManager = app.getEmbedManager();
 		if (embedManager != null) {

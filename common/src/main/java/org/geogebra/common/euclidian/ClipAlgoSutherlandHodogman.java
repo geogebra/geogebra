@@ -18,6 +18,11 @@ public class ClipAlgoSutherlandHodogman {
 		}
 	}
 
+	/**
+	 * @param input input points
+	 * @param clipPoints vertices of clipping polygon
+	 * @return clipped points
+	 */
 	public ArrayList<MyPoint> process(ArrayList<MyPoint> input, double[][] clipPoints) {
 		ArrayList<MyPoint> output = new ArrayList<>(input);
 

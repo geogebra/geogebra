@@ -134,6 +134,10 @@ public class RemoveContainer {
 		editorState.setCurrentOffset(offset);
 	}
 
+	/**
+	 * Deletes the current field
+	 * @param editorState editor state
+	 */
 	public void delContainer(EditorState editorState) {
 		setEditorState(editorState);
 

@@ -347,14 +347,20 @@ public class ScreenReader {
 		return sb.toString();
 	}
 
-	public static void appendPower(StringBuilder sb, String rightStr, Localization loc) {
-		if ("2".equals(rightStr)) {
+	/**
+	 * Appends exponent to the StringBuilder
+	 * @param sb builder
+	 * @param exponent exponent
+	 * @param loc localization
+	 */
+	public static void appendPower(StringBuilder sb, String exponent, Localization loc) {
+		if ("2".equals(exponent)) {
 			sb.append(ScreenReader.getSquared(loc));
-		} else if ("3".equals(rightStr)) {
+		} else if ("3".equals(exponent)) {
 			sb.append(ScreenReader.getCubed(loc));
 		} else {
 			sb.append(ScreenReader.getStartPower(loc));
-			sb.append(rightStr);
+			sb.append(exponent);
 			sb.append(ScreenReader.getEndPower(loc));
 		}
 	}

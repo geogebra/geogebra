@@ -1353,6 +1353,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	}
 
+	/**
+	 * Appends localized + to a StringBUilder
+	 * @param sb builder
+	 * @param loc localization
+	 */
 	public void getPlus(StringBuilder sb, Localization loc) {
 		if (stringType == StringType.SCREEN_READER) {
 			sb.append(ScreenReader.getPlus(loc));
@@ -1363,6 +1368,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
+	/**
+	 * Appends localized - to a StringBUilder
+	 * @param sb builder
+	 * @param loc localization
+	 */
 	public void getMinus(StringBuilder sb, Localization loc) {
 		if (stringType == StringType.SCREEN_READER) {
 			sb.append(ScreenReader.getMinus(loc));
@@ -3555,6 +3565,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return allowShortLhs;
 	}
 
+	/**
+	 * Appends localized comma to a StringBuilder
+	 * @param sb builder
+	 * @param localization localization
+	 */
 	public void getComma(StringBuilder sb, Localization localization) {
 		if (hasType(StringType.SCREEN_READER)) {
 			sb.append(ScreenReader.getComma());
