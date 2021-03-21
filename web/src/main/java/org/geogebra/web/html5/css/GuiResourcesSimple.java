@@ -12,9 +12,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	GuiResourcesSimple INSTANCE = GWT.create(GuiResourcesSimple.class);
 
-	// @Source("org/geogebra/web/resources/js/zipjs/deflate.js")
-	// TextResource deflateJs();
-
 	@Source("org/geogebra/web/resources/js/rewrite_pHYs_min.js")
 	TextResource rewritePHYS();
 

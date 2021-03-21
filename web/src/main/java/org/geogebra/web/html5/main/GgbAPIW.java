@@ -52,9 +52,9 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 
-import elemental2.core.ArrayBuffer;
 import elemental2.core.Global;
 import elemental2.core.JsArray;
+import elemental2.core.Uint8Array;
 import elemental2.dom.Blob;
 import elemental2.promise.Promise.PromiseExecutorCallbackFn.RejectCallbackFn;
 import elemental2.promise.Promise.PromiseExecutorCallbackFn.ResolveCallbackFn;
@@ -610,7 +610,7 @@ public class GgbAPIW extends GgbAPI {
 				Log.error("Async zipping failed, trying synchronous zip");
 				Log.error(err);
 
-				ArrayBuffer syncZipped = FFlate.get().zipSync(fflatePrepared);
+				Uint8Array syncZipped = FFlate.get().zipSync(fflatePrepared);
 				clb.consume(new Blob(new JsArray<>(
 						Blob.ConstructorBlobPartsArrayUnionType.of(syncZipped))));
 			} else {

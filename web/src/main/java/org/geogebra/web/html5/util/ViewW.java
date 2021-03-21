@@ -11,6 +11,7 @@ import org.gwtproject.timer.client.Timer;
 import elemental2.core.ArrayBuffer;
 import elemental2.core.Global;
 import elemental2.core.JsArray;
+import elemental2.core.Uint8Array;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -19,10 +20,7 @@ import jsinterop.base.JsPropertyMap;
  */
 public class ViewW {
 
-	private GgbFile archiveContent;
-	private int zippedLength = 0;
-
-	private AppW app;
+	private final AppW app;
 
 	/**
 	 * @param app
@@ -32,26 +30,25 @@ public class ViewW {
 		this.app = app;
 	}
 
-	private void maybeLoadFile() {
+	/**
+	 * Load file if it's not null.
+	 *
+	 * @param archiveContent
+	 *            file to load
+	 */
+	public void maybeLoadFile(GgbFile archiveContent) {
 		if (app == null || archiveContent == null) {
 			return;
 		}
 
 		try {
-			Log.debug("loadggb started" + System.currentTimeMillis());
+			long t = System.currentTimeMillis();
 			app.loadGgbFile(archiveContent, false);
-			Log.debug("loadggb finished" + System.currentTimeMillis());
+			Log.debug("GGB file loaded in " + (System.currentTimeMillis() - t) + "ms");
 		} catch (Throwable ex) {
 			Log.debug(ex);
 			return;
 		}
-		archiveContent = null;
-
-		// app.getScriptManager().ggbOnInit(); //this line is moved from here
-		// too,
-		// it should load after the images are loaded
-
-		Log.debug("file loaded");
 
 		// reiniting of navigation bar, to show the correct numbers on the label
 		if (app.getGuiManager() != null && app.getUseFullGui()) {
@@ -62,18 +59,6 @@ public class ViewW {
 				cpNav.update();
 			}
 		}
-		Log.debug("end unzipping" + System.currentTimeMillis());
-	}
-
-	/**
-	 * Load file if it's not null.
-	 * 
-	 * @param archiveCont
-	 *            file to load
-	 */
-	public void maybeLoadFile(GgbFile archiveCont) {
-		archiveContent = archiveCont;
-		maybeLoadFile();
 	}
 
 	/**
@@ -89,7 +74,7 @@ public class ViewW {
 	 */
 	public void processBase64String(String base64String) {
 		String suffix = base64String.substring(base64String.indexOf(',') + 1);
-		ArrayBuffer binaryData = Base64.base64ToBytes(suffix);
+		Uint8Array binaryData = Base64.base64ToBytes(suffix);
 		populateArchiveContent(binaryData);
 	}
 
@@ -98,12 +83,14 @@ public class ViewW {
 	 *            raw zipped GGB file
 	 */
 	public void processBinaryData(ArrayBuffer binary) {
-		populateArchiveContent(binary);
+		populateArchiveContent(new Uint8Array(binary));
 	}
 
-	private void populateArchiveContent(ArrayBuffer binaryData) {
-		archiveContent = new GgbFile();
+	private void populateArchiveContent(Uint8Array binaryData) {
+		long t = System.currentTimeMillis();
+
 		FFlate.get().unzip(binaryData, (err, data) -> {
+			GgbFile archiveContent = new GgbFile();
 			data.forEach(name -> {
 				int dotIndex = name.lastIndexOf('.');
 				String extension = dotIndex == -1 ? "" : name.substring(dotIndex + 1);
@@ -116,25 +103,11 @@ public class ViewW {
 				}
 			});
 
-			maybeLoadFile();
-		});
-	}
+			Log.debug("GGB file uzipped and post-processed in "
+					+ (System.currentTimeMillis() - t) + "ms");
 
-	/**
-	 * Handle file loading error
-	 * 
-	 * @param msg
-	 *            error message
-	 */
-	public void onError(String msg) {
-		Log.error(msg);
-		// eg 403
-		if ((msg + "").startsWith("Error 40")) {
-			this.app.getScriptManager().ggbOnInit();
-			ToolTipManagerW.sharedInstance().showBottomMessage(
-					app.getLocalization().getMenu("FileLoadingError"), false,
-					app);
-		}
+			maybeLoadFile(archiveContent);
+		});
 	}
 
 	/**
@@ -154,13 +127,20 @@ public class ViewW {
 				} else if (url.endsWith(".csv")) {
 					getApplication().openCSV(response);
 				} else {
-					// XXX
+					processBase64String(response);
 				}
 			}
 
 			@Override
 			public void onError(String error) {
-				Log.error("Problem opening file:" + error);
+				Log.error(error);
+				// eg 403
+				if ((error + "").startsWith("Error 40")) {
+					app.getScriptManager().ggbOnInit();
+					ToolTipManagerW.sharedInstance().showBottomMessage(
+							app.getLocalization().getMenu("FileLoadingError"),
+							false, app);
+				}
 			}
 		});
 	}
@@ -195,9 +175,9 @@ public class ViewW {
 		new Timer() {
 			@Override
 			public  void run() {
-				archiveContent = new GgbFile();
+				GgbFile archiveContent = new GgbFile();
 				setFileFromJson(Js.uncheckedCast(zip), archiveContent);
-				maybeLoadFile();
+				maybeLoadFile(archiveContent);
 			}
 		}.schedule(0);
 	}
