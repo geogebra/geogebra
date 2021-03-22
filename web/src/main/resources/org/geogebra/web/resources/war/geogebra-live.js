@@ -35,7 +35,7 @@
         this.evalXML = function(xml) {
             this.unregisterListeners();
             this.api.evalXML(xml);
-            this.api.evalCommand("UpdateConstruction()");
+            this.api.updateConstruction();
             this.registerListeners();
             var that = this;
             setTimeout(function() {
@@ -46,7 +46,7 @@
         this.setXML = function(xml) {
             this.unregisterListeners();
             this.api.setXML(xml);
-            this.api.evalCommand("UpdateConstruction()");
+            this.api.updateConstruction();
             this.registerListeners();
         };
 
@@ -238,6 +238,14 @@
 
                 case "ungroupObjects":
                     this.sendEvent(event[0], event.targets);
+                    break;
+
+                case "pasteElmsComplete":
+                    let pastedGeos = "";
+                    for (const geo of event.targets) {
+                        pastedGeos += this.api.getXML(geo);
+                    }
+                    this.sendEvent("evalXML", pastedGeos);
                     break;
 
                 case "addGeoToTV":

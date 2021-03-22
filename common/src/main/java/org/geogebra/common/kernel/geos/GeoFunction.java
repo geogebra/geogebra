@@ -3044,6 +3044,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @return the left bound if this is an interval
 	 */
 	public double getMin() {
+		if (!isDefined()) {
+			return Double.NaN;
+		}
 		double[] minmax = new double[2];
 		GeoIntervalUtil.updateBoundaries(fun.getExpression(), minmax);
 		return minmax[0];
@@ -3053,6 +3056,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @return the right bound if this is an interval
 	 */
 	public double getMax() {
+		if (!isDefined()) {
+			return Double.NaN;
+		}
 		double[] minmax = new double[2];
 		GeoIntervalUtil.updateBoundaries(fun.getExpression(), minmax);
 		return minmax[1];

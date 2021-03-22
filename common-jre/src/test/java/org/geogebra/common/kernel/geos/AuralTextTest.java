@@ -1,12 +1,14 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
-import org.geogebra.common.util.debug.Log;
+import org.geogebra.test.RegexpMatch;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,8 +25,7 @@ public class AuralTextTest {
 
 	private static void aural(String in, String... out) {
 		GeoElementND[] geos = add(in);
-		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot());
-		Log.debug("aural = " + aural);
+		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot(app.getLocalization()));
 		String[] sentences = aural.split("\\.");
 		Assert.assertTrue(aural.endsWith("."));
 		assertEquals(out.length, sentences.length);
@@ -56,7 +57,7 @@ public class AuralTextTest {
 	public void numberAural() {
 		aural("sl=Slider(-5,5)", "Slider", "start animation", "increase",
 				"decrease", "edit");
-		assertEquals("sl = 0",
+		assertEquals("sl equals 0",
 				((GeoNumeric) get("sl")).getAuralCurrentValue());
 		aural("4", "Number");
 	}
@@ -69,9 +70,9 @@ public class AuralTextTest {
 	public void numberCaptionAural() {
 		add("vec=Slider(-5,5)");
 		add("SetCaption(vec,\"Vector v = %v\")");
-		aural("vec", "Vector v = 0", "start animation", "increase",
+		aural("vec", "Vector v  equals  0", "start animation", "increase",
 				"decrease", "edit");
-		assertEquals("Vector v = 0",
+		assertEquals("Vector v  equals  0",
 				((GeoNumeric) get("vec")).getAuralCurrentValue());
 	}
 
@@ -83,11 +84,13 @@ public class AuralTextTest {
 
 	@Test
 	public void textAural() {
-		aural("LaTeX(\"a+\\mathbf{x^2}\")", "a+x^(2)", "edit");
-		aural("LaTeX(\"a_{bcd}\")", "a subscript bcd", "edit");
-		aural("LaTeX(\"\\sqrt{x}\")", "sqrt(x)", "edit");
-		aural("LaTeX(\"\\sqrt[3]{x}\")", "nroot(x,3)", "edit");
-		aural("LaTeX(\"\\frac{x}{2}\")", "(x)/(2)", "edit");
+		aural("LaTeX(\"b=a+\\mathbf{x^2}\")", "b equals a plus x squared", "edit");
+		aural("LaTeX(\"a+\\mathbf{x^3}\")", "a plus x cubed", "edit");
+		aural("LaTeX(\"a+\\mathbf{x^4}\")", "a plus x to the power of 4 end power", "edit");
+		aural("LaTeX(\"a_{bcd}\")", "a start subscript bcd end subscript", "edit");
+		aural("LaTeX(\"\\sqrt{x}\")", "start square root x end root", "edit");
+		aural("LaTeX(\"\\sqrt[3]{x}\")", "start cube root x end root", "edit");
+		aural("LaTeX(\"\\frac{x}{2}\")", "start fraction x over 2 end fraction", "edit");
 		aural("LaTeX(\"\\vec{x}\")", " vector x", "edit");
 		aural("LaTeX(\"\\fgcolor{red}{\\text{red text}}\")", "red text",
 				"edit");
@@ -95,7 +98,7 @@ public class AuralTextTest {
 				"edit");
 		aural("TableText({{1,2,3},{3,4,5}})", "\\{\\{1,2,3\\},\\{3,4,5\\}\\}",
 				"edit");
-		aural("FractionText(1.5)", "(3)/(2)", "edit");
+		aural("FractionText(1.5)", "start fraction 3 over 2 end fraction", "edit");
 		aural("LaTeX(\"\\scalebox{0.5}{hello}\")", "hello", "edit");
 		aural("LaTeX(\"\\rotatebox{90}{hello}\")", "hello", "edit");
 		aural("LaTeX(\"\\textsf{textsf} \\mathsf{mathsf} \\sf{sf}\")",
@@ -125,10 +128,17 @@ public class AuralTextTest {
 	public void readLaTeXCaption() {
 		GeoElementND[] pointA = add("A = (1,2)");
 		pointA[0].setCaption("$ \\sqrt {x}$");
-		auralWhichContainsTheOutput("A", "sqrt(x)");
+		auralWhichContainsTheOutput("A", "start square root x end root");
 		GeoElementND[] pointB = add("B = (2,2)");
 		pointB[0].setCaption(" $ \\text{this is my nice caption}$");
 		auralWhichContainsTheOutput("B", "this is my nice caption");
+	}
+
+	@Test
+	public void readComma() {
+		GeoElementND[] pointA = add("A = (1,2)");
+		assertEquals("open parenthesis 1 comma  2 close parenthesis",
+				pointA[0].toValueString(StringTemplate.screenReader).trim());
 	}
 
 	@Test
@@ -136,7 +146,7 @@ public class AuralTextTest {
 		GeoInputBox box = (GeoInputBox) add("myBox=InputBox()")[0];
 		assertEquals("Input Box myBox", box.getAuralText().trim());
 		box.setCaption("$\\frac{1}{2}$");
-		assertEquals("Input Box (1)/(2)", box.getAuralText().trim());
+		assertEquals("Input Box start fraction 1 over 2 end fraction", box.getAuralText().trim());
 		box.setCaption("plainText");
 		assertEquals("Input Box plainText", box.getAuralText().trim());
 	}
@@ -147,13 +157,12 @@ public class AuralTextTest {
 		box.setLabelVisible(false);
 		assertEquals("Input Box", box.getAuralText().trim());
 		box.setCaption("$\\frac{1}{2}$");
-		assertEquals("Input Box (1)/(2)", box.getAuralText().trim());
+		assertEquals("Input Box start fraction 1 over 2 end fraction", box.getAuralText().trim());
 	}
 
 	private static void auralWhichContainsTheOutput(String in, String... out) {
 		GeoElementND[] geos = add(in);
-		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot());
-		Log.debug("aural = " + aural);
+		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot(app.getLocalization()));
 		String[] sentences = aural.split("\\.");
 		Assert.assertTrue(aural.endsWith("."));
 		if (out[0].matches(".*\\(.*")) {
@@ -162,8 +171,6 @@ public class AuralTextTest {
 		if (out[0].matches(".*\\).*")) {
 			out[0] = out[0].replace(")", "\\)");
 		}
-		if (!sentences[0].matches(".*" + out[0] + ".*")) {
-			Assert.fail();
-		}
+		assertThat(sentences[0], RegexpMatch.matches(".*" + out[0] + ".*"));
 	}
 }

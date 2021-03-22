@@ -1,7 +1,6 @@
 package org.geogebra.web.shared.components;
 
 import org.geogebra.common.gui.InputHandler;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.components.ComponentInputField;
@@ -146,14 +145,8 @@ public class ComponentInputDialog extends ComponentDialog
 	 * otherwise hide dialog
 	 */
 	public void processInput() {
-		// avoid labeling of num
-		final Construction cons = app.getKernel().getConstruction();
-		final boolean oldVal = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		getInputHandler().processInput(getInputText(), this,
 				ok -> {
-					cons.setSuppressLabelCreation(oldVal);
 					if (ok) {
 						toolAction();
 						hide();

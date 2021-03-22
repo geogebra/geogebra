@@ -406,6 +406,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected double newScale;
 	private boolean objectMenuActive;
 	private List<CoordSystemListener> zoomerListeners = new LinkedList<>();
+	private List<CoordSystemAnimationListener> zoomerAnimationListeners = new LinkedList<>();
 	private MyModeChangedListener modeChangeListener = null;
 
 	private SelectionToolPressResult lastSelectionPressResult = SelectionToolPressResult.DEFAULT;
@@ -426,6 +427,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private GeoElement lastMowHit;
 
 	private GeoPriorityComparator priorityComparator;
+
+	public void clearZoomerAnimationListeners() {
+		zoomerAnimationListeners.clear();
+	}
 
 	/**
 	 * state for selection tool over press/release
@@ -6513,6 +6518,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		view.setCursor(EuclidianCursor.DEFAULT);
 	}
 
+	/**
+	 * Change cursor based on which object is hit
+	 * @param hits geos hit.
+	 */
 	protected void setCursorForTranslateView(Hits hits) {
 		if (hits.hasXAxis()) {
 			view.setCursor(EuclidianCursor.RESIZE_X);
@@ -7932,7 +7941,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected void scaleXAxis(boolean repaint) {
 		if (repaint) {
 			if (temporaryMode) {
-				view.setCursor(EuclidianCursor.RESIZE_X);
+				view.onResizeX();
 			}
 
 			setScaleAxis(view.getXZero(), view.getXmin(), view.getXmax(),
@@ -10213,6 +10222,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 			notifyCoordSystemListeners();
+			if (moveMode == MOVE_VIEW) {
+				notifyCoordSystemMoveStop();
+			}
 		} else {
 			movedGeoElement = null;
 			// no hits: release mouse button creates a point
@@ -10465,6 +10477,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		moveMode = MOVE_NONE;
 		initShowMouseCoords();
 		view.setShowAxesRatio(false);
+		view.onAxisZoomCancel();
 
 		if (!hasJustCreatedGeos()) { // first try to set just created
 			// geos as selected
@@ -12111,8 +12124,59 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		zoomerListeners.remove(coordSystemListener);
 	}
 
+	/**
+	 * @param listener
+	 *            coord system animation listener
+	 */
+	public void addZoomerAnimationListener(CoordSystemAnimationListener listener) {
+		zoomerAnimationListeners.add(listener);
+	}
+
+	/**
+	 * @param listener
+	 *            coord system listener
+	 */
+	public void removeZoomerAnimationListener(CoordSystemAnimationListener listener) {
+		zoomerAnimationListeners.remove(listener);
+	}
+
 	public void onCoordSystemChanged() {
 		notifyCoordSystemListeners();
+	}
+
+	/**
+	 * Notify listeners that zoom stopped animating.
+	 */
+	public void notifyZoomerStopped() {
+		CoordSystemInfo info = view.getCoordSystemInfo();
+		if (view.isStandardView()) {
+			info.setCenterView(false);
+		}
+
+		for (CoordSystemAnimationListener listener: zoomerAnimationListeners) {
+			listener.onZoomStop(info);
+		}
+	}
+
+	/**
+	 * Notify listeners that coordinate system has moved.
+	 *
+	 * @param info {@link CoordSystemInfo}
+	 */
+	public void notifyCoordSystemMoved(CoordSystemInfo info) {
+		for (CoordSystemAnimationListener listener: zoomerAnimationListeners) {
+			listener.onMove(info);
+		}
+	}
+
+	/**
+	 * Notify listeners that coordinate system has stopped moving.
+	 *
+	 */
+	public void notifyCoordSystemMoveStop() {
+		for (CoordSystemAnimationListener listener: zoomerAnimationListeners) {
+			listener.onMoveStop();
+		}
 	}
 
 	public MyModeChangedListener getModeChangeListener() {

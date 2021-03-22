@@ -1137,7 +1137,7 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 		String altStr = appW.getLocalization().getMenu("DrawingPad");
 		if (alt instanceof GeoText) {
-			altStr = ((GeoText) alt).getTextString();
+			altStr = ((GeoText) alt).getAuralText();
 		}
 		g2p.setAltText(altStr);
 	}
@@ -1256,20 +1256,10 @@ public class EuclidianViewW extends EuclidianView implements
 			}
 			return;
 		case PEN:
-			if (appW.isWhiteboardActive() && getEuclidianController()
-					.getDefaultEventType() != PointerEventType.MOUSE) {
-				setTransparentCursor();
-			} else {
-				setPenCursor();
-			}
+			setPenCursor();
 			return;
 		case HIGHLIGHTER:
-			if (appW.isWhiteboardActive() && getEuclidianController()
-					.getDefaultEventType() != PointerEventType.MOUSE) {
-				setTransparentCursor();
-			} else {
-				setHighlighterCursor();
-			}
+			setHighlighterCursor();
 			return;
 		case ROTATION:
 			if (appW.isWhiteboardActive() && getEuclidianController()

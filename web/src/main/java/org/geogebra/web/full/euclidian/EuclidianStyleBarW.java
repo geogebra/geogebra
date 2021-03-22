@@ -70,7 +70,6 @@ import org.geogebra.web.full.gui.util.PointStylePopup;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.StyleBarW2;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
@@ -410,7 +409,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 		addButtons();
 		popupBtnList = newPopupBtnList();
 		toggleBtnList = newToggleBtnList();
-		ClickStartHandler.initDefaults(this, true, true);
 	}
 
 	protected void setActionCommands() {
@@ -597,11 +595,13 @@ public class EuclidianStyleBarW extends StyleBarW2
 		StandardButton btnDelete = new StandardButton(
 				MaterialDesignResources.INSTANCE.delete_black(), null, 24);
 		btnDelete.setStyleName("MyCanvasButton");
-		FastClickHandler btnDelHandler = source -> {
-			app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
-			app.deleteSelectedObjects(false);
-		};
-		btnDelete.addFastClickHandler(btnDelHandler);
+		ClickStartHandler.init(btnDelete, new ClickStartHandler(true, true) {
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
+				app.deleteSelectedObjects(false);
+			}
+		});
 		add(btnDelete);
 	}
 

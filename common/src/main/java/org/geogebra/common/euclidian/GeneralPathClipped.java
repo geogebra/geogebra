@@ -13,7 +13,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * A GeneralPath implementation that does clipping of line segments at the
@@ -71,11 +70,7 @@ public class GeneralPathClipped implements GShape {
 		return pathPoints.get(0);
 	}
 
-	/**
-	 * Clears all points and resets internal variables
-	 * @param lineThickness line thickness
-	 */
-	final public void resetWithThickness(int lineThickness) {
+	final public void reset() {
 		pathPoints.clear();
 		gp.reset();
 		// save object
@@ -83,6 +78,14 @@ public class GeneralPathClipped implements GShape {
 		bounds = null;
 		largestCoord = 0;
 		needClosePath = false;
+	}
+
+	/**
+	 * Clears all points and resets internal variables
+	 * @param lineThickness line thickness
+	 */
+	final public void resetWithThickness(int lineThickness) {
+		reset();
 		this.lineThickness = lineThickness;
 	}
 
@@ -112,7 +115,6 @@ public class GeneralPathClipped implements GShape {
 
 	private void addSegmentsWithSutherladHoloman() {
 		int padding = lineThickness + 5;
-		Log.debug("PADDING: " + padding);
 		double[][] clipPoints = {
 				{ -padding, -padding},
 				{ -padding, view.getHeight() + padding},

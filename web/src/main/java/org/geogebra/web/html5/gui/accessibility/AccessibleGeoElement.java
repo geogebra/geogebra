@@ -61,8 +61,13 @@ public class AccessibleGeoElement implements AccessibleWidget {
 	@Override
 	public void update() {
 		button.setText(getAction(geo));
-		label.setText(geo.getAuralText(new ScreenReaderBuilder(Browser.isMobile())));
+		label.setText(geo.getAuralText(getBuilder()));
 		activeWidget = geo.getScript(EventType.CLICK) == null ? label : button;
+	}
+
+	private ScreenReaderBuilder getBuilder() {
+		return new ScreenReaderBuilder(geo.getKernel().getLocalization(),
+				Browser.isMobile());
 	}
 
 	@Override
@@ -87,7 +92,7 @@ public class AccessibleGeoElement implements AccessibleWidget {
 			return sel.getCaption(StringTemplate.screenReader);
 		}
 		if (sel != null && sel.getScript(EventType.CLICK) != null) {
-			return ScreenReader.getAuralText(sel, new ScreenReaderBuilder(Browser.isMobile()));
+			return ScreenReader.getAuralText(sel, getBuilder());
 		}
 
 		return null;

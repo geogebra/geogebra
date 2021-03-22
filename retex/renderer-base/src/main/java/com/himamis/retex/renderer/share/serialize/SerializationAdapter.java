@@ -1,8 +1,8 @@
 package com.himamis.retex.renderer.share.serialize;
 
-public interface BracketsAdapterI {
+public interface SerializationAdapter {
 
-	String subscriptContent(String sub);
+	String subscriptContent(String base, String sub, String sup);
 
 	/**
 	 * @param left
@@ -15,4 +15,11 @@ public interface BracketsAdapterI {
 	 */
 	String transformBrackets(String left, String base, String right);
 
+	String sqrt(String base);
+
+	String convertCharacter(char character);
+
+	String fraction(String numerator, String denominator);
+
+	String nroot(String serialize, String serialize1);
 }
