@@ -94,6 +94,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -2531,6 +2532,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			}
 		}
 
+		if (newLabel.startsWith(LabelManager.HIDDEN_PREFIX)) {
+			setAlgebraLabelVisible(false);
+		}
+
 		setLabelSimple(newLabel); // set new label
 
 		setLabelSet(true);
@@ -2551,13 +2556,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (addToConstr) {
 			notifyAdd();
 		}
-		/*
-		 * if(cons.getCASdummies().contains(newLabel)){
-		 * cons.moveInConstructionList(this, 0);
-		 * cons.getCASdummies().remove(newLabel); for(int
-		 * i=0;cons.getCasCell(i)!=null;i++){
-		 * kernel.getAlgebraProcessor().processCasCell(cons.getCasCell(i)); } }
-		 */
 	}
 
 	private void updateSpreadsheetCoordinates() {
@@ -6980,11 +6978,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public boolean addAuralCaption(ScreenReaderBuilder sb) {
 		if (!StringUtil.empty(getCaptionSimple())) {
-			String myCaption = getCaption(StringTemplate.defaultTemplate);
-			if (CanvasDrawable.isLatexString(myCaption)) {
-				sb.appendLaTeX(caption);
+			if (CanvasDrawable.isLatexString(caption)) {
+				String myCaption = getCaption(StringTemplate.latexTemplate);
+				sb.appendLaTeX(myCaption);
 			} else {
-				sb.append(myCaption);
+				String myCaption = getCaption(StringTemplate.screenReader);
+				sb.append(ScreenReader.convertToReadable(myCaption, getLoc()));
 			}
 			sb.endSentence();
 			return true;
@@ -6993,22 +6992,22 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	@Override
-	public void addAuralType(Localization loc, ScreenReaderBuilder sb) {
+	public void addAuralType(ScreenReaderBuilder sb) {
 		sb.append(translatedTypeStringForAlgebraView());
 		sb.appendSpace();
 	}
 
 	@Override
-	public void addAuralLabel(Localization loc, ScreenReaderBuilder sb) {
+	public void addAuralLabel(ScreenReaderBuilder sb) {
 		sb.append(getLabelSimple());
 		sb.endSentence();
 	}
 
 	@Override
-	public void addAuralName(Localization loc, ScreenReaderBuilder sb) {
-		addAuralType(loc, sb);
+	public void addAuralName(ScreenReaderBuilder sb) {
+		addAuralType(sb);
 		if (!addAuralCaption(sb)) {
-			addAuralLabel(loc, sb);
+			addAuralLabel(sb);
 		}
 	}
 
@@ -7025,7 +7024,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public String getAuralText(ScreenReaderBuilder sb) {
 		Localization loc = kernel.getLocalization();
-		addAuralName(loc, sb);
+		addAuralName(sb);
 		sb.appendSpace();
 		addAuralStatus(loc, sb);
 		sb.appendSpace();

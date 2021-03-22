@@ -624,7 +624,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			alt = app.getKernel().lookupLabel("altText");
 		}
 		if (alt instanceof GeoText) {
-			altStr = ((GeoText) alt).getTextString();
+			altStr = ((GeoText) alt).getAuralText();
 		}
 		setAltText(altStr);
 	}
