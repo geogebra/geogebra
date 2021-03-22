@@ -70,10 +70,13 @@ public class GeneralPathClipped implements GShape {
 		return pathPoints.get(0);
 	}
 
+
+	/**
+	 * Clears all points and resets internal variables
+	 */
 	final public void reset() {
 		pathPoints.clear();
 		gp.reset();
-		// save object
 		oldBounds = bounds;
 		bounds = null;
 		largestCoord = 0;
@@ -82,6 +85,7 @@ public class GeneralPathClipped implements GShape {
 
 	/**
 	 * Clears all points and resets internal variables
+	 * and the line thickness too.
 	 * @param lineThickness line thickness
 	 */
 	final public void resetWithThickness(int lineThickness) {
