@@ -205,4 +205,10 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * @param step - step value of table
 	 */
 	void setValues(double min, double max, double step) throws InvalidValuesException;
+
+	/**
+	 * @param column - index of column in the table of values
+	 * @param show - true if point should be shown, false otherwise
+	 */
+	void showPointsTV(int column, boolean show);
 }

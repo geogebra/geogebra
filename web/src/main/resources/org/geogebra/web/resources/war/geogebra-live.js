@@ -257,6 +257,10 @@
                 	this.sendEvent(event[0], event[2]);
                 	break;
 
+                case "showPointsTV":
+                	this.sendEvent(event[0], event.column, event.show);
+                	break;
+
                 default:
                     // console.log("unhandled event ", event[0], event);
             }
@@ -353,6 +357,8 @@
                 	target.api.setValuesOfTV(last.content);
                 } else if (last.type == "removeGeoFromTV") {
                 	target.api.removeGeoFromTV(last.content);
+                } else if (last.type == "showPointsTV") {
+                	target.api.showPointsTV(last.content, last.label);
                 }
             }
         };

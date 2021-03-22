@@ -1538,4 +1538,17 @@ public class GgbAPIW extends GgbAPI {
 			}
 		}
 	}
+
+	/**
+	 * @param columnStr column index (as string)
+	 * @param showStr "true" or "false"
+	 */
+	public void showPointsTV(String columnStr, String showStr) {
+		GuiManagerInterfaceW guiManagerW = (GuiManagerInterfaceW) app.getGuiManager();
+		int column = Integer.parseInt(columnStr);
+		boolean show = Boolean.parseBoolean(showStr);
+		if (guiManagerW != null) {
+			guiManagerW.showPointsTV(column, show);
+		}
+	}
 }
