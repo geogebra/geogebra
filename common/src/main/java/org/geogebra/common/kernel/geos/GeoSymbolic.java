@@ -64,6 +64,8 @@ public class GeoSymbolic extends GeoElement
 
 	@Nullable
 	private ExpressionValue numericValue;
+	private int numericPrintFigures;
+	private int numericPrintDecimals;
 
 	/**
 	 * @return output expression
@@ -118,6 +120,8 @@ public class GeoSymbolic extends GeoElement
 			value = symbolic.getValue();
 			casOutputString = symbolic.casOutputString;
 			numericValue = symbolic.numericValue;
+			numericPrintFigures = symbolic.numericPrintFigures;
+			numericPrintDecimals = symbolic.numericPrintDecimals;
 			isTwinUpToDate = false;
 		}
 	}
@@ -254,7 +258,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private ExpressionValue maybeComputeNumericValue(ExpressionValue casOutput) {
-		if (!casOutput.isNumberValue()) {
+		if (casOutput == null || !casOutput.isNumberValue()) {
 			return null;
 		}
 		Log.debug("GeoSymbolic is a number value, calculating numeric result");
@@ -266,16 +270,31 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private ExpressionValue computeNumericValue(ExpressionValue casOutput) {
-		Command command = new Command(kernel, "Numeric", false);
-		command.addArgument(casOutput.wrap());
-
-		int printFigures = kernel.getPrintFigures();
-		if (printFigures != -1) {
-			command.addArgument(new MyDouble(kernel, printFigures).wrap());
+		Command command;
+		numericPrintFigures = kernel.getPrintFigures();
+		numericPrintDecimals = kernel.getPrintDecimals();
+		if (numericPrintFigures == -1) {
+			command = new Command(kernel, "Round", false);
+			command.addArgument(casOutput.wrap());
+			command.addArgument(new MyDouble(kernel, numericPrintDecimals).wrap());
+		} else {
+			command = new Command(kernel, "Numeric", false);
+			command.addArgument(casOutput.wrap());
+			command.addArgument(new MyDouble(kernel, numericPrintFigures).wrap());
 		}
 
 		String casResult = evaluateGeoGebraCAS(command, constant);
 		return parseOutputString(casResult);
+	}
+
+	private void maybeRecomputeNumericValue() {
+		if (numericValue == null) {
+			return;
+		}
+		if (numericPrintFigures != kernel.getPrintFigures()
+				|| numericPrintDecimals != kernel.getPrintFigures()) {
+			numericValue = maybeComputeNumericValue(value);
+		}
 	}
 
 	private StringTemplate getStringTemplate(Command input) {
@@ -699,6 +718,7 @@ public class GeoSymbolic extends GeoElement
 		if (twinGeo != null) {
 			twinGeo.setVisualStyle(this);
 		}
+		maybeRecomputeNumericValue();
 		super.update(drag);
 	}
 
