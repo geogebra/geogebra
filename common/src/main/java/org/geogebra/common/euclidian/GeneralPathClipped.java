@@ -70,7 +70,6 @@ public class GeneralPathClipped implements GShape {
 		return pathPoints.get(0);
 	}
 
-
 	/**
 	 * Clears all points and resets internal variables
 	 */

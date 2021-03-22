@@ -4,6 +4,7 @@
   <inherits name="edu.uci.ics.JUNG" />
   <inherits name="org.apache.commons.Math" />
   <inherits name="org.apache.commons.Collections" />
+  <inherits name="org.gwtproject.regexp.RegExp" />
 
   <source path='common' />
 
