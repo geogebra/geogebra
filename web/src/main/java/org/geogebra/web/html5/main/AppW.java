@@ -137,6 +137,8 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
+import org.gwtproject.regexp.client.NativeRegExpFactory;
+import org.gwtproject.regexp.shared.RegExpFactory;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.core.client.GWT;
@@ -518,21 +520,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * inits factories
 	 */
 	protected void initFactories() {
-		if (FormatFactory.getPrototype() == null) {
-			FormatFactory.setPrototypeIfNull(new FormatFactoryW());
-		}
-
-		if (AwtFactory.getPrototype() == null) {
-			AwtFactory.setPrototypeIfNull(new AwtFactoryW());
-		}
-
-		if (StringUtil.getPrototype() == null) {
-			StringUtil.setPrototypeIfNull(new StringUtil());
-		}
-
-		if (UtilFactory.getPrototype() == null) {
-			UtilFactory.setPrototypeIfNull(new UtilFactoryW());
-		}
+		FormatFactory.setPrototypeIfNull(new FormatFactoryW());
+		AwtFactory.setPrototypeIfNull(new AwtFactoryW());
+		StringUtil.setPrototypeIfNull(new StringUtil());
+		UtilFactory.setPrototypeIfNull(new UtilFactoryW());
+		RegExpFactory.setPrototypeIfNull(new NativeRegExpFactory());
 	}
 
 	@Override
