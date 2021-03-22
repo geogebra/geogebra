@@ -49,7 +49,9 @@ public class UnsupportedOperatorChecker implements Inspecting {
 	}
 
 	private boolean checkPower(ExpressionValue v) {
+		double power = v.wrap().getRight().evaluateDouble();
 		return v.wrap().getRightTree().containsFunctionVariable()
-				|| !DoubleUtil.isInteger(v.wrap().getRight().evaluateDouble());
+				|| !DoubleUtil.isInteger(power) || power < 0
+				|| power >= 100;
 	}
 }
