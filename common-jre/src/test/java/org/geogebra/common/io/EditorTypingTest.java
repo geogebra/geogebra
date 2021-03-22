@@ -403,9 +403,8 @@ public class EditorTypingTest {
 	public void testInverseTrigEditor() {
 		checker.type("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2").checkRaw(
 				"MathSequence[FnFRAC[MathSequence[FnAPPLY[MathSequence[c, o, s, "
-						+ Unicode.SUPERSCRIPT_MINUS + ", "
-						+ Unicode.SUPERSCRIPT_1
-						+ "], MathSequence[1]]], MathSequence[2]]]");
+						+ "FnSUPERSCRIPT[MathSequence[-, 1]]], MathSequence[1]]], "
+						+ "MathSequence[2]]]");
 	}
 
 	@Test

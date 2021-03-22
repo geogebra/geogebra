@@ -1,10 +1,11 @@
 package com.himamis.retex.editor.share.input.adapter;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 
-public class StringCharAdapter extends StringInput {
+public class StringAdapter extends StringInput {
 
-    private final char input;
+    private final String input;
 
 	/**
 	 * @param keyboard
@@ -12,7 +13,7 @@ public class StringCharAdapter extends StringInput {
 	 * @param input
 	 *            to be added to editor
 	 */
-    public StringCharAdapter(char keyboard, char input) {
+    public StringAdapter(char keyboard, String input) {
         this(keyboard + "", input);
     }
 
@@ -22,13 +23,13 @@ public class StringCharAdapter extends StringInput {
 	 * @param input
 	 *            to be added to editor
 	 */
-    public StringCharAdapter(String keyboard, char input) {
+    public StringAdapter(String keyboard, String input) {
         super(keyboard);
         this.input = input;
     }
 
     @Override
 	public void commit(MathFieldInternal mfi, String unused) {
-        typeCharacter(mfi, this.input);
+        KeyboardInputAdapter.type(mfi, this.input);
     }
 }
