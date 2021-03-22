@@ -148,7 +148,7 @@ public class DrawParametricCurve extends Drawable {
 	}
 
 	private void updateIntervalPlot() {
-		gp.reset();
+		gp.resetWithThickness(geo.getLineThickness());
 		intervalPlotter.update();
 		updateLabelPoint();
 	}
