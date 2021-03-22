@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.main;
 
+import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.StringConsumer;
 
@@ -984,6 +985,18 @@ public class DefaultExportedApi implements ExportedApi {
 
 	public void setEmbedContent(String label, String base64) {
 		ggbAPI.setEmbedContent(label, base64);
+	}
+
+	public void addGeoToTV(String label) {
+		ggbAPI.addGeoToTV(label);
+	}
+
+	public void removeGeoFromTV(String label) {
+		ggbAPI.removeGeoFromTV(label);
+	}
+
+	public void setValuesOfTV(String values) throws InvalidValuesException {
+		ggbAPI.setValuesOfTV(values);
 	}
 
 	public boolean hasUnlabeledPredecessors(String label) {

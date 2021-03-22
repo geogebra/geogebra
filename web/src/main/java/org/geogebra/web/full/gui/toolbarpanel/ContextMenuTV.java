@@ -5,6 +5,8 @@ import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -74,27 +76,19 @@ public class ContextMenuTV {
 		if (getColumnIdx() >= 0) {
 			// column index >= 0 -> edit function
 			addShowHide();
-			addEdit(new Command() {
-
-				@Override
-				public void execute() {
-					GuiManagerInterfaceW guiManager = getApp().getGuiManager();
-					if (guiManager != null) {
-						guiManager.startEditing(getGeo());
-					}
+			addEdit(() -> {
+				GuiManagerInterfaceW guiManager = getApp().getGuiManager();
+				if (guiManager != null) {
+					guiManager.startEditing(getGeo());
 				}
 			});
 			addDelete();
 		} else {
 			// column index = -1 -> edit x-column
-			addEdit(new Command() {
-
-				@Override
-				public void execute() {
-					DialogManager dialogManager = getApp().getDialogManager();
-					if (dialogManager != null) {
-						dialogManager.openTableViewDialog(null);
-					}
+			addEdit(() -> {
+				DialogManager dialogManager = getApp().getDialogManager();
+				if (dialogManager != null) {
+					dialogManager.openTableViewDialog(null);
 				}
 			});
 		}
@@ -109,14 +103,8 @@ public class ContextMenuTV {
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml((SVGResource) null,
 						app.getLocalization().getMenu(transKey)),
-				true, new Command() {
-
-					@Override
-					public void execute() {
-						tvPoints.setPointsVisible(column,
-								!tvPoints.arePointsVisible(column));
-					}
-				});
+				true, (Command) () -> tvPoints.setPointsVisible(column,
+						!tvPoints.arePointsVisible(column)));
 		addItem(mi, "showhide");
 	}
 
@@ -131,18 +119,15 @@ public class ContextMenuTV {
 				MainMenu.getMenuBarHtml(
 						(SVGResource) null,
 						app.getLocalization().getMenu("RemoveColumn")),
-				true, new Command() {
-
-					@Override
-					public void execute() {
-						GuiManagerInterfaceW guiManager = getApp().getGuiManager();
-						if (guiManager != null && guiManager.getTableValuesView() != null) {
-							TableValuesView tableValuesView = (TableValuesView) guiManager
-									.getTableValuesView();
-							GeoEvaluatable column = tableValuesView
-									.getEvaluatable(getColumnIdx());
-							tableValuesView.hideColumn(column);
-						}
+				true, (Command) () -> {
+					GuiManagerInterfaceW guiManager = getApp().getGuiManager();
+					if (guiManager != null && guiManager.getTableValuesView() != null) {
+						TableValuesView tableValuesView = (TableValuesView) guiManager
+								.getTableValuesView();
+						GeoEvaluatable column = tableValuesView
+								.getEvaluatable(getColumnIdx());
+						tableValuesView.hideColumn(column);
+						app.dispatchEvent(new Event(EventType.REMOVE_TV, (GeoElement) column));
 					}
 				});
 		addItem(mi, "delete");

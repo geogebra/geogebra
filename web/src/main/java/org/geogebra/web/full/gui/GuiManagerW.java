@@ -24,6 +24,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
+import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -2255,9 +2256,31 @@ public class GuiManagerW extends GuiManager
 	 *            function/lie to be added
 	 */
 	public void addGeoToTableValuesView(GeoElement geo) {
+		app.getEventDispatcher()
+				.dispatchEvent(EventType.ADD_TV, geo);
+		addGeoToTV(geo);
+		getUnbundledToolbar().openTableView((GeoEvaluatable) geo, true);
+	}
+
+	@Override
+	public void removeGeoFromTV(String label) {
+		GeoElement geo = app.getKernel().lookupLabel(label);
+		if (getTableValuesView() != null && geo instanceof GeoEvaluatable) {
+			getTableValuesView().hideColumn((GeoEvaluatable) geo);
+		}
+	}
+
+	@Override
+	public void setValues(double min, double max, double step) throws InvalidValuesException {
+		if (getTableValuesView() != null) {
+			getTableValuesView().setValues(min, max, step);
+		}
+	}
+
+	@Override
+	public void addGeoToTV(GeoElement geo) {
 		getTableValuesView().add(geo);
 		getTableValuesView().showColumn((GeoEvaluatable) geo);
-		getUnbundledToolbar().openTableView((GeoEvaluatable) geo, true);
 	}
 
 	@Override
