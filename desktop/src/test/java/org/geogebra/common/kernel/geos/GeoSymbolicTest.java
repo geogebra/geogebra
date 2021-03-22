@@ -33,6 +33,7 @@ import org.geogebra.test.UndoRedoTester;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -325,7 +326,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solve(2x^2-x=21)", "{x = -3, x = 7 / 2}");
 		t("Solve(6x/(x+3)-x/(x-3)=2)", "{x = 1, x = 6}");
 		t("Solve(12exp(x)=150)", "{x = ln(25 / 2)}");
-		testValidResultCombinations("Solve(cos(x)=sin(x))", "{x = k_{1} * " + pi + " + 1 / 4 * " + pi + "}",
+		testValidResultCombinations("Solve(cos(x)=sin(x))",
+				"{x = k_{1} * " + pi + " + 1 / 4 * " + pi + "}",
 				"{x = 2 * k_{1} * " + pi + " - 3 / 4 * π, x = 2 * k_{2} * " + pi + " + 1 / 4 * π}");
 		t("Solve(3x+2>-x+8)", "{x > 3 / 2}");
 		// doesn't work without space (multiply) APPS-1031
@@ -388,7 +390,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solve(f''(x)=0)", "{x = (-2 * sqrt(6) + 3) / 3, x = (2 * sqrt(6) + 3) / 3}");
 		t("list=Solutions(f''(x)=0)", "{(-2 * sqrt(6) + 3) / 3, (2 * sqrt(6) + 3) / 3}");
 		t("root=Element(list,2)", "(2 * sqrt(6) + 3) / 3");
-		t("Numeric(f(root))", "9.091256074573");
+		t("Numeric(f(root))", Matchers.in(new String[]{"9.091256074573", "9.091256074574"}));
 		t("Solve(f'(x)=tan(30deg))", "{x = 0.9446513611798, x = 5.126711116935}");
 		t("Tangent(2,f)", "y = -15 * sqrt(2) / 4 * x + 33 * sqrt(2) / 2");
 	}
