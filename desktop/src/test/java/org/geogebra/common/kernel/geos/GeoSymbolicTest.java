@@ -212,7 +212,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				"{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}",
 				"{x = (-sqrt(-p * q)) / p, x = sqrt(-p * q) / p, x = 0}");
 		t("Solve(1-p^2=(1-0.7^2)/4)", "{p = (-sqrt(349)) / 20, p = sqrt(349) / 20}");
-		t("NSolve(1-p^2=(1-0.7^2)/4)", "{p = -0.9340770846, p = 0.9340770846}");
+		t("NSolve(1-p^2=(1-0.7^2)/4)", "{p = -0.9340770846135, p = 0.9340770846135}");
 	}
 
 	@Test
@@ -222,7 +222,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testNumericCommand() {
-		t("Numeric(745/1137)", "0.6552330695");
+		t("Numeric(745/1137)", "0.6552330694811");
 		tn("Numeric(2/3,10)", "0.6666666667");
 		tn("Numeric(pi,10)", "3.141592654");
 		tn("Numeric(pi,100)", "3.14159265358979323846264338327950288419716939937"
@@ -388,8 +388,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solve(f''(x)=0)", "{x = (-2 * sqrt(6) + 3) / 3, x = (2 * sqrt(6) + 3) / 3}");
 		t("list=Solutions(f''(x)=0)", "{(-2 * sqrt(6) + 3) / 3, (2 * sqrt(6) + 3) / 3}");
 		t("root=Element(list,2)", "(2 * sqrt(6) + 3) / 3");
-		t("Numeric(f(root))", "9.0912560746");
-		t("Solve(f'(x)=tan(30deg))", "{x = 0.9446513612, x = 5.1267111169}");
+		t("Numeric(f(root))", "9.091256074573");
+		t("Solve(f'(x)=tan(30deg))", "{x = 0.9446513611798, x = 5.126711116935}");
 		t("Tangent(2,f)", "y = -15 * sqrt(2) / 4 * x + 33 * sqrt(2) / 2");
 	}
 
@@ -402,7 +402,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		testValidResultCombinations("g=Invert(f)", "nroot(25 * x,4)", "nroot(25,4) * nroot(x,4)");
 		t("a=pi Integral(g^2,0,h)", "10 / 3 * sqrt(h) * h * " + pi);
 		t("b=Solve(a=500)", "{h = 5 * cbrt(180 * " + pi + ") / " + pi + "}");
-		t("Numeric(b)", "{h = 13.1611626882}");
+		t("Numeric(b)", "{h = 13.16116268824}");
 	}
 
 	@Test
