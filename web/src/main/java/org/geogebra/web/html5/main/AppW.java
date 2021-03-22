@@ -160,7 +160,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
+import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 public abstract class AppW extends App implements SetLabels, HasLanguage {
@@ -2548,22 +2550,22 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void evalJavaScript(App app, String script0, String arg) {
-
-		String ggbApplet = getAppletId();
-
-		// TODO: maybe use sandbox?
 		String script = script0;
-
-		script = "document.ggbApplet= document." + ggbApplet
-				+ "; window.ggbApplet = document." + ggbApplet + ";" + script;
-
-		// script = "ggbApplet = document.ggbApplet;"+script;
+		ScriptManagerW.export("ggbApplet", ((ScriptManagerW) getScriptManager()).getApi());
 
 		// add eg arg="A"; to start
 		if (arg != null) {
 			script = "arg=\"" + arg + "\";" + script;
 		}
-		JsEval.evalScriptNative(script, ggbApplet);
+		JsEval.evalScriptNative(script, getGgbApi());
+		if (getAppletId().startsWith(ScriptManagerW.ASSESSMENT_APP_PREFIX)) {
+			ScriptManagerW.export("ggbApplet", null);
+		}
+	}
+
+	protected void setGlobalApplet(Object api) {
+		Js.asPropertyMap(DomGlobal.document).set("ggbApplet", api);
+		Js.asPropertyMap(DomGlobal.window).set("ggbApplet", api);
 	}
 
 	public void attachNativeLoadHandler(ImageElement img) {
