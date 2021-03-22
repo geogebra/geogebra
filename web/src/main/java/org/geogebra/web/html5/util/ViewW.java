@@ -12,6 +12,7 @@ import elemental2.core.ArrayBuffer;
 import elemental2.core.Global;
 import elemental2.core.JsArray;
 import elemental2.core.Uint8Array;
+import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -117,32 +118,45 @@ public class ViewW {
 	 *            file URL
 	 */
 	public void processFileName(String url) {
-		HttpRequestW request = new HttpRequestW();
-		request.sendRequestPost("GET", url, null, new AjaxCallback() {
+		if (url.endsWith(".off") || url.endsWith(".csv")) {
+			HttpRequestW request = new HttpRequestW();
+			request.sendRequestPost("GET", url, null, new AjaxCallback() {
 
-			@Override
-			public void onSuccess(String response) {
-				if (url.endsWith(".off")) {
-					getApplication().openOFF(response);
-				} else if (url.endsWith(".csv")) {
-					getApplication().openCSV(response);
-				} else {
-					processBase64String(response);
+				@Override
+				public void onSuccess(String response) {
+					if (url.endsWith(".off")) {
+						getApplication().openOFF(response);
+					} else if (url.endsWith(".csv")) {
+						getApplication().openCSV(response);
+					}
 				}
-			}
 
-			@Override
-			public void onError(String error) {
-				Log.error(error);
-				// eg 403
-				if ((error + "").startsWith("Error 40")) {
-					app.getScriptManager().ggbOnInit();
-					ToolTipManagerW.sharedInstance().showBottomMessage(
-							app.getLocalization().getMenu("FileLoadingError"),
-							false, app);
+				@Override
+				public void onError(String error) {
+					Log.error("Problem opening file:" + error);
 				}
-			}
-		});
+			});
+		} else {
+			DomGlobal.fetch(url)
+					.then(response -> {
+						if (!response.ok) {
+							throw new Error(response.statusText);
+						}
+						return response.arrayBuffer();
+					})
+					.then(arrayBuffer -> {
+						processBinaryData(arrayBuffer);
+						return null;
+					})
+					.catch_(error -> {
+						Log.error(error);
+						app.afterLoadFileAppOrNot(false);
+						ToolTipManagerW.sharedInstance().showBottomMessage(
+								app.getLocalization().getMenu("FileLoadingError"),
+								false, app);
+						return null;
+					});
+		}
 	}
 
 	/**
