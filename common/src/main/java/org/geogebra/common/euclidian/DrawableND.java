@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -142,7 +144,7 @@ public abstract class DrawableND {
 	/**
 	 * @return recctangle for stylebar
 	 */
-	public GRectangle2D getBoundsForStylebarPosition() {
+	public @CheckForNull GRectangle2D getBoundsForStylebarPosition() {
 		return null;
 	}
 

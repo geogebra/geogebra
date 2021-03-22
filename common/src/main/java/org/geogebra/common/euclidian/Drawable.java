@@ -19,7 +19,10 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
@@ -219,7 +222,7 @@ public abstract class Drawable extends DrawableND {
 	 * 
 	 * @return null when this Drawable is infinite or undefined
 	 */
-	public GRectangle getBounds() {
+	public @CheckForNull GRectangle getBounds() {
 		return null;
 	}
 
@@ -803,7 +806,7 @@ public abstract class Drawable extends DrawableND {
 	 * @return bounds of the drawn path
 	 */
 	@Override
-	public GRectangle2D getBoundsForStylebarPosition() {
+	public @CheckForNull GRectangle2D getBoundsForStylebarPosition() {
 		return getBounds();
 	}
 
@@ -913,6 +916,9 @@ public abstract class Drawable extends DrawableND {
 		GRectangle2D bounds = getBoundingBox() != null
 				? getBoundingBox().getRectangle()
 				: getBounds();
+		if (bounds == null) {
+			return Collections.emptyList();
+		}
 		List<GPoint2D> ret = new ArrayList<>(2);
 		ret.add(new MyPoint(bounds.getMinX(), bounds.getMinY()));
 		ret.add(new MyPoint(bounds.getMaxX(), bounds.getMaxY()));
