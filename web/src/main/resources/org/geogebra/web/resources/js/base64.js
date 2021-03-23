@@ -70,6 +70,16 @@ function bytesToBase64(bytes) {
     return result;
 }
 
+// polyfill for IE11
+if (!String.prototype.endsWith) {
+    String.prototype.endsWith = function(search, this_len) {
+        if (this_len === undefined || this_len > this.length) {
+            this_len = this.length;
+        }
+        return this.substring(this_len - search.length, this_len) === search;
+    };
+}
+
 function base64ToBytes(str) {
     if (str.length % 4 !== 0) {
         throw new Error("Unable to parse base64 string.");

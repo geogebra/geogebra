@@ -569,7 +569,6 @@ public class GgbAPIW extends GgbAPI {
 		ne["archive"].push(obj);
 	}-*/;
 
-
 	private JsPropertyMap<Object> prepareFileForFFlate(JsPropertyMap<Object> arch) {
 		List<String> imgExtensions = Arrays.asList("jpg", "jpeg", "png", "gif", "bmp");
 
@@ -620,15 +619,20 @@ public class GgbAPIW extends GgbAPI {
 		});
 	}
 
+	/**
+	 * Synchronously zip archive and return the base64 string
+	 * @param arch archive
+	 * @return zipped archive as a base64 string
+	 */
 	public String getZippedBase64Sync(final JsPropertyMap<Object> arch) {
 		JsPropertyMap<Object> fflatePrepared = prepareFileForFFlate(arch);
 		return Base64.bytesToBase64(FFlate.get().zipSync(fflatePrepared));
 	}
 
 	/**
-	 * @param arch
-	 *            archive
-	 * @param clb
+	 * Asynchronously zip archive and convert it to base64 string
+	 * @param arch archive
+	 * @param clb callback for handling the resulting base64 string
 	 */
 	public void getZippedBase64Async(final JsPropertyMap<Object> arch, final StringConsumer clb) {
 		JsPropertyMap<Object> fflatePrepared = prepareFileForFFlate(arch);

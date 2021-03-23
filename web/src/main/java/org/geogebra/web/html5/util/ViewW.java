@@ -12,7 +12,7 @@ import elemental2.core.ArrayBuffer;
 import elemental2.core.Global;
 import elemental2.core.JsArray;
 import elemental2.core.Uint8Array;
-import elemental2.dom.DomGlobal;
+import elemental2.dom.XMLHttpRequest;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -137,25 +137,31 @@ public class ViewW {
 				}
 			});
 		} else {
-			DomGlobal.fetch(url)
-					.then(response -> {
-						if (!response.ok) {
-							throw new Error(response.statusText);
-						}
-						return response.arrayBuffer();
-					})
-					.then(arrayBuffer -> {
-						processBinaryData(arrayBuffer);
-						return null;
-					})
-					.catch_(error -> {
-						Log.error(error);
-						app.afterLoadFileAppOrNot(false);
-						ToolTipManagerW.sharedInstance().showBottomMessage(
-								app.getLocalization().getMenu("FileLoadingError"),
-								false, app);
-						return null;
-					});
+			XMLHttpRequest request = new XMLHttpRequest();
+			request.open("GET", url);
+			request.responseType = "arraybuffer";
+
+			XMLHttpRequest.OnerrorFn onError = (e) -> {
+				Log.error(request.statusText + ":" + request.statusText);
+				app.afterLoadFileAppOrNot(false);
+				ToolTipManagerW.sharedInstance().showBottomMessage(
+						app.getLocalization().getMenu("FileLoadingError"),
+						false, app);
+				return null;
+			};
+
+			request.onload = (e) -> {
+				if (request.readyState == 4) {
+					if (request.status == 200) {
+						processBinaryData(Js.uncheckedCast(request.response.asJsObject()));
+					} else {
+						onError.onInvoke(e);
+					}
+				}
+			};
+
+			request.onerror = onError;
+			request.send();
 		}
 	}
 
