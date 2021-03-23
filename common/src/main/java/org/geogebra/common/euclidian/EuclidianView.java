@@ -2259,6 +2259,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return null;
 		}
 
+		if (getFocusedGroupGeoBoundingBox() instanceof MindMapBoundingBox) {
+			hitHandler = getFocusedGroupGeoBoundingBox()
+					.getHitHandler(p.x, p.y, app.getCapturingThreshold(type));
+			if (hitHandler != null) {
+				return (Drawable) getDrawableFor(app.getSelectionManager()
+						.getFocusedGroupElement());
+			}
+		}
+
 		if (getEuclidianController().isMultiSelection() && getBoundingBox() != null) {
 			hitHandler = getBoundingBox().getHitHandler(p.x, p.y, app.getCapturingThreshold(type));
 			return null;
