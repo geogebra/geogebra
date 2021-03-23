@@ -138,7 +138,6 @@ public class GeneralPathClipped implements GShape {
 		}
 	}
 
-
 	private void addSegmentsWithSutherladHoloman() {
 		int padding = lineThickness + 5;
 		double[][] clipPoints = {
