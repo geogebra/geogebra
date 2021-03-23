@@ -409,7 +409,8 @@
 	    };
 
 	    canvas2pdf.PdfContext.prototype.drawImage = function(img, x, y, w, h) {
-	        return this.doc.drawImage(img, x, y, w, h);
+			var det = this.m00_ * this.m11_ - this.m01_ * this.m10_;
+	        return this.doc.drawImage(img, x, y, w, h, Math.sqrt(Math.abs(det)));
 	    };
 
 	    canvas2pdf.PdfContext.prototype.setLineDash = function(dashArray) {
@@ -587,8 +588,9 @@
 
 	};
 
-	PDFKitMini.prototype.imageLoadFromCanvas = function(a) {
+	PDFKitMini.prototype.imageLoadFromCanvas = function(a, scale) {
 	    a = new PDFImage(a);
+	    a.scale = scale;
 	    this.add(a);
 	    if (a.mask) {
 	    	this.add(a.mask);
@@ -640,19 +642,23 @@
 	};
 
 	//img can be an image element or a canvas
-	PDFKitMini.prototype.drawImage = function(img, x, y, w, h) {
-
+	PDFKitMini.prototype.drawImage = function(img, x, y, w, h, contextScale) {
+		var scale = 1;
 	    if (img.nodeName.toLowerCase() == "img") {
 	        //convert image to canvas
 	        var canvas = document.createElement('canvas');
-	        canvas.width = img.width;
-	        canvas.height = img.height;
+			if (img.src.startsWith && img.src.startsWith("data:image/svg")) {
+				// at least 2x more pixels than on screen
+				scale = 2 * Math.max(1, contextScale || 1);
+			}
+	        canvas.width = img.width * scale;
+	        canvas.height = img.height * scale;
 	        var context = canvas.getContext("2d");
-	        context.drawImage(img, 0, 0);
+	        context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
 
 	        img = canvas;
 	    }
-	    this.imageLoadFromCanvas(img);
+	    this.imageLoadFromCanvas(img, scale);
 	    this.doDrawImage(x, y, img.width, img.height);
 	};
 
@@ -1193,11 +1199,11 @@
 	        image: im,
 	        alpha: alpha
 	    };
-
+		var scale = im.scale || 1;
 	    this.saveContext();
 	    this.transform(1, 0, 0, -1, 0, 0);
-	    this.translate(x, -height - y);
-	    this.scale(width, height);
+	    this.translate(x, -height / scale - y);
+	    this.scale(width / scale, height / scale);
 	    this.pdfStream.addText("/Image" + im.id + " Do ");
 	    this.restoreContext();
 
