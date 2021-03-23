@@ -13,6 +13,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * A GeneralPath implementation that does clipping of line segments at the
@@ -26,12 +27,14 @@ public class GeneralPathClipped implements GShape {
 
 	private final ArrayList<MyPoint> pathPoints;
 	private final GGeneralPath gp;
+	private static final double MAX_COORD_VALUE = 10000;
 
 	/** view */
 	protected EuclidianViewInterfaceSlim view;
 	private int lineThickness;
 
 	private double largestCoord;
+	private boolean polygon = true;
 
 	private boolean needClosePath;
 	private GRectangle2D bounds;
@@ -108,12 +111,31 @@ public class GeneralPathClipped implements GShape {
 		}
 
 		gp.reset();
-		addSegmentsWithSutherladHoloman();
+		if (largestCoord < MAX_COORD_VALUE || !polygon) {
+			addSimpleSegments();
+		} else {
+			addSegmentsWithSutherladHoloman();
+		}
 
 		// clear pathPoints to free up memory
 		pathPoints.clear();
 
 		return gp;
+	}
+
+	private void addSimpleSegments() {
+		for (int i = 0; i < pathPoints.size(); i++) {
+			MyPoint curP = pathPoints.get(i);
+			/// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException&tf=SourceFile&tc=org.geogebra.common.euclidian.GeneralPathClipped&tm=addSimpleSegments&nid&an&c&s=new_status_desc
+			if (curP != null) {
+				addToGeneralPath(curP, curP.getSegmentType());
+			} else {
+				Log.error("curP shouldn't be null here");
+			}
+		}
+		if (needClosePath) {
+			gp.closePath();
+		}
 	}
 
 	private void addSegmentsWithSutherladHoloman() {
@@ -258,6 +280,10 @@ public class GeneralPathClipped implements GShape {
 	protected final void addPoint(double x, double y, SegmentType segmentType) {
 		if (Double.isNaN(y)) {
 			return;
+		}
+
+		if (segmentType != SegmentType.LINE_TO && segmentType != SegmentType.MOVE_TO) {
+			polygon = false;
 		}
 
 		MyPoint p = new MyPoint(x, y, segmentType);
