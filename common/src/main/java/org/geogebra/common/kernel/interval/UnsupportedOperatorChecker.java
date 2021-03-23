@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.interval;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Checker to determine ia an operation is supported by the interval arithmetic.
@@ -48,6 +49,9 @@ public class UnsupportedOperatorChecker implements Inspecting {
 	}
 
 	private boolean checkPower(ExpressionValue v) {
-		return v.wrap().getRightTree().containsFunctionVariable();
+		double power = v.wrap().getRight().evaluateDouble();
+		return v.wrap().getRightTree().containsFunctionVariable()
+				|| !DoubleUtil.isInteger(power) || power < 0
+				|| power >= 100;
 	}
 }
