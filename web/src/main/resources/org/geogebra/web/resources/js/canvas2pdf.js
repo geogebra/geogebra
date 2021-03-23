@@ -27,12 +27,6 @@
 		global.canvas2pdf = canvas2pdf; // browser global
 	}
 
-	function hex(v) {
-		return v < 0x10 ?
-			'0' + Math.max(0, v).toString(16) :
-			Math.min(255, v).toString(16);
-	}
-
 	function hslToHex(h, s, l, a) {
 		h = h % 360 + (h < 0) * 360;
 		s = isNaN(h) || isNaN(s) ? 0 : s;
@@ -86,7 +80,6 @@
 			//Color in RGB
 			value = window.getComputedStyle(d).color + "";
 			document.body.removeChild(d);
-
 		}
 		// remove spaces
 		// rgb(255, 0, 0) -> rgb(255,0,0)
@@ -140,7 +133,7 @@
 		this.textBaseline = 'alphabetic';
 
 		var parseFont = function() {
-			var regex = /^\s*(?=(?:(?:[-a-z]+\s*){0,2}(italic|oblique))?)(?=(?:(?:[-a-z]+\s*){0,2}(small-caps))?)(?=(?:(?:[-a-z]+\s*){0,2}(bold(?:er)?|lighter|[1-9]00))?)(?:(?:normal|\1|\2|\3)\s*){0,3}((?:xx?-)?(?:small|large)|medium|smaller|larger|[.\d]+(?:\%|in|[cem]m|ex|p[ctx]))(?:\s*\/\s*(normal|[.\d]+(?:\%|in|[cem]m|ex|p[ctx])))?\s*([-,\'\"\sa-z]+?)\s*$/i;
+			var regex = /^\s*(?=(?:(?:[-a-z]+\s*){0,2}(italic|oblique))?)(?=(?:(?:[-a-z]+\s*){0,2}(small-caps))?)(?=(?:(?:[-a-z]+\s*){0,2}(bold(?:er)?|lighter|[1-9]00))?)(?:(?:normal|\1|\2|\3)\s*){0,3}((?:xx?-)?(?:small|large)|medium|smaller|larger|[.\d]+(?:%|in|[cem]m|ex|p[ctx]))(?:\s*\/\s*(normal|[.\d]+(?:%|in|[cem]m|ex|p[ctx])))?\s*([-,'"\sa-z]+?)\s*$/i;
 			var fontPart = regex.exec(_this.font);
 
 			if (!fontPart) {
@@ -172,7 +165,6 @@
 				return this.fillColor;
 			},
 			set: function(value) {
-
 				this.fillColor = value;
 
 				if (value instanceof PDFGradientFill) {
@@ -229,7 +221,7 @@
 			get: function() {
 				return 10.0;
 			},
-			set: function(value) { /*not implemented*/ }
+			set: function() { /*not implemented*/ }
 		});
 
 		Object.defineProperty(this, 'globalAlpha', {
@@ -246,7 +238,6 @@
 				return fontValue;
 			},
 			set: function(value) {
-
 				// for measureText()
 				this.context.font = value;
 
@@ -366,7 +357,6 @@
 	};
 
 	canvas2pdf.PdfContext.prototype.createRadialGradient = function(x0, y0, r0, x1, y1, r1) {
-		var _this = this;
 		var gradient = this.doc.radialGradient(x0, y0, r0, x1, y1, r1);
 		gradient.addColorStop = function(offset, color) {
 			var fixedColor = fixColor(color);
@@ -379,18 +369,14 @@
 		if (text && text.trim().length) {
 			this.doc.textAdd(x, y, text);
 		}
-
 	};
 
-	canvas2pdf.PdfContext.prototype.strokeText = function(text, x, y) {
-
+	canvas2pdf.PdfContext.prototype.strokeText = function() {
 		console.log('strokeText not implemented, use fillText');
 	};
 
 	canvas2pdf.PdfContext.prototype.measureText = function(text) {
-
 		return this.context.measureText(text + "");
-
 	};
 
 	canvas2pdf.PdfContext.prototype.clip = function() {
@@ -416,7 +402,7 @@
 		return this.doc.setLineDash(dashArray);
 	};
 
-	canvas2pdf.PdfContext.prototype.createPattern = function(image, repetition) {
+	canvas2pdf.PdfContext.prototype.createPattern = function(image) {
 		this.doc.imageTileLoad(image);
 	};
 
@@ -447,7 +433,7 @@
 		console.log('globalCompositeOperation not implemented');
 	};
 
-	canvas2pdf.PdfContext.prototype.arcTo = function(x1, y1, x2, y2, radius) {
+	canvas2pdf.PdfContext.prototype.arcTo = function() {
 		console.log('arcTo not implemented');
 	};
 
@@ -481,8 +467,8 @@
 		// https://github.com/101arrowz/fflate/ (MIT)
 		canvas2pdf.useFlateDecode = !!window.pako || !!window.fflate;
 
-		canvas2pdf.deflate = function(input) {
-			var input = input;
+		canvas2pdf.deflate = function(stringOrArray) {
+			var input = stringOrArray;
 			if (window.pako) {
 				return window.pako.deflate(input);
 			}
@@ -496,7 +482,6 @@
 			}
 			return input;
 		}
-
 	}
 
 	PDFKitMini.prototype.add = function(a) {
@@ -566,10 +551,6 @@
 		this.textStyle.setFontStyle(bold, italic)
 	};
 
-	PDFKitMini.prototype.fontSetColor = function(a, b, c) {
-		this.textStyle.setColor(new PDFColor(a, b, c))
-	};
-
 	PDFKitMini.prototype.setFont = function(a) {
 		var b = a.getFontName();
 		if (null != b) {
@@ -609,11 +590,9 @@
 	};
 
 	PDFKitMini.prototype.imageTileLoadFromCanvas = function(a) {
-
 		a = new PDFImageTile(a);
 		this.add(a);
 		this.currentPage.currentImageTile = a;
-
 	};
 
 	PDFKitMini.prototype.linearGradient = function(x1, y1, x2, y2) {
@@ -774,7 +753,7 @@
 			this._write(d);
 		}
 
-		// adapted from PDFDocument.prototype._finalize = function(fn) {
+		// adapted from PDFDocument.prototype._finalize
 
 		a = this.stream.length;
 		this._write("xref");
@@ -783,7 +762,7 @@
 		var _ref = this.objects;
 		for (_i = 0; _i < _ref.length; _i++) {
 			var offset = this.objects[_i].offset;
-			var offset = ('0000000000' + offset).slice(-10);
+			offset = ('0000000000' + offset).slice(-10);
 			this._write(offset + " 00000 n");
 		}
 
@@ -798,7 +777,6 @@
 		this._write(a);
 		this._write("%%EOF");
 		return this.stream;
-
 	};
 
 	PDFKitMini.prototype.getBase64Text = function() {
@@ -807,14 +785,13 @@
 
 	function PDFCatalog() {}
 	PDFCatalog.prototype.setPages = function(a) {
-
 		this.props = {
 			"Type": "Catalog",
 			"Pages": new PDFReference(a.id + " 0 R")
 		};
 	};
 
-	PDFCatalog.prototype.getObject = function(a) {
+	PDFCatalog.prototype.getObject = function() {
 		return PDFObject.makeObject(this.props, this.id);
 	};
 
@@ -828,7 +805,7 @@
 		return a
 	};
 
-	PDFPages.prototype.getObject = function(a) {
+	PDFPages.prototype.getObject = function() {
 		var refs = "[";
 		for (var i = 0 ; i < this.pages.length ; i++) {
 			refs += this.pages[i].id;
@@ -1046,11 +1023,9 @@
 			for (var i = 0; i < this.lineDash.length; i++) {
 				this.pdfStream.addText(this.lineDash[i]);
 				this.pdfStream.addText(" ");
-
 			}
 			// offset 0
 			this.pdfStream.addText("] 0 d ");
-
 		}
 		this.setAlpha(this.alpha);
 
@@ -1112,10 +1087,6 @@
 		var aux = Math.tan((arcAngle / 2) * pi / 180);
 		var alpha = Math.sin(arcAngle * pi / 180) * (Math.sqrt(4 + 3 * aux * aux) - 1.0) / 3.0;
 
-		// need unit vector
-		var d1len = Math.sqrt(d1x * d1x + d1y * d1y);
-		var d2len = Math.sqrt(d2x * d2x + d2y * d2y);
-
 		//point q1. First control point
 		var q1x = p1x + alpha * d1x;
 		var q1y = p1y + alpha * d1y;
@@ -1129,7 +1100,9 @@
 
 	// https://stackoverflow.com/questions/33676303/draw-and-arc-in-pdf-generation
 	PDFPage.prototype.arc = function(x, y, r, startAngle, arcAngle, counterclockwise) {
-
+		if (counterclockwise) {
+			console.log("Counterclockwise not supported");
+		}
 		startAngle *= 180 / Math.PI;
 		arcAngle *= 180 / Math.PI;
 		var width = r - 1;
@@ -1149,7 +1122,6 @@
 			this.bezierCurveTo(bezier[2], bezier[3], bezier[4], bezier[5], bezier[6], bezier[7]);
 			currentStartAngle += actualArcAngle;
 		}
-
 	}
 
 	PDFPage.prototype.rect = function(x, y, width, height) {
@@ -1214,14 +1186,6 @@
 	};
 
 	PDFPage.prototype.drawImage = function(x, y, im, alpha, width, height) {
-		var pdfImage = {
-			width: width,
-			height: height,
-			x: x,
-			y: y,
-			image: im,
-			alpha: alpha
-		};
 		var scale = im.scale || 1;
 		this.saveContext();
 		this.transform(1, 0, 0, -1, 0, 0);
@@ -1266,7 +1230,6 @@
 
 		if (this.alphas.length > 0) {
 			for (c = 0; c < this.alphas.length; c++) {
-
 				var alpha = this.alphas[c];
 				if (isNaN(alpha) || (typeof alpha) === "undefined") {
 					alpha = "1";
@@ -1279,7 +1242,6 @@
 					"CA": alpha,
 					"ca": alpha
 				};
-
 			}
 		}
 
@@ -1341,7 +1303,7 @@
 		return PDFFont.TIMES[index];
 	};
 
-	PDFFont.prototype.getObject = function(a) {
+	PDFFont.prototype.getObject = function() {
 		var props = {
 			"Subtype": "Type1",
 			"Name": "F" + this.id,
@@ -1351,7 +1313,6 @@
 		};
 
 		return PDFObject.makeObject(props, this.id);
-
 	};
 
 	function PDFStream() {
@@ -1393,7 +1354,7 @@
 		this.stream = this.stream.replace(a, b)
 	};
 
-	PDFStream.prototype.getObject = function(a) {
+	PDFStream.prototype.getObject = function() {
 		var stream = bufferToString(this.stream);
 		var props = {
 			"Length": stream.length,
@@ -1464,7 +1425,6 @@
 	};
 
 	PDFImage.prototype.getObject = function() {
-
 		var props = {
 			"Type": "XObject",
 			"Width": this.width,
@@ -1485,7 +1445,6 @@
 	};
 
 	function PDFGradientFill(x1, y1, x2, y2, currentPage) {
-
 		this.page = currentPage;
 
 		this.x1 = x1;
@@ -1558,7 +1517,6 @@
 		buffer.push("\nEI\n");
 
 		this.stream = buffer.join("");
-
 	}
 
 	PDFImageTile.prototype.writeImage = function(a) {
@@ -1648,7 +1606,7 @@
 			return (Array(length + 1).join('0') + str).slice(-length);
 		};
 
-		escapableRe = /[\n\r\t\b\f\(\)\\]/g;
+		escapableRe = /[\n\r\t\b\f()\\]/g;
 
 		escapable = {
 			'\n': '\\n',
@@ -1732,10 +1690,9 @@
 		};
 
 		return PDFObject;
-
 	})();
 
-	PDFReference = (function(s) {
+	PDFReference = (function() {
 
 		function PDFReference(s) {
 			this.str = s;
