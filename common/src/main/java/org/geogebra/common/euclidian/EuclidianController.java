@@ -12184,6 +12184,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				view.setCursor(cursor);
 			}
 		}
+		if (view.getFocusedGroupGeoBoundingBox() != null) {
+			EuclidianCursor cursor = view.getFocusedGroupGeoBoundingBox().getCursor(nrHandler);
+			if (cursor != null) {
+				view.setCursor(cursor);
+			}
+		}
 	}
 
 	/**
