@@ -324,12 +324,22 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		}
 	}
 
+	/**
+	 * @param parseString raw parser input
+	 * @param decimalComma whether , means decimal (rather than thousand separator)
+	 * @return preprocessed input
+	 */
 	public static String preprocessForParser(String parseString, boolean decimalComma) {
 		ParserPreprocessor parserPreprocessor = new ParserPreprocessor(
 				new ParserInfo(false, decimalComma));
 		return parserPreprocessor.preprocess(parseString);
 	}
 
+	/**
+	 * @param parseString raw parser input
+	 * @param info preprocessing flags
+	 * @return preprocessed input
+	 */
 	public static String preprocessWithInfo(String parseString, ParserInfo info) {
 		ParserPreprocessor preprocessor = new ParserPreprocessor(info);
 		return preprocessor.preprocess(parseString);
