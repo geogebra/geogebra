@@ -117,7 +117,8 @@ public class Parser implements ParserInterface {
 			throw new BracketsError(loc,parseString);
 		}
 		boolean decimalComma = !inputBox || loc.isUsingDecimalComma();
-		ReInit(new StringProvider(StringUtil.preprocessForParser(parseString, decimalComma)));
+		String input = StringUtil.preprocessWithInfo(parseString, new ParserInfo(inputBox, decimalComma));
+		ReInit(new StringProvider(input));
 		geoGebraCASParsing = false;
 		externalCASParsing = false;
 		giacParsing = false;
