@@ -2,7 +2,6 @@ package org.geogebra.common.euclidian.plot.interval;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.plot.LabelPositionCalculator;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalFunctionSampler;
 import org.geogebra.common.kernel.interval.IntervalTuple;
@@ -16,7 +15,6 @@ import org.geogebra.common.kernel.interval.IntervalTupleList;
 public class IntervalPlotModel {
 	private final IntervalTuple range;
 	private final IntervalFunctionSampler sampler;
-	private final LabelPositionCalculator labelPositionCalculator;
 	private IntervalTupleList points;
 	private IntervalPath path;
 	private final EuclidianView view;
@@ -35,7 +33,6 @@ public class IntervalPlotModel {
 		this.range = range;
 		this.sampler = sampler;
 		this.view = view;
-		labelPositionCalculator = new LabelPositionCalculator(view);
 	}
 
 	public void setPath(IntervalPath path) {
@@ -47,7 +44,6 @@ public class IntervalPlotModel {
 	 */
 	public void update() {
 		updatePath();
-		updateLabelPosition();
 	}
 
 		/**
@@ -57,24 +53,15 @@ public class IntervalPlotModel {
 		updateRanges();
 		updateSampler();
 		updatePath();
-		updateLabelPosition();
 	}
 
-	private void updateLabelPosition() {
-		if (points.isEmpty()) {
-			return;
-		}
-		IntervalTuple labelPoint = firstVisiblePoint();
-		if (labelPoint == null) {
-			return;
-		}
-		this.labelPoint = labelPositionCalculator.calculate(labelPoint.x().getHigh(),
-				labelPoint.y().getLow());
-	}
 
 	public IntervalTuple firstVisiblePoint() {
 		for (IntervalTuple tuple: points) {
-			if (range.contains(tuple)) {
+			if (range.x().contains(tuple.x())
+			 && (!(tuple.y().getLow() < range.y().getLow()
+				|| tuple.y().getHigh() > range.y().getHigh()))
+				) {
 				return tuple;
 			}
 		}
@@ -198,7 +185,7 @@ public class IntervalPlotModel {
 	}
 
 	GPoint getLabelPoint() {
-		return labelPoint;
+		return path.getLabelPoint();
 	}
 
 	public IntervalTuple pointAt(int index) {

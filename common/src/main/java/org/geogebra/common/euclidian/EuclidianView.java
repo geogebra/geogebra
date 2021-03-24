@@ -66,6 +66,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
+import org.geogebra.common.kernel.interval.IntervalTuple;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -1196,6 +1197,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public boolean isOnView(double[] coords) {
 		return (coords[0] >= getXmin()) && (coords[0] <= getXmax())
 				&& (coords[1] >= getYmin()) && (coords[1] <= getYmax());
+	}
+
+	/**
+	 * Checks if (real world) coords are on view.
+	 *
+	 * @param x x-coord
+	 * @param y y-coord
+	 *
+	 * @return true if coords are on view
+	 */
+	public boolean isOnView(double x, double y) {
+		return (x >= getXmin()) && (x <= getXmax())
+				&& (y >= getYmin()) && (y <= getYmax());
 	}
 
 	/**
@@ -6579,5 +6593,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			coordSystemInfo.setXAxisZoom(false);
 			euclidianController.notifyZoomerStopped();
 		}
+	}
+
+	/**
+	 *
+	 * @param tuple to check
+	 * @return true if interval tuple is on screen
+	 */
+	public boolean isOnView(IntervalTuple tuple) {
+		double xLow = tuple.x().getLow();
+		double xHigh = tuple.x().getHigh();
+		double yLow = tuple.y().getLow();
+		double yHigh = tuple.y().getHigh();
+
+		return isOnView(xLow, yLow);
 	}
 }
