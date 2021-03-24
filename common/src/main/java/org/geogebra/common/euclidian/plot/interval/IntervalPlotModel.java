@@ -19,7 +19,6 @@ public class IntervalPlotModel {
 	private IntervalPath path;
 	private final EuclidianView view;
 	private Interval oldDomain;
-	private GPoint labelPoint;
 
 	/**
 	 * Constructor

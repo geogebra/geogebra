@@ -40,12 +40,12 @@ public class IntervalPath {
 
 		Interval lastY = new Interval();
 
+
 		int pointCount = model.getPoints().count();
 		if (pointCount == 1) {
 			return;
 		}
 
-		labelPoint = null;
 
 		for (int i = 0; i < pointCount; i++) {
 			IntervalTuple point = model.pointAt(i);
@@ -84,6 +84,7 @@ public class IntervalPath {
 	 */
 	void reset() {
 		gp.reset();
+		labelPoint = null;
 	}
 
 	private void plotInterval(Interval lastY, IntervalTuple point) {

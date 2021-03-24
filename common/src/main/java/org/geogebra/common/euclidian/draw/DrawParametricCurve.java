@@ -157,6 +157,8 @@ public class DrawParametricCurve extends Drawable {
 		GPoint labelPoint = intervalPlotter.getLabelPoint();
 		if (labelPoint != null) {
 			updateLabel(labelPoint);
+		} else {
+			labelDesc = null;
 		}
 	}
 
