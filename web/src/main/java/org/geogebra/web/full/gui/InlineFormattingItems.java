@@ -99,9 +99,7 @@ public class InlineFormattingItems {
 		addTextWrappingItem();
 		addTextRotationItem();
 		addHeadingItem();
-		if (!isEditModeTable() || isSingleTableCellSelection()) {
-			menu.addSeparator();
-		}
+		menu.addSeparator();
 	}
 
 	private void addTextWrappingItem() {
@@ -184,6 +182,45 @@ public class InlineFormattingItems {
 		menu.addItem(item);
 	}
 
+	private void addSubMenuItem(AriaMenuBar submenu, SVGResource icon,
+			String transKey, Scheduler.ScheduledCommand cmd) {
+		AriaMenuItem submenuItem = factory.newAriaMenuItem(
+				MainMenu.getMenuBarHtml(icon, loc.getMenu(transKey)), true, cmd);
+		submenu.addItem(submenuItem);
+	}
+
+	void addChartItem() {
+		if (inlines.isEmpty()
+				|| !inlines.stream().allMatch(f -> f instanceof InlineTableController)) {
+			return;
+		}
+
+		AriaMenuBar chartSubmenu = new AriaMenuBar();
+		addSubMenuItem(chartSubmenu, MaterialDesignResources.INSTANCE.table_line_chart(),
+				"ContextMenu.LineChart", () -> {
+					// create line chart
+				});
+
+		addSubMenuItem(chartSubmenu, MaterialDesignResources.INSTANCE.table_bar_chart(),
+				"ContextMenu.BarChart", () -> {
+					// create bar chart
+				});
+
+		addSubMenuItem(chartSubmenu, MaterialDesignResources.INSTANCE.table_pie_chart(),
+				"ContextMenu.PieChart", () -> {
+					// create pie chart
+				});
+
+		AriaMenuItem chartItem = factory.newAriaMenuItem(loc.getMenu("ContextMenu.CreateChart"),
+				false, chartSubmenu);
+		chartItem.addStyleName("no-image");
+
+		menu.addItem(chartItem);
+		if (!isEditModeTable() || isSingleTableCellSelection()) {
+			menu.addSeparator();
+		}
+	}
+
 	private void addHeadingItem() {
 		if (!inlines.stream().allMatch(f -> f instanceof InlineTableController)) {
 			return;
@@ -193,23 +230,19 @@ public class InlineFormattingItems {
 
 		AriaMenuBar headingSubmenu = new AriaMenuBar();
 
-		SVGResource row = MaterialDesignResources.INSTANCE.table_heading_row();
-		AriaMenuItem rowItem = factory.newAriaMenuItem(
-				MainMenu.getMenuBarHtml(row, loc.getMenu("ContextMenu.Row")), true, () -> {
-			for (HasTextFormat formatter : inlines) {
-				((InlineTableController) formatter).setHeading(color, true);
-			}
-		});
-		headingSubmenu.addItem(rowItem);
+		addSubMenuItem(headingSubmenu, MaterialDesignResources.INSTANCE.table_heading_row(),
+				"ContextMenu.Row", () -> {
+					for (HasTextFormat formatter : inlines) {
+						((InlineTableController) formatter).setHeading(color, true);
+					}
+				});
 
-		SVGResource column = MaterialDesignResources.INSTANCE.table_heading_column();
-		AriaMenuItem columnItem = factory.newAriaMenuItem(
-				MainMenu.getMenuBarHtml(column, loc.getMenu("ContextMenu.Column")), true, () -> {
+		addSubMenuItem(headingSubmenu, MaterialDesignResources.INSTANCE.table_heading_column(),
+				"ContextMenu.Column", () -> {
 					for (HasTextFormat formatter : inlines) {
 						((InlineTableController) formatter).setHeading(color, false);
 					}
 				});
-		headingSubmenu.addItem(columnItem);
 
 		AriaMenuItem item = factory.newAriaMenuItem(loc.getMenu("ContextMenu.Heading"),
 				false, headingSubmenu);
