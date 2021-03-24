@@ -6601,11 +6601,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return true if interval tuple is on screen
 	 */
 	public boolean isOnView(IntervalTuple tuple) {
-		double xLow = tuple.x().getLow();
-		double xHigh = tuple.x().getHigh();
-		double yLow = tuple.y().getLow();
-		double yHigh = tuple.y().getHigh();
-
-		return isOnView(xLow, yLow);
+		return isOnView(tuple.x().getLow(), tuple.y().getLow());
 	}
 }
