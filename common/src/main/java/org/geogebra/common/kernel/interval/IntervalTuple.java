@@ -121,4 +121,13 @@ public class IntervalTuple {
 	public void markAsAsymptote() {
 		asymptote = true;
 	}
+
+	/**
+	 *
+	 * @param tuple to check
+	 * @return if tuple is contained by this range
+	 */
+	public boolean contains(IntervalTuple tuple) {
+		return x.contains(tuple.x) && y.contains(tuple.y);
+	}
 }

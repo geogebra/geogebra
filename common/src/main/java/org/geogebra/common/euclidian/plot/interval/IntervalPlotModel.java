@@ -64,12 +64,21 @@ public class IntervalPlotModel {
 		if (points.isEmpty()) {
 			return;
 		}
-		IntervalTuple firstPoint = points.get(0);
-		if (firstPoint == null) {
+		IntervalTuple labelPoint = firstVisiblePoint();
+		if (labelPoint == null) {
 			return;
 		}
-		labelPoint = labelPositionCalculator.calculate(firstPoint.x().getHigh(),
-				firstPoint.y().getLow());
+		this.labelPoint = labelPositionCalculator.calculate(labelPoint.x().getHigh(),
+				labelPoint.y().getLow());
+	}
+
+	public IntervalTuple firstVisiblePoint() {
+		for (IntervalTuple tuple: points) {
+			if (range.contains(tuple)) {
+				return tuple;
+			}
+		}
+		return null;
 	}
 
 	private void updateRanges() {
