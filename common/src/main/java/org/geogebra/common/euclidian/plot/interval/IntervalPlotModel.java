@@ -54,18 +54,6 @@ public class IntervalPlotModel {
 		updatePath();
 	}
 
-	public IntervalTuple firstVisiblePoint() {
-		for (IntervalTuple tuple: points) {
-			if (range.x().contains(tuple.x())
-			 && (!(tuple.y().getLow() < range.y().getLow()
-				|| tuple.y().getHigh() > range.y().getHigh()))
-				) {
-				return tuple;
-			}
-		}
-		return null;
-	}
-
 	private void updateRanges() {
 		range.set(view.domain(), view.range());
 		oldDomain = view.domain();
