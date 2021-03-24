@@ -15,12 +15,7 @@ public class HttpRequestW extends HttpRequest {
 	public void sendRequestPost(String method, String url, String post,
 			AjaxCallback callback) {
 		XMLHttpRequest request = new XMLHttpRequest();
-
-		if (callback == null) {
-			request.open(method, url, false);
-		} else {
-			request.open(method, url);
-		}
+		request.open(method, url);
 
 		// text/plain needed for SMART, hopefully no problem for others
 		request.setRequestHeader("Content-type", getType());
