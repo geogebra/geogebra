@@ -44,7 +44,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	@Test
 	public void shouldShowNewlineQuotesForText() {
 		setupInput("txt", "\"GeoGebra\\\\nRocks\"");
-		assertEquals("GeoGebra\\\\nRocks", inputBox.getText());
+		assertEquals("GeoGebra\\\\nRocks", inputBox.getTextForEditor());
 		updateInput("GeoGebra\\\\nReally\\\\nRocks");
 		t("txt", "GeoGebra\nReally\nRocks");
 	}
@@ -76,7 +76,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 
 	@Test
 	public void enteringNewValueShouldKeepComplexNumber() {
-		setupAndCheckInput("P", "1 + i");
+		setupAndCheckInput("P", "1 + " + Unicode.IMAGINARY);
 		updateInput("7");
 		t("P", "7 + 0" + Unicode.IMAGINARY);
 		assertEquals("7",
@@ -131,9 +131,9 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	public void argumentsForFunctionCopyShouldBeVisible() {
 		add("f:x");
 		setupInput("g", "3f");
-		assertEquals("3f(x)", inputBox.getText());
+		assertEquals("3 f(x)", inputBox.getTextForEditor());
 		updateInput("f(x)");
-		assertEquals("f(x)", inputBox.getText());
+		assertEquals("f(x)", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -141,7 +141,6 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("f", "y = 5");
 		t("SetValue(f, ?)");
 		inputBox.setSymbolicMode(true, false);
-		assertEquals("", inputBox.getText());
 		assertEquals("", inputBox.getTextForEditor());
 	}
 
@@ -176,31 +175,31 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	public void shouldAcceptLinesConicsAndFunctionsForImplicitCurve() {
 		setupInput("eq1", "x^3 = y^2");
 		updateInput("x = y"); // line
-		assertEquals("x = y", inputBox.getText());
+		assertEquals("x=y", inputBox.getTextForEditor());
 		updateInput("y = x"); // function (linear)
-		assertEquals("y = x", inputBox.getText());
+		assertEquals("y=x", inputBox.getTextForEditor());
 		updateInput("y = x^2"); // function (quadratic)
-		assertEquals(unicode("y = x^2"), inputBox.getText());
+		assertEquals(unicode("y=x^2"), inputBox.getTextForEditor());
 		updateInput("x^2 = y^2"); // conic
-		assertEquals(unicode("x^2 = y^2"), inputBox.getText());
+		assertEquals(unicode("x^2=y^2"), inputBox.getTextForEditor());
 	}
 
 	@Test
 	public void shouldAcceptLinesAndFunctionsForConics() {
 		setupInput("eq1", "x^2 = y^2");
 		updateInput("x = y"); // line
-		assertEquals("x = y", inputBox.getText());
+		assertEquals("x=y", inputBox.getTextForEditor());
 		updateInput("y = x"); // function (linear)
-		assertEquals("y = x", inputBox.getText());
+		assertEquals("y=x", inputBox.getTextForEditor());
 		updateInput("y = x^2"); // function (quadratic)
-		assertEquals(unicode("y = x^2"), inputBox.getText());
+		assertEquals(unicode("y=x^2"), inputBox.getTextForEditor());
 	}
 
 	@Test
 	public void shouldAcceptFunctionsForLines() {
 		setupInput("eq1", "x = y");
 		updateInput("y = x"); // function (linear)
-		assertEquals("y = x", inputBox.getText());
+		assertEquals("y=x", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -238,7 +237,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	public void shouldAllowQuestionMarkWhenLinkedToText() {
 		setupInput("txt", "\"GeoGebra Rocks\"");
 		updateInput("?");
-		assertEquals("?", inputBox.getText());
+		assertEquals("?", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -279,7 +278,6 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	public void symbolicShouldSupportVectorsWithVariables() {
 		add("a: 1");
 		setupInput("l", "(1, 2, a)");
-		assertEquals("(1, 2, a)", inputBox.getText());
 		assertEquals("{{1}, {2}, {a}}", inputBox.getTextForEditor());
 	}
 
@@ -320,7 +318,6 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertFalse(numeric.getIntervalMin() <= -20);
 
 		GeoInputBox inputBox = add("ib = InputBox(a)");
-		inputBox.setSymbolicMode(true);
 
 		inputBox.updateLinkedGeo("20");
 		inputBox.updateLinkedGeo("-20");
@@ -339,6 +336,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		Assert.assertEquals(5, numeric.getIntervalMax(), Kernel.MAX_PRECISION);
 
 		inputBox = add("ib = InputBox(a)");
+		inputBox.setSymbolicMode(false);
 
 		inputBox.updateLinkedGeo("-10");
 		Assert.assertEquals(-5, numeric.getValue(), Kernel.MAX_PRECISION);
@@ -364,32 +362,12 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	private void setupAndCheckInput(String label, String value) {
 		setupInput(label, value);
 		assertEquals(value,
-				inputBox.toValueString(StringTemplate.testTemplate));
+				inputBox.getLinkedGeo().toValueString(StringTemplate.testTemplate));
 	}
 
 	private void setupInput(String label, String value) {
 		add(label + ":" + value);
 		inputBox = add("ib=InputBox(" + label + ")");
-	}
-
-	@Test
-	public void testCanBeSymbolicForPlane() {
-		add("A = (0,0)");
-		add("B = (2,0)");
-		add("C = (2,2)");
-		add("p:Plane(A,B,C)");
-		GeoInputBox inputBox = add("InputBox(p)");
-		assertTrue(inputBox.canBeSymbolic());
-	}
-
-	@Test
-	public void testCanBeSymbolicForEquation() {
-		add("eq1:x^3+y^3=1");
-		GeoInputBox inputBox1 = add("InputBox(eq1)");
-		add("eq2:x^2+y^2+z^2=1");
-		GeoInputBox inputBox2 = add("InputBox(eq2)");
-		assertTrue(inputBox1.canBeSymbolic());
-		assertTrue(inputBox2.canBeSymbolic());
 	}
 
 	@Test
@@ -442,7 +420,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("a = c + 2");
 		setupInput("a", "2");
 		updateInput("cc(2)");
-		assertEquals("c c * 2", inputBox.getText());
+		assertEquals("c c*2", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -450,7 +428,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("f: y = 2 * x + 3");
 		setupInput("g", "x");
 		updateInput("xf(x) + 4");
-		assertEquals("x f(x) + 4", inputBox.getText());
+		assertEquals("x f(x)+4", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -484,9 +462,9 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		GeoInputBox inputBox = add("InputBox(u)");
 		GeoVector vec2 = addAvInput("v=(sqrt(3), 3/2)");
 		vec1.set(vec2);
-		assertThat(inputBox.getText(), equalTo("(sqrt(3), 3 / 2)"));
+		assertThat(inputBox.getTextForEditor(), equalTo("{{sqrt(3)}, {3 / 2}}"));
 		addAvInput("SetValue(u,?)");
-		assertThat(inputBox.getText(), equalTo("(?, ?)"));
+		assertThat(inputBox.getTextForEditor(), equalTo("{{?}, {?}}"));
 	}
 
 	@Test
@@ -495,9 +473,9 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		GeoInputBox inputBox = add("InputBox(u)");
 		GeoVector3D vec2 = addAvInput("v=(5/6, 3/2, sqrt(5))");
 		vec1.set(vec2);
-		assertThat(inputBox.getText(), equalTo("(5 / 6, 3 / 2, sqrt(5))"));
+		assertThat(inputBox.getTextForEditor(), equalTo("{{5 / 6}, {3 / 2}, {sqrt(5)}}"));
 		addAvInput("SetValue(u,?)");
-		assertThat(inputBox.getText(), equalTo("(?, ?, ?)"));
+		assertThat(inputBox.getTextForEditor(), equalTo("{{?}, {?}, {?}}"));
 	}
 
 	@Test
@@ -588,6 +566,5 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		GeoInputBox inputBox = add("InputBox(m1)");
 		inputBox.updateLinkedGeo("{{" + Unicode.IMAGINARY + "}, {3}}");
 		assertEquals("{{i},{3}}", inputBox.getTextForEditor());
-		assertEquals("{{i}, {3}}", inputBox.getText());
 	}
 }

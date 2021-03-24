@@ -49,7 +49,4 @@ public enum Feature {
 
 	/** APPS-890 */
 	AUTOLABEL_CAS_SETTINGS,
-
-	/** APPS-1035 */
-	SYMBOLIC_INPUTFIELDS
 }

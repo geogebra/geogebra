@@ -133,4 +133,8 @@ public class MathSequence extends MathContainer {
 	public MathComponent wrap() {
 		return this;
 	}
+
+	public int getArgumentCount() {
+		return arguments.size();
+	}
 }

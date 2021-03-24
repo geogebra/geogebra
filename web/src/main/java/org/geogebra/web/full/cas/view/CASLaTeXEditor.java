@@ -163,11 +163,13 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 
 	@Override
 	public void setText(String text0) {
-		// removeDummy();
 		if (mf != null) {
-			mf.setText(text0, editAsText);
+			if (editAsText) {
+				mf.setPlainText(text0);
+			} else {
+				mf.parse(text0);
+			}
 		}
-		// updateLineHeight();
 	}
 
 	@Override

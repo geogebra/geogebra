@@ -43,6 +43,7 @@ import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.model.MathCharacter;
@@ -371,7 +372,7 @@ public class MathFieldInternal
 	 *            whether to use this as plain text input
 	 */
 	public void setPlainTextMode(boolean plainText) {
-		this.inputController.setCreateFrac(!plainText);
+		this.inputController.setPlainTextMode(plainText);
 	}
 
 	/**
@@ -685,10 +686,28 @@ public class MathFieldInternal
 	}
 
 	/**
+	 * Interpret text as ascii math and insert it into the editor
+	 * @param text ascii math string
+	 */
+	public void insertString(String text) {
+		InputController.deleteSelection(editorState);
+		try {
+			MathSequence root = new Parser(mathField.getMetaModel()).parse(text)
+					.getRootComponent();
+			for (int i = 0; i < root.getArgumentCount(); i++) {
+				getEditorState().addArgument(root.getArgument(i));
+			}
+		} catch (ParseException parseException) {
+			KeyboardInputAdapter.type(this, text);
+		}
+		onInsertString();
+	}
+
+	/**
 	 * Insert string callback.
 	 */
-	public void onInsertString() {
-		if (!this.getInputController().getCreateFrac()) {
+	private void onInsertString() {
+		if (this.getInputController().getPlainTextMode()) {
 			insertStringFinished();
 			return;
 		}
@@ -801,6 +820,16 @@ public class MathFieldInternal
 			FactoryProvider.debugS("Problem parsing: " + text);
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Set to plain mode and just just fill with text (linear)
+	 * @param text text
+	 */
+	public void setPlainText(String text) {
+		parse("");
+		setPlainTextMode(true);
+		KeyboardInputAdapter.type(this, text);
 	}
 
 	/**

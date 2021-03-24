@@ -43,8 +43,8 @@ public class InputFieldTouchTest {
 		viewTextField.focusTo(drawInputBox2);
 		textField.setText("DEF");
 		viewTextField.focusTo(drawInputBox1);
-		Assert.assertEquals("ABC", input1.getText());
-		Assert.assertEquals("DEF", input2.getText());
+		Assert.assertEquals("ABC", input1.getTextForEditor());
+		Assert.assertEquals("DEF", input2.getTextForEditor());
 	}
 
 	@Test
@@ -53,7 +53,7 @@ public class InputFieldTouchTest {
 		viewTextField.focusTo(drawInputBox1);
 		textField.setText("ABC");
 		textField.blur();
-		Assert.assertEquals("ABC", input1.getText());
+		Assert.assertEquals("ABC", input1.getTextForEditor());
 	}
 
 	private GeoInputBox addInputBox(String name) {

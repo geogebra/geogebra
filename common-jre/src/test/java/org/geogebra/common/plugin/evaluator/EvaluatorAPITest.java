@@ -52,7 +52,7 @@ public class EvaluatorAPITest extends BaseUnitTest {
 	public void testEmptyInput() {
 		Map<String, Object> value = api.getEvaluatorValue();
 
-		assertEquals("\\nbsp ", value.get("latex").toString());
+		assertEquals("\\nbsp{}", value.get("latex").toString());
 		assertEquals("", value.get("content").toString());
 		assertEquals("NaN", value.get("eval").toString());
 	}

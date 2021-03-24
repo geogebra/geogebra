@@ -123,8 +123,9 @@ public class MathFieldController {
 	private void updateFormula(MathFormula mathFormula,
 			MathSequence currentField, int currentOffset,
 			MathComponent selectionStart, MathComponent selectionEnd) {
+		boolean textMode = mathField.getInternal().getInputController().getPlainTextMode();
 		String serializedFormula = texSerializer.serialize(mathFormula,
-				currentField, currentOffset, selectionStart, selectionEnd);
+				currentField, currentOffset, selectionStart, selectionEnd, textMode);
 		TeXFormula texFormula = null;
 		if (texBuilder != null) {
 			texFormula = new TeXFormula();

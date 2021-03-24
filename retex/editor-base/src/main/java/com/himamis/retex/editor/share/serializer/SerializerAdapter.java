@@ -13,12 +13,12 @@ public abstract class SerializerAdapter implements Serializer {
 	protected MathContainer mCurrentField = null;
 	protected MathComponent currentSelStart = null;
 	protected MathComponent currentSelEnd = null;
-    protected int mCurrentOffset = 0;
+	protected int mCurrentOffset = 0;
 
-    @Override
+	@Override
 	public String serialize(MathFormula formula) {
-		return serialize(formula, null, 0, null, null);
-    }
+		return serialize(formula, null, 0, null, null, false);
+	}
 
 	/**
 	 * @param formula
@@ -29,9 +29,9 @@ public abstract class SerializerAdapter implements Serializer {
 	 *            cursor offset
 	 * @return serialized formula
 	 */
-    public String serialize(MathFormula formula, MathSequence currentField,
+	public String serialize(MathFormula formula, MathSequence currentField,
 			int currentOffset) {
-		return serialize(formula, currentField, currentOffset, null, null);
+		return serialize(formula, currentField, currentOffset, null, null, false);
 	}
 
 	/**
@@ -48,15 +48,23 @@ public abstract class SerializerAdapter implements Serializer {
 	 * @return serialized formula
 	 */
 	public String serialize(MathFormula formula, MathSequence currentField,
-			int currentOffset, MathComponent selStart, MathComponent selEnd) {
-        this.mCurrentField = currentField;
-        this.mCurrentOffset = currentOffset;
+			int currentOffset, MathComponent selStart, MathComponent selEnd, boolean textMode) {
+		this.mCurrentField = currentField;
+		this.mCurrentOffset = currentOffset;
 		this.currentSelEnd = selEnd;
 		this.currentSelStart = selStart;
-        StringBuilder buffer = new StringBuilder();
-        serialize(formula.getRootComponent(), buffer);
-        return buffer.toString();
-    }
+		StringBuilder buffer = new StringBuilder();
+
+		if (textMode) {
+			buffer.append("\\text{");
+		}
+		serialize(formula.getRootComponent(), buffer);
+		if (textMode) {
+			buffer.append("}");
+		}
+
+		return buffer.toString();
+	}
 
 	/**
 	 * @param container
@@ -67,14 +75,14 @@ public abstract class SerializerAdapter implements Serializer {
 	 *            cursor offset
 	 * @return serialized formula
 	 */
-    public String serialize(MathContainer container, MathSequence currentField,
-                            int currentOffset) {
-        this.mCurrentField = currentField;
-        this.mCurrentOffset = currentOffset;
-        StringBuilder stringBuilder = new StringBuilder();
-        serialize(container, stringBuilder);
-        return stringBuilder.toString();
-    }
+	public String serialize(MathContainer container, MathSequence currentField,
+							int currentOffset) {
+		this.mCurrentField = currentField;
+		this.mCurrentOffset = currentOffset;
+		StringBuilder stringBuilder = new StringBuilder();
+		serialize(container, stringBuilder);
+		return stringBuilder.toString();
+	}
 
 	/**
 	 * @param container
@@ -82,24 +90,24 @@ public abstract class SerializerAdapter implements Serializer {
 	 * @param stringBuilder
 	 *            output string builder
 	 */
-    public void serialize(MathComponent container, StringBuilder stringBuilder) {
-        if (container instanceof MathCharacter) {
-            serialize((MathCharacter) container, stringBuilder);
+	public void serialize(MathComponent container, StringBuilder stringBuilder) {
+		if (container instanceof MathCharacter) {
+			serialize((MathCharacter) container, stringBuilder);
 
-        } else if (container instanceof MathSequence) {
-            serialize((MathSequence) container, stringBuilder);
+		} else if (container instanceof MathSequence) {
+			serialize((MathSequence) container, stringBuilder);
 
-        } else if (container instanceof MathArray) {
-            serialize((MathArray) container, stringBuilder);
+		} else if (container instanceof MathArray) {
+			serialize((MathArray) container, stringBuilder);
 
-        } else if (container instanceof MathFunction) {
-            serialize((MathFunction) container, stringBuilder);
-        }
-    }
+		} else if (container instanceof MathFunction) {
+			serialize((MathFunction) container, stringBuilder);
+		}
+	}
 
-    abstract void serialize(MathCharacter mathCharacter, StringBuilder stringBuilder);
+	abstract void serialize(MathCharacter mathCharacter, StringBuilder stringBuilder);
 
-    abstract void serialize(MathSequence sequence, StringBuilder stringBuilder);
+	abstract void serialize(MathSequence sequence, StringBuilder stringBuilder);
 
 	/**
 	 * @param sequence
@@ -118,7 +126,7 @@ public abstract class SerializerAdapter implements Serializer {
 		}
 	}
 
-    abstract void serialize(MathFunction function, StringBuilder stringBuilder);
+	abstract void serialize(MathFunction function, StringBuilder stringBuilder);
 
-    abstract void serialize(MathArray array, StringBuilder stringBuilder);
+	abstract void serialize(MathArray array, StringBuilder stringBuilder);
 }

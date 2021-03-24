@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
-import com.himamis.retex.editor.share.controller.InputController;
 import com.himamis.retex.editor.share.controller.KeyListenerImpl;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.input.adapter.FunctionsAdapter;
@@ -29,6 +28,7 @@ public class KeyboardInputAdapter {
 
 		adapters.add(new StringAdapter(times, "*"));
 		adapters.add(new StringAdapter(minus, "-"));
+		adapters.add(new StringAdapter(divide, "/"));
 		adapters.add(new StringAdapter("10^", "10^"));
 		adapters.add(new StringAdapter("a_n", "_"));
 		adapters.add(new StringAdapter(e + "^", e + "^"));
@@ -38,20 +38,6 @@ public class KeyboardInputAdapter {
 			public void commit(MathFieldInternal mfi, String input) {
 				type(mfi, "^-1");
 				CursorController.nextCharacter(mfi.getEditorState());
-			}
-		});
-
-		adapters.add(new StringInput(divide + "") {
-			@Override
-			public void commit(MathFieldInternal mfi, String input) {
-				InputController controller = mfi.getInputController();
-				boolean createFrac = controller.getCreateFrac();
-				controller.setCreateFrac(false);
-				type(mfi, "/");
-				if (createFrac) {
-					mfi.onDivisionInserted();
-				}
-				controller.setCreateFrac(createFrac);
 			}
 		});
 
@@ -105,7 +91,7 @@ public class KeyboardInputAdapter {
 		commandAdapter = new KeyboardAdapter() {
 			@Override
 			public void commit(MathFieldInternal mfi, String commandName) {
-				emulateInput(mfi, commandName);
+				type(mfi, commandName);
 				if (!commandName.contains("(")) {
 					mfi.getInputController().newBraces(mfi.getEditorState(), '(');
 					mfi.notifyAndUpdate("(");
@@ -126,48 +112,16 @@ public class KeyboardInputAdapter {
 	 * @param input string to type
 	 */
 	public static void type(MathFieldInternal mfi, String input) {
+		if (input.isEmpty()) {
+			return;
+		}
+
 		EditorState editorState = mfi.getEditorState();
 		KeyListenerImpl keyListener = mfi.getKeyListener();
 		for (int i = 0; i < input.length(); i++) {
 			keyListener.onKeyTyped(input.charAt(i), editorState);
 		}
 		mfi.notifyAndUpdate(String.valueOf(input.charAt(input.length() - 1)));
-	}
-
-	/**
-	 * @param mathFieldInternal
-	 *            editor
-	 * @param text
-	 *            text to be inserted
-	 */
-	public static void insertString(final MathFieldInternal mathFieldInternal,
-			String text) {
-		boolean oldCreateFrac = mathFieldInternal.getInputController()
-				.getCreateFrac();
-		mathFieldInternal.getInputController().setCreateFrac(false);
-		mathFieldInternal.getInputController().setCreateNroot(false);
-		emulateInput(mathFieldInternal, text);
-		mathFieldInternal.getInputController().setCreateFrac(oldCreateFrac);
-		mathFieldInternal.getInputController().setCreateNroot(true);
-		mathFieldInternal.onInsertString();
-	}
-
-	/**
-	 * Type text character by character. This way 1/2+3 becomes 1/(2+3). To
-	 * insert string properly please use
-	 * {@link #insertString(MathFieldInternal, String)}
-	 * 
-	 * @param mathFieldInternal
-	 *            input field
-	 * @param text
-	 *            text to write
-	 */
-	public static void emulateInput(MathFieldInternal mathFieldInternal,
-			String text) {
-		for (int i = 0; i < text.length(); i++) {
-			KeyboardInputAdapter.onKeyboardInput(mathFieldInternal,
-					text.charAt(i) + "");
-		}
 	}
 
 	/**
@@ -203,5 +157,4 @@ public class KeyboardInputAdapter {
 		commandAdapter.commit(mathFieldInternal, commandName);
 		mathFieldInternal.update();
 	}
-
 }

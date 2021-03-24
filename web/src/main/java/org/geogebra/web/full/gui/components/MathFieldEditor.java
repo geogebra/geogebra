@@ -170,7 +170,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 		if (!"?".equals(text)) {
 			setErrorStyle(false);
 		}
-		mathField.setText(text, false);
+		mathField.parse(text);
 	}
 
 	/**

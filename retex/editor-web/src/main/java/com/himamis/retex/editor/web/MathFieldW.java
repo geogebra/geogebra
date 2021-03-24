@@ -60,7 +60,6 @@ import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
@@ -841,7 +840,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            create fractions/exponents
 	 */
 	public void insertString(String text) {
-		KeyboardInputAdapter.insertString(mathFieldInternal, text);
+		mathFieldInternal.insertString(text);
 	}
 
 	private Element getHiddenTextArea() {
@@ -1097,23 +1096,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		this.leftAltDown = leftAltDown;
 	}
 
-	/**
-	 * In plain mode just fill with text (linear), otherwise parse math (ASCII
-	 * math syntax) into the editor.
-	 * 
-	 * @param text0
-	 *            text
-	 * @param asPlainText
-	 *            whether to use it as plain text
-	 */
-	public void setText(String text0, boolean asPlainText) {
-		if (asPlainText) {
-			mathFieldInternal.parse("");
-			setPlainTextMode(true);
-			insertString(text0);
-		} else {
-			mathFieldInternal.parse(text0);
-		}
+	@Override
+	public void parse(String text) {
+		mathFieldInternal.parse(text);
+	}
+
+	@Override
+	public void setPlainText(String text) {
+		mathFieldInternal.setPlainText(text);
 	}
 
 	/**
@@ -1154,9 +1144,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		mathFieldInternal.setCaretPath(path);
 	}
 
-	/**
-	 * @return the cross-platform representation of this field
-	 */
+	@Override
 	public MathFieldInternal getInternal() {
 		return mathFieldInternal;
 	}
