@@ -54,7 +54,6 @@ public class IntervalPlotModel {
 		updatePath();
 	}
 
-
 	public IntervalTuple firstVisiblePoint() {
 		for (IntervalTuple tuple: points) {
 			if (range.x().contains(tuple.x())
