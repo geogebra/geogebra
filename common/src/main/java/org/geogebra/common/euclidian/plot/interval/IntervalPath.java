@@ -25,7 +25,6 @@ public class IntervalPath {
 		this.view = view;
 		this.model = model;
 		labelPositionCalculator = new LabelPositionCalculator(view);
-
 	}
 
 	/**
@@ -37,7 +36,6 @@ public class IntervalPath {
 		}
 
 		reset();
-
 		Interval lastY = new Interval();
 
 		int pointCount = model.getPoints().count();
@@ -56,7 +54,6 @@ public class IntervalPath {
 				}
 			}
 			moveTo = moveNeeded;
-
 			lastY.set(point.y());
 		}
 	}

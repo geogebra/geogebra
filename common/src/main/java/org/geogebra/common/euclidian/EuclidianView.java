@@ -66,7 +66,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
-import org.geogebra.common.kernel.interval.IntervalTuple;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -6593,14 +6592,5 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			coordSystemInfo.setXAxisZoom(false);
 			euclidianController.notifyZoomerStopped();
 		}
-	}
-
-	/**
-	 *
-	 * @param tuple to check
-	 * @return true if interval tuple is on screen
-	 */
-	public boolean isOnView(IntervalTuple tuple) {
-		return isOnView(tuple.x().getLow(), tuple.y().getLow());
 	}
 }
