@@ -1,5 +1,7 @@
 package org.geogebra.web.full.main;
 
+import static org.geogebra.common.gui.Layout.findDockPanelData;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -1594,9 +1596,41 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					p);
 		} else {
 			getGuiManager().getLayout().getDockManager().setActiveTab(getTmpPerspective(p));
+
+			DockPanelData[] dockPanelDatas = getTmpPerspective(p).getDockPanelData();
+			int algebraDockPanelDataId = findDockPanelData(dockPanelDatas, App.VIEW_ALGEBRA);
+
+			if (algebraDockPanelDataId != -1) {
+				DockPanelData dockPanelData = dockPanelDatas[algebraDockPanelDataId];
+				boolean showAlgebraView = dockPanelData.isVisible();
+				boolean isEV3D = getGuiManager().getApp().isUnbundled3D();
+
+				int evDockPanelDataId = findDockPanelData(dockPanelDatas,
+						isEV3D?	App.VIEW_EUCLIDIAN3D : App.VIEW_EUCLIDIAN);
+				if (evDockPanelDataId != -1) {
+					DockPanelData evDockPanelData = dockPanelDatas[evDockPanelDataId];
+					boolean isEvVisible = evDockPanelData.isVisible();
+
+					setToolbarPanelAfterLoad(showAlgebraView,
+							isEvVisible, algebraDockPanelDataId);
+				}
+			}
 		}
 		if (isUnbundled() && isPortrait()) {
 			getGuiManager().getLayout().getDockManager().adjustViews(true);
+		}
+	}
+
+	private void setToolbarPanelAfterLoad(boolean showAlgebraView, boolean isEvVisible, int algebraDockPanelDataId) {
+		ToolbarPanel toolbarPanel = getGuiManager().getUnbundledToolbar();
+		if (!showAlgebraView) {
+			toolbarPanel.close();
+		} else if (!isEvVisible) {
+			getGuiManager().getLayout().getDockManager()
+					.closePanel(algebraDockPanelDataId,false);
+		} else {
+			toolbarPanel.close();
+			toolbarPanel.open();
 		}
 	}
 
