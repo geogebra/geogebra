@@ -1199,6 +1199,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
+	 * Checks if (real world) coords are on view.
+	 *
+	 * @param x x-coord
+	 * @param y y-coord
+	 *
+	 * @return true if coords are on view
+	 */
+	public boolean isOnView(double x, double y) {
+		return (x >= getXmin()) && (x <= getXmax())
+				&& (y >= getYmin()) && (y <= getYmax());
+	}
+
+	/**
 	 * 
 	 * @param p1
 	 *            first point

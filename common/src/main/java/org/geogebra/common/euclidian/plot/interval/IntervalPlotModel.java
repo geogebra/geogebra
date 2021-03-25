@@ -2,7 +2,6 @@ package org.geogebra.common.euclidian.plot.interval;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.plot.LabelPositionCalculator;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalFunctionSampler;
 import org.geogebra.common.kernel.interval.IntervalTuple;
@@ -16,12 +15,10 @@ import org.geogebra.common.kernel.interval.IntervalTupleList;
 public class IntervalPlotModel {
 	private final IntervalTuple range;
 	private final IntervalFunctionSampler sampler;
-	private final LabelPositionCalculator labelPositionCalculator;
 	private IntervalTupleList points;
 	private IntervalPath path;
 	private final EuclidianView view;
 	private Interval oldDomain;
-	private GPoint labelPoint;
 
 	/**
 	 * Constructor
@@ -35,7 +32,6 @@ public class IntervalPlotModel {
 		this.range = range;
 		this.sampler = sampler;
 		this.view = view;
-		labelPositionCalculator = new LabelPositionCalculator(view);
 	}
 
 	public void setPath(IntervalPath path) {
@@ -47,7 +43,6 @@ public class IntervalPlotModel {
 	 */
 	public void update() {
 		updatePath();
-		updateLabelPosition();
 	}
 
 		/**
@@ -57,19 +52,6 @@ public class IntervalPlotModel {
 		updateRanges();
 		updateSampler();
 		updatePath();
-		updateLabelPosition();
-	}
-
-	private void updateLabelPosition() {
-		if (points.isEmpty()) {
-			return;
-		}
-		IntervalTuple firstPoint = points.get(0);
-		if (firstPoint == null) {
-			return;
-		}
-		labelPoint = labelPositionCalculator.calculate(firstPoint.x().getHigh(),
-				firstPoint.y().getLow());
 	}
 
 	private void updateRanges() {
@@ -189,7 +171,7 @@ public class IntervalPlotModel {
 	}
 
 	GPoint getLabelPoint() {
-		return labelPoint;
+		return path.getLabelPoint();
 	}
 
 	public IntervalTuple pointAt(int index) {

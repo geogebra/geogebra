@@ -1,6 +1,8 @@
 package org.geogebra.common.euclidian.plot.interval;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.plot.LabelPositionCalculator;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalTuple;
 
@@ -8,7 +10,9 @@ public class IntervalPath {
 	private final IntervalPathPlotter gp;
 	private final EuclidianView view;
 	private final IntervalPlotModel model;
+	private final LabelPositionCalculator labelPositionCalculator;
 	private boolean moveTo;
+	private GPoint labelPoint = null;
 
 	/**
 	 * Constructor.
@@ -20,6 +24,7 @@ public class IntervalPath {
 		this.gp = gp;
 		this.view = view;
 		this.model = model;
+		labelPositionCalculator = new LabelPositionCalculator(view);
 	}
 
 	/**
@@ -31,7 +36,6 @@ public class IntervalPath {
 		}
 
 		reset();
-
 		Interval lastY = new Interval();
 
 		int pointCount = model.getPoints().count();
@@ -50,7 +54,6 @@ public class IntervalPath {
 				}
 			}
 			moveTo = moveNeeded;
-
 			lastY.set(point.y());
 		}
 	}
@@ -76,6 +79,7 @@ public class IntervalPath {
 	 */
 	void reset() {
 		gp.reset();
+		labelPoint = null;
 	}
 
 	private void plotInterval(Interval lastY, IntervalTuple point) {
@@ -85,6 +89,11 @@ public class IntervalPath {
 			plotHigh(x, y);
 		} else {
 			plotLow(x, y);
+		}
+
+		if (labelPoint == null && view.isOnView(point.x().getLow(), point.y().getLow())) {
+			this.labelPoint = labelPositionCalculator.calculate(point.x().getLow(),
+					point.y().getLow());
 		}
 	}
 
@@ -110,5 +119,9 @@ public class IntervalPath {
 
 	private void lineTo(double low, double high) {
 		gp.lineTo(low, high);
+	}
+
+	public GPoint getLabelPoint() {
+		return labelPoint;
 	}
 }
