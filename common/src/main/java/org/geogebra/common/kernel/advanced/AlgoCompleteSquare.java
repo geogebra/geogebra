@@ -119,7 +119,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 					.power(new MyDouble(kernel, 2));
 			// a(x-h)^2
 			ExpressionNode sqrMultTerm = p == 1 ? sqrTerm
-					: new ExpressionNode(kernel, a, Operation.MULTIPLY,	sqrTerm);
+					: new ExpressionNode(kernel, a, Operation.MULTIPLY, sqrTerm);
 			// a(x-h)^2+k
 			squareE = new ExpressionNode(kernel, sqrMultTerm, Operation.PLUS, k);
 
