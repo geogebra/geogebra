@@ -512,7 +512,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private BoundingBox<? extends GShape> focusedGroupGeoBoundingBox;
 
 	protected SymbolicEditor symbolicEditor = null;
-	private CoordSystemInfo coordSystemInfo;
+	private final CoordSystemInfo coordSystemInfo;
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -900,7 +900,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			updateAllDrawablesForView(true);
 			invalidateBackground();
 		}
-
+		if (!batchUpdate) {
+			euclidianController.notifyCoordSystemMoved(coordSystemInfo);
+		}
 		updatingBounds = false;
 	}
 
@@ -1334,6 +1336,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            app mode
 	 */
 	public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {
+		coordSystemInfo.setInteractive(true);
 		translateCoordSystemInPixels(dx, dy, 0);
 	}
 
@@ -1392,7 +1395,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		setXYMinMaxForSetCoordSystem();
 		setRealWorldBounds();
         onCoordSystemChangedFromSetCoordSystem();
-		euclidianController.notifyCoordSystemMoved(coordSystemInfo);
 
 		if (repaint) {
 			invalidateBackground();
@@ -1797,6 +1799,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void endBatchUpdate() {
 		this.batchUpdate = false;
 		if (this.needsAllDrawablesUpdate) {
+			euclidianController.notifyCoordSystemMoved(coordSystemInfo);
 			allDrawableList.updateAll();
 			repaint();
 		}
@@ -6575,6 +6578,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * Runs when axis zoom is canceled.
 	 */
 	void onAxisZoomCancel() {
+		coordSystemInfo.setInteractive(false);
 		if (coordSystemInfo.isXAxisZoom()) {
 			coordSystemInfo.setXAxisZoom(false);
 			euclidianController.notifyZoomerStopped();

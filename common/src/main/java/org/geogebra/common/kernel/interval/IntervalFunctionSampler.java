@@ -44,20 +44,6 @@ public class IntervalFunctionSampler {
 		return new IntervalTupleList();
 	}
 
-	/**
-	 * Gets the samples with the predefined range and sample rate
-	 *
-	 * @return the sample list
-	 */
-	public IntervalTupleList result(LinearSpace space) {
-		try {
-			return evaluateOnSpace(space);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new IntervalTupleList();
-	}
-
 	private IntervalTupleList evaluateOnSpace(LinearSpace space) throws Exception {
 		List<Double> xCoords = space.values();
 		IntervalTupleList samples = new IntervalTupleList();
