@@ -25,7 +25,11 @@ public class ClipAlgoSutherlandHodogman {
 	 */
 	public ArrayList<MyPoint> process(ArrayList<MyPoint> input, double[][] clipPoints) {
 		ArrayList<MyPoint> output = new ArrayList<>(input);
-
+		for (MyPoint pt: output) {
+			if (Double.isInfinite(pt.y)) {
+				pt.y = Math.signum(pt.y) * 1E6;
+			}
+		}
 		for (int i = 0; i < EDGE_COUNT; i++) {
 			output = clipWithEdge(createEdge(clipPoints, i), output);
 		}
