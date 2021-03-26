@@ -183,6 +183,7 @@ public abstract class CoordSystemAnimation {
 		if ((counter == steps) || (time > MAX_TIME)) { // end of animation
 			stopAnimation();
 		} else {
+			coordSystemInfo.setInteractive(true);
 			switch (mode) {
 			case AXES_X:
 				factor = 1.0 + ((counter * add) / oldScale);

@@ -4,6 +4,7 @@ public class CoordSystemInfo {
 	private EuclidianView view;
 	private boolean xAxisZoom = false;
 	private boolean centerView;
+	private boolean interactive = false;
 
 	public CoordSystemInfo(EuclidianView view) {
 		this.view = view;
@@ -38,7 +39,15 @@ public class CoordSystemInfo {
 		return centerView;
 	}
 
+	public boolean isInteractive() {
+		return interactive;
+	}
+
 	public void setCenterView(boolean value) {
 		this.centerView = value;
+	}
+
+	public void setInteractive(boolean b) {
+		this.interactive = b;
 	}
 }
