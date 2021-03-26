@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
@@ -16,6 +17,8 @@ public class DrawMindMap extends DrawInlineText {
 	private static final int BORDER_RADIUS = 8;
 
 	private final GeoMindMapNode node;
+	private final static GBasicStroke connection = AwtFactory.getPrototype().newBasicStroke(2f,
+			GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
 
 	public DrawMindMap(EuclidianView view, GeoInline text) {
 		super(view, text);
@@ -45,8 +48,8 @@ public class DrawMindMap extends DrawInlineText {
 				path.curveTo((x0 + 3 * x1) / 4, y0, (3 * x0 + x1) / 4, y1, x1, y1);
 			}
 
-			g2.setStroke(border1);
-			g2.setColor(GColor.BLACK);
+			g2.setStroke(connection);
+			g2.setColor(GColor.MIND_MAP_CONNECTION);
 			g2.draw(path);
 		}
 
