@@ -218,9 +218,6 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 
 	@Override
 	protected void onPreviewNativeEvent(Event.NativePreviewEvent event) {
-		if (!isVisible()) {
-			return; // onPreviewNativeEvent is global: ignore for hidden dialogs
-		}
 		Event nativeEvent = Event.as(event.getNativeEvent());
 		if (Event.ONKEYPRESS == event.getTypeInt() && isEnter(nativeEvent.getCharCode())) {
 			onPositiveAction();
