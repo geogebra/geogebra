@@ -34,6 +34,10 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 			this.dx1 = dx1;
 			this.dy1 = dy1;
 		}
+
+		public boolean isOpposite(NodeAlignment alignment) {
+			return alignment != null && Math.abs(ordinal() - alignment.ordinal()) == 2;
+		}
 	}
 
 	private GeoMindMapNode parent;
@@ -178,5 +182,9 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 
 	public NodeAlignment getAlignment() {
 		return nodeAlignment;
+	}
+
+	public void setAlignment(NodeAlignment alignment) {
+		this.nodeAlignment = alignment;
 	}
 }

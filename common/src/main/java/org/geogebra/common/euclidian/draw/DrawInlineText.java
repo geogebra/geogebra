@@ -48,7 +48,6 @@ public class DrawInlineText extends Drawable implements DrawInline {
 		this.text = text;
 		this.textController = view.getApplication().createInlineTextController(view, text);
 		createEditor();
-		update();
 	}
 
 	private void createEditor() {

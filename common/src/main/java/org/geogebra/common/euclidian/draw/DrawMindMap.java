@@ -15,14 +15,76 @@ import org.geogebra.common.kernel.geos.GeoMindMapNode.NodeAlignment;
 public class DrawMindMap extends DrawInlineText {
 
 	private static final int BORDER_RADIUS = 8;
+	private static final GBasicStroke connection = AwtFactory.getPrototype().newBasicStroke(2f,
+			GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
 
 	private final GeoMindMapNode node;
-	private final static GBasicStroke connection = AwtFactory.getPrototype().newBasicStroke(2f,
-			GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
+	private MindMapEdge mindMapEdge;
+
+	private static class MindMapEdge {
+		private final double x0;
+		private final double x1;
+		private final double y0;
+		private final double y1;
+
+		public MindMapEdge(DrawMindMap parent, DrawMindMap child, NodeAlignment alignment) {
+			x0 = parent.rectangle.getLeft() + alignment.dx0 * parent.rectangle.getWidth();
+			y0 = parent.rectangle.getTop() + alignment.dy0 * parent.rectangle.getHeight();
+			x1 = child.rectangle.getLeft() + alignment.dx1 * child.rectangle.getWidth();
+			y1 = child.rectangle.getTop() + alignment.dy1 * child.rectangle.getHeight();
+		}
+
+		private boolean isIntersecting(NodeAlignment alignment) {
+			return ((alignment.dx0 - 0.5) * (x0 - x1) > 0)
+					|| ((alignment.dy0 - 0.5) * (y0 - y1) > 0);
+		}
+
+		private GGeneralPath getConnectionPath(GeoMindMapNode node) {
+			GGeneralPath path = AwtFactory.getPrototype().newGeneralPath();
+			path.moveTo(x0, y0);
+			double w0 = 1.0 / 4;
+			if (isIntersecting(node.getAlignment())) {
+				w0 = 2;
+			}
+			double w1 = 1 - w0;
+			if (node.getAlignment() == NodeAlignment.TOP
+					|| node.getAlignment() == NodeAlignment.BOTTOM) {
+				path.curveTo(x0, w0 * y0 + w1 * y1, x1,
+						w1 * y0 + w0 * y1, x1, y1);
+			} else {
+				path.curveTo(w0 * x0 + w1 * x1, y0, w1 * x0 + w0 * x1, y1, x1, y1);
+			}
+			return path;
+		}
+
+		public double getLength() {
+			return (x0 - x1) * (x0 - x1) + (y0 - y1) * (y0 - y1);
+		}
+	}
 
 	public DrawMindMap(EuclidianView view, GeoInline text) {
 		super(view, text);
 		this.node = (GeoMindMapNode) text;
+	}
+
+	@Override
+	public void update() {
+		super.update();
+		GeoMindMapNode parentGeo = node.getParent();
+		DrawMindMap parent = (DrawMindMap) view.getDrawableFor(parentGeo);
+		if (parent == null) {
+			return;
+		}
+		NodeAlignment alignment = node.getAlignment();
+		if (mindMapEdge == null) {
+			mindMapEdge = new MindMapEdge(parent, this, alignment);
+		}
+		if (mindMapEdge.isIntersecting(alignment)
+				|| alignment.isOpposite(parent.node.getAlignment())) {
+			updateAlignment(parent);
+		} else {
+			mindMapEdge = new MindMapEdge(parent, this, alignment);
+		}
 	}
 
 	@Override
@@ -32,28 +94,31 @@ public class DrawMindMap extends DrawInlineText {
 			if (child == null) {
 				continue;
 			}
-
-			NodeAlignment alignment = childGeo.getAlignment();
-
-			double x0 = rectangle.getLeft() + alignment.dx0 * rectangle.getWidth();
-			double y0 = rectangle.getTop() + alignment.dy0 * rectangle.getHeight();
-			double x1 = child.rectangle.getLeft() + alignment.dx1 * child.rectangle.getWidth();
-			double y1 = child.rectangle.getTop() + alignment.dy1 * child.rectangle.getHeight();
-
-			GGeneralPath path = AwtFactory.getPrototype().newGeneralPath();
-			path.moveTo(x0, y0);
-			if (alignment == NodeAlignment.TOP || alignment == NodeAlignment.BOTTOM) {
-				path.curveTo(x0, (y0 + 3 * y1) / 4, x1, (3 * y0 + y1) / 4, x1, y1);
-			} else {
-				path.curveTo((x0 + 3 * x1) / 4, y0, (3 * x0 + x1) / 4, y1, x1, y1);
-			}
-
+			GGeneralPath path = child.mindMapEdge.getConnectionPath(childGeo);
 			g2.setStroke(connection);
 			g2.setColor(GColor.MIND_MAP_CONNECTION);
 			g2.draw(path);
 		}
-
 		draw(g2, BORDER_RADIUS);
+	}
+
+	private void updateAlignment(DrawMindMap parent) {
+		double length = Double.POSITIVE_INFINITY;
+		boolean intersect = true;
+		for (NodeAlignment alignment : NodeAlignment.values()) {
+			if (alignment.isOpposite(parent.node.getAlignment())) {
+				continue;
+			}
+			MindMapEdge connection = new MindMapEdge(parent, this, alignment);
+			double newLength = connection.getLength();
+			boolean newIntersect = connection.isIntersecting(alignment);
+			if ((!newIntersect && intersect) || ((newIntersect == intersect) && newLength < length)) {
+				mindMapEdge = connection;
+				node.setAlignment(alignment);
+				intersect = newIntersect;
+				length = newLength;
+			}
+		}
 	}
 
 	private NodeAlignment toAlignment(EuclidianBoundingBoxHandler addHandler) {

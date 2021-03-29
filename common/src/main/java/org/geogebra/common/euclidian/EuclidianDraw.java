@@ -357,12 +357,14 @@ public class EuclidianDraw {
 			break;
 		case INLINE_TEXT:
 			d = new DrawInlineText(ev, (GeoInlineText) geo);
+			d.update();
 			break;
 		case TABLE:
 			d = new DrawInlineTable(ev, (GeoInlineTable) geo);
 			break;
 		case MIND_MAP:
 			d = new DrawMindMap(ev, (GeoMindMapNode) geo);
+			d.update();
 		}
 		return d;
 	}
