@@ -162,10 +162,6 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 				"exam_menu_entry", Action.START_EXAM_MODE);
 	}
 
-	private static MenuItem openFile() {
-		return new ActionableItemImpl(Icon.SEARCH, "Load", Action.SHOW_SEARCH_VIEW);
-	}
-
 	protected static MenuItem share() {
 		return new ActionableItemImpl(Icon.EXPORT_FILE, "Share", Action.SHARE_FILE);
 	}
@@ -176,10 +172,6 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 
 	protected static MenuItem showSettings() {
 		return new ActionableItemImpl(Icon.SETTINGS, "Settings", Action.SHOW_SETTINGS);
-	}
-
-	protected static MenuItem saveFile() {
-		return new ActionableItemImpl(Icon.SAVE, "Save", Action.SAVE_FILE);
 	}
 
 	protected static MenuItem previewPrint() {

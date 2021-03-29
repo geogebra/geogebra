@@ -1,6 +1,8 @@
 package org.geogebra.common.main.exam;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.CheckForNull;
 
@@ -21,6 +23,7 @@ import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -61,6 +64,8 @@ public class ExamEnvironment {
 	private long ignoreBlurUntil = -1;
 	private boolean temporaryBlur;
 	private boolean wasCasEnabled;
+
+	private List<Material> tempMaterials;
 
 	/**
 	 * @param localization localization
@@ -127,6 +132,7 @@ public class ExamEnvironment {
 		examStartTime = time;
 		closed = -1;
 		clearClipboard();
+		clearTempMaterials();
 	}
 
 	/**
@@ -466,6 +472,7 @@ public class ExamEnvironment {
 		storeEndTime();
 		restoreCommands();
 		clearClipboard();
+		clearTempMaterials();
 	}
 
 	private void clearClipboard() {
@@ -701,5 +708,17 @@ public class ExamEnvironment {
 			casSettings.setEnabled(false);
 		}
 		commandDispatcher.addCommandFilter(noCASFilter);
+	}
+
+	public List<Material> getTempMaterials() {
+		return new ArrayList<>(tempMaterials);
+	}
+
+	public void saveTempMaterial(Material material) {
+		tempMaterials.add(material);
+	}
+
+	public void clearTempMaterials() {
+		tempMaterials = new ArrayList<>();
 	}
 }

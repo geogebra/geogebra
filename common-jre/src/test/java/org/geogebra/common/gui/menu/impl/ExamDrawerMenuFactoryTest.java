@@ -15,7 +15,7 @@ public class ExamDrawerMenuFactoryTest {
 		DrawerMenu menu = factory.createDrawerMenu();
 		Assert.assertEquals(1, menu.getMenuItemGroups().size());
 		MenuItemGroup group = menu.getMenuItemGroups().get(0);
-		Assert.assertEquals(3, group.getMenuItems().size());
+		Assert.assertEquals(5, group.getMenuItems().size());
 	}
 
 	@Test
@@ -25,6 +25,6 @@ public class ExamDrawerMenuFactoryTest {
 		DrawerMenu menu = factory.createDrawerMenu();
 		Assert.assertEquals(1, menu.getMenuItemGroups().size());
 		MenuItemGroup group = menu.getMenuItemGroups().get(0);
-		Assert.assertEquals(4, group.getMenuItems().size());
+		Assert.assertEquals(6, group.getMenuItems().size());
 	}
 }
