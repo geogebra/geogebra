@@ -26,6 +26,12 @@ public class DrawMindMap extends DrawInlineText {
 	private static final GBasicStroke connection = AwtFactory.getPrototype().newBasicStroke(2f,
 			GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
 
+	private static final Comparator<DrawMindMap> verticalComparator
+			= Comparator.comparing(mindMap -> mindMap.rectangle.getBottom());
+
+	private static final Comparator<DrawMindMap> horizontalComparator
+			= Comparator.comparing(mindMap -> mindMap.rectangle.getRight());
+
 	private final GeoMindMapNode node;
 	private MindMapEdge mindMapEdge;
 
@@ -159,12 +165,10 @@ public class DrawMindMap extends DrawInlineText {
 	}
 
 	private GPoint2D computeNewLocation(NodeAlignment newAlignment) {
-		Comparator<DrawMindMap> comparator;
-		if (newAlignment == NodeAlignment.TOP || newAlignment == NodeAlignment.BOTTOM) {
-			comparator = Comparator.comparing(mindMap -> mindMap.rectangle.getRight());
-		} else {
-			comparator = Comparator.comparing(mindMap -> mindMap.rectangle.getBottom());
-		}
+		Comparator<DrawMindMap> comparator = newAlignment.isVerical()
+				? horizontalComparator : verticalComparator;
+		Comparator<DrawMindMap> intersectionComparator = newAlignment.isVerical()
+				? verticalComparator : horizontalComparator;
 
 		List<GeoMindMapNode> childGeos = node.getChildren().stream()
 				.filter(node -> node.getAlignment() == newAlignment)
@@ -175,7 +179,18 @@ public class DrawMindMap extends DrawInlineText {
 				.sorted(comparator)
 				.collect(Collectors.toList());
 
-		if (correctlyAligned(newAlignment, children)) {
+		List<DrawMindMap> intersectableChildren = node.getChildren().stream()
+				.filter(node -> node.getAlignment() != newAlignment)
+				.map(node -> (DrawMindMap) view.getDrawableFor(node))
+				.sorted(intersectionComparator)
+				.collect(Collectors.toList());
+
+		if (newAlignment == NodeAlignment.BOTTOM || newAlignment == NodeAlignment.RIGHT) {
+			Collections.reverse(intersectableChildren);
+		}
+
+		boolean correctlyAligned = correctlyAligned(newAlignment, children);
+		if (correctlyAligned) {
 			int spaceGained = decreaseDistanceBetweenChildren(newAlignment, children);
 
 			if (newAlignment == NodeAlignment.TOP || newAlignment == NodeAlignment.BOTTOM) {
@@ -242,6 +257,33 @@ public class DrawMindMap extends DrawInlineText {
 			top += marginTop(newAlignment, children.size());
 		}
 
+		double extraMovement = 0;
+		for (DrawMindMap intersectableChild : intersectableChildren) {
+			TransformableRectangle rect = intersectableChild.rectangle;
+
+			if (newAlignment.isVerical()) {
+				if (rect.getLeft() < left + GeoMindMapNode.MIN_WIDTH && left < rect.getRight()) {
+					if (newAlignment == NodeAlignment.BOTTOM && rect.getBottom() + 16 > top) {
+						extraMovement = rect.getBottom() + 16 - top;
+						break;
+					} else if (newAlignment == NodeAlignment.TOP && rect.getTop() < top + 16) {
+						extraMovement = rect.getTop() - 16 - top;
+						break;
+					}
+				}
+			} else {
+				if (rect.getTop() < top + GeoMindMapNode.CHILD_HEIGHT && top < rect.getBottom()) {
+					if (newAlignment == NodeAlignment.RIGHT && rect.getRight() + 16 > left) {
+						extraMovement = rect.getRight() + 16 - left;
+						break;
+					} else if (newAlignment == NodeAlignment.LEFT && rect.getLeft() < left + 16) {
+						extraMovement = rect.getLeft() - 16 - left;
+						break;
+					}
+				}
+			}
+		}
+
 		switch (newAlignment) {
 		case TOP:
 			top -= GeoMindMapNode.CHILD_HEIGHT;
@@ -249,6 +291,24 @@ public class DrawMindMap extends DrawInlineText {
 		case LEFT:
 			left -= GeoMindMapNode.MIN_WIDTH;
 			break;
+		}
+
+		if (extraMovement != 0 && correctlyAligned) {
+			if (newAlignment.isVerical()) {
+				MoveGeos.moveObjects(childGeos,
+						new Coords(0, -view.getInvYscale() * extraMovement, 0),
+						null, null, view);
+			} else {
+				MoveGeos.moveObjects(childGeos,
+						new Coords(view.getInvXscale() * extraMovement, 0, 0),
+						null, null, view);
+			}
+		}
+
+		if (newAlignment.isVerical()) {
+			top += extraMovement;
+		} else {
+			left += extraMovement;
 		}
 
 		return new GPoint2D(view.toRealWorldCoordX(left), view.toRealWorldCoordY(top));

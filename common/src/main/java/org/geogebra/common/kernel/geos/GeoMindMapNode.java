@@ -35,6 +35,10 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 			this.dy1 = dy1;
 		}
 
+		public boolean isVerical() {
+			return this == TOP || this == BOTTOM;
+		}
+
 		public boolean isOpposite(NodeAlignment alignment) {
 			return alignment != null && Math.abs(ordinal() - alignment.ordinal()) == 2;
 		}
