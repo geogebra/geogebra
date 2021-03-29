@@ -94,7 +94,7 @@ ext.appSpecs = [
         icon: 'Geometry.ico', appStoreId:'1232591335', measurementId: 'G-82GL4RTR4H',
         firebaseAppId: '1:895270214636:web:6bf3d469e0d2b32584fec9'],
     [id:'suite', title:'Calculator Suite', transKey:'CalculatorSuite',
-         firebaseAppId: '1:895270214636:web:7daf432883a8464084fec9',
+         firebaseAppId: '1:895270214636:web:7daf432883a8464084fec9', icon: 'ggb.ico',
          measurementId: 'G-FXVLXMD21Y', pkg:'GeoGebra_Calculator',  exe: 'GeoGebraCalculator'],
     [id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes', pkg:'GeoGebra_Notes',
          releases: 'Releases-notes', icon: 'notes.ico', measurementId: 'G-MWHBRQSXTL',
