@@ -147,7 +147,7 @@ public class PolygonFactory {
 			// build string like
 			// A1 + Rotate[D - A, arg(B1 - A1) - arg(B - A)]
 			sb = label(p[0]) + "+Rotate[" + label(pts[i]) + "-" + label(pts[0]) + "," + angle + "]";
-			p[i] = kernel.getAlgebraProcessor().evaluateToPoint(sb.toString(), ErrorHelper.silent(),
+			p[i] = kernel.getAlgebraProcessor().evaluateToPoint(sb, ErrorHelper.silent(),
 					true);
 			p[i].setEuclidianVisible(false);
 			p[i].setLabel(null);
