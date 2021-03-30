@@ -915,7 +915,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		return 0;
 	}
 
-	public CoordMatrix4x4 getTranslationMatrixWithScale() {
+	protected CoordMatrix4x4 getTranslationMatrixWithScale() {
 		return translationMatrixWithScale;
 	}
 
