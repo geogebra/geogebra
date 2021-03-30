@@ -635,4 +635,19 @@ public class FormulaEditor extends View implements MathField {
     public void tab(boolean shiftDown){
 
     }
+
+	@Override
+	public MathFieldInternal getInternal() {
+		return mMathFieldInternal;
+	}
+
+    @Override
+    public void parse(String text) {
+        mMathFieldInternal.parse(text);
+    }
+
+    @Override
+    public void setPlainText(String text) {
+        mMathFieldInternal.setPlainText(text);
+    }
 }
