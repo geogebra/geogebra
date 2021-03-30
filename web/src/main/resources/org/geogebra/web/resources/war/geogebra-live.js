@@ -1,7 +1,12 @@
 (function() {
-    function LiveApp(parentClientId, embedLabel, users) {
+    function LiveApp(parentClientId, embedLabel, users, delay) {
         this.api = null;
         this.users = users || {};
+        if (delay == null) {
+        	this.delay = 200;
+        } else {
+        	this.delay = delay;
+        }
         this.clientId = parentClientId;
         this.currentAnimations = [];
         this.embeds = {};
@@ -56,7 +61,7 @@
             }
             var calc = (this.api.getEmbeddedCalculators() || {})[label];
             if (calc && calc.registerClientListener) {
-                var calcLive = new LiveApp(this.clientId, label, this.users);
+                var calcLive = new LiveApp(this.clientId, label, this.users, this.delay);
                 calcLive.api = calc;
                 calcLive.eventCallbacks = this.eventCallbacks;
                 calcLive.registerListeners();
@@ -101,7 +106,7 @@
                     }
 
                     updateCallback = null;
-                }, 200);
+                }, that.delay);
             }
         }).bind(this);
 
@@ -364,11 +369,12 @@
         };
    }
 
-    window.GeoGebraLive = function(api, id) {
+    window.GeoGebraLive = function(api, id, delay) {
         var mainSession = new LiveApp(id);
         mainSession.api = api;
         mainSession.eventCallbacks = {"construction": []}
         mainSession.registerListeners();
+        mainSession.delay = delay;
 
         this.dispatch = function(last) {
             mainSession.dispatch(last);
