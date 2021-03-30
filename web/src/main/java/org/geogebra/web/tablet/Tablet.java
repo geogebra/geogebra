@@ -1,7 +1,5 @@
 package org.geogebra.web.tablet;
 
-import java.util.ArrayList;
-
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.geogebra3D.AppletFactory3D;
 import org.geogebra.web.html5.GeoGebraGlobal;
@@ -44,7 +42,10 @@ public class Tablet implements EntryPoint {
 	 * Load in applet mode
 	 */
 	public static void loadAppletAsync() {
-		startGeoGebra(GeoGebraElement.getGeoGebraMobileTags());
+		GeoGebraFrameFull.main(GeoGebraElement.getGeoGebraMobileTags(),
+				new AppletFactory3D(),
+				new TabletLookAndFeel(),
+				new TabletDevice());
 	}
 
 	private void exportGGBElementRenderer() {
@@ -62,17 +63,6 @@ public class Tablet implements EntryPoint {
 	        JavaScriptObject clb) {
 		GeoGebraFrameFull.renderArticleElement(el,
 				new AppletFactory3D(), new TabletLookAndFeel(), clb);
-	}
-
-	/**
-	 * @param geoGebraMobileTags
-	 *            article elements
-	 */
-	static void startGeoGebra(final ArrayList<GeoGebraElement> geoGebraMobileTags) {
-		GeoGebraFrameFull.main(geoGebraMobileTags,
-				new AppletFactory3D(),
-				new TabletLookAndFeel(),
-				new TabletDevice());
 	}
 
 }

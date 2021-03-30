@@ -2,7 +2,7 @@
 .GeoGebraHeader , .GeoGebraFrame * {
 	box-sizing:content-box;
 }
- .GeoGebraFrame, .GeoGebraFrame .GeoGebraPopup, .GeoGebraFrame .DialogBox, .GeoGebraFrame .gwt-PopupPanel, .GeoGebraFrame .gwt-SuggestBoxPopup, .GeoGebraFrame .ToolTip {
+ .GeoGebraFrame, .GeoGebraFrame .GeoGebraPopup, .GeoGebraFrame .DialogBox, .GeoGebraFrame .gwt-SuggestBoxPopup, .GeoGebraFrame .ToolTip {
     font: 100%/120% geogebra-sans-serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-style: normal;
     font-variant-ligatures: normal;

@@ -6,7 +6,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
-import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
+import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.arithmetic.Inequality;
@@ -67,12 +67,6 @@ class DrawParametricInequality extends SetDrawable {
 			g2.setStroke(objStroke);
 			g2.draw(gp);
 		}
-
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 	@Override
@@ -97,9 +91,8 @@ class DrawParametricInequality extends SetDrawable {
 	public void update() {
 		if (gp == null) {
 			gp = new GeneralPathClippedForCurvePlotter(view);
-		} else {
-			gp.reset();
 		}
+		gp.resetWithThickness(geo.getLineThickness());
 		GeoFunction border = paramIneq.getFunBorder();
 		border.setLineThickness(geo.getLineThickness());
 		updateStrokes(border);

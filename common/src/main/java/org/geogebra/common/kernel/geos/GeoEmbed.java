@@ -101,7 +101,7 @@ public class GeoEmbed extends GeoWidget {
 	}
 
 	public int getContentWidth() {
-		return (int) contentWidth;
+		return (int) Math.round(contentWidth);
 	}
 
 	public void setContentWidth(double contentWidth) {
@@ -109,7 +109,7 @@ public class GeoEmbed extends GeoWidget {
 	}
 
 	public int getContentHeight() {
-		return (int) contentHeight;
+		return (int) Math.round(contentHeight);
 	}
 
 	public void setContentHeight(double contentHeight) {

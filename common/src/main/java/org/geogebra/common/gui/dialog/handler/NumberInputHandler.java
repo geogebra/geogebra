@@ -16,7 +16,6 @@ public class NumberInputHandler implements InputHandler {
 	private AlgebraProcessor algebraProcessor;
 	private GeoNumberValue num = null;
 	private AsyncOperation<GeoNumberValue> callback;
-	private boolean oldVal;
 	private App app;
 	private EvalInfo evalInfo;
 
@@ -38,14 +37,11 @@ public class NumberInputHandler implements InputHandler {
 	 *            callback
 	 * @param appl
 	 *            app
-	 * @param oldValue
-	 *            old value
 	 */
 	public NumberInputHandler(AlgebraProcessor algebraProcessor,
-			AsyncOperation<GeoNumberValue> cb, App appl, boolean oldValue) {
+			AsyncOperation<GeoNumberValue> cb, App appl) {
 		this(algebraProcessor);
 		callback = cb;
-		oldVal = oldValue;
 		app = appl;
 	}
 
@@ -61,20 +57,23 @@ public class NumberInputHandler implements InputHandler {
 			final AsyncOperation<Boolean> callback0) {
 		try {
 			handler.resetError();
+			final Construction cons = algebraProcessor.getKernel().getConstruction();
+			// avoid label for the number
+			boolean oldVal = cons.isSuppressLabelsActive();
+			cons.setSuppressLabelCreation(true);
 			algebraProcessor.processAlgebraCommandNoExceptionHandling(
 					inputString, false, handler, evalInfo,
 					new AsyncOperation<GeoElementND[]>() {
 
 						@Override
 						public void callback(GeoElementND[] result) {
+							// allow labels again
+							cons.setSuppressLabelCreation(oldVal);
 							boolean success = result != null
 									&& result[0] instanceof GeoNumberValue;
-							Construction cons = algebraProcessor.getKernel()
-									.getConstruction();
 							if (success) {
 								setNum((GeoNumberValue) result[0]);
 								if (callback != null) {
-									cons.setSuppressLabelCreation(oldVal);
 									callback.callback(num);
 								}
 							} else {

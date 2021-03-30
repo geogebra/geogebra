@@ -26,10 +26,6 @@ public class NumberInputDialog extends ComponentInputDialog {
 			boolean showSymbolPopupIcon) {
 		super(app, dialogData, autoHide, hasScrim, inputHandler, labelText, initText, rows,
 				columns, showSymbolPopupIcon);
-		setOnNegativeAction(() -> {
-			app.getKernel().getConstruction().setSuppressLabelCreation(false);
-			hide();
-		});
 	}
 
 	@Override

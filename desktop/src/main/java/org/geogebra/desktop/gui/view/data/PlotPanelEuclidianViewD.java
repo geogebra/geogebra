@@ -152,8 +152,6 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 						.assignPlotPanelID(this));
 	}
 
-	/*********** End Constructor **********************/
-
 	/**
 	 * Overrides EuclidianView setMode method so that no action is taken on a
 	 * mode change.
@@ -189,15 +187,6 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	// ==================================================
 	// Plot Settings
 	// =================================================
-
-	/**
-	 * Returns plotSettings field for this panel.
-	 * 
-	 * @return
-	 */
-	public PlotSettings getPlotSettings() {
-		return commonFields.getPlotSettings();
-	}
 
 	/**
 	 * Uses the values stored in the plotSettings field to update the features
@@ -413,22 +402,10 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 						getApplication().getEmptyIcon());
 				actionList.add(exportToEVAction);
 			}
-			if (!app.isMacOS() || !AppD.isJava7()) {
-				actionList.add(drawingPadToClipboardAction);
-			}
+			actionList.add(drawingPadToClipboardAction);
 			actionList.add(exportGraphicAction);
 		}
 		return actionList;
-	}
-
-	/**
-	 * Adds an AbstractAction to the end of the list of AbstractActions
-	 * displayed in the context menu.
-	 * 
-	 * @param action
-	 */
-	public void appendActionList(AbstractAction action) {
-		getActionList().add(action);
 	}
 
 	/**

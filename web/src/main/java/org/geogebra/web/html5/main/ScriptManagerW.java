@@ -26,6 +26,7 @@ import jsinterop.base.JsPropertyMap;
  */
 public class ScriptManagerW extends ScriptManager {
 
+	public static final String ASSESSMENT_APP_PREFIX = "ggbAssess";
 	private final JsPropertyMap<Object> exportedApi;
 
 	/**
@@ -37,7 +38,9 @@ public class ScriptManagerW extends ScriptManager {
 		exporter.setGgbAPI(app.getGgbApi());
 		exporter.setScriptManager(this);
 		this.exportedApi = bindMethods(exporter);
-		export(exportedApi);
+		if (!app.getAppletId().startsWith(ASSESSMENT_APP_PREFIX)) {
+			export(exportedApi);
+		}
 	}
 
 	private JsPropertyMap<Object> bindMethods(ExportedApi exporter) {
@@ -196,8 +199,21 @@ public class ScriptManagerW extends ScriptManager {
 	 */
 	public void export(JsPropertyMap<Object> toExport) {
 		String appletId = ((AppW) app).getAppletId();
-		Js.asPropertyMap(DomGlobal.window).set(appletId, toExport);
-		Js.asPropertyMap(DomGlobal.document).set(appletId, toExport);
+		export(appletId, toExport);
+	}
+
+	/**
+	 * @param appletId applet ID
+	 * @param toExport API
+	 */
+	public static void export(String appletId, Object toExport) {
+		if (toExport == null) {
+			Js.asPropertyMap(DomGlobal.window).delete(appletId);
+			Js.asPropertyMap(DomGlobal.document).delete(appletId);
+		} else {
+			Js.asPropertyMap(DomGlobal.window).set(appletId, toExport);
+			Js.asPropertyMap(DomGlobal.document).set(appletId, toExport);
+		}
 	}
 
 	public Object getApi() {

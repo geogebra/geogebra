@@ -9,7 +9,8 @@ public class FunctionsAdapter extends StringInput {
 
     private static final List<String> fnList = Arrays.asList("sin", "cos", "tan", "ln", "log",
             "sinh", "cosh", "tanh", "asin", "acos", "atan", "arcsin", "arccos", "arctan", "sen",
-            "arcsen", "tg", "tgh", "senh");
+            "arcsen", "tg", "tgh", "senh", "random", "nroot", "$defint", "$prodeq", "$sumeq",
+            "$limeq", "$vec");
 
     @Override
     public void commit(MathFieldInternal mfi, String input) {

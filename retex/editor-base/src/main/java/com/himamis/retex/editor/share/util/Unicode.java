@@ -25,7 +25,7 @@ public class Unicode {
 	final public static char SUPERSCRIPT_7 = '\u2077';
 	final public static char SUPERSCRIPT_8 = '\u2078';
 	final public static char SUPERSCRIPT_9 = '\u2079';
-	final public static List<Character> SUPERSCRIPTS = Arrays.asList(
+	final private static List<Character> SUPERSCRIPTS = Arrays.asList(
 			Unicode.SUPERSCRIPT_0, Unicode.SUPERSCRIPT_1,
 			Unicode.SUPERSCRIPT_2, Unicode.SUPERSCRIPT_3,
 			Unicode.SUPERSCRIPT_4, Unicode.SUPERSCRIPT_5,
@@ -238,5 +238,21 @@ public class Unicode {
 		return ((c >= Unicode.SUPERSCRIPT_0) && (c <= Unicode.SUPERSCRIPT_9))
 				|| (c == Unicode.SUPERSCRIPT_1) || (c == Unicode.SUPERSCRIPT_2)
 				|| (c == Unicode.SUPERSCRIPT_3);
+	}
+
+	/**
+	 * @param num decimal digit
+	 * @return digit converted to unicode superscript
+	 */
+	public static char numberToSuperscript(int num) {
+		return SUPERSCRIPTS.get(num);
+	}
+
+	/**
+	 * @param superscript superscript unicode character
+	 * @return unicode character converted to numeric value
+	 */
+	public static int superscriptToNumber(char superscript) {
+		return Unicode.SUPERSCRIPTS.indexOf(superscript);
 	}
 }

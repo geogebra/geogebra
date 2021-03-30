@@ -575,11 +575,10 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 
 	@Override
 	public String getAuralTextForSpace() {
-		Localization loc = kernel.getLocalization();
-		ScreenReaderBuilder sb = new ScreenReaderBuilder();
-		addAuralName(loc, sb);
+		ScreenReaderBuilder sb = new ScreenReaderBuilder(kernel.getLocalization());
+		addAuralName(sb);
 		sb.append(" ");
-		sb.append(loc.getMenuDefault("Pressed", "pressed"));
+		sb.appendMenuDefault("Pressed", "pressed");
 		sb.append(".");
 		return sb.toString();
 	}

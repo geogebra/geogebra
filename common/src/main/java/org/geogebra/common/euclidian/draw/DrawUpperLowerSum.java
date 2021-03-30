@@ -19,7 +19,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.util.debug.Log;
 
@@ -84,15 +83,13 @@ public class DrawUpperLowerSum extends Drawable {
 		if (gp == null) {
 			gp = new GeneralPathClipped(view);
 		}
-
+		gp.resetWithThickness(geo.getLineThickness());
 		if (histogram) {
 			updateBarChart();
 			return;
 		}
 
 		// init gp
-		gp.reset();
-
 		double aRW = a.getDouble();
 		double bRW = b.getDouble();
 
@@ -169,7 +166,6 @@ public class DrawUpperLowerSum extends Drawable {
 	}
 
 	private void updateBarChart() {
-		gp.reset();
 		double base = view.getYZero();
 
 		int N = algo.getIntervals();
@@ -261,11 +257,6 @@ public class DrawUpperLowerSum extends Drawable {
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
 		return gp != null && gp.intersects(rect);
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 	/**

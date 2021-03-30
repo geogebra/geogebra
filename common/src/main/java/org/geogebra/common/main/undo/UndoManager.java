@@ -9,6 +9,7 @@ import java.util.Objects;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.Event;
@@ -471,6 +472,23 @@ public abstract class UndoManager {
 	}
 
 	/**
+	 * Helper method to store undo info about a just created geo.
+	 * Please make sure to call it after the styles of the geo
+	 * are correctly initialized.
+	 * @param arg GeoElement just added
+	 */
+	public void storeAddGeo(GeoElement arg) {
+		String xml;
+		if (arg.getParentAlgorithm() != null) {
+			xml = arg.getParentAlgorithm().getXML();
+		} else {
+			xml = arg.getXML();
+		}
+
+		storeUndoableAction(EventType.ADD, arg.getLabelSimple(), xml);
+	}
+
+	/**
 	 * Store action and notify listeners
 	 * @param type action type
 	 * @param args arguments
@@ -507,6 +525,9 @@ public abstract class UndoManager {
 		run.run();
 	}
 
+	/**
+	 * Reset before reloading
+	 */
 	public void resetBeforeReload() {
 		app.getSelectionManager().storeSelectedGeosNames();
 		app.getCompanion().storeViewCreators();
@@ -524,6 +545,9 @@ public abstract class UndoManager {
 		app.getActiveEuclidianView().resetInlineObjects();
 	}
 
+	/**
+	 * Restore state after reload
+	 */
 	public void restoreAfterReload() {
 		app.getKernel().notifyReset();
 		app.getCompanion().recallViewCreators();

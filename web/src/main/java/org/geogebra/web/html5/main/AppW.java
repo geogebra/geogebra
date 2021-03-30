@@ -137,6 +137,8 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
+import org.gwtproject.regexp.client.NativeRegExpFactory;
+import org.gwtproject.regexp.shared.RegExpFactory;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.core.client.GWT;
@@ -158,7 +160,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
+import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 public abstract class AppW extends App implements SetLabels, HasLanguage {
@@ -518,21 +522,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * inits factories
 	 */
 	protected void initFactories() {
-		if (FormatFactory.getPrototype() == null) {
-			FormatFactory.setPrototypeIfNull(new FormatFactoryW());
-		}
-
-		if (AwtFactory.getPrototype() == null) {
-			AwtFactory.setPrototypeIfNull(new AwtFactoryW());
-		}
-
-		if (StringUtil.getPrototype() == null) {
-			StringUtil.setPrototypeIfNull(new StringUtil());
-		}
-
-		if (UtilFactory.getPrototype() == null) {
-			UtilFactory.setPrototypeIfNull(new UtilFactoryW());
-		}
+		FormatFactory.setPrototypeIfNull(new FormatFactoryW());
+		AwtFactory.setPrototypeIfNull(new AwtFactoryW());
+		StringUtil.setPrototypeIfNull(new StringUtil());
+		UtilFactory.setPrototypeIfNull(new UtilFactoryW());
+		RegExpFactory.setPrototypeIfNull(new NativeRegExpFactory());
 	}
 
 	@Override
@@ -2556,22 +2550,22 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void evalJavaScript(App app, String script0, String arg) {
-
-		String ggbApplet = getAppletId();
-
-		// TODO: maybe use sandbox?
 		String script = script0;
-
-		script = "document.ggbApplet= document." + ggbApplet
-				+ "; window.ggbApplet = document." + ggbApplet + ";" + script;
-
-		// script = "ggbApplet = document.ggbApplet;"+script;
+		ScriptManagerW.export("ggbApplet", ((ScriptManagerW) getScriptManager()).getApi());
 
 		// add eg arg="A"; to start
 		if (arg != null) {
 			script = "arg=\"" + arg + "\";" + script;
 		}
-		JsEval.evalScriptNative(script, ggbApplet);
+		JsEval.evalScriptNative(script, getGgbApi());
+		if (getAppletId().startsWith(ScriptManagerW.ASSESSMENT_APP_PREFIX)) {
+			ScriptManagerW.export("ggbApplet", null);
+		}
+	}
+
+	protected void setGlobalApplet(Object api) {
+		Js.asPropertyMap(DomGlobal.document).set("ggbApplet", api);
+		Js.asPropertyMap(DomGlobal.window).set("ggbApplet", api);
 	}
 
 	public void attachNativeLoadHandler(ImageElement img) {

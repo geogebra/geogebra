@@ -417,25 +417,26 @@ TOKEN : {
  |  < #INDEX:  "_" (  <CHAR>  | ("{" (~["}"])+ "}" ) )  >
  | < #LETTER:  // unicode letters
        [
-        "$", // for absolute references in the spreadsheet
-        "\u0041"-"\u005a",      //upper case (A-Z)
-        "\u0061"-"\u007a",      //lower case (a-z)
-        "\u00b7",         // middle dot (for Catalan)
-        "\u00c0"-"\u00d6",      //accentuated letters
-        "\u00d8"-"\u00f6",    //accentuated letters
-        "\u00f8"-"\u01bf",    //accentuated letters
-        "\u01c4"-"\u02a8",    //accentuated letters
-        "\u038e"-"\u03f5",     // Greek
-         "\u0401"-"\u0481",    // Cyrillic
-        "\u0490"-"\u04f9",    // Cyrillic
-        "\u0531"-"\u1ffc",       // a lot of signs (Arabic, accentuated, ...)
+        "$",                    // for absolute references in the spreadsheet
+        "\u0041"-"\u005a",      // upper case (A-Z)
+        "\u0061"-"\u007a",      // lower case (a-z)
+        "\u00b7",               // middle dot (for Catalan)
+        "\u00a5"-"\u00aa",      // for CAS labels
+        "\u00c0"-"\u00d6",      // accentuated letters
+        "\u00d8"-"\u00f6",      // accentuated letters
+        "\u00f8"-"\u01bf",      // accentuated letters
+        "\u01c4"-"\u02a8",      // accentuated letters
+        "\u038e"-"\u03f5",      // Greek
+        "\u0401"-"\u0481",      // Cyrillic
+        "\u0490"-"\u04f9",      // Cyrillic
+        "\u0531"-"\u1ffc",      // a lot of signs (Arabic, accentuated, ...)
         "\u3041"-"\u3357",      // Asian letters
-        "\u4e00"-"\ud7a3",    // Asian letters
-        "\uf71d"-"\ufa2d",    // Asian letters
-        "\ufb13"-"\ufdfb",    // Armenian, Hebrew, Arabic
-        "\ufe80"-"\ufefc",    // Arabic
-        "\uff66"-"\uff9d",    // Katakana
-        "\uffa1"-"\uffdc"    // Hangul
+        "\u4e00"-"\ud7a3",      // Asian letters
+        "\uf71d"-"\ufa2d",      // Asian letters
+        "\ufb13"-"\ufdfb",      // Armenian, Hebrew, Arabic
+        "\ufe80"-"\ufefc",      // Arabic
+        "\uff66"-"\uff9d",      // Katakana
+        "\uffa1"-"\uffdc"       // Hangul
        ] >
 
 }

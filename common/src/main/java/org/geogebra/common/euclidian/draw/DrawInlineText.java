@@ -14,7 +14,6 @@ import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.euclidian.inline.InlineTextController;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 
 /**
@@ -127,7 +126,8 @@ public class DrawInlineText extends Drawable implements DrawInline {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		if (text.isEuclidianVisible() && textController != null) {
+		if (text.isEuclidianVisible() && textController != null
+			&& rectangle.getDirectTransform() != null) {
 			textController.draw(g2, rectangle.getDirectTransform());
 		}
 	}
@@ -140,11 +140,6 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	@Override
 	public boolean isInside(GRectangle rect) {
 		return rect.contains(getBounds());
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 	@Override

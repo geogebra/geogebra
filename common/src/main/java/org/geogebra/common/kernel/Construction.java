@@ -3770,4 +3770,19 @@ public class Construction {
 		return geos;
 	}
 
+	/**
+	 * @param label
+	 *            label of object
+	 * @return whether object has unlabeled predecessors
+	 */
+	public boolean hasUnlabeledPredecessors(String label) {
+		final TreeSet<GeoElement> set = geoTable.get(label).getAllPredecessors();
+		for (GeoElement el : set) {
+			if (el.getLabelSimple() == null) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
