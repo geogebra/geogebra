@@ -27,7 +27,6 @@ import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
 import android.content.Context;
