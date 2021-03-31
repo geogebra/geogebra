@@ -112,7 +112,8 @@ public class DrawMindMap extends DrawInlineText {
 			MindMapEdge connection = new MindMapEdge(parent, this, alignment);
 			double newLength = connection.getLength();
 			boolean newIntersect = connection.isIntersecting(alignment);
-			if ((!newIntersect && intersect) || ((newIntersect == intersect) && newLength < length)) {
+			if ((!newIntersect && intersect)
+					|| ((newIntersect == intersect) && newLength < length)) {
 				mindMapEdge = connection;
 				node.setAlignment(alignment);
 				intersect = newIntersect;
