@@ -32,6 +32,21 @@ public class DrawMindMap extends DrawInlineText {
 	private static final Comparator<DrawMindMap> horizontalComparator
 			= Comparator.comparing(mindMap -> mindMap.rectangle.getRight());
 
+	// default distance from the root node
+	private static final int DISTANCE_TO_ROOT = 64;
+
+	// vertical distance between two nodes on the left or the right
+	private static final int VERTICAL_DISTANCE_2 = 64;
+	// vertical distance between three nodes on the left or the right
+	private static final int VERTICAL_DISTANCE_3 = 32;
+	// vertical distance between four or more nodes on the left or the right
+	private static final int VERTICAL_DISTANCE_4 = 16;
+
+	// horizontal distance between two nodes on the top or bottom
+	private static final int HORIZONTAL_DISTANCE_2 = 32;
+	// horizontal distance between three or more nodes on th top or bottom
+	private static final int HORIZONTAL_DISTANCE_3 = 16;
+
 	private final GeoMindMapNode node;
 	private MindMapEdge mindMapEdge;
 
@@ -193,14 +208,14 @@ public class DrawMindMap extends DrawInlineText {
 		if (correctlyAligned) {
 			int spaceGained = decreaseDistanceBetweenChildren(newAlignment, children);
 
-			if (newAlignment == NodeAlignment.TOP || newAlignment == NodeAlignment.BOTTOM) {
-				double toMove
-						= marginLeft(newAlignment, children.size()) + GeoMindMapNode.MIN_WIDTH - spaceGained;
+			if (newAlignment.isVerical()) {
+				double toMove = marginLeft(newAlignment, children.size())
+						+ GeoMindMapNode.MIN_WIDTH - spaceGained;
 				MoveGeos.moveObjects(childGeos, new Coords(-view.getInvXscale() * toMove / 2, 0, 0),
 						null, null, view);
 			} else {
-				double toMove
-						= marginTop(newAlignment, children.size()) + GeoMindMapNode.CHILD_HEIGHT - spaceGained;
+				double toMove = marginTop(newAlignment, children.size())
+						+ GeoMindMapNode.CHILD_HEIGHT - spaceGained;
 				MoveGeos.moveObjects(childGeos, new Coords(0, view.getInvYscale() * toMove / 2,  0),
 						null, null, view);
 			}
@@ -347,45 +362,28 @@ public class DrawMindMap extends DrawInlineText {
 			return 0;
 		}
 
-		if (newAlignment == NodeAlignment.TOP || newAlignment == NodeAlignment.BOTTOM) {
+		if (newAlignment.isVerical()) {
 			if (children.size() == 2) {
-				int rightOfLeft = children.get(0).rectangle.getRight();
-				int leftOfRight = children.get(1).rectangle.getLeft();
-
-				int error = (leftOfRight - rightOfLeft) - 32;
-				double toMove = -view.getInvXscale() * (16 + error);
+				double toMove = -view.getInvXscale() * 16;
 				MoveGeos.moveObjects(Collections.singletonList(children.get(1).node),
 						new Coords(toMove, 0, 0), null, null, view);
-				return 16 + error;
+				return 16;
 			}
 		} else {
 			if (children.size() == 2) {
-				int bottomOfTop = children.get(0).rectangle.getBottom();
-				int topOfBottom = children.get(1).rectangle.getTop();
-
-				int error = (topOfBottom - bottomOfTop) - 64;
-				double toMove = view.getInvYscale() * (32 + error);
+				double toMove = view.getInvYscale() * 32;
 				MoveGeos.moveObjects(Collections.singletonList(children.get(1).node),
 						new Coords(0, toMove, 0), null, null, view);
-				return 32 + error;
+				return 32;
 			} else if (children.size() == 3) {
-				int bottomOfTop = children.get(0).rectangle.getBottom();
-				int topOfMiddle = children.get(1).rectangle.getTop();
-
-				int bottomOfMiddle = children.get(1).rectangle.getBottom();
-				int topOfBottom = children.get(2).rectangle.getTop();
-
-				int error1 = (topOfMiddle - bottomOfTop) - 32;
-				int error2 = (topOfBottom - bottomOfMiddle) - 32;
-
-				double toMove1 = view.getInvYscale() * (16 + error1);
-				double toMove2 = view.getInvYscale() * (32 + error1 + error2);
+				double toMove1 = view.getInvYscale() * 16;
+				double toMove2 = view.getInvYscale() * 32;
 
 				MoveGeos.moveObjects(Collections.singletonList(children.get(1).node),
 						new Coords(0, toMove1, 0), null, null, view);
 				MoveGeos.moveObjects(Collections.singletonList(children.get(2).node),
 						new Coords(0, toMove2, 0), null, null, view);
-				return 32 + error1 + error2;
+				return 32;
 			}
 		}
 
@@ -393,7 +391,7 @@ public class DrawMindMap extends DrawInlineText {
 	}
 
 	private int marginLeft(NodeAlignment newAlignment, int size) {
-		if (newAlignment == NodeAlignment.TOP || newAlignment == NodeAlignment.BOTTOM) {
+		if (newAlignment.isVerical()) {
 			if (size == 1) {
 				return 32;
 			} else {
@@ -405,7 +403,7 @@ public class DrawMindMap extends DrawInlineText {
 	}
 
 	private double marginTop(NodeAlignment newAlignment, int size) {
-		if (newAlignment == NodeAlignment.LEFT || newAlignment == NodeAlignment.RIGHT) {
+		if (!newAlignment.isVerical()) {
 			if (size == 1) {
 				return 64;
 			} else if (size == 2) {
