@@ -182,8 +182,6 @@ public class DrawMindMap extends DrawInlineText {
 	private GPoint2D computeNewLocation(NodeAlignment newAlignment) {
 		Comparator<DrawMindMap> comparator = newAlignment.isVerical()
 				? horizontalComparator : verticalComparator;
-		Comparator<DrawMindMap> intersectionComparator = newAlignment.isVerical()
-				? verticalComparator : horizontalComparator;
 
 		List<GeoMindMapNode> childGeos = node.getChildren().stream()
 				.filter(node -> node.getAlignment() == newAlignment)
@@ -194,56 +192,23 @@ public class DrawMindMap extends DrawInlineText {
 				.sorted(comparator)
 				.collect(Collectors.toList());
 
-		List<DrawMindMap> intersectableChildren = node.getChildren().stream()
-				.filter(node -> node.getAlignment() != newAlignment)
-				.map(node -> (DrawMindMap) view.getDrawableFor(node))
-				.sorted(intersectionComparator)
-				.collect(Collectors.toList());
-
-		if (newAlignment == NodeAlignment.BOTTOM || newAlignment == NodeAlignment.RIGHT) {
-			Collections.reverse(intersectableChildren);
-		}
-
 		boolean correctlyAligned = correctlyAligned(newAlignment, children);
 		if (correctlyAligned) {
-			int spaceGained = decreaseDistanceBetweenChildren(newAlignment, children);
-
-			if (newAlignment.isVerical()) {
-				double toMove = marginLeft(newAlignment, children.size())
-						+ GeoMindMapNode.MIN_WIDTH - spaceGained;
-				MoveGeos.moveObjects(childGeos, new Coords(-view.getInvXscale() * toMove / 2, 0, 0),
-						null, null, view);
-			} else {
-				double toMove = marginTop(newAlignment, children.size())
-						+ GeoMindMapNode.CHILD_HEIGHT - spaceGained;
-				MoveGeos.moveObjects(childGeos, new Coords(0, view.getInvYscale() * toMove / 2,  0),
-						null, null, view);
-			}
+			moveSiblings(newAlignment, childGeos, children);
 		}
 
 		double left = 0;
 		double top = 0;
 		if (children.isEmpty()) {
-			left = rectangle.getLeft() + newAlignment.dx0 * rectangle.getWidth();
-			top = rectangle.getTop() + newAlignment.dy0 * rectangle.getHeight();
+			left = rectangle.getLeft() + newAlignment.dx0 * rectangle.getWidth()
+				+ (1 - 2 * newAlignment.dx1) * DISTANCE_TO_ROOT;
+			top = rectangle.getTop() + newAlignment.dy0 * rectangle.getHeight()
+				+ (1 - 2 * newAlignment.dy1) * DISTANCE_TO_ROOT;
 
-			switch (newAlignment) {
-			case BOTTOM:
+			if (newAlignment.isVerical()) {
 				left -= GeoMindMapNode.MIN_WIDTH / 2;
-				top += 64;
-				break;
-			case LEFT:
-				left -= 64;
+			} else {
 				top -= GeoMindMapNode.CHILD_HEIGHT / 2;
-				break;
-			case TOP:
-				left -= GeoMindMapNode.MIN_WIDTH / 2;
-				top -= 64;
-				break;
-			case RIGHT:
-				left += 64;
-				top -= GeoMindMapNode.CHILD_HEIGHT / 2;
-				break;
 			}
 		} else {
 			Stream<DrawMindMap> stream = children.stream();
@@ -272,42 +237,7 @@ public class DrawMindMap extends DrawInlineText {
 			top += marginTop(newAlignment, children.size());
 		}
 
-		double extraMovement = 0;
-		for (DrawMindMap intersectableChild : intersectableChildren) {
-			TransformableRectangle rect = intersectableChild.rectangle;
-
-			if (newAlignment.isVerical()) {
-				if (rect.getLeft() < left + GeoMindMapNode.MIN_WIDTH && left < rect.getRight()) {
-					if (newAlignment == NodeAlignment.BOTTOM && rect.getBottom() + 16 > top) {
-						extraMovement = rect.getBottom() + 16 - top;
-						break;
-					} else if (newAlignment == NodeAlignment.TOP && rect.getTop() < top + 16) {
-						extraMovement = rect.getTop() - 16 - top;
-						break;
-					}
-				}
-			} else {
-				if (rect.getTop() < top + GeoMindMapNode.CHILD_HEIGHT && top < rect.getBottom()) {
-					if (newAlignment == NodeAlignment.RIGHT && rect.getRight() + 16 > left) {
-						extraMovement = rect.getRight() + 16 - left;
-						break;
-					} else if (newAlignment == NodeAlignment.LEFT && rect.getLeft() < left + 16) {
-						extraMovement = rect.getLeft() - 16 - left;
-						break;
-					}
-				}
-			}
-		}
-
-		switch (newAlignment) {
-		case TOP:
-			top -= GeoMindMapNode.CHILD_HEIGHT;
-			break;
-		case LEFT:
-			left -= GeoMindMapNode.MIN_WIDTH;
-			break;
-		}
-
+		double extraMovement = calculateExtraMovement(newAlignment, left, top);
 		if (extraMovement != 0 && correctlyAligned) {
 			if (newAlignment.isVerical()) {
 				MoveGeos.moveObjects(childGeos,
@@ -320,6 +250,15 @@ public class DrawMindMap extends DrawInlineText {
 			}
 		}
 
+		switch (newAlignment) {
+		case TOP:
+			top -= GeoMindMapNode.CHILD_HEIGHT;
+			break;
+		case LEFT:
+			left -= GeoMindMapNode.MIN_WIDTH;
+			break;
+		}
+
 		if (newAlignment.isVerical()) {
 			top += extraMovement;
 		} else {
@@ -329,6 +268,49 @@ public class DrawMindMap extends DrawInlineText {
 		return new GPoint2D(view.toRealWorldCoordX(left), view.toRealWorldCoordY(top));
 	}
 
+	private double calculateExtraMovement(NodeAlignment newAlignment, double left, double top) {
+		Comparator<DrawMindMap> intersectionComparator = newAlignment.isVerical()
+				? verticalComparator : horizontalComparator;
+
+		List<DrawMindMap> intersectableChildren = node.getChildren().stream()
+				.filter(node -> node.getAlignment() != newAlignment)
+				.map(node -> (DrawMindMap) view.getDrawableFor(node))
+				.sorted(intersectionComparator)
+				.collect(Collectors.toList());
+
+		if (newAlignment == NodeAlignment.BOTTOM || newAlignment == NodeAlignment.RIGHT) {
+			Collections.reverse(intersectableChildren);
+		}
+
+		for (DrawMindMap intersectableChild : intersectableChildren) {
+			TransformableRectangle rect = intersectableChild.rectangle;
+
+			if (newAlignment.isVerical()) {
+				if (rect.getLeft() < left + GeoMindMapNode.MIN_WIDTH && left < rect.getRight()) {
+					if (newAlignment == NodeAlignment.BOTTOM && rect.getBottom() + 16 > top) {
+						return rect.getBottom() + 16 - top;
+					} else if (newAlignment == NodeAlignment.TOP && rect.getTop() < top + 16) {
+						return rect.getTop() - 16 - top;
+					}
+				}
+			} else {
+				if (rect.getTop() < top + GeoMindMapNode.CHILD_HEIGHT && top < rect.getBottom()) {
+					if (newAlignment == NodeAlignment.RIGHT && rect.getRight() + 16 > left) {
+						return rect.getRight() + 16 - left;
+					} else if (newAlignment == NodeAlignment.LEFT && rect.getLeft() < left + 16) {
+						return rect.getLeft() - 16 - left;
+					}
+				}
+			}
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Check if the children on this side are aligned like they were aligned when inserted
+	 * (only relative to each other, doesn't check alignment relative to the root)
+	 */
 	private boolean correctlyAligned(NodeAlignment newAlignment,
 			List<DrawMindMap> children) {
 		if (newAlignment == NodeAlignment.TOP || newAlignment == NodeAlignment.BOTTOM) {
@@ -354,6 +336,27 @@ public class DrawMindMap extends DrawInlineText {
 		}
 
 		return true;
+	}
+
+	/**
+	 * If the nodes on this side are correctly aligned, then we first mode the siblings
+	 * of the currently inserted child to the top or the left
+	 */
+	private void moveSiblings(NodeAlignment newAlignment, List<GeoMindMapNode> childGeos,
+			List<DrawMindMap> children) {
+		int spaceGained = decreaseDistanceBetweenChildren(newAlignment, children);
+
+		if (newAlignment.isVerical()) {
+			double toMove = marginLeft(newAlignment, children.size())
+					+ GeoMindMapNode.MIN_WIDTH - spaceGained;
+			MoveGeos.moveObjects(childGeos, new Coords(-view.getInvXscale() * toMove / 2, 0, 0),
+					null, null, view);
+		} else {
+			double toMove = marginTop(newAlignment, children.size())
+					+ GeoMindMapNode.CHILD_HEIGHT - spaceGained;
+			MoveGeos.moveObjects(childGeos, new Coords(0, view.getInvYscale() * toMove / 2,  0),
+					null, null, view);
+		}
 	}
 
 	private int decreaseDistanceBetweenChildren(NodeAlignment newAlignment,
