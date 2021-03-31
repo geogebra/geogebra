@@ -35,6 +35,9 @@ public class DrawMindMap extends DrawInlineText {
 	// default distance from the root node
 	private static final int DISTANCE_TO_ROOT = 64;
 
+	// we try to keep this minimum distance between nodes on different sides
+	private static final int MIN_DISTANCE_BETWEEN_NODES = 16;
+
 	// vertical distance between two nodes on the left or the right
 	private static final int VERTICAL_DISTANCE_2 = 64;
 	// vertical distance between three nodes on the left or the right
@@ -272,33 +275,37 @@ public class DrawMindMap extends DrawInlineText {
 		Comparator<DrawMindMap> intersectionComparator = newAlignment.isVerical()
 				? verticalComparator : horizontalComparator;
 
+		if (newAlignment == NodeAlignment.BOTTOM || newAlignment == NodeAlignment.RIGHT) {
+			intersectionComparator = intersectionComparator.reversed();
+		}
+
 		List<DrawMindMap> intersectableChildren = node.getChildren().stream()
 				.filter(node -> node.getAlignment() != newAlignment)
 				.map(node -> (DrawMindMap) view.getDrawableFor(node))
 				.sorted(intersectionComparator)
 				.collect(Collectors.toList());
 
-		if (newAlignment == NodeAlignment.BOTTOM || newAlignment == NodeAlignment.RIGHT) {
-			Collections.reverse(intersectableChildren);
-		}
-
 		for (DrawMindMap intersectableChild : intersectableChildren) {
 			TransformableRectangle rect = intersectableChild.rectangle;
 
 			if (newAlignment.isVerical()) {
 				if (rect.getLeft() < left + GeoMindMapNode.MIN_WIDTH && left < rect.getRight()) {
-					if (newAlignment == NodeAlignment.BOTTOM && rect.getBottom() + 16 > top) {
-						return rect.getBottom() + 16 - top;
-					} else if (newAlignment == NodeAlignment.TOP && rect.getTop() < top + 16) {
-						return rect.getTop() - 16 - top;
+					if (newAlignment == NodeAlignment.BOTTOM
+							&& rect.getBottom() + MIN_DISTANCE_BETWEEN_NODES > top) {
+						return rect.getBottom() + MIN_DISTANCE_BETWEEN_NODES - top;
+					} else if (newAlignment == NodeAlignment.TOP
+							&& rect.getTop() < top + MIN_DISTANCE_BETWEEN_NODES) {
+						return rect.getTop() - MIN_DISTANCE_BETWEEN_NODES - top;
 					}
 				}
 			} else {
 				if (rect.getTop() < top + GeoMindMapNode.CHILD_HEIGHT && top < rect.getBottom()) {
-					if (newAlignment == NodeAlignment.RIGHT && rect.getRight() + 16 > left) {
-						return rect.getRight() + 16 - left;
-					} else if (newAlignment == NodeAlignment.LEFT && rect.getLeft() < left + 16) {
-						return rect.getLeft() - 16 - left;
+					if (newAlignment == NodeAlignment.RIGHT
+							&& rect.getRight() + MIN_DISTANCE_BETWEEN_NODES > left) {
+						return rect.getRight() + MIN_DISTANCE_BETWEEN_NODES - left;
+					} else if (newAlignment == NodeAlignment.LEFT
+							&& rect.getLeft() < left + MIN_DISTANCE_BETWEEN_NODES) {
+						return rect.getLeft() - MIN_DISTANCE_BETWEEN_NODES - left;
 					}
 				}
 			}
@@ -359,6 +366,10 @@ public class DrawMindMap extends DrawInlineText {
 		}
 	}
 
+	/**
+	 * Decreases the distance between the existing siblings of the newly inserted node to
+	 * save some space
+	 */
 	private int decreaseDistanceBetweenChildren(NodeAlignment newAlignment,
 			List<DrawMindMap> children) {
 		if (children.size() == 1) {
@@ -367,26 +378,26 @@ public class DrawMindMap extends DrawInlineText {
 
 		if (newAlignment.isVerical()) {
 			if (children.size() == 2) {
-				double toMove = -view.getInvXscale() * 16;
+				double toMove = -view.getInvXscale() * HORIZONTAL_DISTANCE_3;
 				MoveGeos.moveObjects(Collections.singletonList(children.get(1).node),
 						new Coords(toMove, 0, 0), null, null, view);
-				return 16;
+				return HORIZONTAL_DISTANCE_3;
 			}
 		} else {
 			if (children.size() == 2) {
-				double toMove = view.getInvYscale() * 32;
+				double toMove = view.getInvYscale() * VERTICAL_DISTANCE_3;
 				MoveGeos.moveObjects(Collections.singletonList(children.get(1).node),
 						new Coords(0, toMove, 0), null, null, view);
-				return 32;
+				return VERTICAL_DISTANCE_3;
 			} else if (children.size() == 3) {
-				double toMove1 = view.getInvYscale() * 16;
-				double toMove2 = view.getInvYscale() * 32;
+				double toMove1 = view.getInvYscale() * VERTICAL_DISTANCE_4;
+				double toMove2 = view.getInvYscale() * 2 * VERTICAL_DISTANCE_4;
 
 				MoveGeos.moveObjects(Collections.singletonList(children.get(1).node),
 						new Coords(0, toMove1, 0), null, null, view);
 				MoveGeos.moveObjects(Collections.singletonList(children.get(2).node),
 						new Coords(0, toMove2, 0), null, null, view);
-				return 32;
+				return 2 * VERTICAL_DISTANCE_4;
 			}
 		}
 
@@ -396,9 +407,9 @@ public class DrawMindMap extends DrawInlineText {
 	private int marginLeft(NodeAlignment newAlignment, int size) {
 		if (newAlignment.isVerical()) {
 			if (size == 1) {
-				return 32;
+				return HORIZONTAL_DISTANCE_2;
 			} else {
-				return 16;
+				return HORIZONTAL_DISTANCE_3;
 			}
 		}
 
@@ -408,11 +419,11 @@ public class DrawMindMap extends DrawInlineText {
 	private double marginTop(NodeAlignment newAlignment, int size) {
 		if (!newAlignment.isVerical()) {
 			if (size == 1) {
-				return 64;
+				return VERTICAL_DISTANCE_2;
 			} else if (size == 2) {
-				return 32;
+				return VERTICAL_DISTANCE_3;
 			} else {
-				return 16;
+				return VERTICAL_DISTANCE_4;
 			}
 		}
 
