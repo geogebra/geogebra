@@ -607,6 +607,9 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 			return;
 		}
 		GRectangle bounds = ((Drawable) drawer).getBounds();
+		if (bounds == null) {
+			return;
+		}
 
 		double x, y;
 

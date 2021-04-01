@@ -235,7 +235,8 @@ public class DrawTurtle extends Drawable {
 
 		// turtle path on screen?
 		isVisible = false;
-		isVisible = getBounds() != null && getBounds().intersects(0, 0,
+		GRectangle bounds = getBounds();
+		isVisible = bounds != null && bounds.intersects(0, 0,
 				view.getWidth(), view.getHeight());
 		if (isVisible) {
 			at.setTransform(1, 0, 0, 1, 1, 0);
