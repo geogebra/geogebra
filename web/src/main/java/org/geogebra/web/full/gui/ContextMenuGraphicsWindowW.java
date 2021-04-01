@@ -17,6 +17,7 @@ import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.javax.swing.CheckMarkSubMenu;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GCollapseMenuItem;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
@@ -407,7 +408,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	protected void addZoomMenu() {
 		// zoom for both axes
 		AriaMenuBar zoomMenu = new AriaMenuBar();
-		String img = MaterialDesignResources.INSTANCE.zoom_in_black().getSafeUri()
+		String img = GuiResourcesSimple.INSTANCE.zoom_in().getSafeUri()
 					.asString();
 
 		AriaMenuItem zoomMenuItem = new AriaMenuItem(

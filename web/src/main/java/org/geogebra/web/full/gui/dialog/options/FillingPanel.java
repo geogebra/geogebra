@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.FileInputDialog;
 import org.geogebra.web.full.gui.properties.OptionPanel;
@@ -27,6 +28,7 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ImageManagerW;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -34,7 +36,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -66,7 +67,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	// button for removing turtle's image
 	private GPushButton btnClearImage;
 	private Label lblSymbols;
-	ArrayList<ImageResource> iconList;
+	ArrayList<SVGResource> iconList;
 	private ArrayList<String> iconNameList;
 
 	ListBox lbFillType;
@@ -339,29 +340,32 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		iconList = new ArrayList<>();
 		iconList.add(null); // for delete
 		GuiResourcesSimple res = GuiResourcesSimple.INSTANCE;
-		iconList.add(res.icons_fillings_arrow_big_down());
-		iconList.add(res.icons_fillings_arrow_big_up());
-		iconList.add(res.icons_fillings_arrow_big_left());
-		iconList.add(res.icons_fillings_arrow_big_right());
-		iconList.add(res.icons_fillings_fastforward());
-		iconList.add(res.icons_fillings_rewind());
-		iconList.add(res.icons_fillings_skipback());
-		iconList.add(res.icons_fillings_skipforward());
-		iconList.add(res.icons_fillings_play());
-		iconList.add(res.icons_fillings_pause());
-
-		iconList.add(res.icons_fillings_cancel());
+		iconList.add(res.pause());
+		iconList.add(res.play());
+		iconList.add(res.stop());
+		iconList.add(res.replay());
+		iconList.add(res.skip_next());
+		iconList.add(res.skip_previous());
+		iconList.add(res.loop());
+		iconList.add(res.zoom_in());
+		iconList.add(res.zoom_out());
+		iconList.add(res.close());
+		iconList.add(res.arrow_up());
+		iconList.add(res.arrow_down());
+		iconList.add(res.arrow_forward());
+		iconList.add(res.arrow_back());
+		iconList.add(res.fast_forward());
+		iconList.add(res.fast_rewind());
 
 		iconNameList = new ArrayList<>();
-		for (ImageResource ir : iconList) {
-
+		for (SVGResource ir : iconList) {
 			iconNameList.add(ir != null ? ir.getName() : "");
 		}
 
 		final ImageOrText[] iconArray = new ImageOrText[iconList.size()];
 		iconArray[0] = GeoGebraIconW.createNullSymbolIcon();
 		for (int i = 1; i < iconArray.length; i++) {
-			iconArray[i] = new ImageOrText(iconList.get(i));
+			iconArray[i] = new ImageOrText(iconList.get(i), 24);
 		}
 		// // ============================================
 		//
@@ -372,9 +376,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 			@Override
 			public void handlePopupActionEvent() {
 				super.handlePopupActionEvent();
-				ImageResource resource = null;
 				int idx = getSelectedIndex();
-				resource = iconList.get(idx);
+				SVGResource resource = iconList.get(idx);
 				if (resource != null) {
 					applyImage(resource.getName(), resource.getSafeUri()
 							.asString());

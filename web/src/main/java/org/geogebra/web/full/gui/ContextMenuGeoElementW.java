@@ -304,7 +304,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	private void addAnimationItem() {
 		if (getGeo().isAnimatable()) {
-			ResourcePrototype img = GuiResourcesSimple.INSTANCE.play_black();
+			ResourcePrototype img = GuiResourcesSimple.INSTANCE.play_circle();
 
 			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
 					MainMenu.getMenuBarHtml(img, loc.getMenu("Animation")),

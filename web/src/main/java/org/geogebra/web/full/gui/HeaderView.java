@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -38,7 +39,7 @@ public class HeaderView extends FlowPanel {
 
 	private void createButton() {
 		backButton = new StandardButton(
-				MaterialDesignResources.INSTANCE.mow_back_arrow(), null, 24);
+				GuiResourcesSimple.INSTANCE.arrow_back(), null, 24);
 		backButton.setStyleName(BACK_BUTTON_STYLE_NAME);
 
 		add(backButton);

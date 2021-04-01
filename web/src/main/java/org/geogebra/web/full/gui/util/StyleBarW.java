@@ -12,6 +12,7 @@ import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.view.Views;
 import org.geogebra.web.full.gui.view.Views.ViewType;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
@@ -140,7 +141,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		if (numberOfOpenViews > 1) {
 			// show close button if there are more than 1 views open
 			String html = MainMenu.getMenuBarHtml(
-					KeyboardResources.INSTANCE.keyboard_close_black(),
+					GuiResourcesSimple.INSTANCE.close(),
 					app.getLocalization().getMenu("Close")
 			);
 			popup.addItem(new AriaMenuItem(html, true, () -> {
