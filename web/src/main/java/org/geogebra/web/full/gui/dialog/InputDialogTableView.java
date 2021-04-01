@@ -4,6 +4,8 @@ import org.geogebra.common.gui.dialog.validator.TableValuesDialogValidator;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
@@ -150,11 +152,18 @@ public class InputDialogTableView extends ComponentDialog
 			throws InvalidValuesException {
 		GuiManagerW gui = (GuiManagerW) app.getGuiManager();
 		gui.getTableValuesView().setValues(min, max, stepVal);
+		dispatchSetTVValues(min, max, stepVal);
 		if (geo != null) {
 			gui.addGeoToTableValuesView(geo);
 			app.getKernel().attach(gui.getTableValuesView());
 		} else {
 			gui.getUnbundledToolbar().resize();
 		}
+	}
+
+	private void dispatchSetTVValues(double valuesMin, double valuesMax, double valuesStep) {
+		String values = valuesMin + "," + valuesMax + ","
+				+ valuesStep;
+		app.dispatchEvent(new Event(EventType.SET_VALUES_TV, null, values));
 	}
 }

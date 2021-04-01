@@ -10,7 +10,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.kernel.algos.AlgoBoxPlot;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.util.debug.Log;
 
@@ -91,11 +90,6 @@ public class DrawBoxPlot extends Drawable {
 	}
 
 	@Override
-	public GeoElement getGeoElement() {
-		return geo;
-	}
-
-	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
 		return gp != null
 				&& (gp.contains(x, y) || gp.intersects(x, y, hitThreshold));
@@ -128,7 +122,7 @@ public class DrawBoxPlot extends Drawable {
 			gp = new GeneralPathClipped(view);
 		}
 		// init gp
-		gp.reset();
+		gp.resetWithThickness(geo.getLineThickness());
 		double yOff = a.getDouble();
 		double yScale = b.getDouble();
 

@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.dialog;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -16,7 +17,6 @@ import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.javax.swing.GOptionPane;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -129,13 +129,8 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void showNumberInputDialog(String title, String message,
 			String initText, AsyncOperation<GeoNumberValue> callback) {
-		// avoid labeling of num
-		final Construction cons = app.getKernel().getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
+				app.getKernel().getAlgebraProcessor(), callback, app);
 		ComponentInputDialog inputDialog = new NumberInputDialog((AppW) app,
 			new DialogData(title), false, true, handler, message,
 				initText, 1, -1, false);
@@ -203,13 +198,8 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void showAngleInputDialog(String title, String message,
 			String initText, AsyncOperation<GeoNumberValue> callback) {
-		// avoid labeling of num
-		Construction cons = app.getKernel().getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
+				app.getKernel().getAlgebraProcessor(), callback, app);
 		DialogData data = new DialogData(title);
 		AngleInputDialogW angleInputDialog = new AngleInputDialogW(((AppW) app), message,
 				data, initText, handler, true);
@@ -365,11 +355,8 @@ public class DialogManagerW extends DialogManager
 	public void showNumberInputDialog(String title, String message,
 			String initText, boolean changingSign, String checkBoxText,
 			AsyncOperation<GeoNumberValue> callback) {
-		boolean oldVal = app.getKernel().getConstruction()
-				.isSuppressLabelsActive();
-		// avoid labeling of num
 		NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
+				app.getKernel().getAlgebraProcessor(), callback, app);
 		DialogData data = new DialogData(title);
 		NumberChangeSignInputDialogW extrudeInputDialog = new NumberChangeSignInputDialogW(
 				((AppW) app), message, data, initText, handler, changingSign,
@@ -453,15 +440,26 @@ public class DialogManagerW extends DialogManager
 			saveDialog = doYouWantSaveChanges
 					? new DoYouWantToSaveChangesDialog((AppW) app, data, true)
 					: new SaveDialogMow((AppW) app, data, addTempCheckBox);
-		} else if (saveDialog == null) {
-			DialogData data = new DialogData("Save", "DontSave", "Save");
+		} else if (saveDialog == null || isSuite()) {
+			DialogData data = new DialogData(getSaveDialogTitle(), "DontSave", "Save");
 			saveDialog = new SaveDialogW((AppW) app, data, widgetFactory);
-
 		}
 		// set default saveType
 		saveDialog.setSaveType(
 				app.isWhiteboardActive() ? MaterialType.ggs : MaterialType.ggb);
 		return saveDialog;
+	}
+
+	private String getSaveDialogTitle() {
+		if (isSuite()) {
+			return app.getLocalization().getPlain("saveDialog.saveApp",
+					app.getLocalization().getMenu(app.getConfig().getAppNameWithoutCalc()));
+		}
+		return "Save";
+	}
+
+	private boolean isSuite() {
+		return app.getConfig().getAppCode().equals(GeoGebraConstants.SUITE_APPCODE);
 	}
 
 	/**

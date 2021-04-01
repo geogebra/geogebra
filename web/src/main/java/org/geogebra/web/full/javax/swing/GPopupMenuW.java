@@ -101,9 +101,7 @@ public class GPopupMenuW implements AttachedToDOM {
 		this.app = app;
 		popupPanel = new GPopupPanel(app.getPanel(), app);
 		popupPanel.add(mb);
-		if (app.isUnbundledOrWhiteboard()) {
-			popupPanel.addStyleName("matSubMenu");
-		}
+		popupPanel.addStyleName("contextSubMenu");
 	}
 
 	/**
@@ -327,7 +325,6 @@ public class GPopupMenuW implements AttachedToDOM {
 
 		}
 		popupMenuSize++;
-		item.addStyleName("gPopupMenu_item");
 	}
 
 	/**
@@ -499,14 +496,6 @@ public class GPopupMenuW implements AttachedToDOM {
 		return (int) ((getPopupLeft()
 				- app.getPanel().getAbsoluteLeft()) / getScaleX()
 				+ popupPanel.getOffsetWidth());
-	}
-
-	/**
-	 * @param item
-	 *            check box menu item
-	 */
-	public void addItem(GCheckBoxMenuItem item) {
-		addItem(item.getMenuItem());
 	}
 
 	/**

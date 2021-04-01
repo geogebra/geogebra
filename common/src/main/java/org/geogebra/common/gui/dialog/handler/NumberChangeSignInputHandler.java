@@ -14,8 +14,8 @@ import org.geogebra.common.util.AsyncOperation;
  */
 public class NumberChangeSignInputHandler extends NumberInputHandler {
 	public NumberChangeSignInputHandler(AlgebraProcessor algebraProcessor,
-			AsyncOperation<GeoNumberValue> callback, App app, boolean oldVal) {
-		super(algebraProcessor, callback, app, oldVal);
+			AsyncOperation<GeoNumberValue> callback, App app) {
+		super(algebraProcessor, callback, app);
 	}
 
 	/**

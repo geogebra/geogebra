@@ -1724,7 +1724,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		}
 		int offset = sb.length();
 		do {
-			sb.insert(offset, Unicode.SUPERSCRIPTS.get(i % 10));
+			sb.insert(offset, Unicode.numberToSuperscript(i % 10));
 			i = i / 10;
 		} while (i > 0);
 	}
@@ -1745,7 +1745,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		int val = 0;
 		for (int i = start; i < power.length(); i++) {
 			char digit = power.charAt(i);
-			val = 10 * val + Unicode.SUPERSCRIPTS.indexOf(digit);
+			val = 10 * val + Unicode.superscriptToNumber(digit);
 		}
 
 		return val * sign;

@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.plugin.GeoClass;
 
 public class CmdSplit extends CommandProcessor {
 	/**
@@ -27,8 +26,7 @@ public class CmdSplit extends CommandProcessor {
 		boolean[] ok = new boolean[n];
 
 		if (n == 2) {
-			if ((ok[0] = arg[0].isGeoText()) && (ok[1] = arg[1].isGeoList()
-					&& ((GeoList) arg[1]).getElementType() == GeoClass.TEXT)) {
+			if ((ok[0] = arg[0].isGeoText()) && (ok[1] = arg[1].isGeoList())) {
 				AlgoSplit algo = new AlgoSplit(cons, (GeoText) arg[0],
 						(GeoList) arg[1]);
 				algo.getOutput(0).setLabel(c.getLabel());

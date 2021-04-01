@@ -72,6 +72,7 @@ import org.geogebra.common.kernel.statistics.CmdOrdinalRank;
 import org.geogebra.common.kernel.statistics.CmdPMCC;
 import org.geogebra.common.kernel.statistics.CmdPascal;
 import org.geogebra.common.kernel.statistics.CmdPercentile;
+import org.geogebra.common.kernel.statistics.CmdPieChart;
 import org.geogebra.common.kernel.statistics.CmdPoisson;
 import org.geogebra.common.kernel.statistics.CmdQ1;
 import org.geogebra.common.kernel.statistics.CmdQ3;
@@ -162,6 +163,8 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 			return new CmdStepGraph(kernel);
 		case LineGraph:
 			return new CmdLineGraph(kernel);
+		case PieChart:
+			return new CmdPieChart(kernel);
 		case ResidualPlot:
 			return new CmdResidualPlot(kernel);
 		case FrequencyPolygon:

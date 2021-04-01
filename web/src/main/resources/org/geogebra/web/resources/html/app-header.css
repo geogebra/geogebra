@@ -304,6 +304,10 @@ svg.icon.left {
 	top: 100%;
 	right: 0;
 	font-size: 16px;
+    background-color: #fff;
+    padding: 8px 0 8px 0;
+    border-radius: 2px;
+    box-shadow: 0 0 2px 1px rgba(102,102,102,0.3);
 }
 
 .popdown-button-container svg {
@@ -312,11 +316,6 @@ svg.icon.left {
     opacity: 1;
     min-width:24px;
     vertical-align: middle;
-}
-
-.GeoGebraHeader .matMenu.gwt-PopupPanel .gwt-MenuItem.listMenuItem {
-	padding: 0;
-	display: block;
 }
 
 .GeoGebraFrame .popupAnchor{
@@ -328,36 +327,11 @@ svg.icon.left {
     white-space: nowrap;
 }
 
-.GeoGebraFrame .matMenu.gwt-PopupPanel {
-    background-color: #fff;
-    padding: 8px 0px 8px 0px;
-    border-radius: 2px;
-    min-width: 192px;
+.GeoGebraFrame .appPickerItem > a {
+    padding: 4px 16px;
 }
 
-.GeoGebraFrame .gwt-PopupPanel {
-    border-radius: 10px;
-    padding: 5px;
-    background-color: white;
-    box-shadow: 0 0 2px 1px rgba(102,102,102,0.3);
-    z-index: 500;
-}
-
-.GeoGebraHeader.GeoGebraFrame .matMenu.gwt-PopupPanel .gwt-MenuItem {
-    height: 32px;
-    min-width: 192px;
-    cursor: pointer;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    padding-right: 16px;
-}
-
-.GeoGebraFrame .matMenu.gwt-PopupPanel .gwt-MenuItem.listMenuItem {
-    line-height: 24px;
-    padding-top: 4px;
-}
-
-.GeoGebraFrame .appPickerItem:hover {
+.GeoGebraFrame .appPickerItem > a:hover {
     background-color: #eee;
     color: #000;
 }

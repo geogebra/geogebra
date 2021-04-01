@@ -1649,9 +1649,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		}
 		if (lt instanceof GeoFunctionNVar) {
 			MyList varList = new MyList(kernel);
-			for (int i = 0; i < lt.getFunction().getVarNumber(); i++) {
-				varList.addListElement(varMap.get(lt.getFunction()
-						.getVarString(i, StringTemplate.defaultTemplate)));
+			FunctionNVar function = lt.getFunction();
+			if (function != null) {
+				for (int i = 0; i < function.getVarNumber(); i++) {
+					varList.addListElement(varMap.get(function
+							.getVarString(i, StringTemplate.defaultTemplate)));
+				}
 			}
 			return new ExpressionNode(kernel, lt, Operation.FUNCTION_NVAR,
 					varList);
@@ -3041,6 +3044,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @return the left bound if this is an interval
 	 */
 	public double getMin() {
+		if (!isDefined()) {
+			return Double.NaN;
+		}
 		double[] minmax = new double[2];
 		GeoIntervalUtil.updateBoundaries(fun.getExpression(), minmax);
 		return minmax[0];
@@ -3050,6 +3056,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @return the right bound if this is an interval
 	 */
 	public double getMax() {
+		if (!isDefined()) {
+			return Double.NaN;
+		}
 		double[] minmax = new double[2];
 		GeoIntervalUtil.updateBoundaries(fun.getExpression(), minmax);
 		return minmax[1];

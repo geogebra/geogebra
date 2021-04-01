@@ -3,10 +3,19 @@ package org.geogebra.web.shared.ggtapi;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.gwtproject.regexp.server.JavaRegExpFactory;
+import org.gwtproject.regexp.shared.RegExpFactory;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class URLValidatorTest {
-	private static URLValidator validator = new URLValidator();
+	private static URLValidator validator;
+
+	@BeforeClass
+	public static void setup() {
+		RegExpFactory.setPrototypeIfNull(new JavaRegExpFactory());
+		validator = new URLValidator();
+	}
 
 	@Test
 	public void testSimpleUrl() {

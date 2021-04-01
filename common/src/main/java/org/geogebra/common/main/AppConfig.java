@@ -41,6 +41,11 @@ public interface AppConfig {
 	 */
 	String getAppNameShort();
 
+	/**
+	 * @return translation key for short app name (Graphing)
+	 */
+	String getAppNameWithoutCalc();
+
 	String getTutorialKey();
 
 	boolean showKeyboardHelpButton();

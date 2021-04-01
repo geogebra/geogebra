@@ -83,9 +83,6 @@ public class GeoGebraSerializer implements Serializer {
 			serialize(mathFunction.getArgument(1), stringBuilder);
 			stringBuilder.append(unaryMinus ? "))" : ")");
 			break;
-		case SQRT:
-			appendSingleArg("sqrt", mathFunction, stringBuilder, 0);
-			break;
 		case LOG:
 			if (mathFunction.getArgument(0).size() == 0) {
 				appendSingleArg("log", mathFunction, stringBuilder, 1);

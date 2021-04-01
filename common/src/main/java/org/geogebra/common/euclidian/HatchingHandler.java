@@ -9,6 +9,7 @@ import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
@@ -305,13 +306,22 @@ public class HatchingHandler {
 	 *            alpha value
 	 */
 	protected void setTexture(GGraphics2D g3, GeoElementND geo, double alpha) {
-		// Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
-		if (geo.getFillImage() == null || geo.getFillImage().isSVG()) {
-			g3.setPaint(geo.getFillColor());
+		setTexture(g3, geo.getFillImage(), geo, geo.getBackgroundColor(), alpha);
+	}
+
+	/**
+	 * @param g3       graphics
+	 * @param image    image
+	 * @param fallback geo to be used as foreground color if image is not valid
+	 * @param alpha    alpha value
+	 */
+	public void setTexture(GGraphics2D g3, MyImage image, GeoElementND fallback,
+			GColor bgColor, double alpha) {
+		if (image == null || image.isSVG()) {
+			g3.setPaint(fallback.getFillColor());
 			return;
 		}
 
-		MyImage image = geo.getFillImage();
 		GRectangle tr = AwtFactory.getPrototype().newRectangle(0, 0,
 				image.getWidth(), image.getHeight());
 
@@ -328,8 +338,6 @@ public class HatchingHandler {
 
 			// set total transparency
 			g2d.setTransparent();
-
-			GColor bgColor = geo.getBackgroundColor();
 
 			// paint background transparent
 			if (bgColor == null) {
@@ -680,5 +688,20 @@ public class HatchingHandler {
 	 */
 	public GBufferedImage getSubImage() {
 		return subImage;
+	}
+
+	/**
+	 * @param g2 graphics
+	 * @param shape shape
+	 * @param app app to decide sync/async fill method
+	 */
+	public void fill(GGraphics2D g2, GShape shape, App app) {
+		if (!app.isHTML5Applet()) {
+			g2.fill(shape);
+		} else {
+			// take care of filling after the image is loaded
+			AwtFactory.getPrototype().fillAfterImageLoaded(shape, g2,
+					subImage, app);
+		}
 	}
 }

@@ -852,11 +852,14 @@ public class Ggb2giac {
 						+ ")),"
 
 						// Intersect[2dLine,2dLine]
+						// e.g. Intersect(x^2+y^2=5, x+y=0)
 						+ "when((type(xcoord(ggbinarg1))==DOM_INT&&type(grad(ggbinarg1,x)[1])==DOM_INT)"
+						// e.g. Intersect(x+y=0, x^2+y^2=5)
+						+ "|| (type(xcoord(ggbinarg0))==DOM_INT&&type(grad(ggbinarg0,x)[1])==DOM_INT)"
 						// Intersect[2dLine,Cmd2dLine]
 						// Intersect[Cmd2dLine,Cmd2dLine]
 						+ "|| ((ggbinarg1)[0]=='='&&(ggbinarg1)[1]=='y'),"
-						+ "inter(ggbinarg0,ggbinarg1),"
+						+ "normal(inter(ggbinarg0,ggbinarg1)),"
 						// Intersect[2dLine,3dLine]
 						// Intersect[Cmd2dLine,3dLine]
 						+ "when((xcoord(ggbinarg1))[0]=='='&&string((xcoord(ggbinarg1))[1])==string(X),"
@@ -1164,7 +1167,7 @@ public class Ggb2giac {
 				+ ","
 				// eg Polynomial[x^2+a x+b x +c]
 				// eg Polynomial[y^2+a y+b y +c,y]
-				+ "[[ggbinput:=when(type(ggbinput)==DOM_LIST,[[ggbvar:=ggbinput[1]],coeffs(ggbinput[0],ggbinput[1])][1],coeffs(ggbinput,x))],"
+				+ "[[ggbinput:=when(type(ggbinput)==DOM_LIST,[[ggbvar:=ggbinput[1]],coeffs(simplify(ggbinput[0]),ggbinput[1])][1],coeffs(simplify(ggbinput),x))],"
 				+ "[ggbpolans:=add(seq(ggbinput[j]*ggbvar^(size(ggbinput)-1-j),j=0..size(ggbinput)-1))]]"
 				+ ")],ggbpolans][1]");
 

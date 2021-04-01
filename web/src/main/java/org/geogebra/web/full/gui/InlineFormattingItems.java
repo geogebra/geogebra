@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import org.geogebra.common.awt.GColor;
@@ -96,6 +97,7 @@ public class InlineFormattingItems {
 		addFontSubmenu();
 		addHyperlinkItems();
 		addTextWrappingItem();
+		addTextRotationItem();
 		addHeadingItem();
 		if (!isEditModeTable() || isSingleTableCellSelection()) {
 			menu.addSeparator();
@@ -138,6 +140,46 @@ public class InlineFormattingItems {
 
 		AriaMenuItem item = factory.newAriaMenuItem(loc.getMenu("ContextMenu.textWrapping"),
 				false, wrappingSubmenu);
+		item.addStyleName("no-image");
+		menu.addItem(item);
+	}
+
+	private void addTextRotationItem() {
+		if (!inlines.stream().allMatch(f -> f instanceof InlineTableController)) {
+			return;
+		}
+
+		AriaMenuBar rotationSubmenu = new AriaMenuBar();
+
+		String firstRotation = ((InlineTableController) inlines.get(0)).getRotation();
+
+		String rotation;
+		if (inlines.stream().allMatch(f ->
+				Objects.equals(firstRotation, ((InlineTableController) f).getRotation()))) {
+			rotation = firstRotation;
+		} else {
+			rotation = null;
+		}
+
+		for (String setting : new String[] {"None", "Up", "Down"}) {
+			Scheduler.ScheduledCommand command = () -> {
+				for (HasTextFormat formatter : inlines) {
+					((InlineTableController) formatter).setRotation(setting.toLowerCase(Locale.US));
+				}
+			};
+
+			AriaMenuItem item = factory.newAriaMenuItem(loc.getMenu("ContextMenu.rotate"
+							+ setting), false, command);
+
+			if (setting.toLowerCase(Locale.US).equals(rotation)) {
+				item.addStyleName("highlighted");
+			}
+
+			rotationSubmenu.addItem(item);
+		}
+
+		AriaMenuItem item = factory.newAriaMenuItem(loc.getMenu("ContextMenu.textRotation"),
+				false, rotationSubmenu);
 		item.addStyleName("no-image");
 		menu.addItem(item);
 	}

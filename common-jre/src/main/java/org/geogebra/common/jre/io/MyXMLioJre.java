@@ -47,8 +47,9 @@ import org.geogebra.common.jre.io.file.InputStreamZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.ChartStyle;
+import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.StringUtil;
@@ -392,16 +393,17 @@ public abstract class MyXMLioJre extends MyXMLio {
 			}
 			// Save images used in single bars
 			AlgoElement algo = geo.getParentAlgorithm();
-			if (algo instanceof AlgoBarChart) {
-				int num = ((AlgoBarChart) algo).getIntervals();
+			if (algo instanceof ChartStyleAlgo) {
+				int num = ((ChartStyleAlgo) algo).getIntervals();
 				int k;
 				for (int i = 0; i < num; i++) {
 					k = i + 1;
-					if (((AlgoBarChart) algo).getBarImage(k) != null) {
+					ChartStyle algo1 = ((ChartStyleAlgo) algo).getStyle();
+					if (algo1.getBarImage(k) != null) {
 						geo.setImageFileName(
-								((AlgoBarChart) algo).getBarImage(k));
+								algo1.getBarImage(k));
 						writeImageToZip(zip,
-								((AlgoBarChart) algo).getBarImage(k),
+								algo1.getBarImage(k),
 								(MyImageJre) geo.getFillImage());
 					}
 				}

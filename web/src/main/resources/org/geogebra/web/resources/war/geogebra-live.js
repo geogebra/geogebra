@@ -35,7 +35,7 @@
         this.evalXML = function(xml) {
             this.unregisterListeners();
             this.api.evalXML(xml);
-            this.api.evalCommand("UpdateConstruction()");
+            this.api.updateConstruction();
             this.registerListeners();
             var that = this;
             setTimeout(function() {
@@ -46,7 +46,7 @@
         this.setXML = function(xml) {
             this.unregisterListeners();
             this.api.setXML(xml);
-            this.api.evalCommand("UpdateConstruction()");
+            this.api.updateConstruction();
             this.registerListeners();
         };
 
@@ -86,7 +86,7 @@
                         let commandString = that.api.getCommandString(label, false);
                         // send command for dependent objects
                         if (commandString) {
-                            that.sendEvent("evalCommand", label + " = " + commandString, label);
+                            that.sendEvent("evalCommand", label + " := " + commandString, label);
                             var group = that.api.getObjectsOfItsGroup(label);
                             if (group != null) {
                                 that.sendEvent("addToGroup", label, group);
@@ -107,7 +107,7 @@
 
         // *** UPDATE LISTENERS ***
         let updateListener = (function(label) {
-            if (!(this.currentAnimations.includes(label))) {
+            if ((this.api.hasUnlabeledPredecessors(label) || this.api.isMoveable(label)) && !(this.currentAnimations.includes(label))) {
                 console.log("update event for " + label);
                 if (!objectsInWaiting.includes(label)) {
                     objectsInWaiting.push(label);
@@ -240,6 +240,27 @@
                     this.sendEvent(event[0], event.targets);
                     break;
 
+                case "pasteElmsComplete":
+                    let pastedGeos = "";
+                    for (const geo of event.targets) {
+                        pastedGeos += this.api.getXML(geo);
+                    }
+                    this.sendEvent("evalXML", pastedGeos);
+                    break;
+
+                case "addGeoToTV":
+                case "removeGeoFromTV":
+                	this.sendEvent(event[0], event[1]);
+                	break;
+
+                case "setValuesOfTV":
+                	this.sendEvent(event[0], event[2]);
+                	break;
+
+                case "showPointsTV":
+                	this.sendEvent(event[0], event.column, event.show);
+                	break;
+
                 default:
                     // console.log("unhandled event ", event[0], event);
             }
@@ -330,6 +351,14 @@
                     target.api.addToGroup(last.content, last.label);
                 } else if (last.type == "embeddedContentChanged") {
                     target.api.setEmbedContent(last.label, last.content);
+                } else if (last.type == "addGeoToTV") {
+                	target.api.addGeoToTV(last.content);
+                } else if (last.type == "setValuesOfTV") {
+                	target.api.setValuesOfTV(last.content);
+                } else if (last.type == "removeGeoFromTV") {
+                	target.api.removeGeoFromTV(last.content);
+                } else if (last.type == "showPointsTV") {
+                	target.api.showPointsTV(last.content, last.label);
                 }
             }
         };

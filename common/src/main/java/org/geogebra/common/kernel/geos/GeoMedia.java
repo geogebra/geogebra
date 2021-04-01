@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.media.MediaFormat;
 import org.geogebra.common.media.MediaURLParser;
 
@@ -41,11 +40,6 @@ public abstract class GeoMedia extends GeoWidget {
 	public GeoMedia(Construction c, String url, MediaFormat format) {
 		this(c);
 		setSrc(url, format);
-	}
-
-	@Override
-	public String toValueString(StringTemplate tpl) {
-		return null;
 	}
 
 	@Override

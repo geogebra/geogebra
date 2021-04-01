@@ -186,7 +186,7 @@ public class EuclidianController3DCompanion
 				ec3D.getNormalTranslateDirection(),
 				tmpCoords1);
 
-		if (!ec3D.view3D.isAREnabled() && ec.getMoveMode() == EuclidianController.MOVE_POINT) {
+		if (!ec3D.view3D.isXREnabled() && ec.getMoveMode() == EuclidianController.MOVE_POINT) {
 			// max z value
 			if (tmpCoords1.getZ() > ec3D.zMinMax[1]) {
 				tmpCoords1.setZ(ec3D.zMinMax[1]);
@@ -384,7 +384,7 @@ public class EuclidianController3DCompanion
 					0, 0,
 					0, false);
 		} else {
-            if (ec3D.view3D.isAREnabled() && !ec3D.view3D.getxOyPlane().isPlateVisible()
+            if (ec3D.view3D.isXREnabled() && !ec3D.view3D.getxOyPlane().isPlateVisible()
                     && !ec3D.view3D.getxOyPlane().isGridVisible()) {
                 if (ec3D.view3D.getRenderer().getHittingFloorAR(tmpCoords1)) {
                     // round z coordinate and check if already existing hit
@@ -501,7 +501,7 @@ public class EuclidianController3DCompanion
 		if (region == ec.getKernel().getXOYPlane()) {
 			Coords coords = point3D.getInhomCoords();
 			GeoPlane3D plane = (GeoPlane3D) region;
-			if (!ec3D.view3D.isAREnabled() && (coords.getX() < plane.getXmin()
+			if (!ec3D.view3D.isXREnabled() && (coords.getX() < plane.getXmin()
 					|| coords.getX() > plane.getXmax()
 					|| coords.getY() < plane.getYmin()
 					|| coords.getY() > plane.getYmax())) {

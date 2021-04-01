@@ -8,6 +8,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.Base64ZipFile;
 import org.geogebra.common.kernel.Macro;
@@ -714,7 +715,7 @@ public class GgbAPIW extends GgbAPI {
 								var item, imgExtensions = [ "jpg", "jpeg",
 										"png", "gif", "bmp" ];
 								if (arch.archive.length > 0) {
-									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("arch.archive.length: "+arch.archive.length);
+									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("arch.archive.length: "+arch.archive.length);
 									item = arch.archive.shift();
 									var ind = item.fileName.lastIndexOf('.');
 									if (ind > -1
@@ -723,13 +724,13 @@ public class GgbAPIW extends GgbAPI {
 															.substr(ind + 1)
 															.toLowerCase()) > -1) {
 										//if (item.fileName.indexOf(".png") > -1)
-										//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("image zipped: " + item.fileName);
+										//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("image zipped: " + item.fileName);
 										addImage(item.fileName,
 												item.fileContent, function() {
 													checkIfStillFilesToAdd();
 												});
 									} else {
-										//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("text zipped: " + item.fileName);
+										//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("text zipped: " + item.fileName);
 										addText(item.fileName,
 												encodeUTF8(item.fileContent),
 												function() {
@@ -744,8 +745,8 @@ public class GgbAPIW extends GgbAPI {
 													// that's right, this truncation is necessary
 													//clb(dataURI.substr(dataURI.indexOf(',')+1));
 												} else {
-													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("not callback was given");
-													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(dataURI);
+													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("not callback was given");
+													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)(dataURI);
 												}
 											});
 								}
@@ -758,7 +759,7 @@ public class GgbAPIW extends GgbAPI {
 							if (typeof errorClb === "function") {
 								errorClb(error + "");
 							}
-							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("error occured while creating ggb zip");
+							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("error occured while creating ggb zip");
 						});
 
 	}-*/;
@@ -877,13 +878,13 @@ public class GgbAPIW extends GgbAPI {
 															.substr(ind + 1)
 															.toLowerCase()) > -1) {
 
-										@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("image zipped: " + item.fileName);
+										@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("image zipped: " + item.fileName);
 										addImage(item.fileName,
 												item.fileContent, function() {
 													checkIfStillFilesToAdd();
 												});
 									} else {
-										@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("text zipped: " + item.fileName);
+										@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("text zipped: " + item.fileName);
 										addText(item.fileName,
 												encodeUTF8(item.fileContent),
 												function() {
@@ -898,8 +899,8 @@ public class GgbAPIW extends GgbAPI {
 													clb(dataURI.substr(dataURI
 															.indexOf(',') + 1));
 												} else {
-													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("not callback was given");
-													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(dataURI);
+													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("not callback was given");
+													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)(dataURI);
 												}
 											});
 								}
@@ -909,7 +910,7 @@ public class GgbAPIW extends GgbAPI {
 
 						},
 						function(error) {
-							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("error occured while creating base64 zip");
+							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("error occured while creating base64 zip");
 							if (typeof errorClb === "function") {
 								errorClb(error + "");
 							}
@@ -1491,10 +1492,63 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
+	/**
+	 * @param label label of the embed
+	 * @param base64 applet content as base64
+	 */
 	public void setEmbedContent(String label, String base64) {
 		EmbedManager embedManager = app.getEmbedManager();
 		if (embedManager != null) {
 			embedManager.setBase64(label, base64);
+		}
+	}
+
+	/**
+	 * @param label name of the function
+	 */
+	public void addGeoToTV(String label) {
+		GuiManagerInterfaceW guiManagerW = (GuiManagerInterfaceW) app.getGuiManager();
+		GeoElement geo = app.getKernel().lookupLabel(label);
+		if (guiManagerW != null && geo != null) {
+			guiManagerW.addGeoToTV(geo);
+		}
+	}
+
+	/**
+	 * @param label name of the function
+	 */
+	public void removeGeoFromTV(String label) {
+		GuiManagerInterfaceW guiManagerW = (GuiManagerInterfaceW) app.getGuiManager();
+		if (guiManagerW != null) {
+			guiManagerW.removeGeoFromTV(label);
+		}
+	}
+
+	/**
+	 * @param values comma separated list min,max,step
+	 * @throws InvalidValuesException if min/max/step are not valid numbers
+	 */
+	public void setValuesOfTV(String values) throws InvalidValuesException {
+		GuiManagerInterfaceW guiManagerW = (GuiManagerInterfaceW) app.getGuiManager();
+		if (guiManagerW != null && !values.isEmpty()) {
+			String[] valueArray = values.split(",");
+			if (valueArray.length == 3) {
+				guiManagerW.setValues(Double.parseDouble(valueArray[0]),
+						Double.parseDouble(valueArray[1]), Double.parseDouble(valueArray[2]));
+			}
+		}
+	}
+
+	/**
+	 * @param columnStr column index (as string)
+	 * @param showStr "true" or "false"
+	 */
+	public void showPointsTV(String columnStr, String showStr) {
+		GuiManagerInterfaceW guiManagerW = (GuiManagerInterfaceW) app.getGuiManager();
+		int column = Integer.parseInt(columnStr);
+		boolean show = Boolean.parseBoolean(showStr);
+		if (guiManagerW != null) {
+			guiManagerW.showPointsTV(column, show);
 		}
 	}
 }

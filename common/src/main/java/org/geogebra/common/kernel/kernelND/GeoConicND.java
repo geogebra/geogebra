@@ -102,9 +102,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	/** variable strings for CAS output */
 	final private static String[] varsCAS = { "x^2", "x*y", "y^2", "x", "y" };
 
-	/** enable negative sign of first coefficient in implicit equations */
-	protected final static boolean KEEP_LEADING_SIGN = false;
-
 	/** point in case of single point degenerate conic */
 	protected GeoPoint singlePoint;
 
@@ -1773,7 +1770,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		case EQUATION_SPECIFIC:
 			if (!isSpecificPossible()) {
 				return kernel.buildImplicitEquation(coeffs, myVars,
-						KEEP_LEADING_SIGN, true, false, '=', tpl, true);
+						true, false, tpl, true);
 			}
 
 			switch (type) {
@@ -1824,7 +1821,7 @@ public abstract class GeoConicND extends GeoQuadricND
 					return sbToValueString;
 				}
 				return kernel.buildImplicitEquation(coeffs, myVars,
-						KEEP_LEADING_SIGN, true, false, '=', tpl, true);
+						true, false, tpl, true);
 
 			case CONIC_HYPERBOLA:
 				if (DoubleUtil.isZero(coeffs[1])) { // xy coeff = 0
@@ -1880,20 +1877,16 @@ public abstract class GeoConicND extends GeoQuadricND
 					return sbToValueString;
 				}
 				return kernel.buildImplicitEquation(coeffs, myVars,
-						KEEP_LEADING_SIGN, true, false, '=', tpl, true);
+						true, false, tpl, true);
 
 			case CONIC_PARABOLA:
 				if (!DoubleUtil.isZero(coeffs[2])) {
-					return kernel.buildExplicitConicEquation(coeffs, myVars, 2,
-							KEEP_LEADING_SIGN, tpl);
+					return kernel.buildExplicitConicEquation(coeffs, myVars, 2, tpl);
 				} else if (!DoubleUtil.isZero(coeffs[0])) {
-					return kernel.buildExplicitConicEquation(coeffs, myVars, 0,
-							KEEP_LEADING_SIGN, tpl);
+					return kernel.buildExplicitConicEquation(coeffs, myVars, 0, tpl);
 				} else {
 					return kernel.buildImplicitEquation(coeffs, myVars,
-							KEEP_LEADING_SIGN,
-
-							true, false, '=', tpl, true);
+							true, false, tpl, true);
 				}
 
 			case CONIC_DOUBLE_LINE:
@@ -1917,8 +1910,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 		case EQUATION_EXPLICIT:
 			if (isExplicitPossible()) {
-				return kernel.buildExplicitConicEquation(coeffs, myVars, 4,
-						KEEP_LEADING_SIGN, tpl);
+				return kernel.buildExplicitConicEquation(coeffs, myVars, 4, tpl);
 			}
 
 		case EQUATION_VERTEX:
@@ -1933,7 +1925,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 		default: // implicit
 			return kernel.buildImplicitEquation(coeffs, myVars,
-					KEEP_LEADING_SIGN, true, false, '=', tpl, true);
+					true, false, tpl, true);
 		}
 	}
 

@@ -1,6 +1,5 @@
 package org.geogebra.common.main.undo;
 
-import java.util.ListIterator;
 import java.util.Objects;
 
 import org.geogebra.common.plugin.EventType;
@@ -72,7 +71,9 @@ public class UndoCommand {
 	 */
 	public void redo(final UndoManager undoManager) {
 		if (appState != null) {
+			undoManager.resetBeforeReload();
 			undoManager.loadUndoInfo(appState, slideID);
+			undoManager.restoreAfterReload();
 		} else {
 			withCurrentSlide(undoManager, new Runnable() {
 
@@ -116,28 +117,29 @@ public class UndoCommand {
 	/**
 	 * @param undoManager
 	 *            undo manager
-	 * @param iterator
-	 *            pointer to current undo point in manager
 	 */
-	public void undo(final UndoManager undoManager,
-			ListIterator<UndoCommand> iterator) {
+	public void undo(final UndoManager undoManager) {
 		if (getAction() != null) {
 			withCurrentSlide(undoManager, new Runnable() {
 				@Override
 				public void run() {
 					undoManager.undoAction(action, args);
-					if (slideID != null) {
+					//TODO: maybe these actions should also take care of reloading
+					// the correct information without replay?
+					if (action == EventType.CLEAR_SLIDE || action == EventType.REMOVE_SLIDE) {
 						undoManager.replayActions(slideID, UndoCommand.this);
 					}
 				}
 			});
 		} else {
+			undoManager.resetBeforeReload();
 			UndoCommand checkpoint = undoManager.getCheckpoint(slideID);
 			if (checkpoint != null) {
 				undoManager.loadUndoInfo(checkpoint, slideID, this);
 			} else {
 				undoManager.redoCreationCommand(slideID);
 			}
+			undoManager.restoreAfterReload();
 		}
 	}
 

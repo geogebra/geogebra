@@ -52,7 +52,7 @@ public class Combinations<T> implements Iterator<Set<T>> {
 		for (int i = 0; i < r; i++) {
 			num[i] = i + 1;
 		}
-		list = new ArrayList<T>(n);
+		list = new ArrayList<>(n);
 		list.addAll(set);
 	}
 

@@ -144,7 +144,7 @@
 	/*dyn stylebar popup panel*/
 	.matPopupPanel {
 		border-radius: 2px;
-		padding: 0px 8px 0px 8px;
+		padding: 5px !important;
 		background-color: $white;
 		box-shadow: 0 0 2px 1px $tool-border;
 		z-index: $z-dialog-over-keyboard;
@@ -234,14 +234,13 @@
     		.checkMarkMenuItem {
                 cursor: pointer;
                 line-height: 32px;
-
-                .gwt-HTML {
-                    margin-left: -24px;
-                }
+                display: flex;
 
     			img {
     				opacity: 0.54;
-    				margin-top: -4px;
+    				position: absolute;
+    				right: 8px;
+    				padding: 4px;
     			}
     		}
     	}

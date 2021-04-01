@@ -138,12 +138,6 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 	}
 
 	@Override
-	public void addCheckBoxMenuItem(final String cmdString, String nonSelected,
-			String selected, boolean isSelected) {
-		addCheckBoxMenuItem(cmdString, nonSelected, isSelected);
-	}
-
-	@Override
 	public Object addSubMenu(String text, String cmdString) {
 		JMenu menu = new JMenu(text);
 		menu.setIcon(getIcon(cmdString));

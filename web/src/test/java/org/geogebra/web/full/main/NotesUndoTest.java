@@ -3,6 +3,7 @@ package org.geogebra.web.full.main;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListController;
 import org.geogebra.web.full.gui.pagecontrolpanel.PagePreviewCard;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -192,7 +193,7 @@ public class NotesUndoTest {
 	}
 
 	@Test
-	public void undoCut() {
+	public void undoClearPage() {
 		app.getAppletFrame().initPageControlPanel(app);
 		addPenStroke();
 		objectsPerSlideShouldBe(1);
@@ -206,6 +207,30 @@ public class NotesUndoTest {
 		app.setMode(EuclidianConstants.MODE_PEN);
 		app.getEuclidianView1().getEuclidianController().wrapMousePressed(evt(50,50));
 		app.getEuclidianView1().getEuclidianController().wrapMouseReleased(evt(150,150));
+	}
+
+	@Test
+	public void undoRedoCreateShape() {
+		app.getAppletFrame().initPageControlPanel(app);
+		createShape();
+		objectsPerSlideShouldBe(1);
+		createShape();
+		objectsPerSlideShouldBe(2);
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(1);
+		app.getGgbApi().redo();
+		objectsPerSlideShouldBe(2);
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(1);
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(0);
+	}
+
+	private void createShape() {
+		GeoConic conic = new GeoConic(app.getKernel().getConstruction(),
+				new double[6]);
+		conic.setLabel(null);
+		app.getUndoManager().storeAddGeo(conic);
 	}
 
 	private AbstractEvent evt(int x, int y) {

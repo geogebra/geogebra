@@ -9,7 +9,9 @@ import java.util.Objects;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 
@@ -173,7 +175,7 @@ public abstract class UndoManager {
 	public synchronized void undo() {
 		if (undoPossible()) {
 			UndoCommand last = iterator.previous();
-			last.undo(this, iterator);
+			last.undo(this);
 			updateUndoActions();
 		}
 	}
@@ -470,6 +472,23 @@ public abstract class UndoManager {
 	}
 
 	/**
+	 * Helper method to store undo info about a just created geo.
+	 * Please make sure to call it after the styles of the geo
+	 * are correctly initialized.
+	 * @param arg GeoElement just added
+	 */
+	public void storeAddGeo(GeoElement arg) {
+		String xml;
+		if (arg.getParentAlgorithm() != null) {
+			xml = arg.getParentAlgorithm().getXML();
+		} else {
+			xml = arg.getXML();
+		}
+
+		storeUndoableAction(EventType.ADD, arg.getLabelSimple(), xml);
+	}
+
+	/**
 	 * Store action and notify listeners
 	 * @param type action type
 	 * @param args arguments
@@ -504,5 +523,35 @@ public abstract class UndoManager {
 	 */
 	public void runAfterSlideLoaded(String slideID, Runnable run) {
 		run.run();
+	}
+
+	/**
+	 * Reset before reloading
+	 */
+	public void resetBeforeReload() {
+		app.getSelectionManager().storeSelectedGeosNames();
+		app.getCompanion().storeViewCreators();
+		app.getKernel().notifyReset();
+		app.getKernel().clearJustCreatedGeosInViews();
+		app.getActiveEuclidianView().getEuclidianController().clearSelections();
+		VideoManager videoManager = app.getVideoManager();
+		if (videoManager != null) {
+			videoManager.storeVideos();
+		}
+		EmbedManager embedManager = app.getEmbedManager();
+		if (embedManager != null) {
+			embedManager.storeEmbeds();
+		}
+		app.getActiveEuclidianView().resetInlineObjects();
+	}
+
+	/**
+	 * Restore state after reload
+	 */
+	public void restoreAfterReload() {
+		app.getKernel().notifyReset();
+		app.getCompanion().recallViewCreators();
+		app.getSelectionManager().recallSelectedGeosNames(app.getKernel());
+		app.getActiveEuclidianView().restoreDynamicStylebar();
 	}
 }

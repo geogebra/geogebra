@@ -12,7 +12,7 @@ import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.euclidian.draw.DrawInequality;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawPoint;
-import org.geogebra.common.euclidian.plot.CurvePlotter;
+import org.geogebra.common.euclidian.plot.CurveSegmentPlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.algos.AlgoSumLower;
 import org.geogebra.common.kernel.algos.AlgoSumRectangle;
 import org.geogebra.common.kernel.algos.AlgoSumTrapezoidal;
 import org.geogebra.common.kernel.algos.AlgoSumUpper;
+import org.geogebra.common.kernel.algos.ChartStyle;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -1476,7 +1477,7 @@ public abstract class GeoGebraExport {
 				x = 0;
 			}
 			if (Math.abs(yprec - y) < (ymax - ymin)) {
-				if (CurvePlotter.isContinuous(geo, tprec, t, 8)) {
+				if (CurveSegmentPlotter.isContinuous(geo, tprec, t, 8)) {
 					lineBuilder.append(
 							StringUtil.format(template, xprec, yprec, x, y));
 				}
@@ -1549,7 +1550,7 @@ public abstract class GeoGebraExport {
 
 				boolean setAlpha = false;
 
-				AlgoBarChart algo = (AlgoBarChart) geo.getParentAlgorithm();
+				ChartStyle algo = ((AlgoBarChart) geo.getParentAlgorithm()).getStyle();
 				if (algo.getBarColor(barNumber) != null) {
 					linecolor = algo.getBarColor(barNumber);
 					setAlpha = true;
