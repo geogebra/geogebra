@@ -868,6 +868,7 @@ public class DockManagerW extends DockManager {
 		} else {
 			opposite = prepareRootPaneForInsert(oppositeDim, currentPane,
 					newSplitPane, lastPos, secondLastPos);
+		}
 		// save divider locations to prevent not visible views
 		if (opposite != null) {
 			((DockComponent) opposite).saveDividerLocation();
