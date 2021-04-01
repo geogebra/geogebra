@@ -48,6 +48,10 @@ class MetaModelFunctions {
 				MetaParameter.BASIC
 		}));
 
+		functions.add(createFunction(Tag.CBRT, "\\sqrt[3]", new MetaParameter[] {
+				MetaParameter.BASIC
+		}));
+
 		functions.add(
 				createFunctionInsert(Tag.NROOT, "\\sqrt", 1,
 						new MetaParameter[] {

@@ -311,7 +311,7 @@ public abstract class ValidExpression
 		ExpressionValue ev;
 		try {
 			ev = evaluate(StringTemplate.defaultTemplate);
-		} catch (Exception ex) {
+		} catch (Error | Exception e) {
 			return Double.NaN;
 		}
 		if (ev instanceof NumberValue) {

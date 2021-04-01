@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import org.geogebra.common.euclidian.plot.CurvePlotter;
+import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
@@ -90,10 +91,8 @@ public class DrawCurve3D extends Drawable3DCurves implements HasZPick {
 			max = curve.getMaxParameter();
 		}
 
-		// Log.debug(min+","+max);
-
 		CurvePlotter.plotCurve(curve, min, max, view, brush, false,
-				CurvePlotter.Gap.MOVE_TO);
+				Gap.MOVE_TO);
 
 		setGeometryIndex(brush.end());
 		endPacking();

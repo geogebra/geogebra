@@ -2,7 +2,6 @@ package org.geogebra.common.euclidian;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
@@ -25,11 +24,6 @@ public class DrawSymbolic extends Drawable {
 		this.geo = geo;
 		this.symbolic = geo;
 		update();
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 	@Override
@@ -72,6 +66,14 @@ public class DrawSymbolic extends Drawable {
 			return ((Drawable) twinDrawable).isInside(rect);
 		}
 		return false;
+	}
+
+	@Override
+	public GRectangle getBounds() {
+		if (twinDrawable instanceof Drawable) {
+			return ((Drawable) twinDrawable).getBounds();
+		}
+		return null;
 	}
 
 }

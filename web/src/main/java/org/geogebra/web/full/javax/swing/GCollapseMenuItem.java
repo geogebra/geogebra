@@ -72,6 +72,8 @@ public class GCollapseMenuItem {
 
 		items = new AriaMenuBar();
 		items.clearRole();
+		items.addStyleName("collapseSubMenu");
+
 		itemPanel = new FlowPanel();
 		itemPanel.addStyleName("collapseMenuItem");
 		this.parentMenu = wrappedPopup;
@@ -98,7 +100,6 @@ public class GCollapseMenuItem {
 		itemPanel.add(new HTML(text));
 		itemPanel.add(expanded ? imgCollapse : imgExpand);
 		menuItem.setHTML(itemPanel.toString());
-		// menuItem.getElement().setAttribute("aria-haspopup", "true");
 		menuItem.getElement().setAttribute("aria-expanded",
 				String.valueOf(expanded));
 		if (items.getElement().getParentElement() != null) {
@@ -112,7 +113,6 @@ public class GCollapseMenuItem {
 		updateItems();
 
 		items.getElement().setTabIndex(-1);
-
 	}
 
 	/**
@@ -151,7 +151,6 @@ public class GCollapseMenuItem {
 	 */
 	public void updateItems() {
 		for (AriaMenuItem mi : items.getItems()) {
-			Dom.toggleClass(mi, "gwt-MenuItem", expanded);
 			Dom.toggleClass(mi, "expanded", "collapsed", expanded);
 			AriaHelper.setHidden(mi, !expanded);
 			mi.getElement().setTabIndex(expanded ? 0 : -1);

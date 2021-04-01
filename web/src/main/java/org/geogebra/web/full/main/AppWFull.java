@@ -889,18 +889,17 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public final void showPerspectivesPopupIfNeeded() {
 		boolean smallScreen = Window.getClientWidth() < MIN_SIZE_FOR_PICKER
 				|| Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
-		if (isUnbundledOrWhiteboard() || smallScreen || !(
-				getAppletParameters().getDataParamShowAppsPicker() || getAppletParameters()
-						.getDataParamApp()) || getExam() != null) {
+		if (isUnbundledOrWhiteboard() || smallScreen
+				|| isAppletWithoutAppsPicker() || getExam() != null
+				|| !StringUtil.empty(getAppletParameters().getDataParamPerspective())) {
 			return;
 		}
-		afterLocalizationLoaded(new Runnable() {
+		afterLocalizationLoaded(() -> getPerspectivesPopup().showPerspectivesPopup());
+	}
 
-			@Override
-			public void run() {
-				getPerspectivesPopup().showPerspectivesPopup();
-			}
-		});
+	private boolean isAppletWithoutAppsPicker() {
+		return !(getAppletParameters().getDataParamShowAppsPicker() || getAppletParameters()
+				.getDataParamApp());
 	}
 
 	/**
@@ -1744,6 +1743,18 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
+	protected void getLayoutXML(StringBuilder sb, boolean asPreference) {
+		super.getLayoutXML(sb, asPreference);
+
+		if (isWhiteboardActive()) {
+			sb.append("\t<notesToolbarOpen");
+			sb.append(" val=\"");
+			sb.append(getAppletFrame().isNotesToolbarOpen());
+			sb.append("\"/>\n");
+		}
+	}
+
+	@Override
 	public void toggleMenu() {
 		if (!menuShowing) {
 			getAppletFrame().hidePanel(null);
@@ -1754,7 +1765,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				isMenuInited = true;
 			} else if (menuViewController != null) {
 				if (!menuViewController.getView().isAttached()) {
-					frame.add(menuViewController.getView());
+					frame.insert(menuViewController.getView(), 0);
 					frame.getApp().invokeLater(() -> menuViewController.setMenuVisible(true));
 				} else {
 					menuViewController.setMenuVisible(true);
@@ -2199,6 +2210,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				kernel.getParser(), ToolBar.getAllToolsNoMacros(isHTML5Applet(), isExam(), this));
 		updateSymbolicFlag(subAppCode, perspective);
 		reinitSettings();
+		clearConstruction();
 		getTmpPerspectives().clear();
 		updatePerspective(perspective);
 		restoreMaterial(subAppCode);
@@ -2259,5 +2271,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			suiteAppPickerButton.setIconAndLabel(subappCode);
 			suiteAppPickerButton.checkButtonVisibility();
 		}
+	}
+
+	@Override
+	public void setNotesToolbarOpen(boolean open) {
+		getAppletFrame().setNotesToolbarOpen(open);
 	}
 }

@@ -304,7 +304,7 @@ public class InternalClipboard {
 
 		app.setBlockUpdateScripts(scriptsBlocked);
 		app.getActiveEuclidianView().invalidateDrawableList();
-		app.getKernel().notifyPasteComplete();
+		app.getKernel().notifyPasteComplete(createdElements);
 
 		if (app.isWhiteboardActive()) {
 			ArrayList<GeoElement> shapes = new ArrayList<>();

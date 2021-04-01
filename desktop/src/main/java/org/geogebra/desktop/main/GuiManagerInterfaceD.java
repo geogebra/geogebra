@@ -37,9 +37,6 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 
 	boolean belongsToToolCreator(ListCellRenderer renderer);
 
-	/** Opens a dialog for searching and opening materials from GeoGebraTube */
-	public void openFromGGT();
-
 	void login();
 
 	Component getInputHelpPanel();
@@ -50,9 +47,9 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 
 	void openURL();
 
-	public void updateMenuWindow();
+	void updateMenuWindow();
 
-	public void updateMenuFile();
+	void updateMenuFile();
 
 	void allowGUIToRefresh();
 
@@ -65,4 +62,6 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	DialogManager getDialogManager();
 
 	void setLabels();
+
+	boolean loadURL(String urlString, boolean suppressErrorMsg);
 }

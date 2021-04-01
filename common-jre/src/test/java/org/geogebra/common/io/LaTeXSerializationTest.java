@@ -16,7 +16,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.serialize.ListBracketsAdapter;
+import com.himamis.retex.renderer.share.serialize.ListSerializationAdapter;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 public class LaTeXSerializationTest {
@@ -232,9 +232,9 @@ public class LaTeXSerializationTest {
 	@Test
 	public void testParseLaTeXAdapter() {
 		checkLaTeX("a=\\left[1,...,4\\right]", "a=(1...4)",
-				new ListBracketsAdapter());
+				new ListSerializationAdapter());
 		checkLaTeX("a=\\left[0.8,1.2,...,4\\right]",
-				"a=Sequence[0.8,4,1.2-(0.8)]", new ListBracketsAdapter());
+				"a=Sequence[0.8,4,1.2-(0.8)]", new ListSerializationAdapter());
 	}
 
 	@Test
@@ -289,7 +289,7 @@ public class LaTeXSerializationTest {
 	}
 
 	private static void checkLaTeX(String string, String string2,
-			ListBracketsAdapter ad) {
+			ListSerializationAdapter ad) {
 		TeXFormula tf = new TeXFormula(string);
 		Assert.assertEquals(string2,
 				new TeXAtomSerializer(ad).serialize(tf.root));

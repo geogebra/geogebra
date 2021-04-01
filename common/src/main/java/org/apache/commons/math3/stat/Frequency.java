@@ -94,7 +94,6 @@ public class Frequency implements Serializable {
      */
     @Override
     public String toString() {
-        NumberFormat nf = NumberFormat.getPercentInstance();
         StringBuilder outBuffer = new StringBuilder();
         outBuffer.append("Value \t Freq. \t Pct. \t Cum Pct. \n");
         Iterator<Comparable<?>> iter = freqTable.keySet().iterator();
@@ -104,9 +103,9 @@ public class Frequency implements Serializable {
             outBuffer.append('\t');
             outBuffer.append(getCount(value));
             outBuffer.append('\t');
-            outBuffer.append(nf.format(getPct(value)));
+            outBuffer.append(getPct(value));
             outBuffer.append('\t');
-            outBuffer.append(nf.format(getCumPct(value)));
+            outBuffer.append(getCumPct(value));
             outBuffer.append('\n');
         }
         return outBuffer.toString();

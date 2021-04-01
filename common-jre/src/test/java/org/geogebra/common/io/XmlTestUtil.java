@@ -26,7 +26,7 @@ public class XmlTestUtil {
 	 *            app
 	 */
 	public static void testCurrentXML(AppCommon application) {
-		testCurrentXMLWithURL(application, "https://cdn.geogebra.org/apps/xsd/ggb.xsd");
+		testCurrentXMLWithURL(application, "https://www.geogebra.org/apps/xsd/ggb.xsd");
 	}
 
 	/**

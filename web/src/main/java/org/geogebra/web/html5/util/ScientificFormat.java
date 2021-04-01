@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.util;
 
-import java.text.DecimalFormat;
-
 import org.geogebra.common.util.ScientificFormatAdapter;
 
 /**
@@ -29,7 +27,7 @@ public class ScientificFormat implements ScientificFormatAdapter {
 	private int sigDigit = 5;
 	private int maxWidth = 8;
 	private boolean sciNote = false;
-	private DecimalFormat decimalFormat;
+	private MyNumberFormat decimalFormat;
 
 	/**
 	 * Default scientific format
@@ -103,13 +101,13 @@ public class ScientificFormat implements ScientificFormatAdapter {
 		this.sciNote = sciNote;
 	}
 
-	private static DecimalFormat getDecimalFormat(int sigDig) {
-		StringBuffer buffer = new StringBuffer("0.");
+	private static MyNumberFormat getDecimalFormat(int sigDig) {
+		StringBuilder buffer = new StringBuilder("0.");
 		for (int i = 1; i < sigDig; i++) {
 			buffer.append('0');
 		}
 		buffer.append("E0");
-		return new DecimalFormat(buffer.toString());
+		return new MyNumberFormat(buffer.toString());
 	}
 
 	/**
@@ -125,7 +123,7 @@ public class ScientificFormat implements ScientificFormatAdapter {
 		if (decimalFormat == null) {
 			decimalFormat = getDecimalFormat(sigDigit);
 		}
-		DecimalFormat format = (sigDig == sigDigit) ? decimalFormat
+		MyNumberFormat format = (sigDig == sigDigit) ? decimalFormat
 		        : getDecimalFormat(sigDig);
 
 		String preliminaryResult = format.format(d);

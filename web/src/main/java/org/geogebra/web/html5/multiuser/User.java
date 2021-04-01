@@ -137,10 +137,12 @@ class User {
 		DrawableND drawable = app.getActiveEuclidianView().getDrawableFor(geo);
 		if (drawable != null) {
 			GRectangle2D bounds = drawable.getBoundsForStylebarPosition();
-			double x = bounds.getMaxX() + getOffsetX(app);
-			double y = bounds.getMinY() + getOffsetY(app);
-			app.getAppletFrame().add(tooltip);
-			tooltip.show(x, y);
+			if (bounds != null) {
+				double x = bounds.getMaxX() + getOffsetX(app);
+				double y = bounds.getMinY() + getOffsetY(app);
+				app.getAppletFrame().add(tooltip);
+				tooltip.show(x, y);
+			}
 		}
 	}
 

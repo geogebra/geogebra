@@ -62,11 +62,12 @@ public class AlgoRandom extends AlgoTwoNumFunction implements SetRandomValue {
 	public boolean setRandomValue(GeoElementND d0) {
 		double d = Math.round(d0.evaluateDouble());
 
-		if (d >= a.getDouble() && d <= b.getDouble()) {
+		double aVal = a.getDouble();
+		double bVal = b.getDouble();
+		if (d >= aVal && d <= bVal || d >= bVal && d <= aVal) {
 			num.setValue(d);
 			return true;
 		}
-
 		return false;
 	}
 }

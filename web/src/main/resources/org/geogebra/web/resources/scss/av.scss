@@ -119,12 +119,12 @@
 		}
 	}
 
-	.avDefinition {
+	.avDefinition, .avDefinitionPlain {
 		min-height: 30px;
+		display: inline-block; // needed for view expanding
 	}
 
 	.avDefinitionPlain {
-		min-height: 30px;
 		padding-left: 4px;
 	}
 

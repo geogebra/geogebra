@@ -32,7 +32,6 @@ import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.util.GuiResourcesD;
-import org.geogebra.desktop.util.UtilD;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -45,9 +44,8 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 	private AbstractAction newWindowAction, deleteAll, saveAction, saveAsAction,
 			loadAction, loadURLAction, exportWorksheet, shareAction,
 			exportGraphicAction, exportAnimationAction, exportPgfAction,
-			exportPSTricksAction, exportAsymptoteAction, exportPDFaction,
-			exportSTLaction, exportColladaAction, exportColladaHTMLAction,
-			exportObjAction;
+			exportPSTricksAction, exportAsymptoteAction,
+			exportSTLaction, exportColladaAction, exportColladaHTMLAction;
 	/** load from MAT item */
 	JMenuItem loadURLMenuItem;
 	/** share item */
@@ -107,7 +105,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 			// If GeoGebraTube is not available we disable the item and
 			// listen to the event that tube becomes available
-			if (!signIn.isTubeAvailable() && !UtilD.isJava7()) {
+			if (!signIn.isTubeAvailable()) {
 				loadURLAction.setEnabled(false);
 				signIn.getView().add(this);
 			}
@@ -137,7 +135,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		addSeparator();
 		mi = add(saveAction);
 		setMenuShortCutAccelerator(mi, 'S');
-		mi = add(saveAsAction);
+		add(saveAsAction);
 		addSeparator();
 
 		mi = add(shareAction);
@@ -154,26 +152,23 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		mi = submenu.add(exportGraphicAction);
 		setMenuShortCutShiftAccelerator(mi, 'U');
 
-		mi = submenu.add(exportAnimationAction);
+		submenu.add(exportAnimationAction);
 
-		// Graphical clipboard is not working under Mac when Java == 7:
-		if (!app.isMacOS() || !AppD.isJava7()) {
-			mi = submenu.add(drawingPadToClipboardAction);
-			setMenuShortCutShiftAccelerator(mi, 'C');
-		}
+		mi = submenu.add(drawingPadToClipboardAction);
+		setMenuShortCutShiftAccelerator(mi, 'C');
 
 		submenu.addSeparator();
 		mi = submenu.add(exportPSTricksAction);
 		setMenuShortCutShiftAccelerator(mi, 'T');
 
-		mi = submenu.add(exportPgfAction);
-		mi = submenu.add(exportAsymptoteAction);
+		submenu.add(exportPgfAction);
+		submenu.add(exportAsymptoteAction);
 		if (app.isPrerelease()) {
-			mi = submenu.add(exportSTLaction);
+			submenu.add(exportSTLaction);
 		}
 		if (app.is3D()) {
-			mi = submenu.add(exportColladaAction);
-			mi = submenu.add(exportColladaHTMLAction);
+			submenu.add(exportColladaAction);
+			submenu.add(exportColladaHTMLAction);
 		}
 		addSeparator();
 
@@ -208,7 +203,6 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
-
 	}
 
 	/**
@@ -273,29 +267,9 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (UtilD.isJava7()) {
-					app.showReinstallMessage();
-				} else {
-					exportGeoGebraTubeAction.actionPerformed(e);
-				}
+				exportGeoGebraTubeAction.actionPerformed(e);
 			}
 		};
-
-		/*
-		 * printProtocolAction = new AbstractAction(
-		 * loc.getMenu("ConstructionProtocol") + " ...") { private static final
-		 * long serialVersionUID = 1L;
-		 * 
-		 * public void actionPerformed(ActionEvent e) { Thread runner = new
-		 * Thread() { public void run() { ConstructionProtocol constProtocol =
-		 * app.getConstructionProtocol(); if (constProtocol == null) {
-		 * constProtocol = new ConstructionProtocol(app); }
-		 * constProtocol.initProtocol();
-		 * 
-		 * try { new PrintPreview(app, constProtocol, PageFormat.PORTRAIT); }
-		 * catch (Exception e) { Application.debug("Print preview not available"
-		 * ); } } }; runner.start(); } };
-		 */
 
 		printEuclidianViewAction = new AbstractAction(
 				loc.getMenu("DrawingPad") + " ...") {
@@ -338,40 +312,13 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		};
 
 		loadURLAction = new AbstractAction(
-				loc.getMenu("OpenFromGeoGebraTube") + " ...",
+				loc.getMenu("OpenFromWebpage") + " ...",
 				app.getMenuIcon(GuiResourcesD.DOCUMENT_OPEN)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				if (UtilD.isJava7()) {
-					app.showReinstallMessage();
-					return;
-				}
-
-				// Check if javafx is available
-				boolean javaFx22Available = false;
-				try {
-					this.getClass().getClassLoader()
-							.loadClass("javafx.embed.swing.JFXPanel");
-					javaFx22Available = true;
-				} catch (ClassNotFoundException ex) {
-					Log.error("JavaFX 2.2 not available");
-				}
-
-				// Open the Search dialog only when javafx is available.
-				// The User can force opening the old 'Open URL' dialog by
-				// pressing shift.
-				if (javaFx22Available
-						&& ((e.getModifiers() & ActionEvent.SHIFT_MASK) == 0)) {
-
-					app.getGuiManager().openFromGGT();
-				} else {
-
-					// old File -> Open from Webpage by pressing <Shift>
-					app.getGuiManager().openURL();
-				}
+				app.getGuiManager().openURL();
 			}
 		};
 
@@ -397,13 +344,6 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				runner.start();
 			}
 		};
-
-		/*
-		 * updateAction = new AbstractAction(getMenu("Update"), getEmptyIcon())
-		 * { private static final long serialVersionUID = 1L; public void
-		 * actionPerformed(ActionEvent e) { Thread runner = new Thread() {
-		 * public void run() { updateGeoGebra(); } }; runner.start(); } };
-		 */
 
 		exportGraphicAction = new AbstractAction(
 				loc.getMenu("DrawingPadAsPicture") + " (" + FileExtensions.PNG

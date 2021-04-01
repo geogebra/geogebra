@@ -140,13 +140,22 @@ public class GgbAPID extends GgbAPIJre {
 	@Override
 	public synchronized void openFile(String strURL) {
 		try {
-			String lowerCase = StringUtil.toLowerCaseUS(strURL);
-			URL url = new URL(strURL);
-			((AppD) app).loadXML(url, lowerCase
-					.endsWith(FileExtensions.GEOGEBRA_TOOL.toString()));
+			openFileUnsafe(strURL);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Open file without exception handling
+	 * @param strURL file URL
+	 * @throws IOException for invalid URL
+	 */
+	public void openFileUnsafe(String strURL) throws IOException {
+		String lowerCase = StringUtil.toLowerCaseUS(strURL);
+		URL url = new URL(strURL);
+		((AppD) app).loadXML(url, lowerCase
+				.endsWith(FileExtensions.GEOGEBRA_TOOL.toString()));
 	}
 
 	private static volatile MessageDigest messageDigestMD5 = null;
