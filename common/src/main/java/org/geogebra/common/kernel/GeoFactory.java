@@ -51,10 +51,10 @@ import org.geogebra.common.util.debug.Log;
 public class GeoFactory {
 	/**
 	 * Creates a new GeoElement object for the given type string.
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
-	 * 
+	 *
 	 * @param type
 	 *            String as produced by GeoElement.getXMLtypeString()
 	 * @return created element

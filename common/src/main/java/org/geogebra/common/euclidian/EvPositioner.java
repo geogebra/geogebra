@@ -59,6 +59,10 @@ public abstract class EvPositioner {
         centerWithAvSize(getAvWidth(), getAvHeight());
     }
 
+    /**
+     * @param overlappedWidth width hidden by another view
+     * @param overlappedHeight height hidden by another view
+     */
     public void centerWithAvSize(int overlappedWidth, int overlappedHeight) {
         boolean isPortrait = isPortrait();
         int newVisibleFromX = isPortrait ? 0 : translateToDp(overlappedWidth);

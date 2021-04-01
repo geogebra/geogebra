@@ -19,7 +19,7 @@ public class InputFieldTouchTest {
 
 	private GeoInputBox input1;
 	private GeoInputBox input2;
-	private ViewTextField viewTextField = new TextFieldCommonJre(null);
+	private ViewTextField viewTextField = new TextFieldCommonJre();
 	private AutoCompleteTextFieldC textField;
 
 	@Before

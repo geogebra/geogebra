@@ -334,7 +334,7 @@ public final class CharMapping {
 		putForm('\u00C3', "\\~A");
 		putForm('\u00C4', "\\\"A");
 		putForm('\u00C5', "\\r{A}");
-		putForm('\u00C7', "\\c[C}");
+		putForm('\u00C7', "\\c{C}");
 		putForm('\u00C8', "\\`E");
 		putForm('\u00C9', "\\'E");
 		putForm('\u00CA', "\\^E");

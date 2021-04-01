@@ -194,7 +194,17 @@ public enum EventType {
 
 	GROUP_OBJECTS("groupObjects"),
 
-	UNGROUP_OBJECTS("ungroupObjects");
+	UNGROUP_OBJECTS("ungroupObjects"),
+
+	ADD_TV("addGeoToTV"),
+
+	REMOVE_TV("removeGeoFromTV"),
+
+	/** min, max and step */
+	SET_VALUES_TV("setValuesOfTV"),
+
+	/** column, true if show, false otherwise */
+	SHOW_POINTS_TV("showPointsTV");
 
 	private String eventName;
 

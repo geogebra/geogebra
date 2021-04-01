@@ -22,6 +22,7 @@ public abstract class CoordSystemAnimation {
 	private static final int MAX_TIME = 400; // millis
 
 	private final EuclidianView view;
+	private CoordSystemInfo coordSystemInfo;
 	private AnimationMode mode;
 
 	private double px; // zoom point
@@ -54,15 +55,17 @@ public abstract class CoordSystemAnimation {
 	private boolean setStandard = false;
 	private double standardX;
 	private double standardY;
+	private boolean axisZoom = false;
 
 	/**
 	 * Creates new zoomer
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 */
 	public CoordSystemAnimation(EuclidianView view) {
 		this.view = view;
+		this.coordSystemInfo = view.getCoordSystemInfo();
 	}
 
 	/**
@@ -180,22 +183,26 @@ public abstract class CoordSystemAnimation {
 		if ((counter == steps) || (time > MAX_TIME)) { // end of animation
 			stopAnimation();
 		} else {
+			coordSystemInfo.setInteractive(true);
 			switch (mode) {
 			case AXES_X:
 				factor = 1.0 + ((counter * add) / oldScale);
 				view.setCoordSystem(view.getXZero(), view.getYZero(),
 						oldScale * factor, view.getYscale());
+				coordSystemInfo.setXAxisZoom(true);
 				break;
 			case AXES_Y:
 				factor = 1.0 + ((counter * add) / oldScale);
 				view.setCoordSystem(view.getXZero(), view.getYZero(),
 						view.getXscale(), oldScale * factor);
-				break;
+				coordSystemInfo.setXAxisZoom(false);
+			break;
 			case ZOOM:
 				factor = 1.0 + ((counter * add) / oldScale);
 				view.setCoordSystem(px + (dx * factor), py + (dy * factor),
 						oldScale * factor,
 						oldScale * factor * view.getScaleRatio());
+				coordSystemInfo.setXAxisZoom(false);
 				break;
 			case ZOOM_RW:
 				double i = counter;
@@ -204,11 +211,13 @@ public abstract class CoordSystemAnimation {
 						((x1 * i) + (xmaxOld * j)) / steps,
 						((y0 * i) + (yminOld * j)) / steps,
 						((y1 * i) + (ymaxOld * j)) / steps);
+				coordSystemInfo.setXAxisZoom(false);
 				break;
 			case MOVE:
 				factor = 1.0 - (counter * add);
 				view.setCoordSystem(px + (dx * factor), py + (dy * factor),
 						view.getXscale(), view.getYscale());
+				coordSystemInfo.setXAxisZoom(false);
 			}
 		}
 	}
@@ -216,22 +225,27 @@ public abstract class CoordSystemAnimation {
 	private synchronized void stopAnimation() {
 		stopTimer();
 		// setDrawMode(DRAW_MODE_BACKGROUND_IMAGE);
+		EuclidianController controller = view.getEuclidianController();
 		switch (mode) {
 		case AXES_X:
 			view.setCoordSystem(view.getXZero(), view.getYZero(), newScale,
 					view.getYscale());
+			onAxisZoomEnd(controller);
 			break;
 		case AXES_Y:
 			view.setCoordSystem(view.getXZero(), view.getYZero(),
 					view.getXscale(), newScale);
+			onAxisZoomEnd(controller);
 			break;
 		case ZOOM:
 			factor = newScale / oldScale;
 			view.setCoordSystem(px + (dx * factor), py + (dy * factor),
 					newScale, newScale * view.getScaleRatio());
+			controller.notifyZoomerStopped();
 			break;
 		case ZOOM_RW:
 			view.setRealWorldCoordSystem(x0, x1, y0, y1);
+			controller.notifyZoomerStopped();
 			break;
 		case MOVE:
 			view.setCoordSystem(px, py, view.getXscale(), view.getYscale());
@@ -245,7 +259,13 @@ public abstract class CoordSystemAnimation {
 		if (storeUndo) {
 			view.getApplication().storeUndoInfo();
 		}
-		view.getEuclidianController().notifyCoordSystemListeners();
+		axisZoom = false;
+		controller.notifyCoordSystemListeners();
+	}
+
+	private void onAxisZoomEnd(EuclidianController controller) {
+		coordSystemInfo.setXAxisZoom(false);
+		controller.notifyZoomerStopped();
 	}
 
 	/**
@@ -270,10 +290,12 @@ public abstract class CoordSystemAnimation {
 		if (!hasTimer()) {
 			return;
 		}
+
 		switch (mode) {
 		case AXES_X:
 		case AXES_Y:
 			add = (newScale - oldScale) / steps;
+			coordSystemInfo.setXAxisZoom(true);
 			break;
 		case ZOOM:
 			add = (newScale - oldScale) / steps;
@@ -313,5 +335,13 @@ public abstract class CoordSystemAnimation {
 	 */
 	public boolean isStandardZoom() {
 		return DoubleUtil.checkInteger(newScale) == EuclidianView.SCALE_STANDARD;
+	}
+
+	/**
+	 *
+	 * @return if axis has zoomed.
+	 */
+	public boolean isAxisZoom() {
+		return axisZoom;
 	}
 }

@@ -1970,13 +1970,13 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public void addAuralName(Localization loc, ScreenReaderBuilder sb) {
+	public void addAuralName(ScreenReaderBuilder sb) {
 		if (!isSliderable()) {
-			super.addAuralName(loc, sb);
+			super.addAuralName(sb);
 			return;
 		}
 		if (StringUtil.empty(getCaptionSimple())) {
-			sb.append(loc.getMenuDefault("Slider", "Slider"));
+			sb.appendMenuDefault("Slider", "Slider");
 			sb.appendSpace();
 		}
 		addAuralSliderValue(sb);
@@ -2018,7 +2018,7 @@ public class GeoNumeric extends GeoElement
 		}
 
 		Localization loc = kernel.getLocalization();
-		ScreenReaderBuilder sb = new ScreenReaderBuilder();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
 		if (isAnimating()) {
 
 			// don't need this for stopping as the value is read out afterwards
@@ -2039,7 +2039,7 @@ public class GeoNumeric extends GeoElement
 	 * @return the current value as readable, aural text.
 	 */
 	public String getAuralCurrentValue() {
-		ScreenReaderBuilder sb = new ScreenReaderBuilder();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder(kernel.getLocalization());
 		addAuralSliderValue(sb);
 		return sb.toString().trim();
 	}

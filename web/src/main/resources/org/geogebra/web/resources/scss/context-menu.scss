@@ -1,0 +1,119 @@
+@import 'colors';
+
+.GeoGebraFrame {
+	.gwt-PopupPanel {
+		background-color: $white;
+		padding: 8px 0 8px 0;
+		border-radius: 2px;
+
+		.listMenuItem {
+			box-sizing: border-box;
+
+			min-width: 190px;
+			height: 32px;
+			line-height: 32px;
+
+			padding: 0 16px 0 56px;
+
+			&.no-image {
+				padding-left: 16px;
+				min-width: 208px;
+			}
+
+			.gwt-HTML {
+				display: inline-block;
+			}
+
+			.checkMarkMenuItem, .collapseMenuItem {
+				padding-right: 24px;
+			}
+
+			img {
+				position: absolute;
+				left: 0;
+				margin: 0 10px;
+				padding: 4px 6px;
+				width: 24px;
+				height: 24px;
+				opacity: 0.54;
+			}
+
+			.checkImg, .expandImg, .collapseImg, .submenuArrow {
+				left: auto;
+				right: 8px;
+				margin: 0;
+			}
+		}
+
+		$collapse-trans: all 0.2s ease;
+
+		.collapseSubMenu {
+			.listMenuItem {
+				.menuImg {
+					position: relative;
+					vertical-align: bottom;
+					margin-left: 0;
+				}
+
+				&.collapsed {
+					transition: $collapse-trans;
+					max-height: 0;
+					overflow: hidden;
+					padding: 0 16px 0 32px;
+
+					img {
+						visibility: hidden;
+					}
+				}
+
+				&.expanded {
+					max-height: 32px;
+					transition: $collapse-trans;
+					padding: 0 32px;
+				}
+			}
+		}
+
+		&.contextSubMenu {
+			padding: 8px 0 8px 0;
+			min-width: 112px;
+			background-color: $white;
+			scrollbar-width: thin;
+			overflow-y: auto;
+
+			// max height is viewport height - header height
+			max-height: calc(100vh - 48px);
+
+			.listMenuItem {
+				.menuImg {
+					position: relative;
+					vertical-align: bottom;
+					margin-left: 0;
+					padding-left: 0;
+				}
+
+				min-width: 64px;
+				padding: 0 16px;
+			}
+
+			.menuSeparator {
+				width: 100%;
+			}
+		}
+	}
+
+	.viewsContextMenu {
+		img {
+			opacity: 1 !important;
+		}
+	}
+
+	.gwt-MenuItem-disabled {
+		img {
+			opacity: 0.38;
+		}
+
+		color: $black;
+		opacity: 0.38;
+	}
+}

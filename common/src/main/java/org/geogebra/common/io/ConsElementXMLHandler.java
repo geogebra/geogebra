@@ -14,7 +14,8 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.MacroConstruction;
-import org.geogebra.common.kernel.algos.AlgoBarChart;
+import org.geogebra.common.kernel.algos.ChartStyle;
+import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -128,6 +129,7 @@ public class ConsElementXMLHandler {
 	private App app;
 	@Weak
 	private MyXMLHandler xmlHandler;
+	private boolean needsConstructionDefaults;
 
 	private static class GeoExpPair {
 		private GeoElement geoElement;
@@ -195,6 +197,10 @@ public class ConsElementXMLHandler {
 	public ConsElementXMLHandler(MyXMLHandler myXMLHandler, App app) {
 		this.xmlHandler = myXMLHandler;
 		this.app = app;
+	}
+
+	public void setNeedsConstructionDefaults(boolean needsConstructionDefaults) {
+		this.needsConstructionDefaults = needsConstructionDefaults;
 	}
 
 	private boolean handleCurveParam(LinkedHashMap<String, String> attrs) {
@@ -409,6 +415,9 @@ public class ConsElementXMLHandler {
 		lineStyleTagProcessed = false;
 		geo = getGeoElement(attrs);
 		geo.setLineOpacity(255);
+		if (needsConstructionDefaults) {
+			geo.setConstructionDefaults();
+		}
 		if (geo instanceof VectorNDValue) {
 			((VectorNDValue) geo)
 					.setMode(((VectorNDValue) geo).getDimension() == 3
@@ -1062,7 +1071,7 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleExtraTag(LinkedHashMap<String, String> attrs) {
-		AlgoBarChart algo = (AlgoBarChart) geo.getParentAlgorithm();
+		ChartStyle algo = ((ChartStyleAlgo) geo.getParentAlgorithm()).getStyle();
 		if (!"".equals(attrs.get("key")) && !"".equals(attrs.get("value"))
 				&& !"".equals(attrs.get("barNumber"))) {
 			switch (attrs.get("key")) {
@@ -1939,6 +1948,7 @@ public class ConsElementXMLHandler {
 				|| geo.isGeoSurfaceCartesian())) {
 			geo.setLineThickness(0);
 		}
+
 		if (!symbolicTagProcessed && geo.isGeoText()) {
 			((GeoText) geo).setSymbolicMode(false, false);
 		}

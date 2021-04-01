@@ -170,7 +170,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		return new ActionableItemImpl(Icon.EXPORT_FILE, "Share", Action.SHARE_FILE);
 	}
 
-	private static MenuItem exportImage() {
+	protected static MenuItem exportImage() {
 		return new ActionableItemImpl(Icon.EXPORT_IMAGE, "exportImage", Action.EXPORT_IMAGE);
 	}
 

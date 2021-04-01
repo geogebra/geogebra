@@ -78,7 +78,6 @@ public class ToolbarMow extends FlowPanel
 		add(toolbarPanel);
 
 		createPanels();
-		// setMode(appW.getMode());
 		setLabels();
 	}
 
@@ -108,15 +107,13 @@ public class ToolbarMow extends FlowPanel
 			toolbarPanelContent.removeStyleName("slideCenter");
 			toolbarPanelContent.removeStyleName("slideRight");
 			switch (tab) {
-			case PEN:
-				toolbarPanelContent.addStyleName("slideLeft");
-				break;
 			case TOOLS:
 				toolbarPanelContent.addStyleName("slideCenter");
 				break;
 			case MEDIA:
 				toolbarPanelContent.addStyleName("slideRight");
 				break;
+			case PEN:
 			default:
 				toolbarPanelContent.addStyleName("slideLeft");
 				break;
@@ -142,12 +139,11 @@ public class ToolbarMow extends FlowPanel
 
 	private SubMenuPanel getCurrentPanel() {
 		switch (currentTab) {
-		case PEN:
-			return penPanel;
 		case TOOLS:
 			return toolsPanel;
 		case MEDIA:
 			return mediaPanel;
+		case PEN:
 		default:
 			return penPanel;
 		}
@@ -178,5 +174,17 @@ public class ToolbarMow extends FlowPanel
 		setOpen(!isOpen());
 		addStyleName("toolbarMow");
 		notesLayout.updateFloatingButtonsPosition();
+	}
+
+	/**
+	 * @param open true if should open notes toolbar
+	 */
+	public void openCloseNotesToolbar(boolean open) {
+		setOpen(open);
+		header.toggleCloseButton(!open);
+		setStyleName(
+				open ? "showMowToolbarPanel"
+				: "hideMowToolbarPanel");
+		addStyleName("toolbarMow");
 	}
 }

@@ -135,7 +135,7 @@ public final class CommandFilterFactory {
 				Commands.DotPlot, Commands.FrequencyPolygon, Commands.FrequencyTable,
 				Commands.Histogram, Commands.HistogramRight, Commands.NormalQuantilePlot,
 				Commands.ResidualPlot, Commands.StemPlot, Commands.StepGraph,
-				Commands.StickGraph, Commands.LineGraph,
+				Commands.StickGraph, Commands.LineGraph, Commands.PieChart,
 				// Discrete Math Commands
 				Commands.ShortestDistance,
 				// GeoGebra Commands
@@ -186,6 +186,15 @@ public final class CommandFilterFactory {
 				Commands.ColumnName, Commands.FillCells, Commands.FillColumn,
 				Commands.FillRow, Commands.Row
 			);
+		return commandNameFilter;
+	}
+
+	/**
+	 * @return command filter for the 3D graphing app
+	 */
+	public static CommandFilter create3DGraphingCommandFilter() {
+		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(true);
+		commandNameFilter.addCommands(Commands.PieChart);
 		return commandNameFilter;
 	}
 }

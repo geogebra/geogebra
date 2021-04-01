@@ -40,7 +40,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	 */
 	public LowerCaseDictionary(LowerCaseDictionary dict) {
 		this.normalizer = dict.normalizer;
-		this.treeSet = new TreeSet<String>(dict.treeSet);
+		this.treeSet = new TreeSet<>(dict.treeSet);
 		putAll(dict);
 	}
 

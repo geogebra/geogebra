@@ -282,21 +282,7 @@
 		color: #6161FF;
 	}
 
-	.gwt-MenuBar .gwt-MenuItem-disabled,
-	.gwt-MenuBar-horizontal .gwt-MenuItem-disabled {
-		color: #DCDCDC;
-	}
-
-	.gwt-MenuItem-disabled img {
-		opacity: 0.26 !important;
-	}
-
-	.listMenuItem {
-		box-sizing: border-box;
-		list-style: none;
-	}
-
-	.selectedItem {
+	.selectedItem, .highlighted {
 		background: #eeeeee;
 	}
 
@@ -331,11 +317,9 @@
 	}
 
 	.gwt-PopupPanel {
-		border-radius: 2px;
-		padding: 5px;
-		background-color: white;
 		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
-		z-index: $z-dialog;
+		z-index: $z-dialog-over-keyboard;
+		will-change: transform;
 
 		&.loadinganimation {
 			background-color: rgba(255, 255, 255, 0);
@@ -678,12 +662,12 @@
 	}
 
 	.cursor_pen {
-		cursor: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIzMnB4IiBoZWlnaHQ9IjMycHgiPjxwYXRoIGQ9Ik0yMC43MSw3LjA0QzIxLjEsNi42NSAyMS4xLDYgMjAuNzEsNS42M0wxOC4zNywzLjI5QzE4LDIuOSAxNy4zNSwyLjkgMTYuOTYsMy4yOUwxNS4xMiw1LjEyTDE4Ljg3LDguODdNMywxNy4yNVYyMUg2Ljc1TDE3LjgxLDkuOTNMMTQuMDYsNi4xOEwzLDE3LjI1WiIgLz48L3N2Zz4=
+		cursor: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiPjxwYXRoIGQ9Ik0yMC43MSw3LjA0QzIxLjEsNi42NSAyMS4xLDYgMjAuNzEsNS42M0wxOC4zNywzLjI5QzE4LDIuOSAxNy4zNSwyLjkgMTYuOTYsMy4yOUwxNS4xMiw1LjEyTDE4Ljg3LDguODdNMywxNy4yNVYyMUg2Ljc1TDE3LjgxLDkuOTNMMTQuMDYsNi4xOEwzLDE3LjI1WiIgLz48L3N2Zz4=
 		) 0 31, crosshair;
 	}
 
 	.cursor_highlighter {
-		cursor: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjYgMjYiIHZlcnNpb249IjEuMSIgd2lkdGg9IjMycHgiIGhlaWdodD0iMzJweCI+CjxnIGlkPSJzdXJmYWNlMSI+CjxwYXRoIHN0eWxlPSIgIiBkPSJNIDIxLjYyNSAwLjE4NzUgQyAyMS40Mzc1IDAuMTc5Njg4IDIxLjI0NjA5NCAwLjI0NjA5NCAyMS4wOTM3NSAwLjM3NSBMIDYuMzc1IDEzLjA2MjUgTCAxMi45Mzc1IDE5LjY1NjI1IEwgMjUuNjU2MjUgNC45MDYyNSBDIDI1LjkxNDA2MyA0LjYwMTU2MyAyNS44OTg0MzggNC4xNDg0MzggMjUuNjI1IDMuODc1IEwgMjIuMTU2MjUgMC40MDYyNSBDIDIyLjAxOTUzMSAwLjI2OTUzMSAyMS44MTI1IDAuMTk1MzEzIDIxLjYyNSAwLjE4NzUgWiBNIDUuNjU2MjUgMTMuODEyNSBMIDMuNDM3NSAxNiBDIDMuMDM1MTU2IDE2LjQwMjM0NCAzLjI3MzQzOCAxNi45MTQwNjMgMy40Mzc1IDE3LjQ2ODc1IEMgMy42OTkyMTkgMTguMzQzNzUgNC4xODc1IDE5LjYyNSAyLjcxODc1IDIxLjA5Mzc1IEwgNC45MDYyNSAyMy4yODEyNSBDIDYuMzQ3NjU2IDIxLjgzOTg0NCA3Ljk4ODI4MSAyMi40MjE4NzUgOC41NjI1IDIyLjU2MjUgQyA5LjExNzE4OCAyMi42OTkyMTkgOS42Mjg5MDYgMjIuOTY0ODQ0IDEwLjAzMTI1IDIyLjU2MjUgTCAxMi4yMTg3NSAyMC4zNzUgWiBNIDIgMjEuODQzNzUgTCAwLjA2MjUgMjMuNzUgTCAzLjQzNzUgMjQuNzUgTCA0LjE4NzUgMjQuMDMxMjUgWiAiLz4KPC9nPgo8L3N2Zz4K
+		cursor: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmlld0JveD0iMCAwIDI2IDI2IiB2ZXJzaW9uPSIxLjEiIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiPg0KPGcgaWQ9InN1cmZhY2UxIj4NCjxwYXRoIHN0eWxlPSIgIiBkPSJNIDIxLjYyNSAwLjE4NzUgQyAyMS40Mzc1IDAuMTc5Njg4IDIxLjI0NjA5NCAwLjI0NjA5NCAyMS4wOTM3NSAwLjM3NSBMIDYuMzc1IDEzLjA2MjUgTCAxMi45Mzc1IDE5LjY1NjI1IEwgMjUuNjU2MjUgNC45MDYyNSBDIDI1LjkxNDA2MyA0LjYwMTU2MyAyNS44OTg0MzggNC4xNDg0MzggMjUuNjI1IDMuODc1IEwgMjIuMTU2MjUgMC40MDYyNSBDIDIyLjAxOTUzMSAwLjI2OTUzMSAyMS44MTI1IDAuMTk1MzEzIDIxLjYyNSAwLjE4NzUgWiBNIDUuNjU2MjUgMTMuODEyNSBMIDMuNDM3NSAxNiBDIDMuMDM1MTU2IDE2LjQwMjM0NCAzLjI3MzQzOCAxNi45MTQwNjMgMy40Mzc1IDE3LjQ2ODc1IEMgMy42OTkyMTkgMTguMzQzNzUgNC4xODc1IDE5LjYyNSAyLjcxODc1IDIxLjA5Mzc1IEwgNC45MDYyNSAyMy4yODEyNSBDIDYuMzQ3NjU2IDIxLjgzOTg0NCA3Ljk4ODI4MSAyMi40MjE4NzUgOC41NjI1IDIyLjU2MjUgQyA5LjExNzE4OCAyMi42OTkyMTkgOS42Mjg5MDYgMjIuOTY0ODQ0IDEwLjAzMTI1IDIyLjU2MjUgTCAxMi4yMTg3NSAyMC4zNzUgWiBNIDIgMjEuODQzNzUgTCAwLjA2MjUgMjMuNzUgTCAzLjQzNzUgMjQuNzUgTCA0LjE4NzUgMjQuMDMxMjUgWiAiLz4NCjwvZz4NCjwvc3ZnPg0K
 		) 0 31, crosshair;
 	}
 
@@ -699,92 +683,21 @@
 	Paddings for menuitems.
 	*/
 
-	.gwt-MenuBar-vertical .mi_with_image {
-		padding-left: 21px;
-	}
-
 	.gwt-MenuItem {
 		white-space: nowrap;
-	}
-
-	.gPopupMenu_item img, .gwt-MenuItem img {
-		vertical-align: top;
-		width: 20px;
-		height: 20px;
-	}
-
-	.submenuArrow {
-		position: absolute;
-		right: 0;
-		padding-right: 4px;
-	}
-
-	.menuSeparator {
-		background-color: #dcdcdc;
-		height: 2px;
-		width: 100%;
 		list-style: none;
 	}
 
-	.menuPanel .menuSeparator {
+	.menuSeparator {
+		background-color: #dedede;
 		height: 1px;
+		width: calc(100% - 56px);
+		list-style: none;
+		margin: 6px 0 6px auto;
 	}
 
 	.menuImg {
 		padding-right: 4px;
-	}
-
-	.contextMenu {
-		padding-left: 21px;
-	}
-
-	.contextMenu img {
-		opacity: 0.54;
-	}
-
-	.avPlusButton {
-		left: 2px;
-	}
-
-	.mioMenu.gwt-PopupPanel {
-		padding: 8px 0 8px 0;
-		border-radius: 2px;
-		min-width: 182px;
-
-		.gwt-MenuItem {
-			height: 32px;
-			min-width: 182px;
-			cursor: pointer;
-			padding-left: 64px;
-		}
-
-		.gwt-MenuItem:hover {
-			background-color: #eeeeee;
-
-			img {
-				opacity: 0.87;
-			}
-
-			color: black;
-		}
-
-		.gwt-MenuItem-disabled,
-		.gwt-MenuItem-disabled:hover {
-			img {
-				opacity: 0.38;
-			}
-
-			color: black;
-			opacity: 0.38;
-		}
-
-		img {
-			width: 24px !important;
-			height: 24px !important;
-			position: absolute;
-			margin-left: -40px;
-			opacity: 0.54;
-		}
 	}
 
 	/*#####################################################################################
@@ -933,10 +846,6 @@
 		border: none;
 		padding: 4px; /* more padding for the missing border*/
 		margin-right: 15px;
-	}
-
-	.MyCanvasButton-rightaligned {
-		float: right;
 	}
 
 	.MyCanvasButton .buttonContent {
@@ -2956,11 +2865,6 @@
 
 	.upperBorder div {
 		padding-top: 0;
-	}
-
-	.matMenu.gwt-PopupPanel .gwt-MenuItem.listMenuItem {
-		line-height: 24px;
-		padding-top: 4px;
 	}
 
 	.menubarSMART .GeoGebraMenuImage.menuImg {

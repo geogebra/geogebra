@@ -13,7 +13,6 @@ import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
@@ -425,20 +424,6 @@ public class MainMenu extends FlowPanel
 		String text = str.replace("\"", "'");
 		return "<img class=\"menuImg\" width=\"16\" height=\"16\" alt=\"" + text + "\" src=\"" + url
 				+ "\" draggable=\"false\" aria-hidden=\"true\">" + text;
-	}
-
-	/**
-	 * @param m
-	 *            item
-	 * @param checked
-	 *            whether it's checked
-	 */
-	public static void setMenuSelected(AriaMenuItem m, boolean checked) {
-		if (checked) {
-			m.addStyleName("checked");
-		} else {
-			m.removeStyleName("checked");
-		}
 	}
 
 	@Override

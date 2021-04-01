@@ -492,15 +492,15 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	@Override
-	public void addAuralType(Localization loc, ScreenReaderBuilder sb) {
-		sb.append(loc.getMenuDefault("Checkbox", "Checkbox"));
+	public void addAuralType(ScreenReaderBuilder sb) {
+		sb.appendMenuDefault("Checkbox", "Checkbox");
 		sb.appendSpace();
 	}
 
 	@Override
 	public void addAuralStatus(Localization loc, ScreenReaderBuilder sb) {
 		if (sb.isMobile()) {
-			sb.append(getAuralCheckboxStatus());
+			sb.append(getAuralCheckboxStatus(sb));
 		}
 	}
 
@@ -522,17 +522,17 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	@Override
 	public String getAuralTextForSpace() {
-		return getAuralCheckboxStatus();
+		Localization loc = kernel.getLocalization();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
+		return getAuralCheckboxStatus(sb);
 	}
 
-	private String getAuralCheckboxStatus() {
-		Localization loc = kernel.getLocalization();
-		ScreenReaderBuilder sb = new ScreenReaderBuilder();
-		addAuralName(loc, sb);
+	private String getAuralCheckboxStatus(ScreenReaderBuilder sb) {
+		addAuralName(sb);
 		if (getBoolean()) {
-			sb.append(loc.getMenuDefault("Checked", "checked"));
+			sb.appendMenuDefault("Checked", "checked");
 		} else {
-			sb.append(loc.getMenuDefault("Unchecked", "unchecked"));
+			sb.appendMenuDefault("Unchecked", "unchecked");
 
 		}
 		sb.append(".");

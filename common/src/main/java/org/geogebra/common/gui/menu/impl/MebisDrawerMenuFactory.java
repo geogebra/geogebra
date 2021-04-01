@@ -49,7 +49,7 @@ public class MebisDrawerMenuFactory extends DefaultDrawerMenuFactory {
 				? share() : null;
 
 		return new MenuItemGroupImpl(removeNulls(newFile(), myFiles(), openOfflineFile(),
-				saveFile(), share, showDownloadAs(), previewPrint()));
+				saveFile(), share, exportImage(), showDownloadAs(), previewPrint()));
 	}
 
 	private MenuItemGroup createSecondaryMenuItemGroup() {

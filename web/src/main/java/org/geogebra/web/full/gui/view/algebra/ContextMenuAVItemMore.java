@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.view.algebra;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.item.ClearInputItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DeleteItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -11,9 +10,6 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
-import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.user.client.Command;
 
 /**
  * The ... menu for AV items
@@ -42,11 +38,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 		mApp = item.getApplication();
 		loc = mApp.getLocalization();
 		wrappedPopup = new GPopupMenuW(mApp);
-		if (mApp.isUnbundled()) {
-			wrappedPopup.getPopupPanel().addStyleName("matMenu");
-		} else {
-			wrappedPopup.getPopupPanel().addStyleName("mioMenu");
-		}
+
 		this.actions = collection;
 		setGeo(item.geo);
 		if (item.isInputTreeItem()) {
@@ -99,16 +91,8 @@ public class ContextMenuAVItemMore implements SetLabels {
 	}
 
 	private void addAction(final MenuItem<GeoElement> menuItem) {
-		SVGResource img = mApp.isUnbundled() ? null : menuItem.getImage();
-		String html = MainMenu.getMenuBarHtml(img, menuItem.getTitle(loc));
-		AriaMenuItem mi = new AriaMenuItem(html, true, new Command() {
-
-			@Override
-			public void execute() {
-				select(menuItem);
-			}
-
-		});
+		AriaMenuItem mi = new AriaMenuItem(menuItem.getTitle(loc),
+				false, () -> select(menuItem));
 		TestHarness.setAttr(mi, "menu" + menuItem.getTitle());
 		mi.addStyleName("no-image");
 		wrappedPopup.addItem(mi);

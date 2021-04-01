@@ -762,9 +762,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 			if (conic.isFilled() && !fullAngle) {
 				if (gp == null) {
 					gp = new GeneralPathClipped(view);
-				} else {
-					gp.reset();
 				}
+				gp.resetWithThickness(geo.getLineThickness());
 				GPoint2D sp = arc.getStartPoint();
 				GPoint2D ep = arc.getEndPoint();
 				if (!conic.isInverseFill()) {
@@ -1111,10 +1110,9 @@ public class DrawConic extends SetDrawable implements Previewable {
 			points = PLOT_POINTS;
 			hypRight = new GeneralPathClipped(view); // right wing
 			hypLeft = new GeneralPathClipped(view); // left wing
-		} else {
-			hypRight.reset();
-			hypLeft.reset();
 		}
+		hypRight.resetWithThickness(geo.getLineThickness());
+		hypLeft.resetWithThickness(geo.getLineThickness());
 	}
 
 	/**
@@ -1809,11 +1807,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 	}
 
 	@Override
-	public GeoElement getGeoElement() {
-		return geo;
-	}
-
-	@Override
 	public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 		if (drawLines != null) {
@@ -2033,8 +2026,12 @@ public class DrawConic extends SetDrawable implements Previewable {
 	 * resizing by drag of side handler for rotated ellipses
 	 */
 	private void stretchEllipse(GPoint2D p0, GPoint2D p, GPoint2D tangent) {
-		double ratioX = (p.getX() - p0.getX()) / getBounds().getWidth();
-		double ratioY = (p.getY() - p0.getY()) / getBounds().getHeight();
+		GRectangle bounds = getBounds();
+		if (bounds == null) {
+			return;
+		}
+		double ratioX = (p.getX() - p0.getX()) / bounds.getWidth();
+		double ratioY = (p.getY() - p0.getY()) / bounds.getHeight();
 		boolean originalTangentIncreaseScreen = Math.abs(tangent.getY() - p.getY()) > Math
 				.abs(p0.getY() - tangent.getY());
 		boolean boxOrientationChanged = ratioX * ratioY < 0;
