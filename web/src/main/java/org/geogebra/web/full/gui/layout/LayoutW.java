@@ -310,14 +310,16 @@ public class LayoutW extends Layout {
 				dockPanelInfo[i] = panels[i].createInfo();
 			}
 
-			// get the information about the EV dock panel
-			int evDockPanelDataId = findDockPanelData(dockPanelInfo,
-					app.isUnbundled3D() ? App.VIEW_EUCLIDIAN3D : App.VIEW_EUCLIDIAN);
-			DockPanelData evDockPanelData = dockPanelInfo[evDockPanelDataId];
-			DockPanelData copyEvDockPanelData = evDockPanelData.duplicate();
-			boolean isEVOpen = ((GuiManagerW) app.getGuiManager()).getUnbundledToolbar().isOpen();
-			copyEvDockPanelData.setVisible(isEVOpen);
-			dockPanelInfo[evDockPanelDataId] = copyEvDockPanelData;
+			if (app.getConfig().hasEuclidianView()) {
+				// get the information about the EV dock panel
+				int evDockPanelDataId = findDockPanelData(dockPanelInfo,
+						app.isUnbundled3D() ? App.VIEW_EUCLIDIAN3D : App.VIEW_EUCLIDIAN);
+				DockPanelData evDockPanelData = dockPanelInfo[evDockPanelDataId];
+				DockPanelData copyEvDockPanelData = evDockPanelData.duplicate();
+				boolean isEVOpen = ((GuiManagerW) app.getGuiManager()).getUnbundledToolbar().isOpen();
+				copyEvDockPanelData.setVisible(isEVOpen);
+				dockPanelInfo[evDockPanelDataId] = copyEvDockPanelData;
+			}
 
 			// Sort the dock panels as the entries with the smallest amount of
 			// definition should
