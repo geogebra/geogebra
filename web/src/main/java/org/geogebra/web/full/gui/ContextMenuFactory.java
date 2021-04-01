@@ -10,7 +10,6 @@ import org.geogebra.web.full.javax.swing.InlineTextToolbar;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 
@@ -65,12 +64,10 @@ public class ContextMenuFactory {
 	/**
 	 *
 	 * @param title the title of the item.
-	 * @param checkmark the resource of the checkmark icon.
 	 * @param checked if the item should be checked by default
 	 * @return the new checkmark capable item.
 	 */
-	public GCheckmarkMenuItem newCheckmarkMenuItem(String title,
-			SVGResource checkmark, boolean checked) {
-		return new GCheckmarkMenuItem(title, checkmark, checked);
+	public GCheckmarkMenuItem newCheckmarkMenuItem(String title, boolean checked) {
+		return new GCheckmarkMenuItem(title, checked);
 	}
 }

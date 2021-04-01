@@ -226,6 +226,9 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/web/resources/scss/av-styles.scss")
 	SassResource avStyleScss();
 
+	@Source("org/geogebra/web/resources/scss/context-menu.scss")
+	SassResource contextMenuStyles();
+
 	@Source("org/geogebra/web/resources/scss/general.scss")
 	SassResource generalStyle();
 

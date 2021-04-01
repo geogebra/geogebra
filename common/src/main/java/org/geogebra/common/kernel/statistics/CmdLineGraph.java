@@ -26,12 +26,9 @@ public class CmdLineGraph extends CommandProcessor {
 			throw argNumErr(c);
 		}
 		GeoElement[] args = resArgs(c);
-		for (int i = 0; i < 2; i++) {
-			if (!args[i].isGeoList()) {
-				throw argErr(args[i], c);
-			}
-		}
-		AlgoLineGraph algo = new AlgoLineGraph(cons, (GeoList) args[0], (GeoList) args[1]);
+		GeoList xValues = (GeoList) validate(args[0], args[0].isGeoList(), c);
+		GeoList yValues = (GeoList) validate(args[1], args[1].isGeoList(), c);
+		AlgoLineGraph algo = new AlgoLineGraph(cons, xValues, yValues);
 		algo.getOutput(0).setLabel(c.getLabel());
 		return algo.getOutput(0).asArray();
 	}

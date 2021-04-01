@@ -655,9 +655,4 @@ public class DrawConicPart extends Drawable implements Previewable {
 		}
 	}
 
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
-	}
-
 }

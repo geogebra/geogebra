@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.dialog.handler;
 
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.DialogManager;
@@ -36,15 +35,10 @@ public class SegmentHandler {
 			final NumberInputHandler inputHandler, ErrorHandler eh,
 			final AsyncOperation<Boolean> callback) {
 		// avoid labeling of num
-		final Construction cons = kernel.getConstruction();
-		final boolean oldVal = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		inputHandler.processInput(text, eh, new AsyncOperation<Boolean>() {
 
 			@Override
 			public void callback(Boolean ok) {
-				cons.setSuppressLabelCreation(oldVal);
 				if (ok) {
 					DialogManager.doSegmentFixed(kernel, point,
 							inputHandler.getNum());

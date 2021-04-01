@@ -123,6 +123,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	@Override
 	public void setColor(GColor objectColor) {
 		mathFieldEditor.getMathField().setForegroundCssColor(StringUtil.toHtmlColor(objectColor));
+		mathFieldEditor.getMathField().repaintWeb();
 	}
 
 	@Override

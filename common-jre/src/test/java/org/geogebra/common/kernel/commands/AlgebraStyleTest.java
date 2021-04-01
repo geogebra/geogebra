@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.util.IndexHTMLBuilder;
-import org.geogebra.common.util.IndexLaTeXBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;

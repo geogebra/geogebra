@@ -10,10 +10,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
-
-import com.google.gwt.regexp.shared.MatchResult;
-import com.google.gwt.regexp.shared.RegExp;
-import com.google.gwt.regexp.shared.SplitResult;
+import org.gwtproject.regexp.shared.MatchResult;
+import org.gwtproject.regexp.shared.RegExp;
 
 /**
  * Class for coloring the labels in input bar
@@ -54,7 +52,6 @@ public class ColorProvider {
 			.compile(LABEL_REGEX_STRING + "\\[(" + STRING + "|,)\\]", "g");
 	private RegExp commandParamReg = RegExp.compile("<(\\p{L}\\p{M}*| |\\-)*>",
 			"g");
-	private RegExp splitter = RegExp.compile(",");
 	private RegExp assignmentReg;
 
 	/**
@@ -185,9 +182,8 @@ public class ColorProvider {
 			if (labels.contains(label)) {
 				addTo(definedObjectsIntervals, 0, label.length());
 			}
-			SplitResult split = getVariables(res.getGroup(8));
-			for (int i = 0; i < split.length(); i++) {
-				String var = split.get(i);
+			String[] split = getVariables(res.getGroup(8));
+			for (String var: split) {
 				String trimmedVar = trimVar(var);
 				locals.add(trimmedVar);
 			}
@@ -209,14 +205,13 @@ public class ColorProvider {
 				addToInterval(label, startIndex + res.getIndex(),
 						label.length());
 			}
-			SplitResult split = getVariables(params);
+			String[] split = getVariables(params);
 			int j = startIndex + res.getIndex() + label.length();
 			if (split != null) {
-				for (int i = 0; i < split.length(); i++) {
+				for (String sub: split) {
 					// For every parameter we call this function recursively
 					// this way we can color inner commands and function calls
 					// as sin(cos(f(x)))
-					String sub = split.get(i);
 					getIntervalsRecursively(sub, j);
 					j += sub.length() + 1;
 				}
@@ -224,8 +219,8 @@ public class ColorProvider {
 		}
 	}
 
-	private SplitResult getVariables(String vars) {
-		return vars == null ? null : splitter.split(vars);
+	private String[] getVariables(String vars) {
+		return vars == null ? null : vars.split(",");
 	}
 
 	private static String trimVar(String var) {

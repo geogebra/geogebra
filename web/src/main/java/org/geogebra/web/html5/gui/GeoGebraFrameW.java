@@ -312,10 +312,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// do we have data-param-width?
 		int width = appletParameters.getDataParamWidth();
 
-		if (width > 0) {
-			return width - appletParameters.getBorderThickness();
-		}
-
 		// do we have fit to screen?
 		if (appletParameters.getDataParamFitToScreen()) {
 			width = RootPanel.getBodyElement().getOffsetWidth();
@@ -329,7 +325,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	public int computeHeight() {
 		// do we have data-param-height?
-		int height = appletParameters.getDataParamHeight() - appletParameters.getBorderThickness();
+		int height = appletParameters.getDataParamHeight();
 
 		// do we have fit to screen?
 		if (appletParameters.getDataParamFitToScreen()) {
@@ -545,8 +541,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public void setWidth(int width) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().resize(width, getOffsetHeight());
-			setWidth(width - app.getAppletParameters().getBorderThickness()
-					+ "px");
+			setWidth(width + "px");
 			app.persistWidthAndHeight();
 		} else {
 			setSizeSimple(width, getOffsetHeight());
@@ -561,8 +556,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public void setHeight(int height) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().resize(getOffsetWidth(), height);
-			setHeight(height - app.getAppletParameters().getBorderThickness()
-					+ "px");
+			setHeight(height + "px");
 			app.persistWidthAndHeight();
 		} else {
 			setSizeSimple(getOffsetWidth(), height);
@@ -570,13 +564,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	private void setSizeSimple(int width, int height) {
-		int innerHeight = height - app.getAppletParameters().getBorderThickness();
-		int innerWidth = width - app.getAppletParameters().getBorderThickness();
-		setHeight(innerHeight + "px");
-		setWidth(innerWidth + "px");
-		app.setAppletHeight(innerHeight);
-		app.setAppletWidth(innerWidth);
-		app.getEuclidianViewpanel().setPixelSize(innerWidth, innerHeight);
+		setWidth(width + "px");
+		setHeight(height + "px");
+		app.setAppletWidth(width);
+		app.setAppletHeight(height);
+		app.getEuclidianViewpanel().setPixelSize(width, height);
 
 		// maybe onResize is OK too
 		app.getEuclidianViewpanel().deferredOnResize();
@@ -603,8 +595,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	protected void setFramePixelSize(int width, int height) {
-		setWidth(width - app.getAppletParameters().getBorderThickness() + "px");
-		setHeight(height - app.getAppletParameters().getBorderThickness() + "px");
+		setWidth(width + "px");
+		setHeight(height + "px");
 	}
 
 	/**

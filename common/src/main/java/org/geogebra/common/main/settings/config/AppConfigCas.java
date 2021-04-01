@@ -48,7 +48,7 @@ public class AppConfigCas extends AppConfigGraphing {
 
 	@Override
 	public String getAppNameShort() {
-		return "CasCalculator.short";
+		return "CAS";
 	}
 
 	@Override

@@ -26,7 +26,6 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoTurtle;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -115,6 +114,7 @@ public class DrawTurtle extends Drawable {
 
 		public DrawState() {
 			currentPath = new GeneralPathClipped(getView());
+			currentPath.resetWithThickness(geo.getLineThickness());
 			penDown = false;
 			move(turtle.getStartPoint());
 			penDown = true;
@@ -185,6 +185,7 @@ public class DrawTurtle extends Drawable {
 						new PartialPath(penColor, penThickness, currentPath));
 			}
 			currentPath = new GeneralPathClipped(getView());
+			currentPath.resetWithThickness(geo.getLineThickness());
 			currentPath.moveTo(coords[0], coords[1]);
 		}
 	}
@@ -234,7 +235,8 @@ public class DrawTurtle extends Drawable {
 
 		// turtle path on screen?
 		isVisible = false;
-		isVisible = getBounds() != null && getBounds().intersects(0, 0,
+		GRectangle bounds = getBounds();
+		isVisible = bounds != null && bounds.intersects(0, 0,
 				view.getWidth(), view.getHeight());
 		if (isVisible) {
 			at.setTransform(1, 0, 0, 1, 1, 0);
@@ -323,11 +325,6 @@ public class DrawTurtle extends Drawable {
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 	/**

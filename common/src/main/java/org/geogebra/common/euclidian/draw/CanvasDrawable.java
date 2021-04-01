@@ -357,11 +357,6 @@ public abstract class CanvasDrawable extends Drawable {
 		return false;
 	}
 
-	@Override
-	final public GeoElement getGeoElement() {
-		return geo;
-	}
-
 	/**
 	 * @return hit rectangle
 	 */

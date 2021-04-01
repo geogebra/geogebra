@@ -115,10 +115,7 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 
 					@Override
 					public void doExecute() {
-						app.getFileManager()
-								.open(GeoGebraConstants.GEOGEBRA_REPORT_BUG_WEB
-										+ "&lang="
-										+ app.getLocalization().getLanguage());
+						app.getFileManager().open(GeoGebraConstants.FORUM_URL);
 					}
 				});
 	}

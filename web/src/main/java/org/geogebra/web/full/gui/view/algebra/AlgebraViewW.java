@@ -81,7 +81,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	protected final Localization loc;
 	/** Kernel */
 	protected final Kernel kernel;
-	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
+	private final AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	/** Input item */
 	private RadioTreeItem inputPanelLatex;
 	private AlgebraStyleBarW styleBar;
@@ -1836,17 +1836,14 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 		}
 
-		TreeItem node = nodeTable.get(geo);
+		RadioTreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
 			cancelEditItem();
 			editItem = true;
 			setAnimationEnabled(false);
-			if (node instanceof RadioTreeItem) {
-				RadioTreeItem ri = RadioTreeItem.as(node);
-				expandAVToItem(ri);
-				ri.enterEditMode(geo.isPointOnPath() || geo.isPointInRegion());
-			}
+			expandAVToItem(node);
+			node.enterEditMode(geo.isPointOnPath() || geo.isPointInRegion());
 		}
 	}
 
@@ -1862,11 +1859,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 		int editedWidth = ri.getWidthForEdit();
 
-		int expanded = editedWidth;
-		if (editedWidth < userWidth) {
-			expanded = userWidth;
-		}
-
+		int expanded = Math.max(editedWidth, userWidth);
 		expandWidth(expanded);
 		setWidths(expanded);
 	}
@@ -2237,7 +2230,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            The width to expand.
 	 */
 	public void expandWidth(int width) {
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || width < getOffsetWidth()) {
 			return;
 		}
 

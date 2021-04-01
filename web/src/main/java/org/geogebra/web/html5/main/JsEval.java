@@ -1,30 +1,33 @@
 package org.geogebra.web.html5.main;
 
+import org.geogebra.common.plugin.GgbAPI;
+import org.geogebra.web.html5.util.JsConsumer;
+
 import elemental2.core.Function;
 import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 public class JsEval {
 	/**
 	 * 
 	 * @param script
 	 *            script to execute
-	 * @param appletID
-	 *            eg ggbApplet or ggbApplet12345
+	 * @param api
+	 *            applet API
 	 */
-	public static native void evalScriptNative(String script,
-			String appletID) /*-{
-
-		var oldAlert = $wnd.alert;
-		$wnd.alert = function(a) {
-			$wnd[appletID] && $wnd[appletID].showTooltip(a)
-		};
+	public static void evalScriptNative(String script,
+			GgbAPI api) {
+		JsPropertyMap<Object> wnd = Js.asPropertyMap(DomGlobal.window);
+		Object oldAlert = wnd.get("alert");
+		wnd.set("alert", (JsConsumer<String>) api::showTooltip);
 		try {
-			$wnd.eval(script);
+			JsConsumer<String> evalFn = Js.uncheckedCast(wnd.get("eval"));
+			evalFn.accept(script);
 		} finally {
-			$wnd.alert = oldAlert;
+			wnd.set("alert", oldAlert);
 		}
-	}-*/;
+	}
 
 	/**
 	 * @param funcname global function name

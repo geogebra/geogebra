@@ -1,0 +1,5 @@
+<module>
+    <inherits name="elemental2.core.Core"/>
+    <source path='shared' />
+    <source path='client' />
+</module>

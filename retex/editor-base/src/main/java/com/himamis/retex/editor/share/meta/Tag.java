@@ -25,6 +25,8 @@ public enum Tag {
 
 	SQRT("sqrt"),
 
+	CBRT("cbrt"),
+
 	NROOT("nroot"),
 
 	LOG("log"),

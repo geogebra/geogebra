@@ -8,7 +8,6 @@ import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.Localization;
@@ -571,7 +570,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 			String fileName = imageFileName.substring(imageFileName.indexOf('/') + 1);
 
 			int idx = iconNameList.lastIndexOf(fileName);
-			itemIndex = idx > 0 ? idx : 0;
+			itemIndex = Math.max(idx, 0);
 		}
 
 		btnImage.setSelectedIndex(itemIndex);
@@ -640,11 +639,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	}
 
 	@Override
-	public void setBarChart(AlgoBarChart algo) {
-		if (algo != null) {
-			lbBars.setBarCount(algo.getIntervals());
-		}
-
-		lbBars.update(algo != null);
+	public void setBarChart(int cols) {
+		lbBars.updateTranslationKeys(model.getGeos());
+		lbBars.setBarCount(cols);
 	}
 }

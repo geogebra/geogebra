@@ -447,6 +447,8 @@ public class EditorState {
 				return new String[] { "root", "index", "radicand" }[index + 1];
 			case SQRT:
 				return "square root";
+			case CBRT:
+				return "cube root";
 			case SUPERSCRIPT:
 				return "superscript";
 			case ABS:
