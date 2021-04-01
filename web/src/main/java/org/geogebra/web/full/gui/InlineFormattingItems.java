@@ -1,9 +1,14 @@
 package org.geogebra.web.full.gui;
 
+import static org.geogebra.common.kernel.statistics.AlgoTableToChart.ChartType.BarChart;
+import static org.geogebra.common.kernel.statistics.AlgoTableToChart.ChartType.LineChart;
+import static org.geogebra.common.kernel.statistics.AlgoTableToChart.ChartType.PieChart;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
@@ -13,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
+import org.geogebra.common.kernel.statistics.AlgoTableToChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
@@ -190,26 +196,31 @@ public class InlineFormattingItems {
 	}
 
 	void addChartItem() {
-		if (inlines.isEmpty()
-				|| !inlines.stream().allMatch(f -> f instanceof InlineTableController)) {
+		if (inlines.size() != 1 || !(inlines.get(0) instanceof InlineTableController)) {
 			return;
 		}
 
+		GeoInlineTable table = (GeoInlineTable) geos.get(0);
+
+		Consumer<AlgoTableToChart.ChartType> chartCreator = (chartType) -> {
+			int column = ((InlineTableController) inlines.get(0)).getSelectedColumn();
+			AlgoTableToChart algoTableToChart =
+					new AlgoTableToChart(table.getConstruction(), table, chartType, column);
+			GeoElement chart = algoTableToChart.getOutput(0);
+			chart.setLabel(null);
+
+			Scheduler.get().scheduleDeferred(algoTableToChart::compute);
+		};
+
 		AriaMenuBar chartSubmenu = new AriaMenuBar();
 		addSubMenuItem(chartSubmenu, MaterialDesignResources.INSTANCE.table_line_chart(),
-				"ContextMenu.LineChart", () -> {
-					// create line chart
-				});
+				"ContextMenu.LineChart", () -> chartCreator.accept(LineChart));
 
 		addSubMenuItem(chartSubmenu, MaterialDesignResources.INSTANCE.table_bar_chart(),
-				"ContextMenu.BarChart", () -> {
-					// create bar chart
-				});
+				"ContextMenu.BarChart", () -> chartCreator.accept(BarChart));
 
 		addSubMenuItem(chartSubmenu, MaterialDesignResources.INSTANCE.table_pie_chart(),
-				"ContextMenu.PieChart", () -> {
-					// create pie chart
-				});
+				"ContextMenu.PieChart", () -> chartCreator.accept(PieChart));
 
 		AriaMenuItem chartItem = factory.newAriaMenuItem(loc.getMenu("ContextMenu.CreateChart"),
 				false, chartSubmenu);

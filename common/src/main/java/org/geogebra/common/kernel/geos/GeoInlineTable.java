@@ -143,18 +143,21 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 	/**
 	 * @return first column of the table as list of doubles
 	 */
-	public List<Double> extractData() {
+	public List<Double> extractData(int column) {
 		ArrayList<Double> values = new ArrayList<>();
 		try {
 			JSONArray rows = new JSONObject(content).getJSONArray("content");
 			for (int i = 0; i < rows.length(); i++) {
-				JSONObject cell = rows.getJSONArray(i).getJSONObject(0);
+				JSONObject cell = rows.getJSONArray(i).getJSONObject(column);
 				JSONArray words = cell.getJSONArray("content");
 				String cellContent = words.getJSONObject(0).getString("text").trim();
-				Log.error(cellContent);
-				values.add(Double.parseDouble(cellContent));
+				try {
+					values.add(Double.parseDouble(cellContent));
+				} catch (NumberFormatException e) {
+					// just skip it, not considered an error
+				}
 			}
-		} catch (RuntimeException | JSONException e) {
+		} catch (JSONException e) {
 			Log.debug(e);
 		}
 		return values;

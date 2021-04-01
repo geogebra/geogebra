@@ -97,4 +97,6 @@ public interface InlineTableController extends HasTextFormat {
 	boolean isSingleCellSelection();
 
 	boolean hasSelection();
+
+	int getSelectedColumn();
 }
