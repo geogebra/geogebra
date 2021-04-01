@@ -164,7 +164,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		// TODO: temp user input is not loaded back correctly on undo
 		// assertEquals("abcde", loadedInputBox.getTempUserDisplayInput());
 		// assertEquals("?", loadedInputBox.getTempUserEvalInput());
-		assertEquals(text, loadedInputBox.getDynamicCaption());
+		assertTrue(text.isEqual(loadedInputBox.getDynamicCaption()));
 	}
 
 	@Test
