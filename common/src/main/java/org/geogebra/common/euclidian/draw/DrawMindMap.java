@@ -224,7 +224,7 @@ public class DrawMindMap extends DrawInlineText {
 				top = stream.mapToInt(mindMap -> mindMap.rectangle.getTop()).min().orElse(0);
 				break;
 			case LEFT:
-				left = stream.mapToInt(mindMap -> mindMap.rectangle.getRight()).min().orElse(0);
+				left = stream.mapToInt(mindMap -> mindMap.rectangle.getRight()).max().orElse(0);
 				top = last.rectangle.getBottom();
 				break;
 			case TOP:
@@ -259,8 +259,9 @@ public class DrawMindMap extends DrawInlineText {
 			top -= GeoMindMapNode.CHILD_HEIGHT;
 			break;
 		case LEFT:
-		default:
 			left -= GeoMindMapNode.MIN_WIDTH;
+			break;
+		default:
 			break;
 		}
 
