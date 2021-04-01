@@ -1610,7 +1610,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					DockPanelData evDockPanelData = dockPanelDatas[evDockPanelDataId];
 					boolean isEvVisible = evDockPanelData.isVisible();
 
-					setToolbarPanelAfterLoad(showAlgebraView,
+					updateToolbarPanelVisibility(showAlgebraView,
 							isEvVisible, algebraDockPanelDataId);
 				}
 			}
@@ -1620,7 +1620,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 	}
 
-	private void setToolbarPanelAfterLoad(boolean showAlgebraView, boolean isEvVisible, int algebraDockPanelDataId) {
+	private void updateToolbarPanelVisibility(boolean showAlgebraView, boolean isEvVisible, int algebraDockPanelDataId) {
 		ToolbarPanel toolbarPanel = getGuiManager().getUnbundledToolbar();
 		if (!showAlgebraView) {
 			toolbarPanel.close();
