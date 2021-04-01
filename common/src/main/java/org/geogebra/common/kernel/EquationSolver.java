@@ -270,27 +270,6 @@ public class EquationSolver implements EquationSolverInterface {
 		return roots;
 	}
 
-	/**
-	 * Solves the cubic whose coefficients are in the <code>eqn</code> array and
-	 * places the non-complex roots back into the same array, returning the
-	 * number of roots. The solved cubic is represented by the equation:
-	 * 
-	 * <pre>
-	 *     eqn = {c, b, a, d}
-	 *     dx^3 + ax^2 + bx + c = 0
-	 * </pre>
-	 * 
-	 * A return value of -1 is used to distinguish a constant equation that
-	 * might be always 0 or never 0 from an equation that has no zeroes.
-	 * 
-	 * @param eqn
-	 *            an array containing coefficients for a cubic
-	 * @return the number of roots, or -1 if the equation is a constant.
-	 */
-	final public static int solveCubic(double[] eqn) {
-		return solveCubicS(eqn, eqn, Kernel.STANDARD_PRECISION);
-	}
-
 	/*
 	 * adapted from gsl/poly/solve_cubic.c
 	 * 
@@ -301,7 +280,7 @@ public class EquationSolver implements EquationSolverInterface {
 
 	/**
 	 * Solves cubic equation
-	 * 
+	 *
 	 * @param eqn
 	 *            coefficients
 	 * @param res
@@ -312,7 +291,6 @@ public class EquationSolver implements EquationSolverInterface {
 	 */
 	final static public int solveCubicS(double[] eqn, double[] res,
 			double eps) {
-
 		int roots = 0;
 		double d = eqn[3];
 		if (Math.abs(d) < eps) {
@@ -322,6 +300,12 @@ public class EquationSolver implements EquationSolverInterface {
 		double a = eqn[2] / d;
 		double b = eqn[1] / d;
 		double c = eqn[0] / d;
+		if (c == 0) {
+			double[] shifted = new double[] {eqn[1], eqn[2], eqn[3]};
+			int quadRoots = solveQuadraticS(shifted, res, eps);
+			res[quadRoots] = 0;
+			return quadRoots + 1;
+		}
 		double q = (a * a - 3 * b); // D(q) = 2aD(a) + 3D(b)
 		double r = (2 * a * a * a - 9 * a * b + 27 * c); // D(r) = (3aa-9b)D(a)
 															// - 9aD(b) + 27D(c)
@@ -581,9 +565,6 @@ public class EquationSolver implements EquationSolverInterface {
 		double root;
 
 		for (int i = 0; i < laguerreRoots.length; i++) {
-			// System.out.println("laguerreRoots[" + i + "] = " +
-			// laguerreRoots[i]);
-
 			// let's polish all complex roots to get all real roots
 			root = laguerreRoots[i];
 
@@ -609,8 +590,7 @@ public class EquationSolver implements EquationSolverInterface {
 							.abs(polyFunc.value(root))) {
 						root = brentRoot;
 					}
-					// System.out.println("Polish bisectNewtonRaphson: " +
-					// root);
+					root = DoubleUtil.checkRoot(root, polyFunc);
 				} else {
 					if (rootFinderNewton == null) {
 						rootFinderNewton = new NewtonSolver();
@@ -625,10 +605,9 @@ public class EquationSolver implements EquationSolverInterface {
 							.abs(polyFunc.value(root))) {
 						root = newtonRoot;
 					}
-					// System.out.println("Polish newtonRaphson: " + root);
+					root = DoubleUtil.checkRoot(root, polyFunc);
 				}
 			} catch (RuntimeException e) {
-				// Application.debug("Polish FAILED: ");
 				// polishing failed: maybe we have an extremum here
 				// try to find a local extremum
 				try {
@@ -644,8 +623,6 @@ public class EquationSolver implements EquationSolverInterface {
 							root = brentRoot;
 						}
 					}
-					// System.out.println(" find extremum successfull: " +
-					// root);
 				} catch (RuntimeException ex) {
 					//Log.debug(ex.getMessage());
 				}
@@ -665,11 +642,8 @@ public class EquationSolver implements EquationSolverInterface {
 			}
 
 			if (success) {
-				// Application.debug("FOUND ROOT: " + root);
 				eqn[realRoots] = root;
 				realRoots++;
-			} else {
-				// Application.debug("no root: " + root + ", error " + error);
 			}
 		}
 		return realRoots;
