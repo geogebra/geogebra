@@ -47,7 +47,7 @@ public class DrawMindMap extends DrawInlineText {
 
 	// horizontal distance between two nodes on the top or bottom
 	private static final int HORIZONTAL_DISTANCE_2 = 32;
-	// horizontal distance between three or more nodes on th top or bottom
+	// horizontal distance between three or more nodes on the top or bottom
 	private static final int HORIZONTAL_DISTANCE_3 = 16;
 
 	private final GeoMindMapNode node;
@@ -144,7 +144,8 @@ public class DrawMindMap extends DrawInlineText {
 			MindMapEdge connection = new MindMapEdge(parent, this, alignment);
 			double newLength = connection.getLength();
 			boolean newIntersect = connection.isIntersecting(alignment);
-			if ((!newIntersect && intersect) || ((newIntersect == intersect) && newLength < length)) {
+			if ((!newIntersect && intersect) || ((newIntersect == intersect)
+					&& newLength < length)) {
 				mindMapEdge = connection;
 				node.setAlignment(alignment);
 				intersect = newIntersect;
@@ -183,7 +184,7 @@ public class DrawMindMap extends DrawInlineText {
 	}
 
 	private GPoint2D computeNewLocation(NodeAlignment newAlignment) {
-		Comparator<DrawMindMap> comparator = newAlignment.isVerical()
+		Comparator<DrawMindMap> comparator = newAlignment.isVertical()
 				? horizontalComparator : verticalComparator;
 
 		List<GeoMindMapNode> childGeos = node.getChildren().stream()
@@ -208,7 +209,7 @@ public class DrawMindMap extends DrawInlineText {
 			top = rectangle.getTop() + newAlignment.dy0 * rectangle.getHeight()
 				+ (1 - 2 * newAlignment.dy1) * DISTANCE_TO_ROOT;
 
-			if (newAlignment.isVerical()) {
+			if (newAlignment.isVertical()) {
 				left -= GeoMindMapNode.MIN_WIDTH / 2;
 			} else {
 				top -= GeoMindMapNode.CHILD_HEIGHT / 2;
@@ -242,7 +243,7 @@ public class DrawMindMap extends DrawInlineText {
 
 		double extraMovement = calculateExtraMovement(newAlignment, left, top);
 		if (extraMovement != 0 && correctlyAligned) {
-			if (newAlignment.isVerical()) {
+			if (newAlignment.isVertical()) {
 				MoveGeos.moveObjects(childGeos,
 						new Coords(0, -view.getInvYscale() * extraMovement, 0),
 						null, null, view);
@@ -258,11 +259,12 @@ public class DrawMindMap extends DrawInlineText {
 			top -= GeoMindMapNode.CHILD_HEIGHT;
 			break;
 		case LEFT:
+		default:
 			left -= GeoMindMapNode.MIN_WIDTH;
 			break;
 		}
 
-		if (newAlignment.isVerical()) {
+		if (newAlignment.isVertical()) {
 			top += extraMovement;
 		} else {
 			left += extraMovement;
@@ -272,7 +274,7 @@ public class DrawMindMap extends DrawInlineText {
 	}
 
 	private double calculateExtraMovement(NodeAlignment newAlignment, double left, double top) {
-		Comparator<DrawMindMap> intersectionComparator = newAlignment.isVerical()
+		Comparator<DrawMindMap> intersectionComparator = newAlignment.isVertical()
 				? verticalComparator : horizontalComparator;
 
 		if (newAlignment == NodeAlignment.BOTTOM || newAlignment == NodeAlignment.RIGHT) {
@@ -288,7 +290,7 @@ public class DrawMindMap extends DrawInlineText {
 		for (DrawMindMap intersectableChild : intersectableChildren) {
 			TransformableRectangle rect = intersectableChild.rectangle;
 
-			if (newAlignment.isVerical()) {
+			if (newAlignment.isVertical()) {
 				if (rect.getLeft() < left + GeoMindMapNode.MIN_WIDTH && left < rect.getRight()) {
 					if (newAlignment == NodeAlignment.BOTTOM
 							&& rect.getBottom() + MIN_DISTANCE_BETWEEN_NODES > top) {
@@ -346,14 +348,14 @@ public class DrawMindMap extends DrawInlineText {
 	}
 
 	/**
-	 * If the nodes on this side are correctly aligned, then we first mode the siblings
+	 * If the nodes on this side are correctly aligned, then we first move the siblings
 	 * of the currently inserted child to the top or the left
 	 */
 	private void moveSiblings(NodeAlignment newAlignment, List<GeoMindMapNode> childGeos,
 			List<DrawMindMap> children) {
 		int spaceGained = decreaseDistanceBetweenChildren(newAlignment, children);
 
-		if (newAlignment.isVerical()) {
+		if (newAlignment.isVertical()) {
 			double toMove = marginLeft(newAlignment, children.size())
 					+ GeoMindMapNode.MIN_WIDTH - spaceGained;
 			MoveGeos.moveObjects(childGeos, new Coords(-view.getInvXscale() * toMove / 2, 0, 0),
@@ -376,7 +378,7 @@ public class DrawMindMap extends DrawInlineText {
 			return 0;
 		}
 
-		if (newAlignment.isVerical()) {
+		if (newAlignment.isVertical()) {
 			if (children.size() == 2) {
 				double toMove = -view.getInvXscale() * HORIZONTAL_DISTANCE_3;
 				MoveGeos.moveObjects(Collections.singletonList(children.get(1).node),
@@ -405,7 +407,7 @@ public class DrawMindMap extends DrawInlineText {
 	}
 
 	private int marginLeft(NodeAlignment newAlignment, int size) {
-		if (newAlignment.isVerical()) {
+		if (newAlignment.isVertical()) {
 			if (size == 1) {
 				return HORIZONTAL_DISTANCE_2;
 			} else {
@@ -417,7 +419,7 @@ public class DrawMindMap extends DrawInlineText {
 	}
 
 	private double marginTop(NodeAlignment newAlignment, int size) {
-		if (!newAlignment.isVerical()) {
+		if (!newAlignment.isVertical()) {
 			if (size == 1) {
 				return VERTICAL_DISTANCE_2;
 			} else if (size == 2) {
