@@ -266,7 +266,7 @@ public class FileManagerW extends FileManager {
 
 	@Override
 	public void saveLoggedOut(App app1) {
-		showOfflineSaveMessage((AppW) app1);
+		showOfflineErrorTooltip((AppW) app1);
 		((AppW) app1).getGuiManager().exportGGB(true);
 	}
 	
@@ -359,18 +359,6 @@ public class FileManagerW extends FileManager {
 
 	private static void dialogEvent(AppW app, String string) {
 		app.dispatchEvent(new Event(EventType.OPEN_DIALOG, null, string));
-	}
-
-	private void showOfflineSaveMessage(AppW appw) {
-		if (!appw.getNetworkOperation().isOnline()) {
-			ToolTipManagerW.sharedInstance().showBottomMessage(appw
-					.getLocalization()
-					.getMenu("phone_loading_materials_offline"), true, appw);
-		} else if (!appw.getLoginOperation().isLoggedIn()) {
-			ToolTipManagerW.sharedInstance().showBottomMessage(appw
-					.getLocalization()
-					.getMenu("SaveAccountFailed"), true, appw);
-		}
 	}
 
 }
