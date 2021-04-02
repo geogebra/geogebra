@@ -1232,9 +1232,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		} else {
 			removeStyleName("avSelectedRow");
 		}
-		if (!selected) {
-			controls.reset();
-		}
 	}
 
 	@Override
