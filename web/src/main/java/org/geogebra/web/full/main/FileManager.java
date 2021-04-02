@@ -206,8 +206,9 @@ public abstract class FileManager extends MaterialsManager {
 		}
 		// not logged in and can't log in
 		else if (!appw.getLoginOperation().isLoggedIn()
-				&& (!appw.getNetworkOperation().isOnline() || !appw
-		                .getLoginOperation().mayLogIn())) {
+				&& (!appw.getNetworkOperation().isOnline()
+				|| !appw.getLoginOperation().mayLogIn())
+				|| !appw.getNetworkOperation().isOnline()) {
 			saveLoggedOut(appw);
 			// not logged in and possible to log in
 		} else if (!appw.getLoginOperation().isLoggedIn()) {

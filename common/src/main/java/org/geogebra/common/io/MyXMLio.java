@@ -415,7 +415,7 @@ public abstract class MyXMLio {
 			// clear construction
 			kernel.clearConstruction(false);
 		}
-
+		handler.setClearConstruction(clearConstruction);
 		try {
 			kernel.setLoadingMode(true);
 			if (settingsBatch && !isGGTOrDefaults) {
@@ -446,6 +446,7 @@ public abstract class MyXMLio {
 				throw e;
 			}
 		} finally {
+			handler.setClearConstruction(true);
 			kernel.setUseInternalCommandNames(oldVal2);
 			if (!isGGTOrDefaults && mayZoom) {
 				kernel.updateConstruction(randomize, 1);

@@ -68,4 +68,12 @@ public class DrawSymbolic extends Drawable {
 		return false;
 	}
 
+	@Override
+	public GRectangle getBounds() {
+		if (twinDrawable instanceof Drawable) {
+			return ((Drawable) twinDrawable).getBounds();
+		}
+		return null;
+	}
+
 }

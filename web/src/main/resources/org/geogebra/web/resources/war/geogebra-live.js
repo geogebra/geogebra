@@ -86,7 +86,7 @@
                         let commandString = that.api.getCommandString(label, false);
                         // send command for dependent objects
                         if (commandString) {
-                            that.sendEvent("evalCommand", label + " = " + commandString, label);
+                            that.sendEvent("evalCommand", label + " := " + commandString, label);
                             var group = that.api.getObjectsOfItsGroup(label);
                             if (group != null) {
                                 that.sendEvent("addToGroup", label, group);
