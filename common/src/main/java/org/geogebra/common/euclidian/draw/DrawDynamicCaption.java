@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -48,8 +49,11 @@ public class DrawDynamicCaption {
 		drawCaption.yLabel = Integer.MIN_VALUE;
 
 		drawCaption.draw(g2);
-		captionWidth = (int) drawCaption.getBounds().getWidth();
-		captionHeight = (int) drawCaption.getBounds().getHeight();
+		GRectangle bounds = drawCaption.getBounds();
+		if (bounds != null) {
+			captionWidth = (int) bounds.getWidth();
+			captionHeight = (int) bounds.getHeight();
+		}
 	}
 
 	private boolean noCaption() {

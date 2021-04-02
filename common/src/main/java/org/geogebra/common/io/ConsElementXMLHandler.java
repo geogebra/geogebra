@@ -129,6 +129,7 @@ public class ConsElementXMLHandler {
 	private App app;
 	@Weak
 	private MyXMLHandler xmlHandler;
+	private boolean needsConstructionDefaults;
 
 	private static class GeoExpPair {
 		private GeoElement geoElement;
@@ -196,6 +197,10 @@ public class ConsElementXMLHandler {
 	public ConsElementXMLHandler(MyXMLHandler myXMLHandler, App app) {
 		this.xmlHandler = myXMLHandler;
 		this.app = app;
+	}
+
+	public void setNeedsConstructionDefaults(boolean needsConstructionDefaults) {
+		this.needsConstructionDefaults = needsConstructionDefaults;
 	}
 
 	private boolean handleCurveParam(LinkedHashMap<String, String> attrs) {
@@ -410,6 +415,9 @@ public class ConsElementXMLHandler {
 		lineStyleTagProcessed = false;
 		geo = getGeoElement(attrs);
 		geo.setLineOpacity(255);
+		if (needsConstructionDefaults) {
+			geo.setConstructionDefaults();
+		}
 		if (geo instanceof VectorNDValue) {
 			((VectorNDValue) geo)
 					.setMode(((VectorNDValue) geo).getDimension() == 3
@@ -423,8 +431,6 @@ public class ConsElementXMLHandler {
 			((GeoAngle) geo).setEmphasizeRightAngle(true);
 		} else if (geo instanceof GeoText) {
 			geo.setBackgroundColor(null);
-		} else if (geo instanceof GeoInlineText) {
-			geo.setLineThickness(0);
 		}
 	}
 
