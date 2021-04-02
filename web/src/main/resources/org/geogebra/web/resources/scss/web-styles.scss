@@ -2675,53 +2675,11 @@
 		width: 100%;
 	}
 
-	.avSpeedButton {
-		display: inline;
-		cursor: pointer;
-
-		width: 24px;
-	}
-
-	.avSpeedButton.hidden {
-		width: 0;
-		overflow: hidden;
-		padding: 0;
-	}
-
 	.avPlayButton {
 		height: 24px;
 		border: none;
 		outline: none;
 		cursor: pointer;
-	}
-
-	.avSpeedButton > * {
-		/* height is wrong otherwise */
-		float: left;
-	}
-
-	.AlgebraViewObjectStylebar .speedValue {
-		display: inline-block;
-		width: 40px;
-		font-size: 0.8em;
-		text-align: center;
-		border: none;
-		outline: none;
-		overflow: hidden;
-		height: 19px;
-	}
-
-	.AlgebraViewObjectStylebar .speedValue.hidden {
-		width: 0;
-		padding: 0;
-	}
-
-	.AlgebraViewObjectStylebar .speedValue:hover {
-		color: #6161FF;
-	}
-
-	.slideIn {
-		transition: width 0.5s ease;
 	}
 
 	/* Options Slider */
