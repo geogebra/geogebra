@@ -1,6 +1,5 @@
 package org.geogebra.web.full.main;
 
-import java.util.ArrayList;
 import java.util.TreeSet;
 
 import org.geogebra.common.main.App;
@@ -11,7 +10,6 @@ import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
-import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
@@ -19,6 +17,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.full.util.SaveCallback.SaveState;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.StringConsumer;
@@ -139,33 +138,6 @@ public class FileManagerW extends FileManager {
 						&& app.getLoginOperation().mayView(mat)) {
 					addMaterial(mat);
 				}
-			}
-		}
-	}
-
-	@Override
-	public void uploadUsersMaterials(final ArrayList<SyncEvent> events) {
-		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
-			return;
-		}
-		ArrayList<String> keys = new ArrayList<>();
-		for (int i = 0; i < this.stockStore.getLength(); i++) {
-			keys.add(this.stockStore.key(i));
-		}
-		setNotSyncedFileCount(keys.size(), events);
-		for (int i = 0; i < keys.size(); i++) {
-			final String key = keys.get(i);
-			if (key.startsWith(FILE_PREFIX)) {
-				final Material mat = JSONParserGGT
-				        .parseMaterial(this.stockStore.getItem(key));
-				if (getApp().getLoginOperation().owns(mat)) {
-						sync(mat, events);
-
-				} else {
-					ignoreNotSyncedFile(events);
-				}
-			} else {
-				ignoreNotSyncedFile(events);
 			}
 		}
 	}
@@ -294,6 +266,7 @@ public class FileManagerW extends FileManager {
 
 	@Override
 	public void saveLoggedOut(App app1) {
+		showOfflineSaveMessage((AppW) app1);
 		((AppW) app1).getGuiManager().exportGGB(true);
 	}
 	
@@ -386,6 +359,18 @@ public class FileManagerW extends FileManager {
 
 	private static void dialogEvent(AppW app, String string) {
 		app.dispatchEvent(new Event(EventType.OPEN_DIALOG, null, string));
+	}
+
+	private void showOfflineSaveMessage(AppW appw) {
+		if (!appw.getNetworkOperation().isOnline()) {
+			ToolTipManagerW.sharedInstance().showBottomMessage(appw
+					.getLocalization()
+					.getMenu("phone_loading_materials_offline"), true, appw);
+		} else if (!appw.getLoginOperation().isLoggedIn()) {
+			ToolTipManagerW.sharedInstance().showBottomMessage(appw
+					.getLocalization()
+					.getMenu("SaveAccountFailed"), true, appw);
+		}
 	}
 
 }

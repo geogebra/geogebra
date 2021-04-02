@@ -12,8 +12,6 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
-import org.geogebra.common.move.ggtapi.models.SyncEvent;
-import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
@@ -105,25 +103,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		if (app.getGoogleDriveOperation() != null) {
 			app.getGoogleDriveOperation().initGoogleDriveApi();
 		}
-		if (app.getLoginOperation().isLoggedIn()) {
-			sync();
-		}
-	}
-
-	private void sync() {
-		if (!app.getFileManager().isSyncing()) {
-			app.getLoginOperation().getGeoGebraTubeAPI()
-					.sync(0, new SyncCallback() {
-
-			        @Override
-			        public void onSync(ArrayList<SyncEvent> events) {
-							Log.debug("Start sync upload");
-				        app.getFileManager().uploadUsersMaterials(events);
-
-			        }
-		        });
-		}
-
 	}
 
 	/**
@@ -371,7 +350,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 			setAvailableProviders();
 			if (event instanceof LoginEvent
 			        && ((LoginEvent) event).isSuccessful()) {
-				sync();
 				this.materialListPanel.loadUsersMaterials();
 			} else if (event instanceof LogOutEvent) {
 				this.materialListPanel.removeUsersMaterials();
@@ -382,9 +360,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	@Override
 	public void render(final boolean online) {
 		if (online) {
-			if (app.getLoginOperation().isLoggedIn()) {
-				sync();
-			}
 			this.materialListPanel.loadAllMaterials();
 		} else {
 			this.clearMaterials();
