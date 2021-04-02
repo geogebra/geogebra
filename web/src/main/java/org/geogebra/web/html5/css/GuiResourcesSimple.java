@@ -27,18 +27,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/xmlutil.js")
 	TextResource xmlUtil();
 
-	@Source("org/geogebra/common/icons_play/p24/nav_play_circle.png")
-	ImageResource icons_play_circle();
-
-	@Source("org/geogebra/common/icons_play/p24/nav_play_circle_hover.png")
-	ImageResource icons_play_circle_hover();
-
-	@Source("org/geogebra/common/icons_play/p24/nav_pause_circle.png")
-	ImageResource icons_play_pause_circle();
-
-	@Source("org/geogebra/common/icons_play/p24/nav_pause_circle_hover.png")
-	ImageResource icons_play_pause_circle_hover();
-
 	@Source("org/geogebra/web/resources/js/zipjs/codecs.js")
 	TextResource pakoCodecJs();
 

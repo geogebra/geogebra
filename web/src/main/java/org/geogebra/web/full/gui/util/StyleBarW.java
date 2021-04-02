@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.util;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.euclidian.ContextMenuPopup;
 import org.geogebra.web.full.gui.GuiManagerW;

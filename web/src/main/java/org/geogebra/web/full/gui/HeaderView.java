@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui;
 
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 
