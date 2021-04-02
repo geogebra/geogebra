@@ -233,9 +233,6 @@
                     break;
 
                 case "groupObjects":
-                    this.sendEvent(event[0], event.targets);
-                    break;
-
                 case "ungroupObjects":
                     this.sendEvent(event[0], event.targets);
                     break;
@@ -260,6 +257,10 @@
                 case "showPointsTV":
                 	this.sendEvent(event[0], event.column, event.show);
                 	break;
+
+                case "lockTextElement":
+                case "unlockTextElement":
+                	this.sendEvent(event[0], event[1]);
 
                 default:
                     // console.log("unhandled event ", event[0], event);
@@ -359,6 +360,10 @@
                 	target.api.removeGeoFromTV(last.content);
                 } else if (last.type == "showPointsTV") {
                 	target.api.showPointsTV(last.content, last.label);
+                } else if (last.type == "lockTextElement") {
+                	target.api.lockTextElement(last.content);
+                } else if (last.type == "unlockTextElement") {
+                	target.api.unlockTextElement(last.content);
                 }
             }
         };

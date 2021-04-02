@@ -290,6 +290,16 @@ public class EventDispatcher implements ClientView {
 	}
 
 	@Override
+	public void lockTextElement(GeoElement geo) {
+		dispatchEvent(new Event(EventType.LOCK_TEXT_ELEMENT, geo));
+	}
+
+	@Override
+	public void unlockTextElement(GeoElement geo) {
+		dispatchEvent(new Event(EventType.UNLOCK_TEXT_ELEMENT, geo));
+	}
+
+	@Override
 	public boolean suggestRepaint() {
 		return false;
 		// not used for this view

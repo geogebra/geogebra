@@ -204,7 +204,13 @@ public enum EventType {
 	SET_VALUES_TV("setValuesOfTV"),
 
 	/** column, true if show, false otherwise */
-	SHOW_POINTS_TV("showPointsTV");
+	SHOW_POINTS_TV("showPointsTV"),
+
+	/** prevent selection of element by other users */
+	LOCK_TEXT_ELEMENT("lockTextElement"),
+
+	/** unlock text element for other users */
+	UNLOCK_TEXT_ELEMENT("unlockTextElement");
 
 	private String eventName;
 

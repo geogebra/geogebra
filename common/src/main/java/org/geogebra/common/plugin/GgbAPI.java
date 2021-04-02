@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -2412,5 +2413,21 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public boolean hasUnlabeledPredecessors(String label) {
 		return kernel.getConstruction().hasUnlabeledPredecessors(label);
+	}
+
+	@Override
+	public void lockTextElement(String label) {
+		GeoElement geo = kernel.lookupLabel(label);
+		if (geo != null) {
+			((GeoInline) geo).setLockedForMultiuser(true);
+		}
+	}
+
+	@Override
+	public void unlockTextElement(String label) {
+		GeoElement geo = kernel.lookupLabel(label);
+		if (geo != null) {
+			((GeoInline) geo).setLockedForMultiuser(false);
+		}
 	}
 }

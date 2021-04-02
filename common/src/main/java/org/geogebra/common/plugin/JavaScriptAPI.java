@@ -1165,4 +1165,16 @@ public interface JavaScriptAPI {
 	 * @return whether element has unlabeled predecessors
 	 */
 	boolean hasUnlabeledPredecessors(String label);
+
+	/**
+	 * locks text element for moving by other users
+	 * @param label - label of element
+	 */
+	void lockTextElement(String label);
+
+	/**
+	 * unlocks text element for moving by other users
+	 * @param label - label of element
+	 */
+	void unlockTextElement(String label);
 }

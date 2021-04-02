@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
@@ -552,7 +553,8 @@ public class SelectionManager {
 	 */
 	final public boolean containsLockedGeo() {
 		for (GeoElement geo : selectedGeos) {
-			if (geo.isLocked()) {
+			if (geo.isLocked()
+					|| (geo instanceof GeoInline && ((GeoInline) geo).isLockedForMultiuser())) {
 				return true;
 			}
 		}

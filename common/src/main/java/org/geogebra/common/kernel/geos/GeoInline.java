@@ -18,6 +18,8 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	private double height;
 
 	private double angle;
+	/** cannot be moved by other users */
+	private boolean isLockedForMultiuser = false;
 
 	public GeoInline(Construction cons) {
 		super(cons);
@@ -154,5 +156,13 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 		sb.append("\"/>\n");
 
 		XMLBuilder.appendPosition(sb, this);
+	}
+
+	public boolean isLockedForMultiuser() {
+		return isLockedForMultiuser;
+	}
+
+	public void setLockedForMultiuser(boolean locked) {
+		isLockedForMultiuser = locked;
 	}
 }

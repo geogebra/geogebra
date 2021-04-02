@@ -1006,4 +1006,12 @@ public class DefaultExportedApi implements ExportedApi {
 	public boolean hasUnlabeledPredecessors(String label) {
 		return ggbAPI.hasUnlabeledPredecessors(label);
 	}
+
+	public void lockTextElement(String label) {
+		ggbAPI.lockTextElement(label);
+	}
+
+	public void unlockTextElement(String label) {
+		ggbAPI.unlockTextElement(label);
+	}
 }
