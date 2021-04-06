@@ -1350,7 +1350,7 @@ var __giac = [ {},
 { cat:"Derivative", cmd:"Derivative[x y, x]", result:"y", notes:"#4183" },
 { cat:"Derivative", cmd:"Derivative[x y, y]", result:"x", notes:"#4183" },
 { cat:"SolveODE", cmd:"SolveODE[y''=cos(x)]", result:"y = c_0 x + c_1 - cos(x)", notes:"#4879" },
-{ cat:"SolveODE", cmd:"SolveODE[y''=2-exp(-x)]", result:"y = c_0 x + c_1 + x\u00B2 - \u212f^(-x)|OR|y = (c_0 x ℯ^x + c_1 ℯ^x + x² ℯ^x - 1) / ℯ^x", notes:"#4879" },
+{ cat:"SolveODE", cmd:"SolveODE[y''=2-exp(-x)]", result:"y = c_0 x + c_1 + x\u00B2 - \u212f^(-x)|OR|y = (c_0 x ℯ^x + c_1 ℯ^x + x² ℯ^x - 1) / ℯ^x|OR|y = (c_0 x ℯ^x + c_0 ℯ^x + x² ℯ^x - 1) / ℯ^x", notes:"#4879" },
 { cat:"Evaluate", cmd:"Evaluate[false && false]", result:"false" },
 { cat:"Evaluate", cmd:"Evaluate[false && true]", result:"false" },
 { cat:"Evaluate", cmd:"Evaluate[true && false]", result:"false" },
@@ -2552,6 +2552,7 @@ var __giac = [ {},
 { cat:"Q3.1", cmd:"Quartile3({4})", result:"?" },
 { cat:"Q1.1", cmd:"Quartile1({})", result:"?" },
 { cat:"Q3.1", cmd:"Quartile3({})", result:"?" },
+{ cat:"Solve", cmd:"Solve({a*log(b)=1, a=-1},{a,b})", result:"{{a = -1, b = 1 / 10}}" },
 
 //JSONEND
 
