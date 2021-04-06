@@ -44,6 +44,8 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 		setLocation(location);
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		setLineThickness(NO_BORDER);
+		contentWidth = DEFAULT_WIDTH;
+		contentHeight = DEFAULT_HEIGHT;
 		this.contentDefaultSize = getCurrentFontSize();
 	}
 

@@ -14,6 +14,7 @@ import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.euclidian.inline.InlineTextController;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 
 /**
@@ -51,6 +52,7 @@ public class DrawInlineText extends Drawable implements DrawInline {
 
 	@Override
 	public void update() {
+		text.zoomIfNeeded();
 		rectangle.updateSelfAndBoundingBox();
 
 		GPoint2D point = text.getLocation();
@@ -128,7 +130,10 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	public void draw(GGraphics2D g2) {
 		if (text.isEuclidianVisible() && textController != null
 			&& rectangle.getDirectTransform() != null) {
-			textController.draw(g2, rectangle.getDirectTransform());
+			GAffineTransform tr = AwtFactory.getPrototype().newAffineTransform();
+			tr.setTransform(rectangle.getDirectTransform());
+			tr.scale(rectangle.realWidth() / text.contentWidth, rectangle.realHeight() / text.contentHeight);
+			textController.draw(g2, tr);
 		}
 	}
 

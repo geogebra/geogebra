@@ -90,6 +90,12 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	}
 
 	@Override
+	public void setScale(double sx, double sy) {
+		style.setProperty("transform", "scale(" + sx + "," + sy + ")");
+		mathFieldEditor.getMathField().setPixelRatio(sx);
+	}
+
+	@Override
 	public void toForeground(int x, int y) {
 		if (formula.getContent() != null) {
 			mathFieldEditor.setText(formula.getContent());

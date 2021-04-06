@@ -265,4 +265,12 @@ public class TransformableRectangle {
 	public double getAspectRatio() {
 		return aspectRatio;
 	}
+
+	public double realWidth() {
+		return corner0.distance(corner1);
+	}
+
+	public double realHeight() {
+		return corner0.distance(corner3);
+	}
 }

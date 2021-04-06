@@ -12,6 +12,7 @@ import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.euclidian.inline.InlineTableController;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 
 public class DrawInlineTable extends Drawable implements DrawInline {
@@ -34,6 +35,7 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 
 	@Override
 	public void update() {
+		table.zoomIfNeeded();
 		rectangle.updateSelfAndBoundingBox();
 		if (tableController == null && table.getLocation() != null) {
 			// make sure we don't initialize the controller during paste XML parsing
@@ -49,7 +51,10 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 	public void draw(GGraphics2D g2) {
 		if (geo.isEuclidianVisible() && tableController != null
 			&& rectangle.getDirectTransform() != null) {
-			tableController.draw(g2, rectangle.getDirectTransform());
+			GAffineTransform tr = AwtFactory.getPrototype().newAffineTransform();
+			tr.setTransform(rectangle.getDirectTransform());
+			tr.scale(rectangle.realWidth() / table.contentWidth, rectangle.realHeight() / table.contentHeight);
+			tableController.draw(g2, tr);
 		}
 	}
 

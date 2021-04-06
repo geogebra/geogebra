@@ -40,6 +40,7 @@ public class DrawFormula extends Drawable implements DrawInline {
 
 	@Override
 	public void update() {
+		formula.zoomIfNeeded();
 		updateStrokes(geo);
 		labelDesc = geo.toValueString(StringTemplate.defaultTemplate);
 		rectangle.updateSelfAndBoundingBox();
@@ -52,9 +53,10 @@ public class DrawFormula extends Drawable implements DrawInline {
 
 			formulaController.setLocation(view.toScreenCoordX(point.getX()),
 					view.toScreenCoordY(point.getY()));
-			formulaController.setHeight((int) (height));
-			formulaController.setWidth((int) (width - PADDING));
+			formulaController.setHeight((int) (formula.contentHeight));
+			formulaController.setWidth((int) (formula.contentWidth));
 			formulaController.setAngle(angle);
+			formulaController.setScale(width / formula.contentWidth, height / formula.contentHeight);
 			formulaController.setColor(geo.getObjectColor());
 			formulaController.setFontSize(view.getFontSize());
 		}
@@ -70,6 +72,7 @@ public class DrawFormula extends Drawable implements DrawInline {
 			g2.setStroke(objStroke); // needed eg for \sqrt
 			g2.saveTransform();
 			g2.transform(rectangle.getDirectTransform());
+			g2.scale(rectangle.realWidth() / formula.contentWidth, rectangle.realHeight() / formula.contentHeight);
 			g2.translate(PADDING, PADDING);
 			drawMultilineLaTeX(g2, view.getFont().deriveFont(0, view.getFontSize()),
 					geo.getObjectColor(), view.getBackgroundCommon());

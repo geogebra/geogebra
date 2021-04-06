@@ -14,10 +14,17 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 
 	private GPoint2D location;
 
-	private double width;
-	private double height;
+	protected double width;
+	protected double height;
 
 	private double angle;
+
+	public double contentWidth;
+	public double contentHeight;
+
+	private double xScale;
+	private double yScale;
+
 
 	public GeoInline(Construction cons) {
 		super(cons);
@@ -77,6 +84,12 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	public void setSize(double width, double height) {
 		this.width = width;
 		this.height = height;
+		if (getWidth() != 0) {
+			contentWidth = contentWidth * width / getWidth();
+		}
+		if (getHeight() != 0) {
+			contentHeight = contentHeight * height / getHeight();
+		}
 	}
 
 	/**
@@ -155,4 +168,48 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 
 		XMLBuilder.appendPosition(sb, this);
 	}
+
+	/**
+	 * Zooming in x direction
+	 *
+	 * @param factor
+	 *            zoom factor;
+	 *
+	 */
+	private void zoomX(double factor) {
+		width *= factor;
+	}
+
+	/**
+	 * Zooming in y direction
+	 *
+	 * @param factor
+	 *            zoom factor;
+	 *
+	 */
+	private void zoomY(double factor) {
+		height *= factor;
+	}
+
+	/**
+	 * Zoom the video if the video is not pinned, and the scales of the view
+	 * changed.
+	 */
+	public void zoomIfNeeded() {
+		if (xScale == 0) {
+			xScale = app.getActiveEuclidianView().getXscale();
+			yScale = app.getActiveEuclidianView().getYscale();
+			return;
+		}
+
+		if (xScale != app.getActiveEuclidianView().getXscale()) {
+			zoomX(app.getActiveEuclidianView().getXscale() / xScale);
+			xScale = app.getActiveEuclidianView().getXscale();
+		}
+		if (yScale != app.getActiveEuclidianView().getYscale()) {
+			zoomY(app.getActiveEuclidianView().getYscale() / yScale);
+			yScale = app.getActiveEuclidianView().getYscale();
+		}
+	}
+
 }
