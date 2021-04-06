@@ -27,4 +27,13 @@ public class ExamDrawerMenuFactoryTest {
 		MenuItemGroup group = menu.getMenuItemGroups().get(0);
 		Assert.assertEquals(6, group.getMenuItems().size());
 	}
+
+	@Test
+	public void testScientificExam() {
+		DrawerMenuFactory factory = new ExamDrawerMenuFactory(GeoGebraConstants.Version.SCIENTIFIC);
+		DrawerMenu menu = factory.createDrawerMenu();
+		Assert.assertEquals(1, menu.getMenuItemGroups().size());
+		MenuItemGroup group = menu.getMenuItemGroups().get(0);
+		Assert.assertEquals(3, group.getMenuItems().size());
+	}
 }

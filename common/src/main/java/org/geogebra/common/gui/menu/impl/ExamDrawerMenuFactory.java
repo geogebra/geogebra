@@ -1,7 +1,5 @@
 package org.geogebra.common.gui.menu.impl;
 
-import java.util.List;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.menu.Action;
 import org.geogebra.common.gui.menu.DrawerMenu;
@@ -13,8 +11,6 @@ import org.geogebra.common.gui.menu.MenuItemGroup;
  * Creates drawer menus for apps when in exam mode.
  */
 public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
-
-	private GeoGebraConstants.Version version;
 
 	/**
 	 * Create a new ExamDrawerMenuFactory.
@@ -32,32 +28,21 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	public ExamDrawerMenuFactory(GeoGebraConstants.Version version,
 			boolean isSuiteApp) {
 		super(version, isSuiteApp);
-		this.version = version;
 	}
 
 	@Override
 	public DrawerMenu createDrawerMenu() {
-		MenuItemGroup group = new MenuItemGroupImpl(collectItems());
+		boolean isScientific = version == GeoGebraConstants.Version.SCIENTIFIC;
+		MenuItem clearConstruction = clearConstruction();
+		MenuItem openFile = isScientific ? null : openFile();
+		MenuItem saveFile = isScientific ? null : saveFile();
+		MenuItem switchCalculator = showSwitchCalculator();
+		MenuItem examLog = showExamLog();
+		MenuItem exitExam = exitExamMode();
+		MenuItemGroup group = new MenuItemGroupImpl(removeNulls(clearConstruction, openFile,
+				saveFile, switchCalculator, examLog, exitExam));
 		String title = getMenuTitle();
 		return new DrawerMenuImpl(title, group);
-	}
-
-	private List<MenuItem> collectItems() {
-		if (version == GeoGebraConstants.Version.SCIENTIFIC) {
-			return removeNulls(
-					clearConstruction(),
-					showSwitchCalculator(),
-					showExamLog(),
-					exitExamMode());
-		} else {
-			return removeNulls(
-					clearConstruction(),
-					openFile(),
-					saveFile(),
-					showSwitchCalculator(),
-					showExamLog(),
-					exitExamMode());
-		}
 	}
 
 	private static MenuItem exitExamMode() {
