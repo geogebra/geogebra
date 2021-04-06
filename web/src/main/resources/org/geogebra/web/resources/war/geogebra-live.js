@@ -2,10 +2,7 @@
     function LiveApp(parentClientId, embedLabel, users, delay) {
         this.api = null;
         this.users = users || {};
-        if (delay == null) {
-        	delay = 200;
-        }
-        this.delay = delay;
+      	this.delay = delay || 200;
         this.clientId = parentClientId;
         this.currentAnimations = [];
         this.embeds = {};
@@ -373,9 +370,6 @@
         mainSession.api = api;
         mainSession.eventCallbacks = {"construction": []}
         mainSession.registerListeners();
-        if (delay == null) {
-        	delay = 200;
-        }
         mainSession.delay = delay;
 
         this.dispatch = function(last) {
