@@ -74,7 +74,7 @@ public class ViewW {
 	 *            base64 encoded, zipped GGB file
 	 */
 	public void processBase64String(String base64String) {
-		String suffix = base64String.substring(base64String.indexOf(',') + 1);
+		String suffix = base64String.substring(base64String.indexOf(',') + 1).trim();
 		Uint8Array binaryData = Base64.base64ToBytes(suffix);
 		populateArchiveContent(binaryData);
 	}
