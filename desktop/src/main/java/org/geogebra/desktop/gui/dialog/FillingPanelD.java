@@ -39,8 +39,8 @@ import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.statistics.AlgoPieChart;
@@ -310,23 +310,27 @@ class FillingPanelD extends JPanel
 		imgFileNameList = new ArrayList<>();
 
 		imgFileNameList.add(null); // for delete
-		imgFileNameList.add(GuiResourcesD.GO_DOWN);
-		imgFileNameList.add(GuiResourcesD.GO_UP);
-		imgFileNameList.add(GuiResourcesD.GO_PREVIOUS);
-		imgFileNameList.add(GuiResourcesD.GO_NEXT);
-		imgFileNameList.add(GuiResourcesD.NAV_FASTFORWARD);
-		imgFileNameList.add(GuiResourcesD.NAV_REWIND);
-		imgFileNameList.add(GuiResourcesD.NAV_SKIPBACK);
-		imgFileNameList.add(GuiResourcesD.NAV_SKIPFORWARD);
-		imgFileNameList.add(GuiResourcesD.NAV_PLAY);
-		imgFileNameList.add(GuiResourcesD.NAV_PAUSE);
-
-		imgFileNameList.add(GuiResourcesD.EXIT);
+		imgFileNameList.add(GuiResourcesD.FILLING_PAUSE);
+		imgFileNameList.add(GuiResourcesD.FILLING_PLAY);
+		imgFileNameList.add(GuiResourcesD.FILLING_STOP);
+		imgFileNameList.add(GuiResourcesD.FILLING_REPLAY);
+		imgFileNameList.add(GuiResourcesD.FILLING_SKIP_NEXT);
+		imgFileNameList.add(GuiResourcesD.FILLING_SKIP_PREVIOUS);
+		imgFileNameList.add(GuiResourcesD.FILLING_LOOP);
+		imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_IN);
+		imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_OUT);
+		imgFileNameList.add(GuiResourcesD.FILLING_CLOSE);
+		imgFileNameList.add(GuiResourcesD.FILLING_ARROW_UP);
+		imgFileNameList.add(GuiResourcesD.FILLING_ARROW_DOWN);
+		imgFileNameList.add(GuiResourcesD.FILLING_ARROW_BACK);
+		imgFileNameList.add(GuiResourcesD.FILLING_ARROW_FORWARD);
+		imgFileNameList.add(GuiResourcesD.FILLING_FAST_FORWARD);
+		imgFileNameList.add(GuiResourcesD.FILLING_FAST_REWIND);
 
 		ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
 		iconArray[0] = GeoGebraIconD.createNullSymbolIcon(24, 24);
 		for (int i = 1; i < iconArray.length; i++) {
-			iconArray[i] = GeoGebraIconD.createFileImageIcon(app,
+			iconArray[i] = GeoGebraIconD.createFileImageIcon(
 					imgFileNameList.get(i));
 		}
 		// ============================================
@@ -584,7 +588,7 @@ class FillingPanelD extends JPanel
 			if (btnImage.getSelectedIndex() == 0) {
 				fileName = "";
 			} else {
-				fileName = "/geogebra" + imgFileNameList
+				fileName = imgFileNameList
 						.get(btnImage.getSelectedIndex()).getFilename();
 			}
 			model.applyImage(fileName);
