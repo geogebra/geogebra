@@ -36,7 +36,7 @@ public class MoveGeos {
 	 *            euclidian view
 	 * @return true if something was moved
 	 */
-	public static boolean moveObjects(List<GeoElement> geosToMove,
+	public static boolean moveObjects(List<? extends GeoElement> geosToMove,
 			final Coords rwTransVec, final Coords endPosition,
 			final Coords viewDirection, EuclidianView view) {
 		if (moveObjectsUpdateList == null) {

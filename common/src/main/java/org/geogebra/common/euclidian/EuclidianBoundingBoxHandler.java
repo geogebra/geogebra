@@ -51,7 +51,7 @@ public enum EuclidianBoundingBoxHandler {
 	/**
 	 * mind map: add node to the right
 	 */
-	ADD_RIGHT(-1, 0),
+	ADD_RIGHT(1, 0),
 	/**
 	 * mind map: add node to the bottom
 	 */
@@ -59,7 +59,7 @@ public enum EuclidianBoundingBoxHandler {
 	/**
 	 * mind map: add node to the left
 	 */
-	ADD_LEFT(1, 0),
+	ADD_LEFT(-1, 0),
 	/**
 	 * undefined handler
 	 */
