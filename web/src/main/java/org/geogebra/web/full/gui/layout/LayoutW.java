@@ -316,7 +316,7 @@ public class LayoutW extends Layout {
 						app.isUnbundled3D() ? App.VIEW_EUCLIDIAN3D : App.VIEW_EUCLIDIAN);
 				DockPanelData evDockPanelData = dockPanelInfo[evDockPanelDataId];
 				DockPanelData copyEvDockPanelData = evDockPanelData.duplicate();
-				boolean isEVOpen = ((GuiManagerW) app.getGuiManager()).getUnbundledToolbar().isOpen();
+				boolean isEVOpen = evDockPanelData.isVisible();
 				copyEvDockPanelData.setVisible(isEVOpen);
 				dockPanelInfo[evDockPanelDataId] = copyEvDockPanelData;
 			}
