@@ -170,8 +170,8 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 		}
 	}
 
-	/**
-	 * @return first column of the table as list of doubles
+	/** @param column index of column
+	 * @return column and next column of the table as list of doubles
 	 */
 	public List<Double>[] extractTwoColumnData(int column) {
 		List<Double> col0 = new ArrayList<>();

@@ -88,6 +88,8 @@ public class AlgoTableToChart extends AlgoElement {
 			case BarChart:
 				embedManager.sendCommand(chart, "ShowAxes(true)");
 				break;
+			default:
+				break;
 			}
 		});
 	}
@@ -155,6 +157,8 @@ public class AlgoTableToChart extends AlgoElement {
 					embedManager.sendCommand(chart, "SetColor(chart, \"#6557D2\")");
 				}
 				embedManager.sendCommand(chart, "SetLineThickness(chart, 8)");
+				break;
+			default:
 				break;
 			}
 		}

@@ -103,8 +103,8 @@ public class CalcEmbedElement extends EmbedElement {
 	}
 
 	/**
-	 *
-	 * @param grid
+	 * set grid type for EV
+	 * @param grid grid type
 	 */
 	public void setGrid(int grid) {
 		EuclidianSettings evs = frame.getApp().getSettings().getEuclidian(1);
