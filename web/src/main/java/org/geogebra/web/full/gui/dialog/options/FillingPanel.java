@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.FileInputDialog;
 import org.geogebra.web.full.gui.properties.OptionPanel;
@@ -498,16 +497,15 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		opacityPanel.setVisible(true);
 		hatchFillPanel.setVisible(false);
 		imagePanel.setVisible(true);
-		this.btnImage.setVisible(true);
-		this.btnClearImage.setVisible(true);
+		btnImage.setVisible(model.hasGeoButton());
+		btnClearImage.setVisible(true);
 
 		// for GeoButtons only show the image file button
 		if (model.hasGeoButton() || model.hasGeoTurtle()) {
 			fillTypePanel.setVisible(false);
 			opacityPanel.setVisible(false);
 			if (model.hasGeoTurtle()) {
-				this.btnImage.setVisible(false);
-				this.btnClearImage.setVisible(true);
+				btnClearImage.setVisible(true);
 			}
 		}
 		setSymbolsVisible(false);

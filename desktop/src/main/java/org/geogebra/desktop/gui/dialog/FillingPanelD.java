@@ -469,7 +469,7 @@ class FillingPanelD extends JPanel
 		lblSymbols.setVisible(false);
 		lblSelectedSymbol.setVisible(false);
 		btInsertUnicode.setVisible(false);
-		this.btnImage.setVisible(true);
+		this.btnImage.setVisible(model.hasGeoButton());
 		this.btnClearImage.setVisible(false);
 
 		// for GeoButtons only show the image file button
@@ -478,7 +478,6 @@ class FillingPanelD extends JPanel
 			lblFillType.setVisible(false);
 			cbFillType.setVisible(false);
 			if (model.hasGeoTurtle()) {
-				this.btnImage.setVisible(false);
 				this.btnClearImage.setVisible(true);
 			}
 		}
