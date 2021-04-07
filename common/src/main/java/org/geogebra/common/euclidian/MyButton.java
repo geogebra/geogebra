@@ -94,7 +94,7 @@ public class MyButton implements Observer {
 				(int) (multiplier * 12));
 		g.setFont(font);
 
-		boolean hasText = getCaption().length() > 0;
+		boolean hasText = geoButton.isLabelVisible() && getCaption().length() > 0;
 
 		int imgHeight = 0;
 		int imgWidth = 0;
