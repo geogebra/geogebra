@@ -24,6 +24,7 @@ public abstract class StringInput implements KeyboardAdapter {
     protected static void commitFunction(MathFieldInternal mfi, String function) {
         EditorState editorState = mfi.getEditorState();
         InputController inputController = mfi.getInputController();
-		inputController.newFunction(editorState, function);
+        inputController.newFunction(editorState, function);
+        mfi.notifyAndUpdate(function);
     }
 }
