@@ -5547,7 +5547,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void updatePreview() {
 		// update preview
-		if (view.getPreviewDrawable() != null) {
+		Previewable previewDrawable = view.getPreviewDrawable();
+
+		if (previewDrawable != null) {
 			view.updatePreviewableForProcessMode();
 			if (mouseLoc != null) {
 				xRW = view.toRealWorldCoordX(mouseLoc.x);
@@ -5555,7 +5557,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 				processModeLock();
 
-				view.getPreviewDrawable().updateMousePos(xRW, yRW);
+				previewDrawable.updateMousePos(xRW, yRW);
 			}
 			view.repaintView();
 		}
