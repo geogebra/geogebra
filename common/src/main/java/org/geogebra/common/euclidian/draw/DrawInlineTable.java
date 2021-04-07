@@ -44,6 +44,9 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 		}
 		if (tableController != null) {
 			tableController.update();
+			tableController.setHeight((int) (table.contentHeight));
+			tableController.setWidth((int) (table.contentWidth));
+			tableController.setScale(table.getWidth()/table.contentWidth, table.getHeight()/table.contentHeight);
 		}
 	}
 

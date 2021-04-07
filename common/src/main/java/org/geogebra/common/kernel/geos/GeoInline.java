@@ -192,8 +192,7 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	}
 
 	/**
-	 * Zoom the video if the video is not pinned, and the scales of the view
-	 * changed.
+	 * Zooms the text element
 	 */
 	public void zoomIfNeeded() {
 		if (xScale == 0) {

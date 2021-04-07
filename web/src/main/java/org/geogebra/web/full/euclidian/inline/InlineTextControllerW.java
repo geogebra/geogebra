@@ -276,4 +276,9 @@ public class InlineTextControllerW implements InlineTextController {
 		return editor.getListStyle();
 	}
 
+	@Override
+	public void setScale(double sx, double sy) {
+		style.setProperty("transform", "scale(" + sx + "," + sy + ")");
+	}
+
 }
