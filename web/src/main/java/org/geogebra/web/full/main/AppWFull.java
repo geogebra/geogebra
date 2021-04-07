@@ -1600,18 +1600,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			int algebraDockPanelDataId = findDockPanelData(dockPanelDatas, App.VIEW_ALGEBRA);
 
 			if (algebraDockPanelDataId != -1) {
-				DockPanelData dockPanelData = dockPanelDatas[algebraDockPanelDataId];
-				boolean showAlgebraView = dockPanelData.isVisible();
-				boolean isEV3D = getGuiManager().getApp().isUnbundled3D();
-
 				int evDockPanelDataId = findDockPanelData(dockPanelDatas,
-						isEV3D?	App.VIEW_EUCLIDIAN3D : App.VIEW_EUCLIDIAN);
+						isUnbundled3D() ? App.VIEW_EUCLIDIAN3D : App.VIEW_EUCLIDIAN);
 				if (evDockPanelDataId != -1) {
-					DockPanelData evDockPanelData = dockPanelDatas[evDockPanelDataId];
-					boolean isEvVisible = evDockPanelData.isVisible();
-
-					updateToolbarPanelVisibility(showAlgebraView,
-							isEvVisible, algebraDockPanelDataId);
+					setupToolbarPanelVisibility(dockPanelDatas, algebraDockPanelDataId, evDockPanelDataId);
 				}
 			}
 		}
@@ -1620,14 +1612,18 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 	}
 
-	private void updateToolbarPanelVisibility(boolean showAlgebraView, boolean isEvVisible, int algebraDockPanelDataId) {
+	private void setupToolbarPanelVisibility(DockPanelData[] dockPanelData,
+			int algebraDockPanelDataId, int evDockPanelDataId) {
+		DockPanelData avDockPanelData = dockPanelData[algebraDockPanelDataId];
+		boolean showAlgebraView = avDockPanelData.isVisible();
+
+		DockPanelData evDockPanelData = dockPanelData[evDockPanelDataId];
+		boolean isEvVisible = evDockPanelData.isVisible();
+
 		ToolbarPanel toolbarPanel = getGuiManager().getUnbundledToolbar();
 		if (!showAlgebraView) {
 			toolbarPanel.close();
-		} else if (!isEvVisible) {
-			getGuiManager().getLayout().getDockManager()
-					.closePanel(algebraDockPanelDataId,false);
-		} else {
+		} else if (isEvVisible) {
 			toolbarPanel.close();
 			toolbarPanel.open();
 		}
