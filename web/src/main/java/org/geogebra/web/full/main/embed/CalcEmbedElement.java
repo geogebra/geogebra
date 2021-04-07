@@ -1,6 +1,7 @@
 package org.geogebra.web.full.main.embed;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.undo.UndoInfoStoredListener;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.EventType;
@@ -87,6 +88,31 @@ public class CalcEmbedElement extends EmbedElement {
 
 	public void sendCommand(String cmd) {
 		frame.getApp().getGgbApi().asyncEvalCommand(cmd, null, null);
+	}
+
+	/**
+	 * Set the specified axis in
+	 */
+	public void setAxisSettings(int axis, boolean positiveOnly, double crossing) {
+		EuclidianSettings evs = frame.getApp().getSettings().getEuclidian(1);
+		evs.beginBatch();
+		evs.setPositiveAxis(axis, positiveOnly);
+		evs.setAxisCross(axis, crossing);
+		evs.endBatch();
+		frame.getApp().getKernel().notifyRepaint();
+	}
+
+	/**
+	 *
+	 * @param grid
+	 */
+	public void setGrid(int grid) {
+		EuclidianSettings evs = frame.getApp().getSettings().getEuclidian(1);
+		evs.beginBatch();
+		evs.showGrid(true);
+		evs.setGridType(grid);
+		evs.endBatch();
+		frame.getApp().getKernel().notifyRepaint();
 	}
 
 	private static class UndoRedoGlue implements UndoInfoStoredListener {

@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui;
 
 import static org.geogebra.common.kernel.statistics.AlgoTableToChart.ChartType.BarChart;
-import static org.geogebra.common.kernel.statistics.AlgoTableToChart.ChartType.LineChart;
+import static org.geogebra.common.kernel.statistics.AlgoTableToChart.ChartType.LineGraph;
 import static org.geogebra.common.kernel.statistics.AlgoTableToChart.ChartType.PieChart;
 
 import java.util.ArrayList;
@@ -214,7 +214,7 @@ public class InlineFormattingItems {
 
 		AriaMenuBar chartSubmenu = new AriaMenuBar();
 		addSubMenuItem(chartSubmenu, MaterialDesignResources.INSTANCE.table_line_chart(),
-				"ContextMenu.LineChart", () -> chartCreator.accept(LineChart));
+				"ContextMenu.LineChart", () -> chartCreator.accept(LineGraph));
 
 		addSubMenuItem(chartSubmenu, MaterialDesignResources.INSTANCE.table_bar_chart(),
 				"ContextMenu.BarChart", () -> chartCreator.accept(BarChart));

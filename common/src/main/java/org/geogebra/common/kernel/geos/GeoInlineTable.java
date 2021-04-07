@@ -148,18 +148,57 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 		try {
 			JSONArray rows = new JSONObject(content).getJSONArray("content");
 			for (int i = 0; i < rows.length(); i++) {
-				JSONObject cell = rows.getJSONArray(i).getJSONObject(column);
-				JSONArray words = cell.getJSONArray("content");
-				String cellContent = words.getJSONObject(0).getString("text").trim();
-				try {
-					values.add(Double.parseDouble(cellContent));
-				} catch (NumberFormatException e) {
-					// just skip it, not considered an error
+				Double val = getCellValue(rows, i, column);
+				if (val != null) {
+					values.add(val);
 				}
 			}
 		} catch (JSONException e) {
 			Log.debug(e);
 		}
 		return values;
+	}
+
+	private Double getCellValue(JSONArray rows, int row, int column) {
+		try {
+			JSONObject cell = rows.getJSONArray(row).getJSONObject(column);
+			JSONArray words = cell.getJSONArray("content");
+			String cellContent = words.getJSONObject(0).getString("text").trim();
+			return Double.parseDouble(cellContent);
+		} catch (NumberFormatException | JSONException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * @return first column of the table as list of doubles
+	 */
+	public List<Double>[] extractTwoColumnData(int column) {
+		List<Double> col0 = new ArrayList<>();
+		List<Double> col1 = new ArrayList<>();
+
+		try {
+			JSONArray rows = new JSONObject(content).getJSONArray("content");
+			for (int i = 0; i < rows.length(); i++) {
+				Double val0 = getCellValue(rows, i, column);
+				Double val1 = getCellValue(rows, i, column + 1);
+
+				if (val0 != null && val1 != null) {
+					col0.add(val0);
+					col1.add(val1);
+				}
+			}
+		} catch (JSONException e) {
+			Log.debug(e);
+		}
+
+		if (col0.isEmpty()) {
+			col0 = extractData(column);
+			for (double x = 1; x <= col0.size(); x++) {
+				col1.add(x);
+			}
+		}
+
+		return new List[] {col0, col1};
 	}
 }

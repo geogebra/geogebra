@@ -1,8 +1,10 @@
 package org.geogebra.common.kernel.statistics;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.euclidian.EmbedManager;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
@@ -19,7 +21,7 @@ public class AlgoTableToChart extends AlgoElement {
 	public enum ChartType {
 		PieChart,
 		BarChart,
-		LineChart
+		LineGraph
 	}
 
 	public static final int CHART_SIZE = 360;
@@ -80,13 +82,11 @@ public class AlgoTableToChart extends AlgoElement {
 			switch (chartType) {
 			case PieChart:
 				embedManager.sendCommand(chart, "ShowAxes(false)");
-				embedManager.sendCommand(chart, "ZoomIn(-4, -4, 4, 4)");
 				break;
-			case LineChart:
-				// todo
-				break;
+			case LineGraph:
+				embedManager.setGrid(chart, EuclidianView.GRID_CARTESIAN);
 			case BarChart:
-				// todo
+				embedManager.sendCommand(chart, "ShowAxes(true)");
 				break;
 			}
 		});
@@ -98,26 +98,65 @@ public class AlgoTableToChart extends AlgoElement {
 			return;
 		}
 
-		List<Double> data = table.extractData(column);
-
 		String chartCommand;
+		double minX, minY, maxX, maxY;
 
 		switch (chartType) {
 		case PieChart:
-			chartCommand = "chart=PieChart({" + StringUtil.join(",", data) + "})";
+			List<Double> pieData = table.extractData(column);
+			chartCommand = "chart=PieChart({" + StringUtil.join(",", pieData) + "})";
+			minX = minY = -4;
+			maxX = maxY = 4;
 			break;
-		case LineChart:
-			chartCommand = "chart=LineChart({" + StringUtil.join(",", data) + "},1)";
+		case LineGraph:
+			List<Double>[] lineData = table.extractTwoColumnData(column);
+			chartCommand = "chart=LineGraph({"
+					+ StringUtil.join(",", lineData[0]) + "},{"
+					+ StringUtil.join(",", lineData[1]) + "})";
+			minX = Collections.min(lineData[0]) - 1;
+			maxX = Collections.max(lineData[0]) + 1;
+			minY = Collections.min(lineData[1]) - 1;
+			maxY = Collections.max(lineData[1]) + 1;
 			break;
 		default:
 		case BarChart:
-			chartCommand = "chart=BarChart({" + StringUtil.join(",", data) + "},1)";
+			List<Double>[] barData = table.extractTwoColumnData(column);
+			chartCommand = "chart=BarChart({"
+					+ StringUtil.join(",", barData[0]) + "},{"
+					+ StringUtil.join(",", barData[1]) + "}, 1)";
+			minX = Collections.min(barData[0]) - 1.5;
+			maxX = Collections.max(barData[0]) + 1.5;
+			minY = -1;
+			maxY = Collections.max(barData[1]) + 1;
 			break;
 		}
 
 		if (!chartCommand.equals(oldChartCommand)) {
 			embedManager.sendCommand(chart, chartCommand);
 			oldChartCommand = chartCommand;
+			embedManager.sendCommand(chart, "ShowLabel(chart, false)");
+			embedManager.sendCommand(chart, "ZoomIn(" + minX + ", " + minY
+					+ ", " + maxX + ", " + maxY + ")");
+			embedManager.setAxisSettings(chart, 0, true, minY + 1);
+			embedManager.setAxisSettings(chart, 1, true, minX + 1);
+
+			switch (chartType) {
+			case BarChart:
+				if (kernel.getApplication().isMebis()) {
+					embedManager.sendCommand(chart, "SetColor(chart, \"#B500A8D5\")");
+				} else {
+					embedManager.sendCommand(chart, "SetColor(chart, \"#B56557D2\")");
+				}
+				break;
+			case LineGraph:
+				if (kernel.getApplication().isMebis()) {
+					embedManager.sendCommand(chart, "SetColor(chart, \"#00A8D5\")");
+				} else {
+					embedManager.sendCommand(chart, "SetColor(chart, \"#6557D2\")");
+				}
+				embedManager.sendCommand(chart, "SetLineThickness(chart, 8)");
+				break;
+			}
 		}
 	}
 

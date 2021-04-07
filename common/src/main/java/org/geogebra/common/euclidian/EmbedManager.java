@@ -164,4 +164,8 @@ public interface EmbedManager {
 	void onError(GeoEmbed geoEmbed);
 
 	void sendCommand(GeoEmbed chart, String cmd);
+
+	void setAxisSettings(GeoEmbed chart, int axis, boolean positiveOnly, double crossing);
+
+	void setGrid(GeoEmbed chart, int grid);
 }
