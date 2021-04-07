@@ -1603,7 +1603,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				int evDockPanelDataId = findDockPanelData(dockPanelDatas,
 						isUnbundled3D() ? App.VIEW_EUCLIDIAN3D : App.VIEW_EUCLIDIAN);
 				if (evDockPanelDataId != -1) {
-					setupToolbarPanelVisibility(dockPanelDatas, algebraDockPanelDataId, evDockPanelDataId);
+					setupToolbarPanelVisibility(dockPanelDatas,
+							algebraDockPanelDataId,evDockPanelDataId);
 				}
 			}
 		}
