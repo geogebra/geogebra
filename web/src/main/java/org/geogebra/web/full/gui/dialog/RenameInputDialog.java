@@ -16,16 +16,12 @@ public class RenameInputDialog extends ComponentInputDialog {
 	 * @param inputHandler - input handler
 	 * @param labelText - label of input text field
 	 * @param initText - initial text of the field
-	 * @param rows - rows
-	 * @param columns - columns
-	 * @param showSymbolPopupIcon - true if should show
 	 */
 	public RenameInputDialog(AppW app,
 			DialogData dialogData, boolean autoHide,
 			boolean hasScrim, InputHandler inputHandler,
-			String labelText, String initText, int rows, int columns, boolean showSymbolPopupIcon) {
-		super(app, dialogData, autoHide, hasScrim, inputHandler, labelText, initText, rows, columns,
-				showSymbolPopupIcon);
+			String labelText, String initText) {
+		super(app, dialogData, autoHide, hasScrim, inputHandler, labelText, initText, false);
 	}
 
 	@Override

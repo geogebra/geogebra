@@ -19,7 +19,7 @@ public class ComponentInputDialog extends ComponentDialog
 	private ComponentInputField inputTextField;
 
 	/**
-	 * base dialog constructor
+	 * Base dialog constructor: single row
 	 * @param app - see {@link AppW}
 	 * @param dialogData - contains trans keys for title and buttons
 	 * @param autoHide - if the dialog should be closed on click outside
@@ -28,9 +28,9 @@ public class ComponentInputDialog extends ComponentDialog
 	 */
 	public ComponentInputDialog(AppW app, DialogData dialogData,
 			boolean autoHide, boolean hasScrim, InputHandler inputHandler, String labelText,
-			String initText, int rows, int columns, boolean showSymbolPopupIcon) {
+			String initText, boolean showSymbolPopupIcon) {
 		this(app, dialogData, autoHide, hasScrim, inputHandler);
-		createGUI(labelText, initText, rows, columns, showSymbolPopupIcon);
+		createGUI(labelText, initText, showSymbolPopupIcon);
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class ComponentInputDialog extends ComponentDialog
 	 * @param hasScrim - background should be greyed out
 	 * @param inputHandler - input handler
 	 */
-	public ComponentInputDialog(AppW app, DialogData dialogData,
+	protected ComponentInputDialog(AppW app, DialogData dialogData,
 			boolean autoHide, boolean hasScrim, InputHandler inputHandler) {
 		super(app, dialogData, autoHide, hasScrim);
 		addStyleName("inputDialogComponent");
@@ -57,10 +57,10 @@ public class ComponentInputDialog extends ComponentDialog
 		});
 	}
 
-	private void createGUI(String labelText, String initText, int rows, int columns,
+	private void createGUI(String labelText, String initText,
 			boolean showSymbolPopupIcon) {
 		inputTextField = new ComponentInputField((AppW) app,
-				"", labelText, "", initText, columns, rows,
+				"", labelText, "", initText, -1, 1,
 				showSymbolPopupIcon, "");
 		addDialogContent(inputTextField);
 	}
