@@ -77,7 +77,7 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 
 	@Override
 	public void close() {
-		toolbarPanel.close();
+		toolbarPanel.close(false);
 	}
 
 	@Override

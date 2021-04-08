@@ -1,6 +1,8 @@
 @import 'colors';
 @import 'z-index';
 
+$fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
+
 .GeoGebraFrame {
 
 	.TitleBarPanel {
@@ -361,6 +363,25 @@
     	bottom: 8px !important;
     	right: 16px !important;
     }
+
+	.zoomPanelForFullscreenAV {
+		bottom: 60px !important;
+		right: 16px !important;
+		transition: $fullscreenBtn-transition;
+	}
+
+	.zoomPanelForFullscreenAVMoveUpNoMoveBtn {
+		bottom: 80px !important;
+		right: 16px !important;
+		transition: $fullscreenBtn-transition;
+	}
+
+	.zoomPanelForFullscreenAVMoveUp {
+		bottom: 140px !important;
+		right: 16px !important;
+		transition: $fullscreenBtn-transition;
+	}
+
 	.mowZoomPanel {
 		will-change: transform;
 		top: -6px !important;
