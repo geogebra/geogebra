@@ -113,8 +113,6 @@ import org.geogebra.common.util.debug.Log;
 				return left.sinh();
 			case TANH:
 				return left.tanh();
-			case ACOSH:
-				return left.acos();
 			case LOG10:
 				return left.log10();
 			case LOG2:

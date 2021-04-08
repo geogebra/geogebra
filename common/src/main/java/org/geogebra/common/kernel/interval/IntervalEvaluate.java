@@ -92,9 +92,8 @@ class IntervalEvaluate {
 			return interval.log10();
 		case LOG2:
 			return interval.log2();
-		case ACOSH:
-		case INTEGRAL:
-		case INVERSE_NORMAL:
+		default:
+			return interval;
 		}
 		return interval;
 	}
