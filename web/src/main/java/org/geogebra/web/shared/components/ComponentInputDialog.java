@@ -4,10 +4,12 @@ import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.components.ComponentInputField;
+import org.geogebra.web.full.gui.dialog.ProcessInput;
 import org.geogebra.web.full.gui.util.WindowsNativeUIController;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 
 /**
  * dialog component for dialogs with one input text field
@@ -159,5 +161,13 @@ public class ComponentInputDialog extends ComponentDialog
 	 */
 	protected void toolAction() {
 		// overridden in subclasses
+	}
+
+	/**
+	 * @param inputHandler input event handler
+	 */
+	public void addInputHandler(ProcessInput inputHandler) {
+		Dom.addEventListener(getTextComponent().getTextBox().getElement(),
+				"input", event -> inputHandler.onInput());
 	}
 }

@@ -711,4 +711,16 @@ public class ExamEnvironment {
 	public TempStorage getTempStorage() {
 		return tempStorage;
 	}
+
+	/**
+	 * @param loc localization
+	 * @return suggested name for save dialog
+	 */
+	public String getFileNameSuggestion(Localization loc) {
+		if (!tempMaterials.isEmpty()) {
+			return tempMaterials.get(tempMaterials.size() - 1).getTitle();
+		} else {
+			return loc.getMenu("Untitled");
+		}
+	}
 }

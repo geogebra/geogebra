@@ -28,16 +28,19 @@ public class SaveExamAction implements MenuAction<Void> {
 			} catch (RuntimeException ex) {
 				msg = app.getLocalization().getError("SaveFileFailed");
 			}
-			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
+			ToolTipManagerW.sharedInstance().showBottomMessage(
 					app.getLocalization().getMenu(msg),
-					null, null, app,
-					app.getAppletFrame().isKeyboardShowing());
+					true, app);
 			if (callback != null) {
 				callback.callback(true);
 			}
 		};
+		String initString = app.getExam().getFileNameSuggestion(app.getLocalization());
 		ComponentInputDialog examSave = new ComponentInputDialog(app, data, false,
-				true, inputHandler, "Title", "", false);
+				true, inputHandler, "Title", initString, false);
+		examSave.addInputHandler(() -> {
+			examSave.setPosBtnDisabled(examSave.getInputText().length() < 1);
+		});
 		examSave.center();
 	}
 }
