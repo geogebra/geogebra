@@ -718,7 +718,7 @@ public class ExamEnvironment {
 		tempMaterials.add(material);
 	}
 
-	public void clearTempMaterials() {
+	private void clearTempMaterials() {
 		tempMaterials = new ArrayList<>();
 	}
 }
