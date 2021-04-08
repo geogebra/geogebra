@@ -69,7 +69,9 @@ public class GGraphics2DW implements GGraphics2DWI {
 		this.canvas = canvas;
 		setDirection();
 		this.context = JLMContextHelper.as(canvas.getContext2d());
-		this.context.initTransform();
+		if (context != null) { // check for 3D view
+			this.context.initTransform();
+		}
 		preventContextMenu(canvas.getElement());
 	}
 
@@ -477,7 +479,9 @@ public class GGraphics2DW implements GGraphics2DWI {
 	@Override
 	public void setCoordinateSpaceSize(int width, int height) {
 		setCanvasSize(width, height);
-		context.resetTransform(getDevicePixelRatio());
+		if (context != null) { // check for 3D view
+			context.resetTransform(getDevicePixelRatio());
+		}
 		setPixelSize(width, height);
 		this.updateCanvasColor();
 	}
