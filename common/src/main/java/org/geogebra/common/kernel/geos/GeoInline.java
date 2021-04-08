@@ -82,14 +82,14 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 
 	@Override
 	public void setSize(double width, double height) {
-		this.width = width;
-		this.height = height;
 		if (getWidth() != 0) {
 			contentWidth = contentWidth * width / getWidth();
 		}
 		if (getHeight() != 0) {
 			contentHeight = contentHeight * height / getHeight();
 		}
+		this.width = width;
+		this.height = height;
 	}
 
 	/**
