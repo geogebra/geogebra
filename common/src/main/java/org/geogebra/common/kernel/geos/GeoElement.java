@@ -4082,7 +4082,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return  algebraic representation (e.g. coordinates, equation)
 	 */
 	public String getAlgebraDescriptionPublic(StringTemplate tpl) {
-		if (!LabelManager.isShowableLabel(label)) {
+		if (!isDefined()) {
+			return "?";
+		} else if (!LabelManager.isShowableLabel(label)) {
 			return toValueString(tpl);
 		} else {
 			return toString(tpl);
