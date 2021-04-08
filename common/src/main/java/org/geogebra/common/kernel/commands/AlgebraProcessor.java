@@ -457,6 +457,10 @@ public class AlgebraProcessor {
 
 			if (info.isMultipleUnassignedAllowed()) {
 				ve = parser.parseInputBoxExpression(newValue);
+				if (ve.getLabel() != null && !ve.getLabel().equals(geo.getLabelSimple())) {
+					handler.showError(getIllegalAssignmentError());
+					return;
+				}
 			} else {
 				ve = parser.parseGeoGebraExpression(newValue);
 			}
@@ -482,12 +486,16 @@ public class AlgebraProcessor {
 		} catch (CommandNotLoadedError e) {
 			throw e;
 		} catch (Error e) {
-			Log.debug("ERROR" + e.getMessage() + ":" + newValue);
-			e.printStackTrace();
+			Log.debug(e);
 			handler.showError(
 					loc.getInvalidInputError() + ":\n"
 							+ newValue);
 		}
+	}
+
+	private String getIllegalAssignmentError() {
+		return new MyError(kernel.getLocalization(), Errors.IllegalAssignment)
+				.getLocalizedMessage();
 	}
 
 	private ValidExpression replaceSqrtMinusOne(ValidExpression ve) {
