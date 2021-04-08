@@ -97,16 +97,17 @@ public class OpenFileView extends MyHeaderPanel
 		this.userMaterialsCB = getUserMaterialsCB(TYPE_USER);
 		this.sharedMaterialsCB = getUserMaterialsCB(TYPE_SHARED);
 		this.ggtMaterialsCB = getGgtMaterialsCB();
-		initSpinner();
 		initHeader();
 		initContentPanel();
+		initSpinner();
 		initButtonPanel();
 		initSortDropdown();
 		initMaterialPanel();
 	}
 
 	private void initSpinner() {
-		spinner = new LoadSpinner("startscreen.notes");
+		spinner = new LoadSpinner();
+		contentPanel.add(spinner);
 	}
 
 	/**

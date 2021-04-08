@@ -295,7 +295,10 @@
                     target.evalCommand(last.content);
                     target.api.previewRefresh();
                 } else if (last.type == "deleteObject") {
-                	target.unregisterListeners();
+                    target.unregisterListeners();
+                    if (target === this) {
+                        delete(this.embeds[last.content]);
+                    }
                     target.api.deleteObject(last.content);
                     target.registerListeners();
                 } else if (last.type == "setEditorState") {
