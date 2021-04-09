@@ -2,7 +2,7 @@ package org.geogebra.common.main.exam;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -721,6 +721,6 @@ public class ExamEnvironment {
 	}
 
 	private void clearTempMaterials() {
-		tempMaterials = new HashSet<>();
+		tempMaterials = new LinkedHashSet<>();
 	}
 }
