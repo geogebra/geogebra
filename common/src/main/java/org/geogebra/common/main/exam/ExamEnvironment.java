@@ -2,9 +2,9 @@ package org.geogebra.common.main.exam;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import javax.annotation.CheckForNull;
 
@@ -67,7 +67,8 @@ public class ExamEnvironment {
 	private boolean temporaryBlur;
 	private boolean wasCasEnabled;
 
-	private Set<Material> tempMaterials;
+	private int tempMaterialId;
+	private Map<Integer, Material> tempMaterials;
 
 	/**
 	 * @param localization localization
@@ -712,15 +713,27 @@ public class ExamEnvironment {
 		commandDispatcher.addCommandFilter(noCASFilter);
 	}
 
-	public List<Material> getTempMaterials() {
-		return new ArrayList<>(tempMaterials);
+	public List<Material> collectTempMaterials() {
+		List<Material> materials = new ArrayList<>();
+		for (Material material : tempMaterials.values()) {
+			materials.add(new Material(material));
+		}
+		return materials;
 	}
 
 	public void saveTempMaterial(Material material) {
-		tempMaterials.add(material);
+		Material savedMaterial = tempMaterials.get(material.getId());
+		if (savedMaterial != null && !savedMaterial.getTitle().equals(material.getTitle())) {
+			material.setId(nextTempMaterialId());
+		}
+		tempMaterials.put(material.getId(), new Material(material));
 	}
 
 	private void clearTempMaterials() {
-		tempMaterials = new LinkedHashSet<>();
+		tempMaterials = new LinkedHashMap<>();
+	}
+
+	public int nextTempMaterialId() {
+		return tempMaterialId++;
 	}
 }
