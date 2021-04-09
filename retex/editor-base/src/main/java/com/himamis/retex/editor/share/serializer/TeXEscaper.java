@@ -6,10 +6,10 @@ public final class TeXEscaper {
 			"}", "_" };
 
 	private static final String[][] replaceableSymbols = { { "~", "^", "\\" },
-			{ "\u223C ", "\\^{\\ } ", "\\backslash{}" } };
+			{ "\u223C", "\\^{} ", "\\backslash{}" } };
 
 	private TeXEscaper() {
-		// untility class
+		// utility class
 	}
 
 	/**
