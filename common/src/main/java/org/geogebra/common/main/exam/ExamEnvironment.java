@@ -472,7 +472,6 @@ public class ExamEnvironment {
 		storeEndTime();
 		restoreCommands();
 		clearClipboard();
-		clearTempMaterials();
 	}
 
 	private void clearClipboard() {
@@ -491,6 +490,7 @@ public class ExamEnvironment {
 		examStartTime = EXAM_START_TIME_NOT_STARTED;
 		disableExamCommandFilter();
 		setShowSyntax(true);
+		clearTempMaterials();
 	}
 
 	private void setShowSyntax(boolean showSyntax) {
@@ -718,7 +718,7 @@ public class ExamEnvironment {
 		tempMaterials.add(material);
 	}
 
-	public void clearTempMaterials() {
+	private void clearTempMaterials() {
 		tempMaterials = new ArrayList<>();
 	}
 }
