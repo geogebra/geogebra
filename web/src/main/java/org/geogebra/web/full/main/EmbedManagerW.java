@@ -694,8 +694,8 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	@Override
-	public void setAxisSettings(GeoEmbed chart, int axis, boolean positiveOnly, double crossing) {
-		doIfCalcEmbed(chart, element -> element.setAxisSettings(axis, positiveOnly, crossing));
+	public void setGraphAxis(GeoEmbed chart, int axis, double crossing) {
+		doIfCalcEmbed(chart, element -> element.setGraphAxis(axis, crossing));
 	}
 
 	@Override

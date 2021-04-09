@@ -82,6 +82,7 @@ public class AlgoTableToChart extends AlgoElement {
 			switch (chartType) {
 			case PieChart:
 				embedManager.sendCommand(chart, "ShowAxes(false)");
+				embedManager.sendCommand(chart, "ZoomIn(-4, -4, 4, 4)");
 				break;
 			case LineGraph:
 				embedManager.setGrid(chart, EuclidianView.GRID_CARTESIAN);
@@ -101,14 +102,12 @@ public class AlgoTableToChart extends AlgoElement {
 		}
 
 		String chartCommand;
-		double minX, minY, maxX, maxY;
+		double minX = 0, minY = 0, maxX = 0, maxY = 0;
 
 		switch (chartType) {
 		case PieChart:
 			List<Double> pieData = table.extractData(column);
 			chartCommand = "chart=PieChart({" + StringUtil.join(",", pieData) + "})";
-			minX = minY = -4;
-			maxX = maxY = 4;
 			break;
 		case LineGraph:
 			List<Double>[] lineData = table.extractTwoColumnData(column);
@@ -128,7 +127,7 @@ public class AlgoTableToChart extends AlgoElement {
 					+ StringUtil.join(",", barData[1]) + "}, 1)";
 			minX = Collections.min(barData[0]) - 1.5;
 			maxX = Collections.max(barData[0]) + 1.5;
-			minY = -1;
+			minY = 0;
 			maxY = Collections.max(barData[1]) + 1;
 			break;
 		}
@@ -136,11 +135,20 @@ public class AlgoTableToChart extends AlgoElement {
 		if (!chartCommand.equals(oldChartCommand)) {
 			embedManager.sendCommand(chart, chartCommand);
 			oldChartCommand = chartCommand;
-			embedManager.sendCommand(chart, "ShowLabel(chart, false)");
-			embedManager.sendCommand(chart, "ZoomIn(" + minX + ", " + minY
-					+ ", " + maxX + ", " + maxY + ")");
-			embedManager.setAxisSettings(chart, 0, true, minY + 1);
-			embedManager.setAxisSettings(chart, 1, true, minX + 1);
+
+			if (chartType == ChartType.BarChart || chartType == ChartType.LineGraph) {
+				int axisDistance = 32; // padding between the axis and the edge of the object
+				String newMinX = "(" + axisDistance + " * " + maxX + " - x(Corner(5)) * "
+						+ minX + ") / (" + axisDistance + " - x(Corner(5)))";
+				String newMinY = "(" + axisDistance + " * " + maxY + " - y(Corner(5)) * "
+						+ minY + ") / (" + axisDistance + " - y(Corner(5)))";
+
+				embedManager.sendCommand(chart, "ShowLabel(chart, false)");
+				embedManager.sendCommand(chart, "ZoomIn(" + newMinX + ", " + newMinY
+						+ ", " + maxX + ", " + maxY + ")");
+				embedManager.setGraphAxis(chart, 0, minY);
+				embedManager.setGraphAxis(chart, 1, minX);
+			}
 
 			switch (chartType) {
 			case BarChart:

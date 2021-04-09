@@ -208,6 +208,7 @@ public class InlineFormattingItems {
 					new AlgoTableToChart(table.getConstruction(), table, chartType, column);
 			GeoElement chart = algoTableToChart.getOutput(0);
 			chart.setLabel(null);
+			app.getUndoManager().storeUndoInfo();
 
 			Scheduler.get().scheduleDeferred(algoTableToChart::compute);
 		};

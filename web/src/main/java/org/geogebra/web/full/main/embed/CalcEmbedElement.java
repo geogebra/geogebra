@@ -93,10 +93,10 @@ public class CalcEmbedElement extends EmbedElement {
 	/**
 	 * Set the specified axis in
 	 */
-	public void setAxisSettings(int axis, boolean positiveOnly, double crossing) {
+	public void setGraphAxis(int axis, double crossing) {
 		EuclidianSettings evs = frame.getApp().getSettings().getEuclidian(1);
 		evs.beginBatch();
-		evs.setPositiveAxis(axis, positiveOnly);
+		evs.setPositiveAxis(axis, true);
 		evs.setAxisCross(axis, crossing);
 		evs.endBatch();
 		frame.getApp().getKernel().notifyRepaint();
