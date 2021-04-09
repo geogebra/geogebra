@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.euclidian.draw.DrawFormula;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -26,6 +27,8 @@ public class GeoFormula extends GeoInline {
 	private double minHeight;
 
 	private String latex = "";
+
+	private DrawFormula drawable;
 
 	/**
 	 * Creates new GeoElement for given construction
@@ -109,5 +112,13 @@ public class GeoFormula extends GeoInline {
 
 	public void setMinHeight(double minHeight) {
 		this.minHeight = minHeight;
+	}
+
+	public DrawFormula getDrawable() {
+		return drawable;
+	}
+
+	public void setDrawable(DrawFormula drawable) {
+		this.drawable = drawable;
 	}
 }

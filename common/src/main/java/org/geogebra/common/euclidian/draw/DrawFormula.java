@@ -36,6 +36,7 @@ public class DrawFormula extends Drawable implements DrawInline {
 		this.formula = formula;
 		this.formulaController = ev.getApplication().createInlineFormulaController(ev, formula);
 		update();
+		formula.setDrawable(this);
 	}
 
 	@Override
@@ -165,5 +166,9 @@ public class DrawFormula extends Drawable implements DrawInline {
 		if (formulaController != null) {
 			formulaController.discard();
 		}
+	}
+
+	public TransformableRectangle getRectangle() {
+		return rectangle;
 	}
 }

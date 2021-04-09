@@ -25,6 +25,8 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	private double xScale;
 	private double yScale;
 
+	private Double bufferWidth;
+	private Double bufferHeight;
 
 	public GeoInline(Construction cons) {
 		super(cons);
@@ -166,6 +168,18 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 		StringUtil.encodeXML(sb, getContent());
 		sb.append("\"/>\n");
 
+		sb.append("\t<geoSize width=\"");
+		sb.append(width);
+		sb.append("\" height=\"");
+		sb.append(height);
+		sb.append("\"/>\n");
+
+		sb.append("\t<contentSize width=\"");
+		sb.append(contentWidth);
+		sb.append("\" height=\"");
+		sb.append(contentHeight);
+		sb.append("\"/>\n");
+
 		XMLBuilder.appendPosition(sb, this);
 	}
 
@@ -211,4 +225,43 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 		}
 	}
 
+	public double getContentWidth() {
+		return contentWidth;
+	}
+
+	public void setContentWidth(double contentWidth) {
+		this.contentWidth = contentWidth;
+	}
+
+	public double getContentHeight() {
+		return contentHeight;
+	}
+
+	public void setContentHeight(double contentHeight) {
+		this.contentHeight = contentHeight;
+	}
+
+	public void setWidth(double width) {
+		this.width = width;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
+	}
+
+	public Double getBufferWidth() {
+		return bufferWidth;
+	}
+
+	public void setBufferWidth(Double bufferWidth) {
+		this.bufferWidth = bufferWidth;
+	}
+
+	public Double getBufferHeight() {
+		return bufferHeight;
+	}
+
+	public void setBufferHeight(Double bufferHeight) {
+		this.bufferHeight = bufferHeight;
+	}
 }
