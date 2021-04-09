@@ -199,7 +199,7 @@ public class DependentNumberAdapter extends ProverAdapter {
 				s.update();
 			}
 			cons.setSuppressLabelCreation(suppress);
-			Entry<GeoElement, PVariable> pair = new AbstractMap.SimpleEntry<GeoElement, PVariable>(
+			Entry<GeoElement, PVariable> pair = new AbstractMap.SimpleEntry<>(
 					s, currentVar);
 			searchSegVarPair(pair);
 			allSegmentsFromExpression.add(s);

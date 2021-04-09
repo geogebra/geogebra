@@ -355,7 +355,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						.geoCeListLookup(str);
 				// get variables of obtained equation
 				HashSet<GeoElement> varsFromEquOfCurrVars = node == null
-						? new HashSet<GeoElement>()
+						? new HashSet<>()
 						: node.getVariables(symbolicMode);
 				HashSet<String> stringVarsFromEquOfCurrVars = new HashSet<>(
 						varsFromEquOfCurrVars.size());

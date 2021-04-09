@@ -20,12 +20,12 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.test.OrderingComparison;
 import org.geogebra.test.TestErrorHandler;
+import org.gwtproject.regexp.shared.RegExp;
 import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.gwt.regexp.shared.RegExp;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class StringTemplateTest {

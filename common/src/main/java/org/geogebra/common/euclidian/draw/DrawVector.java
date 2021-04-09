@@ -411,11 +411,6 @@ public class DrawVector extends Drawable implements Previewable {
 				|| (arrowheadVisible && gp.intersects(rect));
 	}
 
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
-	}
-
 	/**
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */

@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
+import org.geogebra.common.util.MyMath;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -41,6 +42,7 @@ public class AnimationManager implements GTimerListener {
 	private GTimer timer;
 
 	private TreeSet<AlgoElement> tempSet;
+	private long lastStart;
 
 	/**
 	 * @param kernel2
@@ -184,18 +186,12 @@ public class AnimationManager implements GTimerListener {
 		if (framesPossible < frameRate) {
 			frameRate = Math.max(framesPossible, MIN_ANIMATION_FRAME_RATE);
 			setTimerDelay((int) Math.round(1000.0 / frameRate));
-
-			// System.out.println("DECREASED frame rate: " + frameRate +
-			// ", framesPossible: " + framesPossible);
 		}
 
 		// the frameRate is too low: try to increase it
 		else if (frameRate < MAX_ANIMATION_FRAME_RATE) {
 			frameRate = Math.min(framesPossible, MAX_ANIMATION_FRAME_RATE);
 			setTimerDelay((int) Math.round(1000.0 / frameRate));
-
-			// System.out.println("INCREASED frame rate: " + frameRate +
-			// ", framesPossible: " + framesPossible);
 		}
 
 	}
@@ -219,6 +215,10 @@ public class AnimationManager implements GTimerListener {
 		kernel.notifyBatchUpdate();
 
 		long startTime = System.currentTimeMillis();
+		double actualFrameRate = MyMath.clamp(1000.0 / (startTime - this.lastStart),
+				MIN_ANIMATION_FRAME_RATE, MAX_ANIMATION_FRAME_RATE);
+		this.lastStart = startTime;
+
 		// clear list of geos that need to be updated
 		changedGeos.clear();
 
@@ -229,7 +229,7 @@ public class AnimationManager implements GTimerListener {
 
 		for (int i = size - 1; i >= 0; i--) {
 			Animatable anim = (Animatable) animatedGeos.get(i);
-			GeoElementND changed = anim.doAnimationStep(frameRate, null);
+			GeoElementND changed = anim.doAnimationStep(actualFrameRate, null);
 			if (changed != null) {
 				changedGeos.add(changed);
 			}

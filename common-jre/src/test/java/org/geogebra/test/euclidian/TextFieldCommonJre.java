@@ -1,7 +1,6 @@
 package org.geogebra.test.euclidian;
 
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.ViewTextField;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
@@ -9,13 +8,6 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 public class TextFieldCommonJre extends ViewTextField {
 
 	AutoCompleteTextField textField;
-
-	/**
-	 * @param euclidianView view
-	 */
-	public TextFieldCommonJre(EuclidianView euclidianView) {
-
-	}
 
 	@Override
 	public AutoCompleteTextField getTextField() {

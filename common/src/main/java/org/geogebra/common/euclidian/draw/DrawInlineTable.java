@@ -12,7 +12,6 @@ import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.euclidian.inline.InlineTableController;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 
 public class DrawInlineTable extends Drawable implements DrawInline {
@@ -48,7 +47,8 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		if (geo.isEuclidianVisible() && tableController != null) {
+		if (geo.isEuclidianVisible() && tableController != null
+			&& rectangle.getDirectTransform() != null) {
 			tableController.draw(g2, rectangle.getDirectTransform());
 		}
 	}
@@ -96,11 +96,6 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 	@Override
 	protected List<GPoint2D> toPoints() {
 		return rectangle.toPoints();
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 	@Override

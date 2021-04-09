@@ -532,6 +532,18 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void shouldNotAcceptRenaming() {
+		add("A=(1,1)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		inputBox.updateLinkedGeo("B=(7,7)");
+		assertTrue("Rename should trigger error", inputBox.hasError());
+		inputBox.updateLinkedGeo("B:(7,7)");
+		assertTrue("Rename should trigger error", inputBox.hasError());
+		inputBox.updateLinkedGeo("B:=(7,7)");
+		assertTrue("Rename should trigger error", inputBox.hasError());
+	}
+
+	@Test
 	public void pointOnPathShouldBeRestricted() {
 		GeoElement point = add("A=Point(y=2)");
 		GeoInputBox inputBox = add("InputBox(A)");
@@ -580,5 +592,14 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 
 		GeoElement z_1 = add("z_1 = 3 + i");
 		assertFalse(z_1.hasSpecialEditor());
+	}
+
+	@Test
+	public void imaginaryUnitShouldBeDisplayedAsI() {
+		add("m1 = {{1}, {2}}");
+		GeoInputBox inputBox = add("InputBox(m1)");
+		inputBox.updateLinkedGeo("{{" + Unicode.IMAGINARY + "}, {3}}");
+		assertEquals("{{i},{3}}", inputBox.getTextForEditor());
+		assertEquals("{{i}, {3}}", inputBox.getText());
 	}
 }

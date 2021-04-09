@@ -22,6 +22,7 @@ import org.geogebra.common.jre.io.MyXMLioCommon;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
+import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -92,14 +93,8 @@ public class AppCommon extends App {
 		Log.setLogger(new Log() {
 
 			@Override
-			protected void print(String logEntry, Level level) {
+			public void print(Level level, Object logEntry) {
 				System.out.println(logEntry); // NOPMD
-			}
-
-			@Override
-			public void doPrintStacktrace(String message) {
-				new Throwable(message).printStackTrace();
-
 			}
 		});
     }
@@ -119,9 +114,10 @@ public class AppCommon extends App {
     }
 
 	private static void initFactories() {
-        FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
+		FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
 		StringUtil.setPrototypeIfNull(new StringUtil());
-    }
+		UtilFactoryJre.setupRegexFactory();
+	}
 
     @Override
     protected void showErrorDialog(String msg) {
@@ -142,7 +138,7 @@ public class AppCommon extends App {
 				createGraphics());
     }
 
-	private static GGraphics2D createGraphics() {
+	protected GGraphics2D createGraphics() {
 		return AwtFactory.getPrototype().createBufferedImage(800, 600, false)
 				.createGraphics();
 	}

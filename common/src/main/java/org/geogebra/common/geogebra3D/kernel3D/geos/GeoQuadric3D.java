@@ -1928,8 +1928,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		String[] vars = tpl.getStringType().isGiac() ? vars3DCAS : vars3D;
 
-		return kernel.buildImplicitEquation(coeffs, vars, false, true, true,
-				'=', tpl, true);
+		return kernel.buildImplicitEquation(coeffs, vars, true, true,
+				tpl, true);
 	}
 
 	/** to be able to fill it with an alpha value */

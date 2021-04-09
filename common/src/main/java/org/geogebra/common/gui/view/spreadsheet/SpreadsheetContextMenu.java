@@ -123,8 +123,6 @@ public class SpreadsheetContextMenu {
 	}
 
 	protected void addEditItems() {
-		addSeparator();
-
 		addCopy();
 		addPaste();
 		addCut();
@@ -158,9 +156,7 @@ public class SpreadsheetContextMenu {
 
 			addSeparator();
 
-			subMenu = addSubMenu(app.isUnbundled()
-					? loc.getMenu("Insert") : loc.getMenu("Insert") + " ...",
-					null);
+			subMenu = addSubMenu(loc.getMenu("Insert"), null);
 
 			if (selectionType == MyTableInterface.COLUMN_SELECT) {
 
@@ -257,15 +253,8 @@ public class SpreadsheetContextMenu {
 
 				if (doLabelMenu) {
 					cmdString = MenuCommand.ShowLabel.toString();
-					if (app.isWhiteboardActive()) {
-						addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
-								loc.getMenu(MenuCommand.HideLabel.toString()),
-								geo.isLabelVisible());
-
-					} else {
-						addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
-								geo.isLabelVisible());
-					}
+					addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
+							geo.isLabelVisible());
 				}
 			}
 
@@ -273,8 +262,8 @@ public class SpreadsheetContextMenu {
 			// Tracing
 			// ===============================================
 
-			if ((!app.isHTML5Applet() || !app.isWhiteboardActive())
-					&& geo.isSpreadsheetTraceable()
+			app.isHTML5Applet();
+			if (geo.isSpreadsheetTraceable()
 					&& selectionType != MyTableInterface.ROW_SELECT) {
 
 				boolean showRecordToSpreadsheet = true;
@@ -287,15 +276,8 @@ public class SpreadsheetContextMenu {
 				if (showRecordToSpreadsheet) {
 					cmdString = MenuCommand.RecordToSpreadsheet.toString();
 
-					if (app.isWhiteboardActive()) {
-						addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
-								MenuCommand.DontRecordToSpreadsheet.toString(),
-								geo.getSpreadsheetTrace());
-					} else {
-						addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
-								geo.getSpreadsheetTrace());
-					}
-
+					addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
+							geo.getSpreadsheetTrace());
 				}
 			}
 
@@ -307,7 +289,7 @@ public class SpreadsheetContextMenu {
 
 		if (enableDataImport()) {
 			cmdString = MenuCommand.ImportDataFile.toString();
-			addMenuItem(cmdString, loc.getMenu(cmdString) + " ...", true);
+			addMenuItem(cmdString, loc.getMenu(cmdString), true);
 		}
 
 		// ===============================================
@@ -318,9 +300,7 @@ public class SpreadsheetContextMenu {
 			addSeparator();
 
 			cmdString = MenuCommand.SpreadsheetOptions.toString();
-			addMenuItem(cmdString, app.isUnbundled()
-					? loc.getMenu("Settings") : loc.getMenu(cmdString) + " ...",
-					true);
+			addMenuItem(cmdString, loc.getMenu(cmdString), true);
 		}
 
 		// ===============================================
@@ -332,9 +312,7 @@ public class SpreadsheetContextMenu {
 			addSeparator();
 
 			cmdString = MenuCommand.Properties.toString();
-			addMenuItem(cmdString, app.isUnbundled()
-					? loc.getMenu("Settings") : loc.getMenu(cmdString) + " ...",
-					true);
+			addMenuItem(cmdString, loc.getMenu(cmdString), true);
 		}
 	}
 
@@ -694,21 +672,6 @@ public class SpreadsheetContextMenu {
 	 */
 	public void addCheckBoxMenuItem(final String cmdString, String text,
 			boolean isSelected) {
-		// to be overridden
-	}
-
-	/** 
-	 * @param cmdString
-	 *            Action command key (and icon key)
-	 * @param selected
-	 *            Text of selected menu item
-	 * @param nonSelected
-	 *            Text of non-selected menu item
-	 * @param isSelected
-	 *            flag Flag to set selection state
-	 */
-	public void addCheckBoxMenuItem(final String cmdString, String nonSelected,
-			String selected, boolean isSelected) {
 		// to be overridden
 	}
 

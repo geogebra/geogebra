@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.util;
 
+import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
@@ -10,6 +11,8 @@ public class BarList extends ListBox {
 	private App app;
 	private Localization loc;
 	private int barCount;
+	private String allPartsKey;
+	private String partKey;
 
 	/**
 	 * @param app
@@ -21,8 +24,19 @@ public class BarList extends ListBox {
 	}
 
 	/**
-	 * Update visibility and content of this panel.
+	 * Update the translation keys for options (slice x bar).
 	 * 
+	 * @param geos
+	 *            related construction elements
+	 */
+	public void updateTranslationKeys(Object[] geos) {
+		this.allPartsKey = geos[0] instanceof GeoPieChart ? "AllSlices" : "AllBars";
+		this.partKey = geos[0] instanceof GeoPieChart ? "SliceA" : "BarA";
+	}
+
+	/**
+	 * Update visibility and content of this panel.
+	 *
 	 * @param enabled
 	 *            whether this should be visible
 	 */
@@ -34,9 +48,9 @@ public class BarList extends ListBox {
 
 		int idx = getSelectedIndex();
 		clear();
-		addItem(loc.getMenu("AllBars"));
+		addItem(loc.getMenu(allPartsKey));
 		for (int i = 1; i < getBarCount() + 1; i++) {
-			addItem(app.getLocalization().getPlain("BarA", i + ""));
+			addItem(app.getLocalization().getPlain(partKey, i + ""));
 		}
 		if (idx != -1) {
 			setSelectedIndex(idx);
@@ -53,6 +67,6 @@ public class BarList extends ListBox {
 	 */
 	public void setBarCount(int barCount) {
 		this.barCount = barCount;
-		update(true);
+		update(barCount > 0);
 	}
 }

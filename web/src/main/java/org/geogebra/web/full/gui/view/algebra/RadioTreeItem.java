@@ -1089,18 +1089,17 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * @return width in case editor is open
 	 */
 	protected int getWidthForEdit() {
-		if (isAlgebraStyleDefAndValue()
-				&& geo.getDescriptionMode() == DescriptionMode.DEFINITION_VALUE
-				&& definitionPanel != null
-				&& definitionPanel.getWidgetCount() > 0
-				&& definitionPanel.getWidget(0) != null) {
+		if (definitionPanel != null && definitionPanel.getOffsetWidth() > 0) {
 			return marblePanel.getOffsetWidth()
-					+ definitionPanel.getWidget(0).getOffsetWidth()
+					+ definitionPanel.getOffsetWidth()
 					+ controls.getOffsetWidth() + DEFINITION_ROW_EDIT_MARGIN
 					+ MARGIN_RESIZE;
+		} else if (geo != null && geo.isIndependent()) {
+			return marblePanel.getOffsetWidth() + content.getOffsetWidth()
+					+ MARGIN_RESIZE;
+		} else {
+			return 0;
 		}
-		return marblePanel.getOffsetWidth() + content.getOffsetWidth()
-				+ MARGIN_RESIZE;
 	}
 
 	/**
@@ -1232,9 +1231,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		} else {
 			removeStyleName("avSelectedRow");
-		}
-		if (!selected) {
-			controls.reset();
 		}
 	}
 

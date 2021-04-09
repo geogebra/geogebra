@@ -88,13 +88,13 @@ var codebase = "<!--CODEBASE-->";
 				e("ggw").setAttribute("data-param-showAppsPicker","false");
 				e("appsPicker") && e("appsPicker").style.setProperty("display", "none");
 			}
-			if(window.ggbRerun){
-				ggbRerun();
+		} else if (id && ggbApplet.setPerspective) {
+			ggbApplet.setPerspective(id+"");
+		} else if (id && window.renderGGBElement) {
+			if (isAppSupportingPerspective(id + "")) {
+				c("geogebraweb").setAttribute("data-param-perspective", id);
 			}
-		}else{
-			if(id){
-				ggbApplet.setPerspective(id+"");
-			}
+			renderGGBElement(c("geogebraweb"));
 		}
 		var label = e(name);
 		if(label){

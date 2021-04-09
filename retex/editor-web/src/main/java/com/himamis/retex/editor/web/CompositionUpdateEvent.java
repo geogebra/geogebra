@@ -24,7 +24,7 @@ public class CompositionUpdateEvent extends DomEvent<CompositionHandler> {
 	 * Event type for focus events. Represents the meta-data associated with
 	 * this event.
 	 */
-	private static final Type<CompositionHandler> TYPE = new Type<CompositionHandler>(
+	private static final Type<CompositionHandler> TYPE = new Type<>(
 			"compositionupdate", new CompositionUpdateEvent());
 
 	/**

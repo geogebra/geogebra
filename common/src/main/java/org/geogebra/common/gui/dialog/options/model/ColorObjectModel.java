@@ -2,8 +2,9 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.ChartStyle;
+import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -242,22 +243,23 @@ public class ColorObjectModel extends OptionsModel {
 		return getGeoAt(0).getParentAlgorithm();
 	}
 
-	public AlgoBarChart getAlgoBarChart() {
+	public ChartStyle getChartStyle() {
 		AlgoElement algo = getAlgorithm();
-		return (algo instanceof AlgoBarChart ? (AlgoBarChart) algo : null);
+		return algo instanceof ChartStyleAlgo ? ((ChartStyleAlgo) algo).getStyle() : null;
 
 	}
 
 	public boolean isBarChart() {
-		return (getAlgorithm() instanceof AlgoBarChart);
+		return getAlgorithm() instanceof ChartStyleAlgo;
 	}
 
 	public int getBarChartIntervals() {
-		return getAlgoBarChart().getIntervals();
+		AlgoElement algo = getAlgorithm();
+		return algo instanceof ChartStyleAlgo ? ((ChartStyleAlgo) algo).getIntervals() : 0;
 	}
 
 	public void applyBar(int idx, GColor color, double alpha) {
-		AlgoBarChart algo = getAlgoBarChart();
+		ChartStyle algo = getChartStyle();
 		boolean updateAlphaOnly = color == null;
 		if (idx == ALL_BARS) {
 			GeoElement geo = getGeoAt(0);

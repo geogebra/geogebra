@@ -1,7 +1,5 @@
 package org.geogebra.web.full;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
@@ -46,25 +44,14 @@ public abstract class Web implements EntryPoint {
 		exportGGBElementRenderer();
 
 		loadAppletAsync();
-		allowRerun();
 	}
-
-	// TODO: what about global preview events?
-	// these are an issue even if we register them elsewhere
-	// maybe do not register them again in case of rerun?
-	// this could be done easily now with a boolean parameter
-	private native void allowRerun() /*-{
-		var that = this;
-		$wnd.ggbRerun = function() {
-			that.@org.geogebra.web.full.Web::loadAppletAsync()();
-		}
-	}-*/;
 
 	/**
 	 * Load UI of all applets.
 	 */
 	public void loadAppletAsync() {
-		startGeoGebra(GeoGebraElement.getGeoGebraMobileTags());
+		GeoGebraFrameFull.main(GeoGebraElement.getGeoGebraMobileTags(),
+				getAppletFactory(), getLAF(), null);
 	}
 
 	private void exportGGBElementRenderer() {
@@ -87,15 +74,6 @@ public abstract class Web implements EntryPoint {
 	public void renderArticleElement(Element el, JavaScriptObject clb) {
 		GeoGebraFrameFull.renderArticleElement(el, getAppletFactory(),
 				getLAF(), clb);
-	}
-
-	/**
-	 * @param geoGebraMobileTags
-	 *            article elements
-	 */
-	protected void startGeoGebra(ArrayList<GeoGebraElement> geoGebraMobileTags) {
-		GeoGebraFrameFull.main(geoGebraMobileTags,
-				getAppletFactory(), getLAF(), null);
 	}
 
 	protected abstract AppletFactory getAppletFactory();

@@ -24,6 +24,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
+import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -132,6 +133,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -623,10 +625,8 @@ public class GuiManagerW extends GuiManager
 					getPxHeight(root) + heightChanged);
 			root.onResize();
 		} else {
-			geogebraFrame.getStyle().setProperty("height",
-					height - borderThickness + "px");
-			geogebraFrame.getStyle().setProperty("width",
-					width - borderThickness + "px");
+			geogebraFrame.getStyle().setHeight(height, Style.Unit.PX);
+			geogebraFrame.getStyle().setWidth(width, Style.Unit.PX);
 			getApp().getEuclidianViewpanel().setPixelSize(width, height);
 
 			// maybe onResize is OK too
@@ -2256,9 +2256,38 @@ public class GuiManagerW extends GuiManager
 	 *            function/lie to be added
 	 */
 	public void addGeoToTableValuesView(GeoElement geo) {
+		app.getEventDispatcher()
+				.dispatchEvent(EventType.ADD_TV, geo);
+		addGeoToTV(geo);
+		getUnbundledToolbar().openTableView((GeoEvaluatable) geo, true);
+	}
+
+	@Override
+	public void removeGeoFromTV(String label) {
+		GeoElement geo = app.getKernel().lookupLabel(label);
+		if (getTableValuesView() != null && geo instanceof GeoEvaluatable) {
+			getTableValuesView().hideColumn((GeoEvaluatable) geo);
+		}
+	}
+
+	@Override
+	public void setValues(double min, double max, double step) throws InvalidValuesException {
+		if (getTableValuesView() != null) {
+			getTableValuesView().setValues(min, max, step);
+		}
+	}
+
+	@Override
+	public void showPointsTV(int column, boolean show) {
+		if (getTableValuesPoints() != null) {
+			getTableValuesPoints().setPointsVisible(column, show);
+		}
+	}
+
+	@Override
+	public void addGeoToTV(GeoElement geo) {
 		getTableValuesView().add(geo);
 		getTableValuesView().showColumn((GeoEvaluatable) geo);
-		getUnbundledToolbar().openTableView((GeoEvaluatable) geo, true);
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.URLEncoderW;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
@@ -37,6 +38,13 @@ public class LoginOperationW extends LogInOperation {
 		}
 	}
 
+	private class ShowH5PCallback implements EventRenderable {
+		@Override
+		public void renderEvent(BaseEvent event) {
+			((GeoGebraFrameFull) app.getAppletFrame()).updateNotesMediaToolbarPanel();
+		}
+	}
+
 	/**
 	 * Initializes the SignInOperation for Web by creating the corresponding
 	 * model and view classes
@@ -48,6 +56,7 @@ public class LoginOperationW extends LogInOperation {
 		super();
 		this.app = appWeb;
 		getView().add(new LanguageLoginCallback());
+		getView().add(new ShowH5PCallback());
 		AuthenticationModelW model = new AuthenticationModelW(appWeb);
 		setModel(model);
 		if (app.getVendorSettings().canSessionExpire()) {
@@ -88,7 +97,7 @@ public class LoginOperationW extends LogInOperation {
 										t.@org.geogebra.web.shared.ggtapi.LoginOperationW::processCookie(Z)(data.action === "loginpassive");
 									}
 								} catch (err) {
-									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("error occured while logging: \n" + err.message + " " + JSON.stringify(event.data));
+									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("error occured while logging: \n" + err.message + " " + JSON.stringify(event.data));
 								}
 							}
 						}, false);
