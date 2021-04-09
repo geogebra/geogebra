@@ -89,4 +89,6 @@ public interface Editor {
 	String getListStyle();
 
 	int getMinHeight();
+
+	void setExternalScale(double sx);
 }

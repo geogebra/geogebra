@@ -233,6 +233,10 @@ public class TransformableRectangle {
 		return directTransform;
 	}
 
+	public GAffineTransform getScaledTransform() {
+
+	}
+
 	/**
 	 * Update the rectangle and the rotatable bounding box
 	 */

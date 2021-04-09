@@ -279,6 +279,7 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public void setScale(double sx, double sy) {
 		style.setProperty("transform", "scale(" + sx + "," + sy + ")");
+		editor.setExternalScale(sx);
 	}
 
 }
