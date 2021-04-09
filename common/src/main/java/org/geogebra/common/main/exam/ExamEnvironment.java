@@ -2,7 +2,9 @@ package org.geogebra.common.main.exam;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.CheckForNull;
 
@@ -65,7 +67,7 @@ public class ExamEnvironment {
 	private boolean temporaryBlur;
 	private boolean wasCasEnabled;
 
-	private List<Material> tempMaterials;
+	private Set<Material> tempMaterials;
 
 	/**
 	 * @param localization localization
@@ -719,6 +721,6 @@ public class ExamEnvironment {
 	}
 
 	private void clearTempMaterials() {
-		tempMaterials = new ArrayList<>();
+		tempMaterials = new HashSet<>();
 	}
 }
