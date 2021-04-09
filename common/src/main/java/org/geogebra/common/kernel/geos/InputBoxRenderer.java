@@ -73,7 +73,7 @@ class InputBoxRenderer {
 	private String getTextForNumeric(GeoNumeric numeric) {
 		if (inputBox.symbolicMode && !numeric.isSimple()) {
 			return toLaTex();
-		} else if (numeric.isDefined() && numeric.isIndependent()) {
+		} else if (numeric.isDefined() && numeric.isIndependent() && !numeric.isAngle()) {
 			return numeric.toValueString(inputBox.tpl);
 		}
 

@@ -451,9 +451,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		if (!linkedGeo.isGeoNumeric()) {
 			return false;
 		}
-
-		GeoNumeric number = (GeoNumeric) linkedGeo;
-		return !number.isAngle();
+		return true;
 	}
 
 	@Override
