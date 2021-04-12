@@ -1,9 +1,9 @@
 package org.geogebra.common.main.exam;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.CheckForNull;
@@ -716,12 +716,8 @@ public class ExamEnvironment {
 	/**
 	 * @return A copy of the tempMaterials.
 	 */
-	public List<Material> collectTempMaterials() {
-		List<Material> materials = new ArrayList<>();
-		for (Material material : tempMaterials.values()) {
-			materials.add(new Material(material));
-		}
-		return materials;
+	public Collection<Material> collectTempMaterials() {
+		return Collections.unmodifiableCollection(tempMaterials.values());
 	}
 
 	/**
@@ -738,6 +734,7 @@ public class ExamEnvironment {
 	}
 
 	private void clearTempMaterials() {
+		tempMaterialId = 0;
 		tempMaterials = new LinkedHashMap<>();
 	}
 
