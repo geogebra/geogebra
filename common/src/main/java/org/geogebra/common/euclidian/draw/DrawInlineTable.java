@@ -12,7 +12,6 @@ import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.euclidian.inline.InlineTableController;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 
 public class DrawInlineTable extends Drawable implements DrawInline {
@@ -51,11 +50,13 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 			table.setBufferHeight(null);
 		}
 		if (tableController != null) {
+			double contentWidth = table.getContentWidth();
+			double contentHeight = table.getContentHeight();
 			tableController.update();
-			tableController.setHeight((int) (table.getContentHeight()));
-			tableController.setWidth((int) (table.getContentWidth()));
-			tableController.setScale(table.getWidth() / table.getContentWidth(),
-					table.getHeight() / table.getContentHeight());
+			tableController.setHeight((int) contentHeight);
+			tableController.setWidth((int) contentWidth);
+			tableController
+					.setScale(table.getWidth() / contentWidth, table.getHeight() / contentHeight);
 		}
 	}
 

@@ -50,15 +50,15 @@ public class DrawFormula extends Drawable implements DrawInline {
 			double angle = formula.getAngle();
 			double width = formula.getWidth();
 			double height = formula.getHeight();
+			double contentWidth = formula.getContentWidth();
+			double contentHeight = formula.getContentHeight();
 
 			formulaController.setLocation(view.toScreenCoordX(point.getX()),
 					view.toScreenCoordY(point.getY()));
-			formulaController.setHeight((int) (formula.getContentHeight()));
-			formulaController.setWidth((int) (formula.getContentWidth()));
+			formulaController.setHeight((int) (contentHeight));
+			formulaController.setWidth((int) (contentWidth));
 			formulaController.setAngle(angle);
-			formulaController
-					.setScale(width / formula.getContentWidth(),
-							height / formula.getContentHeight());
+			formulaController.setScale(width / contentWidth, height / contentHeight);
 			formulaController.setColor(geo.getObjectColor());
 			formulaController.setFontSize(view.getFontSize());
 		}
@@ -69,14 +69,15 @@ public class DrawFormula extends Drawable implements DrawInline {
 		if (formula.isEuclidianVisible()
 				&& (formulaController == null || !formulaController.isInForeground())
 			&& rectangle.getDirectTransform() != null) {
+			double contentWidth = formula.getContentWidth();
+			double contentHeight = formula.getContentHeight();
 			g2.setPaint(geo.getObjectColor());
 			g2.setFont(view.getFont());
 			g2.setStroke(objStroke); // needed eg for \sqrt
 			g2.saveTransform();
 			g2.transform(rectangle.getDirectTransform());
-			rectangle.scaleForZoom(formula.getContentWidth(), formula.getContentHeight());
-			g2.scale(rectangle.realWidth() / formula.getContentWidth(),
-					rectangle.realHeight() / formula.getContentHeight());
+			rectangle.scaleForZoom(contentWidth, contentHeight);
+			g2.scale(rectangle.realWidth() / contentWidth, rectangle.realHeight() / contentHeight);
 			g2.translate(PADDING, PADDING);
 			drawMultilineLaTeX(g2, view.getFont().deriveFont(0, view.getFontSize()),
 					geo.getObjectColor(), view.getBackgroundCommon());
