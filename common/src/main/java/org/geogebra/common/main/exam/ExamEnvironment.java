@@ -713,6 +713,9 @@ public class ExamEnvironment {
 		commandDispatcher.addCommandFilter(noCASFilter);
 	}
 
+	/**
+	 * @return A copy of the tempMaterials.
+	 */
 	public List<Material> collectTempMaterials() {
 		List<Material> materials = new ArrayList<>();
 		for (Material material : tempMaterials.values()) {
@@ -721,6 +724,11 @@ public class ExamEnvironment {
 		return materials;
 	}
 
+	/**
+	 * Saves a copy of the material into the tempMaterials with the correct id.
+	 *
+	 * @param material material
+	 */
 	public void saveTempMaterial(Material material) {
 		Material savedMaterial = tempMaterials.get(material.getId());
 		if (savedMaterial != null && !savedMaterial.getTitle().equals(material.getTitle())) {
