@@ -1,6 +1,5 @@
 package org.geogebra.web.full.util.keyboard;
 
-import org.geogebra.keyboard.web.KeyboardConstants;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 
@@ -66,15 +65,9 @@ public class AutocompleteProcessing implements KeyboardListener {
 
 	@Override
 	public void insertString(String text) {
-		if (text.equals(KeyboardConstants.A_POWER_X)) {
-			field.insertString("^");
-		} else {
-			field.insertString(text);
-		}
-		if (text.startsWith("(")) {
-			// moves inside the brackets
-			onArrow(ArrowType.left);
-		} else if ("nroot".equals(text)) {
+		field.insertString(text);
+
+		if ("nroot".equals(text)) {
 			field.insertString("()");
 			onArrow(ArrowType.left);
 		}
