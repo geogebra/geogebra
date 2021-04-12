@@ -56,6 +56,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -1626,8 +1627,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			toolbarPanel.close(false);
 		} else if (isEvVisible) {
 			toolbarPanel.close(false);
-			toolbarPanel.open();
-		}
+			invokeLater(() -> {
+				toolbarPanel.setLastOpenWidth(ToolbarPanel.OPEN_START_WIDTH_LANDSCAPE);
+				toolbarPanel.open();
+			});
+		} // else assume that toolbarPanel is fully open.
 	}
 
 	private void updatePerspectiveForUnbundled(Perspective perspective) {

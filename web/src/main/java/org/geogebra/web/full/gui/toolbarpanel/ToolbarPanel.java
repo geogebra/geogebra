@@ -822,7 +822,7 @@ public class ToolbarPanel extends FlowPanel
 	/**
 	 * @param value to set.
 	 */
-	void setLastOpenWidth(Integer value) {
+	public void setLastOpenWidth(Integer value) {
 		this.lastOpenWidth = value;
 	}
 
