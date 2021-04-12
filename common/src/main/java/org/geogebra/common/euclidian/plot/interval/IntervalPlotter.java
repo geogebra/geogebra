@@ -62,15 +62,10 @@ public class IntervalPlotter {
 	private void createModel(GeoFunction function) {
 		IntervalTuple range = new IntervalTuple();
 		IntervalFunctionSampler sampler =
-				new IntervalFunctionSampler(function, range,
-						calculateNumberOfSamples());
+				new IntervalFunctionSampler(function, range, view, numberOfSamples);
 		model = new IntervalPlotModel(range, sampler, view);
 		IntervalPath path = new IntervalPath(gp, view, model);
 		model.setPath(path);
-	}
-
-	private int calculateNumberOfSamples() {
-		return numberOfSamples > 0 ? numberOfSamples : view.getWidth();
 	}
 
 	/**
