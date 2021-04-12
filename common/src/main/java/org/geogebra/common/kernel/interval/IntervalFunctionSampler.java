@@ -31,9 +31,9 @@ public class IntervalFunctionSampler {
 	}
 
 	/**
-	 *  @param geoFunction function to get sampled
+	 * @param geoFunction function to get sampled
 	 * @param range (x, y) range.
-	 * @param view
+	 * @param view {@link EuclidianView}
 	 */
 	public IntervalFunctionSampler(GeoFunction geoFunction, IntervalTuple range,
 			EuclidianView view) {
