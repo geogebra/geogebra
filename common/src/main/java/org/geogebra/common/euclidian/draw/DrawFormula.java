@@ -36,7 +36,6 @@ public class DrawFormula extends Drawable implements DrawInline {
 		this.formula = formula;
 		this.formulaController = ev.getApplication().createInlineFormulaController(ev, formula);
 		update();
-		formula.setDrawable(this);
 	}
 
 	@Override
@@ -54,10 +53,12 @@ public class DrawFormula extends Drawable implements DrawInline {
 
 			formulaController.setLocation(view.toScreenCoordX(point.getX()),
 					view.toScreenCoordY(point.getY()));
-			formulaController.setHeight((int) (formula.contentHeight));
-			formulaController.setWidth((int) (formula.contentWidth));
+			formulaController.setHeight((int) (formula.getContentHeight()));
+			formulaController.setWidth((int) (formula.getContentWidth()));
 			formulaController.setAngle(angle);
-			formulaController.setScale(width / formula.contentWidth, height / formula.contentHeight);
+			formulaController
+					.setScale(width / formula.getContentWidth(),
+							height / formula.getContentHeight());
 			formulaController.setColor(geo.getObjectColor());
 			formulaController.setFontSize(view.getFontSize());
 		}
@@ -73,7 +74,9 @@ public class DrawFormula extends Drawable implements DrawInline {
 			g2.setStroke(objStroke); // needed eg for \sqrt
 			g2.saveTransform();
 			g2.transform(rectangle.getDirectTransform());
-			g2.scale(rectangle.realWidth() / formula.contentWidth, rectangle.realHeight() / formula.contentHeight);
+			rectangle.scaleForZoom(formula.getContentWidth(), formula.getContentHeight());
+			g2.scale(rectangle.realWidth() / formula.getContentWidth(),
+					rectangle.realHeight() / formula.getContentHeight());
 			g2.translate(PADDING, PADDING);
 			drawMultilineLaTeX(g2, view.getFont().deriveFont(0, view.getFontSize()),
 					geo.getObjectColor(), view.getBackgroundCommon());
@@ -168,7 +171,4 @@ public class DrawFormula extends Drawable implements DrawInline {
 		}
 	}
 
-	public TransformableRectangle getRectangle() {
-		return rectangle;
-	}
 }

@@ -52,9 +52,10 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 		}
 		if (tableController != null) {
 			tableController.update();
-			tableController.setHeight((int) (table.contentHeight));
-			tableController.setWidth((int) (table.contentWidth));
-			tableController.setScale(table.getWidth()/table.contentWidth, table.getHeight()/table.contentHeight);
+			tableController.setHeight((int) (table.getContentHeight()));
+			tableController.setWidth((int) (table.getContentWidth()));
+			tableController.setScale(table.getWidth() / table.getContentWidth(),
+					table.getHeight() / table.getContentHeight());
 		}
 	}
 
@@ -62,9 +63,8 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 	public void draw(GGraphics2D g2) {
 		if (geo.isEuclidianVisible() && tableController != null
 			&& rectangle.getDirectTransform() != null) {
-			GAffineTransform tr = AwtFactory.getPrototype().newAffineTransform();
-			tr.setTransform(rectangle.getDirectTransform());
-			tr.scale(rectangle.realWidth() / table.contentWidth, rectangle.realHeight() / table.contentHeight);
+			GAffineTransform tr =
+					rectangle.scaleForZoom(table.getContentWidth(), table.getContentHeight());
 			tableController.draw(g2, tr);
 		}
 	}

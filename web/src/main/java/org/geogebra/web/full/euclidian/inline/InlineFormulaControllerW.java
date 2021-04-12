@@ -174,7 +174,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 					saveTimer.schedule(500);
 
 					int width = (int) ((mathFieldEditor.getMathField().asWidget().getOffsetWidth()
-							- DrawFormula.PADDING) * formula.getWidth()/formula.contentWidth);
+							- DrawFormula.PADDING) * formula.getWidth()/formula.getContentWidth());
 					int height = mathFieldEditor.getMathField().asWidget().getOffsetHeight();
 
 					formula.setSize(Math.max(formula.getWidth(), width),

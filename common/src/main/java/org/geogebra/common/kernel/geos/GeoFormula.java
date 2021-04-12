@@ -28,8 +28,6 @@ public class GeoFormula extends GeoInline {
 
 	private String latex = "";
 
-	private DrawFormula drawable;
-
 	/**
 	 * Creates new GeoElement for given construction
 	 *
@@ -39,8 +37,8 @@ public class GeoFormula extends GeoInline {
 	public GeoFormula(Construction c, GPoint2D location) {
 		super(c);
 		setLocation(location);
-		contentWidth = DEFAULT_WIDTH;
-		contentHeight = DEFAULT_HEIGHT;
+		setContentWidth(DEFAULT_WIDTH);
+		setContentHeight(DEFAULT_HEIGHT);
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 
@@ -114,11 +112,4 @@ public class GeoFormula extends GeoInline {
 		this.minHeight = minHeight;
 	}
 
-	public DrawFormula getDrawable() {
-		return drawable;
-	}
-
-	public void setDrawable(DrawFormula drawable) {
-		this.drawable = drawable;
-	}
 }

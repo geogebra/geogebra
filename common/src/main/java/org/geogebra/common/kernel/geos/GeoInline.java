@@ -14,13 +14,13 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 
 	private GPoint2D location;
 
-	protected double width;
-	protected double height;
+	private double width;
+	private double height;
 
 	private double angle;
 
-	public double contentWidth;
-	public double contentHeight;
+	private double contentWidth;
+	private double contentHeight;
 
 	private double xScale;
 	private double yScale;
@@ -166,12 +166,6 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 
 		sb.append("\t<content val=\"");
 		StringUtil.encodeXML(sb, getContent());
-		sb.append("\"/>\n");
-
-		sb.append("\t<geoSize width=\"");
-		sb.append(width);
-		sb.append("\" height=\"");
-		sb.append(height);
 		sb.append("\"/>\n");
 
 		sb.append("\t<contentSize width=\"");

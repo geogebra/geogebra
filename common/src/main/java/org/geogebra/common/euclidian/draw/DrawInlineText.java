@@ -63,10 +63,10 @@ public class DrawInlineText extends Drawable implements DrawInline {
 
 			textController.setLocation(view.toScreenCoordX(point.getX()),
 					view.toScreenCoordY(point.getY()));
-			textController.setHeight((int) (text.contentHeight));
-			textController.setWidth((int) (text.contentWidth - PADDING));
+			textController.setHeight((int) (text.getHeight()));
+			textController.setWidth((int) (text.getContentWidth() - PADDING));
 			textController.setAngle(angle);
-			textController.setScale(width/text.contentWidth, height/text.contentHeight);
+			textController.setScale(width/text.getContentWidth(), height/text.getContentHeight());
 			if (text.updateFontSize()) {
 				textController.updateContent();
 			}
@@ -131,9 +131,7 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	public void draw(GGraphics2D g2) {
 		if (text.isEuclidianVisible() && textController != null
 			&& rectangle.getDirectTransform() != null) {
-			GAffineTransform tr = AwtFactory.getPrototype().newAffineTransform();
-			tr.setTransform(rectangle.getDirectTransform());
-			tr.scale(rectangle.realWidth() / text.contentWidth, rectangle.realHeight() / text.contentHeight);
+			GAffineTransform tr = rectangle.scaleForZoom(text.getContentWidth(), text.getContentHeight());
 			textController.draw(g2, tr);
 		}
 	}

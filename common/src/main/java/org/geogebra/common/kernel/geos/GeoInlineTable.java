@@ -33,8 +33,8 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 	public GeoInlineTable(Construction c, GPoint2D location) {
 		super(c);
 		setLocation(location);
-		contentWidth = DEFAULT_WIDTH;
-		contentHeight = DEFAULT_HEIGHT;
+		setContentWidth(DEFAULT_WIDTH);
+		setContentHeight(DEFAULT_HEIGHT);
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 
