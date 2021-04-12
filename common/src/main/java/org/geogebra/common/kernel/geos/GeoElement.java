@@ -3594,21 +3594,28 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	@Override
 	final public int getMaxConstructionIndex() {
+		int maxIndex;
 		if (algoParent == null) {
-			// independent object:
-			// index must be less than every dependent algorithm's index
-			int min = cons.steps();
-			final int size = algorithmList == null ? 0 : algorithmList.size();
-			for (int i = 0; i < size; ++i) {
-				final int index = (algorithmList.get(i)).getConstructionIndex();
-				if (index < min) {
-					min = index;
-				}
-			}
-			return min - 1;
+			maxIndex = getIndexBeforeAllDependentAlgos();
+		} else {
+			maxIndex = algoParent.getMaxConstructionIndex();
 		}
-		// dependent object
-		return algoParent.getMaxConstructionIndex();
+		return Math.max(maxIndex, getConstructionIndex());
+	}
+
+	/**
+	 * @return index strictly lower than construction indices of all dependent algos
+	 */
+	public int getIndexBeforeAllDependentAlgos() {
+		int min = cons.steps();
+		final int size = algorithmList == null ? 0 : algorithmList.size();
+		for (int i = 0; i < size; ++i) {
+			final int index = algorithmList.get(i).getConstructionIndex();
+			if (index < min) {
+				min = index;
+			}
+		}
+		return min - 1;
 	}
 
 	@Override

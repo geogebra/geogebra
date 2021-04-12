@@ -404,6 +404,19 @@ public class RedefineTest extends BaseUnitTest {
 		assertEquals(lookup("c").toValueString(StringTemplate.defaultTemplate), "false");
 	}
 
+	@Test
+	public void redefineShouldUpdateOrder() {
+		add("numA:Element(1..5, 5)");
+		add("numA0:2numA");
+		add("numA2:1");
+		add("qrow:{numA + \"\"}");
+		add("numA3=numA0 - numA2");
+		add("row11:{Element(qrow, 1)}");
+		add("qrow:{numA3 + \"\"}");
+		assertEquals("{numA3 + \"\"}",
+				lookup("qrow").getRedefineString(false, false));
+	}
+
 	/**
 	 * @return matcher for inequalities
 	 */
