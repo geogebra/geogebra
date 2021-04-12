@@ -42,7 +42,7 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 		GeoFunction function = add("sqrt(1/x)");
 		IntervalTuple range = PlotterUtils.newRange(0, 10, -8, 8);
 		IntervalFunctionSampler sampler =
-				new IntervalFunctionSampler(function, range, null, 100);
+				new IntervalFunctionSampler(function, range, 100);
 		IntervalTupleList result = sampler.result();
 		assertEquals(new Interval(3.1622776016, Double.POSITIVE_INFINITY), result.get(0).y());
 	}
@@ -52,7 +52,7 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 		GeoFunction function = add("-sqrt(1/x)");
 		IntervalTuple range = PlotterUtils.newRange(0, 10, -8, 8);
 		IntervalFunctionSampler sampler =
-				new IntervalFunctionSampler(function, range, null, 100);
+				new IntervalFunctionSampler(function, range, 100);
 		IntervalTupleList result = sampler.result();
 		assertEquals(new Interval(Double.NEGATIVE_INFINITY, -3.1622776016), result.get(0).y());
 	}
@@ -62,7 +62,7 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 		GeoFunction function = add("1/sqrt(tan(x))");
 		IntervalTuple range = PlotterUtils.newRange(0, 5, -8, 8);
 		IntervalFunctionSampler sampler =
-				new IntervalFunctionSampler(function, range, null, 100);
+				new IntervalFunctionSampler(function, range, 100);
 		IntervalTupleList result = sampler.result();
 		for (IntervalTuple tuple: result) {
 			assertFalse(tuple.y().isHalfNegativeInfinity());

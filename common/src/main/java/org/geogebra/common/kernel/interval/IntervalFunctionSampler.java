@@ -14,23 +14,37 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 public class IntervalFunctionSampler {
 
 	private final IntervalFunction function;
-	private final EuclidianView view;
-	private final int numberOfSamples;
+	private EuclidianView view;
+	private int numberOfSamples;
 	private final LinearSpace space;
+
+	/**
+	 * @param geoFunction function to get sampled
+	 * @param range (x, y) range.
+	 * @param numberOfSamples the sample rate.
+	 */
+	public IntervalFunctionSampler(GeoFunction geoFunction, IntervalTuple range,
+			int numberOfSamples) {
+		this(geoFunction);
+		this.numberOfSamples = numberOfSamples;
+		update(range);
+	}
 
 	/**
 	 *  @param geoFunction function to get sampled
 	 * @param range (x, y) range.
 	 * @param view
-	 * @param numberOfSamples the sample rate.
 	 */
 	public IntervalFunctionSampler(GeoFunction geoFunction, IntervalTuple range,
-			EuclidianView view, int numberOfSamples) {
-		this.function = new IntervalFunction(geoFunction);
+			EuclidianView view) {
+		this(geoFunction);
 		this.view = view;
-		this.numberOfSamples = numberOfSamples;
-		space = new LinearSpace();
 		update(range);
+	}
+
+	private IntervalFunctionSampler(GeoFunction geoFunction) {
+		this.function = new IntervalFunction(geoFunction);
+		space = new LinearSpace();
 	}
 
 	/**
