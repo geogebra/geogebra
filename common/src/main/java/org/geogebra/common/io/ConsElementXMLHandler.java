@@ -268,8 +268,8 @@ public class ConsElementXMLHandler {
 				} else {
 					((RectangleTransformable) geo).setAngle(angleD);
 					if (geo instanceof GeoInlineTable) {
-						((GeoInline) geo).setBufferWidth(widthD);
-						((GeoInline) geo).setBufferHeight(heightD);
+						((GeoInline) geo).setTmpXMLWidth(widthD);
+						((GeoInline) geo).setTmpXMLHeight(heightD);
 					} else if (geo instanceof GeoInlineText || geo instanceof GeoFormula) {
 						((GeoInline) geo).setWidth(widthD);
 						((GeoInline) geo).setHeight(heightD);

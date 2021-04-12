@@ -276,7 +276,12 @@ public class TransformableRectangle {
 		return corner0.distance(corner3);
 	}
 
-	public GAffineTransform scaleForZoom (double contentWidth, double contentHeight) {
+	/**
+	 * @param contentWidth content width of element
+	 * @param contentHeight content height of element
+	 * @return scaled transform
+	 */
+	public GAffineTransform scaleForZoom(double contentWidth, double contentHeight) {
 		GAffineTransform tr = AwtFactory.getPrototype().newAffineTransform();
 		tr.setTransform(directTransform);
 		tr.scale(realWidth() / contentWidth, realHeight() / contentHeight);
