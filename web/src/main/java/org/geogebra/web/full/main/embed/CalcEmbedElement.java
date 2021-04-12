@@ -91,7 +91,9 @@ public class CalcEmbedElement extends EmbedElement {
 	}
 
 	/**
-	 * Set the specified axis in
+	 * Set the specified axis to positive only with the given crossing
+	 * @param axis axis id (0 - x, 1 - y)
+	 * @param crossing the value at which the given axis crosses the other
 	 */
 	public void setGraphAxis(int axis, double crossing) {
 		EuclidianSettings evs = frame.getApp().getSettings().getEuclidian(1);

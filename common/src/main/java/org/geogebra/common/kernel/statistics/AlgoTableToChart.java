@@ -85,7 +85,9 @@ public class AlgoTableToChart extends AlgoElement {
 				embedManager.sendCommand(chart, "ZoomIn(-4, -4, 4, 4)");
 				break;
 			case LineGraph:
+				embedManager.sendCommand(chart, "ShowAxes(true)");
 				embedManager.setGrid(chart, EuclidianView.GRID_CARTESIAN);
+				break;
 			case BarChart:
 				embedManager.sendCommand(chart, "ShowAxes(true)");
 				break;
