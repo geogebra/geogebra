@@ -1850,46 +1850,52 @@ public class StringTemplate implements ExpressionNodeConstants {
 						// check if we need a multiplication sign, see #414
 						// digit-digit, e.g. 3 * 5
 						// digit-fraction, e.g. 3 * \frac{5}{2}
-						char lastLeft = leftStr.charAt(leftStr.length() - 1);
-						char firstRight = rightStr.charAt(0);
-						showMultiplicationSign =
-								StringUtil.isDigit(firstRight)
-								// left is digit or ends with }, e.g. exponent,
-								// fraction
-										|| (StringUtil.isDigit(lastLeft)
-												|| lastLeft == '}')
-												&& rightStr
-														.startsWith("\\frac");
-						multiplicationSpaceNeeded = !isDegree(right);
+						if (!leftStr.isEmpty() && !rightStr.isEmpty()) {
+							char lastLeft = leftStr.charAt(leftStr.length() - 1);
+							char firstRight = rightStr.charAt(0);
+							showMultiplicationSign =
+									StringUtil.isDigit(firstRight)
+											// left is digit or ends with }, e.g. exponent,
+											// fraction
+											|| (StringUtil.isDigit(lastLeft)
+											|| lastLeft == '}')
+											&& rightStr
+											.startsWith("\\frac");
+							multiplicationSpaceNeeded = !isDegree(right);
+						}
 						break;
 
 					default: // GeoGebra syntax
-						lastLeft = leftStr.charAt(leftStr.length() - 1);
-						firstRight = rightStr.charAt(0);
-						// check if we need a multiplication sign, see #414
-						// digit-digit, e.g. 3 * 5
-						showMultiplicationSign = (Character.isDigit(lastLeft) || lastLeft == ')')
-								&& (StringUtil.isDigit(firstRight)
-										// 3*E23AB can't be written 3E23AB
-										|| (firstRight == 'E')) || StringUtil.isDigit(firstRight);
-						// check if we need a multiplication space:
-						multiplicationSpaceNeeded = showMultiplicationSign;
-						if (!multiplicationSpaceNeeded) {
+						if (!leftStr.isEmpty() && !rightStr.isEmpty()) {
+							char lastLeft = leftStr.charAt(leftStr.length() - 1);
+							char firstRight = rightStr.charAt(0);
+							// check if we need a multiplication sign, see #414
+							// digit-digit, e.g. 3 * 5
+							showMultiplicationSign =
+									(Character.isDigit(lastLeft) || lastLeft == ')')
+											&& (StringUtil.isDigit(firstRight)
+											// 3*E23AB can't be written 3E23AB
+											|| (firstRight == 'E'))
+											|| StringUtil.isDigit(firstRight);
 							// check if we need a multiplication space:
-							// it's needed except for number * character,
-							// e.g. 23x
-							// need to check start and end for eg A1 * A2
-							boolean leftIsNumber = left.wrap()
-									.endsInNumber(valueForm);
+							multiplicationSpaceNeeded = showMultiplicationSign;
+							if (!multiplicationSpaceNeeded) {
+								// check if we need a multiplication space:
+								// it's needed except for number * character,
+								// e.g. 23x
+								// need to check start and end for eg A1 * A2
+								boolean leftIsNumber = left.wrap()
+										.endsInNumber(valueForm);
 
-							// check if we need a multiplication space:
-							// all cases except number * character, e.g. 3x
-							// pi*x DOES need a multiply
-							multiplicationSpaceNeeded =
-									!leftIsNumber
-											|| Character.isDigit(firstRight)
-											|| rightStr.equals(RAD)
-											|| (forEditorParser && !isDegree(right));
+								// check if we need a multiplication space:
+								// all cases except number * character, e.g. 3x
+								// pi*x DOES need a multiply
+								multiplicationSpaceNeeded =
+										!leftIsNumber
+												|| Character.isDigit(firstRight)
+												|| rightStr.equals(RAD)
+												|| (forEditorParser && !isDegree(right));
+							}
 						}
 					}
 
