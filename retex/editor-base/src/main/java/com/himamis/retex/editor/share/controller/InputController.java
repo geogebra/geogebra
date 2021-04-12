@@ -1153,7 +1153,9 @@ public class InputController {
 				newOperator(editorState, '*');
 				handled = true;
 			} else if (ch == ',' && allowFrac) {
-				comma(editorState);
+				if (!preventDimensionChange(editorState)) {
+					comma(editorState);
+				}
 				handled = true;
 			} else if (meta.isOperator("" + ch)) {
 				newOperator(editorState, ch);
@@ -1170,6 +1172,14 @@ public class InputController {
 			}
 		}
 		return handled;
+	}
+
+	private boolean preventDimensionChange(EditorState editorState) {
+		MathContainer parent = editorState.getCurrentField().getParent();
+		if (MathArray.isLocked(parent)) {
+			return true;
+		}
+		return false;
 	}
 
 	private boolean handleEndBlocks(EditorState editorState, char ch) {
