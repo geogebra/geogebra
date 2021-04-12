@@ -9790,9 +9790,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		GeoElement topHit = getNotesTopHit();
 
 		if (!draggingOccured) {
-			selection.clearSelectedGeos(false, false);
-			selection.addSelectedGeoWithGroup(topHit);
-			updateBoundingBoxFromSelection(false);
+			// don't clear single geo and add it back to selection
+			if (!(selection.getSelectedGeos().size() == 1
+					&& selection.getSelectedGeos().contains(topHit)
+					&& topHit.getParentGroup() == null)) {
+				selection.clearSelectedGeos(false, false);
+				selection.addSelectedGeoWithGroup(topHit);
+				updateBoundingBoxFromSelection(false);
+			}
 		}
 
 		boolean needsFocus = topHit.getParentGroup() != null;
