@@ -1089,6 +1089,13 @@ public class ToolbarPanel extends FlowPanel
 		navRail.updateIcons(false);
 	}
 
+	/**
+	 * update Icons Style
+	 */
+	public void updateIconsStyle() {
+		navRail.updateIcons(app.isExam());
+	}
+
 	private void resetHeaderClasses() {
 		ExamUtil.makeRed(navRail.getElement(), false);
 		navRail.removeStyleName("examOk");
