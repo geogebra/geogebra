@@ -23,6 +23,9 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 	private double minWidth = 2 * MIN_CELL_SIZE;
 	private double minHeight = 2 * MIN_CELL_SIZE;
 
+	private Double tmpXMLWidth;
+	private Double tmpXMLHeight;
+
 	/**
 	 * Creates new GeoElement for given construction
 	 *
@@ -128,5 +131,25 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 
 	public void setMinHeight(double minHeight) {
 		this.minHeight = minHeight;
+	}
+
+	/**
+	 * @param tmpWidth height
+	 * @param tmpHeight width
+	 */
+	public void setTmpXMLSize(Double tmpWidth, Double tmpHeight) {
+		tmpXMLWidth = tmpWidth;
+		tmpXMLHeight = tmpHeight;
+	}
+
+	/**
+	 * sets width/height to temporarily stored values
+	 */
+	public void updateSizeFromTmpXMLIfNeeded() {
+		if (tmpXMLWidth != null || tmpXMLHeight != null) {
+			setHeight(tmpXMLHeight);
+			setWidth(tmpXMLWidth);
+			setTmpXMLSize(null, null);
+		}
 	}
 }

@@ -41,12 +41,7 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 			// to avoid inconsistent state
 			tableController = view.getApplication().createTableController(view, table);
 		}
-		if (table.getTmpXMLWidth() != null || table.getTmpXMLHeight() != null) {
-			table.setWidth(table.getTmpXMLWidth());
-			table.setHeight(table.getTmpXMLHeight());
-			table.setTmpXMLWidth(null);
-			table.setTmpXMLHeight(null);
-		}
+		table.updateSizeFromTmpXMLIfNeeded();
 
 		if (tableController != null) {
 			double contentWidth = table.getContentWidth();

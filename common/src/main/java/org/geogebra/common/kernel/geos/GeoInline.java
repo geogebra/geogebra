@@ -25,9 +25,6 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	private double xScale;
 	private double yScale;
 
-	private Double tmpXMLWidth;
-	private Double tmpXMLHeight;
-
 	public GeoInline(Construction cons) {
 		super(cons);
 	}
@@ -241,21 +238,5 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 
 	public void setHeight(double height) {
 		this.height = height;
-	}
-
-	public Double getTmpXMLWidth() {
-		return tmpXMLWidth;
-	}
-
-	public void setTmpXMLWidth(Double tmpXMLWidth) {
-		this.tmpXMLWidth = tmpXMLWidth;
-	}
-
-	public Double getTmpXMLHeight() {
-		return tmpXMLHeight;
-	}
-
-	public void setTmpXMLHeight(Double tmpXMLHeight) {
-		this.tmpXMLHeight = tmpXMLHeight;
 	}
 }
