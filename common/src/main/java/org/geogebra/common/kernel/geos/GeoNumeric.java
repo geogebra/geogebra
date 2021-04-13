@@ -27,6 +27,7 @@ import java.util.TreeSet;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -1864,12 +1865,13 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
+		boolean simple = isSimple();
 		if (getDefinition() != null
-				&& (getDefinition().isFraction() || value != Math.round(value))
+				&& !simple
 				&& !"?".equals(getDefinition(StringTemplate.defaultTemplate))) {
 			return DescriptionMode.DEFINITION_VALUE;
 		}
-		if (isSimple() || (!isDefined() && isIndependent())) {
+		if (simple || (!isDefined() && isIndependent())) {
 			// matters in scientific where we don't have AV sliders
 			return DescriptionMode.VALUE;
 		}
