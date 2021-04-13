@@ -1626,8 +1626,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			toolbarPanel.close(false);
 		} else if (isEvVisible) {
 			toolbarPanel.close(false);
-			toolbarPanel.open();
-		}
+			invokeLater(() -> {
+				toolbarPanel.setLastOpenWidth(ToolbarPanel.OPEN_START_WIDTH_LANDSCAPE);
+				toolbarPanel.open();
+			});
+		} // else assume that toolbarPanel is fully open.
 	}
 
 	private void updatePerspectiveForUnbundled(Perspective perspective) {
