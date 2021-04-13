@@ -156,7 +156,7 @@ public class TeXBuilder {
 			((ScriptsAtom) lastAtom).addToSub(sub);
 			return lastAtom;
 		}
-		return new ScriptsAtom(lastAtom, sub, null);
+		return new ScriptsAtom(lastAtom, sub, new RowAtom());
 	}
 
 	private Atom addToSup(Atom lastAtom, Atom sup) {
@@ -316,7 +316,7 @@ public class TeXBuilder {
 			Atom log = new RomanAtom(buildString("log"));
 			if (argument.getArgument(0).size() > 0
 					|| currentField == argument.getArgument(0)) {
-				log = new ScriptsAtom(log, build(argument.getArgument(0)), null);
+				log = new ScriptsAtom(log, build(argument.getArgument(0)), new RowAtom());
 			}
 
 			return wrap(
