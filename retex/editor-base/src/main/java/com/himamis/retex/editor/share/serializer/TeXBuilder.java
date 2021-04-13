@@ -21,6 +21,7 @@ import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.NthRoot;
 import com.himamis.retex.renderer.share.PhantomAtom;
+import com.himamis.retex.renderer.share.ResizeAtom;
 import com.himamis.retex.renderer.share.RomanAtom;
 import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.SMatrixAtom;
@@ -318,7 +319,7 @@ public class TeXBuilder {
 				log = new ScriptsAtom(log, build(argument.getArgument(0)), null);
 			}
 
-			return new RowAtom(
+			return wrap(
 					log,
 					buildFenced('(', ')', argument, 1)
 			);
@@ -363,12 +364,18 @@ public class TeXBuilder {
 				function = new RomanAtom(function);
 			}
 
-			return new RowAtom(
+			return wrap(
 				function,
 				buildFenced(argument.getOpeningBracket(), argument.getClosingBracket(),
 						argument, 1)
 			);
 		}
+	}
+
+	private Atom wrap(Atom... atoms) {
+		// the resize atom is just a hack so that the RowAtom is not destroyed
+		// when added to another row atom
+		return new ResizeAtom(new RowAtom(atoms), null, null);
 	}
 
 	/**
@@ -392,7 +399,6 @@ public class TeXBuilder {
 	 * @return corresponding component
 	 */
 	public MathComponent getComponent(Atom atom) {
-		// TODO Auto-generated method stub
 		return atomToComponent.get(atom);
 	}
 
