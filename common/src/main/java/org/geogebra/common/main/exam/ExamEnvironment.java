@@ -734,11 +734,11 @@ public class ExamEnvironment {
 	}
 
 	private void clearTempMaterials() {
-		tempMaterialId = 1;
+		tempMaterialId = 0;
 		tempMaterials = new LinkedHashMap<>();
 	}
 
 	public int nextTempMaterialId() {
-		return tempMaterialId++;
+		return ++tempMaterialId;
 	}
 }
