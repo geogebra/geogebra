@@ -130,7 +130,6 @@ public class AlgoTableToChart extends AlgoElement {
 						+ StringUtil.join(",", barData[1]) + "}, 1)";
 				minX = Collections.min(barData[0]) - 1.5;
 				maxX = Collections.max(barData[0]) + 1.5;
-				minY = 0;
 				maxY = Collections.max(barData[1]) + 1;
 				break;
 			}
