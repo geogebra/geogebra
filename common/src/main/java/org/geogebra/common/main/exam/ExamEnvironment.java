@@ -730,10 +730,7 @@ public class ExamEnvironment {
 		if (savedMaterial != null && !savedMaterial.getTitle().equals(material.getTitle())) {
 			material.setId(nextTempMaterialId());
 		}
-		try {
-			tempMaterials.put(material.getId(), material.clone());
-		} catch (CloneNotSupportedException ignored) {
-		}
+		tempMaterials.put(material.getId(), new Material(material));
 	}
 
 	private void clearTempMaterials() {

@@ -14,7 +14,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
  * 
  */
 @SuppressWarnings("serial")
-public class Material implements Comparable<Material>, Serializable, Cloneable {
+public class Material implements Comparable<Material>, Serializable {
 
 	public enum Provider {
 		TUBE, GOOGLE, LOCAL
@@ -177,6 +177,69 @@ public class Material implements Comparable<Material>, Serializable, Cloneable {
 		this.rightClick = true;
 		this.labelDrags = true;
 		this.appName = "";
+	}
+
+	/**
+	 * Copy constructor
+	 * @param material material to be copied
+	 */
+	public Material(Material material) {
+		id = material.id;
+		title = material.title;
+		type = material.type;
+		description = material.description;
+		timestamp = material.timestamp;
+		autoSaveTimestamp = material.autoSaveTimestamp;
+		author = material.author;
+		authorID = material.authorID;
+		viewerID = material.viewerID;
+		url = material.url;
+		urlDirect = material.urlDirect;
+		language = material.language;
+		thumbnail = material.thumbnail;
+		thumbnailIsBase64 = material.thumbnailIsBase64;
+		previewUrl = material.previewUrl;
+		featured = material.featured;
+		likes = material.likes;
+		width = material.width;
+		height = material.height;
+		instructionsPre = material.instructionsPre;
+		instructionsPost = material.instructionsPost;
+		showMenu = material.showMenu;
+		showToolbar = material.showToolbar;
+		allowStylebar = material.allowStylebar;
+		showInputbar = material.showInputbar;
+		showResetIcon = material.showResetIcon;
+		shiftDragZoom = material.shiftDragZoom;
+		rightClick = material.rightClick;
+		labelDrags = material.labelDrags;
+		base64 = material.base64;
+		googleID = material.googleID;
+		syncStamp = material.syncStamp;
+		modified = material.modified;
+		visibility = material.visibility;
+		localID = material.localID;
+		deleted = material.deleted;
+		fromAnotherDevice = material.fromAnotherDevice;
+		favorite = material.favorite;
+		undoRedo = material.undoRedo;
+		showZoomButtons = material.showZoomButtons;
+		is3d = material.is3d;
+		spreadsheet = material.spreadsheet;
+		cas = material.cas;
+		graphics2 = material.graphics2;
+		constprot = material.constprot;
+		propcalc = material.propcalc;
+		dataanalysis = material.dataanalysis;
+		funcinsp = material.funcinsp;
+		macro = material.macro;
+		sharingKey = material.sharingKey;
+		elemcntApplet = material.elemcntApplet;
+		fileName = material.fileName;
+		appName = material.appName;
+		dateCreated = material.dateCreated;
+		creator = material.creator;
+		fileContent = material.fileContent;
 	}
 
 	public boolean isDeleted() {
@@ -567,11 +630,6 @@ public class Material implements Comparable<Material>, Serializable, Cloneable {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	@Override
-	public Material clone() throws CloneNotSupportedException {
-		return (Material) super.clone();
 	}
 
 	public long getTimestamp() {
