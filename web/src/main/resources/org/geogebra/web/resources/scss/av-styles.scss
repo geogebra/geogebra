@@ -218,11 +218,6 @@ $duration: 0.2s;
 			}
 	}
 
-	.showScroll .customScrollbar:hover {
-		scrollbar-color: $black-38 $white;
-		color: $black-38;
-	}
-
 	.customScrollbar {
 		scrollbar-width: thin;
 		scrollbar-color: $white $white;
@@ -239,6 +234,12 @@ $duration: 0.2s;
 			box-shadow: inset 0 0 0 10px;
 			border-radius: 2px;
 		}
+
+		&:hover {
+			scrollbar-color: $black-38 $white;
+			color: $black-38;
+		}
+
 		&>div {
 			// we are overriding color for the whole container (to be used for scrollbar),
 			// so we have to override back for child elements
