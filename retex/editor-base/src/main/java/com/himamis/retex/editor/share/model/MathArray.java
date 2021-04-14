@@ -212,6 +212,10 @@ public class MathArray extends MathContainer {
 		return meta.isMatrix();
 	}
 
+	public boolean separatorIsComma() {
+		return meta.getField().getTexName() == ",";
+	}
+
 	@Override
 	public MathArray copy() {
 		MathArray array = new MathArray(meta, columns, rows);

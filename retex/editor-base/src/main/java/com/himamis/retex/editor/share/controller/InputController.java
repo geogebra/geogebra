@@ -1153,7 +1153,11 @@ public class InputController {
 				newOperator(editorState, '*');
 				handled = true;
 			} else if (ch == ',' && allowFrac) {
-				if (!preventDimensionChange(editorState)) {
+				if (preventDimensionChange(editorState)) {
+					if (shouldMoveCursor(editorState)) {
+						CursorController.nextCharacter(editorState);
+					}
+				} else {
 					comma(editorState);
 				}
 				handled = true;
@@ -1177,6 +1181,17 @@ public class InputController {
 	private boolean preventDimensionChange(EditorState editorState) {
 		MathContainer parent = editorState.getCurrentField().getParent();
 		if (MathArray.isLocked(parent)) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean shouldMoveCursor(EditorState editorState) {
+		int offset = editorState.getCurrentOffset();
+		int sequenceSize = editorState.getCurrentField().size();
+		MathContainer parent = editorState.getCurrentField().getParent();
+		if (parent instanceof MathArray && ((MathArray) parent).separatorIsComma()
+				&& offset == sequenceSize) {
 			return true;
 		}
 		return false;
