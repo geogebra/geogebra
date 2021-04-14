@@ -27,6 +27,7 @@ import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.SMatrixAtom;
 import com.himamis.retex.renderer.share.ScaleAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
+import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
 import com.himamis.retex.renderer.share.Symbols;
 import com.himamis.retex.renderer.share.TeXConstants;
@@ -188,6 +189,10 @@ public class TeXBuilder {
 	}
 
 	private Atom newCharAtom(char unicode) {
+		if (unicode == ' ') {
+			return new SpaceAtom();
+		}
+
 		String replacement = replacements.get(unicode);
 		if (replacement != null) {
 			return SymbolAtom.get(replacement).duplicate();
@@ -198,7 +203,8 @@ public class TeXBuilder {
 			ret = ((SymbolAtom) ret).duplicate();
 		}
 
-		return ret;
+		// apply wrapping hack on symbols
+		return new ResizeAtom(ret, null, null);
 	}
 
 	private Atom buildArray(MathArray array) {

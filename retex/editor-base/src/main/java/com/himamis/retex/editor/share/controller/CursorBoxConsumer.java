@@ -51,7 +51,7 @@ public class CursorBoxConsumer implements BoxConsumer {
 				cursorPosition.x + boxWidth,
 				cursorPosition.baseline - cursorPosition.scale * 0.8,
 				1,
-				cursorPosition.scale * 1.2
+				cursorPosition.scale
 		);
 	}
 }
