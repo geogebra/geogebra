@@ -32,9 +32,20 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 
 	@Override
 	public DrawerMenu createDrawerMenu() {
-		MenuItemGroup group = new MenuItemGroupImpl(removeNulls(
-				clearConstruction(), showSwitchCalculator(),
-				showExamLog(), exitExamMode()));
+		return createDrawerMenu(true);
+	}
+
+	public DrawerMenu createDrawerMenu(boolean showExitExam) {
+		MenuItemGroup group;
+		if (showExitExam) {
+			group = new MenuItemGroupImpl(removeNulls(
+					clearConstruction(), showSwitchCalculator(),
+					showExamLog(), exitExamMode()));
+		} else {
+			group = new MenuItemGroupImpl(removeNulls(
+					clearConstruction(), showSwitchCalculator(),
+					showExamLog()));
+		}
 		String title = getMenuTitle();
 		return new DrawerMenuImpl(title, group);
 	}
