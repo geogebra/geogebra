@@ -311,6 +311,8 @@ public class GeoNumeric extends GeoElement
 		if (value > max) {
 			if (Math.ceil(value) < 0) {
 				max = 0;
+			} else if (isAngle()) {
+				max = MyMath.nextMultiple(value, Math.PI);
 			} else {
 				max = MyMath.nextPrettyNumber(value, 0);
 			}
@@ -325,6 +327,8 @@ public class GeoNumeric extends GeoElement
 		if (value < min) {
 			if (Math.floor(value) > 0) {
 				min = 0;
+			} else if (isAngle()) {
+				min = -MyMath.nextMultiple(Math.abs(value), Math.PI);
 			} else {
 				min = -MyMath.nextPrettyNumber(Math.abs(value), 0);
 			}
