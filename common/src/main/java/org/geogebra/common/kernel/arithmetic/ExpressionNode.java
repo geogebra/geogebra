@@ -3431,7 +3431,7 @@ public class ExpressionNode extends ValidExpression
 		if (f.isOperation(Operation.MULTIPLY)) {
 			ExpressionNode en = f.wrap();
 			if (en.getRight() instanceof MySpecialDouble
-				&& en.getRight().evaluateDouble() == Kernel.PI_180){
+				&& en.getRight().evaluateDouble() == Kernel.PI_180) {
 				return new ExpressionNode(kernel2, unaryMinus(kernel2, en.getLeft()),
 						Operation.MULTIPLY, en.getRight());
 			}
