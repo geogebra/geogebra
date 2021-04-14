@@ -11,9 +11,6 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.aria.client.Roles;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Label;
 
 public class SuiteHeaderAppPicker extends StandardButton {
@@ -62,22 +59,4 @@ public class SuiteHeaderAppPicker extends StandardButton {
 		Roles.getButtonRole().removeAriaPressedState(getElement());
 	}
 
-	/**
-	 * sets the button visibility depending on overlapping of divs
-	 */
-	public void checkButtonVisibility() {
-		final Element appPickerPanel =  Document.get().getElementById("suiteAppPicker");
-		if (appPickerPanel == null) {
-			return;
-		}
-		int buttonRight = appPickerPanel.getAbsoluteLeft() + appPickerPanel.getOffsetWidth();
-		int buttonsLeft = GlobalHeader.getButtonElement().getAbsoluteLeft();
-		final Style style = appPickerPanel.getStyle();
-		if (buttonsLeft < buttonRight) {
-			style.setProperty("visibility", "hidden");
-			suitePopup.hide();
-		} else {
-			style.setProperty("visibility", "visible");
-		}
-	}
 }

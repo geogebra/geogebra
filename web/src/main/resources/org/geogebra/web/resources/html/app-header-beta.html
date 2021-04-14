@@ -38,18 +38,17 @@ window.addEventListener("load", function() {
 		document.getElementById("headerID").parentElement.style.display = "none";
 	}
 
-window.onresize = function(event) {
-   var elAppPicker = document.getElementById("suiteAppPicker");
-   var rectAppPicker = elAppPicker.getBoundingClientRect();
-   var rectButtons = document.getElementById("buttonsID").getBoundingClientRect();
-   var overlap = rectAppPicker.right > rectButtons.left;
-
-   if(overlap) {
-       elAppPicker.style.visibility = "hidden";
-   } else {
-       elAppPicker.style.visibility = "visible";
-   }
+window.ggbHeaderResize = function(event) {
+	var elAppPicker = document.getElementById("suiteAppPicker");
+	var rectAppPicker = elAppPicker.getBoundingClientRect();
+	var rectButtonsLeft = document.getElementById("buttonsID").getBoundingClientRect().left;
+	var elExam = document.getElementById("examId");
+	var rectExamLeft = elExam ? elExam.getBoundingClientRect().left : 0;
+	var overlap = rectAppPicker.right > Math.max(rectButtonsLeft, rectExamLeft);
+	elAppPicker.style.visibility = overlap ? "hidden" : "visible";
 }
+
+window.addEventListener("resize", ggbHeaderResize);
 
 });
 </script>

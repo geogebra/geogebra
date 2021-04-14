@@ -2265,7 +2265,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void setSuiteHeaderButton(String subappCode) {
 		if (suiteAppPickerButton != null) {
 			suiteAppPickerButton.setIconAndLabel(subappCode);
-			suiteAppPickerButton.checkButtonVisibility();
+			GlobalHeader.onResize();
 		}
 	}
 
