@@ -142,7 +142,6 @@ import org.gwtproject.regexp.shared.RegExpFactory;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
