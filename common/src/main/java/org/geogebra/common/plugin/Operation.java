@@ -1917,6 +1917,10 @@ public enum Operation {
 		expand[1] = new ExpressionNode(kernel, expandLeft[1], minusOp, expandRight[1]);
 	}
 
+	public boolean isUnary() {
+		return this == NO_OPERATION || isSimpleFunction(this);
+	}
+
 	/**
 	 * @param op
 	 *            operation

@@ -136,20 +136,10 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 		expression.inspect(new Inspecting() {
 			@Override
 			public boolean check(ExpressionValue v) {
-				if (v.isExpressionNode()) {
-					checkConstant(v.wrap().getLeft());
-					// sin(x) has Double.NaN as right argument -- ignore
-					if (!Operation.isSimpleFunction(v.wrap().getOperation())) {
-						checkConstant(v.wrap().getRight());
-					}
-				}
-				return false;
-			}
-
-			private void checkConstant(ExpressionValue v) {
 				if (v instanceof MyDouble && v.isConstant()) {
 					constants.add(v.evaluateDouble());
 				}
+				return false;
 			}
 		});
 		return constants;
