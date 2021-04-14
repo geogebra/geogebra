@@ -110,6 +110,7 @@ import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.media.VideoManager;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
@@ -4191,6 +4192,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void startExam() {
 		setupExamEnvironment();
 		getExam().setStart((new Date()).getTime());
+		getExam().setCurrentMaterial(getCurrentMaterial());
 	}
 
 	private void setupExamEnvironment() {
@@ -5279,5 +5281,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void setNotesToolbarOpen(boolean open) {
 		// nothing to do here
+	}
+
+	protected Material getCurrentMaterial() {
+		return null;
 	}
 }

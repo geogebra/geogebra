@@ -1,10 +1,7 @@
 package org.geogebra.common.main.exam;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import javax.annotation.CheckForNull;
 
@@ -67,8 +64,7 @@ public class ExamEnvironment {
 	private boolean temporaryBlur;
 	private boolean wasCasEnabled;
 
-	private int tempMaterialId;
-	private Map<Integer, Material> tempMaterials;
+	private TempStorage tempStorage;
 
 	/**
 	 * @param localization localization
@@ -76,6 +72,7 @@ public class ExamEnvironment {
 	public ExamEnvironment(Localization localization) {
 		this.localization = localization;
 		cheatingEvents = new CheatingEvents();
+		tempStorage = new TempStorage();
 	}
 
 	public void setIncludingSettingsInLog(boolean includingSettingsInLog) {
@@ -713,32 +710,23 @@ public class ExamEnvironment {
 		commandDispatcher.addCommandFilter(noCASFilter);
 	}
 
-	/**
-	 * @return A copy of the tempMaterials.
-	 */
-	public Collection<Material> collectTempMaterials() {
-		return Collections.unmodifiableCollection(tempMaterials.values());
+	public Material newTempMaterial() {
+		return tempStorage.newMaterial();
 	}
 
-	/**
-	 * Saves a copy of the material into the tempMaterials with the correct id.
-	 *
-	 * @param material material
-	 */
-	public void saveTempMaterial(Material material) {
-		Material savedMaterial = tempMaterials.get(material.getId());
-		if (savedMaterial != null && !savedMaterial.getTitle().equals(material.getTitle())) {
-			material.setId(nextTempMaterialId());
-		}
-		tempMaterials.put(material.getId(), new Material(material));
+	public Collection<Material> collectTempMaterials() {
+		return tempStorage.collectTempMaterials();
+	}
+
+	public void saveTempMaterial() {
+		tempStorage.saveTempMaterial();
 	}
 
 	private void clearTempMaterials() {
-		tempMaterialId = 0;
-		tempMaterials = new LinkedHashMap<>();
+		tempStorage.clearTempMaterials();
 	}
 
-	public int nextTempMaterialId() {
-		return ++tempMaterialId;
+	public void setCurrentMaterial(Material currentMaterial) {
+		tempStorage.setCurrentMaterial(currentMaterial);
 	}
 }
