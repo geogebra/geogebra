@@ -20,11 +20,11 @@ import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.StringConsumer;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.user.client.Window.Location;
 
+import elemental2.core.ArrayBuffer;
 import elemental2.core.Global;
 import elemental2.core.JsArray;
 import elemental2.core.JsObject;
@@ -224,7 +224,7 @@ public class GoogleDriveOperationW implements GoogleDriveOperation {
 		app.setUnsaved();
 	}
 
-	private void processGoogleDriveFileContentAsBinary(JavaScriptObject binary,
+	private void processGoogleDriveFileContentAsBinary(ArrayBuffer binary,
 	        String title, String id) {
 		app.loadGgbFileAsBinaryAgain(binary);
 		postprocessFileLoading(title, id);

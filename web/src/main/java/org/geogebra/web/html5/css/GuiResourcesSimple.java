@@ -12,9 +12,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	GuiResourcesSimple INSTANCE = GWT.create(GuiResourcesSimple.class);
 
-	// @Source("org/geogebra/web/resources/js/zipjs/deflate.js")
-	// TextResource deflateJs();
-
 	@Source("org/geogebra/web/resources/js/rewrite_pHYs_min.js")
 	TextResource rewritePHYS();
 
@@ -39,17 +36,11 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons_play/p24/nav_pause_circle_hover.png")
 	ImageResource icons_play_pause_circle_hover();
 
-	@Source("org/geogebra/web/resources/js/zipjs/codecs.js")
-	TextResource pakoCodecJs();
+	@Source("org/geogebra/web/resources/js/fflate.min.js")
+	TextResource fflateJs();
 
-	@Source("org/geogebra/web/resources/js/zipjs/pako1.0.6_min.js")
-	TextResource pakoJs();
-
-	@Source("org/geogebra/web/resources/js/zipjs/zip-ext.js")
-	TextResource dataViewJs();
-
-	@Source("org/geogebra/web/resources/js/zipjs/zip.js")
-	TextResource zipJs();
+	@Source("org/geogebra/web/resources/js/base64.js")
+	TextResource base64Js();
 
 	// used by ExamUtil (eg toggleFullScreen)
 	@Source("org/geogebra/web/resources/js/visibility.js")

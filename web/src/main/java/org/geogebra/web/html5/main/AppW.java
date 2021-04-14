@@ -160,6 +160,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import elemental2.core.ArrayBuffer;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
 import elemental2.dom.FileReader;
@@ -748,10 +749,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @param binary
 	 *            binary file
 	 */
-	public void loadGgbFileAsBinaryAgain(JavaScriptObject binary) {
+	public void loadGgbFileAsBinaryAgain(ArrayBuffer binary) {
 		prepareReloadGgbFile();
 		ViewW view = getViewW();
-		view.processBinaryString(binary);
+		view.processBinaryData(binary);
 	}
 
 	private void prepareReloadGgbFile() {

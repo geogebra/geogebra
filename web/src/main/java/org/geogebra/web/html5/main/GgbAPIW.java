@@ -1,7 +1,9 @@
 package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.geogebra.common.awt.GColor;
@@ -35,9 +37,10 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.AnimationExporter;
+import org.geogebra.web.html5.util.Base64;
+import org.geogebra.web.html5.util.FFlate;
 import org.geogebra.web.html5.util.FileConsumer;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.JsRunnable;
@@ -46,13 +49,16 @@ import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 
 import elemental2.core.Global;
+import elemental2.core.JsArray;
+import elemental2.core.Uint8Array;
+import elemental2.dom.Blob;
 import elemental2.promise.Promise.PromiseExecutorCallbackFn.RejectCallbackFn;
 import elemental2.promise.Promise.PromiseExecutorCallbackFn.ResolveCallbackFn;
+import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 /**
@@ -255,45 +261,10 @@ public class GgbAPIW extends GgbAPI {
 	 * @param includeThumbnail
 	 *            whether to include thumbnail
 	 * @param callback
-	 *            handler for the file
-	 */
-	public void getGGBfile(final boolean includeThumbnail,
-			final FileConsumer callback) {
-		final boolean oldWorkers = setWorkerURL(zipJSworkerURL(), false);
-		final JsPropertyMap<Object> arch = getFileJSON(includeThumbnail);
-		getGGBZipJs(arch, callback,
-				() -> {
-					if (oldWorkers && !isUsingWebWorkers()) {
-						Log.warn(
-								"Saving with workers failed, trying without workers.");
-						ResourcesInjector.loadCodecs();
-						getGGBZipJs(arch, callback, null);
-					}
-				});
-	}
-
-	/**
-	 * @return URL of zip worker directory
-	 */
-	public static String zipJSworkerURL() {
-		// FIXME disabled workers in Touch for now
-		if ("tablet".equals(GWT.getModuleName())
-				|| "tabletWin".equals(GWT.getModuleName())) {
-			return "false";
-		}
-		return Browser.webWorkerSupported()
-				? GWT.getModuleBaseURL() + "js/zipjs/" : "false";
-	}
-
-	/**
-	 * @param includeThumbnail
-	 *            whether to include thumbnail
-	 * @param callback
 	 *            callback
 	 */
 	public void getBase64(boolean includeThumbnail, StringConsumer callback) {
-		getBase64ZipJs(getFileJSON(includeThumbnail), callback,
-				zipJSworkerURL(), false);
+		getZippedBase64Async(getFileJSON(includeThumbnail), callback);
 	}
 
 	/**
@@ -308,8 +279,7 @@ public class GgbAPIW extends GgbAPI {
 			StringConsumer callback) {
 		GgbFile archiveContent = createMacrosArchive();
 		JsPropertyMap<Object> jso = JsPropertyMap.of();
-		getBase64ZipJs(prepareToEntrySet(archiveContent, jso, "", null),
-				callback, zipJSworkerURL(), false);
+		getZippedBase64Async(prepareToEntrySet(archiveContent, jso, "", null), callback);
 	}
 
 	/**
@@ -382,32 +352,10 @@ public class GgbAPIW extends GgbAPI {
 		return Global.JSON.stringify(jso);
 	}
 
-	private static final class StoreString implements StringConsumer {
-		private String result = "";
-
-		protected StoreString() {
-
-		}
-
-		@Override
-		public void consume(String s) {
-			this.result = s;
-		}
-
-		public String getResult() {
-			return result;
-		}
-	}
-
 	@Override
 	public String getBase64(boolean includeThumbnail) {
-		StoreString storeString = new StoreString();
 		JsPropertyMap<Object> jso = getFileJSON(includeThumbnail);
-		if (Browser.webWorkerSupported()) {
-			ResourcesInjector.loadCodecs();
-		}
-		getBase64ZipJs(jso, storeString, "false", true);
-		return storeString.getResult();
+		return getZippedBase64Sync(jso);
 
 	}
 
@@ -415,15 +363,10 @@ public class GgbAPIW extends GgbAPI {
 	 * @return base64 for ggt file
 	 */
 	public String getMacrosBase64() {
-		StoreString storeString = new StoreString();
 		GgbFile archiveContent = createMacrosArchive();
 		JsPropertyMap<Object> jso = prepareToEntrySet(archiveContent,
 				JsPropertyMap.of(), "", null);
-		if (Browser.webWorkerSupported()) {
-			ResourcesInjector.loadCodecs();
-		}
-		getBase64ZipJs(jso, storeString, "false", true);
-		return storeString.getResult();
+		return getZippedBase64Sync(jso);
 	}
 
 	/**
@@ -626,296 +569,85 @@ public class GgbAPIW extends GgbAPI {
 		ne["archive"].push(obj);
 	}-*/;
 
-	/**
-	 * @param arch
-	 *            archive
-	 * @param clb
-	 *            callback when zipped
-	 * @param errorClb
-	 *            callback for errors
-	 */
-	native void getGGBZipJs(JsPropertyMap<Object> arch, FileConsumer clb,
-			JsRunnable errorClb) /*-{
+	private JsPropertyMap<Object> prepareFileForFFlate(JsPropertyMap<Object> arch) {
+		List<String> imgExtensions = Arrays.asList("jpg", "jpeg", "png", "gif", "bmp");
 
-		function encodeUTF8(string) {
-			var n, c1, enc, utftext = [], start = 0, end = 0, stringl = string.length;
-			for (n = 0; n < stringl; n++) {
-				c1 = string.charCodeAt(n);
-				enc = null;
-				if (c1 < 128)
-					end++;
-				else if (c1 > 127 && c1 < 2048)
-					enc = String.fromCharCode((c1 >> 6) | 192)
-							+ String.fromCharCode((c1 & 63) | 128);
-				else
-					enc = String.fromCharCode((c1 >> 12) | 224)
-							+ String.fromCharCode(((c1 >> 6) & 63) | 128)
-							+ String.fromCharCode((c1 & 63) | 128);
-				if (enc != null) {
-					if (end > start)
-						utftext += string.slice(start, end);
-					utftext += enc;
-					start = end = n + 1;
-				}
+		JsPropertyMap<Object> fflatePrepared = JsPropertyMap.of();
+
+		JsArray<JsPropertyMap<String>> archive
+				= (JsArray<JsPropertyMap<String>>) arch.get("archive");
+		while (archive.length > 0) {
+			JsPropertyMap<String> item = archive.shift();
+			String fileName = item.get("fileName");
+			String fileContent = item.get("fileContent");
+
+			int ind = fileName.lastIndexOf('.');
+
+			if (ind > -1 && imgExtensions.contains(fileName.substring(ind + 1).toLowerCase())) {
+				String base64 = fileContent.substring(fileContent.indexOf(',') + 1);
+				fflatePrepared.set(fileName, new JsArray<>(Base64.base64ToBytes(base64)));
+			} else {
+				fflatePrepared.set(fileName, FFlate.get().strToU8(fileContent));
 			}
-			if (end > start)
-				utftext += string.slice(start, stringl);
-			return utftext;
 		}
 
-		function ASCIIReader(text) {
-			var that = this;
-
-			function init(callback, onerror) {
-				that.size = text.length;
-				callback();
-			}
-
-			function readUint8Array(index, length, callback, onerror) {
-				if (text.length <= index) {
-					return new $wnd.Uint8Array(0);
-				} else if (index < 0) {
-					return new $wnd.Uint8Array(0);
-				} else if (length <= 0) {
-					return new $wnd.Uint8Array(0);
-				} else if (text.length < index + length) {
-					length = text.length - index;
-				}
-				var i, data = new $wnd.Uint8Array(length);
-				for (i = index; i < index + length; i++)
-					data[i - index] = text.charCodeAt(i);
-				callback(data);
-			}
-
-			that.size = 0;
-			that.init = init;
-			that.readUint8Array = readUint8Array;
-		}
-		ASCIIReader.prototype = new $wnd.zip.Reader();
-		ASCIIReader.prototype.constructor = ASCIIReader;
-
-		$wnd.zip
-				.createWriter(
-						new $wnd.zip.BlobWriter(),
-						function(zipWriter) {
-
-							function addImage(name, data, callback) {
-								var data2 = data.substr(data.indexOf(',') + 1);
-								zipWriter.add(name,
-										new $wnd.zip.Data64URIReader(data2),
-										callback);
-							}
-
-							function addText(name, data, callback) {
-								zipWriter.add(name, new ASCIIReader(data),
-										callback);
-							}
-
-							function checkIfStillFilesToAdd() {
-								var item, imgExtensions = [ "jpg", "jpeg",
-										"png", "gif", "bmp" ];
-								if (arch.archive.length > 0) {
-									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("arch.archive.length: "+arch.archive.length);
-									item = arch.archive.shift();
-									var ind = item.fileName.lastIndexOf('.');
-									if (ind > -1
-											&& imgExtensions
-													.indexOf(item.fileName
-															.substr(ind + 1)
-															.toLowerCase()) > -1) {
-										//if (item.fileName.indexOf(".png") > -1)
-										//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("image zipped: " + item.fileName);
-										addImage(item.fileName,
-												item.fileContent, function() {
-													checkIfStillFilesToAdd();
-												});
-									} else {
-										//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("text zipped: " + item.fileName);
-										addText(item.fileName,
-												encodeUTF8(item.fileContent),
-												function() {
-													checkIfStillFilesToAdd();
-												});
-									}
-								} else {
-									zipWriter
-											.close(function(dataURI) {
-												if (typeof clb === "function") {
-													clb(dataURI);
-													// that's right, this truncation is necessary
-													//clb(dataURI.substr(dataURI.indexOf(',')+1));
-												} else {
-													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("not callback was given");
-													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)(dataURI);
-												}
-											});
-								}
-							}
-
-							checkIfStillFilesToAdd();
-
-						},
-						function(error) {
-							if (typeof errorClb === "function") {
-								errorClb(error + "");
-							}
-							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("error occured while creating ggb zip");
-						});
-
-	}-*/;
+		return fflatePrepared;
+	}
 
 	/**
-	 * @param arch
-	 *            archive
+	 * @param includeThumbnail
+	 *            whether to include thumbnail
 	 * @param clb
-	 *            callback for file loaded
-	 * @param workerUrls
-	 *            URL of webworker directory (or "false" to switch them off)
-	 * @param sync
-	 *            whether zip should run synchronously
+	 *            handler for the file
 	 */
-	void getBase64ZipJs(final JsPropertyMap<Object> arch, final StringConsumer clb,
-			String workerUrls, boolean sync) {
-		final boolean oldWorkers = setWorkerURL(workerUrls, sync);
-		getBase64ZipJs(arch, clb, s -> {
-			if (oldWorkers && !isUsingWebWorkers()) {
-				Log.warn(
-						"Saving with workers failed, trying without workers.");
-				ResourcesInjector.loadCodecs();
-				getBase64ZipJs(arch, clb, "false", false);
-			}
+	public void getZippedGgbAsync(final boolean includeThumbnail, final FileConsumer clb) {
+		final JsPropertyMap<Object> arch = getFileJSON(includeThumbnail);
+		JsPropertyMap<Object> fflatePrepared = prepareFileForFFlate(arch);
 
+		FFlate.get().zip(fflatePrepared, (err, data) -> {
+			if (Js.isTruthy(err)) {
+				Log.error("Async zipping failed, trying synchronous zip");
+				Log.error(err);
+
+				Uint8Array syncZipped = FFlate.get().zipSync(fflatePrepared);
+				clb.consume(new Blob(new JsArray<>(
+						Blob.ConstructorBlobPartsArrayUnionType.of(syncZipped))));
+			} else {
+				clb.consume(new Blob(new JsArray<>(
+						Blob.ConstructorBlobPartsArrayUnionType.of(data))));
+			}
 		});
 	}
 
-	private native void getBase64ZipJs(Object arch,
-			StringConsumer clb, StringConsumer errorClb) /*-{
+	/**
+	 * Synchronously zip archive and return the base64 string
+	 * @param arch archive
+	 * @return zipped archive as a base64 string
+	 */
+	public String getZippedBase64Sync(final JsPropertyMap<Object> arch) {
+		JsPropertyMap<Object> fflatePrepared = prepareFileForFFlate(arch);
+		return Base64.bytesToBase64(FFlate.get().zipSync(fflatePrepared));
+	}
 
-		function encodeUTF8(string) {
-			var n, c1, enc, utftext = [], start = 0, end = 0, stringl = string.length;
-			for (n = 0; n < stringl; n++) {
-				c1 = string.charCodeAt(n);
-				enc = null;
-				if (c1 < 128)
-					end++;
-				else if (c1 > 127 && c1 < 2048)
-					enc = String.fromCharCode((c1 >> 6) | 192)
-							+ String.fromCharCode((c1 & 63) | 128);
-				else
-					enc = String.fromCharCode((c1 >> 12) | 224)
-							+ String.fromCharCode(((c1 >> 6) & 63) | 128)
-							+ String.fromCharCode((c1 & 63) | 128);
-				if (enc != null) {
-					if (end > start)
-						utftext += string.slice(start, end);
-					utftext += enc;
-					start = end = n + 1;
-				}
+	/**
+	 * Asynchronously zip archive and convert it to base64 string
+	 * @param arch archive
+	 * @param clb callback for handling the resulting base64 string
+	 */
+	public void getZippedBase64Async(final JsPropertyMap<Object> arch, final StringConsumer clb) {
+		JsPropertyMap<Object> fflatePrepared = prepareFileForFFlate(arch);
+
+		FFlate.get().zip(fflatePrepared, (err, data) -> {
+			if (Js.isTruthy(err)) {
+				Log.error("Async zipping failed, trying synchronous zip");
+				Log.error(err);
+
+				clb.consume(Base64.bytesToBase64(FFlate.get().zipSync(fflatePrepared)));
+			} else {
+				clb.consume(Base64.bytesToBase64(data));
 			}
-			if (end > start)
-				utftext += string.slice(start, stringl);
-			return utftext;
-		}
-
-		function ASCIIReader(text) {
-			var that = this;
-
-			function init(callback, onerror) {
-				that.size = text.length;
-				callback();
-			}
-
-			function readUint8Array(index, length, callback, onerror) {
-				if (text.length <= index) {
-					return new $wnd.Uint8Array(0);
-				} else if (index < 0) {
-					return new $wnd.Uint8Array(0);
-				} else if (length <= 0) {
-					return new $wnd.Uint8Array(0);
-				} else if (text.length < index + length) {
-					length = text.length - index;
-				}
-				var i, data = new $wnd.Uint8Array(length);
-				for (i = index; i < index + length; i++)
-					data[i - index] = text.charCodeAt(i);
-				callback(data);
-			}
-
-			that.size = 0;
-			that.init = init;
-			that.readUint8Array = readUint8Array;
-		}
-		ASCIIReader.prototype = new $wnd.zip.Reader();
-		ASCIIReader.prototype.constructor = ASCIIReader;
-
-		//$wnd.zip.useWebWorkers = false;
-		$wnd.zip
-				.createWriter(
-						new $wnd.zip.Data64URIWriter(
-								"application/vnd.geogebra.file"),
-						function(zipWriter) {
-							function addImage(name, data, callback) {
-								var data2 = data.substr(data.indexOf(',') + 1);
-								zipWriter.add(name,
-										new $wnd.zip.Data64URIReader(data2),
-										callback);
-							}
-
-							function addText(name, data, callback) {
-								zipWriter.add(name, new ASCIIReader(data),
-										callback);
-							}
-
-							function checkIfStillFilesToAdd() {
-								var item, imgExtensions = [ "jpg", "jpeg",
-										"png", "gif", "bmp" ];
-								if (arch.archive.length > 0) {
-									item = arch.archive.shift();
-									var ind = item.fileName.lastIndexOf('.');
-									if (ind > -1
-											&& imgExtensions
-													.indexOf(item.fileName
-															.substr(ind + 1)
-															.toLowerCase()) > -1) {
-
-										@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("image zipped: " + item.fileName);
-										addImage(item.fileName,
-												item.fileContent, function() {
-													checkIfStillFilesToAdd();
-												});
-									} else {
-										@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("text zipped: " + item.fileName);
-										addText(item.fileName,
-												encodeUTF8(item.fileContent),
-												function() {
-													checkIfStillFilesToAdd();
-												});
-									}
-								} else {
-									zipWriter
-											.close(function(dataURI) {
-												if (typeof clb === "function") {
-													// that's right, this truncation is necessary
-													clb(dataURI.substr(dataURI
-															.indexOf(',') + 1));
-												} else {
-													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("not callback was given");
-													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)(dataURI);
-												}
-											});
-								}
-							}
-
-							checkIfStillFilesToAdd();
-
-						},
-						function(error) {
-							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("error occured while creating base64 zip");
-							if (typeof errorClb === "function") {
-								errorClb(error + "");
-							}
-						});
-	}-*/;
+		});
+	}
 
 	private void writeMacroImages(GgbFile archive) {
 		if (kernel.hasMacros()) {
@@ -1188,42 +920,6 @@ public class GgbAPIW extends GgbAPI {
 	public void getScreenshotBase64(StringConsumer callback) {
 		((AppW) app).getAppletFrame().getScreenshotBase64(callback);
 	}
-
-	/**
-	 * @param workerUrls
-	 *            worker folder URL
-	 * @param sync
-	 *            whether to use zipjs synchronously
-	 * @return whether webworkers can be used
-	 */
-	public static native boolean setWorkerURL(String workerUrls,
-			boolean sync) /*-{
-		if (workerUrls === "false" || !workerUrls || sync) {
-			$wnd.zip.useWebWorkers = false;
-			$wnd.zip.synchronous = sync;
-		} else {
-			$wnd.zip.synchronous = false;
-			$wnd.zip.useWebWorkers = true;
-
-			$wnd.zip.workerScripts = {
-				deflater : [ workerUrls + "z-worker.js",
-						workerUrls + "pako1.0.6_min.js",
-						workerUrls + "codecs.js" ],
-				inflater : [ workerUrls + "z-worker.js",
-						workerUrls + "pako1.0.6_min.js",
-						workerUrls + "codecs.js" ]
-			};
-
-		}
-		return $wnd.zip.useWebWorkers;
-	}-*/;
-
-	/**
-	 * @return whether webworkers are used in zipjs
-	 */
-	native boolean isUsingWebWorkers()/*-{
-		return $wnd.zip.useWebWorkers;
-	}-*/;
 
 	/**
 	 * GGB-1780
