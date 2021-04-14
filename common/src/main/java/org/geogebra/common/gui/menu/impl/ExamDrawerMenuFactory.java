@@ -35,6 +35,11 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		return createDrawerMenu(true);
 	}
 
+	/**
+	 * Create a new drawer menu.
+	 * @param showExitExam whether Exit Exam menu item is shown
+	 * @return drawer menu
+	 */
 	public DrawerMenu createDrawerMenu(boolean showExitExam) {
 		MenuItemGroup group;
 		if (showExitExam) {
