@@ -213,7 +213,7 @@ public class MathArray extends MathContainer {
 	}
 
 	public boolean separatorIsComma() {
-		return meta.getField().getTexName() == ",";
+		return meta.getField().getTexName().equals(",");
 	}
 
 	@Override
