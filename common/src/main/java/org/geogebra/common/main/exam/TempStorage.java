@@ -7,13 +7,16 @@ import java.util.Map;
 
 import org.geogebra.common.move.ggtapi.models.Material;
 
-class TempStorage {
+public class TempStorage {
 
     private Material currentMaterial;
     private int tempMaterialId;
     private Map<Integer, Material> tempMaterials;
 
-    Material newMaterial() {
+    TempStorage() {
+    }
+
+    public Material newMaterial() {
         currentMaterial = new Material(nextTempMaterialId(), Material.MaterialType.ggb);
         return currentMaterial;
     }
@@ -25,7 +28,7 @@ class TempStorage {
     /**
      * Saves a copy of the material into the tempMaterials with the correct id.
      */
-    void saveTempMaterial() {
+    public void saveTempMaterial() {
         Material savedMaterial = tempMaterials.get(currentMaterial.getId());
         if (savedMaterial != null && !savedMaterial.getTitle().equals(currentMaterial.getTitle())) {
             currentMaterial.setId(nextTempMaterialId());
@@ -36,17 +39,17 @@ class TempStorage {
     /**
      * @return A copy of the tempMaterials.
      */
-    Collection<Material> collectTempMaterials() {
+    public Collection<Material> collectTempMaterials() {
         return Collections.unmodifiableCollection(tempMaterials.values());
     }
 
-    void clearTempMaterials() {
+    public void clearTempMaterials() {
         tempMaterialId = 0;
         tempMaterials = new LinkedHashMap<>();
     }
 
-    void setCurrentMaterial(Material material) {
+    public void setCurrentMaterial(Material material) {
         currentMaterial = material != null ? material : newMaterial();
-        currentMaterial.setId(nextTempMaterialId());
+        tempMaterialId = Math.max(tempMaterialId, currentMaterial.getId()) + 1;
     }
 }

@@ -1,6 +1,5 @@
 package org.geogebra.common.main.exam;
 
-import java.util.Collection;
 import java.util.Date;
 
 import javax.annotation.CheckForNull;
@@ -22,7 +21,6 @@ import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.main.settings.Settings;
-import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -132,7 +130,7 @@ public class ExamEnvironment {
 		examStartTime = time;
 		closed = -1;
 		clearClipboard();
-		clearTempMaterials();
+		tempStorage.clearTempMaterials();
 	}
 
 	/**
@@ -490,7 +488,7 @@ public class ExamEnvironment {
 		examStartTime = EXAM_START_TIME_NOT_STARTED;
 		disableExamCommandFilter();
 		setShowSyntax(true);
-		clearTempMaterials();
+		tempStorage.clearTempMaterials();
 	}
 
 	private void setShowSyntax(boolean showSyntax) {
@@ -710,23 +708,7 @@ public class ExamEnvironment {
 		commandDispatcher.addCommandFilter(noCASFilter);
 	}
 
-	public Material newTempMaterial() {
-		return tempStorage.newMaterial();
-	}
-
-	public Collection<Material> collectTempMaterials() {
-		return tempStorage.collectTempMaterials();
-	}
-
-	public void saveTempMaterial() {
-		tempStorage.saveTempMaterial();
-	}
-
-	private void clearTempMaterials() {
-		tempStorage.clearTempMaterials();
-	}
-
-	public void setCurrentMaterial(Material currentMaterial) {
-		tempStorage.setCurrentMaterial(currentMaterial);
+	public TempStorage getTempStorage() {
+		return tempStorage;
 	}
 }

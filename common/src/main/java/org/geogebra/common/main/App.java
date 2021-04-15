@@ -4192,7 +4192,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void startExam() {
 		setupExamEnvironment();
 		getExam().setStart((new Date()).getTime());
-		getExam().setCurrentMaterial(getCurrentMaterial());
+		getExam().getTempStorage().setCurrentMaterial(getCurrentMaterial());
 	}
 
 	private void setupExamEnvironment() {
