@@ -33,7 +33,7 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	/**
-	 * Set wether it should create exit exam menu item.
+	 * Set whether it should create exit exam menu item.
 	 *
 	 * @param createsExitExam true to create menu item
 	 */
@@ -52,7 +52,6 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		String title = getMenuTitle();
 		return new DrawerMenuImpl(title, group);
 	}
-
 
 	private static MenuItem exitExamMode() {
 		return new ActionableItemImpl(Icon.HOURGLASS_EMPTY,
