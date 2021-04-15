@@ -28,6 +28,7 @@ import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.euclidian.plot.interval.IntervalPlotter;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.Trace;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.advanced.AlgoFunctionInvert;
@@ -41,6 +42,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.interval.IntervalFunction;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -151,6 +153,7 @@ public class DrawParametricCurve extends Drawable {
 		gp.resetWithThickness(geo.getLineThickness());
 		intervalPlotter.update();
 		updateLabelPoint();
+		updateTrace(geo.getTrace());
 	}
 
 	private void updateLabelPoint() {
@@ -262,7 +265,11 @@ public class DrawParametricCurve extends Drawable {
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
 		}
 		// draw trace
-		if (curve.getTrace()) {
+		updateTrace(curve.getTrace());
+	}
+
+	private void updateTrace(boolean showTrace) {
+		if (showTrace) {
 			isTracing = true;
 			GGraphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null) {
@@ -271,7 +278,6 @@ public class DrawParametricCurve extends Drawable {
 		} else {
 			if (isTracing) {
 				isTracing = false;
-				// view.updateBackground();
 			}
 		}
 	}
