@@ -143,14 +143,14 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	}
 
 	protected void addDegree(String key, MathFieldInternal mf) {
-		if (geoInputBox.getLinkedGeo().isGeoAngle() && key != null && isSimpleNumber(key, mf)
+		if (geoInputBox.getLinkedGeo().isGeoAngle() && key != null && isSimpleNumber(mf)
 				&& key.matches("[0-9]")) {
 			KeyboardInputAdapter.insertString(mf, Unicode.DEGREE_STRING);
 			mf.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
 		}
 	}
 
-	private boolean isSimpleNumber(String key, MathFieldInternal mf) {
+	private boolean isSimpleNumber(MathFieldInternal mf) {
 		String text = mf.getText();
 		try {
 			Double.parseDouble(text);
