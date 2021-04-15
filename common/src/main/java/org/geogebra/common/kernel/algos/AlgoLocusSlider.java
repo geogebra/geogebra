@@ -160,9 +160,7 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 
 	@Override
 	protected void setQCopyCache(MyPoint t, GeoPointND qCopy2) {
-		t.setX(((GeoPoint) qCopy2).inhomX);
-		t.setY(((GeoPoint) qCopy2).inhomY);
-
+		t.setLocation(((GeoPoint) qCopy2).inhomX, ((GeoPoint) qCopy2).inhomY);
 	}
 
 	@Override
