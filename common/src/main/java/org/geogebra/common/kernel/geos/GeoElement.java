@@ -2249,6 +2249,19 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
+	 * @param symbolic
+	 *            true to keep variable names
+	 * @param symbolicContext
+	 *            whether this method was called from a symbolic context
+	 * @param tpl
+	 *            string template
+	 * @return LaTeX string
+	 */
+	public String toLaTeXString(boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
+		return getFormulaString(tpl, !symbolic);
+	}
+
+	/**
 	 * Returns a String that can be used to define geo in the currently used
 	 * CAS. For example, "f(x) := a*x^2", "a := 20", "g := 3x + 4y = 7"
 	 * 
