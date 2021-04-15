@@ -1623,9 +1623,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		ToolbarPanel toolbarPanel = getGuiManager().getUnbundledToolbar();
 		if (!showAlgebraView) {
-			toolbarPanel.close(false);
-			toolbarPanel.setSelectedTabId(null);
-			toolbarPanel.updateIconsStyle();
+			toolbarPanel.hideToolbar();
+			toolbarPanel.setLastOpenWidth(ToolbarPanel.OPEN_START_WIDTH_LANDSCAPE);
 		} else if (isEvVisible) {
 			toolbarPanel.close(false);
 			invokeLater(() -> {
