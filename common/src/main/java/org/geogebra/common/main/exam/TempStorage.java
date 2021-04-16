@@ -7,6 +7,9 @@ import java.util.Map;
 
 import org.geogebra.common.move.ggtapi.models.Material;
 
+/**
+ * Manages the ExamEnvironment's temporary materials.
+ */
 public class TempStorage {
 
     private Material currentMaterial;
@@ -16,6 +19,9 @@ public class TempStorage {
     TempStorage() {
     }
 
+    /**
+     * @return a new Material with a unique id
+     */
     public Material newMaterial() {
         currentMaterial = new Material(nextTempMaterialId(), Material.MaterialType.ggb);
         return currentMaterial;
@@ -43,6 +49,9 @@ public class TempStorage {
         return Collections.unmodifiableCollection(tempMaterials.values());
     }
 
+    /**
+     * Reinitializes the tempMaterials and the next id is set back to 0
+     */
     public void clearTempMaterials() {
         tempMaterialId = 0;
         tempMaterials = new LinkedHashMap<>();
