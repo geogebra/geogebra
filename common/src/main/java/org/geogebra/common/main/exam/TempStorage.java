@@ -48,8 +48,7 @@ public class TempStorage {
         tempMaterials = new LinkedHashMap<>();
     }
 
-    public void setCurrentMaterial(Material material) {
+    void setCurrentMaterial(Material material) {
         currentMaterial = material != null ? material : newMaterial();
-        tempMaterialId = Math.max(tempMaterialId, currentMaterial.getId()) + 1;
     }
 }
