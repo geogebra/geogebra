@@ -201,7 +201,8 @@ class VerticalBox extends Box {
 		double yPos = position.y - height;
 		for (Box box : children) {
 			yPos += box.getHeight();
-			box.inspect(handler, position.withY(yPos));
+			box.inspect(handler, position
+					.withPosition(position.x + box.getShift() - leftMostPos, yPos));
 			yPos += box.getDepth();
 		}
 	}
