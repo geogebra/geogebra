@@ -24,18 +24,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/xmlutil.js")
 	TextResource xmlUtil();
 
-	@Source("org/geogebra/common/icons_play/p24/nav_play_circle.png")
-	ImageResource icons_play_circle();
-
-	@Source("org/geogebra/common/icons_play/p24/nav_play_circle_hover.png")
-	ImageResource icons_play_circle_hover();
-
-	@Source("org/geogebra/common/icons_play/p24/nav_pause_circle.png")
-	ImageResource icons_play_pause_circle();
-
-	@Source("org/geogebra/common/icons_play/p24/nav_pause_circle_hover.png")
-	ImageResource icons_play_pause_circle_hover();
-
 	@Source("org/geogebra/web/resources/js/fflate.min.js")
 	TextResource fflateJs();
 
@@ -101,46 +89,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/mode_toggle_symbolic.png")
 	ImageResource modeToggleSymbolic();
 
-	// TODO we need another picture
-	@Source("org/geogebra/common/icons/png/android/document_viewer.png")
-	ImageResource viewSaved();
-
-	@Source("org/geogebra/web/resources/js/promise-1.0.0.min.js")
-	TextResource promiseJs();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_arrow_big_down.png")
-	ImageResource icons_fillings_arrow_big_down();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_arrow_big_up.png")
-	ImageResource icons_fillings_arrow_big_up();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_arrow_big_left.png")
-	ImageResource icons_fillings_arrow_big_left();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_arrow_big_right.png")
-	ImageResource icons_fillings_arrow_big_right();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_fastforward.png")
-	ImageResource icons_fillings_fastforward();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_rewind.png")
-	ImageResource icons_fillings_rewind();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_skipback.png")
-	ImageResource icons_fillings_skipback();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_skipforward.png")
-	ImageResource icons_fillings_skipforward();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_play.png")
-	ImageResource icons_fillings_play();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_pause.png")
-	ImageResource icons_fillings_pause();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_cancel.png")
-	ImageResource icons_fillings_cancel();
-
 	@Source("org/geogebra/web/resources/scss/reset.scss")
 	SassResource reset();
 
@@ -157,6 +105,9 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/rulings/elementary12.svg")
 	SVGResource mow_ruling_elementary12();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/rulings/elementary12colored.svg")
+	SVGResource mow_ruling_elementary12colored();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/rulings/elementary12house.svg")
 	SVGResource mow_ruling_elementary12house();
 
@@ -166,21 +117,60 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/rulings/music.svg")
 	SVGResource mow_ruling_music();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_play_circle_outline_black_24px.svg")
-	SVGResource play_black();
+	@Source("org/geogebra/common/icons/svg/common/pause.svg")
+	SVGResource pause();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_play_circle_outline_purple_24px.svg")
-	SVGResource play_purple();
+	@Source("org/geogebra/common/icons/svg/common/play.svg")
+	SVGResource play();
+
+	@Source("org/geogebra/common/icons/svg/common/stop.svg")
+	SVGResource stop();
+
+	@Source("org/geogebra/common/icons/svg/common/replay.svg")
+	SVGResource replay();
+
+	@Source("org/geogebra/common/icons/svg/common/skip_next.svg")
+	SVGResource skip_next();
+
+	@Source("org/geogebra/common/icons/svg/common/skip_previous.svg")
+	SVGResource skip_previous();
+
+	@Source("org/geogebra/common/icons/svg/common/loop.svg")
+	SVGResource loop();
+
+	@Source("org/geogebra/common/icons/svg/common/zoom_in.svg")
+	SVGResource zoom_in();
+
+	@Source("org/geogebra/common/icons/svg/common/zoom_out.svg")
+	SVGResource zoom_out();
+
+	@Source("org/geogebra/common/icons/svg/common/close.svg")
+	SVGResource close();
+
+	@Source("org/geogebra/common/icons/svg/common/arrow_upward.svg")
+	SVGResource arrow_up();
+
+	@Source("org/geogebra/common/icons/svg/common/arrow_downward.svg")
+	SVGResource arrow_down();
+
+	@Source("org/geogebra/common/icons/svg/common/arrow_backward.svg")
+	SVGResource arrow_back();
+
+	@Source("org/geogebra/common/icons/svg/common/arrow_forward.svg")
+	SVGResource arrow_forward();
+
+	@Source("org/geogebra/common/icons/svg/common/fast_forward.svg")
+	SVGResource fast_forward();
+
+	@Source("org/geogebra/common/icons/svg/common/fast_rewind.svg")
+	SVGResource fast_rewind();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_play_circle_outline_black_24px.svg")
+	SVGResource play_circle();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/ic_pause_circle_outline_black_24px.svg")
-	SVGResource pause_black();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/pause_purple.svg")
-	SVGResource pause_purple();
+	SVGResource pause_circle();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/baseline-record_voice_over-24px.svg")
 	SVGResource record();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/rulings/elementary12colored.svg")
-	SVGResource mow_ruling_elementary12colored();
 }

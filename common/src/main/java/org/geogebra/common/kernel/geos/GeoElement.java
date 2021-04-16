@@ -1656,8 +1656,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public boolean isLabelShowable() {
 		return isDrawable() && !(this instanceof TextValue || isGeoImage()
-				|| isGeoButton() || isGeoLocus()
-				|| (isGeoBoolean() && !isIndependent()));
+				|| isGeoLocus() || (isGeoBoolean() && !isIndependent()));
 	}
 
 	/**

@@ -45,6 +45,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
@@ -2028,7 +2029,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return play image
 	 */
 	public ImageElement getPlayImage() {
-		return ImageManagerW.getInternalImage(GuiResourcesSimple.INSTANCE.play_black());
+		return ImageManagerW.getInternalImage(GuiResourcesSimple.INSTANCE.play_circle());
 	}
 
 	/**
@@ -2036,23 +2037,25 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public ImageElement getPauseImage() {
 		return ImageManagerW.getInternalImage(
-				GuiResourcesSimple.INSTANCE.pause_black());
+				GuiResourcesSimple.INSTANCE.pause_circle());
 	}
 
 	/**
 	 * @return play image with hover effect
 	 */
 	public ImageElement getPlayImageHover() {
+		String hoverColor = GeoGebraColorConstants.GEOGEBRA_ACCENT.toString();
 		return ImageManagerW.getInternalImage(
-				GuiResourcesSimple.INSTANCE.play_purple());
+				GuiResourcesSimple.INSTANCE.play_circle().withFill(hoverColor));
 	}
 
 	/**
 	 * @return pause image with hover effect
 	 */
 	public ImageElement getPauseImageHover() {
+		String hoverColor = GeoGebraColorConstants.GEOGEBRA_ACCENT.toString();
 		return ImageManagerW.getInternalImage(
-				GuiResourcesSimple.INSTANCE.pause_purple());
+				GuiResourcesSimple.INSTANCE.pause_circle().withFill(hoverColor));
 	}
 
 	// ============================================
