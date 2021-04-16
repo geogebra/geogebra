@@ -33,6 +33,8 @@ final class CMTI10 extends FontInfo {
 
 		setMetrics(171, 716, 683, 0, 103);
 
+		setMetrics(172, 664, 683, 0, 60);
+
 		setMetrics(174, 613, 694, 194, 212);
 		setLigatures(105, 177, 108, 178);
 		setKern(39, 104, 63, 104, 33, 104, 41, 104, 93, 104);
