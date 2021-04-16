@@ -877,6 +877,8 @@ public class InputController {
 		if (function.getName() == Tag.APPLY || function.getName() == Tag.APPLY_SQUARE) {
 			moveArgumentsAfter(function, editorState, function.getArgument(1));
 			bkspCharacter(editorState);
+		} else if (isEqFunctionWithPlaceholders(function)) {
+			deleteSingleArg(editorState);
 		} else if (functionArg != null) {
 			editorState.setCurrentField(functionArg);
 			functionArg.delArgument(functionArg.size() - 1);
@@ -884,6 +886,11 @@ public class InputController {
 		} else {
 			deleteSingleArg(editorState);
 		}
+	}
+
+	private boolean isEqFunctionWithPlaceholders(MathFunction function) {
+		return function.getName() == Tag.DEF_INT || function.getName() == Tag.SUM_EQ
+				|| function.getName() == Tag.PROD_EQ || function.getName() == Tag.LIM_EQ;
 	}
 
 	private void deleteSingleArg(EditorState editorState) {
