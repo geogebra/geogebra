@@ -23,11 +23,9 @@ public class DownloadSvgAction extends DefaultMenuAction<Void> {
 
 	@Override
 	public void execute(Void item, AppWFull app) {
-		imageExporter.export(getUrl());
-	}
-
-	private String getUrl() {
 		EuclidianViewWInterface ev = (EuclidianViewWInterface) app.getActiveEuclidianView();
-		return Browser.encodeSVG(ev.getExportSVG(1, false));
+		ev.getExportSVG(1, false, (svg) -> {
+			imageExporter.export(Browser.encodeSVG(svg));
+		});
 	}
 }

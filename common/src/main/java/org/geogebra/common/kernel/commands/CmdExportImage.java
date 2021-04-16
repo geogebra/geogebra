@@ -277,16 +277,19 @@ public class CmdExportImage extends CmdScripting {
 			}
 
 			break;
+
 		case SVG:
+			final String ffilename = filename;
+			final GeoPoint fcorner = corner;
+			final GeoPoint fcorner2 = corner2;
 
-			String svg = api.exportSVG(filename);
-
-			if (label != null) {
-				addImageToConstruction(label, svg, corner, corner2, true);
-			} else if (filename == null) {
-				kernel.getApplication().handleImageExport(svg);
-			}
-
+			api.exportSVG(filename, (svg) -> {
+				if (label != null) {
+					addImageToConstruction(label, svg, fcorner, fcorner2, true);
+				} else if (ffilename == null) {
+					kernel.getApplication().handleImageExport(svg);
+				}
+			});
 			break;
 
 		case PDF_HTML5:

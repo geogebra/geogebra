@@ -1,8 +1,12 @@
 package org.geogebra.web.html5.export;
 
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.resources.JavaScriptInjector;
+import org.geogebra.web.html5.js.ResourcesInjector;
+import org.geogebra.web.html5.util.ScriptLoadCallback;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.ScriptElement;
 
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
@@ -27,18 +31,32 @@ public final class ExportLoader {
 	public static native Object getCanvas2Pdf();
 
 	/**
-	 * @return whether canvas2svg was loaded
+	 * @param callback to be executed when canvas2svg was loaded
 	 */
 	@JsOverlay
-	public static boolean ensureCanvas2SvgLoaded() {
-		if (getCanvas2Svg() == null) {
-			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Svg());
-		}
-		if (getCanvas2Svg() == null) {
-			Log.debug("canvas2SVG failed to load");
-			return false;
-		}
-		return true;
-	}
+	public static void onCanvas2SvgLoaded(Runnable callback) {
+		if (getCanvas2Svg() != null) {
+			callback.run();
+		} else {
+			ScriptElement scriptElement = Document.get().createScriptElement();
+			scriptElement.setSrc(GWT.getModuleBaseURL() + "js/canvas2svg.min.js");
+			ScriptLoadCallback loadCallback = new ScriptLoadCallback() {
+				@Override
+				public void onLoad() {
+					callback.run();
+				}
 
+				@Override
+				public void onError() {
+					Log.error("Canvas2SVG failed to load");
+				}
+
+				@Override
+				public void cancel() {
+					// only for localization files
+				}
+			};
+			ResourcesInjector.loadJS(scriptElement, loadCallback);
+		}
+	}
 }

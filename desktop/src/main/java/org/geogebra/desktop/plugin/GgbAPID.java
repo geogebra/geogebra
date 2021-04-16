@@ -15,6 +15,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivilegedAction;
 import java.util.Iterator;
+import java.util.function.Consumer;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
@@ -357,8 +358,7 @@ public class GgbAPID extends GgbAPIJre {
 	}
 	
 	@Override
-	public String exportSVG(String file0) {
-
+	public void exportSVG(String file0, Consumer<String> callback) {
 		String filename = file0;
 
 		if (file0 == null) {
@@ -375,14 +375,11 @@ public class GgbAPID extends GgbAPIJre {
 		
 		try {
 			// read file back as String
-			return new String(Files.readAllBytes(Paths.get(filename)),
-					StandardCharsets.UTF_8);
+			callback.accept(new String(Files.readAllBytes(Paths.get(filename)),
+					StandardCharsets.UTF_8));
 		} catch (IOException e) {
 			Log.error("problem reading " + filename);
 		}
-
-		return null;
-
 	}
 
 	@Override

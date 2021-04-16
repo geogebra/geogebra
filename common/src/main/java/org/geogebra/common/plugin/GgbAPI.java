@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.TreeSet;
+import java.util.function.Consumer;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
@@ -2168,13 +2169,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * @param filename
-	 *            output filename
-	 * @return SVG export
+	 * @param filename output filename
+	 * @param callback called with the resulting string
+	 * @return export current construction as SVG
 	 */
-	public String exportSVG(String filename) {
+	public void exportSVG(String filename, Consumer<String> callback) {
 		// not implemented in Android, iOS
-		return null;
 	}
 
 	/**

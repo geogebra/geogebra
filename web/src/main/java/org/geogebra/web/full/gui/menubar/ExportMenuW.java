@@ -80,15 +80,13 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						menu.hide();
 						app.toggleMenu();
 						app.getSelectionManager().clearSelectedGeos();
-
-						String svg = Browser
-								.encodeSVG(((EuclidianViewWInterface) app
-										.getActiveEuclidianView())
-												.getExportSVG(1, false));
-
-						app.getFileManager().showExportAsPictureDialog(svg,
-								app.getExportTitle(), "svg", "ExportAsPicture",
-								app);
+						EuclidianViewWInterface ev
+								= (EuclidianViewWInterface) app.getActiveEuclidianView();
+						ev.getExportSVG(1, false, (svg) -> {
+							app.getFileManager().showExportAsPictureDialog(Browser.encodeSVG(svg),
+									app.getExportTitle(), "svg", "ExportAsPicture",
+									app);
+						});
 					}
 				});
 		menu.addItem(menuText(app.getLocalization().getMenu("Download.PDFDocument")),

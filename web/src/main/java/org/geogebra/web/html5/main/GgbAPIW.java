@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EmbedManager;
@@ -921,29 +922,22 @@ public class GgbAPIW extends GgbAPI {
 		((AppW) app).getAppletFrame().getScreenshotBase64(callback);
 	}
 
-	/**
-	 * GGB-1780
-	 * 
-	 * @return current construction as SVG
-	 */
 	@Override
-	final public String exportSVG(String filename) {
+	final public void exportSVG(String filename, Consumer<String> callback) {
 		EuclidianView ev = app.getActiveEuclidianView();
 
 		if (ev instanceof EuclidianViewW) {
 			EuclidianViewW evw = (EuclidianViewW) ev;
 
-			String svg = evw.getExportSVG(1, true);
-
-			if (filename != null) {
-				// can't use data:image/svg+xml;utf8 in IE11 / Edge
-				Browser.exportImage(Browser.encodeSVG(svg), filename);
-			}
-
-			return svg;
+			evw.getExportSVG(1, true, (svg) -> {
+				if (filename != null) {
+					// can't use data:image/svg+xml;utf8 in IE11 / Edge
+					Browser.exportImage(Browser.encodeSVG(svg), filename);
+				} else {
+					callback.accept(svg);
+				}
+			});
 		}
-
-		return null;
 	}
 
 	/**
