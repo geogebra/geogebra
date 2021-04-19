@@ -165,4 +165,11 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	public void setLockedForMultiuser(boolean locked) {
 		isLockedForMultiuser = locked;
 	}
+
+	/**
+	 * dispatches unlock event for multiuser
+	 */
+	public void unlockForMultiuser() {
+		getApp().getEventDispatcher().unlockTextElement(this);
+	}
 }

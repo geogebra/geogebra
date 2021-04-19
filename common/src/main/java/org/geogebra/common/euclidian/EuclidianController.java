@@ -7924,7 +7924,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		for (Drawable dr : view.getAllDrawableList()) {
 			if (dr instanceof DrawInline) {
 				((DrawInline) dr).toBackground();
-				app.getEventDispatcher().unlockTextElement(dr.getGeoElement());
 			}
 		}
 	}

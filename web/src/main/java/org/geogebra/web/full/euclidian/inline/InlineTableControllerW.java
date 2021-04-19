@@ -152,6 +152,9 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void toBackground() {
 		if (style != null) {
+			if (isInEditMode()) {
+				table.unlockForMultiuser();
+			}
 			style.setVisibility(HIDDEN);
 			tableImpl.stopEditing();
 			tableImpl.removeSelection();
