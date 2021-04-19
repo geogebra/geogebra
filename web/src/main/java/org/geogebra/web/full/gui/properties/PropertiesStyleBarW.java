@@ -4,12 +4,12 @@ import java.util.HashMap;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -139,7 +139,7 @@ public class PropertiesStyleBarW extends
 		TestHarness.setAttr(toolbar, "menuProperties");
 		toolbar.sinkEvents(Event.ONMOUSEDOWN | Event.ONTOUCHSTART);
 		NoDragImage closeImage = new NoDragImage(
-				KeyboardResources.INSTANCE.keyboard_close_black(), 24, 24);
+				GuiResourcesSimple.INSTANCE.close(), 24, 24);
 		closeImage.addStyleName("closeButton");
 		TestHarness.setAttr(closeImage, "closeButton");
 		toolbar.addItem(new AriaMenuItem(closeImage.getElement().getString(),

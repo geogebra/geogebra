@@ -31,36 +31,6 @@ public class TestMaterialsManager extends MaterialsManager {
 	}
 
 	@Override
-	public void uploadUsersMaterials(ArrayList<SyncEvent> events) {
-		if (this.stockStore == null || this.stockStore.size() <= 0) {
-			return;
-		}
-		ArrayList<String> keys = new ArrayList<>();
-		for (String key : stockStore.keySet()) {
-			keys.add(key);
-		}
-
-		setNotSyncedFileCount(keys.size(), events);
-		for (int i = 0; i < keys.size(); i++) {
-
-			final String key = keys.get(i);
-			System.out.println("" + key);
-			if (key.startsWith(FILE_PREFIX)) {
-				final Material mat = JSONParserGGT
-						.parseMaterial(this.stockStore.get(key));
-				if (getApp().getLoginOperation().owns(mat)) {
-					sync(mat, events);
-
-				} else {
-					ignoreNotSyncedFile(events);
-				}
-			} else {
-				ignoreNotSyncedFile(events);
-			}
-		}
-	}
-
-	@Override
 	public void getUsersMaterials() {
 		// TODO Auto-generated method stub
 

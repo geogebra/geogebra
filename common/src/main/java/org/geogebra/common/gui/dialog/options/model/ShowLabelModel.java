@@ -31,8 +31,7 @@ public class ShowLabelModel extends OptionsModel {
 		GeoElement temp, geo0 = getGeoAt(0);
 		boolean equalLabelVal = true;
 		boolean equalLabelMode = true;
-		showNameValue = geo0.isLabelValueShowable() && !isDropDownList(geo0)
-				&& !geo0.isGeoInputBox();
+		showNameValue = geo0.isLabelValueShowable() && !isDropDownList(geo0);
 
 		for (int i = 1; i < getGeosLength(); i++) {
 			temp = getGeoAt(i);
@@ -46,7 +45,7 @@ public class ShowLabelModel extends OptionsModel {
 			}
 
 			showNameValue = showNameValue && temp.isLabelValueShowable()
-					&& !isDropDownList(temp) && !temp.isGeoInputBox();
+					&& !isDropDownList(temp);
 		}
 
 		// change "Show Label:" to "Show Label" if there's no menu
@@ -96,8 +95,6 @@ public class ShowLabelModel extends OptionsModel {
 	protected boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
 		return match(geo);
-		// geo.isLabelShowable() || isDropDownList(geo)
-		// || geo.isGeoInputBox();
 	}
 
 	/**
@@ -106,8 +103,7 @@ public class ShowLabelModel extends OptionsModel {
 	 *            this model
 	 */
 	public static boolean match(GeoElement geo) {
-		return geo.isLabelShowable() || isDropDownList(geo)
-				|| geo.isGeoInputBox();
+		return geo.isLabelShowable() || isDropDownList(geo);
 
 	}
 

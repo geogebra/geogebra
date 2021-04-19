@@ -70,11 +70,6 @@ public class MyPoint extends GPoint2D {
 				&& DoubleUtil.isEqual(y, py, Kernel.MIN_PRECISION);
 	}
 
-	@Override
-	public String toString() {
-		return "(" + x + ", " + y + ")";
-	}
-
 	/**
 	 * Converts this into GeoPoint
 	 * 

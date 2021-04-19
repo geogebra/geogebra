@@ -64,21 +64,37 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	TOOL_MODE64("/org/geogebra/common/icons_toolbar/p64/mode_tool.png"),
 
-	GO_DOWN("/gui/images/go-down.png"),
+	FILLING_PAUSE("/org/geogebra/common/icons/svg/common/pause.svg"),
 
-	GO_UP("/gui/images/go-up.png"),
+	FILLING_PLAY("/org/geogebra/common/icons/svg/common/play.svg"),
 
-	GO_PREVIOUS("/gui/images/go-previous.png"),
+	FILLING_STOP("/org/geogebra/common/icons/svg/common/stop.svg"),
 
-	GO_NEXT("/gui/images/go-next.png"),
+	FILLING_REPLAY("/org/geogebra/common/icons/svg/common/replay.svg"),
 
-	NAV_FASTFORWARD("/gui/images/nav_fastforward.png"),
+	FILLING_SKIP_NEXT("/org/geogebra/common/icons/svg/common/skip_next.svg"),
 
-	NAV_REWIND("/gui/images/nav_rewind.png"),
+	FILLING_SKIP_PREVIOUS("/org/geogebra/common/icons/svg/common/skip_previous.svg"),
 
-	NAV_SKIPBACK("/gui/images/nav_skipback.png"),
+	FILLING_LOOP("/org/geogebra/common/icons/svg/common/loop.svg"),
 
-	NAV_SKIPFORWARD("/gui/images/nav_skipforward.png"),
+	FILLING_ZOOM_IN("/org/geogebra/common/icons/svg/common/zoom_in.svg"),
+
+	FILLING_ZOOM_OUT("/org/geogebra/common/icons/svg/common/zoom_out.svg"),
+
+	FILLING_CLOSE("/org/geogebra/common/icons/svg/common/close.svg"),
+
+	FILLING_ARROW_UP("/org/geogebra/common/icons/svg/common/arrow_upward.svg"),
+
+	FILLING_ARROW_DOWN("/org/geogebra/common/icons/svg/common/arrow_downward.svg"),
+
+	FILLING_ARROW_BACK("/org/geogebra/common/icons/svg/common/arrow_backward.svg"),
+
+	FILLING_ARROW_FORWARD("/org/geogebra/common/icons/svg/common/arrow_forward.svg"),
+
+	FILLING_FAST_FORWARD("/org/geogebra/common/icons/svg/common/fast_forward.svg"),
+
+	FILLING_FAST_REWIND("/org/geogebra/common/icons/svg/common/fast_rewind.svg"),
 
 	NAV_FASTFORWARD64("/gui/images/64px/nav_fastforward.png"),
 

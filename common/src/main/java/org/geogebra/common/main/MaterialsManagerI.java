@@ -1,10 +1,7 @@
 package org.geogebra.common.main;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
-import org.geogebra.common.move.ggtapi.models.SyncEvent;
 
 public interface MaterialsManagerI {
 
@@ -17,8 +14,6 @@ public interface MaterialsManagerI {
 	 *            {@link Material}
 	 */
 	void delete(Material material, boolean permanent, Runnable onSuccess);
-
-	void uploadUsersMaterials(ArrayList<SyncEvent> events);
 
 	void getUsersMaterials();
 

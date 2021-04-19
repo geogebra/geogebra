@@ -158,27 +158,24 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 		@Override
 		public void onKeyTyped(String key) {
-			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-				@Override
-				public void execute() {
-					if (saveTimer.isRunning()) {
-						saveTimer.cancel();
-					}
-
-					saveTimer.schedule(500);
-
-					int width = mathFieldEditor.getMathField().asWidget().getOffsetWidth()
-							- DrawFormula.PADDING;
-					int height = mathFieldEditor.getMathField().asWidget().getOffsetHeight();
-
-					formula.setSize(Math.max(formula.getWidth(), width),
-							Math.max(formula.getHeight(), height));
-
-					formula.setMinWidth(width);
-					formula.setMinHeight(height);
-
-					formula.updateRepaint();
+			Scheduler.get().scheduleDeferred(() -> {
+				if (saveTimer.isRunning()) {
+					saveTimer.cancel();
 				}
+
+				saveTimer.schedule(500);
+
+				int width = mathFieldEditor.getMathField().asWidget().getOffsetWidth()
+						- DrawFormula.PADDING;
+				int height = mathFieldEditor.getMathField().asWidget().getOffsetHeight();
+
+				formula.setSize(Math.max(formula.getWidth(), width),
+						Math.max(formula.getHeight(), height));
+
+				formula.setMinWidth(width);
+				formula.setMinHeight(height);
+
+				formula.updateRepaint();
 			});
 		}
 

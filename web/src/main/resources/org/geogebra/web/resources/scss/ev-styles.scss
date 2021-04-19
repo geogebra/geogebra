@@ -738,6 +738,11 @@
 	.mathFieldEditor {
 		will-change: transform;
 	}
+
+	.h5pEmbed {
+		overflow: auto;
+		height: 100%;
+	}
 }
 
 /* Outside of GeoGebraFrame */

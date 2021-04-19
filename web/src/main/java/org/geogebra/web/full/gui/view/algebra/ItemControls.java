@@ -218,7 +218,6 @@ public class ItemControls extends FlowPanel
 			}
 
 			add(animPanel);
-			reset();
 			updateAnimPanel();
 			showAnimPanel(true);
 		} else {
@@ -318,15 +317,6 @@ public class ItemControls extends FlowPanel
 	public void removeAnimPanel() {
 		if (hasAnimPanel()) {
 			remove(animPanel);
-		}
-	}
-
-	/**
-	 * Reset animation panel
-	 */
-	public void reset() {
-		if (hasAnimPanel()) {
-			animPanel.reset();
 		}
 	}
 
