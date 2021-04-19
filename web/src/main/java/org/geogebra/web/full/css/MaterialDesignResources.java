@@ -570,6 +570,8 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/show_chart-black-24px.svg")
 	SVGResource statistics();
 
+	// EUCLIDIAN STYLEBAR (CLASSIC)
+
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/stylebar_empty.svg")
 	SVGResource stylebar_empty();
 
@@ -581,4 +583,42 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/delete_small.svg")
 	SVGResource delete_small();
+
+	// EUCLIDIAN 3D STYLEBAR
+
+	@Source("org/geogebra/common/icons/png/stylebar3d/stylingbar_graphics3D_plane.svg")
+	SVGResource plane();
+
+	@Source("org/geogebra/common/icons/png/stylebar3d/stylingbar_graphics3D_axes_plane.svg")
+	SVGResource axes_plane();
+
+	@Source("org/geogebra/common/icons/png/stylebar3d/stylingbar_graphics3D_rotateview_play.svg")
+	SVGResource rotateViewPlay();
+
+	@Source("org/geogebra/common/icons/png/stylebar3d/stylingbar_graphics3D_rotateview_pause.svg")
+	SVGResource rotateViewPause();
+
+	@Source("org/geogebra/common/icons/png/stylebar3d/stylingbar_graphics3D_standardview_rotate.svg")
+	SVGResource standardViewRotate();
+
+	@Source("org/geogebra/common/icons/png/stylebar3d/stylingbar_graphics3D_view_xy.svg")
+	SVGResource viewXY();
+
+	@Source("org/geogebra/common/icons/png/stylebar3d/stylingbar_graphics3D_view_xz.svg")
+	SVGResource viewXZ();
+
+	@Source("org/geogebra/common/icons/png/stylebar3d/stylingbar_graphics3D_view_yz.svg")
+	SVGResource viewYZ();
+
+	@Source("org/geogebra/common/icons/png/stylebar3d/stylingbar_graphics3D_view_orthographic.svg")
+	SVGResource viewOrthographic();
+
+	@Source("org/geogebra/common/icons/png/stylebar3d/stylingbar_graphics3D_view_perspective.svg")
+	SVGResource viewPerspective();
+
+	@Source("org/geogebra/common/icons/png/stylebar3d/stylingbar_graphics3D_view_glasses.svg")
+	SVGResource viewGlasses();
+
+	@Source("org/geogebra/common/icons/png/stylebar3d/stylingbar_graphics3D_view_oblique.svg")
+	SVGResource viewOblique();
 }

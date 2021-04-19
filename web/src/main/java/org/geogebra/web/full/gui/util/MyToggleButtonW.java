@@ -115,6 +115,16 @@ public class MyToggleButtonW extends GToggleButton
 	 * @param downIcon
 	 *            an {@link ImageResource} to use an down Image
 	 */
+	public MyToggleButtonW(SVGResource upIcon, SVGResource downIcon) {
+		this(new Image(upIcon.getSafeUri()), new Image(downIcon.getSafeUri()));
+	}
+
+	/**
+	 * @param upIcon
+	 *            an {@link ImageResource} to use as an up Image
+	 * @param downIcon
+	 *            an {@link ImageResource} to use an down Image
+	 */
 	public MyToggleButtonW(ImageResource upIcon, ImageResource downIcon) {
 		this(new Image(upIcon.getSafeUri()), new Image(downIcon.getSafeUri()));
 	}

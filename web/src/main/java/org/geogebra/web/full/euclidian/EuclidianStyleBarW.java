@@ -60,7 +60,6 @@ import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.full.gui.color.FillingStyleButton;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.full.gui.images.StyleBarResources;
 import org.geogebra.web.full.gui.util.BorderStylePopup;
 import org.geogebra.web.full.gui.util.ButtonPopupMenu;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
@@ -863,7 +862,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		};
 
 		// it is not needed, must be an Image preloaded like others.
-		ImageResource ptCaptureIcon = StyleBarResources.INSTANCE.magnet();
+		SVGResource ptCaptureIcon = MaterialDesignResources.INSTANCE.snap_to_grid();
 		// must be done in callback btnPointCapture.setIcon(ptCaptureIcon);
 		ImgResourceHelper.setIcon(ptCaptureIcon, btnPointCapture);
 		btnPointCapture.addPopupHandler(this);
@@ -1239,8 +1238,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	private void createFixObjectBtn() {
 		btnFixObject = new MyToggleButtonW(
-				StyleBarResources.INSTANCE.objectUnfixed(),
-				StyleBarResources.INSTANCE.objectFixed()) {
+				MaterialDesignResources.INSTANCE.lock_open_black(),
+				MaterialDesignResources.INSTANCE.lock_black()) {
 
 			@Override
 			public void update(List<GeoElement> geos) {

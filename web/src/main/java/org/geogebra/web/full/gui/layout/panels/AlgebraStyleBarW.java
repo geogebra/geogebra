@@ -15,14 +15,10 @@ import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.web.full.gui.images.StyleBarResources;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
-import org.geogebra.web.full.gui.util.PopupMenuHandler;
 import org.geogebra.web.full.gui.util.StyleBarW2;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 
 /**
  * StyleBar for AlgebraView
@@ -142,31 +138,25 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 					StyleBarResources.INSTANCE.description());
 			descriptionButton.setFixedIcon(icon);
 
-			descriptionButton.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					int selectedMode = app.getKernel().getAlgebraStyle();
+			descriptionButton.addClickHandler(event -> {
+				int selectedMode = app.getKernel().getAlgebraStyle();
 
-					descriptionButton.setSelectedIndex(
-								AlgebraSettings.indexOfStyleMode(selectedMode));
-				}
+				descriptionButton.setSelectedIndex(
+							AlgebraSettings.indexOfStyleMode(selectedMode));
 			});
 
-			descriptionButton.addPopupHandler(new PopupMenuHandler() {
-				@Override
-				public void fireActionPerformed(PopupMenuButtonW actionButton) {
-					// called if a object of the popup is clicked
-					int i = descriptionButton.getSelectedIndex();
+			descriptionButton.addPopupHandler(actionButton -> {
+				// called if a object of the popup is clicked
+				int i = descriptionButton.getSelectedIndex();
 
-					app.getKernel().setAlgebraStyle(
-								AlgebraSettings.getStyleModeAt(i));
+				app.getKernel().setAlgebraStyle(
+							AlgebraSettings.getStyleModeAt(i));
 
-					if (app.getGuiManager().hasPropertiesView()) {
-						app.getGuiManager().getPropertiesView().repaintView();
-					}
-					app.getKernel().updateConstruction(false);
-					app.closePopups();
+				if (app.getGuiManager().hasPropertiesView()) {
+					app.getGuiManager().getPropertiesView().repaintView();
 				}
+				app.getKernel().updateConstruction(false);
+				app.closePopups();
 			});
 		}
 		add(descriptionButton);

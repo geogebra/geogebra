@@ -1,0 +1,11 @@
+<svg id="stylingbar_graphics3D_view_perspective" xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #999;
+      }
+    </style>
+  </defs>
+  <title>stylingbar_graphics3D_view_perspective</title>
+  <path class="cls-1" d="M444,60.16,204,58,38.09,114H38V424l330,65h0L443.91,348H444ZM209.31,82,414.9,79,358,122l-257.59-8ZM352,462,58,404V138l294,11Zm22-30.26,0-291.46L424,99.18V338.61Z"/>
+</svg>
