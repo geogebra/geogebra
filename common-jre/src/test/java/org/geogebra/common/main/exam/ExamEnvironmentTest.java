@@ -34,31 +34,36 @@ public class ExamEnvironmentTest extends BaseUnitTest {
 
 	@Test
 	public void testTempMaterials() {
-		assertThat(examEnvironment.collectTempMaterials().size(), equalTo(0));
+		assertThat(
+				examEnvironment.getTempStorage().collectTempMaterials().size(),
+				equalTo(0));
 
-		Material a = new Material(examEnvironment.nextTempMaterialId(), Material.MaterialType.ggb);
+		Material a = examEnvironment.getTempStorage().newMaterial();
 		a.setTitle("a");
-		examEnvironment.saveTempMaterial(a);
-		assertThat(examEnvironment.collectTempMaterials().size(), equalTo(1));
+		examEnvironment.getTempStorage().saveTempMaterial();
+		assertThat(
+				examEnvironment.getTempStorage().collectTempMaterials().size(),
+				equalTo(1));
 
-		Material b = new Material(examEnvironment.nextTempMaterialId(), Material.MaterialType.ggb);
+		Material b = examEnvironment.getTempStorage().newMaterial();
 		b.setTitle("b");
-		examEnvironment.saveTempMaterial(b);
-		assertThat(examEnvironment.collectTempMaterials().size(), equalTo(2));
+		examEnvironment.getTempStorage().saveTempMaterial();
+		assertThat(
+				examEnvironment.getTempStorage().collectTempMaterials().size(),
+				equalTo(2));
 
-		a.setTitle("newTitle");
-		Material aOpened = examEnvironment.collectTempMaterials().iterator().next();
-		// title shouldn't be changed because the "newTitle" wasn't saved
-		assertThat(aOpened.getTitle(), equalTo("a"));
-
-		examEnvironment.saveTempMaterial(aOpened);
+		examEnvironment.getTempStorage().saveTempMaterial();
 		// should be overwritten because ids are equal and titles are equal
-		assertThat(examEnvironment.collectTempMaterials().size(), equalTo(2));
+		assertThat(
+				examEnvironment.getTempStorage().collectTempMaterials().size(),
+				equalTo(2));
 
-		aOpened.setTitle("anotherTitle");
-		examEnvironment.saveTempMaterial(aOpened);
+		b.setTitle("anotherTitle");
+		examEnvironment.getTempStorage().saveTempMaterial();
 		// should be saved as new material because the ids are equal but the titles are different
-		assertThat(examEnvironment.collectTempMaterials().size(), equalTo(3));
+		assertThat(
+				examEnvironment.getTempStorage().collectTempMaterials().size(),
+				equalTo(3));
 	}
 
 	private void testSetCasEnabled(boolean enabled) {

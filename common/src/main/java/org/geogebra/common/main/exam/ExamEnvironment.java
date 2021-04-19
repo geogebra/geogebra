@@ -1,10 +1,6 @@
 package org.geogebra.common.main.exam;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import javax.annotation.CheckForNull;
 
@@ -25,7 +21,6 @@ import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.main.settings.Settings;
-import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -67,8 +62,7 @@ public class ExamEnvironment {
 	private boolean temporaryBlur;
 	private boolean wasCasEnabled;
 
-	private int tempMaterialId;
-	private Map<Integer, Material> tempMaterials;
+	private TempStorage tempStorage;
 
 	/**
 	 * @param localization localization
@@ -76,6 +70,7 @@ public class ExamEnvironment {
 	public ExamEnvironment(Localization localization) {
 		this.localization = localization;
 		cheatingEvents = new CheatingEvents();
+		tempStorage = new TempStorage();
 	}
 
 	public void setIncludingSettingsInLog(boolean includingSettingsInLog) {
@@ -135,7 +130,7 @@ public class ExamEnvironment {
 		examStartTime = time;
 		closed = -1;
 		clearClipboard();
-		clearTempMaterials();
+		tempStorage.clearTempMaterials();
 	}
 
 	/**
@@ -493,7 +488,7 @@ public class ExamEnvironment {
 		examStartTime = EXAM_START_TIME_NOT_STARTED;
 		disableExamCommandFilter();
 		setShowSyntax(true);
-		clearTempMaterials();
+		tempStorage.clearTempMaterials();
 	}
 
 	private void setShowSyntax(boolean showSyntax) {
@@ -713,32 +708,7 @@ public class ExamEnvironment {
 		commandDispatcher.addCommandFilter(noCASFilter);
 	}
 
-	/**
-	 * @return A copy of the tempMaterials.
-	 */
-	public Collection<Material> collectTempMaterials() {
-		return Collections.unmodifiableCollection(tempMaterials.values());
-	}
-
-	/**
-	 * Saves a copy of the material into the tempMaterials with the correct id.
-	 *
-	 * @param material material
-	 */
-	public void saveTempMaterial(Material material) {
-		Material savedMaterial = tempMaterials.get(material.getId());
-		if (savedMaterial != null && !savedMaterial.getTitle().equals(material.getTitle())) {
-			material.setId(nextTempMaterialId());
-		}
-		tempMaterials.put(material.getId(), new Material(material));
-	}
-
-	private void clearTempMaterials() {
-		tempMaterialId = 0;
-		tempMaterials = new LinkedHashMap<>();
-	}
-
-	public int nextTempMaterialId() {
-		return tempMaterialId++;
+	public TempStorage getTempStorage() {
+		return tempStorage;
 	}
 }
