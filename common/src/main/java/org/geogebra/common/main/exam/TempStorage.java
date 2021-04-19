@@ -56,8 +56,4 @@ public class TempStorage {
         tempMaterialId = 0;
         tempMaterials = new LinkedHashMap<>();
     }
-
-    void setCurrentMaterial(Material material) {
-        currentMaterial = material != null ? material : newMaterial();
-    }
 }

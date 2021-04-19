@@ -52,20 +52,13 @@ public class ExamEnvironmentTest extends BaseUnitTest {
 				examEnvironment.getTempStorage().collectTempMaterials().size(),
 				equalTo(2));
 
-		a.setTitle("newTitle");
-		Material aOpened =
-				examEnvironment.getTempStorage().collectTempMaterials().iterator().next();
-		examEnvironment.getTempStorage().setCurrentMaterial(aOpened);
-		// title shouldn't be changed because the "newTitle" wasn't saved
-		assertThat(aOpened.getTitle(), equalTo("a"));
-
 		examEnvironment.getTempStorage().saveTempMaterial();
 		// should be overwritten because ids are equal and titles are equal
 		assertThat(
 				examEnvironment.getTempStorage().collectTempMaterials().size(),
 				equalTo(2));
 
-		aOpened.setTitle("anotherTitle");
+		b.setTitle("anotherTitle");
 		examEnvironment.getTempStorage().saveTempMaterial();
 		// should be saved as new material because the ids are equal but the titles are different
 		assertThat(
