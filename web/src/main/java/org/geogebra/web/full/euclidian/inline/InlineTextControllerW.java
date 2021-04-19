@@ -216,7 +216,7 @@ public class InlineTextControllerW implements InlineTextController {
 
 		if (geo.getBackgroundColor() != null) {
 			g2.setPaint(geo.getBackgroundColor());
-			g2.fillRect(0, 0, (int) geo.getWidth(), (int) geo.getHeight());
+			g2.fillRect(0, 0, (int) geo.getContentWidth(), (int) geo.getContentHeight());
 		}
 		if (geo.getBorderThickness() != GeoInlineText.NO_BORDER) {
 			g2.setPaint(geo.getBorderColor());
