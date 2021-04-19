@@ -60,6 +60,7 @@ public class ResourceAvailability {
 			case EuclidianConstants.MODE_AUDIO:
 			case EuclidianConstants.MODE_GRAPHING:
 			case EuclidianConstants.MODE_EXTENSION:
+			case EuclidianConstants.MODE_H5P:
 			case EuclidianConstants.MODE_TABLE:
 			case EuclidianConstants.MODE_EQUATION:
 			case EuclidianConstants.MODE_CAMERA:

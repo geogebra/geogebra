@@ -1289,38 +1289,23 @@
 		display: table;
 		box-sizing: border-box;
 		padding: 3px;
-	}
 
-	.consProtNav .gwt-Label {
-		display: inline;
-		padding: 0 8px;
-	}
+		.gwt-Label {
+			display: inline;
+			padding: 0 8px;
+		}
 
-	.consProtNav .gwt-PushButton {
-		padding: 0 6px;
-		display: inline-block;
-		vertical-align: text-top;
-	}
+		.gwt-PushButton, .gwt-ToggleButton {
+			 opacity: 0.54;
+			 padding: 0 6px;
+			 display: inline-block;
+			 vertical-align: text-top;
+		}
 
-	.consProtNav img.gwt-Image {
-		vertical-align: middle;
-		draggable: false;
-	}
-
-	.consProtNav button.gwt-Button {
-		margin: 5px;
-		background: #FFFFFF;
-		border: 1px solid #CDCDCD;
-		box-shadow: none;
-	}
-
-	.consProtNav button:hover {
-		border-color: #9999FF;
-	}
-
-	.consProtNav button.gwt-Button:active,
-	&.Tablet .consProtNav button.gwt-Button:active {
-		border: 1px solid #6666FF !important;
+		img.gwt-Image {
+			vertical-align: middle;
+			draggable: false;
+		}
 	}
 
 	/* no border-color for touch */
@@ -2665,53 +2650,11 @@
 		width: 100%;
 	}
 
-	.avSpeedButton {
-		display: inline;
-		cursor: pointer;
-
-		width: 24px;
-	}
-
-	.avSpeedButton.hidden {
-		width: 0;
-		overflow: hidden;
-		padding: 0;
-	}
-
 	.avPlayButton {
 		height: 24px;
 		border: none;
 		outline: none;
 		cursor: pointer;
-	}
-
-	.avSpeedButton > * {
-		/* height is wrong otherwise */
-		float: left;
-	}
-
-	.AlgebraViewObjectStylebar .speedValue {
-		display: inline-block;
-		width: 40px;
-		font-size: 0.8em;
-		text-align: center;
-		border: none;
-		outline: none;
-		overflow: hidden;
-		height: 19px;
-	}
-
-	.AlgebraViewObjectStylebar .speedValue.hidden {
-		width: 0;
-		padding: 0;
-	}
-
-	.AlgebraViewObjectStylebar .speedValue:hover {
-		color: #6161FF;
-	}
-
-	.slideIn {
-		transition: width 0.5s ease;
 	}
 
 	/* Options Slider */

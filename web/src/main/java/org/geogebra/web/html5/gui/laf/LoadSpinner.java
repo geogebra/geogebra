@@ -1,48 +1,35 @@
 package org.geogebra.web.html5.gui.laf;
 
-import org.geogebra.web.html5.util.Dom;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
  * Class to wrap load spinner
  *
  * @author laszlo
  */
-public class LoadSpinner {
-	private final Element spinner;
+public class LoadSpinner extends FlowPanel {
 
 	/**
-	 * Constructor to wrap existsing spinner on the page.
-	 *
-	 * @param className
-	 * 					The classname of the existsing spinner.
+	 * Constructor to create a spinner.
 	 */
-	public LoadSpinner(String className) {
-		spinner = Dom.querySelector(className);
+	public LoadSpinner() {
+		setStyleName("mk-spinner-wrap");
+		FlowPanel content = new FlowPanel();
+		content.setStyleName("mk-spinner-ring");
+		add(content);
 	}
 
 	/**
 	 * Show spinner.
 	 */
 	public void show() {
-		setSpinnerVisibility(true);
+		setVisible(true);
 	}
 
 	/**
 	 * Hide spinner.
 	 */
 	public void hide() {
-		setSpinnerVisibility(false);
-	}
-
-	private void setSpinnerVisibility(boolean visible) {
-		if (spinner == null) {
-			return;
-		}
-
-		spinner.getStyle().setDisplay(visible ? Style.Display.BLOCK : Style.Display.NONE);
-
+		setVisible(false);
 	}
 }

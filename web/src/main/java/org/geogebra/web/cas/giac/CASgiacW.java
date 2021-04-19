@@ -249,7 +249,7 @@ public class CASgiacW extends CASgiac {
 				@Override
 				public void onSuccess() {
 					LoggerW.loaded("GIAC emscripten");
-					JavaScriptInjector.inject(CASResources.INSTANCE.giacJs());
+					JavaScriptInjector.inject(GiacJsResources.INSTANCE.giacJs());
 					// make sure CAS cells etc re-evaluated after CAS loaded
 					initCAS(versionString);
 				}

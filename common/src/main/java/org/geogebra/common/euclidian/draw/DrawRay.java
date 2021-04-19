@@ -317,8 +317,7 @@ public class DrawRay extends SetDrawable implements Previewable {
 				xRW = px + radius * Math.cos(angle * Math.PI / 180);
 				yRW = py + radius * Math.sin(angle * Math.PI / 180);
 
-				endPoint.setX(xRW);
-				endPoint.setY(yRW);
+				endPoint.setLocation(xRW, yRW);
 				view.getEuclidianController().setLineEndPoint(endPoint);
 
 				// don't use view.toScreenCoordX/Y() as we don't want rounding

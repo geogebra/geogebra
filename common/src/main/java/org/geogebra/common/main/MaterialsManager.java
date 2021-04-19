@@ -155,33 +155,6 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 	}
 
 	/**
-	 * Synchronize the material and mark corresponding event as resolved
-	 * 
-	 * @param mat
-	 *            material
-	 * @param events
-	 *            sync events
-	 */
-	public void sync(final Material mat, ArrayList<SyncEvent> events) {
-		if (mat.getId() == 0) {
-			upload(mat);
-		} else {
-			for (SyncEvent event : events) {
-				if (event.getID() == mat.getId()) {
-					sync(mat, event);
-					event.setZapped(true);
-					break;
-				}
-			}
-		}
-
-		this.notSyncedFileCount--;
-		Log.debug("SYNC remains " + this.notSyncedFileCount);
-		checkMaterialsToDownload(events);
-		sync(mat, new SyncEvent(0, 0));
-	}
-
-	/**
 	 * @param count
 	 *            number of files waiting for sync
 	 * @param events

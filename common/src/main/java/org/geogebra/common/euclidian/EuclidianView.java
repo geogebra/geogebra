@@ -2472,7 +2472,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	public void repaintView() {
 		repaint();
-
 	}
 
 	@Override
@@ -2837,7 +2836,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		updateBackgroundImage();
 		updateAllDrawablesForView(true);
-		// repaint();
 	}
 
 	/**

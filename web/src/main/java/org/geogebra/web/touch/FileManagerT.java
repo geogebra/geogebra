@@ -7,6 +7,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.main.FileManager;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
 public abstract class FileManagerT extends FileManager {
@@ -47,7 +48,11 @@ public abstract class FileManagerT extends FileManager {
 
 	@Override
 	public void saveLoggedOut(App app1) {
-		((DialogManagerW) app1.getDialogManager()).showSaveDialog();
+		if (!Browser.isiOS()) {
+			((DialogManagerW) app1.getDialogManager()).showSaveDialog();
+		} else {
+			showOfflineErrorTooltip((AppW) app1);
+		}
 	}
 
 	/**

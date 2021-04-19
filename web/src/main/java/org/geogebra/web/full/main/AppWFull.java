@@ -78,6 +78,7 @@ import org.geogebra.web.full.gui.app.GGWCommandLine;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.web.full.gui.dialog.H5PReader;
 import org.geogebra.web.full.gui.exam.ExamDialog;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
@@ -2068,6 +2069,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void openPDF(File file) {
 		this.getDialogManager().showPDFInputDialog(file);
+	}
+
+	@Override
+	public void openH5P(File file) {
+		new H5PReader(this).load(file);
 	}
 
 	@Override

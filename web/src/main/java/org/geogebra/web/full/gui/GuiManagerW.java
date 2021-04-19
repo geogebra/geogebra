@@ -1946,7 +1946,7 @@ public class GuiManagerW extends GuiManager
 			getApp().getGgbApi().getBase64(true,
 					getBase64DownloadCallback(filename));
 		} else {
-			getApp().getGgbApi().getGGBfile(true,
+			getApp().getGgbApi().getZippedGgbAsync(true,
 					getDownloadCallback(filename));
 		}
 	}
