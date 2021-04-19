@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.gui.util.GToggleButton;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -50,6 +51,10 @@ public class MyToggleButtonW extends GToggleButton
 		this(new Image(upIcon.getSafeUri()));
 	}
 
+	public MyToggleButtonW(SVGResource icon) {
+		this(new Image(icon.getSafeUri()));
+	}
+
 	/**
 	 * @param upIcon
 	 *            an {@link ImageResource} to use as an up Image
@@ -57,6 +62,11 @@ public class MyToggleButtonW extends GToggleButton
 	 *            {@link ClickHandler}
 	 */
 	public MyToggleButtonW(ImageResource upIcon, ClickHandler handler) {
+		super(new Image(upIcon.getSafeUri()), handler);
+		initButton();
+	}
+
+	public MyToggleButtonW(SVGResource upIcon, ClickHandler handler) {
 		super(new Image(upIcon.getSafeUri()), handler);
 		initButton();
 	}

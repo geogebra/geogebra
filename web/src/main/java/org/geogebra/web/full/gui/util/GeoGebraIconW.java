@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.images.StyleBarResources;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.resources.SVGResource;
 
@@ -17,12 +16,11 @@ import com.google.gwt.resources.client.ImageResource;
  */
 public class GeoGebraIconW {
 
-	private static StyleBarResources lafIcons = StyleBarResources.INSTANCE;
 	private static MaterialDesignResources matIcons = MaterialDesignResources.INSTANCE;
 
-	private static ImageResource[] gridStyleIcons = {
-			(lafIcons.stylingbar_empty()), (lafIcons.grid()),
-			(lafIcons.polar_grid()), (lafIcons.isometric_grid()) };
+	private static SVGResource[] gridStyleIcons = {
+			matIcons.stylebar_empty(), matIcons.grid_black(),
+			matIcons.grid_polar(), matIcons.grid_isometric() };
 
 	private static SVGResource[] pointStyleSVGIcons = {
 			matIcons.point_full(),
@@ -93,7 +91,7 @@ public class GeoGebraIconW {
 	 * @return {@link ImageOrText}
 	 */
 	public static ImageOrText createGridStyleIcon(int pointStyle) {
-		return new ImageOrText(gridStyleIcons[pointStyle]);
+		return new ImageOrText(gridStyleIcons[pointStyle], 24);
     }
 	
 	/**
@@ -212,31 +210,6 @@ public class GeoGebraIconW {
 		}
 		return new ImageOrText(url);
     }
-
-	/**
-	 * @param id
-	 *            {@code int}
-	 * @return {@link ImageOrText}
-	 */
-	public static ImageOrText createAxesStyleIconMat(int id) {
-		ImageResource url = null;
-
-		switch (id) {
-		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
-			url = StyleBarResources.INSTANCE.axes_2arrows();
-			break;
-		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
-			url = StyleBarResources.INSTANCE.axes_4arrows();
-			break;
-		case EuclidianStyleConstants.AXES_LINE_TYPE_FULL:
-			url = StyleBarResources.INSTANCE.axes();
-			break;
-		default:
-			url = StyleBarResources.INSTANCE.stylingbar_empty();
-		}
-
-		return new ImageOrText(url);
-	}
 
 	/**
 	 * @param id

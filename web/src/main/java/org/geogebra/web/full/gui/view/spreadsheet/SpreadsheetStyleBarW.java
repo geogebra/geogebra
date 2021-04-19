@@ -9,8 +9,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
-import org.geogebra.web.full.gui.images.StyleBarResources;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
@@ -74,16 +74,16 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		btnItalic.addStyleName("btnItalic");
 
 		btnLeftAlign = new MyToggleButtonW(
-		        StyleBarResources.INSTANCE.stylingbar_spreadsheet_align_left(),
+		        MaterialDesignResources.INSTANCE.horizontal_align_left(),
 		        this);
 
 		btnCenterAlign = new MyToggleButtonW(
-		        StyleBarResources.INSTANCE
-		                .stylingbar_spreadsheet_align_center(),
+		        MaterialDesignResources.INSTANCE
+		                .horizontal_align_center(),
 		        this);
 
 		btnRightAlign = new MyToggleButtonW(
-		        StyleBarResources.INSTANCE.stylingbar_spreadsheet_align_right(),
+		        MaterialDesignResources.INSTANCE.horizontal_align_right(),
 		        this);
 
 		btnBgColor = new ColorPopupMenuButton(app,

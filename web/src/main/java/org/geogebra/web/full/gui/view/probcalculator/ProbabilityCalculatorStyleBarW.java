@@ -7,8 +7,8 @@ import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorStyleBar
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.full.gui.images.StyleBarResources;
 import org.geogebra.web.full.gui.menubar.GCheckBoxMenuItem;
 import org.geogebra.web.full.gui.menubar.GRadioButtonMenuItem;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
@@ -134,17 +134,13 @@ public class ProbabilityCalculatorStyleBarW extends
 		btnBarGraphHandler = btnBarGraph.addValueChangeHandler(this);
 
 		MyToggleButtonW btnGrid = new MyToggleButtonW(
-				StyleBarResources.INSTANCE.grid());
+				MaterialDesignResources.INSTANCE.grid_black());
 		btnGrid.setSelected(getProbCalc().getPlotSettings().showGrid);
-		btnGrid.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				PlotSettings ps = getProbCalc().getPlotSettings();
-				ps.showGrid = !ps.showGrid;
-				getProbCalc().setPlotSettings(ps);
-				getProbCalc().updatePlotSettings();
-			}
+		btnGrid.addClickHandler(event -> {
+			PlotSettings ps = getProbCalc().getPlotSettings();
+			ps.showGrid = !ps.showGrid;
+			getProbCalc().setPlotSettings(ps);
+			getProbCalc().updatePlotSettings();
 		});
 		
 	}

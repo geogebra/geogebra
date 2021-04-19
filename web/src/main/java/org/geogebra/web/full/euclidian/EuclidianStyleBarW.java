@@ -787,14 +787,14 @@ public class EuclidianStyleBarW extends StyleBarW2
 	protected void createChangeViewButtons() {
 		ImageOrText[] directionIcons = ImageOrText
 				.convert(
-						new ImageResource[] {
-								StyleBarResources.INSTANCE.standard_view(),
-								StyleBarResources.INSTANCE.view_all_objects() },
+						new SVGResource[] {
+								MaterialDesignResources.INSTANCE.home_black(),
+								MaterialDesignResources.INSTANCE.show_all_objects_black() },
 						24);
 
 		btnChangeView = new ProjectionPopup(app, directionIcons);
 		btnChangeView.setIcon(
-				new ImageOrText(StyleBarResources.INSTANCE.standard_view()));
+				new ImageOrText(MaterialDesignResources.INSTANCE.home_black(), 24));
 		btnChangeView.addPopupHandler(this);
 	}
 
@@ -802,7 +802,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		// ========================================
 		// show axes button
 		btnShowAxes = new MyToggleButtonWforEV(
-				StyleBarResources.INSTANCE.axes(), this);
+				MaterialDesignResources.INSTANCE.axes_black(), this);
 		btnShowAxes.setSelected(ev.getShowXaxis());
 		btnShowAxes.addValueChangeHandler(this);
 
@@ -818,10 +818,10 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private void createDeleteSiztBtn() {
-		ImageResource[] delBtns = new ImageResource[] {
-				StyleBarResources.INSTANCE.stylingbar_delete_small(),
-				StyleBarResources.INSTANCE.stylingbar_delete_medium(),
-				StyleBarResources.INSTANCE.stylingbar_delete_large() };
+		SVGResource[] delBtns = new SVGResource[] {
+				MaterialDesignResources.INSTANCE.delete_small(),
+				MaterialDesignResources.INSTANCE.delete_medium(),
+				MaterialDesignResources.INSTANCE.delete_large() };
 		for (int i = 0; i < 3; i++) {
 			btnDeleteSizes[i] = new MyToggleButtonW(delBtns[i]) {
 
@@ -950,7 +950,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private void createStandardViewBtn() {
 		btnStandardView = new MyCJButton();
 		ImageOrText icon = new ImageOrText(
-				StyleBarResources.INSTANCE.standard_view());
+				MaterialDesignResources.INSTANCE.home_black(), 24);
 		btnStandardView.setIcon(icon);
 		btnStandardView.addClickHandler(event -> setEvStandardView());
 	}
@@ -1219,7 +1219,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	private void createFixPositionBtn() {
 		btnFixPosition = new MyToggleButtonW(
-				StyleBarResources.INSTANCE.fixPosition()) {
+				MaterialDesignResources.INSTANCE.pin_black()) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
@@ -1437,10 +1437,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 		};
 		btnTextSize.addPopupHandler(this);
 		btnTextSize.setKeepVisible(false);
-		btnTextSize.setIcon(app.isUnbundledOrWhiteboard()
-				? new ImageOrText(
-						MaterialDesignResources.INSTANCE.text_size_black(), 24)
-				: new ImageOrText(StyleBarResources.INSTANCE.font_size()));
+		btnTextSize.setIcon(new ImageOrText(
+						MaterialDesignResources.INSTANCE.text_size_black(), 24));
 		btnTextSize.addStyleName("withIcon");
 		btnTextSize.getMyPopup().removeStyleName("matPopupPanel");
 		btnTextSize.getMyPopup().addStyleName("textSizePopupPanel");

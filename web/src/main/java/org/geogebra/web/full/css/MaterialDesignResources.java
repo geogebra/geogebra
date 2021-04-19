@@ -328,6 +328,12 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/grid_black.svg")
 	SVGResource grid_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/isometric.svg")
+	SVGResource grid_isometric();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/polar.svg")
+	SVGResource grid_polar();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/minor_gridlines.svg")
 	SVGResource minor_gridlines();
 
@@ -563,4 +569,16 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/show_chart-black-24px.svg")
 	SVGResource statistics();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/stylebar_empty.svg")
+	SVGResource stylebar_empty();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/delete_large.svg")
+	SVGResource delete_large();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/delete_medium.svg")
+	SVGResource delete_medium();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/delete_small.svg")
+	SVGResource delete_small();
 }

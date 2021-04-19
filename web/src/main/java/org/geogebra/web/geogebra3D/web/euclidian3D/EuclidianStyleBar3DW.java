@@ -11,8 +11,10 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.full.euclidian.MyToggleButtonWforEV;
+import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.StyleBarResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
@@ -182,7 +184,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		// show axes button
 		ImageOrText[] axesAndPlaneIcons = ImageOrText.convert(
 				new ImageResource[] {
-						StyleBarResources.INSTANCE.stylingbar_empty(),
+						AppResources.INSTANCE.empty(),
 						StyleBarResources.INSTANCE.axes(),
 						StyleBar3DResources.INSTANCE.plane(),
 						StyleBar3DResources.INSTANCE.axes_plane() }, 24);
@@ -194,7 +196,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		// ========================================
 		// show grid button
 		btnShowGrid3D = new MyToggleButtonWforEV(
-				StyleBarResources.INSTANCE.grid(), this);
+				MaterialDesignResources.INSTANCE.grid_black(), this);
 		btnShowGrid3D.setSelected(ev.getShowGrid());
 		btnShowGrid3D.addValueChangeHandler(this);
 	}

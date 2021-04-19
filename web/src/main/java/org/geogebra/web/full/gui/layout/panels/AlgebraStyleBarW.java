@@ -121,15 +121,12 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 						.indexOf(selectedMode));
 			});
 	
-			treeModeButton.addPopupHandler(new PopupMenuHandler() {
-				@Override
-				public void fireActionPerformed(PopupMenuButtonW actionButton) {
-					// called if a object of the popup is clicked
-					int i = treeModeButton.getSelectedIndex();
-					app.getSettings().getAlgebra()
-							.setTreeMode(supportedModes.get(i));
-					app.closePopups();
-				}
+			treeModeButton.addPopupHandler(actionButton -> {
+				// called if a object of the popup is clicked
+				int i = treeModeButton.getSelectedIndex();
+				app.getSettings().getAlgebra()
+						.setTreeMode(supportedModes.get(i));
+				app.closePopups();
 			});
 		}
 		add(treeModeButton);
