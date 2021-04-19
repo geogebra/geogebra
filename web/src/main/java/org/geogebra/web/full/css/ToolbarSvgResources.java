@@ -89,10 +89,6 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_createlist_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_delete.svg")
-	@Override
-	SVGResource mode_delete_32();
-
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_dilatefrompoint.svg")
 	@Override
 	SVGResource mode_dilatefrompoint_32();
@@ -180,10 +176,6 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_parallel.svg")
 	@Override
 	SVGResource mode_parallel_32();
-
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pen.svg")
-	@Override
-	SVGResource mode_pen_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pen_black.svg")
 	@Override
