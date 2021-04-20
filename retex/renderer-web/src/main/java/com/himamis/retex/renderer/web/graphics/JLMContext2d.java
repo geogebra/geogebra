@@ -80,7 +80,7 @@ public class JLMContext2d extends CanvasRenderingContext2D {
 
 	@JsOverlay
 	public final double getDevicePixelRatio() {
-		return this.ggbDevicePixelRatio == 0 ? 1 : ggbDevicePixelRatio;
+		return Js.isFalsy(this.ggbDevicePixelRatio) ? 1 : ggbDevicePixelRatio;
 	}
 
 	@JsOverlay
@@ -96,35 +96,26 @@ public class JLMContext2d extends CanvasRenderingContext2D {
 		}
 
 		JsArray t = JsArray.of(this.m00_, this.m10_, this.m01_, this.m11_, this.m02_,
-				this.m12_ );
+				this.m12_);
 
 		this.ggbTransformCache.push(t);
 
 		this.save();
-	};
+	}
 
 	@JsOverlay
 	public final void restoreTransform() {
-
-		double dp = this.ggbDevicePixelRatio;
-
 		JsArray<Double> t = this.ggbTransformCache.pop();
-
-		if (!Js.isTruthy(t)) {
-			// correct behaviour is do nothing and return
-			this.restore();
-			return;
+		if (Js.isTruthy(t)) {
+			this.m00_ = t.getAt(0);
+			this.m10_ = t.getAt(1);
+			this.m01_ = t.getAt(2);
+			this.m11_ = t.getAt(3);
+			this.m02_ = t.getAt(4);
+			this.m12_ = t.getAt(5);
 		}
-
-		this.m00_ = t.getAt(0);
-		this.m10_ = t.getAt(1);
-		this.m01_ = t.getAt(2);
-		this.m11_ = t.getAt(3);
-		this.m02_ = t.getAt(4);
-		this.m12_ = t.getAt(5);
-
 		this.restore();
-	};
+	}
 
 	@JsOverlay
 	public final void scale2(double sx, double sy) {
@@ -187,7 +178,7 @@ public class JLMContext2d extends CanvasRenderingContext2D {
 		}
 
 		this.rotate(theta);
-	};
+	}
 
 	@JsOverlay
 	public final void setTransform2(double m00, double m10, double m01,
@@ -200,14 +191,14 @@ public class JLMContext2d extends CanvasRenderingContext2D {
 		this.m12_ = m12;
 
 		this.setTransform(m00, m10, m01, m11, m02, m12);
-	};
+	}
 
 	@JsOverlay
 	public final void resetTransform(double dp) {
 		this.ggbDevicePixelRatio = dp;
 		this.setTransform(dp * this.m00_, dp * this.m10_, dp * this.m01_, dp
 				* this.m11_, dp * this.m02_, dp * this.m12_);
-	};
+	}
 
 	// adapted from goog.graphics.AffineTransform.prototype.concatenate
 	@JsOverlay
@@ -228,7 +219,7 @@ public class JLMContext2d extends CanvasRenderingContext2D {
 
 		// XXX should this be setTransform()?
 		this.transform(m00, m10, m01, m11, m02, m12);
-	};
+	}
 
 	/**
 	 * @param shape
