@@ -51,6 +51,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.GPredicate;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.ContextMenuGeoElementW;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.color.BgColorPopup;
@@ -898,9 +899,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 				return this.getIcon();
 			}
 		};
-		ImageResource ic = AppResources.INSTANCE.mode_showhidelabel_16();
+		SVGResource ic = ToolbarSvgResourcesSync.INSTANCE.mode_showhidelabel_32();
 		// must be done with callback btnLabelStyle.setIcon(ic);
-		ImgResourceHelper.setIcon(ic, btnLabelStyle);
+		btnLabelStyle.setIcon(new ImageOrText(ic, 24));
 		btnLabelStyle.addPopupHandler(this);
 		btnLabelStyle.setKeepVisible(false);
 	}

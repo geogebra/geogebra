@@ -34,10 +34,7 @@ public class MyToggleButtonW extends GToggleButton
 		initButton();
 	}
 
-	/**
-	 * @param image
-	 *            an {@link Image} to use as an up Image
-	 */
+
 	public MyToggleButtonW(Image image) {
 		super(image);
 		initButton();
@@ -51,6 +48,10 @@ public class MyToggleButtonW extends GToggleButton
 		this(new Image(upIcon.getSafeUri()));
 	}
 
+	/**
+	 * @param icon
+	 *            the svg to show as up Image
+	 */
 	public MyToggleButtonW(SVGResource icon) {
 		this(new Image(icon.getSafeUri()));
 	}
@@ -66,6 +67,12 @@ public class MyToggleButtonW extends GToggleButton
 		initButton();
 	}
 
+	/**
+	 * @param upIcon
+	 *            an {@link SVGResource} to use as an up Image
+	 * @param handler
+	 *            {@link ClickHandler}
+	 */
 	public MyToggleButtonW(SVGResource upIcon, ClickHandler handler) {
 		super(new Image(upIcon.getSafeUri()), handler);
 		initButton();
