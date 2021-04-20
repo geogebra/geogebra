@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.util;
 
+import java.util.Locale;
+
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.util.debug.Log;
@@ -94,7 +96,8 @@ public class ViewW {
 			GgbFile archiveContent = new GgbFile();
 			data.forEach(name -> {
 				int dotIndex = name.lastIndexOf('.');
-				String extension = dotIndex == -1 ? "" : name.substring(dotIndex + 1);
+				String extension = dotIndex == -1
+						? "" : name.substring(dotIndex + 1).toLowerCase(Locale.US);
 
 				if (extension.matches("(png|jpg|jpeg|gif|bmp|tif|tiff)")) {
 					String prefix = "data:image/" + extension + ";base64,";
