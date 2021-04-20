@@ -2,6 +2,7 @@ package com.himamis.retex.editor.share.controller;
 
 import java.util.ArrayList;
 
+import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
@@ -63,13 +64,13 @@ public class CursorController {
 		MathSequence currentField = editorState.getCurrentField();
 		if (currentOffset > 0) {
 			MathComponent component = currentField.getArgument(currentOffset - 1);
-			prevCharacterInCurrentFiled(component, editorState);
+			prevCharacterInCurrentField(component, editorState);
 		} else {
 			prevField(editorState);
 		}
 	}
 
-	private static void prevCharacterInCurrentFiled(
+	private static void prevCharacterInCurrentField(
 			MathComponent component, EditorState editorState) {
 
 		MathContainer mathContainer = getMathContainer(component);
@@ -252,6 +253,12 @@ public class CursorController {
 
 	/** Up field. */
 	private boolean upField(EditorState editorState, MathContainer component) {
+		if (component.getParent() instanceof MathFunction) {
+			Tag name = ((MathFunction) component.getParent()).getName();
+			if (name.equals(Tag.SUBSCRIPT)) {
+				return moveOutOfSuperSubScript(editorState);
+			}
+		}
 		if (component instanceof MathSequence) {
 			if (component.getParent() instanceof MathFunction) {
 				MathFunction function = (MathFunction) component.getParent();
@@ -275,6 +282,12 @@ public class CursorController {
 	/** Down field. */
 	private boolean downField(EditorState editorState,
 			MathContainer component) {
+		if (component.getParent() instanceof MathFunction) {
+			Tag name = ((MathFunction) component.getParent()).getName();
+			if (name.equals(Tag.SUPERSCRIPT)) {
+				return moveOutOfSuperSubScript(editorState);
+			}
+		}
 		if (component instanceof MathSequence) {
 			if (component.getParent() instanceof MathFunction) {
 				MathFunction function = (MathFunction) component.getParent();
@@ -314,6 +327,25 @@ public class CursorController {
 					return true;
 				}
 			}
+		}
+		return false;
+	}
+
+	private boolean moveOutOfSuperSubScript(EditorState editorState) {
+		MathComponent cursorFieldLeft = editorState.getCurrentField().getArgument(
+				editorState.getCurrentOffset() - 1);
+		MathComponent cursorFieldRight = editorState.getCurrentField().getArgument(
+				editorState.getCurrentOffset());
+		MathContainer parentFunction = cursorFieldLeft != null ? cursorFieldLeft.getParent() :
+				cursorFieldRight.getParent();
+		if (parentFunction.getArgument(0).equals(cursorFieldRight)
+				&& cursorFieldLeft == null) {
+			prevCharacter(editorState);
+			return true;
+		}
+		if (parentFunction.getArgument(parentFunction.size() - 1)
+				.equals(cursorFieldLeft) && cursorFieldRight == null) {
+			return nextCharacter(editorState);
 		}
 		return false;
 	}
