@@ -336,8 +336,8 @@ public class CursorController {
 				editorState.getCurrentOffset() - 1);
 		MathComponent cursorFieldRight = editorState.getCurrentField().getArgument(
 				editorState.getCurrentOffset());
-		MathContainer parentFunction = cursorFieldLeft != null ? cursorFieldLeft.getParent() :
-				cursorFieldRight.getParent();
+		MathContainer parentFunction = cursorFieldLeft != null ? cursorFieldLeft.getParent()
+				: cursorFieldRight.getParent();
 		if (parentFunction.getArgument(0).equals(cursorFieldRight)
 				&& cursorFieldLeft == null) {
 			prevCharacter(editorState);
