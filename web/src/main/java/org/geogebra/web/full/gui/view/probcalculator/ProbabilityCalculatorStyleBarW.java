@@ -15,6 +15,7 @@ import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.helper.SafeHtmlFactory;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -133,8 +134,8 @@ public class ProbabilityCalculatorStyleBarW extends
 				false);
 		btnBarGraphHandler = btnBarGraph.addValueChangeHandler(this);
 
-		MyToggleButtonW btnGrid = new MyToggleButtonW(
-				MaterialDesignResources.INSTANCE.grid_black());
+		MyToggleButtonW btnGrid = new MyToggleButtonW(new NoDragImage(
+				MaterialDesignResources.INSTANCE.grid_black(), 24));
 		btnGrid.setSelected(getProbCalc().getPlotSettings().showGrid);
 		btnGrid.addClickHandler(event -> {
 			PlotSettings ps = getProbCalc().getPlotSettings();

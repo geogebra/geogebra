@@ -864,7 +864,10 @@
 		background-position: center center;
 		width: 24px;
 		height: 24px;
-		opacity: 0.54;
+
+		&.stylebarButton {
+				opacity: 0.54;
+		}
 	}
 
 	.MyCanvasButton.btnTextColor .buttonContent,

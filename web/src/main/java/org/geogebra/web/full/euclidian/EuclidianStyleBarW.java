@@ -50,7 +50,6 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.GPredicate;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ContextMenuGeoElementW;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -68,6 +67,7 @@ import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.util.PointStylePopup;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.StyleBarW2;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
@@ -956,7 +956,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private void createCloseViewBtn() {
 		btnCloseView = new MyCJButton();
 		ImageOrText icon = new ImageOrText(
-				GuiResources.INSTANCE.dockbar_close());
+				GuiResourcesSimple.INSTANCE.close(), 24);
 		btnCloseView.setIcon(icon);
 		btnCloseView.addStyleName("StylebarCloseViewButton");
 		btnCloseView.addClickHandler(event -> closeView());
@@ -1185,23 +1185,13 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private void createTextBoldBtn() {
-		if (app.isUnbundledOrWhiteboard()) {
-			btnBold = new MyToggleButtonW(new NoDragImage(
-					MaterialDesignResources.INSTANCE.text_bold_black(), 24)) {
-				@Override
-				public void update(List<GeoElement> geos) {
+		btnBold = new MyToggleButtonW(new NoDragImage(
+				MaterialDesignResources.INSTANCE.text_bold_black(), 24)) {
+			@Override
+			public void update(List<GeoElement> geos) {
 					updateFontToggle(btnBold, GFont.BOLD, geos);
 				}
-			};
-		} else {
-			btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short")) {
-
-				@Override
-				public void update(List<GeoElement> geos) {
-					updateFontToggle(btnBold, GFont.BOLD, geos);
-				}
-			};
-		}
+		};
 		btnBold.addStyleName("btnBold");
 		btnBold.addValueChangeHandler(this);
 	}
@@ -1256,24 +1246,14 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private void createTextItalicBtn() {
-		if (app.isUnbundledOrWhiteboard()) {
-			btnItalic = new MyToggleButtonW(new NoDragImage(
-					MaterialDesignResources.INSTANCE.text_italic_black(), 24)) {
+		btnItalic = new MyToggleButtonW(new NoDragImage(
+				MaterialDesignResources.INSTANCE.text_italic_black(), 24)) {
 
-				@Override
-				public void update(List<GeoElement> geos) {
+			@Override
+			public void update(List<GeoElement> geos) {
 					updateFontToggle(btnItalic, GFont.ITALIC, geos);
 				}
-			};
-		} else {
-			btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short")) {
-
-				@Override
-				public void update(List<GeoElement> geos) {
-					updateFontToggle(btnItalic, GFont.ITALIC, geos);
-				}
-			};
-		}
+		};
 		btnItalic.addStyleName("btnItalic");
 		btnItalic.addValueChangeHandler(this);
 	}
