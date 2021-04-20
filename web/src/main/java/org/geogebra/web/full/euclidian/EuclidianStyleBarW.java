@@ -863,8 +863,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 		// it is not needed, must be an Image preloaded like others.
 		SVGResource ptCaptureIcon = MaterialDesignResources.INSTANCE.snap_to_grid();
-		// must be done in callback btnPointCapture.setIcon(ptCaptureIcon);
-		ImgResourceHelper.setIcon(ptCaptureIcon, btnPointCapture);
+		btnPointCapture.setIcon(new ImageOrText(ptCaptureIcon, 24));
 		btnPointCapture.addPopupHandler(this);
 		btnPointCapture.setKeepVisible(false);
 	}
