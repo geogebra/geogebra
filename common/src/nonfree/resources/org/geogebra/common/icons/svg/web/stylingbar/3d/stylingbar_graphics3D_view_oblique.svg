@@ -2,17 +2,10 @@
   <defs>
     <style>
       .cls-1 {
-        fill: #999;
+        fill: #1a171b;
       }
     </style>
   </defs>
   <title>stylingbar_graphics3D_view_oblique</title>
-  <g>
-    <rect class="cls-1" x="38.06" y="103.14" width="150" height="20" transform="translate(-46.89 113.08) rotate(-45)"/>
-    <rect class="cls-1" x="323.94" y="103.14" width="150" height="20" transform="translate(36.84 315.23) rotate(-45)"/>
-    <rect class="cls-1" x="323.94" y="388.86" width="150" height="20" transform="translate(-165.19 398.92) rotate(-45)"/>
-    <path class="cls-1" d="M53,159V459H353V159ZM333,439H73V179H333Z"/>
-    <rect class="cls-1" x="159.02" y="53.04" width="299.14" height="20"/>
-    <rect class="cls-1" x="439.04" y="53.04" width="20" height="300"/>
-  </g>
+  <path class="cls-1" d="M458.17,53H159L53.09,159H53V459H353L458.91,353H459V53ZM167.31,73H424.9L339,159H81.38ZM333,439H73V179H333Zm20-8.26V173.22l0,0L439,87.18V344.61Z"/>
 </svg>

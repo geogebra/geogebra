@@ -3,13 +3,13 @@
     <style>
       .cls-1 {
         fill: none;
-        stroke: #ccc;
+        stroke: #000;
         stroke-miterlimit: 10;
         stroke-width: 20px;
       }
     </style>
   </defs>
-  <title>polar</title>
+  <title>isometric</title>
   <g>
     <g>
       <circle class="cls-1" cx="80" cy="431.61" r="176"/>

@@ -2,16 +2,11 @@
   <defs>
     <style>
       .cls-1 {
-        fill: #dcdcdc;
-      }
-
-      .cls-2 {
-        fill: #999;
+        fill: #b3b3b3;
       }
     </style>
   </defs>
   <title>stylingbar_graphics3D_axes_plane</title>
   <rect class="cls-1" width="512" height="512"/>
-  <rect class="cls-2" x="65" width="30" height="512"/>
-  <rect class="cls-2" y="417" width="512" height="30"/>
+  <polygon points="512 417 95 417 95 0 65 0 65 417 0 417 0 447 65 447 65 512 95 512 95 447 512 447 512 417"/>
 </svg>

@@ -13,7 +13,7 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
-import org.geogebra.web.full.gui.images.StyleBarResources;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.StyleBarW2;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -108,7 +108,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 					strTreeMode.length, 1, SelectionTable.MODE_TEXT);
 	
 			ImageOrText icon = new ImageOrText(
-					StyleBarResources.INSTANCE.sortObjects());
+					MaterialDesignResources.INSTANCE.sortObjects());
 			treeModeButton.setFixedIcon(icon);
 	
 			treeModeButton.addClickHandler(event -> {
@@ -135,7 +135,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 					strTreeMode.length, 1, SelectionTable.MODE_TEXT);
 
 			ImageOrText icon = new ImageOrText(
-					StyleBarResources.INSTANCE.description());
+					MaterialDesignResources.INSTANCE.description(), 24);
 			descriptionButton.setFixedIcon(icon);
 
 			descriptionButton.addClickHandler(event -> {

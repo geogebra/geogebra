@@ -449,9 +449,10 @@
 		border: #DCDCDC solid 1px;
 	}
 
-	.MyToggleButton {
+	.MyToggleButton, .MyCanvasButton {
 		img {
 			width: 24px;
+			opacity: 0.54;
 		}
 	}
 
@@ -863,6 +864,7 @@
 		background-position: center center;
 		width: 24px;
 		height: 24px;
+		opacity: 0.54;
 	}
 
 	.MyCanvasButton.btnTextColor .buttonContent,
@@ -898,6 +900,7 @@
 	.gwt-Label.stylebarButton {
 		height: 24px;
 		width: 24px;
+		opacity: 0.54;
 	}
 
 	.gwt-Label.border {

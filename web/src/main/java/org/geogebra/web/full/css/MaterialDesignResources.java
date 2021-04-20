@@ -584,6 +584,12 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/delete_small.svg")
 	SVGResource delete_small();
 
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/algebra_description.svg")
+	SVGResource description();
+
+	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_algebraview_sort_objects_by.png")
+	ImageResource sortObjects();
+
 	// EUCLIDIAN 3D STYLEBAR
 
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/3d/stylingbar_graphics3D_plane.svg")

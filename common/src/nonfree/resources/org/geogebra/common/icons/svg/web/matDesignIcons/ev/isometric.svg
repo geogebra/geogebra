@@ -3,7 +3,7 @@
     <style>
       .cls-1 {
         fill: none;
-        stroke: #ccc;
+        stroke: #000;
         stroke-miterlimit: 10;
         stroke-width: 20px;
       }
@@ -12,7 +12,6 @@
   <title>isometric</title>
   <line class="cls-1" x1="-28" y1="522.02" x2="693.24" y2="98.63"/>
   <line class="cls-1" x1="-28" y1="709.01" x2="693.24" y2="285.62"/>
-  <line class="cls-1" x1="-28" y1="896" x2="693.24" y2="472.6"/>
   <line class="cls-1" x1="257.83" y1="579.45" x2="257.83" y2="-143.12"/>
   <line class="cls-1" x1="97.55" y1="579.45" x2="97.55" y2="-143.12"/>
   <line class="cls-1" x1="418.1" y1="579.45" x2="418.1" y2="-143.12"/>
@@ -22,5 +21,4 @@
   <line class="cls-1" x1="-28" y1="148.05" x2="693.24" y2="-275.35"/>
   <line class="cls-1" x1="-28" y1="-0.21" x2="746.67" y2="452.57"/>
   <line class="cls-1" x1="-28" y1="-187.19" x2="746.67" y2="265.58"/>
-  <line class="cls-1" x1="-28" y1="-374.18" x2="746.67" y2="78.6"/>
 </svg>

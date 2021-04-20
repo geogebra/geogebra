@@ -84,7 +84,6 @@ public abstract class StyleBarW extends HorizontalPanel implements
 				menuButton = new StandardButton(
 						MaterialDesignResources.INSTANCE.gear(), null, 24);
 				menuButton.setStyleName("MyCanvasButton");
-				menuButton.addStyleName("gereBtn");
 			}
 
 			menuButton.addFastClickHandler(source -> {
