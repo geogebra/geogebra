@@ -10,14 +10,12 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
  */
 public class DownloadSvgAction extends DefaultMenuAction<Void> {
 
-	private AppWFull app;
 	private ImageExporter imageExporter;
 
 	/**
 	 * @param app app
 	 */
 	public DownloadSvgAction(AppWFull app) {
-		this.app = app;
 		imageExporter = new ImageExporter(app, "svg");
 	}
 

@@ -8,14 +8,12 @@ import org.geogebra.web.full.main.AppWFull;
  */
 public class DownloadPdfAction extends DefaultMenuAction<Void> {
 
-	private AppWFull app;
 	private ImageExporter imageExporter;
 
 	/**
 	 * @param app app
 	 */
 	public DownloadPdfAction(AppWFull app) {
-		this.app = app;
 		imageExporter = new ImageExporter(app, "pdf");
 	}
 

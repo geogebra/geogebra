@@ -31,7 +31,7 @@ public final class ExportLoader {
 	public static native Object getCanvas2Pdf();
 
 	/**
-	 * @param callback to be executed when canvas2svg was loaded
+	 * @param callback to be executed when canvas2svg is loaded
 	 */
 	@JsOverlay
 	public static void onCanvas2SvgLoaded(Runnable callback) {
@@ -60,6 +60,9 @@ public final class ExportLoader {
 		}
 	}
 
+	/**
+	 * @param callback to be executed when canvas2pdf is loaded
+	 */
 	@JsOverlay
 	public static void onCanvas2PdfLoaded(Runnable callback) {
 		if (getCanvas2Pdf() != null) {

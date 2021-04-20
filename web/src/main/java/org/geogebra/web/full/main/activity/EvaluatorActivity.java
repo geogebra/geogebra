@@ -48,7 +48,8 @@ public class EvaluatorActivity extends BaseActivity {
 		return editor.getAPI();
 	}
 
-	public void exportImage(String type, EvaluatorExportedApi.EquationExportImageConsumer callback) {
+	public void exportImage(String type,
+			EvaluatorExportedApi.EquationExportImageConsumer callback) {
 		editor.exportImage(type, callback);
 	}
 

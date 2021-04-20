@@ -2170,21 +2170,17 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * @param filename output filename
-	 * @param callback called with the resulting string
-	 * @return export current construction as SVG
+	 * @param callback called with the construction exported as SVG
 	 */
 	public void exportSVG(String filename, Consumer<String> callback) {
 		// not implemented in Android, iOS
 	}
 
 	/**
-	 * @param exportScale
-	 *            scale
-	 * @param filename
-	 *            output filename
-	 * @param sliderLabel
-	 *            animation slider
-	 * @return PDF
+	 * @param exportScale scale
+	 * @param filename output filename
+	 * @param callback called with the construction exported as PDF
+	 * @param sliderLabel animation slider
 	 */
 	public void exportPDF(double exportScale, String filename,
 			Consumer<String> callback, String sliderLabel) {
