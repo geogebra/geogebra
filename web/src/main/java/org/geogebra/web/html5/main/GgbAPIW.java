@@ -36,6 +36,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
@@ -933,7 +934,8 @@ public class GgbAPIW extends GgbAPI {
 				if (filename != null) {
 					// can't use data:image/svg+xml;utf8 in IE11 / Edge
 					Browser.exportImage(Browser.encodeSVG(svg), filename);
-				} else {
+				}
+				if (callback != null) {
 					callback.accept(svg);
 				}
 			});
@@ -945,41 +947,40 @@ public class GgbAPIW extends GgbAPI {
 	 * 
 	 */
 	@Override
-	final public String exportPDF(double scale, String filename,
-			String sliderLabel) {
+	final public void exportPDF(double scale, String filename,
+			Consumer<String> callback, String sliderLabel) {
+		ExportLoader.onCanvas2PdfLoaded(() -> {
+			String pdf;
 
-		String pdf;
-
-		if (app.isWhiteboardActive()) {
-
-			// export each slide as separate page
-			pdf = ((AppW) app).getPageController().exportPDF();
-
-		} else {
-
-			EuclidianView ev = app.getActiveEuclidianView();
-
-			if (ev instanceof EuclidianViewW) {
-
-				EuclidianViewW evw = (EuclidianViewW) ev;
-
-				if (sliderLabel == null) {
-					pdf = evw.getExportPDF(scale);
-				} else {
-					pdf = AnimationExporter.export(kernel.getApplication(), 0,
-							(GeoNumeric) kernel.lookupLabel(sliderLabel), false,
-							filename, scale, Double.NaN, ExportType.PDF_HTML5);
-				}
-
+			if (app.isWhiteboardActive()) {
+				// export each slide as separate page
+				pdf = ((AppW) app).getPageController().exportPDF();
 			} else {
-				return null;
-			}
-		}
+				EuclidianView ev = app.getActiveEuclidianView();
 
-		if (filename != null) {
-			Browser.exportImage(pdf, filename);
-		}
-		return pdf;
+				if (ev instanceof EuclidianViewW) {
+					EuclidianViewW evw = (EuclidianViewW) ev;
+
+					if (sliderLabel == null) {
+						pdf = evw.getExportPDF(scale);
+					} else {
+						pdf = AnimationExporter.export(kernel.getApplication(), 0,
+								(GeoNumeric) kernel.lookupLabel(sliderLabel), false,
+								filename, scale, Double.NaN, ExportType.PDF_HTML5);
+					}
+				} else {
+					return;
+				}
+			}
+
+			if (filename != null) {
+				Browser.exportImage(pdf, filename);
+			}
+
+			if (callback != null) {
+				callback.accept(pdf);
+			}
+		});
 	}
 
 	@Override

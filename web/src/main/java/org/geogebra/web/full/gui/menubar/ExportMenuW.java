@@ -98,11 +98,11 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						app.toggleMenu();
 						app.getSelectionManager().clearSelectedGeos();
 
-						String pdf = app.getGgbApi().exportPDF(1, null, null);
-
-						app.getFileManager().showExportAsPictureDialog(pdf,
-								app.getExportTitle(), "pdf", "ExportAsPicture",
-								app);
+						app.getGgbApi().exportPDF(1, null, (pdf) -> {
+							app.getFileManager().showExportAsPictureDialog(pdf,
+									app.getExportTitle(), "pdf", "ExportAsPicture",
+									app);
+						}, null);
 					}
 				});
 		// TODO add gif back when ready

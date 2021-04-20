@@ -383,7 +383,7 @@ public class GgbAPID extends GgbAPIJre {
 	}
 
 	@Override
-	public String exportPDF(double exportScale, String file0,
+	public void exportPDF(double exportScale, String file0, Consumer<String> callback,
 			String sliderLabel) {
 
 		String filename = file0;
@@ -402,13 +402,11 @@ public class GgbAPID extends GgbAPIJre {
 
 		try {
 			// read file back as String
-			return new String(Files.readAllBytes(Paths.get(filename)),
-					StandardCharsets.UTF_8);
+			callback.accept(new String(Files.readAllBytes(Paths.get(filename)),
+					StandardCharsets.UTF_8));
 		} catch (IOException e) {
 			Log.error("problem reading " + filename);
 		}
-
-		return null;
 	}
 
 }

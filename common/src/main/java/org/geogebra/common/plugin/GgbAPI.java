@@ -2186,10 +2186,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 *            animation slider
 	 * @return PDF
 	 */
-	public String exportPDF(double exportScale, String filename,
-			String sliderLabel) {
+	public void exportPDF(double exportScale, String filename,
+			Consumer<String> callback, String sliderLabel) {
 		// not implemented in Android, iOS
-		return null;
 	}
 
 	/**

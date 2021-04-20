@@ -753,8 +753,17 @@ public class DefaultExportedApi implements ExportedApi {
 		}
 	}
 
-	public String exportPDF(Object scale, String filename, String sliderLabel) {
-		return ggbAPI.exportPDF(Js.coerceToDouble(scale), filename, sliderLabel);
+	public void exportPDF(Object scale, Object filenameOrCallback, String sliderLabel) {
+		if ("string".equals(Js.typeof(filenameOrCallback))) {
+			ggbAPI.exportPDF(Js.coerceToDouble(scale), (String) filenameOrCallback,
+					null, sliderLabel);
+		} else if ("function".equals(Js.typeof(filenameOrCallback))) {
+			ggbAPI.exportPDF(Js.coerceToDouble(scale), null,
+					((StringConsumer) filenameOrCallback)::consume, sliderLabel);
+		} else {
+			DomGlobal.console.warn("exportPDF requires either a filename or "
+					+ "a callback as the second parameter.");
+		}
 	}
 
 	public void exportPSTricks(StringConsumer callback) {

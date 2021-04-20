@@ -21,10 +21,8 @@ public class DownloadPdfAction extends DefaultMenuAction<Void> {
 
 	@Override
 	public void execute(Void item, AppWFull app) {
-		imageExporter.export(getUrl());
-	}
-
-	private String getUrl() {
-		return app.getGgbApi().exportPDF(1, null, null);
+		app.getGgbApi().exportPDF(1, null, (pdf) -> {
+			imageExporter.export(pdf);
+		}, null);
 	}
 }

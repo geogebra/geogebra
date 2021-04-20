@@ -59,4 +59,31 @@ public final class ExportLoader {
 			ResourcesInjector.loadJS(scriptElement, loadCallback);
 		}
 	}
+
+	@JsOverlay
+	public static void onCanvas2PdfLoaded(Runnable callback) {
+		if (getCanvas2Pdf() != null) {
+			callback.run();
+		} else {
+			ScriptElement scriptElement = Document.get().createScriptElement();
+			scriptElement.setSrc(GWT.getModuleBaseURL() + "js/canvas2pdf.min.js");
+			ScriptLoadCallback loadCallback = new ScriptLoadCallback() {
+				@Override
+				public void onLoad() {
+					callback.run();
+				}
+
+				@Override
+				public void onError() {
+					Log.error("Canvas2PDF failed to load");
+				}
+
+				@Override
+				public void cancel() {
+					// only for localization files
+				}
+			};
+			ResourcesInjector.loadJS(scriptElement, loadCallback);
+		}
+	}
 }
