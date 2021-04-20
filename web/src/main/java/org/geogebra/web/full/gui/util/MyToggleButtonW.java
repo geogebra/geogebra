@@ -34,7 +34,10 @@ public class MyToggleButtonW extends GToggleButton
 		initButton();
 	}
 
-
+	/**
+	 * @param image
+	 *            image
+	 */
 	public MyToggleButtonW(Image image) {
 		super(image);
 		initButton();
