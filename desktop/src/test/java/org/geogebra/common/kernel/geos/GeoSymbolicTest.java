@@ -1364,9 +1364,44 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(
 				asind.getValueForInputBar(),
 				equalTo("180° sin⁻¹(2 / 5) / π"));
+
+		asind.setSymbolicMode(false, false);
 		assertThat(
-				asind.getTwinGeo().toValueString(StringTemplate.defaultTemplate),
+				asind.getValueForInputBar(),
 				equalTo("23.5781784782°"));
+	}
+
+	@Test
+	public void testArcdFunctionsReturnDegrees() {
+		GeoSymbolic asind = add("asind(1/5)");
+		assertThat(
+				asind.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+				equalTo("180^{\\circ} \\cdot "
+						+ "\\frac{\\operatorname{sin⁻¹} \\left( \\frac{1}{5} \\right)}{\\pi }"));
+		asind.setSymbolicMode(false, false);
+		assertThat(
+				asind.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+				equalTo("11.5369590328°"));
+
+		GeoSymbolic acosd = add("acosd(1/5)");
+		assertThat(
+				acosd.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+				equalTo("180^{\\circ} \\cdot "
+						+ "\\frac{\\operatorname{cos⁻¹} \\left( \\frac{1}{5} \\right)}{\\pi }"));
+		acosd.setSymbolicMode(false, false);
+		assertThat(
+				acosd.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+				equalTo("78.4630409672°"));
+
+		GeoSymbolic atand = add("atand(1/5)");
+		assertThat(
+				atand.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+				equalTo("180^{\\circ} \\cdot "
+						+ "\\frac{\\operatorname{tan⁻¹} \\left( \\frac{1}{5} \\right)}{\\pi }"));
+		atand.setSymbolicMode(false, false);
+		assertThat(
+				atand.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+				equalTo("11.309932474°"));
 	}
 
 	@Test

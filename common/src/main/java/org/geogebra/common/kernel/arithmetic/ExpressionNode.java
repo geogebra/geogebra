@@ -847,7 +847,7 @@ public class ExpressionNode extends ValidExpression
 			left = left.traverse(t);
 		}
 
-		if (right != null) {
+		if (right != null && !operation.isUnary()) {
 			right = right.traverse(t);
 		}
 
@@ -864,7 +864,7 @@ public class ExpressionNode extends ValidExpression
 	@Override
 	public boolean inspect(Inspecting t) {
 		return t.check(this) || left.inspect(t)
-				|| (right != null && right.inspect(t));
+				|| (right != null && !operation.isUnary() && right.inspect(t));
 	}
 
 	@Override

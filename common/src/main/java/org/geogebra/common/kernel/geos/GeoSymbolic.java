@@ -154,10 +154,15 @@ public class GeoSymbolic extends GeoElement
 
 	private String getNumericValueString(StringTemplate tpl) {
 		assert hasNumericValue();
-		if (numericValue != null) {
+		GeoElementND twin = getTwinGeo();
+		if (twin != null && twin.isGeoAngle()) {
+			return twin.toValueString(tpl);
+		} else if (numericValue != null) {
 			return numericValue.toValueString(tpl);
+		} else {
+			assert twin != null;
+			return twin.toValueString(tpl);
 		}
-		return getTwinGeo().toValueString(tpl);
 	}
 
 	@Override
@@ -832,7 +837,7 @@ public class GeoSymbolic extends GeoElement
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return twinGeo != null
-				? twinGeo.toLaTeXString(symbolic, tpl)
+				? twinGeo.toLaTeXString(symbolic, isSymbolicMode(), tpl)
 				: symbolic ? getDefinition(tpl) : toValueString(tpl);
 	}
 

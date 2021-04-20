@@ -77,10 +77,12 @@ public class MyPoint3D extends MyPoint {
 	}
 
 	/**
-	 * @param z
-	 *            z-coord
+	 * @param x  x-coord
+	 * @param y  y-coord
+	 * @param z  z-coord
 	 */
-	public void setZ(double z) {
+	public void setLocation(double x, double y, double z) {
+		setLocation(x, y);
 		this.z = z;
 	}
 
