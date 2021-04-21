@@ -47,9 +47,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 
 import elemental2.dom.CSSProperties;
-import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLCanvasElement;
-import jsinterop.base.Js;
 
 public class ImageW implements Image {
 

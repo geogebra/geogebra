@@ -1,15 +1,14 @@
 package com.himamis.retex.renderer.web.graphics;
 
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 
 import elemental2.dom.HTMLImageElement;
 
 public class ImageWImg implements Image {
-	int width;
-	int height;
-	HTMLImageElement image;
+	private final int width;
+	private final int height;
+	private final HTMLImageElement image;
 
 	/**
 	 * @param img image
@@ -37,7 +36,7 @@ public class ImageWImg implements Image {
 		return null;
 	}
 
-	public HTMLImageElement getImage(){
+	public HTMLImageElement getImage() {
 		return image;
 	}
 }

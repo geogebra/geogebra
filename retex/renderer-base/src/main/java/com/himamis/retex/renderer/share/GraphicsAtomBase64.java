@@ -46,7 +46,6 @@
 package com.himamis.retex.renderer.share;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 
 /**
@@ -54,23 +53,19 @@ import com.himamis.retex.renderer.share.platform.graphics.Image;
  */
 public class GraphicsAtomBase64 extends Atom {
 
-	private Image image = null;
-	private HasForegroundColor c;
-	private int w, h;
-
-	private Atom base;
+	private final Image image;
+	private final int w;
+	private final int h;
 
 	public GraphicsAtomBase64(int width, int height, String base64) {
 		image = FactoryProvider.getInstance().getGraphicsFactory()
 				.createImage(base64, width, height);
-		base = this;
 		w = image.getWidth();
 		h = image.getHeight();
 	}
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
-
 		env.isColored = true;
 		final double width = w * Unit.PIXEL.getFactor(env);
 		final double height = h

@@ -84,25 +84,25 @@ public class GraphicsFactoryDesktop extends GraphicsFactory {
 
 	@Override
 	public Image createImage(String base64, int width, int height) {
-			String pngBase64 = base64;
-			final String pngMarker = "data:image/png;base64,";
+		String pngBase64 = base64;
+		final String pngMarker = "data:image/png;base64,";
 
-			if (pngBase64.startsWith(pngMarker)) {
-				pngBase64 = pngBase64.substring(pngMarker.length());
-			} else {
-				FactoryProvider.debugS("invalid base64 image");
-				return null;
-			}
-
-			byte[] imageData = Base64.decode(pngBase64);
-
-			try {
-				return new ImageD(ImageIO.read(new ByteArrayInputStream(imageData)));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
+		if (pngBase64.startsWith(pngMarker)) {
+			pngBase64 = pngBase64.substring(pngMarker.length());
+		} else {
+			FactoryProvider.debugS("invalid base64 image");
 			return null;
+		}
+
+		byte[] imageData = Base64.decode(pngBase64);
+
+		try {
+			return new ImageD(ImageIO.read(new ByteArrayInputStream(imageData)));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	@Override
