@@ -74,7 +74,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Executors;
@@ -288,8 +287,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// ==============================================================
 	// RESOURCE fields
 	// ==============================================================
-
-	private ResourceBundle rbmenuEnglish;
 
 	private final LocalizationD loc;
 
