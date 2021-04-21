@@ -56,4 +56,11 @@ public class TempStorage {
         tempMaterialId = 0;
         tempMaterials = new LinkedHashMap<>();
     }
+    
+    /**
+     * @return the current material
+     */
+    public Material getCurrentMaterial() {
+        return currentMaterial;
+    }
 }
