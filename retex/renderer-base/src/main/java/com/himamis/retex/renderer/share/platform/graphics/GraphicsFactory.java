@@ -78,6 +78,10 @@ public abstract class GraphicsFactory {
 
 	public abstract Image createImage(int width, int height, int type);
 
+	public Image createImage(String base64, int width, int height) {
+		return null;
+	}
+
 	public abstract Transform createTransform();
 
 	public Color createColor(int rgb) {

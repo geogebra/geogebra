@@ -45,27 +45,27 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
-import com.himamis.retex.renderer.share.platform.graphics.ImageBase64;
+import com.himamis.retex.renderer.share.platform.graphics.Image;
 
 /**
  * An atom representing an atom containing a graphic.
  */
 public class GraphicsAtomBase64 extends Atom {
 
-	private ImageBase64 image = null;
+	private Image image = null;
 	private HasForegroundColor c;
 	private int w, h;
 
 	private Atom base;
 
 	public GraphicsAtomBase64(int width, int height, String base64) {
-		image = new ImageBase64(base64, width, height);
+		image = FactoryProvider.getInstance().getGraphicsFactory()
+				.createImage(base64, width, height);
 		base = this;
-
 		w = image.getWidth();
 		h = image.getHeight();
-
 	}
 
 	@Override

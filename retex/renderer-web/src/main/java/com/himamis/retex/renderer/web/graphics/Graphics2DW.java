@@ -53,7 +53,6 @@ import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
-import com.himamis.retex.renderer.share.platform.graphics.ImageBase64;
 import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 import com.himamis.retex.renderer.share.platform.graphics.Transform;
 import com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform;
@@ -471,23 +470,10 @@ public class Graphics2DW implements Graphics2DInterface {
 	@Override
 	public void drawImage(Image image, final int x, final int y) {
 
-		if (image instanceof ImageBase64) {
-			String base64 = ((ImageBase64) image).getBase64();
-			HTMLImageElement img = (HTMLImageElement) DomGlobal.document.createElement("img");
-			img.setAttribute("src", base64);
-
-			img.addEventListener("load", new EventListener() {
-				@Override
-				public void handleEvent(Event evt) {
-					context.drawImage(img, x, y);
-				}
-			});
-
-			context.drawImage(img, x, y);
-
-			// ImageElement img2 = ImageElement.as(img.getElement());
-			// context.drawImage(img2, x, y);
-
+		if (image instanceof ImageWImg) {
+			ImageWImg impl = (ImageWImg) image;
+			HTMLImageElement canvasElement = impl.getImage();
+			context.drawImage(canvasElement, x, y);
 		} else {
 			ImageW impl = (ImageW) image;
 			HTMLCanvasElement canvasElement = impl.getCanvas();
