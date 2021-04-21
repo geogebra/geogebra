@@ -23,7 +23,6 @@ public class LocalizationCommon extends LocalizationJre {
 	private static final String RB_SYMBOL = PROPERTIES_DIR + "symbols";
 	private static final String RB_COLORS = PROPERTIES_DIR + "colors";
 
-
 	private ResourceBundle.Control control;
 
 	/**
