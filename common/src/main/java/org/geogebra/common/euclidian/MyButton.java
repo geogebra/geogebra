@@ -243,13 +243,19 @@ public class MyButton implements Observer {
 		MyImage im = geoButton.getFillImage();
 		// draw image
 		if (im != null) {
-			GGeneralPath path = getClipRectangle(arcSize / 2.);
+			GGeneralPath path = getClipRectangle(arcSize / 2., widthCorrection);
 			g.setClip(path);
 
-			g.drawImage(im, startX, startY, imgWidth, imgHeight,
-					x + (getWidth() - imgWidth) / 2,
-					y + imgStart, imgWidth, imgHeight);
+			if (im.isSVG()) {
+				imgHeight = (int) (getHeight() - textHeight - imgGap);
+				imgStart = 0;
+				drawSVG(im, g, getWidth(), imgHeight);
+			} else {
+				g.drawImage(im, startX, startY, imgWidth, imgHeight,
+						x + (getWidth() - imgWidth) / 2,
+						y + imgStart, imgWidth, imgHeight);
 
+			}
 			g.resetClip();
 		}
 
@@ -260,11 +266,26 @@ public class MyButton implements Observer {
 		}
 	}
 
-	private GGeneralPath getClipRectangle(double r) {
+	private void drawSVG(MyImage im, GGraphics2D g, double width, double height) {
+		// SVG is scaled to the button size rather than cropped
+		double sx = im.getWidth() / width;
+		double sy = im.getHeight() / height;
+
+		g.saveTransform();
+
+		g.scale(1 / sx, 1 / sy);
+		g.translate(x * sx, y * sy);
+
+		g.drawImage(im, 0, 0);
+
+		g.restoreTransform();
+	}
+
+	private GGeneralPath getClipRectangle(double r, double widthCorrection) {
 		GGeneralPath path = AwtFactory.getPrototype().newGeneralPath();
 		double K = 4.0 / 3 * (Math.sqrt(2) - 1);
 
-		double right = x + getWidth();
+		double right = x + getWidth() + (int) widthCorrection - 1;
 		double bottom = y + getHeight();
 
 		path.moveTo(x + r, y);
