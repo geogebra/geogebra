@@ -14,7 +14,9 @@ import java.util.TreeSet;
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.factories.UtilFactory;
+import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.advanced.AlgoDynamicCoordinates;
 import org.geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
@@ -32,6 +34,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
@@ -57,7 +60,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * A prover which uses Francisco Botana's method to prove geometric theorems.
- * 
+ *
  * @author Zoltan Kovacs
  * @author Csilla Solyom-Gecse
  *
@@ -69,11 +72,9 @@ public class ProverBotanasMethod {
 
 	/**
 	 * Inverse mapping of botanaVars for a given statement.
-	 * 
-	 * @param statement
-	 *            the input statement
-	 * @throws NoSymbolicParametersException
-	 *             if implementation is missing
+	 *
+	 * @param statement the input statement
+	 * @throws NoSymbolicParametersException if implementation is missing
 	 */
 	static void updateBotanaVarsInv(GeoElement statement)
 			throws NoSymbolicParametersException {
@@ -94,9 +95,8 @@ public class ProverBotanasMethod {
 
 	/**
 	 * Compute free points in a statement.
-	 * 
-	 * @param statement
-	 *            the input statement
+	 *
+	 * @param statement the input statement
 	 * @return list of free points
 	 */
 	public static List<GeoElement> getFreePoints(GeoElement statement) {
@@ -115,9 +115,8 @@ public class ProverBotanasMethod {
 	 * Works similarly like getFreePoints(), but geos whose parent is
 	 * AlgoDynamicCoordinates will be used as free points and their predecessors
 	 * can be ignored.
-	 * 
-	 * @param geo
-	 *            input geo
+	 *
+	 * @param geo input geo
 	 * @return list of free points
 	 */
 	private static HashSet<GeoElement> getLocusFreePoints(GeoElement geo) {
@@ -145,13 +144,10 @@ public class ProverBotanasMethod {
 	/**
 	 * Creates those polynomials which describe that none of 3 free points can
 	 * lie on the same line.
-	 * 
-	 * @param prover
-	 *            the underlying prover
-	 * 
+	 *
+	 * @param prover the underlying prover
 	 * @return the NDG polynomials (in denial form)
-	 * @throws NoSymbolicParametersException
-	 *             if implementation is missing
+	 * @throws NoSymbolicParametersException if implementation is missing
 	 */
 	static PPolynomial[] create3FreePointsNeverCollinearNDG(
 			Prover prover) throws NoSymbolicParametersException {
@@ -235,11 +231,9 @@ public class ProverBotanasMethod {
 
 	/**
 	 * Comparisan that gives true when comparing undefined object with self
-	 * 
-	 * @param geo1
-	 *            comparison argument
-	 * @param geo3
-	 *            comparison argument
+	 *
+	 * @param geo1 comparison argument
+	 * @param geo3 comparison argument
 	 * @return whether objects have equal value or are identical
 	 */
 	private static boolean isEqual(GeoElement geo1, GeoElement geo3) {
@@ -251,19 +245,17 @@ public class ProverBotanasMethod {
 	 * "easy" numbers. The first two variables (usually the coordinates of the
 	 * first point) are set to 0, and the second two variables (usually the
 	 * coordinates of the second point) are set to 0 and 1.
-	 * 
-	 * @param prover
-	 *            the input prover
-	 * @param coords
-	 *            number of fixed coordinates
+	 *
+	 * @param prover the input prover
+	 * @param coords number of fixed coordinates
 	 * @return a HashMap, containing the substitutions
 	 * @throws NoSymbolicParametersException
 	 */
 	private static HashMap<PVariable, BigInteger> fixValues(Prover prover,
 			int coords) throws NoSymbolicParametersException {
 
-		BigInteger[] fixCoords = { BigInteger.ZERO, BigInteger.ZERO,
-				BigInteger.ZERO, BigInteger.ONE };
+		BigInteger[] fixCoords = {BigInteger.ZERO, BigInteger.ZERO,
+				BigInteger.ZERO, BigInteger.ONE};
 
 		GeoElement statement = prover.getStatement();
 		List<GeoElement> freePoints = getFreePoints(statement);
@@ -331,6 +323,15 @@ public class ProverBotanasMethod {
 		 */
 		Set<PVariable> freeVariables = new HashSet<>();
 		/**
+		 * The set of "almost free" variables. They are free in most cases, but we
+		 * should avoid the assumption that they are free. So, if other variables
+		 * can be chosen for substitution, then they are preferred. E.g. a coordinate
+		 * of a point on a path is almost free, because in most cases we can
+		 * set one of the coordinates freely. But in some degenerate cases, it is not so,
+		 * e.g. for vertical or horizontal lines.
+		 */
+		Set<PVariable> almostFreeVariables = new HashSet<>();
+		/**
 		 * Should the "false" result be interpreted as undefined?
 		 */
 		boolean interpretFalseAsUndefined = false;
@@ -341,7 +342,7 @@ public class ProverBotanasMethod {
 
 		private boolean disallowFixSecondPoint = false;
 
-		private String polys, elimVars, freeVars;
+		private String polys, elimVars, freeVars, freeVarsWithoutAlmostFree, elimVarsWithAlmostFree;
 
 		private PPolynomial[] thesisFactors;
 		private HashMap<GeoElement, PPolynomial[]> geoPolys = new HashMap<>();
@@ -372,7 +373,7 @@ public class ProverBotanasMethod {
 		/**
 		 * Return the polynomials of the algebraic structure as a String. Use
 		 * computeStrings() before using this method.
-		 * 
+		 *
 		 * @return polynomials in String format
 		 */
 		public String getPolys() {
@@ -381,9 +382,8 @@ public class ProverBotanasMethod {
 
 		/**
 		 * Retrieve polynomial belonging to a given GeoElement.
-		 * 
-		 * @param geo
-		 *            input geometric object
+		 *
+		 * @param geo input geometric object
 		 * @return algebraic representation of the geometric object
 		 */
 		public PPolynomial[] getGeoPolys(GeoElement geo) {
@@ -392,7 +392,7 @@ public class ProverBotanasMethod {
 
 		/**
 		 * Retrieve free variables.
-		 * 
+		 *
 		 * @return the set of free variables
 		 */
 		public Set<PVariable> getFreeVariables() {
@@ -400,13 +400,20 @@ public class ProverBotanasMethod {
 		}
 
 		/**
+		 * Retrieve free variables.
+		 *
+		 * @return the set of free variables
+		 */
+		public Set<PVariable> getAlmostFreeVariables() {
+			return almostFreeVariables;
+		}
+
+		/**
 		 * Add algebraic representation of a geometric object to the polynomial
 		 * system. It may contain one or more polynomials.
-		 * 
-		 * @param geo
-		 *            geometric object
-		 * @param ps
-		 *            algebraic representation of the geometric object
+		 *
+		 * @param geo geometric object
+		 * @param ps  algebraic representation of the geometric object
 		 */
 		public void addGeoPolys(GeoElement geo, PPolynomial[] ps) {
 			geoPolys.put(geo, ps);
@@ -418,12 +425,17 @@ public class ProverBotanasMethod {
 		/**
 		 * Remove all polynomials from the system which describe constraints of
 		 * the given input geometric object
-		 * 
-		 * @param geo
-		 *            geometric object
+		 *
+		 * @param geo geometric object
 		 */
 		public void removeGeoPolys(GeoElement geo) {
+			if (geoPolys.isEmpty()) {
+				return; // do nothing
+			}
 			PPolynomial[] ps = geoPolys.get(geo);
+			if (ps == null) {
+				return;
+			}
 			for (PPolynomial p : ps) {
 				removePolynomial(p);
 			}
@@ -433,6 +445,7 @@ public class ProverBotanasMethod {
 		/**
 		 * Return the elimination variables of the algebraic structure as a
 		 * String. Use computeStrings() before using this method.
+		 *
 		 * @return elimination variables in String format
 		 */
 		public String getElimVars() {
@@ -440,13 +453,35 @@ public class ProverBotanasMethod {
 		}
 
 		/**
+		 * Return the elimination variables plus the almost free variables
+		 * of the algebraic structure as a String.
+		 * Use computeStrings() before using this method.
+		 *
+		 * @return elimination variables in String format
+		 */
+		public String getElimVarsWithAlmostFree() {
+			return elimVarsWithAlmostFree;
+		}
+
+		/**
 		 * Return the free variables of the algebraic structure as a String. Use
 		 * computeStrings() before using this method.
-		 * 
+		 *
 		 * @return free variables in String format
 		 */
 		public String getFreeVars() {
 			return freeVars;
+		}
+
+		/**
+		 * Return the free variables of the algebraic structure as a String. Use
+		 * computeStrings() before using this method. This method does not return
+		 * those variables that are almost free.
+		 *
+		 * @return free variables in String format
+		 */
+		public String getFreeVarsWithoutAlmostFree() {
+			return freeVarsWithoutAlmostFree;
 		}
 
 		/**
@@ -474,9 +509,8 @@ public class ProverBotanasMethod {
 
 		/**
 		 * Add a polynomial to the system manually.
-		 * 
-		 * @param p
-		 *            the polynomial to be added
+		 *
+		 * @param p the polynomial to be added
 		 */
 		public void addPolynomial(PPolynomial p) {
 			if (polynomials.contains(p)) {
@@ -490,9 +524,8 @@ public class ProverBotanasMethod {
 
 		/**
 		 * Remove a polynomial from the system manually.
-		 * 
-		 * @param p
-		 *            the polynomial to be removed
+		 *
+		 * @param p the polynomial to be removed
 		 */
 		public void removePolynomial(PPolynomial p) {
 			polynomials.remove(p);
@@ -500,7 +533,7 @@ public class ProverBotanasMethod {
 
 		/**
 		 * The result of the computation.
-		 * 
+		 *
 		 * @return result
 		 */
 		public ProofResult getResult() {
@@ -510,23 +543,28 @@ public class ProverBotanasMethod {
 		/**
 		 * Create an algebraic equation system of the statement given in the
 		 * construction, by using the underlying prover settings.
-		 * 
-		 * @param statement
-		 *            the statement to be proven
-		 * @param movingPoint
-		 *            use numerical approximation for this element instead of
-		 *            computing it symbolically. This can be useful if an
-		 *            element cannot be precisely described symbolically: only
-		 *            its generalized formula can be described symbolically.
-		 * @param prover
-		 *            the underlying prover
+		 *
+		 * @param statement   the statement to be proven
+		 * @param movingPoint use numerical approximation for this element instead of
+		 *                    computing it symbolically. This can be useful if an
+		 *                    element cannot be precisely described symbolically: only
+		 *                    its generalized formula can be described symbolically.
+		 * @param prover      the underlying prover
 		 */
 
 		public AlgebraicStatement(GeoElement statement, GeoElement movingPoint,
 				Prover prover) {
-			if (statement.kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
-				algebraicTranslation(statement, movingPoint, prover);
+			CASGenericInterface c = statement.kernel.getGeoGebraCAS().getCurrentCAS();
+			if (c.isLoaded()) {
+				Log.debug("GeoGebra thinks Giac is loaded.");
+				if (c.evaluateCAS("1+1").equals("2")) {
+					algebraicTranslation(statement, movingPoint, prover);
+					return;
+				}
+				Log.debug("But 1+1=2 seems to be problematic.");
+				result = ProofResult.PROCESSING;
 			} else {
+				Log.debug("GeoGebra thinks Giac is not loaded yet.");
 				result = ProofResult.PROCESSING;
 			}
 		}
@@ -536,6 +574,7 @@ public class ProverBotanasMethod {
 		 */
 		public void computeStrings() {
 			TreeSet<PVariable> dependentVariables = new TreeSet<>();
+			TreeSet<PVariable> dependentVariablesWithAlmostFree = new TreeSet<>();
 
 			PPolynomial[] eqSystem = this.getPolynomials()
 					.toArray(new PPolynomial[this.getPolynomials().size()]);
@@ -546,7 +585,11 @@ public class ProverBotanasMethod {
 			while (variablesIterator.hasNext()) {
 				PVariable variable = variablesIterator.next();
 				if (!freeVariables.contains(variable)) {
+					dependentVariablesWithAlmostFree.add(variable);
 					dependentVariables.add(variable);
+				}
+				if (almostFreeVariables.contains(variable)) {
+					dependentVariablesWithAlmostFree.add(variable);
 				}
 			}
 
@@ -572,8 +615,46 @@ public class ProverBotanasMethod {
 					eqSystemSubstituted, null, false, freeVariables);
 			this.freeVars = PPolynomial.getVarsAsCommaSeparatedString(
 					eqSystemSubstituted, null, true, freeVariables);
+			this.elimVarsWithAlmostFree = PPolynomial.getVarsAsCommaSeparatedString(
+					eqSystemSubstituted, null, true, dependentVariablesWithAlmostFree);
+			this.freeVarsWithoutAlmostFree = PPolynomial.getVarsAsCommaSeparatedString(
+					eqSystemSubstituted, null, false, dependentVariablesWithAlmostFree);
+
 			Log.trace("gbt polys = " + polys);
 			Log.trace("gbt vars = " + elimVars + "," + freeVars);
+		}
+
+		/*
+		 * Do a breadth first search from the statement (s)
+		 * back towards its predecessors. Do not continue
+		 * traversing when the numerical object (n) is reached.
+		 * The visited objects will be kept. This does not
+		 * include the numerical object.
+		 */
+		private HashSet<GeoElement> keptElements (GeoElement n, GeoElement s) {
+			HashSet<GeoElement> keptElements = new HashSet<>();
+			HashSet<GeoElement> toProcess = new HashSet<>();
+			toProcess.add(s);
+
+			while (!toProcess.isEmpty()) {
+				keptElements.addAll(toProcess);
+				Iterator<GeoElement> it = toProcess.iterator();
+				HashSet<GeoElement> toFurtherProcess = new HashSet<>();
+				while (it.hasNext()) {
+					GeoElement processed = it.next();
+					AlgoElement aeProcessed = processed.getParentAlgorithm();
+					if (aeProcessed != null) {
+						GeoElement[] processedInputs = aeProcessed.getInput();
+						for (GeoElement input : processedInputs) {
+							if (!input.equals(n)) {
+								toFurtherProcess.add(input);
+							}
+						}
+					}
+				}
+				toProcess = toFurtherProcess;
+			}
+			return keptElements;
 		}
 
 		private void setHypotheses(GeoElement movingPoint) {
@@ -594,7 +675,7 @@ public class ProverBotanasMethod {
 			 * existing equations and those will be symbolic in all cases, that
 			 * is, it would be better to compute all numerical equations first
 			 * or (even better) during the symbolic process.
-			 * 
+			 *
 			 * We don't use numerical formula for implicit locus to avoid
 			 * contradiction.
 			 */
@@ -603,13 +684,14 @@ public class ProverBotanasMethod {
 			if (movingPoint != null
 					&& (numAlgo = movingPoint.getParentAlgorithm()) != null
 					&& (geoProver
-							.getProverEngine() != ProverEngine.LOCUS_IMPLICIT)) {
+					.getProverEngine() != ProverEngine.LOCUS_IMPLICIT)) {
 				numerical = (GeoElement) numAlgo.getInput(0);
 
 				/*
-				 * Normally we don't want to use the numerical formula for
+				 * Formerly we did not want to use the numerical formula for
 				 * linear objects. Now we still compute the numerical formula
-				 * for most of the cases.
+				 * for most of the cases to avoid contradictions between
+				 * approximated values and exact symbolic values.
 				 */
 				if (numerical instanceof GeoSegment
 						|| numerical instanceof GeoConicPart) {
@@ -634,22 +716,48 @@ public class ProverBotanasMethod {
 				AlgoElement algo = geo.getParentAlgorithm();
 				if (!(geo instanceof GeoNumeric
 						&& (algo instanceof AlgoDependentNumber
-								|| algo == null))) {
+						|| algo == null))) {
 					predecessors.add(geo);
 				}
+
+				/*
+				 * No object may be numerical if it is later referenced
+				 * in another object by a non-point-on-path way.
+				 */
+				if (algo != null) {
+					GeoElement[] inputs = algo.getInput();
+					for (GeoElement input : inputs) {
+						if (numerical != null &&
+								numerical.equals(input) && !(algo instanceof AlgoPointOnPath)) {
+							// Forbid numerical computation in this case:
+							numerical = null;
+						}
+					}
+				}
 			}
+
+			/*
+			 * All such predecessors of the statement object that are predecessors
+			 * of only the numerical object can be safely ignored.
+			 */
+			if (numerical != null) {
+				predecessors.retainAll(keptElements(numerical, geoStatement));
+			}
+
 			ProverSettings proverSettings = ProverSettings.get();
 			it = predecessors.iterator();
 			while (it.hasNext()) {
 				GeoElement geo = it.next();
-				if (geo instanceof SymbolicParametersBotanaAlgo) {
+				if (geo.equals(numerical)) {
+					Log.debug("Using " + geo + " as a numerical object, not considering its symbolic counterpart");
+				} else if (geo instanceof SymbolicParametersBotanaAlgo) {
 					try {
 						if (geo instanceof GeoLine
 								&& ((GeoLine) geo).hasFixedSlope()
 								&& !(geoProver
-										.getProverEngine() == ProverEngine.LOCUS_EXPLICIT
-										|| geoProver
-												.getProverEngine() == ProverEngine.LOCUS_IMPLICIT)) {
+								.getProverEngine() == ProverEngine.LOCUS_EXPLICIT
+								|| geoProver
+								.getProverEngine() == ProverEngine.LOCUS_IMPLICIT)) {
 							Log.info(
 									"Statements containing axes or fixed slope lines are unsupported");
 							result = ProofResult.UNKNOWN;
@@ -663,10 +771,10 @@ public class ProverBotanasMethod {
 						if (!("".equals(command))) {
 							Log.debug(geo.getLabelSimple() + " = "
 									+ geo.getDefinition(
-											StringTemplate.noLocalDefault)
+									StringTemplate.noLocalDefault)
 									+ " /* "
 									+ geo.getDefinitionDescription(
-											StringTemplate.noLocalDefault)
+									StringTemplate.noLocalDefault)
 									+ " */");
 						} else {
 							String description = geo
@@ -708,20 +816,20 @@ public class ProverBotanasMethod {
 						 * geometrically, "seemingly" the statement was true. To
 						 * avoid such confusing cases, it was better to report
 						 * undefined instead of false.
-						 * 
+						 *
 						 * Now we check the statement's negation as well and it
 						 * is enough to handle those cases.
-						 * 
+						 *
 						 * TODO: This piece of code can be removed on a cleanup.
 						 */
 						if (algo instanceof AlgoAngularBisectorPoints
 								|| algo instanceof AlgoEllipseHyperbolaFociPoint
 								|| (algo instanceof AlgoIntersectConics
-										&& ((AlgoIntersectConics) algo)
-												.existingIntersections() != 1)
+								&& ((AlgoIntersectConics) algo)
+								.existingIntersections() != 1)
 								|| (algo instanceof AlgoIntersectLineConic
-										&& ((AlgoIntersectLineConic) algo)
-												.existingIntersections() != 1)) {
+								&& ((AlgoIntersectLineConic) algo)
+								.existingIntersections() != 1)) {
 							// interpretFalseAsUndefined = true;
 							Log.info(algo
 									+ " is not 1-1 algebraic mapping, but FALSE will not be interpreted as UNKNOWN");
@@ -743,11 +851,12 @@ public class ProverBotanasMethod {
 							if (algo instanceof AlgoPointOnPath
 									|| geo instanceof GeoNumeric) {
 								freeVariables.add(geoVariables[0]);
+								almostFreeVariables.add(geoVariables[0]);
 							} else if (algo instanceof AlgoDynamicCoordinates
 									|| (geo instanceof GeoLine
-											&& ((GeoLine) geo).hasFixedSlope())
+									&& ((GeoLine) geo).hasFixedSlope())
 									|| (geo instanceof GeoPoint
-											&& algo == null)) {
+									&& algo == null)) {
 								for (PVariable geoVariable : geoVariables) {
 									freeVariables.add(geoVariable);
 									Log.debug(geoVariable + " is free");
@@ -781,8 +890,7 @@ public class ProverBotanasMethod {
 						 * affected.
 						 */
 						if (algo instanceof AlgoPointOnPath
-								&& algo.input[0] instanceof GeoLine
-								&& proverSettings.transcext) {
+								&& algo.input[0] instanceof GeoLine) {
 							maxFixcoords = 2;
 						}
 
@@ -802,7 +910,7 @@ public class ProverBotanasMethod {
 							boolean useThisPoly = true;
 							if (algo != null && algo instanceof AlgoPointOnPath
 									&& geoProver
-											.getProverEngine() == ProverEngine.LOCUS_EXPLICIT) {
+									.getProverEngine() == ProverEngine.LOCUS_EXPLICIT) {
 								/*
 								 * Is this an Envelope command with geo on the
 								 * virtual path? In this case we should not
@@ -819,11 +927,6 @@ public class ProverBotanasMethod {
 									 */
 									useThisPoly = false;
 								}
-							}
-							if (geo.equals(numerical)) {
-								// don't create the symbolic equation for a
-								// numerically used object
-								useThisPoly = false;
 							}
 							if (numerical == null) {
 								// there is no numerical object,
@@ -892,7 +995,7 @@ public class ProverBotanasMethod {
 						giacOutput4 = cas.getCurrentCAS()
 								.evaluateRaw(strForGiac4);
 					} catch (Throwable t) {
-						Log.debug("Problem on running Giac (maybe uninitialized?)");
+						Log.debug("Problem on running Giac");
 						result = ProofResult.UNKNOWN;
 						return;
 					}
@@ -944,8 +1047,7 @@ public class ProverBotanasMethod {
 		}
 
 		/**
-		 * @param numerical
-		 *            numerical object
+		 * @param numerical numerical object
 		 * @return equation as string
 		 */
 		String getFormulaString(GeoElement numerical) {
@@ -1049,10 +1151,10 @@ public class ProverBotanasMethod {
 								factors[0] = factors[0].substring(1);
 								factors[factors.length
 										- 1] = factors[factors.length - 1]
-												.substring(0,
-														factors[factors.length
-																- 1].length()
-																- 1);
+										.substring(0,
+												factors[factors.length
+														- 1].length()
+														- 1);
 							}
 							boolean polyIsConst = false;
 							if (factors.length == 1 && factors[0]
@@ -1066,12 +1168,12 @@ public class ProverBotanasMethod {
 									// parse factors into expression
 									ValidExpression resultVE = (geoStatement
 											.getKernel().getGeoGebraCAS())
-													.getCASparser()
-													.parseGeoGebraCASInputAndResolveDummyVars(
-															factor,
-															geoStatement
-																	.getKernel(),
-															null);
+											.getCASparser()
+											.parseGeoGebraCASInputAndResolveDummyVars(
+													factor,
+													geoStatement
+															.getKernel(),
+													null);
 									PolynomialNode polyRoot = new PolynomialNode();
 									// build polynomial to parsed expression
 									((AlgoDependentBoolean) algo)
@@ -1116,11 +1218,11 @@ public class ProverBotanasMethod {
 						if (!("{}".equals(output))) {
 							ValidExpression validExpression = (geoStatement
 									.getKernel().getGeoGebraCAS())
-											.getCASparser()
-											.parseGeoGebraCASInputAndResolveDummyVars(
-													output,
-													geoStatement.getKernel(),
-													null);
+									.getCASparser()
+									.parseGeoGebraCASInputAndResolveDummyVars(
+											output,
+											geoStatement.getKernel(),
+											null);
 							PolynomialNode polyRoot = new PolynomialNode();
 							ExpressionNode expNode = new ExpressionNode(
 									geoStatement.getKernel(),
@@ -1190,13 +1292,13 @@ public class ProverBotanasMethod {
 					if (operation == Operation.IS_ELEMENT_OF) {
 						if (algo.input[0] instanceof GeoConic
 								&& (((GeoConic) algo.input[0]).isEllipse()
-										|| ((GeoConic) algo.input[0])
-												.isHyperbola())) {
+								|| ((GeoConic) algo.input[0])
+								.isHyperbola())) {
 							interpretTrueAsUndefined = true;
 						} else if (algo.input[1] instanceof GeoConic
 								&& (((GeoConic) algo.input[1]).isEllipse()
-										|| ((GeoConic) algo.input[1])
-												.isHyperbola())) {
+								|| ((GeoConic) algo.input[1])
+								.isHyperbola())) {
 							interpretTrueAsUndefined = true;
 						}
 					} else if (operation == Operation.EQUAL_BOOLEAN) {
@@ -1288,7 +1390,7 @@ public class ProverBotanasMethod {
 		}
 
 		private void algebraicTranslation(GeoElement statement,
-				GeoElement numerical, Prover prover) {
+				GeoElement movingPoint, Prover prover) {
 			ProverSettings proverSettings = ProverSettings.get();
 			geoStatement = statement;
 			geoProver = prover;
@@ -1298,8 +1400,11 @@ public class ProverBotanasMethod {
 			 * redundant, it would be enough to set the prover here.
 			 */
 			prover.setStatement(statement);
-			setHypotheses(numerical);
+			setHypotheses(movingPoint);
 			if (result != null) {
+				return;
+			}
+			if (prover.getProverEngine() == ProverEngine.LOCUS_EXPLICIT) {
 				return;
 			}
 			try {
@@ -1307,9 +1412,6 @@ public class ProverBotanasMethod {
 			} catch (NoSymbolicParametersException e) {
 				Log.debug("Botana vars cannot be inverted");
 				result = ProofResult.UNKNOWN;
-				return;
-			}
-			if (prover.getProverEngine() == ProverEngine.LOCUS_EXPLICIT) {
 				return;
 			}
 			setThesis();
@@ -1339,9 +1441,8 @@ public class ProverBotanasMethod {
 
 	/**
 	 * Proves the statement by using Botana's method
-	 * 
-	 * @param prover
-	 *            the prover input object
+	 *
+	 * @param prover the prover input object
 	 * @return if the statement is true
 	 */
 	public ProofResult prove(Prover prover) {
@@ -1411,7 +1512,7 @@ public class ProverBotanasMethod {
 
 		if (prover.isReturnExtraNDGs() ||
 				!prover.getConstruction().getApplication()
-				.singularWSisAvailable()) {
+						.singularWSisAvailable()) {
 			/* START OF PROVEDETAILS. */
 			Set<Set<PPolynomial>> eliminationIdeal;
 			NDGDetector ndgd = new NDGDetector(prover, substitutions,
@@ -1420,9 +1521,9 @@ public class ProverBotanasMethod {
 			boolean found = false;
 			int permutation = 0;
 			int MAX_PERMUTATIONS = 1; /*
-										 * Giac cannot permute the variables at
-										 * the moment.
-										 */
+			 * Giac cannot permute the variables at
+			 * the moment.
+			 */
 			if (prover.getConstruction().getApplication()
 					.singularWSisAvailable()) {
 				/*
@@ -1430,10 +1531,10 @@ public class ProverBotanasMethod {
 				 * prevent unneeded computations:
 				 */
 				MAX_PERMUTATIONS = 8; /*
-										 * intuitively set, see Polynomial.java
-										 * for more on info (Pappus6 will work
-										 * with 7, too)
-										 */
+				 * intuitively set, see Polynomial.java
+				 * for more on info (Pappus6 will work
+				 * with 7, too)
+				 */
 				/* Pappus6 is at https://www.geogebra.org/m/TEQGgRKe */
 			}
 			while (!found && permutation < MAX_PERMUTATIONS) {
@@ -1483,7 +1584,7 @@ public class ProverBotanasMethod {
 							/*
 							 * It is possible that the statement is not
 							 * generally false, either.
-							 * 
+							 *
 							 */
 							as.removeThesis();
 							as.addNegatedThesis();
@@ -1505,7 +1606,7 @@ public class ProverBotanasMethod {
 										 * may be not generally false if we
 										 * are working with a maximal independent
 										 * set of variables.
-										 */									
+										 */
 										as.removeThesis();
 										int naivDim = as.getFreeVariables()
 												.size()
@@ -1766,14 +1867,10 @@ public class ProverBotanasMethod {
 	 * Create algebraic equations of the construction to prepare computing a
 	 * locus or envelope equation.
 	 *
-	 * @param tracer
-	 *            the locus point
-	 * @param mover
-	 *            the moving point
-	 * @param implicit
-	 *            if the locus equation is implicit
-	 * @param callerAlgo
-	 *            the caller Algo
+	 * @param tracer     the locus point
+	 * @param mover      the moving point
+	 * @param implicit   if the locus equation is implicit
+	 * @param callerAlgo the caller Algo
 	 * @return the object which describes the construction algebraically
 	 */
 	public static AlgebraicStatement translateConstructionAlgebraically(
@@ -1920,7 +2017,7 @@ public class ProverBotanasMethod {
 		 */
 		HashSet<GeoElementND> moverDirectDependencies = new HashSet<>();
 		if (autoNdg && !implicit) {
-            AlgoPointOnPath apop = (AlgoPointOnPath) mover.getParentAlgorithm();
+			AlgoPointOnPath apop = (AlgoPointOnPath) mover.getParentAlgorithm();
 			GeoElement i0 = apop.input[0];
 			if (i0 instanceof GeoLine) {
 				GeoLine gl = (GeoLine) i0;
@@ -1933,20 +2030,20 @@ public class ProverBotanasMethod {
 					// Circumpoints of the circular path may be considered to avoid.
 					for (GeoElementND ge : gc.getPointsOnConic()) {
 						if (!ge.isEqual(mover)) {
-						    // Consider only those points that play role in
-                            // building a tangent to the circle.
-                            // TODO: This reads all geos, we need only the related ones:
-                            for (GeoElement ge2 : tracer.getConstruction().getGeoSetLabelOrder()) {
-                                if (ge2 instanceof GeoLine) {
-                                	GeoElement[] input = ge2.getParentAlgorithm().input;
-                                    GeoElement sp = input[0];
-                                    GeoElement ep = input[1];
-                                    if ((sp.equals(ge) && ep.equals(mover)) ||
-                                            (ep.equals(ge) && sp.equals(mover))) {
-                                        moverDirectDependencies.add(ge);
-                                    }
-                                }
-                            }
+							// Consider only those points that play role in
+							// building a tangent to the circle.
+							// TODO: This reads all geos, we need only the related ones:
+							for (GeoElement ge2 : tracer.getConstruction().getGeoSetLabelOrder()) {
+								if (ge2 instanceof GeoLine) {
+									GeoElement[] input = ge2.getParentAlgorithm().input;
+									GeoElement sp = input[0];
+									GeoElement ep = input[1];
+									if ((sp.equals(ge) && ep.equals(mover)) ||
+											(ep.equals(ge) && sp.equals(mover))) {
+										moverDirectDependencies.add(ge);
+									}
+								}
+							}
 						}
 					}
 				}
@@ -1977,7 +2074,8 @@ public class ProverBotanasMethod {
 			}
 
 			if (autoNdg && condition
-				&& moverDirectDependencies.contains(freePoint)) {
+					&& moverDirectDependencies.contains(freePoint)
+					&& vars != null) {
 				/* add non-degeneracy condition for the points to be avoided (Pech's idea) */
 				PPolynomial v = new PPolynomial(new PVariable(k));
 				PPolynomial ndg = PPolynomial.sqrDistance(moverVars[0], moverVars[1], vars[0], vars[1]).multiply(v).
@@ -2015,13 +2113,25 @@ public class ProverBotanasMethod {
 						((GeoLine) ae.input[0]).getDirection(dir);
 						if (dir[0] == 0.0) {
 							/* vertical */
-							as.freeVariables.remove(vars[0]);
-							as.freeVariables.add(vars[1]);
+							if (vars != null) {
+								as.freeVariables.remove(vars[0]);
+								as.freeVariables.add(vars[1]);
+							} else {
+								// If vars == null, don't try to create
+								// any other objects that depend on it:
+								createY = false;
+							}
 							createX = false;
 						} else {
 							/* horizontal */
-							as.freeVariables.add(vars[0]);
-							as.freeVariables.remove(vars[1]);
+							if (vars != null) {
+								as.freeVariables.add(vars[0]);
+								as.freeVariables.remove(vars[1]);
+							} else {
+								// If vars == null, don't try to create
+								// any other objects that depend on it:
+								createX = false;
+							}
 							createY = false;
 						}
 					} else {
@@ -2051,7 +2161,7 @@ public class ProverBotanasMethod {
 								Coords cp = ((GeoPoint) freePoint).getCoords();
 								if (co.get(3) == 1.0 && cp.get(3) == 1.0
 										&& DoubleUtil.isEqual(co.get(1),
-												cp.get(1))) {
+										cp.get(1))) {
 									/*
 									 * first coordinates are equal, so the
 									 * radius is vertical
@@ -2151,4 +2261,5 @@ public class ProverBotanasMethod {
 		as.computeStrings();
 		return as;
 	}
+
 }
