@@ -137,7 +137,8 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	}
 
 	protected void draw(GGraphics2D g2, int borderRadius) {
-		if (text.isEuclidianVisible() && textController != null) {
+		if (text.isEuclidianVisible() && textController != null
+				&& rectangle.getDirectTransform() != null) {
 			g2.saveTransform();
 			g2.transform(rectangle.getDirectTransform());
 

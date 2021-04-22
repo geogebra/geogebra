@@ -80,4 +80,10 @@ public interface VendorSettings {
 	 * @return if bitmaps (png, jpg, etc) needs a security check.
 	 */
 	boolean hasBitmapSecurity();
+
+	/**
+	 *
+	 * @return whether inserting H5P content is enabled
+	 */
+	boolean isH5PEnabled();
 }

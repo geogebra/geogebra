@@ -429,14 +429,15 @@ public abstract class GlobalKeyDispatcher {
 							// probably 3D, just open in corner
 							bounds = AwtFactory.getPrototype().newRectangle2D();
 						}
-						GPoint p = new GPoint((int) bounds.getMinX(),
-								(int) bounds.getMinY());
+						if (bounds != null) {
+							GPoint p = new GPoint((int) bounds.getMinX(),
+									(int) bounds.getMinY());
 
-						app.getGuiManager().showPopupChooseGeo(
-								app.getSelectionManager().getSelectedGeos(),
-								app.getSelectionManager().getSelectedGeoList(),
-								app.getActiveEuclidianView(), p);
-
+							app.getGuiManager().showPopupChooseGeo(
+									app.getSelectionManager().getSelectedGeos(),
+									app.getSelectionManager().getSelectedGeoList(),
+									app.getActiveEuclidianView(), p);
+						}
 					} else {
 						// open in corner
 						app.getGuiManager().showDrawingPadPopup(

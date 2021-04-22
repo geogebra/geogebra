@@ -128,9 +128,9 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.gwtproject.regexp.shared.MatchResult;
+import org.gwtproject.regexp.shared.RegExp;
 
-import com.google.gwt.regexp.shared.MatchResult;
-import com.google.gwt.regexp.shared.RegExp;
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -457,6 +457,10 @@ public class AlgebraProcessor {
 
 			if (info.isMultipleUnassignedAllowed()) {
 				ve = parser.parseInputBoxExpression(newValue);
+				if (ve.getLabel() != null && !ve.getLabel().equals(geo.getLabelSimple())) {
+					handler.showError(getIllegalAssignmentError());
+					return;
+				}
 			} else {
 				ve = parser.parseGeoGebraExpression(newValue);
 			}
@@ -482,12 +486,16 @@ public class AlgebraProcessor {
 		} catch (CommandNotLoadedError e) {
 			throw e;
 		} catch (Error e) {
-			Log.debug("ERROR" + e.getMessage() + ":" + newValue);
-			e.printStackTrace();
+			Log.debug(e);
 			handler.showError(
 					loc.getInvalidInputError() + ":\n"
 							+ newValue);
 		}
+	}
+
+	private String getIllegalAssignmentError() {
+		return new MyError(kernel.getLocalization(), Errors.IllegalAssignment)
+				.getLocalizedMessage();
 	}
 
 	private ValidExpression replaceSqrtMinusOne(ValidExpression ve) {
@@ -3279,7 +3287,7 @@ public class AlgebraProcessor {
 
 		if (isIndependent) {
 			if (isAngle) {
-				boolean keepDegrees = n.getOperation().equals(Operation.ARCSIND)
+				boolean keepDegrees = n.getOperation().doesReturnDegrees()
 						&& !app.getConfig().isAngleUnitSettingEnabled();
 				ret = new GeoAngle(cons, value, AngleStyle.UNBOUNDED, keepDegrees);
 			} else {

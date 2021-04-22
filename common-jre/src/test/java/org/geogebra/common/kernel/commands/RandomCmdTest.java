@@ -18,6 +18,7 @@ public class RandomCmdTest extends BaseUnitTest {
 	@Test
 	public void randomBetweenShouldBeStable() {
 		shouldBeStable("RandomBetween(1,100)");
+		shouldBeStable("RandomBetween(-1,-100)");
 	}
 
 	@Test

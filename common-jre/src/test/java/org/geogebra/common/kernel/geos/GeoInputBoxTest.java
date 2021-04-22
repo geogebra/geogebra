@@ -761,10 +761,28 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	@Test
 	public void commaParsingShouldWorkInEnglish() {
 		shouldReparseAs("3,141", "3141");
-		shouldReparseAs("3,5>x", "If(5 > x, 3)");
 		shouldReparseAs("(1,2) + 1,423", "(1, 2) + 1423");
 		// merely testing that we don't throw a *wrong* exception
 		shouldReparseAs("3,", "3");
+	}
+
+	@Test
+	public void commaParsingWithLeftExpressions() {
+		add("n=0");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(n)");
+		add("t=1");
+		inputBox.updateLinkedGeo("t + 10,000");
+		assertEquals("t + 10000", inputBox.getText());
+
+	}
+
+	@Test
+	public void commaParsingWithRightExpressions() {
+		add("n=0");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(n)");
+		add("t=1");
+		inputBox.updateLinkedGeo("1,000 + t");
+		assertEquals("1000 + t", inputBox.getText());
 	}
 
 	@Test
@@ -804,5 +822,32 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		input.updateLinkedGeo(s1);
 		assertEquals(s1, linked.getRedefineString(false, false,
 				StringTemplate.testTemplate));
+	}
+
+	@Test
+	public void commaParsingNoIf() {
+		GeoElement linked = add("a:3>x");
+		GeoInputBox input = add("InputBox(a)");
+		input.updateLinkedGeo("3,500 > x");
+		assertEquals("3500 > x", linked.getRedefineString(false, false,
+				StringTemplate.testTemplate));
+	}
+
+	@Test
+	public void commaParsingPointShouldStayTheSame() {
+		GeoElement linked = add("A = (1, 2)");
+		GeoInputBox input = add("InputBox(A)");
+		String updated = "A = (3, 4)";
+		input.updateLinkedGeo(updated);
+		assertEquals(updated, linked.toString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	public void commaParsingListShouldStayTheSame() {
+		GeoElement linked = add("l1 = {1, 2}");
+		GeoInputBox input = add("InputBox(l1)");
+		String updated = "l1 = {3, 4}";
+		input.updateLinkedGeo(updated);
+		assertEquals(updated, linked.toString(StringTemplate.defaultTemplate));
 	}
 }

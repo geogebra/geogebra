@@ -44,6 +44,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.Caption:empty {
 			display: none;
 		}
+
+		.DialogButtonPanel .gwt-Label {
+			text-align: center;
+		}
 	}
 
 	/* color chooser dialog */
@@ -987,7 +991,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.examStartDialog {
 		max-width: 427px;
-		max-height: 155px;
 
 		.examStartText {
 			font-size: 100%;
@@ -999,7 +1002,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.examExitConfDialog {
 		max-width: 326px;
-		max-height: 115px;
 
 		.dialogContent {
 			// no title
@@ -1778,4 +1780,37 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
     			}
     		}
     	}
+
+	.dialogComponent.mediaDialog.h5pDialog {
+
+		.dialogMainPanel .dialogTitle {
+			margin-bottom: 8px;
+		}
+
+		.helpTxt {
+			margin-bottom: 24px;
+			font-size: 75%;
+			color: $text-secondary;
+		}
+
+		.AutoCompleteTextFieldW {
+			margin-right: 0px;
+		}
+
+		.orDividerComponent {
+			margin-top: 24px;
+		}
+
+		.btnContainer {
+			display: flex;
+			justify-content: center;
+			margin: 24px 0px;
+
+			.uploadFileBtn {
+				border: solid 1px $black-12;
+				color: $mebis-text-btn-col;
+				padding: 0px 16px;
+			}
+		}
+	}
 }

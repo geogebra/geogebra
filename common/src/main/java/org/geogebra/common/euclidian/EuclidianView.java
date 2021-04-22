@@ -66,6 +66,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPriorityComparator;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.XMLBuilder;
+import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -512,6 +514,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private BoundingBox<? extends GShape> focusedGroupGeoBoundingBox;
 
 	protected SymbolicEditor symbolicEditor = null;
+	private final CoordSystemInfo coordSystemInfo;
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -560,6 +563,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public EuclidianView() {
 		hitDetector = new HitDetector(this);
+		coordSystemInfo = new CoordSystemInfo(this);
 	}
 
 	/**
@@ -618,7 +622,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				5);
         setXscale(SCALE_STANDARD);
         setYscale(SCALE_STANDARD);
-	}
+
+   }
 
 	protected void setMinMaxObjects() {
 		xminObject = new GeoNumeric(kernel.getConstruction());
@@ -897,7 +902,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			updateAllDrawablesForView(true);
 			invalidateBackground();
 		}
-
+		if (!batchUpdate) {
+			euclidianController.notifyCoordSystemMoved(coordSystemInfo);
+		}
 		updatingBounds = false;
 	}
 
@@ -1195,6 +1202,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
+	 * Checks if (real world) coords are on view.
+	 *
+	 * @param x x-coord
+	 * @param y y-coord
+	 *
+	 * @return true if coords are on view
+	 */
+	public boolean isOnView(double x, double y) {
+		return (x >= getXmin()) && (x <= getXmax())
+				&& (y >= getYmin()) && (y <= getYmax());
+	}
+
+	/**
 	 * 
 	 * @param p1
 	 *            first point
@@ -1330,6 +1350,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            app mode
 	 */
 	public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {
+		coordSystemInfo.setInteractive(true);
 		translateCoordSystemInPixels(dx, dy, 0);
 	}
 
@@ -1377,6 +1398,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				|| (yscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
 			return;
 		}
+
 		this.xZero = xZero;
 		this.yZero = yZero;
 		this.setXscale(xscale);
@@ -1387,7 +1409,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		setXYMinMaxForSetCoordSystem();
 		setRealWorldBounds();
         onCoordSystemChangedFromSetCoordSystem();
-		// if (drawMode == DRAW_MODE_BACKGROUND_IMAGE)
+
 		if (repaint) {
 			invalidateBackground();
 			updateAllDrawablesForView(repaint);
@@ -1791,6 +1813,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void endBatchUpdate() {
 		this.batchUpdate = false;
 		if (this.needsAllDrawablesUpdate) {
+			euclidianController.notifyCoordSystemMoved(coordSystemInfo);
 			allDrawableList.updateAll();
 			repaint();
 		}
@@ -2391,7 +2414,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	public void repaintView() {
 		repaint();
-
 	}
 
 	@Override
@@ -2756,7 +2778,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		updateBackgroundImage();
 		updateAllDrawablesForView(true);
-		// repaint();
 	}
 
 	/**
@@ -5276,9 +5297,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (isLockedAxesRatio()) {
 			return;
 		}
+
 		if (axesRatioZoomer == null) {
 			axesRatioZoomer = newZoomer();
 		}
+
+		coordSystemInfo.setXAxisZoom(true);
 		axesRatioZoomer.initAxes(newRatioX, newRatioY, storeUndo);
 		axesRatioZoomer.startAnimation();
 	}
@@ -5306,7 +5330,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		xzero = getXZeroStandard();
 		yzero = getYZeroStandard();
-
+		coordSystemInfo.setCenterView(true);
 		if (needsZoomerForStandardRatio()) {
 			// set axes ratio back to 1
 			if (axesRatioZoomer == null) {
@@ -5314,6 +5338,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 			axesRatioZoomer.initAxes(2, 2, false);
 			axesRatioZoomer.setStandardViewAfter(xzero, yzero);
+			coordSystemInfo.setXAxisZoom(true);
 			axesRatioZoomer.startAnimation();
 		} else {
 			setAnimatedCoordSystem(xzero, yzero, STANDARD_VIEW_STEPS, false);
@@ -6517,6 +6542,76 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			if (drawable instanceof DrawInline) {
 				((DrawInline) drawable).saveContent();
 			}
+		}
+	}
+
+	/**
+	 *  Converts interval of real world x coordinates
+	 *  to interval of screen x coordinates.
+
+	 * @param interval of real world x coordinates
+	 * @return interval of screen x coordinates.
+	 */
+	public Interval toScreenIntervalX(Interval interval) {
+		return new Interval(toScreenCoordXd(interval.getLow()),
+				toScreenCoordXd(interval.getHigh()));
+	}
+
+	/**
+	 *  Converts interval of real world y coordinates
+	 *  to interval of screen y coordinates.
+
+	 * @param interval of real world y coordinates
+	 * @return interval of screen y coordinates.
+	 */
+	public Interval toScreenIntervalY(Interval interval) {
+		if (interval.isOnlyInfinity()) {
+			return IntervalConstants.zero();
+		}
+		return new Interval(toScreenCoordYd(interval.getHigh()),
+				toScreenCoordYd(interval.getLow()));
+	}
+
+	/**
+	 *
+	 * @return visible x interval
+	 */
+	public Interval domain() {
+		return new Interval(xmin, xmax);
+	}
+
+	/**
+	 *
+	 * @return visible y interval
+	 */
+	public Interval range() {
+		return new Interval(xmin, xmax);
+	}
+
+	/**
+	 *
+	 * @return info of the coord syste,
+	 */
+	CoordSystemInfo getCoordSystemInfo() {
+		return coordSystemInfo;
+	}
+
+	/**
+	 * Called when x-axis is resized.
+	 */
+	public void onResizeX() {
+		setCursor(EuclidianCursor.RESIZE_X);
+		coordSystemInfo.setXAxisZoom(true);
+	}
+
+	/**
+	 * Runs when axis zoom is canceled.
+	 */
+	void onAxisZoomCancel() {
+		coordSystemInfo.setInteractive(false);
+		if (coordSystemInfo.isXAxisZoom()) {
+			coordSystemInfo.setXAxisZoom(false);
+			euclidianController.notifyZoomerStopped();
 		}
 	}
 }

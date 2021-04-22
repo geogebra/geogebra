@@ -574,6 +574,7 @@ public class CopyPasteD extends CopyPaste {
 		// don't update properties view
 		app.updateSelection(false);
 
+		ArrayList<GeoElement> createdGeos;
 		if (pasteFast(app) && !putdown) {
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 			app.getGgbApi().evalXML(copiedXMLforSameWindow.toString());
@@ -585,7 +586,7 @@ public class CopyPasteD extends CopyPaste {
 			} else {
 				app.setActiveView(App.VIEW_EUCLIDIAN2);
 			}
-			handleLabels(app, copiedXMLlabelsforSameWindow, putdown);
+			createdGeos = handleLabels(app, copiedXMLlabelsforSameWindow, putdown);
 		} else {
 			// here the possible macros should be copied as well,
 			// in case we should copy any macros
@@ -619,14 +620,14 @@ public class CopyPasteD extends CopyPaste {
 			} else {
 				app.setActiveView(App.VIEW_EUCLIDIAN2);
 			}
-			handleLabels(app, copiedXMLlabels, putdown);
+			createdGeos = handleLabels(app, copiedXMLlabels, putdown);
 		}
 
 		app.setBlockUpdateScripts(scriptsBlocked);
 
 		app.setMode(EuclidianConstants.MODE_MOVE);
 
-		app.getKernel().notifyPasteComplete();
+		app.getKernel().notifyPasteComplete(createdGeos);
 	}
 
 	/**

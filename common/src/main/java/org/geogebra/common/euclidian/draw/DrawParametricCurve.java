@@ -24,7 +24,9 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
+import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
+import org.geogebra.common.euclidian.plot.interval.IntervalPlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
@@ -39,6 +41,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.kernel.interval.IntervalFunction;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -54,6 +57,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class DrawParametricCurve extends Drawable {
 
+	private IntervalPlotter intervalPlotter;
 	private CurveEvaluable curve;
 	private GeneralPathClippedForCurvePlotter gp;
 	private boolean isVisible;
@@ -95,7 +99,21 @@ public class DrawParametricCurve extends Drawable {
 		this.view = view;
 		this.curve = curve;
 		geo = curve.toGeoElement();
+		createGeneralPath();
+		createIntervalPlotter();
 		update();
+	}
+
+	private void createIntervalPlotter() {
+		intervalPlotter = new IntervalPlotter(view, gp);
+		if (this.geo != null && this.geo.isGeoFunction()) {
+			GeoFunction function = (GeoFunction) this.geo;
+			if (IntervalFunction.isSupported(function)) {
+				intervalPlotter.enableFor(function);
+			} else {
+				intervalPlotter.disable();
+			}
+		}
 	}
 
 	@Override
@@ -104,20 +122,81 @@ public class DrawParametricCurve extends Drawable {
 		if (!isVisible) {
 			return;
 		}
+
+		labelVisible = getTopLevelGeo().isLabelVisible();
+		if (isIntervalPlotterActive()) {
+			updateStrokes(geo);
+			updateIntervalPlot();
+		} else {
+			updateParametric();
+		}
+	}
+
+	private void enableIntervalPlotterIfSupported() {
+		if (IntervalFunction.isSupported(geo)) {
+			if (!intervalPlotter.isEnabled()) {
+				intervalPlotter.enableFor((GeoFunction) geo);
+			}
+		} else {
+			intervalPlotter.disable();
+		}
+	}
+
+	private boolean isIntervalPlotterActive() {
+		return IntervalFunction.isSupported(geo)
+				&& intervalPlotter.isEnabled();
+	}
+
+	private void updateIntervalPlot() {
+		gp.resetWithThickness(geo.getLineThickness());
+		intervalPlotter.update();
+		updateLabelPoint();
+		updateTrace(geo.getTrace());
+	}
+
+	private void updateLabelPoint() {
+		GPoint labelPoint = intervalPlotter.getLabelPoint();
+		if (labelPoint != null) {
+			updateLabel(labelPoint);
+		} else {
+			labelDesc = null;
+		}
+	}
+
+	@Override
+	public void updateIfNeeded() {
+		if (needsUpdate()) {
+			setNeedsUpdate(false);
+			updateIntervalPlotterIfNeeded();
+			update();
+		}
+	}
+
+	private void updateIntervalPlotterIfNeeded() {
+		if (intervalPlotter == null) {
+			return;
+		}
+
+		enableIntervalPlotterIfSupported();
+		if (isIntervalPlotterActive()) {
+			intervalPlotter.needsUpdateAll();
+		}
+	}
+
+	private void updateParametric() {
 		dataExpression = null;
 		if (geo.getLineType() == EuclidianStyleConstants.LINE_TYPE_POINTWISE
 				&& (curve instanceof GeoFunction)) {
 			((GeoFunction) curve).getFunctionExpression()
 					.inspect(checkPointwise());
 		}
-		labelVisible = getTopLevelGeo().isLabelVisible();
 		updateStrokes(geo);
 		if (dataExpression != null) {
 			updatePointwise();
 			return;
 		}
 		if (gp == null) {
-			gp = new GeneralPathClippedForCurvePlotter(view);
+			createGeneralPath();
 		}
 		gp.resetWithThickness(geo.getLineThickness());
 
@@ -163,8 +242,8 @@ public class DrawParametricCurve extends Drawable {
 			labelPoint = new GPoint((int) eval[0], (int) eval[1]);
 		} else {
 			labelPoint = CurvePlotter.plotCurve(toPlot, min, max, view, gp,
-					labelVisible, fillCurve ? CurvePlotter.Gap.CORNER
-							: CurvePlotter.Gap.MOVE_TO);
+					labelVisible, fillCurve ? Gap.CORNER
+							: Gap.MOVE_TO);
 		}
 
 		// gp on screen?
@@ -175,40 +254,7 @@ public class DrawParametricCurve extends Drawable {
 		}
 
 		if (labelPoint != null) {
-			xLabel = labelPoint.x;
-			yLabel = labelPoint.y;
-			switch (geo.getLabelMode()) {
-			case GeoElementND.LABEL_NAME_VALUE:
-				StringTemplate tpl = StringTemplate.latexTemplate;
-				labelSB.setLength(0);
-				labelSB.append('$');
-				String label = getTopLevelGeo().getLabel(tpl);
-				if (LabelManager.isShowableLabel(label)) {
-					labelSB.append(label);
-					labelSB.append('(');
-					labelSB.append(((VarString) geo).getVarString(tpl));
-					labelSB.append(")\\;=\\;");
-				}
-				labelSB.append(geo.getLaTeXdescription());
-				labelSB.append('$');
-
-				labelDesc = labelSB.toString();
-				break;
-
-			case GeoElementND.LABEL_VALUE:
-				labelSB.setLength(0);
-				labelSB.append('$');
-				labelSB.append(geo.getLaTeXdescription());
-				labelSB.append('$');
-
-				labelDesc = labelSB.toString();
-				break;
-
-			case GeoElementND.LABEL_CAPTION:
-			default: // case LABEL_NAME:
-				labelDesc = getTopLevelGeo().getLabelDescription();
-			}
-			addLabelOffsetEnsureOnScreen(view.getFontConic());
+			updateLabel(labelPoint);
 		}
 		// shape for filling
 
@@ -217,7 +263,11 @@ public class DrawParametricCurve extends Drawable {
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
 		}
 		// draw trace
-		if (curve.getTrace()) {
+		updateTrace(curve.getTrace());
+	}
+
+	private void updateTrace(boolean showTrace) {
+		if (showTrace) {
 			isTracing = true;
 			GGraphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null) {
@@ -226,9 +276,49 @@ public class DrawParametricCurve extends Drawable {
 		} else {
 			if (isTracing) {
 				isTracing = false;
-				// view.updateBackground();
 			}
 		}
+	}
+
+	private void updateLabel(GPoint labelPoint) {
+		xLabel = labelPoint.x;
+		yLabel = labelPoint.y;
+		switch (geo.getLabelMode()) {
+		case GeoElementND.LABEL_NAME_VALUE:
+			StringTemplate tpl = StringTemplate.latexTemplate;
+			labelSB.setLength(0);
+			labelSB.append('$');
+			String label = getTopLevelGeo().getLabel(tpl);
+			if (LabelManager.isShowableLabel(label)) {
+				labelSB.append(label);
+				labelSB.append('(');
+				labelSB.append(((VarString) geo).getVarString(tpl));
+				labelSB.append(")\\;=\\;");
+			}
+			labelSB.append(geo.getLaTeXdescription());
+			labelSB.append('$');
+
+			labelDesc = labelSB.toString();
+			break;
+
+		case GeoElementND.LABEL_VALUE:
+			labelSB.setLength(0);
+			labelSB.append('$');
+			labelSB.append(geo.getLaTeXdescription());
+			labelSB.append('$');
+
+			labelDesc = labelSB.toString();
+			break;
+
+		case GeoElementND.LABEL_CAPTION:
+		default: // case LABEL_NAME:
+			labelDesc = getTopLevelGeo().getLabelDescription();
+		}
+		addLabelOffsetEnsureOnScreen(view.getFontConic());
+	}
+
+	private void createGeneralPath() {
+		gp = new GeneralPathClippedForCurvePlotter(view);
 	}
 
 	private void updatePointwise() {
@@ -351,6 +441,35 @@ public class DrawParametricCurve extends Drawable {
 
 	@Override
 	final public void draw(GGraphics2D g2) {
+		if (intervalPlotter.isEnabled()) {
+			drawIntervalPlot(g2);
+		} else {
+			drawParametric(g2);
+		}
+		if (labelVisible && isVisible) {
+			g2.setFont(view.getFontConic());
+			g2.setPaint(geo.getLabelColor());
+			drawLabel(g2);
+		}
+	}
+
+	private void drawIntervalPlot(GGraphics2D g2) {
+		if (!isVisible) {
+			return;
+		}
+
+		if (isHighlighted()) {
+			g2.setPaint(geo.getSelColor());
+			g2.setStroke(selStroke);
+			intervalPlotter.draw(g2);
+		}
+
+		g2.setPaint(getObjectColor());
+		g2.setStroke(objStroke);
+		intervalPlotter.draw(g2);
+	}
+
+	private void drawParametric(GGraphics2D g2) {
 		if (isVisible) {
 			if (dataExpression != null) {
 				g2.setPaint(getObjectColor());
@@ -381,12 +500,6 @@ public class DrawParametricCurve extends Drawable {
 				} catch (Exception e) {
 					Log.error(e.getMessage());
 				}
-			}
-
-			if (labelVisible) {
-				g2.setFont(view.getFontConic());
-				g2.setPaint(geo.getLabelColor());
-				drawLabel(g2);
 			}
 		}
 	}
@@ -550,5 +663,4 @@ public class DrawParametricCurve extends Drawable {
 		// generic curve (parametric) or function R->R, but not inequality
 		return !curve.isFunctionInX() || geo.isGeoFunction();
 	}
-
 }

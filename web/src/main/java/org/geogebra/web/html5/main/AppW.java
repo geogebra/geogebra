@@ -45,6 +45,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
@@ -137,10 +138,11 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
+import org.gwtproject.regexp.client.NativeRegExpFactory;
+import org.gwtproject.regexp.shared.RegExpFactory;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -158,7 +160,11 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import elemental2.core.ArrayBuffer;
+import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
+import elemental2.dom.FileReader;
+import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 public abstract class AppW extends App implements SetLabels, HasLanguage {
@@ -518,21 +524,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * inits factories
 	 */
 	protected void initFactories() {
-		if (FormatFactory.getPrototype() == null) {
-			FormatFactory.setPrototypeIfNull(new FormatFactoryW());
-		}
-
-		if (AwtFactory.getPrototype() == null) {
-			AwtFactory.setPrototypeIfNull(new AwtFactoryW());
-		}
-
-		if (StringUtil.getPrototype() == null) {
-			StringUtil.setPrototypeIfNull(new StringUtil());
-		}
-
-		if (UtilFactory.getPrototype() == null) {
-			UtilFactory.setPrototypeIfNull(new UtilFactoryW());
-		}
+		FormatFactory.setPrototypeIfNull(new FormatFactoryW());
+		AwtFactory.setPrototypeIfNull(new AwtFactoryW());
+		StringUtil.setPrototypeIfNull(new StringUtil());
+		UtilFactory.setPrototypeIfNull(new UtilFactoryW());
+		RegExpFactory.setPrototypeIfNull(new NativeRegExpFactory());
 	}
 
 	@Override
@@ -753,10 +749,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @param binary
 	 *            binary file
 	 */
-	public void loadGgbFileAsBinaryAgain(JavaScriptObject binary) {
+	public void loadGgbFileAsBinaryAgain(ArrayBuffer binary) {
 		prepareReloadGgbFile();
 		ViewW view = getViewW();
-		view.processBinaryString(binary);
+		view.processBinaryData(binary);
 	}
 
 	private void prepareReloadGgbFile() {
@@ -1207,7 +1203,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 		resetPerspectiveParam();
 		resetUrl();
-		return doOpenFile(fileToHandle, null);
+		return doOpenFile(fileToHandle);
 	}
 
 	/**
@@ -1224,47 +1220,44 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *
 	 * @param fileToHandle
 	 *            file
-	 * @param callback
-	 *            callback
 	 * @return returns true, if fileToHandle is ggb or ggt file, otherwise
 	 *         returns false. Note that If the function returns true, it's don't
 	 *         mean, that the file opening was successful, and the opening
 	 *         finished already.
 	 */
-	public native boolean doOpenFile(File fileToHandle,
-			JavaScriptObject callback) /*-{
-		var ggbRegEx = /\.(ggb|ggt|ggs|csv|off|pdf)$/i;
-		var fileName = fileToHandle.name.toLowerCase();
-		if (!fileName.match(ggbRegEx)) {
+	public boolean doOpenFile(File fileToHandle) {
+		String ggbRegEx = ".*\\.(ggb|ggt|ggs|csv|off|pdf|h5p)$";
+		String fileName = fileToHandle.name.toLowerCase();
+		if (!fileName.matches(ggbRegEx)) {
 			return false;
 		}
-		var appl = this;
-		if (fileName.match(/\.(pdf)$/i)) {
-			appl.@org.geogebra.web.html5.main.AppW::openPDF(*)(fileToHandle);
+		if (fileName.endsWith(".pdf")) {
+			openPDF(fileToHandle);
+			return true;
+		}
+		if (fileName.endsWith(".h5p")) {
+			openH5P(fileToHandle);
 			return true;
 		}
 
-		var reader = new FileReader();
-		reader.onloadend = function(ev) {
-			if (reader.readyState === reader.DONE) {
-				var fileStr = reader.result;
-				if (fileName.match(/\.(ggb|ggt|ggs)$/i)) {
-					appl.@org.geogebra.web.html5.main.AppW::loadGgbFileAsBase64Again(Ljava/lang/String;Z)(fileStr, fileName.match(/\.(ggs)$/i));
+		FileReader reader = new FileReader();
+		reader.addEventListener("load", (event) -> {
+			if (reader.readyState == FileReader.DONE) {
+				String fileStr = reader.result.asString();
+				if (fileName.matches(".*\\.(ggb|ggt|ggs)$")) {
+					loadGgbFileAsBase64Again(fileStr, fileName.endsWith(".ggs"));
 				}
-				if (fileName.match(/\.(csv)$/i)) {
-					appl.@org.geogebra.web.html5.main.AppW::openCSV(Ljava/lang/String;)(atob(fileStr.substring(fileStr.indexOf(",")+1)));
+				if (fileName.endsWith(".csv")) {
+					openCSV(DomGlobal.atob(fileStr.substring(fileStr.indexOf(",") + 1)));
 				}
-				if (fileName.match(/\.(off)$/i)) {
-					appl.@org.geogebra.web.html5.main.AppW::openOFF(Ljava/lang/String;)(atob(fileStr.substring(fileStr.indexOf(",")+1)));
-				}
-				if (callback != null) {
-					callback();
+				if (fileName.endsWith(".off")) {
+					openOFF(DomGlobal.atob(fileStr.substring(fileStr.indexOf(",") + 1)));
 				}
 			}
-		};
+		});
 		reader.readAsDataURL(fileToHandle);
 		return true;
-	}-*/;
+	}
 
 	/**
 	 * @param id
@@ -1473,33 +1466,27 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *
 	 * @param fileToHandle
 	 *            javascript handle for the file
-	 * @param callback
-	 *            load callback
 	 * @return returns true, if fileToHandle image file, otherwise return false.
 	 *         Note that If the function returns true, it's don't mean, that the
 	 *         file opening was successful, and the opening finished already.
 	 */
-	public native boolean openFileAsImage(File fileToHandle,
-			JavaScriptObject callback) /*-{
-		var imageRegEx = /\.(png|jpg|jpeg|gif|bmp|svg)$/i;
-		if (!fileToHandle.name.toLowerCase().match(imageRegEx))
+	public boolean openFileAsImage(File fileToHandle) {
+		String imageRegEx = ".*(png|jpg|jpeg|gif|bmp|svg)$";
+		if (!fileToHandle.name.toLowerCase().matches(imageRegEx)) {
 			return false;
+		}
 
-		var appl = this;
-		var reader = new FileReader();
-		reader.onloadend = function(ev) {
-			if (reader.readyState === reader.DONE) {
-				var fileStr = reader.result;
-				var fileName = fileToHandle.name;
-				appl.@org.geogebra.web.html5.main.AppW::imageDropHappened(Ljava/lang/String;Ljava/lang/String;)(fileName, fileStr);
-				if (callback != null) {
-					callback();
-				}
+		FileReader reader = new FileReader();
+		reader.addEventListener("load", (event) -> {
+			if (reader.readyState == reader.DONE) {
+				String fileStr = reader.result.asString();
+				String fileName = fileToHandle.name;
+				imageDropHappened(fileName, fileStr);
 			}
-		};
+		});
 		reader.readAsDataURL(fileToHandle);
 		return true;
-	}-*/;
+	}
 
 	/**
 	 * @return the id of the GeoGebra element
@@ -2042,7 +2029,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return play image
 	 */
 	public ImageElement getPlayImage() {
-		return ImageManagerW.getInternalImage(GuiResourcesSimple.INSTANCE.play_black());
+		return ImageManagerW.getInternalImage(GuiResourcesSimple.INSTANCE.play_circle());
 	}
 
 	/**
@@ -2050,23 +2037,25 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public ImageElement getPauseImage() {
 		return ImageManagerW.getInternalImage(
-				GuiResourcesSimple.INSTANCE.pause_black());
+				GuiResourcesSimple.INSTANCE.pause_circle());
 	}
 
 	/**
 	 * @return play image with hover effect
 	 */
 	public ImageElement getPlayImageHover() {
+		String hoverColor = GeoGebraColorConstants.GEOGEBRA_ACCENT.toString();
 		return ImageManagerW.getInternalImage(
-				GuiResourcesSimple.INSTANCE.play_purple());
+				GuiResourcesSimple.INSTANCE.play_circle().withFill(hoverColor));
 	}
 
 	/**
 	 * @return pause image with hover effect
 	 */
 	public ImageElement getPauseImageHover() {
+		String hoverColor = GeoGebraColorConstants.GEOGEBRA_ACCENT.toString();
 		return ImageManagerW.getInternalImage(
-				GuiResourcesSimple.INSTANCE.pause_purple());
+				GuiResourcesSimple.INSTANCE.pause_circle().withFill(hoverColor));
 	}
 
 	// ============================================
@@ -2556,22 +2545,22 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void evalJavaScript(App app, String script0, String arg) {
-
-		String ggbApplet = getAppletId();
-
-		// TODO: maybe use sandbox?
 		String script = script0;
-
-		script = "document.ggbApplet= document." + ggbApplet
-				+ "; window.ggbApplet = document." + ggbApplet + ";" + script;
-
-		// script = "ggbApplet = document.ggbApplet;"+script;
+		ScriptManagerW.export("ggbApplet", ((ScriptManagerW) getScriptManager()).getApi());
 
 		// add eg arg="A"; to start
 		if (arg != null) {
 			script = "arg=\"" + arg + "\";" + script;
 		}
-		JsEval.evalScriptNative(script, ggbApplet);
+		JsEval.evalScriptNative(script, getGgbApi());
+		if (getAppletId().startsWith(ScriptManagerW.ASSESSMENT_APP_PREFIX)) {
+			ScriptManagerW.export("ggbApplet", null);
+		}
+	}
+
+	protected void setGlobalApplet(Object api) {
+		Js.asPropertyMap(DomGlobal.document).set("ggbApplet", api);
+		Js.asPropertyMap(DomGlobal.window).set("ggbApplet", api);
 	}
 
 	public void attachNativeLoadHandler(ImageElement img) {
@@ -2942,6 +2931,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            PDF file
 	 */
 	public void openPDF(File pdfFile) {
+		// only makes sense in GUI
+	}
+
+	public void openH5P(File pdfFile) {
 		// only makes sense in GUI
 	}
 

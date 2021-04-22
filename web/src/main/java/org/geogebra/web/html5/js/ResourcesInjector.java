@@ -1,20 +1,16 @@
 package org.geogebra.web.html5.js;
 
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.ScriptElement;
-import com.google.gwt.user.client.Window.Location;
 
 /**
  * @author gabor
@@ -37,9 +33,11 @@ public class ResourcesInjector {
 		setResourcesInjected();
 		// always need English properties available, eg Function.sin
 		fixComputedStyle();
-		// insert zip.js
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.zipJs());
+
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.clipboardJs());
+
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.fflateJs());
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.base64Js());
 
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.visibilityJs());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.domvas());
@@ -50,33 +48,11 @@ public class ResourcesInjector {
 		injectScss();
 		injectResourcesGUI(ae);
 
-		Browser.setWebWorkerSupported(Location
-				.getParameter("GeoGebraDebug") == null
-				&& Browser.checkWorkerSupport(GWT.getModuleBaseURL()));
-		if (!Browser.webWorkerSupported()) {
-			loadCodecs();
-		}
-		// strange, but iPad can blow it away again...
-		if (Browser.zipjsLoadedWithoutWebWorkers()
-				&& Browser.webWorkerSupported()) {
-			loadCodecs();
-		}
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.dataViewJs());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.xmlUtil());
 	}
 
 	private void setResourcesInjected() { // extracted to make SpotBugs happy
 		resourcesInjected = true;
-	}
-
-	/**
-	 * Load PAKO
-	 */
-	public static void loadCodecs() {
-		if (ExportLoader.getPako() == null) {
-			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pakoJs());
-		}
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pakoCodecJs());
 	}
 
 	/** Works around https://bugzilla.mozilla.org/show_bug.cgi?id=548397 */

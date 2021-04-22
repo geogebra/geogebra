@@ -5,14 +5,17 @@
 
 	&.appletStyle {
 		overflow: hidden;
+		box-sizing: border-box;
 	}
 
-	div[data-title]:after {
+	div[data-title]:after,
+	button[data-title]:after {
 		opacity: 0;
 		content: "";
 	}
 
-	div[data-title]:hover:after {
+	div[data-title]:hover:after,
+	button[data-title]:hover:after {
 		transition: opacity 0s linear 1s;
 		content: attr(data-title);
 		font-size: 65%;

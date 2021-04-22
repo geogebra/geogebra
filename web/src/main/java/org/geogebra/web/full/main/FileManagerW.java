@@ -1,6 +1,5 @@
 package org.geogebra.web.full.main;
 
-import java.util.ArrayList;
 import java.util.TreeSet;
 
 import org.geogebra.common.main.App;
@@ -11,7 +10,6 @@ import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
-import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
@@ -144,33 +142,6 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public void uploadUsersMaterials(final ArrayList<SyncEvent> events) {
-		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
-			return;
-		}
-		ArrayList<String> keys = new ArrayList<>();
-		for (int i = 0; i < this.stockStore.getLength(); i++) {
-			keys.add(this.stockStore.key(i));
-		}
-		setNotSyncedFileCount(keys.size(), events);
-		for (int i = 0; i < keys.size(); i++) {
-			final String key = keys.get(i);
-			if (key.startsWith(FILE_PREFIX)) {
-				final Material mat = JSONParserGGT
-				        .parseMaterial(this.stockStore.getItem(key));
-				if (getApp().getLoginOperation().owns(mat)) {
-						sync(mat, events);
-
-				} else {
-					ignoreNotSyncedFile(events);
-				}
-			} else {
-				ignoreNotSyncedFile(events);
-			}
-		}
-	}
-
-	@Override
 	public boolean shouldKeep(int id) {
 		if (!getApp().has(Feature.LOCALSTORAGE_FILES)) {
 			return false;
@@ -294,6 +265,7 @@ public class FileManagerW extends FileManager {
 
 	@Override
 	public void saveLoggedOut(App app1) {
+		showOfflineErrorTooltip((AppW) app1);
 		((AppW) app1).getGuiManager().exportGGB(true);
 	}
 	

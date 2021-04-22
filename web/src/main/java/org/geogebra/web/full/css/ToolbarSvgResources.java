@@ -601,6 +601,11 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	SVGResource mode_table();
 
 	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_extension.svg")
+	SVGResource mode_h5p();
+
+	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_mindmap.svg")
 	SVGResource mode_mindmap();
+
 }

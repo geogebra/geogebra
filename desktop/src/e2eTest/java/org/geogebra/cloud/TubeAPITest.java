@@ -51,6 +51,7 @@ public class TubeAPITest extends Assert {
 		GeoGebraTubeAPID api = new GeoGebraTubeAPID(app
 						.has(Feature.TUBE_BETA),
 				getClient());
+		updateUrls(api);
 		final ArrayList<String> titles = new ArrayList<>();
 		api.search("pythagoras", new MaterialCallbackI() {
 
@@ -69,6 +70,13 @@ public class TubeAPITest extends Assert {
 			}
 		});
 		awaitValidTitlesExact("search", titles, 30);
+	}
+
+	private void updateUrls(GeoGebraTubeAPID api) {
+		if ("e2e".equals(System.getProperty("ggb.env"))) {
+			api.setURL("https://e2e.geogebra.org/api/json.php");
+			api.setLoginURL("https://e2e-accounts.geogebra.org/api/index.php");
+		}
 	}
 
 	/**
@@ -250,28 +258,6 @@ public class TubeAPITest extends Assert {
 		awaitValidTitles("delete",  titles, 1);
 	}
 
-	@Test
-	public void testSync() {
-		final ClientInfo client = getAuthClient(app.getLoginOperation(),
-				getToken());
-		app.getLoginOperation().getGeoGebraTubeAPI().setClient(client);
-		final TestMaterialsManager man = new TestMaterialsManager(app);
-		Material mat = new Material(0, MaterialType.ggb);
-		mat.setTitle("test-sync-" + new Date() + Math.random());
-		mat.setBase64(circleBase64);
-		mat.setLanguage("en");
-		man.insertFile(mat);
-		app.getLoginOperation().getGeoGebraTubeAPI().sync(0,
-				man::uploadUsersMaterials);
-		for (int i = 0; i < 20; i++) {
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
 
 	private GeoGebraTubeAPID getAuthAPI() {
 		return getAuthAPI(getToken());
@@ -283,8 +269,10 @@ public class TubeAPITest extends Assert {
 	}
 
 	private GeoGebraTubeAPID getAuthAPI(String token) {
-		return new GeoGebraTubeAPID(app
+		GeoGebraTubeAPID geoGebraTubeAPID = new GeoGebraTubeAPID(app
 				.has(Feature.TUBE_BETA), getAuthClient(null, token));
+		updateUrls(geoGebraTubeAPID);
+		return geoGebraTubeAPID;
 	}
 
 	protected static ClientInfo getClient() {

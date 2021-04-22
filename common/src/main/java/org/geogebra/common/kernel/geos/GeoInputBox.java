@@ -400,11 +400,11 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return description for the screen reader
 	 */
 	public String getAuralText() {
-		ScreenReaderBuilder sb = new ScreenReaderBuilder();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder(getKernel().getLocalization());
 		sb.append(getKernel().getLocalization().getMenu("TextField"));
 		sb.appendSpace();
 		if (!addAuralCaption(sb) && isLabelVisible()) {
-			addAuralLabel(kernel.getLocalization(), sb);
+			addAuralLabel(sb);
 		}
 		return sb.toString();
 	}

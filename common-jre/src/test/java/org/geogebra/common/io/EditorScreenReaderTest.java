@@ -47,14 +47,14 @@ public class EditorScreenReaderTest {
 	@Test
 	public void testReaderPower() {
 		checkReader("x^3+x^4+1",
-				"start of formula x cubed plus x start superscript 4 end superscript plus 1",
+				"start of formula x cubed plus x to the power of 4 end power plus 1",
 				"after x before superscript", "start of superscript before 3",
 				"end of superscript after 3", "after x cubed before plus",
 				"after plus before x", "after x before superscript",
 				"start of superscript before 4", "end of superscript after 4",
-				"after x start superscript 4 end superscript before plus",
+				"after x to the power of 4 end power before plus",
 				"after plus before 1",
-				"end of formula x cubed plus x start superscript 4 end superscript plus 1");
+				"end of formula x cubed plus x to the power of 4 end power plus 1");
 	}
 
 	@Test

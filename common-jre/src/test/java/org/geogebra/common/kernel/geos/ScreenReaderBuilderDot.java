@@ -1,6 +1,12 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.main.Localization;
+
 public class ScreenReaderBuilderDot extends ScreenReaderBuilder {
+
+	public ScreenReaderBuilderDot(Localization loc) {
+		super(loc);
+	}
 
 	@Override
 	public void endSentence() {

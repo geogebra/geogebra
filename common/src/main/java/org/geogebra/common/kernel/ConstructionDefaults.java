@@ -673,6 +673,7 @@ public class ConstructionDefaults {
 		GeoText text = new GeoText(cons);
 		// text.setLocalVariableLabel(app.getPlain("Text"));
 		text.setLocalVariableLabel("Text");
+		text.setLineThickness(0); // for inline texts
 		text.setDefaultGeoType(DEFAULT_TEXT);
 		defaultGeoElements.put(DEFAULT_TEXT, text);
 
@@ -836,7 +837,7 @@ public class ConstructionDefaults {
 		case POLYLINE:
 			type = DEFAULT_POLYLINE;
 			break;
-
+		case INLINE_TEXT:
 		case TEXT:
 			type = DEFAULT_TEXT;
 			break;

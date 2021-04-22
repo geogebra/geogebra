@@ -204,17 +204,6 @@ public class MetaModel {
     }
 
     /**
-	 * Check for general x custom Function.
-	 * 
-	 * @param name
-	 *            function tag
-	 * @return whether it's a general (built in) function
-	 */
-	public boolean isGeneral(Tag name) {
-		return name != Tag.APPLY && name != Tag.APPLY_SQUARE;
-    }
-
-    /**
 	 * get custom function
 	 * 
 	 * @param name

@@ -23,6 +23,7 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.AngleProperties;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -71,7 +72,6 @@ import org.geogebra.web.full.gui.util.PointStylePopup;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.StyleBarW2;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
@@ -411,7 +411,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 		addButtons();
 		popupBtnList = newPopupBtnList();
 		toggleBtnList = newToggleBtnList();
-		ClickStartHandler.initDefaults(this, true, true);
 	}
 
 	protected void setActionCommands() {
@@ -598,11 +597,13 @@ public class EuclidianStyleBarW extends StyleBarW2
 		StandardButton btnDelete = new StandardButton(
 				MaterialDesignResources.INSTANCE.delete_black(), null, 24);
 		btnDelete.setStyleName("MyCanvasButton");
-		FastClickHandler btnDelHandler = source -> {
-			app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
-			app.deleteSelectedObjects(false);
-		};
-		btnDelete.addFastClickHandler(btnDelHandler);
+		ClickStartHandler.init(btnDelete, new ClickStartHandler(true, true) {
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
+				app.deleteSelectedObjects(false);
+			}
+		});
 		add(btnDelete);
 	}
 
@@ -1589,7 +1590,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			}
 		} else if (source == btnFilling) {
 			FillType fillType = btnFilling.getSelectedFillType();
-			EuclidianStyleBarStatic.applyFillType(targetGeos, fillType);
+			needUndo = EuclidianStyleBarStatic.applyFillType(targetGeos, fillType);
 
 		} else if (source == btnBold) {
 			needUndo = applyFontStyle(targetGeos,
@@ -1750,9 +1751,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 		boolean changed = false;
 		for (GeoElement geo : targetGeos) {
 			if (geo instanceof GeoInline) {
-				if (borderColor != null && !((GeoInline) geo)
+				GeoInline text = (GeoInline) geo;
+				if (borderColor != null && !text
 						.getBorderColor().equals(borderColor)) {
-					((GeoInline) geo).setBorderColor(borderColor);
+					text.setBorderColor(borderColor);
+					geo.updateVisualStyle(GProperty.LINE_STYLE);
 					changed = true;
 				}
 			}

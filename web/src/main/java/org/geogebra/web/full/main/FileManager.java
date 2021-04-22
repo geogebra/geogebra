@@ -206,8 +206,9 @@ public abstract class FileManager extends MaterialsManager {
 		}
 		// not logged in and can't log in
 		else if (!appw.getLoginOperation().isLoggedIn()
-				&& (!appw.getNetworkOperation().isOnline() || !appw
-		                .getLoginOperation().mayLogIn())) {
+				&& (!appw.getNetworkOperation().isOnline()
+				|| !appw.getLoginOperation().mayLogIn())
+				|| !appw.getNetworkOperation().isOnline()) {
 			saveLoggedOut(appw);
 			// not logged in and possible to log in
 		} else if (!appw.getLoginOperation().isLoggedIn()) {
@@ -248,4 +249,19 @@ public abstract class FileManager extends MaterialsManager {
 		Browser.exportImage(url, filename);
 	}
 
+	/**
+	 * Shows error tooltip when saving online fails.
+	 * @param appw app
+	 */
+	protected void showOfflineErrorTooltip(AppW appw) {
+		if (!appw.getNetworkOperation().isOnline()) {
+			ToolTipManagerW.sharedInstance().showBottomMessage(appw
+					.getLocalization()
+					.getMenu("phone_loading_materials_offline"), true, appw);
+		} else if (!appw.getLoginOperation().isLoggedIn()) {
+			ToolTipManagerW.sharedInstance().showBottomMessage(appw
+					.getLocalization()
+					.getMenu("SaveAccountFailed"), true, appw);
+		}
+	}
 }

@@ -12,9 +12,15 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.cas;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -95,47 +101,48 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 
 		Function inFun = f.getFunction();
 
-		if (inFun.getExpression().isSecret()) {
+		ExpressionNode expression = inFun.getExpression();
+		if (expression.isSecret()) {
 			g.setUndefined();
 			return;
 		}
 
 		// check if it's a polynomial & get coefficients
-		PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(),
+		PolyFunction poly = inFun.expandToPolyFunction(expression,
 				false, false);
-
+		g.clear();
+		g.setDefined(true);
 		if (poly != null) {
-
 			double[] coeffs = poly.getCoeffs();
-
-			g.clear();
-			g.setDefined(true);
-
 			for (int i = coeffs.length - 1; i >= 0; i--) {
 				g.add(new GeoNumeric(cons, coeffs[i]));
 			}
-
-			return;
 		} else if (f.getParentAlgorithm() instanceof FitAlgo) {
-
 			FitAlgo fitAlgo = (FitAlgo) f.getParentAlgorithm();
-
 			double[] coeffs = fitAlgo.getCoeffs();
-
-			g.clear();
-			g.setDefined(true);
-
 			for (int i = coeffs.length - 1; i >= 0; i--) {
 				g.add(new GeoNumeric(cons, coeffs[i]));
 			}
-
-			return;
-
-			// Log.debug(fitAlgo.P.getEntry(0,0)+" "+fitAlgo.P.getEntry(0,1));
+		} else {
+			ArrayList<Double> constants = extractConstants(expression);
+			for (Double coeff: constants) {
+				g.add(new GeoNumeric(cons, coeff));
+			}
 		}
+	}
 
-		// not a polynomial
-		g.setUndefined();
+	private ArrayList<Double> extractConstants(ExpressionNode expression) {
+		ArrayList<Double> constants = new ArrayList<>();
+		expression.inspect(new Inspecting() {
+			@Override
+			public boolean check(ExpressionValue v) {
+				if (v instanceof MyDouble && v.isConstant()) {
+					constants.add(v.evaluateDouble());
+				}
+				return false;
+			}
+		});
+		return constants;
 	}
 
 }

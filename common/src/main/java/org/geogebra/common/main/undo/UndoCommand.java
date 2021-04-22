@@ -124,7 +124,9 @@ public class UndoCommand {
 				@Override
 				public void run() {
 					undoManager.undoAction(action, args);
-					if (slideID != null) {
+					//TODO: maybe these actions should also take care of reloading
+					// the correct information without replay?
+					if (action == EventType.CLEAR_SLIDE || action == EventType.REMOVE_SLIDE) {
 						undoManager.replayActions(slideID, UndoCommand.this);
 					}
 				}

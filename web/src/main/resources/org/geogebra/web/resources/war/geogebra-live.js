@@ -1,7 +1,8 @@
 (function() {
-    function LiveApp(parentClientId, embedLabel, users) {
+    function LiveApp(parentClientId, embedLabel, users, delay) {
         this.api = null;
         this.users = users || {};
+      	this.delay = delay || 200;
         this.clientId = parentClientId;
         this.currentAnimations = [];
         this.embeds = {};
@@ -35,7 +36,7 @@
         this.evalXML = function(xml) {
             this.unregisterListeners();
             this.api.evalXML(xml);
-            this.api.evalCommand("UpdateConstruction()");
+            this.api.updateConstruction();
             this.registerListeners();
             var that = this;
             setTimeout(function() {
@@ -46,7 +47,7 @@
         this.setXML = function(xml) {
             this.unregisterListeners();
             this.api.setXML(xml);
-            this.api.evalCommand("UpdateConstruction()");
+            this.api.updateConstruction();
             this.registerListeners();
         };
 
@@ -56,7 +57,7 @@
             }
             var calc = (this.api.getEmbeddedCalculators() || {})[label];
             if (calc && calc.registerClientListener) {
-                var calcLive = new LiveApp(this.clientId, label, this.users);
+                var calcLive = new LiveApp(this.clientId, label, this.users, this.delay);
                 calcLive.api = calc;
                 calcLive.eventCallbacks = this.eventCallbacks;
                 calcLive.registerListeners();
@@ -86,7 +87,7 @@
                         let commandString = that.api.getCommandString(label, false);
                         // send command for dependent objects
                         if (commandString) {
-                            that.sendEvent("evalCommand", label + " = " + commandString, label);
+                            that.sendEvent("evalCommand", label + " := " + commandString, label);
                             var group = that.api.getObjectsOfItsGroup(label);
                             if (group != null) {
                                 that.sendEvent("addToGroup", label, group);
@@ -101,7 +102,7 @@
                     }
 
                     updateCallback = null;
-                }, 200);
+                }, that.delay);
             }
         }).bind(this);
 
@@ -240,6 +241,27 @@
                     this.sendEvent(event[0], event.targets);
                     break;
 
+                case "pasteElmsComplete":
+                    let pastedGeos = "";
+                    for (const geo of event.targets) {
+                        pastedGeos += this.api.getXML(geo);
+                    }
+                    this.sendEvent("evalXML", pastedGeos);
+                    break;
+
+                case "addGeoToTV":
+                case "removeGeoFromTV":
+                	this.sendEvent(event[0], event[1]);
+                	break;
+
+                case "setValuesOfTV":
+                	this.sendEvent(event[0], event[2]);
+                	break;
+
+                case "showPointsTV":
+                	this.sendEvent(event[0], event.column, event.show);
+                	break;
+
                 default:
                     // console.log("unhandled event ", event[0], event);
             }
@@ -274,7 +296,10 @@
                     target.evalCommand(last.content);
                     target.api.previewRefresh();
                 } else if (last.type == "deleteObject") {
-                	target.unregisterListeners();
+                    target.unregisterListeners();
+                    if (target === this) {
+                        delete(this.embeds[last.content]);
+                    }
                     target.api.deleteObject(last.content);
                     target.registerListeners();
                 } else if (last.type == "setEditorState") {
@@ -330,16 +355,25 @@
                     target.api.addToGroup(last.content, last.label);
                 } else if (last.type == "embeddedContentChanged") {
                     target.api.setEmbedContent(last.label, last.content);
+                } else if (last.type == "addGeoToTV") {
+                	target.api.addGeoToTV(last.content);
+                } else if (last.type == "setValuesOfTV") {
+                	target.api.setValuesOfTV(last.content);
+                } else if (last.type == "removeGeoFromTV") {
+                	target.api.removeGeoFromTV(last.content);
+                } else if (last.type == "showPointsTV") {
+                	target.api.showPointsTV(last.content, last.label);
                 }
             }
         };
    }
 
-    window.GeoGebraLive = function(api, id) {
+    window.GeoGebraLive = function(api, id, delay) {
         var mainSession = new LiveApp(id);
         mainSession.api = api;
         mainSession.eventCallbacks = {"construction": []}
         mainSession.registerListeners();
+        mainSession.delay = delay;
 
         this.dispatch = function(last) {
             mainSession.dispatch(last);

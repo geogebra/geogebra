@@ -297,5 +297,7 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_table();
 
+	ResourcePrototype mode_h5p();
+
 	ResourcePrototype mode_mindmap();
 }

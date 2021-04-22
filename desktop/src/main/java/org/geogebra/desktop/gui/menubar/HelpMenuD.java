@@ -111,7 +111,7 @@ class HelpMenuD extends BaseMenu {
 				public void actionPerformed(ActionEvent e) {
 					GeoGebraMenuBar.copyDebugInfoToClipboard(app);
 					app.getGuiManager().showURLinBrowser(
-							GeoGebraConstants.GEOGEBRA_REPORT_BUG_DESKTOP);
+							GeoGebraConstants.FORUM_URL);
 				}
 			};
 

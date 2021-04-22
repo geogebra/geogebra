@@ -296,7 +296,7 @@ public abstract class CanvasDrawable extends Drawable {
 		if (labelFont == null) {
 			setLabelFont("");
 		}
-		return labelFont.deriveFont(GFont.PLAIN);
+		return labelFont;
 	}
 
 	/**
@@ -304,8 +304,7 @@ public abstract class CanvasDrawable extends Drawable {
 	 *            label text
 	 */
 	protected void setLabelFont(String text) {
-		GFont vFont = view.getFont();
-		this.labelFont = view.getApplication().getFontCanDisplay(text, false, vFont.getStyle(),
+		this.labelFont = view.getApplication().getFontCanDisplay(text, false, GFont.PLAIN,
 				getLabelFontSize());
 	}
 

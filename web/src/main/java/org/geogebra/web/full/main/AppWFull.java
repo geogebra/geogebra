@@ -76,6 +76,7 @@ import org.geogebra.web.full.gui.app.GGWCommandLine;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.web.full.gui.dialog.H5PReader;
 import org.geogebra.web.full.gui.exam.ExamDialog;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
@@ -889,18 +890,17 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public final void showPerspectivesPopupIfNeeded() {
 		boolean smallScreen = Window.getClientWidth() < MIN_SIZE_FOR_PICKER
 				|| Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
-		if (isUnbundledOrWhiteboard() || smallScreen || !(
-				getAppletParameters().getDataParamShowAppsPicker() || getAppletParameters()
-						.getDataParamApp()) || getExam() != null) {
+		if (isUnbundledOrWhiteboard() || smallScreen
+				|| isAppletWithoutAppsPicker() || getExam() != null
+				|| !StringUtil.empty(getAppletParameters().getDataParamPerspective())) {
 			return;
 		}
-		afterLocalizationLoaded(new Runnable() {
+		afterLocalizationLoaded(() -> getPerspectivesPopup().showPerspectivesPopup());
+	}
 
-			@Override
-			public void run() {
-				getPerspectivesPopup().showPerspectivesPopup();
-			}
-		});
+	private boolean isAppletWithoutAppsPicker() {
+		return !(getAppletParameters().getDataParamShowAppsPicker() || getAppletParameters()
+				.getDataParamApp());
 	}
 
 	/**
@@ -1961,7 +1961,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void updateAppCodeSuite(String subApp, Perspective p) {
 		if ("suite".equals(getAppletParameters().getDataParamAppName())) {
 			String appCode = getConfig().getAppCode();
-			Log.error(subApp);
 			if (!appCode.equals(subApp)) {
 				this.activity = new SuiteActivity(subApp);
 				updateSymbolicFlag(subApp, p);
@@ -2033,6 +2032,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void openPDF(File file) {
 		this.getDialogManager().showPDFInputDialog(file);
+	}
+
+	@Override
+	public void openH5P(File file) {
+		new H5PReader(this).load(file);
 	}
 
 	@Override
@@ -2204,11 +2208,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		activity = new SuiteActivity(subAppCode);
 		activity.start(this);
 
-		clearConstruction();
 		Perspective perspective = PerspectiveDecoder.decode(getConfig().getForcedPerspective(),
 				kernel.getParser(), ToolBar.getAllToolsNoMacros(isHTML5Applet(), isExam(), this));
 		updateSymbolicFlag(subAppCode, perspective);
 		reinitSettings();
+		clearConstruction();
 		getTmpPerspectives().clear();
 		updatePerspective(perspective);
 		restoreMaterial(subAppCode);
