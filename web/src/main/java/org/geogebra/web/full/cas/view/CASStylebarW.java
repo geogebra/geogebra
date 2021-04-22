@@ -80,7 +80,6 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 	}
 
 	private void createTextButtons() {
-
 		btnUseAsText = new MyToggleButtonW(new NoDragImage(
 				MaterialDesignResources.INSTANCE.text(), 24)) {
 

@@ -147,7 +147,7 @@ public class GeoGebraIconW {
 	 * @return {@link ImageOrText}
 	 */
 	public static ImageOrText createDecorAngleIcon(int id) {
-		SVGResource svgResource = null;
+		SVGResource svgResource;
 		switch (id) {
 		case GeoElementND.DECORATION_ANGLE_TWO_ARCS:
 				svgResource =  GuiResources.INSTANCE.deco_angle_2lines();
@@ -182,7 +182,7 @@ public class GeoGebraIconW {
 	 * @return {@link ImageOrText}
 	 */
 	public static ImageOrText createDecorSegmentIcon(int id) {
-		SVGResource svgResource = null;
+		SVGResource svgResource;
 		switch (id) {		
 		case GeoElementND.DECORATION_SEGMENT_ONE_TICK:
 			svgResource =  GuiResources.INSTANCE.deco_segment_1stroke();
@@ -215,7 +215,7 @@ public class GeoGebraIconW {
 	 * @return {@link ImageOrText}
 	 */
 	public static ImageOrText createAxesStyleIcon(int id) {
-		SVGResource svgResource = null;
+		SVGResource svgResource;
 		switch (id) {
 		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
 			svgResource = GuiResources.INSTANCE.deco_axes_arrow();
