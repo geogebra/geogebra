@@ -71,13 +71,8 @@ public abstract class FileManagerT extends FileManager {
 
 	@Override
 	public void export(final App app1) {
-		((AppW) app1).getGgbApi().getBase64(true, new AsyncOperation<String>() {
-
-			@Override
-			public void callback(String s) {
-				nativeShare(s, app1.getExportTitle());
-			}
-		});
+		((AppW) app1).getGgbApi().getBase64(true,
+				(AsyncOperation<String>) s -> nativeShare(s, app1.getExportTitle()));
 	}
 
 	@Override

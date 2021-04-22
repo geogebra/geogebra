@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import org.geogebra.common.awt.GDimension;
@@ -134,6 +135,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -1927,7 +1929,9 @@ public class GuiManagerW extends GuiManager
 
 	private void exportGGBDirectly() {
 		String extension = ((AppW) app).getFileExtension();
-		String filename = getApp().getExportTitle() + extension;
+		String currentDate = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm").format(new Date())
+				+ extension;
+		String filename = getApp().isMebis() ? currentDate : getApp().getExportTitle() + extension;
 		exportGgb(filename, extension);
 	}
 
