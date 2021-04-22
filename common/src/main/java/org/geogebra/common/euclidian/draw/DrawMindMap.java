@@ -14,7 +14,6 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoMindMapNode.NodeAlignment;
 import org.geogebra.common.kernel.geos.MoveGeos;
