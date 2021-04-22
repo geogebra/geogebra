@@ -26,6 +26,9 @@ public class GeoGebraGlobal {
 	@JsProperty(name = "changeMetaTitle")
 	public static native Function getChangeMetaTitle();
 
+	@JsProperty
+	public static native Function getGgbHeaderResize();
+
 	@JsFunction
 	public interface RenderGgbElementFunction {
 		void render(Element el, JavaScriptObject callback);

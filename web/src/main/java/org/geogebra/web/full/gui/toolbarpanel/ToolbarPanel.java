@@ -269,6 +269,9 @@ public class ToolbarPanel extends FlowPanel
 		ClickStartHandler.initDefaults(main, false, true);
 		hideDragger();
 		doOpen();
+		if (app.isExamStarted() && !app.getExam().isCheating()) {
+			setHeaderStyle("examOk");
+		}
 	}
 
 	@Override

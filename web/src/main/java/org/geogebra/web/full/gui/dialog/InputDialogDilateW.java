@@ -40,7 +40,7 @@ public class InputDialogDilateW extends ComponentInputDialog {
 			GeoPointND[] points, GeoElement[] selGeos, Kernel kernel, EuclidianController ec) {
 		super(app, data, false, false, handler,
 				app.getLocalization().getMenu("Dilate.Factor"), "",
-				1, -1, false);
+				false);
 		setInputHandler(handler);
 		addStyleName("dilate");
 
