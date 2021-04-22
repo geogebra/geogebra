@@ -53,6 +53,10 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 	private boolean defined = true;
 	private double minHeight;
 
+	/**
+	 * @param cons construction
+	 * @param location real world location
+	 */
 	public GeoMindMapNode(Construction cons, GPoint2D location) {
 		super(cons);
 		setLocation(location);
@@ -170,6 +174,10 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 		return parent;
 	}
 
+	/**
+	 * @param parent parent node
+	 * @param nodeAlignment alignment
+	 */
 	public void setParent(GeoMindMapNode parent, NodeAlignment nodeAlignment) {
 		this.parent = parent;
 		this.nodeAlignment = nodeAlignment;

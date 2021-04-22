@@ -77,6 +77,9 @@ public enum EuclidianBoundingBoxHandler {
 		return dx != 0 && dy != 0;
 	}
 
+	/**
+	 * @return whether this is a mind-map add handler
+	 */
 	public boolean isAddHandler() {
 		return this == ADD_TOP
 				|| this == ADD_RIGHT

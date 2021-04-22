@@ -94,9 +94,13 @@ public class DrawMindMap extends DrawInlineText {
 		}
 	}
 
-	public DrawMindMap(EuclidianView view, GeoInline text) {
-		super(view, text);
-		this.node = (GeoMindMapNode) text;
+	/**
+	 * @param view view
+	 * @param node mind-map node
+	 */
+	public DrawMindMap(EuclidianView view, GeoMindMapNode node) {
+		super(view, node);
+		this.node = node;
 	}
 
 	@Override
@@ -169,6 +173,11 @@ public class DrawMindMap extends DrawInlineText {
 		}
 	}
 
+	/**
+	 * Add new child node to the mind-map
+	 * @param addHandler clicked handler
+	 * @return added node
+	 */
 	public GeoMindMapNode addChildNode(EuclidianBoundingBoxHandler addHandler) {
 		NodeAlignment newAlignment = toAlignment(addHandler);
 

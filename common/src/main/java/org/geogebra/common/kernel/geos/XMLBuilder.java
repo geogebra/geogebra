@@ -445,6 +445,11 @@ public class XMLBuilder {
 		}
 	}
 
+	/**
+	 * @param sb builder
+	 * @param node parent node
+	 * @param alignment alignment
+	 */
 	public static void appendParent(StringBuilder sb, GeoMindMapNode node,
 			GeoMindMapNode.NodeAlignment alignment) {
 		if (node != null) {

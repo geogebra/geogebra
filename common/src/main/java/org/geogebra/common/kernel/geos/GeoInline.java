@@ -171,6 +171,9 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 		XMLBuilder.appendPosition(sb, this);
 	}
 
+	/**
+	 * @return text formatter
+	 */
 	public HasTextFormat getFormatter() {
 		DrawInline drawable = (DrawInline) kernel.getApplication()
 				.getActiveEuclidianView().getDrawableFor(this);

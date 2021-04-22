@@ -24,6 +24,10 @@ public class MindMapBoundingBox extends MediaBoundingBox {
 	private final EuclidianView view;
 	private final GeoMindMapNode node;
 
+	/**
+	 * @param view view
+	 * @param node mind-map node
+	 */
 	public MindMapBoundingBox(EuclidianView view, GeoMindMapNode node) {
 		this.view = view;
 		this.node = node;
