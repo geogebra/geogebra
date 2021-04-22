@@ -621,16 +621,4 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/3d/stylingbar_graphics3D_view_yz.svg")
 	SVGResource viewYZ();
-
-	@Source("org/geogebra/common/icons/svg/web/stylingbar/3d/stylingbar_graphics3D_view_orthographic.svg")
-	SVGResource viewOrthographic();
-
-	@Source("org/geogebra/common/icons/svg/web/stylingbar/3d/stylingbar_graphics3D_view_perspective.svg")
-	SVGResource viewPerspective();
-
-	@Source("org/geogebra/common/icons/svg/web/stylingbar/3d/stylingbar_graphics3D_view_glasses.svg")
-	SVGResource viewGlasses();
-
-	@Source("org/geogebra/common/icons/svg/web/stylingbar/3d/stylingbar_graphics3D_view_oblique.svg")
-	SVGResource viewOblique();
 }

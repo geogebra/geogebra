@@ -80,10 +80,10 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		// // projection view button
 		ImageOrText[] projectionIcons = ImageOrText.convert(
 				new SVGResource[] {
-						MaterialDesignResources.INSTANCE.viewOrthographic(),
-						MaterialDesignResources.INSTANCE.viewPerspective(),
-						MaterialDesignResources.INSTANCE.viewGlasses(),
-						MaterialDesignResources.INSTANCE.viewOblique() }, 24);
+						MaterialDesignResources.INSTANCE.projection_orthographic(),
+						MaterialDesignResources.INSTANCE.projection_perspective(),
+						MaterialDesignResources.INSTANCE.projection_glasses(),
+						MaterialDesignResources.INSTANCE.projection_oblique() }, 24);
 		btnViewProjection = new ProjectionPopup(app, projectionIcons);
 		btnViewProjection.setSelectedIndex(((EuclidianSettings3D) ev
 				.getSettings()).getProjection());

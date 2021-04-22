@@ -355,13 +355,13 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				buttons = new MyToggleButtonW[4];
 
 				buttons[EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC] = new MyToggleButtonW(
-						MaterialDesignResources.INSTANCE.viewOrthographic());
+						MaterialDesignResources.INSTANCE.projection_orthographic());
 				buttons[EuclidianView3DInterface.PROJECTION_PERSPECTIVE] = new MyToggleButtonW(
-						MaterialDesignResources.INSTANCE.viewPerspective());
+						MaterialDesignResources.INSTANCE.projection_perspective());
 				buttons[EuclidianView3DInterface.PROJECTION_GLASSES] = new MyToggleButtonW(
-						MaterialDesignResources.INSTANCE.viewGlasses());
+						MaterialDesignResources.INSTANCE.projection_glasses());
 				buttons[EuclidianView3DInterface.PROJECTION_OBLIQUE] = new MyToggleButtonW(
-						MaterialDesignResources.INSTANCE.viewOblique());
+						MaterialDesignResources.INSTANCE.projection_oblique());
 
 				for (int i = 0; i < 4; i++) {
 					buttons[i].addClickHandler(this);
