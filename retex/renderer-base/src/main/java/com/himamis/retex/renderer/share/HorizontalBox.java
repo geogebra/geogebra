@@ -192,13 +192,13 @@ public class HorizontalBox extends Box {
 
 	@Override
 	public void inspect(BoxConsumer handler, BoxPosition position) {
-		BoxPosition current = new BoxPosition(position.x, position.y,
-				position.scale, position.y + shift);
-		super.inspect(handler, current);
+		super.inspect(handler, position);
 
 		double xPos = position.x;
 		for (Box box : children) {
-			box.inspect(handler, current.withPosition(xPos, position.y + box.shift));
+			BoxPosition current = new BoxPosition(xPos, position.y + box.shift,
+					position.scale, position.baseline + box.shift);
+			box.inspect(handler, current);
 			xPos += box.getWidth();
 		}
 	}

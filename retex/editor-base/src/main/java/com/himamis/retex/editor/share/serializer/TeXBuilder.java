@@ -11,6 +11,7 @@ import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.Unicode;
+import com.himamis.retex.renderer.share.AccentedAtom;
 import com.himamis.retex.renderer.share.ArrayOfAtoms;
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.CharAtom;
@@ -35,6 +36,7 @@ import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.TextStyle;
 import com.himamis.retex.renderer.share.TextStyleAtom;
 import com.himamis.retex.renderer.share.UnderOverArrowAtom;
+import com.himamis.retex.renderer.share.UnderscoreAtom;
 import com.himamis.retex.renderer.share.commands.CommandOpName;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -61,7 +63,6 @@ public class TeXBuilder {
 	private final static HashMap<Character, String> replacements = new HashMap<>();
 
 	static {
-		replacements.put('*', "cdot");
 		replacements.put('%', "textpercent");
 		replacements.put('$', "textdollar");
 		replacements.put('&', "textampersand");
@@ -171,7 +172,7 @@ public class TeXBuilder {
 	private Atom build(MathComponent argument) {
 		Atom ret = null;
 		if (argument instanceof MathCharacter) {
-			ret = newCharAtom(((MathCharacter) argument).getUnicode());
+			ret = newCharAtom((MathCharacter) argument);
 		} else if (argument instanceof MathFunction) {
 			ret = buildFunction((MathFunction) argument);
 		} else if (argument instanceof MathArray) {
@@ -188,9 +189,22 @@ public class TeXBuilder {
 		return ret;
 	}
 
+	private Atom newCharAtom(MathCharacter character) {
+		if ("\\cdot{}".equals(character.getTexName())) {
+			return SymbolAtom.get("cdot").duplicate();
+		}
+
+		return newCharAtom(character.getUnicode());
+	}
+
 	private Atom newCharAtom(char unicode) {
-		if (unicode == ' ') {
+		switch (unicode) {
+		case ' ':
 			return new SpaceAtom();
+		case '^':
+			return new AccentedAtom(new SpaceAtom(), Symbols.HAT);
+		case '_':
+			return new UnderscoreAtom();
 		}
 
 		String replacement = replacements.get(unicode);

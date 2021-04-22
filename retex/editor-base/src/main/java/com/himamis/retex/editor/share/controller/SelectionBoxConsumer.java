@@ -35,10 +35,7 @@ public class SelectionBoxConsumer implements BoxConsumer {
 		MathComponent component = texBuilder.getComponent(box.getAtom());
 
 		if (selectionParent == null
-				|| (component != null
-				&& component.getParent() == selectionParent
-				&& selectionStartIndex <= component.getParentIndex()
-				&& component.getParentIndex() <= selectionEndIndex)) {
+				|| isBetween(component) || component != null && isBetween(component.getParent())) {
 			if (selectionBaseline == null) {
 				selectionBaseline = position.baseline;
 			}
@@ -49,6 +46,13 @@ public class SelectionBoxConsumer implements BoxConsumer {
 			selectionHeight = Math.max(position.scale, Math.max(box.getHeight(), selectionHeight));
 			selectionDepth = Math.max(box.getDepth(), selectionDepth);
 		}
+	}
+
+	private boolean isBetween(MathComponent component) {
+		return component != null
+				&& component.getParent() == selectionParent
+				&& selectionStartIndex <= component.getParentIndex()
+				&& component.getParentIndex() <= selectionEndIndex;
 	}
 
 	/**
