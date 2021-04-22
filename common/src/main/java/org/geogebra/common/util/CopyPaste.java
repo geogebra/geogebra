@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -95,6 +96,11 @@ public abstract class CopyPaste {
 		for (int i = geos.size() - 1; i >= 0; i--) {
 			geo = (GeoElement) geos.get(i);
 			AlgoElement parentAlgorithm = geo.getParentAlgorithm();
+			if (geo instanceof GeoMindMapNode) {
+				ArrayList<GeoElement> list = new ArrayList();
+				addChildNodes((GeoMindMapNode) geo, list);
+				geos.addAll(list);
+			}
 			if (parentAlgorithm == null) {
 				continue;
 			}
@@ -285,6 +291,15 @@ public abstract class CopyPaste {
 				}
 
 			}
+		}
+	}
+
+	private static void addChildNodes(GeoMindMapNode geo, ArrayList<GeoElement> list) {
+		if (!list.contains(geo)) {
+			list.add(geo);
+		}
+		for (GeoMindMapNode child: geo.getChildren()) {
+			addChildNodes(child, list);
 		}
 	}
 

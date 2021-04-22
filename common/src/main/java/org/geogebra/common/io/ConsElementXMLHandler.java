@@ -2358,14 +2358,14 @@ public class ConsElementXMLHandler {
 			return;
 		}
 
-		GeoElement parent = xmlHandler.kernel.lookupLabel(attrs.get("val"));
+		String val = attrs.get("val");
+		GeoElement parent = "_".equals(val) ? null : xmlHandler.kernel.lookupLabel(val);
 		NodeAlignment alignment = NodeAlignment.valueOf(attrs.get("align"));
 
-		if (!(parent instanceof GeoMindMapNode)) {
+		if (parent != null && !(parent instanceof GeoMindMapNode)) {
 			Log.error("<parent> has incorrect type: " + parent.getClass());
 			return;
 		}
-
 		((GeoMindMapNode) geo).setParent((GeoMindMapNode) parent, alignment);
 	}
 

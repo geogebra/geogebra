@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
+import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.groups.Group;
@@ -84,7 +85,12 @@ public class InternalClipboard {
 		for (int i = 0; i < cons.steps(); ++i) {
 			ConstructionElement ce = cons.getConstructionElement(i);
 			if (geoslocal.contains(ce)) {
-				ce.getXML(false, copiedXml);
+				if (ce instanceof GeoMindMapNode
+						&& !geoslocal.contains(((GeoMindMapNode) ce).getParent())) {
+					((GeoMindMapNode) ce).getXMLNoParent(copiedXml);
+				} else {
+					ce.getXML(false, copiedXml);
+				}
 
 				if (ce instanceof GeoImage) {
 					GeoImage image = (GeoImage) ce;
@@ -106,7 +112,6 @@ public class InternalClipboard {
 		kernel.setSaveScriptsToXML(saveScriptsToXML);
 
 		afterSavingToXML(geoslocal, geostohide);
-
 		app.setBlockUpdateScripts(scriptsBlocked);
 	}
 
@@ -286,6 +291,7 @@ public class InternalClipboard {
 		EuclidianView ev = app.getActiveEuclidianView();
 		// don't update selection
 		EuclidianController euclidianController = ev.getEuclidianController();
+		final MindMapPaster fakeRoot = new MindMapPaster(app);
 		euclidianController.clearSelections(true, false);
 		euclidianController.widgetsToBackground();
 		// don't update properties view
@@ -308,11 +314,18 @@ public class InternalClipboard {
 
 		if (app.isWhiteboardActive()) {
 			ArrayList<GeoElement> shapes = new ArrayList<>();
+			ArrayList<GeoElement> moveable = new ArrayList<>();
+			ArrayList<GeoMindMapNode> mindMaps = new ArrayList<>();
 			for (GeoElement created : createdElements) {
 				if (created.isShape() || created instanceof GeoLocusStroke
 						|| created instanceof GeoWidget || created instanceof GeoImage
 						|| created instanceof GeoInline) {
 					shapes.add(created);
+				}
+				if (!(created instanceof GeoMindMapNode)) {
+					moveable.add(created);
+				} else {
+					mindMaps.add((GeoMindMapNode) created);
 				}
 			}
 
@@ -330,13 +343,16 @@ public class InternalClipboard {
 			Coords coords = new Coords(ev.getInvXscale() * (viewCenterX - boxCenterX),
 					ev.getInvYscale() * (boxCenterY - viewCenterY), 0);
 
-			MoveGeos.moveObjects(createdElements, coords, null, null, ev);
+			MoveGeos.moveObjects(moveable, coords, null, null, ev);
+
+			if (fakeRoot != null) {
+				fakeRoot.update(mindMaps);
+			}
 			ev.updateAllDrawables(true);
 
 			euclidianController.updateBoundingBoxFromSelection(false);
 			euclidianController.showDynamicStylebar();
 		}
-
 		app.storeUndoInfo();
 	}
 

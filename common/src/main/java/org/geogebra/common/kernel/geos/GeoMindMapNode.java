@@ -15,6 +15,7 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 
 	public static final double ROOT_HEIGHT = 72;
 	public static final double CHILD_HEIGHT = 48;
+	private boolean parentPending = false;
 
 	public enum NodeAlignment {
 		// The order is intentionally inverted
@@ -77,8 +78,8 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 	}
 
 	@Override
-	public GeoElement copy() {
-		GeoElement copy = new GeoMindMapNode(cons, null);
+	public GeoMindMapNode copy() {
+		GeoMindMapNode copy = new GeoMindMapNode(cons, null);
 		copy.set(this);
 		return copy;
 	}
@@ -170,6 +171,21 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 		}
 	}
 
+	/**
+	 * Build XML with parent label replaced
+	 * @param sb builder
+	 */
+	public void getXMLNoParent(StringBuilder sb) {
+		if (parent == null) {
+			getXML(false, sb);
+			return;
+		}
+		String oldParent = parent.getLabelSimple();
+		parent.setLabelSimple("_");
+		getXML(false, sb);
+		parent.setLabelSimple(oldParent);
+	}
+
 	public GeoMindMapNode getParent() {
 		return parent;
 	}
@@ -179,9 +195,25 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 	 * @param nodeAlignment alignment
 	 */
 	public void setParent(GeoMindMapNode parent, NodeAlignment nodeAlignment) {
-		this.parent = parent;
+		setParent(parent);
 		this.nodeAlignment = nodeAlignment;
-		parent.addChild(this);
+	}
+
+	/**
+	 * @param parent parent node
+	 */
+	public void resolvePendingParent(GeoMindMapNode parent) {
+		setParent(parent);
+		parentPending = false;
+	}
+
+	private void setParent(GeoMindMapNode parent) {
+		this.parent = parent;
+		if (parent != null) {
+			parent.addChild(this);
+		} else {
+			parentPending = true;
+		}
 	}
 
 	public List<GeoMindMapNode> getChildren() {
@@ -198,5 +230,9 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 
 	public void setAlignment(NodeAlignment alignment) {
 		this.nodeAlignment = alignment;
+	}
+
+	public boolean isParentPending() {
+		return this.parentPending;
 	}
 }

@@ -5261,10 +5261,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			setActiveView(App.VIEW_EUCLIDIAN);
 			getXMLio().processXMLString(xml, clearAll, false);
 		} catch (MyError err) {
-			err.printStackTrace();
+			Log.debug(err);
 			showError(err);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			showError(Errors.LoadFileFailed);
 		}
 	}

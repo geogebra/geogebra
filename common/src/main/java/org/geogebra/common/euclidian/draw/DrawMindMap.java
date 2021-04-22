@@ -59,10 +59,10 @@ public class DrawMindMap extends DrawInlineText {
 		private final double y1;
 
 		public MindMapEdge(DrawMindMap parent, DrawMindMap child, NodeAlignment alignment) {
-			x0 = parent.rectangle.getLeft() + alignment.dx0 * parent.rectangle.getWidth();
-			y0 = parent.rectangle.getTop() + alignment.dy0 * parent.rectangle.getHeight();
-			x1 = child.rectangle.getLeft() + alignment.dx1 * child.rectangle.getWidth();
-			y1 = child.rectangle.getTop() + alignment.dy1 * child.rectangle.getHeight();
+				x0 = parent.rectangle.getLeft() + alignment.dx0 * parent.rectangle.getWidth();
+				y0 = parent.rectangle.getTop() + alignment.dy0 * parent.rectangle.getHeight();
+				x1 = child.rectangle.getLeft() + alignment.dx1 * child.rectangle.getWidth();
+				y1 = child.rectangle.getTop() + alignment.dy1 * child.rectangle.getHeight();
 		}
 
 		private boolean isIntersecting(NodeAlignment alignment) {
@@ -112,14 +112,22 @@ public class DrawMindMap extends DrawInlineText {
 		}
 		NodeAlignment alignment = node.getAlignment();
 		if (mindMapEdge == null) {
+			parent.rectangle.update();
 			mindMapEdge = new MindMapEdge(parent, this, alignment);
 		}
-		if (mindMapEdge.isIntersecting(alignment)
-				|| alignment.isOpposite(parent.node.getAlignment())) {
-			updateAlignment(parent);
-		} else {
-			mindMapEdge = new MindMapEdge(parent, this, alignment);
+		if (!rootPending(node)) {
+			if (mindMapEdge.isIntersecting(alignment)
+					|| alignment.isOpposite(parent.node.getAlignment())) {
+				updateAlignment(parent);
+			} else {
+				mindMapEdge = new MindMapEdge(parent, this, alignment);
+			}
 		}
+	}
+
+	private boolean rootPending(GeoMindMapNode node) {
+		return node.isParentPending()
+				|| (node.getParent() != null && rootPending(node.getParent()));
 	}
 
 	@Override
@@ -293,6 +301,7 @@ public class DrawMindMap extends DrawInlineText {
 		List<DrawMindMap> intersectableChildren = node.getChildren().stream()
 				.filter(node -> node.getAlignment() != newAlignment)
 				.map(node -> (DrawMindMap) view.getDrawableFor(node))
+				.filter(e -> e != null)
 				.sorted(intersectionComparator)
 				.collect(Collectors.toList());
 
@@ -439,5 +448,52 @@ public class DrawMindMap extends DrawInlineText {
 		}
 
 		return 0;
+	}
+
+	/**
+	 * @param parentNode override parent node
+	 */
+	public void fixPosition(GeoMindMapNode parentNode) {
+		if (parentNode == null) {
+			double centerX = (view.getXmin() + view.getXmax()) / 2;
+			double centerY = (view.getYmin() + view.getYmax()) / 2;
+			Coords coords = new Coords(centerX - node.getLocation().x
+					- rectangle.getWidth() * view.getInvXscale() / 2,
+					centerY - node.getLocation().y
+					+ rectangle.getHeight() * view.getInvYscale() / 2);
+			translateSubtree(node, coords);
+			return;
+		}
+
+		if (node.getAlignment().isOpposite(parentNode.getAlignment())) {
+			fixPosition(parentNode.getAlignment(), parentNode);
+		} else if (node.isParentPending() || overlapsChild(parentNode)) {
+			fixPosition(node.getAlignment(), parentNode);
+		}
+	}
+
+	private void fixPosition(NodeAlignment alignment, GeoMindMapNode parentNode) {
+		DrawMindMap parent = (DrawMindMap) view.getDrawableFor(parentNode);
+		if (parent != null) {
+			GPoint2D newLocation = parent.computeNewLocation(alignment);
+			node.setAlignment(alignment);
+			Coords coords = new Coords(newLocation.x - node.getLocation().x,
+					newLocation.y - node.getLocation().y);
+			translateSubtree(node, coords);
+		}
+	}
+
+	private boolean overlapsChild(GeoMindMapNode parentNode) {
+		return parentNode.getChildren().stream().anyMatch(child ->
+				child != node && node.getLocation().distance(child.getLocation())
+						< view.getInvXscale());
+	}
+
+	private void translateSubtree(GeoMindMapNode node, Coords shift) {
+		node.translate(shift);
+		node.updateCascade(false);
+		for (GeoMindMapNode child: node.getChildren()) {
+			translateSubtree(child, shift);
+		}
 	}
 }
