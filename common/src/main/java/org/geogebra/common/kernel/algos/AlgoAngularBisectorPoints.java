@@ -270,117 +270,48 @@ public class AlgoAngularBisectorPoints extends AlgoElement
 		}
 
 		if (A != null && B != null && C != null) {
+			// Initial input: B is the vertex of the angle, A and C are the other points.
 			PVariable[] vA = A.getBotanaVars(A);
 			PVariable[] vB = C.getBotanaVars(C);
 			PVariable[] vC = B.getBotanaVars(B);
+			// Now, in our notation: C is the vertex of the angle, A and B are the other points.
+			// The output will be: Line(C,M). So we will create a point M.
+			// Then we create a rhombus including points C and A, and add the rest of its
+			// points are S and S'. S' is not stored, but the midpoint of the rhombus
+			// will be denoted by M. Now M=Midpoint(A,S).
+
+			// This idea was taken from Recio-Dalzotto 2009, p. 231,
+			// https://www.researchgate.net/publication/226017744_On_Protocols_for_the_Automated_Discovery_of_Theorems_in_Elementary_Geometry,
+			// but here we do it more generally.
 
 			if (botanaVars == null) {
-				botanaVars = new PVariable[4];
-				// M
+				botanaVars = new PVariable[6];
+				// M, the midpoint of the rhombus
 				botanaVars[0] = new PVariable(kernel);
 				botanaVars[1] = new PVariable(kernel);
-				// A
+				// C, that is, the vertex of the angle.
 				botanaVars[2] = vC[0];
 				botanaVars[3] = vC[1];
+				// S, a helper point.
+				botanaVars[4] = new PVariable(kernel);
+				botanaVars[5] = new PVariable(kernel);
 			}
 
-			/*
-			 * // Computation borrowed from OpenGeoProver. // Maybe there is an
-			 * error somewhere (it does not work properly).
-			 * 
-			 * botanaPolynomials = new Polynomial[1];
-			 * 
-			 * Polynomial a1 = new Polynomial(vA[0]); Polynomial a2 = new
-			 * Polynomial(vA[1]); Polynomial b1 = new Polynomial(vB[0]);
-			 * Polynomial b2 = new Polynomial(vB[1]); Polynomial c1 = new
-			 * Polynomial(vC[0]); Polynomial c2 = new Polynomial(vC[1]);
-			 * Polynomial m1 = new Polynomial(botanaVars[0]); Polynomial m2 =
-			 * new Polynomial(botanaVars[1]);
-			 * 
-			 * // ((yM - yC)(xA - xC) - (yA - yC)(xM - xC)) Polynomial
-			 * nominator1 = (m2.subtract(c2))
-			 * .multiply(a1.subtract(c1)).subtract(
-			 * (a2.subtract(c2)).multiply(m1.subtract(c1)));
-			 * 
-			 * // ((xA - xC)(xM - xC) + (yA - yC)(yM - yC)) Polynomial
-			 * denominator1 = (a1.subtract(c1))
-			 * .multiply(m1.subtract(c1)).add((a2
-			 * .subtract(c2)).multiply(m2.subtract(c2)));
-			 * 
-			 * // ((yB - yM)(xC - xM) - (yC - yM)(xB - xM)) Polynomial
-			 * nominator2 =
-			 * (b2.subtract(m2)).multiply(c1.subtract(m1)).subtract(
-			 * (c2.subtract(m2)).multiply(b1.subtract(m1)));
-			 * 
-			 * // ((xC - xM)(xB - xM) + (yC - yM)(yB - yM)) Polynomial
-			 * denominator2 =
-			 * (c1.subtract(m1)).multiply(b1.subtract(m1)).add((c2
-			 * .subtract(m2)).multiply(b2.subtract(m2)));
-			 * 
-			 * // nominator1 * denominator2 = denominator1 * nominator2
-			 * botanaPolynomials[0] =
-			 * nominator1.multiply(denominator2).subtract(
-			 * denominator1.multiply(nominator2));
-			 */
-
-			// Here we use the scalar product formula, see
-			// https://dev.geogebra.org/trac/wiki/TheoremProvingPlanning#Anglebisectortheorem.
-			// Maybe this method is not the fastest or the most useful one.
-			// incenter1.ggb still gives false for this formula.
-			botanaPolynomials = new PPolynomial[2];
+			botanaPolynomials = new PPolynomial[4];
 
 			PPolynomial a1 = new PPolynomial(vA[0]);
 			PPolynomial a2 = new PPolynomial(vA[1]);
-			PPolynomial b1 = new PPolynomial(vB[0]);
-			PPolynomial b2 = new PPolynomial(vB[1]);
-			PPolynomial c1 = new PPolynomial(vC[0]);
-			PPolynomial c2 = new PPolynomial(vC[1]);
-			PPolynomial m1 = new PPolynomial(botanaVars[0]); // d1
-			PPolynomial m2 = new PPolynomial(botanaVars[1]); // d2
+			PPolynomial m1 = new PPolynomial(botanaVars[0]);
+			PPolynomial m2 = new PPolynomial(botanaVars[1]);
+			PPolynomial s1 = new PPolynomial(botanaVars[4]);
+			PPolynomial s2 = new PPolynomial(botanaVars[5]);
 
-			// A,M,B collinear (needed for easing computations)
-			botanaPolynomials[0] = PPolynomial.collinear(vA[0], vA[1], vB[0],
-					vB[1], botanaVars[0], botanaVars[1]);
-
-			// (b1-c1)*(c1-d1)
-			PPolynomial p1 = b1.subtract(c1).multiply(c1.subtract(m1));
-			// (b2-c2)*(c2-d2)
-			PPolynomial p2 = b2.subtract(c2).multiply(c2.subtract(m2));
-			// (a1-c1)^2+(a2-c2)^2
-			PPolynomial p3 = (PPolynomial.sqr(a1.subtract(c1)))
-					.add(PPolynomial.sqr(a2.subtract(c2)));
-			// (a1-c1)*(c1-d1)
-			PPolynomial p4 = a1.subtract(c1).multiply(c1.subtract(m1));
-			// (a2-c2)*(c2-d2)
-			PPolynomial p5 = a2.subtract(c2).multiply(c2.subtract(m2));
-			// (b1-c1)^2+(b2-c2)^2
-			PPolynomial p6 = PPolynomial.sqr(b1.subtract(c1))
-					.add(PPolynomial.sqr(b2.subtract(c2)));
-			// ((b1-c1)*(c1-d1)+(b2-c2)*(c2-d2))^2*((a1-c1)^2+(a2-c2)^2)
-			// -((a1-c1)*(c1-d1)+(a2-c2)*(c2-d2))^2*((b1-c1)^2+(b2-c2)^2)
-			botanaPolynomials[1] = PPolynomial.sqr((p1.add(p2))).multiply(p3)
-					.subtract(PPolynomial.sqr(p4.add(p5)).multiply(p6));
-
-			/*
-			 * // Another method. //Maybe there is an error somewhere (it does
-			 * not work properly).
-			 * 
-			 * Polynomial m_1 = new Polynomial(botanaVars[2]); Polynomial m_2 =
-			 * new Polynomial(botanaVars[3]);
-			 * 
-			 * Polynomial a_1 = b2.subtract(a2); Polynomial b_1 =
-			 * a1.subtract(b1); Polynomial c_1 =
-			 * (a1.multiply(b2)).subtract(b1.multiply(a2)); Polynomial a_2 =
-			 * c2.subtract(a2); Polynomial b_2 = a1.subtract(c1); Polynomial c_2
-			 * = (a1.multiply(c2)).subtract(c1.multiply(a2));
-			 * 
-			 * botanaPolynomials[0] = a_1.add(a_2).add(a2).subtract(m2);
-			 * botanaPolynomials[1] = b_1.add(b_2).add(m1).subtract(a1);
-			 * botanaPolynomials[2] = c_1.add(c_2).add(m1.multiply(a2))
-			 * .subtract(a1.multiply(m2)); botanaPolynomials[3] =
-			 * a1.add(b_1).add(b_2).subtract(m_1); botanaPolynomials[4] =
-			 * a2.subtract(a_1).subtract(a_2).subtract(m_2);
-			 */
+			PPolynomial p1 = PPolynomial.sqrDistance(vA[0], vA[1], vC[0], vC[1]);
+			PPolynomial p2 = PPolynomial.sqrDistance(botanaVars[4], botanaVars[5], vC[0], vC[1]);
+			botanaPolynomials[0] = p1.subtract(p2);
+			botanaPolynomials[1] = PPolynomial.collinear(vC[0], vC[1], botanaVars[4], botanaVars[5], vB[0], vB[1]);
+			botanaPolynomials[2] = m1.add(m1).subtract(a1).subtract(s1);
+			botanaPolynomials[3] = m2.add(m2).subtract(a2).subtract(s2);
 
 			return botanaPolynomials;
 
