@@ -309,7 +309,8 @@ public class AlgoAngularBisectorPoints extends AlgoElement
 			PPolynomial p1 = PPolynomial.sqrDistance(vA[0], vA[1], vC[0], vC[1]);
 			PPolynomial p2 = PPolynomial.sqrDistance(botanaVars[4], botanaVars[5], vC[0], vC[1]);
 			botanaPolynomials[0] = p1.subtract(p2);
-			botanaPolynomials[1] = PPolynomial.collinear(vC[0], vC[1], botanaVars[4], botanaVars[5], vB[0], vB[1]);
+			botanaPolynomials[1] = PPolynomial.collinear(vC[0], vC[1],
+					botanaVars[4], botanaVars[5], vB[0], vB[1]);
 			botanaPolynomials[2] = m1.add(m1).subtract(a1).subtract(s1);
 			botanaPolynomials[3] = m2.add(m2).subtract(a2).subtract(s2);
 

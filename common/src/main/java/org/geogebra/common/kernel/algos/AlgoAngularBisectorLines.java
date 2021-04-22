@@ -59,7 +59,7 @@ public class AlgoAngularBisectorLines extends AlgoElement
 	private double lenG;
 	private double length;
 	private GeoVector[] wv; // direction of bisector line bisector
-	private GeoPoint B; // intersection point of g, h
+	private final GeoPoint B; // intersection point of g, h
 	private boolean infiniteB;
 	private int index;
 
@@ -425,7 +425,7 @@ public class AlgoAngularBisectorLines extends AlgoElement
 				}
 			}
 
-			if (varsLg != null && B != null && varsLh != null) {
+			if (varsLg != null && varsLh != null) {
 				// Initial input: B is the vertex of the angle, A and C are the other points.
 				// Now, in our notation: C is the vertex of the angle, A and B are the other points.
 				// The output will be: Line(C,M). So we will create a point M.
@@ -460,9 +460,11 @@ public class AlgoAngularBisectorLines extends AlgoElement
 				PPolynomial s2 = new PPolynomial(botanaVars[5]);
 
 				PPolynomial p1 = PPolynomial.sqrDistance(vA[0], vA[1], vC[0], vC[1]);
-				PPolynomial p2 = PPolynomial.sqrDistance(botanaVars[4], botanaVars[5], vC[0], vC[1]);
+				PPolynomial p2 = PPolynomial.sqrDistance(botanaVars[4], botanaVars[5],
+						vC[0], vC[1]);
 				botanaPolynomials[0] = p1.subtract(p2);
-				botanaPolynomials[1] = PPolynomial.collinear(vC[0], vC[1], botanaVars[4], botanaVars[5], vB[0], vB[1]);
+				botanaPolynomials[1] = PPolynomial.collinear(vC[0], vC[1],
+						botanaVars[4], botanaVars[5], vB[0], vB[1]);
 				botanaPolynomials[2] = m1.add(m1).subtract(a1).subtract(s1);
 				botanaPolynomials[3] = m2.add(m2).subtract(a2).subtract(s2);
 				if (polysNeeded == 6) {
