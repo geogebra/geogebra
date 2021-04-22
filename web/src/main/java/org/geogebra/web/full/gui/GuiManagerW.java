@@ -1904,24 +1904,20 @@ public class GuiManagerW extends GuiManager
 		if (showDialog) {
 			getOptionPane().showSaveDialog(loc.getMenu("Save"),
 					getApp().getExportTitle() + extension, null,
-					new AsyncOperation<String[]>() {
+					obj -> {
+						if (Integer.parseInt(obj[0]) == 0) {
 
-						@Override
-						public void callback(String[] obj) {
-							if (Integer.parseInt(obj[0]) == 0) {
+							String filename = obj[1];
 
-								String filename = obj[1];
-
-								if (filename == null || filename.trim().isEmpty()) {
-									filename = getApp().getExportTitle();
-								}
-
-								// in case user removes extension
-								if (!filename.endsWith(extension)) {
-									filename += extension;
-								}
-								exportGgb(filename, extension);
+							if (filename == null || filename.trim().isEmpty()) {
+								filename = getApp().getExportTitle();
 							}
+
+							// in case user removes extension
+							if (!filename.endsWith(extension)) {
+								filename += extension;
+							}
+							exportGgb(filename, extension);
 						}
 					}, loc.getMenu("Save"));
 		} else {

@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -4258,7 +4259,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public String getExportTitle() {
 		String title = getKernel().getConstruction().getTitle();
-		return "".equals(title) ? "geogebra-export" : title;
+		SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+		String currentDate = formatter.format(new Date());
+		return "".equals(title) ? (isMebis() ? currentDate : "geogebra-export")
+				: title;
 	}
 
 	public double getExportScale() {
