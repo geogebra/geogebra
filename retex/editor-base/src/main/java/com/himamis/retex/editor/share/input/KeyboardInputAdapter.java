@@ -33,6 +33,40 @@ public class KeyboardInputAdapter {
 		adapters.add(new StringAdapter("a_n", "_"));
 		adapters.add(new StringAdapter(e + "^", e + "^"));
 
+		// these two are needed for text mode input, math mode input would work without them
+		adapters.add(new StringInput(Unicode.LFLOOR + "") {
+			@Override
+			public void commit(MathFieldInternal mfi, String input) {
+				type(mfi, "" + Unicode.LFLOOR);
+				if (plainTextMode(mfi)) {
+					type(mfi, "" + Unicode.RFLOOR);
+					mfi.getCursorController().prevCharacter(mfi.getEditorState());
+				}
+			}
+		});
+
+		adapters.add(new StringInput(Unicode.LCEIL + "") {
+			@Override
+			public void commit(MathFieldInternal mfi, String input) {
+				type(mfi, "" + Unicode.LCEIL);
+				if (plainTextMode(mfi)) {
+					type(mfi, "" + Unicode.RCEIL);
+					mfi.getCursorController().prevCharacter(mfi.getEditorState());
+				}
+			}
+		});
+
+		adapters.add(new StringInput("abs") {
+			@Override
+			public void commit(MathFieldInternal mfi, String input) {
+				type(mfi, "|");
+				if (plainTextMode(mfi)) {
+					type(mfi, "|");
+					mfi.getCursorController().prevCharacter(mfi.getEditorState());
+				}
+			}
+		});
+
 		adapters.add(new StringInput("x^(-1)") {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {
