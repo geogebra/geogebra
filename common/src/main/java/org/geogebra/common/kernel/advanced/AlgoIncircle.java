@@ -17,18 +17,25 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.advanced;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.adapters.BotanaIncircle;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.util.MyMath;
 
-public class AlgoIncircle extends AlgoElement {
+public class AlgoIncircle extends AlgoElement implements SymbolicParametersBotanaAlgo {
 
 	// input
 	private GeoPointND A;
@@ -37,6 +44,8 @@ public class AlgoIncircle extends AlgoElement {
 
 	private GeoConicND circle; // output
 	private GeoPointND incenter;
+
+	private BotanaIncircle botanaParams;
 
 	/**
 	 * @param cons
@@ -132,11 +141,22 @@ public class AlgoIncircle extends AlgoElement {
 				B.getLabel(tpl), C.getLabel(tpl));
 	}
 
-}
+	@Override
+	public PVariable[] getBotanaVars(GeoElementND geo) {
+		if (botanaParams == null) {
+			botanaParams = new BotanaIncircle();
+		}
+		return botanaParams.getBotanaVars();
+	}
 
-// Local Variables:
-// indent-tabs-mode: nil
-// c-basic-offset: 4
-// tab-width: 4
-// End:
-// vim: set expandtab shiftwidth=4 softtabstop=4 tabstop=4
+	@Override
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
+			throws NoSymbolicParametersException {
+
+		if (botanaParams == null) {
+			botanaParams = new BotanaIncircle();
+		}
+		return botanaParams.getPolynomials(getInput());
+	}
+
+}
