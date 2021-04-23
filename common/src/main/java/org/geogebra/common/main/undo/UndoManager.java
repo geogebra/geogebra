@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Objects;
 
 import org.geogebra.common.euclidian.EmbedManager;
@@ -553,5 +554,36 @@ public abstract class UndoManager {
 		app.getCompanion().recallViewCreators();
 		app.getSelectionManager().recallSelectedGeosNames(app.getKernel());
 		app.getActiveEuclidianView().restoreDynamicStylebar();
+	}
+
+	/**
+	 * Save the whole undo list to a map.
+	 * @param undoHistory to save to.
+	 */
+	public void undoHistoryTo(Map<String, UndoHistory> undoHistory) {
+		LinkedList<UndoCommand> undoCommands = new LinkedList<>();
+		for (UndoCommand undoCommand: undoInfoList) {
+			undoCommands.add(new UndoCommand(undoCommand));
+		}
+		undoHistory.put(app.getConfig().getSubAppCode(),
+				new UndoHistory(undoCommands, iterator.nextIndex()));
+		clearUndoInfo();
+	}
+
+	/**
+	 * Reload undo list from map.
+	 * @param undoHistory to reload from.
+	 */
+	public void undoHistoryFrom(Map<String, UndoHistory> undoHistory) {
+		String subAppCode = app.getConfig().getSubAppCode();
+		if (!undoHistory.containsKey(subAppCode)) {
+			return;
+		}
+
+		clearUndoInfo();
+		UndoHistory history = undoHistory.get(subAppCode);
+		undoInfoList.addAll(history.commands());
+		iterator = undoInfoList.listIterator(history.iteratorIndex());
+		updateUndoActions();
 	}
 }
