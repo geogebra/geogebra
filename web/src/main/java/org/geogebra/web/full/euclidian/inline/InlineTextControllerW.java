@@ -221,7 +221,7 @@ public class InlineTextControllerW implements InlineTextController {
 		if (geo.getBorderThickness() != GeoInlineText.NO_BORDER) {
 			g2.setPaint(geo.getBorderColor());
 			g2.setStroke(getBorderStroke());
-			g2.drawRect(0, 0, (int) geo.getWidth(), (int) geo.getHeight());
+			g2.drawRect(0, 0, (int) geo.getContentWidth(), (int) geo.getContentHeight());
 		}
 		if (editor.getWidget().getElement().hasClassName(INVISIBLE)) {
 			GAffineTransform res = AwtFactory.getTranslateInstance(DrawInlineText.PADDING,
