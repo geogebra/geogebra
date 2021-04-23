@@ -59,7 +59,6 @@ import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -219,7 +218,6 @@ public class MyXMLHandler implements DocHandler {
 	private HashMap<EuclidianSettings, String> ymax = new HashMap<>();
 	private ArrayList<String> entries;
 	private String subAppCode;
-	private GeoMindMapNode mindMapRoot;
 
 	/**
 	 * Creates a new instance of MyXMLHandler

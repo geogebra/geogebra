@@ -59,10 +59,10 @@ public class DrawMindMap extends DrawInlineText {
 		private final double y1;
 
 		public MindMapEdge(DrawMindMap parent, DrawMindMap child, NodeAlignment alignment) {
-				x0 = parent.rectangle.getLeft() + alignment.dx0 * parent.rectangle.getWidth();
-				y0 = parent.rectangle.getTop() + alignment.dy0 * parent.rectangle.getHeight();
-				x1 = child.rectangle.getLeft() + alignment.dx1 * child.rectangle.getWidth();
-				y1 = child.rectangle.getTop() + alignment.dy1 * child.rectangle.getHeight();
+			x0 = parent.rectangle.getLeft() + alignment.dx0 * parent.rectangle.getWidth();
+			y0 = parent.rectangle.getTop() + alignment.dy0 * parent.rectangle.getHeight();
+			x1 = child.rectangle.getLeft() + alignment.dx1 * child.rectangle.getWidth();
+			y1 = child.rectangle.getTop() + alignment.dy1 * child.rectangle.getHeight();
 		}
 
 		private boolean isIntersecting(NodeAlignment alignment) {

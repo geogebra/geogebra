@@ -97,9 +97,7 @@ public abstract class CopyPaste {
 			geo = (GeoElement) geos.get(i);
 			AlgoElement parentAlgorithm = geo.getParentAlgorithm();
 			if (geo instanceof GeoMindMapNode) {
-				ArrayList<GeoElement> list = new ArrayList();
-				addChildNodes((GeoMindMapNode) geo, list);
-				geos.addAll(list);
+				addChildNodes((GeoMindMapNode) geo, geos);
 			}
 			if (parentAlgorithm == null) {
 				continue;
@@ -294,7 +292,7 @@ public abstract class CopyPaste {
 		}
 	}
 
-	private static void addChildNodes(GeoMindMapNode geo, ArrayList<GeoElement> list) {
+	private static void addChildNodes(GeoMindMapNode geo, ArrayList<ConstructionElement> list) {
 		if (!list.contains(geo)) {
 			list.add(geo);
 		}

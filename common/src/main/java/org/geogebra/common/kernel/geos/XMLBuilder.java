@@ -452,9 +452,9 @@ public class XMLBuilder {
 	 */
 	public static void appendParent(StringBuilder sb, GeoMindMapNode node,
 			GeoMindMapNode.NodeAlignment alignment) {
-			if (node != null) {
+		if (node != null) {
 			sb.append("\t<parent val=\"");
-				sb.append(node.getLabel(StringTemplate.xmlTemplate));
+			sb.append(node.getLabel(StringTemplate.xmlTemplate));
 			sb.append("\" align=\"");
 			sb.append(alignment.toString());
 			sb.append("\"/>\n");

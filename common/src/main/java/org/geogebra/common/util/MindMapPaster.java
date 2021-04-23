@@ -11,11 +11,12 @@ public class MindMapPaster {
 	private GeoMindMapNode target;
 
 	/**
-	 * @param app application
+	 * If the current selection contains only a single MindMapNode save it
+	 * so that we can append to it the pasted branch
+	 * @param selection SelectionManager
 	 */
-	public MindMapPaster(App app) {
-		SelectionManager selection = app.getSelectionManager();
-		if (selection.selectedGeosSize() == 1 && app.isWhiteboardActive()
+	public void setTargetFromSelection(SelectionManager selection) {
+		if (selection.selectedGeosSize() == 1
 				&& selection.getSelectedGeos().get(0) instanceof GeoMindMapNode) {
 			target = ((GeoMindMapNode) selection.getSelectedGeos().get(0));
 		}
@@ -25,7 +26,7 @@ public class MindMapPaster {
 	 * Update position and parent references
 	 * @param mindMaps mind-map nodes
 	 */
-	public void update(ArrayList<GeoMindMapNode> mindMaps) {
+	public void joinToTarget(ArrayList<GeoMindMapNode> mindMaps) {
 		for (GeoMindMapNode mindMapNode: mindMaps) {
 			fixPosition(mindMapNode);
 		}

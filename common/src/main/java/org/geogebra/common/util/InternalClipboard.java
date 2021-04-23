@@ -289,11 +289,16 @@ public class InternalClipboard {
 		app.setBlockUpdateScripts(true);
 
 		EuclidianView ev = app.getActiveEuclidianView();
-		// don't update selection
 		EuclidianController euclidianController = ev.getEuclidianController();
-		final MindMapPaster fakeRoot = new MindMapPaster(app);
+
+		// first we save the selected MindMap node (if there is one)
+		final MindMapPaster mindMapPaster = new MindMapPaster();
+		mindMapPaster.setTargetFromSelection(app.getSelectionManager());
+
+		// then we clear the selection and stop edit mode for all widgets
 		euclidianController.clearSelections(true, false);
 		euclidianController.widgetsToBackground();
+
 		// don't update properties view
 		app.updateSelection(false);
 		app.getGgbApi().evalXML(copiedXml);
@@ -314,7 +319,7 @@ public class InternalClipboard {
 
 		if (app.isWhiteboardActive()) {
 			ArrayList<GeoElement> shapes = new ArrayList<>();
-			ArrayList<GeoElement> moveable = new ArrayList<>();
+			ArrayList<GeoElement> movable = new ArrayList<>();
 			ArrayList<GeoMindMapNode> mindMaps = new ArrayList<>();
 			for (GeoElement created : createdElements) {
 				if (created.isShape() || created instanceof GeoLocusStroke
@@ -323,7 +328,7 @@ public class InternalClipboard {
 					shapes.add(created);
 				}
 				if (!(created instanceof GeoMindMapNode)) {
-					moveable.add(created);
+					movable.add(created);
 				} else {
 					mindMaps.add((GeoMindMapNode) created);
 				}
@@ -343,16 +348,15 @@ public class InternalClipboard {
 			Coords coords = new Coords(ev.getInvXscale() * (viewCenterX - boxCenterX),
 					ev.getInvYscale() * (boxCenterY - viewCenterY), 0);
 
-			MoveGeos.moveObjects(moveable, coords, null, null, ev);
+			MoveGeos.moveObjects(movable, coords, null, null, ev);
 
-			if (fakeRoot != null) {
-				fakeRoot.update(mindMaps);
-			}
+			mindMapPaster.joinToTarget(mindMaps);
 			ev.updateAllDrawables(true);
 
 			euclidianController.updateBoundingBoxFromSelection(false);
 			euclidianController.showDynamicStylebar();
 		}
+
 		app.storeUndoInfo();
 	}
 
