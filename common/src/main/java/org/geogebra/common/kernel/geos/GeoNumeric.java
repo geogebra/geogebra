@@ -2083,4 +2083,9 @@ public class GeoNumeric extends GeoElement
 		intervalMin = null;
 		setEuclidianVisible(false);
 	}
+
+	@Override
+	public String toLaTeXString(boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
+		return toLaTeXString(symbolic || symbolicContext, tpl);
+	}
 }

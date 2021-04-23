@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.interval;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.plugin.Operation;
@@ -15,6 +17,7 @@ import org.geogebra.common.util.debug.Log;
  public class IntervalFunction {
 	private static final UnsupportedOperatorChecker
 			operatorChecker = new UnsupportedOperatorChecker();
+	private static final Interval EMPTY = IntervalConstants.empty();
 	private final GeoFunction function;
 
 	/**
@@ -35,37 +38,35 @@ import org.geogebra.common.util.debug.Log;
 	 */
 	public Interval evaluate(Interval x) throws Exception {
 		ExpressionNode node = function.getFunctionExpression();
-		if (node == null) {
-			return IntervalConstants.empty();
-		}
-
 		return evaluate(new Interval(x), node);
 	}
 
-	private Interval evaluate(Interval x, ExpressionNode node) throws Exception {
-		Operation operation = node.getOperation();
-		if (node.isLeaf()) {
-			return evaluateLeaf(x, node, operation);
+	private Interval evaluate(Interval x, ExpressionValue ev) throws Exception {
+		if (ev == null) {
+			return EMPTY;
+		}
+		if (ev instanceof FunctionVariable) {
+			return new Interval(x);
+		}
+		if (!ev.isExpressionNode()) {
+			return new Interval(ev.evaluateDouble());
+		}
+		ExpressionNode node = ev.wrap();
+		if (!node.containsFreeFunctionVariable(null)) {
+			return new Interval(ev.evaluateDouble());
 		}
 
-		return evaluate(evaluate(x, node.getLeftTree()),
-				operation,
-				evaluate(x, node.getRightTree()));
-	}
-
-	private Interval evaluateLeaf(Interval x, ExpressionNode node, Operation operation)
-			throws Exception {
-		if (node.isConstant()
-				|| (node.unwrap().isNumberValue()) && !node.containsFunctionVariable()) {
-			return new Interval(node.evaluateDouble());
-		}
-		return x.evaluate(operation);
+		return evaluate(evaluate(x, node.getLeft()),
+				node.getOperation(),
+				evaluate(x, node.getRight()));
 	}
 
 	private Interval evaluate(Interval left, Operation operation,
 			Interval right) throws Exception {
 
 		switch (operation) {
+			case NO_OPERATION:
+				return left;
 			case PLUS:
 				return left.add(right);
 			case MINUS:
@@ -112,8 +113,6 @@ import org.geogebra.common.util.debug.Log;
 				return left.sinh();
 			case TANH:
 				return left.tanh();
-			case ACOSH:
-				return left.acos();
 			case LOG10:
 				return left.log10();
 			case LOG2:

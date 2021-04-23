@@ -9,7 +9,7 @@ describe('Quick stylebar test', () => {
     afterEach(cy.setSaved);
 
     it("Quick stylebar should not be visible after pen draw", () => {
-        selectors.dynamicStyleBar.get().should('not.be.visible');
+        selectors.dynamicStyleBar.get().should('not.exist');
 
         selectors.euclidianView.get()
             .mouseEvent('down', 200, 200)
@@ -17,13 +17,13 @@ describe('Quick stylebar test', () => {
             .mouseEvent('move', 250, 300)
             .mouseEvent('up');
 
-        selectors.dynamicStyleBar.get().should('not.be.visible');
+        selectors.dynamicStyleBar.get().should('not.exist');
     });
 
     it("Quick stylebar should show after creating rectangle", () => {
         selectors.toolsPanelButton.click();
 
-        selectors.dynamicStyleBar.get().should('not.be.visible');
+        selectors.dynamicStyleBar.get().should('not.exist');
 
         selectors.euclidianView.get()
             .mouseEvent('down', 200, 200)
@@ -36,7 +36,7 @@ describe('Quick stylebar test', () => {
     it("Quick stylebar should show after creating text", () => {
         selectors.mediaPanelButton.click();
 
-        selectors.dynamicStyleBar.get().should('not.be.visible');
+        selectors.dynamicStyleBar.get().should('not.exist');
 
         selectors.euclidianView.get()
             .mouseEvent('down', 200, 200)
@@ -49,7 +49,7 @@ describe('Quick stylebar test', () => {
         cy.window().then((win) => {win.mainApplet = win.ggbApplet;});
         selectors.mediaPanelButton.click();
 
-        selectors.dynamicStyleBar.get().should('not.be.visible');
+        selectors.dynamicStyleBar.get().should('not.exist');
         selectors.insertGraphingCalculatorButton.click();
         selectors.dynamicStyleBar.get().should('be.visible');
     });

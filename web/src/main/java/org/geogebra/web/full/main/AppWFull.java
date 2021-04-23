@@ -76,6 +76,7 @@ import org.geogebra.web.full.gui.app.GGWCommandLine;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.web.full.gui.dialog.H5PReader;
 import org.geogebra.web.full.gui.exam.ExamDialog;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
@@ -2034,6 +2035,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
+	public void openH5P(File file) {
+		new H5PReader(this).load(file);
+	}
+
+	@Override
 	public SaveController getSaveController() {
 		if (saveController == null) {
 			saveController = new SaveControllerW(this);
@@ -2202,11 +2208,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		activity = new SuiteActivity(subAppCode);
 		activity.start(this);
 
-		clearConstruction();
 		Perspective perspective = PerspectiveDecoder.decode(getConfig().getForcedPerspective(),
 				kernel.getParser(), ToolBar.getAllToolsNoMacros(isHTML5Applet(), isExam(), this));
 		updateSymbolicFlag(subAppCode, perspective);
 		reinitSettings();
+		clearConstruction();
 		getTmpPerspectives().clear();
 		updatePerspective(perspective);
 		restoreMaterial(subAppCode);

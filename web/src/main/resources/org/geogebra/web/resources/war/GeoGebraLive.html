@@ -6,21 +6,32 @@
     <meta charset="utf-8"/>
     <script src="https://cdn.geogebra.org/apps/deployggb.js"></script>
     <script src="./geogebra-live.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 
 <body>
+<div class="container">
+    <div class="mt-2 mb-2">
+        Switch app:
+        <div class="btn-group">
+            <a href="?app=classic" class="btn btn-secondary">Classic</a>
+            <a href="?app=notes" class="btn btn-secondary">Notes</a>
+            <a href="?app=graphing" class="btn btn-secondary">Graphing</a>
+            <a href="?app=cas" class="btn btn-secondary">CAS</a>
+        </div>
+    </div>
 <div id="ggbApplet1"></div>
-<button onclick="window.open(location.href)" style="margin-top:56px">Local test</button>
+<button onclick="window.open(location.href)" class="btn btn-primary mt-4">Local test</button>
 
 <script>
         var userDatabase = [
-            {id:7, name:'Hypatia', color: '#2E7D3280'},
-            {id:13, name:'Ada', color: '#1565C080'},
-            {id:17, name:'Sophie', color: '#D32F2F80'},
-            {id:23, name:'Emmy', color: '#DB611480'},
-            {id:29, name:'Helge', color: '#6557D280'},
-            {id:31, name:'Florence', color: '#61616180'},
-            {id:37, name:'Maryam', color: '#D81B6080'},
+            {id:"7", name:'Hypatia', color: '#2E7D3280'},
+            {id:"13", name:'Ada', color: '#1565C080'},
+            {id:"17", name:'Sophie', color: '#D32F2F80'},
+            {id:"23", name:'Emmy', color: '#DB611480'},
+            {id:"29", name:'Helge', color: '#6557D280'},
+            {id:"31", name:'Florence', color: '#61616180'},
+            {id:"37", name:'Maryam', color: '#D81B6080'},
         ]
         var updatingOn = true;
 
@@ -111,6 +122,7 @@
         };
 
 </script>
+</div>
 </body>
 
 </html>

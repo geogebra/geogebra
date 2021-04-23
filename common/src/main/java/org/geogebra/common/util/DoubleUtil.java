@@ -2,6 +2,7 @@ package org.geogebra.common.util;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.debug.crashlytics.CrashlyticsLogger;
 
@@ -424,6 +425,23 @@ public class DoubleUtil {
 		if (Math.abs(root2Val) < Math.abs(rootVal)) {
 			// rounded root is more accurate -> use that
 			return root2;
+		}
+		
+		// now try slower check for eg 1/3
+		double[] polishedRoot = AlgoFractionText.decimalToFraction(root, Kernel.STANDARD_PRECISION);
+		if (polishedRoot[1] != 0 && Math.abs(polishedRoot[0]) < 999
+				&& Math.abs(polishedRoot[1]) < 20) {
+			root2 = polishedRoot[0] / polishedRoot[1];
+			root2Val = f.value(root2);
+			if (!MyDouble.isFinite(root2Val)) {
+				// hole near/at root
+				return Double.NaN;
+			}
+			
+			if (Math.abs(root2Val) < Math.abs(rootVal)) {
+				// rounded root is more accurate -> use that
+				return root2;
+			}
 		}
 
 		// default: return original root

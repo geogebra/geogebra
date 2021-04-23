@@ -169,32 +169,6 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/common/stylingbar/p24/stylebar_more.png")
 	ImageResource stylebar_more();
 
-	// PLAY, PAUSE, REWIND, ETC. USED IN ALGEBRA VIEW, EV AND IN NAVIGATION BAR
-
-	@Source("org/geogebra/common/icons_play/p24/nav_skipback.png")
-	ImageResource icons_play_skipback();
-
-	@Source("org/geogebra/common/icons_play/p24/nav_skipback_hover.png")
-	ImageResource icons_play_skipback_hover();
-
-	@Source("org/geogebra/common/icons_play/p24/nav_rewind.png")
-	ImageResource icons_play_rewind();
-
-	@Source("org/geogebra/common/icons_play/p24/nav_rewind_hover.png")
-	ImageResource icons_play_rewind_hover();
-
-	@Source("org/geogebra/common/icons_play/p24/nav_fastforward.png")
-	ImageResource icons_play_fastforward();
-
-	@Source("org/geogebra/common/icons_play/p24/nav_fastforward_hover.png")
-	ImageResource icons_play_fastforward_hover();
-
-	@Source("org/geogebra/common/icons_play/p24/nav_skipforward.png")
-	ImageResource icons_play_skipforward();
-
-	@Source("org/geogebra/common/icons_play/p24/nav_skipforward_hover.png")
-	ImageResource icons_play_skipforward_hover();
-
 	// Show construction protocol icon in navigation bar
 	@Source("org/geogebra/common/icons_view_perspectives/p24/menu_view_construction_protocol.png")
 	ImageResource icons_view_construction_protocol_p24();

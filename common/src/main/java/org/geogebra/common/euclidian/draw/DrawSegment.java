@@ -528,8 +528,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 				mx = view.toScreenCoordX(xRW);
 				my = view.toScreenCoordY(yRW);
 
-				endPoint.setX(xRW);
-				endPoint.setY(yRW);
+				endPoint.setLocation(xRW, yRW);
 				view.getEuclidianController().setLineEndPoint(endPoint);
 			} else {
 				view.getEuclidianController().setLineEndPoint(null);

@@ -1,7 +1,8 @@
 (function() {
-    function LiveApp(parentClientId, embedLabel, users) {
+    function LiveApp(parentClientId, embedLabel, users, delay) {
         this.api = null;
         this.users = users || {};
+      	this.delay = delay || 200;
         this.clientId = parentClientId;
         this.currentAnimations = [];
         this.embeds = {};
@@ -56,7 +57,7 @@
             }
             var calc = (this.api.getEmbeddedCalculators() || {})[label];
             if (calc && calc.registerClientListener) {
-                var calcLive = new LiveApp(this.clientId, label, this.users);
+                var calcLive = new LiveApp(this.clientId, label, this.users, this.delay);
                 calcLive.api = calc;
                 calcLive.eventCallbacks = this.eventCallbacks;
                 calcLive.registerListeners();
@@ -86,7 +87,7 @@
                         let commandString = that.api.getCommandString(label, false);
                         // send command for dependent objects
                         if (commandString) {
-                            that.sendEvent("evalCommand", label + " = " + commandString, label);
+                            that.sendEvent("evalCommand", label + " := " + commandString, label);
                             var group = that.api.getObjectsOfItsGroup(label);
                             if (group != null) {
                                 that.sendEvent("addToGroup", label, group);
@@ -101,7 +102,7 @@
                     }
 
                     updateCallback = null;
-                }, 200);
+                }, that.delay);
             }
         }).bind(this);
 
@@ -295,7 +296,10 @@
                     target.evalCommand(last.content);
                     target.api.previewRefresh();
                 } else if (last.type == "deleteObject") {
-                	target.unregisterListeners();
+                    target.unregisterListeners();
+                    if (target === this) {
+                        delete(this.embeds[last.content]);
+                    }
                     target.api.deleteObject(last.content);
                     target.registerListeners();
                 } else if (last.type == "setEditorState") {
@@ -364,11 +368,12 @@
         };
    }
 
-    window.GeoGebraLive = function(api, id) {
+    window.GeoGebraLive = function(api, id, delay) {
         var mainSession = new LiveApp(id);
         mainSession.api = api;
         mainSession.eventCallbacks = {"construction": []}
         mainSession.registerListeners();
+        mainSession.delay = delay;
 
         this.dispatch = function(last) {
             mainSession.dispatch(last);

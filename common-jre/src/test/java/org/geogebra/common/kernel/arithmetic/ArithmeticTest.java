@@ -334,6 +334,11 @@ public class ArithmeticTest extends Assert {
 		t("32^(-1/5)", "0.5");
 	}
 
+	@Test
+	public void testAVShortIf() {
+		t("3,5>x", "If[5 > x, 3]");
+	}
+
 	private GeoElement lookup(String g) {
 		return app.getKernel().lookupLabel(g);
 	}

@@ -2,10 +2,13 @@ package org.geogebra.common.kernel.interval;
 
 import org.geogebra.common.plugin.Operation;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Evaluates expression using interval arithmetic
  */
 class IntervalEvaluate {
+	@Weak
 	private final Interval interval;
 
 	/**
@@ -92,9 +95,8 @@ class IntervalEvaluate {
 			return interval.log10();
 		case LOG2:
 			return interval.log2();
-		case ACOSH:
-		case INTEGRAL:
-		case INVERSE_NORMAL:
+		default:
+			return interval;
 		}
 		return interval;
 	}

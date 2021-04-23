@@ -2762,4 +2762,10 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 			Assert.assertEquals("Failed at " + i, "0", casResult);
 		}
 	}
+
+	@Test
+	public void ggbIsZeroShouldNotSimplify() {
+		t("f(x) = If(x < 0, -x, x > 0, x, 0)", "f(x) = Wenn(0 > x,-x,x > 0,x,0)");
+		t("|x|==f(x)", "false");
+	}
 }

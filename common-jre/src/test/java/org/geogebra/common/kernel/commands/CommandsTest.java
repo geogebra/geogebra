@@ -1141,6 +1141,9 @@ public class CommandsTest {
 	public void cmdCoefficients() {
 		t("Coefficients[ x^2+y^2=1 ]", "{1, 1, -1, 0, 0, 0}");
 		t("Coefficients[ x^2 ]", "{1, 0, 0}");
+		t("Coefficients[ 2x+3y+4z=5 ]", "{2, 3, 4, -5}");
+		t("Coefficients[ Fit({(0,0),(1,1),(2,4)}, {x^2,sin(x),x}) ]", "{1, 0, 0}");
+		t("Coefficients[7x^3+sin(x)]", "{7, 3}");
 	}
 
 	@Test
@@ -1155,7 +1158,8 @@ public class CommandsTest {
 
 	@Test
 	public void cmdCompleteSquare() {
-		t("CompleteSquare[ x^2 ]", "(1 * (x)^(2))");
+		t("CompleteSquare[ x^2 ]", "(x)^(2)");
+		t("CompleteSquare[ x^2 + 2x + 2 ]", "(x + 1)^(2) + 1");
 	}
 
 	@Test
@@ -3104,9 +3108,14 @@ public class CommandsTest {
 
 	@Test
 	public void cmdRoot() {
-		tRound("Root[ x^3-x ]", new String[] { "(-1, 0)", "(0, 0)", "(1, 0)" });
+		t("Root[ x^3-x ]", "(-1, 0)", "(0, 0)", "(1, 0)");
+		t("Root[ x^3-2x^2+x ]", "(0, 0)", "(1, 0)");
+		t("Root[ x^3-3x^2+3x-1 ]", "(1, 0)");
 		tRound("Root[ sin(x*pi), 1.3 ]", "(1, 0)");
 		tRound("Root[ sin(x*pi), -3,3 ]", "(0, 0)");
+		t("Root[9x^4 - x^2 ]", "(-0.3333333333333333, 0)", "(0, 0)",
+				"(0.3333333333333333, 0)");
+		t("Root[x^4-4x^2]", "(-2, 0)", "(0, 0)", "(2, 0)");
 		t("a:=4/5", "0.8");
 		t("Root(a)", "(NaN, NaN)");
 		t("b:=0/5", "0");

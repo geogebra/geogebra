@@ -56,4 +56,25 @@ public class SymbolicMatrixTest extends BaseSymbolicTest {
 				vector.toLaTeXString(false, StringTemplate.latexTemplate),
 				equalTo("\\left(\\begin{array}{rr}a&b\\\\c&d\\\\ \\end{array}\\right)"));
 	}
+
+	@Test
+	public void testEigenvectorsAsSymbolic() {
+		GeoSymbolic eigenvectors = add("e = Eigenvectors({{1,2},{3,4}})");
+		StringTemplate template = app.getConfig().getOutputStringTemplate();
+		assertThat(
+				eigenvectors.getLaTeXDescriptionRHS(true, template),
+				equalTo("\\left(\\begin{array}{rr}\\sqrt{33} - 3&-\\sqrt{33} - 3\\\\"
+						+ "6&6\\\\ \\end{array}\\right)"));
+	}
+
+	@Test
+	public void testEigenvectorsAsNonSymbolic() {
+		GeoSymbolic eigenvectors = add("e = Eigenvectors({{1,2},{3,4}})");
+		eigenvectors.setSymbolicMode(false, false);
+		StringTemplate template = app.getConfig().getOutputStringTemplate();
+		assertThat(
+				eigenvectors.getLaTeXDescriptionRHS(true, template),
+				equalTo("\\left(\\begin{array}{rr}2.7445626465&-8.7445626465\\\\"
+						+ "6&6\\\\ \\end{array}\\right)"));
+	}
 }
