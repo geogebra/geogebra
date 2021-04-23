@@ -225,11 +225,6 @@ public class Browser {
 			return;
 		}
 
-		if (isSafariByVendor()) {
-			zoom(parent, externalScale);
-			return;
-		}
-
 		String transform = "scale(" + externalScale + ")";
 		parent.addClassName("ggbTransform");
 
