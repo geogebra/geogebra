@@ -1135,11 +1135,34 @@ public interface JavaScriptAPI {
 	 */
 	void previewRefresh();
 
+	/**
+	 * groups objects
+	 * @param objects - objects to be grouped
+	 */
 	void groupObjects(String[] objects);
 
+	/**
+	 * ungroup objects
+	 * @param objects - objects to be ungrouped
+	 */
 	void ungroupObjects(String[] objects);
 
+	/**
+	 * @param object - label of element
+	 * @return objects in the group of the element
+	 */
 	String[] getObjectsOfItsGroup(String object);
 
+	/**
+	 * add an element to a group
+	 * @param object - object to be added to group
+	 * @param objectInGroup - objects in group
+	 */
 	void addToGroup(String object, String[] objectInGroup);
+
+	/**
+	 * @param label - label of element
+	 * @return whether element has unlabeled predecessors
+	 */
+	boolean hasUnlabeledPredecessors(String label);
 }

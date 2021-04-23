@@ -28,7 +28,6 @@ import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -132,9 +131,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	private void addPointsToPath(GeoPointND[] pts) {
 		if (gp == null) {
 			gp = new GeneralPathClipped(view);
-		} else {
-			gp.reset();
 		}
+		gp.resetWithThickness(geo.getLineThickness());
 
 		pointList.clear();
 
@@ -310,8 +308,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				int mx = view.toScreenCoordX(xRW);
 				int my = view.toScreenCoordY(yRW);
 
-				endPoint.setX(xRW);
-				endPoint.setY(yRW);
+				endPoint.setLocation(xRW, yRW);
 				view.getEuclidianController().setLineEndPoint(endPoint);
 				gp.lineTo(mx, my);
 			} else {
@@ -450,11 +447,6 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	@Override
 	final public boolean isInside(GRectangle rect) {
 		return gp != null && rect.contains(gp.getBounds());
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 	/**

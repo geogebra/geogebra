@@ -30,7 +30,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.MyPoint;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -71,6 +70,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		this.poly = poly;
 		geo = poly;
 		gp = new GeneralPathClipped(view);
+		gp.resetWithThickness(geo.getLineThickness());
 		update();
 	}
 
@@ -88,6 +88,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		geo = view.getKernel().getConstruction().getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_POLYGON);
 		gp = new GeneralPathClipped(view);
+		gp.resetWithThickness(geo.getLineThickness());
 		updatePreview();
 	}
 
@@ -148,7 +149,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	// return false if a point doesn't lie on the plane
 	private boolean addPointsToPath(int length) {
-		gp.reset();
+		gp.resetWithThickness(geo.getLineThickness());
 
 		if (length <= 0) {
 			return false;
@@ -311,8 +312,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 				mx = view.toScreenCoordX(xRW);
 				my = view.toScreenCoordY(yRW);
 
-				endPoint.setX(xRW);
-				endPoint.setY(yRW);
+				endPoint.setLocation(xRW, yRW);
 				view.getEuclidianController().setLineEndPoint(endPoint);
 				gp.lineTo(mx, my);
 			} else {
@@ -362,11 +362,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 	@Override
 	final public boolean isInside(GRectangle rect) {
 		return gp.getBounds() != null && rect.contains(gp.getBounds());
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 	/**

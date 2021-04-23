@@ -1,7 +1,7 @@
 package org.geogebra.web.full.javax.swing;
 
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
@@ -19,30 +19,23 @@ public class GCheckmarkMenuItem extends GCheckMarkPanel {
 	/**
 	 * @param text
 	 *            Title
-	 * @param checkUrl
-	 *            image of check mark
 	 * @param checked
 	 *            initial value.
 	 * @param cmd
 	 *            The command to run.
 	 */
-	public GCheckmarkMenuItem(String text, SVGResource checkUrl,
-			boolean checked,
-			final ScheduledCommand cmd) {
-		super(text, checkUrl, checked, cmd);
+	public GCheckmarkMenuItem(String text, boolean checked, final ScheduledCommand cmd) {
+		super(text, MaterialDesignResources.INSTANCE.check_black(), checked, cmd);
 	}
 
 	/**
 	 * @param text
 	 *            Title
-	 * @param checkUrl
-	 *            image of check mark
 	 * @param checked
 	 *            initial value.
 	 */
-	public GCheckmarkMenuItem(String text, SVGResource checkUrl,
-			boolean checked) {
-		super(text, checkUrl, checked, null);
+	public GCheckmarkMenuItem(String text, boolean checked) {
+		this(text, checked, null);
 	}
 
 	/**

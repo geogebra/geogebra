@@ -1,8 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
@@ -39,25 +37,13 @@ class InputBoxRenderer {
 			linkedGeoText = linkedGeo.getRedefineString(true, true);
 		}
 
-		if (isComplex(linkedGeo)) {
-			linkedGeoText = linkedGeoText.replace(Unicode.IMAGINARY, 'i');
-		}
+		linkedGeoText = linkedGeoText.replace(Unicode.IMAGINARY, 'i');
 
 		if (isTextUndefined(linkedGeoText)) {
 			return "";
 		}
 
 		return linkedGeoText;
-	}
-
-	/**
-	 * @param geo to check
-	 * @return true iff geo is a complex number or a complex function
-	 */
-	public static boolean isComplex(GeoElementND geo) {
-		return (geo instanceof VectorNDValue
-				&& ((VectorNDValue) geo).getToStringMode() == Kernel.COORD_COMPLEX)
-				|| geo.isGeoSurfaceCartesian();
 	}
 
 	private boolean isTextUndefined(String text) {

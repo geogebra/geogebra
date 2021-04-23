@@ -54,7 +54,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
-import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
 import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -63,6 +62,7 @@ import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoName;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.algos.Algos;
+import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.algos.TableAlgo;
@@ -94,6 +94,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -1655,8 +1656,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public boolean isLabelShowable() {
 		return isDrawable() && !(this instanceof TextValue || isGeoImage()
-				|| isGeoButton() || isGeoLocus()
-				|| (isGeoBoolean() && !isIndependent()));
+				|| isGeoLocus() || (isGeoBoolean() && !isIndependent()));
 	}
 
 	/**
@@ -1961,6 +1961,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			return hasOnlyFreeInputPoints(view)
 					&& containsOnlyMoveableGeos(getFreeInputPoints(view));
 
+		case PIECHART:
 		case POLYGON:
 		case POLYGON3D:
 		case POLYLINE:
@@ -2243,6 +2244,19 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
+		return getFormulaString(tpl, !symbolic);
+	}
+
+	/**
+	 * @param symbolic
+	 *            true to keep variable names
+	 * @param symbolicContext
+	 *            whether this method was called from a symbolic context
+	 * @param tpl
+	 *            string template
+	 * @return LaTeX string
+	 */
+	public String toLaTeXString(boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
 		return getFormulaString(tpl, !symbolic);
 	}
 
@@ -2530,6 +2544,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			}
 		}
 
+		if (newLabel.startsWith(LabelManager.HIDDEN_PREFIX)) {
+			setAlgebraLabelVisible(false);
+		}
+
 		setLabelSimple(newLabel); // set new label
 
 		setLabelSet(true);
@@ -2550,13 +2568,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (addToConstr) {
 			notifyAdd();
 		}
-		/*
-		 * if(cons.getCASdummies().contains(newLabel)){
-		 * cons.moveInConstructionList(this, 0);
-		 * cons.getCASdummies().remove(newLabel); for(int
-		 * i=0;cons.getCasCell(i)!=null;i++){
-		 * kernel.getAlgebraProcessor().processCasCell(cons.getCasCell(i)); } }
-		 */
 	}
 
 	private void updateSpreadsheetCoordinates() {
@@ -3595,21 +3606,28 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	@Override
 	final public int getMaxConstructionIndex() {
+		int maxIndex;
 		if (algoParent == null) {
-			// independent object:
-			// index must be less than every dependent algorithm's index
-			int min = cons.steps();
-			final int size = algorithmList == null ? 0 : algorithmList.size();
-			for (int i = 0; i < size; ++i) {
-				final int index = (algorithmList.get(i)).getConstructionIndex();
-				if (index < min) {
-					min = index;
-				}
-			}
-			return min - 1;
+			maxIndex = getIndexBeforeAllDependentAlgos();
+		} else {
+			maxIndex = algoParent.getMaxConstructionIndex();
 		}
-		// dependent object
-		return algoParent.getMaxConstructionIndex();
+		return Math.max(maxIndex, getConstructionIndex());
+	}
+
+	/**
+	 * @return index strictly lower than construction indices of all dependent algos
+	 */
+	public int getIndexBeforeAllDependentAlgos() {
+		int min = cons.steps();
+		final int size = algorithmList == null ? 0 : algorithmList.size();
+		for (int i = 0; i < size; ++i) {
+			final int index = algorithmList.get(i).getConstructionIndex();
+			if (index < min) {
+				min = index;
+			}
+		}
+		return min - 1;
 	}
 
 	@Override
@@ -4771,8 +4789,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	private void getExtraTagsXML(StringBuilder sb) {
-		if (this.getParentAlgorithm() instanceof AlgoBarChart) {
-			((AlgoBarChart) this.getParentAlgorithm()).barXml(sb);
+		if (this.getParentAlgorithm() instanceof ChartStyleAlgo) {
+			((ChartStyleAlgo) this.getParentAlgorithm()).getStyle().barXml(sb,
+					((ChartStyleAlgo) this.getParentAlgorithm()).getIntervals());
 		}
 	}
 
@@ -6978,11 +6997,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public boolean addAuralCaption(ScreenReaderBuilder sb) {
 		if (!StringUtil.empty(getCaptionSimple())) {
-			String myCaption = getCaption(StringTemplate.defaultTemplate);
-			if (CanvasDrawable.isLatexString(myCaption)) {
-				sb.appendLaTeX(caption);
+			if (CanvasDrawable.isLatexString(caption)) {
+				String myCaption = getCaption(StringTemplate.latexTemplate);
+				sb.appendLaTeX(myCaption);
 			} else {
-				sb.append(myCaption);
+				String myCaption = getCaption(StringTemplate.screenReader);
+				sb.append(ScreenReader.convertToReadable(myCaption, getLoc()));
 			}
 			sb.endSentence();
 			return true;
@@ -6991,22 +7011,22 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	@Override
-	public void addAuralType(Localization loc, ScreenReaderBuilder sb) {
+	public void addAuralType(ScreenReaderBuilder sb) {
 		sb.append(translatedTypeStringForAlgebraView());
 		sb.appendSpace();
 	}
 
 	@Override
-	public void addAuralLabel(Localization loc, ScreenReaderBuilder sb) {
+	public void addAuralLabel(ScreenReaderBuilder sb) {
 		sb.append(getLabelSimple());
 		sb.endSentence();
 	}
 
 	@Override
-	public void addAuralName(Localization loc, ScreenReaderBuilder sb) {
-		addAuralType(loc, sb);
+	public void addAuralName(ScreenReaderBuilder sb) {
+		addAuralType(sb);
 		if (!addAuralCaption(sb)) {
-			addAuralLabel(loc, sb);
+			addAuralLabel(sb);
 		}
 	}
 
@@ -7023,7 +7043,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public String getAuralText(ScreenReaderBuilder sb) {
 		Localization loc = kernel.getLocalization();
-		addAuralName(loc, sb);
+		addAuralName(sb);
 		sb.appendSpace();
 		addAuralStatus(loc, sb);
 		sb.appendSpace();

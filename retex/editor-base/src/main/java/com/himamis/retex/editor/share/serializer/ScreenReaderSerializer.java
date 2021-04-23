@@ -44,6 +44,9 @@ public class ScreenReaderSerializer {
 				case SQRT:
 					return er.squareRoot(fullDescription(er,
 							((MathFunction) expr).getArgument(0)));
+				case CBRT:
+					return er.nroot(fullDescription(er,
+							((MathFunction) expr).getArgument(0)), "3");
 				case SUPERSCRIPT:
 					return er.power("", fullDescription(er,
 							((MathFunction) expr).getArgument(0)));

@@ -26,7 +26,6 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 
@@ -285,11 +284,6 @@ public class DrawSlider extends Drawable {
 				+ Math.max(diameter, GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
 		return (x < coords[0] - r2 || x > coords[0] + r2)
 				|| (y < coords[1] - r2 || y > coords[1] + r2);
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
-		return geo;
 	}
 
 	/**

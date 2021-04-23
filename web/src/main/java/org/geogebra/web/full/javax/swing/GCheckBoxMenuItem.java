@@ -77,10 +77,6 @@ public class GCheckBoxMenuItem {
 		checkBox.setVisible(!isToggleMenu());
 
 		setText(text);
-		if (app.isUnbundled()) {
-			itemPanel.add(checkBox);
-			checkBox.addStyleName("matCheckBox");
-		}
 	}
 
 	/**

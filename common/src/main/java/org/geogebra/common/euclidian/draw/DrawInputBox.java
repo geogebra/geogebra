@@ -83,7 +83,7 @@ public class DrawInputBox extends CanvasDrawable {
 			getTextField().addKeyHandler(new InputFieldKeyListener());
 
 		}
-		textFont = view.getFont();
+		textFont = getTextFont(geo.getText());
 		drawDynamicCaption = new DrawDynamicCaption(view, this);
 		update();
 	}
@@ -312,10 +312,9 @@ public class DrawInputBox extends CanvasDrawable {
 	 * and can display the given text
 	 */
 	public GFont getTextFont(String text) {
-		GFont vFont = view.getFont();
 		return view.getApplication().getFontCanDisplay(text,
 				geoInputBox.isSerifContent() && geoInputBox.isSymbolicMode(),
-				vFont.getStyle(), getLabelFontSize());
+				GFont.PLAIN, getLabelFontSize());
 	}
 
 	/**
@@ -404,7 +403,7 @@ public class DrawInputBox extends CanvasDrawable {
 
 	private void drawTextOnCanvas(GGraphics2D g2) {
 		String text = getGeoInputBox().getDisplayText();
-		g2.setFont(textFont.deriveFont(GFont.PLAIN));
+		g2.setFont(textFont);
 		g2.setPaint(geo.getObjectColor());
 		drawText(g2, text);
 	}
@@ -429,7 +428,7 @@ public class DrawInputBox extends CanvasDrawable {
 	@Override
 	public void drawWidget(GGraphics2D g2) {
 		final GFont font = g2.getFont();
-		g2.setFont(getLabelFont().deriveFont(GFont.PLAIN));
+		g2.setFont(getLabelFont());
 
 		boolean latexLabel = recomputeSize();
 

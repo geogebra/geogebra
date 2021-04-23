@@ -74,4 +74,9 @@ public class GgbSettings implements VendorSettings {
 	public boolean hasBitmapSecurity() {
 		return false;
 	}
+
+	@Override
+	public boolean isH5PEnabled() {
+		return false;
+	}
 }

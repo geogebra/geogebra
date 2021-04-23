@@ -47,16 +47,12 @@ import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.export.PrintPreviewD;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.dialog.DialogManagerD;
 import org.geogebra.desktop.gui.layout.DockManagerD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
-import org.geogebra.desktop.util.UtilD;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	private static final long serialVersionUID = 1736020764918189176L;
@@ -183,12 +179,8 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 		}
 
-		// "flag" to select language
-		// addFlag();
-
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
-
 	}
 
 	/**
@@ -203,11 +195,6 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (UtilD.isJava7()) {
-					app.showReinstallMessage();
-					return;
-				}
-
 				app.getGuiManager().login();
 			}
 		};
@@ -335,22 +322,17 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			// Show a login success message
 			if (!automatic) {
 				Object[] options = {
-						loc.getMenu("OpenFromGeoGebraTube") + Unicode.ELLIPSIS,
 						loc.getMenu("OK") };
-				int n = JOptionPane.showOptionDialog(app.getMainComponent(),
+				JOptionPane.showOptionDialog(app.getMainComponent(),
 						loc.getMenu("ThanksForSigningIn"),
 						loc.getMenu("SignInSuccessful"),
 						JOptionPane.DEFAULT_OPTION,
 						JOptionPane.INFORMATION_MESSAGE, null, options,
 						options[0]);
-				if (n == 0) {
-					((DialogManagerD) app.getDialogManager())
-							.showOpenFromGGTDialog();
-				} else {
-					// open perspective popup after logging in
-					if (app.isShowDockBar()) {
-						app.getDockBar().showPopup();
-					}
+
+				// open perspective popup after logging in
+				if (app.isShowDockBar()) {
+					app.getDockBar().showPopup();
 				}
 			}
 		} else {
@@ -369,16 +351,12 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		viewMenu.update();
 		optionsMenu.update();
 		toolsMenu.update();
-		// if (perspectivesMenu != null)
-		// perspectivesMenu.update();
 
 		if (!app.isApplet()) {
 			windowMenu.update();
 		}
 
 		helpMenu.update();
-
-		// updateSelection(); //it's redundant here, look at editMenu.update();
 	}
 
 	/**
@@ -447,16 +425,12 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	 * @param font
 	 */
 	public static void setMenuFontRecursive(JMenuItem m, Font font) {
-		// Log.debug(m.getClass());
 		if (m instanceof JMenu) {
 			JPopupMenu pm = ((JMenu) m).getPopupMenu();
 
 			MenuElement[] components = pm.getSubElements();
 
-			// Log.debug(components.length);
-
 			for (MenuElement com : components) {
-				// System.out.println(m.getText());
 				if (com instanceof LanguageRadioButtonMenuItem) {
 					// do nothing
 				} else if (com instanceof JComponent) {
@@ -465,14 +439,11 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 				if (com instanceof JMenuItem) {
 					setMenuFontRecursive((JMenuItem) com, font);
 				}
-
-				// Log.debug(com.getClass());
 			}
 		}
 
 		if (m instanceof LanguageRadioButtonMenuItem) {
-			m.setFont(((LanguageRadioButtonMenuItem) m).getFont()
-					.deriveFont(font.getSize2D()));
+			m.setFont(m.getFont().deriveFont(font.getSize2D()));
 		} else {
 			m.setFont(font);
 		}
@@ -490,34 +461,6 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 				try {
 					app.setWaitCursor();
-					// use reflection for
-					// new geogebra.export.PrintPreview(app,
-					// app.getEuclidianView(), PageFormat.LANDSCAPE);
-					// Class classObject =
-					// Class.forName("geogebra.export.PrintPreview");
-					// Object[] args = new Object[] { app ,
-					// app.getEuclidianView(), new
-					// Integer(PageFormat.LANDSCAPE)};
-					// Class [] types = new Class[] {Application.class,
-					// Printable.class, int.class};
-					// Constructor constructor =
-					// classObject.getDeclaredConstructor(types);
-					// constructor.newInstance(args);
-					/*
-					 * old code boolean printCAS=false; if
-					 * (((GuiManagerD)app.getGuiManager()).hasCasView()){
-					 * DockManager
-					 * dm=((GuiManagerD)app.getGuiManager()).getLayout
-					 * ().getDockManager(); //if CAS-view has Focus, print
-					 * CAS if
-					 * (dm.getFocusedPanel()==dm.getPanel(Application.
-					 * VIEW_CAS)){ new geogebra.export.PrintPreview(app,
-					 * ((GuiManagerD)app.getGuiManager()).getCasView(),
-					 * PageFormat.LANDSCAPE); printCAS=true; } }
-					 * 
-					 * if (!printCAS) new geogebra.export.PrintPreview(app,
-					 * app .getEuclidianView(), PageFormat.LANDSCAPE);
-					 */
 					GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 					DockManagerD dm = gui.getLayout().getDockManager();
 					int viewId = (dm.getFocusedPanel() == null) ? -1
@@ -649,7 +592,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		sb.append("MB\nCAS: ");
 		sb.append(App.getCASVersionString());
 		if (glCard != null) {
-			sb.append("\nGraphics Card: " + glCard);
+			sb.append("\nGraphics Card: ").append(glCard);
 		}
 		if (glVersion != null) {
 			sb.append("\nGL Version: " + glVersion);

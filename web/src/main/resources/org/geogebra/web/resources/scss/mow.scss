@@ -443,7 +443,8 @@
 	.mowWidget {
 		position: absolute;
 		border-style: none;
-		z-index: $z-mow-video;
+		overflow: hidden;
+		z-index: $z_mow_video;
 		.gwt-Frame{
 			box-sizing: border-box;
 			width: 100%;
@@ -474,14 +475,6 @@
 		}
 		box-sizing: border-box;
 		border: 1px solid;
-	}
-
-	.mowMenuSeparator {
-		background-color: #dedede;
-		height: 1px;
-		width: calc(100% - 56px);
-		list-style: none;
-		margin: 6px 0 6px auto;
 	}
 
 	.inlineTextToolbar {
@@ -525,5 +518,12 @@
 
 	.embedContainer .EuclidianPanel {
 		z-index: 0;
+	}
+
+	.h5pPreview {
+		width: 600px;
+		height: 300px;
+		box-sizing: border-box;
+		border: $mow_primary 2px solid;
 	}
 }

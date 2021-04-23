@@ -22,6 +22,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
@@ -896,7 +897,7 @@ public class GeoList extends GeoElement
 			for (int i = 0; i < lastIndex; i++) {
 				final GeoElement geo = elements.get(i);
 				sbBuildValueString.append(geo.toOutputValueString(tpl));
-				sbBuildValueString.append(getLoc().getComma());
+				tpl.getComma(sbBuildValueString, getLoc());
 				tpl.appendOptionalSpace(sbBuildValueString);
 			}
 
@@ -1583,6 +1584,12 @@ public class GeoList extends GeoElement
 
 	@Override
 	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
+		return toLaTeXString(symbolic, false, tpl);
+	}
+
+	@Override
+	public String toLaTeXString(
+			final boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
 		if (isMatrix()) {
 
 			// int rows = size();
@@ -1601,7 +1608,7 @@ public class GeoList extends GeoElement
 				for (int j = 0; j < row.size(); j++) {
 					GeoElement geo = row.get(j);
 					sb.append(symbolic ? geo.getLabel(tpl)
-							: geo.toLaTeXString(false, tpl));
+							: geo.toLaTeXString(false, symbolicContext, tpl));
 					if (j < row.size() - 1) {
 						sb.append("&");
 					}
@@ -1751,18 +1758,17 @@ public class GeoList extends GeoElement
 			}
 		}
 
+		double normalized = PathNormalizer.toNormalizedPathParameter(pp.t,
+				path.getMinParameter(), path.getMaxParameter());
+		if (path.isGeoPoint()) {
+			normalized = Kernel.STANDARD_PRECISION; // to avoid rounding errors
+		}
 		if ((directionInfoArray == null)
 				|| directionInfoArray[closestPointIndex]) {
-			pp.t = closestPointIndexBack
-					+ PathNormalizer.toNormalizedPathParameter(pp.t,
-							path.getMinParameter(), path.getMaxParameter());
+			pp.t = closestPointIndexBack + normalized;
 		} else {
-			pp.t = closestPointIndexBack + 1
-					- PathNormalizer.toNormalizedPathParameter(pp.t,
-							path.getMinParameter(), path.getMaxParameter());
+			pp.t = closestPointIndexBack + 1 - normalized;
 		}
-
-		// Application.debug(pp.t);
 	}
 
 	/**
@@ -1839,8 +1845,7 @@ public class GeoList extends GeoElement
 		final PathParameter pp = PI.getPathParameter();
 
 		double t = pp.getT();
-		int n0 = (int) Math.floor(t);
-		int n = n0;
+		int n = getIndexFromParameter(t);
 
 		// check n is in a sensible range
 		if ((n >= size()) || (n < 0)) {
@@ -1899,6 +1904,10 @@ public class GeoList extends GeoElement
 		}
 
 		pp.setPathType(pt);
+	}
+
+	private int getIndexFromParameter(double t) {
+		return t < 0 ? 0 : Math.min((int) Math.floor(t), size() - 1);
 	}
 
 	@Override
@@ -3220,8 +3229,8 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public void addAuralName(Localization loc, ScreenReaderBuilder sb) {
-		sb.append(loc.getMenuDefault("Dropdown", "dropdown"));
+	public void addAuralName(ScreenReaderBuilder sb) {
+		sb.appendMenuDefault("Dropdown", "dropdown");
 		if (size() > MAX_ITEMS_FOR_SCREENREADER) {
 			addAuralLabelOrCaption(sb);
 		}
@@ -3263,7 +3272,7 @@ public class GeoList extends GeoElement
 	@Override
 	public String getAuralTextForSpace() {
 		Localization loc = kernel.getLocalization();
-		ScreenReaderBuilder sb = new ScreenReaderBuilder();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
 		sb.append(loc.getMenuDefault("Dropdown", "dropdown"));
 		addAuralLabelOrCaption(sb);
 		sb.appendSpace();
@@ -3305,16 +3314,16 @@ public class GeoList extends GeoElement
 	 *
 	 */
 	public String getAuralTextAsOpened() {
-		ScreenReaderBuilder sb = new ScreenReaderBuilder();
 		Localization loc = kernel.getLocalization();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
 		sb.append(loc.getPlainArray("DropDownOpened", "Drop down %0 opened",
 				new String[] { getLabel(StringTemplate.defaultTemplate) }));
 		sb.endSentence();
-		sb.append(loc.getMenuDefault("PressArrowsToGo",
-				"Press up arrow and down arrow to go to different options"));
+		sb.appendMenuDefault("PressArrowsToGo",
+				"Press up arrow and down arrow to go to different options");
 		sb.endSentence();
-		sb.append(loc.getMenuDefault("PressEnterToSelect",
-				"Press enter to select"));
+		sb.appendMenuDefault("PressEnterToSelect",
+				"Press enter to select");
 		return sb.toString();
 	}
 

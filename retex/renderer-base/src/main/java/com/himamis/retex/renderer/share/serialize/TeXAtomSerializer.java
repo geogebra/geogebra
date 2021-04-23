@@ -32,14 +32,14 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
  *
  */
 public class TeXAtomSerializer {
-	private BracketsAdapterI adapter;
+	private SerializationAdapter adapter;
 
 	/**
 	 * @param ad
 	 *            adapter
 	 */
-	public TeXAtomSerializer(BracketsAdapterI ad) {
-		this.adapter = ad == null ? new DefaultBracketsAdapter() : ad;
+	public TeXAtomSerializer(SerializationAdapter ad) {
+		this.adapter = ad == null ? new DefaultSerializationAdapter() : ad;
 	}
 
 	/**
@@ -54,14 +54,13 @@ public class TeXAtomSerializer {
 		if (root instanceof NthRoot) {
 			NthRoot nRoot = (NthRoot) root;
 			if (nRoot.getRoot() == null) {
-				return "sqrt(" + serialize(nRoot.getTrueBase()) + ")";
+				return adapter.sqrt(serialize(nRoot.getTrueBase()));
 			}
-			return "nroot(" + serialize(nRoot.getTrueBase()) + ","
-					+ serialize(nRoot.getRoot()) + ")";
+			return adapter.nroot(serialize(nRoot.getTrueBase()), serialize(nRoot.getRoot()));
 		}
 		if (root instanceof CharAtom) {
 			CharAtom ch = (CharAtom) root;
-			return ch.getCharacter() + "";
+			return adapter.convertCharacter(ch.getCharacter());
 		}
 		if (root instanceof TypedAtom) {
 			TypedAtom ch = (TypedAtom) root;
@@ -91,7 +90,7 @@ public class TeXAtomSerializer {
 		if (root instanceof SymbolAtom) {
 
 			SymbolAtom ch = (SymbolAtom) root;
-			String out = ch.getUnicode() + "";
+			String out = adapter.convertCharacter(ch.getUnicode());
 			if ("\u00b7".equals(out)) {
 				return "*";
 			}
@@ -119,7 +118,7 @@ public class TeXAtomSerializer {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; row.getElement(i) != null; i++) {
 				sb.append(serialize(row.getElement(i)));
-				sb.append(" new line ");
+				sb.append(' ');
 			}
 			return sb.toString();
 		}
@@ -195,8 +194,8 @@ public class TeXAtomSerializer {
 			return "nCr(" + serialize(frac.getNumerator()) + ","
 					+ serialize(frac.getDenominator()) + ")";
 		}
-		return "(" + serialize(frac.getNumerator()) + ")/("
-				+ serialize(frac.getDenominator()) + ")";
+		return adapter.fraction(serialize(frac.getNumerator()),
+				serialize(frac.getDenominator()));
 	}
 
 	private boolean isBinomial(Atom frac) {
@@ -216,17 +215,17 @@ public class TeXAtomSerializer {
 	}
 
 	private String subSup(ScriptsAtom script) {
-		StringBuilder sb = new StringBuilder(serialize(script.getTrueBase()));
+		String base = serialize(script.getTrueBase());
+		String sub = null;
+		String sup = null;
+		serialize(script.getTrueBase());
 		if (script.getSub() != null) {
-			String sub = serialize(script.getSub());
-			sb.append(adapter.subscriptContent(sub));
+			sub = serialize(script.getSub());
 		}
 		if (script.getSup() != null) {
-			sb.append("^(");
-			sb.append(serialize(script.getSup()));
-			sb.append(")");
+			sup = serialize(script.getSup());
 		}
-		return sb.toString();
+		return adapter.subscriptContent(base, sub, sup);
 	}
 
 }

@@ -25,6 +25,17 @@ public class UndoCommand {
 	}
 
 	/**
+	 * Copy constructor
+	 * @param command to copy from.
+	 */
+	public UndoCommand(UndoCommand command) {
+		this.appState = command.appState;
+		this.action = command.action;
+		this.args = command.args;
+		this.slideID = command.slideID;
+	}
+
+	/**
 	 * @param appStateToAdd
 	 *            checkpoint state
 	 * @param slideID
@@ -124,7 +135,9 @@ public class UndoCommand {
 				@Override
 				public void run() {
 					undoManager.undoAction(action, args);
-					if (slideID != null) {
+					//TODO: maybe these actions should also take care of reloading
+					// the correct information without replay?
+					if (action == EventType.CLEAR_SLIDE || action == EventType.REMOVE_SLIDE) {
 						undoManager.replayActions(slideID, UndoCommand.this);
 					}
 				}

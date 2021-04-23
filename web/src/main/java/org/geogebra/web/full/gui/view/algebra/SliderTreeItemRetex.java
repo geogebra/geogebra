@@ -272,9 +272,7 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 	 *            new width
 	 */
 	public void expandSize(int width) {
-		if (getAV().getOffsetWidth() < width) {
-			getAV().expandWidth(width);
-		}
+		getAV().expandWidth(width);
 	}
 
 	/**

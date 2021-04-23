@@ -159,10 +159,6 @@ public interface GuiManagerInterface {
 
 	boolean save();
 
-	boolean loadURL(String urlString);
-
-	boolean loadURL(String urlString, boolean suppressErrorMsg);
-
 	void updateGUIafterLoadFile(boolean success, boolean isMacroFile);
 
 	void startEditing(GeoElement geoElement);

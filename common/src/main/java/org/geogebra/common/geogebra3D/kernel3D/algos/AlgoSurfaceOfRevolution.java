@@ -127,6 +127,8 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 
 		// compute value
 		compute();
+
+		cons.registerEuclidianViewCE(this);
 	}
 
 	/**

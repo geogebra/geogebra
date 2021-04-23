@@ -6,6 +6,8 @@ import static org.hamcrest.Matchers.is;
 
 import java.util.List;
 
+import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.SpecialPointsManager;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -37,5 +39,13 @@ public class SpecialPointsTest extends BaseSuiteTest {
 				CoreMatchers.hasItem(
 						Matchers.<GeoElement>hasProperty("pointStyle", is(
 								EuclidianStyleConstants.POINT_STYLE_CIRCLE))));
+	}
+
+	@Test
+	public void testRegressionApps2777() {
+		GeoElement element = add("f(x)=tan^(-1)((1+x)/(1-x))",
+				EvalInfoFactory.getEvalInfoForAV(getApp()));
+		SpecialPointsManager manager = getApp().getSpecialPointsManager();
+		manager.updateSpecialPoints(element);
 	}
 }

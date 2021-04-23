@@ -15,6 +15,7 @@ import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -266,10 +267,10 @@ public class ImageManagerW extends ImageManager {
 		int index = imgFileName.lastIndexOf('/');
 		if (index != -1) {
 			// filename without path
-			fn = fn.substring(index + 1, fn.length());
+			fn = fn.substring(index + 1);
 		}
 
-		fn = org.geogebra.common.util.Util.processFilename(fn);
+		fn = Util.checkImageExtension(Util.processFilename(fn));
 
 		// filename will be of form
 		// "a04c62e6a065b47476607ac815d022cc/liar.gif"

@@ -26,6 +26,7 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
+import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -756,6 +757,15 @@ public class GeoGebraFrameFull
 	}
 
 	/**
+	 * update tools after login/logout
+	 */
+	public void updateNotesMediaToolbarPanel() {
+		if (notesLayout != null && notesLayout.getToolbar() != null) {
+			((ToolbarMow) notesLayout.getToolbar()).updateMediaPanel();
+		}
+	}
+
+	/**
 	 * @param show whether to show the button
 	 */
 	public void setPageControlButtonVisible(boolean show) {
@@ -772,6 +782,25 @@ public class GeoGebraFrameFull
 	private void initNotesLayoutIfNull(AppW app) {
 		if (notesLayout == null) {
 			notesLayout = new NotesLayout(app);
+		}
+	}
+
+	/**
+	 * @return true if toolbar open, false otherwise
+	 */
+	public boolean isNotesToolbarOpen() {
+		if (notesLayout != null) {
+			return notesLayout.isNotesToolbarOpen();
+		}
+		return false;
+	}
+
+	/**
+	 * @param open true if should open notes toolbar
+	 */
+	public void setNotesToolbarOpen(boolean open) {
+		if (notesLayout != null) {
+			notesLayout.setToolbarOpen(open);
 		}
 	}
 

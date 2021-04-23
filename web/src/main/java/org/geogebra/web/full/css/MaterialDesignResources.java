@@ -145,9 +145,6 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/record_to_spreadsheet_black.svg")
 	SVGResource record_to_spreadsheet_black();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_zoom_in_black_24px.svg")
-	SVGResource zoom_in_black();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_home_black_24px.svg")
 	SVGResource home_black();
 
@@ -517,9 +514,6 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-folder_open-24px.svg")
 	SVGResource mow_pdf_open_folder();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-arrow_back-24px.svg")
-	SVGResource mow_back_arrow();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/rename_box_black_24px.svg")
 	SVGResource mow_rename();

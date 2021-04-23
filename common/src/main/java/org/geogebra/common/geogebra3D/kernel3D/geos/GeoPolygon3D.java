@@ -42,7 +42,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		ViewCreator, RotateableND, MirrorableAtPlane {
 
 	/** 2D coord sys where the polygon exists */
-	private CoordSys coordSys;
+	private CoordSys coordSys = new CoordSys(2);
 
 	/** image of the 3D points in the coord sys */
 	private GeoPoint[] points2D;
@@ -271,9 +271,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	@Override
 	public void setCoordSys(GeoPolygon poly) {
 		// set coord sys
-		if (coordSys == null) {
-			coordSys = new CoordSys(2);
-		}
 		coordSys.set(poly.getCoordSys());
 	}
 

@@ -41,7 +41,7 @@ final class CMEX10 extends FontInfo {
 		setMetrics(170, 583, 40, 1160);
 		setNextLarger(Configuration.getFonts().cmex10, 111);
 
-		setMetrics(173, 472, 40, 1160);
+		setMetrics(172, 472, 40, 1160);
 		setNextLarger(Configuration.getFonts().cmex10, 68);
 
 		setMetrics(174, 472, 40, 1160);

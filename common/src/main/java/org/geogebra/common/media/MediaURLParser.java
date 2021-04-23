@@ -3,8 +3,8 @@ package org.geogebra.common.media;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gwt.regexp.shared.MatchResult;
-import com.google.gwt.regexp.shared.RegExp;
+import org.gwtproject.regexp.shared.MatchResult;
+import org.gwtproject.regexp.shared.RegExp;
 
 /**
  * Helper class for parsing video URLs.

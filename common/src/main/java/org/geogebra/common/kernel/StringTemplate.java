@@ -103,6 +103,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		prefixedDefault.localizeCmds = false;
 		prefixedDefault.internationalizeDigits = false;
 		prefixedDefault.usePrefix = true;
+		prefixedDefault.allowMoreDigits = true;
 		prefixedDefault.sf = FormatFactory.getPrototype()
 				.getScientificFormat(15, 20, false);
 	}
@@ -1353,7 +1354,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	}
 
-	private void getPlus(StringBuilder sb, Localization loc) {
+	/**
+	 * Appends localized + to a StringBUilder
+	 * @param sb builder
+	 * @param loc localization
+	 */
+	public void getPlus(StringBuilder sb, Localization loc) {
 		if (stringType == StringType.SCREEN_READER) {
 			sb.append(ScreenReader.getPlus(loc));
 		} else {
@@ -1363,7 +1369,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
-	private void getMinus(StringBuilder sb, Localization loc) {
+	/**
+	 * Appends localized - to a StringBUilder
+	 * @param sb builder
+	 * @param loc localization
+	 */
+	public void getMinus(StringBuilder sb, Localization loc) {
 		if (stringType == StringType.SCREEN_READER) {
 			sb.append(ScreenReader.getMinus(loc));
 		} else {
@@ -1378,7 +1389,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public String leftBracket() {
 		if (stringType == StringType.SCREEN_READER) {
-			return ScreenReader.getLeftBracket();
+			return ScreenReader.getOpenParenthesis();
 		}
 		return left() + "(";
 	}
@@ -1388,7 +1399,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public String rightBracket() {
 		if (stringType == StringType.SCREEN_READER) {
-			return ScreenReader.getRightBracket();
+			return ScreenReader.getCloseParenthesis();
 		}
 		return right() + ")";
 	}
@@ -1839,46 +1850,52 @@ public class StringTemplate implements ExpressionNodeConstants {
 						// check if we need a multiplication sign, see #414
 						// digit-digit, e.g. 3 * 5
 						// digit-fraction, e.g. 3 * \frac{5}{2}
-						char lastLeft = leftStr.charAt(leftStr.length() - 1);
-						char firstRight = rightStr.charAt(0);
-						showMultiplicationSign =
-								StringUtil.isDigit(firstRight)
-								// left is digit or ends with }, e.g. exponent,
-								// fraction
-										|| (StringUtil.isDigit(lastLeft)
-												|| lastLeft == '}')
-												&& rightStr
-														.startsWith("\\frac");
-						multiplicationSpaceNeeded = !isDegree(right);
+						if (!leftStr.isEmpty() && !rightStr.isEmpty()) {
+							char lastLeft = leftStr.charAt(leftStr.length() - 1);
+							char firstRight = rightStr.charAt(0);
+							showMultiplicationSign =
+									StringUtil.isDigit(firstRight)
+											// left is digit or ends with }, e.g. exponent,
+											// fraction
+											|| (StringUtil.isDigit(lastLeft)
+											|| lastLeft == '}')
+											&& rightStr
+											.startsWith("\\frac");
+							multiplicationSpaceNeeded = !isDegree(right);
+						}
 						break;
 
 					default: // GeoGebra syntax
-						lastLeft = leftStr.charAt(leftStr.length() - 1);
-						firstRight = rightStr.charAt(0);
-						// check if we need a multiplication sign, see #414
-						// digit-digit, e.g. 3 * 5
-						showMultiplicationSign = (Character.isDigit(lastLeft) || lastLeft == ')')
-								&& (StringUtil.isDigit(firstRight)
-										// 3*E23AB can't be written 3E23AB
-										|| (firstRight == 'E')) || StringUtil.isDigit(firstRight);
-						// check if we need a multiplication space:
-						multiplicationSpaceNeeded = showMultiplicationSign;
-						if (!multiplicationSpaceNeeded) {
+						if (!leftStr.isEmpty() && !rightStr.isEmpty()) {
+							char lastLeft = leftStr.charAt(leftStr.length() - 1);
+							char firstRight = rightStr.charAt(0);
+							// check if we need a multiplication sign, see #414
+							// digit-digit, e.g. 3 * 5
+							showMultiplicationSign =
+									(Character.isDigit(lastLeft) || lastLeft == ')')
+											&& (StringUtil.isDigit(firstRight)
+											// 3*E23AB can't be written 3E23AB
+											|| (firstRight == 'E'))
+											|| StringUtil.isDigit(firstRight);
 							// check if we need a multiplication space:
-							// it's needed except for number * character,
-							// e.g. 23x
-							// need to check start and end for eg A1 * A2
-							boolean leftIsNumber = left.wrap()
-									.endsInNumber(valueForm);
+							multiplicationSpaceNeeded = showMultiplicationSign;
+							if (!multiplicationSpaceNeeded) {
+								// check if we need a multiplication space:
+								// it's needed except for number * character,
+								// e.g. 23x
+								// need to check start and end for eg A1 * A2
+								boolean leftIsNumber = left.wrap()
+										.endsInNumber(valueForm);
 
-							// check if we need a multiplication space:
-							// all cases except number * character, e.g. 3x
-							// pi*x DOES need a multiply
-							multiplicationSpaceNeeded =
-									!leftIsNumber
-											|| Character.isDigit(firstRight)
-											|| rightStr.equals(RAD)
-											|| (forEditorParser && !isDegree(right));
+								// check if we need a multiplication space:
+								// all cases except number * character, e.g. 3x
+								// pi*x DOES need a multiply
+								multiplicationSpaceNeeded =
+										!leftIsNumber
+												|| Character.isDigit(firstRight)
+												|| rightStr.equals(RAD)
+												|| (forEditorParser && !isDegree(right));
+							}
 						}
 					}
 
@@ -3179,6 +3196,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public void leftCurlyBracket(StringBuilder sb) {
 		if (hasType(StringType.LATEX)) {
 			sb.append("\\left\\{");
+		} else if (hasType(StringType.SCREEN_READER)) {
+			sb.append(ScreenReader.getOpenBrace());
 		} else {
 			sb.append("{");
 		}
@@ -3193,6 +3212,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public void rightCurlyBracket(StringBuilder sb) {
 		if (hasType(StringType.LATEX)) {
 			sb.append("\\right\\}");
+		} else if (hasType(StringType.SCREEN_READER)) {
+			sb.append(ScreenReader.getCloseBrace());
 		} else {
 			sb.append("}");
 		}
@@ -3510,7 +3531,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 		if (forEditorParser) {
 			return "=";
 		}
-		return stringType == StringType.LATEX ? "\\, = \\," : " = ";
+		switch (stringType) {
+		case LATEX:
+			return "\\, = \\,";
+		case SCREEN_READER:
+			return " equals ";
+		default:
+			return " = ";
+		}
 	}
 
 	public boolean isLatex() {
@@ -3542,5 +3570,18 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	public boolean allowShortLhs() {
 		return allowShortLhs;
+	}
+
+	/**
+	 * Appends localized comma to a StringBuilder
+	 * @param sb builder
+	 * @param localization localization
+	 */
+	public void getComma(StringBuilder sb, Localization localization) {
+		if (hasType(StringType.SCREEN_READER)) {
+			sb.append(ScreenReader.getComma());
+		} else {
+			sb.append(localization.getComma());
+		}
 	}
 }
