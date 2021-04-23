@@ -59,7 +59,6 @@ import org.geogebra.web.full.gui.color.BorderTextPopup;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.full.gui.color.FillingStyleButton;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
-import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.util.BorderStylePopup;
 import org.geogebra.web.full.gui.util.ButtonPopupMenu;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
@@ -72,7 +71,6 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -80,7 +78,6 @@ import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -939,9 +936,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 				return this.getIcon();
 			}
 		};
-		ImageResource ic = AppResources.INSTANCE.stylingbar_angle_interval();
-		// must be done with callback btnLabelStyle.setIcon(ic);
-		ImgResourceHelper.setIcon(ic, btnAngleInterval);
+		ImageOrText icon = new ImageOrText(
+				MaterialDesignResources.INSTANCE.stylingbar_angle_interval(), 24);
+		btnAngleInterval.setIcon(icon);
 		btnAngleInterval.addPopupHandler(this);
 		btnAngleInterval.setKeepVisible(false);
 	}

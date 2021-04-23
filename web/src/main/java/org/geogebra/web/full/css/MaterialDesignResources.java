@@ -596,6 +596,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/export.svg")
 	SVGResource prob_calc_export();
 
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/stylebar_angle_interval.svg")
+	SVGResource stylingbar_angle_interval();
+
 	// EUCLIDIAN 3D STYLEBAR
 
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/3d/stylingbar_graphics3D_plane.svg")
