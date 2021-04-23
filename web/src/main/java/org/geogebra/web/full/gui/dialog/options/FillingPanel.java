@@ -378,7 +378,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 				int idx = getSelectedIndex();
 				SVGResource resource = iconList.get(idx);
 				if (resource != null) {
-					applyImage(resource.getName(), resource.getSafeUri()
+					applyImage(resource + ".svg", resource.getSafeUri()
 							.asString());
 					Log.debug("Applying " + resource.getName() + " at index "
 							+ idx);
