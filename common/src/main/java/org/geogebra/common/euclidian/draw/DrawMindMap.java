@@ -14,9 +14,12 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoMindMapNode.NodeAlignment;
 import org.geogebra.common.kernel.geos.MoveGeos;
+import org.geogebra.common.kernel.geos.Translateable;
+import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.matrix.Coords;
 
 public class DrawMindMap extends DrawInlineText {
@@ -491,9 +494,18 @@ public class DrawMindMap extends DrawInlineText {
 
 	private void translateSubtree(GeoMindMapNode node, Coords shift) {
 		node.translate(shift);
+		Group group = node.getParentGroup();
+		if (group != null) {
+			group.stream().filter(this::translateFiler)
+					.forEach(geo ->	((Translateable) geo).translate(shift));
+		}
 		node.updateCascade(false);
 		for (GeoMindMapNode child: node.getChildren()) {
 			translateSubtree(child, shift);
 		}
+	}
+
+	private boolean translateFiler(GeoElement geoElement) {
+		return geoElement instanceof Translateable && !(geoElement instanceof GeoMindMapNode);
 	}
 }

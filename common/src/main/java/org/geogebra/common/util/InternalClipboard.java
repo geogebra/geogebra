@@ -3,6 +3,7 @@ package org.geogebra.common.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -50,13 +51,15 @@ public class InternalClipboard {
 
 		// create geoslocal and geostohide
 		ArrayList<ConstructionElement> geoslocal = new ArrayList<>();
+		HashSet<Group> selectedGroups = new HashSet<>(app
+				.getSelectionManager().getSelectedGroups());
 		for (GeoElement geo : geos) {
 			if (!(geo instanceof GeoEmbed && ((GeoEmbed) geo).isGraspableMath())) {
 				geoslocal.add(geo);
 			}
 		}
 
-		CopyPaste.addSubGeos(geoslocal);
+		CopyPaste.addSubGeos(geoslocal, selectedGroups);
 
 		if (geoslocal.isEmpty()) {
 			app.setBlockUpdateScripts(scriptsBlocked);
@@ -105,7 +108,7 @@ public class InternalClipboard {
 				}
 			}
 		}
-		for (Group group : app.getSelectionManager().getSelectedGroups()) {
+		for (Group group : selectedGroups) {
 			group.getXML(copiedXml);
 		}
 
@@ -327,10 +330,10 @@ public class InternalClipboard {
 						|| created instanceof GeoInline) {
 					shapes.add(created);
 				}
-				if (!(created instanceof GeoMindMapNode)) {
-					movable.add(created);
-				} else {
+				if (created instanceof GeoMindMapNode) {
 					mindMaps.add((GeoMindMapNode) created);
+				} else if (!groupedWithMindMap(created)) {
+					movable.add(created);
 				}
 			}
 
@@ -349,7 +352,6 @@ public class InternalClipboard {
 					ev.getInvYscale() * (boxCenterY - viewCenterY), 0);
 
 			MoveGeos.moveObjects(movable, coords, null, null, ev);
-
 			mindMapPaster.joinToTarget(mindMaps);
 			ev.updateAllDrawables(true);
 
@@ -358,6 +360,12 @@ public class InternalClipboard {
 		}
 
 		app.storeUndoInfo();
+	}
+
+	private static boolean groupedWithMindMap(GeoElement created) {
+		Group parentGroup = created.getParentGroup();
+		return parentGroup != null && parentGroup.stream()
+				.anyMatch(geo -> geo instanceof GeoMindMapNode);
 	}
 
 	public interface EscapeFunction {

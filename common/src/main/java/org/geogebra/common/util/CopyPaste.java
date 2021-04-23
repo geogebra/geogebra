@@ -3,6 +3,7 @@ package org.geogebra.common.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoQuadricLimitedConicHeightCone;
@@ -36,6 +37,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
@@ -91,13 +93,14 @@ public abstract class CopyPaste {
 	 * @param geos
 	 *            input and output
 	 */
-	protected static void addSubGeos(ArrayList<ConstructionElement> geos) {
+	protected static void addSubGeos(ArrayList<ConstructionElement> geos,
+			Set<Group> selectedGroups) {
 		GeoElement geo;
 		for (int i = geos.size() - 1; i >= 0; i--) {
 			geo = (GeoElement) geos.get(i);
 			AlgoElement parentAlgorithm = geo.getParentAlgorithm();
 			if (geo instanceof GeoMindMapNode) {
-				addChildNodes((GeoMindMapNode) geo, geos);
+				addChildNodes((GeoMindMapNode) geo, geos, selectedGroups);
 			}
 			if (parentAlgorithm == null) {
 				continue;
@@ -292,12 +295,21 @@ public abstract class CopyPaste {
 		}
 	}
 
-	private static void addChildNodes(GeoMindMapNode geo, ArrayList<ConstructionElement> list) {
+	private static void addChildNodes(GeoMindMapNode geo, ArrayList<ConstructionElement> list,
+			Set<Group> selectedGroups) {
 		if (!list.contains(geo)) {
-			list.add(geo);
+			Group group = geo.getParentGroup();
+			if (group != null) {
+				group.stream().forEach(list::add);
+				if (!selectedGroups.contains(group)) {
+					selectedGroups.add(group);
+				}
+			} else {
+				list.add(geo);
+			}
 		}
 		for (GeoMindMapNode child: geo.getChildren()) {
-			addChildNodes(child, list);
+			addChildNodes(child, list, selectedGroups);
 		}
 	}
 

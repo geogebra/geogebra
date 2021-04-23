@@ -16,10 +16,9 @@ public class MindMapPaster {
 	 * @param selection SelectionManager
 	 */
 	public void setTargetFromSelection(SelectionManager selection) {
-		if (selection.selectedGeosSize() == 1
-				&& selection.getSelectedGeos().get(0) instanceof GeoMindMapNode) {
-			target = ((GeoMindMapNode) selection.getSelectedGeos().get(0));
-		}
+		// allows paste
+		target = (GeoMindMapNode) selection.getSelectedGeos().stream()
+				.filter(geo -> geo instanceof GeoMindMapNode).findFirst().orElse(null);
 	}
 
 	/**
