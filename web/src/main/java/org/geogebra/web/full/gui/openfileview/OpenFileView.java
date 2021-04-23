@@ -106,7 +106,7 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	private void initSpinner() {
-		spinner = new LoadSpinner();
+		spinner = new LoadSpinner(app.isMebis());
 		contentPanel.add(spinner);
 	}
 
