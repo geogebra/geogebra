@@ -167,11 +167,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * g2d of bgImage: used for axis, grid, background images and object traces
 	 */
 	protected GGraphics2D bgGraphics;
-	// zoom rectangle colors
-	private static final GColor colZoomRectangle = GColor.newColor(200, 200,
-			230);
-	private static final GColor colZoomRectangleFill = GColor.newColor(200,
-			200, 230, 50);
+	// selection rectangle colors
+	private static final GColor selRectBorder = GColor.newColor(200, 200, 230);
+	private static final GColor selRectFill = GColor.newColor(200, 200, 230, 50);
+	private static final GColor selRectBorderMebis = GColor.newColor(154, 218, 236);
+	private static final GColor selRectFillMebis = GColor.newColor(0, 168, 213, 12);
 
 	// deletion square design
 	protected static final GColor colDeletionSquare = GColor
@@ -3788,10 +3788,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            graphics
 	 */
 	protected void drawZoomRectangle(GGraphics2D g2) {
-		g2.setColor(colZoomRectangleFill);
+		g2.setColor(getApplication().isMebis() ? selRectFillMebis : selRectFill);
 		g2.setStroke(boldAxesStroke);
 		g2.fill(selectionRectangle);
-		g2.setColor(colZoomRectangle);
+		g2.setColor(getApplication().isMebis() ? selRectBorderMebis : selRectBorder);
 		g2.draw(selectionRectangle);
 	}
 

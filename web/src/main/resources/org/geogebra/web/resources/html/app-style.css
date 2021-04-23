@@ -525,6 +525,12 @@
 	border-color: #6557D2;
 	border-left-color: transparent;
 }
+
+.mk-spinner-ring.mebis {
+	border-color: #00bcd4;
+	border-left-color: transparent;
+}
+
 body .startscreen .GeoGebraFrame img.gwt-Image,body .startscreen .GeoGebraFrame .button.flatButton img.gwt-Image {
     opacity: 0.4;
 }
