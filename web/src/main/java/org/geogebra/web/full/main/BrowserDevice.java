@@ -135,7 +135,7 @@ public class BrowserDevice implements GDevice {
 		if (hasOpenFileView(app)) {
 			FileOpenButton fileOpenButton = new FileOpenButton("containedButton");
 			if (app.isExam()) {
-				return new OpenTemporaryFileView(app, fileOpenButton);
+				return new OpenTemporaryFileView(app);
 			} else {
 				BrowseViewI openFileView = new OpenFileView(app, fileOpenButton);
 				fileOpenButton.setOpenFileView(openFileView);
