@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.menu.action;
 
 import org.geogebra.common.gui.menu.Action;
-import org.geogebra.web.full.gui.menubar.action.ShowSearchView;
 import org.geogebra.web.full.gui.menubar.action.SwitchCalculatorAction;
 import org.geogebra.web.full.main.AppWFull;
 
@@ -16,8 +15,6 @@ public class SuiteMenuActionHandlerFactory implements MenuActionHandlerFactory {
 	public MenuActionHandler create() {
 		DefaultMenuActionHandler actionHandler = factory.create();
 		actionHandler.setMenuAction(Action.SWITCH_CALCULATOR, new SwitchCalculatorAction());
-		actionHandler.setMenuAction(Action.SHOW_SEARCH_VIEW, new OpenFileActionSuite(
-				new ShowSearchView()));
 		return actionHandler;
 	}
 }

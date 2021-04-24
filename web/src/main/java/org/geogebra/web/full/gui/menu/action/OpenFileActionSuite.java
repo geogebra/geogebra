@@ -13,14 +13,6 @@ public class OpenFileActionSuite extends DefaultMenuAction<Void> {
 
 	@Override
 	public void execute(Void item, AppWFull app) {
-		if (app.isExam()) {
-			openTemporaryFileView(app);
-		} else {
-			searchView.execute(item, app);
-		}
-	}
 
-	private void openTemporaryFileView(AppWFull app) {
-		app.openSearch(null);
 	}
 }

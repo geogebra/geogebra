@@ -6,6 +6,7 @@ import org.geogebra.web.full.gui.browser.BrowseResources;
 import org.geogebra.web.full.gui.dialog.image.ImageInputDialog;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
+import org.geogebra.web.full.gui.openfileview.OpenTemporaryFileView;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
@@ -131,16 +132,25 @@ public class BrowserDevice implements GDevice {
 
 	@Override
 	public BrowseViewI createBrowseView(AppW app) {
-		if (app.isMebis()) {
-			FileOpenButton mb = new FileOpenButton("containedButton");
-			OpenFileView of = new OpenFileView(app, mb);
-			mb.setOpenFileView(of);
-			return of;
+		if (hasOpenFileView(app)) {
+			FileOpenButton fileOpenButton = new FileOpenButton("containedButton");
+			if (app.isExam()) {
+				return new OpenTemporaryFileView(app, fileOpenButton);
+			} else {
+				BrowseViewI openFileView = new OpenFileView(app, fileOpenButton);
+				fileOpenButton.setOpenFileView(openFileView);
+				return openFileView;
+			}
 		}
+
 		FileOpenButton mb = new FileOpenButton();
 		BrowseGUI bg = new BrowseGUI(app, mb);
 		mb.setOpenFileView(bg);
 		return bg;
+	}
+
+	private boolean hasOpenFileView(AppW app) {
+		return app.isMebis() || app.isExam();
 	}
 
 	@Override

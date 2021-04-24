@@ -93,6 +93,7 @@ import org.geogebra.web.full.gui.menu.MenuViewListener;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
+import org.geogebra.web.full.gui.openfileview.OpenTemporaryFileView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
@@ -754,6 +755,19 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				.startsWith("search:")) {
 			getAppletParameters().setAttribute("perspective", "");
 		}
+	}
+
+	/**
+	 * Open temporary saved files view in exam mode.
+	 */
+	public final void openSearchInExamMode() {
+		hideMenu();
+		OpenTemporaryFileView openFileView =
+				(OpenTemporaryFileView) getGuiManager().getBrowseView();
+		if (getGuiManager().browseGUIwasLoaded()) {
+			openFileView.loadAllMaterials();
+		}
+		showBrowser(openFileView);
 	}
 
 	@Override
