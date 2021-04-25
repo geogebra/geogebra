@@ -24,6 +24,7 @@ import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 import org.geogebra.desktop.gui.util.ImageSelection;
+import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.FrameCollector;
 
 /**
@@ -325,7 +326,7 @@ public class RendererCheckGLVersionD extends Renderer
 				// TODO: set 2D preview image
 			}
 
-			view3D.getApplication().uploadToGeoGebraTube();
+			((AppD) view3D.getApplication()).uploadToGeoGebraTube();
 			getRendererImpl().endNeedExportImage();
 
 			break;

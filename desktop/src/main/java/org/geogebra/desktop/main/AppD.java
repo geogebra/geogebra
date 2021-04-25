@@ -4420,10 +4420,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	public void showURLinBrowser(String strURL) {
 		getGuiManager().showURLinBrowser(strURL);
-
 	}
 
-	@Override
 	public void uploadToGeoGebraTube() {
 		GeoGebraTubeExportD ggbtube = new GeoGebraTubeExportD(this);
 		ggbtube.uploadWorksheet(null);

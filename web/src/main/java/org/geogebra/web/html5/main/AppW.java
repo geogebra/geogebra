@@ -2379,11 +2379,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	public void uploadToGeoGebraTube() {
-		// no upload without UI
-	}
-
-	@Override
 	public void updateApplicationLayout() {
 		Log.debug("updateApplicationLayout: Implementation needed...");
 	}
