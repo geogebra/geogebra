@@ -56,7 +56,7 @@ import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.Clipboard;
+import org.geogebra.web.html5.main.ClipboardUtil;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.shared.components.ComponentInputDialog;
 import org.geogebra.web.shared.components.DialogData;
@@ -329,7 +329,7 @@ public class DialogManagerW extends DialogManager
 	 */
 	@Override
 	public void showExportImageDialog(String base64Image) {
-		DialogData data = new DialogData("exportImage", Clipboard
+		DialogData data = new DialogData("exportImage", ClipboardUtil
 			.isCopyImageToClipboardAvailable() ? "CopyToClipboard" : null, "Download");
 		ExportImageDialog expImgDialog = new ExportImageDialog((AppW) app, data,
 				base64Image);

@@ -25,6 +25,7 @@ import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
 import elemental2.core.Uint8Array;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.XMLHttpRequest;
 import elemental2.webgl.WebGLRenderingContext;
 import elemental2.webgl.WebGLShader;
 import jsinterop.base.Js;
@@ -70,6 +71,8 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 String.class);
         StubGenerator.replaceMethodWithMock(NativeRegExp.class, "exec",
                 String.class);
+        StubGenerator.replaceMethodWithMock(XMLHttpRequest.class, "send",
+                XMLHttpRequest.class);
     }
 
     @Override

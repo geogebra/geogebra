@@ -148,6 +148,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
@@ -3190,7 +3191,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		});
 	}
 
-	public static native Element getHiddenTextArea() /*-{
+	public static native TextAreaElement getHiddenTextArea() /*-{
 		var hiddenTextArea = $doc.getElementById('hiddenCopyPasteTextArea');
 		if (!hiddenTextArea) {
 			hiddenTextArea = $doc.createElement("textarea");
@@ -3366,12 +3367,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void copyImageToClipboard(String dataURI) {
-		if (!Clipboard.isCopyImageToClipboardAvailable()) {
+		if (!ClipboardUtil.isCopyImageToClipboardAvailable()) {
 			Log.debug("window.copyGraphicsToClipboard() not available");
 			return;
 		}
 		try {
-			Clipboard.copyGraphicsToClipboard(dataURI);
+			ClipboardUtil.copyGraphicsToClipboard(dataURI);
 		} catch (Exception e) {
 			Log.warn("Clipboard API is new and maybe half-implemented in your browser.");
 		}
