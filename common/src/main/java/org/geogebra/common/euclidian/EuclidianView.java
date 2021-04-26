@@ -894,7 +894,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		double xmax2 = xmaxObject.getDouble();
 		double ymin2 = yminObject.getDouble();
 		double ymax2 = ymaxObject.getDouble();
-		if (isLockedAxesRatio() && (getHeight() > 0) && (getWidth() > 0)) {
+		boolean validSize = (getHeight() > 0) && (getWidth() > 0);
+		if (isLockedAxesRatio() && validSize) {
 			double ratio = gridType == GRID_POLAR ? 1 : lockedAxesRatio;
 			double newWidth = ratio * ((ymax2 - ymin2) * getWidth())
 					/ (getHeight() + 0.0);
@@ -912,7 +913,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 		if (((xmax2 - xmin2) > Kernel.MAX_PRECISION)
-				&& ((ymax2 - ymin2) > Kernel.MAX_PRECISION)) {
+				&& ((ymax2 - ymin2) > Kernel.MAX_PRECISION) && validSize) {
 			xmax = xmax2;
 			xmin = xmin2;
 			ymin = ymin2;

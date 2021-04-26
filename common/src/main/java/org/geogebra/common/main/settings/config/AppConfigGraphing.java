@@ -55,7 +55,6 @@ public class AppConfigGraphing extends AbstractAppConfig {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {
 			dp.setLocation("3");
 		} else if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
-			dp.makeVisible();
 			dp.setLocation("1");
 		}
 	}

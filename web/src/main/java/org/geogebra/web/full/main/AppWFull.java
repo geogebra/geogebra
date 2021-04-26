@@ -1613,6 +1613,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			if (panel instanceof ToolbarDockPanelW) {
 				dm.show(panel);
 				updateToolbarPanelVisibility((ToolbarDockPanelW) panel, panelData.isVisible());
+			} else if (!panelData.isVisible()) {
+				dm.hide(panel);
 			}
 			if (panel != null && !isPortrait()) {
 				updateDividerLocation(dm, panelData);
@@ -1626,7 +1628,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (visible) {
 			toolbarPanel.open();
 		} else {
-			toolbarPanel.close();
+			toolbarPanel.close(false);
 		}
 	}
 
@@ -1965,8 +1967,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void updateAppCodeSuite(String subApp, Perspective p) {
 		if ("suite".equals(getAppletParameters().getDataParamAppName())) {
-			String appCode = getConfig().getAppCode();
-			if (!appCode.equals(subApp)) {
+			String appCode = getConfig().getSubAppCode();
+			if (appCode != null && !appCode.equals(subApp)) {
 				this.activity = new SuiteActivity(subApp);
 				updateSymbolicFlag(subApp, p);
 				setSuiteHeaderButton(subApp);
@@ -2214,6 +2216,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		activity = new SuiteActivity(subAppCode);
 		activity.start(this);
 
+		resetToolbarPanel();
 		Perspective perspective = PerspectiveDecoder.decode(getConfig().getForcedPerspective(),
 				kernel.getParser(), ToolBar.getAllToolsNoMacros(isHTML5Applet(), isExam(), this));
 		updateSymbolicFlag(subAppCode, perspective);

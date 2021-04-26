@@ -9,7 +9,7 @@ $deleteTime: 120ms;
 	}
 
 	.emptyTablePanel {
-		width: 50%;
+		width: 100%;
 		text-align: center;
 		position: absolute;
 		top: 50%;
@@ -171,11 +171,11 @@ $deleteTime: 120ms;
 				background: $white; // for IE11
 			}
 		}
-	
+
 		.mainScrollPanel {
-			width: 50%;
+			width: 100%;
 		}
-	
+
 		.mainScrollPanel .valueScroller {
 			flex-grow: 1;
 			overflow-y: auto !important;
