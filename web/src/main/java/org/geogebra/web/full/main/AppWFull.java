@@ -772,7 +772,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (getGuiManager().browseGUIwasLoaded()) {
 			openFileView.loadAllMaterials();
 		}
-		showBrowser(openFileView);
+		showBrowser(openFileView.getPanel());
 	}
 
 	@Override

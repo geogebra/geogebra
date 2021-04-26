@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class TemporaryCard extends FlowPanel implements MaterialCardI {
 	private final AppW app;
 	// image of material
-	private FlowPanel imgPanel;
+	private MaterialImagePanel imgPanel;
 	private final MaterialCardController controller;
 
 	/**
@@ -46,9 +46,7 @@ public class TemporaryCard extends FlowPanel implements MaterialCardI {
 	private void initGui() {
 		this.setStyleName("materialCard");
 		// panel containing the preview image of material
-		imgPanel = new FlowPanel();
-		imgPanel.setStyleName("cardImgPanel");
-		setBackgroundImgPanel(getMaterial());
+		imgPanel = new MaterialImagePanel(getMaterial());
 		this.add(imgPanel);
 		// panel containing the info regarding the material
 

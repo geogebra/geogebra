@@ -5,52 +5,32 @@ import java.util.Collection;
 import java.util.List;
 
 import org.geogebra.common.main.OpenFileListener;
+import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.HeaderView;
-import org.geogebra.web.full.gui.MessagePanel;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.dom.File;
 
 /**
  * View for browsing materials
  */
-public class OpenTemporaryFileView extends MyHeaderPanel
-		implements BrowseViewI, OpenFileListener {
+public class OpenTemporaryFileView implements
+		BrowseViewI, OpenFileListener {
 
-	/**
-	 * application
-	 */
-	protected AppW app;
-	// header
-	private HeaderView headerView;
-
-	// content panel
-	private FlowPanel contentPanel;
-
-	// dropdown
-	private ListBox sortDropDown;
-
-	// material panel
-	private FlowPanel materialPanel;
-	// info panel
-	private FlowPanel infoPanel;
-	private MessagePanel messagePanel;
+	private final TempStorage tempStorage;
+	private final FileViewCommon common;
 
 	private static final Order[] map = new Order[] { Order.title, Order.created,
 			Order.timestamp };
+	private final AppW app;
 
 	/**
 	 * @param app
@@ -60,55 +40,28 @@ public class OpenTemporaryFileView extends MyHeaderPanel
 	public OpenTemporaryFileView(AppW app) {
 		this.app = app;
 		app.registerOpenFileListener(this);
-		initGUI();
+		common = new FileViewCommon(app, "Open");
+		tempStorage = app.getExam().getTempStorage();
 	}
 
-	private void initGUI() {
-		this.setStyleName("openFileView");
-		initHeader();
-		initContentPanel();
-		initSortDropdown();
-		initMaterialPanel();
-		setLabels();
-	}
-
-	/**
-	 * adds content if available
-	 */
-	protected void addContent() {
-		contentPanel.clear();
-		contentPanel.add(sortDropDown);
-		contentPanel.add(materialPanel);
+	public MyHeaderPanel getPanel() {
+		return common;
 	}
 
 	private Collection<Material> getMaterials() {
-		return app.getExam().getTempStorage().collectTempMaterials();
-	}
-
-	private void initHeader() {
-		headerView = new HeaderView();
-		headerView.setCaption(("Open"));
-		StandardButton backButton = headerView.getBackButton();
-		backButton.addFastClickHandler(source -> close());
-
-		this.setHeaderWidget(headerView);
-	}
-
-	private void initContentPanel() {
-		contentPanel = new FlowPanel();
-		contentPanel.setStyleName("fileViewContentPanel");
-		this.setContentWidget(contentPanel);
+		return tempStorage.collectTempMaterials();
 	}
 
 	private void initSortDropdown() {
-		sortDropDown = new ListBox();
+		// dropdown
+		ListBox sortDropDown = new ListBox();
 		sortDropDown.setMultipleSelect(false);
-		sortDropDown.addItem(localize("SortBy"));
+		sortDropDown.addItem(common.localize("SortBy"));
 		sortDropDown.getElement().getFirstChildElement()
 				.setAttribute("disabled", "disabled");
 
 		for (Order value : map) {
-			sortDropDown.addItem(localize(labelFor(value)));
+			sortDropDown.addItem(common.localize(labelFor(value)));
 		}
 		sortDropDown.setSelectedIndex(3);
 		sortDropDown.addChangeHandler(event -> updateOrder());
@@ -133,52 +86,8 @@ public class OpenTemporaryFileView extends MyHeaderPanel
 		loadAllMaterials();
 	}
 
-	private void initMaterialPanel() {
-		materialPanel = new FlowPanel();
-		materialPanel.addStyleName("temporaryMaterialPanel");
-	}
-
-	private String localize(String id) {
-		return app.getLocalization().getMenu(id);
-	}
-
 	@Override
 	public void openFile(final File fileToHandle) {
-		app.openFile(fileToHandle);
-		close();
-	}
-
-	private void showEmptyListNotification() {
-		infoPanel = new FlowPanel();
-		infoPanel.setStyleName("emptyMaterialListInfo");
-
-		messagePanel = createMessagePanel();
-		infoPanel.add(messagePanel);
-
-		contentPanel.clear();
-		contentPanel.add(infoPanel);
-	}
-
-	private MessagePanel createMessagePanel() {
-		MessagePanel panel = new MessagePanel();
-		panel.setImageUri(MaterialDesignResources.INSTANCE.mow_lightbulb());
-		setMessagePanelLabels(panel);
-		return panel;
-	}
-
-	private void setMessagePanelLabels(MessagePanel messagePanel) {
-		messagePanel.setPanelTitle(localize("emptyMaterialList.caption.mow"));
-		messagePanel.setPanelMessage(localize("emptyMaterialList.info.mow"));
-	}
-
-	@Override
-	public AppW getApp() {
-		return app;
-	}
-
-	@Override
-	public void resizeTo(int width, int height) {
-		// not used
 	}
 
 	@Override
@@ -190,33 +99,24 @@ public class OpenTemporaryFileView extends MyHeaderPanel
 	public void loadAllMaterials() {
 		clearMaterials();
 		if (getMaterials().isEmpty()) {
-			showEmptyListNotification();
+			common.showEmptyListNotification();
 		} else {
-			addContent();
+			common.addContent();
 			addTemporaryMaterials();
 		}
 	}
 
 	@Override
 	public void clearMaterials() {
-		materialPanel.clear();
-	}
-
-	private void clearPanels() {
-		if (contentPanel != null) {
-			contentPanel.clear();
-		}
-		if (infoPanel != null) {
-			infoPanel.clear();
-		}
+		common.clearMaterials();
 	}
 
 	private void addTemporaryMaterials() {
-		clearPanels();
+		common.clearPanels();
 		for (Material material : getMaterials()) {
 			addMaterial(material);
 		}
-		contentPanel.add(materialPanel);
+		common.addMaterialPanel();
 	}
 
 	@Override
@@ -228,6 +128,11 @@ public class OpenTemporaryFileView extends MyHeaderPanel
 	public void onSearchResults(List<Material> response,
 			ArrayList<Chapter> chapters) {
 		// not used
+	}
+
+	@Override
+	public void close() {
+
 	}
 
 	@Override
@@ -247,27 +152,12 @@ public class OpenTemporaryFileView extends MyHeaderPanel
 
 	@Override
 	public void setLabels() {
-		headerView.setCaption(localize("Open"));
-		if (sortDropDown != null) {
-			sortDropDown.setItemText(0, localize("SortBy"));
-			for (int i = 0; i < map.length; i++) {
-				sortDropDown.setItemText(i + 1, localize(labelFor(map[i])));
-			}
-		}
-		for (int i = 0; i < materialPanel.getWidgetCount(); i++) {
-			Widget widget = materialPanel.getWidget(i);
-			if (widget instanceof MaterialCard) {
-				((MaterialCard) widget).setLabels();
-			}
-		}
-		if (messagePanel != null) {
-			setMessagePanelLabels(messagePanel);
-		}
+		common.setLabels();
 	}
 
 	@Override
 	public void addMaterial(Material material) {
-		materialPanel.add(new TemporaryCard(material, app));
+		common.addMaterialCard(new TemporaryCard(material, app));
 	}
 
 	@Override
