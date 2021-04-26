@@ -13,7 +13,6 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.MessagePanel;
 import org.geogebra.web.full.gui.MyHeaderPanel;
-import org.geogebra.web.html5.gui.laf.LoadSpinner;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -49,8 +48,6 @@ public class OpenTemporaryFileView extends MyHeaderPanel
 	// info panel
 	private FlowPanel infoPanel;
 	private MessagePanel messagePanel;
-	private LoadSpinner spinner;
-
 
 	private static final Order[] map = new Order[] { Order.title, Order.created,
 			Order.timestamp };
@@ -68,16 +65,11 @@ public class OpenTemporaryFileView extends MyHeaderPanel
 
 	private void initGUI() {
 		this.setStyleName("openFileView");
-		initSpinner();
 		initHeader();
 		initContentPanel();
 		initSortDropdown();
 		initMaterialPanel();
 		setLabels();
-	}
-
-	private void initSpinner() {
-		spinner = new LoadSpinner("startscreen.notes");
 	}
 
 	/**
@@ -143,7 +135,7 @@ public class OpenTemporaryFileView extends MyHeaderPanel
 
 	private void initMaterialPanel() {
 		materialPanel = new FlowPanel();
-		materialPanel.addStyleName("materialPanel");
+		materialPanel.addStyleName("temporaryMaterialPanel");
 	}
 
 	private String localize(String id) {
@@ -196,7 +188,6 @@ public class OpenTemporaryFileView extends MyHeaderPanel
 
 	@Override
 	public void loadAllMaterials() {
-		spinner.show();
 		clearMaterials();
 		if (getMaterials().isEmpty()) {
 			showEmptyListNotification();
@@ -221,13 +212,11 @@ public class OpenTemporaryFileView extends MyHeaderPanel
 	}
 
 	private void addTemporaryMaterials() {
-		spinner.show();
 		clearPanels();
 		for (Material material : getMaterials()) {
 			addMaterial(material);
 		}
 		contentPanel.add(materialPanel);
-		spinner.hide();
 	}
 
 	@Override
