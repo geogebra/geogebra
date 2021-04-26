@@ -148,7 +148,11 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 				shouldCreateExamEntry(app),
 				app.enableFileFeatures(),
 				true);
-		setDefaultMenu();
+		if (!app.isExamStarted()) {
+			setDefaultMenu();
+		} else {
+			setExamMenu();
+		}
 	}
 
 	private DrawerMenuFactory createDefaultMenuFactory(AppW app,
@@ -182,7 +186,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 	}
 
 	private boolean shouldCreateExamEntry(AppW app) {
-		return app.getConfig().hasExam() && !app.isExam() && app.getLAF().isOfflineExamSupported();
+		return app.getConfig().hasExam() && app.getLAF().isOfflineExamSupported();
 	}
 
 	private boolean hasLoginButton(AppW app) {

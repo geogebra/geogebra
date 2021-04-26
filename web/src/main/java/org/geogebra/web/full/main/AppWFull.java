@@ -2161,7 +2161,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void startExam() {
 		super.startExam();
-
+		getExam().getTempStorage().clearTempMaterials();
+		getExam().getTempStorage().newMaterial();
 		// ensure fullscreen: we may have lost it when handling unsaved
 		// changes
 		getLAF().toggleFullscreen(true);
@@ -2261,6 +2262,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		updatePerspective(perspective);
 		clearConstruction();
 		restoreMaterial(subAppCode);
+		if (isExam()) {
+			getExam().getTempStorage().newMaterial();
+		}
 	}
 
 	private void storeCurrentMaterial() {
@@ -2326,7 +2330,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void setSuiteHeaderButton(String subappCode) {
 		if (suiteAppPickerButton != null) {
 			suiteAppPickerButton.setIconAndLabel(subappCode);
-			suiteAppPickerButton.checkButtonVisibility();
+			GlobalHeader.onResize();
 		}
 	}
 

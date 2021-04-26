@@ -1442,7 +1442,8 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void updateFrameSize() {
-		if (!getApp().getAppletParameters().getDataParamApp()) {
+		if (!getApp().getAppletParameters().getDataParamApp()
+			|| getApp().isExam()) {
 			return;
 		}
 		// get frame size from layout manager

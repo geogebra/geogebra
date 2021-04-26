@@ -3,7 +3,10 @@ package org.geogebra.web.full.gui.menu.action;
 import org.geogebra.common.gui.menu.Action;
 import org.geogebra.web.full.gui.menubar.action.ClearAllAction;
 import org.geogebra.web.full.gui.menubar.action.ExitExamAction;
+import org.geogebra.web.full.gui.menubar.action.OpenExamAction;
+import org.geogebra.web.full.gui.menubar.action.SaveExamAction;
 import org.geogebra.web.full.gui.menubar.action.ShowExamLogAction;
+import org.geogebra.web.full.gui.menubar.action.SwitchCalculatorAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
@@ -23,6 +26,9 @@ public class ExamMenuActionHandlerFactory implements MenuActionHandlerFactory {
 		actionHandler.setMenuAction(Action.CLEAR_CONSTRUCTION, new ClearAllAction(false));
 		actionHandler.setMenuAction(Action.SHOW_EXAM_LOG, new ShowExamLogAction());
 		actionHandler.setMenuAction(Action.EXIT_EXAM_MODE, new ExitExamAction());
+		actionHandler.setMenuAction(Action.SAVE_FILE, new SaveExamAction());
+		actionHandler.setMenuAction(Action.SHOW_SEARCH_VIEW, new OpenExamAction());
+		actionHandler.setMenuAction(Action.SWITCH_CALCULATOR, new SwitchCalculatorAction());
 		return actionHandler;
 	}
 }
