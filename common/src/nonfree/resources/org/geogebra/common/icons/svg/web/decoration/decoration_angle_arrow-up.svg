@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 30px;
+      }
+
+      .cls-1 {
+        stroke-linecap: square;
+      }
+
+      .cls-2 {
+        stroke-linecap: round;
+      }
+    </style>
+  </defs>
+  <title>decoration_angle_arrow-up</title>
+  <g id="Winkel">
+    <polyline class="cls-1" points="492 438 52.98 438 486.09 82.24"/>
+  </g>
+  <g id="Ebene_8" data-name="Ebene 8">
+    <polygon points="376.62 189.03 394.09 305.6 475.21 253.64 376.62 189.03"/>
+    <path class="cls-2" d="M433.14,433.58s36.7-87.94-6.84-173.46"/>
+  </g>
+</svg>

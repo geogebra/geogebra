@@ -11,14 +11,15 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
-import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.PopupMenuHandler;
 import org.geogebra.web.full.gui.util.StyleBarW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -79,8 +80,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 	}
 
 	private void createTextButtons() {
-
-		btnUseAsText = new MyToggleButtonW(loc.getMenu("Text").substring(0, 1)) {
+		btnUseAsText = new MyToggleButtonW(new NoDragImage(
+				MaterialDesignResources.INSTANCE.text(), 24)) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
@@ -119,15 +120,16 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 
 			@Override
 			public ImageOrText getButtonIcon() {
-				return GeoGebraIconW.createTextSymbolIcon("A",
-						getSelectedColor(), null);
+				return new ImageOrText(
+						MaterialDesignResources.INSTANCE.text_color(), 24);
 			}
 		};
 		btnTextColor.setEnableTable(true);
 		btnTextColor.addActionListener(this);
 		btnTextColor.addPopupHandler(this);
 
-		btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short")) {
+		btnBold = new MyToggleButtonW(new NoDragImage(
+				MaterialDesignResources.INSTANCE.text_bold_black(), 24)) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
@@ -145,7 +147,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		btnBold.addClickHandler(this);
 		btnBold.addStyleName("btnBold");
 
-		btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short")) {
+		btnItalic = new MyToggleButtonW(new NoDragImage(
+				MaterialDesignResources.INSTANCE.text_italic_black(), 24)) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
@@ -332,20 +335,10 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 	@Override
 	public void setLabels() {
 		super.setLabels();
-		// with button.setText("...")the text is only set for the current face
-		this.btnUseAsText.getDownFace().setText(
-				loc.getMenu("Text").substring(0, 1));
-		this.btnBold.getDownFace().setText(loc.getMenu("Bold.Short"));
-		this.btnItalic.getDownFace().setText(loc.getMenu("Italic.Short"));
-		this.btnUseAsText.getUpFace().setText(
-				loc.getMenu("Text").substring(0, 1));
-		this.btnBold.getUpFace().setText(loc.getMenu("Bold.Short"));
-		this.btnItalic.getUpFace().setText(loc.getMenu("Italic.Short"));
 		setTooltips();
 	}
 
 	private void setTooltips() {
-
 		btnUseAsText.setToolTipText(loc.getMenu("CasCellUseAsText"));
 		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
 		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));

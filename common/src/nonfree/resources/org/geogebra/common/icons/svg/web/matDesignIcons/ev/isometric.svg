@@ -1,0 +1,24 @@
+<svg id="stylingbar_graphicsview_show_or_hide_the_isometric_grid" xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 20px;
+      }
+    </style>
+  </defs>
+  <title>isometric</title>
+  <line class="cls-1" x1="-28" y1="522.02" x2="693.24" y2="98.63"/>
+  <line class="cls-1" x1="-28" y1="709.01" x2="693.24" y2="285.62"/>
+  <line class="cls-1" x1="257.83" y1="579.45" x2="257.83" y2="-143.12"/>
+  <line class="cls-1" x1="97.55" y1="579.45" x2="97.55" y2="-143.12"/>
+  <line class="cls-1" x1="418.1" y1="579.45" x2="418.1" y2="-143.12"/>
+  <line class="cls-1" x1="-28" y1="373.77" x2="746.67" y2="826.55"/>
+  <line class="cls-1" x1="-28" y1="335.04" x2="693.24" y2="-88.36"/>
+  <line class="cls-1" x1="-28" y1="186.78" x2="746.67" y2="639.56"/>
+  <line class="cls-1" x1="-28" y1="148.05" x2="693.24" y2="-275.35"/>
+  <line class="cls-1" x1="-28" y1="-0.21" x2="746.67" y2="452.57"/>
+  <line class="cls-1" x1="-28" y1="-187.19" x2="746.67" y2="265.58"/>
+</svg>
