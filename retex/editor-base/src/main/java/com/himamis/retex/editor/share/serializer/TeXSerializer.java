@@ -22,6 +22,7 @@ public class TeXSerializer extends SerializerAdapter {
 	private static final String selection_end = "}";
 
 	private static final String PLACEHOLDER_INVISIBLE = "\\nbsp ";
+	private boolean showPlaceholder = true;
 	private boolean lineBreakEnabled = false;
 
 	private static final String[] escapeableSymbols = { "%", "$", "#", "&", "{",
@@ -92,6 +93,16 @@ public class TeXSerializer extends SerializerAdapter {
 		lineBreakEnabled = lineBreaks;
 	}
 
+	/**
+	 * Enables or disables placeholder in the editor.
+	 *
+	 * @param placeholder
+	 *            whether to show placeholders
+	 */
+	public void setPlaceholderEnabled(boolean placeholder) {
+		showPlaceholder = placeholder;
+	}
+
 	@Override
 	public void serialize(MathSequence sequence, StringBuilder stringBuilder) {
 		if (sequence == null) {
@@ -99,7 +110,7 @@ public class TeXSerializer extends SerializerAdapter {
 			return;
 		}
 		if (sequence.isScript(0) && (sequence != mCurrentField || mCurrentOffset > 0)) {
-			stringBuilder.append(PLACEHOLDER);
+			stringBuilder.append(showPlaceholder ? PLACEHOLDER : PLACEHOLDER_INVISIBLE);
 		}
 		int lengthBefore = stringBuilder.length();
 		boolean addBraces = (sequence.hasChildren() || // {a^b_c}
@@ -175,7 +186,7 @@ public class TeXSerializer extends SerializerAdapter {
 				return PLACEHOLDER_INVISIBLE;
 			}
 		}
-		return PLACEHOLDER;
+		return showPlaceholder ? PLACEHOLDER : PLACEHOLDER_INVISIBLE;
 	}
 
 	@Override

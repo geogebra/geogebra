@@ -37,16 +37,26 @@ public class EmbedInputDialog extends MediaDialog
 	/**
 	 * @param app
 	 *            see {@link AppW}
+	 * @param title
+	 * 			  dialog title
 	 */
-	EmbedInputDialog(AppW app) {
-		super(app, "Web");
+	EmbedInputDialog(AppW app, String title) {
+		super(app, title);
 		if (Window.Location.getHost() != null
 				&& Window.Location.getHost().contains("geogebra")) {
 			urlChecker = new EmbedURLChecker(app.getAppletParameters().getParamBackendURL());
 		} else {
 			urlChecker = new MarvlURLChecker();
 		}
+	}
 
+	@Override
+	public void buildContent() {
+		super.buildContent();
+		addInfoLabel();
+	}
+
+	private void addInfoLabel() {
 		mediaInputPanel.addInfoLabel();
 		updateInfo();
 	}

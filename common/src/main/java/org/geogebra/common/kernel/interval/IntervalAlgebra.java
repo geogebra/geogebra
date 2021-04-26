@@ -5,6 +5,8 @@ import static org.geogebra.common.kernel.interval.RMath.powLow;
 
 import org.geogebra.common.util.DoubleUtil;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Implements algebra functions in interval
  *
@@ -13,6 +15,7 @@ import org.geogebra.common.util.DoubleUtil;
  * @author laszlo
  */
 class IntervalAlgebra {
+	@Weak
 	private final Interval interval;
 
 	IntervalAlgebra(Interval interval) {

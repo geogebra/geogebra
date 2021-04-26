@@ -269,6 +269,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	@Override
 	public String toString(StringTemplate tpl) {
+		if (!isDefined()) {
+			return "?";
+		}
 		StringBuilder sbToString = new StringBuilder(80);
 
 		sbToString.append(label);

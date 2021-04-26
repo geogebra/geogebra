@@ -9,10 +9,10 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.options.BasicTab;
 import org.geogebra.web.full.gui.dialog.options.OptionsEuclidianW;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
-import org.geogebra.web.geogebra3D.web.gui.images.StyleBar3DResources;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.GToggleButton;
@@ -27,7 +27,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -356,15 +355,13 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				buttons = new MyToggleButtonW[4];
 
 				buttons[EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC] = new MyToggleButtonW(
-						new Image(StyleBar3DResources.INSTANCE
-								.viewOrthographic()));
+						MaterialDesignResources.INSTANCE.projection_orthographic());
 				buttons[EuclidianView3DInterface.PROJECTION_PERSPECTIVE] = new MyToggleButtonW(
-						new Image(StyleBar3DResources.INSTANCE
-								.viewPerspective()));
+						MaterialDesignResources.INSTANCE.projection_perspective());
 				buttons[EuclidianView3DInterface.PROJECTION_GLASSES] = new MyToggleButtonW(
-						new Image(StyleBar3DResources.INSTANCE.viewGlasses()));
+						MaterialDesignResources.INSTANCE.projection_glasses());
 				buttons[EuclidianView3DInterface.PROJECTION_OBLIQUE] = new MyToggleButtonW(
-						new Image(StyleBar3DResources.INSTANCE.viewOblique()));
+						MaterialDesignResources.INSTANCE.projection_oblique());
 
 				for (int i = 0; i < 4; i++) {
 					buttons[i].addClickHandler(this);

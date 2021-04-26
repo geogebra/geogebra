@@ -449,9 +449,10 @@
 		border: #DCDCDC solid 1px;
 	}
 
-	.MyCanvasButton.gereBtn {
+	.MyToggleButton, .MyCanvasButton {
 		img {
-			padding: 2px;
+			width: 24px;
+			opacity: 0.7;
 		}
 	}
 
@@ -716,6 +717,7 @@
 
 	.closeButtonPanel {
 		padding: 7px;
+		opacity: 0.7;
 	}
 
 	.ButtonPopupMenu {
@@ -776,6 +778,7 @@
 
 	.TitleBarPanel .dragPanel {
 		padding-top: 1px;
+		opacity: 0.7;
 	}
 
 	.StyleBarPanel {
@@ -863,24 +866,16 @@
 		background-position: center center;
 		width: 24px;
 		height: 24px;
+
+		&.stylebarButton {
+			opacity: 0.7;
+		}
 	}
 
 	.MyCanvasButton.btnTextColor .buttonContent,
-	.btnBold .html-face,
-	.btnItalic .html-face,
 	.btnUseAsText .html-face {
 		line-height: 22px;
 		font-size: 22px;
-	}
-
-	.btnBold .html-face {
-		font-weight: bold;
-		color: #999999;
-	}
-
-	.btnItalic .html-face {
-		font-style: italic;
-		color: #999999;
 	}
 
 	.btnSerif {
@@ -898,6 +893,7 @@
 	.gwt-Label.stylebarButton {
 		height: 24px;
 		width: 24px;
+		opacity: 0.7;
 	}
 
 	.gwt-Label.border {
@@ -1299,38 +1295,23 @@
 		display: table;
 		box-sizing: border-box;
 		padding: 3px;
-	}
 
-	.consProtNav .gwt-Label {
-		display: inline;
-		padding: 0 8px;
-	}
+		.gwt-Label {
+			display: inline;
+			padding: 0 8px;
+		}
 
-	.consProtNav .gwt-PushButton {
-		padding: 0 6px;
-		display: inline-block;
-		vertical-align: text-top;
-	}
+		.gwt-PushButton, .gwt-ToggleButton {
+			 opacity: 0.54;
+			 padding: 0 6px;
+			 display: inline-block;
+			 vertical-align: text-top;
+		}
 
-	.consProtNav img.gwt-Image {
-		vertical-align: middle;
-		draggable: false;
-	}
-
-	.consProtNav button.gwt-Button {
-		margin: 5px;
-		background: #FFFFFF;
-		border: 1px solid #CDCDCD;
-		box-shadow: none;
-	}
-
-	.consProtNav button:hover {
-		border-color: #9999FF;
-	}
-
-	.consProtNav button.gwt-Button:active,
-	&.Tablet .consProtNav button.gwt-Button:active {
-		border: 1px solid #6666FF !important;
+		img.gwt-Image {
+			vertical-align: middle;
+			draggable: false;
+		}
 	}
 
 	/* no border-color for touch */

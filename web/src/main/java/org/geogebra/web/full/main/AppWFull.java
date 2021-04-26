@@ -3,6 +3,7 @@ package org.geogebra.web.full.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -47,6 +48,8 @@ import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
+import org.geogebra.common.main.undo.UndoHistory;
+import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -76,6 +79,7 @@ import org.geogebra.web.full.gui.app.GGWCommandLine;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.web.full.gui.dialog.H5PReader;
 import org.geogebra.web.full.gui.exam.ExamDialog;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
@@ -214,7 +218,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private String autosavedMaterial = null;
 	private MaskWidgetList maskWidgets;
 	private SuiteHeaderAppPicker suiteAppPickerButton;
-	private HashMap<String, Material> constructionJson = new HashMap<>();
+	private Map<String, Material> constructionJson = new HashMap<>();
+	private final HashMap<String, UndoHistory> undoHistory = new HashMap<>();
 	private InputBoxType inputBoxType;
 	private String functionVars = "";
 
@@ -1599,6 +1604,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			// should run after coord system changed
 			initUndoInfoSilent();
 		}
+		restoreCurrentUndoHistory();
 	}
 
 	private void updatePerspective(Perspective p) {
@@ -2048,6 +2054,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
+	public void openH5P(File file) {
+		new H5PReader(this).load(file);
+	}
+
+	@Override
 	public SaveController getSaveController() {
 		if (saveController == null) {
 			saveController = new SaveControllerW(this);
@@ -2213,6 +2224,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @param subAppCode "graphing", "3d", "cas" or "geometry"
 	 */
 	public void switchToSubapp(String subAppCode) {
+		storeCurrentUndoHistory();
 		storeCurrentMaterial();
 		activity = new SuiteActivity(subAppCode);
 		activity.start(this);
@@ -2224,6 +2236,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		clearConstruction();
 		getTmpPerspectives().clear();
 		updatePerspective(perspective);
+		clearConstruction();
 		restoreMaterial(subAppCode);
 		if (isExam()) {
 			getExam().getTempStorage().newMaterial();
@@ -2255,6 +2268,16 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 		resetUrl();
 		setTitle();
+	}
+
+	private void storeCurrentUndoHistory() {
+		UndoManager undoManager = kernel.getConstruction().getUndoManager();
+		undoManager.undoHistoryTo(undoHistory);
+	}
+
+	private void restoreCurrentUndoHistory() {
+		UndoManager undoManager = kernel.getConstruction().getUndoManager();
+		undoManager.undoHistoryFrom(undoHistory);
 	}
 
 	private void updateSymbolicFlag(String subAppCode, Perspective perspective) {
