@@ -1,10 +1,7 @@
 package org.geogebra.web.full.gui.openfileview;
 
-import java.util.List;
-
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.CardInfoPanel;
 import org.geogebra.web.full.gui.browser.MaterialCardController;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -18,10 +15,10 @@ import com.google.gwt.user.client.ui.FlowPanel;
  * Material card
  */
 public class TemporaryCard extends FlowPanel implements MaterialCardI {
-	private AppW app;
+	private final AppW app;
 	// image of material
 	private FlowPanel imgPanel;
-	private MaterialCardController controller;
+	private final MaterialCardController controller;
 
 	/**
 	 * @param m
@@ -42,7 +39,6 @@ public class TemporaryCard extends FlowPanel implements MaterialCardI {
 	 */
 	protected void openMaterial() {
 		Material material = controller.getMaterial();
-		Log.debug("open " + material.getTitle());
 		app.getGgbApi().setBase64(material.getBase64());
 		controller.onOpenFile();
 	}
@@ -115,21 +111,20 @@ public class TemporaryCard extends FlowPanel implements MaterialCardI {
 	@Override
 	public void setShare(String groupID, boolean shared,
 			AsyncOperation<Boolean> callback) {
-		controller.setShare(groupID, shared, callback);
+		// not used
 	}
 
 	@Override
 	public String getMaterialID() {
-		return getMaterial().getSharingKeyOrId();
+		return ""; // not used
 	}
 
 	@Override
 	public void updateVisibility(String visibility) {
-	}
-
-	private void showSharedIcon(List<String> strings) {
+		// not used
 	}
 
 	public void setLabels() {
+		// not used
 	}
 }
