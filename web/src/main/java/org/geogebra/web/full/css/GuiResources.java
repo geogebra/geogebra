@@ -78,9 +78,6 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/common/icons/png/web/probability_calculator_cumulative_distribution.png")
 	ImageResource cumulative_distribution();
 
-	@Source("org/geogebra/common/icons/png/web/probability_calculator_export.png")
-	ImageResource prob_calc_export();
-
 	@Source("org/geogebra/common/icons/png/web/probability_calculator_interval_between.png")
 	ImageResource interval_between();
 
@@ -99,67 +96,67 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 
 	// DECORATIONS
 	// ANGLE
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_angle_1line.png")
-	ImageResource deco_angle_1line();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_angle_1line.svg")
+	SVGResource deco_angle_1line();
 
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_angle_2lines.png")
-	ImageResource deco_angle_2lines();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_angle_2lines.svg")
+	SVGResource deco_angle_2lines();
 
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_angle_3lines.png")
-	ImageResource deco_angle_3lines();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_angle_3lines.svg")
+	SVGResource deco_angle_3lines();
 
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_angle_1stroke.png")
-	ImageResource deco_angle_1stroke();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_angle_1stroke.svg")
+	SVGResource deco_angle_1stroke();
 
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_angle_2strokes.png")
-	ImageResource deco_angle_2strokes();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_angle_2strokes.svg")
+	SVGResource deco_angle_2strokes();
 
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_angle_3strokes.png")
-	ImageResource deco_angle_3strokes();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_angle_3strokes.svg")
+	SVGResource deco_angle_3strokes();
 
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_angle_arrow-up.png")
-	ImageResource deco_angle_arrow_up();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_angle_arrow-up.svg")
+	SVGResource deco_angle_arrow_up();
 
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_angle_arrow-down.png")
-	ImageResource deco_angle_arrow_down();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_angle_arrow-down.svg")
+	SVGResource deco_angle_arrow_down();
 
 	// SEGMENT
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_segment_line.png")
-	ImageResource deco_segment_none();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_segment_line.svg")
+	SVGResource deco_segment_none();
 
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_segment_1stroke.png")
-	ImageResource deco_segment_1stroke();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_segment_1stroke.svg")
+	SVGResource deco_segment_1stroke();
 
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_segment_2strokes.png")
-	ImageResource deco_segment_2strokes();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_segment_2strokes.svg")
+	SVGResource deco_segment_2strokes();
 
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_segment_3strokes.png")
-	ImageResource deco_segment_3strokes();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_segment_3strokes.svg")
+	SVGResource deco_segment_3strokes();
 
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_segment_1arrow.png")
-	ImageResource deco_segment_1arrow();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_segment_1arrow.svg")
+	SVGResource deco_segment_1arrow();
 
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_segment_2arrows.png")
-	ImageResource deco_segment_2arrows();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_segment_2arrows.svg")
+	SVGResource deco_segment_2arrows();
 
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_segment_3arrows.png")
-	ImageResource deco_segment_3arrows();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_segment_3arrows.svg")
+	SVGResource deco_segment_3arrows();
 
 	// AXES
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_axes_line.png")
-	ImageResource deco_axes_none();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_axes_line.svg")
+	SVGResource deco_axes_none();
 
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_axes_arrow.png")
-	ImageResource deco_axes_arrow();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_axes_arrow.svg")
+	SVGResource deco_axes_arrow();
 
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_axes_arrows.png")
-	ImageResource deco_axes_arrows();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_axes_arrows.svg")
+	SVGResource deco_axes_arrows();
 
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_axes_arrow_filled.png")
-	ImageResource deco_axes_arrow_filled();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_axes_arrow_filled.svg")
+	SVGResource deco_axes_arrow_filled();
 
-	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_axes_arrows_filled.png")
-	ImageResource deco_axes_arrows_filled();
+	@Source("org/geogebra/common/icons/svg/web/decoration/decoration_axes_arrows_filled.svg")
+	SVGResource deco_axes_arrows_filled();
 
 	/*
 	 * STYLINGBARS

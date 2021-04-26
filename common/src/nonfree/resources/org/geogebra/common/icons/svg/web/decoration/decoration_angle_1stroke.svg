@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-1, .cls-3 {
+        stroke-linecap: square;
+      }
+
+      .cls-1, .cls-2 {
+        stroke-width: 30px;
+      }
+
+      .cls-2 {
+        stroke-linecap: round;
+      }
+
+      .cls-3 {
+        stroke-width: 25px;
+      }
+    </style>
+  </defs>
+  <title>decoration_angle_1stroke</title>
+  <g id="Winkel">
+    <polyline class="cls-1" points="492 438 52.98 438 486.09 82.24"/>
+  </g>
+  <g id="Ebene_3" data-name="Ebene 3">
+    <path class="cls-2" d="M433.14,433.58S492,292.54,372.2,194"/>
+  </g>
+  <g id="Ebene_5" data-name="Ebene 5">
+    <line class="cls-3" x1="394.39" y1="306.95" x2="482.74" y2="290.35"/>
+  </g>
+</svg>

@@ -449,9 +449,10 @@
 		border: #DCDCDC solid 1px;
 	}
 
-	.MyCanvasButton.gereBtn {
+	.MyToggleButton, .MyCanvasButton {
 		img {
-			padding: 2px;
+			width: 24px;
+			opacity: 0.7;
 		}
 	}
 
@@ -706,6 +707,7 @@
 
 	.closeButtonPanel {
 		padding: 7px;
+		opacity: 0.7;
 	}
 
 	.ButtonPopupMenu {
@@ -766,6 +768,7 @@
 
 	.TitleBarPanel .dragPanel {
 		padding-top: 1px;
+		opacity: 0.7;
 	}
 
 	.StyleBarPanel {
@@ -853,24 +856,16 @@
 		background-position: center center;
 		width: 24px;
 		height: 24px;
+
+		&.stylebarButton {
+			opacity: 0.7;
+		}
 	}
 
 	.MyCanvasButton.btnTextColor .buttonContent,
-	.btnBold .html-face,
-	.btnItalic .html-face,
 	.btnUseAsText .html-face {
 		line-height: 22px;
 		font-size: 22px;
-	}
-
-	.btnBold .html-face {
-		font-weight: bold;
-		color: #999999;
-	}
-
-	.btnItalic .html-face {
-		font-style: italic;
-		color: #999999;
 	}
 
 	.btnSerif {
@@ -888,6 +883,7 @@
 	.gwt-Label.stylebarButton {
 		height: 24px;
 		width: 24px;
+		opacity: 0.7;
 	}
 
 	.gwt-Label.border {
