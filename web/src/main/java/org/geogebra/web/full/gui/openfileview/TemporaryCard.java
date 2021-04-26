@@ -1,0 +1,132 @@
+package org.geogebra.web.full.gui.openfileview;
+
+import java.util.List;
+
+import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.CardInfoPanel;
+import org.geogebra.web.full.gui.browser.MaterialCardController;
+import org.geogebra.web.full.gui.images.AppResources;
+import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.main.AppW;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.ui.FlowPanel;
+
+/**
+ * Material card
+ */
+public class TemporaryCard extends FlowPanel implements MaterialCardI {
+	private AppW app;
+	// image of material
+	private FlowPanel imgPanel;
+	private MaterialCardController controller;
+
+	/**
+	 * @param m
+	 *            material
+	 * @param app
+	 *            see {@link AppW}
+	 */
+	public TemporaryCard(final Material m, final AppW app) {
+		this.app = app;
+		controller = new MaterialCardController(app);
+		controller.setMaterial(m);
+		initGui();
+		this.addDomHandler(event -> openMaterial(), ClickEvent.getType());
+	}
+
+	/**
+	 * Open this material.
+	 */
+	protected void openMaterial() {
+		Log.debug("open " + controller.getMaterial().getTitle());
+	}
+
+	private void initGui() {
+		this.setStyleName("materialCard");
+		// panel containing the preview image of material
+		imgPanel = new FlowPanel();
+		imgPanel.setStyleName("cardImgPanel");
+		setBackgroundImgPanel(getMaterial());
+		this.add(imgPanel);
+		// panel containing the info regarding the material
+
+		// material information
+		CardInfoPanel infoPanel = new CardInfoPanel(getMaterial().getTitle(), "");
+		this.add(infoPanel);
+	}
+
+	/**
+	 * @return represented material
+	 */
+	Material getMaterial() {
+		return controller.getMaterial();
+	}
+
+	private void setBackgroundImgPanel(Material m) {
+		final String thumb = m.getThumbnail();
+		if (thumb != null && thumb.length() > 0) {
+			imgPanel.getElement().getStyle().setBackgroundImage(
+					"url(" + Browser.normalizeURL(thumb) + ")");
+		} else {
+			imgPanel.getElement().getStyle().setBackgroundImage("url("
+					+ AppResources.INSTANCE.geogebra64().getSafeUri().asString()
+					+ ")");
+		}
+	}
+
+	@Override
+	public void remove() {
+		// not used
+	}
+
+	/**
+	 * Actually delete the file.
+	 */
+	protected void onConfirmDelete() {
+		// not used
+	}
+
+	@Override
+	public void rename(String text) {
+		// not used
+	}
+
+	@Override
+	public void copy() {
+		// not used
+	}
+
+	@Override
+	public void onDelete() {
+		// not used
+	}
+
+	@Override
+	public String getCardTitle() {
+		return getMaterial().getTitle();
+	}
+
+	@Override
+	public void setShare(String groupID, boolean shared,
+			AsyncOperation<Boolean> callback) {
+		controller.setShare(groupID, shared, callback);
+	}
+
+	@Override
+	public String getMaterialID() {
+		return getMaterial().getSharingKeyOrId();
+	}
+
+	@Override
+	public void updateVisibility(String visibility) {
+	}
+
+	private void showSharedIcon(List<String> strings) {
+	}
+
+	public void setLabels() {
+	}
+}

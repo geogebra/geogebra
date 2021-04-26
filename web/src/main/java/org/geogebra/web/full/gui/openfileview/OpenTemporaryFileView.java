@@ -73,6 +73,7 @@ public class OpenTemporaryFileView extends MyHeaderPanel
 		initContentPanel();
 		initSortDropdown();
 		initMaterialPanel();
+		setLabels();
 	}
 
 	private void initSpinner() {
@@ -94,7 +95,7 @@ public class OpenTemporaryFileView extends MyHeaderPanel
 
 	private void initHeader() {
 		headerView = new HeaderView();
-		headerView.setCaption(localize("mow.openFileViewTitle"));
+		headerView.setCaption(("Open"));
 		StandardButton backButton = headerView.getBackButton();
 		backButton.addFastClickHandler(source -> close());
 
@@ -257,7 +258,7 @@ public class OpenTemporaryFileView extends MyHeaderPanel
 
 	@Override
 	public void setLabels() {
-		headerView.setCaption(localize("mow.openFileViewTitle"));
+		headerView.setCaption(localize("Open"));
 		if (sortDropDown != null) {
 			sortDropDown.setItemText(0, localize("SortBy"));
 			for (int i = 0; i < map.length; i++) {
@@ -277,7 +278,7 @@ public class OpenTemporaryFileView extends MyHeaderPanel
 
 	@Override
 	public void addMaterial(Material material) {
-		materialPanel.add(new MaterialCard(material, app));
+		materialPanel.add(new TemporaryCard(material, app));
 	}
 
 	@Override
