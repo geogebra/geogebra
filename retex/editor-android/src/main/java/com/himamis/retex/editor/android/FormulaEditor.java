@@ -31,7 +31,6 @@ import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.text.InputType;
@@ -46,8 +45,7 @@ import android.view.inputmethod.InputMethodManager;
 public class FormulaEditor extends View implements MathField {
 
     private final static int CURSOR_MARGIN = 5;
-    // tolerance for cursor color
-    private final static int CURSOR_TOLERANCE = 10;
+
     private static final int DEFAULT_SIZE = 20;
     private static final int PRE_INIT_VALUE = -1;
     private static final int NO_BACKGROUND = -2;
@@ -66,10 +64,6 @@ public class FormulaEditor extends View implements MathField {
     private float mMinHeight;
     private Parser mParser;
     private int mIconWidth;
-    private Canvas mHiddenCanvas;
-    private Bitmap mHiddenBitmap;
-    private int mHiddenBitmapW = -1;
-    private int mHiddenBitmapH = -1;
     private int mShiftX = 0;
 
     private TeXIcon mFormulaPreviewTeXIcon;
@@ -388,7 +382,9 @@ public class FormulaEditor extends View implements MathField {
         mGraphics.setCanvas(canvas);
         teXIcon.setForeground(mForegroundColor);
         teXIcon.paintIcon(null, mGraphics, shiftX, y);
+        mGraphics.translate(shiftX, 0);
         teXIcon.paintCursor(mGraphics, y);
+        mGraphics.translate(-shiftX, 0);
     }
 
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -416,7 +412,7 @@ public class FormulaEditor extends View implements MathField {
     }
 
     protected void updateShiftX() {
-
+        mIconWidth = mTeXIcon.getIconWidth();
         int cursorX = calcCursorX();
         if (cursorX < 0) {
             return;
@@ -426,10 +422,12 @@ public class FormulaEditor extends View implements MathField {
 
         debug("cursorX: " + cursorX);
         int margin = (int) (CURSOR_MARGIN * mScale);
-        if (cursorX - margin + mShiftX < 0) {
-            mShiftX = -cursorX + margin;
+        if (mIconWidth < inputBarWidth) {
+            mShiftX = 0;
+        } else if (cursorX - margin + mShiftX < 0) {
+            mShiftX = Math.min(0, -cursorX + margin);
         } else if (cursorX + margin + mShiftX > inputBarWidth) {
-            mShiftX = inputBarWidth - cursorX - margin;
+            mShiftX = Math.max(inputBarWidth - mIconWidth, inputBarWidth - cursorX - margin);
         }
         debug("mShiftX: " + mShiftX);
     }
@@ -444,7 +442,7 @@ public class FormulaEditor extends View implements MathField {
         if (mIconWidth + mShiftX < inputBarWidth) {
             mShiftX = inputBarWidth - mIconWidth;
         }
-        if (mShiftX > 0) {
+        if (mShiftX > 0 || mIconWidth < inputBarWidth) {
             mShiftX = 0;
         }
 
