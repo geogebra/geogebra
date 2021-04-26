@@ -9919,6 +9919,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				child.setLabel(null);
 				selectAndShowSelectionUI(child);
 				view.resetHitHandler();
+				app.storeUndoInfo();
 				return;
 			}
 		}
