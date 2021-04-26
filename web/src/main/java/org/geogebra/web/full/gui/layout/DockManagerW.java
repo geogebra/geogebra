@@ -862,13 +862,9 @@ public class DockManagerW extends DockManager {
 
 		// the component opposite to the current component
 		int[] oppositeDim = new int[] { 0, 0 };
-		Widget opposite;
-		if (panel.getParentSplitPane() == currentPane) {
-			opposite = currentPane.getOpposite(panel);
-		} else {
-			opposite = prepareRootPaneForInsert(oppositeDim, currentPane,
+
+		Widget opposite = prepareRootPaneForInsert(oppositeDim, currentPane,
 					newSplitPane, lastPos, secondLastPos);
-		}
 		// save divider locations to prevent not visible views
 		if (opposite != null) {
 			((DockComponent) opposite).saveDividerLocation();

@@ -189,6 +189,8 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void setRunAfterLogin(Runnable runAfterLogin);
 
+	void onToolbarVisibilityChanged(int viewId, boolean isVisible);
+
 	/**
 	 * @param geo - to add to table of values
 	 */
@@ -211,6 +213,4 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * @param show - true if point should be shown, false otherwise
 	 */
 	void showPointsTV(int column, boolean show);
-
-	void onToolbarVisibilityChanged(int viewId, boolean isVisible);
 }
