@@ -625,7 +625,7 @@ public class GGWToolBar extends Composite
 				return resourceBundle.mode_createtable_32();
 
 		case EuclidianConstants.MODE_DELETE:
-			return resourceBundle.mode_delete_32();
+			return resourceBundle.mode_eraser_32();
 
 		case EuclidianConstants.MODE_CAS_DERIVATIVE:
 			return resourceBundle.mode_derivative_32();
@@ -746,8 +746,7 @@ public class GGWToolBar extends Composite
 			return resourceBundle.mode_parallel_32();
 
 		case EuclidianConstants.MODE_PEN:
-			return app.isWhiteboardActive() ? resourceBundle.mode_pen()
-					: resourceBundle.mode_pen_32();
+			return resourceBundle.mode_pen();
 
 		case EuclidianConstants.MODE_POINT:
 			return resourceBundle.mode_point_32();
