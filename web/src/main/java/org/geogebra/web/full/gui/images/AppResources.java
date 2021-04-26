@@ -95,8 +95,4 @@ public interface AppResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_data_analysis_show_2nd_plot.png")
 	ImageResource dataview_showplot2();
-
-	@Source("org/geogebra/common/icons/png/web/stylingbar/stylebar_angle_interval.png")
-	ImageResource stylingbar_angle_interval();
-
 }

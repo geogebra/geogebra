@@ -467,4 +467,17 @@ public class MaterialRestAPI implements BackendAPI {
 						+ "ggs-template",
 				null, templateMaterialsCB);
 	}
+
+	/**
+	 * send the base64 of a h5p file
+	 * @param base64 of the file
+	 * @param callback to handle api response
+	 */
+	public void uploadAndUnzipH5P(String base64, AjaxCallback callback) {
+		HttpRequest request = service.createRequest(model);
+		request.setContentTypeJson();
+		String json = "{\"file\":\"" + base64 + "\"}";
+		request.sendRequestPost("POST", baseURL + "/media/h5p",
+				json, callback);
+	}
 }

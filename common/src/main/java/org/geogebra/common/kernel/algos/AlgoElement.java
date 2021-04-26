@@ -1049,22 +1049,11 @@ public abstract class AlgoElement extends ConstructionElement
 	 */
 	@Override
 	public int getMaxConstructionIndex() {
-		// index is less than minimum of all dependent algorithm's index of all
-		// output
-		ArrayList<AlgoElement> algoList;
-		int size, index;
-		int min = cons.steps();
+		int min = cons.steps() - 1;
 		for (int k = 0; k < getOutputLength(); ++k) {
-			algoList = getOutput(k).getAlgorithmList();
-			size = algoList.size();
-			for (int i = 0; i < size; ++i) {
-				index = algoList.get(i).getConstructionIndex();
-				if (index < min) {
-					min = index;
-				}
-			}
+			min = Math.min(min, getOutput(k).getIndexBeforeAllDependentAlgos());
 		}
-		return min - 1;
+		return min;
 	}
 
 	/**

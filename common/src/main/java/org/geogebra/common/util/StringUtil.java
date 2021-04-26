@@ -1,19 +1,16 @@
 package org.geogebra.common.util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Locale;
-import java.util.Set;
 import java.util.Stack;
-import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.parser.ParserInfo;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 
@@ -325,6 +322,27 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 				}
 			}
 		}
+	}
+
+	/**
+	 * @param parseString raw parser input
+	 * @param decimalComma whether , means decimal (rather than thousand separator)
+	 * @return preprocessed input
+	 */
+	public static String preprocessForParser(String parseString, boolean decimalComma) {
+		ParserPreprocessor parserPreprocessor = new ParserPreprocessor(
+				new ParserInfo(false, decimalComma));
+		return parserPreprocessor.preprocess(parseString);
+	}
+
+	/**
+	 * @param parseString raw parser input
+	 * @param info preprocessing flags
+	 * @return preprocessed input
+	 */
+	public static String preprocessWithInfo(String parseString, ParserInfo info) {
+		ParserPreprocessor preprocessor = new ParserPreprocessor(info);
+		return preprocessor.preprocess(parseString);
 	}
 
 	/**
@@ -868,122 +886,6 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			return closingBrackets.pop();
 		}
 		return -1;
-	}
-
-	/**
-	 * Does several replacements to simplify parsing
-	 * - replace || with | | where needed
-	 * - replace .. with ellipsis
-	 * - handle , as decimal or thousand separator based on locale
-	 *
-	 * @param parseString0
-	 *            input string
-	 * @return preprocessed string
-	 */
-	public static String preprocessForParser(String parseString0, boolean decimalComma) {
-		String ignoredIndices = ignoreIndices(parseString0);
-		StringBuilder sbFix = new StringBuilder();
-
-		// When we have <splitter> || , we know that we should separate
-		// these bars (i. e., we want absolute value, not OR)
-		Set<Character> splitters = new TreeSet<>(
-				Arrays.asList(Unicode.SQUARE_ROOT, '+', '-',
-						'*', '/', '^', '='));
-
-		// first we iterate from left to right, and then backward
-		int topLevelBars = 0;
-		String parseString = parseString0;
-		for (int dir = 0; dir < 2; dir++) {
-			boolean comment = false;
-			int bars = 0;
-			Character lastNonWhitespace = ' ';
-			int level = 0;
-			if (dir == 1) {
-				if (MyDouble.isOdd(topLevelBars)) {
-					int lPos = sbFix.lastIndexOf("|");
-					sbFix.replace(lPos, lPos + 1, ")");
-					sbFix.insert(0, "(");
-				}
-				parseString = sbFix.reverse().toString();
-				ignoredIndices = ignoreIndices(parseString);
-				sbFix = new StringBuilder();
-				splitters = new TreeSet<>(
-						Arrays.asList('*', '/', '^', '=',
-								Unicode.SUPERSCRIPT_0, Unicode.SUPERSCRIPT_1,
-								Unicode.SUPERSCRIPT_2, Unicode.SUPERSCRIPT_3,
-								Unicode.SUPERSCRIPT_4, Unicode.SUPERSCRIPT_5,
-								Unicode.SUPERSCRIPT_6, Unicode.SUPERSCRIPT_7,
-								Unicode.SUPERSCRIPT_8, Unicode.SUPERSCRIPT_9,
-								Unicode.SUPERSCRIPT_MINUS));
-			}
-
-			int len = ignoredIndices.length();
-			for (int i = 0; i < len; i++) {
-				Character ch = ignoredIndices.charAt(i);
-				if (!comment && dir == 0 && sbFix.length() > 0 && ch.equals('.')
-						&& (sbFix.charAt(sbFix.length() - 1) == '.'
-								|| sbFix.charAt(sbFix.length()
-										- 1) == Unicode.ELLIPSIS)) {
-					sbFix.setLength(sbFix.length() - 1);
-					sbFix.append(Unicode.ELLIPSIS);
-				} else {
-					char write = parseString.charAt(i);
-					if (write == Unicode.MICRO) {
-						sbFix.append(Unicode.mu);
-					} else {
-						sbFix.append(write);
-					}
-				}
-
-				if (StringUtil.isWhitespace(ch)
-						|| (comment && !ch.equals('"'))) {
-					continue;
-				}
-
-				if (ch.equals('"')) {
-					comment = !comment;
-				} else if (ch.equals('{') || ch.equals('(') || ch.equals('[')) {
-					level++;
-				} else if (ch.equals('}') || ch.equals(')') || ch.equals(']')) {
-					level--;
-				}
-				if (ch.equals('|')) {
-					// We separate bars if the previous symbol was in splitters
-					// or we have ||| and there were an odd number of bars so
-					// far
-					if (i == 0
-							|| (MyDouble.isOdd(bars) && i < len - 2
-									&& ignoredIndices.charAt(i + 1) == '|'
-									&& ignoredIndices.charAt(i + 2) == '|')
-							|| (i < len - 1
-									&& ignoredIndices.charAt(i + 1) == '|'
-									&& splitters.contains(lastNonWhitespace))) {
-						sbFix.append(' ');
-					}
-					bars++;
-					if (level == 0) {
-						topLevelBars++;
-					}
-				}
-
-				lastNonWhitespace = ch;
-			}
-		}
-		String basicOps = ".+-*/ ";
-		for (int i = 0; i < sbFix.length(); i++) {
-			char currentChar = sbFix.charAt(i);
-			if (currentChar == ',') {
-				if (decimalComma) {
-					sbFix.replace(i, i + 1, ".");
-				} else {
-					sbFix.delete(i, i + 1);
-				}
-			} else if (!Character.isDigit(currentChar)
-					&& basicOps.indexOf(currentChar) == -1) {
-				break;
-			}
-		}
-		return sbFix.reverse().toString();
 	}
 
 	/**

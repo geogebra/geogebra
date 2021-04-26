@@ -104,7 +104,6 @@ public class ComponentInputDialog extends ComponentDialog
 	@Override
 	public void hide() {
 		super.hide();
-		new WindowsNativeUIController((AppW) app).hideKeyboard();
 		if (getTextComponent() != null) {
 			getTextComponent().hideTablePopup();
 		}

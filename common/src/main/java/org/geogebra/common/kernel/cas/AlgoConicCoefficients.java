@@ -1,113 +1,20 @@
-/* 
-GeoGebra - Dynamic Mathematics for Everyone
-http://www.geogebra.org
-
-This file is part of GeoGebra.
-
-This program is free software; you can redistribute it and/or modify it 
-under the terms of the GNU General Public License as published by 
-the Free Software Foundation.
-
- */
-
 package org.geogebra.common.kernel.cas;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 
-/**
- * Algorithm for coefficients of a conic
- * 
- * @author Michael Borcherds
- */
-public class AlgoConicCoefficients extends AlgoElement {
-	/** input */
-	protected GeoQuadricND c;
-	/** output */
-	protected GeoList g;
+public class AlgoConicCoefficients extends AlgoEquationCoefficients {
 
-	/**
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            label for output
-	 * @param c
-	 *            conic
-	 */
 	public AlgoConicCoefficients(Construction cons, String label,
-			GeoConicND c) {
-		super(cons);
-		this.c = c;
-
-		g = new GeoList(cons);
-		double[] matrix = c.getFlatMatrix();
-		g.add(new GeoNumeric(cons, matrix[0]));
-		g.add(new GeoNumeric(cons, matrix[1]));
-		g.add(new GeoNumeric(cons, matrix[2]));
-		g.add(new GeoNumeric(cons, matrix[3] * 2));
-		g.add(new GeoNumeric(cons, matrix[4] * 2));
-		g.add(new GeoNumeric(cons, matrix[5] * 2));
-
-		setInputOutput(); // for AlgoElement
-		// compute();
-		g.setLabel(label);
-	}
-
-	/**
-	 * Constructor for extending algos
-	 * 
-	 * @param cons
-	 *            construction
-	 */
-	public AlgoConicCoefficients(Construction cons) {
-		super(cons);
+			GeoQuadricND c) {
+		super(cons, label, c, 6);
 	}
 
 	@Override
-	public Commands getClassName() {
-		return Commands.Coefficients;
-	}
-
-	// for AlgoElement
-	@Override
-	protected void setInputOutput() {
-		input = new GeoElement[1];
-		input[0] = c;
-
-		super.setOutputLength(1);
-		super.setOutput(0, g);
-		setDependencies(); // done by AlgoElement
-	}
-
-	/**
-	 * @return resulting list of coefficients
-	 */
-	public GeoList getResult() {
-		return g;
-	}
-
-	@Override
-	public void compute() {
-		if (!c.isDefined()) {
-			g.setUndefined();
-			return;
+	public void extractCoefficients() {
+		double[] matrix = ((GeoQuadricND) eqn).getFlatMatrix();
+		for (int i = 0; i < 6; i++) {
+			setCoeff(i, i < 3 ? matrix[i] : matrix[i] * 2);
 		}
-
-		double[] matrix = c.getFlatMatrix();
-		g.setDefined(true);
-		((GeoNumeric) g.get(0)).setValue(matrix[0]);
-		((GeoNumeric) g.get(1)).setValue(matrix[1]);
-		((GeoNumeric) g.get(2)).setValue(matrix[2]);
-		((GeoNumeric) g.get(3)).setValue(matrix[3] * 2);
-		((GeoNumeric) g.get(4)).setValue(matrix[4] * 2);
-		((GeoNumeric) g.get(5)).setValue(matrix[5] * 2);
-
 	}
-
 }

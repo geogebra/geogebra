@@ -537,6 +537,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		}
 
 		lblSampleHeader2.setVisible((isNotEmpty(lblSampleStat2[0].getText())));
+		setLabels();
 
 		ckPooled.setVisible(sc.getSelectedProcedure() == Procedure.TMEAN2_TEST
 				|| sc.getSelectedProcedure() == Procedure.TMEAN2_CI);

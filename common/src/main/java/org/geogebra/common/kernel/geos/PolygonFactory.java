@@ -138,51 +138,19 @@ public class PolygonFactory {
 		boolean oldVal = kernel.isUsingInternalCommandNames();
 		kernel.setUseInternalCommandNames(true);
 
-		StringBuilder sb = new StringBuilder();
+		String sb;
 
 		int n = poly.getPointsLength();
-
+		String angle = "arg(" + label(p[1]) + "-" + label(p[0]) + ")-arg("
+				+ label(pts[1]) + "-" + label(pts[0]) + ")";
 		for (int i = 2; i < n; i++) {
-
 			// build string like
-			// Rotate[E+ (Segment[B,C], 0), Angle[C-B] + Angle[E-D] -
-			// Angle[B-A],E]
-
-			sb.setLength(0);
-			sb.append("Rotate[");
-			sb.append(p[i - 1].getLabel(StringTemplate.noLocalDefault));
-
-			// #5445
-			sb.append("+ (Segment[");
-			sb.append(pts[i - 1].getLabel(StringTemplate.noLocalDefault));
-			sb.append(",");
-			sb.append(pts[i % n].getLabel(StringTemplate.noLocalDefault));
-			sb.append("]");
-
-			sb.append(", 0), Angle[");
-			sb.append(pts[i].getLabel(StringTemplate.noLocalDefault)); // C
-			sb.append("-");
-			sb.append(pts[i - 1].getLabel(StringTemplate.noLocalDefault)); // B
-			sb.append("] + Angle[");
-			sb.append(p[i - 1].getLabel(StringTemplate.noLocalDefault));
-			sb.append("-");
-			sb.append(p[i - 2].getLabel(StringTemplate.noLocalDefault));
-			sb.append("] - Angle[");
-			sb.append(pts[i - 1].getLabel(StringTemplate.noLocalDefault)); // B
-			sb.append("-");
-			sb.append(pts[i - 2].getLabel(StringTemplate.noLocalDefault)); // A
-			sb.append("],");
-			sb.append(p[i - 1].getLabel(StringTemplate.noLocalDefault));
-			sb.append("]");
-
-			// Log.error(sb.toString());
-
-			p[i] = kernel.getAlgebraProcessor().evaluateToPoint(sb.toString(), ErrorHelper.silent(),
-					false);
-			p[i].setLabel(null);
+			// A1 + Rotate[D - A, arg(B1 - A1) - arg(B - A)]
+			sb = label(p[0]) + "+Rotate[" + label(pts[i]) + "-" + label(pts[0]) + "," + angle + "]";
+			p[i] = kernel.getAlgebraProcessor().evaluateToPoint(sb, ErrorHelper.silent(),
+					true);
 			p[i].setEuclidianVisible(false);
-			p[i].update();
-
+			p[i].setLabel(null);
 		}
 
 		kernel.setUseInternalCommandNames(oldVal);
@@ -198,6 +166,10 @@ public class PolygonFactory {
 		firstPoint.updateRepaint();
 
 		return ret;
+	}
+
+	private String label(GeoPointND pt) {
+		return pt.getLabel(StringTemplate.noLocalDefault);
 	}
 
 	/**

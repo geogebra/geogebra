@@ -18,7 +18,7 @@ public class IntervalPlotterTest extends BaseUnitTest {
 		EuclidianView view = getApp().getActiveEuclidianView();
 		view.setRealWorldCoordSystem(Math.PI - 0.0001, 2 * Math.PI + 0.0001, -2, 2);
 		IntervalPathPlotterMock gp = new IntervalPathPlotterMock();
-		IntervalPlotter plotter = new IntervalPlotter(view, gp, 10);
+		IntervalPlotter plotter = new IntervalPlotter(view, gp);
 		GeoFunction function = add("sqrt(sin(x))");
 		plotter.enableFor(function);
 		assertEquals(EMPTY_PATH, gp.getLog());
@@ -29,7 +29,7 @@ public class IntervalPlotterTest extends BaseUnitTest {
 		EuclidianView view = getApp().getActiveEuclidianView();
 		view.setRealWorldCoordSystem(-1, -1E-7, -9, 9);
 		IntervalPathPlotterMock gp = new IntervalPathPlotterMock();
-		IntervalPlotter plotter = new IntervalPlotter(view, gp, 10);
+		IntervalPlotter plotter = new IntervalPlotter(view, gp);
 		GeoFunction function = add("-1sqrt(-1/x)");
 		plotter.enableFor(function);
 		assertEquals(EMPTY_PATH, gp.getLog());
@@ -40,7 +40,7 @@ public class IntervalPlotterTest extends BaseUnitTest {
 		EuclidianView view = getApp().getActiveEuclidianView();
 		view.setRealWorldCoordSystem(-10, 0, -9, 9);
 		IntervalPathPlotterMock gp = new IntervalPathPlotterMock();
-		IntervalPlotter plotter = new IntervalPlotter(view, gp, 10);
+		IntervalPlotter plotter = new IntervalPlotter(view, gp);
 		GeoFunction function = add("sin(ln(x))");
 		plotter.enableFor(function);
 		assertEquals(EMPTY_PATH, gp.getLog());
@@ -51,7 +51,7 @@ public class IntervalPlotterTest extends BaseUnitTest {
 		EuclidianView view = getApp().getActiveEuclidianView();
 		view.setRealWorldCoordSystem(-10, 0, -9, 9);
 		IntervalPathPlotterMock gp = new IntervalPathPlotterMock();
-		IntervalPlotter plotter = new IntervalPlotter(view, gp, 100);
+		IntervalPlotter plotter = new IntervalPlotter(view, gp);
 		GeoFunction function = add("sqrt(1/x)");
 		plotter.enableFor(function);
 		assertEquals(EMPTY_PATH, gp.getLog());
@@ -62,7 +62,7 @@ public class IntervalPlotterTest extends BaseUnitTest {
 		EuclidianView view = getApp().getActiveEuclidianView();
 		view.setRealWorldCoordSystem(0, 1, -7, 7);
 		IntervalPathPlotterMock gp = new IntervalPathPlotterMock();
-		IntervalPlotter plotter = new IntervalPlotter(view, gp, 20);
+		IntervalPlotter plotter = new IntervalPlotter(view, gp);
 		GeoFunction function = add("(-8)/sec(ln(x))");
 		plotter.enableFor(function);
 		assertEquals(EMPTY_PATH, gp.getLog());

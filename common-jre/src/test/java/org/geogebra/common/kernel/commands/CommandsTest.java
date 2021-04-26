@@ -1141,6 +1141,9 @@ public class CommandsTest {
 	public void cmdCoefficients() {
 		t("Coefficients[ x^2+y^2=1 ]", "{1, 1, -1, 0, 0, 0}");
 		t("Coefficients[ x^2 ]", "{1, 0, 0}");
+		t("Coefficients[ 2x+3y+4z=5 ]", "{2, 3, 4, -5}");
+		t("Coefficients[ Fit({(0,0),(1,1),(2,4)}, {x^2,sin(x),x}) ]", "{1, 0, 0}");
+		t("Coefficients[7x^3+sin(x)]", "{7, 3}");
 	}
 
 	@Test
@@ -1155,7 +1158,8 @@ public class CommandsTest {
 
 	@Test
 	public void cmdCompleteSquare() {
-		t("CompleteSquare[ x^2 ]", "(1 * (x)^(2))");
+		t("CompleteSquare[ x^2 ]", "(x)^(2)");
+		t("CompleteSquare[ x^2 + 2x + 2 ]", "(x + 1)^(2) + 1");
 	}
 
 	@Test

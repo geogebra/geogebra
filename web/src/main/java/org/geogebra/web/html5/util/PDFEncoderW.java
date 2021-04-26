@@ -122,11 +122,6 @@ public class PDFEncoderW implements Encoder {
 	 * @return context if available (or null)
 	 */
 	public static Context2d getContext(int width, int height) {
-
-		if (ExportLoader.getPako() == null) {
-			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pakoJs());
-		}
-
 		if (ExportLoader.getCanvas2Pdf() == null) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Pdf());
 		}
