@@ -25,6 +25,8 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 
 	private Double tmpXMLWidth;
 	private Double tmpXMLHeight;
+	private Double tmpXMLContentWidth;
+	private Double tmpXMLContentHeight;
 
 	/**
 	 * Creates new GeoElement for given construction
@@ -143,6 +145,15 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 	}
 
 	/**
+	 * @param tmpWidth height
+	 * @param tmpHeight width
+	 */
+	public void setTmpXMLContentSize(Double tmpWidth, Double tmpHeight) {
+		tmpXMLContentWidth = tmpWidth;
+		tmpXMLContentHeight = tmpHeight;
+	}
+
+	/**
 	 * sets width/height to temporarily stored values
 	 */
 	public void updateSizeFromTmpXMLIfNeeded() {
@@ -150,6 +161,11 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 			setHeight(tmpXMLHeight);
 			setWidth(tmpXMLWidth);
 			setTmpXMLSize(null, null);
+		}
+		if (tmpXMLContentWidth != null || tmpXMLContentHeight != null) {
+			setContentHeight(tmpXMLContentHeight);
+			setContentWidth(tmpXMLContentWidth);
+			setTmpXMLContentSize(null, null);
 		}
 	}
 }

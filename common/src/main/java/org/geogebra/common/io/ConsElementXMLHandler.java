@@ -2357,8 +2357,12 @@ public class ConsElementXMLHandler {
 			geoEmbed.setContentHeight(height);
 		} else {
 			GeoInline geoInline = (GeoInline) geo;
-			geoInline.setContentWidth(width);
-			geoInline.setContentHeight(height);
+			if (geo instanceof GeoInlineTable) {
+				((GeoInlineTable) geo).setTmpXMLContentSize(width, height);
+			} else {
+				geoInline.setContentWidth(width);
+				geoInline.setContentHeight(height);
+			}
 		}
 	}
 
