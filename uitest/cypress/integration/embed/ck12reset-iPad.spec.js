@@ -7,6 +7,6 @@ describe('Reset test', () => {
 
    it("Dialog on reset", () => {
         cy.get("#reset").click();
-        cy.get("#reset-alert").should("be", "visible")
+        cy.get("#reset-alert").should("be.visible")
     })
 })

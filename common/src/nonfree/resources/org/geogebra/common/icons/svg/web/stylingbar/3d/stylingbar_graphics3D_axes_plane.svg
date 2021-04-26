@@ -1,0 +1,12 @@
+<svg id="stylingbar_graphics3D_axes_plane" xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #b3b3b3;
+      }
+    </style>
+  </defs>
+  <title>stylingbar_graphics3D_axes_plane</title>
+  <rect class="cls-1" width="512" height="512"/>
+  <polygon points="512 417 95 417 95 0 65 0 65 417 0 417 0 447 65 447 65 512 95 512 95 447 512 447 512 417"/>
+</svg>

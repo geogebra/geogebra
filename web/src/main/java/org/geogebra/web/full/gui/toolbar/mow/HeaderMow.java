@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
@@ -74,7 +75,8 @@ public class HeaderMow extends FlowPanel
 				MaterialDesignResources.INSTANCE.mow_pen_panel(), "Pen");
 		penPanelBtn.addStyleName("flatButton");
 		toolsPanelBtn = createButton(
-				MaterialDesignResources.INSTANCE.toolbar_tools(), "Tools");
+				MaterialDesignResources.INSTANCE.toolbar_tools().withFill(GColor.WHITE.toString()),
+				"Tools");
 		TestHarness.setAttr(toolsPanelBtn, "toolsPanelButton");
 		toolsPanelBtn.addStyleName("flatButton");
 		TestHarness.setAttr(toolsPanelBtn, "toolsPanelButton");

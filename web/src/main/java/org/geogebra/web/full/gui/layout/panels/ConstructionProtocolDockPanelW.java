@@ -19,14 +19,7 @@ public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
 	 *            application
 	 */
 	public ConstructionProtocolDockPanelW(AppW app) {
-		super(
-			App.VIEW_CONSTRUCTION_PROTOCOL, 	// view id
-			"ConstructionProtocol", 					// view title phrase 
-			null,	// toolbar string
-				false, // style bar?
-			7,						// menu order
-			'L' // ctrl-shift-L
-		);
+		super(App.VIEW_CONSTRUCTION_PROTOCOL, null, false);
 		this.app = app;
 		this.setShowStyleBar(true);
 		this.setEmbeddedSize(300);

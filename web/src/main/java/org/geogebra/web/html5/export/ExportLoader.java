@@ -27,12 +27,6 @@ public final class ExportLoader {
 	public static native Object getCanvas2Pdf();
 
 	/**
-	 * @return pako compression library
-	 */
-	@JsProperty
-	public static native Object getPako();
-
-	/**
 	 * @return whether canvas2svg was loaded
 	 */
 	@JsOverlay

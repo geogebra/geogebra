@@ -30,15 +30,7 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 	 *            application
 	 */
 	public SpreadsheetDockPanelW(App appl) {
-		super(
-				App.VIEW_SPREADSHEET, 		// view id
-				"Spreadsheet", 						// view title phrase
-				getDefaultToolbar(),				// toolbar string
-				true,								// style bar?
-				3, 									// menu order
-				'S'									// menu shortcut
-				);
-
+		super(App.VIEW_SPREADSHEET,	getDefaultToolbar(), true);
 		app = (AppW) appl;
 	}
 

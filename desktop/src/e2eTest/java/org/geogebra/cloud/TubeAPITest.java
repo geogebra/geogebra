@@ -51,6 +51,7 @@ public class TubeAPITest extends Assert {
 		GeoGebraTubeAPID api = new GeoGebraTubeAPID(app
 						.has(Feature.TUBE_BETA),
 				getClient());
+		updateUrls(api);
 		final ArrayList<String> titles = new ArrayList<>();
 		api.search("pythagoras", new MaterialCallbackI() {
 
@@ -69,6 +70,13 @@ public class TubeAPITest extends Assert {
 			}
 		});
 		awaitValidTitlesExact("search", titles, 30);
+	}
+
+	private void updateUrls(GeoGebraTubeAPID api) {
+		if ("e2e".equals(System.getProperty("ggb.env"))) {
+			api.setURL("https://e2e.geogebra.org/api/json.php");
+			api.setLoginURL("https://e2e-accounts.geogebra.org/api/index.php");
+		}
 	}
 
 	/**
@@ -261,8 +269,10 @@ public class TubeAPITest extends Assert {
 	}
 
 	private GeoGebraTubeAPID getAuthAPI(String token) {
-		return new GeoGebraTubeAPID(app
+		GeoGebraTubeAPID geoGebraTubeAPID = new GeoGebraTubeAPID(app
 				.has(Feature.TUBE_BETA), getAuthClient(null, token));
+		updateUrls(geoGebraTubeAPID);
+		return geoGebraTubeAPID;
 	}
 
 	protected static ClientInfo getClient() {

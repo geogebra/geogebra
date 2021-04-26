@@ -312,8 +312,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 				mx = view.toScreenCoordX(xRW);
 				my = view.toScreenCoordY(yRW);
 
-				endPoint.setX(xRW);
-				endPoint.setY(yRW);
+				endPoint.setLocation(xRW, yRW);
 				view.getEuclidianController().setLineEndPoint(endPoint);
 				gp.lineTo(mx, my);
 			} else {

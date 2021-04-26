@@ -19,11 +19,8 @@ public class PropertiesDockPanelW extends DockPanelW {
 	public PropertiesDockPanelW(AppW app) {
 		super(
 			App.VIEW_PROPERTIES, 	// view id
-			"Properties", 					// view title phrase 
 			null,	// toolbar string
-				false, // style bar?
-			7,						// menu order
-			'E' // ctrl-shift-E
+			false // style bar?
 		);
 		
 		this.app = app;

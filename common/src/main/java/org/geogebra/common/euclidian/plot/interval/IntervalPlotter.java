@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.interval.IntervalTuple;
 public class IntervalPlotter {
 	private final EuclidianView view;
 	private final IntervalPathPlotter gp;
-	private int numberOfSamples;
 	private boolean enabled;
 	private IntervalPlotModel model = null;
 	private boolean updateAll = true;
@@ -29,17 +28,14 @@ public class IntervalPlotter {
 		this.view = view;
 		this.gp = new IntervalPathPlotterImpl(gp);
 		this.enabled = false;
-		numberOfSamples = 0;
 	}
 
 	/**
 	 * Creates a disabled plotter
 	 */
-	public IntervalPlotter(EuclidianView view, IntervalPathPlotter pathPlotter,
-			int numberOfSamples) {
+	public IntervalPlotter(EuclidianView view, IntervalPathPlotter pathPlotter) {
 		this.view = view;
 		this.gp = pathPlotter;
-		this.numberOfSamples = numberOfSamples;
 		this.enabled = false;
 	}
 
@@ -62,15 +58,10 @@ public class IntervalPlotter {
 	private void createModel(GeoFunction function) {
 		IntervalTuple range = new IntervalTuple();
 		IntervalFunctionSampler sampler =
-				new IntervalFunctionSampler(function, range,
-						calculateNumberOfSamples());
+				new IntervalFunctionSampler(function, range, view);
 		model = new IntervalPlotModel(range, sampler, view);
 		IntervalPath path = new IntervalPath(gp, view, model);
 		model.setPath(path);
-	}
-
-	private int calculateNumberOfSamples() {
-		return numberOfSamples > 0 ? numberOfSamples : view.getWidth();
 	}
 
 	/**

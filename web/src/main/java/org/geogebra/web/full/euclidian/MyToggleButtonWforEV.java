@@ -6,8 +6,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
-
-import com.google.gwt.resources.client.ImageResource;
+import org.geogebra.web.resources.SVGResource;
 
 /**
  * Toggle button that should be visible if no geos are selected or to be
@@ -22,7 +21,7 @@ public class MyToggleButtonWforEV extends MyToggleButtonW {
 	 * @param stylebar
 	 *            parent stylebar
 	 */
-	public MyToggleButtonWforEV(ImageResource img,
+	public MyToggleButtonWforEV(SVGResource img,
 			EuclidianStyleBarW stylebar) {
 		super(img);
 		this.stylebar = stylebar;

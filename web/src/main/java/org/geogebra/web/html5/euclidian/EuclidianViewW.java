@@ -957,14 +957,6 @@ public class EuclidianViewW extends EuclidianView implements
 		// no tooltips
 	}
 
-	private void setResizeXAxisCursor() {
-		setCursorClass("cursor_resizeXAxis");
-	}
-
-	private void setResizeYAxisCursor() {
-		setCursorClass("cursor_resizeYAxis");
-	}
-
 	private void setResizeNESWCursor() {
 		setCursorClass("cursor_resizeNESW");
 	}
@@ -1227,22 +1219,18 @@ public class EuclidianViewW extends EuclidianView implements
 			setMoveCursor();
 			return;
 		case RESIZE_X:
-			setResizeXAxisCursor();
+		case RESIZE_EW:
+			setResizeEWCursor();
 			return;
 		case RESIZE_Y:
-			setResizeYAxisCursor();
+		case RESIZE_NS:
+			setResizeNSCursor();
 			return;
 		case RESIZE_NESW:
 			setResizeNESWCursor();
 			return;
 		case RESIZE_NWSE:
 			setResizeNWSECursor();
-			return;
-		case RESIZE_EW:
-			setResizeEWCursor();
-			return;
-		case RESIZE_NS:
-			setResizeNSCursor();
 			return;
 		case TRANSPARENT:
 			setTransparentCursor();

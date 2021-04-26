@@ -43,10 +43,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	private ConstructionProtocolNavigationW consProtNav;
 
 	private boolean mayHaveZoomButtons;
-	/**
-	 * panel with home,+,-,fullscreen btns
-	 */
-	ZoomPanel zoomPanel;
+
 	/** Zoom panel for MOW */
 	@CheckForNull ZoomPanelMow mowZoomPanel;
 	/**
@@ -59,25 +56,16 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 *
 	 * @param id
 	 *            id
-	 * @param title
-	 *            title
 	 * @param toolbar
 	 *            toolbar string
 	 * @param hasStyleBar
 	 *            whether to show stylebar
 	 * @param hasZoomPanel
 	 *            - true if it has zoom panel
-	 * @param menuOrder
-	 *            The location of this view in the view menu, -1 if the view
-	 *            should not appear at all
-	 * @param shortcut
-	 *            letter for Ctrl+Shift+letter shortcut
 	 */
-	public EuclidianDockPanelWAbstract(int id, String title, String toolbar,
-			boolean hasStyleBar, boolean hasZoomPanel, int menuOrder,
-			char shortcut) {
-		super(id, title, toolbar, hasStyleBar, menuOrder,
-				shortcut);
+	public EuclidianDockPanelWAbstract(int id, String toolbar,
+			boolean hasStyleBar, boolean hasZoomPanel) {
+		super(id, toolbar, hasStyleBar);
 		this.mayHaveZoomButtons = hasZoomPanel;
 	}
 
