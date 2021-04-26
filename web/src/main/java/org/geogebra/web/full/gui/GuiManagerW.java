@@ -2340,4 +2340,12 @@ public class GuiManagerW extends GuiManager
 		DockPanelW dockPanelForKeyboard = layout.getDockManager().getPanelForKeyboard();
 		return getKeyboardListener(dockPanelForKeyboard);
 	}
+
+	/**
+	 * Clears browser GUI to enable to build a new one
+	 * (when starting or ending an exam)
+	 */
+	public void resetBrowserGUI() {
+		browseGUI = null;
+	}
 }

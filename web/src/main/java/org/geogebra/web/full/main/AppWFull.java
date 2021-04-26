@@ -2143,13 +2143,16 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		// ensure fullscreen: we may have lost it when handling unsaved
 		// changes
 		getLAF().toggleFullscreen(true);
-		if (guiManager != null && menuViewController != null) {
-			guiManager.setUnbundledHeaderStyle("examOk");
-			menuViewController.setExamMenu();
-			guiManager.resetMenu();
-			GlobalHeader.INSTANCE.addExamTimer();
-			new ExamUtil(this).visibilityEventMain();
-			guiManager.initInfoBtnAction();
+		if (guiManager != null) {
+			guiManager.resetBrowserGUI();
+			if (menuViewController != null) {
+				guiManager.setUnbundledHeaderStyle("examOk");
+				menuViewController.setExamMenu();
+				guiManager.resetMenu();
+				GlobalHeader.INSTANCE.addExamTimer();
+				new ExamUtil(this).visibilityEventMain();
+				guiManager.initInfoBtnAction();
+			}
 		}
 	}
 
@@ -2168,6 +2171,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			menuViewController.setDefaultMenu();
 		}
 		guiManager.resetMenu();
+		guiManager.resetBrowserGUI();
 		setActivePerspective(0);
 	}
 
