@@ -238,7 +238,7 @@ public class DockManagerW extends DockManager {
 				 * Get the parent split pane of this dock panel and ignore the
 				 * last direction as its reserved for the position of the dock
 				 * panel itself.
-				 * 
+				 *
 				 */
 				for (int j = 0; j < directions.length - 1; ++j) {
 					Widget current;
