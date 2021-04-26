@@ -69,7 +69,6 @@ public class FileViewCommon extends MyHeaderPanel {
 	 */
 	public void addContent() {
 		contentPanel.clear();
-		//contentPanel.add(sortDropDown);
 		contentPanel.add(materialPanel);
 	}
 
@@ -88,12 +87,6 @@ public class FileViewCommon extends MyHeaderPanel {
 	@Override
 	public void setLabels() {
 		headerView.setCaption(localize(title));
-//		if (sortDropDown != null) {
-//			sortDropDown.setItemText(0, localize("SortBy"));
-//			for (int i = 0; i < map.length; i++) {
-//				sortDropDown.setItemText(i + 1, localize(labelFor(map[i])));
-//			}
-//		}
 		for (int i = 0; i < materialPanel.getWidgetCount(); i++) {
 			Widget widget = materialPanel.getWidget(i);
 			if (widget instanceof MaterialCard) {
@@ -112,7 +105,7 @@ public class FileViewCommon extends MyHeaderPanel {
 
 	@Override
 	public void resizeTo(int width, int height) {
-
+		// not used
 	}
 
 	/**

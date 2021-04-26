@@ -8,14 +8,11 @@ import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.ListBox;
 
 import elemental2.dom.File;
 
@@ -28,8 +25,6 @@ public class OpenTemporaryFileView implements
 	private final TempStorage tempStorage;
 	private final FileViewCommon common;
 
-	private static final Order[] map = new Order[] { Order.title, Order.created,
-			Order.timestamp };
 	private final AppW app;
 
 	/**
@@ -52,42 +47,9 @@ public class OpenTemporaryFileView implements
 		return tempStorage.collectTempMaterials();
 	}
 
-	private void initSortDropdown() {
-		// dropdown
-		ListBox sortDropDown = new ListBox();
-		sortDropDown.setMultipleSelect(false);
-		sortDropDown.addItem(common.localize("SortBy"));
-		sortDropDown.getElement().getFirstChildElement()
-				.setAttribute("disabled", "disabled");
-
-		for (Order value : map) {
-			sortDropDown.addItem(common.localize(labelFor(value)));
-		}
-		sortDropDown.setSelectedIndex(3);
-		sortDropDown.addChangeHandler(event -> updateOrder());
-	}
-
-	private static String labelFor(Order order2) {
-		switch (order2) {
-		case created:
-			return "sort_date_created";
-		case timestamp:
-			return "sort_last_modified";
-		default:
-		case title:
-			return "sort_title";
-		}
-	}
-
-	/**
-	 * Reload materials sorted by another property.
-	 */
-	protected void updateOrder() {
-		loadAllMaterials();
-	}
-
 	@Override
 	public void openFile(final File fileToHandle) {
+		// not used
 	}
 
 	@Override
@@ -132,7 +94,7 @@ public class OpenTemporaryFileView implements
 
 	@Override
 	public void close() {
-
+		// not used
 	}
 
 	@Override
