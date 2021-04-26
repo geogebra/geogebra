@@ -34,11 +34,6 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	}
 
 	@Override
-	public boolean showInAlgebraView() {
-		return false;
-	}
-
-	@Override
 	protected boolean showInEuclidianView() {
 		return true;
 	}

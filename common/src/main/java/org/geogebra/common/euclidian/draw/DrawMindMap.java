@@ -14,9 +14,12 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoMindMapNode.NodeAlignment;
 import org.geogebra.common.kernel.geos.MoveGeos;
+import org.geogebra.common.kernel.geos.Translateable;
+import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.matrix.Coords;
 
 public class DrawMindMap extends DrawInlineText {
@@ -112,14 +115,22 @@ public class DrawMindMap extends DrawInlineText {
 		}
 		NodeAlignment alignment = node.getAlignment();
 		if (mindMapEdge == null) {
+			parent.rectangle.update();
 			mindMapEdge = new MindMapEdge(parent, this, alignment);
 		}
-		if (mindMapEdge.isIntersecting(alignment)
-				|| alignment.isOpposite(parent.node.getAlignment())) {
-			updateAlignment(parent);
-		} else {
-			mindMapEdge = new MindMapEdge(parent, this, alignment);
+		if (!rootPending(node)) {
+			if (mindMapEdge.isIntersecting(alignment)
+					|| alignment.isOpposite(parent.node.getAlignment())) {
+				updateAlignment(parent);
+			} else {
+				mindMapEdge = new MindMapEdge(parent, this, alignment);
+			}
 		}
+	}
+
+	private boolean rootPending(GeoMindMapNode node) {
+		return node.isParentPending()
+				|| (node.getParent() != null && rootPending(node.getParent()));
 	}
 
 	@Override
@@ -293,6 +304,7 @@ public class DrawMindMap extends DrawInlineText {
 		List<DrawMindMap> intersectableChildren = node.getChildren().stream()
 				.filter(node -> node.getAlignment() != newAlignment)
 				.map(node -> (DrawMindMap) view.getDrawableFor(node))
+				.filter(e -> e != null)
 				.sorted(intersectionComparator)
 				.collect(Collectors.toList());
 
@@ -439,5 +451,61 @@ public class DrawMindMap extends DrawInlineText {
 		}
 
 		return 0;
+	}
+
+	/**
+	 * @param parentNode override parent node
+	 */
+	public void fixPosition(GeoMindMapNode parentNode) {
+		if (parentNode == null) {
+			double centerX = (view.getXmin() + view.getXmax()) / 2;
+			double centerY = (view.getYmin() + view.getYmax()) / 2;
+			Coords coords = new Coords(centerX - node.getLocation().x
+					- rectangle.getWidth() * view.getInvXscale() / 2,
+					centerY - node.getLocation().y
+					+ rectangle.getHeight() * view.getInvYscale() / 2);
+			translateSubtree(node, coords);
+			return;
+		}
+
+		if (node.getAlignment().isOpposite(parentNode.getAlignment())) {
+			fixPosition(parentNode.getAlignment(), parentNode);
+		} else if (node.isParentPending() || overlapsChild(parentNode)) {
+			fixPosition(node.getAlignment(), parentNode);
+		}
+	}
+
+	private void fixPosition(NodeAlignment alignment, GeoMindMapNode parentNode) {
+		DrawMindMap parent = (DrawMindMap) view.getDrawableFor(parentNode);
+		if (parent != null) {
+			GPoint2D newLocation = parent.computeNewLocation(alignment);
+			node.setAlignment(alignment);
+			Coords coords = new Coords(newLocation.x - node.getLocation().x,
+					newLocation.y - node.getLocation().y);
+			translateSubtree(node, coords);
+		}
+	}
+
+	private boolean overlapsChild(GeoMindMapNode parentNode) {
+		return parentNode.getChildren().stream().anyMatch(child ->
+				child != node && node.getLocation().distance(child.getLocation())
+						< view.getInvXscale());
+	}
+
+	private void translateSubtree(GeoMindMapNode node, Coords shift) {
+		node.translate(shift);
+		Group group = node.getParentGroup();
+		if (group != null) {
+			group.stream().filter(this::translateFiler)
+					.forEach(geo ->	((Translateable) geo).translate(shift));
+		}
+		node.updateCascade(false);
+		for (GeoMindMapNode child: node.getChildren()) {
+			translateSubtree(child, shift);
+		}
+	}
+
+	private boolean translateFiler(GeoElement geoElement) {
+		return geoElement instanceof Translateable && !(geoElement instanceof GeoMindMapNode);
 	}
 }

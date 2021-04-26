@@ -250,7 +250,6 @@ public class MyXMLHandler implements DocHandler {
 		constMode = MODE_CONSTRUCTION;
 		hasGuiElement = false;
 		compLayout = new CompatibilityLayout();
-
 		initKernelVars();
 
 		xmin.clear();
