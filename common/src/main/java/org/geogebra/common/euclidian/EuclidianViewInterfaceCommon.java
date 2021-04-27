@@ -1060,4 +1060,8 @@ public interface EuclidianViewInterfaceCommon
 	 */
 	public boolean isShowing();
 
+	/**
+	 * @return EV positioner
+	 */
+	EvPositioner getEvPositioner();
 }

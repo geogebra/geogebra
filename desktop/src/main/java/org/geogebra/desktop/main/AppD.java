@@ -74,7 +74,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Executors;
@@ -139,6 +138,7 @@ import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.headless.AppDI;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.jre.main.TemplateHelper;
@@ -287,8 +287,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// ==============================================================
 	// RESOURCE fields
 	// ==============================================================
-
-	private ResourceBundle rbmenuEnglish;
 
 	private final LocalizationD loc;
 
@@ -2421,19 +2419,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	public Locale getLocale() {
 		return loc.getLocale();
-	}
-
-	final public String getEnglishMenu(String key) {
-
-		if (rbmenuEnglish == null) {
-			rbmenuEnglish = MyResourceBundle.createBundle(LocalizationD.RB_MENU,
-					Locale.ENGLISH);
-		}
-		try {
-			return rbmenuEnglish.getString(key);
-		} catch (Exception e) {
-			return key;
-		}
 	}
 
 	/**
