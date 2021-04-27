@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -1403,7 +1405,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	 * @return The DrawList for the geo element;
 	 * 
 	 */
-	public static DrawDropDownList asDrawable(App app, GeoElement geo) {
+	public static @CheckForNull DrawDropDownList asDrawable(App app, GeoElement geo) {
 		return (DrawDropDownList) app.getActiveEuclidianView()
 				.getDrawableFor(geo);
 	}
