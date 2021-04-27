@@ -4,6 +4,7 @@
 .GeoGebraFrame {
 
 	.snackbarComponent {
+		width: fit-content;
 		max-width: 664px;
 		position: absolute;
 		bottom: 8px;
@@ -16,6 +17,9 @@
 		box-shadow: 0 3px 5px -1px $black-20, 0 1px 18px 0 $black-12, 0 6px 10px 0 $black-14;
         transform: scale(.8);
         opacity: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
 
         &.fadeIn {
         	opacity: 1;
@@ -45,7 +49,7 @@
 		.materialTextButton {
 			color: $teal-light;
 			font-size: 88%;
-			float: right;
+			margin: auto;
 
 			&:hover {
 				background: none;
