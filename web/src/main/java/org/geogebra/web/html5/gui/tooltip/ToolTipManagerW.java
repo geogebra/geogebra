@@ -15,8 +15,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Event.NativePreviewEvent;
-import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -260,7 +258,6 @@ public final class ToolTipManagerW {
 					openHelp();
 				}
 			});
-
 		}
 
 			// Helps to align the InfoTooltip in the center of the screen:
@@ -325,15 +322,9 @@ public final class ToolTipManagerW {
 	private void animateIn(final AppW appw) {
 		appw.getPanel().getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		bottomInfoTipPanel.addStyleName("animateShow");
-		CSSAnimation.runOnAnimation(new Runnable() {
-			@Override
-			public void run() {
-				appw.getPanel().getElement().getStyle()
-						.setOverflow(Overflow.VISIBLE);
-
-			}
-		}, bottomInfoTipPanel.getElement(), "animateShow");
-
+		CSSAnimation.runOnAnimation(() -> appw.getPanel().getElement().getStyle()
+				.setOverflow(Overflow.VISIBLE), bottomInfoTipPanel.getElement(),
+				"animateShow");
 	}
 
 	private static int lines(String text) {
@@ -481,12 +472,9 @@ public final class ToolTipManagerW {
 		}
 
 		// Closing tooltips is done in AppW.closePopups
-		Event.addNativePreviewHandler(new NativePreviewHandler() {
-			@Override
-			public void onPreviewNativeEvent(NativePreviewEvent event) {
-				if (event.getTypeInt() == Event.ONTOUCHSTART) {
-					CancelEventTimer.touchEventOccured();
-				}
+		Event.addNativePreviewHandler(event -> {
+			if (event.getTypeInt() == Event.ONTOUCHSTART) {
+				CancelEventTimer.touchEventOccured();
 			}
 		});
 	}

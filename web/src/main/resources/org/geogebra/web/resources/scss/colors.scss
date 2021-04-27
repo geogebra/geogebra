@@ -10,6 +10,7 @@ $purple-dark-87: rgba($purple-dark, 0.87);
 $carrot-light: #EA9143;
 $carrot-default: #E67E22;
 $carrot-dark: #DB6114;
+$carrot-dark: #DB6114;
 // TEAL
 $teal-light: #4cb4a4;
 /* #59DAD9;*/
@@ -37,7 +38,7 @@ $button-border: rgb(169, 169, 169);
 $marble-border: #ccccff;
 $selected-menuitem-background: #eeeeee;
 $zoomBtnBckg: #525659;/*#777*/
-$snackbar-background: #323232;
+$snackbar-background: #212121;
 $popup-shadow: rgba(102,102,102,0.3); // used for dyn stylebar and preview point popup
 $material-black900: #212121;
 $focus-black: $material-black900;
@@ -59,6 +60,7 @@ $error: rgb(176,0,32);
 $white: rgb(255, 255, 255);
 $white-25: rgba(255,255,255,0.25);
 $white-30: rgba(255, 255, 255, 0.3);
+$white-60: rgba(255, 255, 255, 0.6);
 $white-70: rgba(255, 255, 255, 0.7);
 $white-80: rgba(255, 255, 255, 0.8);
 $white-90: rgba(255, 255, 255, 0.9);
@@ -66,6 +68,7 @@ $white-95: rgba(255, 255, 255, 0.95);
 $black-87: rgba(0,0,0,0.87);
 $black-60: rgba(0,0,0,0.60);
 $black-54: rgba(0,0,0,0.54);
+$black-50: rgba(0,0,0,0.50);
 $black-42: rgba(0,0,0,0.42);
 $black-30: rgba(0,0,0,0.3);
 $black-28: rgba(0,0,0,0.28);
@@ -77,7 +80,6 @@ $black-14: rgba(0,0,0,0.14);
 $black-12: rgba(0,0,0,0.12);
 $black-10: rgba(0,0,0,0.1);
 $black-04: rgba(0,0,0,0.04);
-$black-50: rgba(0,0,0,0.50);
 
 $preview-border: rgba(51,51,51,.2);
 

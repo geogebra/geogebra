@@ -10,6 +10,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
+import org.geogebra.web.shared.components.ComponentSnackbar;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -44,8 +45,14 @@ public class GraphicsControlsPanel extends FlowPanel implements DockControlPanel
 		}
 
 		graphicsContextMenuBtn.addFastClickHandler(source -> {
-			app.getAccessibilityManager().setAnchor(focusableWidget);
-			onGraphicsSettingsPressed(parent);
+			ComponentSnackbar snacknar = new ComponentSnackbar(app, app.getLocalization(),
+					"Circle with Centre through points ", "Select centre point, then point on the circle. "
+					+ "Try selecting centre point, then point on the circle. Try selecting centre point, then point on "
+					+ "the circle.Try selecting centre point.",
+					"HELP");
+			snacknar.show();
+			//app.getAccessibilityManager().setAnchor(focusableWidget);
+			//onGraphicsSettingsPressed(parent);
 		});
 
 		graphicsContextMenuBtn.addStyleName("flatButton");
