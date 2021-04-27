@@ -89,7 +89,7 @@ public class FileViewCommon extends MyHeaderPanel {
 	@Override
 	public void setLabels() {
 		headerView.setCaption(localize(title));
-		for (int i = 0; i < materialPanel.getWidgetCount(); i++) {
+		for (int i = 0; i < materialCount(); i++) {
 			Widget widget = materialPanel.getWidget(i);
 			if (widget instanceof MaterialCard) {
 				((MaterialCard) widget).setLabels();
@@ -154,5 +154,36 @@ public class FileViewCommon extends MyHeaderPanel {
 	 */
 	public void addMaterialCard(Widget card) {
 		materialPanel.add(card);
+	}
+
+	public void addToContent(Widget widget) {
+		contentPanel.add(widget);
+	}
+
+	public void clearContents() {
+		contentPanel.clear();
+	}
+
+	public void addToInfo(Widget widget) {
+		infoPanel.add(widget);
+	}
+
+	public boolean hasNoMaterials() {
+		return materialCount() == 0;
+	}
+
+	public int materialCount() {
+		return materialPanel.getWidgetCount();
+	}
+
+	public Widget materialAt(int index) {
+		return materialPanel.getWidget(index);
+	}
+
+	public void addMaterial(Widget widget) {
+		materialPanel.add(widget);
+	}
+	public void insertMaterial(Widget widget, int idx) {
+		materialPanel.insert(widget, idx);
 	}
 }

@@ -46,7 +46,7 @@ public class OpenSearch {
 	}
 
 	private void showBrowserView(String query) {
-		showBrowser((MyHeaderPanel) guiManager.getBrowseView(query));
+		showBrowser((HeaderFileView) guiManager.getBrowseView(query));
 	}
 
 	private boolean hasSearchPerspective() {
@@ -74,7 +74,7 @@ public class OpenSearch {
 	private void showBrowser(HeaderFileView fileView) {
 		showBrowser(fileView.getPanel());
 	}
-	
+
 	private void showBrowser(MyHeaderPanel bg) {
 		EuclidianController evController = app.getActiveEuclidianView().getEuclidianController();
 		if (evController != null) {

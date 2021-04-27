@@ -16,13 +16,9 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.HeaderView;
-import org.geogebra.web.full.gui.MessagePanel;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
 import org.geogebra.web.html5.gui.laf.LoadSpinner;
-import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
-import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
@@ -37,42 +33,32 @@ import elemental2.dom.File;
 /**
  * View for browsing materials
  */
-public class OpenFileView extends MyHeaderPanel
-		implements BrowseViewI, OpenFileListener, EventRenderable {
+public class OpenFileView extends HeaderFileView
+		implements OpenFileListener, EventRenderable {
 
+	private final FileViewCommon common;
 	/**
 	 * application
 	 */
 	protected AppW app;
-	// header
-	private HeaderView headerView;
 
-	// content panel
-	private FlowPanel contentPanel;
-	// button panel
 	private FlowPanel buttonPanel;
 	private StandardButton newFileBtn;
-	private FileOpenButton openFileBtn;
+	private final FileOpenButton openFileBtn;
 
-	// dropdown
 	private ListBox sortDropDown;
 
-	// material panel
-	private FlowPanel materialPanel;
 	private MaterialCallbackI ggtMaterialsCB;
 	private MaterialCallbackI userMaterialsCB;
 	private MaterialCallbackI sharedMaterialsCB;
-	// info panel
-	private FlowPanel infoPanel;
-	private MessagePanel messagePanel;
 	private LoadSpinner spinner;
 
-	private boolean[] materialListEmpty = { true, true };
+	private final boolean[] materialListEmpty = { true, true };
 	private static final int TYPE_USER = 0;
 	private static final int TYPE_SHARED = 1;
 
 	private Order order = Order.timestamp;
-	private static Order[] map = new Order[] { Order.title, Order.created,
+	private static final Order[] map = new Order[] { Order.title, Order.created,
 			Order.timestamp };
 
 	/**
@@ -84,6 +70,7 @@ public class OpenFileView extends MyHeaderPanel
 	public OpenFileView(AppW app, FileOpenButton openFileButton) {
 		this.app = app;
 		this.openFileBtn = openFileButton;
+		common = new FileViewCommon(app, "mow.openFileViewTitle");
 		if (this.app.getLoginOperation() == null) {
 			this.app.initSignInEventFlow(new LoginOperationW(app));
 		}
@@ -93,53 +80,34 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	private void initGUI() {
-		this.setStyleName("openFileView");
 		this.userMaterialsCB = getUserMaterialsCB(TYPE_USER);
 		this.sharedMaterialsCB = getUserMaterialsCB(TYPE_SHARED);
 		this.ggtMaterialsCB = getGgtMaterialsCB();
-		initHeader();
-		initContentPanel();
 		initSpinner();
 		initButtonPanel();
 		initSortDropdown();
-		initMaterialPanel();
 	}
 
 	private void initSpinner() {
 		spinner = new LoadSpinner(app.isMebis());
-		contentPanel.add(spinner);
+		common.addToContent(spinner);
 	}
 
 	/**
 	 * adds content if available, notification otherwise
 	 */
 	protected void addContent() {
-		contentPanel.clear();
+		common.clearContents();
 		if (materialListEmpty[TYPE_USER] && materialListEmpty[TYPE_SHARED]) {
-			showEmptyListNotification();
+			common.showEmptyListNotification();
 			setExtendedButtonStyle();
-			infoPanel.add(buttonPanel);
+			common.addToInfo(buttonPanel);
 		} else {
 			setSmallButtonStyle();
-			contentPanel.add(buttonPanel);
-			contentPanel.add(sortDropDown);
-			contentPanel.add(materialPanel);
+			common.addToContent(buttonPanel);
+			common.addToContent(sortDropDown);
+			common.addMaterialPanel();
 		}
-	}
-
-	private void initHeader() {
-		headerView = new HeaderView();
-		headerView.setCaption(localize("mow.openFileViewTitle"));
-		StandardButton backButton = headerView.getBackButton();
-		backButton.addFastClickHandler(source -> close());
-
-		this.setHeaderWidget(headerView);
-	}
-
-	private void initContentPanel() {
-		contentPanel = new FlowPanel();
-		contentPanel.setStyleName("fileViewContentPanel");
-		this.setContentWidget(contentPanel);
 	}
 
 	private void initButtonPanel() {
@@ -163,8 +131,8 @@ public class OpenFileView extends MyHeaderPanel
 		sortDropDown.addItem(localize("SortBy"));
 		sortDropDown.getElement().getFirstChildElement()
 				.setAttribute("disabled", "disabled");
-		for (int i = 0; i < map.length; i++) {
-			sortDropDown.addItem(localize(labelFor(map[i])));
+		for (Order value : map) {
+			sortDropDown.addItem(localize(labelFor(value)));
 		}
 		sortDropDown.setSelectedIndex(3);
 		sortDropDown.addChangeHandler(event -> updateOrder());
@@ -190,12 +158,6 @@ public class OpenFileView extends MyHeaderPanel
 		order = map[sortDropDown.getSelectedIndex() - 1];
 		loadAllMaterials();
 	}
-
-	private void initMaterialPanel() {
-		materialPanel = new FlowPanel();
-		materialPanel.addStyleName("materialPanel");
-	}
-
 	private String localize(String id) {
 		return app.getLocalization().getMenu(id);
 	}
@@ -216,29 +178,6 @@ public class OpenFileView extends MyHeaderPanel
 		close();
 	}
 
-	private void showEmptyListNotification() {
-		infoPanel = new FlowPanel();
-		infoPanel.setStyleName("emptyMaterialListInfo");
-
-		messagePanel = createMessagePanel();
-		infoPanel.add(messagePanel);
-
-		contentPanel.clear();
-		contentPanel.add(infoPanel);
-	}
-
-	private MessagePanel createMessagePanel() {
-		MessagePanel messagePanel = new MessagePanel();
-		messagePanel.setImageUri(MaterialDesignResources.INSTANCE.mow_lightbulb());
-		setMessagePanelLabels(messagePanel);
-		return messagePanel;
-	}
-
-	private void setMessagePanelLabels(MessagePanel messagePanel) {
-		messagePanel.setPanelTitle(localize("emptyMaterialList.caption.mow"));
-		messagePanel.setPanelMessage(localize("emptyMaterialList.info.mow"));
-	}
-
 	private void setExtendedButtonStyle() {
 		newFileBtn.setStyleName("extendedFAB");
 		newFileBtn.addStyleName("FABteal");
@@ -257,18 +196,13 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	@Override
-	public AppW getApp() {
-		return app;
-	}
-
-	@Override
-	public void resizeTo(int width, int height) {
-		// TODO Auto-generated method stub
+	public MyHeaderPanel getPanel() {
+		return common;
 	}
 
 	@Override
 	public void setMaterialsDefaultStyle() {
-		if (materialPanel.getWidgetCount() == 0) {
+		if (common.hasNoMaterials()) {
 			updateMaterials();
 		}
 	}
@@ -292,67 +226,20 @@ public class OpenFileView extends MyHeaderPanel
 
 	@Override
 	public void clearMaterials() {
-		materialPanel.clear();
-	}
-
-	private void clearPanels() {
-		if (contentPanel != null) {
-			contentPanel.clear();
-		}
-		if (infoPanel != null) {
-			infoPanel.clear();
-		}
+		common.clearMaterials();
 	}
 
 	/**
 	 * update material list
 	 */
 	public void updateMaterials() {
-		clearPanels();
+		common.clearPanels();
 		loadAllMaterials();
 	}
 
-	/**
-	 * update temporary saved file list in exam mode.
-	 */
-	public void updateTemporaryFilesInExamMode() {
-		clearPanels();
-		loadTemporaryMaterials();
-	}
-
-	private void loadTemporaryMaterials() {
-		spinner.show();
-	}
-
-	@Override
-	public void disableMaterials() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onSearchResults(List<Material> response,
-			ArrayList<Chapter> chapters) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void displaySearchResults(String query) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void refreshMaterial(Material material, boolean isLocal) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void rememberSelected(MaterialListElementI materialElement) {
-		// TODO Auto-generated method stub
-	}
 
 	@Override
 	public void setLabels() {
-		headerView.setCaption(localize("mow.openFileViewTitle"));
 		newFileBtn.setText(localize("New.Mebis"));
 		openFileBtn
 				.setImageAndText(
@@ -365,21 +252,19 @@ public class OpenFileView extends MyHeaderPanel
 				sortDropDown.setItemText(i + 1, localize(labelFor(map[i])));
 			}
 		}
-		for (int i = 0; i < materialPanel.getWidgetCount(); i++) {
-			Widget widget = materialPanel.getWidget(i);
+		for (int idx = 0; idx < common.materialCount(); idx++) {
+			Widget widget = common.materialAt(idx);
 			if (widget instanceof MaterialCard) {
 				((MaterialCard) widget).setLabels();
 			}
 		}
-		if (messagePanel != null) {
-			setMessagePanelLabels(messagePanel);
-		}
+		common.setLabels();
 	}
 
 	@Override
 	public void addMaterial(Material material) {
-		for (int i = 0; i < materialPanel.getWidgetCount(); i++) {
-			Widget widget = materialPanel.getWidget(i);
+		for (int idx = 0; idx < common.materialCount(); idx++) {
+			Widget widget = common.materialAt(idx);
 			if (widget instanceof MaterialCard
 					&& isBeforeOrSame(material, ((MaterialCard) widget).getMaterial())) {
 				if (((MaterialCard) widget).getMaterial().getSharingKeyOrId()
@@ -387,11 +272,11 @@ public class OpenFileView extends MyHeaderPanel
 					// don't add the same material twice
 					return;
 				}
-				materialPanel.insert(new MaterialCard(material, app), i);
+				common.insertMaterial(new MaterialCard(material, app), idx);
 				return;
 			}
 		}
-		materialPanel.add(new MaterialCard(material, app));
+		common.addMaterial(new MaterialCard(material, app));
 	}
 
 	private boolean isBeforeOrSame(Material material, Material material2) {
@@ -406,11 +291,6 @@ public class OpenFileView extends MyHeaderPanel
 			return false;
 		}
 
-	}
-
-	@Override
-	public void removeMaterial(Material material) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
