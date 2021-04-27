@@ -183,6 +183,7 @@ public class FileViewCommon extends MyHeaderPanel {
 	public void addMaterial(Widget widget) {
 		materialPanel.add(widget);
 	}
+
 	public void insertMaterial(Widget widget, int idx) {
 		materialPanel.insert(widget, idx);
 	}

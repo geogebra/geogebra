@@ -158,6 +158,7 @@ public class OpenFileView extends HeaderFileView
 		order = map[sortDropDown.getSelectedIndex() - 1];
 		loadAllMaterials();
 	}
+
 	private String localize(String id) {
 		return app.getLocalization().getMenu(id);
 	}
@@ -236,7 +237,6 @@ public class OpenFileView extends HeaderFileView
 		common.clearPanels();
 		loadAllMaterials();
 	}
-
 
 	@Override
 	public void setLabels() {
