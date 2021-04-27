@@ -227,6 +227,7 @@ public class GeoSymbolic extends GeoElement
 			casResult = evaluateGeoGebraCAS(casInput, constant);
 		}
 
+		setSymbolicMode(!isTopLevelCommandNumeric(), false);
 		casOutputString = casResult;
 		ExpressionValue casOutput = parseOutputString(casResult);
 		setValue(casOutput);
@@ -236,6 +237,11 @@ public class GeoSymbolic extends GeoElement
 		isTwinUpToDate = false;
 		isEuclidianShowable = shouldBeEuclidianVisible(casInput);
 		numericValue = maybeComputeNumericValue(casOutput);
+	}
+
+	private boolean isTopLevelCommandNumeric() {
+		return getDefinition().getTopLevelCommand() != null
+				&& Commands.NSolve.name().equals(getDefinition().getTopLevelCommand().getName());
 	}
 
 	private Command getCasInput(ExpressionValue casInputArg) {
