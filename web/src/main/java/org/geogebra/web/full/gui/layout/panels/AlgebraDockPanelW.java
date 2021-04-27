@@ -42,14 +42,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	 *            whether to add stylebar
 	 */
 	public AlgebraDockPanelW(DockPanelDecorator decorator, boolean hasStyleBar) {
-		super(
-				App.VIEW_ALGEBRA,	// view id
-				"AlgebraWindow", 			// view title phrase
-				null,						// toolbar string
-				hasStyleBar, // style bar?
-				2, 							// menu order
-				'A'							// menu shortcut
-			);
+		super(App.VIEW_ALGEBRA, null, hasStyleBar);
 		this.decorator = decorator;
 	}
 
@@ -180,6 +173,11 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	}
 
 	@Override
+	public int getNavigationRailWidth() {
+		return 0;
+	}
+
+	@Override
 	public void scrollToActiveItem() {
 		final RadioTreeItem item = aview == null ? null
 				: aview.getActiveTreeItem();
@@ -263,5 +261,10 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	@Override
 	public void resizeContent(Panel content) {
 		// no resize here, size is in %
+	}
+
+	@Override
+	public double getMinVHeight(boolean keyboard) {
+		return Math.max(aview.getInputTreeItem().getOffsetHeight(),	120);
 	}
 }

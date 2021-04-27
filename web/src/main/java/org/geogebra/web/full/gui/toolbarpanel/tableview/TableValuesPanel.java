@@ -25,17 +25,19 @@ public class TableValuesPanel extends FlowPanel
 	TableValuesView view;
 	private StickyValuesTable table;
 	private TableValuesEmptyPanel emptyPanel;
+	private TableTab parentTab;
 
 	/**
 	 * @param app
 	 *            {@link AppW}.
 	 */
-	public TableValuesPanel(AppW app) {
+	public TableValuesPanel(AppW app, TableTab parentTab) {
 		super();
 		view = (TableValuesView) app.getGuiManager().getTableValuesView();
 		view.getTableValuesModel().registerListener(this);
 		emptyPanel = new TableValuesEmptyPanel(app);
 		table = new StickyValuesTable(app, view);
+		this.parentTab = parentTab;
 		TestHarness.setAttr(table, "TV_table");
 		add(emptyPanel);
 		add(table);
@@ -44,23 +46,30 @@ public class TableValuesPanel extends FlowPanel
 	private void showEmptyView() {
 		show(emptyPanel);
 		hide(table);
-		removeStyleName("tvTable");
-		addStyleName("emptyTablePanel");
-		addParentClassName("tableViewParent");
+		setStyleForEmpty(true);
+	}
+
+	private void setStyleForEmpty(boolean empty) {
+		setStyleName("tvTable", !empty);
+		setStyleName("emptyTablePanel", empty);
+		parentTab.setStyleName("customScrollbar", empty);
+		addParentClassName("tableViewParent", empty);
 	}
 
 	private void showTableView() {
 		hide(emptyPanel);
 		show(table);
-		addStyleName("tvTable");
-		removeParentClassName("tableViewParent");
-		removeStyleName("emptyTablePanel");
+		setStyleForEmpty(false);
 	}
 
-	private void addParentClassName(String className) {
+	private void addParentClassName(String className, boolean add) {
 		Element parent = getElement().getParentElement();
 		if (parent != null) {
-			parent.addClassName(className);
+			if (add) {
+				parent.addClassName(className);
+			} else {
+				parent.removeClassName(className);
+			}
 		}
 	}
 

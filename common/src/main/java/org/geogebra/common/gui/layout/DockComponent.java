@@ -14,14 +14,6 @@ public interface DockComponent {
 	public static final int MIN_SIZE = 100;
 
 	/**
-	 * 
-	 * @param prefix
-	 *            prefix to add
-	 * @return string description with prefix
-	 */
-	public String toString(String prefix);
-
-	/**
 	 * Update resize weight
 	 * 
 	 * @return true if it contains a panel that takes new space (currently if
