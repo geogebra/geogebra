@@ -13,10 +13,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class FileViewCommon extends MyHeaderPanel {
 
-	/**
-	 * application
-	 */
-	protected AppW app;
 	private final String title;
 	// header
 	private HeaderView headerView;
@@ -29,8 +25,12 @@ public class FileViewCommon extends MyHeaderPanel {
 	private MessagePanel messagePanel;
 	private final LocalizationW loc;
 
+	/**
+	 *
+	 * @param app the application
+	 * @param title the header title key.
+	 */
 	public FileViewCommon(AppW app, String title) {
-		this.app = app;
 		loc = app.getLocalization();
 		this.title = title;
 		initGUI();
