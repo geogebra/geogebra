@@ -151,11 +151,9 @@ public class AlgoIncircle extends AlgoElement implements SymbolicParametersBotan
 	@Override
 	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
-
 		if (botanaParams == null) {
 			botanaParams = new BotanaIncircle();
 		}
 		return botanaParams.getPolynomials(getInput());
 	}
-
 }

@@ -436,7 +436,6 @@ public class AlgoAngularBisectorLines extends AlgoElement
 				// This idea was taken from Recio-Dalzotto 2009, p. 231,
 				// https://www.researchgate.net/publication/226017744_On_Protocols_for_the_Automated_Discovery_of_Theorems_in_Elementary_Geometry,
 				// but here we do it more generally.
-
 				if (botanaVars == null) {
 					botanaVars = new PVariable[6];
 					// M, the midpoint of the rhombus
