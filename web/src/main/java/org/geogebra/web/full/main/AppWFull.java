@@ -749,7 +749,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (search == null) {
 			search = new OpenSearch(this);
 		}
-		search.openSearchInExamMode();
+		search.openInExamMode();
 	}
 
 	@Override
