@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class FileViewCommon extends MyHeaderPanel {
 
+	private AppW app;
 	private final String title;
 	// header
 	private HeaderView headerView;
@@ -32,6 +33,7 @@ public class FileViewCommon extends MyHeaderPanel {
 	 */
 	public FileViewCommon(AppW app, String title) {
 		loc = app.getLocalization();
+		this.app = app;
 		this.title = title;
 		initGUI();
 	}
@@ -100,7 +102,7 @@ public class FileViewCommon extends MyHeaderPanel {
 
 	@Override
 	public AppW getApp() {
-		return null;
+		return app;
 	}
 
 	@Override

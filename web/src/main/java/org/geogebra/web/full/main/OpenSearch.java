@@ -5,6 +5,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
+import org.geogebra.web.full.gui.openfileview.HeaderFileView;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
 import org.geogebra.web.full.gui.openfileview.OpenTemporaryFileView;
 import org.geogebra.web.html5.util.AppletParameters;
@@ -22,14 +23,17 @@ public class OpenSearch {
 		appletParameters = app.getAppletParameters();
 	}
 
-	public final void open(String query) {
+	public final void show(String query) {
 		app.hideMenu();
 
 		if (isUnloggedOnWhiteboard()) {
 			loginAndOpen(query);
-			return;
+		} else {
+			open(query);
 		}
+	}
 
+	private void open(String query) {
 		if (hasOpenFileViewOnWhiteboard(query)) {
 			updateMaterials();
 		}
@@ -67,6 +71,10 @@ public class OpenSearch {
 				&& guiManager.getBrowseView() instanceof OpenFileView;
 	}
 
+	private void showBrowser(HeaderFileView fileView) {
+		showBrowser(fileView.getPanel());
+	}
+	
 	private void showBrowser(MyHeaderPanel bg) {
 		EuclidianController evController = app.getActiveEuclidianView().getEuclidianController();
 		if (evController != null) {
@@ -100,6 +108,6 @@ public class OpenSearch {
 		if (guiManager.browseGUIwasLoaded()) {
 			openFileView.loadAllMaterials();
 		}
-		showBrowser(openFileView.getPanel());
+		showBrowser(openFileView);
 	}
 }
