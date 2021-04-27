@@ -805,7 +805,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	protected void fillCommandDict() {
 		getLocalization().initCommand();
-		if (!getLocalization().isCommandChanged()) {
+		if (!getLocalization().isCommandChanged() && commandDict != null) {
 			return;
 		}
 		// translation table for all command names in command.properties
