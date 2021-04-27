@@ -98,8 +98,6 @@ import org.geogebra.web.full.gui.menu.MenuViewController;
 import org.geogebra.web.full.gui.menu.MenuViewListener;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
-import org.geogebra.web.full.gui.openfileview.OpenFileView;
-import org.geogebra.web.full.gui.openfileview.OpenTemporaryFileView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
@@ -224,6 +222,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private final HashMap<String, UndoHistory> undoHistory = new HashMap<>();
 	private InputBoxType inputBoxType;
 	private String functionVars = "";
+	private OpenSearch search;
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -737,44 +736,20 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void openSearch(String query) {
-		hideMenu();
-		if (isWhiteboardActive()
-				&& !getLoginOperation().isLoggedIn()) {
-			activity.markSearchOpen();
-			getGuiManager().listenToLogin();
-			getLoginOperation().showLoginDialog();
-			getGuiManager().setRunAfterLogin(() -> {
-				((OpenFileView) getGuiManager()
-						.getBrowseView()).updateMaterials();
-				showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
-			});
-			return;
+		if (search == null) {
+			search = new OpenSearch(this);
 		}
-		if (isWhiteboardActive()
-				&& getGuiManager().browseGUIwasLoaded()
-				&& StringUtil.emptyTrim(query)
-				&& getGuiManager().getBrowseView() instanceof OpenFileView) {
-			((OpenFileView) getGuiManager().getBrowseView())
-					.updateMaterials();
-		}
-		showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
-		if (getAppletParameters().getDataParamPerspective()
-				.startsWith("search:")) {
-			getAppletParameters().setAttribute("perspective", "");
-		}
+		search.open(query);
 	}
 
 	/**
 	 * Open temporary saved files view in exam mode.
 	 */
 	public final void openSearchInExamMode() {
-		hideMenu();
-		OpenTemporaryFileView openFileView =
-				(OpenTemporaryFileView) getGuiManager().getBrowseView();
-		if (getGuiManager().browseGUIwasLoaded()) {
-			openFileView.loadAllMaterials();
+		if (search == null) {
+			search = new OpenSearch(this);
 		}
-		showBrowser(openFileView.getPanel());
+		search.openSearchInExamMode();
 	}
 
 	@Override
