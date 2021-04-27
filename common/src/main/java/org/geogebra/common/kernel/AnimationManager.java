@@ -22,7 +22,7 @@ public class AnimationManager implements GTimerListener {
 	/** max frames per second */
 	public final static int MAX_ANIMATION_FRAME_RATE = 30; // frames per second
 	/** min frames per second */
-	public final static int MIN_ANIMATION_FRAME_RATE = 2; // frames per second
+	public final static int MIN_ANIMATION_FRAME_RATE = 6; // frames per second
 	/** kernel */
 	@Weak
 	protected Kernel kernel;

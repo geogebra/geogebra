@@ -1510,7 +1510,7 @@ public class GeoText extends GeoElement
 			kernel.getApplication().getDrawEquation()
 					.checkFirstCall(kernel.getApplication());
 			// TeXAtomSerializer makes formula human readable.
-			TeXFormula tf = new TeXFormula(getTextString());
+			TeXFormula tf = getTeXFormula();
 			ScreenReaderSerializationAdapter adapter =
 					new ScreenReaderSerializationAdapter(kernel.getLocalization());
 			ret = new TeXAtomSerializer(adapter).serialize(tf.root);
@@ -1519,6 +1519,15 @@ public class GeoText extends GeoElement
 		}
 
 		return ret;
+	}
+
+	private TeXFormula getTeXFormula() {
+		String textString = getTextString();
+		try {
+			return new TeXFormula(textString);
+		} catch (Exception e) {
+			return TeXFormula.getPartialTeXFormula(textString);
+		}
 	}
 
 	@Override
