@@ -12,6 +12,8 @@ import org.geogebra.common.gui.menu.MenuItemGroup;
  */
 public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 
+	private boolean createsExitExam = true;
+
 	/**
 	 * Create a new ExamDrawerMenuFactory.
 	 * @param version version of the app
@@ -30,6 +32,15 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		super(version, isSuiteApp);
 	}
 
+	/**
+	 * Set whether it should create exit exam menu item.
+	 *
+	 * @param createsExitExam true to create menu item
+	 */
+	public void setCreatesExitExam(boolean createsExitExam) {
+		this.createsExitExam = createsExitExam;
+	}
+
 	@Override
 	public DrawerMenu createDrawerMenu() {
 		boolean isScientific = version == GeoGebraConstants.Version.SCIENTIFIC;
@@ -38,7 +49,7 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		MenuItem saveFile = isScientific ? null : saveFile();
 		MenuItem switchCalculator = showSwitchCalculator();
 		MenuItem examLog = showExamLog();
-		MenuItem exitExam = exitExamMode();
+		MenuItem exitExam = createsExitExam ? exitExamMode() : null;
 		MenuItemGroup group = new MenuItemGroupImpl(removeNulls(clearConstruction, openFile,
 				saveFile, switchCalculator, examLog, exitExam));
 		String title = getMenuTitle();
