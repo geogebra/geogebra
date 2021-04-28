@@ -1,6 +1,5 @@
 package org.geogebra.web.tablet;
 
-import java.util.ArrayList;
 import java.util.TreeMap;
 
 import org.geogebra.common.main.MaterialsManager;
@@ -8,7 +7,6 @@ import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
-import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
@@ -227,50 +225,6 @@ public class TabletFileManager extends FileManagerT {
 			$wnd.android.saveFile(id, title, base64, metaDatas, callback);
 		}
 	}-*/;
-
-	@Override
-	public void uploadUsersMaterials(final ArrayList<SyncEvent> events) {
-		final int callbackParent = addNewCallback(new MyCallback() {
-			@Override
-			public void onSuccess(Object resultParent) {
-				int length = (Integer) resultParent;
-				setNotSyncedFileCount(length, events);
-				for (int i = 0; i < length; i++) {
-					int callback = addNewCallback(new MyCallback() {
-						@Override
-						public void onSuccess(Object result) {
-							try {
-								String[] resultStrings = (String[]) result;
-								String name = resultStrings[0];
-								String data = resultStrings[1];
-								Material mat = JSONParserGGT.prototype
-										.toMaterial(new JSONObject(data));
-								mat.setLocalID(
-										MaterialsManager.getIDFromKey(name));
-								sync(mat, events);
-							} catch (JSONException e) {
-								ignoreNotSyncedFile(events);
-								e.printStackTrace();
-							}
-						}
-
-						@Override
-						public void onFailure(Object result) {
-							// not needed
-								ignoreNotSyncedFile(events);
-							}
-					});
-					getMetaDataNative(i, callback, getId());
-				}
-			}
-
-			@Override
-			public void onFailure(Object result) {
-				// not needed
-			}
-		});
-		listLocalFilesNative(callbackParent);
-	}
 
 	@Override
 	public void upload(final Material mat) {

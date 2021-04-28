@@ -41,11 +41,20 @@ public class AlgoSplit extends AlgoElement {
 	@Override
 	public void compute() {
 		outputList.clear();
+		if (!inputText.isDefined() || !splitList.isDefined()) {
+			outputList.setUndefined();
+			return;
+		}
 		ArrayList<String> results = new ArrayList<>();
 		results.add(inputText.getTextString());
 
 		for (int i = 0; i < splitList.size(); i++) {
-			String regex = ((GeoText) splitList.get(i)).getEscapedSpecialCharsString();
+			GeoElement geoElement = splitList.get(i);
+			if (!geoElement.isGeoText() || !geoElement.isDefined()) {
+				outputList.setUndefined();
+				return;
+			}
+			String regex = ((GeoText) geoElement).getEscapedSpecialCharsString();
 			results = split(results, regex);
 		}
 

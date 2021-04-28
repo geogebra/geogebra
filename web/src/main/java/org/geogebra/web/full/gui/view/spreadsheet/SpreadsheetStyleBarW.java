@@ -9,14 +9,15 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
-import org.geogebra.web.full.gui.images.StyleBarResources;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.PopupMenuHandler;
 import org.geogebra.web.full.gui.util.StyleBarW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -64,26 +65,27 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	}
 
 	private void createButtons() {
-		Localization loc = app.getLocalization();
-		btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short"));
+		btnBold = new MyToggleButtonW(new NoDragImage(
+				MaterialDesignResources.INSTANCE.text_bold_black(), 24));
 		btnBold.addClickHandler(this);
 		btnBold.addStyleName("btnBold");
 		
-		btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short"));
+		btnItalic = new MyToggleButtonW(new NoDragImage(
+				MaterialDesignResources.INSTANCE.text_italic_black(), 24));
 		btnItalic.addClickHandler(this);
 		btnItalic.addStyleName("btnItalic");
 
 		btnLeftAlign = new MyToggleButtonW(
-		        StyleBarResources.INSTANCE.stylingbar_spreadsheet_align_left(),
+		        MaterialDesignResources.INSTANCE.horizontal_align_left(),
 		        this);
 
 		btnCenterAlign = new MyToggleButtonW(
-		        StyleBarResources.INSTANCE
-		                .stylingbar_spreadsheet_align_center(),
+		        MaterialDesignResources.INSTANCE
+		                .horizontal_align_center(),
 		        this);
 
 		btnRightAlign = new MyToggleButtonW(
-		        StyleBarResources.INSTANCE.stylingbar_spreadsheet_align_right(),
+		        MaterialDesignResources.INSTANCE.horizontal_align_right(),
 		        this);
 
 		btnBgColor = new ColorPopupMenuButton(app,
@@ -118,12 +120,6 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	@Override
 	public void setLabels() {
 		super.setLabels();
-		Localization loc = app.getLocalization();
-		// set labels for buttons with text e.g. button "bold" or "italic"
-		this.btnBold.getDownFace().setText(loc.getMenu("Bold.Short"));
-		this.btnItalic.getDownFace().setText(loc.getMenu("Italic.Short"));
-		this.btnBold.getUpFace().setText(loc.getMenu("Bold.Short"));
-		this.btnItalic.getUpFace().setText(loc.getMenu("Italic.Short"));
 		// set labels for ToolTips
 		setToolTips();
 	}

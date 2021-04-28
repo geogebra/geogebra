@@ -11,19 +11,18 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
-import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.full.gui.images.StyleBarResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.menubar.RadioButtonMenuBarW;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.javax.swing.CheckMarkSubMenu;
-import org.geogebra.web.full.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GCollapseMenuItem;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 
 /**
@@ -48,9 +47,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	 */
 	protected ContextMenuGraphicsWindowW(AppW app) {
 		super(app, new ContextMenuFactory());
-		if (app.isUnbundledOrWhiteboard()) {
-			wrappedPopup.getPopupPanel().addStyleName("matMenu");
-		}
 	}
 
 	/**
@@ -74,7 +70,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 		if (!app.isWhiteboardActive()) {
 			if (app.isUnbundled()) {
-				addAxesMenuItem(1);
+				addAxesMenuItem();
 				addGridMenuItem();
 				addSnapToGridMenuItem();
 				addClearTraceMenuItem();
@@ -101,7 +97,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	}
 
 	private void addCheckboxes() {
-		addAxesAndGridCheckBoxes();
+		addAxesMenuItem();
+		addGridMenuItem();
 		addNavigationBar();
 		RadioButtonMenuBar yaxisMenu = new RadioButtonMenuBarW((AppW) this.app,
 				false);
@@ -202,50 +199,25 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				.getSafeUri().asString();
 		AriaMenuItem miClearTrace = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
 				imgClearTrace, loc.getMenu("ClearTrace")), true,
-				new Command() {
-			        @Override
-					public void execute() {
-						app.refreshViews();
-			        }
-		        });
+				(Command) () -> app.refreshViews());
 		wrappedPopup.addItem(miClearTrace);
 	}
 
 	private void addShowAllObjAndStandView() {
-		String img;
-		if (app.isUnbundledOrWhiteboard()) {
-			img = MaterialDesignResources.INSTANCE.show_all_objects_black()
-					.getSafeUri().asString();
-		} else {
-			img = AppResources.INSTANCE.empty().getSafeUri().asString();
-		}
+		ResourcePrototype img = MaterialDesignResources.INSTANCE.show_all_objects_black();
 		AriaMenuItem miShowAllObjectsView = new AriaMenuItem(
-				MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("ShowAllObjects")),
+				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAllObjects")),
 				true,
-				new Command() {
+				this::setViewShowAllObject
+		);
 
-			        @Override
-					public void execute() {
-				        setViewShowAllObject();
-			        }
-
-		        });
-		String img2;
-		if (app.isUnbundledOrWhiteboard()) {
-			img2 = MaterialDesignResources.INSTANCE.home_black().getSafeUri().asString();
-		} else {
-			img2 = AppResources.INSTANCE.empty().getSafeUri().asString();
-		}
+		ResourcePrototype img2 = MaterialDesignResources.INSTANCE.home_black();
 		AriaMenuItem miStandardView = new AriaMenuItem(
-				MainMenu.getMenuBarHtmlClassic(img2, loc.getMenu("StandardView")),
+				MainMenu.getMenuBarHtml(img2, loc.getMenu("StandardView")),
 				true,
-				new Command() {
+				() -> app.setStandardView()
+		);
 
-			        @Override
-					public void execute() {
-				        setStandardView();
-			        }
-				});
 		if (!app.getActiveEuclidianView().isZoomable()) {
 			miShowAllObjectsView.setEnabled(false);
 			miStandardView.setEnabled(false);
@@ -260,10 +232,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	}
 
 	private void addGridMenuItem() {
-		String htmlString = MainMenu
-				.getMenuBarHtmlClassic(
-						MaterialDesignResources.INSTANCE.grid_black()
-								.getSafeUri().asString(),
+		String htmlString = MainMenu.getMenuBarHtmlClassic(
+						MaterialDesignResources.INSTANCE.grid_black().getSafeUri().asString(),
 						loc.getMenu("ShowGrid"));
 		gridCollapseItem = new GCollapseMenuItem(htmlString,
 				loc.getMenu("ShowGrid"),
@@ -288,56 +258,38 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				.getSettings().getEuclidian(1).getPointCapturingMode();
 		final GCheckmarkMenuItem snapToGrid = new GCheckmarkMenuItem(
 				MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("SnapToGrid")),
-				MaterialDesignResources.INSTANCE.check_black(), isSnapToGrid);
-		snapToGrid.setCommand(new Command() {
-			@Override
-			public void execute() {
-
-				app.getEuclidianView1().setPointCapturing(isSnapToGrid
+				isSnapToGrid);
+		snapToGrid.setCommand(() -> {
+			app.getEuclidianView1().setPointCapturing(isSnapToGrid
+					? EuclidianStyleConstants.POINT_CAPTURING_OFF
+					: EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
+			if (app.hasEuclidianView2EitherShowingOrNot(1)) {
+				app.getEuclidianView2(1).setPointCapturing(isSnapToGrid
 						? EuclidianStyleConstants.POINT_CAPTURING_OFF
 						: EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
-				if (app.hasEuclidianView2EitherShowingOrNot(1)) {
-					app.getEuclidianView2(1).setPointCapturing(isSnapToGrid
-							? EuclidianStyleConstants.POINT_CAPTURING_OFF
-							: EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
-				}
-				snapToGrid.setChecked(!isSnapToGrid);
-				app.getGuiManager().updatePropertiesView();
-				app.storeUndoInfo();
 			}
+			snapToGrid.setChecked(!isSnapToGrid);
+			app.getGuiManager().updatePropertiesView();
+			app.storeUndoInfo();
 		});
 		wrappedPopup.addItem(snapToGrid);
 	}
 
 	/**
 	 * add axes menu item with check mark
-	 * 
-	 * @param settingsID
-	 *            id of EuclidianSettings
+	 *
 	 */
-	protected void addAxesMenuItem(final int settingsID) {
+	protected void addAxesMenuItem() {
 		String img = MaterialDesignResources.INSTANCE.axes_black()
 					.getSafeUri().asString();
+
+		boolean checked = app.getActiveEuclidianView().getShowXaxis()
+				&& (app.getActiveEuclidianView().getShowYaxis());
+
 		final GCheckmarkMenuItem showAxes = new GCheckmarkMenuItem(
 				MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("ShowAxes")),
-				MaterialDesignResources.INSTANCE.check_black(),
-				app.getSettings().getEuclidian(settingsID).getShowAxis(0)
-						&& app.getSettings().getEuclidian(settingsID)
-								.getShowAxis(1));
-		showAxes.setCommand(new Command() {
-			@Override
-			public void execute() {
-				boolean axisShown = app.getSettings().getEuclidian(settingsID)
-						.getShowAxis(0)
-						&& app.getSettings().getEuclidian(settingsID)
-								.getShowAxis(1);
-				app.getSettings().getEuclidian(settingsID)
-						.setShowAxes(!axisShown);
-				showAxes.setChecked(!axisShown);
-				app.getActiveEuclidianView().repaintView();
-				app.storeUndoInfo();
-			}
-		});
+				checked, ((AppW) app).getGuiManager().getShowAxesAction());
+
 		wrappedPopup.addItem(showAxes);
 	}
 
@@ -356,13 +308,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	 *            of option
 	 */
 	protected void addMiProperties(String name, final OptionType type) {
-		String img;
-		if (app.isUnbundledOrWhiteboard()) {
-			img = MaterialDesignResources.INSTANCE.gear().getSafeUri()
-					.asString();
-		} else {
-			img = AppResources.INSTANCE.view_properties16().getSafeUri().asString();
-		}
+		String img = MaterialDesignResources.INSTANCE.gear().getSafeUri().asString();
 
 		AriaMenuItem miProperties = new AriaMenuItem(
 				MainMenu.getMenuBarHtmlClassic(img,
@@ -389,13 +335,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		if (app.getGuiManager() != null) {
 			app.getDialogManager().showPropertiesDialog(type, null);
 		}
-	}
-
-	/**
-	 * set standard view
-	 */
-	protected void setStandardView() {
-		app.setStandardView();
 	}
 
 	/**
@@ -460,19 +399,13 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	protected void addZoomMenu() {
 		// zoom for both axes
 		AriaMenuBar zoomMenu = new AriaMenuBar();
-		String img;
-		if (app.isUnbundledOrWhiteboard()) {
-			img = MaterialDesignResources.INSTANCE.zoom_in_black().getSafeUri()
+		String img = GuiResourcesSimple.INSTANCE.zoom_in().getSafeUri()
 					.asString();
-		} else {
-			img = AppResources.INSTANCE.zoom16().getSafeUri().asString();
-		}
+
 		AriaMenuItem zoomMenuItem = new AriaMenuItem(
 				MainMenu.getMenuBarHtmlClassic(img,
 				loc.getMenu("Zoom")), true, zoomMenu);
-		if (!app.isUnbundledOrWhiteboard()) {
-			zoomMenuItem.addStyleName("mi_with_image");
-		}
+
 		wrappedPopup.addItem(zoomMenuItem);
 		addZoomItems(zoomMenu);
 		if (!app.getActiveEuclidianView().isZoomable()) {
@@ -518,64 +451,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	}
 
 	/**
-	 * add axes and grid menu items with checkboxes
-	 */
-	protected void addAxesAndGridCheckBoxes() {
-		if (app.getGuiManager() == null) {
-			return;
-		}
-		String img;
-		if (app.isUnbundledOrWhiteboard()) {
-			img = AppResources.INSTANCE.axes20().getSafeUri().asString();
-		} else {
-			img = StyleBarResources.INSTANCE.axes().getSafeUri().asString();
-		}
-		String htmlString = MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("Axes"));
-		if (!app.isUnbundledOrWhiteboard()) {
-			GCheckBoxMenuItem cbMenuItem = new GCheckBoxMenuItem(htmlString,
-					((AppW) app).getGuiManager().getShowAxesAction(), true,
-					app);
-			cbMenuItem.setSelected(app.getActiveEuclidianView().getShowXaxis()
-					&& (app.getActiveEuclidianView().getShowYaxis()),
-					wrappedPopup.getPopupMenu());
-			wrappedPopup.addItem(cbMenuItem);
-		} else {
-			GCheckmarkMenuItem checkmarkMenuItem = new GCheckmarkMenuItem(
-				htmlString,
-					MaterialDesignResources.INSTANCE.check_black(),
-				true, ((AppW) app).getGuiManager().getShowAxesAction());
-
-			checkmarkMenuItem
-					.setChecked(app.getActiveEuclidianView().getShowXaxis()
-		        && (app.getActiveEuclidianView().getShowYaxis()));
-			wrappedPopup.addItem(checkmarkMenuItem.getMenuItem());
-		}
-		String img2;
-		if (app.isUnbundledOrWhiteboard()) {
-			img2 = AppResources.INSTANCE.grid20().getSafeUri().asString();
-		} else {
-			img2 = StyleBarResources.INSTANCE.grid().getSafeUri().asString();
-		}
-		htmlString = MainMenu.getMenuBarHtmlClassic(img2, loc.getMenu("Grid"));
-		if (!app.isUnbundledOrWhiteboard()) {
-			GCheckBoxMenuItem cbShowGrid = new GCheckBoxMenuItem(htmlString,
-				((AppW) app).getGuiManager().getShowGridAction(), true, app);
-			cbShowGrid.setSelected(app.getActiveEuclidianView().getShowGrid(),
-					wrappedPopup.getPopupMenu());
-			wrappedPopup.addItem(cbShowGrid);
-		} else {
-			GCheckmarkMenuItem checkmarkMenuItem = new GCheckmarkMenuItem(
-					htmlString,
-					MaterialDesignResources.INSTANCE.check_black(),
-					true, ((AppW) app).getGuiManager().getShowGridAction());
-
-			checkmarkMenuItem
-					.setChecked(app.getActiveEuclidianView().getShowGrid());
-			wrappedPopup.addItem(checkmarkMenuItem.getMenuItem());
-		}
-	}
-
-	/**
 	 * add navigation bar
 	 */
 	protected void addNavigationBar() {
@@ -583,20 +458,15 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			return;
 		}
 		// Show construction protocol navigation bar checkbox item
-		Command showConstructionStepCommand = new Command() {
-			@Override
-			public void execute() {
-				toggleShowConstructionProtocolNavigation();
-			}
-		};
-		String htmlString = MainMenu.getMenuBarHtmlClassic(AppResources.INSTANCE
-				.empty().getSafeUri().asString(), loc.getMenu("NavigationBar"));
-		GCheckBoxMenuItem cbShowConstructionStep = new GCheckBoxMenuItem(
-				htmlString, showConstructionStepCommand, true, app);
-		cbShowConstructionStep.setSelected(app.showConsProtNavigation(app
-				.getActiveEuclidianView().getViewID()),
-				wrappedPopup.getPopupMenu());
-		wrappedPopup.addItem(cbShowConstructionStep);
+		Command showConstructionStepCommand = this::toggleShowConstructionProtocolNavigation;
+
+		boolean selected = app.showConsProtNavigation(app
+				.getActiveEuclidianView().getViewID());
+
+		GCheckmarkMenuItem showConstructionStep = new GCheckmarkMenuItem(
+				loc.getMenu("NavigationBar"), selected, showConstructionStepCommand);
+
+		wrappedPopup.addItem(showConstructionStep);
 
 		wrappedPopup.addSeparator();
 	}
@@ -639,10 +509,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		 *            new grid type
 		 */
 		protected void setGridType(int gridType) {
-			app.getSettings().getEuclidian(1)
-					.showGrid(
-					gridType != EuclidianView.GRID_NOT_SHOWN);
-			app.getSettings().getEuclidian(1).setGridType(gridType);
+			app.getActiveEuclidianView().getSettings()
+					.showGrid(gridType != EuclidianView.GRID_NOT_SHOWN);
+			app.getActiveEuclidianView().getSettings().setGridType(gridType);
 			app.getActiveEuclidianView().setGridType(gridType);
 			app.getActiveEuclidianView().repaintView();
 			app.storeUndoInfo();
@@ -651,9 +520,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 		private void addGridItem(String key, final int gridType) {
 			String text = app.getLocalization().getMenu(key);
-			boolean isSelected = app.getSettings().getEuclidian(1)
-					.getGridType() == gridType
-					&& app.getSettings().getEuclidian(1).getShowGrid();
+			boolean isSelected = app.getActiveEuclidianView()
+					.getGridType() == gridType && app.getActiveEuclidianView().getShowGrid();
 			addItem(text, isSelected, new Command() {
 
 				@Override
@@ -665,8 +533,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 		private void addNoGridItem() {
 			String text = app.getLocalization().getMenu("Grid.No");
-			boolean isSelected = !app.getSettings().getEuclidian(1)
-					.getShowGrid();
+			boolean isSelected = !app.getActiveEuclidianView().getShowGrid();
 			addItem(text, isSelected, new Command() {
 
 				@Override

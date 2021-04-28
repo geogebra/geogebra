@@ -309,8 +309,8 @@ public class GeoTextEditor extends RichTextArea {
 			if (child.getNodeType() == Node.ELEMENT_NODE) {
 
 				// image node?
-				if (((Element) child).getPropertyString("src")
-						.equals(dummyURL)) {
+				String source = ((Element) child).getPropertyString("src");
+				if (source != null && source.equals(dummyURL)) {
 					return child;
 
 				} else if (node.hasChildNodes()) {

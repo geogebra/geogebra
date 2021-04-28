@@ -248,7 +248,7 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	@Override
-	public void setClip(GShape shape, boolean restoreSaveContext) {
+	public void setClip(GShape shape, boolean saveContext) {
 		setClip(shape);
 	}
 
@@ -274,7 +274,7 @@ public class GGraphics2DD implements GGraphics2D {
 
 	@Override
 	public void setClip(int x, int y, int width, int height,
-			boolean restoreSaveContext) {
+			boolean saveContext) {
 		setClip(x, y, width, height);
 	}
 
@@ -470,8 +470,18 @@ public class GGraphics2DD implements GGraphics2D {
 	@Override
 	public void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
 			int dy, int dw, int dh) {
-		impl.drawImage(((MyImageD) img).getImage(), dx, dy, dx + dw, dy + dh,
-				sx, sy, sx + sw, sy + sh, null);
+		if (img.isSVG()) {
+			impl.translate(dx, dy);
+			try {
+				((MyImageD) img).getDiagram().render(impl);
+			} catch (SVGException e) {
+				e.printStackTrace();
+			}
+			impl.translate(-dx, -dy);
+		} else {
+			impl.drawImage(((MyImageD) img).getImage(), dx, dy, dx + dw, dy + dh,
+					sx, sy, sx + sw, sy + sh, null);
+		}
 	}
 
 	@Override

@@ -39,10 +39,11 @@ import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.properties.FillType;
+import org.geogebra.common.kernel.statistics.AlgoPieChart;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
@@ -309,23 +310,27 @@ class FillingPanelD extends JPanel
 		imgFileNameList = new ArrayList<>();
 
 		imgFileNameList.add(null); // for delete
-		imgFileNameList.add(GuiResourcesD.GO_DOWN);
-		imgFileNameList.add(GuiResourcesD.GO_UP);
-		imgFileNameList.add(GuiResourcesD.GO_PREVIOUS);
-		imgFileNameList.add(GuiResourcesD.GO_NEXT);
-		imgFileNameList.add(GuiResourcesD.NAV_FASTFORWARD);
-		imgFileNameList.add(GuiResourcesD.NAV_REWIND);
-		imgFileNameList.add(GuiResourcesD.NAV_SKIPBACK);
-		imgFileNameList.add(GuiResourcesD.NAV_SKIPFORWARD);
-		imgFileNameList.add(GuiResourcesD.NAV_PLAY);
-		imgFileNameList.add(GuiResourcesD.NAV_PAUSE);
-
-		imgFileNameList.add(GuiResourcesD.EXIT);
+		imgFileNameList.add(GuiResourcesD.FILLING_PAUSE);
+		imgFileNameList.add(GuiResourcesD.FILLING_PLAY);
+		imgFileNameList.add(GuiResourcesD.FILLING_STOP);
+		imgFileNameList.add(GuiResourcesD.FILLING_REPLAY);
+		imgFileNameList.add(GuiResourcesD.FILLING_SKIP_NEXT);
+		imgFileNameList.add(GuiResourcesD.FILLING_SKIP_PREVIOUS);
+		imgFileNameList.add(GuiResourcesD.FILLING_LOOP);
+		imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_IN);
+		imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_OUT);
+		imgFileNameList.add(GuiResourcesD.FILLING_CLOSE);
+		imgFileNameList.add(GuiResourcesD.FILLING_ARROW_UP);
+		imgFileNameList.add(GuiResourcesD.FILLING_ARROW_DOWN);
+		imgFileNameList.add(GuiResourcesD.FILLING_ARROW_BACK);
+		imgFileNameList.add(GuiResourcesD.FILLING_ARROW_FORWARD);
+		imgFileNameList.add(GuiResourcesD.FILLING_FAST_FORWARD);
+		imgFileNameList.add(GuiResourcesD.FILLING_FAST_REWIND);
 
 		ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
 		iconArray[0] = GeoGebraIconD.createNullSymbolIcon(24, 24);
 		for (int i = 1; i < iconArray.length; i++) {
-			iconArray[i] = GeoGebraIconD.createFileImageIcon(app,
+			iconArray[i] = GeoGebraIconD.createFileImageIcon(
 					imgFileNameList.get(i));
 		}
 		// ============================================
@@ -464,7 +469,7 @@ class FillingPanelD extends JPanel
 		lblSymbols.setVisible(false);
 		lblSelectedSymbol.setVisible(false);
 		btInsertUnicode.setVisible(false);
-		this.btnImage.setVisible(true);
+		this.btnImage.setVisible(model.hasGeoButton());
 		this.btnClearImage.setVisible(false);
 
 		// for GeoButtons only show the image file button
@@ -473,7 +478,6 @@ class FillingPanelD extends JPanel
 			lblFillType.setVisible(false);
 			cbFillType.setVisible(false);
 			if (model.hasGeoTurtle()) {
-				this.btnImage.setVisible(false);
 				this.btnClearImage.setVisible(true);
 			}
 		}
@@ -583,7 +587,7 @@ class FillingPanelD extends JPanel
 			if (btnImage.getSelectedIndex() == 0) {
 				fileName = "";
 			} else {
-				fileName = "/geogebra" + imgFileNameList
+				fileName = imgFileNameList
 						.get(btnImage.getSelectedIndex()).getFilename();
 			}
 			model.applyImage(fileName);
@@ -631,15 +635,17 @@ class FillingPanelD extends JPanel
 		}
 		GeoElement geo0 = model.getGeoAt(0);
 		AlgoElement algo = geo0.getParentAlgorithm();
-		if (algo instanceof AlgoBarChart) {
-			int numBar = ((AlgoBarChart) algo).getIntervals();
+		if (algo instanceof ChartStyleAlgo) {
+			int numBar = ((ChartStyleAlgo) algo).getIntervals();
+			boolean isPie = algo instanceof AlgoPieChart;
 			selectionBarButtons = new JToggleButton[numBar + 1];
 			ButtonGroup group = new ButtonGroup();
 			barsPanel = new JPanel(new GridLayout(0, 5, 5, 5));
-			barsPanel.setBorder(new TitledBorder(loc.getMenu("SelectedBar")));
+			barsPanel.setBorder(new TitledBorder(loc.getMenu(isPie ?
+					"SelectedSlice" : "SelectedBar")));
 			for (int i = 0; i < numBar + 1; i++) {
 				selectionBarButtons[i] = new JToggleButton(
-						loc.getPlain("BarA", i + ""));
+						loc.getPlain(isPie? "SliceA" : "BarA", i + ""));
 				selectionBarButtons[i].setSelected(false);
 				selectionBarButtons[i].setActionCommand("" + i);
 				selectionBarButtons[i].addActionListener(new ActionListener() {
@@ -656,7 +662,7 @@ class FillingPanelD extends JPanel
 				group.add(selectionBarButtons[i]);
 				barsPanel.add(selectionBarButtons[i]);
 			}
-			selectionBarButtons[0].setText(loc.getMenu("AllBars"));
+			selectionBarButtons[0].setText(loc.getMenu(isPie ? "AllSlices" : "AllBars"));
 			selectionBarButtons[selectedBarButton].setSelected(true);
 			add(barsPanel);
 		}
@@ -916,7 +922,7 @@ class FillingPanelD extends JPanel
 	}
 
 	@Override
-	public void setBarChart(AlgoBarChart algo) {
+	public void setBarChart(int cols) {
 		// TODO Auto-generated method stub
 
 	}

@@ -98,6 +98,32 @@ public class MyImageD implements MyImageJre {
 
 	}
 
+	/**
+	 * Loads internal image as SVG
+	 * @param filename internal path (/org/geogebra/...)
+	 */
+	public void loadAsSvg(String filename) {
+		InputStream in = getClass().getResourceAsStream(filename);
+
+		svg = new StringBuilder();
+		try (BufferedReader reader = new BufferedReader(
+				new InputStreamReader(in, Charsets.getUtf8()))) {
+			for (String line = reader
+					.readLine(); line != null; line = reader.readLine()) {
+				svg.append(line);
+				svg.append('\n');
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		svg = new StringBuilder(ImageManager.fixSVG(svg.toString()));
+		URL url = getClass().getResource(filename);
+		SVGUniverse universe = SVGCache.getSVGUniverse();
+		URI uri = universe.loadSVG(url);
+		diagram = universe.getDiagram(uri);
+	}
+
 	public void load(File imageFile) throws IOException {
 
 		if (StringUtil.toLowerCaseUS(imageFile.getName()).endsWith(".svg")) {

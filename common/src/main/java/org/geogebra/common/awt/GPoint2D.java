@@ -38,14 +38,6 @@ public class GPoint2D {
 		return 0;
 	}
 
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	public void setY(double y) {
-		this.y = y;
-	}
-
 	public double distance(GPoint2D q) {
 		return Math.hypot(getX() - q.getX(), getY() - q.getY());
 	}
@@ -74,5 +66,10 @@ public class GPoint2D {
 		double d_x = x2 - x1;
 		double d_y = y2 - y1;
 		return d_x * d_x + d_y * d_y;
+	}
+
+	@Override
+	public String toString() {
+		return "(" + x + ", " + y + ")";
 	}
 }

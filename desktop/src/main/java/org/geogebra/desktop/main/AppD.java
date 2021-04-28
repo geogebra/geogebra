@@ -74,7 +74,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Executors;
@@ -139,6 +138,7 @@ import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.headless.AppDI;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.jre.main.TemplateHelper;
@@ -214,7 +214,6 @@ import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.menubar.OptionsMenuController;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
 import org.geogebra.desktop.gui.toolbar.ToolbarD;
-import org.geogebra.desktop.gui.util.BrowserLauncher;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.headless.GFileHandler;
 import org.geogebra.desktop.io.MyXMLioD;
@@ -225,7 +224,6 @@ import org.geogebra.desktop.main.settings.DefaultSettingsD;
 import org.geogebra.desktop.main.settings.SettingsBuilderD;
 import org.geogebra.desktop.main.settings.updater.FontSettingsUpdaterD;
 import org.geogebra.desktop.main.undo.UndoManagerD;
-import org.geogebra.desktop.move.OpenFromGGTOperation;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.plugin.ScriptManagerD;
@@ -289,8 +287,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// ==============================================================
 	// RESOURCE fields
 	// ==============================================================
-
-	private ResourceBundle rbmenuEnglish;
 
 	private final LocalizationD loc;
 
@@ -437,7 +433,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				Log.setCallerShown(args.getBooleanValue("logShowCaller", true));
 			}
 			if (args.containsArg("logShowTime")) {
-				Log.setTimeShown(args.getBooleanValue("logShowTime", true));
+				LoggerD.setTimeShown(args.getBooleanValue("logShowTime", true));
 			}
 			if (args.containsArg("logShowLevel")) {
 				Log.setLevelShown(args.getBooleanValue("logShowLevel", true));
@@ -569,7 +565,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			getGuiManager().getLayout()
 					.setPerspectives(getTmpPerspectives(),
 							PerspectiveDecoder.decode(
-							this.perspectiveParam, getKernel().getParser(),
+							"", getKernel().getParser(),
 							ToolBar.getAllToolsNoMacros(false, false, this)));
 		}
 
@@ -610,40 +606,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			initSignInEventFlow();
 		}
 
-		if (isJava7() && isWindows() && getVersionCheckAllowed()) {
-			showJava7Warning();
-		}
-
 		if (kernel.wantAnimationStarted()) {
 			kernel.getAnimatonManager().startAnimation();
 			kernel.setWantAnimationStarted(false);
 		}
 
-	}
-
-	private void showJava7Warning() {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				if (downloadAppUpdateDialog() == JOptionPane.OK_OPTION) {
-					Log.debug("downloading");
-					BrowserLauncher.openURL(GeoGebraConstants.DOWNLOAD_PACKAGE_WIN);
-					exit();
-				}
-			}
-		});
-	}
-
-	private int downloadAppUpdateDialog() {
-		String[] options = {loc.getMenu("Download"), loc.getMenu("Cancel")};
-		return JOptionPane.showOptionDialog(frame,
-				loc.getMenu("java7.warning"),
-				loc.getMenu("SystemInformation"),
-				JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.WARNING_MESSAGE,
-				null,
-				options,
-				options[0]);
 	}
 
 	// **************************************************************************
@@ -2454,19 +2421,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return loc.getLocale();
 	}
 
-	final public String getEnglishMenu(String key) {
-
-		if (rbmenuEnglish == null) {
-			rbmenuEnglish = MyResourceBundle.createBundle(LocalizationD.RB_MENU,
-					Locale.ENGLISH);
-		}
-		try {
-			return rbmenuEnglish.getString(key);
-		} catch (Exception e) {
-			return key;
-		}
-	}
-
 	/**
 	 * Shows localized help message
 	 * 
@@ -3979,7 +3933,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					if (msg == null) {
 						return;
 					}
-					Log.printStacktrace("" + msg);
+					Log.trace("" + msg);
 
 					// make sure splash screen not showing (will be in front)
 					GeoGebra.hideSplash();
@@ -4145,7 +4099,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		logFile.append(".txt");
 
 		Log.debug("Logging is redirected to " + logFile.toString());
-		Log.setTimeShown(false); // do not print the time twice
+		LoggerD.setTimeShown(false); // do not print the time twice
 
 		// log file max size 10K, 1 file, append-on-open
 		Handler fileHandler;
@@ -4278,8 +4232,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	private DialogManager dialogManager;
 
-	private OpenFromGGTOperation openFromGGTOperation;
-
 	@Override
 	public void callAppletJavaScript(String string, String args) {
 		// not needed in desktop
@@ -4401,15 +4353,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	public boolean isWindows() {
 		return WINDOWS;
-	}
-
-	/**
-	 * Whether we are using Java 7 (can't use clipboard on OSX)
-	 * 
-	 * @return whether we are using Java 7
-	 */
-	public static boolean isJava7() {
-		return System.getProperty("java.version").startsWith("1.7.");
 	}
 
 	/*
@@ -4766,24 +4709,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * stored token
 	 */
 	protected void initSignInEventFlow() {
-
 		// Inizialize the login operation
 		loginOperation = new LoginOperationD(this);
 
-		if (!isJava7()) {
-			// Try to login the stored user
-			loginOperation.performTokenLogin();
-		}
-	}
-
-	public void initOpenFromGGTEventFlow() {
-		if (openFromGGTOperation == null) {
-			openFromGGTOperation = new OpenFromGGTOperation(this);
-		}
-	}
-
-	public OpenFromGGTOperation getOpenFromGGTOperation() {
-		return openFromGGTOperation;
+		// Try to login the stored user
+		loginOperation.performTokenLogin();
 	}
 
 	@Override
@@ -4802,13 +4732,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public void uploadToGeoGebraTubeOnCallback() {
 
 		uploadToGeoGebraTube();
-	}
-
-	private String perspectiveParam = "";
-
-	public void setPerspectiveParam(String perspective) {
-		this.perspectiveParam = perspective;
-
 	}
 
 	@Override
@@ -5251,29 +5174,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 
 	private static void copyImageToClipboard(Image img) {
 		ImageSelection imgSel = new ImageSelection(img);
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel,
 				null);
-	}
-
-	public void showReinstallMessage() {
-		Object[] options = { loc.getMenu("Cancel"), loc.getMenu("Download") };
-		int n = JOptionPane.showOptionDialog(mainComp, loc.getMenu("FullReinstallNeeded"),
-				GeoGebraConstants.APPLICATION_NAME + " - "
-						+ getLocalization().getError("Error"),
-				JOptionPane.YES_NO_OPTION,
-				JOptionPane.QUESTION_MESSAGE, null,
-				options, // the titles of buttons
-				options[1]); // default button title
-
-		if (n == 1) {
-			showURLinBrowser(GeoGebraConstants.INSTALLERS_URL);
-		}
 	}
 
 	@Override

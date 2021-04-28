@@ -387,6 +387,13 @@
         }
     }
 
+	/** Material Design OUTLINED BUTTON **/
+    .materialOutlinedButton {
+    	@extend .materialTextButton;
+
+    	border: 1px solid $mow_primary;
+    }
+
     /** Material TEXT BUTTON used for dialogs negative action **/
     .dialogTextButton {
         @extend .materialTextButton;
@@ -405,4 +412,26 @@
 
         box-shadow: none;
     }
+
+   .orDividerComponent {
+		display: flex;
+
+		.divider {
+			height: 1px;
+			background-color: $black-87;
+			opacity: 0.12;
+			margin: 7px 0px 6px 0px;
+			flex-grow: 1;
+		}
+
+		.orLbl {
+			height: 14px;
+			line-height: 14px;
+			font-size: 75%;
+			margin: 0px 24px;
+			flex-basis: auto;
+			color: $text-disabled;
+			text-transform: uppercase;
+		}
+	}
 }

@@ -21,12 +21,11 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.plot.CurvePlotter;
+import org.geogebra.common.euclidian.plot.CurvePlotterUtils;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.Traceable;
@@ -41,7 +40,7 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public class DrawLocus extends Drawable {
-	private static final int BITMAP_PADDING = 10;
+	private static final int BITMAP_PADDING = 20;
 
 	private GeoLocusND<? extends MyPoint> locus;
 
@@ -156,12 +155,13 @@ public class DrawLocus extends Drawable {
 		if (isVisible) {
 
 			if (geo.isPenStroke() && !geo.getKernel().getApplication().isExporting()) {
-				if (bitmap == null) {
-					this.bitmap = makeImage(g2);
+				GRectangle bounds = getBounds();
+				if (bitmap == null && bounds != null) {
+					this.bitmap = makeImage(g2, bounds);
 					GGraphics2D g2bmp = bitmap.createGraphics();
 					g2bmp.setAntialiasing();
-					bitmapShiftX = (int) getBounds().getMinX() - BITMAP_PADDING;
-					bitmapShiftY = (int) getBounds().getMinY() - BITMAP_PADDING;
+					bitmapShiftX = (int) bounds.getMinX() - BITMAP_PADDING;
+					bitmapShiftY = (int) bounds.getMinY() - BITMAP_PADDING;
 					g2bmp.translate(-bitmapShiftX, -bitmapShiftY);
 					drawPath(g2bmp);
 				}
@@ -184,21 +184,19 @@ public class DrawLocus extends Drawable {
 		g2.draw(gp);
 	}
 
-	private GBufferedImage makeImage(GGraphics2D g2p) {
+	private GBufferedImage makeImage(GGraphics2D g2p, GRectangle bounds) {
 		return AwtFactory.getPrototype().newBufferedImage(
-				(int) this.getBounds().getWidth() + 2 * BITMAP_PADDING,
-				(int) this.getBounds().getHeight() + 2 * BITMAP_PADDING, g2p);
+				(int) bounds.getWidth() + 2 * BITMAP_PADDING,
+				(int) bounds.getHeight() + 2 * BITMAP_PADDING, g2p);
 	}
 
 	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
 		if (gp == null) {
 			gp = new GeneralPathClippedForCurvePlotter(view);
-		} else {
-			gp.reset();
 		}
-
+		gp.resetWithThickness(geo.getLineThickness());
 		// Use the last plotted point for positioning the label:
-		labelPosition = CurvePlotter.draw(gp, pointList, transformSys);
+		labelPosition = CurvePlotterUtils.draw(gp, pointList, transformSys);
 		/*
 		 * Due to numerical instability of the curve plotter algorithm this
 		 * position may be changing too quickly which results in an annoying
@@ -291,11 +289,6 @@ public class DrawLocus extends Drawable {
 	public boolean intersectsRectangle(GRectangle rect) {
 		updateStrokedShape();
 		return strokedShape != null && strokedShape.intersects(rect);
-	}
-
-	@Override
-	final public GeoElement getGeoElement() {
-		return geo;
 	}
 
 	/**

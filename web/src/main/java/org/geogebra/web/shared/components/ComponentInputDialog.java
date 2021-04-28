@@ -1,11 +1,9 @@
 package org.geogebra.web.shared.components;
 
 import org.geogebra.common.gui.InputHandler;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.components.ComponentInputField;
-import org.geogebra.web.full.gui.util.WindowsNativeUIController;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
@@ -103,7 +101,6 @@ public class ComponentInputDialog extends ComponentDialog
 	@Override
 	public void hide() {
 		super.hide();
-		new WindowsNativeUIController((AppW) app).hideKeyboard();
 		if (getTextComponent() != null) {
 			getTextComponent().hideTablePopup();
 		}
@@ -146,14 +143,8 @@ public class ComponentInputDialog extends ComponentDialog
 	 * otherwise hide dialog
 	 */
 	public void processInput() {
-		// avoid labeling of num
-		final Construction cons = app.getKernel().getConstruction();
-		final boolean oldVal = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		getInputHandler().processInput(getInputText(), this,
 				ok -> {
-					cons.setSuppressLabelCreation(oldVal);
 					if (ok) {
 						toolAction();
 						hide();

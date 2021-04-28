@@ -284,6 +284,17 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
+	public void setRotation(String setting) {
+		tableImpl.setCellProperty("rotation", setting);
+		table.updateRepaint();
+	}
+
+	@Override
+	public String getRotation() {
+		return tableImpl.getCellProperty("rotation");
+	}
+
+	@Override
 	public VerticalAlignment getVerticalAlignment() {
 		return VerticalAlignment.fromString(tableImpl.getCellProperty("valign"));
 	}
@@ -404,16 +415,24 @@ public class InlineTableControllerW implements InlineTableController {
 				table.getKernel().notifyUpdateVisualStyle(table, GProperty.TEXT_SELECTION);
 			}
 		});
-		tableImpl.sizeChanged(() -> onEditorChanged(getContent()));
+		tableImpl.sizeChanged(() -> changeContent(getContent()));
 		update();
 	}
 
 	private void onEditorChanged(String content) {
-		if (!content.equals(table.getContent())) {
-			table.setContent(content);
+		if (changeContent(content)) {
 			view.getApplication().storeUndoInfo();
-			table.notifyUpdate();
 		}
+	}
+
+	private boolean changeContent(String content) {
+		if (content.equals(table.getContent())) {
+			return false;
+		}
+
+		table.setContent(content);
+		table.notifyUpdate();
+		return true;
 	}
 
 	private Runnable getCallback() {

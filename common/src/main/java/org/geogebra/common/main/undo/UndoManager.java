@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Objects;
 
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 
@@ -173,7 +176,7 @@ public abstract class UndoManager {
 	public synchronized void undo() {
 		if (undoPossible()) {
 			UndoCommand last = iterator.previous();
-			last.undo(this, iterator);
+			last.undo(this);
 			updateUndoActions();
 		}
 	}
@@ -470,6 +473,23 @@ public abstract class UndoManager {
 	}
 
 	/**
+	 * Helper method to store undo info about a just created geo.
+	 * Please make sure to call it after the styles of the geo
+	 * are correctly initialized.
+	 * @param arg GeoElement just added
+	 */
+	public void storeAddGeo(GeoElement arg) {
+		String xml;
+		if (arg.getParentAlgorithm() != null) {
+			xml = arg.getParentAlgorithm().getXML();
+		} else {
+			xml = arg.getXML();
+		}
+
+		storeUndoableAction(EventType.ADD, arg.getLabelSimple(), xml);
+	}
+
+	/**
 	 * Store action and notify listeners
 	 * @param type action type
 	 * @param args arguments
@@ -504,5 +524,66 @@ public abstract class UndoManager {
 	 */
 	public void runAfterSlideLoaded(String slideID, Runnable run) {
 		run.run();
+	}
+
+	/**
+	 * Reset before reloading
+	 */
+	public void resetBeforeReload() {
+		app.getSelectionManager().storeSelectedGeosNames();
+		app.getCompanion().storeViewCreators();
+		app.getKernel().notifyReset();
+		app.getKernel().clearJustCreatedGeosInViews();
+		app.getActiveEuclidianView().getEuclidianController().clearSelections();
+		VideoManager videoManager = app.getVideoManager();
+		if (videoManager != null) {
+			videoManager.storeVideos();
+		}
+		EmbedManager embedManager = app.getEmbedManager();
+		if (embedManager != null) {
+			embedManager.storeEmbeds();
+		}
+		app.getActiveEuclidianView().resetInlineObjects();
+	}
+
+	/**
+	 * Restore state after reload
+	 */
+	public void restoreAfterReload() {
+		app.getKernel().notifyReset();
+		app.getCompanion().recallViewCreators();
+		app.getSelectionManager().recallSelectedGeosNames(app.getKernel());
+		app.getActiveEuclidianView().restoreDynamicStylebar();
+	}
+
+	/**
+	 * Save the whole undo list to a map.
+	 * @param undoHistory to save to.
+	 */
+	public void undoHistoryTo(Map<String, UndoHistory> undoHistory) {
+		LinkedList<UndoCommand> undoCommands = new LinkedList<>();
+		for (UndoCommand undoCommand: undoInfoList) {
+			undoCommands.add(new UndoCommand(undoCommand));
+		}
+		undoHistory.put(app.getConfig().getSubAppCode(),
+				new UndoHistory(undoCommands, iterator.nextIndex()));
+		clearUndoInfo();
+	}
+
+	/**
+	 * Reload undo list from map.
+	 * @param undoHistory to reload from.
+	 */
+	public void undoHistoryFrom(Map<String, UndoHistory> undoHistory) {
+		String subAppCode = app.getConfig().getSubAppCode();
+		if (!undoHistory.containsKey(subAppCode)) {
+			return;
+		}
+
+		clearUndoInfo();
+		UndoHistory history = undoHistory.get(subAppCode);
+		undoInfoList.addAll(history.commands());
+		iterator = undoInfoList.listIterator(history.iteratorIndex());
+		updateUndoActions();
 	}
 }

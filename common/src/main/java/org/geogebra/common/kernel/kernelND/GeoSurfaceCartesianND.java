@@ -269,6 +269,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	@Override
 	public String toString(StringTemplate tpl) {
+		if (!isDefined()) {
+			return "?";
+		}
 		StringBuilder sbToString = new StringBuilder(80);
 
 		sbToString.append(label);
@@ -870,8 +873,10 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	@Override
 	public FunctionVariable[] getFunctionVariables() {
-		// TODO Auto-generated method stub
-		return null;
+		if (complexVariable != null) {
+			return new FunctionVariable[]{complexVariable};
+		}
+		return fun[0].getFunctionVariables();
 	}
 
 	@Override

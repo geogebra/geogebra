@@ -432,6 +432,9 @@ public class GeoText extends GeoElement
 	@Override
 	public String toValueString(StringTemplate tpl1) {
 		// https://help.geogebra.org/topic/fixed-list-list-with-text-objects
+		if (tpl1.hasType(StringType.SCREEN_READER)) {
+			return getAuralText();
+		}
 		return getTextStringSafe();
 	}
 
@@ -1504,21 +1507,37 @@ public class GeoText extends GeoElement
 	public String getAuralText() {
 		String ret;
 		if (isLaTeX()) {
-			kernel.getApplication().getDrawEquation()
-					.checkFirstCall(kernel.getApplication());
-			// TeXAtomSerializer makes formula human readable.
-			TeXFormula tf = new TeXFormula(getTextString());
-			ret = new TeXAtomSerializer(new ScreenReaderBracketsAdapter())
-					.serialize(tf.root);
+			ret = getAuralTextLaTeX();
 		} else {
-			ret = getTextString();
+			ret = ScreenReader.convertToReadable(getTextString(), getLoc());
 		}
+		return ret;
+	}
 
-		return ScreenReader.convertToReadable(ret);
+	/**
+	 * @return aural text assuming this is LaTeX
+	 */
+	public String getAuralTextLaTeX() {
+		kernel.getApplication().getDrawEquation()
+				.checkFirstCall(kernel.getApplication());
+		// TeXAtomSerializer makes formula human readable.
+		TeXFormula tf = getTeXFormula();
+		ScreenReaderSerializationAdapter adapter =
+				new ScreenReaderSerializationAdapter(kernel.getLocalization());
+		return new TeXAtomSerializer(adapter).serialize(tf.root);
+	}
+
+	private TeXFormula getTeXFormula() {
+		String textString = getTextString();
+		try {
+			return new TeXFormula(textString);
+		} catch (Exception e) {
+			return TeXFormula.getPartialTeXFormula(textString);
+		}
 	}
 
 	@Override
-	public void addAuralName(Localization loc, ScreenReaderBuilder sb) {
+	public void addAuralName(ScreenReaderBuilder sb) {
 		// only read content, no prefix
 	}
 

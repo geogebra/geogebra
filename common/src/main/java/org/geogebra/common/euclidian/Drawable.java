@@ -19,11 +19,13 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
-import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -187,7 +189,9 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	@Override
-	public abstract GeoElement getGeoElement();
+	public GeoElement getGeoElement() {
+		return geo;
+	}
 
 	/**
 	 * @return bounding box with handlers
@@ -218,7 +222,7 @@ public abstract class Drawable extends DrawableND {
 	 * 
 	 * @return null when this Drawable is infinite or undefined
 	 */
-	public GRectangle getBounds() {
+	public @CheckForNull GRectangle getBounds() {
 		return null;
 	}
 
@@ -578,7 +582,7 @@ public abstract class Drawable extends DrawableND {
 					EuclidianStyleConstants.LINE_TYPE_FULL);
 
 			selStroke = EuclidianStatic.getStroke(
-					!fromGeo.isShape() ? 2 * width + 2
+					!fromGeo.isShape() ? 2 * Math.max(width, 1) + 2
 									: width + EuclidianStyleConstants.SELECTION_ADD,
 					EuclidianStyleConstants.LINE_TYPE_FULL);
 		} else if (lineType != fromGeo.getLineType()) {
@@ -629,61 +633,41 @@ public abstract class Drawable extends DrawableND {
 	 *            shape to be filled
 	 */
 	protected void fill(GGraphics2D g2, GShape fillShape) {
-		fill(g2, fillShape, null, null);
+		if (isForceNoFill()) {
+			return;
+		}
+		if (geo.getFillType() != FillType.STANDARD) {
+			fillWithHatchOrImage(g2, fillShape, geo.getObjectColor());
+		} else if (geo.getAlphaValue() > 0.0f) {
+			g2.setPaint(geo.getFillColor());
+			g2.fill(fillShape);
+		}
 	}
 
 	/**
 	 * Fills given shape
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 * @param fillShape
 	 *            shape to be filled
-	 * @param gpaint0
-	 *            override paint
-	 * @param subImage
-	 *            override image
 	 */
-	protected void fill(GGraphics2D g2, GShape fillShape, GPaint gpaint0,
-			GBufferedImage subImage) {
-		if (isForceNoFill()) {
-			return;
-		}
-		GPaint gpaint = gpaint0;
-		if (geo.isHatchingEnabled() || gpaint != null) {
-			// use decoStroke as it is always full (not dashed/dotted etc)
-
-			if (gpaint == null) {
-
-				gpaint = getHatchingHandler().setHatching(g2, decoStroke,
-						geo.getObjectColor(), geo.getBackgroundColor(),
-						geo.getAlphaValue(), geo.getHatchingDistance(),
-						geo.getHatchingAngle(), geo.getFillType(),
-						geo.getFillSymbol(), geo.getKernel().getApplication());
-			}
-
-			g2.setPaint(gpaint);
-
-			if (!geo.getKernel().getApplication().isHTML5Applet()) {
-				g2.fill(fillShape);
-			} else {
-				GBufferedImage subImage2 = subImage;
-				if (subImage2 == null) {
-					subImage2 = getHatchingHandler().getSubImage();
-				}
-
-				// take care of filling after the image is loaded
-				AwtFactory.getPrototype().fillAfterImageLoaded(fillShape, g2,
-						subImage2, geo.getKernel().getApplication());
-			}
-		} else if (geo.getFillType() == FillType.IMAGE) {
+	public void fillWithHatchOrImage(GGraphics2D g2, GShape fillShape, GColor color) {
+		if (geo.getFillType() == FillType.IMAGE && geo.getFillImage() != null) {
 			getHatchingHandler().setTexture(g2, geo, geo.getAlphaValue());
 			g2.fill(fillShape);
-		} else if (geo.getAlphaValue() > 0.0f) {
-			g2.setPaint(geo.getFillColor());
-			// magic for switching off dash emulation moved to GGraphics2DW
-			g2.fill(fillShape);
+			return;
 		}
+		// use decoStroke as it is always full (not dashed/dotted etc)
+		GPaint gpaint = getHatchingHandler().setHatching(g2, decoStroke,
+				color, geo.getBackgroundColor(),
+				geo.getAlphaValue(), geo.getHatchingDistance(),
+				geo.getHatchingAngle(), geo.getFillType(),
+				geo.getFillSymbol(), geo.getKernel().getApplication());
+
+		g2.setPaint(gpaint);
+		getHatchingHandler().fill(g2, fillShape, getView().getApplication());
+
 	}
 
 	private HatchingHandler getHatchingHandler() {
@@ -761,8 +745,7 @@ public abstract class Drawable extends DrawableND {
 	protected GColor getObjectColor() {
 		GColor color = geo.getObjectColor();
 		if (geo.hasLineOpacity()) {
-			color = GColor.newColor(color.getRed(), color.getGreen(),
-					color.getBlue(), geo.getLineOpacity());
+			color = color.deriveWithAlpha(geo.getLineOpacity());
 		}
 		return color;
 	}
@@ -823,7 +806,7 @@ public abstract class Drawable extends DrawableND {
 	 * @return bounds of the drawn path
 	 */
 	@Override
-	public GRectangle2D getBoundsForStylebarPosition() {
+	public @CheckForNull GRectangle2D getBoundsForStylebarPosition() {
 		return getBounds();
 	}
 
@@ -933,6 +916,9 @@ public abstract class Drawable extends DrawableND {
 		GRectangle2D bounds = getBoundingBox() != null
 				? getBoundingBox().getRectangle()
 				: getBounds();
+		if (bounds == null) {
+			return Collections.emptyList();
+		}
 		List<GPoint2D> ret = new ArrayList<>(2);
 		ret.add(new MyPoint(bounds.getMinX(), bounds.getMinY()));
 		ret.add(new MyPoint(bounds.getMaxX(), bounds.getMaxY()));
@@ -951,5 +937,9 @@ public abstract class Drawable extends DrawableND {
 
 	public BoundingBox<? extends GShape> getSelectionBoundingBox() {
 		return new SingleBoundingBox(view.getApplication().getPrimaryColor());
+	}
+
+	public GBasicStroke getDecoStroke() {
+		return decoStroke;
 	}
 }

@@ -38,10 +38,12 @@ public class DrawEquationCommon extends DrawEquation {
 		checkFirstCallStatic();
 	}
 
+	@Override
 	public Color convertColor(GColor color) {
 		return null;
 	}
 
+	@Override
 	public GDimension measureEquation(App app, GeoElement geo0, String text,
 			GFont font, boolean serif) {
 		return null;

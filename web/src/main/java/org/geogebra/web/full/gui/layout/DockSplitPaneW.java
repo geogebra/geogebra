@@ -6,6 +6,7 @@ import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.io.layout.DockSplitPaneData;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -809,5 +810,30 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 			return ((DockSplitPaneW) rightChild).isBottomRight(needle);
 		}
 		return false;
+	}
+
+	@Override
+	public void setWidgetSize(Widget widget, double size) {
+		LayoutData data = (LayoutData) widget.getLayoutData();
+		if (data.direction == Direction.CENTER) {
+			Widget opposite = getOpposite(widget);
+			if (opposite == null) {
+				Log.error("no opposite");
+				return;
+			}
+			double fullSize = getMaxWidgetSize();
+
+			super.setWidgetSize(opposite, fullSize - size);
+		} else {
+			super.setWidgetSize(widget, size);
+		}
+	}
+
+	/**
+	 * @return total height if for vertical split, width otherwise
+	 */
+	public int getMaxWidgetSize() {
+		return this.orientation == SwingConstants.VERTICAL_SPLIT
+				? getOffsetHeight() : getOffsetWidth();
 	}
 }

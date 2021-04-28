@@ -178,7 +178,9 @@ public enum GeoClass {
 	INLINE_TEXT("InlineText", 150, false),
 
 	/** Inline editable table */
-	TABLE("Table", 150, false);
+	TABLE("Table", 150, false),
+
+	PIECHART("PieChart", 80, false);
 
 	/**
 	 * name MUST be in ggbtrans/properties

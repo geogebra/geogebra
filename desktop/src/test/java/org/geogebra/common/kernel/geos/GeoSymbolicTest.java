@@ -33,6 +33,7 @@ import org.geogebra.test.UndoRedoTester;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -212,7 +213,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				"{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}",
 				"{x = (-sqrt(-p * q)) / p, x = sqrt(-p * q) / p, x = 0}");
 		t("Solve(1-p^2=(1-0.7^2)/4)", "{p = (-sqrt(349)) / 20, p = sqrt(349) / 20}");
-		t("NSolve(1-p^2=(1-0.7^2)/4)", "{p = -0.9340770846, p = 0.9340770846}");
+		t("NSolve(1-p^2=(1-0.7^2)/4)", "{p = -0.9340770846135, p = 0.9340770846135}");
 	}
 
 	@Test
@@ -222,7 +223,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testNumericCommand() {
-		t("Numeric(745/1137)", "0.6552330695");
+		t("Numeric(745/1137)", "0.6552330694811");
 		tn("Numeric(2/3,10)", "0.6666666667");
 		tn("Numeric(pi,10)", "3.141592654");
 		tn("Numeric(pi,100)", "3.14159265358979323846264338327950288419716939937"
@@ -325,7 +326,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solve(2x^2-x=21)", "{x = -3, x = 7 / 2}");
 		t("Solve(6x/(x+3)-x/(x-3)=2)", "{x = 1, x = 6}");
 		t("Solve(12exp(x)=150)", "{x = ln(25 / 2)}");
-		testValidResultCombinations("Solve(cos(x)=sin(x))", "{x = k_{1} * " + pi + " + 1 / 4 * " + pi + "}",
+		testValidResultCombinations("Solve(cos(x)=sin(x))",
+				"{x = k_{1} * " + pi + " + 1 / 4 * " + pi + "}",
 				"{x = 2 * k_{1} * " + pi + " - 3 / 4 * π, x = 2 * k_{2} * " + pi + " + 1 / 4 * π}");
 		t("Solve(3x+2>-x+8)", "{x > 3 / 2}");
 		// doesn't work without space (multiply) APPS-1031
@@ -388,8 +390,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solve(f''(x)=0)", "{x = (-2 * sqrt(6) + 3) / 3, x = (2 * sqrt(6) + 3) / 3}");
 		t("list=Solutions(f''(x)=0)", "{(-2 * sqrt(6) + 3) / 3, (2 * sqrt(6) + 3) / 3}");
 		t("root=Element(list,2)", "(2 * sqrt(6) + 3) / 3");
-		t("Numeric(f(root))", "9.0912560746");
-		t("Solve(f'(x)=tan(30deg))", "{x = 0.9446513612, x = 5.1267111169}");
+		t("Numeric(f(root))", Matchers.in(new String[]{"9.091256074573", "9.091256074574"}));
+		t("Solve(f'(x)=tan(30deg))", "{x = 0.9446513611798, x = 5.126711116935}");
 		t("Tangent(2,f)", "y = -15 * sqrt(2) / 4 * x + 33 * sqrt(2) / 2");
 	}
 
@@ -402,7 +404,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		testValidResultCombinations("g=Invert(f)", "nroot(25 * x,4)", "nroot(25,4) * nroot(x,4)");
 		t("a=pi Integral(g^2,0,h)", "10 / 3 * sqrt(h) * h * " + pi);
 		t("b=Solve(a=500)", "{h = 5 * cbrt(180 * " + pi + ") / " + pi + "}");
-		t("Numeric(b)", "{h = 13.1611626882}");
+		t("Numeric(b)", "{h = 13.16116268824}");
 	}
 
 	@Test
@@ -488,6 +490,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testPolynomialCommand() {
 		t("Polynomial((x+(1/aaa)x^2)^2)",
 				"1 / aaa^(2) * x^(4) + 2 * aaa / aaa^(2) * x^(3) + x^(2)");
+		t("Polynomial((x!)/(x-2)!)", "x^(2) - x");
+		t("Polynomial((x!)/(x-2)!, x)", "x^(2) - x");
+		t("Polynomial((y!)/(y-2)!, y)", "y^(2) - y");
 	}
 
 	@Test
@@ -1359,9 +1364,44 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(
 				asind.getValueForInputBar(),
 				equalTo("180° sin⁻¹(2 / 5) / π"));
+
+		asind.setSymbolicMode(false, false);
 		assertThat(
-				asind.getTwinGeo().toValueString(StringTemplate.defaultTemplate),
+				asind.getValueForInputBar(),
 				equalTo("23.5781784782°"));
+	}
+
+	@Test
+	public void testArcdFunctionsReturnDegrees() {
+		GeoSymbolic asind = add("asind(1/5)");
+		assertThat(
+				asind.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+				equalTo("180^{\\circ} \\cdot "
+						+ "\\frac{\\operatorname{sin⁻¹} \\left( \\frac{1}{5} \\right)}{\\pi }"));
+		asind.setSymbolicMode(false, false);
+		assertThat(
+				asind.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+				equalTo("11.5369590328°"));
+
+		GeoSymbolic acosd = add("acosd(1/5)");
+		assertThat(
+				acosd.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+				equalTo("180^{\\circ} \\cdot "
+						+ "\\frac{\\operatorname{cos⁻¹} \\left( \\frac{1}{5} \\right)}{\\pi }"));
+		acosd.setSymbolicMode(false, false);
+		assertThat(
+				acosd.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+				equalTo("78.4630409672°"));
+
+		GeoSymbolic atand = add("atand(1/5)");
+		assertThat(
+				atand.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+				equalTo("180^{\\circ} \\cdot "
+						+ "\\frac{\\operatorname{tan⁻¹} \\left( \\frac{1}{5} \\right)}{\\pi }"));
+		atand.setSymbolicMode(false, false);
+		assertThat(
+				atand.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+				equalTo("11.309932474°"));
 	}
 
 	@Test
@@ -1399,23 +1439,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testNestedFunction() {
-		app.setUndoActive(true);
-
-		add("f(x)=1+7*e^(-0.2x)");
-		app.storeUndoInfo();
-
-		GeoSymbolic r = add("r(s)=s*(f(s)-1)");
-		app.storeUndoInfo();
-		assertThat(r.getTwinGeo(), instanceOf(GeoFunction.class));
-		assertThat(r.isEuclidianShowable(), is(true));
-
-		undoRedo();
-		r = (GeoSymbolic) lookup("r");
-		assertThat(r.isEuclidianShowable(), is(true));
-
-		add("f(x) = x");
-		r = (GeoSymbolic) lookup("r");
-		assertThat(r.isEuclidianShowable(), is(true));
+	public void testRounding() {
+		kernel.setPrintFigures(20);
+		GeoSymbolic number = add("11.3 * 1.5");
+		AlgebraItem.toggleSymbolic(number);
+		String output = AlgebraItem.getOutputTextForGeoElement(number);
+		assertThat(output, equalTo("16.95"));
+		// Reset
+		kernel.setPrintDecimals(5);
 	}
 }

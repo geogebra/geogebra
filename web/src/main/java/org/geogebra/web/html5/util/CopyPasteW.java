@@ -70,17 +70,17 @@ public class CopyPasteW extends CopyPaste {
 			});
 
 			$wnd.navigator.clipboard.write([data]).then(function() {
-				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("successfully wrote gegeobra data to clipboard");
+				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("successfully wrote gegeobra data to clipboard");
 			}, function() {
-				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("writing geogebra data to clipboard failed");
+				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("writing geogebra data to clipboard failed");
 			});
 		} else if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.writeText) {
 			// Supported in Firefox
 
 			$wnd.navigator.clipboard.writeText(toWrite).then(function() {
-				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("successfully wrote text to clipboard");
+				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("successfully wrote text to clipboard");
 			}, function() {
-				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("writing text to clipboard failed");
+				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("writing text to clipboard failed");
 			});
 		} else {
 			// Supported in Safari
@@ -163,7 +163,7 @@ public class CopyPasteW extends CopyPaste {
 						}
 					},
 					function(reason) {
-						@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("reading data from clipboard failed " + reason);
+						@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("reading data from clipboard failed " + reason);
 						storageFallback();
 					});
 		} else if ($wnd.navigator.clipboard
@@ -175,7 +175,7 @@ public class CopyPasteW extends CopyPaste {
 					@org.geogebra.web.html5.util.CopyPasteW::pasteText(*)(app, text);
 				},
 				function(reason) {
-					@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("reading text from clipboard failed: " + reason);
+					@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("reading text from clipboard failed: " + reason);
 					storageFallback();
 				})
 		} else {

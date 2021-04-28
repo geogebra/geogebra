@@ -18,6 +18,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
@@ -31,6 +32,11 @@ public class AccessibleDropDown implements AccessibleWidget {
 	private final Label label;
 	private final AccessibilityView view;
 
+	/**
+	 * @param geo list
+	 * @param app application
+	 * @param view view
+	 */
 	public AccessibleDropDown(GeoList geo, AppW app, AccessibilityView view) {
 		this.list = geo;
 		this.app = app;
@@ -91,7 +97,7 @@ public class AccessibleDropDown implements AccessibleWidget {
 	@Override
 	public void update() {
 		updatePosition(list, button, app);
-		ScreenReaderBuilder sb = new ScreenReaderBuilder();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder(app.getLocalization());
 		list.addAuralCaption(sb);
 		label.setText(sb.toString());
 		updateText();
@@ -112,9 +118,7 @@ public class AccessibleDropDown implements AccessibleWidget {
 						button.getElement().focus();
 						toggle();
 					},	ClickEvent.getType());
-			option.addDomHandler(e -> {
-				setHoverIndex(idx);
-			}, com.google.gwt.event.dom.client.FocusEvent.getType());
+			option.addDomHandler(e -> setHoverIndex(idx), FocusEvent.getType());
 			options.add(option);
 		}
 	}

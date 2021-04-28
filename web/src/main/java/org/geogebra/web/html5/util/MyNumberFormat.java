@@ -19,7 +19,8 @@ package org.geogebra.web.html5.util;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.geogebra.common.util.debug.Log;
+import elemental2.core.JsNumber;
+import jsinterop.base.Js;
 
 /**
  * 
@@ -477,11 +478,10 @@ public class MyNumberFormat {
 	 * @return scale to apply to the result
 	 */
 	// @VisibleForTesting
-	static int toScaledString(StringBuilder buf, double val) {
+	int toScaledString(StringBuilder buf, double val) {
 		int startLen = buf.length();
 
 		String full = toPrecision(val, 20);
-		Log.debugSpecial(full);
 
 		buf.append(full);
 		int scale = 0;
@@ -521,9 +521,10 @@ public class MyNumberFormat {
 	 *            number of digits of precision to include
 	 * @return non-localized string representation of {@code d}
 	 */
-	private static native String toPrecision(double d, int digits) /*-{
-		return d.toPrecision(digits);
-	}-*/;
+	public static String toPrecision(double d, int digits) {
+		JsNumber num = Js.uncheckedCast(d);
+		return num.toPrecision(digits);
+	}
 
 	/**
 	 * Constructs a format object based on the specified settings.
@@ -568,14 +569,6 @@ public class MyNumberFormat {
 
 		// pre-round value to deal with .15 being represented as .149999... etc
 		// check at 3 more digits than will be required in the output
-		int preRound = buf.length() + scale + maximumFractionDigits + 3;
-		if (preRound > 0 && preRound < buf.length()
-				&& buf.charAt(preRound) == '9') {
-			propagateCarry(buf, preRound - 1);
-			scale += buf.length() - preRound;
-			buf.delete(preRound, buf.length());
-		}
-
 		format(isNegative, buf, scale);
 		return buf.toString();
 	}

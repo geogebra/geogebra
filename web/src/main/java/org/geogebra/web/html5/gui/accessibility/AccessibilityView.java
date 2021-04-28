@@ -29,10 +29,10 @@ import com.google.gwt.user.client.ui.Widget;
  * View for representation of geo elements as hidden DOM controls
  */
 public class AccessibilityView implements View {
-	private BaseWidgetFactory sliderFactory;
-	private FlowPanel controls;
-	private Map<GeoElement, AccessibleWidget> widgets;
-	private AppW app;
+	private final BaseWidgetFactory sliderFactory;
+	private final FlowPanel controls;
+	private final Map<GeoElement, AccessibleWidget> widgets;
+	private final AppW app;
 	private AccessibleGraphicsView graphicsView3D;
 
 	/**
@@ -289,6 +289,9 @@ public class AccessibilityView implements View {
 				app.getKernel().format(value, StringTemplate.screenReader) + " " + unit);
 	}
 
+	/**
+	 * Close all dropdowns
+	 */
 	public void closeAllDropdowns() {
 		for (AccessibleWidget widget: widgets.values()) {
 			if (widget instanceof AccessibleDropDown) {

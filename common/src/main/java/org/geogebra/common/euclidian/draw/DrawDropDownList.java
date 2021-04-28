@@ -1499,6 +1499,9 @@ public final class DrawDropDownList extends CanvasDrawable
 		return selectedDimension.getHeight() + COMBO_TEXT_MARGIN;
 	}
 
+	/**
+	 * @param idx index of the hovered item
+	 */
 	public void setHoverIndex(int idx) {
 		if (drawOptions.items.size() <= idx) {
 			drawOptions.createItems(view.getGraphicsForPen());

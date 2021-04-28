@@ -65,8 +65,8 @@ public abstract class CommandProcessor {
 	@Weak
 	protected Construction cons;
 	@Weak
-	private AlgebraProcessor algProcessor;
-	private CommandErrorMessageBuilder commandErrorMessageBuilder;
+	private final AlgebraProcessor algProcessor;
+	private final CommandErrorMessageBuilder commandErrorMessageBuilder;
 
 	/**
 	 * Creates new command processor
@@ -925,5 +925,12 @@ public abstract class CommandProcessor {
 
 	public Localization getLocalization() {
 		return loc;
+	}
+
+	protected GeoElement validate(GeoElement arg, boolean ok, Command c) throws MyError {
+		if (ok) {
+			return arg;
+		}
+		throw argErr(arg, c);
 	}
 }
