@@ -309,6 +309,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 
 		if (as == null) {
 			Log.debug("Cannot compute envelope equation (yet?)");
+			resetFingerprint(kernel, true);
 			return null;
 		}
 

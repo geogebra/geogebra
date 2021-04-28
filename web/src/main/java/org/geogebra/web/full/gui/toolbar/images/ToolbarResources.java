@@ -53,8 +53,6 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_createtable_32();
 
-	ResourcePrototype mode_delete_32();
-
 	ResourcePrototype mode_derivative_32();
 
 	ResourcePrototype mode_dilatefrompoint_32();
@@ -128,8 +126,6 @@ public interface ToolbarResources {
 	ResourcePrototype mode_parabola_32();
 
 	ResourcePrototype mode_parallel_32();
-
-	ResourcePrototype mode_pen_32();
 
 	ResourcePrototype mode_point_32();
 
