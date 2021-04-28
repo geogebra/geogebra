@@ -1,4 +1,4 @@
-package org.geogebra.web.shared.components;
+package org.geogebra.web.html5.gui.tooltip;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -84,6 +84,13 @@ public class ComponentSnackbar extends FlowPanel {
 	 */
 	public void show() {
 		addStyleName("fadeIn");
+		fadeOut.schedule(4000);
+	}
+
+	/**
+	 * fade out snackbar
+	 */
+	public void hide() {
 		fadeOut.schedule(4000);
 	}
 
