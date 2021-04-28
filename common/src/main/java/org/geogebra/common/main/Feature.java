@@ -38,9 +38,6 @@ public enum Feature {
 	/** GGB-2255 */
 	GEOMETRIC_DISCOVERY,
 
-	/** Csilla Master */
-	SPEECH_RECOGNITION,
-
 	/** G3D-343 */
 	G3D_SELECT_META,
 
