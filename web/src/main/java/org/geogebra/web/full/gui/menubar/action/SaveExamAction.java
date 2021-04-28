@@ -6,6 +6,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.menubar.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.shared.components.ComponentInputDialog;
 import org.geogebra.web.shared.components.DialogData;
@@ -27,6 +28,7 @@ public class SaveExamAction implements MenuAction<Void> {
 				Material material = tempStorage.getCurrentMaterial();
 				material.setTitle(input);
 				material.setBase64(app.getGgbApi().getBase64());
+				material.setThumbnailBase64(getThumbnail(app));
 				tempStorage.saveTempMaterial();
 			} catch (RuntimeException ex) {
 				msg = app.getLocalization().getError("SaveFileFailed");
@@ -44,9 +46,12 @@ public class SaveExamAction implements MenuAction<Void> {
 		}
 		ComponentInputDialog examSave = new ComponentInputDialog(app, data, false,
 				true, inputHandler, "Title", initString, false);
-		examSave.addInputHandler(() -> {
-			examSave.setPosBtnDisabled(examSave.getInputText().length() < 1);
-		});
+		examSave.addInputHandler(() -> examSave.setPosBtnDisabled(examSave.getInputText().length() < 1));
 		examSave.center();
+	}
+
+	private String getThumbnail(AppWFull app) {
+		return ((EuclidianViewWInterface) app.getActiveEuclidianView())
+				.getExportImageDataUrl(0.5, false, false);
 	}
 }
