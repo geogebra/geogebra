@@ -42,7 +42,6 @@ public final class ToolTipManagerW {
 	private ComponentSnackbar snackbar;
 	private Timer timer;
 	private boolean blockToolTip = true;
-	private boolean keyboardVisible;
 	private boolean lastTipVisible = false;
 	private boolean isSmall = false;
 	private boolean moveBtnMoved = false;
@@ -87,7 +86,6 @@ public final class ToolTipManagerW {
 		registerMouseListeners();
 	}
 
-
 	/**
 	 * @return whether tooltips are blocked
 	 */
@@ -125,7 +123,6 @@ public final class ToolTipManagerW {
 		}
 		
 		this.app = appw;
-		keyboardVisible = kb;
 		isSmall = false;
 
 		if (snackbar != null) {
@@ -145,11 +142,11 @@ public final class ToolTipManagerW {
 		// doesn't overlap with the toolbar
 		if (appw.getToolbarPosition() == SwingConstants.SOUTH) {
 			if (app.isWhiteboardActive()) {
-				style.setTop((appw.getHeight() - 220) - 20 * lines(title),
+				style.setTop((appw.getHeight() - 220) - 20 * lines(helpText),
 						Unit.PX);
 			} else {
 				style.setTop((appw.getHeight() - (kb ? 250 : 70) - 50)
-						- 20 * lines(title), Unit.PX);
+						- 20 * lines(helpText), Unit.PX);
 			}
 		}
 		// Toolbar on top
@@ -169,13 +166,17 @@ public final class ToolTipManagerW {
 				}
 
 			} else {
-				style.setTop((appw.getHeight() - (kb ? 250 : 70)) - 20 * lines(title), Unit.PX);
+				style.setTop((appw.getHeight() - (kb ? 250 : 70)) - 20 * lines(helpText), Unit.PX);
 			}
+		}
+		if (kb) {
+			double top = snackbar.getAbsoluteTop();
+			style.setBottom(top - snackbar.getOffsetHeight(), Unit.PX);
 		}
 		snackbar.show();
 		lastTipVisible = true;
-		if ((buttonText == "Share"
-				|| (buttonText == "Help" && helpURL != null
+		if (("Share".equals(buttonText)
+				|| ("Help".equals(buttonText) && helpURL != null
 						&& helpURL.length() > 0))) {
 				scheduleHideBottom();
 		}
