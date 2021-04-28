@@ -3,10 +3,13 @@ package org.geogebra.web.full.main;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
+import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.openfileview.HeaderFileView;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
 import org.geogebra.web.full.gui.openfileview.OpenTemporaryFileView;
+import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.util.AppletParameters;
 
 /**
@@ -58,7 +61,12 @@ public class OpenSearch {
 	}
 
 	private void showBrowserView(String query) {
-		showBrowser((HeaderFileView) guiManager.getBrowseView(query));
+		BrowseViewI browseView = guiManager.getBrowseView(query);
+		if (browseView instanceof BrowseGUI) {
+			showBrowser((MyHeaderPanel) browseView);
+		} else {
+			showBrowser((HeaderFileView) browseView);
+		}
 	}
 
 	private boolean hasSearchPerspective() {
@@ -84,12 +92,16 @@ public class OpenSearch {
 	}
 
 	private void showBrowser(HeaderFileView fileView) {
+		showBrowser(fileView.getPanel());
+	}
+
+	private void showBrowser(MyHeaderPanel headerPanel) {
 		EuclidianController evController = app.getActiveEuclidianView().getEuclidianController();
 		if (evController != null) {
 			evController.hideDynamicStylebar();
 		}
 		frame.setApplication(app);
-		frame.showPanel(fileView.getPanel());
+		frame.showPanel(headerPanel);
 	}
 
 	private void loginAndOpen(String query) {

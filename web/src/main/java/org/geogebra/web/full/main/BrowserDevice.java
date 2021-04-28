@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.Image;
  * Device class for case we are running in the browser (eg Chrome app)
  */
 public class BrowserDevice implements GDevice {
+
 	/**
 	 * Button for opening local files
 	 *
@@ -132,7 +133,7 @@ public class BrowserDevice implements GDevice {
 
 	@Override
 	public BrowseViewI createBrowseView(AppW app) {
-		if (hasOpenFileView(app)) {
+		if (app.isMebis() || app.isExam()) {
 			FileOpenButton fileOpenButton = new FileOpenButton("containedButton");
 			if (app.isExam()) {
 				return new OpenTemporaryFileView(app);
@@ -147,10 +148,6 @@ public class BrowserDevice implements GDevice {
 		BrowseGUI bg = new BrowseGUI(app, mb);
 		mb.setOpenFileView(bg);
 		return bg;
-	}
-
-	private boolean hasOpenFileView(AppW app) {
-		return app.isMebis() || app.isExam();
 	}
 
 	@Override
