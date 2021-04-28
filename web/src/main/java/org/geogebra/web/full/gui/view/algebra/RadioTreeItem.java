@@ -62,7 +62,6 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -1008,9 +1007,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (commandError != null) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-					StringUtil.toHTMLString(errorMessage),
-					app.getGuiManager().getHelpURL(Help.COMMAND, commandError),
-					ToolTipLinkType.Help, app, true);
+					null, errorMessage, "Help",
+					app.getGuiManager().getHelpURL(Help.COMMAND, commandError), app, true);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 			return true;
 		}

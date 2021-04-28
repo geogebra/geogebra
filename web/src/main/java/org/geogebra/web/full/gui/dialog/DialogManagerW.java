@@ -54,7 +54,6 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.Clipboard;
 import org.geogebra.web.html5.util.debug.LoggerW;
@@ -520,9 +519,8 @@ public class DialogManagerW extends DialogManager
 	public void openToolHelp() {
 		int mode = app.getMode();
 		ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-				app.getToolTooltipHTML(mode),
-				((AppW) app).getGuiManager().getTooltipURL(mode),
-				ToolTipLinkType.Help, (AppW) app,
+				app.getToolName(mode), app.getToolHelp(mode), "Help",
+				((AppW) app).getGuiManager().getTooltipURL(mode), (AppW) app,
 				((AppW) app).getAppletFrame().isKeyboardShowing());
 	}
 

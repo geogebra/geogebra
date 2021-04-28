@@ -11,7 +11,6 @@ import org.geogebra.web.full.gui.toolbar.ToolButton;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -252,10 +251,10 @@ public class Tools extends FlowPanel implements SetLabels {
 		if (allowTooltips()) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			ToolTipManagerW.sharedInstance()
-					.showBottomInfoToolTip(app.getToolTooltipHTML(mode),
+					.showBottomInfoToolTip(app.getToolName(mode),
+							app.getToolHelp(mode), "Help",
 							app.getGuiManager().getTooltipURL(mode),
-							ToolTipLinkType.Help, app,
-							app.getAppletFrame().isKeyboardShowing());
+							app, app.getAppletFrame().isKeyboardShowing());
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 		}
 	}

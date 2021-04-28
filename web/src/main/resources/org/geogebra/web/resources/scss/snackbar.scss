@@ -4,37 +4,34 @@
 .GeoGebraFrame {
 
 	.snackbarComponent {
-		width: fit-content;
 		max-width: 664px;
+		width: fit-content;
 		position: absolute;
 		bottom: 8px;
 		left: 8px;
 		right: 8px;
-		padding: 14px 8px 8px 16px;
+		padding: 14px 8px 14px 16px;
 		z-index: $z-snackbar;
 		background-color: $snackbar-background;
 		border-radius: 4px;
 		box-shadow: 0 3px 5px -1px $black-20, 0 1px 18px 0 $black-12, 0 6px 10px 0 $black-14;
+		transition: opacity 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,-webkit-transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms;
         transform: scale(.8);
         opacity: 0;
         display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-end;
 
         &.fadeIn {
         	opacity: 1;
         	transform: scale(1);
-        	transition: opacity 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,-webkit-transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms
         }
-
-
 
 		.txtContainer {
 			margin-right: 8px;
-			margin-bottom: 8px;
+			margin-top: auto;
+			margin-bottom: auto;
 
 			.title {
-				height: 20px;
+				min-height: 20px;
 				color: white;
 				font-size: 88%;
 				font-weight: 500;
@@ -55,8 +52,6 @@
 				background: none;
 			}
 		}
-
-
 	}
 
 	.snackbar {

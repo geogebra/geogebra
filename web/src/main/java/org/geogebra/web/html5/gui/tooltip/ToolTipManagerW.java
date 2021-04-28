@@ -1,14 +1,10 @@
 package org.geogebra.web.html5.gui.tooltip;
 
-import java.util.Locale;
-
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
-import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.CSSAnimation;
+import org.geogebra.web.shared.components.ComponentSnackbar;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.dom.client.Style;
@@ -170,28 +166,28 @@ public final class ToolTipManagerW {
 	// BottomInfoToolTip
 	// =====================================
 	/**
-	 * @param text
-	 *            String
-	 * @param helpLinkURL
-	 *            String
-	 * @param link
-	 *            {@link ToolTipLinkType}
+	 * @param title
+	 *            title of snackbar
+	 * @param helpText
+	 *            text of snackbar
+	 * @param buttonText
+	 *           text of button
 	 * @param appw
 	 *            app for positioning
 	 * @param kb
 	 *            whether keyboard is open
 	 */
-	public void showBottomInfoToolTip(String text, final String helpLinkURL,
-			ToolTipLinkType link, final AppW appw, boolean kb) {
+	public void showBottomInfoToolTip(String title, final String helpText,
+			String buttonText, String url, final AppW appw, boolean kb) {
 		if (blockToolTip || appw == null) {
 			return;
 		}
 		
 		this.app = appw;
 		keyboardVisible = kb;
-		linkType = link;
+	//	linkType = link;
 		isSmall = false;
-		if (app.isUnbundled()) {
+		/*if (app.isUnbundled()) {
 			bottomInfoTipPanel.setStyleName("snackbar");
 			if (appw.getWidth() < 400) {
 				bottomInfoTipPanel.addStyleName("small");
@@ -201,56 +197,60 @@ public final class ToolTipManagerW {
 			bottomInfoTipPanel.setStyleName("snackbarMow");
 		} else {
 			bottomInfoTipPanel.setStyleName("infoTooltip");
-		}
+		}*/
 
-		bottomInfoTipPanel.removeFromParent();
-		appw.getPanel().add(bottomInfoTipPanel);
-		bottomInfoTipHTML.setHTML(text);
+		// TODO BUTTON TEXT
+		ComponentSnackbar snackbar = new ComponentSnackbar(app, app.getLocalization(),
+				title, helpText, buttonText);
+		snackbar.setButtonAction(() -> app.getFileManager().open(url));
+		//bottomInfoTipPanel.removeFromParent();
+		appw.getPanel().add(snackbar);
+		//bottomInfoTipHTML.setHTML(text);
 
-		if (helpLabel != null) {
+		/*if (helpLabel != null) {
 			bottomInfoTipPanel.remove(helpLabel);
-		}
+		}*/
 
-		boolean online = appw.getNetworkOperation() == null
+		/*boolean online = appw.getNetworkOperation() == null
 				|| appw.getNetworkOperation().isOnline();
-		this.helpURL = helpLinkURL;
+		this.helpURL = helpText;
 		if (appw.isExam() && appw.getExam().getStart() >= 0) {
 			this.helpURL = null;
-		}
-		if (helpURL != null && helpURL.length() > 0
+		}*/
+	/*	if (helpURL != null && helpURL.length() > 0
 				&& link != null
 				&& online) {
 
-			helpLabel = new Label();
+			helpLabel = new Label();*/
 
-			if (link.equals(ToolTipLinkType.Help)) {
+		/*	if (link.equals(ToolTipLinkType.Help)) {
 				helpLabel.setText(app.getLocalization().getMenu("Help")
 						.toUpperCase(Locale.ROOT));
 			} else if (link.equals(ToolTipLinkType.ViewSavedFile)) {
 				helpLabel.setText(app.getLocalization().getMenu("Share")
 						.toUpperCase(Locale.ROOT));
-			}
+			}*/
 			// IE and FF block popups if they are comming from mousedown, so use
 			// mouseup instead
 
-			helpLabel.addStyleName("manualLink");
+		//	helpLabel.addStyleName("manualLink");
 
 			/*
 			 * In "exam" mode the question mark is not shown
 			 */
-			if (!(appw.isExam() && appw.getExam().getStart() >= 0)
+			/*if (!(appw.isExam() && appw.getExam().getStart() >= 0)
 					&& !app.isWhiteboardActive() && helpLinkURL != null
 					&& !" ".equals(helpLinkURL)) {
 				bottomInfoTipPanel.add(helpLabel);
-			}
-		} else if (app.isUnbundled()) {
+			}*/
+		/*} else if (app.isUnbundled()) {
 			helpLabel = new Label();
 			helpLabel.addStyleName("warning");
 			bottomInfoTipPanel.add(helpLabel);
-		}
+		}*/
 
-		bottomInfoTipPanel.setVisible(true);
-		if (helpLabel != null) {
+		//bottomInfoTipPanel.setVisible(true);
+	/*	if (helpLabel != null) {
 			ClickEndHandler.init(helpLabel, new ClickEndHandler() {
 
 				@Override
@@ -258,14 +258,14 @@ public final class ToolTipManagerW {
 					openHelp();
 				}
 			});
-		}
+		}*/
 
 			// Helps to align the InfoTooltip in the center of the screen:
 
-		Style style = bottomInfoTipPanel.getElement().getStyle();
+		Style style = snackbar.getElement().getStyle();
 		style.setLeft(0, Unit.PX);
 
-		double left = (appw.getWidth() - bottomInfoTipPanel.getOffsetWidth()) / 2;
+		double left = (appw.getWidth() - snackbar.getOffsetWidth()) / 2;
 		if (left < 0 || app.isUnbundled()) {
 			if (left < 0) {
 				left = 0;
@@ -276,16 +276,16 @@ public final class ToolTipManagerW {
 				}
 			}
 		}
-			// Toolbar on bottom - tooltip needs to be positioned higher so it
-			// doesn't overlap with the toolbar
+		// Toolbar on bottom - tooltip needs to be positioned higher so it
+		// doesn't overlap with the toolbar
 		if (appw.getToolbarPosition() == SwingConstants.SOUTH) {
 			style.setLeft(left, Unit.PX);
 			if (app.isWhiteboardActive()) {
-				style.setTop((appw.getHeight() - 220) - 20 * lines(text),
+				style.setTop((appw.getHeight() - 220) - 20 * lines(title),
 						Unit.PX);
 			} else {
 				style.setTop((appw.getHeight() - (kb ? 250 : 70) - 50)
-						- 20 * lines(text), Unit.PX);
+						- 20 * lines(title), Unit.PX);
 			}
 		}
 		// Toolbar on top
@@ -296,35 +296,28 @@ public final class ToolTipManagerW {
 				if (appw.getAppletFrame().isKeyboardShowing()) {
 					style.setTop((appw.getHeight() - 310), Unit.PX);
 				} else {
-					bottomInfoTipPanel.getElement().getStyle().clearTop();
-					if (!lastTipVisible && link != null) {
-						animateIn(appw);
+					snackbar.getElement().getStyle().clearTop();
+					if (!lastTipVisible && buttonText != null) {
+						//animateIn(appw, snackbar);
 					} else {
-						bottomInfoTipPanel.getElement().getStyle().setBottom(0, Unit.PX);
+						snackbar.getElement().getStyle().setBottom(0, Unit.PX);
 					}
 					moveBtnMoved = appw.getGuiManager()
 							.moveMoveFloatingButtonUp((int) left,
-							bottomInfoTipPanel.getOffsetWidth(), isSmall);
+							snackbar.getOffsetWidth(), isSmall);
 				}
 
 			} else {
-				style.setTop((appw.getHeight() - (kb ? 250 : 70)) - 20 * lines(text), Unit.PX);
+				style.setTop((appw.getHeight() - (kb ? 250 : 70)) - 20 * lines(title), Unit.PX);
 			}
 		}
+		snackbar.show();
 		lastTipVisible = true;
-		if ((link == ToolTipLinkType.ViewSavedFile)
-				|| (link == ToolTipLinkType.Help && helpURL != null
-						&& helpURL.length() > 0)) {
+		if ((buttonText == "Share"
+				|| (buttonText == "Help" && helpURL != null
+						&& helpURL.length() > 0))) {
 				scheduleHideBottom();
 		}
-	}
-
-	private void animateIn(final AppW appw) {
-		appw.getPanel().getElement().getStyle().setOverflow(Overflow.HIDDEN);
-		bottomInfoTipPanel.addStyleName("animateShow");
-		CSSAnimation.runOnAnimation(() -> appw.getPanel().getElement().getStyle()
-				.setOverflow(Overflow.VISIBLE), bottomInfoTipPanel.getElement(),
-				"animateShow");
 	}
 
 	private static int lines(String text) {
@@ -354,7 +347,7 @@ public final class ToolTipManagerW {
 			return;
 		}
 		blockToolTip = false;
-		showBottomInfoToolTip(StringUtil.toHTMLString(text), "", null, appw,
+		showBottomInfoToolTip(text, "", null, null, appw,
 				appw != null && appw.getAppletFrame().isKeyboardShowing());
 
 		blockToolTip = true;

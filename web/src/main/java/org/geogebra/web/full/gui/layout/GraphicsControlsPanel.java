@@ -46,9 +46,7 @@ public class GraphicsControlsPanel extends FlowPanel implements DockControlPanel
 
 		graphicsContextMenuBtn.addFastClickHandler(source -> {
 			ComponentSnackbar snacknar = new ComponentSnackbar(app, app.getLocalization(),
-					"Circle with Centre through points ", "Select centre point, then point on the circle. "
-					+ "Try selecting centre point, then point on the circle. Try selecting centre point, then point on "
-					+ "the circle.Try selecting centre point.",
+					null, "Try selecting centre point.",
 					"HELP");
 			snacknar.show();
 			//app.getAccessibilityManager().setAnchor(focusableWidget);
