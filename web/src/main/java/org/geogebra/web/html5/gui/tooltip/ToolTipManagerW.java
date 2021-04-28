@@ -131,8 +131,7 @@ public final class ToolTipManagerW {
 		if (snackbar != null) {
 			appw.getPanel().remove(snackbar);
 		}
-		snackbar = new ComponentSnackbar(app, app.getLocalization(),
-				title, helpText, buttonText);
+		snackbar = new ComponentSnackbar(app, title, helpText, buttonText);
 		snackbar.setButtonAction(() -> {
 			if ("Share".equals(buttonText)) {
 					app.share();
@@ -140,7 +139,6 @@ public final class ToolTipManagerW {
 				app.getFileManager().open(url);
 			}
 		});
-		appw.getPanel().add(snackbar);
 
 		Style style = snackbar.getElement().getStyle();
 		// Toolbar on bottom - tooltip needs to be positioned higher so it

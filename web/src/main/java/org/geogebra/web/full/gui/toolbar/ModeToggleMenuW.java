@@ -262,7 +262,6 @@ public class ModeToggleMenuW extends ListItem
 				return true;
 			}
 		}
-		// tbutton.getElement().setAttribute("isSelected", "false");
 		return false;
 	}
 
@@ -401,8 +400,7 @@ public class ModeToggleMenuW extends ListItem
 		if (event.getSource() == tbutton
 				&& !CancelEventTimer.cancelMouseEvent()) {
 			onStart(event);
-		} else { // clicked on a submenu list item
-			showTooltipFor(event);
+		} else {
 			event.stopPropagation(); // the submenu doesn't close as a popup,
 										// see GeoGebraAppFrame init()
 		}

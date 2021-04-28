@@ -9,7 +9,6 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolcategorization.ToolCategory;
 import org.geogebra.web.full.gui.toolbar.ToolButton;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -213,14 +212,10 @@ public class Tools extends FlowPanel implements SetLabels {
 		private ToolButton getToolButton(final int mode) {
 			final ToolButton btn = new ToolButton(mode, getApp());
 			AriaHelper.hide(btn);
-			btn.addFastClickHandler(new FastClickHandler() {
-
-				@Override
-				public void onClick(Widget source) {
-					getApp().setMode(mode);
-					showTooltip(mode);
-					getApp().updateDynamicStyleBars();
-				}
+			btn.addFastClickHandler(source -> {
+				getApp().setMode(mode);
+				showTooltip(mode);
+				getApp().updateDynamicStyleBars();
 			});
 			return btn;
 		}

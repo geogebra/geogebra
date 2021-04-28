@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.gui.tooltip;
 
-import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
@@ -10,7 +9,6 @@ import com.google.gwt.user.client.ui.Label;
 
 public class ComponentSnackbar extends FlowPanel {
 	private AppW app;
-	private Localization loc;
 	private StandardButton actionBtn;
 	private Runnable btnAction;
 	private Timer fadeOut = new Timer() {
@@ -30,15 +28,12 @@ public class ComponentSnackbar extends FlowPanel {
 	/**
 	 * constructor
 	 * @param app see {@link AppW}
-	 * @param loc localization
 	 * @param title snackbar title
 	 * @param text snackbar text
 	 * @param buttonText snackbar button text
 	 */
-	public ComponentSnackbar(AppW app, Localization loc,
-			String title, String text, String buttonText) {
+	public ComponentSnackbar(AppW app, String title, String text, String buttonText) {
 		this.app = app;
-		this.loc = loc;
 		addStyleName("snackbarComponent");
 		buildGui(title, text, buttonText);
 		app.getPanel().add(this);
@@ -49,12 +44,12 @@ public class ComponentSnackbar extends FlowPanel {
 		textContainer.addStyleName("txtContainer");
 
 		if (title != null) {
-			Label titleLbl = new Label(loc.getMenu(title));
+			Label titleLbl = new Label(title);
 			titleLbl.addStyleName("title");
 			textContainer.add(titleLbl);
 		}
 
-		Label textLbl = new Label(loc.getMenu(text));
+		Label textLbl = new Label(text);
 		textLbl.addStyleName("text");
 		textContainer.add(textLbl);
 		add(textContainer);

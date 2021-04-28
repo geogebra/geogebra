@@ -505,12 +505,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	void doShowStartTooltip(int perspID) {
 		if (appletParameters.getDataParamShowStartTooltip(perspID > 0)) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+			String helpText =  getLocalization().getPlain("CheckOutTutorial",
+					getLocalization().getMenu(
+							Perspective.getPerspectiveName(perspID)));
 			String tooltipURL = getLocalization().getTutorialURL(getConfig());
-			DockPanelW focused = getGuiManager().getLayout().getDockManager()
-					.getPanelForKeyboard();
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip("NewToGeoGebra",
-					"CheckOutTutorial", "Help", tooltipURL, this,
-					focused != null && focused.isVisible());
+					helpText, "Help", tooltipURL, this, false);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 		}
 	}
