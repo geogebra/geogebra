@@ -48,16 +48,10 @@ import java.awt.RenderingHints.Key;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.LinkedList;
-
-import javax.imageio.ImageIO;
 
 import com.himamis.retex.renderer.desktop.font.FontD;
 import com.himamis.retex.renderer.desktop.font.FontRenderContextD;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
 import com.himamis.retex.renderer.share.platform.geom.Line2D;
@@ -66,7 +60,6 @@ import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
-import com.himamis.retex.renderer.share.platform.graphics.ImageBase64;
 import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
 import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 import com.himamis.retex.renderer.share.platform.graphics.Transform;
@@ -216,48 +209,13 @@ public class Graphics2DD implements Graphics2DInterface {
 
 	@Override
 	public void drawImage(Image image, int x, int y) {
-
-		if (image instanceof ImageBase64) {
-			impl.drawImage(base64ToBufferedImage((ImageBase64) image), x, y,
-					null);
-		} else {
-			impl.drawImage((java.awt.Image) image, x, y, null);
-		}
-
+		impl.drawImage((java.awt.Image) image, x, y, null);
 	}
 
 	@Override
 	public void drawImage(Image image, Transform transform) {
-		if (image instanceof ImageBase64) {
-			impl.drawImage(base64ToBufferedImage((ImageBase64) image),
-					(AffineTransform) transform, null);
-		} else {
-			impl.drawImage((java.awt.Image) image, (AffineTransform) transform,
+		impl.drawImage((java.awt.Image) image, (AffineTransform) transform,
 					null);
-		}
-	}
-
-	private static BufferedImage base64ToBufferedImage(ImageBase64 image) {
-		String pngBase64 = image.getBase64();
-
-		final String pngMarker = "data:image/png;base64,";
-
-		if (pngBase64.startsWith(pngMarker)) {
-			pngBase64 = pngBase64.substring(pngMarker.length());
-		} else {
-			FactoryProvider.debugS("invalid base64 image");
-			return null;
-		}
-
-		byte[] imageData = Base64.decode(pngBase64);
-
-		try {
-			return ImageIO.read(new ByteArrayInputStream(imageData));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return null;
 	}
 
 	@Override

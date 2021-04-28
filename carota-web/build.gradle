@@ -13,7 +13,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile 'com.google.elemental2:elemental2-core:1.0.0',
+    compile 'com.google.elemental2:elemental2-core:1.1.0',
+            'com.google.elemental2:elemental2-dom:1.1.0',
             'org.murok:editor:1.0.202102101357',
             'org.murok:editor:1.0.202102101357:sources',
             'org.gwtproject.timer:gwt-timer:1.0-SNAPSHOT'

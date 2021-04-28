@@ -78,6 +78,11 @@ public abstract class GraphicsFactory {
 
 	public abstract Image createImage(int width, int height, int type);
 
+	public Image createImage(String base64, int width, int height) {
+		// implemented only in desktop and web
+		return null;
+	}
+
 	public abstract Transform createTransform();
 
 	public Color createColor(int rgb) {
