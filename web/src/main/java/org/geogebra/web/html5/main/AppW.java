@@ -1032,7 +1032,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		resetPenTool();
 		resetUrl();
 		if (isExam()) {
-			getExam().getTempStorage().newMaterial();
+			Material material = getExam().getTempStorage().newMaterial();
+			setActiveMaterial(material);
 		}
 	}
 

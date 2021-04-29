@@ -24,10 +24,10 @@ public class SaveExamAction implements MenuAction<Void> {
 		InputHandler inputHandler = (input, handler, callback) -> {
 			String msg = app.getLocalization().getMenu("SavedSuccessfully");
 			try {
-				Material material = tempStorage.getCurrentMaterial();
+				Material material = app.getActiveMaterial();
 				material.setTitle(input);
 				material.setBase64(app.getGgbApi().getBase64());
-				tempStorage.saveTempMaterial();
+				tempStorage.saveTempMaterial(material);
 			} catch (RuntimeException ex) {
 				msg = app.getLocalization().getError("SaveFileFailed");
 			}
@@ -38,7 +38,7 @@ public class SaveExamAction implements MenuAction<Void> {
 				callback.callback(true);
 			}
 		};
-		String initString = tempStorage.getCurrentMaterial().getTitle();
+		String initString = app.getActiveMaterial().getTitle();
 		if (StringUtil.empty(initString)) {
 			initString = app.getLocalization().getMenu("Untitled");
 		}
