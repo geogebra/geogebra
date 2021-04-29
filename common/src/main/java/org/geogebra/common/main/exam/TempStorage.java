@@ -63,4 +63,12 @@ public class TempStorage {
     public Material getCurrentMaterial() {
         return currentMaterial;
     }
+
+    /**
+     * Set the current material
+     * @param currentMaterial current material
+     */
+    public void setCurrentMaterial(Material currentMaterial) {
+        this.currentMaterial = currentMaterial;
+    }
 }
