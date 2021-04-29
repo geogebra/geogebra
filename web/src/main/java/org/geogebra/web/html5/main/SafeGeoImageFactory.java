@@ -16,16 +16,16 @@ import org.geogebra.web.html5.safeimage.ImagePreprocessor;
 import org.geogebra.web.html5.safeimage.SVGPreprocessor;
 import org.geogebra.web.html5.safeimage.SafeImage;
 import org.geogebra.web.html5.safeimage.SafeImageProvider;
-import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageManagerW;
-import org.geogebra.web.html5.util.ImageWrapper;
+
+import elemental2.dom.HTMLImageElement;
 
 /**
  * Factory to create a GeoImage from content and corner points optionally.
  *
  * @author laszlo
  */
-public class SafeGeoImageFactory implements SafeImageProvider, ImageLoadCallback {
+public class SafeGeoImageFactory implements SafeImageProvider {
 	private final AppW app;
 	private final Construction construction;
 	private final AlgebraProcessor algebraProcessor;
@@ -33,7 +33,7 @@ public class SafeGeoImageFactory implements SafeImageProvider, ImageLoadCallback
 	private final VendorSettings vendor;
 	private GeoImage geoImage;
 	private ImageFile imageFile;
-	private ImageWrapper wrapper;
+	private HTMLImageElement imageElement;
 	private boolean autoCorners;
 	private String cornerLabel1 = null;
 	private String cornerLabel2 = null;
@@ -102,16 +102,16 @@ public class SafeGeoImageFactory implements SafeImageProvider, ImageLoadCallback
 				imageFile.getContent());
 		imageManager.triggerSingleImageLoading(imageFile.getFileName(),
 				geoImage);
-		wrapper = new ImageWrapper(
-				imageManager.getExternalImage(imageFile.getFileName(), app, true));
-		wrapper.attachNativeLoadHandler(imageManager, this);
+		imageElement = imageManager.getExternalImage(imageFile.getFileName(), app, true);
+
+		imageElement.addEventListener("load", (event) -> onLoad());
+		imageElement.addEventListener("error",
+				(event) -> imageElement.src = imageManager.getErrorURL());
 	}
 
-	@Override
-	public void onLoad() {
+	private void onLoad() {
 		geoImage.setImageFileName(imageFile.getFileName(),
-				wrapper.getElement().getWidth(),
-				wrapper.getElement().getHeight());
+				imageElement.width, imageElement.height);
 
 		if (autoCorners) {
 			app.getGuiManager().setImageCornersFromSelection(geoImage);

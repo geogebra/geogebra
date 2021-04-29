@@ -1,9 +1,12 @@
 package org.geogebra.web.full.gui;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.user.client.ui.Image;
+import org.geogebra.web.html5.util.Dom;
+
+import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLCanvasElement;
+import elemental2.dom.HTMLImageElement;
+import jsinterop.base.Js;
 
 /**
  * Utility class for resizing Images
@@ -24,21 +27,22 @@ public class ImageResizer {
 	 *         case of no resize happened
 	 */
 	public static String resizeImage(String imgDataURL, int width, int height) {
-		Image image = new Image(imgDataURL);
-		int sWidth = image.getWidth();
-		int sHeight = image.getHeight();
+		HTMLImageElement image = Dom.createImage();
+		image.src = imgDataURL;
+		int sWidth = image.width;
+		int sHeight = image.height;
 		String dImgDataURL;
 
 		if (!(sWidth == width && sHeight == height)) {
-			Canvas canvasTmp = Canvas.createIfSupported();
-			Context2d context = canvasTmp.getContext2d();
-			canvasTmp.setCoordinateSpaceWidth(width);
-			canvasTmp.setCoordinateSpaceHeight(height);
+			HTMLCanvasElement canvasTmp =
+					(HTMLCanvasElement) DomGlobal.document.createElement("canvas");
+			CanvasRenderingContext2D context = Js.uncheckedCast(canvasTmp.getContext("2d"));
+			canvasTmp.width = width;
+			canvasTmp.height = height;
 
-			ImageElement im = ImageElement.as(image.getElement());
-			context.drawImage(im, 0, 0, sWidth, sHeight, 0, 0, width, height);
+			context.drawImage(image, 0, 0, sWidth, sHeight, 0, 0, width, height);
 
-			dImgDataURL = canvasTmp.toDataUrl();
+			dImgDataURL = canvasTmp.toDataURL();
 		} else {
 			dImgDataURL = imgDataURL;
 		}

@@ -43,22 +43,24 @@
  */
 package com.himamis.retex.renderer.web.graphics;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 
+import elemental2.dom.CSSProperties;
+import elemental2.dom.HTMLCanvasElement;
+
 public class ImageW implements Image {
 
-	private Canvas canvas;
+	private HTMLCanvasElement canvas;
 	private int width;
 	private int height;
 
-	public ImageW(int width, int height, int type) {
-		canvas = Canvas.createIfSupported();
-		canvas.setWidth(width + "px");
-		canvas.setHeight(height + "px");
-		canvas.setCoordinateSpaceHeight(height);
-		canvas.setCoordinateSpaceWidth(width);
+	public ImageW(HTMLCanvasElement canvas, int width, int height, int type) {
+		this.canvas = canvas;
+		canvas.style.width = CSSProperties.WidthUnionType.of(width + "px");
+		canvas.style.height = CSSProperties.HeightUnionType.of(height + "px");
+		canvas.height = height;
+		canvas.width = width;
 		this.width = width;
 		this.height = height;
 	}
@@ -78,7 +80,7 @@ public class ImageW implements Image {
 		return new Graphics2DW(canvas);
 	}
 
-	public Canvas getCanvas() {
+	public HTMLCanvasElement getCanvas() {
 		return canvas;
 	}
 }

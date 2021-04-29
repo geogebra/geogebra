@@ -42,13 +42,13 @@
  */
 package com.himamis.retex.renderer.web.font;
 
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.himamis.retex.renderer.share.CharFont;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
 import com.himamis.retex.renderer.share.platform.geom.Shape;
 import com.himamis.retex.renderer.web.geom.Rectangle2DW;
+
+import elemental2.dom.CanvasRenderingContext2D;
 
 public class DefaultFont extends FontW implements FontWrapper {
 
@@ -68,7 +68,7 @@ public class DefaultFont extends FontW implements FontWrapper {
 	}
 
 	@Override
-	public void drawGlyph(String c, int x, int y, int size, Context2d ctx) {
+	public void drawGlyph(String c, int x, int y, int size, CanvasRenderingContext2D ctx) {
 		FontW derived = new DefaultFont(name, style, size);
 		try {
 			ctx.setFont(derived.getCssFontString());
@@ -101,28 +101,6 @@ public class DefaultFont extends FontW implements FontWrapper {
 		int width = size;
 		return new Rectangle2DW(0, -height, width, height);
 	}
-
-	public JavaScriptObject getGlyphOutline(String s, int size) {
-		return getGlyphOutlineNative(s, size, getCssFontString());
-	}
-
-	private native JavaScriptObject getGlyphOutlineNative(String s, int size,
-			String font) /*-{
-							var ret = {};
-							ret.draw = function(ctx) {
-							
-							try {
-							ctx.setFont(font);
-							} catch (e) {
-							// invisible frame in FF throws this
-							}
-							ctx.fillText(s, 0, 0);
-							
-							};
-							
-							return ret;
-							
-							}-*/;
 
 	public boolean canDisplay(char ch) {
 		return true;
