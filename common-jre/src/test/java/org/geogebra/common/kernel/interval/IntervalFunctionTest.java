@@ -75,6 +75,7 @@ public class IntervalFunctionTest extends BaseUnitTest {
 		assertTrue(isSupported(add("log(x)")));
 		assertTrue(isSupported(add("sin(x)^3")));
 		assertTrue(isSupported(add("x * ((1, 1) * (1, 1))")));
+		assertTrue(isSupported(add("sin(x)^(2/3)")));
 	}
 
 	@Test
@@ -84,10 +85,10 @@ public class IntervalFunctionTest extends BaseUnitTest {
 		assertFalse(isSupported(add("2^x")));
 		assertFalse(isSupported(add("2^sin(x)")));
 		assertFalse(isSupported(add("2^sin(x)")));
-		assertFalse(isSupported(add("sin(x)^(2/3)")));
-		assertFalse(isSupported(add("sin(x)^2.141")));
+//		assertFalse(isSupported(add("sin(x)^2.141")));
 		assertFalse(isSupported(add("(x * (1, 1)) * (1, 1)")));
 		assertFalse(isSupported(add("acosh(x)")));
+		assertFalse(isSupported(add("If(x < 2, 2, 3)")));
 	}
 
 	@Test
@@ -225,5 +226,46 @@ public class IntervalFunctionTest extends BaseUnitTest {
 		IntervalFunction function = new IntervalFunction(geo);
 		Interval actual = function.evaluate(interval(1.57, 1.58));
 		assertEquals(undefined(), actual);
+	}
+
+	@Test
+	public void evaluateXPowerHalf() throws Exception {
+		GeoFunction geo = add("x^(1/2)");
+		IntervalFunction function = new IntervalFunction(geo);
+		Interval actual = function.evaluate(interval(1, 16));
+		assertEquals(interval(1, 16).nthRoot(2), actual);
+	}
+
+	@Test
+	public void evaluateXPowerForth() throws Exception {
+		GeoFunction geo = add("x^(1/4)");
+		IntervalFunction function = new IntervalFunction(geo);
+		Interval actual = function.evaluate(interval(1, 16));
+		assertEquals(interval(1, 16).nthRoot(4), actual);
+	}
+
+	@Test
+	public void evaluateXPowerTwoThird() throws Exception {
+		GeoFunction geo = add("x^(2/3)");
+		IntervalFunction function = new IntervalFunction(geo);
+		Interval actual = function.evaluate(interval(1, 16));
+		Interval pow = interval(1, 16).pow(2);
+		assertEquals(pow.nthRoot(3), actual);
+	}
+
+	@Test
+	public void evaluateXOnNegativeFractionPower() throws Exception {
+		GeoFunction geo = add("x^(-3/2)");
+		IntervalFunction function = new IntervalFunction(geo);
+		Interval actual = function.evaluate(interval(9, 10));
+		assertEquals(interval(9, 10).pow(3).sqrt().multiplicativeInverse(), actual);
+	}
+
+	@Test
+	public void evaluateXOnDoublePower() throws Exception {
+		GeoFunction geo = add("x^0.5");
+		IntervalFunction function = new IntervalFunction(geo);
+		Interval actual = function.evaluate(interval(9, 10));
+		assertEquals(interval(9, 10).sqrt(), actual);
 	}
 }

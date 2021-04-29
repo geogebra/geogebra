@@ -339,9 +339,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 *
 	 * @param other interval power.
 	 * @return this as result.
-	 * @throws PowerIsNotInteger if other is not a singleton interval.
 	 */
-	public Interval pow(Interval other) throws PowerIsNotInteger {
+	public Interval pow(Interval other) {
 		return algebra.pow(other);
 	}
 

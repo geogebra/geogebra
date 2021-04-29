@@ -39,6 +39,8 @@ public class UnsupportedOperatorChecker implements Inspecting {
 		case TANH:
 		case LOG10:
 		case LOG2:
+		case IF:
+		case IF_ELSE:
 		case NO_OPERATION:
 			return false;
 		case MULTIPLY:
@@ -61,7 +63,11 @@ public class UnsupportedOperatorChecker implements Inspecting {
 	private boolean checkPower(ExpressionNode node) {
 		double power = node.getRight().evaluateDouble();
 		return node.getRightTree().containsFunctionVariable()
-				|| !DoubleUtil.isInteger(power) || power < 0
-				|| power >= 100;
+				// || isFraction(power)
+				|| power < 0 || power >= 100;
+	}
+
+	private boolean isFraction(double power) {
+		return !DoubleUtil.isInteger(power);
 	}
 }
