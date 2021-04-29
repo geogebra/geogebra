@@ -7,8 +7,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.CardInfoPanel;
 import org.geogebra.web.full.gui.browser.MaterialCardController;
-import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
@@ -56,9 +54,7 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	private void initGui() {
 		this.setStyleName("materialCard");
 		// panel containing the preview image of material
-		imgPanel = new FlowPanel();
-		imgPanel.setStyleName("cardImgPanel");
-		setBackgroundImgPanel(getMaterial());
+		imgPanel = new MaterialImagePanel(getMaterial());
 		this.add(imgPanel);
 		// panel containing the info regarding the material
 
@@ -91,18 +87,6 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	 */
 	Material getMaterial() {
 		return controller.getMaterial();
-	}
-
-	private void setBackgroundImgPanel(Material m) {
-		final String thumb = m.getThumbnail();
-		if (thumb != null && thumb.length() > 0) {
-			imgPanel.getElement().getStyle().setBackgroundImage(
-					"url(" + Browser.normalizeURL(thumb) + ")");
-		} else {
-			imgPanel.getElement().getStyle().setBackgroundImage("url("
-					+ AppResources.INSTANCE.geogebra64().getSafeUri().asString()
-					+ ")");
-		}
 	}
 
 	@Override
