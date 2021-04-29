@@ -97,84 +97,94 @@ public class AlgoTableToChart extends AlgoElement {
 		});
 	}
 
-	@Override
-	public void compute() {
+	/**
+	 * sets the default style for the chart
+	 */
+	public void setDefaultStyle() {
+		switch (chartType) {
+		case BarChart:
+			if (kernel.getApplication().isMebis()) {
+				embedManager.sendCommand(chart, "SetColor(chart, \"#B500A8D5\")");
+			} else {
+				embedManager.sendCommand(chart, "SetColor(chart, \"#B56557D2\")");
+			}
+			break;
+		case LineGraph:
+			if (kernel.getApplication().isMebis()) {
+				embedManager.sendCommand(chart, "SetColor(chart, \"#00A8D5\")");
+			} else {
+				embedManager.sendCommand(chart, "SetColor(chart, \"#6557D2\")");
+			}
+			embedManager.sendCommand(chart, "SetLineThickness(chart, 8)");
+			break;
+		default:
+			break;
+		}
+		embedManager.sendCommand(chart, "ShowLabel(chart, false)");
+	}
+
+	/**
+	 * computes and updates the chart
+	 */
+	public void updateChartData() {
 		if (embedManager == null) {
 			return;
 		}
 
-		cons.getApplication().invokeLater(() -> {
-			String chartCommand;
-			double minX = 0, minY = 0, maxX = 0, maxY = 0;
+		String chartCommand;
+		double minX = 0, minY = 0, maxX = 0, maxY = 0;
 
-			switch (chartType) {
-			case PieChart:
-				List<Double> pieData = table.extractData(column);
-				chartCommand = "chart=PieChart({" + StringUtil.join(",", pieData) + "})";
-				break;
-			case LineGraph:
-				List<Double>[] lineData = table.extractTwoColumnData(column);
-				chartCommand = "chart=LineGraph({"
-						+ StringUtil.join(",", lineData[0]) + "},{"
-						+ StringUtil.join(",", lineData[1]) + "})";
-				minX = Collections.min(lineData[0]) - 1;
-				maxX = Collections.max(lineData[0]) + 1;
-				minY = Collections.min(lineData[1]) - 1;
-				maxY = Collections.max(lineData[1]) + 1;
-				break;
-			default:
-			case BarChart:
-				List<Double>[] barData = table.extractTwoColumnData(column);
-				chartCommand = "chart=BarChart({"
-						+ StringUtil.join(",", barData[0]) + "},{"
-						+ StringUtil.join(",", barData[1]) + "}, 1)";
-				minX = Collections.min(barData[0]) - 1.5;
-				maxX = Collections.max(barData[0]) + 1.5;
-				maxY = Collections.max(barData[1]) + 1;
-				break;
-			}
+		switch (chartType) {
+		case PieChart:
+			List<Double> pieData = table.extractData(column);
+			chartCommand = "chart=PieChart({" + StringUtil.join(",", pieData) + "})";
+			break;
+		case LineGraph:
+			List<Double>[] lineData = table.extractTwoColumnData(column);
+			chartCommand = "chart=LineGraph({"
+					+ StringUtil.join(",", lineData[0]) + "},{"
+					+ StringUtil.join(",", lineData[1]) + "})";
+			minX = Collections.min(lineData[0]) - 1;
+			maxX = Collections.max(lineData[0]) + 1;
+			minY = Collections.min(lineData[1]) - 1;
+			maxY = Collections.max(lineData[1]) + 1;
+			break;
+		default:
+		case BarChart:
+			List<Double>[] barData = table.extractTwoColumnData(column);
+			chartCommand = "chart=BarChart({"
+					+ StringUtil.join(",", barData[0]) + "},{"
+					+ StringUtil.join(",", barData[1]) + "}, 1)";
+			minX = Collections.min(barData[0]) - 1.5;
+			maxX = Collections.max(barData[0]) + 1.5;
+			maxY = Collections.max(barData[1]) + 1;
+			break;
+		}
 
-			if (chartCommand.equals(oldChartCommand)) {
-				return;
-			}
+		if (chartCommand.equals(oldChartCommand)) {
+			return;
+		}
 
-			embedManager.sendCommand(chart, chartCommand);
-			oldChartCommand = chartCommand;
+		embedManager.sendCommand(chart, chartCommand);
+		oldChartCommand = chartCommand;
 
-			if (chartType == ChartType.BarChart || chartType == ChartType.LineGraph) {
-				int axisDistance = 32; // padding between the axis and the edge of the object
-				String newMinX = "(" + axisDistance + " * " + maxX + " - x(Corner(5)) * "
-						+ minX + ") / (" + axisDistance + " - x(Corner(5)))";
-				String newMinY = "(" + axisDistance + " * " + maxY + " - y(Corner(5)) * "
-						+ minY + ") / (" + axisDistance + " - y(Corner(5)))";
+		if (chartType == ChartType.BarChart || chartType == ChartType.LineGraph) {
+			int axisDistance = 32; // padding between the axis and the edge of the object
+			String newMinX = "(" + axisDistance + " * " + maxX + " - x(Corner(5)) * "
+					+ minX + ") / (" + axisDistance + " - x(Corner(5)))";
+			String newMinY = "(" + axisDistance + " * " + maxY + " - y(Corner(5)) * "
+					+ minY + ") / (" + axisDistance + " - y(Corner(5)))";
 
-				embedManager.sendCommand(chart, "ShowLabel(chart, false)");
-				embedManager.sendCommand(chart, "ZoomIn(" + newMinX + ", " + newMinY
-						+ ", " + maxX + ", " + maxY + ")");
-				embedManager.setGraphAxis(chart, 0, minY);
-				embedManager.setGraphAxis(chart, 1, minX);
-			}
+			embedManager.sendCommand(chart, "ZoomIn(" + newMinX + ", " + newMinY
+					+ ", " + maxX + ", " + maxY + ")");
+			embedManager.setGraphAxis(chart, 0, minY);
+			embedManager.setGraphAxis(chart, 1, minX);
+		}
+	}
 
-			switch (chartType) {
-			case BarChart:
-				if (kernel.getApplication().isMebis()) {
-					embedManager.sendCommand(chart, "SetColor(chart, \"#B500A8D5\")");
-				} else {
-					embedManager.sendCommand(chart, "SetColor(chart, \"#B56557D2\")");
-				}
-				break;
-			case LineGraph:
-				if (kernel.getApplication().isMebis()) {
-					embedManager.sendCommand(chart, "SetColor(chart, \"#00A8D5\")");
-				} else {
-					embedManager.sendCommand(chart, "SetColor(chart, \"#6557D2\")");
-				}
-				embedManager.sendCommand(chart, "SetLineThickness(chart, 8)");
-				break;
-			default:
-				break;
-			}
-		});
+	@Override
+	public void compute() {
+		cons.getApplication().invokeLater(this::updateChartData);
 	}
 
 	@Override

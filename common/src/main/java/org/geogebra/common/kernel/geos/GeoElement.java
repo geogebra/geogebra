@@ -1313,6 +1313,15 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 		bgColor = geo.bgColor;
 		isColorSet = geo.isColorSet();
+
+		if (geo.getParentAlgorithm() instanceof ChartStyleAlgo && this
+				.getParentAlgorithm() instanceof ChartStyleAlgo) {
+			int barNumber = ((ChartStyleAlgo) geo.getParentAlgorithm()).getIntervals();
+			for (int i = 0; i <= barNumber; i++) {
+				((ChartStyleAlgo) this.getParentAlgorithm()).getStyle().setBarColor(
+						((ChartStyleAlgo) geo.getParentAlgorithm()).getStyle().getBarColor(i), i);
+			}
+		}
 	}
 
 	/**

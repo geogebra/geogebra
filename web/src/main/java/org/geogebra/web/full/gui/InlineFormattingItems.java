@@ -210,7 +210,10 @@ public class InlineFormattingItems {
 			chart.setLabel(null);
 			app.getUndoManager().storeUndoInfo();
 
-			Scheduler.get().scheduleDeferred(algoTableToChart::compute);
+			Scheduler.get().scheduleDeferred(() -> {
+				algoTableToChart.updateChartData();
+				algoTableToChart.setDefaultStyle();
+			});
 		};
 
 		AriaMenuBar chartSubmenu = new AriaMenuBar();
