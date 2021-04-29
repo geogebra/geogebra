@@ -42,7 +42,7 @@ public final class ToolTipManagerW {
 	private ComponentSnackbar snackbar;
 	private Timer timer;
 	private boolean blockToolTip = true;
-	private boolean lastTipVisible = false;
+	//private boolean lastTipVisible = false;
 	private boolean isSmall = false;
 	private boolean moveBtnMoved = false;
 
@@ -53,10 +53,6 @@ public final class ToolTipManagerW {
 	 */
 	private int dismissDelay = 6000;
 
-	/**
-	 * HTML element associated with the toolTip. The toolTip will be positioned
-	 * relative to this element.
-	 */
 	private static boolean enabled = true;
 	private String helpURL;
 
@@ -142,8 +138,7 @@ public final class ToolTipManagerW {
 		// doesn't overlap with the toolbar
 		if (appw.getToolbarPosition() == SwingConstants.SOUTH) {
 			if (app.isWhiteboardActive()) {
-				style.setTop((appw.getHeight() - 220) - 20 * lines(helpText),
-						Unit.PX);
+				style.setLeft((app.getWidth() - snackbar.getOffsetWidth()) / 2, Unit.PX);
 			} else {
 				style.setTop((appw.getHeight() - (kb ? 250 : 70) - 50)
 						- 20 * lines(helpText), Unit.PX);
@@ -155,14 +150,15 @@ public final class ToolTipManagerW {
 				if (appw.getAppletFrame().isKeyboardShowing()) {
 					style.setTop((appw.getHeight() - 310), Unit.PX);
 				} else {
-					snackbar.getElement().getStyle().clearTop();
-					if (!lastTipVisible && buttonText != null) {
+					style.setBottom(appw.getGuiManager().isMoveButtonVisible() ? 68 : 8, Unit.PX);
+					//snackbar.getElement().getStyle().clearTop();
+					if (/*!lastTipVisible && */buttonText != null) {
 						//animateIn(appw, snackbar);
 					} else {
-						snackbar.getElement().getStyle().setBottom(0, Unit.PX);
+						snackbar.getElement().getStyle().setBottom(8, Unit.PX);
 					}
-					moveBtnMoved = appw.getGuiManager()
-							.moveMoveFloatingButtonUp(8, snackbar.getOffsetWidth(), isSmall);
+					//moveBtnMoved = appw.getGuiManager()
+					//		.moveMoveFloatingButtonUp(8, snackbar.getOffsetWidth(), isSmall);
 				}
 
 			} else {
@@ -173,8 +169,7 @@ public final class ToolTipManagerW {
 			double top = snackbar.getAbsoluteTop();
 			style.setBottom(top - snackbar.getOffsetHeight(), Unit.PX);
 		}
-		snackbar.show();
-		lastTipVisible = true;
+		//lastTipVisible = true;
 		if (("Share".equals(buttonText)
 				|| ("Help".equals(buttonText) && helpURL != null
 						&& helpURL.length() > 0))) {
@@ -209,7 +204,7 @@ public final class ToolTipManagerW {
 			return;
 		}
 		blockToolTip = false;
-		showBottomInfoToolTip(null, text, null, null, appw,
+		showBottomInfoToolTip(text, null, null, null, appw,
 				appw != null && appw.getAppletFrame().isKeyboardShowing());
 
 		blockToolTip = true;
@@ -235,16 +230,13 @@ public final class ToolTipManagerW {
 	 */
 	public void hideBottomInfoToolTip() {
 		if (app != null && app.isUnbundled()) {
-			app.getGuiManager().moveMoveFloatingButtonDown(isSmall,
-					moveBtnMoved);
+			//app.getGuiManager().moveMoveFloatingButtonDown(isSmall,
+			//		moveBtnMoved);
 			moveBtnMoved = false;
 		}
-		lastTipVisible = false;
+		//lastTipVisible = false;
 	}
 
-	// =====================================
-	// Getters/Setters
-	// =====================================
 	/**
 	 * @return time, in milliseconds, to wait before hiding toolTip
 	 * */
@@ -262,10 +254,6 @@ public final class ToolTipManagerW {
 		this.dismissDelay = dismissDelay;
 	}
 
-	// =====================================
-	// Mouse Listeners
-	// =====================================
-
 	/**
 	 * Register mouse listeners to keep track of the mouse position and hide the
 	 * toolTip on a mouseDown event.
@@ -282,10 +270,6 @@ public final class ToolTipManagerW {
 			}
 		});
 	}
-
-	// ======================================
-	// Timers
-	// ======================================
 
 	private void cancelTimer() {
 		if (timer != null) {

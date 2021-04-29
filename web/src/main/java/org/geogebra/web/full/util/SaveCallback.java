@@ -66,7 +66,7 @@ public class SaveCallback {
 				}
 				ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 				ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-						null, msg,	"Share",
+						msg, null,	"Share",
 						activeMaterial.getURL(), app,
 						app.getAppletFrame().isKeyboardShowing());
 			} else {

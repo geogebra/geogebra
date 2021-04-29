@@ -5,12 +5,13 @@
 
 	.snackbarComponent {
 		max-width: 664px;
+		min-width: 320px;
 		width: fit-content;
 		position: absolute;
 		bottom: 8px;
 		left: 8px;
 		right: 8px;
-		padding: 14px 8px 14px 16px;
+		padding: 6px 8px 6px 16px;
 		z-index: $z-snackbar;
 		background-color: $snackbar-background;
 		border-radius: 4px;
@@ -19,6 +20,11 @@
         transform: scale(.8);
         opacity: 0;
         display: flex;
+
+        &.mowPosition {
+        	bottom: 220px;
+        	left: 50%;
+        }
 
         &.fadeIn {
         	opacity: 1;
@@ -29,6 +35,7 @@
 			margin-right: 8px;
 			margin-top: auto;
 			margin-bottom: auto;
+			padding: 8px 0px;
 
 			.title {
 				min-height: 20px;
@@ -39,6 +46,7 @@
 
 			.text {
 				font-size: 88%;
+				min-height: 20px;
 				color: $white-60;
 			}
 		}
@@ -46,7 +54,7 @@
 		.materialTextButton {
 			color: $teal-light;
 			font-size: 88%;
-			margin: auto;
+			margin: auto 0px auto auto;
 
 			&:hover {
 				background: none;

@@ -11,6 +11,13 @@ public class ComponentSnackbar extends FlowPanel {
 	private AppW app;
 	private StandardButton actionBtn;
 	private Runnable btnAction;
+	private Timer fadeIn = new Timer() {
+		@Override
+		public void run() {
+			addStyleName("fadeIn");
+			fadeOut.schedule(4000);
+		}
+	};
 	private Timer fadeOut = new Timer() {
 		@Override
 		public void run() {
@@ -35,23 +42,27 @@ public class ComponentSnackbar extends FlowPanel {
 	public ComponentSnackbar(AppW app, String title, String text, String buttonText) {
 		this.app = app;
 		addStyleName("snackbarComponent");
+		if (app.isWhiteboardActive()) {
+			addStyleName("mowPosition");
+		}
 		buildGui(title, text, buttonText);
 		app.getPanel().add(this);
+		fadeIn.schedule(100);
 	}
 
 	private void buildGui(String title, String text, String buttonText) {
 		FlowPanel textContainer = new FlowPanel();
 		textContainer.addStyleName("txtContainer");
 
-		if (title != null) {
-			Label titleLbl = new Label(title);
-			titleLbl.addStyleName("title");
-			textContainer.add(titleLbl);
-		}
+		Label titleLbl = new Label(title);
+		titleLbl.addStyleName("title");
+		textContainer.add(titleLbl);
 
-		Label textLbl = new Label(text);
-		textLbl.addStyleName("text");
-		textContainer.add(textLbl);
+		if (text != null) {
+			Label textLbl = new Label(text);
+			textLbl.addStyleName("text");
+			textContainer.add(textLbl);
+		}
 		add(textContainer);
 
 		if (buttonText != null) {
@@ -78,8 +89,7 @@ public class ComponentSnackbar extends FlowPanel {
 	 * show snackbar and start fade out timer
 	 */
 	public void show() {
-		addStyleName("fadeIn");
-		fadeOut.schedule(4000);
+		fadeIn.schedule(500);
 	}
 
 	/**

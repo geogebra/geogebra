@@ -523,10 +523,10 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	/**
-	 * @return mode floating action button
+	 * @return true if move FAB visible, false otherwise
 	 */
-	public StandardButton getMoveBtn() {
-		return moveBtn;
+	public boolean isMoveButtonVisible() {
+		return moveBtn != null && !moveBtn.getStyleName().contains("hideMoveBtn");
 	}
 
 	@Override
