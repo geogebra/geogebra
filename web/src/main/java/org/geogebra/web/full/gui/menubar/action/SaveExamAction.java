@@ -46,7 +46,8 @@ public class SaveExamAction implements MenuAction<Void> {
 		}
 		ComponentInputDialog examSave = new ComponentInputDialog(app, data, false,
 				true, inputHandler, "Title", initString, false);
-		examSave.addInputHandler(() -> examSave.setPosBtnDisabled(examSave.getInputText().length() < 1));
+		examSave.addInputHandler(() -> examSave.setPosBtnDisabled(
+				examSave.getInputText().length() < 1));
 		examSave.center();
 	}
 
