@@ -155,7 +155,7 @@ public class SaveControllerW implements SaveController {
 			app.getFileManager().export(app);
 		} else if (app.isOffline() || !app.getLoginOperation().isLoggedIn()) {
 			ToolTipManagerW.sharedInstance().showBottomMessage(loc
-					.getMenu("phone_loading_materials_offline"), true, app);
+					.getMenu("phone_loading_materials_offline"), app);
 			getAppW().getGuiManager().exportGGB(true);
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
 			uploadToDrive();
@@ -215,7 +215,7 @@ public class SaveControllerW implements SaveController {
 			}
 		};
 
-		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), false, app);
+		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), app);
 
 		if (saveType == MaterialType.ggt) {
 			app.getGgbApi().getMacrosBase64(true, handler::consume);
@@ -228,14 +228,8 @@ public class SaveControllerW implements SaveController {
 	}
 
 	private void uploadToDrive() {
-		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), false, app);
-		app.getGoogleDriveOperation().afterLogin(new Runnable() {
-
-			@Override
-			public void run() {
-				doUploadToDrive();
-			}
-		});
+		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), app);
+		app.getGoogleDriveOperation().afterLogin(() -> doUploadToDrive());
 	}
 
 	/**

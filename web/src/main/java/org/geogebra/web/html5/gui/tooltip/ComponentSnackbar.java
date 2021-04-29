@@ -15,7 +15,7 @@ public class ComponentSnackbar extends FlowPanel {
 		@Override
 		public void run() {
 			addStyleName("fadeIn");
-			fadeOut.schedule(4000);
+			//fadeOut.schedule(4000);
 		}
 	};
 	private Timer fadeOut = new Timer() {
@@ -96,7 +96,7 @@ public class ComponentSnackbar extends FlowPanel {
 	 * fade out snackbar
 	 */
 	public void hide() {
-		fadeOut.schedule(4000);
+		fadeOut.run();
 	}
 
 	private void removeSnackbar() {

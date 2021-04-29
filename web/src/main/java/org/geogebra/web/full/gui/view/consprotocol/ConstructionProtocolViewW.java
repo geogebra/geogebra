@@ -280,7 +280,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 					// drop not possible
 					// TODO change cursor style before releasing mouse
 					ToolTipManagerW.sharedInstance().showBottomMessage(
-							"Drop not possible", true, (AppW) app);
+							"Drop not possible", (AppW) app);
 					return;
 				}
 				boolean kernelChanged = ((ConstructionTableDataW) data)

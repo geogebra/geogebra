@@ -143,7 +143,7 @@ public abstract class FileManager extends MaterialsManager {
 	@Override
 	protected final void showTooltip(Material mat) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization()
-				.getPlain("SeveralVersionsOfA", mat.getTitle()), true, app);
+				.getPlain("SeveralVersionsOfA", mat.getTitle()), app);
 
 	}
 
@@ -257,11 +257,11 @@ public abstract class FileManager extends MaterialsManager {
 		if (!appw.getNetworkOperation().isOnline()) {
 			ToolTipManagerW.sharedInstance().showBottomMessage(appw
 					.getLocalization()
-					.getMenu("phone_loading_materials_offline"), true, appw);
+					.getMenu("phone_loading_materials_offline"), appw);
 		} else if (!appw.getLoginOperation().isLoggedIn()) {
 			ToolTipManagerW.sharedInstance().showBottomMessage(appw
 					.getLocalization()
-					.getMenu("SaveAccountFailed"), true, appw);
+					.getMenu("SaveAccountFailed"), appw);
 		}
 	}
 }

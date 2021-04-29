@@ -52,7 +52,7 @@ public class LoadFilePresenter {
 						openEmptyApp(app, view);
 						ToolTipManagerW.sharedInstance()
 								.showBottomMessage(app.getLocalization()
-										.getError(err), false, app);
+										.getError(err), app);
 					});
 		} else {
 			fileOpened = false;

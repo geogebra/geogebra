@@ -91,8 +91,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		if (message != null && !"".equals(message)) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(message,
-					null, null, "", (AppW) app,
-					((AppW) app).getAppletFrame().isKeyboardShowing());
+					null, null, "", (AppW) app);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 		}
 	}

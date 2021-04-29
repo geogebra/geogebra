@@ -1008,7 +1008,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
 					errorMessage, null, "Help",
-					app.getGuiManager().getHelpURL(Help.COMMAND, commandError), app, true);
+					app.getGuiManager().getHelpURL(Help.COMMAND, commandError), app);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 			return true;
 		}
@@ -1017,8 +1017,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (app.isUnbundled() && app.getActivity().useValidInput()) {
 				return false;
 			}
-			ToolTipManagerW.sharedInstance().showBottomMessage(errorMessage,
-					true, app);
+			ToolTipManagerW.sharedInstance().showBottomMessage(errorMessage, app);
 			return true;
 
 		}
@@ -1026,7 +1025,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	void hideCurrentError() {
-		ToolTipManagerW.sharedInstance().hideBottomInfoToolTip();
+		ToolTipManagerW.sharedInstance().hideTooltip();
 	}
 
 	/**

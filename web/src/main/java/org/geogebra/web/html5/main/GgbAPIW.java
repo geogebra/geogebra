@@ -815,8 +815,7 @@ public class GgbAPIW extends GgbAPI {
 
 	@Override
 	public void showTooltip(String tooltip) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(tooltip, false,
-				(AppW) app);
+		ToolTipManagerW.sharedInstance().showBottomMessage(tooltip, (AppW) app);
 	}
 
 	/**

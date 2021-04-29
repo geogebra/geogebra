@@ -1,65 +1,21 @@
 package org.geogebra.web.html5.gui.tooltip;
 
-import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
-import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Event;
 
-/**
- * <p>
- * Singleton class that maintains a GWT panel for displaying toolTips.
- * </p>
- * 
- * <p>
- * Design is adapted from Java's ToolTipManager. ToolTip behavior should follow
- * this description from the Java source code:
- * </p>
- * 
- * <p>
- * "ToolTipManager contains numerous properties for configuring how long it will
- * take for the tooltips to become visible, and how long till they hide.
- * Consider a component that has a different tooltip based on where the mouse
- * is, such as JTree. When the mouse moves into the JTree and over a region that
- * has a valid tooltip, the tooltip will become visible after initialDelay
- * milliseconds. After dismissDelay milliseconds the tooltip will be hidden. If
- * the mouse is over a region that has a valid tooltip, and the tooltip is
- * currently visible, when the mouse moves to a region that doesn't have a valid
- * tooltip the tooltip will be hidden. If the mouse then moves back into a
- * region that has a valid tooltip within reshowDelay milliseconds, the tooltip
- * will immediately be shown, otherwise the tooltip will be shown again after
- * initialDelay milliseconds."
- * </p>
- * 
- * @author G. Sturr
- */
 public final class ToolTipManagerW {
-	private AppW app;
-
 	private ComponentSnackbar snackbar;
-	private Timer timer;
 	private boolean blockToolTip = true;
-	//private boolean lastTipVisible = false;
-	private boolean isSmall = false;
-	private boolean moveBtnMoved = false;
-
-	/**
-	 * Time, in milliseconds, to allow the toolTip to remain visible.
-	 * 
-	 * Java default = 4000.
-	 */
-	private int dismissDelay = 6000;
-
 	private static boolean enabled = true;
-	private String helpURL;
 
 	/** Singleton instance of ToolTipManager. */
 	final static ToolTipManagerW SHARED_INSTANCE = new ToolTipManagerW();
 
-	/*****************************************************
+	/**
 	 * Constructor
 	 */
 	private ToolTipManagerW() {
@@ -68,7 +24,6 @@ public final class ToolTipManagerW {
 
 	/**
 	 * All methods are accessed from this instance.
-	 * 
 	 * @return Singleton instance of this class
 	 */
 	public static ToolTipManagerW sharedInstance() {
@@ -97,9 +52,6 @@ public final class ToolTipManagerW {
 		this.blockToolTip = blockToolTip;
 	}
 
-	// =====================================
-	// BottomInfoToolTip
-	// =====================================
 	/**
 	 * @param title
 	 *            title of snackbar
@@ -107,151 +59,54 @@ public final class ToolTipManagerW {
 	 *            text of snackbar
 	 * @param buttonText
 	 *           text of button
-	 * @param appw
+	 * @param appW
 	 *            app for positioning
-	 * @param kb
-	 *            whether keyboard is open
 	 */
 	public void showBottomInfoToolTip(String title, final String helpText,
-			String buttonText, String url, final AppW appw, boolean kb) {
-		if (blockToolTip || appw == null) {
+			String buttonText, String url, final AppW appW) {
+		if (blockToolTip || appW == null) {
 			return;
 		}
-		
-		this.app = appw;
-		isSmall = false;
 
 		if (snackbar != null) {
-			appw.getPanel().remove(snackbar);
+			appW.getPanel().remove(snackbar);
 		}
-		snackbar = new ComponentSnackbar(app, title, helpText, buttonText);
+		snackbar = new ComponentSnackbar(appW, title, helpText, buttonText);
 		snackbar.setButtonAction(() -> {
 			if ("Share".equals(buttonText)) {
-					app.share();
+				appW.share();
 			} else {
-				app.getFileManager().open(url);
+				appW.getFileManager().open(url);
 			}
+			snackbar.hide();
 		});
 
 		Style style = snackbar.getElement().getStyle();
-		// Toolbar on bottom - tooltip needs to be positioned higher so it
-		// doesn't overlap with the toolbar
-		if (appw.getToolbarPosition() == SwingConstants.SOUTH) {
-			if (app.isWhiteboardActive()) {
-				style.setLeft((app.getWidth() - snackbar.getOffsetWidth()) / 2, Unit.PX);
-			} else {
-				style.setTop((appw.getHeight() - (kb ? 250 : 70) - 50)
-						- 20 * lines(helpText), Unit.PX);
-			}
+		if (appW.isWhiteboardActive()) {
+			style.setLeft((appW.getWidth() - snackbar.getOffsetWidth()) / 2, Unit.PX);
 		}
-		// Toolbar on top
 		else {
-			if (app.isUnbundled()) {
-				if (appw.getAppletFrame().isKeyboardShowing()) {
-					style.setTop((appw.getHeight() - 310), Unit.PX);
-				} else {
-					style.setBottom(appw.getGuiManager().isMoveButtonVisible() ? 68 : 8, Unit.PX);
-					//snackbar.getElement().getStyle().clearTop();
-					if (/*!lastTipVisible && */buttonText != null) {
-						//animateIn(appw, snackbar);
-					} else {
-						snackbar.getElement().getStyle().setBottom(8, Unit.PX);
-					}
-					//moveBtnMoved = appw.getGuiManager()
-					//		.moveMoveFloatingButtonUp(8, snackbar.getOffsetWidth(), isSmall);
-				}
-
-			} else {
-				style.setTop((appw.getHeight() - (kb ? 250 : 70)) - 20 * lines(helpText), Unit.PX);
+			if (appW.getAppletFrame().isKeyboardShowing()) {
+				style.setBottom(236, Unit.PX); // 8px higher then keyboard
+			} else if (appW.isUnbundled()) {
+				// show snackbar above move FAB
+				int snackbarRight = 8 + snackbar.getOffsetWidth();
+				style.setBottom(appW.getGuiManager().isMoveBellowSnackbar(snackbarRight) ? 68 : 8, Unit.PX);
 			}
 		}
-		if (kb) {
-			double top = snackbar.getAbsoluteTop();
-			style.setBottom(top - snackbar.getOffsetHeight(), Unit.PX);
-		}
-		//lastTipVisible = true;
-		if (("Share".equals(buttonText)
-				|| ("Help".equals(buttonText) && helpURL != null
-						&& helpURL.length() > 0))) {
-				scheduleHideBottom();
-		}
-	}
-
-	private static int lines(String text) {
-		int lines = 0;
-		for (int i = 0; i < text.length(); i++) {
-			if ('\n' == text.charAt(i)) {
-				lines++;
-			}
-		}
-		return lines;
 	}
 
 	/**
 	 * displays the given message
-	 * 
 	 * @param text
 	 *            String
-	 * @param closeAutomatic
-	 *            whether the message should be closed automatically after
-	 *            dismissDelay milliseconds
-	 * @param appw
+	 * @param appW
 	 *            application
 	 */
-	public void showBottomMessage(String text, boolean closeAutomatic, AppW appw) {
-		if (text == null || "".equals(text)) {
-			hideBottomInfoToolTip();
-			return;
-		}
+	public void showBottomMessage(String text, AppW appW) {
 		blockToolTip = false;
-		showBottomInfoToolTip(text, null, null, null, appw,
-				appw != null && appw.getAppletFrame().isKeyboardShowing());
-
+		showBottomInfoToolTip(text, null, null, null, appW);
 		blockToolTip = true;
-		if (closeAutomatic) {
-			scheduleHideBottom();
-		}
-	}
-
-	private void scheduleHideBottom() {
-		cancelTimer();
-		timer = new Timer() {
-			@Override
-			public void run() {
-				hideBottomInfoToolTip();
-			}
-		};
-
-		timer.schedule(dismissDelay);
-	}
-
-	/**
-	 * Hide the bottom tooltip
-	 */
-	public void hideBottomInfoToolTip() {
-		if (app != null && app.isUnbundled()) {
-			//app.getGuiManager().moveMoveFloatingButtonDown(isSmall,
-			//		moveBtnMoved);
-			moveBtnMoved = false;
-		}
-		//lastTipVisible = false;
-	}
-
-	/**
-	 * @return time, in milliseconds, to wait before hiding toolTip
-	 * */
-	public int getDismissDelay() {
-		return dismissDelay;
-	}
-
-	/**
-	 * Set dismissDelay time
-	 * 
-	 * @param dismissDelay
-	 *            time, in milliseconds, to wait before hiding toolTip
-	 */
-	public void setDismissDelay(int dismissDelay) {
-		this.dismissDelay = dismissDelay;
 	}
 
 	/**
@@ -263,19 +118,11 @@ public final class ToolTipManagerW {
 			return;
 		}
 
-		// Closing tooltips is done in AppW.closePopups
 		Event.addNativePreviewHandler(event -> {
 			if (event.getTypeInt() == Event.ONTOUCHSTART) {
 				CancelEventTimer.touchEventOccured();
 			}
 		});
-	}
-
-	private void cancelTimer() {
-		if (timer != null) {
-			timer.cancel();
-			timer = null;
-		}
 	}
 
 	/**
@@ -286,10 +133,9 @@ public final class ToolTipManagerW {
 		enabled = allowToolTips;
 	}
 
-	/**
-	 * Hide all tooltips
-	 */
-	public static void hideAllToolTips() {
-		sharedInstance().hideBottomInfoToolTip();
+	public void hideTooltip() {
+		if (snackbar != null) {
+			snackbar.hide();
+		}
 	}
 }

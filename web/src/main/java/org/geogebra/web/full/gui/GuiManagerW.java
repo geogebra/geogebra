@@ -673,9 +673,9 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public boolean isMoveButtonVisible() {
+	public boolean isMoveBellowSnackbar(int snackbarRight) {
 		if (getUnbundledToolbar() != null) {
-			return getUnbundledToolbar().isMoveButtonVisible();
+			return getUnbundledToolbar().isMoveBellowSnackbar(snackbarRight);
 		}
 		return false;
 	}

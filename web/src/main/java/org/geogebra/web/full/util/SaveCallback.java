@@ -67,15 +67,14 @@ public class SaveCallback {
 				ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 				ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
 						msg, null,	"Share",
-						activeMaterial.getURL(), app,
-						app.getAppletFrame().isKeyboardShowing());
+						activeMaterial.getURL(), app);
 			} else {
 				ToolTipManagerW.sharedInstance().showBottomMessage(
-						msg, true, app);
+						msg, app);
 			}
 		} else {
 			ToolTipManagerW.sharedInstance().showBottomMessage(
-					loc.getMenu("SavedSuccessfully"), true, app);
+					loc.getMenu("SavedSuccessfully"), app);
 		}
 	}
 

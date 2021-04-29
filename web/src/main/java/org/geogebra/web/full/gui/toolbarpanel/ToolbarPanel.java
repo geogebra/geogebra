@@ -523,10 +523,12 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	/**
-	 * @return true if move FAB visible, false otherwise
+	 * @return true if move FAB is bellow snackbar, false otherwise
 	 */
-	public boolean isMoveButtonVisible() {
-		return moveBtn != null && !moveBtn.getStyleName().contains("hideMoveBtn");
+	public boolean isMoveBellowSnackbar(int snackbarRight) {
+		return moveBtn != null && !moveBtn.getStyleName().contains("hideMoveBtn")
+				&& moveBtn.getAbsoluteLeft() - 8 <=  snackbarRight;
+		//keep the 8px distance between FAB and snackbar
 	}
 
 	@Override
@@ -687,7 +689,7 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void switchTab(TabIds tab, boolean fade) {
-		ToolTipManagerW.hideAllToolTips();
+		ToolTipManagerW.sharedInstance().hideTooltip();
 		header.selectTab(tab);
 		open();
 		Dom.toggleClass(main, "algebra", tab == TabIds.ALGEBRA);
@@ -713,7 +715,7 @@ public class ToolbarPanel extends FlowPanel
 			return;
 		}
 		tabTools.setVisible(true);
-		ToolTipManagerW.hideAllToolTips();
+		ToolTipManagerW.sharedInstance().hideTooltip();
 
 		switchTab(TabIds.TOOLS, fade);
 		updateMoveButton();

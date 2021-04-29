@@ -201,7 +201,7 @@ public class SoundManagerW implements SoundManager {
 	 *            to show
 	 */
 	public void onInfo(String msg) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(msg, true, app);
+		ToolTipManagerW.sharedInstance().showBottomMessage(msg, app);
 	}
 
 	@Override
