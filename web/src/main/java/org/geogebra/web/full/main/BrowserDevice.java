@@ -133,15 +133,13 @@ public class BrowserDevice implements GDevice {
 
 	@Override
 	public BrowseViewI createBrowseView(AppW app) {
-		if (app.isMebis() || app.isExam()) {
+		if (app.isExam()) {
+			return new OpenTemporaryFileView(app);
+		} else if (app.isMebis()) {
 			FileOpenButton fileOpenButton = new FileOpenButton("containedButton");
-			if (app.isExam()) {
-				return new OpenTemporaryFileView(app);
-			} else {
-				BrowseViewI openFileView = new OpenFileView(app, fileOpenButton);
-				fileOpenButton.setOpenFileView(openFileView);
-				return openFileView;
-			}
+			BrowseViewI openFileView = new OpenFileView(app, fileOpenButton);
+			fileOpenButton.setOpenFileView(openFileView);
+			return openFileView;
 		}
 
 		FileOpenButton mb = new FileOpenButton();
