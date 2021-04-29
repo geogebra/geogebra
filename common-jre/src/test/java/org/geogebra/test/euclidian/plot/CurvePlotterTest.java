@@ -59,6 +59,12 @@ public class CurvePlotterTest extends BaseUnitTest {
 		resultShouldBeTheSame(add("sqrt(x)"), -10, 10);
 	}
 
+	@Test
+	public void testPiecewise() {
+		resultShouldBeTheSame(add("If(x < 1, x + 1,"
+				+ " If(x > 1, -x + 1, 1))"), -3.22724, 3.83963);
+	}
+
 	protected void resultShouldBeTheSame(CurveEvaluable f, double tMin, double tMax) {
 		PathPlotterMock gp = new PathPlotterMock();
 		PathPlotterMock gpExpected = new PathPlotterMock();
@@ -73,4 +79,5 @@ public class CurvePlotterTest extends BaseUnitTest {
 		assertEquals(gpExpected, gp);
 		assertEquals(pointExpected, pointActual);
 	}
+
 }

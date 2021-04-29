@@ -88,6 +88,7 @@ public class IntervalFunctionTest extends BaseUnitTest {
 		assertFalse(isSupported(add("sin(x)^2.141")));
 		assertFalse(isSupported(add("(x * (1, 1)) * (1, 1)")));
 		assertFalse(isSupported(add("acosh(x)")));
+		assertFalse(isSupported(add("If(x < 2, 2, 3)")));
 	}
 
 	@Test

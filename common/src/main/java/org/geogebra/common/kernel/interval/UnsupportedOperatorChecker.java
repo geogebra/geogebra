@@ -39,6 +39,8 @@ public class UnsupportedOperatorChecker implements Inspecting {
 		case TANH:
 		case LOG10:
 		case LOG2:
+		case IF:
+		case IF_ELSE:
 		case NO_OPERATION:
 			return false;
 		case MULTIPLY:
