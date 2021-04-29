@@ -17,19 +17,19 @@
 		border-radius: 4px;
 		box-shadow: 0 3px 5px -1px $black-20, 0 1px 18px 0 $black-12, 0 6px 10px 0 $black-14;
 		transition: opacity 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,-webkit-transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms;
-        transform: scale(.8);
-        opacity: 0;
-        display: flex;
+		transform: scale(.8);
+		opacity: 0;
+		display: flex;
 
-        &.mowPosition {
-        	bottom: 220px;
-        	left: 50%;
-        }
+		&.mowPosition {
+			bottom: 220px;
+			left: 50%;
+		}
 
-        &.fadeIn {
-        	opacity: 1;
-        	transform: scale(1);
-        }
+		&.fadeIn {
+			opacity: 1;
+			transform: scale(1);
+		}
 
 		.txtContainer {
 			margin-right: 8px;
@@ -63,10 +63,10 @@
 	}
 
 	@media screen and (max-width: 352px) {
-      .snackbarComponent {
+	  .snackbarComponent {
 			width: calc(100% - 40px);
 			min-width: unset;
-      }
-    }
+	  }
+	}
 }
 

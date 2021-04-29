@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
 import elemental2.dom.DomGlobal;
@@ -192,16 +191,6 @@ public class SoundManagerW implements SoundManager {
 		if (urlCallback != null) {
 			urlCallback.callback(Boolean.TRUE);
 		}
-	}
-
-	/**
-	 * Info handler
-	 *
-	 * @param msg
-	 *            to show
-	 */
-	public void onInfo(String msg) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(msg, app);
 	}
 
 	@Override

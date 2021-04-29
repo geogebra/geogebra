@@ -246,8 +246,8 @@ public class Tools extends FlowPanel implements SetLabels {
 		if (allowTooltips()) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			ToolTipManagerW.sharedInstance()
-					.showBottomInfoToolTip(app.getToolName(mode),
-							app.getToolHelp(mode), "Help",
+					.showBottomInfoToolTip(app.getToolName(mode), app.getToolHelp(mode),
+							app.getLocalization().getMenu("Help"),
 							app.getGuiManager().getTooltipURL(mode), app);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 		}

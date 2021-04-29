@@ -15,7 +15,7 @@ public class ComponentSnackbar extends FlowPanel {
 		@Override
 		public void run() {
 			addStyleName("fadeIn");
-			//fadeOut.schedule(4000);
+			fadeOut.schedule(4000);
 		}
 	};
 	private Timer fadeOut = new Timer() {
@@ -72,6 +72,7 @@ public class ComponentSnackbar extends FlowPanel {
 			actionBtn.addFastClickHandler(source -> {
 				if (btnAction != null) {
 					btnAction.run();
+					fadeOut.run();
 				}
 			});
 		}
@@ -83,13 +84,6 @@ public class ComponentSnackbar extends FlowPanel {
 	 */
 	public void setButtonAction(Runnable action) {
 		btnAction = action;
-	}
-
-	/**
-	 * show snackbar and start fade out timer
-	 */
-	public void show() {
-		fadeIn.schedule(500);
 	}
 
 	/**

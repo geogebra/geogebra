@@ -462,7 +462,8 @@ public class ModeToggleMenuW extends ListItem
 	public void showToolTipBottom(int mode, ModeSetter m) {
 		if (m != ModeSetter.CAS_VIEW && app.showToolBarHelp()) {
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-					app.getToolName(mode), app.getToolHelp(mode), "Help",
+					app.getToolName(mode), app.getToolHelp(mode),
+					app.getLocalization().getMenu("Help"),
 					app.getGuiManager().getTooltipURL(mode), app);
 		}
 	}

@@ -78,7 +78,6 @@ public final class ToolTipManagerW {
 			} else {
 				appW.getFileManager().open(url);
 			}
-			snackbar.hide();
 		});
 
 		Style style = snackbar.getElement().getStyle();
@@ -91,7 +90,8 @@ public final class ToolTipManagerW {
 			} else if (appW.isUnbundled()) {
 				// show snackbar above move FAB
 				int snackbarRight = 8 + snackbar.getOffsetWidth();
-				style.setBottom(appW.getGuiManager().isMoveBellowSnackbar(snackbarRight) ? 68 : 8, Unit.PX);
+				style.setBottom(appW.getGuiManager().isMoveBellowSnackbar(
+						snackbarRight) ? 68 : 8, Unit.PX);
 			}
 		}
 	}

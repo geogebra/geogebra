@@ -1007,7 +1007,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (commandError != null) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-					errorMessage, null, "Help",
+					errorMessage, null, app.getLocalization().getMenu("Help"),
 					app.getGuiManager().getHelpURL(Help.COMMAND, commandError), app);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 			return true;

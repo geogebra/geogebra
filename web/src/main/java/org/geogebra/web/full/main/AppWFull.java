@@ -509,8 +509,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					getLocalization().getMenu(
 							Perspective.getPerspectiveName(perspID)));
 			String tooltipURL = getLocalization().getTutorialURL(getConfig());
-			ToolTipManagerW.sharedInstance().showBottomInfoToolTip("NewToGeoGebra",
-					helpText, "Help", tooltipURL, this);
+			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
+					getLocalization().getMenu("NewToGeoGebra"), helpText,
+					getLocalization().getMenu("Help"), tooltipURL, this);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 		}
 	}
