@@ -133,6 +133,9 @@ public final class ToolTipManagerW {
 		enabled = allowToolTips;
 	}
 
+	/**
+	 * hide currently shown tooltip without delay
+	 */
 	public void hideTooltip() {
 		if (snackbar != null) {
 			snackbar.hide();

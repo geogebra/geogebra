@@ -54,9 +54,12 @@ public class ComponentSnackbar extends FlowPanel {
 		FlowPanel textContainer = new FlowPanel();
 		textContainer.addStyleName("txtContainer");
 
-		Label titleLbl = new Label(title);
-		titleLbl.addStyleName("title");
-		textContainer.add(titleLbl);
+		String[] textLines = title.split("\\n");
+		for (String line : textLines) {
+			Label textLbl = new Label(line);
+			textLbl.addStyleName("title");
+			textContainer.add(textLbl);
+		}
 
 		if (text != null) {
 			Label textLbl = new Label(text);
@@ -87,7 +90,7 @@ public class ComponentSnackbar extends FlowPanel {
 	}
 
 	/**
-	 * fade out snackbar
+	 * fade out snackbar without delay
 	 */
 	public void hide() {
 		fadeOut.run();
