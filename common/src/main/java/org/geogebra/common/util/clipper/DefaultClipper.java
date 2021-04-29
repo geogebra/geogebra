@@ -281,7 +281,8 @@ public class DefaultClipper extends ClipperBase {
 			}
 		}
 
-		if (Dir1 == Direction.LEFT_TO_RIGHT == DiscardLeft) {
+		boolean isLeftToRight = Dir1 == Direction.LEFT_TO_RIGHT;
+		if (isLeftToRight == DiscardLeft) {
 			op1.prev = op2;
 			op2.next = op1;
 			op1b.next = op2b;
