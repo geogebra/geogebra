@@ -63,7 +63,11 @@ public class UnsupportedOperatorChecker implements Inspecting {
 	private boolean checkPower(ExpressionNode node) {
 		double power = node.getRight().evaluateDouble();
 		return node.getRightTree().containsFunctionVariable()
-				|| !DoubleUtil.isInteger(power) || power < 0
-				|| power >= 100;
+				// || isFraction(power)
+				|| power < 0 || power >= 100;
+	}
+
+	private boolean isFraction(double power) {
+		return !DoubleUtil.isInteger(power);
 	}
 }

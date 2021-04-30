@@ -227,4 +227,29 @@ public class IntervalFunctionTest extends BaseUnitTest {
 		Interval actual = function.evaluate(interval(1.57, 1.58));
 		assertEquals(undefined(), actual);
 	}
+
+	@Test
+	public void evaluateXPowerHalf() throws Exception {
+		GeoFunction geo = add("x^(1/2)");
+		IntervalFunction function = new IntervalFunction(geo);
+		Interval actual = function.evaluate(interval(1, 16));
+		assertEquals(interval(1, 16 ).nthRoot(2), actual);
+	}
+
+	@Test
+	public void evaluateXPowerForth() throws Exception {
+		GeoFunction geo = add("x^(1/4)");
+		IntervalFunction function = new IntervalFunction(geo);
+		Interval actual = function.evaluate(interval(1, 16));
+		assertEquals(interval(1, 16 ).nthRoot(4), actual);
+	}
+
+	@Test
+	public void evaluateXPowerTwoThird() throws Exception {
+		GeoFunction geo = add("x^(2/3)");
+		IntervalFunction function = new IntervalFunction(geo);
+		Interval actual = function.evaluate(interval(1, 16));
+		Interval pow = interval(1, 16).pow(2);
+		assertEquals(pow.nthRoot(3), actual);
+	}
 }

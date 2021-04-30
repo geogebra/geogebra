@@ -56,9 +56,28 @@ import org.geogebra.common.util.debug.Log;
 			return new Interval(ev.evaluateDouble());
 		}
 
+		if (isPowerFraction(node)) {
+			return powerFraction(x, node);
+		}
+
 		return evaluate(evaluate(x, node.getLeft()),
 				node.getOperation(),
 				evaluate(x, node.getRight()));
+	}
+
+	private boolean isPowerFraction(ExpressionNode node) {
+		return node.getOperation() == Operation.POWER
+				&& node.getRight().wrap().getOperation() == Operation.DIVIDE;
+	}
+
+	private Interval powerFraction(Interval x, ExpressionNode node) throws Exception {
+		ExpressionNode fractionNode = node.getRight().wrap();
+
+		double nominator = fractionNode.getLeft().evaluateDouble();
+		Interval powered =
+				evaluate(x, Operation.POWER, new Interval(nominator));
+		Interval denominator = new Interval(fractionNode.getRight().evaluateDouble());
+		return  evaluate(powered, Operation.NROOT, denominator);
 	}
 
 	private Interval evaluate(Interval left, Operation operation,

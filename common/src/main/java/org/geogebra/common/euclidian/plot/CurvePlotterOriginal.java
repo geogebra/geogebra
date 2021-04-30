@@ -88,7 +88,6 @@ public class CurvePlotterOriginal {
 			double t2, EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			org.geogebra.common.euclidian.plot.Gap moveToAllowed) {
 
-		Log.debug("[PLOTTER] Legacy");
 		// ensure MIN_PLOT_POINTS
 		double minSamplePoints = Math.max(MIN_SAMPLE_POINTS, view.getWidth() / 6);
 		double max_param_step = Math.abs(t2 - t1) / minSamplePoints;
