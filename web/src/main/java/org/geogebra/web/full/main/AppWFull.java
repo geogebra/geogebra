@@ -632,7 +632,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		DockPanel avPanel = gm.getLayout().getDockManager()
 				.getPanel(VIEW_ALGEBRA);
 		if (avPanel instanceof ToolbarDockPanelW) {
-			((ToolbarDockPanelW) avPanel).getToolbar().reset();
+			final ToolbarDockPanelW dockPanel = (ToolbarDockPanelW) avPanel;
+			dockPanel.getToolbar().reset();
+			dockPanel.tryBuildZoomPanel();
 		}
 	}
 
