@@ -361,8 +361,10 @@ public class ToolbarPanel extends FlowPanel
 
 	private void resetFullscreenButton() {
 		ZoomPanel fullscreenBtn = app.getZoomPanel();
-		removeStyleNamesFromFullscreenBtn();
-		fullscreenBtn.addStyleName("zoomPanelPosition");
+		if (fullscreenBtn != null) {
+			removeStyleNamesFromFullscreenBtn();
+			fullscreenBtn.addStyleName("zoomPanelPosition");
+		}
 	}
 
 	private void showOppositeView() {
