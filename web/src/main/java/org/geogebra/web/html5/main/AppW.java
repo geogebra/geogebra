@@ -201,7 +201,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private CopyPasteW copyPaste;
 
 	protected MaterialsManagerI fm;
-	private Material activeMaterial;
 
 	protected final GeoGebraElement geoGebraElement;
 	protected final AppletParameters appletParameters;
@@ -1022,7 +1021,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		clearMedia();
 		resetUniqueId();
 		setLocalID(-1);
-		resetActiveMaterial();
+		setActiveMaterial(null);
 
 		if (getGoogleDriveOperation() != null) {
 			getGoogleDriveOperation().resetStorageInfo();
@@ -1842,25 +1841,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public boolean isApplet() {
 		return !getAppletParameters().getDataParamApp();
-	}
-
-	/**
-	 * @return active material
-	 */
-	public @CheckForNull Material getActiveMaterial() {
-		return this.activeMaterial;
-	}
-
-	/**
-	 * @param mat
-	 *            active material
-	 */
-	public void setActiveMaterial(Material mat) {
-		this.activeMaterial = mat;
-	}
-
-	private void resetActiveMaterial() {
-		this.activeMaterial = null;
 	}
 
 	@Override

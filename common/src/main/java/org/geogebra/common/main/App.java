@@ -5284,7 +5284,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// nothing to do here
 	}
 
-	public Material getActiveMaterial() {
+	public @CheckForNull Material getActiveMaterial() {
 		return activeMaterial;
 	}
 
