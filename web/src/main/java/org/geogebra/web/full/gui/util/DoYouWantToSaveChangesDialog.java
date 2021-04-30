@@ -82,7 +82,7 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 					hide();
 					((AppW) app).getGuiManager().listenToLogin();
 					app.getLoginOperation().showLoginDialog();
-					((AppW) app).getGuiManager().setRunAfterLogin(this::onSave());
+					((AppW) app).getGuiManager().setRunAfterLogin(this::onSave);
 				} else {
 					onSave();
 				}
