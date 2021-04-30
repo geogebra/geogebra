@@ -77,7 +77,7 @@ class IntervalAlgebra {
 
 	private Interval powerOfDouble(double power) {
 		Interval lnPower = interval.log().multiply(new Interval(power));
-		return IntervalConstants.e().pow(lnPower.getHigh());
+		return lnPower.exp();
 	}
 
 	private Interval powOfInteger(int power) {
