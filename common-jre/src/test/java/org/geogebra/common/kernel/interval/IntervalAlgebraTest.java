@@ -124,17 +124,17 @@ public class IntervalAlgebraTest {
 	}
 
 	@Test
-	public void testPowerOfIntervals() throws PowerIsNotInteger {
+	public void testPowerOfIntervals() {
 		assertTrue(interval(4, 25).almostEqual(interval(2, 5).pow(interval(2, 2))));
 	}
 
-	@Test(expected = PowerIsNotInteger.class)
-	public void testPowerOfIntervalsBad() throws PowerIsNotInteger {
+	@Test
+	public void testPowerOfIntervalsBad() {
 		interval(4, 25).almostEqual(interval(2, 5).pow(new Interval(1.5)));
 	}
 
 	@Test
-	public void testPowerOfNotSingletonInterval() throws PowerIsNotInteger {
+	public void testPowerOfNotSingletonInterval() {
 		assertTrue(interval(2, 5).pow(interval(1, 5)).isEmpty());
 	}
 

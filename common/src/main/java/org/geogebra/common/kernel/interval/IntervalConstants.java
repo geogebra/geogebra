@@ -10,7 +10,8 @@ public class IntervalConstants {
 	public static final double PI_HALF_HIGH = PI_HIGH / 2.0;
 	public static final double PI_TWICE_LOW = PI_LOW * 2.0;
 	public static final double PI_TWICE_HIGH = PI_HIGH * 2.0;
-
+	public static final double E_LOW = Math.E - 1E-16;
+	public static final double E_HIGH = Math.E + 1E-16;
 	/**
 	 *
 	 * @return a newly created empty interval.
@@ -73,5 +74,14 @@ public class IntervalConstants {
 	 */
 	public static Interval piHalf() {
 		return new Interval(PI_HALF_LOW, PI_HALF_HIGH);
+	}
+
+
+	/**
+	 *
+	 * @return a newly created e interval.
+	 */
+	public static Interval e() {
+		return new Interval(E_LOW, E_HIGH);
 	}
 }

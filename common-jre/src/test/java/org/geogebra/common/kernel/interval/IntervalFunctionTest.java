@@ -252,4 +252,20 @@ public class IntervalFunctionTest extends BaseUnitTest {
 		Interval pow = interval(1, 16).pow(2);
 		assertEquals(pow.nthRoot(3), actual);
 	}
+
+	@Test
+	public void evaluateXOnNegativeFractionPower() throws Exception {
+		GeoFunction geo = add("x^(-3/2)");
+		IntervalFunction function = new IntervalFunction(geo);
+		Interval actual = function.evaluate(interval(9, 10));
+		assertEquals(interval(9, 10).pow(3).sqrt().multiplicativeInverse(), actual);
+	}
+
+	@Test
+	public void evaluateXOnDoublePower() throws Exception {
+		GeoFunction geo = add("x^0.5");
+		IntervalFunction function = new IntervalFunction(geo);
+		Interval actual = function.evaluate(interval(9, 10));
+		assertEquals(interval(9, 10).sqrt(), actual);
+	}
 }
