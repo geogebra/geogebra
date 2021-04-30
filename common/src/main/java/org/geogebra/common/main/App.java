@@ -1740,7 +1740,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * Show localized message for an error.
-	 * 
+	 *
 	 * @param key   main error
 	 * @param error extra information
 	 */
@@ -1750,7 +1750,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * Show localized message for an error.
-	 * 
+	 *
 	 * @param key main error
 	 */
 	public void showError(Errors key) {

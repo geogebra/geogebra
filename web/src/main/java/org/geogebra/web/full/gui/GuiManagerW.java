@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import org.geogebra.common.awt.GDimension;
@@ -134,6 +135,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -1904,24 +1906,20 @@ public class GuiManagerW extends GuiManager
 		if (showDialog) {
 			getOptionPane().showSaveDialog(loc.getMenu("Save"),
 					getApp().getExportTitle() + extension, null,
-					new AsyncOperation<String[]>() {
+					obj -> {
+						if (Integer.parseInt(obj[0]) == 0) {
 
-						@Override
-						public void callback(String[] obj) {
-							if (Integer.parseInt(obj[0]) == 0) {
+							String filename = obj[1];
 
-								String filename = obj[1];
-
-								if (filename == null || filename.trim().isEmpty()) {
-									filename = getApp().getExportTitle();
-								}
-
-								// in case user removes extension
-								if (!filename.endsWith(extension)) {
-									filename += extension;
-								}
-								exportGgb(filename, extension);
+							if (filename == null || filename.trim().isEmpty()) {
+								filename = getApp().getExportTitle();
 							}
+
+							// in case user removes extension
+							if (!filename.endsWith(extension)) {
+								filename += extension;
+							}
+							exportGgb(filename, extension);
 						}
 					}, loc.getMenu("Save"));
 		} else {
@@ -1931,7 +1929,9 @@ public class GuiManagerW extends GuiManager
 
 	private void exportGGBDirectly() {
 		String extension = ((AppW) app).getFileExtension();
-		String filename = getApp().getExportTitle() + extension;
+		String currentDate = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm").format(new Date())
+				+ extension;
+		String filename = getApp().isMebis() ? currentDate : getApp().getExportTitle() + extension;
 		exportGgb(filename, extension);
 	}
 
