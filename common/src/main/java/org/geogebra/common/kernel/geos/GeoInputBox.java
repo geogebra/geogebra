@@ -1,5 +1,10 @@
 package org.geogebra.common.kernel.geos;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GColor;
@@ -612,20 +617,25 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	/**
-	 * variables of linked geo if it is a function
-	 * @return variables of linked geo
+	 * variables of linked geo if it is a function.
+	 *
+	 * @return the list of variable names.
 	 */
-	public String getFunctionVars() {
-		if (linkedGeo instanceof VarString) {
-			FunctionVariable[] fVars = ((VarString) linkedGeo).getFunctionVariables();
-			StringBuilder sb = new StringBuilder();
-			if (fVars != null) {
-				for (int i = 0; i < fVars.length; i++) {
-					sb.append(fVars[i].getSetVarString().charAt(0));
-				}
-			}
-			return sb.toString();
+	public List<String> getFunctionVars() {
+		FunctionVariable[] functionVariables = linkedGeo instanceof VarString
+			? ((VarString) linkedGeo).getFunctionVariables()
+			: null;
+
+		if (functionVariables == null) {
+			return Collections.emptyList();
 		}
-		return "";
+
+		return Arrays.stream(functionVariables).map(this::getVariableName)
+				.collect(Collectors.toList());
+	}
+
+	private String getVariableName(FunctionVariable functionVariable) {
+		String name = functionVariable.getSetVarString();
+		return name.replaceAll("[{}]", "");
 	}
 }
