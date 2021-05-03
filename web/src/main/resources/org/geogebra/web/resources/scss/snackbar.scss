@@ -64,10 +64,9 @@
 	}
 
 	@media screen and (max-width: 352px) {
-	  .snackbarComponent {
+		.snackbarComponent {
 			width: calc(100% - 40px);
 			min-width: unset;
-	  }
+		}
 	}
 }
-
