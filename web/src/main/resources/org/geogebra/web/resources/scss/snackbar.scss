@@ -62,10 +62,10 @@
 		}
 	}
 
-   	@media screen and (max-width: 360px) {
-    	.snackbarComponent {
-    		width: calc(100% - 40px);
-    		min-width: unset;
-    	}
-    }
+	@media screen and (max-width: 360px) {
+		.snackbarComponent {
+			width: calc(100% - 40px);
+			min-width: unset;
+		}
+	}
 }
