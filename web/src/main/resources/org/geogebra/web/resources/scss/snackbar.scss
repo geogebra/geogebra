@@ -2,7 +2,6 @@
 @import 'z-index';
 
 .GeoGebraFrame {
-
 	.snackbarComponent {
 		max-width: 664px;
 		min-width: 320px;
@@ -63,10 +62,10 @@
 		}
 	}
 
-	@media screen and (max-width: 352px) {
-		.snackbarComponent {
-			width: calc(100% - 40px);
-			min-width: unset;
-		}
-	}
+   	@media screen and (max-width: 360px) {
+    	.snackbarComponent {
+    		width: calc(100% - 40px);
+    		min-width: unset;
+    	}
+    }
 }
