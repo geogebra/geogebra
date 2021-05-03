@@ -1507,18 +1507,24 @@ public class GeoText extends GeoElement
 	public String getAuralText() {
 		String ret;
 		if (isLaTeX()) {
-			kernel.getApplication().getDrawEquation()
-					.checkFirstCall(kernel.getApplication());
-			// TeXAtomSerializer makes formula human readable.
-			TeXFormula tf = getTeXFormula();
-			ScreenReaderSerializationAdapter adapter =
-					new ScreenReaderSerializationAdapter(kernel.getLocalization());
-			ret = new TeXAtomSerializer(adapter).serialize(tf.root);
+			ret = getAuralTextLaTeX();
 		} else {
 			ret = ScreenReader.convertToReadable(getTextString(), getLoc());
 		}
-
 		return ret;
+	}
+
+	/**
+	 * @return aural text assuming this is LaTeX
+	 */
+	public String getAuralTextLaTeX() {
+		kernel.getApplication().getDrawEquation()
+				.checkFirstCall(kernel.getApplication());
+		// TeXAtomSerializer makes formula human readable.
+		TeXFormula tf = getTeXFormula();
+		ScreenReaderSerializationAdapter adapter =
+				new ScreenReaderSerializationAdapter(kernel.getLocalization());
+		return new TeXAtomSerializer(adapter).serialize(tf.root);
 	}
 
 	private TeXFormula getTeXFormula() {

@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui.accessibility;
 import java.util.Collections;
 import java.util.List;
 
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
@@ -77,6 +78,11 @@ public class AccessibleSlider implements AccessibleWidget, HasSliders {
 	@Override
 	public void setFocus(boolean focus) {
 		slider.setFocus(focus);
+	}
+
+	@Override
+	public boolean isCompatible(GeoElement geo) {
+		return geo instanceof GeoNumeric && ((GeoNumeric) geo).isSlider();
 	}
 
 }
