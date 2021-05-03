@@ -11,8 +11,11 @@
     return [[BasicStrokeI alloc] initWithWidth:width withMiterLimit:miterLimit withCap:cap withJoin:join];
 }
 
-- (id <RXColor>)createColorWithInt:(jint)red withInt:(jint)green withInt:(jint)blue {
-    return [[ColorCache instance] getColorWithR:red withG:green withB:blue withA:255];
+- (id <RXColor>)createColorWithInt:(jint)red
+                           withInt:(jint)green
+                           withInt:(jint)blue
+                           withInt:(jint)alpha {
+    return [[ColorCache instance] getColorWithR:red withG:green withB:blue withA:alpha];
 }
 
 - (id <RXImage>)createImageWithInt:(jint)width withInt:(jint)height withInt:(jint)type {

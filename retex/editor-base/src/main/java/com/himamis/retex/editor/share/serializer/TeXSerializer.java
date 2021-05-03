@@ -276,7 +276,7 @@ public class TeXSerializer extends SerializerAdapter {
 			serialize(function.getArgument(0), functionName);
 
 			stringBuilder.append("{");
-			if (syntaxAdapter == null || isFunction(functionName.toString())) {
+			if (isFunction(functionName.toString())) {
 				stringBuilder.append("{\\mathrm{").append(functionName).append("}}");
 			} else {
 				stringBuilder.append(functionName);
@@ -301,7 +301,15 @@ public class TeXSerializer extends SerializerAdapter {
 		}
 	}
 
-	private boolean isFunction(String name) {
+	/**
+	 * @param name function name
+	 * @return whether this is a builtin function (sin/cos/...)
+	 */
+	public boolean isFunction(String name) {
+		if (syntaxAdapter == null) {
+			return true;
+		}
+
 		String trimmed = name.replace(cursor, "");
 		if (trimmed.indexOf('^') > 0) {
 			trimmed = trimmed.substring(0, trimmed.indexOf('^'));
@@ -402,5 +410,9 @@ public class TeXSerializer extends SerializerAdapter {
 			}
 		}
 		return symbol;
+	}
+
+	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
+		this.syntaxAdapter = syntaxAdapter;
 	}
 }

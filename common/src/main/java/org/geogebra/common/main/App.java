@@ -3875,9 +3875,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case MOW_PEN_EVENTS:
 			return false;
 
-		case MOW_DIRECT_FORMULA_CONVERSION:
-			return false;
-
 		// **********************************************************************
 		// MOW END
 		// *********************************************************
