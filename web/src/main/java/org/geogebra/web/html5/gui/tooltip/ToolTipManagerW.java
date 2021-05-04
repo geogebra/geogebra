@@ -90,7 +90,7 @@ public final class ToolTipManagerW {
 			} else if (appW.isUnbundled()) {
 				// show snackbar above move FAB
 				int snackbarRight = 8 + snackbar.getOffsetWidth();
-				style.setBottom(appW.getGuiManager().isMoveBellowSnackbar(
+				style.setBottom(appW.getGuiManager().isMoveBelowSnackbar(
 						snackbarRight) ? 68 : 8, Unit.PX);
 			}
 		}
