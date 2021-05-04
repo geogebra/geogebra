@@ -25,6 +25,17 @@ public class UndoCommand {
 	}
 
 	/**
+	 * Copy constructor
+	 * @param command to copy from.
+	 */
+	public UndoCommand(UndoCommand command) {
+		this.appState = command.appState;
+		this.action = command.action;
+		this.args = command.args;
+		this.slideID = command.slideID;
+	}
+
+	/**
 	 * @param appStateToAdd
 	 *            checkpoint state
 	 * @param slideID

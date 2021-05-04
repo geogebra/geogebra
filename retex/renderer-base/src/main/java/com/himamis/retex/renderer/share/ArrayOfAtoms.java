@@ -160,8 +160,11 @@ public class ArrayOfAtoms implements AtomConsumer {
 		}
 	}
 
-	void add(Atom a) {
-		if (a instanceof EnvArray.RowSep) {
+	public void add(Atom a) {
+		if (a instanceof EnvArray.ColSep) {
+			currentRow.add(ra.simplify());
+			ra = new RowAtom();
+		} else if (a instanceof EnvArray.RowSep) {
 			currentRow.add(ra.simplify());
 			currentRow = new ArrayList<Atom>();
 			array.add(currentRow);

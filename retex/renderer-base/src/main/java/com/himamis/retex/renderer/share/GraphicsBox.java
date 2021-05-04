@@ -80,9 +80,6 @@ public class GraphicsBox extends Box {
 
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
-		// System.err.println("drawing image " + image.getWidth() + " "
-		// + image.getHeight() + " " + ((ImageBase64) image).getBase64());
-
 		g2.saveTransformation();
 
 		int oldKey = RenderingHints.VALUE_INTERPOLATION_BICUBIC;

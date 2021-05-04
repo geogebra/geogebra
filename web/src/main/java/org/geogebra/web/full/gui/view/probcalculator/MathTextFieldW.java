@@ -22,7 +22,7 @@ public class MathTextFieldW extends MathFieldEditor  implements MathFieldListene
 	 */
 	public MathTextFieldW(App app) {
 		super(app);
-		createMathField(this, false);
+		createMathField(this);
 		addBlurHandler(event -> onEnter());
 		addStyleName("mathTextField");
 		setUseKeyboardButton(!Browser.isMobile());

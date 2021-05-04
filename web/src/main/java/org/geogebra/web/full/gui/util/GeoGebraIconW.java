@@ -6,23 +6,19 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.images.StyleBarResources;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.resources.client.ImageResource;
 
 /**
  * icon resources (point style, line style, etc.)
  */
 public class GeoGebraIconW {
 
-	private static StyleBarResources lafIcons = StyleBarResources.INSTANCE;
 	private static MaterialDesignResources matIcons = MaterialDesignResources.INSTANCE;
 
-	private static ImageResource[] gridStyleIcons = {
-			(lafIcons.stylingbar_empty()), (lafIcons.grid()),
-			(lafIcons.polar_grid()), (lafIcons.isometric_grid()) };
+	private static SVGResource[] gridStyleIcons = {
+			matIcons.stylebar_empty(), matIcons.grid_black(),
+			matIcons.grid_polar(), matIcons.grid_isometric() };
 
 	private static SVGResource[] pointStyleSVGIcons = {
 			matIcons.point_full(),
@@ -93,7 +89,7 @@ public class GeoGebraIconW {
 	 * @return {@link ImageOrText}
 	 */
 	public static ImageOrText createGridStyleIcon(int pointStyle) {
-		return new ImageOrText(gridStyleIcons[pointStyle]);
+		return new ImageOrText(gridStyleIcons[pointStyle], 24);
     }
 	
 	/**
@@ -151,33 +147,33 @@ public class GeoGebraIconW {
 	 * @return {@link ImageOrText}
 	 */
 	public static ImageOrText createDecorAngleIcon(int id) {
-		ImageResource url = null;
+		SVGResource svgResource;
 		switch (id) {
 		case GeoElementND.DECORATION_ANGLE_TWO_ARCS:
-				url =  GuiResources.INSTANCE.deco_angle_2lines();
+				svgResource =  GuiResources.INSTANCE.deco_angle_2lines();
 			break;
 		case GeoElementND.DECORATION_ANGLE_THREE_ARCS:
-				url =  GuiResources.INSTANCE.deco_angle_3lines();
+				svgResource =  GuiResources.INSTANCE.deco_angle_3lines();
 			break;
 		case GeoElementND.DECORATION_ANGLE_ONE_TICK:
-				url =  GuiResources.INSTANCE.deco_angle_1stroke();
+				svgResource =  GuiResources.INSTANCE.deco_angle_1stroke();
 			break;
 		case GeoElementND.DECORATION_ANGLE_TWO_TICKS:
-				url =  GuiResources.INSTANCE.deco_angle_2strokes();
+				svgResource =  GuiResources.INSTANCE.deco_angle_2strokes();
 			break;
 		case GeoElementND.DECORATION_ANGLE_THREE_TICKS:
-				url =  GuiResources.INSTANCE.deco_angle_3strokes();
+				svgResource =  GuiResources.INSTANCE.deco_angle_3strokes();
 			break;			
 		case GeoElementND.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
-				url =  GuiResources.INSTANCE.deco_angle_arrow_up();
+				svgResource =  GuiResources.INSTANCE.deco_angle_arrow_up();
 			break;
 		case GeoElementND.DECORATION_ANGLE_ARROW_CLOCKWISE:
-				url =  GuiResources.INSTANCE.deco_angle_arrow_down();
+				svgResource =  GuiResources.INSTANCE.deco_angle_arrow_down();
 			break;
 			default:
-				url =  GuiResources.INSTANCE.deco_angle_1line();
+				svgResource =  GuiResources.INSTANCE.deco_angle_1line();
 		}
-		return new ImageOrText(url);
+		return new ImageOrText(svgResource, 24);
 	}
 
 	/**
@@ -186,31 +182,31 @@ public class GeoGebraIconW {
 	 * @return {@link ImageOrText}
 	 */
 	public static ImageOrText createDecorSegmentIcon(int id) {
-		ImageResource url = null;
+		SVGResource svgResource;
 		switch (id) {		
 		case GeoElementND.DECORATION_SEGMENT_ONE_TICK:
-			url =  GuiResources.INSTANCE.deco_segment_1stroke();
+			svgResource =  GuiResources.INSTANCE.deco_segment_1stroke();
 			break;
 		case GeoElementND.DECORATION_SEGMENT_TWO_TICKS:
-			url =  GuiResources.INSTANCE.deco_segment_2strokes();
+			svgResource =  GuiResources.INSTANCE.deco_segment_2strokes();
 			break;
 		case GeoElementND.DECORATION_SEGMENT_THREE_TICKS:
-			url =  GuiResources.INSTANCE.deco_segment_3strokes();
+			svgResource =  GuiResources.INSTANCE.deco_segment_3strokes();
 			break;
 		case GeoElementND.DECORATION_SEGMENT_ONE_ARROW:
-			url =  GuiResources.INSTANCE.deco_segment_1arrow();
+			svgResource =  GuiResources.INSTANCE.deco_segment_1arrow();
 			break;
 		case GeoElementND.DECORATION_SEGMENT_TWO_ARROWS:
-			url =  GuiResources.INSTANCE.deco_segment_2arrows();
+			svgResource =  GuiResources.INSTANCE.deco_segment_2arrows();
 			break;
 		case GeoElementND.DECORATION_SEGMENT_THREE_ARROWS:
-			url =  GuiResources.INSTANCE.deco_segment_3arrows();
+			svgResource =  GuiResources.INSTANCE.deco_segment_3arrows();
 			break;
 		default:
-			url =  GuiResources.INSTANCE.deco_segment_none();
+			svgResource =  GuiResources.INSTANCE.deco_segment_none();
 			break;
 		}
-		return new ImageOrText(url);
+		return new ImageOrText(svgResource, 24);
     }
 
 	/**
@@ -218,50 +214,25 @@ public class GeoGebraIconW {
 	 *            {@code int}
 	 * @return {@link ImageOrText}
 	 */
-	public static ImageOrText createAxesStyleIconMat(int id) {
-		ImageResource url = null;
-
-		switch (id) {
-		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
-			url = StyleBarResources.INSTANCE.axes_2arrows();
-			break;
-		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
-			url = StyleBarResources.INSTANCE.axes_4arrows();
-			break;
-		case EuclidianStyleConstants.AXES_LINE_TYPE_FULL:
-			url = StyleBarResources.INSTANCE.axes();
-			break;
-		default:
-			url = StyleBarResources.INSTANCE.stylingbar_empty();
-		}
-
-		return new ImageOrText(url);
-	}
-
-	/**
-	 * @param id
-	 *            {@code int}
-	 * @return {@link ImageOrText}
-	 */
 	public static ImageOrText createAxesStyleIcon(int id) {
-		ImageResource url = null;
+		SVGResource svgResource;
 		switch (id) {
 		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
-			url = GuiResources.INSTANCE.deco_axes_arrow();
+			svgResource = GuiResources.INSTANCE.deco_axes_arrow();
 			break;
 		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
-			url = GuiResources.INSTANCE.deco_axes_arrows();
+			svgResource = GuiResources.INSTANCE.deco_axes_arrows();
 			break;
 		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED:
-			url = GuiResources.INSTANCE.deco_axes_arrow_filled();
+			svgResource = GuiResources.INSTANCE.deco_axes_arrow_filled();
 			break;
 		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED:
-			url = GuiResources.INSTANCE.deco_axes_arrows_filled();
+			svgResource = GuiResources.INSTANCE.deco_axes_arrows_filled();
 			break;
 		default:
-			url = GuiResources.INSTANCE.deco_axes_none();
+			svgResource = GuiResources.INSTANCE.deco_axes_none();
 		}
 
-		return new ImageOrText(url);
+		return new ImageOrText(svgResource, 24);
 	}
 }

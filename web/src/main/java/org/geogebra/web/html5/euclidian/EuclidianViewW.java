@@ -54,8 +54,6 @@ import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.html5.util.ImageLoadCallback;
-import org.geogebra.web.html5.util.ImageWrapper;
 import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -64,7 +62,6 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.DropEvent;
@@ -88,8 +85,10 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
+import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.FrameRequestCallback;
+import elemental2.dom.HTMLImageElement;
 import jsinterop.base.Js;
 
 /**
@@ -129,11 +128,11 @@ public class EuclidianViewW extends EuclidianView implements
 	/** application **/
 	AppW appW = (AppW) super.app;
 
-	private ImageElement resetImage;
-	private ImageElement playImage;
-	private ImageElement pauseImage;
-	private ImageElement playImageHL;
-	private ImageElement pauseImageHL;
+	private HTMLImageElement resetImage;
+	private HTMLImageElement playImage;
+	private HTMLImageElement pauseImage;
+	private HTMLImageElement playImageHL;
+	private HTMLImageElement pauseImageHL;
 	/** parent panel */
 	protected EuclidianPanelWAbstract evPanel;
 	private PointerEventHandler pointerHandler;
@@ -441,7 +440,7 @@ public class EuclidianViewW extends EuclidianView implements
 			return null;
 		}
 		Canvas2Svg canvas2svg = new Canvas2Svg(width, height);
-		Context2d ctx = Js.uncheckedCast(canvas2svg);
+		CanvasRenderingContext2D ctx = Js.uncheckedCast(canvas2svg);
 		g4copy = new GGraphics2DW(ctx);
 		this.appW.setExporting(ExportType.SVG, scale);
 		exportPaintPre(g4copy, scale, transparency);
@@ -473,7 +472,7 @@ public class EuclidianViewW extends EuclidianView implements
 					Math.floor(view2.getExportHeight() * scale));
 		}
 
-		Context2d ctx = PDFEncoderW.getContext(width, height);
+		CanvasRenderingContext2D ctx = PDFEncoderW.getContext(width, height);
 
 		if (ctx == null) {
 			Log.debug("canvas2PDF not found");
@@ -805,14 +804,14 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
-	private ImageElement getResetImage() {
+	private HTMLImageElement getResetImage() {
 		if (resetImage == null) {
 			resetImage = this.appW.getRefreshViewImage();
 		}
 		return resetImage;
 	}
 
-	private ImageElement getPlayImage(boolean highlight) {
+	private HTMLImageElement getPlayImage(boolean highlight) {
 		if (playImage == null) {
 			playImage = this.appW.getPlayImage();
 			playImageHL = this.appW.getPlayImageHover();
@@ -820,7 +819,7 @@ public class EuclidianViewW extends EuclidianView implements
 		return highlight ? playImageHL : playImage;
 	}
 
-	private ImageElement getPauseImage(boolean highlight) {
+	private HTMLImageElement getPauseImage(boolean highlight) {
 		if (pauseImage == null) {
 			pauseImage = this.appW.getPauseImage();
 			pauseImageHL = this.appW.getPauseImageHover();
@@ -904,18 +903,13 @@ public class EuclidianViewW extends EuclidianView implements
 		final int y = getHeight() - 27;
 
 		// draw pause or play button
-		final ImageElement img = kernel.isAnimationRunning()
+		final HTMLImageElement img = kernel.isAnimationRunning()
 				? getPauseImage(highlightAnimationButtons)
 				: getPlayImage(highlightAnimationButtons);
-		if (img.getPropertyBoolean("complete")) {
+		if (img.complete) {
 			((GGraphics2DW) g2).drawImage(img, x, y);
 		} else {
-			ImageWrapper.nativeon(img, "load", new ImageLoadCallback() {
-				@Override
-				public void onLoad() {
-					((GGraphics2DW) g2).drawImage(img, x, y);
-				}
-			});
+			img.addEventListener("load", (event) -> ((GGraphics2DW) g2).drawImage(img, x, y));
 		}
 	}
 
@@ -1035,10 +1029,10 @@ public class EuclidianViewW extends EuclidianView implements
 		// omit for export
 		if (!appW.isExporting()) {
 			GGraphics2DW graphics = (GGraphics2DW) g;
-			ImageElement resetIcon = getResetImage();
+			HTMLImageElement resetIcon = getResetImage();
 			int width = getWidth();
-			int iconWidth = resetIcon.getWidth();
-			int iconHeight = resetIcon.getHeight();
+			int iconWidth = resetIcon.width;
+			int iconHeight = resetIcon.height;
 
 			graphics.drawImage(resetIcon,
 					width - ICON_MARGIN - iconWidth - (ICON_SIZE - iconWidth) / 2,
@@ -1405,8 +1399,9 @@ public class EuclidianViewW extends EuclidianView implements
 		if (res != null) {
 			String uri = ImgResourceHelper.safeURI(res);
 			if (!uri.equals(svgBackgroundUri)) {
-				Image img = new Image(uri);
-				svgBackground = new MyImageW(ImageElement.as(img.getElement()), true);
+				HTMLImageElement img = Dom.createImage();
+				img.src = uri;
+				svgBackground = new MyImageW(img, true);
 				svgBackgroundUri = uri;
 			}
 		}

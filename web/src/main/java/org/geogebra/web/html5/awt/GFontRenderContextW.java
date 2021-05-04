@@ -2,21 +2,22 @@ package org.geogebra.web.html5.awt;
 
 import org.geogebra.common.awt.GFontRenderContext;
 
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.TextMetrics;
+import com.himamis.retex.renderer.web.graphics.JLMContext2d;
+
+import elemental2.dom.TextMetrics;
 
 /**
  * Font rendering context for Web
  */
 public class GFontRenderContextW extends GFontRenderContext {
 
-	private Context2d context;
+	private JLMContext2d context;
 
 	/**
 	 * @param ctx
 	 *            conext
 	 */
-	public GFontRenderContextW(Context2d ctx) {
+	public GFontRenderContextW(JLMContext2d ctx) {
 		this.context = ctx;
 	}
 
@@ -33,7 +34,7 @@ public class GFontRenderContextW extends GFontRenderContext {
 			context.setFont(cssFontString);
 			TextMetrics measure = context.measureText(text);
 			context.setFont(oldFont);
-			double width = measure.getWidth();
+			double width = measure.width;
 			return (int) Math.round(width);
 		} catch (Exception e) {
 			return text.length() * 12;

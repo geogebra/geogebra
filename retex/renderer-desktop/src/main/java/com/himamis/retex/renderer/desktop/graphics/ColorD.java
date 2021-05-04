@@ -51,11 +51,11 @@ public class ColorD extends Color
 	private static final long serialVersionUID = 1L;
 
 	public ColorD(Color color) {
-		this(color.getRed(), color.getGreen(), color.getBlue());
+		this(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 	}
 
-	public ColorD(int r, int g, int b) {
-		super(r, g, b);
+	public ColorD(int r, int g, int b, int a) {
+		super(r, g, b, a);
 	}
 
 	public Object getNativeObject() {

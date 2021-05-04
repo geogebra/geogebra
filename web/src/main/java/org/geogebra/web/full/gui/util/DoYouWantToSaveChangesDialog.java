@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.util;
 
 import java.util.Date;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -74,15 +75,21 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 		addHoverHandlers();
 		setOnNegativeAction(() -> app.getSaveController().cancel());
 		setOnPositiveAction(() -> {
-			if (!app.getLoginOperation().isLoggedIn()) {
-				hide();
-				((AppW) app).getGuiManager().listenToLogin();
-				app.getLoginOperation().showLoginDialog();
-				((AppW) app).getGuiManager().setRunAfterLogin(() -> onSave());
+			if (app.getPlatform() == GeoGebraConstants.Platform.OFFLINE) {
+				((AppW) app).getGuiManager().exportGGB(false);
 			} else {
-				onSave();
+				if (!app.getLoginOperation().isLoggedIn()) {
+					hide();
+					((AppW) app).getGuiManager().listenToLogin();
+					app.getLoginOperation().showLoginDialog();
+					((AppW) app).getGuiManager().setRunAfterLogin(this::onSave);
+				} else {
+					onSave();
+				}
 			}
 		});
+		titleField.getTextComponent().addKeyUpHandler(event ->
+				setPosBtnDisabled(titleField.getText().isEmpty()));
 		Window.addCloseHandler(event -> app.getSaveController().cancel());
 	}
 

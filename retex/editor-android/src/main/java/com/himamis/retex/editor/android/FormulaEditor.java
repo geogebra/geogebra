@@ -27,12 +27,10 @@ import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.text.InputType;
@@ -47,8 +45,7 @@ import android.view.inputmethod.InputMethodManager;
 public class FormulaEditor extends View implements MathField {
 
     private final static int CURSOR_MARGIN = 5;
-    // tolerance for cursor color
-    private final static int CURSOR_TOLERANCE = 10;
+
     private static final int DEFAULT_SIZE = 20;
     private static final int PRE_INIT_VALUE = -1;
     private static final int NO_BACKGROUND = -2;
@@ -67,10 +64,6 @@ public class FormulaEditor extends View implements MathField {
     private float mMinHeight;
     private Parser mParser;
     private int mIconWidth;
-    private Canvas mHiddenCanvas;
-    private Bitmap mHiddenBitmap;
-    private int mHiddenBitmapW = -1;
-    private int mHiddenBitmapH = -1;
     private int mShiftX = 0;
 
     private TeXIcon mFormulaPreviewTeXIcon;
@@ -389,6 +382,9 @@ public class FormulaEditor extends View implements MathField {
         mGraphics.setCanvas(canvas);
         teXIcon.setForeground(mForegroundColor);
         teXIcon.paintIcon(null, mGraphics, shiftX, y);
+        mGraphics.translate(shiftX, 0);
+        teXIcon.paintCursor(mGraphics, y);
+        mGraphics.translate(-shiftX, 0);
     }
 
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -411,85 +407,12 @@ public class FormulaEditor extends View implements MathField {
 
     }
 
-    @SuppressWarnings({"OverlyComplexMethod", "OverlyLongMethod"})
     protected int calcCursorX() {
-
-        int inputBarWidth = getWidth();
-
-        if (inputBarWidth == 0) {
-            debug("updateShiftX: inputBarWidth == 0");
-            return -1;
-        }
-
-        debug("mShiftX: " + mShiftX + ", inputBarWidth:" + inputBarWidth);
-
-        mIconWidth = mTeXIcon.getIconWidth();
-        int iconHeight = mTeXIcon.getIconHeight();
-
-        // check if last shift is not too long
-        // (e.g. if new formula is shorter)
-        if (mIconWidth + mShiftX < inputBarWidth) {
-            mShiftX = inputBarWidth - mIconWidth;
-            if (mShiftX > 0) {
-                mShiftX = 0;
-            }
-            debug("shorter formula: mShiftX = " + mShiftX);
-        }
-
-        // find cursor (red pixels) and ensure is visible in view
-        if (mIconWidth > mHiddenBitmapW || iconHeight > mHiddenBitmapH) {
-            mHiddenBitmap = Bitmap.createBitmap(mIconWidth, iconHeight,
-                    Bitmap.Config.ARGB_8888);
-            mHiddenCanvas = new Canvas(mHiddenBitmap);
-            mHiddenBitmapW = mIconWidth;
-            mHiddenBitmapH = iconHeight;
-            debug("==== new Bitmap");
-        } else {
-            mHiddenCanvas.drawColor(Color.BLACK);
-        }
-        drawShifted(mHiddenCanvas, 0);
-        int pixRed = 0;
-        int cursorRed = 0;
-        try {
-	        int[] pix = new int[mIconWidth * iconHeight];
-	        mHiddenBitmap.getPixels(pix, 0, mIconWidth, 0, 0, mIconWidth, iconHeight);
-	        int index = 0;
-	        for (int y = 0; y < iconHeight; y++) {
-	            for (int x = 0; x < mIconWidth; x++) {
-	                int color = pix[index];
-	                int red = Color.red(color);
-	                if (red > GraphicsFactory.CURSOR_RED - CURSOR_TOLERANCE
-	                        && red < GraphicsFactory.CURSOR_RED + CURSOR_TOLERANCE) {
-	                    int green = Color.green(color);
-	                    if (green > GraphicsFactory.CURSOR_GREEN - CURSOR_TOLERANCE
-	                            && green < GraphicsFactory.CURSOR_GREEN + CURSOR_TOLERANCE) {
-	                        int blue = Color.blue(color);
-	                        if (blue > GraphicsFactory.CURSOR_BLUE - CURSOR_TOLERANCE
-	                                && blue < GraphicsFactory.CURSOR_BLUE + CURSOR_TOLERANCE) {
-	                            pixRed++;
-	                            cursorRed += x;
-	                        }
-	                    }
-	                }
-	                index++;
-	            }
-	        }
-        } catch (java.lang.OutOfMemoryError e) {
-        	debug("problem allocating array");
-        	return -1;
-        }
-
-        // if no red pixel, no cursor: do nothing
-        if (pixRed == 0) {
-            return -1;
-        }
-
-        return cursorRed / pixRed;
-
+        return mTeXIcon.getCursorX();
     }
 
     protected void updateShiftX() {
-
+        mIconWidth = mTeXIcon.getIconWidth();
         int cursorX = calcCursorX();
         if (cursorX < 0) {
             return;
@@ -499,10 +422,12 @@ public class FormulaEditor extends View implements MathField {
 
         debug("cursorX: " + cursorX);
         int margin = (int) (CURSOR_MARGIN * mScale);
-        if (cursorX - margin + mShiftX < 0) {
-            mShiftX = -cursorX + margin;
+        if (mIconWidth < inputBarWidth) {
+            mShiftX = 0;
+        } else if (cursorX - margin + mShiftX < 0) {
+            mShiftX = Math.min(0, -cursorX + margin);
         } else if (cursorX + margin + mShiftX > inputBarWidth) {
-            mShiftX = inputBarWidth - cursorX - margin;
+            mShiftX = Math.max(inputBarWidth - mIconWidth, inputBarWidth - cursorX - margin);
         }
         debug("mShiftX: " + mShiftX);
     }
@@ -517,7 +442,7 @@ public class FormulaEditor extends View implements MathField {
         if (mIconWidth + mShiftX < inputBarWidth) {
             mShiftX = inputBarWidth - mIconWidth;
         }
-        if (mShiftX > 0) {
+        if (mShiftX > 0 || mIconWidth < inputBarWidth) {
             mShiftX = 0;
         }
 

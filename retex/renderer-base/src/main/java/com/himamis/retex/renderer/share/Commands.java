@@ -2042,31 +2042,6 @@ public class Commands {
 							Font.BOLD | Font.ITALIC);
 				}
 			};
-		case "jlmExternalFont":
-			return new Command0AImpl() {
-				@Override
-				public boolean init(TeXParser tp) {
-					final String fontname = tp.getArgAsString();
-					JavaFontRenderingBox.setFont(fontname);
-					return false;
-				}
-			};
-		// XXX
-		// case "jlmDynamic":
-		// return new Command0AImpl() {
-		// @Override
-		// public boolean init(TeXParser tp) {
-		// if (DynamicAtom.hasAnExternalConverterFactory()) {
-		// final char opt = tp.getOptionAsChar();
-		// final String arg = tp.getGroupAsArgument();
-		// tp.addToConsumer(new DynamicAtom(arg, opt));
-		//
-		// return false;
-		// }
-		// throw new ParseException(tp,
-		// "No ExternalConverterFactory set !");
-		// }
-		// };
 		case "doteq":
 			return new Command0A() {
 				@Override
