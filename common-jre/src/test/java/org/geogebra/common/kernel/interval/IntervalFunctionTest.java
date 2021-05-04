@@ -76,6 +76,8 @@ public class IntervalFunctionTest extends BaseUnitTest {
 		assertTrue(isSupported(add("sin(x)^3")));
 		assertTrue(isSupported(add("x * ((1, 1) * (1, 1))")));
 		assertTrue(isSupported(add("sin(x)^(2/3)")));
+		assertTrue(isSupported(add("sin(x)^2.141")));
+		assertTrue(isSupported(add("x^(-2)")));
 	}
 
 	@Test
@@ -85,7 +87,6 @@ public class IntervalFunctionTest extends BaseUnitTest {
 		assertFalse(isSupported(add("2^x")));
 		assertFalse(isSupported(add("2^sin(x)")));
 		assertFalse(isSupported(add("2^sin(x)")));
-//		assertFalse(isSupported(add("sin(x)^2.141")));
 		assertFalse(isSupported(add("(x * (1, 1)) * (1, 1)")));
 		assertFalse(isSupported(add("acosh(x)")));
 		assertFalse(isSupported(add("If(x < 2, 2, 3)")));

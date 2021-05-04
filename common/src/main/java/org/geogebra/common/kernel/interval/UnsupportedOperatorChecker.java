@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Checker to determine ia an operation is supported by the interval arithmetic.
@@ -63,11 +62,6 @@ public class UnsupportedOperatorChecker implements Inspecting {
 	private boolean checkPower(ExpressionNode node) {
 		double power = node.getRight().evaluateDouble();
 		return node.getRightTree().containsFunctionVariable()
-				// || isFraction(power)
-				|| power < 0 || power >= 100;
-	}
-
-	private boolean isFraction(double power) {
-		return !DoubleUtil.isInteger(power);
+				|| power >= 100;
 	}
 }
