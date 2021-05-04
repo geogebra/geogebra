@@ -523,9 +523,9 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	/**
-	 * @return true if move FAB is bellow snackbar, false otherwise
+	 * @return true if move FAB is below snackbar, false otherwise
 	 */
-	public boolean isMoveBellowSnackbar(int snackbarRight) {
+	public boolean isMoveBelowSnackbar(int snackbarRight) {
 		return moveBtn != null && !moveBtn.getStyleName().contains("hideMoveBtn")
 				&& moveBtn.getAbsoluteLeft() - 8 <=  snackbarRight;
 		//keep the 8px distance between FAB and snackbar

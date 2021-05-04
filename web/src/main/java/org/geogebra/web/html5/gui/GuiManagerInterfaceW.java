@@ -32,7 +32,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	String getToolbarDefinition(Integer viewId);
 
-	boolean isMoveBellowSnackbar(int snackbarRight);
+	boolean isMoveBelowSnackbar(int snackbarRight);
 
 	void removeFromToolbarDefinition(int mode);
 

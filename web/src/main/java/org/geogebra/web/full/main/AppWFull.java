@@ -505,7 +505,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	void doShowStartTooltip(int perspID) {
 		if (appletParameters.getDataParamShowStartTooltip(perspID > 0)) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-			String helpText =  getLocalization().getPlain("CheckOutTutorial",
+			String helpText = getLocalization().getPlain("CheckOutTutorial",
 					getLocalization().getMenu(
 							Perspective.getPerspectiveName(perspID)));
 			String tooltipURL = getLocalization().getTutorialURL(getConfig());
