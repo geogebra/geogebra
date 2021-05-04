@@ -40,8 +40,7 @@ public abstract class HeaderFileView implements BrowseViewI {
 
 	@Override
 	public void close() {
-		// not used
-
+		getPanel().close();
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import org.geogebra.web.full.gui.menubar.MenuAction;
 import org.geogebra.web.full.gui.util.ExamSaveDialog;
 import org.geogebra.web.full.main.AppWFull;
 
-public class SaveExamAction implements MenuAction<Void> {
+public class ClearAllExamAction implements MenuAction<Void> {
 
 	@Override
 	public boolean isAvailable(Void item) {
@@ -13,6 +13,11 @@ public class SaveExamAction implements MenuAction<Void> {
 
 	@Override
 	public void execute(Void item, AppWFull app) {
-		new ExamSaveDialog(app, null).show();
+		if (app.isSaved()) {
+			app.fileNew();
+		} else {
+			new ExamSaveDialog(app, app::fileNew).show();
+		}
 	}
 }
+

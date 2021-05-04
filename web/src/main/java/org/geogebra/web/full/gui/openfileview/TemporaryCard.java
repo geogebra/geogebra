@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.openfileview;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.gui.CardInfoPanel;
 import org.geogebra.web.full.gui.browser.MaterialCardController;
+import org.geogebra.web.full.gui.util.ExamSaveDialog;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -26,13 +27,22 @@ public class TemporaryCard extends FlowPanel {
 		controller = new MaterialCardController(app);
 		controller.setMaterial(m);
 		initGui();
-		this.addDomHandler(event -> openMaterial(), ClickEvent.getType());
+		this.addDomHandler(event -> checkUnsavedAndOpen(), ClickEvent.getType());
+	}
+
+	private void checkUnsavedAndOpen() {
+		if (app.isSaved()) {
+			openMaterial();
+		} else {
+			app.getGuiManager().getBrowseView().close();
+			new ExamSaveDialog(app, this::openMaterial).show();
+		}
 	}
 
 	/**
 	 * Open this material.
 	 */
-	protected void openMaterial() {
+	private void openMaterial() {
 		Material material = controller.getMaterial();
 		app.getGgbApi().setBase64(material.getBase64());
 		controller.onOpenFile();

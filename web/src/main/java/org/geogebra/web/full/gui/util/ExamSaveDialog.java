@@ -1,0 +1,76 @@
+package org.geogebra.web.full.gui.util;
+
+import org.geogebra.common.main.exam.TempStorage;
+import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.ComponentInputDialog;
+import org.geogebra.web.shared.components.DialogData;
+
+public class ExamSaveDialog {
+
+	private final TempStorage tempStorage;
+	private ComponentInputDialog examSave;
+
+	public ExamSaveDialog(AppW app, Runnable onDialogClosed) {
+		tempStorage = app.getExam().getTempStorage();
+
+		initGui(app);
+		setActionHandlers(app, onDialogClosed);
+	}
+
+	public void show() {
+		examSave.center();
+	}
+
+	private void initGui(AppW app) {
+		DialogData data = ((DialogManagerW) app.getDialogManager()).getSaveDialogData();
+		String initString = tempStorage.getCurrentMaterial().getTitle();
+
+		if (StringUtil.empty(initString)) {
+			initString = app.getLocalization().getMenu("Untitled");
+		}
+
+		examSave = new ComponentInputDialog(app, data, false,
+				true, null, "Title", initString, false);
+		examSave.setPreventHide(false);
+	}
+
+	private void setActionHandlers(AppW app, Runnable onDialogClosed) {
+		examSave.setOnPositiveAction(() -> saveAndConfirm(app, onDialogClosed));
+		examSave.setOnNegativeAction(onDialogClosed);
+
+		examSave.addInputHandler(() -> examSave.setPosBtnDisabled(
+				examSave.getInputText().length() < 1));
+	}
+
+	private void saveAndConfirm(AppW app, Runnable onDialogClosed) {
+		String msg = app.getLocalization().getMenu("SavedSuccessfully");
+		try {
+			Material material = tempStorage.getCurrentMaterial();
+			material.setTitle(examSave.getInputText());
+			material.setBase64(app.getGgbApi().getBase64());
+			material.setThumbnailBase64(getThumbnail(app));
+			tempStorage.saveTempMaterial();
+			app.setSaved();
+		} catch (RuntimeException ex) {
+			msg = app.getLocalization().getError("SaveFileFailed");
+		} finally {
+			if (onDialogClosed != null) {
+				onDialogClosed.run();
+			}
+		}
+
+		ToolTipManagerW.sharedInstance().showBottomMessage(
+				app.getLocalization().getMenu(msg),
+				true, app);
+	}
+
+	private static String getThumbnail(AppW app) {
+		return ((EuclidianViewWInterface) app.getActiveEuclidianView())
+				.getExportImageDataUrl(0.5, false, false);
+	}
+}
