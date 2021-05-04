@@ -109,7 +109,7 @@ public class SpaceAtom extends Atom {
 	public Box createBox(TeXEnvironment env) {
 		if (blankSpace) {
 			if (blankType == TeXConstants.Muskip.NONE) {
-				return new StrutBox(env.getSpace(), 0., 0., 0.);
+				return new StrutBox(env.getSpace(), 0., 0., 0.).setAtom(this);
 			} else {
 				Box b;
 				if (blankType == TeXConstants.Muskip.THIN

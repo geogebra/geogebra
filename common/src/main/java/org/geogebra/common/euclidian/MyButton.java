@@ -310,13 +310,14 @@ public class MyButton implements Observer {
 		int xPos = latex ? (int) (x + (getWidth() - textWidth) / 2)
 				: (int) (x + (getWidth() - t.getAdvance() + add) / 2);
 
-		int yPos = latex
-				? (int) (y + (getHeight() - textHeight) / 2) + imgEnd
-				: (int) (y + imgEnd + t.getAscent());
+		int yPos;
+		if (geoButton.getFillImage() == null) {
+			yPos = latex
+					? (int) (y + (getHeight() - textHeight) / 2)
+					: (int) (y + (getHeight() + t.getAscent()) / 2);
 
-		yPos -= shadowSize / 2;
-
-		if (geoButton.getFillImage() != null) {
+			yPos -= shadowSize / 2;
+		} else {
 			yPos = latex ? y + imgEnd : (int) (y + t.getAscent() + imgEnd);
 		}
 

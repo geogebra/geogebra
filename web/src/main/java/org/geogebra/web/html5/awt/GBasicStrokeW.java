@@ -3,16 +3,10 @@ package org.geogebra.web.html5.awt;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 
-import com.google.gwt.canvas.dom.client.Context2d.LineCap;
-import com.google.gwt.canvas.dom.client.Context2d.LineJoin;
-
 public class GBasicStrokeW {
 	// Constants
-	final private static LineJoin[] GWT_JOINS = { LineJoin.MITER,
-			LineJoin.ROUND,
-	        LineJoin.BEVEL };
-	final private static LineCap[] GWT_CAPS = { LineCap.BUTT, LineCap.ROUND,
-	        LineCap.SQUARE };
+	final private static String[] GWT_JOINS = { "miter", "round", "bevel" };
+	final private static String[] GWT_CAPS = { "butt", "round", "square" };
 
 	/**
 	 * @param join
@@ -51,7 +45,7 @@ public class GBasicStrokeW {
 	 *            stroke
 	 * @return GWT cap
 	 */
-	public static LineCap getEndCapString(GBasicStroke stroke) {
+	public static String getEndCapString(GBasicStroke stroke) {
 		return GWT_CAPS[stroke.getEndCap()];
 	}
 
@@ -60,7 +54,7 @@ public class GBasicStrokeW {
 	 *            stroke
 	 * @return GWT join
 	 */
-	public static LineJoin getLineJoinString(GBasicStroke stroke) {
+	public static String getLineJoinString(GBasicStroke stroke) {
 		return GWT_JOINS[stroke.getLineJoin()];
 	}
 

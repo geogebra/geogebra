@@ -58,7 +58,7 @@ public class FontRenderContextW implements FontRenderContext {
 		FontW oldFont = graphics.getFont();
 
 		graphics.setFont(font);
-		double width = graphics.getContext().measureText(text).getWidth();
+		double width = graphics.getContext().measureText(text).width;
 
 		graphics.setFont(oldFont);
 		return width;

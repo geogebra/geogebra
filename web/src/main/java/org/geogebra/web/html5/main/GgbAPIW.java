@@ -369,17 +369,6 @@ public class GgbAPIW extends GgbAPI {
 		return getZippedBase64Sync(jso);
 	}
 
-	/**
-	 * @param includeThumbnail
-	 *            whether to include thumbnail
-	 * @param callback
-	 *            callback
-	 */
-	public void getBase64(boolean includeThumbnail,
-			AsyncOperation<String> callback) {
-		getBase64(includeThumbnail, (StringConsumer) callback::callback);
-	}
-
 	private native String addDPI(String base64, double dpi) /*-{
 		var pngHeader = "data:image/png;base64,";
 

@@ -3724,7 +3724,7 @@ public class MyXMLHandler implements DocHandler {
 		return ymax;
 	}
 
-	public void setClearConstruction(boolean clearConstruction) {
-		geoHandler.setNeedsConstructionDefaults(!clearConstruction);
+	public void setNeedsConstructionDefaults(boolean needsConstructionDefaults) {
+		geoHandler.setNeedsConstructionDefaults(needsConstructionDefaults);
 	}
 }

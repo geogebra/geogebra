@@ -49,6 +49,8 @@
 package com.himamis.retex.renderer.share;
 
 import com.himamis.retex.renderer.share.TeXConstants.Align;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
@@ -81,6 +83,9 @@ public class TeXIcon implements Icon {
 	private Color fg = null;
 
 	public boolean isColored = false;
+
+	public Rectangle2D cursorPosition;
+	public Rectangle2D selectionPosition;
 
 	/**
 	 * Creates a new icon that will paint the given formula box in the given
@@ -291,5 +296,42 @@ public class TeXIcon implements Icon {
 		// g2.setRenderingHints(oldHints);
 		g2.restoreTransformation();
 		g2.setColor(oldColor);
+	}
+
+	public void paintCursor(Graphics2DInterface ctx, int margin) {
+		if (selectionPosition != null) {
+			double x = selectionPosition.getX() * size + insets.left;
+			double y = (box.getHeight() + selectionPosition.getY()) * size + insets.top + margin;
+			double width = selectionPosition.getWidth() * size;
+			double height = selectionPosition.getHeight() * size;
+
+			ctx.setColor(FactoryProvider.getInstance().getGraphicsFactory()
+					.createColor(204, 204, 255, 100));
+			ctx.fillRect((int) x, (int) y, (int) width, (int) height);
+		} else if (cursorPosition != null && CursorBox.visible()) {
+			double x = cursorPosition.getX() * size + insets.left;
+			double y = (box.getHeight() + cursorPosition.getY()) * size + insets.top + margin;
+			double height = cursorPosition.getHeight() * size;
+
+			ctx.setColor(FactoryProvider.getInstance().getGraphicsFactory().createColor(0x4c42a1));
+			ctx.fillRect((int) x, (int) y, Math.max(1, (int) height / 20), (int) height);
+		}
+	}
+
+	public int getCursorX() {
+		if (cursorPosition == null) {
+			return 0;
+		}
+
+		return (int) (insets.left + cursorPosition.getX() * size);
+	}
+
+	public int getCursorY() {
+		if (cursorPosition == null) {
+			return 0;
+		}
+
+		return (int) (insets.top
+				+ size * (cursorPosition.getY() + cursorPosition.getHeight() / 2));
 	}
 }

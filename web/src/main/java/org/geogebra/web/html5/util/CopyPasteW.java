@@ -27,12 +27,12 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.ImageElement;
 
 import elemental2.core.Global;
 import elemental2.dom.Blob;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.FileReader;
+import elemental2.dom.HTMLImageElement;
 
 public class CopyPasteW extends CopyPaste {
 
@@ -283,8 +283,8 @@ public class CopyPasteW extends CopyPaste {
 		if (InternalClipboard.imagePrefix.equals(prefix)) {
 			ImageManagerW imageManager = app.getImageManager();
 			imageManager.addExternalImage(name, content);
-			ImageElement img = imageManager.getExternalImage(name, app, true);
-			img.setSrc(content);
+			HTMLImageElement img = imageManager.getExternalImage(name, app, true);
+			img.src = content;
 		} else {
 			EmbedManager embedManager = app.getEmbedManager();
 			if (embedManager != null) {

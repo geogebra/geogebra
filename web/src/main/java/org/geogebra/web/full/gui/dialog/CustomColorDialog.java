@@ -11,10 +11,13 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+
+import elemental2.dom.BaseRenderingContext2D;
+import elemental2.dom.CanvasRenderingContext2D;
+import jsinterop.base.Js;
 
 public class CustomColorDialog extends DialogBoxW implements SetLabels {
 	
@@ -88,7 +91,7 @@ public class CustomColorDialog extends DialogBoxW implements SetLabels {
 	private class PreviewPanel extends FlowPanel {
 		private Label title;
 		private Canvas canvas;
-		private Context2d ctx;
+		private CanvasRenderingContext2D ctx;
 
 		public PreviewPanel(GColor oColor) {
 			setStyleName("CustomColorPreview");
@@ -101,7 +104,7 @@ public class CustomColorDialog extends DialogBoxW implements SetLabels {
 			canvas.setSize(PREVIEW_WIDTH + "px", PREVIEW_HEIGHT + "px");
 			canvas.setCoordinateSpaceHeight(PREVIEW_HEIGHT);
 			canvas.setCoordinateSpaceWidth(PREVIEW_WIDTH * 2);
-			ctx = canvas.getContext2d();
+			ctx = Js.uncheckedCast(canvas.getContext2d());
 			add(canvas);
 			reset(oColor);
 		}
@@ -123,8 +126,8 @@ public class CustomColorDialog extends DialogBoxW implements SetLabels {
 		
 		protected void drawRect(int x, GColor color) {
 			String htmlColor = StringUtil.toHtmlColor(color);
-			ctx.setFillStyle(htmlColor);
-			ctx.setGlobalAlpha(1.0);
+			ctx.fillStyle = BaseRenderingContext2D.FillStyleUnionType.of(htmlColor);
+			ctx.globalAlpha = 1.0;
 			ctx.fillRect(x, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 		}
 

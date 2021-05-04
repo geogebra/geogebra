@@ -3,6 +3,7 @@ package org.geogebra.common.main;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianView;
@@ -113,7 +114,7 @@ public class SelectionManager {
 	 * @param geos
 	 *            geos
 	 */
-	final public void setSelectedGeos(ArrayList<GeoElement> geos) {
+	final public void setSelectedGeos(List<GeoElement> geos) {
 		setSelectedGeos(geos, true);
 	}
 
@@ -125,7 +126,7 @@ public class SelectionManager {
 	 * @param updateSelection
 	 *            says if selection has to be updated
 	 */
-	final public void setSelectedGeos(ArrayList<GeoElement> geos,
+	final public void setSelectedGeos(List<GeoElement> geos,
 			boolean updateSelection) {
 		// special case -- happens when we set the same selection on mouse down
 		// and mouse up; we don't want too many events

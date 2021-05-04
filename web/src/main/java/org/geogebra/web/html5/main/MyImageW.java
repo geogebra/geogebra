@@ -5,9 +5,13 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.ImageElement;
+
+import elemental2.dom.CSSProperties;
+import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLCanvasElement;
+import elemental2.dom.HTMLImageElement;
+import jsinterop.base.Js;
 
 /**
  * HTML5 implementation of image: wrapper around Image element
@@ -15,10 +19,10 @@ import com.google.gwt.dom.client.ImageElement;
  */
 public final class MyImageW implements MyImage {
 
-	private ImageElement img;
-	private Canvas canv;
-	private int width = 0;
-	private int height = 0;
+	private HTMLImageElement img;
+	private HTMLCanvasElement canv;
+	private int width;
+	private int height;
 	private boolean svg;
 
 	/**
@@ -27,26 +31,26 @@ public final class MyImageW implements MyImage {
 	 * @param isSVG
 	 *            whether this is a SVG
 	 */
-	public MyImageW(ImageElement im, boolean isSVG) {
+	public MyImageW(HTMLImageElement im, boolean isSVG) {
 		this.img = im;
 		this.svg = isSVG;
 
-		width = img.getWidth();
-		height = img.getHeight();
+		width = img.width;
+		height = img.height;
 		if (width == 0 || height == 0) {
 			// hack for IE10/11/12
 			// can't work out SVG height unless it's attached to the DOM
-			Document.get().getBody().appendChild(img);
-			width = img.getOffsetWidth();
-			height = img.getOffsetHeight();
-			Document.get().getBody().removeChild(img);
+			DomGlobal.document.body.append(img);
+			width = img.offsetWidth;
+			height = img.offsetHeight;
+			DomGlobal.document.body.append(img);
 		}
 	}
 
 	@Override
 	public int getWidth() {
 		if (width == 0) {
-			width = img.getWidth();
+			width = img.width;
 		}
 		return width;
 	}
@@ -54,7 +58,7 @@ public final class MyImageW implements MyImage {
 	@Override
 	public int getHeight() {
 		if (height == 0) {
-			height = img.getHeight();
+			height = img.height;
 		}
 		return height;
 	}
@@ -64,14 +68,14 @@ public final class MyImageW implements MyImage {
 		return svg;
 	}
 
-	private Canvas getCanvas() {
+	private HTMLCanvasElement getCanvas() {
 		if (canv == null) {
-			canv = Canvas.createIfSupported();
-			canv.setCoordinateSpaceWidth(img.getWidth());
-			canv.setCoordinateSpaceHeight(img.getHeight());
-			canv.setWidth(getWidth() + "px");
-			canv.setHeight(getHeight() + "px");
-			Context2d c2d = canv.getContext2d();
+			canv = Js.uncheckedCast(DomGlobal.document.createElement("canvas"));
+			canv.width = img.width;
+			canv.height = img.height;
+			canv.style.width = CSSProperties.WidthUnionType.of(getWidth() + "px");
+			canv.style.height = CSSProperties.HeightUnionType.of(getHeight() + "px");
+			CanvasRenderingContext2D c2d = Js.uncheckedCast(canv.getContext("2d"));
 			c2d.drawImage(img, 0, 0);
 		}
 		return canv;
@@ -79,19 +83,19 @@ public final class MyImageW implements MyImage {
 
 	@Override
 	public GGraphics2D createGraphics() {
-		return new GGraphics2DW(getCanvas(), true);
+		return new GGraphics2DW(Canvas.wrap(Js.uncheckedCast(getCanvas())), true);
 	}
 
 	/**
 	 * @return image element
 	 */
-	public ImageElement getImage() {
+	public HTMLImageElement getImage() {
 		return img;
 	}
 
 	@Override
 	public String toLaTeXStringBase64() {
 		return "\\imagebasesixtyfour{" + getWidth() + "}{" + getHeight() + "}{"
-				+ img.getSrc() + "}";
+				+ img.src + "}";
 	}
 }
