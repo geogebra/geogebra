@@ -38,7 +38,8 @@ public class SaveExamAction implements MenuAction<Void> {
 				callback.callback(true);
 			}
 		};
-		String initString = app.getActiveMaterial() != null ? app.getActiveMaterial().getTitle() : null;
+		Material activeMaterial = app.getActiveMaterial();
+		String initString = activeMaterial != null ? activeMaterial.getTitle() : null;
 		if (StringUtil.empty(initString)) {
 			initString = app.getLocalization().getMenu("Untitled");
 		}
