@@ -31,6 +31,8 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
@@ -39,12 +41,16 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+
+import elemental2.dom.MouseEvent;
+import jsinterop.base.Js;
 
 public class SpreadsheetMouseListenerW implements MouseDownHandler,
         MouseUpHandler, MouseMoveHandler, DoubleClickHandler,
         TouchStartHandler, TouchEndHandler, TouchMoveHandler,
-        LongTouchHandler {
+        LongTouchHandler, MouseOutHandler {
 
 	protected String selectedCellName;
 	protected String prefix;
@@ -59,14 +65,27 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	private RelativeCopy relativeCopy;
 
 	private boolean pointerIsDown = false;
-	private final static boolean editEnabled = true;
+	private boolean isTouch = false;
 
 	private LongTouchManager longTouchManager;
 
 	private int numberOfTouches = 0;
 	private boolean isOverDot = false;
 	private boolean isDragingDot = false;
-	
+
+	private int lastMouseX;
+	private int lastMouseY;
+
+	private final Timer scrollScheduler = new Timer() {
+		@Override
+		public void run() {
+			handlePointerMove(isTouch, lastMouseX, lastMouseY);
+			if (pointerIsDown) {
+				scrollScheduler.schedule(150);
+			}
+		}
+	};
+
 	/*************************************************
 	 * Constructor
 	 */
@@ -123,15 +142,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		        .getIndexFromPixel(getAbsoluteX(event), getAbsoluteY(event));
 	}
 
-	private GPoint getPixelFromEvent(DomEvent<?> event) {
-		return new GPoint(getAbsoluteX(event), getAbsoluteY(event));
-	}
-
 	@Override
 	public void onDoubleClick(DoubleClickEvent doubleClickEvent) {
-		if (!editEnabled) {
-			return;
-		}
 		if (isOverDot) { // auto-fill down if dragging dot is double-clicked
 			// TODO handleAutoFillDown();
 			return;
@@ -177,22 +189,23 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	public void onTouchStart(TouchStartEvent touchStartEvent) {
 		numberOfTouches = touchStartEvent.getTouches().length();
 		if (numberOfTouches == 1) {
-			updateTableIsOverDot(touchStartEvent);
+			int mouseX = getAbsoluteX(touchStartEvent);
+			int mouseY = getAbsoluteY(touchStartEvent);
+
+			updateTableIsOverDot(true, mouseX, mouseY);
 			handlePointerDown(touchStartEvent);
-			longTouchManager.scheduleTimer(this, 
-					getAbsoluteX(touchStartEvent), 
-					getAbsoluteY(touchStartEvent));
+			longTouchManager.scheduleTimer(this, mouseX, mouseY);
 		} // else there are double (or more) touches
 		  // and we are scrolling
 		CancelEventTimer.touchEventOccured();
 	}
 
 	private void handlePointerDown(DomEvent<?> event) {
+		isTouch = EventUtil.isTouchEvent(event);
+		scrollScheduler.schedule(150);
+
 		setActiveToolbarIfNecessary();
 		//event.preventDefault();
-		if (!editEnabled) {
-			return;
-		}
 		GPoint point = getIndexFromEvent(event);
 		if (point == null) {
 			return;
@@ -250,7 +263,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	private void setActiveToolbarIfNecessary() {
 		if ((app.getGuiManager() != null)
 				&& app.showToolBar()) {
-			((GuiManagerW) app.getGuiManager())
+			app.getGuiManager()
 					.setActivePanelAndToolbar(App.VIEW_SPREADSHEET);
 		}
 	}
@@ -325,10 +338,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	}
 
 	private void handlePointerUp(DomEvent<?> event) {
-		if (!editEnabled) {
-			return;
-		}
-
 		pointerIsDown = false;
 
 		event.preventDefault();
@@ -483,31 +492,36 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
+
+		pointerIsDown = Js.<MouseEvent>uncheckedCast(event.getNativeEvent()).buttons != 0;
 		handlePointerMove(event);
 	}
 
 	private void handlePointerMove(DomEvent<?> event) {
-		if (!editEnabled) {
-			return;
-		}
-
-		GPoint point = getIndexFromEvent(event);
-
 		event.preventDefault();
-		boolean eConsumed = false;
-		if (pointerIsDown) {
+		isTouch = EventUtil.isTouchEvent(event);
+		lastMouseX = getAbsoluteX(event);
+		lastMouseY = getAbsoluteY(event);
+		scrollScheduler.cancel();
+		scrollScheduler.run();
+	}
 
+	private void handlePointerMove(boolean touch, int mouseX, int mouseY) {
+		GPoint point = table.getIndexFromPixel(mouseX, mouseY);
+
+		if (pointerIsDown) {
 			if (table.getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION
 			        || table.getTableMode() == MyTable.TABLE_MODE_DROP) {
-				// App.debug("drop is dragging ");
+				return;
+			}
+
+			if (point == null) {
 				return;
 			}
 
 			// handle editing mode drag
 			if (editor.isEditing()) {
-				// GPoint point = table.getIndexFromPixel(getAbsoluteX(event),
-				// getAbsoluteY(event));
-				if (point != null && selectedCellName != null) {
+				if (selectedCellName != null) {
 					int column2 = point.getX();
 					int row2 = point.getY();
 
@@ -544,77 +558,47 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 			// handle dot drag
 			if (isDragingDot) {
+				table.draggingToRow = point.getY();
+				table.draggingToColumn = point.getX();
+				GRectangle selRect = table.getSelectionRect(true);
 
-				eConsumed = true;
-				int mouseX = getAbsoluteX(event);
-				int mouseY = getAbsoluteY(event);
-				GPoint mouseCell = table.getIndexFromPixel(mouseX, mouseY);
-
-				if (mouseCell == null) { // user has dragged outside the table,
-					                     // to
-					                     // left or above
-					table.draggingToRow = -1;
-					table.draggingToColumn = -1;
-				} else {
-					table.draggingToRow = mouseCell.getY();
-					table.draggingToColumn = mouseCell.getX();
-					GRectangle selRect = table.getSelectionRect(true);
-
-					// increase size if we're at the bottom of the spreadsheet
-					if (table.draggingToRow + 1 == table.getRowCount()
-							&& table.draggingToRow < app
-									.getMaxSpreadsheetRowsVisible()) {
-						model.setRowCount(table.getRowCount() + 1);
-					}
-
-					// increase size if we go beyond the right edge
-					if (table.draggingToColumn + 1 == table.getColumnCount()
-							&& table.draggingToColumn < app
-									.getMaxSpreadsheetColumnsVisible()) {
-						model.setColumnCount(table.getColumnCount() + 1);
-						// view.columnHeaderRevalidate();
-						// Java's addColumn method will clear selection, so
-						// re-select our cell
-						// table.setSelection(oldSelection);
-					}
-
-					// scroll to show "highest" selected cell
-					table.scrollRectToVisible(table.getCellRect(mouseCell.y,
-					        mouseCell.x, true));
-
-					if (!selRect.contains(getAbsoluteX(event),
-					        getAbsoluteY(event))) {
-
-						int rowOffset = getRowOffset(mouseY, selRect);
-						int colOffset = getColOffset(mouseX, selRect);
-
-						// get column distance
-						if (rowOffset == 0 && colOffset == 0) {
-							table.draggingToColumn = -1;
-							table.draggingToRow = -1;
-						} else if (Math.abs(rowOffset) > Math.abs(colOffset)) {
-							table.draggingToRow = mouseCell.y;
-							table.draggingToColumn = (colOffset > 0) ? table.maxSelectionColumn
-							        : table.minSelectionColumn;
-						} else {
-							table.draggingToColumn = mouseCell.x;
-							table.draggingToRow = (rowOffset > 0) ? table.maxSelectionRow
-							        : table.minSelectionRow;
-						}
-						table.repaint();
-					}
-
-					// handle ctrl-select dragging of cell blocks
-					else {
-						/*
-						 * TODO if (e.isControlDown()) {
-						 * table.handleControlDragSelect(e); }
-						 */
-					}
+				// increase size if we're at the bottom of the spreadsheet
+				if (table.draggingToRow + 1 == table.getRowCount()
+						&& table.draggingToRow < app
+								.getMaxSpreadsheetRowsVisible()) {
+					model.setRowCount(table.getRowCount() + 1);
 				}
-			}
 
-			if (eConsumed || point == null) {
+				// increase size if we go beyond the right edge
+				if (table.draggingToColumn + 1 == table.getColumnCount()
+						&& table.draggingToColumn < app
+								.getMaxSpreadsheetColumnsVisible()) {
+					model.setColumnCount(table.getColumnCount() + 1);
+				}
+
+				// scroll to show "highest" selected cell
+				table.scrollRectToVisible(table.getCellRect(point.y,
+						point.x, true));
+
+				if (!selRect.contains(mouseX, mouseY)) {
+					int rowOffset = getRowOffset(mouseY, selRect);
+					int colOffset = getColOffset(mouseX, selRect);
+
+					// get column distance
+					if (rowOffset == 0 && colOffset == 0) {
+						table.draggingToColumn = -1;
+						table.draggingToRow = -1;
+					} else if (Math.abs(rowOffset) > Math.abs(colOffset)) {
+						table.draggingToRow = point.y;
+						table.draggingToColumn = (colOffset > 0) ? table.maxSelectionColumn
+								: table.minSelectionColumn;
+					} else {
+						table.draggingToColumn = point.x;
+						table.draggingToRow = (rowOffset > 0) ? table.maxSelectionRow
+								: table.minSelectionRow;
+					}
+					table.repaint();
+				}
 				return;
 			}
 
@@ -636,7 +620,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			if (table.isEditing() || point == null) {
 				return;
 			}
-			updateTableIsOverDot(event);
+			updateTableIsOverDot(touch, mouseX, mouseY);
 		}
 	}
 
@@ -684,21 +668,20 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		return rowOffset;
 	}
 
-	private void updateTableIsOverDot(DomEvent<?> event) {
-		// check if over the dragging dot and update accordingly
-		GPoint point = getPixelFromEvent(event);
+	private void updateTableIsOverDot(boolean touch, int mouseX, int mouseY) {
+		// check if over the dragging dot and update accordingly\
 		GPoint maxPoint = table.getMaxSelectionPixel(false);
 
 		if (maxPoint != null) {
 			int dotX = maxPoint.getX();
 			int dotY = maxPoint.getY();
 			int s = MyTableW.DOT_SIZE + 2;
-			if (EventUtil.isTouchEvent(event)) {
+			if (touch) {
 				s += 4;
 			}
 			Rectangle2D dotRect = new Rectangle2D.Double(dotX - s / 2d, dotY - s
 			        / 2d, s, s);
-			boolean overDot = dotRect.contains(point.getX(), point.getY());
+			boolean overDot = dotRect.contains(mouseX, mouseY);
 			if (isOverDot != overDot) {
 				isOverDot = overDot;
 
@@ -707,5 +690,11 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 				}
 			}
 		}
+	}
+
+	@Override
+	public void onMouseOut(MouseOutEvent event) {
+		lastMouseX = getAbsoluteX(event);
+		lastMouseY = getAbsoluteY(event);
 	}
 }
