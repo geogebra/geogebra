@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.debug.Log;
 
@@ -18,7 +17,6 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 	/** characters not allowed in filename */
 	public static final String reservedCharacters = "*/:<>?\\|+,.;=[]";
 
-	private int notSyncedFileCount;
 	/** files waiting for download */
 	int notDownloadedFileCount;
 
@@ -150,26 +148,6 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 				});
 	}
 
-	/**
-	 * @param count
-	 *            number of files waiting for sync
-	 * @param events
-	 *            sync events
-	 */
-	public void setNotSyncedFileCount(int count, ArrayList<SyncEvent> events) {
-		this.notSyncedFileCount = count;
-		checkMaterialsToDownload(events);
-	}
-
-	/**
-	 * @param events
-	 *            sync events
-	 */
-	public void ignoreNotSyncedFile(ArrayList<SyncEvent> events) {
-		this.notSyncedFileCount--;
-		checkMaterialsToDownload(events);
-	}
-
 	@Override
 	public void getFromTube(final int id, final boolean fromAnotherDevice) {
 		getApp().getLoginOperation().getGeoGebraTubeAPI().getItem(id + "",
@@ -211,23 +189,6 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 	 */
 	protected abstract void updateFile(String title, long modified,
 			Material material);
-
-	@Override
-	public boolean isSyncing() {
-		return this.notDownloadedFileCount > 0 || this.notSyncedFileCount > 0;
-	}
-
-	private void checkMaterialsToDownload(ArrayList<SyncEvent> events) {
-		if (notSyncedFileCount == 0) {
-			for (SyncEvent event : events) {
-				if (event.isFavorite() && !event.isZapped()
-						&& this.shouldKeep(event.getID())) {
-					this.notDownloadedFileCount++;
-					getFromTube(event.getID(), true);
-				}
-			}
-		}
-	}
 
 	protected abstract void showTooltip(Material mat);
 

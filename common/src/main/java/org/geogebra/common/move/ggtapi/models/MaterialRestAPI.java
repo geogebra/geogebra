@@ -14,7 +14,6 @@ import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
-import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.StringUtil;
@@ -159,11 +158,6 @@ public class MaterialRestAPI implements BackendAPI {
 	@Override
 	public void setClient(ClientInfo client) {
 		this.model = client.getModel();
-	}
-
-	@Override
-	public void sync(long i, SyncCallback syncCallback) {
-		// offline materials not supported
 	}
 
 	@Override

@@ -8,7 +8,6 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
-import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 import org.geogebra.common.util.AsyncOperation;
 
 /**
@@ -77,16 +76,6 @@ public interface BackendAPI {
 	 *            client information
 	 */
 	void setClient(ClientInfo clientInfo);
-
-	/**
-	 * Synchronize a material.
-	 *
-	 * @param timestamp
-	 *            timestamp
-	 * @param syncCallback
-	 *            callback
-	 */
-	void sync(long timestamp, SyncCallback syncCallback);
 
 	/**
 	 * @return whether availability check was done
