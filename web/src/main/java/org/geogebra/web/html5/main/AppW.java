@@ -3299,6 +3299,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return "3d".equals(getSubAppCode());
 	}
 
+	public boolean isUnbundledCas() {
+		return "cas".equals(getSubAppCode());
+	}
+
 	/**
 	 * @return the sub app code, if it exists, or the app code
 	 */
