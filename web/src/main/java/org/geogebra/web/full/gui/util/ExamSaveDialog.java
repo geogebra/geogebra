@@ -15,6 +15,13 @@ public class ExamSaveDialog {
 	private final TempStorage tempStorage;
 	private ComponentInputDialog examSave;
 
+	/**
+	 * Create simple save dialog for exam mode (will save the file in
+	 * the temporary storage)
+	 * @param app application
+	 * @param onDialogClosed to be executed when the dialog is closed
+	 *  using either the positive or negative button
+	 */
 	public ExamSaveDialog(AppW app, Runnable onDialogClosed) {
 		tempStorage = app.getExam().getTempStorage();
 
