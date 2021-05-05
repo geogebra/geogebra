@@ -428,6 +428,7 @@ public class ToolbarPanel extends FlowPanel
 		hideDragger();
 		navRail.reset();
 		resizeTabs();
+		setHeadingHeight(0);
 	}
 
 	private void addMoveBtn() {
