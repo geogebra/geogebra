@@ -11,7 +11,7 @@ public class Permissions {
 
 	public static native Promise<Permission> query(JsPropertyMap<Object> name);
 
-	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
+	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "PermissionStatus")
 	public static class Permission {
 		@JsProperty
 		public String state;

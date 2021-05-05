@@ -27,7 +27,6 @@ import org.geogebra.web.html5.main.Clipboard;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.TextAreaElement;
 
 import elemental2.core.Function;
@@ -123,8 +122,7 @@ public class CopyPasteW extends CopyPaste {
 	}
 
 	private static boolean copyToExternalSupported() {
-		return Js.isTruthy(Js.asPropertyMap(DomGlobal.navigator)
-				.nestedGet("clipboard.write"));
+		return navigatorSupports("clipboard.write");
 	}
 
 	@Override

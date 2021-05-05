@@ -20,7 +20,7 @@ public class Clipboard {
 
 	public static native Promise<Object> writeText(String text);
 
-	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
+	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "ClipboardItem")
 	public static class ClipboardItem {
 		@JsProperty
 		public JsArray<String> types;
