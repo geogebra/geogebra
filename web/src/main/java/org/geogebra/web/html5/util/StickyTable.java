@@ -37,6 +37,7 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 
 		scroller = new ScrollPanel();
 		scroller.addStyleName("scroller");
+		CustomScrollbar.apply(scroller);
 		scroller.addStyleName("customScrollbar");
 
 		scroller.setWidget(cellTable);

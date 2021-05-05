@@ -569,7 +569,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isUnbundledGeometry()) {
 			p = Layout.getDefaultPerspectives(Perspective.GEOMETRY - 1);
 		}
-		if (isUnbundledGraphing()) {
+		if (isUnbundledGraphing() || isUnbundledCas()) {
 			p = Layout.getDefaultPerspectives(Perspective.GRAPHING - 1);
 		}
 		if (isUnbundled3D()) {
@@ -612,7 +612,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void resetAllToolbars() {
-
 		GuiManagerW gm = getGuiManager();
 		DockPanelW[] panels = gm.getLayout().getDockManager().getPanels();
 		for (DockPanelW panel : panels) {
@@ -632,7 +631,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		DockPanel avPanel = gm.getLayout().getDockManager()
 				.getPanel(VIEW_ALGEBRA);
 		if (avPanel instanceof ToolbarDockPanelW) {
-			((ToolbarDockPanelW) avPanel).getToolbar().reset();
+			final ToolbarDockPanelW dockPanel = (ToolbarDockPanelW) avPanel;
+			dockPanel.getToolbar().reset();
+			dockPanel.tryBuildZoomPanel();
 		}
 	}
 
@@ -2261,6 +2262,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		updatePerspective(perspective);
 		clearConstruction();
 		restoreMaterial(subAppCode);
+		resetFullScreenBtn();
 	}
 
 	private void storeCurrentMaterial() {
@@ -2333,5 +2335,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void setNotesToolbarOpen(boolean open) {
 		getAppletFrame().setNotesToolbarOpen(open);
+	}
+
+	private void resetFullScreenBtn() {
+		GuiManagerW gm = getGuiManager();
+		DockPanel avPanel = gm.getLayout().getDockManager()
+				.getPanel(VIEW_ALGEBRA);
+		if (avPanel instanceof ToolbarDockPanelW) {
+			((ToolbarDockPanelW) avPanel).tryBuildZoomPanel();
+		}
 	}
 }
