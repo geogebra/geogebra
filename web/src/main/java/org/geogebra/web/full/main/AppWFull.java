@@ -1,6 +1,7 @@
 package org.geogebra.web.full.main;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -220,7 +221,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private Map<String, Material> constructionJson = new HashMap<>();
 	private final HashMap<String, UndoHistory> undoHistory = new HashMap<>();
 	private InputBoxType inputBoxType;
-	private String functionVars = "";
+	private List<String> functionVars = new ArrayList<>();
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -1014,7 +1015,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public String getInputBoxFunctionVars() {
+	public List<String> getInputBoxFunctionVars() {
 		return functionVars;
 	}
 
@@ -1022,7 +1023,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * setter for input box function vars
 	 * @param functionVars function vars connected to the inputbox
 	 */
-	public void setInputBoxFunctionVars(String functionVars) {
+	public void setInputBoxFunctionVars(List<String> functionVars) {
 		this.functionVars = functionVars;
 	}
 
@@ -2295,5 +2296,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void setNotesToolbarOpen(boolean open) {
 		getAppletFrame().setNotesToolbarOpen(open);
+	}
+
+	/**
+	 * Clear type and function variables for input box.
+	 */
+	public void resetInputBox() {
+		inputBoxType = null;
+		functionVars = Collections.emptyList();
 	}
 }
