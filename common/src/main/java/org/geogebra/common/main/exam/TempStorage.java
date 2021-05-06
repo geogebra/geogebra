@@ -46,7 +46,11 @@ public class TempStorage {
      * @return A copy of the tempMaterials.
      */
     public Collection<Material> collectTempMaterials() {
-        return Collections.unmodifiableCollection(tempMaterials.values());
+        Map<Integer, Material> materials = new LinkedHashMap<>();
+        for (Material mat: tempMaterials.values()) {
+            materials.put(mat.getId(), new Material(mat));
+        }
+        return Collections.unmodifiableCollection(materials.values());
     }
 
     /**
@@ -69,6 +73,6 @@ public class TempStorage {
      * @param currentMaterial current material
      */
     public void setCurrentMaterial(Material currentMaterial) {
-        this.currentMaterial = currentMaterial;
+        this.currentMaterial = new Material(currentMaterial);
     }
 }
