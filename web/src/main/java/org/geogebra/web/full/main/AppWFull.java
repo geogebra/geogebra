@@ -1260,7 +1260,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		resetMaxLayerUsed();
 		setCurrentFile(null);
 		resetUI();
-		resetPenTool();
 		clearMedia();
 	}
 
