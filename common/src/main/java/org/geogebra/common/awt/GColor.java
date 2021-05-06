@@ -392,8 +392,7 @@ public final class GColor implements GPaint {
 	}
 
 	/**
-	 * @param color
-	 *            color
+	 * @param color color
 	 * @return HTML5 color string eg rgba(255,0,0,0.5)
 	 */
 	public static String getColorString(GColor color) {
@@ -401,6 +400,26 @@ public final class GColor implements GPaint {
 				+ color.getBlue() + "," + (color.getAlpha() / 255d) + ")";
 
 		return ret;
+	}
+
+	/**
+	 * @param colorStr HTML5 color string eg rgba(255,0,0,0.5)
+	 * @return GColor
+	 */
+	public static GColor getGColor(String colorStr) {
+		if (colorStr != null && colorStr.contains("rgba(")) {
+			String[] afterRGBA = colorStr.split("rgba\\(");
+			if (afterRGBA.length == 2 && afterRGBA[0].isEmpty()) {
+				String[] colValuesStr = afterRGBA[1].split("\\)");
+				if (colValuesStr.length == 1) {
+					String[] colorValues = colValuesStr[0].split(",");
+					return colorValues.length == 4 ? newColor(Integer.valueOf(colorValues[0]),
+							Integer.valueOf(colorValues[1]), Integer.valueOf(colorValues[2]),
+							Integer.valueOf(colorValues[3]) * 255) : null;
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -462,7 +481,6 @@ public final class GColor implements GPaint {
 	 * @return new derived color with alpha set to new value
 	 */
 	public GColor deriveWithAlpha(int alpha) {
-
 		return newColor(getRed(), getGreen(), getBlue(), alpha);
 	}
 
@@ -480,7 +498,6 @@ public final class GColor implements GPaint {
 	 */
 	public static GColor mixColors(GColor color1, GColor color2,
 			double mix, int alpha) {
-
 		int r = (int) (color1.getRed() * (1 - mix) + color2.getRed() * mix);
 		int g = (int) (color1.getGreen() * (1 - mix) + color2.getGreen() * mix);
 		int b = (int) (color1.getBlue() * (1 - mix) + color2.getBlue() * mix);
