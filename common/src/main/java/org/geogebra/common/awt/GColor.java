@@ -216,6 +216,18 @@ public final class GColor implements GPaint {
 	}
 
 	/**
+	 * @param r red
+	 * @param g green
+	 * @param b blue
+	 * @param a alpha [0,1]
+	 * @return gColor
+	 */
+	public static GColor newColor(String r, String g, String b, String a) {
+		return newColor(Integer.valueOf(r),	Integer.valueOf(g), Integer.valueOf(b),
+				Integer.valueOf(a) * 255);
+	}
+
+	/**
 	 * Create a more readable (=darker) version of a color, to make it readable
 	 * on white background. Does not change the color, if it already fulfills
 	 * the requirements.
@@ -413,9 +425,8 @@ public final class GColor implements GPaint {
 				String[] colValuesStr = afterRGBA[1].split("\\)");
 				if (colValuesStr.length == 1) {
 					String[] colorValues = colValuesStr[0].split(",");
-					return colorValues.length == 4 ? newColor(Integer.valueOf(colorValues[0]),
-							Integer.valueOf(colorValues[1]), Integer.valueOf(colorValues[2]),
-							Integer.valueOf(colorValues[3]) * 255) : null;
+					return colorValues.length == 4 ? newColor(colorValues[0],
+							colorValues[1], colorValues[2], colorValues[3]) : null;
 				}
 			}
 		}
