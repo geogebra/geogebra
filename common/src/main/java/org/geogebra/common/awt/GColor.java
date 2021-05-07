@@ -273,10 +273,9 @@ public final class GColor implements GPaint {
 	 * http://www.w3.org/TR/WCAG20-TECHS/G18.html
 	 * http://web.mst.edu/~rhall/web_design/color_readability.html
 	 *
-	 * @param foreground
-	 *            the text color
-	 * @param background
-	 *            the background color
+	 * @param fgRed red
+	 * @param fgGreen green
+	 * @param fgBlue blue
 	 * @return if the contrast ration sufficient (true) or not (false)
 	 */
 	private static boolean checkColorRatioWhite(int fgRed, int fgGreen,
@@ -423,8 +422,8 @@ public final class GColor implements GPaint {
 	 */
 	public static GColor getGColor(String colorStr) {
 		if (colorStr != null && colorStr.startsWith("rgba(") && colorStr.endsWith(")")) {
-			colorStr = colorStr.substring(5, colorStr.length()-1);
-			String[] colorValues = colorStr.split(",");
+			String colorSubStr = colorStr.substring(5, colorStr.length() - 1);
+			String[] colorValues = colorSubStr.split(",");
 			return colorValues.length == 4 ? newColor(colorValues[0],
 					colorValues[1], colorValues[2], colorValues[3]) : null;
 		}
