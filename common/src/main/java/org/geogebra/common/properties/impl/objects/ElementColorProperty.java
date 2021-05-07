@@ -8,6 +8,9 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.ColorProperty;
 import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.impl.objects.delegate.ElementColorPropertyDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**
  * Color property
@@ -15,12 +18,14 @@ import org.geogebra.common.properties.impl.AbstractProperty;
 public class ElementColorProperty extends AbstractProperty implements ColorProperty {
 
 	private final GeoElement element;
+	private final GeoElementDelegate delegate;
 	private GColor[] colors;
 
 	/***/
-	public ElementColorProperty(Localization localization, GeoElement element) {
+	public ElementColorProperty(Localization localization, GeoElement element) throws NotApplicablePropertyException {
 		super(localization, "stylebar.Color");
 		this.element = element;
+		delegate = new ElementColorPropertyDelegate(element);
 	}
 
 	@Override
@@ -45,7 +50,7 @@ public class ElementColorProperty extends AbstractProperty implements ColorPrope
 
 	@Override
 	public boolean isEnabled() {
-		return element.isEuclidianVisible();
+		return element.isEuclidianVisible() && delegate.isEnabled();
 	}
 
 	private GColor[] createColorValues() {
