@@ -3264,6 +3264,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
+	 * @return whether we are running cas
+	 */
+	public boolean isUnbundledCas() {
+		return "cas".equals(getSubAppCode());
+	}
+
+	/**
 	 * @return the sub app code, if it exists, or the app code
 	 */
 	private String getSubAppCode() {

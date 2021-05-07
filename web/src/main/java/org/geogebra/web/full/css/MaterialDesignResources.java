@@ -375,26 +375,17 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_keyboard_arrow_down_black_24px.svg")
 	SVGResource toolbar_close_portrait_black();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_keyboard_arrow_right_white_24px.svg")
-	SVGResource toolbar_open_landscape_white();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_keyboard_arrow_left_white_24px.svg")
-	SVGResource toolbar_close_landscape_white();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_menu_white_24px.svg")
-	SVGResource toolbar_menu_white();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_keyboard_arrow_left_black_24px.svg")
+	SVGResource toolbar_close_landscape_black();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/baseline-menu-24px.svg")
 	SVGResource toolbar_menu_black();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/av_tab_graphing_white.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/av_tab_graphing_black.svg")
 	SVGResource toolbar_algebra_graphing();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/tools_tab_white.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/tools_tab_black.svg")
 	SVGResource toolbar_tools();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/baseline-table_chart-24px-white.svg")
-	SVGResource toolbar_table_view_white();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/baseline-table_chart-24px-black.svg")
 	SVGResource toolbar_table_view_black();
@@ -517,9 +508,6 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_gesture_white_24px.svg")
 	SVGResource mow_pen_panel();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/tools_tab_black.svg")
-	SVGResource mow_tools_panel();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_attach_file_white_24px.svg")
 	SVGResource mow_media_panel();
