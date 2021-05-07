@@ -35,8 +35,8 @@ public class ExamSaveDialog {
 
 	private void initGui(AppW app) {
 		DialogData data = ((DialogManagerW) app.getDialogManager()).getSaveDialogData();
-		String initString = tempStorage.getCurrentMaterial().getTitle();
-
+		Material activeMaterial = app.getActiveMaterial();
+		String initString = activeMaterial != null ? activeMaterial.getTitle() : null;
 		if (StringUtil.empty(initString)) {
 			initString = app.getLocalization().getMenu("Untitled");
 		}
@@ -57,11 +57,11 @@ public class ExamSaveDialog {
 	private void saveAndConfirm(AppW app, Runnable onDialogClosed) {
 		String msg = app.getLocalization().getMenu("SavedSuccessfully");
 		try {
-			Material material = tempStorage.getCurrentMaterial();
+			Material material = app.getActiveMaterial();
 			material.setTitle(examSave.getInputText());
 			material.setBase64(app.getGgbApi().getBase64());
 			material.setThumbnailBase64(getThumbnail(app));
-			tempStorage.saveTempMaterial();
+			tempStorage.saveTempMaterial(material);
 			app.setSaved();
 		} catch (RuntimeException ex) {
 			msg = app.getLocalization().getError("SaveFileFailed");
