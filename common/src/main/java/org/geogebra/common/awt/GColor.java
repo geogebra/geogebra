@@ -422,16 +422,11 @@ public final class GColor implements GPaint {
 	 * @return GColor
 	 */
 	public static GColor getGColor(String colorStr) {
-		if (colorStr != null && colorStr.contains("rgba(")) {
-			String[] afterRGBA = colorStr.split("rgba\\(");
-			if (afterRGBA.length == 2 && afterRGBA[0].isEmpty()) {
-				String[] colValuesStr = afterRGBA[1].split("\\)");
-				if (colValuesStr.length == 1) {
-					String[] colorValues = colValuesStr[0].split(",");
-					return colorValues.length == 4 ? newColor(colorValues[0],
-							colorValues[1], colorValues[2], colorValues[3]) : null;
-				}
-			}
+		if (colorStr != null && colorStr.startsWith("rgba(") && colorStr.endsWith(")")) {
+			colorStr = colorStr.substring(5, colorStr.length()-1);
+			String[] colorValues = colorStr.split(",");
+			return colorValues.length == 4 ? newColor(colorValues[0],
+					colorValues[1], colorValues[2], colorValues[3]) : null;
 		}
 		return null;
 	}
