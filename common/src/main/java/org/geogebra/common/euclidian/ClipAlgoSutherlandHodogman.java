@@ -82,18 +82,18 @@ public class ClipAlgoSutherlandHodogman {
 
 	private static MyPoint intersection(Edge edge, MyPoint p,
 			MyPoint q) {
-		double A1 = edge.end.y - edge.start.y;
-		double B1 = edge.start.x - edge.end.x;
-		double C1 = A1 * edge.start.x + B1 * edge.start.y;
+		double a1 = edge.end.y - edge.start.y;
+		double b1 = edge.start.x - edge.end.x;
+		double c1 = a1 * edge.start.x + b1 * edge.start.y;
 
-		double A2 = q.y - p.y;
-		double B2 = p.x - q.x;
-		double C2 = A2 * p.x + B2 * p.y;
+		double a2 = q.y - p.y;
+		double b2 = p.x - q.x;
+		double c2 = a2 * p.x + b2 * p.y;
 
-		double det = A1 * B2 - A2 * B1;
+		double det = a1 * b2 - a2 * b1;
 
-		double x = (B2 * C1 - B1 * C2) / det;
-		double y = (A1 * C2 - A2 * C1) / det;
+		double x = (b2 * c1 - b1 * c2) / det;
+		double y = (a1 * c2 - a2 * c1) / det;
 
 		// add 0.0 to avoid -0.0 problem.
 		return new MyPoint(x + 0.0, y + 0.0, q.getSegmentType());
