@@ -58,11 +58,15 @@ public class ExamSaveDialog {
 		String msg = app.getLocalization().getMenu("SavedSuccessfully");
 		try {
 			Material material = app.getActiveMaterial();
-			material.setTitle(examSave.getInputText());
-			material.setBase64(app.getGgbApi().getBase64());
-			material.setThumbnailBase64(getThumbnail(app));
-			tempStorage.saveTempMaterial(material);
-			app.setSaved();
+			if (material != null) {
+				material.setTitle(examSave.getInputText());
+				material.setBase64(app.getGgbApi().getBase64());
+				material.setThumbnailBase64(getThumbnail(app));
+				tempStorage.saveTempMaterial(material);
+				app.setSaved();
+			} else {
+				msg = app.getLocalization().getError("SaveFileFailed");
+			}
 		} catch (RuntimeException ex) {
 			msg = app.getLocalization().getError("SaveFileFailed");
 		} finally {
