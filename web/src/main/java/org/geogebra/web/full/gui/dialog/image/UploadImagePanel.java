@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.dialog.image;
 
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FileUpload;
@@ -9,7 +8,6 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
 import elemental2.dom.FileList;
 import elemental2.dom.FileReader;
@@ -24,17 +22,16 @@ public class UploadImagePanel extends VerticalPanel {
 	private String fileData;
 	private String fileName;
 
-	private int previewHeight;
-	private int previewWidth;
+	private final int previewHeight;
+	private final int previewWidth;
 	
 	/** used to reset the uploadImageBtn */
 	private FormPanel panel;
 	private FileUpload uploadImageBtn;
 	private Image previewImg;
 
-	private UploadImageDialog dialog;
-	private static UploadImageWithoutDialog uploadImageWithoutDialog;
-	private static boolean globalListenersAdded = false;
+	private final UploadImageDialog dialog;
+	private UploadImageWithoutDialog uploadImageWithoutDialog;
 
 	/**
 	 * @param uploadImageDialog
@@ -59,11 +56,7 @@ public class UploadImagePanel extends VerticalPanel {
 	 */
 	public UploadImagePanel(UploadImageWithoutDialog uploadImageWithoutDialog) {
 		this(null, 0, 0);
-		setUploadImageWithoutDialog(uploadImageWithoutDialog);
-	}
-
-	private static void setUploadImageWithoutDialog(UploadImageWithoutDialog noDialog) {
-		uploadImageWithoutDialog = noDialog;
+		this.uploadImageWithoutDialog = uploadImageWithoutDialog;
 	}
 
 	private void initGUI() {
@@ -83,7 +76,7 @@ public class UploadImagePanel extends VerticalPanel {
 	public void addChangeHandler(Element el) {
 		el.setAttribute("accept", "image/*");
 		HTMLInputElement input = Js.uncheckedCast(el);
-		Dom.addEventListener(el, "change", (event) -> {
+		input.addEventListener("change", event -> {
 			File fileToHandle = null;
 			FileList files = input.files;
 			if (files.length > 0) {
@@ -107,33 +100,6 @@ public class UploadImagePanel extends VerticalPanel {
 				reader.readAsDataURL(fileToHandle);
 			}
 		});
-		if (!globalListenersAdded) {
-			addGlobalListeners();
-		}
-	}
-
-	private static void addGlobalListeners() {
-		globalListenersAdded = true;
-		// check if focus comes back from file browser (needed if file browser was canceled)
-		DomGlobal.document.body.addEventListener("focus", evt -> {
-			setMoveMode();
-		});
-		// needed for firefox but not safari
-		DomGlobal.window.addEventListener("mouseover", evt -> {
-			if (!DomGlobal.navigator.userAgent.contains("Safari")) {
-				setMoveMode();
-			}
-		});
-		// needed for touch devices
-		DomGlobal.window.addEventListener("touchstart", evt -> {
-			setMoveMode();
-		});
-	}
-
-	private static void setMoveMode() {
-		if (uploadImageWithoutDialog != null) {
-			uploadImageWithoutDialog.setSelectMode();
-		}
 	}
 
 	private void fileSelected(String fData, String fName) {

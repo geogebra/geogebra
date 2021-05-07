@@ -38,26 +38,19 @@ public class ExamUtil {
 			GeoGebraGlobal.visibilityEventMain(this::startCheating, this::stopCheating);
 		} else {
 
-			DomGlobal.window.onblur = (e) -> {
-				// Borrowed from http://www.quirksmode.org/js/events_properties.html
-
+			DomGlobal.window.onblur = (event) -> {
 				// The focusout event should not be caught:
-				if ("blur".equals(e.type)) { //&& fullscreen == true
-					//$wnd.console.log("5");
+				if ("blur".equals(event.type)) {
 					startCheating();
 				}
 				return null;
 			};
 			DomGlobal.window.onfocus = (event) -> {
-				//$wnd.console.log("6");
 				if (Browser.isCoveringWholeScreen()) {
 					stopCheating();
-					//	focus = true;
-					//	console.log("focus 3 " + focus);
 				}
 				return null;
 			};
-			// window resize has 2 cases: full screen and not full screen
 			DomGlobal.window.addEventListener("resize",
 					(evt) -> {
 						boolean fullscreen = Browser.isCoveringWholeScreen();
