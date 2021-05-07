@@ -23,12 +23,14 @@ public final class ExportLoader {
 	@JsProperty(name = "C2S")
 	public static native Object getCanvas2Svg();
 
-	/**
-	 *
-	 * @return true if canvas2pdf is already loaded
-	 */
 	@JsProperty(name = "canvas2pdf")
 	public static native Object getCanvas2Pdf();
+
+	@JsProperty(name = "gifshot")
+	public static native Gifshot getGifshot();
+
+	@JsProperty(name = "WebMGL")
+	public static native Object getWhammy();
 
 	/**
 	 * @param callback to be executed when canvas2svg is loaded
@@ -38,25 +40,7 @@ public final class ExportLoader {
 		if (getCanvas2Svg() != null) {
 			callback.run();
 		} else {
-			ScriptElement scriptElement = Document.get().createScriptElement();
-			scriptElement.setSrc(GWT.getModuleBaseURL() + "js/canvas2svg.min.js");
-			ScriptLoadCallback loadCallback = new ScriptLoadCallback() {
-				@Override
-				public void onLoad() {
-					callback.run();
-				}
-
-				@Override
-				public void onError() {
-					Log.error("Canvas2SVG failed to load");
-				}
-
-				@Override
-				public void cancel() {
-					// only for localization files
-				}
-			};
-			ResourcesInjector.loadJS(scriptElement, loadCallback);
+			load(callback, "canvas2svg");
 		}
 	}
 
@@ -68,25 +52,55 @@ public final class ExportLoader {
 		if (getCanvas2Pdf() != null) {
 			callback.run();
 		} else {
-			ScriptElement scriptElement = Document.get().createScriptElement();
-			scriptElement.setSrc(GWT.getModuleBaseURL() + "js/canvas2pdf.min.js");
-			ScriptLoadCallback loadCallback = new ScriptLoadCallback() {
-				@Override
-				public void onLoad() {
-					callback.run();
-				}
-
-				@Override
-				public void onError() {
-					Log.error("Canvas2PDF failed to load");
-				}
-
-				@Override
-				public void cancel() {
-					// only for localization files
-				}
-			};
-			ResourcesInjector.loadJS(scriptElement, loadCallback);
+			load(callback, "canvas2pdf");
 		}
+	}
+
+	/**
+	 * @param callback to be executed when gifshot is loaded
+	 */
+	@JsOverlay
+	public static void onGifshotLoaded(Runnable callback) {
+		if (getGifshot() != null) {
+			callback.run();
+		} else {
+			load(callback, "gifshot");
+		}
+	}
+
+	/**
+	 * @param callback to be executed when whammy is loaded
+	 */
+	@JsOverlay
+	public static void onWhammyLoaded(Runnable callback) {
+		if (getWhammy() != null) {
+			callback.run();
+		} else {
+			load(callback, "whammy");
+		}
+	}
+
+	@JsOverlay
+	private static void load(Runnable callback, String name) {
+		ScriptElement scriptElement = Document.get().createScriptElement();
+		scriptElement.setSrc(GWT.getModuleBaseURL() + "js/" + name + ".min.js");
+		ScriptLoadCallback loadCallback = new ScriptLoadCallback() {
+			@Override
+			public void onLoad() {
+				Log.debug(name + " loaded");
+				callback.run();
+			}
+
+			@Override
+			public void onError() {
+				Log.error(name + " failed to load");
+			}
+
+			@Override
+			public void cancel() {
+				// only for localization files
+			}
+		};
+		ResourcesInjector.loadJS(scriptElement, loadCallback);
 	}
 }
