@@ -1,18 +1,12 @@
 package org.geogebra.web.geogebra3D.web.main;
 
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3DnoWebGL.EuclidianController3DWnoWebGL;
 import org.geogebra.web.geogebra3D.web.euclidian3DnoWebGL.EuclidianView3DWnoWebGL;
-import org.geogebra.web.geogebra3D.web.input3D.EuclidianControllerInput3DW;
-import org.geogebra.web.geogebra3D.web.input3D.EuclidianViewInput3DW;
-import org.geogebra.web.geogebra3D.web.input3D.InputZSpace3DW;
-import org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
@@ -21,8 +15,6 @@ import org.geogebra.web.html5.main.AppW;
  *
  */
 public class App3DW {
-
-	static private boolean useZSpace = false;
 
 	/**
 	 * 
@@ -33,14 +25,6 @@ public class App3DW {
 	static final public EuclidianController3DW newEuclidianController3DW(
 	        Kernel kernel) {
 		if (Browser.supportsWebGL()) {
-
-			useZSpace = ZSpaceGwt.zspaceIsAvailable();
-			Log.debug("useZSpace: " + useZSpace);
-			if (useZSpace) {
-				Input3D input = new InputZSpace3DW();
-				return new EuclidianControllerInput3DW(kernel, input);
-			}
-
 			return new EuclidianController3DW(kernel);
 		}
 
@@ -58,10 +42,6 @@ public class App3DW {
 	static final public EuclidianView3DW newEuclidianView3DW(
 	        EuclidianController3DW ec, EuclidianSettings settings) {
 		if (Browser.supportsWebGL()) {
-			if (useZSpace) {
-				return new EuclidianViewInput3DW(ec, settings);
-			}
-
 			return new EuclidianView3DW(ec, settings);
 		}
 

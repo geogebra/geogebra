@@ -1,10 +1,10 @@
 package org.geogebra.web.html5.util.pdf;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-
+import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
 import elemental2.dom.FileReader;
+import elemental2.dom.HTMLCanvasElement;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -97,21 +97,23 @@ public class PDFWrapper {
 	}
 
 	private void getPage() {
-		Canvas canvas = Canvas.createIfSupported();
+		HTMLCanvasElement canvas = (HTMLCanvasElement)
+				DomGlobal.document.createElement("canvas");
 		document.getPage(pageNumber).then(page -> {
 			PageViewPort viewport = page.getViewport(getViewportOptions());
 			RenderTask renderTask = page.render(getRendererContext(viewport,
-					canvas.getContext2d()));
-			canvas.setCoordinateSpaceWidth(viewport.width);
-			canvas.setCoordinateSpaceHeight(viewport.height);
+					Js.uncheckedCast(canvas.getContext("2d"))));
+			canvas.width = viewport.width;
+			canvas.height = viewport.height;
 			return renderTask.promise;
 		}).then(dummy -> {
-			onPageDisplay(canvas.toDataUrl());
+			onPageDisplay(canvas.toDataURL());
 			return null;
 		});
 	}
 
-	private JsPropertyMap<Object> getRendererContext(PageViewPort viewport, Context2d context2d) {
+	private JsPropertyMap<Object> getRendererContext(PageViewPort viewport,
+			CanvasRenderingContext2D context2d) {
 		JsPropertyMap<Object> rendererContext = JsPropertyMap.of();
 		rendererContext.set("canvasContext", context2d);
 		rendererContext.set("viewport", viewport);

@@ -15,7 +15,6 @@ import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.MyImageW;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -33,6 +32,9 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.CanvasRenderingContext2D;
+import jsinterop.base.Js;
 
 /**
  * Cell content renderer
@@ -365,7 +367,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 				canv.setCoordinateSpaceHeight(mw.getHeight());
 				canv.setWidth(mw.getWidth() + "px");
 				canv.setHeight(mw.getHeight() + "px");
-				Context2d c2d = canv.getContext2d();
+				CanvasRenderingContext2D c2d = Js.uncheckedCast(canv.getContext2d());
 				c2d.drawImage(mw.getImage(), 0, 0);
 				sp.add(canv);
 				table1.setWidget(row, column, sp);

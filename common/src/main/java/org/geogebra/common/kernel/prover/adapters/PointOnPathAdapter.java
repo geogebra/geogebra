@@ -27,6 +27,10 @@ public class PointOnPathAdapter extends ProverAdapter {
 			}
 			PVariable[] fv = ((SymbolicParametersBotanaAlgo) path)
 					.getBotanaVars(path); // 4 variables
+			if (fv == null) {
+				fallback(kernel);
+				return null;
+			}
 			botanaPolynomials = new PPolynomial[1];
 			botanaPolynomials[0] = PPolynomial.collinear(fv[0], fv[1], fv[2],
 					fv[3], botanaVars[0], botanaVars[1]);
@@ -42,6 +46,11 @@ public class PointOnPathAdapter extends ProverAdapter {
 				}
 				PVariable[] fv = ((SymbolicParametersBotanaAlgo) path)
 						.getBotanaVars(path); // 4 variables
+				if (fv == null) {
+					fallback(kernel);
+					return null;
+				}
+
 				botanaPolynomials = new PPolynomial[1];
 				// If this new point is D, and ABC is already a triangle with
 				// the circumcenter O,
@@ -62,6 +71,11 @@ public class PointOnPathAdapter extends ProverAdapter {
 				}
 				PVariable[] vparabola = ((SymbolicParametersBotanaAlgo) path)
 						.getBotanaVars(path);
+				if (vparabola == null) {
+					fallback(kernel);
+					return null;
+				}
+
 				botanaPolynomials = new PPolynomial[3];
 
 				// FP = PT
@@ -96,6 +110,10 @@ public class PointOnPathAdapter extends ProverAdapter {
 
 				PVariable[] vellipse = ((SymbolicParametersBotanaAlgo) path)
 						.getBotanaVars(path);
+				if (vellipse == null) {
+					fallback(kernel);
+					return null;
+				}
 
 				if (path.getParentAlgorithm() instanceof AlgoConicFivePoints) {
 					botanaPolynomials = new PPolynomial[2];
@@ -130,8 +148,20 @@ public class PointOnPathAdapter extends ProverAdapter {
 
 			}
 		}
+		fallback(kernel);
+		return null;
+		// throw new NoSymbolicParametersException();
+	}
 
-		throw new NoSymbolicParametersException();
+	void fallback(Kernel kernel) {
+		// In the general case set up two dummy variables. They will be used
+		// by the numerical substitution later in the prover.
+		if (botanaVars != null) {
+			return;
+		}
+		botanaVars = new PVariable[2];
+		botanaVars[0] = new PVariable(kernel);
+		botanaVars[1] = new PVariable(kernel);
 	}
 
 }

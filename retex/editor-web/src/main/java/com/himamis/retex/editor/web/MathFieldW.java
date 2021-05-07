@@ -31,10 +31,8 @@ import java.util.ArrayList;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -75,7 +73,10 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.ColorW;
+import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
+import elemental2.dom.CSSProperties;
+import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.ClipboardEvent;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.KeyboardEvent;
@@ -89,7 +90,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private final MathFieldInternal mathFieldInternal;
 	private final Canvas html;
-	private Context2d ctx;
+	private CanvasRenderingContext2D ctx;
 	private final Panel parent;
 	private boolean focused = false;
 	private TeXIcon lastIcon;
@@ -177,7 +178,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 		// el.getElement().setTabIndex(1);
 		if (canvas != null) {
-			this.ctx = canvas.getContext2d();
+			this.ctx = JLMContextHelper.as(canvas.getContext2d());
 		}
 		SelectionBox.touchSelection = false;
 		mathFieldInternal.setSelectionMode(true);
@@ -317,11 +318,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (ctx == null || height < 0) {
 			return;
 		}
-		ctx.getCanvas().getStyle().setHeight(height, Unit.PX);
+		ctx.canvas.style.height = CSSProperties.HeightUnionType.of(height + "px");
 
 		double value = computeWidth();
-		ctx.getCanvas().getStyle().setWidth(value,
-				Unit.PX);
+		ctx.canvas.style.width = CSSProperties.WidthUnionType.of(value + "px");
 		parent.setHeight(height + "px");
 		parent.getElement().getStyle().setVerticalAlign(VerticalAlign.TOP);
 		repaintWeb();
@@ -598,8 +598,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}
 		final double height = computeHeight();
 		final double width = computeWidth();
-		ctx.getCanvas().setHeight((int) Math.ceil(height * ratio));
-		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
+		ctx.canvas.height = (int) Math.ceil(height * ratio);
+		ctx.canvas.width = (int) Math.ceil(width * ratio);
 		wasPaintedWithCursor = CursorBox.visible();
 		paint(ctx, getMargin(lastIcon));
 	}
@@ -612,7 +612,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * Paints the formula on a canvas
 	 * @param ctx canvas context
 	 */
-	public void paint(Context2d ctx, int top) {
+	public void paint(CanvasRenderingContext2D ctx, int top) {
 		JlmLib.draw(lastIcon, ctx, 0, top, new ColorW(foregroundCssColor),
 				new ColorW(backgroundCssColor), null, ratio);
 	}
