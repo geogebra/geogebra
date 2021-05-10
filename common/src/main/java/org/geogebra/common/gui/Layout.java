@@ -643,6 +643,24 @@ public abstract class Layout implements SettingListener {
 					SwingConstants.HORIZONTAL_SPLIT);
 		}
 		return spData;
+	}
 
+	/**
+	 * @param dockPanelData
+	 *            dock panel data array
+	 * @param viewId
+	 *            view id
+	 * @return dock panel data index in array
+	 */
+	public static int findDockPanelData(DockPanelData[] dockPanelData, int viewId) {
+		if (dockPanelData == null) {
+			return -1;
+		}
+		for (int i = 0; i < dockPanelData.length; i++) {
+			if (dockPanelData[i].getViewId() == viewId) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }

@@ -35,7 +35,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class KeyboardManager
 		implements ResizeHandler, KeyboardManagerInterface {
 
-	private static final int SWITCHER_HEIGHT = 40;
+	private static final int SWITCHER_HEIGHT = 42;
 	private AppW app;
 	private RootPanel keyboardRoot;
 	private VirtualKeyboardGUI keyboard;
@@ -117,6 +117,11 @@ public class KeyboardManager
 		if (realHeight > 0) {
 			return realHeight;
 		}
+		return estimateHiddenKeyboardHeight();
+	}
+
+	@Override
+	public int estimateHiddenKeyboardHeight() {
 		int keyboardContentHeight = app.needsSmallKeyboard() ? TabbedKeyboard.SMALL_HEIGHT
 				: TabbedKeyboard.BIG_HEIGHT;
 		return keyboardContentHeight + SWITCHER_HEIGHT;

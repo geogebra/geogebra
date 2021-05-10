@@ -7,6 +7,7 @@ import org.geogebra.common.io.layout.DockSplitPaneData;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -73,7 +74,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	 *            application
 	 */
 	public DockSplitPaneW(int newOrientation, AppW app) {
-		super(app.getGeoGebraElement());
+		super(app.isUnbundled() ? 16 : 8, app.getGeoGebraElement());
 		this.app = app;
 		setOrientation(newOrientation);
 		setResizeWeight(0.5);
@@ -82,6 +83,9 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		dividerLocation = 100;
 		if (hasSplittersFrozen()) {
 			addStyleName("splitterFixed");
+		}
+		if (!app.isUnbundledOrWhiteboard()) {
+			addStyleName("highlightDraggers");
 		}
 	}
 
@@ -524,16 +528,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	}
 
 	@Override
-	public String toString(String prefix) {
-		String prefix2 = prefix + "-";
-		return "\n" + prefix + "split=" + getDividerLocation() + "\n" + prefix
-				+ "width=" + getOffsetWidth() + "\n" + prefix + "left"
-				+ ((DockComponent) getLeftComponent()).toString(prefix2) + "\n"
-				+ prefix + "right"
-				+ ((DockComponent) getRightComponent()).toString(prefix2);
-	}
-
-	@Override
 	public boolean updateResizeWeight() {
 		boolean takesNewSpaceLeft = false;
 		boolean takesNewSpaceRight = false;
@@ -571,6 +565,16 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		if (rightComponent != null) {
 			((DockComponent) rightComponent).setDockPanelsVisible(visible);
 		}
+	}
+
+	/**
+	 * Reorder components; only a setter, GuiManager::setShowView needs to be called after.
+	 * @param left new left
+	 * @param right new right
+	 */
+	public void setComponentOrder(DockPanelW left, DockPanelW right) {
+		leftComponent = left;
+		rightComponent = right;
 	}
 
 	/*************************************************************************
@@ -700,7 +704,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	 * needed
 	 */
 	public void checkDividerIsOutside() {
-
 		// w, h should contain the dimensions visible on screen
 		int w = this.getElement().getClientWidth();
 		int h = this.getElement().getClientHeight();
@@ -813,6 +816,45 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	}
 
 	@Override
+	public void onDragEnd() {
+		if (!app.isUnbundled()) {
+			return;
+		}
+		if (!app.isPortrait()) {
+			if (getDividerLocation() > 0.9 * getOffsetWidth()) {
+				hideView(leftComponent);
+			}
+			// 72px is the width of navigation rail
+			int dividerPosition = getDividerLocation() - 72;
+			if (dividerPosition < 0.1 * getOffsetWidth()) {
+				hideToolbar(leftComponent);
+			}
+		}
+		if (app.isPortrait()) {
+			if (getDividerLocation() < 0.1 * getOffsetHeight()) {
+				hideView(rightComponent);
+			}
+			// 56 is the height of the navigation rail
+			int dividerPosition = getDividerLocation() + 56;
+			if (dividerPosition > 0.9 * getOffsetHeight()) {
+				hideToolbar(rightComponent);
+			}
+		}
+	}
+
+	private void hideToolbar(Widget hide) {
+		if (hide instanceof ToolbarDockPanelW) {
+			((ToolbarDockPanelW) hide).hideToolbar();
+		}
+	}
+
+	private void hideView(Widget hide) {
+		if (hide instanceof ToolbarDockPanelW) {
+			((ToolbarDockPanelW) hide).hideOppositeView();
+		}
+	}
+
+	@Override
 	public void setWidgetSize(Widget widget, double size) {
 		LayoutData data = (LayoutData) widget.getLayoutData();
 		if (data.direction == Direction.CENTER) {
@@ -835,5 +877,11 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	public int getMaxWidgetSize() {
 		return this.orientation == SwingConstants.VERTICAL_SPLIT
 				? getOffsetHeight() : getOffsetWidth();
+	}
+
+	@Override
+	public String toString() {
+		char splitter = this.orientation == SwingConstants.VERTICAL_SPLIT ? '-' : '|';
+		return "[" + leftComponent + splitter + rightComponent + "]";
 	}
 }

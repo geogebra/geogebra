@@ -35,7 +35,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -959,7 +958,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		kernel.initUndoInfo();
 		resetMaxLayerUsed();
 		setCurrentFile(null);
-		setMoveMode();
 
 		return true;
 	}
@@ -1029,24 +1027,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		resetUI();
-		resetPenTool();
 		resetUrl();
 	}
 
 	private void resetPages() {
 		if (pageController != null) {
 			pageController.resetPageControl();
-		}
-	}
-
-	/**
-	 * Selects Pen tool in whiteboard
-	 */
-	protected final void resetPenTool() {
-		if (isWhiteboardActive()) {
-			getActiveEuclidianView().getSettings()
-					.setLastPenThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
-			setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
 		}
 	}
 
@@ -1744,9 +1730,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		// update layout
 		updateTreeUI();
-
-		// reset mode and focus
-		set1rstMode();
 	}
 
 	/**
@@ -2387,11 +2370,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getGuiManager() != null) {
 			getGuiManager().updateToolbar();
 		}
-
-		if (isUnbundled()) {
-			return;
-		}
-		set1rstMode();
 	}
 
 	@Override
@@ -3283,6 +3261,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public boolean isUnbundled3D() {
 		return "3d".equals(getSubAppCode());
+	}
+
+	/**
+	 * @return whether we are running cas
+	 */
+	public boolean isUnbundledCas() {
+		return "cas".equals(getSubAppCode());
 	}
 
 	/**

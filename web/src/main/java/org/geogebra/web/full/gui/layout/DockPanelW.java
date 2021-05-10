@@ -22,6 +22,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -63,16 +64,12 @@ public abstract class DockPanelW extends ResizeComposite
 	/** app */
 	protected AppW app;
 	private boolean longStyleBar = false;
+	protected ZoomPanel zoomPanel;
 
 	/**
 	 * The ID of this dock panel.
 	 */
 	protected int id;
-
-	/**
-	 * The title of this dock panel.
-	 */
-	private final String title;
 
 	/**
 	 * If this panel is visible.
@@ -126,18 +123,6 @@ public abstract class DockPanelW extends ResizeComposite
 	 * The component used for this view.
 	 */
 	protected Widget component;
-
-	/**
-	 * The location of this panel in the view menu. If -1 this panel won't
-	 * appear there at all.
-	 */
-	private int menuOrder;
-
-	/**
-	 * Shortcut to show this panel, SHIFT is automatically used as modifier,
-	 * \u0000 is the default value.
-	 */
-	private char menuShortcut;
 
 	/**
 	 * Indicator whether this panel is the last one in the main frame. In this
@@ -200,56 +185,22 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/**
 	 * Prepare dock panel. DockPanel::register() has to be called to make this
-	 * panel fully functional! No shortcut is assigned to the view in this
-	 * construtor.
-	 * 
-	 * @param id
-	 *            The id of the panel
-	 * @param title
-	 *            The title phrase of the view located in plain.properties
-	 * @param toolbar
-	 *            The default toolbar string (or null if this view has none)
-	 * @param hasStyleBar
-	 *            If a style bar exists
-	 * @param menuOrder
-	 *            The location of this view in the view menu, -1 if the view
-	 *            should not appear at all
-	 */
-	public DockPanelW(int id, String title, String toolbar, boolean hasStyleBar,
-			int menuOrder) {
-		this(id, title, toolbar, hasStyleBar, menuOrder, '\u0000');
-	}
-
-	/**
-	 * Prepare dock panel. DockPanel::register() has to be called to make this
 	 * panel fully functional!
 	 * 
 	 * @param id
 	 *            The id of the panel
-	 * @param title
-	 *            The title phrase of the view located in plain.properties
 	 * @param toolbar
 	 *            The default toolbar string (or null if this view has none)
 	 * @param hasStyleBar
 	 *            If a style bar exists
-	 * @param menuOrder
-	 *            The location of this view in the view menu, -1 if the view
-	 *            should not appear at all
-	 * @param menuShortcut
-	 *            The shortcut character which can be used to make this view
-	 *            visible
 	 */
-	public DockPanelW(int id, String title, String toolbar, boolean hasStyleBar,
-			int menuOrder, char menuShortcut) {
+	public DockPanelW(int id, String toolbar, boolean hasStyleBar) {
 		this.id = id;
-		this.title = title;
 		this.defaultToolbarString = toolbar;
 
 		// this is different in Web and Desktop!
 		setToolbarString(defaultToolbarString);
 
-		this.menuOrder = menuOrder;
-		this.menuShortcut = menuShortcut;
 		this.hasStyleBar = hasStyleBar;
 		this.alone = false;
 	}
@@ -366,7 +317,19 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/** Builds zoom panel */
 	public void tryBuildZoomPanel() {
-		// overridden in EV
+		DockManagerW dm = ((DockManagerW) app.getGuiManager().getLayout()
+				.getDockManager());
+
+		boolean bottomRight = dm.getRoot() == null
+				|| dm.getRoot().isBottomRight(this);
+		if (zoomPanel != null) {
+			zoomPanel.removeFromParent();
+			zoomPanel = null;
+		}
+		if (bottomRight) {
+			zoomPanel = new ZoomPanel(null, app, bottomRight, false);
+			app.setZoomPanel(zoomPanel);
+		}
 	}
 
 	/**
@@ -477,7 +440,9 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	protected void addZoomPanel(MyDockLayoutPanel dockLayoutPanel,
 			InsertPanel controls) {
-		// see overrides
+		if (zoomPanel != null) {
+			dockLayoutPanel.addSouth(zoomPanel, 0);
+		}
 	}
 
 	private boolean forceCloseButton() {
@@ -521,6 +486,13 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	/**
+	 * @return The height that AV should have minimally in portrait mode.
+	 */
+	public double getMinVHeight(boolean keyboardShowing) {
+		return 0;
+	}
+
+	/***
 	 * @param context2d rendering context
 	 * @param callback to be called on both success and failure
 	 * @param left left offset in pixels
@@ -543,6 +515,10 @@ public abstract class DockPanelW extends ResizeComposite
 		});
 	}
 
+	public void onOrientationChange() {
+		// only for toolbar
+	}
+
 	/**
 	 * extends DockLayoutPanel to expose getCenterHeight() and getCenterWidth()
 	 * TODO: move some code above into this class, e.g. setLayout(), or possibly
@@ -555,6 +531,11 @@ public abstract class DockPanelW extends ResizeComposite
 		public MyDockLayoutPanel() {
 			super(Style.Unit.PX);
 			addStyleName("ggbdockpanelhack");
+			addAttachHandler(evt -> {
+				if (evt.isAttached()) {
+					getElement().getParentElement().addClassName("dockPanelParent");
+				}
+			});
 		}
 
 		@Override
@@ -855,36 +836,6 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	/**
-	 * @return The title of this view.
-	 */
-	public String getViewTitle() {
-		return title;
-	}
-
-	/**
-	 * @return The order of this panel in the view menu, with 0 being "highest".
-	 *         Will be -1 if this view does not appear in the menu at all.
-	 */
-	public int getMenuOrder() {
-		return menuOrder;
-	}
-
-	/**
-	 * @return Whether the current view has a menu shortcut to toggle its
-	 *         visibility.
-	 */
-	public boolean hasMenuShortcut() {
-		return menuShortcut != '\u0000';
-	}
-
-	/**
-	 * @return The menu shortcut of this view.
-	 */
-	public char getMenuShortcut() {
-		return menuShortcut;
-	}
-
-	/**
 	 * @return If this panel has a toolbar.
 	 */
 	public boolean hasToolbar() {
@@ -931,8 +882,8 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	@Override
-	public String toString(String prefix) {
-		return "\n" + prefix + this.toString();
+	public String toString() {
+		return "view:" + this.getViewId();
 	}
 
 	@Override
