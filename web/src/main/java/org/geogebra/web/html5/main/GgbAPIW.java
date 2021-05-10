@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EmbedManager;
@@ -35,6 +36,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
@@ -910,29 +912,23 @@ public class GgbAPIW extends GgbAPI {
 		((AppW) app).getAppletFrame().getScreenshotBase64(callback);
 	}
 
-	/**
-	 * GGB-1780
-	 * 
-	 * @return current construction as SVG
-	 */
 	@Override
-	final public String exportSVG(String filename) {
+	final public void exportSVG(String filename, Consumer<String> callback) {
 		EuclidianView ev = app.getActiveEuclidianView();
 
 		if (ev instanceof EuclidianViewW) {
 			EuclidianViewW evw = (EuclidianViewW) ev;
 
-			String svg = evw.getExportSVG(1, true);
-
-			if (filename != null) {
-				// can't use data:image/svg+xml;utf8 in IE11 / Edge
-				Browser.exportImage(Browser.encodeSVG(svg), filename);
-			}
-
-			return svg;
+			evw.getExportSVG(1, true, (svg) -> {
+				if (filename != null) {
+					// can't use data:image/svg+xml;utf8 in IE11 / Edge
+					Browser.exportImage(Browser.encodeSVG(svg), filename);
+				}
+				if (callback != null) {
+					callback.accept(svg);
+				}
+			});
 		}
-
-		return null;
 	}
 
 	/**
@@ -940,41 +936,40 @@ public class GgbAPIW extends GgbAPI {
 	 * 
 	 */
 	@Override
-	final public String exportPDF(double scale, String filename,
-			String sliderLabel) {
+	final public void exportPDF(double scale, String filename,
+			Consumer<String> callback, String sliderLabel) {
+		ExportLoader.onCanvas2PdfLoaded(() -> {
+			String pdf;
 
-		String pdf;
-
-		if (app.isWhiteboardActive()) {
-
-			// export each slide as separate page
-			pdf = ((AppW) app).getPageController().exportPDF();
-
-		} else {
-
-			EuclidianView ev = app.getActiveEuclidianView();
-
-			if (ev instanceof EuclidianViewW) {
-
-				EuclidianViewW evw = (EuclidianViewW) ev;
-
-				if (sliderLabel == null) {
-					pdf = evw.getExportPDF(scale);
-				} else {
-					pdf = AnimationExporter.export(kernel.getApplication(), 0,
-							(GeoNumeric) kernel.lookupLabel(sliderLabel), false,
-							filename, scale, Double.NaN, ExportType.PDF_HTML5);
-				}
-
+			if (app.isWhiteboardActive()) {
+				// export each slide as separate page
+				pdf = ((AppW) app).getPageController().exportPDF();
 			} else {
-				return null;
-			}
-		}
+				EuclidianView ev = app.getActiveEuclidianView();
 
-		if (filename != null) {
-			Browser.exportImage(pdf, filename);
-		}
-		return pdf;
+				if (ev instanceof EuclidianViewW) {
+					EuclidianViewW evw = (EuclidianViewW) ev;
+
+					if (sliderLabel == null) {
+						pdf = evw.getExportPDF(scale);
+					} else {
+						pdf = AnimationExporter.export(kernel.getApplication(), 0,
+								(GeoNumeric) kernel.lookupLabel(sliderLabel), false,
+								filename, scale, Double.NaN, ExportType.PDF_HTML5);
+					}
+				} else {
+					return;
+				}
+			}
+
+			if (filename != null) {
+				Browser.exportImage(pdf, filename);
+			}
+
+			if (callback != null) {
+				callback.accept(pdf);
+			}
+		});
 	}
 
 	@Override
