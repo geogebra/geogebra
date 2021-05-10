@@ -2288,6 +2288,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				return;
 			}
 		}
+
+		resetEVs();
 		resetUrl();
 		setTitle();
 	}
