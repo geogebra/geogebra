@@ -766,6 +766,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		mathFieldInternal.update();
 		// focus + scroll the editor
 		focusTextArea();
+		scrollIntoView();
 	}
 
 	private void focusTextArea() {
@@ -1234,5 +1235,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public void scrollParentVertically(FlowPanel parentPanel, int margin) {
 		MathFieldScroller.scrollVerticallyToCursor(parentPanel, margin, lastIcon.getCursorY());
+	}
+
+	public void scrollIntoView() {
+		ctx.canvas.scrollIntoView();
 	}
 }

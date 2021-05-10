@@ -152,7 +152,6 @@ $duration: 0.2s;
 		.marblePanel.error, 
 		.marblePanel.help,
 		.marblePanel {
-			position: absolute;
 			height: 100%;
 			padding-top: 0px;
 			padding-bottom: 0px;
@@ -424,14 +423,28 @@ $duration: 0.2s;
 			}
 		}
 
+		.avNameLogo {
+			opacity: 0.36;
+			text-align: center;
+			margin-top: 24px;
+			margin-bottom: 48px;
+			&>div {
+				text-align: center;
+			}
+		}
+
+		.avNameLogoScientific {
+			margin-bottom: 0;
+		}
+
 		.NewRadioButtonTreeItemParent {
 			border-top: $tool-border solid 1px;
 			border-bottom: $tool-border solid 1px;
 
-    		&.focused {
-    			border-top: $purple-default solid 1px;
-    			border-bottom: $purple-default solid 1px;
-    		}
+			&.focused {
+				border-top: $purple-default solid 1px;
+				border-bottom: $purple-default solid 1px;
+			}
 
 			.scrollableTextBox, .inputBorder {
 				min-height: 48px;
@@ -447,14 +460,14 @@ $duration: 0.2s;
 
 	.arrowOutputImg {
 		margin-right: 8px;
-    	opacity: 0.54;
-    	width: 24px !important;
-    	height: 24px !important;
-    }
+		opacity: 0.54;
+		width: 24px !important;
+		height: 24px !important;
+	}
 
-    .algebraPanel {
-        height: 100%;
-    }
+	.algebraPanel {
+		height: 100%;
+	}
 }
 
 @keyframes removeSuggestions {

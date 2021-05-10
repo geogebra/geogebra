@@ -1,6 +1,8 @@
 package org.geogebra.web.full.gui.layout.scientific;
 
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
+import org.geogebra.web.full.gui.toolbarpanel.LogoAndName;
+import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 
@@ -15,18 +17,23 @@ import com.google.gwt.user.client.ui.ScrollPanel;
  */
 public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
-	private AppW app;
 	private ScrollPanel algebraScrollPanel;
+	private LogoAndName logo;
 
 	@Override
 	public Panel decorate(ScrollPanel algebraPanel, AppW appW) {
-		this.app = appW;
 		this.algebraScrollPanel = algebraPanel;
-
-		return buildAndStylePanel();
+		return buildAndStylePanel(appW);
 	}
 
-	private Panel buildAndStylePanel() {
+	@Override
+	public void addLogo(FlowPanel wrapper, AppW app) {
+		logo = new LogoAndName(app, 40);
+		logo.asWidget().addStyleName("avNameLogoScientific");
+		wrapper.add(logo);
+	}
+
+	private Panel buildAndStylePanel(AppW app) {
 		FlowPanel panel = new FlowPanel();
 		stylePanel(panel);
 		panel.add(algebraScrollPanel);
@@ -43,11 +50,11 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	}
 
 	@Override
-	public void onResize() {
-		boolean smallScreen = app.getAppletFrame()
+	public void onResize(AlgebraViewW aView, int offsetHeight) {
+		boolean smallScreen = aView.getApp().getAppletFrame()
 				.shouldHaveSmallScreenLayout();
 		Dom.toggleClass(algebraScrollPanel, "algebraPanelScientificSmallScreen",
 				"algebraPanelScientificDefaults", smallScreen);
-
+		logo.onResize(aView, offsetHeight);
 	}
 }
