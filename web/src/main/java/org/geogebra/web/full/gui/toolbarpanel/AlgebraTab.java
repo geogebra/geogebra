@@ -3,11 +3,10 @@ package org.geogebra.web.full.gui.toolbarpanel;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
+import org.geogebra.web.html5.util.CustomScrollbar;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
@@ -15,7 +14,8 @@ import com.google.gwt.user.client.ui.SimplePanel;
  */
 public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 
-	private App app;
+	private static final int SCROLLBAR_WIDTH = 8; // 8px in FF, 4px in Chrome => take 8px
+	final private App app;
 	private final ToolbarPanel toolbarPanel;
 	private SimplePanel simplep;
 	/** Algebra view **/
@@ -28,6 +28,7 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 	 *            parent toolbar panel
 	 */
 	public AlgebraTab(ToolbarPanel toolbarPanel) {
+		super(toolbarPanel);
 		this.toolbarPanel = toolbarPanel;
 		app = toolbarPanel.getApp();
 		if (app != null) {
@@ -52,28 +53,21 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 			simplep.addStyleName("algebraSimpleP");
 			addStyleName("algebraPanel");
 			addStyleName("matAvDesign");
-			addDomHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					emptyAVclicked(av, event.getClientY());
-				}
-			}, ClickEvent.getType());
+			CustomScrollbar.apply(this);
+			addDomHandler(this::emptyAVclicked, ClickEvent.getType());
 		}
 	}
 
 	/**
-	 * @param av
-	 *            algebra view
-	 * @param y
-	 *            y-offset of the click
+	 * @param evt
+	 *            click event
 	 */
-	protected void emptyAVclicked(AlgebraViewW av, int y) {
+	protected void emptyAVclicked(ClickEvent evt) {
 		int bt = simplep.getAbsoluteTop() + simplep.getOffsetHeight();
-		if (y > bt) {
+		if (evt.getClientY() > bt && aview != null) {
 			app.getSelectionManager()
 					.clearSelectedGeos();
-			av.resetItems(true);
+			aview.resetItems(true);
 		}
 	}
 
@@ -84,17 +78,17 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 
 	@Override
 	public void close() {
-		toolbarPanel.close();
+		toolbarPanel.close(false);
 	}
 
 	@Override
 	public void onResize() {
 		super.onResize();
-		setWidth(this.toolbarPanel.getTabWidth() + "px");
+		int tabWidth = this.toolbarPanel.getTabWidth();
+		setWidth(tabWidth + "px");
 		if (aview != null) {
-			int w = this.toolbarPanel.getTabWidth();
-			aview.setUserWidth(w);
-			aview.resize(this.toolbarPanel.getTabWidth());
+			aview.setUserWidth(tabWidth);
+			aview.resize(tabWidth - SCROLLBAR_WIDTH);
 		}
 	}
 
@@ -110,14 +104,7 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 		}
 
 		if (item.isInputTreeItem()) {
-			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-				@Override
-				public void execute() {
-
-					scrollToBottom();
-				}
-			});
+			Scheduler.get().scheduleDeferred(this::scrollToBottom);
 			return;
 		}
 		doScrollToActiveItem();

@@ -1,9 +1,7 @@
 package org.geogebra.web.full.gui.layout.panels;
 
-import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
-import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.resources.client.ResourcePrototype;
@@ -17,25 +15,17 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class NavigableDockPanelW extends DockPanelW {
 	private ConstructionProtocolNavigationW consProtNav;
 	private InnerPanel innerPanel;
-	private ZoomPanel zoomPanel;
 
 	/**
 	 * @param id
 	 *            view ID
-	 * @param title
-	 *            translation key for title
 	 * @param toolbar
 	 *            toolbar definition
 	 * @param hasStyleBar
 	 *            whether to enable stylebar
-	 * @param menuOrder
-	 *            TODO unused
-	 * @param menuShortcut
-	 *            TODO unused
 	 */
-	public NavigableDockPanelW(int id, String title, String toolbar,
-			boolean hasStyleBar, int menuOrder, char menuShortcut) {
-		super(id, title, toolbar, hasStyleBar, menuOrder, menuShortcut);
+	public NavigableDockPanelW(int id, String toolbar, boolean hasStyleBar) {
+		super(id, toolbar, hasStyleBar);
 	}
 
 	@Override
@@ -102,23 +92,6 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 			widget.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		}
 		super.initWidget(widget);
-	}
-
-	@Override
-	public void tryBuildZoomPanel() {
-		DockManagerW dm = ((DockManagerW) app.getGuiManager().getLayout()
-				.getDockManager());
-
-		boolean bottomRight = dm.getRoot() == null
-				|| dm.getRoot().isBottomRight(this);
-		if (zoomPanel != null) {
-			zoomPanel.removeFromParent();
-			zoomPanel = null;
-		}
-		if (bottomRight) {
-			zoomPanel = new ZoomPanel(null, app, bottomRight, false);
-			app.setZoomPanel(zoomPanel);
-		}
 	}
 
 	@Override

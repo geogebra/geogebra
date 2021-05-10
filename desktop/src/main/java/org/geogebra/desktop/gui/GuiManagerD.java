@@ -773,13 +773,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public void setShowView(boolean flag, int viewId) {
-		setShowView(flag, viewId, true);
+	public void setShowView(boolean visible, int viewId) {
+		setShowView(visible, viewId, true);
 	}
 
 	@Override
-	public void setShowView(boolean flag, int viewId, boolean isPermanent) {
-		if (flag) {
+	public void setShowView(boolean visible, int viewId, boolean isPermanent) {
+		if (visible) {
 			if (!showView(viewId)) {
 				layout.getDockManager().show(viewId);
 			}

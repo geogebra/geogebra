@@ -56,7 +56,7 @@ public class ToolbarPanelTest {
 	public void close() {
 		Assert.assertTrue(toolbarPanel.isOpen());
 
-		toolbarPanel.close();
+		toolbarPanel.close(false);
 		verifyDispatchEventCalled(EventType.SIDE_PANEL_CLOSED);
 	}
 
@@ -66,7 +66,7 @@ public class ToolbarPanelTest {
 
 	@Test
 	public void open() {
-		toolbarPanel.close();
+		toolbarPanel.close(false);
 		toolbarPanel.open();
 		verifyDispatchEventCalled(EventType.SIDE_PANEL_OPENED);
 	}
@@ -103,7 +103,7 @@ public class ToolbarPanelTest {
 	}
 
 	private void closePanel() {
-		toolbarPanel.close();
+		toolbarPanel.close(false);
 		Assert.assertTrue(toolbarPanel.isClosed());
 		checkPanelNotVisibleInXml();
 	}
