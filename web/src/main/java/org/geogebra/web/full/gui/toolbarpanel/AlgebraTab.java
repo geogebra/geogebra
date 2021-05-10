@@ -31,7 +31,7 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 		super(toolbarPanel);
 		this.toolbarPanel = toolbarPanel;
 		app = toolbarPanel.getApp();
-		logo = new LogoAndName(app, 56);
+		logo = new LogoAndName(app);
 		setAlgebraView((AlgebraViewW) app.getAlgebraView());
 		aview.setInputPanel();
 	}
@@ -91,7 +91,7 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 		if (aview != null) {
 			aview.setUserWidth(tabWidth);
 			aview.resize(tabWidth - SCROLLBAR_WIDTH);
-			logo.onResize(aview, toolbarPanel.getOffsetHeight());
+			logo.onResize(aview, toolbarPanel.getTabHeight());
 		}
 	}
 

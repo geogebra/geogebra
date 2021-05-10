@@ -6,6 +6,7 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -17,6 +18,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
  */
 public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
+	private static final int TOP_MARGIN = 40;
 	private ScrollPanel algebraScrollPanel;
 	private LogoAndName logo;
 
@@ -28,8 +30,7 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
 	@Override
 	public void addLogo(FlowPanel wrapper, AppW app) {
-		logo = new LogoAndName(app, 40);
-		logo.asWidget().addStyleName("avNameLogoScientific");
+		logo = new LogoAndName(app);
 		wrapper.add(logo);
 	}
 
@@ -55,6 +56,11 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 				.shouldHaveSmallScreenLayout();
 		Dom.toggleClass(algebraScrollPanel, "algebraPanelScientificSmallScreen",
 				"algebraPanelScientificDefaults", smallScreen);
-		logo.onResize(aView, offsetHeight);
+		Dom.toggleClass(logo.asWidget(), "avNameLogoScientific", !smallScreen);
+		if (offsetHeight > 0) {
+			int margin = smallScreen ? 8 : TOP_MARGIN;
+			Scheduler.get().scheduleDeferred(() ->
+					logo.onResize(aView, offsetHeight - margin));
+		}
 	}
 }

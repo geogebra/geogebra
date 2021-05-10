@@ -15,15 +15,12 @@ import com.google.gwt.user.client.ui.Widget;
 public class LogoAndName implements IsWidget {
 
 	private static final int LOGO_MARGIN = 72; // 24px top + 48px bottom
-	private final int headerHeight;
 	private final Widget panel;
 
 	/**
 	 * @param app application
-	 * @param headerHeight header height
 	 */
-	public LogoAndName(App	app, int headerHeight) {
-		this.headerHeight = headerHeight;
+	public LogoAndName(App	app) {
 		String transKey = app.getConfig().getVersion().getTransKey();
 		if (app.getConfig().getSubAppCode() != null) {
 			transKey = GeoGebraConstants.Version.SUITE.getTransKey();
@@ -49,7 +46,7 @@ public class LogoAndName implements IsWidget {
 		boolean showLogo = !app.getAppletFrame().isKeyboardShowing();
 		panel.setVisible(showLogo);
 		if (showLogo) {
-			int minHeight = parentHeight - panel.getOffsetHeight() - LOGO_MARGIN - headerHeight;
+			int minHeight = parentHeight - panel.getOffsetHeight() - LOGO_MARGIN;
 			aView.getElement().getStyle().setProperty("minHeight", minHeight + "px");
 		} else {
 			aView.getElement().getStyle().clearProperty("minHeight");
