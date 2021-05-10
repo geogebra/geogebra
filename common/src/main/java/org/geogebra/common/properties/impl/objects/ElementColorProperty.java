@@ -22,7 +22,8 @@ public class ElementColorProperty extends AbstractProperty implements ColorPrope
 	private GColor[] colors;
 
 	/***/
-	public ElementColorProperty(Localization localization, GeoElement element) throws NotApplicablePropertyException {
+	public ElementColorProperty(Localization localization, GeoElement element)
+			throws NotApplicablePropertyException {
 		super(localization, "stylebar.Color");
 		this.element = element;
 		delegate = new ElementColorPropertyDelegate(element);
