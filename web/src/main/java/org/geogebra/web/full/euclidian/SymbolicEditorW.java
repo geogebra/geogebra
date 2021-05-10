@@ -12,6 +12,7 @@ import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.HasMathKeyboardListener;
+import org.geogebra.web.html5.gui.accessibility.AccessibleInputBox;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
@@ -34,7 +35,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		BlurHandler, ChangeHandler {
 
 	private GRectangle bounds;
-	private MathFieldEditor editor;
+	private final MathFieldEditor editor;
 	private final SymbolicEditorDecorator decorator;
 
 	/**
@@ -94,13 +95,17 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor.setVisible(true);
 		editor.setText(getGeoInputBox().getTextForEditor());
 		editor.setLabel(getGeoInputBox().getAuralText());
-		editor.setErrorStyle(getGeoInputBox().hasError());
+		if (getGeoInputBox().getTempUserDisplayInput() != null) {
+			editor.setErrorText(AccessibleInputBox.getErrorText(app.getLocalization()));
+		} else {
+			editor.setErrorText(null);
+		}
 		if (getGeoInputBox().getLinkedGeo().hasSpecialEditor()) {
 			getMathFieldInternal().getFormula().getRootComponent().setProtected();
 			getMathFieldInternal().setLockedCaretPath();
 		}
 
-		Scheduler.get().scheduleDeferred(() -> editor.requestFocus());
+		Scheduler.get().scheduleDeferred(editor::requestFocus);
 	}
 
 	@Override
@@ -133,6 +138,12 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		decorator.update();
 		getGeoInputBox().update();
 		editor.scrollHorizontally();
+		editor.updateAriaLabel();
+	}
+
+	@Override
+	public void onEnter() {
+		super.onEnter();
 		editor.updateAriaLabel();
 	}
 
