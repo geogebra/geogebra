@@ -748,4 +748,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	public void setUndefined() {
 		set(Double.NaN, Double.NaN);
 	}
+
+	public boolean isSignEquals(Interval other) {
+		return Math.abs(low) == other.low && Math.abs(high) == other.high;
+	}
 }

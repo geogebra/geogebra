@@ -75,8 +75,9 @@ import org.geogebra.common.util.debug.Log;
 
 		double nominator = fractionNode.getLeft().evaluateDouble();
 		Interval powered = x.pow(nominator);
-		Interval denominator = new Interval(fractionNode.getRight().evaluateDouble());
-		return powered.nthRoot(denominator);
+		double value = fractionNode.getRight().evaluateDouble();
+		return value > 0 ?
+				powered.nthRoot(value) : powered.nthRoot(-value).multiplicativeInverse();
 	}
 
 	private Interval evaluate(Interval left, Operation operation,

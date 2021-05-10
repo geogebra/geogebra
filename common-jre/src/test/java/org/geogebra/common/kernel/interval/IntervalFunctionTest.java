@@ -269,4 +269,11 @@ public class IntervalFunctionTest extends BaseUnitTest {
 		Interval actual = function.evaluate(interval(9, 10));
 		assertEquals(interval(9, 10).sqrt(), actual);
 	}
+
+	@Test
+	public void evaluateBugApps2908() throws Exception {
+		GeoFunction geo = add("x^(2/-9)");
+		IntervalFunction function = new IntervalFunction(geo);
+		assertEquals(interval(1), function.evaluate(interval(-6, -5.88)));
+	}
 }
