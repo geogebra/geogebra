@@ -6,6 +6,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.evaluator.EvaluatorAPI;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
+import org.geogebra.web.full.main.activity.EvaluatorExportedApi;
 import org.geogebra.web.html5.export.Canvas2Svg;
 import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.main.AppW;
@@ -153,31 +154,37 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 
 	/**
 	 * @param type image type -- only SVG supported
-	 * @return {svg: base64 encoded SVG, baseline: relative baseline position}
+	 * @param callback called with {svg: base64 encoded SVG,
+	 * 		baseline: relative baseline position} or error
 	 */
-	public Object exportImage(String type) {
+	public void exportImage(String type,
+			EvaluatorExportedApi.EquationExportImageConsumer callback) {
 		EquationExportImage ret = new EquationExportImage();
-		if (!"svg".equals(type) || !ExportLoader.ensureCanvas2SvgLoaded()) {
-			ret.setError("Something went wrong");
-			return ret;
+		if (!"svg".equals(type)) {
+			ret.setError("Only type = 'svg' is supported");
+			callback.accept(ret);
+			return;
 		}
 
-		MathFieldW mathField = mathFieldEditor.getMathField();
-		mathField.repaintWeb();
+		ExportLoader.onCanvas2SvgLoaded(() -> {
+			MathFieldW mathField = mathFieldEditor.getMathField();
+			mathField.repaintWeb();
 
-		int height = mathField.getIconHeight();
-		int depth = mathField.getIconDepth();
-		int width = mathField.getIconWidth();
-		if (height < 1 || width < 1) {
-			ret.setError("Invalid dimensions");
-			return ret;
-		}
-		Canvas2Svg ctx = new Canvas2Svg(width, height + depth);
-		CursorBox.setBlink(false);
-		mathField.paint(Js.uncheckedCast(ctx), 0);
-		ret.setBaseline(height / (double) (height + depth));
-		ret.setSvg(SVG_PREFIX + Global.escape(ctx.getSerializedSvg(true)));
+			int height = mathField.getIconHeight();
+			int depth = mathField.getIconDepth();
+			int width = mathField.getIconWidth();
+			if (height < 1 || width < 1) {
+				ret.setError("Invalid dimensions");
+				callback.accept(ret);
+				return;
+			}
+			Canvas2Svg ctx = new Canvas2Svg(width, height + depth);
+			CursorBox.setBlink(false);
+			mathField.paint(Js.uncheckedCast(ctx), 0);
+			ret.setBaseline(height / (double) (height + depth));
+			ret.setSvg(SVG_PREFIX + Global.escape(ctx.getSerializedSvg(true)));
 
-		return ret;
+			callback.accept(ret);
+		});
 	}
 }

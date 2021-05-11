@@ -274,11 +274,9 @@ public class MyCellEditorW implements BaseCellEditor {
 		return true;
 	}
 
-	boolean stopCellEditing(int colOff, int rowOff, boolean editNext) {
-		allowProcessGeo = true;
-		boolean success = stopCellEditing();
+	void stopCellEditing(int colOff, int rowOff, boolean editNext) {
+		stopCellEditingAndProcess();
 		moveSelectedCell(colOff, rowOff);
-		allowProcessGeo = false;
 		table.finishEditing(editNext); // don't finish, we
 		if (editNext) {
 			table.setAllowEditing(true);
@@ -288,8 +286,12 @@ public class MyCellEditorW implements BaseCellEditor {
 			// SS
 			autoCompleteTextField.getTextField().setFocus(true);
 		}
+	}
 
-		return success;
+	void stopCellEditingAndProcess() {
+		allowProcessGeo = true;
+		stopCellEditing();
+		allowProcessGeo = false;
 	}
 
 	private void moveSelectedCell(int colOff, int rowOff) {
