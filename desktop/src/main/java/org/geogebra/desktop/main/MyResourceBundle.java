@@ -128,7 +128,7 @@ public class MyResourceBundle extends PropertyResourceBundle {
 
 		try {
 			InputStream in = MyResourceBundle.class
-					.getResourceAsStream(resourceName);
+					.getResourceAsStream("/" + resourceName);
 			MyResourceBundle ret = new MyResourceBundle(in);
 			in.close();
 			return ret;
