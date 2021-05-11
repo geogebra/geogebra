@@ -51,33 +51,52 @@ import org.geogebra.common.util.debug.Log;
 		if (!ev.isExpressionNode()) {
 			return new Interval(ev.evaluateDouble());
 		}
+
 		ExpressionNode node = ev.wrap();
-		if (!node.containsFreeFunctionVariable(null)) {
+
+
+		boolean fractionInPower = hasFractionInPower(node);
+
+		if (!node.containsFreeFunctionVariable(null) && !fractionInPower) {
 			return new Interval(ev.evaluateDouble());
 		}
 
-		if (isPowerFraction(node)) {
+		if (fractionInPower) {
 			return powerFraction(x, node);
 		}
 
-		return evaluate(evaluate(x, node.getLeft()),
-				node.getOperation(),
-				evaluate(x, node.getRight()));
+
+		Interval left = evaluate(x, node.getLeft());
+		Interval right = evaluate(x, node.getRight());
+		Operation operation = node.getOperation();
+		return evaluate(left, operation, right);
 	}
 
-	private boolean isPowerFraction(ExpressionNode node) {
+	private boolean hasFractionInPower(ExpressionNode node) {
 		return node.getOperation() == Operation.POWER
-				&& node.getRight().wrap().getOperation() == Operation.DIVIDE;
+				&& node.getRight().wrap().inspect(v -> v.isOperation(Operation.DIVIDE));
 	}
 
 	private Interval powerFraction(Interval x, ExpressionNode node) throws Exception {
 		ExpressionNode fractionNode = node.getRight().wrap();
 
-		double nominator = fractionNode.getLeft().evaluateDouble();
+		if (isSimpleFraction(fractionNode)) {
+			return powerOfSimpleFraction(x, fractionNode);
+		}
+		return IntervalConstants.undefined();
+	}
+
+	private boolean isSimpleFraction(ExpressionNode node) {
+		return node.getLeftTree().isLeaf() && node.getRightTree().isLeaf();
+	}
+
+	private Interval powerOfSimpleFraction(Interval x, ExpressionNode fractionNode) {
+		double nominator = fractionNode.getLeftTree().evaluateDouble();
+		double denominator = fractionNode.getRightTree().evaluateDouble();
 		Interval powered = x.pow(nominator);
-		double value = fractionNode.getRight().evaluateDouble();
-		return value > 0 ?
-				powered.nthRoot(value) : powered.nthRoot(-value).multiplicativeInverse();
+		return denominator > 0
+				? powered.nthRoot(denominator)
+				: powered.nthRoot(-denominator).multiplicativeInverse();
 	}
 
 	private Interval evaluate(Interval left, Operation operation,
