@@ -65,23 +65,7 @@ public class ExamEnvironmentTest extends BaseUnitTest {
 				examEnvironment.getTempStorage().collectTempMaterials().size(),
 				equalTo(3));
 	}
-
-	@Test
-	public void testTempMaterialsOpen() {
-		Material a = examEnvironment.getTempStorage().newMaterial();
-		a.setTitle("a");
-		examEnvironment.getTempStorage().saveTempMaterial();
-
-		Material aOpened
-				= examEnvironment.getTempStorage().collectTempMaterials().iterator().next();
-		aOpened.setTitle("newTitle");
-
-		Material aOpenedAgain =
-				examEnvironment.getTempStorage().collectTempMaterials().iterator().next();
-
-		assertThat(aOpenedAgain.getTitle(), equalTo("a"));
-	}
-
+	
 	private void testSetCasEnabled(boolean enabled) {
 		boolean casDefaultState = isCasEnabled();
 		examEnvironment.setCasEnabled(enabled, casSettings);
