@@ -65,9 +65,6 @@ import com.himamis.retex.renderer.web.font.FontWrapper;
 
 import elemental2.core.JsArray;
 import elemental2.dom.CanvasRenderingContext2D;
-import elemental2.dom.DomGlobal;
-import elemental2.dom.Event;
-import elemental2.dom.EventListener;
 import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLImageElement;
 import jsinterop.base.Js;
@@ -207,7 +204,7 @@ public class Graphics2DW implements Graphics2DInterface {
 	// Consider http://jsfiddle.net/9bMPD/357/ for rectangles!!
 
 	@Override
-	public void fillRect(int x, int y, int width, int height) {
+	public void fillRect(double x, double y, double width, double height) {
 		context.fillRect(x, y, width, height);
 	}
 

@@ -260,8 +260,8 @@ public class TeXIcon implements Icon {
 	 * Paint the {@link TeXFormula} that created this icon.
 	 */
 	@Override
-	public void paintIcon(HasForegroundColor c, Graphics2DInterface g2, int x,
-			int y) {
+	public void paintIcon(HasForegroundColor c, Graphics2DInterface g2, double x,
+			double y) {
 		// copy graphics settings
 		// TODO implement getRenderingHints
 		// RenderingHints oldHints = g2.getRenderingHints();
@@ -298,7 +298,7 @@ public class TeXIcon implements Icon {
 		g2.setColor(oldColor);
 	}
 
-	public void paintCursor(Graphics2DInterface ctx, int margin) {
+	public void paintCursor(Graphics2DInterface ctx, double margin) {
 		if (selectionPosition != null) {
 			double x = selectionPosition.getX() * size + insets.left;
 			double y = (box.getHeight() + selectionPosition.getY()) * size + insets.top + margin;

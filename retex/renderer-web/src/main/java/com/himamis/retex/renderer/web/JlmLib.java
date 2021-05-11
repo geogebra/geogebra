@@ -100,7 +100,7 @@ public class JlmLib {
 	}
 
 	public static JsPropertyMap<Object> draw(TeXIcon icon, CanvasRenderingContext2D ctx,
-			final int x, final int y, final Color fgColor,
+			final double x, final double y, final Color fgColor,
 			final Color bgColor, final JavaScriptObject callback,
 			double ratio) {
 		Graphics2DW g2 = new Graphics2DW(ctx);

@@ -52,27 +52,27 @@ import com.himamis.retex.renderer.share.platform.geom.Shape;
 
 public interface Graphics2DInterface {
 
-	public void setStroke(Stroke stroke);
+	void setStroke(Stroke stroke);
 
-	public Stroke getStroke();
+	Stroke getStroke();
 
-	public void setColor(Color color);
+	void setColor(Color color);
 
-	public Color getColor();
+	Color getColor();
 
-	public Transform getTransform();
+	Transform getTransform();
 
-	public void saveTransformation();
+	void saveTransformation();
 
-	public void restoreTransformation();
+	void restoreTransformation();
 
-	public Font getFont();
+	Font getFont();
 
-	public void setFont(Font font);
+	void setFont(Font font);
 
-	public void fillRect(int x, int y, int width, int height);
+	void fillRect(double x, double y, double width, double height);
 
-	public void fill(Shape rectangle);
+	void fill(Shape rectangle);
 
 	void startDrawing();
 
@@ -87,37 +87,37 @@ public interface Graphics2DInterface {
 
 	void finishDrawing();
 
-	public void draw(Rectangle2D rectangle);
+	void draw(Rectangle2D rectangle);
 
-	public void draw(RoundRectangle2D rectangle);
+	void draw(RoundRectangle2D rectangle);
 
-	public void draw(Line2D line);
+	void draw(Line2D line);
 
-	public void drawChars(char[] data, int offset, int length, int x, int y);
+	void drawChars(char[] data, int offset, int length, int x, int y);
 
-	public void drawArc(int x, int y, int width, int height, int startAngle,
+	void drawArc(int x, int y, int width, int height, int startAngle,
 			int arcAngle);
 
-	public void fillArc(int x, int y, int width, int height, int startAngle,
+	void fillArc(int x, int y, int width, int height, int startAngle,
 			int arcAngle);
 
-	public void translate(double x, double y);
+	void translate(double x, double y);
 
-	public void scale(double x, double y);
+	void scale(double x, double y);
 
-	public void rotate(double theta, double x, double y);
+	void rotate(double theta, double x, double y);
 
-	public void rotate(double theta);
+	void rotate(double theta);
 
-	public void drawImage(Image image, int x, int y);
+	void drawImage(Image image, int x, int y);
 
-	public void drawImage(Image image, Transform transform);
+	void drawImage(Image image, Transform transform);
 
-	public FontRenderContext getFontRenderContext();
+	FontRenderContext getFontRenderContext();
 
-	public void setRenderingHint(int key, int value);
+	void setRenderingHint(int key, int value);
 
-	public int getRenderingHint(int key);
+	int getRenderingHint(int key);
 
-	public void dispose();
+	void dispose();
 }
