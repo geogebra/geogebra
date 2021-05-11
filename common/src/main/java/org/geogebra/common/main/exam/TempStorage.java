@@ -13,7 +13,6 @@ import org.geogebra.common.move.ggtapi.models.Material;
  */
 public class TempStorage {
 
-    private Material currentMaterial;
     private int tempMaterialId;
     private Map<Integer, Material> tempMaterials;
 
@@ -24,8 +23,7 @@ public class TempStorage {
      * @return a new Material with a unique id
      */
     public Material newMaterial() {
-        currentMaterial = new Material(nextTempMaterialId(), Material.MaterialType.ggb);
-        return currentMaterial;
+        return new Material(nextTempMaterialId(), Material.MaterialType.ggb);
     }
 
     private int nextTempMaterialId() {
@@ -35,12 +33,12 @@ public class TempStorage {
     /**
      * Saves a copy of the material into the tempMaterials with the correct id.
      */
-    public void saveTempMaterial() {
-        Material savedMaterial = tempMaterials.get(currentMaterial.getId());
-        if (savedMaterial != null && !savedMaterial.getTitle().equals(currentMaterial.getTitle())) {
-            currentMaterial.setId(nextTempMaterialId());
+    public void saveTempMaterial(Material material) {
+        Material savedMaterial = tempMaterials.get(material.getId());
+        if (savedMaterial != null && !savedMaterial.getTitle().equals(material.getTitle())) {
+            material.setId(nextTempMaterialId());
         }
-        tempMaterials.put(currentMaterial.getId(), new Material(currentMaterial));
+        tempMaterials.put(material.getId(), new Material(material));
     }
 
     /**
@@ -60,20 +58,5 @@ public class TempStorage {
     public void clearTempMaterials() {
         tempMaterialId = 0;
         tempMaterials = new LinkedHashMap<>();
-    }
-    
-    /**
-     * @return the current material
-     */
-    public Material getCurrentMaterial() {
-        return currentMaterial;
-    }
-
-    /**
-     * Set the current material
-     * @param currentMaterial current material
-     */
-    public void setCurrentMaterial(Material currentMaterial) {
-        this.currentMaterial = currentMaterial;
     }
 }
