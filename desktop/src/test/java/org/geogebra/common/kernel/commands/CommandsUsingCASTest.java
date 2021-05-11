@@ -159,6 +159,11 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
+	public void cmdSolveODECas() {
+		t("SolveODE(-x/y)", "sqrt((-2 * 1) - x^(2))");
+	}
+
+	@Test
 	public void cmdDerivative() {
 		t("Derivative[ Curve[sin(t),cos(t),t,0,1] ]",
 				"(cos(t), (sin(t) * (-1)))");
