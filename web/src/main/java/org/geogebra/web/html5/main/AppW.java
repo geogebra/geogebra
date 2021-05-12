@@ -3263,6 +3263,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
+	 * @return whether we are running suite
+	 */
+	public boolean isSuite() {
+		return "suite".equals(getConfig().getAppCode());
+	}
+
+	/**
 	 * @return whether we are running cas
 	 */
 	public boolean isUnbundledCas() {

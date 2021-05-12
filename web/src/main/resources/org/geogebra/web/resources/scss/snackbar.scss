@@ -26,6 +26,11 @@
 			left: 50%;
 		}
 
+		&.bottombarPosition {
+			// 72px (width of rail) + 8px padding
+			left: 80px;
+		}
+
 		&.fadeIn {
 			opacity: 1;
 			transform: scale(1);
