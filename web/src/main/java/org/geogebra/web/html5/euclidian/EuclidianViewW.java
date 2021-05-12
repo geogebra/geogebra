@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.euclidian;
 
+import java.util.function.Consumer;
+
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
@@ -432,21 +434,20 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public String getExportSVG(double scale, boolean transparency) {
+	public void getExportSVG(double scale, boolean transparency, Consumer<String> callback) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
 
-		if (!ExportLoader.ensureCanvas2SvgLoaded()) {
-			return null;
-		}
-		Canvas2Svg canvas2svg = new Canvas2Svg(width, height);
-		CanvasRenderingContext2D ctx = Js.uncheckedCast(canvas2svg);
-		g4copy = new GGraphics2DW(ctx);
-		this.appW.setExporting(ExportType.SVG, scale);
-		exportPaintPre(g4copy, scale, transparency);
-		drawObjects(g4copy);
-		this.appW.setExporting(ExportType.NONE, 1);
-		return canvas2svg.getSerializedSvg(true);
+		ExportLoader.onCanvas2SvgLoaded(() -> {
+			Canvas2Svg canvas2svg = new Canvas2Svg(width, height);
+			CanvasRenderingContext2D ctx = Js.uncheckedCast(canvas2svg);
+			g4copy = new GGraphics2DW(ctx);
+			this.appW.setExporting(ExportType.SVG, scale);
+			exportPaintPre(g4copy, scale, transparency);
+			drawObjects(g4copy);
+			this.appW.setExporting(ExportType.NONE, 1);
+			callback.accept(canvas2svg.getSerializedSvg(true));
+		});
 	}
 
 	/**
@@ -951,14 +952,6 @@ public class EuclidianViewW extends EuclidianView implements
 		// no tooltips
 	}
 
-	private void setResizeXAxisCursor() {
-		setCursorClass("cursor_resizeXAxis");
-	}
-
-	private void setResizeYAxisCursor() {
-		setCursorClass("cursor_resizeYAxis");
-	}
-
 	private void setResizeNESWCursor() {
 		setCursorClass("cursor_resizeNESW");
 	}
@@ -1221,22 +1214,18 @@ public class EuclidianViewW extends EuclidianView implements
 			setMoveCursor();
 			return;
 		case RESIZE_X:
-			setResizeXAxisCursor();
+		case RESIZE_EW:
+			setResizeEWCursor();
 			return;
 		case RESIZE_Y:
-			setResizeYAxisCursor();
+		case RESIZE_NS:
+			setResizeNSCursor();
 			return;
 		case RESIZE_NESW:
 			setResizeNESWCursor();
 			return;
 		case RESIZE_NWSE:
 			setResizeNWSECursor();
-			return;
-		case RESIZE_EW:
-			setResizeEWCursor();
-			return;
-		case RESIZE_NS:
-			setResizeNSCursor();
 			return;
 		case TRANSPARENT:
 			setTransparentCursor();

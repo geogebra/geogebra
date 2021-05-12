@@ -33,6 +33,8 @@ final class CMR10 extends FontInfo {
 
 		setMetrics(171, 722, 683);
 
+		setMetrics(172, 722, 683);
+
 		setMetrics(174, 583, 694, 0, 78);
 		setLigatures(105, 177, 108, 178);
 		setKern(39, 78, 63, 78, 33, 78, 41, 78, 93, 78);

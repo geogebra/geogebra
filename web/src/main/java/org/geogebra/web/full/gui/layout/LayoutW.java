@@ -309,7 +309,6 @@ public class LayoutW extends Layout {
 				}
 				dockPanelInfo[i] = panels[i].createInfo();
 			}
-
 			// Sort the dock panels as the entries with the smallest amount of
 			// definition should
 			// be read first by the loading algorithm.

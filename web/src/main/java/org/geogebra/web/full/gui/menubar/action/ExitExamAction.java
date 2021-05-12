@@ -190,7 +190,7 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		app.getLAF().toggleFullscreen(false);
 		saveScreenshot(app.getLocalization().getMenu((app.getConfig()
 				.getAppName())));
-		app.fileNew();
 		app.endExam();
+		app.fileNew();
 	}
 }

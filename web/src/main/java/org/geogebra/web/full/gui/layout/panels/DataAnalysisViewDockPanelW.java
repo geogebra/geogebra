@@ -25,13 +25,7 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 	 */
 
 	public DataAnalysisViewDockPanelW(AppW app) {
-		super(App.VIEW_DATA_ANALYSIS, // view id
-				"DataAnalysis", // view title phrase
-				getDefaultToolbar(), // toolbar string
-				true, // style bar?
-				-1, // menu order
-				'-' // menu shortcut
-				);
+		super(App.VIEW_DATA_ANALYSIS, getDefaultToolbar(), true);
 		this.app = app;
 		setShowStyleBar(true);
 		this.setEmbeddedSize(900);

@@ -15,12 +15,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/rewrite_pHYs_min.js")
 	TextResource rewritePHYS();
 
-	@Source("org/geogebra/web/resources/js/canvas2svg.min.js")
-	TextResource canvas2Svg();
-
-	@Source("org/geogebra/web/resources/js/canvas2pdf.min.js")
-	TextResource canvas2Pdf();
-
 	@Source("org/geogebra/web/resources/js/xmlutil.js")
 	TextResource xmlUtil();
 

@@ -36,6 +36,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -245,6 +246,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// :NEXT:Grid.setCellFormatter
 		editor = new MyCellEditorW(kernel, editorPanel,
 				getEditorController());
+		Dom.addEventListener(tableWrapper.getElement(), "focusout", evt -> onFocusOut());
 		// setDefaultEditor(Object.class, editor);
 
 		// initialize selection fields
@@ -305,6 +307,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		registerListeners();
 		repaintAll();
+	}
+
+	private void onFocusOut() {
+		editor.stopCellEditingAndProcess();
+		finishEditing(true);
 	}
 
 	@Override
@@ -830,7 +837,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		@Override
 		public void valueChange() {
-			updateCopiableSelection();
+			if (isEditing()) {
+				updateCopiableSelection();
+			}
 		}
 	}
 

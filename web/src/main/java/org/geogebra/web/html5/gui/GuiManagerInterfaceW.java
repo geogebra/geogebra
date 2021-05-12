@@ -187,6 +187,8 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void setRunAfterLogin(Runnable runAfterLogin);
 
+	void onToolbarVisibilityChanged(int viewId, boolean isVisible);
+
 	/**
 	 * @param geo - to add to table of values
 	 */

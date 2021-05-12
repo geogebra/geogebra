@@ -2464,10 +2464,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			}
 
 			// if showMenuBar is false, we can still update the style bars
-			if (EuclidianConstants
-					.isMoveOrSelectionMode(getActiveEuclidianView().getMode())
-					|| getActiveEuclidianView()
-							.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
+			EuclidianView ev = getActiveEuclidianView();
+			if (ev != null
+					&& (EuclidianConstants.isMoveOrSelectionMode(ev.getMode())
+					|| ev.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW)) {
 				updateStyleBars();
 			}
 
