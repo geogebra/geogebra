@@ -37,10 +37,10 @@ public class IntervalPowerEvaluator {
 	 * @return power expression evaluated on x.
 	 */
 	public Interval handle(Interval x) throws Exception {
-		Interval lt = IntervalFunction.evaluate(x, node.getLeft());
+		Interval leftEvaluated = IntervalFunction.evaluate(x, node.getLeft());
 		ExpressionValue right = node.getRight();
-		Interval rt = IntervalFunction.evaluate(x, right);
-		return handle(lt, rt, right);
+		Interval rightEvaluated = IntervalFunction.evaluate(x, right);
+		return handle(leftEvaluated, rightEvaluated, right);
 	}
 
 	private Interval handle(Interval base, Interval exponent, ExpressionValue right) {
@@ -71,47 +71,51 @@ public class IntervalPowerEvaluator {
 	}
 
 	private Interval negPower(Interval base, ExpressionNode node) throws Exception {
-		Interval a = IntervalFunction.evaluate(base, node.getLeft());
-		if (a.isSingletonInteger()) {
-			Interval b = IntervalFunction.evaluate(base, node.getRight());
-			if (b.isUndefined()) {
+		Interval nominator = IntervalFunction.evaluate(base, node.getLeft());
+		if (nominator.isSingletonInteger()) {
+			Interval denominator = IntervalFunction.evaluate(base, node.getRight());
+			if (denominator.isUndefined()) {
 				return undefined();
-			} else if (b.isSingletonInteger()) {
-				long al = (long) a.getLow();
-				long bl = (long) b.getLow();
-				long gcd = Kernel.gcd(al, bl);
-				// fix for java.lang.ArithmeticException: divide by zero
-				// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.ArithmeticException&tf=SourceFile&tc=org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator&tm=negPower&nid&an&c&s=new_status_desc&ed=0
-				if (gcd == 0) {
-					return undefined();
-				}
-
-				al = al / gcd;
-				bl = bl / gcd;
-
-				// we will now evaluate (x^a)^(1/b) instead of
-				// x^(a/b)
-				// set base = x^a
-				if (al != 1) {
-					base = base.pow(al);
-				}
-				if (base.isPositive()) {
-					// base > 0 => base^(1/b) is no problem
-					return base.pow(1d / bl);
-				}
-				boolean oddB = (Math.abs(bl) % 2) == 1;
-				if (oddB) {
-					// base < 0 and b odd: (base)^(1/b) =
-					// -(-base^(1/b))
-					return base.negative().pow(1d / bl);
-				}
-				// base < 0 and a & b even: (base)^(1/b)
-				// = undefined
-				return undefined();
+			} else if (denominator.isSingletonInteger()) {
+				return powerFraction(base, nominator, denominator);
 
 			}
 		}
-		return null;
+		return undefined();
+	}
+
+	private Interval powerFraction(Interval base, Interval a, Interval b) {
+		long al = (long) a.getLow();
+		long bl = (long) b.getLow();
+		long gcd = Kernel.gcd(al, bl);
+		// fix for java.lang.ArithmeticException: divide by zero
+		// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.ArithmeticException&tf=SourceFile&tc=org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator&tm=negPower&nid&an&c&s=new_status_desc&ed=0
+		if (gcd == 0) {
+			return undefined();
+		}
+
+		al = al / gcd;
+		bl = bl / gcd;
+
+		// we will now evaluate (x^a)^(1/b) instead of
+		// x^(a/b)
+		// set base = x^a
+		if (al != 1) {
+			base = base.pow(al);
+		}
+		if (base.isPositive()) {
+			// base > 0 => base^(1/b) is no problem
+			return base.pow(1d / bl);
+		}
+		boolean oddB = (Math.abs(bl) % 2) == 1;
+		if (oddB) {
+			// base < 0 and b odd: (base)^(1/b) =
+			// -(-base^(1/b))
+			return base.negative().pow(1d / bl);
+		}
+		// base < 0 and a & b even: (base)^(1/b)
+		// = undefined
+		return undefined();
 	}
 
 }
