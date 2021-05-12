@@ -752,4 +752,16 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	public boolean isSignEquals(Interval other) {
 		return Math.abs(low) == other.low && Math.abs(high) == other.high;
 	}
+
+	public boolean isNegative() {
+		return !isEmpty() && high < 0;
+	}
+
+	public boolean isSingletonInteger() {
+		return isSingleton() && DoubleUtil.isEqual(low, Math.round(low));
+	}
+
+	public boolean isPositive() {
+		return !isEmpty() && low > 0;
+	}
 }

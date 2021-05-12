@@ -41,7 +41,7 @@ import org.geogebra.common.util.debug.Log;
 		return evaluate(new Interval(x), node);
 	}
 
-	private Interval evaluate(Interval x, ExpressionValue ev) throws Exception {
+	static Interval evaluate(Interval x, ExpressionValue ev) throws Exception {
 		if (ev == null) {
 			return EMPTY;
 		}
@@ -55,15 +55,15 @@ import org.geogebra.common.util.debug.Log;
 		ExpressionNode node = ev.wrap();
 
 
-		boolean fractionInPower = hasFractionInPower(node);
+		IntervalFunctionPower power = new IntervalFunctionPower(node);
+		if (power.isAccepted()) {
+			return power.handle(x);
+		}
 
-		if (!node.containsFreeFunctionVariable(null) && !fractionInPower) {
+		if (!node.containsFreeFunctionVariable(null)) {
 			return new Interval(ev.evaluateDouble());
 		}
 
-		if (fractionInPower) {
-			return fractionPower(x, node);
-		}
 
 		Interval left = evaluate(x, node.getLeft());
 		Interval right = evaluate(x, node.getRight());
@@ -71,34 +71,8 @@ import org.geogebra.common.util.debug.Log;
 		return evaluate(left, operation, right);
 	}
 
-	private boolean hasFractionInPower(ExpressionNode node) {
-		return node.getOperation() == Operation.POWER
-				&& node.getRight().wrap().inspect(v -> v.isOperation(Operation.DIVIDE));
-	}
 
-	private Interval fractionPower(Interval x, ExpressionNode node) throws Exception {
-		ExpressionNode fractionNode = node.getRightTree();
-		ExpressionNode leftTree = fractionNode.getLeftTree();
-		ExpressionNode rightTree = fractionNode.getRightTree();
-		if (fractionNode.getOperation().equals(Operation.MULTIPLY)) {
-			return fractionPower(x, rightTree.getLeftTree().multiply(leftTree), rightTree.getRightTree());
-		}
-
-		return fractionPower(x, leftTree, rightTree);
-	}
-
-	private Interval fractionPower(Interval x, ExpressionNode nominator, ExpressionNode denominator) {
-		return fractionPower(x, nominator.evaluateDouble(), denominator.evaluateDouble());
-	}
-
-	private Interval fractionPower(Interval x, double nominator, double denominator) {
-		Interval powered = x.pow(nominator);
-		return denominator > 0
-				? powered.nthRoot(denominator)
-				: powered.nthRoot(-denominator).multiplicativeInverse();
-	}
-
-	private Interval evaluate(Interval left, Operation operation,
+	private static Interval evaluate(Interval left, Operation operation,
 			Interval right) throws Exception {
 
 		switch (operation) {
@@ -161,7 +135,7 @@ import org.geogebra.common.util.debug.Log;
 			}
 		}
 
-	private Interval divide(Interval left, Interval right) {
+	private static Interval divide(Interval left, Interval right) {
 		if (left.isSingleton()) {
 			return right.multiplicativeInverse().multiply(left);
 		}

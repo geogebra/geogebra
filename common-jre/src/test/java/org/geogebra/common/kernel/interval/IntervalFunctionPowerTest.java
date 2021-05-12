@@ -5,9 +5,33 @@ import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class IntervalFunctionPowerTest extends BaseUnitTest {
+
+
+	@Test
+	public void evaluateXSquared() throws Exception {
+		assertEquals(
+				interval(1, 2).pow(2),
+				evalOnInterval("x^2", 1, 2));
+	}
+
+	@Test
+	public void evaluateXExponental() throws Exception {
+		assertEquals(
+				interval(1, 2).pow(Math.E),
+				evalOnInterval("x^e", 1, 2));
+	}
+
+	@Test
+	public void evaluateXOnNegativePower() throws Exception {
+		assertEquals(
+				interval(1, 2).pow(2).multiplicativeInverse(),
+				evalOnInterval("x^-2", 1, 2));
+	}
+
 	@Test
 	public void evaluateXPowerHalf() throws Exception {
 		assertEquals(
@@ -23,7 +47,7 @@ public class IntervalFunctionPowerTest extends BaseUnitTest {
 	@Test
 	public void evaluateXPowerForth() throws Exception {
 		assertEquals(interval(1, 16).nthRoot(4),
-				evalOnInterval("x^(1/4)", 1, 16) );
+				evalOnInterval("x^(1/4)", 1, 16));
 	}
 
 	@Test
@@ -49,6 +73,15 @@ public class IntervalFunctionPowerTest extends BaseUnitTest {
 		String definition = "x^-(2/9)";
 		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
 				evalOnInterval(definition, -6, -5.88));
+	}
+
+	@Ignore
+	@Test
+	public void powerOfPower() throws Exception {
+		String definition = "(x^2)^(1/9)";
+		assertEquals(interval(1.171, 1.171),
+				evalOnInterval(definition, -4, -4));
+
 	}
 
 	private void shouldBeUndefinedAtZero(IntervalFunction function) throws Exception {
