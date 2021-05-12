@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class IntervalFunctionPowerTest extends BaseUnitTest {
+public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 
 
 	@Test

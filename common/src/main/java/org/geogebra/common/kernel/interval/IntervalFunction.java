@@ -54,8 +54,7 @@ import org.geogebra.common.util.debug.Log;
 
 		ExpressionNode node = ev.wrap();
 
-
-		IntervalFunctionPower power = new IntervalFunctionPower(node);
+		IntervalPowerEvaluator power = new IntervalPowerEvaluator(node);
 		if (power.isAccepted()) {
 			return power.handle(x);
 		}

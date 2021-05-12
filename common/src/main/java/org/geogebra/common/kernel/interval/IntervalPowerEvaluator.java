@@ -9,17 +9,33 @@ import org.geogebra.common.kernel.arithmetic.MinusOne;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.plugin.Operation;
 
-public class IntervalFunctionPower {
-	private ExpressionNode node;
+/**
+ * Class to evaluate expressions on an interval that has power in it.
+ */
+public class IntervalPowerEvaluator {
+	private final ExpressionNode node;
 
-	public IntervalFunctionPower(ExpressionNode node) {
+	/**
+	 *
+	 * @param node expression to evaluate.
+	 */
+	public IntervalPowerEvaluator(ExpressionNode node) {
 		this.node = node;
 	}
 
+	/**
+	 *
+	 * @return if this class can handle the expression.
+	 */
 	public boolean isAccepted() {
 		return node.getOperation().equals(Operation.POWER);
 	}
 
+	/**
+	 *
+	 * @param x interval
+	 * @return power expression evaluated on x.
+	 */
 	public Interval handle(Interval x) throws Exception {
 		Interval lt = IntervalFunction.evaluate(x, node.getLeft());
 		ExpressionValue right = node.getRight();
