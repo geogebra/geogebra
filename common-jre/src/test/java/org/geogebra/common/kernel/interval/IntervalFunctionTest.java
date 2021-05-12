@@ -51,6 +51,15 @@ public class IntervalFunctionTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void powerShouldBeNumber() {
+		add("v = (1, 2)");
+		assertFalse(isSupported(add("x^v")));
+		assertFalse(isSupported(add("abs(x^v)")));
+		add("A = (1, 2)");
+		assertFalse(isSupported(add("x^A")));
+	}
+
+	@Test
 	public void testSupportedOperations() {
 		assertTrue(isSupported(add("x + 1")));
 		assertTrue(isSupported(add("x - 1")));

@@ -61,6 +61,10 @@ public class UnsupportedOperatorChecker implements Inspecting {
 
 	private boolean checkPower(ExpressionNode node) {
 		double power = node.getRight().evaluateDouble();
+		if (Double.isNaN(power)) {
+			return true;
+		}
+
 		return node.getRightTree().containsFunctionVariable()
 				|| power >= 100;
 	}

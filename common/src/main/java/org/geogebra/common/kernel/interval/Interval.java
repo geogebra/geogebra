@@ -750,7 +750,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	}
 
 	public boolean isSignEquals(Interval other) {
-		return Math.abs(low) == other.low && Math.abs(high) == other.high;
+		return DoubleUtil.isEqual(Math.abs(low), other.low)
+				&& DoubleUtil.isEqual(Math.abs(high), other.high);
 	}
 
 	public boolean isNegative() {
