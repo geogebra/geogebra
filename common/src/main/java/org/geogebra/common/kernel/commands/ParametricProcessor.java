@@ -126,7 +126,7 @@ public class ParametricProcessor {
 				GeoElement[] ret = processParametricFunction(exp,
 						exp.evaluate(StringTemplate.defaultTemplate),
 						new FunctionVariable[] { fv },
-						"X".equals(ve.getLabel()) ? null : ve.getLabel(), info);
+						getParametricLabel(ve), info);
 				if (ret != null
 						&& (num.isEmpty() || (info.isAutocreateSliders())
 								&& info.isLabelOutput())) {
@@ -168,6 +168,10 @@ public class ParametricProcessor {
 		removeSliders(num, undefinedVariables);
 		cons.setSuppressLabelCreation(oldMacroMode);
 		return null;
+	}
+
+	protected static String getParametricLabel(ValidExpression ve) {
+		return "X".equals(ve.getLabel()) ? null : ve.getLabel();
 	}
 
 	private static String getPreferredName(TreeSet<String> undefinedVariables) {

@@ -2411,7 +2411,7 @@ public class AlgebraProcessor {
 				fun.getExpression(),
 				copy.evaluate(StringTemplate.defaultTemplate),
 				new FunctionVariable[] { fun.getFunctionVariable() },
-				fun.getLabel(), info);
+				ParametricProcessor.getParametricLabel(fun), info);
 	}
 
 	/**
