@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class IntervalPowerEvaluatorTest extends BaseUnitTest {
@@ -75,11 +74,10 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 				evalOnInterval(definition, -6, -5.88));
 	}
 
-	@Ignore
 	@Test
 	public void powerOfPower() throws Exception {
-		String definition = "(x^2)^(1/9)";
-		assertEquals(interval(1.171, 1.171),
+		String definition = "(((x)^(1/9))^-1)^2";
+		assertEquals(interval(0.7348672461377986),
 				evalOnInterval(definition, -4, -4));
 
 	}
