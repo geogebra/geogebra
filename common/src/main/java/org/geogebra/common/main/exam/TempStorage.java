@@ -54,4 +54,8 @@ public class TempStorage {
         tempMaterialId = 0;
         tempMaterials = new LinkedHashMap<>();
     }
+
+    public boolean isEmpty() {
+        return tempMaterials.isEmpty();
+    }
 }
