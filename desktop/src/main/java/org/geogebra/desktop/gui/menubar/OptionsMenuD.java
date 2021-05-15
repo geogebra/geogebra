@@ -104,15 +104,14 @@ public class OptionsMenuD extends BaseMenu
 		add(showOptionsAction);
 
 		// doesn't work in applets
-		if (!app.isApplet()) {
-			addSeparator();
 
-			// save settings
-			add(saveSettings);
+		addSeparator();
 
-			// restore default settings
-			add(restoreDefaultSettings);
-		}
+		// save settings
+		add(saveSettings);
+
+		// restore default settings
+		add(restoreDefaultSettings);
 
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
@@ -214,108 +213,106 @@ public class OptionsMenuD extends BaseMenu
 			}
 		};
 
-		if (!app.isApplet()) {
-			// save settings
-			saveSettings = new AbstractAction(loc.getMenu("Settings.Save"),
-					app.getMenuIcon(GuiResourcesD.DOCUMENT_SAVE)) {
-				@SuppressWarnings("hiding")
-				public static final long serialVersionUID = 1L;
+		// save settings
+		saveSettings = new AbstractAction(loc.getMenu("Settings.Save"),
+				app.getMenuIcon(GuiResourcesD.DOCUMENT_SAVE)) {
+			@SuppressWarnings("hiding")
+			public static final long serialVersionUID = 1L;
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					GeoGebraPreferencesD.getPref().saveXMLPreferences(app);
-				}
-			};
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				GeoGebraPreferencesD.getPref().saveXMLPreferences(app);
+			}
+		};
 
-			// restore default settings
-			restoreDefaultSettings = new AbstractAction(
-					loc.getMenu("Settings.ResetDefault"), app.getEmptyIcon()) {
-				@SuppressWarnings("hiding")
-				public static final long serialVersionUID = 1L;
+		// restore default settings
+		restoreDefaultSettings = new AbstractAction(
+				loc.getMenu("Settings.ResetDefault"), app.getEmptyIcon()) {
+			@SuppressWarnings("hiding")
+			public static final long serialVersionUID = 1L;
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 
-					// set checkbox size to new default
-					app.getEuclidianView1().setBooleanSize(
+				// set checkbox size to new default
+				app.getEuclidianView1().setBooleanSize(
+						EuclidianConstants.DEFAULT_CHECKBOX_SIZE);
+				if (app.hasEuclidianView2(1)) {
+					app.getEuclidianView2(1).setBooleanSize(
 							EuclidianConstants.DEFAULT_CHECKBOX_SIZE);
-					if (app.hasEuclidianView2(1)) {
-						app.getEuclidianView2(1).setBooleanSize(
-								EuclidianConstants.DEFAULT_CHECKBOX_SIZE);
+				}
+
+				// set sliders to new styling
+				TreeSet<GeoElement> geos = app.getKernel().getConstruction()
+						.getGeoSetConstructionOrder();
+				Iterator<GeoElement> it = geos.iterator();
+				while (it.hasNext()) {
+					GeoElement geo = it.next();
+					if (geo instanceof GeoNumeric
+							&& ((GeoNumeric) geo).isSlider()) {
+						GeoNumeric slider = (GeoNumeric) geo;
+						slider.setAlphaValue(
+								ConstructionDefaults.DEFAULT_NUMBER_ALPHA);
+						slider.setLineThickness(
+								GeoNumeric.DEFAULT_SLIDER_THICKNESS);
+						slider.setSliderWidth(
+								GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL,
+								true);
+						slider.setSliderBlobSize(
+								GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
+						slider.setLineThickness(
+								GeoNumeric.DEFAULT_SLIDER_THICKNESS);
+						slider.updateRepaint();
 					}
+				}
 
-					// set sliders to new styling
-					TreeSet<GeoElement> geos = app.getKernel().getConstruction()
-							.getGeoSetConstructionOrder();
-					Iterator<GeoElement> it = geos.iterator();
-					while (it.hasNext()) {
-						GeoElement geo = it.next();
-						if (geo instanceof GeoNumeric
-								&& ((GeoNumeric) geo).isSlider()) {
-							GeoNumeric slider = (GeoNumeric) geo;
-							slider.setAlphaValue(
-									ConstructionDefaults.DEFAULT_NUMBER_ALPHA);
-							slider.setLineThickness(
-									GeoNumeric.DEFAULT_SLIDER_THICKNESS);
-							slider.setSliderWidth(
-									GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL,
-									true);
-							slider.setSliderBlobSize(
-									GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
-							slider.setLineThickness(
-									GeoNumeric.DEFAULT_SLIDER_THICKNESS);
-							slider.updateRepaint();
-						}
-					}
+				GeoGebraPreferencesD.getPref().clearPreferences(app);
+				boolean oldAxisX = app.getSettings().getEuclidian(1)
+						.getShowAxis(0);
+				boolean oldAxisY = app.getSettings().getEuclidian(1)
+						.getShowAxis(1);
+				// reset defaults for GUI, views etc
+				// this has to be called before load XML preferences,
+				// in order to avoid overwrite
+				app.getSettings().resetSettings(app);
 
-					GeoGebraPreferencesD.getPref().clearPreferences(app);
-					boolean oldAxisX = app.getSettings().getEuclidian(1)
-							.getShowAxis(0);
-					boolean oldAxisY = app.getSettings().getEuclidian(1)
-							.getShowAxis(1);
-					// reset defaults for GUI, views etc
-					// this has to be called before load XML preferences,
-					// in order to avoid overwrite
-					app.getSettings().resetSettings(app);
+				// for geoelement defaults, this will do nothing, so it is
+				// OK here
+				GeoGebraPreferencesD.getPref().loadXMLPreferences(app);
+				app.getSettings().getEuclidian(1).setShowAxes(oldAxisX,
+						oldAxisY);
+				// reset default line thickness etc
+				app.getKernel().getConstruction().getConstructionDefaults()
+						.resetDefaults();
 
-					// for geoelement defaults, this will do nothing, so it is
-					// OK here
-					GeoGebraPreferencesD.getPref().loadXMLPreferences(app);
-					app.getSettings().getEuclidian(1).setShowAxes(oldAxisX,
-							oldAxisY);
-					// reset default line thickness etc
-					app.getKernel().getConstruction().getConstructionDefaults()
-							.resetDefaults();
-
-					// reset defaults for geoelements; this will create brand
-					// new objects
-					// so the options defaults dialog should be reset later
-					app.getKernel().getConstruction().getConstructionDefaults()
-							.createDefaultGeoElements();
-					app.setInputPosition(InputPosition.algebraView, false);
-					// reset the stylebar defaultGeo
-					if (app.getEuclidianView1().hasStyleBar()) {
-						app.getEuclidianView1().getStyleBar()
+				// reset defaults for geoelements; this will create brand
+				// new objects
+				// so the options defaults dialog should be reset later
+				app.getKernel().getConstruction().getConstructionDefaults()
+						.createDefaultGeoElements();
+				app.setInputPosition(InputPosition.algebraView, false);
+				// reset the stylebar defaultGeo
+				if (app.getEuclidianView1().hasStyleBar()) {
+					app.getEuclidianView1().getStyleBar()
+							.restoreDefaultGeo();
+				}
+				if (app.hasEuclidianView2EitherShowingOrNot(1)) {
+					if (app.getEuclidianView2(1).hasStyleBar()) {
+						app.getEuclidianView2(1).getStyleBar()
 								.restoreDefaultGeo();
 					}
-					if (app.hasEuclidianView2EitherShowingOrNot(1)) {
-						if (app.getEuclidianView2(1).hasStyleBar()) {
-							app.getEuclidianView2(1).getStyleBar()
-									.restoreDefaultGeo();
-						}
-					}
-					app.getKernel().updateConstruction(false);
-					// set default layout options
-					app.setToolbarPosition(SwingConstants.NORTH, false);
-					app.setShowToolBarNoUpdate(true);
-					app.setShowToolBarHelpNoUpdate(false);
-					app.setShowDockBar(true, false);
-					app.setDockBarEast(true);
-					app.updateContentPane();
-
 				}
-			};
-		}
+				app.getKernel().updateConstruction(false);
+				// set default layout options
+				app.setToolbarPosition(SwingConstants.NORTH, false);
+				app.setShowToolBarNoUpdate(true);
+				app.setShowToolBarHelpNoUpdate(false);
+				app.setShowDockBar(true, false);
+				app.setDockBarEast(true);
+				app.updateContentPane();
+
+			}
+		};
 	}
 
 	@Override
