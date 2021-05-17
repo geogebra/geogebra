@@ -62,6 +62,8 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 		super(cons);
 		setLocation(location);
 		setLineThickness(1);
+		setContentWidth(MIN_WIDTH);
+		setContentHeight(ROOT_HEIGHT);
 	}
 
 	@Override

@@ -193,6 +193,7 @@ public class DrawMindMap extends DrawInlineText {
 
 		GPoint2D newLocation = computeNewLocation(newAlignment);
 		GeoMindMapNode child = new GeoMindMapNode(node.getConstruction(), newLocation);
+		child.setContentHeight(GeoMindMapNode.CHILD_HEIGHT);
 		child.setSize(GeoMindMapNode.MIN_WIDTH, GeoMindMapNode.CHILD_HEIGHT);
 		child.setParent(node, newAlignment);
 		child.setBackgroundColor(child.getKernel().getApplication().isMebis()
