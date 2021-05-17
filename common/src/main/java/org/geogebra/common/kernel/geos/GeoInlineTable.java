@@ -193,9 +193,9 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 		}
 
 		if (col0.isEmpty()) {
-			col0 = extractData(column);
-			for (double x = 1; x <= col0.size(); x++) {
-				col1.add(x);
+			col1 = extractData(column);
+			for (double x = 1; x <= col1.size(); x++) {
+				col0.add(x);
 			}
 		}
 
