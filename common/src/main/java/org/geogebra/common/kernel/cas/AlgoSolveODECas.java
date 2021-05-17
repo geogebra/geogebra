@@ -85,7 +85,6 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 		}
 		setOnlyOutput(g);
 		setDependencies();
-
 	}
 
 	@Override
@@ -129,7 +128,6 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 		if (pt != null && arbconst.getTotalNumberOfConsts() == 1) {
 			findPathThroughPoint();
 		}
-
 	}
 
 	private void findPathThroughPoint() {
@@ -155,7 +153,6 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 							false);
 			cons.setSuppressLabelCreation(flag);
 			if (res != null && res.length > 0) {
-
 				if (g == null) {
 					g = new GeoFunction(cons);
 				}
@@ -200,7 +197,5 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 	@Override
 	public void refreshCASResults() {
 		this.oldCASstring = "";
-
 	}
-
 }
