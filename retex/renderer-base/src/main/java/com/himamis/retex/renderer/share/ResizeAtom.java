@@ -71,7 +71,7 @@ public class ResizeAtom extends Atom {
 	public Box createBox(TeXEnvironment env) {
 		Box bbox = base.createBox(env);
 		if (width == null && height == null) {
-			return bbox;
+			return bbox.setAtom(this);
 		} else {
 			double xscl;
 			double yscl;
@@ -90,7 +90,7 @@ public class ResizeAtom extends Atom {
 				xscl = yscl;
 			}
 
-			return new ScaleBox(bbox, xscl, yscl);
+			return new ScaleBox(bbox, xscl, yscl).setAtom(this);
 		}
 	}
 

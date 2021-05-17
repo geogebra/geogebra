@@ -155,7 +155,8 @@ public class CustomColorDialog extends DialogBoxW implements SetLabels {
 			addStyleName(app.isWhiteboardActive() ? "ColorChooser mow"
 					: "ColorChooser");
 		}
-		this.origColor = listener.getSelectedColor();
+		this.origColor = listener.getSelectedColor() != null
+				? listener.getSelectedColor() : GColor.BLACK;
 		createGUI();
 	}
 	

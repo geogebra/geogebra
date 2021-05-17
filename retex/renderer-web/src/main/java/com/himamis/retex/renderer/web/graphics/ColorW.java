@@ -53,6 +53,10 @@ public class ColorW implements Color {
 		cssColor = "rgb(" + r + "," + g + "," + b + ")";
 	}
 
+	public ColorW(int r, int g, int b, int a) {
+		cssColor = "rgba(" + r + ", " + g + ", " + b + ", " + (a / 255.) + ")";
+	}
+
 	public ColorW(String cssColorString) {
 		cssColor = cssColorString;
 	}

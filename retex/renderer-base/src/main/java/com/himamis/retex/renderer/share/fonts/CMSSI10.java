@@ -33,6 +33,8 @@ final class CMSSI10 extends FontInfo {
 
 		setMetrics(171, 722, 694, 0, 83);
 
+		setMetrics(172, 667, 694, 0, 81);
+
 		setMetrics(174, 583, 694, 0, 217);
 		setLigatures(105, 177, 108, 178);
 		setKern(39, 69, 63, 69, 33, 69, 41, 69, 93, 69);

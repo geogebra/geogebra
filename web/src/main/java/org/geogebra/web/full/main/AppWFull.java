@@ -3,6 +3,7 @@ package org.geogebra.web.full.main;
 import static org.geogebra.common.gui.Layout.findDockPanelData;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -221,7 +222,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private Map<String, Material> constructionJson = new HashMap<>();
 	private final HashMap<String, UndoHistory> undoHistory = new HashMap<>();
 	private InputBoxType inputBoxType;
-	private String functionVars = "";
+	private List<String> functionVars = new ArrayList<>();
 	private OpenSearch search;
 
 	/**
@@ -569,7 +570,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isUnbundledGeometry()) {
 			p = Layout.getDefaultPerspectives(Perspective.GEOMETRY - 1);
 		}
-		if (isUnbundledGraphing()) {
+		if (isUnbundledGraphing() || isUnbundledCas()) {
 			p = Layout.getDefaultPerspectives(Perspective.GRAPHING - 1);
 		}
 		if (isUnbundled3D()) {
@@ -612,7 +613,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void resetAllToolbars() {
-
 		GuiManagerW gm = getGuiManager();
 		DockPanelW[] panels = gm.getLayout().getDockManager().getPanels();
 		for (DockPanelW panel : panels) {
@@ -632,7 +632,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		DockPanel avPanel = gm.getLayout().getDockManager()
 				.getPanel(VIEW_ALGEBRA);
 		if (avPanel instanceof ToolbarDockPanelW) {
-			((ToolbarDockPanelW) avPanel).getToolbar().reset();
+			final ToolbarDockPanelW dockPanel = (ToolbarDockPanelW) avPanel;
+			dockPanel.getToolbar().reset();
+			dockPanel.tryBuildZoomPanel();
 		}
 	}
 
@@ -1005,7 +1007,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public String getInputBoxFunctionVars() {
+	public List<String> getInputBoxFunctionVars() {
 		return functionVars;
 	}
 
@@ -1013,7 +1015,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * setter for input box function vars
 	 * @param functionVars function vars connected to the inputbox
 	 */
-	public void setInputBoxFunctionVars(String functionVars) {
+	public void setInputBoxFunctionVars(List<String> functionVars) {
 		this.functionVars = functionVars;
 	}
 
@@ -1250,7 +1252,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		resetMaxLayerUsed();
 		setCurrentFile(null);
 		resetUI();
-		resetPenTool();
 		clearMedia();
 	}
 
@@ -2256,6 +2257,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		updatePerspective(perspective);
 		clearConstruction();
 		restoreMaterial(subAppCode);
+		resetFullScreenBtn();
 		if (isExam()) {
 			Material material = getExam().getTempStorage().newMaterial();
 			setActiveMaterial(material);
@@ -2332,5 +2334,22 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void setNotesToolbarOpen(boolean open) {
 		getAppletFrame().setNotesToolbarOpen(open);
+	}
+
+	/**
+	 * Clear type and function variables for input box.
+	 */
+	public void resetInputBox() {
+		inputBoxType = null;
+		functionVars = Collections.emptyList();
+	}
+
+	private void resetFullScreenBtn() {
+		GuiManagerW gm = getGuiManager();
+		DockPanel avPanel = gm.getLayout().getDockManager()
+				.getPanel(VIEW_ALGEBRA);
+		if (avPanel instanceof ToolbarDockPanelW) {
+			((ToolbarDockPanelW) avPanel).tryBuildZoomPanel();
+		}
 	}
 }

@@ -142,7 +142,7 @@ public class LinearSpace {
 	public int shrinkMax(double max) {
 		double t = getLastValue();
 		int count = 0;
-		while (t > max) {
+		while (t > max && size() > 1) {
 			values.remove(size() - 1);
 			t = getLastValue();
 			count++;
@@ -160,7 +160,7 @@ public class LinearSpace {
 	public int shrinkMin(double min) {
 		int count = 0;
 		double t = getFirstValue();
-		while (t < min) {
+		while (t < min && size() > 1) {
 			values.remove(0);
 			t = getFirstValue();
 			count++;

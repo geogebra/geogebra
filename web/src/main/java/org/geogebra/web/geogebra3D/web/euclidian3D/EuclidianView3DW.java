@@ -1,5 +1,7 @@
 package org.geogebra.web.geogebra3D.web.euclidian3D;
 
+import java.util.function.Consumer;
+
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -673,8 +675,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public String getExportSVG(double scale, boolean transparency) {
-		return "";
+	public void getExportSVG(double scale, boolean transparency, Consumer<String> callback) {
+		// not implemented
 	}
 
 	@Override

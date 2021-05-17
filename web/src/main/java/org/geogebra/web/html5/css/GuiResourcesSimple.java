@@ -15,12 +15,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/rewrite_pHYs_min.js")
 	TextResource rewritePHYS();
 
-	@Source("org/geogebra/web/resources/js/canvas2svg.min.js")
-	TextResource canvas2Svg();
-
-	@Source("org/geogebra/web/resources/js/canvas2pdf.min.js")
-	TextResource canvas2Pdf();
-
 	@Source("org/geogebra/web/resources/js/xmlutil.js")
 	TextResource xmlUtil();
 
@@ -91,12 +85,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	@Source("org/geogebra/web/resources/scss/reset.scss")
 	SassResource reset();
-
-	@Source("org/geogebra/web/resources/js/gifshot.image.min.js")
-	TextResource gifShotJs();
-
-	@Source("org/geogebra/web/resources/js/whammy.min.js")
-	TextResource whammyJs();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/video_player_black_opacity54_360px.png")
 	ImageResource mow_video_player();

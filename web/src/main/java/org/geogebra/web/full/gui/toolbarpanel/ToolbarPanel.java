@@ -15,7 +15,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.exam.ExamUtil;
@@ -44,7 +43,6 @@ import org.geogebra.web.resources.SVGResource;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.layout.client.Layout;
 import com.google.gwt.layout.client.Layout.AnimationCallback;
@@ -263,21 +261,6 @@ public class ToolbarPanel extends FlowPanel
 						.closePopups(x, y, type);
 			}
 		});
-		Event.addNativePreviewHandler(event -> {
-			try {
-				Node el = Node.as(event.getNativeEvent().getEventTarget());
-				String type = event.getNativeEvent().getType();
-				if (("mousewheel".equals(type) || "DOMMouseScroll".equals(type))
-						&& getElement().isOrHasChild(el)) {
-					addStyleName("showScroll");
-				}
-				if ("mousemove".equals(type) && !getElement().isOrHasChild(el)) {
-					removeStyleName("showScroll");
-				}
-			} catch (Throwable t) {
-				Log.error(t.getMessage());
-			}
-		});
 	}
 
 	/**
@@ -448,6 +431,7 @@ public class ToolbarPanel extends FlowPanel
 		hideDragger();
 		navRail.reset();
 		resizeTabs();
+		setHeadingHeight(0);
 	}
 
 	private void addMoveBtn() {

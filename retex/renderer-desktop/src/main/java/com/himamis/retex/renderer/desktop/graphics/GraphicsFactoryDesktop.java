@@ -68,8 +68,8 @@ public class GraphicsFactoryDesktop extends GraphicsFactory {
 	}
 
 	@Override
-	public Color createColor(int red, int green, int blue) {
-		return new ColorD(red, green, blue);
+	public Color createColor(int red, int green, int blue, int alpha) {
+		return new ColorD(red, green, blue, alpha);
 	}
 
 	@Override

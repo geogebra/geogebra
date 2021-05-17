@@ -138,14 +138,14 @@ public class MathFunction extends MathContainer {
 	/**
 	 * @return opening bracket
 	 */
-	public String getOpeningBracket() {
+	public char getOpeningBracket() {
 		return meta.getOpeningBracket();
 	}
 
 	/**
 	 * @return closing bracket
 	 */
-	public String getClosingBracket() {
+	public char getClosingBracket() {
 		return meta.getClosingBracket();
 	}
 
@@ -165,10 +165,8 @@ public class MathFunction extends MathContainer {
 	 * @return whether argument is either subscript or superscript
 	 */
 	public static boolean isScript(MathComponent argument) {
-		if (!(argument instanceof MathFunction)) {
-			return false;
-		}
-		return argument.hasTag(Tag.SUPERSCRIPT)
-				|| argument.hasTag(Tag.SUBSCRIPT);
+		return argument instanceof MathFunction
+				&& (argument.hasTag(Tag.SUPERSCRIPT)
+				|| argument.hasTag(Tag.SUBSCRIPT));
 	}
 }

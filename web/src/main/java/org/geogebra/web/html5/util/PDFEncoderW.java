@@ -3,11 +3,8 @@ package org.geogebra.web.html5.util;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.web.html5.awt.GGraphics2DW;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.export.ExportLoader;
-import org.geogebra.web.resources.JavaScriptInjector;
 
 import elemental2.dom.CanvasRenderingContext2D;
 
@@ -121,10 +118,6 @@ public class PDFEncoderW implements Encoder {
 	 * @return context if available (or null)
 	 */
 	public static CanvasRenderingContext2D getContext(int width, int height) {
-		if (ExportLoader.getCanvas2Pdf() == null) {
-			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Pdf());
-		}
 		return PDFEncoderW.getCanvas2PDF(width, height);
 	}
-
 }

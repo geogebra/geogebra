@@ -24,8 +24,6 @@ public class AnimationExporter {
 	 *            delay
 	 * @param slider
 	 *            slider
-	 * @param isLoop
-	 *            loop?
 	 * @param filename
 	 *            filename
 	 * @param scale
@@ -38,7 +36,7 @@ public class AnimationExporter {
 	 */
 	public static String export(App app, int timeBetweenFrames,
 			GeoNumeric slider,
-			boolean isLoop, String filename, double scale, double rotate,
+			String filename, double scale, double rotate,
 			ExportType frameFormat) {
 
 		app.getKernel().getAnimatonManager().stopAnimation();
@@ -100,7 +98,7 @@ public class AnimationExporter {
 		EuclidianViewWInterface ev = ((EuclidianViewWInterface) app
 				.getActiveEuclidianView());
 
-		final Encoder encoder = getEncoder(timeBetweenFrames, isLoop, filename,
+		final Encoder encoder = getEncoder(timeBetweenFrames, filename,
 				frameFormat, ev);
 
 		FrameCollectorW collector = new FrameCollectorW() {
@@ -138,16 +136,16 @@ public class AnimationExporter {
 		return null;
 	}
 
-	private static Encoder getEncoder(int timeBetweenFrames, boolean isLoop,
+	private static Encoder getEncoder(int timeBetweenFrames,
 			String filename, ExportType frameFormat,
 			EuclidianViewWInterface ev) {
 
 		switch (frameFormat) {
 		default:
 		case PNG:
-			return new AnimatedGifEncoderW(timeBetweenFrames, isLoop, filename);
+			return new AnimatedGifEncoderW(timeBetweenFrames, filename);
 		case WEBP:
-			return new WebMEncoderW(timeBetweenFrames, isLoop, filename);
+			return new WebMEncoderW(timeBetweenFrames, filename);
 
 		case PDF_HTML5:
 			return new PDFEncoderW(ev);
@@ -178,11 +176,6 @@ public class AnimationExporter {
 						false, false);
 				((EuclidianView3DInterface) ev).repaintView();
 			}
-
-			// String url = ev.getExportImageDataUrl(scale, false, format);
-			// if (url == null) {
-			// Log.error("image null");
-			// } else
 
 			encoder.addFrame(ev, scale, format);
 

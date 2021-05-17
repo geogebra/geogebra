@@ -89,6 +89,10 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_createlist_32();
 
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_delete.svg")
+	@Override
+	SVGResource mode_delete_32();
+
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_dilatefrompoint.svg")
 	@Override
 	SVGResource mode_dilatefrompoint_32();

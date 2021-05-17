@@ -8,6 +8,7 @@ import com.google.gwt.dom.client.Element;
 
 import elemental2.core.Global;
 import elemental2.core.JsArray;
+import elemental2.dom.DomGlobal;
 import elemental2.promise.Promise;
 import jsinterop.annotations.JsIgnore;
 import jsinterop.annotations.JsType;
@@ -742,12 +743,27 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.exportPGF(callback);
 	}
 
-	public String exportSVG(String filename) {
-		return ggbAPI.exportSVG(filename + "");
+	public void exportSVG(Object filenameOrCallback) {
+		if ("string".equals(Js.typeof(filenameOrCallback))) {
+			ggbAPI.exportSVG((String) filenameOrCallback, null);
+		} else if ("function".equals(Js.typeof(filenameOrCallback))) {
+			ggbAPI.exportSVG(null, ((StringConsumer) filenameOrCallback)::consume);
+		} else {
+			DomGlobal.console.warn("exportSVG requires either a filename or a callback.");
+		}
 	}
 
-	public String exportPDF(Object scale, String filename, String sliderLabel) {
-		return ggbAPI.exportPDF(Js.coerceToDouble(scale), filename, sliderLabel);
+	public void exportPDF(Object scale, Object filenameOrCallback, String sliderLabel) {
+		if ("string".equals(Js.typeof(filenameOrCallback))) {
+			ggbAPI.exportPDF(Js.coerceToDouble(scale), (String) filenameOrCallback,
+					null, sliderLabel);
+		} else if ("function".equals(Js.typeof(filenameOrCallback))) {
+			ggbAPI.exportPDF(Js.coerceToDouble(scale), null,
+					((StringConsumer) filenameOrCallback)::consume, sliderLabel);
+		} else {
+			DomGlobal.console.warn("exportPDF requires either a filename or "
+					+ "a callback as the second parameter.");
+		}
 	}
 
 	public void exportPSTricks(StringConsumer callback) {
