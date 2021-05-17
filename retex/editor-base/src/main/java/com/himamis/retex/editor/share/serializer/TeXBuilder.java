@@ -356,14 +356,18 @@ public class TeXBuilder {
 					build(argument.getArgument(1))
 			);
 		case SUM_EQ:
+			Atom sum = newCharAtom('\u2211');
+			sum.type_limits = TeXConstants.SCRIPT_NORMAL;
 			return new ScriptsAtom(
-					newCharAtom('\u2211'),
+					sum,
 					build(argument.getArgument(0)),
 					build(argument.getArgument(1))
 			);
 		case PROD_EQ:
+			Atom prod = newCharAtom('\u220F');
+			prod.type_limits = TeXConstants.SCRIPT_NORMAL;
 			return new ScriptsAtom(
-					newCharAtom('\u220F'),
+					prod,
 					build(argument.getArgument(0)),
 					build(argument.getArgument(1))
 			);
