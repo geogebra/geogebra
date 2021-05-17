@@ -679,7 +679,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		}
 	}
 
-	public void getScreenshotBase64(StringConsumer callback) {
-		callback.consume(app.getEuclidianView1().getCanvasBase64WithTypeString());
+	/**
+	 * @param callback callback for base64 string (without prefix)
+	 * @param scale scale-up factor
+	 */
+	public void getScreenshotBase64(StringConsumer callback, double scale) {
+		callback.consume(app.getEuclidianView1()
+				.getExportImageDataUrl(scale, false, false));
 	}
 }

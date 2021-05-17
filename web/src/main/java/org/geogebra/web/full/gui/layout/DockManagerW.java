@@ -1791,9 +1791,11 @@ public class DockManagerW extends DockManager {
 	 * @param c canvas
 	 * @param callback consumer for the resulting base64 string (without marker)
 	 */
-	public void paintPanels(Canvas c, StringConsumer callback) {
-		c.setCoordinateSpaceWidth(rootPane.getOffsetWidth());
-		c.setCoordinateSpaceHeight(rootPane.getOffsetHeight());
+	public void paintPanels(Canvas c, StringConsumer callback, double scale) {
+		int width = (int) (rootPane.getOffsetWidth() * scale);
+		int height = (int) (rootPane.getOffsetHeight() * scale);
+		c.setCoordinateSpaceWidth(width);
+		c.setCoordinateSpaceHeight(height);
 		Runnable counter = new Runnable() {
 			private int count = dockPanels.size();
 			@Override
@@ -1807,7 +1809,8 @@ public class DockManagerW extends DockManager {
 		CanvasRenderingContext2D context2d = Js.uncheckedCast(c.getContext("2d"));
 		// gray color for the dividers in Classic
 		context2d.fillStyle = BaseRenderingContext2D.FillStyleUnionType.of("rgb(200,200,200)");
-		context2d.fillRect(0, 0, rootPane.getOffsetWidth(), rootPane.getOffsetHeight());
+		context2d.fillRect(0, 0, width, height);
+		context2d.scale(scale, scale);
 		for (DockPanelW panel: dockPanels) {
 			if (panel.isAttached() && panel.isVisible()) {
 				panel.paintToCanvas(context2d, counter,

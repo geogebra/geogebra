@@ -908,8 +908,8 @@ public class GgbAPIW extends GgbAPI {
 	 * @param callback
 	 *            callback
 	 */
-	public void getScreenshotBase64(StringConsumer callback) {
-		((AppW) app).getAppletFrame().getScreenshotBase64(callback);
+	public void getScreenshotBase64(StringConsumer callback, double scale) {
+		((AppW) app).getAppletFrame().getScreenshotBase64(callback, scale);
 	}
 
 	@Override
