@@ -38,20 +38,20 @@ public class EditorTypingTest {
 	@Test
 	public void testEditorUnicode() {
 		checker.checkEditorInsert(TestStringUtil.unicode("x/sqrt(x^2+4)"),
-				"(x)/(sqrt(x^(2)+4))");
+				"((x)/(sqrt(x^(2)+4)))");
 		checker.checkEditorInsert("x/(" + Unicode.EULER_STRING + "^x+1)",
-				"(x)/(" + Unicode.EULER_STRING + "^(x)+1)");
+				"((x)/(" + Unicode.EULER_STRING + "^(x)+1))");
 
 		checker.checkEditorInsert("3*x", "3*x");
 	}
 
 	@Test
 	public void testEditor() {
-		checker.checkEditorInsert("sqrt(x/2)", "sqrt((x)/(2))");
+		checker.checkEditorInsert("sqrt(x/2)", "sqrt(((x)/(2)))");
 
 		checker.checkEditorInsert("1+2+3-4", "1+2+3-4");
 		checker.checkEditorInsert("12345", "12345");
-		checker.checkEditorInsert("1/2/3/4", "(((1)/(2))/(3))/(4)");
+		checker.checkEditorInsert("1/2/3/4", "((((((1)/(2)))/(3)))/(4))");
 		checker.checkEditorInsert("Segment[(1,2),(3,4)]", "Segment[(1,2),(3,4)]");
 	}
 
@@ -416,18 +416,18 @@ public class EditorTypingTest {
 	@Test
 	public void testSlash1() {
 		checker.type("/1").right(1).type("2")
-				.checkAsciiMath("(1)/(2)");
+				.checkAsciiMath("((1)/(2))");
 	}
 
 	@Test
 	public void testSlash2() {
-		checker.type("1/2").checkAsciiMath("(1)/(2)");
+		checker.type("1/2").checkAsciiMath("((1)/(2))");
 	}
 
 	@Test
 	public void testSlash3() {
 		checker.type("12").left(1).type("/")
-				.checkAsciiMath("(1)/()2");
+				.checkAsciiMath("((1)/())2");
 	}
 
 	@Test
@@ -476,7 +476,7 @@ public class EditorTypingTest {
 	@Test
 	public void testBackspaceAfterFraction() {
 		checker.type("12/34").typeKey(JavaKeyCodes.VK_BACK_SPACE)
-				.checkAsciiMath("(12)/(3)");
+				.checkAsciiMath("((12)/(3))");
 	}
 
 	@Test
@@ -514,7 +514,7 @@ public class EditorTypingTest {
 	@Test
 	public void testBackspaceWithBrackets() {
 		checker.type("8/").typeKey(JavaKeyCodes.VK_BACK_SPACE).type("/2")
-				.checkAsciiMath("(8)/(2)");
+				.checkAsciiMath("((8)/(2))");
 	}
 
 	@Test

@@ -34,7 +34,7 @@ public class EvaluatorAPITest extends BaseUnitTest {
 		Map<String, Object> value = api.getEvaluatorValue();
 
 		assertEquals("{\\frac{1}{2}}", value.get("latex").toString());
-		assertEquals("(1)/(2)", value.get("content").toString());
+		assertEquals("((1)/(2))", value.get("content").toString());
 		assertEquals("0.5", value.get("eval").toString());
 	}
 
@@ -64,7 +64,7 @@ public class EvaluatorAPITest extends BaseUnitTest {
 
 		assertEquals("{\\frac{1}{" + TeXSerializer.PLACEHOLDER + "}}",
 				value.get("latex").toString());
-		assertEquals("(1)/()", value.get("content").toString());
+		assertEquals("((1)/())", value.get("content").toString());
 		assertEquals("NaN", value.get("eval").toString());
 	}
 
@@ -74,7 +74,7 @@ public class EvaluatorAPITest extends BaseUnitTest {
 		Map<String, Object> value = api.getEvaluatorValue();
 
 		assertEquals("1+{\\frac{1}{5}}", value.get("latex").toString());
-		assertEquals("1+(1)/(5)", value.get("content").toString());
+		assertEquals("1+((1)/(5))", value.get("content").toString());
 		assertEquals("1.2", value.get("eval").toString());
 	}
 
@@ -82,7 +82,7 @@ public class EvaluatorAPITest extends BaseUnitTest {
 	public void testSetEditorStateInvalidCaret() {
 		api.setEditorState("{content:\"1+1/5\", caret: \"/\"}");
 		Map<String, Object> value = api.getEvaluatorValue();
-		assertEquals("1+(1)/(5)", value.get("content").toString());
+		assertEquals("1+((1)/(5))", value.get("content").toString());
 	}
 
 	@Test
