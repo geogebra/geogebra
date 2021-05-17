@@ -87,11 +87,15 @@ public final class ToolTipManagerW {
 		else {
 			if (appW.getAppletFrame().isKeyboardShowing()) {
 				style.setBottom(236, Unit.PX); // 8px higher then keyboard
-			} else if (appW.isUnbundled()) {
+			} else if (appW.isUnbundled() || appW.isSuite()) {
+				boolean portrait = appW.getWidth() < appW.getHeight();
+				snackbar.addStyleName(portrait ? "portrait" : "landscape");
 				// show snackbar above move FAB
-				int snackbarRight = 8 + snackbar.getOffsetWidth();
-				style.setBottom(appW.getGuiManager().isMoveBelowSnackbar(
-						snackbarRight) ? 68 : 8, Unit.PX);
+				int snackbarRight = (portrait ? 8 : 80) + snackbar.getOffsetWidth();
+				int moveTop = appW.getGuiManager().getMoveTopBelowSnackbar(snackbarRight);
+				if (moveTop > 0) {
+					style.setBottom(moveTop + 8, Unit.PX);
+				}
 			}
 		}
 	}

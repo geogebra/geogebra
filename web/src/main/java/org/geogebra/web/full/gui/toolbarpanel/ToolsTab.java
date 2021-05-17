@@ -6,8 +6,6 @@ import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -179,7 +177,6 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 	public void onResize() {
 		super.onResize();
 		int w = this.toolbarPanel.getTabWidth();
-		int left = toolbarPanel.getNavigationRailWidth();
 		if (w < 0) {
 			return;
 		}

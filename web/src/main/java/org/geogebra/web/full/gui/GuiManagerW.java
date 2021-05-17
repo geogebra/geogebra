@@ -677,11 +677,11 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public boolean isMoveBelowSnackbar(int snackbarRight) {
+	public int getMoveTopBelowSnackbar(int snackbarRight) {
 		if (getUnbundledToolbar() != null) {
-			return getUnbundledToolbar().isMoveBelowSnackbar(snackbarRight);
+			return getUnbundledToolbar().getMoveTopBelowSnackbar(snackbarRight);
 		}
-		return false;
+		return 0;
 	}
 
 	@Override

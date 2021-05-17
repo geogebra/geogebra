@@ -44,8 +44,6 @@ public class ComponentSnackbar extends FlowPanel {
 		addStyleName("snackbarComponent");
 		if (app.isWhiteboardActive()) {
 			addStyleName("mowPosition");
-		} else if (app.isSuite() || app.isUnbundled()) {
-			addStyleName("bottombarPosition");
 		}
 		buildGui(title, text, buttonText);
 		app.getPanel().add(this);
