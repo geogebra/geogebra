@@ -131,10 +131,10 @@ public class Graphics2DA implements Graphics2DInterface {
 		mDrawPaint.setTextSize(mScaleStack.scaleFontSize(mFont.getSize()));
 	}
 
-	public void fillRect(int x, int y, int width, int height) {
+	public void fillRect(double x, double y, double width, double height) {
 		beforeFill();
 
-		RectF rectF = new RectF(x, y, x + width, y + height);
+		RectF rectF = new RectF((float) x, (float) y, (float) (x + width), (float) (y + height));
 		RectF scaled = mScaleStack.scaleRectF(rectF);
 		RectF amended = AmendRect.amendRectF(scaled);
 
