@@ -694,7 +694,6 @@ public class InputController {
 			if (currentOffset == currentField.size()
 					&& parent instanceof MathFunction
 					&& ch == ((MathFunction) parent).getClosingBracket()
-					.charAt(0)
 					&& parent.size() == currentField.getParentIndex() + 1) {
 
 				currentOffset = parent.getParentIndex() + 1;
@@ -704,7 +703,6 @@ public class InputController {
 				// after closing character
 			} else if (parent instanceof MathFunction
 					&& ch == ((MathFunction) parent).getClosingBracket()
-					.charAt(0)
 					&& parent.size() == currentField.getParentIndex() + 1) {
 				ArrayList<MathComponent> removed = cut(currentField,
 						currentOffset);
@@ -1160,7 +1158,13 @@ public class InputController {
 				newOperator(editorState, '*');
 				handled = true;
 			} else if (ch == ',' && allowFrac) {
-				comma(editorState);
+				if (preventDimensionChange(editorState)) {
+					if (shouldMoveCursor(editorState)) {
+						CursorController.nextCharacter(editorState);
+					}
+				} else {
+					comma(editorState);
+				}
 				handled = true;
 			} else if (meta.isOperator("" + ch)) {
 				newOperator(editorState, ch);
@@ -1177,6 +1181,25 @@ public class InputController {
 			}
 		}
 		return handled;
+	}
+
+	private boolean preventDimensionChange(EditorState editorState) {
+		MathContainer parent = editorState.getCurrentField().getParent();
+		if (MathArray.isLocked(parent)) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean shouldMoveCursor(EditorState editorState) {
+		int offset = editorState.getCurrentOffset();
+		int sequenceSize = editorState.getCurrentField().size();
+		MathContainer parent = editorState.getCurrentField().getParent();
+		if (parent instanceof MathArray && ((MathArray) parent).separatorIsComma()
+				&& offset == sequenceSize) {
+			return true;
+		}
+		return false;
 	}
 
 	private boolean handleEndBlocks(EditorState editorState, char ch) {

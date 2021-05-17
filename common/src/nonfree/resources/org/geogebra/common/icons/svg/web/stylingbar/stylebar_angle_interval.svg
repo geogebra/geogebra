@@ -1,0 +1,42 @@
+<svg id="stylebar_angle_interval" xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-4, .cls-5 {
+        fill: none;
+      }
+
+      .cls-1, .cls-2, .cls-4 {
+        stroke: #58585a;
+        stroke-width: 20px;
+      }
+
+      .cls-2 {
+        stroke-dasharray: 40.47 20.23;
+      }
+
+      .cls-3 {
+        fill: #b3b3b3;
+      }
+
+      .cls-4 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-5 {
+        stroke: #1a171b;
+        stroke-width: 30px;
+      }
+    </style>
+  </defs>
+  <title>angle style icon von classic stylebar</title>
+  <g>
+    <path class="cls-1" d="M207.28,199.08q-7.62-6.48-15.85-12.19"/>
+    <path class="cls-2" d="M174.25,176.21a201.61,201.61,0,0,0-98-25.27c-111.82,0-202.47,90.64-202.47,202.46S-35.6,555.86,76.22,555.86A202.45,202.45,0,0,0,256.66,445.31"/>
+    <path class="cls-1" d="M261,436.19a199.5,199.5,0,0,0,7.27-18.62"/>
+  </g>
+  <g>
+    <path class="cls-3" d="M70.88,355.74,271,411.58s44.13-110.53-60.36-205.49Z"/>
+    <path class="cls-4" d="M70.88,355.74,271,411.58s44.13-110.53-60.36-205.49Z"/>
+    <polyline class="cls-5" points="441.12 459.06 70.88 355.74 353.58 52.94"/>
+  </g>
+</svg>

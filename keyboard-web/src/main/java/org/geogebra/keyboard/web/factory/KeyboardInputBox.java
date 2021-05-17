@@ -1,5 +1,7 @@
 package org.geogebra.keyboard.web.factory;
 
+import java.util.List;
+
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.model.KeyboardModelFactory;
@@ -20,7 +22,7 @@ public class KeyboardInputBox extends KeyboardFactory {
 	 * @param inputBoxType type of geo lined to the inputbox
 	 * @param functionVars function vars in case of a function
 	 */
-	public KeyboardInputBox(InputBoxType inputBoxType, String functionVars) {
+	public KeyboardInputBox(InputBoxType inputBoxType, List<String> functionVars) {
 		super();
 		setDefaultKeyboardFactory(getMathKeyboard(inputBoxType, functionVars));
 		setMathKeyboardFactory(getMathKeyboard(inputBoxType, functionVars));
@@ -30,7 +32,8 @@ public class KeyboardInputBox extends KeyboardFactory {
 		setGreekKeyboardFactory(new InputBoxDefaultGreekKeyboardFactory());
 	}
 
-	private KeyboardModelFactory getMathKeyboard(InputBoxType inputBoxType, String functionVars) {
+	private KeyboardModelFactory getMathKeyboard(InputBoxType inputBoxType,
+			List<String> functionVars) {
 		switch (inputBoxType) {
 		case VECTOR_MATRIX:
 			return new VectorMatrixMathKeyboardFactory();

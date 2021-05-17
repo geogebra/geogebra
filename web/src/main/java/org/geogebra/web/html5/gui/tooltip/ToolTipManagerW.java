@@ -50,6 +50,8 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public final class ToolTipManagerW {
 
+	private double navRailWidth;
+
 	/**
 	 * The toolTip can include a link. depending on the type of the link,
 	 * another picture has to be added.
@@ -275,7 +277,7 @@ public final class ToolTipManagerW {
 			} else if (app.isUnbundled()) {
 				// is landscape
 				if (appw.getWidth() >= appw.getHeight()) {
-					left = 0;
+					left = navRailWidth;
 				}
 			}
 		}
@@ -388,8 +390,9 @@ public final class ToolTipManagerW {
 	 * @param width
 	 *            - update width of tooltip with av resize
 	 */
-	public void setTooltipWidthOnResize(int width) {
+	public void setTooltipWidthOnResize(int width, int left) {
 		bottomInfoTipPanel.getElement().getStyle().setWidth(width, Unit.PX);
+		navRailWidth = left;
 	}
 
 	/**

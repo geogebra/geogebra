@@ -240,6 +240,21 @@ public final class GColor implements GPaint {
 	}
 
 	/**
+	 * @param r red
+	 * @param g green
+	 * @param b blue
+	 * @param a alpha [0,1]
+	 * @return gColor
+	 */
+	public static GColor newColor(String r, String g, String b, String a) {
+		int red = Integer.parseInt(r);
+		int green = Integer.parseInt(g);
+		int blue = Integer.parseInt(b);
+		int alpha = Integer.parseInt(a);
+		return newColor(red, green, blue, alpha * 255);
+	}
+
+	/**
 	 * Create a more readable (=darker) version of a color, to make it readable
 	 * on white background. Does not change the color, if it already fulfills
 	 * the requirements.
@@ -282,10 +297,9 @@ public final class GColor implements GPaint {
 	 * http://www.w3.org/TR/WCAG20-TECHS/G18.html
 	 * http://web.mst.edu/~rhall/web_design/color_readability.html
 	 *
-	 * @param foreground
-	 *            the text color
-	 * @param background
-	 *            the background color
+	 * @param fgRed red
+	 * @param fgGreen green
+	 * @param fgBlue blue
 	 * @return if the contrast ration sufficient (true) or not (false)
 	 */
 	private static boolean checkColorRatioWhite(int fgRed, int fgGreen,
@@ -416,8 +430,7 @@ public final class GColor implements GPaint {
 	}
 
 	/**
-	 * @param color
-	 *            color
+	 * @param color color
 	 * @return HTML5 color string eg rgba(255,0,0,0.5)
 	 */
 	public static String getColorString(GColor color) {
@@ -425,6 +438,20 @@ public final class GColor implements GPaint {
 				+ color.getBlue() + "," + (color.getAlpha() / 255d) + ")";
 
 		return ret;
+	}
+
+	/**
+	 * @param colorStr HTML5 color string eg rgba(255,0,0,0.5)
+	 * @return GColor
+	 */
+	public static GColor getGColor(String colorStr) {
+		if (colorStr != null && colorStr.startsWith("rgba(") && colorStr.endsWith(")")) {
+			String colorSubStr = colorStr.substring(5, colorStr.length() - 1);
+			String[] colorValues = colorSubStr.split(",");
+			return colorValues.length == 4 ? newColor(colorValues[0],
+					colorValues[1], colorValues[2], colorValues[3]) : null;
+		}
+		return null;
 	}
 
 	/**
@@ -486,7 +513,6 @@ public final class GColor implements GPaint {
 	 * @return new derived color with alpha set to new value
 	 */
 	public GColor deriveWithAlpha(int alpha) {
-
 		return newColor(getRed(), getGreen(), getBlue(), alpha);
 	}
 
@@ -504,7 +530,6 @@ public final class GColor implements GPaint {
 	 */
 	public static GColor mixColors(GColor color1, GColor color2,
 			double mix, int alpha) {
-
 		int r = (int) (color1.getRed() * (1 - mix) + color2.getRed() * mix);
 		int g = (int) (color1.getGreen() * (1 - mix) + color2.getGreen() * mix);
 		int b = (int) (color1.getBlue() * (1 - mix) + color2.getBlue() * mix);

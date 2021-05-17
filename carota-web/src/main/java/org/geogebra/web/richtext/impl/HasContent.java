@@ -1,8 +1,8 @@
 package org.geogebra.web.richtext.impl;
 
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
 
+import elemental2.dom.CanvasRenderingContext2D;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true)
@@ -16,6 +16,6 @@ public interface HasContent {
 
 	void load(Object content);
 
-	void draw(Context2d context);
+	void draw(CanvasRenderingContext2D context);
 
 }

@@ -44,12 +44,14 @@
 package com.himamis.retex.renderer.desktop.graphics;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
@@ -66,8 +68,8 @@ public class GraphicsFactoryDesktop extends GraphicsFactory {
 	}
 
 	@Override
-	public Color createColor(int red, int green, int blue) {
-		return new ColorD(red, green, blue);
+	public Color createColor(int red, int green, int blue, int alpha) {
+		return new ColorD(red, green, blue, alpha);
 	}
 
 	@Override
@@ -78,6 +80,29 @@ public class GraphicsFactoryDesktop extends GraphicsFactory {
 	@Override
 	public Transform createTransform() {
 		return new TransformD();
+	}
+
+	@Override
+	public Image createImage(String base64, int width, int height) {
+		String pngBase64 = base64;
+		final String pngMarker = "data:image/png;base64,";
+
+		if (pngBase64.startsWith(pngMarker)) {
+			pngBase64 = pngBase64.substring(pngMarker.length());
+		} else {
+			FactoryProvider.debugS("invalid base64 image");
+			return null;
+		}
+
+		byte[] imageData = Base64.decode(pngBase64);
+
+		try {
+			return new ImageD(ImageIO.read(new ByteArrayInputStream(imageData)));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	@Override

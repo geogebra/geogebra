@@ -10,8 +10,8 @@ public class ColorA implements Color {
 		mColor = color;
 	}
 	
-	public ColorA(int red, int green, int blue) {
-		mColor = android.graphics.Color.rgb(red, green, blue);
+	public ColorA(int red, int green, int blue, int alpha) {
+		mColor = android.graphics.Color.argb(alpha, red, green, blue);
 	}
 
 	public Object getNativeObject() {

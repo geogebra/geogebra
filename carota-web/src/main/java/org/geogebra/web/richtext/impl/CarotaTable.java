@@ -1,8 +1,8 @@
 package org.geogebra.web.richtext.impl;
 
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
 
+import elemental2.dom.CanvasRenderingContext2D;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -26,7 +26,7 @@ public class CarotaTable implements HasContentAndFormat {
 	}
 
 	@Override
-	public native void draw(Context2d ctx);
+	public native void draw(CanvasRenderingContext2D ctx);
 
 	public native void repaint();
 

@@ -179,19 +179,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		app.getGgbApi().setEditor(new AlgebraMathEditorAPI(this));
 	}
 
-	/**
-	 * Scroll handler
-	 */
-	void onAlgebraScroll() {
-		if (activeItem != null) {
-			activeItem.reposition();
-		}
-
-		if (getInputTreeItem() != null) {
-			getInputTreeItem().setItemWidth(getFullWidth());
-		}
-	}
-
 	private void initGUI(AlgebraControllerW algCtrl) {
 		// add listener
 		addDomHandler(algCtrl, MouseDownEvent.getType());
@@ -1170,6 +1157,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (!this.isAttachedToKernel()) {
 			return;
 		}
+		int oldWidth = getOffsetWidth();
 		cancelEditItem();
 
 		this.isShowingAuxiliaryObjects = showAuxiliaryObjects();
@@ -1188,11 +1176,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 			addRadioTreeItem(parent, node);
 
-			// if (node != null && !node.isInputTreeItem()) {
-			// setActiveTreeItem(node);
-			// }
-
-			RadioTreeItem.as(node).setItemWidth(getFullWidth());
+			// offset width may be 0 when not attached to DOM
+			int currentWidth = getOffsetWidth();
+			if (currentWidth != oldWidth && currentWidth != 0) {
+				resize(0);
+			}
+			RadioTreeItem.as(node).setItemWidth(currentWidth == 0 ? getFullWidth() : currentWidth);
 
 			boolean wasEmpty = isNodeTableEmpty();
 			nodeTable.put(geo, node);
@@ -2229,7 +2218,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public int getFullWidth() {
 		int avWidth = getAlgebraDockPanel().getInnerWidth();
 		if (app.isUnbundled()) {
-			return avWidth;
+			return avWidth - getAlgebraDockPanel().getNavigationRailWidth();
 		}
 		return maxItemWidth < avWidth ? avWidth : maxItemWidth;
 	}
@@ -2386,4 +2375,5 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public AppW getApp() {
 		return app;
 	}
+
 }

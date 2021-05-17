@@ -88,7 +88,7 @@ public class Solver {
 		FlowPanel editorFocusPanel = new FlowPanel();
 
 		mathField = new MathFieldW(null, editorFocusPanel, canvas,
-				new SolverMathFieldListener(this), false);
+				new SolverMathFieldListener(this));
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		app.setMathField(mathField);
 

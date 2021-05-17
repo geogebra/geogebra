@@ -33,6 +33,8 @@ final class CMBX10 extends FontInfo {
 
 		setMetrics(171, 831, 686);
 
+		setMetrics(172, 830, 686);
+
 		setMetrics(174, 671, 694, 0, 109);
 		setLigatures(105, 177, 108, 178);
 		setKern(39, 109, 63, 109, 33, 109, 41, 109, 93, 109);

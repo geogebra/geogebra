@@ -243,7 +243,7 @@ public class FractionAtom extends Atom {
 		final double f = env.lengthSettings().getLength("nulldelimiterspace", env);
 
 		return new HorizontalBox(vBox, vBox.getWidth() + 2 * f,
-				TeXConstants.Align.CENTER);
+				TeXConstants.Align.CENTER).setAtom(this);
 	}
 
 	public Atom getNumerator() {

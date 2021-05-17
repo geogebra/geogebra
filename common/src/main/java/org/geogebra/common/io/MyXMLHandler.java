@@ -1088,8 +1088,7 @@ public class MyXMLHandler implements DocHandler {
 				if (strYscale != null) {
 					yscale = StringUtil.parseDouble(strYscale);
 				}
-				ev.setFileCoordSystem(xZero, yZero, scale, yscale);
-				ev.setCoordSystem(xZero, yZero, scale, yscale, true);
+				ev.setCoordSystemFromXml(xZero, yZero, scale, yscale, true);
 
 				xmin.put(ev, null);
 				xmax.put(ev, null);
@@ -3723,7 +3722,7 @@ public class MyXMLHandler implements DocHandler {
 		return ymax;
 	}
 
-	public void setClearConstruction(boolean clearConstruction) {
-		geoHandler.setNeedsConstructionDefaults(!clearConstruction);
+	public void setNeedsConstructionDefaults(boolean needsConstructionDefaults) {
+		geoHandler.setNeedsConstructionDefaults(needsConstructionDefaults);
 	}
 }

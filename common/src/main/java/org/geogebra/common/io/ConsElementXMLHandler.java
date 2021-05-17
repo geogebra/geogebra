@@ -416,10 +416,10 @@ public class ConsElementXMLHandler {
 		symbolicTagProcessed = false;
 		lineStyleTagProcessed = false;
 		geo = getGeoElement(attrs);
-		geo.setLineOpacity(255);
 		if (needsConstructionDefaults) {
 			geo.setConstructionDefaults();
 		}
+		geo.setLineOpacity(255);
 		if (geo instanceof VectorNDValue) {
 			((VectorNDValue) geo)
 					.setMode(((VectorNDValue) geo).getDimension() == 3

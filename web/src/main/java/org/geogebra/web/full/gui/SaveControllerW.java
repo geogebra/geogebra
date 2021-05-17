@@ -229,13 +229,7 @@ public class SaveControllerW implements SaveController {
 
 	private void uploadToDrive() {
 		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), false, app);
-		app.getGoogleDriveOperation().afterLogin(new Runnable() {
-
-			@Override
-			public void run() {
-				doUploadToDrive();
-			}
-		});
+		app.getGoogleDriveOperation().afterLogin(() -> doUploadToDrive());
 	}
 
 	/**

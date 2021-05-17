@@ -449,9 +449,10 @@
 		border: #DCDCDC solid 1px;
 	}
 
-	.MyCanvasButton.gereBtn {
+	.MyToggleButton, .MyCanvasButton {
 		img {
-			padding: 2px;
+			width: 24px;
+			opacity: 0.7;
 		}
 	}
 
@@ -529,7 +530,6 @@
 		border-left: 1px solid #DCDCDC;
 		border-right: 1px solid #DCDCDC;
 		box-sizing: border-box;
-		box-shadow: 0 0 2px rgba(204, 204, 204, 0.5);
 	}
 
 	.splitterFixed {
@@ -539,7 +539,7 @@
 	}
 
 	.gwt-SplitLayoutPanel-VDragger {
-		cursor: row-resize;
+		cursor: ns-resize;
 		background: #F8F8F8;
 		border-top: 1px solid #DCDCDC;
 		border-bottom: 1px solid #DCDCDC;
@@ -547,30 +547,29 @@
 		box-shadow: 0 0 2px rgba(204, 204, 204, 0.5);
 	}
 
-	.gwt-SplitLayoutPanel-HDragger:ACTIVE {
-		background: #6161FF;
-		border-left: 1px solid #C6C6C6;
-		border-right: 1px solid #C6C6C6;
-	}
+	.highlightDraggers {
+		.gwt-SplitLayoutPanel-HDragger:active, .gwt-SplitLayoutPanel-Dragger-ACTIVE {
+			background: #6161FF;
+			border-left: 1px solid #C6C6C6;
+			border-right: 1px solid #C6C6C6;
+		}
 
-	.gwt-SplitLayoutPanel-HDragger.disabled:ACTIVE {
-		background: #F8F8F8;
-		border-left: 1px solid #DCDCDC;
-		border-right: 1px solid #DCDCDC;
-	}
+		.gwt-SplitLayoutPanel-HDragger.disabled:active {
+			background: #F8F8F8;
+			border-left: 1px solid #DCDCDC;
+			border-right: 1px solid #DCDCDC;
+		}
 
-	.gwt-SplitLayoutPanel-VDragger:ACTIVE {
-		background: #6161FF;
-		border-top: 1px solid #C6C6C6;
-		border-bottom: 1px solid #C6C6C6;
+		.gwt-SplitLayoutPanel-VDragger:active {
+			background: #6161FF;
+			border-top: 1px solid #C6C6C6;
+			border-bottom: 1px solid #C6C6C6;
+		}
 	}
 
 	/* Selector used for android chrome */
 
 	.gwt-SplitLayoutPanel-Dragger-ACTIVE {
-		background: #6161FF;
-		border-left: 1px solid #C6C6C6;
-		border-right: 1px solid #C6C6C6;
 		border-top: 1px solid #C6C6C6;
 		border-bottom: 1px solid #C6C6C6;
 	}
@@ -632,14 +631,6 @@
 
 	.cursor_drag {
 		cursor: pointer;
-	}
-
-	.cursor_resizeXAxis {
-		cursor: e-resize;
-	}
-
-	.cursor_resizeYAxis {
-		cursor: n-resize;
 	}
 
 	.cursor_resizeNESW {
@@ -716,6 +707,7 @@
 
 	.closeButtonPanel {
 		padding: 7px;
+		opacity: 0.7;
 	}
 
 	.ButtonPopupMenu {
@@ -776,6 +768,7 @@
 
 	.TitleBarPanel .dragPanel {
 		padding-top: 1px;
+		opacity: 0.7;
 	}
 
 	.StyleBarPanel {
@@ -863,24 +856,16 @@
 		background-position: center center;
 		width: 24px;
 		height: 24px;
+
+		&.stylebarButton {
+			opacity: 0.7;
+		}
 	}
 
 	.MyCanvasButton.btnTextColor .buttonContent,
-	.btnBold .html-face,
-	.btnItalic .html-face,
 	.btnUseAsText .html-face {
 		line-height: 22px;
 		font-size: 22px;
-	}
-
-	.btnBold .html-face {
-		font-weight: bold;
-		color: #999999;
-	}
-
-	.btnItalic .html-face {
-		font-style: italic;
-		color: #999999;
 	}
 
 	.btnSerif {
@@ -898,6 +883,7 @@
 	.gwt-Label.stylebarButton {
 		height: 24px;
 		width: 24px;
+		opacity: 0.7;
 	}
 
 	.gwt-Label.border {

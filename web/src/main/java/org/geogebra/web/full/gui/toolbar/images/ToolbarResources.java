@@ -129,8 +129,6 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_parallel_32();
 
-	ResourcePrototype mode_pen_32();
-
 	ResourcePrototype mode_point_32();
 
 	ResourcePrototype mode_pointonobject_32();

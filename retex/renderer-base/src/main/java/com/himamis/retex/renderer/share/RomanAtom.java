@@ -80,7 +80,7 @@ public class RomanAtom extends Atom implements HasTrueBase {
 			box = StrutBox.getEmpty();
 		}
 
-		return box;
+		return box.setAtom(this);
 	}
 
 }

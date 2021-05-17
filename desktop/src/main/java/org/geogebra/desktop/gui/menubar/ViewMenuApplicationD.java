@@ -53,19 +53,17 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		initViewItems(this);
 
 		// show/hide keyboard
-		if (!app.isApplet()) {
-			cbShowKeyboard = new JCheckBoxMenuItem(showKeyboardAction);
-			cbShowKeyboard.setIcon(app.getMenuIcon(GuiResourcesD.KEYBOARD));
-			KeyboardSettings kbs = (KeyboardSettings) app.getSettings()
-					.getKeyboard();
-			if (kbs.isShowKeyboardOnStart()) {
-				cbShowKeyboard.setSelected(true);
-				VirtualKeyboardD vk = ((GuiManagerD) app.getGuiManager())
-						.getVirtualKeyboard();
-				vk.setVisible(true);
-			}
-			add(cbShowKeyboard);
+		cbShowKeyboard = new JCheckBoxMenuItem(showKeyboardAction);
+		cbShowKeyboard.setIcon(app.getMenuIcon(GuiResourcesD.KEYBOARD));
+		KeyboardSettings kbs = (KeyboardSettings) app.getSettings()
+				.getKeyboard();
+		if (kbs.isShowKeyboardOnStart()) {
+			cbShowKeyboard.setSelected(true);
+			VirtualKeyboardD vk = ((GuiManagerD) app.getGuiManager())
+					.getVirtualKeyboard();
+			vk.setVisible(true);
 		}
+		add(cbShowKeyboard);
 
 		cbShowInputBar = new JCheckBoxMenuItem(showAlgebraInputAction);
 		app.setEmptyIcon(cbShowInputBar);

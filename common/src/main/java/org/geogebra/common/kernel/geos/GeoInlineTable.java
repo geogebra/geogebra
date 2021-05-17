@@ -78,6 +78,11 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 	}
 
 	@Override
+	public GColor getBackgroundColor() {
+		return ((InlineTableController) getFormatter()).getBackgroundColor();
+	}
+
+	@Override
 	public boolean isEqual(GeoElementND geo) {
 		return geo == this;
 	}

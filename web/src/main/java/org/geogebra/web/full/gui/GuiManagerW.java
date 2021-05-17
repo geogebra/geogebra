@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import org.geogebra.common.awt.GDimension;
@@ -88,6 +89,7 @@ import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
+import org.geogebra.web.full.gui.toolbarpanel.ShowableTab;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ScriptArea;
@@ -134,6 +136,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -472,23 +475,23 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void setShowView(final boolean flag, final int viewId) {
-		setShowView(flag, viewId, true);
+	public void setShowView(final boolean visible, final int viewId) {
+		setShowView(visible, viewId, true);
 	}
 
 	@Override
-	public void setShowView(final boolean flag, final int viewId, final boolean isPermanent) {
+	public void setShowView(final boolean visible, final int viewId, final boolean isPermanent) {
 		ToolbarPanel sidePanel = getUnbundledToolbar();
-		ToolbarPanel.ToolbarTab sidePanelTab = sidePanel != null ? sidePanel.getTab(viewId) : null;
+		ShowableTab sidePanelTab = sidePanel != null ? sidePanel.getTab(viewId) : null;
 		if (sidePanelTab != null) {
-			if (flag) {
+			if (visible) {
 				sidePanelTab.open();
 			} else {
 				sidePanelTab.close();
 			}
-			onToolbarVisibilityChanged(viewId, flag);
+			onToolbarVisibilityChanged(viewId, visible);
 		} else {
-			if (flag) {
+			if (visible) {
 				showViewWithId(viewId);
 			} else {
 				hideViewWith(viewId, isPermanent);
@@ -504,7 +507,8 @@ public class GuiManagerW extends GuiManager
 		}
 	}
 
-	private void onToolbarVisibilityChanged(int viewId, boolean isVisible) {
+	@Override
+	public void onToolbarVisibilityChanged(int viewId, boolean isVisible) {
 		DockPanel panel = layout.getDockManager().getPanel(viewId);
 		if (panel != null) {
 			panel.setVisible(isVisible);
@@ -1904,24 +1908,20 @@ public class GuiManagerW extends GuiManager
 		if (showDialog) {
 			getOptionPane().showSaveDialog(loc.getMenu("Save"),
 					getApp().getExportTitle() + extension, null,
-					new AsyncOperation<String[]>() {
+					obj -> {
+						if (Integer.parseInt(obj[0]) == 0) {
 
-						@Override
-						public void callback(String[] obj) {
-							if (Integer.parseInt(obj[0]) == 0) {
+							String filename = obj[1];
 
-								String filename = obj[1];
-
-								if (filename == null || filename.trim().isEmpty()) {
-									filename = getApp().getExportTitle();
-								}
-
-								// in case user removes extension
-								if (!filename.endsWith(extension)) {
-									filename += extension;
-								}
-								exportGgb(filename, extension);
+							if (filename == null || filename.trim().isEmpty()) {
+								filename = getApp().getExportTitle();
 							}
+
+							// in case user removes extension
+							if (!filename.endsWith(extension)) {
+								filename += extension;
+							}
+							exportGgb(filename, extension);
 						}
 					}, loc.getMenu("Save"));
 		} else {
@@ -1931,7 +1931,9 @@ public class GuiManagerW extends GuiManager
 
 	private void exportGGBDirectly() {
 		String extension = ((AppW) app).getFileExtension();
-		String filename = getApp().getExportTitle() + extension;
+		String currentDate = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm").format(new Date())
+				+ extension;
+		String filename = getApp().isMebis() ? currentDate : getApp().getExportTitle() + extension;
 		exportGgb(filename, extension);
 	}
 
@@ -2302,7 +2304,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void updateUnbundledToolbar() {
 		if (getUnbundledToolbar() != null) {
-			getUnbundledToolbar().updateTabs();
+			getUnbundledToolbar().resizeTabs();
 		}
 	}
 
