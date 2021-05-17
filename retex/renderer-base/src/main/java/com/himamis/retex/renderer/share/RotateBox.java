@@ -98,10 +98,9 @@ public class RotateBox extends Box {
 		}
 	};
 
-	protected double angle = 0.;
+	protected double angle;
 	private Box box;
 	private double xmax, xmin, ymax, ymin;
-	private int option;
 
 	private double shiftX;
 	private double shiftY;
@@ -245,5 +244,11 @@ public class RotateBox extends Box {
 
 	public FontInfo getLastFont() {
 		return box.getLastFont();
+	}
+
+	@Override
+	public void inspect(BoxConsumer handler, BoxPosition position) {
+		super.inspect(handler, position);
+		box.inspect(handler, position);
 	}
 }

@@ -733,13 +733,20 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		border: 1px solid blue;
 	}
 
-	 .accessibilityView {
+	 .accessibilityControl {
 		opacity: 0.01;
 		position: fixed;
 		width: 1px;
 		height: 1px;
 		overflow: scroll;
 	 }
+
+	.accessibleInput {
+		width: 20px;
+		height: 20px;
+		z-index: $z-accessible-input;
+		position: absolute;
+	}
 
 	.invisible {
 		visibility: hidden;

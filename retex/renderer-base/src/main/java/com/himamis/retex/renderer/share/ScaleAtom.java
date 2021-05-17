@@ -74,7 +74,7 @@ public class ScaleAtom extends Atom implements HasTrueBase {
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
-		return new ScaleBox(base.createBox(env), xscl, yscl);
+		return new ScaleBox(base.createBox(env), xscl, yscl).setAtom(this);
 	}
 
 	public Atom getTrueBase() {

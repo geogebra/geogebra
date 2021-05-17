@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
@@ -64,4 +65,18 @@ public class AlgoDependentSymbolic extends AlgoElement implements UsesCAS {
 		return symbolic.getDefinition().toString(tpl);
 	}
 
+	@Override
+	protected String toExpString(StringTemplate tpl) {
+		ExpressionNode definition = symbolic.getDefinition();
+		String rhs = definition.toString(tpl);
+		if (isFunction(definition)) {
+			String lhs = symbolic.getLabel(tpl) + "(" + symbolic.getVarString(tpl) + ") = ";
+			return lhs + rhs;
+		}
+		return rhs;
+	}
+
+	private boolean isFunction(ExpressionNode definition) {
+		return definition.isLeaf() && (definition.getLeft() instanceof Function);
+	}
 }

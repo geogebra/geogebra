@@ -227,6 +227,7 @@ public class GeoSymbolic extends GeoElement
 			casResult = evaluateGeoGebraCAS(casInput, constant);
 		}
 
+		setSymbolicMode(!isTopLevelCommandNumeric(), false);
 		casOutputString = casResult;
 		ExpressionValue casOutput = parseOutputString(casResult);
 		setValue(casOutput);
@@ -236,6 +237,11 @@ public class GeoSymbolic extends GeoElement
 		isTwinUpToDate = false;
 		isEuclidianShowable = shouldBeEuclidianVisible(casInput);
 		numericValue = maybeComputeNumericValue(casOutput);
+	}
+
+	private boolean isTopLevelCommandNumeric() {
+		return getDefinition().getTopLevelCommand() != null
+				&& Commands.NSolve.name().equals(getDefinition().getTopLevelCommand().getName());
 	}
 
 	private Command getCasInput(ExpressionValue casInputArg) {
@@ -468,7 +474,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private ExpressionNode getNodeFromOutput() throws ParseException {
-		return kernel.getParser().parseGiac(casOutputString).wrap();
+		return kernel.getParser().parseGeoGebraExpression(casOutputString).wrap();
 	}
 
 	private ExpressionNode getNodeFromInput() {
@@ -502,6 +508,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private GeoElement process(ExpressionNode expressionNode) throws Exception {
+		registerFunctionVariablesIfHasFunction(expressionNode);
 		expressionNode.traverse(Traversing.GgbVectRemover.getInstance());
 		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
 		if (algebraProcessor.hasVectorLabel(this)) {
@@ -517,6 +524,19 @@ public class GeoSymbolic extends GeoElement
 			cons.unregisterEuclidianViewCE(this);
 		}
 		return result;
+	}
+
+	private void registerFunctionVariablesIfHasFunction(ExpressionNode functionExpression) {
+		Function function =
+				functionExpression.isLeaf() && functionExpression.getLeft() instanceof Function
+						? (Function) functionExpression.getLeft()
+						: null;
+		FunctionVariable[] variables = function != null ? function.getFunctionVariables() : null;
+		if (variables != null) {
+			for (FunctionVariable functionVariable : variables) {
+				cons.registerFunctionVariable(functionVariable.getSetVarString());
+			}
+		}
 	}
 
 	private GeoElement toGeoList(GeoElement[] elements) {

@@ -1439,13 +1439,23 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testRounding() {
-		kernel.setPrintFigures(20);
-		GeoSymbolic number = add("11.3 * 1.5");
-		AlgebraItem.toggleSymbolic(number);
-		String output = AlgebraItem.getOutputTextForGeoElement(number);
-		assertThat(output, equalTo("16.95"));
-		// Reset
-		kernel.setPrintDecimals(5);
+	public void testNestedFunction() {
+		app.setUndoActive(true);
+
+		add("f(x)=1+7*e^(-0.2x)");
+		app.storeUndoInfo();
+
+		GeoSymbolic r = add("r(s)=s*(f(s)-1)");
+		app.storeUndoInfo();
+		assertThat(r.getTwinGeo(), instanceOf(GeoFunction.class));
+		assertThat(r.isEuclidianShowable(), is(true));
+
+		undoRedo();
+		r = (GeoSymbolic) lookup("r");
+		assertThat(r.isEuclidianShowable(), is(true));
+
+		add("f(x) = x");
+		r = (GeoSymbolic) lookup("r");
+		assertThat(r.isEuclidianShowable(), is(true));
 	}
 }

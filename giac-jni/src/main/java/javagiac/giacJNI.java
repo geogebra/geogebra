@@ -274,11 +274,9 @@ class giacJNI {
   public final static native long aplatir_fois_plus(long jarg1, gen jarg1_);
   public final static native long collect(long jarg1, gen jarg1_, long jarg2, context jarg2_);
   public final static native long select_root(long jarg1, long jarg2, context jarg2_);
-  public final static native boolean is_known_rootof(long jarg1, long jarg2, gen jarg2_, long jarg3, context jarg3_);
   public final static native long alg_evalf(long jarg1, gen jarg1_, long jarg2, gen jarg2_, long jarg3, context jarg3_);
   public final static native long approx_rootof(long jarg1, gen jarg1_, long jarg2, context jarg2_);
   public final static native long common_EXT(long jarg1, gen jarg1_, long jarg2, gen jarg2_, long jarg3, long jarg4, context jarg4_);
-  public final static native long common_minimal_POLY(long jarg1, gen jarg1_, long jarg2, gen jarg2_, long jarg3, gen jarg3_, long jarg4, gen jarg4_, long jarg5, long jarg6, context jarg6_);
   public final static native long ext_add(long jarg1, gen jarg1_, long jarg2, gen jarg2_, long jarg3, context jarg3_);
   public final static native long ext_sub(long jarg1, gen jarg1_, long jarg2, gen jarg2_, long jarg3, context jarg3_);
   public final static native long ext_mul(long jarg1, gen jarg1_, long jarg2, gen jarg2_, long jarg3, context jarg3_);
@@ -408,9 +406,6 @@ class giacJNI {
   public final static native long invexptoexpneg(long jarg1, gen jarg1_, long jarg2, context jarg2_);
   public final static native boolean is_rewritable_as_f_of(long jarg1, gen jarg1_, long jarg2, gen jarg2_, long jarg3, gen jarg3_, long jarg4, gen jarg4_, long jarg5, context jarg5_);
   public final static native boolean intgab_ratfrac(long jarg1, gen jarg1_, long jarg2, gen jarg2_, long jarg3, gen jarg3_, long jarg4, context jarg4_);
-  public final static native long integrate_gen_rem(long jarg1, gen jarg1_, long jarg2, gen jarg2_, long jarg3, gen jarg3_, long jarg4, context jarg4_);
-  public final static native long integrate_id_rem(long jarg1, gen jarg1_, long jarg2, gen jarg2_, long jarg3, gen jarg3_, long jarg4, context jarg4_);
-  public final static native long linear_integrate(long jarg1, gen jarg1_, long jarg2, gen jarg2_, long jarg3, gen jarg3_, long jarg4, context jarg4_);
   public final static native long integrate_id(long jarg1, gen jarg1_, long jarg2, long jarg3, context jarg3_);
   public final static native long integrate_gen(long jarg1, gen jarg1_, long jarg2, gen jarg2_, long jarg3, context jarg3_);
   public final static native long _integrate(long jarg1, gen jarg1_, long jarg2, context jarg2_);

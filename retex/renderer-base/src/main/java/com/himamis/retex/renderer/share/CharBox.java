@@ -158,4 +158,9 @@ public class CharBox extends Box {
 	public String toString() {
 		return super.toString() + "; char=" + cf.c;
 	}
+
+	@Override
+	public void inspect(BoxConsumer handler, BoxPosition position) {
+		super.inspect(handler, position.withScale(size));
+	}
 }

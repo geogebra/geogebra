@@ -4,7 +4,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.main.FileManager;
 import org.geogebra.web.html5.Browser;
@@ -71,13 +70,8 @@ public abstract class FileManagerT extends FileManager {
 
 	@Override
 	public void export(final App app1) {
-		((AppW) app1).getGgbApi().getBase64(true, new AsyncOperation<String>() {
-
-			@Override
-			public void callback(String s) {
-				nativeShare(s, app1.getExportTitle());
-			}
-		});
+		((AppW) app1).getGgbApi().getBase64(true,
+				s -> nativeShare(s, app1.getExportTitle()));
 	}
 
 	@Override

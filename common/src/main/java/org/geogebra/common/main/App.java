@@ -1743,7 +1743,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * Show localized message for an error.
-	 * 
+	 *
 	 * @param key   main error
 	 * @param error extra information
 	 */
@@ -1753,7 +1753,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * Show localized message for an error.
-	 * 
+	 *
 	 * @param key main error
 	 */
 	public void showError(Errors key) {
@@ -3876,9 +3876,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// **********************************************************************
 		// distinguishing between pen and touch
 		case MOW_PEN_EVENTS:
-			return false;
-
-		case MOW_DIRECT_FORMULA_CONVERSION:
 			return false;
 
 		// **********************************************************************

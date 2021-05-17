@@ -128,12 +128,12 @@ public class EuclidianView3DD extends EuclidianView3D
 
 
 		// we don't want shaders with win os < vista
-		if (!app.isApplet() && !AppD.WINDOWS_VISTA_OR_EARLIER) {
+		if (!AppD.WINDOWS_VISTA_OR_EARLIER) {
 			return new RendererCheckGLVersionD(this, canUseCanvas());
 		}
 
 		if (app.useShaders()) {
-			return new RendererCheckGLVersionD(this, !app.isApplet(), RendererType.SHADER);
+			return new RendererCheckGLVersionD(this, true, RendererType.SHADER);
 		}
 
 		return new RendererCheckGLVersionD(this, canUseCanvas(), RendererType.GL2);
@@ -141,10 +141,6 @@ public class EuclidianView3DD extends EuclidianView3D
 	}
 
 	private boolean canUseCanvas() {
-		if (app.isApplet()) {
-			return false;
-		}
-
 		// TODO remove that (quick fix for jogl 2.3.2)
 		if (AppD.MAC_OS) {
 			Log.debug("XXXXXXXXXXXXXXX mac osx");
