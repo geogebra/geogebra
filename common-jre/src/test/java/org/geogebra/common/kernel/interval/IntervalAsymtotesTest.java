@@ -96,12 +96,6 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 		assertEquals(tuples.valueAt(54).getLow(), tuples.valueAt(53).getHigh(), 0);
 	}
 
-	@Test
-	public void xOnPowerMinus2Div9() {
-		IntervalTupleList tuples = functionValues("x^(2/-9)", -6, 6, -8, 8);
-		assertEquals(tuples.valueAt(54).getLow(), tuples.valueAt(53).getHigh(), 0);
-	}
-
 	private IntervalTupleList functionValues(String functionDescription,
 			double xmin, double xmax, double ymin, double ymax) {
 		GeoFunction function = add(functionDescription);
