@@ -289,6 +289,7 @@ public class MaterialCardController implements OpenFileListener {
 	@Override
 	public boolean onOpenFile() {
 		app.getKernel().getConstruction().setTitle(null);
+		app.setActiveMaterial(material);
 		return true; // one time only
 	}
 }

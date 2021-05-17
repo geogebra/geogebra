@@ -4,6 +4,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import java.util.Iterator;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.main.settings.CASSettings;
@@ -34,36 +36,54 @@ public class ExamEnvironmentTest extends BaseUnitTest {
 
 	@Test
 	public void testTempMaterials() {
-		assertThat(
-				examEnvironment.getTempStorage().collectTempMaterials().size(),
-				equalTo(0));
+		TempStorage tempStorage = examEnvironment.getTempStorage();
+		assertThat(tempStorage.collectTempMaterials().size(), equalTo(0));
 
-		Material a = examEnvironment.getTempStorage().newMaterial();
+		Material a = tempStorage.newMaterial();
 		a.setTitle("a");
-		examEnvironment.getTempStorage().saveTempMaterial(a);
-		assertThat(
-				examEnvironment.getTempStorage().collectTempMaterials().size(),
-				equalTo(1));
+		tempStorage.saveTempMaterial(a);
+		assertThat(tempStorage.collectTempMaterials().size(), equalTo(1));
 
-		Material b = examEnvironment.getTempStorage().newMaterial();
+		Material b = tempStorage.newMaterial();
 		b.setTitle("b");
-		examEnvironment.getTempStorage().saveTempMaterial(b);
-		assertThat(
-				examEnvironment.getTempStorage().collectTempMaterials().size(),
-				equalTo(2));
+		tempStorage.saveTempMaterial(b);
+		assertThat(tempStorage.collectTempMaterials().size(), equalTo(2));
 
-		examEnvironment.getTempStorage().saveTempMaterial(b);
+		tempStorage.saveTempMaterial(b);
 		// should be overwritten because ids are equal and titles are equal
-		assertThat(
-				examEnvironment.getTempStorage().collectTempMaterials().size(),
-				equalTo(2));
+		assertThat(tempStorage.collectTempMaterials().size(), equalTo(2));
 
 		b.setTitle("anotherTitle");
-		examEnvironment.getTempStorage().saveTempMaterial(b);
+		tempStorage.saveTempMaterial(b);
 		// should be saved as new material because the ids are equal but the titles are different
-		assertThat(
-				examEnvironment.getTempStorage().collectTempMaterials().size(),
-				equalTo(3));
+		assertThat(tempStorage.collectTempMaterials().size(), equalTo(3));
+	}
+
+	@Test
+	public void testTempMaterialsWithSameName() {
+		TempStorage tempStorage = examEnvironment.getTempStorage();
+
+		Material material = tempStorage.newMaterial();
+		material.setAuthor("author");
+		material.setTitle("a");
+		tempStorage.saveTempMaterial(material);
+		material.setTitle("b");
+		tempStorage.saveTempMaterial(material);
+		material.setTitle("a");
+		tempStorage.saveTempMaterial(material);
+
+		Material aFirstOpened = tempStorage.collectTempMaterials().iterator().next();
+		aFirstOpened.setAuthor("anotherAuthor");
+		tempStorage.saveTempMaterial(aFirstOpened);
+
+		Iterator<Material> iterator = tempStorage.collectTempMaterials().iterator();
+		iterator.next(); // a
+		iterator.next(); // b
+		Material aSecondAOpened = iterator.next(); // a
+		assertThat(aSecondAOpened.getAuthor(), equalTo("author"));
+
+		aFirstOpened = tempStorage.collectTempMaterials().iterator().next();
+		assertThat(aFirstOpened.getAuthor(), equalTo("anotherAuthor"));
 	}
 
 	private void testSetCasEnabled(boolean enabled) {
