@@ -26,6 +26,7 @@ public class TransformableRectangle {
 	private MediaBoundingBox boundingBox;
 	private GAffineTransform directTransform;
 	private GAffineTransform inverseTransform;
+	private GAffineTransform inverseScaledTransform;
 	private boolean keepAspectRatio;
 	private GPoint2D corner0;
 	private GPoint2D corner1;
@@ -64,6 +65,7 @@ public class TransformableRectangle {
 
 		try {
 			inverseTransform = directTransform.createInverse();
+			inverseScaledTransform = inverseTransform;
 		} catch (Exception e) {
 			Log.error(e.getMessage());
 		}
@@ -245,7 +247,7 @@ public class TransformableRectangle {
 	}
 
 	public GPoint2D getInversePoint(double x, double y) {
-		return inverseTransform.transform(new GPoint2D(x, y), null);
+		return inverseScaledTransform.transform(new GPoint2D(x, y), null);
 	}
 
 	public GAffineTransform getDirectTransform() {
@@ -289,5 +291,30 @@ public class TransformableRectangle {
 	 */
 	public double getAspectRatio() {
 		return aspectRatio;
+	}
+
+	public double realWidth() {
+		return corner0.distance(corner1);
+	}
+
+	public double realHeight() {
+		return corner0.distance(corner3);
+	}
+
+	/**
+	 * @param contentWidth content width of element
+	 * @param contentHeight content height of element
+	 * @return scaled transform
+	 */
+	public GAffineTransform scaleForZoom(double contentWidth, double contentHeight) {
+		GAffineTransform tr = AwtFactory.getPrototype().newAffineTransform();
+		tr.setTransform(directTransform);
+		tr.scale(realWidth() / contentWidth, realHeight() / contentHeight);
+		try {
+			inverseScaledTransform = tr.createInverse();
+		} catch (Exception e) {
+			Log.error(e.getMessage());
+		}
+		return tr;
 	}
 }

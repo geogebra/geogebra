@@ -58,6 +58,7 @@ public class DrawInlineText extends Drawable implements DrawInline {
 
 	@Override
 	public void update() {
+		text.zoomIfNeeded();
 		rectangle.updateSelfAndBoundingBox();
 
 		GPoint2D point = text.getLocation();
@@ -65,12 +66,15 @@ public class DrawInlineText extends Drawable implements DrawInline {
 			double angle = text.getAngle();
 			double width = text.getWidth();
 			double height = text.getHeight();
+			double contentWidth = text.getContentWidth();
+			double contentHeight = text.getContentHeight();
 
 			textController.setLocation(view.toScreenCoordX(point.getX()),
 					view.toScreenCoordY(point.getY()));
-			textController.setHeight((int) (height - 2 * PADDING));
-			textController.setWidth((int) (width - 2 * PADDING));
+			textController.setHeight((int) contentHeight);
+			textController.setWidth((int) (contentWidth - PADDING));
 			textController.setAngle(angle);
+			textController.setScale(width / contentWidth, height / contentHeight);
 			if (textController.updateFontSize()) {
 				textController.updateContent();
 			}
@@ -139,18 +143,22 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	protected void draw(GGraphics2D g2, int borderRadius) {
 		if (text.isEuclidianVisible() && textController != null
 				&& rectangle.getDirectTransform() != null) {
+			double contentWidth = text.getContentWidth();
+			double contentHeight = text.getContentHeight();
+			GAffineTransform tr =
+					rectangle.scaleForZoom(contentWidth, contentHeight);
 			g2.saveTransform();
-			g2.transform(rectangle.getDirectTransform());
+			g2.transform(tr);
 
 			if (geo.getBackgroundColor() != null) {
 				g2.setPaint(geo.getBackgroundColor());
-				g2.fillRoundRect(0, 0, (int) text.getWidth(), (int) text.getHeight(),
+				g2.fillRoundRect(0, 0, (int) contentWidth, (int) contentHeight,
 						2 * borderRadius, 2 * borderRadius);
 			}
 			if (geo.getLineThickness() != GeoInlineText.NO_BORDER) {
 				g2.setPaint(text.getBorderColor());
 				g2.setStroke(getBorderStroke());
-				g2.drawRoundRect(0, 0, (int) text.getWidth(), (int) text.getHeight(),
+				g2.drawRoundRect(0, 0, (int) contentWidth, (int) contentHeight,
 						2 * borderRadius, 2 * borderRadius);
 			}
 

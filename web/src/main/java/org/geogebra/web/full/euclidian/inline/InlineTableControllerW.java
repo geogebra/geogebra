@@ -448,4 +448,9 @@ public class InlineTableControllerW implements InlineTableController {
 			table.getKernel().notifyRepaint();
 		};
 	}
+
+	@Override
+	public void setScale(double sx, double sy) {
+		style.setProperty("transform", "scale(" + sx + "," + sy + ")");
+	}
 }

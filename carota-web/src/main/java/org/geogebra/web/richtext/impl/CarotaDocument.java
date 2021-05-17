@@ -51,4 +51,6 @@ public class CarotaDocument implements HasContent {
 	@Override
 	public native JavaScriptObject save();
 
+	@JsProperty
+	public native void setExternalScale(double sx);
 }

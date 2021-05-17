@@ -67,4 +67,6 @@ public interface InlineTextController extends HasTextFormat {
 	void updateContentIfChanged();
 
 	void saveContent();
+
+	void setScale(double sx, double sy);
 }

@@ -23,6 +23,11 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	private double angle;
 
 	private GColor borderColor = GColor.BLACK;
+	private double contentWidth;
+	private double contentHeight;
+
+	private double xScale;
+	private double yScale;
 
 	public GeoInline(Construction cons) {
 		super(cons);
@@ -75,6 +80,12 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 
 	@Override
 	public void setSize(double width, double height) {
+		if (getWidth() != 0) {
+			contentWidth = contentWidth * width / getWidth();
+		}
+		if (getHeight() != 0) {
+			contentHeight = contentHeight * height / getHeight();
+		}
 		this.width = width;
 		this.height = height;
 	}
@@ -163,6 +174,12 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 		StringUtil.encodeXML(sb, getContent());
 		sb.append("\"/>\n");
 
+		sb.append("\t<contentSize width=\"");
+		sb.append(contentWidth);
+		sb.append("\" height=\"");
+		sb.append(contentHeight);
+		sb.append("\"/>\n");
+
 		XMLBuilder.appendPosition(sb, this);
 	}
 
@@ -173,5 +190,70 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 		DrawInline drawable = (DrawInline) kernel.getApplication()
 				.getActiveEuclidianView().getDrawableFor(this);
 		return drawable == null ? null : drawable.getController();
+	}
+
+	/**
+	 * Zooming in x direction
+	 *
+	 * @param factor
+	 *            zoom factor;
+	 */
+	private void zoomX(double factor) {
+		width *= factor;
+	}
+
+	/**
+	 * Zooming in y direction
+	 *
+	 * @param factor
+	 *            zoom factor;
+	 *
+	 */
+	private void zoomY(double factor) {
+		height *= factor;
+	}
+
+	/**
+	 * Zooms the text element
+	 */
+	public void zoomIfNeeded() {
+		if (xScale == 0) {
+			xScale = app.getActiveEuclidianView().getXscale();
+			yScale = app.getActiveEuclidianView().getYscale();
+			return;
+		}
+
+		if (xScale != app.getActiveEuclidianView().getXscale()) {
+			zoomX(app.getActiveEuclidianView().getXscale() / xScale);
+			xScale = app.getActiveEuclidianView().getXscale();
+		}
+		if (yScale != app.getActiveEuclidianView().getYscale()) {
+			zoomY(app.getActiveEuclidianView().getYscale() / yScale);
+			yScale = app.getActiveEuclidianView().getYscale();
+		}
+	}
+
+	public double getContentWidth() {
+		return contentWidth;
+	}
+
+	public void setContentWidth(double contentWidth) {
+		this.contentWidth = contentWidth;
+	}
+
+	public double getContentHeight() {
+		return contentHeight;
+	}
+
+	public void setContentHeight(double contentHeight) {
+		this.contentHeight = contentHeight;
+	}
+
+	public void setWidth(double width) {
+		this.width = width;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
 	}
 }
