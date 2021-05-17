@@ -63,13 +63,11 @@ import org.geogebra.common.util.debug.Log;
 			return new Interval(ev.evaluateDouble());
 		}
 
-
 		Interval left = evaluate(x, node.getLeft());
 		Interval right = evaluate(x, node.getRight());
 		Operation operation = node.getOperation();
 		return evaluate(left, operation, right);
 	}
-
 
 	private static Interval evaluate(Interval left, Operation operation,
 			Interval right) throws Exception {

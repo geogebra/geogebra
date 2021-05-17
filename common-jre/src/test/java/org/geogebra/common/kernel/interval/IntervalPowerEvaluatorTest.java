@@ -9,7 +9,6 @@ import org.junit.Test;
 
 public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 
-
 	@Test
 	public void evaluateXSquared() throws Exception {
 		assertEquals(

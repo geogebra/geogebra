@@ -93,7 +93,7 @@ public class IntervalPowerEvaluator {
 		return undefined();
 	}
 
-	private Interval powerFraction(Interval base, long a, long b) {
+	private Interval powerFraction(Interval x, long a, long b) {
 		long gcd = Kernel.gcd(a, b);
 		if (gcd == 0) {
 			return undefined();
@@ -101,10 +101,10 @@ public class IntervalPowerEvaluator {
 
 		long nominator = a / gcd;
 		long denominator = b / gcd;
-
-		if (nominator != 1) {
-			base = base.pow(nominator);
-		}
+		Interval interval = new Interval(x);
+		Interval base = nominator == 1
+				? interval
+				: interval.pow(nominator);
 
 		if (base.isPositive()) {
 			return base.pow(1d / denominator);
