@@ -85,7 +85,7 @@ public class DrawSymbolic extends Drawable {
 
 	@Override
 	public void setNeedsUpdate(boolean b) {
-		setNeedsUpdate(b);
+		super.setNeedsUpdate(b);
 		if (twinDrawable != null) {
 			twinDrawable.setNeedsUpdate(b);
 		}
