@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.animation.client.Animation;
@@ -1392,7 +1394,13 @@ public class GPopupPanel extends SimplePanel implements
 			// Position above the text box
 			top += relativeObject.getOffsetHeight();
 		}
-		setPopupPosition(left, top);
+
+		if (Browser.isSafariByVendor()) {
+			double scale = ((AppW)app).getGeoGebraElement().readScaleX();
+			setPopupPosition((int) Math.round(scale * left), (int) Math.round(scale * top));
+		} else {
+			setPopupPosition(left, top);
+		}
 	}
 
 	private static native int getScale(Element start, String dir) /*-{
