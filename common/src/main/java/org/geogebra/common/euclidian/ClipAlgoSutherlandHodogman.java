@@ -26,7 +26,8 @@ public class ClipAlgoSutherlandHodogman {
 	 * @return clipped points
 	 */
 	public List<MyPoint> process(List<MyPoint> input, double[][] clipPoints) {
-		List<MyPoint> output = limitYValues(input);
+		List<MyPoint> output = input;
+		limitYValues(output);
 		for (int i = 0; i < EDGE_COUNT; i++) {
 			output = clipWithEdge(createEdge(clipPoints, i), output);
 		}
@@ -34,10 +35,9 @@ public class ClipAlgoSutherlandHodogman {
 		return output;
 	}
 
-	private List<MyPoint> limitYValues(List<MyPoint> input) {
+	private void limitYValues(List<MyPoint> input) {
 		input.stream().filter(pt -> pt.y > Y_LIMIT)
 				.forEach(pt -> pt.y = Math.signum(pt.y) * Y_LIMIT);
-		return new ArrayList<>(input);
 	}
 
 	private Edge createEdge(double[][] clipPoints, int i) {
