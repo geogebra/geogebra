@@ -1269,103 +1269,18 @@ public class GPopupPanel extends SimplePanel implements
 		// textbox's width
 		int offsetWidthDiff = offsetWidth - textBoxOffsetWidth;
 
-		int left;
+		int left = app.getLocalization().isRightToLeftReadingOrder() ?
+				calculateLeftPositionRTL(relativeObject, offsetWidth, textBoxOffsetWidth,
+						offsetWidthDiff)
+				:
+				calculateLeftPosition(relativeObject, offsetWidth, offsetWidthDiff);
 
-		if (app.getLocalization().isRightToLeftReadingOrder()) { // RTL case
-
-			int textBoxAbsoluteLeft = (relativeObject.getAbsoluteLeft() - root
-					.getAbsoluteLeft()) / getScale(root.getElement(), "x");
-
-			// Right-align the popup. Note that this computation is
-			// valid in the case where offsetWidthDiff is negative.
-			left = textBoxAbsoluteLeft - offsetWidthDiff;
-
-			// If the suggestion popup is not as wide as the text box, always
-			// align to the right edge of the text box. Otherwise, figure out
-			// whether
-			// to right-align or left-align the popup.
-			if (offsetWidthDiff > 0) {
-
-				// Make sure scrolling is taken into account, since
-				// box.getAbsoluteLeft() takes scrolling into account.
-				int windowLeft = root.getAbsoluteLeft();
-				int windowRight = root.getOffsetWidth() + windowLeft;
-				// int windowRight = Window.getClientWidth()
-				// + Window.getScrollLeft();
-				// int windowLeft = Window.getScrollLeft();
-
-				// Compute the left value for the right edge of the textbox
-				int textBoxLeftValForRightEdge = textBoxAbsoluteLeft
-						+ textBoxOffsetWidth;
-
-				// Distance from the right edge of the text box to the right
-				// edge
-				// of the window
-				int distanceToWindowRight = windowRight
-						- textBoxLeftValForRightEdge;
-
-				// Distance from the right edge of the text box to the left edge
-				// of the
-				// window
-				int distanceFromWindowLeft = textBoxLeftValForRightEdge
-						- windowLeft;
-
-				// If there is not enough space for the overflow of the popup's
-				// width to the right of the text box and there IS enough space
-				// for the
-				// overflow to the right of the text box, then left-align the
-				// popup.
-				// However, if there is not enough space on either side, stick
-				// with
-				// right-alignment.
-				if (distanceFromWindowLeft < offsetWidth
-						&& distanceToWindowRight >= offsetWidthDiff) {
-					// Align with the left edge of the text box.
-					left = textBoxAbsoluteLeft;
-				}
-			}
-		} else { // LTR case
-
-			// Left-align the popup.
-			left = (relativeObject.getAbsoluteLeft() - root.getAbsoluteLeft())
-					/ getScale(root.getElement(), "x");
-			// If the suggestion popup is not as wide as the text box, always
-			// align to
-			// the left edge of the text box. Otherwise, figure out whether to
-			// left-align or right-align the popup.
-			if (offsetWidthDiff > 0) {
-				// Make sure scrolling is taken into account, since
-				// box.getAbsoluteLeft() takes scrolling into account.
-				// Distance from the left edge of the text box to the right edge
-				// of the window
-				int distanceToWindowRight = root.getOffsetWidth() - left;
-
-				// Distance from the left edge of the text box to the left edge
-				// of the
-				// window
-				int distanceFromWindowLeft = (relativeObject.getAbsoluteLeft()
-						- root.getAbsoluteLeft());
-
-				// If there is not enough space for the overflow of the popup's
-				// width to the right of the text box, and there IS enough space
-				// for the
-				// overflow to the left of the text box, then right-align the
-				// popup.
-				// However, if there is not enough space on either side, then
-				// stick with
-				// left-alignment.
-				if (distanceToWindowRight < offsetWidth
-						&& distanceFromWindowLeft >= offsetWidthDiff) {
-					// Align with the right edge of the text box.
-					left -= offsetWidthDiff;
-				}
-			}
-		}
+		// RTL case
 
 		// Calculate top position for the popup
 
-		int top = (relativeObject.getAbsoluteTop() - root.getAbsoluteTop())
-				/ getScale(root.getElement(), "y");
+		int top = (int) ((relativeObject.getAbsoluteTop() - root.getAbsoluteTop())
+						/ (Browser.isSafariByVendor() ? getCssZoom(): getScale(root.getElement(), "y")));
 
 		// Make sure scrolling is taken into account, since
 		// box.getAbsoluteTop() takes scrolling into account.
@@ -1395,12 +1310,111 @@ public class GPopupPanel extends SimplePanel implements
 			top += relativeObject.getOffsetHeight();
 		}
 
-		if (Browser.isSafariByVendor()) {
-			double scale = ((AppW)app).getGeoGebraElement().readScaleX();
-			setPopupPosition((int) Math.round(scale * left), (int) Math.round(scale * top));
-		} else {
-			setPopupPosition(left, top);
+		setPopupPosition(zoom(left), zoom(top));
+	}
+
+	private int calculateLeftPositionRTL(UIObject relativeObject, int offsetWidth, int textBoxOffsetWidth,
+			int offsetWidthDiff) {
+		int left;
+		int textBoxAbsoluteLeft = (relativeObject.getAbsoluteLeft() - root
+				.getAbsoluteLeft()) / getScale(root.getElement(), "x");
+
+		// Right-align the popup. Note that this computation is
+		// valid in the case where offsetWidthDiff is negative.
+		left = textBoxAbsoluteLeft - offsetWidthDiff;
+
+		// If the suggestion popup is not as wide as the text box, always
+		// align to the right edge of the text box. Otherwise, figure out
+		// whether
+		// to right-align or left-align the popup.
+		if (offsetWidthDiff > 0) {
+
+			// Make sure scrolling is taken into account, since
+			// box.getAbsoluteLeft() takes scrolling into account.
+			int windowLeft = root.getAbsoluteLeft();
+			int windowRight = root.getOffsetWidth() + windowLeft;
+			// int windowRight = Window.getClientWidth()
+			// + Window.getScrollLeft();
+			// int windowLeft = Window.getScrollLeft();
+
+			// Compute the left value for the right edge of the textbox
+			int textBoxLeftValForRightEdge = textBoxAbsoluteLeft
+					+ textBoxOffsetWidth;
+
+			// Distance from the right edge of the text box to the right
+			// edge
+			// of the window
+			int distanceToWindowRight = windowRight
+					- textBoxLeftValForRightEdge;
+
+			// Distance from the right edge of the text box to the left edge
+			// of the
+			// window
+			int distanceFromWindowLeft = textBoxLeftValForRightEdge
+					- windowLeft;
+
+			// If there is not enough space for the overflow of the popup's
+			// width to the right of the text box and there IS enough space
+			// for the
+			// overflow to the right of the text box, then left-align the
+			// popup.
+			// However, if there is not enough space on either side, stick
+			// with
+			// right-alignment.
+			if (distanceFromWindowLeft < offsetWidth
+					&& distanceToWindowRight >= offsetWidthDiff) {
+				// Align with the left edge of the text box.
+				left = textBoxAbsoluteLeft;
+			}
 		}
+		return left;
+	}
+
+	private int calculateLeftPosition(UIObject relativeObject, int offsetWidth, int offsetWidthDiff) {
+		int left = (int) ((relativeObject.getAbsoluteLeft() - root.getAbsoluteLeft())
+						/ (Browser.isSafariByVendor() ? getCssZoom(): getScale(root.getElement(), "x")));
+		// If the suggestion popup is not as wide as the text box, always
+		// align to
+		// the left edge of the text box. Otherwise, figure out whether to
+		// left-align or right-align the popup.
+		if (offsetWidthDiff > 0) {
+			// Make sure scrolling is taken into account, since
+			// box.getAbsoluteLeft() takes scrolling into account.
+			// Distance from the left edge of the text box to the right edge
+			// of the window
+			int distanceToWindowRight = root.getOffsetWidth() - left;
+
+			// Distance from the left edge of the text box to the left edge
+			// of the
+			// window
+			int distanceFromWindowLeft = (relativeObject.getAbsoluteLeft()
+					- root.getAbsoluteLeft());
+
+			// If there is not enough space for the overflow of the popup's
+			// width to the right of the text box, and there IS enough space
+			// for the
+			// overflow to the left of the text box, then right-align the
+			// popup.
+			// However, if there is not enough space on either side, then
+			// stick with
+			// left-alignment.
+			if (distanceToWindowRight < offsetWidth
+					&& distanceFromWindowLeft >= offsetWidthDiff) {
+				// Align with the right edge of the text box.
+				left -= offsetWidthDiff;
+			}
+		}
+		return left;
+	}
+
+	private int zoom(int value) {
+		return Browser.isSafariByVendor()
+				? (int) Math.round(value * getCssZoom())
+				: value;
+	}
+
+	private double getCssZoom() {
+		return ((AppW) app).getGeoGebraElement().getScaleX();
 	}
 
 	private static native int getScale(Element start, String dir) /*-{
