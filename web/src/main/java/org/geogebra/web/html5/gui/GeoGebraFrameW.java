@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -684,7 +685,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * @param scale scale-up factor
 	 */
 	public void getScreenshotBase64(StringConsumer callback, double scale) {
-		callback.consume(app.getEuclidianView1()
-				.getExportImageDataUrl(scale, false, false));
+		String imageDataUrl = app.getEuclidianView1()
+				.getExportImageDataUrl(scale, false, false);
+		callback.consume(StringUtil.removePngMarker(imageDataUrl));
 	}
 }

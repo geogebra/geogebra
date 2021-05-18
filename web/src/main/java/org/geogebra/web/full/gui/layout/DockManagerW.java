@@ -1802,7 +1802,7 @@ public class DockManagerW extends DockManager {
 			public void run() {
 				count--;
 				if (count == 0) {
-					callback.consume(c.toDataUrl().replace(StringUtil.pngMarker, ""));
+					callback.consume(StringUtil.removePngMarker(c.toDataUrl()));
 				}
 			}
 		};

@@ -138,7 +138,6 @@ import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.headless.AppDI;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.jre.main.TemplateHelper;
@@ -2238,8 +2237,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		String base64Image = dataURI;
 
 		if (base64Image.startsWith(StringUtil.pngMarker)) {
-			base64Image = base64Image.substring(StringUtil.pngMarker.length(),
-					base64Image.length());
+			base64Image = StringUtil.removePngMarker(base64Image);
 		}
 		handleImageExport(base64Image);
 	}
