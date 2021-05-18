@@ -15,6 +15,7 @@ import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
@@ -22,15 +23,18 @@ import org.geogebra.common.kernel.statistics.AlgoTableToChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.contextmenu.FontSubMenu;
 import org.geogebra.web.full.gui.dialog.HyperlinkDialog;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.javax.swing.InlineTextToolbar;
+import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GgbAPIW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.DialogData;
 
@@ -204,16 +208,20 @@ public class InlineFormattingItems {
 
 		Consumer<AlgoTableToChart.ChartType> chartCreator = (chartType) -> {
 			int column = ((InlineTableController) inlines.get(0)).getSelectedColumn();
-			AlgoTableToChart algoTableToChart =
-					new AlgoTableToChart(table.getConstruction(), table, chartType, column);
-			GeoElement chart = algoTableToChart.getOutput(0);
-			chart.setLabel(null);
-			app.getUndoManager().storeUndoInfo();
 
-			Scheduler.get().scheduleDeferred(() -> {
-				algoTableToChart.updateChartData();
-				algoTableToChart.setDefaultStyle();
-			});
+			String command = "TableToChart(" + table.getLabelSimple()
+					+ ", \"" + chartType.toString()
+					+ "\", " + column + ", " + app.getEmbedManager().nextID() + ")";
+
+			((GgbAPIW) app.getGgbApi()).asyncEvalCommandGetLabels(command, (label) -> {
+				GeoEmbed embed = (GeoEmbed) app.getKernel().lookupLabel(label.asT());
+
+				((EmbedManagerW) app.getEmbedManager()).doIfCalcEmbed(embed, calcEmbedElement -> {
+					calcEmbedElement.initChart(app.isMebis(), chartType);
+				});
+
+				app.getUndoManager().storeUndoInfo();
+			}, Log::error);
 		};
 
 		AriaMenuBar chartSubmenu = new AriaMenuBar();

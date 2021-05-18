@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
-import org.geogebra.common.kernel.statistics.CmdTableToChart;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -22,10 +21,6 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdLength(kernel);
 		case Sort:
 			return new CmdSort(kernel);
-		case BarChart:
-			return new CmdBarChart(kernel);
-		case TableToChart:
-			return new CmdTableToChart(kernel);
 		case Product:
 			return new CmdProduct(kernel);
 		case Extremum:

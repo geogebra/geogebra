@@ -536,8 +536,6 @@ public abstract class CommandDispatcher {
 			case UnitOrthogonalVector:
 			case Surface:
 			case Sort:
-			case BarChart:
-			case TableToChart:
 			case Product:
 			case Join:
 			case LCM:
@@ -762,7 +760,6 @@ public abstract class CommandDispatcher {
 			case InverseTDistribution:
 			case InverseWeibull:
 			case InverseZipf:
-			case LineGraph:
 			case LogNormal:
 			case Logistic:
 			case Mean:
@@ -776,7 +773,6 @@ public abstract class CommandDispatcher {
 			case OrdinalRank:
 			case PMCC:
 			case Pascal:
-			case PieChart:
 			case Percentile:
 			case Poisson:
 			case Q1:
@@ -842,6 +838,12 @@ public abstract class CommandDispatcher {
 			case ZProportionEstimate:
 			case ZProportionTest:
 			case Zipf:
+
+			// chart commands for notes
+			case TableToChart:
+			case BarChart:
+			case LineGraph:
+			case PieChart:
 				return getStatsDispatcher().dispatch(command, kernel);
 
 			case TriangleCenter:

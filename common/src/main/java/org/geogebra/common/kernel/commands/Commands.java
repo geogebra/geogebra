@@ -1211,6 +1211,7 @@ public enum Commands implements CommandsConstants,
 	CASLoaded(TABLE_GEOGEBRA),
 
 	ShowSteps(TABLE_ALGEBRA), IsVertexForm(TABLE_FUNCTION),
+
 	TableToChart(TABLE_ENGLISH);
 
 	private static final Commands[] RENAMED = {

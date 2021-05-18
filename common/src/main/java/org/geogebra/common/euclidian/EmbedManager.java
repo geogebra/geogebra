@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.plugin.EventType;
 
@@ -167,5 +168,5 @@ public interface EmbedManager {
 
 	void setGraphAxis(GeoEmbed chart, int axis, double crossing);
 
-	void setGrid(GeoEmbed chart, int grid);
+	App getEmbedApp(GeoEmbed embed);
 }

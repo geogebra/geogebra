@@ -17,20 +17,22 @@ public class CmdTableToChart extends CommandProcessor {
 
 	@Override
 	public GeoElement[] process(Command command, EvalInfo info) {
-		if (command.getArgumentNumber() == 3) {
+		if (command.getArgumentNumber() == 4) {
 			GeoElement[] args = resArgs(command);
 
-			boolean[] ok = new boolean[3];
+			boolean[] ok = new boolean[4];
 			if ((ok[0] = args[0] instanceof GeoInlineTable)
 					&& (ok[1] = args[1] instanceof GeoText)
-					&& (ok[2] = args[2] instanceof GeoNumeric)) {
+					&& (ok[2] = args[2] instanceof GeoNumeric)
+					&& (ok[3] = args[3] instanceof GeoNumeric)) {
 
 				GeoInlineTable table = (GeoInlineTable) args[0];
 				ChartType chartType = ChartType.valueOf(((GeoText) args[1]).getTextString());
 				int column = (int) ((GeoNumeric) args[2]).getValue();
+				int embedID = (int) ((GeoNumeric) args[3]).getValue();
 
 				AlgoTableToChart algoTableToChart =
-						new AlgoTableToChart(cons, table, chartType, column);
+						new AlgoTableToChart(cons, table, chartType, column, embedID);
 				GeoElement chart = algoTableToChart.getOutput(0);
 				chart.setLabel(command.getLabel());
 				algoTableToChart.compute();

@@ -1,6 +1,10 @@
 package org.geogebra.web.full.main.embed;
 
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.statistics.AlgoTableToChart;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.undo.UndoInfoStoredListener;
 import org.geogebra.common.main.undo.UndoManager;
@@ -86,8 +90,53 @@ public class CalcEmbedElement extends EmbedElement {
 		frame.getApp().getGgbApi().setBase64(base64);
 	}
 
+	/**
+	 * set the default style for charts in notes
+	 * @param isMebis whether mebis is running
+	 * @param chartType type of chart (linegraph, barchart, piechart)
+	 */
+	public void initChart(boolean isMebis, AlgoTableToChart.ChartType chartType) {
+		EuclidianView ev = frame.getApp().getActiveEuclidianView();
+		GeoElement chart = frame.getApp().getKernel().lookupLabel("chart");
+
+		switch (chartType) {
+		case PieChart:
+			ev.getSettings().setShowAxes(false);
+			ev.setRealWorldCoordSystem(-4, -4, 4, 4);
+			break;
+		case LineGraph:
+			setGrid(EuclidianView.GRID_CARTESIAN);
+			ev.getSettings().setShowAxes(true);
+			if (isMebis) {
+				chart.setObjColor(GColor.newColorRGB(0x00A8D5));
+			} else {
+				chart.setObjColor(GColor.newColorRGB(0x6557D2));
+			}
+			chart.setLineThickness(8);
+			break;
+		case BarChart:
+			ev.getSettings().setShowAxes(true);
+			if (isMebis) {
+				chart.setObjColor(GColor.newColorRGB(0x00A8D5));
+			} else {
+				chart.setObjColor(GColor.newColorRGB(0x6557D2));
+			}
+			chart.setAlphaValue(181. / 255);
+			break;
+		default:
+			break;
+		}
+
+		chart.setLabelVisible(false);
+		chart.updateRepaint();
+		frame.getApp().getKernel().initUndoInfo();
+	}
+
+	/**
+	 * @param cmd command
+	 */
 	public void sendCommand(String cmd) {
-		frame.getApp().getGgbApi().asyncEvalCommand(cmd, null, null);
+		frame.getApp().getGgbApi().evalCommand(cmd);
 	}
 
 	/**
@@ -108,7 +157,7 @@ public class CalcEmbedElement extends EmbedElement {
 	 * set grid type for EV
 	 * @param grid grid type
 	 */
-	public void setGrid(int grid) {
+	private void setGrid(int grid) {
 		EuclidianSettings evs = frame.getApp().getSettings().getEuclidian(1);
 		evs.beginBatch();
 		evs.showGrid(true);
@@ -165,5 +214,9 @@ public class CalcEmbedElement extends EmbedElement {
 		private void pruneStateList() {
 			embeddedUndoManager.pruneStateList();
 		}
+	}
+
+	public GeoGebraFrameFull getFrame() {
+		return frame;
 	}
 }
