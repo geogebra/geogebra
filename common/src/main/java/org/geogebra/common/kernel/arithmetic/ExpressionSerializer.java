@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoSymbolicI;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.Operation;
@@ -26,7 +27,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class ExpressionSerializer implements ExpressionNodeConstants {
 	/**
 	 * Returns a string representation of a node.
-	 * 
+	 *
 	 * @param left
 	 *            left subtree
 	 * @param right
@@ -371,7 +372,8 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 			default:
 				if (((leftStr.charAt(0) != '-') && // no unary
-						tpl.isSinglePowerArg(left) && !StringTemplate.isFraction(left))
+						tpl.isSinglePowerArg(left) && !StringTemplate.isFraction(left)) &&
+						! (left instanceof GeoSymbolicI)
 						|| (ExpressionNode.opID(left) > Operation.POWER.ordinal()
 								&& ExpressionNode.opID(left) != Operation.FACTORIAL.ordinal())) {
 					// not +, -, *, /, ^

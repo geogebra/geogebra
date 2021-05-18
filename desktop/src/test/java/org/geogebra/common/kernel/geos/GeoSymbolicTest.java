@@ -1418,6 +1418,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testFactorial() {
+		t("(1/2)!", "1 / 2 * sqrt(π)");
+		t("a=1/2", "1 / 2");
+		t("a!", "1 / 2 * sqrt(π)");
+	}
+
+	@Test
 	public void testExtremum() {
 		GeoSymbolic extremum = add("Extremum(x*ln(x^2))");
 		GeoList twin = (GeoList) extremum.getTwinGeo();
