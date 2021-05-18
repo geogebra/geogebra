@@ -111,7 +111,7 @@ public class IntervalPowerEvaluator {
 		}
 
 		if (isOdd(denominator)) {
-			return base.negative().pow(1d / denominator);
+			return denominator > 0 ? base.negative().pow(1d / denominator) : base.pow(denominator);
 		}
 		return undefined();
 	}

@@ -107,4 +107,31 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 				function.evaluate(interval(5.88, 6)));
 	}
 
+	@Test
+	public void evaluatePowerOfFractionMinus1under3() throws Exception {
+		GeoFunction geo = add("x^(-1/3)");
+		IntervalFunction function = new IntervalFunction(geo);
+		shouldBeXPowerOnMinusThird(function);
+	}
+
+	private void shouldBeXPowerOnMinusThird(IntervalFunction function) throws Exception {
+		shouldBeUndefinedAtZero(function);
+		assertEquals(IntervalConstants.one(), function.evaluate(IntervalConstants.one()));
+		assertEquals(IntervalConstants.one().negative(),
+				function.evaluate(IntervalConstants.one().negative()));
+	}
+
+	@Test
+	public void evaluatePowerOfFraction1underMinus3() throws Exception {
+		GeoFunction geo = add("x^(1/-3)");
+		IntervalFunction function = new IntervalFunction(geo);
+		shouldBeXPowerOnMinusThird(function);
+	}
+
+	@Test
+	public void evaluatePowerOfNegativeFraction1under3() throws Exception {
+		GeoFunction geo = add("x^-(1/3)");
+		IntervalFunction function = new IntervalFunction(geo);
+		shouldBeXPowerOnMinusThird(function);
+	}
 }
