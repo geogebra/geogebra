@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.animation.client.Animation;
@@ -1279,8 +1278,8 @@ public class GPopupPanel extends SimplePanel implements
 
 		// Calculate top position for the popup
 
-		int top = (int) ((relativeObject.getAbsoluteTop() - root.getAbsoluteTop())
-						/ (Browser.isSafariByVendor() ? getCssZoom(): getScale(root.getElement(), "y")));
+		int top = (relativeObject.getAbsoluteTop() - root.getAbsoluteTop())
+						/ getScale(root.getElement(), "y");
 
 		// Make sure scrolling is taken into account, since
 		// box.getAbsoluteTop() takes scrolling into account.
@@ -1310,7 +1309,7 @@ public class GPopupPanel extends SimplePanel implements
 			top += relativeObject.getOffsetHeight();
 		}
 
-		setPopupPosition(zoom(left), zoom(top));
+		setPopupPosition(left, top);
 	}
 
 	private int calculateLeftPositionRTL(UIObject relativeObject, int offsetWidth, int textBoxOffsetWidth,
@@ -1371,8 +1370,8 @@ public class GPopupPanel extends SimplePanel implements
 	}
 
 	private int calculateLeftPosition(UIObject relativeObject, int offsetWidth, int offsetWidthDiff) {
-		int left = (int) ((relativeObject.getAbsoluteLeft() - root.getAbsoluteLeft())
-						/ (Browser.isSafariByVendor() ? getCssZoom(): getScale(root.getElement(), "x")));
+		int left = (relativeObject.getAbsoluteLeft() - root.getAbsoluteLeft())
+						/ getScale(root.getElement(), "x");
 		// If the suggestion popup is not as wide as the text box, always
 		// align to
 		// the left edge of the text box. Otherwise, figure out whether to
@@ -1407,17 +1406,12 @@ public class GPopupPanel extends SimplePanel implements
 		return left;
 	}
 
-	private int zoom(int value) {
-		return Browser.isSafariByVendor()
-				? (int) Math.round(value * getCssZoom())
-				: value;
+
+	private static int getScale(Element start, String dir) {
+		return Browser.isSafariByVendor() ? 1: getScaleNative(start, dir);
 	}
 
-	private double getCssZoom() {
-		return ((AppW) app).getGeoGebraElement().getScaleX();
-	}
-
-	private static native int getScale(Element start, String dir) /*-{
+	private static native int getScaleNative(Element start, String dir) /*-{
 		while (start) {
 			if (start.getAttribute("data-scale" + dir)) {
 				return start.getAttribute("data-scale" + dir);
