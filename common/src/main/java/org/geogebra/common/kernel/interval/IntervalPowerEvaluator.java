@@ -50,7 +50,10 @@ public class IntervalPowerEvaluator {
 
 		if (base.isNegative() && right.isExpressionNode()) {
 			try {
-				return calculateNegPower(right.wrap(), base);
+				Interval negPower = calculateNegPower(right.wrap(), base);
+				if (!negPower.isUndefined()) {
+					return negPower;
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -63,8 +66,10 @@ public class IntervalPowerEvaluator {
 		if (isPositiveFraction(node)) {
 			return negativePower(base, node);
 		} else if (isNegativeFraction(node)) {
-			return negativePower(base, node.getRight().wrap()).multiplicativeInverse();
+			return negativePower(base, node.getRight().wrap())
+					.multiplicativeInverse();
 		}
+
 		return undefined();
 	}
 
@@ -111,8 +116,9 @@ public class IntervalPowerEvaluator {
 		}
 
 		if (isOdd(denominator)) {
-			return denominator > 0 ? base.negative().pow(1d / denominator) : base.pow(denominator);
+			return base.negative().pow(1d / denominator).negative();
 		}
+
 		return undefined();
 	}
 
