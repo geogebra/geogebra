@@ -1268,11 +1268,10 @@ public class GPopupPanel extends SimplePanel implements
 		// textbox's width
 		int offsetWidthDiff = offsetWidth - textBoxOffsetWidth;
 
-		int left = app.getLocalization().isRightToLeftReadingOrder() ?
-				calculateLeftPositionRTL(relativeObject, offsetWidth, textBoxOffsetWidth,
+		int left = app.getLocalization().isRightToLeftReadingOrder()
+				? calculateLeftPositionRTL(relativeObject, offsetWidth, textBoxOffsetWidth,
 						offsetWidthDiff)
-				:
-				calculateLeftPosition(relativeObject, offsetWidth, offsetWidthDiff);
+				: calculateLeftPosition(relativeObject, offsetWidth, offsetWidthDiff);
 
 		// RTL case
 
@@ -1312,8 +1311,8 @@ public class GPopupPanel extends SimplePanel implements
 		setPopupPosition(left, top);
 	}
 
-	private int calculateLeftPositionRTL(UIObject relativeObject, int offsetWidth, int textBoxOffsetWidth,
-			int offsetWidthDiff) {
+	private int calculateLeftPositionRTL(UIObject relativeObject, int offsetWidth,
+			int textBoxOffsetWidth,	int offsetWidthDiff) {
 		int left;
 		int textBoxAbsoluteLeft = (relativeObject.getAbsoluteLeft() - root
 				.getAbsoluteLeft()) / getScale(root.getElement(), "x");
@@ -1369,7 +1368,8 @@ public class GPopupPanel extends SimplePanel implements
 		return left;
 	}
 
-	private int calculateLeftPosition(UIObject relativeObject, int offsetWidth, int offsetWidthDiff) {
+	private int calculateLeftPosition(UIObject relativeObject, int offsetWidth,
+			int offsetWidthDiff) {
 		int left = (relativeObject.getAbsoluteLeft() - root.getAbsoluteLeft())
 						/ getScale(root.getElement(), "x");
 		// If the suggestion popup is not as wide as the text box, always
@@ -1406,9 +1406,8 @@ public class GPopupPanel extends SimplePanel implements
 		return left;
 	}
 
-
 	private static int getScale(Element start, String dir) {
-		return Browser.isSafariByVendor() ? 1: getScaleNative(start, dir);
+		return Browser.isSafariByVendor() ? 1 : getScaleNative(start, dir);
 	}
 
 	private static native int getScaleNative(Element start, String dir) /*-{
