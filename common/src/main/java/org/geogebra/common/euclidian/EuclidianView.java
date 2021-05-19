@@ -214,8 +214,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * fill color of shape (transparent)
 	 */
-	private final GColor shapeFillCol = GColor.newColor(192,
-			192, 192, 0.0);
+	private final GColor shapeFillCol = GColor.LIGHT_GRAY;
 	/**
 	 * object color of shape (black by default)
 	 */

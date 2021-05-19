@@ -85,7 +85,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	protected Kernel kernel;
 	/** application */
-	protected AppW app;
+	private AppW app;
 	private MyCellEditorW editor;
 
 	/** copy/paste utility */
@@ -1463,12 +1463,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			return null;
 		}
 
-		if (min && column == 0 && row == 0) {
-			// ? Why this returns 0, wt.getAbsoluteLeft would return a greater
-			// number!
-			// return new GPoint(0, 0);
-		}
-
 		Element wt = ssGrid.getCellFormatter().getElement(row, column);
 		int offx = ssGrid.getAbsoluteLeft();
 		int offy = ssGrid.getAbsoluteTop();
@@ -1498,52 +1492,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// getPixel2(column,row,min);
 		return new GPoint(left + wt.getOffsetWidth(), top
 		        + wt.getOffsetHeight());
-	}
-
-	protected GPoint getPixelRelative(int column0, int row0, boolean min) {
-
-		if (column0 < 0 || row0 < 0) {
-			return null;
-		}
-		int row = row0;
-		int column = column0;
-		if (column > getColumnCount() - 1) {
-			column = getColumnCount() - 1;
-		}
-
-		if (row > getRowCount() - 1) {
-			row = getRowCount() - 1;
-		}
-
-		GPoint p = new GPoint(0, 0);
-
-		HashMap<Integer, Integer> widthMap = view.settings().getWidthMap();
-		HashMap<Integer, Integer> heightMap = view.settings().getHeightMap();
-
-		// adjust loop condition dependent on min
-		int extraCell = min ? 0 : 1;
-
-		for (int c = 0; c < column + extraCell; c++) {
-			Integer w = widthMap.get(c);
-			if (w == null) {
-				w = preferredColumnWidth;
-			}
-			p.x += w;
-		}
-		for (int r = 0; r < row + extraCell; r++) {
-			Integer h = heightMap.get(r);
-			if (h == null) {
-				h = view.settings().preferredRowHeight();
-			}
-			p.y += h;
-		}
-
-		// p.x += ssGrid.getAbsoluteLeft();
-		// p.y += ssGrid.getAbsoluteTop();
-
-		// Log.debug("#2col x row: " + column + " x " + row + " pixels: " + p.x
-		// + " x " + p.y);
-		return p;
 	}
 
 	protected GPoint getMinSelectionPixel() {

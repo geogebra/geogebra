@@ -142,7 +142,7 @@ public abstract class BoundingBox<T extends GShape> {
 	 */
 	protected void drawRectangle(GGraphics2D g2) {
 		if (rectangle != null) {
-			g2.setColor(GColor.newColor(192, 192, 192, 0.0));
+			g2.setColor(GColor.LIGHT_GRAY);
 			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f, GBasicStroke.CAP_BUTT,
 					GBasicStroke.JOIN_MITER));
 			g2.fill(rectangle);

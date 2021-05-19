@@ -71,7 +71,7 @@ public final class GColor implements GPaint {
 	public static final GColor ERROR_RED = newColor(176, 0, 32);
 
 	/** MOW RULER */
-	public static final GColor MOW_RULER = newColor(192, 192, 192);
+	public static final GColor MOW_RULER = LIGHT_GRAY;
 	/** MOW SUBGRID */
 	public static final GColor MOW_SUBGRID = newColor(229, 229, 229);
 

@@ -5,6 +5,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetViewW;
+import org.geogebra.web.full.gui.view.spreadsheet.TableCanvasExporter;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 
@@ -12,6 +13,9 @@ import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.BaseRenderingContext2D;
+import elemental2.dom.CanvasRenderingContext2D;
 
 /**
  * @author Arpad Fekete
@@ -141,6 +145,21 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 				.getEditor()
 				.getTextfield();
 		return ml;
+	}
+
+	@Override
+	public void paintToCanvas(CanvasRenderingContext2D context2d,
+			Runnable callback, int left, int top) {
+		context2d.fillStyle = BaseRenderingContext2D.FillStyleUnionType.of("rgb(255,255,255)");
+		context2d.fillRect(left, top, getOffsetWidth(), getOffsetHeight());
+		context2d.save();
+		context2d.rect(left, top, getOffsetWidth(), getOffsetHeight());
+		context2d.clip();
+		TableCanvasExporter tableCanvasExporter = new TableCanvasExporter(
+				sview.getSpreadsheetTable(), app, getOffsetWidth(), getOffsetHeight(), context2d);
+		tableCanvasExporter.paintToCanvas(left, top);
+		context2d.restore();
+		callback.run();
 	}
 
 }
