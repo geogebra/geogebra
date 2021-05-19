@@ -48,7 +48,6 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
@@ -887,7 +886,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	}
 
 	@Override
-	public void getPrintable(final FlowPanel printPanel, Button btPrint) {
+	public void getPrintable(final FlowPanel printPanel, Runnable enablePrintBtn) {
 		// I couldn't put into less the calculating of the zoom, because less
 		// has no any knowledge about the elements of the page, and because of
 		// this, I can get the current width with help of less. So I have to
@@ -897,7 +896,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		addTable(printPanel, 1000.0, "preview_portrait", 500);
 		addTable(printPanel, 1400.0, "preview_landscape", 700);
 
-		btPrint.setEnabled(true);
+		enablePrintBtn.run();
 	}
 
 	/*

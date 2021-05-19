@@ -82,7 +82,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
@@ -1155,7 +1154,7 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void getPrintable(final FlowPanel pPanel, Button btPrint) {
+	public void getPrintable(final FlowPanel pPanel, Runnable enablePrintBtn) {
 		double scale = getPrintingScale();
 		double origXZero = getXZero();
 		double origScale = getXscale();
@@ -1178,18 +1177,15 @@ public class EuclidianViewW extends EuclidianView implements
 		prevImg.setHeight(
 				(getExportHeight() / getYscale()) * scale + "cm");
 		pPanel.clear();
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				pPanel.add(prevImg);
-				Window.print();
+		Scheduler.get().scheduleDeferred(() -> {
+			pPanel.add(prevImg);
+			Window.print();
 
-				// PrintPreviewW.removePrintPanelFromDOM();
-				NodeList<Element> pp = Dom
-						.getElementsByClassName("printPanel");
-				if (pp.getLength() != 0) {
-					pp.getItem(0).removeFromParent();
-				}
+			// PrintPreviewW.removePrintPanelFromDOM();
+			NodeList<Element> pp = Dom
+					.getElementsByClassName("printPanel");
+			if (pp.getLength() != 0) {
+				pp.getItem(0).removeFromParent();
 			}
 		});
 	}
