@@ -82,7 +82,6 @@ public class ExamEnvironmentTest extends BaseUnitTest {
 		assertThat(aOpenedAgain.getTitle(), equalTo("a"));
 	}
 
-
 	private void testSetCasEnabled(boolean enabled) {
 		boolean casDefaultState = isCasEnabled();
 		examEnvironment.setCasEnabled(enabled, casSettings);
