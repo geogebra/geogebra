@@ -125,7 +125,7 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 
 	@Override
 	public Interval abs() {
-		if (interval.isEmpty() || interval.getLow() >= 0) {
+		if (interval.isEmpty() || interval.getLow() >= 0 || interval.isUndefined()) {
 			return interval;
 		}
 
