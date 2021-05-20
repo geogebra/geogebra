@@ -24,6 +24,8 @@ import jsinterop.base.Js;
 
 public class TableCanvasExporter {
 
+	private static final int CELL_PADDING_X = 4;
+	private static final int CELL_PADDING_Y = 2;
 	private final MyTableW table;
 	private final AppW app;
 	private final Grid ssGrid;
@@ -36,6 +38,7 @@ public class TableCanvasExporter {
 	 * @param app application
 	 * @param offsetWidth parent panel width
 	 * @param offsetHeight parent panel height
+	 * @param context2d context
 	 */
 	public TableCanvasExporter(MyTableW table, AppW app, int offsetWidth, int offsetHeight, 
 			CanvasRenderingContext2D context2d) {
@@ -141,14 +144,16 @@ public class TableCanvasExporter {
 		GeoElement cell = (GeoElement) app.getSpreadsheetTableModel().getValueAt(row, col);
 		int alignment = table.getCellFormatHandler().getAlignment(col, row,
 				cell != null && cell.isGeoText());
+
 		if (widget instanceof Canvas) {
 			HTMLCanvasElement formula = Js.uncheckedCast(widget.getElement());
 			if (alignment == CellFormat.ALIGN_LEFT) {
 				GPoint pt = getPixelRelative(col, row);
-				context2d.drawImage(formula, pt.x + 4, pt.y + 2);
+				context2d.drawImage(formula, pt.x + CELL_PADDING_X, pt.y + CELL_PADDING_Y);
 			} else {
 				GPoint pt = getPixelRelative(col + 1, row);
-				context2d.drawImage(formula, pt.x - formula.offsetWidth - 4, pt.y + 2);
+				context2d.drawImage(formula, pt.x - formula.offsetWidth - CELL_PADDING_X,
+						pt.y + CELL_PADDING_Y);
 			}
 		}
 		graphics.setColor(cell != null ? cell.getObjectColor() : GColor.BLACK);
@@ -156,11 +161,11 @@ public class TableCanvasExporter {
 		String txt = ssGrid.getText(row, col);
 		if (alignment == CellFormat.ALIGN_LEFT) {
 			GPoint pt = getPixelRelative(col, row + 1);
-			context2d.fillText(txt, pt.x + 4, pt.y - 2);
+			context2d.fillText(txt, pt.x + CELL_PADDING_X, pt.y - CELL_PADDING_Y);
 		} else {
 			GPoint pt = getPixelRelative(col + 1, row + 1);
 			double textWidth = context2d.measureText(txt).width;
-			context2d.fillText(txt, pt.x - 4 - textWidth, pt.y - 2);
+			context2d.fillText(txt, pt.x - CELL_PADDING_X - textWidth, pt.y - CELL_PADDING_Y);
 		}
 	}
 

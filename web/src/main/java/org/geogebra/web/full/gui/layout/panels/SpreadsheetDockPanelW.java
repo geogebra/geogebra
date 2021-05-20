@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
-import elemental2.dom.BaseRenderingContext2D;
 import elemental2.dom.CanvasRenderingContext2D;
 
 /**
@@ -75,39 +74,34 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 	}
 
 	private static String getDefaultToolbar() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(EuclidianConstants.MODE_MOVE);
-		
-		sb.append(" || ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS);
 
-		sb.append(" || ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE);
-
-		sb.append(" || ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_SUM);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_AVERAGE);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_COUNT);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_MAX);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_MIN);
-
-		return sb.toString();
+		return EuclidianConstants.MODE_MOVE
+				+ " || "
+				+ EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS
+				+ " || "
+				+ EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE
+				+ " || "
+				+ EuclidianConstants.MODE_SPREADSHEET_SUM
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_AVERAGE
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_COUNT
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_MAX
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_MIN;
 	}
 
 	@Override 
@@ -141,17 +135,14 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	public MathKeyboardListener getKeyboardListener() {
-		MathKeyboardListener ml = this.sview.getSpreadsheetTable()
-				.getEditor()
-				.getTextfield();
-		return ml;
+		return this.sview.getSpreadsheetTable()
+				.getEditor().getTextfield();
 	}
 
 	@Override
 	public void paintToCanvas(CanvasRenderingContext2D context2d,
 			Runnable callback, int left, int top) {
-		context2d.fillStyle = BaseRenderingContext2D.FillStyleUnionType.of("rgb(255,255,255)");
-		context2d.fillRect(left, top, getOffsetWidth(), getOffsetHeight());
+		drawWhiteBackground(context2d, left, top);
 		context2d.save();
 		context2d.rect(left, top, getOffsetWidth(), getOffsetHeight());
 		context2d.clip();

@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.layout;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.gui.layout.DockPanel;
@@ -507,12 +508,17 @@ public abstract class DockPanelW extends ResizeComposite
 		}
 		Domvas.get().toImage(component.getElement(), (image) -> {
 			// component may not cover the whole panel, paint the rest white
-			context2d.fillStyle = BaseRenderingContext2D.FillStyleUnionType.of("rgb(255,255,255)");
-			context2d.fillRect(left, top, getOffsetWidth(), getOffsetHeight());
+			drawWhiteBackground(context2d, left, top);
 			context2d.drawImage(image, left, top);
 			getElement().removeClassName("ggbScreenshot");
 			callback.run();
 		});
+	}
+
+	protected void drawWhiteBackground(CanvasRenderingContext2D context2d, int left, int top) {
+		context2d.fillStyle = BaseRenderingContext2D.FillStyleUnionType
+				.of(GColor.getColorString(GColor.WHITE));
+		context2d.fillRect(left, top, getOffsetWidth(), getOffsetHeight());
 	}
 
 	public void onOrientationChange() {
