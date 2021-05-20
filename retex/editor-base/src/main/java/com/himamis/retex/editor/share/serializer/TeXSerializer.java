@@ -22,6 +22,7 @@ public class TeXSerializer extends SerializerAdapter {
 	private static final String selection_end = "}";
 
 	private static final String PLACEHOLDER_INVISIBLE = "\\nbsp{}";
+	private boolean showPlaceholder = true;
 	private boolean lineBreakEnabled = false;
 
 	private SyntaxAdapter syntaxAdapter;
@@ -80,6 +81,16 @@ public class TeXSerializer extends SerializerAdapter {
 		lineBreakEnabled = lineBreaks;
 	}
 
+	/**
+	 * Enables or disables placeholder in the editor.
+	 *
+	 * @param placeholder
+	 *            whether to show placeholders
+	 */
+	public void setPlaceholderEnabled(boolean placeholder) {
+		showPlaceholder = placeholder;
+	}
+
 	@Override
 	public void serialize(MathSequence sequence, StringBuilder stringBuilder) {
 		if (sequence == null) {
@@ -87,7 +98,7 @@ public class TeXSerializer extends SerializerAdapter {
 			return;
 		}
 		if (sequence.isScript(0) && (sequence != mCurrentField || mCurrentOffset > 0)) {
-			stringBuilder.append(PLACEHOLDER);
+			stringBuilder.append(showPlaceholder ? PLACEHOLDER : PLACEHOLDER_INVISIBLE);
 		}
 		int lengthBefore = stringBuilder.length();
 		boolean addBraces = (sequence.hasChildren() || // {a^b_c}
@@ -163,7 +174,7 @@ public class TeXSerializer extends SerializerAdapter {
 				return PLACEHOLDER_INVISIBLE;
 			}
 		}
-		return PLACEHOLDER;
+		return showPlaceholder ? PLACEHOLDER : PLACEHOLDER_INVISIBLE;
 	}
 
 	@Override
@@ -253,7 +264,7 @@ public class TeXSerializer extends SerializerAdapter {
 			serialize(function.getArgument(0), functionName);
 
 			stringBuilder.append("{");
-			if (syntaxAdapter == null || isFunction(functionName.toString())) {
+			if (isFunction(functionName.toString())) {
 				stringBuilder.append("{\\mathrm{").append(functionName).append("}}");
 			} else {
 				stringBuilder.append(functionName);
@@ -278,7 +289,15 @@ public class TeXSerializer extends SerializerAdapter {
 		}
 	}
 
-	private boolean isFunction(String name) {
+	/**
+	 * @param name function name
+	 * @return whether this is a builtin function (sin/cos/...)
+	 */
+	public boolean isFunction(String name) {
+		if (syntaxAdapter == null) {
+			return true;
+		}
+
 		String trimmed = name.replace(cursor, "");
 		if (trimmed.indexOf('^') > 0) {
 			trimmed = trimmed.substring(0, trimmed.indexOf('^'));
@@ -360,5 +379,9 @@ public class TeXSerializer extends SerializerAdapter {
 		StringBuilder b = new StringBuilder();
 		new TeXSerializer().serialize(ms, b);
 		return b.toString();
+	}
+
+	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
+		this.syntaxAdapter = syntaxAdapter;
 	}
 }

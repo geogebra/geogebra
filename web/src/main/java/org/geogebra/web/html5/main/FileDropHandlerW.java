@@ -49,7 +49,7 @@ public class FileDropHandlerW {
 
 				//at first this tries to open the fileToHandle as image,
 				//if not possible, try to open as ggb or ggt.
-				if (!appl.openFileAsImage(fileToHandle, null)) {
+				if (!appl.openFileAsImage(fileToHandle)) {
 					appl.openFile(fileToHandle);
 				}
 			}

@@ -113,14 +113,14 @@ public class MetaFunction extends MetaComponent {
 	/**
 	 * @return opening bracket
 	 */
-	public String getOpeningBracket() {
-		return getName() == Tag.APPLY_SQUARE ? "[" : "(";
+	public char getOpeningBracket() {
+		return getName() == Tag.APPLY_SQUARE ? '[' : '(';
     }
 
 	/**
 	 * @return closing bracket
 	 */
-	public String getClosingBracket() {
-		return getName() == Tag.APPLY_SQUARE ? "]" : ")";
+	public char getClosingBracket() {
+		return getName() == Tag.APPLY_SQUARE ? ']' : ')';
 	}
 }

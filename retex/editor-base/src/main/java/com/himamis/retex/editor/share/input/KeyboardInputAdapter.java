@@ -122,6 +122,8 @@ public class KeyboardInputAdapter {
 			}
 		});
 
+		adapters.add(new FunctionVariableAdapter());
+
 		commandAdapter = new KeyboardAdapter() {
 			@Override
 			public void commit(MathFieldInternal mfi, String commandName) {

@@ -3,8 +3,9 @@ package org.geogebra.web.html5.awt;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGradientPaint;
 
-import com.google.gwt.canvas.dom.client.CanvasGradient;
-import com.google.gwt.canvas.dom.client.Context2d;
+import com.himamis.retex.renderer.web.graphics.JLMContext2d;
+
+import elemental2.dom.CanvasGradient;
 
 /**
  * Gradient paint for canvas.
@@ -23,7 +24,7 @@ public class GGradientPaintW implements GGradientPaint {
 	 * @param c
 	 *            context
 	 */
-	public void apply(Context2d c) {
+	public void apply(JLMContext2d c) {
 		CanvasGradient gradient = c.createLinearGradient(x1, y1, x2, y2);
 		gradient.addColorStop(0, GColor.getColorString(color1));
 		gradient.addColorStop(1, GColor.getColorString(color2));

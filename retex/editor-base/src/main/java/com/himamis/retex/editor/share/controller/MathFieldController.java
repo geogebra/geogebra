@@ -11,8 +11,7 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.TeXBuilder;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
-import com.himamis.retex.renderer.share.Atom;
-import com.himamis.retex.renderer.share.Box;
+import com.himamis.retex.renderer.share.BoxPosition;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFont;
 import com.himamis.retex.renderer.share.TeXFormula;
@@ -34,21 +33,17 @@ public class MathFieldController {
 	private double size = 16;
 	private int type = TeXFont.SERIF;
 
-	private GraphicsStub graphics;
-	private TeXBuilder texBuilder;
+	private final GraphicsStub graphics;
+	private final TeXBuilder texBuilder;
 
 	/**
 	 * @param mathField
 	 *            editor
-	 * @param directFormulaBuilder
-	 *            whether to create JLM atoms without reparsing (experimental)
 	 */
-	public MathFieldController(MathField mathField, boolean directFormulaBuilder) {
+	public MathFieldController(MathField mathField) {
 		this.mathField = mathField;
 		texSerializer = new TeXSerializer();
-		if (directFormulaBuilder) {
-			texBuilder = new TeXBuilder();
-		}
+		texBuilder = new TeXBuilder();
 		graphics = new GraphicsStub();
 	}
 
@@ -123,84 +118,35 @@ public class MathFieldController {
 	private void updateFormula(MathFormula mathFormula,
 			MathSequence currentField, int currentOffset,
 			MathComponent selectionStart, MathComponent selectionEnd) {
+		TeXFormula texFormula = new TeXFormula();
 		boolean textMode = mathField.getInternal().getInputController().getPlainTextMode();
-		String serializedFormula = texSerializer.serialize(mathFormula,
-				currentField, currentOffset, selectionStart, selectionEnd, textMode);
-		TeXFormula texFormula = null;
-		if (texBuilder != null) {
-			texFormula = new TeXFormula();
-			Atom root = texBuilder.build(mathFormula.getRootComponent(),
-					currentField, currentOffset, selectionStart, selectionEnd);
-			texFormula.root = root;
-		}
+		texFormula.root = texBuilder.build(mathFormula.getRootComponent(),
+				currentField, textMode);
 
 		try {
-			if (texFormula == null) {
-				texFormula = new TeXFormula(serializedFormula);
-			}
-			TeXIcon renderer = texFormula.new TeXIconBuilder()
+			final TeXIcon renderer = texFormula.new TeXIconBuilder()
 					.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
 					.setType(type).build();
 			renderer.setInsets(new Insets(1, 1, 1, 1));
-			mathField.setTeXIcon(renderer);
-			mathField.fireInputChangedEvent();
-		} catch (Exception e) {
-			FactoryProvider.debugS(serializedFormula + ", selection"
-					+ selectionStart + ":" + selectionEnd);
-		} catch (Error e) {
-			FactoryProvider
-					.debugS("" + (e.getCause() != null ? e.getCause() : e));
-		}
 
-	}
-
-	/**
-	 * @param mathFormula
-	 *            formula
-	 * @param x
-	 *            pointer x-coord
-	 * @param y
-	 *            pointer y-coord
-	 * @param list
-	 *            output list for path
-	 * @return editor state after selection
-	 */
-	public EditorState getPath(MathFormula mathFormula, int x, int y,
-			ArrayList<Integer> list) {
-		if (texBuilder == null) {
-			return null;
-		}
-		Atom root = texBuilder.build(mathFormula.getRootComponent(), null, 0,
-				null, null);
-
-		TeXFormula texFormula = new TeXFormula();
-		texFormula.root = root;
-		TeXIcon renderer = texFormula.new TeXIconBuilder()
-				.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
-				.setType(type).build();
-		renderer.getBox().getPath(x / size, y / size, list);
-		Box current = renderer.getBox();
-		EditorState es = new EditorState(mathFormula.getMetaModel());
-		for (int i = 0; i < list.size() && current.getCount() > 0
-				&& list.get(i) >= 0; i++) {
-			if (list.get(i) == current.getCount()) {
-				current = current.getChild(list.get(i) - 1);
-				MathComponent comp = texBuilder.getComponent(current.getAtom());
-				if (comp != null) {
-					es.setCurrentField((MathSequence) comp.getParent());
-					es.setCurrentOffset(comp.getParentIndex() + 1);
-				}
-				return es;
+			if (selectionStart == null) {
+				CursorBoxConsumer consumer
+						= new CursorBoxConsumer(texBuilder, currentField, currentOffset);
+				renderer.getBox().inspect(consumer, new BoxPosition(0, 0, 1, 0));
+				renderer.cursorPosition = consumer.getPosition();
+			} else {
+				SelectionBoxConsumer consumer
+						= new SelectionBoxConsumer(texBuilder, selectionStart, selectionEnd);
+				renderer.getBox().inspect(consumer, new BoxPosition(0, 0, 1, 0));
+				renderer.selectionPosition = consumer.getPosition();
 			}
 
-			current = current.getChild(list.get(i));
-
+			mathField.setTeXIcon(renderer);
+			mathField.fireInputChangedEvent();
+		} catch (Throwable t) {
+			FactoryProvider
+					.debugS("" + (t.getCause() != null ? t.getCause() : t));
 		}
-
-		MathComponent comp = texBuilder.getComponent(current.getAtom());
-		es.setCurrentField((MathSequence) comp.getParent());
-		es.setCurrentOffset(comp.getParentIndex());
-		return es;
 	}
 
 	/**
@@ -224,7 +170,6 @@ public class MathFieldController {
 		TeXIcon renderer = texFormula.new TeXIconBuilder()
 				.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
 				.setType(type).build();
-		renderer.getBox().getSelectedPath(list, 0);
 		drawWithStub(renderer);
 	}
 
@@ -279,7 +224,11 @@ public class MathFieldController {
 
 	}
 
+	/**
+	 * @param syntaxAdapter syntax adapter
+	 */
 	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
-		this.texSerializer = new TeXSerializer(syntaxAdapter);
+		texSerializer.setSyntaxAdapter(syntaxAdapter);
+		texBuilder.setSyntaxAdapter(syntaxAdapter);
 	}
 }

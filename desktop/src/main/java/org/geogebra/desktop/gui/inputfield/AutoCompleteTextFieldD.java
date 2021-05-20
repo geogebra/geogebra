@@ -402,13 +402,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 			}
 			break;
 
-		case KeyEvent.VK_F9:
-			// needed for applets
-			if (app.isApplet()) {
-				app.getGlobalKeyDispatcher().handleGeneralKeys(e);
-			}
-			break;
-
 		case KeyEvent.VK_RIGHT:
 			if (moveToNextArgument(false)) {
 				e.consume();

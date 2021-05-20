@@ -97,7 +97,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 	 * @param app
 	 *            application
 	 */
-	protected ComboBox(AppW app) {
+	public ComboBox(AppW app) {
 		super(app);
 	}
 

@@ -13,8 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.cas;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 
 /**
@@ -22,7 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
  * 
  * @author Michael Borcherds
  */
-public class AlgoQuadricCoefficients extends AlgoConicCoefficients {
+public class AlgoQuadricCoefficients extends AlgoEquationCoefficients {
 
 	/**
 	 * @param cons
@@ -34,53 +32,15 @@ public class AlgoQuadricCoefficients extends AlgoConicCoefficients {
 	 */
 	public AlgoQuadricCoefficients(Construction cons, String label,
 			GeoQuadricND c) {
-		super(cons);
-		this.c = c;
-
-		// matrix =
-		// ( A[0] A[4] A[5] A[7])
-		// ( A[4] A[1] A[6] A[8])
-		// ( A[5] A[6] A[2] A[9])
-		// ( A[7] A[8] A[9] A[3])
-
-		g = new GeoList(cons);
-		double[] matrix = c.getFlatMatrix();
-		g.add(new GeoNumeric(cons, matrix[0]));
-		g.add(new GeoNumeric(cons, matrix[1]));
-		g.add(new GeoNumeric(cons, matrix[2]));
-		g.add(new GeoNumeric(cons, matrix[3]));
-		g.add(new GeoNumeric(cons, matrix[4] * 2));
-		g.add(new GeoNumeric(cons, matrix[5] * 2));
-		g.add(new GeoNumeric(cons, matrix[6] * 2));
-		g.add(new GeoNumeric(cons, matrix[7] * 2));
-		g.add(new GeoNumeric(cons, matrix[8] * 2));
-		g.add(new GeoNumeric(cons, matrix[9] * 2));
-
-		setInputOutput(); // for AlgoElement
-		// compute();
-		g.setLabel(label);
+		super(cons, label, c, 10);
 	}
 
 	@Override
-	public final void compute() {
-		if (!c.isDefined()) {
-			g.setUndefined();
-			return;
+	public final void extractCoefficients() {
+		double[] matrix = ((GeoQuadricND) eqn).getFlatMatrix();
+		for (int i = 0; i < 10; i++) {
+			setCoeff(i, i < 4 ? matrix[i] : matrix[i] * 2);
 		}
-
-		double[] matrix = c.getFlatMatrix();
-		g.setDefined(true);
-		((GeoNumeric) g.get(0)).setValue(matrix[0]);
-		((GeoNumeric) g.get(1)).setValue(matrix[1]);
-		((GeoNumeric) g.get(2)).setValue(matrix[2]);
-		((GeoNumeric) g.get(3)).setValue(matrix[3]);
-		((GeoNumeric) g.get(4)).setValue(matrix[4] * 2);
-		((GeoNumeric) g.get(5)).setValue(matrix[5] * 2);
-		((GeoNumeric) g.get(6)).setValue(matrix[6] * 2);
-		((GeoNumeric) g.get(7)).setValue(matrix[7] * 2);
-		((GeoNumeric) g.get(8)).setValue(matrix[8] * 2);
-		((GeoNumeric) g.get(9)).setValue(matrix[9] * 2);
-
 	}
 
 }

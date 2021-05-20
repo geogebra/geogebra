@@ -1,5 +1,8 @@
 package org.geogebra.web.editor;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -199,8 +202,8 @@ public class AppWsolver extends AppW implements HasKeyboard {
 	}
 
 	@Override
-	public String getInputBoxFunctionVars() {
-		return "";
+	public List<String> getInputBoxFunctionVars() {
+		return Collections.emptyList();
 	}
 
 	@Override

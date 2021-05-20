@@ -134,7 +134,7 @@ public class NthRoot extends Atom implements HasTrueBase {
 			res.add(r);
 			res.add(negativeKern);
 			res.add(squareRoot);
-			return res;
+			return res.setAtom(this);
 		}
 	}
 

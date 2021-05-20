@@ -5,8 +5,6 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.dom.client.Style.Unit;
-
 /**
  * Tab of Table Values View.
  * 
@@ -23,16 +21,16 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels {
 	 *            toolbar panel
 	 */
 	public TableTab(ToolbarPanel toolbarPanel) {
+		super(toolbarPanel);
 		this.toolbarPanel = toolbarPanel;
 		this.app = toolbarPanel.getApp();
-		tableValuesPanel = new TableValuesPanel(app);
+		tableValuesPanel = new TableValuesPanel(app, this);
 	}
 
 	@Override
 	protected void onActive() {
 		buildGui();
-		tableValuesPanel.setHeight(toolbarPanel.getOffsetHeight()
-				- ToolbarPanel.CLOSED_HEIGHT_PORTRAIT);
+		tableValuesPanel.setHeight(toolbarPanel.getTabHeight());
 	}
 
 	/**
@@ -54,21 +52,19 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels {
 
 	@Override
 	public void close() {
-		toolbarPanel.close();
+		toolbarPanel.close(false);
 	}
 
 	@Override
 	public void onResize() {
 		int w = this.toolbarPanel.getTabWidth();
-		int h = toolbarPanel.getOffsetHeight()
-				- ToolbarPanel.CLOSED_HEIGHT_PORTRAIT;
+		int h = toolbarPanel.getTabHeight();
 		if (w < 0 || h < 0) {
 			return;
 		}
 
-		setWidth(2 * w + "px");
+		setWidth(w + "px");
 		setHeight(h + "px");
-		getElement().getStyle().setLeft(2 * w, Unit.PX);
 		tableValuesPanel.setHeight(h);
 	}
 

@@ -7,7 +7,10 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.RMath.mulHigh;
 import static org.geogebra.common.kernel.interval.RMath.mulLow;
 
+import com.google.j2objc.annotations.Weak;
+
 public class IntervalArithmeticImpl implements IntervalArithmetic {
+	@Weak
 	private final Interval interval;
 
 	public IntervalArithmeticImpl(Interval interval) {

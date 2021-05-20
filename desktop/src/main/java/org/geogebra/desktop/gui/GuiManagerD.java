@@ -31,7 +31,6 @@ import java.util.StringTokenizer;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
-import javax.swing.JApplet;
 import javax.swing.JColorChooser;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -356,11 +355,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (algebraView == null) {
 			initAlgebraController();
 			algebraView = newAlgebraView(algebraController);
-			if (!getApp().isApplet()) {
-				// allow drag & drop of files on algebraView
-				algebraView.setDropTarget(new DropTarget(algebraView,
-						new FileDropTargetListener(getApp())));
-			}
+			// allow drag & drop of files on algebraView
+			algebraView.setDropTarget(new DropTarget(algebraView,
+					new FileDropTargetListener(getApp())));
 		}
 
 		return algebraView;
@@ -773,13 +770,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public void setShowView(boolean flag, int viewId) {
-		setShowView(flag, viewId, true);
+	public void setShowView(boolean visible, int viewId) {
+		setShowView(visible, viewId, true);
 	}
 
 	@Override
-	public void setShowView(boolean flag, int viewId, boolean isPermanent) {
-		if (flag) {
+	public void setShowView(boolean visible, int viewId, boolean isPermanent) {
+		if (visible) {
 			if (!showView(viewId)) {
 				layout.getDockManager().show(viewId);
 			}
@@ -956,9 +953,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			// updateMenubar();
 
 			Component comp = getApp().getMainComponent();
-			if (comp instanceof JApplet) {
-				((JApplet) comp).setJMenuBar(menuBar);
-			} else if (comp instanceof JFrame) {
+			if (comp instanceof JFrame) {
 				((JFrame) comp).setJMenuBar(menuBar);
 			}
 		}
@@ -1045,17 +1040,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public void updateMenuBarLayout() {
 		if ((getApp()).showMenuBar()) {
 			Component comp = getApp().getMainComponent();
-			if (comp instanceof JApplet) {
-				((JApplet) comp).setJMenuBar(menuBar);
-			} else if (comp instanceof JFrame) {
+			if (comp instanceof JFrame) {
 				((JFrame) comp).setJMenuBar(menuBar);
 				((JFrame) comp).validate();
 			}
 		} else {
 			Component comp = getApp().getMainComponent();
-			if (comp instanceof JApplet) {
-				((JApplet) comp).setJMenuBar(null);
-			} else if (comp instanceof JFrame) {
+			if (comp instanceof JFrame) {
 				((JFrame) comp).setJMenuBar(null);
 				((JFrame) comp).validate();
 			}
@@ -1587,7 +1578,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 							if (imageFile != null) {
 								getApp().setCurrentImagePath(
 										imageFile.getParentFile());
-								if (!getApp().isApplet()) {
+								if (true) {
 									GeoGebraPreferencesD.getPref()
 											.saveDefaultImagePath(getApp()
 													.getCurrentImagePath());
@@ -1700,7 +1691,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				dataFile = fileChooser.getSelectedFile();
 				if (dataFile != null) {
 					getApp().setCurrentImagePath(dataFile.getParentFile());
-					if (!getApp().isApplet()) {
+					if (true) {
 						GeoGebraPreferencesD.getPref().saveDefaultImagePath(
 								getApp().getCurrentImagePath());
 					}
@@ -2522,7 +2513,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			((EuclidianView3DInterface) ev).updateAllDrawables();
 		}
 		// force JavaScript ggbOnInit(); to be called
-		if (!getApp().isApplet()) {
+		if (true) {
 			getApp().getScriptManager().ggbOnInit();
 			getApp().centerFrame();
 		}
@@ -2674,13 +2665,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public void showURLinBrowser(URL url) {
-		if (AppD.getJApplet() != null) {
-			Log.debug("opening URL (applet):" + url);
-			AppD.getJApplet().getAppletContext().showDocument(url, "_blank");
-		} else {
-			Log.debug("opening URL:" + url.toExternalForm());
-			BrowserLauncher.openURL(url.toExternalForm());
-		}
+		Log.debug("opening URL:" + url.toExternalForm());
+		BrowserLauncher.openURL(url.toExternalForm());
 	}
 
 	@Override

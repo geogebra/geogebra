@@ -112,10 +112,8 @@ public class ClipLine {
 
 		if ((mask & OUTSIDE) == 0) {
 			// fine. everything's internal
-			ret[0].setX(x1);
-			ret[0].setY(y1);
-			ret[1].setX(x2);
-			ret[1].setY(y2);
+			ret[0].setLocation(x1, y1);
+			ret[1].setLocation(x2, y2);
 			return ret;
 		} else if ((mask & (H_CENTER | LEFT)) == 0 || // everything's right
 				(mask & (H_CENTER | RIGHT)) == 0 || // everything's left
@@ -177,10 +175,8 @@ public class ClipLine {
 			p1y = (y1 + yhack);
 			if (mask == 0) {
 				// both masks are the same, so the second point is inside, too
-				ret2[0].setX(p1x);
-				ret2[0].setY(p1y);
-				ret2[1].setX(x2 + xhack);
-				ret2[1].setY(y2 + yhack);
+				ret2[0].setLocation(p1x, p1y);
+				ret2[1].setLocation(x2 + xhack, y2 + yhack);
 				return ret2;
 			}
 		} else if (mask2 == INSIDE) {
@@ -203,8 +199,7 @@ public class ClipLine {
 					p1x = p.getX();
 					p1y = p.getY();
 				} else {
-					ret2[0].setX(p1x);
-					ret2[0].setY(p1y);
+					ret2[0].setLocation(p1x, p1y);
 					ret2[1] = p;
 					return ret2;
 				}
@@ -220,8 +215,7 @@ public class ClipLine {
 					p1x = p.getX();
 					p1y = p.getY();
 				} else {
-					ret2[0].setX(p1x);
-					ret2[0].setY(p1y);
+					ret2[0].setLocation(p1x, p1y);
 					ret2[1] = p;
 					return ret2;
 				}
@@ -237,8 +231,7 @@ public class ClipLine {
 				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymax, xmax, ymax,
 						ret2[1]);
 				if (p != null) {
-					ret2[0].setX(p1x);
-					ret2[0].setY(p1y);
+					ret2[0].setLocation(p1x, p1y);
 					ret2[1] = p;
 					return ret2;
 				}
@@ -249,8 +242,7 @@ public class ClipLine {
 				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymin, xmax, ymin,
 						ret2[1]);
 				if (p != null) {
-					ret2[0].setX(p1x);
-					ret2[0].setY(p1y);
+					ret2[0].setLocation(p1x, p1y);
 					ret2[1] = p;
 					return ret2;
 				}
@@ -266,8 +258,7 @@ public class ClipLine {
 						p1x = p.getX();
 						p1y = p.getY();
 					} else {
-						ret2[0].setX(p1x);
-						ret2[0].setY(p1y);
+						ret2[0].setLocation(p1x, p1y);
 						ret2[1] = p;
 						return ret2;
 					}
@@ -280,11 +271,9 @@ public class ClipLine {
 						ret2[1]);
 				if (p != null) {
 					if (Double.isNaN(p1x)) {
-						p.setX(p1x);
-						p.setY(p1y);
+						p.setLocation(p1x, p1y);
 					} else {
-						ret2[0].setX(p1x);
-						ret2[0].setY(p1y);
+						ret2[0].setLocation(p1x, p1y);
 						ret2[1] = p;
 						return ret2;
 					}
@@ -336,9 +325,7 @@ public class ClipLine {
 			double mu = ((x11 - x21) * dy1 - (y11 - y21) * dx1) / det;
 			// System.out.println("mu = "+mu);
 			if (mu >= 0.0 && mu <= 1.0) {
-				ret.setX(x21 + mu * dx2 + xhack);
-				ret.setY(y21 + mu * dy2 + yhack);
-
+				ret.setLocation(x21 + mu * dx2 + xhack, y21 + mu * dy2 + yhack);
 				return ret;
 			}
 		}

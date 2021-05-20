@@ -682,7 +682,6 @@ public class InputController {
 			if (currentOffset == currentField.size()
 					&& parent instanceof MathFunction
 					&& ch == ((MathFunction) parent).getClosingBracket()
-					.charAt(0)
 					&& parent.size() == currentField.getParentIndex() + 1) {
 
 				currentOffset = parent.getParentIndex() + 1;
@@ -692,7 +691,6 @@ public class InputController {
 				// after closing character
 			} else if (parent instanceof MathFunction
 					&& ch == ((MathFunction) parent).getClosingBracket()
-					.charAt(0)
 					&& parent.size() == currentField.getParentIndex() + 1) {
 				ArrayList<MathComponent> removed = cut(currentField,
 						currentOffset);
@@ -865,6 +863,8 @@ public class InputController {
 		if (function.getName() == Tag.APPLY || function.getName() == Tag.APPLY_SQUARE) {
 			moveArgumentsAfter(function, editorState, function.getArgument(1));
 			bkspCharacter(editorState);
+		} else if (isEqFunctionWithPlaceholders(function)) {
+			deleteSingleArg(editorState);
 		} else if (functionArg != null) {
 			editorState.setCurrentField(functionArg);
 			functionArg.delArgument(functionArg.size() - 1);
@@ -872,6 +872,11 @@ public class InputController {
 		} else {
 			deleteSingleArg(editorState);
 		}
+	}
+
+	private boolean isEqFunctionWithPlaceholders(MathFunction function) {
+		return function.getName() == Tag.DEF_INT || function.getName() == Tag.SUM_EQ
+				|| function.getName() == Tag.PROD_EQ || function.getName() == Tag.LIM_EQ;
 	}
 
 	private void deleteSingleArg(EditorState editorState) {
@@ -1145,8 +1150,14 @@ public class InputController {
 					|| ch == Unicode.BULLET) {
 				newOperator(editorState, '*');
 				handled = true;
-			} else if (ch == ',') {
-				comma(editorState);
+			} else if (ch == ',' && allowFrac) {
+				if (preventDimensionChange(editorState)) {
+					if (shouldMoveCursor(editorState)) {
+						CursorController.nextCharacter(editorState);
+					}
+				} else {
+					comma(editorState);
+				}
 				handled = true;
 			} else if (meta.isOperator("" + ch)) {
 				newOperator(editorState, ch);
@@ -1193,6 +1204,25 @@ public class InputController {
 		}
 
 		return '\u201c';
+	}
+
+	private boolean preventDimensionChange(EditorState editorState) {
+		MathContainer parent = editorState.getCurrentField().getParent();
+		if (MathArray.isLocked(parent)) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean shouldMoveCursor(EditorState editorState) {
+		int offset = editorState.getCurrentOffset();
+		int sequenceSize = editorState.getCurrentField().size();
+		MathContainer parent = editorState.getCurrentField().getParent();
+		if (parent instanceof MathArray && ((MathArray) parent).separatorIsComma()
+				&& offset == sequenceSize) {
+			return true;
+		}
+		return false;
 	}
 
 	private boolean handleEndBlocks(EditorState editorState, char ch) {

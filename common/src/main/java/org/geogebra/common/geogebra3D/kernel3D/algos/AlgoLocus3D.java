@@ -233,9 +233,7 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 	@Override
 	protected void setQCopyCache(MyPoint3D copy, GeoPointND point) {
 		Coords coords = point.getInhomCoordsInD3();
-		copy.setX(coords.getX());
-		copy.setY(coords.getY());
-		copy.setZ(coords.getZ());
+		copy.setLocation(coords.getX(), coords.getY(), coords.getZ());
 	}
 
 	@Override

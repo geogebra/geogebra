@@ -193,4 +193,21 @@ class VerticalBox extends Box {
 
 		return fontId;
 	}
+
+	@Override
+	public void inspect(BoxConsumer handler, BoxPosition position) {
+		super.inspect(handler, position);
+
+		double yPos = position.y - height;
+		double baseline = position.baseline - height;
+		for (Box box : children) {
+			yPos += box.getHeight();
+			baseline += box.getHeight();
+			BoxPosition current = new BoxPosition(position.x + box.getShift() - leftMostPos,
+					yPos, position.scale, baseline);
+			box.inspect(handler, current);
+			yPos += box.getDepth();
+			baseline += box.getDepth();
+		}
+	}
 }

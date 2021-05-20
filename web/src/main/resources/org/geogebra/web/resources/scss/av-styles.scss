@@ -73,6 +73,51 @@ $duration: 0.2s;
     			}
 			}
 	}
+
+	.customScrollbarSafari, .customScrollbar {
+		&::-webkit-scrollbar {
+			height: 4px;
+			width: 4px;
+		}
+		&:hover::-webkit-scrollbar-thumb {
+			border-radius: 2px;
+		}
+	}
+
+	.customScrollbarSafari {
+		&::-webkit-scrollbar-thumb {
+			background-color: $transparent;
+		}
+		&:hover::-webkit-scrollbar-thumb {
+			background-color: $black-38;
+		}
+	}
+
+	.customScrollbar {
+		scrollbar-width: thin;
+		scrollbar-color: $white $white;
+		color: $transparent;
+		transition: color .25s;
+
+		&::-webkit-scrollbar-track {
+			background: $white;
+		}
+		&::-webkit-scrollbar-thumb {
+			box-shadow: inset 0 0 0 10px;
+		}
+
+		&:hover {
+			scrollbar-color: $black-38 $white;
+			color: $black-38;
+		}
+
+		&>div {
+			// we are overriding color for the whole container (to be used for scrollbar),
+			// so we have to override back for child elements
+			color: $black-87;
+		}
+	}
+
 	.matAvDesign  {
 
 		.matMinMaxPanel {

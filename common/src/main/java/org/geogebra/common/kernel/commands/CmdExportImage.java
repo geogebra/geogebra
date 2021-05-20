@@ -243,6 +243,11 @@ public class CmdExportImage extends CmdScripting {
 			exportScale = 1;
 		}
 
+		// callbacks need final variables
+		final String ffilename = filename;
+		final GeoPoint fcorner = corner;
+		final GeoPoint fcorner2 = corner2;
+
 		switch (type) {
 		default:
 		case PNG:
@@ -277,24 +282,23 @@ public class CmdExportImage extends CmdScripting {
 			}
 
 			break;
+
 		case SVG:
-
-			String svg = api.exportSVG(filename);
-
-			if (label != null) {
-				addImageToConstruction(label, svg, corner, corner2, true);
-			} else if (filename == null) {
-				kernel.getApplication().handleImageExport(svg);
-			}
-
+			api.exportSVG(filename, (svg) -> {
+				if (label != null) {
+					addImageToConstruction(label, svg, fcorner, fcorner2, true);
+				} else if (ffilename == null) {
+					kernel.getApplication().handleImageExport(svg);
+				}
+			});
 			break;
 
 		case PDF_HTML5:
-			String pdf = api.exportPDF(exportScale, filename, sliderName);
-			if (filename == null) {
-				kernel.getApplication().handleImageExport(pdf);
-			}
-
+			api.exportPDF(exportScale, filename, (pdf) -> {
+				if (ffilename == null) {
+					kernel.getApplication().handleImageExport(pdf);
+				}
+			}, sliderName);
 			break;
 
 		case ANIMATED_GIF:

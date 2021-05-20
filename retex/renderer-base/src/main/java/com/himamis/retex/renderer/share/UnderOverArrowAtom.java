@@ -118,8 +118,7 @@ public class UnderOverArrowAtom extends Atom implements HasTrueBase {
 			vb.setHeight(b.getHeight());
 		}
 
-		return vb;
-
+		return vb.setAtom(this);
 	}
 
 	@Override

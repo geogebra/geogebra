@@ -88,4 +88,10 @@ public class ScaleBox extends Box {
 	public FontInfo getLastFont() {
 		return box.getLastFont();
 	}
+
+	@Override
+	public void inspect(BoxConsumer handler, BoxPosition position) {
+		super.inspect(handler, position);
+		box.inspect(handler, position);
+	}
 }

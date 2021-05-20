@@ -413,10 +413,6 @@ public class giac {
     return new gen(giacJNI.select_root(SWIGTYPE_p_giac__vecteur.getCPtr(v), context.getCPtr(arg1), arg1), true);
   }
 
-  public static boolean is_known_rootof(SWIGTYPE_p_giac__vecteur v, gen symroot, context arg2) {
-    return giacJNI.is_known_rootof(SWIGTYPE_p_giac__vecteur.getCPtr(v), gen.getCPtr(symroot), symroot, context.getCPtr(arg2), arg2);
-  }
-
   public static gen alg_evalf(gen a, gen b, context arg2) {
     return new gen(giacJNI.alg_evalf(gen.getCPtr(a), a, gen.getCPtr(b), b, context.getCPtr(arg2), arg2), true);
   }
@@ -427,10 +423,6 @@ public class giac {
 
   public static gen common_EXT(gen a, gen b, SWIGTYPE_p_giac__vecteur l, context arg3) {
     return new gen(giacJNI.common_EXT(gen.getCPtr(a), a, gen.getCPtr(b), b, SWIGTYPE_p_giac__vecteur.getCPtr(l), context.getCPtr(arg3), arg3), true);
-  }
-
-  public static gen common_minimal_POLY(gen ga, gen gb, gen a, gen b, SWIGTYPE_p_int k, context arg5) {
-    return new gen(giacJNI.common_minimal_POLY(gen.getCPtr(ga), ga, gen.getCPtr(gb), gb, gen.getCPtr(a), a, gen.getCPtr(b), b, SWIGTYPE_p_int.getCPtr(k), context.getCPtr(arg5), arg5), true);
   }
 
   public static gen ext_add(gen a, gen b, context arg2) {
@@ -947,18 +939,6 @@ public class giac {
 
   public static boolean intgab_ratfrac(gen e, gen x, gen value, context arg3) {
     return giacJNI.intgab_ratfrac(gen.getCPtr(e), e, gen.getCPtr(x), x, gen.getCPtr(value), value, context.getCPtr(arg3), arg3);
-  }
-
-  public static gen integrate_gen_rem(gen e, gen x, gen remains_to_integrate, context arg3) {
-    return new gen(giacJNI.integrate_gen_rem(gen.getCPtr(e), e, gen.getCPtr(x), x, gen.getCPtr(remains_to_integrate), remains_to_integrate, context.getCPtr(arg3), arg3), true);
-  }
-
-  public static gen integrate_id_rem(gen e, gen x, gen remains_to_integrate, context arg3) {
-    return new gen(giacJNI.integrate_id_rem(gen.getCPtr(e), e, gen.getCPtr(x), x, gen.getCPtr(remains_to_integrate), remains_to_integrate, context.getCPtr(arg3), arg3), true);
-  }
-
-  public static gen linear_integrate(gen e, gen x, gen remains_to_integrate, context arg3) {
-    return new gen(giacJNI.linear_integrate(gen.getCPtr(e), e, gen.getCPtr(x), x, gen.getCPtr(remains_to_integrate), remains_to_integrate, context.getCPtr(arg3), arg3), true);
   }
 
   public static gen integrate_id(gen e, SWIGTYPE_p_giac__identificateur x, context arg2) {

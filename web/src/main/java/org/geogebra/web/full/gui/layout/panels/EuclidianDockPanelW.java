@@ -27,15 +27,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	 *            (is there stylebar?)
 	 */
 	public EuclidianDockPanelW(boolean stylebar) {
-		super(
-				App.VIEW_EUCLIDIAN,	// view id 
-				"DrawingPad", 				// view title
-				null,
-				stylebar, // style bar?
-				true, // zoom panel?
-				5,							// menu order
-				'1' // ctrl-shift-1
-			);
+		super(App.VIEW_EUCLIDIAN, null, stylebar, true);
 
 		//TODO: temporary fix to make applets work until
 		// dockpanels works for applets

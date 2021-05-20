@@ -1027,6 +1027,13 @@ public abstract class DialogManager {
 	}
 
 	/**
+	 * Show h5p dialog in web.
+	 */
+	public void showH5PDialog() {
+		// only needed in web
+	}
+
+	/**
 	 * @param geo
 	 *            function to add to able view after success
 	 */

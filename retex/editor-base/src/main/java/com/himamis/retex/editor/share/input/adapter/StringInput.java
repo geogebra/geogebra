@@ -34,6 +34,7 @@ public abstract class StringInput implements KeyboardAdapter {
             EditorState editorState = mfi.getEditorState();
             InputController inputController = mfi.getInputController();
             inputController.newFunction(editorState, function);
+			mfi.notifyAndUpdate(function);
         }
     }
 }

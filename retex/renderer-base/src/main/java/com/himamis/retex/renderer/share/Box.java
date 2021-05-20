@@ -48,8 +48,6 @@
 
 package com.himamis.retex.renderer.share;
 
-import java.util.ArrayList;
-
 import com.himamis.retex.renderer.share.platform.Geom;
 import com.himamis.retex.renderer.share.platform.Graphics;
 import com.himamis.retex.renderer.share.platform.geom.Area;
@@ -371,30 +369,16 @@ public abstract class Box {
 				+ depth + ";s=" + shift;
 	}
 
-	public void setAtom(final Atom atom) {
+	public Box setAtom(final Atom atom) {
 		this.atom = atom;
+		return this;
 	}
 
 	public Atom getAtom() {
 		return this.atom;
 	}
 
-	public void getPath(double x, double y, ArrayList<Integer> list) {
-		// unimplemented, needed for experimental branch of the editor
+	public void inspect(BoxConsumer handler, BoxPosition position) {
+		handler.handle(this, position);
 	}
-
-	public Box getChild(int i) {
-		// unimplemented, needed for experimental branch of the editor
-		return null;
-	}
-
-	public int getCount() {
-		// unimplemented, needed for experimental branch of the editor
-		return 0;
-	}
-
-	public void getSelectedPath(ArrayList<Integer> list, int i) {
-		// unimplemented, needed for experimental branch of the editor
-	}
-
 }
