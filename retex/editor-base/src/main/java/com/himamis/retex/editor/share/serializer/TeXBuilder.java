@@ -308,16 +308,6 @@ public class TeXBuilder {
 		}
 	}
 
-	public Atom build(MathSequence rootComponent, MathSequence currentField1, boolean textMode) {
-		this.currentField = currentField1;
-		this.atomToComponent = new HashMap<>();
-		Atom root = build(rootComponent);
-		if (textMode) {
-			return new RomanAtom(new TextStyleAtom(root, TextStyle.MATHNORMAL));
-		}
-		return root;
-	}
-
 	private Atom buildFunction(MathFunction argument) {
 		switch (argument.getName()) {
 		case SUPERSCRIPT:
@@ -410,6 +400,23 @@ public class TeXBuilder {
 		// the resize atom is just a hack so that the RowAtom is not destroyed
 		// when added to another row atom
 		return new ResizeAtom(new RowAtom(atoms), null, null);
+	}
+
+	/**
+	 * @param rootComponent
+	 *            root
+	 * @param currentField1
+	 *            selected field
+	 * @return atom representing the whole sequence
+	 */
+	public Atom build(MathSequence rootComponent, MathSequence currentField1, boolean textMode) {
+		this.currentField = currentField1;
+		this.atomToComponent = new HashMap<>();
+		Atom root = build(rootComponent);
+		if (textMode) {
+			return new RomanAtom(new TextStyleAtom(root, TextStyle.MATHNORMAL));
+		}
+		return root;
 	}
 
 	/**
