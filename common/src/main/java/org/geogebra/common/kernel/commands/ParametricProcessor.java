@@ -321,8 +321,8 @@ public class ParametricProcessor {
 				eq.setForceLine();
 				eq.initEquation();
 				eq.setLabel(label);
-				Traversing.GeoNumericReplacer repl = Traversing.GeoNumericReplacer.getReplacer(locVar,
-				fv[0], kernel);
+				Traversing.GeoNumericReplacer repl = Traversing.GeoNumericReplacer
+						.getReplacer(locVar, fv[0], kernel);
 				// replace GeoNumeric with function variable
 				exp.traverse(repl);
 				GeoElement[] line = ap.processLine(eq, buildParamEq(exp), info);
