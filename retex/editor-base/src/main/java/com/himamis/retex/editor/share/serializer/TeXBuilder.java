@@ -308,6 +308,16 @@ public class TeXBuilder {
 		}
 	}
 
+	public Atom build(MathSequence rootComponent, MathSequence currentField1, boolean textMode) {
+		this.currentField = currentField1;
+		this.atomToComponent = new HashMap<>();
+		Atom root = build(rootComponent);
+		if (textMode) {
+			return new RomanAtom(new TextStyleAtom(root, TextStyle.MATHNORMAL));
+		}
+		return root;
+	}
+
 	private Atom buildFunction(MathFunction argument) {
 		switch (argument.getName()) {
 		case SUPERSCRIPT:

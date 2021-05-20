@@ -1150,7 +1150,7 @@ public class InputController {
 					|| ch == Unicode.BULLET) {
 				newOperator(editorState, '*');
 				handled = true;
-			} else if (ch == ',' && allowFrac) {
+			} else if (ch == ',') {
 				if (preventDimensionChange(editorState)) {
 					if (shouldMoveCursor(editorState)) {
 						CursorController.nextCharacter(editorState);
