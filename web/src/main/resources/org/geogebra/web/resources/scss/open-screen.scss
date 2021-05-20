@@ -520,14 +520,6 @@
 		    	}
 			}
 
-			.temporaryMaterialPanel {
-				@extend .materialPanel;
-				top: 24px;
-				.materialCard {
-					height: 174px; // 206px - 32px
-				}
-			}
-
 			.emptyMaterialListInfo {
 				margin: 0 auto;
 				.fileViewButtonPanel {
@@ -603,6 +595,16 @@
 					}
 				}
 			}		
+		}
+	}
+
+	.openFileView.examTemporaryFiles {
+		.materialPanel {
+			top: 16px;
+
+			.materialCard {
+				height: 174px; // 206px - 32px
+			}
 		}
 	}
 }

@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class FileViewCommon extends MyHeaderPanel {
 
-	private AppW app;
+	private final AppW app;
 	private final String title;
 	// header
 	private HeaderView headerView;
@@ -27,7 +27,6 @@ public class FileViewCommon extends MyHeaderPanel {
 	private final LocalizationW loc;
 
 	/**
-	 *
 	 * @param app the application
 	 * @param title the header title key.
 	 */
@@ -48,7 +47,7 @@ public class FileViewCommon extends MyHeaderPanel {
 
 	private void initMaterialPanel() {
 		materialPanel = new FlowPanel();
-		materialPanel.addStyleName("temporaryMaterialPanel");
+		materialPanel.addStyleName("materialPanel");
 	}
 
 	private void initHeader() {
