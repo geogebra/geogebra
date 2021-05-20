@@ -44,21 +44,21 @@
 			padding-bottom: 40px;
 			float: right;
 		}
-	
-	}
-	.small{
-		width: 100%;
-		height: 48px;
-		bottom: -48px;
-		border-radius: 0px;
-		.manualLink {
-			padding-top: 0px;
-			padding-bottom: 0px;
-		}
-		.warning{
-			padding-top: 0px;
-			padding-bottom: 0px;
-			float: right;
+
+		&.small{
+			width: 100%;
+			height: 48px;
+			bottom: -48px;
+			border-radius: 0px;
+			.manualLink {
+				padding-top: 0px;
+				padding-bottom: 0px;
+			}
+			.warning{
+				padding-top: 0px;
+				padding-bottom: 0px;
+				float: right;
+			}
 		}
 	}
 		

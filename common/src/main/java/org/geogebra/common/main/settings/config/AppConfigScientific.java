@@ -163,4 +163,9 @@ public class AppConfigScientific extends AppConfigGraphing {
 	public boolean hasLabelForDescription() {
 		return true;
 	}
+
+	@Override
+	public boolean hasEuclidianView() {
+		return false;
+	}
 }

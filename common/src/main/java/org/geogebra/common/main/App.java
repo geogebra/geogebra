@@ -805,7 +805,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	protected void fillCommandDict() {
 		getLocalization().initCommand();
-		if (!getLocalization().isCommandChanged()) {
+		if (!getLocalization().isCommandChanged() && commandDict != null) {
 			return;
 		}
 		// translation table for all command names in command.properties
@@ -1740,7 +1740,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * Show localized message for an error.
-	 * 
+	 *
 	 * @param key   main error
 	 * @param error extra information
 	 */
@@ -1750,7 +1750,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * Show localized message for an error.
-	 * 
+	 *
 	 * @param key main error
 	 */
 	public void showError(Errors key) {
@@ -2464,10 +2464,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			}
 
 			// if showMenuBar is false, we can still update the style bars
-			if (EuclidianConstants
-					.isMoveOrSelectionMode(getActiveEuclidianView().getMode())
-					|| getActiveEuclidianView()
-							.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
+			EuclidianView ev = getActiveEuclidianView();
+			if (ev != null
+					&& (EuclidianConstants.isMoveOrSelectionMode(ev.getMode())
+					|| ev.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW)) {
 				updateStyleBars();
 			}
 
@@ -3875,9 +3875,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case MOW_PEN_EVENTS:
 			return false;
 
-		case MOW_DIRECT_FORMULA_CONVERSION:
-			return false;
-
 		// **********************************************************************
 		// MOW END
 		// *********************************************************
@@ -3921,9 +3918,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case AUTOLABEL_CAS_SETTINGS:
 			return true;
 
-		/** APPS-1035 */
-		case SYMBOLIC_INPUTFIELDS:
-			return true;
 		// **********************************************************************
        // G3D START
        //

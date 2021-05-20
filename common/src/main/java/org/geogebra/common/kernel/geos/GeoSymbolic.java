@@ -154,10 +154,15 @@ public class GeoSymbolic extends GeoElement
 
 	private String getNumericValueString(StringTemplate tpl) {
 		assert hasNumericValue();
-		if (numericValue != null) {
+		GeoElementND twin = getTwinGeo();
+		if (twin != null && twin.isGeoAngle()) {
+			return twin.toValueString(tpl);
+		} else if (numericValue != null) {
 			return numericValue.toValueString(tpl);
+		} else {
+			assert twin != null;
+			return twin.toValueString(tpl);
 		}
-		return getTwinGeo().toValueString(tpl);
 	}
 
 	@Override
@@ -222,6 +227,7 @@ public class GeoSymbolic extends GeoElement
 			casResult = evaluateGeoGebraCAS(casInput, constant);
 		}
 
+		setSymbolicMode(!isTopLevelCommandNumeric(), false);
 		casOutputString = casResult;
 		ExpressionValue casOutput = parseOutputString(casResult);
 		setValue(casOutput);
@@ -231,6 +237,11 @@ public class GeoSymbolic extends GeoElement
 		isTwinUpToDate = false;
 		isEuclidianShowable = shouldBeEuclidianVisible(casInput);
 		numericValue = maybeComputeNumericValue(casOutput);
+	}
+
+	private boolean isTopLevelCommandNumeric() {
+		return getDefinition().getTopLevelCommand() != null
+				&& Commands.NSolve.name().equals(getDefinition().getTopLevelCommand().getName());
 	}
 
 	private Command getCasInput(ExpressionValue casInputArg) {
@@ -463,7 +474,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private ExpressionNode getNodeFromOutput() throws ParseException {
-		return kernel.getParser().parseGiac(casOutputString).wrap();
+		return kernel.getParser().parseGeoGebraExpression(casOutputString).wrap();
 	}
 
 	private ExpressionNode getNodeFromInput() {
@@ -497,6 +508,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private GeoElement process(ExpressionNode expressionNode) throws Exception {
+		registerFunctionVariablesIfHasFunction(expressionNode);
 		expressionNode.traverse(Traversing.GgbVectRemover.getInstance());
 		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
 		if (algebraProcessor.hasVectorLabel(this)) {
@@ -512,6 +524,19 @@ public class GeoSymbolic extends GeoElement
 			cons.unregisterEuclidianViewCE(this);
 		}
 		return result;
+	}
+
+	private void registerFunctionVariablesIfHasFunction(ExpressionNode functionExpression) {
+		Function function =
+				functionExpression.isLeaf() && functionExpression.getLeft() instanceof Function
+						? (Function) functionExpression.getLeft()
+						: null;
+		FunctionVariable[] variables = function != null ? function.getFunctionVariables() : null;
+		if (variables != null) {
+			for (FunctionVariable functionVariable : variables) {
+				cons.registerFunctionVariable(functionVariable.getSetVarString());
+			}
+		}
 	}
 
 	private GeoElement toGeoList(GeoElement[] elements) {
@@ -832,7 +857,7 @@ public class GeoSymbolic extends GeoElement
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return twinGeo != null
-				? twinGeo.toLaTeXString(symbolic, tpl)
+				? twinGeo.toLaTeXString(symbolic, isSymbolicMode(), tpl)
 				: symbolic ? getDefinition(tpl) : toValueString(tpl);
 	}
 

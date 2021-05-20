@@ -6,7 +6,10 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HIGH;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_LOW;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE_LOW;
 
+import com.google.j2objc.annotations.Weak;
+
 class IntervalTrigonometric {
+	@Weak
 	private Interval interval;
 
 	IntervalTrigonometric(Interval interval) {

@@ -2,10 +2,13 @@ package org.geogebra.common.kernel.interval;
 
 import org.geogebra.common.plugin.Operation;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Evaluates expression using interval arithmetic
  */
 class IntervalEvaluate {
+	@Weak
 	private final Interval interval;
 
 	/**

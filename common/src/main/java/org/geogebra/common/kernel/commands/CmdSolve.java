@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 
 /**
  * Allows use of CAS commands Solve and NSolve in input bar
- * 
  * @author Zbynek
  */
 public class CmdSolve extends CommandProcessor {
@@ -17,10 +16,8 @@ public class CmdSolve extends CommandProcessor {
 	private Commands type;
 
 	/**
-	 * @param kernel
-	 *            kernel
-	 * @param command
-	 *            one of (N?)Solve, (N?)Solutions
+	 * @param kernel kernel
+	 * @param command one of (N?)Solve, (N?)Solutions
 	 */
 	public CmdSolve(Kernel kernel, Commands command) {
 		super(kernel);
@@ -38,8 +35,9 @@ public class CmdSolve extends CommandProcessor {
 					|| type == Commands.PlotSolve) {
 				throw argNumErr(c);
 			}
-			if (args[1] instanceof EquationValue) {
-				return solve(args[0], args[1], c, info);
+			GeoElement arg1 = args[1];
+			if (arg1 instanceof EquationValue || arg1 instanceof GeoFunction) {
+				return solve(args[0], arg1, c, info);
 			}
 		}
 		throw argNumErr(c);

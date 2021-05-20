@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoElement;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -63,6 +64,11 @@ public class AccessibleCheckbox implements AccessibleWidget {
 	@Override
 	public void setFocus(boolean focused) {
 		checkbox.setFocus(focused);
+	}
+
+	@Override
+	public boolean isCompatible(GeoElement geo) {
+		return true;
 	}
 
 }

@@ -2,110 +2,177 @@ package com.himamis.retex.editor.share.serializer;
 
 import java.util.HashMap;
 
+import com.himamis.retex.editor.share.editor.SyntaxAdapter;
+import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.util.Unicode;
+import com.himamis.retex.renderer.share.AccentedAtom;
+import com.himamis.retex.renderer.share.ArrayOfAtoms;
 import com.himamis.retex.renderer.share.Atom;
-import com.himamis.retex.renderer.share.Colors;
-import com.himamis.retex.renderer.share.CursorAtom;
+import com.himamis.retex.renderer.share.CharAtom;
+import com.himamis.retex.renderer.share.ColorAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
+import com.himamis.retex.renderer.share.EnvArray;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.NthRoot;
+import com.himamis.retex.renderer.share.PhantomAtom;
+import com.himamis.retex.renderer.share.ResizeAtom;
+import com.himamis.retex.renderer.share.RomanAtom;
 import com.himamis.retex.renderer.share.RowAtom;
+import com.himamis.retex.renderer.share.SMatrixAtom;
+import com.himamis.retex.renderer.share.ScaleAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
-import com.himamis.retex.renderer.share.SelectionAtom;
 import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
+import com.himamis.retex.renderer.share.Symbols;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXParser;
+import com.himamis.retex.renderer.share.TextStyle;
+import com.himamis.retex.renderer.share.TextStyleAtom;
+import com.himamis.retex.renderer.share.UnderOverArrowAtom;
+import com.himamis.retex.renderer.share.UnderscoreAtom;
+import com.himamis.retex.renderer.share.commands.CommandOpName;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
  * Directly convert MathComponents into atoms
  * 
- * @author Zbynek
+ * @author Zbynek & Agoston
  *
  */
 public class TeXBuilder {
 
-	private MathSequence currentField;
-	private int currentOffset;
-	private HashMap<Atom, MathComponent> atomToComponent;
-	private MathComponent selectionStart;
-	private MathComponent selectionEnd;
-	private TeXParser parser;
+	public static final MathComponent SELECTION = new MathSequence() {
+		@Override
+		public String toString() {
+			return "SELECTION";
+		}
+	};
 
-	private Atom buildSequence(MathSequence mathFormula) {
-		return buildSequence(mathFormula, 0, mathFormula.size() - 1);
+	private MathSequence currentField;
+	private HashMap<Atom, MathComponent> atomToComponent;
+	private final TeXParser parser;
+	private final TeXSerializer teXSerializer;
+
+	private final static HashMap<Character, String> replacements = new HashMap<>();
+
+	static {
+		replacements.put('%', "textpercent");
+		replacements.put('$', "textdollar");
+		replacements.put('&', "textampersand");
 	}
 
-	private Atom buildSequence(MathSequence mathFormula, int from, int to) {
-		RowAtom ra = new RowAtom((Atom) null);
-		int i = from;
-		if (mathFormula == currentField && to < from) {
-			addCursor(ra);
-		}
-		while (i <= to) {
-			if (mathFormula == currentField && i == 0 && currentOffset == 0) {
-				addCursor(ra);
-			}
+	/**
+	 * New formula to atom converter
+	 */
+	public TeXBuilder() {
+		parser = new TeXParser("");
+		teXSerializer = new TeXSerializer();
+	}
 
-			if (mathFormula.isScript(i + 1)) {
+	private Atom buildSequence(MathSequence mathFormula) {
+		RowAtom ra = new RowAtom();
+
+		if (mathFormula.size() == 0) {
+			Atom a;
+			if (mathFormula == currentField) {
+				Atom placeholder = new CharAtom('1');
+				atomToComponent.put(placeholder, SELECTION);
+				a = new ScaleAtom(new PhantomAtom(placeholder), 0.1, 1);
+			} else {
+				a = getPlaceholder(mathFormula);
+			}
+			ra.add(a);
+			return ra;
+		}
+
+		for (int i = 0; i < mathFormula.size(); i++) {
+			if (mathFormula.getArgument(i).hasTag(Tag.SUPERSCRIPT)) {
+				Atom sup = build(((MathFunction) mathFormula.getArgument(i)).getArgument(0));
+				Atom tmp = addToSup(ra.getLastAtom(), sup);
+				atomToComponent.put(tmp, mathFormula.getArgument(i));
+				ra.add(tmp);
+				continue;
+			} else if (mathFormula.getArgument(i).hasTag(Tag.SUBSCRIPT)) {
+				Atom sub = build(((MathFunction) mathFormula.getArgument(i)).getArgument(0));
+				Atom tmp = addToSub(ra.getLastAtom(), sub);
+				atomToComponent.put(tmp, mathFormula.getArgument(i));
+				ra.add(tmp);
 				continue;
 			}
 
-			if (mathFormula.getArgument(i) == selectionStart) {
-				selectionStart = null;
-				SelectionAtom sa = new SelectionAtom(
-						buildSequence(mathFormula, i,
-								selectionEnd.getParentIndex()),
-						Colors.SELECTION, null);
-				ra.add(sa);
-				i = selectionEnd.getParentIndex();
-			} else {
-				addArg(ra, mathFormula.getArgument(i));
+			Atom argument = build(mathFormula.getArgument(i));
+
+			// same ugly hack for ln as we have in TeXSerializer
+			if (argument instanceof CharAtom
+					&& ((CharAtom) argument).getCharacter() == 'n'
+					&& ra.last() instanceof CharAtom
+					&& ((CharAtom) ra.last()).getCharacter() == 'l') {
+				Atom last = ra.getLastAtom();
+				ra.add(new RomanAtom(new RowAtom(last, argument)));
+				continue;
 			}
 
-			if (mathFormula == currentField && i == currentOffset - 1
-					&& selectionEnd == null) {
-				addCursor(ra);
-			}
-			i++;
+			ra.add(argument);
 		}
-		if (mathFormula == currentField
-				&& currentOffset == currentField.size()) {
-			addCursor(ra);
-		}
+
 		return ra;
-
 	}
 
-	private void addArg(RowAtom ra, MathComponent argument) {
-		if (argument instanceof MathCharacter
-				&& ((MathCharacter) argument).getUnicode() == '=') {
-			ra.add(space());
-			ra.add(build(argument));
-			ra.add(space());
-		} else {
-			ra.add(build(argument));
+	private Atom getPlaceholder(MathSequence sequence) {
+		MathContainer parent = sequence.getParent();
+		if (parent == null
+				|| (parent instanceof MathArray	&& parent.size() == 1)) {
+			return getInvisiblePlaceholder();
+		}
+		if (parent instanceof MathFunction) {
+			Tag fn = ((MathFunction) parent).getName();
+			if (fn == Tag.APPLY || fn == Tag.LOG) {
+				return getInvisiblePlaceholder();
+			}
 		}
 
+		return getPlaceholderBox();
 	}
 
-	private static void addCursor(RowAtom ra) {
-		ra.add(new CursorAtom(FactoryProvider.getInstance().getGraphicsFactory()
-				.createColor(0, 80, 0), 0.9));
+	private Atom getInvisiblePlaceholder() {
+		return new PhantomAtom(new CharAtom('1'));
+	}
 
+	private Atom getPlaceholderBox() {
+		return new ColorAtom(
+				new ScaleAtom(new PhantomAtom(new CharAtom('g')), 1, 1.6),
+				FactoryProvider.getInstance().getGraphicsFactory().createColor(0xDCDCDC),
+				null
+		);
+	}
+
+	private Atom addToSub(Atom lastAtom, Atom sub) {
+		if (lastAtom instanceof ScriptsAtom) {
+			((ScriptsAtom) lastAtom).addToSub(sub);
+			return lastAtom;
+		}
+		return new ScriptsAtom(lastAtom, sub, new RowAtom());
+	}
+
+	private Atom addToSup(Atom lastAtom, Atom sup) {
+		if (lastAtom instanceof ScriptsAtom) {
+			((ScriptsAtom) lastAtom).addToSup(sup);
+			return lastAtom;
+		}
+		return new ScriptsAtom(lastAtom, null, sup);
 	}
 
 	private Atom build(MathComponent argument) {
 		Atom ret = null;
 		if (argument instanceof MathCharacter) {
-			ret = newCharAtom(((MathCharacter) argument).getUnicode());
+			ret = newCharAtom((MathCharacter) argument);
 		} else if (argument instanceof MathFunction) {
 			ret = buildFunction((MathFunction) argument);
 		} else if (argument instanceof MathArray) {
@@ -115,130 +182,224 @@ public class TeXBuilder {
 		} else {
 			ret = new EmptyAtom();
 		}
-		atomToComponent.put(ret, argument);
+
+		if (!atomToComponent.containsKey(ret)) {
+			atomToComponent.put(ret, argument);
+		}
 		return ret;
 	}
 
-	// private Atom newCharAtom(char unicode) {
-	// if (parser == null) {
-	// TeXFormula tf = new TeXFormula();
-	// parser = new TeXParser("", tf);
-	// }
-	// Atom ret = parser.convertCharacter(unicode, false);
-	// if (ret instanceof SymbolAtom) {
-	// ret = ret.duplicate();
-	// }
-	// return ret;
-	// }
+	private Atom newCharAtom(MathCharacter character) {
+		if ("\\cdot{}".equals(character.getTexName())) {
+			return SymbolAtom.get("cdot").duplicate();
+		}
+
+		return newCharAtom(character.getUnicode());
+	}
 
 	private Atom newCharAtom(char unicode) {
-		if (parser == null) {
-			parser = new TeXParser("");
+		switch (unicode) {
+		case ' ':
+			return new SpaceAtom();
+		case '^':
+			return new AccentedAtom(new SpaceAtom(), Symbols.HAT);
+		case '_':
+			return new UnderscoreAtom();
 		}
-		Atom ret = parser.getAtomFromUnicode(unicode, false);
+
+		String replacement = replacements.get(unicode);
+		if (replacement != null) {
+			return SymbolAtom.get(replacement).duplicate();
+		}
+
+		Atom ret = parser.getAtomFromUnicode(unicode, true);
 		if (ret instanceof SymbolAtom) {
 			ret = ((SymbolAtom) ret).duplicate();
 		}
-		return ret;
+
+		// apply wrapping hack on symbols
+		return new ResizeAtom(ret, null, null);
 	}
 
-	private static Atom space() {
-		return new SpaceAtom();
+	private Atom buildArray(MathArray array) {
+		if (array.isMatrix()) {
+			final SymbolAtom op = SymbolAtom.get(lookupBracket('('));
+			final SymbolAtom cl = SymbolAtom.get(lookupBracket(')'));
+
+			ArrayOfAtoms atoms = new ArrayOfAtoms();
+			for (int i = 0; i < array.rows(); i++) {
+				for (int j = 0; j < array.columns(); j++) {
+					if (j != 0) {
+						atoms.add(EnvArray.ColSep.get());
+					}
+					atoms.add(build(array.getArgument(i, j)));
+				}
+				atoms.add(EnvArray.RowSep.get());
+			}
+			atoms.checkDimensions();
+
+			final Atom mat = new SMatrixAtom(atoms, false);
+			return new FencedAtom(mat, op, cl);
+		} else if (array.getOpenKey() == '"') {
+			Atom argument = new RowAtom(newCharAtom(Unicode.OPEN_DOUBLE_QUOTE),
+					build(array.getArgument(0)), newCharAtom(Unicode.CLOSE_DOUBLE_QUOTE));
+
+			return new RomanAtom(new TextStyleAtom(argument, TextStyle.MATHNORMAL));
+		} else {
+			return buildFenced(array.getOpenKey(), array.getCloseKey(), array, 0);
+		}
 	}
 
-	private Atom buildArray(MathArray argument) {
-		String leftKey = "lbrack";
-		if (argument.getOpenKey() == '[') {
-			leftKey = "lsqbrack";
+	private Atom buildString(String str) {
+		RowAtom atom = new RowAtom();
+		for (char c : str.toCharArray()) {
+			atom.add(newCharAtom(c));
 		}
-		if (argument.getOpenKey() == '{') {
-			leftKey = "lbrace";
-		}
-		String rightKey = "rbrack";
-		if (argument.getCloseKey() == ']') {
-			rightKey = "rsqbrack";
-		}
-		if (argument.getCloseKey() == '}') {
-			rightKey = "rbrace";
-		}
-
-		return buildFenced(leftKey, rightKey, argument, 0);
+		return atom;
 	}
 
-	private Atom buildFenced(String leftKey, String rightKey,
+	private Atom buildFenced(char leftKey, char rightKey,
 			MathContainer argument, int offset) {
 		RowAtom row = new RowAtom((Atom) null);
 		for (int i = offset; i < argument.size(); i++) {
-			if (i > 0) {
+			if (i > offset) {
 				row.add(newCharAtom(','));
 			}
-			addArg(row, argument.getArgument(i));
+			row.add(build(argument.getArgument(i)));
 		}
 		return new FencedAtom(row,
-				new SymbolAtom(leftKey, TeXConstants.TYPE_OPENING,
-						lookupBracket(leftKey)),
-				new SymbolAtom(rightKey, TeXConstants.TYPE_CLOSING,
-						lookupBracket(rightKey)));
+				new SymbolAtom(lookupBracket(leftKey), TeXConstants.TYPE_OPENING,
+						leftKey),
+				new SymbolAtom(lookupBracket(rightKey), TeXConstants.TYPE_CLOSING,
+						rightKey));
 	}
 
-	private static char lookupBracket(String bracket) {
+	private static String lookupBracket(char bracket) {
 		switch (bracket) {
-
-		case "lbrack":
-			return '(';
-		case "rbrack":
-			return ')';
-		case "lbrace":
-			return '{';
-		case "rbrace":
-			return '}';
-		case "lsqbrack":
-			return '[';
-		case "rsqbrack":
-			return ']';
-		case "langle":
-			return '\u3008';
-		case "rangle":
-			return '\u3009';
-			
-			default: 
-			FactoryProvider.getInstance()
-					.debug("missing case in lookupBracket()");
-			return '?';
-
+		case '(':
+			return "lbrack";
+		case ')':
+			return "rbrack";
+		case '{':
+			return "lbrace";
+		case '}':
+			return "rbrace";
+		case '[':
+			return "lsqbrack";
+		case ']':
+			return "rsqbrack";
+		case '\u3008':
+			return "langle";
+		case '\u3009':
+			return "rangle";
+		case '\u2308':
+			return "lceil";
+		case '\u2309':
+			return "rceil";
+		case '\u230A':
+			return "lfloor";
+		case '\u230B':
+			return "rfloor";
+		case '|':
+			return "vert";
+		default:
+			FactoryProvider.debugS("missing case in lookupBracket()");
+			return "";
 		}
 	}
 
 	private Atom buildFunction(MathFunction argument) {
 		switch (argument.getName()) {
 		case SUPERSCRIPT:
-			MathSequence parent = argument.getParent();
-			int idx = argument.getParentIndex();
-			return new ScriptsAtom(build(parent.getArgument(idx - 1)), null,
-					build(argument.getArgument(0)));
+			return new ScriptsAtom(
+					new EmptyAtom(),
+					null,
+					build(argument.getArgument(0))
+			);
 		case SUBSCRIPT:
-			parent = argument.getParent();
-			idx = argument.getParentIndex();
-			return new ScriptsAtom(build(parent.getArgument(idx - 1)),
-					build(argument.getArgument(0)), null);
+			return new ScriptsAtom(
+					new EmptyAtom(),
+					build(argument.getArgument(0)),
+					null
+			);
 		case FRAC:
 			return new FractionAtom(build(argument.getArgument(0)),
 					build(argument.getArgument(1)));
 		case SQRT:
 			return new NthRoot(build(argument.getArgument(0)), new EmptyAtom());
+		case CBRT:
+			return new NthRoot(build(argument.getArgument(0)), newCharAtom('3'));
 		case NROOT:
-
 			return new NthRoot(build(argument.getArgument(1)),
 					build(argument.getArgument(0)));
+		case LOG:
+			Atom log = new RomanAtom(buildString("log"));
+			if (argument.getArgument(0).size() > 0
+					|| currentField == argument.getArgument(0)) {
+				log = new ScriptsAtom(log, build(argument.getArgument(0)), new RowAtom());
+			}
+
+			return wrap(
+					log,
+					buildFenced('(', ')', argument, 1)
+			);
+		case ABS:
+			return buildFenced('|', '|', argument, 0);
+		case FLOOR:
+			return buildFenced('\u230A', '\u230B', argument, 0);
+		case CEIL:
+			return buildFenced('\u2308', '\u2309', argument, 0);
+		case DEF_INT:
+			return new ScriptsAtom(
+					Symbols.INT.duplicate(),
+					build(argument.getArgument(0)),
+					build(argument.getArgument(1))
+			);
+		case SUM_EQ:
+			Atom sum = newCharAtom('\u2211');
+			sum.type_limits = TeXConstants.SCRIPT_NORMAL;
+			return new ScriptsAtom(
+					sum,
+					build(argument.getArgument(0)),
+					build(argument.getArgument(1))
+			);
+		case PROD_EQ:
+			Atom prod = newCharAtom('\u220F');
+			prod.type_limits = TeXConstants.SCRIPT_NORMAL;
+			return new ScriptsAtom(
+					prod,
+					build(argument.getArgument(0)),
+					build(argument.getArgument(1))
+			);
+		case LIM_EQ:
+			return new ScriptsAtom(
+					CommandOpName.createOperation("lim", null, true),
+					build(argument.getArgument(0)),
+					null
+			);
+		case VEC:
+			return new UnderOverArrowAtom(build(argument.getArgument(0)), false, true);
 		default:
-			RowAtom row = new RowAtom((Atom) null);
+			StringBuilder functionName = new StringBuilder();
+			teXSerializer.serialize(argument.getArgument(0), functionName);
+			Atom function = build(argument.getArgument(0));
 
-			row.add(build(argument.getArgument(0)));
+			if (teXSerializer.isFunction(functionName.toString())) {
+				function = new RomanAtom(function);
+			}
 
-			row.add(buildFenced("lbrack", "rbrack", argument, 1));
-			return row;
-
+			return wrap(
+				function,
+				buildFenced(argument.getOpeningBracket(), argument.getClosingBracket(),
+						argument, 1)
+			);
 		}
+	}
+
+	private Atom wrap(Atom... atoms) {
+		// the resize atom is just a hack so that the RowAtom is not destroyed
+		// when added to another row atom
+		return new ResizeAtom(new RowAtom(atoms), null, null);
 	}
 
 	/**
@@ -246,22 +407,28 @@ public class TeXBuilder {
 	 *            root
 	 * @param currentField1
 	 *            selected field
-	 * @param currentOffset1
-	 *            cursor offset within currentField
-	 * @param selectionStart1
-	 *            first selected atom
-	 * @param selectionEnd1
-	 *            last selected atom
 	 * @return atom representing the whole sequence
 	 */
-	public Atom build(MathSequence rootComponent, MathSequence currentField1,
-			int currentOffset1, MathComponent selectionStart1,
-			MathComponent selectionEnd1) {
+	public Atom build(MathSequence rootComponent, MathSequence currentField1, boolean textMode) {
 		this.currentField = currentField1;
-		this.currentOffset = currentOffset1;
 		this.atomToComponent = new HashMap<>();
-		this.selectionStart = selectionStart1;
-		this.selectionEnd = selectionEnd1;
+		Atom root = build(rootComponent);
+		if (textMode) {
+			return new RomanAtom(new TextStyleAtom(root, TextStyle.MATHNORMAL));
+		}
+		return root;
+	}
+
+	/**
+	 * @param rootComponent
+	 *            root
+	 * @param currentField1
+	 *            selected field
+	 * @return atom representing the whole sequence
+	 */
+	public Atom build(MathSequence rootComponent, MathSequence currentField1) {
+		this.currentField = currentField1;
+		this.atomToComponent = new HashMap<>();
 		return build(rootComponent);
 	}
 
@@ -273,8 +440,10 @@ public class TeXBuilder {
 	 * @return corresponding component
 	 */
 	public MathComponent getComponent(Atom atom) {
-		// TODO Auto-generated method stub
 		return atomToComponent.get(atom);
 	}
 
+	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
+		teXSerializer.setSyntaxAdapter(syntaxAdapter);
+	}
 }

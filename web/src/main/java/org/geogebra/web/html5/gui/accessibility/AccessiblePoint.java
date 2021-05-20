@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
@@ -92,6 +93,11 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 	@Override
 	public void setFocus(boolean focus) {
 		sliders.get(0).setFocus(focus);
+	}
+
+	@Override
+	public boolean isCompatible(GeoElement geo) {
+		return true;
 	}
 
 }

@@ -21,11 +21,9 @@ import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.gui.util.SliderInputHandler;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
-import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -34,10 +32,14 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.himamis.retex.renderer.web.graphics.JLMContext2d;
+import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
+
+import elemental2.dom.HTMLImageElement;
+import jsinterop.base.Js;
 
 public class ColorChooserW extends FlowPanel implements ICustomColor {
 
@@ -56,7 +58,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	public static final double BORDER_WIDTH = 2;
 	public static final double PREVIEW_BORDER_WIDTH = 14;
 	Canvas canvas;
-	Context2d ctx;
+	JLMContext2d ctx;
 	Dimension colorIconSize;
 	int padding;
 	List<ColorTable> tables;
@@ -88,7 +90,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		private List<GColor> palette;
 		private int width;
 		private int height;
-		private ImageElement checkMark;
+		private HTMLImageElement checkMark;
 		private int checkX;
 		private int checkY;
 		private boolean checkNeeded;
@@ -122,9 +124,9 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			setWidth(col * colorIconSize.getWidth() + padding);
 			setHeight(row * colorIconSize.getHeight() + padding);
 
-			checkMark = ImageElement.as(new Image(
-					AppResources.INSTANCE.color_chooser_check().getSafeUri())
-							.getElement());
+			checkMark = Dom.createImage();
+			checkMark.src = AppResources.INSTANCE.color_chooser_check().getSafeUri().asString();
+
 			final int checkSize = 12;
 			checkX = (colorIconSize.getWidth() - checkSize) / 2 + padding;
 			checkY = (colorIconSize.getHeight() - checkSize) / 2 + padding;
@@ -138,7 +140,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			ctx.save();
 			ctx.translate(left, top);
 
-			ctx.setTextBaseline(TextBaseline.TOP);
+			ctx.setTextBaseline("top");
 			ctx.clearRect(0, 0, width, TITLE_HEIGHT);
 			ctx.setFont(TITLE_FONT);
 			ctx.fillText(title, titleOffsetX, titleOffsetY);
@@ -383,7 +385,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	private class PreviewPanel extends FlowPanel {
 		private Label titleLabel;
 		Canvas previewCanvas;
-		private Context2d previewCtx;
+		private JLMContext2d previewCtx;
 		private Label rgb;
 
 		public PreviewPanel() {
@@ -394,7 +396,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			previewCanvas.setSize(PREVIEW_WIDTH + "px", PREVIEW_HEIGHT + "px");
 			previewCanvas.setCoordinateSpaceHeight(PREVIEW_HEIGHT);
 			previewCanvas.setCoordinateSpaceWidth(PREVIEW_WIDTH);
-			previewCtx = previewCanvas.getContext2d();
+			previewCtx = Js.uncheckedCast(previewCanvas.getContext2d());
 			rgb = new Label();
 			add(titleLabel);
 			m.add(previewCanvas);
@@ -415,12 +417,12 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 			previewCtx.setFillStyle(htmlColor);
 
-			previewCtx.setGlobalAlpha(getAlphaValue());
+			previewCtx.globalAlpha = getAlphaValue();
 			previewCtx.fillRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 
 			previewCtx.setStrokeStyle(htmlColor);
 
-			previewCtx.setGlobalAlpha(1.0);
+			previewCtx.globalAlpha = 1.0;
 			previewCtx.setLineWidth(PREVIEW_BORDER_WIDTH);
 			previewCtx.strokeRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 		}
@@ -577,7 +579,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		canvas.setSize(width + "px", height + "px");
 		canvas.setCoordinateSpaceHeight(height);
 		canvas.setCoordinateSpaceWidth(width);
-		ctx = canvas.getContext2d();
+		ctx = JLMContextHelper.as(canvas.getContext2d());
 
 		changeHandler = null;
 		lastSource = null;
@@ -849,8 +851,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		if (dialog == null) {
 			dialog = new CustomColorDialog(app, this);
 		}
-		dialog.show(this.selectedColor);
-
+		dialog.show(selectedColor != null ? selectedColor : GColor.BLACK);
 		app.setDefaultCursor();
 	}
 

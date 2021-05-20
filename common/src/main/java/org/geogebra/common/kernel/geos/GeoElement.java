@@ -116,7 +116,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 
 import com.google.j2objc.annotations.Weak;
-import com.google.j2objc.annotations.ZeroingWeak;
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -290,7 +289,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	private int defaultGeoType = -1;
 
 	/** parent algorithm */
-	@ZeroingWeak
+	@Weak
 	@Nullable
 	protected AlgoElement algoParent = null;
 
@@ -1656,8 +1655,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public boolean isLabelShowable() {
 		return isDrawable() && !(this instanceof TextValue || isGeoImage()
-				|| isGeoButton() || isGeoLocus()
-				|| (isGeoBoolean() && !isIndependent()));
+				|| isGeoLocus() || (isGeoBoolean() && !isIndependent()));
 	}
 
 	/**
@@ -2245,6 +2243,19 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
+		return getFormulaString(tpl, !symbolic);
+	}
+
+	/**
+	 * @param symbolic
+	 *            true to keep variable names
+	 * @param symbolicContext
+	 *            whether this method was called from a symbolic context
+	 * @param tpl
+	 *            string template
+	 * @return LaTeX string
+	 */
+	public String toLaTeXString(boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
 		return getFormulaString(tpl, !symbolic);
 	}
 
@@ -3594,21 +3605,28 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	@Override
 	final public int getMaxConstructionIndex() {
+		int maxIndex;
 		if (algoParent == null) {
-			// independent object:
-			// index must be less than every dependent algorithm's index
-			int min = cons.steps();
-			final int size = algorithmList == null ? 0 : algorithmList.size();
-			for (int i = 0; i < size; ++i) {
-				final int index = (algorithmList.get(i)).getConstructionIndex();
-				if (index < min) {
-					min = index;
-				}
-			}
-			return min - 1;
+			maxIndex = getIndexBeforeAllDependentAlgos();
+		} else {
+			maxIndex = algoParent.getMaxConstructionIndex();
 		}
-		// dependent object
-		return algoParent.getMaxConstructionIndex();
+		return Math.max(maxIndex, getConstructionIndex());
+	}
+
+	/**
+	 * @return index strictly lower than construction indices of all dependent algos
+	 */
+	public int getIndexBeforeAllDependentAlgos() {
+		int min = cons.steps();
+		final int size = algorithmList == null ? 0 : algorithmList.size();
+		for (int i = 0; i < size; ++i) {
+			final int index = algorithmList.get(i).getConstructionIndex();
+			if (index < min) {
+				min = index;
+			}
+		}
+		return min - 1;
 	}
 
 	@Override

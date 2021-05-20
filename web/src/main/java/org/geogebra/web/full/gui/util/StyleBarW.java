@@ -3,8 +3,8 @@ package org.geogebra.web.full.gui.util;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.GuiResources;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.euclidian.ContextMenuPopup;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.menubar.MainMenu;
@@ -12,14 +12,13 @@ import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.view.Views;
 import org.geogebra.web.full.gui.view.Views.ViewType;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
-import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author G. Sturr
@@ -83,35 +82,31 @@ public abstract class StyleBarW extends HorizontalPanel implements
 				menuButton.addStyleName("MyCanvasButton-borderless");
 			} else {
 				menuButton = new StandardButton(
-						GuiResources.INSTANCE.menu_icon_options());
+						MaterialDesignResources.INSTANCE.gear(), null, 24);
 				menuButton.setStyleName("MyCanvasButton");
-				menuButton.addStyleName("gereBtn");
 			}
 
-			menuButton.addFastClickHandler(new FastClickHandler() {
-				@Override
-				public void onClick(Widget source) {
-					// close keyboard first to avoid perspective mess
-					app.hideKeyboard();
-					if (app.getGuiManager().showView(App.VIEW_PROPERTIES)) {
-						PropertiesViewW pW = (PropertiesViewW) ((GuiManagerW) app
-								.getGuiManager()).getCurrentPropertiesView();
+			menuButton.addFastClickHandler(source -> {
+				// close keyboard first to avoid perspective mess
+				app.hideKeyboard();
+				if (app.getGuiManager().showView(App.VIEW_PROPERTIES)) {
+					PropertiesViewW pW = (PropertiesViewW) ((GuiManagerW) app
+							.getGuiManager()).getCurrentPropertiesView();
 
-						if (optionType == pW.getOptionType()) {
-							app.getGuiManager().setShowView(false,
-									App.VIEW_PROPERTIES);
-							return;
-						}
+					if (optionType == pW.getOptionType()) {
+						app.getGuiManager().setShowView(false,
+								App.VIEW_PROPERTIES);
+						return;
 					}
-					if ((!app.getSelectionManager().getSelectedGeos().isEmpty()
-							&& optionType != OptionType.ALGEBRA)
-							|| optionType == null) {
-						app.getDialogManager()
-								.showPropertiesDialog(OptionType.OBJECTS, null);
-					} else {
-						app.getDialogManager().showPropertiesDialog(optionType,
-								null);
-					}
+				}
+				if ((!app.getSelectionManager().getSelectedGeos().isEmpty()
+						&& optionType != OptionType.ALGEBRA)
+						|| optionType == null) {
+					app.getDialogManager()
+							.showPropertiesDialog(OptionType.OBJECTS, null);
+				} else {
+					app.getDialogManager().showPropertiesDialog(optionType,
+							null);
 				}
 			});
 		}
@@ -140,7 +135,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		if (numberOfOpenViews > 1) {
 			// show close button if there are more than 1 views open
 			String html = MainMenu.getMenuBarHtml(
-					KeyboardResources.INSTANCE.keyboard_close_black(),
+					GuiResourcesSimple.INSTANCE.close(),
 					app.getLocalization().getMenu("Close")
 			);
 			popup.addItem(new AriaMenuItem(html, true, () -> {

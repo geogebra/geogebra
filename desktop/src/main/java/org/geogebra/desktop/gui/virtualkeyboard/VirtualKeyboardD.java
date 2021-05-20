@@ -1288,16 +1288,16 @@ public class VirtualKeyboardD extends JFrame
 
 		if (math) {
 			rbKeyboard = MyResourceBundle.createBundle(
-					"/org/geogebra/desktop/gui/virtualkeyboard/keyboardMath",
+					"org.geogebra.desktop.gui.virtualkeyboard.keyboardMath",
 					locale);
 		} else {
 			if (loc0 == null) {
 				rbKeyboard = MyResourceBundle.createBundle(
-						"/org/geogebra/desktop/gui/virtualkeyboard/keyboard",
+						"org.geogebra.desktop.gui.virtualkeyboard.keyboard",
 						locale);
 			} else {
 				rbKeyboard = MyResourceBundle.createBundle(
-						"/org/geogebra/desktop/gui/virtualkeyboard/keyboard",
+						"org.geogebra.desktop.gui.virtualkeyboard.keyboard",
 						loc0);
 				kbLocale = loc0;
 			}

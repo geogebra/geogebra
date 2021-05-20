@@ -1,5 +1,6 @@
 package org.geogebra.web.full.main.activity;
 
+import org.geogebra.web.full.evaluator.EquationExportImage;
 import org.geogebra.web.html5.main.ExportedApi;
 import org.geogebra.web.html5.main.GgbAPIW;
 import org.geogebra.web.html5.main.JsEval;
@@ -8,6 +9,7 @@ import org.geogebra.web.html5.main.ScriptManagerW;
 import com.google.gwt.core.client.JavaScriptObject;
 
 import elemental2.core.Global;
+import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsIgnore;
 import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
@@ -62,9 +64,14 @@ public class EvaluatorExportedApi implements ExportedApi {
 		evaluatorActivity.getEditorAPI().evalLaTeX(formula);
 	}
 
-	public Object exportImage(JsPropertyMap<String> settings) {
+	@JsFunction
+	public interface EquationExportImageConsumer {
+		void accept(EquationExportImage image);
+	}
+
+	public void exportImage(JsPropertyMap<String> settings, EquationExportImageConsumer callback) {
 		String type = Js.isTruthy(settings) ? settings.get("type") : null;
-		return evaluatorActivity.exportImage(type);
+		evaluatorActivity.exportImage(type, callback);
 	}
 
 	public void setEditorState(Object state) {

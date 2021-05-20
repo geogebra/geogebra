@@ -3,19 +3,21 @@ package org.geogebra.web.full.gui.layout;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.full.cas.view.CASStylebarW;
 import org.geogebra.web.full.css.GuiResources;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.gui.util.StyleBarW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetStyleBarW;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GPushButton;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TitleBarPanel extends FlowPanel implements DockControlPanel {
@@ -43,7 +45,7 @@ public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 		styleBarPanel.setStyleName("StyleBarPanel_");
 		updateStyles();
 		add(titleBarPanelContent);
-		Image closeIcon = new Image(GuiResources.INSTANCE.dockbar_close());
+		NoDragImage closeIcon = new NoDragImage(GuiResourcesSimple.INSTANCE.close(), 24);
 		GPushButton closeButton = new GPushButton(closeIcon);
 		closeButton.addClickHandler(event ->
 				app.getGuiManager().setShowView(false, dockPanel.id));
@@ -145,7 +147,8 @@ public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 						}
 					});
 			dragPanel.setVisible(false);
-			Image dragIcon = new Image(GuiResources.INSTANCE.dockbar_drag());
+			NoDragImage dragIcon = new NoDragImage(MaterialDesignResources.INSTANCE.move_canvas(),
+					30);
 			/*
 			 * Prevent default image drag from interfering with view drag --
 			 * needed for IE

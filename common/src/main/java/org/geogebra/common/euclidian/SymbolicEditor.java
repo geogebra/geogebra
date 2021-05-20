@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 
@@ -55,6 +56,10 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		MathFormula formula = getMathFieldInternal().getFormula();
 		String latex = texSerializer.serialize(formula);
 		geoInputBox.setTempUserDisplayInput(latex);
+	}
+
+	protected boolean isTextMode() {
+		return getGeoInputBox().getLinkedGeo() instanceof GeoText;
 	}
 
 	protected abstract MathFieldInternal getMathFieldInternal();
@@ -145,7 +150,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	protected void addDegree(String key, MathFieldInternal mf) {
 		if (geoInputBox.getLinkedGeo().isGeoAngle() && key != null && isSimpleNumber(mf)
 				&& key.matches("[0-9]")) {
-			KeyboardInputAdapter.insertString(mf, Unicode.DEGREE_STRING);
+			mf.insertString(Unicode.DEGREE_STRING);
 			mf.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
 		}
 	}

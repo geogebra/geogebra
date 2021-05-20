@@ -5551,7 +5551,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void updatePreview() {
 		// update preview
-		if (view.getPreviewDrawable() != null) {
+		Previewable previewDrawable = view.getPreviewDrawable();
+
+		if (previewDrawable != null) {
 			view.updatePreviewableForProcessMode();
 			if (mouseLoc != null) {
 				xRW = view.toRealWorldCoordX(mouseLoc.x);
@@ -5559,7 +5561,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 				processModeLock();
 
-				view.getPreviewDrawable().updateMousePos(xRW, yRW);
+				previewDrawable.updateMousePos(xRW, yRW);
 			}
 			view.repaintView();
 		}
@@ -9788,9 +9790,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		GeoElement topHit = getNotesTopHit();
 
 		if (!draggingOccured) {
-			selection.clearSelectedGeos(false, false);
-			selection.addSelectedGeoWithGroup(topHit);
-			updateBoundingBoxFromSelection(false);
+			// don't clear single geo and add it back to selection
+			if (!(selection.getSelectedGeos().size() == 1
+					&& selection.getSelectedGeos().contains(topHit)
+					&& topHit.getParentGroup() == null)) {
+				selection.clearSelectedGeos(false, false);
+				selection.addSelectedGeoWithGroup(topHit);
+				updateBoundingBoxFromSelection(false);
+			}
 		}
 
 		boolean needsFocus = topHit.getParentGroup() != null;

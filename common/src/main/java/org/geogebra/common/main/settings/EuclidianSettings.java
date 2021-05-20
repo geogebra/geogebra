@@ -159,6 +159,8 @@ public class EuclidianSettings extends AbstractSettings {
 	private GColor lastSelectedHighlighterColor = GColor.MOW_GREEN;
 	private int lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
 	private int lastHighlighterThinckness = EuclidianConstants.DEFAULT_HIGHLIGHTER_SIZE;
+	private int visibleFromX;
+	private int visibleUntilY = Integer.MIN_VALUE;
 
 	/**
 	 * @param app
@@ -861,6 +863,28 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
+	 * Recalculates xZero and yZero based on the currently visible area of the EV
+	 *
+	 * @param xZero
+	 *            x-coord of the origin
+	 * @param yZero
+	 *            y-coord of the origin
+	 * @param xscale
+	 *            x scale
+	 * @param yscale
+	 *            y scale
+	 * @param fire
+	 *            whether to notify listeners
+	 */
+	public void setCoordSystemFromXml(
+			double xZero, double yZero, double xscale, double yscale, boolean fire) {
+		double centeredXZero = xZero + visibleFromX / 2.0;
+		double centeredYZero = yZero - (getHeight() - getVisibleHeight()) / 2.0;
+		setCoordSystem(centeredXZero, centeredYZero, xscale, yscale, fire);
+		setFileCoordSystem(centeredXZero, centeredYZero, xscale, yscale);
+	}
+
+	/**
 	 * @param xZero
 	 *            x-coord of the origin
 	 * @param yZero
@@ -1417,6 +1441,10 @@ public class EuclidianSettings extends AbstractSettings {
 		return size.getWidth();
 	}
 
+	public int getRawWidth() {
+		return size != null ? size.getWidth() : -1;
+	}
+
 	/**
 	 * @return height
 	 */
@@ -1709,5 +1737,29 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setLastHighlighterThinckness(int lastHighlighterThinckness) {
 		this.lastHighlighterThinckness = lastHighlighterThinckness;
+	}
+
+	public int getVisibleWidth() {
+		return getWidth() - visibleFromX;
+	}
+
+	public int getVisibleHeight() {
+		return getVisibleUntilY();
+	}
+
+	public void setVisibleFromX(int visibleFromX) {
+		this.visibleFromX = visibleFromX;
+	}
+
+	public void setVisibleUntilY(int visibleUntilY) {
+		this.visibleUntilY = visibleUntilY;
+	}
+
+	public int getVisibleFromX() {
+		return visibleFromX;
+	}
+
+	public int getVisibleUntilY() {
+		return visibleUntilY > Integer.MIN_VALUE ? visibleUntilY : getHeight();
 	}
 }

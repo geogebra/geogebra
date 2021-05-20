@@ -45,11 +45,12 @@ public class MebisDrawerMenuFactory extends DefaultDrawerMenuFactory {
 	}
 
 	private MenuItemGroup createMainMenuItemGroup() {
+		MenuItem myFiles = isOffline() ? null : myFiles();
 		MenuItem share = (getLogInOperation() != null && getLogInOperation().canUserShare())
 				? share() : null;
 
-		return new MenuItemGroupImpl(removeNulls(newFile(), myFiles(), openOfflineFile(),
-				saveFile(), share, exportImage(), showDownloadAs(), previewPrint()));
+		return new MenuItemGroupImpl(removeNulls(newFile(), myFiles, openOfflineFile(),
+				save(), share, exportImage(), showDownloadAs(), previewPrint()));
 	}
 
 	private MenuItemGroup createSecondaryMenuItemGroup() {
@@ -64,8 +65,15 @@ public class MebisDrawerMenuFactory extends DefaultDrawerMenuFactory {
 		return new ActionableItemImpl(Icon.SEARCH, "Open.Mebis", Action.SHOW_SEARCH_VIEW);
 	}
 
+	private MenuItem save() {
+		String label = isOffline() ? "SaveAs" : "Save";
+		Action action = isOffline() ? Action.DOWNLOAD_GGS : Action.SAVE_FILE;
+		return new ActionableItemImpl(Icon.SAVE, label, action);
+	}
+
 	private MenuItem openOfflineFile() {
-		return new ActionableItemImpl(Icon.FOLDER, "mow.offlineMyFiles", Action.OPEN_OFFLINE_FILE);
+		String label = isOffline() ? "mow.openFile" : "mow.offlineMyFiles";
+		return new ActionableItemImpl(Icon.FOLDER, label, Action.OPEN_OFFLINE_FILE);
 	}
 
 	private ActionableItem showLicence() {

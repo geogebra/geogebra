@@ -43,27 +43,22 @@
  */
 package com.himamis.retex.renderer.web.font;
 
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.core.client.JavaScriptObject;
+import elemental2.dom.CanvasRenderingContext2D;
 
 public interface FontWrapper {
 
 	/**
 	 * Draws the first character of the string.
-	 * 
-	 * @param c
+	 *  @param c
 	 *            String of which the first character will be drawn
 	 * @param x
 	 *            x coordinate of the character
 	 * @param y
-	 *            y coordinate of the character
+ *            y coordinate of the character
 	 * @param size
-	 *            size of the character
+*            size of the character
 	 * @param ctx
-	 *            ctx used for drawing
 	 */
-	void drawGlyph(String c, int x, int y, int size, Context2d ctx);
-
-	JavaScriptObject getGlyphOutline(String c, int size);
+	void drawGlyph(String c, int x, int y, int size, CanvasRenderingContext2D ctx);
 
 }

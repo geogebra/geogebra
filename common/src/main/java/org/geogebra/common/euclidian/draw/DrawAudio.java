@@ -111,7 +111,7 @@ public class DrawAudio extends DrawWidget {
 	}
 
 	private void updateSlider(GGraphics2D g2) {
-		GFont font = view.getFont().deriveFont(GFont.PLAIN, TIME_FONT);
+		GFont font = view.getApplication().getFontCommon(false, GFont.PLAIN, TIME_FONT);
 		g2.setFont(font);
 		duration = geoAudio.getDuration();
 		String textAll = getElapsedTime(duration, duration);
@@ -223,7 +223,7 @@ public class DrawAudio extends DrawWidget {
 	}
 
 	private void drawTime(GGraphics2D g2) {
-		GFont font = view.getFont().deriveFont(GFont.PLAIN, TIME_FONT);
+		GFont font = view.getApplication().getFontCommon(false, GFont.PLAIN, TIME_FONT);
 		g2.setFont(font);
 		g2.setPaint(TIME_COLOR);
 		duration = geoAudio.getDuration() / 1000;

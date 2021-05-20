@@ -53,7 +53,6 @@ import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.renderer.desktop.IconHelper;
@@ -79,7 +78,7 @@ public class MathFieldD extends JLabel implements MathField {
 		SelectionBox.touchSelection = false;
 		setBackground(Color.white);
 		setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-		mathFieldInternal = new MathFieldInternal(this, false);
+		mathFieldInternal = new MathFieldInternal(this);
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
 		mathFieldInternal.setSyntaxAdapter(syntaxAdapter);
 		mathFieldInternal.setSelectionMode(true);
@@ -180,7 +179,7 @@ public class MathFieldD extends JLabel implements MathField {
 	}
 
 	public void insertString(String text) {
-		KeyboardInputAdapter.insertString(mathFieldInternal, text);
+		mathFieldInternal.insertString(text);
 		mathFieldInternal.update();
 	}
 
@@ -217,6 +216,16 @@ public class MathFieldD extends JLabel implements MathField {
 	@Override
 	public boolean useCustomPaste() {
 		return false;
+	}
+
+	@Override
+	public void parse(String text) {
+		mathFieldInternal.parse(text);
+	}
+
+	@Override
+	public void setPlainText(String text) {
+		mathFieldInternal.setPlainText(text);
 	}
 
 	public String getCurrentWord() {

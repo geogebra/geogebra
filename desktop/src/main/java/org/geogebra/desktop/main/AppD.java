@@ -74,7 +74,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Executors;
@@ -92,7 +91,6 @@ import javax.naming.OperationNotSupportedException;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
-import javax.swing.JApplet;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -139,6 +137,7 @@ import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.headless.AppDI;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.jre.main.TemplateHelper;
@@ -288,15 +287,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// RESOURCE fields
 	// ==============================================================
 
-	private ResourceBundle rbmenuEnglish;
-
 	private final LocalizationD loc;
-
-	// ==============================================================
-	// APPLET fields
-	// ==============================================================
-
-	private boolean isApplet = false;
 
 	// ==============================================================
 	// GUI fields
@@ -455,23 +446,21 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			handleHelpVersionArgs(args);
 		}
 
-		isApplet = false;
-
 		if (frame != null) {
 			mainComp = frame;
 		} else {
 			mainComp = comp;
 		}
 
-		useFullGui = !isApplet;
+		useFullGui = true;
 
 		// don't want to redirect System.out and System.err when running as
 		// Applet
 		// or eg from Eclipse
 		getCodeBase(); // initialize runningFromJar
 
-		Log.debug("isApplet=" + isApplet + " runningFromJar=" + runningFromJar);
-		if (!isApplet && runningFromJar) {
+		Log.debug("runningFromJar=" + runningFromJar);
+		if (runningFromJar) {
 			setUpLogging();
 		} else {
 			Log.debug("Not setting up logging via LogManager");
@@ -512,14 +501,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		boolean ggtloading = isLoadingTool(args);
 
 		// init default preferences if necessary
-		if (!isApplet) {
-			GeoGebraPreferencesD.getPref().initDefaultXML(this);
-		}
+		GeoGebraPreferencesD.getPref().initDefaultXML(this);
 
 		if (ggtloading) {
-			if (!isApplet) {
-				GeoGebraPreferencesD.getPref().loadXMLPreferences(this);
-			}
+			GeoGebraPreferencesD.getPref().loadXMLPreferences(this);
 		}
 
 		// open file given by startup parameter
@@ -536,30 +521,28 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		if (isUsingFullGui()) {
 			initGuiManager();
 			// set frame
-			if (!isApplet && (frame != null)) {
+			if (frame != null) {
 				setFrame(frame);
 			}
 		}
 
-		if (!isApplet) {
-			// load XML preferences
-			currentPath = GeoGebraPreferencesD.getPref().getDefaultFilePath();
-			currentImagePath = GeoGebraPreferencesD.getPref()
-					.getDefaultImagePath();
+		// load XML preferences
+		currentPath = GeoGebraPreferencesD.getPref().getDefaultFilePath();
+		currentImagePath = GeoGebraPreferencesD.getPref()
+				.getDefaultImagePath();
 
-			if (!fileLoaded && !ggtloading) {
-				GeoGebraPreferencesD.getPref().loadXMLPreferences(this);
-				imageManager.setMaxIconSizeAsPt(getFontSize());
+		if (!fileLoaded && !ggtloading) {
+			GeoGebraPreferencesD.getPref().loadXMLPreferences(this);
+			imageManager.setMaxIconSizeAsPt(getFontSize());
+		}
+
+		if (MAC_OS) {
+			String path = System.getProperty("user.home") + "/Documents";
+			if (currentPath == null) {
+				currentPath = new File(path);
 			}
-
-			if (MAC_OS) {
-				String path = System.getProperty("user.home") + "/Documents";
-				if (currentPath == null) {
-					currentPath = new File(path);
-				}
-				if (currentImagePath == null) {
-					currentImagePath = new File(path);
-				}
+			if (currentImagePath == null) {
+				currentImagePath = new File(path);
 			}
 		}
 
@@ -591,23 +574,17 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		KeyboardFocusManager.getCurrentKeyboardFocusManager()
 				.addKeyEventDispatcher(this);
 
-		if (!isApplet()) {
-			getScriptManager().ggbOnInit();
-			getFactory();
-		}
+		getScriptManager().ggbOnInit();
+		getFactory();
 
 		setSaved();
 
 		if (getCASVersionString().equals("")) {
 			setCASVersionString(loc.getMenu("CASInitializing"));
-
 		}
 
-		if (!isApplet()) {
-			// user authentication handling
-			initSignInEventFlow();
-		}
-
+		// user authentication handling
+		initSignInEventFlow();
 		if (kernel.wantAnimationStarted()) {
 			kernel.getAnimatonManager().startAnimation();
 			kernel.setWantAnimationStarted(false);
@@ -629,7 +606,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	public void setFrame(JFrame frame) {
-		isApplet = false;
 		mainComp = frame;
 
 		this.frame = frame;
@@ -1086,12 +1062,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private static boolean versionCheckAllowed = true;
 
 	private void setVersionCheckAllowed(String versionCheckAllow) {
-
-		if (isApplet()) {
-			versionCheckAllowed = false;
-			return;
-		}
-
 		if (versionCheckAllow != null) {
 			if ("off".equals(versionCheckAllow)) {
 				GeoGebraPreferencesD.getPref().saveVersionCheckAllow("false");
@@ -1224,13 +1194,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @author Zoltan Kovacs
 	 */
 	public boolean getVersionCheckAllowed() {
-
-		if (isApplet()) {
-			return false;
-		}
-
 		return versionCheckAllowed;
-
 	}
 
 	protected void handleOptionArgsEarly(CommandLineArguments args) {
@@ -1288,11 +1252,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	final public boolean isApplet() {
-		return isApplet;
-	}
-
-	public boolean isStandaloneApplication() {
-		return !isApplet && (mainComp instanceof JFrame);
+		return false;
 	}
 
 	public boolean onlyGraphicsViewShowing() {
@@ -2423,19 +2383,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return loc.getLocale();
 	}
 
-	final public String getEnglishMenu(String key) {
-
-		if (rbmenuEnglish == null) {
-			rbmenuEnglish = MyResourceBundle.createBundle(LocalizationD.RB_MENU,
-					Locale.ENGLISH);
-		}
-		try {
-			return rbmenuEnglish.getString(key);
-		} catch (Exception e) {
-			return key;
-		}
-	}
-
 	/**
 	 * Shows localized help message
 	 * 
@@ -2637,7 +2584,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 			applicationPanel.add(mainPanel, BorderLayout.CENTER);
 
-			if (showDockBar && !isApplet()) {
+			if (showDockBar) {
 				if (dockBar.isEastOrientation()) {
 					applicationPanel.add((Component) dockBar,
 							getLocalization().borderEast());
@@ -2843,10 +2790,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	final public synchronized GuiManagerInterfaceD getGuiManager() {
 		return guiManager;
-	}
-
-	final public static JApplet getJApplet() {
-		return null;
 	}
 
 	public synchronized JFrame getFrame() {
@@ -3730,7 +3673,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			}
 
 			// key event came from another window or applet: ignore it
-			if (isApplet() || !inExternalWindow(this, eventPane)) {
+			if (!inExternalWindow(this, eventPane)) {
 				return false;
 			}
 

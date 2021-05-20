@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.GToggleButton;
@@ -192,7 +193,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 
 	private void addZoomOutButton() {
 		zoomOutBtn = new StandardButton(
-					ZoomPanelResources.INSTANCE.zoomout_black24(), null, 24
+					GuiResourcesSimple.INSTANCE.zoom_out(), null, 24
 		);
 		zoomOutBtn.setStyleName("zoomPanelBtn");
 
@@ -208,7 +209,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 
 	private void addZoomInButton() {
 		zoomInBtn = new StandardButton(
-					ZoomPanelResources.INSTANCE.zoomin_black24(), null, 24
+					GuiResourcesSimple.INSTANCE.zoom_in(), null, 24
 		);
 		zoomInBtn.setStyleName("zoomPanelBtn");
 

@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.MyImage;
@@ -10,7 +11,6 @@ import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoButton.Observer;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -94,7 +94,7 @@ public class MyButton implements Observer {
 				(int) (multiplier * 12));
 		g.setFont(font);
 
-		boolean hasText = getCaption().length() > 0;
+		boolean hasText = geoButton.isLabelVisible() && getCaption().length() > 0;
 
 		int imgHeight = 0;
 		int imgWidth = 0;
@@ -144,9 +144,6 @@ public class MyButton implements Observer {
 				+ (MARGIN_TOP + MARGIN_BOTTOM)),
 				minSize);
 
-		// Additional offset for image if button has fixed size
-		int imgStart = 0;
-
 		// Initial offset for subimage if button has fixed size
 		int startX = 0;
 		int startY = 0;
@@ -169,26 +166,18 @@ public class MyButton implements Observer {
 			geoButton.setHeight(currentHeight);
 		} else {
 			// With fixed size the image is cut if is too big
-			if (imgHeight > getHeight() - textHeight - imgGap
-					- (MARGIN_TOP + MARGIN_BOTTOM)) {
-				startY = imgHeight - (int) (getHeight() - textHeight - imgGap
-						- (MARGIN_TOP + MARGIN_BOTTOM));
-				imgHeight = (int) (getHeight() - textHeight - imgGap
-						- (MARGIN_TOP + MARGIN_BOTTOM));
-				if (imgHeight <= 0) {
-					geoButton.setFillImage("");
-				} else {
-					startY /= 2;
-				}
+			if (imgHeight > getHeight() - textHeight - imgGap) {
+				startY = (int) (imgHeight - (getHeight() - textHeight - imgGap)) / 2;
+				imgHeight = (int) (getHeight() - textHeight - imgGap);
 			}
-			if (imgWidth > getWidth() - (MARGIN_LEFT + MARGIN_RIGHT)) {
-				startX = imgWidth - (getWidth() - (MARGIN_LEFT + MARGIN_RIGHT));
-				imgWidth = getWidth() - (MARGIN_LEFT + MARGIN_RIGHT);
-				startX /= 2;
+			if (imgWidth > getWidth()) {
+				startX = (imgWidth - getWidth()) / 2;
+				imgWidth = getWidth();
 			}
-			imgStart = (int) (getHeight() - imgHeight
-					- (MARGIN_TOP + MARGIN_BOTTOM) - textHeight - imgGap) / 2;
 		}
+
+		// Starting position of the image
+		int imgStart = (int) (getHeight() - imgHeight - textHeight - imgGap) / 2;
 
 		// prepare colors and paint
 		g.setColor(view.getBackgroundCommon());
@@ -254,48 +243,66 @@ public class MyButton implements Observer {
 		MyImage im = geoButton.getFillImage();
 		// draw image
 		if (im != null) {
+			GGeneralPath path = getClipRectangle(arcSize / 2., widthCorrection);
+			g.setClip(path);
 
 			if (im.isSVG()) {
-				drawSVG(im, g);
+				imgHeight = (int) (getHeight() - textHeight - imgGap);
+				imgStart = 0;
+				drawSVG(im, g, getWidth(), imgHeight);
 			} else {
 				g.drawImage(im, startX, startY, imgWidth, imgHeight,
 						x + (getWidth() - imgWidth) / 2,
-						y + MARGIN_TOP + imgStart, imgWidth, imgHeight);
+						y + imgStart, imgWidth, imgHeight);
+
 			}
+			g.resetClip();
 		}
 
 		// draw the text center-aligned to the button
 		if (hasText) {
-			if (geoButton.getFillImage() == null) {
-				imgStart = (int) (getHeight() - (MARGIN_TOP + MARGIN_BOTTOM)
-
-						- textHeight) / 2;
-			}
 			drawText(g, t, imgStart + imgGap + imgHeight, latex, widthCorrection,
 					shadowSize);
 		}
 	}
 
-	private void drawSVG(MyImage im, GGraphics2D g) {
+	private void drawSVG(MyImage im, GGraphics2D g, double width, double height) {
 		// SVG is scaled to the button size rather than cropped
-		double sx = (double) im.getWidth() / (double) getWidth();
-		double sy = (double) im.getHeight() / (double) getHeight();
+		double sx = im.getWidth() / width;
+		double sy = im.getHeight() / height;
 
-		boolean one2one = MyDouble.exactEqual(sx, 1)
-				&& MyDouble.exactEqual(sy, 1);
+		g.saveTransform();
 
-		if (!one2one) {
-			g.saveTransform();
-
-			g.scale(1 / sx, 1 / sy);
-			g.translate(x * sx, y * sy);
-		}
+		g.scale(1 / sx, 1 / sy);
+		g.translate(x * sx, y * sy);
 
 		g.drawImage(im, 0, 0);
 
-		if (!one2one) {
-			g.restoreTransform();
-		}
+		g.restoreTransform();
+	}
+
+	private GGeneralPath getClipRectangle(double r, double widthCorrection) {
+		GGeneralPath path = AwtFactory.getPrototype().newGeneralPath();
+		double K = 4.0 / 3 * (Math.sqrt(2) - 1);
+
+		double right = x + getWidth() + (int) widthCorrection - 1;
+		double bottom = y + getHeight();
+
+		path.moveTo(x + r, y);
+		path.lineTo(right - r, y);
+		path.curveTo(right + r * (K - 1), y, right, y + r * (1 - K),
+				right, y + r);
+		path.lineTo(right, bottom - r);
+		path.curveTo(right, bottom + r * (K - 1), right + r * (K - 1),
+				bottom, right - r, bottom);
+		path.lineTo(x + r, bottom);
+		path.curveTo(x + r * (1 - K), bottom, x, bottom + r * (K - 1),
+				x, bottom - r);
+		path.lineTo(x, y + r);
+		path.curveTo(x, y + r * (1 - K), x + r * (1 - K), y, x + r, y);
+
+		path.closePath();
+		return path;
 	}
 
 	private void drawText(GGraphics2D g, GTextLayout t, int imgEnd,
@@ -303,16 +310,15 @@ public class MyButton implements Observer {
 		int xPos = latex ? (int) (x + (getWidth() - textWidth) / 2)
 				: (int) (x + (getWidth() - t.getAdvance() + add) / 2);
 
-		int yPos = latex
-				? (int) (y + (getHeight() - textHeight) / 2) + imgEnd
-				: (int) (y + MARGIN_TOP + imgEnd + t.getAscent());
+		int yPos;
+		if (geoButton.getFillImage() == null) {
+			yPos = latex
+					? (int) (y + (getHeight() - textHeight) / 2)
+					: (int) (y + (getHeight() + t.getAscent()) / 2);
 
-		yPos -= shadowSize / 2;
-
-		if (geoButton.getFillImage() != null) {
-			yPos = latex ? y + imgEnd
-					: (int) (y + MARGIN_TOP + t.getAscent()
-							+ imgEnd);
+			yPos -= shadowSize / 2;
+		} else {
+			yPos = latex ? y + imgEnd : (int) (y + t.getAscent() + imgEnd);
 		}
 
 		if (latex) {
