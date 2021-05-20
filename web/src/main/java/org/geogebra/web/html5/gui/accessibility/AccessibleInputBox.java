@@ -44,7 +44,9 @@ public class AccessibleInputBox implements AccessibleWidget {
 
 	@Override
 	public void update() {
-		AccessibleDropDown.updatePosition(geo, inputBox, app);
+		// TODO if the box remains hidden, it can't be reached with screenreader
+		// if it's shown, it blocks touch events
+		// AccessibleDropDown.updatePosition(geo, inputBox, app);
 		formLabel.setText(geo.getAuralText());
 		inputBox.setText(geo.getTextForEditor());
 	}
