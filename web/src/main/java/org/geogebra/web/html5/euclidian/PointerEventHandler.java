@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
+import org.geogebra.web.html5.gui.util.NativePointerEvent;
 
 import com.google.gwt.dom.client.Element;
 
