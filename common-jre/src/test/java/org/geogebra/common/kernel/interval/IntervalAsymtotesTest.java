@@ -89,6 +89,7 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 		assertTrue(tuples.valueAt(35).hasZero());
 		assertTrue(tuples.valueAt(68).hasZero());
 	}
+
 	@Test
 	public void absOfXInverse() {
 		IntervalTupleList tuples = functionValues("abs(1/x)", -1, 1, -8, 8);
