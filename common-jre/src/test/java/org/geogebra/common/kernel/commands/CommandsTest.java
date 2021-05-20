@@ -264,10 +264,8 @@ public class CommandsTest {
 
 	@Test
 	public void angleBisectorsShouldUpdate() {
-		t("e1:X = (0, 0, 0) + t (1, 0, 0)", "X = (0, 0, 0) + "
-				+ Unicode.lambda + " (1, 0, 0)");
-		t("e2:X = (0, 0, 0) + t (0, 1, 0)", "X = (0, 0, 0) + "
-				+ Unicode.lambda + " (0, 1, 0)");
+		t("e1:X = (0, 0, 0) + t (1, 0, 0)", "X = (0, 0, 0) + t (1, 0, 0)");
+		t("e2:X = (0, 0, 0) + t (0, 1, 0)", "X = (0, 0, 0) + t (0, 1, 0)");
 		t("SetValue(e1,?)");
 		t("SetValue(e2,?)");
 		t("g:AngleBisector(e1,e2)", "X = (?, ?, ?)", "X = (?, ?, ?)");
