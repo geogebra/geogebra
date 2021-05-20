@@ -63,16 +63,16 @@ public class EditorTypingTest {
 	@Test
 	public void absShouldBePrefixedBySpace() {
 		// typing second | starts another abs() clause
-		checker.checkEditorInsert("3|x", "3 abs(x)");
-		checker.checkEditorInsert("3 |x", "3 abs(x)");
-		checker.checkEditorInsert("3*|x", "3*abs(x)");
-		checker.checkEditorInsert("x|xx", "x abs(xx)");
-		checker.checkEditorInsert("x |x x", "x abs(x x)");
-		checker.checkEditorInsert("x*|x*x", "x*abs(x*x)");
-		checker.checkEditorInsert("x sqrt(x)", "x sqrt(x)");
-		checker.checkEditorInsert("x" + Unicode.SQUARE_ROOT + "x+1", "x sqrt(x+1)");
-		checker.checkEditorInsert("ln|x+6", "ln abs(x+6)");
-		checker.checkEditorInsert("ln|x+6", "ln abs(x+6)");
+		checker.type("3|x").checkAsciiMath("3 abs(x)");
+		checker.type("3 |x").checkAsciiMath("3 abs(x)");
+		checker.type("3*|x").checkAsciiMath("3*abs(x)");
+		checker.type("x|xx").checkAsciiMath("x abs(xx)");
+		checker.type("x |x x").checkAsciiMath("x abs(x x)");
+		checker.type("x*|x*x").checkAsciiMath("x*abs(x*x)");
+		checker.type("x sqrt(x)").checkAsciiMath("x sqrt(x)");
+		checker.type("x" + Unicode.SQUARE_ROOT + "x+1").checkAsciiMath("x sqrt(x+1)");
+		checker.type("ln|x+6").checkAsciiMath("ln abs(x+6)");
+		checker.type("ln|x+6").checkAsciiMath("ln abs(x+6)");
 	}
 
 	@Test
@@ -433,18 +433,18 @@ public class EditorTypingTest {
 	@Test
 	public void testDivision1() {
 		checker.type(Unicode.DIVIDE + "1").right(1).type("2")
-				.checkAsciiMath("1/2");
+				.checkAsciiMath("(1)/(2)");
 	}
 
 	@Test
 	public void testDivision2() {
-		checker.type("1" + Unicode.DIVIDE + "2").checkAsciiMath("1/2");
+		checker.type("1" + Unicode.DIVIDE + "2").checkAsciiMath("(1)/(2)");
 	}
 
 	@Test
 	public void testDivision3() {
 		checker.type("12").left(1).type(Unicode.DIVIDE + "")
-				.checkAsciiMath("1/2");
+				.checkAsciiMath("(1)/()2");
 	}
 
 	@Test
@@ -464,7 +464,7 @@ public class EditorTypingTest {
 	public void testBackspace() {
 		checker.type("8" + Unicode.DIVIDE).typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.type(Unicode.DIVIDE + "2")
-				.checkAsciiMath("8/2");
+				.checkAsciiMath("(8)/(2)");
 	}
 
 	@Test

@@ -92,7 +92,17 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 		decorator.update(bounds, getGeoInputBox());
 		editor.setVisible(true);
-		editor.setText(getGeoInputBox().getTextForEditor());
+
+		String text = getGeoInputBox().getTextForEditor();
+
+		boolean textMode = isTextMode();
+		editor.setTextMode(textMode);
+		if (textMode) {
+			editor.getMathField().setPlainText(text);
+		} else {
+			editor.getMathField().parse(text);
+		}
+
 		editor.setLabel(getGeoInputBox().getAuralText());
 		editor.setErrorStyle(getGeoInputBox().hasError());
 		if (getGeoInputBox().getLinkedGeo().hasSpecialEditor()) {

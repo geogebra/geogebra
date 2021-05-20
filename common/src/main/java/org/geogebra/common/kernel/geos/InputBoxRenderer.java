@@ -4,13 +4,13 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
+import com.himamis.retex.editor.share.serializer.TeXEscaper;
 import com.himamis.retex.editor.share.util.Unicode;
 
 class InputBoxRenderer {
 	private GeoElementND linkedGeo;
 	private StringTemplate stringTemplateForLaTeX;
 	private GeoInputBox inputBox;
-	public String tempUserEvalInput;
 
 	InputBoxRenderer(GeoInputBox inputBox) {
 		this.inputBox = inputBox;
@@ -18,11 +18,13 @@ class InputBoxRenderer {
 	}
 
 	String getText() {
-		if (tempUserEvalInput != null) {
-			return tempUserEvalInput;
-		}
-		if (linkedGeo.isGeoText()) {
-			return ((GeoText) linkedGeo).getTextStringSafe().replace("\n", GeoText.NEW_LINE);
+		if (linkedGeo.isGeoText() && linkedGeo.isIndependent()) {
+			String str = ((GeoText) linkedGeo).getTextStringSafe()
+					.replace("\n", GeoText.NEW_LINE);
+			if (inputBox.symbolicMode) {
+				return "\\text{" + TeXEscaper.escapeString(str) + "}";
+			}
+			return str;
 		}
 
 		String linkedGeoText;
