@@ -4480,8 +4480,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			sb.append(" label=\"");
 			sb.append(StringUtil.encodeXML(label));
 			sb.append("\" exp=\"");
-			StringUtil.encodeXML(sb,
-					definition.toString(StringTemplate.xmlTemplate));
+			getDefinitionXML(sb);
 			// expression
 			sb.append("\"");
 
@@ -4505,6 +4504,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			}
 			sb.append("/>\n");
 		}
+	}
+
+	protected void getDefinitionXML(StringBuilder sb) {
+		StringUtil.encodeXML(sb,
+				definition.toString(StringTemplate.xmlTemplate));
 	}
 
 	/**
