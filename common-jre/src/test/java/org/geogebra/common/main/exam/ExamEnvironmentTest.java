@@ -86,6 +86,22 @@ public class ExamEnvironmentTest extends BaseUnitTest {
 		assertThat(aFirstOpened.getAuthor(), equalTo("anotherAuthor"));
 	}
 
+	@Test
+	public void testTempMaterialsOpen() {
+		Material a = examEnvironment.getTempStorage().newMaterial();
+		a.setTitle("a");
+		examEnvironment.getTempStorage().saveTempMaterial(a);
+
+		Material aOpened
+				= examEnvironment.getTempStorage().collectTempMaterials().iterator().next();
+		aOpened.setTitle("newTitle");
+
+		Material aOpenedAgain =
+				examEnvironment.getTempStorage().collectTempMaterials().iterator().next();
+
+		assertThat(aOpenedAgain.getTitle(), equalTo("a"));
+	}
+
 	private void testSetCasEnabled(boolean enabled) {
 		boolean casDefaultState = isCasEnabled();
 		examEnvironment.setCasEnabled(enabled, casSettings);

@@ -1,8 +1,9 @@
 package org.geogebra.common.main.exam;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -44,7 +45,11 @@ public class TempStorage {
      * @return A copy of the tempMaterials.
      */
     public Collection<Material> collectTempMaterials() {
-        return Collections.unmodifiableCollection(tempMaterials.values());
+        List<Material> materials = new ArrayList<>();
+        for (Material mat: tempMaterials.values()) {
+            materials.add(new Material(mat));
+        }
+        return materials;
     }
 
     /**
