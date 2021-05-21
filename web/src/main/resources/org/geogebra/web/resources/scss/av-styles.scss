@@ -57,24 +57,24 @@ $duration: 0.2s;
 			.symbolicButton{
 				display: inline-block;
 				position: absolute;
-    			padding: 2px;
-    			top: 50%;
-    			right: 8px;
-    			width: 22px;
-    			height: 22px;
-    			background-color: $purple-default;
-    			border-radius: 2px;
-    			border: none;
-    			box-shadow: 0px 3px 1px -2px $black-20, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
-    			transition: background-color 150ms ease 0ms;
-    
-    			&:hover {
-    				background-color: $purple-dark;
-    			}
+				padding: 2px;
+				top: 50%;
+				right: 8px;
+				width: 22px;
+				height: 22px;
+				background-color: $purple-default;
+				border-radius: 2px;
+				border: none;
+				box-shadow: 0px 3px 1px -2px $black-20, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
+				transition: background-color 150ms ease 0ms;
 
-    			img {
-    				opacity: 1;
-    			}
+				&:hover {
+					background-color: $purple-dark;
+				}
+
+				img {
+					opacity: 1;
+				}
 			}
 	}
 
@@ -128,29 +128,29 @@ $duration: 0.2s;
 			 display: flex;
 
 			.AutoCompleteTextFieldW {
-    			width: initial;
-    			margin: 0px !important;
-    			border-radius: 2px;
-    
-    			.TextField {
-    				padding: 0px;
-   					padding-left: 8px;
-   					margin-bottom: 2px;
-    				border: none;
-    				border-bottom: 1px solid #dcdcdc;
-    				background: transparent;
-    				box-shadow: none;
-    				border-radius: 0px !important;
-    			}
-    		}
+				width: initial;
+				margin: 0px !important;
+				border-radius: 2px;
+
+				.TextField {
+					padding: 0px;
+					padding-left: 8px;
+					margin-bottom: 2px;
+					border: none;
+					border-bottom: 1px solid #dcdcdc;
+					background: transparent;
+					box-shadow: none;
+					border-radius: 0px !important;
+				}
+			}
 		}
 
 		.textOverMarble {
 			height: 20px;
-   			width: 20px;
+			width: 20px;
 			position: absolute;
-    		margin-left: -1px !important;
-    		opacity: 0.54;
+			margin-left: -1px !important;
+			opacity: 0.54;
 		}
 
 		.marblePanel.error, 
@@ -241,8 +241,8 @@ $duration: 0.2s;
 		}
 
 		div[data-title="Input Help"]:hover:after {
-            top: 48px;
-        }
+			top: 48px;
+		}
 
 		.scrollableTextBox,
 		.scrollableTextBox.avPreview,
@@ -376,21 +376,21 @@ $duration: 0.2s;
 				}
 			}
 
-            .value {
-                display: inline-block;
-                width: 40px;
-                font-size: 0.8em;
-                text-align: center;
-                vertical-align: top;
-                border: none;
-                outline: none;
-                overflow: hidden;
-                height: 19px;
-                margin-right: 0px;
-                line-height: 200%;
-            }
+			.value {
+				display: inline-block;
+				width: 40px;
+				font-size: 0.8em;
+				text-align: center;
+				vertical-align: top;
+				border: none;
+				outline: none;
+				overflow: hidden;
+				height: 19px;
+				margin-right: 0px;
+				line-height: 200%;
+			}
 
-        }
+		}
 
 		.speedPanel-hidden {
 			@extend .speedPanel;
@@ -432,10 +432,10 @@ $duration: 0.2s;
 			border-top: $tool-border solid 1px;
 			border-bottom: $tool-border solid 1px;
 
-    		&.focused {
-    			border-top: $purple-default solid 1px;
-    			border-bottom: $purple-default solid 1px;
-    		}
+			&.focused {
+				border-top: $purple-default solid 1px;
+				border-bottom: $purple-default solid 1px;
+			}
 
 			.scrollableTextBox, .inputBorder {
 				min-height: 48px;
@@ -451,14 +451,14 @@ $duration: 0.2s;
 
 	.arrowOutputImg {
 		margin-right: 8px;
-    	opacity: 0.54;
-    	width: 24px !important;
-    	height: 24px !important;
-    }
+		opacity: 0.54;
+		width: 24px !important;
+		height: 24px !important;
+	}
 
-    .algebraPanel {
-        height: 100%;
-    }
+	.algebraPanel {
+		height: 100%;
+	}
 }
 
 @keyframes removeSuggestions {
