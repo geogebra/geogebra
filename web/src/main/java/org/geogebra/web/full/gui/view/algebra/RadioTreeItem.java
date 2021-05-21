@@ -707,7 +707,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 *            item width
 	 */
 	public void setItemWidth(int width) {
-		if (getOffsetWidth() != width) {
+		if (getOffsetWidth() != width && width >= 0) {
 			if (isInputTreeItem()) {
 				Element inputParent = getWidget().getElement()
 						.getParentElement();
