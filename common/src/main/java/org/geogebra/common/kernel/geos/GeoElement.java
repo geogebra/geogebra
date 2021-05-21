@@ -4417,7 +4417,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 					.append(StringUtil.toHexString(getAlgebraColor()));
 			sbNameDescriptionHTML.append("\">");
 		}
-		sbNameDescriptionHTML.append(indicesToHTML(label1, addHTMLtag));
+		sbNameDescriptionHTML.append(indicesToHTML(label1, false));
 
 		if (this instanceof GeoPointND && getKernel().getApplication()
 				.getSettings().getEuclidian(1).axisShown()) {

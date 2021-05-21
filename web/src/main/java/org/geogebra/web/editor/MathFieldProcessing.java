@@ -152,7 +152,7 @@ public class MathFieldProcessing implements KeyboardListener {
 		if (!requestsAns()) {
 			return;
 		}
-		boolean isInputInTextMode = !mf.getInternal().getInputController().getCreateFrac();
+		boolean isInputInTextMode = mf.getInternal().getInputController().getPlainTextMode();
 		String currentInput = mf.getText();
 		String ans =
 				isInputInTextMode

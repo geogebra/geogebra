@@ -174,7 +174,7 @@ public class Solver {
 
 	private void compute(String text) {
 		Browser.changeUrl(AppWsolver.getRelativeURLforEqn(text));
-		mathField.setText(text, false);
+		mathField.parse(text);
 		mathField.setFocus(false);
 
 		if (stepsPanel != null) {

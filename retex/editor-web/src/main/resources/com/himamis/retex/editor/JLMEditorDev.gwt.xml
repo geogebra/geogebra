@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to="jlatexmath">
   <inherits name="com.himamis.retex.renderer.JLaTeXMathGWT" />
+  <inherits name="org.gwtproject.timer.Timer"/>
   <collapse-all-properties />
   <!-- Single Script Linker -->
   <source path="web" />

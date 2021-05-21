@@ -3918,9 +3918,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case AUTOLABEL_CAS_SETTINGS:
 			return true;
 
-		/** APPS-1035 */
-		case SYMBOLIC_INPUTFIELDS:
-			return true;
 		// **********************************************************************
        // G3D START
        //
