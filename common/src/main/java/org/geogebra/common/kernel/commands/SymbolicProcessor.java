@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -77,7 +78,14 @@ public class SymbolicProcessor {
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Command && ev != root.unwrap()) {
-				return processor.evalSymbolicNoLabel(ev, evalInfo);
+				GeoSymbolic symbolic = processor.evalSymbolicNoLabel(ev, evalInfo);
+				ExpressionValue outputValue = symbolic.getValue().unwrap();
+				if (outputValue instanceof NumberValue &&
+						!((NumberValue) outputValue).isDefined()) {
+					// If processing of sub-expression failed
+					return ev;
+				}
+				return symbolic;
 			}
 			if (ev instanceof GeoDummyVariable && ((GeoDummyVariable) ev)
 					.getElementWithSameName() != null) {
@@ -99,7 +107,7 @@ public class SymbolicProcessor {
 	 * @param replaced symbolic expression
 	 * @return evaluated expression
 	 */
-	protected GeoElement doEvalSymbolicNoLabel(ExpressionNode replaced, EvalInfo info) {
+	protected GeoSymbolic doEvalSymbolicNoLabel(ExpressionNode replaced, EvalInfo info) {
 		ExpressionValue expressionValue = replaced.unwrap();
 		Command cmd;
 		CommandDispatcher cmdDispatcher = kernel.getAlgebraProcessor().cmdDispatcher;
@@ -151,7 +159,7 @@ public class SymbolicProcessor {
 	 *            input expression
 	 * @return processed geo
 	 */
-	protected GeoElement evalSymbolicNoLabel(ExpressionValue ve, EvalInfo info) {
+	protected GeoSymbolic evalSymbolicNoLabel(ExpressionValue ve, EvalInfo info) {
 		ve.resolveVariables(
 				new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC_AV));
 		if (ve.unwrap() instanceof Command) {
