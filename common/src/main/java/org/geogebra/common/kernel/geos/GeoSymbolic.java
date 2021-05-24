@@ -270,9 +270,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private ExpressionValue maybeComputeNumericValue(ExpressionValue casOutput) {
-		if (casOutput == null
-				|| !casOutput.isNumberValue()
-				|| !((NumberValue) casOutput.unwrap()).isDefined()) {
+		if (!shouldComputeNumericValue(casOutput)) {
 			return null;
 		}
 		Log.debug("GeoSymbolic is a number value, calculating numeric result");
@@ -281,6 +279,14 @@ public class GeoSymbolic extends GeoElement
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	private boolean shouldComputeNumericValue(ExpressionValue casOutput) {
+		if (casOutput != null && casOutput.isNumberValue()) {
+			ExpressionValue unwrapped = casOutput.unwrap();
+			return !(unwrapped instanceof NumberValue && !((NumberValue) unwrapped).isDefined());
+		}
+		return false;
 	}
 
 	private ExpressionValue computeNumericValue(ExpressionValue casOutput) {
