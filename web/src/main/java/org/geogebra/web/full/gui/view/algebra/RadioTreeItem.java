@@ -249,7 +249,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 		createAvexWidget();
 		addAVEXWidget(content);
-		getWidget().addStyleName("latexEditor");
 		if (app.isUnbundled() && geo0.getParentAlgorithm() != null
 				&& geo0.getParentAlgorithm() instanceof AlgoPointOnPath) {
 			getWidget().getElement().getStyle().setProperty("minHeight", 72,
@@ -259,7 +258,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	protected void addMarble() {
 		main.addStyleName("elem");
-		main.addStyleName("panelRow");
 
 		marblePanel = app.getActivity().createAVItemHeader(this);
 		setIndexLast();
@@ -566,8 +564,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	protected void updateFont(Widget w) {
-		int size = app.getFontSizeWeb() + 2;
-		w.getElement().getStyle().setFontSize(size, Unit.PX);
+		w.getElement().getStyle().setFontSize(app.getFontSizeWeb(), Unit.PX);
 	}
 
 	protected void styleContentPanel() {
@@ -2085,11 +2082,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		insertHelpToggle();
 
 		content.addStyleName("scrollableTextBox");
-		if (isInputTreeItem()) {
-			content.addStyleName("inputBorder");
-		}
-
-		getWidget().addStyleName("latexEditor");
 		content.addStyleName("noPreview");
 		renderLatex("", false);
 		new FocusableWidget(AccessibilityGroup.ALGEBRA_ITEM, null, content) {

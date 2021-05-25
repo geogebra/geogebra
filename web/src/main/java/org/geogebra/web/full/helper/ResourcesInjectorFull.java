@@ -51,7 +51,6 @@ public class ResourcesInjectorFull extends ResourcesInjector {
 		StyleInjector.inject(TextStyles.INSTANCE.textStyles());
 
 		StyleInjector.inject(GuiResources.INSTANCE.generalStyle());
-		StyleInjector.inject(GuiResources.INSTANCE.avStyle());
 		StyleInjector.inject(GuiResources.INSTANCE.headerbarStyle());
 
 		injectGreekFonts();

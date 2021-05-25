@@ -17,11 +17,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
-import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
  * Slider item for Algebra View.
@@ -37,13 +35,6 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 	 * Slider to be shown as part of the extended Slider entries
 	 */
 	private SliderPanelW slider;
-
-	private FlowPanel sliderContent;
-
-	/**
-	 * panel to correctly display an extended slider entry
-	 */
-	FlowPanel sliderPanel = null;
 
 	/**
 	 * panel to display animation related controls
@@ -65,6 +56,7 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 
 		addMarble();
 
+		getDefinitionValuePanel().addStyleName("avPlainText");
 		getElement().getStyle().setColor("black");
 
 		content.add(getDefinitionValuePanel());
@@ -87,7 +79,6 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 	}
 
 	private void createSliderGUI() {
-		content.addStyleName("noPadding");
 		if (!num.isEuclidianVisible()) {
 			num.initAlgebraSlider();
 		}
@@ -113,24 +104,13 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 
 			createMinMaxPanel();
 
-			createSliderContent();
+			content.addStyleName("elemText");
 
-			main.add(sliderContent);
+			main.addStyleName("avSliderElem");
+			main.add(content);
+			main.add(getSlider());
+			main.add(minMaxPanel);
 		}
-	}
-
-	private void createSliderContent() {
-		if (sliderContent == null) {
-			sliderContent = new FlowPanel();
-		} else {
-			sliderContent.clear();
-		}
-
-		sliderPanel = new FlowPanel();
-		sliderPanel.add(getSlider());
-		sliderContent.add(content);
-
-		sliderContent.add(LayoutUtilW.panelRow(sliderPanel, minMaxPanel));
 	}
 
 	/**
@@ -166,12 +146,13 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 
 	@Override
 	protected void styleContentPanel() {
-		sliderContent.addStyleName("avItemContent");
-		sliderContent.addStyleName("avSlider");
-		content.addStyleName("avSliderValue");
-
-		sliderPanel.setVisible(true);
+		getSlider().setVisible(true);
 		controls.showAnimPanel(true);
+	}
+
+	@Override
+	protected boolean mayNeedOutput() {
+		return false;
 	}
 
 	@Override
@@ -201,7 +182,6 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 		minMaxPanel.update();
 		resize();
 		if (!getSlider().isAttached()) {
-			sliderPanel.add(getSlider());
 			styleContentPanel();
 		}
 		updateTextItems();
@@ -228,7 +208,7 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 	 *            whether to show slider
 	 */
 	public void setSliderVisible(boolean visible) {
-		sliderPanel.setVisible(visible);
+		getSlider().setVisible(visible);
 	}
 
 	@Override
@@ -306,14 +286,10 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 		if (minMaxPanel.isVisible()) {
 			return false;
 		}
-		sliderContent.addStyleName("avEditSlider");
-		sliderContent.removeStyleName("avSlider");
 		return super.onEditStart();
 	}
 
 	@Override
 	public void onStopEdit() {
-		sliderContent.addStyleName("avSlider");
-		sliderContent.removeStyleName("avEditSlider");
 	}
 }

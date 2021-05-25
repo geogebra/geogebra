@@ -3,79 +3,40 @@
 @import 'shared';
 @import 'z-index';
 
-$duration: 0.2s;
-
 .GeoGebraFrame {
-	.suggestionBar {
+	.algebraView .avItem, .algebraView .avInputItem {
+		/* to override default padding and margin coming from GWT */
+		padding: 0 !important;
+		margin: 0 !important;
+	}
+
+	.algebraViewObjectStylebar {
 		position: absolute;
-		font-family: sans-serif;
+		top: 0;
 		bottom: 0;
 		right: 0;
-		overflow-y: hidden;
-		&.animating {
-			animation-name: addSuggestions;
-			animation-duration: $duration;
-		}
-		&.removing {
-			animation-name: removeSuggestions;
-			animation-duration: $duration;
-		}
-	}
 
-	.suggestionButton {
-		@extend %primaryButton;
-	}
+		.symbolicButton {
+			display: inline-block;
+			position: absolute;
+			padding: 2px;
+			bottom: 10px;
+			right: 8px;
+			width: 22px;
+			height: 22px;
+			background-color: $purple-default;
+			border-radius: 2px;
+			border: none;
+			box-shadow: 0px 3px 1px -2px $black-20, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
+			transition: background-color 150ms ease 0ms;
 
-	.algebraView .panelRow .withSuggestions{
-		margin-bottom: 40px;
-		animation-name: addSuggestionsParent;
-		animation-duration: $duration;
-	}
-	.algebraView .panelRow .noSuggestions{
-		animation-name: removeSuggestionsParent;
-		animation-duration: $duration;
-	}
-
-	.AlgebraViewObjectStylebar.withContextMenu {
-			bottom: 0;
-			padding: 8px 2px 0px 0px;
-			box-shadow: none;
-			background-color: $transparent;
-			.gwt-ToggleButton.XButton.shown.gwt-ToggleButton-up-hovering {
+			&:hover {
+				background-color: $purple-dark;
+			}
+			img {
 				opacity: 1;
 			}
-
-			.XButton{
-				opacity: 0.54;
-				&:hover {
-					opacity: 0.78;
-				}
-				background-color: $white;
-				float: right;
-			}
-
-			.symbolicButton{
-				display: inline-block;
-				position: absolute;
-				padding: 2px;
-				top: 50%;
-				right: 8px;
-				width: 22px;
-				height: 22px;
-				background-color: $purple-default;
-				border-radius: 2px;
-				border: none;
-				box-shadow: 0px 3px 1px -2px $black-20, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
-				transition: background-color 150ms ease 0ms;
-
-				&:hover {
-					background-color: $purple-dark;
-				}
-
-				img {
-					opacity: 1;
-				}
-			}
+		}
 	}
 
 	.customScrollbarSafari, .customScrollbar {
@@ -122,362 +83,338 @@ $duration: 0.2s;
 		}
 	}
 
-	.matAvDesign  {
+	.textOverMarble {
+		height: 20px;
+		width: 20px;
+		position: absolute;
+		margin-left: -1px !important;
+		opacity: 0.54;
+	}
 
-		.matMinMaxPanel {
-			 display: flex;
+	.avItem.avSelectedRow .marblePanel {
+		background-color: $tool-border;
+	}
 
+	.marblePanel {
+		border-right: 1px solid $tool-border;
+		position: absolute;
+		height: 100%;
+		padding: 0 18px;
+
+		> * {
+			// vertically center everything inside the marble panel
+			position: relative;
+			transform: translateY(-50%);
+			top: 50%;
+		}
+
+		img {
+			display: block;
+			height: 24px;
+			width: 24px;
+			opacity: 0.54;
+		}
+	}
+
+	.marblePanel.error {
+		padding: 0 16px;
+	}
+
+	.marblePanel.plus {
+		padding-top: 0px;
+		padding-left: 3px;
+		padding-right: 4px;
+		min-height: 47px;
+
+		.gwt-ToggleButton {
+			margin: 0px;
+			padding: 12px;
+		}
+	}
+
+	.marblePanel.plus :hover{
+		img {
+			opacity: 1;
+		}
+	}
+
+	.marble {
+		height: 18px;
+		width: 18px;
+		background-color: $purple-default;
+		border: 1px solid $black;
+		border-radius: 24px;
+	}
+
+	.marbleHidden {
+		visibility: hidden;
+	}
+
+	div[data-title="Input Help"]:hover:after {
+		top: 48px;
+	}
+
+	.avInputItem .scrollableTextBox,
+	.avItem .elemText.scrollableTextBox {
+		padding-top: 8px;
+		padding-left: 68px;
+		padding-bottom: 0px;
+		display: inline-block;
+	}
+
+	.algebraPanelScientific {
+		.avItem, .avInputItem {
+			border-top: none;
+
+			.newRadioButtonTreeItemParent {
+				&.focused {
+					border-top: none;
+					border-bottom: none;
+				}
+			}
+
+			.elem .elemText, .scrollableTextBox {
+				padding-left: 0;
+				margin-left: $scientificHeaderWidth;
+				border-bottom: 1px $tool-border solid;
+				width: calc(100% - #{$scientificHeaderWidth});
+				box-sizing: border-box;
+				min-height: 48px;
+			}
+		}
+	}
+
+	.avItem {
+		border-top: 1px solid $tool-border;
+	}
+
+	.avItem .elemText.noPadding {
+		padding-left: 0;
+		padding-top: 6px;
+	}
+
+	.avItem .elemText.additionalRow {
+		display: flex;
+		padding-top: 16px !important;
+	}
+
+	.avItem .elemText.avPlainText.avOutput {
+		line-height: 30px;
+	}
+
+	.avOutput {
+		display: flex;
+		align-items: center;
+	}
+
+	.avItem .elemText {
+		padding-top: 12px;
+		padding-bottom: 0px;
+		padding-left: 68px;
+
+		.avPlainText {
+			margin: 2px;
+		}
+	}
+
+	.avItem .gwt-CheckBox {
+		padding-left: 68px;
+		padding-top: 8px;
+	}
+
+	.playOnly {
+		position: absolute;
+		bottom: 4px;
+
+		img {
+			opacity: 0.54;
+		}
+
+		&:hover {
+			img {
+				opacity: 1;
+			}
+		}
+	}
+
+	.speedPanel {
+		position: absolute;
+		top: 12px;
+		right: 0;
+		opacity: 1;
+		transition: 0.3s ease;
+		z-index: $z-algebra-speed-panel;
+		cursor: default;
+
+		.flatButton {
+			margin: 0px;
+			padding: 0px;
+			width: 24px;
+			height: 24px;
+			cursor: pointer;
+			img {
+				opacity: 0.54;
+			}
+
+			&:hover {
+				img {
+					opacity: 0.84;
+				}
+			}
+		}
+
+		.value {
+			display: inline-block;
+			width: 40px;
+			font-size: 0.8em;
+			text-align: center;
+			vertical-align: top;
+			border: none;
+			outline: none;
+			overflow: hidden;
+			height: 19px;
+			margin-right: 0px;
+			line-height: 200%;
+		}
+
+	}
+
+	.speedPanel-hidden {
+		@extend .speedPanel;
+		opacity: 0;
+		transition: 0.2s ease;
+		z-index: $z-hidden;
+	}
+
+	.speedPanel-hidden >* {
+		display: none;
+	}
+
+	.speedPanel >* {
+		display: inline-block;
+	}
+
+	.more {
+		margin-top: 12px;
+		opacity: 0.54 !important;
+		transition: 0.3s ease;
+
+		&:hover {
+			opacity: 1 !important;
+		}
+	}
+
+	.more-hidden {
+		margin-top: 12px;
+		opacity: 0 !important;
+		transition: 0.3s ease;
+	}
+
+	.newRadioButtonTreeItemParent {
+		/* to override GWT nonsense */
+		display: block !important;
+		background-color: $white;
+		border-top: $tool-border solid 1px;
+		border-bottom: $tool-border solid 1px;
+
+		&.focused {
+			border-top: $purple-default solid 1px;
+			border-bottom: $purple-default solid 1px;
+		}
+	}
+
+	.gwt-Tree .gwt-TreeItem .elem {
+		font-family: mathsans, calibri, sans-serif;
+		display: block;
+		min-height: 48px;
+		position: relative;
+
+		&.avSliderElem {
+			min-height: 72px;
+		}
+
+		> * {
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		.optionsSlider, .minMaxPanel {
+			display: flex;
+			left: 72px;
+			bottom: 0;
+			position: absolute;
+		}
+
+		.optionsSlider {
+			.gwt-Label {
+				line-height: 2;
+
+				&:first-child {
+					padding-right: 15px;
+				}
+
+				&:last-child {
+					padding-left: 15px;
+				}
+			}
+
+			> * {
+				margin: 0;
+			}
+		}
+
+		.minMaxPanel {
 			.AutoCompleteTextFieldW {
 				width: initial;
 				margin: 0px !important;
 				border-radius: 2px;
 
 				.TextField {
-					padding: 0px;
-					padding-left: 8px;
+					padding: 0 0 0 8px;
 					margin-bottom: 2px;
 					border: none;
-					border-bottom: 1px solid #dcdcdc;
+					border-bottom: 1px solid $tool-border;
 					background: transparent;
 					box-shadow: none;
 					border-radius: 0px !important;
-				}
-			}
-		}
 
-		.textOverMarble {
-			height: 20px;
-			width: 20px;
-			position: absolute;
-			margin-left: -1px !important;
-			opacity: 0.54;
-		}
-
-		.marblePanel.error, 
-		.marblePanel.help,
-		.marblePanel {
-			position: absolute;
-			height: 100%;
-			padding-top: 0px;
-			padding-bottom: 0px;
-			padding-left: 18px;
-			padding-right: 18px;
-			/*width: 48px;*/
-		}
-
-		.marblePanel.error.gwt-ToggleButton.gwt-ToggleButton-up {
-			width: 22px !important;
-			height: 22px;
-		}
-
-		.marblePanel.error { 
-			padding-left: 16px;
-			padding-right: 16px;
-		}
-
-		.marblePanel.help {
-			width: 48px !important;
-		}
-
-
-		.marblePanel.error, 
-		.marblePanel.help,
-		.marblePanel.plus {
-
-			.gwt-Image {
-				height: 24px;
-				width: 24px;
-			}
-		}
-
-		.marblePanel.plus {
-			padding-top: 0px;
-			padding-left: 4px;
-			padding-right: 4px;
-			min-height: 47px;
-			/*width: 62px; */
-			img {
-				opacity: 0.54;
-			}
-			.gwt-ToggleButton {
-				margin: 0px;
-				top: 0px;
-				padding: 12px;
-				padding: 12px;
-			}
-		}
-
-		.marblePanel.plus :hover{
-			img {
-				opacity: 1;
-			}
-		}
-
-		.marblePanel.text {
-			width: 57px !important;
-		}
-
-		.marble {
-			position: relative;
-			margin-top: -12px;
-			top: 50%;
-			height: 18px;
-			width: 18px;
-			background-color: $purple-default;
-			border: 1px solid $black;
-			border-radius: 24px;
-
-		}
-		.marble.elemHidden {
-			background-color: $white;
-		}
-		.marble.elemShown {
-			background-color: $purple-default;
-			border: 1px solid $marble-border;
-
-			.textOverMarble {
-				opacity: 1;
-			}
-		}
-
-		div[data-title="Input Help"]:hover:after {
-			top: 48px;
-		}
-
-		.scrollableTextBox,
-		.scrollableTextBox.avPreview,
-		.scrollableTextBox.noPreview,
-		.avItemContent {
-			padding-top: 10px;
-			padding-left: 68px;
-			padding-bottom: 0px;
-			display: inline-block;
-		}
-
-		&.algebraPanelScientific {
-			.avItem .gwt-TreeItem, .NewRadioButtonTreeItemParent {
-				border-width: 0;
-
-				&.focused {
-					border-top: none;
-					border-bottom: none;
-				}
-			}
-			.AlgebraViewObjectStylebar.smallStylebar {
-				padding: 12px 8px 0 0;
-			}
-			.scrollableTextBox,
-			.scrollableTextBox.avPreview,
-			.scrollableTextBox.noPreview, 
-			.avItem .elemText,
-			.avItem .elemText.scrollableTextBox {
-				margin-left: $scientificHeaderWidth;
-				padding-left: 0px;
-				border-bottom: 1px $tool-border solid;
-				width: calc(100% - #{$scientificHeaderWidth});
-				box-sizing: border-box;
-				min-height: 48px;
-			}
-			.avInputItem {
-				margin-top: 0;
-			}
-		}
-
-		.avItem .elemText.noPadding{
-			padding-left: 0;
-			padding-top: 6px;
-		}
-		.avItem .elemText.additionalRow{
-			display: flex;
-			padding-top: 16px !important;
-		}
-		.avItem .elemText.avPlainText.avOutput {
-			line-height: 30px;
-		}
-		.avItem .elemText {
-			padding-top: 14px;
-			padding-bottom: 0px;
-			padding-left: 68px;
-			&.noPreview:not(.scrollableTextBox) {
-				padding-bottom: 4px;
-			}
-		}
-
-		.avItem .gwt-CheckBox{
-			padding-left: 68px;
-			padding-top: 8px;
-		}
-
-		.avItemContent {
-			padding-top: 6px;
-			min-height: 72px;
-
-			.panelRow {
-				padding-top: 8px;
-			}
-
-			&.avSlider {
-				padding-top: 10px !important;
-			}
-		}
-
-		.avEditSlider {
-			padding-top: 0px;
-
-			.panelRow {
-				padding-top: 4px;
-			}
-		}
-
-		.avSlider {
-			.panelRow {
-				padding-top: 20px;
-			}
-		}
-		.playOnly {
-			position: absolute;
-			top: 42px;
-			right: 3px;
-
-			img {
-				opacity: 0.54;
-			}
-
-			&:hover {
-				img {
-					opacity: 1;
-				}
-			}
-		}
-
-		.speedPanel {
-			position: absolute;
-			top: 4px;
-			right: 0px;
-			opacity: 1;
-			transition: 0.3s ease;
-			z-index: $z-algebra-speed-panel;
-			cursor: default;
-
-			.flatButton {
-				margin: 0px;
-				padding: 0px;
-				width: 24px;
-				height: 24px;
-				cursor: pointer;
-				img {
-					opacity: 0.54;
-				}
-
-				&:hover {
-					img {
-						opacity: 0.84;
+					&:focus {
+						border: none;
+						border-bottom: 1px solid $tool-border;
 					}
 				}
 			}
-
-			.value {
-				display: inline-block;
-				width: 40px;
-				font-size: 0.8em;
-				text-align: center;
-				vertical-align: top;
-				border: none;
-				outline: none;
-				overflow: hidden;
-				height: 19px;
-				margin-right: 0px;
-				line-height: 200%;
-			}
-
-		}
-
-		.speedPanel-hidden {
-			@extend .speedPanel;
-			opacity: 0;
-			transition: 0.2s ease;
-			z-index: $z-hidden;
-		}
-
-		.speedPanel-hidden >* {
-			display: none;
-		}
-
-		.speedPanel >* {
-			display: inline-block;
-		}
-
-		.more {
-			opacity: 0.54 !important;
-			transition: 0.3s ease;
-
-			&:hover {
-				opacity: 1 !important;
-			}
-		}
-
-		.hidden {
-			display: none;
-		}
-		
-		.more-hidden {
-			opacity: 0 !important;
-			transition: 0.3s ease;
-			&:hover {
-				opacity:  !important;
-			}
-		}
-
-		.NewRadioButtonTreeItemParent {
-			border-top: $tool-border solid 1px;
-			border-bottom: $tool-border solid 1px;
-
-			&.focused {
-				border-top: $purple-default solid 1px;
-				border-bottom: $purple-default solid 1px;
-			}
-
-			.scrollableTextBox, .inputBorder {
-				min-height: 48px;
-				overflow: hidden;
-			}
-		}
-
-		.gwt-Tree .gwt-TreeItem .elem {
-			min-height: 48px;
-			position: relative;
 		}
 	}
 
 	.arrowOutputImg {
-		margin-right: 8px;
+		margin-right: 4px;
 		opacity: 0.54;
 		width: 24px !important;
 		height: 24px !important;
 	}
 
-	.algebraPanel {
-		height: 100%;
+    .algebraPanel {
+        height: 100%;
+
+		input[type="checkbox"] {
+			width: 24px;
+			height: 24px;
+			margin: 5px 7px 5px 0;
+		}
 	}
-}
 
-@keyframes removeSuggestions {
-	0% {max-height: 50px;}
-	100% {max-height: 10px;}
-}
+	.elemText .prefix, .elemText .prefixLatex {
+		position: relative;
+		transform: translateY(-5%) scale(1.3);
+		margin-left: 4px;
+		opacity: 0.54;
+	}
 
-@keyframes addSuggestions {
-	0% {max-height: 10px;}
-	100% {max-height: 50px;}
-}
-
-@keyframes addSuggestionsParent {
-	0% {margin-bottom: 0;}
-	100% {margin-bottom: 40px;}
-}
-
-@keyframes removeSuggestionsParent {
-	0% {margin-bottom: 40px;}
-	100% {margin-bottom: 0;}
+	.avDummyLabel {
+		display: inline-block;
+		color: $black-42;
+		line-height: 2;
+	}
 }
 

@@ -58,6 +58,8 @@
 
 	input[type="range"] {
 		padding: 5px 0;
+		-webkit-padding-before: 10px;
+		-webkit-padding-after: 10px;
 		margin: 0 10px;
 	}
 
@@ -88,7 +90,7 @@
 		font-size: 80%;
 	}
 
-	.gwt-Button, .suggestionButton, .buttonPanel .button, .headerbar .headerSecond .signInButton, .gwt-DialogBox .gwt-Button,
+	.gwt-Button, .buttonPanel .button, .headerbar .headerSecond .signInButton, .gwt-DialogBox .gwt-Button,
 	.DialogButtonPanel .gwt-Button, .inputHelp-detailPanelTitle .gwt-Button, .optionsPopup .gwt-Button {
 		border-radius: 5px;
 		border: 1px solid #6161FF;
@@ -1629,40 +1631,9 @@
 		left: 10px;
 	}
 
-	.marble {
-		height: 18px;
-		width: 18px;
-		background-color: #6161FF;
-		border: 1px solid #000000;
-		border-radius: 18px;
-
-		position: relative;
-		top: 50%;
-		margin-top: -10px;
-	}
-
-	.marble.elemHidden {
-		background-color: #FFFFFF;
-	}
-
-	.marble.elemShown {
-		background-color: #6161FF;
-		border: 1px solid #CCCCFF;
-	}
-
 	label {
 		display: inline;
 		font-weight: normal;
-	}
-
-	.algebraSimpleP {
-		height: 100%;
-		background-color: #FFFFFF;
-	}
-
-	.tb_img {
-		width: 32px;
-		height: 32px;
 	}
 
 	.bold {
@@ -1735,7 +1706,7 @@
 	}
 
 	.panelRow, .panelRowIndent, .panelIndent, .listBoxPanel, .optionsInput, .optionsPanel,
-	.optionsPanel .optionsPanelIndent, .minMaxPanel {
+	.optionsPanel .optionsPanelIndent {
 		display: block;
 	}
 
@@ -1749,7 +1720,7 @@
 
 	.panelRow > *, .listBoxPanel > *, .panelRowIndent > *, .panelRowCell > *,
 	.panelRowCell > *, .optionsPanel > *, .optionsPanelIndent > *, .optionsPanelCell > *,
-	.textOptionsToolBar > *, .BackgroundColorPanel > *, .minMaxPanel > * {
+	.textOptionsToolBar > *, .BackgroundColorPanel > * {
 		display: inline-block;
 		vertical-align: middle;
 		margin: 3px 10px 3px 0;
@@ -2624,28 +2595,6 @@
 
 	/* AV Extensions */
 
-	.avItemContent {
-		width: 100%;
-		padding-top: 2px;
-		padding-bottom: 8px;
-		box-sizing: border-box;
-	}
-
-	.avItemContent img {
-		vertical-align: middle;
-	}
-
-	.avSliderValue {
-		padding: 0 !important;
-		width: 100%;
-	}
-
-	.avSliderValue .avPlainTextItem {
-		padding-top: 10px;
-		padding-bottom: 5px;
-		width: 100%;
-	}
-
 	.avPlayButton {
 		height: 24px;
 		border: none;
@@ -2655,35 +2604,11 @@
 
 	/* Options Slider */
 
-	.avItemContent {
-		padding-left: 40px;
-	}
-
-	.penSubMenu .optionsSlider .gwt-Label,
-	.avItemContent .optionsSlider .gwt-Label {
-		margin: 0;
-		display: inline-block;
-	}
-
-	.penSubMenu .optionsSlider .gwt-Label:first-child,
-	.avItemContent .optionsSlider .gwt-Label:first-child {
-		padding-right: 15px;
-	}
-
-	.penSubMenu .optionsSlider .gwt-Label:last-child,
-	.avItemContent .optionsSlider .gwt-Label:last-child {
-		padding-left: 15px;
-	}
-
-	.penSubMenu .optionsSlider .ui-slider,
-	.avItemContent .optionsSlider .ui-slider {
+	.penSubMenu .optionsSlider .ui-slider {
 		margin: 0;
 	}
 
-	/*.avItemContent .optionsSlider .ui-slider.ui-slider-horizontal.ui-widget.ui-widget-content.ui-corner-all*/
-
-	.penSubMenu .optionsSlider .ui-slider,
-	.avItemContent .optionsSlider .ui-slider {
+	.penSubMenu .optionsSlider .ui-slider {
 		background: none;
 		border: none;
 
@@ -2692,19 +2617,6 @@
 
 		/* white outline for better contrast */
 		box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.4);
-	}
-
-	.marbleHidden {
-		visibility: hidden;
-	}
-
-	.minMaxPanel > * {
-		margin: 0;
-	}
-
-	.minMaxPanel .gwt-Label {
-		margin-left: 5px;
-		margin-right: 5px;
 	}
 
 	.ggbScreenshot {
@@ -2828,5 +2740,9 @@
 		border-radius: 4px;
 		padding: 8px;
 		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+	}
+
+	.panelRow .optionsSlider input[type=range] {
+		display: inline-block;
 	}
 }

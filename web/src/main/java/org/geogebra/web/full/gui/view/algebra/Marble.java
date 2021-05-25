@@ -78,18 +78,7 @@ public class Marble extends SimplePanel {
 	 *            true tfor visible, false for invisible geo
 	 */
 	public void setChecked(boolean value) {
-		if (value) {
-			// Steffi: Marbles will be drawn by css now
-			// setImage(showUrl.asString());
-			this.removeStyleName("elemHidden");
-			this.addStyleName("elemShown");
-			updateMarble(true);
-		} else {
-			// setImage(hiddenUrl.asString());
-			this.removeStyleName("elemShown");
-			this.addStyleName("elemHidden");
-			updateMarble(false);
-		}
+		updateMarble(value);
 	}
 
 	/**

@@ -82,9 +82,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 			}
 			simplep = new SimplePanel(aview = av);
 			algebrap.add(simplep);
-			simplep.addStyleName("algebraSimpleP");
 			algebrap.addStyleName("algebraPanel");
-			algebrap.addStyleName("matAvDesign");
 			algebrap.addDomHandler(new ClickHandler() {
 
 				@Override

@@ -206,9 +206,6 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/web/resources/scss/headerbar.scss")
 	SassResource headerbarStyle();
 
-	@Source("org/geogebra/web/resources/scss/av.scss")
-	SassResource avStyle();
-
 	@Source("org/geogebra/web/resources/scss/toolbar-styles.scss")
 	SassResource toolBarStyleScss();
 

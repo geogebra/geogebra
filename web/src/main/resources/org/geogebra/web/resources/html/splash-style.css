@@ -209,11 +209,11 @@ margin: 0px 5px 0px 0px;
 	opacity:0.3;
 }
 
-.NewRadioButtonTreeItemParent.startScreen .latexEditor>div{
+.newRadioButtonTreeItemParent.startScreen .latexEditor>div{
 display:inline-block;
 }
 
-.NewRadioButtonTreeItemParent.startScreen {
+.newRadioButtonTreeItemParent.startScreen {
 position:absolute;
 top:53px;
 border-bottom:1px #dcdcdc solid;
@@ -253,11 +253,11 @@ border:1px solid #dcdcdc
     display: none;
 }
 
-.exam-simple  .NewRadioButtonTreeItemParent.startScreen  {
+.exam-simple  .newRadioButtonTreeItemParent.startScreen  {
     width: 100%;
 }
 
-.cas  .NewRadioButtonTreeItemParent.startScreen, .exam-cas  .NewRadioButtonTreeItemParent.startScreen  {
+.cas  .newRadioButtonTreeItemParent.startScreen, .exam-cas  .newRadioButtonTreeItemParent.startScreen  {
     width: 50%;
 }
 
