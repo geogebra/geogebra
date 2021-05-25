@@ -80,8 +80,8 @@ public class SymbolicProcessor {
 			if (ev instanceof Command && ev != root.unwrap()) {
 				GeoSymbolic symbolic = processor.evalSymbolicNoLabel(ev, evalInfo);
 				ExpressionValue outputValue = symbolic.getValue().unwrap();
-				if (outputValue instanceof NumberValue &&
-						!((NumberValue) outputValue).isDefined()) {
+				if (outputValue instanceof NumberValue
+						&& !((NumberValue) outputValue).isDefined()) {
 					// If processing of sub-expression failed
 					return ev;
 				}
