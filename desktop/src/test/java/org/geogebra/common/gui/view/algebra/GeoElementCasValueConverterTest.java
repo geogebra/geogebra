@@ -1,11 +1,11 @@
 package org.geogebra.common.gui.view.algebra;
 
+import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoSymbolicTest;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class GeoElementCasValueConverterTest extends GeoSymbolicTest {
+public class GeoElementCasValueConverterTest extends BaseSymbolicTest {
 
 	private final GeoElementValueConverter converter = new GeoElementValueConverter();
 
