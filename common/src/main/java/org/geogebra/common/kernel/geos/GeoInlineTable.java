@@ -23,11 +23,6 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 	private double minWidth = 2 * MIN_CELL_SIZE;
 	private double minHeight = 2 * MIN_CELL_SIZE;
 
-	private Double tmpXMLWidth;
-	private Double tmpXMLHeight;
-	private Double tmpXMLContentWidth;
-	private Double tmpXMLContentHeight;
-
 	/**
 	 * Creates new GeoElement for given construction
 	 *
@@ -133,39 +128,5 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 
 	public void setMinHeight(double minHeight) {
 		this.minHeight = minHeight;
-	}
-
-	/**
-	 * @param tmpWidth height
-	 * @param tmpHeight width
-	 */
-	public void setTmpXMLSize(Double tmpWidth, Double tmpHeight) {
-		tmpXMLWidth = tmpWidth;
-		tmpXMLHeight = tmpHeight;
-	}
-
-	/**
-	 * @param tmpWidth height
-	 * @param tmpHeight width
-	 */
-	public void setTmpXMLContentSize(Double tmpWidth, Double tmpHeight) {
-		tmpXMLContentWidth = tmpWidth;
-		tmpXMLContentHeight = tmpHeight;
-	}
-
-	/**
-	 * sets width/height to temporarily stored values
-	 */
-	public void updateSizeFromTmpXMLIfNeeded() {
-		if (tmpXMLWidth != null || tmpXMLHeight != null) {
-			setHeight(tmpXMLHeight);
-			setWidth(tmpXMLWidth);
-			setTmpXMLSize(null, null);
-		}
-		if (tmpXMLContentWidth != null || tmpXMLContentHeight != null) {
-			setContentHeight(tmpXMLContentHeight);
-			setContentWidth(tmpXMLContentWidth);
-			setTmpXMLContentSize(null, null);
-		}
 	}
 }

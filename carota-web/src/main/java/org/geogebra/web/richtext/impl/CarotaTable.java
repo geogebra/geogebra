@@ -157,4 +157,6 @@ public class CarotaTable implements HasContent {
 	public final void removeColumn() {
 		removeColumn(selectionX());
 	}
+
+	public native void setExternalScale(double sx);
 }

@@ -267,11 +267,14 @@ public class ConsElementXMLHandler {
 					((GeoEmbed) geo).setContentHeight(heightD);
 				} else {
 					((RectangleTransformable) geo).setAngle(angleD);
-					if (geo instanceof GeoInlineTable) {
-						((GeoInlineTable) geo).setTmpXMLSize(widthD, heightD);
-					} else if (geo instanceof GeoInlineText || geo instanceof GeoFormula) {
+					if (geo instanceof GeoInlineText || geo instanceof GeoFormula
+							|| geo instanceof GeoInlineTable) {
 						((GeoInline) geo).setWidth(widthD);
 						((GeoInline) geo).setHeight(heightD);
+						if (((GeoInline) geo).isOldFile()) {
+							((GeoInline) geo).setContentWidth(widthD);
+							((GeoInline) geo).setContentHeight(heightD);
+						}
 					} else {
 						((RectangleTransformable) geo).setSize(widthD, heightD);
 					}
@@ -2357,12 +2360,9 @@ public class ConsElementXMLHandler {
 			geoEmbed.setContentHeight(height);
 		} else {
 			GeoInline geoInline = (GeoInline) geo;
-			if (geo instanceof GeoInlineTable) {
-				((GeoInlineTable) geo).setTmpXMLContentSize(width, height);
-			} else {
-				geoInline.setContentWidth(width);
-				geoInline.setContentHeight(height);
-			}
+			geoInline.setContentWidth(width);
+			geoInline.setContentHeight(height);
+			geoInline.setOldFile(false);
 		}
 	}
 

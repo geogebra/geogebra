@@ -25,6 +25,8 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	private double xScale;
 	private double yScale;
 
+	private boolean isOldFile = true;
+
 	public GeoInline(Construction cons) {
 		super(cons);
 	}
@@ -238,5 +240,13 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 
 	public void setHeight(double height) {
 		this.height = height;
+	}
+
+	public boolean isOldFile() {
+		return isOldFile;
+	}
+
+	public void setOldFile(boolean oldFile) {
+		isOldFile = oldFile;
 	}
 }
