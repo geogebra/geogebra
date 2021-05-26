@@ -271,7 +271,7 @@ public class ConsElementXMLHandler {
 							|| geo instanceof GeoInlineTable) {
 						((GeoInline) geo).setWidth(widthD);
 						((GeoInline) geo).setHeight(heightD);
-						if (((GeoInline) geo).isOldFile()) {
+						if (((GeoInline) geo).isZoomingEnabled()) {
 							((GeoInline) geo).setContentWidth(widthD);
 							((GeoInline) geo).setContentHeight(heightD);
 						}
@@ -2362,7 +2362,7 @@ public class ConsElementXMLHandler {
 			GeoInline geoInline = (GeoInline) geo;
 			geoInline.setContentWidth(width);
 			geoInline.setContentHeight(height);
-			geoInline.setOldFile(false);
+			geoInline.setZoomingEnabled(false);
 		}
 	}
 
