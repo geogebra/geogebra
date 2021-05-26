@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
@@ -269,7 +270,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private ExpressionValue maybeComputeNumericValue(ExpressionValue casOutput) {
-		if (casOutput == null || !casOutput.isNumberValue()) {
+		if (!shouldComputeNumericValue(casOutput)) {
 			return null;
 		}
 		Log.debug("GeoSymbolic is a number value, calculating numeric result");
@@ -278,6 +279,15 @@ public class GeoSymbolic extends GeoElement
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	private boolean shouldComputeNumericValue(ExpressionValue casOutput) {
+		if (casOutput != null && casOutput.isNumberValue()) {
+			ExpressionValue unwrapped = casOutput.unwrap();
+			return !(unwrapped instanceof NumberValue && !((NumberValue) unwrapped).isDefined())
+					&& !(unwrapped instanceof GeoDummyVariable);
+		}
+		return false;
 	}
 
 	private ExpressionValue computeNumericValue(ExpressionValue casOutput) {
