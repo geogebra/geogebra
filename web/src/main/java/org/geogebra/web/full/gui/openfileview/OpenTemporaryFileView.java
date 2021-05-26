@@ -29,6 +29,7 @@ public class OpenTemporaryFileView extends HeaderFileView implements
 		this.app = app;
 		app.registerOpenFileListener(this);
 		common = new FileViewCommon(app, "Open");
+		common.addStyleName("examTemporaryFiles");
 		tempStorage = app.getExam().getTempStorage();
 	}
 
