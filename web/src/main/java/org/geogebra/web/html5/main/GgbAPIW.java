@@ -576,7 +576,10 @@ public class GgbAPIW extends GgbAPI {
 
 			if (ind > -1 && imgExtensions.contains(fileName.substring(ind + 1).toLowerCase())) {
 				String base64 = fileContent.substring(fileContent.indexOf(',') + 1);
-				fflatePrepared.set(fileName, new JsArray<>(Base64.base64ToBytes(base64)));
+				JsArray<Object> archiveEntry = new JsArray<>(Base64.base64ToBytes(base64));
+				JsPropertyMap<?> options = JsPropertyMap.of("level", 0);
+				archiveEntry.push(options);
+				fflatePrepared.set(fileName, archiveEntry);
 			} else {
 				fflatePrepared.set(fileName, FFlate.get().strToU8(fileContent));
 			}

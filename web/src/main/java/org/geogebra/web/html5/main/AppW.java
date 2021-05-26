@@ -128,6 +128,7 @@ import org.geogebra.web.html5.safeimage.ImageLoader;
 import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
+import org.geogebra.web.html5.util.Base64;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
@@ -159,6 +160,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.core.ArrayBuffer;
+import elemental2.core.Uint8Array;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
 import elemental2.dom.FileReader;
@@ -726,20 +728,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @param dataUrl
 	 *            the data url to load the ggb file
-	 * @param isggs
-	 *            whether the extension is GGS
 	 */
-	public void loadGgbFileAsBase64Again(String dataUrl, boolean isggs) {
+	public void loadGgbFileAsBase64(String dataUrl) {
 		prepareReloadGgbFile();
 		ViewW view = getViewW();
-		EmbedManager embedManager = getEmbedManager();
-		if (!isggs && embedManager != null) {
-			Material mat = new Material(-1, Material.MaterialType.ggb);
-			mat.setBase64(dataUrl);
-			embedManager.embed(mat);
-		} else {
-			view.processBase64String(dataUrl);
-		}
+		view.processBase64String(dataUrl);
 	}
 
 	/**
@@ -747,11 +740,20 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *
 	 * @param binary
 	 *            binary file
+	 * @param isSlides
+	 *            whether the extension is GGS
 	 */
-	public void loadGgbFileAsBinaryAgain(ArrayBuffer binary) {
+	public void loadGgbFileAsBinary(ArrayBuffer binary, boolean isSlides) {
 		prepareReloadGgbFile();
 		ViewW view = getViewW();
-		view.processBinaryData(binary);
+		EmbedManager embedManager = getEmbedManager();
+		if (!isSlides && embedManager != null) {
+			Material mat = new Material(-1, Material.MaterialType.ggb);
+			mat.setBase64(Base64.bytesToBase64(new Uint8Array(binary)));
+			embedManager.embed(mat);
+		} else {
+			view.processBinaryData(binary);
+		}
 	}
 
 	private void prepareReloadGgbFile() {
@@ -1227,21 +1229,26 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		FileReader reader = new FileReader();
-		reader.addEventListener("load", (event) -> {
-			if (reader.readyState == FileReader.DONE) {
-				String fileStr = reader.result.asString();
-				if (fileName.matches(".*\\.(ggb|ggt|ggs)$")) {
-					loadGgbFileAsBase64Again(fileStr, fileName.endsWith(".ggs"));
+		if (fileName.matches(".*\\.(ggb|ggt|ggs)$")) {
+			reader.addEventListener("load",
+					(event) -> loadGgbFileAsBinary(reader.result.asArrayBuffer(),
+							fileName.endsWith("ggs")));
+			reader.readAsArrayBuffer(fileToHandle);
+		} else {
+			reader.addEventListener("load", (event) -> {
+				if (reader.readyState == FileReader.DONE) {
+					String fileStr = reader.result.asString();
+					if (fileName.endsWith(".csv")) {
+						openCSV(DomGlobal.atob(fileStr.substring(fileStr.indexOf(",") + 1)));
+					}
+					if (fileName.endsWith(".off")) {
+						openOFF(DomGlobal.atob(fileStr.substring(fileStr.indexOf(",") + 1)));
+					}
 				}
-				if (fileName.endsWith(".csv")) {
-					openCSV(DomGlobal.atob(fileStr.substring(fileStr.indexOf(",") + 1)));
-				}
-				if (fileName.endsWith(".off")) {
-					openOFF(DomGlobal.atob(fileStr.substring(fileStr.indexOf(",") + 1)));
-				}
-			}
-		});
-		reader.readAsDataURL(fileToHandle);
+			});
+			reader.readAsDataURL(fileToHandle);
+		}
+
 		return true;
 	}
 
