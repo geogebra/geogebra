@@ -50,7 +50,7 @@ public interface Icon {
 	 * Component argument to get properties useful for painting, e.g. the
 	 * foreground or background color.
 	 */
-	void paintIcon(HasForegroundColor c, Graphics2DInterface g, int x, int y);
+	void paintIcon(HasForegroundColor c, Graphics2DInterface g, double x, double y);
 
 	/**
 	 * Returns the icon's width.

@@ -8,7 +8,6 @@ import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyListener;
-import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
@@ -125,6 +124,16 @@ public class MathFieldCommon implements MathField {
 		return false;
 	}
 
+	@Override
+	public void parse(String str) {
+
+	}
+
+	@Override
+	public void setPlainText(String str) {
+
+	}
+
 	/**
 	 * @return common implementation
 	 */
@@ -137,7 +146,7 @@ public class MathFieldCommon implements MathField {
 	 *            text to be inserted
 	 */
 	public void insertString(String text) {
-		KeyboardInputAdapter.insertString(internal, text);
+		internal.insertString(text);
 		internal.update();
 	}
 

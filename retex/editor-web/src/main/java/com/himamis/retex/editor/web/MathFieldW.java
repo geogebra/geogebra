@@ -59,7 +59,6 @@ import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
@@ -598,7 +597,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		ctx.canvas.width = (int) Math.ceil(width * ratio);
 		wasPaintedWithCursor = CursorBox.visible();
 
-		int margin = getMargin(lastIcon);
+		double margin = getMargin(lastIcon);
 
 		paint(ctx, margin);
 		lastIcon.paintCursor(new Graphics2DW(ctx), margin);
@@ -612,7 +611,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * Paints the formula on a canvas
 	 * @param ctx canvas context
 	 */
-	public void paint(CanvasRenderingContext2D ctx, int top) {
+	public void paint(CanvasRenderingContext2D ctx, double top) {
 		JlmLib.draw(lastIcon, ctx, 0, top, new ColorW(foregroundCssColor),
 				new ColorW(backgroundCssColor), null, ratio);
 	}
@@ -626,7 +625,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private double computeHeight() {
-		int margin = getMargin(lastIcon);
+		double margin = getMargin(lastIcon);
 		return Math.max(roundUp(lastIcon.getIconHeight() + margin + bottomOffset), minHeight);
 	}
 
@@ -642,11 +641,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		return lastIcon.getIconDepth();
 	}
 
-	private int getMargin(TeXIcon lastIcon2) {
+	private double getMargin(TeXIcon lastIcon2) {
 		return fixMargin > 0 ? fixMargin : (int) Math.max(0,
-				roundUp(-lastIcon2.getTrueIconHeight()
+				-lastIcon2.getTrueIconHeight()
 						+ lastIcon2.getTrueIconDepth()
-						+ getFontSize()));
+						+ getFontSize());
 	}
 
 	private boolean active(Object element) {
@@ -841,7 +840,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            create fractions/exponents
 	 */
 	public void insertString(String text) {
-		KeyboardInputAdapter.insertString(mathFieldInternal, text);
+		mathFieldInternal.insertString(text);
 	}
 
 	private Element getHiddenTextArea() {
@@ -1097,23 +1096,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		this.leftAltDown = leftAltDown;
 	}
 
-	/**
-	 * In plain mode just fill with text (linear), otherwise parse math (ASCII
-	 * math syntax) into the editor.
-	 * 
-	 * @param text0
-	 *            text
-	 * @param asPlainText
-	 *            whether to use it as plain text
-	 */
-	public void setText(String text0, boolean asPlainText) {
-		if (asPlainText) {
-			mathFieldInternal.parse("");
-			setPlainTextMode(true);
-			insertString(text0);
-		} else {
-			mathFieldInternal.parse(text0);
-		}
+	@Override
+	public void parse(String text) {
+		mathFieldInternal.parse(text);
+	}
+
+	@Override
+	public void setPlainText(String text) {
+		mathFieldInternal.setPlainText(text);
 	}
 
 	/**
@@ -1154,9 +1144,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		mathFieldInternal.setCaretPath(path);
 	}
 
-	/**
-	 * @return the cross-platform representation of this field
-	 */
+	@Override
 	public MathFieldInternal getInternal() {
 		return mathFieldInternal;
 	}

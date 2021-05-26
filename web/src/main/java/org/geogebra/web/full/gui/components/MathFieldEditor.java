@@ -12,6 +12,7 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
+import org.geogebra.web.html5.gui.accessibility.AccessibleInputBox;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.util.Dom;
@@ -51,6 +52,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	private String label = "";
 	private boolean useKeyboardButton = true;
 	private boolean editable = true;
+	private String errorText;
 
 	/**
 	 * Constructor
@@ -164,9 +166,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 */
 	public void setText(String text) {
 		if (!"?".equals(text)) {
-			setErrorStyle(false);
+			main.removeStyleName("errorStyle");
 		}
-		mathField.setText(text, false);
+		mathField.parse(text);
 	}
 
 	/**
@@ -307,6 +309,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 */
 	public void updateAriaLabel() {
 		String fullDescription = label + " " + mathField.getDescription();
+		if (errorText != null) {
+			fullDescription += " " + errorText;
+		}
 		mathField.setAriaLabel(fullDescription.trim());
 	}
 
@@ -337,8 +342,12 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 		mathField.setPlainTextMode(paramTextMode);
 	}
 
-	public void setErrorStyle(boolean hasError) {
-		Dom.toggleClass(main, "errorStyle", hasError);
+	/**
+	 * @param error error text or null to reset
+	 */
+	public void setErrorText(String error) {
+		Dom.toggleClass(main, "errorStyle", error != null);
+		errorText = error;
 	}
 
 	/**
@@ -348,5 +357,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 		this.editable = editable;
 		getMathField().setEnabled(editable);
 		Dom.toggleClass(asWidget(), "disabled", !editable);
+	}
+
+	protected String getErrorMessage() {
+		return AccessibleInputBox.getErrorText(app.getLocalization());
 	}
 }
