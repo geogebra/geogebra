@@ -1,5 +1,5 @@
 <script>
-var showHeader = window.appOnline === true && !(window.isEmbed && window.isEmbed());
+var showHeader = !(window.isEmbed && window.isEmbed());
 defaultParams.marginTop = showHeader ? 64 : 0;
 if (appID == "scientific") {
 	defaultParams.marginTop = 112;
