@@ -14,7 +14,6 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -46,9 +45,9 @@ public class TableCanvasExporter {
 		this.app = app;
 		this.ssGrid = table.ssGrid;
 		rowCount = findFirst(table.getRowCount(),
-				row -> getPixelRelative(0, row).y > offsetHeight);
+				row -> table.getPixelRelative(0, row).y > offsetHeight);
 		columnCount = findFirst(table.getColumnCount(),
-				col -> getPixelRelative(col, 0).x > offsetWidth);
+				col -> table.getPixelRelative(col, 0).x > offsetWidth);
 		graphics = new GGraphics2DW(context2d);
 	}
 
@@ -93,15 +92,15 @@ public class TableCanvasExporter {
 		graphics.setColor(GColor.LIGHT_GRAY);
 		GLine2D line = new Line2D.Double(0, 0, 0, 0);
 		for (int col = 0; col <= columnCount; col++) {
-			GPoint topPx = getPixelRelative(col, 0);
-			GPoint bottomPx = getPixelRelative(col, rowCount - 1);
+			GPoint topPx = table.getPixelRelative(col, 0);
+			GPoint bottomPx = table.getPixelRelative(col, rowCount - 1);
 			line.setLine(topPx.x + headerWidth, topPx.y,
 					bottomPx.x + headerWidth, bottomPx.y + headerHeight);
 			graphics.draw(line);
 		}
 		for (int row = 0; row < rowCount; row++) {
-			GPoint topPx = getPixelRelative(0, row);
-			GPoint bottomPx = getPixelRelative(columnCount, row);
+			GPoint topPx = table.getPixelRelative(0, row);
+			GPoint bottomPx = table.getPixelRelative(columnCount, row);
 			line.setLine(topPx.x , topPx.y + headerHeight,
 					bottomPx.x + headerWidth, bottomPx.y + headerHeight);
 			graphics.draw(line);
@@ -117,16 +116,16 @@ public class TableCanvasExporter {
 		graphics.setColor(GColor.BLACK);
 		for (int col = 0; col < columnCount; col++) {
 			String text = GeoElementSpreadsheet.getSpreadsheetColumnName(col);
-			GPoint leftPx = getPixelRelative(col, 1);
-			GPoint rightPx = getPixelRelative(col + 1, 1);
+			GPoint leftPx = table.getPixelRelative(col, 1);
+			GPoint rightPx = table.getPixelRelative(col + 1, 1);
 
 			drawCentered(graphics, text, (leftPx.x + rightPx.x) / 2
 					+ headerWidth, leftPx.y / 2);
 		}
 		for (int row = 0; row < rowCount; row++) {
 			String text = String.valueOf(row + 1);
-			GPoint leftPx = getPixelRelative(0, row);
-			GPoint rightPx = getPixelRelative(0, row + 1);
+			GPoint leftPx = table.getPixelRelative(0, row);
+			GPoint rightPx = table.getPixelRelative(0, row + 1);
 			drawCentered(graphics, text, headerWidth / 2,
 					(leftPx.y + rightPx.y) / 2 + headerHeight);
 		}
@@ -148,10 +147,10 @@ public class TableCanvasExporter {
 		if (widget instanceof Canvas) {
 			HTMLCanvasElement formula = Js.uncheckedCast(widget.getElement());
 			if (alignment == CellFormat.ALIGN_LEFT) {
-				GPoint pt = getPixelRelative(col, row);
+				GPoint pt = table.getPixelRelative(col, row);
 				context2d.drawImage(formula, pt.x + CELL_PADDING_X, pt.y + CELL_PADDING_Y);
 			} else {
-				GPoint pt = getPixelRelative(col + 1, row);
+				GPoint pt = table.getPixelRelative(col + 1, row);
 				context2d.drawImage(formula, pt.x - formula.offsetWidth - CELL_PADDING_X,
 						pt.y + CELL_PADDING_Y);
 			}
@@ -160,23 +159,13 @@ public class TableCanvasExporter {
 
 		String txt = ssGrid.getText(row, col);
 		if (alignment == CellFormat.ALIGN_LEFT) {
-			GPoint pt = getPixelRelative(col, row + 1);
+			GPoint pt = table.getPixelRelative(col, row + 1);
 			context2d.fillText(txt, pt.x + CELL_PADDING_X, pt.y - CELL_PADDING_Y);
 		} else {
-			GPoint pt = getPixelRelative(col + 1, row + 1);
+			GPoint pt = table.getPixelRelative(col + 1, row + 1);
 			double textWidth = context2d.measureText(txt).width;
 			context2d.fillText(txt, pt.x - CELL_PADDING_X - textWidth, pt.y - CELL_PADDING_Y);
 		}
-	}
-
-	protected GPoint getPixelRelative(int column, int row) {
-		Element wt = ssGrid.getCellFormatter().getElement(Math.min(row, table.getRowCount() - 1),
-				Math.min(column, table.getColumnCount() - 1));
-		int offx = ssGrid.getAbsoluteLeft() - (column == table.getColumnCount()
-				? wt.getOffsetWidth() : 0);
-		int offy = ssGrid.getAbsoluteTop() - (row == table.getRowCount()
-				? wt.getOffsetHeight() : 0);
-		return new GPoint(wt.getAbsoluteLeft() - offx, wt.getAbsoluteTop() - offy);
 	}
 
 }

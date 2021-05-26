@@ -1494,6 +1494,16 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		        + wt.getOffsetHeight());
 	}
 
+	protected GPoint getPixelRelative(int column, int row) {
+		Element wt = ssGrid.getCellFormatter().getElement(Math.min(row, getRowCount() - 1),
+				Math.min(column, getColumnCount() - 1));
+		int offx = ssGrid.getAbsoluteLeft() - (column == getColumnCount()
+				? wt.getOffsetWidth() : 0);
+		int offy = ssGrid.getAbsoluteTop() - (row == getRowCount()
+				? wt.getOffsetHeight() : 0);
+		return new GPoint(wt.getAbsoluteLeft() - offx, wt.getAbsoluteTop() - offy);
+	}
+
 	protected GPoint getMinSelectionPixel() {
 		return getPixel(minSelectionColumn, minSelectionRow, true);
 	}
