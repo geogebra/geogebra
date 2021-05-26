@@ -137,6 +137,7 @@ public interface GeoGebraConstants {
 	String CLASSIC_APPCODE = "classic";
 	String EVALUATOR_APPCODE = "evaluator";
 	String NOTES_APPCODE = "notes";
+	String PROBABILITY_APPCODE = "probability";
 
 	String SUITE_SHORT_NAME = "CalculatorSuite.short";
 
