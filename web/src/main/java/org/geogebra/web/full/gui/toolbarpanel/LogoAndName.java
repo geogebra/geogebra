@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
@@ -12,24 +13,33 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class LogoAndName implements IsWidget {
+public class LogoAndName implements IsWidget, SetLabels {
 
 	private static final int LOGO_MARGIN = 72; // 24px top + 48px bottom
 	private final Widget panel;
+	private final Label name;
+	private final App app;
 
 	/**
 	 * @param app application
 	 */
 	public LogoAndName(App	app) {
-		String transKey = app.getConfig().getVersion().getTransKey();
-		if (app.getConfig().getSubAppCode() != null) {
-			transKey = GeoGebraConstants.Version.SUITE.getTransKey();
-		}
-		Label name = new Label(app.getLocalization().getMenu(transKey));
+		this.app = app;
+		name = new Label();
 		NoDragImage icon = new NoDragImage(((AppWFull) app).getActivity().getIcon(),
 				24);
 		panel = LayoutUtilW.panelRow(icon, name);
 		panel.addStyleName("avNameLogo");
+		setLabels();
+	}
+
+	@Override
+	public void setLabels() {
+		String transKey = app.getConfig().getVersion().getTransKey();
+		if (app.getConfig().getSubAppCode() != null) {
+			transKey = GeoGebraConstants.Version.SUITE.getTransKey();
+		}
+		name.setText(app.getLocalization().getMenu(transKey));
 	}
 
 	@Override

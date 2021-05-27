@@ -29,11 +29,11 @@ public class Tools extends FlowPanel implements SetLabels {
 	/**
 	 * application
 	 */
-	private AppW app;
+	private final AppW app;
 	/**
 	 * see {@link ToolsTab}
 	 */
-	private ToolsTab parentTab;
+	private final ToolsTab parentTab;
 	/**
 	 * move button
 	 */
@@ -167,8 +167,8 @@ public class Tools extends FlowPanel implements SetLabels {
 
 	private class CategoryPanel extends FlowPanel implements SetLabels {
 
-		private ToolCategory category;
-		private List<Integer> tools;
+		private final ToolCategory category;
+		private final List<Integer> tools;
 
 		private FlowPanel toolsPanel;
 		private Label categoryLabel;
@@ -229,7 +229,9 @@ public class Tools extends FlowPanel implements SetLabels {
 		@Override
 		public void setLabels() {
 			// update label of category header
-			categoryLabel.setText(category.getLocalizedHeader(app.getLocalization()));
+			if (categoryLabel != null) {
+				categoryLabel.setText(category.getLocalizedHeader(app.getLocalization()));
+			}
 			// update tooltips of tools
 			for (ToolButton toolButton : toolButtonList) {
 				toolButton.setLabel();

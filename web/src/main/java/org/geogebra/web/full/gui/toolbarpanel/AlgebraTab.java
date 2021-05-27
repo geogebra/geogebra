@@ -155,4 +155,9 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 	protected void onActive() {
 		// unused
 	}
+
+	@Override
+	public void setLabels() {
+		logo.setLabels();
+	}
 }
