@@ -1059,8 +1059,11 @@ public class ToolbarPanel extends FlowPanel
 	public void setHeaderStyle(String style) {
 		resetHeaderClasses();
 		navRail.addStyleName(style);
-		navRail.updateIcons(true);
-		ExamUtil.makeRed(navRail.getElement(), "examCheat".equals(style));
+		boolean cheat = "examCheat".equals(style);
+		if (!cheat) {
+			navRail.updateIcons(true);
+		}
+		ExamUtil.makeRed(navRail.getElement(), cheat);
 	}
 
 	/**
