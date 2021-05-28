@@ -175,6 +175,14 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void setValueShouldChangeRandomSequence() {
+		app.setRandomSeed(42);
+		add("a=Sequence(RandomBetween(1,k),k,1,5)");
+		t("SetValue(a,{3,-2,3,2,5})", new String[0]);
+		t("a", "{1, 1, 3, 2, 5}");
+	}
+
+	@Test
 	public void setValueShouldChangeShuffle() {
 		app.setRandomSeed(42);
 		t("L_1=Shuffle(1..10)", "{8, 7, 3, 2, 6, 10, 4, 1, 5, 9}");
