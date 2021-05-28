@@ -63,8 +63,6 @@ public class ToolbarPanel extends FlowPanel
 	/** Closed width of header in landscape mode */
 	public static final int CLOSED_WIDTH_LANDSCAPE = 72;
 	public static final int CLOSED_WIDTH_LANDSCAPE_COMPACT = 56;
-	/** Min width of open header in landscape mode */
-	public static final int OPEN_MIN_WIDTH_LANDSCAPE = 160;
 	/** Loading width of open header in landscape mode */
 	public static final int OPEN_START_WIDTH_LANDSCAPE = 380;
 	/** Closed height of header in portrait mode */
