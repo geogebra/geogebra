@@ -5,9 +5,13 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Paint;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.RenderingHints.Key;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
+import java.util.Stack;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
@@ -35,6 +39,8 @@ import com.kitfox.svg.SVGException;
  * 
  */
 public class GGraphics2DD implements GGraphics2D {
+
+	private final Stack<Shape> clipStack;
 	private Graphics2D impl;
 
 	/**
@@ -44,12 +50,12 @@ public class GGraphics2DD implements GGraphics2D {
 	 */
 	public GGraphics2DD(Graphics2D g2Dtemp) {
 		impl = g2Dtemp;
+		clipStack = new Stack<>();
 	}
 
 	@Override
 	public void drawString(String str, int x, int y) {
 		impl.drawString(str, x, y);
-
 	}
 
 	@Override
@@ -75,7 +81,6 @@ public class GGraphics2DD implements GGraphics2D {
 		} else {
 			Log.error("unknown paint type");
 		}
-
 	}
 
 	private static Key getAwtHintKey(int key) {
@@ -123,19 +128,16 @@ public class GGraphics2DD implements GGraphics2D {
 	@Override
 	public void translate(double tx, double ty) {
 		impl.translate(tx, ty);
-
 	}
 
 	@Override
 	public void scale(double sx, double sy) {
 		impl.scale(sx, sy);
-
 	}
 
 	@Override
 	public void transform(GAffineTransform Tx) {
 		impl.transform(GAffineTransformD.getAwtAffineTransform(Tx));
-
 	}
 
 	/**
@@ -190,19 +192,16 @@ public class GGraphics2DD implements GGraphics2D {
 	@Override
 	public void setFont(GFont font) {
 		impl.setFont(GFontD.getAwtFont(font));
-
 	}
 
 	@Override
 	public void setStroke(GBasicStroke s) {
 		impl.setStroke(AwtFactoryD.getAwtStroke(s));
-
 	}
 
 	@Override
 	public void setColor(GColor selColor) {
 		impl.setColor(GColorD.getAwtColor(selColor));
-
 	}
 
 	@Override
@@ -217,7 +216,6 @@ public class GGraphics2DD implements GGraphics2D {
 
 	@Override
 	public void drawImage(MyImage img, int x, int y) {
-
 		MyImageD imgD = (MyImageD) img;
 
 		if (imgD.isSVG()) {
@@ -229,7 +227,6 @@ public class GGraphics2DD implements GGraphics2D {
 		} else {
 			impl.drawImage(imgD.getImage(), x, y, null);
 		}
-
 	}
 
 	@Override
@@ -255,21 +252,32 @@ public class GGraphics2DD implements GGraphics2D {
 	@Override
 	public void setClip(GShape shape) {
 		if (shape == null) {
-			impl.setClip(null);
+			resetClip();
 		} else if (shape instanceof GShapeD) {
-			impl.setClip(GGenericShapeD.getAwtShape(shape));
+			Shape oldClip = impl.getClip();
+			if (oldClip == null) {
+				impl.setClip(GGenericShapeD.getAwtShape(shape));
+				return;
+			}
+			Area intersection = new Area(oldClip);
+			intersection.intersect(new Area(GGenericShapeD.getAwtShape(shape)));
+			impl.setClip(intersection);
+			clipStack.push(oldClip);
 		}
 	}
 
 	@Override
 	public void resetClip() {
-		impl.setClip(null);
+		if (clipStack.isEmpty()) {
+			impl.setClip(null);
+		} else {
+			impl.setClip(clipStack.pop());
+		}
 	}
 
 	@Override
 	public void drawRect(int x, int y, int width, int height) {
 		impl.drawRect(x, y, width, height);
-
 	}
 
 	@Override
@@ -282,6 +290,15 @@ public class GGraphics2DD implements GGraphics2D {
 	public void setClip(int x, int y, int width, int height) {
 		impl.setClip(x, y, width, height);
 
+		Shape oldClip = impl.getClip();
+		if (oldClip == null) {
+			impl.setClip(x, y, width, height);
+			return;
+		}
+		Area intersection = new Area(oldClip);
+		intersection.intersect(new Area(new Rectangle(x,y,width,height)));
+		impl.setClip(intersection);
+		clipStack.push(oldClip);
 	}
 
 	/**
@@ -292,20 +309,19 @@ public class GGraphics2DD implements GGraphics2D {
 	 */
 	public void setImpl(Graphics2D g) {
 		impl = g;
+		clipStack.clear();
 	}
 
 	@Override
 	public void drawRoundRect(int x, int y, int width, int height, int arcWidth,
 			int arcHeight) {
 		impl.drawRoundRect(x, y, width, height, arcWidth, arcHeight);
-
 	}
 
 	@Override
 	public void fillRoundRect(int x, int y, int width, int height, int arcWidth,
 			int arcHeight) {
 		impl.fillRoundRect(x, y, width, height, arcWidth, arcHeight);
-
 	}
 
 	@Override
@@ -331,12 +347,10 @@ public class GGraphics2DD implements GGraphics2D {
 	@Override
 	public void setTransparent() {
 		impl.setComposite(AlphaComposite.Src);
-
 	}
 
 	@Override
 	public void draw(GShape shape) {
-
 		impl.draw(GGenericShapeD.getAwtShape(shape));
 	}
 
@@ -375,7 +389,6 @@ public class GGraphics2DD implements GGraphics2D {
 	@Override
 	public void updateCanvasColor() {
 		// TODO Auto-generated method stub
-
 	}
 
 	private GLine2D line;
@@ -400,7 +413,6 @@ public class GGraphics2DD implements GGraphics2D {
 
 		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
 				RenderingHints.VALUE_STROKE_PURE);
-
 	}
 
 	@Override
@@ -448,7 +460,6 @@ public class GGraphics2DD implements GGraphics2D {
 		} else {
 			impl.drawImage(img.getImage(), x, y, width, height, null);
 		}
-
 	}
 
 	private AffineTransform affineTransform;
