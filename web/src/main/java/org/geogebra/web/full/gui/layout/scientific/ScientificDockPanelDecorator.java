@@ -63,4 +63,11 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 					logo.onResize(aView, offsetHeight - margin));
 		}
 	}
+
+	@Override
+	public void setLabels() {
+		if (logo != null) {
+			logo.setLabels();
+		}
+	}
 }
