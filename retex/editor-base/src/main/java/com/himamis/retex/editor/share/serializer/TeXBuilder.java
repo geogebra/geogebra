@@ -356,14 +356,18 @@ public class TeXBuilder {
 					build(argument.getArgument(1))
 			);
 		case SUM_EQ:
+			Atom sum = newCharAtom('\u2211');
+			sum.type_limits = TeXConstants.SCRIPT_NORMAL;
 			return new ScriptsAtom(
-					newCharAtom('\u2211'),
+					sum,
 					build(argument.getArgument(0)),
 					build(argument.getArgument(1))
 			);
 		case PROD_EQ:
+			Atom prod = newCharAtom('\u220F');
+			prod.type_limits = TeXConstants.SCRIPT_NORMAL;
 			return new ScriptsAtom(
-					newCharAtom('\u220F'),
+					prod,
 					build(argument.getArgument(0)),
 					build(argument.getArgument(1))
 			);
@@ -396,6 +400,23 @@ public class TeXBuilder {
 		// the resize atom is just a hack so that the RowAtom is not destroyed
 		// when added to another row atom
 		return new ResizeAtom(new RowAtom(atoms), null, null);
+	}
+
+	/**
+	 * @param rootComponent
+	 *            root
+	 * @param currentField1
+	 *            selected field
+	 * @return atom representing the whole sequence
+	 */
+	public Atom build(MathSequence rootComponent, MathSequence currentField1, boolean textMode) {
+		this.currentField = currentField1;
+		this.atomToComponent = new HashMap<>();
+		Atom root = build(rootComponent);
+		if (textMode) {
+			return new RomanAtom(new TextStyleAtom(root, TextStyle.MATHNORMAL));
+		}
+		return root;
 	}
 
 	/**

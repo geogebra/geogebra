@@ -34,6 +34,7 @@ public class DrawInputBoxAlignmentTest {
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand("f = \"123456\" ", false);
 		inputBox = (GeoInputBox) app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommand("A = InputBox(f)", false)[0];
+		inputBox.setSymbolicMode(false);
 	}
 
 	@Test
