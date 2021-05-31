@@ -647,8 +647,8 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.insertImage(url + "", corner1 + "", corner2 + "", corner4 + "");
 	}
 
-	public void addImage(String fileName, String url) {
-		ggbAPI.addImage(fileName + "", url + "");
+	public void addImage(String fileName, String urlOrSvgContent) {
+		ggbAPI.addImage(fileName + "", urlOrSvgContent + "");
 	}
 
 	public void recalculateEnvironments() {
