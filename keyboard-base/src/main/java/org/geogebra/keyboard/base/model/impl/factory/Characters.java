@@ -35,7 +35,7 @@ public class Characters {
 	public static final char NU = '\u03BD';
 	public static final char XI = '\u03BE';
 	public static final char OMICRON = '\u03BF';
-	public static final char PI_CHAR = '\u03C0'; // used on iOS
+	public static final char PI_CHAR = '\u03C0';
 	public static final char RHO = '\u03C1';
 	public static final char SIGMA_SPECIAL = '\u03C2';
 	public static final char SIGMA = '\u03C3';
