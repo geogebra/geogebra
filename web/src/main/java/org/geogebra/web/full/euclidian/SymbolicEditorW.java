@@ -146,6 +146,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	@Override
 	public void onKeyTyped(String key) {
 		decorator.update();
+		addDegree(key, editor.getMathField().getInternal());
 		getGeoInputBox().update();
 		editor.scrollHorizontally();
 		editor.updateAriaLabel();

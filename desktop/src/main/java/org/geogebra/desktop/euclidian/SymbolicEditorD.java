@@ -150,6 +150,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 	@Override
 	public void onKeyTyped(String key) {
+		addDegree(key, mathField.getInternal());
 		String text = texSerializer.serialize(getMathFieldInternal().getFormula());
 		double currentHeight = app.getDrawEquation().measureEquation(app, null, text,
 				getDrawInputBox().getTextFont(text), false).getHeight() + 2 * DrawInputBox.TF_MARGIN_VERTICAL;
