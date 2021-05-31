@@ -411,8 +411,12 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.getVersion();
 	}
 
-	public void getScreenshotBase64(StringConsumer callback) {
-		ggbAPI.getScreenshotBase64(callback);
+	public void getScreenshotBase64(StringConsumer callback, Object scaleObject) {
+		double scale = 1;
+		if (Js.isTruthy(scaleObject)) {
+			scale = Js.asDouble(scaleObject);
+		}
+		ggbAPI.getScreenshotBase64(callback, scale);
 	}
 
 	public String getThumbnailBase64() {
