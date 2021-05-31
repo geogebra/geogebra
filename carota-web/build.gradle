@@ -17,7 +17,7 @@ dependencies {
             'com.google.elemental2:elemental2-dom:1.1.0',
             'org.murok:editor:1.0.202105110639',
             'org.murok:editor:1.0.202105110639:sources',
-            'org.gwtproject.timer:gwt-timer:1.0-SNAPSHOT'
+            'org.gwtproject.timer:gwt-timer:1.0.0-RC1'
 }
 
 pmd {
