@@ -180,11 +180,19 @@ public class GgbAPIW extends GgbAPI {
 
 		EuclidianViewWInterface ev = ((EuclidianViewWInterface) app
 				.getActiveEuclidianView());
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().getLayout().getDockManager().ensureFocus();
+
+			if (app.getGuiManager().getLayout().getDockManager()
+					.getFocusedViewId() == App.VIEW_PROBABILITY_CALCULATOR) {
+				ev = (EuclidianViewWInterface) app.getGuiManager()
+						.getPlotPanelEuclidanView();
+			}
+		}
 
 		// get export image
 		// DPI ignored
-		url = ((EuclidianViewWInterface) app.getActiveEuclidianView())
-				.getExportImageDataUrl(exportScale, transparent, greyscale);
+		url = ev.getExportImageDataUrl(exportScale, transparent, greyscale);
 
 		if (MyDouble.isFinite(dpi) && dpi > 0 && ev instanceof EuclidianViewW) {
 
@@ -210,27 +218,11 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	public String getPNGBase64(double exportScale, boolean transparent,
 			double dpi, boolean copyToClipboard, boolean greyscale) {
-		if (app.getGuiManager() != null) {
-			app.getGuiManager().getLayout().getDockManager().ensureFocus();
-
-			if (app.getGuiManager().getLayout().getDockManager()
-					.getFocusedViewId() == App.VIEW_PROBABILITY_CALCULATOR) {
-				return pngBase64(((EuclidianViewWInterface) app.getGuiManager()
-						.getPlotPanelEuclidanView()).getExportImageDataUrl(
-								exportScale, transparent, greyscale));
-			}
-		}
-		String ret = pngBase64(getPNG(exportScale, transparent, dpi, greyscale));
-
+		String dataUri = getPNG(exportScale, transparent, dpi, greyscale);
 		if (copyToClipboard) {
-			app.copyImageToClipboard(StringUtil.pngMarker + ret);
+			app.copyImageToClipboard(dataUri);
 		}
-
-		return ret;
-	}
-
-	private static String pngBase64(String pngURL) {
-		return pngURL.substring(StringUtil.pngMarker.length());
+		return StringUtil.removePngMarker(dataUri);
 	}
 
 	/**
@@ -256,7 +248,7 @@ public class GgbAPIW extends GgbAPI {
 					: geo.toString(StringTemplate.latexTemplate);
 		}
 		DrawEquationW.paintOnCanvasOutput(geo, str, c, app.getFontSizeWeb());
-		return c.toDataUrl().substring(StringUtil.pngMarker.length());
+		return StringUtil.removePngMarker(c.toDataUrl());
 	}
 
 	/**
@@ -482,9 +474,8 @@ public class GgbAPIW extends GgbAPI {
 	 * @return base64 encoded thumbnail
 	 */
 	public String getThumbnailBase64() {
-		return ((EuclidianViewWInterface) getViewForThumbnail())
-				.getCanvasBase64WithTypeString()
-				.substring(StringUtil.pngMarker.length());
+		return StringUtil.removePngMarker(((EuclidianViewWInterface) getViewForThumbnail())
+				.getCanvasBase64WithTypeString());
 	}
 
 	/**
@@ -718,7 +709,6 @@ public class GgbAPIW extends GgbAPI {
 
 	/**
 	 * @param show
-	 * 
 	 *            whether show the algebrainput in geogebra-web applets or not
 	 */
 	public void showAlgebraInput(boolean show) {
@@ -774,12 +764,17 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * Add external image to image manager
+	 * Add external image to image manager. Allow passing SVGs as text
+	 * to be compatible with getFileJSON.
 	 * @param filename internal filename
-	 * @param url data URL
+	 * @param urlOrSvgContent data URL or &lt;svg>content&lt;/svg>
 	 */
-	public void addImage(String filename, String url) {
+	public void addImage(String filename, String urlOrSvgContent) {
 		ImageManagerW imageManager = ((AppW) app).getImageManager();
+		String url = urlOrSvgContent;
+		if (urlOrSvgContent.charAt(0) == '<') {
+			url = Browser.encodeSVG(urlOrSvgContent);
+		}
 		imageManager.addExternalImage(filename, url);
 		imageManager.triggerSingleImageLoading(filename, new GeoImage(construction));
 	}
@@ -908,8 +903,8 @@ public class GgbAPIW extends GgbAPI {
 	 * @param callback
 	 *            callback
 	 */
-	public void getScreenshotBase64(StringConsumer callback) {
-		((AppW) app).getAppletFrame().getScreenshotBase64(callback);
+	public void getScreenshotBase64(StringConsumer callback, double scale) {
+		((AppW) app).getAppletFrame().getScreenshotBase64(callback, scale);
 	}
 
 	@Override

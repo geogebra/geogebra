@@ -411,8 +411,12 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.getVersion();
 	}
 
-	public void getScreenshotBase64(StringConsumer callback) {
-		ggbAPI.getScreenshotBase64(callback);
+	public void getScreenshotBase64(StringConsumer callback, Object scaleObject) {
+		double scale = 1;
+		if (Js.isTruthy(scaleObject)) {
+			scale = Js.asDouble(scaleObject);
+		}
+		ggbAPI.getScreenshotBase64(callback, scale);
 	}
 
 	public String getThumbnailBase64() {
@@ -647,8 +651,8 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.insertImage(url + "", corner1 + "", corner2 + "", corner4 + "");
 	}
 
-	public void addImage(String fileName, String url) {
-		ggbAPI.addImage(fileName + "", url + "");
+	public void addImage(String fileName, String urlOrSvgContent) {
+		ggbAPI.addImage(fileName + "", urlOrSvgContent + "");
 	}
 
 	public void recalculateEnvironments() {

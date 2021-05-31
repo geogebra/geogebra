@@ -209,6 +209,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		mathFieldInternal.getMathFieldController().setLineBreakEnabled(b);
 	}
 
+	public void setUseSimpleScripts(boolean useSimpleScripts) {
+		mathFieldInternal.getInputController().setUseSimpleScripts(useSimpleScripts);
+	}
+
 	/**
 	 * @param label
 	 *            label for assistive technology

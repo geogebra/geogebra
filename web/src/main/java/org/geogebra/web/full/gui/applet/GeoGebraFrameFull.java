@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.AccessibilityGroup;
+import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
@@ -1020,8 +1021,13 @@ public class GeoGebraFrameFull
 	}
 
 	@Override
-	public void getScreenshotBase64(StringConsumer callback) {
+	public void getScreenshotBase64(StringConsumer callback, double scale) {
+		if (!app.isUsingFullGui()) {
+			super.getScreenshotBase64(callback, scale);
+			return;
+		}
 		Canvas c = Canvas.createIfSupported();
-		((DockManagerW) app.getGuiManager().getLayout().getDockManager()).paintPanels(c, callback);
+		DockManager dockManager = app.getGuiManager().getLayout().getDockManager();
+		((DockManagerW) dockManager).paintPanels(c, callback, scale);
 	}
 }
