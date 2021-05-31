@@ -5,12 +5,10 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Paint;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.RenderingHints.Key;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
 import java.util.Stack;
 
 import org.geogebra.common.awt.GAffineTransform;
@@ -293,7 +291,7 @@ public class GGraphics2DD implements GGraphics2D {
 			impl.setClip(x, y, width, height);
 			return;
 		}
-		impl.clipRect(x,y,width,height);
+		impl.clipRect(x, y, width, height);
 		clipStack.push(oldClip);
 	}
 
