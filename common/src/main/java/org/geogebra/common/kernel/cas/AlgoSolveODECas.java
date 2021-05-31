@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -22,7 +23,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 	private CasEvaluableFunction f;
-	private GeoElementND g;
+	private GeoFunction g;
 	private GeoPointND pt;
 	private String oldCASstring;
 	private boolean nocas = false;
@@ -84,7 +85,6 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 		}
 		setOnlyOutput(g);
 		setDependencies();
-
 	}
 
 	@Override
@@ -128,7 +128,6 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 		if (pt != null && arbconst.getTotalNumberOfConsts() == 1) {
 			findPathThroughPoint();
 		}
-
 	}
 
 	private void findPathThroughPoint() {
@@ -154,12 +153,15 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 							false);
 			cons.setSuppressLabelCreation(flag);
 			if (res != null && res.length > 0) {
-
 				if (g == null) {
 					g = new GeoFunction(cons);
 				}
 				// set takes care of converting eg y=2 into a function
-				g.set(res[0]);
+				GeoElementND first = res[0];
+				if (first.isGeoList() && ((GeoList) first).size() > 0) {
+					first = ((GeoList) first).get(0);
+				}
+				g.set(first);
 
 				ok = true;
 			}
@@ -195,7 +197,5 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 	@Override
 	public void refreshCASResults() {
 		this.oldCASstring = "";
-
 	}
-
 }
