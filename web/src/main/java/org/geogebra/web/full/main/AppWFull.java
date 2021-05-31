@@ -1575,7 +1575,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		frame.useDataParamBorder();
 		onOpenFile();
 		showStartTooltip(0);
-		setAltText();
 		if (!isUnbundled() && isPortrait()) {
 			adjustViews(false, false);
 		}
