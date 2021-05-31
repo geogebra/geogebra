@@ -3615,12 +3615,14 @@ public class ExpressionNode extends ValidExpression
 	 *         which is a number: eg 2 or x*2
 	 */
 	public boolean endsInNumber(boolean valueForm) {
+		ExpressionValue left = getLeft();
 		if (operation == Operation.NO_OPERATION
-				&& getLeft() instanceof NumberValue) {
-			return (getLeft() instanceof MyDouble
-					&& ((MyDouble) getLeft()).isDigits())
-					|| (valueForm && getLeft().isGeoElement()
-							&& !((GeoElement) getLeft()).isLabelSet());
+				&& left instanceof NumberValue) {
+			return (left instanceof MyDouble
+					&& ((MyDouble) left).isDigits())
+					|| (valueForm && left.isGeoElement()
+					&& !((GeoElement) left).isLabelSet()
+					&& !(left instanceof GeoDummyVariable));
 		}
 
 		if (operation == Operation.MULTIPLY) {
