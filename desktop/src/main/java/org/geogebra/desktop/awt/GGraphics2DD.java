@@ -259,9 +259,7 @@ public class GGraphics2DD implements GGraphics2D {
 				impl.setClip(GGenericShapeD.getAwtShape(shape));
 				return;
 			}
-			Area intersection = new Area(oldClip);
-			intersection.intersect(new Area(GGenericShapeD.getAwtShape(shape)));
-			impl.setClip(intersection);
+			impl.clip(GGenericShapeD.getAwtShape(shape));
 			clipStack.push(oldClip);
 		}
 	}
@@ -295,9 +293,7 @@ public class GGraphics2DD implements GGraphics2D {
 			impl.setClip(x, y, width, height);
 			return;
 		}
-		Area intersection = new Area(oldClip);
-		intersection.intersect(new Area(new Rectangle(x,y,width,height)));
-		impl.setClip(intersection);
+		impl.clipRect(x,y,width,height);
 		clipStack.push(oldClip);
 	}
 
