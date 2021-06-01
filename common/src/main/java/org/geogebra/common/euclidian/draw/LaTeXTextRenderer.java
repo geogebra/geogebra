@@ -16,7 +16,7 @@ public class LaTeXTextRenderer implements TextRenderer {
 
 	// This margin is to match the height of the editor
 	private static final int BOTTOM_OFFSET = 10;
-	public static final int MARGIN = 8;
+	public static final int MARGIN = 4;
 
 	@Weak
 	private DrawInputBox drawInputBox;

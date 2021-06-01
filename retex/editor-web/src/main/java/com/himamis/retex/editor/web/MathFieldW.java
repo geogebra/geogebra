@@ -630,7 +630,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private double computeHeight() {
 		double margin = getMargin(lastIcon);
-		return Math.max(roundUp(lastIcon.getIconHeight() + margin + bottomOffset), minHeight);
+		return Math.max(lastIcon.getIconHeight() + margin + bottomOffset, minHeight);
 	}
 
 	public int getIconHeight() {
@@ -646,10 +646,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private double getMargin(TeXIcon lastIcon2) {
-		return fixMargin > 0 ? fixMargin : (int) Math.max(0,
-				-lastIcon2.getTrueIconHeight()
-						+ lastIcon2.getTrueIconDepth()
-						+ getFontSize());
+		return fixMargin + Math.max(0, -lastIcon2.getTrueIconHeight()
+				+ lastIcon2.getTrueIconDepth() + getFontSize());
 	}
 
 	private boolean active(Object element) {
