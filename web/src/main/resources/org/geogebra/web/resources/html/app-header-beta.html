@@ -4,35 +4,7 @@ defaultParams.marginTop = showHeader ? 64 : 0;
 if (appID == "scientific") {
 	defaultParams.marginTop = 112;
 }
-function getAppPicker() {
-	return document.getElementsByClassName("popdown-button-container")[0];
-}
-function toggleAppPicker() {
-	if (getAppPicker()) {
-		var style = getAppPicker().style;
-		var wasHidden = style.display == "none";
-		style.display = wasHidden ? "block" : "none";
-		selectAppPicker(wasHidden);
-	}
-}
-function selectAppPicker(selected) {
-	var btn = document.getElementsByClassName("appsBtn")[0];
-	btn.className = selected ? btn.className + " selected" : btn.className.replace(/selected/,"");
-}
-function hideAppPicker(e) {
-	var src = (e && e.srcElement) ? e.srcElement : e;
-	while(src){
-		if(src.className && src.className.match(/appsBtn|popdown-button-container/)){
-			return;
-		}
-		src = src.parentElement;
-	}
-	if (getAppPicker()) {
-		getAppPicker().style.display = "none";
-		selectAppPicker(false);
-	}
-}
-document.body.addEventListener("mousedown", hideAppPicker);
+
 window.addEventListener("load", function() {
 	if (!showHeader) {
 		document.getElementById("headerID").parentElement.style.display = "none";
@@ -64,8 +36,7 @@ window.onresize = function(event) {
 <div id="suiteAppPicker" ></div>
 <div class="buttons" id="buttonsID">
 <!--SHARE-BUTTON-->
-<div onclick="toggleAppPicker()" tabindex="0" class="gwt-ToggleButton flatButtonHeader appsBtn gwt-ToggleButton-up" role="button" aria-pressed="false">
-<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxwYXRoIGQ9Ik00IDhoNFY0SDR2NHptNiAxMmg0di00aC00djR6bS02IDBoNHYtNEg0djR6bTAtNmg0di00SDR2NHptNiAwaDR2LTRoLTR2NHptNi0xMHY0aDRWNGgtNHptLTYgNGg0VjRoLTR2NHptNiA2aDR2LTRoLTR2NHptMCA2aDR2LTRoLTR2NHoiLz4KICAgIDxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+Cg==" width="24" height="24" class="gwt-Image"></div>
+<!--PICKER-->
 <div class="popupAnchor">
 <div class="gwt-PopupPanel matMenu popdown-button-container" style="display:none">
 <ul class="apps-pop-content">
