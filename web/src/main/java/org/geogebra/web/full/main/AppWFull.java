@@ -130,7 +130,6 @@ import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -508,17 +507,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	void doShowStartTooltip(int perspID) {
 		if (appletParameters.getDataParamShowStartTooltip(perspID > 0)) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-			String tooltipText = getLocalization().getMenu("NewToGeoGebra")
-					+ "<br/>"
-					+ getLocalization().getPlain("CheckOutTutorial",
+			String helpText = getLocalization().getPlain("CheckOutTutorial",
 					getLocalization().getMenu(
 							Perspective.getPerspectiveName(perspID)));
 			String tooltipURL = getLocalization().getTutorialURL(getConfig());
-			DockPanelW focused = getGuiManager().getLayout().getDockManager()
-					.getPanelForKeyboard();
-			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(tooltipText,
-					tooltipURL, ToolTipLinkType.Help, this,
-					focused != null && focused.isVisible());
+			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
+					getLocalization().getMenu("NewToGeoGebra"), helpText,
+					getLocalization().getMenu("Help"), tooltipURL, this);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 		}
 	}

@@ -256,7 +256,7 @@ public class GeoGebraFrameFull
 			keyboardState = KeyboardState.ANIMATING_IN;
 			app.hideMenu();
 			app.persistWidthAndHeight();
-			ToolTipManagerW.hideAllToolTips();
+			ToolTipManagerW.sharedInstance().hideTooltip();
 			addKeyboard(textField, true);
 			if (app.isPortrait()) {
 				getGuiManager().getLayout().getDockManager()

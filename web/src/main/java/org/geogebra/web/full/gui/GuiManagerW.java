@@ -133,7 +133,6 @@ import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -648,14 +647,9 @@ public class GuiManagerW extends GuiManager
 		getApp().recalculateEnvironments();
 		getApp().setPreferredSize(
 				AwtFactory.getPrototype().newDimension(width, height));
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				getApp().centerAndResizeViews();
-				getApp().getKeyboardManager().resizeKeyboard();
-			}
-
+		Scheduler.get().scheduleDeferred(() -> {
+			getApp().centerAndResizeViews();
+			getApp().getKeyboardManager().resizeKeyboard();
 		});
 	}
 
@@ -683,22 +677,11 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public boolean moveMoveFloatingButtonUp(int left, int width,
-			boolean isSmall) {
+	public int getMoveTopBelowSnackbar(int snackbarRight) {
 		if (getUnbundledToolbar() != null) {
-			return getUnbundledToolbar()
-					.moveMoveFloatingButtonUpWithTooltip(left,
-					width, isSmall);
+			return getUnbundledToolbar().getMoveTopBelowSnackbar(snackbarRight);
 		}
-		return false;
-	}
-
-	@Override
-	public void moveMoveFloatingButtonDown(boolean isSmall, boolean wasMoved) {
-		if (getUnbundledToolbar() != null) {
-			getUnbundledToolbar().moveMoveFloatingButtonDownWithTooltip(isSmall,
-				wasMoved);
-		}
+		return 0;
 	}
 
 	@Override

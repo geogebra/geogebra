@@ -152,8 +152,7 @@ public class EditMenuW extends Submenu {
 					public void doExecute() {
 						app.copyGraphicsViewToClipboard();
 						ToolTipManagerW.sharedInstance().showBottomMessage(
-								loc.getMenu("GraphicsViewCopiedToClipboard"),
-								false, app);
+								loc.getMenu("GraphicsViewCopiedToClipboard"), app);
 					}
 				});
 	}

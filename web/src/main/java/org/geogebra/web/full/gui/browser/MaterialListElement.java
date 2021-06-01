@@ -440,13 +440,13 @@ public class MaterialListElement extends FlowPanel
 			}
 			if (!app.isUnbundled()) {
 				ToolTipManagerW.sharedInstance()
-					.showBottomMessage(loc.getMenu("Loading"), false, app);
+					.showBottomMessage(loc.getMenu("Loading"), app);
 			}
 			controller.loadOnlineFile();
 		} else {
 			if (!app.isUnbundled()) {
 				ToolTipManagerW.sharedInstance()
-					.showBottomMessage(loc.getMenu("Loading"), false, app);
+					.showBottomMessage(loc.getMenu("Loading"), app);
 			}
 			if (!this.app.getFileManager().hasBase64(this.getMaterial())) {
 				controller.loadOnlineFile();
