@@ -1476,4 +1476,20 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		r = (GeoSymbolic) lookup("r");
 		assertThat(r.isEuclidianShowable(), is(true));
 	}
+
+	@Test
+	public void testUndoRedoWithUndefinedVariableEquation() {
+		app.setUndoActive(true);
+
+		add("f(a,b,x):=a*ln(b x)");
+		app.storeUndoInfo();
+		add("eq: f(a,b,1)=1");
+		app.storeUndoInfo();
+		add("1+1");
+		app.storeUndoInfo();
+
+		undoRedo();
+		GeoSymbolic eq = (GeoSymbolic) lookup("eq");
+		assertThat(eq, notNullValue());
+	}
 }
