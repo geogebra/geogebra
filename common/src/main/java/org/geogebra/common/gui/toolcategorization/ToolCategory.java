@@ -22,7 +22,7 @@ public enum ToolCategory {
     /**
      * media
      */
-    MEDIA("Media"),
+    MEDIA("Media", false),
     /**
      * construct
      */
@@ -87,12 +87,22 @@ public enum ToolCategory {
     SELECT_AND_FORMAT("SelectAndFormat");
 
     private final String header;
+    private final boolean alowedInExam;
 
     ToolCategory(String header) {
+        this(header, true);
+    }
+
+    ToolCategory(String header, boolean allowedInExam) {
         this.header = header;
+        this.alowedInExam = allowedInExam;
     }
 
     public String getLocalizedHeader(Localization loc) {
         return loc.getMenu("ToolCategory." + header);
+    }
+
+    public boolean isAllowedInExam() {
+        return alowedInExam;
     }
 }

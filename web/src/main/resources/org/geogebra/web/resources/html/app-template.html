@@ -72,7 +72,7 @@ var codebase = "<!--CODEBASE-->";
 
 			if(id){
 				if ((id+"").substring(0,4) == "exam") {
-					e("ggw").setAttribute("data-param-enableGraphing","true");
+					e("ggw").setAttribute("data-param-lockExam","true");
 				}
 				if (isAppSupportingPerspective(id + "")) {
 					e("ggw").setAttribute("data-param-perspective", id);

@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.exam.ExamLogBuilder;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.app.HTMLLogBuilder;
 import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
@@ -44,23 +43,39 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	protected void showExamExitDialog() {
 		DialogData data = new DialogData(null,
 				"Cancel", "Exit");
-		AsyncOperation<String> returnHandler = obj -> {
-			if ("exit".equals(obj)) {
+		Runnable returnHandler;
+
+		String buttonText;
+		if (app.getAppletParameters().getParamLockExam()) {
+			buttonText =  "Restart";
+			returnHandler = () -> {
+				if (app.getConfig().hasExam()) {
+					exitAndResetExamOffline();
+					new StartExamAction(app).execute(null, app);
+				} else { // classic
+					exitAndResetExam();
+					app.setNewExam();
+					app.examWelcome();
+				}
+			};
+		} else {
+			buttonText = "Exit";
+			returnHandler = () -> {
 				if (app.getConfig().hasExam()) {
 					exitAndResetExamOffline();
 				} else { // classic
 					exitAndResetExam();
 				}
-			}
-		};
+			};
+		}
 		ExamExitConfirmDialog exit = new ExamExitConfirmDialog(app, data);
 		exit.setOnPositiveAction(() -> {
 			if (app.getConfig().hasExam()) {
 				app.getExam().exit();
 				GlobalHeader.INSTANCE.resetAfterExam();
-				new ExamLogAndExitDialog(app, false, returnHandler, null).show();
+				new ExamLogAndExitDialog(app, false, returnHandler, null, buttonText).show();
 			} else { // classic
-				showClassicExamLogExitDialog("Exit", returnHandler);
+				showClassicExamLogExitDialog(buttonText, returnHandler);
 			}
 		});
 		exit.show();
@@ -78,8 +93,7 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		app.endExam();
 	}
 
-	private void showClassicExamLogExitDialog(String buttonText,
-							  AsyncOperation<String> handler) {
+	private void showClassicExamLogExitDialog(String buttonText, Runnable handler) {
 		app.fileNew();
 		HTMLLogBuilder htmlBuilder = new HTMLLogBuilder();
 		app.getExam().getLog(app.getLocalization(), app.getSettings(), htmlBuilder);

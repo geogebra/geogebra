@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.exam.classic;
 
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
@@ -19,15 +18,13 @@ public class ExamClassicLogAndExitDialog extends ComponentDialog {
 	 * @param handler needed for the exam exit dialog
 	 */
 	public ExamClassicLogAndExitDialog(AppW app, DialogData data,
-			HTML content, AsyncOperation<String> handler) {
+			HTML content, Runnable handler) {
 		super(app, data, false, true);
 		addStyleName("examClassicLogDialog");
 		buildGUI(content);
-		setOnPositiveAction(() -> {
-				if (handler != null) {
-					handler.callback("exit");
-				}
-		});
+		if (handler != null) {
+			setOnPositiveAction(handler);
+		}
 	}
 
 	private void buildGUI(HTML content) {

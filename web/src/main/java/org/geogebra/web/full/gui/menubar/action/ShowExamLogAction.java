@@ -11,6 +11,6 @@ public class ShowExamLogAction extends DefaultMenuAction<Void> {
 
 	@Override
 	public void execute(Void item, AppWFull app) {
-		new ExamLogAndExitDialog(app, true, null, null).show();
+		new ExamLogAndExitDialog(app, true, null).show();
 	}
 }

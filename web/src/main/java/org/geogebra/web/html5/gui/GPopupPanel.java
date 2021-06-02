@@ -492,12 +492,6 @@ public class GPopupPanel extends SimplePanel implements
 		setPopupPosition(0, 0);
 		setStyleName(DEFAULT_STYLENAME);
 		setStyleName(getContainerElement(), "popupContent");
-
-		// if (this instanceof HasKeyboardPopup) {
-		// super.getContainerElement().getFirstChildElement()
-		// .addClassName("mainChild");
-		// }
-
 	}
 
 	protected Panel getRootPanel() {
