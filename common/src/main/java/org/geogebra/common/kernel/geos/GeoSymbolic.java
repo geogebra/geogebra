@@ -73,7 +73,7 @@ public class GeoSymbolic extends GeoElement
 	public GeoSymbolic(Construction c) {
 		super(c);
 		symbolicMode = true;
-		setFixed(true);
+		fixed = true;
 	}
 
 	/**
@@ -524,6 +524,7 @@ public class GeoSymbolic extends GeoElement
 		} else {
 			cons.unregisterEuclidianViewCE(this);
 		}
+		result.setFixed(true);
 		return result;
 	}
 
