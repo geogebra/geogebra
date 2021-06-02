@@ -948,6 +948,7 @@ public class AlgebraProcessor {
 			try {
 				ValidExpression cp = ve.deepCopy(kernel);
 				cp.setLabels(ve.getLabels());
+				cp.setAsRootNode();
 				geoElements = processValidExpression(cp, info);
 				if (storeUndo && geoElements != null) {
 					app.storeUndoInfo();
