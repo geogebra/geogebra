@@ -6698,6 +6698,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		resetMovedGeoPoint();
 		if (geo instanceof GeoSymbolic) {
 			movedGeoElement = (GeoElement) ((GeoSymbolic) geo).getTwinGeo();
+			movedGeoElement.setFixed(true);
 		} else {
 			movedGeoElement = geo;
 		}
