@@ -219,6 +219,10 @@ public class GeoSymbolic extends GeoElement
 
 		String casResult = evaluateGeoGebraCAS(casInput, constant);
 
+		if (getLoc().getError("CAS.TimeoutError").equals(casResult)) {
+			setTimedOut();
+		}
+
 		if (Commands.Solve.name().equals(casInput.getName()) && GeoFunction
 				.isUndefined(casResult)) {
 			getDefinition().getTopLevelCommand().setName(Commands.NSolve.name());

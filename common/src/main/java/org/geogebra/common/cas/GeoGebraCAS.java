@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.geogebra.common.cas.error.TimeoutException;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.CASGenericInterface;
@@ -150,6 +151,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				&& (exception != null || "?".equals(result))) {
 			// return original input
 			return casInput.toString(tpl);
+		}
+		if (exception instanceof TimeoutException) {
+			return app.getLocalization().getError("CAS.TimeoutError");
 		}
 
 		// pass on exception

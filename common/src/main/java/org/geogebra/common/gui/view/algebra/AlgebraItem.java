@@ -394,7 +394,7 @@ public class AlgebraItem {
 	 * @return whether we should show symbolic switch for the geo
 	 */
 	public static boolean shouldShowSymbolicOutputButton(GeoElement geo) {
-		return isSymbolicDiffers(geo) && !isTextItem(geo);
+		return isSymbolicDiffers(geo) && !isTextItem(geo) && !geo.isTimedOut();
 	}
 
 	/**

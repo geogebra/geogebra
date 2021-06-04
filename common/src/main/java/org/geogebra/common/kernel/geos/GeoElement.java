@@ -326,6 +326,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private int ordering = -1;
 
+	private boolean timedOut = false;
+
 	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
 
 		@Override
@@ -7246,5 +7248,13 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public boolean isOperation(Operation operation) {
 		return false;
+	}
+
+	public boolean isTimedOut() {
+		return timedOut;
+	}
+
+	public void setTimedOut() {
+		this.timedOut = true;
 	}
 }
