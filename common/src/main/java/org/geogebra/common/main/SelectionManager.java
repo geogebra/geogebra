@@ -826,8 +826,10 @@ public class SelectionManager {
 	 * @return set over which TAB iterates and belongs to the active Euclidian View.
 	 */
 	public TreeSet<GeoElement> getEVFilteredTabbingSet() {
-		return getTabbingSet().stream().filter(this::isSelectableForEV)
-				.collect(Collectors.toCollection(TreeSet::new));
+		TreeSet<GeoElement> tabbingSet = getTabbingSet();
+		// we need to make sure that we keep the original comparator
+		return tabbingSet.stream().filter(this::isSelectableForEV)
+				.collect(Collectors.toCollection(() -> new TreeSet<>(tabbingSet.comparator())));
 	}
 
 	private boolean isSelectableForEV(GeoElement geo) {
