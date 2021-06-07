@@ -106,7 +106,9 @@ public class JlmLib {
 		Graphics2DW g2 = new Graphics2DW(ctx);
 
 		JLMContextHelper.as(ctx).setDevicePixelRatio(ratio);
-		ctx.scale(ratio, ratio);
+		if (ratio != 1.0) {
+			ctx.scale(ratio, ratio);
+		}
 		// fill the background color
 		if (bgColor != null) {
 			g2.setColor(bgColor);
