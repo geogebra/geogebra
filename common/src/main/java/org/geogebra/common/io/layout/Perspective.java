@@ -18,10 +18,6 @@ import org.geogebra.common.util.StringUtil;
  * @author Florian Sonner
  */
 public class Perspective {
-	/**
-	 * The ID of this perspective.
-	 */
-	private String id;
 
 	/**
 	 * The information about every dock split pane
@@ -85,7 +81,7 @@ public class Perspective {
 
 	private int labelingStyle = ConstructionDefaults.LABEL_VISIBLE_NOT_SET;
 
-	private int defaultID;
+	private final int defaultID;
 	/** translation keys for perspective names */
 	final private static String[] perspectiveNames = new String[] { "Custom",
 			"Graphing", "Perspective.Geometry",
@@ -156,7 +152,6 @@ public class Perspective {
 			boolean showInputPanel, boolean showInputPanelCommands,
 			InputPosition inputPosition) {
 		this.defaultID = defaultID;
-		this.id = perspectiveNames[defaultID];
 		this.splitPaneData = splitPaneInfo;
 		this.setDockPanelData(dockPanelInfo);
 		this.setToolbarDefinition(toolbarDefinition);
@@ -176,75 +171,20 @@ public class Perspective {
 	}
 
 	/**
-	 * Create a perspective with all available fields.
-	 * 
-	 * @param id
-	 *            id
-	 * @param splitPaneInfo
-	 *            split settings
-	 * @param dockPanelInfo
-	 *            dock panel settings
-	 * @param toolbarDefinition
-	 *            toolbar string
-	 * @param showToolBar
-	 *            true to show toolbar
-	 * @param showGrid
-	 *            true to show grid
-	 * @param showAxes
-	 *            true to show axes
-	 * @param showInputPanel
-	 *            true to show input bar
-	 * @param showInputPanelCommands
-	 *            true to show input help
-	 * @param inputPosition
-	 *            position of the InputField/InputBox
-	 * @param toolBarPosition
-	 *            see {@link #setToolBarPosition(int)}
-	 * @param showToolBarHelp
-	 *            whether toolbar help should be visible
-	 * @param showDockBar
-	 *            whether dock bar should be visible
-	 * @param isDockBarEast
-	 *            whether dock bar should be on the eastern side
-	 */
-	public Perspective(String id, DockSplitPaneData[] splitPaneInfo,
-			DockPanelData[] dockPanelInfo, String toolbarDefinition,
-			boolean showToolBar, boolean showGrid, boolean showAxes,
-			boolean showInputPanel, boolean showInputPanelCommands,
-			InputPosition inputPosition, int toolBarPosition,
-			boolean showToolBarHelp, boolean showDockBar,
-			boolean isDockBarEast) {
-		this.id = id;
-		this.splitPaneData = splitPaneInfo;
-		this.setDockPanelData(dockPanelInfo);
-		this.setToolbarDefinition(toolbarDefinition);
-		this.setShowToolBar(showToolBar);
-		this.showAxes = showAxes;
-		this.setShowGrid(showGrid);
-		this.showInputPanel = showInputPanel;
-		this.showInputPanelCommands = showInputPanelCommands;
-		this.showInputPanelOnTop = inputPosition;
-		this.toolBarPosition = toolBarPosition;
-		this.showToolBarHelp = showToolBarHelp;
-		this.showDockBar = showDockBar;
-		this.isDockBarEast = isDockBarEast;
-	}
-
-	/**
 	 * Create an empty perspective.
 	 * 
 	 * @param id
 	 *            perspective ID
 	 */
-	public Perspective(String id) {
-		this.id = id;
+	public Perspective() {
+		defaultID = 0;
 	}
 
 	/**
 	 * @return The ID of the perspective.
 	 */
 	public String getId() {
-		return id;
+		return perspectiveNames[defaultID];
 	}
 
 	/**
@@ -453,27 +393,13 @@ public class Perspective {
 	public String getXml() {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("<perspective id=\"");
-		StringUtil.encodeXML(sb, getId());
-		sb.append("\">\n");
+		sb.append("<perspective id=\"tmp\">\n");
 
 		getPanesXML(sb);
 
 		getViewsXML(sb);
 
 		getToolbarXML(sb);
-
-		// skip axes & grid for document perspectives
-		if (!"tmp".equals(id)) {
-			sb.append("\t<show axes=\"");
-			sb.append(getShowAxes());
-			sb.append("\" grid=\"");
-			sb.append(getShowGrid());
-			sb.append("\" />\n");
-			if (isUnitAxesRatio()) {
-				sb.append("<unitAxesRatio val=\"true\">");
-			}
-		}
 
 		// algebra input bar
 		sb.append("\t<input show=\"");
@@ -491,6 +417,10 @@ public class Perspective {
 		sb.append("</perspective>\n");
 
 		return sb.toString();
+	}
+
+	public boolean isUserDefined() {
+		return defaultID == 0;
 	}
 
 	private void getPanesXML(StringBuilder sb) {
@@ -596,14 +526,6 @@ public class Perspective {
 	 */
 	public static String getPerspectiveSlug(int perspID) {
 		return perspectiveSlugs[perspID];
-	}
-
-	/**
-	 * @param id
-	 *            perspective ID
-	 */
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public int getLabelingStyle() {

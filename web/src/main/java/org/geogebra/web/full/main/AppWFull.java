@@ -559,7 +559,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			LayoutW.resetPerspectives(this);
 		}
 		if (getGuiManager() != null) {
-			p = getGuiManager().getLayout().createPerspective("tmp");
+			p = getGuiManager().getLayout().createPerspective();
 		}
 		if (isUnbundledGeometry()) {
 			p = Layout.getDefaultPerspectives(Perspective.GEOMETRY - 1);
@@ -1491,7 +1491,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		if (!isUsingFullGui()) {
 			buildSingleApplicationPanel();
-			Perspective current = getTmpPerspective(null);
+			Perspective current = getTmpPerspective();
 			if (current != null && current.getToolbarDefinition() != null) {
 				getGuiManager().setGeneralToolBarDefinition(
 						current.getToolbarDefinition());
@@ -1588,14 +1588,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		Perspective fromXml = getTmpPerspective(p);
 
 		Perspective forcedPerspective = PerspectiveDecoder
-				.decode(getConfig().getForcedPerspective(), getKernel().getParser(),
-						ToolBar.getAllToolsNoMacros(true, false, this));
+				.getDefaultPerspective(getConfig().getForcedPerspective());
 
 		LayoutW layout = getGuiManager().getLayout();
-
 		updateAvVisibility(forcedPerspective, fromXml);
 
-		layout.applyPerspective(forcedPerspective);
+		layout.updateLayout(forcedPerspective);
 
 		getGuiManager().setGeneralToolBarDefinition(fromXml.getToolbarDefinition());
 		getGuiManager().getUnbundledToolbar().updateContent();
@@ -1638,7 +1636,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void setPerspectives(Perspective p) {
-		getGuiManager().getLayout().setPerspectives(getTmpPerspectives(), p);
+		getGuiManager().getLayout().setPerspectiveOrDefault(
+				p == null ? getTmpPerspective() : p);
 	}
 
 	private void setupToolbarPanelVisibility(DockPanelData[] dockPanelData) {
@@ -1693,7 +1692,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @return whether just ev1 is isible
 	 */
 	private boolean isJustEuclidianVisible() {
-		Perspective docPerspective = getTmpPerspective(null);
+		Perspective docPerspective = getTmpPerspective();
 
 		if (docPerspective == null) {
 			return true;
@@ -2236,12 +2235,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		activity.start(this);
 
 		resetToolbarPanel();
-		Perspective perspective = PerspectiveDecoder.decode(getConfig().getForcedPerspective(),
-				kernel.getParser(), ToolBar.getAllToolsNoMacros(isHTML5Applet(), isExam(), this));
+		Perspective perspective = PerspectiveDecoder.getDefaultPerspective(
+				getConfig().getForcedPerspective());
 		updateSymbolicFlag(subAppCode, perspective);
 		reinitSettings();
 		clearConstruction();
-		getTmpPerspectives().clear();
+		setTmpPerspective(null);
 		getGuiManager().getLayout().applyPerspective(perspective);
 		clearConstruction();
 		restoreMaterial(subAppCode);

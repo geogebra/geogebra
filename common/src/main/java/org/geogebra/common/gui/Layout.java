@@ -31,11 +31,6 @@ public abstract class Layout implements SettingListener {
 	private static final double PORTRAIT_DIVIDER = 0.45;
 
 	/**
-	 * Perspectives used by current file (usually only "tmp")
-	 */
-	protected ArrayList<Perspective> perspectives;
-
-	/**
 	 * Layout settings.
 	 */
 	protected LayoutSettings settings;
@@ -405,44 +400,17 @@ public abstract class Layout implements SettingListener {
 	}
 
 	/**
-	 * Set a list of perspectives as the perspectives of this user and apply the
-	 * "tmp" perspective if one was found.
-	 * 
-	 * @param perspectives
-	 *            default perspectives
+	 * Apply given perspective if not null, fallback to graphing perspective otherwise
+	 *
 	 * @param customPerspective
 	 *            user defined perspective (in xml saved as tmp)
-	 * 
 	 */
-	public void setPerspectives(ArrayList<Perspective> perspectives,
-			Perspective customPerspective) {
-		boolean foundTmp = false;
-
-		if (perspectives != null) {
-			this.perspectives = perspectives;
-
-			for (Perspective perspective : perspectives) {
-				if (perspective.getId().equals("tmp")) {
-					perspectives.remove(perspective);
-					if (customPerspective == null) {
-						applyPerspective(perspective);
-					}
-					foundTmp = true;
-					break;
-				}
-			}
-		} else {
-			this.perspectives = new ArrayList<>();
-		}
-
+		public void setPerspectiveOrDefault(Perspective customPerspective) {
 		if (customPerspective != null) {
 			applyPerspective(customPerspective);
-			return;
-		}
-		if (!foundTmp) {
+		} else {
 			applyPerspective(getDefaultPerspective());
 		}
-
 	}
 
 	/**
@@ -480,7 +448,7 @@ public abstract class Layout implements SettingListener {
 	protected boolean setEVsettingsFromPerspective(App app,
 			Perspective perspective) {
 		boolean changed = false;
-		if (!"tmp".equals(perspective.getId())) {
+		if (!perspective.isUserDefined()) {
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 			EuclidianSettings euclidianSettings = getEuclidianSettings(app);
 			if (euclidianSettings != null) {
@@ -532,7 +500,7 @@ public abstract class Layout implements SettingListener {
 		 * the menu and will be removed as soon as the document was saved with
 		 * another perspective.
 		 */
-		Perspective tmpPerspective = createPerspective("tmp");
+		Perspective tmpPerspective = createPerspective();
 		// save the current perspective
 		if (tmpPerspective != null) {
 			sb.append(tmpPerspective.getXml());
@@ -554,16 +522,6 @@ public abstract class Layout implements SettingListener {
 
 		// save the current perspective
 		getCurrentPerspectiveXML(sb);
-
-		// save all custom perspectives as well
-		for (Perspective perspective : perspectives) {
-			// skip old temporary perspectives
-			if (perspective.getId().equals("tmp")) {
-				continue;
-			}
-
-			sb.append(perspective.getXml());
-		}
 
 		sb.append("\t</perspectives>\n");
 
@@ -605,7 +563,7 @@ public abstract class Layout implements SettingListener {
 	 *            perspective ID
 	 * @return perspective
 	 */
-	public abstract Perspective createPerspective(String string);
+	public abstract Perspective createPerspective();
 
 	/**
 	 * @param perspective
@@ -620,12 +578,6 @@ public abstract class Layout implements SettingListener {
 	 * @return whether given view is the only visible one
 	 */
 	public abstract boolean isOnlyVisible(int viewID);
-
-	/**
-	 * @param string
-	 *            perspective ID
-	 */
-	public abstract void applyPerspective(String string);
 
 	/**
 	 * @return dock manager

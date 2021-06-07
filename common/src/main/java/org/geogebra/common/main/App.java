@@ -359,7 +359,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	protected boolean showMenuBar = true;
 	protected String uniqueId;
-	private ArrayList<Perspective> tmpPerspectives = new ArrayList<>();
+	private Perspective tmpPerspective = null;
 	/**
 	 * whether toolbar should be visible
 	 */
@@ -2049,8 +2049,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// TODO Auto-generated method stub
 	}
 
-	public ArrayList<Perspective> getTmpPerspectives() {
-		return tmpPerspectives;
+	public Perspective getTmpPerspective() {
+		return tmpPerspective;
 	}
 
 	/**
@@ -2060,8 +2060,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param perspectives
 	 *            array of perspetctives in the document
 	 */
-	public void setTmpPerspectives(ArrayList<Perspective> perspectives) {
-		tmpPerspectives = perspectives;
+	public void setTmpPerspective(Perspective perspectives) {
+		tmpPerspective = perspectives;
 	}
 
 	/**
@@ -4893,15 +4893,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return perspective called "tmp" or given fallback
 	 */
 	public Perspective getTmpPerspective(Perspective fallback) {
-		if (tmpPerspectives == null) {
-			return fallback;
-		}
-		for (Perspective perspective : tmpPerspectives) {
-			if (perspective.getId().equals("tmp")) {
-				return perspective;
-			}
-		}
-		return fallback;
+		return tmpPerspective == null ? fallback : tmpPerspective;
 	}
 
 	/**

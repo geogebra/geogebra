@@ -137,11 +137,10 @@ public class PerspectivesPopup {
 		if (Layout.getDefaultPerspectives(i) == null) {
 			return;
 		}
-		final int index = i;
 		final int defID = Layout.getDefaultPerspectives(i).getDefaultID();
 		HorizontalPanel rowPanel = addPerspectiveRow(icon,
-				Layout.getDefaultPerspectives(i).getId(), index, defID);
-		if (app.getActivePerspective() == index) {
+				Layout.getDefaultPerspectives(i).getId(), i, defID);
+		if (app.getActivePerspective() == i) {
 			rowPanel.addStyleName("perspectiveHighlighted");
 		} else {
 			rowPanel.removeStyleName("perspectiveHighlighted");

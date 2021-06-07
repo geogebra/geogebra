@@ -14,7 +14,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.user.client.Window.Location;
 
 /**
  * Web implementation of PerspectivesMenu
@@ -126,15 +125,7 @@ public class PerspectivesMenuW extends Submenu {
 	}
 
 	private static void updateURL(String slug) {
-		// temporary: /graphing and /geometry in stable still point to
-		// classic; the URLs should be rewritten to eg /classic#3d and not
-		// changed when current perspective is selected
-		if (Location.getPath().replace("/", "").equals(slug)) {
-			return;
-		}
-
 		Browser.changeUrl("/classic#" + slug);
-
 	}
 
 	@Override
