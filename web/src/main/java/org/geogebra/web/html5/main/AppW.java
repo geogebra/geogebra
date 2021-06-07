@@ -128,6 +128,7 @@ import org.geogebra.web.html5.safeimage.ImageLoader;
 import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
+import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.Base64;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
@@ -736,24 +737,33 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * Loads a binary file (ggb, ggs)
+	 * Loads a binary file (ggb, ggs). In Notes the .ggb files are embedded to current slide.
 	 *
 	 * @param binary
 	 *            binary file
-	 * @param isSlides
-	 *            whether the extension is GGS
+	 * @param fileName
+	 *            file name, to decide whether to embed
 	 */
-	public void loadGgbFileAsBinary(ArrayBuffer binary, boolean isSlides) {
-		prepareReloadGgbFile();
-		ViewW view = getViewW();
+	public void loadOrEmbedGgbFile(ArrayBuffer binary, String fileName) {
 		EmbedManager embedManager = getEmbedManager();
-		if (!isSlides && embedManager != null) {
+		if (!fileName.endsWith("ggs") && embedManager != null) {
 			Material mat = new Material(-1, Material.MaterialType.ggb);
 			mat.setBase64(Base64.bytesToBase64(new Uint8Array(binary)));
 			embedManager.embed(mat);
 		} else {
-			view.processBinaryData(binary);
+			loadGgbFileAsBinary(binary);
 		}
+	}
+
+	/**
+	 * Loads a binary file (ggb, ggs).
+	 * @param binary
+	 *            binary file
+	 */
+	public void loadGgbFileAsBinary(ArrayBuffer binary) {
+		prepareReloadGgbFile();
+		ViewW view = getViewW();
+		view.processBinaryData(binary);
 	}
 
 	private void prepareReloadGgbFile() {
@@ -777,7 +787,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		final GgbArchive def = new GgbArchive(archive, is3D());
 		// Handling of construction and macro file
 
-		String libraryJS = archive.remove(MyXMLio.JAVASCRIPT_FILE);
+		ArchiveEntry libraryJS = archive.remove(MyXMLio.JAVASCRIPT_FILE);
 
 		// Construction (required)
 		if (def.isInvalid()) {
@@ -794,7 +804,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (libraryJS == null) { // TODO: && !isGGTfile)
 			kernel.resetLibraryJavaScript();
 		} else {
-			kernel.setLibraryJavaScript(libraryJS);
+			kernel.setLibraryJavaScript(libraryJS.string);
 		}
 
 		// just to make SpotBugs happy
@@ -1231,8 +1241,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		FileReader reader = new FileReader();
 		if (fileName.matches(".*\\.(ggb|ggt|ggs)$")) {
 			reader.addEventListener("load",
-					(event) -> loadGgbFileAsBinary(reader.result.asArrayBuffer(),
-							fileName.endsWith("ggs")));
+					(event) -> loadOrEmbedGgbFile(reader.result.asArrayBuffer(), fileName));
 			reader.readAsArrayBuffer(fileToHandle);
 		} else {
 			reader.addEventListener("load", (event) -> {

@@ -42,6 +42,7 @@ import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
+import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.ImageManagerW;
@@ -455,11 +456,11 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 
 	@Override
 	public void loadEmbeds(ZipFile archive) {
-		for (Entry<String, String> entry : ((GgbFile) archive).entrySet()) {
+		for (Entry<String, ArchiveEntry> entry : ((GgbFile) archive).entrySet()) {
 			if (entry.getKey().startsWith("embed")) {
 				try {
 					int id = Integer.parseInt(entry.getKey().split("[_.]")[1]);
-					setContent(id, entry.getValue());
+					setContent(id, entry.getValue().string); // always JSON
 				} catch (RuntimeException e) {
 					Log.warn("Problem loading embed " + entry.getKey());
 				}
