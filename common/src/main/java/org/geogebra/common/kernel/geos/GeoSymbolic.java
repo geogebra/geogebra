@@ -169,7 +169,8 @@ public class GeoSymbolic extends GeoElement
 	@Override
 	protected boolean showInEuclidianView() {
 		GeoElementND twin = getTwinGeo();
-		return isEuclidianShowable && twin != null && twin.isEuclidianShowable();
+		return isEuclidianShowable && twin != null && twin.isEuclidianShowable()
+				&& !twin.isLabelSet();
 	}
 
 	@Override
