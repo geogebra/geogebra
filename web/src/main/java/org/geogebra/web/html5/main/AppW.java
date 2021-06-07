@@ -359,8 +359,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getScalerParent() != null) {
 			Style style = getScalerParent().getStyle();
 			double scale = geoGebraElement.getScaleX();
-			style.setWidth(getWidth() * scale, Unit.PX);
-			style.setHeight(getHeight() * scale, Unit.PX);
+			// check for zero size needed if applet is not visible in DOM
+			if (getWidth() > 0 && getHeight() > 0) {
+				style.setWidth(getWidth() * scale, Unit.PX);
+				style.setHeight(getHeight() * scale, Unit.PX);
+			}
 		}
 	}
 
