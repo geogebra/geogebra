@@ -41,7 +41,7 @@ import org.geogebra.common.util.debug.Log;
 		return evaluate(new Interval(x), node);
 	}
 
-	private Interval evaluate(Interval x, ExpressionValue ev) throws Exception {
+	static Interval evaluate(Interval x, ExpressionValue ev) throws Exception {
 		if (ev == null) {
 			return EMPTY;
 		}
@@ -51,17 +51,25 @@ import org.geogebra.common.util.debug.Log;
 		if (!ev.isExpressionNode()) {
 			return new Interval(ev.evaluateDouble());
 		}
+
 		ExpressionNode node = ev.wrap();
+
+		IntervalPowerEvaluator power = new IntervalPowerEvaluator(node);
+		if (power.isAccepted()) {
+			return power.handle(x);
+		}
+
 		if (!node.containsFreeFunctionVariable(null)) {
 			return new Interval(ev.evaluateDouble());
 		}
 
-		return evaluate(evaluate(x, node.getLeft()),
-				node.getOperation(),
-				evaluate(x, node.getRight()));
+		Interval left = evaluate(x, node.getLeft());
+		Interval right = evaluate(x, node.getRight());
+		Operation operation = node.getOperation();
+		return evaluate(left, operation, right);
 	}
 
-	private Interval evaluate(Interval left, Operation operation,
+	private static Interval evaluate(Interval left, Operation operation,
 			Interval right) throws Exception {
 
 		switch (operation) {
@@ -124,7 +132,7 @@ import org.geogebra.common.util.debug.Log;
 			}
 		}
 
-	private Interval divide(Interval left, Interval right) {
+	private static Interval divide(Interval left, Interval right) {
 		if (left.isSingleton()) {
 			return right.multiplicativeInverse().multiply(left);
 		}
