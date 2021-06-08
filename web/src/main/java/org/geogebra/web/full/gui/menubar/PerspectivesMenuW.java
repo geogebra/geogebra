@@ -62,21 +62,21 @@ public class PerspectivesMenuW extends Submenu {
 	}
 
 	private void addPerspective(final int index, ResourcePrototype icon) {
-		if (Layout.getDefaultPerspectives(index) == null) {
+		Perspective perspective = Layout.getDefaultPerspectives(index);
+		if (perspective == null) {
 			return;
 		}
-		final int defID = Layout.getDefaultPerspectives(index).getDefaultID();
 		addItem(MainMenu.getMenuBarHtmlClassic(ImgResourceHelper.safeURI(icon),
 				app.getLocalization()
-						.getMenu(Layout.getDefaultPerspectives(index).getId())),
+						.getMenu(perspective.getId())),
 				true,
 				new MenuCommand(app) {
 
 					@Override
 					public void doExecute() {
-						setPerspective(app, index);
+						setPerspective(app, perspective);
 						if (!(app.isExam() && app.getExam().getStart() >= 0)) {
-							app.showStartTooltip(defID);
+							app.showStartTooltip(perspective);
 						}
 					}
 				});
@@ -101,23 +101,23 @@ public class PerspectivesMenuW extends Submenu {
 	/**
 	 * @param app
 	 *            application
-	 * @param index
-	 *            perspective index
+	 * @param perspective
+	 *            perspective
 	 */
-	static void setPerspective(AppW app, int index) {
+	static void setPerspective(AppW app, Perspective perspective) {
 		app.persistWidthAndHeight();
 		boolean changed = app.getGuiManager().getLayout()
-				.applyPerspective(Layout.getDefaultPerspectives(index));
+				.applyPerspective(perspective);
 		app.updateViewSizes();
 		app.getGuiManager().updateMenubar();
 		// set active perspective for highlighting
-		app.setActivePerspective(index);
+		app.setActivePerspective(perspective);
 		// app.getToolbar().closeAllSubmenu();
 		if (StringUtil.emptyOrZero(app.getTubeId())
 				&& app.getAppletParameters().getDataParamApp()) {
 			Browser.changeMetaTitle(app.getLocalization()
-					.getMenu(Layout.getDefaultPerspectives(index).getId()));
-			updateURL(Perspective.getPerspectiveSlug(index));
+					.getMenu(perspective.getId()));
+			updateURL(perspective.getSlug());
 		}
 		if (changed) {
 			app.storeUndoInfo();

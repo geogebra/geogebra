@@ -559,9 +559,7 @@ public abstract class Layout implements SettingListener {
 	}
 
 	/**
-	 * @param string
-	 *            perspective ID
-	 * @return perspective
+	 * @return perspective for current layout
 	 */
 	public abstract Perspective createPerspective();
 

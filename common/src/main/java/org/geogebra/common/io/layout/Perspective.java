@@ -4,7 +4,6 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.util.StringUtil;
 
 /**
  * Structure for a perspective which consists of the docks and the toolbar
@@ -172,9 +171,6 @@ public class Perspective {
 
 	/**
 	 * Create an empty perspective.
-	 * 
-	 * @param id
-	 *            perspective ID
 	 */
 	public Perspective() {
 		defaultID = 0;
@@ -185,6 +181,13 @@ public class Perspective {
 	 */
 	public String getId() {
 		return perspectiveNames[defaultID];
+	}
+
+	/**
+	 * @return perspective URL slug
+	 */
+	public String getSlug() {
+		return perspectiveSlugs[defaultID - 1];
 	}
 
 	/**
@@ -508,24 +511,6 @@ public class Perspective {
 	 */
 	public int getDefaultID() {
 		return defaultID;
-	}
-
-	/**
-	 * @param perspID
-	 *            perspective id
-	 * @return perspective name
-	 */
-	public static String getPerspectiveName(int perspID) {
-		return perspectiveNames[perspID];
-	}
-
-	/**
-	 * @param perspID
-	 *            perspective id
-	 * @return perspective URL slug
-	 */
-	public static String getPerspectiveSlug(int perspID) {
-		return perspectiveSlugs[perspID];
 	}
 
 	public int getLabelingStyle() {

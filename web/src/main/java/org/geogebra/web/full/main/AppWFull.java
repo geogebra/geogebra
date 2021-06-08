@@ -190,7 +190,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	String toOpen = "";
 	private PerspectivesPopup perspectivesPopup;
 
-	private int activePerspective;
+	private Perspective activePerspective;
 
 	private boolean menuShowing = false;
 	private final GeoGebraFrameFull frame;
@@ -497,19 +497,19 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public final void showStartTooltip(final int perspID) {
-		afterLocalizationLoaded(() -> doShowStartTooltip(perspID));
+	public final void showStartTooltip(Perspective perspective) {
+		afterLocalizationLoaded(() -> doShowStartTooltip(perspective));
 	}
 
 	/**
-	 * @param perspID perspective ID
+	 * @param perspective perspective
 	 */
-	void doShowStartTooltip(int perspID) {
-		if (appletParameters.getDataParamShowStartTooltip(perspID > 0)) {
+	void doShowStartTooltip(Perspective perspective) {
+		if (appletParameters.getDataParamShowStartTooltip(perspective != null)) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+			String appName = perspective != null ? perspective.getId() : getConfig().getAppTitle();
 			String helpText = getLocalization().getPlain("CheckOutTutorial",
-					getLocalization().getMenu(
-							Perspective.getPerspectiveName(perspID)));
+					getLocalization().getMenu(appName));
 			String tooltipURL = getLocalization().getTutorialURL(getConfig());
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
 					getLocalization().getMenu("NewToGeoGebra"), helpText,
@@ -939,14 +939,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public final void setActivePerspective(int index) {
-		activePerspective = index;
+	public final void setActivePerspective(Perspective perspective) {
+		activePerspective = perspective;
 	}
 
 	/**
 	 * @return active perspective ID
 	 */
-	public final int getActivePerspective() {
+	public final Perspective getActivePerspective() {
 		return activePerspective;
 	}
 
@@ -1569,7 +1569,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		checkScaleContainer();
 		frame.useDataParamBorder();
 		onOpenFile();
-		showStartTooltip(0);
+		showStartTooltip(null);
 		if (!isUnbundled() && isPortrait()) {
 			adjustViews(false, false);
 		}
@@ -2173,7 +2173,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			menuViewController.setDefaultMenu();
 		}
 		guiManager.resetMenu();
-		setActivePerspective(0);
+		setActivePerspective(Layout.getDefaultPerspectives(0));
 	}
 
 	@Override
