@@ -5,6 +5,7 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
+import org.geogebra.common.main.settings.config.AppConfigProbability;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 
 /**
@@ -30,6 +31,8 @@ public class SuiteActivity extends BaseActivity {
 			return new AppConfigCas(GeoGebraConstants.SUITE_APPCODE);
 		case GeoGebraConstants.G3D_APPCODE:
 			return new AppConfigGraphing3D(GeoGebraConstants.SUITE_APPCODE);
+		case GeoGebraConstants.PROBABILITY_APPCODE:
+			return new AppConfigProbability(GeoGebraConstants.SUITE_APPCODE);
 		}
 	}
 }

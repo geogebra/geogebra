@@ -3184,6 +3184,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @return whether we are running suite
 	 */
+	@Override
 	public boolean isSuite() {
 		return "suite".equals(getConfig().getAppCode());
 	}
