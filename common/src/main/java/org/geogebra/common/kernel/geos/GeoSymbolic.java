@@ -908,4 +908,18 @@ public class GeoSymbolic extends GeoElement
 		super.doRemove();
 		cons.unregisterEuclidianViewCE(this);
 	}
+
+	@Override
+	protected void getDefinitionXML(StringBuilder sb) {
+		ExpressionValue unwrapped = getDefinition().unwrap();
+		if (label != null && unwrapped instanceof Equation) {
+			StringBuilder builder = new StringBuilder();
+			super.getDefinitionXML(builder);
+			if (builder.toString().contains("=")) {
+				sb.append(label);
+				sb.append(": ");
+			}
+		}
+		super.getDefinitionXML(sb);
+	}
 }

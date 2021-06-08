@@ -48,9 +48,6 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/general/geogebra64.png")
 	ImageResource geogebra64();
 
-	@Source("org/geogebra/common/icons/png/web/general/header_column.png")
-	ImageResource header_column();
-
 	@Source("org/geogebra/common/icons/png/web/general/algebra_hidden.png")
 	ImageResource hidden();
 

@@ -9,9 +9,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolcategorization.ToolCategory;
 import org.geogebra.web.full.gui.toolbar.ToolButton;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -214,14 +212,10 @@ public class Tools extends FlowPanel implements SetLabels {
 		private ToolButton getToolButton(final int mode) {
 			final ToolButton btn = new ToolButton(mode, getApp());
 			AriaHelper.hide(btn);
-			btn.addFastClickHandler(new FastClickHandler() {
-
-				@Override
-				public void onClick(Widget source) {
-					getApp().setMode(mode);
-					showTooltip(mode);
-					getApp().updateDynamicStyleBars();
-				}
+			btn.addFastClickHandler(source -> {
+				getApp().setMode(mode);
+				showTooltip(mode);
+				getApp().updateDynamicStyleBars();
 			});
 			return btn;
 		}
@@ -252,10 +246,9 @@ public class Tools extends FlowPanel implements SetLabels {
 		if (allowTooltips()) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			ToolTipManagerW.sharedInstance()
-					.showBottomInfoToolTip(app.getToolTooltipHTML(mode),
-							app.getGuiManager().getTooltipURL(mode),
-							ToolTipLinkType.Help, app,
-							app.getAppletFrame().isKeyboardShowing());
+					.showBottomInfoToolTip(app.getToolName(mode), app.getToolHelp(mode),
+							app.getLocalization().getMenu("Help"),
+							app.getGuiManager().getTooltipURL(mode), app);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 		}
 	}

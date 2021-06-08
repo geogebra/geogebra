@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGeneralPath;
@@ -144,14 +145,14 @@ public class GeneralPathClipped implements GShape {
 				{ -padding, -padding},
 				{ -padding, view.getHeight() + padding},
 				{ view.getWidth() + padding, view.getHeight() + padding},
-				{ view.getWidth(), -padding},
+				{ view.getWidth() + padding, -padding},
 		};
 
 		if (needClosePath) {
 			pathPoints.get(0).setLineTo(true);
 		}
 
-		ArrayList<MyPoint> result = clipAlgoSutherlandHodogman.process(pathPoints, clipPoints);
+		List<MyPoint> result = clipAlgoSutherlandHodogman.process(pathPoints, clipPoints);
 
 		for (MyPoint curP : result) {
 			addToGeneralPath(curP, curP.getSegmentType());

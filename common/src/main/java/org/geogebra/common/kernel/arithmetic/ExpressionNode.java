@@ -71,6 +71,7 @@ public class ExpressionNode extends ValidExpression
 	private boolean forceFunction = false;
 	private boolean forceInequality = false;
 	private boolean forceSurface = false;
+	private boolean forceAngle = false;
 
 	/** true if this holds text and the text is in LaTeX format */
 	public boolean holdsLaTeXtext = false;
@@ -3427,6 +3428,14 @@ public class ExpressionNode extends ValidExpression
 				&& !(f instanceof MyDoubleDegreesMinutesSeconds)) {
 			return ((MyDouble) f).unaryMinus(kernel2);
 		}
+		if (f.isOperation(Operation.MULTIPLY)) {
+			ExpressionNode en = f.wrap();
+			if (en.getRight() instanceof MySpecialDouble
+				&& en.getRight().evaluateDouble() == Kernel.PI_180) {
+				return new ExpressionNode(kernel2, unaryMinus(kernel2, en.getLeft()),
+						Operation.MULTIPLY, en.getRight());
+			}
+		}
 		return new ExpressionNode(kernel2, new MinusOne(kernel2), Operation.MULTIPLY, f);
 	}
 
@@ -3606,12 +3615,14 @@ public class ExpressionNode extends ValidExpression
 	 *         which is a number: eg 2 or x*2
 	 */
 	public boolean endsInNumber(boolean valueForm) {
+		ExpressionValue left = getLeft();
 		if (operation == Operation.NO_OPERATION
-				&& getLeft() instanceof NumberValue) {
-			return (getLeft() instanceof MyDouble
-					&& ((MyDouble) getLeft()).isDigits())
-					|| (valueForm && getLeft().isGeoElement()
-							&& !((GeoElement) getLeft()).isLabelSet());
+				&& left instanceof NumberValue) {
+			return (left instanceof MyDouble
+					&& ((MyDouble) left).isDigits())
+					|| (valueForm && left.isGeoElement()
+					&& !((GeoElement) left).isLabelSet()
+					&& !(left instanceof GeoDummyVariable));
 		}
 
 		if (operation == Operation.MULTIPLY) {
@@ -3712,6 +3723,14 @@ public class ExpressionNode extends ValidExpression
 		return forceSurface;
 	}
 
+	public void setForceAngle() {
+		this.forceAngle = true;
+	}
+
+	public boolean isForceAngle() {
+		return forceAngle;
+	}
+
 	/**
 	 * Copy all attributes except for those set in constructor and the leaf flag
 	 *
@@ -3726,6 +3745,7 @@ public class ExpressionNode extends ValidExpression
 		newNode.brackets = brackets;
 		newNode.secretMaskingAlgo = secretMaskingAlgo;
 		newNode.holdsLaTeXtext = holdsLaTeXtext;
+		newNode.forceAngle = forceAngle;
 	}
 
 	@Override

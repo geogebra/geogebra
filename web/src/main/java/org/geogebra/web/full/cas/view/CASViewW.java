@@ -8,8 +8,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.awt.PrintableW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
@@ -180,16 +178,12 @@ public class CASViewW extends CASView implements PrintableW {
 			return;
 		}
 		final AppW app1 = app;
-		app.invokeLater(new Runnable() {
+		app.invokeLater(() -> {
+			app1.showKeyboard(getEditor(), force);
+			getEditor().setFocus(true);
+			getConsoleTable().startEditingRow(
+					getConsoleTable().getRowCount() - 1);
 
-			@Override
-			public void run() {
-				app1.showKeyboard(getEditor(), force);
-				getEditor().setFocus(true);
-				getConsoleTable().startEditingRow(
-						getConsoleTable().getRowCount() - 1);
-
-			}
 		});
 		/*
 		 * getEditor().ensureEditing(); getEditor().setFocus(true);
@@ -214,17 +208,6 @@ public class CASViewW extends CASView implements PrintableW {
 			if (consoleTable.hasEditor()) {
 				consoleTable.getEditor().setPixelRatio(ratio);
 			}
-		}
-	}
-
-	@Override
-	protected void showTooltip(int mode) {
-		if (getApp().showToolBarHelp()) {
-			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-					app.getToolTooltipHTML(mode),
-					app.getGuiManager().getTooltipURL(mode),
-					ToolTipLinkType.Help, app,
-					app.getAppletFrame().isKeyboardShowing());
 		}
 	}
 

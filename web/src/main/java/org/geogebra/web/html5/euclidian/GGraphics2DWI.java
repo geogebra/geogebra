@@ -25,8 +25,6 @@ public interface GGraphics2DWI extends GGraphics2D {
 
 	double getDevicePixelRatio();
 
-	void setAltText(String altStr);
-
 	int getAbsoluteTop();
 
 	int getAbsoluteLeft();
