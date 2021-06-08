@@ -1319,9 +1319,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testInnerNestedCommands() {
+		app.setUndoActive(true);
 		add("f(x)=x^2");
+		app.storeUndoInfo();
 		add("a(x)=Solve(Derivative(f))");
+		app.storeUndoInfo();
 		add("1+1");
+		app.storeUndoInfo();
 		undoRedo();
 		int n = kernel.getConstruction().steps();
 		assertThat(n, equalTo(3));

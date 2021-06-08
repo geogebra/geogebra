@@ -130,8 +130,9 @@ public class SymbolicProcessor {
 		}
 		GeoSymbolic sym;
 		if (noDummyVars.size() > 0) {
-			AlgoDependentSymbolic ads = new AlgoDependentSymbolic(cons,
-					replaced, noDummyVars, info.getArbitraryConstant());
+			AlgoDependentSymbolic ads =
+					new AlgoDependentSymbolic(cons,
+					replaced, noDummyVars, info.getArbitraryConstant(), info.isLabelOutput());
 			sym = (GeoSymbolic) ads.getOutput(0);
 		} else {
 			sym = new GeoSymbolic(cons);
@@ -169,9 +170,6 @@ public class SymbolicProcessor {
 					new GeoDummyVariable(cons, ve.wrap().getLabel()), replaced)
 					.wrap();
 			ve.wrap().setLabel(null);
-		}
-		if (ve instanceof ValidExpression && ((ValidExpression) ve).isRootNode()) {
-			replaced.setAsRootNode();
 		}
 		return doEvalSymbolicNoLabel(replaced, info);
 	}
