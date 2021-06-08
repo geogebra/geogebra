@@ -2244,11 +2244,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void reinitAlgebraView() {
-		GuiManagerW gm = getGuiManager();
-		DockPanel avPanel = gm.getLayout().getDockManager()
-				.getPanel(VIEW_ALGEBRA);
-		if (avPanel instanceof ToolbarDockPanelW) {
-			((ToolbarDockPanelW) avPanel).getToolbar().initGUI();
+		ToolbarPanel toolbar = getGuiManager().getUnbundledToolbar();
+		if (toolbar != null) {
+			toolbar.initGUI();
 		}
 	}
 

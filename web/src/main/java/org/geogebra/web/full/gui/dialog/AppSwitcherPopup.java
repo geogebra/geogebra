@@ -80,6 +80,7 @@ public class AppSwitcherPopup extends GPopupPanel {
 			hide();
 			appPickerButton.setIconAndLabel(subAppCode);
 			GlobalHeader.onResize();
+			app.hideMenu();
 			((AppWFull) app).switchToSubapp(subAppCode);
 		}, ClickEvent.getType());
 		contentPanel.add(rowPanel);
