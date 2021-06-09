@@ -209,10 +209,6 @@ margin: 0px 5px 0px 0px;
 	opacity:0.3;
 }
 
-.newRadioButtonTreeItemParent.startScreen .latexEditor>div{
-display:inline-block;
-}
-
 .newRadioButtonTreeItemParent.startScreen {
 position:absolute;
 top:53px;
