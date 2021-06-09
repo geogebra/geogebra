@@ -128,7 +128,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.FileConsumer;
 import org.geogebra.web.html5.util.StringConsumer;
-import org.geogebra.web.html5.util.Visibility;
 import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -567,13 +566,8 @@ public class GuiManagerW extends GuiManager
 			sciSettingsView = new ScientificSettingsView(getApp());
 			getApp().getLocalization().registerLocalizedUI(sciSettingsView);
 		}
-		frame.forceHeaderVisibility(Visibility.HIDDEN);
-		getApp().setCloseBrowserCallback(new Runnable() {
-			@Override
-			public void run() {
-				frame.forceHeaderVisibility(Visibility.NOT_SET);
-			}
-		});
+		frame.forceHeaderHidden(true);
+		getApp().setCloseBrowserCallback(() -> frame.forceHeaderHidden(false));
 		frame.showPanel(sciSettingsView);
 	}
 
