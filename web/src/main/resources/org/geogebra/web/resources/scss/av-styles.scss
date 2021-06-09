@@ -4,6 +4,10 @@
 @import 'z-index';
 
 .GeoGebraFrame {
+	.algebraView {
+		top: -2px;
+	}
+
 	.algebraView .avItem, .algebraView .avInputItem {
 		/* to override default padding and margin coming from GWT */
 		padding: 0 !important;
@@ -14,14 +18,14 @@
 		position: absolute;
 		top: 0;
 		bottom: 0;
-		right: 0;
+		padding-right: 12px;
 
 		.symbolicButton {
 			display: inline-block;
 			position: absolute;
 			padding: 2px;
 			bottom: 10px;
-			right: 8px;
+			right: 12px;
 			width: 22px;
 			height: 22px;
 			background-color: $purple-default;
@@ -240,7 +244,7 @@
 	.speedPanel {
 		position: absolute;
 		top: 12px;
-		right: 0;
+		right: 12px;
 		opacity: 1;
 		transition: 0.3s ease;
 		z-index: $z-algebra-speed-panel;
