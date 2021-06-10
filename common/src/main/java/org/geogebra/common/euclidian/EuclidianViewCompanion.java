@@ -317,8 +317,8 @@ public class EuclidianViewCompanion {
 				int visibleHeight = view.getVisibleHeight();
 				if (visibleWidth > EuclidianView.MIN_WIDTH
 						&& visibleHeight > EuclidianView.MIN_HEIGHT) {
-					x0 = evs.getVisibleFromX() + visibleWidth / 2.0;
-					y0 = visibleHeight / 2.0;
+					x0 += (visibleWidth - evs.getVisibleWidth()) / 2.0;
+					y0 += (visibleHeight - evs.getVisibleHeight()) / 2.0;
 					evs.setSize(view.getWidth(), view.getHeight());
 					evs.setOriginNoUpdate(x0, y0);
 				}
