@@ -144,7 +144,6 @@ import org.gwtproject.timer.client.Timer;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -988,23 +987,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public final void runScripts(final GeoElement geo1, final String string) {
-		invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				geo1.runClickScripts(string);
-			}
-		});
+		invokeLater(() -> geo1.runClickScripts(string));
 	}
 
 	@Override
 	public void invokeLater(final Runnable runnable) {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				runnable.run();
-			}
-		});
+		Scheduler.get().scheduleDeferred(() -> runnable.run());
 	}
 
 	@Override
