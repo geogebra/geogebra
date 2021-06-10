@@ -142,7 +142,6 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.Persistable;
-import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.SuiteHeaderAppPicker;
@@ -437,28 +436,24 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void updateKeyboard() {
-		invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				DockPanelW dp = getGuiManager().getLayout().getDockManager()
-						.getPanelForKeyboard();
-				MathKeyboardListener listener = getGuiManager()
-						.getKeyboardListener(dp);
-				if (listener != null) {
-					// dp.getKeyboardListener().setFocus(true);
-					listener.ensureEditing();
-					listener.setFocus(true);
-					if (isKeyboardNeeded() && (getExam() == null
-							|| getExam().getStart() > 0)) {
-						getAppletFrame().showKeyBoard(true, listener, true);
-					}
+		invokeLater(() -> {
+			DockPanelW dp = getGuiManager().getLayout().getDockManager()
+					.getPanelForKeyboard();
+			MathKeyboardListener listener = getGuiManager()
+					.getKeyboardListener(dp);
+			if (listener != null) {
+				// dp.getKeyboardListener().setFocus(true);
+				listener.ensureEditing();
+				listener.setFocus(true);
+				if (isKeyboardNeeded() && (getExam() == null
+						|| getExam().getStart() > 0)) {
+					getAppletFrame().showKeyBoard(true, listener, true);
 				}
-				if (!isKeyboardNeeded()) {
-					getAppletFrame().showKeyBoard(false, null, true);
-				}
-
 			}
+			if (!isKeyboardNeeded()) {
+				getAppletFrame().showKeyBoard(false, null, true);
+			}
+
 		});
 
 	}
@@ -544,7 +539,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		final PopupBlockAvoider popupBlockAvoider = new PopupBlockAvoider();
 		final GeoGebraTubeExportW ggbtube = new GeoGebraTubeExportW(this);
 		getGgbApi().getBase64(true,
-				(StringConsumer) s -> ggbtube.uploadWorksheetSimple(s, popupBlockAvoider));
+				s -> ggbtube.uploadWorksheetSimple(s, popupBlockAvoider));
 	}
 
 	@Override
@@ -2342,5 +2337,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (avPanel instanceof ToolbarDockPanelW) {
 			((ToolbarDockPanelW) avPanel).tryBuildZoomPanel();
 		}
+	}
+
+	/**
+	 * clears the cunstruction of all subapps in suite
+	 */
+	public void clearSubAppCons() {
+		constructionJson.clear();
 	}
 }

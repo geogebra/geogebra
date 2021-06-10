@@ -32,6 +32,7 @@ public class StartExamAction extends DefaultMenuAction<Void> {
 	private AsyncOperation<Boolean> createExamCallback() {
 		return startExam -> {
 			app.fileNew();
+			app.clearSubAppCons();
 			app.getLAF().toggleFullscreen(true);
 			DialogData data = new DialogData("exam_menu_enter", "Cancel",
 					"exam_start_button");
