@@ -1,6 +1,5 @@
 package org.geogebra.common.main.error;
 
-import org.geogebra.common.cas.error.TimeoutException;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
