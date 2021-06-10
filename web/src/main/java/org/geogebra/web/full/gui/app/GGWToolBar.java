@@ -192,7 +192,7 @@ public class GGWToolBar extends Composite
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 
 		redoButton = new StandardButton(pr.menu_header_redo(), null, 32);
-		redoButton.getElement().getStyle().setPosition(Style.Position.RELATIVE);
+		redoButton.addStyleName("redoButton");
 
 		redoButton.addFastClickHandler(source -> {
 			app.getGuiManager().redo();
@@ -200,7 +200,7 @@ public class GGWToolBar extends Composite
 		});
 
 		undoButton = new StandardButton(pr.menu_header_undo(), null, 32);
-		undoButton.getElement().getStyle().setPosition(Style.Position.RELATIVE);
+		undoButton.addStyleName("undoButton");
 
 		undoButton.addFastClickHandler(source -> {
 			app.getGuiManager().undo();
