@@ -5254,7 +5254,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_TABLE:
-			changedKernel = createInlineObject(selectionPreview,
+			// no undo: actual undo point created later (InlineTableControllerW::onEditorChanged)
+			createInlineObject(selectionPreview,
 					(cons, location) -> new GeoInlineTable(cons, location));
 			break;
 
