@@ -286,7 +286,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * 
 		 * eg sin(x)^2+cos(x)^2==1
 		 */
-		IS_ZERO("ggbIsZero", "ggbIsZero(x):=when(x==0 || simplify(texpand(x))==0 || exp2pow(lin(pow2exp(x)))==0,true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,x[0]=='pnt' && x[1] == ggbvect[0,0,0])))"),
+		IS_ZERO("ggbIsZero", "ggbIsZero(ggbx):=when(ggbx==0 || simplify(texpand(ggbx))==0 || exp2pow(lin(pow2exp(ggbx)))==0,true,when(type(ggbx)=='DOM_LIST',max(flatten({ggbx,0}))==min(flatten({ggbx,0}))&&min(flatten({ggbx,0}))==0,when(ggbx[0]=='=',lhs(ggbx)==0&&rhs(ggbx)==0,ggbx[0]=='pnt' && ggbx[1] == ggbvect[0,0,0])))"),
 		/**
 		 * Convert the polys into primitive polys in the input list (contains
 		 * temporary fix for primpart also):
@@ -402,7 +402,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * consistent with the Algebra View
 		 */
 		GGB_ROUND("ggbround",
-				"ggbround(x):=when(type(evalf(x))==DOM_LIST,seq(ggbround(x[j]),j,0,length(x)-1),when(type(evalf(x))==DOM_COMPLEX, ggbround(real(x))+i*ggbround(im(x)), when(x<0,-round(-x),round(x))))"),
+					"ggbround(x):=when(type(evalf(x))==DOM_LIST, seq(ggbround(x[j]),j,0,length(x)-1), when(type(evalf(x))==DOM_COMPLEX, ggbround(real(x))+i*ggbround(im(x)), when(x<0,when(type(x)==DOM_LIST&&length(x)==2, -round(-x[0], x[1]), -round(-x)), round(x))))"),
 
 		/**
 		 * Minimal polynomial of cos(2pi/n), see GGB-2137 for details.

@@ -19,6 +19,10 @@ public class GeoFormula extends GeoInline {
 	private static final Parser parser = new Parser(new MetaModel());
 	private static final TeXSerializer texSerializer = new TeXSerializer();
 
+	static {
+		texSerializer.setPlaceholderEnabled(false);
+	}
+
 	private boolean defined = true;
 	private String formula;
 

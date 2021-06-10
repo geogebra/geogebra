@@ -406,10 +406,7 @@ public class CreateObjectDialog extends InputDialogD
 	@Override
 	public void windowLostFocus(WindowEvent e) {
 		// close the window and set the geo when focus is lost
-		if (wrappedDialog.isVisible()
-				// workaround for IE applets: focus is lost immediately ->
-				// dialog closes
-				&& !app.isApplet()) {
+		if (wrappedDialog.isVisible()) {
 			setVisible(false);
 		}
 	}

@@ -24,7 +24,7 @@ import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -42,7 +42,7 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 		implements AdvancedWidget, HasValue<T>,
 		HasInputElement {
 	/** widget layout */
-	private FlexTable layout;
+	private FlowPanel layout;
 	/** a selected value box */
 	private AutoCompleteTextFieldW selectedValue;
 	/** a choice button */
@@ -74,7 +74,7 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 	 */
 	protected TextButtonPanel(AppW app) {
 		this.app = app;
-		getLayout().setWidget(0, 0, getSelectedValue());
+		getLayout().add(getSelectedValue());
 		setChoiceButtonVisible(true);
 		setCustomTextAllowed(false);
 		setStyleName("advanced-TextButtonPanel");
@@ -119,9 +119,9 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 	 */
 	public void setChoiceButtonVisible(boolean choiceButtonVisible) {
 		if (!choiceButtonVisible && isChoiceButtonVisible()) {
-			getLayout().removeCell(0, 1);
+			getLayout().getWidget(1).removeFromParent();
 		} else if (choiceButtonVisible && !isChoiceButtonVisible()) {
-			getLayout().setWidget(0, 1, getChoiceButton());
+			getLayout().add(getChoiceButton());
 			prepareChoiceButton();
 		}
 		this.choiceButtonVisible = choiceButtonVisible;
@@ -205,13 +205,11 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 
 		if (getHeight() != null) {
 			getLayout().setHeight("100%");
-			getLayout().getCellFormatter().setHeight(0, 0, "100%");
 			getSelectedValue().setHeight("100%");
 		}
 
 		if (getWidth() != null) {
 			getLayout().setWidth("100%");
-			getLayout().getCellFormatter().setWidth(0, 0, "100%");
 			getSelectedValue().setWidth("100%");
 		}
 	}
@@ -233,12 +231,9 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 	 *
 	 * @return Value for property 'layout'.
 	 */
-	protected FlexTable getLayout() {
+	protected FlowPanel getLayout() {
 		if (layout == null) {
-			layout = new FlexTable();
-			layout.setCellPadding(0);
-			layout.setCellSpacing(0);
-			layout.getFlexCellFormatter().setWidth(0, 0, "100%");
+			layout = new FlowPanel();
 		}
 		return layout;
 	}

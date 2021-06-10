@@ -130,9 +130,9 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 			if (focusedPanel == null) {
 				cbView.setItemSelected(0, true);
 			} else {
-				String title = loc.getMenu(focusedPanel.getViewTitle());
+				String id = String.valueOf(focusedPanel.getViewId());
 				int index = cbView.getItemCount() - 1;
-				while (!cbView.getValue(index).equals(title) && index != 0) {
+				while (!cbView.getValue(index).equals(id) && index != 0) {
 					index--;
 				}
 

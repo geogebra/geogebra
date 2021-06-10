@@ -257,7 +257,7 @@ public class MaterialRestAPI implements BackendAPI {
 
 		performRequest("GET",
 				"/users/" + model.getUserId()
-						+ "/materials?limit=30&embed=creator&order="
+						+ "/materials?limit=50&embed=creator&order="
 						+ orderStr(order),
 				null, userMaterialsCB);
 	}
@@ -272,7 +272,7 @@ public class MaterialRestAPI implements BackendAPI {
 
 		performRequest("GET",
 				"/users/" + model.getUserId()
-						+ "/materials?type=shared_with&embed=creator&order="
+						+ "/materials?type=shared_with&embed=creator&limit=50&order="
 						+ orderStr(order),
 				null, sharedMaterialsCB);
 	}
@@ -466,5 +466,18 @@ public class MaterialRestAPI implements BackendAPI {
 						+ "/materials?filter="
 						+ "ggs-template",
 				null, templateMaterialsCB);
+	}
+
+	/**
+	 * send the base64 of a h5p file
+	 * @param base64 of the file
+	 * @param callback to handle api response
+	 */
+	public void uploadAndUnzipH5P(String base64, AjaxCallback callback) {
+		HttpRequest request = service.createRequest(model);
+		request.setContentTypeJson();
+		String json = "{\"file\":\"" + base64 + "\"}";
+		request.sendRequestPost("POST", baseURL + "/media/h5p",
+				json, callback);
 	}
 }

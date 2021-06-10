@@ -13,8 +13,6 @@ import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
-import org.geogebra.web.full.gui.layout.panels.ConstructionProtocolStyleBarW;
-import org.geogebra.web.full.gui.util.StyleBarW;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.awt.PrintableW;
@@ -67,7 +65,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	protected CellTable<RowData> table;
 	ScrollPanel scrollPane;
 	ScrollPanel holderPanel;
-	private StyleBarW styleBar;
 	/** possible drop index **/
 	int minIndex;
 	/** possible drop index **/
@@ -280,7 +277,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 					// drop not possible
 					// TODO change cursor style before releasing mouse
 					ToolTipManagerW.sharedInstance().showBottomMessage(
-							"Drop not possible", true, (AppW) app);
+							app.getLocalization().getMenu("Drop not possible"), (AppW) app);
 					return;
 				}
 				boolean kernelChanged = ((ConstructionTableDataW) data)
@@ -874,16 +871,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			return true;
 
 		}
-	}
-
-	/**
-	 * @return stylebar
-	 */
-	public StyleBarW getStyleBar() {
-		if (styleBar == null) {
-			styleBar = new ConstructionProtocolStyleBarW(this, (AppW) this.app);
-		}
-		return styleBar;
 	}
 
 	@Override

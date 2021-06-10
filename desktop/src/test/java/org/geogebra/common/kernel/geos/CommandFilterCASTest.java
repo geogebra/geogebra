@@ -23,12 +23,12 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
 
     @Test
     public void cmdNSolutions() {
-        t("NSolutions(x^6 - 2x + 1 = 0)", "{0.5086603916, 1}");
-        t("NSolutions(a^4 + 34a^3 = 34, a)", "{-34.0008649859, 0.9904738886}");
-        t("NSolutions(cos(x) = x, x = 0)", "{0.7390851332}");
-        t("NSolutions(a^4 + 34a^3 = 34, a = 3)", "{0.9904738886}");
+        t("NSolutions(x^6 - 2x + 1 = 0)", "{0.508660391642, 1}");
+        t("NSolutions(a^4 + 34a^3 = 34, a)", "{-34.00086498588, 0.9904738885574}");
+        t("NSolutions(cos(x) = x, x = 0)", "{0.7390851332152}");
+        t("NSolutions(a^4 + 34a^3 = 34, a = 3)", "{0.9904738885574}");
         t("NSolutions({pi / x = cos(x - 2y), 2 y - pi = sin(x)}, {x = 3, y = 1.5})",
-                "{1.5707963268, 3.1415926536}");
+                "{1.570796326795, 3.14159265359}");
     }
 
     @Test

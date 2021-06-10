@@ -145,7 +145,7 @@ public class UnderOverAtom extends Atom {
 		// set height and depth
 		vBox.setDepth(vBox.getHeight() + vBox.getDepth() - h);
 		vBox.setHeight(h);
-		return vBox;
+		return vBox.setAtom(this);
 	}
 
 	private static Box changeWidth(Box b, double maxWidth) {

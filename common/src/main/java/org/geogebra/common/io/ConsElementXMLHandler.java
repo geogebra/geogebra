@@ -426,10 +426,10 @@ public class ConsElementXMLHandler {
 		symbolicTagProcessed = false;
 		lineStyleTagProcessed = false;
 		geo = getGeoElement(attrs);
-		geo.setLineOpacity(255);
 		if (needsConstructionDefaults) {
 			geo.setConstructionDefaults();
 		}
+		geo.setLineOpacity(255);
 		if (geo instanceof VectorNDValue) {
 			((VectorNDValue) geo)
 					.setMode(((VectorNDValue) geo).getDimension() == 3
@@ -1237,8 +1237,13 @@ public class ConsElementXMLHandler {
 
 		if (geo instanceof GeoInputBox) {
 			GeoInputBox inputBox = (GeoInputBox) geo;
-			inputBox.setTempUserDisplayInput(display);
-			inputBox.setTempUserEvalInput(eval);
+
+			if (inputBox.getLinkedGeo().isGeoText() && !inputBox.getLinkedGeo().isLabelSet()) {
+				((GeoText) inputBox.getLinkedGeo()).setTextString(eval);
+			} else {
+				inputBox.setTempUserDisplayInput(display);
+				inputBox.setTempUserEvalInput(eval);
+			}
 		} else {
 			Log.error("temp user input not supported for " + geo.getGeoClassType());
 		}
@@ -1961,8 +1966,8 @@ public class ConsElementXMLHandler {
 			geo.setLineThickness(0);
 		}
 
-		if (!symbolicTagProcessed && geo.isGeoText()) {
-			((GeoText) geo).setSymbolicMode(false, false);
+		if (!symbolicTagProcessed && (geo.isGeoText() || geo.isGeoInputBox())) {
+			((HasSymbolicMode) geo).setSymbolicMode(false, false);
 		}
 		if (xmlHandler.casMap != null && geo instanceof CasEvaluableFunction) {
 			((CasEvaluableFunction) geo).updateCASEvalMap(xmlHandler.casMap);

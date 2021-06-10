@@ -1,7 +1,8 @@
 package org.geogebra.web.richtext;
 
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.CanvasRenderingContext2D;
 
 /** The interface to the Carota editor */
 public interface Editor {
@@ -70,7 +71,7 @@ public interface Editor {
 	 */
 	String getContent();
 
-	void draw(Context2d canvasElement);
+	void draw(CanvasRenderingContext2D canvasElement);
 
 	void setWidth(int width);
 

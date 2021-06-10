@@ -50,6 +50,8 @@ public interface InlineTableController extends HasTextFormat {
 
 	void setBackgroundColor(GColor bgColor);
 
+	GColor getBackgroundColor();
+
 	String urlByCoordinate(int x, int y);
 
 	void insertRowAbove();

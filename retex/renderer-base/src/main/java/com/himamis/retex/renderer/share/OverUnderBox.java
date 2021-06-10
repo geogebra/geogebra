@@ -137,4 +137,12 @@ public class OverUnderBox extends Box {
 	public FontInfo getLastFont() {
 		return base.getLastFont();
 	}
+
+	@Override
+	public void inspect(BoxConsumer handler, BoxPosition position) {
+		super.inspect(handler, position);
+		base.inspect(handler, position);
+		del.inspect(handler, position);
+		script.inspect(handler, position);
+	}
 }

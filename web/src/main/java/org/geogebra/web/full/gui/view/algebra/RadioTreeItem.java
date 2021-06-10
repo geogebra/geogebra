@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.geos.HasExtendedAV;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GuiManagerInterface.Help;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
@@ -62,7 +61,6 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -90,7 +88,6 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
-import com.himamis.retex.editor.web.MathFieldScroller;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
@@ -176,7 +173,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private String ariaPreview;
 	private Label ariaLabel = null;
 	InputItemControl inputControl;
-	private MathFieldScroller scroller;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -353,7 +349,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			definitionFromTeX(lastTeX);
 		} else if (latex || AlgebraItem.isGeoFraction(geo)) {
 			String text = getTextForEditing(false,
-					StringTemplate.latexTemplate);
+					StringTemplate.numericLatex);
 			definitionFromTeX(text);
 		} else if (geo != null) {
 			IndexHTMLBuilder sb = new DOMIndexHTMLBuilder(definitionPanel, app);
@@ -710,12 +706,12 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 *            item width
 	 */
 	public void setItemWidth(int width) {
-		if (getOffsetWidth() != width) {
+		if (getOffsetWidth() != width && width >= 0) {
 			if (isInputTreeItem()) {
 				Element inputParent = getWidget().getElement()
 						.getParentElement();
 				Resizer.setPixelWidth(inputParent, width);
-			} else {
+			} else if (!isTextItem()) {
 				setWidth(width + "px");
 			}
 		}
@@ -1008,9 +1004,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (commandError != null) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-					StringUtil.toHTMLString(errorMessage),
-					app.getGuiManager().getHelpURL(Help.COMMAND, commandError),
-					ToolTipLinkType.Help, app, true);
+					errorMessage, null, app.getLocalization().getMenu("Help"),
+					app.getGuiManager().getHelpURL(Help.COMMAND, commandError), app);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 			return true;
 		}
@@ -1019,8 +1014,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (app.isUnbundled() && app.getActivity().useValidInput()) {
 				return false;
 			}
-			ToolTipManagerW.sharedInstance().showBottomMessage(errorMessage,
-					true, app);
+			ToolTipManagerW.sharedInstance().showBottomMessage(errorMessage, app);
 			return true;
 
 		}
@@ -1028,7 +1022,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	void hideCurrentError() {
-		ToolTipManagerW.sharedInstance().hideBottomInfoToolTip();
+		ToolTipManagerW.sharedInstance().hideTooltip();
 	}
 
 	/**
@@ -1670,7 +1664,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		FactoryProvider.setInstance(new FactoryProviderGWT());
 
 		mf = new MathFieldW(new SyntaxAdapterImpl(kernel), latexItem, canvas,
-				getLatexController(), app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION));
+				getLatexController());
 		TestHarness.setAttr(mf.getInputTextArea(), "avInputTextArea");
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");
@@ -1765,7 +1759,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			removeDummy();
 		}
 		if (mf != null) {
-			mf.setText(text, this.isTextItem());
+			if (isTextItem()) {
+				mf.setPlainText(text);
+			} else {
+				mf.parse(text);
+			}
 		}
 		inputControl.ensureInputMoreMenu();
 		updateEditorAriaLabel(text);
@@ -1819,10 +1817,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * Cursor listener
 	 */
 	public void onCursorMove() {
-		if (scroller == null) {
-			scroller = new MathFieldScroller(latexItem);
-		}
-		scroller.scrollHorizontallyToCursor(20);
+		getMathField().scrollParentHorizontally(latexItem, 20);
 	}
 
 	/**

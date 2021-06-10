@@ -264,10 +264,8 @@ public class CommandsTest {
 
 	@Test
 	public void angleBisectorsShouldUpdate() {
-		t("e1:X = (0, 0, 0) + t (1, 0, 0)", "X = (0, 0, 0) + "
-				+ Unicode.lambda + " (1, 0, 0)");
-		t("e2:X = (0, 0, 0) + t (0, 1, 0)", "X = (0, 0, 0) + "
-				+ Unicode.lambda + " (0, 1, 0)");
+		t("e1:X = (0, 0, 0) + t (1, 0, 0)", "X = (0, 0, 0) + t (1, 0, 0)");
+		t("e2:X = (0, 0, 0) + t (0, 1, 0)", "X = (0, 0, 0) + t (0, 1, 0)");
 		t("SetValue(e1,?)");
 		t("SetValue(e2,?)");
 		t("g:AngleBisector(e1,e2)", "X = (?, ?, ?)", "X = (?, ?, ?)");
@@ -405,7 +403,7 @@ public class CommandsTest {
 
 	@Test
 	public void parametricSyntaxes() {
-		t("X=(s,2s)", "X = (0, 0) + s (1, 2)");
+		t("X=(s,2s)", "X = (s, (2 * s))");
 		t("Intersect[X=(s,s),x+y=2]", "(1, 1)");
 	}
 
@@ -1141,6 +1139,9 @@ public class CommandsTest {
 	public void cmdCoefficients() {
 		t("Coefficients[ x^2+y^2=1 ]", "{1, 1, -1, 0, 0, 0}");
 		t("Coefficients[ x^2 ]", "{1, 0, 0}");
+		t("Coefficients[ 2x+3y+4z=5 ]", "{2, 3, 4, -5}");
+		t("Coefficients[ Fit({(0,0),(1,1),(2,4)}, {x^2,sin(x),x}) ]", "{1, 0, 0}");
+		t("Coefficients[7x^3+sin(x)]", "{7, 3}");
 	}
 
 	@Test
@@ -1155,7 +1156,8 @@ public class CommandsTest {
 
 	@Test
 	public void cmdCompleteSquare() {
-		t("CompleteSquare[ x^2 ]", "(1 * (x)^(2))");
+		t("CompleteSquare[ x^2 ]", "(x)^(2)");
+		t("CompleteSquare[ x^2 + 2x + 2 ]", "(x + 1)^(2) + 1");
 	}
 
 	@Test

@@ -59,7 +59,7 @@ public class AlgoAngularBisectorLines extends AlgoElement
 	private double lenG;
 	private double length;
 	private GeoVector[] wv; // direction of bisector line bisector
-	private GeoPoint B; // intersection point of g, h
+	private final GeoPoint B; // intersection point of g, h
 	private boolean infiniteB;
 	private int index;
 
@@ -349,68 +349,130 @@ public class AlgoAngularBisectorLines extends AlgoElement
 			 * We need to compute this.B symbolically since it is not computed
 			 * automatically in this class.
 			 */
-			PVariable[] vB, varsLg, varsLh;
-			vB = (this.B).getBotanaVars(this.B);
+			PVariable[] vC, varsLg, varsLh;
+			vC = (this.B).getBotanaVars(this.B);
 			varsLg = lg.getBotanaVars(lg);
 			varsLh = lh.getBotanaVars(lh);
-			PPolynomial[] polysB = (this.B).getBotanaPolynomials(this.B);
-
-			// intersection point of the two lines
-			if (polysB == null) {
-				// if already exists, let's use it, if not, create a new one
-				polysB = new PPolynomial[2];
-				polysB[0] = PPolynomial.collinear(vB[0], vB[1], varsLg[0],
-						varsLg[1], varsLg[2], varsLg[3]);
-				polysB[1] = PPolynomial.collinear(vB[0], vB[1], varsLh[0],
-						varsLh[1], varsLh[2], varsLh[3]);
-			}
-
+			PPolynomial[] polysC = (this.B).getBotanaPolynomials(this.B);
 			PVariable[] vA = new PVariable[2];
-			vA[0] = new PVariable(kernel);
-			vA[1] = new PVariable(kernel);
-			PVariable[] vC = new PVariable[2];
-			vC[0] = new PVariable(kernel);
-			vC[1] = new PVariable(kernel);
+			PVariable[] vB = new PVariable[2];
+			int polysNeeded = 6;
 
-			botanaPolynomials = new PPolynomial[8];
-			botanaPolynomials[2] = polysB[0];
-			botanaPolynomials[3] = polysB[1];
-
-			if (botanaVars == null) {
-				botanaVars = new PVariable[4];
-				// M
-				botanaVars[0] = new PVariable(kernel);
-				botanaVars[1] = new PVariable(kernel);
-				// A
-				botanaVars[2] = vB[0];
-				botanaVars[3] = vB[1];
+			// Special cases: when the 4 points cover only 3 points.
+			if (lg.startPoint.equals(lh.startPoint)) {
+				vC[0] = varsLg[0];
+				vC[1] = varsLg[1];
+				vA[0] = varsLg[2];
+				vA[1] = varsLg[3];
+				vB[0] = varsLh[2];
+				vB[1] = varsLh[3];
+				polysNeeded = 4;
+			}
+			if (lg.startPoint.equals(lh.endPoint)) {
+				vC[0] = varsLg[0];
+				vC[1] = varsLg[1];
+				vA[0] = varsLg[2];
+				vA[1] = varsLg[3];
+				vB[0] = varsLh[0];
+				vB[1] = varsLh[1];
+				polysNeeded = 4;
+			}
+			if (lg.endPoint.equals(lh.endPoint)) {
+				vC[0] = varsLg[2];
+				vC[1] = varsLg[3];
+				vA[0] = varsLg[0];
+				vA[1] = varsLg[1];
+				vB[0] = varsLh[0];
+				vB[1] = varsLh[1];
+				polysNeeded = 4;
+			}
+			if (lg.endPoint.equals(lh.startPoint)) {
+				vC[0] = varsLg[2];
+				vC[1] = varsLg[3];
+				vA[0] = varsLg[0];
+				vA[1] = varsLg[1];
+				vB[0] = varsLh[2];
+				vB[1] = varsLh[3];
+				polysNeeded = 4;
 			}
 
-			// vA lies on lg
-			botanaPolynomials[0] = PPolynomial.collinear(varsLg[0], varsLg[1],
-					varsLg[2], varsLg[3], vA[0], vA[1]);
-			// vC lies on lh
-			botanaPolynomials[1] = PPolynomial.collinear(varsLh[0], varsLh[1],
-					varsLh[2], varsLh[3], vC[0], vC[1]);
-			// vA--M is perpendicular to lg
-			botanaPolynomials[4] = PPolynomial.perpendicular(varsLg[0],
-					varsLg[1], vA[0], vA[1], vA[0], vA[1], botanaVars[0],
-					botanaVars[1]);
-			// vC--M is perpendicular to lh
-			botanaPolynomials[5] = PPolynomial.perpendicular(varsLh[0],
-					varsLh[1], vC[0], vC[1], vC[0], vC[1], botanaVars[0],
-					botanaVars[1]);
-			// (vA--M) == (vC--M)
-			botanaPolynomials[6] = PPolynomial.equidistant(vA[0], vA[1],
-					botanaVars[0], botanaVars[1], vC[0], vC[1]);
-			// fix one coordinate of M to the mass center of the quadrangle
-			botanaPolynomials[7] = new PPolynomial(botanaVars[0])
-					.multiply(new PPolynomial(4))
-					.subtract(new PPolynomial(varsLg[0]))
-					.subtract(new PPolynomial(varsLg[2]))
-					.subtract(new PPolynomial(varsLh[0]))
-					.subtract(new PPolynomial(varsLh[2]));
-			return botanaPolynomials;
+			// Otherwise we need the intersection point of the two lines:
+			if (polysNeeded == 6) {
+				polysC = new PPolynomial[2];
+				polysC[0] = PPolynomial.collinear(vC[0], vC[1], varsLg[0],
+						varsLg[1], varsLg[2], varsLg[3]);
+				polysC[1] = PPolynomial.collinear(vC[0], vC[1], varsLh[0],
+						varsLh[1], varsLh[2], varsLh[3]);
+				// Any of the start/endpoint of the lines will be okay to use:
+				vA[0] = varsLg[0];
+				vA[1] = varsLg[1];
+				vB[0] = varsLh[0];
+				vB[1] = varsLh[1];
+				// In some exotic cases the above may not work.
+				// If g=AB, h=CD, and C is lying on AB, then selecting C for the
+				// representative of h is the wrong choice. To avoid this we
+				// should check if there is numerical collinearity between ABC:
+				// (A former workaround is to change the role of D and C manually
+				// in the construction.)
+				if (GeoPoint.collinearND(g.startPoint, g.endPoint, h.startPoint)) {
+					vB[0] = varsLh[2];
+					vB[1] = varsLh[3];
+				} else { // and vice versa
+					if (GeoPoint.collinearND(h.startPoint, h.endPoint, g.startPoint)) {
+						vA[0] = varsLg[2];
+						vA[1] = varsLg[3];
+					}
+				}
+			}
+
+			if (varsLg != null && varsLh != null) {
+				// Initial input: B is the vertex of the angle, A and C are the other points.
+				// Now, in our notation: C is the vertex of the angle, A and B are the other points.
+				// The output will be: Line(C,M). So we will create a point M.
+				// Then we create a rhombus including points C and A, and add the rest of its
+				// points are S and S'. S' is not stored, but the midpoint of the rhombus
+				// will be denoted by M. Now M=Midpoint(A,S).
+
+				// This idea was taken from Recio-Dalzotto 2009, p. 231,
+				// https://www.researchgate.net/publication/226017744_On_Protocols_for_the_Automated_Discovery_of_Theorems_in_Elementary_Geometry,
+				// but here we do it more generally.
+				if (botanaVars == null) {
+					botanaVars = new PVariable[6];
+					// M, the midpoint of the rhombus
+					botanaVars[0] = new PVariable(kernel);
+					botanaVars[1] = new PVariable(kernel);
+					// C, that is, the vertex of the angle.
+					botanaVars[2] = vC[0];
+					botanaVars[3] = vC[1];
+					// S, a helper point.
+					botanaVars[4] = new PVariable(kernel);
+					botanaVars[5] = new PVariable(kernel);
+				}
+
+				botanaPolynomials = new PPolynomial[polysNeeded];
+
+				PPolynomial a1 = new PPolynomial(vA[0]);
+				PPolynomial a2 = new PPolynomial(vA[1]);
+				PPolynomial m1 = new PPolynomial(botanaVars[0]);
+				PPolynomial m2 = new PPolynomial(botanaVars[1]);
+				PPolynomial s1 = new PPolynomial(botanaVars[4]);
+				PPolynomial s2 = new PPolynomial(botanaVars[5]);
+
+				PPolynomial p1 = PPolynomial.sqrDistance(vA[0], vA[1], vC[0], vC[1]);
+				PPolynomial p2 = PPolynomial.sqrDistance(botanaVars[4], botanaVars[5],
+						vC[0], vC[1]);
+				botanaPolynomials[0] = p1.subtract(p2);
+				botanaPolynomials[1] = PPolynomial.collinear(vC[0], vC[1],
+						botanaVars[4], botanaVars[5], vB[0], vB[1]);
+				botanaPolynomials[2] = m1.add(m1).subtract(a1).subtract(s1);
+				botanaPolynomials[3] = m2.add(m2).subtract(a2).subtract(s2);
+				if (polysNeeded == 6) {
+					botanaPolynomials[4] = polysC[0];
+					botanaPolynomials[5] = polysC[1];
+				}
+
+				return botanaPolynomials;
+			}
 
 		}
 		throw new NoSymbolicParametersException();

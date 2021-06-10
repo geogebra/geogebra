@@ -16,6 +16,8 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
+import java.net.URI;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 
@@ -30,13 +32,14 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.ImageResourceD;
 
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.desktop.graphics.ColorD;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
+import com.kitfox.svg.SVGCache;
+import com.kitfox.svg.app.beans.SVGIcon;
 
 /**
  * Creates various ImageIcons for use in lists and tables.
@@ -75,15 +78,20 @@ public class GeoGebraIconD {
 		return ic;
 	}
 
-	public static ImageIcon createFileImageIcon(AppD app, ImageResourceD res) {
+	public static ImageIcon createFileImageIcon(ImageResourceD res) {
+		URL url = GeoGebraIconD.class.getResource(res.getFilename());
+		URI uri = SVGCache.getSVGUniverse().loadSVG(url);
 
-		Image im = app.getImageManager().getImageResource(res);
-		ImageIcon ic = im == null ? null
-				: new ImageIcon(ImageManagerD.toBufferedImage(im));
+		SVGIcon icon = new SVGIcon();
+		icon.setAntiAlias(true);
+		icon.setAutosize(SVGIcon.AUTOSIZE_STRETCH);
+		icon.setPreferredSize(new Dimension(32, 32));
+		icon.setSvgURI(uri);
+		BufferedImage bufferedImage = new BufferedImage(icon.getIconWidth(),
+				icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+		icon.paintIcon(null, bufferedImage.createGraphics(), 0, 0);
 
-		// ensureIconSize(ic, iconSize);
-
-		return ic;
+		return new ImageIcon(bufferedImage);
 	}
 
 	public static ImageIcon createHGridIcon(Dimension iconSize) {

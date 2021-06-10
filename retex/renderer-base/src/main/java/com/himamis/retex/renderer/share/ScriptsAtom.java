@@ -92,22 +92,6 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 		this.base = base;
 	}
 
-	public boolean setSupIfNull(Atom sup) {
-		if (superscript == null) {
-			superscript = sup;
-			return true;
-		}
-		return false;
-	}
-
-	public boolean setSubIfNull(Atom sub) {
-		if (subscript == null) {
-			subscript = sub;
-			return true;
-		}
-		return false;
-	}
-
 	public void setSup(Atom sup) {
 		superscript = sup;
 	}
@@ -161,7 +145,7 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 					|| (base.type_limits == TeXConstants.SCRIPT_NORMAL
 							&& style == TeXConstants.STYLE_DISPLAY)) {
 				return new BigOperatorAtom(base, subscript, superscript)
-						.createBox(env);
+						.createBox(env).setAtom(this);
 			}
 
 			final boolean it = base.setAddItalicCorrection(subscript == null);
@@ -218,7 +202,7 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 										/ 5.));
 				hor.add(x);
 
-				return hor;
+				return hor.setAtom(this);
 			} else {
 				Box x = superscript.createBox(supStyle);
 				double msiz = x.getWidth();
@@ -287,7 +271,7 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 					hor.add(vBox);
 				}
 
-				return hor;
+				return hor.setAtom(this);
 			}
 		}
 	}

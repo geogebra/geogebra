@@ -421,7 +421,7 @@ public class ToolCreationDialogW extends DialogBoxW implements
 		if (success) {
 			if (returnHandler == null) {
 				ToolTipManagerW.sharedInstance().showBottomMessage(
-						loc.getMenu("Tool.CreationSuccess"), true, appw);
+						loc.getMenu("Tool.CreationSuccess"), appw);
 
 			}
 		} else {

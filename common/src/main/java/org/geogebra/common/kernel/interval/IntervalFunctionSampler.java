@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.interval;
 
 import java.util.List;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoFunction;
 
 /**
@@ -13,21 +14,37 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 public class IntervalFunctionSampler {
 
 	private final IntervalFunction function;
-	private final int numberOfSamples;
+	private EuclidianView view;
+	private int numberOfSamples;
 	private final LinearSpace space;
 
 	/**
-	 *
 	 * @param geoFunction function to get sampled
 	 * @param range (x, y) range.
 	 * @param numberOfSamples the sample rate.
 	 */
 	public IntervalFunctionSampler(GeoFunction geoFunction, IntervalTuple range,
 			int numberOfSamples) {
-		this.function = new IntervalFunction(geoFunction);
+		this(geoFunction);
 		this.numberOfSamples = numberOfSamples;
-		space = new LinearSpace();
 		update(range);
+	}
+
+	/**
+	 * @param geoFunction function to get sampled
+	 * @param range (x, y) range.
+	 * @param view {@link EuclidianView}
+	 */
+	public IntervalFunctionSampler(GeoFunction geoFunction, IntervalTuple range,
+			EuclidianView view) {
+		this(geoFunction);
+		this.view = view;
+		update(range);
+	}
+
+	private IntervalFunctionSampler(GeoFunction geoFunction) {
+		this.function = new IntervalFunction(geoFunction);
+		space = new LinearSpace();
 	}
 
 	/**
@@ -73,7 +90,11 @@ public class IntervalFunctionSampler {
 	 * @param range the new (x, y) range
 	 */
 	public void update(IntervalTuple range) {
-		space.update(range.x(), numberOfSamples);
+		space.update(range.x(), calculateNumberOfSamples());
+	}
+
+	private int calculateNumberOfSamples() {
+		return numberOfSamples > 0 ? numberOfSamples : view.getWidth();
 	}
 
 	public IntervalTupleList extendMax(double max) {

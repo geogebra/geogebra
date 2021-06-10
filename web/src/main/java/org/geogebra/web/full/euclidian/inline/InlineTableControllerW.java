@@ -97,6 +97,11 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
+	public GColor getBackgroundColor() {
+		return GColor.getGColor(tableImpl.getCellProperty("bgcolor"));
+	}
+
+	@Override
 	public String urlByCoordinate(int x, int y) {
 		return tableImpl.urlByCoordinate(x, y);
 	}

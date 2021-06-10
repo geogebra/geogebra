@@ -5,6 +5,8 @@ import static org.geogebra.common.kernel.interval.RMath.powLow;
 
 import org.geogebra.common.util.DoubleUtil;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Implements algebra functions in interval
  *
@@ -13,6 +15,7 @@ import org.geogebra.common.util.DoubleUtil;
  * @author laszlo
  */
 class IntervalAlgebra {
+	@Weak
 	private final Interval interval;
 
 	IntervalAlgebra(Interval interval) {
@@ -65,7 +68,16 @@ class IntervalAlgebra {
 			return interval;
 		}
 
+		if (!DoubleUtil.isInteger(power)) {
+			return powerOfDouble(power);
+		}
+
 		return powOfInteger((int) power);
+	}
+
+	private Interval powerOfDouble(double power) {
+		Interval lnPower = interval.log().multiply(new Interval(power));
+		return lnPower.exp();
 	}
 
 	private Interval powOfInteger(int power) {
@@ -116,19 +128,14 @@ class IntervalAlgebra {
 	 * that must be a singleton, ie [n, n]
 	 * @param other interval power.
 	 * @return this as result.
-	 * @throws PowerIsNotInteger if other is not a singleton interval.
 	 */
-	Interval pow(Interval other) throws PowerIsNotInteger {
+	Interval pow(Interval other) {
 		if (!other.isSingleton()) {
 			interval.setEmpty();
 			return interval;
 		}
 
-		if (!DoubleUtil.isInteger(other.getLow())) {
-			throw new PowerIsNotInteger();
-		}
-
-		return pow((int) other.getLow());
+		return pow(other.getLow());
 	}
 
 	/**

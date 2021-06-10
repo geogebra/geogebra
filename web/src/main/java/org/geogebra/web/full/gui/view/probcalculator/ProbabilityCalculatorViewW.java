@@ -14,6 +14,7 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.css.GuiResources;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.view.data.PlotPanelEuclidianViewW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -967,7 +968,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		}
 
 		String image = "<img src=\""
-				+ GuiResources.INSTANCE.prob_calc_export().getSafeUri()
+				+ MaterialDesignResources.INSTANCE.prob_calc_export().getSafeUri()
 						.asString()
 				+ "\" >";
 		btnExport.addItem(new AriaMenuItem(image, true, menu));

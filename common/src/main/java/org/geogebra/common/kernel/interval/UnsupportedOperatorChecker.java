@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Checker to determine ia an operation is supported by the interval arithmetic.
@@ -37,9 +36,10 @@ public class UnsupportedOperatorChecker implements Inspecting {
 		case COSH:
 		case SINH:
 		case TANH:
-		case ACOSH:
 		case LOG10:
 		case LOG2:
+		case IF:
+		case IF_ELSE:
 		case NO_OPERATION:
 			return false;
 		case MULTIPLY:
@@ -61,8 +61,11 @@ public class UnsupportedOperatorChecker implements Inspecting {
 
 	private boolean checkPower(ExpressionNode node) {
 		double power = node.getRight().evaluateDouble();
+		if (Double.isNaN(power)) {
+			return true;
+		}
+
 		return node.getRightTree().containsFunctionVariable()
-				|| !DoubleUtil.isInteger(power) || power < 0
 				|| power >= 100;
 	}
 }

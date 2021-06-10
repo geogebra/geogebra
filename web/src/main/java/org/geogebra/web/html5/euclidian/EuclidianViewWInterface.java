@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.euclidian;
 
+import java.util.function.Consumer;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -93,7 +95,7 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	void setAltText();
 
-	String getExportSVG(double scale, boolean transparency);
+	void getExportSVG(double scale, boolean transparency, Consumer<String> callback);
 
 	String getExportPDF(double scale);
 

@@ -135,7 +135,7 @@ public class GeoFactory {
 		case "text":
 			return new GeoText(cons1);
 		case "textfield":
-			return new GeoInputBox(cons1);
+			return new GeoInputBox(cons1, null);
 		case "table":
 			return new GeoInlineTable(cons1, null);
 		case "video":

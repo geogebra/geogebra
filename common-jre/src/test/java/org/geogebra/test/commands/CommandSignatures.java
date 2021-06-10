@@ -38,7 +38,7 @@ public class CommandSignatures {
 				}
 			}
 			if ("Function".equals(cmdName) || "Random".equals(cmdName)
-					|| "DataFunction".equals(cmdName)) {
+					|| "DataFunction".equals(cmdName) || "Textfield".equals(cmdName)) {
 				signature.add(0);
 			}
 			return signature;

@@ -438,6 +438,8 @@ public final class EuclidianConstants {
 	public static final int MODE_TABLE = 123;
 	/** Equation */
 	public static final int MODE_EQUATION = 124;
+	/** H5P tool */
+	public static final int MODE_H5P = 125;
 	/** macro tools ID offset */
 	public static final int MACRO_MODE_ID_OFFSET = 100001;
 	/** max delay between taps of a doublecklick */
@@ -477,6 +479,10 @@ public final class EuclidianConstants {
 	 * max line thickness of highlighter
 	 */
 	public static final int MAX_PEN_HIGHLIGHTER_SIZE = 30;
+
+	public static String getModeIconName(int mode) {
+		return mode == EuclidianConstants.MODE_DELETE ? "erase" : getModeTextSimple(mode);
+	}
 
 	/**
 	 * @param mode
@@ -919,6 +925,8 @@ public final class EuclidianConstants {
 			return "PDF";
 		case EuclidianConstants.MODE_EXTENSION:
 			return "Web";
+		case EuclidianConstants.MODE_H5P:
+			return "H5P";
 		case EuclidianConstants.MODE_SELECT:
 			return "Select";
 		case EuclidianConstants.MODE_SELECT_MOW:
