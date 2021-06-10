@@ -371,6 +371,9 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	private void updateSizes() {
+		double scaleX = table.getWidth() / table.getContentWidth();
+		double scaleY = table.getHeight() / table.getContentHeight();
+		table.setSize(tableImpl.getTotalWidth() * scaleX, tableImpl.getTotalHeight() * scaleY);
 		table.setContentHeight(tableImpl.getTotalHeight());
 		table.setContentWidth(tableImpl.getTotalWidth());
 		table.setMinWidth(tableImpl.getMinWidth());
