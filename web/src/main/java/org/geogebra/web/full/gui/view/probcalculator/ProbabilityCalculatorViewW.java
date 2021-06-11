@@ -121,7 +121,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		attachView();
 		settingsChanged(getApp().getSettings().getProbCalcSettings());
-		updateAll();
 
 		tabbedPane.selectTab(getApp().getSettings().getProbCalcSettings()
 				.getCollection().isActive() ? 1 : 0);
