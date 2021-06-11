@@ -153,7 +153,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			return casInput.toString(tpl);
 		}
 		if (exception instanceof TimeoutException) {
-			return app.getLocalization().getError("CAS.TimeoutError");
+			return "?";
 		}
 
 		// pass on exception
