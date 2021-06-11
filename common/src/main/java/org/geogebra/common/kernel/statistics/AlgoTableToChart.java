@@ -143,7 +143,6 @@ public class AlgoTableToChart extends AlgoElement {
 		return column.isEmpty() ? Double.NaN : Collections.min(column);
 	}
 
-
 	@Override
 	public void compute() {
 		updateChartData();

@@ -73,16 +73,13 @@ public class UndoManagerD extends UndoManager {
 		// force create event dispatcher before we go to thread
 		app.getEventDispatcher();
 
-		Thread undoSaverThread = new Thread() {
-			@Override
-			public void run() {
-				doStoreUndoInfo(currentUndoXML);
-				if (refresh) {
-					restoreCurrentUndoInfo();
-				}
+		Runnable storeUndoAction = () -> {
+			doStoreUndoInfo(currentUndoXML);
+			if (refresh) {
+				restoreCurrentUndoInfo();
 			}
 		};
-		execute(undoSaverThread);
+		execute(storeUndoAction);
 	}
 
 	/**
@@ -120,7 +117,7 @@ public class UndoManagerD extends UndoManager {
 			}
 		});
 
-		updateUndoActions();
+		onStoreUndo();
 	}
 
 	/**
