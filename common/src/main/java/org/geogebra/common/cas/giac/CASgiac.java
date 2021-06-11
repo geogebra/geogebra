@@ -191,7 +191,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * check if a,b are numbers or polynomials and use rem() / irem()
 		 * accordingly
 		 */
-		GGBMOD("ggbmod", "ggbmod(a,b):=when(type(a)!=DOM_INT||type(b)!=DOM_INT,rem(a,b,when(length(lname(b))>0,lname(b)[0],x)),irem(a,b))"),
+		GGBMOD("ggbmod", "ggbmod(a,b):=when(typeof(a)=='?',?,when(type(a)!=DOM_INT||type(b)!=DOM_INT,rem(a,b,when(length(lname(b))>0,lname(b)[0],x)),irem(a,b)))"),
 		
 		// for testing Zip(Mod(k, 2), k,{0, -2, -5, 1, -2, -4, 0, 4, 12})
 		// GGBMOD("ggbmod",
