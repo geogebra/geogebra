@@ -292,7 +292,10 @@ public class DrawRay extends SetDrawable implements Previewable {
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
 		double yRW = mouseRWy;
-		if (isVisible) {
+		GeoPointND startPoint = points != null && points.size() > 0 ? points.get(0) : null;
+
+		if (isVisible && startPoint != null && !(startPoint.getInhomX() == xRW
+				&& startPoint.getInhomY() == yRW)) {
 
 			// need these as we don't want rounding when Alt pressed (nearest 15
 			// degrees)
