@@ -149,7 +149,7 @@ public class ViewW {
 				app.afterLoadFileAppOrNot(false);
 				ToolTipManagerW.sharedInstance().showBottomMessage(
 						app.getLocalization().getMenu("FileLoadingError"),
-						false, app);
+						app);
 				return null;
 			};
 

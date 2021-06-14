@@ -1418,6 +1418,24 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testLabelWithEquation() {
+		app.setUndoActive(true);
+		add("a:f = 1");
+		app.storeUndoInfo();
+		undoRedo();
+		assertThat(getSymbolic("a").toString(StringTemplate.defaultTemplate), is("a: f = 1"));
+	}
+
+	@Test
+	public void testLabelWithFunction() {
+		app.setUndoActive(true);
+		add("a:f(x) = 1");
+		app.storeUndoInfo();
+		undoRedo();
+		assertThat(getSymbolic("a").toString(StringTemplate.defaultTemplate), is("a: f(x) = 1"));
+	}
+
+	@Test
 	public void testExtremum() {
 		GeoSymbolic extremum = add("Extremum(x*ln(x^2))");
 		GeoList twin = (GeoList) extremum.getTwinGeo();

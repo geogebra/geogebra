@@ -1,18 +1,14 @@
 package org.geogebra.web.full.gui.layout.panels;
 
 import org.geogebra.common.main.App;
-import org.geogebra.web.full.gui.util.StyleBarW;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW.MyPanel;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
-
-	private StyleBarW cpStyleBar;
 
 	/**
 	 * @param app
@@ -25,15 +21,6 @@ public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
 		this.setEmbeddedSize(300);
 	}
 
-	@Override
-	protected Widget loadStyleBar() {
-		if (cpStyleBar == null) {
-			cpStyleBar = ((ConstructionProtocolViewW) app.getGuiManager()
-					.getConstructionProtocolView()).getStyleBar();
-		}
-		return cpStyleBar; 
-	}
-	
 	@Override
     public ResourcePrototype getIcon() {
 		return getResources().menu_icon_construction_protocol();

@@ -1939,7 +1939,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		kernel.setViewsLabels();
 		updateCommandDictionary();
 		setTitle();
-		setAltText();
 		translateHeader();
 	}
 
@@ -2169,7 +2168,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void closePopups() {
 		closePopupsNoTooltips();
-		ToolTipManagerW.hideAllToolTips();
+		ToolTipManagerW.sharedInstance().hideTooltip();
 
 		if (!isUnbundled() && getGuiManager() != null
 				&& getGuiManager().hasAlgebraView()) {
@@ -2180,7 +2179,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getActiveEuclidianView().getEuclidianController()
 					.setObjectMenuActive(false);
 		}
-		//hideSymbolicEditors();
 	}
 
 	/**
@@ -3233,6 +3231,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public boolean isUnbundled3D() {
 		return "3d".equals(getSubAppCode());
+	}
+
+	/**
+	 * @return whether we are running suite
+	 */
+	public boolean isSuite() {
+		return "suite".equals(getConfig().getAppCode());
 	}
 
 	/**

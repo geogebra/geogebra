@@ -26,7 +26,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.GestureChangeEvent;
 import com.google.gwt.event.dom.client.GestureEndEvent;
@@ -43,6 +42,9 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
+
+import elemental2.dom.WheelEvent;
+import jsinterop.base.Js;
 
 @SuppressWarnings("javadoc")
 public class MouseTouchGestureControllerW extends MouseTouchGestureController
@@ -63,11 +65,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 */
 	public final static double FREEHAND_MODE_THRESHOLD_SQR = 200.0;
 	private int delayUntilMoveFinish = 150;
-
-	/**
-	 * flag for blocking the scaling of the axes
-	 */
-	protected boolean moveAxesAllowed = true;
 
 	private LongTouchManager longTouchManager;
 
@@ -485,7 +482,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		int y = mouseEventX(event.getClientY() - style.getyOffset());
 		boolean shiftOrMeta = event.isShiftKeyDown() || event.isMetaKeyDown();
 		if (delta == 0) {
-			deltaSum += getNativeDelta(event.getNativeEvent());
+			deltaSum += getNativeDelta(event);
 			if (Math.abs(deltaSum) > 40) {
 				double ds = deltaSum;
 				deltaSum = 0;
@@ -505,9 +502,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		}
 	}
 
-	private native double getNativeDelta(NativeEvent evt) /*-{
-		return -evt.wheelDelta;
-	}-*/;
+	public static double getNativeDelta(MouseWheelEvent evt) {
+		return Js.<WheelEvent>uncheckedCast(evt.getNativeEvent()).deltaY;
+	}
 
 	/**
 	 * @param event

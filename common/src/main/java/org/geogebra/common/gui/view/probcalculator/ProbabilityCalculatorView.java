@@ -975,11 +975,9 @@ public abstract class ProbabilityCalculatorView
 		} else {
 			plotSettings.pointCaptureStyle = EuclidianStyleConstants.POINT_CAPTURING_OFF;
 			plotSettings.xAxesIntervalAuto = true;
-			plotPanelUpdateSettings(plotSettings);
 		}
 
 		plotPanelUpdateSettings(plotSettings);
-
 	}
 
 	/**

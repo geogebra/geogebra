@@ -1865,4 +1865,8 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
         }
     }
 
+	public static String removePngMarker(String pngURL) {
+		return pngURL.substring(pngMarker.length());
+	}
+
 }

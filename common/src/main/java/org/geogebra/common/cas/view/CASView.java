@@ -212,15 +212,6 @@ public abstract class CASView implements Editing, SetLabels {
 	}
 
 	/**
-	 * @param mode
-	 *            show tooltip for given mode
-	 */
-	protected void showTooltip(int mode) {
-		// only in web
-
-	}
-
-	/**
 	 * Renames function definitions in the CAS
 	 */
 	@Override

@@ -79,11 +79,11 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 		Perspective p = p0;
 		// code moved here from AppWapplication.afterCoreObjectsInited - end
 		BrowserStorage stockStore = BrowserStorage.LOCAL;
-		// if (stockStore != null) {
+
 		String xml = stockStore.getItem(getPrefKey(app));
 		if (xml != null) {
 			app.setXML(xml, false);
-		} else {
+		} else if (!app.isWhiteboardActive()) {
 			if (app.getPreferredSize() != null) {
 				GeoGebraPreferencesXML
 						.setDefaultWindowX(app.getPreferredSize().getWidth());
@@ -102,7 +102,6 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 			app.getGuiManager().getLayout()
 					.setPerspectives(app.getTmpPerspectives(), p);
 		}
-
 	}
 
 	private static void readObjectDefaults(App app, BrowserStorage stockStore) {

@@ -34,6 +34,7 @@ public class InputController {
 
 	private boolean plainTextMode = false;
 	private SyntaxAdapter formatConverter;
+	private boolean useSimpleScripts = true;
 
 	/**
 	 * @param metaModel model
@@ -61,6 +62,10 @@ public class InputController {
 
 	public void setFormatConverter(SyntaxAdapter formatConverter) {
 		this.formatConverter = formatConverter;
+	}
+
+	public void setUseSimpleScripts(boolean useSimpleScripts) {
+		this.useSimpleScripts = useSimpleScripts;
 	}
 
 	final static private char getLetter(MathComponent component)
@@ -1108,6 +1113,9 @@ public class InputController {
 				&& ch != Unicode.LFLOOR && ch != Unicode.LCEIL && ch != '"') {
 			deleteSelection(editorState);
 		}
+		if (useSimpleScripts) {
+			checkScriptExit(ch, editorState);
+		}
 		boolean handled = handleEndBlocks(editorState, ch);
 
 		MetaModel meta = editorState.getMetaModel();
@@ -1204,6 +1212,22 @@ public class InputController {
 		}
 
 		return '\u201c';
+	}
+
+	private void checkScriptExit(char ch, EditorState editorState) {
+		if (ch == '+' || ch == '-' || ch == '(' || ch == ')' || ch == '=' || ch == '*') {
+			exitScript(Tag.SUBSCRIPT, editorState);
+		}
+		if (ch == '=') {
+			exitScript(Tag.SUPERSCRIPT, editorState);
+		}
+	}
+
+	private void exitScript(Tag subscript, EditorState state) {
+		MathSequence currentField = state.getCurrentField();
+		if (currentField.getParent() != null && currentField.getParent().hasTag(subscript)) {
+			CursorController.nextCharacter(state);
+		}
 	}
 
 	private boolean preventDimensionChange(EditorState editorState) {

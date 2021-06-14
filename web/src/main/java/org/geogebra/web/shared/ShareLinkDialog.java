@@ -145,7 +145,7 @@ public class ShareLinkDialog extends ComponentDialog {
 					+ " frameborder=\"0\"></iframe>";
 			this.app.getCopyPaste().copyTextToSystemClipboard(code);
 			ToolTipManagerW.sharedInstance().showBottomMessage(
-					localize("CopiedToClipboard"), true, appW);
+					localize("CopiedToClipboard"), appW);
 		}
 		hide();
 	}

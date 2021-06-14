@@ -241,7 +241,7 @@ public class VoiceInputOutputController {
 
 	@ExternalAccess
 	private void showMessage(String msg) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(msg, true, appW);
+		ToolTipManagerW.sharedInstance().showBottomMessage(msg, appW);
 	}
 
 	/**
