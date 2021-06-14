@@ -91,6 +91,7 @@ import org.geogebra.web.full.gui.layout.DockGlassPaneW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.LayoutW;
+import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
@@ -1926,6 +1927,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		centerAndResizePopups();
 		resizePropertiesView();
 		updateFloatingButtonsPosition();
+		DockPanelW dp = getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA);
+		if (dp instanceof AlgebraDockPanelW) {
+			dp.onResize(); // to force branding visibility update
+		}
 	}
 
 	private void centerAndResizePopups() {

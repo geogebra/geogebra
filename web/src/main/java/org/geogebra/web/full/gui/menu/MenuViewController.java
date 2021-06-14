@@ -136,7 +136,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 	}
 
 	/**
-	 * build menu again with new appConfig (neede for suite)
+	 * build menu again with new appConfig (needed for suite)
 	 * @param app see {@link AppW}
 	 */
 	public void resetMenuOnAppSwitch(AppW app) {
