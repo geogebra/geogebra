@@ -257,7 +257,7 @@ public class MaterialRestAPI implements BackendAPI {
 
 		performRequest("GET",
 				"/users/" + model.getUserId()
-						+ "/materials?limit=30&embed=creator&order="
+						+ "/materials?limit=50&embed=creator&order="
 						+ orderStr(order),
 				null, userMaterialsCB);
 	}
@@ -272,7 +272,7 @@ public class MaterialRestAPI implements BackendAPI {
 
 		performRequest("GET",
 				"/users/" + model.getUserId()
-						+ "/materials?type=shared_with&embed=creator&order="
+						+ "/materials?type=shared_with&embed=creator&limit=50&order="
 						+ orderStr(order),
 				null, sharedMaterialsCB);
 	}

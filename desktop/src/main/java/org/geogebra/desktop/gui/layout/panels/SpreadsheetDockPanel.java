@@ -90,17 +90,7 @@ public class SpreadsheetDockPanel extends NavigableDockPanel {
 
 	@Override
 	public boolean isStyleBarVisible() {
-
-		if (!app.isApplet()) {
-			return true;
-		}
-
-		SpreadsheetSettings settings = app.getSettings().getSpreadsheet();
-
-		// currently no GUI / XML for hiding the style-bar
-		// hide in applets if the row/column headers are missing
-		return settings.showRowHeader() && settings.showColumnHeader();
-
+		return true;
 	}
 
 }

@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.util;
 
+import java.util.Locale;
+
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.util.debug.Log;
@@ -94,13 +96,15 @@ public class ViewW {
 			GgbFile archiveContent = new GgbFile();
 			data.forEach(name -> {
 				int dotIndex = name.lastIndexOf('.');
-				String extension = dotIndex == -1 ? "" : name.substring(dotIndex + 1);
+				String extension = dotIndex == -1
+						? "" : name.substring(dotIndex + 1).toLowerCase(Locale.US);
 
 				if (extension.matches("(png|jpg|jpeg|gif|bmp|tif|tiff)")) {
-					String prefix = "data:image/" + extension + ";base64,";
-					archiveContent.put(name, prefix + Base64.bytesToBase64(data.get(name)));
+					Uint8Array obj = data.get(name);
+					archiveContent.put(name, new ArchiveEntry(obj));
 				} else {
-					archiveContent.put(name, FFlate.get().strFromU8(data.get(name)));
+					archiveContent.put(name, new ArchiveEntry(FFlate.get()
+							.strFromU8(data.get(name))));
 				}
 			});
 
@@ -146,7 +150,7 @@ public class ViewW {
 				app.afterLoadFileAppOrNot(false);
 				ToolTipManagerW.sharedInstance().showBottomMessage(
 						app.getLocalization().getMenu("FileLoadingError"),
-						false, app);
+						app);
 				return null;
 			};
 
@@ -182,7 +186,7 @@ public class ViewW {
 			JsArray<JsPropertyMap<String>> content = Js.uncheckedCast(json.get("archive"));
 			for (int i = 0; i < content.length; i++) {
 				JsPropertyMap<String> entry = content.getAt(i);
-				file.put(entry.get("fileName"), entry.get("fileContent"));
+				file.put(entry.get("fileName"), new ArchiveEntry(entry.get("fileContent")));
 			}
 		}
 	}

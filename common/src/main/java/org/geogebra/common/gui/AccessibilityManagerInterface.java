@@ -78,4 +78,10 @@ public interface AccessibilityManagerInterface {
 	void register(MayHaveFocus focusable);
 
 	void setTabOverGeos();
+
+	/**
+	 *
+	 * @return the geo that has altText (if any) for the active euclidian view.
+	 */
+	GeoElement getAltGeoForView();
 }

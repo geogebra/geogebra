@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.Browser;
 import org.gwtproject.timer.client.Timer;
 
@@ -127,18 +128,13 @@ public class GPopupPanel extends SimplePanel implements
 			int winWidth = getRootPanel().getOffsetWidth();
 			int winHeight = getRootPanel().getOffsetHeight();
 
-			// Hide the glass while checking the document size. Otherwise it
-			// would
-			// interfere with the measurement.
-			style.setDisplay(Display.NONE);
-			style.setWidth(0, Unit.PX);
-			style.setHeight(0, Unit.PX);
-
 			// Set the glass size to the larger of the window's client size or
 			// the
 			// document's scroll size.
+			int headerHeight = ((AppW) app).getAppletParameters().getDataParamMarginTop();
 			style.setWidth(winWidth, Unit.PX);
-			style.setHeight(winHeight, Unit.PX);
+			style.setHeight(winHeight + headerHeight, Unit.PX);
+			style.setTop(-headerHeight, Unit.PX);
 
 			// The size is set. Show the glass again.
 			style.setDisplay(Display.BLOCK);

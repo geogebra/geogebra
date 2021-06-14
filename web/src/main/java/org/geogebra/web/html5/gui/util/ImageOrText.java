@@ -90,6 +90,24 @@ public class ImageOrText {
 	    }
 	    return arr;
     }
+
+	/**
+	 * @param res
+	 *            resource
+	 * @param size
+	 *            size
+	 * @return converted array
+	 */
+	public static ImageOrText[] convert(SVGResource[] res, int size) {
+		ImageOrText[] arr = new ImageOrText[res.length];
+		for (int i = 0; i < arr.length; i++) {
+			if (res[i] == null) {
+				return arr;
+			}
+			arr[i] = new ImageOrText(res[i], size);
+		}
+		return arr;
+	}
 	
 	/**
 	 * @param res

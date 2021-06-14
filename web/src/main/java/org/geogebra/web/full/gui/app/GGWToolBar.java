@@ -36,7 +36,6 @@ import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -192,7 +191,7 @@ public class GGWToolBar extends Composite
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 
 		redoButton = new StandardButton(pr.menu_header_redo(), null, 32);
-		redoButton.getElement().getStyle().setPosition(Style.Position.RELATIVE);
+		redoButton.addStyleName("redoButton");
 
 		redoButton.addFastClickHandler(source -> {
 			app.getGuiManager().redo();
@@ -200,7 +199,7 @@ public class GGWToolBar extends Composite
 		});
 
 		undoButton = new StandardButton(pr.menu_header_undo(), null, 32);
-		undoButton.getElement().getStyle().setPosition(Style.Position.RELATIVE);
+		undoButton.addStyleName("undoButton");
 
 		undoButton.addFastClickHandler(source -> {
 			app.getGuiManager().undo();
@@ -625,7 +624,7 @@ public class GGWToolBar extends Composite
 				return resourceBundle.mode_createtable_32();
 
 		case EuclidianConstants.MODE_DELETE:
-			return resourceBundle.mode_delete_32();
+			return resourceBundle.mode_eraser_32();
 
 		case EuclidianConstants.MODE_CAS_DERIVATIVE:
 			return resourceBundle.mode_derivative_32();
@@ -746,8 +745,7 @@ public class GGWToolBar extends Composite
 			return resourceBundle.mode_parallel_32();
 
 		case EuclidianConstants.MODE_PEN:
-			return app.isWhiteboardActive() ? resourceBundle.mode_pen()
-					: resourceBundle.mode_pen_32();
+			return resourceBundle.mode_pen();
 
 		case EuclidianConstants.MODE_POINT:
 			return resourceBundle.mode_point_32();

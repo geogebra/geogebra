@@ -158,6 +158,7 @@ public abstract class CasTestJsonCommon {
 		StringBuilder[] failures = new StringBuilder[] { new StringBuilder(),
 				new StringBuilder() };
 		for (CasTest cmd : cases) {
+			System.out.println(cmd.input);
 			if (!StringUtil.empty(cmd.rounding)) {
 				app.setRounding(cmd.rounding);
 			} else {

@@ -69,4 +69,9 @@ public final class AccessibilityManagerNoGui
 	public void setTabOverGeos() {
 		// not used
 	}
+
+	@Override
+	public GeoElement getAltGeoForView() {
+		return null;
+	}
 }

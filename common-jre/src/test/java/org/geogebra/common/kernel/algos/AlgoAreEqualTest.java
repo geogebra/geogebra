@@ -75,8 +75,7 @@ public class AlgoAreEqualTest {
 
 	private boolean compare(String inputBoxContent, String expression) {
 		GeoNumeric linkedGeo = new GeoNumeric(cons);
-		GeoInputBox inputBox = new GeoInputBox(cons);
-		inputBox.setLinkedGeo(linkedGeo);
+		GeoInputBox inputBox = new GeoInputBox(cons, linkedGeo);
 		inputBox.updateLinkedGeo(inputBoxContent);
 
 		GeoElementND[] parsed = app.getKernel().getAlgebraProcessor()

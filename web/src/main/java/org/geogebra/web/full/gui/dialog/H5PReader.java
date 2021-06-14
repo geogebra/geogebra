@@ -74,6 +74,6 @@ public class H5PReader implements AjaxCallback {
 			embed.remove();
 		}
 		ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization()
-				.getMenu("PdfErrorText"), true, (AppW) app);
+				.getMenu("PdfErrorText"), (AppW) app);
 	}
 }

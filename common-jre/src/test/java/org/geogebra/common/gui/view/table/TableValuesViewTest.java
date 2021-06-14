@@ -335,10 +335,6 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertEquals(2, fn3Reload.getTableColumn());
 	}
 
-	private void reload() {
-		getApp().setXML(getApp().getXML(), true);
-	}
-
 	@Test
 	public void testXML() {
 		setValuesSafe(0, 10, 2);

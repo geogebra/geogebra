@@ -77,7 +77,7 @@ public class PerspectivesMenuW extends Submenu {
 					public void doExecute() {
 						setPerspective(app, index);
 						if (!(app.isExam() && app.getExam().getStart() >= 0)) {
-							((AppWFull) app).showStartTooltip(defID);
+							app.showStartTooltip(defID);
 						}
 					}
 				});

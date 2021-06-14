@@ -6,7 +6,6 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -61,26 +60,21 @@ public class SaveCallback {
 			if (activeMaterial != null
 					&& !activeMaterial.getVisibility().equals("P")
 					&& state != SaveState.ERROR) {
-
 				if (state == SaveState.FORKED) {
-					msg += "<br/>";
 					msg += loc.getPlain("SeveralVersionsOf",
 							app.getKernel().getConstruction().getTitle());
 				}
 				ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 				ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-						"<p style='margin-top: 13px; margin-bottom: 0px'>"
-								+ msg + "</p>",
-						activeMaterial.getURL(),
-						ToolTipLinkType.ViewSavedFile, app,
-						app.getAppletFrame().isKeyboardShowing());
+						msg, null, app.getLocalization().getMenu("Share"),
+						activeMaterial.getURL(), app);
 			} else {
 				ToolTipManagerW.sharedInstance().showBottomMessage(
-						msg, true, app);
+						msg, app);
 			}
 		} else {
 			ToolTipManagerW.sharedInstance().showBottomMessage(
-					loc.getMenu("SavedSuccessfully"), true, app);
+					loc.getMenu("SavedSuccessfully"), app);
 		}
 	}
 

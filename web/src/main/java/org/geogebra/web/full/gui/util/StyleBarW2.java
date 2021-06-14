@@ -158,7 +158,8 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 
 		GColor originalColor;
 		if (background) {
-			originalColor = geo0.getBackgroundColor();
+			originalColor = geo0.getBackgroundColor() != null
+					? geo0.getBackgroundColor() : GColor.BLACK;
 		} else {
 			originalColor = geo0.getObjectColor();
 		}

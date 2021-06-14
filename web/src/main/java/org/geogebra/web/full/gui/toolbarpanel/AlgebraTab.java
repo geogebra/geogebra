@@ -3,24 +3,24 @@ package org.geogebra.web.full.gui.toolbarpanel;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
+import org.geogebra.web.html5.util.CustomScrollbar;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
  * Algebra tab of tool panel
  */
 public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 
-	private App app;
+	private static final int SCROLLBAR_WIDTH = 8; // 8px in FF, 4px in Chrome => take 8px
+	final private App app;
 	private final ToolbarPanel toolbarPanel;
-	private SimplePanel simplep;
+	private FlowPanel wrapper;
 	/** Algebra view **/
 	AlgebraViewW aview = null;
-
+	private final LogoAndName logo;
 	private int savedScrollPosition;
 
 	/**
@@ -28,12 +28,12 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 	 *            parent toolbar panel
 	 */
 	public AlgebraTab(ToolbarPanel toolbarPanel) {
+		super(toolbarPanel);
 		this.toolbarPanel = toolbarPanel;
 		app = toolbarPanel.getApp();
-		if (app != null) {
-			setAlgebraView((AlgebraViewW) app.getAlgebraView());
-			aview.setInputPanel();
-		}
+		logo = new LogoAndName(app);
+		setAlgebraView((AlgebraViewW) app.getAlgebraView());
+		aview.setInputPanel();
 	}
 
 	/**
@@ -42,38 +42,34 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 	 */
 	public void setAlgebraView(final AlgebraViewW av) {
 		if (av != aview) {
-			if (aview != null && simplep != null) {
-				simplep.remove(aview);
-				remove(simplep);
+			if (aview != null && wrapper != null) {
+				wrapper.remove(aview);
+				remove(wrapper);
 			}
 
-			simplep = new SimplePanel(aview = av);
-			add(simplep);
-			simplep.addStyleName("algebraSimpleP");
+			wrapper = new FlowPanel();
+			aview = av;
+			wrapper.add(aview);
+			wrapper.add(logo);
+			add(wrapper);
+			wrapper.addStyleName("algebraSimpleP");
 			addStyleName("algebraPanel");
 			addStyleName("matAvDesign");
-			addDomHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					emptyAVclicked(av, event.getClientY());
-				}
-			}, ClickEvent.getType());
+			CustomScrollbar.apply(this);
+			addDomHandler(this::emptyAVclicked, ClickEvent.getType());
 		}
 	}
 
 	/**
-	 * @param av
-	 *            algebra view
-	 * @param y
-	 *            y-offset of the click
+	 * @param evt
+	 *            click event
 	 */
-	protected void emptyAVclicked(AlgebraViewW av, int y) {
-		int bt = simplep.getAbsoluteTop() + simplep.getOffsetHeight();
-		if (y > bt) {
+	protected void emptyAVclicked(ClickEvent evt) {
+		int bt = wrapper.getAbsoluteTop() + wrapper.getOffsetHeight();
+		if (evt.getClientY() > bt && aview != null) {
 			app.getSelectionManager()
 					.clearSelectedGeos();
-			av.resetItems(true);
+			aview.resetItems(true);
 		}
 	}
 
@@ -84,17 +80,18 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 
 	@Override
 	public void close() {
-		toolbarPanel.close();
+		toolbarPanel.close(false);
 	}
 
 	@Override
 	public void onResize() {
 		super.onResize();
-		setWidth(this.toolbarPanel.getTabWidth() + "px");
+		int tabWidth = this.toolbarPanel.getTabWidth();
+		setWidth(tabWidth + "px");
 		if (aview != null) {
-			int w = this.toolbarPanel.getTabWidth();
-			aview.setUserWidth(w);
-			aview.resize(this.toolbarPanel.getTabWidth());
+			aview.setUserWidth(tabWidth);
+			aview.resize(tabWidth - SCROLLBAR_WIDTH);
+			logo.onResize(aview, toolbarPanel.getTabHeight());
 		}
 	}
 
@@ -110,14 +107,7 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 		}
 
 		if (item.isInputTreeItem()) {
-			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-				@Override
-				public void execute() {
-
-					scrollToBottom();
-				}
-			});
+			Scheduler.get().scheduleDeferred(this::scrollToBottom);
 			return;
 		}
 		doScrollToActiveItem();
@@ -164,5 +154,10 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 	@Override
 	protected void onActive() {
 		// unused
+	}
+
+	@Override
+	public void setLabels() {
+		logo.setLabels();
 	}
 }

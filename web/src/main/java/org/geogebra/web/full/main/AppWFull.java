@@ -1,8 +1,12 @@
 package org.geogebra.web.full.main;
 
+import static org.geogebra.common.gui.Layout.findDockPanelData;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -47,6 +51,8 @@ import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
+import org.geogebra.common.main.undo.UndoHistory;
+import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -82,10 +88,10 @@ import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockGlassPaneW;
-import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.LayoutW;
+import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
@@ -125,7 +131,6 @@ import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -214,9 +219,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private String autosavedMaterial = null;
 	private MaskWidgetList maskWidgets;
 	private SuiteHeaderAppPicker suiteAppPickerButton;
-	private HashMap<String, Material> constructionJson = new HashMap<>();
+	private Map<String, Material> constructionJson = new HashMap<>();
+	private final HashMap<String, UndoHistory> undoHistory = new HashMap<>();
 	private InputBoxType inputBoxType;
-	private String functionVars = "";
+	private List<String> functionVars = new ArrayList<>();
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -268,7 +274,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private void setupHeader() {
 		GlobalHeader header = GlobalHeader.INSTANCE;
 		header.setApp(this);
-		header.setFrame(frame);
 		if (showMenuBar()) {
 			setupSignInButton(header);
 		}
@@ -502,17 +507,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	void doShowStartTooltip(int perspID) {
 		if (appletParameters.getDataParamShowStartTooltip(perspID > 0)) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-			String tooltipText = getLocalization().getMenu("NewToGeoGebra")
-					+ "<br/>"
-					+ getLocalization().getPlain("CheckOutTutorial",
+			String helpText = getLocalization().getPlain("CheckOutTutorial",
 					getLocalization().getMenu(
 							Perspective.getPerspectiveName(perspID)));
 			String tooltipURL = getLocalization().getTutorialURL(getConfig());
-			DockPanelW focused = getGuiManager().getLayout().getDockManager()
-					.getPanelForKeyboard();
-			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(tooltipText,
-					tooltipURL, ToolTipLinkType.Help, this,
-					focused != null && focused.isVisible());
+			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
+					getLocalization().getMenu("NewToGeoGebra"), helpText,
+					getLocalization().getMenu("Help"), tooltipURL, this);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 		}
 	}
@@ -563,7 +564,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isUnbundledGeometry()) {
 			p = Layout.getDefaultPerspectives(Perspective.GEOMETRY - 1);
 		}
-		if (isUnbundledGraphing()) {
+		if (isUnbundledGraphing() || isUnbundledCas()) {
 			p = Layout.getDefaultPerspectives(Perspective.GRAPHING - 1);
 		}
 		if (isUnbundled3D()) {
@@ -606,7 +607,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void resetAllToolbars() {
-
 		GuiManagerW gm = getGuiManager();
 		DockPanelW[] panels = gm.getLayout().getDockManager().getPanels();
 		for (DockPanelW panel : panels) {
@@ -626,7 +626,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		DockPanel avPanel = gm.getLayout().getDockManager()
 				.getPanel(VIEW_ALGEBRA);
 		if (avPanel instanceof ToolbarDockPanelW) {
-			((ToolbarDockPanelW) avPanel).getToolbar().reset();
+			final ToolbarDockPanelW dockPanel = (ToolbarDockPanelW) avPanel;
+			dockPanel.getToolbar().reset();
+			dockPanel.tryBuildZoomPanel();
 		}
 	}
 
@@ -1010,7 +1012,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public String getInputBoxFunctionVars() {
+	public List<String> getInputBoxFunctionVars() {
 		return functionVars;
 	}
 
@@ -1018,7 +1020,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * setter for input box function vars
 	 * @param functionVars function vars connected to the inputbox
 	 */
-	public void setInputBoxFunctionVars(String functionVars) {
+	public void setInputBoxFunctionVars(List<String> functionVars) {
 		this.functionVars = functionVars;
 	}
 
@@ -1255,7 +1257,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		resetMaxLayerUsed();
 		setCurrentFile(null);
 		resetUI();
-		resetPenTool();
 		clearMedia();
 	}
 
@@ -1487,37 +1488,29 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			}
 		}
 		frame.setApplication(this);
-		if (isUnbundled()) {
-			Perspective current = getTmpPerspective(null);
-			if (current != null && current.getToolbarDefinition() != null) {
-				getGuiManager().setGeneralToolBarDefinition(
-						current.getToolbarDefinition());
-				if (getGuiManager() != null
-						&& getGuiManager()
-						.getUnbundledToolbar() != null) {
-					updatePerspectiveForUnbundled(current);
-					getGuiManager().getUnbundledToolbar()
-							.updateContent();
-				}
-			}
-		}
+
 		if (!isUsingFullGui()) {
 			buildSingleApplicationPanel();
 			Perspective current = getTmpPerspective(null);
 			if (current != null && current.getToolbarDefinition() != null) {
 				getGuiManager().setGeneralToolBarDefinition(
 						current.getToolbarDefinition());
-				updatePerspective(current);
+				setPerspectives(current);
 			}
 		} else if (!asSlide) {
-			getGuiManager().getLayout().getDockManager()
-					.init(frame);
+			getGuiManager().getLayout().getDockManager().init(frame);
+
 			Perspective p = null;
 			if (perspective != null && !StringUtil.isNaN(perspective)) {
 				p = PerspectiveDecoder.decode(perspective,
 						this.getKernel().getParser(),
 						ToolBar.getAllToolsNoMacros(true, false, this));
 			}
+
+			if (isUnbundled()) {
+				setPerspectiveForUnbundled(p);
+			}
+
 			getGuiManager().updateFrameSize();
 			if (appletParameters.getDataParamShowAlgebraInput(false)
 					&& !isUnbundledOrWhiteboard()) {
@@ -1528,7 +1521,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					p2.setInputPosition(InputPosition.bottom);
 				}
 			}
-			updatePerspective(p);
+
+			if (!isUnbundled()) {
+				setPerspectives(p);
+			}
 		}
 
 		getScriptManager().ggbOnInit(); // put this here from Application
@@ -1574,7 +1570,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		frame.useDataParamBorder();
 		onOpenFile();
 		showStartTooltip(0);
-		setAltText();
 		if (!isUnbundled() && isPortrait()) {
 			adjustViews(false, false);
 		}
@@ -1586,53 +1581,84 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			// should run after coord system changed
 			initUndoInfoSilent();
 		}
+		restoreCurrentUndoHistory();
 	}
 
-	private void updatePerspective(Perspective p) {
-		if (!isUnbundled() || isStartedWithFile()) {
-			getGuiManager().getLayout().setPerspectives(getTmpPerspectives(),
-					p);
-		} else {
-			getGuiManager().getLayout().getDockManager().setActiveTab(getTmpPerspective(p));
-		}
-		if (isUnbundled() && isPortrait()) {
+	private void setPerspectiveForUnbundled(Perspective p) {
+		Perspective fromXml = getTmpPerspective(p);
+
+		Perspective forcedPerspective = PerspectiveDecoder
+				.decode(getConfig().getForcedPerspective(), getKernel().getParser(),
+						ToolBar.getAllToolsNoMacros(true, false, this));
+
+		LayoutW layout = getGuiManager().getLayout();
+
+		updateAvVisibility(forcedPerspective, fromXml);
+
+		layout.applyPerspective(forcedPerspective);
+
+		getGuiManager().setGeneralToolBarDefinition(fromXml.getToolbarDefinition());
+		getGuiManager().getUnbundledToolbar().updateContent();
+
+		layout.getDockManager().setActiveTab(fromXml);
+
+		if (isPortrait()) {
 			getGuiManager().getLayout().getDockManager().adjustViews(true);
 		}
+
+		setupToolbarPanelVisibility(fromXml.getDockPanelData());
 	}
 
-	private void updatePerspectiveForUnbundled(Perspective perspective) {
-		DockManagerW dm = (getGuiManager().getLayout().getDockManager());
-		DockPanelData[] dpDataArray = perspective.getDockPanelData();
-		for (DockPanelData panelData : dpDataArray) {
-			DockPanelW panel = dm.getPanel(panelData.getViewId());
-			if (panel instanceof ToolbarDockPanelW) {
-				dm.show(panel);
-				updateToolbarPanelVisibility((ToolbarDockPanelW) panel, panelData.isVisible());
-			}
-			if (panel != null && !isPortrait()) {
-				updateDividerLocation(dm, panelData);
-			}
+	private void updateAvVisibility(Perspective forcedPerspective, Perspective fromXml) {
+		DockPanelData[] oldDockPanelData = fromXml.getDockPanelData();
+		DockPanelData[] dockPanelData = forcedPerspective.getDockPanelData();
+
+		int oldAlgebra = findDockPanelData(oldDockPanelData, App.VIEW_ALGEBRA);
+		int oldEuclidian = findDockPanelData(oldDockPanelData,
+				isUnbundled3D() ? App.VIEW_EUCLIDIAN3D : App.VIEW_EUCLIDIAN);
+		int euclidian = findDockPanelData(dockPanelData,
+				isUnbundled3D() ? App.VIEW_EUCLIDIAN3D : App.VIEW_EUCLIDIAN);
+
+		double algebraWidth = 0;
+		double euclidianWidth = 0;
+		if (oldAlgebra != -1 && oldDockPanelData[oldAlgebra].isVisible()) {
+			algebraWidth = oldDockPanelData[oldAlgebra].getEmbeddedSize();
 		}
-		updateContentPane();
-	}
 
-	private void updateToolbarPanelVisibility(ToolbarDockPanelW toolbarDockPanel, boolean visible) {
-		ToolbarPanel toolbarPanel = toolbarDockPanel.getToolbar();
-		if (visible) {
-			toolbarPanel.open();
+		if (oldEuclidian != -1 && oldDockPanelData[oldEuclidian].isVisible()) {
+			euclidianWidth = oldDockPanelData[oldEuclidian].getEmbeddedSize();
 		} else {
-			toolbarPanel.close();
+			dockPanelData[euclidian].setVisible(false);
+		}
+
+		if (algebraWidth != 0 || euclidianWidth != 0) {
+			forcedPerspective.getSplitPaneData()[0]
+					.setDivider(algebraWidth / (algebraWidth + euclidianWidth));
 		}
 	}
 
-	private void updateDividerLocation(DockManagerW dockManager, DockPanelData panelData) {
-		if (!panelData.isVisible() || panelData.isOpenInFrame()
-				|| !"3".equals(panelData.getEmbeddedDef())) {
-			return;
-		}
+	private void setPerspectives(Perspective p) {
+		getGuiManager().getLayout().setPerspectives(getTmpPerspectives(), p);
+	}
 
-		int divLoc = panelData.getEmbeddedSize();
-		dockManager.getRoot().setDividerLocation(divLoc);
+	private void setupToolbarPanelVisibility(DockPanelData[] dockPanelData) {
+		int algebra = findDockPanelData(dockPanelData, App.VIEW_ALGEBRA);
+		int euclidian = findDockPanelData(dockPanelData,
+				isUnbundled3D() ? App.VIEW_EUCLIDIAN3D : App.VIEW_EUCLIDIAN);
+
+		boolean isAvVisible = algebra != -1 && dockPanelData[algebra].isVisible();
+		boolean isEvVisible = euclidian != -1 && dockPanelData[euclidian].isVisible();
+
+		ToolbarPanel toolbarPanel = getGuiManager().getUnbundledToolbar();
+		if (!isAvVisible) {
+			toolbarPanel.hideToolbar();
+			toolbarPanel.setLastOpenWidth(ToolbarPanel.OPEN_START_WIDTH_LANDSCAPE);
+		} else if (isEvVisible) {
+			invokeLater(() -> {
+				toolbarPanel.setLastOpenWidth(ToolbarPanel.OPEN_START_WIDTH_LANDSCAPE);
+				toolbarPanel.open();
+			});
+		} // else assume that toolbarPanel is fully open.
 	}
 
 	private static boolean algebraVisible(Perspective p2) {
@@ -1901,6 +1927,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		centerAndResizePopups();
 		resizePropertiesView();
 		updateFloatingButtonsPosition();
+		DockPanelW dp = getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA);
+		if (dp instanceof AlgebraDockPanelW) {
+			dp.onResize(); // to force branding visibility update
+		}
 	}
 
 	private void centerAndResizePopups() {
@@ -1960,8 +1990,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void updateAppCodeSuite(String subApp, Perspective p) {
 		if ("suite".equals(getAppletParameters().getDataParamAppName())) {
-			String appCode = getConfig().getAppCode();
-			if (!appCode.equals(subApp)) {
+			String appCode = getConfig().getSubAppCode();
+			if (appCode != null && !appCode.equals(subApp)) {
 				this.activity = new SuiteActivity(subApp);
 				updateSymbolicFlag(subApp, p);
 				setSuiteHeaderButton(subApp);
@@ -2204,18 +2234,22 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @param subAppCode "graphing", "3d", "cas" or "geometry"
 	 */
 	public void switchToSubapp(String subAppCode) {
+		storeCurrentUndoHistory();
 		storeCurrentMaterial();
 		activity = new SuiteActivity(subAppCode);
 		activity.start(this);
 
+		resetToolbarPanel();
 		Perspective perspective = PerspectiveDecoder.decode(getConfig().getForcedPerspective(),
 				kernel.getParser(), ToolBar.getAllToolsNoMacros(isHTML5Applet(), isExam(), this));
 		updateSymbolicFlag(subAppCode, perspective);
 		reinitSettings();
 		clearConstruction();
 		getTmpPerspectives().clear();
-		updatePerspective(perspective);
+		getGuiManager().getLayout().applyPerspective(perspective);
+		clearConstruction();
 		restoreMaterial(subAppCode);
+		resetFullScreenBtn();
 	}
 
 	private void storeCurrentMaterial() {
@@ -2241,8 +2275,20 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				return;
 			}
 		}
+
+		resetEVs();
 		resetUrl();
 		setTitle();
+	}
+
+	private void storeCurrentUndoHistory() {
+		UndoManager undoManager = kernel.getConstruction().getUndoManager();
+		undoManager.undoHistoryTo(undoHistory);
+	}
+
+	private void restoreCurrentUndoHistory() {
+		UndoManager undoManager = kernel.getConstruction().getUndoManager();
+		undoManager.undoHistoryFrom(undoHistory);
 	}
 
 	private void updateSymbolicFlag(String subAppCode, Perspective perspective) {
@@ -2278,5 +2324,22 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void setNotesToolbarOpen(boolean open) {
 		getAppletFrame().setNotesToolbarOpen(open);
+	}
+
+	/**
+	 * Clear type and function variables for input box.
+	 */
+	public void resetInputBox() {
+		inputBoxType = null;
+		functionVars = Collections.emptyList();
+	}
+
+	private void resetFullScreenBtn() {
+		GuiManagerW gm = getGuiManager();
+		DockPanel avPanel = gm.getLayout().getDockManager()
+				.getPanel(VIEW_ALGEBRA);
+		if (avPanel instanceof ToolbarDockPanelW) {
+			((ToolbarDockPanelW) avPanel).tryBuildZoomPanel();
+		}
 	}
 }

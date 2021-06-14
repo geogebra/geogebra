@@ -1,0 +1,30 @@
+<svg id="stylingbar_graphicsview_show_or_hide_the_polar_grid" xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 20px;
+      }
+    </style>
+  </defs>
+  <title>isometric</title>
+  <g>
+    <g>
+      <circle class="cls-1" cx="80" cy="431.61" r="176"/>
+      <circle class="cls-1" cx="80.5" cy="431.11" r="330.17"/>
+      <circle class="cls-1" cx="80" cy="431.11" r="469.83"/>
+      <line class="cls-1" x1="81" y1="431.61" x2="512" y2="676.61"/>
+      <line class="cls-1" x1="79.5" y1="432.11" x2="547" y2="167.61"/>
+      <line class="cls-1" x1="79.5" y1="432.11" x2="339" y2="-20.39"/>
+      <line class="cls-1" x1="79.5" y1="432.11" x2="-161" y2="20.61"/>
+      <line class="cls-1" x1="79.5" y1="432.11" x2="-336" y2="187.61"/>
+      <line class="cls-1" x1="79.5" y1="432.11" x2="-291.92" y2="646.83"/>
+      <line class="cls-1" x1="79.5" y1="432.11" x2="-96" y2="735.15"/>
+      <line class="cls-1" x1="79.5" y1="432.11" x2="256" y2="742.61"/>
+    </g>
+    <line class="cls-1" x1="79.5" y1="533.29" x2="79.5" y2="-29.49"/>
+    <line class="cls-1" x1="-45.42" y1="432.11" x2="547" y2="432.11"/>
+  </g>
+</svg>

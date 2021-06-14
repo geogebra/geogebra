@@ -28,7 +28,6 @@ import org.geogebra.keyboard.web.factory.KeyboardInputBox;
 import org.geogebra.keyboard.web.factory.KeyboardMow;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -924,8 +923,6 @@ public class TabbedKeyboard extends FlowPanel
 		if (Action.SWITCH_TO_123.name().equals(btn.getSecondaryAction())) {
 			selectTab(KeyboardType.NUMBERS);
 		}
-
-		Scheduler.get().scheduleDeferred(this::scrollCursorIntoView);
 	}
 
 	private void process(Action action) {
@@ -1005,13 +1002,6 @@ public class TabbedKeyboard extends FlowPanel
 	 */
 	protected void ansPressed() {
 		// platform dependent
-	}
-
-	/**
-	 * Scroll cursor of selected textfield into view
-	 */
-	protected void scrollCursorIntoView() {
-		processField.scrollCursorIntoView();
 	}
 
 	/**

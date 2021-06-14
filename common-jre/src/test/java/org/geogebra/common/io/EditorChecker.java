@@ -38,6 +38,8 @@ class EditorChecker {
 		MathSequence rootComponent = getRootComponent();
 		Assert.assertEquals(output,
 				GeoGebraSerializer.serialize(rootComponent));
+		// clean the checker after typing
+		fromParser("");
 	}
 
 	public void checkGGBMath(String output) {

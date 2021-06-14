@@ -31,10 +31,8 @@ import java.util.ArrayList;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -45,6 +43,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.user.client.Window.Navigator;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -60,7 +59,6 @@ import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
@@ -75,7 +73,11 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.ColorW;
+import com.himamis.retex.renderer.web.graphics.Graphics2DW;
+import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
+import elemental2.dom.CSSProperties;
+import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.ClipboardEvent;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.KeyboardEvent;
@@ -89,7 +91,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private final MathFieldInternal mathFieldInternal;
 	private final Canvas html;
-	private Context2d ctx;
+	private CanvasRenderingContext2D ctx;
 	private final Panel parent;
 	private boolean focused = false;
 	private TeXIcon lastIcon;
@@ -118,8 +120,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
 	private static int counter = 0;
-	private String foregroundCssColor = "#000000";
-	private String backgroundCssColor = "#ffffff";
+	private ColorW foregroundColor = new ColorW("#000000");
+	private ColorW backgroundColor = new ColorW("#ffffff");
 	private ChangeHandler changeHandler;
 	private int fixMargin = 0;
 	private int minHeight = 0;
@@ -134,13 +136,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            drawing context
 	 * @param listener
 	 *            listener for special events
-	 * @param directFormulaBuilder
-	 *            whether to convert content into JLM atoms directly without
-	 *            reparsing
 	 */
 	public MathFieldW(SyntaxAdapter converter, Panel parent, Canvas canvas,
-					  MathFieldListener listener, boolean directFormulaBuilder) {
-		this(converter, parent, canvas, listener, directFormulaBuilder, sMetaModel);
+					  MathFieldListener listener) {
+		this(converter, parent, canvas, listener, sMetaModel);
 	}
 
 	/**
@@ -153,14 +152,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            drawing context
 	 * @param listener
 	 *            listener for special events
-	 * @param directFormulaBuilder
-	 *            whether to convert content into JLM atoms directly without
-	 *            reparsing
 	 * @param metaModel
 	 *            model
 	 */
 	public MathFieldW(SyntaxAdapter converter, Panel parent, Canvas canvas,
-			MathFieldListener listener, boolean directFormulaBuilder, MetaModel metaModel) {
+			MathFieldListener listener, MetaModel metaModel) {
 
 		this.converter = converter;
 		this.metaModel = metaModel;
@@ -170,14 +166,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		html = canvas;
 		bottomOffset = 10;
 		this.parent = parent;
-		mathFieldInternal = new MathFieldInternal(this, directFormulaBuilder);
+		mathFieldInternal = new MathFieldInternal(this);
 		mathFieldInternal.getInputController().setFormatConverter(converter);
 		mathFieldInternal.setSyntaxAdapter(converter);
 		getHiddenTextArea();
 
 		// el.getElement().setTabIndex(1);
 		if (canvas != null) {
-			this.ctx = canvas.getContext2d();
+			this.ctx = JLMContextHelper.as(canvas.getContext2d());
 		}
 		SelectionBox.touchSelection = false;
 		mathFieldInternal.setSelectionMode(true);
@@ -211,6 +207,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public void setLineBreakEnabled(boolean b) {
 		mathFieldInternal.getMathFieldController().setLineBreakEnabled(b);
+	}
+
+	public void setUseSimpleScripts(boolean useSimpleScripts) {
+		mathFieldInternal.getInputController().setUseSimpleScripts(useSimpleScripts);
 	}
 
 	/**
@@ -317,11 +317,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (ctx == null || height < 0) {
 			return;
 		}
-		ctx.getCanvas().getStyle().setHeight(height, Unit.PX);
+		ctx.canvas.style.height = CSSProperties.HeightUnionType.of(height + "px");
 
 		double value = computeWidth();
-		ctx.getCanvas().getStyle().setWidth(value,
-				Unit.PX);
+		ctx.canvas.style.width = CSSProperties.WidthUnionType.of(value + "px");
 		parent.setHeight(height + "px");
 		parent.getElement().getStyle().setVerticalAlign(VerticalAlign.TOP);
 		repaintWeb();
@@ -598,10 +597,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}
 		final double height = computeHeight();
 		final double width = computeWidth();
-		ctx.getCanvas().setHeight((int) Math.ceil(height * ratio));
-		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
+		ctx.canvas.height = (int) Math.ceil(height * ratio);
+		ctx.canvas.width = (int) Math.ceil(width * ratio);
 		wasPaintedWithCursor = CursorBox.visible();
-		paint(ctx, getMargin(lastIcon));
+
+		double margin = getMargin(lastIcon);
+
+		paint(ctx, margin, backgroundColor);
+		lastIcon.paintCursor(new Graphics2DW(ctx), margin);
 	}
 
 	private double computeWidth() {
@@ -612,9 +615,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * Paints the formula on a canvas
 	 * @param ctx canvas context
 	 */
-	public void paint(Context2d ctx, int top) {
-		JlmLib.draw(lastIcon, ctx, 0, top, new ColorW(foregroundCssColor),
-				new ColorW(backgroundCssColor), null, ratio);
+	public void paint(CanvasRenderingContext2D ctx, double top, ColorW bgColor) {
+		JlmLib.draw(lastIcon, ctx, 0, top, foregroundColor,
+				bgColor, null, ratio);
 	}
 
 	private boolean isEdited() {
@@ -626,8 +629,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private double computeHeight() {
-		int margin = getMargin(lastIcon);
-		return Math.max(roundUp(lastIcon.getIconHeight() + margin + bottomOffset), minHeight);
+		double margin = getMargin(lastIcon);
+		return Math.max(lastIcon.getIconHeight() + margin + bottomOffset, minHeight);
 	}
 
 	public int getIconHeight() {
@@ -642,11 +645,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		return lastIcon.getIconDepth();
 	}
 
-	private int getMargin(TeXIcon lastIcon2) {
-		return fixMargin > 0 ? fixMargin : (int) Math.max(0,
-				roundUp(-lastIcon2.getTrueIconHeight()
-						+ lastIcon2.getTrueIconDepth()
-						+ getFontSize()));
+	private double getMargin(TeXIcon lastIcon2) {
+		return fixMargin + Math.max(0, -lastIcon2.getTrueIconHeight()
+				+ lastIcon2.getTrueIconDepth() + getFontSize());
 	}
 
 	private boolean active(Object element) {
@@ -841,7 +842,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            create fractions/exponents
 	 */
 	public void insertString(String text) {
-		KeyboardInputAdapter.insertString(mathFieldInternal, text);
+		mathFieldInternal.insertString(text);
 	}
 
 	private Element getHiddenTextArea() {
@@ -1097,23 +1098,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		this.leftAltDown = leftAltDown;
 	}
 
-	/**
-	 * In plain mode just fill with text (linear), otherwise parse math (ASCII
-	 * math syntax) into the editor.
-	 * 
-	 * @param text0
-	 *            text
-	 * @param asPlainText
-	 *            whether to use it as plain text
-	 */
-	public void setText(String text0, boolean asPlainText) {
-		if (asPlainText) {
-			mathFieldInternal.parse("");
-			setPlainTextMode(true);
-			insertString(text0);
-		} else {
-			mathFieldInternal.parse(text0);
-		}
+	@Override
+	public void parse(String text) {
+		mathFieldInternal.parse(text);
+	}
+
+	@Override
+	public void setPlainText(String text) {
+		mathFieldInternal.setPlainText(text);
 	}
 
 	/**
@@ -1154,9 +1146,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		mathFieldInternal.setCaretPath(path);
 	}
 
-	/**
-	 * @return the cross-platform representation of this field
-	 */
+	@Override
 	public MathFieldInternal getInternal() {
 		return mathFieldInternal;
 	}
@@ -1174,8 +1164,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param cssColor
 	 * 			to set.
 	 */
-	public void setForegroundCssColor(String cssColor) {
-		this.foregroundCssColor = cssColor;
+	public void setForegroundColor(String cssColor) {
+		this.foregroundColor = new ColorW(cssColor);
 	}
 
 	/**
@@ -1184,8 +1174,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param cssColor
 	 * 			to set.
 	 */
-	public void setBackgroundCssColor(String cssColor) {
-		this.backgroundCssColor = cssColor;
+	public void setBackgroundColor(String cssColor) {
+		this.backgroundColor = new ColorW(cssColor);
 	}
 
 	/**
@@ -1210,5 +1200,33 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public void setMinHeight(int minHeight) {
 		this.minHeight = minHeight;
+	}
+
+	/**
+	 * Scrolls content horizontally,  based on the cursor position
+	 *
+	 * @param parentPanel
+	 *            panel to be scrolled
+	 * @param margin
+	 *            minimal distance from cursor to left/right border
+	 */
+	public void scrollParentHorizontally(FlowPanel parentPanel, int margin) {
+		MathFieldScroller.scrollHorizontallyToCursor(parentPanel, margin, lastIcon.getCursorX());
+	}
+
+	/**
+	 * Scrolls content verically, based on the cursor position
+	 *
+	 * @param parentPanel
+	 *            panel to be scrolled
+	 * @param margin
+	 *            minimal distance from cursor to left/right border
+	 */
+	public void scrollParentVertically(FlowPanel parentPanel, int margin) {
+		MathFieldScroller.scrollVerticallyToCursor(parentPanel, margin, lastIcon.getCursorY());
+	}
+
+	public ColorW getBackgroundColor() {
+		return backgroundColor;
 	}
 }

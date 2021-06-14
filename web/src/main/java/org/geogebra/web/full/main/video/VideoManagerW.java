@@ -17,15 +17,11 @@ import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.main.MyImageW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.event.dom.client.ErrorEvent;
-import com.google.gwt.event.dom.client.ErrorHandler;
-import com.google.gwt.event.dom.client.LoadEvent;
-import com.google.gwt.event.dom.client.LoadHandler;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.RootPanel;
+
+import elemental2.dom.HTMLImageElement;
 
 /**
  * Class for managing audio content.
@@ -65,30 +61,20 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void createPreview(final GeoVideo geo) {
-		final Image img = new Image();
-		img.getElement().setAttribute("crossorigin", "anonymous");
-		img.setUrl(geo.getPreviewUrl());
-		img.addLoadHandler(new LoadHandler() {
-
-			@Override
-			public void onLoad(LoadEvent event) {
-				final MyImage prev = new MyImageW(
-						ImageElement.as(img.getElement()), false);
+		HTMLImageElement img = Dom.createImage();
+		img.setAttribute("crossorigin", "anonymous");
+		img.src = geo.getPreviewUrl();
+		img.addEventListener("load", (event) -> {
+				final MyImage prev = new MyImageW(img, false);
 				geo.setPreview(prev);
-				RootPanel.get().remove(img);
 				app.getActiveEuclidianView().updateAllDrawablesForView(true);
-			}
 		});
-		img.addErrorHandler(new ErrorHandler() {
 
-			@Override
-			public void onError(ErrorEvent event) {
-				img.setUrl(GuiResourcesSimple.INSTANCE.mow_video_player()
-						.getSafeUri());
+		img.addEventListener("error", (event) -> {
+				img.src = GuiResourcesSimple.INSTANCE.mow_video_player()
+						.getSafeUri().asString();
 				app.getActiveEuclidianView().updateAllDrawablesForView(true);
-			}
 		});
-		RootPanel.get().add(img);
 	}
 
 	@Override

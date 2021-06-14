@@ -33,6 +33,8 @@ final class CMSSBX10 extends FontInfo {
 
 		setMetrics(171, 794, 694);
 
+		setMetrics(172, 794, 694);
+
 		setMetrics(174, 642, 694, 0, 76);
 		setLigatures(105, 177, 108, 178);
 		setKern(39, 76, 63, 76, 33, 76, 41, 76, 93, 76);

@@ -1,5 +1,7 @@
 package org.geogebra.keyboard.web;
 
+import java.util.List;
+
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.Localization;
@@ -49,7 +51,7 @@ public interface HasKeyboard {
 	InputBoxType getInputBoxType();
 
 	/**
-	 * @return String of function vars if the inputbox is connected to a function
+	 * @return list of function vars if the inputbox is connected to a function
 	 */
-	String getInputBoxFunctionVars();
+	List<String> getInputBoxFunctionVars();
 }

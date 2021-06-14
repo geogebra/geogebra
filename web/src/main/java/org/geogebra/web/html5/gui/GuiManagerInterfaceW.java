@@ -32,9 +32,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	String getToolbarDefinition(Integer viewId);
 
-	boolean moveMoveFloatingButtonUp(int left, int width, boolean isSmall);
-
-	void moveMoveFloatingButtonDown(boolean isSmall, boolean wasMoved);
+	int getMoveTopBelowSnackbar(int snackbarRight);
 
 	void removeFromToolbarDefinition(int mode);
 
@@ -188,6 +186,8 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * @param runAfterLogin - callback
 	 */
 	void setRunAfterLogin(Runnable runAfterLogin);
+
+	void onToolbarVisibilityChanged(int viewId, boolean isVisible);
 
 	/**
 	 * @param geo - to add to table of values

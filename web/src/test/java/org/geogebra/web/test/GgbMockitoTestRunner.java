@@ -18,7 +18,11 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.impl.StubGenerator;
+import com.himamis.retex.editor.web.ClickAdapterW;
+import com.himamis.retex.renderer.web.graphics.GraphicsFactoryGWT;
+import com.himamis.retex.renderer.web.graphics.ImageW;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
+import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
 import elemental2.core.Uint8Array;
 import elemental2.dom.DomGlobal;
@@ -47,8 +51,10 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 Void.class);
         StubGenerator.replaceMethodWithMock(Canvas.class, "createIfSupported",
                 Canvas.class);
-        StubGenerator.replaceMethodWithMock(JLMContext2d.class, "forCanvas",
+        StubGenerator.replaceMethodWithMock(JLMContextHelper.class, "as",
                 JLMContext2d.class);
+        StubGenerator.replaceMethodWithMock(GraphicsFactoryGWT.class, "createImage",
+                ImageW.class);
         StubGenerator.replaceMethodWithMock(RendererWithImplW.class, "getWebGLContext",
                 WebGLRenderingContext.class);
         StubGenerator.replaceMethodWithMock(RendererImplShadersW.class, "getShader",
@@ -65,6 +71,8 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 String.class);
         StubGenerator.replaceMethodWithMock(NativeRegExp.class, "exec",
                 String.class);
+        StubGenerator.replaceMethodWithMock(ClickAdapterW.class, "listenTo",
+                Void.class);
     }
 
     @Override

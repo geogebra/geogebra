@@ -75,8 +75,8 @@ public class PhantomAtom extends Atom implements Row {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box res = elements.createBox(env);
-		return new StrutBox((w ? res.getWidth() : 0), (h ? res.getHeight() : 0),
-				(d ? res.getDepth() : 0), res.getShift());
+		return new PhantomBox(res, (w ? res.getWidth() : 0), (h ? res.getHeight() : 0),
+				(d ? res.getDepth() : 0), res.getShift()).setAtom(this);
 	}
 
 	@Override

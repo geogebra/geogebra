@@ -1,6 +1,6 @@
 <construction title="" author="" date="">
 <element type="point" label="A">
-	<show object="true" label="false"/>
+	<show object="true" label="true"/>
 	<objColor r="21" g="101" b="192" alpha="0.0"/>
 	<layer val="0"/>
 	<ordering val="0"/>
@@ -11,7 +11,7 @@
 	<pointStyle val="0"/>
 </element>
 <element type="point" label="B">
-	<show object="true" label="false"/>
+	<show object="true" label="true"/>
 	<objColor r="21" g="101" b="192" alpha="0.0"/>
 	<layer val="0"/>
 	<ordering val="1"/>
@@ -22,7 +22,7 @@
 	<pointStyle val="0"/>
 </element>
 <element type="point" label="C">
-	<show object="true" label="false"/>
+	<show object="true" label="true"/>
 	<objColor r="21" g="101" b="192" alpha="0.0"/>
 	<layer val="0"/>
 	<ordering val="2"/>

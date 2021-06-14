@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.plugin.Operation;
 
@@ -63,12 +64,27 @@ public class AlgoIf extends AlgoElement {
 			i++;
 		}
 		result = result.copyInternal(cons);
+		if (result.isGeoList()) {
+			updateListType();
+		}
 
 		setInputOutput(); // for AlgoElement
 
 		// compute value of dependent number
 		compute();
 		result.setLabel(label);
+	}
+
+	private void updateListType() {
+		for (GeoElement alt: alternatives) {
+			if (alt.isGeoList()) {
+				String typeStringForXML = ((GeoList) alt).getTypeStringForXML();
+				if (typeStringForXML != null) {
+					((GeoList) result).setTypeStringForXML(typeStringForXML);
+					break;
+				}
+			}
+		}
 	}
 
 	@Override

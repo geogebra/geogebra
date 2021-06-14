@@ -157,6 +157,10 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		return !isMobile();
 	}
 
+	public boolean isOffline() {
+		return platform == GeoGebraConstants.Platform.OFFLINE;
+	}
+
 	private static MenuItem startExamMode() {
 		return new ActionableItemImpl(Icon.HOURGLASS_EMPTY,
 				"exam_menu_entry", Action.START_EXAM_MODE);

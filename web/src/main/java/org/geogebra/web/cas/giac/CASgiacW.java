@@ -10,6 +10,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.GiacNative;
+import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.resources.JavaScriptInjector;
 
@@ -159,7 +160,13 @@ public class CASgiacW extends CASgiac {
 			GeoGebraGlobal.__ggb__giac = new GiacNative();
 		}
 
-		GeoGebraGlobal.__ggb__giac.postRun = () -> kernel.getApplication().getGgbApi().initCAS();
+		JsRunnable oldPostRun = GeoGebraGlobal.__ggb__giac.postRun;
+		GeoGebraGlobal.__ggb__giac.postRun = () -> {
+			if (oldPostRun != null) {
+				oldPostRun.run();
+			}
+			kernel.getApplication().getGgbApi().initCAS();
+		};
 	}
 
 	private native String nativeEvaluateRawExternal(String s) /*-{
@@ -249,7 +256,7 @@ public class CASgiacW extends CASgiac {
 				@Override
 				public void onSuccess() {
 					LoggerW.loaded("GIAC emscripten");
-					JavaScriptInjector.inject(CASResources.INSTANCE.giacJs());
+					JavaScriptInjector.inject(GiacJsResources.INSTANCE.giacJs());
 					// make sure CAS cells etc re-evaluated after CAS loaded
 					initCAS(versionString);
 				}

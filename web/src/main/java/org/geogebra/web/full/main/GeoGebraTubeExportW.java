@@ -244,8 +244,7 @@ public class GeoGebraTubeExportW extends
 
 	@Override
 	protected void statusLabelSetText(String plain) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(plain, true,
-				(AppW) app);
+		ToolTipManagerW.sharedInstance().showBottomMessage(plain, (AppW) app);
 	}
 
 	@Override

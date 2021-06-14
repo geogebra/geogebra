@@ -134,7 +134,7 @@ public class AccentedAtom extends Atom {
 		vBox.setDepth(d);
 		vBox.setHeight(total - d);
 
-		return vBox;
+		return vBox.setAtom(this);
 	}
 
 	@Override

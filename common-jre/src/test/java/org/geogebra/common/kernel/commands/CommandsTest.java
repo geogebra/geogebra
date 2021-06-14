@@ -264,10 +264,8 @@ public class CommandsTest {
 
 	@Test
 	public void angleBisectorsShouldUpdate() {
-		t("e1:X = (0, 0, 0) + t (1, 0, 0)", "X = (0, 0, 0) + "
-				+ Unicode.lambda + " (1, 0, 0)");
-		t("e2:X = (0, 0, 0) + t (0, 1, 0)", "X = (0, 0, 0) + "
-				+ Unicode.lambda + " (0, 1, 0)");
+		t("e1:X = (0, 0, 0) + t (1, 0, 0)", "X = (0, 0, 0) + t (1, 0, 0)");
+		t("e2:X = (0, 0, 0) + t (0, 1, 0)", "X = (0, 0, 0) + t (0, 1, 0)");
 		t("SetValue(e1,?)");
 		t("SetValue(e2,?)");
 		t("g:AngleBisector(e1,e2)", "X = (?, ?, ?)", "X = (?, ?, ?)");
@@ -405,7 +403,7 @@ public class CommandsTest {
 
 	@Test
 	public void parametricSyntaxes() {
-		t("X=(s,2s)", "X = (0, 0) + s (1, 2)");
+		t("X=(s,2s)", "X = (s, (2 * s))");
 		t("Intersect[X=(s,s),x+y=2]", "(1, 1)");
 	}
 
@@ -1141,6 +1139,9 @@ public class CommandsTest {
 	public void cmdCoefficients() {
 		t("Coefficients[ x^2+y^2=1 ]", "{1, 1, -1, 0, 0, 0}");
 		t("Coefficients[ x^2 ]", "{1, 0, 0}");
+		t("Coefficients[ 2x+3y+4z=5 ]", "{2, 3, 4, -5}");
+		t("Coefficients[ Fit({(0,0),(1,1),(2,4)}, {x^2,sin(x),x}) ]", "{1, 0, 0}");
+		t("Coefficients[7x^3+sin(x)]", "{7, 3}");
 	}
 
 	@Test
@@ -3131,8 +3132,12 @@ public class CommandsTest {
 
 	@Test
 	public void cmdRoots() {
+		t("ZoomIn(-10,-2,20,2)"); // makes the test deterministic
 		t("Roots[ sin(x), 4, 13 ]",
-				"(6.2831855660886955, 0)", "(9.424777732675938, 0)", "(12.566371029612723, 0)");
+				"(6.283185305816606, 0)", "(9.424777959654795, 0)", "(12.566370613845491, 0)");
+		t("flat(x)=2.00011sin(x/2)-x", "(2.00011 * sin(x / 2)) - x");
+		tRound("Roots(flat,-0.05,0.05)", "(-0.03633, 0)", "(0, 0)", "(0.03633, 0)");
+		tRound("Roots(flat,-0.005,0.005)", "(0, 0)");
 	}
 
 	@Test

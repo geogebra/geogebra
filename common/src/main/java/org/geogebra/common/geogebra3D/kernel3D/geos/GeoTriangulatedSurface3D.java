@@ -85,13 +85,9 @@ public class GeoTriangulatedSurface3D {
 	public void insertPoint(double[] p, double[] n) {
 		ensureCapacity(current);
 		if (vertices[current] != null) {
-			vertices[current].x = p[0];
-			vertices[current].y = p[1];
-			vertices[current].z = p[2];
+			vertices[current].setLocation(p[0], p[1], p[2]);
 			vertices[current].setLineTo(counter != 0);
-			normals[current].x = n[0];
-			normals[current].y = n[1];
-			normals[current].z = n[2];
+			normals[current].setLocation(n[0], n[1], n[2]);
 		} else {
 			vertices[current] = new MyPoint3D(p[0], p[1], p[2],
 					counter != 0 ? SegmentType.LINE_TO : SegmentType.MOVE_TO);

@@ -21,14 +21,9 @@ public class TeXSerializer extends SerializerAdapter {
 	private static final String selection_start = "\\jlmselection{";
 	private static final String selection_end = "}";
 
-	private static final String PLACEHOLDER_INVISIBLE = "\\nbsp ";
+	private static final String PLACEHOLDER_INVISIBLE = "\\nbsp{}";
 	private boolean showPlaceholder = true;
 	private boolean lineBreakEnabled = false;
-
-	private static final String[] escapeableSymbols = { "%", "$", "#", "&", "{",
-			"}", "_" };
-	private static final String[][] replaceableSymbols = { { "~", "^", "\\" },
-			{ "\u223C ", "\\^{\\ } ", "\\backslash{}" } };
 
 	private SyntaxAdapter syntaxAdapter;
 
@@ -55,7 +50,7 @@ public class TeXSerializer extends SerializerAdapter {
 		} else if ("@".equals(mathCharacter.getName())) {
 			stringBuilder.append("\\@ ");
 		} else if (" ".equals(mathCharacter.getName())) {
-			stringBuilder.append("\\nbsp ");
+			stringBuilder.append("\\nbsp{}");
 		} else if (lineBreakEnabled && 10 == mathCharacter.getName().charAt(0)) {
 			stringBuilder.append("\\\\\\vspace{0}");
 		} else if ("n".equals(mathCharacter.getName()) && stringBuilder.length() > 0
@@ -63,14 +58,7 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.setLength((Math.max(stringBuilder.length() - 1, 0)));
 			stringBuilder.append("\\mathrm{ln}");
 		} else {
-			String texName = mathCharacter.getTexName();
-			if (isSymbolEscapeable(texName)) {
-				// escape special symbols
-				stringBuilder.append('\\');
-				stringBuilder.append(texName);
-			} else {
-				stringBuilder.append(replaceSymbol(texName));
-			}
+			stringBuilder.append(TeXEscaper.escapeSymbol(mathCharacter.getTexName()));
 		}
 		if (mathCharacter == currentSelEnd) {
 			stringBuilder.append(selection_end);
@@ -276,7 +264,7 @@ public class TeXSerializer extends SerializerAdapter {
 			serialize(function.getArgument(0), functionName);
 
 			stringBuilder.append("{");
-			if (syntaxAdapter == null || isFunction(functionName.toString())) {
+			if (isFunction(functionName.toString())) {
 				stringBuilder.append("{\\mathrm{").append(functionName).append("}}");
 			} else {
 				stringBuilder.append(functionName);
@@ -301,7 +289,15 @@ public class TeXSerializer extends SerializerAdapter {
 		}
 	}
 
-	private boolean isFunction(String name) {
+	/**
+	 * @param name function name
+	 * @return whether this is a builtin function (sin/cos/...)
+	 */
+	public boolean isFunction(String name) {
+		if (syntaxAdapter == null) {
+			return true;
+		}
+
 		String trimmed = name.replace(cursor, "");
 		if (trimmed.indexOf('^') > 0) {
 			trimmed = trimmed.substring(0, trimmed.indexOf('^'));
@@ -385,22 +381,7 @@ public class TeXSerializer extends SerializerAdapter {
 		return b.toString();
 	}
 
-	private static boolean isSymbolEscapeable(String symbol) {
-		for (String escapeableSymbol : escapeableSymbols) {
-			if (escapeableSymbol.equals(symbol)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	private static String replaceSymbol(String symbol) {
-		for (int i = 0; i < replaceableSymbols[0].length; i++) {
-			if (replaceableSymbols[0][i].equals(symbol)) {
-				return replaceableSymbols[1][i];
-			}
-		}
-		return symbol;
+	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
+		this.syntaxAdapter = syntaxAdapter;
 	}
 }

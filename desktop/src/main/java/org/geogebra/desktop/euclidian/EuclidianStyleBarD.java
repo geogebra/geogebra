@@ -93,12 +93,6 @@ public class EuclidianStyleBarD extends JToolBar
 					&& mode != EuclidianConstants.MODE_DELETE
 					&& mode != EuclidianConstants.MODE_ERASER);
 		}
-
-		/*
-		 * @Override public Point getToolTipLocation(MouseEvent e) { return new
-		 * Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y); }
-		 */
-
 	}
 
 	// ggb
