@@ -12,7 +12,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	GuiResourcesSimple INSTANCE = GWT.create(GuiResourcesSimple.class);
 
-	@Source("org/geogebra/web/resources/js/rewrite_pHYs_min.js")
+	@Source("org/geogebra/web/resources/js/rewrite_pHYs.min.js")
 	TextResource rewritePHYS();
 
 	@Source("org/geogebra/web/resources/js/xmlutil.js")

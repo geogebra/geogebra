@@ -1,4 +1,4 @@
-/* adapted from https://github.com/hughsk/png-chunks-extract (MIT) and https://github.com/SheetJS/js-crc32 (Apache 2.0) (C) 2014-present SheetJS -- http://sheetjs.com https://github.com/alexhorn/uint8array-base64 (Public Domain) */
+/* adapted from https://github.com/hughsk/png-chunks-extract (MIT license) and https://github.com/SheetJS/js-crc32 (Apache 2.0) (C) 2014-present SheetJS -- http://sheetjs.com https://github.com/alexhorn/uint8array-base64 (Public Domain) */
 window.rewrite_pHYs_chunk = function(data, ppmx, ppmy, base64) {
 
 
@@ -58,21 +58,7 @@ window.rewrite_pHYs_chunk = function(data, ppmx, ppmy, base64) {
     var CRC32;
     (function(factory) {
         /*jshint ignore:start */
-        if (typeof DO_NOT_EXPORT_CRC === 'undefined') {
-            if ('object' === typeof exports) {
-                factory(exports);
-            } else if ('function' === typeof define && define.amd) {
-                define(function() {
-                    var module = {};
-                    factory(module);
-                    return module;
-                });
-            } else {
-                factory(CRC32 = {});
-            }
-        } else {
-            factory(CRC32 = {});
-        }
+        factory(CRC32 = {});
         /*jshint ignore:end */
     }(function(CRC32) {
         CRC32.version = '1.1.1';
