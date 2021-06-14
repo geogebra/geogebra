@@ -2181,8 +2181,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		// changes
 		getLAF().toggleFullscreen(true);
 		if (guiManager != null && menuViewController != null) {
-			guiManager.setUnbundledHeaderStyle("examOk");
 			menuViewController.setExamMenu();
+			boolean examLock = getAppletParameters().getParamLockExam();
+			guiManager.setUnbundledHeaderStyle(examLock ? "examLock" : "examOk");
 			guiManager.resetMenu();
 			guiManager.updateUnbundledToolbarContent();
 			GlobalHeader.INSTANCE.addExamTimer();

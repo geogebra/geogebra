@@ -82,6 +82,8 @@ public final class GColor implements GPaint {
 
 	public static final GColor MOW_TABLE_HEADING_COLOR = newColor(65, 121, 140, 102);
 
+	public static final GColor DARK_RED = newColorRGB(0xD32F2F);
+
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer
 	 * directly to

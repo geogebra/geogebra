@@ -10,7 +10,7 @@ public enum MOWToolbarColor {
 	BLUE(getGColFromHex(0x1565C0), "blue"),
 	PURPLE(getGColFromHex(0x6557D2), "purple"),
 	PINK(getGColFromHex(0xCC0099), "pink"),
-	RED(getGColFromHex(0xD32F2F), "red"),
+	RED(GColor.DARK_RED, "red"),
 	ORANGE(getGColFromHex(0xDB6114), "orange"),
 	YELLOW(getGColFromHex(0xFFCC00), "yellow");
 

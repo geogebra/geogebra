@@ -39,4 +39,9 @@ public class ExamClassicLogAndExitDialog extends ComponentDialog {
 
 		setDialogContent(mainPanel);
 	}
+
+	@Override
+	protected int getMaxHeight() {
+		return 480;
+	}
 }

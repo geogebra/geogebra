@@ -70,7 +70,6 @@ public class ExamLogAndExitDialog extends DialogBoxW implements SetLabels {
 	}
 
 	private void buildGUI(boolean isLogDialog) {
-		FlowPanel dialog = new FlowPanel();
 		// build title panel
 		buildTitlePanel();
 		// build content panel
@@ -98,6 +97,7 @@ public class ExamLogAndExitDialog extends DialogBoxW implements SetLabels {
 		}
 		buttonPanel.add(positiveBtn);
 		// build whole dialog
+		FlowPanel dialog = new FlowPanel();
 		dialog.add(titlePanel);
 		dialog.add(scrollPanel);
 		dialog.add(buttonPanel);
@@ -119,6 +119,9 @@ public class ExamLogAndExitDialog extends DialogBoxW implements SetLabels {
 					MaterialDesignResources.INSTANCE.exam_error(), 24);
 			titlePanel.add(LayoutUtilW.panelRowIndent(alertImg, examTitle));
 		} else {
+			if (((AppW) app).getAppletParameters().getParamLockExam()) {
+				titlePanel.addStyleName("locked");
+			}
 			titlePanel.add(examTitle);
 		}
 	}
