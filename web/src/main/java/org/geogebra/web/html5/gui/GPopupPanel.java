@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.animation.client.Animation;
