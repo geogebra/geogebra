@@ -82,9 +82,12 @@ import org.geogebra.web.full.gui.app.GGWCommandLine;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.web.full.gui.dialog.ErrorInfoDialog;
 import org.geogebra.web.full.gui.dialog.H5PReader;
-import org.geogebra.web.full.gui.exam.ExamDialog;
+import org.geogebra.web.full.gui.dialog.RelationPaneW;
 import org.geogebra.web.full.gui.exam.ExamUtil;
+import org.geogebra.web.full.gui.exam.classic.ExamClassicLogAndExitDialog;
+import org.geogebra.web.full.gui.exam.classic.ExamClassicStartDialog;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockGlassPaneW;
@@ -157,6 +160,7 @@ import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -434,28 +438,24 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void updateKeyboard() {
-		invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				DockPanelW dp = getGuiManager().getLayout().getDockManager()
-						.getPanelForKeyboard();
-				MathKeyboardListener listener = getGuiManager()
-						.getKeyboardListener(dp);
-				if (listener != null) {
-					// dp.getKeyboardListener().setFocus(true);
-					listener.ensureEditing();
-					listener.setFocus(true);
-					if (isKeyboardNeeded() && (getExam() == null
-							|| getExam().getStart() > 0)) {
-						getAppletFrame().showKeyBoard(true, listener, true);
-					}
+		invokeLater(() -> {
+			DockPanelW dp = getGuiManager().getLayout().getDockManager()
+					.getPanelForKeyboard();
+			MathKeyboardListener listener = getGuiManager()
+					.getKeyboardListener(dp);
+			if (listener != null) {
+				// dp.getKeyboardListener().setFocus(true);
+				listener.ensureEditing();
+				listener.setFocus(true);
+				if (isKeyboardNeeded() && (getExam() == null
+						|| getExam().getStart() > 0)) {
+					getAppletFrame().showKeyBoard(true, listener, true);
 				}
-				if (!isKeyboardNeeded()) {
-					getAppletFrame().showKeyBoard(false, null, true);
-				}
-
 			}
+			if (!isKeyboardNeeded()) {
+				getAppletFrame().showKeyBoard(false, null, true);
+			}
+
 		});
 
 	}
@@ -641,8 +641,41 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public final void examWelcome() {
 		if (isExam() && getExam().getStart() < 0) {
 			resetViewsEnabled();
-			new ExamDialog(this).show();
+			DialogData data = new DialogData("exam_custom_header", "Cancel", "exam_start_button");
+			new ExamClassicStartDialog(this, data).show();
 		}
+	}
+
+	/**
+	 * @param content content
+	 * @param buttonText button text
+	 * @param handler button click handler
+	 */
+	public void showClassicExamLogExitDialog(final HTML content, String buttonText,
+			AsyncOperation<String> handler) {
+		DialogData data = new DialogData(getLocalization().getMenu("exam_log_header") + " "
+				+ getVersionString(), null, buttonText);
+		ExamClassicLogAndExitDialog dialog =
+				new ExamClassicLogAndExitDialog(this, data, content, handler);
+		dialog.show();
+	}
+
+	/**
+	 * @param msg error/info message
+	 */
+	@Override
+	public void showErrorInfoDialog(String msg) {
+		String title = GeoGebraConstants.APPLICATION_NAME + " - "
+				+ getLocalization().getError("Error");
+		DialogData data = new DialogData(title, null, "OK");
+		new ErrorInfoDialog(this, data, msg, true).show();
+	}
+
+	@Override
+	public RelationPaneW getRelationDialog() {
+		DialogData data = new DialogData(getLocalization().getCommand("Relation"),
+			null, "OK");
+		return new RelationPaneW(this, data);
 	}
 
 	@Override

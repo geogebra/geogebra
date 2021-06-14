@@ -2,14 +2,11 @@ package org.geogebra.web.full.gui.menubar.action;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.javax.swing.GOptionPane;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.exam.ExamLogBuilder;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.app.HTMLLogBuilder;
-import org.geogebra.web.full.gui.exam.ExamDialog;
 import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.exam.ExamUtil;
@@ -18,7 +15,6 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.components.DialogData;
 
@@ -46,37 +42,28 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	 * Show exit exam dialog
 	 */
 	protected void showExamExitDialog() {
-		Localization loc = app.getLocalization();
-		// set Firefox dom.allow_scripts_to_close_windows in about:config to
-		// true to make this work
-		String[] optionNames = {loc.getMenu("Cancel"), loc.getMenu("Exit")};
-
-		if (app.getConfig().hasExam()) {
-			DialogData data = new DialogData(null,
-					"Cancel", "Exit");
-			AsyncOperation<String> returnHandler = obj -> {
-				if ("exit".equals(obj)) {
+		DialogData data = new DialogData(null,
+				"Cancel", "Exit");
+		AsyncOperation<String> returnHandler = obj -> {
+			if ("exit".equals(obj)) {
+				if (app.getConfig().hasExam()) {
 					exitAndResetExamOffline();
+				} else { // classic
+					exitAndResetExam();
 				}
-			};
-			ExamExitConfirmDialog exit = new ExamExitConfirmDialog(app, data);
-			exit.setOnPositiveAction(() -> {
+			}
+		};
+		ExamExitConfirmDialog exit = new ExamExitConfirmDialog(app, data);
+		exit.setOnPositiveAction(() -> {
+			if (app.getConfig().hasExam()) {
 				app.getExam().exit();
 				GlobalHeader.INSTANCE.resetAfterExam();
-				new ExamLogAndExitDialog((AppW) app, false, returnHandler, null).show();
-			});
-			exit.show();
-		} else {
-			app.getGuiManager().getOptionPane().showOptionDialog(
-					loc.getMenu("exam_exit_confirmation"), // ExitExamConfirm
-					loc.getMenu("exam_exit_header"), // ExitExamConfirmTitle
-					1, GOptionPane.WARNING_MESSAGE, null, optionNames,
-					obj -> {
-						if ("1".equals(obj[0])) {
-							exitAndResetExam();
-						}
-					});
-		}
+				new ExamLogAndExitDialog(app, false, returnHandler, null).show();
+			} else { // classic
+				showClassicExamLogExitDialog("Exit", returnHandler);
+			}
+		});
+		exit.show();
 	}
 
 	/**
@@ -84,55 +71,19 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	 */
 	protected void exitAndResetExam() {
 		app.getLAF().toggleFullscreen(false);
-		final Localization loc = app.getLocalization();
 		ExamEnvironment exam = app.getExam();
 		exam.exit();
-		boolean examFile = app.getAppletParameters().hasDataParamEnableGraphing();
-		String buttonText;
-		AsyncOperation<String[]> handler;
-		AsyncOperation<String[]> welcomeHandler;
-		if (examFile && !app.isUnbundledGraphing()) {
-			handler = dialogResult -> {
-				app.setNewExam();
-				ExamDialog.startExam(null, app);
-			};
-			welcomeHandler = obj -> {
-				app.getLAF().toggleFullscreen(true);
-				app.setNewExam();
-				app.examWelcome();
-			};
-			buttonText = loc.getMenu("Restart");
-			exam.setHasGraph(true);
-			boolean supportsCAS = app.getSettings().getCasSettings().isEnabled();
-			boolean supports3D = app.getSettings().getEuclidian(-1).isEnabled();
-			if (!supports3D && supportsCAS) {
-				showFinalLog(loc.getMenu("ExamCAS"), buttonText, handler);
-			} else if (!supports3D) {
-				if (app.enableGraphing()) {
-					showFinalLog(loc.getMenu("ExamGraphingCalc.long"), buttonText, handler);
-				} else {
-					showFinalLog(loc.getMenu("ExamSimpleCalc.long"), buttonText, handler);
-				}
-			} else {
-				showFinalLog(loc.getMenu("exam_log_header") + " " + app.getVersionString(),
-						buttonText, welcomeHandler);
-			}
-		} else {
-			handler = dialogResult -> app.fileNew();
-			buttonText = loc.getMenu("OK");
-			showFinalLog(loc.getMenu("exam_log_header") + " " + app.getVersionString(),
-					buttonText, handler);
-		}
+		saveScreenshot(app.getLocalization().getMenu("exam_log_header")
+				+ " " + app.getVersionString());
 		app.endExam();
 	}
 
-	private void showFinalLog(String menu, String buttonText,
-							  AsyncOperation<String[]> handler) {
+	private void showClassicExamLogExitDialog(String buttonText,
+							  AsyncOperation<String> handler) {
 		app.fileNew();
 		HTMLLogBuilder htmlBuilder = new HTMLLogBuilder();
 		app.getExam().getLog(app.getLocalization(), app.getSettings(), htmlBuilder);
-		app.showMessage(htmlBuilder.getHTML(), menu, buttonText, handler);
-		saveScreenshot(menu);
+		app.showClassicExamLogExitDialog(htmlBuilder.getHTML(), buttonText, handler);
 	}
 
 	private void saveScreenshot(String menu) {
@@ -176,7 +127,6 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 					yOffset += LINE_HEIGHT;
 				}
 			}
-
 		};
 
 		app.getExam().getLog(app.getLocalization(), app.getSettings(), canvasLogBuilder);

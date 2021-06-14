@@ -30,7 +30,6 @@ import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
-import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
@@ -155,10 +154,8 @@ import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.core.ArrayBuffer;
@@ -254,13 +251,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	};
 
-	Scheduler.ScheduledCommand sucCallback = new Scheduler.ScheduledCommand() {
-		@Override
-		public void execute() {
-			// 0.5 seconds is good for the user and maybe for the computer
-			// too
-			timeruc.schedule(500);
-		}
+	Scheduler.ScheduledCommand sucCallback = () -> {
+		// 0.5 seconds is good for the user and maybe for the computer
+		// too
+		timeruc.schedule(500);
 	};
 
 	/**
@@ -302,13 +296,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				.empty(getAppletParameters().getParamScaleContainerClass())) {
 			Browser.addMutationObserver(getParent(
 					getAppletParameters().getParamScaleContainerClass()),
-					new AsyncOperation<String>() {
-
-						@Override
-						public void callback(String obj) {
-							checkScaleContainer();
-						}
-					});
+					obj -> checkScaleContainer());
 		}
 	}
 
@@ -2466,41 +2454,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		String translatedError = getLocalization().getError(key);
 
 		showErrorDialog(translatedError + ":\n" + error);
-	}
-
-	/**
-	 * Show message in a popup
-	 *
-	 * @param message
-	 *            message
-	 * @param title
-	 *            popup title
-	 */
-	public void showMessage(final String message, final String title) {
-		getOptionPane().showConfirmDialog(message, title,
-				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE,
-				null);
-	}
-
-	/**
-	 * @param content
-	 *            content
-	 * @param title
-	 *            popup title
-	 * @param buttonText
-	 *            button text
-	 * @param handler
-	 *            button click handler
-	 *
-	 */
-	public void showMessage(final HTML content, final String title,
-			String buttonText, AsyncOperation<String[]> handler) {
-		content.addStyleName("examContent");
-		ScrollPanel scrollPanel = new ScrollPanel(content);
-		scrollPanel.addStyleName("examScrollPanel");
-		getOptionPane().showConfirmDialog(scrollPanel, title,
-				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE,
-				buttonText, null, handler);
 	}
 
 	@Override

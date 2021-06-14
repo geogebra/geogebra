@@ -58,7 +58,6 @@ import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasTreeItems;
 import com.google.gwt.user.client.ui.InlineLabel;
@@ -2169,7 +2168,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	@Override
-	public void getPrintable(FlowPanel pPanel, final Button btPrint) {
+	public void getPrintable(FlowPanel pPanel, Runnable enablePrintBtn) {
 		Tree printTree = new Tree();
 
 		pPanel.clear();
@@ -2201,12 +2200,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		pPanel.add(printTree);
 
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				btPrint.setEnabled(true);
-			}
-		});
+		enablePrintBtn.run();
 	}
 
 	/**
