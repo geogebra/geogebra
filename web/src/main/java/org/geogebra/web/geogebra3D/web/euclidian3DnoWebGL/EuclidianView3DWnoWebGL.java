@@ -71,7 +71,7 @@ public class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 	public void setCurrentFile(GgbFile file) {
 		if (file != null && file.get("geogebra_thumbnail.png") != null) {
 			HTMLImageElement img = Dom.createImage();
-			img.src = file.get("geogebra_thumbnail.png");
+			img.src = file.get("geogebra_thumbnail.png").createUrl();
 			thumb = new GBufferedImageW(img);
 			img.addEventListener("load", (event) -> repaint());
 			Log.debug("Set thumbnail done");
