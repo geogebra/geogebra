@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -10,7 +9,7 @@ import org.geogebra.web.html5.main.AppW;
  * 
  * @author laszlo
  */
-public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels {
+public class TableTab extends ToolbarPanel.ToolbarTab {
 
 	private ToolbarPanel toolbarPanel;
 	private AppW app;

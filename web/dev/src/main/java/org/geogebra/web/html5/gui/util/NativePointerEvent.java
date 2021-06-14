@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.euclidian;
+package org.geogebra.web.html5.gui.util;
 
 import com.google.gwt.dom.client.Element;
 
@@ -9,12 +9,18 @@ import jsinterop.annotations.JsType;
  * Interface for pointer events, to be replaced by Elemental2
  */
 @JsType
-class NativePointerEvent {
+public class NativePointerEvent {
 	@JsProperty
 	public native double getClientX();
 
 	@JsProperty
 	public native double getClientY();
+
+	@JsProperty
+	public native double getOffsetX();
+
+	@JsProperty
+	public native double getOffsetY();
 
 	@JsProperty
 	public native double getPointerId();

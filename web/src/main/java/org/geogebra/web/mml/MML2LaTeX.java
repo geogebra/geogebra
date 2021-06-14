@@ -1,35 +1,30 @@
 package org.geogebra.web.mml;
 
 import org.geogebra.common.io.MathMLParser;
-import org.geogebra.common.util.ExternalAccess;
 
 import com.google.gwt.core.client.EntryPoint;
 
+import elemental2.dom.DomGlobal;
+import jsinterop.annotations.JsFunction;
+import jsinterop.base.Js;
+
 /**
- * @author apa
- *
- */
-/**
- * Entry point classes define <code>onModuleLoad()</code>.
+ * Entry point for MML -> LaTeX converter, exports toLaTeX global function
  */
 public class MML2LaTeX implements EntryPoint {
 
 	final private static MathMLParser MATHML_PARSER_LATEX = new MathMLParser(
 			false);
 
-	@ExternalAccess
-	private static String convert(String mml) {
-		return MATHML_PARSER_LATEX.parse(mml, false, false);
+	@JsFunction
+	private interface Converter {
+		String convert(String input);
 	}
 
 	@Override
 	public void onModuleLoad() {
-		exportJS();
+		Converter converter = mml -> MATHML_PARSER_LATEX.parse(mml, false, false);
+		Js.asPropertyMap(DomGlobal.window).set("toLaTeX", converter);
 	}
 
-	private native void exportJS() /*-{
-		$wnd.toLaTeX = function(mml) {
-			return @org.geogebra.web.mml.MML2LaTeX::convert(Ljava/lang/String;)(mml);
-		}
-	}-*/;
 }

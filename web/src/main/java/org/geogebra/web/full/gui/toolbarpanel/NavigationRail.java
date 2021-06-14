@@ -478,7 +478,7 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 			getElement().getStyle().clearWidth();
 			toolbarPanel.updateUndoRedoPosition();
 		} else {
-			toolbarPanel.onOpen();
+			toolbarPanel.resizeTabs();
 		}
 		toolbarPanel.onResize();
 

@@ -32,9 +32,8 @@ public class PortraitAnimationCallback extends NavRailAnimationCallback {
 	protected void onStart() {
 		app.getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
 		if (navRail.isOpen()) {
-			navRail.toolbarPanel.onOpen();
+			navRail.toolbarPanel.resizeTabs();
 		}
-		// header.hideCenter();
 	}
 
 	@Override

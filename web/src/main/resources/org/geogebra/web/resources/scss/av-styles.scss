@@ -156,7 +156,6 @@ $duration: 0.2s;
 		.marblePanel.error, 
 		.marblePanel.help,
 		.marblePanel {
-			position: absolute;
 			height: 100%;
 			padding-top: 0px;
 			padding-bottom: 0px;
@@ -426,6 +425,20 @@ $duration: 0.2s;
 			&:hover {
 				opacity:  !important;
 			}
+		}
+
+		.avNameLogo {
+			opacity: 0.36;
+			text-align: center;
+			margin-top: 24px;
+			margin-bottom: 48px;
+			&>div {
+				text-align: center;
+			}
+		}
+
+		.avNameLogoScientific {
+			margin-bottom: 0;
 		}
 
 		.NewRadioButtonTreeItemParent {

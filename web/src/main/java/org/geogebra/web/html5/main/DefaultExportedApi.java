@@ -164,10 +164,6 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.initCAS();
 	}
 
-	public void uploadToGeoGebraTube() {
-		ggbAPI.uploadToGeoGebraTube();
-	}
-
 	public void setErrorDialogsActive(Object flag) {
 		ggbAPI.setErrorDialogsActive(Js.isTruthy(flag));
 	}

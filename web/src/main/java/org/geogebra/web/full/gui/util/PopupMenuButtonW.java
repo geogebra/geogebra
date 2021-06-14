@@ -342,8 +342,8 @@ public class PopupMenuButtonW extends MyCJButton
 
 	@Override
 	public void onChange(ChangeEvent event) {
-		Log.debug("onchange");
 		onSliderInput();
+		app.storeUndoInfo();
 	}
 
 	@Override

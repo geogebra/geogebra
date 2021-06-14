@@ -38,8 +38,6 @@ public interface JavaScriptAPI {
 	 */
 	String getBase64(boolean includeThumbnail);
 
-	void uploadToGeoGebraTube();
-
 	/**
 	 * Returns the GeoGebra XML string for the given GeoElement object, i.e.
 	 * only the &lt;element&gt; tag is returned.

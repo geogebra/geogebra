@@ -66,7 +66,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		mathFieldEditor.attach(widget);
 		mathFieldEditor.getMathField().setFixMargin(DrawFormula.PADDING);
 		mathFieldEditor.setUseKeyboardButton(false);
-		mathFieldEditor.getMathField().setBackgroundCssColor("transparent");
+		mathFieldEditor.getMathField().setBackgroundColor("transparent");
 	}
 
 	@Override
@@ -123,7 +123,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 	@Override
 	public void setColor(GColor objectColor) {
-		mathFieldEditor.getMathField().setForegroundCssColor(StringUtil.toHtmlColor(objectColor));
+		mathFieldEditor.getMathField().setForegroundColor(StringUtil.toHtmlColor(objectColor));
 		mathFieldEditor.getMathField().repaintWeb();
 	}
 
