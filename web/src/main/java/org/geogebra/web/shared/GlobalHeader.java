@@ -6,11 +6,9 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.html5.util.Visibility;
 import org.geogebra.web.shared.view.button.ActionButton;
 import org.geogebra.web.shared.view.button.DisappearingActionButton;
 
@@ -40,7 +38,6 @@ public class GlobalHeader implements EventRenderable {
 	private AppW app;
 	private Label timer;
 	private StandardButton examInfoBtn;
-	private GeoGebraFrameW frame;
 
 	private String oldHref;
 
@@ -171,12 +168,7 @@ public class GlobalHeader implements EventRenderable {
 		ActionButton settingsButton = getActionButton("settingsButton");
 		if (settingsButton != null) {
 			setTitle(settingsButton, "Settings");
-			settingsButton.setAction(new Runnable() {
-				@Override
-				public void run() {
-					app.getGuiManager().showSciSettingsView();
-				}
-			});
+			settingsButton.setAction(() -> app.getGuiManager().showSciSettingsView());
 		}
 	}
 
@@ -240,24 +232,15 @@ public class GlobalHeader implements EventRenderable {
 		if (getButtonElement() == null) {
 			return;
 		}
-		forceVisible(Visibility.HIDDEN);
 		getExamPanel().getElement().removeFromParent();
 		getButtonElement().getStyle().setDisplay(Display.FLEX);
 		getHomeLink().setHref(oldHref);
-	}
-
-	private void forceVisible(Visibility visible) {
-		app.getAppletParameters().setAttribute("marginTop",
-				visible == Visibility.VISIBLE ? "64" : "0");
-		// takes care of both header visibility and menu button placement
-		frame.forceHeaderVisibility(visible);
 	}
 
 	/**
 	 * switch right buttons with exam timer and info button
 	 */
 	public void addExamTimer() {
-		forceVisible(Visibility.VISIBLE);
 		if (getButtonElement() == null) {
 			return;
 		}
@@ -323,10 +306,6 @@ public class GlobalHeader implements EventRenderable {
 	 */
 	public void setApp(AppW app) {
 		this.app = app;
-	}
-
-	public void setFrame(GeoGebraFrameW frame) {
-		this.frame = frame;
 	}
 
 	/**
