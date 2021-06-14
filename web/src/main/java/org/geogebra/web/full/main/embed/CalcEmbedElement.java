@@ -169,14 +169,12 @@ public class CalcEmbedElement extends EmbedElement {
 	private static class UndoRedoGlue implements UndoInfoStoredListener {
 
 		private int embedId;
-		private boolean ignoreUndoInfoStored;
 		private UndoManager embeddedUndoManager;
 		private EmbedManagerW embedManager;
 
 		private UndoRedoGlue(int embedId, UndoManager embeddedUndoManager,
 				EmbedManagerW embedManager) {
 			this.embedId = embedId;
-			this.ignoreUndoInfoStored = false;
 			this.embeddedUndoManager = embeddedUndoManager;
 			this.embedManager = embedManager;
 			embeddedUndoManager.addUndoInfoStoredListener(this);
@@ -184,9 +182,7 @@ public class CalcEmbedElement extends EmbedElement {
 
 		@Override
 		public void onUndoInfoStored() {
-			if (!ignoreUndoInfoStored) {
-				embedManager.createUndoAction(embedId);
-			}
+			embedManager.createUndoAction(embedId);
 		}
 
 		private void executeAction(EventType action) {
@@ -200,15 +196,11 @@ public class CalcEmbedElement extends EmbedElement {
 		}
 
 		private void undo() {
-			ignoreUndoInfoStored = true;
 			embeddedUndoManager.undo();
-			ignoreUndoInfoStored = false;
 		}
 
 		private void redo() {
-			ignoreUndoInfoStored = true;
 			embeddedUndoManager.redo();
-			ignoreUndoInfoStored = false;
 		}
 
 		private void pruneStateList() {

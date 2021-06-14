@@ -97,10 +97,10 @@ public class AlgoTableToChart extends AlgoElement {
 			chartCommand = "chart=LineGraph({"
 					+ StringUtil.join(",", lineData[0]) + "},{"
 					+ StringUtil.join(",", lineData[1]) + "})";
-			minX = Collections.min(lineData[0]) - 1;
-			maxX = Collections.max(lineData[0]) + 1;
-			minY = Collections.min(lineData[1]) - 1;
-			maxY = Collections.max(lineData[1]) + 1;
+			minX = min(lineData[0]) - 1;
+			maxX = max(lineData[0]) + 1;
+			minY = min(lineData[1]) - 1;
+			maxY = max(lineData[1]) + 1;
 			break;
 		default:
 		case BarChart:
@@ -108,9 +108,9 @@ public class AlgoTableToChart extends AlgoElement {
 			chartCommand = "chart=BarChart({"
 					+ StringUtil.join(",", barData[0]) + "},{"
 					+ StringUtil.join(",", barData[1]) + "}, 1)";
-			minX = Collections.min(barData[0]) - 1.5;
-			maxX = Collections.max(barData[0]) + 1.5;
-			maxY = Collections.max(barData[1]) + 1;
+			minX = min(barData[0]) - 1.5;
+			maxX = max(barData[0]) + 1.5;
+			maxY = max(barData[1]) + 1;
 			break;
 		}
 
@@ -133,6 +133,14 @@ public class AlgoTableToChart extends AlgoElement {
 			embedManager.setGraphAxis(chart, 0, minY);
 			embedManager.setGraphAxis(chart, 1, minX);
 		}
+	}
+
+	private double max(List<Double> column) {
+		return column.isEmpty() ? Double.NaN : Collections.max(column);
+	}
+
+	private double min(List<Double> column) {
+		return column.isEmpty() ? Double.NaN : Collections.min(column);
 	}
 
 	@Override
