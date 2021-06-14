@@ -8,7 +8,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.awt.PrintableW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;

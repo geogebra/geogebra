@@ -7,7 +7,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
-import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
