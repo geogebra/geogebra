@@ -339,42 +339,32 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		ArrayList<Double> xlist = new ArrayList<>();
 		double x, xval;
 		double deltax = (r - l) / samples;
-
+		double lastRoot = Double.NEGATIVE_INFINITY;
 		for (int i = 0; i <= samples; i++) {
 			x = l + i * deltax;
 			y[i] = f.value(x);
-			// if left endpoint is root by pure luck...
-			if ((Math.abs(y[i]) < Kernel.MIN_PRECISION)
-					&& (signChanged(f, x))) { // if
-												// left
-												// endpoint
-												// is
-												// root
-												// by
-												// pure
-												// luck...
-				add(xlist, x, f);
-			} // if
-			if (i > 0) {
-				if (((y[i - 1] < 0.0d) && (y[i] > 0.0d)) || // or just
-															// y[i-1]*y[i]<0...
-						((y[i - 1] > 0.0d) && (y[i] < 0.0d))) {
-					xval = calcSingleRoot(f, x - deltax, x);
-					if (Math.abs(f.value(xval)) < Kernel.MIN_PRECISION) { // =1E-5:
-																				// Quite
-																				// large,
-																				// but
-																				// less
-																				// doesn't
-																				// work
-																				// in
-																				// Apache
-																				// lib...
+			if (i > 0 && oppositeSign(y[i], y[i - 1])) {
+				xval = calcSingleRoot(f, x - deltax, x);
+				// =1E-5: Quite large, but less doesn't work in Apache lib...
+				if (Math.abs(f.value(xval)) < Kernel.MIN_PRECISION) {
+					if (x - lastRoot < deltax) {
+						if (Math.abs(f.value(xval)) < Math.abs(f.value(lastRoot))) {
+							// last endpoint considered a root,
+							// but point inside the interval is better -> replace
+							xlist.remove(xlist.size() - 1);
+							add(xlist, xval, f);
+						}
+					} else {
 						add(xlist, xval, f);
-					} // if check
-				} // if possible root
-			} // if both ends of interval
-		} // for all endpoints
+					}
+				}
+			} else if ((Math.abs(y[i]) < Kernel.MIN_PRECISION)
+					&& (signChanged(f, x, Math.min(x - lastRoot, deltax / 2)))) {
+				// left endpoint is root by pure luck...
+				lastRoot = x;
+				add(xlist, x, f);
+			}
+		}
 		if (xlist.size() > 0) {
 			double[] res = new double[xlist.size()];
 			for (int i = 0; i < xlist.size(); i++) {
@@ -384,8 +374,11 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 									// (1,-0.00000x) ...
 			return res;
 		}
-		// if valid
 		return null;
+	}
+
+	private static boolean oppositeSign(double a, double b) {
+		return (a < 0.0d && b > 0.0d) || (a > 0.0d && b < 0.0d);
 	}
 
 	private static void add(ArrayList<Double> xlist, double root,
@@ -433,28 +426,28 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 						borders[0], borders[1]);
 			} catch (Exception ex) {
 				root = Double.NaN;
-			} // try-catch
-		} // try-catch
+			}
+		}
 
 		return root;
 	}
 
-	private static final boolean signChanged(Function f, double x) {
-		double delta = Kernel.MIN_PRECISION * 10; // Used in AlgoRootsPolynomial
+	private static final boolean signChanged(Function f, double x, double maxDelta) {
+		int subsamples = 100;
+		// MIN_PRCISION * 10 used in AlgoRootsPolynomial
+		double delta = Math.min(Kernel.MIN_PRECISION * 10, maxDelta / (subsamples + 1));
 		double left, right, lefty, righty;
-		boolean signChanged;
 		left = x - delta;
 		right = x + delta;
 		int count = 0;
-		while (Math.abs(lefty = f.value(left)) < delta && count++ < 100) {
+		while (Math.abs(lefty = f.value(left)) < delta && count++ < subsamples) {
 			left = left - delta;
 		}
 		count = 0;
-		while (Math.abs(righty = f.value(right)) < delta && count++ < 100) {
+		while (Math.abs(righty = f.value(right)) < delta && count++ < subsamples) {
 			right = right + delta;
 		}
-		signChanged = lefty * righty < 0.0d;
-		return signChanged;
+		return oppositeSign(lefty, righty);
 	}
 
 	@Override
