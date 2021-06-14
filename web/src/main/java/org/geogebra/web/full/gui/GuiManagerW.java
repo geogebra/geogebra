@@ -91,7 +91,6 @@ import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.toolbarpanel.ShowableTab;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
-import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -1278,12 +1277,6 @@ public class GuiManagerW extends GuiManager
 		if (spreadsheetView != null) {
 			spreadsheetView.setScrollToShow(b);
 		}
-	}
-
-	@Override
-	public void showURLinBrowser(final String strURL) {
-		final PopupBlockAvoider popupBlockAvoider = new PopupBlockAvoider();
-		popupBlockAvoider.openURL(strURL);
 	}
 
 	@Override

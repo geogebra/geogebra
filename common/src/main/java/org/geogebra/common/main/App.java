@@ -3934,12 +3934,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
         // *********************************************************
         // **********************************************************************
 
-		/**
-		 * Csilla Master (do not dare to change this :)
-		 */
-		case SPEECH_RECOGNITION:
-			return false;
-
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

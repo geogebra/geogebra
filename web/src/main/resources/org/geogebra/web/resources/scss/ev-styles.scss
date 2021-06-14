@@ -453,44 +453,6 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		right: 22px !important;
 	}
 
-	.speechBtnPanel {
-
-		.speechBtn {
-		 	height: 36px;
-			width: 36px;
-			background-color: #fff;
-			border-radius: 50%;
-			box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2), 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12);
-			transition: background-color 150ms ease 0ms;
-			cursor: pointer;
-			z-index: $z-on-top-of-graphics;
-			position: relative;
-			bottom: 52px;
-			margin: 0px 0px 16px 16px;
-			display: inline-block;
-
-			img {
-			   padding: 6px;
-			   opacity: 0.54;
-			}
-
-			&:hover {
-				background-color: $selected-menuitem-background;
-
-				img {
-					opacity: 1;
-				}
-			}
-
-			&:focus {
-				img {
-					opacity: 1;
-					outline: $focus-black 5px auto;
-				}
-			}
-		}
-	}
-
 	.undoRedoPanel {
 		padding-left: 12px;
 		position: absolute;

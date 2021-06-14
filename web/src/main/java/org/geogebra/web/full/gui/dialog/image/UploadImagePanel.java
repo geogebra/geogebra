@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.dialog.image;
 
-import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.dom.client.Element;
@@ -8,6 +7,12 @@ import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import elemental2.dom.File;
+import elemental2.dom.FileList;
+import elemental2.dom.FileReader;
+import elemental2.dom.HTMLInputElement;
+import jsinterop.base.Js;
 
 /**
  * panel for uploading images contains preview image
@@ -17,15 +22,15 @@ public class UploadImagePanel extends VerticalPanel {
 	private String fileData;
 	private String fileName;
 
-	private int previewHeight;
-	private int previewWidth;
+	private final int previewHeight;
+	private final int previewWidth;
 	
 	/** used to reset the uploadImageBtn */
 	private FormPanel panel;
 	private FileUpload uploadImageBtn;
 	private Image previewImg;
 
-	private UploadImageDialog dialog;
+	private final UploadImageDialog dialog;
 	private UploadImageWithoutDialog uploadImageWithoutDialog;
 
 	/**
@@ -53,73 +58,50 @@ public class UploadImagePanel extends VerticalPanel {
 		this(null, 0, 0);
 		this.uploadImageWithoutDialog = uploadImageWithoutDialog;
 	}
-	
+
 	private void initGUI() {
 		panel = new FormPanel();
 		panel.add(uploadImageBtn = new FileUpload()); 
 		add(panel);
 	}
-	
+
 	private void initActions() {
 		addChangeHandler(uploadImageBtn.getElement());
 	}
-	
+
 	/**
 	 * @param el
 	 *            Element
 	 */
-	public native void addChangeHandler(Element el) /*-{
-		var panel = this;
+	public void addChangeHandler(Element el) {
 		el.setAttribute("accept", "image/*");
-		el.onchange = function(event) {
-			var fileToHandle = null;
-			var files = this.files;
-			if (files.length) {
-				var fileTypes = /^image.*$/;
-				for (var i = 0, j = files.length; i < j; ++i) {
-					if (!files[i].type.match(fileTypes)) {
-						continue;
+		HTMLInputElement input = Js.uncheckedCast(el);
+		input.addEventListener("change", event -> {
+			File fileToHandle = null;
+			FileList files = input.files;
+			if (files.length > 0) {
+				for (int i = 0, j = files.length; i < j; ++i) {
+					if (files.item(i).type.startsWith("image")) {
+						fileToHandle = files.item(i);
+						break;
 					}
-					fileToHandle = files[i];
-					break;
 				}
 			}
 			if (fileToHandle != null) {
-				var reader = new FileReader();
-				var fileName = fileToHandle.name;
-				reader.onloadend = function(ev) {
-					if (reader.readyState === reader.DONE) {
-						var fileStr = reader.result;
-						panel.@org.geogebra.web.full.gui.dialog.image.UploadImagePanel::fileSelected(Ljava/lang/String;Ljava/lang/String;)(fileStr, fileName);
+				FileReader reader = new FileReader();
+				String fileName = fileToHandle.name;
+				reader.onloadend = (ev) -> {
+					if (reader.readyState == FileReader.DONE) {
+						String fileStr = reader.result.asString();
+						fileSelected(fileStr, fileName);
 					}
+					return null;
 				};
 				reader.readAsDataURL(fileToHandle);
 			}
-		}
-		// check if focus comes back from file browser (needed if file browser was canceled) 
-		$doc.body.onfocus = function() {
-			panel.@org.geogebra.web.full.gui.dialog.image.UploadImagePanel::setMoveMode()();
-		}
-		// needed for firefox but not safari
-		$wnd.onmouseover = function() {
-			if ($wnd.navigator.userAgent.indexOf("Safari") == -1) {
-				panel.@org.geogebra.web.full.gui.dialog.image.UploadImagePanel::setMoveMode()();
-			}
-		}
-		// needed for touch devices
-		$wnd.ontouchstart = function() {
-			panel.@org.geogebra.web.full.gui.dialog.image.UploadImagePanel::setMoveMode()();
-		}
-	}-*/;
-
-	@ExternalAccess
-	private void setMoveMode() {
-		if (uploadImageWithoutDialog != null) {
-			uploadImageWithoutDialog.setSelectMode();
-		}
+		});
 	}
 
-	@ExternalAccess
 	private void fileSelected(String fData, String fName) {
 		this.fileData = fData;
 		this.fileName = fName;
