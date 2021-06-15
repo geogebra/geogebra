@@ -55,6 +55,7 @@ import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
+import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -702,12 +703,11 @@ public class GeoGebraFrameFull
 		if (app1.isWhiteboardActive()) {
 			attachNotesUI(app1);
 
-			if (app1.getVendorSettings().isMainMenuExternal()
+			if (GlobalHeader.isInDOM()
 					&& !app1.isApplet()) {
 				app1.getGuiManager().menuToGlobalHeader();
-			} else if ((app1.isApplet()
-						&& app1.getAppletParameters().getDataParamShowMenuBar(false))
-					|| app1.isMebis()) {
+			} else if (!app1.isApplet()
+						|| app1.getAppletParameters().getDataParamShowMenuBar(false)) {
 				notesLayout.getUndoRedoButtons().addStyleName("undoRedoPositionMebis");
 				attachMowMainMenu(app1);
 			}
