@@ -126,11 +126,9 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 
 		labelVisible = getTopLevelGeo().isLabelVisible();
 		if (isIntervalPlotterActive()) {
-			Log.debug("[PLOTTER] interval");
 			updateStrokes(geo);
 			updateIntervalPlot();
 		} else {
-			Log.debug("[PLOTTER] parametric");
 			updateParametric();
 		}
 	}
