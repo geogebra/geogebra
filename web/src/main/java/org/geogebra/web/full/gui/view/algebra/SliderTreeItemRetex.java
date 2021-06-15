@@ -291,5 +291,6 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 
 	@Override
 	public void onStopEdit() {
+		// nothing to do here
 	}
 }
