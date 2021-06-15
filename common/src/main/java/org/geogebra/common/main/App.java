@@ -63,6 +63,7 @@ import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
+import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
@@ -805,7 +806,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	protected void fillCommandDict() {
 		getLocalization().initCommand();
-		if (!getLocalization().isCommandChanged()) {
+		if (!getLocalization().isCommandChanged() && commandDict != null) {
 			return;
 		}
 		// translation table for all command names in command.properties
@@ -1740,7 +1741,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * Show localized message for an error.
-	 * 
+	 *
 	 * @param key   main error
 	 * @param error extra information
 	 */
@@ -1750,7 +1751,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * Show localized message for an error.
-	 * 
+	 *
 	 * @param key main error
 	 */
 	public void showError(Errors key) {
@@ -2464,10 +2465,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			}
 
 			// if showMenuBar is false, we can still update the style bars
-			if (EuclidianConstants
-					.isMoveOrSelectionMode(getActiveEuclidianView().getMode())
-					|| getActiveEuclidianView()
-							.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
+			EuclidianView ev = getActiveEuclidianView();
+			if (ev != null
+					&& (EuclidianConstants.isMoveOrSelectionMode(ev.getMode())
+					|| ev.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW)) {
 				updateStyleBars();
 			}
 
@@ -3875,9 +3876,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case MOW_PEN_EVENTS:
 			return false;
 
-		case MOW_DIRECT_FORMULA_CONVERSION:
-			return false;
-
 		// **********************************************************************
 		// MOW END
 		// *********************************************************
@@ -3921,9 +3919,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case AUTOLABEL_CAS_SETTINGS:
 			return true;
 
-		/** APPS-1035 */
-		case SYMBOLIC_INPUTFIELDS:
-			return true;
 		// **********************************************************************
        // G3D START
        //
@@ -3939,12 +3934,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
         //
         // *********************************************************
         // **********************************************************************
-
-		/**
-		 * Csilla Master (do not dare to change this :)
-		 */
-		case SPEECH_RECOGNITION:
-			return false;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
@@ -4485,6 +4474,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void examWelcome() {
 		// overridden in platforms supporting exam
+	}
+
+	public void showErrorInfoDialog(String msg) {
+		// overridden in web
+	}
+
+	/**
+	 * @return relation tool dialog
+	 */
+	public RelationPane getRelationDialog() {
+		// overridden in web
+		return null;
 	}
 
 	/**

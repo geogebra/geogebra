@@ -25,7 +25,7 @@ public class EditorTyper {
 	 * @param input to type
 	 */
 	public void type(String input) {
-		KeyboardInputAdapter.emulateInput(mathField.getInternal(), input);
+		KeyboardInputAdapter.type(mathField.getInternal(), input);
 	}
 
 	/**

@@ -36,4 +36,6 @@ public interface AlgebraPanelInterface extends IsWidget {
 	boolean isStyleBarPanelShown();
 
 	boolean isStyleBarVisible();
+
+	int getNavigationRailWidth();
 }

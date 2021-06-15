@@ -4,6 +4,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.web.full.gui.dialog.ErrorInfoDialog;
 import org.geogebra.web.full.move.googledrive.api.GoogleApi;
 import org.geogebra.web.full.move.googledrive.api.GoogleAuthorization;
 import org.geogebra.web.full.move.googledrive.api.GoogleDriveDocument;
@@ -19,6 +20,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.StringConsumer;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ScriptElement;
@@ -213,8 +215,7 @@ public class GoogleDriveOperationW implements GoogleDriveOperation {
 
 	private void processGoogleDriveFileContentAsBase64(String base64,
 			final String title, String id) {
-		// true = reload the whole doc
-		app.loadGgbFileAsBase64Again(base64, true);
+		app.loadGgbFileAsBase64(base64);
 		postprocessFileLoading(title, id);
 	}
 
@@ -226,7 +227,7 @@ public class GoogleDriveOperationW implements GoogleDriveOperation {
 
 	private void processGoogleDriveFileContentAsBinary(ArrayBuffer binary,
 	        String title, String id) {
-		app.loadGgbFileAsBinaryAgain(binary);
+		app.loadGgbFileAsBinary(binary);
 		postprocessFileLoading(title, id);
 	}
 
@@ -286,8 +287,9 @@ public class GoogleDriveOperationW implements GoogleDriveOperation {
 
 	private void showUploadError() {
 		((DialogManagerW) app.getDialogManager()).getSaveDialog(false, true).hide();
-		((DialogManagerW) app.getDialogManager()).showAlertDialog(app
-				.getLocalization().getMenu("GoogleDriveSaveProblem"));
+		DialogData data = new DialogData(null, null, "OK");
+		new ErrorInfoDialog(app, data, (app.getLocalization().getMenu("GoogleDriveSaveProblem")),
+				false).show();
 	}
 
 	private void handleFileUploadToGoogleDrive(String fileId,

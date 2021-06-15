@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.TreeSet;
+import java.util.function.Consumer;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
@@ -732,11 +733,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 			kernel.notifyRepaint();
 		}
-	}
-
-	@Override
-	public void uploadToGeoGebraTube() {
-		app.uploadToGeoGebraTube();
 	}
 
 	@Override
@@ -2168,28 +2164,22 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * @param filename
-	 *            output filename
-	 * @return SVG export
+	 * @param filename output filename
+	 * @param callback called with the construction exported as SVG
 	 */
-	public String exportSVG(String filename) {
+	public void exportSVG(String filename, Consumer<String> callback) {
 		// not implemented in Android, iOS
-		return null;
 	}
 
 	/**
-	 * @param exportScale
-	 *            scale
-	 * @param filename
-	 *            output filename
-	 * @param sliderLabel
-	 *            animation slider
-	 * @return PDF
+	 * @param exportScale scale
+	 * @param filename output filename
+	 * @param callback called with the construction exported as PDF
+	 * @param sliderLabel animation slider
 	 */
-	public String exportPDF(double exportScale, String filename,
-			String sliderLabel) {
+	public void exportPDF(double exportScale, String filename,
+			Consumer<String> callback, String sliderLabel) {
 		// not implemented in Android, iOS
-		return null;
 	}
 
 	/**

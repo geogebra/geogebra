@@ -65,10 +65,11 @@
 	}
 
 	.NewRadioButtonTreeItemParent {
-		/* AlgebraViewObjectStylebar was not at right position, needs position absolute */
-		position: absolute;
+		position: relative;
 		width: 100%;
 		z-index: $z-algebra-new-item;
+		background-color: white;
+		display: inline-block !important; // overrides "inline" from GWT
 	}
 
 	.NewRadioButtonTreeItemParent .AlgebraViewObjectStylebar .gwt-PushButton {
@@ -98,12 +99,6 @@
 
 	.algebraView .gwt-CheckBox {
 		padding-left: 40px;
-	}
-
-	.NewRadioButtonTreeItemParent {
-		border-top: #6161FF solid 1px;
-		border-bottom: #6161FF solid 1px;
-		background-color: white;
 	}
 
 	.NewRadioButtonTreeItemParent .scrollableTextBox,

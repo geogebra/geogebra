@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -100,10 +102,9 @@ public final class DrawDropDownList extends CanvasDrawable
 		private int yPadding;
 		GFont itemFont;
 
-		private List<OptionItem> items;
+		private final List<OptionItem> items;
 		private OptionItem hovered;
 		private GColor hoverColor;
-		private GGraphics2D g2;
 		private boolean visible;
 
 		private int selectedIndex;
@@ -142,7 +143,7 @@ public final class DrawDropDownList extends CanvasDrawable
 							StringTemplate.latexTemplate);
 					latex = true;
 				} else {
-					text = GeoList.getItemDisplayString(geoItem,
+					text = geoList.getItemDisplayString(geoItem,
 							StringTemplate.defaultTemplate);
 					latex = isLatexString(text);
 				}
@@ -235,17 +236,16 @@ public final class DrawDropDownList extends CanvasDrawable
 
 			this.left = leftPos;
 			this.top = topPos;
-			this.g2 = graphics2;
 
-			getMetrics();
-			drawBox();
-			drawItems();
+			getMetrics(graphics2);
+			drawBox(graphics2);
+			drawItems(graphics2);
 			if (isScrollNeeded()) {
-				drawControls();
+				drawControls(graphics2);
 			}
 		}
 
-		private void drawItems() {
+		private void drawItems(GGraphics2D g2) {
 			int idx = getStartIdx();
 			int startRow = 0;
 			int visibleRows = rowCount;
@@ -259,14 +259,14 @@ public final class DrawDropDownList extends CanvasDrawable
 			for (int col = 0; col < getColCount(); col++) {
 				for (int row = startRow; row < visibleRows; row++) {
 					if (idx >= 0 && idx < items.size()) {
-						drawItem(col, row, items.get(idx));
+						drawItem(g2, col, row, items.get(idx));
 					}
 					idx++;
 				}
 			}
 		}
 
-		private void drawItem(int col, int row, OptionItem item) {
+		private void drawItem(GGraphics2D g2, int col, int row, OptionItem item) {
 			int rectLeft = left + dimItem.getWidth() * col;
 			int rectTop = top + dimItem.getHeight() * row;
 
@@ -285,11 +285,10 @@ public final class DrawDropDownList extends CanvasDrawable
 				item.setRect(AwtFactory.getPrototype().newRectangle(rectLeft,
 						rectTop, dimItem.getWidth(), dimItem.getHeight()));
 			}
-
-			drawItem(item, item.isEqual(hovered));
+			drawItem(g2, item, item.isEqual(hovered));
 		}
 
-		private void drawItem(OptionItem item, boolean hover) {
+		private void drawItem(GGraphics2D g2, OptionItem item, boolean hover) {
 			if (item.rect == null) {
 				return;
 			}
@@ -363,7 +362,7 @@ public final class DrawDropDownList extends CanvasDrawable
 			}
 		}
 
-		private void drawBox() {
+		private void drawBox(GGraphics2D g2) {
 			g2.setPaint(geoList.getBackgroundColor());
 			g2.fillRoundRect(left - 1, top - 1, dimTable.getWidth() + 2,
 					dimTable.getHeight() + 2, ROUND, ROUND);
@@ -413,6 +412,16 @@ public final class DrawDropDownList extends CanvasDrawable
 			view.getApplication().dispatchEvent(getFocusEvent(item));
 			hovered = item;
 			viewOpt.repaintView();
+		}
+
+		private void setHoverIndex(int idx) {
+			if (idx >= 0 && idx < items.size()) {
+				setHovered(items.get(idx));
+				selectedIndex = idx;
+				update();
+
+				getView().repaintView();
+			}
 		}
 
 		void scrollUp() {
@@ -589,27 +598,25 @@ public final class DrawDropDownList extends CanvasDrawable
 			return null;
 		}
 
-		private boolean prepareTable() {
-			itemFont = getLabelFont().deriveFont(GFont.PLAIN, itemFontSize);
-			createItems();
+		private boolean prepareTable(GGraphics2D g2) {
+			createItems(g2);
 			return getTableScale();
-
 		}
 
-		private void getMetrics() {
+		private void getMetrics(GGraphics2D g2) {
 			xPadding = 10;
 			yPadding = 10;
 			itemFontSize = getLabelFontSize();
-
+			createItems(g2);
 			if (!getScrollSettings()) {
 				boolean finished = false;
 				while (!finished && itemFontSize > MIN_FONT_SIZE) {
-					finished = prepareTable();
+					finished = prepareTable(g2);
 					itemFontSize--;
 				}
 
 				if (dimItem == null) {
-					prepareTable();
+					prepareTable(g2);
 				}
 			}
 
@@ -662,7 +669,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		}
 
-		private void drawControls() {
+		private void drawControls(GGraphics2D g2) {
 			if (!isScrollNeeded()) {
 				return;
 			}
@@ -705,9 +712,6 @@ public final class DrawDropDownList extends CanvasDrawable
 		 * @return if scroll really makes sense or multi-column would be better.
 		 */
 		private boolean getScrollSettings() {
-
-			itemFont = getLabelFont().deriveFont(GFont.PLAIN, itemFontSize);
-			createItems();
 			getOneColumnSettings();
 			rectUp = AwtFactory.getPrototype().newRectangle(dimItem.getWidth(),
 					dimItem.getHeight() / 2);
@@ -808,8 +812,8 @@ public final class DrawDropDownList extends CanvasDrawable
 			colCount = itemCount / rowCount + (maxMod == 0 ? 0 : 1);
 		}
 
-		private void createItems() {
-
+		private void createItems(GGraphics2D g2) {
+			itemFont = getLabelFont().deriveFont(GFont.PLAIN, itemFontSize);
 			double maxWidth = 0;
 			double maxHeight = 0;
 			items.clear();
@@ -906,17 +910,11 @@ public final class DrawDropDownList extends CanvasDrawable
 				}
 			}
 
-			if (update && idx >= 0 && idx < items.size()) {
-				setHovered(items.get(idx));
-				selectedIndex = idx;
-				update();
-
-				getView().repaintView();
+			if (update) {
+				setHoverIndex(idx);
 			}
 
-			ScreenReader.readDropDownSelectorMoved(geoList.getKernel().getApplication(),
-					geoList.getItemDisplayString(idx,
-							StringTemplate.screenReader));
+			ScreenReader.readDropDownSelectorMoved(view.getApplication(), geoList, selectedIndex);
 		}
 
 		private void cancelDrag() {
@@ -1209,7 +1207,7 @@ public final class DrawDropDownList extends CanvasDrawable
 			seLatex = true;
 		} else {
 			// realTemplate: make sure Sequence((t,t),t,1,5) works
-			selectedText = GeoList.getItemDisplayString(geoItem,
+			selectedText = geoList.getItemDisplayString(geoItem,
 					StringTemplate.realTemplate);
 			seLatex = isLatexString(selectedText);
 		}
@@ -1333,13 +1331,6 @@ public final class DrawDropDownList extends CanvasDrawable
 	}
 
 	/**
-	 * Open dropdown
-	 */
-	public void openOptions() {
-		setOptionsVisible(false);
-	}
-
-	/**
 	 * Close dropdown
 	 */
 	public void closeOptions() {
@@ -1369,7 +1360,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	 * @param optionsVisible
 	 *            change visibility of dropdown items
 	 */
-	private void setOptionsVisible(boolean optionsVisible) {
+	public void setOptionsVisible(boolean optionsVisible) {
 		drawOptions.setVisible(optionsVisible);
 	}
 
@@ -1403,7 +1394,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	 * @return The DrawList for the geo element;
 	 * 
 	 */
-	public static DrawDropDownList asDrawable(App app, GeoElement geo) {
+	public static @CheckForNull DrawDropDownList asDrawable(App app, GeoElement geo) {
 		return (DrawDropDownList) app.getActiveEuclidianView()
 				.getDrawableFor(geo);
 	}
@@ -1508,5 +1499,19 @@ public final class DrawDropDownList extends CanvasDrawable
 		}
 
 		return selectedDimension.getHeight() + COMBO_TEXT_MARGIN;
+	}
+
+	/**
+	 * @param idx index of the hovered item
+	 */
+	public void setHoverIndex(int idx) {
+		if (drawOptions.items.size() <= idx) {
+			drawOptions.createItems(view.getGraphicsForPen());
+		}
+		drawOptions.setHoverIndex(idx);
+	}
+
+	public int getOptionCount() {
+		return drawOptions.items.size();
 	}
 }

@@ -13,22 +13,34 @@ import org.geogebra.common.main.Feature;
 public class LocalizationCommon extends LocalizationJre {
 
 	private static final String PROPERTIES_DIR = "org.geogebra.common.jre.properties.";
-	/** path to menu */
-	static final String RB_MENU = PROPERTIES_DIR + "menu";
-	/** path to commands */
-	static final String RB_COMMAND = PROPERTIES_DIR + "command";
-	private static final String RB_ERROR = PROPERTIES_DIR + "error";
-	private static final String RB_SYMBOL = PROPERTIES_DIR + "symbols";
+
 	/** path to javaui properties (without extension) */
 	public static final String RB_JAVA_UI = PROPERTIES_DIR + "javaui";
+
+	private static final String RB_MENU = PROPERTIES_DIR + "menu";
+	private static final String RB_COMMAND = PROPERTIES_DIR + "command";
+	private static final String RB_ERROR = PROPERTIES_DIR + "error";
+	private static final String RB_SYMBOL = PROPERTIES_DIR + "symbols";
 	private static final String RB_COLORS = PROPERTIES_DIR + "colors";
 
+	private ResourceBundle.Control control;
+
 	/**
-	 * @param dimension
-	 *            3 for 3D
+	 * @param dimension 3 for 3D
 	 */
 	public LocalizationCommon(int dimension) {
 		super(dimension);
+		setResourceBundleControl(
+				ResourceBundle.Control.getControl(ResourceBundle.Control.FORMAT_PROPERTIES));
+	}
+
+	/**
+	 * Specify a different ResourceBundle.Control type
+	 * to control the loading of the properties files
+	 * @param control control
+	 */
+	public void setResourceBundleControl(ResourceBundle.Control control) {
+		this.control = control;
 	}
 
 	@Override
@@ -44,7 +56,7 @@ public class LocalizationCommon extends LocalizationJre {
 
 	@Override
 	protected ResourceBundle createBundle(String key, Locale locale) {
-		return ResourceBundle.getBundle(key, locale);
+		return ResourceBundle.getBundle(key, locale, control);
 	}
 
 	@Override

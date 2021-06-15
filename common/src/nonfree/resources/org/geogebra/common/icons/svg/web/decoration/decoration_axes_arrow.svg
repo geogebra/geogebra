@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 30px;
+      }
+
+      .cls-2 {
+        stroke-linecap: round;
+      }
+    </style>
+  </defs>
+  <title>decoration_axes_arrow</title>
+  <g id="Stroke">
+    <line class="cls-1" x1="2" y1="256" x2="470" y2="256"/>
+  </g>
+  <g id="Ebene_5" data-name="Ebene 5">
+    <polyline class="cls-2" points="414.17 183.67 487 256.5 414.17 329.33"/>
+  </g>
+</svg>

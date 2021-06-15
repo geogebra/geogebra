@@ -748,4 +748,39 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	public void setUndefined() {
 		set(Double.NaN, Double.NaN);
 	}
+
+	/**
+	 *
+	 * @param other interval to check
+	 * @return true if the bounds of the intervals has the same sign
+	 * respectively, ie low (or high) < 0 then other.low (or other.high)< 0 or reverse.
+	 */
+	public boolean isSignEquals(Interval other) {
+		return DoubleUtil.isEqual(Math.abs(low), other.low)
+				&& DoubleUtil.isEqual(Math.abs(high), other.high);
+	}
+
+	/**
+	 *
+	 * @return if both bounds are positive.
+	 */
+	public boolean isPositive() {
+		return !isEmpty() && low > 0;
+	}
+
+	/**
+	 *
+	 * @return if both bounds are negative.
+	 */
+	public boolean isNegative() {
+		return !isEmpty() && high < 0;
+	}
+
+	/**
+	 *
+	 * @return if interval is [n, n] where n is an integer .
+	 */
+	public boolean isSingletonInteger() {
+		return isSingleton() && DoubleUtil.isEqual(low, Math.round(low));
+	}
 }

@@ -1,8 +1,6 @@
 package org.geogebra.web.full.euclidian;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.event.KeyEvent;
-import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel;
@@ -25,8 +23,6 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -107,34 +103,21 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		// remove focus, see GGB-
 		// tfName.setDeferredFocus(true);
 
-		tfName.addBlurHandler(new BlurHandler() {
-			@Override
-			public void onBlur(BlurEvent event) {
-				if (model.noLabelUpdateNeeded(tfName.getText())) {
-					return;
-				}
+		tfName.addBlurHandler(event -> {
+			if (model.noLabelUpdateNeeded(tfName.getText())) {
+				return;
+			}
+			onEnter();
+		});
+
+		tfName.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
 				onEnter();
+
 			}
 		});
 
-		tfName.addKeyHandler(new KeyHandler() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					onEnter();
-
-				}
-			}
-		});
-
-		Command nameValueCmd = new Command() {
-
-			@Override
-			public void execute() {
-				applyCheckboxes();
-			}
-		};
+		Command nameValueCmd = () -> applyCheckboxes();
 		cmName = new GCheckMarkLabel("", MaterialDesignResources.INSTANCE
 				.check_black(), true, nameValueCmd);
 

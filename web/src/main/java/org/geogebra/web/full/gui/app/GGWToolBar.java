@@ -21,8 +21,8 @@ import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbar.ToolbarSubmenuP;
 import org.geogebra.web.full.gui.toolbar.images.ToolbarResources;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.HasResource;
@@ -36,13 +36,10 @@ import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.safehtml.shared.UriUtils;
@@ -53,7 +50,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.dom.HTMLCollection;
 import elemental2.dom.HTMLElement;
@@ -192,7 +188,7 @@ public class GGWToolBar extends Composite
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 
 		redoButton = new StandardButton(pr.menu_header_redo(), null, 32);
-		redoButton.getElement().getStyle().setPosition(Style.Position.RELATIVE);
+		redoButton.addStyleName("redoButton");
 
 		redoButton.addFastClickHandler(source -> {
 			app.getGuiManager().redo();
@@ -200,7 +196,7 @@ public class GGWToolBar extends Composite
 		});
 
 		undoButton = new StandardButton(pr.menu_header_undo(), null, 32);
-		undoButton.getElement().getStyle().setPosition(Style.Position.RELATIVE);
+		undoButton.addStyleName("undoButton");
 
 		undoButton.addFastClickHandler(source -> {
 			app.getGuiManager().undo();
@@ -264,41 +260,12 @@ public class GGWToolBar extends Composite
 		final Settings settings = app.getSettings();
 		final ExamEnvironment exam = app.getExam();
 
-		fp.addDomHandler(new ClickHandler() {
-			// clicking on info button
-			@Override
-			public void onClick(ClickEvent event) {
-				HTMLLogBuilder htmlBuilder = new HTMLLogBuilder();
-				exam.getLog(loc, settings, htmlBuilder);
-				HTML html = htmlBuilder.getHTML();
-				if (app.getAppletParameters().hasDataParamEnableGraphing()) {
-					exam.setHasGraph(true);
-					boolean supportsCAS = app.getKernel().getAlgebraProcessor()
-							.getCommandDispatcher().isCASAllowed();
-					boolean supports3D = settings.getEuclidian(-1).isEnabled();
-					if (!supports3D && supportsCAS) {
-						app.showMessage(html,
-								loc.getMenu("ExamCAS"), null, null);
-						return;
-					} else if (!supports3D && !supportsCAS) {
-						if (app.enableGraphing()) {
-							app.showMessage(html,
-									loc.getMenu("ExamGraphingCalc.long"), null,
-									null);
-						} else {
-							app.showMessage(html,
-									loc.getMenu("ExamSimpleCalc.long"), null,
-									null);
-						}
-						return;
-					}
-				}
-				app.showMessage(
-						html,
-						loc.getMenu("exam_log_header") + " "
-								+ app.getVersionString(),
-						null, null);
-			}
+		// clicking on info button
+		fp.addDomHandler(event -> {
+			HTMLLogBuilder htmlBuilder = new HTMLLogBuilder();
+			exam.getLog(loc, settings, htmlBuilder);
+			HTML html = htmlBuilder.getHTML();
+			((AppWFull) app).showClassicExamLogExitDialog(html, "OK", null);
 		}, ClickEvent.getType());
 		return fp;
 	}
@@ -372,8 +339,6 @@ public class GGWToolBar extends Composite
 
 			if (!exam && app.enableFileFeatures()) {
 				initOpenSearchButton();
-
-				// switch toolbar color back to grey
 			}
 
 			if (!exam) {
@@ -381,7 +346,6 @@ public class GGWToolBar extends Composite
 			}
 			this.rightButtonPanel.add(openMenuButton);
 		}
-
 	}
 
 	private void initMenuButton() {
@@ -390,27 +354,21 @@ public class GGWToolBar extends Composite
 
 		StandardButton openMenuButton = new StandardButton(pr.menu_header_open_menu(), null, 32);
 
-		openMenuButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				app.hideKeyboard();
-				app.closePopups();
-				GGWToolBar.this.app.toggleMenu();
-			}
+		openMenuButton.addFastClickHandler(source -> {
+			app.hideKeyboard();
+			app.closePopups();
+			app.toggleMenu();
 		});
 
-		openMenuButton.addDomHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					GGWToolBar.this.app.toggleMenu();
-				}
-				if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
-					GGWToolBar.this.selectMenuButton(0);
-				}
-				if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
-					GGWToolBar.this.toolBar.selectMenu(0);
-				}
+		openMenuButton.addDomHandler(event -> {
+			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+				app.toggleMenu();
+			}
+			if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
+				selectMenuButton(0);
+			}
+			if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
+				toolBar.selectMenu(0);
 			}
 		}, KeyUpEvent.getType());
 
@@ -422,25 +380,17 @@ public class GGWToolBar extends Composite
 		StandardButton openSearchButton = new StandardButton(pr.menu_header_open_search(),
 				null, 32, 32);
 
-		openSearchButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
+		openSearchButton.addFastClickHandler(source -> app.openSearch(null));
+
+		openSearchButton.addDomHandler(event -> {
+			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 				app.openSearch(null);
 			}
-		});
-
-		openSearchButton.addDomHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					app.openSearch(null);
-				}
-				if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
-					GGWToolBar.this.selectMenuButton(1);
-				}
-				if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
-					GGWToolBar.this.toolBar.selectMenu(-1);
-				}
+			if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
+				selectMenuButton(1);
+			}
+			if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
+				toolBar.selectMenu(-1);
 			}
 		}, KeyUpEvent.getType());
 		this.openSearchButton = openSearchButton;
@@ -625,7 +575,7 @@ public class GGWToolBar extends Composite
 				return resourceBundle.mode_createtable_32();
 
 		case EuclidianConstants.MODE_DELETE:
-			return resourceBundle.mode_delete_32();
+			return resourceBundle.mode_eraser_32();
 
 		case EuclidianConstants.MODE_CAS_DERIVATIVE:
 			return resourceBundle.mode_derivative_32();
@@ -746,8 +696,7 @@ public class GGWToolBar extends Composite
 			return resourceBundle.mode_parallel_32();
 
 		case EuclidianConstants.MODE_PEN:
-			return app.isWhiteboardActive() ? resourceBundle.mode_pen()
-					: resourceBundle.mode_pen_32();
+			return resourceBundle.mode_pen();
 
 		case EuclidianConstants.MODE_POINT:
 			return resourceBundle.mode_point_32();

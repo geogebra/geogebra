@@ -228,6 +228,9 @@ public abstract class GlobalKeyDispatcher {
 													 boolean left) {
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
+			if (dl == null) {
+				return false;
+			}
 			if (!dl.isOptionsVisible()) {
 				dl.toggleOptions();
 			}
@@ -1643,10 +1646,13 @@ public abstract class GlobalKeyDispatcher {
 		if (selection.getSelectedGeos().size() == 1) {
 			GeoElement geo = selection.getSelectedGeos().get(0);
 			if (geo.isGeoList()) {
-				DrawDropDownList.asDrawable(app, geo).selectCurrentItem();
-				ScreenReader.readDropDownItemSelected(geo);
-				return true;
-			} else if (geo.isGeoInputBox()) {
+				DrawDropDownList dropdown = DrawDropDownList.asDrawable(app, geo);
+				if (dropdown != null) {
+					dropdown.selectCurrentItem();
+					ScreenReader.readDropDownItemSelected(geo);
+					return true;
+				}
+			} else if (geo.isGeoInputBox() && geo.isEuclidianVisible()) {
 				app.getActiveEuclidianView()
 						.focusAndShowTextField((GeoInputBox) geo);
 			}

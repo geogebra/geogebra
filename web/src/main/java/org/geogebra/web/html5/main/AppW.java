@@ -30,12 +30,10 @@ import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
-import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -129,6 +127,8 @@ import org.geogebra.web.html5.safeimage.ImageLoader;
 import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
+import org.geogebra.web.html5.util.ArchiveEntry;
+import org.geogebra.web.html5.util.Base64;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
@@ -147,23 +147,23 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.core.ArrayBuffer;
+import elemental2.core.Uint8Array;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
 import elemental2.dom.FileReader;
+import elemental2.dom.HTMLImageElement;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -251,13 +251,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	};
 
-	Scheduler.ScheduledCommand sucCallback = new Scheduler.ScheduledCommand() {
-		@Override
-		public void execute() {
-			// 0.5 seconds is good for the user and maybe for the computer
-			// too
-			timeruc.schedule(500);
-		}
+	Scheduler.ScheduledCommand sucCallback = () -> {
+		// 0.5 seconds is good for the user and maybe for the computer
+		// too
+		timeruc.schedule(500);
 	};
 
 	/**
@@ -299,13 +296,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				.empty(getAppletParameters().getParamScaleContainerClass())) {
 			Browser.addMutationObserver(getParent(
 					getAppletParameters().getParamScaleContainerClass()),
-					new AsyncOperation<String>() {
-
-						@Override
-						public void callback(String obj) {
-							checkScaleContainer();
-						}
-					});
+					obj -> checkScaleContainer());
 		}
 	}
 
@@ -360,8 +351,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getScalerParent() != null) {
 			Style style = getScalerParent().getStyle();
 			double scale = geoGebraElement.getScaleX();
-			style.setWidth(getWidth() * scale, Unit.PX);
-			style.setHeight(getHeight() * scale, Unit.PX);
+			// check for zero size needed if applet is not visible in DOM
+			if (getWidth() > 0 && getHeight() > 0) {
+				style.setWidth(getWidth() * scale, Unit.PX);
+				style.setHeight(getHeight() * scale, Unit.PX);
+			}
 		}
 	}
 
@@ -727,29 +721,38 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @param dataUrl
 	 *            the data url to load the ggb file
-	 * @param isggs
-	 *            whether the extension is GGS
 	 */
-	public void loadGgbFileAsBase64Again(String dataUrl, boolean isggs) {
+	public void loadGgbFileAsBase64(String dataUrl) {
 		prepareReloadGgbFile();
 		ViewW view = getViewW();
+		view.processBase64String(dataUrl);
+	}
+
+	/**
+	 * Loads a binary file (ggb, ggs). In Notes the .ggb files are embedded to current slide.
+	 *
+	 * @param binary
+	 *            binary file
+	 * @param fileName
+	 *            file name, to decide whether to embed
+	 */
+	public void loadOrEmbedGgbFile(ArrayBuffer binary, String fileName) {
 		EmbedManager embedManager = getEmbedManager();
-		if (!isggs && embedManager != null) {
+		if (!fileName.endsWith("ggs") && embedManager != null) {
 			Material mat = new Material(-1, Material.MaterialType.ggb);
-			mat.setBase64(dataUrl);
+			mat.setBase64(Base64.bytesToBase64(new Uint8Array(binary)));
 			embedManager.embed(mat);
 		} else {
-			view.processBase64String(dataUrl);
+			loadGgbFileAsBinary(binary);
 		}
 	}
 
 	/**
-	 * Loads a binary file (ggb, ggs)
-	 *
+	 * Loads a binary file (ggb, ggs).
 	 * @param binary
 	 *            binary file
 	 */
-	public void loadGgbFileAsBinaryAgain(ArrayBuffer binary) {
+	public void loadGgbFileAsBinary(ArrayBuffer binary) {
 		prepareReloadGgbFile();
 		ViewW view = getViewW();
 		view.processBinaryData(binary);
@@ -776,7 +779,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		final GgbArchive def = new GgbArchive(archive, is3D());
 		// Handling of construction and macro file
 
-		String libraryJS = archive.remove(MyXMLio.JAVASCRIPT_FILE);
+		ArchiveEntry libraryJS = archive.remove(MyXMLio.JAVASCRIPT_FILE);
 
 		// Construction (required)
 		if (def.isInvalid()) {
@@ -793,7 +796,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (libraryJS == null) { // TODO: && !isGGTfile)
 			kernel.resetLibraryJavaScript();
 		} else {
-			kernel.setLibraryJavaScript(libraryJS);
+			kernel.setLibraryJavaScript(libraryJS.string);
 		}
 
 		// just to make SpotBugs happy
@@ -959,7 +962,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		kernel.initUndoInfo();
 		resetMaxLayerUsed();
 		setCurrentFile(null);
-		setMoveMode();
 
 		return true;
 	}
@@ -967,14 +969,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public final MyImage getExternalImageAdapter(String fileName, int width,
 			int height) {
-		ImageElement im = getImageManager().getExternalImage(fileName, this,
+		HTMLImageElement im = getImageManager().getExternalImage(fileName, this,
 				true);
 		if (im == null) {
 			return null;
 		}
 		if (width != 0 && height != 0) {
-			im.setWidth(width);
-			im.setHeight(height);
+			im.width = width;
+			im.height = height;
 		}
 		return new MyImageW(im, fileName.toLowerCase().endsWith(".svg"));
 	}
@@ -1029,24 +1031,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		resetUI();
-		resetPenTool();
 		resetUrl();
 	}
 
 	private void resetPages() {
 		if (pageController != null) {
 			pageController.resetPageControl();
-		}
-	}
-
-	/**
-	 * Selects Pen tool in whiteboard
-	 */
-	protected final void resetPenTool() {
-		if (isWhiteboardActive()) {
-			getActiveEuclidianView().getSettings()
-					.setLastPenThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
-			setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
 		}
 	}
 
@@ -1241,21 +1231,25 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		FileReader reader = new FileReader();
-		reader.addEventListener("load", (event) -> {
-			if (reader.readyState == FileReader.DONE) {
-				String fileStr = reader.result.asString();
-				if (fileName.matches(".*\\.(ggb|ggt|ggs)$")) {
-					loadGgbFileAsBase64Again(fileStr, fileName.endsWith(".ggs"));
+		if (fileName.matches(".*\\.(ggb|ggt|ggs)$")) {
+			reader.addEventListener("load",
+					(event) -> loadOrEmbedGgbFile(reader.result.asArrayBuffer(), fileName));
+			reader.readAsArrayBuffer(fileToHandle);
+		} else {
+			reader.addEventListener("load", (event) -> {
+				if (reader.readyState == FileReader.DONE) {
+					String fileStr = reader.result.asString();
+					if (fileName.endsWith(".csv")) {
+						openCSV(DomGlobal.atob(fileStr.substring(fileStr.indexOf(",") + 1)));
+					}
+					if (fileName.endsWith(".off")) {
+						openOFF(DomGlobal.atob(fileStr.substring(fileStr.indexOf(",") + 1)));
+					}
 				}
-				if (fileName.endsWith(".csv")) {
-					openCSV(DomGlobal.atob(fileStr.substring(fileStr.indexOf(",") + 1)));
-				}
-				if (fileName.endsWith(".off")) {
-					openOFF(DomGlobal.atob(fileStr.substring(fileStr.indexOf(",") + 1)));
-				}
-			}
-		});
-		reader.readAsDataURL(fileToHandle);
+			});
+			reader.readAsDataURL(fileToHandle);
+		}
+
 		return true;
 	}
 
@@ -1744,9 +1738,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		// update layout
 		updateTreeUI();
-
-		// reset mode and focus
-		set1rstMode();
 	}
 
 	/**
@@ -1984,7 +1975,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		kernel.setViewsLabels();
 		updateCommandDictionary();
 		setTitle();
-		setAltText();
 		translateHeader();
 	}
 
@@ -2018,24 +2008,24 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @return refresh applet image
 	 */
-	public ImageElement getRefreshViewImage() {
-		ImageElement imgE = ImageManagerW
+	public HTMLImageElement getRefreshViewImage() {
+		HTMLImageElement imgE = ImageManagerW
 				.getInternalImage(GuiResourcesSimple.INSTANCE.viewRefresh());
-		attachNativeLoadHandler(imgE);
+		imgE.addEventListener("load", (event) -> getActiveEuclidianView().updateBackground());
 		return imgE;
 	}
 
 	/**
 	 * @return play image
 	 */
-	public ImageElement getPlayImage() {
+	public HTMLImageElement getPlayImage() {
 		return ImageManagerW.getInternalImage(GuiResourcesSimple.INSTANCE.play_circle());
 	}
 
 	/**
 	 * @return pause image
 	 */
-	public ImageElement getPauseImage() {
+	public HTMLImageElement getPauseImage() {
 		return ImageManagerW.getInternalImage(
 				GuiResourcesSimple.INSTANCE.pause_circle());
 	}
@@ -2043,7 +2033,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @return play image with hover effect
 	 */
-	public ImageElement getPlayImageHover() {
+	public HTMLImageElement getPlayImageHover() {
 		String hoverColor = GeoGebraColorConstants.GEOGEBRA_ACCENT.toString();
 		return ImageManagerW.getInternalImage(
 				GuiResourcesSimple.INSTANCE.play_circle().withFill(hoverColor));
@@ -2052,7 +2042,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @return pause image with hover effect
 	 */
-	public ImageElement getPauseImageHover() {
+	public HTMLImageElement getPauseImageHover() {
 		String hoverColor = GeoGebraColorConstants.GEOGEBRA_ACCENT.toString();
 		return ImageManagerW.getInternalImage(
 				GuiResourcesSimple.INSTANCE.pause_circle().withFill(hoverColor));
@@ -2214,7 +2204,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void closePopups() {
 		closePopupsNoTooltips();
-		ToolTipManagerW.hideAllToolTips();
+		ToolTipManagerW.sharedInstance().hideTooltip();
 
 		if (!isUnbundled() && getGuiManager() != null
 				&& getGuiManager().hasAlgebraView()) {
@@ -2225,7 +2215,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getActiveEuclidianView().getEuclidianController()
 					.setObjectMenuActive(false);
 		}
-		//hideSymbolicEditors();
 	}
 
 	/**
@@ -2387,21 +2376,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getGuiManager() != null) {
 			getGuiManager().updateToolbar();
 		}
-
-		if (isUnbundled()) {
-			return;
-		}
-		set1rstMode();
 	}
 
 	@Override
 	public void set1rstMode() {
 		setMoveMode();
-	}
-
-	@Override
-	public void uploadToGeoGebraTube() {
-		// no upload without UI
 	}
 
 	@Override
@@ -2477,41 +2456,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		showErrorDialog(translatedError + ":\n" + error);
 	}
 
-	/**
-	 * Show message in a popup
-	 *
-	 * @param message
-	 *            message
-	 * @param title
-	 *            popup title
-	 */
-	public void showMessage(final String message, final String title) {
-		getOptionPane().showConfirmDialog(message, title,
-				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE,
-				null);
-	}
-
-	/**
-	 * @param content
-	 *            content
-	 * @param title
-	 *            popup title
-	 * @param buttonText
-	 *            button text
-	 * @param handler
-	 *            button click handler
-	 *
-	 */
-	public void showMessage(final HTML content, final String title,
-			String buttonText, AsyncOperation<String[]> handler) {
-		content.addStyleName("examContent");
-		ScrollPanel scrollPanel = new ScrollPanel(content);
-		scrollPanel.addStyleName("examScrollPanel");
-		getOptionPane().showConfirmDialog(scrollPanel, title,
-				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE,
-				buttonText, null, handler);
-	}
-
 	@Override
 	public void showErrorDialog(final String msg) {
 		if (!isErrorDialogsActive()) {
@@ -2562,20 +2506,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		Js.asPropertyMap(DomGlobal.document).set("ggbApplet", api);
 		Js.asPropertyMap(DomGlobal.window).set("ggbApplet", api);
 	}
-
-	public void attachNativeLoadHandler(ImageElement img) {
-		addNativeLoadHandler(img, getActiveEuclidianView());
-	}
-
-	private native void addNativeLoadHandler(ImageElement img,
-			EuclidianView view) /*-{
-		img
-				.addEventListener(
-						"load",
-						function() {
-							view.@org.geogebra.web.html5.euclidian.EuclidianViewW::updateBackground()();
-						});
-	}-*/;
 
 	// ============================================
 	// LAYOUT & GUI UPDATES
@@ -3226,7 +3156,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		});
 	}
 
-	public static native Element getHiddenTextArea() /*-{
+	public static native TextAreaElement getHiddenTextArea() /*-{
 		var hiddenTextArea = $doc.getElementById('hiddenCopyPasteTextArea');
 		if (!hiddenTextArea) {
 			hiddenTextArea = $doc.createElement("textarea");
@@ -3297,6 +3227,20 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public boolean isUnbundled3D() {
 		return "3d".equals(getSubAppCode());
+	}
+
+	/**
+	 * @return whether we are running suite
+	 */
+	public boolean isSuite() {
+		return "suite".equals(getConfig().getAppCode());
+	}
+
+	/**
+	 * @return whether we are running cas
+	 */
+	public boolean isUnbundledCas() {
+		return "cas".equals(getSubAppCode());
 	}
 
 	/**
@@ -3395,12 +3339,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void copyImageToClipboard(String dataURI) {
-		if (!Clipboard.isCopyImageToClipboardAvailable()) {
+		if (!ClipboardUtil.isCopyImageToClipboardAvailable()) {
 			Log.debug("window.copyGraphicsToClipboard() not available");
 			return;
 		}
 		try {
-			Clipboard.copyGraphicsToClipboard(dataURI);
+			ClipboardUtil.copyGraphicsToClipboard(dataURI);
 		} catch (Exception e) {
 			Log.warn("Clipboard API is new and maybe half-implemented in your browser.");
 		}

@@ -43,8 +43,6 @@
  */
 package com.himamis.retex.renderer.web.graphics;
 
-import com.google.gwt.canvas.dom.client.Context2d.LineCap;
-import com.google.gwt.canvas.dom.client.Context2d.LineJoin;
 import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
 
 public class BasicStrokeW implements BasicStroke {
@@ -95,29 +93,29 @@ public class BasicStrokeW implements BasicStroke {
 		return miterLimit;
 	}
 
-	public LineCap getJSLineCap() {
+	public String getJSLineCap() {
 		switch (cap) {
 		case CAP_BUTT:
-			return LineCap.BUTT;
+			return "butt";
 		case CAP_ROUND:
-			return LineCap.ROUND;
+			return "rund";
 		case CAP_SQUARE:
-			return LineCap.SQUARE;
+			return "square";
 		default:
-			return LineCap.BUTT;
+			return "butt";
 		}
 	}
 
-	public LineJoin getJSLineJoin() {
+	public String getJSLineJoin() {
 		switch (join) {
 		case JOIN_BEVEL:
-			return LineJoin.BEVEL;
+			return "bevel";
 		case JOIN_MITER:
-			return LineJoin.MITER;
+			return "miter";
 		case JOIN_ROUND:
-			return LineJoin.ROUND;
+			return "round";
 		default:
-			return LineJoin.BEVEL;
+			return "bevel";
 		}
 	}
 

@@ -48,9 +48,6 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/general/geogebra64.png")
 	ImageResource geogebra64();
 
-	@Source("org/geogebra/common/icons/png/web/general/header_column.png")
-	ImageResource header_column();
-
 	@Source("org/geogebra/common/icons/png/web/general/algebra_hidden.png")
 	ImageResource hidden();
 
@@ -95,8 +92,4 @@ public interface AppResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_data_analysis_show_2nd_plot.png")
 	ImageResource dataview_showplot2();
-
-	@Source("org/geogebra/common/icons/png/web/stylingbar/stylebar_angle_interval.png")
-	ImageResource stylingbar_angle_interval();
-
 }

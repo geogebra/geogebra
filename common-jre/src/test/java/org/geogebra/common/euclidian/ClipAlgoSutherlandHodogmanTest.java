@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.kernel.MyPoint;
 import org.junit.Test;
@@ -92,7 +93,7 @@ public class ClipAlgoSutherlandHodogmanTest {
 		input.add(new MyPoint(x, y));
 	}
 
-	private ArrayList<MyPoint> processAlgo() {
+	private List<MyPoint> processAlgo() {
 		return algo.process(input, defaultClipPolygon);
 	}
 

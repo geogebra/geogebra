@@ -182,7 +182,6 @@ task copyHtml {
         }
 
         appSpecs.each { app ->
-            def appID = app.id.split("-")[0]
             def replaceHtml = app.id == "classic" ? classicHtml : appHtml
             file("war/${app.id}-offline.html").text = english(replaceHtml(app, false, true), app.title)
             file("war/${app.id}.html").text = english(replaceHtml(app, true), app.title)
@@ -191,6 +190,7 @@ task copyHtml {
             }
         }
         file("war/calculator.html").text = file("war/suite.html").text
+        file("war/notes-murokdev.html").text = file("war/notes.html").text.replace('<!--LANGUAGE LINKS-->', '<script src="http://localhost:8080/murok.js"></script>');
     }
 }
 
@@ -198,7 +198,6 @@ task copyHandlebars {
     doLast {
         def handlebarsDir = project.getProperty("handlebarsDir")
         appSpecs.each { app ->
-            def appID = app.id.split("-")[0]
             def replaceHtml = app.id == "classic" ? classicHtml : appHtml
 
             def templatePath =  "${handlebarsDir}/${app.id}-template.handlebars"

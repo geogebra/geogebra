@@ -30,9 +30,9 @@ import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
+import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.PDFEncoderW;
 
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -48,6 +48,8 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+
+import elemental2.dom.CanvasRenderingContext2D;
 
 /**
  * controller for page actions, such as delete or add slide
@@ -178,7 +180,7 @@ public class PageListController implements PageListControllerInterface,
 		int currentIndex = selectedCard.getPageIndex();
 		savePreviewCard(selectedCard);
 
-		Context2d ctx = PDFEncoderW.getContext(width, height);
+		CanvasRenderingContext2D ctx = PDFEncoderW.getContext(width, height);
 
 		if (ctx == null) {
 			Log.debug("canvas2PDF not found");
@@ -369,7 +371,7 @@ public class PageListController implements PageListControllerInterface,
 		if (!archive.containsKey(GgbFile.STRUCTURE_JSON)) {
 			return false;
 		}
-		String structure = archive.remove(GgbFile.STRUCTURE_JSON);
+		String structure = archive.remove(GgbFile.STRUCTURE_JSON).string;
 		slides.clear();
 
 		try {
@@ -423,7 +425,7 @@ public class PageListController implements PageListControllerInterface,
 
 	private static GgbFile filter(GgbFile archive, String prefix) {
 		GgbFile ret = new GgbFile();
-		for (Entry<String, String> e : archive.entrySet()) {
+		for (Entry<String, ArchiveEntry> e : archive.entrySet()) {
 			if (e.getKey().startsWith(prefix + "/")
 					|| e.getKey().startsWith(GgbFile.SHARED_PREFIX)) {
 				ret.put(e.getKey().substring(prefix.length() + 1),

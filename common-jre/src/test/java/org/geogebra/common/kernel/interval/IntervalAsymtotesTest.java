@@ -91,6 +91,12 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void absOfXInverse() {
+		IntervalTupleList tuples = functionValues("abs(1/x)", -1, 1, -8, 8);
+		assertTrue(tuples.valueAt(49).isUndefined());
+	}
+
+	@Test
 	public void squareRootOfTanX() {
 		IntervalTupleList tuples = functionValues("sqrt(tan(x))", 0, 3 * PI, -8, 8);
 		assertEquals(tuples.valueAt(54).getLow(), tuples.valueAt(53).getHigh(), 0);

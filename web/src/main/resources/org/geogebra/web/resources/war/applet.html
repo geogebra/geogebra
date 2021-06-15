@@ -275,12 +275,15 @@
 					resizer.style.top = (y - 24) + "px";
 				}
 			});
+			document.getElementById("hide").addEventListener("click", function(e) {
+				document.getElementById("settings").style.display = "none";
+			});
 		});
 	</script>
 </head>
 <body>
 	<button id="snap">SCREENSHOT</button>
-	<div id="settings"></div>
+	<div id="settings"><button id="hide">Hide settings</button></div>
 	<div id="scaleContainer">
 		<div>
 			<div id="parent"></div>

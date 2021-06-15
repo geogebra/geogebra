@@ -252,19 +252,18 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 			return;
 		}
 
-		setDefined();
-
-		coordSys = cs;
-
 		points2D = new GeoPoint[points.length];
 		for (int i = 0; i < points.length; i++) {
 			points2D[i] = new GeoPoint(getConstruction(), true);
 		}
+		setDefined();
 
 		// if there's no coord sys, create it with points
-		if (coordSys == null) {
+		if (cs == null) {
 			coordSys = new CoordSys(2);
 			updateCoordSys();
+		} else {
+			coordSys = cs;
 		}
 	}
 

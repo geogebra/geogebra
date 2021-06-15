@@ -14,7 +14,6 @@ import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
-import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.StringUtil;
@@ -162,11 +161,6 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	@Override
-	public void sync(long i, SyncCallback syncCallback) {
-		// offline materials not supported
-	}
-
-	@Override
 	public boolean isCheckDone() {
 		return this.availabilityCheckDone;
 	}
@@ -257,7 +251,7 @@ public class MaterialRestAPI implements BackendAPI {
 
 		performRequest("GET",
 				"/users/" + model.getUserId()
-						+ "/materials?limit=30&embed=creator&order="
+						+ "/materials?limit=50&embed=creator&order="
 						+ orderStr(order),
 				null, userMaterialsCB);
 	}
@@ -272,7 +266,7 @@ public class MaterialRestAPI implements BackendAPI {
 
 		performRequest("GET",
 				"/users/" + model.getUserId()
-						+ "/materials?type=shared_with&embed=creator&order="
+						+ "/materials?type=shared_with&embed=creator&limit=50&order="
 						+ orderStr(order),
 				null, sharedMaterialsCB);
 	}

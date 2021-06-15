@@ -19,7 +19,6 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.util.AdvancedFocusPanel;
 import org.geogebra.web.full.gui.util.AdvancedFocusPanelI;
 import org.geogebra.web.html5.awt.PrintableW;
@@ -36,11 +35,8 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
-//import geogebra.web.gui.inputfield.MyTextField;
-//import geogebra.web.gui.view.Gridable;
 
 public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		SettingListener, SetLabels, PrintableW {
@@ -189,10 +185,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		return table;
 	}
 
-	/*
-	 * public JViewport getRowHeader() { return spreadsheet.getRowHeader(); }
-	 */
-
 	@Override
 	public void rowHeaderRevalidate() {
 		// TODO//spreadsheet.getRowHeader().revalidate();
@@ -226,7 +218,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	 * Attach to kernel & add all.
 	 */
 	public void attachView() {
-		// clearView();
 		kernel.notifyAddAll(this);
 		kernel.attach(this);
 	}
@@ -236,8 +227,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	 */
 	public void detachView() {
 		kernel.detach(this);
-		// clearView();
-		// kernel.notifyRemoveAll(this);
 	}
 
 	@Override
@@ -284,7 +273,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		case LIST:
 			table.getOneClickEditMap().remove(location);
 		}
-		// scheduleRepaint();
 
 		if (location != null) {
 			table.updateCellFormat(location.y, location.x);
@@ -298,14 +286,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	@Override
 	public void rename(GeoElement geo) {
-
-		/*
-		 * if(app.getTraceManager().isTraceGeo(geo))
-		 * app.getTraceManager().updateTraceSettings(geo);
-		 */
-		/*
-		 * TODO if (isTraceDialogVisible()) { traceDialog.updateTraceDialog(); }
-		 */
+		// TODO
 	}
 
 	@Override
@@ -338,30 +319,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		}
 
 		this.mode = mode;
-		/*
-		 * TODO if (isTraceDialogVisible()) {
-		 * traceDialog.toolbarModeChanged(mode); }
-		 * 
-		 * // String command = kernel.getModeText(mode); // e.g. "Derivative"
-		 * 
-		 * toolbarManager.handleModeChange(mode);
-		 */
-
 		toolbarManager.handleModeChange(mode);
-		// switch(mode){
-		// case EuclidianConstants.MODE_SPREADSHEET_SUM:
-		// case EuclidianConstants.MODE_SPREADSHEET_AVERAGE:
-		// case EuclidianConstants.MODE_SPREADSHEET_COUNT:
-		// case EuclidianConstants.MODE_SPREADSHEET_MIN:
-		// case EuclidianConstants.MODE_SPREADSHEET_MAX:
-		//
-		// // Handle autofunction modes
-		//
-		// table.setTableMode(MyTable.TABLE_MODE_AUTOFUNCTION);
-		//
-		// break;
-		// default:
-		// }
 	}
 
 	/**
@@ -449,41 +407,13 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	// =====================================================
-	// Formula Bar
-	// =====================================================
-
-	/*
-	 * public void updateFormulaBar() { if (formulaBar != null &&
-	 * settings().showFormulaBar()) formulaBar.update(); }
-	 */
-
-	// =====================================================
 	// Tracing
 	// =====================================================
 
 	@Override
 	public void showTraceDialog(GeoElement geo, CellRange traceCell) {
-
 		// not implemented yet
-
-		// if (traceDialog == null) {
-		// traceDialog = new TraceDialog(app, geo, traceCell);
-		// } else {
-		// traceDialog.setTraceDialogSelection(geo, traceCell);
-		// }
-		// traceDialog.setVisible(true);
 	}
-
-	/*
-	 * public boolean isTraceDialogVisible() { return (traceDialog != null &&
-	 * traceDialog.isVisible()); }
-	 */
-
-	/*
-	 * public CellRange getTraceSelectionRange(int anchorColumn, int anchorRow)
-	 * { if (traceDialog == null) { return null; } return
-	 * traceDialog.getTraceSelectionRange(anchorColumn, anchorRow); }
-	 */
 
 	/**
 	 * @param enableMode
@@ -593,18 +523,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		table.setRowHeight(row, height);
 	}
 
-	/*
-	 * TODO public void updateColumnWidths() { Font font = app.getPlainFont();
-	 * 
-	 * int size = font.getSize(); if (size < 12) { size = 12; // minimum size }
-	 * double multiplier = (size) / 12.0; table.setPreferredColumnWidth((int)
-	 * (SpreadsheetSettings.TABLE_CELL_WIDTH * multiplier)); for (int i = 0; i <
-	 * table.getColumnCount(); ++i) { table.getColumnModel().getColumn(i)
-	 * .setPreferredWidth(table.preferredColumnWidth()); }
-	 * 
-	 * }
-	 */
-
 	/**
 	 * Update column widths from settings.
 	 */
@@ -640,11 +558,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 			}
 		}
 	}
-
-	/*
-	 * public void updateRowHeader() { if (rowHeader != null) {
-	 * rowHeader.updateRowHeader(); } }
-	 */
 
 	/**
 	 * @param hScroll
@@ -695,7 +608,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	 *            whether to show grid
 	 */
 	public void setShowGrid(boolean showGrid) {
-		// table.setShowGrid(showGrid);
 		if (showGrid) {
 			table.getGrid().getElement().removeClassName("off");
 		} else {
@@ -758,17 +670,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		settings().addListener(this);
 	}
 
-	/*
-	 * protected void updateAllRowSettings() { if (!allowSettingUpate) return;
-	 * 
-	 * settings().removeListener(this);
-	 * settings().setPreferredRowHeight(table.getRowHeight());
-	 * settings().getHeightMap().clear(); for (int row = 0; row <
-	 * table.getRowCount(); row++) { int rowHeight = table.getRowHeight(row); if
-	 * (rowHeight != table.getRowHeight()) settings().getHeightMap().put(row,
-	 * rowHeight); } settings().addListener(this); }
-	 */
-
 	protected void updateRowHeightSetting(int row, int height) {
 		if (!allowSettingUpdate) {
 			return;
@@ -811,20 +712,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		settings().addListener(this);
 	}
 
-	/*
-	 * protected void updateAllColumnWidthSettings() { if (!allowSettingUpate)
-	 * return;
-	 * 
-	 * settings().removeListener(this);
-	 * settings().setPreferredColumnWidth(table.preferredColumnWidth);
-	 * settings().getWidthMap().clear(); for (int col = 0; col <
-	 * table.getColumnCount(); col++) { TableColumn column =
-	 * table.getColumnModel().getColumn(col); int colWidth = column.getWidth();
-	 * if (colWidth != table.preferredColumnWidth)
-	 * settings().getWidthMap().put(col, colWidth); }
-	 * settings().addListener(this); }
-	 */
-
 	protected SpreadsheetSettings settings() {
 		return app.getSettings().getSpreadsheet();
 	}
@@ -853,8 +740,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		setShowVScrollBar(settings().showVScrollBar());
 		setShowHScrollBar(settings().showHScrollBar());
 		setShowGrid(settings().showGrid());
-		// ? setAllowToolTips(settings().allowToolTips());
-		// ?//setShowFormulaBar(settings().showFormulaBar());
 		updateAllowSpecialEditor();
 		setEqualsRequired(settings().equalsRequired());
 		setEnableAutoComplete(settings().isEnableAutoComplete());
@@ -870,13 +755,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		// preferredSize
 		setPreferredSize(settings().preferredSize().getWidth(),
 				settings().preferredSize().getHeight());
-
-		// initial position
-		// TODO not working yet ...
-		// setSpreadsheetScrollPosition(settings.scrollPosition().x,
-		// settings.scrollPosition().y);
-		// getTable().setInitialCellSelection(settings.selectedCell().x,
-		// settings.selectedCell().y);
 
 		allowSettingUpdate = true;
 		if (getFocusPanel().getParent() == null) {
@@ -894,8 +772,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	 *            height
 	 */
 	public void setPreferredSize(int width, int height) {
-		// getScrollPanel().setWidth(width + "px");
-		// getScrollPanel().setHeight(height + "px");
 		if (width > 0 && height > 0) {
 			spreadsheetWrapper.setWidth(width + "px");
 			spreadsheetWrapper.setHeight(height + "px");
@@ -905,17 +781,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// ================================================
 	// Focus
 	// ================================================
-
-	/*
-	 * protected boolean hasViewFocus() { boolean hasFocus = false; try { if
-	 * (((LayoutW) app.getGuiManager().getLayout()).getDockManager()
-	 * .getFocusedPanel() != null) co hasFocus = ((LayoutW)
-	 * app.getGuiManager().getLayout()).getDockManager()
-	 * .getFocusedPanel().isAncestorOf(this); } catch (Exception e) {
-	 * e.printStackTrace(); }
-	 * 
-	 * return hasFocus; }
-	 */
 
 	/**
 	 * Focus this view (deferred)
@@ -933,30 +798,11 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		}
 	};
 
-	// test all components of SpreadsheetView for hasFocus
-	// @Override
 	@Override
 	public boolean hasFocus() {
-		return ((DockManagerW) app.getGuiManager().getLayout().getDockManager())
+		return app.getGuiManager().getLayout().getDockManager()
 				.getFocusedViewId() == App.VIEW_SPREADSHEET;
-		/*
-		 * TODO if (table == null) return false; return table.hasFocus() ||
-		 * rowHeader.hasFocus () || (table.getTableHeader () != null && table
-		 * .getTableHeader() .hasFocus()) || spreadsheet .getCorner
-		 * (ScrollPaneConstants . UPPER_LEFT_CORNER ) .hasFocus() || (formulaBar
-		 * != null && formulaBar .hasFocus());
-		 */
 	}
-
-	/*
-	 * public void focusGained(FocusEvent arg0) {
-	 * 
-	 * }
-	 * 
-	 * public void focusLost(FocusEvent arg0) { getTable().repaint();
-	 * 
-	 * }
-	 */
 
 	@Override
 	public int getViewID() {
@@ -1031,10 +877,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		return spreadsheetWrapper.asWidget();
 	}
 
-	// public ScrollPanel getScrollPanel() {
-	// return this;
-	// }
-
 	@Override
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
@@ -1056,7 +898,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	 *            height in px
 	 */
 	public void onResize(int width, int height) {
-		// Log.debug("spreadsheet wrapper size: " + width + " , " + height);
 		if (width <= 0 || height <= 0) {
 			return;
 		}
@@ -1099,8 +940,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	@Override
-	public void getPrintable(FlowPanel pPanel, Button btPrint) {
-		// pPanel.add(table.);
+	public void getPrintable(FlowPanel pPanel, Runnable enablePrintBtn) {
+		// nothing to do here
 	}
 
 	public boolean isKeyboardEnabled() {

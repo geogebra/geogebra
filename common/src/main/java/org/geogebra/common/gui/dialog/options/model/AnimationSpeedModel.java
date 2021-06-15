@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -107,7 +108,7 @@ public class AnimationSpeedModel extends MultipleOptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			geo.setAnimationSpeedObject(value);
-			geo.updateCascade();
+			geo.updateVisualStyle(GProperty.COMBINED);
 		}
 		if (kernel.getAnimatonManager() != null) {
 			kernel.getAnimatonManager().updateNeedToShowAnimationButton();

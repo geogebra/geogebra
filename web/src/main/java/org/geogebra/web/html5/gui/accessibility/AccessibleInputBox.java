@@ -3,35 +3,36 @@ package org.geogebra.web.html5.gui.accessibility;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 public class AccessibleInputBox implements AccessibleWidget {
 	private final GeoInputBox geo;
-	private final AutoCompleteTextFieldW inputBox;
+	private final GTextBox inputBox;
 	private final FormLabel formLabel;
+	private final AppW app;
 
 	/**
 	 * @param geo input box
 	 * @param app app
-	 * @param view accessibility view
 	 */
-	public AccessibleInputBox(GeoInputBox geo, AppW app, final AccessibilityView view) {
+	public AccessibleInputBox(GeoInputBox geo, AppW app) {
 		this.geo = geo;
-		this.inputBox = new AutoCompleteTextFieldW(-1, app);
+		this.app = app;
+		this.inputBox = new GTextBox();
 		this.formLabel = new FormLabel();
 		formLabel.setFor(inputBox);
-		inputBox.setUsedForInputBox(geo);
-		inputBox.addFocusHandler(new FocusHandler() {
-			@Override
-			public void onFocus(FocusEvent focusEvent) {
-				view.show();
+		inputBox.addStyleName("accessibleInput");
+		inputBox.addKeyDownHandler(event -> {
+			if (event.getNativeKeyCode() == GWTKeycodes.KEY_ENTER) {
+				geo.updateLinkedGeo(inputBox.getText());
 			}
 		});
 		update();
@@ -44,12 +45,36 @@ public class AccessibleInputBox implements AccessibleWidget {
 
 	@Override
 	public void update() {
-		formLabel.setText(geo.getAuralText());
+		// TODO if the box remains hidden, it can't be reached with screenreader
+		// if it's shown, it blocks touch events
+		// AccessibleDropDown.updatePosition(geo, inputBox, app);
+		formLabel.setText(geo.getAuralText() + getErrorText());
 		inputBox.setText(geo.getTextForEditor());
+	}
+
+	private String getErrorText() {
+		if (geo.getTempUserDisplayInput() != null) {
+			return " " + getErrorText(app.getLocalization());
+		}
+		return "";
+	}
+
+	/**
+	 * @param loc localization
+	 * @return message for syntax error
+	 */
+	public static String getErrorText(Localization loc) {
+		return loc.getMenuDefault("InputContainsSyntaxError",
+				"The input you entered contains a syntax error");
 	}
 
 	@Override
 	public void setFocus(boolean focus) {
 		inputBox.setFocus(focus);
+	}
+
+	@Override
+	public boolean isCompatible(GeoElement geo) {
+		return true;
 	}
 }

@@ -62,11 +62,11 @@
 		&:hover, &.active, &.selected, &.gwt-ToggleButton-down {
 			border: $mow_primary solid 1px;
 		}
+	}
 
-		&.withIcon {
-			.buttonContent {
-				opacity: 0.7;
-			}
+	&.withIcon {
+		.buttonContent {
+			opacity: 0.7;
 		}
 	}
 

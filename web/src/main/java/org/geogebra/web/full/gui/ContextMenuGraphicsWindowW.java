@@ -143,13 +143,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 						MaterialDesignResources.INSTANCE.color_black()
 								.getSafeUri().asString(),
 						loc.getMenu("BackgroundColor")),
-				true, new Command() {
-
-					@Override
-					public void execute() {
-						openColorChooser();
-					}
-				});
+				true, this::openColorChooser);
 		wrappedPopup.addItem(miBackgroundCol);
 	}
 
@@ -199,12 +193,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				.getSafeUri().asString();
 		AriaMenuItem miClearTrace = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
 				imgClearTrace, loc.getMenu("ClearTrace")), true,
-				new Command() {
-			        @Override
-					public void execute() {
-						app.refreshViews();
-			        }
-		        });
+				(Command) () -> app.refreshViews());
 		wrappedPopup.addItem(miClearTrace);
 	}
 
@@ -264,22 +253,18 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		final GCheckmarkMenuItem snapToGrid = new GCheckmarkMenuItem(
 				MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("SnapToGrid")),
 				isSnapToGrid);
-		snapToGrid.setCommand(new Command() {
-			@Override
-			public void execute() {
-
-				app.getEuclidianView1().setPointCapturing(isSnapToGrid
+		snapToGrid.setCommand(() -> {
+			app.getEuclidianView1().setPointCapturing(isSnapToGrid
+					? EuclidianStyleConstants.POINT_CAPTURING_OFF
+					: EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
+			if (app.hasEuclidianView2EitherShowingOrNot(1)) {
+				app.getEuclidianView2(1).setPointCapturing(isSnapToGrid
 						? EuclidianStyleConstants.POINT_CAPTURING_OFF
 						: EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
-				if (app.hasEuclidianView2EitherShowingOrNot(1)) {
-					app.getEuclidianView2(1).setPointCapturing(isSnapToGrid
-							? EuclidianStyleConstants.POINT_CAPTURING_OFF
-							: EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
-				}
-				snapToGrid.setChecked(!isSnapToGrid);
-				app.getGuiManager().updatePropertiesView();
-				app.storeUndoInfo();
 			}
+			snapToGrid.setChecked(!isSnapToGrid);
+			app.getGuiManager().updatePropertiesView();
+			app.storeUndoInfo();
 		});
 		wrappedPopup.addItem(snapToGrid);
 	}

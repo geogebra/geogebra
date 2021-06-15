@@ -56,14 +56,13 @@ public class CommandOpName extends Command {
 
 	private final String name;
 	private final String post;
-	private final int limits;
+	private final boolean limits;
 
 	public CommandOpName(final String name, final String post,
 			final boolean limits) {
 		this.name = name;
 		this.post = post;
-		this.limits = limits ? TeXConstants.SCRIPT_LIMITS
-				: TeXConstants.SCRIPT_NOLIMITS;
+		this.limits = limits;
 	}
 
 	public CommandOpName(final String name, final boolean limits) {
@@ -72,6 +71,11 @@ public class CommandOpName extends Command {
 
 	@Override
 	public boolean init(TeXParser tp) {
+		tp.addToConsumer(createOperation(name, post, limits));
+		return false;
+	}
+
+	public static Atom createOperation(String name, String post, boolean limits) {
 		Atom a;
 		if (post == null) {
 			a = new RomanAtom(TeXParser.getAtomForLatinStr(name, true));
@@ -82,10 +86,8 @@ public class CommandOpName extends Command {
 			a = new RomanAtom(TeXParser.getAtomForLatinStr(post, ra, true));
 		}
 		a = a.changeType(TeXConstants.TYPE_BIG_OPERATOR);
-		a.type_limits = limits;
-		tp.addToConsumer(a);
-
-		return false;
+		a.type_limits = limits ? TeXConstants.SCRIPT_LIMITS
+				: TeXConstants.SCRIPT_NOLIMITS;
+		return a;
 	}
-
 }

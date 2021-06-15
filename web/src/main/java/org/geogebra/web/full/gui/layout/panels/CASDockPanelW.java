@@ -26,14 +26,7 @@ public class CASDockPanelW extends NavigableDockPanelW {
 	 *            application
 	 */
 	public CASDockPanelW(App appl) {
-		super(App.VIEW_CAS, // view id
-				"CAS", // view title phrase
-				getDefaultToolbar(), // toolbar string
-				true, // style bar?
-				4, // menu order
-				'K' // ctrl-shift-K
-		);
-
+		super(App.VIEW_CAS,	getDefaultToolbar(), true);
 		app = (AppW) appl;
 	}
 

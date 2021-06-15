@@ -26,8 +26,6 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.main.MyImageW;
-import org.geogebra.web.html5.util.ImageLoadCallback;
-import org.geogebra.web.html5.util.ImageWrapper;
 
 import com.google.gwt.core.client.Scheduler;
 
@@ -111,30 +109,17 @@ public class AwtFactoryW extends AwtFactoryHeadless {
 			} else if (repaintsFromHereInProgress == 0) {
 				// the if condition makes sure there will be no infinite loop
 
-				// note: AFAIK (?), DOM's addEventListener method can add more
-				// listeners
-				ImageWrapper.nativeon(((GBufferedImageW) gi).getImageElement(),
-						"load", new ImageLoadCallback() {
-							@Override
-							public void onLoad() {
-								if (!repaintDeferred) {
-									repaintDeferred = true;
-									// otherwise, at the first time, issue a
-									// complete repaint
-									// but schedule it deferred to avoid
-									// conflicts
-									// in repaints
-									Scheduler.get().scheduleDeferred(
-											new Scheduler.ScheduledCommand() {
-												@Override
-												public void execute() {
-													doRepaint(app);
-												}
-
-											});
-								}
-							}
-						});
+				((GBufferedImageW) gi).getImageElement().addEventListener("load", (event) -> {
+						if (!repaintDeferred) {
+							repaintDeferred = true;
+							// otherwise, at the first time, issue a
+							// complete repaint
+							// but schedule it deferred to avoid
+							// conflicts
+							// in repaints
+							Scheduler.get().scheduleDeferred(() -> doRepaint(app));
+						}
+				});
 			}
 		}
 	}

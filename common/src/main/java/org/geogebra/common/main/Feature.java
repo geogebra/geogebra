@@ -23,9 +23,6 @@ public enum Feature {
 	/** SolveQuartic in CAS GGB-1635 */
 	SOLVE_QUARTIC,
 
-	/** MOW-88 */
-	MOW_DIRECT_FORMULA_CONVERSION,
-
 	/** MOB-1319 */
 	MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11,
 
@@ -41,15 +38,9 @@ public enum Feature {
 	/** GGB-2255 */
 	GEOMETRIC_DISCOVERY,
 
-	/** Csilla Master */
-	SPEECH_RECOGNITION,
-
 	/** G3D-343 */
 	G3D_SELECT_META,
 
 	/** APPS-890 */
 	AUTOLABEL_CAS_SETTINGS,
-
-	/** APPS-1035 */
-	SYMBOLIC_INPUTFIELDS
 }

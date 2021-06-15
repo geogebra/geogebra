@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.geogebra.common.jre.headless.LocalizationCommon;
+import org.geogebra.common.jre.headless.Utf8Control;
 import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.lang.Language;
@@ -11,43 +13,18 @@ import org.geogebra.common.util.lang.Language;
 /**
  * Desktop localization
  */
-public class LocalizationD extends LocalizationJre {
-
-	private static final String PROPERTIES_DIR = "/org/geogebra/common/jre/properties/";
-	/** path to menu */
-	static final String RB_MENU = PROPERTIES_DIR + "menu";
-	/** path to commands */
-	static final String RB_COMMAND = PROPERTIES_DIR + "command";
-	private static final String RB_ERROR = PROPERTIES_DIR + "error";
-	private static final String RB_SYMBOL = PROPERTIES_DIR + "symbols";
-	/** path to javaui properties (without extension) */
-	public static final String RB_JAVA_UI = PROPERTIES_DIR + "javaui";
-	private static final String RB_COLORS = PROPERTIES_DIR + "colors";
+public class LocalizationD extends LocalizationCommon {
 
 	/**
-	 * @param dimension
-	 *            3 for 3D
+	 * @param dimension 3 for 3D
 	 */
 	public LocalizationD(int dimension) {
 		super(dimension);
-	}
-
-	private static Object lock = new Object();
-
-	@Override
-	protected ArrayList<Locale> getSupportedLocales() {
-		return getSupportedLocales(
-				app != null && app.has(Feature.ALL_LANGUAGES));
-	}
-
-	@Override
-	protected Locale getCommandLocale() {
-		return currentLocale;
+		setResourceBundleControl(new Utf8Control());
 	}
 
 	/**
-	 * @param prerelease
-	 *            whether we also have prereleased languages
+	 * @param prerelease whether we also have prereleased languages
 	 * @return locales
 	 */
 	@Override
@@ -83,36 +60,4 @@ public class LocalizationD extends LocalizationJre {
 
 		return supportedLocales;
 	}
-
-	@Override
-	protected ResourceBundle createBundle(String key, Locale locale) {
-		return MyResourceBundle.createBundle(key, locale);
-	}
-
-	@Override
-	protected String getMenuRessourcePath() {
-		return RB_MENU;
-	}
-
-	@Override
-	protected String getCommandRessourcePath() {
-		return RB_COMMAND;
-	}
-
-	@Override
-	protected String getColorRessourcePath() {
-		return RB_COLORS;
-	}
-
-	@Override
-	protected String getErrorRessourcePath() {
-		return RB_ERROR;
-	}
-
-	@Override
-	protected String getSymbolRessourcePath() {
-		return RB_SYMBOL;
-	}
-
-
 }

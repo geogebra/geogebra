@@ -61,7 +61,7 @@ public class PanelTransitioner {
 
 	private void hideNotNeededElements() {
 		mainFrame.keyBoardNeeded(false, null);
-		ToolTipManagerW.hideAllToolTips();
+		ToolTipManagerW.sharedInstance().hideTooltip();
 	}
 
 	private void hideFrameElements() {

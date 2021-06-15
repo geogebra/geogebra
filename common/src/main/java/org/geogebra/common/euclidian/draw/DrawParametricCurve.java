@@ -23,6 +23,7 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
@@ -55,7 +56,7 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Markus Hohenwarter, with ideas from John Gillam (see below)
  */
-public class DrawParametricCurve extends Drawable {
+public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 
 	private IntervalPlotter intervalPlotter;
 	private CurveEvaluable curve;
@@ -107,8 +108,8 @@ public class DrawParametricCurve extends Drawable {
 	private void createIntervalPlotter() {
 		intervalPlotter = new IntervalPlotter(view, gp);
 		if (this.geo != null && this.geo.isGeoFunction()) {
-			GeoFunction function = (GeoFunction) this.geo;
-			if (IntervalFunction.isSupported(function)) {
+			if (isIntervalPlotterPreferred()) {
+				GeoFunction function = (GeoFunction) this.geo;
 				intervalPlotter.enableFor(function);
 			} else {
 				intervalPlotter.disable();
@@ -135,7 +136,7 @@ public class DrawParametricCurve extends Drawable {
 	}
 
 	private void enableIntervalPlotterIfSupported() {
-		if (IntervalFunction.isSupported(geo)) {
+		if (isIntervalPlotterPreferred()) {
 			if (!intervalPlotter.isEnabled()) {
 				intervalPlotter.enableFor((GeoFunction) geo);
 			}
@@ -144,8 +145,12 @@ public class DrawParametricCurve extends Drawable {
 		}
 	}
 
+	private boolean isIntervalPlotterPreferred() {
+		return IntervalFunction.isSupported(geo) && !view.isPlotPanel();
+	}
+
 	private boolean isIntervalPlotterActive() {
-		return IntervalFunction.isSupported(geo)
+		return isIntervalPlotterPreferred()
 				&& intervalPlotter.isEnabled();
 	}
 
@@ -664,5 +669,12 @@ public class DrawParametricCurve extends Drawable {
 	public boolean isCompatibleWithGeo() {
 		// generic curve (parametric) or function R->R, but not inequality
 		return !curve.isFunctionInX() || geo.isGeoFunction();
+	}
+
+	@Override
+	public void remove() {
+		if (intervalPlotter != null) {
+			intervalPlotter.disable();
+		}
 	}
 }
