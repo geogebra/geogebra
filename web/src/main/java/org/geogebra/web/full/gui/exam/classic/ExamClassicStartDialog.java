@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.exam.classic;
 
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
@@ -160,14 +159,12 @@ public class ExamClassicStartDialog extends ComponentDialog implements ClickHand
 		DomGlobal.document.body.addEventListener("keyup", evt -> {
 			KeyboardEvent e = (KeyboardEvent) evt;
 			if ("Escape".equals(e.code) && app.isExam()) {
-				Log.error("event stopped");
 				e.preventDefault();
 			}
 		});
 		DomGlobal.document.body.addEventListener("keydown", evt -> {
 			KeyboardEvent e = (KeyboardEvent) evt;
 			if (("Tab".equals(e.code) || "Escape".equals(e.code)) && app.isExam()) {
-				Log.error("event stopped");
 				e.preventDefault();
 			}
 		});
@@ -196,7 +193,7 @@ public class ExamClassicStartDialog extends ComponentDialog implements ClickHand
 
 	@Override
 	protected void onEscape() {
-		if (app.getAppletParameters().getParamLockExam()) {
+		if (!app.getAppletParameters().getParamLockExam()) {
 			hide();
 		}
 	}

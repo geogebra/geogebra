@@ -11,6 +11,8 @@ import com.google.gwt.user.client.ui.HTML;
 
 public class ExamClassicLogAndExitDialog extends ComponentDialog {
 
+	private final Runnable returnHandler;
+
 	/**
 	 * @param app see {@link AppW}
 	 * @param data dialog data
@@ -25,6 +27,7 @@ public class ExamClassicLogAndExitDialog extends ComponentDialog {
 		if (handler != null) {
 			setOnPositiveAction(handler);
 		}
+		this.returnHandler = handler;
 	}
 
 	private void buildGUI(HTML content) {
@@ -43,5 +46,14 @@ public class ExamClassicLogAndExitDialog extends ComponentDialog {
 	@Override
 	protected int getMaxHeight() {
 		return 480;
+	}
+
+	@Override
+	protected void onEscape() {
+		if (returnHandler == null) {
+			hide(); // just a log: hide
+		} else if (!((AppW) app).getAppletParameters().getParamLockExam()) {
+			returnHandler.run();
+		}
 	}
 }
