@@ -46,6 +46,7 @@ public class DrawRay extends SetDrawable implements Previewable {
 	private GeoLineND ray;
 
 	private boolean isVisible;
+	private boolean isPreviewVisible;
 	private boolean labelVisible;
 	private ArrayList<GeoPointND> points;
 	private GPoint2D endPoint = new GPoint2D();
@@ -102,6 +103,7 @@ public class DrawRay extends SetDrawable implements Previewable {
 	public void update(boolean showLabel) {
 
 		isVisible = geo.isEuclidianVisible();
+		isPreviewVisible = false;
 		if (isVisible) {
 			// calc direction vector of ray in screen coords
 			Coords equation = ray.getCartesianEquationVector(view.getMatrix());
@@ -336,15 +338,17 @@ public class DrawRay extends SetDrawable implements Previewable {
 				v[0] = xx - a[0];
 				v[1] = yy - a[1];
 				setClippedLine();
+
+				isPreviewVisible = true;
 			} else {
-				isVisible = false;
+				isPreviewVisible = false;
 			}
 		}
 	}
 
 	@Override
 	final public void drawPreview(GGraphics2D g2) {
-		if (isVisible) {
+		if (isVisible && isPreviewVisible) {
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
 			g2.setStroke(objStroke);
