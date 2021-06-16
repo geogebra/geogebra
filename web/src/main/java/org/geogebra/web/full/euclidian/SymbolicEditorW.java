@@ -105,7 +105,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		}
 
 		editor.setLabel(getGeoInputBox().getAuralText());
-		if (getGeoInputBox().getTempUserDisplayInput() != null) {
+		if (getGeoInputBox().hasError()) {
 			editor.setErrorText(AccessibleInputBox.getErrorText(app.getLocalization()));
 		} else {
 			editor.setErrorText(null);
