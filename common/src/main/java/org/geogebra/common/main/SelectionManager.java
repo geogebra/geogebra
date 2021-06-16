@@ -683,26 +683,26 @@ public class SelectionManager {
 	 * @return if select was successful or not.
 	 */
 	final public boolean selectNextGeo() {
-		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();
-		if (tree.size() == 0) {
+		List<GeoElement> tabbingOrder = getEVFilteredTabbingSet();
+		if (tabbingOrder.size() == 0) {
 			return false;
 		}
 
 		int selectionSize = selectedGeos.size();
 
 		if (selectionSize == 0) {
-			addSelectedGeoForEV(tree.first());
+			addSelectedGeoForEV(tabbingOrder.get(0));
 			return true;
 		}
 
 		GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
 
-		GeoElement next = tree.higher(lastSelected);
+		int nextIndex = tabbingOrder.indexOf(lastSelected) + 1;
 
 		clearSelectedGeos();
 
-		if (next != null) {
-			addSelectedGeoForEV(next);
+		if (nextIndex < tabbingOrder.size()) {
+			addSelectedGeoForEV(tabbingOrder.get(nextIndex));
 			return true;
 		}
 
@@ -724,26 +724,26 @@ public class SelectionManager {
 	 * @return whether selection was successful
 	 */
 	final public boolean selectPreviousGeo() {
-		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();
-		if (tree.size() == 0) {
+		List<GeoElement> tabbingOrder = getEVFilteredTabbingSet();
+		if (tabbingOrder.size() == 0) {
 			return false;
 		}
 
 		int selectionSize = selectedGeos.size();
 
 		if (selectionSize == 0) {
-			addSelectedGeoForEV(tree.last());
+			addSelectedGeoForEV(tabbingOrder.get(tabbingOrder.size() - 1));
 			return true;
 		}
 
 		GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
 
-		GeoElement previous = tree.lower(lastSelected);
+		int previousIndex = tabbingOrder.indexOf(lastSelected) - 1;
 
 		clearSelectedGeos();
 
-		if (previous != null) {
-			addSelectedGeoForEV(previous);
+		if (previousIndex >= 0) {
+			addSelectedGeoForEV(tabbingOrder.get(previousIndex));
 			return true;
 		}
 
@@ -756,8 +756,8 @@ public class SelectionManager {
 	 * @return whether next element exists
 	 */
 	public boolean hasNext(GeoElement geo) {
-		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();
-		return tree.size() != 0 && tree.last() != geo;
+		List<GeoElement> tabbingOrder = getEVFilteredTabbingSet();
+		return tabbingOrder.size() != 0 && tabbingOrder.indexOf(geo) < tabbingOrder.size() - 1;
 	}
 
 	/**
@@ -827,11 +827,10 @@ public class SelectionManager {
 	 * 
 	 * @return set over which TAB iterates and belongs to the active Euclidian View.
 	 */
-	public TreeSet<GeoElement> getEVFilteredTabbingSet() {
+	public List<GeoElement> getEVFilteredTabbingSet() {
 		TreeSet<GeoElement> tabbingSet = getTabbingSet();
-		// we need to make sure that we keep the original comparator
 		return tabbingSet.stream().filter(this::isSelectableForEV)
-				.collect(Collectors.toCollection(() -> new TreeSet<>(tabbingSet.comparator())));
+				.collect(Collectors.toList());
 	}
 
 	private boolean isSelectableForEV(GeoElement geo) {
@@ -1177,8 +1176,8 @@ public class SelectionManager {
 			return false;
 		}
 
-		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();
-		return tree.first().equals(selectedGeos.get(0));
+		List<GeoElement> tabbingOrder = getEVFilteredTabbingSet();
+		return tabbingOrder.indexOf(selectedGeos.get(0)) == 0;
 	}
 
 	/**
@@ -1189,8 +1188,9 @@ public class SelectionManager {
 		if (selectedGeos.size() == 0) {
 			return false;
 		}
-		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();
-		return tree.last().equals(selectedGeos.get(0));
+
+		List<GeoElement> tabbingOrder = getEVFilteredTabbingSet();
+		return tabbingOrder.indexOf(selectedGeos.get(0)) == tabbingOrder.size() - 1;
 	}
 
 	/**

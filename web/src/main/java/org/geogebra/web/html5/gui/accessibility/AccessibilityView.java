@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui.accessibility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -100,13 +101,13 @@ public class AccessibilityView implements View {
 	}
 
 	private AccessibleWidget getPreviousWidget(GeoElement geo) {
-		GeoElement prevGeo = geo;
 		AccessibleWidget prevWidget;
-		TreeSet<GeoElement> tabbingSet = app.getSelectionManager().getEVFilteredTabbingSet();
+		List<GeoElement> tabbingSet = app.getSelectionManager().getEVFilteredTabbingSet();
+		int index = tabbingSet.indexOf(geo);
 		do {
-			prevGeo = tabbingSet.lower(prevGeo);
-			prevWidget = widgets.get(prevGeo);
-		} while (prevGeo != null && prevWidget == null);
+			index--;
+			prevWidget = index < 0 ? null : widgets.get(tabbingSet.get(index));
+		} while (index > 0 && prevWidget == null);
 		return prevWidget;
 	}
 
