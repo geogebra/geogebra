@@ -2040,10 +2040,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * @return if this is a convex polygon
 	 */
 	public boolean isConvex() {
-		/*
-		 * if (getPointsLength() <= 3){ return true; }
-		 */
-
 		// remove same successive points
 		ArrayList<Double> xList = new ArrayList<>();
 		ArrayList<Double> yList = new ArrayList<>();
@@ -2067,17 +2063,17 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		// remove last point if equals first points
 		if (DoubleUtil.isEqual(xList.get(0), xList.get(n - 1))
 				&& DoubleUtil.isEqual(yList.get(0), yList.get(n - 1))) {
-			/*
-			 * if (n==4){ return true; }
-			 */
 			xList.remove(n - 1);
 			yList.remove(n - 1);
 			n--;
 		}
 
+		if (n < 3) {
+			return false;
+		}
+
 		// check orientations
 		boolean answer = true;
-		boolean hasAngle360 = false;
 
 		double x1 = xList.get(n - 1);
 		double y1 = yList.get(n - 1);
@@ -2108,11 +2104,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			dx2 = x2 - x1;
 			dy2 = y2 - y1;
 			int orientation2 = DoubleUtil.compare(dy1 * dx2, dx1 * dy2);
-			// Log.debug(""+answer+","+hasAngle360);
-			// Log.debug("i : "+i+" -- orientations :
-			// "+orientation+","+orientation2);
 
-			if (!hasAngle360 && orientation2 == 0) { // U-turn
+			if (orientation2 == 0) { // U-turn
 				if (DoubleUtil.isGreater(0, dx1 * dx2 + dy1 * dy2)) {
 					answer = false;
 				}
@@ -2147,36 +2140,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 		return (convexOrientation > 0);
 	}
-
-	/*
-	 * private class SweepComparator implements Comparator<Integer>{
-	 * 
-	 * private GeoPolygon p;
-	 * 
-	 * /** constructor
-	 * 
-	 * @param p polygon
-	 *
-	 * public SweepComparator(GeoPolygon p) { this.p = p; }
-	 * 
-	 * public int compare(Integer i1, Integer i2) {
-	 * 
-	 * // smallest x double x1 = p.getPointX(i1); double x2 = p.getPointX(i2);
-	 * if (Kernel.isGreater(x2, x1)){ return -1; } if (Kernel.isGreater(x1,
-	 * x2)){ return 1; }
-	 * 
-	 * // then smallest y double y1 = p.getPointY(i1); double y2 =
-	 * p.getPointY(i2); if (Kernel.isGreater(y2, y1)){ return -1; } if
-	 * (Kernel.isGreater(y1, y2)){ return 1; }
-	 * 
-	 * // then smallest index if (i1 < i2){ return -1; } if (i1 > i2){ return 1;
-	 * }
-	 * 
-	 * // same point return 0; }
-	 * 
-	 * 
-	 * }
-	 */
 
 	@Override
 	public boolean hasDrawable3D() {
