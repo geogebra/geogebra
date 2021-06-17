@@ -1916,7 +1916,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				// show parentheses around these cases
 				if (((rtlMinus = rightStr
 						.startsWith(Unicode.RIGHT_TO_LEFT_UNARY_MINUS_SIGN))
-						|| (rightStr.charAt(0) == '-')) // 2 (-5) or -(-5)
+						|| (!rightStr.isEmpty() && (rightStr.charAt(0) == '-')))  // 2 (-5) or -(-5)
 						|| (!nounary && !right.isLeaf() // -(x*a) or -(x/a)
 								&& (opIDright <= Operation.DIVIDE.ordinal()))) {
 					if (rtlMinus) {
