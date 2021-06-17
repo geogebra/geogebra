@@ -4010,17 +4010,15 @@ public abstract class GeoConicND extends GeoQuadricND
 		 */
 
 		GeoPoint closestPoint = new GeoPoint(cons, pt.x, pt.y, pt.z);
+		return distance(pt.inhomX, pt.inhomY, closestPoint);
+
+	}
+
+	public double distance(double x, double y, GeoPoint closestPoint) {
 		closestPoint.setPath(this);
 		pointChanged(closestPoint);
-
 		closestPoint.updateCoords();
-
-		// Application.debug("closest point =
-		// "+closestPoint.inhomX+","+closestPoint.inhomY);
-		// Application.debug("distance = "+p.distance(closestPoint));
-
-		return pt.distance(closestPoint);
-
+		return closestPoint.distance(x, y);
 	}
 
 	@Override
