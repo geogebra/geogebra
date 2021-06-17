@@ -1147,8 +1147,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public synchronized String getPerspectiveXML() {
 		if (app.getGuiManager() == null
 				|| app.getGuiManager().getLayout() == null) {
-			if (app.getTmpPerspective(null) != null) {
-				return app.getTmpPerspective(null).getXml();
+			if (app.getTmpPerspective() != null) {
+				return app.getTmpPerspective().getXml();
 			}
 			return "";
 		}
@@ -1760,10 +1760,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 						app));
 		if (app.getGuiManager() == null) {
 			if (ps != null) {
-				ArrayList<Perspective> perspectives = new ArrayList<>();
-				ps.setId("tmp");
-				perspectives.add(ps);
-				app.setTmpPerspectives(perspectives);
+				app.setTmpPerspective(ps);
 			}
 			return;
 		}
