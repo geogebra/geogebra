@@ -105,7 +105,9 @@ public class InlineTextControllerW implements InlineTextController {
 
 			@Override
 			public void onInput() {
-				int actualMinHeight = editor.getMinHeight() + 2 * DrawInlineText.PADDING;
+				int actualMinHeight =
+						(int) ((editor.getMinHeight() + 2 * DrawInlineText.PADDING) * geo.getWidth()
+								/ geo.getContentWidth());
 				if (geo.getMinHeight() != actualMinHeight) {
 					geo.setSize(geo.getWidth(), Math.max(actualMinHeight, geo.getHeight()));
 					geo.setMinHeight(actualMinHeight);
@@ -214,12 +216,12 @@ public class InlineTextControllerW implements InlineTextController {
 
 		if (geo.getBackgroundColor() != null) {
 			g2.setPaint(geo.getBackgroundColor());
-			g2.fillRect(0, 0, (int) geo.getWidth(), (int) geo.getHeight());
+			g2.fillRect(0, 0, (int) geo.getContentWidth(), (int) geo.getContentHeight());
 		}
 		if (geo.getBorderThickness() != GeoInlineText.NO_BORDER) {
 			g2.setPaint(geo.getBorderColor());
 			g2.setStroke(getBorderStroke());
-			g2.drawRect(0, 0, (int) geo.getWidth(), (int) geo.getHeight());
+			g2.drawRect(0, 0, (int) geo.getContentWidth(), (int) geo.getContentHeight());
 		}
 		if (editor.getWidget().getElement().hasClassName(INVISIBLE)) {
 			GAffineTransform res = AwtFactory.getTranslateInstance(DrawInlineText.PADDING,
@@ -274,6 +276,12 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public String getListStyle() {
 		return editor.getListStyle();
+	}
+
+	@Override
+	public void setScale(double sx, double sy) {
+		style.setProperty("transform", "scale(" + sx + "," + sy + ")");
+		editor.setExternalScale(sx);
 	}
 
 }

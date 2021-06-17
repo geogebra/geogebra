@@ -149,6 +149,11 @@ public class CarotaEditor implements Editor {
 		return editor.getFrame().getHeight();
 	}
 
+	@Override
+	public void setExternalScale(double sx) {
+		editor.setExternalScale(sx);
+	}
+
 	private CarotaRange getRange() {
 		if (isEditing()) {
 			return editor.selectedRange();

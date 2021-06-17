@@ -41,6 +41,7 @@ public class DrawFormula extends Drawable implements DrawInline {
 
 	@Override
 	public void update() {
+		formula.zoomIfNeeded();
 		updateStrokes(geo);
 		labelDesc = geo.toValueString(StringTemplate.defaultTemplate);
 		rectangle.updateSelfAndBoundingBox();
@@ -50,12 +51,15 @@ public class DrawFormula extends Drawable implements DrawInline {
 			double angle = formula.getAngle();
 			double width = formula.getWidth();
 			double height = formula.getHeight();
+			double contentWidth = formula.getContentWidth();
+			double contentHeight = formula.getContentHeight();
 
 			formulaController.setLocation(view.toScreenCoordX(point.getX()),
 					view.toScreenCoordY(point.getY()));
-			formulaController.setHeight((int) (height));
-			formulaController.setWidth((int) (width - PADDING));
+			formulaController.setHeight((int) (contentHeight));
+			formulaController.setWidth((int) (contentWidth));
 			formulaController.setAngle(angle);
+			formulaController.setScale(width / contentWidth, height / contentHeight);
 			formulaController.setColor(geo.getObjectColor());
 			formulaController.setFontSize(view.getFontSize());
 		}
@@ -66,10 +70,14 @@ public class DrawFormula extends Drawable implements DrawInline {
 		if (formula.isEuclidianVisible()
 				&& (formulaController == null || !formulaController.isInForeground())
 			&& rectangle.getDirectTransform() != null) {
+			double contentWidth = formula.getContentWidth();
+			double contentHeight = formula.getContentHeight();
 			g2.setPaint(geo.getObjectColor());
 			g2.setStroke(objStroke); // needed eg for \sqrt
 			g2.saveTransform();
 			g2.transform(rectangle.getDirectTransform());
+			rectangle.scaleForZoom(contentWidth, contentHeight);
+			g2.scale(rectangle.realWidth() / contentWidth, rectangle.realHeight() / contentHeight);
 			g2.translate(PADDING, PADDING);
 			GFont font = view.getApplication().getFontCommon(false,
 					GFont.PLAIN, view.getFontSize());
@@ -165,4 +173,5 @@ public class DrawFormula extends Drawable implements DrawInline {
 			formulaController.discard();
 		}
 	}
+
 }

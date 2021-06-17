@@ -34,14 +34,22 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 
 	@Override
 	public void update() {
+		table.zoomIfNeeded();
 		rectangle.updateSelfAndBoundingBox();
 		if (tableController == null && table.getLocation() != null) {
 			// make sure we don't initialize the controller during paste XML parsing
 			// to avoid inconsistent state
 			tableController = view.getApplication().createTableController(view, table);
 		}
+
 		if (tableController != null) {
+			double contentWidth = table.getContentWidth();
+			double contentHeight = table.getContentHeight();
 			tableController.update();
+			tableController.setHeight((int) contentHeight);
+			tableController.setWidth((int) contentWidth);
+			tableController
+					.setScale(table.getWidth() / contentWidth, table.getHeight() / contentHeight);
 		}
 	}
 
@@ -49,7 +57,9 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 	public void draw(GGraphics2D g2) {
 		if (geo.isEuclidianVisible() && tableController != null
 			&& rectangle.getDirectTransform() != null) {
-			tableController.draw(g2, rectangle.getDirectTransform());
+			GAffineTransform tr =
+					rectangle.scaleForZoom(table.getContentWidth(), table.getContentHeight());
+			tableController.draw(g2, tr);
 		}
 	}
 

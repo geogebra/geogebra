@@ -128,4 +128,9 @@ public class InlineTextControllerMock implements InlineTextController {
 	public void setSelectionText(String text) {
 
 	}
+
+	@Override
+	public void setScale(double sx, double sy) {
+
+	}
 }
