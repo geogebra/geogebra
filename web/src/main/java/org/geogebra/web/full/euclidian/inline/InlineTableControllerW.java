@@ -376,7 +376,11 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	private void updateSizes() {
-		table.setSize(tableImpl.getTotalWidth(), tableImpl.getTotalHeight());
+		double scaleX = table.getWidth() / table.getContentWidth();
+		double scaleY = table.getHeight() / table.getContentHeight();
+		table.setSize(tableImpl.getTotalWidth() * scaleX, tableImpl.getTotalHeight() * scaleY);
+		table.setContentHeight(tableImpl.getTotalHeight());
+		table.setContentWidth(tableImpl.getTotalWidth());
 		table.setMinWidth(tableImpl.getMinWidth());
 		table.setMinHeight(tableImpl.getMinHeight());
 		saveContent();
@@ -452,5 +456,6 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void setScale(double sx, double sy) {
 		style.setProperty("transform", "scale(" + sx + "," + sy + ")");
+		tableImpl.setExternalScale(sx);
 	}
 }

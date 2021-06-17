@@ -182,4 +182,8 @@ public class BaseUnitTest {
 		}
 		return isDefined;
 	}
+
+	protected void reload() {
+		app.setXML(app.getXML(), true);
+	}
 }

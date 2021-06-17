@@ -405,7 +405,7 @@ public class NotesUndoTest {
 	private static void slideShouldHaveObjects(int slide, int expectedCount) {
 		app.getPageController().refreshSlide(slide);
 		String xml = app.getPageController().getSlide(slide)
-				.get("geogebra.xml");
+				.get("geogebra.xml").string;
 		int start = 0;
 		int count = 0;
 		while (xml.indexOf("<element", start) > 0) {

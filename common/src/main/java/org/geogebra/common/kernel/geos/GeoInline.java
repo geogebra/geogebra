@@ -29,6 +29,9 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	private double xScale;
 	private double yScale;
 
+	// only used for loading files that were created before zoom was enabled for text elements
+	private boolean zoomingEnabled = true;
+
 	public GeoInline(Construction cons) {
 		super(cons);
 	}
@@ -255,5 +258,13 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 
 	public void setHeight(double height) {
 		this.height = height;
+	}
+
+	public boolean isZoomingEnabled() {
+		return zoomingEnabled;
+	}
+
+	public void setZoomingEnabled(boolean zoomingEnabled) {
+		this.zoomingEnabled = zoomingEnabled;
 	}
 }

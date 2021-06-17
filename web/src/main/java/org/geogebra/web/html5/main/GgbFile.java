@@ -3,11 +3,12 @@ package org.geogebra.web.html5.main;
 import java.util.HashMap;
 
 import org.geogebra.common.io.file.ZipFile;
+import org.geogebra.web.html5.util.ArchiveEntry;
 
 /**
  * @author Zbynek
  */
-public class GgbFile extends HashMap<String, String> implements ZipFile {
+public class GgbFile extends HashMap<String, ArchiveEntry> implements ZipFile {
 	/** prefix for shared items in slides file */
 	public static final String SHARED_PREFIX = "_shared/";
 	/** structure of slides file */
@@ -50,8 +51,8 @@ public class GgbFile extends HashMap<String, String> implements ZipFile {
 	 */
 	public GgbFile duplicate(String copyId) {
 		GgbFile copy = copyId == null ? new GgbFile() : new GgbFile(copyId);
-		for (Entry<String, String> entry : entrySet()) {
-			copy.put(entry.getKey(), entry.getValue());
+		for (Entry<String, ArchiveEntry> entry : entrySet()) {
+			copy.put(entry.getKey(), entry.getValue().duplicate());
 		}
 		return copy;
 	}
@@ -68,6 +69,10 @@ public class GgbFile extends HashMap<String, String> implements ZipFile {
 	 */
 	public static int getCounter() {
 		return counter;
+	}
+
+	public void put(String key, String val) {
+		put(key, new ArchiveEntry(val));
 	}
 
 }

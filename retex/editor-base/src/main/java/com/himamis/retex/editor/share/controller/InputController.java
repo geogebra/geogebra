@@ -32,9 +32,9 @@ public class InputController {
 	@Weak
 	private MathField mathField;
 
-	private boolean createFrac = true;
-	private boolean createNroot = true;
+	private boolean plainTextMode = false;
 	private SyntaxAdapter formatConverter;
+	private boolean useSimpleScripts = true;
 
 	/**
 	 * @param metaModel model
@@ -52,20 +52,20 @@ public class InputController {
 		this.mathField = mathField;
 	}
 
-	public boolean getCreateFrac() {
-		return createFrac;
+	public boolean getPlainTextMode() {
+		return plainTextMode;
 	}
 
-	public void setCreateFrac(boolean createFrac) {
-		this.createFrac = createFrac;
-	}
-
-	public void setCreateNroot(boolean createNroot) {
-		this.createNroot = createNroot;
+	public void setPlainTextMode(boolean plainTextMode) {
+		this.plainTextMode = plainTextMode;
 	}
 
 	public void setFormatConverter(SyntaxAdapter formatConverter) {
 		this.formatConverter = formatConverter;
+	}
+
+	public void setUseSimpleScripts(boolean useSimpleScripts) {
+		this.useSimpleScripts = useSimpleScripts;
 	}
 
 	final static private char getLetter(MathComponent component)
@@ -231,7 +231,7 @@ public class InputController {
 				name = suffix;
 			}
 		}
-		Tag tag = getAcceptableTag(name);
+		Tag tag = Tag.lookup(name);
 
 		if (ch == FUNCTION_OPEN_KEY && tag != null) {
 			if (power.script != null) {
@@ -269,13 +269,6 @@ public class InputController {
 			// TODO brace type
 			newArray(editorState, 1, ch, false);
 		}
-	}
-
-	private Tag getAcceptableTag(String name) {
-		if (!createNroot && Tag.NROOT.getFunction().equals(name)) {
-			return null;
-		}
-		return Tag.lookup(name);
 	}
 
 	/**
@@ -325,7 +318,7 @@ public class InputController {
 
 		// add function
 		MathFunction function;
-		Tag tag = getAcceptableTag(name);
+		Tag tag = Tag.lookup(name);
 		final boolean hasSelection = editorState.getSelectionEnd() != null;
 		int offset = 0;
 		if (tag == Tag.LOG && exponent != null
@@ -1105,15 +1098,23 @@ public class InputController {
 	 * @return whether it was handled
 	 */
 	public boolean handleChar(EditorState editorState, char ch) {
-		boolean allowFrac = createFrac && !editorState.isInsideQuotes();
 		// backspace, delete and escape are handled for key down
 		if (ch == JavaKeyCodes.VK_BACK_SPACE || ch == JavaKeyCodes.VK_DELETE
 				|| ch == JavaKeyCodes.VK_ESCAPE) {
 			return true;
 		}
+
+		if (plainTextMode || editorState.isInsideQuotes()) {
+			handleTextModeInsert(editorState, ch);
+			return true;
+		}
+
 		if (ch != '(' && ch != '{' && ch != '[' && ch != '/' && ch != '|'
 				&& ch != Unicode.LFLOOR && ch != Unicode.LCEIL && ch != '"') {
 			deleteSelection(editorState);
+		}
+		if (useSimpleScripts) {
+			checkScriptExit(ch, editorState);
 		}
 		boolean handled = handleEndBlocks(editorState, ch);
 
@@ -1125,23 +1126,23 @@ public class InputController {
 			} else if (meta.isFunctionOpenKey(ch)) {
 				newBraces(editorState, ch);
 				handled = true;
-			} else if (allowFrac && ch == '^') {
+			} else if (ch == '^') {
 				newScript(editorState, Tag.SUPERSCRIPT);
 				handled = true;
-			} else if (allowFrac && Unicode.isSuperscriptDigit(ch)) {
+			} else if (Unicode.isSuperscriptDigit(ch)) {
 				newScript(editorState, Tag.SUPERSCRIPT);
 				newCharacter(editorState, (char) (Unicode.superscriptToNumber(ch) + '0'));
 				CursorController.nextCharacter(editorState);
 				handled = true;
-			} else if (allowFrac && ch == Unicode.SUPERSCRIPT_MINUS) {
+			} else if (ch == Unicode.SUPERSCRIPT_MINUS) {
 				newScript(editorState, Tag.SUPERSCRIPT);
 				newCharacter(editorState, '-');
 				CursorController.nextCharacter(editorState);
 				handled = true;
-			} else if (allowFrac && ch == '_') {
+			} else if (ch == '_') {
 				newScript(editorState, Tag.SUBSCRIPT);
 				handled = true;
-			} else if (allowFrac && ch == '/') {
+			} else if (ch == '/' || ch == '\u00f7') {
 				newFunction(editorState, "frac", false, null);
 				handled = true;
 			} else if (ch == Unicode.SQUARE_ROOT) {
@@ -1157,7 +1158,7 @@ public class InputController {
 					|| ch == Unicode.BULLET) {
 				newOperator(editorState, '*');
 				handled = true;
-			} else if (ch == ',' && allowFrac) {
+			} else if (ch == ',') {
 				if (preventDimensionChange(editorState)) {
 					if (shouldMoveCursor(editorState)) {
 						CursorController.nextCharacter(editorState);
@@ -1181,6 +1182,52 @@ public class InputController {
 			}
 		}
 		return handled;
+	}
+
+	private void handleTextModeInsert(EditorState editorState, char ch) {
+		deleteSelection(editorState);
+
+		char toInsert = ch;
+		if (toInsert == '\"') {
+			toInsert = getNextQuote(editorState.getCurrentField(),
+					editorState.getCurrentOffset());
+		}
+
+		MetaCharacter meta = metaModel.getCharacter("" + toInsert);
+		editorState.addArgument(new MathCharacter(meta));
+	}
+
+	private char getNextQuote(MathSequence currentField, int currentOffset) {
+		for (int i = currentOffset - 1; i >= 0; i--) {
+			MathComponent argument = currentField.getArgument(i);
+			if (argument instanceof MathCharacter) {
+				char ch = ((MathCharacter) argument).getUnicode();
+
+				if (ch == '\u201c') {
+					return '\u201d';
+				} else if (ch == '\u201d') {
+					return '\u201c';
+				}
+			}
+		}
+
+		return '\u201c';
+	}
+
+	private void checkScriptExit(char ch, EditorState editorState) {
+		if (ch == '+' || ch == '-' || ch == '(' || ch == ')' || ch == '=' || ch == '*') {
+			exitScript(Tag.SUBSCRIPT, editorState);
+		}
+		if (ch == '=') {
+			exitScript(Tag.SUPERSCRIPT, editorState);
+		}
+	}
+
+	private void exitScript(Tag subscript, EditorState state) {
+		MathSequence currentField = state.getCurrentField();
+		if (currentField.getParent() != null && currentField.getParent().hasTag(subscript)) {
+			CursorController.nextCharacter(state);
+		}
 	}
 
 	private boolean preventDimensionChange(EditorState editorState) {

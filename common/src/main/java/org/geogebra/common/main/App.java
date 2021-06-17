@@ -63,6 +63,7 @@ import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
+import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
@@ -359,7 +360,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	protected boolean showMenuBar = true;
 	protected String uniqueId;
-	private ArrayList<Perspective> tmpPerspectives = new ArrayList<>();
+	private Perspective tmpPerspective = null;
 	/**
 	 * whether toolbar should be visible
 	 */
@@ -2049,8 +2050,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// TODO Auto-generated method stub
 	}
 
-	public ArrayList<Perspective> getTmpPerspectives() {
-		return tmpPerspectives;
+	public Perspective getTmpPerspective() {
+		return tmpPerspective;
 	}
 
 	/**
@@ -2060,8 +2061,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param perspectives
 	 *            array of perspetctives in the document
 	 */
-	public void setTmpPerspectives(ArrayList<Perspective> perspectives) {
-		tmpPerspectives = perspectives;
+	public void setTmpPerspective(Perspective perspectives) {
+		tmpPerspective = perspectives;
 	}
 
 	/**
@@ -3918,9 +3919,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case AUTOLABEL_CAS_SETTINGS:
 			return true;
 
-		/** APPS-1035 */
-		case SYMBOLIC_INPUTFIELDS:
-			return true;
 		// **********************************************************************
        // G3D START
        //
@@ -3936,12 +3934,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
         //
         // *********************************************************
         // **********************************************************************
-
-		/**
-		 * Csilla Master (do not dare to change this :)
-		 */
-		case SPEECH_RECOGNITION:
-			return false;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
@@ -4484,6 +4476,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// overridden in platforms supporting exam
 	}
 
+	public void showErrorInfoDialog(String msg) {
+		// overridden in web
+	}
+
+	/**
+	 * @return relation tool dialog
+	 */
+	public RelationPane getRelationDialog() {
+		// overridden in web
+		return null;
+	}
+
 	/**
 	 * @param maxX
 	 *            max width in px
@@ -4896,15 +4900,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return perspective called "tmp" or given fallback
 	 */
 	public Perspective getTmpPerspective(Perspective fallback) {
-		if (tmpPerspectives == null) {
-			return fallback;
-		}
-		for (Perspective perspective : tmpPerspectives) {
-			if (perspective.getId().equals("tmp")) {
-				return perspective;
-			}
-		}
-		return fallback;
+		return tmpPerspective == null ? fallback : tmpPerspective;
 	}
 
 	/**

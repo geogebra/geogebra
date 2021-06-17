@@ -154,9 +154,9 @@
     // draw latex
     [graphics_ setContext:context];
     [texIcon_ setForegroundWithRXColor:foregroundColor];
-    int dy = (self.bounds.size.height- texIcon_.getIconHeight)/2;
+    double dy = (self.bounds.size.height- texIcon_.getIconHeight)/2;
     @try {
-        [texIcon_ paintIconWithRXHasForegroundColor:nil withRXGraphics2DInterface:graphics_ withInt:0 withInt:dy];
+        [texIcon_ paintIconWithRXHasForegroundColor:nil withRXGraphics2DInterface:graphics_ withDouble:0.0 withDouble:dy];
     }
     @catch(NSException* ex) {
         NSLog(@"%@", [ex reason]);

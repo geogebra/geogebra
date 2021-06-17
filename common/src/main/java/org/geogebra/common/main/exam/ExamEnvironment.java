@@ -60,7 +60,7 @@ public class ExamEnvironment {
 
 	private long ignoreBlurUntil = -1;
 	private boolean temporaryBlur;
-	private boolean wasCasEnabled;
+	private Boolean wasCasEnabled;
 
 	/**
 	 * @param localization localization
@@ -632,11 +632,15 @@ public class ExamEnvironment {
 	}
 
 	private void restoreCommands() {
+		if (wasCasEnabled == null) {
+			return;
+		}
 		if (wasCasEnabled) {
 			enableCAS();
 		} else {
 			disableCAS();
 		}
+		wasCasEnabled = null;
 	}
 
 	/**

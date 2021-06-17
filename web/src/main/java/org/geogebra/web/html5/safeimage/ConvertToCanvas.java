@@ -2,6 +2,7 @@ package org.geogebra.web.html5.safeimage;
 
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.Dom;
 
 import elemental2.dom.CanvasRenderingContext2D;
@@ -34,10 +35,10 @@ public class ConvertToCanvas implements ImagePreprocessor {
 			String fileName = StringUtil.changeFileExtension(imageFile.getFileName(),
 					FileExtensions.PNG);
 
-			provider.onReady(new ImageFile(fileName, canvas.toDataURL()));
+			provider.onReady(new ImageFile(fileName, new ArchiveEntry(canvas.toDataURL())));
 		});
 
-		image.src = imageFile.getContent();
+		image.src = imageFile.getContent().createUrl();
 	}
 
 	private void drawImageToCanvas(HTMLImageElement image)  {

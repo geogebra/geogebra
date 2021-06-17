@@ -409,6 +409,23 @@ public class TeXBuilder {
 	 *            selected field
 	 * @return atom representing the whole sequence
 	 */
+	public Atom build(MathSequence rootComponent, MathSequence currentField1, boolean textMode) {
+		this.currentField = currentField1;
+		this.atomToComponent = new HashMap<>();
+		Atom root = build(rootComponent);
+		if (textMode) {
+			return new RomanAtom(new TextStyleAtom(root, TextStyle.MATHNORMAL));
+		}
+		return root;
+	}
+
+	/**
+	 * @param rootComponent
+	 *            root
+	 * @param currentField1
+	 *            selected field
+	 * @return atom representing the whole sequence
+	 */
 	public Atom build(MathSequence rootComponent, MathSequence currentField1) {
 		this.currentField = currentField1;
 		this.atomToComponent = new HashMap<>();

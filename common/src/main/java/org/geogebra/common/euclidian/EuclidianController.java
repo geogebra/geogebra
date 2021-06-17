@@ -117,6 +117,7 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoPriorityComparator;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.GeoVideo;
@@ -6686,7 +6687,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public void handleMovedElement(GeoElement geo, boolean multiple,
 			PointerEventType type) {
 		resetMovedGeoPoint();
-		movedGeoElement = geo;
+		if (geo instanceof GeoSymbolic) {
+			movedGeoElement = (GeoElement) ((GeoSymbolic) geo).getTwinGeo();
+		} else {
+			movedGeoElement = geo;
+		}
 
 		// default if nothing matches
 		moveMode = MOVE_NONE;
@@ -7740,14 +7745,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case MOVE_X_AXIS:
+			disableLiveFeedback();
 			scaleXAxis(repaint);
 			break;
 
 		case MOVE_Y_AXIS:
+			disableLiveFeedback();
 			scaleYAxis(repaint);
 			break;
 
 		case MOVE_Z_AXIS:
+			disableLiveFeedback();
 			scaleZAxis(repaint);
 			break;
 
@@ -7755,6 +7763,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		kernel.notifyRepaint();
+	}
+
+	private void disableLiveFeedback() {
+		view.getCoordSystemInfo().setInteractive(true);
 	}
 
 	private void handleResizeMultiple(AbstractEvent event,

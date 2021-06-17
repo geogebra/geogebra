@@ -72,7 +72,7 @@
     _font = (FontI *) font;
 }
 
-- (void)fillRectWithInt:(jint)x withInt:(jint)y withInt:(jint)width withInt:(jint)height {
+- (void)fillRectWithDouble:(jdouble)x withDouble:(jdouble)y withDouble:(jdouble)width withDouble:(jdouble)height {
     CGContextFillRect(_context, CGRectMake(x, y, width, height));
 }
 

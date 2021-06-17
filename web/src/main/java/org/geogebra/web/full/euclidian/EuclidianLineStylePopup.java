@@ -11,9 +11,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.util.LineStylePopup;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-
 /**
  * Line style popup
  */
@@ -37,12 +34,7 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 		model = new LineStyleModel(app);
 		model.setListener(this);
 		this.setKeepVisible(false);
-		getMySlider().addChangeHandler(new ChangeHandler() {
-			@Override
-			public void onChange(ChangeEvent event) {
-				model.applyThickness(getSliderValue());
-			}
-		});
+		getMySlider().addChangeHandler(event -> model.applyThickness(getSliderValue()));
 	}
 
 	@Override

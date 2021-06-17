@@ -167,4 +167,6 @@ public class CarotaTable implements HasContentAndFormat {
 	public final void removeColumn() {
 		removeColumn(selectionX());
 	}
+
+	public native void setExternalScale(double sx);
 }

@@ -116,7 +116,7 @@ public class MacroConstruction extends Construction {
 		 * like "A$1" for the "A1" to deal with absolute references. Let's
 		 * remove all "$" signs from label and try again.
 		 */
-		if (label1.indexOf('$') > -1) {
+		if (label1.indexOf('$') > -1 && label1.length() > 1) {
 			StringBuilder labelWithoutDollar = new StringBuilder(
 					label1.length() - 1);
 			for (int i = 0; i < label1.length(); i++) {

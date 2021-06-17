@@ -117,7 +117,6 @@ public class AppWsimple extends AppW {
 		setDefaultCursor();
 		checkScaleContainer();
 		frame.useDataParamBorder();
-		setAltText();
 		updateEuclidianView(view);
 	}
 

@@ -4423,7 +4423,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 					.append(StringUtil.toHexString(getAlgebraColor()));
 			sbNameDescriptionHTML.append("\">");
 		}
-		sbNameDescriptionHTML.append(indicesToHTML(label1, addHTMLtag));
+		sbNameDescriptionHTML.append(indicesToHTML(label1, false));
 
 		if (this instanceof GeoPointND && getKernel().getApplication()
 				.getSettings().getEuclidian(1).axisShown()) {
@@ -4486,8 +4486,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			sb.append(" label=\"");
 			sb.append(StringUtil.encodeXML(label));
 			sb.append("\" exp=\"");
-			StringUtil.encodeXML(sb,
-					definition.toString(StringTemplate.xmlTemplate));
+			getDefinitionXML(sb);
 			// expression
 			sb.append("\"");
 
@@ -4511,6 +4510,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			}
 			sb.append("/>\n");
 		}
+	}
+
+	protected void getDefinitionXML(StringBuilder sb) {
+		StringUtil.encodeXML(sb,
+				definition.toString(StringTemplate.xmlTemplate));
 	}
 
 	/**

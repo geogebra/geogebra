@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -361,8 +362,10 @@ public class ToolbarPanel extends FlowPanel
 
 	private void resetFullscreenButton() {
 		ZoomPanel fullscreenBtn = app.getZoomPanel();
-		removeStyleNamesFromFullscreenBtn();
-		fullscreenBtn.addStyleName("zoomPanelPosition");
+		if (fullscreenBtn != null) {
+			removeStyleNamesFromFullscreenBtn();
+			fullscreenBtn.addStyleName("zoomPanelPosition");
+		}
 	}
 
 	private void showOppositeView() {
@@ -667,10 +670,15 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	/**
-	 * @return mode floating action button
+	 * @return move FAB top if it is covering the snackbar, 0 otherwise
 	 */
-	public StandardButton getMoveBtn() {
-		return moveBtn;
+	public int getMoveTopBelowSnackbar(int snackbarRight) {
+		//keep the 8px distance between FAB and snackbar
+		if (moveBtn != null && !moveBtn.getStyleName().contains("hideMoveBtn")
+				&& moveBtn.getAbsoluteLeft() - 8 <=  snackbarRight) {
+			return app.isPortrait() ? 124 : 60;
+		}
+		return 0;
 	}
 
 	@Override
@@ -821,9 +829,9 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void switchTab(TabIds tab, boolean fade) {
-		ToolTipManagerW.hideAllToolTips();
+		ToolTipManagerW.sharedInstance().hideTooltip();
 		navRail.selectTab(tab);
-		open();
+		openNoResize();
 		setFadeTabs(fade);
 		app.invokeLater(() -> {
 			tabAlgebra.setActive(tab == TabIds.ALGEBRA);
@@ -833,6 +841,7 @@ public class ToolbarPanel extends FlowPanel
 			if (tabTable != null) {
 				tabTable.setActive(tab == TabIds.TABLE);
 			}
+			resizeTabs();
 		});
 		updateMoveButton();
 		if (tab != TabIds.TOOLS) {
@@ -852,7 +861,7 @@ public class ToolbarPanel extends FlowPanel
 		if (tabTools != null) {
 			tabTools.setVisible(true);
 		}
-		ToolTipManagerW.hideAllToolTips();
+		ToolTipManagerW.sharedInstance().hideTooltip();
 
 		switchTab(TabIds.TOOLS, fade);
 		dispatchEvent(EventType.TOOLS_PANEL_SELECTED);
@@ -892,18 +901,15 @@ public class ToolbarPanel extends FlowPanel
 	 * Opens the toolbar, sends event through the EventDispatcher.
 	 */
 	public void open() {
+		openNoResize();
+		resizeTabs();
+	}
+
+	private void openNoResize() {
 		if (!isOpen()) {
 			doOpen();
 			dispatchEvent(EventType.SIDE_PANEL_OPENED);
 		}
-		onOpen();
-	}
-
-	/**
-	 * Called after open.
-	 */
-	protected void onOpen() {
-		resizeTabs();
 	}
 
 	/**
@@ -1098,12 +1104,8 @@ public class ToolbarPanel extends FlowPanel
 		if (undoRedoPanel != null) {
 			undoRedoPanel.setLabels();
 		}
-		if (tabTools != null && !tabTools.isCustomToolbar) {
-			tabTools.toolsPanel.setLabels();
-			tabTools.moreBtn
-					.setText(app.getLocalization().getMenu("Tools.More"));
-			tabTools.lessBtn
-					.setText(app.getLocalization().getMenu("Tools.Less"));
+		if (tabTools != null) {
+			tabTools.setLabels();
 		}
 		if (moveBtn != null) {
 			String altText = app.getLocalization()
@@ -1115,6 +1117,9 @@ public class ToolbarPanel extends FlowPanel
 		}
 		if (tabTable != null) {
 			tabTable.setLabels();
+		}
+		if (tabAlgebra != null) {
+			tabAlgebra.setLabels();
 		}
 	}
 
@@ -1330,7 +1335,7 @@ public class ToolbarPanel extends FlowPanel
 	 * Base class for Toolbar Tabs-
 	 * @author Laszlo
 	 */
-	public abstract static class ToolbarTab extends ScrollPanel implements ShowableTab {
+	public abstract static class ToolbarTab extends ScrollPanel implements ShowableTab, SetLabels {
 		/** Constructor */
 		public ToolbarTab(ToolbarPanel parent) {
 			setSize("100%", "100%");

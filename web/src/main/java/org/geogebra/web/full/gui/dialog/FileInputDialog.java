@@ -27,10 +27,7 @@ public class FileInputDialog extends GPopupPanel implements ClickHandler {
 		// createGUI();
 		addStyleName("GeoGebraPopup");
 		setGlassEnabled(true);
-		if (app.isUnbundledOrWhiteboard()) {
-			btCancel.addStyleName("dialogBtn");
-			setStyleName("MaterialDialogBox");
-		}
+		setStyleName("MaterialDialogBox");
 	}
 
 	/**
@@ -38,11 +35,11 @@ public class FileInputDialog extends GPopupPanel implements ClickHandler {
 	 */
 	protected void createGUI() {
 		setInputWidget(new FileUpload());
-		// addGgbChangeHandler(inputWidget.getElement(), app);
 
 		btCancel = new Button(app.getLocalization().getMenu("Cancel"));
 		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btCancel.addClickHandler(this);
+		btCancel.addStyleName("dialogBtn");
 		VerticalPanel centerPanel = new VerticalPanel();
 		centerPanel.add(getInputWidget());
 		centerPanel.add(btCancel);
