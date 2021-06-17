@@ -51,6 +51,9 @@ public class GeneralPathClipped implements GShape {
 	private GRectangle2D oldBounds;
 	private final ClipAlgoSutherlandHodogman clipAlgoSutherlandHodogman;
 
+	private boolean updating;
+	private boolean resetNeeded;
+
 	/**
 	 * Creates new clipped general path
 	 *
@@ -78,12 +81,17 @@ public class GeneralPathClipped implements GShape {
 	 * Clears all points and resets internal variables
 	 */
 	final public void reset() {
+		if (updating) {
+			resetNeeded = true;
+			return;
+		}
 		pathPoints.clear();
 		gp.reset();
 		oldBounds = bounds;
 		bounds = null;
 		largestCoord = 0;
 		needClosePath = false;
+		resetNeeded = false;
 	}
 
 	/**
@@ -293,6 +301,7 @@ public class GeneralPathClipped implements GShape {
 	}
 
 	private void updateBounds(GPoint2D point) {
+		updating = true;
 		double x = point.getX();
 		double y = point.getY();
 		if (bounds == null) {
@@ -300,15 +309,17 @@ public class GeneralPathClipped implements GShape {
 					: AwtFactory.getPrototype().newRectangle2D();
 			bounds.setRect(x, y, 0, 0);
 		}
-
 		if (Math.abs(x) > largestCoord) {
 			largestCoord = Math.abs(x);
 		}
 		if (Math.abs(y) > largestCoord) {
 			largestCoord = Math.abs(y);
 		}
-
 		bounds.add(x, y);
+		updating = false;
+		if (resetNeeded) {
+			reset();
+		}
 	}
 
 	/**
