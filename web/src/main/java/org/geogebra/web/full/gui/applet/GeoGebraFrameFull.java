@@ -282,9 +282,7 @@ public class GeoGebraFrameFull
 		Timer timer = new Timer() {
 			@Override
 			public void run() {
-
 				scrollToInputField();
-
 			}
 		};
 		timer.schedule(0);
@@ -302,12 +300,9 @@ public class GeoGebraFrameFull
 		app.updateSplitPanelHeight();
 
 		keyboardHeight = 0;
-		keyBoard.remove(new Runnable() {
-			@Override
-			public void run() {
-				keyBoard.resetKeyboardState();
-				getApp().centerAndResizeViews();
-			}
+		keyBoard.remove(() -> {
+			keyBoard.resetKeyboardState();
+			getApp().centerAndResizeViews();
 		});
 	}
 
@@ -457,10 +452,9 @@ public class GeoGebraFrameFull
 		}
 
 		if (app.isUnbundled() && !app.isWhiteboardActive()
-				&& getGuiManager()
-						.getUnbundledToolbar() != null
-				&& !getGuiManager().getUnbundledToolbar()
-						.isOpen()) {
+				&& getGuiManager().getUnbundledToolbar() != null
+				&& !getGuiManager().getUnbundledToolbar().isOpen()
+				&& !getGuiManager().showView(App.VIEW_PROBABILITY_CALCULATOR)) {
 			return false;
 		}
 		if (Browser.isMobile()
@@ -517,7 +511,8 @@ public class GeoGebraFrameFull
 
 	private boolean isButtonNeeded(MathKeyboardListener textField) {
 		MathKeyboardListener keyboardListener = getGuiManager().getKeyboardListener();
-		if (app.getGuiManager().hasSpreadsheetView() || app.isUnbundled()) {
+		if (app.getGuiManager().hasSpreadsheetView() || (app.isUnbundled()
+				&& !getGuiManager().showView(App.VIEW_PROBABILITY_CALCULATOR))) {
 			return keyboardListener != null;
 		}
 
