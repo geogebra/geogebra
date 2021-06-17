@@ -1,6 +1,7 @@
 package org.geogebra.common.main;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -813,13 +814,23 @@ public class SelectionManager {
 	 * @return set over which TAB iterates: either alphabetical or construction
 	 *         order
 	 */
-	private TreeSet<GeoElement> getTabbingSet() {
+	private Collection<GeoElement> getTabbingSet() {
 		if (algebraViewShowing()) {
 			if (this.kernel.getApplication().getSettings().getAlgebra()
 					.getTreeMode() == SortMode.ORDER) {
 				return kernel.getConstruction().getGeoSetConstructionOrder();
 			}
+
+			return kernel.getConstruction().getGeoSetLabelOrder();
 		}
+
+		GeoElement userDefined = kernel.lookupLabel("tabOrder");
+		if (userDefined != null && userDefined.isGeoList()) {
+			GeoList tabOrderList = (GeoList) userDefined;
+			return tabOrderList.elements().stream().filter(GeoElement::isLabelSet)
+					.collect(Collectors.toList());
+		}
+
 		return kernel.getConstruction().getGeoSetLabelOrder();
 	}
 
@@ -828,7 +839,7 @@ public class SelectionManager {
 	 * @return set over which TAB iterates and belongs to the active Euclidian View.
 	 */
 	public List<GeoElement> getEVFilteredTabbingSet() {
-		TreeSet<GeoElement> tabbingSet = getTabbingSet();
+		Collection<GeoElement> tabbingSet = getTabbingSet();
 		return tabbingSet.stream().filter(this::isSelectableForEV)
 				.collect(Collectors.toList());
 	}
