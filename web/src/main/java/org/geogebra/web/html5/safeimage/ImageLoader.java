@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
+import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.ImageManagerW;
 
 /**
@@ -18,7 +19,7 @@ public class ImageLoader {
 	private final AppW app;
 	private final GgbFile originalArchive;
 	private final Runnable afterImages;
-	private final HashMap<String, String> images;
+	private final HashMap<String, ArchiveEntry> images;
 	private int loadCount;
 
 	/**
@@ -40,7 +41,7 @@ public class ImageLoader {
 	 * Do the loading itself.
 	 */
 	public void load() {
-		for (Map.Entry<String, String> entry : archiveContent.entrySet()) {
+		for (Map.Entry<String, ArchiveEntry> entry : archiveContent.entrySet()) {
 			ImageFile imageFile = new ImageFile(entry.getKey(), entry.getValue());
 			if (isValid(imageFile)) {
 				addImage(imageFile);
@@ -62,8 +63,8 @@ public class ImageLoader {
 	}
 
 	private	 void addImage(ImageFile imageFile) {
-		String content = SVGUtil.match(imageFile.getExtension())
-				? SVGUtil.fixAndEncode(imageFile.getContent())
+		ArchiveEntry content = SVGUtil.match(imageFile.getExtension())
+				? new ArchiveEntry(SVGUtil.fixAndEncode(imageFile.getContent().string))
 				: imageFile.getContent();
 		imageManager.addExternalImage(imageFile.getFileName(),
 				content);

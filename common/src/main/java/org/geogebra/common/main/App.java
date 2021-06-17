@@ -63,6 +63,7 @@ import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
+import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
@@ -3934,12 +3935,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
         // *********************************************************
         // **********************************************************************
 
-		/**
-		 * Csilla Master (do not dare to change this :)
-		 */
-		case SPEECH_RECOGNITION:
-			return false;
-
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
@@ -4479,6 +4474,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void examWelcome() {
 		// overridden in platforms supporting exam
+	}
+
+	public void showErrorInfoDialog(String msg) {
+		// overridden in web
+	}
+
+	/**
+	 * @return relation tool dialog
+	 */
+	public RelationPane getRelationDialog() {
+		// overridden in web
+		return null;
 	}
 
 	/**

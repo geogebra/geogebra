@@ -736,11 +736,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
-	public void uploadToGeoGebraTube() {
-		app.uploadToGeoGebraTube();
-	}
-
-	@Override
 	public void startAnimation() {
 		kernel.getAnimatonManager().startAnimation();
 	}

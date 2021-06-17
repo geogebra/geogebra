@@ -554,11 +554,6 @@ public class AppCommon extends App {
     }
 
     @Override
-    public void uploadToGeoGebraTube() {
-		// TODO
-    }
-
-    @Override
     public void updateApplicationLayout() {
 		// not needed with no UI
     }

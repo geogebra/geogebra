@@ -5,7 +5,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.Clipboard;
+import org.geogebra.web.html5.main.ClipboardUtil;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
@@ -88,7 +88,7 @@ public class ExportImageDialog extends ComponentDialog {
 	private void buildContent() {
 		contentPanel = new FlowPanel();
 		contentPanel.addStyleName("expImgContent");
-		if (!Clipboard.isCopyImageToClipboardAvailable()) {
+		if (!ClipboardUtil.isCopyImageToClipboardAvailable()) {
 			Label rightClickText = new Label(app.getLocalization().getMenu("expImgRightClickMsg"));
 			rightClickText.addStyleName("rightClickHelpText");
 			contentPanel.add(rightClickText);

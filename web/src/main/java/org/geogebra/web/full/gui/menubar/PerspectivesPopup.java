@@ -12,7 +12,6 @@ import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Anchor;
@@ -164,22 +163,18 @@ public class PerspectivesPopup {
 
 		// help button
 
-		rowPanel.addDomHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (perspective != null) {
-					PerspectivesMenuW.setPerspective(app, perspective);
-					if (!(app.isExam() && app.getExam().getStart() >= 0)) {
-						app.showStartTooltip(perspective);
-					}
-				} else {
-					app.getLAF().toggleFullscreen(true);
-					app.setNewExam();
-					app.examWelcome();
+		rowPanel.addDomHandler(event -> {
+			if (perspective != null) {
+				PerspectivesMenuW.setPerspective(app, perspective);
+				if (!(app.isExam() && app.getExam().getStart() >= 0)) {
+					app.showStartTooltip(perspective);
 				}
-				closePerspectivesPopup();
+			} else {
+				app.getLAF().toggleFullscreen(true);
+				app.setNewExam();
+				app.examWelcome();
 			}
+			closePerspectivesPopup();
 		}, ClickEvent.getType());
 
 		return rowPanel;

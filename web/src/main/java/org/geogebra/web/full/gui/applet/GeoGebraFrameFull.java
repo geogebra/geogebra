@@ -113,7 +113,6 @@ public class GeoGebraFrameFull
 		panelTransitioner = new PanelTransitioner(this);
 		kbButtonSpace.addStyleName("kbButtonSpace");
 		this.add(kbButtonSpace);
-		headerResizer = NullHeaderResizer.get();
 		Event.addNativePreviewHandler(this);
 	}
 
@@ -138,8 +137,6 @@ public class GeoGebraFrameFull
 
 		this.glass = new DockGlassPaneW();
 		this.add(glass);
-		headerResizer = getApp().getActivity()
-				.getHeaderResizer(application.getAppletFrame());
 		return application;
 	}
 
@@ -229,7 +226,17 @@ public class GeoGebraFrameFull
 
 	@Override
 	public void updateHeaderSize() {
-		headerResizer.resizeHeader();
+		getHeaderResizer().resizeHeader();
+	}
+
+	private HeaderResizer getHeaderResizer() {
+		if (app == null) {
+			return new NullHeaderResizer();
+		}
+		if (headerResizer == null) {
+			headerResizer = getApp().getActivity().getHeaderResizer(this);
+		}
+		return headerResizer;
 	}
 
 	@Override
@@ -1003,7 +1010,7 @@ public class GeoGebraFrameFull
 		if (isExternalHeaderHidden()) {
 			return 0;
 		}
-		return headerResizer.getSmallScreenHeight();
+		return getHeaderResizer().getSmallScreenHeight();
 	}
 
 	@Override
