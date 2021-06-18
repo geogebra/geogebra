@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBarSelection;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
@@ -31,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
+import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -1103,11 +1105,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 			@Override
 			public void update(List<GeoElement> geos) {
-				boolean geosOK = checkGeos(geos, geo -> geo instanceof GeoInlineText);
+				boolean geosOK = checkGeos(geos, geo
+						-> geo instanceof GeoInlineText || geo instanceof GeoMindMapNode);
 				super.setVisible(geosOK);
 
 				if (geosOK) {
-					int borderThickness = ((GeoInlineText) geos.get(0)).getBorderThickness();
+					int borderThickness = geos.get(0).getLineThickness();
 					btnBorderText.selectBorderThickness(borderThickness);
 				}
 			}
@@ -1289,8 +1292,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				super.setVisible(geosOK);
 
 				if (geosOK) {
-					InlineTableController formatter
-							= ((GeoInlineTable) geos.get(0)).getFormatter();
+					InlineTableController formatter = getTableFormatter(geos.get(0));
 
 					BorderType border = formatter != null ? formatter.getBorderStyle()
 							: BorderType.MIXED;
@@ -1330,7 +1332,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 				if (geosOK) {
 					InlineTableController formatter
-							= ((GeoInlineTable) geos.get(0)).getFormatter();
+							= getTableFormatter(geos.get(0));
 
 					HorizontalAlignment alignment = formatter != null
 							? formatter.getHorizontalAlignment() : null;
@@ -1348,6 +1350,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 				MaterialDesignResources.INSTANCE.vertical_align_top(), 24));
 		btnHorizontalAlignment.addStyleName("withIcon");
 		btnHorizontalAlignment.getMyPopup().addStyleName("mowPopup");
+	}
+
+	private InlineTableController getTableFormatter(GeoElement geoElement) {
+		HasTextFormat formatter = ((GeoInlineTable) geoElement).getFormatter();
+		return formatter == null ? null : (InlineTableController) formatter;
 	}
 
 	private void createTableVerticalAlignmentBtn() {
@@ -1368,7 +1375,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 				if (geosOK) {
 					InlineTableController formatter
-							= ((GeoInlineTable) geos.get(0)).getFormatter();
+							= getTableFormatter(geos.get(0));
 
 					VerticalAlignment alignment = formatter != null
 							? formatter.getVerticalAlignment() : null;
@@ -1590,8 +1597,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					handleBorderColorChooser(targetGeos);
 					return false;
 				}
-				needUndo = applyBorderColorText(targetGeos,
-						color);
+				needUndo = applyBorderColorText(targetGeos, color);
 			}
 		} else if (source == btnVerticalAlignment) {
 			VerticalAlignment alignment
@@ -1634,7 +1640,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	private void handleBorderColorChooser(final ArrayList<GeoElement> targetGeos) {
 		final GeoElement geo0 = targetGeos.get(0);
-		GColor originalColor = ((GeoInlineText) geo0).getBorderColor();
+		GColor originalColor = ((GeoInline) geo0).getBorderColor();
 
 		DialogManagerW dm = (DialogManagerW) (app.getDialogManager());
 		dm.showColorChooserDialog(originalColor, new ColorChangeHandler() {
@@ -1689,7 +1695,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		boolean changed = false;
 		for (GeoElement geo : targetGeos) {
 			if (geo instanceof GeoInlineTable) {
-				InlineTableController formatter = ((GeoInlineTable) geo).getFormatter();
+				InlineTableController formatter = getTableFormatter(geo);
 				if (formatter == null) {
 					continue;
 				}
@@ -1718,8 +1724,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private boolean applyBorderColorText(List<GeoElement> targetGeos, GColor borderColor) {
 		boolean changed = false;
 		for (GeoElement geo : targetGeos) {
-			if (geo instanceof GeoInlineText) {
-				GeoInlineText text = (GeoInlineText) geo;
+			if (geo instanceof GeoInline) {
+				GeoInline text = (GeoInline) geo;
 				if (borderColor != null && !text
 						.getBorderColor().equals(borderColor)) {
 					text.setBorderColor(borderColor);
@@ -1737,7 +1743,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		boolean changed = false;
 		for (GeoElement geo : targetGeos) {
 			if (geo instanceof GeoInlineTable) {
-				InlineTableController formatter = ((GeoInlineTable) geo).getFormatter();
+				InlineTableController formatter = getTableFormatter(geo);
 				changed = formatFn.apply(formatter) || changed;
 			}
 		}

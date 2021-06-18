@@ -38,8 +38,8 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
-import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
@@ -2203,7 +2203,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public InlineTextController createInlineTextController(EuclidianView view, GeoInlineText geo) {
+	public InlineTextController createInlineTextController(EuclidianView view, GeoInline geo) {
 		Element parentElement = ((EuclidianViewW) view).getAbsolutePanel().getParent().getElement();
 		return new InlineTextControllerW(geo, view, parentElement);
 	}

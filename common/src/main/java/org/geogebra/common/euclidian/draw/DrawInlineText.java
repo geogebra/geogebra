@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -14,6 +15,8 @@ import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.euclidian.inline.InlineTextController;
+import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 
 /**
@@ -23,10 +26,15 @@ public class DrawInlineText extends Drawable implements DrawInline {
 
 	public static final int PADDING = 8;
 
-	private final GeoInlineText text;
-	private InlineTextController textController;
+	protected final GeoInline text;
+	protected InlineTextController textController;
 
-	private final TransformableRectangle rectangle;
+	protected final TransformableRectangle rectangle;
+
+	protected final static GBasicStroke border1 = AwtFactory.getPrototype().newBasicStroke(1f,
+			GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
+	protected final static GBasicStroke border3 = AwtFactory.getPrototype().newBasicStroke(3f,
+			GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
 
 	/**
 	 * Create a new DrawInlineText instance.
@@ -34,13 +42,12 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	 * @param view view
 	 * @param text geo element
 	 */
-	public DrawInlineText(EuclidianView view, GeoInlineText text) {
+	public DrawInlineText(EuclidianView view, GeoInline text) {
 		super(view, text);
 		rectangle = new TransformableRectangle(view, text, false);
 		this.text = text;
 		this.textController = view.getApplication().createInlineTextController(view, text);
 		createEditor();
-		update();
 	}
 
 	private void createEditor() {
@@ -68,7 +75,7 @@ public class DrawInlineText extends Drawable implements DrawInline {
 			textController.setWidth((int) (contentWidth - PADDING));
 			textController.setAngle(angle);
 			textController.setScale(width / contentWidth, height / contentHeight);
-			if (text.updateFontSize()) {
+			if (textController.updateFontSize()) {
 				textController.updateContent();
 			}
 		}
@@ -130,11 +137,42 @@ public class DrawInlineText extends Drawable implements DrawInline {
 
 	@Override
 	public void draw(GGraphics2D g2) {
+		draw(g2, 0);
+	}
+
+	protected void draw(GGraphics2D g2, int borderRadius) {
 		if (text.isEuclidianVisible() && textController != null
-			&& rectangle.getDirectTransform() != null) {
+				&& rectangle.getDirectTransform() != null) {
+			double contentWidth = text.getContentWidth();
+			double contentHeight = text.getContentHeight();
 			GAffineTransform tr =
-					rectangle.scaleForZoom(text.getContentWidth(), text.getContentHeight());
-			textController.draw(g2, tr);
+					rectangle.scaleForZoom(contentWidth, contentHeight);
+			g2.saveTransform();
+			g2.transform(tr);
+
+			if (geo.getBackgroundColor() != null) {
+				g2.setPaint(geo.getBackgroundColor());
+				g2.fillRoundRect(0, 0, (int) contentWidth, (int) contentHeight,
+						2 * borderRadius, 2 * borderRadius);
+			}
+			if (geo.getLineThickness() != GeoInlineText.NO_BORDER) {
+				g2.setPaint(text.getBorderColor());
+				g2.setStroke(getBorderStroke());
+				g2.drawRoundRect(0, 0, (int) contentWidth, (int) contentHeight,
+						2 * borderRadius, 2 * borderRadius);
+			}
+
+			textController.draw(g2);
+
+			g2.restoreTransform();
+		}
+	}
+
+	protected GBasicStroke getBorderStroke() {
+		if (geo.getLineThickness() == 1) {
+			return border1;
+		} else {
+			return border3;
 		}
 	}
 
@@ -175,7 +213,8 @@ public class DrawInlineText extends Drawable implements DrawInline {
 		return getBoundingBox();
 	}
 
-	public InlineTextController getTextController() {
+	@Override
+	public InlineTextController getController() {
 		return textController;
 	}
 

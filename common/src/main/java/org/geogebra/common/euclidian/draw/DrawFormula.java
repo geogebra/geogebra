@@ -113,6 +113,11 @@ public class DrawFormula extends Drawable implements DrawInline {
 	}
 
 	@Override
+	public HasTextFormat getController() {
+		return null;
+	}
+
+	@Override
 	public void saveContent() {
 		if (formulaController != null) {
 			formula.setContent(formulaController.getText());

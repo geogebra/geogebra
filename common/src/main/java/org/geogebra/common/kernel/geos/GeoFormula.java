@@ -111,6 +111,7 @@ public class GeoFormula extends GeoInline {
 		this.minWidth = minWidth;
 	}
 
+	@Override
 	public void setMinHeight(double minHeight) {
 		this.minHeight = minHeight;
 	}
