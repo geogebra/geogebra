@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbAPIW;
@@ -18,6 +17,8 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
+
+import elemental2.dom.DomGlobal;
 
 /**
  * Export GeoGebra worksheet to GeoGebraTube.
@@ -77,8 +78,7 @@ public class GeoGebraTubeExportW extends
 	 * @param pba
 	 *            helper to keep popup alive
 	 */
-	protected void doUploadWorksheet(RequestBuilder rb, String postData0,
-			final PopupBlockAvoider pba) {
+	protected void doUploadWorksheet(RequestBuilder rb, String postData0) {
 		// encode '+'
 		// for some reason encode(postData) doesn't work
 		String postData = postData0.replace("+", "%2B");
@@ -113,9 +113,9 @@ public class GeoGebraTubeExportW extends
 						} else {
 							Log.debug("Opening URL: " + getUploadURL(app) + "/"
 							        + results.getUID());
-							pba.openURL(
+							DomGlobal.window.open(
 									getUploadURL(app) + "/"
-									+ results.getUID());
+									+ results.getUID(), "_blank");
 						}
 					} else { // not Response.SC_OK
 						Log.debug("Upload failed. Response: #"
@@ -144,45 +144,12 @@ public class GeoGebraTubeExportW extends
 	}
 
 	/**
-	 * @param base64
-	 *            base64
-	 * @param pba
-	 *            helper to keep popup alive
-	 */
-	public void uploadWorksheetSimple(String base64, PopupBlockAvoider pba) {
-		this.setMacros(null);
-
-		try {
-
-			RequestBuilder rb = new RequestBuilder(RequestBuilder.POST,
-					getUploadURL(app));
-			rb.setHeader("Content-Type",
-			        "application/x-www-form-urlencoded; charset=utf-8");
-			// rb.setHeader("Accept-Language", "app.getLocaleStr()");
-
-			String postData = getPostData(base64).toString();
-
-			doUploadWorksheet(rb, postData, pba);
-		} catch (Exception e) {
-			statusLabelSetText(getLoc().getPlain("UploadError",
-			        Integer.toString(400)));
-			setEnabled(false);
-			pack();
-
-			Log.debug(e.getMessage());
-
-		}
-	}
-
-	/**
 	 * Upload the current worksheet to GeoGebraTube.
 	 * 
 	 * @param macrosIn
 	 *            macros
-	 * @param pba
-	 *            helper to keep popup alive
 	 */
-	public void uploadWorksheet(ArrayList<Macro> macrosIn, PopupBlockAvoider pba) {
+	public void uploadWorksheet(ArrayList<Macro> macrosIn) {
 
 		this.setMacros(macrosIn);
 
@@ -194,7 +161,7 @@ public class GeoGebraTubeExportW extends
 			// rb.setHeader("Accept-Language", "app.getLocaleStr()");
 
 			String postData = getPostData().toString();
-			doUploadWorksheet(rb, postData, pba);
+			doUploadWorksheet(rb, postData);
 		} catch (Exception e) {
 			statusLabelSetText(getLoc().getPlain("UploadError",
 			        Integer.toString(400)));
@@ -244,8 +211,7 @@ public class GeoGebraTubeExportW extends
 
 	@Override
 	protected void statusLabelSetText(String plain) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(plain, true,
-				(AppW) app);
+		ToolTipManagerW.sharedInstance().showBottomMessage(plain, (AppW) app);
 	}
 
 	@Override

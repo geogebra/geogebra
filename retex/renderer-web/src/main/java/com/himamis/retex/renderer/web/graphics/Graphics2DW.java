@@ -43,15 +43,6 @@
  */
 package com.himamis.retex.renderer.web.graphics;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArrayNumber;
-import com.google.gwt.core.shared.GWT;
-import com.google.gwt.dom.client.CanvasElement;
-import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.event.dom.client.LoadEvent;
-import com.google.gwt.event.dom.client.LoadHandler;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontLoader;
@@ -62,7 +53,6 @@ import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
-import com.himamis.retex.renderer.share.platform.graphics.ImageBase64;
 import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 import com.himamis.retex.renderer.share.platform.graphics.Transform;
 import com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform;
@@ -72,6 +62,12 @@ import com.himamis.retex.renderer.web.font.AsyncLoadedFont.FontLoadCallback;
 import com.himamis.retex.renderer.web.font.DefaultFont;
 import com.himamis.retex.renderer.web.font.FontW;
 import com.himamis.retex.renderer.web.font.FontWrapper;
+
+import elemental2.core.JsArray;
+import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.HTMLCanvasElement;
+import elemental2.dom.HTMLImageElement;
+import jsinterop.base.Js;
 
 public class Graphics2DW implements Graphics2DInterface {
 
@@ -83,16 +79,16 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	private DrawingFinishedCallback drawingFinishedCallback;
 
-	public Graphics2DW(Context2d context) {
-		this.context = (JLMContext2d) context;
+	public Graphics2DW(CanvasRenderingContext2D context) {
+		this.context = JLMContextHelper.as(context);
 		this.context.initTransform();
 		initBasicStroke();
 		initColor();
 		initFont();
 	}
 
-	public Graphics2DW(Canvas canvas) {
-		this(JLMContext2d.forCanvas(canvas));
+	public Graphics2DW(HTMLCanvasElement canvas) {
+		this(Js.<CanvasRenderingContext2D>uncheckedCast(canvas.getContext("2d")));
 	}
 
 	private void initBasicStroke() {
@@ -111,7 +107,7 @@ public class Graphics2DW implements Graphics2DInterface {
 				(int) Math.round(FontLoader.PIXELS_PER_POINT));
 	}
 
-	public Context2d getContext() {
+	public CanvasRenderingContext2D getContext() {
 		return context;
 	}
 
@@ -125,10 +121,10 @@ public class Graphics2DW implements Graphics2DInterface {
 
 		float[] dasharr = basicStroke.getDash();
 		if (dasharr != null) {
-			JsArrayNumber jsarrn = JavaScriptObject.createArray().cast();
+			JsArray<Float> jsarrn = JsArray.of();
 			jsarrn.setLength(dasharr.length);
-			for (int i = 0; i < dasharr.length; i++) {
-				jsarrn.set(i, dasharr[i]);
+			for (float i: dasharr)  {
+				jsarrn.push(i);
 			}
 			setStrokeDash(context, jsarrn);
 		} else {
@@ -137,7 +133,7 @@ public class Graphics2DW implements Graphics2DInterface {
 	}
 
 	public native void setStrokeDash(JLMContext2d ctx,
-			JsArrayNumber dasharray) /*-{
+			JsArray<Float> dasharray) /*-{
 		if (dasharray === undefined || dasharray === null) {
 			dasharray = [];
 		}
@@ -171,9 +167,7 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	@Override
 	public AffineTransform getTransform() {
-		return new AffineTransform(context.getScaleX(), context.getShearY(),
-				context.getShearX(), context.getScaleY(),
-				context.getTranslateX(), context.getTranslateY());
+		return context.getTransform();
 	}
 
 	@Override
@@ -210,7 +204,7 @@ public class Graphics2DW implements Graphics2DInterface {
 	// Consider http://jsfiddle.net/9bMPD/357/ for rectangles!!
 
 	@Override
-	public void fillRect(int x, int y, int width, int height) {
+	public void fillRect(double x, double y, double width, double height) {
 		context.fillRect(x, y, width, height);
 	}
 
@@ -473,27 +467,13 @@ public class Graphics2DW implements Graphics2DInterface {
 	@Override
 	public void drawImage(Image image, final int x, final int y) {
 
-		if (image instanceof ImageBase64) {
-			String base64 = ((ImageBase64) image).getBase64();
-			final com.google.gwt.user.client.ui.Image img = new com.google.gwt.user.client.ui.Image();
-			img.getElement().setAttribute("src", base64);
-
-			img.addLoadHandler(new LoadHandler() {
-				@Override
-				public void onLoad(LoadEvent event) {
-					context.drawImage(ImageElement.as(img.getElement()), x, y);
-				}
-			});
-
-			context.drawImage(ImageElement.as(img.getElement()), x, y);
-
-			// ImageElement img2 = ImageElement.as(img.getElement());
-			// context.drawImage(img2, x, y);
-
+		if (image instanceof ImageWImg) {
+			ImageWImg impl = (ImageWImg) image;
+			HTMLImageElement canvasElement = impl.getImage();
+			context.drawImage(canvasElement, x, y);
 		} else {
 			ImageW impl = (ImageW) image;
-			Canvas imageCanvas = impl.getCanvas();
-			CanvasElement canvasElement = imageCanvas.getCanvasElement();
+			HTMLCanvasElement canvasElement = impl.getCanvas();
 			context.drawImage(canvasElement, x, y);
 		}
 	}

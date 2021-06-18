@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.TreeSet;
+import java.util.function.Consumer;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
@@ -736,11 +737,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
-	public void uploadToGeoGebraTube() {
-		app.uploadToGeoGebraTube();
-	}
-
-	@Override
 	public void startAnimation() {
 		kernel.getAnimatonManager().startAnimation();
 	}
@@ -1152,8 +1148,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public synchronized String getPerspectiveXML() {
 		if (app.getGuiManager() == null
 				|| app.getGuiManager().getLayout() == null) {
-			if (app.getTmpPerspective(null) != null) {
-				return app.getTmpPerspective(null).getXml();
+			if (app.getTmpPerspective() != null) {
+				return app.getTmpPerspective().getXml();
 			}
 			return "";
 		}
@@ -1765,10 +1761,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 						app));
 		if (app.getGuiManager() == null) {
 			if (ps != null) {
-				ArrayList<Perspective> perspectives = new ArrayList<>();
-				ps.setId("tmp");
-				perspectives.add(ps);
-				app.setTmpPerspectives(perspectives);
+				app.setTmpPerspective(ps);
 			}
 			return;
 		}
@@ -2169,28 +2162,22 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * @param filename
-	 *            output filename
-	 * @return SVG export
+	 * @param filename output filename
+	 * @param callback called with the construction exported as SVG
 	 */
-	public String exportSVG(String filename) {
+	public void exportSVG(String filename, Consumer<String> callback) {
 		// not implemented in Android, iOS
-		return null;
 	}
 
 	/**
-	 * @param exportScale
-	 *            scale
-	 * @param filename
-	 *            output filename
-	 * @param sliderLabel
-	 *            animation slider
-	 * @return PDF
+	 * @param exportScale scale
+	 * @param filename output filename
+	 * @param callback called with the construction exported as PDF
+	 * @param sliderLabel animation slider
 	 */
-	public String exportPDF(double exportScale, String filename,
-			String sliderLabel) {
+	public void exportPDF(double exportScale, String filename,
+			Consumer<String> callback, String sliderLabel) {
 		// not implemented in Android, iOS
-		return null;
 	}
 
 	/**

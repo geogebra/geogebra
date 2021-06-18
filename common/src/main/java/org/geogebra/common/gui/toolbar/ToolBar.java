@@ -334,9 +334,11 @@ public class ToolBar {
 
 	/**
 	 * @param includeGraspableMath whether to include GraspableMath
+	 * @param includeH5P whether to include H5P
 	 * @return definition for MOW media toolbar
 	 */
-	public static String getMOWMediaToolBarDefString(boolean includeGraspableMath) {
+	public static String getMOWMediaToolBarDefString(boolean includeGraspableMath,
+			boolean includeH5P) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(EuclidianConstants.MODE_MEDIA_TEXT);
 		sb.append(" ");
@@ -353,6 +355,10 @@ public class ToolBar {
 		}
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_EXTENSION);
+		if (includeH5P) {
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_H5P);
+		}
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_IMAGE);
 		sb.append(" ");
@@ -363,6 +369,8 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_AUDIO);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PDF);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_MIND_MAP);
 		sb.append(" | ");
 		return sb.toString();
 	}

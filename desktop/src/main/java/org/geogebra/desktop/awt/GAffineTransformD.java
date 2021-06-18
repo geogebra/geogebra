@@ -96,8 +96,7 @@ public class GAffineTransformD implements GAffineTransform {
 		point2 = at.transform(point, point2);
 
 		if (p2 != null) {
-			p2.setX(point2.getX());
-			p2.setY(point2.getY());
+			p2.setLocation(point2.getX(), point2.getY());
 			return p2;
 		}
 		return new GPoint2D(point2.getX(), point2.getY());
@@ -116,8 +115,8 @@ public class GAffineTransformD implements GAffineTransform {
 	}
 
 	@Override
-	public void scale(double xscale, double d) {
-		at.scale(xscale, d);
+	public void scale(double xscale, double yscale) {
+		at.scale(xscale, yscale);
 
 	}
 

@@ -285,7 +285,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		setMaterialsDefaultStyle();
 		app.setCloseBrowserCallback(null);
 		close();
-		ToolTipManagerW.sharedInstance().hideBottomInfoToolTip();
+		ToolTipManagerW.sharedInstance().hideTooltip();
 		return false;
 	}
 
@@ -378,7 +378,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	public void showLoading() {
 		if (!app.isUnbundled()) {
 			ToolTipManagerW.sharedInstance().showBottomMessage(
-				app.getLocalization().getMenu("Loading"), false, app);
+				app.getLocalization().getMenu("Loading"), app);
 		}
 	}
 

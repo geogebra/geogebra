@@ -175,6 +175,14 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void setValueShouldChangeRandomSequence() {
+		app.setRandomSeed(42);
+		add("a=Sequence(RandomBetween(1,k),k,1,5)");
+		t("SetValue(a,{3,-2,3,2,5})", new String[0]);
+		t("a", "{1, 1, 3, 2, 5}");
+	}
+
+	@Test
 	public void setValueShouldChangeShuffle() {
 		app.setRandomSeed(42);
 		t("L_1=Shuffle(1..10)", "{8, 7, 3, 2, 6, 10, 4, 1, 5, 9}");
@@ -217,8 +225,19 @@ public class RedefineTest extends BaseUnitTest {
 		t("f(x,y)=xx+y", "x^(2) + y");
 		t("a:f(x,y)=0", TestStringUtil.unicode("x^2 + y = 0"));
 		assertEquals(lookup("a").getGeoClassType(), GeoClass.CONIC);
-		app.setXML(app.getXML(), true);
+		reload();
 		hasType("a", GeoClass.CONIC);
+	}
+
+	@Test
+	public void rigidPolygonShouldSurviveReload() {
+		add("A=(1,1)");
+		add("B=(1,2)");
+		add("C=(2,1)");
+		add("t1=Polygon(A,B,C)");
+		add("t2=RigidPolygon(t1)");
+		reload();
+		assertEquals("t2 = Polygon(D, E, F)", lookup("t2").getDefinitionForInputBar());
 	}
 
 	private void hasType(String label, GeoClass geoClass) {
@@ -233,7 +252,7 @@ public class RedefineTest extends BaseUnitTest {
 		assertEquals(
 				lookup("D20").getGeoClassType(),
 				GeoClass.CONIC);
-		app.setXML(app.getXML(), true);
+		reload();
 		assertEquals(
 				lookup("D20").getGeoClassType(),
 				GeoClass.CONIC);
@@ -283,7 +302,7 @@ public class RedefineTest extends BaseUnitTest {
 		t("d=Circle((0,0,0),1,x=0)", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
 				StringTemplate.editTemplate);
 
-		app.setXML(app.getXML(), true);
+		reload();
 		t("d", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
 				StringTemplate.editTemplate);
 		t("c", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
@@ -400,8 +419,21 @@ public class RedefineTest extends BaseUnitTest {
 		add("d=b(3)");
 		assertEquals(lookup("d").toValueString(StringTemplate.defaultTemplate), "false");
 		assertEquals(lookup("c").toValueString(StringTemplate.defaultTemplate), "false");
-		app.setXML(app.getXML(), true);
+		reload();
 		assertEquals(lookup("c").toValueString(StringTemplate.defaultTemplate), "false");
+	}
+
+	@Test
+	public void redefineShouldUpdateOrder() {
+		add("numA:Element(1..5, 5)");
+		add("numA0:2numA");
+		add("numA2:1");
+		add("qrow:{numA + \"\"}");
+		add("numA3=numA0 - numA2");
+		add("row11:{Element(qrow, 1)}");
+		add("qrow:{numA3 + \"\"}");
+		assertEquals("{numA3 + \"\"}",
+				lookup("qrow").getRedefineString(false, false));
 	}
 
 	/**

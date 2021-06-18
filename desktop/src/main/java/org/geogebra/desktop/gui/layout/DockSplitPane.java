@@ -358,18 +358,6 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 	}
 
 	@Override
-	public String toString(String prefix) {
-		String prefix2 = prefix + "-";
-
-		return "\n" + prefix + "split=" + getDividerLocation() + "\n" + prefix
-				+ "width=" + getWidth() + "\n" + prefix + "left"
-				+ ((DockComponent) getLeftComponent()).toString(prefix2) + "\n"
-				+ prefix + "right"
-				+ ((DockComponent) getRightComponent()).toString(prefix2);
-
-	}
-
-	@Override
 	public boolean updateResizeWeight() {
 		boolean takesNewSpaceLeft = false;
 		boolean takesNewSpaceRight = false;

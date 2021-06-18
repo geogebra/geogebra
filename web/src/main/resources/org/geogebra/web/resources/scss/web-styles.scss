@@ -118,45 +118,9 @@
 		display: block;
 	}
 
-	.boxsize {
-		width: 340px;
-		max-width: 100%;
-	}
-
-	.ExamTabletBoxsize div {
-		text-align: center;
-	}
-
-	.ExamTabletBoxsize .Caption {
-		margin-bottom: 5px !important;
-	}
-
-	.ExamTabletStartButton {
-		margin: 30px 0 10px 0 !important;
-	}
-
-	.examScrollPanel {
-		overflow: auto;
-		min-height: 100px;
-		max-height: 350px;
-		padding: 0 10px 10px 5px;
-	}
-
-	.examMessagePanel {
-		margin-right: 30px;
-	}
-
 	.examInfo {
 		margin-left: 5px;
 		cursor: pointer;
-	}
-
-	.centerDialog {
-		position: absolute !important;
-		left: 50% !important;
-		top: 50% !important;
-		margin-top: -200px;
-		margin-left: -170px;
 	}
 
 	.webkitFullscreen:-webkit-full-screen {
@@ -362,8 +326,8 @@
 	}
 
 	.gwt-PopupPanelGlass {
-		background-color: #FFF;
-		opacity: 0.7;
+		background-color: $black;
+		opacity: 0.32;
 		z-index: $z-dialog;
 	}
 
@@ -449,9 +413,10 @@
 		border: #DCDCDC solid 1px;
 	}
 
-	.MyCanvasButton.gereBtn {
+	.MyToggleButton, .MyCanvasButton {
 		img {
-			padding: 2px;
+			width: 24px;
+			opacity: 0.7;
 		}
 	}
 
@@ -529,7 +494,6 @@
 		border-left: 1px solid #DCDCDC;
 		border-right: 1px solid #DCDCDC;
 		box-sizing: border-box;
-		box-shadow: 0 0 2px rgba(204, 204, 204, 0.5);
 	}
 
 	.splitterFixed {
@@ -539,7 +503,7 @@
 	}
 
 	.gwt-SplitLayoutPanel-VDragger {
-		cursor: row-resize;
+		cursor: ns-resize;
 		background: #F8F8F8;
 		border-top: 1px solid #DCDCDC;
 		border-bottom: 1px solid #DCDCDC;
@@ -547,30 +511,29 @@
 		box-shadow: 0 0 2px rgba(204, 204, 204, 0.5);
 	}
 
-	.gwt-SplitLayoutPanel-HDragger:ACTIVE {
-		background: #6161FF;
-		border-left: 1px solid #C6C6C6;
-		border-right: 1px solid #C6C6C6;
-	}
+	.highlightDraggers {
+		.gwt-SplitLayoutPanel-HDragger:active, .gwt-SplitLayoutPanel-Dragger-ACTIVE {
+			background: #6161FF;
+			border-left: 1px solid #C6C6C6;
+			border-right: 1px solid #C6C6C6;
+		}
 
-	.gwt-SplitLayoutPanel-HDragger.disabled:ACTIVE {
-		background: #F8F8F8;
-		border-left: 1px solid #DCDCDC;
-		border-right: 1px solid #DCDCDC;
-	}
+		.gwt-SplitLayoutPanel-HDragger.disabled:active {
+			background: #F8F8F8;
+			border-left: 1px solid #DCDCDC;
+			border-right: 1px solid #DCDCDC;
+		}
 
-	.gwt-SplitLayoutPanel-VDragger:ACTIVE {
-		background: #6161FF;
-		border-top: 1px solid #C6C6C6;
-		border-bottom: 1px solid #C6C6C6;
+		.gwt-SplitLayoutPanel-VDragger:active {
+			background: #6161FF;
+			border-top: 1px solid #C6C6C6;
+			border-bottom: 1px solid #C6C6C6;
+		}
 	}
 
 	/* Selector used for android chrome */
 
 	.gwt-SplitLayoutPanel-Dragger-ACTIVE {
-		background: #6161FF;
-		border-left: 1px solid #C6C6C6;
-		border-right: 1px solid #C6C6C6;
 		border-top: 1px solid #C6C6C6;
 		border-bottom: 1px solid #C6C6C6;
 	}
@@ -634,14 +597,6 @@
 		cursor: pointer;
 	}
 
-	.cursor_resizeXAxis {
-		cursor: e-resize;
-	}
-
-	.cursor_resizeYAxis {
-		cursor: n-resize;
-	}
-
 	.cursor_resizeNESW {
 		cursor: nesw-resize;
 	}
@@ -668,17 +623,17 @@
 
 	.cursor_eraser {
 		cursor: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTE1LjE0LDNDMTQuNjMsMyAxNC4xMiwzLjIgMTMuNzMsMy41OUwyLjU5LDE0LjczQzEuODEsMTUuNSAxLjgxLDE2Ljc3IDIuNTksMTcuNTZMNS4wMywyMEgxMi42OUwyMS40MSwxMS4yN0MyMi4yLDEwLjUgMjIuMiw5LjIzIDIxLjQxLDguNDRMMTYuNTYsMy41OUMxNi4xNywzLjIgMTUuNjUsMyAxNS4xNCwzTTE3LDE4TDE1LDIwSDIyVjE4IiAvPjwvc3ZnPg==
-		) 0 31, crosshair;
+		) 0 23, crosshair;
 	}
 
 	.cursor_pen {
 		cursor: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiPjxwYXRoIGQ9Ik0yMC43MSw3LjA0QzIxLjEsNi42NSAyMS4xLDYgMjAuNzEsNS42M0wxOC4zNywzLjI5QzE4LDIuOSAxNy4zNSwyLjkgMTYuOTYsMy4yOUwxNS4xMiw1LjEyTDE4Ljg3LDguODdNMywxNy4yNVYyMUg2Ljc1TDE3LjgxLDkuOTNMMTQuMDYsNi4xOEwzLDE3LjI1WiIgLz48L3N2Zz4=
-		) 0 31, crosshair;
+		) 0 23, crosshair;
 	}
 
 	.cursor_highlighter {
 		cursor: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmlld0JveD0iMCAwIDI2IDI2IiB2ZXJzaW9uPSIxLjEiIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiPg0KPGcgaWQ9InN1cmZhY2UxIj4NCjxwYXRoIHN0eWxlPSIgIiBkPSJNIDIxLjYyNSAwLjE4NzUgQyAyMS40Mzc1IDAuMTc5Njg4IDIxLjI0NjA5NCAwLjI0NjA5NCAyMS4wOTM3NSAwLjM3NSBMIDYuMzc1IDEzLjA2MjUgTCAxMi45Mzc1IDE5LjY1NjI1IEwgMjUuNjU2MjUgNC45MDYyNSBDIDI1LjkxNDA2MyA0LjYwMTU2MyAyNS44OTg0MzggNC4xNDg0MzggMjUuNjI1IDMuODc1IEwgMjIuMTU2MjUgMC40MDYyNSBDIDIyLjAxOTUzMSAwLjI2OTUzMSAyMS44MTI1IDAuMTk1MzEzIDIxLjYyNSAwLjE4NzUgWiBNIDUuNjU2MjUgMTMuODEyNSBMIDMuNDM3NSAxNiBDIDMuMDM1MTU2IDE2LjQwMjM0NCAzLjI3MzQzOCAxNi45MTQwNjMgMy40Mzc1IDE3LjQ2ODc1IEMgMy42OTkyMTkgMTguMzQzNzUgNC4xODc1IDE5LjYyNSAyLjcxODc1IDIxLjA5Mzc1IEwgNC45MDYyNSAyMy4yODEyNSBDIDYuMzQ3NjU2IDIxLjgzOTg0NCA3Ljk4ODI4MSAyMi40MjE4NzUgOC41NjI1IDIyLjU2MjUgQyA5LjExNzE4OCAyMi42OTkyMTkgOS42Mjg5MDYgMjIuOTY0ODQ0IDEwLjAzMTI1IDIyLjU2MjUgTCAxMi4yMTg3NSAyMC4zNzUgWiBNIDIgMjEuODQzNzUgTCAwLjA2MjUgMjMuNzUgTCAzLjQzNzUgMjQuNzUgTCA0LjE4NzUgMjQuMDMxMjUgWiAiLz4NCjwvZz4NCjwvc3ZnPg0K
-		) 0 31, crosshair;
+		) 0 23, crosshair;
 	}
 
 	.cursor_rotation {
@@ -716,6 +671,7 @@
 
 	.closeButtonPanel {
 		padding: 7px;
+		opacity: 0.7;
 	}
 
 	.ButtonPopupMenu {
@@ -776,6 +732,7 @@
 
 	.TitleBarPanel .dragPanel {
 		padding-top: 1px;
+		opacity: 0.7;
 	}
 
 	.StyleBarPanel {
@@ -863,24 +820,16 @@
 		background-position: center center;
 		width: 24px;
 		height: 24px;
+
+		&.stylebarButton {
+			opacity: 0.7;
+		}
 	}
 
 	.MyCanvasButton.btnTextColor .buttonContent,
-	.btnBold .html-face,
-	.btnItalic .html-face,
 	.btnUseAsText .html-face {
 		line-height: 22px;
 		font-size: 22px;
-	}
-
-	.btnBold .html-face {
-		font-weight: bold;
-		color: #999999;
-	}
-
-	.btnItalic .html-face {
-		font-style: italic;
-		color: #999999;
 	}
 
 	.btnSerif {
@@ -898,6 +847,7 @@
 	.gwt-Label.stylebarButton {
 		height: 24px;
 		width: 24px;
+		opacity: 0.7;
 	}
 
 	.gwt-Label.border {
@@ -1299,38 +1249,23 @@
 		display: table;
 		box-sizing: border-box;
 		padding: 3px;
-	}
 
-	.consProtNav .gwt-Label {
-		display: inline;
-		padding: 0 8px;
-	}
+		.gwt-Label {
+			display: inline;
+			padding: 0 8px;
+		}
 
-	.consProtNav .gwt-PushButton {
-		padding: 0 6px;
-		display: inline-block;
-		vertical-align: text-top;
-	}
+		.gwt-PushButton, .gwt-ToggleButton {
+			 opacity: 0.54;
+			 padding: 0 6px;
+			 display: inline-block;
+			 vertical-align: text-top;
+		}
 
-	.consProtNav img.gwt-Image {
-		vertical-align: middle;
-		draggable: false;
-	}
-
-	.consProtNav button.gwt-Button {
-		margin: 5px;
-		background: #FFFFFF;
-		border: 1px solid #CDCDCD;
-		box-shadow: none;
-	}
-
-	.consProtNav button:hover {
-		border-color: #9999FF;
-	}
-
-	.consProtNav button.gwt-Button:active,
-	&.Tablet .consProtNav button.gwt-Button:active {
-		border: 1px solid #6666FF !important;
+		img.gwt-Image {
+			vertical-align: middle;
+			draggable: false;
+		}
 	}
 
 	/* no border-color for touch */

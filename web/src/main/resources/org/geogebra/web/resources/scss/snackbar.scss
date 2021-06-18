@@ -2,109 +2,82 @@
 @import 'z-index';
 
 .GeoGebraFrame {
-	.snackbar {
-		left: 0px;
-		/*min-width: 288px;*/
-		/*min-width: 420px;
-		max-width: 420px;*/
-		height: 80px; /* 48px for single line */
-		border-radius: 2px;
-		z-index: $z-snackbar;
+	.snackbarComponent {
+		max-width: 664px;
+		min-width: 320px;
+		width: fit-content;
+		width: -moz-fit-content;
 		position: absolute;
-		bottom: -80px;
+		bottom: 8px;
+		left: 8px;
+		right: 8px;
+		margin-right: 16px;
+		padding: 6px 8px 6px 16px;
+		z-index: $z-snackbar;
 		background-color: $snackbar-background;
-		
-		td {
-			vertical-align: middle !important;
-		}
-	
-		.infoText {
-			padding-left: 24px;
-			cursor: default;
-			font-size: 90%;
-			color: $white-70;
-			p {
-				color: $white;
-			}
-		}
-	
-		.manualLink {
-			padding-left: 48px;
-			padding-right: 24px;
-			padding-top: 30px;
-			padding-bottom: 30px;
-			float: right;
-			cursor: pointer;
-			font-size: 90%;
-			color: $teal-light;
-		}
-	
-		.warning{
-			padding-top: 40px;
-			padding-bottom: 40px;
-			float: right;
-		}
-	
-	}
-	.small{
-		width: 100%;
-		height: 48px;
-		bottom: -48px;
-		border-radius: 0px;
-		.manualLink {
-			padding-top: 0px;
-			padding-bottom: 0px;
-		}
-		.warning{
-			padding-top: 0px;
-			padding-bottom: 0px;
-			float: right;
-		}
-	}
-		
-	.animateShow { 
-		bottom: 0px;
-		transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
-	} 
-	.animateHide { 
-		bottom: -80px;
-		transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
-	} 
-
-	.snackbarMow {
-		display: block;
-		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 		border-radius: 4px;
-		padding: 3px;
-		background-color: $black-87;
-		box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
-		z-index: $z-snackbar;
-		position: absolute;
-		color: #FFFFFF;
-		/*left: 862px !important;
-    	top: 750px !important;*/
-			
-		.infoText {
-			padding: 5px 50px;
-			display: inline-block;
-			cursor: default;
-			color: #FFFFFF;
-			
-			p {
-				margin: 0px !important;
+		box-shadow: 0 3px 5px -1px $black-20, 0 1px 18px 0 $black-12, 0 6px 10px 0 $black-14;
+		transition: opacity 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,-webkit-transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms;
+		transform: scale(.8);
+		opacity: 0;
+		display: flex;
+
+		&.mowPosition {
+			bottom: 220px;
+			left: 50%;
+		}
+
+		&.landscape {
+			// 72px (width of rail) + 8px padding
+			left: 80px;
+		}
+
+		&.portrait {
+			left: 8px;
+			// 56px (height of rail) + 8px padding
+			bottom: 64px;
+		}
+
+		&.fadeIn {
+			opacity: 1;
+			transform: scale(1);
+		}
+
+		.txtContainer {
+			margin-right: 8px;
+			margin-top: auto;
+			margin-bottom: auto;
+			padding: 8px 0px;
+
+			.title {
+				min-height: 20px;
+				color: $white-87;
+				font-size: 88%;
+				font-weight: 500;
+			}
+
+			.text {
+				font-size: 88%;
+				min-height: 20px;
+				color: $white-60;
 			}
 		}
 
-		.manualLink {
-			border-left: 1px solid #FFFFFF;
-			padding: 10px 20px;
-			display: inline-block;
-			background-repeat: no-repeat;
-			background-position: center center;
-			padding-top: 20%;
-			color: #FFFFFF;
-			cursor: pointer;
+		.materialTextButton {
+			color: $teal-light;
+			font-size: 88%;
+			margin: auto 0px auto auto;
+
+			&:hover {
+				background: none;
+			}
+		}
+	}
+
+	@media screen and (max-width: 420px) {
+		.snackbarComponent {
+			width: calc(100% - 40px);
+			min-width: unset;
 		}
 	}
 }
-

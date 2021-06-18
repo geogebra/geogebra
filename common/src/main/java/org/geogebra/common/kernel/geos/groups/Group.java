@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos.groups;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 
@@ -58,6 +59,10 @@ public class Group {
      */
     public ArrayList<GeoElement> getGroupedGeos() {
         return geosGroup;
+    }
+
+    public Stream<GeoElement> stream() {
+        return geosGroup.stream();
     }
 
     /**

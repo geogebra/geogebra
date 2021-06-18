@@ -29,6 +29,18 @@ $purple-default: #6557D2;
 		}
 	}
 
+	&.portrait.newToolbar .matOpenKeyboardBtn{
+		bottom: 64px;
+	}
+
+	&.landscape.newToolbar .matOpenKeyboardBtn{
+		left: 72px;
+	}
+
+	&.landscape.newToolbar.small .matOpenKeyboardBtn{
+		left: 56px;
+	}
+
 	.matOpenKeyboardBtn:hover {
 		img {
 			opacity: 0.84;

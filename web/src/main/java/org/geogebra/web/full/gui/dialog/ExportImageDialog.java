@@ -5,17 +5,19 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.Clipboard;
-import org.geogebra.web.html5.util.ImageWrapper;
+import org.geogebra.web.html5.main.ClipboardUtil;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.dom.client.IFrameElement;
-import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Label;
+
+import elemental2.dom.HTMLIFrameElement;
+import elemental2.dom.HTMLImageElement;
+import jsinterop.base.Js;
 
 /**
  * @author csilla
@@ -86,7 +88,7 @@ public class ExportImageDialog extends ComponentDialog {
 	private void buildContent() {
 		contentPanel = new FlowPanel();
 		contentPanel.addStyleName("expImgContent");
-		if (!Clipboard.isCopyImageToClipboardAvailable()) {
+		if (!ClipboardUtil.isCopyImageToClipboardAvailable()) {
 			Label rightClickText = new Label(app.getLocalization().getMenu("expImgRightClickMsg"));
 			rightClickText.addStyleName("rightClickHelpText");
 			contentPanel.add(rightClickText);
@@ -125,13 +127,14 @@ public class ExportImageDialog extends ComponentDialog {
 				iframe.setTabIndex(-1);
 				iframe.setSrc(imgStr);
 
-				ImageWrapper.nativeon(iframe, "load", () -> center());
+				Js.<HTMLIFrameElement>uncheckedCast(iframe)
+						.addEventListener("load", (event) -> center());
 			} else {
 				previewImage = new NoDragImage(imgStr);
 				previewImage.addStyleName("prevImg");
 				Browser.setAllowContextMenu(previewImage.getElement(), true);
-				ImageElement img = previewImage.getElement().cast();
-				ImageWrapper.nativeon(img, "load", () -> center());
+				Js.<HTMLImageElement>uncheckedCast(previewImage.getElement())
+						.addEventListener("load", (event) -> center());
 			}
 		}
 	}

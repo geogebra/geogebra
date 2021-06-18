@@ -1176,7 +1176,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						// f(x,y) in
 						// MyList
 						lArg.addListElement(l.getListElement(i));
-						ret.addListElement(new ExpressionNode(kernel, funN,
+						ret.addListElement(new ExpressionNode(kernel, lt,
 								Operation.FUNCTION_NVAR, lArg));
 					}
 					return ret;

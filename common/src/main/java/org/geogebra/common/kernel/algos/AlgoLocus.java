@@ -159,8 +159,7 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 
 	@Override
 	protected void setQCopyCache(MyPoint copy, GeoPointND point) {
-		copy.setX(((GeoPoint) point).inhomX);
-		copy.setY(((GeoPoint) point).inhomY);
+		copy.setLocation(((GeoPoint) point).inhomX, ((GeoPoint) point).inhomY);
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -146,7 +147,7 @@ public class ZoomPanelMow extends FlowPanel
 
 	private void addZoomOutButton() {
 		zoomOutBtn = new StandardButton(
-				ZoomPanelResources.INSTANCE.zoomout_black24(), null, 24);
+				GuiResourcesSimple.INSTANCE.zoom_out(), null, 24);
 		zoomOutBtn.setStyleName("zoomPanelBtn");
 		registerFocusable(zoomOutBtn, AccessibilityGroup.ViewControlId.ZOOM_NOTES_MINUS);
 
@@ -160,7 +161,7 @@ public class ZoomPanelMow extends FlowPanel
 
 	private void addZoomInButton() {
 		zoomInBtn = new StandardButton(
-				ZoomPanelResources.INSTANCE.zoomin_black24(), null, 24);
+				GuiResourcesSimple.INSTANCE.zoom_in(), null, 24);
 		zoomInBtn.setStyleName("zoomPanelBtn");
 		registerFocusable(zoomInBtn, AccessibilityGroup.ViewControlId.ZOOM_NOTES_PLUS);
 

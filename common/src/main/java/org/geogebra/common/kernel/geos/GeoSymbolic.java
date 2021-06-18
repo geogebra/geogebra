@@ -22,8 +22,10 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
@@ -36,6 +38,7 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Symbolic geo for CAS computations in AV
@@ -60,6 +63,20 @@ public class GeoSymbolic extends GeoElement
 	@Nullable
 	private GeoElement twinGeo;
 
+	@Nullable
+	private ExpressionValue numericValue;
+	private int numericPrintFigures;
+	private int numericPrintDecimals;
+
+	/**
+	 * @param c construction
+	 */
+	public GeoSymbolic(Construction c) {
+		super(c);
+		symbolicMode = true;
+		fixed = true;
+	}
+
 	/**
 	 * @return output expression
 	 */
@@ -73,14 +90,6 @@ public class GeoSymbolic extends GeoElement
 	 */
 	private void setValue(ExpressionValue value) {
 		this.value = value;
-	}
-
-	/**
-	 * @param c construction
-	 */
-	public GeoSymbolic(Construction c) {
-		super(c);
-		symbolicMode = true;
 	}
 
 	@Override
@@ -112,6 +121,9 @@ public class GeoSymbolic extends GeoElement
 			fVars.addAll(symbolic.fVars);
 			value = symbolic.getValue();
 			casOutputString = symbolic.casOutputString;
+			numericValue = symbolic.numericValue;
+			numericPrintFigures = symbolic.numericPrintFigures;
+			numericPrintDecimals = symbolic.numericPrintDecimals;
 			isTwinUpToDate = false;
 		}
 	}
@@ -128,13 +140,29 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		GeoElementND twin = getTwinGeo();
-		if (symbolicMode || twin == null) {
+		if (symbolicMode || !hasNumericValue()) {
 			if (value != null) {
 				return value.toValueString(tpl);
 			}
 			return getDefinition().toValueString(tpl);
 		} else {
+			return getNumericValueString(tpl);
+		}
+	}
+
+	private boolean hasNumericValue() {
+		return numericValue != null || getTwinGeo() != null;
+	}
+
+	private String getNumericValueString(StringTemplate tpl) {
+		assert hasNumericValue();
+		GeoElementND twin = getTwinGeo();
+		if (twin != null && twin.isGeoAngle()) {
+			return twin.toValueString(tpl);
+		} else if (numericValue != null) {
+			return numericValue.toValueString(tpl);
+		} else {
+			assert twin != null;
 			return twin.toValueString(tpl);
 		}
 	}
@@ -142,7 +170,8 @@ public class GeoSymbolic extends GeoElement
 	@Override
 	protected boolean showInEuclidianView() {
 		GeoElementND twin = getTwinGeo();
-		return isEuclidianShowable && twin != null && twin.isEuclidianShowable();
+		return isEuclidianShowable && twin != null && twin.isEuclidianShowable()
+				&& !twin.isLabelSet();
 	}
 
 	@Override
@@ -191,28 +220,36 @@ public class GeoSymbolic extends GeoElement
 		MyArbitraryConstant constant = getArbitraryConstant();
 		constant.setSymbolic(!shouldBeEuclidianVisible(casInput));
 
-		String s = evaluateGeoGebraCAS(casInput, constant);
+		String casResult = evaluateGeoGebraCAS(casInput, constant);
 
-		if (Commands.Solve.name().equals(casInput.getName()) && GeoFunction.isUndefined(s)) {
+		if (Commands.Solve.name().equals(casInput.getName()) && GeoFunction
+				.isUndefined(casResult)) {
 			getDefinition().getTopLevelCommand().setName(Commands.NSolve.name());
 			casInput = getCasInput(getDefinition().deepCopy(kernel)
 					.traverse(FunctionExpander.getCollector()));
-			s = evaluateGeoGebraCAS(casInput, constant);
+			casResult = evaluateGeoGebraCAS(casInput, constant);
 		}
 
-		this.casOutputString = s;
-		ExpressionValue casOutput = parseOutputString(s);
+		setSymbolicMode(!isTopLevelCommandNumeric(), false);
+		casOutputString = casResult;
+		ExpressionValue casOutput = parseOutputString(casResult);
+		setValue(casOutput);
 
 		computeFunctionVariables();
-		setValue(casOutput);
 
 		isTwinUpToDate = false;
 		isEuclidianShowable = shouldBeEuclidianVisible(casInput);
+		numericValue = maybeComputeNumericValue(casOutput);
+	}
+
+	private boolean isTopLevelCommandNumeric() {
+		return getDefinition().getTopLevelCommand() != null
+				&& Commands.NSolve.name().equals(getDefinition().getTopLevelCommand().getName());
 	}
 
 	private Command getCasInput(ExpressionValue casInputArg) {
 		Command casInput;
-		if (casInputArg.unwrap() instanceof  Command) {
+		if (casInputArg.unwrap() instanceof Command) {
 			casInput = (Command) casInputArg.unwrap();
 		} else {
 			casInput = new Command(kernel, "Evaluate", false);
@@ -232,6 +269,55 @@ public class GeoSymbolic extends GeoElement
 				&& !Commands.NSolve.name().equals(inputName)
 				&& !Commands.IntegralSymbolic.name().equals(inputName)
 				&& !Commands.IsInteger.name().equals(inputName);
+	}
+
+	private ExpressionValue maybeComputeNumericValue(ExpressionValue casOutput) {
+		if (!shouldComputeNumericValue(casOutput)) {
+			return null;
+		}
+		Log.debug("GeoSymbolic is a number value, calculating numeric result");
+		try {
+			return computeNumericValue(casOutput);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	private boolean shouldComputeNumericValue(ExpressionValue casOutput) {
+		if (casOutput != null && casOutput.isNumberValue()) {
+			ExpressionValue unwrapped = casOutput.unwrap();
+			return !(unwrapped instanceof NumberValue && !((NumberValue) unwrapped).isDefined())
+					&& !(unwrapped instanceof GeoDummyVariable);
+		}
+		return false;
+	}
+
+	private ExpressionValue computeNumericValue(ExpressionValue casOutput) {
+		Command command;
+		numericPrintFigures = kernel.getPrintFigures();
+		numericPrintDecimals = kernel.getPrintDecimals();
+		if (numericPrintFigures == -1) {
+			command = new Command(kernel, "Round", false);
+			command.addArgument(casOutput.wrap());
+			command.addArgument(new MyDouble(kernel, numericPrintDecimals).wrap());
+		} else {
+			command = new Command(kernel, "Numeric", false);
+			command.addArgument(casOutput.wrap());
+			command.addArgument(new MyDouble(kernel, numericPrintFigures).wrap());
+		}
+
+		String casResult = evaluateGeoGebraCAS(command, constant);
+		return parseOutputString(casResult);
+	}
+
+	private void maybeRecomputeNumericValue() {
+		if (numericValue == null) {
+			return;
+		}
+		if (numericPrintFigures != kernel.getPrintFigures()
+				|| numericPrintDecimals != kernel.getPrintFigures()) {
+			numericValue = maybeComputeNumericValue(value);
+		}
 	}
 
 	private StringTemplate getStringTemplate(Command input) {
@@ -299,14 +385,13 @@ public class GeoSymbolic extends GeoElement
 		}
 	}
 
-	private StringBuilder appendVarString(StringBuilder sb,
+	private void appendVarString(StringBuilder sb,
 			final StringTemplate tpl) {
 		for (int i = 0; i < fVars.size() - 1; i++) {
 			sb.append(fVars.get(i).toString(tpl));
 			sb.append(", ");
 		}
 		sb.append(fVars.get(fVars.size() - 1).toString(tpl));
-		return sb;
 	}
 
 	@Override
@@ -401,7 +486,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private ExpressionNode getNodeFromOutput() throws ParseException {
-		return kernel.getParser().parseGiac(casOutputString).wrap();
+		return kernel.getParser().parseGeoGebraExpression(casOutputString).wrap();
 	}
 
 	private ExpressionNode getNodeFromInput() {
@@ -435,6 +520,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private GeoElement process(ExpressionNode expressionNode) throws Exception {
+		registerFunctionVariablesIfHasFunction(expressionNode);
 		expressionNode.traverse(Traversing.GgbVectRemover.getInstance());
 		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
 		if (algebraProcessor.hasVectorLabel(this)) {
@@ -449,7 +535,21 @@ public class GeoSymbolic extends GeoElement
 		} else {
 			cons.unregisterEuclidianViewCE(this);
 		}
+		result.setFixed(true);
 		return result;
+	}
+
+	private void registerFunctionVariablesIfHasFunction(ExpressionNode functionExpression) {
+		Function function =
+				functionExpression.isLeaf() && functionExpression.getLeft() instanceof Function
+						? (Function) functionExpression.getLeft()
+						: null;
+		FunctionVariable[] variables = function != null ? function.getFunctionVariables() : null;
+		if (variables != null) {
+			for (FunctionVariable functionVariable : variables) {
+				cons.registerFunctionVariable(functionVariable.getSetVarString());
+			}
+		}
 	}
 
 	private GeoElement toGeoList(GeoElement[] elements) {
@@ -656,6 +756,7 @@ public class GeoSymbolic extends GeoElement
 		if (twinGeo != null) {
 			twinGeo.setVisualStyle(this);
 		}
+		maybeRecomputeNumericValue();
 		super.update(drag);
 	}
 
@@ -769,7 +870,7 @@ public class GeoSymbolic extends GeoElement
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return twinGeo != null
-				? twinGeo.toLaTeXString(symbolic, tpl)
+				? twinGeo.toLaTeXString(symbolic, isSymbolicMode(), tpl)
 				: symbolic ? getDefinition(tpl) : toValueString(tpl);
 	}
 
@@ -808,5 +909,19 @@ public class GeoSymbolic extends GeoElement
 	public void doRemove() {
 		super.doRemove();
 		cons.unregisterEuclidianViewCE(this);
+	}
+
+	@Override
+	protected void getDefinitionXML(StringBuilder sb) {
+		ExpressionValue unwrapped = getDefinition().unwrap();
+		if (label != null && unwrapped instanceof Equation) {
+			StringBuilder builder = new StringBuilder();
+			super.getDefinitionXML(builder);
+			if (builder.toString().contains("=")) {
+				sb.append(label);
+				sb.append(": ");
+			}
+		}
+		super.getDefinitionXML(sb);
 	}
 }

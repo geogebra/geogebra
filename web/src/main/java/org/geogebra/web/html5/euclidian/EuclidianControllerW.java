@@ -19,11 +19,9 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.PreviewPointPopup;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 
@@ -83,12 +81,9 @@ public class EuclidianControllerW extends EuclidianController implements
 		}
 		final PreviewPointPopup popup = new PreviewPointPopup(
 				(AppW) getApplication(), previewPoints);
-		popup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
-			@Override
-			public void setPosition(int offsetWidth, int offsetHeight) {
-				popup.positionPopup(offsetWidth, offsetHeight, previewPoints);
-			}
-		});
+		popup.setPopupPositionAndShow(
+				(offsetWidth, offsetHeight) ->
+						popup.positionPopup(offsetWidth, offsetHeight, previewPoints));
 	}
 
 	@Override
@@ -96,8 +91,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		if (message != null && !"".equals(message)) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(message,
-					" ", ToolTipLinkType.Help, (AppW) app,
-					((AppW) app).getAppletFrame().isKeyboardShowing());
+					null, null, "", (AppW) app);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 		}
 	}

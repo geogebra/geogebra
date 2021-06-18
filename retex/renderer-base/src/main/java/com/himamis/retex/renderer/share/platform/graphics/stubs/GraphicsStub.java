@@ -86,7 +86,7 @@ public class GraphicsStub implements Graphics2DInterface {
 	}
 
 	@Override
-	public void fillRect(int x, int y, int width, int height) {
+	public void fillRect(double x, double y, double width, double height) {
 		// stub
 	}
 

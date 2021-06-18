@@ -126,4 +126,10 @@ public class CancelBox extends Box {
 	public FontInfo getLastFont() {
 		return b.getLastFont();
 	}
+
+	@Override
+	public void inspect(BoxConsumer handler, BoxPosition position) {
+		super.inspect(handler, position);
+		b.inspect(handler, position);
+	}
 }

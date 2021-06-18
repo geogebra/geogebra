@@ -99,11 +99,6 @@ public class MathFieldProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public void scrollCursorIntoView() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public boolean resetAfterEnter() {
 		// TODO Auto-generated method stub
 		return false;
@@ -152,7 +147,7 @@ public class MathFieldProcessing implements KeyboardListener {
 		if (!requestsAns()) {
 			return;
 		}
-		boolean isInputInTextMode = !mf.getInternal().getInputController().getCreateFrac();
+		boolean isInputInTextMode = mf.getInternal().getInputController().getPlainTextMode();
 		String currentInput = mf.getText();
 		String ans =
 				isInputInTextMode

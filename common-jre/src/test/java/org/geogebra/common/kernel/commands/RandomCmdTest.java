@@ -56,6 +56,12 @@ public class RandomCmdTest extends BaseUnitTest {
 		shouldBeStable("Sample(1..10,5,true)");
 	}
 
+	@Test
+	public void sequenceRandomShouldBeStable() {
+		shouldBeStable("Sequence(RandomBetween(1,100),k,1,5)");
+		shouldBeStable("Sequence(RandomBetween(1,k),k,1,5)");
+	}
+
 	private void shouldBeStable(String cmd) {
 		getApp().getKernel().getConstruction().clearConstruction();
 		GeoElement a = add("a=" + cmd);

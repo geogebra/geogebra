@@ -43,7 +43,6 @@
  */
 package com.himamis.retex.renderer.web;
 
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.himamis.retex.renderer.share.Colors;
 import com.himamis.retex.renderer.share.TeXConstants;
@@ -53,8 +52,9 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
-import com.himamis.retex.renderer.web.graphics.JLMContext2d;
+import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
+import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
 import jsinterop.base.JsPropertyMap;
 
@@ -70,7 +70,7 @@ public class JlmLib {
 		initString.append(string);
 	}
 
-	public JsPropertyMap<Object> drawLatex(final Context2d ctx, final String latex,
+	public JsPropertyMap<Object> drawLatex(final CanvasRenderingContext2D ctx, final String latex,
 			final double size, final int type, final int x, final int y,
 			final int topInset, final int leftInset, final int bottomInset,
 			final int rightInset, final String fgColorString,
@@ -91,21 +91,24 @@ public class JlmLib {
 		return DomGlobal.window.devicePixelRatio;
 	}
 
-	public static JsPropertyMap<Object> draw(TeXIcon icon, Context2d ctx,
+
+	public static JsPropertyMap<Object> draw(TeXIcon icon, CanvasRenderingContext2D ctx,
 			final int x, final int y, final String fgColorString,
 			final String bgColorString, final JavaScriptObject callback) {
 		return draw(icon, ctx, x, y, Colors.decode(fgColorString),
 				Colors.decode(bgColorString), callback, getPixelRatio());
 	}
 
-	public static JsPropertyMap<Object> draw(TeXIcon icon, Context2d ctx,
-			final int x, final int y, final Color fgColor,
+	public static JsPropertyMap<Object> draw(TeXIcon icon, CanvasRenderingContext2D ctx,
+			final double x, final double y, final Color fgColor,
 			final Color bgColor, final JavaScriptObject callback,
 			double ratio) {
 		Graphics2DW g2 = new Graphics2DW(ctx);
 
-		((JLMContext2d) ctx).setDevicePixelRatio(ratio);
-		ctx.scale(ratio, ratio);
+		JLMContextHelper.as(ctx).setDevicePixelRatio(ratio);
+		if (ratio != 1.0) {
+			ctx.scale(ratio, ratio);
+		}
 		// fill the background color
 		if (bgColor != null) {
 			g2.setColor(bgColor);

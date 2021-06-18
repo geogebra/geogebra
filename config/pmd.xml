@@ -38,8 +38,6 @@
         <exclude name="AvoidReassigningLoopVariables"/>
         <exclude name="LiteralsFirstInComparisons"/>
         <exclude name="ForLoopVariableCount"/>
-        <exclude name="UnusedPrivateMethod"/>
-        <exclude name="UnusedPrivateField"/>
         <exclude name="JUnitAssertionsShouldIncludeMessage"/>
         <exclude name="JUnitTestContainsTooManyAsserts"/>
         <exclude name="JUnitTestsShouldIncludeAssert"/>

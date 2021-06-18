@@ -63,6 +63,7 @@ import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
+import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
@@ -80,8 +81,8 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
-import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -359,7 +360,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	protected boolean showMenuBar = true;
 	protected String uniqueId;
-	private ArrayList<Perspective> tmpPerspectives = new ArrayList<>();
+	private Perspective tmpPerspective = null;
 	/**
 	 * whether toolbar should be visible
 	 */
@@ -805,7 +806,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	protected void fillCommandDict() {
 		getLocalization().initCommand();
-		if (!getLocalization().isCommandChanged()) {
+		if (!getLocalization().isCommandChanged() && commandDict != null) {
 			return;
 		}
 		// translation table for all command names in command.properties
@@ -1740,7 +1741,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * Show localized message for an error.
-	 * 
+	 *
 	 * @param key   main error
 	 * @param error extra information
 	 */
@@ -1750,7 +1751,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * Show localized message for an error.
-	 * 
+	 *
 	 * @param key main error
 	 */
 	public void showError(Errors key) {
@@ -2049,8 +2050,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// TODO Auto-generated method stub
 	}
 
-	public ArrayList<Perspective> getTmpPerspectives() {
-		return tmpPerspectives;
+	public Perspective getTmpPerspective() {
+		return tmpPerspective;
 	}
 
 	/**
@@ -2060,8 +2061,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param perspectives
 	 *            array of perspetctives in the document
 	 */
-	public void setTmpPerspectives(ArrayList<Perspective> perspectives) {
-		tmpPerspectives = perspectives;
+	public void setTmpPerspective(Perspective perspectives) {
+		tmpPerspective = perspectives;
 	}
 
 	/**
@@ -2464,10 +2465,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			}
 
 			// if showMenuBar is false, we can still update the style bars
-			if (EuclidianConstants
-					.isMoveOrSelectionMode(getActiveEuclidianView().getMode())
-					|| getActiveEuclidianView()
-							.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
+			EuclidianView ev = getActiveEuclidianView();
+			if (ev != null
+					&& (EuclidianConstants.isMoveOrSelectionMode(ev.getMode())
+					|| ev.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW)) {
 				updateStyleBars();
 			}
 
@@ -3875,9 +3876,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case MOW_PEN_EVENTS:
 			return false;
 
-		case MOW_DIRECT_FORMULA_CONVERSION:
-			return false;
-
 		// **********************************************************************
 		// MOW END
 		// *********************************************************
@@ -3921,9 +3919,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case AUTOLABEL_CAS_SETTINGS:
 			return true;
 
-		/** APPS-1035 */
-		case SYMBOLIC_INPUTFIELDS:
-			return true;
 		// **********************************************************************
        // G3D START
        //
@@ -3939,12 +3934,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
         //
         // *********************************************************
         // **********************************************************************
-
-		/**
-		 * Csilla Master (do not dare to change this :)
-		 */
-		case SPEECH_RECOGNITION:
-			return false;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
@@ -4487,6 +4476,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// overridden in platforms supporting exam
 	}
 
+	public void showErrorInfoDialog(String msg) {
+		// overridden in web
+	}
+
+	/**
+	 * @return relation tool dialog
+	 */
+	public RelationPane getRelationDialog() {
+		// overridden in web
+		return null;
+	}
+
 	/**
 	 * @param maxX
 	 *            max width in px
@@ -4899,15 +4900,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return perspective called "tmp" or given fallback
 	 */
 	public Perspective getTmpPerspective(Perspective fallback) {
-		if (tmpPerspectives == null) {
-			return fallback;
-		}
-		for (Perspective perspective : tmpPerspectives) {
-			if (perspective.getId().equals("tmp")) {
-				return perspective;
-			}
-		}
-		return fallback;
+		return tmpPerspective == null ? fallback : tmpPerspective;
 	}
 
 	/**
@@ -5198,7 +5191,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return an implementation of the text controller.
 	 */
 	public InlineTextController createInlineTextController(EuclidianView view,
-		   GeoInlineText geo) {
+		   GeoInline geo) {
 		return null;
 	}
 
@@ -5261,10 +5254,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			setActiveView(App.VIEW_EUCLIDIAN);
 			getXMLio().processXMLString(xml, clearAll, false);
 		} catch (MyError err) {
-			err.printStackTrace();
+			Log.debug(err);
 			showError(err);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			showError(Errors.LoadFileFailed);
 		}
 	}

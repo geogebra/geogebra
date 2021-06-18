@@ -18,8 +18,11 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import org.geogebra.common.euclidian.draw.CanvasDrawable;
+import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -67,8 +70,6 @@ public class GeoList extends GeoElement
 		implements ListValue, DelegateProperties, TextProperties, Traceable, Path,
 		Transformable, SpreadsheetTraceable, AbsoluteScreenLocateable, InequalityProperties,
 		AngleProperties, Animatable, SegmentProperties {
-
-	private static final int MAX_ITEMS_FOR_SCREENREADER = 8;
 
 	private final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
 
@@ -1584,6 +1585,12 @@ public class GeoList extends GeoElement
 
 	@Override
 	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
+		return toLaTeXString(symbolic, false, tpl);
+	}
+
+	@Override
+	public String toLaTeXString(
+			final boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
 		if (isMatrix()) {
 
 			// int rows = size();
@@ -1602,7 +1609,7 @@ public class GeoList extends GeoElement
 				for (int j = 0; j < row.size(); j++) {
 					GeoElement geo = row.get(j);
 					sb.append(symbolic ? geo.getLabel(tpl)
-							: geo.toLaTeXString(false, tpl));
+							: geo.toLaTeXString(false, symbolicContext, tpl));
 					if (j < row.size() - 1) {
 						sb.append("&");
 					}
@@ -3181,6 +3188,10 @@ public class GeoList extends GeoElement
 		return false;
 	}
 
+	public String getSelectedItemDisplayString(StringTemplate tpl) {
+		return getItemDisplayString(getSelectedElement(), tpl);
+	}
+
 	/**
 	 *
 	 * @param geoItem
@@ -3189,19 +3200,32 @@ public class GeoList extends GeoElement
 	 *            template
 	 * @return The displayed string of item.
 	 */
-	public static String getItemDisplayString(GeoElement geoItem,
+	public String getItemDisplayString(GeoElement geoItem,
 			StringTemplate tpl) {
+		String displayString = "";
 		if (!"".equals(geoItem.getRawCaption())) {
-			return geoItem.getCaption(tpl);
+			displayString =  geoItem.getCaption(tpl);
 		} else if (geoItem.isGeoPoint() || geoItem.isGeoVector() || geoItem.isGeoList()) {
 			if (geoItem.getLabelSimple() == null) {
 				// eg Element of list
-				return geoItem.toValueString(tpl);
+				displayString = geoItem.toValueString(tpl);
+			} else {
+				displayString = geoItem.getLabel(tpl);
 			}
-			return geoItem.getLabel(tpl);
+		} else {
+			displayString = geoItem.toValueString(tpl);
+		}
+		if (tpl.hasType(StringType.SCREEN_READER) && geoItem.isGeoText()
+				&& CanvasDrawable.isLatexString(displayString)) {
+			displayString = ((GeoText) geoItem).getAuralTextLaTeX();
 		}
 
-		return geoItem.toValueString(tpl);
+		if (StringUtil.empty(displayString)
+				&& tpl.getStringType() == StringType.SCREEN_READER) {
+			return kernel.getLocalization().getMenuDefault("EmptyItem", "empty element");
+		}
+
+		return displayString;
 	}
 
 	/**
@@ -3216,63 +3240,38 @@ public class GeoList extends GeoElement
 		return getItemDisplayString(get(idx), tpl);
 	}
 
-	private void addAuralLabelOrCaption(ScreenReaderBuilder sb) {
-		sb.append(" ");
-		String caption0 = getCaptionSimple();
-		sb.append(caption0 == null ? getLabelSimple() : caption0);
-	}
-
 	@Override
-	public void addAuralName(ScreenReaderBuilder sb) {
+	public void addAuralType(ScreenReaderBuilder sb) {
 		sb.appendMenuDefault("Dropdown", "dropdown");
-		if (size() > MAX_ITEMS_FOR_SCREENREADER) {
-			addAuralLabelOrCaption(sb);
-		}
-	}
-
-	@Override
-	public void addAuralStatus(Localization loc, ScreenReaderBuilder sb) {
-		sb.append(loc.getMenuDefault("Selected", "selected"));
+		sb.appendSpace();
 	}
 
 	@Override
 	public void addAuralContent(Localization loc, ScreenReaderBuilder sb) {
-		int count = size();
-		if (count > 0 && count < MAX_ITEMS_FOR_SCREENREADER) {
-			sb.append(loc.getMenuDefault("WithItems", "with items"));
-			sb.append(" ");
-			for (int idx = 0; idx < count; idx++) {
-				String item = getItemDisplayString(idx,
-						StringTemplate.screenReader);
-				if (item != null && "".equals(item.trim())) {
-					item = loc.getMenuDefault("EmptyItem", "empty item");
-				}
-				sb.append(item);
-				if (idx == count - 1) {
-					sb.endSentence();
-				} else {
-					sb.append(", ");
-				}
-			}
+		if (size() > 0) {
+			String item = getSelectedItemDisplayString(StringTemplate.screenReader);
+			sb.append(loc.getPlainDefault("ElementASelected",
+					"element %0 selected", item));
 		}
 	}
 
 	@Override
 	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
 		sb.append(loc.getMenuDefault("PressSpaceToOpen", "Press space to open"));
+		sb.appendSpace();
 		super.addAuralOperations(loc, sb);
 	}
 
 	@Override
 	public String getAuralTextForSpace() {
-		Localization loc = kernel.getLocalization();
-		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
-		sb.append(loc.getMenuDefault("Dropdown", "dropdown"));
-		addAuralLabelOrCaption(sb);
-		sb.appendSpace();
-		sb.append(loc.getMenuDefault("Closed", "closed"));
-		sb.endSentence();
-		return sb.toString();
+		DrawableND d = app.getEuclidianView1().getDrawableND(this);
+		if (d instanceof DrawDropDownList && !((DrawDropDownList) d).isOptionsVisible()) {
+			ScreenReaderBuilder sb = new ScreenReaderBuilder(kernel.getLocalization());
+			appendAuralItemSelected(sb);
+			sb.endSentence();
+			return sb.toString();
+		}
+		return null;
 	}
 
 	/**
@@ -3286,21 +3285,14 @@ public class GeoList extends GeoElement
 	}
 
 	/**
-	 *
-	 * @return the aural text of the currently selected element.
+	 * Appends the aural text of the currently selected element.
 	 */
-	public String getAuralItemSelected() {
-		GeoElement item = getSelectedElement();
+	public void appendAuralItemSelected(ScreenReaderBuilder sb) {
 		Localization loc = kernel.getLocalization();
-		String auralText = getItemDisplayString(item,
-				StringTemplate.screenReader);
-		if (StringUtil.emptyTrim(auralText)) {
-			return loc.getMenuDefault("DropDownEmptyItemSelected",
-					"Empty item selected Drop down closed");
-		}
-		return loc.getPlainArray("DropDownItemSelected",
-				"Item %0 selected Drop down closed",
-				new String[] { auralText });
+		addAuralContent(kernel.getLocalization(), sb);
+		sb.appendSpace();
+		sb.append(loc.getMenuDefault("DropdownClosed",
+					"Dropdown closed"));
 	}
 
 	/**
@@ -3310,8 +3302,9 @@ public class GeoList extends GeoElement
 	public String getAuralTextAsOpened() {
 		Localization loc = kernel.getLocalization();
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
-		sb.append(loc.getPlainArray("DropDownOpened", "Drop down %0 opened",
-				new String[] { getLabel(StringTemplate.defaultTemplate) }));
+		sb.append(getSelectedItemDisplayString(StringTemplate.screenReader));
+		sb.appendSpace();
+		sb.append(getIndexDescription(getSelectedIndex()));
 		sb.endSentence();
 		sb.appendMenuDefault("PressArrowsToGo",
 				"Press up arrow and down arrow to go to different options");
@@ -3319,6 +3312,15 @@ public class GeoList extends GeoElement
 		sb.appendMenuDefault("PressEnterToSelect",
 				"Press enter to select");
 		return sb.toString();
+	}
+
+	/**
+	 * @param selectedIndex index
+	 * @return localized "[index] of [size]"
+	 */
+	public String getIndexDescription(int selectedIndex) {
+		return kernel.getLocalization().getPlainDefault("AofB", "%0 of %1",
+				(selectedIndex + 1) + "", size() + "");
 	}
 
 	/**

@@ -58,7 +58,6 @@ public class PopupMenuButtonW extends MyCJButton
 	private boolean isIniting = true;
 	private ImageOrText fixedIcon;
 	private boolean isFixedIcon = false;
-	private boolean multiselectionEnabled = false;
 	private StyleBarW2 changeEventHandler;
 	/**
 	 * line style map
@@ -107,41 +106,10 @@ public class PopupMenuButtonW extends MyCJButton
 	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
 			boolean hasSlider, HashMap<Integer, Integer> lineStyleMap0) {
-		this(app, data, rows, columns, mode, hasTable, hasSlider, null,
-				lineStyleMap0);
-	}
-
-	/**
-	 * @param app
-	 *            {@link AppW}
-	 * @param data
-	 *            {@link ImageOrText}
-	 * @param rows
-	 *            {@code Integer}
-	 * @param columns
-	 *            {@code Integer}
-	 * @param mode
-	 *            {@link SelectionTableW}
-	 * @param hasTable
-	 *            {@code boolean}
-	 * @param hasSlider
-	 *            {@code boolean}
-	 * @param selected
-	 *            which items are selected
-	 * @param lineStyleMap0
-	 *            maps item index to line style
-	 */
-	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
-			Integer columns, SelectionTable mode, final boolean hasTable,
-			boolean hasSlider, boolean[] selected,
-			HashMap<Integer, Integer> lineStyleMap0) {
 		super();
 		this.app = app;
 		this.hasTable = hasTable;
 		this.lineStyleMap = lineStyleMap0;
-		if (selected != null) {
-			multiselectionEnabled = true;
-		}
 
 		createPopup();
 
@@ -163,7 +131,7 @@ public class PopupMenuButtonW extends MyCJButton
 		addBitlessDomHandler(DomEvent::stopPropagation, TouchEndEvent.getType());
 
 		if (hasTable) {
-			createSelectionTable(data, rows, columns, mode, selected);
+			createSelectionTable(data, rows, columns, mode);
 		}
 
 		// create slider
@@ -232,19 +200,14 @@ public class PopupMenuButtonW extends MyCJButton
 	 *            selection mode
 	 */
 	private void createSelectionTable(ImageOrText[] newData, Integer rows,
-			Integer columns, SelectionTable mode, boolean[] selected) {
+			Integer columns, SelectionTable mode) {
 		this.data = newData;
 
-		myTable = new SelectionTableW(newData, rows, columns, mode,
-				multiselectionEnabled);
+		myTable = new SelectionTableW(newData, rows, columns, mode);
 		if (app.isUnbundledOrWhiteboard()) {
 			myTable.addStyleName("matSelectionTable");
 		}
-		if (!multiselectionEnabled) {
-			setSelectedIndex(0);
-		} else {
-			myTable.initSelectedItems(selected);
-		}
+		setSelectedIndex(0);
 
 		myTable.addClickHandler(new ClickHandler() {
 
@@ -322,7 +285,7 @@ public class PopupMenuButtonW extends MyCJButton
 			return;
 		}
 
-		if (hasTable && !multiselectionEnabled) {
+		if (hasTable) {
 			setIcon(getButtonIcon());
 		}
 	}
@@ -377,21 +340,10 @@ public class PopupMenuButtonW extends MyCJButton
 		updateGUI();
 	}
 
-	/**
-	 * @param index
-	 *            index to be changed
-	 * @param selected
-	 *            target value for that index
-	 */
-	public void changeMultiSelection(int index, boolean selected) {
-		myTable.changeMultiSelection(index, selected);
-		updateGUI();
-	}
-
 	@Override
 	public void onChange(ChangeEvent event) {
-		Log.debug("onchange");
 		onSliderInput();
+		app.storeUndoInfo();
 	}
 
 	@Override
@@ -508,15 +460,6 @@ public class PopupMenuButtonW extends MyCJButton
 	 */
 	public int getSelectedIndex() {
 		return myTable.getSelectedIndex();
-	}
-
-	/**
-	 * @param index
-	 *            index
-	 * @return whether item with given index is selected
-	 */
-	public boolean isSelected(int index) {
-		return myTable.isSelected(index);
 	}
 
 	/**

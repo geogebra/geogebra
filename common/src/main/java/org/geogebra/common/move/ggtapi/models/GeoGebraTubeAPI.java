@@ -8,14 +8,11 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.DeleteRequest;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.ShareRequest;
-import org.geogebra.common.move.ggtapi.requests.SyncCallback;
-import org.geogebra.common.move.ggtapi.requests.SyncRequest;
 import org.geogebra.common.move.ggtapi.requests.UploadRequest;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.HttpRequest;
@@ -489,39 +486,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	@Override
 	public boolean isCheckDone() {
 		return availabilityCheckDone;
-	}
-
-	@Override
-	public void sync(long timestamp, final SyncCallback cb) {
-		this.performRequest(new SyncRequest(timestamp).toJSONString(client),
-				false, new AjaxCallback() {
-
-					@Override
-					public void onSuccess(String response) {
-						ArrayList<SyncEvent> events = new ArrayList<>();
-						try {
-							JSONTokener tok = new JSONTokener(response);
-							JSONObject responseObj = (JSONObject) ((JSONObject) new JSONObject(
-									tok).get("responses"))
-
-											.get("response");
-							Object items = responseObj.get("item");
-
-							JSONParserGGT.prototype.addEvents(events, items);
-
-							cb.onSync(events);
-						} catch (Exception e) {
-							Log.error("SYNC parse error" + e.getMessage());
-						}
-
-					}
-
-					@Override
-					public void onError(String error) {
-						Log.error("SYNCE error" + error);
-
-					}
-				});
 	}
 
 	/**

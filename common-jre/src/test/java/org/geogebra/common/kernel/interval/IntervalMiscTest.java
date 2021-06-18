@@ -4,6 +4,7 @@ import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static org.apache.commons.math3.util.FastMath.nextAfter;
 import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
@@ -122,6 +123,7 @@ public class IntervalMiscTest {
 		assertEquals(interval(0, 1), interval(-1, 1).abs());
 		assertEquals(interval(2, 3), interval(-3, -2).abs());
 		assertEquals(interval(2, 3), interval(2, 3).abs());
+		assertEquals(undefined(), undefined().abs());
 	}
 
 	@Test

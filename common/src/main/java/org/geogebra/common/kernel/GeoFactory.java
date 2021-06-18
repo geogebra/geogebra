@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
+import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
@@ -118,6 +119,8 @@ public class GeoFactory {
 			return geoList;
 		case "locus":
 			return new GeoLocus(cons1);
+		case "mindmap":
+			return new GeoMindMapNode(cons1, null);
 		case "numeric":
 			return new GeoNumeric(cons1);
 		case "point":
@@ -135,7 +138,7 @@ public class GeoFactory {
 		case "text":
 			return new GeoText(cons1);
 		case "textfield":
-			return new GeoInputBox(cons1);
+			return new GeoInputBox(cons1, null);
 		case "table":
 			return new GeoInlineTable(cons1, null);
 		case "video":

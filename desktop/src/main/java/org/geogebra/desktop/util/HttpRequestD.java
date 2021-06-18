@@ -155,7 +155,7 @@ public class HttpRequestD extends HttpRequest {
 	 *         synchronous.
 	 */
 	public String sendRequestGetResponseSync(String url) {
-		sendRequestPost("GET", url, null, null);
+		sendRequestPostSync("GET", url, null, null);
 		return getResponse();
 	}
 

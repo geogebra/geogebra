@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
-import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -15,26 +14,28 @@ import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.MyImageW;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.user.client.ui.Image;
+
+import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.EventListener;
+import elemental2.dom.HTMLCanvasElement;
+import elemental2.dom.HTMLImageElement;
+import jsinterop.base.Js;
 
 public class ImageManagerW extends ImageManager {
 
-	private HashMap<String, ImageElement> externalImageTable = new HashMap<>();
-	private HashMap<String, String> externalImageSrcs = new HashMap<>();
+	private HashMap<String, HTMLImageElement> externalImageTable = new HashMap<>();
+	private HashMap<String, ArchiveEntry> externalImageSrcs = new HashMap<>();
 	private boolean preventAuxImage;
 	protected int imagesLoaded = 0;
 
@@ -56,21 +57,35 @@ public class ImageManagerW extends ImageManager {
 	@Override
 	public void addExternalImage(String fileName, String src) {
 		if (fileName != null && src != null) {
+			addExternalImage(fileName, new ArchiveEntry(src));
+		}
+	}
+
+	/**
+	 * @param fileName filename
+	 * @param image file content (binary or data URL)
+	 */
+	public void addExternalImage(String fileName, ArchiveEntry image) {
+		if (fileName != null && image != null) {
 			Log.debug("addExternalImage: " + fileName);
 			String fn = StringUtil.removeLeadingSlash(fileName);
-			ImageElement img = Document.get().createImageElement();
-			externalImageSrcs.put(fn, src);
+			HTMLImageElement img = Dom.createImage();
+			externalImageSrcs.put(fn, image);
 			externalImageTable.put(fn, img);
 		}
 	}
 
 	@Override
 	public String getExternalImageSrc(String fileName) {
+		return getExternalImageData(fileName).createUrl();
+	}
+
+	private ArchiveEntry getExternalImageData(String fileName) {
 		return externalImageSrcs.get(StringUtil.removeLeadingSlash(fileName));
 	}
 
 	protected void checkIfAllLoaded(AppW app1, Runnable run,
-			Map<String, String> toLoad) {
+			Map<String, ArchiveEntry> toLoad) {
 		imagesLoaded++;
 		if (imagesLoaded == toLoad.size()) {
 			run.run();
@@ -90,9 +105,9 @@ public class ImageManagerW extends ImageManager {
 	 *            filename is not
 	 * @return image element corresponding to filename
 	 */
-	public ImageElement getExternalImage(String fileName, AppW app1,
+	public HTMLImageElement getExternalImage(String fileName, AppW app1,
 			boolean md5fallback) {
-		ImageElement match = getMatch(fileName);
+		HTMLImageElement match = getMatch(fileName);
 		if (match == null) {
 			match = getMatch(StringUtil.changeFileExtension(fileName,
 					FileExtensions.PNG));
@@ -105,7 +120,7 @@ public class ImageManagerW extends ImageManager {
 				&& fileName.length() > app1.getMD5folderLength(fileName)) {
 			int md5length = app1.getMD5folderLength(fileName);
 			String md5 = fileName.substring(0, md5length);
-			for (Entry<String, ImageElement> entry : externalImageTable
+			for (Entry<String, HTMLImageElement> entry : externalImageTable
 					.entrySet()) {
 				String s = entry.getKey();
 				if (md5.equals(s.substring(0, md5length))) {
@@ -116,12 +131,8 @@ public class ImageManagerW extends ImageManager {
 		return match;
 	}
 
-	private ImageElement getMatch(String fileName) {
+	private HTMLImageElement getMatch(String fileName) {
 		return externalImageTable.get(StringUtil.removeLeadingSlash(fileName));
-	}
-
-	public static GBufferedImage toBufferedImage(ImageElement im) {
-		return new GBufferedImageW(im);
 	}
 
 	static void onError(GeoImage gi) {
@@ -140,13 +151,13 @@ public class ImageManagerW extends ImageManager {
 	 *            image for construction
 	 */
 	public void triggerSingleImageLoading(String imageFileName, GeoImage geoi) {
-		ImageElement img = getExternalImage(imageFileName, (AppW) geoi
+		HTMLImageElement img = getExternalImage(imageFileName, (AppW) geoi
 				.getKernel().getApplication(), true);
-		ImageWrapper.nativeon(img, "load", geoi::updateRepaint);
-		ImageLoadCallback errorCallback = () -> onError(geoi);
-		ImageWrapper.nativeon(img, "error", errorCallback);
-		ImageWrapper.nativeon(img, "abort", errorCallback);
-		img.setSrc(externalImageSrcs.get(imageFileName));
+		img.addEventListener("load", (event) -> geoi.updateRepaint());
+		EventListener errorCallback = (event) -> onError(geoi);
+		img.addEventListener("error", errorCallback);
+		img.addEventListener("abort", errorCallback);
+		img.src = externalImageSrcs.get(imageFileName).createUrl();
 	}
 
 	/**
@@ -160,13 +171,13 @@ public class ImageManagerW extends ImageManager {
 	 *            map of images to be loaded
 	 */
 	public void triggerImageLoading(final AppW app,
-			final Runnable run, final Map<String, String> toLoad) {
+			final Runnable run, final Map<String, ArchiveEntry> toLoad) {
 		this.imagesLoaded = 0;
-		for (Entry<String, String> imgSrc : toLoad.entrySet()) {
-			ImageElement el = getExternalImage(imgSrc.getKey(), app, true);
-			ImageWrapper img = new ImageWrapper(el);
-			img.attachNativeLoadHandler(this, () -> checkIfAllLoaded(app, run, toLoad));
-			img.getElement().setSrc(imgSrc.getValue());
+		for (Entry<String, ArchiveEntry> imgSrc : toLoad.entrySet()) {
+			HTMLImageElement el = getExternalImage(imgSrc.getKey(), app, true);
+			el.addEventListener("load", (event) -> checkIfAllLoaded(app, run, toLoad));
+			el.addEventListener("error", (event) -> el.src = getErrorURL());
+			el.src = imgSrc.getValue().createUrl();
 		}
 	}
 
@@ -183,9 +194,9 @@ public class ImageManagerW extends ImageManager {
 	 *            resource
 	 * @return img element corresponding to the resource
 	 */
-	public static ImageElement getInternalImage(ResourcePrototype resource) {
-		ImageElement img = Document.get().createImageElement();
-		img.setSrc(NoDragImage.safeURI(resource));
+	public static HTMLImageElement getInternalImage(ResourcePrototype resource) {
+		HTMLImageElement img = Dom.createImage();
+		img.src = NoDragImage.safeURI(resource);
 		return img;
 	}
 
@@ -193,11 +204,11 @@ public class ImageManagerW extends ImageManager {
 		if (fileName.equals(newName)) {
 			return;
 		}
-		ImageElement el = this.externalImageTable.get(fileName);
-		String src = this.externalImageSrcs.get(fileName);
+		HTMLImageElement el = this.externalImageTable.get(fileName);
+		ArchiveEntry image = this.externalImageSrcs.get(fileName);
 
 		this.externalImageTable.put(newName, el);
-		this.externalImageSrcs.put(newName, src);
+		this.externalImageSrcs.put(newName, image);
 	}
 
 	/**
@@ -266,10 +277,10 @@ public class ImageManagerW extends ImageManager {
 		int index = imgFileName.lastIndexOf('/');
 		if (index != -1) {
 			// filename without path
-			fn = fn.substring(index + 1, fn.length());
+			fn = fn.substring(index + 1);
 		}
 
-		fn = org.geogebra.common.util.Util.processFilename(fn);
+		fn = Util.checkImageExtension(Util.processFilename(fn));
 
 		// filename will be of form
 		// "a04c62e6a065b47476607ac815d022cc/liar.gif"
@@ -294,7 +305,7 @@ public class ImageManagerW extends ImageManager {
 		for (GeoElement geo : geos) {
 			String fileName = geo.getImageFileName();
 			if (!"".equals(fileName)) {
-				String url = getExternalImageSrc(fileName);
+				ArchiveEntry url = getExternalImageData(fileName);
 				FileExtensions ext = StringUtil.getFileExtension(fileName);
 
 				MyImageW img = (MyImageW) geo.getFillImage();
@@ -304,41 +315,44 @@ public class ImageManagerW extends ImageManager {
 	}
 
 	private static void addImageToArchive(String filePath, String fileName,
-			String url, FileExtensions ext, MyImageW img,
-			Map<String, String> archive) {
+			ArchiveEntry data, FileExtensions ext, MyImageW img,
+			GgbFile archive) {
 		if (ext.equals(FileExtensions.SVG)) {
 			addSvgToArchive(fileName, img, archive);
 			return;
 		}
-		String dataURL;
-		if ((url == null || url.startsWith("http"))
-				&& (img != null && img.getImage() != null)) {
-			dataURL = convertImgToPng(img);
-		} else {
-			dataURL = url;
+		if (data == null) {
+			return;
 		}
-		if (dataURL != null) {
+		String url = data.string;
+		ArchiveEntry dataURL;
+		if ((url == null || url.startsWith("http"))
+				&& data.data == null && (img != null && img.getImage() != null)) {
+			dataURL = new ArchiveEntry(convertImgToPng(img));
+		} else {
+			dataURL = data;
+		}
+		if (!dataURL.isEmpty()) {
 			if (ext.isAllowedImage()) {
 				// png, jpg, jpeg
 				// NOT SVG (filtered earlier)
-				addImageToZip(filePath + fileName, dataURL, archive);
+				archive.put(filePath + fileName, dataURL);
 			} else {
 				// not supported, so saved as PNG
-				addImageToZip(filePath + StringUtil
-						.changeFileExtension(fileName, FileExtensions.PNG),
-						dataURL, archive);
+				archive.put(filePath + StringUtil
+								.changeFileExtension(fileName, FileExtensions.PNG), dataURL);
 			}
 		}
 	}
 
 	private static String convertImgToPng(MyImageW img) {
 		String url;
-		Canvas cv = Canvas.createIfSupported();
-		cv.setCoordinateSpaceWidth(img.getWidth());
-		cv.setCoordinateSpaceHeight(img.getHeight());
-		Context2d c2d = cv.getContext2d();
+		HTMLCanvasElement cv = (HTMLCanvasElement) DomGlobal.document.createElement("canvas");
+		cv.width = img.getWidth();
+		cv.height = img.getHeight();
+		CanvasRenderingContext2D c2d = Js.uncheckedCast(cv.getContext("2d"));
 		c2d.drawImage(img.getImage(), 0, 0);
-		url = cv.toDataUrl("image/png");
+		url = cv.toDataURL("image/png");
 		// Opera and Safari cannot toDataUrl jpeg (much less the others)
 		// if ("jpg".equals(ext) || "jpeg".equals(ext))
 		// addImageToZip(filePath + fileName, cv.toDataUrl("image/jpg"));
@@ -347,8 +361,8 @@ public class ImageManagerW extends ImageManager {
 	}
 
 	private static void addSvgToArchive(String fileName, MyImageW img,
-			Map<String, String> archive) {
-		ImageElement svg = img.getImage();
+			GgbFile archive) {
+		HTMLImageElement svg = img.getImage();
 
 		// TODO
 		// String svgAsXML =
@@ -365,20 +379,7 @@ public class ImageManagerW extends ImageManager {
 
 		Log.debug("svgAsXML (decoded): " + svgAsXML.length() + "bytes");
 
-		archive.put(fileName, svgAsXML);
-	}
-
-	/**
-	 * @param filename
-	 *            image filename
-	 * @param base64img
-	 *            base64 content
-	 * @param archive
-	 *            archive
-	 */
-	public static void addImageToZip(String filename, String base64img,
-			Map<String, String> archive) {
-		archive.put(filename, base64img);
+		archive.put(fileName, new ArchiveEntry(svgAsXML));
 	}
 
 	/**
@@ -398,14 +399,15 @@ public class ImageManagerW extends ImageManager {
 			writeConstructionImages(macro.getMacroConstruction(), "", archive);
 			String fileName = macro.getIconFileName();
 			if (fileName != null && !fileName.isEmpty()) {
-				String url = getExternalImageSrc(fileName);
+				ArchiveEntry url = getExternalImageData(fileName);
 				if (url != null) {
 					FileExtensions ext = StringUtil.getFileExtension(fileName);
-
-					MyImageW img = new MyImageW(
-							ImageElement.as((new Image(url)).getElement()),
-							FileExtensions.SVG.equals(ext));
-
+					MyImageW img = null;
+					if (url.string != null) {
+						HTMLImageElement elem = Dom.createImage();
+						elem.src = url.string;
+						img = new MyImageW(elem, FileExtensions.SVG.equals(ext));
+					}
 					addImageToArchive("", fileName, url, ext, img, archive);
 				}
 			}

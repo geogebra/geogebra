@@ -629,7 +629,6 @@ public class DialogManagerD extends DialogManagerMinimal {
 	@Override
 	public void openToolHelp() {
 		new HelpDialog((AppD) app).openToolHelp();
-
 	}
 
 	@Override

@@ -222,10 +222,7 @@ public class GeoGebraFrame extends JFrame
 			if (instances.size() == 0) {
 				super.setVisible(false);
 				dispose();
-
-				if (!app.isApplet()) {
-					AppD.exit(0);
-				}
+				AppD.exit(0);
 			} else {
 				super.setVisible(false);
 				updateAllTitles();
@@ -473,25 +470,8 @@ public class GeoGebraFrame extends JFrame
 		wnd.setVisible(true);
 
 		// init some things in the background
-		if (!app.isApplet()) {
-			/*
-			 * Thread runner = new Thread() { public void run() { // init
-			 * properties dialog
-			 * ((GuiManagerD)app.getGuiManager()).initPropertiesDialog();
-			 * 
-			 * // init file chooser
-			 * ((GuiManagerD)app.getGuiManager()).initFileChooser();
-			 * 
-			 * // init CAS app.getKernel().getGeoGebraCAS();
-			 * 
-			 * // init JLaTeXMath Graphics2D g2d =
-			 * app.getEuclidianView().g2Dtemp; Drawable.drawEquation(app,
-			 * app.getEuclidianView().g2Dtemp, 0, 0, "x^{2}", g2d.getFont(),
-			 * false, Color.BLACK, Color.WHITE); } };
-			 */
-			Thread runner = GeoGebraFrame.createAppThread(app);
-			runner.start();
-		}
+		Thread runner = GeoGebraFrame.createAppThread(app);
+		runner.start();
 
 		checkCommandLineExport(app);
 
@@ -544,9 +524,7 @@ public class GeoGebraFrame extends JFrame
 
 			// check if newer version is available
 			// must be done last as internet may not be available
-			if (!app.isApplet()) {
-				checkVersion();
-			}
+			checkVersion();
 		}
 
 		/**

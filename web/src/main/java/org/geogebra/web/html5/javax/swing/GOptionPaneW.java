@@ -24,7 +24,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -52,7 +51,6 @@ public class GOptionPaneW extends GDialogBox
 	private AutoCompleteTextFieldW inputField;
 	private FlowPanel mainPanel;
 	private FlowPanel buttonPanel;
-	private ScrollPanel mScrollPanel;
 	private int returnOption;
 	private String returnValue;
 	private VerticalPanel messageTextPanel;
@@ -219,16 +217,12 @@ public class GOptionPaneW extends GDialogBox
 		if (mIcon != null) {
 			messagePanel.add(mIcon);
 		}
-		if (mScrollPanel != null) {
-			messagePanel.add(mScrollPanel);
-			messagePanel.addStyleName("examMessagePanel");
-		} else {
-			String[] lines = mMessage.split("\n");
-			for (String item : lines) {
-				messageTextPanel.add(new Label(item));
-			}
-			messagePanel.add(messageTextPanel);
+
+		String[] lines = mMessage.split("\n");
+		for (String item : lines) {
+			messageTextPanel.add(new Label(item));
 		}
+		messagePanel.add(messageTextPanel);
 	}
 
 	private void setLabels() {
@@ -335,76 +329,6 @@ public class GOptionPaneW extends GDialogBox
 	// ===================================================================
 	// Dialog Launching Methods
 	// ===================================================================
-
-	/**
-	 * Launches a confirm dialog.
-	 * 
-	 * @param message
-	 *            message
-	 * @param title
-	 *            title
-	 * @param optionType
-	 *            options
-	 * @param messageType
-	 *            message type
-	 * @param icon
-	 *            icon
-	 */
-	public void showConfirmDialog(String message, String title,
-			int optionType, int messageType, Image icon) {
-
-		this.mMessage = message;
-		this.mTitle = title;
-		this.mOptionType = optionType;
-		this.mMessageType = messageType;
-		this.mIcon = icon;
-
-		this.mOkLabel = null;
-
-		this.mReturnHandler = null;
-		requiresReturnValue = false;
-
-		showDialog(true);
-		showDialog(true);
-	}
-
-	/**
-	 * @param scrollPanel
-	 *            content scroll pane
-	 * @param title
-	 *            title
-	 * @param optionType
-	 *            options
-	 * @param messageType
-	 *            message type
-	 * @param okLabel
-	 *            label for OK button
-	 * @param icon
-	 *            icon
-	 * @param returnHandler
-	 *            handler for clicked buttons
-	 */
-	public void showConfirmDialog(ScrollPanel scrollPanel,
-			String title, int optionType, int messageType, String okLabel,
-			Image icon, AsyncOperation<String[]> returnHandler) {
-
-		this.mScrollPanel = scrollPanel;
-		this.mTitle = title;
-		this.mOptionType = optionType;
-		this.mMessageType = messageType;
-		this.mIcon = icon;
-
-		this.mOkLabel = okLabel;
-		this.mReturnHandler = returnHandler;
-
-		// this.returnHandler = null;
-		requiresReturnValue = false;
-
-		this.addStyleName("centerDialog");
-		showDialog(true);
-		showDialog(true);
-	}
-
 	/**
 	 * Launches a customizable option dialog.
 	 * 
@@ -419,14 +343,12 @@ public class GOptionPaneW extends GDialogBox
 	public void showOptionDialog(String message, String title,
 			int enterOption, int messageType, Image icon, String[] optionNames,
 			AsyncOperation<String[]> handler) {
-
 		this.mMessage = message;
 		this.mTitle = title;
 		this.mOptionType = GOptionPane.CUSTOM_OPTION;
 		this.mEnterOption = enterOption;
 		this.mMessageType = messageType;
 		this.mIcon = icon;
-		this.mScrollPanel = null;
 
 		this.mOptionNames = optionNames;
 		this.mReturnHandler = handler;
@@ -447,7 +369,6 @@ public class GOptionPaneW extends GDialogBox
 	public void showInputDialog(String message,
 			String initialSelectionValue, Object icon,
 			AsyncOperation<String[]> handler) {
-
 		this.mMessage = message;
 		this.mTitle = null;
 		this.mOptionType = GOptionPane.OK_CANCEL_OPTION;
@@ -478,7 +399,6 @@ public class GOptionPaneW extends GDialogBox
 	public void showSaveDialog(String title,
 			String initialSelectionValue, Object icon,
 			AsyncOperation<String[]> handler, String okLabel) {
-
 		if (app.isWhiteboardActive()) {
 			this.addStyleName("mow");
 		}
@@ -499,5 +419,4 @@ public class GOptionPaneW extends GDialogBox
 	public Element getContentElement() {
 		return this.getContainerElement();
 	}
-
 }

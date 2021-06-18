@@ -22,7 +22,7 @@ public class MathTextFieldW extends MathFieldEditor  implements MathFieldListene
 	 */
 	public MathTextFieldW(App app) {
 		super(app);
-		createMathField(this, false);
+		createMathField(this);
 		addBlurHandler(event -> onEnter());
 		addStyleName("mathTextField");
 		setUseKeyboardButton(!Browser.isMobile());
@@ -97,12 +97,12 @@ public class MathTextFieldW extends MathFieldEditor  implements MathFieldListene
 
 	@Override
 	public void showError(String msg) {
-		setErrorStyle(true);
+		setErrorText(getErrorMessage());
 	}
 
 	@Override
 	public void showCommandError(String command, String message) {
-		setErrorStyle(true);
+		setErrorText(getErrorMessage());
 	}
 
 	@Override
@@ -117,6 +117,6 @@ public class MathTextFieldW extends MathFieldEditor  implements MathFieldListene
 
 	@Override
 	public void resetError() {
-		setErrorStyle(false);
+		setErrorText(null);
 	}
 }

@@ -87,9 +87,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 		showDockPanelListener = new ArrayList<>();
 		glassPane = new DockGlassPane(this);
 
-		if (!app.isApplet()) {
-			app.setGlassPane(glassPane);
-		}
+		app.setGlassPane(glassPane);
 
 		// register focus changes
 		try {
@@ -1254,7 +1252,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	 * Update the glass pane
 	 */
 	public void updateGlassPane() {
-		if (!app.isApplet() && glassPane.getParent() != null) {
+		if (glassPane.getParent() != null) {
 			app.setGlassPane(glassPane);
 		}
 	}
@@ -1487,7 +1485,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	 *            the dock panel to maximize
 	 */
 	public void maximize(DockPanelD dp) {
-		restorePerspective = layout.createPerspective("tmp");
+		restorePerspective = layout.createPerspective();
 		for (int i = 0; i < getPanels().length; i++) {
 			if (getPanels()[i] != dp) {
 				hide(getPanels()[i], false);

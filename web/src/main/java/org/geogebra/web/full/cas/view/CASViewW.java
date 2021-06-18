@@ -8,8 +8,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.awt.PrintableW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
@@ -20,7 +18,6 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
@@ -180,16 +177,12 @@ public class CASViewW extends CASView implements PrintableW {
 			return;
 		}
 		final AppW app1 = app;
-		app.invokeLater(new Runnable() {
+		app.invokeLater(() -> {
+			app1.showKeyboard(getEditor(), force);
+			getEditor().setFocus(true);
+			getConsoleTable().startEditingRow(
+					getConsoleTable().getRowCount() - 1);
 
-			@Override
-			public void run() {
-				app1.showKeyboard(getEditor(), force);
-				getEditor().setFocus(true);
-				getConsoleTable().startEditingRow(
-						getConsoleTable().getRowCount() - 1);
-
-			}
 		});
 		/*
 		 * getEditor().ensureEditing(); getEditor().setFocus(true);
@@ -218,21 +211,8 @@ public class CASViewW extends CASView implements PrintableW {
 	}
 
 	@Override
-	protected void showTooltip(int mode) {
-		if (getApp().showToolBarHelp()) {
-			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-					app.getToolTooltipHTML(mode),
-					app.getGuiManager().getTooltipURL(mode),
-					ToolTipLinkType.Help, app,
-					app.getAppletFrame().isKeyboardShowing());
-		}
-	}
-
-	@Override
-	public void getPrintable(FlowPanel pPanel, Button btPrint) {
-		// Widget[] printableList = {};
-
-		// printableList[0] = new Label("CAS View");
+	public void getPrintable(FlowPanel pPanel, Runnable enablePrintBtn) {
+		// nothing to do here
 	}
 
 	@Override

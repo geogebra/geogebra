@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel.interval;
 
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Checker to determine ia an operation is supported by the interval arithmetic.
@@ -12,11 +12,11 @@ public class UnsupportedOperatorChecker implements Inspecting {
 
 	@Override
 	public boolean check(ExpressionValue v) {
-		Operation operation = v.wrap().getOperation();
+		ExpressionNode wrap = v.wrap();
+		Operation operation = wrap.getOperation();
 		switch (operation) {
 		case PLUS:
 		case MINUS:
-		case MULTIPLY:
 		case DIVIDE:
 		case NROOT:
 		case DIFF:
@@ -36,22 +36,36 @@ public class UnsupportedOperatorChecker implements Inspecting {
 		case COSH:
 		case SINH:
 		case TANH:
-		case ACOSH:
 		case LOG10:
 		case LOG2:
+		case IF:
+		case IF_ELSE:
 		case NO_OPERATION:
 			return false;
+		case MULTIPLY:
+			return checkMultiply(wrap);
 		case POWER:
-			return checkPower(v);
+			return checkPower(wrap);
 		default:
 			return true;
 		}
 	}
 
-	private boolean checkPower(ExpressionValue v) {
-		double power = v.wrap().getRight().evaluateDouble();
-		return v.wrap().getRightTree().containsFunctionVariable()
-				|| !DoubleUtil.isInteger(power) || power < 0
+	private boolean checkMultiply(ExpressionNode node) {
+		return isVector(node.getLeft()) ^ isVector(node.getRight());
+	}
+
+	private boolean isVector(ExpressionValue node) {
+		return node.evaluatesToNDVector() || node.evaluatesToNonComplex2DVector();
+	}
+
+	private boolean checkPower(ExpressionNode node) {
+		double power = node.getRight().evaluateDouble();
+		if (Double.isNaN(power)) {
+			return true;
+		}
+
+		return node.getRightTree().containsFunctionVariable()
 				|| power >= 100;
 	}
 }

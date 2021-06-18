@@ -199,6 +199,7 @@ public class SymbolAtom extends CharSymbol {
 			cb.addToWidth(c.getItalic());
 		}
 
+		cb.setAtom(this);
 		return cb;
 	}
 

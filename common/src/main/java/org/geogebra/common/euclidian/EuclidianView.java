@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
@@ -58,6 +59,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -167,11 +169,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * g2d of bgImage: used for axis, grid, background images and object traces
 	 */
 	protected GGraphics2D bgGraphics;
-	// zoom rectangle colors
-	private static final GColor colZoomRectangle = GColor.newColor(200, 200,
-			230);
-	private static final GColor colZoomRectangleFill = GColor.newColor(200,
-			200, 230, 50);
+	// selection rectangle colors
+	private static final GColor selRectBorder = GColor.newColor(200, 200, 230);
+	private static final GColor selRectFill = GColor.newColor(200, 200, 230, 50);
+	private static final GColor selRectBorderMebis = GColor.newColor(154, 218, 236);
+	private static final GColor selRectFillMebis = GColor.newColor(0, 168, 213, 12);
 
 	// deletion square design
 	protected static final GColor colDeletionSquare = GColor
@@ -514,6 +516,59 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected SymbolicEditor symbolicEditor = null;
 	private final CoordSystemInfo coordSystemInfo;
 
+	private Rectangle visibleRect;
+
+	public static class Rectangle {
+
+		private double minX;
+		private double maxX;
+		private double minY;
+		private double maxY;
+
+		private Rectangle() {
+			this(0, 0, 0, 0);
+		}
+
+		private Rectangle(double minX, double maxX, double minY, double maxY) {
+			this.minX = minX;
+			this.maxX = maxX;
+			this.minY = minY;
+			this.maxY = maxY;
+		}
+
+		public double getMinX() {
+			return minX;
+		}
+
+		public void setMinX(double xMin) {
+			this.minX = xMin;
+		}
+
+		public double getMaxX() {
+			return maxX;
+		}
+
+		public void setMaxX(double xMax) {
+			this.maxX = xMax;
+		}
+
+		public double getMinY() {
+			return minY;
+		}
+
+		public void setMinY(double yMin) {
+			this.minY = yMin;
+		}
+
+		public double getMaxY() {
+			return maxY;
+		}
+
+		public void setMaxY(double yMax) {
+			this.maxY = yMax;
+		}
+	}
+
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
 		Integer[] ret = new Integer[lineTypes.length];
@@ -561,6 +616,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public EuclidianView() {
 		hitDetector = new HitDetector(this);
+		visibleRect = new Rectangle();
 		coordSystemInfo = new CoordSystemInfo(this);
 	}
 
@@ -840,7 +896,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		double xmax2 = xmaxObject.getDouble();
 		double ymin2 = yminObject.getDouble();
 		double ymax2 = ymaxObject.getDouble();
-		if (isLockedAxesRatio() && (getHeight() > 0) && (getWidth() > 0)) {
+		boolean validSize = (getHeight() > 0) && (getWidth() > 0);
+		if (isLockedAxesRatio() && validSize) {
 			double ratio = gridType == GRID_POLAR ? 1 : lockedAxesRatio;
 			double newWidth = ratio * ((ymax2 - ymin2) * getWidth())
 					/ (getHeight() + 0.0);
@@ -858,7 +915,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 		if (((xmax2 - xmin2) > Kernel.MAX_PRECISION)
-				&& ((ymax2 - ymin2) > Kernel.MAX_PRECISION)) {
+				&& ((ymax2 - ymin2) > Kernel.MAX_PRECISION) && validSize) {
 			xmax = xmax2;
 			xmin = xmin2;
 			ymin = ymin2;
@@ -996,16 +1053,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return handler that was hit
 	 */
-	public EuclidianBoundingBoxHandler getHitHandler() {
+	public @Nonnull EuclidianBoundingBoxHandler getHitHandler() {
 		return hitHandler;
 	}
 
 	/**
-	 * @param hitHandler
-	 *            - handler that was hit
+	 * Set handler to undefined.
 	 */
-	public void setHitHandler(EuclidianBoundingBoxHandler hitHandler) {
-		this.hitHandler = hitHandler;
+	public void resetHitHandler() {
+		this.hitHandler = EuclidianBoundingBoxHandler.UNDEFINED;
 	}
 
 	protected void setSizeListeners() {
@@ -1365,13 +1421,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	final public void setRealWorldCoordSystem(double xmin2, double xmax2,
 			double ymin2, double ymax2) {
-		double calcXscale = getWidth() / (xmax2 - xmin2);
-		if (getXaxisLog()) {
-			calcXscale = getWidth() / (xmax2 - xmin2);
-		}
-		double calcYscale = getHeight() / (ymax2 - ymin2);
-		double calcXzero = -calcXscale * xmin2;
+		double calcXscale = getVisibleWidth() / (xmax2 - xmin2);
+		double calcYscale = getVisibleHeight() / (ymax2 - ymin2);
+
+		int visibleFromX = settings != null ? settings.getVisibleFromX() : 0;
+		double calcXzero = calcXscale * -xmin2 + visibleFromX;
 		double calcYzero = calcYscale * ymax2;
+
 		setCoordSystem(calcXzero, calcYzero, calcXscale, calcYscale);
 	}
 
@@ -1518,12 +1574,28 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return xZero;
 	}
 
+	public void setXZero(double xZero) {
+		this.xZero = xZero;
+	}
+
 	/**
 	 * Returns y coordinate of axes origin.
 	 */
 	@Override
 	public double getYZero() {
 		return yZero;
+	}
+
+	public void setYZero(double yZero) {
+		this.yZero = yZero;
+	}
+
+	private double getXZeroForXml() {
+		return xZero - settings.getVisibleFromX() / 2.0;
+	}
+
+	private double getYZeroForXml() {
+		return yZero + (settings.getHeight() - settings.getVisibleUntilY()) / 2.0;
 	}
 
 	/**
@@ -1684,10 +1756,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * Updates xmin, xmax, ... for setCoordSystem()
 	 */
 	protected void setXYMinMaxForSetCoordSystem() {
-		xmin = (-getXZero() * getInvXscale());
-		xmax = ((getWidth() - getXZero()) * getInvXscale());
-		ymax = (getYZero() * getInvYscale());
-		ymin = ((getYZero() - getHeight()) * getInvYscale());
+		xmin = -getXZero() * getInvXscale();
+		xmax = (getWidth() - getXZero()) * getInvXscale();
+		ymax = getYZero() * getInvYscale();
+		ymin = (getYZero() - getHeight()) * getInvYscale();
+
+		int visibleFromX = settings != null ? settings.getVisibleFromX() : 0;
+		visibleRect.minX = -(getXZero() - visibleFromX) * getInvXscale();
+		visibleRect.maxX = xmax;
+		visibleRect.minY = (getYZero() - getVisibleHeight()) * getInvYscale();
+		visibleRect.maxY = ymax;
 	}
 
 	/**
@@ -1987,7 +2065,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private static boolean needsSynchUpdate(GeoElement geo, boolean tracing) {
 		// Keep update of input boxes synchronous #4416
 		return (geo.isGeoText() && ((GeoText) geo).isNeedsUpdatedBoundingBox())
-				|| geo.isGeoInputBox() || (geo.getTrace() && !tracing) || geo.isMask();
+				|| geo.isGeoInputBox()
+				|| (geo.getTrace() && !tracing)
+				|| geo.isMask()
+				|| geo instanceof GeoMindMapNode;
 	}
 
 	/**
@@ -2274,9 +2355,24 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return hit drawable
 	 */
 	public Drawable getBoundingBoxHandlerHit(GPoint p, PointerEventType type) {
-		if (p == null || getEuclidianController().isMultiSelection()) {
+		if (p == null) {
 			return null;
 		}
+
+		if (getFocusedGroupGeoBoundingBox() instanceof MindMapBoundingBox) {
+			hitHandler = getFocusedGroupGeoBoundingBox()
+					.getHitHandler(p.x, p.y, app.getCapturingThreshold(type));
+			if (hitHandler != EuclidianBoundingBoxHandler.UNDEFINED) {
+				return (Drawable) getDrawableFor(app.getSelectionManager()
+						.getFocusedGroupElement());
+			}
+		}
+
+		if (getEuclidianController().isMultiSelection() && getBoundingBox() != null) {
+			hitHandler = getBoundingBox().getHitHandler(p.x, p.y, app.getCapturingThreshold(type));
+			return null;
+		}
+
 		for (Drawable d : allDrawableList) {
 			hitHandler = d.hitBoundingBoxHandler(p.x, p.y, app.getCapturingThreshold(type));
 			if (hitHandler != EuclidianBoundingBoxHandler.UNDEFINED) {
@@ -2395,7 +2491,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	public void repaintView() {
 		repaint();
-
 	}
 
 	@Override
@@ -2760,7 +2855,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		updateBackgroundImage();
 		updateAllDrawablesForView(true);
-		// repaint();
 	}
 
 	/**
@@ -3458,30 +3552,34 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * Resize to settings size, keep centered.
 	 */
 	protected void updateSizeKeepCenter() {
-		int w = getWidth();
-		int h = getHeight();
-		if (getSettings() != null) {
-			int sw = getSettings().getWidth();
-			int sh = getSettings().getHeight();
-			double x0 = getSettings().getXZero();
-			double y0 = getSettings().getYZero();
-			if (sw == 0) {
-				// no dimension from file: center the view
-				sw = (int) Math.round(x0 * 2);
-				sh = (int) Math.round(y0 * 2);
-			}
-			double dx = (w - sw) / 2.0;
-			double dy = (h - sh) / 2.0;
-			xZero = getSettings().getXZero() + dx;
-			yZero = getSettings().getYZero() + dy;
-			getSettings().setSize(w, h);
-			getSettings().setOriginNoUpdate(xZero, yZero);
+		EuclidianSettings settings = getSettings();
+		if (settings != null) {
+			int w = getWidth();
+			int h = getHeight();
+			keepCenter(w, h);
+			settings.setSize(w, h);
 		}
-
 		updateSizeChange();
 	}
 
-	private void updateSizeChange() {
+	protected void keepCenter(int width, int height) {
+		int sw = getSettings().getWidth();
+		int sh = getSettings().getHeight();
+		if (sw == 0) {
+			// no dimension from file: center the view
+			double x0 = getSettings().getXZero();
+			double y0 = getSettings().getYZero();
+			sw = (int) Math.round(x0 * 2);
+			sh = (int) Math.round(y0 * 2);
+		}
+		double dx = (width - sw) / 2.0;
+		double dy = (height - sh) / 2.0;
+		xZero = getSettings().getXZero() + dx;
+		yZero = getSettings().getYZero() + dy;
+		getSettings().setOriginNoUpdate(xZero, yZero);
+	}
+
+	protected void updateSizeChange() {
 		updateSizeKeepDrawables();
 		updateAllDrawablesForView(true);
 	}
@@ -3709,10 +3807,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            graphics
 	 */
 	protected void drawZoomRectangle(GGraphics2D g2) {
-		g2.setColor(colZoomRectangleFill);
+		g2.setColor(getApplication().isMebis() ? selRectFillMebis : selRectFill);
 		g2.setStroke(boldAxesStroke);
 		g2.fill(selectionRectangle);
-		g2.setColor(colZoomRectangle);
+		g2.setColor(getApplication().isMebis() ? selRectBorderMebis : selRectBorder);
 		g2.draw(selectionRectangle);
 	}
 
@@ -4616,10 +4714,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		} else {
 			sbxml.append("\t<coordSystem");
 			sbxml.append(" xZero=\"");
-			sbxml.append(getXZero());
+			sbxml.append(getXZeroForXml());
 			sbxml.append("\"");
 			sbxml.append(" yZero=\"");
-			sbxml.append(getYZero());
+			sbxml.append(getYZeroForXml());
 			sbxml.append("\"");
 			sbxml.append(" scale=\"");
 			sbxml.append(getXscale());
@@ -4827,15 +4925,43 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @param storeUndo
-	 *            whether to store undo afterwards
+	 * Change coord system so that all objects are shown
+	 *
+	 * @param storeUndo true to store undo after
+	 * @param keepRatio true to keep ratio of x and y axes
+	 * @param steps     animation steps
+	 */
+	public void setViewShowAllObjects(boolean storeUndo, boolean keepRatio, int steps) {
+		Rectangle allObjectsRect = calculateRectangleOfAllObjects(keepRatio);
+		if (allObjectsRect == null) {
+			return;
+		}
+		setViewShowAllObjects(allObjectsRect, storeUndo, steps);
+	}
+
+	protected void setViewShowAllObjects(Rectangle allObjectsRect, boolean storeUndo, int steps) {
+		// check if animation is needed
+		if (steps == 0) {
+			setRealWorldCoordSystem(
+					allObjectsRect.getMinX(), allObjectsRect.getMaxX(),
+					allObjectsRect.getMinY(), allObjectsRect.getMaxY());
+			if (storeUndo) {
+				getApplication().storeUndoInfo();
+			}
+		} else {
+			setAnimatedRealWorldCoordSystem(
+					allObjectsRect.getMinX(), allObjectsRect.getMaxX(),
+					allObjectsRect.getMinY(), allObjectsRect.getMaxY(),
+					steps,
+					storeUndo);
+		}
+	}
+
+	/**
 	 * @param keepRatio
 	 *            whether to keep axes ratio
-	 * @param steps
-	 *            animation steps
 	 */
-	public void setViewShowAllObjects(boolean storeUndo, boolean keepRatio,
-			int steps) {
+	protected Rectangle calculateRectangleOfAllObjects(boolean keepRatio) {
 
 		// check for functions
 		TreeSet<GeoElement> allFunctions = kernel.getConstruction()
@@ -4852,7 +4978,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		boolean hasObjects = hasVisibleObjects(rect);
 
 		if (!hasObjects && !hasCurves && !hasFunctions) {
-			return;
+			return null;
 		}
 
 		/** curves */
@@ -5003,7 +5129,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		// enlarge x/y if we want to keep ratio
 		if (keepRatio) {
-			double oldRatio = (xmax - xmin) / (ymax - ymin);
+			double oldRatio =
+					(visibleRect.maxX - visibleRect.minX) / (visibleRect.maxY - visibleRect.minY);
 			double newRatio = (x1RW - x0RW) / (y1RW - y0RW);
 			if (newRatio > oldRatio) {
 				// enlarge y
@@ -5020,16 +5147,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 
-		// check if animation is needed
-		if (steps == 0) {
-			setRealWorldCoordSystem(x0RW, x1RW, y0RW, y1RW);
-			if (storeUndo) {
-				getApplication().storeUndoInfo();
-			}
-		} else {
-			setAnimatedRealWorldCoordSystem(x0RW, x1RW, y0RW, y1RW, steps,
-					storeUndo);
-		}
+		return new Rectangle(x0RW, x1RW, y0RW, y1RW);
 	}
 
 	private static boolean hasVisibleObjects(GRectangle rect) {
@@ -5383,12 +5501,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		} else {
 			// same scales: translate view to standard origin
 			// do this with the following action listener
-			if (mover == null) {
-				mover = newZoomer();
-			}
-			mover.init(ox, oy, storeUndo);
-			mover.startAnimation();
+			animateMove(ox, oy, storeUndo);
 		}
+	}
+
+	protected void animateMove(double destX, double destY, boolean storeUndo) {
+		if (mover == null) {
+			mover = newZoomer();
+		}
+		mover.init(destX, destY, storeUndo);
+		mover.startAnimation();
 	}
 
 	/**
@@ -6526,6 +6648,26 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				((DrawInline) drawable).saveContent();
 			}
 		}
+	}
+
+	@Override
+	public int getVisibleWidth() {
+		return getWidth();
+	}
+
+	@Override
+	public int getVisibleHeight() {
+		return getHeight();
+	}
+
+	@CheckForNull
+	@Override
+	public EvPositioner getEvPositioner() {
+		return null;
+	}
+
+	public Rectangle getVisibleRect() {
+		return visibleRect;
 	}
 
 	/**

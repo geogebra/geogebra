@@ -64,7 +64,7 @@ public class Editor implements EntryPoint, MathFieldListener {
 		el.appendChild(canvas.getCanvasElement());
 		MathFieldW fld = new MathFieldW(null, parentWidget,
 				canvas,
-				this, false);
+				this);
 		final TabbedKeyboard kb = new TabbedKeyboard(app, false);
 		kb.setListener(new UpdateKeyBoardListener() {
 

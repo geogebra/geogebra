@@ -28,6 +28,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent .gwt-TextBox:focus:not([readonly]) {
 		border: none;
+		padding-bottom: 3px;
 		border-bottom: 1px $teal-default solid;
 	}
 
@@ -44,37 +45,32 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.Caption:empty {
 			display: none;
 		}
+
+		.DialogButtonPanel .gwt-Label {
+			text-align: center;
+		}
 	}
 
-	/* color chooser dialog */
-	.MaterialDialogBox.ColorChooser {
-		.ColorDialog-content {
-			.gwt-Label {
-				margin-top: 0px;
-				font-size: initial;
-			}
+	.dialogComponent.colorChooser {
+		max-width: 432px;
+	}
 
-			input[type="range"] {
-				cursor: pointer;
-			}
+	.dialogComponent.printPreview {
+	    max-width: 370px;
+	}
 
-			.ggbSpinner {
-				margin-right: 16px;
+	.dialogComponent.customColor {
+		max-width: 340px;
+
+		.ggbSpinner {
+			border-radius: 2px;
+			box-shadow: none;
+		}
+
+		.CustomColorPreview {
+			canvas {
+				width: 266px;
 				border-radius: 2px;
-				box-shadow: none;
-			}
-
-			.CustomColorPreview {
-				canvas {
-					width: 266px;
-					border-radius: 2px;
-				}
-
-				.gwt-Label {
-					font-size: 80%;
-					color: $teal-default;
-					cursor: default;
-				}
 			}
 		}
 	}
@@ -369,6 +365,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			box-shadow: none;
 			margin-bottom: 0px;
 			padding-left: 4px;
+			border-radius: 0px;
 
 			&:focus {
 				border:none;
@@ -987,7 +984,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.examStartDialog {
 		max-width: 427px;
-		max-height: 155px;
 
 		.examStartText {
 			font-size: 100%;
@@ -999,7 +995,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.examExitConfDialog {
 		max-width: 326px;
-		max-height: 115px;
 
 		.dialogContent {
 			// no title
@@ -1077,6 +1072,21 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 			&.withDivider {
 				border-top: 1px solid $black-12;
+			}
+		}
+	}
+
+	.dialogComponent.examClassicLogDialog,
+	.dialogComponent.errorDialog {
+		max-width: 320px;
+
+		.mainPanel {
+			display: flex;
+
+			img {
+				margin-right: 10px;
+				margin-top: auto;
+				margin-bottom: auto;
 			}
 		}
 	}
@@ -1210,17 +1220,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.MaterialDialogBox.mowPrintPrew {
-		 button {
-			color: $mow_dark !important;
-		}
-		select:focus:not([readonly]) {
-				border: 1px $mow_dark solid;
-		}
-	}
-
-	.MaterialDialogBox.mow,
-		.MaterialDialogBox.ColorChooser.mow {
+	.MaterialDialogBox.mow {
 			.previewLbl {
 				color: $mow_dark !important;
 			}
@@ -1778,4 +1778,37 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
     			}
     		}
     	}
+
+	.dialogComponent.mediaDialog.h5pDialog {
+
+		.dialogMainPanel .dialogTitle {
+			margin-bottom: 8px;
+		}
+
+		.helpTxt {
+			margin-bottom: 24px;
+			font-size: 75%;
+			color: $text-secondary;
+		}
+
+		.AutoCompleteTextFieldW {
+			margin-right: 0px;
+		}
+
+		.orDividerComponent {
+			margin-top: 24px;
+		}
+
+		.btnContainer {
+			display: flex;
+			justify-content: center;
+			margin: 24px 0px;
+
+			.uploadFileBtn {
+				border: solid 1px $black-12;
+				color: $mebis-text-btn-col;
+				padding: 0px 16px;
+			}
+		}
+	}
 }

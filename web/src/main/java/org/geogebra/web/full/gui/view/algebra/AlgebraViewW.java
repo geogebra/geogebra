@@ -58,7 +58,6 @@ import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasTreeItems;
 import com.google.gwt.user.client.ui.InlineLabel;
@@ -177,19 +176,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		app.getSelectionManager()
 				.addSelectionListener((geo, addToSelection) -> updateSelection());
 		app.getGgbApi().setEditor(new AlgebraMathEditorAPI(this));
-	}
-
-	/**
-	 * Scroll handler
-	 */
-	void onAlgebraScroll() {
-		if (activeItem != null) {
-			activeItem.reposition();
-		}
-
-		if (getInputTreeItem() != null) {
-			getInputTreeItem().setItemWidth(getFullWidth());
-		}
 	}
 
 	private void initGUI(AlgebraControllerW algCtrl) {
@@ -1170,6 +1156,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (!this.isAttachedToKernel()) {
 			return;
 		}
+		int oldWidth = getOffsetWidth();
 		cancelEditItem();
 
 		this.isShowingAuxiliaryObjects = showAuxiliaryObjects();
@@ -1188,11 +1175,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 			addRadioTreeItem(parent, node);
 
-			// if (node != null && !node.isInputTreeItem()) {
-			// setActiveTreeItem(node);
-			// }
-
-			RadioTreeItem.as(node).setItemWidth(getFullWidth());
+			// offset width may be 0 when not attached to DOM
+			int currentWidth = getOffsetWidth();
+			if (currentWidth != oldWidth && currentWidth != 0) {
+				resize(0);
+			}
+			RadioTreeItem.as(node).setItemWidth(currentWidth == 0 ? getFullWidth() : currentWidth);
 
 			boolean wasEmpty = isNodeTableEmpty();
 			nodeTable.put(geo, node);
@@ -2180,7 +2168,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	@Override
-	public void getPrintable(FlowPanel pPanel, final Button btPrint) {
+	public void getPrintable(FlowPanel pPanel, Runnable enablePrintBtn) {
 		Tree printTree = new Tree();
 
 		pPanel.clear();
@@ -2212,12 +2200,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		pPanel.add(printTree);
 
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				btPrint.setEnabled(true);
-			}
-		});
+		enablePrintBtn.run();
 	}
 
 	/**
@@ -2229,7 +2212,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public int getFullWidth() {
 		int avWidth = getAlgebraDockPanel().getInnerWidth();
 		if (app.isUnbundled()) {
-			return avWidth;
+			return avWidth - getAlgebraDockPanel().getNavigationRailWidth();
 		}
 		return maxItemWidth < avWidth ? avWidth : maxItemWidth;
 	}
@@ -2386,4 +2369,5 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public AppW getApp() {
 		return app;
 	}
+
 }

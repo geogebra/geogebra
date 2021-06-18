@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.layout;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -12,11 +11,9 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.main.AppW;
 
@@ -39,9 +36,6 @@ public class LayoutW extends Layout {
 		initializeDefaultPerspectives(app,
 				PerspectiveDecoder.landscapeRatio(app, app.getAppletWidth() < 50
 						? 700 : app.getAppletWidth()));
-
-		this.perspectives = new ArrayList<>(
-				getDefaultPerspectivesLength());
 	}
 
 	/**
@@ -88,9 +82,22 @@ public class LayoutW extends Layout {
 		if (labelingStyle != ConstructionDefaults.LABEL_VISIBLE_NOT_SET) {
 			app.setLabelingStyle(labelingStyle);
 		}
+		updateLayout(perspective);
 
+		// ignore axes & grid settings for the document perspective
+		final boolean changed = setEVsettingsFromPerspective(app, perspective);
+
+		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE));
+		return changed;
+	}
+
+	/**
+	 * Apply the dock panel changes from the perspective, but no ev settings/labeling
+	 * @param perspective perspective
+	 */
+	public void updateLayout(Perspective perspective) {
 		app.getGuiManager().setGeneralToolBarDefinition(
-		        perspective.getToolbarDefinition());
+				perspective.getToolbarDefinition());
 		app.setToolbarPosition(perspective.getToolBarPosition(), false);
 		// override the previous command with the data-param-customToolBar
 		// setting
@@ -105,7 +112,7 @@ public class LayoutW extends Layout {
 
 		app.setInputPosition(
 				app.getAppletParameters()
-					.getAlgebraPosition(perspective.getInputPosition()), false);
+						.getAlgebraPosition(perspective.getInputPosition()), false);
 		String toolbar3D = "";
 
 		// change the dock panel layout
@@ -122,11 +129,11 @@ public class LayoutW extends Layout {
 			}
 		}
 		dockManager.applyPerspective(perspective.getSplitPaneData(),
-		        perspective.getDockPanelData());
+				perspective.getDockPanelData());
 
 		app.setMacroViewIds(toolbar3D);
 		boolean linearInput = app.showAlgebraInput()
-				&& app.getInputPosition() != InputPosition.algebraView;
+				&& app.getInputPosition() != App.InputPosition.algebraView;
 		if (linearInput) {
 			app.setKeyboardNeeded(true);
 		}
@@ -139,14 +146,8 @@ public class LayoutW extends Layout {
 		} else if (linearInput) {
 			app.updateContentPane();
 		}
-
-		// ignore axes & grid settings for the document perspective
-		final boolean changed = setEVsettingsFromPerspective(app, perspective);
-
-		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE));
-		return changed;
 	}
-	
+
 	private boolean mayHaveKeyboard(DockPanelData dp) {
 		if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
 			return app.getKernel().getConstruction().hasInputBoxes();
@@ -158,107 +159,6 @@ public class LayoutW extends Layout {
 				&& dp.getTabId() == DockPanelData.TabIds.ALGEBRA;
 	}
 
-	/**
-	 * Apply a new perspective using its id. 
-	 * 
-	 * This is a wrapper for #applyPerspective(Perspective) to simplify the loading of default
-	 * perspectives by name. 
-	 * 
-	 * @param id The ID of the perspective. For default perspectives the hard-coded ID is used, ie
-	 * 			 the translation key, for all other perspectives the ID chosen by the user is
-	 * 			 used.
-	 * @throws IllegalArgumentException If no perspective with the given name could be found.
-	 */
-	@Override
-	public void applyPerspective(String id) throws IllegalArgumentException {
-		Perspective perspective = getPerspective(id);
-		
-		if (perspective != null) {
-			applyPerspective(perspective);
-		} else {
-			throw new IllegalArgumentException("Could not find perspective with the given name.");
-		}		
-	}
-
-	/**
-	 * Get all current perspectives as array.
-	 * 
-	 * @return all current perspectives as array.
-	 */
-	public Perspective[] getPerspectives() {
-		Perspective[] array = new Perspective[perspectives.size()];
-		return perspectives.toArray(array);
-	}
-
-	/**
-	 * @param index
-	 *            perspective index
-	 * @return perspective at given index
-	 */
-	public Perspective getPerspective(int index) {
-		if (index >= perspectives.size()) {
-			throw new IndexOutOfBoundsException();
-		}
-		
-		return perspectives.get(index);
-	}
-	
-	/**
-	 * @param id name of the perspective
-	 * @return perspective with 'id' as name or null 
-	 */
-	public Perspective getPerspective(String id) {
-		for (int i = 0; i < getDefaultPerspectivesLength(); ++i) {
-			if (id.equals(getDefaultPerspectives(i).getId())) {
-				return getDefaultPerspectives(i);
-			}
-		}
-
-		for (Perspective perspective : perspectives) {
-			if (id.equals(perspective.getId())) {
-				return perspective;
-			}
-		}
-		
-		return null;
-	}
-	
-	/**
-	 * Add a new perspective to the list of available perspectives.
-	 * 
-	 * @param perspective
-	 *            perspective
-	 */
-	public void addPerspective(Perspective perspective) {
-		perspectives.add(perspective);
-	}
-
-	/**
-	 * Remove a perspective identified by the object.
-	 * 
-	 * @param perspective
-	 *            perspective
-	 */
-	public void removePerspective(Perspective perspective) {
-		if (perspectives.contains(perspective)) {
-			perspectives.remove(perspective);
-		}
-	}
-
-	/**
-	 * Remove a perspective identified by the index.
-	 * 
-	 * @param index
-	 *            perspective index
-	 */
-	public void removePerspective(int index) {
-		if (index >= 0 && index < perspectives.size()) {
-			perspectives.remove(index);
-		} else {
-			Log.debug("Invalid perspective index: " + index);
-		}
-	}
-
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
 		// TODO Auto-generated method stub
@@ -266,13 +166,11 @@ public class LayoutW extends Layout {
 
 	/**
 	 * Create a perspective for the current layout.
-	 * 
-	 * @param id
-	 *            perspective ID
+	 *
 	 * @return a perspective for the current layout.
 	 */
 	@Override
-	public Perspective createPerspective(String id) {
+	public Perspective createPerspective() {
 		if (app == null) {
 			return null;
 		}
@@ -280,7 +178,7 @@ public class LayoutW extends Layout {
 		// return the default perspective in case we're creating new preferences of
 		// a virgin application.		
 		EuclidianView ev = app.getEuclidianView1();
-		Perspective perspective = new Perspective(id);
+		Perspective perspective = new Perspective();
 
 		if (dockManager.getRoot() != null) {
 			// get the information about the split panes
@@ -309,7 +207,6 @@ public class LayoutW extends Layout {
 				}
 				dockPanelInfo[i] = panels[i].createInfo();
 			}
-
 			// Sort the dock panels as the entries with the smallest amount of
 			// definition should
 			// be read first by the loading algorithm.

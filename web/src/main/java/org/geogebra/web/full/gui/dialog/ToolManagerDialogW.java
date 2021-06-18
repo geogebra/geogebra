@@ -30,7 +30,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.ToolNameIconPanelW;
 import org.geogebra.web.full.gui.ToolNameIconPanelW.MacroChangeListener;
-import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.full.main.GeoGebraTubeExportW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -408,7 +407,7 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 	public void uploadWorksheet(ArrayList<Macro> macros) {
 		GeoGebraTubeExportW exporter = new GeoGebraTubeExportW(appw);
 
-		exporter.uploadWorksheet(macros, new PopupBlockAvoider());
+		exporter.uploadWorksheet(macros);
 
 	}
 

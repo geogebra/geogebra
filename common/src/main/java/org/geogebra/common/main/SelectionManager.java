@@ -3,7 +3,9 @@ package org.geogebra.common.main;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -114,7 +116,7 @@ public class SelectionManager {
 	 * @param geos
 	 *            geos
 	 */
-	final public void setSelectedGeos(ArrayList<GeoElement> geos) {
+	final public void setSelectedGeos(List<GeoElement> geos) {
 		setSelectedGeos(geos, true);
 	}
 
@@ -126,7 +128,7 @@ public class SelectionManager {
 	 * @param updateSelection
 	 *            says if selection has to be updated
 	 */
-	final public void setSelectedGeos(ArrayList<GeoElement> geos,
+	final public void setSelectedGeos(List<GeoElement> geos,
 			boolean updateSelection) {
 		// special case -- happens when we set the same selection on mouse down
 		// and mouse up; we don't want too many events
@@ -801,45 +803,6 @@ public class SelectionManager {
 		}
 	}
 
-	private void filterGeosForView(TreeSet<GeoElement> tree) {
-
-		App app = kernel.getApplication();
-		boolean avShowing = algebraViewShowing();
-
-		TreeSet<GeoElement> copy = new TreeSet<>(tree);
-
-		Iterator<GeoElement> it = copy.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-
-			boolean remove = false;
-			// selectionAllowed arg only matters for axes; axes are not in
-			// construction
-			if (!geo.isSelectionAllowed(null) || !geo.isLead()) {
-				remove = true;
-			} else {
-				boolean visibleInView = (app.showView(App.VIEW_EUCLIDIAN3D)
-						&& geo.isVisibleInView3D())
-						|| (app.showView(App.VIEW_EUCLIDIAN2)
-								&& geo.isVisibleInView(App.VIEW_EUCLIDIAN2))
-						|| (app.showView(App.VIEW_EUCLIDIAN)
-								&& geo.isVisibleInView(App.VIEW_EUCLIDIAN));
-				// remove = !avShowing && (!geo.isEuclidianVisible() || !visibleInView);
-				remove = !avShowing
-						&& (!geo.isEuclidianVisible() || !visibleInView);
-			}
-
-			if (remove) {
-				tree.remove(geo);
-			}
-		}
-	}
-
-	private boolean algebraViewShowing() {
-		return kernel.getApplication().getGuiManager() != null && this.kernel
-				.getApplication().getGuiManager().hasAlgebraViewShowing();
-	}
-
 	/**
 	 * Gets the set of all objects in the order they would appear in AV if AV is
 	 * visible. For objects actually accessible by the user use
@@ -865,9 +828,34 @@ public class SelectionManager {
 	 * @return set over which TAB iterates and belongs to the active Euclidian View.
 	 */
 	public TreeSet<GeoElement> getEVFilteredTabbingSet() {
-		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
-		filterGeosForView(tree);
-		return tree;
+		TreeSet<GeoElement> tabbingSet = getTabbingSet();
+		// we need to make sure that we keep the original comparator
+		return tabbingSet.stream().filter(this::isSelectableForEV)
+				.collect(Collectors.toCollection(() -> new TreeSet<>(tabbingSet.comparator())));
+	}
+
+	private boolean isSelectableForEV(GeoElement geo) {
+		if (!geo.isSelectionAllowed(null) || !geo.isLead()) {
+			return false;
+		}
+
+		return algebraViewShowing()
+				|| (geo.isEuclidianVisible() && isVisibleInView(geo));
+	}
+
+	private boolean algebraViewShowing() {
+		return kernel.getApplication().getGuiManager() != null && this.kernel
+				.getApplication().getGuiManager().hasAlgebraViewShowing();
+	}
+
+	private boolean isVisibleInView(GeoElement geo) {
+		App app = geo.getApp();
+		return (app.showView(App.VIEW_EUCLIDIAN3D)
+				&& geo.isVisibleInView3D())
+				|| (app.showView(App.VIEW_EUCLIDIAN2)
+				&& geo.isVisibleInView(App.VIEW_EUCLIDIAN2))
+				|| (app.showView(App.VIEW_EUCLIDIAN)
+				&& geo.isVisibleInView(App.VIEW_EUCLIDIAN));
 	}
 
 	/**

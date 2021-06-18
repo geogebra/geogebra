@@ -36,6 +36,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -52,6 +53,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
@@ -244,6 +246,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// :NEXT:Grid.setCellFormatter
 		editor = new MyCellEditorW(kernel, editorPanel,
 				getEditorController());
+		Dom.addEventListener(tableWrapper.getElement(), "focusout", evt -> onFocusOut());
 		// setDefaultEditor(Object.class, editor);
 
 		// initialize selection fields
@@ -306,6 +309,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		repaintAll();
 	}
 
+	private void onFocusOut() {
+		editor.stopCellEditingAndProcess();
+		finishEditing(true);
+	}
+
 	@Override
 	public ArrayList<CellRange> getSelectedCellRanges() {
 		return selectedCellRanges;
@@ -364,6 +372,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		gridPanel.addBitlessDomHandler(ml, TouchStartEvent.getType());
 		gridPanel.addBitlessDomHandler(ml, TouchMoveEvent.getType());
 		gridPanel.addBitlessDomHandler(ml, TouchEndEvent.getType());
+		gridPanel.addDomHandler(ml, MouseOutEvent.getType());
 
 		upperLeftCorner.addBitlessDomHandler(new ClickHandler() {
 			@Override
@@ -828,7 +837,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		@Override
 		public void valueChange() {
-			updateCopiableSelection();
+			if (isEditing()) {
+				updateCopiableSelection();
+			}
 		}
 	}
 

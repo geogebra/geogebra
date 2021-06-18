@@ -64,8 +64,6 @@ public class JavaFontRenderingBox extends Box {
 	private static final Graphics2DInterface TEMPGRAPHIC;
 	private static final FontAdapter fontAdapter;
 
-	private static Font font;
-
 	private TextLayout text;
 	private double size;
 	private static TextAttribute KERNING;
@@ -76,7 +74,6 @@ public class JavaFontRenderingBox extends Box {
 	static {
 		TEMPGRAPHIC = new Graphics().createImage(1, 1).createGraphics2D();
 		fontAdapter = new FontAdapter();
-		font = fontAdapter.createFont("Serif", Font.PLAIN, 10);
 
 		KERNING = fontAdapter.getTextAttribute("KERNING");
 		KERNING_ON = fontAdapter.getTextAttributeValue("KERNING_ON");
@@ -108,10 +105,6 @@ public class JavaFontRenderingBox extends Box {
 		this(str, type, size, font, true);
 	}
 
-	public static void setFont(String name) {
-		font = fontAdapter.createFont(name, Font.PLAIN, 10);
-	}
-
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		drawDebug(g2, x, y);
@@ -125,5 +118,10 @@ public class JavaFontRenderingBox extends Box {
 	@Override
 	public FontInfo getLastFont() {
 		return Configuration.getFonts().msbm10;
+	}
+
+	@Override
+	public void inspect(BoxConsumer handler, BoxPosition position) {
+		super.inspect(handler, position.withScale(size));
 	}
 }

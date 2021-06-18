@@ -6,14 +6,18 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * MathField-capable editor for input boxes on EuclidianView.
@@ -51,6 +55,10 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		MathFormula formula = getMathFieldInternal().getFormula();
 		String latex = texSerializer.serialize(formula);
 		geoInputBox.setTempUserDisplayInput(latex);
+	}
+
+	protected boolean isTextMode() {
+		return getGeoInputBox().getLinkedGeo() instanceof GeoText;
 	}
 
 	protected abstract MathFieldInternal getMathFieldInternal();
@@ -136,5 +144,24 @@ public abstract class SymbolicEditor implements MathFieldListener {
 
 	public DrawInputBox getDrawInputBox() {
 		return drawInputBox;
+	}
+
+	protected void addDegree(String key, MathFieldInternal mf) {
+		if (geoInputBox.getLinkedGeo().isGeoAngle() && key != null && isSimpleNumber(mf)
+				&& key.matches("[0-9]")) {
+			mf.insertString(Unicode.DEGREE_STRING);
+			mf.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
+		}
+	}
+
+	private boolean isSimpleNumber(MathFieldInternal mf) {
+		String text = mf.getText();
+		try {
+			Double.parseDouble(text);
+			return true;
+		} catch (RuntimeException e) {
+			// not a number
+		}
+		return false;
 	}
 }

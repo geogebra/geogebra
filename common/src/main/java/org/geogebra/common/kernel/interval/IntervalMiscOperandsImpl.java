@@ -3,9 +3,12 @@ package org.geogebra.common.kernel.interval;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 
+import com.google.j2objc.annotations.Weak;
+
 public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 	private static final Interval LOG_EXP_2 = new Interval(2, 2).log();
 	private static final Interval LOG_EXP_10 = new Interval(10, 10).log();
+	@Weak
 	private final Interval interval;
 
 	public IntervalMiscOperandsImpl(Interval interval) {
@@ -122,7 +125,7 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 
 	@Override
 	public Interval abs() {
-		if (interval.isEmpty() || interval.getLow() >= 0) {
+		if (interval.isEmpty() || interval.getLow() >= 0 || interval.isUndefined()) {
 			return interval;
 		}
 

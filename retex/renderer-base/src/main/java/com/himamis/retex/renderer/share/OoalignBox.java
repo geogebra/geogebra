@@ -81,4 +81,12 @@ public class OoalignBox extends Box {
 	public FontInfo getLastFont() {
 		return boxes.get(boxes.size() - 1).getLastFont();
 	}
+
+	@Override
+	public void inspect(BoxConsumer handler, BoxPosition position) {
+		super.inspect(handler, position);
+		for (Box box : boxes) {
+			box.inspect(handler, position);
+		}
+	}
 }

@@ -308,8 +308,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				int mx = view.toScreenCoordX(xRW);
 				int my = view.toScreenCoordY(yRW);
 
-				endPoint.setX(xRW);
-				endPoint.setY(yRW);
+				endPoint.setLocation(xRW, yRW);
 				view.getEuclidianController().setLineEndPoint(endPoint);
 				gp.lineTo(mx, my);
 			} else {
