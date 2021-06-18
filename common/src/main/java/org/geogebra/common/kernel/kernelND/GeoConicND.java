@@ -4009,12 +4009,14 @@ public abstract class GeoConicND extends GeoQuadricND
 		 * double d = MyMath.length(x - xC, y - yC); return Math.abs(d - r);
 		 */
 
-		GeoPoint closestPoint = new GeoPoint(cons, pt.x, pt.y, pt.z);
+		GeoPoint closestPoint = new GeoPoint(cons, true);
 		return distance(pt.inhomX, pt.inhomY, closestPoint);
 
 	}
 
 	public double distance(double x, double y, GeoPoint closestPoint) {
+		closestPoint.setPath(null);
+		closestPoint.setCoords(x, y, 1, false);
 		closestPoint.setPath(this);
 		pointChanged(closestPoint);
 		closestPoint.updateCoords();
