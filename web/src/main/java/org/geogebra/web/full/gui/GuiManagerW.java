@@ -91,7 +91,6 @@ import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.toolbarpanel.ShowableTab;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
-import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -128,7 +127,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.FileConsumer;
 import org.geogebra.web.html5.util.StringConsumer;
-import org.geogebra.web.html5.util.Visibility;
 import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -566,13 +564,8 @@ public class GuiManagerW extends GuiManager
 			sciSettingsView = new ScientificSettingsView(getApp());
 			getApp().getLocalization().registerLocalizedUI(sciSettingsView);
 		}
-		frame.forceHeaderVisibility(Visibility.HIDDEN);
-		getApp().setCloseBrowserCallback(new Runnable() {
-			@Override
-			public void run() {
-				frame.forceHeaderVisibility(Visibility.NOT_SET);
-			}
-		});
+		frame.forceHeaderHidden(true);
+		getApp().setCloseBrowserCallback(() -> frame.forceHeaderHidden(false));
 		frame.showPanel(sciSettingsView);
 	}
 
@@ -1041,7 +1034,7 @@ public class GuiManagerW extends GuiManager
 		if (success && !isMacroFile
 				&& !getApp().getSettings().getLayout().isIgnoringDocumentLayout()) {
 
-			getLayout().setPerspectives(getApp().getTmpPerspectives(), null);
+			getLayout().setPerspectiveOrDefault(getApp().getTmpPerspective());
 
 			if (!getApp().isIniting()) {
 				updateFrameSize(); // checks internally if frame is available
@@ -1284,12 +1277,6 @@ public class GuiManagerW extends GuiManager
 		if (spreadsheetView != null) {
 			spreadsheetView.setScrollToShow(b);
 		}
-	}
-
-	@Override
-	public void showURLinBrowser(final String strURL) {
-		final PopupBlockAvoider popupBlockAvoider = new PopupBlockAvoider();
-		popupBlockAvoider.openURL(strURL);
 	}
 
 	@Override

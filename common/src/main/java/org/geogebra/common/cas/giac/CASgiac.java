@@ -839,13 +839,13 @@ public abstract class CASgiac implements CASGenericInterface {
 			boolean toRoot = kernel.getApplication().getSettings()
 					.getCasSettings().getShowExpAsRoots();
 			ve = ve.traverse(DiffReplacer.INSTANCE);
-			ve.traverse(PowerRootReplacer.getReplacer(toRoot));
+			ve = ve.traverse(PowerRootReplacer.getReplacer(toRoot));
 			if (arbconst != null) {
 				arbconst.reset();
-				ve.traverse(ArbconstReplacer.getReplacer(arbconst));
+				ve = ve.traverse(ArbconstReplacer.getReplacer(arbconst));
 			}
 			PrefixRemover pr = PrefixRemover.getCollector();
-			ve.traverse(pr);
+			ve = ve.traverse(pr);
 		}
 		return ve;
 	}

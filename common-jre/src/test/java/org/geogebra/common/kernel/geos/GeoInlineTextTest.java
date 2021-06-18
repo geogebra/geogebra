@@ -47,7 +47,7 @@ public class GeoInlineTextTest extends BaseUnitTest {
 		savedInlineText.setAngle(angle);
 		savedInlineText.setContent(content);
 		savedInlineText.setBorderColor(GColor.DARK_GREEN);
-		savedInlineText.setBorderThickness(3);
+		savedInlineText.setLineThickness(3);
 
 		String appXML = getApp().getXML();
 		XmlTestUtil.testCurrentXML(getApp());
@@ -62,7 +62,7 @@ public class GeoInlineTextTest extends BaseUnitTest {
 		assertEquals(angle, loadedInlineText.getAngle(), Kernel.MAX_PRECISION);
 		assertEquals(content, loadedInlineText.getContent());
 		assertEquals(GColor.DARK_GREEN, loadedInlineText.getBorderColor());
-		assertEquals(3, loadedInlineText.getBorderThickness());
+		assertEquals(3, loadedInlineText.getLineThickness());
 	}
 
 	@Test

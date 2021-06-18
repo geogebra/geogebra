@@ -10,9 +10,9 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "08 June 2021";
+	public static final String BUILD_DATE = "15 June 2021";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.647.0";
+	public static final String VERSION_STRING = "5.0.648.0";
 
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
@@ -30,7 +30,28 @@ public interface GeoGebraConstants {
 		SCIENTIFIC,
 		SUITE,
 		MIXED_REALITY,
-		NOTES
+		NOTES;
+
+		public String getTransKey() {
+			switch (this) {
+			case GRAPHING:
+				return "GeoGebraGraphingCalculator";
+			case GRAPHING_3D:
+				return "GeoGebra3DGrapher";
+			case SCIENTIFIC:
+				return "GeoGebraScientificCalculator";
+			case CAS:
+				return "GeoGebraCASCalculator";
+			case GEOMETRY:
+				return "GeoGebraGeometry";
+			case NOTES:
+				return "GeoGebraNotes";
+			case SUITE:
+				return "GeoGebraCalculatorSuite";
+			default:
+				return null;
+			}
+		}
 	}
 
 	public enum Platform {

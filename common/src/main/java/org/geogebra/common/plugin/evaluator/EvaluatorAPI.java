@@ -11,11 +11,14 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.Parser;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 
+import com.himamis.retex.editor.share.controller.ExpressionReader;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
+import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
 import com.himamis.retex.editor.share.serializer.Serializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 
@@ -27,14 +30,16 @@ public class EvaluatorAPI {
 	private static final String LATEX_KEY = "latex";
 	private static final String ASCII_CONTENT_KEY = "content";
 	private static final String EVAL_KEY = "eval";
+	private static final String ALT_TEXT_KEY = "altText";
 	private static final String NAN = "NaN";
+	private final ExpressionReader expressionReader;
 
-	private MathFieldInternal mathFieldInternal;
-	private Serializer flatSerializer;
-	private Serializer latexSerializer;
-	private AlgebraProcessor algebraProcessor;
-	private Parser parser;
-	private EvalInfo evalInfo;
+	private final MathFieldInternal mathFieldInternal;
+	private final Serializer flatSerializer;
+	private final Serializer latexSerializer;
+	private final AlgebraProcessor algebraProcessor;
+	private final Parser parser;
+	private final EvalInfo evalInfo;
 
 	/**
 	 * Create a new Evaluator API
@@ -49,6 +54,7 @@ public class EvaluatorAPI {
 		this.flatSerializer = new GeoGebraSerializer();
 		this.latexSerializer = new TeXSerializer();
 		this.evalInfo = createEvalInfo();
+		expressionReader = ScreenReader.getExpressionReader(kernel.getApplication());
 	}
 
 	private EvalInfo createEvalInfo() {
@@ -67,14 +73,21 @@ public class EvaluatorAPI {
 		String flatString = getFlatString(formula);
 		String latexString = getLatexString(formula);
 		String evalString = getEvalString(flatString);
+		String altTextString = getAltTextString();
 
 		HashMap<String, Object> map = new HashMap<>();
 
 		map.put(ASCII_CONTENT_KEY, flatString);
 		map.put(LATEX_KEY, latexString);
 		map.put(EVAL_KEY, evalString);
+		map.put(ALT_TEXT_KEY, altTextString);
 
 		return map;
+	}
+
+	private String getAltTextString() {
+		return ScreenReaderSerializer.fullDescription(expressionReader,
+				getMathFormula().getRootComponent());
 	}
 
 	private MathFormula getMathFormula() {

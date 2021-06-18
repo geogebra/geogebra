@@ -18,7 +18,6 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
@@ -212,10 +211,8 @@ public class CASViewW extends CASView implements PrintableW {
 	}
 
 	@Override
-	public void getPrintable(FlowPanel pPanel, Button btPrint) {
-		// Widget[] printableList = {};
-
-		// printableList[0] = new Label("CAS View");
+	public void getPrintable(FlowPanel pPanel, Runnable enablePrintBtn) {
+		// nothing to do here
 	}
 
 	@Override

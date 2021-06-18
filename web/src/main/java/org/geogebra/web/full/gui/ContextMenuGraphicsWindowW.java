@@ -143,13 +143,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 						MaterialDesignResources.INSTANCE.color_black()
 								.getSafeUri().asString(),
 						loc.getMenu("BackgroundColor")),
-				true, new Command() {
-
-					@Override
-					public void execute() {
-						openColorChooser();
-					}
-				});
+				true, this::openColorChooser);
 		wrappedPopup.addItem(miBackgroundCol);
 	}
 

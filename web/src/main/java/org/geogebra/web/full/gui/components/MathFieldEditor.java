@@ -91,7 +91,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 		mathField.setClickListener(this);
 		mathField.setOnBlur(this);
 
-		getMathField().setBackgroundCssColor("rgba(255,255,255,0)");
+		getMathField().setBackgroundColor("rgba(255,255,255,0)");
 		main.add(mathField);
 		retexListener = new RetexKeyboardListener(canvas, mathField);
 		initEventHandlers();

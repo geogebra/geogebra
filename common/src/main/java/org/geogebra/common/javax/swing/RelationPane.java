@@ -56,7 +56,7 @@ public interface RelationPane {
 
 	/**
 	 * Shows the information window.
-	 * 
+	 *
 	 * @param title
 	 *            The title of the window
 	 * @param relations
@@ -66,5 +66,4 @@ public interface RelationPane {
 	 */
 	public abstract void showDialog(String title, RelationRow[] relations,
 			App app);
-
 }

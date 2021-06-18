@@ -2590,44 +2590,6 @@ public class AlgebraProcessor {
 		}
 	}
 
-	private static int getDirection(ExpressionNode enLeft) {
-		int dir = 0;
-		ExpressionValue left = enLeft.getLeft();
-		ExpressionValue right = enLeft.getRight();
-		Operation op = enLeft.getOperation();
-		if ((op.equals(Operation.LESS) || op.equals(Operation.LESS_EQUAL))) {
-			if (left instanceof FunctionVariable && right.isNumberValue()
-					&& right.isConstant()) {
-				dir = -1;
-			} else if (right instanceof FunctionVariable && left.isNumberValue()
-					&& left.isConstant()) {
-				dir = +1;
-			}
-
-		} else if ((op.equals(Operation.GREATER)
-				|| op.equals(Operation.GREATER_EQUAL))) {
-			if (left instanceof FunctionVariable && right.isNumberValue()
-					&& right.isConstant()) {
-				dir = +1;
-			} else if (right instanceof FunctionVariable && left.isNumberValue()
-					&& left.isConstant()) {
-				dir = -1;
-			}
-
-		}
-		return dir;
-	}
-
-	/**
-	 * Interval dependent on coefficients of arithmetic expressions with
-	 * variables, represented by trees. e.g. x > a && x < b
-	 */
-	final private GeoFunction dependentInterval(Function fun) {
-		AlgoDependentFunction algo = new AlgoDependentFunction(cons, fun, true);
-		GeoFunction f = algo.getFunction();
-		return f;
-	}
-
 	final private GeoElement dependentGeoCopy(GeoElement origGeoNode, ExpressionNode node) {
 		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons, origGeoNode, node);
 		return algo.getGeo();

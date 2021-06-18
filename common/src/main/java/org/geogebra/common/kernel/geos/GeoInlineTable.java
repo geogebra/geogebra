@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.euclidian.draw.DrawInlineTable;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -40,6 +39,8 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 	public GeoInlineTable(Construction c, GPoint2D location) {
 		super(c);
 		setLocation(location);
+		setContentWidth(DEFAULT_WIDTH);
+		setContentHeight(DEFAULT_HEIGHT);
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 
@@ -82,12 +83,12 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 
 	@Override
 	public void setBackgroundColor(GColor backgroundColor) {
-		getFormatter().setBackgroundColor(backgroundColor);
+		((InlineTableController) getFormatter()).setBackgroundColor(backgroundColor);
 	}
 
 	@Override
 	public GColor getBackgroundColor() {
-		return getFormatter().getBackgroundColor();
+		return ((InlineTableController) getFormatter()).getBackgroundColor();
 	}
 
 	@Override
@@ -98,13 +99,6 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 	@Override
 	public int getFontStyle() {
 		return GeoInlineText.getFontStyle(getFormatter());
-	}
-
-	@Override
-	public InlineTableController getFormatter() {
-		DrawInlineTable drawable = (DrawInlineTable) kernel.getApplication()
-				.getActiveEuclidianView().getDrawableFor(this);
-		return drawable == null ? null : drawable.getTableController();
 	}
 
 	@Override
@@ -136,6 +130,7 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 		this.minWidth = minWidth;
 	}
 
+	@Override
 	public void setMinHeight(double minHeight) {
 		this.minHeight = minHeight;
 	}

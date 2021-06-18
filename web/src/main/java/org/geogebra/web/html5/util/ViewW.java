@@ -100,10 +100,11 @@ public class ViewW {
 						? "" : name.substring(dotIndex + 1).toLowerCase(Locale.US);
 
 				if (extension.matches("(png|jpg|jpeg|gif|bmp|tif|tiff)")) {
-					String prefix = "data:image/" + extension + ";base64,";
-					archiveContent.put(name, prefix + Base64.bytesToBase64(data.get(name)));
+					Uint8Array obj = data.get(name);
+					archiveContent.put(name, new ArchiveEntry(obj));
 				} else {
-					archiveContent.put(name, FFlate.get().strFromU8(data.get(name)));
+					archiveContent.put(name, new ArchiveEntry(FFlate.get()
+							.strFromU8(data.get(name))));
 				}
 			});
 
@@ -185,7 +186,7 @@ public class ViewW {
 			JsArray<JsPropertyMap<String>> content = Js.uncheckedCast(json.get("archive"));
 			for (int i = 0; i < content.length; i++) {
 				JsPropertyMap<String> entry = content.getAt(i);
-				file.put(entry.get("fileName"), entry.get("fileContent"));
+				file.put(entry.get("fileName"), new ArchiveEntry(entry.get("fileContent")));
 			}
 		}
 	}
