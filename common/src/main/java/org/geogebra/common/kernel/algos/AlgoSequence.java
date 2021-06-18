@@ -20,6 +20,7 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -36,7 +37,7 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoSequence extends AlgoElement {
+public class AlgoSequence extends AlgoElement implements SetRandomValue {
 
 	private GeoElementND expression; // input expression dependent on var
 	private GeoNumeric var; // input: local variable
@@ -430,4 +431,28 @@ public class AlgoSequence extends AlgoElement {
 		}
 	}
 
+	@Override
+	public boolean setRandomValue(GeoElementND d) {
+		if (expressionParentAlgo instanceof SetRandomValue && d.isGeoList()) {
+			double from = var_from.getDouble();
+			double to = var_to.getDouble();
+			double step = var_step == null ? 1 : var_step.getDouble();
+			double currentVal = from;
+			int counter = 0;
+			boolean allGood = true;
+			while ((step > 0 && currentVal <= to + Kernel.MIN_PRECISION)
+					|| (step < 0 && currentVal >= to - Kernel.MIN_PRECISION)) {
+				updateLocalVar(currentVal);
+				allGood = ((SetRandomValue) expressionParentAlgo)
+						.setRandomValue(((GeoList) d).get(counter)) && allGood;
+				if (counter < list.size()) {
+					list.get(counter).set(expression);
+				}
+				currentVal += step;
+				counter++;
+			}
+			return allGood;
+		}
+		return false;
+	}
 }
