@@ -4,11 +4,13 @@ import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
+import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
@@ -141,6 +143,12 @@ public class BaseUnitTest {
 	protected <T extends GeoElement> T add(String command, EvalInfo info) {
 		GeoElementND[] geoElements = getElements(command, info);
 		return getFirstElement(geoElements);
+	}
+
+	protected void t(String input, String... expected) {
+		AlgebraTestHelper.testSyntaxSingle(input, expected,
+				getApp().getKernel().getAlgebraProcessor(),
+				StringTemplate.xmlTemplate);
 	}
 
 	protected <T extends GeoElementND> T[] getElements(String command) {

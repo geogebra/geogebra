@@ -60,11 +60,6 @@ public class RedefineTest extends BaseUnitTest {
 				tpl);
 	}
 
-	private static void t(String s, String[] expected) {
-		AlgebraTestHelper.testSyntaxSingle(s, expected, ap,
-				StringTemplate.xmlTemplate);
-	}
-
 	private void checkError(String s, String msg) {
 		ErrorAccumulator errorStore = new ErrorAccumulator();
 		app.getKernel().getAlgebraProcessor()
