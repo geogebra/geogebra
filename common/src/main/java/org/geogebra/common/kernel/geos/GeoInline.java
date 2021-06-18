@@ -21,6 +21,8 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	private double height;
 
 	private double angle;
+	/** cannot be moved by other users */
+	private boolean isLockedForMultiuser = false;
 
 	private GColor borderColor = GColor.BLACK;
 	private double contentWidth;
@@ -266,5 +268,20 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 
 	public void setZoomingEnabled(boolean zoomingEnabled) {
 		this.zoomingEnabled = zoomingEnabled;
+	}
+
+	public boolean isLockedForMultiuser() {
+		return isLockedForMultiuser;
+	}
+
+	public void setLockedForMultiuser(boolean locked) {
+		isLockedForMultiuser = locked;
+	}
+
+	/**
+	 * dispatches unlock event for multiuser
+	 */
+	public void unlockForMultiuser() {
+		getApp().getEventDispatcher().unlockTextElement(this);
 	}
 }
