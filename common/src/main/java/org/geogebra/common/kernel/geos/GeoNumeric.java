@@ -1967,11 +1967,15 @@ public class GeoNumeric extends GeoElement
 	}
 
 	private void addAuralSliderValue(ScreenReaderBuilder sb) {
+		sb.appendMenuDefault("Slider", "Slider");
+		sb.appendSpace();
+
 		if (!addAuralCaption(sb)) {
 			sb.append(getLabelSimple());
-			sb.append(getLabelDelimiterWithSpace(StringTemplate.screenReader));
-			sb.append(toValueString(StringTemplate.defaultTemplate));
 		}
+
+		sb.append(getLabelDelimiterWithSpace(StringTemplate.screenReader));
+		sb.append(toValueString(StringTemplate.defaultTemplate));
 	}
 
 	@Override
@@ -1979,10 +1983,6 @@ public class GeoNumeric extends GeoElement
 		if (!isSliderable()) {
 			super.addAuralName(sb);
 			return;
-		}
-		if (StringUtil.empty(getCaptionSimple())) {
-			sb.appendMenuDefault("Slider", "Slider");
-			sb.appendSpace();
 		}
 		addAuralSliderValue(sb);
 		sb.endSentence();
