@@ -186,7 +186,7 @@ public class MyXMLHandler implements DocHandler {
 	/**
 	 * A vector with all perspectives we have read in this document.
 	 */
-	private ArrayList<Perspective> tmp_perspectives = new ArrayList<>();
+	private boolean perspectiveElementFound = false;
 
 	/**
 	 * Array lists to store temporary panes and views of a perspective.
@@ -250,7 +250,6 @@ public class MyXMLHandler implements DocHandler {
 		constMode = MODE_CONSTRUCTION;
 		hasGuiElement = false;
 		compLayout = new CompatibilityLayout();
-
 		initKernelVars();
 
 		xmin.clear();
@@ -605,7 +604,7 @@ public class MyXMLHandler implements DocHandler {
 					if (ggbFileFormat < 3.3) {
 						createCompabilityLayout();
 					} else if (!isPreferencesXML
-							&& tmp_perspectives.isEmpty()) {
+							&& !perspectiveElementFound) {
 						// a specific 4.2 ggb file needed this
 						createCompabilityLayout();
 					}
@@ -656,8 +655,8 @@ public class MyXMLHandler implements DocHandler {
 			isPreferencesXML = false;
 
 			// if (ggbFileFormat < 3.3) // safe to reset every time
-			tmp_perspective = new Perspective("tmp");
-			tmp_perspectives.clear();
+			tmp_perspective = new Perspective();
+			perspectiveElementFound = false;
 
 			break;
 		case "macro":
@@ -1942,7 +1941,7 @@ public class MyXMLHandler implements DocHandler {
 			break;
 		case "perspectives":
 			mode = MODE_GUI_PERSPECTIVES;
-			tmp_perspectives.clear();
+			perspectiveElementFound = false;
 			break;
 		case "show":
 			ok = handleGuiShow(app, attrs);
@@ -1994,11 +1993,8 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private void createCompabilityLayout() {
 		this.compLayout.update(tmp_perspective, app);
-
-		tmp_perspectives = new ArrayList<>();
-		tmp_perspectives.add(tmp_perspective);
 		app.setPreferredSize(compLayout.getDimension());
-		app.setTmpPerspectives(tmp_perspectives);
+		app.setTmpPerspective(tmp_perspective);
 	}
 
 	private static boolean handleConsProtColumns(App app,
@@ -2377,8 +2373,13 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private boolean handlePerspective(LinkedHashMap<String, String> attrs) {
 		try {
-			tmp_perspective = new Perspective(attrs.get("id"));
-			tmp_perspectives.add(tmp_perspective);
+			if (perspectiveElementFound && !"tmp".equals(attrs.get("id"))) {
+				// if file contains single perspective, accept it
+				// if it contains more, only care about "tmp"
+				return false;
+			}
+			tmp_perspective = new Perspective();
+			perspectiveElementFound = true;
 
 			if (tmp_panes == null) {
 				tmp_panes = new ArrayList<>();
@@ -2401,10 +2402,10 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	/**
-	 * Save all perspectives in the application.
+	 * Save the perspective in the application.
 	 */
 	private void endGuiPerspectivesElement() {
-		app.setTmpPerspectives(tmp_perspectives);
+		app.setTmpPerspective(tmp_perspective);
 	}
 
 	// ====================================

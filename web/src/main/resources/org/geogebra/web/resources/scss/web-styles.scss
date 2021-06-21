@@ -118,45 +118,9 @@
 		display: block;
 	}
 
-	.boxsize {
-		width: 340px;
-		max-width: 100%;
-	}
-
-	.ExamTabletBoxsize div {
-		text-align: center;
-	}
-
-	.ExamTabletBoxsize .Caption {
-		margin-bottom: 5px !important;
-	}
-
-	.ExamTabletStartButton {
-		margin: 30px 0 10px 0 !important;
-	}
-
-	.examScrollPanel {
-		overflow: auto;
-		min-height: 100px;
-		max-height: 350px;
-		padding: 0 10px 10px 5px;
-	}
-
-	.examMessagePanel {
-		margin-right: 30px;
-	}
-
 	.examInfo {
 		margin-left: 5px;
 		cursor: pointer;
-	}
-
-	.centerDialog {
-		position: absolute !important;
-		left: 50% !important;
-		top: 50% !important;
-		margin-top: -200px;
-		margin-left: -170px;
 	}
 
 	.webkitFullscreen:-webkit-full-screen {

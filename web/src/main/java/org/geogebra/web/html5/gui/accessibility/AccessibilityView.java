@@ -22,8 +22,11 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 import org.gwtproject.timer.client.Timer;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.DomGlobal;
 
 /**
  * View for representation of geo elements as hidden DOM controls
@@ -285,8 +288,13 @@ public class AccessibilityView implements View {
 	 * @param unit  unit
 	 */
 	public void updateValueText(SliderW range, double value, String unit) {
-		range.getElement().setAttribute("aria-valuetext",
+		Element el = range.getElement();
+		String label = el.getAttribute("aria-label");
+		el.removeAttribute("aria-label");
+		el.setAttribute("aria-valuetext",
 				app.getKernel().format(value, StringTemplate.screenReader) + " " + unit);
+		DomGlobal.setTimeout(ignore -> el.setAttribute("aria-label", label),
+				1000);
 	}
 
 	/**

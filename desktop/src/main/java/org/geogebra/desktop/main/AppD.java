@@ -128,11 +128,9 @@ import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.io.OFFHandler;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
-import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
-import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.gui.MyImageJre;
@@ -545,12 +543,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			}
 		}
 
-		if (isUsingFullGui() && (getTmpPerspectives() != null)) {
+		if (isUsingFullGui() && getTmpPerspective() != null) {
 			getGuiManager().getLayout()
-					.setPerspectives(getTmpPerspectives(),
-							PerspectiveDecoder.decode(
-							"", getKernel().getParser(),
-							ToolBar.getAllToolsNoMacros(false, false, this)));
+					.setPerspectiveOrDefault(getTmpPerspective());
 		}
 
 		if (needsSpreadsheetTableModel) {
@@ -1742,7 +1737,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	private boolean isJustEuclidianVisible()
 			throws OperationNotSupportedException {
-		Perspective docPerspective = getTmpPerspective(null);
+		Perspective docPerspective = getTmpPerspective();
 
 		if (docPerspective == null) {
 			throw new OperationNotSupportedException();
@@ -4376,10 +4371,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	public void showURLinBrowser(String strURL) {
 		getGuiManager().showURLinBrowser(strURL);
-
 	}
 
-	@Override
 	public void uploadToGeoGebraTube() {
 		GeoGebraTubeExportD ggbtube = new GeoGebraTubeExportD(this);
 		ggbtube.uploadWorksheet(null);

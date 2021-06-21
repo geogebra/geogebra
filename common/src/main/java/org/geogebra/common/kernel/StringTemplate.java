@@ -53,6 +53,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private boolean forceNF;
 	private boolean allowMoreDigits;
 	private boolean useRealLabels;
+	private boolean useSimplifications;
 
 	private boolean changeArcTrig = true;
 
@@ -899,6 +900,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return copy;
 	}
 
+	/**
+	 * @return copy of this template that simplifies 1*a and -1*a
+	 * to a and -a respectively
+	 */
+	public StringTemplate deriveWithSimplification() {
+		StringTemplate copy = copy();
+		copy.useSimplifications = true;
+		return copy;
+	}
+
 	private StringTemplate copy() {
 		StringTemplate result = new StringTemplate("CopyOf:" + name);
 		result.stringType = stringType;
@@ -915,6 +926,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		result.forceSF = forceSF;
 		result.supportsFractions = supportsFractions;
 		result.questionMarkForNaN = questionMarkForNaN;
+		result.useSimplifications = useSimplifications;
 		return result;
 	}
 
@@ -946,7 +958,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			if ("l".equals(label)) {
 				return "\\ell";
 			}
-			
+
 			// eg $1 in "Keep Input" mode
 			return label.replace("$", "\\$");
 		default:
@@ -1792,6 +1804,19 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		case LATEX:
 		case LIBRE_OFFICE:
+			if (useSimplifications && !Unicode.DEGREE_STRING.equals(rightStr)
+					&& !RAD.equals(rightStr)) {
+				Operation operation = Operation.MULTIPLY;
+				// check for 1 at left
+				if ("1".equals(leftStr)) {
+					append(sb, rightStr, right, operation);
+					break;
+				} else if ("-1".equals(leftStr)) {
+					sb.append("-");
+					append(sb, rightStr, right, operation);
+					break;
+				}
+			}
 
 			boolean nounary = true;
 
@@ -2844,10 +2869,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 					sb.append("(");
 					sb.append(leftStr);
-					// Log.debug(left.evaluatesToList());
-					// Log.debug(left instanceof ListValue);
-					// Log.debug(((ListValue)left).getListElement(0).evaluatesToList());
-					
+
 					// if list && !matrix
 					if (left.evaluatesToList()
 							&& left.getListDepth() != 2) {

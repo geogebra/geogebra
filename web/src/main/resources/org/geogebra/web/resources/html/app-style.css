@@ -112,7 +112,6 @@
     position: relative;
 }
 .GeoGebraFrame .matAvDesign .marblePanel.error, .GeoGebraFrame .matAvDesign .marblePanel.help, .GeoGebraFrame .matAvDesign .marblePanel {
-    position: absolute;
     height: 100%;
     padding-top: 0px;
     padding-bottom: 0px;
@@ -129,7 +128,6 @@
     opacity: 0.54;
 }
 .GeoGebraFrame .NewRadioButtonTreeItemParent {
-    position: absolute;
     width: 100%;
     z-index: 4;
 }

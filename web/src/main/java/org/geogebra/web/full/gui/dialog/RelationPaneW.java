@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.javax.swing;
+package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.kernel.Relation;
@@ -7,6 +7,8 @@ import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.debug.LoggerW;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -15,20 +17,15 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
- * Web implementation of the Relation Tool information window.
- * 
- * @author Zoltan Kovacs. Thanks to Laszlo Gal and Judit Elias for many hints.
+ * Web implementation of the Relation Tool dialog
  */
 
-public class RelationPaneW extends GDialogBox
+public class RelationPaneW extends ComponentDialog
 		implements RelationPane, ClickHandler {
-
-	private Button btnOK;
 	private Button[] btnCallbacks;
 	private Relation[] callbacks;
 	private int rels;
@@ -36,32 +33,15 @@ public class RelationPaneW extends GDialogBox
 	private FlowPanel[] buttons;
 
 	/**
-	 * @param autoHide
-	 *            whether to hide this
-	 * @param root
-	 *            parent panel
-	 * @param app
-	 *            app
+	 * @param app see {@link AppW}
+	 * @param data dialog data
 	 */
-	public RelationPaneW(boolean autoHide, Panel root, App app) {
-		super(autoHide, root, app);
-	}
-
-	@Override
-	public void setGlassEnabled(boolean enabled) {
-		super.setGlassEnabled(enabled);
+	public RelationPaneW(AppW app, DialogData data) {
+		super(app, data, false, false);
 	}
 
 	@Override
 	public void showDialog(String title, RelationRow[] relations, App app1) {
-
-		// setGlassEnabled(true);
-		if (app1.isUnbundledOrWhiteboard()) {
-			setStyleName("MaterialDialogBox");
-		} else {
-			addStyleName("DialogBox");
-		}
-
 		GDialogBox db = new GDialogBox(((AppW) app).getPanel(), app);
 		FlowPanel fp = new FlowPanel();
 
@@ -94,40 +74,24 @@ public class RelationPaneW extends GDialogBox
 
 		db.add(fp);
 
-		btnOK = new Button();
-		btnOK.addClickHandler(this);
-
-		FlowPanel buttonPanel = new FlowPanel();
-		buttonPanel.addStyleName("DialogButtonPanel");
-
 		HorizontalPanel messagePanel = new HorizontalPanel();
 		messagePanel.addStyleName("Dialog-messagePanel");
 		messagePanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		VerticalPanel messageTextPanel = new VerticalPanel();
 		FlowPanel mainPanel = new FlowPanel();
 		mainPanel.addStyleName("Dialog-content");
-		btnOK.setText("OK");
-		buttonPanel.add(btnOK);
 		messagePanel.clear();
 		messageTextPanel.clear();
 		messageTextPanel.add(fp);
 		messagePanel.add(messageTextPanel);
 		mainPanel.add(messagePanel);
-		mainPanel.add(buttonPanel);
-		clear();
-		add(mainPanel);
-		setText(title);
-		center();
+		setDialogContent(mainPanel);
 		show();
 	}
 
 	@Override
 	public void onClick(final ClickEvent event) {
 		final Object source = event.getSource();
-
-		if (source == btnOK) {
-			hide();
-		}
 
 		((AppW) app).getAsyncManager().asyncEvalCommand("Delete(Prove(true))",
 				(_unused) -> {

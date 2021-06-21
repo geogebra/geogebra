@@ -1129,13 +1129,7 @@ public class Hits extends ArrayList<GeoElement> {
 	}
 
 	private boolean containsGroup(Group group) {
-		for (GeoElement geo: group.getGroupedGeos()) {
-			if (!contains(geo)) {
-				return false;
-			}
-		}
-
-		return true;
+		return group.stream().anyMatch(this::contains);
 	}
 
 	@Override

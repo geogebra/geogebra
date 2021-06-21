@@ -12,7 +12,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	GuiResourcesSimple INSTANCE = GWT.create(GuiResourcesSimple.class);
 
-	@Source("org/geogebra/web/resources/js/rewrite_pHYs_min.js")
+	@Source("org/geogebra/web/resources/js/rewrite_pHYs.min.js")
 	TextResource rewritePHYS();
 
 	@Source("org/geogebra/web/resources/js/xmlutil.js")
@@ -158,7 +158,4 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/ic_pause_circle_outline_black_24px.svg")
 	SVGResource pause_circle();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/baseline-record_voice_over-24px.svg")
-	SVGResource record();
 }

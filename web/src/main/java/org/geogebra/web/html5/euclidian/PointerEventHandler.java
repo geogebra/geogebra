@@ -7,11 +7,15 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
+import org.geogebra.web.html5.gui.util.NativePointerEvent;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
+
+import elemental2.dom.DomGlobal;
+import jsinterop.base.Js;
 
 /**
  * Handles pointer events in Euclidian view
@@ -127,7 +131,6 @@ public class PointerEventHandler {
 		third = null;
 	}
 
-	@ExternalAccess
 	private void onPointerMove(NativePointerEvent e) {
 		if (first != null && second != null) {
 			if (second.id == e.getPointerId()) {
@@ -152,7 +155,6 @@ public class PointerEventHandler {
 		return pointerState != null && pointerState.id == event.getPointerId();
 	}
 
-	@ExternalAccess
 	private void onPointerDown(NativePointerEvent e, Element element) {
 		if (first != null && second != null && third != null) {
 			reset();
@@ -189,7 +191,6 @@ public class PointerEventHandler {
 		return ex;
 	}
 
-	@ExternalAccess
 	private void onPointerUp(NativePointerEvent event, Element element) {
 		if (pointerCapture != element) {
 			return;
@@ -205,7 +206,6 @@ public class PointerEventHandler {
 		setPointerType(event.getPointerType(), false);
 	}
 
-	@ExternalAccess
 	private void onPointerOut(NativePointerEvent event) {
 		resetPointer(event);
 		setPointerType(event.getPointerType(), false);
@@ -231,31 +231,21 @@ public class PointerEventHandler {
 	 */
 	public static void attachTo(Element element, PointerEventHandler zoomer) {
 		zoomer.reset();
-		attachToNative(element, zoomer);
+		Dom.addEventListener(element, "pointermove",
+				evt -> zoomer.onPointerMove(Js.uncheckedCast(evt)));
+
+		Dom.addEventListener(element, "pointerdown",
+				evt -> zoomer.onPointerDown(Js.uncheckedCast(evt), element));
+
+		Dom.addEventListener(element, "pointerout",
+				evt -> zoomer.onPointerOut(Js.uncheckedCast(evt)));
+
+		Dom.addEventListener(element, "pointercanel",
+				evt -> zoomer.onPointerOut(Js.uncheckedCast(evt)));
+
+		DomGlobal.window.addEventListener("pointerup",
+				evt -> zoomer.onPointerUp(Js.uncheckedCast(evt), element));
 	}
-
-	public static native void attachToNative(Element element,
-			PointerEventHandler zoomer) /*-{
-		element.addEventListener("pointermove", function(e) {
-				zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::onPointerMove(*)(e);
-		});
-
-		element.addEventListener("pointerdown", function(e) {
-				zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::onPointerDown(*)(e, element);
-		});
-
-		element.addEventListener("pointerout", function(e) {
-            zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::onPointerOut(*)(e);
-        });
-
-        element.addEventListener("pointercanel", function(e) {
-            zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::onPointerOut(*)(e);
-        });
-
-		$wnd.addEventListener("pointerup", function(e) {
-            zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::onPointerUp(*)(e, element);
-        });
-	}-*/;
 
 	public static void startCapture(EuclidianViewW view) {
 		setCapture(view.getAbsolutePanel().getElement());

@@ -3,6 +3,7 @@ package org.geogebra.common.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -20,10 +21,12 @@ import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
+import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.kernel.statistics.AlgoTableToChart;
 import org.geogebra.common.main.App;
 
 public class InternalClipboard {
@@ -49,13 +52,15 @@ public class InternalClipboard {
 
 		// create geoslocal and geostohide
 		ArrayList<ConstructionElement> geoslocal = new ArrayList<>();
+		HashSet<Group> selectedGroups = new HashSet<>(app
+				.getSelectionManager().getSelectedGroups());
 		for (GeoElement geo : geos) {
 			if (!(geo instanceof GeoEmbed && ((GeoEmbed) geo).isGraspableMath())) {
 				geoslocal.add(geo);
 			}
 		}
 
-		CopyPaste.addSubGeos(geoslocal);
+		CopyPaste.addSubGeos(geoslocal, selectedGroups);
 
 		if (geoslocal.isEmpty()) {
 			app.setBlockUpdateScripts(scriptsBlocked);
@@ -83,8 +88,16 @@ public class InternalClipboard {
 		Construction cons = app.getKernel().getConstruction();
 		for (int i = 0; i < cons.steps(); ++i) {
 			ConstructionElement ce = cons.getConstructionElement(i);
+			if (ce instanceof AlgoTableToChart) {
+				ce = ((AlgoTableToChart) ce).getOutput(0);
+			}
 			if (geoslocal.contains(ce)) {
-				ce.getXML(false, copiedXml);
+				if (ce instanceof GeoMindMapNode
+						&& !geoslocal.contains(((GeoMindMapNode) ce).getParent())) {
+					((GeoMindMapNode) ce).getXMLNoParent(copiedXml);
+				} else {
+					ce.getXML(false, copiedXml);
+				}
 
 				if (ce instanceof GeoImage) {
 					GeoImage image = (GeoImage) ce;
@@ -99,14 +112,14 @@ public class InternalClipboard {
 				}
 			}
 		}
-		for (Group group : app.getSelectionManager().getSelectedGroups()) {
+
+		for (Group group : selectedGroups) {
 			group.getXML(copiedXml);
 		}
 
 		kernel.setSaveScriptsToXML(saveScriptsToXML);
 
 		afterSavingToXML(geoslocal, geostohide);
-
 		app.setBlockUpdateScripts(scriptsBlocked);
 	}
 
@@ -137,6 +150,9 @@ public class InternalClipboard {
 			ArrayList<AlgoElement> geoal = geo.getAlgorithmList();
 
 			for (AlgoElement ale : geoal) {
+				if (ale instanceof AlgoTableToChart) {
+					continue;
+				}
 				ArrayList<ConstructionElement> ac = new ArrayList<>();
 				ac.addAll(Arrays.asList(ale.getInput()));
 
@@ -284,10 +300,16 @@ public class InternalClipboard {
 		app.setBlockUpdateScripts(true);
 
 		EuclidianView ev = app.getActiveEuclidianView();
-		// don't update selection
 		EuclidianController euclidianController = ev.getEuclidianController();
+
+		// first we save the selected MindMap node (if there is one)
+		final MindMapPaster mindMapPaster = new MindMapPaster();
+		mindMapPaster.setTargetFromSelection(app.getSelectionManager());
+
+		// then we clear the selection and stop edit mode for all widgets
 		euclidianController.clearSelections(true, false);
 		euclidianController.widgetsToBackground();
+
 		// don't update properties view
 		app.updateSelection(false);
 		app.getGgbApi().evalXML(copiedXml);
@@ -308,11 +330,18 @@ public class InternalClipboard {
 
 		if (app.isWhiteboardActive()) {
 			ArrayList<GeoElement> shapes = new ArrayList<>();
+			ArrayList<GeoElement> movable = new ArrayList<>();
+			ArrayList<GeoMindMapNode> mindMaps = new ArrayList<>();
 			for (GeoElement created : createdElements) {
 				if (created.isShape() || created instanceof GeoLocusStroke
 						|| created instanceof GeoWidget || created instanceof GeoImage
 						|| created instanceof GeoInline) {
 					shapes.add(created);
+				}
+				if (created instanceof GeoMindMapNode) {
+					mindMaps.add((GeoMindMapNode) created);
+				} else if (!groupedWithMindMap(created)) {
+					movable.add(created);
 				}
 			}
 
@@ -330,8 +359,8 @@ public class InternalClipboard {
 			Coords coords = new Coords(ev.getInvXscale() * (viewCenterX - boxCenterX),
 					ev.getInvYscale() * (boxCenterY - viewCenterY), 0);
 
-			euclidianController.addFreePoints(createdElements);
-			MoveGeos.moveObjects(createdElements, coords, null, null, ev);
+			MoveGeos.moveObjects(movable, coords, null, null, ev);
+			mindMapPaster.joinToTarget(mindMaps);
 			ev.updateAllDrawables(true);
 
 			euclidianController.updateBoundingBoxFromSelection(false);
@@ -339,6 +368,12 @@ public class InternalClipboard {
 		}
 
 		app.storeUndoInfo();
+	}
+
+	private static boolean groupedWithMindMap(GeoElement created) {
+		Group parentGroup = created.getParentGroup();
+		return parentGroup != null && parentGroup.stream()
+				.anyMatch(geo -> geo instanceof GeoMindMapNode);
 	}
 
 	public interface EscapeFunction {

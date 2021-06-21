@@ -9,6 +9,7 @@ import jsinterop.annotations.JsType;
 @JsType(isNative = true)
 public class CarotaDocument implements HasContent {
 
+	@Override
 	public native void draw(CanvasRenderingContext2D canvasElement);
 
 	public native void select(int start, int end);
@@ -38,7 +39,8 @@ public class CarotaDocument implements HasContent {
 
 	public native void switchListTo(CarotaRange range, String listType);
 
-	public native void load(Object content, boolean focus);
+	@Override
+	public native void load(Object content);
 
 	@Override
 	public native void selectionChanged(EditorCallback editorCallback);
@@ -49,4 +51,6 @@ public class CarotaDocument implements HasContent {
 	@Override
 	public native JavaScriptObject save();
 
+	@JsProperty
+	public native void setExternalScale(double sx);
 }
