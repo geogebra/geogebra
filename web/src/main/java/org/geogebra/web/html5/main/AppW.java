@@ -1981,7 +1981,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected void setTitle() {
 		String titleTransKey = getVendorSettings().getAppTitle(getConfig());
 		String title = getLocalization().getMenu(titleTransKey);
-		if (getAppletParameters().getLoginAPIurl() != null) {
+		if (getAppletParameters().getLoginAPIurl() != null
+				&& getAppletParameters().getDataParamApp()) {
 			Browser.changeMetaTitle(title);
 		}
 		geoGebraElement.setAttribute("aria-label", title);

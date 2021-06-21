@@ -277,6 +277,7 @@ public class ColorObjectModel extends OptionsModel {
 
 			algo.setBarAlpha(alpha, idx);
 			kernel.notifyRepaint();
+			app.getUndoManager().storeUndoInfo();
 			return;
 
 		}

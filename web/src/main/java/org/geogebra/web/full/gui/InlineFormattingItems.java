@@ -1,29 +1,39 @@
 package org.geogebra.web.full.gui;
 
+import static org.geogebra.common.kernel.statistics.AlgoTableToChart.ChartType.BarChart;
+import static org.geogebra.common.kernel.statistics.AlgoTableToChart.ChartType.LineGraph;
+import static org.geogebra.common.kernel.statistics.AlgoTableToChart.ChartType.PieChart;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
+import org.geogebra.common.kernel.statistics.AlgoTableToChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.contextmenu.FontSubMenu;
 import org.geogebra.web.full.gui.dialog.HyperlinkDialog;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.javax.swing.InlineTextToolbar;
+import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GgbAPIW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.DialogData;
 
@@ -98,9 +108,7 @@ public class InlineFormattingItems {
 		addTextWrappingItem();
 		addTextRotationItem();
 		addHeadingItem();
-		if (!isEditModeTable() || isSingleTableCellSelection()) {
-			menu.addSeparator();
-		}
+		menu.addSeparator();
 	}
 
 	private void addTextWrappingItem() {
@@ -183,6 +191,58 @@ public class InlineFormattingItems {
 		menu.addItem(item);
 	}
 
+	private void addSubMenuItem(AriaMenuBar submenu, SVGResource icon,
+			String transKey, Scheduler.ScheduledCommand cmd) {
+		AriaMenuItem submenuItem = factory.newAriaMenuItem(
+				MainMenu.getMenuBarHtml(icon, loc.getMenu(transKey)), true, cmd);
+		submenu.addItem(submenuItem);
+	}
+
+	void addChartItem() {
+		if (inlines.size() != 1 || !(inlines.get(0) instanceof InlineTableController)) {
+			return;
+		}
+
+		GeoInlineTable table = (GeoInlineTable) geos.get(0);
+
+		Consumer<AlgoTableToChart.ChartType> chartCreator = (chartType) -> {
+			int column = ((InlineTableController) inlines.get(0)).getSelectedColumn();
+
+			String command = "TableToChart(" + table.getLabelSimple()
+					+ ", \"" + chartType.toString()
+					+ "\", " + column + ", " + app.getEmbedManager().nextID() + ")";
+
+			((GgbAPIW) app.getGgbApi()).asyncEvalCommandGetLabels(command, (label) -> {
+				GeoEmbed embed = (GeoEmbed) app.getKernel().lookupLabel(label.asT());
+
+				((EmbedManagerW) app.getEmbedManager()).doIfCalcEmbed(embed, calcEmbedElement -> {
+					calcEmbedElement.initChart(app.isMebis(), chartType);
+				});
+
+				app.getUndoManager().storeUndoInfo();
+			}, Log::error);
+		};
+
+		AriaMenuBar chartSubmenu = new AriaMenuBar();
+		addSubMenuItem(chartSubmenu, MaterialDesignResources.INSTANCE.table_line_chart(),
+				"ContextMenu.LineChart", () -> chartCreator.accept(LineGraph));
+
+		addSubMenuItem(chartSubmenu, MaterialDesignResources.INSTANCE.table_bar_chart(),
+				"ContextMenu.BarChart", () -> chartCreator.accept(BarChart));
+
+		addSubMenuItem(chartSubmenu, MaterialDesignResources.INSTANCE.table_pie_chart(),
+				"ContextMenu.PieChart", () -> chartCreator.accept(PieChart));
+
+		AriaMenuItem chartItem = factory.newAriaMenuItem(loc.getMenu("ContextMenu.CreateChart"),
+				false, chartSubmenu);
+		chartItem.addStyleName("no-image");
+
+		menu.addItem(chartItem);
+		if (!isEditModeTable() || isSingleTableCellSelection()) {
+			menu.addSeparator();
+		}
+	}
+
 	private void addHeadingItem() {
 		if (!inlines.stream().allMatch(f -> f instanceof InlineTableController)) {
 			return;
@@ -192,23 +252,19 @@ public class InlineFormattingItems {
 
 		AriaMenuBar headingSubmenu = new AriaMenuBar();
 
-		SVGResource row = MaterialDesignResources.INSTANCE.table_heading_row();
-		AriaMenuItem rowItem = factory.newAriaMenuItem(
-				MainMenu.getMenuBarHtml(row, loc.getMenu("ContextMenu.Row")), true, () -> {
-			for (HasTextFormat formatter : inlines) {
-				((InlineTableController) formatter).setHeading(color, true);
-			}
-		});
-		headingSubmenu.addItem(rowItem);
+		addSubMenuItem(headingSubmenu, MaterialDesignResources.INSTANCE.table_heading_row(),
+				"ContextMenu.Row", () -> {
+					for (HasTextFormat formatter : inlines) {
+						((InlineTableController) formatter).setHeading(color, true);
+					}
+				});
 
-		SVGResource column = MaterialDesignResources.INSTANCE.table_heading_column();
-		AriaMenuItem columnItem = factory.newAriaMenuItem(
-				MainMenu.getMenuBarHtml(column, loc.getMenu("ContextMenu.Column")), true, () -> {
+		addSubMenuItem(headingSubmenu, MaterialDesignResources.INSTANCE.table_heading_column(),
+				"ContextMenu.Column", () -> {
 					for (HasTextFormat formatter : inlines) {
 						((InlineTableController) formatter).setHeading(color, false);
 					}
 				});
-		headingSubmenu.addItem(columnItem);
 
 		AriaMenuItem item = factory.newAriaMenuItem(loc.getMenu("ContextMenu.Heading"),
 				false, headingSubmenu);

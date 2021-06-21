@@ -34,12 +34,14 @@ import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.statistics.AlgoTableToChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 
@@ -346,7 +348,9 @@ public abstract class CopyPaste {
 		Iterator<GeoElement> it;
 		for (int i = 0; i < geos.size(); i++) {
 			geo = (GeoElement) geos.get(i);
-
+			if (geo instanceof GeoEmbed && geo.getParentAlgorithm() instanceof AlgoTableToChart) {
+				continue;
+			}
 			ts = geo.getAllPredecessors();
 			it = ts.iterator();
 			while (it.hasNext()) {

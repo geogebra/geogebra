@@ -93,6 +93,7 @@ import org.geogebra.common.kernel.geos.description.ProtectiveLabelDescriptionCon
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
+import org.geogebra.common.kernel.statistics.AlgoTableToChart;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -1281,7 +1282,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			for (GeoElement geo : geos2) {
 				if (filter.test(geo)) {
 					boolean removePredecessors = isCut || geo.isShape();
-					if (removePredecessors && geo.getParentAlgorithm() != null) {
+					boolean isChartEmbed = geo.getParentAlgorithm() instanceof AlgoTableToChart;
+					if (removePredecessors && !isChartEmbed && geo.getParentAlgorithm() != null) {
 						for (GeoElement ge : geo.getParentAlgorithm().input) {
 							ge.removeOrSetUndefinedIfHasFixedDescendent();
 						}
