@@ -1,3 +1,4 @@
+import org.apache.tools.ant.taskdefs.condition.Os
 
 buildscript {
     dependencies {
@@ -301,6 +302,18 @@ task createDraftBundleZip (type: Zip) {
     from compileGwt {
         include ("web3d/**")
         into "GeoGebra/HTML5/5.0"
+    }
+}
+
+task minifyLibs() {
+    doLast {
+        def libDir = "src/main/resources/org/geogebra/web/"
+        def libs = ["resources/js/rewrite_pHYs", "pub/js/canvas2svg", "pub/js/canvas2pdf", "pub/js/whammy"]
+        libs.each({lib ->
+            def command = ['npx', 'terser', "${libDir}${lib}.js", "-o", "${libDir}${lib}.min.js",
+            '--compress', '--mangle', '--comments', '/license/']
+            exec { commandLine Os.isFamily(Os.FAMILY_WINDOWS) ? ['cmd', '/c'] + command : command}
+        })
     }
 }
 
