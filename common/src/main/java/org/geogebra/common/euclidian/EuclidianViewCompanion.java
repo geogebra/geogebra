@@ -317,8 +317,8 @@ public class EuclidianViewCompanion {
 				int visibleHeight = view.getVisibleHeight();
 				if (visibleWidth > EuclidianView.MIN_WIDTH
 						&& visibleHeight > EuclidianView.MIN_HEIGHT) {
-					int settingsVisibleWidth = evs.getVisibleWidth();
-					int settingsVisibleHeight = evs.getVisibleHeight();
+					int settingsVisibleWidth = view.calcVisibleWidthFromSettings();
+					int settingsVisibleHeight = view.calcVisibleHeightFromSettings();
 					if (settingsVisibleWidth == 0) {
 						// no dimension from file: center the view
 						settingsVisibleWidth = (int) Math.round(x0 * 2);
