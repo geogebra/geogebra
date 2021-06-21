@@ -4014,6 +4014,13 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	}
 
+	/**
+	 *
+	 * @param x coordinate
+	 * @param y coordinate
+	 * @param closestPoint to check
+	 * @return the distance between (x, y) and closestPoint
+	 */
 	public double distance(double x, double y, GeoPoint closestPoint) {
 		closestPoint.setPath(null);
 		closestPoint.setCoords(x, y, 1, false);
