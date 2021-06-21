@@ -1,12 +1,14 @@
 package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.kernel.MyPoint;
 
 public class ClipAlgoSutherlandHodogman {
 
 	public static final int EDGE_COUNT = 4;
+	public static final double Y_LIMIT = 1E4;
 
 	private static class Edge {
 		private final MyPoint start;
@@ -18,14 +20,24 @@ public class ClipAlgoSutherlandHodogman {
 		}
 	}
 
-	public ArrayList<MyPoint> process(ArrayList<MyPoint> input, double[][] clipPoints) {
-		ArrayList<MyPoint> output = new ArrayList<>(input);
-
+	/**
+	 * @param input input points
+	 * @param clipPoints vertices of clipping polygon
+	 * @return clipped points
+	 */
+	public List<MyPoint> process(List<MyPoint> input, double[][] clipPoints) {
+		List<MyPoint> output = input;
+		limitYValues(output);
 		for (int i = 0; i < EDGE_COUNT; i++) {
 			output = clipWithEdge(createEdge(clipPoints, i), output);
 		}
 
 		return output;
+	}
+
+	private void limitYValues(List<MyPoint> input) {
+		input.stream().filter(pt -> pt.y > Y_LIMIT)
+				.forEach(pt -> pt.y = Math.signum(pt.y) * Y_LIMIT);
 	}
 
 	private Edge createEdge(double[][] clipPoints, int i) {
@@ -37,9 +49,9 @@ public class ClipAlgoSutherlandHodogman {
 		return new MyPoint(value[0], value[1]);
 	}
 
-	private ArrayList<MyPoint> clipWithEdge(Edge edge, ArrayList<MyPoint> input) {
+	private List<MyPoint> clipWithEdge(Edge edge, List<MyPoint> input) {
 
-		ArrayList<MyPoint> output = new ArrayList<>();
+		List<MyPoint> output = new ArrayList<>();
 
 		for (int i = 0; i < input.size(); i++) {
 			MyPoint prev = input.get((i > 0 ? i : input.size()) - 1);
@@ -50,7 +62,7 @@ public class ClipAlgoSutherlandHodogman {
 	}
 
 	private void addClippedOutput(Edge edge,
-			MyPoint prev, MyPoint current, ArrayList<MyPoint> output) {
+			MyPoint prev, MyPoint current, List<MyPoint> output) {
 		if (isInside(edge, current)) {
 			if (!isInside(edge, prev)) {
 				MyPoint intersection = intersection(edge, prev, current);
@@ -70,18 +82,18 @@ public class ClipAlgoSutherlandHodogman {
 
 	private static MyPoint intersection(Edge edge, MyPoint p,
 			MyPoint q) {
-		double A1 = edge.end.y - edge.start.y;
-		double B1 = edge.start.x - edge.end.x;
-		double C1 = A1 * edge.start.x + B1 * edge.start.y;
+		double a1 = edge.end.y - edge.start.y;
+		double b1 = edge.start.x - edge.end.x;
+		double c1 = a1 * edge.start.x + b1 * edge.start.y;
 
-		double A2 = q.y - p.y;
-		double B2 = p.x - q.x;
-		double C2 = A2 * p.x + B2 * p.y;
+		double a2 = q.y - p.y;
+		double b2 = p.x - q.x;
+		double c2 = a2 * p.x + b2 * p.y;
 
-		double det = A1 * B2 - A2 * B1;
+		double det = a1 * b2 - a2 * b1;
 
-		double x = (B2 * C1 - B1 * C2) / det;
-		double y = (A1 * C2 - A2 * C1) / det;
+		double x = (b2 * c1 - b1 * c2) / det;
+		double y = (a1 * c2 - a2 * c1) / det;
 
 		// add 0.0 to avoid -0.0 problem.
 		return new MyPoint(x + 0.0, y + 0.0, q.getSegmentType());

@@ -181,10 +181,6 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_parallel_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pen.svg")
-	@Override
-	SVGResource mode_pen_32();
-
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pen_black.svg")
 	@Override
 	SVGResource mode_pen();
@@ -599,5 +595,13 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_table.svg")
 	SVGResource mode_table();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_extension.svg")
+	SVGResource mode_h5p();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_mindmap.svg")
+	SVGResource mode_mindmap();
 
 }

@@ -852,11 +852,14 @@ public class Ggb2giac {
 						+ ")),"
 
 						// Intersect[2dLine,2dLine]
+						// e.g. Intersect(x^2+y^2=5, x+y=0)
 						+ "when((type(xcoord(ggbinarg1))==DOM_INT&&type(grad(ggbinarg1,x)[1])==DOM_INT)"
+						// e.g. Intersect(x+y=0, x^2+y^2=5)
+						+ "|| (type(xcoord(ggbinarg0))==DOM_INT&&type(grad(ggbinarg0,x)[1])==DOM_INT)"
 						// Intersect[2dLine,Cmd2dLine]
 						// Intersect[Cmd2dLine,Cmd2dLine]
 						+ "|| ((ggbinarg1)[0]=='='&&(ggbinarg1)[1]=='y'),"
-						+ "inter(ggbinarg0,ggbinarg1),"
+						+ "normal(inter(ggbinarg0,ggbinarg1)),"
 						// Intersect[2dLine,3dLine]
 						// Intersect[Cmd2dLine,3dLine]
 						+ "when((xcoord(ggbinarg1))[0]=='='&&string((xcoord(ggbinarg1))[1])==string(X),"
@@ -1201,6 +1204,7 @@ public class Ggb2giac {
 		p("Reverse.1", "revlist(%0)");
 
 		p("ReducedRowEchelonForm.1", "rref(%0)");
+		p("Round.2", "round(%0, %1)");
 		p("Sample.2", "flatten1(seq(rand(1,%0),j,1,%1))");
 		p("Sample.3",
 				"[[[ggbsamarg0:=%0],[ggbsamarg1:=%1]],if %2==true then flatten1(seq(rand(1,ggbsamarg0),j,1,ggbsamarg1)) else rand(ggbsamarg1,ggbsamarg0) fi][1]");
@@ -1279,14 +1283,15 @@ public class Ggb2giac {
 
 		p("PlotSolve.1", pointList.replace("%0", root1));
 		p("SolveODE.1",
-				"when((%0)[0]=='=',"
+				"[[solveodeans:=?],[solveodeans:=when((%0)[0]=='=',"
 						// case the equation contains only y and other variable
 						// as x,by default use for variable list y,x
 						// #5099
-						+ " when(size(lname(%0) intersect [x])==0&&size(lname(%0) intersect [y])==1&&size(lname(%0) minus [y])>0,normal(map(desolve(%0,x,y),x->y=x)[0]),normal(map(desolve(%0),x->y=x)[0]))"
+						+ "when(size(lname(%0) intersect [x])==0&&size(lname(%0) intersect [y])==1&&size(lname(%0) minus [y])>0,normal(map(desolve(%0,x,y),x->y=x)),normal(map(desolve(%0),x->y=x)))"
 						+ ","
 						// add y'= if it's missing
-						+ "normal(map(desolve(y'=%0),x->y=x)[0])" + ")");
+						+ "normal(map(desolve(y'=%0),x->y=x))" + ")],when(length(solveodeans)==1,solveodeans[0],solveodeans)][2]");
+
 
 		// goes through 1 point
 		// SolveODE[y''=x,(1,1)]

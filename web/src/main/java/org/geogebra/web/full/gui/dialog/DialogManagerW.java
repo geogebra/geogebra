@@ -16,8 +16,6 @@ import org.geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.view.properties.PropertiesView;
-import org.geogebra.common.javax.swing.GOptionPane;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -43,6 +41,7 @@ import org.geogebra.web.full.gui.dialog.image.UploadImageWithoutDialog;
 import org.geogebra.web.full.gui.dialog.image.WebcamInputDialog;
 import org.geogebra.web.full.gui.dialog.template.TemplateChooser;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
+import org.geogebra.web.full.gui.util.ColorChooserW;
 import org.geogebra.web.full.gui.util.DoYouWantToSaveChangesDialog;
 import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.full.gui.util.SaveDialogMow;
@@ -54,10 +53,8 @@ import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.LoadingApplication;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.Clipboard;
+import org.geogebra.web.html5.main.ClipboardUtil;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.shared.components.ComponentInputDialog;
 import org.geogebra.web.shared.components.DialogData;
@@ -130,13 +127,8 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void showNumberInputDialog(String title, String message,
 			String initText, AsyncOperation<GeoNumberValue> callback) {
-		// avoid labeling of num
-		final Construction cons = app.getKernel().getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
+				app.getKernel().getAlgebraProcessor(), callback, app);
 		ComponentInputDialog inputDialog = new NumberInputDialog((AppW) app,
 			new DialogData(title), false, true, handler, message,
 				initText, 1, -1, false);
@@ -204,13 +196,8 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void showAngleInputDialog(String title, String message,
 			String initText, AsyncOperation<GeoNumberValue> callback) {
-		// avoid labeling of num
-		Construction cons = app.getKernel().getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
+				app.getKernel().getAlgebraProcessor(), callback, app);
 		DialogData data = new DialogData(title);
 		AngleInputDialogW angleInputDialog = new AngleInputDialogW(((AppW) app), message,
 				data, initText, handler, true);
@@ -325,7 +312,13 @@ public class DialogManagerW extends DialogManager
 
 	@Override
 	public void showEmbedDialog() {
-		EmbedInputDialog embedDialog = new EmbedInputDialog((AppWFull) app);
+		EmbedInputDialog embedDialog = new EmbedInputDialog((AppWFull) app, "Web");
+		embedDialog.show();
+	}
+
+	@Override
+	public void showH5PDialog() {
+		H5PInputDialog embedDialog = new H5PInputDialog((AppWFull) app);
 		embedDialog.show();
 	}
 
@@ -334,7 +327,7 @@ public class DialogManagerW extends DialogManager
 	 */
 	@Override
 	public void showExportImageDialog(String base64Image) {
-		DialogData data = new DialogData("exportImage", Clipboard
+		DialogData data = new DialogData("exportImage", ClipboardUtil
 			.isCopyImageToClipboardAvailable() ? "CopyToClipboard" : null, "Download");
 		ExportImageDialog expImgDialog = new ExportImageDialog((AppW) app, data,
 				base64Image);
@@ -366,11 +359,8 @@ public class DialogManagerW extends DialogManager
 	public void showNumberInputDialog(String title, String message,
 			String initText, boolean changingSign, String checkBoxText,
 			AsyncOperation<GeoNumberValue> callback) {
-		boolean oldVal = app.getKernel().getConstruction()
-				.isSuppressLabelsActive();
-		// avoid labeling of num
 		NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
+				app.getKernel().getAlgebraProcessor(), callback, app);
 		DialogData data = new DialogData(title);
 		NumberChangeSignInputDialogW extrudeInputDialog = new NumberChangeSignInputDialogW(
 				((AppW) app), message, data, initText, handler, changingSign,
@@ -526,12 +516,7 @@ public class DialogManagerW extends DialogManager
 
 	@Override
 	public void openToolHelp() {
-		int mode = app.getMode();
-		ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-				app.getToolTooltipHTML(mode),
-				((AppW) app).getGuiManager().getTooltipURL(mode),
-				ToolTipLinkType.Help, (AppW) app,
-				((AppW) app).getAppletFrame().isKeyboardShowing());
+		// only desktop
 	}
 
 	@Override
@@ -546,18 +531,6 @@ public class DialogManagerW extends DialogManager
 			da.changeMode(mode);
 			app.getGuiManager().setShowView(true, App.VIEW_DATA_ANALYSIS);
 		}
-	}
-
-	/**
-	 * Shows alert dialog.
-	 *
-	 * @param text
-	 *            Alert message
-	 */
-	public void showAlertDialog(String text) {
-		((AppW) app).getGuiManager().getOptionPane().showConfirmDialog(
-				text, "", GOptionPane.OK_OPTION,
-				GOptionPane.INFORMATION_MESSAGE, null);
 	}
 
 	/**
@@ -609,13 +582,17 @@ public class DialogManagerW extends DialogManager
 	 */
 	public void showColorChooserDialog(GColor originalColor,
 			ColorChangeHandler handler) {
+		DialogData data = new DialogData("ChooseColor", "Cancel", "OK");
 		if (colChooser == null) {
-			colChooser = new ColorChooserDialog((AppW) app, originalColor, handler);
+			colChooser = new ColorChooserDialog((AppW) app, data, originalColor, handler);
 		} else {
-			colChooser.setOriginalColor(originalColor);
-			colChooser.setHandler(handler);
+			// we want to preserve the used colors panel,
+			// but also make sure that the language is updated
+			ColorChooserW colorChooserPanel = colChooser.getColorChooserPanel();
+			colChooser = new ColorChooserDialog((AppW) app, data, originalColor, handler,
+					colorChooserPanel);
 		}
-		colChooser.center();
+		colChooser.show();
 	}
 
 	/**
@@ -643,7 +620,8 @@ public class DialogManagerW extends DialogManager
 				|| app.getGuiManager().showView(App.VIEW_ALGEBRA)
 				|| app.getGuiManager()
 						.showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
-			new PrintPreviewW((AppW) app).show();
+			DialogData data = new DialogData("PrintPreview", "Cancel", "Print");
+			new PrintPreviewW((AppW) app, data).show();
 		}
 	}
 

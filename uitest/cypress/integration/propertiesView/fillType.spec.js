@@ -11,6 +11,7 @@ describe('Properties View', () => {
         selectors.avMoreButton.get().eq(0).click();
         selectors.avContextMenuSettings.get().click();
         cy.get('.gwt-TabBarItem').contains('Style').click();
-        selectors.fillType.get().should('not.contain', 'Image');
+        cy.get('.propertiesTab .gwt-ListBox:visible').should('not.contain', 'Image');
+        cy.get('.propertiesTab .gwt-ListBox:visible').should('contain', 'Standard');
     });
 });

@@ -10,6 +10,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
+import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -31,9 +32,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	String getToolbarDefinition(Integer viewId);
 
-	boolean moveMoveFloatingButtonUp(int left, int width, boolean isSmall);
-
-	void moveMoveFloatingButtonDown(boolean isSmall, boolean wasMoved);
+	int getMoveTopBelowSnackbar(int snackbarRight);
 
 	void removeFromToolbarDefinition(int mode);
 
@@ -187,4 +186,29 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * @param runAfterLogin - callback
 	 */
 	void setRunAfterLogin(Runnable runAfterLogin);
+
+	void onToolbarVisibilityChanged(int viewId, boolean isVisible);
+
+	/**
+	 * @param geo - to add to table of values
+	 */
+	void addGeoToTV(GeoElement geo);
+
+	/**
+	 * @param label - of geo to be removed from the table of values
+	 */
+	void removeGeoFromTV(String label);
+
+	/**
+	 * @param min - starting value of table
+	 * @param max - ending value of table
+	 * @param step - step value of table
+	 */
+	void setValues(double min, double max, double step) throws InvalidValuesException;
+
+	/**
+	 * @param column - index of column in the table of values
+	 * @param show - true if point should be shown, false otherwise
+	 */
+	void showPointsTV(int column, boolean show);
 }

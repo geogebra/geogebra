@@ -51,6 +51,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/ic_format_size_black_24px.svg")
 	SVGResource text_size_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/format-text.svg")
+	SVGResource text();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/ic_format_bold_black_24px.svg")
 	SVGResource text_bold_black();
 
@@ -90,11 +93,20 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/vertical_align_top-24px.svg")
 	SVGResource vertical_align_top();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/table_heading_column.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/table_heading_column.svg")
 	SVGResource table_heading_column();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/table_heading_row.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/table_heading_row.svg")
 	SVGResource table_heading_row();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/chart_line.svg")
+	SVGResource table_line_chart();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/chart_bar.svg")
+	SVGResource table_bar_chart();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/chart_pie.svg")
+	SVGResource table_pie_chart();
 
 	// context menu icon resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/plane_black.svg")
@@ -144,9 +156,6 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/record_to_spreadsheet_black.svg")
 	SVGResource record_to_spreadsheet_black();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_zoom_in_black_24px.svg")
-	SVGResource zoom_in_black();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_home_black_24px.svg")
 	SVGResource home_black();
@@ -331,6 +340,12 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/grid_black.svg")
 	SVGResource grid_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/isometric.svg")
+	SVGResource grid_isometric();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/polar.svg")
+	SVGResource grid_polar();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/minor_gridlines.svg")
 	SVGResource minor_gridlines();
 
@@ -369,26 +384,17 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_keyboard_arrow_down_black_24px.svg")
 	SVGResource toolbar_close_portrait_black();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_keyboard_arrow_right_white_24px.svg")
-	SVGResource toolbar_open_landscape_white();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_keyboard_arrow_left_white_24px.svg")
-	SVGResource toolbar_close_landscape_white();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_menu_white_24px.svg")
-	SVGResource toolbar_menu_white();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_keyboard_arrow_left_black_24px.svg")
+	SVGResource toolbar_close_landscape_black();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/baseline-menu-24px.svg")
 	SVGResource toolbar_menu_black();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/av_tab_graphing_white.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/av_tab_graphing_black.svg")
 	SVGResource toolbar_algebra_graphing();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/tools_tab_white.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/tools_tab_black.svg")
 	SVGResource toolbar_tools();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/baseline-table_chart-24px-white.svg")
-	SVGResource toolbar_table_view_white();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/baseline-table_chart-24px-black.svg")
 	SVGResource toolbar_table_view_black();
@@ -512,9 +518,6 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_gesture_white_24px.svg")
 	SVGResource mow_pen_panel();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/tools_tab_black.svg")
-	SVGResource mow_tools_panel();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_attach_file_white_24px.svg")
 	SVGResource mow_media_panel();
 
@@ -529,9 +532,6 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-folder_open-24px.svg")
 	SVGResource mow_pdf_open_folder();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-arrow_back-24px.svg")
-	SVGResource mow_back_arrow();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/rename_box_black_24px.svg")
 	SVGResource mow_rename();
@@ -569,4 +569,56 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/show_chart-black-24px.svg")
 	SVGResource statistics();
+
+	// EUCLIDIAN STYLEBAR (CLASSIC)
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/stylebar_empty.svg")
+	SVGResource stylebar_empty();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/delete_large.svg")
+	SVGResource delete_large();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/delete_medium.svg")
+	SVGResource delete_medium();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/delete_small.svg")
+	SVGResource delete_small();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/algebra_description.svg")
+	SVGResource description();
+
+	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_algebraview_sort_objects_by.png")
+	ImageResource sortObjects();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/export.svg")
+	SVGResource prob_calc_export();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/stylebar_angle_interval.svg")
+	SVGResource stylingbar_angle_interval();
+
+	// EUCLIDIAN 3D STYLEBAR
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/3d/stylingbar_graphics3D_plane.svg")
+	SVGResource plane();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/3d/stylingbar_graphics3D_axes_plane.svg")
+	SVGResource axes_plane();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/3d/stylingbar_graphics3D_rotateview_play.svg")
+	SVGResource rotateViewPlay();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/3d/stylingbar_graphics3D_rotateview_pause.svg")
+	SVGResource rotateViewPause();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/3d/stylingbar_graphics3D_standardview_rotate.svg")
+	SVGResource standardViewRotate();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/3d/stylingbar_graphics3D_view_xy.svg")
+	SVGResource viewXY();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/3d/stylingbar_graphics3D_view_xz.svg")
+	SVGResource viewXZ();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/3d/stylingbar_graphics3D_view_yz.svg")
+	SVGResource viewYZ();
 }

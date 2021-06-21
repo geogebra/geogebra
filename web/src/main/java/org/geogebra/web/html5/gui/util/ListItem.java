@@ -38,4 +38,8 @@ public class ListItem extends ComplexPanel {
 			getElement().blur();
 		}
 	}
+
+	public void setText(String text) {
+		getElement().setInnerText(text);
+	}
 }

@@ -163,7 +163,9 @@ public class FunctionExpander implements Traversing {
 					Command derivCommand = new Command(en.getKernel(),
 							"Derivative", false);
 					derivCommand.addArgument(en2);
-					derivCommand.addArgument(fv[0].wrap());
+					if (fv != null && fv.length > 0) {
+						derivCommand.addArgument(fv[0].wrap());
+					}
 					derivCommand.addArgument(deriv.wrap());
 					en2 = cas.evaluateToExpression(derivCommand, null,
 							en.getKernel()).wrap();

@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGeneralPath;
@@ -27,12 +28,14 @@ public class GeneralPathClipped implements GShape {
 
 	private final ArrayList<MyPoint> pathPoints;
 	private final GGeneralPath gp;
+	private static final double MAX_COORD_VALUE = 10000;
 
 	/** view */
 	protected EuclidianViewInterfaceSlim view;
 	private int lineThickness;
 
 	private double largestCoord;
+	private boolean polygon = true;
 
 	private boolean needClosePath;
 	private GRectangle2D bounds;
@@ -73,16 +76,23 @@ public class GeneralPathClipped implements GShape {
 
 	/**
 	 * Clears all points and resets internal variables
-	 * @param lineThickness line thickness
 	 */
-	final public void resetWithThickness(int lineThickness) {
+	final public void reset() {
 		pathPoints.clear();
 		gp.reset();
-		// save object
 		oldBounds = bounds;
 		bounds = null;
 		largestCoord = 0;
 		needClosePath = false;
+	}
+
+	/**
+	 * Clears all points and resets internal variables
+	 * and the line thickness too.
+	 * @param lineThickness line thickness
+	 */
+	final public void resetWithThickness(int lineThickness) {
+		reset();
 		this.lineThickness = lineThickness;
 	}
 
@@ -102,7 +112,11 @@ public class GeneralPathClipped implements GShape {
 		}
 
 		gp.reset();
-		addSegmentsWithSutherladHoloman();
+		if (largestCoord < MAX_COORD_VALUE || !polygon) {
+			addSimpleSegments();
+		} else {
+			addSegmentsWithSutherladHoloman();
+		}
 
 		// clear pathPoints to free up memory
 		pathPoints.clear();
@@ -110,21 +124,35 @@ public class GeneralPathClipped implements GShape {
 		return gp;
 	}
 
+	private void addSimpleSegments() {
+		for (int i = 0; i < pathPoints.size(); i++) {
+			MyPoint curP = pathPoints.get(i);
+			/// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException&tf=SourceFile&tc=org.geogebra.common.euclidian.GeneralPathClipped&tm=addSimpleSegments&nid&an&c&s=new_status_desc
+			if (curP != null) {
+				addToGeneralPath(curP, curP.getSegmentType());
+			} else {
+				Log.error("curP shouldn't be null here");
+			}
+		}
+		if (needClosePath) {
+			gp.closePath();
+		}
+	}
+
 	private void addSegmentsWithSutherladHoloman() {
 		int padding = lineThickness + 5;
-		Log.debug("PADDING: " + padding);
 		double[][] clipPoints = {
 				{ -padding, -padding},
 				{ -padding, view.getHeight() + padding},
 				{ view.getWidth() + padding, view.getHeight() + padding},
-				{ view.getWidth(), -padding},
+				{ view.getWidth() + padding, -padding},
 		};
 
 		if (needClosePath) {
 			pathPoints.get(0).setLineTo(true);
 		}
 
-		ArrayList<MyPoint> result = clipAlgoSutherlandHodogman.process(pathPoints, clipPoints);
+		List<MyPoint> result = clipAlgoSutherlandHodogman.process(pathPoints, clipPoints);
 
 		for (MyPoint curP : result) {
 			addToGeneralPath(curP, curP.getSegmentType());
@@ -253,6 +281,10 @@ public class GeneralPathClipped implements GShape {
 	protected final void addPoint(double x, double y, SegmentType segmentType) {
 		if (Double.isNaN(y)) {
 			return;
+		}
+
+		if (segmentType != SegmentType.LINE_TO && segmentType != SegmentType.MOVE_TO) {
+			polygon = false;
 		}
 
 		MyPoint p = new MyPoint(x, y, segmentType);

@@ -5,14 +5,17 @@
 
 	&.appletStyle {
 		overflow: hidden;
+		box-sizing: border-box;
 	}
 
-	div[data-title]:after {
+	div[data-title]:after,
+	button[data-title]:after {
 		opacity: 0;
 		content: "";
 	}
 
-	div[data-title]:hover:after {
+	div[data-title]:hover:after,
+	button[data-title]:hover:after {
 		transition: opacity 0s linear 1s;
 		content: attr(data-title);
 		font-size: 65%;
@@ -32,53 +35,99 @@
 		z-index: $z-snackbar;
 	} 
 
-	.gwt-SplitLayoutPanel>div {
-		/*overflow: hidden !important;*/
-	}
-
-	.hide-Dragger {
-
-		.draggerParent {
-			overflow-x: hidden !important;
+	.matDragger {
+		.splitPaneDragger {
+			background-color: $white;
 		}
 
 		.gwt-SplitLayoutPanel-HDragger {
-			border-left: 1px solid #ccc;
 			z-index: $z-on-top-of-graphics; /* for MOW double canvas */
-			/* display: none; */
-			width: 0px !important;
-			cursor: e-resize;
-			border-right: none;
-			box-shadow: inset 5px 3px 8px rgba(0,0,0,0.2);
-			background-color: transparent;
+			cursor: ew-resize;
+			border-left: none;
 			padding-right: 8px;
 		}
 
 		.gwt-SplitLayoutPanel-VDragger {
-			border: none;
-			box-shadow: 2px -1px 8px 4px rgba(0,0,0,0.2);
-			height: 0px !important;
-			top: 9px !important;
+			border-bottom: none;
+		}
+
+		.splitPaneDragger:after {
+			content: "";
+			position: absolute;
+			background-color: #dadbdf;
+			border-radius: 2px;
+		}
+
+		.gwt-SplitLayoutPanel-HDragger:after {
+			top: calc(50% - 14px);
+			left: 2px;
+			height: 28px;
+			width: 4px;
+			transition: top 0.2s;
+		}
+
+		.gwt-SplitLayoutPanel-VDragger:after {
+			left: calc(50% - 14px);
+			bottom: 2px;
+			width: 28px;
+			height: 4px;
+			transition: left 0.2s;
+		}
+
+		&.singlePanel .gwt-SplitLayoutPanel-HDragger:after {
+			top: 12px;
+		}
+
+		&.singlePanel .gwt-SplitLayoutPanel-VDragger:after {
+			left: calc(100% - 48px);
+		}
+
+		.draggerParentHorizontal {
+			border-top-right-radius: 8px;
+			border-bottom-right-radius: 8px;
+			z-index: 1;
+			box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 4px 5px 0 rgba(0, 0, 0, 0.14);
+		}
+
+		.draggerParentVertical {
+			border-top-left-radius: 8px;
+			border-top-right-radius: 8px;
+			z-index: 1;
+			box-shadow: 2px 0 4px -1px rgba(0,0,0,0.2), 1px 0 10px 0 rgba(0,0,0,0.12), 4px 0 5px 0 rgba(0,0,0,0.14);
+		}
+	}
+
+	.dockPanelParent {
+		overflow: visible !important;
+	}
+
+	.hideDragger {
+		.draggerParent {
+			overflow-x: hidden !important;
+		}
+
+		.draggerParentHorizontal {
+			display: none;
 		}
 	}
 
 	.moveUpDragger {
-
 		div {
 			overflow: visible !important;
 		}
 
-		.gwt-SplitLayoutPanel-VDragger {
+		.draggerParentVerical {
 			border: none;
-			box-shadow: 2px -1px 8px 4px rgba(0,0,0,0.4);
-			height: 0px !important;
-			top: 9px !important;
+			box-shadow: 0px -5px 8px rgba(0,0,0,0.2);
+		}
+
+		.splitPaneDragger {
+			display: none;
 		}
 	}
 
 	.hiddenHDraggerRightPanel {
-		left: -8px !important;
-		/*top: 9px !important;*/
+		left: -16px !important;
 	}
 
 	.hidden, .temporarilyHidden {
@@ -111,21 +160,37 @@
 	}
 	.tabButton {
 		position: relative;
-		margin: 6px;
-		padding: 6px;
-		width: 24px;
-		height: 24px;
+		box-sizing: border-box;
 		min-width: 24px;
 		cursor: pointer;
-		img {
-			opacity: 0.85;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		opacity: 0.54;
+		.gwt-Label {
+			width: 100%;
+			line-height: 12px;
+			min-height: 28px;
+			font-size: 10px;
+			text-align: center;
+			word-break: break-word;
+			margin-left: 4px;
+			margin-right: 4px;
 		}
-	}
-
-	.tabButton:hover, .tabButton:focus {
-
-		img {
-			opacity: 1.0 !important;
+		.gwt-Image {
+			height: 24px;
+		}
+		&.selected .gwt-Label {
+			color: $purple-default;
+		}
+		&:hover {
+			background-color: $black-08;
+		}
+		&.selected:hover {
+			background-color: $purple-default-12;
+		}
+		&.selected  {
+			opacity: 1;
 		}
 	}
 

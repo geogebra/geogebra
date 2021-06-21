@@ -164,7 +164,12 @@ public abstract class MyXMLio {
 	 */
 	public void processXMLString(String xml, boolean clearConstruction,
 			boolean isGgtFile) throws Exception {
-		processXMLString(xml, clearConstruction, isGgtFile, true);
+		try {
+			handler.setNeedsConstructionDefaults(!clearConstruction && !isGgtFile);
+			processXMLString(xml, clearConstruction, isGgtFile, true);
+		} finally {
+			handler.setNeedsConstructionDefaults(false);
+		}
 	}
 
 	/**
@@ -405,6 +410,7 @@ public abstract class MyXMLio {
 			boolean randomize) throws Exception {
 		boolean oldVal = kernel.isNotifyViewsActive();
 		boolean oldVal2 = kernel.isUsingInternalCommandNames();
+		kernel.setLoadingMode(true);
 		kernel.setUseInternalCommandNames(true);
 
 		if (!isGGTOrDefaults && mayZoom) {
@@ -415,9 +421,7 @@ public abstract class MyXMLio {
 			// clear construction
 			kernel.clearConstruction(false);
 		}
-
 		try {
-			kernel.setLoadingMode(true);
 			if (settingsBatch && !isGGTOrDefaults) {
 				try {
 					app.getSettings().beginBatch();
@@ -429,7 +433,6 @@ public abstract class MyXMLio {
 				parseXML(handler, stream);
 			}
 			resetXMLParser();
-			kernel.setLoadingMode(false);
 
 			if (app.isWhiteboardActive()) {
 				for (GeoElement geo : cons.getGeoSetConstructionOrder()) {
@@ -446,6 +449,7 @@ public abstract class MyXMLio {
 				throw e;
 			}
 		} finally {
+			kernel.setLoadingMode(false);
 			kernel.setUseInternalCommandNames(oldVal2);
 			if (!isGGTOrDefaults && mayZoom) {
 				kernel.updateConstruction(randomize, 1);

@@ -1,3 +1,4 @@
+import org.apache.tools.ant.taskdefs.condition.Os
 
 buildscript {
     dependencies {
@@ -90,12 +91,13 @@ ext.appSpecs = [
         partials:["undo-redo"], appStoreId:'1412748754', measurementId: 'G-YJ1QVF1SFK',
         firebaseAppId: '1:895270214636:web:540b533d4b47a7bb84fec9'],
     [id:'geometry', title:'Geometry', transKey:'Geometry',
-        exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry',
+        exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry', releases: 'Releases-geometry',
         icon: 'Geometry.ico', appStoreId:'1232591335', measurementId: 'G-82GL4RTR4H',
         firebaseAppId: '1:895270214636:web:6bf3d469e0d2b32584fec9'],
     [id:'suite', title:'Calculator Suite', transKey:'CalculatorSuite',
-         firebaseAppId: '1:895270214636:web:7daf432883a8464084fec9',
-         measurementId: 'G-FXVLXMD21Y'],
+         firebaseAppId: '1:895270214636:web:7daf432883a8464084fec9', icon: 'ggb.ico',
+         measurementId: 'G-FXVLXMD21Y', appStoreId: '1504416652',
+         pkg:'GeoGebra_Calculator', exe: 'GeoGebraCalculator', releases: 'Releases-suite',],
     [id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes', pkg:'GeoGebra_Notes',
          releases: 'Releases-notes', icon: 'notes.ico', measurementId: 'G-MWHBRQSXTL',
          firebaseAppId: '1:895270214636:web:aece5066924cacb084fec9'],
@@ -181,7 +183,6 @@ task copyHtml {
         }
 
         appSpecs.each { app ->
-            def appID = app.id.split("-")[0]
             def replaceHtml = app.id == "classic" ? classicHtml : appHtml
             file("war/${app.id}-offline.html").text = english(replaceHtml(app, false, true), app.title)
             file("war/${app.id}.html").text = english(replaceHtml(app, true), app.title)
@@ -190,6 +191,7 @@ task copyHtml {
             }
         }
         file("war/calculator.html").text = file("war/suite.html").text
+        file("war/notes-murokdev.html").text = file("war/notes.html").text.replace('<!--LANGUAGE LINKS-->', '<script src="http://localhost:8080/murok.js"></script>');
     }
 }
 
@@ -197,7 +199,6 @@ task copyHandlebars {
     doLast {
         def handlebarsDir = project.getProperty("handlebarsDir")
         appSpecs.each { app ->
-            def appID = app.id.split("-")[0]
             def replaceHtml = app.id == "classic" ? classicHtml : appHtml
 
             def templatePath =  "${handlebarsDir}/${app.id}-template.handlebars"
@@ -301,6 +302,18 @@ task createDraftBundleZip (type: Zip) {
     from compileGwt {
         include ("web3d/**")
         into "GeoGebra/HTML5/5.0"
+    }
+}
+
+task minifyLibs() {
+    doLast {
+        def libDir = "src/main/resources/org/geogebra/web/"
+        def libs = ["resources/js/rewrite_pHYs", "pub/js/canvas2svg", "pub/js/canvas2pdf", "pub/js/whammy"]
+        libs.each({lib ->
+            def command = ['npx', 'terser', "${libDir}${lib}.js", "-o", "${libDir}${lib}.min.js",
+            '--compress', '--mangle', '--comments', '/license/']
+            exec { commandLine Os.isFamily(Os.FAMILY_WINDOWS) ? ['cmd', '/c'] + command : command}
+        })
     }
 }
 

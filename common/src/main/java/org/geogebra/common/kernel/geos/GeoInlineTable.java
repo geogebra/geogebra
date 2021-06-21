@@ -1,13 +1,19 @@
 package org.geogebra.common.kernel.geos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.euclidian.draw.DrawInlineTable;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.move.ggtapi.models.json.JSONArray;
+import org.geogebra.common.move.ggtapi.models.json.JSONException;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 public class GeoInlineTable extends GeoInline implements TextStyle, HasTextFormatter {
 
@@ -33,6 +39,8 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 	public GeoInlineTable(Construction c, GPoint2D location) {
 		super(c);
 		setLocation(location);
+		setContentWidth(DEFAULT_WIDTH);
+		setContentHeight(DEFAULT_HEIGHT);
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 
@@ -75,7 +83,12 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 
 	@Override
 	public void setBackgroundColor(GColor backgroundColor) {
-		getFormatter().setBackgroundColor(backgroundColor);
+		((InlineTableController) getFormatter()).setBackgroundColor(backgroundColor);
+	}
+
+	@Override
+	public GColor getBackgroundColor() {
+		return ((InlineTableController) getFormatter()).getBackgroundColor();
 	}
 
 	@Override
@@ -86,13 +99,6 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 	@Override
 	public int getFontStyle() {
 		return GeoInlineText.getFontStyle(getFormatter());
-	}
-
-	@Override
-	public InlineTableController getFormatter() {
-		DrawInlineTable drawable = (DrawInlineTable) kernel.getApplication()
-				.getActiveEuclidianView().getDrawableFor(this);
-		return drawable == null ? null : drawable.getTableController();
 	}
 
 	@Override
@@ -124,7 +130,70 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 		this.minWidth = minWidth;
 	}
 
+	@Override
 	public void setMinHeight(double minHeight) {
 		this.minHeight = minHeight;
+	}
+
+	/**
+	 * @return first column of the table as list of doubles
+	 */
+	public List<Double> extractData(int column) {
+		ArrayList<Double> values = new ArrayList<>();
+		try {
+			JSONArray rows = new JSONObject(content).getJSONArray("content");
+			for (int i = 0; i < rows.length(); i++) {
+				Double val = getCellValue(rows, i, column);
+				if (val != null) {
+					values.add(val);
+				}
+			}
+		} catch (JSONException e) {
+			Log.debug(e);
+		}
+		return values;
+	}
+
+	private Double getCellValue(JSONArray rows, int row, int column) {
+		try {
+			JSONObject cell = rows.getJSONArray(row).getJSONObject(column);
+			JSONArray words = cell.getJSONArray("content");
+			String cellContent = words.getJSONObject(0).getString("text").trim();
+			return Double.parseDouble(cellContent);
+		} catch (NumberFormatException | JSONException e) {
+			return null;
+		}
+	}
+
+	/** @param column index of column
+	 * @return column and next column of the table as list of doubles
+	 */
+	public List<Double>[] extractTwoColumnData(int column) {
+		List<Double> col0 = new ArrayList<>();
+		List<Double> col1 = new ArrayList<>();
+
+		try {
+			JSONArray rows = new JSONObject(content).getJSONArray("content");
+			for (int i = 0; i < rows.length(); i++) {
+				Double val0 = getCellValue(rows, i, column);
+				Double val1 = getCellValue(rows, i, column + 1);
+
+				if (val0 != null && val1 != null) {
+					col0.add(val0);
+					col1.add(val1);
+				}
+			}
+		} catch (JSONException e) {
+			Log.debug(e);
+		}
+
+		if (col0.isEmpty()) {
+			col1 = extractData(column);
+			for (double x = 1; x <= col1.size(); x++) {
+				col0.add(x);
+			}
+		}
+
+		return new List[] {col0, col1};
 	}
 }

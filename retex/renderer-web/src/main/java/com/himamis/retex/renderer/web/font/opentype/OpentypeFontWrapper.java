@@ -42,60 +42,58 @@
  */
 package com.himamis.retex.renderer.web.font.opentype;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.core.client.JavaScriptObject;
+import elemental2.core.JsArray;
 import com.himamis.retex.renderer.web.font.FontWrapper;
+import com.himamis.retex.renderer.web.graphics.FontGlyph;
+
+import elemental2.dom.CanvasRenderingContext2D;
 
 public class OpentypeFontWrapper implements FontWrapper {
 
-	private JavaScriptObject impl;
+	private JsArray<Object> impl;
 
-	public OpentypeFontWrapper(JavaScriptObject impl) {
+	public OpentypeFontWrapper(JsArray<Object> impl) {
 		this.impl = impl;
 	}
 
 	@Override
-	public void drawGlyph(String c, int x, int y, int size, Context2d ctx) {
+	public void drawGlyph(String c, int x, int y, int size, CanvasRenderingContext2D ctx) {
 		drawGlyphNative(c, x, y, size, ctx);
 	}
 
-	public native void drawGlyphNative(String c, double x, double y,
-			double size, Context2d ctx) /*-{
-		var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+	public void drawGlyphNative(String c, double x, double y,
+			double size, CanvasRenderingContext2D ctx) {
 		// font not loaded yet
-		if (!font) {
+		if (impl == null) {
 			return;
 		}
-		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(Ljava/lang/String;)(c);
-		if (glyph) {
+		FontGlyph glyph = getGlyph(c);
+		if (glyph != null) {
 			glyph.size = size;
-			glyph.unitsPerEm = font[0];
-			@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::drawPath(Lcom/google/gwt/core/client/JavaScriptObject;IILcom/google/gwt/canvas/client/Canvas;)(glyph, x, y, ctx);
+			glyph.unitsPerEm = impl.getAt(0);
+			drawPath(glyph, x, y, ctx);
 		}
-	}-*/;
+	}
 
-	@Override
-	public native JavaScriptObject getGlyphOutline(String c, int size) /*-{
-		var font = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+	public FontGlyph getGlyphOutline(String c, int size) {
 		// font not loaded yet
-		if (!font) {
-			return;
+		if (impl == null) {
+			return null;
 		}
-		var glyph = this.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::getGlyph(Ljava/lang/String;)(c);
-		if (!glyph) {
-			return;
+		FontGlyph glyph = getGlyph(c);
+		if (glyph == null) {
+			return null;
 		}
 		glyph.size = size;
-		glyph.unitsPerEm = font[0];
+		glyph.unitsPerEm = impl.getAt(0);
 		return glyph;
-	}-*/;
+	};
 
-	private JavaScriptObject getGlyph(String c) {
+	private FontGlyph getGlyph(String c) {
 		return getGlyph(impl, c.codePointAt(0));
 	}
 
-	private static native JavaScriptObject getGlyph(JavaScriptObject font,
+	private static native FontGlyph getGlyph(JsArray<Object> font,
 			int code) /*-{
 		for (i = 1; i < font.length; i += 1) {
 			var glyph = font[i];
@@ -112,8 +110,8 @@ public class OpentypeFontWrapper implements FontWrapper {
 		return null;
 	}-*/;
 
-	public static native void drawPath(JavaScriptObject path, int x, int y,
-			Canvas ctx) /*-{
+	public static native void drawPath(FontGlyph path, double x, double y,
+			CanvasRenderingContext2D ctx) /*-{
 		if (!path) {
 			return;
 		}

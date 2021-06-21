@@ -55,10 +55,6 @@ public class InputBoxProcessor {
 	public void updateLinkedGeo(EditorContent content, StringTemplate tpl) {
 		content.removeCommas(kernel.getLocalization());
 		String inputText = content.getEditorInput();
-		if (!linkedGeo.isLabelSet() && linkedGeo.isGeoText()) {
-			((GeoText) linkedGeo).setTextString(inputText);
-			return;
-		}
 
 		// first clear temp input, so that the string representation of the input
 		// box is correct when updating dependencies
@@ -130,6 +126,12 @@ public class InputBoxProcessor {
 
 	private void updateLinkedGeoNoErrorHandling(
 			StringTemplate tpl, ErrorHandler errorHandler, EditorContent content) {
+		if (linkedGeo.isGeoText() && linkedGeo.isIndependent()) {
+			((GeoText) linkedGeo).setTextString(content.getEditorInput());
+			linkedGeo.updateRepaint();
+			return;
+		}
+
 		String defineText = preprocess(content, tpl);
 		if (linkedGeo.isPointOnPath() || linkedGeo.isPointInRegion()) {
 			GeoPointND val = algebraProcessor.evaluateToPoint(defineText, errorHandler, true);
@@ -158,8 +160,6 @@ public class InputBoxProcessor {
 		String defineText = maybeClampInputForNumeric(content.getEditorInput(), tpl);
 		if (linkedGeo.hasSpecialEditor() && content.hasEntries()) {
 			defineText = buildListText(content);
-		} else if (linkedGeo.isGeoText()) {
-			defineText = "\"" + defineText + "\"";
 		} else if ("?".equals(content.getEditorInput()) || "".equals(content.getEditorInput())) {
 			defineText = "?";
 		} else if (linkedGeo.isGeoLine()) {

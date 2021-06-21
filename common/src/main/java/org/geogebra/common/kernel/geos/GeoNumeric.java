@@ -311,6 +311,8 @@ public class GeoNumeric extends GeoElement
 		if (value > max) {
 			if (Math.ceil(value) < 0) {
 				max = 0;
+			} else if (isAngle()) {
+				max = MyMath.nextMultiple(value, Math.PI);
 			} else {
 				max = MyMath.nextPrettyNumber(value, 0);
 			}
@@ -325,6 +327,8 @@ public class GeoNumeric extends GeoElement
 		if (value < min) {
 			if (Math.floor(value) > 0) {
 				min = 0;
+			} else if (isAngle()) {
+				min = -MyMath.nextMultiple(Math.abs(value), Math.PI);
 			} else {
 				min = -MyMath.nextPrettyNumber(Math.abs(value), 0);
 			}
@@ -1864,12 +1868,13 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
+		boolean simple = isSimple();
 		if (getDefinition() != null
-				&& (getDefinition().isFraction() || value != Math.round(value))
+				&& !simple
 				&& !"?".equals(getDefinition(StringTemplate.defaultTemplate))) {
 			return DescriptionMode.DEFINITION_VALUE;
 		}
-		if (isSimple() || (!isDefined() && isIndependent())) {
+		if (simple || (!isDefined() && isIndependent())) {
 			// matters in scientific where we don't have AV sliders
 			return DescriptionMode.VALUE;
 		}
@@ -1970,13 +1975,13 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public void addAuralName(Localization loc, ScreenReaderBuilder sb) {
+	public void addAuralName(ScreenReaderBuilder sb) {
 		if (!isSliderable()) {
-			super.addAuralName(loc, sb);
+			super.addAuralName(sb);
 			return;
 		}
 		if (StringUtil.empty(getCaptionSimple())) {
-			sb.append(loc.getMenuDefault("Slider", "Slider"));
+			sb.appendMenuDefault("Slider", "Slider");
 			sb.appendSpace();
 		}
 		addAuralSliderValue(sb);
@@ -2018,7 +2023,7 @@ public class GeoNumeric extends GeoElement
 		}
 
 		Localization loc = kernel.getLocalization();
-		ScreenReaderBuilder sb = new ScreenReaderBuilder();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
 		if (isAnimating()) {
 
 			// don't need this for stopping as the value is read out afterwards
@@ -2039,7 +2044,7 @@ public class GeoNumeric extends GeoElement
 	 * @return the current value as readable, aural text.
 	 */
 	public String getAuralCurrentValue() {
-		ScreenReaderBuilder sb = new ScreenReaderBuilder();
+		ScreenReaderBuilder sb = new ScreenReaderBuilder(kernel.getLocalization());
 		addAuralSliderValue(sb);
 		return sb.toString().trim();
 	}
@@ -2082,5 +2087,10 @@ public class GeoNumeric extends GeoElement
 		intervalMax = null;
 		intervalMin = null;
 		setEuclidianVisible(false);
+	}
+
+	@Override
+	public String toLaTeXString(boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
+		return toLaTeXString(symbolic || symbolicContext, tpl);
 	}
 }

@@ -48,12 +48,9 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 	 */
 	public EuclidianDockPanelForPlaneW(App app, int viewId) {
 		super(viewId, // view id
-		        "GraphicsViewForPlaneA", // view title
-		        ToolBar.getAllToolsNoMacrosForPlane(), // toolbar string
-		        true, // style bar?
-				false, // zoom panel
-		        -1, // menu order
-		        'p');
+			ToolBar.getAllToolsNoMacrosForPlane(), // toolbar string
+			true, // style bar?
+			false);
 
 		this.app = (AppW) app;
 		this.setEmbeddedSize(DEFAULT_WIDTH);

@@ -903,24 +903,42 @@ public abstract class EuclidianView3D extends EuclidianView
 		scaleMatrix.set(3, 3, getZscale());
 	}
 
+	public double getXTranslationUnity() {
+		return 0;
+	}
+
+	public double getYTranslationUnity() {
+		return 0;
+	}
+
+	public double getZTranslationUnity() {
+		return 0;
+	}
+
+	protected CoordMatrix4x4 getTranslationMatrixWithScale() {
+		return translationMatrixWithScale;
+	}
+
 	/**
 	 * Update translation matrices (do and undo).
 	 */
 	public void updateTranslationMatrices() {
 
-        double translationZzero = getZZero() + translationZzeroForAR;
+        double translationZzero = getZZero() + translationZzeroForAR + getZTranslationUnity();
+        double translationXzero = getXZero() + getXTranslationUnity();
+        double translationYzero = getYZero() + getYTranslationUnity();
 
 		// scene to screen translation matrices
-		translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
-		translationMatrixWithScale.set(2, 4, getYZero() * getYscale());
+		translationMatrixWithScale.set(1, 4, translationXzero * getXscale());
+		translationMatrixWithScale.set(2, 4, translationYzero * getYscale());
 		translationMatrixWithScale.set(3, 4, translationZzero * getZscale());
-		translationMatrixWithoutScale.set(1, 4, getXZero());
-		translationMatrixWithoutScale.set(2, 4, getYZero());
+		translationMatrixWithoutScale.set(1, 4, translationXzero);
+		translationMatrixWithoutScale.set(2, 4, translationYzero);
 		translationMatrixWithoutScale.set(3, 4, translationZzero);
 
 		// screen to scene translation matrix
-        undoTranslationMatrix.set(1, 4, -getXZero());
-        undoTranslationMatrix.set(2, 4, -getYZero());
+        undoTranslationMatrix.set(1, 4, -translationXzero);
+        undoTranslationMatrix.set(2, 4, -translationYzero);
         undoTranslationMatrix.set(3, 4, -translationZzero);
     }
 

@@ -1,7 +1,5 @@
 package com.himamis.retex.renderer.share;
 
-import java.util.ArrayList;
-
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Stroke;
@@ -73,11 +71,5 @@ public class SelectionBox extends Box {
 	@Override
 	public FontInfo getLastFont() {
 		return content.getLastFont();
-	}
-
-	@Override
-	public void getPath(double x, double y, ArrayList<Integer> list) {
-		super.getPath(x, y, list);
-
 	}
 }

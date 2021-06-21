@@ -214,16 +214,23 @@ public class EuclidianStyleBarStatic {
 	 * @param geos
 	 *            to fill.
 	 * @param fillType
-	 *            Type of the filling pattern;
+	 *            Type of the filling pattern
+	 * @return whether fill type changed
 	 */
-	public static void applyFillType(ArrayList<GeoElement> geos,
+	public static boolean applyFillType(ArrayList<GeoElement> geos,
 			FillType fillType) {
+		boolean changed = false;
 		for (GeoElement geo : geos) {
 			if (geo.isFillable()) {
-				geo.setFillType(fillType);
-				geo.updateVisualStyle(GProperty.HATCHING);
+				FillType oldType = geo.getFillType();
+				if (oldType != fillType) {
+					geo.setFillType(fillType);
+					geo.updateVisualStyle(GProperty.HATCHING);
+					changed = true;
+				}
 			}
 		}
+		return changed;
 	}
 
 	private static String getDefinitonString(GeoElement geo) {
@@ -421,12 +428,13 @@ public class EuclidianStyleBarStatic {
 		int lineStyle = EuclidianView.getLineType(lineStyleIndex);
 		boolean needUndo = false;
 		for (GeoElement geo : splitStrokes(geos, app)) {
+			boolean thicknessChanged = geo.getLineThickness() != lineSize;
 			if (geo.getLineType() != lineStyle
-					|| geo.getLineThickness() != lineSize) {
+					|| thicknessChanged) {
 				geo.setLineType(lineStyle);
 				geo.setLineThickness(lineSize);
 				geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
-				needUndo = true;
+				needUndo = needUndo || !thicknessChanged;
 			}
 		}
 		return needUndo;
@@ -479,6 +487,7 @@ public class EuclidianStyleBarStatic {
 	public static boolean applyColor(GColor color, double alpha, App app, List<GeoElement> geos) {
 		boolean needUndo = false;
 		for (GeoElement geo : splitStrokes(geos, app)) {
+			boolean alphaChanged = false;
 			// apply object color to all other geos except images
 			// (includes texts since MOW-441)
 			if (geo instanceof GeoImage && geo.getAlphaValue() != alpha) {
@@ -487,12 +496,13 @@ public class EuclidianStyleBarStatic {
 					|| geo.getAlphaValue() != alpha) {
 				geo.setObjColor(color);
 				// if we change alpha for functions, hit won't work properly
-				if (geo.isFillable()) {
+				if (geo.isFillable() && geo.getAlphaValue() != alpha) {
 					geo.setAlphaValue(alpha);
+					alphaChanged = true;
 				}
+				needUndo = needUndo || !alphaChanged;
 			}
 			geo.updateVisualStyle(GProperty.COLOR);
-			needUndo = true;
 		}
 		if (!geos.isEmpty()) {
 			geos.get(0).getKernel().notifyRepaint();

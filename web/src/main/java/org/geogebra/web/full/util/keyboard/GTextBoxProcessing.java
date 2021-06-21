@@ -68,7 +68,6 @@ public class GTextBoxProcessing implements KeyboardListener {
 
 	@Override
 	public void insertString(String text) {
-
 		insertAtEnd(text);
 	}
 
@@ -116,13 +115,6 @@ public class GTextBoxProcessing implements KeyboardListener {
 	@Override
 	public void setKeyBoardModeText(boolean text) {
 		// overridden for RTI
-
-	}
-
-	@Override
-	public void scrollCursorIntoView() {
-		// overridden for RTI
-
 	}
 
 	@Override

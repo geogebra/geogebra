@@ -27,12 +27,8 @@ public class FunctionInspectorDockPanelW extends DockPanelW {
 	 */
 	public FunctionInspectorDockPanelW(AppW app) {
 		super(App.VIEW_FUNCTION_INSPECTOR, // view id
-				"FunctionInspector", // view title phrase
 				null, // toolbar string
-				true, // style bar?
-				-1, // menu order
-				'F' // menu shortcut
-		);
+				true); // style bar?
 		this.app = app;
 		this.setEmbeddedSize(DEFAULT_WIDTH);
 	}

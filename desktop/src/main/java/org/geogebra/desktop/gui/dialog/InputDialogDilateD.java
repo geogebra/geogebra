@@ -10,7 +10,6 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.gui.view.algebra.DialogType;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -72,18 +71,11 @@ public class InputDialogDilateD extends InputDialogD {
 	}
 
 	private void processInput() {
-
-		// avoid labeling of num
-		final Construction cons = kernel.getConstruction();
-		final boolean oldVal = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		getInputHandler().processInput(inputPanel.getText(), this,
 				new AsyncOperation<Boolean>() {
 
 					@Override
 					public void callback(Boolean ok) {
-						cons.setSuppressLabelCreation(oldVal);
 						if (ok) {
 							DialogManager
 									.doDilate(kernel,
@@ -95,7 +87,6 @@ public class InputDialogDilateD extends InputDialogD {
 
 					}
 				});
-
 	}
 
 	@Override

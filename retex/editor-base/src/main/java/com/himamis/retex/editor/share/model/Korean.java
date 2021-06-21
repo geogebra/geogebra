@@ -713,37 +713,37 @@ public class Korean {
 		case '\u3144':
 		case '\u1121':
 		case '\u11b9':
-			return '\u3145'; // ㅅ
+			return '\u3145';
 
 		case '\u3135':
 		case '\u11ac':
-			return '\u3148'; // ㅈ
+			return '\u3148';
 
 		case '\u3136':
 		case '\u11ad':
 		case '\u3140':
 		case '\u11b6':
-			return '\u314e'; // ㅎ
+			return '\u314e';
 
 		case '\u313a':
 		case '\u11b0':
-			return '\u3131'; // ㄱ
+			return '\u3131';
 
 		case '\u313b':
 		case '\u11b1':
-			return '\u3141'; // ㅁ
+			return '\u3141';
 
 		case '\u313c':
 		case '\u11b2':
-			return '\u3142'; // ㅂ
+			return '\u3142';
 
 		case '\u313e':
 		case '\u11b4':
-			return '\u314c'; // ㅌ
+			return '\u314c';
 
 		case '\u313f':
 		case '\u11b5':
-			return '\u314d'; // ㅍ
+			return '\u314d';
 		}
 
 		return convertToCompatibilityJamo(ch);

@@ -154,7 +154,9 @@ public class SaveControllerW implements SaveController {
 			app.getKernel().getConstruction().setTitle(name);
 			app.getFileManager().export(app);
 		} else if (app.isOffline() || !app.getLoginOperation().isLoggedIn()) {
-			saveLocal();
+			ToolTipManagerW.sharedInstance().showBottomMessage(loc
+					.getMenu("phone_loading_materials_offline"), app);
+			getAppW().getGuiManager().exportGGB(true);
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
 			uploadToDrive();
 		} else {
@@ -180,19 +182,6 @@ public class SaveControllerW implements SaveController {
 	private void syncIdAndType(Material mat) {
 		getAppW().setTubeId(mat.getSharingKeyOrId());
 		setSaveType(mat.getType());
-	}
-
-	/**
-	 * Offline saving
-	 */
-	private void saveLocal() {
-		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), false, app);
-		if (!fileName.equals(app.getKernel().getConstruction().getTitle())) {
-			app.setTubeId(null);
-			app.setLocalID(-1);
-		}
-		app.getKernel().getConstruction().setTitle(fileName);
-		app.getGgbApi().getBase64(true, newBase64Callback());
 	}
 
 	/**
@@ -226,7 +215,7 @@ public class SaveControllerW implements SaveController {
 			}
 		};
 
-		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), false, app);
+		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), app);
 
 		if (saveType == MaterialType.ggt) {
 			app.getGgbApi().getMacrosBase64(true, handler::consume);
@@ -239,14 +228,8 @@ public class SaveControllerW implements SaveController {
 	}
 
 	private void uploadToDrive() {
-		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), false, app);
-		app.getGoogleDriveOperation().afterLogin(new Runnable() {
-
-			@Override
-			public void run() {
-				doUploadToDrive();
-			}
-		});
+		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), app);
+		app.getGoogleDriveOperation().afterLogin(() -> doUploadToDrive());
 	}
 
 	/**
@@ -456,27 +439,6 @@ public class SaveControllerW implements SaveController {
 							modified, new SaveCallback(getAppW(), state));
 				} else {
 					SaveCallback.onSaved(getAppW(), state, false);
-				}
-			}
-		};
-	}
-
-	private StringConsumer newBase64Callback() {
-		return new StringConsumer() {
-
-			@Override
-			public void consume(String s) {
-				((FileManager) getAppW().getFileManager()).saveFile(s,
-						getCurrentTimestamp(getAppW()),
-						new SaveCallback(getAppW(), SaveState.OK) {
-							@Override
-							public void onSaved(final Material mat, final boolean isLocal) {
-								super.onSaved(mat, isLocal);
-								runAfterSaveCallback(true);
-							}
-						});
-				if (getListener() != null) {
-					getListener().hide();
 				}
 			}
 		};

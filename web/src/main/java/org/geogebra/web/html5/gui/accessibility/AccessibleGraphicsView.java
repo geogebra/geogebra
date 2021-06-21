@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.gui.SliderInput;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
@@ -94,6 +95,11 @@ public class AccessibleGraphicsView implements AccessibleWidget, HasSliders {
 			app.getEuclidianView3D().shiftRotAboutY(step);
 			app.getEuclidianView3D().repaintView();
 		}
+	}
+
+	@Override
+	public boolean isCompatible(GeoElement geo) {
+		return true;
 	}
 
 }

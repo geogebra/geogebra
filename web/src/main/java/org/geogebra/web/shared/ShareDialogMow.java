@@ -300,7 +300,7 @@ public class ShareDialogMow extends ComponentDialog
 			linkBox.focus();
 			ToolTipManagerW.sharedInstance()
 			    .showBottomMessage(((AppW) app).getLocalization()
-			    .getMenu("linkCopyClipboard"), true, ((AppW) app));
+			    .getMenu("linkCopyClipboard"), ((AppW) app));
 		}
 	}
 
@@ -340,8 +340,7 @@ public class ShareDialogMow extends ComponentDialog
 		ToolTipManagerW.sharedInstance().showBottomMessage(
 				app.getLocalization()
 						.getMenu(success ? "GroupShareOk"
-								: "GroupShareFail"),
-				true, (AppW) app);
+								: "GroupShareFail"), (AppW) app);
 		if (success && callback != null) {
 			callback.onLoaded(Collections.singletonList(material), null);
 		}

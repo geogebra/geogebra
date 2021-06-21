@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.plugin.EventType;
 
@@ -124,6 +125,13 @@ public interface EmbedManager {
 	 */
 	void openGraspableMTool();
 
+	/**
+	 * opens the H5P tool
+	 * @param onError error handler
+	 * @return embed element
+	 */
+	GeoEmbed openH5PTool(Runnable onError);
+
 	void initAppEmbed(GeoEmbed ge);
 
 	/**
@@ -152,5 +160,13 @@ public interface EmbedManager {
 	 */
 	void embeddedAction(EventType action, String id);
 
-	void setBase64(String label, String base64);
+	void setContentSync(String label, String base64);
+
+	void onError(GeoEmbed geoEmbed);
+
+	void sendCommand(GeoEmbed chart, String cmd);
+
+	void setGraphAxis(GeoEmbed chart, int axis, double crossing);
+
+	App getEmbedApp(GeoEmbed embed);
 }

@@ -80,6 +80,7 @@ public class CommandsTest {
 	protected static void testSyntax(String s, List<Matcher<String>> expected,
 			App app1,
 			AlgebraProcessor proc, StringTemplate tpl) {
+		app1.getEuclidianView1().getEuclidianController().clearZoomerAnimationListeners();
 		if (syntaxes == -1000) {
 			Throwable t = new Throwable();
 			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);
@@ -263,10 +264,8 @@ public class CommandsTest {
 
 	@Test
 	public void angleBisectorsShouldUpdate() {
-		t("e1:X = (0, 0, 0) + t (1, 0, 0)", "X = (0, 0, 0) + "
-				+ Unicode.lambda + " (1, 0, 0)");
-		t("e2:X = (0, 0, 0) + t (0, 1, 0)", "X = (0, 0, 0) + "
-				+ Unicode.lambda + " (0, 1, 0)");
+		t("e1:X = (0, 0, 0) + t (1, 0, 0)", "X = (0, 0, 0) + t (1, 0, 0)");
+		t("e2:X = (0, 0, 0) + t (0, 1, 0)", "X = (0, 0, 0) + t (0, 1, 0)");
 		t("SetValue(e1,?)");
 		t("SetValue(e2,?)");
 		t("g:AngleBisector(e1,e2)", "X = (?, ?, ?)", "X = (?, ?, ?)");
@@ -404,7 +403,7 @@ public class CommandsTest {
 
 	@Test
 	public void parametricSyntaxes() {
-		t("X=(s,2s)", "X = (0, 0) + s (1, 2)");
+		t("X=(s,2s)", "X = (s, (2 * s))");
 		t("Intersect[X=(s,s),x+y=2]", "(1, 1)");
 	}
 
@@ -1140,6 +1139,9 @@ public class CommandsTest {
 	public void cmdCoefficients() {
 		t("Coefficients[ x^2+y^2=1 ]", "{1, 1, -1, 0, 0, 0}");
 		t("Coefficients[ x^2 ]", "{1, 0, 0}");
+		t("Coefficients[ 2x+3y+4z=5 ]", "{2, 3, 4, -5}");
+		t("Coefficients[ Fit({(0,0),(1,1),(2,4)}, {x^2,sin(x),x}) ]", "{1, 0, 0}");
+		t("Coefficients[7x^3+sin(x)]", "{7, 3}");
 	}
 
 	@Test
@@ -1154,7 +1156,8 @@ public class CommandsTest {
 
 	@Test
 	public void cmdCompleteSquare() {
-		t("CompleteSquare[ x^2 ]", "(1 * (x)^(2))");
+		t("CompleteSquare[ x^2 ]", "(x)^(2)");
+		t("CompleteSquare[ x^2 + 2x + 2 ]", "(x + 1)^(2) + 1");
 	}
 
 	@Test
@@ -2308,10 +2311,13 @@ public class CommandsTest {
 	@Test
 	public void cmdMax() {
 		tRound("Max[ x, 1, 2 ]", "(2, 2)");
-		t("Max[ 2 < x < 3 ]", "3");
+		t("interval = 2 < x < 3", "2 < x < 3");
+		t("intervalMax = Max[ interval ]", "3");
 		t("Max[ {3,4,5,6} ]", "6");
 		t("Max[ {3,4,5}, {2,1,0} ]", "4");
 		t("Max[ 7, 5 ]", "7");
+		t("SetValue(interval, ?)");
+		t("intervalMax", "NaN");
 	}
 
 	@Test
@@ -3100,9 +3106,14 @@ public class CommandsTest {
 
 	@Test
 	public void cmdRoot() {
-		tRound("Root[ x^3-x ]", new String[] { "(-1, 0)", "(0, 0)", "(1, 0)" });
+		t("Root[ x^3-x ]", "(-1, 0)", "(0, 0)", "(1, 0)");
+		t("Root[ x^3-2x^2+x ]", "(0, 0)", "(1, 0)");
+		t("Root[ x^3-3x^2+3x-1 ]", "(1, 0)");
 		tRound("Root[ sin(x*pi), 1.3 ]", "(1, 0)");
 		tRound("Root[ sin(x*pi), -3,3 ]", "(0, 0)");
+		t("Root[9x^4 - x^2 ]", "(-0.3333333333333333, 0)", "(0, 0)",
+				"(0.3333333333333333, 0)");
+		t("Root[x^4-4x^2]", "(-2, 0)", "(0, 0)", "(2, 0)");
 		t("a:=4/5", "0.8");
 		t("Root(a)", "(NaN, NaN)");
 		t("b:=0/5", "0");
@@ -3121,8 +3132,12 @@ public class CommandsTest {
 
 	@Test
 	public void cmdRoots() {
+		t("ZoomIn(-10,-2,20,2)"); // makes the test deterministic
 		t("Roots[ sin(x), 4, 13 ]",
-				"(6.2831855660886955, 0)", "(9.424777732675938, 0)", "(12.566371029612723, 0)");
+				"(6.283185305816606, 0)", "(9.424777959654795, 0)", "(12.566370613845491, 0)");
+		t("flat(x)=2.00011sin(x/2)-x", "(2.00011 * sin(x / 2)) - x");
+		tRound("Roots(flat,-0.05,0.05)", "(-0.03633, 0)", "(0, 0)", "(0.03633, 0)");
+		tRound("Roots(flat,-0.005,0.005)", "(0, 0)");
 	}
 
 	@Test

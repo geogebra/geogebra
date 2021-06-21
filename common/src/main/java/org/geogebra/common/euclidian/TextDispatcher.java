@@ -171,7 +171,7 @@ public class TextDispatcher {
 			// checkZooming();
 
 			GeoText text = kernel.getAlgebraProcessor().evaluateToText(dynText,
-					false, true);
+					true, true);
 			return text;
 		} catch (Exception e) {
 			e.printStackTrace();

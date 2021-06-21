@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.AccessibilityGroup;
+import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
@@ -26,6 +27,7 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
+import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -111,7 +113,6 @@ public class GeoGebraFrameFull
 		panelTransitioner = new PanelTransitioner(this);
 		kbButtonSpace.addStyleName("kbButtonSpace");
 		this.add(kbButtonSpace);
-		headerResizer = NullHeaderResizer.get();
 		Event.addNativePreviewHandler(this);
 	}
 
@@ -136,8 +137,6 @@ public class GeoGebraFrameFull
 
 		this.glass = new DockGlassPaneW();
 		this.add(glass);
-		headerResizer = getApp().getActivity()
-				.getHeaderResizer(application.getAppletFrame());
 		return application;
 	}
 
@@ -227,7 +226,17 @@ public class GeoGebraFrameFull
 
 	@Override
 	public void updateHeaderSize() {
-		headerResizer.resizeHeader();
+		getHeaderResizer().resizeHeader();
+	}
+
+	private HeaderResizer getHeaderResizer() {
+		if (app == null) {
+			return new NullHeaderResizer();
+		}
+		if (headerResizer == null) {
+			headerResizer = getApp().getActivity().getHeaderResizer(this);
+		}
+		return headerResizer;
 	}
 
 	@Override
@@ -254,7 +263,7 @@ public class GeoGebraFrameFull
 			keyboardState = KeyboardState.ANIMATING_IN;
 			app.hideMenu();
 			app.persistWidthAndHeight();
-			ToolTipManagerW.hideAllToolTips();
+			ToolTipManagerW.sharedInstance().hideTooltip();
 			addKeyboard(textField, true);
 			if (app.isPortrait()) {
 				getGuiManager().getLayout().getDockManager()
@@ -319,7 +328,7 @@ public class GeoGebraFrameFull
 		ToolbarPanel toolbarPanel = getGuiManager()
 				.getUnbundledToolbar();
 		if (toolbarPanel != null) {
-			toolbarPanel.hideMoveFloatingButton();
+			toolbarPanel.setMoveFloatingButtonVisible(false);
 		}
 
 		keyboard.prepareShow(animated);
@@ -756,6 +765,15 @@ public class GeoGebraFrameFull
 	}
 
 	/**
+	 * update tools after login/logout
+	 */
+	public void updateNotesMediaToolbarPanel() {
+		if (notesLayout != null && notesLayout.getToolbar() != null) {
+			((ToolbarMow) notesLayout.getToolbar()).updateMediaPanel();
+		}
+	}
+
+	/**
 	 * @param show whether to show the button
 	 */
 	public void setPageControlButtonVisible(boolean show) {
@@ -992,7 +1010,7 @@ public class GeoGebraFrameFull
 		if (isExternalHeaderHidden()) {
 			return 0;
 		}
-		return headerResizer.getSmallScreenHeight();
+		return getHeaderResizer().getSmallScreenHeight();
 	}
 
 	@Override
@@ -1010,8 +1028,13 @@ public class GeoGebraFrameFull
 	}
 
 	@Override
-	public void getScreenshotBase64(StringConsumer callback) {
+	public void getScreenshotBase64(StringConsumer callback, double scale) {
+		if (!app.isUsingFullGui()) {
+			super.getScreenshotBase64(callback, scale);
+			return;
+		}
 		Canvas c = Canvas.createIfSupported();
-		((DockManagerW) app.getGuiManager().getLayout().getDockManager()).paintPanels(c, callback);
+		DockManager dockManager = app.getGuiManager().getLayout().getDockManager();
+		((DockManagerW) dockManager).paintPanels(c, callback, scale);
 	}
 }

@@ -28,7 +28,6 @@ import org.geogebra.keyboard.web.factory.KeyboardInputBox;
 import org.geogebra.keyboard.web.factory.KeyboardMow;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -451,16 +450,16 @@ public class TabbedKeyboard extends FlowPanel
 	private KeyBoardButtonBase textButton(WeightedButton wb, ButtonHandler b) {
 		String name = wb.getPrimaryActionName();
 		if (name.equals(Action.TOGGLE_ACCENT_ACUTE.name())) {
-			return accentButton(Accents.ACCENT_ACUTE, b);
+			return accentButton(Accents.ACCENT_ACUTE, Action.TOGGLE_ACCENT_ACUTE, b);
 		}
 		if (name.equals(Action.TOGGLE_ACCENT_CARON.name())) {
-			return accentButton(Accents.ACCENT_CARON, b);
+			return accentButton(Accents.ACCENT_CARON, Action.TOGGLE_ACCENT_CARON, b);
 		}
 		if (name.equals(Action.TOGGLE_ACCENT_CIRCUMFLEX.name())) {
-			return accentButton(Accents.ACCENT_CIRCUMFLEX, b);
+			return accentButton(Accents.ACCENT_CIRCUMFLEX, Action.TOGGLE_ACCENT_CIRCUMFLEX, b);
 		}
 		if (name.equals(Action.TOGGLE_ACCENT_GRAVE.name())) {
-			return accentButton(Accents.ACCENT_GRAVE, b);
+			return accentButton(Accents.ACCENT_GRAVE, Action.TOGGLE_ACCENT_GRAVE, b);
 		}
 		if ((Unicode.DIVIDE + "").equals(name)) {
 			// division button in scientific
@@ -502,9 +501,9 @@ public class TabbedKeyboard extends FlowPanel
 		return new KeyBoardButtonBase(caption, altText, name, b);
 	}
 
-	private static KeyBoardButtonBase accentButton(String accent,
+	private static KeyBoardButtonBase accentButton(String accent, Action action,
 			ButtonHandler b) {
-		return new KeyBoardButtonBase(accent, accent, b);
+		return new KeyBoardButtonFunctionalBase(accent, b, action);
 	}
 
 	/**
@@ -580,8 +579,8 @@ public class TabbedKeyboard extends FlowPanel
 					loc, "altText.Inverse");
 		} else if (resourceName.equals(Resource.POWAB.name())) {
 			return new KeyBoardButtonFunctionalBase(
-							KeyboardResources.INSTANCE.power(),
-					"a^x", bh, false, loc, "altText.Power");
+					KeyboardResources.INSTANCE.power(),
+					button.getPrimaryActionName(), bh, false, loc, "altText.Power");
 		} else if (resourceName.equals(Resource.CAPS_LOCK.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_shift(), bh,
@@ -634,11 +633,6 @@ public class TabbedKeyboard extends FlowPanel
 					KeyboardResources.INSTANCE.ceil(),
 					button.getPrimaryActionName(), bh, false, loc,
 					"altText.Ceil");
-		} else if (resourceName.equals(Resource.FLOOR.name())) {
-			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.floor(),
-					button.getPrimaryActionName(), bh, false, loc,
-					"altText.Floor");
 		} else if (resourceName.equals(Resource.FLOOR.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.floor(),
@@ -897,39 +891,38 @@ public class TabbedKeyboard extends FlowPanel
 				&& ((KeyBoardButtonFunctionalBase) btn).getAction() != null) {
 			KeyBoardButtonFunctionalBase button = (KeyBoardButtonFunctionalBase) btn;
 
-			process(button.getAction());
+			if (Accents.isAccent(btn.getFeedback())) {
+				processAccent(btn.getFeedback());
+			} else {
+				process(button.getAction());
+			}
 		} else {
 			String text = btn.getFeedback();
-			if (Accents.isAccent(text)) {
-				processAccent(text);
-			} else {
 
-				// translate commands and functions as appropriate
-				if ("Integral".equals(text) || "Derivative".equals(text)) {
-					if (hasKeyboard.attachedToEqEditor()) {
-						text = "Integral".equals(text) ? String.valueOf(Unicode.INTEGRAL)
-								: "d/dx";
-					} else {
-						text = hasKeyboard.getLocalization().getCommand(text);
-					}
-				} else
-				// matches sin, cos, tan, asin, acos, atan
-				if ((text.length() == 3 || text.length() == 4)
-						&& "asin acos atan".indexOf(text) > -1) {
-					text = hasKeyboard.getLocalization().getFunction(text);
+			// translate commands and functions as appropriate
+			if ("Integral".equals(text) || "Derivative".equals(text)) {
+				if (hasKeyboard.attachedToEqEditor()) {
+					text = "Integral".equals(text) ? String.valueOf(Unicode.INTEGRAL)
+							: "d/dx";
+				} else {
+					text = hasKeyboard.getLocalization().getCommand(text);
 				}
-
-				processField.insertString(text);
-				processAccent(null);
-				disableCapsLock();
+			} else
+			// matches sin, cos, tan, asin, acos, atan
+			if ((text.length() == 3 || text.length() == 4)
+					&& "asin acos atan".indexOf(text) > -1) {
+				text = hasKeyboard.getLocalization().getFunction(text);
 			}
+
+			processField.insertString(text);
+			processAccent(null);
+			disableCapsLock();
+
 			processField.setFocus(true);
 		}
 		if (Action.SWITCH_TO_123.name().equals(btn.getSecondaryAction())) {
 			selectTab(KeyboardType.NUMBERS);
 		}
-
-		Scheduler.get().scheduleDeferred(this::scrollCursorIntoView);
 	}
 
 	private void process(Action action) {
@@ -1009,13 +1002,6 @@ public class TabbedKeyboard extends FlowPanel
 	 */
 	protected void ansPressed() {
 		// platform dependent
-	}
-
-	/**
-	 * Scroll cursor of selected textfield into view
-	 */
-	protected void scrollCursorIntoView() {
-		processField.scrollCursorIntoView();
 	}
 
 	/**

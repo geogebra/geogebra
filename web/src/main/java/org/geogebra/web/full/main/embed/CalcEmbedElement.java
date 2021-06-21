@@ -1,6 +1,11 @@
 package org.geogebra.web.full.main.embed;
 
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.statistics.AlgoTableToChart;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.undo.UndoInfoStoredListener;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.EventType;
@@ -9,8 +14,6 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ScriptManagerW;
-
-import com.google.gwt.dom.client.Style.Unit;
 
 import elemental2.core.Global;
 
@@ -55,10 +58,6 @@ public class CalcEmbedElement extends EmbedElement {
 	@Override
 	public void setSize(int contentWidth, int contentHeight) {
 		frame.getApp().getGgbApi().setSize(contentWidth, contentHeight);
-		// 1px border
-		frame.getElement().getStyle().setWidth(contentWidth - 2, Unit.PX);
-		frame.getElement().getStyle().setHeight(contentHeight - 2, Unit.PX);
-		frame.getApp().checkScaleContainer();
 	}
 
 	@Override
@@ -91,17 +90,91 @@ public class CalcEmbedElement extends EmbedElement {
 		frame.getApp().getGgbApi().setBase64(base64);
 	}
 
+	/**
+	 * set the default style for charts in notes
+	 * @param isMebis whether mebis is running
+	 * @param chartType type of chart (linegraph, barchart, piechart)
+	 */
+	public void initChart(boolean isMebis, AlgoTableToChart.ChartType chartType) {
+		EuclidianView ev = frame.getApp().getActiveEuclidianView();
+		GeoElement chart = frame.getApp().getKernel().lookupLabel("chart");
+
+		switch (chartType) {
+		case PieChart:
+			ev.getSettings().setShowAxes(false);
+			ev.setRealWorldCoordSystem(-4, -4, 4, 4);
+			break;
+		case LineGraph:
+			setGrid(EuclidianView.GRID_CARTESIAN);
+			ev.getSettings().setShowAxes(true);
+			if (isMebis) {
+				chart.setObjColor(GColor.newColorRGB(0x00A8D5));
+			} else {
+				chart.setObjColor(GColor.newColorRGB(0x6557D2));
+			}
+			chart.setLineThickness(8);
+			break;
+		case BarChart:
+			ev.getSettings().setShowAxes(true);
+			if (isMebis) {
+				chart.setObjColor(GColor.newColorRGB(0x00A8D5));
+			} else {
+				chart.setObjColor(GColor.newColorRGB(0x6557D2));
+			}
+			chart.setAlphaValue(181. / 255);
+			break;
+		default:
+			break;
+		}
+
+		chart.setLabelVisible(false);
+		chart.updateRepaint();
+		frame.getApp().getKernel().initUndoInfo();
+	}
+
+	/**
+	 * @param cmd command
+	 */
+	public void sendCommand(String cmd) {
+		frame.getApp().getGgbApi().evalCommand(cmd);
+	}
+
+	/**
+	 * Set the specified axis to positive only with the given crossing
+	 * @param axis axis id (0 - x, 1 - y)
+	 * @param crossing the value at which the given axis crosses the other
+	 */
+	public void setGraphAxis(int axis, double crossing) {
+		EuclidianSettings evs = frame.getApp().getSettings().getEuclidian(1);
+		evs.beginBatch();
+		evs.setPositiveAxis(axis, true);
+		evs.setAxisCross(axis, crossing);
+		evs.endBatch();
+		frame.getApp().getKernel().notifyRepaint();
+	}
+
+	/**
+	 * set grid type for EV
+	 * @param grid grid type
+	 */
+	private void setGrid(int grid) {
+		EuclidianSettings evs = frame.getApp().getSettings().getEuclidian(1);
+		evs.beginBatch();
+		evs.showGrid(true);
+		evs.setGridType(grid);
+		evs.endBatch();
+		frame.getApp().getKernel().notifyRepaint();
+	}
+
 	private static class UndoRedoGlue implements UndoInfoStoredListener {
 
 		private int embedId;
-		private boolean ignoreUndoInfoStored;
 		private UndoManager embeddedUndoManager;
 		private EmbedManagerW embedManager;
 
 		private UndoRedoGlue(int embedId, UndoManager embeddedUndoManager,
 				EmbedManagerW embedManager) {
 			this.embedId = embedId;
-			this.ignoreUndoInfoStored = false;
 			this.embeddedUndoManager = embeddedUndoManager;
 			this.embedManager = embedManager;
 			embeddedUndoManager.addUndoInfoStoredListener(this);
@@ -109,9 +182,7 @@ public class CalcEmbedElement extends EmbedElement {
 
 		@Override
 		public void onUndoInfoStored() {
-			if (!ignoreUndoInfoStored) {
-				embedManager.createUndoAction(embedId);
-			}
+			embedManager.createUndoAction(embedId);
 		}
 
 		private void executeAction(EventType action) {
@@ -125,19 +196,19 @@ public class CalcEmbedElement extends EmbedElement {
 		}
 
 		private void undo() {
-			ignoreUndoInfoStored = true;
 			embeddedUndoManager.undo();
-			ignoreUndoInfoStored = false;
 		}
 
 		private void redo() {
-			ignoreUndoInfoStored = true;
 			embeddedUndoManager.redo();
-			ignoreUndoInfoStored = false;
 		}
 
 		private void pruneStateList() {
 			embeddedUndoManager.pruneStateList();
 		}
+	}
+
+	public GeoGebraFrameFull getFrame() {
+		return frame;
 	}
 }

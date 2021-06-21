@@ -98,8 +98,8 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 	}
 
 	@Override
-	public void fillRect(int x, int y, int width, int height) {
-		impl.fillRect(x, y, width, height);
+	public void fillRect(double x, double y, double width, double height) {
+		impl.fillRect((int) x, (int) y, (int) width, (int) height);
 	}
 
 	@Override

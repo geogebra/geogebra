@@ -113,11 +113,15 @@ public class AlgoCompleteSquare extends AlgoElement {
 				fvPower = new ExpressionNode(kernel, fv, Operation.POWER,
 						new MyDouble(kernel, power));
 			}
-			squareE = new ExpressionNode(kernel,
-					new ExpressionNode(kernel, a, Operation.MULTIPLY,
-							new ExpressionNode(kernel, fvPower, Operation.MINUS,
-									h).power(new MyDouble(kernel, 2))),
-					Operation.PLUS, k);
+
+			// (x-h)^2
+			ExpressionNode sqrTerm = new ExpressionNode(kernel, fvPower, Operation.MINUS, h)
+					.power(new MyDouble(kernel, 2));
+			// a(x-h)^2
+			ExpressionNode sqrMultTerm = p == 1 ? sqrTerm
+					: new ExpressionNode(kernel, a, Operation.MULTIPLY, sqrTerm);
+			// a(x-h)^2+k
+			squareE = new ExpressionNode(kernel, sqrMultTerm, Operation.PLUS, k);
 
 			square.getFunction().setExpression(squareE);
 		}

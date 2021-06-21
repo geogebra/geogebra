@@ -14,7 +14,7 @@ import com.google.j2objc.annotations.Weak;
  * The startListeningToTriggerEvents() method has to be called in order add the actions and set the
  * listener.
  */
-public class UndoRedoButtonsController implements UndoInfoStoredListener {
+public class UndoRedoButtonsController implements UndoPossibleListener {
 
 	@Weak
 	private Kernel kernel;
@@ -37,8 +37,8 @@ public class UndoRedoButtonsController implements UndoInfoStoredListener {
 	 */
 	public void startListeningToTriggerEvents() {
 		registerUndoInfoStoredListener();
-		undoWidget.setAction(createUndoAction());
-		redoWidget.setAction(createRedoAction());
+		undoWidget.setAction(this::undoAndUpdateAppearance);
+		redoWidget.setAction(this::redoAndUpdateAppearance);
 		updateAppearance();
 	}
 
@@ -46,37 +46,12 @@ public class UndoRedoButtonsController implements UndoInfoStoredListener {
 		kernel
 				.getConstruction()
 				.getUndoManager()
-				.addUndoInfoStoredListener(this);
-	}
-
-	@Override
-	public void onUndoInfoStored() {
-		updateAppearance();
-	}
-
-	private Runnable createUndoAction() {
-		return new Runnable() {
-
-			@Override
-			public void run() {
-				undoAndUpdateAppearance();
-			}
-		};
+				.addUndoListener(this);
 	}
 
 	void undoAndUpdateAppearance() {
 		kernel.undo();
 		updateAppearance();
-	}
-
-	private Runnable createRedoAction() {
-		return new Runnable() {
-
-			@Override
-			public void run() {
-				redoAndUpdateAppearance();
-			}
-		};
 	}
 
 	void redoAndUpdateAppearance() {
@@ -103,5 +78,15 @@ public class UndoRedoButtonsController implements UndoInfoStoredListener {
 
 		new UndoRedoButtonsController(kernel, undoWidget, redoWidget)
 				.startListeningToTriggerEvents();
+	}
+
+	@Override
+	public void undoPossible(boolean isPossible) {
+		undoWidget.setEnabled(isPossible);
+	}
+
+	@Override
+	public void redoPossible(boolean isPossible) {
+		redoWidget.setEnabled(isPossible);
 	}
 }

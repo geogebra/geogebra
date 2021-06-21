@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.prover.adapters;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -14,6 +15,10 @@ public class BotanaCircle {
 			PVariable[] circle1vars, centerVars;
 			circle1vars = ((SymbolicParametersBotanaAlgo) P).getBotanaVars(P);
 			centerVars = ((SymbolicParametersBotanaAlgo) M).getBotanaVars(M);
+			if (circle1vars == null || centerVars == null) {
+				fallback(P.getKernel());
+				return null;
+			}
 
 			botanaVars = new PVariable[4];
 			// Center:
@@ -25,4 +30,18 @@ public class BotanaCircle {
 		}
 		return botanaVars;
 	}
+
+	void fallback(Kernel kernel) {
+		// In the general case set up two dummy variables. They will be used
+		// by the numerical substitution later in the prover.
+		if (botanaVars != null) {
+			return;
+		}
+		botanaVars = new PVariable[4];
+		botanaVars[0] = new PVariable(kernel);
+		botanaVars[1] = new PVariable(kernel);
+		botanaVars[2] = new PVariable(kernel);
+		botanaVars[3] = new PVariable(kernel);
+	}
+
 }

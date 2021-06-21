@@ -94,6 +94,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -115,7 +116,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 
 import com.google.j2objc.annotations.Weak;
-import com.google.j2objc.annotations.ZeroingWeak;
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -289,7 +289,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	private int defaultGeoType = -1;
 
 	/** parent algorithm */
-	@ZeroingWeak
+	@Weak
 	@Nullable
 	protected AlgoElement algoParent = null;
 
@@ -1313,6 +1313,15 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 		bgColor = geo.bgColor;
 		isColorSet = geo.isColorSet();
+
+		if (geo.getParentAlgorithm() instanceof ChartStyleAlgo && this
+				.getParentAlgorithm() instanceof ChartStyleAlgo) {
+			int barNumber = ((ChartStyleAlgo) geo.getParentAlgorithm()).getIntervals();
+			for (int i = 0; i <= barNumber; i++) {
+				((ChartStyleAlgo) this.getParentAlgorithm()).getStyle().setBarColor(
+						((ChartStyleAlgo) geo.getParentAlgorithm()).getStyle().getBarColor(i), i);
+			}
+		}
 	}
 
 	/**
@@ -1655,8 +1664,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public boolean isLabelShowable() {
 		return isDrawable() && !(this instanceof TextValue || isGeoImage()
-				|| isGeoButton() || isGeoLocus()
-				|| (isGeoBoolean() && !isIndependent()));
+				|| isGeoLocus() || (isGeoBoolean() && !isIndependent()));
 	}
 
 	/**
@@ -2248,6 +2256,19 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
+	 * @param symbolic
+	 *            true to keep variable names
+	 * @param symbolicContext
+	 *            whether this method was called from a symbolic context
+	 * @param tpl
+	 *            string template
+	 * @return LaTeX string
+	 */
+	public String toLaTeXString(boolean symbolic, boolean symbolicContext, StringTemplate tpl) {
+		return getFormulaString(tpl, !symbolic);
+	}
+
+	/**
 	 * Returns a String that can be used to define geo in the currently used
 	 * CAS. For example, "f(x) := a*x^2", "a := 20", "g := 3x + 4y = 7"
 	 * 
@@ -2531,6 +2552,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			}
 		}
 
+		if (newLabel.startsWith(LabelManager.HIDDEN_PREFIX)) {
+			setAlgebraLabelVisible(false);
+		}
+
 		setLabelSimple(newLabel); // set new label
 
 		setLabelSet(true);
@@ -2551,13 +2576,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (addToConstr) {
 			notifyAdd();
 		}
-		/*
-		 * if(cons.getCASdummies().contains(newLabel)){
-		 * cons.moveInConstructionList(this, 0);
-		 * cons.getCASdummies().remove(newLabel); for(int
-		 * i=0;cons.getCasCell(i)!=null;i++){
-		 * kernel.getAlgebraProcessor().processCasCell(cons.getCasCell(i)); } }
-		 */
 	}
 
 	private void updateSpreadsheetCoordinates() {
@@ -2959,6 +2977,16 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 					this, false, !cons.isRemovingGeoToReplaceIt());
 		}
 
+		if (getParentGroup() != null) {
+			cons.removeGroupFromGroupList(getParentGroup());
+			for (GeoElement geo : getParentGroup().getGroupedGeos()) {
+				if (geo != this) {
+					geo.setParentGroup(null);
+					geo.remove();
+				}
+			}
+		}
+
 		// notify views before we change labelSet
 		notifyRemove();
 
@@ -2970,10 +2998,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			// remove old key from cache
 			// JLaTeXMathCache.removeCachedTeXFormula(keyLaTeX);
 			latexCache.remove();
-		}
-
-		if (getParentGroup() != null) {
-			cons.removeGroupFromGroupList(getParentGroup());
 		}
 	}
 
@@ -3596,21 +3620,28 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	@Override
 	final public int getMaxConstructionIndex() {
+		int maxIndex;
 		if (algoParent == null) {
-			// independent object:
-			// index must be less than every dependent algorithm's index
-			int min = cons.steps();
-			final int size = algorithmList == null ? 0 : algorithmList.size();
-			for (int i = 0; i < size; ++i) {
-				final int index = (algorithmList.get(i)).getConstructionIndex();
-				if (index < min) {
-					min = index;
-				}
-			}
-			return min - 1;
+			maxIndex = getIndexBeforeAllDependentAlgos();
+		} else {
+			maxIndex = algoParent.getMaxConstructionIndex();
 		}
-		// dependent object
-		return algoParent.getMaxConstructionIndex();
+		return Math.max(maxIndex, getConstructionIndex());
+	}
+
+	/**
+	 * @return index strictly lower than construction indices of all dependent algos
+	 */
+	public int getIndexBeforeAllDependentAlgos() {
+		int min = cons.steps();
+		final int size = algorithmList == null ? 0 : algorithmList.size();
+		for (int i = 0; i < size; ++i) {
+			final int index = algorithmList.get(i).getConstructionIndex();
+			if (index < min) {
+				min = index;
+			}
+		}
+		return min - 1;
 	}
 
 	@Override
@@ -4401,7 +4432,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 					.append(StringUtil.toHexString(getAlgebraColor()));
 			sbNameDescriptionHTML.append("\">");
 		}
-		sbNameDescriptionHTML.append(indicesToHTML(label1, addHTMLtag));
+		sbNameDescriptionHTML.append(indicesToHTML(label1, false));
 
 		if (this instanceof GeoPointND && getKernel().getApplication()
 				.getSettings().getEuclidian(1).axisShown()) {
@@ -4464,8 +4495,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			sb.append(" label=\"");
 			sb.append(StringUtil.encodeXML(label));
 			sb.append("\" exp=\"");
-			StringUtil.encodeXML(sb,
-					definition.toString(StringTemplate.xmlTemplate));
+			getDefinitionXML(sb);
 			// expression
 			sb.append("\"");
 
@@ -4489,6 +4519,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			}
 			sb.append("/>\n");
 		}
+	}
+
+	protected void getDefinitionXML(StringBuilder sb) {
+		StringUtil.encodeXML(sb,
+				definition.toString(StringTemplate.xmlTemplate));
 	}
 
 	/**
@@ -5406,45 +5441,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			tempSet = new TreeSet<>(algoComparator);
 		}
 		return tempSet;
-	}
-
-	/**
-	 * @param rwTransVec
-	 *            translation vector
-	 * @param endPosition
-	 *            end position
-	 * @return true if successful
-	 */
-	protected boolean moveVector(final Coords rwTransVec,
-			final Coords endPosition) {
-
-		boolean movedGeo = false;
-
-		final GeoVector vector = (GeoVector) this;
-		if (endPosition != null) {
-			vector.setCoords(endPosition.getX(), endPosition.getY(), 0);
-			movedGeo = true;
-		}
-
-		// translate point
-		else {
-			double x = vector.getX() + rwTransVec.getX();
-			double y = vector.getY() + rwTransVec.getY();
-
-			// round to decimal fraction, e.g. 2.800000000001 to 2.8
-			if (Math.abs(rwTransVec.getX()) > Kernel.MIN_PRECISION) {
-				x = DoubleUtil.checkDecimalFraction(x);
-			}
-			if (Math.abs(rwTransVec.getY()) > Kernel.MIN_PRECISION) {
-				y = DoubleUtil.checkDecimalFraction(y);
-			}
-
-			// set translated point coords
-			vector.setCoords(x, y, 0);
-			movedGeo = true;
-		}
-
-		return movedGeo;
 	}
 
 	/**
@@ -6980,11 +6976,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public boolean addAuralCaption(ScreenReaderBuilder sb) {
 		if (!StringUtil.empty(getCaptionSimple())) {
-			String myCaption = getCaption(StringTemplate.defaultTemplate);
-			if (CanvasDrawable.isLatexString(myCaption)) {
-				sb.appendLaTeX(caption);
+			if (CanvasDrawable.isLatexString(caption)) {
+				String myCaption = getCaption(StringTemplate.latexTemplate);
+				sb.appendLaTeX(myCaption);
 			} else {
-				sb.append(myCaption);
+				String myCaption = getCaption(StringTemplate.screenReader);
+				sb.append(ScreenReader.convertToReadable(myCaption, getLoc()));
 			}
 			sb.endSentence();
 			return true;
@@ -6993,22 +6990,22 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	@Override
-	public void addAuralType(Localization loc, ScreenReaderBuilder sb) {
+	public void addAuralType(ScreenReaderBuilder sb) {
 		sb.append(translatedTypeStringForAlgebraView());
 		sb.appendSpace();
 	}
 
 	@Override
-	public void addAuralLabel(Localization loc, ScreenReaderBuilder sb) {
+	public void addAuralLabel(ScreenReaderBuilder sb) {
 		sb.append(getLabelSimple());
 		sb.endSentence();
 	}
 
 	@Override
-	public void addAuralName(Localization loc, ScreenReaderBuilder sb) {
-		addAuralType(loc, sb);
+	public void addAuralName(ScreenReaderBuilder sb) {
+		addAuralType(sb);
 		if (!addAuralCaption(sb)) {
-			addAuralLabel(loc, sb);
+			addAuralLabel(sb);
 		}
 	}
 
@@ -7025,7 +7022,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public String getAuralText(ScreenReaderBuilder sb) {
 		Localization loc = kernel.getLocalization();
-		addAuralName(loc, sb);
+		addAuralName(sb);
 		sb.appendSpace();
 		addAuralStatus(loc, sb);
 		sb.appendSpace();

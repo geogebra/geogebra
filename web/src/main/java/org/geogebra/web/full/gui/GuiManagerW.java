@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import org.geogebra.common.awt.GDimension;
@@ -24,6 +25,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
+import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -87,8 +89,8 @@ import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
+import org.geogebra.web.full.gui.toolbarpanel.ShowableTab;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
-import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -125,13 +127,13 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.FileConsumer;
 import org.geogebra.web.html5.util.StringConsumer;
-import org.geogebra.web.html5.util.Visibility;
 import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -470,23 +472,23 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void setShowView(final boolean flag, final int viewId) {
-		setShowView(flag, viewId, true);
+	public void setShowView(final boolean visible, final int viewId) {
+		setShowView(visible, viewId, true);
 	}
 
 	@Override
-	public void setShowView(final boolean flag, final int viewId, final boolean isPermanent) {
+	public void setShowView(final boolean visible, final int viewId, final boolean isPermanent) {
 		ToolbarPanel sidePanel = getUnbundledToolbar();
-		ToolbarPanel.ToolbarTab sidePanelTab = sidePanel != null ? sidePanel.getTab(viewId) : null;
+		ShowableTab sidePanelTab = sidePanel != null ? sidePanel.getTab(viewId) : null;
 		if (sidePanelTab != null) {
-			if (flag) {
+			if (visible) {
 				sidePanelTab.open();
 			} else {
 				sidePanelTab.close();
 			}
-			onToolbarVisibilityChanged(viewId, flag);
+			onToolbarVisibilityChanged(viewId, visible);
 		} else {
-			if (flag) {
+			if (visible) {
 				showViewWithId(viewId);
 			} else {
 				hideViewWith(viewId, isPermanent);
@@ -502,7 +504,8 @@ public class GuiManagerW extends GuiManager
 		}
 	}
 
-	private void onToolbarVisibilityChanged(int viewId, boolean isVisible) {
+	@Override
+	public void onToolbarVisibilityChanged(int viewId, boolean isVisible) {
 		DockPanel panel = layout.getDockManager().getPanel(viewId);
 		if (panel != null) {
 			panel.setVisible(isVisible);
@@ -561,13 +564,8 @@ public class GuiManagerW extends GuiManager
 			sciSettingsView = new ScientificSettingsView(getApp());
 			getApp().getLocalization().registerLocalizedUI(sciSettingsView);
 		}
-		frame.forceHeaderVisibility(Visibility.HIDDEN);
-		getApp().setCloseBrowserCallback(new Runnable() {
-			@Override
-			public void run() {
-				frame.forceHeaderVisibility(Visibility.NOT_SET);
-			}
-		});
+		frame.forceHeaderHidden(true);
+		getApp().setCloseBrowserCallback(() -> frame.forceHeaderHidden(false));
 		frame.showPanel(sciSettingsView);
 	}
 
@@ -623,10 +621,8 @@ public class GuiManagerW extends GuiManager
 					getPxHeight(root) + heightChanged);
 			root.onResize();
 		} else {
-			geogebraFrame.getStyle().setProperty("height",
-					height - borderThickness + "px");
-			geogebraFrame.getStyle().setProperty("width",
-					width - borderThickness + "px");
+			geogebraFrame.getStyle().setHeight(height, Style.Unit.PX);
+			geogebraFrame.getStyle().setWidth(width, Style.Unit.PX);
 			getApp().getEuclidianViewpanel().setPixelSize(width, height);
 
 			// maybe onResize is OK too
@@ -644,14 +640,9 @@ public class GuiManagerW extends GuiManager
 		getApp().recalculateEnvironments();
 		getApp().setPreferredSize(
 				AwtFactory.getPrototype().newDimension(width, height));
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				getApp().centerAndResizeViews();
-				getApp().getKeyboardManager().resizeKeyboard();
-			}
-
+		Scheduler.get().scheduleDeferred(() -> {
+			getApp().centerAndResizeViews();
+			getApp().getKeyboardManager().resizeKeyboard();
 		});
 	}
 
@@ -679,22 +670,11 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public boolean moveMoveFloatingButtonUp(int left, int width,
-			boolean isSmall) {
+	public int getMoveTopBelowSnackbar(int snackbarRight) {
 		if (getUnbundledToolbar() != null) {
-			return getUnbundledToolbar()
-					.moveMoveFloatingButtonUpWithTooltip(left,
-					width, isSmall);
+			return getUnbundledToolbar().getMoveTopBelowSnackbar(snackbarRight);
 		}
-		return false;
-	}
-
-	@Override
-	public void moveMoveFloatingButtonDown(boolean isSmall, boolean wasMoved) {
-		if (getUnbundledToolbar() != null) {
-			getUnbundledToolbar().moveMoveFloatingButtonDownWithTooltip(isSmall,
-				wasMoved);
-		}
+		return 0;
 	}
 
 	@Override
@@ -1054,7 +1034,7 @@ public class GuiManagerW extends GuiManager
 		if (success && !isMacroFile
 				&& !getApp().getSettings().getLayout().isIgnoringDocumentLayout()) {
 
-			getLayout().setPerspectives(getApp().getTmpPerspectives(), null);
+			getLayout().setPerspectiveOrDefault(getApp().getTmpPerspective());
 
 			if (!getApp().isIniting()) {
 				updateFrameSize(); // checks internally if frame is available
@@ -1297,12 +1277,6 @@ public class GuiManagerW extends GuiManager
 		if (spreadsheetView != null) {
 			spreadsheetView.setScrollToShow(b);
 		}
-	}
-
-	@Override
-	public void showURLinBrowser(final String strURL) {
-		final PopupBlockAvoider popupBlockAvoider = new PopupBlockAvoider();
-		popupBlockAvoider.openURL(strURL);
 	}
 
 	@Override
@@ -1904,24 +1878,20 @@ public class GuiManagerW extends GuiManager
 		if (showDialog) {
 			getOptionPane().showSaveDialog(loc.getMenu("Save"),
 					getApp().getExportTitle() + extension, null,
-					new AsyncOperation<String[]>() {
+					obj -> {
+						if (Integer.parseInt(obj[0]) == 0) {
 
-						@Override
-						public void callback(String[] obj) {
-							if (Integer.parseInt(obj[0]) == 0) {
+							String filename = obj[1];
 
-								String filename = obj[1];
-
-								if (filename == null || filename.trim().isEmpty()) {
-									filename = getApp().getExportTitle();
-								}
-
-								// in case user removes extension
-								if (!filename.endsWith(extension)) {
-									filename += extension;
-								}
-								exportGgb(filename, extension);
+							if (filename == null || filename.trim().isEmpty()) {
+								filename = getApp().getExportTitle();
 							}
+
+							// in case user removes extension
+							if (!filename.endsWith(extension)) {
+								filename += extension;
+							}
+							exportGgb(filename, extension);
 						}
 					}, loc.getMenu("Save"));
 		} else {
@@ -1931,7 +1901,9 @@ public class GuiManagerW extends GuiManager
 
 	private void exportGGBDirectly() {
 		String extension = ((AppW) app).getFileExtension();
-		String filename = getApp().getExportTitle() + extension;
+		String currentDate = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm").format(new Date())
+				+ extension;
+		String filename = getApp().isMebis() ? currentDate : getApp().getExportTitle() + extension;
 		exportGgb(filename, extension);
 	}
 
@@ -1944,7 +1916,7 @@ public class GuiManagerW extends GuiManager
 			getApp().getGgbApi().getBase64(true,
 					getBase64DownloadCallback(filename));
 		} else {
-			getApp().getGgbApi().getGGBfile(true,
+			getApp().getGgbApi().getZippedGgbAsync(true,
 					getDownloadCallback(filename));
 		}
 	}
@@ -2256,9 +2228,38 @@ public class GuiManagerW extends GuiManager
 	 *            function/lie to be added
 	 */
 	public void addGeoToTableValuesView(GeoElement geo) {
+		app.getEventDispatcher()
+				.dispatchEvent(EventType.ADD_TV, geo);
+		addGeoToTV(geo);
+		getUnbundledToolbar().openTableView((GeoEvaluatable) geo, true);
+	}
+
+	@Override
+	public void removeGeoFromTV(String label) {
+		GeoElement geo = app.getKernel().lookupLabel(label);
+		if (getTableValuesView() != null && geo instanceof GeoEvaluatable) {
+			getTableValuesView().hideColumn((GeoEvaluatable) geo);
+		}
+	}
+
+	@Override
+	public void setValues(double min, double max, double step) throws InvalidValuesException {
+		if (getTableValuesView() != null) {
+			getTableValuesView().setValues(min, max, step);
+		}
+	}
+
+	@Override
+	public void showPointsTV(int column, boolean show) {
+		if (getTableValuesPoints() != null) {
+			getTableValuesPoints().setPointsVisible(column, show);
+		}
+	}
+
+	@Override
+	public void addGeoToTV(GeoElement geo) {
 		getTableValuesView().add(geo);
 		getTableValuesView().showColumn((GeoEvaluatable) geo);
-		getUnbundledToolbar().openTableView((GeoEvaluatable) geo, true);
 	}
 
 	@Override
@@ -2273,7 +2274,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void updateUnbundledToolbar() {
 		if (getUnbundledToolbar() != null) {
-			getUnbundledToolbar().updateTabs();
+			getUnbundledToolbar().resizeTabs();
 		}
 	}
 

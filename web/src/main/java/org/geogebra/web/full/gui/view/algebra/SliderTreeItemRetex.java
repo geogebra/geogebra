@@ -199,7 +199,7 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 		getSlider().setStep(num.getAnimationStep());
 		getSlider().setValue(num.value);
 		minMaxPanel.update();
-
+		resize();
 		if (!getSlider().isAttached()) {
 			sliderPanel.add(getSlider());
 			styleContentPanel();
@@ -272,9 +272,7 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 	 *            new width
 	 */
 	public void expandSize(int width) {
-		if (getAV().getOffsetWidth() < width) {
-			getAV().expandWidth(width);
-		}
+		getAV().expandWidth(width);
 	}
 
 	/**

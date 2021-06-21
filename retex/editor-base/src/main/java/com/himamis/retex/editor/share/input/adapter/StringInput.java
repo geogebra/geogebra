@@ -2,8 +2,8 @@ package com.himamis.retex.editor.share.input.adapter;
 
 import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.controller.InputController;
-import com.himamis.retex.editor.share.controller.KeyListenerImpl;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 
 public abstract class StringInput implements KeyboardAdapter {
 
@@ -22,14 +22,19 @@ public abstract class StringInput implements KeyboardAdapter {
         return keyboard.equals(input);
     }
 
-    protected static void commitFunction(MathFieldInternal mfi, String function) {
-        EditorState editorState = mfi.getEditorState();
-        InputController inputController = mfi.getInputController();
-		inputController.newFunction(editorState, function);
+    protected static boolean plainTextMode(MathFieldInternal mfi) {
+        return mfi.getInputController().getPlainTextMode()
+                || mfi.getEditorState().isInsideQuotes();
     }
 
-    protected static void typeCharacter(MathFieldInternal mfi, char character) {
-        KeyListenerImpl keyListener = mfi.getKeyListener();
-		keyListener.onKeyTyped(character, mfi.getEditorState());
+    protected static void commitFunction(MathFieldInternal mfi, String function) {
+        if (plainTextMode(mfi)) {
+            KeyboardInputAdapter.type(mfi, function + "()");
+        } else {
+            EditorState editorState = mfi.getEditorState();
+            InputController inputController = mfi.getInputController();
+            inputController.newFunction(editorState, function);
+			mfi.notifyAndUpdate(function);
+        }
     }
 }

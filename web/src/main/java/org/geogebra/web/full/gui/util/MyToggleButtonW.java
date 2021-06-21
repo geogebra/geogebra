@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.gui.util.GToggleButton;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -35,7 +36,7 @@ public class MyToggleButtonW extends GToggleButton
 
 	/**
 	 * @param image
-	 *            an {@link Image} to use as an up Image
+	 *            image
 	 */
 	public MyToggleButtonW(Image image) {
 		super(image);
@@ -51,12 +52,31 @@ public class MyToggleButtonW extends GToggleButton
 	}
 
 	/**
+	 * @param icon
+	 *            the svg to show as up Image
+	 */
+	public MyToggleButtonW(SVGResource icon) {
+		this(new Image(icon.getSafeUri()));
+	}
+
+	/**
 	 * @param upIcon
 	 *            an {@link ImageResource} to use as an up Image
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
 	public MyToggleButtonW(ImageResource upIcon, ClickHandler handler) {
+		super(new Image(upIcon.getSafeUri()), handler);
+		initButton();
+	}
+
+	/**
+	 * @param upIcon
+	 *            an {@link SVGResource} to use as an up Image
+	 * @param handler
+	 *            {@link ClickHandler}
+	 */
+	public MyToggleButtonW(SVGResource upIcon, ClickHandler handler) {
 		super(new Image(upIcon.getSafeUri()), handler);
 		initButton();
 	}
@@ -97,6 +117,16 @@ public class MyToggleButtonW extends GToggleButton
 	        ClickHandler handler) {
 		this(new Image(upIcon.getSafeUri()), new Image(downIcon.getSafeUri()),
 		        handler);
+	}
+
+	/**
+	 * @param upIcon
+	 *            an {@link ImageResource} to use as an up Image
+	 * @param downIcon
+	 *            an {@link ImageResource} to use an down Image
+	 */
+	public MyToggleButtonW(SVGResource upIcon, SVGResource downIcon) {
+		this(new Image(upIcon.getSafeUri()), new Image(downIcon.getSafeUri()));
 	}
 
 	/**

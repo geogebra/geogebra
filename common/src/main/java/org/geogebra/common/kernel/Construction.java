@@ -2944,16 +2944,12 @@ public class Construction {
 	/**
 	 * Stores current state of construction.
 	 * 
-	 * @see UndoManager#storeUndoInfo
+	 * @see UndoManager#storeUndoInfo()
 	 */
 	public void storeUndoInfo() {
-		// undo unavailable in applets
-		// if (getApplication().isApplet()) return;
-
 		if (!isUndoEnabled()) {
 			return;
 		}
-
 		undoManager.storeUndoInfo();
 	}
 

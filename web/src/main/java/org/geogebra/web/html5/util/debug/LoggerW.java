@@ -1,10 +1,12 @@
 package org.geogebra.web.html5.util.debug;
 
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.util.AppletParameters;
 
 import com.google.gwt.user.client.Window;
 
+import elemental2.dom.Console;
 import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
 
@@ -22,22 +24,34 @@ public class LoggerW extends Log {
 			return;
 		}
 
+		Console console = DomGlobal.console;
+
 		switch (level) {
 		case INFO:
-			DomGlobal.console.info(logEntry);
+			if (Browser.hasProperty(console, "info")) {
+				DomGlobal.console.info(logEntry);
+			}
 			break;
 		case WARN:
-			DomGlobal.console.warn(logEntry);
+			if (Browser.hasProperty(console, "warn")) {
+				DomGlobal.console.warn(logEntry);
+			}
 			break;
 		case ERROR:
-			DomGlobal.console.error(logEntry);
+			if (Browser.hasProperty(console, "error")) {
+				DomGlobal.console.error(logEntry);
+			}
 			break;
 		case TRACE:
-			DomGlobal.console.trace(logEntry);
+			if (Browser.hasProperty(console, "trace")) {
+				DomGlobal.console.trace(logEntry);
+			}
 			break;
 		default:
 		case DEBUG:
-			DomGlobal.console.log(logEntry);
+			if (Browser.hasProperty(console, "log")) {
+				DomGlobal.console.log(logEntry);
+			}
 			break;
 		}
 	}
@@ -59,7 +73,9 @@ public class LoggerW extends Log {
 	private void printErrorMessage(Throwable t) {
 		// This contains the stacktrace in gwt dev mode.
 		Object backingJsObject = Js.asPropertyMap(t).nestedGet("backingJsObject.stack");
-		DomGlobal.console.error(t, backingJsObject);
+		if (Browser.hasProperty(DomGlobal.console, "error")) {
+			DomGlobal.console.error(t, backingJsObject);
+		}
 	}
 
 	public static void loaded(String string) {

@@ -1,17 +1,12 @@
 package org.geogebra.common.main;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.debug.Log;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public abstract class MaterialsManager implements MaterialsManagerI {
 
@@ -22,7 +17,6 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 	/** characters not allowed in filename */
 	public static final String reservedCharacters = "*/:<>?\\|+,.;=[]";
 
-	private int notSyncedFileCount;
 	/** files waiting for download */
 	int notDownloadedFileCount;
 
@@ -154,53 +148,6 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 				});
 	}
 
-	/**
-	 * Synchronize the material and mark corresponding event as resolved
-	 * 
-	 * @param mat
-	 *            material
-	 * @param events
-	 *            sync events
-	 */
-	public void sync(final Material mat, ArrayList<SyncEvent> events) {
-		if (mat.getId() == 0) {
-			upload(mat);
-		} else {
-			for (SyncEvent event : events) {
-				if (event.getID() == mat.getId()) {
-					sync(mat, event);
-					event.setZapped(true);
-					break;
-				}
-			}
-		}
-
-		this.notSyncedFileCount--;
-		Log.debug("SYNC remains " + this.notSyncedFileCount);
-		checkMaterialsToDownload(events);
-		sync(mat, new SyncEvent(0, 0));
-	}
-
-	/**
-	 * @param count
-	 *            number of files waiting for sync
-	 * @param events
-	 *            sync events
-	 */
-	public void setNotSyncedFileCount(int count, ArrayList<SyncEvent> events) {
-		this.notSyncedFileCount = count;
-		checkMaterialsToDownload(events);
-	}
-
-	/**
-	 * @param events
-	 *            sync events
-	 */
-	public void ignoreNotSyncedFile(ArrayList<SyncEvent> events) {
-		this.notSyncedFileCount--;
-		checkMaterialsToDownload(events);
-	}
-
 	@Override
 	public void getFromTube(final int id, final boolean fromAnotherDevice) {
 		getApp().getLoginOperation().getGeoGebraTubeAPI().getItem(id + "",
@@ -230,32 +177,6 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 
 	}
 
-	private void getFromTube(final Material mat) {
-		getApp().getLoginOperation().getGeoGebraTubeAPI()
-				.getItem(mat.getId() + "", new MaterialCallbackI() {
-
-					@Override
-					public void onLoaded(final List<Material> parseResponse,
-							ArrayList<Chapter> meta) {
-
-						// edited on Tube, not edited locally
-						if (mat.getModified() <= mat.getSyncStamp()) {
-							Log.debug("SYNC incomming changes:" + mat.getId());
-							MaterialsManager.this.updateFile(getFileKey(mat),
-									parseResponse.get(0).getModified(),
-									parseResponse.get(0));
-						}
-
-					}
-
-					@Override
-					public void onError(final Throwable exception) {
-						Log.debug("SYNC error loading from tube" + mat.getId());
-					}
-				});
-
-	}
-
 	/**
 	 * Update loacl copy
 	 * 
@@ -268,127 +189,6 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 	 */
 	protected abstract void updateFile(String title, long modified,
 			Material material);
-
-	@Override
-	public boolean isSyncing() {
-		return this.notDownloadedFileCount > 0 || this.notSyncedFileCount > 0;
-	}
-
-	private void checkMaterialsToDownload(ArrayList<SyncEvent> events) {
-		if (notSyncedFileCount == 0) {
-			for (SyncEvent event : events) {
-				if (event.isFavorite() && !event.isZapped()
-						&& this.shouldKeep(event.getID())) {
-					this.notDownloadedFileCount++;
-					getFromTube(event.getID(), true);
-				}
-			}
-		}
-	}
-
-	private void deleteFromTube(final Material mat, final Runnable onDelete) {
-		if (!getApp().getLoginOperation().getGeoGebraTubeAPI().owns(mat)) {
-			delete(mat, true, onDelete);
-			return;
-		}
-		getApp().getLoginOperation().getGeoGebraTubeAPI().deleteMaterial(mat,
-				new MaterialCallbackI() {
-
-					@Override
-					public void onLoaded(final List<Material> parseResponse,
-							ArrayList<Chapter> meta) {
-
-						// edited on Tube, not edited locally
-						delete(mat, true, onDelete);
-
-					}
-
-					@Override
-					public void onError(final Throwable exception) {
-						Log.debug(
-								"SYNC error deleting from tube" + mat.getId());
-					}
-				});
-
-	}
-
-	private void sync(final Material mat, SyncEvent event) {
-		long tubeTimestamp = event.getTimestamp();
-		Runnable dummyCallback = new Runnable() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-
-			}
-		};
-		// First check for conflict
-		if (mat.getSyncStamp() < mat.getModified()
-				&& (tubeTimestamp != 0 && tubeTimestamp > mat.getSyncStamp())) {
-			fork(mat);
-			return;
-		}
-
-		if (event.isDelete()) {
-			delete(mat, true, dummyCallback);
-		} else if (event.isUnfavorite() && mat.isFromAnotherDevice()) {
-			// remove from local device
-			delete(mat, true, dummyCallback);
-
-		} else if (tubeTimestamp != 0 && tubeTimestamp > mat.getSyncStamp()) {
-
-			getFromTube(mat);
-
-		} else {
-			// no changes in Tube
-			if (mat.isDeleted()) {
-				Log.debug("SYNC outgoing delete:" + mat.getId());
-				deleteFromTube(mat, dummyCallback);
-			} else if (mat.getId() > 0
-					&& mat.getModified() <= mat.getSyncStamp()) {
-				Log.debug("SYNC material up to date" + mat.getId());
-			} else {
-				Log.debug("SYNC outgoing changes:" + mat.getId());
-				upload(mat);
-			}
-		}
-
-	}
-
-	private void fork(final Material mat) {
-		showTooltip(mat);
-		Log.debug("SYNC fork: " + mat.getId() + "," + mat.getSyncStamp() + ","
-				+ mat.getTimestamp());
-		final String format = getApp().getLocalization()
-				.isRightToLeftReadingOrder()
-				? "\\Y " + Unicode.LEFT_TO_RIGHT_MARK + "\\F"
-						+ Unicode.LEFT_TO_RIGHT_MARK + " \\j"
-				: "\\j \\F \\Y";
-		String newTitle = mat.getTitle();
-
-		// make sure there's room to add the date
-		String suffix = " (" + CmdGetTime.buildLocalizedDate(format, new Date(),
-				getApp().getLocalization()) + ")";
-		if (newTitle.length() + suffix.length() > 60) {
-			newTitle = newTitle.substring(0, 60 - suffix.length());
-		}
-
-		// put date on end so the filename is different for the fork
-		newTitle = newTitle + suffix;
-
-		final String newTitle2 = newTitle;
-
-		this.rename(newTitle2, mat, new Runnable() {
-
-			@Override
-			public void run() {
-				mat.setTitle(newTitle2);
-				mat.setId(0);
-				upload(mat);
-			}
-		});
-
-	}
 
 	protected abstract void showTooltip(Material mat);
 

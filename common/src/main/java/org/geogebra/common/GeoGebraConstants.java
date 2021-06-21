@@ -10,9 +10,9 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "09 March 2021";
+	public static final String BUILD_DATE = "15 June 2021";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.631.0";
+	public static final String VERSION_STRING = "5.0.648.0";
 
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
@@ -30,7 +30,28 @@ public interface GeoGebraConstants {
 		SCIENTIFIC,
 		SUITE,
 		MIXED_REALITY,
-		NOTES
+		NOTES;
+
+		public String getTransKey() {
+			switch (this) {
+			case GRAPHING:
+				return "GeoGebraGraphingCalculator";
+			case GRAPHING_3D:
+				return "GeoGebra3DGrapher";
+			case SCIENTIFIC:
+				return "GeoGebraScientificCalculator";
+			case CAS:
+				return "GeoGebraCASCalculator";
+			case GEOMETRY:
+				return "GeoGebraGeometry";
+			case NOTES:
+				return "GeoGebraNotes";
+			case SUITE:
+				return "GeoGebraCalculatorSuite";
+			default:
+				return null;
+			}
+		}
 	}
 
 	public enum Platform {
@@ -105,6 +126,8 @@ public interface GeoGebraConstants {
 		DEFAULT, EXAM
 	}
 
+	String SUITE_APPNAME = "GeoGebraCalculatorSuite";
+
 	String GRAPHING_APPCODE = "graphing";
 	String GEOMETRY_APPCODE = "geometry";
 	String G3D_APPCODE = "3d";
@@ -178,12 +201,6 @@ public interface GeoGebraConstants {
 
 	/** GeoGebra URL */
 	public final static String GEOGEBRA_WEBSITE = "https://www.geogebra.org/";
-	/** 4.2 desktop bug reports */
-	public final static String GEOGEBRA_REPORT_BUG_DESKTOP = "https://help.geogebra.org/bugs/?v=5.0";
-	/** web bug reports */
-	public final static String GEOGEBRA_REPORT_BUG_WEB = "https://help.geogebra.org/bugs/?v=web";
-	/** bug reports 8 */
-	public final static String GEOGEBRA_REPORT_BUG = "https://help.geogebra.org/bugs/";
 	/** GeoGebraTube beta URL, used when Feature.TUBE_BETA == true */
 	public final static String GEOGEBRA_WEBSITE_BETA = "https://beta.geogebra.org/";
 
@@ -248,7 +265,7 @@ public interface GeoGebraConstants {
 	public static final String USERINFO_PROFILE_SCOPE = "https://www.googleapis.com/auth/userinfo.profile";
 	public static final String API_USERINFO = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=";
 
-	public static final String FORUM_URL = "https://help.geogebra.org/";
+	public static final String FORUM_URL = "https://www.reddit.com/r/geogebra/";
 
 	public static final String EDIT_URL_BASE = "https://www.geogebra.org/material/edit/id/";
 

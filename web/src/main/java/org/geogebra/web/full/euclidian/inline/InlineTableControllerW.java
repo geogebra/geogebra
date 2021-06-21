@@ -97,6 +97,11 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
+	public GColor getBackgroundColor() {
+		return GColor.getGColor(tableImpl.getCellProperty("bgcolor"));
+	}
+
+	@Override
 	public String urlByCoordinate(int x, int y) {
 		return tableImpl.urlByCoordinate(x, y);
 	}
@@ -132,6 +137,15 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
+	public int getSelectedColumn() {
+		if (tableImpl.getSelection() == null) {
+			return 0;
+		}
+
+		return tableImpl.getSelection().col0;
+	}
+
+	@Override
 	public void draw(GGraphics2D g2, GAffineTransform transform) {
 		if (!isInEditMode()) {
 			g2.saveTransform();
@@ -152,6 +166,9 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void toBackground() {
 		if (style != null) {
+			if (isInEditMode()) {
+				table.unlockForMultiuser();
+			}
 			style.setVisibility(HIDDEN);
 			tableImpl.stopEditing();
 			tableImpl.removeSelection();
@@ -371,7 +388,11 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	private void updateSizes() {
-		table.setSize(tableImpl.getTotalWidth(), tableImpl.getTotalHeight());
+		double scaleX = table.getWidth() / table.getContentWidth();
+		double scaleY = table.getHeight() / table.getContentHeight();
+		table.setSize(tableImpl.getTotalWidth() * scaleX, tableImpl.getTotalHeight() * scaleY);
+		table.setContentHeight(tableImpl.getTotalHeight());
+		table.setContentWidth(tableImpl.getTotalWidth());
 		table.setMinWidth(tableImpl.getMinWidth());
 		table.setMinHeight(tableImpl.getMinHeight());
 		saveContent();
@@ -431,7 +452,7 @@ public class InlineTableControllerW implements InlineTableController {
 		}
 
 		table.setContent(content);
-		table.notifyUpdate();
+		table.updateCascade();
 		return true;
 	}
 
@@ -442,5 +463,11 @@ public class InlineTableControllerW implements InlineTableController {
 			tableImpl.repaint();
 			table.getKernel().notifyRepaint();
 		};
+	}
+
+	@Override
+	public void setScale(double sx, double sy) {
+		style.setProperty("transform", "scale(" + sx + "," + sy + ")");
+		tableImpl.setExternalScale(sx);
 	}
 }

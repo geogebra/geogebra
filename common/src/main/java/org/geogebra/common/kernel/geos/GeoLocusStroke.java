@@ -130,8 +130,7 @@ public class GeoLocusStroke extends GeoLocus
 		for (MyPoint pt : getPoints()) {
 			double x = pt.x;
 			double y = pt.y;
-			pt.x = a00 * x + a01 * y;
-			pt.y = a10 * x + a11 * y;
+			pt.setLocation(a00 * x + a01 * y, a10 * x + a11 * y);
 		}
 	}
 
@@ -142,8 +141,8 @@ public class GeoLocusStroke extends GeoLocus
 			double x = pt.x;
 			double y = pt.y;
 			double z = a20 * x + a21 * y + a22;
-			pt.x = (a00 * x + a01 * y + a02) / z;
-			pt.y = (a10 * x + a11 * y + a12) / z;
+			pt.setLocation((a00 * x + a01 * y + a02) / z,
+					(a10 * x + a11 * y + a12) / z);
 		}
 	}
 
@@ -153,16 +152,15 @@ public class GeoLocusStroke extends GeoLocus
 		double crval = 1 - rval;
 
 		for (MyPoint pt : getPoints()) {
-			pt.x = rval * pt.x + crval * S.getX();
-			pt.y = rval * pt.y + crval * S.getY();
+			pt.setLocation(rval * pt.x + crval * S.getX(),
+					rval * pt.y + crval * S.getY());
 		}
 	}
 
 	@Override
 	public void mirror(Coords Q) {
 		for (MyPoint pt : getPoints()) {
-			pt.x = 2 * Q.getX() - pt.x;
-			pt.y = 2 * Q.getY() - pt.y;
+			pt.setLocation(2 * Q.getX() - pt.x, 2 * Q.getY() - pt.y);
 		}
 	}
 
@@ -192,16 +190,11 @@ public class GeoLocusStroke extends GeoLocus
 
 		for (MyPoint pt : getPoints()) {
 			// translate -Q
-			pt.x -= qx;
-			pt.y -= qy;
-
-			double x0 = pt.x * cos + pt.y * sin;
-			pt.y = pt.x * sin - pt.y * cos;
-			pt.x = x0;
-
-			// translate back +Q
-			pt.x += qx;
-			pt.y += qy;
+			double x = pt.x - qx;
+			double y = pt.y - qy;
+			// mirror and translate Q
+			pt.setLocation(x * cos + y * sin + qx,
+					x * sin - y * cos + qy);
 		}
 	}
 
@@ -220,8 +213,8 @@ public class GeoLocusStroke extends GeoLocus
 			double x = pt.x;
 			double y = pt.y;
 
-			pt.x = (x - qx) * cos + (qy - y) * sin + qx;
-			pt.y = (x - qx) * sin + (y - qy) * cos + qy;
+			pt.setLocation((x - qx) * cos + (qy - y) * sin + qx,
+					(x - qx) * sin + (y - qy) * cos + qy);
 		}
 		resetXMLPointBuilder();
 	}
@@ -236,8 +229,7 @@ public class GeoLocusStroke extends GeoLocus
 			double x = pt.x;
 			double y = pt.y;
 
-			pt.x = x * cos - y * sin;
-			pt.y = x * sin + y * cos;
+			pt.setLocation(x * cos - y * sin, x * sin + y * cos);
 		}
 		resetXMLPointBuilder();
 	}
@@ -250,8 +242,7 @@ public class GeoLocusStroke extends GeoLocus
 	@Override
 	public void translate(Coords v) {
 		for (MyPoint pt : getPoints()) {
-			pt.x += v.getX();
-			pt.y += v.getY();
+			pt.setLocation(pt.x + v.getX(), pt.y + v.getY());
 		}
 
 		resetXMLPointBuilder();

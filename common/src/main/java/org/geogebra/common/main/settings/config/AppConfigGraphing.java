@@ -55,7 +55,6 @@ public class AppConfigGraphing extends AbstractAppConfig {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {
 			dp.setLocation("3");
 		} else if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
-			dp.makeVisible();
 			dp.setLocation("1");
 		}
 	}
@@ -345,6 +344,11 @@ public class AppConfigGraphing extends AbstractAppConfig {
 
 	@Override
 	public boolean hasLabelForDescription() {
+		return true;
+	}
+
+	@Override
+	public boolean hasEuclidianView() {
 		return true;
 	}
 }

@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -21,17 +22,20 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 import org.gwtproject.timer.client.Timer;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.DomGlobal;
 
 /**
  * View for representation of geo elements as hidden DOM controls
  */
 public class AccessibilityView implements View {
-	private BaseWidgetFactory sliderFactory;
-	private FlowPanel controls;
-	private Map<GeoElement, AccessibleWidget> widgets;
-	private AppW app;
+	private final BaseWidgetFactory sliderFactory;
+	private final FlowPanel controls;
+	private final Map<GeoElement, AccessibleWidget> widgets;
+	private final AppW app;
 	private AccessibleGraphicsView graphicsView3D;
 
 	/**
@@ -43,7 +47,6 @@ public class AccessibilityView implements View {
 	public AccessibilityView(final AppW app, BaseWidgetFactory sliderFactory) {
 		this.app = app;
 		this.controls = sliderFactory.newPanel();
-		controls.addStyleName("accessibilityView");
 		this.sliderFactory = sliderFactory;
 		widgets = new HashMap<>();
 		app.getKernel().attach(this);
@@ -87,7 +90,9 @@ public class AccessibilityView implements View {
 		} else if (geo instanceof GeoPointND) {
 			control = new AccessiblePoint((GeoPointND) geo, sliderFactory, this);
 		} else if (geo instanceof GeoInputBox) {
-			control = new AccessibleInputBox((GeoInputBox) geo, app, this);
+			control = new AccessibleInputBox((GeoInputBox) geo, app);
+		} else if (geo instanceof GeoList && ((GeoList) geo).drawAsComboBox()) {
+			control = new AccessibleDropDown((GeoList) geo, app, this);
 		} else  {
 			control = new AccessibleGeoElement(geo, app, this, sliderFactory);
 		}
@@ -133,6 +138,7 @@ public class AccessibilityView implements View {
 			position = findLastControlOf(prevWidget);
 		}
 		for (Widget control : widget.getWidgets()) {
+			control.addStyleName("accessibilityControl");
 			controls.insert(control, position + 1);
 			position++;
 		}
@@ -169,7 +175,13 @@ public class AccessibilityView implements View {
 		} else if (!widgets.containsKey(geo)) {
 			add(geo);
 		} else {
-			widgets.get(geo).update();
+			AccessibleWidget widget = widgets.get(geo);
+			if (widget.isCompatible(geo)) {
+				widget.update();
+			} else {
+				remove(geo);
+				add(geo);
+			}
 		}
 	}
 
@@ -276,11 +288,23 @@ public class AccessibilityView implements View {
 	 * @param unit  unit
 	 */
 	public void updateValueText(SliderW range, double value, String unit) {
-		range.getElement().setAttribute("aria-valuetext",
+		Element el = range.getElement();
+		String label = el.getAttribute("aria-label");
+		el.removeAttribute("aria-label");
+		el.setAttribute("aria-valuetext",
 				app.getKernel().format(value, StringTemplate.screenReader) + " " + unit);
+		DomGlobal.setTimeout(ignore -> el.setAttribute("aria-label", label),
+				1000);
 	}
 
-	public void show() {
-		controls.removeStyleName("accessibilityView");
+	/**
+	 * Close all dropdowns
+	 */
+	public void closeAllDropdowns() {
+		for (AccessibleWidget widget: widgets.values()) {
+			if (widget instanceof AccessibleDropDown) {
+				((AccessibleDropDown) widget).close();
+			}
+		}
 	}
 }

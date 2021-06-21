@@ -22,7 +22,7 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	public void imaginaryUnitShouldOverrideUserDefinedVarForPoints() {
 		add("z_1 = 3 + 2i");
 		add("i = 7");
-		shouldBeUpdatedAs("2i", "2" + IMAGINARY_UNIT);
+		shouldBeUpdatedAs("2i", "2 " + IMAGINARY_UNIT);
 		assertEquals("0 + 2i",
 				lookup("z_1").toValueString(StringTemplate.latexTemplate));
 	}
@@ -31,7 +31,7 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	public void userDefinedVarShouldOverrideImaginaryUnitForNumbers() {
 		add("i = 7");
 		add("z_1 = 3 + 2i");
-		shouldBeUpdatedAs("2i", "2" + IMAGINARY_UNIT);
+		shouldBeUpdatedAs("2i", "2 " + IMAGINARY_UNIT);
 		assertEquals("14",
 				lookup("z_1").toValueString(StringTemplate.latexTemplate));
 	}
@@ -39,7 +39,7 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	@Test
 	public void rootOfMinusOneShouldBeUsedInExpression() {
 		add("z_1 = 1 + 6i");
-		shouldBeUpdatedAs("2 + 3sqrt(-1)", "2 + 3" + IMAGINARY_UNIT);
+		shouldBeUpdatedAs("2 + 3sqrt(-1)", "2+3 " + IMAGINARY_UNIT);
 	}
 
 	@Test
@@ -51,7 +51,7 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	private void shouldBeUpdatedAs(String updatedText, String expected) {
 		GeoInputBox inputBox = addAvInput("ib = InputBox(z_1)");
 		inputBox.updateLinkedGeo(updatedText);
-		assertEquals(expected, inputBox.getText());
+		assertEquals(expected, inputBox.getTextForEditor());
 	}
 
 	@Test

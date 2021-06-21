@@ -177,6 +177,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		InlineFormattingItems textitems = addInlineTextItems(geos);
 		textitems.addFormatItems();
 		textitems.addTableItemsIfNeeded();
+		textitems.addChartItem();
 		addLayerItem(geos);
 	}
 
@@ -193,6 +194,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		} else if (app.isWhiteboardActive()) {
 			InlineFormattingItems textItems = addInlineTextItems(getGeos());
 			textItems.addFormatItems();
+			textItems.addChartItem();
 			if (!textItems.isEditModeTable() || textItems.isSingleTableCellSelection()) {
 				addCutCopyPaste();
 			}
@@ -304,7 +306,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	private void addAnimationItem() {
 		if (getGeo().isAnimatable()) {
-			ResourcePrototype img = GuiResourcesSimple.INSTANCE.play_black();
+			ResourcePrototype img = GuiResourcesSimple.INSTANCE.play_circle();
 
 			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
 					MainMenu.getMenuBarHtml(img, loc.getMenu("Animation")),

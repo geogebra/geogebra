@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Objects;
 
 import org.geogebra.common.euclidian.EmbedManager;
@@ -39,6 +40,7 @@ public abstract class UndoManager {
 	private ListIterator<UndoCommand> iterator;
 	private boolean storeUndoInfoNeededForProperties = false;
 	private List<UndoInfoStoredListener> undoInfoStoredListeners;
+	private ArrayList<UndoPossibleListener> mListener = new ArrayList<>();
 	private final List<ActionExecutor> executors = new ArrayList<>();
 
 	/**
@@ -193,12 +195,23 @@ public abstract class UndoManager {
 	/**
 	 * Update undo/redo buttons in GUI
 	 */
+	protected void onStoreUndo() {
+		updateUndoActions();
+		// debugStates();
+		notifyStoreUndoListeners();
+	}
+
 	protected void updateUndoActions() {
 		app.updateActions();
-		// debugStates();
+		informListener();
+	}
 
-		for (UndoInfoStoredListener listener: undoInfoStoredListeners) {
-			listener.onUndoInfoStored();
+	protected void notifyStoreUndoListeners() {
+		// first item in undo history is just "blank", do not notify
+		if (undoInfoList.size() > 1) {
+			for (UndoInfoStoredListener listener : undoInfoStoredListeners) {
+				listener.onUndoInfoStored();
+			}
 		}
 	}
 
@@ -229,7 +242,7 @@ public abstract class UndoManager {
 		if (iterator != null) {
 			loadUndoInfo(iterator.previous().getAppState(), null);
 			iterator.next();
-			updateUndoActions();
+			onStoreUndo();
 		}
 		app.getSelectionManager().recallSelectedGeosNames(app.getKernel());
 	}
@@ -444,7 +457,7 @@ public abstract class UndoManager {
 	public void storeActionWithSlideId(EventType action, String slideID, String[] args) {
 		iterator.add(new UndoCommand(action, slideID, args));
 		this.pruneStateList();
-		updateUndoActions();
+		onStoreUndo();
 	}
 
 	/**
@@ -525,6 +538,9 @@ public abstract class UndoManager {
 		run.run();
 	}
 
+	/**
+	 * Reset before reloading
+	 */
 	public void resetBeforeReload() {
 		app.getSelectionManager().storeSelectedGeosNames();
 		app.getCompanion().storeViewCreators();
@@ -542,10 +558,71 @@ public abstract class UndoManager {
 		app.getActiveEuclidianView().resetInlineObjects();
 	}
 
+	/**
+	 * Restore state after reload
+	 */
 	public void restoreAfterReload() {
 		app.getKernel().notifyReset();
 		app.getCompanion().recallViewCreators();
 		app.getSelectionManager().recallSelectedGeosNames(app.getKernel());
 		app.getActiveEuclidianView().restoreDynamicStylebar();
+	}
+
+	/**
+	 * Save the whole undo list to a map.
+	 * @param undoHistory to save to.
+	 */
+	public void undoHistoryTo(Map<String, UndoHistory> undoHistory) {
+		LinkedList<UndoCommand> undoCommands = new LinkedList<>();
+		for (UndoCommand undoCommand: undoInfoList) {
+			undoCommands.add(new UndoCommand(undoCommand));
+		}
+		undoHistory.put(app.getConfig().getSubAppCode(),
+				new UndoHistory(undoCommands, iterator.nextIndex()));
+		clearUndoInfo();
+	}
+
+	/**
+	 * Reload undo list from map.
+	 * @param undoHistory to reload from.
+	 */
+	public void undoHistoryFrom(Map<String, UndoHistory> undoHistory) {
+		String subAppCode = app.getConfig().getSubAppCode();
+		if (!undoHistory.containsKey(subAppCode)) {
+			return;
+		}
+
+		clearUndoInfo();
+		UndoHistory history = undoHistory.get(subAppCode);
+		undoInfoList.addAll(history.commands());
+		iterator = undoInfoList.listIterator(history.iteratorIndex());
+		updateUndoActions();
+	}
+
+	/**
+	 * @param undoPossibleListener
+	 *            undo listener
+	 */
+	public void addUndoListener(UndoPossibleListener undoPossibleListener) {
+		mListener.add(undoPossibleListener);
+	}
+
+	/**
+	 *
+	 * @param undoPossibleListener
+	 * 			  undo listener
+	 */
+	public void removeUndoListener(UndoPossibleListener undoPossibleListener) {
+		mListener.remove(undoPossibleListener);
+	}
+
+	/**
+	 * inform listener that undo - action happened
+	 */
+	protected void informListener() {
+		for (UndoPossibleListener listener : mListener) {
+			listener.undoPossible(undoPossible());
+			listener.redoPossible(redoPossible());
+		}
 	}
 }

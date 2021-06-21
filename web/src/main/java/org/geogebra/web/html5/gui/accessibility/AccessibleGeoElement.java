@@ -7,6 +7,8 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ScreenReader;
@@ -14,8 +16,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -47,22 +47,23 @@ public class AccessibleGeoElement implements AccessibleWidget {
 		this.label = factory.newLabel();
 		this.button = factory.newButton();
 		update();
-		button.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				view.select(geo);
-				app.handleSpaceKey();
-				setFocus(true);
-			}
+		button.addClickHandler(event -> {
+			view.select(geo);
+			app.handleSpaceKey();
+			setFocus(true);
 		});
 	}
 
 	@Override
 	public void update() {
 		button.setText(getAction(geo));
-		label.setText(geo.getAuralText(new ScreenReaderBuilder(Browser.isMobile())));
+		label.setText(geo.getAuralText(getBuilder()));
 		activeWidget = geo.getScript(EventType.CLICK) == null ? label : button;
+	}
+
+	private ScreenReaderBuilder getBuilder() {
+		return new ScreenReaderBuilder(geo.getKernel().getLocalization(),
+				Browser.isMobile());
 	}
 
 	@Override
@@ -77,6 +78,13 @@ public class AccessibleGeoElement implements AccessibleWidget {
 		}
 	}
 
+	@Override
+	public boolean isCompatible(GeoElement geo) {
+		// slider and dropdown may change type without redefinition: check here
+		return !(geo instanceof GeoList && ((GeoList) geo).drawAsComboBox())
+				&& !(geo instanceof GeoNumeric && ((GeoNumeric) geo).isSlider());
+	}
+
 	/**
 	 * @param sel
 	 *            selected element associated with the action
@@ -87,7 +95,7 @@ public class AccessibleGeoElement implements AccessibleWidget {
 			return sel.getCaption(StringTemplate.screenReader);
 		}
 		if (sel != null && sel.getScript(EventType.CLICK) != null) {
-			return ScreenReader.getAuralText(sel, new ScreenReaderBuilder(Browser.isMobile()));
+			return ScreenReader.getAuralText(sel, getBuilder());
 		}
 
 		return null;

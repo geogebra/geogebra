@@ -19,6 +19,10 @@ public class GeoFormula extends GeoInline {
 	private static final Parser parser = new Parser(new MetaModel());
 	private static final TeXSerializer texSerializer = new TeXSerializer();
 
+	static {
+		texSerializer.setPlaceholderEnabled(false);
+	}
+
 	private boolean defined = true;
 	private String formula;
 
@@ -36,6 +40,8 @@ public class GeoFormula extends GeoInline {
 	public GeoFormula(Construction c, GPoint2D location) {
 		super(c);
 		setLocation(location);
+		setContentWidth(DEFAULT_WIDTH);
+		setContentHeight(DEFAULT_HEIGHT);
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 
@@ -105,7 +111,9 @@ public class GeoFormula extends GeoInline {
 		this.minWidth = minWidth;
 	}
 
+	@Override
 	public void setMinHeight(double minHeight) {
 		this.minHeight = minHeight;
 	}
+
 }
