@@ -81,8 +81,8 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
-import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -361,7 +361,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	protected boolean showMenuBar = true;
 	protected String uniqueId;
-	private ArrayList<Perspective> tmpPerspectives = new ArrayList<>();
+	private Perspective tmpPerspective = null;
 	/**
 	 * whether toolbar should be visible
 	 */
@@ -2053,8 +2053,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// TODO Auto-generated method stub
 	}
 
-	public ArrayList<Perspective> getTmpPerspectives() {
-		return tmpPerspectives;
+	public Perspective getTmpPerspective() {
+		return tmpPerspective;
 	}
 
 	/**
@@ -2064,8 +2064,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param perspectives
 	 *            array of perspetctives in the document
 	 */
-	public void setTmpPerspectives(ArrayList<Perspective> perspectives) {
-		tmpPerspectives = perspectives;
+	public void setTmpPerspective(Perspective perspectives) {
+		tmpPerspective = perspectives;
 	}
 
 	/**
@@ -4903,15 +4903,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return perspective called "tmp" or given fallback
 	 */
 	public Perspective getTmpPerspective(Perspective fallback) {
-		if (tmpPerspectives == null) {
-			return fallback;
-		}
-		for (Perspective perspective : tmpPerspectives) {
-			if (perspective.getId().equals("tmp")) {
-				return perspective;
-			}
-		}
-		return fallback;
+		return tmpPerspective == null ? fallback : tmpPerspective;
 	}
 
 	/**
@@ -5202,7 +5194,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return an implementation of the text controller.
 	 */
 	public InlineTextController createInlineTextController(EuclidianView view,
-		   GeoInlineText geo) {
+		   GeoInline geo) {
 		return null;
 	}
 
@@ -5265,10 +5257,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			setActiveView(App.VIEW_EUCLIDIAN);
 			getXMLio().processXMLString(xml, clearAll, false);
 		} catch (MyError err) {
-			err.printStackTrace();
+			Log.debug(err);
 			showError(err);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			showError(Errors.LoadFileFailed);
 		}
 	}

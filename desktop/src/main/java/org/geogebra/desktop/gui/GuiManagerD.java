@@ -2487,7 +2487,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public void updateGUIafterLoadFile(boolean success, boolean isMacroFile) {
 		if (success && !isMacroFile
 				&& !getApp().getSettings().getLayout().isIgnoringDocumentLayout()) {
-			getLayout().setPerspectives(getApp().getTmpPerspectives(), null);
+			getLayout().setPerspectiveOrDefault(getApp().getTmpPerspective());
 			SwingUtilities
 					.updateComponentTreeUI(getLayout().getRootComponent());
 			if (!getApp().isIniting()) {

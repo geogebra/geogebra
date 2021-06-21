@@ -2726,10 +2726,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * @param perspID
-	 *            perspective id
+	 * @param perspective
+	 *            perspective
 	 */
-	public void showStartTooltip(int perspID) {
+	public void showStartTooltip(Perspective perspective) {
 		// probably needed in full version only
 	}
 
@@ -2996,10 +2996,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * @param index
-	 *            perspective ID
+	 * @param perspective
+	 *            perspective
 	 */
-	public void setActivePerspective(int index) {
+	public void setActivePerspective(Perspective perspective) {
 		// only for GUI
 	}
 

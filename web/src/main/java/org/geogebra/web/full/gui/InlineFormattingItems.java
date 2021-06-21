@@ -11,7 +11,6 @@ import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
-import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -69,7 +68,7 @@ public class InlineFormattingItems {
 
 	private boolean allGeosHaveFormats() {
 		for (GeoElement geo : geos) {
-			if (!(geo instanceof GeoInlineText) && !(geo instanceof GeoInlineTable)) {
+			if (!(geo instanceof HasTextFormatter)) {
 				return false;
 			}
 		}
@@ -225,7 +224,7 @@ public class InlineFormattingItems {
 
 	void addTableItems() {
 		final GeoInlineTable table = (GeoInlineTable) geos.get(0);
-		final InlineTableController controller = table.getFormatter();
+		final InlineTableController controller = (InlineTableController) table.getFormatter();
 
 		addItem("ContextMenu.insertRowAbove", controller::insertRowAbove);
 		addItem("ContextMenu.insertRowBelow", controller::insertRowBelow);

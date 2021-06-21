@@ -180,6 +180,8 @@ public enum GeoClass {
 	/** Inline editable table */
 	TABLE("Table", 150, false),
 
+	MIND_MAP("MindMap", 150, false),
+
 	PIECHART("PieChart", 80, false);
 
 	/**
