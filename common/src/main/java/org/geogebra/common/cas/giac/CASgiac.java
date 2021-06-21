@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -489,6 +490,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	public long timeoutMillis = 5000;
 	final private static String EVALFA = "evalfa(";
 	private StringBuilder expSB = new StringBuilder(EVALFA);
+	private MaxSizeHashMap<String, String> casGiacCache = new MaxSizeHashMap<>(Kernel.GEOGEBRA_CAS_CACHE_SIZE);
 
 	// eg {(ggbtmpvarx>(-sqrt(110)/5)) && ((sqrt(110)/5)>ggbtmpvarx)}
 	// eg {(ggbtmpvarx>=(-sqrt(110)/5)) && ((sqrt(110)/5)>=ggbtmpvarx)}
@@ -554,6 +556,10 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		Log.debug("input = " + input);
 
+		if (casGiacCache.containsKey(input)) {
+			return casGiacCache.get(input);
+		}
+
 		String result = evaluate(exp, getTimeoutMilliseconds());
 
 		// FIXME: This check is too heuristic: in giac.js we can get results
@@ -568,6 +574,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		}
 
 		Log.debug("result = " + result);
+
+		casGiacCache.put(input, result);
 
 		return result;
 	}
