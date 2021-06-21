@@ -281,6 +281,8 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	INTERVAL_RIGHT("/gui/images/64px/interval-right.png"),
 
+	INTERVAL_TWO_TAILED("/gui/images/64px/interval-two-tailed.png"),
+
 	INTERVAL_BETWEEN("/gui/images/64px/interval-between.png"),
 
 	VIEW_UNWINDOW("/gui/images/64px/view_unwindow.png"),

@@ -18,23 +18,21 @@ import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.algos.AlgoDependentPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
-import org.geogebra.common.kernel.algos.AlgoListElement;
+import org.geogebra.common.kernel.algos.AlgoListLength;
 import org.geogebra.common.kernel.algos.AlgoMax;
 import org.geogebra.common.kernel.algos.AlgoMin;
-import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.algos.AlgoRayPointVector;
-import org.geogebra.common.kernel.algos.AlgoSequence;
 import org.geogebra.common.kernel.algos.AlgoStepGraph;
 import org.geogebra.common.kernel.algos.AlgoStickGraph;
 import org.geogebra.common.kernel.algos.AlgoTake;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.geos.GProperty;
-import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -46,21 +44,15 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.statistics.AlgoBinomialDist;
 import org.geogebra.common.kernel.statistics.AlgoCauchyDF;
 import org.geogebra.common.kernel.statistics.AlgoChiSquaredDF;
 import org.geogebra.common.kernel.statistics.AlgoDistributionDF;
 import org.geogebra.common.kernel.statistics.AlgoExponentialDF;
 import org.geogebra.common.kernel.statistics.AlgoFDistributionDF;
 import org.geogebra.common.kernel.statistics.AlgoGammaDF;
-import org.geogebra.common.kernel.statistics.AlgoHyperGeometric;
-import org.geogebra.common.kernel.statistics.AlgoInversePascal;
-import org.geogebra.common.kernel.statistics.AlgoInversePoisson;
 import org.geogebra.common.kernel.statistics.AlgoLogNormalDF;
 import org.geogebra.common.kernel.statistics.AlgoLogisticDF;
 import org.geogebra.common.kernel.statistics.AlgoNormalDF;
-import org.geogebra.common.kernel.statistics.AlgoPascal;
-import org.geogebra.common.kernel.statistics.AlgoPoisson;
 import org.geogebra.common.kernel.statistics.AlgoTDistributionDF;
 import org.geogebra.common.kernel.statistics.AlgoWeibullDF;
 import org.geogebra.common.main.App;
@@ -85,6 +77,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public abstract class ProbabilityCalculatorView
 		implements View, SettingListener, SetLabels {
 
+	private final DiscreteDistributionFactory discreteDistributionFactory;
 	/**
 	 * Application
 	 */
@@ -106,7 +99,7 @@ public abstract class ProbabilityCalculatorView
 
 	private static final GColor COLOR_PDF_FILL = GColor.BLUE;
 
-	private static final GColor COLOR_POINT = GColor.BLACK;
+	static final GColor COLOR_POINT = GColor.BLACK;
 
 	private EuclidianView plotPanel;
 
@@ -133,8 +126,7 @@ public abstract class ProbabilityCalculatorView
 
 	// GeoElements
 	protected ArrayList<GeoElementND> plotGeoList;
-	protected GeoPoint lowPoint;
-	protected GeoPoint highPoint;
+	private final ProbabilityXAxis xAxis;
 	protected GeoPoint curvePoint;
 	protected GeoElement densityCurve;
 	protected GeoElement integral;
@@ -147,7 +139,6 @@ public abstract class ProbabilityCalculatorView
 	protected GeoList discreteProbList;
 	protected GeoList intervalProbList;
 	protected GeoList intervalValueList;
-	// private GeoList parmList;
 	protected ArrayList<GeoElement> pointList;
 
 	// initing
@@ -158,6 +149,7 @@ public abstract class ProbabilityCalculatorView
 	public static final int PROB_INTERVAL = 0;
 	public static final int PROB_LEFT = 1;
 	public static final int PROB_RIGHT = 2;
+	public static final int PROB_TWO_TAILED = 3;
 	protected int probMode = PROB_INTERVAL;
 
 	// interval values
@@ -166,6 +158,8 @@ public abstract class ProbabilityCalculatorView
 
 	// current probability result
 	protected double probability;
+	protected double leftProbability;
+	protected double rightProbability;
 
 	// rounding
 	protected int printDecimals = 4;
@@ -199,6 +193,9 @@ public abstract class ProbabilityCalculatorView
 	protected ProbabilityManager probManager;
 	protected GeoFunction pdfCurve;
 	private TreeSet<AlgoElement> tempSet;
+	private GeoElement integralLeft;
+	private GeoElement integralRight;
+	private DiscreteTwoTailedGraph discreteTwoTailedGraph;
 
 	/**
 	 * @param app
@@ -219,6 +216,8 @@ public abstract class ProbabilityCalculatorView
 		probManager = new ProbabilityManager(app, this);
 		plotSettings = new PlotSettings();
 		plotGeoList = new ArrayList<>();
+		xAxis = new ProbabilityXAxis(app);
+		discreteDistributionFactory = new DiscreteDistributionFactory(cons);
 		updateRoundingFlags();
 	}
 
@@ -234,7 +233,7 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * Returns the maximum value in the discrete value list.
-	 * 
+	 *
 	 * @return maximum value in the discrete value list.
 	 */
 	public int getDiscreteXMax() {
@@ -248,7 +247,7 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * Returns the minimum value in the discrete value list.
-	 * 
+	 *
 	 * @return minimum value in the discrete value list.
 	 */
 	public int getDiscreteXMin() {
@@ -407,350 +406,419 @@ public abstract class ProbabilityCalculatorView
 	 * type and parameters.
 	 */
 	protected void createGeoElements() {
-		this.removeGeos();
+		removeGeos();
+		createXAxisPoints();
+		createDistribution();
+		if (showNormalOverlay) {
+			createOverlay();
+		}
+ 		hideAllGeosFromViews();
+		hideToolTips();
+	}
 
-		// create low point
-		GeoAxis path = (GeoAxis) kernel.lookupLabel(loc.getMenu("xAxis"));
-		AlgoPointOnPath algoLow = new AlgoPointOnPath(cons, path, 0d, 0d);
-		cons.removeFromConstructionList(algoLow);
-
-		lowPoint = (GeoPoint) algoLow.getOutput(0);
-		lowPoint.setObjColor(COLOR_POINT);
-		lowPoint.setPointSize(4);
-		lowPoint.setPointStyle(
-				EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH);
-		lowPoint.setLayer(5);
-		plotGeoList.add(lowPoint);
-
-		// create high point
-
-		AlgoPointOnPath algoHigh = new AlgoPointOnPath(cons, path, 0d, 0d);
-		cons.removeFromConstructionList(algoHigh);
-
-		highPoint = (GeoPoint) algoHigh.getOutput(0);
-
-		highPoint.setObjColor(COLOR_POINT);
-		highPoint.setPointSize(4);
-		highPoint.setPointStyle(
-				EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH);
-		highPoint.setLayer(5);
-		plotGeoList.add(highPoint);
-
-		pointList = new ArrayList<>();
-		pointList.add(lowPoint);
-		pointList.add(highPoint);
-
-		// Set the axis points so they are not equal. This needs to be done
-		// before the integral geo is created.
-		setXAxisPoints();
-
+	private void createDistribution() {
 		if (probManager.isDiscrete(selectedDist)) {
+			createDiscreteDistribution();
+		} else {
+			createContinuousDistribution();
+		}
+	}
 
-			// discrete distribution
-			// ====================================================
+	private void createXAxisPoints() {
+		pointList = new ArrayList<>();
+		xAxis.addToList(pointList);
+		setXAxisPoints();
+		plotGeoList.add(xAxis.lowPoint());
+		plotGeoList.add(xAxis.highPoint());
+	}
 
-			// create discrete bar graph and associated lists
-			createDiscreteLists();
+	private void createContinuousDistribution() {
+		createDensityCurve();
+		if (hasIntegral) {
+			createIntegral();
+		}
 
-			// create discrete graph
-			// ============================
+		if (isCumulative) {
+			createCumulativeSegments();
+		}
+	}
 
-			if (graphType == GRAPH_STEP) {
+	private void createCumulativeSegments() {
+		// point on curve
+		GeoFunction f = (GeoFunction) densityCurve;
+		ExpressionNode highPointX = new ExpressionNode(kernel,
+				xAxis.highPoint(), Operation.XCOORD, null);
+		ExpressionNode curveY = new ExpressionNode(kernel, f,
+				Operation.FUNCTION, highPointX);
 
-				GeoBoolean t = new GeoBoolean(cons);
-				t.setValue(true);
+		MyVecNode curveVec = new MyVecNode(kernel, highPointX, curveY);
+		ExpressionNode curvePointNode = new ExpressionNode(kernel,
+				curveVec, Operation.NO_OPERATION, null);
+		curvePointNode.setForcePoint();
 
-				AlgoStepGraph algoStepGraph = new AlgoStepGraph(cons,
-						discreteValueList, discreteProbList, t);
+		AlgoDependentPoint pAlgo = new AlgoDependentPoint(cons,
+				curvePointNode, false);
+		cons.removeFromConstructionList(pAlgo);
 
-				cons.removeFromConstructionList(algoStepGraph);
-				discreteGraph = algoStepGraph.getOutput(0);
+		curvePoint = (GeoPoint) pAlgo.getOutput(0);
+		curvePoint.setObjColor(COLOR_POINT);
+		curvePoint.setPointSize(4);
+		curvePoint.setLayer(f.getLayer() + 1);
+		curvePoint.setSelectionAllowed(false);
+		plotGeoList.add(curvePoint);
 
-			} else {
-				AlgoBarChart algoBarChart;
-				if (graphType == GRAPH_LINE) {
-					GeoNumberValue zeroWidth = new GeoNumeric(cons, 0);
-					algoBarChart = new AlgoBarChart(cons, discreteValueList,
-							discreteProbList, zeroWidth);
-				} else {
-					GeoNumberValue oneWidth = new GeoNumeric(cons, 1);
-					algoBarChart = new AlgoBarChart(cons, discreteValueList,
-							discreteProbList, oneWidth);
-				}
-				cons.removeFromConstructionList(algoBarChart);
-				discreteGraph = algoBarChart.getOutput(0);
+		// create vertical line segment
+		ExpressionNode xcoord = new ExpressionNode(kernel, curvePoint,
+				Operation.XCOORD, null);
+		MyVecNode vec = new MyVecNode(kernel, xcoord,
+				new MyDouble(kernel, 0.0));
+		ExpressionNode point = new ExpressionNode(kernel, vec,
+				Operation.NO_OPERATION, null);
+		point.setForcePoint();
+		AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons,
+				point, false);
+		cons.removeFromConstructionList(pointAlgo);
 
-			}
+		AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons,
+				curvePoint, (GeoPoint) pointAlgo.getOutput(0), null,
+				false);
+		xSegment = seg1.getOutput(0);
+		xSegment.setObjColor(GColor.BLUE);
+		xSegment.setLineThickness(3);
+		xSegment.setLineType(
+				EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
+		xSegment.setEuclidianVisible(showProbGeos);
+		xSegment.setFixed(true);
+		xSegment.setSelectionAllowed(false);
+		plotGeoList.add(xSegment);
 
-			discreteGraph.setObjColor(colorPDF());
-			discreteGraph.setAlphaValue(opacityDiscrete);
-			discreteGraph.setLineThickness(thicknessBarChart);
-			discreteGraph.setLayer(1);
-			discreteGraph.setFixed(true);
-			discreteGraph.setSelectionAllowed(false);
-			discreteGraph.setEuclidianVisible(true);
-			plotGeoList.add(discreteGraph);
+		// create horizontal ray
+		ExpressionNode ycoord = new ExpressionNode(kernel, curvePoint,
+				Operation.YCOORD, null);
+		MyVecNode vecy = new MyVecNode(kernel,
+				new MyDouble(kernel, 0.0), ycoord);
+		ExpressionNode pointy = new ExpressionNode(kernel, vecy,
+				Operation.NO_OPERATION, null);
+		pointy.setForcePoint();
+		GeoVector v = new GeoVector(cons);
+		v.setCoords(-1d, 0d, 1d);
 
-			// ============================
-			// create lists for the discrete interval graph
+		AlgoRayPointVector seg2 = new AlgoRayPointVector(cons,
+				curvePoint, v);
+		cons.removeFromConstructionList(seg2);
+		ySegment = seg2.getOutput(0);
+		ySegment.setObjColor(GColor.RED);
+		ySegment.setLineThickness(3);
+		ySegment.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
+		ySegment.setEuclidianVisible(showProbGeos);
+		ySegment.setFixed(true);
+		ySegment.setSelectionAllowed(false);
+		plotGeoList.add(ySegment);
+	}
 
-			// Use Take[] to create a subset of the full discrete graph:
-			// Take[discreteList, x(lowPoint) + offset, x(highPoint) + offset]
-			//
-			// The offset accounts for Sequence[] starting its count at 1 and
-			// the starting value of the discrete x list. Thus,
-			// offset = 1 - lowest discrete x value
+	private void createDensityCurve() {
+		densityCurve = buildDensityCurveExpression(selectedDist,
+				isCumulative);
+		if (isCumulative && (selectedDist == Dist.F
+				|| selectedDist == Dist.EXPONENTIAL)) {
+			pdfCurve = buildDensityCurveExpression(selectedDist, false);
+			cons.removeFromConstructionList(pdfCurve);
+		}
+		densityCurve.setObjColor(colorPDF());
+		densityCurve.setLineThickness(thicknessCurve);
+		densityCurve.setFixed(true);
+		densityCurve.setSelectionAllowed(false);
+		densityCurve.setEuclidianVisible(true);
+		plotGeoList.add(densityCurve);
+	}
 
-			double firstX = ((GeoNumeric) discreteValueList.get(0)).getDouble();
-			MyDouble offset = new MyDouble(kernel, 1d - firstX + 0.5);
+	private void createOverlay() {
+		Double[] m = probManager.getDistributionMeasures(selectedDist,
+				parameters);
+		if (m[0] != null && m[1] != null) {
+			normalOverlay = createNormalCurveOverlay(m[0], m[1]);
+			plotGeoList.add(normalOverlay);
+		}
+	}
 
-			ExpressionNode low1 = new ExpressionNode(kernel, lowPoint,
-					Operation.XCOORD, null);
-			ExpressionNode high1 = new ExpressionNode(kernel, highPoint,
-					Operation.XCOORD, null);
-			ExpressionNode lowPlusOffset = new ExpressionNode(kernel, low1,
-					Operation.PLUS, offset);
-			ExpressionNode highPlusOffset = new ExpressionNode(kernel, high1,
-					Operation.PLUS, offset);
+	private void createDiscreteDistribution() {
+		createDiscreteLists();
+		if (graphType == GRAPH_STEP) {
+			createStepChart();
+		} else {
+			createBarChart();
+		}
 
-			AlgoDependentNumber xLow;
-			AlgoElement xMin;
-			AlgoElement xMax;
-			AlgoDependentNumber xHigh = new AlgoDependentNumber(cons,
-					highPlusOffset, false);
-			cons.removeFromConstructionList(xHigh);
-			if (isCumulative) {
-				// for cumulative bar graphs we only show a single bar
-				xLow = new AlgoDependentNumber(cons, highPlusOffset, false);
-				xMin = xLow;
-				xMax = xLow;
-			} else {
-				xLow = new AlgoDependentNumber(cons, lowPlusOffset, false);
-				xMin = new AlgoMin(cons, xLow.getNumber(), xHigh.getNumber());
-				xMax = new AlgoMax(cons, xLow.getNumber(), xHigh.getNumber());
-			}
-			cons.removeFromConstructionList(xLow);
+		styleDiscreteGraph();
+		plotGeoList.add(discreteGraph);
 
-			AlgoTake take = new AlgoTake(cons, discreteValueList,
-					(GeoNumeric) xMin.getOutput(0),
-					(GeoNumeric) xMax.getOutput(0));
-			cons.removeFromConstructionList(take);
-			intervalValueList = (GeoList) take.getOutput(0);
+		// ============================
+		// create lists for the discrete interval graph
 
-			AlgoTake take2 = new AlgoTake(cons, discreteProbList,
-					(GeoNumeric) xMin.getOutput(0),
-					(GeoNumeric) xMax.getOutput(0));
-			cons.removeFromConstructionList(take2);
-			intervalProbList = (GeoList) take2.getOutput(0);
+		// Use Take[] to create a subset of the full discrete graph:
+		// Take[discreteList, x(lowPoint) + offset, x(highPoint) + offset]
+		//
+		// The offset accounts for Sequence[] starting its count at 1 and
+		// the starting value of the discrete x list. Thus,
+		// offset = 1 - lowest discrete x value
 
-			// ============================
-			// create the interval graph
+ 		double firstX = ((GeoNumeric) discreteValueList.get(0)).getDouble();
+		MyDouble offset = new MyDouble(kernel, 1d - firstX + 0.5);
 
-			if (isCumulative) {
-				GeoBoolean t = new GeoBoolean(cons);
-				t.setValue(true);
-				AlgoStickGraph algoStickGraph = new AlgoStickGraph(cons,
-						intervalValueList, intervalProbList, t);
-				cons.removeFromConstructionList(algoStickGraph);
-				discreteIntervalGraph = algoStickGraph.getOutput(0);
+		ExpressionNode low1 = xAxis.getLowExpression();
+		ExpressionNode high1 = xAxis.getHighExpression();
+		ExpressionNode lowPlusOffset = new ExpressionNode(kernel, low1,
+				Operation.PLUS, offset);
+		ExpressionNode highPlusOffset = new ExpressionNode(kernel, high1,
+				Operation.PLUS, offset);
 
-			}
+		GeoNumberValue xLow;
+		GeoNumberValue xMin;
+		GeoNumberValue xMax;
+		AlgoDependentNumber xHigh = new AlgoDependentNumber(cons,
+				highPlusOffset, false);
+		cons.removeFromConstructionList(xHigh);
+		if (isCumulative) {
+			// for cumulative bar graphs we only show a single bar
+			xLow = new AlgoDependentNumber(cons, highPlusOffset, false).getNumber();
+			xMin = xLow;
+			xMax = xLow;
+		} else {
+			xLow = new AlgoDependentNumber(cons, lowPlusOffset, false).getNumber();
+			xMin = new AlgoMin(cons, xLow, xHigh.getNumber()).getResult();
+			xMax = new AlgoMax(cons, xLow, xHigh.getNumber()).getResult();
+		}
 
-			else if (graphType == GRAPH_STEP) {
-				GeoBoolean t = new GeoBoolean(cons);
-				t.setValue(true);
-				AlgoStepGraph algoStepGraph2 = new AlgoStepGraph(cons,
-						intervalValueList, intervalProbList, t);
-				cons.removeFromConstructionList(algoStepGraph2);
-				discreteIntervalGraph = algoStepGraph2.getOutput(0);
+		if (isTwoTailedMode()) {
+			ExpressionNode xminPlusOne = new ExpressionNode(kernel,
+					xMin, Operation.PLUS, new MyDouble(kernel, 1));
+			ExpressionNode ex = new ExpressionNode(kernel,
+					new MyNumberPair(kernel,
+							new ExpressionNode(kernel,
+									xLow, Operation.EQUAL_BOOLEAN, xHigh.getNumber()),
+							xminPlusOne), Operation.IF_ELSE, xMax);
+			AlgoDependentNumber adn = new AlgoDependentNumber(kernel.getConstruction(),
+					ex, false);
 
-			} else {
-				AlgoBarChart barChart;
-				if (graphType == GRAPH_LINE) {
-					GeoNumberValue zeroWidth2 = new GeoNumeric(cons, 0d);
-					barChart = new AlgoBarChart(cons, intervalValueList,
-							intervalProbList, zeroWidth2);
-				} else {
-					GeoNumberValue oneWidth2 = new GeoNumeric(cons, 1);
-					barChart = new AlgoBarChart(cons, intervalValueList,
-							intervalProbList, oneWidth2);
-				}
-				discreteIntervalGraph = barChart.getOutput(0);
-				cons.removeFromConstructionList(barChart);
-			}
+			cons.removeFromConstructionList(adn);
+			createTwoTailedDiscreteGraph(xMin, adn.getNumber());
+		} else {
+			createSimpleDiscreteGraph(xMin, xMax);
+		}
+		createAxis();
+	}
 
-			if (isCumulative) {
-				discreteIntervalGraph.setObjColor(GColor.RED);
-				discreteIntervalGraph.setLineThickness(3);
-				discreteIntervalGraph
-						.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
-			} else if (graphType == GRAPH_LINE || graphType == GRAPH_STEP) {
-				discreteIntervalGraph.setObjColor(COLOR_PDF_FILL);
-				discreteIntervalGraph.setLineThickness(thicknessBarChart + 2);
-			} else {
-				discreteIntervalGraph.setObjColor(COLOR_PDF_FILL);
-				discreteIntervalGraph.setAlphaValue(opacityDiscreteInterval);
-				discreteIntervalGraph.setLineThickness(thicknessBarChart);
-			}
+	private void createSimpleDiscreteGraph(GeoNumberValue xMin, GeoNumberValue xMax) {
+		intervalValueList = takeSubList(discreteValueList, xMin, xMax);
+		intervalProbList = takeSubList(discreteProbList, xMin, xMax);
 
-			discreteIntervalGraph.setEuclidianVisible(showProbGeos);
-			discreteIntervalGraph.setLayer(discreteGraph.getLayer() + 1);
-			discreteIntervalGraph.setFixed(true);
-			discreteIntervalGraph.setSelectionAllowed(false);
-			discreteIntervalGraph.updateCascade();
-			plotGeoList.add(discreteIntervalGraph);
+		discreteIntervalGraph = createIntervalGraph(intervalValueList, intervalProbList);
+		plotGeoList.add(discreteIntervalGraph);
+		hideTwoTailedDiscreteGraph();
+	}
 
-			GeoLine axis = new GeoLine(cons);
-			axis.setCoords(0, 1, 0);
-			axis.setLayer(4);
-			axis.setObjColor(app.getEuclidianView1().getAxesColor());
-			axis.setLineThickness(discreteIntervalGraph.getLineThickness());
-			axis.setFixed(true);
-			axis.setSelectionAllowed(false);
-			axis.updateCascade();
-			plotGeoList.add(axis);
+	private void hideTwoTailedDiscreteGraph() {
+		if (discreteTwoTailedGraph == null) {
+			return;
+		}
+
+		discreteTwoTailedGraph.removeFrom(plotGeoList);
+	}
+
+	private void createTwoTailedDiscreteGraph(GeoNumberValue xMin,
+			GeoNumberValue xMax) {
+		GeoNumeric left = new GeoNumeric(cons, 1);
+		GeoNumberValue length = new AlgoListLength(cons, discreteValueList).getLength();
+		AlgoMin algoMin = new AlgoMin(cons, xMin, length);
+		cons.removeFromConstructionList(length.getParentAlgorithm());
+		cons.removeFromConstructionList(algoMin);
+
+		GeoList leftValues = takeSubList(discreteValueList, left, algoMin.getResult());
+		GeoList rightValues = takeSubList(discreteValueList, xMax, null);
+		GeoList leftProbs = takeSubList(discreteProbList, left, algoMin.getResult());
+		GeoList rightProbs = takeSubList(discreteProbList, xMax, null);
+		GeoElement discreteIntervalGraphLeft = createIntervalGraph(leftValues, leftProbs);
+		GeoElement discreteIntervalGraphRight = createIntervalGraph(rightValues, rightProbs);
+		discreteTwoTailedGraph =
+				new DiscreteTwoTailedGraph(discreteIntervalGraphLeft, discreteIntervalGraphRight);
+		discreteTwoTailedGraph.addTo(plotGeoList);
+		hideSimpleDiscreteGraph();
+	}
+
+	private void hideSimpleDiscreteGraph() {
+		if (discreteIntervalGraph == null) {
+			return;
+		}
+
+		plotGeoList.remove(discreteIntervalGraph);
+	}
+
+	private GeoElement createIntervalGraph(GeoList values, GeoList probabilities) {
+		GeoElement graph;
+		if (isCumulative) {
+			GeoBoolean t = new GeoBoolean(cons);
+			t.setValue(true);
+			AlgoStickGraph algoStickGraph = new AlgoStickGraph(cons, values, probabilities, t);
+			cons.removeFromConstructionList(algoStickGraph);
+			graph = algoStickGraph.getOutput(0);
+
+		}
+
+		else if (graphType == GRAPH_STEP) {
+			GeoBoolean t = new GeoBoolean(cons);
+			t.setValue(true);
+			AlgoStepGraph algoStepGraph2 = new AlgoStepGraph(cons, values, probabilities, t);
+			cons.removeFromConstructionList(algoStepGraph2);
+			graph = algoStepGraph2.getOutput(0);
 
 		} else {
-
-			// continuous distribution
-			// ====================================================
-
-			// create density curve
-			densityCurve = buildDensityCurveExpression(selectedDist,
-					isCumulative);
-			if (isCumulative && (selectedDist == Dist.F
-					|| selectedDist == Dist.EXPONENTIAL)) {
-				pdfCurve = buildDensityCurveExpression(selectedDist, false);
-				cons.removeFromConstructionList(pdfCurve);
+			AlgoBarChart barChart;
+			if (graphType == GRAPH_LINE) {
+				GeoNumberValue zeroWidth2 = new GeoNumeric(cons, 0d);
+				barChart = new AlgoBarChart(cons, values, probabilities, zeroWidth2);
+			} else {
+				GeoNumberValue oneWidth2 = new GeoNumeric(cons, 1);
+				barChart = new AlgoBarChart(cons, values, probabilities, oneWidth2);
 			}
-			densityCurve.setObjColor(colorPDF());
-			densityCurve.setLineThickness(thicknessCurve);
-			densityCurve.setFixed(true);
-			densityCurve.setSelectionAllowed(false);
-			densityCurve.setEuclidianVisible(true);
-			plotGeoList.add(densityCurve);
-
-			if (hasIntegral) {
-				GeoBoolean f = new GeoBoolean(cons);
-				f.setValue(false);
-
-				ExpressionNode low1 = new ExpressionNode(kernel, lowPoint,
-						Operation.XCOORD, null);
-				ExpressionNode high1 = new ExpressionNode(kernel, highPoint,
-						Operation.XCOORD, null);
-
-				AlgoDependentNumber xLow = new AlgoDependentNumber(cons, low1,
-						false);
-				cons.removeFromConstructionList(xLow);
-				AlgoDependentNumber xHigh = new AlgoDependentNumber(cons, high1,
-						false);
-				cons.removeFromConstructionList(xHigh);
-
-				AlgoIntegralDefinite algoIntegral = new AlgoIntegralDefinite(
-						cons, (GeoFunction) densityCurve,
-						(GeoNumberValue) xLow.getOutput(0),
-						(GeoNumberValue) xHigh.getOutput(0), f);
-				cons.removeFromConstructionList(algoIntegral);
-
-				integral = algoIntegral.getOutput(0);
-				integral.setObjColor(COLOR_PDF_FILL);
-				integral.setAlphaValue(opacityIntegral);
-				integral.setEuclidianVisible(showProbGeos);
-				// make sure doesn't interfere with dragging of point
-				integral.setSelectionAllowed(false);
-				plotGeoList.add(integral);
-			}
-
-			if (isCumulative) {
-
-				// point on curve
-				GeoFunction f = (GeoFunction) densityCurve;
-				ExpressionNode highPointX = new ExpressionNode(kernel,
-						highPoint, Operation.XCOORD, null);
-				ExpressionNode curveY = new ExpressionNode(kernel, f,
-						Operation.FUNCTION, highPointX);
-
-				MyVecNode curveVec = new MyVecNode(kernel, highPointX, curveY);
-				ExpressionNode curvePointNode = new ExpressionNode(kernel,
-						curveVec, Operation.NO_OPERATION, null);
-				curvePointNode.setForcePoint();
-
-				AlgoDependentPoint pAlgo = new AlgoDependentPoint(cons,
-						curvePointNode, false);
-				cons.removeFromConstructionList(pAlgo);
-
-				curvePoint = (GeoPoint) pAlgo.getOutput(0);
-				curvePoint.setObjColor(COLOR_POINT);
-				curvePoint.setPointSize(4);
-				curvePoint.setLayer(f.getLayer() + 1);
-				curvePoint.setSelectionAllowed(false);
-				plotGeoList.add(curvePoint);
-
-				// create vertical line segment
-				ExpressionNode xcoord = new ExpressionNode(kernel, curvePoint,
-						Operation.XCOORD, null);
-				MyVecNode vec = new MyVecNode(kernel, xcoord,
-						new MyDouble(kernel, 0.0));
-				ExpressionNode point = new ExpressionNode(kernel, vec,
-						Operation.NO_OPERATION, null);
-				point.setForcePoint();
-				AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons,
-						point, false);
-				cons.removeFromConstructionList(pointAlgo);
-
-				AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons,
-						curvePoint, (GeoPoint) pointAlgo.getOutput(0), null,
-						false);
-				// cons.removeFromConstructionList(seg1);
-				xSegment = seg1.getOutput(0);
-				xSegment.setObjColor(GColor.BLUE);
-				xSegment.setLineThickness(3);
-				xSegment.setLineType(
-						EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
-				xSegment.setEuclidianVisible(showProbGeos);
-				xSegment.setFixed(true);
-				xSegment.setSelectionAllowed(false);
-				plotGeoList.add(xSegment);
-
-				// create horizontal ray
-				ExpressionNode ycoord = new ExpressionNode(kernel, curvePoint,
-						Operation.YCOORD, null);
-				MyVecNode vecy = new MyVecNode(kernel,
-						new MyDouble(kernel, 0.0), ycoord);
-				ExpressionNode pointy = new ExpressionNode(kernel, vecy,
-						Operation.NO_OPERATION, null);
-				pointy.setForcePoint();
-				GeoVector v = new GeoVector(cons);
-				v.setCoords(-1d, 0d, 1d);
-
-				AlgoRayPointVector seg2 = new AlgoRayPointVector(cons,
-						curvePoint, v);
-				cons.removeFromConstructionList(seg2);
-				ySegment = seg2.getOutput(0);
-				ySegment.setObjColor(GColor.RED);
-				ySegment.setLineThickness(3);
-				ySegment.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
-				ySegment.setEuclidianVisible(showProbGeos);
-				ySegment.setFixed(true);
-				ySegment.setSelectionAllowed(false);
-				plotGeoList.add(ySegment);
-			}
-
+			graph = barChart.getOutput(0);
+			cons.removeFromConstructionList(barChart);
 		}
 
-		if (showNormalOverlay) {
-			Double[] m = probManager.getDistributionMeasures(selectedDist,
-					parameters);
-			if (m[0] != null && m[1] != null) {
-				normalOverlay = createNormalCurveOverlay(m[0], m[1]);
-				plotGeoList.add(normalOverlay);
-			}
+		if (isCumulative) {
+			graph.setObjColor(GColor.RED);
+			graph.setLineThickness(3);
+			graph
+					.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
+		} else if (graphType == GRAPH_LINE || graphType == GRAPH_STEP) {
+			graph.setObjColor(COLOR_PDF_FILL);
+			graph.setLineThickness(thicknessBarChart + 2);
+		} else {
+			graph.setObjColor(COLOR_PDF_FILL);
+			graph.setAlphaValue(opacityDiscreteInterval);
+			graph.setLineThickness(thicknessBarChart);
 		}
 
-		hideAllGeosFromViews();
-		// labelAllGeos();
-		hideToolTips();
+		graph.setEuclidianVisible(showProbGeos);
+		graph.setLayer(discreteGraph.getLayer() + 1);
+		graph.setFixed(true);
+		graph.setSelectionAllowed(false);
+		graph.updateCascade();
+		return graph;
+	}
 
+	protected GeoList takeSubList(GeoList list, GeoNumberValue min, GeoNumberValue max) {
+		AlgoTake take = new AlgoTake(cons, list, (GeoNumeric) min, (GeoNumeric) max);
+		cons.removeFromConstructionList(take);
+		return (GeoList) take.getOutput(0);
+	}
+
+	private void createStepChart() {
+		GeoBoolean t = new GeoBoolean(cons);
+		t.setValue(true);
+
+		AlgoStepGraph algoStepGraph = new AlgoStepGraph(cons,
+				discreteValueList, discreteProbList, t);
+
+		cons.removeFromConstructionList(algoStepGraph);
+		discreteGraph = algoStepGraph.getOutput(0);
+	}
+
+	private void createBarChart() {
+		GeoNumeric width = new GeoNumeric(cons, graphType == GRAPH_LINE ? 0 : 1);
+		AlgoBarChart algoBarChart = new AlgoBarChart(cons, discreteValueList,
+				discreteProbList, width);
+		cons.removeFromConstructionList(algoBarChart);
+		discreteGraph = algoBarChart.getOutput(0);
+	}
+
+	private void styleDiscreteGraph() {
+		discreteGraph.setObjColor(colorPDF());
+		discreteGraph.setAlphaValue(opacityDiscrete);
+		discreteGraph.setLineThickness(thicknessBarChart);
+		discreteGraph.setLayer(1);
+		discreteGraph.setFixed(true);
+		discreteGraph.setSelectionAllowed(false);
+		discreteGraph.setEuclidianVisible(true);
+	}
+
+	private void createAxis() {
+		GeoLine axis = new GeoLine(cons);
+		axis.setCoords(0, 1, 0);
+		axis.setLayer(4);
+		axis.setObjColor(app.getEuclidianView1().getAxesColor());
+		axis.setLineThickness(getDiscreteLineThickness());
+		axis.setFixed(true);
+		axis.setSelectionAllowed(false);
+		axis.updateCascade();
+		plotGeoList.add(axis);
+	}
+
+	private int getDiscreteLineThickness() {
+		return discreteIntervalGraph == null ? discreteTwoTailedGraph.getLineThickness()
+				: discreteIntervalGraph.getLineThickness();
+	}
+
+	/**
+	 * Creates the integral graph by the given mode.
+	 */
+	protected void createIntegral() {
+		GeoNumberValue xLowOutput = getXOutputFrom(xAxis.lowPoint());
+		GeoNumberValue xHighOutput = getXOutputFrom(xAxis.highPoint());
+		if (isTwoTailedMode()) {
+			GeoNumeric minX = new GeoNumeric(cons, Double.NEGATIVE_INFINITY);
+			GeoNumeric maxX = new GeoNumeric(cons, Double.POSITIVE_INFINITY);
+			AlgoMin lowX = new AlgoMin(cons, xLowOutput, xHighOutput);
+			AlgoMax highX = new AlgoMax(cons, xLowOutput, xHighOutput);
+			cons.removeFromConstructionList(minX);
+			cons.removeFromConstructionList(maxX);
+			integralLeft = createIntegral(minX, lowX.getResult());
+			integralRight = createIntegral(highX.getResult(), maxX);
+			addTwoTailedGraph();
+			cons.removeFromConstructionList(lowX);
+			cons.removeFromConstructionList(highX);
+		} else {
+			integral = createIntegral(xLowOutput, xHighOutput);
+			removeTwoTailedGraph();
+		}
+	}
+
+	protected void addTwoTailedGraph() {
+		plotGeoList.remove(integral);
+		plotGeoList.add(integralLeft);
+		plotGeoList.add(integralRight);
+	}
+
+	protected void removeTwoTailedGraph() {
+		plotGeoList.remove(integralLeft);
+		plotGeoList.remove(integralRight);
+		plotGeoList.add(integral);
+	}
+
+	private GeoElement createIntegral(GeoNumberValue low, GeoNumberValue high) {
+		GeoBoolean f = new GeoBoolean(cons);
+		f.setValue(false);
+
+		AlgoIntegralDefinite algoIntegral = new AlgoIntegralDefinite(
+				cons, (GeoFunction) densityCurve, low, high, f);
+		cons.removeFromConstructionList(algoIntegral);
+
+		GeoElement output = algoIntegral.getOutput(0);
+		output.setObjColor(COLOR_PDF_FILL);
+		output.setAlphaValue(opacityIntegral);
+		output.setEuclidianVisible(showProbGeos);
+		// make sure doesn't interfere with dragging of point
+		output.setSelectionAllowed(false);
+		plotGeoList.add(output);
+		return output;
+	}
+
+	private GeoNumberValue getXOutputFrom(GeoPoint point) {
+		ExpressionNode node = new ExpressionNode(kernel, point,
+				Operation.XCOORD, null);
+		AlgoDependentNumber x = new AlgoDependentNumber(cons, node,
+				false);
+		cons.removeFromConstructionList(x);
+		return  (GeoNumberValue) x.getOutput(0);
 	}
 
 	// =================================================
@@ -812,7 +880,7 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * Creates a step function for a discrete distribution.
-	 * 
+	 *
 	 * @param xList
 	 *            list with x values
 	 * @param probList
@@ -885,7 +953,7 @@ public abstract class ProbabilityCalculatorView
 	 * Returns the appropriate plot dimensions for a given distribution and
 	 * parameter set. Plot dimensions are returned as an array of double: {xMin,
 	 * xMax, yMin, yMax}
-	 * 
+	 *
 	 * @return plot width and height
 	 */
 	protected double[] getPlotDimensions() {
@@ -900,7 +968,7 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * Formats a number string using local format settings.
-	 * 
+	 *
 	 * @param x
 	 *            number
 	 * @return formatted number
@@ -982,7 +1050,7 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * updates plot panel in subclasses
-	 * 
+	 *
 	 * @param settings
 	 *            plot settings
 	 */
@@ -997,17 +1065,25 @@ public abstract class ProbabilityCalculatorView
 
 		isSettingAxisPoints = true;
 
-		lowPoint.setCoords(getLow(), 0.0, 1.0);
-		highPoint.setCoords(getHigh(), 0.0, 1.0);
+		xAxis.lowPoint().setCoords(getLow(), 0.0, 1.0);
+		xAxis.highPoint().setCoords(getHigh(), 0.0, 1.0);
 		getPlotPanel().repaint();
 		GeoElement.updateCascade(pointList, getTempSet(), false);
 		tempSet.clear();
 
 		if (probManager.isDiscrete(selectedDist)) {
-			getTable().setSelectionByRowValue((int) getLow(), (int) getHigh());
+			selectProbabilityTableRows();
 		}
 
 		isSettingAxisPoints = false;
+	}
+
+	/**
+	 *
+	 * @return true if mode is ][
+	 */
+	protected boolean isTwoTailedMode() {
+		return probMode == PROB_TWO_TAILED;
 	}
 
 	/**
@@ -1027,159 +1103,11 @@ public abstract class ProbabilityCalculatorView
 	 * distribution.
 	 */
 	private void createDiscreteLists() {
+		DiscreteProbability discreteProbability =
+				discreteDistributionFactory.create(selectedDist, parameters, isCumulative);
 
-		ExpressionNode nPlusOne;
-		AlgoDependentNumber plusOneAlgo;
-		switch (selectedDist) {
-
-		default:
-		case BINOMIAL:
-			GeoNumeric k = new GeoNumeric(cons);
-			GeoNumeric k2 = new GeoNumeric(cons);
-			GeoNumberValue nGeo = parameters[0];
-			GeoNumeric nPlusOneGeo = new GeoNumeric(cons, parameters[0].getDouble() + 1);
-			GeoNumberValue pGeo = parameters[1];
-
-			AlgoSequence algoSeq = new AlgoSequence(cons, k2, k2,
-					new GeoNumeric(cons, 0.0), nGeo, null);
-			discreteValueList = (GeoList) algoSeq.getOutput(0);
-
-			AlgoListElement algo = new AlgoListElement(cons, discreteValueList,
-					k);
-			cons.removeFromConstructionList(algo);
-
-			AlgoBinomialDist algo2 = new AlgoBinomialDist(cons, nGeo, pGeo,
-					(GeoNumberValue) algo.getOutput(0),
-					new GeoBoolean(cons, isCumulative));
-			cons.removeFromConstructionList(algo2);
-
-			AlgoSequence algoSeq2 = new AlgoSequence(cons, algo2.getOutput(0),
-					k, new GeoNumeric(cons, 1.0), nPlusOneGeo, null);
-			cons.removeFromConstructionList(algoSeq2);
-
-			discreteProbList = (GeoList) algoSeq2.getOutput(0);
-
-			break;
-
-		case PASCAL:
-
-			nGeo = parameters[0];
-			pGeo = parameters[1];
-			k = new GeoNumeric(cons);
-			k2 = new GeoNumeric(cons);
-
-			AlgoInversePascal n2 = new AlgoInversePascal(cons, nGeo, pGeo,
-					new GeoNumeric(cons, nearlyOne));
-			cons.removeFromConstructionList(n2);
-			GeoElementND n2Geo = n2.getOutput(0);
-
-			algoSeq = new AlgoSequence(cons, k, k, new GeoNumeric(cons, 0.0),
-					(GeoNumberValue) n2Geo, null);
-			removeFromAlgorithmList(algoSeq);
-			discreteValueList = (GeoList) algoSeq.getOutput(0);
-
-			algo = new AlgoListElement(cons, discreteValueList, k2);
-			cons.removeFromConstructionList(algo);
-
-			AlgoPascal algoPascal = new AlgoPascal(cons, nGeo, pGeo,
-					(GeoNumberValue) algo.getOutput(0),
-					new GeoBoolean(cons, isCumulative));
-			cons.removeFromConstructionList(algoPascal);
-
-			nPlusOne = new ExpressionNode(kernel, n2Geo, Operation.PLUS,
-					new MyDouble(kernel, 1.0));
-			plusOneAlgo = new AlgoDependentNumber(cons, nPlusOne, false);
-			cons.removeFromConstructionList(plusOneAlgo);
-
-			algoSeq2 = new AlgoSequence(cons, algoPascal.getOutput(0), k2,
-					new GeoNumeric(cons, 1.0),
-					(GeoNumberValue) plusOneAlgo.getOutput(0), null);
-			cons.removeFromConstructionList(algoSeq2);
-
-			discreteProbList = (GeoList) algoSeq2.getOutput(0);
-
-			break;
-
-		case POISSON:
-
-			GeoNumberValue meanGeo = parameters[0];
-			k = new GeoNumeric(cons);
-			k2 = new GeoNumeric(cons);
-
-			AlgoInversePoisson maxSequenceValue = new AlgoInversePoisson(cons,
-					meanGeo, new GeoNumeric(cons, nearlyOne));
-			cons.removeFromConstructionList(maxSequenceValue);
-			GeoNumberValue maxDiscreteGeo = maxSequenceValue.getResult();
-
-			algoSeq = new AlgoSequence(cons, k, k, new GeoNumeric(cons, 0.0),
-					maxDiscreteGeo, null);
-			removeFromAlgorithmList(algoSeq);
-			discreteValueList = (GeoList) algoSeq.getOutput(0);
-
-			algo = new AlgoListElement(cons, discreteValueList, k2);
-			cons.removeFromConstructionList(algo);
-
-			AlgoPoisson poisson = new AlgoPoisson(cons, meanGeo,
-					(GeoNumberValue) algo.getOutput(0),
-					new GeoBoolean(cons, isCumulative));
-			cons.removeFromConstructionList(poisson);
-
-			nPlusOne = new ExpressionNode(kernel, maxDiscreteGeo,
-					Operation.PLUS, new MyDouble(kernel, 1.0));
-			plusOneAlgo = new AlgoDependentNumber(cons, nPlusOne, false);
-			cons.removeFromConstructionList(plusOneAlgo);
-
-			algoSeq2 = new AlgoSequence(cons, poisson.getOutput(0), k2,
-					new GeoNumeric(cons, 1.0),
-					(GeoNumberValue) plusOneAlgo.getOutput(0), null);
-			cons.removeFromConstructionList(algoSeq2);
-
-			discreteProbList = (GeoList) algoSeq2.getOutput(0);
-
-			break;
-
-		case HYPERGEOMETRIC:
-			pGeo = parameters[0];
-			double p = pGeo.getDouble(); // population size
-			nGeo = parameters[1];
-			double n = nGeo.getDouble(); // n
-			GeoNumberValue sGeo = parameters[2];
-			double s = sGeo.getDouble(); // sample size
-
-			// ================================================
-			// interval bounds:
-			// [ max(0, n + s - p) , min(n, s) ]
-			// =================================================
-
-			double lowBound = Math.max(0, n + s - p);
-			double highBound = Math.min(n, s);
-
-			GeoNumeric lowGeo = new GeoNumeric(cons, lowBound);
-			GeoNumeric highGeo = new GeoNumeric(cons, highBound);
-
-			k = new GeoNumeric(cons);
-			k2 = new GeoNumeric(cons);
-
-			algoSeq = new AlgoSequence(cons, k, k, lowGeo, highGeo, null);
-			removeFromAlgorithmList(algoSeq);
-			discreteValueList = (GeoList) algoSeq.getOutput(0);
-
-			algo = new AlgoListElement(cons, discreteValueList, k2);
-			cons.removeFromConstructionList(algo);
-
-			AlgoHyperGeometric hyperGeometric = new AlgoHyperGeometric(cons,
-					pGeo, nGeo, sGeo, (GeoNumberValue) algo.getOutput(0),
-					new GeoBoolean(cons, isCumulative));
-			cons.removeFromConstructionList(hyperGeometric);
-
-			double length = highBound - lowBound + 1;
-			GeoNumeric lengthGeo = new GeoNumeric(cons, length);
-			algoSeq2 = new AlgoSequence(cons, hyperGeometric.getOutput(0), k2,
-					new GeoNumeric(cons, 1.0), lengthGeo, null);
-			cons.removeFromConstructionList(algoSeq2);
-			discreteProbList = (GeoList) algoSeq2.getOutput(0);
-			break;
-		}
+		discreteValueList = discreteProbability.values();
+		discreteProbList = discreteProbability.probabilities();
 
 		plotGeoList.add(discreteProbList);
 		discreteProbList.setEuclidianVisible(true);
@@ -1210,7 +1138,7 @@ public abstract class ProbabilityCalculatorView
 	/**
 	 * Exports all GeoElements that are currently displayed in this panel to a
 	 * target EuclidianView.
-	 * 
+	 *
 	 * @param euclidianViewID
 	 *            viewID of the target EuclidianView
 	 */
@@ -1228,7 +1156,7 @@ public abstract class ProbabilityCalculatorView
 			// create low point
 			expr = "Point[" + loc.getMenu("xAxis") + "]";
 			GeoPoint lowPointCopy = (GeoPoint) createGeoFromString(expr, false);
-			lowPointCopy.setVisualStyle(lowPoint);
+			lowPointCopy.setVisualStyle(xAxis.lowPoint());
 			lowPointCopy.setLabelVisible(false);
 			lowPointCopy.setCoords(getLow(), 0, 1);
 			lowPointCopy.setLabel(null);
@@ -1237,7 +1165,7 @@ public abstract class ProbabilityCalculatorView
 			// create high point
 			GeoPoint highPointCopy = (GeoPoint) createGeoFromString(expr,
 					false);
-			highPointCopy.setVisualStyle(lowPoint);
+			highPointCopy.setVisualStyle(xAxis.lowPoint());
 			highPointCopy.setLabelVisible(false);
 			highPointCopy.setCoords(getHigh(), 0, 1);
 			highPointCopy.setLabel(null);
@@ -1444,46 +1372,50 @@ public abstract class ProbabilityCalculatorView
 	// Handles user point changes in the EV plot panel
 	@Override
 	public void update(GeoElement geo) {
-		if (!isSettingAxisPoints && !isIniting) {
-			if (lowPoint != null && highPoint != null
-					&& !Double.isInfinite(lowPoint.getInhomX())
-					&& lowPoint.getInhomX() > highPoint.getInhomX()) {
-				GeoPoint swap = lowPoint;
-				lowPoint = highPoint;
-				highPoint = swap;
-			}
-			if (geo.equals(lowPoint)) {
-				if (isValidInterval(probMode, lowPoint.getInhomX(),
-						getHigh())) {
-					low = asNumeric(lowPoint, low);
-					updateIntervalProbability();
-					updateGUI();
-					if (probManager.isDiscrete(selectedDist)) {
-						getTable().setSelectionByRowValue((int) getLow(),
-								(int) getHigh());
-					}
-				} else {
-					setXAxisPoints();
-				}
-			}
-			if (geo.equals(highPoint)) {
-				if (isValidInterval(probMode, getLow(),
-						highPoint.getInhomX())) {
-					high = asNumeric(highPoint, high);
-					updateIntervalProbability();
-					updateGUI();
-					if (probManager.isDiscrete(selectedDist)) {
-						getTable().setSelectionByRowValue((int) getLow(),
-								(int) getHigh());
-					}
-				} else {
-					setXAxisPoints();
-				}
-			}
-			updateRounding();
+		if (isSettingAxisPoints || isIniting) {
+			return;
 		}
 
-		// statCalculator.updateResult();
+		xAxis.swapIfNeeded();
+
+		if (geo.equals(xAxis.lowPoint())) {
+			if (isValidInterval(probMode, xAxis.lowPoint().getInhomX(),
+					getHigh())) {
+				low = asNumeric(xAxis.lowPoint(), low);
+				updateIntervalProbability();
+				updateGUI();
+				if (probManager.isDiscrete(selectedDist)) {
+					selectProbabilityTableRows();
+				}
+			} else {
+				setXAxisPoints();
+			}
+		}
+
+		if (geo.equals(xAxis.highPoint())) {
+			if (isValidInterval(probMode, getLow(),
+					xAxis.highPoint().getInhomX())) {
+				high = asNumeric(xAxis.highPoint(), high);
+				updateIntervalProbability();
+				updateGUI();
+				if (probManager.isDiscrete(selectedDist)) {
+					selectProbabilityTableRows();
+				}
+			} else {
+				setXAxisPoints();
+			}
+		}
+		updateRounding();
+	}
+
+	private void selectProbabilityTableRows() {
+		int start = (int) getLow();
+		int end = (int) getHigh();
+		if (isTwoTailedMode()) {
+			table.setTwoTailedSelection(start, end);
+		} else {
+			table.setSelectionByRowValue(start, end);
+		}
 	}
 
 	private GeoNumberValue asNumeric(GeoPoint point, GeoNumberValue number) {
@@ -1500,7 +1432,7 @@ public abstract class ProbabilityCalculatorView
 	 * and probability mode. If mode == PROB_INTERVAL then P(low <= X <= high)
 	 * is returned. If mode == PROB_LEFT then P(low <= X) is returned. If mode
 	 * == PROB_RIGHT then P(X <= high) is returned.
-	 * 
+	 *
 	 * @return probability of selected interval
 	 */
 	protected double intervalProbability() {
@@ -1508,9 +1440,17 @@ public abstract class ProbabilityCalculatorView
 				selectedDist, parameters, probMode);
 	}
 
+	protected double rightProbability(double high) {
+		return probManager.rightProbability(high, parameters, selectedDist);
+	}
+
+	protected double leftProbability() {
+		return probManager.probability(getLow(), parameters, selectedDist, true);
+	}
+
 	/**
 	 * Returns an inverse probability for a selected distribution.
-	 * 
+	 *
 	 * @param prob
 	 *            cumulative probability
 	 * @return inverse probability
@@ -1520,9 +1460,10 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	/**
+	 * @param probability to format.
 	 * @return probability formatted as String
 	 */
-	protected String getProbabilityText() {
+	protected String getProbabilityText(double probability) {
 		return probability >= 0 ? format(probability) : "?";
 	}
 
@@ -1532,9 +1473,35 @@ public abstract class ProbabilityCalculatorView
 	protected void updateIntervalProbability() {
 		probability = intervalProbability();
 		if (probmanagerIsDiscrete()) {
-			this.discreteIntervalGraph.updateCascade();
+			if (isTwoTailedMode()) {
+
+				if (discreteTwoTailedGraph == null) {
+					createIntegral();
+				}
+				leftProbability = leftProbability();
+				rightProbability = rightProbability(getLow() == getHigh()
+						? getHigh()
+						: getHigh() - 1);
+				discreteTwoTailedGraph.updateCascade();
+			} else {
+				this.discreteIntervalGraph.updateCascade();
+			}
 		} else if (hasIntegral) {
-			this.integral.updateCascade();
+			if (isTwoTailedMode()) {
+				leftProbability = leftProbability();
+				rightProbability = rightProbability(getHigh());
+				if (integralLeft == null) {
+					createIntegral();
+				}
+
+				integralLeft.updateCascade();
+				integralRight.updateCascade();
+			} else {
+				if (integral == null) {
+					createIntegral();
+				}
+				this.integral.updateCascade();
+			}
 		}
 	}
 
@@ -1548,11 +1515,9 @@ public abstract class ProbabilityCalculatorView
 	 * @return whether interval is valid for given mode
 	 */
 	protected boolean isValidInterval(int probabilityMode, double xLow, double xHigh) {
-
-		if (probabilityMode == PROB_INTERVAL && xHigh < xLow) {
-			return false;
+		if (isTwoTailedMode()) {
+			return xLow <= xHigh;
 		}
-
 		// don't allow non-integer bounds for discrete dist.
 		if (probManager.isDiscrete(selectedDist)
 				&& (Math.floor(xLow) != xLow || Math.floor(xHigh) != xHigh)) {
@@ -1794,23 +1759,9 @@ public abstract class ProbabilityCalculatorView
 		return app.showView(App.VIEW_PROBABILITY_CALCULATOR);
 	}
 
-	public boolean doRemoveFromConstruction() {
-		return removeFromConstruction;
-	}
-
-	public void setRemoveFromConstruction(boolean removeFromConstruction) {
-		this.removeFromConstruction = removeFromConstruction;
-	}
-
-	private void removeFromAlgorithmList(AlgoElement algo) {
-		if (removeFromConstruction) {
-			cons.removeFromAlgorithmList(algo);
-		}
-	}
-
 	/**
 	 * Builds a GeoFunction representation of a given density curve.
-	 * 
+	 *
 	 * @param type
 	 *            distribution type
 	 * @param cumulative
@@ -1887,7 +1838,7 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * returns settings in XML format
-	 * 
+	 *
 	 * @param sb
 	 *            XML builder
 	 */
@@ -1971,7 +1922,7 @@ public abstract class ProbabilityCalculatorView
 	protected void setHigh(double highValue) {
 		this.high = new GeoNumeric(cons, highValue);
 	}
-	
+
 	protected void setHigh(GeoNumberValue high) {
 		this.high = high;
 	}
@@ -1979,7 +1930,7 @@ public abstract class ProbabilityCalculatorView
 	protected void setLow(double lowValue) {
 		this.low = new GeoNumeric(cons, lowValue);
 	}
-	
+
 	protected void setLow(GeoNumberValue low) {
 		this.low = low;
 	}
@@ -2034,4 +1985,188 @@ public abstract class ProbabilityCalculatorView
 	protected void setTable(ProbabilityTable table) {
 		this.table = table;
 	}
+
+	/**
+	 * updtates the two graphs of tails.
+	 */
+	protected void updateDiscreteGraphs() {
+		discreteGraph.update();
+		if (isTwoTailedMode()) {
+			discreteTwoTailedGraph.update();
+
+		} else {
+			discreteIntervalGraph.update();
+		}
+	}
+
+	protected void updateOutputForIntervals() {
+		hasIntegral = !isCumulative;
+		createGeoElements();
+		if (probmanagerIsDiscrete()) {
+			addRemoveTable(true);
+		} else {
+			addRemoveTable(false);
+			densityCurve.update();
+		}
+		getPlotPanel().repaintView();
+	}
+
+	protected abstract void addRemoveTable(boolean showTable);
+
+	protected void updateProbabilityType(ResultPanel resultPanel) {
+		if (isIniting) {
+			return;
+		}
+
+		boolean isDiscrete = probmanagerIsDiscrete();
+		int oldProbMode = probMode;
+		this.getPlotDimensions();
+		if (probMode == PROB_INTERVAL) {
+			xAxis.showBothPoints(showProbGeos);
+			resultPanel.showInterval();
+
+			setLow(plotSettings.xMin
+					+ 0.4 * (plotSettings.xMax - plotSettings.xMin));
+			setHigh(plotSettings.xMin
+					+ 0.6 * (plotSettings.xMax - plotSettings.xMin));
+			updateOutputForIntervals();
+		} else if (probMode == PROB_TWO_TAILED) {
+			xAxis.showBothPoints(showProbGeos);
+			setLow(plotSettings.xMin + 0.4
+					* (plotSettings.xMax - plotSettings.xMin));
+			setHigh(plotSettings.xMin + 0.6
+					* (plotSettings.xMax - plotSettings.xMin));
+			showTwoTailed(resultPanel);
+			updateOutputForIntervals();
+		}
+
+		else if (probMode == PROB_LEFT) {
+			resultPanel.showLeft();
+			if (oldProbMode == PROB_RIGHT) {
+				setHigh(getLow());
+			}
+
+			if (isDiscrete) {
+				setLow(((GeoNumeric) discreteValueList.get(0)).getDouble());
+				updateOutputForIntervals();
+			}
+			else {
+				setLow(plotSettings.xMin - 1); // move offscreen so the integral
+				// looks complete
+			}
+			xAxis.showHighOnly(showProbGeos);
+		}
+
+		else if (probMode == PROB_RIGHT) {
+			resultPanel.showRight();
+			if (oldProbMode == PROB_LEFT) {
+				setLow(getHigh());
+			}
+
+			if (isDiscrete) {
+				setHigh(((GeoNumeric) discreteValueList
+						.get(discreteValueList.size() - 1)).getDouble());
+				updateOutputForIntervals();
+			}
+			else {
+				setHigh(plotSettings.xMax + 1); // move offscreen so the
+				// integral
+				// looks complete
+			}
+			xAxis.showLowOnly(showProbGeos);
+		}
+
+		// make result field editable for inverse probability calculation
+		resultPanel.setResultEditable(probMode != PROB_INTERVAL);
+
+		if (isDiscrete) {
+			setHigh(Math.round(getHigh()));
+			setLow(Math.round(getLow()));
+
+			// make sure arrow keys move points in 1s
+			xAxis.setAnimationStep(1);
+		} else {
+			xAxis.setAnimationStep(0.1);
+		}
+		setXAxisPoints();
+		updateIntervalProbability();
+	}
+
+	private void showTwoTailed(ResultPanel resultPanel) {
+		if (low.getDouble() == high.getDouble()) {
+			resultPanel.showTwoTailedOnePoint();
+		} else {
+			resultPanel.showTwoTailed();
+		}
+		updateGreaterSign(resultPanel);
+	}
+
+	protected void updateResult(ResultPanel resultPanel) {
+		updateLowHigh(resultPanel);
+		if (probMode == PROB_TWO_TAILED) {
+			showTwoTailed(resultPanel);
+			updateTwoTailedResults(resultPanel);
+		} else {
+			resultPanel.updateResult(getProbabilityText(probability));
+		}
+		resultPanel.setResultEditable(isResultEditable());
+	}
+
+	private void updateTwoTailedResults(ResultPanel resultPanel) {
+		resultPanel.updateTwoTailedResult(
+				getProbabilityText(leftProbability),
+				getProbabilityText(rightProbability));
+		updateGreaterSign(resultPanel);
+		resultPanel.updateResult(getProbabilityText(leftProbability + rightProbability));
+	}
+
+	/**
+	 * Sets > or >= on demand
+	 * @param resultPanel to display.
+	 */
+	protected void updateGreaterSign(ResultPanel resultPanel) {
+		if (getHigh() == getLow()) {
+			resultPanel.setGreaterThan();
+		} else {
+			resultPanel.setGreaterOrEqualThan();
+		}
+	}
+
+	private void updateLowHigh(ResultPanel resultPanel) {
+		resultPanel.updateLowHigh(format(low), format(high));
+	}
+
+	private boolean isResultEditable() {
+		return probMode != ProbabilityCalculatorView.PROB_INTERVAL
+				&& !isTwoTailedMode();
+	}
+
+	/**
+	 * Sets the distribution type. This will destroy all GeoElements and create
+	 * new ones.
+	 */
+	protected void updateDistribution() {
+		hasIntegral = !isCumulative;
+		createGeoElements();
+
+		if (probmanagerIsDiscrete()) {
+			updateDiscreteGraphs();
+			addRemoveTable(true);
+		} else {
+			addRemoveTable(false);
+			if (densityCurve != null) {
+				densityCurve.update();
+			}
+
+			if (pdfCurve != null) {
+				pdfCurve.update();
+			}
+			if (hasIntegral && integral != null) {
+				integral.update();
+			}
+		}
+		onDistributionUpdate();
+	}
+
+	protected abstract void onDistributionUpdate();
 }

@@ -78,14 +78,17 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/common/icons/png/web/probability_calculator_cumulative_distribution.png")
 	ImageResource cumulative_distribution();
 
-	@Source("org/geogebra/common/icons/png/web/probability_calculator_interval_between.png")
-	ImageResource interval_between();
+	@Source("org/geogebra/common/icons/svg/web/probability/interval_between.svg")
+	SVGResource interval_between();
 
-	@Source("org/geogebra/common/icons/png/web/probability_calculator_interval_left.png")
-	ImageResource interval_left();
+	@Source("org/geogebra/common/icons/svg/web/probability/interval_left.svg")
+	SVGResource interval_left();
 
-	@Source("org/geogebra/common/icons/png/web/probability_calculator_interval_right.png")
-	ImageResource interval_right();
+	@Source("org/geogebra/common/icons/svg/web/probability/interval_right.svg")
+	SVGResource interval_right();
+
+	@Source("org/geogebra/common/icons/svg/web/probability/interval_two_tailed.svg")
+	SVGResource interval_two_tailed();
 
 	@Source("org/geogebra/common/icons/png/web/probability_calculator_normal_overlay.png")
 	ImageResource normal_overlay();
