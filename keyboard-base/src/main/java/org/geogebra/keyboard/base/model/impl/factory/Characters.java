@@ -10,11 +10,14 @@ public class Characters {
 	public static final String SUP2 = "\u00B2";
 	public static final String ROOT = "\u221A";
 	public static final String EULER = "\u212f";
+	public static final String CURLY_EULER = "\uD835\uDC52";
 	public static final String LEQ = "\u2264";
 	public static final String GEQ = "\u2265";
 	public static final String MULTIPLICATION = "\u00D7";
 	public static final String DIVISION = "\u00F7";
 	public static final String DEGREE = "\u00B0";
+	public static final String PI = "\u03C0";
+	public static final String CURLY_PI = "\uD835\uDF0B";
 
 	/** Greek */
 	public static final char ALPHA = '\u03B1';
@@ -32,7 +35,7 @@ public class Characters {
 	public static final char NU = '\u03BD';
 	public static final char XI = '\u03BE';
 	public static final char OMICRON = '\u03BF';
-	public static final char PI = '\u03C0';
+	public static final char PI_CHAR = '\u03C0';
 	public static final char RHO = '\u03C1';
 	public static final char SIGMA_SPECIAL = '\u03C2';
 	public static final char SIGMA = '\u03C3';
