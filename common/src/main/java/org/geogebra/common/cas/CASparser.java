@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.NonFunctionCollector;
@@ -228,7 +229,8 @@ public class CASparser implements CASParserInterface {
 		try {
 			return parser.parseGiac(exp);
 		} catch (Throwable t) {
-			throw new CASException(t);
+			Log.debug(t.getStackTrace());
+			return new MyDouble(parser.getKernel(), Double.NaN);
 		}
 	}
 
