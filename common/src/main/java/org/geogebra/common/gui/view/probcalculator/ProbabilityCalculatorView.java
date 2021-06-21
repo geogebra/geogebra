@@ -176,8 +176,6 @@ public abstract class ProbabilityCalculatorView
 	private static final int thicknessCurve = 4;
 	private static final int thicknessBarChart = 3;
 
-	protected boolean removeFromConstruction = true;
-
 	protected static final double nearlyOne = 1 - 1E-6;
 
 	// discrete graph types
