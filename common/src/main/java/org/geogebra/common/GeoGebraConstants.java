@@ -126,6 +126,8 @@ public interface GeoGebraConstants {
 		DEFAULT, EXAM
 	}
 
+	String SUITE_APPNAME = "GeoGebraCalculatorSuite";
+
 	String GRAPHING_APPCODE = "graphing";
 	String GEOMETRY_APPCODE = "geometry";
 	String G3D_APPCODE = "3d";
