@@ -1853,7 +1853,9 @@
 		margin: 0;
 		padding: 0;
 	}
-
+	.probCalcViewTab {
+		margin-left: 10px;
+	}
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent.ProbCalcPanel {
 		// no scrollbar for main panel, only for value table
 		overflow: hidden;
