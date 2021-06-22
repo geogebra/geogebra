@@ -543,7 +543,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			}
 		}
 
-		if (isUsingFullGui() && getTmpPerspective() != null) {
+		if (isUsingFullGui()) {
 			getGuiManager().getLayout()
 					.setPerspectiveOrDefault(getTmpPerspective());
 		}
