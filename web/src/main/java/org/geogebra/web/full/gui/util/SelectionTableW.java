@@ -17,24 +17,6 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	private int mNumColumns;
 	private boolean isIniting = true;
 	private ImageOrText[] values;
-	private boolean isMultiselectionEnabled;
-	private boolean[] selecteditems;
-
-	/**
-	 * @param data
-	 *            items
-	 * @param rows
-	 *            number of rows
-	 * @param columns
-	 *            number of columns
-	 * @param mode
-	 *            mode
-	 */
-	public SelectionTableW(ImageOrText[] data, Integer rows, Integer columns,
-			SelectionTable mode, boolean ms) {
-		this(data, rows, columns, mode);
-		isMultiselectionEnabled = ms;
-	}
 
 	/**
 	 * @param data
@@ -83,26 +65,6 @@ public class SelectionTableW extends Grid implements ClickHandler {
 
 		if (this.mode.equals(SelectionTable.MODE_ICON)) {
 			setBorderStyleForCells();
-		}
-	}
-
-	/**
-	 * @param si
-	 *            selected items
-	 */
-	public void initSelectedItems(boolean[] si) {
-		selecteditems = si;
-		clearSelection(0);
-		int row, column;
-		for (int i = 0; i < selecteditems.length; i++) {
-			if (selecteditems[i]) {
-				row = i / getColumnCount();
-				column = i - (row * getColumnCount());
-				Widget w = getWidget(row, column);
-				if (w != null) {
-					w.addStyleName("selected");
-				}
-			}
 		}
 	}
 
@@ -264,39 +226,11 @@ public class SelectionTableW extends Grid implements ClickHandler {
 
 		selectedColumn = clicked.getCellIndex();
 		selectedRow = clicked.getRowIndex();
-		if (!isMultiselectionEnabled) {
-			clearSelectedCells();
-		}
+		clearSelectedCells();
 		Widget w = getWidget(clicked.getRowIndex(), clicked.getCellIndex());
 		if (w != null) {
-			if (isMultiselectionEnabled) {
-				// TODO check for -1 col.count.
-				int index = (getColumnCount() == -1) ? selectedColumn
-						: selectedRow * getColumnCount() + selectedColumn;
-				selecteditems[index] = !selecteditems[index];
-				if (selecteditems[index]) {
-					w.addStyleName("selected");
-				} else {
-					w.removeStyleName("selected");
-				}
-			} else {
-				w.addStyleName("selected");
-			}
-
+			w.addStyleName("selected");
 		}
-	}
-
-	/**
-	 * @param index
-	 *            data index
-	 * @return whether it's selected
-	 * 
-	 */
-	public boolean isSelected(int index) {
-		if (isMultiselectionEnabled) {
-			return selecteditems[index];
-		}
-		return (index == getSelectedIndex());
 	}
 
 	/**

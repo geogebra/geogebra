@@ -21,8 +21,6 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdLength(kernel);
 		case Sort:
 			return new CmdSort(kernel);
-		case BarChart:
-			return new CmdBarChart(kernel);
 		case Product:
 			return new CmdProduct(kernel);
 		case Extremum:

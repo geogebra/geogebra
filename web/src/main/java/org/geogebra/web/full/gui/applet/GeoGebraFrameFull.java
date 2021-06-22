@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.AccessibilityGroup;
+import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
@@ -112,7 +113,6 @@ public class GeoGebraFrameFull
 		panelTransitioner = new PanelTransitioner(this);
 		kbButtonSpace.addStyleName("kbButtonSpace");
 		this.add(kbButtonSpace);
-		headerResizer = NullHeaderResizer.get();
 		Event.addNativePreviewHandler(this);
 	}
 
@@ -137,8 +137,6 @@ public class GeoGebraFrameFull
 
 		this.glass = new DockGlassPaneW();
 		this.add(glass);
-		headerResizer = getApp().getActivity()
-				.getHeaderResizer(application.getAppletFrame());
 		return application;
 	}
 
@@ -228,7 +226,17 @@ public class GeoGebraFrameFull
 
 	@Override
 	public void updateHeaderSize() {
-		headerResizer.resizeHeader();
+		getHeaderResizer().resizeHeader();
+	}
+
+	private HeaderResizer getHeaderResizer() {
+		if (app == null) {
+			return new NullHeaderResizer();
+		}
+		if (headerResizer == null) {
+			headerResizer = getApp().getActivity().getHeaderResizer(this);
+		}
+		return headerResizer;
 	}
 
 	@Override
@@ -255,7 +263,7 @@ public class GeoGebraFrameFull
 			keyboardState = KeyboardState.ANIMATING_IN;
 			app.hideMenu();
 			app.persistWidthAndHeight();
-			ToolTipManagerW.hideAllToolTips();
+			ToolTipManagerW.sharedInstance().hideTooltip();
 			addKeyboard(textField, true);
 			if (app.isPortrait()) {
 				getGuiManager().getLayout().getDockManager()
@@ -1002,7 +1010,7 @@ public class GeoGebraFrameFull
 		if (isExternalHeaderHidden()) {
 			return 0;
 		}
-		return headerResizer.getSmallScreenHeight();
+		return getHeaderResizer().getSmallScreenHeight();
 	}
 
 	@Override
@@ -1020,8 +1028,13 @@ public class GeoGebraFrameFull
 	}
 
 	@Override
-	public void getScreenshotBase64(StringConsumer callback) {
+	public void getScreenshotBase64(StringConsumer callback, double scale) {
+		if (!app.isUsingFullGui()) {
+			super.getScreenshotBase64(callback, scale);
+			return;
+		}
 		Canvas c = Canvas.createIfSupported();
-		((DockManagerW) app.getGuiManager().getLayout().getDockManager()).paintPanels(c, callback);
+		DockManager dockManager = app.getGuiManager().getLayout().getDockManager();
+		((DockManagerW) dockManager).paintPanels(c, callback, scale);
 	}
 }

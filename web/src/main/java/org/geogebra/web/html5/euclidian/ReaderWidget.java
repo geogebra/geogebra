@@ -38,9 +38,6 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 		getElement().setAttribute("aria-live", "polite");
 		getElement().setAttribute("aria-atomic", "true");
 		getElement().setAttribute("aria-relevant", "additions text");
-		if (Browser.needsAccessibilityView()) {
-			setVisible(false);
-		}
 	}
 
 	private void createTimer() {

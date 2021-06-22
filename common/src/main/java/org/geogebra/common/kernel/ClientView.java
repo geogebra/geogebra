@@ -93,4 +93,20 @@ public interface ClientView extends View {
 	public void groupObjects(ArrayList<GeoElement> geos);
 
 	public void ungroupObjects(ArrayList<GeoElement> geos);
+
+	/**
+	 * Notifies client that an text element is locked for moving by other users.
+	 *
+	 * @param geo
+	 * 			The geoElement that is to be locked for movement
+	 */
+	public void lockTextElement(GeoElement geo);
+
+	/**
+	 * Notifies client that an text element is unlocked for moving by other users.
+	 *
+	 * @param geo
+	 * 			The geoElement that is to be unlocked for movement
+	 */
+	public void unlockTextElement(GeoElement geo);
 }

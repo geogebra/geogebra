@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.GetCommand;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -32,9 +33,13 @@ public class AlgoDependentSymbolic extends AlgoElement implements UsesCAS {
 	 * @param vars
 	 *            parent variables
 	 */
-	public AlgoDependentSymbolic(Construction c, ExpressionNode def,
-			ArrayList<GeoElement> vars, MyArbitraryConstant constant) {
-		super(c, def.isRootNode());
+	public AlgoDependentSymbolic(
+			Construction c,
+			ExpressionNode def,
+			ArrayList<GeoElement> vars,
+			MyArbitraryConstant constant,
+			boolean addToConstruction) {
+		super(c, addToConstruction);
 		this.symbolic = new GeoSymbolic(cons);
 		symbolic.setArbitraryConstant(constant);
 		symbolic.setDefinition(def);
@@ -72,11 +77,17 @@ public class AlgoDependentSymbolic extends AlgoElement implements UsesCAS {
 		if (isFunction(definition)) {
 			String lhs = symbolic.getLabel(tpl) + "(" + symbolic.getVarString(tpl) + ") = ";
 			return lhs + rhs;
+		} else if (isEquation(definition) && rhs.contains("=")) {
+			return symbolic.getLabel(tpl) + ": " + rhs;
 		}
 		return rhs;
 	}
 
 	private boolean isFunction(ExpressionNode definition) {
 		return definition.isLeaf() && (definition.getLeft() instanceof Function);
+	}
+
+	private boolean isEquation(ExpressionNode definition) {
+		return definition.isLeaf() && (definition.getLeft() instanceof Equation);
 	}
 }

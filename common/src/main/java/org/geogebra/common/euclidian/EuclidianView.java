@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
@@ -58,6 +59,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -1051,16 +1053,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return handler that was hit
 	 */
-	public EuclidianBoundingBoxHandler getHitHandler() {
+	public @Nonnull EuclidianBoundingBoxHandler getHitHandler() {
 		return hitHandler;
 	}
 
 	/**
-	 * @param hitHandler
-	 *            - handler that was hit
+	 * Set handler to undefined.
 	 */
-	public void setHitHandler(EuclidianBoundingBoxHandler hitHandler) {
-		this.hitHandler = hitHandler;
+	public void resetHitHandler() {
+		this.hitHandler = EuclidianBoundingBoxHandler.UNDEFINED;
 	}
 
 	protected void setSizeListeners() {
@@ -2064,7 +2065,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private static boolean needsSynchUpdate(GeoElement geo, boolean tracing) {
 		// Keep update of input boxes synchronous #4416
 		return (geo.isGeoText() && ((GeoText) geo).isNeedsUpdatedBoundingBox())
-				|| geo.isGeoInputBox() || (geo.getTrace() && !tracing) || geo.isMask();
+				|| geo.isGeoInputBox()
+				|| (geo.getTrace() && !tracing)
+				|| geo.isMask()
+				|| geo instanceof GeoMindMapNode;
 	}
 
 	/**
@@ -2351,9 +2355,24 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return hit drawable
 	 */
 	public Drawable getBoundingBoxHandlerHit(GPoint p, PointerEventType type) {
-		if (p == null || getEuclidianController().isMultiSelection()) {
+		if (p == null) {
 			return null;
 		}
+
+		if (getFocusedGroupGeoBoundingBox() instanceof MindMapBoundingBox) {
+			hitHandler = getFocusedGroupGeoBoundingBox()
+					.getHitHandler(p.x, p.y, app.getCapturingThreshold(type));
+			if (hitHandler != EuclidianBoundingBoxHandler.UNDEFINED) {
+				return (Drawable) getDrawableFor(app.getSelectionManager()
+						.getFocusedGroupElement());
+			}
+		}
+
+		if (getEuclidianController().isMultiSelection() && getBoundingBox() != null) {
+			hitHandler = getBoundingBox().getHitHandler(p.x, p.y, app.getCapturingThreshold(type));
+			return null;
+		}
+
 		for (Drawable d : allDrawableList) {
 			hitHandler = d.hitBoundingBoxHandler(p.x, p.y, app.getCapturingThreshold(type));
 			if (hitHandler != EuclidianBoundingBoxHandler.UNDEFINED) {

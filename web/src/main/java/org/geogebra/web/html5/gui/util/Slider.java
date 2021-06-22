@@ -84,12 +84,7 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 	        ValueChangeHandler<Integer> handler) {
 		if (!valueChangeHandlerInitialized) {
 			valueChangeHandlerInitialized = true;
-			addChangeHandler(new ChangeHandler() {
-				@Override
-				public void onChange(ChangeEvent event) {
-					ValueChangeEvent.fire(Slider.this, getValue());
-				}
-			});
+			addChangeHandler(event -> ValueChangeEvent.fire(this, getValue()));
 		}
 		return addHandler(handler, ValueChangeEvent.getType());
 	}
@@ -101,11 +96,7 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 
 	@Override
 	public void setValue(Integer value, boolean fireEvents) {
-		// Integer oldValue = getValue();
 		setSliderValue(String.valueOf(value));
-		// if (fireEvents) {
-		// ValueChangeEvent.fireIfNotEqual(this, oldValue, value);
-		// }
 	}
 
 	private void setSliderValue(String value) {

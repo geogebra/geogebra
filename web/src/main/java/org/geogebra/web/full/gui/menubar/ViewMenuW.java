@@ -174,7 +174,7 @@ public class ViewMenuW extends Submenu {
 						ViewMenuW.this);
 				// reset activePerspective so that no perspective is
 				// highlighted in apps picker when view is customized
-				app.setActivePerspective(-1);
+				app.setActivePerspective(null);
 			}
 		});
 		newItem.setForceCheckbox(true);

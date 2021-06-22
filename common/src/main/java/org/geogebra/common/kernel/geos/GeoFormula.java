@@ -40,6 +40,8 @@ public class GeoFormula extends GeoInline {
 	public GeoFormula(Construction c, GPoint2D location) {
 		super(c);
 		setLocation(location);
+		setContentWidth(DEFAULT_WIDTH);
+		setContentHeight(DEFAULT_HEIGHT);
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 
@@ -109,7 +111,9 @@ public class GeoFormula extends GeoInline {
 		this.minWidth = minWidth;
 	}
 
+	@Override
 	public void setMinHeight(double minHeight) {
 		this.minHeight = minHeight;
 	}
+
 }

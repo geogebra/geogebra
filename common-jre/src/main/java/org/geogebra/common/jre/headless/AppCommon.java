@@ -239,7 +239,7 @@ public class AppCommon extends App {
 
     @Override
     public boolean showView(int view) {
-		Perspective p = getTmpPerspective(null);
+		Perspective p = getTmpPerspective();
 		if (p != null) {
 			for (DockPanelData dp : p.getDockPanelData()) {
 				if (dp.getViewId() == view) {
@@ -551,11 +551,6 @@ public class AppCommon extends App {
     @Override
     public void showURLinBrowser(String string) {
 		// not needed with no UI
-    }
-
-    @Override
-    public void uploadToGeoGebraTube() {
-		// TODO
     }
 
     @Override

@@ -42,7 +42,7 @@ public class AnimationManager implements GTimerListener {
 	private GTimer timer;
 
 	private TreeSet<AlgoElement> tempSet;
-	private long lastStart;
+	private long lastStart = 0;
 
 	/**
 	 * @param kernel2
@@ -144,6 +144,7 @@ public class AnimationManager implements GTimerListener {
 		if (isRunning()) {
 			stopTimer();
 			updateNeedToShowAnimationButton();
+			lastStart = 0;
 		}
 	}
 
@@ -215,7 +216,9 @@ public class AnimationManager implements GTimerListener {
 		kernel.notifyBatchUpdate();
 
 		long startTime = System.currentTimeMillis();
-		double actualFrameRate = MyMath.clamp(1000.0 / (startTime - this.lastStart),
+		double actualFrameRate = lastStart == 0
+				? MAX_ANIMATION_FRAME_RATE
+				: MyMath.clamp(1000.0 / (startTime - this.lastStart),
 				MIN_ANIMATION_FRAME_RATE, MAX_ANIMATION_FRAME_RATE);
 		this.lastStart = startTime;
 

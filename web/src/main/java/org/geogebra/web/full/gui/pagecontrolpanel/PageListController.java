@@ -30,6 +30,7 @@ import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
+import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.PDFEncoderW;
 
 import com.google.gwt.dom.client.Touch;
@@ -370,7 +371,7 @@ public class PageListController implements PageListControllerInterface,
 		if (!archive.containsKey(GgbFile.STRUCTURE_JSON)) {
 			return false;
 		}
-		String structure = archive.remove(GgbFile.STRUCTURE_JSON);
+		String structure = archive.remove(GgbFile.STRUCTURE_JSON).string;
 		slides.clear();
 
 		try {
@@ -424,7 +425,7 @@ public class PageListController implements PageListControllerInterface,
 
 	private static GgbFile filter(GgbFile archive, String prefix) {
 		GgbFile ret = new GgbFile();
-		for (Entry<String, String> e : archive.entrySet()) {
+		for (Entry<String, ArchiveEntry> e : archive.entrySet()) {
 			if (e.getKey().startsWith(prefix + "/")
 					|| e.getKey().startsWith(GgbFile.SHARED_PREFIX)) {
 				ret.put(e.getKey().substring(prefix.length() + 1),

@@ -1,17 +1,16 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.javax.swing.GSpinnerW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.DialogBoxW;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -19,22 +18,16 @@ import elemental2.dom.BaseRenderingContext2D;
 import elemental2.dom.CanvasRenderingContext2D;
 import jsinterop.base.Js;
 
-public class CustomColorDialog extends DialogBoxW implements SetLabels {
-	
+public class CustomColorDialog extends ComponentDialog {
 	private static final int PREVIEW_HEIGHT = 40;
 	private static final int PREVIEW_WIDTH = 258;
 	private ColorComponent red;
 	private ColorComponent green;
 	private ColorComponent blue;
-	
-	private FlowPanel mainWidget;
+
 	private GColor origColor;
 	private PreviewPanel preview;
-	private Button btnOk;
-	private Button btnCancel;
-	private Button btnReset;
 	private Localization loc;
-	private ICustomColor listener;
 
 	public interface ICustomColor {
 		GColor getSelectedColor();
@@ -140,88 +133,48 @@ public class CustomColorDialog extends DialogBoxW implements SetLabels {
 	/**
 	 * Create new color dialog.
 	 * 
-	 * @param app
-	 *            application
-	 * @param listener
-	 *            custom color listener
+	 * @param app application
+	 * @param data dialog data
+	 * @param listener custom color listener
 	 */
-	public CustomColorDialog(App app, ICustomColor listener) {
-		super(((AppW) app).getPanel(), app);
-		this.listener = listener;
+	public CustomColorDialog(App app, DialogData data, ICustomColor listener) {
+		super((AppW) app, data, false, true);
 		loc = app.getLocalization();
-		setWidget(mainWidget = new FlowPanel());
-		addStyleName("GeoGebraPopup");
-		if (app.isUnbundledOrWhiteboard()) {
-			addStyleName(app.isWhiteboardActive() ? "ColorChooser mow"
-					: "ColorChooser");
-		}
+		addStyleName("customColor");
 		this.origColor = listener.getSelectedColor() != null
 				? listener.getSelectedColor() : GColor.BLACK;
 		createGUI();
+		setOnPositiveAction(() -> {
+			if (listener != null) {
+				listener.onCustomColor(getColor());
+			}
+		});
 	}
 	
 	/**
 	 * @return custom color
 	 */
-	public GColor getColor() {
+	private GColor getColor() {
 		return GColor.newColor(red.getValue(), green.getValue(),
 				blue.getValue());
 	}
 
 	protected void createGUI() {
-		FlowPanel contents = new FlowPanel();
-		contents.setStyleName("ColorDialog-content");
 		red = new ColorComponent();
+		red.setTitle(StringUtil.capitalize(loc.getColor("red")));
 		green = new ColorComponent();
+		green.setTitle(StringUtil.capitalize(loc.getColor("green")));
 		blue = new ColorComponent();
+		blue.setTitle(StringUtil.capitalize(loc.getColor("blue")));
 		setOriginalValues();
+		FlowPanel contents = new FlowPanel();
 		contents.add(red);
 		contents.add(green);
 		contents.add(blue);
 		preview = new PreviewPanel(origColor);
-		contents.add(preview);	
-		mainWidget.add(contents);
-		
-		FlowPanel btnPanel = new FlowPanel();
-		btnOk = new Button();
-		btnCancel = new Button();
-		btnCancel.addStyleName("cancelBtn");
-		btnReset = new Button();
-		btnReset.addStyleName("resetBtn");
-		btnPanel.addStyleName("DialogButtonPanel");
-		btnPanel.add(btnOk);
-		btnPanel.add(btnCancel);
-		btnPanel.add(btnReset);
-		mainWidget.add(btnPanel);
-		
-		btnOk.addClickHandler(event -> {
-			if (listener != null) {
-				listener.onCustomColor(getColor());
-			}
-			hide();
-		});
-		btnCancel.addClickHandler(event -> hide());
-		
-		btnReset.addClickHandler(event -> reset());
-		setLabels();
-	}
-
-	protected void reset() {
-		setOriginalValues();
-		preview.update();
-	}
-
-	@Override
-	public void setLabels() {
-		setTitle(loc.getMenu("ChooseColor"));
-		this.getCaption().setText(loc.getMenu("ChooseColor"));
-		red.setTitle(StringUtil.capitalize(loc.getColor("red")));
-		green.setTitle(StringUtil.capitalize(loc.getColor("green")));
-		blue.setTitle(StringUtil.capitalize(loc.getColor("blue")));
 		preview.setTitle(loc.getMenu("Preview"));
-		btnOk.setText(loc.getMenu("OK"));
-		btnCancel.setText(loc.getMenu("Cancel"));
-		btnReset.setText(loc.getMenu("Reset"));
+		contents.add(preview);
+		setDialogContent(contents);
 	}
 
 	/**
@@ -243,7 +196,6 @@ public class CustomColorDialog extends DialogBoxW implements SetLabels {
 		this.origColor = color;
 		setOriginalValues();
 		preview.reset(origColor);
-		setLabels();
 		super.center();
 	}
 }

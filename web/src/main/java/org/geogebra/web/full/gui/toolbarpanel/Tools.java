@@ -9,9 +9,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolcategorization.ToolCategory;
 import org.geogebra.web.full.gui.toolbar.ToolButton;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -29,11 +27,11 @@ public class Tools extends FlowPanel implements SetLabels {
 	/**
 	 * application
 	 */
-	private AppW app;
+	private final AppW app;
 	/**
 	 * see {@link ToolsTab}
 	 */
-	private ToolsTab parentTab;
+	private final ToolsTab parentTab;
 	/**
 	 * move button
 	 */
@@ -167,8 +165,8 @@ public class Tools extends FlowPanel implements SetLabels {
 
 	private class CategoryPanel extends FlowPanel implements SetLabels {
 
-		private ToolCategory category;
-		private List<Integer> tools;
+		private final ToolCategory category;
+		private final List<Integer> tools;
 
 		private FlowPanel toolsPanel;
 		private Label categoryLabel;
@@ -214,14 +212,10 @@ public class Tools extends FlowPanel implements SetLabels {
 		private ToolButton getToolButton(final int mode) {
 			final ToolButton btn = new ToolButton(mode, getApp());
 			AriaHelper.hide(btn);
-			btn.addFastClickHandler(new FastClickHandler() {
-
-				@Override
-				public void onClick(Widget source) {
-					getApp().setMode(mode);
-					showTooltip(mode);
-					getApp().updateDynamicStyleBars();
-				}
+			btn.addFastClickHandler(source -> {
+				getApp().setMode(mode);
+				showTooltip(mode);
+				getApp().updateDynamicStyleBars();
 			});
 			return btn;
 		}
@@ -229,7 +223,9 @@ public class Tools extends FlowPanel implements SetLabels {
 		@Override
 		public void setLabels() {
 			// update label of category header
-			categoryLabel.setText(category.getLocalizedHeader(app.getLocalization()));
+			if (categoryLabel != null) {
+				categoryLabel.setText(category.getLocalizedHeader(app.getLocalization()));
+			}
 			// update tooltips of tools
 			for (ToolButton toolButton : toolButtonList) {
 				toolButton.setLabel();
@@ -252,10 +248,9 @@ public class Tools extends FlowPanel implements SetLabels {
 		if (allowTooltips()) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			ToolTipManagerW.sharedInstance()
-					.showBottomInfoToolTip(app.getToolTooltipHTML(mode),
-							app.getGuiManager().getTooltipURL(mode),
-							ToolTipLinkType.Help, app,
-							app.getAppletFrame().isKeyboardShowing());
+					.showBottomInfoToolTip(app.getToolName(mode), app.getToolHelp(mode),
+							app.getLocalization().getMenu("Help"),
+							app.getGuiManager().getTooltipURL(mode), app);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 		}
 	}

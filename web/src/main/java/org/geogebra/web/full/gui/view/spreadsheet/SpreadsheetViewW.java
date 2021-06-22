@@ -35,7 +35,6 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -941,8 +940,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	@Override
-	public void getPrintable(FlowPanel pPanel, Button btPrint) {
-		// pPanel.add(table.);
+	public void getPrintable(FlowPanel pPanel, Runnable enablePrintBtn) {
+		// nothing to do here
 	}
 
 	public boolean isKeyboardEnabled() {

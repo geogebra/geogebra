@@ -32,9 +32,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	String getToolbarDefinition(Integer viewId);
 
-	boolean moveMoveFloatingButtonUp(int left, int width, boolean isSmall);
-
-	void moveMoveFloatingButtonDown(boolean isSmall, boolean wasMoved);
+	int getMoveTopBelowSnackbar(int snackbarRight);
 
 	void removeFromToolbarDefinition(int mode);
 

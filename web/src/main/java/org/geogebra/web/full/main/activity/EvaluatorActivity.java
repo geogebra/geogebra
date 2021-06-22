@@ -48,9 +48,9 @@ public class EvaluatorActivity extends BaseActivity {
 		return editor.getAPI();
 	}
 
-	public void exportImage(String type,
+	public void exportImage(String type, boolean transparent,
 			EvaluatorExportedApi.EquationExportImageConsumer callback) {
-		editor.exportImage(type, callback);
+		editor.exportImage(type, transparent, callback);
 	}
 
 	public MathFieldEditor getEditor() {

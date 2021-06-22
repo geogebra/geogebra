@@ -156,9 +156,9 @@ public class AlgoLaTeX extends AlgoElement {
 				show = false;
 			}
 
-			StringTemplate tpl = text.getStringTemplate().deriveReal();
-			// Application.debug(geo.getFormulaString(StringType.LATEX,
-			// substitute ));
+			StringTemplate tpl = text.getStringTemplate().deriveReal()
+					.deriveWithSimplification();
+
 			GeoElement geoToShow = geo;
 			if (geo.getCorrespondingCasCell() != null) {
 				// it's a twin geo, display the corresponding CAS cell

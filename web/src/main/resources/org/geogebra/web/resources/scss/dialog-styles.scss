@@ -28,6 +28,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent .gwt-TextBox:focus:not([readonly]) {
 		border: none;
+		padding-bottom: 3px;
 		border-bottom: 1px $teal-default solid;
 	}
 
@@ -50,35 +51,26 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	/* color chooser dialog */
-	.MaterialDialogBox.ColorChooser {
-		.ColorDialog-content {
-			.gwt-Label {
-				margin-top: 0px;
-				font-size: initial;
-			}
+	.dialogComponent.colorChooser {
+		max-width: 432px;
+	}
 
-			input[type="range"] {
-				cursor: pointer;
-			}
+	.dialogComponent.printPreview {
+	    max-width: 370px;
+	}
 
-			.ggbSpinner {
-				margin-right: 16px;
+	.dialogComponent.customColor {
+		max-width: 340px;
+
+		.ggbSpinner {
+			border-radius: 2px;
+			box-shadow: none;
+		}
+
+		.CustomColorPreview {
+			canvas {
+				width: 266px;
 				border-radius: 2px;
-				box-shadow: none;
-			}
-
-			.CustomColorPreview {
-				canvas {
-					width: 266px;
-					border-radius: 2px;
-				}
-
-				.gwt-Label {
-					font-size: 80%;
-					color: $teal-default;
-					cursor: default;
-				}
 			}
 		}
 	}
@@ -373,6 +365,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			box-shadow: none;
 			margin-bottom: 0px;
 			padding-left: 4px;
+			border-radius: 0px;
 
 			&:focus {
 				border:none;
@@ -1083,6 +1076,21 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
+	.dialogComponent.examClassicLogDialog,
+	.dialogComponent.errorDialog {
+		max-width: 320px;
+
+		.mainPanel {
+			display: flex;
+
+			img {
+				margin-right: 10px;
+				margin-top: auto;
+				margin-bottom: auto;
+			}
+		}
+	}
+
 	.MaterialDialogBox.examLogDialog {
 		@extend .MaterialDialogBox.examExitDialog;
 
@@ -1212,17 +1220,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.MaterialDialogBox.mowPrintPrew {
-		 button {
-			color: $mow_dark !important;
-		}
-		select:focus:not([readonly]) {
-				border: 1px $mow_dark solid;
-		}
-	}
-
-	.MaterialDialogBox.mow,
-		.MaterialDialogBox.ColorChooser.mow {
+	.MaterialDialogBox.mow {
 			.previewLbl {
 				color: $mow_dark !important;
 			}

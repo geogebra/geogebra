@@ -35,7 +35,7 @@ import jsinterop.base.Js;
 public class ImageManagerW extends ImageManager {
 
 	private HashMap<String, HTMLImageElement> externalImageTable = new HashMap<>();
-	private HashMap<String, String> externalImageSrcs = new HashMap<>();
+	private HashMap<String, ArchiveEntry> externalImageSrcs = new HashMap<>();
 	private boolean preventAuxImage;
 	protected int imagesLoaded = 0;
 
@@ -57,21 +57,35 @@ public class ImageManagerW extends ImageManager {
 	@Override
 	public void addExternalImage(String fileName, String src) {
 		if (fileName != null && src != null) {
+			addExternalImage(fileName, new ArchiveEntry(src));
+		}
+	}
+
+	/**
+	 * @param fileName filename
+	 * @param image file content (binary or data URL)
+	 */
+	public void addExternalImage(String fileName, ArchiveEntry image) {
+		if (fileName != null && image != null) {
 			Log.debug("addExternalImage: " + fileName);
 			String fn = StringUtil.removeLeadingSlash(fileName);
 			HTMLImageElement img = Dom.createImage();
-			externalImageSrcs.put(fn, src);
+			externalImageSrcs.put(fn, image);
 			externalImageTable.put(fn, img);
 		}
 	}
 
 	@Override
 	public String getExternalImageSrc(String fileName) {
+		return getExternalImageData(fileName).createUrl();
+	}
+
+	private ArchiveEntry getExternalImageData(String fileName) {
 		return externalImageSrcs.get(StringUtil.removeLeadingSlash(fileName));
 	}
 
 	protected void checkIfAllLoaded(AppW app1, Runnable run,
-			Map<String, String> toLoad) {
+			Map<String, ArchiveEntry> toLoad) {
 		imagesLoaded++;
 		if (imagesLoaded == toLoad.size()) {
 			run.run();
@@ -143,7 +157,7 @@ public class ImageManagerW extends ImageManager {
 		EventListener errorCallback = (event) -> onError(geoi);
 		img.addEventListener("error", errorCallback);
 		img.addEventListener("abort", errorCallback);
-		img.src = externalImageSrcs.get(imageFileName);
+		img.src = externalImageSrcs.get(imageFileName).createUrl();
 	}
 
 	/**
@@ -157,13 +171,13 @@ public class ImageManagerW extends ImageManager {
 	 *            map of images to be loaded
 	 */
 	public void triggerImageLoading(final AppW app,
-			final Runnable run, final Map<String, String> toLoad) {
+			final Runnable run, final Map<String, ArchiveEntry> toLoad) {
 		this.imagesLoaded = 0;
-		for (Entry<String, String> imgSrc : toLoad.entrySet()) {
+		for (Entry<String, ArchiveEntry> imgSrc : toLoad.entrySet()) {
 			HTMLImageElement el = getExternalImage(imgSrc.getKey(), app, true);
 			el.addEventListener("load", (event) -> checkIfAllLoaded(app, run, toLoad));
 			el.addEventListener("error", (event) -> el.src = getErrorURL());
-			el.src = imgSrc.getValue();
+			el.src = imgSrc.getValue().createUrl();
 		}
 	}
 
@@ -191,10 +205,10 @@ public class ImageManagerW extends ImageManager {
 			return;
 		}
 		HTMLImageElement el = this.externalImageTable.get(fileName);
-		String src = this.externalImageSrcs.get(fileName);
+		ArchiveEntry image = this.externalImageSrcs.get(fileName);
 
 		this.externalImageTable.put(newName, el);
-		this.externalImageSrcs.put(newName, src);
+		this.externalImageSrcs.put(newName, image);
 	}
 
 	/**
@@ -291,7 +305,7 @@ public class ImageManagerW extends ImageManager {
 		for (GeoElement geo : geos) {
 			String fileName = geo.getImageFileName();
 			if (!"".equals(fileName)) {
-				String url = getExternalImageSrc(fileName);
+				ArchiveEntry url = getExternalImageData(fileName);
 				FileExtensions ext = StringUtil.getFileExtension(fileName);
 
 				MyImageW img = (MyImageW) geo.getFillImage();
@@ -301,29 +315,32 @@ public class ImageManagerW extends ImageManager {
 	}
 
 	private static void addImageToArchive(String filePath, String fileName,
-			String url, FileExtensions ext, MyImageW img,
-			Map<String, String> archive) {
+			ArchiveEntry data, FileExtensions ext, MyImageW img,
+			GgbFile archive) {
 		if (ext.equals(FileExtensions.SVG)) {
 			addSvgToArchive(fileName, img, archive);
 			return;
 		}
-		String dataURL;
-		if ((url == null || url.startsWith("http"))
-				&& (img != null && img.getImage() != null)) {
-			dataURL = convertImgToPng(img);
-		} else {
-			dataURL = url;
+		if (data == null) {
+			return;
 		}
-		if (dataURL != null) {
+		String url = data.string;
+		ArchiveEntry dataURL;
+		if ((url == null || url.startsWith("http"))
+				&& data.data == null && (img != null && img.getImage() != null)) {
+			dataURL = new ArchiveEntry(convertImgToPng(img));
+		} else {
+			dataURL = data;
+		}
+		if (!dataURL.isEmpty()) {
 			if (ext.isAllowedImage()) {
 				// png, jpg, jpeg
 				// NOT SVG (filtered earlier)
-				addImageToZip(filePath + fileName, dataURL, archive);
+				archive.put(filePath + fileName, dataURL);
 			} else {
 				// not supported, so saved as PNG
-				addImageToZip(filePath + StringUtil
-						.changeFileExtension(fileName, FileExtensions.PNG),
-						dataURL, archive);
+				archive.put(filePath + StringUtil
+								.changeFileExtension(fileName, FileExtensions.PNG), dataURL);
 			}
 		}
 	}
@@ -344,7 +361,7 @@ public class ImageManagerW extends ImageManager {
 	}
 
 	private static void addSvgToArchive(String fileName, MyImageW img,
-			Map<String, String> archive) {
+			GgbFile archive) {
 		HTMLImageElement svg = img.getImage();
 
 		// TODO
@@ -362,20 +379,7 @@ public class ImageManagerW extends ImageManager {
 
 		Log.debug("svgAsXML (decoded): " + svgAsXML.length() + "bytes");
 
-		archive.put(fileName, svgAsXML);
-	}
-
-	/**
-	 * @param filename
-	 *            image filename
-	 * @param base64img
-	 *            base64 content
-	 * @param archive
-	 *            archive
-	 */
-	public static void addImageToZip(String filename, String base64img,
-			Map<String, String> archive) {
-		archive.put(filename, base64img);
+		archive.put(fileName, new ArchiveEntry(svgAsXML));
 	}
 
 	/**
@@ -395,15 +399,15 @@ public class ImageManagerW extends ImageManager {
 			writeConstructionImages(macro.getMacroConstruction(), "", archive);
 			String fileName = macro.getIconFileName();
 			if (fileName != null && !fileName.isEmpty()) {
-				String url = getExternalImageSrc(fileName);
+				ArchiveEntry url = getExternalImageData(fileName);
 				if (url != null) {
 					FileExtensions ext = StringUtil.getFileExtension(fileName);
-
-					HTMLImageElement elem = Dom.createImage();
-					elem.src = url;
-
-					MyImageW img = new MyImageW(elem, FileExtensions.SVG.equals(ext));
-
+					MyImageW img = null;
+					if (url.string != null) {
+						HTMLImageElement elem = Dom.createImage();
+						elem.src = url.string;
+						img = new MyImageW(elem, FileExtensions.SVG.equals(ext));
+					}
 					addImageToArchive("", fileName, url, ext, img, archive);
 				}
 			}

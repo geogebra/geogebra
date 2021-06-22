@@ -61,7 +61,6 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -1005,9 +1004,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (commandError != null) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-					StringUtil.toHTMLString(errorMessage),
-					app.getGuiManager().getHelpURL(Help.COMMAND, commandError),
-					ToolTipLinkType.Help, app, true);
+					errorMessage, null, app.getLocalization().getMenu("Help"),
+					app.getGuiManager().getHelpURL(Help.COMMAND, commandError), app);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 			return true;
 		}
@@ -1016,8 +1014,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (app.isUnbundled() && app.getActivity().useValidInput()) {
 				return false;
 			}
-			ToolTipManagerW.sharedInstance().showBottomMessage(errorMessage,
-					true, app);
+			ToolTipManagerW.sharedInstance().showBottomMessage(errorMessage, app);
 			return true;
 
 		}
@@ -1025,7 +1022,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	void hideCurrentError() {
-		ToolTipManagerW.sharedInstance().hideBottomInfoToolTip();
+		ToolTipManagerW.sharedInstance().hideTooltip();
 	}
 
 	/**

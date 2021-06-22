@@ -654,6 +654,8 @@ public class AlgebraProcessor {
 				if (((GeoFunctionNVar) geo).isForceInequality()) {
 					n.setForceInequality();
 				}
+			} else if (geo.isGeoAngle() && preventTypeChange) {
+				n.setForceAngle();
 			}
 		}
 		if (newValue.unwrap() instanceof Equation) {
@@ -1083,9 +1085,6 @@ public class AlgebraProcessor {
 			extracted = symbolicProcessor.extractAssignment(equation, info);
 			ve.setLabel(extracted.getLabel());
 		}
-		if (ve.isRootNode()) {
-			extracted.setAsRootNode();
-		}
 		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(extracted, info);
 		String label = extracted.getLabel();
 		if (label != null && kernel.lookupLabel(label) != null
@@ -1304,7 +1303,6 @@ public class AlgebraProcessor {
 			ErrorHandler handler, ValidExpression ve, EvalInfo info) {
 		GeoElement[] geoElements = null;
 		try {
-			ve.setAsRootNode();
 			geoElements = processValidExpression(ve, info);
 			if (storeUndo && geoElements != null) {
 				app.storeUndoInfo();
@@ -2411,7 +2409,7 @@ public class AlgebraProcessor {
 				fun.getExpression(),
 				copy.evaluate(StringTemplate.defaultTemplate),
 				new FunctionVariable[] { fun.getFunctionVariable() },
-				fun.getLabel(), info);
+				ParametricProcessor.getParametricLabel(fun), info);
 	}
 
 	/**
@@ -2586,44 +2584,6 @@ public class AlgebraProcessor {
 		} else {
 			coefX[i] = scale.plus(coefX[i]);
 		}
-	}
-
-	private static int getDirection(ExpressionNode enLeft) {
-		int dir = 0;
-		ExpressionValue left = enLeft.getLeft();
-		ExpressionValue right = enLeft.getRight();
-		Operation op = enLeft.getOperation();
-		if ((op.equals(Operation.LESS) || op.equals(Operation.LESS_EQUAL))) {
-			if (left instanceof FunctionVariable && right.isNumberValue()
-					&& right.isConstant()) {
-				dir = -1;
-			} else if (right instanceof FunctionVariable && left.isNumberValue()
-					&& left.isConstant()) {
-				dir = +1;
-			}
-
-		} else if ((op.equals(Operation.GREATER)
-				|| op.equals(Operation.GREATER_EQUAL))) {
-			if (left instanceof FunctionVariable && right.isNumberValue()
-					&& right.isConstant()) {
-				dir = +1;
-			} else if (right instanceof FunctionVariable && left.isNumberValue()
-					&& left.isConstant()) {
-				dir = -1;
-			}
-
-		}
-		return dir;
-	}
-
-	/**
-	 * Interval dependent on coefficients of arithmetic expressions with
-	 * variables, represented by trees. e.g. x > a && x < b
-	 */
-	final private GeoFunction dependentInterval(Function fun) {
-		AlgoDependentFunction algo = new AlgoDependentFunction(cons, fun, true);
-		GeoFunction f = algo.getFunction();
-		return f;
 	}
 
 	final private GeoElement dependentGeoCopy(GeoElement origGeoNode, ExpressionNode node) {
@@ -3282,7 +3242,7 @@ public class AlgebraProcessor {
 		GeoElement ret;
 		boolean isIndependent = !n.inspect(Inspecting.dynamicGeosFinder);
 		MyDouble val = ((NumberValue) evaluate).getNumber();
-		boolean isAngle = val.isAngle();
+		boolean isAngle = val.isAngle() || n.isForceAngle();
 		double value = val.getDouble();
 
 		if (isIndependent) {

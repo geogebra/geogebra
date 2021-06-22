@@ -42,6 +42,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	public InlineFormulaControllerW(GeoFormula formula, AppW app, Panel parent) {
 		this.formula = formula;
 		this.mathFieldEditor = new MathFieldEditor(app, new FormulaMathFieldListener());
+		mathFieldEditor.getMathField().setUseSimpleScripts(false);
 		if (formula.getContent() != null) {
 			mathFieldEditor.setText(formula.getContent());
 		}
@@ -65,7 +66,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		mathFieldEditor.attach(widget);
 		mathFieldEditor.getMathField().setFixMargin(DrawFormula.PADDING);
 		mathFieldEditor.setUseKeyboardButton(false);
-		mathFieldEditor.getMathField().setBackgroundCssColor("transparent");
+		mathFieldEditor.getMathField().setBackgroundColor("transparent");
 	}
 
 	@Override
@@ -90,6 +91,12 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	}
 
 	@Override
+	public void setScale(double sx, double sy) {
+		style.setProperty("transform", "scale(" + sx + "," + sy + ")");
+		mathFieldEditor.getMathField().setPixelRatio(sx);
+	}
+
+	@Override
 	public void toForeground(int x, int y) {
 		if (formula.getContent() != null) {
 			mathFieldEditor.setText(formula.getContent());
@@ -109,6 +116,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		if (widget.isVisible()) {
 			formula.updateRepaint();
 			widget.setVisible(false);
+			formula.unlockForMultiuser();
 		}
 		mathFieldEditor.setKeyboardVisibility(false);
 	}
@@ -122,7 +130,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 	@Override
 	public void setColor(GColor objectColor) {
-		mathFieldEditor.getMathField().setForegroundCssColor(StringUtil.toHtmlColor(objectColor));
+		mathFieldEditor.getMathField().setForegroundColor(StringUtil.toHtmlColor(objectColor));
 		mathFieldEditor.getMathField().repaintWeb();
 	}
 
@@ -165,8 +173,9 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 				saveTimer.schedule(500);
 
-				int width = mathFieldEditor.getMathField().asWidget().getOffsetWidth()
-						- DrawFormula.PADDING;
+				int width = (int) ((mathFieldEditor.getMathField().asWidget().getOffsetWidth()
+						- DrawFormula.PADDING) * formula.getWidth() / formula
+							.getContentWidth());
 				int height = mathFieldEditor.getMathField().asWidget().getOffsetHeight();
 
 				formula.setSize(Math.max(formula.getWidth(), width),

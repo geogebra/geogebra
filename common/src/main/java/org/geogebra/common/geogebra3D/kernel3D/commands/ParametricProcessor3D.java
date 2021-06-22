@@ -141,9 +141,8 @@ public class ParametricProcessor3D extends ParametricProcessor {
 				} else {
 					line = (GeoLine3D) kernel.getManager3D().line3D(label,
 							coefX, coefY, coefZ);
-
+					line.setToParametric(Unicode.lambda_STRING);
 				}
-				line.setToParametric(Unicode.lambda_STRING);
 				return new GeoElement[] { line };
 
 			}

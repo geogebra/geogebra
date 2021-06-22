@@ -7,6 +7,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
+import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.ViewW;
 
 public class ViewWMock extends ViewW {
@@ -24,11 +25,11 @@ public class ViewWMock extends ViewW {
 	 */
 	public static String toJson(GgbFile zip) {
 		JSONArray archive = new JSONArray();
-		for(Map.Entry<String, String> entry: zip.entrySet()){
+		for(Map.Entry<String, ArchiveEntry> entry: zip.entrySet()){
 			try {
 				JSONObject archiveEntry = new JSONObject();
 				archiveEntry.put("fileName", entry.getKey());
-				archiveEntry.put("fileContent", entry.getValue());
+				archiveEntry.put("fileContent", entry.getValue().string);
 				archive.put(archiveEntry);
 			} catch (JSONException e) {
 				e.printStackTrace();
