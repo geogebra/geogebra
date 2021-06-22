@@ -1408,18 +1408,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				}
 				// primeOpen = primeClose;
 			} else {
-				int check = StringUtil.checkBracketsBackward(
-						ret.substring(primeOpen, primeClose));
-				// -('3*5') will have check = -1
-				if (check < 0) {
-					StringBuilder sb = new StringBuilder(ret);
-					sb = sb.replace(primeOpen, primeOpen + 1, "");
-					sb = sb.replace(primeClose - 1, primeClose, "");
-					ret = sb.toString();
-					primeOpen = ret.indexOf('\'', primeClose);
-				} else {
-					primeOpen = primeClose;
-				}
+				primeOpen = primeClose;
 			}
 		}
 
