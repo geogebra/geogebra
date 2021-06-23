@@ -659,7 +659,7 @@ public class MathFieldInternal
 	 * @param text ascii math string
 	 */
 	public void insertString(String text) {
-		boolean rootProtected = InputController.isProtected(editorState.getSelectionStart());
+		boolean rootProtected = InputController.isProtected(editorState.getRootComponent());
 		InputController.deleteSelection(editorState);
 		try {
 			MathSequence root = new Parser(mathField.getMetaModel()).parse(text)
