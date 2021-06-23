@@ -113,6 +113,7 @@ import org.geogebra.common.kernel.statistics.CmdTMeanEstimate;
 import org.geogebra.common.kernel.statistics.CmdTTest;
 import org.geogebra.common.kernel.statistics.CmdTTest2;
 import org.geogebra.common.kernel.statistics.CmdTTestPaired;
+import org.geogebra.common.kernel.statistics.CmdTableToChart;
 import org.geogebra.common.kernel.statistics.CmdTiedRank;
 import org.geogebra.common.kernel.statistics.CmdTriangular;
 import org.geogebra.common.kernel.statistics.CmdUniform;
@@ -405,6 +406,11 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 			return new CmdZMeanTest(kernel);
 		case ZMean2Test:
 			return new CmdZMean2Test(kernel);
+
+		case BarChart:
+			return new CmdBarChart(kernel);
+		case TableToChart:
+			return new CmdTableToChart(kernel);
 		default:
 			break;
 		}

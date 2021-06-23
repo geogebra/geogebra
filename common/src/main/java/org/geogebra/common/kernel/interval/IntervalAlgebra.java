@@ -130,6 +130,11 @@ class IntervalAlgebra {
 	 * @return this as result.
 	 */
 	Interval pow(Interval other) {
+		if (other.isZero()) {
+			interval.set(IntervalConstants.one());
+			return interval;
+		}
+
 		if (!other.isSingleton()) {
 			interval.setEmpty();
 			return interval;

@@ -91,8 +91,8 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 						.setDefaultWindowY(app.getPreferredSize().getHeight());
 			}
 			app.setXML(GeoGebraPreferencesXML.getXML(app), false);
-			if (app.getTmpPerspectives().size() > 0 && p0 == null) {
-				p = app.getTmpPerspectives().get(0);
+			if (app.getTmpPerspective() != null) {
+				p = app.getTmpPerspective();
 			}
 		}
 
@@ -100,7 +100,7 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().getLayout()
-					.setPerspectives(app.getTmpPerspectives(), p);
+					.setPerspectiveOrDefault(p);
 		}
 	}
 

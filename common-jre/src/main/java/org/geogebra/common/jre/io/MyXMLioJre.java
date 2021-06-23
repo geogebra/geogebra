@@ -33,7 +33,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
-import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -484,7 +483,6 @@ public abstract class MyXMLioJre extends MyXMLio {
 	final private void writeImageToZip(ZipOutputStream zip, String fileName,
 			MyImageJre img) {
 		// create new entry in zip archive
-		zip.setLevel(Deflater.NO_COMPRESSION);
 		try {
 			ZipEntry zipEntry = new ZipEntry(fileName);
 			zip.putNextEntry(zipEntry);
@@ -495,7 +493,6 @@ public abstract class MyXMLioJre extends MyXMLio {
 		}
 
 		writeImageToStream(zip, fileName, img);
-		zip.setLevel(Deflater.DEFAULT_COMPRESSION);
 	}
 
 	/**

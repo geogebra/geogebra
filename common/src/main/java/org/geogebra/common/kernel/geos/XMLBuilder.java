@@ -436,12 +436,28 @@ public class XMLBuilder {
 	 * @param sb XML builder
 	 * @param text inline text
 	 */
-	public static void appendBorder(StringBuilder sb, GeoInlineText text) {
+	public static void appendBorder(StringBuilder sb, GeoInline text) {
 		GColor borderColor = text.getBorderColor();
 		if (borderColor != null) {
 			sb.append("\t<borderColor");
 			appendRGB(sb, borderColor);
 			sb.append("/>\n");
+		}
+	}
+
+	/**
+	 * @param sb builder
+	 * @param node parent node
+	 * @param alignment alignment
+	 */
+	public static void appendParent(StringBuilder sb, GeoMindMapNode node,
+			GeoMindMapNode.NodeAlignment alignment) {
+		if (node != null) {
+			sb.append("\t<parent val=\"");
+			sb.append(node.getLabel(StringTemplate.xmlTemplate));
+			sb.append("\" align=\"");
+			sb.append(alignment.toString());
+			sb.append("\"/>\n");
 		}
 	}
 }
