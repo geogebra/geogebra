@@ -46,6 +46,7 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
+import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
@@ -659,13 +660,19 @@ public class MathFieldInternal
 	 * @param text ascii math string
 	 */
 	public void insertString(String text) {
-		boolean rootProtected = InputController.isProtected(editorState.getRootComponent());
+		MathSequence rootBefore = editorState.getRootComponent();
+		boolean allSelected = editorState.getSelectionStart() == rootBefore;
+		boolean rootProtected = InputController.isProtected(rootBefore);
 		InputController.deleteSelection(editorState);
 		try {
 			MathSequence root = new Parser(mathField.getMetaModel()).parse(text)
 					.getRootComponent();
-			for (int i = 0; i < root.getArgumentCount(); i++) {
-				getEditorState().addArgument(root.getArgument(i));
+
+			if (allSelected	&& isMatrixWithSameDimension(rootBefore, root)) {
+				replaceRoot(rootBefore, root);
+				rootProtected = false;
+			} else {
+				addToMathField(root);
 			}
 		} catch (ParseException parseException) {
 			KeyboardInputAdapter.type(this, text);
@@ -675,6 +682,33 @@ public class MathFieldInternal
 		if (rootProtected) {
 			editorState.getRootComponent().setProtected();
 		}
+	}
+
+	private void addToMathField(MathSequence root) {
+		for (int i = 0; i < root.getArgumentCount(); i++) {
+			getEditorState().addArgument(root.getArgument(i));
+		}
+	}
+
+	private void replaceRoot(MathSequence rootBefore, MathSequence root) {
+		MathArray matrix = (MathArray) rootBefore.getArgument(0);
+		matrix.clearProtection();
+		rootBefore.clearArguments();
+		for (int i = 0; i < root.getArgumentCount(); i++) {
+			rootBefore.addArgument(root.getArgument(i));
+		}
+	}
+
+	private boolean isMatrixWithSameDimension(MathSequence rootBefore, MathSequence root) {
+		MathArray matrix = asMatrix(root);
+		return matrix != null && matrix.hasSameDimension(asMatrix(rootBefore));
+	}
+
+	private MathArray asMatrix(MathSequence sequence) {
+		MathComponent argument1 = sequence.getArgument(0);
+		return argument1 instanceof MathArray && ((MathArray) argument1).isMatrix()
+				? (MathArray) argument1
+				: null;
 	}
 
 	/**
