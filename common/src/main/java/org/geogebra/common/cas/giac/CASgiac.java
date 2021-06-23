@@ -4,10 +4,12 @@ import java.math.BigInteger;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.kernel.AsynchronousCommand;
@@ -560,6 +562,14 @@ public abstract class CASgiac implements CASGenericInterface {
 			return casGiacCache.get(input);
 		}
 
+		String standardizedInput = standardizeArgumentNamesForInput(input);
+
+		for (String key : casGiacCache.keySet()) {
+			if (standardizeArgumentNamesForInput(key).equals(standardizedInput)) {
+				return casGiacCache.get(key);
+			}
+		}
+
 		String result = evaluate(exp, getTimeoutMilliseconds());
 
 		// FIXME: This check is too heuristic: in giac.js we can get results
@@ -578,6 +588,21 @@ public abstract class CASgiac implements CASGenericInterface {
 		casGiacCache.put(input, result);
 
 		return result;
+	}
+
+	private String standardizeArgumentNamesForInput(String input) {
+		String standardizedInput = input;
+		RegExp regExpArgName = RegExp.compile("arg([0-9])\\w+");
+		Set argNames = new HashSet();
+		MatchResult matcher = regExpArgName.exec(standardizedInput);
+
+		while ((matcher = regExpArgName.exec(standardizedInput)) != null) {
+			String match = matcher.getGroup(0);
+			argNames.add(match);
+			standardizedInput = standardizedInput.replace(match, "arg_" + argNames.size());
+		}
+
+		return standardizedInput;
 	}
 
 	/**
