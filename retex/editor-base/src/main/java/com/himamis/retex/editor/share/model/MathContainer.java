@@ -472,10 +472,6 @@ abstract public class MathContainer extends MathComponent {
 		isProtected = true;
 	}
 
-	public void clearProtection() {
-		isProtected = false;
-	}
-
 	/**
 	 * @return true if sequence is protected from deletion
 	 */

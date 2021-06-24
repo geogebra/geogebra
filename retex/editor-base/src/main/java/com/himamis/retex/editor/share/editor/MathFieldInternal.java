@@ -694,6 +694,8 @@ public class MathFieldInternal
 		for (int i = 0; i < root.getArgumentCount(); i++) {
 			rootBefore.addArgument(root.getArgument(i));
 		}
+		editorState.setCurrentField(((MathArray) root.getArgument(0)).getArgument(0, 0));
+		editorState.setCurrentOffset(0);
 	}
 
 	private boolean isMatrixWithSameDimension(MathSequence rootBefore, MathSequence root) {
