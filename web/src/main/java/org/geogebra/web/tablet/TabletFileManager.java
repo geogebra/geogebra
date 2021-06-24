@@ -10,6 +10,7 @@ import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.touch.FileManagerT;
@@ -70,7 +71,7 @@ public class TabletFileManager extends FileManagerT {
 	}
 
 	@Override
-	protected void getFiles(final MaterialFilter filter) {	
+	protected void getFiles(final MaterialFilter filter) {
 		final int callbackParent = addNewCallback(new MyCallback() {
 			@Override
 			public void onSuccess(Object resultParent) {
@@ -119,11 +120,11 @@ public class TabletFileManager extends FileManagerT {
 		listLocalFilesNative(callbackParent);
 	}
 
-	private native void listLocalFilesNative(int callback) /*-{
-		if ($wnd.android) {
-			$wnd.android.listLocalFiles(callback);
+	private void listLocalFilesNative(int callback) {
+		if (GeoGebraJSNativeBridge.get() != null) {
+			GeoGebraJSNativeBridge.get().listLocalFiles(callback);
 		}
-	}-*/;
+	}
 
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
@@ -132,11 +133,11 @@ public class TabletFileManager extends FileManagerT {
 		runCallback(callback, true, length);
 	}
 
-	private native void getMetaDataNative(int i, int callback, int callbackParent) /*-{
-		if ($wnd.android) {
-			$wnd.android.getMetaData(i, callback, callbackParent);
+	private void getMetaDataNative(int i, int callback, int callbackParent) {
+		if (GeoGebraJSNativeBridge.get() != null) {
+			GeoGebraJSNativeBridge.get().getMetaData(i, callback, callbackParent);
 		}
-	}-*/;
+	}
 
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
@@ -170,11 +171,11 @@ public class TabletFileManager extends FileManagerT {
 		getBase64(fileName, callback);
 	}
 
-	private native void getBase64(String fileName, int callback) /*-{
-		if ($wnd.android) {
-			$wnd.android.getBase64(fileName, callback);
+	private void getBase64(String fileName, int callback) {
+		if (GeoGebraJSNativeBridge.get() != null) {
+			GeoGebraJSNativeBridge.get().getBase64(fileName, callback);
 		}
-	}-*/;
+	}
 
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
@@ -216,15 +217,15 @@ public class TabletFileManager extends FileManagerT {
 	 * this method is called through js (see exportJavascriptMethods())
 	 */
 	public void catchSaveFileResult(int result, int cb) {
-		runCallback(cb, result > 0, result);	
+		runCallback(cb, result > 0, result);
 	}
 
-	private native void saveFileNative(int id, String title, String base64,
-			String metaDatas, int callback) /*-{
-		if ($wnd.android) {
-			$wnd.android.saveFile(id, title, base64, metaDatas, callback);
+	private void saveFileNative(int id, String title, String base64,
+			String metaDatas, int callback) {
+		if (GeoGebraJSNativeBridge.get() != null) {
+			GeoGebraJSNativeBridge.get().saveFile(id, title, base64, metaDatas, callback);
 		}
-	}-*/;
+	}
 
 	@Override
 	public void upload(final Material mat) {
@@ -245,13 +246,13 @@ public class TabletFileManager extends FileManagerT {
 
 	@Override
 	protected void updateFile(final String key, final long modified,
-			final Material material) {	
+			final Material material) {
 		material.setModified(modified);
 		if (key == null) {
 			// save as a new local file
 			String base64 = material.getBase64();
 			material.setBase64("");
-			createFileFromTubeNative(getTitleWithoutReservedCharacters(material.getTitle()), 
+			createFileFromTubeNative(getTitleWithoutReservedCharacters(material.getTitle()),
 					base64, material.toJson().toString());
 		} else {
 			material.setLocalID(MaterialsManager.getIDFromKey(key));
@@ -272,19 +273,17 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}
 
-	private native void createFileFromTubeNative(String title, String base64,
-			String metaDatas) /*-{
-		if ($wnd.android) {
-			$wnd.android.createFileFromTube(title, base64, metaDatas);
+	private void createFileFromTubeNative(String title, String base64, String metaDatas) {
+		if (GeoGebraJSNativeBridge.get() != null) {
+			GeoGebraJSNativeBridge.get().createFileFromTube(title, base64, metaDatas);
 		}
-	}-*/;
+	}
 
-	private native void updateFileFromTubeNative(String title, String base64,
-			String metaDatas) /*-{
-		if ($wnd.android) {
-			$wnd.android.updateFileFromTube(title, base64, metaDatas);
+	private void updateFileFromTubeNative(String title, String base64, String metaDatas) {
+		if (GeoGebraJSNativeBridge.get() != null) {
+			GeoGebraJSNativeBridge.get().updateFileFromTube(title, base64, metaDatas);
 		}
-	}-*/;
+	}
 
 	@Override
 	public void open(String url, String features) {
@@ -296,11 +295,11 @@ public class TabletFileManager extends FileManagerT {
 		openUrlInBrowser(url, "");
 	}
 
-	private native void openUrlInBrowser(String url, String features) /*-{
-		if ($wnd.android) {
-			$wnd.android.openUrlInBrowser(url, "_blank", features);
+	private void openUrlInBrowser(String url, String features) {
+		if (GeoGebraJSNativeBridge.get() != null) {
+			GeoGebraJSNativeBridge.get().openUrlInBrowser(url);
 		}
-	}-*/;
+	}
 
 	@Override
 	public void rename(final String newTitle, final Material mat,
@@ -310,12 +309,12 @@ public class TabletFileManager extends FileManagerT {
 		final String oldKey = getFileKey(mat);
 		mat.setBase64("");
 		mat.setTitle(newTitle);
-		int callback1 = addNewCallback(new MyCallback() {			
+		int callback1 = addNewCallback(new MyCallback() {
 			@Override
 			public void onSuccess(Object result) {
 				if (callback != null) {
 					callback.run();
-				}					
+				}
 			}
 
 			@Override
@@ -326,16 +325,16 @@ public class TabletFileManager extends FileManagerT {
 		renameNative(oldKey, newKey, mat.toJson().toString(), callback1);
 	}
 
-	private native void renameNative(String oldKey, String newKey,
-			String metaData, int callback) /*-{
-		if ($wnd.android) {
-			$wnd.android.rename(oldKey, newKey, metaData, callback);
+	private void renameNative(String oldKey, String newKey,
+			String metaData, int callback) {
+		if (GeoGebraJSNativeBridge.get() != null) {
+			GeoGebraJSNativeBridge.get().rename(oldKey, newKey, metaData, callback);
 		}
-	}-*/;
+	}
 
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
-	 * 
+	 *
 	 * @param callback
 	 *            rename callback
 	 */
@@ -369,11 +368,11 @@ public class TabletFileManager extends FileManagerT {
 		deleteNative(getFileKey(mat), callback);
 	}
 
-	private native void overwriteMetaDataNative(String key, String metaData, int callback)/*-{
-		if ($wnd.android) {
-			$wnd.android.overwriteMetaData(key, metaData, callback);
+	private void overwriteMetaDataNative(String key, String metaData, int callback) {
+		if (GeoGebraJSNativeBridge.get() != null) {
+			GeoGebraJSNativeBridge.get().overwriteMetaData(key, metaData, callback);
 		}
-	}-*/;
+	}
 
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
@@ -382,11 +381,11 @@ public class TabletFileManager extends FileManagerT {
 		runCallback(callback, true, null);
 	}
 
-	private native void deleteNative(String key, int callback) /*-{
-		if ($wnd.android) {
-			$wnd.android.deleteGgb(key, callback);
+	private void deleteNative(String key, int callback) {
+		if (GeoGebraJSNativeBridge.get() != null) {
+			GeoGebraJSNativeBridge.get().deleteGgb(key, callback);
 		}
-	}-*/;
+	}
 
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
@@ -434,14 +433,14 @@ public class TabletFileManager extends FileManagerT {
 		});
 	}-*/;
 
-	private native void debugNative(String s) /*-{
-		if ($wnd.android) {
-			$wnd.android.debug(s);
-		}
-	}-*/;
-
 	protected void debug(String s) {
 		Log.debug(s);
 		debugNative(s);
+	}
+
+	private void debugNative(String s) {
+		if (GeoGebraJSNativeBridge.get() != null) {
+			GeoGebraJSNativeBridge.get().debug(s);
+		}
 	}
 }

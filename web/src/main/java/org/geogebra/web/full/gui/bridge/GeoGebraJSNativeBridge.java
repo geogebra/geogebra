@@ -26,4 +26,44 @@ public class GeoGebraJSNativeBridge {
 
 	@JsProperty
 	public native void callPlugin(String action, Object[] argument);
+
+	@JsProperty
+	public native void getCameraPictureNative();
+
+	@JsProperty
+	public native void listLocalFiles(int callbackId);
+
+	@JsProperty
+	public native void getMetaData(int materialId, int callbackId, int callbackParentId);
+
+	@JsProperty
+	public native void getBase64(String title, int callbackId);
+
+	@JsProperty
+	public native void saveFile(int materialId, String title, String base64,
+			String metaDatas, int callbackId);
+
+	@JsProperty
+	public native void createFileFromTube(String title, String base64, String metaDatas);
+
+	@JsProperty
+	public native void updateFileFromTube(String title, String base64, String metaDatas);
+
+	@JsProperty
+	public native void openUrlInBrowser(String url);
+
+	@JsProperty
+	public native void rename(String oldKey, String newKey, String metaData, int callbackId);
+
+	@JsProperty
+	public native void overwriteMetaData(String key, String metaData, int callbackId);
+
+	@JsProperty
+	public native void deleteGgb(String key, int callbackId);
+
+	@JsProperty
+	public native void debug(String message);
+
+	@JsProperty
+	public native void open(int materialId, String title, String token);
 }
