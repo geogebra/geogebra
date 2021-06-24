@@ -5,6 +5,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetViewW;
+import org.geogebra.web.full.gui.view.spreadsheet.TableCanvasExporter;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 
@@ -12,6 +13,8 @@ import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.CanvasRenderingContext2D;
 
 /**
  * @author Arpad Fekete
@@ -71,39 +74,34 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 	}
 
 	private static String getDefaultToolbar() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(EuclidianConstants.MODE_MOVE);
-		
-		sb.append(" || ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS);
 
-		sb.append(" || ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE);
-
-		sb.append(" || ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_SUM);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_AVERAGE);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_COUNT);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_MAX);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_MIN);
-
-		return sb.toString();
+		return EuclidianConstants.MODE_MOVE
+				+ " || "
+				+ EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS
+				+ " || "
+				+ EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE
+				+ " || "
+				+ EuclidianConstants.MODE_SPREADSHEET_SUM
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_AVERAGE
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_COUNT
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_MAX
+				+ " , "
+				+ EuclidianConstants.MODE_SPREADSHEET_MIN;
 	}
 
 	@Override 
@@ -137,10 +135,22 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	public MathKeyboardListener getKeyboardListener() {
-		MathKeyboardListener ml = this.sview.getSpreadsheetTable()
-				.getEditor()
-				.getTextfield();
-		return ml;
+		return this.sview.getSpreadsheetTable()
+				.getEditor().getTextfield();
+	}
+
+	@Override
+	public void paintToCanvas(CanvasRenderingContext2D context2d,
+			Runnable callback, int left, int top) {
+		drawWhiteBackground(context2d, left, top);
+		context2d.save();
+		context2d.rect(left, top, getOffsetWidth(), getOffsetHeight());
+		context2d.clip();
+		TableCanvasExporter tableCanvasExporter = new TableCanvasExporter(
+				sview.getSpreadsheetTable(), app, getOffsetWidth(), getOffsetHeight(), context2d);
+		tableCanvasExporter.paintToCanvas(left, top);
+		context2d.restore();
+		callback.run();
 	}
 
 }

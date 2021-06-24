@@ -213,11 +213,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	protected GGeneralPath shapePolygon;
 	// design for shapes
-	/**
-	 * fill color of shape (transparent)
-	 */
-	private final GColor shapeFillCol = GColor.newColor(192,
-			192, 192, 0.0);
+
 	/**
 	 * object color of shape (black by default)
 	 */
@@ -3830,9 +3826,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	protected void drawShape(GGraphics2D g2, GColor fillCol, GColor objCol,
 			GBasicStroke stroke, GShape shape) {
-		g2.setColor(fillCol);
 		g2.setStroke(stroke);
-		g2.fill(shape);
+		if (fillCol != null) {
+			g2.setColor(fillCol);
+			g2.fill(shape);
+		}
 		g2.setColor(objCol);
 		if (!isRounded) {
 			g2.draw(shape);
@@ -3847,8 +3845,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	protected void drawShape(GGraphics2D g2, GShape shape) {
 		if (shape != null) {
-			drawShape(g2, shapeFillCol, shapeObjCol,
-					shapeStroke, shape);
+			drawShape(g2, null, shapeObjCol, shapeStroke, shape);
 		}
 	}
 
