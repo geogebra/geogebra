@@ -402,7 +402,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * consistent with the Algebra View
 		 */
 		GGB_ROUND("ggbround",
-					"ggbround(x):=when(type(evalf(x))==DOM_LIST, seq(ggbround(x[j]),j,0,length(x)-1), when(type(evalf(x))==DOM_COMPLEX, ggbround(real(x))+i*ggbround(im(x)), when(x<0,when(type(x)==DOM_LIST&&length(x)==2, -round(-x[0], x[1]), -round(-x)), round(x))))"),
+					"ggbround(x):=when(evalf(x)==?||evalf(x)=={?},?,when(type(evalf(x))==DOM_LIST,seq(ggbround(x[j]),j,0,length(x)-1),when(type(evalf(x))==DOM_COMPLEX,ggbround(real(x))+i*ggbround(im(x)),when(x<0,when(type(x)==DOM_LIST&&length(x)==2,-round(-x[0], x[1]),-round(-x)),round(x)))))"),
 
 		/**
 		 * Minimal polynomial of cos(2pi/n), see GGB-2137 for details.
