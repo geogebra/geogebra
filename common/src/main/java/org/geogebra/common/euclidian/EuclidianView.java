@@ -954,9 +954,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			invalidateBackground();
 		}
 		if (!batchUpdate) {
-			euclidianController.notifyCoordSystemMoved(coordSystemInfo);
+			notifyCoordSystemMoved();
 		}
 		updatingBounds = false;
+	}
+
+	private void notifyCoordSystemMoved() {
+		euclidianController.notifyCoordSystemMoved(coordSystemInfo);
 	}
 
 	@Override
@@ -1886,7 +1890,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void endBatchUpdate() {
 		this.batchUpdate = false;
 		if (this.needsAllDrawablesUpdate) {
-			euclidianController.notifyCoordSystemMoved(coordSystemInfo);
+			notifyCoordSystemMoved();
 			allDrawableList.updateAll();
 			repaint();
 		}
