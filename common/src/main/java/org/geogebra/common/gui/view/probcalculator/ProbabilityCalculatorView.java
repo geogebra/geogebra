@@ -2022,23 +2022,12 @@ public abstract class ProbabilityCalculatorView
 		if (probMode == PROB_INTERVAL) {
 			xAxis.showBothPoints(showProbGeos);
 			resultPanel.showInterval();
-
-			setLow(plotSettings.xMin
-					+ 0.4 * (plotSettings.xMax - plotSettings.xMin));
-			setHigh(plotSettings.xMin
-					+ 0.6 * (plotSettings.xMax - plotSettings.xMin));
-			updateOutputForIntervals();
+			setBoundsFromSettings();
 		} else if (probMode == PROB_TWO_TAILED) {
 			xAxis.showBothPoints(showProbGeos);
-			setLow(plotSettings.xMin + 0.4
-					* (plotSettings.xMax - plotSettings.xMin));
-			setHigh(plotSettings.xMin + 0.6
-					* (plotSettings.xMax - plotSettings.xMin));
 			showTwoTailed(resultPanel);
-			updateOutputForIntervals();
-		}
-
-		else if (probMode == PROB_LEFT) {
+			setBoundsFromSettings();
+		} else if (probMode == PROB_LEFT) {
 			resultPanel.showLeft();
 			if (oldProbMode == PROB_RIGHT) {
 				setHigh(getLow());
@@ -2088,6 +2077,13 @@ public abstract class ProbabilityCalculatorView
 		}
 		setXAxisPoints();
 		updateIntervalProbability();
+	}
+
+	private void setBoundsFromSettings() {
+		ProbabilityCalculatorSettings settings = app.getSettings().getProbCalcSettings();
+		setLow(settings.getLow());
+		setHigh(settings.getHigh());
+		updateOutputForIntervals();
 	}
 
 	private void showTwoTailed(ResultPanel resultPanel) {
