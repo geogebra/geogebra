@@ -564,9 +564,9 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		String standardizedInput = standardizeArgumentNamesForInput(input);
 
-		for (String key : casGiacCache.keySet()) {
-			if (standardizeArgumentNamesForInput(key).equals(standardizedInput)) {
-				return casGiacCache.get(key);
+		for (Entry<String, String> entry : casGiacCache.entrySet()) {
+			if (standardizeArgumentNamesForInput(entry.getKey()).equals(standardizedInput)) {
+				return entry.getValue();
 			}
 		}
 
