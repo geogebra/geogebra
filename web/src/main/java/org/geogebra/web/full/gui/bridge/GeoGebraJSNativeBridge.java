@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.bridge;
 
+import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -12,58 +13,58 @@ public class GeoGebraJSNativeBridge {
 	@JsProperty(name = "GeoGebraJSNativeBridge")
 	public static native GeoGebraJSNativeBridge get();
 
-	@JsProperty
+	@JsMethod
 	public native void share(String base64, String name, String fileType);
 
-	@JsProperty
+	@JsMethod
 	public native void savePreference(String key, String value);
 
-	@JsProperty
+	@JsMethod
 	public native void login();
 
-	@JsProperty
+	@JsMethod
 	public native void openFromFileClickedNative();
 
-	@JsProperty
+	@JsMethod
 	public native void callPlugin(String action, Object[] argument);
 
-	@JsProperty
+	@JsMethod
 	public native void getCameraPictureNative();
 
-	@JsProperty
+	@JsMethod
 	public native void listLocalFiles(int callbackId);
 
-	@JsProperty
+	@JsMethod
 	public native void getMetaData(int materialId, int callbackId, int callbackParentId);
 
-	@JsProperty
+	@JsMethod
 	public native void getBase64(String title, int callbackId);
 
-	@JsProperty
+	@JsMethod
 	public native void saveFile(int materialId, String title, String base64,
 			String metaDatas, int callbackId);
 
-	@JsProperty
+	@JsMethod
 	public native void createFileFromTube(String title, String base64, String metaDatas);
 
-	@JsProperty
+	@JsMethod
 	public native void updateFileFromTube(String title, String base64, String metaDatas);
 
-	@JsProperty
+	@JsMethod
 	public native void openUrlInBrowser(String url);
 
-	@JsProperty
+	@JsMethod
 	public native void rename(String oldKey, String newKey, String metaData, int callbackId);
 
-	@JsProperty
+	@JsMethod
 	public native void overwriteMetaData(String key, String metaData, int callbackId);
 
-	@JsProperty
+	@JsMethod
 	public native void deleteGgb(String key, int callbackId);
 
-	@JsProperty
+	@JsMethod
 	public native void debug(String message);
 
-	@JsProperty
+	@JsMethod
 	public native void open(int materialId, String title, String token);
 }
