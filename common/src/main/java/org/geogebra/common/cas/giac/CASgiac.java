@@ -41,9 +41,7 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-
 import org.gwtproject.regexp.shared.MatchResult;
 import org.gwtproject.regexp.shared.RegExp;
 
@@ -1408,18 +1406,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				}
 				// primeOpen = primeClose;
 			} else {
-				int check = StringUtil.checkBracketsBackward(
-						ret.substring(primeOpen, primeClose));
-				// -('3*5') will have check = -1
-				if (check < 0) {
-					StringBuilder sb = new StringBuilder(ret);
-					sb = sb.replace(primeOpen, primeOpen + 1, "");
-					sb = sb.replace(primeClose - 1, primeClose, "");
-					ret = sb.toString();
-					primeOpen = ret.indexOf('\'', primeClose);
-				} else {
-					primeOpen = primeClose;
-				}
+				primeOpen = primeClose;
 			}
 		}
 
