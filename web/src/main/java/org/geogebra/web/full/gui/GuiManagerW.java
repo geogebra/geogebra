@@ -50,6 +50,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.cas.view.CASTableW;
@@ -420,7 +421,7 @@ public class GuiManagerW extends GuiManager
 			getApp().getToolbar().closeAllSubmenu();
 		}
 		DialogManagerW dialogManager = (DialogManagerW) app.getDialogManager();
-		if (Browser.isiOS()) {
+		if (NavigatorUtil.isiOS()) {
 			dialogManager.showImageInputDialog(null, device);
 		} else {
 			dialogManager.showWebcamInputDialog();
@@ -1897,7 +1898,7 @@ public class GuiManagerW extends GuiManager
 				new Event(EventType.EXPORT, null, "[\""
 						+ extension.substring(1) + "\"]"));
 
-		if (Browser.isFirefox()) {
+		if (NavigatorUtil.isFirefox()) {
 			getApp().getGgbApi().getBase64(true,
 					getBase64DownloadCallback(filename));
 		} else {
@@ -1989,11 +1990,10 @@ public class GuiManagerW extends GuiManager
 			MathKeyboardListener textField, HasLastItem lastItemProvider) {
 		if (textField instanceof RetexKeyboardListener) {
 			return new MathFieldProcessing(
-					((RetexKeyboardListener) textField).getMathField(),
-					lastItemProvider);
+					((RetexKeyboardListener) textField).getMathField());
 		}
 		if (textField instanceof RadioTreeItem) {
-			return new MathFieldProcessing(
+			return new AlgebraMathFieldProcessing(
 					(RadioTreeItem) textField,
 					lastItemProvider);
 		}

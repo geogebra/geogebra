@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.GToggleButton;
@@ -22,6 +23,8 @@ import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.StyleElement;
 import com.google.gwt.user.client.Window;
+
+import elemental2.dom.DomGlobal;
 
 /**
  * @author csilla
@@ -388,8 +391,7 @@ public class ZoomController {
 	 *         or applet parameter)
 	 */
 	public static boolean useEmulatedFullscreen(AppW app) {
-		return Browser.isiOS()
-				|| Browser.isiOS()
+		return NavigatorUtil.isiOS()
 				|| !StringUtil.empty(app.getAppletParameters().getParamFullscreenContainer());
 	}
 
@@ -397,9 +399,9 @@ public class ZoomController {
 	 * @return whether the current window is an iframe embedded in another
 	 *         window.
 	 */
-	protected static native boolean isRunningInIframe() /*-{
-		return $wnd != $wnd.parent;
-	}-*/;
+	protected static boolean isRunningInIframe() {
+		return DomGlobal.window != DomGlobal.window.parent;
+	}
 
 	/**
 	 * Handler that runs on switching to fullscreen.

@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.Browser;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.PreviewPointPopup;
@@ -453,7 +453,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	protected void runPointerCallback(Runnable pointerUpCallback) {
-		if (Browser.isIE()) {
+		if (NavigatorUtil.isIE()) {
 			app.invokeLater(pointerUpCallback);
 		} else {
 			pointerUpCallback.run();

@@ -48,12 +48,10 @@ import com.google.gwt.core.client.EntryPoint;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.CreateLibrary;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
-import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
 public class EditorLibrary implements EntryPoint {
 
 	private JlmEditorLib library;
-	private Opentype opentype;
 
 	@Override
 	public void onModuleLoad() {
@@ -61,16 +59,7 @@ public class EditorLibrary implements EntryPoint {
 			FactoryProvider.setInstance(new FactoryProviderGWT());
 		}
 		library = new JlmEditorLib();
-		opentype = Opentype.INSTANCE;
-		CreateLibrary.exportLibrary(library, opentype);
-		addEditorFunction(library);
+		CreateLibrary.exportLibrary(new JlmEditorApi(library));
 	}
-
-	private native void addEditorFunction(JlmEditorLib library) /*-{
-		$wnd.jlmlib.edit = function(el) {
-			library.@com.himamis.retex.editor.web.JlmEditorLib::edit(Lcom/google/gwt/dom/client/Element;)(el);
-		}
-
-	}-*/;
 
 }

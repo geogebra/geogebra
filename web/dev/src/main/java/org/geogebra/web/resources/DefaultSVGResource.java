@@ -4,6 +4,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.safehtml.shared.UriUtils;
 
+import elemental2.dom.DomGlobal;
+
 /**
  * Implementation of SVGResource.
  */
@@ -72,7 +74,6 @@ public class DefaultSVGResource implements SVGResource {
 
 	@Override
 	public String getUrl() {
-		return "data:image/svg+xml;base64," +
-				Base64Encoder.encodeBase64(svg);
+		return "data:image/svg+xml;base64," + DomGlobal.btoa(svg);
 	}
 }

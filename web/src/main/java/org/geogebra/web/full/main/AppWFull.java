@@ -57,6 +57,7 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
+import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
@@ -107,6 +108,7 @@ import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
+import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.ConstructionItemProvider;
@@ -147,7 +149,6 @@ import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
-import org.geogebra.web.shared.SuiteHeaderAppPicker;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
@@ -281,7 +282,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			setupSignInButton(header);
 		}
 		if (getConfig().getVersion() == GeoGebraConstants.Version.SUITE) {
-			suiteAppPickerButton = header.addSuiteAppPicker(this);
+			suiteAppPickerButton = SuiteHeaderAppPicker.addSuiteAppPicker(this);
 		}
 	}
 
@@ -409,6 +410,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private void initMenu() {
 		if (isFloatingMenu()) {
 			initSignInEventFlow(new LoginOperationW(this));
+			if (getVendorSettings().canSessionExpire()) {
+				AuthenticationModel model = getLoginOperation().getModel();
+				model.setSessionExpireTimer(newTimer(getDialogManager().getSessionExpireDialog(),
+						AuthenticationModel.SESSION_TIME));
+			}
 			MenuViewController menuController = new MenuViewController(this);
 			menuController.setMenuViewListener(this);
 			menuViewController = menuController;

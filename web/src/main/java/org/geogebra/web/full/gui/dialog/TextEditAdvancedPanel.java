@@ -13,8 +13,8 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
 import org.geogebra.web.html5.gui.inputfield.SymbolTableW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -342,7 +342,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 		final SymbolTableW symTable = new SymbolTableW(table, 
 				isLatexSymbol, rowSize, app, colors);
 
-		if (Browser.isIE()) {
+		if (NavigatorUtil.isIE()) {
 		symTable.addDomHandler(new MouseDownHandler() {
 			@Override
 			public void onMouseDown(MouseDownEvent event) {

@@ -39,16 +39,11 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.web.JlmEditorLib;
 import com.himamis.retex.editor.web.MathFieldW;
-import com.himamis.retex.renderer.web.CreateLibrary;
-import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
 public class Solver {
 
 	private AppWsolver app;
-	private JlmEditorLib library;
-	private Opentype opentype;
 	private MathFieldW mathField;
 	private SolverKeyboard keyboard;
 
@@ -66,10 +61,6 @@ public class Solver {
 	}
 
 	void setupApplication() {
-		library = new JlmEditorLib();
-		opentype = Opentype.INSTANCE;
-		CreateLibrary.exportLibrary(library, opentype);
-
 		guiBuilder = new WebStepGuiBuilder(app);
 
 		Canvas canvas = Canvas.createIfSupported();

@@ -1,4 +1,4 @@
-package org.geogebra.web.shared;
+package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -9,9 +9,11 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 
 public class SuiteHeaderAppPicker extends StandardButton {
 
@@ -25,6 +27,24 @@ public class SuiteHeaderAppPicker extends StandardButton {
 	public SuiteHeaderAppPicker(AppW app) {
 		this.appW = app;
 		createAppPickerButton(app);
+	}
+
+	/**
+	 * Add app picker button in external header for suite
+	 *
+	 * @param app
+	 *            application
+	 * @return app picker button
+	 */
+	public static SuiteHeaderAppPicker addSuiteAppPicker(AppWFull app) {
+		RootPanel appPickerPanel = RootPanel.get("suiteAppPicker");
+		if (appPickerPanel != null) {
+			SuiteHeaderAppPicker suiteHeaderAppPicker = new SuiteHeaderAppPicker(app);
+			appPickerPanel.add(suiteHeaderAppPicker);
+			GlobalHeader.onResize();
+			return suiteHeaderAppPicker;
+		}
+		return null;
 	}
 
 	private void createAppPickerButton(AppW app) {

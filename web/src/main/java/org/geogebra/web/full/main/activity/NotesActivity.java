@@ -2,11 +2,11 @@ package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.MessagePanel;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.main.AppW;
@@ -33,7 +33,7 @@ public class NotesActivity extends BaseActivity {
 	@Override
 	public void start(AppW appW) {
 		super.start(appW);
-		if (Browser.isIE()) {
+		if (NavigatorUtil.isIE()) {
 			showBrowserNotSupportedMessage(appW);
 		}
 	}

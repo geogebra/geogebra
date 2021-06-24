@@ -5,8 +5,8 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -113,7 +113,7 @@ public class ZoomPanelMow extends FlowPanel
 	 * Add zoom in/out buttons to GUI
 	 */
 	private void addZoomButtons() {
-		if (!Browser.isMobile()) {
+		if (!NavigatorUtil.isMobile()) {
 			addZoomInButton();
 			addZoomOutButton();
 		}

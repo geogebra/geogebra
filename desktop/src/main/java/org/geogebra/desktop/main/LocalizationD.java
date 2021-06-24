@@ -2,12 +2,9 @@ package org.geogebra.desktop.main;
 
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.jre.headless.Utf8Control;
-import org.geogebra.common.jre.main.LocalizationJre;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.lang.Language;
 
 /**

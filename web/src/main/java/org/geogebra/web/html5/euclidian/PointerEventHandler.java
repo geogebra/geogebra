@@ -7,9 +7,9 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
-import org.geogebra.web.html5.gui.util.NativePointerEvent;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;

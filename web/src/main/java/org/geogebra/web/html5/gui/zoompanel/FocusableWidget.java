@@ -3,7 +3,7 @@ package org.geogebra.web.html5.gui.zoompanel;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.MayHaveFocus;
-import org.geogebra.web.html5.Browser;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
@@ -26,7 +26,7 @@ public class FocusableWidget implements MayHaveFocus {
 		this.btns = btns;
 		this.accessibilityGroup = accessibilityGroup;
 		this.subgroup = subgroup;
-		if (Browser.isMobile()) {
+		if (NavigatorUtil.isMobile()) {
 			int subgroupOrdinal = subgroup == null ? 0 : subgroup.ordinal();
 			int maxGroupSize = AccessibilityGroup.ViewControlId.values().length;
 			int tabIndex = 1 + accessibilityGroup.ordinal() * maxGroupSize + subgroupOrdinal;

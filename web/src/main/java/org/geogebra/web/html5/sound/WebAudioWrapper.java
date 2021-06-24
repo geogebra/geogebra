@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.sound;
 
-import org.geogebra.web.html5.Browser;
+import org.geogebra.gwtutil.NavigatorUtil;
 
 import elemental2.core.Float32Array;
 import elemental2.media.AudioContext;
@@ -27,7 +27,7 @@ public class WebAudioWrapper {
 	}
 
 	private WebAudioWrapper() {
-		supported = !Browser.isIE();
+		supported = !NavigatorUtil.isIE();
 		init();
 	}
 

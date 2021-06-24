@@ -5,7 +5,6 @@ import javax.swing.JComponent;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;

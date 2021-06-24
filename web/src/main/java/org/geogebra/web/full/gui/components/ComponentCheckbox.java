@@ -1,4 +1,4 @@
-package org.geogebra.web.shared.components;
+package org.geogebra.web.full.gui.components;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.full.css.MaterialDesignResources;

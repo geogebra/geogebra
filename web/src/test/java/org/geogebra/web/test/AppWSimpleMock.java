@@ -1,7 +1,7 @@
 package org.geogebra.web.test;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
 import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.AppletParameters;
@@ -22,7 +22,7 @@ public class AppWSimpleMock extends AppWsimple {
 	 * @param undoActive
 	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
-	public AppWSimpleMock(AppletParameters article, GeoGebraFrameW frame,
+	public AppWSimpleMock(AppletParameters article, GeoGebraFrameSimple frame,
 						  boolean undoActive) {
 		super(DomMocker.getGeoGebraElement(), article, frame, undoActive);
 	}
