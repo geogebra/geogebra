@@ -1974,8 +1974,10 @@ public class GeoNumeric extends GeoElement
 			sb.append(getLabelSimple());
 		}
 
-		sb.append(getLabelDelimiterWithSpace(StringTemplate.screenReader));
-		sb.append(toValueString(StringTemplate.defaultTemplate));
+		if (!getRawCaption().contains("%v")) {
+			sb.append(getLabelDelimiterWithSpace(StringTemplate.screenReader));
+			sb.append(toValueString(StringTemplate.defaultTemplate));
+		}
 	}
 
 	@Override

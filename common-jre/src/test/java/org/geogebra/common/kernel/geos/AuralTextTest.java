@@ -70,9 +70,9 @@ public class AuralTextTest {
 	public void numberCaptionAural() {
 		add("vec=Slider(-5,5)");
 		add("SetCaption(vec,\"Vector v = %v\")");
-		aural("vec", "Slider Vector v  equals  0", "equals 0", "start animation", "increase",
+		aural("vec", "Slider Vector v  equals  0", "start animation", "increase",
 				"decrease", "edit");
-		assertEquals("Slider Vector v  equals  0  equals 0",
+		assertEquals("Slider Vector v  equals  0",
 				((GeoNumeric) get("vec")).getAuralCurrentValue());
 	}
 
