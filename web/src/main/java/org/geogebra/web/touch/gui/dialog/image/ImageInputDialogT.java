@@ -2,6 +2,7 @@ package org.geogebra.web.touch.gui.dialog.image;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.full.gui.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -94,14 +95,10 @@ public class ImageInputDialogT extends UploadImageDialog implements ClickHandler
 	 * Callback for file open button
 	 */
 	void openFromFileClicked() {
-		openFromFileClickedNative();
-	}
-
-	private native void openFromFileClickedNative() /*-{
-		if ($wnd.android) {
-			$wnd.android.openFromFileClickedNative();
+		if (GeoGebraJSNativeBridge.get() != null) {
+			GeoGebraJSNativeBridge.get().openFromFileClickedNative();
 		}
-	}-*/;
+	}
 
 	protected void initActions() {
 		upload.addClickHandler(this);

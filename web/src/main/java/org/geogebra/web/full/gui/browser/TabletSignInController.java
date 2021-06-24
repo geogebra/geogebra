@@ -1,18 +1,17 @@
 package org.geogebra.web.full.gui.browser;
 
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.main.AppW;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.shared.SignInController;
 
 /**
  * Signin button for tablets, uses native APIs
- *
  */
 public class TabletSignInController extends SignInController {
 
 	/**
-	 * @param app
-	 *            application
+	 * @param app application
 	 */
 	public TabletSignInController(App app) {
 		super(app, 0, null);
@@ -20,15 +19,10 @@ public class TabletSignInController extends SignInController {
 
 	@Override
 	public void login() {
-		loginNative(((AppW) app).getLocalization().getLocaleStr());
-	}
-
-	private native void loginNative(String locale)/*-{
-		if ($wnd.android) {
-			$wnd.android.login(locale);
+		if (GeoGebraJSNativeBridge.get() != null) {
+			GeoGebraJSNativeBridge.get().login();
 		} else {
-			@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("External login not possible");
+			Log.debug("External login not possible");
 		}
-	}-*/;
-
+	}
 }

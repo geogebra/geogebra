@@ -9,6 +9,7 @@ import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.util.SaveCallback;
@@ -223,11 +224,11 @@ public abstract class FileManager extends MaterialsManager {
 	}
 
 	@Override
-	public native void nativeShare(String base64, String title)/*-{
-		if ($wnd.android) {
-			$wnd.android.share(base64, title, 'ggb');
+	public void nativeShare(String base64, String title) {
+		if (GeoGebraJSNativeBridge.get() != null) {
+			GeoGebraJSNativeBridge.get().share(base64, title, "ggb");
 		}
-	}-*/;
+	}
 
 	@Override
 	public void open(String url) {

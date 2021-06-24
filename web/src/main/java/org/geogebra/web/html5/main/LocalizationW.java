@@ -11,6 +11,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
+import org.geogebra.web.full.gui.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
@@ -415,11 +416,11 @@ public final class LocalizationW extends Localization {
 
 	}
 
-	private native void saveLanguageToSettings(String lang0) /*-{
-		if ($wnd.android && $wnd.android.savePreference) {
-			$wnd.android.savePreference("language", lang0);
+	private void saveLanguageToSettings(String lang0) {
+		if (GeoGebraJSNativeBridge.get() != null) {
+			GeoGebraJSNativeBridge.get().savePreference("language", lang0);
 		}
-	}-*/;
+	}
 
 	/**
 	 * @param localizedUI
