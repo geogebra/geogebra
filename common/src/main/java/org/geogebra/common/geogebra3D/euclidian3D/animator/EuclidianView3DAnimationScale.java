@@ -43,7 +43,8 @@ public class EuclidianView3DAnimationScale extends EuclidianView3DAnimationScale
 			// takes center of the scene for fixed point
 		} else {
 			v = view3D.getCursor3D().getInhomCoords();
-			if (!v.isDefined()) {
+			double[] zRange = view3D.getClippingCubeDrawable().getMinMax()[2];
+			if (!v.isDefined() || v.getZ() > zRange[1] || v.getZ() < zRange[0]) {
 				v = new Coords(-animatedScaleStartX, -animatedScaleStartY, -animatedScaleStartZ, 1);
 				// takes center of the scene for fixed point
 			}
