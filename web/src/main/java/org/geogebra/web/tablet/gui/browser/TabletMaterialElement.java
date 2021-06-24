@@ -1,8 +1,8 @@
 package org.geogebra.web.tablet.gui.browser;
 
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.full.gui.browser.MaterialListElement;
+import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.main.AppW;
 
 public class TabletMaterialElement extends MaterialListElement {

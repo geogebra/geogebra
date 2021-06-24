@@ -10,8 +10,8 @@ import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.full.util.SaveCallback;
+import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.touch.FileManagerT;
 
@@ -287,15 +287,15 @@ public class TabletFileManager extends FileManagerT {
 
 	@Override
 	public void open(String url, String features) {
-		openUrlInBrowser(url, features);
+		openUrlInBrowser(url);
 	}
 
 	@Override
 	public void open(String url) {
-		openUrlInBrowser(url, "");
+		openUrlInBrowser(url);
 	}
 
-	private void openUrlInBrowser(String url, String features) {
+	private void openUrlInBrowser(String url) {
 		if (GeoGebraJSNativeBridge.get() != null) {
 			GeoGebraJSNativeBridge.get().openUrlInBrowser(url);
 		}

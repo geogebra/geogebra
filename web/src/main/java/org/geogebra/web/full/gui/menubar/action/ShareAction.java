@@ -1,9 +1,9 @@
 package org.geogebra.web.full.gui.menubar.action;
 
 import org.geogebra.web.full.gui.ShareControllerW;
-import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 
 /**
  * Shares the material.
