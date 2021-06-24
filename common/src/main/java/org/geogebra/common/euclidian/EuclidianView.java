@@ -6661,6 +6661,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return getHeight();
 	}
 
+	@Override
+	public int calcVisibleWidthFromSettings() {
+		return settings.getWidth() - settings.getVisibleFromX();
+	}
+
+	@Override
+	public int calcVisibleHeightFromSettings() {
+		return settings.getVisibleUntilY() > Integer.MIN_VALUE
+				? settings.getVisibleUntilY()
+				: settings.getHeight();
+	}
+
 	@CheckForNull
 	@Override
 	public EvPositioner getEvPositioner() {
