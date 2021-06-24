@@ -662,7 +662,7 @@ public class MathFieldInternal
 	public void insertString(String text) {
 		MathSequence rootBefore = editorState.getRootComponent();
 		boolean allSelected = editorState.getSelectionStart() == rootBefore;
-		boolean rootProtected = InputController.isProtected(rootBefore);
+		boolean rootProtected = rootBefore.isProtected();
 		InputController.deleteSelection(editorState);
 		try {
 			MathSequence root = new Parser(mathField.getMetaModel()).parse(text)
@@ -670,7 +670,6 @@ public class MathFieldInternal
 
 			if (allSelected	&& isMatrixWithSameDimension(rootBefore, root)) {
 				replaceRoot(rootBefore, root);
-				rootProtected = false;
 			} else {
 				addToMathField(root);
 			}
@@ -691,8 +690,6 @@ public class MathFieldInternal
 	}
 
 	private void replaceRoot(MathSequence rootBefore, MathSequence root) {
-		MathArray matrix = (MathArray) rootBefore.getArgument(0);
-		matrix.clearProtection();
 		rootBefore.clearArguments();
 		for (int i = 0; i < root.getArgumentCount(); i++) {
 			rootBefore.addArgument(root.getArgument(i));
