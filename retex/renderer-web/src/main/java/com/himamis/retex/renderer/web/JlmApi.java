@@ -35,7 +35,7 @@ public class JlmApi {
 			throw new IllegalArgumentException("drawLatex(opts): opts.context must not be null");
 		}
 		if (!"string".equals(Js.typeof(opts.get("latex")))) {
-			new IllegalArgumentException("drawLatex(opts): opts.latex must be of type string.");
+			throw new IllegalArgumentException("drawLatex(opts): opts.latex must be of type string.");
 		}
 		CanvasRenderingContext2D ctx = (CanvasRenderingContext2D) opts.get("context");
 		String latex = (String) opts.get("latex");
@@ -51,7 +51,8 @@ public class JlmApi {
 		String bgColor = (String) opts.get("backgroundColor"); // undefined === invisible
 		DrawingFinishedCallback cb = Js.uncheckedCast(opts.get("callback"));
 
-		return library.drawLatex(ctx, latex, size, type, x, y, topInset, leftInset, bottomInset, rightInset, fgColor, bgColor, cb);
+		return library.drawLatex(ctx, latex, size, type, x, y,
+				topInset, leftInset, bottomInset, rightInset, fgColor, bgColor, cb);
 	}
 
 	private int getInt(JsPropertyMap opts, String key, int fallback) {
