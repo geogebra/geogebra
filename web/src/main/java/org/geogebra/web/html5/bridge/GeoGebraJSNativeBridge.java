@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui.bridge;
+package org.geogebra.web.html5.bridge;
 
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;

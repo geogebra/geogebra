@@ -8,7 +8,7 @@ import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ShareControllerW;
-import org.geogebra.web.full.gui.bridge.GeoGebraJSNativeBridge;
+import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.full.gui.menubar.item.ExitExamItem;
 import org.geogebra.web.full.gui.menubar.item.FileNewItem;
 import org.geogebra.web.full.main.AppWFull;

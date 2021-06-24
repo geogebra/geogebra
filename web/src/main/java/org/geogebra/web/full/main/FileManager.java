@@ -9,7 +9,7 @@ import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.bridge.GeoGebraJSNativeBridge;
+import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.util.SaveCallback;

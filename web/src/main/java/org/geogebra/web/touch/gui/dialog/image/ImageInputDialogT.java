@@ -2,7 +2,7 @@ package org.geogebra.web.touch.gui.dialog.image;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.full.gui.bridge.GeoGebraJSNativeBridge;
+import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;

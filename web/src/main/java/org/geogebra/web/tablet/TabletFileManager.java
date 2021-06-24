@@ -10,7 +10,7 @@ import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.bridge.GeoGebraJSNativeBridge;
+import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.touch.FileManagerT;

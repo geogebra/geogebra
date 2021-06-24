@@ -11,7 +11,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.JsReference;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.bridge.GeoGebraJSNativeBridge;
+import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.util.JsRunnable;
 
 import com.google.gwt.core.client.JavaScriptObject;
