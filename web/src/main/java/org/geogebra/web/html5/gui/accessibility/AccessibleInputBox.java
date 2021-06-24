@@ -53,7 +53,7 @@ public class AccessibleInputBox implements AccessibleWidget {
 	}
 
 	private String getErrorText() {
-		if (geo.getTempUserDisplayInput() != null) {
+		if (geo.hasError()) {
 			return " " + getErrorText(app.getLocalization());
 		}
 		return "";
