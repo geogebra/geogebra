@@ -1331,7 +1331,8 @@ public abstract class ProbabilityCalculatorView
 
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
-		ProbabilityCalculatorSettings pcSettings = (ProbabilityCalculatorSettings) settings;
+		ProbabilityCalculatorSettings pcSettings =
+				getProbabilityCalculatorSettings((ProbabilityCalculatorSettings) settings);
 		setProbabilityCalculatorNoFire(pcSettings.getDistributionType(),
 				pcSettings.getParameters(), pcSettings.isCumulative());
 		if (pcSettings.isIntervalSet()) {
@@ -1343,6 +1344,10 @@ public abstract class ProbabilityCalculatorView
 		if (getStatCalculator() != null) {
 			getStatCalculator().settingsChanged();
 		}
+	}
+
+	private ProbabilityCalculatorSettings getProbabilityCalculatorSettings(ProbabilityCalculatorSettings settings) {
+		return settings;
 	}
 
 	public abstract void setInterval(double low2, double high2);
@@ -2081,9 +2086,21 @@ public abstract class ProbabilityCalculatorView
 
 	private void setBoundsFromSettings() {
 		ProbabilityCalculatorSettings settings = app.getSettings().getProbCalcSettings();
-		setLow(settings.getLow());
-		setHigh(settings.getHigh());
+		if (settings.isIntervalSet()) {
+			setLow(settings.getLow());
+			setHigh(settings.getHigh());
+		} else {
+			setDefaultBounds();
+		}
+
 		updateOutputForIntervals();
+	}
+
+	private void setDefaultBounds() {
+		setLow(plotSettings.xMin
+				+ 0.4 * (plotSettings.xMax - plotSettings.xMin));
+		setHigh(plotSettings.xMin
+				+ 0.6 * (plotSettings.xMax - plotSettings.xMin));
 	}
 
 	private void showTwoTailed(ResultPanel resultPanel) {
