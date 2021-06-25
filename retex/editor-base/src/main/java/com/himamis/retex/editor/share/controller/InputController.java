@@ -1083,7 +1083,12 @@ public class InputController {
 		editorState.resetSelection();
 	}
 
-	private static boolean isProtected(MathComponent component) {
+	/**
+	 *
+	 * @param component to check.
+	 * @return if it is protected.
+	 */
+	public static boolean isProtected(MathComponent component) {
 		if (!(component instanceof MathContainer)) {
 			return false;
 		}
