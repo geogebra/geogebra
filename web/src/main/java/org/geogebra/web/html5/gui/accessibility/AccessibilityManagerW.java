@@ -17,6 +17,7 @@ import org.geogebra.common.main.SelectionManager;
  */
 public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private final GeoTabber geoTabber;
+	private final AltGeoTabber altGeoTabber;
 	private App app;
 	private SelectionManager selection;
 	private MayHaveFocus anchor;
@@ -46,6 +47,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		this.app = app;
 		selection = app.getSelectionManager();
 		this.geoTabber =  new GeoTabber(app);
+		altGeoTabber = new AltGeoTabber(app.getActiveEuclidianView());
+		components.add(altGeoTabber);
 		components.add(geoTabber);
 		components.add(new PlayButtonTabber(app.getActiveEuclidianView()));
 		components.add(new ResetButtonTabber(app.getActiveEuclidianView()));
@@ -194,5 +197,10 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	 */
 	public void setMenuContainer(SideBarAccessibilityAdapter toolbarPanel) {
 		this.menuContainer = toolbarPanel;
+	}
+
+	@Override
+	public GeoElement getAltGeoForView() {
+		return altGeoTabber.getAltGeo();
 	}
 }

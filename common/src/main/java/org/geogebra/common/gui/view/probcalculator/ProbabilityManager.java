@@ -944,6 +944,9 @@ public class ProbabilityManager {
 
 			return 1 - probability(low, parms, distType, true);
 
+		} else if (probMode == ProbabilityCalculatorView.PROB_TWO_TAILED) {
+			return rightProbability(high, parms, distType)
+					- probability(low, parms, distType, true);
 		} else { // ProbabilityCalculator.PROB_INTERVAL
 
 			if (isDiscrete(distType)) {
@@ -954,6 +957,10 @@ public class ProbabilityManager {
 			return probability(high, parms, distType, true)
 					- probability(low, parms, distType, true);
 		}
+	}
+
+	public double rightProbability(double high, GeoNumberValue[] parms, Dist distType) {
+		return 1 - probability(high, parms, distType, true);
 	}
 
 	/**

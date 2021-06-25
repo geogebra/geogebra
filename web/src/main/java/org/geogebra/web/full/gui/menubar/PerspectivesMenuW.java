@@ -7,14 +7,12 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
-import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.user.client.Window.Location;
 
 /**
  * Web implementation of PerspectivesMenu
@@ -45,14 +43,12 @@ public class PerspectivesMenuW extends Submenu {
 
 		if (!app.isExam()) {
 			if (app.getLAF().examSupported()) {
-
 				addItem(MainMenu.getMenuBarHtmlClassic(
 						GuiResources.INSTANCE.menu_icon_exam24().getSafeUri()
 								.asString(),
 						app.getLocalization().getMenu("exam_menu_entry")), // "Exam
 																					// Mode"
 						true, new MenuCommand(app) {
-
 							@Override
 							public void doExecute() {
 								app.getSaveController().showDialogIfNeeded(getExamCallback(), true);
@@ -63,21 +59,21 @@ public class PerspectivesMenuW extends Submenu {
 	}
 
 	private void addPerspective(final int index, ResourcePrototype icon) {
-		if (Layout.getDefaultPerspectives(index) == null) {
+		Perspective perspective = Layout.getDefaultPerspectives(index);
+		if (perspective == null) {
 			return;
 		}
-		final int defID = Layout.getDefaultPerspectives(index).getDefaultID();
 		addItem(MainMenu.getMenuBarHtmlClassic(ImgResourceHelper.safeURI(icon),
 				app.getLocalization()
-						.getMenu(Layout.getDefaultPerspectives(index).getId())),
+						.getMenu(perspective.getId())),
 				true,
 				new MenuCommand(app) {
 
 					@Override
 					public void doExecute() {
-						setPerspective(app, index);
+						setPerspective(app, perspective);
 						if (!(app.isExam() && app.getExam().getStart() >= 0)) {
-							((AppWFull) app).showStartTooltip(defID);
+							app.showStartTooltip(perspective);
 						}
 					}
 				});
@@ -88,37 +84,32 @@ public class PerspectivesMenuW extends Submenu {
 	 *         (goes fullscreen)
 	 */
 	AsyncOperation<Boolean> getExamCallback() {
-		return new AsyncOperation<Boolean>() {
-
-			@Override
-			public void callback(Boolean active) {
-				app.getLAF().toggleFullscreen(true);
-				app.setNewExam();
-				((AppWFull) app).examWelcome();
-			}
+		return active -> {
+			app.setNewExam();
+			app.examWelcome();
 		};
 	}
 
 	/**
 	 * @param app
 	 *            application
-	 * @param index
-	 *            perspective index
+	 * @param perspective
+	 *            perspective
 	 */
-	static void setPerspective(AppW app, int index) {
+	static void setPerspective(AppW app, Perspective perspective) {
 		app.persistWidthAndHeight();
 		boolean changed = app.getGuiManager().getLayout()
-				.applyPerspective(Layout.getDefaultPerspectives(index));
+				.applyPerspective(perspective);
 		app.updateViewSizes();
 		app.getGuiManager().updateMenubar();
 		// set active perspective for highlighting
-		app.setActivePerspective(index);
+		app.setActivePerspective(perspective);
 		// app.getToolbar().closeAllSubmenu();
 		if (StringUtil.emptyOrZero(app.getTubeId())
 				&& app.getAppletParameters().getDataParamApp()) {
 			Browser.changeMetaTitle(app.getLocalization()
-					.getMenu(Layout.getDefaultPerspectives(index).getId()));
-			updateURL(Perspective.getPerspectiveSlug(index));
+					.getMenu(perspective.getId()));
+			updateURL(perspective.getSlug());
 		}
 		if (changed) {
 			app.storeUndoInfo();
@@ -126,15 +117,7 @@ public class PerspectivesMenuW extends Submenu {
 	}
 
 	private static void updateURL(String slug) {
-		// temporary: /graphing and /geometry in stable still point to
-		// classic; the URLs should be rewritten to eg /classic#3d and not
-		// changed when current perspective is selected
-		if (Location.getPath().replace("/", "").equals(slug)) {
-			return;
-		}
-
 		Browser.changeUrl("/classic#" + slug);
-
 	}
 
 	@Override

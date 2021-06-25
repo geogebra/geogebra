@@ -484,7 +484,8 @@ public abstract class MyXMLioJre extends MyXMLio {
 			MyImageJre img) {
 		// create new entry in zip archive
 		try {
-			zip.putNextEntry(new ZipEntry(fileName));
+			ZipEntry zipEntry = new ZipEntry(fileName);
+			zip.putNextEntry(zipEntry);
 		} catch (Exception e) {
 			// if the same image file is used more than once in the construction
 			// we get a duplicate entry exception: ignore this

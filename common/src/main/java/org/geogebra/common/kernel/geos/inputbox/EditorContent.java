@@ -7,16 +7,18 @@ public class EditorContent {
 	private final String inputText;
 	private final String[] entries;
 	private final int rows;
+	private final String latex;
 
 	/**
 	 * @param inputText text (may be null if entries present)
 	 * @param entries matrix entries
 	 * @param rows number of matrix rows
 	 */
-	public EditorContent(String inputText, String[] entries, int rows) {
+	public EditorContent(String inputText, String latex, String[] entries, int rows) {
 		this.inputText = inputText;
 		this.entries = entries;
 		this.rows = rows;
+		this.latex = latex;
 	}
 
 	protected String getEditorInput() {
@@ -53,5 +55,9 @@ public class EditorContent {
 
 	protected boolean hasEntries() {
 		return entries.length > 0;
+	}
+
+	public String getLaTeX() {
+		return latex;
 	}
 }

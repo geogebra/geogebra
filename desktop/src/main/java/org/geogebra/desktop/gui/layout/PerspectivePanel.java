@@ -12,7 +12,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.border.Border;
 
 import org.geogebra.common.gui.Layout;
-import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -54,7 +53,6 @@ public class PerspectivePanel extends JPopupMenu {
 		Border b = this.getBorder();
 		Border empty = BorderFactory.createEmptyBorder(0, 0, 10, 0);
 		this.setBorder(BorderFactory.createCompoundBorder(b, empty));
-
 	}
 
 	@Override
@@ -100,36 +98,7 @@ public class PerspectivePanel extends JPopupMenu {
 		addPerspective(4, GuiResourcesD.PERSPECTIVES_GEOMETRY3D);
 		addPerspective(2, GuiResourcesD.MENU_VIEW_SPREADSHEET);
 		addPerspective(5, GuiResourcesD.MENU_VIEW_PROBABILITY);
-
-		// user perspectives
-		Perspective[] perspectives = layout.getPerspectives();
-
-		// don't allow user perspectives in 4.2 (maybe in 5.0)
-		boolean showUserPerpectives = false;
-
-		if (showUserPerpectives && perspectives.length != 0) {
-			addSeparator();
-			for (int i = 0; i < perspectives.length; ++i) {
-				JMenuItem tmpItem = new JMenuItem(changePerspectiveAction);
-				tmpItem.setText(perspectives[i].getId());
-				tmpItem.setIcon(app.getEmptyIcon());
-				tmpItem.setActionCommand(Integer.toString(i));
-				tmpItem.setIcon(app.getEmptyIcon());
-
-				Dimension d = tmpItem.getMaximumSize();
-				d.height = tmpItem.getPreferredSize().height;
-				tmpItem.setMaximumSize(d);
-
-				tmpItem.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
-				add(tmpItem);
-			}
-		}
-
-
 		add(Box.createVerticalStrut(20));
-		// add(OptionsUtil.flowPanelRight(0, 0, 0, btnLanguage,
-		// Box.createHorizontalStrut(20)));
-
 	}
 
 	private void addPerspective(int i, ImageResourceD icon) {
@@ -163,8 +132,6 @@ public class PerspectivePanel extends JPopupMenu {
 	 * Initialize the actions.
 	 */
 	private void initActions() {
-
-
 		changePerspectiveAction = new AbstractAction() {
 
 			private static final long serialVersionUID = 1L;
@@ -172,21 +139,12 @@ public class PerspectivePanel extends JPopupMenu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// default perspectives start with a "d"
-				boolean changed;
-				if (e.getActionCommand().startsWith("d")) {
-					int index = Integer
-							.parseInt(e.getActionCommand().substring(1));
-					changed = layout.applyPerspective(
+				int index = Integer.parseInt(e.getActionCommand().substring(1));
+				boolean changed = layout.applyPerspective(
 							Layout.getDefaultPerspectives(index));
-				} else {
-					int index = Integer.parseInt(e.getActionCommand());
-					changed = layout
-							.applyPerspective(layout.getPerspective(index));
-				}
 				if (changed) {
 					app.storeUndoInfo();
 				}
-
 			}
 		};
 

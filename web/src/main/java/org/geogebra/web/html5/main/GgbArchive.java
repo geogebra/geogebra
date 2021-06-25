@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.main;
 
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.web.html5.util.ArchiveEntry;
 
 /**
  * Class to separate ggbFile to parts.
@@ -8,10 +9,10 @@ import org.geogebra.common.io.MyXMLio;
  * @author laszlo
  */
 public class GgbArchive {
-	private final String construction;
-	private final String macros;
-	private final String defaults2d;
-	private final String defaults3d;
+	private final ArchiveEntry construction;
+	private final ArchiveEntry macros;
+	private final ArchiveEntry defaults2d;
+	private final ArchiveEntry defaults3d;
 
 	/**
 	 *
@@ -56,7 +57,11 @@ public class GgbArchive {
 	 * @return the construction
 	 */
 	public String getConstruction() {
-		return construction;
+		return asString(construction);
+	}
+
+	private String asString(ArchiveEntry arg) {
+		return arg == null ? null : arg.string;
 	}
 
 	/**
@@ -64,7 +69,7 @@ public class GgbArchive {
 	 * @return the macros
 	 */
 	public String getMacros() {
-		return macros;
+		return asString(macros);
 	}
 
 	/**
@@ -72,7 +77,7 @@ public class GgbArchive {
 	 * @return defaults2d
 	 */
 	public String getDefaults2d() {
-		return defaults2d;
+		return asString(defaults2d);
 	}
 
 	/**
@@ -80,7 +85,7 @@ public class GgbArchive {
 	 * @return defaults3d
 	 */
 	public String getDefaults3d() {
-		return defaults3d;
+		return asString(defaults3d);
 	}
 
 	/**

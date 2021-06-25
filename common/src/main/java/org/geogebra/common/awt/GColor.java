@@ -71,7 +71,7 @@ public final class GColor implements GPaint {
 	public static final GColor ERROR_RED = newColor(176, 0, 32);
 
 	/** MOW RULER */
-	public static final GColor MOW_RULER = newColor(192, 192, 192);
+	public static final GColor MOW_RULER = LIGHT_GRAY;
 	/** MOW SUBGRID */
 	public static final GColor MOW_SUBGRID = newColor(229, 229, 229);
 
@@ -81,6 +81,30 @@ public final class GColor implements GPaint {
 	public static final GColor TABLE_HEADING_COLOR = newColor(110, 101, 179, 122);
 
 	public static final GColor MOW_TABLE_HEADING_COLOR = newColor(65, 121, 140, 102);
+
+	public static final GColor MIND_MAP_PARENT_BG_COLOR = newColorRGB(0xE2E1F0);
+
+	public static final GColor MIND_MAP_PARENT_BORDER_COLOR = newColor(76, 66, 161);
+
+	public static final GColor MIND_MAP_CHILD_BG_COLOR = newColorRGB(0xF7F6FF);
+
+	public static final GColor MIND_MAP_CHILD_BORDER_COLOR = newColor(153, 132, 255);
+
+	public static final GColor MOW_MIND_MAP_PARENT_BG_COLOR = newColorRGB(0xE2EAED);
+
+	public static final GColor MOW_MIND_MAP_PARENT_BORDER_COLOR = newColor(0, 121, 163);
+
+	public static final GColor MOW_MIND_MAP_CHILD_BG_COLOR = newColorRGB(0xEBF8FC);
+
+	public static final GColor MOW_MIND_MAP_CHILD_BORDER_COLOR = newColor(0, 168, 213);
+
+	public static final GColor MIND_MAP_PLUS_INACTIVE = newColor(189, 189, 189);
+
+	public static final GColor MIND_MAP_PLUS_ACTIVE = newColor(0, 132, 117);
+
+	public static final GColor MIND_MAP_CONNECTION = newColorRGB(0xDEDEDE);
+
+	public static final GColor MOW_MIND_MAP_PLUS_ACTIVE = MOW_MEBIS_TEAL;
 
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer

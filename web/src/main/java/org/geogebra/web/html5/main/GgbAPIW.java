@@ -41,6 +41,7 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.AnimationExporter;
+import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.Base64;
 import org.geogebra.web.html5.util.FFlate;
 import org.geogebra.web.html5.util.FileConsumer;
@@ -180,11 +181,19 @@ public class GgbAPIW extends GgbAPI {
 
 		EuclidianViewWInterface ev = ((EuclidianViewWInterface) app
 				.getActiveEuclidianView());
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().getLayout().getDockManager().ensureFocus();
+
+			if (app.getGuiManager().getLayout().getDockManager()
+					.getFocusedViewId() == App.VIEW_PROBABILITY_CALCULATOR) {
+				ev = (EuclidianViewWInterface) app.getGuiManager()
+						.getPlotPanelEuclidanView();
+			}
+		}
 
 		// get export image
 		// DPI ignored
-		url = ((EuclidianViewWInterface) app.getActiveEuclidianView())
-				.getExportImageDataUrl(exportScale, transparent, greyscale);
+		url = ev.getExportImageDataUrl(exportScale, transparent, greyscale);
 
 		if (MyDouble.isFinite(dpi) && dpi > 0 && ev instanceof EuclidianViewW) {
 
@@ -210,27 +219,11 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	public String getPNGBase64(double exportScale, boolean transparent,
 			double dpi, boolean copyToClipboard, boolean greyscale) {
-		if (app.getGuiManager() != null) {
-			app.getGuiManager().getLayout().getDockManager().ensureFocus();
-
-			if (app.getGuiManager().getLayout().getDockManager()
-					.getFocusedViewId() == App.VIEW_PROBABILITY_CALCULATOR) {
-				return pngBase64(((EuclidianViewWInterface) app.getGuiManager()
-						.getPlotPanelEuclidanView()).getExportImageDataUrl(
-								exportScale, transparent, greyscale));
-			}
-		}
-		String ret = pngBase64(getPNG(exportScale, transparent, dpi, greyscale));
-
+		String dataUri = getPNG(exportScale, transparent, dpi, greyscale);
 		if (copyToClipboard) {
-			app.copyImageToClipboard(StringUtil.pngMarker + ret);
+			app.copyImageToClipboard(dataUri);
 		}
-
-		return ret;
-	}
-
-	private static String pngBase64(String pngURL) {
-		return pngURL.substring(StringUtil.pngMarker.length());
+		return StringUtil.removePngMarker(dataUri);
 	}
 
 	/**
@@ -256,7 +249,7 @@ public class GgbAPIW extends GgbAPI {
 					: geo.toString(StringTemplate.latexTemplate);
 		}
 		DrawEquationW.paintOnCanvasOutput(geo, str, c, app.getFontSizeWeb());
-		return c.toDataUrl().substring(StringUtil.pngMarker.length());
+		return StringUtil.removePngMarker(c.toDataUrl());
 	}
 
 	/**
@@ -266,7 +259,7 @@ public class GgbAPIW extends GgbAPI {
 	 *            callback
 	 */
 	public void getBase64(boolean includeThumbnail, StringConsumer callback) {
-		getZippedBase64Async(getFileJSON(includeThumbnail), callback);
+		getZippedBase64Async(getFile(includeThumbnail), callback);
 	}
 
 	/**
@@ -280,8 +273,7 @@ public class GgbAPIW extends GgbAPI {
 	public void getMacrosBase64(boolean includeThumbnail,
 			StringConsumer callback) {
 		GgbFile archiveContent = createMacrosArchive();
-		JsPropertyMap<Object> jso = JsPropertyMap.of();
-		getZippedBase64Async(prepareToEntrySet(archiveContent, jso, "", null), callback);
+		getZippedBase64Async(archiveContent, callback);
 	}
 
 	/**
@@ -289,11 +281,12 @@ public class GgbAPIW extends GgbAPI {
 	 *            whether to include thumbnail
 	 * @return native JS object representing the archive
 	 */
-	public JsPropertyMap<Object> getFileJSON(boolean includeThumbnail) {
-		JsPropertyMap<Object> jso = JsPropertyMap.of();
+	public GgbFile getFile(boolean includeThumbnail) {
+
 		PageListControllerInterface pageController = ((AppW) app)
 				.getPageController();
 		if (pageController != null) {
+			GgbFile jso = new GgbFile();
 			HashMap<String, Integer> usage = new HashMap<>();
 			GgbFile shared = new GgbFile("");
 			for (int i = 0; i < pageController.getSlideCount(); i++) {
@@ -302,23 +295,42 @@ public class GgbAPIW extends GgbAPI {
 			}
 			for (int i = 0; i < pageController.getSlideCount(); i++) {
 				GgbFile f = pageController.getSlide(i);
-				prepareToEntrySet(f, jso, GgbFile.SLIDE_PREFIX + i + "/",
+				mergeFiles(f, jso, GgbFile.SLIDE_PREFIX + i + "/",
 						usage);
 			}
-			prepareToEntrySet(shared, jso, GgbFile.SHARED_PREFIX, null);
-			pushIntoNativeEntry(GgbFile.STRUCTURE_JSON,
-					pageController.getStructureJSON(), jso);
+			jso.put(GgbFile.STRUCTURE_JSON,	pageController.getStructureJSON());
+			mergeFiles(shared, jso, GgbFile.SHARED_PREFIX, null);
 			return jso;
 		}
 		GgbFile archiveContent = new GgbFile("");
-		createArchiveContent(includeThumbnail, archiveContent);
-		return prepareToEntrySet(archiveContent, jso, "", null);
+		return createArchiveContent(includeThumbnail, archiveContent);
+	}
+
+	public JsPropertyMap<Object> getFileJSON(boolean includeThumbnail) {
+		return export(getFile(includeThumbnail));
+	}
+
+	private JsPropertyMap<Object> export(GgbFile file) {
+		JsPropertyMap<Object> jso = JsPropertyMap.of();
+		JsArray<Object> archive = JsArray.of();
+		for (Entry<String, ArchiveEntry> entry: file.entrySet()) {
+			ArchiveEntry value = entry.getValue();
+			if (value.string != null) {
+				pushNativeEntryToArchive(entry.getKey(),
+						value.string, archive);
+			} else {
+				pushNativeEntryToArchive(entry.getKey(),
+						value.export(entry.getKey()), archive);
+			}
+		}
+		jso.set("archive", archive);
+		return jso;
 	}
 
 	private static void countShared(GgbFile slide,
 			HashMap<String, Integer> usage,
 			GgbFile shared) {
-		for (Entry<String, String> entry : slide.entrySet()) {
+		for (Entry<String, ArchiveEntry> entry : slide.entrySet()) {
 			String filename = entry.getKey();
 			if (filename.contains("/")) {
 				Integer currentUsage = usage.get(filename);
@@ -349,14 +361,12 @@ public class GgbAPIW extends GgbAPI {
 	 * @return JSON representation
 	 */
 	public String toJson(GgbFile file) {
-		JsPropertyMap<Object> jso = prepareToEntrySet(file,
-				JsPropertyMap.of(), "", null);
-		return Global.JSON.stringify(jso);
+		return Global.JSON.stringify(export(file));
 	}
 
 	@Override
 	public String getBase64(boolean includeThumbnail) {
-		JsPropertyMap<Object> jso = getFileJSON(includeThumbnail);
+		GgbFile jso = getFile(includeThumbnail);
 		return getZippedBase64Sync(jso);
 
 	}
@@ -366,9 +376,7 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public String getMacrosBase64() {
 		GgbFile archiveContent = createMacrosArchive();
-		JsPropertyMap<Object> jso = prepareToEntrySet(archiveContent,
-				JsPropertyMap.of(), "", null);
-		return getZippedBase64Sync(jso);
+		return getZippedBase64Sync(archiveContent);
 	}
 
 	private native String addDPI(String base64, double dpi) /*-{
@@ -467,11 +475,9 @@ public class GgbAPIW extends GgbAPI {
 		}
 		// write construction thumbnails
 		if (includeThumbnail) {
-			ImageManagerW
-					.addImageToZip(MyXMLio.XML_FILE_THUMBNAIL,
-					((EuclidianViewWInterface) getViewForThumbnail())
-							.getCanvasBase64WithTypeString(),
-					archiveContent);
+			ArchiveEntry thumb = new ArchiveEntry(((EuclidianViewWInterface) getViewForThumbnail())
+					.getCanvasBase64WithTypeString());
+			archiveContent.put(MyXMLio.XML_FILE_THUMBNAIL, thumb);
 		}
 
 		getKernel().setSaving(isSaving);
@@ -482,9 +488,8 @@ public class GgbAPIW extends GgbAPI {
 	 * @return base64 encoded thumbnail
 	 */
 	public String getThumbnailBase64() {
-		return ((EuclidianViewWInterface) getViewForThumbnail())
-				.getCanvasBase64WithTypeString()
-				.substring(StringUtil.pngMarker.length());
+		return StringUtil.removePngMarker(((EuclidianViewWInterface) getViewForThumbnail())
+				.getCanvasBase64WithTypeString());
 	}
 
 	/**
@@ -536,50 +541,54 @@ public class GgbAPIW extends GgbAPI {
 		return archiveContent;
 	}
 
-	private static JsPropertyMap<Object> prepareToEntrySet(GgbFile archive,
-			JsPropertyMap<Object> nativeEntry, String prefix,
+	private static GgbFile mergeFiles(GgbFile archive,
+			GgbFile top, String prefix,
 			HashMap<String, Integer> usage) {
-		for (Entry<String, String> entry : archive.entrySet()) {
+		for (Entry<String, ArchiveEntry> entry : archive.entrySet()) {
 			if (usage == null || usage.get(entry.getKey()) == null
 					|| usage.get(entry.getKey()) < 2) {
-				pushIntoNativeEntry(prefix + entry.getKey(), entry.getValue(),
-						nativeEntry);
+				top.put(prefix + entry.getKey(), entry.getValue());
 			}
 		}
-		return nativeEntry;
+		return top;
 	}
 
-	private static native void pushIntoNativeEntry(String key, String value,
-			JsPropertyMap<Object> ne) /*-{
-		if (typeof ne["archive"] === "undefined") { //needed because gwt gives an __objectId key :-(
-			ne["archive"] = [];
-		}
-		var obj = {};
-		obj.fileName = key;
-		obj.fileContent = value;
-		ne["archive"].push(obj);
-	}-*/;
+	private static void pushNativeEntryToArchive(String key, String value,
+			JsArray<Object> archive) {
+		JsPropertyMap<Object> obj = JsPropertyMap.of();
+		obj.set("fileName", key);
+		obj.set("fileContent", value);
+		archive.push(obj);
+	}
 
-	private JsPropertyMap<Object> prepareFileForFFlate(JsPropertyMap<Object> arch) {
+	private JsPropertyMap<Object> prepareFileForFFlate(GgbFile arch) {
 		List<String> imgExtensions = Arrays.asList("jpg", "jpeg", "png", "gif", "bmp");
 
 		JsPropertyMap<Object> fflatePrepared = JsPropertyMap.of();
 
-		JsArray<JsPropertyMap<String>> archive
-				= (JsArray<JsPropertyMap<String>>) arch.get("archive");
-		while (archive.length > 0) {
-			JsPropertyMap<String> item = archive.shift();
-			String fileName = item.get("fileName");
-			String fileContent = item.get("fileContent");
-
+		for (Entry<String, ArchiveEntry> entry: arch.entrySet()) {
+			String fileName = entry.getKey();
+			ArchiveEntry fileContentObject = entry.getValue();
+			JsArray<Object> archiveEntry = new JsArray<>();
 			int ind = fileName.lastIndexOf('.');
-
-			if (ind > -1 && imgExtensions.contains(fileName.substring(ind + 1).toLowerCase())) {
-				String base64 = fileContent.substring(fileContent.indexOf(',') + 1);
-				fflatePrepared.set(fileName, new JsArray<>(Base64.base64ToBytes(base64)));
+			String extension = ind > -1 ? fileName.substring(ind + 1).toLowerCase() : "";
+			if (fileContentObject.string != null) {
+				String fileContent = fileContentObject.string;
+				if (imgExtensions.contains(extension)) {
+					// base64 needed for thumbnail and for newly inserted images
+					String base64 = fileContent.substring(fileContent.indexOf(',') + 1);
+					archiveEntry.push(Base64.base64ToBytes(base64));
+				} else {
+					archiveEntry.push(FFlate.get().strToU8(fileContent));
+				}
 			} else {
-				fflatePrepared.set(fileName, FFlate.get().strToU8(fileContent));
+				archiveEntry.push(fileContentObject.data);
 			}
+			if (imgExtensions.contains(extension) && ! "bmp".equals(extension)) {
+				JsPropertyMap<?> options = JsPropertyMap.of("level", 0);
+				archiveEntry.push(options);
+			}
+			fflatePrepared.set(fileName, archiveEntry);
 		}
 
 		return fflatePrepared;
@@ -592,7 +601,7 @@ public class GgbAPIW extends GgbAPI {
 	 *            handler for the file
 	 */
 	public void getZippedGgbAsync(final boolean includeThumbnail, final FileConsumer clb) {
-		final JsPropertyMap<Object> arch = getFileJSON(includeThumbnail);
+		final GgbFile arch = getFile(includeThumbnail);
 		JsPropertyMap<Object> fflatePrepared = prepareFileForFFlate(arch);
 
 		FFlate.get().zip(fflatePrepared, (err, data) -> {
@@ -601,11 +610,11 @@ public class GgbAPIW extends GgbAPI {
 				Log.error(err);
 
 				Uint8Array syncZipped = FFlate.get().zipSync(fflatePrepared);
-				clb.consume(new Blob(new JsArray<>(
-						Blob.ConstructorBlobPartsArrayUnionType.of(syncZipped))));
+				clb.consume(new Blob(
+						new JsArray<>(Blob.ConstructorBlobPartsArrayUnionType.of(syncZipped))));
 			} else {
-				clb.consume(new Blob(new JsArray<>(
-						Blob.ConstructorBlobPartsArrayUnionType.of(data))));
+				clb.consume(
+						new Blob(new JsArray<>(Blob.ConstructorBlobPartsArrayUnionType.of(data))));
 			}
 		});
 	}
@@ -615,7 +624,7 @@ public class GgbAPIW extends GgbAPI {
 	 * @param arch archive
 	 * @return zipped archive as a base64 string
 	 */
-	public String getZippedBase64Sync(final JsPropertyMap<Object> arch) {
+	public String getZippedBase64Sync(GgbFile arch) {
 		JsPropertyMap<Object> fflatePrepared = prepareFileForFFlate(arch);
 		return Base64.bytesToBase64(FFlate.get().zipSync(fflatePrepared));
 	}
@@ -625,7 +634,7 @@ public class GgbAPIW extends GgbAPI {
 	 * @param arch archive
 	 * @param clb callback for handling the resulting base64 string
 	 */
-	public void getZippedBase64Async(final JsPropertyMap<Object> arch, final StringConsumer clb) {
+	public void getZippedBase64Async(final GgbFile arch, final StringConsumer clb) {
 		JsPropertyMap<Object> fflatePrepared = prepareFileForFFlate(arch);
 
 		FFlate.get().zip(fflatePrepared, (err, data) -> {
@@ -718,7 +727,6 @@ public class GgbAPIW extends GgbAPI {
 
 	/**
 	 * @param show
-	 * 
 	 *            whether show the algebrainput in geogebra-web applets or not
 	 */
 	public void showAlgebraInput(boolean show) {
@@ -774,12 +782,17 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * Add external image to image manager
+	 * Add external image to image manager. Allow passing SVGs as text
+	 * to be compatible with getFileJSON.
 	 * @param filename internal filename
-	 * @param url data URL
+	 * @param urlOrSvgContent data URL or &lt;svg>content&lt;/svg>
 	 */
-	public void addImage(String filename, String url) {
+	public void addImage(String filename, String urlOrSvgContent) {
 		ImageManagerW imageManager = ((AppW) app).getImageManager();
+		String url = urlOrSvgContent;
+		if (urlOrSvgContent.charAt(0) == '<') {
+			url = Browser.encodeSVG(urlOrSvgContent);
+		}
 		imageManager.addExternalImage(filename, url);
 		imageManager.triggerSingleImageLoading(filename, new GeoImage(construction));
 	}
@@ -806,8 +819,7 @@ public class GgbAPIW extends GgbAPI {
 
 	@Override
 	public void showTooltip(String tooltip) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(tooltip, false,
-				(AppW) app);
+		ToolTipManagerW.sharedInstance().showBottomMessage(tooltip, (AppW) app);
 	}
 
 	/**
@@ -908,8 +920,8 @@ public class GgbAPIW extends GgbAPI {
 	 * @param callback
 	 *            callback
 	 */
-	public void getScreenshotBase64(StringConsumer callback) {
-		((AppW) app).getAppletFrame().getScreenshotBase64(callback);
+	public void getScreenshotBase64(StringConsumer callback, double scale) {
+		((AppW) app).getAppletFrame().getScreenshotBase64(callback, scale);
 	}
 
 	@Override

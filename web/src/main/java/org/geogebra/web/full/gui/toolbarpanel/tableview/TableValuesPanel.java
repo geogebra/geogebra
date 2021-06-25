@@ -74,13 +74,6 @@ public class TableValuesPanel extends FlowPanel
 		}
 	}
 
-	private void removeParentClassName(String className) {
-		Element parent = getElement().getParentElement();
-		if (parent != null) {
-			parent.removeClassName(className);
-		}
-	}
-
 	@Override
 	public void setLabels() {
 		emptyPanel.setLabels();

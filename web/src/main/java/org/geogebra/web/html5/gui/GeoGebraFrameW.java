@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -14,7 +15,6 @@ import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.LoadFilePresenter;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.ViewW;
-import org.geogebra.web.html5.util.Visibility;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -63,7 +63,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private int computedWidth = 0;
 	private int computedHeight = 0;
 	private final GLookAndFeelI laf;
-	private Visibility forcedHeaderVisibility = Visibility.NOT_SET;
+	private boolean forcedHeaderHidden = false;
 	private boolean isHeaderVisible;
 
 	/**
@@ -194,11 +194,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	/**
-	 * @param visible
-	 *            force visibility
+	 * @param hidden
+	 *            whether to hide header
 	 */
-	public void forceHeaderVisibility(Visibility visible) {
-		forcedHeaderVisibility = visible;
+	public void forceHeaderHidden(boolean hidden) {
+		forcedHeaderHidden = hidden;
 		updateHeaderVisible();
 		fitSizeToScreen();
 	}
@@ -207,22 +207,14 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * @return whether to use small screen design
 	 */
 	public boolean shouldHaveSmallScreenLayout() {
-		switch (forcedHeaderVisibility) {
-			case VISIBLE:
-				return false;
-			case HIDDEN:
-				return true;
-			case NOT_SET:
-				return hasSmallWindowOrCompactHeader();
-		}
-		return false;
+		return forcedHeaderHidden || hasSmallWindowOrCompactHeader();
 	}
 
 	/**
 	 * @return whether the header should be hidden or not
 	 */
 	public boolean shouldHideHeader() {
-		return forcedHeaderVisibility == Visibility.HIDDEN
+		return forcedHeaderHidden
 				|| appletParameters.getDataParamMarginTop() <= 0;
 	}
 
@@ -291,7 +283,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private void updateHeaderVisible() {
 		Element header = Dom.querySelector("GeoGebraHeader");
 		if (header != null) {
-			boolean visible = forcedHeaderVisibility != Visibility.HIDDEN;
+			boolean visible = !forcedHeaderHidden;
 			header.getStyle().setProperty("display", visible ? "" : "none");
 			if (isHeaderVisible != visible) {
 				isHeaderVisible = visible;
@@ -679,7 +671,13 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		}
 	}
 
-	public void getScreenshotBase64(StringConsumer callback) {
-		callback.consume(app.getEuclidianView1().getCanvasBase64WithTypeString());
+	/**
+	 * @param callback callback for base64 string (without prefix)
+	 * @param scale scale-up factor
+	 */
+	public void getScreenshotBase64(StringConsumer callback, double scale) {
+		String imageDataUrl = app.getEuclidianView1()
+				.getExportImageDataUrl(scale, false, false);
+		callback.consume(StringUtil.removePngMarker(imageDataUrl));
 	}
 }

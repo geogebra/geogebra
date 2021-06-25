@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
@@ -47,8 +48,24 @@ public class AccessibleInputBox implements AccessibleWidget {
 		// TODO if the box remains hidden, it can't be reached with screenreader
 		// if it's shown, it blocks touch events
 		// AccessibleDropDown.updatePosition(geo, inputBox, app);
-		formLabel.setText(geo.getAuralText());
+		formLabel.setText(geo.getAuralText() + getErrorText());
 		inputBox.setText(geo.getTextForEditor());
+	}
+
+	private String getErrorText() {
+		if (geo.hasError()) {
+			return " " + getErrorText(app.getLocalization());
+		}
+		return "";
+	}
+
+	/**
+	 * @param loc localization
+	 * @return message for syntax error
+	 */
+	public static String getErrorText(Localization loc) {
+		return loc.getMenuDefault("InputContainsSyntaxError",
+				"The input you entered contains a syntax error");
 	}
 
 	@Override

@@ -120,8 +120,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
 	private static int counter = 0;
-	private String foregroundCssColor = "#000000";
-	private String backgroundCssColor = "#ffffff";
+	private ColorW foregroundColor = new ColorW("#000000");
+	private ColorW backgroundColor = new ColorW("#ffffff");
 	private ChangeHandler changeHandler;
 	private int fixMargin = 0;
 	private int minHeight = 0;
@@ -207,6 +207,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public void setLineBreakEnabled(boolean b) {
 		mathFieldInternal.getMathFieldController().setLineBreakEnabled(b);
+	}
+
+	public void setUseSimpleScripts(boolean useSimpleScripts) {
+		mathFieldInternal.getInputController().setUseSimpleScripts(useSimpleScripts);
 	}
 
 	/**
@@ -599,7 +603,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 		double margin = getMargin(lastIcon);
 
-		paint(ctx, margin);
+		paint(ctx, margin, backgroundColor);
 		lastIcon.paintCursor(new Graphics2DW(ctx), margin);
 	}
 
@@ -611,9 +615,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * Paints the formula on a canvas
 	 * @param ctx canvas context
 	 */
-	public void paint(CanvasRenderingContext2D ctx, double top) {
-		JlmLib.draw(lastIcon, ctx, 0, top, new ColorW(foregroundCssColor),
-				new ColorW(backgroundCssColor), null, ratio);
+	public void paint(CanvasRenderingContext2D ctx, double top, ColorW bgColor) {
+		JlmLib.draw(lastIcon, ctx, 0, top, foregroundColor,
+				bgColor, null, ratio);
 	}
 
 	private boolean isEdited() {
@@ -626,7 +630,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private double computeHeight() {
 		double margin = getMargin(lastIcon);
-		return Math.max(roundUp(lastIcon.getIconHeight() + margin + bottomOffset), minHeight);
+		return Math.max(lastIcon.getIconHeight() + margin + bottomOffset, minHeight);
 	}
 
 	public int getIconHeight() {
@@ -642,10 +646,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private double getMargin(TeXIcon lastIcon2) {
-		return fixMargin > 0 ? fixMargin : (int) Math.max(0,
-				-lastIcon2.getTrueIconHeight()
-						+ lastIcon2.getTrueIconDepth()
-						+ getFontSize());
+		return fixMargin + Math.max(0, -lastIcon2.getTrueIconHeight()
+				+ lastIcon2.getTrueIconDepth() + getFontSize());
 	}
 
 	private boolean active(Object element) {
@@ -1162,8 +1164,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param cssColor
 	 * 			to set.
 	 */
-	public void setForegroundCssColor(String cssColor) {
-		this.foregroundCssColor = cssColor;
+	public void setForegroundColor(String cssColor) {
+		this.foregroundColor = new ColorW(cssColor);
 	}
 
 	/**
@@ -1172,8 +1174,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param cssColor
 	 * 			to set.
 	 */
-	public void setBackgroundCssColor(String cssColor) {
-		this.backgroundCssColor = cssColor;
+	public void setBackgroundColor(String cssColor) {
+		this.backgroundColor = new ColorW(cssColor);
 	}
 
 	/**
@@ -1222,5 +1224,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public void scrollParentVertically(FlowPanel parentPanel, int margin) {
 		MathFieldScroller.scrollVerticallyToCursor(parentPanel, margin, lastIcon.getCursorY());
+	}
+
+	public ColorW getBackgroundColor() {
+		return backgroundColor;
 	}
 }

@@ -40,6 +40,7 @@ public abstract class UndoManager {
 	private ListIterator<UndoCommand> iterator;
 	private boolean storeUndoInfoNeededForProperties = false;
 	private List<UndoInfoStoredListener> undoInfoStoredListeners;
+	private ArrayList<UndoPossibleListener> mListener = new ArrayList<>();
 	private final List<ActionExecutor> executors = new ArrayList<>();
 
 	/**
@@ -194,12 +195,23 @@ public abstract class UndoManager {
 	/**
 	 * Update undo/redo buttons in GUI
 	 */
+	protected void onStoreUndo() {
+		updateUndoActions();
+		// debugStates();
+		notifyStoreUndoListeners();
+	}
+
 	protected void updateUndoActions() {
 		app.updateActions();
-		// debugStates();
+		informListener();
+	}
 
-		for (UndoInfoStoredListener listener: undoInfoStoredListeners) {
-			listener.onUndoInfoStored();
+	protected void notifyStoreUndoListeners() {
+		// first item in undo history is just "blank", do not notify
+		if (undoInfoList.size() > 1) {
+			for (UndoInfoStoredListener listener : undoInfoStoredListeners) {
+				listener.onUndoInfoStored();
+			}
 		}
 	}
 
@@ -230,7 +242,7 @@ public abstract class UndoManager {
 		if (iterator != null) {
 			loadUndoInfo(iterator.previous().getAppState(), null);
 			iterator.next();
-			updateUndoActions();
+			onStoreUndo();
 		}
 		app.getSelectionManager().recallSelectedGeosNames(app.getKernel());
 	}
@@ -445,7 +457,7 @@ public abstract class UndoManager {
 	public void storeActionWithSlideId(EventType action, String slideID, String[] args) {
 		iterator.add(new UndoCommand(action, slideID, args));
 		this.pruneStateList();
-		updateUndoActions();
+		onStoreUndo();
 	}
 
 	/**
@@ -585,5 +597,32 @@ public abstract class UndoManager {
 		undoInfoList.addAll(history.commands());
 		iterator = undoInfoList.listIterator(history.iteratorIndex());
 		updateUndoActions();
+	}
+
+	/**
+	 * @param undoPossibleListener
+	 *            undo listener
+	 */
+	public void addUndoListener(UndoPossibleListener undoPossibleListener) {
+		mListener.add(undoPossibleListener);
+	}
+
+	/**
+	 *
+	 * @param undoPossibleListener
+	 * 			  undo listener
+	 */
+	public void removeUndoListener(UndoPossibleListener undoPossibleListener) {
+		mListener.remove(undoPossibleListener);
+	}
+
+	/**
+	 * inform listener that undo - action happened
+	 */
+	protected void informListener() {
+		for (UndoPossibleListener listener : mListener) {
+			listener.undoPossible(undoPossible());
+			listener.redoPossible(redoPossible());
+		}
 	}
 }

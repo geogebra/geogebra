@@ -12,6 +12,8 @@ public interface InlineFormulaController {
 
 	void setAngle(double angle);
 
+	void setScale(double sx, double sy);
+
 	void toForeground(int x, int y);
 
 	void toBackground();

@@ -267,19 +267,13 @@ public class AlgoSlopeField extends AlgoElement {
 						double numD = num.evaluate(xx, yy);
 						double denD = den.evaluate(xx, yy);
 
-						if (DoubleUtil.isZero(denD)) {
-							if (DoubleUtil.isZero(numD)) {
-								// just a dot
-								al.add(new MyPoint(xx, yy, SegmentType.MOVE_TO));
-								al.add(new MyPoint(xx, yy, SegmentType.LINE_TO));
-							} else {
-								// vertical line
-								drawLine(0, 1, length, xx, yy, scaleRatio);
-							}
+						if (DoubleUtil.isZero(denD) && DoubleUtil.isZero(numD)) {
+							// just a dot
+							al.add(new MyPoint(xx, yy, SegmentType.MOVE_TO));
+							al.add(new MyPoint(xx, yy, SegmentType.LINE_TO));
 						} else {
 							// standard case
-							double gradient = numD / denD;
-							drawLine(1, gradient, length, xx, yy, scaleRatio);
+							drawLine(denD, numD, length, xx, yy, scaleRatio);
 						}
 					} else {
 						// non-quotient function like x y

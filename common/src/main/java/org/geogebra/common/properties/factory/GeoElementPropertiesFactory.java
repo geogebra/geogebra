@@ -107,12 +107,16 @@ public class GeoElementPropertiesFactory {
 	 */
 	public static ColorProperty createColorProperty(Localization localization,
 			List<GeoElement> elements) {
-		List<ElementColorProperty> colorProperties = new ArrayList<>();
-		for (GeoElement element : elements) {
-			colorProperties.add(new ElementColorProperty(localization, element));
+		try {
+			List<ElementColorProperty> colorProperties = new ArrayList<>();
+			for (GeoElement element : elements) {
+				colorProperties.add(new ElementColorProperty(localization, element));
+			}
+			return new ColorPropertyCollection<>(
+					colorProperties.toArray(new ElementColorProperty[0]));
+		} catch (NotApplicablePropertyException ignored) {
+			return null;
 		}
-		return new ColorPropertyCollection<>(
-				colorProperties.toArray(new ElementColorProperty[0]));
 	}
 
 	/**

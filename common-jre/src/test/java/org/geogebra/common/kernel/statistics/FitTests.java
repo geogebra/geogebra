@@ -92,7 +92,7 @@ public class FitTests extends BaseUnitTest {
     public void testFitLineYLoadFromXML() {
         getApp().setGraphingConfig();
         addAvInput("f = FitLine((0,0),(1,1),(2,2))");
-        getApp().setXML(getApp().getXML(), true);
+        reload();
         GeoElement loadedFitLine = lookup("f");
 
         String outputString = loadedFitLine.toOutputValueString(StringTemplate.editTemplate);
@@ -117,7 +117,7 @@ public class FitTests extends BaseUnitTest {
         getApp().setGraphingConfig();
         addAvInput("f = FitLineX({(-2, 1), (1, 2), (2, 4), (4, 3), (5, 4)})");
 
-        getApp().setXML(getApp().getXML(), true);
+        reload();
         GeoElement loadedFitLine = lookup("f");
 
         String outputString = loadedFitLine.toOutputValueString(StringTemplate.editTemplate);

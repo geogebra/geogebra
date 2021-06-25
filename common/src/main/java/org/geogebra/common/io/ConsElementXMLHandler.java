@@ -33,15 +33,19 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInline;
+import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
+import org.geogebra.common.kernel.geos.GeoMindMapNode;
+import org.geogebra.common.kernel.geos.GeoMindMapNode.NodeAlignment;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
@@ -264,8 +268,18 @@ public class ConsElementXMLHandler {
 					((GeoEmbed) geo).setContentWidth(widthD);
 					((GeoEmbed) geo).setContentHeight(heightD);
 				} else {
-					((RectangleTransformable) geo).setSize(widthD, heightD);
 					((RectangleTransformable) geo).setAngle(angleD);
+					if (geo instanceof GeoInlineText || geo instanceof GeoFormula
+							|| geo instanceof GeoInlineTable) {
+						((GeoInline) geo).setWidth(widthD);
+						((GeoInline) geo).setHeight(heightD);
+						if (((GeoInline) geo).isZoomingEnabled()) {
+							((GeoInline) geo).setContentWidth(widthD);
+							((GeoInline) geo).setContentHeight(heightD);
+						}
+					} else {
+						((RectangleTransformable) geo).setSize(widthD, heightD);
+					}
 				}
 			}
 
@@ -1229,8 +1243,7 @@ public class ConsElementXMLHandler {
 			if (inputBox.getLinkedGeo().isGeoText() && !inputBox.getLinkedGeo().isLabelSet()) {
 				((GeoText) inputBox.getLinkedGeo()).setTextString(eval);
 			} else {
-				inputBox.setTempUserDisplayInput(display);
-				inputBox.setTempUserEvalInput(eval);
+				inputBox.setTempUserInput(eval, display);
 			}
 		} else {
 			Log.error("temp user input not supported for " + geo.getGeoClassType());
@@ -1560,14 +1573,14 @@ public class ConsElementXMLHandler {
 	}
 
 	private void handleBorderColor(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoInlineText)) {
+		if (!(geo instanceof GeoInline)) {
 			return;
 		}
 		int red = Integer.parseInt(attrs.get("r"));
 		int green = Integer.parseInt(attrs.get("g"));
 		int blue = Integer.parseInt(attrs.get("b"));
 		GColor col = GColor.newColor(red, green, blue);
-		((GeoInlineText) geo).setBorderColor(col);
+		((GeoInline) geo).setBorderColor(col);
 	}
 
 	private void handleBoundingBox(LinkedHashMap<String, String> attrs) {
@@ -2238,6 +2251,9 @@ public class ConsElementXMLHandler {
 			case "outlyingIntersections":
 				handleOutlyingIntersections(attrs);
 				break;
+			case "parent":
+				handleParent(attrs);
+				break;
 			case "parentLabel":
 				handleParentLabel(attrs);
 				break;
@@ -2334,29 +2350,52 @@ public class ConsElementXMLHandler {
 	}
 
 	private void handleContentSize(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoEmbed)) {
+		if (!(geo instanceof GeoEmbed || geo instanceof GeoInline)) {
 			Log.error("wrong element type for <contentSize>: " + geo.getClass());
 			return;
 		}
-
-		GeoEmbed geoEmbed = (GeoEmbed) geo;
-
+		double width = -1;
+		double height = -1;
 		try {
-			double width = Double.parseDouble(attrs.get("width"));
-			double height = Double.parseDouble(attrs.get("height"));
-
-			geoEmbed.setContentWidth(width);
-			geoEmbed.setContentHeight(height);
+			width = Double.parseDouble(attrs.get("width"));
+			height = Double.parseDouble(attrs.get("height"));
 		} catch (NumberFormatException e) {
 			Log.error("malformed <contentSize>");
 		}
+
+		if (geo instanceof GeoEmbed) {
+			GeoEmbed geoEmbed = (GeoEmbed) geo;
+			geoEmbed.setContentWidth(width);
+			geoEmbed.setContentHeight(height);
+		} else {
+			GeoInline geoInline = (GeoInline) geo;
+			geoInline.setContentWidth(width);
+			geoInline.setContentHeight(height);
+			geoInline.setZoomingEnabled(false);
+		}
+	}
+
+	private void handleParent(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoMindMapNode)) {
+			Log.error("wrong element type for <parent>: " + geo.getClass());
+			return;
+		}
+
+		String val = attrs.get("val");
+		GeoElement parent = "_".equals(val) ? null : xmlHandler.kernel.lookupLabel(val);
+		NodeAlignment alignment = NodeAlignment.valueOf(attrs.get("align"));
+
+		if (parent != null && !(parent instanceof GeoMindMapNode)) {
+			Log.error("<parent> has incorrect type: " + parent.getClass());
+			return;
+		}
+		((GeoMindMapNode) geo).setParent((GeoMindMapNode) parent, alignment);
 	}
 
 	private void handleParentLabel(LinkedHashMap<String, String> attrs) {
 		if (geo instanceof GeoLocusStroke) {
 			((GeoLocusStroke) geo).setSplitParentLabel(attrs.get("val"));
 		}
-
 	}
 
 	protected void initDefault(LinkedHashMap<String, String> attrs) {

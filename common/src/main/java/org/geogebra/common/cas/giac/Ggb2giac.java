@@ -309,7 +309,7 @@ public class Ggb2giac {
 		// ggbfacans:=factor(lncollect(ggbfacans),x);
 		// fi],with_sqrt(1),ggbfacans][4]");
 		p("Factor.1",
-				"[[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=ggbfactor(lncollect(ggbfacans),x, 0, 1); fi],ggbfacans][2]");
+				"[[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=unquote(ifactor(ggbfacans)); else ggbfacans:=ggbfactor(lncollect(ggbfacans),x, 0, 1); fi],ggbfacans][2]");
 		p("Factor.2",
 				"[[ggbfacans:=%0],[ggbfacans:=ggbfactor(ggbfacans,ggb_is_variable(%1),0,1)],ggbfacans][2]");
 
@@ -1045,7 +1045,7 @@ public class Ggb2giac {
 		pOptimize("Min", "min", "fMin");
 		pOptimize("Max", "max", "fMax");
 
-		p("MixedNumber.1", "propfrac(%0)");
+		p("MixedNumber.1", "unquote(propfrac(%0))");
 
 		p("Mod.2", "ggbmod(%0,%1)");
 
@@ -1283,14 +1283,15 @@ public class Ggb2giac {
 
 		p("PlotSolve.1", pointList.replace("%0", root1));
 		p("SolveODE.1",
-				"when((%0)[0]=='=',"
+				"[[solveodeans:=?],[solveodeans:=when((%0)[0]=='=',"
 						// case the equation contains only y and other variable
 						// as x,by default use for variable list y,x
 						// #5099
-						+ " when(size(lname(%0) intersect [x])==0&&size(lname(%0) intersect [y])==1&&size(lname(%0) minus [y])>0,normal(map(desolve(%0,x,y),x->y=x)[0]),normal(map(desolve(%0),x->y=x)[0]))"
+						+ "when(size(lname(%0) intersect [x])==0&&size(lname(%0) intersect [y])==1&&size(lname(%0) minus [y])>0,normal(map(desolve(%0,x,y),x->y=x)),normal(map(desolve(%0),x->y=x)))"
 						+ ","
 						// add y'= if it's missing
-						+ "normal(map(desolve(y'=%0),x->y=x)[0])" + ")");
+						+ "normal(map(desolve(y'=%0),x->y=x))" + ")],when(length(solveodeans)==1,solveodeans[0],solveodeans)][2]");
+
 
 		// goes through 1 point
 		// SolveODE[y''=x,(1,1)]
@@ -1397,7 +1398,7 @@ public class Ggb2giac {
 						+ GGBVECT_TYPE + "),xcoord(%0)+i*ycoord(%0)," +
 						// ToComplex[ln(i)],ToComplex[a]
 						"real(ggbtcans)+i*im(ggbtcans)" + "))][3]");
-		p("ToExponential.1", "rectangular2polar(%0)");
+		p("ToExponential.1", "unquote(rectangular2polar(%0))");
 		p("ToPolar.1",
 				"([[ggbtpans:=%0],[ggbtpans:=polar_coordinates(ggbtpans)],[ggbtpans:=convert([ggb_ang(ggbtpans[0],ggbtpans[1])],25)],ggbtpans])[3]");
 		p("ToPoint.1", "point(convert(coordinates(%0),25))");

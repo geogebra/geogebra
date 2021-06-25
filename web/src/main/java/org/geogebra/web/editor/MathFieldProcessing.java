@@ -99,11 +99,6 @@ public class MathFieldProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public void scrollCursorIntoView() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public boolean resetAfterEnter() {
 		// TODO Auto-generated method stub
 		return false;

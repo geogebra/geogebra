@@ -522,4 +522,8 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 			popup.show(x, y);
 		}
 	}
+
+	public int getContentWidth() {
+		return grid.getOffsetWidth();
+	}
 }

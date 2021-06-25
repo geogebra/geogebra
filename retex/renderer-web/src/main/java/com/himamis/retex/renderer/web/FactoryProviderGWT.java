@@ -52,6 +52,7 @@ import com.himamis.retex.renderer.web.geom.GeomFactoryGWT;
 import com.himamis.retex.renderer.web.graphics.GraphicsFactoryGWT;
 
 import elemental2.dom.DomGlobal;
+import jsinterop.base.Js;
 
 public class FactoryProviderGWT extends FactoryProvider {
 
@@ -72,12 +73,16 @@ public class FactoryProviderGWT extends FactoryProvider {
 
 	@Override
 	public void debug(Object string) {
-		DomGlobal.console.debug("[LaTeX]", string);
+		if (Js.isTruthy(Js.asPropertyMap(DomGlobal.console).get("log"))) {
+			DomGlobal.console.log("[LaTeX]", string);
+		}
 	}
 
 	@Override
 	public void printStacktrace() {
-		DomGlobal.console.trace();
+		if (Js.isTruthy(Js.asPropertyMap(DomGlobal.console).get("trace"))) {
+			DomGlobal.console.trace();
+		}
 	}
 
 	public boolean isHTML5() {

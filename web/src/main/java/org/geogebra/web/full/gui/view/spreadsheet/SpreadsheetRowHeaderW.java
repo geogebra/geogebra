@@ -789,4 +789,8 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader {
 			}
 		});
 	}
+
+	public int getContentHeight() {
+		return grid.getOffsetHeight();
+	}
 }

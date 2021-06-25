@@ -95,7 +95,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 	@Override
 	public void onClick(KeyBoardButtonBase btn, PointerEventType type) {
-		ToolTipManagerW.hideAllToolTips();
+		ToolTipManagerW.sharedInstance().hideTooltip();
 		super.onClick(btn, type);
 	}
 
