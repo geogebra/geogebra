@@ -1,8 +1,11 @@
 package org.geogebra.web.full.gui.exam;
 
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
 
@@ -104,10 +107,14 @@ public class ExamUtil {
 	 * @param red
 	 *            whether it should be red
 	 */
-	public static native void makeRed(Element element, boolean red) /*-{
-		element.style.setProperty("background-color", red ? "#D32F2F" : "",
-				red ? "important" : "");
-	}-*/;
+	public static void makeRed(Element element, boolean red) {
+		if (red) {
+			Dom.setImportant(element.getStyle(), "background-color",
+					StringUtil.toHtmlColor(GColor.DARK_RED));
+		} else {
+			element.getStyle().setBackgroundColor("");
+		}
+	}
 
 	/**
 	 * @param appW

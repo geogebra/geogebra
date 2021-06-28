@@ -71,7 +71,7 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 	}
 
 	private void createCenter() {
-		if (!app.showToolBar() || !app.enableGraphing()) {
+		if (!app.showToolBar()) {
 			return;
 		}
 
@@ -499,7 +499,7 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 	}
 
 	private void showExamDialog(StandardButton examInfoBtn) {
-		new ExamLogAndExitDialog(app, true, null, examInfoBtn).show();
+		new ExamLogAndExitDialog(app, true, examInfoBtn).show();
 	}
 
 	public void updateIcons(boolean exam) {

@@ -2,10 +2,8 @@ package org.geogebra.web.full.gui.exam;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.exam.ExamLogBuilder;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -23,34 +21,32 @@ import com.google.gwt.user.client.ui.Widget;
  *         exam exit dialog with the whole information
  *
  */
-public class ExamLogAndExitDialog extends DialogBoxW
-		implements FastClickHandler, SetLabels {
-	private AsyncOperation<String> returnHandler;
-	private FlowPanel dialog;
+public class ExamLogAndExitDialog extends DialogBoxW implements SetLabels {
+	private final Runnable returnHandler;
 	// components of title panel
 	private FlowPanel titlePanel;
 	private Label calcType;
-	private NoDragImage alertImg;
 	private Label examTitle;
-	// components of content panel
-	private ScrollPanel scrollPanel;
 	private FlowPanel contentPanel;
-	private Label teacherText = new Label("");
-	private Label durationLbl = new Label("");
-	private Label duration = new Label("");
-	private Label dateLbl = new Label("");
-	private Label date = new Label("");
-	private Label startTimeLbl = new Label("");
-	private Label startTime = new Label("");
-	private Label endTimeLbl = new Label("");
-	private Label endTime = new Label("");
-	private Label activityLbl = new Label("");
+	private final Label teacherText = new Label("");
+	private final Label durationLbl = new Label("");
+	private final Label duration = new Label("");
+	private final Label dateLbl = new Label("");
+	private final Label date = new Label("");
+	private final Label startTimeLbl = new Label("");
+	private final Label startTime = new Label("");
+	private final Label endTimeLbl = new Label("");
+	private final Label endTime = new Label("");
+	private final Label activityLbl = new Label("");
 	private FlowPanel activityPanel;
-	// components of button panel
-	private FlowPanel buttonPanel;
-	private StandardButton okBtn;
-	private StandardButton exitBtn;
-	private Widget anchor;
+	private StandardButton positiveBtn;
+	private final Widget anchor;
+	private final String positiveKey;
+
+	public ExamLogAndExitDialog(AppW app, boolean isLogDialog,
+			Widget anchor) {
+		this(app, isLogDialog, null, anchor, "OK");
+	}
 
 	/**
 	 * @param app
@@ -63,40 +59,45 @@ public class ExamLogAndExitDialog extends DialogBoxW
 	 *            anchor
 	 */
 	public ExamLogAndExitDialog(AppW app, boolean isLogDialog,
-			AsyncOperation<String> returnHandler, Widget anchor) {
+			Runnable returnHandler, Widget anchor, String positiveKey) {
 		super(app.getPanel(), app);
 		this.returnHandler = returnHandler;
 		this.anchor = anchor;
+		this.positiveKey = positiveKey;
 		this.addStyleName(isLogDialog ? "examLogDialog" : "examExitDialog");
 		setGlassEnabled(false);
 		buildGUI(isLogDialog);
 	}
 
 	private void buildGUI(boolean isLogDialog) {
-		dialog = new FlowPanel();
 		// build title panel
 		buildTitlePanel();
 		// build content panel
-		scrollPanel = new ScrollPanel();
+		// components of content panel
+		ScrollPanel scrollPanel = new ScrollPanel();
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName(app.getExam().isCheating() && isLogDialog
 				? "contentPanel cheating" : "contentPanel");
 		buildContent(isLogDialog);
 		scrollPanel.add(contentPanel);
 		// build button panel
-		buttonPanel = new FlowPanel();
+		// components of button panel
+		FlowPanel buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("DialogButtonPanel");
 		if ((app.getExam().isCheating() && !isLogDialog)
 				|| (isLogDialog && activityPanel != null
 						&& activityPanel.getWidgetCount() > 7)) {
 			buttonPanel.addStyleName("withDivider");
 		}
-		okBtn = new StandardButton("");
-		okBtn.addFastClickHandler(this);
-		exitBtn = new StandardButton("");
-		exitBtn.addFastClickHandler(this);
-		buttonPanel.add(isLogDialog ? okBtn : exitBtn);
+		positiveBtn = new StandardButton("");
+		if (isLogDialog) {
+			positiveBtn.addFastClickHandler(ignored -> hide());
+		} else {
+			positiveBtn.addFastClickHandler(ignored -> hideAndExit());
+		}
+		buttonPanel.add(positiveBtn);
 		// build whole dialog
+		FlowPanel dialog = new FlowPanel();
 		dialog.add(titlePanel);
 		dialog.add(scrollPanel);
 		dialog.add(buttonPanel);
@@ -114,10 +115,13 @@ public class ExamLogAndExitDialog extends DialogBoxW
 		titlePanel.add(calcType);
 		if (app.getExam().isCheating()) {
 			titlePanel.addStyleName("cheating");
-			alertImg = new NoDragImage(
+			NoDragImage alertImg = new NoDragImage(
 					MaterialDesignResources.INSTANCE.exam_error(), 24);
 			titlePanel.add(LayoutUtilW.panelRowIndent(alertImg, examTitle));
 		} else {
+			if (((AppW) app).getAppletParameters().getParamLockExam()) {
+				titlePanel.addStyleName("locked");
+			}
 			titlePanel.add(examTitle);
 		}
 	}
@@ -187,17 +191,7 @@ public class ExamLogAndExitDialog extends DialogBoxW
 		endTime.setText(app.getExam().getEndTime());
 		activityLbl.setText(app.getLocalization().getMenu("exam_activity"));
 		// button panel
-		exitBtn.setText(app.getLocalization().getMenu("Exit"));
-		okBtn.setText(app.getLocalization().getMenu("OK"));
-	}
-
-	@Override
-	public void onClick(Widget source) {
-		if (source == okBtn) {
-			hide();
-		} else if (source == exitBtn) {
-			onCancel();
-		}
+		positiveBtn.setText(app.getLocalization().getMenu(positiveKey));
 	}
 
 	@Override
@@ -211,15 +205,23 @@ public class ExamLogAndExitDialog extends DialogBoxW
 
 	@Override
 	public void onCancel() {
+		if (returnHandler == null) {
+			hide(); // just a log: hide
+		} else if (!((AppW) app).getAppletParameters().getParamLockExam()) {
+			hideAndExit();
+		}
+	}
+
+	private void hideAndExit() {
 		if (app.getGuiManager() instanceof GuiManagerW
 				&& ((GuiManagerW) app.getGuiManager())
-						.getUnbundledToolbar() != null) {
+				.getUnbundledToolbar() != null) {
 			((GuiManagerW) app.getGuiManager()).getUnbundledToolbar()
 					.resetHeaderStyle();
 		}
 		((AppW) app).getLAF().toggleFullscreen(false);
 		hide();
-		returnHandler.callback("exit");
+		returnHandler.run();
 	}
 
 	/**

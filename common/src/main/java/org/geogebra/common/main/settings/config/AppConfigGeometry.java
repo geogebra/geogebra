@@ -246,7 +246,7 @@ public class AppConfigGeometry extends AbstractAppConfig {
 
 	@Override
 	public boolean hasExam() {
-		return false;
+		return true;
 	}
 
 	@Override

@@ -1220,8 +1220,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				setLocale(getLocale(language));
 			}
 		}
-		boolean eg = args.getBooleanValue("enableGraphing", true);
-		kernel.getAlgebraProcessor().setCommandsEnabled(eg);
 		if (args.containsArg("regressionFile")) {
 			this.regressionFileName = args.getStringValue("regressionFile");
 		}

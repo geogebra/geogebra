@@ -19,8 +19,6 @@ import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.TemplateChooserControllerI;
 
-import com.google.gwt.user.client.Command;
-
 public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	void showPopupMenu(ArrayList<GeoElement> geos, AlgebraView invoker,
@@ -43,10 +41,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	void addAlgebraInput(AlgebraInput ai);
 
 	AlgebraInput getAlgebraInput();
-
-	Command getShowAxesAction();
-
-	Command getShowGridAction();
 
 	void setActiveToolbarId(int toolbarID);
 
@@ -157,6 +151,8 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * Updates the unbundled toolbar.
 	 */
 	void updateUnbundledToolbar();
+
+	void updateUnbundledToolbarContent();
 
 	/**
 	 * Adds the main menu button to the global header.

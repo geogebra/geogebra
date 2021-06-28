@@ -282,7 +282,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 		final GCheckmarkMenuItem showAxes = new GCheckmarkMenuItem(
 				MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("ShowAxes")),
-				checked, ((AppW) app).getGuiManager().getShowAxesAction());
+				checked, app.getGuiManager()::showAxesCmd);
 
 		wrappedPopup.addItem(showAxes);
 	}

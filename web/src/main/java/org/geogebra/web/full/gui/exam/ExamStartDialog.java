@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.exam;
 
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
@@ -27,5 +28,12 @@ public class ExamStartDialog extends ComponentDialog {
 		Label startText = new Label(app.getLocalization().getMenu("exam_start_dialog_text"));
 		startText.addStyleName("examStartText");
 		addDialogContent(startText);
+	}
+
+	@Override
+	public void onEscape() {
+		if (!((AppW) app).getAppletParameters().getParamLockExam()) {
+			hide();
+		}
 	}
 }

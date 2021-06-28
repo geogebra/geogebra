@@ -20,6 +20,9 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import elemental2.dom.DomGlobal;
+import elemental2.dom.KeyboardEvent;
+
 /**
  * Exam start dialog
  */
@@ -40,8 +43,7 @@ public class ExamClassicStartDialog extends ComponentDialog implements ClickHand
 		buildGUI();
 		setOnPositiveAction(() -> startExam(app));
 		setOnNegativeAction(() -> {
-			if (!app.getAppletParameters()
-					.hasDataParamEnableGraphing()) {
+			if (!app.getAppletParameters().getParamLockExam()) {
 				cancelExam();
 			}
 		});
@@ -119,7 +121,7 @@ public class ExamClassicStartDialog extends ComponentDialog implements ClickHand
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
 		app.getLAF().toggleFullscreen(true);
 		ensureExamStyle();
-		blockEscTab();
+		blockEscTab(app);
 
 		guiManager.updateToolbarActions();
 		app.getLAF().removeWindowClosingHandler();
@@ -129,7 +131,6 @@ public class ExamClassicStartDialog extends ComponentDialog implements ClickHand
 		guiManager.setGeneralToolBarDefinition(
 				ToolBar.getAllToolsNoMacros(true, true, app));
 		LayoutW.resetPerspectives(app);
-		app.getGgbApi().setPerspective("A");
 
 		app.getKernel().getAlgebraProcessor().reinitCommands();
 		app.startExam();
@@ -154,19 +155,20 @@ public class ExamClassicStartDialog extends ComponentDialog implements ClickHand
 	 * In electron this is done by kiosk mode, but on Chromebook it still
 	 * matters.
 	 */
-	private static native void blockEscTab() /*-{
-		$doc.body.addEventListener("keyup", function(e) {
-			if (e && e.keyCode == 27 && $doc.querySelector(".examToolbar")) {
-				e.preventDefault()
+	public static void blockEscTab(AppW app) {
+		DomGlobal.document.body.addEventListener("keyup", evt -> {
+			KeyboardEvent e = (KeyboardEvent) evt;
+			if ("Escape".equals(e.code) && app.isExam()) {
+				e.preventDefault();
 			}
 		});
-		$doc.body.addEventListener("keydown", function(e) {
-			if (e && (e.keyCode == 9 || e.keyCode == 27)
-					&& $doc.querySelector(".examToolbar")) {
-				e.preventDefault()
+		DomGlobal.document.body.addEventListener("keydown", evt -> {
+			KeyboardEvent e = (KeyboardEvent) evt;
+			if (("Tab".equals(e.code) || "Escape".equals(e.code)) && app.isExam()) {
+				e.preventDefault();
 			}
 		});
-	}-*/;
+	}
 
 	private static void ensureExamStyle() {
 		if (examStyle) {
@@ -187,5 +189,12 @@ public class ExamClassicStartDialog extends ComponentDialog implements ClickHand
 	private void onCasChecked() {
 		app.getExam().setCasEnabled(cas.getValue(), app.getSettings().getCasSettings());
 		app.getGuiManager().updateToolbarActions();
+	}
+
+	@Override
+	protected void onEscape() {
+		if (!app.getAppletParameters().getParamLockExam()) {
+			hide();
+		}
 	}
 }

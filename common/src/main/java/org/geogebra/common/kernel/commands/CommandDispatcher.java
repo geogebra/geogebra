@@ -81,7 +81,6 @@ public abstract class CommandDispatcher {
 
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
 	private MacroProcessor macroProc;
-	private boolean enabled = true;
 	private List<CommandFilter> commandFilters;
 	private List<CommandArgumentFilter> commandArgumentFilters;
 
@@ -252,9 +251,6 @@ public abstract class CommandDispatcher {
 	}
 
 	private CommandProcessor getProcessor(Command c) throws MyError {
-		if (!enabled) {
-			throw new MyError(kernel.getLocalization(), Errors.InvalidInput);
-		}
 		if (cmdTable == null) {
 			initCmdTable();
 		}
@@ -961,21 +957,6 @@ public abstract class CommandDispatcher {
 			return processed[0];
 		}
 		return null;
-	}
-
-	/**
-	 * @param enable
-	 *            true to enable commands
-	 */
-	public void setEnabled(boolean enable) {
-		this.enabled = enable;
-	}
-
-	/**
-	 * @return whether commands are supported
-	 */
-	public boolean isEnabled() {
-		return enabled;
 	}
 
 	/**

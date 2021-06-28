@@ -82,6 +82,8 @@ public final class GColor implements GPaint {
 
 	public static final GColor MOW_TABLE_HEADING_COLOR = newColor(65, 121, 140, 102);
 
+	public static final GColor DARK_RED = newColorRGB(0xD32F2F);
+
 	public static final GColor MIND_MAP_PARENT_BG_COLOR = newColorRGB(0xE2E1F0);
 
 	public static final GColor MIND_MAP_PARENT_BORDER_COLOR = newColor(76, 66, 161);

@@ -421,11 +421,7 @@ public class GGWToolBar extends Composite
 		}
 
 		onResize();
-		if (app.isExam() && !app.enableGraphing()) {
-			toolBPanel.setVisible(false);
-		} else {
-			toolBPanel.setVisible(true);
-		}
+		toolBPanel.setVisible(true);
 	}
 
 	/**

@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.menubar.action;
 
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.exam.ExamStartDialog;
+import org.geogebra.web.full.gui.exam.classic.ExamClassicStartDialog;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.shared.components.DialogData;
@@ -33,13 +34,15 @@ public class StartExamAction extends DefaultMenuAction<Void> {
 		return startExam -> {
 			app.fileNew();
 			app.getLAF().toggleFullscreen(true);
-			DialogData data = new DialogData("exam_menu_enter", "Cancel",
+			String cancel = app.getAppletParameters().getParamLockExam() ? null : "Cancel";
+			DialogData data = new DialogData("exam_menu_enter", cancel,
 					"exam_start_button");
 			ExamStartDialog examStartDialog = new ExamStartDialog(app, data);
 			examStartDialog.setOnNegativeAction(() -> {
 				app.getLAF().toggleFullscreen(false);
 			});
 			examStartDialog.setOnPositiveAction(() -> {
+				ExamClassicStartDialog.blockEscTab(app);
 				app.setNewExam();
 				app.startExam();
 			});

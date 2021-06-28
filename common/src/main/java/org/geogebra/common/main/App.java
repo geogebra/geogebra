@@ -838,8 +838,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				continue;
 			}
 
-			if (!companion.tableVisible(comm.getTable())
-					|| !kernel.getAlgebraProcessor().isCommandsEnabled()) {
+			if (!companion.tableVisible(comm.getTable())) {
 				if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
 					putInTranslateCommandTable(comm, null);
 				}
@@ -4760,7 +4759,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public ToolCollectionFactory createToolCollectionFactory() {
 		String toolbarDefinition = getGuiManager().getToolbarDefinition();
-		if (toolbarDefinition == null
+		if (toolbarDefinition == null || isExam()
 				|| ToolBar.isDefaultToolbar(toolbarDefinition)) {
 			return createDefaultToolCollectionFactory();
 		} else {

@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.exam.ExamLogBuilder;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.app.HTMLLogBuilder;
 import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
@@ -29,6 +28,8 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	 */
 	protected static final int LINE_HEIGHT = 24;
 	private static final double PADDING = 24;
+	private static final GColor EXAM_LOCK_COLOR = GColor.newColorRGB(0x007AFF);
+	private static final GColor EXAM_OK_COLOR = GColor.newColorRGB(0x3DA196);
 
 	private AppWFull app;
 
@@ -44,23 +45,39 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	protected void showExamExitDialog() {
 		DialogData data = new DialogData(null,
 				"Cancel", "Exit");
-		AsyncOperation<String> returnHandler = obj -> {
-			if ("exit".equals(obj)) {
+		Runnable returnHandler;
+
+		String buttonText;
+		if (app.getAppletParameters().getParamLockExam()) {
+			buttonText = "Restart";
+			returnHandler = () -> {
+				if (app.getConfig().hasExam()) {
+					exitAndResetExamOffline();
+					new StartExamAction(app).execute(null, app);
+				} else { // classic
+					exitAndResetExam();
+					app.setNewExam();
+					app.examWelcome();
+				}
+			};
+		} else {
+			buttonText = "Exit";
+			returnHandler = () -> {
 				if (app.getConfig().hasExam()) {
 					exitAndResetExamOffline();
 				} else { // classic
 					exitAndResetExam();
 				}
-			}
-		};
+			};
+		}
 		ExamExitConfirmDialog exit = new ExamExitConfirmDialog(app, data);
 		exit.setOnPositiveAction(() -> {
 			if (app.getConfig().hasExam()) {
 				app.getExam().exit();
 				GlobalHeader.INSTANCE.resetAfterExam();
-				new ExamLogAndExitDialog(app, false, returnHandler, null).show();
+				new ExamLogAndExitDialog(app, false, returnHandler, null, buttonText).show();
 			} else { // classic
-				showClassicExamLogExitDialog("Exit", returnHandler);
+				showClassicExamLogExitDialog(buttonText, returnHandler);
 			}
 		});
 		exit.show();
@@ -78,8 +95,7 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		app.endExam();
 	}
 
-	private void showClassicExamLogExitDialog(String buttonText,
-							  AsyncOperation<String> handler) {
+	private void showClassicExamLogExitDialog(String buttonText, Runnable handler) {
 		app.fileNew();
 		HTMLLogBuilder htmlBuilder = new HTMLLogBuilder();
 		app.getExam().getLog(app.getLocalization(), app.getSettings(), htmlBuilder);
@@ -94,7 +110,12 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		g2.setCoordinateSpaceSize(500, app.getExam().getEventCount() * LINE_HEIGHT + 350);
 		g2.setColor(GColor.WHITE);
 		g2.fillRect(0, 0, canvas.getCoordinateSpaceWidth(), canvas.getCoordinateSpaceHeight());
-		g2.setPaint(GColor.newColorRGB(app.getExam().isCheating() ? 0xD32F2F : 0x3DA196));
+		GColor color =  app.getAppletParameters().getParamLockExam() ? EXAM_LOCK_COLOR
+				: EXAM_OK_COLOR;
+		if (app.getExam().isCheating()) {
+			color = GColor.DARK_RED;
+		}
+		g2.setPaint(color);
 		g2.fillRect(0, 0, 500, header);
 		g2.setFont(new GFontW("SansSerif", GFont.PLAIN, 12));
 		g2.setColor(GColor.WHITE);

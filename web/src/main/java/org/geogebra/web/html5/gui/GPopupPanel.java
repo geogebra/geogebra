@@ -82,9 +82,6 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
  * {@link #setGlassStyleName(String)}.
  * </p>
  *
- * <p>
- * <h3>Example</h3>
- * {@example com.google.gwt.examples.PopupPanelExample}
  * </p>
  * <h3>CSS Style Rules</h3>
  * <dl>
@@ -120,7 +117,7 @@ public class GPopupPanel extends SimplePanel implements
 	/**
 	 * Window resize handler used to keep the glass the proper size.
 	 */
-	private ResizeHandler glassResizer = new ResizeHandler() {
+	private final ResizeHandler glassResizer = new ResizeHandler() {
 		@Override
 		public void onResize(ResizeEvent event) {
 			Style style = glass.getStyle();
@@ -233,7 +230,7 @@ public class GPopupPanel extends SimplePanel implements
 		/**
 		 * The {@link GPopupPanel} being affected.
 		 */
-		private GPopupPanel curPanel = null;
+		private final GPopupPanel curPanel;
 
 		/**
 		 * Indicates whether or not the {@link GPopupPanel} is in the process of
@@ -492,12 +489,6 @@ public class GPopupPanel extends SimplePanel implements
 		setPopupPosition(0, 0);
 		setStyleName(DEFAULT_STYLENAME);
 		setStyleName(getContainerElement(), "popupContent");
-
-		// if (this instanceof HasKeyboardPopup) {
-		// super.getContainerElement().getFirstChildElement()
-		// .addClassName("mainChild");
-		// }
-
 	}
 
 	protected Panel getRootPanel() {
@@ -589,9 +580,8 @@ public class GPopupPanel extends SimplePanel implements
 
 		center(keyboardHeight);
 
-		int paddings = VERTICAL_PADDING;
-		int maxHeight = (int) (getRootPanel().getOffsetHeight() - keyboardHeight
-				- paddings);
+		int maxHeight = (int) Math.min(getRootPanel().getOffsetHeight() - keyboardHeight
+				- VERTICAL_PADDING, getMaxHeight());
 
 		if (childElement.getOffsetHeight() > maxHeight) {
 			childElement.getStyle().setHeight(maxHeight, Unit.PX);
@@ -601,7 +591,11 @@ public class GPopupPanel extends SimplePanel implements
 		}
 	}
 
-	private int center(double keyboardHeight) {
+	protected int getMaxHeight() {
+		return Integer.MAX_VALUE;
+	}
+
+	private void center(double keyboardHeight) {
 		boolean initiallyShowing = showing;
 		boolean initiallyAnimated = isAnimationEnabled;
 
@@ -621,7 +615,7 @@ public class GPopupPanel extends SimplePanel implements
 		elem.getStyle().setPropertyPx("top", 0);
 
 		int left = (getRootPanel().getOffsetWidth() - getOffsetWidth()) >> 1;
-		int top = (getRootPanel().getOffsetHeight() - getOffsetHeight()
+		int top = (getRootPanel().getOffsetHeight() - Math.min(getOffsetHeight(), getMaxHeight())
 				- (int) keyboardHeight) >> 1;
 		setPopupPosition(Math.max(left, 0), Math.max(top, 0));
 				
@@ -638,8 +632,6 @@ public class GPopupPanel extends SimplePanel implements
 				setVisible(true);
 			}
 		}
-		
-		return top;
 	}
 
 	/**

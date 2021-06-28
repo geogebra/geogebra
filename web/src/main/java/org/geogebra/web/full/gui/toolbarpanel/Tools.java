@@ -145,10 +145,13 @@ public class Tools extends FlowPanel implements SetLabels {
 		List<ToolCategory> categories = parentTab.toolCollection.getCategories();
 
 		for (int i = 0; i < categories.size(); i++) {
-			CategoryPanel catPanel = new CategoryPanel(categories.get(i),
-					parentTab.toolCollection.getTools(i));
-			categoryPanelList.add(catPanel);
-			add(catPanel);
+			ToolCategory category = categories.get(i);
+			if (!app.isExam() || category.isAllowedInExam()) {
+				CategoryPanel catPanel = new CategoryPanel(category,
+						parentTab.toolCollection.getTools(i));
+				categoryPanelList.add(catPanel);
+				add(catPanel);
+			}
 		}
 
 		setMoveMode();
