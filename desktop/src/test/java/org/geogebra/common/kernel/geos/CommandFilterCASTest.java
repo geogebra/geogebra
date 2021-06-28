@@ -65,6 +65,7 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
                 "-(a + 3)^(2) + (3 * a - 3)^(2)");
         t("Substitute(2x + 3y - z, {x = a, y = 2, z = d})",
                 "2 * a - d + 6");
+        t("Substitute(Derivative(\u212f^(-x)/(x^2+1),x,2),{x=-1})", "0");
     }
 
     @Test
