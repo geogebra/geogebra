@@ -42,11 +42,6 @@ public class MebisSettings implements VendorSettings {
 	}
 
 	@Override
-	public boolean isMainMenuExternal() {
-		return false;
-	}
-
-	@Override
 	public String getMenuLocalizationKey(String key) {
 		return key + ".Mebis";
 	}
