@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.kernel.statistics.AlgoTableToChart;
 import org.geogebra.common.main.App;
 
 public class InternalClipboard {
@@ -87,6 +88,9 @@ public class InternalClipboard {
 		Construction cons = app.getKernel().getConstruction();
 		for (int i = 0; i < cons.steps(); ++i) {
 			ConstructionElement ce = cons.getConstructionElement(i);
+			if (ce instanceof AlgoTableToChart) {
+				ce = ((AlgoTableToChart) ce).getOutput(0);
+			}
 			if (geoslocal.contains(ce)) {
 				if (ce instanceof GeoMindMapNode
 						&& !geoslocal.contains(((GeoMindMapNode) ce).getParent())) {
@@ -108,6 +112,7 @@ public class InternalClipboard {
 				}
 			}
 		}
+
 		for (Group group : selectedGroups) {
 			group.getXML(copiedXml);
 		}
@@ -145,6 +150,9 @@ public class InternalClipboard {
 			ArrayList<AlgoElement> geoal = geo.getAlgorithmList();
 
 			for (AlgoElement ale : geoal) {
+				if (ale instanceof AlgoTableToChart) {
+					continue;
+				}
 				ArrayList<ConstructionElement> ac = new ArrayList<>();
 				ac.addAll(Arrays.asList(ale.getInput()));
 

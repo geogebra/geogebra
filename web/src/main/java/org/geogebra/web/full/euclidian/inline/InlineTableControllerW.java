@@ -137,6 +137,15 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
+	public int getSelectedColumn() {
+		if (tableImpl.getSelection() == null) {
+			return 0;
+		}
+
+		return tableImpl.getSelection().col0;
+	}
+
+	@Override
 	public void draw(GGraphics2D g2, GAffineTransform transform) {
 		if (!isInEditMode()) {
 			g2.saveTransform();
@@ -443,7 +452,7 @@ public class InlineTableControllerW implements InlineTableController {
 		}
 
 		table.setContent(content);
-		table.notifyUpdate();
+		table.updateCascade();
 		return true;
 	}
 

@@ -98,5 +98,7 @@ public interface InlineTableController extends HasTextFormat {
 
 	boolean hasSelection();
 
+	int getSelectedColumn();
+
 	void setScale(double sx, double sy);
 }

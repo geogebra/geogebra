@@ -102,6 +102,7 @@ import org.geogebra.web.full.gui.menu.MenuViewController;
 import org.geogebra.web.full.gui.menu.MenuViewListener;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
+import org.geogebra.web.full.gui.menubar.action.StartExamAction;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
@@ -285,13 +286,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void checkExamPerspective() {
-		if (!appletParameters.getDataParamPerspective().startsWith("exam")) {
-			return;
+		if (appletParameters.getParamLockExam()) {
+			setNewExam();
+			appletParameters.setAttribute("perspective", "");
+			afterLocalizationLoaded(this::examWelcome);
 		}
-
-		setNewExam();
-		appletParameters.setAttribute("perspective", "");
-		afterLocalizationLoaded(this::examWelcome);
 	}
 
 	private void setupSignInButton(GlobalHeader header) {
@@ -640,9 +639,16 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public final void examWelcome() {
 		if (isExam() && getExam().getStart() < 0) {
-			resetViewsEnabled();
-			DialogData data = new DialogData("exam_custom_header", "Cancel", "exam_start_button");
-			new ExamClassicStartDialog(this, data).show();
+			if (isUnbundled()) {
+				new StartExamAction(this).execute(null, this);
+			} else {
+				resetViewsEnabled();
+				String negativeKey = getAppletParameters().getParamLockExam()
+						? null : "Cancel";
+				DialogData data = new DialogData("exam_custom_header",
+						negativeKey, "exam_start_button");
+				new ExamClassicStartDialog(this, data).show();
+			}
 		}
 	}
 
@@ -652,7 +658,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @param handler button click handler
 	 */
 	public void showClassicExamLogExitDialog(final HTML content, String buttonText,
-			AsyncOperation<String> handler) {
+			Runnable handler) {
 		DialogData data = new DialogData(getLocalization().getMenu("exam_log_header") + " "
 				+ getVersionString(), null, buttonText);
 		ExamClassicLogAndExitDialog dialog =
@@ -1333,8 +1339,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					|| frame.getWidget(i) instanceof TabbedKeyboard
 					|| (menuViewController != null
 					&& frame.getWidget(i) == menuViewController.getView())
-					|| (isUnbundledOrWhiteboard()
-					&& frame.getWidget(i) instanceof Persistable)
+					|| frame.getWidget(i) instanceof Persistable
 					|| frame.getWidget(i) instanceof DialogBoxW)) {
 				frame.remove(i);
 			}
@@ -2168,9 +2173,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (guiManager != null) {
 			guiManager.resetBrowserGUI();
 			if (menuViewController != null) {
-				guiManager.setUnbundledHeaderStyle("examOk");
 				menuViewController.setExamMenu();
+				boolean examLock = getAppletParameters().getParamLockExam();
+				guiManager.setUnbundledHeaderStyle(examLock ? "examLock" : "examOk");
 				guiManager.resetMenu();
+				guiManager.updateUnbundledToolbarContent();
 				GlobalHeader.INSTANCE.addExamTimer();
 				new ExamUtil(this).visibilityEventMain();
 				guiManager.initInfoBtnAction();
@@ -2194,6 +2201,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 		guiManager.resetMenu();
 		guiManager.resetBrowserGUI();
+		guiManager.updateUnbundledToolbarContent();
 		setActivePerspective(Layout.getDefaultPerspectives(0));
 	}
 

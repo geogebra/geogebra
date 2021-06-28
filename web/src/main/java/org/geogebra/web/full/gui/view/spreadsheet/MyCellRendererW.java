@@ -120,17 +120,19 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		}
 
 		// Alignment
-		Integer alignment = (Integer) formatHandler.getCellFormat(column, row,
-		        CellFormat.FORMAT_ALIGN);
-		if (alignment != null) {
-			s.setProperty("textAlign",
-			        alignment == CellFormat.ALIGN_LEFT ? "left"
-			                : (alignment == CellFormat.ALIGN_RIGHT ? "right"
-			                        : "center"));
-		} else if (cell != null && cell.isGeoText()) {
+		int alignment = formatHandler.getAlignment(column, row,
+				cell != null && cell.isGeoText());
+		switch (alignment) {
+                default:
+		case CellFormat.ALIGN_LEFT:
 			s.setProperty("textAlign", "left");
-		} else {
+			break;
+		case CellFormat.ALIGN_RIGHT:
 			s.setProperty("textAlign", "right");
+			break;
+		case CellFormat.ALIGN_CENTER:
+			s.setProperty("textAlign", "center");
+			break;
 		}
 
 		// Background color

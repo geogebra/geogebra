@@ -292,10 +292,20 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	/**
 	 * @param inputText new value for linkedGeo
+	 * @param latex editor content as LaTeX
+	 * @param entries matrix entries
 	 */
-	public void updateLinkedGeo(String inputText, String... entries) {
-		inputBoxProcessor.updateLinkedGeo(new EditorContent(inputText, entries, getRows()), tpl);
+	public void updateLinkedGeo(String inputText, String latex, String... entries) {
+		inputBoxProcessor.updateLinkedGeo(new EditorContent(inputText, latex,
+				entries, getRows()), tpl);
 		getKernel().getApplication().storeUndoInfo();
+	}
+
+	/**
+	 * @param inputText plain text input
+	 */
+	public void updateLinkedGeo(String inputText) {
+		updateLinkedGeo(inputText, null);
 	}
 
 	/**
@@ -489,10 +499,11 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	/**
 	 * Set the temporary user evaluation input. This input
 	 * must be in ASCII math format.
-	 * @param tempUserEvalInput temporary user eval input
+	 * @param eval temporary user eval input
 	 */
-	public void setTempUserEvalInput(String tempUserEvalInput) {
-		this.tempUserEvalInput = tempUserEvalInput;
+	public void setTempUserInput(String eval, String display) {
+		this.tempUserEvalInput = eval;
+		this.tempUserDisplayInput = display;
 	}
 
 	/**
@@ -502,15 +513,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 */
 	public String getTempUserDisplayInput() {
 		return this.tempUserDisplayInput;
-	}
-
-	/**
-	 * Set the temporary user display input. This input
-	 * must be in LaTeX or ASCII math format.
-	 * @param tempUserDisplayInput temporary user display input
-	 */
-	public void setTempUserDisplayInput(String tempUserDisplayInput) {
-		this.tempUserDisplayInput = tempUserDisplayInput;
 	}
 
 	/**

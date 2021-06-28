@@ -39,7 +39,7 @@ public class GreekKeyboardFactory extends LetterKeyboardFactory {
 				+ Characters.THETA
 				+ Characters.IOTA
 				+ Characters.OMICRON
-				+ Characters.PI;
+				+ Characters.PI_CHAR;
 		setKeyboardDefinition(topRow, middleRow, bottomRow, DEFAULT_CONTROL,
 				ACTION_SHIFT, ACTION_ABC_LETTERS);
 	}

@@ -1,5 +1,6 @@
 package org.geogebra.keyboard.scientific.model;
 
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.CURLY_PI;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.DIVISION;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.MULTIPLICATION;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.PI;
@@ -42,7 +43,7 @@ public class ScientificKeyboardFactory implements KeyboardModelFactory {
         addTranslateInputCommandButton(row, buttonFactory, "sin", "sin", 1.0f);
         addTranslateInputCommandButton(row, buttonFactory, "cos", "cos", 1.0f);
         addTranslateInputCommandButton(row, buttonFactory, "tan", "tan", 1.0f);
-        addInputButton(row, buttonFactory, PI);
+        addInputButton(row, buttonFactory, CURLY_PI, PI);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addInputButton(row, buttonFactory, "4");
         addInputButton(row, buttonFactory, "5");

@@ -93,11 +93,20 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/vertical_align_top-24px.svg")
 	SVGResource vertical_align_top();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/table_heading_column.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/table_heading_column.svg")
 	SVGResource table_heading_column();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/table_heading_row.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/table_heading_row.svg")
 	SVGResource table_heading_row();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/chart_line.svg")
+	SVGResource table_line_chart();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/chart_bar.svg")
+	SVGResource table_bar_chart();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/chart_pie.svg")
+	SVGResource table_pie_chart();
 
 	// context menu icon resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/plane_black.svg")

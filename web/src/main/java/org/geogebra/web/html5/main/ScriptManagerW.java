@@ -11,6 +11,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.JsReference;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.util.JsRunnable;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -105,11 +106,11 @@ public class ScriptManagerW extends ScriptManager {
 		}
 	}
 
-	private native void tryTabletOnInit() /*-{
-		if ($wnd.android && $wnd.android.callPlugin) {
-			$wnd.android.callPlugin('GgbOnInit', [ 1 ]);
+	private void tryTabletOnInit() {
+		if (GeoGebraJSNativeBridge.get() != null) {
+			GeoGebraJSNativeBridge.get().callPlugin("GgbOnInit", new Object[] {1});
 		}
-	}-*/;
+	}
 
 	@Override
 	protected void callListener(String listener, Object[] args) {

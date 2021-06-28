@@ -111,7 +111,7 @@ public class Browser {
 
 	/**
 	 * Check this to avoid exceptions thrown from Storage.get*StorageIfSupported
-	 * 
+	 *
 	 * @return whether session storage is supported
 	 */
 	public static boolean supportsSessionStorage() {
@@ -373,10 +373,9 @@ public class Browser {
 			return;
 		}
 
-		// $wnd.android is set for Android, iOS, Win8
-		// Yes, really!
-		if ($wnd.android) {
-			$wnd.android.share(url, title, extension);
+		var bridge = @org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge::get()();
+		if (bridge != null) {
+			bridge.@org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge::share(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(url, title, extension);
 			return;
 		}
 
@@ -574,7 +573,7 @@ public class Browser {
 
 	/**
 	 * it's true for android phones and iPads but false for iPhone
-	 * 
+	 *
 	 * @deprected isMobile might work better, alternatively isiOS() ||
 	 *            isAndroid()
 	 * @return whether this is iPad or Android
@@ -766,7 +765,7 @@ public class Browser {
 	/**
 	 * Checks for screen readers that don't support keyboard event handling in
 	 * canvas.
-	 * 
+	 *
 	 * @return whether emulator of tab handler is needed
 	 */
 	public static boolean needsAccessibilityView() {

@@ -135,7 +135,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
@@ -834,6 +833,13 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
+	public void updateUnbundledToolbarContent() {
+		if (getUnbundledToolbar() != null) {
+			getUnbundledToolbar().updateContent();
+		}
+	}
+
+	@Override
 	public void updateToolbarActions() {
 		if (getToolbarPanel() != null) {
 			getToolbarPanel().updateActionPanel();
@@ -1166,28 +1172,6 @@ public class GuiManagerW extends GuiManager
 		}
 		return (getApp()).getEuclidianView1();
 		// return app.getEuclidianView1();
-	}
-
-	@Override
-	public Command getShowAxesAction() {
-		return new Command() {
-
-			@Override
-			public void execute() {
-				showAxesCmd();
-			}
-		};
-	}
-
-	@Override
-	public Command getShowGridAction() {
-		return new Command() {
-
-			@Override
-			public void execute() {
-				showGridCmd();
-			}
-		};
 	}
 
 	/**
@@ -1586,10 +1570,6 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public boolean checkAutoCreateSliders(final String s,
 			final AsyncOperation<String[]> callback) {
-		if (!getApp().enableGraphing()) {
-			callback.callback(null);
-			return false;
-		}
 		final String[] options = { loc.getMenu("Cancel"),
 				loc.getMenu("CreateSliders") };
 

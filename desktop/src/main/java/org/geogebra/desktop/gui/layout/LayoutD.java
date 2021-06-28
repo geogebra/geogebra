@@ -270,11 +270,4 @@ public class LayoutD extends Layout implements SettingListener {
 		return dockManager.getRoot();
 	}
 
-	/**
-	 * Show the prompt which is used to save the current perspective.
-	 */
-	public void showSaveDialog() {
-		// unused
-	}
-
 }

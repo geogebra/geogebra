@@ -213,11 +213,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	protected GGeneralPath shapePolygon;
 	// design for shapes
-	/**
-	 * fill color of shape (transparent)
-	 */
-	private final GColor shapeFillCol = GColor.newColor(192,
-			192, 192, 0.0);
+
 	/**
 	 * object color of shape (black by default)
 	 */
@@ -958,9 +954,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			invalidateBackground();
 		}
 		if (!batchUpdate) {
-			euclidianController.notifyCoordSystemMoved(coordSystemInfo);
+			notifyCoordSystemMoved();
 		}
 		updatingBounds = false;
+	}
+
+	private void notifyCoordSystemMoved() {
+		euclidianController.notifyCoordSystemMoved(coordSystemInfo);
 	}
 
 	@Override
@@ -1890,7 +1890,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void endBatchUpdate() {
 		this.batchUpdate = false;
 		if (this.needsAllDrawablesUpdate) {
-			euclidianController.notifyCoordSystemMoved(coordSystemInfo);
+			notifyCoordSystemMoved();
 			allDrawableList.updateAll();
 			repaint();
 		}
@@ -3830,9 +3830,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	protected void drawShape(GGraphics2D g2, GColor fillCol, GColor objCol,
 			GBasicStroke stroke, GShape shape) {
-		g2.setColor(fillCol);
 		g2.setStroke(stroke);
-		g2.fill(shape);
+		if (fillCol != null) {
+			g2.setColor(fillCol);
+			g2.fill(shape);
+		}
 		g2.setColor(objCol);
 		if (!isRounded) {
 			g2.draw(shape);
@@ -3847,8 +3849,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	protected void drawShape(GGraphics2D g2, GShape shape) {
 		if (shape != null) {
-			drawShape(g2, shapeFillCol, shapeObjCol,
-					shapeStroke, shape);
+			drawShape(g2, null, shapeObjCol, shapeStroke, shape);
 		}
 	}
 
@@ -6658,6 +6659,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	public int getVisibleHeight() {
 		return getHeight();
+	}
+
+	@Override
+	public int calcVisibleWidthFromSettings() {
+		return settings.getWidth() - settings.getVisibleFromX();
+	}
+
+	@Override
+	public int calcVisibleHeightFromSettings() {
+		return settings.getVisibleUntilY() > Integer.MIN_VALUE
+				? settings.getVisibleUntilY()
+				: settings.getHeight();
 	}
 
 	@CheckForNull

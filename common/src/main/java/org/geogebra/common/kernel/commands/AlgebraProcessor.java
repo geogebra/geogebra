@@ -1085,9 +1085,6 @@ public class AlgebraProcessor {
 			extracted = symbolicProcessor.extractAssignment(equation, info);
 			ve.setLabel(extracted.getLabel());
 		}
-		if (ve.isRootNode()) {
-			extracted.setAsRootNode();
-		}
 		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(extracted, info);
 		String label = extracted.getLabel();
 		if (label != null && kernel.lookupLabel(label) != null
@@ -1306,7 +1303,6 @@ public class AlgebraProcessor {
 			ErrorHandler handler, ValidExpression ve, EvalInfo info) {
 		GeoElement[] geoElements = null;
 		try {
-			ve.setAsRootNode();
 			geoElements = processValidExpression(ve, info);
 			if (storeUndo && geoElements != null) {
 				app.storeUndoInfo();
@@ -3700,16 +3696,6 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * @param enable
-	 *            whether commands should be enabled
-	 */
-	public void setCommandsEnabled(boolean enable) {
-		this.structuresEnabled = enable;
-		cmdDispatcher.setEnabled(enable);
-
-	}
-
-	/**
 	 * @return whether structure parsing is enabled
 	 */
 	public boolean enableStructures() {
@@ -3722,13 +3708,6 @@ public class AlgebraProcessor {
 	 */
 	public void setEnableStructures(boolean enableStructures) {
 		this.structuresEnabled = enableStructures;
-	}
-
-	/**
-	 * @return whether commands dispatching is enabled
-	 */
-	public boolean isCommandsEnabled() {
-		return cmdDispatcher.isEnabled();
 	}
 
 	/**

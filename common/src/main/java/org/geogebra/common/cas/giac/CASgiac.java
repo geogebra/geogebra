@@ -41,9 +41,7 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-
 import org.gwtproject.regexp.shared.MatchResult;
 import org.gwtproject.regexp.shared.RegExp;
 
@@ -402,7 +400,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * consistent with the Algebra View
 		 */
 		GGB_ROUND("ggbround",
-					"ggbround(x):=when(type(evalf(x))==DOM_LIST, seq(ggbround(x[j]),j,0,length(x)-1), when(type(evalf(x))==DOM_COMPLEX, ggbround(real(x))+i*ggbround(im(x)), when(x<0,when(type(x)==DOM_LIST&&length(x)==2, -round(-x[0], x[1]), -round(-x)), round(x))))"),
+					"ggbround(x):=when(evalf(x)==?||evalf(x)=={?},?,when(type(evalf(x))==DOM_LIST,seq(ggbround(x[j]),j,0,length(x)-1),when(type(evalf(x))==DOM_COMPLEX,ggbround(real(x))+i*ggbround(im(x)),when(x<0,when(type(x)==DOM_LIST&&length(x)==2,-round(-x[0], x[1]),-round(-x)),round(x)))))"),
 
 		/**
 		 * Minimal polynomial of cos(2pi/n), see GGB-2137 for details.
@@ -1408,18 +1406,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				}
 				// primeOpen = primeClose;
 			} else {
-				int check = StringUtil.checkBracketsBackward(
-						ret.substring(primeOpen, primeClose));
-				// -('3*5') will have check = -1
-				if (check < 0) {
-					StringBuilder sb = new StringBuilder(ret);
-					sb = sb.replace(primeOpen, primeOpen + 1, "");
-					sb = sb.replace(primeClose - 1, primeClose, "");
-					ret = sb.toString();
-					primeOpen = ret.indexOf('\'', primeClose);
-				} else {
-					primeOpen = primeClose;
-				}
+				primeOpen = primeClose;
 			}
 		}
 

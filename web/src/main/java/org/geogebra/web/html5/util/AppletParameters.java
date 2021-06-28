@@ -157,21 +157,10 @@ public class AppletParameters {
 	}
 
 	/**
-	 * @param def
-	 *            fallback if parameter not set
-	 * @return data-param-enableGraphing: whether graphing, commands and vectors
-	 *         are enabled
+	 * @return true, if data-param-lockExam attribute is set to true
 	 */
-	public boolean getDataParamEnableGraphing(boolean def) {
-		return getBoolDataParam("enableGraphing", def);
-	}
-
-	/**
-	 * @return true, if there is data-param-enableGraphing attribute, and it is
-	 *         not an empty string
-	 */
-	public boolean hasDataParamEnableGraphing() {
-		return hasAttribute("enableGraphing");
+	public boolean getParamLockExam() {
+		return getBoolDataParam("lockExam", false);
 	}
 
 	public boolean hasDataParamEnable3D() {
