@@ -49,7 +49,7 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 
 		String buttonText;
 		if (app.getAppletParameters().getParamLockExam()) {
-			buttonText =  "Restart";
+			buttonText = "Restart";
 			returnHandler = () -> {
 				if (app.getConfig().hasExam()) {
 					exitAndResetExamOffline();

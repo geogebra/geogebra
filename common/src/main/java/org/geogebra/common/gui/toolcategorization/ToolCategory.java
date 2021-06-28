@@ -87,7 +87,7 @@ public enum ToolCategory {
     SELECT_AND_FORMAT("SelectAndFormat");
 
     private final String header;
-    private final boolean alowedInExam;
+    private final boolean allowedInExam;
 
     ToolCategory(String header) {
         this(header, true);
@@ -95,7 +95,7 @@ public enum ToolCategory {
 
     ToolCategory(String header, boolean allowedInExam) {
         this.header = header;
-        this.alowedInExam = allowedInExam;
+        this.allowedInExam = allowedInExam;
     }
 
     public String getLocalizedHeader(Localization loc) {
@@ -103,6 +103,6 @@ public enum ToolCategory {
     }
 
     public boolean isAllowedInExam() {
-        return alowedInExam;
+        return allowedInExam;
     }
 }
