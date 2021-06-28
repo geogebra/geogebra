@@ -46,6 +46,7 @@ public class DrawRay extends SetDrawable implements Previewable {
 	private GeoLineND ray;
 
 	private boolean isVisible;
+	private boolean isPreviewVisible;
 	private boolean labelVisible;
 	private ArrayList<GeoPointND> points;
 	private GPoint2D endPoint = new GPoint2D();
@@ -102,6 +103,7 @@ public class DrawRay extends SetDrawable implements Previewable {
 	public void update(boolean showLabel) {
 
 		isVisible = geo.isEuclidianVisible();
+		isPreviewVisible = false;
 		if (isVisible) {
 			// calc direction vector of ray in screen coords
 			Coords equation = ray.getCartesianEquationVector(view.getMatrix());
@@ -292,54 +294,61 @@ public class DrawRay extends SetDrawable implements Previewable {
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
 		double yRW = mouseRWy;
+		GeoPointND startPoint = points != null && points.size() > 0 ? points.get(0) : null;
+
 		if (isVisible) {
+			if (startPoint != null && !(startPoint.getInhomX() == xRW
+					&& startPoint.getInhomY() == yRW)) {
+				// need these as we don't want rounding when Alt pressed (nearest 15
+				// degrees)
+				double xx = view.toScreenCoordX(xRW);
+				double yy = view.toScreenCoordY(yRW);
 
-			// need these as we don't want rounding when Alt pressed (nearest 15
-			// degrees)
-			double xx = view.toScreenCoordX(xRW);
-			double yy = view.toScreenCoordY(yRW);
+				// round angle to nearest 15 degrees if alt pressed
+				if (points.size() == 1
+						&& view.getEuclidianController().isAltDown()) {
+					// double xRW = view.toRealWorldCoordX(x);
+					// double yRW = view.toRealWorldCoordY(y);
+					GeoPointND p = points.get(0);
+					double px = p.getInhomX();
+					double py = p.getInhomY();
+					double angle = Math.atan2(yRW - py, xRW - px) * 180 / Math.PI;
+					double radius = Math.sqrt(
+							(py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));
 
-			// round angle to nearest 15 degrees if alt pressed
-			if (points.size() == 1
-					&& view.getEuclidianController().isAltDown()) {
-				// double xRW = view.toRealWorldCoordX(x);
-				// double yRW = view.toRealWorldCoordY(y);
-				GeoPointND p = points.get(0);
-				double px = p.getInhomX();
-				double py = p.getInhomY();
-				double angle = Math.atan2(yRW - py, xRW - px) * 180 / Math.PI;
-				double radius = Math.sqrt(
-						(py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));
+					// round angle to nearest 15 degrees
+					angle = Math.round(angle / 15) * 15;
 
-				// round angle to nearest 15 degrees
-				angle = Math.round(angle / 15) * 15;
+					xRW = px + radius * Math.cos(angle * Math.PI / 180);
+					yRW = py + radius * Math.sin(angle * Math.PI / 180);
 
-				xRW = px + radius * Math.cos(angle * Math.PI / 180);
-				yRW = py + radius * Math.sin(angle * Math.PI / 180);
+					endPoint.setLocation(xRW, yRW);
+					view.getEuclidianController().setLineEndPoint(endPoint);
 
-				endPoint.setLocation(xRW, yRW);
-				view.getEuclidianController().setLineEndPoint(endPoint);
+					// don't use view.toScreenCoordX/Y() as we don't want rounding
+					xx = view.getXZero() + xRW * view.getXscale();
+					yy = view.getYZero() - yRW * view.getYscale();
 
-				// don't use view.toScreenCoordX/Y() as we don't want rounding
-				xx = view.getXZero() + xRW * view.getXscale();
-				yy = view.getYZero() - yRW * view.getYscale();
+				} else {
+					view.getEuclidianController().setLineEndPoint(null);
+				}
+				/*
+				 * a[0] = A.inhomX; a[1] = A.inhomY; view.toScreenCoords(a);
+				 */
+				v[0] = xx - a[0];
+				v[1] = yy - a[1];
+				setClippedLine();
 
+				isPreviewVisible = true;
 			} else {
-				view.getEuclidianController().setLineEndPoint(null);
+				isPreviewVisible = false;
 			}
-
-			/*
-			 * a[0] = A.inhomX; a[1] = A.inhomY; view.toScreenCoords(a);
-			 */
-			v[0] = xx - a[0];
-			v[1] = yy - a[1];
-			setClippedLine();
 		}
 	}
 
 	@Override
 	final public void drawPreview(GGraphics2D g2) {
-		if (isVisible) {
+		if (isVisible && isPreviewVisible) {
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
 			g2.setStroke(objStroke);

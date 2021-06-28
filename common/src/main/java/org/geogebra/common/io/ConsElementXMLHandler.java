@@ -1243,8 +1243,7 @@ public class ConsElementXMLHandler {
 			if (inputBox.getLinkedGeo().isGeoText() && !inputBox.getLinkedGeo().isLabelSet()) {
 				((GeoText) inputBox.getLinkedGeo()).setTextString(eval);
 			} else {
-				inputBox.setTempUserDisplayInput(display);
-				inputBox.setTempUserEvalInput(eval);
+				inputBox.setTempUserInput(eval, display);
 			}
 		} else {
 			Log.error("temp user input not supported for " + geo.getGeoClassType());

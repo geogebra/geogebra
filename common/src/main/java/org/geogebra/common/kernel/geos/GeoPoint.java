@@ -760,9 +760,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		// tell conic that this point is on it, that's needed to handle
 		// reflections
 		// of conics correctly for path parameter calculation of point P
-		GeoElement geo = path.toGeoElement();
-		if (geo.isGeoConic()) {
-			((GeoConicND) geo).addPointOnConic(this); // GeoConicND
+		if (path != null && path.isGeoConic()) {
+			((GeoConicND) path).addPointOnConic(this); // GeoConicND
 		}
 	}
 

@@ -366,6 +366,14 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void intersectConicConicInOnePoint() {
+		tRound("{Intersect[(x + 3.04)^2 + (y + 0.11)^2 = 144,"
+						+ "(x - 4.16)^2 + (y + 0.11)^2 = 23.04]}",
+				"{(8.96, -0.11)}");
+
+	}
+
+	@Test
 	public void cmdSetConstructionStep() {
 		app.setSaved();
 		assertTrue(app.clearConstruction());

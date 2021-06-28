@@ -76,12 +76,11 @@ public class GeoGebraSerializer implements Serializer {
 			}
 			break;
 		case FRAC:
-			boolean unaryMinus = stringBuilder.toString().endsWith("-");
-			stringBuilder.append(unaryMinus ? "((" : '(');
+			stringBuilder.append("((");
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			stringBuilder.append(")/(");
 			serialize(mathFunction.getArgument(1), stringBuilder);
-			stringBuilder.append(unaryMinus ? "))" : ")");
+			stringBuilder.append("))");
 			break;
 		case LOG:
 			if (mathFunction.getArgument(0).size() == 0) {
