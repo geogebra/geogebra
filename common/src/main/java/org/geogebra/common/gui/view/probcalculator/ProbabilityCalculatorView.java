@@ -2056,7 +2056,7 @@ public abstract class ProbabilityCalculatorView
 
 	private void switchToLeftProbability(int oldProbMode, boolean isDiscrete) {
 		if (oldProbMode == PROB_RIGHT) {
-			setHigh(getLow());
+			setHighDefault();
 		}
 
 		if (isDiscrete) {
@@ -2078,7 +2078,7 @@ public abstract class ProbabilityCalculatorView
 
 	private void switchToRightProbability(int oldProbMode, boolean isDiscrete) {
 		if (oldProbMode == PROB_LEFT) {
-			setLow(getHigh());
+			setLowDefault();
 		}
 
 		if (isDiscrete) {
@@ -2091,6 +2091,11 @@ public abstract class ProbabilityCalculatorView
 		xAxis.showLowOnly(showProbGeos);
 	}
 
+	protected void setLowDefault() {
+		setLow(plotSettings.xMin
+				+ 0.4 * (plotSettings.xMax - plotSettings.xMin));
+	}
+
 	private void setHighOffscreen() {
 		setHigh(plotSettings.xMax + 1);
 	}
@@ -2101,15 +2106,14 @@ public abstract class ProbabilityCalculatorView
 			setLow(settings.getLow());
 			setHigh(settings.getHigh());
 		} else {
-			setDefaultBounds();
+			setLowDefault();
+			setHighDefault();
 		}
 
 		updateOutputForIntervals();
 	}
 
-	private void setDefaultBounds() {
-		setLow(plotSettings.xMin
-				+ 0.4 * (plotSettings.xMax - plotSettings.xMin));
+	private void setHighDefault() {
 		setHigh(plotSettings.xMin
 				+ 0.6 * (plotSettings.xMax - plotSettings.xMin));
 	}
