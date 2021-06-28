@@ -558,16 +558,10 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		Log.debug("input = " + input);
 
-		if (casGiacCache.containsKey(input)) {
-			return casGiacCache.get(input);
-		}
+		String cachedResult = getResultFromCache(input);
 
-		String standardizedInput = standardizeArgumentNamesForInput(input);
-
-		for (Entry<String, String> entry : casGiacCache.entrySet()) {
-			if (standardizeArgumentNamesForInput(entry.getKey()).equals(standardizedInput)) {
-				return entry.getValue();
-			}
+		if (cachedResult != null && !cachedResult.isEmpty()) {
+			return cachedResult;
 		}
 
 		String result = evaluate(exp, getTimeoutMilliseconds());
@@ -585,9 +579,28 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		Log.debug("result = " + result);
 
-		casGiacCache.put(input, result);
+		addResultToCache(input, result);
 
 		return result;
+	}
+
+	protected void addResultToCache(String input, String result) {
+		casGiacCache.put(input, result);
+	}
+
+	protected String getResultFromCache(String input) {
+		if (casGiacCache.containsKey(input)) {
+			return casGiacCache.get(input);
+		}
+
+		String standardizedInput = standardizeArgumentNamesForInput(input);
+
+		for (Entry<String, String> entry : casGiacCache.entrySet()) {
+			if (standardizeArgumentNamesForInput(entry.getKey()).equals(standardizedInput)) {
+				return entry.getValue();
+			}
+		}
+		return null;
 	}
 
 	private String standardizeArgumentNamesForInput(String input) {
