@@ -1,5 +1,7 @@
 package org.geogebra.keyboard.base.model.impl.factory;
 
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.CURLY_EULER;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.CURLY_PI;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.EULER;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.GEQ;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEQ;
@@ -30,7 +32,7 @@ public class DefaultKeyboardFactory implements KeyboardModelFactory {
         addInputButton(row, buttonFactory, Characters.x, "x");
         addInputButton(row, buttonFactory, Characters.y, "y");
         addInputButton(row, buttonFactory, Characters.z, "z");
-        addInputButton(row, buttonFactory, PI);
+        addInputButton(row, buttonFactory, CURLY_PI, PI);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addFirstRow(row, buttonFactory);
 
@@ -38,7 +40,7 @@ public class DefaultKeyboardFactory implements KeyboardModelFactory {
         addConstantInputButton(row, buttonFactory, Resource.POWA2, SUP2);
         addConstantInputButton(row, buttonFactory, Resource.POWAB, "^");
         addConstantInputButton(row, buttonFactory, Resource.ROOT, ROOT);
-        addInputButton(row, buttonFactory, "e", EULER);
+        addInputButton(row, buttonFactory, CURLY_EULER, EULER);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addSecondRow(row, buttonFactory);
 

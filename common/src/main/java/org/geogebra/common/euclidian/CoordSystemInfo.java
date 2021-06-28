@@ -1,7 +1,7 @@
 package org.geogebra.common.euclidian;
 
 public class CoordSystemInfo {
-	private EuclidianView view;
+	private final EuclidianView view;
 	private boolean xAxisZoom = false;
 	private boolean centerView;
 	private boolean interactive = false;

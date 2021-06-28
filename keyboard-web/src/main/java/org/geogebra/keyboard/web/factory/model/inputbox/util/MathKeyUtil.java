@@ -1,5 +1,7 @@
 package org.geogebra.keyboard.web.factory.model.inputbox.util;
 
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.CURLY_EULER;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.CURLY_PI;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.DEGREE;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.EULER;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.INFINITY;
@@ -61,7 +63,7 @@ public class MathKeyUtil {
 	public static void addParenthesesPiE(RowImpl row, ButtonFactory buttonFactory) {
 		addInputButton(row, buttonFactory, "(");
 		addInputButton(row, buttonFactory, ")");
-		addInputButton(row, buttonFactory, PI);
-		addInputButton(row, buttonFactory, "e", EULER);
+		addInputButton(row, buttonFactory, CURLY_PI, PI);
+		addInputButton(row, buttonFactory, CURLY_EULER, EULER);
 	}
 }

@@ -1,7 +1,5 @@
 package org.geogebra.common.main.undo;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -12,8 +10,6 @@ import org.geogebra.common.plugin.EventType;
  * @author Balazs
  */
 public class DefaultUndoManager extends UndoManager {
-
-	private ArrayList<UndoPossibleListener> mListener = new ArrayList<>();
 
 	/**
 	 * @param cons
@@ -32,12 +28,6 @@ public class DefaultUndoManager extends UndoManager {
         informListener();
     }
 
-    @Override
-    protected void updateUndoActions() {
-        super.updateUndoActions();
-        informListener();
-    }
-
     /**
      * Adds construction state to undo info list.
      *
@@ -50,7 +40,7 @@ public class DefaultUndoManager extends UndoManager {
         maybeStoreUndoCommand(command);
         pruneStateList();
         app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO));
-        updateUndoActions();
+        onStoreUndo();
     }
 
     protected UndoCommand createUndoCommand(AppState appState) {
@@ -65,31 +55,4 @@ public class DefaultUndoManager extends UndoManager {
             e.printStackTrace();
         }
     }
-
-    /**
-     * inform listener that undo - action happened
-     */
-    private void informListener() {
-        for (UndoPossibleListener listener : mListener) {
-            listener.undoPossible(undoPossible());
-            listener.redoPossible(redoPossible());
-        }
-    }
-
-	/**
-	 * @param undoPossibleListener
-	 *            undo listener
-	 */
-    public void addUndoListener(UndoPossibleListener undoPossibleListener) {
-        mListener.add(undoPossibleListener);
-    }
-
-	/**
-	 *
-	 * @param undoPossibleListener
-	 * 			  undo listener
-	 */
-	public void removeUndoListener(UndoPossibleListener undoPossibleListener) {
-    	mListener.remove(undoPossibleListener);
-	}
 }

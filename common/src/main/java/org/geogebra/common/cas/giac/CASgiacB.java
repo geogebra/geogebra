@@ -19,7 +19,7 @@ public abstract class CASgiacB extends CASgiac {
      */
     private Context context;
 	/** result from thread */
-    protected String threadResult;
+    protected volatile String threadResult;
 
 	/**
 	 * @param casParser

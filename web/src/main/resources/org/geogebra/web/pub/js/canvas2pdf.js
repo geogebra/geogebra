@@ -17,15 +17,7 @@
 	 * @namespace
 	 */
 	var canvas2pdf = (typeof canvas2pdf !== 'undefined') ? canvas2pdf : {};
-	if (typeof module !== 'undefined' && module.exports) {
-		module.exports = canvas2pdf; // Node
-	} else if (typeof define === 'function' && define.amd) {
-		define(function() { // AMD module
-			return canvas2pdf;
-		});
-	} else {
-		global.canvas2pdf = canvas2pdf; // browser global
-	}
+	global.canvas2pdf = canvas2pdf; // browser global
 
 	function hslToHex(h, s, l, a) {
 		h = h % 360 + (h < 0) * 360;

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawableND;
@@ -117,16 +118,16 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 
 	@Override
 	public void setLayer(DrawWidget embed, int layer) {
-		Element element;
+		Element element = null;
 		if (embed instanceof DrawVideo) {
 			if (!app.getVideoManager().hasPlayer((DrawVideo) embed)) {
 				return;
 			}
 			element = app.getVideoManager().getElement((DrawVideo) embed);
-		} else {
+		} else if (widgets.get(embed) != null) {
 			element = widgets.get(embed).getGreatParent().getElement();
 		}
-		if (element.hasClassName("background")) {
+		if (element != null && element.hasClassName("background")) {
 			element.getStyle().setZIndex(layer);
 		}
 	}
@@ -686,5 +687,40 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		if (handler != null) {
 			handler.run();
 		}
+	}
+
+	@Override
+	public void sendCommand(GeoEmbed chart, String cmd) {
+		doIfCalcEmbed(chart, element -> element.sendCommand(cmd));
+	}
+
+	@Override
+	public void setGraphAxis(GeoEmbed chart, int axis, double crossing) {
+		doIfCalcEmbed(chart, element -> element.setGraphAxis(axis, crossing));
+	}
+
+	/**
+	 * @param chart chart embed
+	 * @param consumer consumer
+	 */
+	public void doIfCalcEmbed(GeoEmbed chart, Consumer<CalcEmbedElement> consumer) {
+		DrawableND drawChart = app.getActiveEuclidianView().getDrawableFor(chart);
+		EmbedElement el = widgets.get(drawChart);
+		if (el == null) {
+			el = cache.get(chart.getEmbedID());
+		}
+		if (el instanceof CalcEmbedElement) {
+			consumer.accept((CalcEmbedElement) el);
+		}
+	}
+
+	@Override
+	public App getEmbedApp(GeoEmbed embed) {
+		DrawableND drawChart = app.getActiveEuclidianView().getDrawableFor(embed);
+		CalcEmbedElement el = (CalcEmbedElement) widgets.get(drawChart);
+		if (el == null) {
+			el = (CalcEmbedElement) cache.get(embed.getEmbedID());
+		}
+		return el.getFrame().getApp();
 	}
 }

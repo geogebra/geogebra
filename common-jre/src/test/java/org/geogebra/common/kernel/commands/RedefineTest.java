@@ -60,11 +60,6 @@ public class RedefineTest extends BaseUnitTest {
 				tpl);
 	}
 
-	private static void t(String s, String[] expected) {
-		AlgebraTestHelper.testSyntaxSingle(s, expected, ap,
-				StringTemplate.xmlTemplate);
-	}
-
 	private void checkError(String s, String msg) {
 		ErrorAccumulator errorStore = new ErrorAccumulator();
 		app.getKernel().getAlgebraProcessor()
@@ -172,6 +167,14 @@ public class RedefineTest extends BaseUnitTest {
 		t("a=random()", "0.7275636800328681");
 		t("SetValue(a,0.5)", new String[0]);
 		t("a", "0.5");
+	}
+
+	@Test
+	public void setValueShouldChangeRandomSequence() {
+		app.setRandomSeed(42);
+		add("a=Sequence(RandomBetween(1,k),k,1,5)");
+		t("SetValue(a,{3,-2,3,2,5})", new String[0]);
+		t("a", "{1, 1, 3, 2, 5}");
 	}
 
 	@Test

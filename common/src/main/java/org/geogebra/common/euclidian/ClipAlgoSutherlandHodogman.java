@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.MyPoint;
 public class ClipAlgoSutherlandHodogman {
 
 	public static final int EDGE_COUNT = 4;
-	public static final double Y_LIMIT = 1E4;
+	public static final double Y_LIMIT = 1E6;
 
 	private static class Edge {
 		private final MyPoint start;

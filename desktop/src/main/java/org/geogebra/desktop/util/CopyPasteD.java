@@ -423,7 +423,7 @@ public class CopyPasteD extends CopyPaste {
 			}
 		}
 
-		addSubGeos(geoslocal);
+		addSubGeos(geoslocal, new HashSet<>(app.getSelectionManager().getSelectedGroups()));
 
 		if (geoslocal.isEmpty()) {
 			app.setBlockUpdateScripts(scriptsBlocked);

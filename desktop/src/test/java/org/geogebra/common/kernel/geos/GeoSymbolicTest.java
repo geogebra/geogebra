@@ -1319,9 +1319,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testInnerNestedCommands() {
+		app.setUndoActive(true);
 		add("f(x)=x^2");
+		app.storeUndoInfo();
 		add("a(x)=Solve(Derivative(f))");
+		app.storeUndoInfo();
 		add("1+1");
+		app.storeUndoInfo();
 		undoRedo();
 		int n = kernel.getConstruction().steps();
 		assertThat(n, equalTo(3));
@@ -1418,6 +1422,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testFactorial() {
+		t("(1/2)!", "1 / 2 * sqrt(π)");
+		t("a=1/2", "1 / 2");
+		t("a!", "1 / 2 * sqrt(π)");
+	}
+
+	@Test
 	public void testLabelWithEquation() {
 		app.setUndoActive(true);
 		add("a:f = 1");
@@ -1475,5 +1486,21 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("f(x) = x");
 		r = (GeoSymbolic) lookup("r");
 		assertThat(r.isEuclidianShowable(), is(true));
+	}
+
+	@Test
+	public void testUndoRedoWithUndefinedVariableEquation() {
+		app.setUndoActive(true);
+
+		add("f(a,b,x):=a*ln(b x)");
+		app.storeUndoInfo();
+		add("eq: f(a,b,1)=1");
+		app.storeUndoInfo();
+		add("1+1");
+		app.storeUndoInfo();
+
+		undoRedo();
+		GeoSymbolic eq = (GeoSymbolic) lookup("eq");
+		assertThat(eq, notNullValue());
 	}
 }

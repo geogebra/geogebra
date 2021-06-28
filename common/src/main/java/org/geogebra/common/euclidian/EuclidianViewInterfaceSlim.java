@@ -66,6 +66,16 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	int getVisibleHeight();
 
 	/**
+	 * @return visible width based on the values in the EuclidianSettings object
+	 */
+	int calcVisibleWidthFromSettings();
+
+	/**
+	 * @return visible height based on the values in the EuclidianSettings object
+	 */
+	int calcVisibleHeightFromSettings();
+
+	/**
 	 * convert screen coordinate x to real world coordinate x
 	 * 
 	 * @param x

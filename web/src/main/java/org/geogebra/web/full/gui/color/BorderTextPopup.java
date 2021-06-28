@@ -6,7 +6,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBarSelection;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoInlineText;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.web.full.javax.swing.LineThicknessCheckMarkItem;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
@@ -77,9 +77,9 @@ public class BorderTextPopup extends BgColorPopup {
 		boolean needUndo = false;
 
 		for (GeoElement geo : geos) {
-			if (geo instanceof GeoInlineText) {
-				if (((GeoInlineText) geo).getBorderThickness() != borderThickness) {
-					((GeoInlineText) geo).setBorderThickness(borderThickness);
+			if (geo instanceof GeoInline) {
+				if (geo.getLineThickness() != borderThickness) {
+					geo.setLineThickness(borderThickness);
 
 					geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 					needUndo = true;
