@@ -1332,7 +1332,7 @@ public abstract class ProbabilityCalculatorView
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
 		ProbabilityCalculatorSettings pcSettings =
-				getProbabilityCalculatorSettings((ProbabilityCalculatorSettings) settings);
+				(ProbabilityCalculatorSettings) settings;
 		setProbabilityCalculatorNoFire(pcSettings.getDistributionType(),
 				pcSettings.getParameters(), pcSettings.isCumulative());
 		if (pcSettings.isIntervalSet()) {
@@ -1344,10 +1344,6 @@ public abstract class ProbabilityCalculatorView
 		if (getStatCalculator() != null) {
 			getStatCalculator().settingsChanged();
 		}
-	}
-
-	private ProbabilityCalculatorSettings getProbabilityCalculatorSettings(ProbabilityCalculatorSettings settings) {
-		return settings;
 	}
 
 	public abstract void setInterval(double low2, double high2);
