@@ -27,6 +27,9 @@ public class GeoGebraGlobal {
 	@JsProperty(name = "renderGGBElementReady")
 	public static native Function getRenderGGBElementReady();
 
+	@JsProperty(name = "ggbExportFile")
+	public static native Function getGgbExportFile();
+
 	@JsProperty(name = "changeMetaTitle")
 	public static native Function getChangeMetaTitle();
 

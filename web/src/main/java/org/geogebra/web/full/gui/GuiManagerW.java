@@ -109,6 +109,7 @@ import org.geogebra.web.full.util.keyboard.AutocompleteProcessing;
 import org.geogebra.web.full.util.keyboard.GTextBoxProcessing;
 import org.geogebra.web.full.util.keyboard.ScriptAreaProcessing;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -138,6 +139,9 @@ import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.DomGlobal;
+import elemental2.dom.URL;
 
 public class GuiManagerW extends GuiManager
 		implements GuiManagerInterfaceW, EventRenderable, SetLabels {
@@ -1906,31 +1910,17 @@ public class GuiManagerW extends GuiManager
 	 *            construction title
 	 * @return local file saving callback for binary file
 	 */
-	native FileConsumer getDownloadCallback(String title) /*-{
-		var _this = this;
-		return function(ggbZip) {
-			var URL = $wnd.URL || $wnd.webkitURL;
-			var ggburl = URL.createObjectURL(ggbZip);
+	private FileConsumer getDownloadCallback(String title) {
+		return blob -> {
 			//global function in Chrome Kiosk App
-			if (typeof $wnd.ggbExportFile == "function") {
-				$wnd.ggbExportFile(ggburl, title);
+			String ggburl = URL.createObjectURL(blob);
+			if (GeoGebraGlobal.getGgbExportFile() != null) {
+				GeoGebraGlobal.getGgbExportFile().call(DomGlobal.window, ggburl, title);
 				return;
 			}
-			if ($wnd.navigator.msSaveBlob) {
-				//works for chrome and internet explorer
-				$wnd.navigator.msSaveBlob(ggbZip, title);
-			} else {
-				//works for firefox
-				var a = $doc.createElement("a");
-				$doc.body.appendChild(a);
-				a.style = "display: none";
-				a.href = ggburl;
-				a.download = title;
-				a.click();
-				//		        window.URL.revokeObjectURL(url);
-			}
-		}
-	}-*/;
+			Browser.downloadURL(ggburl, title);
+		};
+	}
 
 	/**
 	 * @param title
@@ -1939,7 +1929,7 @@ public class GuiManagerW extends GuiManager
 	 */
 	protected StringConsumer getBase64DownloadCallback(String title) {
 		return base64 ->
-			Browser.downloadDataURL("data:application/vnd.geogebra.file;base64," + base64,
+			Browser.downloadURL("data:application/vnd.geogebra.file;base64," + base64,
 					title);
 	}
 
