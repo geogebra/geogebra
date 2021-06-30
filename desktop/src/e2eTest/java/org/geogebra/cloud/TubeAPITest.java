@@ -75,7 +75,7 @@ public class TubeAPITest extends Assert {
 	private void updateUrls(GeoGebraTubeAPID api) {
 		if ("e2e".equals(System.getProperty("ggb.env"))) {
 			api.setURL("https://e2e.geogebra.org/api/json.php");
-			api.setLoginURL("https://e2e-accounts.geogebra.org/api/index.php");
+			api.setLoginURL("https://accounts-e2e.geogebra.org/api/index.php");
 		}
 	}
 
