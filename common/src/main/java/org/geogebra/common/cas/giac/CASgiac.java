@@ -587,18 +587,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	protected String getResultFromCache(String input) {
-		if (casGiacCache.containsKey(input)) {
-			return casGiacCache.get(input);
-		}
-
-		String standardizedInput = standardizeArgumentNamesForInput(input);
-
-		for (Entry<String, String> entry : casGiacCache.entrySet()) {
-			if (standardizeArgumentNamesForInput(entry.getKey()).equals(standardizedInput)) {
-				return entry.getValue();
-			}
-		}
-		return null;
+		return (casGiacCache.containsKey(input)) ? casGiacCache.get(input) : null;
 	}
 
 	private String standardizeArgumentNamesForInput(String input) {
@@ -1526,4 +1515,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		return true;
 	}
 
+	public int getCasGiacCacheSize() {
+		return casGiacCache.size();
+	}
 }
