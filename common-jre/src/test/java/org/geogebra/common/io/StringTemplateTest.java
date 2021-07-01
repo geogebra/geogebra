@@ -250,4 +250,11 @@ public class StringTemplateTest {
 		assertEquals("(3*10^(-20))!",
 				num.getDefinition(StringTemplate.editTemplate));
 	}
+
+	@Test
+	public void fractionWithScientificNotationShouldHaveBrackets() {
+		GeoElementND num = add("1/3E-20");
+		assertEquals("1 / (3*10^(-20))",
+				num.getDefinition(StringTemplate.editTemplate));
+	}
 }
