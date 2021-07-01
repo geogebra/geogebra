@@ -1666,7 +1666,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		ToolbarPanel toolbarPanel = getGuiManager().getUnbundledToolbar();
 		if (!isAvVisible) {
-			toolbarPanel.hideToolbar();
+			toolbarPanel.hideToolbarImmediate();
 			toolbarPanel.setLastOpenWidth(ToolbarPanel.OPEN_START_WIDTH_LANDSCAPE);
 		} else if (isEvVisible) {
 			invokeLater(() -> {
@@ -2270,13 +2270,24 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		setTmpPerspective(null);
 		getGuiManager().getLayout().applyPerspective(perspective);
 		clearConstruction();
-		restoreMaterial(subAppCode);
+		if (restoreMaterial(subAppCode)) {
+			registerOpenFileListener(() -> {
+				afterMaterialRestored();
+				return true;
+			});
+		} else {
+			afterMaterialRestored();
+			updateToolbarClosedState(subAppCode);
+		}
+	}
+
+	private void afterMaterialRestored() {
+		getGuiManager().getLayout().getDockManager().adjustViews(true);
 		resetFullScreenBtn();
 		if (isExam()) {
 			Material material = getExam().getTempStorage().newMaterial();
 			setActiveMaterial(material);
 		}
-		updateToolbarClosedState(subAppCode);
 	}
 
 	private void storeCurrentMaterial() {
@@ -2289,7 +2300,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		setActiveMaterial(null);
 	}
 
-	private void restoreMaterial(String subAppCode) {
+	private boolean restoreMaterial(String subAppCode) {
 		Material material = constructionJson.get(subAppCode);
 		if (material != null) {
 			Object oldConstruction = material.getContent();
@@ -2299,13 +2310,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			if (material.getId() != -1) {
 				setActiveMaterial(material);
 				updateMaterialURL(material);
-				return;
+				return true;
 			}
 		}
 
 		resetEVs();
 		resetUrl();
 		setTitle();
+		return material != null;
 	}
 
 	private void storeCurrentUndoHistory() {

@@ -68,7 +68,7 @@ public class ToolbarPanel extends FlowPanel
 	public static final int OPEN_START_WIDTH_LANDSCAPE = 380;
 	/** Closed height of header in portrait mode */
 	public static final int CLOSED_HEIGHT_PORTRAIT = 56;
-	private static final int OPEN_ANIM_TIME = 200;
+	public static final int OPEN_ANIM_TIME = 200;
 	public static final int HEADING_HEIGHT = 48;
 	/** Header of the panel with buttons and tabs */
 	NavigationRail navRail;
@@ -1322,6 +1322,10 @@ public class ToolbarPanel extends FlowPanel
 
 	public void hideToolbar() {
 		navRail.onClosePressed(true);
+	}
+
+	public void hideToolbarImmediate() {
+		navRail.onClose(true, 0);
 	}
 
 	private void animateHeadingHeight(int from, int to) {
