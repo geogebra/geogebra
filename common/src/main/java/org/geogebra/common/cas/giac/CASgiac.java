@@ -590,21 +590,6 @@ public abstract class CASgiac implements CASGenericInterface {
 		return (casGiacCache.containsKey(input)) ? casGiacCache.get(input) : null;
 	}
 
-	private String standardizeArgumentNamesForInput(String input) {
-		String standardizedInput = input;
-		RegExp regExpArgName = RegExp.compile("arg([0-9])\\w+");
-		Set argNames = new HashSet();
-		MatchResult matcher = regExpArgName.exec(standardizedInput);
-
-		while ((matcher = regExpArgName.exec(standardizedInput)) != null) {
-			String match = matcher.getGroup(0);
-			argNames.add(match);
-			standardizedInput = standardizedInput.replace(match, "arg_" + argNames.size());
-		}
-
-		return standardizedInput;
-	}
-
 	/**
 	 * @param exp
 	 *            expression string
