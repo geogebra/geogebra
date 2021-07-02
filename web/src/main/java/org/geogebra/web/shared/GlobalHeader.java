@@ -6,6 +6,7 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
@@ -23,6 +24,8 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.core.Function;
 
 /**
  * Singleton representing external header bar of unbundled apps.
@@ -76,7 +79,7 @@ public class GlobalHeader implements EventRenderable {
 		if (appPickerPanel != null) {
 			SuiteHeaderAppPicker suiteHeaderAppPicker = new SuiteHeaderAppPicker(app);
 			appPickerPanel.add(suiteHeaderAppPicker);
-			suiteHeaderAppPicker.checkButtonVisibility();
+			onResize();
 			return suiteHeaderAppPicker;
 		}
 		return null;
@@ -235,6 +238,7 @@ public class GlobalHeader implements EventRenderable {
 		getExamPanel().getElement().removeFromParent();
 		getButtonElement().getStyle().setDisplay(Display.FLEX);
 		getHomeLink().setHref(oldHref);
+		onResize();
 	}
 
 	/**
@@ -278,6 +282,17 @@ public class GlobalHeader implements EventRenderable {
 				}
 			}
 		});
+		onResize();
+	}
+
+	/**
+	 * Show/hide apps picker as needed
+	 */
+	public static void onResize() {
+		Function resize = GeoGebraGlobal.getGgbHeaderResize();
+		if (resize != null) {
+			resize.call();
+		}
 	}
 
 	private static AnchorElement getHomeLink() {

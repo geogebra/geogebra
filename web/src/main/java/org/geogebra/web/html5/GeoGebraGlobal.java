@@ -33,6 +33,9 @@ public class GeoGebraGlobal {
 	@JsProperty(name = "changeMetaTitle")
 	public static native Function getChangeMetaTitle();
 
+	@JsProperty
+	public static native Function getGgbHeaderResize();
+
 	public static native void visibilityEventMain(JsRunnable startCheating,
 			JsRunnable stopCheating);
 

@@ -131,7 +131,7 @@ public class DialogManagerW extends DialogManager
 				app.getKernel().getAlgebraProcessor(), callback, app);
 		ComponentInputDialog inputDialog = new NumberInputDialog((AppW) app,
 			new DialogData(title), false, true, handler, message,
-				initText, 1, -1, false);
+				initText, false);
 		inputDialog.show();
 	}
 
@@ -165,7 +165,7 @@ public class DialogManagerW extends DialogManager
 		DialogData data = new DialogData("Redefine");
 		ComponentInputDialog redefineInputDialog = new ComponentInputDialog((AppW) app, data,
 				false, false, handler, geo.getNameDescription(), str,
-				1, -1, true);
+				true);
 		redefineInputDialog.show();
 	}
 
@@ -246,7 +246,7 @@ public class DialogManagerW extends DialogManager
 		DialogData data = new DialogData("Rename");
 		ComponentInputDialog renameDialog = new RenameInputDialog((AppW) app, data, false, false,
 				handler, app.getLocalization().getPlain("NewNameForA", geo.getNameDescription()),
-				initText, 1, -1, false);
+				initText);
 		renameDialog.show();
 	}
 
@@ -445,13 +445,17 @@ public class DialogManagerW extends DialogManager
 					? new DoYouWantToSaveChangesDialog((AppW) app, data, true)
 					: new SaveDialogMow((AppW) app, data, addTempCheckBox);
 		} else if (saveDialog == null || isSuite()) {
-			DialogData data = new DialogData(getSaveDialogTitle(), "DontSave", "Save");
+			DialogData data = getSaveDialogData();
 			saveDialog = new SaveDialogW((AppW) app, data, widgetFactory);
 		}
 		// set default saveType
 		saveDialog.setSaveType(
 				app.isWhiteboardActive() ? MaterialType.ggs : MaterialType.ggb);
 		return saveDialog;
+	}
+
+	public DialogData getSaveDialogData() {
+		return new DialogData(getSaveDialogTitle(), "DontSave", "Save");
 	}
 
 	private String getSaveDialogTitle() {

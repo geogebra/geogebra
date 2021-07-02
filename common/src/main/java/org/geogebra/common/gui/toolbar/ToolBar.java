@@ -33,7 +33,7 @@ public class ToolBar {
 	 * default toolbar
 	 * 
 	 * The first group depends on selection tool and rotate tool (different for
-	 * desktop x web and prerelease x stable): accept all
+	 * desktop x web x phone and prerelease x stable): accept all
 	 */
 	static private final String[][] DEFAULT_TOOLBAR = {
 			{ "0 39 73 62 110", "0 39 73 62", "0 73 62", "0 77 73 62", "0 39 77 73 62",
@@ -42,7 +42,7 @@ public class ToolBar {
 			{ "4 3 8 9 13 44 58 47" }, { "16 51 64 70" },
 			{ "10 34 53 11 24 20 22 21 23" }, { "55 56 57 12" },
 			{ "36 46 38 49 50 71 14 68" }, { "30 29 54 32 31 33" },
-			{ "25 17 26 60 52 61" }, { "40 41 42 27 28 35 6" } };
+			{ "25 17 26 60 52 61", "25 60 52 61" }, { "40 41 42 27 28 35 6" } };
 
 	/**
 	 * any toolbar composed of a set of following menus should be considered as

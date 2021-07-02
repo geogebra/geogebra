@@ -64,8 +64,6 @@ public class ToolbarPanel extends FlowPanel
 	/** Closed width of header in landscape mode */
 	public static final int CLOSED_WIDTH_LANDSCAPE = 72;
 	public static final int CLOSED_WIDTH_LANDSCAPE_COMPACT = 56;
-	/** Min width of open header in landscape mode */
-	public static final int OPEN_MIN_WIDTH_LANDSCAPE = 160;
 	/** Loading width of open header in landscape mode */
 	public static final int OPEN_START_WIDTH_LANDSCAPE = 380;
 	/** Closed height of header in portrait mode */
@@ -305,6 +303,9 @@ public class ToolbarPanel extends FlowPanel
 		ClickStartHandler.initDefaults(main, false, true);
 		hideDragger();
 		doOpen();
+		if (app.isExamStarted() && !app.getExam().isCheating()) {
+			setHeaderStyle("examOk");
+		}
 	}
 
 	private void createCloseButton() {
@@ -1060,8 +1061,11 @@ public class ToolbarPanel extends FlowPanel
 	public void setHeaderStyle(String style) {
 		resetHeaderClasses();
 		navRail.addStyleName(style);
-		navRail.updateIcons(true);
-		ExamUtil.makeRed(navRail.getElement(), "examCheat".equals(style));
+		boolean cheat = "examCheat".equals(style);
+		if (!cheat) {
+			navRail.updateIcons(true);
+		}
+		ExamUtil.makeRed(navRail.getElement(), cheat);
 	}
 
 	/**

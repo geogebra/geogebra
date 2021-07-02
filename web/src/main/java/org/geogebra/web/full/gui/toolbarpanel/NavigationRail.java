@@ -267,6 +267,9 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 		}
 		boolean external = isHeaderExternal();
 		btnMenu.setExternal(external);
+		if (center != null) {
+			center.setStyleName("withMenu", !external);
+		}
 		if (external) {
 			btnMenu.addToGlobalHeader();
 			addShareButton();

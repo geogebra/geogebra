@@ -103,7 +103,6 @@ import org.geogebra.web.full.gui.menu.MenuViewListener;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.full.gui.menubar.action.StartExamAction;
-import org.geogebra.web.full.gui.openfileview.OpenFileView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
@@ -226,6 +225,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private final HashMap<String, UndoHistory> undoHistory = new HashMap<>();
 	private InputBoxType inputBoxType;
 	private List<String> functionVars = new ArrayList<>();
+	private OpenSearch search;
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -760,31 +760,20 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void openSearch(String query) {
-		hideMenu();
-		if (isWhiteboardActive()
-				&& !getLoginOperation().isLoggedIn()) {
-			activity.markSearchOpen();
-			getGuiManager().listenToLogin();
-			getLoginOperation().showLoginDialog();
-			getGuiManager().setRunAfterLogin(() -> {
-				((OpenFileView) getGuiManager()
-						.getBrowseView()).updateMaterials();
-				showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
-			});
-			return;
+		if (search == null) {
+			search = new OpenSearch(this);
 		}
-		if (isWhiteboardActive()
-				&& getGuiManager().browseGUIwasLoaded()
-				&& StringUtil.emptyTrim(query)
-				&& getGuiManager().getBrowseView() instanceof OpenFileView) {
-			((OpenFileView) getGuiManager().getBrowseView())
-					.updateMaterials();
+		search.show(query);
+	}
+
+	/**
+	 * Open temporary saved files view in exam mode.
+	 */
+	public final void openSearchInExamMode() {
+		if (search == null) {
+			search = new OpenSearch(this);
 		}
-		showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
-		if (getAppletParameters().getDataParamPerspective()
-				.startsWith("search:")) {
-			getAppletParameters().setAttribute("perspective", "");
-		}
+		search.openInExamMode();
 	}
 
 	@Override
@@ -2175,19 +2164,24 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void startExam() {
 		super.startExam();
-
+		getExam().getTempStorage().clearTempMaterials();
+		Material material = getExam().getTempStorage().newMaterial();
+		setActiveMaterial(material);
 		// ensure fullscreen: we may have lost it when handling unsaved
 		// changes
 		getLAF().toggleFullscreen(true);
-		if (guiManager != null && menuViewController != null) {
-			menuViewController.setExamMenu();
-			boolean examLock = getAppletParameters().getParamLockExam();
-			guiManager.setUnbundledHeaderStyle(examLock ? "examLock" : "examOk");
-			guiManager.resetMenu();
-			guiManager.updateUnbundledToolbarContent();
-			GlobalHeader.INSTANCE.addExamTimer();
-			new ExamUtil(this).visibilityEventMain();
-			guiManager.initInfoBtnAction();
+		if (guiManager != null) {
+			guiManager.resetBrowserGUI();
+			if (menuViewController != null) {
+				menuViewController.setExamMenu();
+				boolean examLock = getAppletParameters().getParamLockExam();
+				guiManager.setUnbundledHeaderStyle(examLock ? "examLock" : "examOk");
+				guiManager.resetMenu();
+				guiManager.updateUnbundledToolbarContent();
+				GlobalHeader.INSTANCE.addExamTimer();
+				new ExamUtil(this).visibilityEventMain();
+				guiManager.initInfoBtnAction();
+			}
 		}
 	}
 
@@ -2206,6 +2200,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			menuViewController.setDefaultMenu();
 		}
 		guiManager.resetMenu();
+		guiManager.resetBrowserGUI();
 		guiManager.updateUnbundledToolbarContent();
 		setActivePerspective(Layout.getDefaultPerspectives(0));
 	}
@@ -2279,6 +2274,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		clearConstruction();
 		restoreMaterial(subAppCode);
 		resetFullScreenBtn();
+		if (isExam()) {
+			Material material = getExam().getTempStorage().newMaterial();
+			setActiveMaterial(material);
+		}
 	}
 
 	private void storeCurrentMaterial() {
@@ -2346,7 +2345,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void setSuiteHeaderButton(String subappCode) {
 		if (suiteAppPickerButton != null) {
 			suiteAppPickerButton.setIconAndLabel(subappCode);
-			suiteAppPickerButton.checkButtonVisibility();
+			GlobalHeader.onResize();
 		}
 	}
 
@@ -2370,5 +2369,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (avPanel instanceof ToolbarDockPanelW) {
 			((ToolbarDockPanelW) avPanel).tryBuildZoomPanel();
 		}
+	}
+
+	/**
+	 * clears the cunstruction of all subapps in suite
+	 */
+	public void clearSubAppCons() {
+		constructionJson.clear();
 	}
 }
