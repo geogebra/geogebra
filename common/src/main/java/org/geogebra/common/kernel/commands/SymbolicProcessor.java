@@ -140,7 +140,10 @@ public class SymbolicProcessor {
 		if (noDummyVars.size() > 0) {
 			AlgoDependentSymbolic ads =
 					new AlgoDependentSymbolic(cons,
-					replaced, noDummyVars, info.getArbitraryConstant(), info.isLabelOutput());
+					replaced, noDummyVars, info.getArbitraryConstant());
+			if (info.isLabelOutput()) {
+				ads.addToConstructionList();
+			}
 			sym = (GeoSymbolic) ads.getOutput(0);
 		} else {
 			sym = new GeoSymbolic(cons);
