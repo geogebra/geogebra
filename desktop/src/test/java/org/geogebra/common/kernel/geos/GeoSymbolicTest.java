@@ -167,7 +167,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testSubstituteCommand() {
 		t("Substitute(x^2+y^2, x=aaa)", "aaa^(2) + y^(2)");
-		t("Substitute(x^2+y^2, {x=ccc, y=bbb})", "ccc^(2) + bbb^(2)");
+		t("Substitute(x^2+y^2, {x=ccc, y=bbb})", "bbb^(2) + ccc^(2)");
 	}
 
 	@Test
