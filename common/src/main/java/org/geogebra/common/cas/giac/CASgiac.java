@@ -585,7 +585,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	protected String getResultFromCache(String input) {
-		return (casGiacCache.containsKey(input)) ? casGiacCache.get(input) : null;
+		return casGiacCache.get(input);
 	}
 
 	/**
