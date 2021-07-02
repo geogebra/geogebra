@@ -560,7 +560,7 @@ public abstract class ProbabilityCalculatorView
 		// the starting value of the discrete x list. Thus,
 		// offset = 1 - lowest discrete x value
 
- 		double firstX = ((GeoNumeric) discreteValueList.get(0)).getDouble();
+ 		double firstX = discreteValueAt(0);
 		MyDouble offset = new MyDouble(kernel, 1d - firstX + 0.5);
 
 		ExpressionNode low1 = xAxis.getLowExpression();
@@ -1213,7 +1213,7 @@ public abstract class ProbabilityCalculatorView
 				// create interval bar chart
 				// ============================
 				double offset = 1
-						- ((GeoNumeric) discreteValueList.get(0)).getDouble()
+						- discreteValueAt(0)
 						+ 0.5;
 				expr = "Take[" + discreteProbListCopy.getLabel(tpl) + ", x("
 						+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x("
@@ -1331,7 +1331,8 @@ public abstract class ProbabilityCalculatorView
 
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
-		ProbabilityCalculatorSettings pcSettings = (ProbabilityCalculatorSettings) settings;
+		ProbabilityCalculatorSettings pcSettings =
+				(ProbabilityCalculatorSettings) settings;
 		setProbabilityCalculatorNoFire(pcSettings.getDistributionType(),
 				pcSettings.getParameters(), pcSettings.isCumulative());
 		if (pcSettings.isIntervalSet()) {
@@ -1684,10 +1685,8 @@ public abstract class ProbabilityCalculatorView
 		if (discreteValueList == null) {
 			this.createDiscreteLists();
 		}
-		firstXLastX[0] = (int) ((GeoNumeric) discreteValueList.get(0))
-				.getDouble();
-		firstXLastX[1] = (int) ((GeoNumeric) discreteValueList
-				.get(discreteValueList.size() - 1)).getDouble();
+		firstXLastX[0] = (int) discreteValueAt(0);
+		firstXLastX[1] = (int) discreteValueAt(discreteValueList.size() - 1);
 
 		return firstXLastX;
 	}
@@ -2022,60 +2021,21 @@ public abstract class ProbabilityCalculatorView
 		if (probMode == PROB_INTERVAL) {
 			xAxis.showBothPoints(showProbGeos);
 			resultPanel.showInterval();
-
-			setLow(plotSettings.xMin
-					+ 0.4 * (plotSettings.xMax - plotSettings.xMin));
-			setHigh(plotSettings.xMin
-					+ 0.6 * (plotSettings.xMax - plotSettings.xMin));
-			updateOutputForIntervals();
+			setBoundsFromSettings();
 		} else if (probMode == PROB_TWO_TAILED) {
 			xAxis.showBothPoints(showProbGeos);
-			setLow(plotSettings.xMin + 0.4
-					* (plotSettings.xMax - plotSettings.xMin));
-			setHigh(plotSettings.xMin + 0.6
-					* (plotSettings.xMax - plotSettings.xMin));
 			showTwoTailed(resultPanel);
-			updateOutputForIntervals();
-		}
-
-		else if (probMode == PROB_LEFT) {
+			setBoundsFromSettings();
+		} else if (probMode == PROB_LEFT) {
 			resultPanel.showLeft();
-			if (oldProbMode == PROB_RIGHT) {
-				setHigh(getLow());
-			}
-
-			if (isDiscrete) {
-				setLow(((GeoNumeric) discreteValueList.get(0)).getDouble());
-				updateOutputForIntervals();
-			}
-			else {
-				setLow(plotSettings.xMin - 1); // move offscreen so the integral
-				// looks complete
-			}
-			xAxis.showHighOnly(showProbGeos);
-		}
-
-		else if (probMode == PROB_RIGHT) {
+			switchToLeftProbability(oldProbMode, isDiscrete);
+		} else if (probMode == PROB_RIGHT) {
 			resultPanel.showRight();
-			if (oldProbMode == PROB_LEFT) {
-				setLow(getHigh());
-			}
-
-			if (isDiscrete) {
-				setHigh(((GeoNumeric) discreteValueList
-						.get(discreteValueList.size() - 1)).getDouble());
-				updateOutputForIntervals();
-			}
-			else {
-				setHigh(plotSettings.xMax + 1); // move offscreen so the
-				// integral
-				// looks complete
-			}
-			xAxis.showLowOnly(showProbGeos);
+			switchToRightProbability(oldProbMode, isDiscrete);
 		}
 
 		// make result field editable for inverse probability calculation
-		resultPanel.setResultEditable(probMode != PROB_INTERVAL);
+		resultPanel.setResultEditable(probMode != PROB_INTERVAL && probMode != PROB_TWO_TAILED);
 
 		if (isDiscrete) {
 			setHigh(Math.round(getHigh()));
@@ -2088,6 +2048,70 @@ public abstract class ProbabilityCalculatorView
 		}
 		setXAxisPoints();
 		updateIntervalProbability();
+	}
+
+	private void switchToLeftProbability(int oldProbMode, boolean isDiscrete) {
+		if (oldProbMode == PROB_RIGHT) {
+			setHighDefault();
+		}
+
+		if (isDiscrete) {
+			setLow(discreteValueAt(0));
+			updateOutputForIntervals();
+		} else {
+			setLowOffscreen();
+		}
+		xAxis.showHighOnly(showProbGeos);
+	}
+
+	private double discreteValueAt(int i) {
+		return ((GeoNumeric) discreteValueList.get(i)).getDouble();
+	}
+
+	private void setLowOffscreen() {
+		setLow(plotSettings.xMin - 1);
+	}
+
+	private void switchToRightProbability(int oldProbMode, boolean isDiscrete) {
+		if (oldProbMode == PROB_LEFT) {
+			setLowDefault();
+		}
+
+		if (isDiscrete) {
+			setHigh(discreteValueAt(discreteValueList.size() - 1));
+			updateOutputForIntervals();
+		} else {
+			setHighOffscreen();
+		}
+
+		xAxis.showLowOnly(showProbGeos);
+	}
+
+	protected void setLowDefault() {
+		setLow(plotSettings.xMin
+				+ 0.4 * (plotSettings.xMax - plotSettings.xMin));
+	}
+
+	private void setHighOffscreen() {
+		setHigh(plotSettings.xMax + 1);
+	}
+
+	private void setBoundsFromSettings() {
+		ProbabilityCalculatorSettings settings = app.getSettings().getProbCalcSettings();
+		if (settings.isIntervalSet()) {
+			setLow(settings.getLow());
+			setHigh(settings.getHigh());
+		} else {
+			setLowDefault();
+			setHighDefault();
+		}
+
+		updateOutputForIntervals();
+	}
+
+	private void setHighDefault() {
+		setHigh(plotSettings.xMin
+				+ 0.6 * (plotSettings.xMax - plotSettings.xMin));
 	}
 
 	private void showTwoTailed(ResultPanel resultPanel) {
