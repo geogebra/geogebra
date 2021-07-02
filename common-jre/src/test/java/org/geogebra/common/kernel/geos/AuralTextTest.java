@@ -57,7 +57,7 @@ public class AuralTextTest {
 	public void numberAural() {
 		aural("sl=Slider(-5,5)", "Slider", "start animation", "increase",
 				"decrease", "edit");
-		assertEquals("sl equals 0",
+		assertEquals("Slider sl equals 0",
 				((GeoNumeric) get("sl")).getAuralCurrentValue());
 		aural("4", "Number");
 	}
@@ -70,9 +70,9 @@ public class AuralTextTest {
 	public void numberCaptionAural() {
 		add("vec=Slider(-5,5)");
 		add("SetCaption(vec,\"Vector v = %v\")");
-		aural("vec", "Vector v  equals  0", "start animation", "increase",
+		aural("vec", "Slider Vector v  equals  0", "start animation", "increase",
 				"decrease", "edit");
-		assertEquals("Vector v  equals  0",
+		assertEquals("Slider Vector v  equals  0",
 				((GeoNumeric) get("vec")).getAuralCurrentValue());
 	}
 
