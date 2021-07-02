@@ -30,7 +30,7 @@ public class IntervalPath {
 	/**
 	 * Update the path based on the model.
 	 */
-	public void update() {
+	public synchronized void update() {
 		if (model.isEmpty()) {
 			return;
 		}
