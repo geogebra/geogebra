@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.algos.ChartStyle;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -319,6 +320,10 @@ public class DrawBarGraph extends Drawable {
 
 			} else {
 				for (int i = 0; i < N; i++) {
+					if (DoubleUtil.isZero(yVal[i])) {
+						continue;
+					}
+
 					coords[0] = xVal[i];
 					coords[1] = 0;
 					view.toScreenCoords(coords);

@@ -143,13 +143,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 						MaterialDesignResources.INSTANCE.color_black()
 								.getSafeUri().asString(),
 						loc.getMenu("BackgroundColor")),
-				true, new Command() {
-
-					@Override
-					public void execute() {
-						openColorChooser();
-					}
-				});
+				true, this::openColorChooser);
 		wrappedPopup.addItem(miBackgroundCol);
 	}
 
@@ -288,7 +282,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 		final GCheckmarkMenuItem showAxes = new GCheckmarkMenuItem(
 				MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("ShowAxes")),
-				checked, ((AppW) app).getGuiManager().getShowAxesAction());
+				checked, app.getGuiManager()::showAxesCmd);
 
 		wrappedPopup.addItem(showAxes);
 	}

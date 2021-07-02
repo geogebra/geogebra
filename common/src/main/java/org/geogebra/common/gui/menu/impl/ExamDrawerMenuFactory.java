@@ -43,12 +43,15 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 
 	@Override
 	public DrawerMenu createDrawerMenu() {
+		boolean isScientific = version == GeoGebraConstants.Version.SCIENTIFIC;
 		MenuItem clearConstruction = clearConstruction();
+		MenuItem openFile = isScientific ? null : openFile();
+		MenuItem saveFile = isScientific ? null : saveFile();
 		MenuItem switchCalculator = showSwitchCalculator();
-		MenuItem showExamLog = showExamLog();
+		MenuItem examLog = showExamLog();
 		MenuItem exitExam = createsExitExam ? exitExamMode() : null;
-		MenuItemGroup group = new MenuItemGroupImpl(removeNulls(
-				clearConstruction, switchCalculator, showExamLog, exitExam));
+		MenuItemGroup group = new MenuItemGroupImpl(removeNulls(clearConstruction, openFile,
+				saveFile, switchCalculator, examLog, exitExam));
 		String title = getMenuTitle();
 		return new DrawerMenuImpl(title, group);
 	}

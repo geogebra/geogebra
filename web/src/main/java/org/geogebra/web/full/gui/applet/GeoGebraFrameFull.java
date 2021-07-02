@@ -55,6 +55,7 @@ import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
+import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -113,7 +114,6 @@ public class GeoGebraFrameFull
 		panelTransitioner = new PanelTransitioner(this);
 		kbButtonSpace.addStyleName("kbButtonSpace");
 		this.add(kbButtonSpace);
-		headerResizer = NullHeaderResizer.get();
 		Event.addNativePreviewHandler(this);
 	}
 
@@ -138,8 +138,6 @@ public class GeoGebraFrameFull
 
 		this.glass = new DockGlassPaneW();
 		this.add(glass);
-		headerResizer = getApp().getActivity()
-				.getHeaderResizer(application.getAppletFrame());
 		return application;
 	}
 
@@ -229,7 +227,17 @@ public class GeoGebraFrameFull
 
 	@Override
 	public void updateHeaderSize() {
-		headerResizer.resizeHeader();
+		getHeaderResizer().resizeHeader();
+	}
+
+	private HeaderResizer getHeaderResizer() {
+		if (app == null) {
+			return new NullHeaderResizer();
+		}
+		if (headerResizer == null) {
+			headerResizer = getApp().getActivity().getHeaderResizer(this);
+		}
+		return headerResizer;
 	}
 
 	@Override
@@ -695,12 +703,11 @@ public class GeoGebraFrameFull
 		if (app1.isWhiteboardActive()) {
 			attachNotesUI(app1);
 
-			if (app1.getVendorSettings().isMainMenuExternal()
+			if (GlobalHeader.isInDOM()
 					&& !app1.isApplet()) {
 				app1.getGuiManager().menuToGlobalHeader();
-			} else if ((app1.isApplet()
-						&& app1.getAppletParameters().getDataParamShowMenuBar(false))
-					|| app1.isMebis()) {
+			} else if (!app1.isApplet()
+						|| app1.getAppletParameters().getDataParamShowMenuBar(false)) {
 				notesLayout.getUndoRedoButtons().addStyleName("undoRedoPositionMebis");
 				attachMowMainMenu(app1);
 			}
@@ -1003,7 +1010,7 @@ public class GeoGebraFrameFull
 		if (isExternalHeaderHidden()) {
 			return 0;
 		}
-		return headerResizer.getSmallScreenHeight();
+		return getHeaderResizer().getSmallScreenHeight();
 	}
 
 	@Override

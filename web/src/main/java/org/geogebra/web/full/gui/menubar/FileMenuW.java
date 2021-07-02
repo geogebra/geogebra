@@ -12,6 +12,7 @@ import org.geogebra.web.full.gui.menubar.item.ExitExamItem;
 import org.geogebra.web.full.gui.menubar.item.FileNewItem;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
+import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
@@ -44,16 +45,6 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		vendorSettings = getApp().getVendorSettings();
 		initActions();
 	}
-
-	/**
-	 * @return whether native JS function for sharing is present
-	 */
-	public native static boolean nativeShareSupported()/*-{
-		if ($wnd.android && $wnd.android.share) {
-			return true;
-		}
-		return false;
-	}-*/;
 
 	private void initActions() {
 		// if (!app.has(Feature.NEW_START_SCREEN)) {
@@ -100,7 +91,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	 */
 	public static void share(AppW app, Widget anchor) {
 		ShareControllerW sc = (ShareControllerW) app.getShareController();
-		if (!nativeShareSupported()) {
+		if (GeoGebraJSNativeBridge.get() == null) {
 			sc.setAnchor(anchor);
 			sc.share();
 		} else {

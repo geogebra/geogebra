@@ -57,6 +57,18 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 			.hidden.center >* {
 				display: none !important;
 			}
+
+			&.examOk {
+				background-color: $teal-default;
+			}
+
+			&.examCheat {
+				background-color: $exam-red;
+			}
+
+			&.examLock {
+				background-color: $exam-lock;
+			}
 		}
 
 		.header-open-portrait,
@@ -82,15 +94,7 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 			}
 		}
 
-		.header.examOk {
-			background-color: $teal-default;
-		}
-
-		.header.examCheat {
-			background-color: $exam-red;
-		}
-
-		.header.examOk, .header.examCheat {
+		.examOk, .examCheat, .examLock {
 			.gwt-Label {
 				color: $white;
 			}

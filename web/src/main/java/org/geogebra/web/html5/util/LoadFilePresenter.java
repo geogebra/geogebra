@@ -252,9 +252,7 @@ public class LoadFilePresenter {
 	 *            perspective
 	 */
 	void finishEmptyLoading(AppW app, Perspective p) {
-		if (p != null) {
-			app.setActivePerspective(p.getDefaultID() - 1);
-		}
+		app.setActivePerspective(p);
 		app.getAppletFrame().updateHeaderSize();
 		app.setPreferredSize(
 				new Dimension(app.getAppletWidth(), app.getAppletHeight()));
@@ -271,9 +269,7 @@ public class LoadFilePresenter {
 		app.set1rstMode();
 
 		app.setUndoActive(true);
-		if (p != null) {
-			app.setActivePerspective(p.getDefaultID() - 1);
-		}
+		app.setActivePerspective(p);
 
 		// no Feature.ADJUST_VIEWS: returns false.
 		if (!app.isUnbundled() && app.isPortrait()) {

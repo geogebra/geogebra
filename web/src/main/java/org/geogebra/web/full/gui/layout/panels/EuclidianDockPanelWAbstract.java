@@ -4,7 +4,6 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
@@ -13,7 +12,6 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.geogebra.web.html5.gui.voiceInput.SpeechRecognitionPanel;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
@@ -46,10 +44,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	/** Zoom panel for MOW */
 	@CheckForNull ZoomPanelMow mowZoomPanel;
-	/**
-	 * button panel for speech recognition
-	 */
-	public SpeechRecognitionPanel speechRecPanel;
 
 	/**
 	 * default constructor
@@ -254,13 +248,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 		if (app.isWhiteboardActive() && mowZoomPanel != null) {
 			controls.add(mowZoomPanel);
-		}
-		if (app.has(Feature.SPEECH_RECOGNITION)) {
-			if (speechRecPanel == null) {
-				speechRecPanel = new SpeechRecognitionPanel(getApp(),
-						getViewId());
-			}
-			dockLayoutPanel.addSouth(speechRecPanel, 0);
 		}
 	}
 

@@ -328,7 +328,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (geoUsedForInputBox == null) {
 			return;
 		}
-		geoUsedForInputBox.setTempUserEvalInput(getText());
+		geoUsedForInputBox.setTempUserInput(getText(), null);
 	}
 
 	@Override

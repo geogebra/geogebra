@@ -115,8 +115,8 @@ public class GAffineTransformD implements GAffineTransform {
 	}
 
 	@Override
-	public void scale(double xscale, double d) {
-		at.scale(xscale, d);
+	public void scale(double xscale, double yscale) {
+		at.scale(xscale, yscale);
 
 	}
 

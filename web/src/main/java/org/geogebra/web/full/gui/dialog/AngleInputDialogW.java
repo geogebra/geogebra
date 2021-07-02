@@ -37,7 +37,7 @@ public class AngleInputDialogW extends ComponentInputDialog {
 			String initString, InputHandler handler, boolean modal) {
 		super(app, data, false, false, handler,
 				app.getLocalization().getMenu(message), initString,
-				1, -1, false);
+				false);
 		addStyleName("angleInputDialog");
 		super.setModal(modal);
 		setInputHandler(handler);

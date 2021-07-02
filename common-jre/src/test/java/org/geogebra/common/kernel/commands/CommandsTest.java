@@ -366,6 +366,14 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void intersectConicConicInOnePoint() {
+		tRound("{Intersect[(x + 3.04)^2 + (y + 0.11)^2 = 144,"
+						+ "(x - 4.16)^2 + (y + 0.11)^2 = 23.04]}",
+				"{(8.96, -0.11)}");
+
+	}
+
+	@Test
 	public void cmdSetConstructionStep() {
 		app.setSaved();
 		assertTrue(app.clearConstruction());
@@ -3132,8 +3140,12 @@ public class CommandsTest {
 
 	@Test
 	public void cmdRoots() {
+		t("ZoomIn(-10,-2,20,2)"); // makes the test deterministic
 		t("Roots[ sin(x), 4, 13 ]",
-				"(6.2831855660886955, 0)", "(9.424777732675938, 0)", "(12.566371029612723, 0)");
+				"(6.283185305816606, 0)", "(9.424777959654795, 0)", "(12.566370613845491, 0)");
+		t("flat(x)=2.00011sin(x/2)-x", "(2.00011 * sin(x / 2)) - x");
+		tRound("Roots(flat,-0.05,0.05)", "(-0.03633, 0)", "(0, 0)", "(0.03633, 0)");
+		tRound("Roots(flat,-0.005,0.005)", "(0, 0)");
 	}
 
 	@Test

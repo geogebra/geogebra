@@ -251,8 +251,6 @@ public interface GuiManagerInterface {
 	 */
 	void setScrollToShow(boolean scrollToShow);
 
-	void showURLinBrowser(String strURL);
-
 	void updateToolbar();
 
 	/**

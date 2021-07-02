@@ -12,13 +12,11 @@ import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -28,10 +26,10 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 		implements AlgebraPanelInterface {
 
 	private ScrollPanel algebrap;
-	private SimplePanel simplep;
+	private FlowPanel wrapper;
 	private AlgebraViewW aview = null;
 	private int savedScrollPosition;
-	private DockPanelDecorator decorator;
+	private final DockPanelDecorator decorator;
 
 	/**
 	 * Create new dockapanel for algebra
@@ -76,20 +74,19 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	 */
 	public void setAlgebraView(final AlgebraViewW av) {
 		if (av != aview) {
-			if (aview != null && simplep != null) {
-				simplep.remove(aview);
-				algebrap.remove(simplep);
+			if (aview != null && wrapper != null) {
+				wrapper.remove(aview);
+				algebrap.remove(wrapper);
 			}
-			simplep = new SimplePanel(aview = av);
-			algebrap.add(simplep);
+			wrapper = new FlowPanel();
+			aview = av;
+			wrapper.add(aview);
+			if (decorator != null) {
+				decorator.addLogo(wrapper, app);
+			}
+			algebrap.add(wrapper);
 			algebrap.addStyleName("algebraPanel");
-			algebrap.addDomHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					algebraPanelClicked(av, event);
-				}
-			}, ClickEvent.getType());
+			algebrap.addDomHandler(event -> algebraPanelClicked(av, event), ClickEvent.getType());
 		}
 	}
 
@@ -100,7 +97,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	 *            click event
 	 */
 	protected void algebraPanelClicked(AlgebraViewW av, ClickEvent event) {
-		int bt = simplep.getAbsoluteTop() + simplep.getOffsetHeight();
+		int bt = wrapper.getAbsoluteTop() + wrapper.getOffsetHeight();
 		if (event.getClientY() > bt) {
 			app.getSelectionManager().clearSelectedGeos();
 			av.resetItems(true);
@@ -125,13 +122,11 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 				aview.setUserWidth(w);
 			}
 		}
-		if (getOffsetHeight() > 0) {
-			if (aview != null) {
-				aview.resize(0);
-			}
+		if (getOffsetHeight() > 0 && aview != null) {
+			aview.resize(0);
 		}
-		if (decorator != null) {
-			decorator.onResize();
+		if (decorator != null && aview != null) {
+			decorator.onResize(aview, getOffsetHeight());
 		}
 	}
 
@@ -183,13 +178,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 			return;
 		}
 		if (item.isInputTreeItem()) {
-			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-				@Override
-				public void execute() {
-					scrollAVToBottom();
-				}
-			});
+			Scheduler.get().scheduleDeferred(this::scrollAVToBottom);
 			return;
 		}
 		doScrollToActiveItem();
@@ -216,10 +205,10 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 
 	@Override
 	public int getInnerWidth() {
-		if (simplep == null) {
+		if (wrapper == null) {
 			return super.getOffsetWidth();
 		}
-		return simplep.getOffsetWidth();
+		return wrapper.getOffsetWidth();
 	}
 
 	@Override
@@ -264,5 +253,13 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	@Override
 	public double getMinVHeight(boolean keyboard) {
 		return Math.max(aview.getInputTreeItem().getOffsetHeight(),	120);
+	}
+
+	@Override
+	public void setLabels() {
+		super.setLabels();
+		if (decorator != null) {
+			decorator.setLabels();
+		}
 	}
 }

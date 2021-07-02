@@ -11,8 +11,4 @@ public interface ProcessInput {
 	 */
 	void onInput();
 
-	/**
-	 * Runs on enter (or OK button click).
-	 */
-	void processInput();
 }

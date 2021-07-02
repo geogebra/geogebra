@@ -30,21 +30,21 @@ public class ErrorHelper {
 		} else {
 			Log.debug(e);
 		}
-		
+
 		if (handler == null) {
 			return;
 		}
-		
+
 		if (handler instanceof ErrorLogger) {
 			((ErrorLogger) handler).log(e);
 		}
 		Localization loc = app.getLocalization();
-		
+
 		if (loc == null) {
 			handler.showError("Sorry, something went wrong:" + e.getMessage());
 			return;
 		}
-		
+
 		app.initTranslatedCommands();
 		if (e instanceof CircularDefinitionException) {
 			handler.showError(Errors.CircularDefinition.getError(loc));

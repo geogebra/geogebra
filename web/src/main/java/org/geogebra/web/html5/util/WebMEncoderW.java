@@ -62,6 +62,6 @@ public class WebMEncoderW implements Encoder {
 		Blob blob = encoder.compile();
 		String url = URL.createObjectURL(blob);
 
-		Browser.downloadDataURL(url, filename);
+		Browser.downloadURL(url, filename);
 	}
 }

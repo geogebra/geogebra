@@ -22,14 +22,9 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.gui.util.SliderInputHandler;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -42,7 +37,6 @@ import elemental2.dom.HTMLImageElement;
 import jsinterop.base.Js;
 
 public class ColorChooserW extends FlowPanel implements ICustomColor {
-
 	private static final int PREVIEW_HEIGHT = 40;
 	private static final int PREVIEW_WIDTH = 100;
 	private static final int MARGIN_TOP = 20;
@@ -297,7 +291,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			setSelectedRow(currentRow);
 
 			return getColorFromPalette(currentCol, currentRow);
-
 		}
 
 		public void injectColor(GColor color) {
@@ -306,7 +299,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			if (palette.size() > getCapacity()) {
 				palette.remove(getCapacity());
 			}
-
 		}
 
 		public void setCheckNeeded(boolean checkNeeded) {
@@ -455,13 +447,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			maxLabel = new Label("100");
 			sp.add(maxLabel);
 			add(sp);
-			slider.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					onSliderInput();
-				}
-			});
+			slider.addChangeHandler(event -> onSliderInput());
 			Slider.addInputHandler(slider.getElement(), this);
 		}
 
@@ -508,30 +494,11 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			add(backgroundButton);
 			add(btnClearBackground);
 			btnClearBackground.setVisible(false);
-			foregroundButton.addClickHandler(new ClickHandler() {
+			foregroundButton.addClickHandler(event -> setBackground(false));
 
-				@Override
-				public void onClick(ClickEvent event) {
-					setBackground(false);
-				}
-			});
+			backgroundButton.addClickHandler(event -> setBackground(true));
 
-			backgroundButton.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					setBackground(true);
-				}
-			});
-
-			btnClearBackground.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					changeHandler.onClearBackground();
-
-				}
-			});
+			btnClearBackground.addClickHandler(event -> changeHandler.onClearBackground());
 
 		}
 
@@ -632,14 +599,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 		btnCustomColor = new Button("+");
 		btnCustomColor.setStyleName("CustomColorButton");
-		btnCustomColor.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				showCustomColorDialog();
-			}
-
-		});
+		btnCustomColor.addClickHandler(event -> showCustomColorDialog());
 		SimplePanel sp = new SimplePanel(btnCustomColor);
 		sp.addStyleName("CustomColorButtonParent");
 
@@ -650,42 +610,31 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		add(backgroundColorPanel);
 		add(lbBars);
 
-		canvas.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				for (ColorTable table : tables) {
-					GColor color = table.getSelectedColor();
-					if (color != null) {
-						colorChanged(table, color);
-						break;
-					}
+		canvas.addClickHandler(event -> {
+			for (ColorTable table : tables) {
+				GColor color = table.getSelectedColor();
+				if (color != null) {
+					colorChanged(table, color);
+					break;
 				}
+			}
 
+		});
+
+		canvas.addMouseMoveHandler(event -> {
+			int mx = event.getRelativeX(canvas.getElement());
+			int my = event.getRelativeY(canvas.getElement());
+			for (ColorTable table : tables) {
+				table.setFocus(mx, my);
 			}
 		});
 
-		canvas.addMouseMoveHandler(new MouseMoveHandler() {
+		lbBars.addChangeHandler(event -> {
+			int idx = lbBars.getSelectedIndex();
+			setSelectedBar(idx);
 
-			@Override
-			public void onMouseMove(MouseMoveEvent event) {
-				int mx = event.getRelativeX(canvas.getElement());
-				int my = event.getRelativeY(canvas.getElement());
-				for (ColorTable table : tables) {
-					table.setFocus(mx, my);
-				}
-			}
-		});
-
-		lbBars.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				int idx = lbBars.getSelectedIndex();
-				setSelectedBar(idx);
-
-				if (changeHandler != null) {
-					changeHandler.onBarSelected();
-				}
+			if (changeHandler != null) {
+				changeHandler.onBarSelected();
 			}
 		});
 	}
@@ -830,9 +779,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	 */
 	public void enableBackgroundColorPanel(boolean enable) {
 		backgroundColorPanel.setVisible(enable);
-		// if (!enable) {
-		// backgroundColorPanel.selectForeground();
-		// }
 	}
 
 	/**
@@ -848,9 +794,8 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	 */
 	void showCustomColorDialog() {
 		app.setWaitCursor();
-		if (dialog == null) {
-			dialog = new CustomColorDialog(app, this);
-		}
+		DialogData data = new DialogData("ChooseColor", "Cancel", "OK");
+		dialog = new CustomColorDialog(app, data, this);
 		dialog.show(selectedColor != null ? selectedColor : GColor.BLACK);
 		app.setDefaultCursor();
 	}
@@ -867,13 +812,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	 * {@link CustomColorDialog}
 	 */
 	public void setColorPreviewClickable() {
-		this.previewPanel.previewCanvas.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				showCustomColorDialog();
-			}
-		});
+		this.previewPanel.previewCanvas.addClickHandler(event -> showCustomColorDialog());
 	}
 
 	/**

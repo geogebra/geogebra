@@ -31,28 +31,19 @@ abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 			return "GeoGebraCalculatorSuite";
 		}
 
-		switch (version) {
-		case GRAPHING:
-			return "GeoGebraGraphingCalculator";
-		case GRAPHING_3D:
-			return "GeoGebra3DGrapher";
-		case SCIENTIFIC:
-			return "GeoGebraScientificCalculator";
-		case CAS:
-			return "GeoGebraCASCalculator";
-		case GEOMETRY:
-			return "GeoGebraGeometry";
-		case NOTES:
-			return "GeoGebraNotes";
-		case SUITE:
-			return "GeoGebraCalculatorSuite";
-		default:
-			return null;
-		}
+		return version.getTransKey();
 	}
 
 	static MenuItem clearConstruction() {
 		return new ActionableItemImpl(Icon.CLEAR, "Clear", Action.CLEAR_CONSTRUCTION);
+	}
+
+	protected static MenuItem openFile() {
+		return new ActionableItemImpl(Icon.SEARCH, "Load", Action.SHOW_SEARCH_VIEW);
+	}
+
+	protected static MenuItem saveFile() {
+		return new ActionableItemImpl(Icon.SAVE, "Save", Action.SAVE_FILE);
 	}
 
 	@Nullable

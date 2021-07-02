@@ -27,11 +27,11 @@ public class Tools extends FlowPanel implements SetLabels {
 	/**
 	 * application
 	 */
-	private AppW app;
+	private final AppW app;
 	/**
 	 * see {@link ToolsTab}
 	 */
-	private ToolsTab parentTab;
+	private final ToolsTab parentTab;
 	/**
 	 * move button
 	 */
@@ -145,10 +145,13 @@ public class Tools extends FlowPanel implements SetLabels {
 		List<ToolCategory> categories = parentTab.toolCollection.getCategories();
 
 		for (int i = 0; i < categories.size(); i++) {
-			CategoryPanel catPanel = new CategoryPanel(categories.get(i),
-					parentTab.toolCollection.getTools(i));
-			categoryPanelList.add(catPanel);
-			add(catPanel);
+			ToolCategory category = categories.get(i);
+			if (!app.isExam() || category.isAllowedInExam()) {
+				CategoryPanel catPanel = new CategoryPanel(category,
+						parentTab.toolCollection.getTools(i));
+				categoryPanelList.add(catPanel);
+				add(catPanel);
+			}
 		}
 
 		setMoveMode();
@@ -165,8 +168,8 @@ public class Tools extends FlowPanel implements SetLabels {
 
 	private class CategoryPanel extends FlowPanel implements SetLabels {
 
-		private ToolCategory category;
-		private List<Integer> tools;
+		private final ToolCategory category;
+		private final List<Integer> tools;
 
 		private FlowPanel toolsPanel;
 		private Label categoryLabel;
@@ -223,7 +226,9 @@ public class Tools extends FlowPanel implements SetLabels {
 		@Override
 		public void setLabels() {
 			// update label of category header
-			categoryLabel.setText(category.getLocalizedHeader(app.getLocalization()));
+			if (categoryLabel != null) {
+				categoryLabel.setText(category.getLocalizedHeader(app.getLocalization()));
+			}
 			// update tooltips of tools
 			for (ToolButton toolButton : toolButtonList) {
 				toolButton.setLabel();

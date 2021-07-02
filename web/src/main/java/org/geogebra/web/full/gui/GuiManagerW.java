@@ -91,7 +91,6 @@ import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.toolbarpanel.ShowableTab;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
-import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -110,6 +109,7 @@ import org.geogebra.web.full.util.keyboard.AutocompleteProcessing;
 import org.geogebra.web.full.util.keyboard.GTextBoxProcessing;
 import org.geogebra.web.full.util.keyboard.ScriptAreaProcessing;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -128,7 +128,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.FileConsumer;
 import org.geogebra.web.html5.util.StringConsumer;
-import org.geogebra.web.html5.util.Visibility;
 import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -137,10 +136,12 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.DomGlobal;
+import elemental2.dom.URL;
 
 public class GuiManagerW extends GuiManager
 		implements GuiManagerInterfaceW, EventRenderable, SetLabels {
@@ -566,13 +567,8 @@ public class GuiManagerW extends GuiManager
 			sciSettingsView = new ScientificSettingsView(getApp());
 			getApp().getLocalization().registerLocalizedUI(sciSettingsView);
 		}
-		frame.forceHeaderVisibility(Visibility.HIDDEN);
-		getApp().setCloseBrowserCallback(new Runnable() {
-			@Override
-			public void run() {
-				frame.forceHeaderVisibility(Visibility.NOT_SET);
-			}
-		});
+		frame.forceHeaderHidden(true);
+		getApp().setCloseBrowserCallback(() -> frame.forceHeaderHidden(false));
 		frame.showPanel(sciSettingsView);
 	}
 
@@ -841,6 +837,13 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
+	public void updateUnbundledToolbarContent() {
+		if (getUnbundledToolbar() != null) {
+			getUnbundledToolbar().updateContent();
+		}
+	}
+
+	@Override
 	public void updateToolbarActions() {
 		if (getToolbarPanel() != null) {
 			getToolbarPanel().updateActionPanel();
@@ -1041,7 +1044,7 @@ public class GuiManagerW extends GuiManager
 		if (success && !isMacroFile
 				&& !getApp().getSettings().getLayout().isIgnoringDocumentLayout()) {
 
-			getLayout().setPerspectives(getApp().getTmpPerspectives(), null);
+			getLayout().setPerspectiveOrDefault(getApp().getTmpPerspective());
 
 			if (!getApp().isIniting()) {
 				updateFrameSize(); // checks internally if frame is available
@@ -1175,28 +1178,6 @@ public class GuiManagerW extends GuiManager
 		// return app.getEuclidianView1();
 	}
 
-	@Override
-	public Command getShowAxesAction() {
-		return new Command() {
-
-			@Override
-			public void execute() {
-				showAxesCmd();
-			}
-		};
-	}
-
-	@Override
-	public Command getShowGridAction() {
-		return new Command() {
-
-			@Override
-			public void execute() {
-				showGridCmd();
-			}
-		};
-	}
-
 	/**
 	 * Clear data analysis
 	 */
@@ -1284,12 +1265,6 @@ public class GuiManagerW extends GuiManager
 		if (spreadsheetView != null) {
 			spreadsheetView.setScrollToShow(b);
 		}
-	}
-
-	@Override
-	public void showURLinBrowser(final String strURL) {
-		final PopupBlockAvoider popupBlockAvoider = new PopupBlockAvoider();
-		popupBlockAvoider.openURL(strURL);
 	}
 
 	@Override
@@ -1427,7 +1402,8 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void updateFrameSize() {
-		if (!getApp().getAppletParameters().getDataParamApp()) {
+		if (!getApp().getAppletParameters().getDataParamApp()
+			|| getApp().isExam()) {
 			return;
 		}
 		// get frame size from layout manager
@@ -1598,10 +1574,6 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public boolean checkAutoCreateSliders(final String s,
 			final AsyncOperation<String[]> callback) {
-		if (!getApp().enableGraphing()) {
-			callback.callback(null);
-			return false;
-		}
 		final String[] options = { loc.getMenu("Cancel"),
 				loc.getMenu("CreateSliders") };
 
@@ -1939,31 +1911,17 @@ public class GuiManagerW extends GuiManager
 	 *            construction title
 	 * @return local file saving callback for binary file
 	 */
-	native FileConsumer getDownloadCallback(String title) /*-{
-		var _this = this;
-		return function(ggbZip) {
-			var URL = $wnd.URL || $wnd.webkitURL;
-			var ggburl = URL.createObjectURL(ggbZip);
+	private FileConsumer getDownloadCallback(String title) {
+		return blob -> {
 			//global function in Chrome Kiosk App
-			if (typeof $wnd.ggbExportFile == "function") {
-				$wnd.ggbExportFile(ggburl, title);
+			String ggburl = URL.createObjectURL(blob);
+			if (GeoGebraGlobal.getGgbExportFile() != null) {
+				GeoGebraGlobal.getGgbExportFile().call(DomGlobal.window, ggburl, title);
 				return;
 			}
-			if ($wnd.navigator.msSaveBlob) {
-				//works for chrome and internet explorer
-				$wnd.navigator.msSaveBlob(ggbZip, title);
-			} else {
-				//works for firefox
-				var a = $doc.createElement("a");
-				$doc.body.appendChild(a);
-				a.style = "display: none";
-				a.href = ggburl;
-				a.download = title;
-				a.click();
-				//		        window.URL.revokeObjectURL(url);
-			}
-		}
-	}-*/;
+			Browser.downloadURL(ggburl, title);
+		};
+	}
 
 	/**
 	 * @param title
@@ -1972,7 +1930,7 @@ public class GuiManagerW extends GuiManager
 	 */
 	protected StringConsumer getBase64DownloadCallback(String title) {
 		return base64 ->
-			Browser.downloadDataURL("data:application/vnd.geogebra.file;base64," + base64,
+			Browser.downloadURL("data:application/vnd.geogebra.file;base64," + base64,
 					title);
 	}
 
@@ -2323,5 +2281,13 @@ public class GuiManagerW extends GuiManager
 	public MathKeyboardListener getKeyboardListener() {
 		DockPanelW dockPanelForKeyboard = layout.getDockManager().getPanelForKeyboard();
 		return getKeyboardListener(dockPanelForKeyboard);
+	}
+
+	/**
+	 * Clears browser GUI to enable to build a new one
+	 * (when starting or ending an exam)
+	 */
+	public void resetBrowserGUI() {
+		browseGUI = null;
 	}
 }

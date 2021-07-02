@@ -9,6 +9,7 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.desktop.cas.giac.CASgiacD;
 import org.junit.Before;
@@ -63,6 +64,21 @@ public class DelayedCasLoadingTest {
 		active = true;
 		app.getKernel().refreshCASCommands();
 		assertEquals("true", derivative.toValueString(StringTemplate.testTemplate));
+	}
+
+	@Test
+	public void casCellsShouldUpdateAfterLoad() {
+		GeoCasCell f = new GeoCasCell(app.getKernel().getConstruction());
+		app.getKernel().getConstruction().addToConstructionList(f, false);
+		add("m=1");
+		add("M=1.2");
+		f.setInput("eq1:77/10=M v_{M}+m (v cos(t)+v_{M})");
+		f.computeOutput();
+		assertEquals("eq1:=?", f.getOutput(StringTemplate.testTemplate));
+		active = true;
+		app.getKernel().refreshCASCommands();
+		assertEquals("eq1: 77 / 10 = v * cos(t) + 11 / 5 * v_{M}",
+				f.getOutput(StringTemplate.testTemplate));
 	}
 
 	private GeoElementND add(String s) {

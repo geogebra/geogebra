@@ -42,7 +42,7 @@ public abstract class MathFieldEditorDecoratorBase implements MathFieldEditorDec
 	 */
 	protected void setForegroundColor(GColor foregroundColor) {
 		mathField
-				.setForegroundCssColor(StringUtil.toHtmlColor(foregroundColor));
+				.setForegroundColor(StringUtil.toHtmlColor(foregroundColor));
 	}
 
 	/**

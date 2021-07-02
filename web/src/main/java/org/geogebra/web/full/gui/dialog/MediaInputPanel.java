@@ -144,11 +144,6 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 		removeStyleName("emptyState");
 	}
 
-	@Override
-	public void processInput() {
-		parentDialog.onPositiveAction();
-	}
-
 	/**
 	 * Add handler for input event
 	 */

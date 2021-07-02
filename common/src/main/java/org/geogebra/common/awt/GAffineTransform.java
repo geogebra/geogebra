@@ -28,7 +28,7 @@ public interface GAffineTransform {
 
 	public GAffineTransform createInverse() throws Exception;
 
-	public void scale(double xscale, double d);
+	public void scale(double xscale, double yscale);
 
 	public void translate(double ax, double ay);
 

@@ -10,6 +10,7 @@ import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.UIObject;
 
+import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.EventListener;
 import elemental2.dom.HTMLImageElement;
@@ -71,10 +72,11 @@ public final class Dom {
 	 * @param val
 	 *            property value
 	 */
-	public static native void setImportant(Style style, String property,
-			String val)/*-{
-		style.setProperty(property, val, "important");
-	}-*/;
+	public static void setImportant(Style style, String property,
+			String val) {
+		CSSStyleDeclaration css = Js.uncheckedCast(style);
+		css.setProperty(property, val, "important");
+	}
 
 	/**
 	 * 

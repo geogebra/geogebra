@@ -22,9 +22,11 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.Set;
 
-import org.geogebra.common.util.ExternalAccess;
+import org.geogebra.web.html5.GeoGebraGlobal;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import elemental2.core.JsObject;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * adapted from com.google.gwt.i18n.client.Dictionary to allow lookup by
@@ -35,8 +37,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 public final class MyDictionary {
 
 	private static Map<String, MyDictionary> cache = new HashMap<>();
-	@ExternalAccess
-	private JavaScriptObject dict;
+	private JsPropertyMap<String> dict;
 
 	private String label;
 
@@ -62,16 +63,9 @@ public final class MyDictionary {
 		return target;
 	}
 
-	@ExternalAccess
 	private static void resourceErrorBadType(String name) {
 		throw new MissingResourceException(
 				"Dictionary '" + name + "' not found.", null, name);
-	}
-
-	@ExternalAccess
-	private void resourceError(String key) {
-		String error = "Cannot find '" + key + "' in " + this;
-		throw new MissingResourceException(error, this.toString(), key);
 	}
 
 	/**
@@ -90,7 +84,7 @@ public final class MyDictionary {
 		}
 		this.label = "Dictionary " + section + language;
 		attach(section, language);
-		if (isNullDict()) {
+		if (dict == null) {
 			// this is not working on the second call, don't know why
 			throw new MissingResourceException(
 			        "Cannot find JavaScript object with the name '__GGB__keysVar["
@@ -98,10 +92,6 @@ public final class MyDictionary {
 			                + language, null);
 		}
 	}
-
-	private native boolean isNullDict() /*-{
-		return this.@org.geogebra.web.html5.util.MyDictionary::dict === null;
-	}-*/;
 
 	/**
 	 * Get the value associated with the given Dictionary key.
@@ -116,16 +106,14 @@ public final class MyDictionary {
 	 * @throws MissingResourceException
 	 *             if the value is not found
 	 */
-	public native String get(String key) /*-{
-		// In Firefox, jsObject.hasOwnProperty(key) requires a primitive string
-		key = String(key);
-		var map = this.@org.geogebra.web.html5.util.MyDictionary::dict;
-		var value = map[key];
-		if (value == null || !map.hasOwnProperty(key)) {
-			this.@org.geogebra.web.html5.util.MyDictionary::resourceError(Ljava/lang/String;)(key);
+	public String get(String key) {
+		Object value = dict.get(key);
+		if (value == null) {
+			String error = "Cannot find '" + key + "' in " + this;
+			throw new MissingResourceException(error, this.toString(), key);
 		}
-		return String(value);
-	}-*/;
+		return Js.asString(value);
+	}
 
 	/**
 	 * The set of keys associated with this dictionary.
@@ -143,25 +131,24 @@ public final class MyDictionary {
 		return label;
 	}
 
-	private native void addKeys(HashSet<String> s) /*-{
-		var map = this.@org.geogebra.web.html5.util.MyDictionary::dict
-		for ( var key in map) {
-			if (map.hasOwnProperty(key)) {
-				s.@java.util.HashSet::add(Ljava/lang/Object;)(key);
+	private void addKeys(HashSet<String> s) {
+		dict.forEach(key -> {
+			JsObject asObj = Js.uncheckedCast(dict);
+			if (asObj.hasOwnProperty(key)) {
+				s.add(key);
 			}
-		}
-	}-*/;
+		});
+	}
 
-	private native void attach(String section, String language)/*-{
+	private void attach(String section, String language) {
 		try {
-			if (typeof ($wnd["__GGB__keysVar"][language][section]) != "object") {
-				@org.geogebra.web.html5.util.MyDictionary::resourceErrorBadType(Ljava/lang/String;)(section + language);
+			JsPropertyMap<String> props = GeoGebraGlobal.__GGB__keysVar.get(language).get(section);
+			if (!"object".equals(Js.typeof(props))) {
+				resourceErrorBadType(section + language);
 			}
-			//this.@org.geogebra.web.html5.util.MyDictionary::dict = $wnd["__GGB__keysVar"][language][section];
-			this.@org.geogebra.web.html5.util.MyDictionary::dict = $wnd["__GGB__keysVar"][language][section];
-			//alert($wnd["__GGB__keysVar"][language]["command"]["Excentricity"]);
-		} catch (e) {
-			@org.geogebra.web.html5.util.MyDictionary::resourceErrorBadType(Ljava/lang/String;)(section + language);
+			dict = props;
+		} catch (Throwable e) {
+			resourceErrorBadType(section + language);
 		}
-	}-*/;
+	}
 }

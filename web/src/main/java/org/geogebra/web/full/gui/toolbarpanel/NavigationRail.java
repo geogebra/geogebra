@@ -71,7 +71,7 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 	}
 
 	private void createCenter() {
-		if (!app.showToolBar() || !app.enableGraphing()) {
+		if (!app.showToolBar()) {
 			return;
 		}
 
@@ -267,6 +267,9 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 		}
 		boolean external = isHeaderExternal();
 		btnMenu.setExternal(external);
+		if (center != null) {
+			center.setStyleName("withMenu", !external);
+		}
 		if (external) {
 			btnMenu.addToGlobalHeader();
 			addShareButton();
@@ -475,7 +478,7 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 			getElement().getStyle().clearWidth();
 			toolbarPanel.updateUndoRedoPosition();
 		} else {
-			toolbarPanel.onOpen();
+			toolbarPanel.resizeTabs();
 		}
 		toolbarPanel.onResize();
 
@@ -499,7 +502,7 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 	}
 
 	private void showExamDialog(StandardButton examInfoBtn) {
-		new ExamLogAndExitDialog(app, true, null, examInfoBtn).show();
+		new ExamLogAndExitDialog(app, true, examInfoBtn).show();
 	}
 
 	public void updateIcons(boolean exam) {

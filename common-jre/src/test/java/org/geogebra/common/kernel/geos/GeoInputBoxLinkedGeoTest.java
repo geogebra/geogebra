@@ -345,12 +345,6 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		Assert.assertEquals(5, numeric.getValue(), Kernel.MAX_PRECISION);
 	}
 
-	private void t(String input, String... expected) {
-		AlgebraTestHelper.testSyntaxSingle(input, expected,
-				getApp().getKernel().getAlgebraProcessor(),
-				StringTemplate.xmlTemplate);
-	}
-
 	private void hasType(String label, GeoClass geoClass) {
 		assertEquals(lookup(label).getGeoClassType(), geoClass);
 	}
