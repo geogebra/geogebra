@@ -108,6 +108,8 @@ public class AlgebraItemTest extends BaseUnitTest {
     @Test
     public void percentageDefinition() {
         GeoElement geo = addAvInput("5%*5+5");
-        assertThat(geo.getNameAndDefinition(StringTemplate.latexTemplate), is("a\\, = \\,5\\% \\cdot 5 + 5"));
+        assertThat(
+                geo.getNameAndDefinition(StringTemplate.latexTemplate),
+                is("a\\, = \\,5\\% \\cdot 5 + 5"));
     }
 }
