@@ -129,7 +129,6 @@
     opacity: 0.54;
 }
 .GeoGebraFrame .newRadioButtonTreeItemParent {
-    position: absolute;
     width: 100%;
     z-index: 4;
 }
