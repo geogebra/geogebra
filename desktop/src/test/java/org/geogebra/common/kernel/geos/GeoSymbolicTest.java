@@ -1503,4 +1503,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic eq = (GeoSymbolic) lookup("eq");
 		assertThat(eq, notNullValue());
 	}
+
+	@Test
+	public void orderShouldNotChange() {
+		t("f(a,x) = a*x^2", "a * x^(2)");
+		t("x", "x");
+		t("x", "x");
+		t("r:=f(a,a)", "a^(3)");
+		assertEquals(3, lookup("r").getConstructionIndex());
+	}
 }
