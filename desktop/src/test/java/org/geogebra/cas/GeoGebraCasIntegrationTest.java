@@ -2768,4 +2768,9 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("f(x) = If(x < 0, -x, x > 0, x, 0)", "f(x) = Wenn(0 > x,-x,x > 0,x,0)");
 		t("|x|==f(x)", "false");
 	}
+
+	@Test
+	public void fractionsWithScientificNotation() {
+		tk("1/2E-12", "1 / (2 * 10^(-12))");
+	}
 }

@@ -2274,6 +2274,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 					&& ExpressionNode.isConstantDouble(
 							((ExpressionNode) left).getRight(), Math.PI)) {
 				sb.append(leftStr);
+			} else if (left.isLeaf() && !isSinglePowerArg(left)) {
+				appendWithBrackets(sb, leftStr);
 			} else {
 				append(sb, leftStr, left, Operation.DIVIDE);
 			}
@@ -2281,7 +2283,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append("/");
 			appendOptionalSpace(sb);
 			// right wing
-			append(sb, rightStr, right, Operation.POWER); // not +, -, *, /
+			if (right.isLeaf() && !isSinglePowerArg(right)) {
+				appendWithBrackets(sb, rightStr);
+			} else {
+				append(sb, rightStr, right, Operation.POWER); // not +, -, *, /
+			}
 		}
 		return sb.toString();
 	}
