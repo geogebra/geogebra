@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.settings.AlgebraStyle;
+import org.geogebra.common.util.debug.Log;
 import org.junit.Test;
 
 public class AlgebraItemTest extends BaseUnitTest {
@@ -102,5 +103,11 @@ public class AlgebraItemTest extends BaseUnitTest {
         assertThat(
                 minusPi.getLaTeXDescriptionRHS(true, StringTemplate.latexTemplate),
                 equalTo("-\\pi "));
+    }
+
+    @Test
+    public void percentageDefinition() {
+        GeoElement geo = addAvInput("5%*5+5");
+        assertThat(geo.getNameAndDefinition(StringTemplate.latexTemplate), is("a\\, = \\,5\\% \\cdot 5 + 5"));
     }
 }
