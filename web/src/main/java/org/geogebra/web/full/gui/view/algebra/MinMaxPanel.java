@@ -153,11 +153,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 				+ Unicode.LESS_EQUAL);
 		// content set in update()->setLabels()
 		lblStep = new Label();
-		if (app.isUnbundled()) {
-			addStyleName("matMinMaxPanel");
-		} else {
-			addStyleName("minMaxPanel");
-		}
+		addStyleName("minMaxPanel");
 		add(tfMin);
 		add(lblValue);
 		add(tfMax);

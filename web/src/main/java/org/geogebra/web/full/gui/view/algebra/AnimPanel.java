@@ -69,7 +69,6 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		super();
 		this.radioTreeItem = radioTreeItem;
 		this.listener = listener;
-		addStyleName("elemRow");
 
 		buildGui();
 	}

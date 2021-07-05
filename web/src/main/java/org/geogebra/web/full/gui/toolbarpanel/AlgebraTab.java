@@ -52,9 +52,7 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 			wrapper.add(aview);
 			wrapper.add(logo);
 			add(wrapper);
-			wrapper.addStyleName("algebraSimpleP");
 			addStyleName("algebraPanel");
-			addStyleName("matAvDesign");
 			CustomScrollbar.apply(this);
 			addDomHandler(this::emptyAVclicked, ClickEvent.getType());
 		}

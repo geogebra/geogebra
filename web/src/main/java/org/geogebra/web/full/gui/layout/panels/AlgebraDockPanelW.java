@@ -85,9 +85,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 				decorator.addLogo(wrapper, app);
 			}
 			algebrap.add(wrapper);
-			wrapper.addStyleName("algebraSimpleP");
 			algebrap.addStyleName("algebraPanel");
-			algebrap.addStyleName("matAvDesign");
 			algebrap.addDomHandler(event -> algebraPanelClicked(av, event), ClickEvent.getType());
 		}
 	}

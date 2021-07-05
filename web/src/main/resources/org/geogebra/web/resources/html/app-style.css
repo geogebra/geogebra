@@ -107,40 +107,37 @@
     opacity: 0.54;
 }
 
-.GeoGebraFrame .matAvDesign .gwt-Tree .gwt-TreeItem .elem {
+.GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem {
     min-height: 48px;
     position: relative;
 }
-.GeoGebraFrame .matAvDesign .marblePanel.error, .GeoGebraFrame .matAvDesign .marblePanel.help, .GeoGebraFrame .matAvDesign .marblePanel {
+.GeoGebraFrame .marblePanel.error, .GeoGebraFrame .marblePanel.help, .GeoGebraFrame .marblePanel {
+    position: absolute;
     height: 100%;
     padding-top: 0px;
     padding-bottom: 0px;
     padding-left: 18px;
     padding-right: 18px;
 }
-.GeoGebraFrame .matAvDesign .marblePanel.plus {
+.GeoGebraFrame .marblePanel.plus {
     padding-top: 0px;
     padding-left: 4px;
     padding-right: 4px;
     min-height: 47px;
 }
-.GeoGebraFrame .matAvDesign .marblePanel.plus img {
+.GeoGebraFrame .marblePanel.plus img {
     opacity: 0.54;
 }
-.GeoGebraFrame .NewRadioButtonTreeItemParent {
+.GeoGebraFrame .newRadioButtonTreeItemParent {
     width: 100%;
     z-index: 4;
 }
 .GeoGebraFrame .algebraView .avInputItem {
     padding: 0!important;
     z-index: 1;
-    margin-top: -2px;
 }
 .GeoGebraFrame .algebraHelpButton, .GeoGebraFrame .marblePanel {
     border-right: 1px solid #dcdcdc;
-    border-right-width: 1px;
-    border-right-style: solid;
-    border-right-color: rgb(220, 220, 220);
 }
 
 .GeoGebraFrame .toolbar .toolsPanel {
@@ -166,7 +163,7 @@
     height: 32px;
 }
 
-.GeoGebraFrame .panelRow>*, .GeoGebraFrame .listBoxPanel>*, .GeoGebraFrame .panelRowIndent>*, .GeoGebraFrame .panelRowCell>*, .GeoGebraFrame .panelRowCell>*, .GeoGebraFrame .optionsPanel>*, .GeoGebraFrame .optionsPanelIndent>*, .GeoGebraFrame .optionsPanelCell>*, .GeoGebraFrame .textOptionsToolBar>*, .GeoGebraFrame .BackgroundColorPanel>*, .GeoGebraFrame .minMaxPanel>* {
+.GeoGebraFrame .panelRow>*, .GeoGebraFrame .listBoxPanel>*, .GeoGebraFrame .panelRowIndent>*, .GeoGebraFrame .panelRowCell>*, .GeoGebraFrame .panelRowCell>*, .GeoGebraFrame .optionsPanel>*, .GeoGebraFrame .optionsPanelIndent>*, .GeoGebraFrame .optionsPanelCell>*, .GeoGebraFrame .textOptionsToolBar>*, .GeoGebraFrame .BackgroundColorPanel>* {
     display: inline-block;
     vertical-align: middle;
     margin: 3px 10px 3px 0;
@@ -295,7 +292,7 @@
     z-index: 2;
 }
 
-.GeoGebraFrame .penSubMenu .optionsSlider .ui-state-default, .GeoGebraFrame .penSubMenu .optionsSlider .ui-widget-content .ui-state-default, .GeoGebraFrame .penSubMenu .optionsSlider .ui-widget-header .ui-state-default, .GeoGebraFrame .avItemContent .optionsSlider .ui-state-default, .GeoGebraFrame .avItemContent .optionsSlider .ui-widget-content .ui-state-default, .GeoGebraFrame .avItemContent .optionsSlider .ui-widget-header .ui-state-default {
+.GeoGebraFrame .penSubMenu .optionsSlider .ui-state-default, .GeoGebraFrame .penSubMenu .optionsSlider .ui-widget-content .ui-state-default, .GeoGebraFrame .penSubMenu .optionsSlider .ui-widget-header .ui-state-default, .GeoGebraFrame .avItemContent .optionsSlider .ui-widget-header .ui-state-default {
     background-color: #000;
     border: 3px solid rgba(0,0,0,0.4);
     top: -6px;
@@ -305,7 +302,7 @@
     box-shadow: 0 0 1px 1px rgba(255,255,255,0.4);
 }
 
-.GeoGebraFrame .penSubMenu .optionsSlider .ui-slider .ui-slider-handle span, .GeoGebraFrame .avItemContent .optionsSlider .ui-slider .ui-slider-handle span {
+.GeoGebraFrame .penSubMenu .optionsSlider .ui-slider .ui-slider-handle span {
     width: 10px;
     height: 10px;
     position: absolute;
@@ -569,17 +566,8 @@ body .startscreen .GeoGebraFrame img.gwt-Image,body .startscreen .GeoGebraFrame 
     border-bottom-left-radius: 0px;
 }
 
-.GeoGebraFrame .matAvDesign.algebraPanelScientific .NewRadioButtonTreeItemParent {
+.GeoGebraFrame .algebraPanelScientific .newRadioButtonTreeItemParent {
     border-width: 0;
-}
-
-.GeoGebraFrame .matAvDesign.algebraPanelScientific .scrollableTextBox {
-    margin-left: 56px;
-    padding-left: 0px;
-    border-bottom: 1px #dcdcdc solid;
-    width: calc(100% - 56px);
-    box-sizing: border-box;
-    min-height: 48px;
 }
 
 .avItemHeaderScientific {

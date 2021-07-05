@@ -9,8 +9,8 @@ describe('Sliders test', () => {
     it("sliders should be editable", () => {
         cy.writeInAVInput("5{enter}");
         cy.wait(200);
-        cy.get(".avSliderValue").click();
+        cy.get(".avPlainText").click();
         cy.focused().type("00{enter}");
-        cy.get(".avSliderValue").contains("a = 500").should('exist');
+        cy.get(".avPlainText").contains("a = 500").should('exist');
     });
 });
