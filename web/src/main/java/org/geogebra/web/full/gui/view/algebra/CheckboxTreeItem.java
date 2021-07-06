@@ -43,6 +43,7 @@ public class CheckboxTreeItem extends RadioTreeItem {
 		checkBox = new CheckBox();
 		checkBox.setValue(((GeoBoolean) geo).getBoolean());
 		content.addStyleName("noPadding");
+		main.addStyleName("checkboxElem");
 	}
 
 	@Override
