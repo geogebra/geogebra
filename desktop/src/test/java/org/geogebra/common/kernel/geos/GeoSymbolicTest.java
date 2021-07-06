@@ -1506,10 +1506,20 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void orderShouldNotChange() {
+		app.setUndoActive(true);
+
 		t("f(a,x) = a*x^2", "a * x^(2)");
+		app.storeUndoInfo();
 		t("x", "x");
+		app.storeUndoInfo();
 		t("x", "x");
+		app.storeUndoInfo();
 		t("r:=f(a,a)", "a^(3)");
+		app.storeUndoInfo();
+
+		assertEquals(3, lookup("r").getConstructionIndex());
+
+		undoRedo();
 		assertEquals(3, lookup("r").getConstructionIndex());
 	}
 }
