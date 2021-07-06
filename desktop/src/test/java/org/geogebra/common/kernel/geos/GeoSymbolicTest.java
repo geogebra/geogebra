@@ -1503,4 +1503,22 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic eq = (GeoSymbolic) lookup("eq");
 		assertThat(eq, notNullValue());
 	}
+
+	@Test
+	public void testUndoRedoWithSolve() {
+		app.setUndoActive(true);
+
+		add("u(x)=-2*10^(-5) x^(3)+1.4*10^(-2) x^(2)-2.4 x+200");
+		app.storeUndoInfo();
+		add("a(x)=Integral(u,0,340)");
+		app.storeUndoInfo();
+		add("eq1: ((a)/(3))=Integral(u,0,s)");
+		app.storeUndoInfo();
+		add("solution = Solve(eq1,s)");
+		app.storeUndoInfo();
+
+		undoRedo();
+		GeoSymbolic eq = (GeoSymbolic) lookup("solution");
+		assertThat(eq, notNullValue());
+	}
 }
