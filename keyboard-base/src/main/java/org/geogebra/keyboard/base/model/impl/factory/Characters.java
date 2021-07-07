@@ -2,6 +2,10 @@ package org.geogebra.keyboard.base.model.impl.factory;
 
 public class Characters {
 
+	public static final String BASIC_X = "x";
+	public static final String BASIC_Y = "y";
+	public static final String BASIC_Z = "z";
+
 	public static final String x = "\uD835\uDC65";
 	public static final String y = "\uD835\uDC66";
 	public static final String z = "\uD835\uDC67";
