@@ -45,4 +45,10 @@ public class GeoVector3DTest extends BaseUnitTest {
                 vector.getDefinition(StringTemplate.latexTemplate),
                 is("\\left( \\begin{align}a \\\\ 2 \\\\ 3 \\end{align} \\right)"));
     }
+
+    @Test
+    public void testU() {
+        GeoVector3D u = addAvInput("u=UnitVector((0,1,sqrt(3)))");
+        assertThat(u.getW(), is(0.0));
+    }
 }
