@@ -21,19 +21,10 @@ public class GeoSurfaceReplacer implements Traversing {
 				GeoSurfaceCartesianND surface = (GeoSurfaceCartesianND) node
 						.getLeft();
 				FunctionNVar[] fun = surface.getFunctions();
-				MyVecNDNode vect;
-				if (surface.isGeoElement3D()) {
-					vect = new MyVec3DNode(
-							((ExpressionNode) ev).getKernel(),
-							fun[0].getExpression(),
-							fun[1].getExpression(),
-							fun[2].getExpression());
-				} else {
-					vect = new MyVecNode(
-							((ExpressionNode) ev).getKernel(),
-							fun[0].getExpression(),
-							fun[1].getExpression());
-				}
+				MyVec3DNode vect = new MyVec3DNode(
+						((ExpressionNode) ev).getKernel(),
+						fun[0].getExpression(), fun[1].getExpression(),
+						fun[2].getExpression());
 				return new ExpressionNode(((ExpressionNode) ev).getKernel(),
 						vect);
 			}

@@ -150,19 +150,11 @@ public class FunctionExpander implements Traversing {
 							.getFunctions();
 					fv = fun[0].getFunctionVariables();
 					Kernel kernel = fun[0].getKernel();
-					MyVecNDNode vect;
-					if (((GeoSurfaceCartesianND) geo).isGeoElement3D()) {
-						vect = new MyVec3DNode(
-								((ExpressionNode) ev).getKernel(),
-								fun[0].getExpression().deepCopy(kernel),
-								fun[1].getExpression().deepCopy(kernel),
-								fun[2].getExpression().deepCopy(kernel));
-					} else {
-						vect = new MyVecNode(
-								((ExpressionNode) ev).getKernel(),
-								fun[0].getExpression().deepCopy(kernel),
-								fun[1].getExpression().deepCopy(kernel));
-					}
+					MyVec3DNode vect = new MyVec3DNode(
+							((ExpressionNode) ev).getKernel(), fun[0]
+									.getExpression().deepCopy(kernel), fun[1]
+									.getExpression().deepCopy(kernel), fun[2]
+									.getExpression().deepCopy(kernel));
 					en2 = new ExpressionNode(en.getKernel(), vect);
 				}
 				if (deriv != null) {
