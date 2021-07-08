@@ -2021,11 +2021,9 @@ public abstract class ProbabilityCalculatorView
 		if (probMode == PROB_INTERVAL) {
 			xAxis.showBothPoints(showProbGeos);
 			resultPanel.showInterval();
-			setBoundsFromSettings();
 		} else if (probMode == PROB_TWO_TAILED) {
 			xAxis.showBothPoints(showProbGeos);
 			showTwoTailed(resultPanel);
-			setBoundsFromSettings();
 		} else if (probMode == PROB_LEFT) {
 			resultPanel.showLeft();
 			switchToLeftProbability(oldProbMode, isDiscrete);
@@ -2033,6 +2031,7 @@ public abstract class ProbabilityCalculatorView
 			resultPanel.showRight();
 			switchToRightProbability(oldProbMode, isDiscrete);
 		}
+		setBoundsFromSettings();
 
 		// make result field editable for inverse probability calculation
 		resultPanel.setResultEditable(probMode != PROB_INTERVAL && probMode != PROB_TWO_TAILED);
@@ -2104,6 +2103,14 @@ public abstract class ProbabilityCalculatorView
 		} else {
 			setLowDefault();
 			setHighDefault();
+		}
+		
+		if (probMode == PROB_LEFT) {
+			setLow(Double.NEGATIVE_INFINITY);
+		}
+
+		if (probMode == PROB_RIGHT) {
+			setHigh(Double.POSITIVE_INFINITY);
 		}
 
 		updateOutputForIntervals();
