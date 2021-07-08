@@ -2063,9 +2063,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 				|| rightStr.equals(Unicode.DEGREE_STRING)) {
 
-			boolean rtl = loc.isRightToLeftDigits(this);
+			boolean isMinusOnRight = loc.isMinusOnRight(this);
 
-			if (rtl) {
+			if (isMinusOnRight) {
 				sb.append(Unicode.DEGREE_STRING);
 			}
 
@@ -2077,7 +2077,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(')'); // needed for eg (a+b)\u00b0
 			}
 
-			if (!rtl) {
+			if (!isMinusOnRight) {
 				sb.append(Unicode.DEGREE_STRING);
 			}
 		}

@@ -32,7 +32,7 @@ public class LoginOperationW extends LogInOperation {
 	private class LanguageLoginCallback implements EventRenderable {
 		@Override
 		public void renderEvent(BaseEvent event) {
-			if (isLoggedIn()) {
+			if (isLoggedIn() && "".equals(app.getAppletParameters().getDataParamLanguage())) {
 				app.setLanguage(getUserLanguage());
 			} else {
 				app.setLabels();

@@ -39,7 +39,7 @@ public abstract class Localization {
 	private StringBuilder sbOrdinal = new StringBuilder();
 	private boolean isAutoCompletePossible = true;
 	// For Persian and Arabic.
-	private boolean rightToLeftDigits = false;
+	private boolean isMinusOnRight = false;
 	/**
 	 * Use localized labels.
 	 */
@@ -58,8 +58,6 @@ public abstract class Localization {
 	private char unicodeDecimalPoint = '.';
 	/** comma (different in Arabic) */
 	private char unicodeComma = ','; // \u060c for Arabic comma
-	/** zero (different in eg Arabic) */
-	private char unicodeZero = '0';
 
 	private int[] decimalPlaces = { 0, 1, 2, 3, 4, 5, 10, 13, 15 };
 	private int[] significantFigures = {3, 5, 10, 15};
@@ -913,11 +911,11 @@ public abstract class Localization {
 	 * @return whether current language uses RTL orientation for numbers for
 	 *         given template
 	 */
-	final public boolean isRightToLeftDigits(StringTemplate tpl) {
+	final public boolean isMinusOnRight(StringTemplate tpl) {
 		if (!tpl.internationalizeDigits()) {
 			return false;
 		}
-		return rightToLeftDigits;
+		return isMinusOnRight;
 	}
 
 	/**
@@ -944,9 +942,8 @@ public abstract class Localization {
 		reverseNameDescription = "eu".equals(lang) || "hu".equals(lang);
 
 		// used for eg axes labels
-		// Arabic digits are RTL
 		// Persian aren't http://persian.nmelrc.org/persianword/format.htm
-		rightToLeftDigits = "ar".equals(lang);
+		isMinusOnRight = "ar".equals(lang);
 
 		// Another option:
 		// rightToLeftReadingOrder =
@@ -962,40 +959,18 @@ public abstract class Localization {
 
 		if (isUsingLocalizedDigits()) {
 			if (lang.startsWith("ar")) { // Arabic
-				unicodeZero = '\u0660'; // Arabic-Indic digit 0
 				unicodeDecimalPoint = Unicode.ARABIC_COMMA; // Arabic-Indic
-															// decimal point
+				// decimal point
 				unicodeComma = '\u060c'; // Arabic comma
 				// unicodeThousandsSeparator = '\u066c'; // Arabic Thousands
 				// separator
 			} else if (lang.startsWith("fa")) { // Persian
-				unicodeZero = '\u06f0'; // Persian digit 0 (Extended
-				// Arabic-Indic)
 				unicodeDecimalPoint = Unicode.ARABIC_COMMA; // Arabic comma
 				unicodeComma = '\u060c'; // Arabic-Indic decimal point
 				// unicodeThousandsSeparator = '\u066c'; // Arabic Thousands
 				// separators
-			} else if (lang.startsWith("ml")) {
-				unicodeZero = '\u0d66'; // Malayalam digit 0
-			} else if (lang.startsWith("th")) {
-				unicodeZero = '\u0e50'; // Thai digit 0
-			} else if (lang.startsWith("ta")) {
-				unicodeZero = '\u0be6'; // Tamil digit 0
-			} else if (lang.startsWith("sd")) {
-				unicodeZero = '\u1bb0'; // Sudanese digit 0
-			} else if (lang.startsWith("kh")) {
-				unicodeZero = '\u17e0'; // Khmer digit 0
-			} else if (lang.startsWith("mn")) {
-				unicodeZero = '\u1810'; // Mongolian digit 0
-			} else if (lang.startsWith("mm")) {
-				unicodeZero = '\u1040'; // Mayanmar digit 0
-			} else {
-				unicodeZero = '0';
 			}
-		} else {
-			unicodeZero = '0';
 		}
-
 	}
 
 	/**
@@ -1481,7 +1456,7 @@ public abstract class Localization {
 	 * @return character for zero (0) in current language
 	 */
 	public char getZero() {
-		return unicodeZero;
+		return Language.getUnicodeZero(getLanguage());
 	}
 
 	/**

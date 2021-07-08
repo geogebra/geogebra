@@ -149,8 +149,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.TextAreaElement;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Panel;
@@ -281,14 +279,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		getTimerSystem();
 		this.showInputTop = InputPosition.algebraView;
-		Window.addResizeHandler(new ResizeHandler() {
-
-			@Override
-			public void onResize(ResizeEvent event) {
-				fitSizeToScreen();
-				windowResized();
-				closePopupsInRegistry();
-			}
+		Window.addResizeHandler(event -> {
+			fitSizeToScreen();
+			windowResized();
+			closePopupsInRegistry();
 		});
 		if (!StringUtil
 				.empty(getAppletParameters().getParamScaleContainerClass())) {
