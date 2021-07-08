@@ -47,7 +47,7 @@ public class GeoVector3DTest extends BaseUnitTest {
     }
 
     @Test
-    public void testU() {
+    public void testWIsZeroInUnitVector() {
         GeoVector3D u = addAvInput("u=UnitVector((0,1,sqrt(3)))");
         assertThat(u.getW(), is(0.0));
     }
