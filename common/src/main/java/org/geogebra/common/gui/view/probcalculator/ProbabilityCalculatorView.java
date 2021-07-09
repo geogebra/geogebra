@@ -2018,6 +2018,7 @@ public abstract class ProbabilityCalculatorView
 		boolean isDiscrete = probmanagerIsDiscrete();
 		int oldProbMode = probMode;
 		this.getPlotDimensions();
+		setBoundsFromSettings();
 		if (probMode == PROB_INTERVAL) {
 			xAxis.showBothPoints(showProbGeos);
 			resultPanel.showInterval();
@@ -2031,7 +2032,6 @@ public abstract class ProbabilityCalculatorView
 			resultPanel.showRight();
 			switchToRightProbability(oldProbMode, isDiscrete);
 		}
-		setBoundsFromSettings();
 
 		// make result field editable for inverse probability calculation
 		resultPanel.setResultEditable(probMode != PROB_INTERVAL && probMode != PROB_TWO_TAILED);
