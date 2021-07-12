@@ -1,11 +1,7 @@
 package org.geogebra.keyboard.base.model.impl.factory;
 
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.CURLY_EULER;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.CURLY_PI;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.EULER;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.GEQ;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEQ;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.PI;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.ROOT;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUP2;
 import static org.geogebra.keyboard.base.model.impl.factory.NumberKeyUtil.addFirstRow;
@@ -26,15 +22,25 @@ import org.geogebra.keyboard.base.model.impl.RowImpl;
 
 public class MathKeyboardFactory implements KeyboardModelFactory {
 
+    private CharacterProvider charProvider;
+
+    public MathKeyboardFactory(CharacterProvider characterProvider) {
+        charProvider = characterProvider;
+    }
+
     @Override
     public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
         KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
 
         RowImpl row = mathKeyboard.nextRow(9.2f);
-        addInputButton(row, buttonFactory, Characters.x, "x");
-        addInputButton(row, buttonFactory, Characters.y, "y");
-        addInputButton(row, buttonFactory, CURLY_PI, PI);
-        addInputButton(row, buttonFactory, CURLY_EULER, EULER);
+        addInputButton(row, buttonFactory,
+                charProvider.xForButton(), charProvider.xAsInput());
+        addInputButton(row, buttonFactory,
+                charProvider.yForButton(), charProvider.yAsInput());
+        addInputButton(row, buttonFactory,
+                charProvider.piForButton(), charProvider.piAsInput());
+        addInputButton(row, buttonFactory,
+                charProvider.eulerForButton(), charProvider.eulerAsInput());
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addFirstRow(row, buttonFactory);
 
