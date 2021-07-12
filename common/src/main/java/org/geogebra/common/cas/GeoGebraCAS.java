@@ -169,6 +169,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			result = Kernel.removeCASVariablePrefix(result, " ");
 		}
 
+		resetCounter();
+
 		return result;
 	}
 
@@ -1228,5 +1230,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		if (cas != null) {
 			cas.clearResult();
 		}
+	}
+
+	private void resetCounter() {
+		counter = 1;
 	}
 }

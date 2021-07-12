@@ -17,8 +17,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
 
+import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
+import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.Commands;
@@ -1502,5 +1504,31 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		undoRedo();
 		GeoSymbolic eq = (GeoSymbolic) lookup("eq");
 		assertThat(eq, notNullValue());
+	}
+
+	@Test
+	public void testCaching() {
+		CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
+
+		if (cas instanceof CASgiac) {
+			CASgiac casGiac = (CASgiac) cas;
+			int cacheSize = casGiac.getCasGiacCacheSize();
+
+			// test input is added to the cache
+			t("NSolve(x+x*x+1/2 = 13)", "{x = -4.070714214271, x = 3.070714214271}");
+			assertEquals(casGiac.getCasGiacCacheSize(), cacheSize + 1);
+
+			// test nothing is added to the cache, result read from cache
+			t("NSolve(x+x*x+1/2 = 13)", "{x = -4.070714214271, x = 3.070714214271}");
+			assertEquals(casGiac.getCasGiacCacheSize(), cacheSize + 1);
+
+			int cacheNewSize = casGiac.getCasGiacCacheSize();
+
+			t("Cross((1,1,1),Cross((2,3,4),(5,7,11)))", "(1, 6, -7)");
+			assertEquals(casGiac.getCasGiacCacheSize(), cacheNewSize + 2);
+
+			t("Cross((1,1,1),Cross((2,3,4),(5,7,11)))", "(1, 6, -7)");
+			assertEquals(casGiac.getCasGiacCacheSize(), cacheNewSize + 2);
+		}
 	}
 }
