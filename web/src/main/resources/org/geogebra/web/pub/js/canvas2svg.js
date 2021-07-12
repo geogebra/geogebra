@@ -346,7 +346,7 @@
     };
 
     /**
-     * Apples the current styles to the current SVG element. On "ctx.fill" or "ctx.stroke"
+     * Applies the current styles to the current SVG element. On "ctx.fill" or "ctx.stroke"
      * @param type
      * @private
      */
@@ -360,7 +360,16 @@
     			node.setAttribute(type, "");
     		})
     	}
+    	this.__applyStyleToElement(currentElement, type);
+    }
 
+    /**
+     * Applies the current styles to the given SVG element. On "ctx.fill" or "ctx.stroke"
+     * param element
+     * @param type
+     * @private
+     */
+    ctx.prototype.__applyStyleToElement = function (element, type) {
         var keys = Object.keys(STYLES), i, style, value, id, regex, matches;
         for (i = 0; i < keys.length; i++) {
             style = STYLES[keys[i]];
@@ -378,35 +387,35 @@
                             this.__defs.appendChild(value.__ctx.__defs.childNodes[i]);
                         }
                     }
-                    currentElement.setAttribute(style.apply, format("url(#{id})", {id:value.__root.getAttribute("id")}));
+                    element.setAttribute(style.apply, format("url(#{id})", {id:value.__root.getAttribute("id")}));
                 }
                 else if (value instanceof CanvasGradient) {
                     //gradient
-                    currentElement.setAttribute(style.apply, format("url(#{id})", {id:value.__root.getAttribute("id")}));
+                    element.setAttribute(style.apply, format("url(#{id})", {id:value.__root.getAttribute("id")}));
                 } else if (style.apply.indexOf(type)!==-1 && style.svg !== value) {
                     if ((style.svgAttr === "stroke" || style.svgAttr === "fill") && value.indexOf("rgba") !== -1) {
                         //separate alpha value, since illustrator can't handle it
                         regex = /rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d?\.?\d*)\s*\)/gi;
                         matches = regex.exec(value);
-                        currentElement.setAttribute(style.svgAttr, format("rgb({r},{g},{b})", {r:matches[1], g:matches[2], b:matches[3]}));
+                        element.setAttribute(style.svgAttr, format("rgb({r},{g},{b})", {r:matches[1], g:matches[2], b:matches[3]}));
                         //should take globalAlpha here
                         var opacity = matches[4];
                         var globalAlpha = this.globalAlpha;
                         if (globalAlpha != null) {
                             opacity *= globalAlpha;
                         }
-                        currentElement.setAttribute(style.svgAttr+"-opacity", opacity);
+                        element.setAttribute(style.svgAttr+"-opacity", opacity);
                     } else {
                         var attr = style.svgAttr;
                         if (keys[i] === 'globalAlpha') {
                             attr = type+'-'+style.svgAttr;
-                            if (currentElement.getAttribute(attr)) {
+                            if (element.getAttribute(attr)) {
                                  //fill-opacity or stroke-opacity has already been set by stroke or fill.
                                 continue;
                             }
                         }
                         //otherwise only update attribute if right type, and not svg default
-                        currentElement.setAttribute(attr, value);
+                        element.setAttribute(attr, value);
                     }
                 }
             }
@@ -800,7 +809,7 @@
         parent = this.__closestGroupOrSvg();
         parent.appendChild(rect);
         this.__currentElement = rect;
-        this.__applyStyleToCurrentElement("fill");
+        this.__applyStyleToElement(rect, "fill");
     };
 
     /**
@@ -821,7 +830,7 @@
         parent = this.__closestGroupOrSvg();
         parent.appendChild(rect);
         this.__currentElement = rect;
-        this.__applyStyleToCurrentElement("stroke");
+        this.__applyStyleToElement(rect, "stroke");
     };
 
 
@@ -975,7 +984,7 @@
 
         textElement.appendChild(this.__document.createTextNode(text));
         this.__currentElement = textElement;
-        this.__applyStyleToCurrentElement(action);
+        this.__applyStyleToElement(textElement, action);
         parent.appendChild(this.__wrapTextLink(font,textElement));
     };
 
