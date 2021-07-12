@@ -17,7 +17,6 @@
 package org.apache.commons.math3.stat;
 
 import java.io.Serializable;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;

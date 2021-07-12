@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.gui.util;
+package org.geogebra.gwtutil;
 
 import com.google.gwt.dom.client.Element;
 

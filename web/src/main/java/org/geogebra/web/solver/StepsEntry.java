@@ -1,5 +1,6 @@
 package org.geogebra.web.solver;
 
+import org.geogebra.common.factories.CASFactoryDummy;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -46,7 +47,7 @@ public class StepsEntry implements EntryPoint {
 			FactoryProvider.setInstance(new FactoryProviderGWT());
 		}
 
-		geogebraFrame = new GeoGebraFrameSimple(geoGebraElement, parameters);
+		geogebraFrame = new GeoGebraFrameSimple(geoGebraElement, parameters, new CASFactoryDummy());
 
 		app = new AppWsolver(geoGebraElement, parameters, geogebraFrame);
 		LoggerW.startLogger(app.getAppletParameters());

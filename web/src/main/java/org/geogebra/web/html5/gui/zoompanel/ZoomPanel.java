@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.ZoomPanelResources;
@@ -179,7 +180,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		homeBtn.addFastClickHandler(handlerHome);
 		add(homeBtn);
 		registerFocusable(homeBtn, AccessibilityGroup.ViewControlId.ZOOM_PANEL_HOME);
-		if (!Browser.isMobile()) {
+		if (!NavigatorUtil.isMobile()) {
 			addZoomInButton();
 			registerFocusable(zoomInBtn, AccessibilityGroup.ViewControlId.ZOOM_PANEL_PLUS);
 			addZoomOutButton();
@@ -316,13 +317,13 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 
 	private static boolean needsFullscreenButton(AppW app) {
 		if (app.getAppletParameters().getDataParamApp()) {
-			return ZoomController.isRunningInIframe() || !Browser.isMobile();
+			return ZoomController.isRunningInIframe() || !NavigatorUtil.isMobile();
 		} else {
 			if (!app.getAppletParameters().getDataParamShowFullscreenButton()) {
 				return false;
 			}
 
-			return !(Browser.isiOS() && ZoomController.isRunningInIframe());
+			return !(NavigatorUtil.isiOS() && ZoomController.isRunningInIframe());
 		}
 	}
 

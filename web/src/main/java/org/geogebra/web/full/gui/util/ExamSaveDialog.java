@@ -3,11 +3,11 @@ package org.geogebra.web.full.gui.util;
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.ComponentInputDialog;
 import org.geogebra.web.shared.components.DialogData;
 
 public class ExamSaveDialog {

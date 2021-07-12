@@ -9,6 +9,7 @@ import elemental2.dom.Console;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLDocument;
 import elemental2.dom.HTMLHtmlElement;
+import elemental2.dom.Navigator;
 import elemental2.webstorage.WebStorageWindow;
 
 public class ElementalMocker {
@@ -18,6 +19,10 @@ public class ElementalMocker {
 			DomGlobal.console = new Console();
 			DomGlobal.window = new WebStorageWindow();
 			setFinalStatic(DomGlobal.class.getField("document"), new HTMLDocument());
+			Navigator newValue = new Navigator();
+			newValue.platform = "SunOS";
+			newValue.userAgent = "Chrome";
+			setFinalStatic(DomGlobal.class.getField("navigator"), newValue);
 			DomGlobal.document.documentElement = new HTMLHtmlElement();
 		} catch (Exception e) {
 			System.err.println("Failed to set up elemental2 mocks");

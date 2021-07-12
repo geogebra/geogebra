@@ -23,9 +23,16 @@ gwt {
 	// only compilable module
 	modules 'com.himamis.retex.editor.JLMEditorExportedLibrary'
 	devModules 'com.himamis.retex.editor.JLMEditorGWTDev'
-	/*compiler {
-        style = org.wisepersist.gradle.plugins.gwt.Style.DETAILED;
-	}*/
+	compiler {
+		if (project.hasProperty("gdetailed")) {
+			style = org.wisepersist.gradle.plugins.gwt.Style.DETAILED
+		} else {
+			disableClassMetadata = true
+		}
+	}
+	jsInteropExports {
+		shouldGenerate = true;
+	}
 }
 
 dependencies {
@@ -51,6 +58,7 @@ task runSuperDev(type: JavaExec, dependsOn: 'jar') {
 		'-port', '8888',
 		'-superDevMode',
 		'-war', file('war'),
+		'-generateJsInteropExports',
 		'com.himamis.retex.editor.JLMEditorExportedLibrary'
 	systemProperty 'gwt.persistentunitcachedir', '../build/gwt/devModeCache'
 }

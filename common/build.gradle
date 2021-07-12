@@ -51,7 +51,10 @@ task cleanJavacc(type: Delete) {
 	delete compileJavacc
 }
 
-import java.text.*
+
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+
 task versionBump(){
 	doLast {
 		def version = "undef"

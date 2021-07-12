@@ -4,9 +4,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.main.FileManager;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
 public abstract class FileManagerT extends FileManager {
@@ -47,7 +47,7 @@ public abstract class FileManagerT extends FileManager {
 
 	@Override
 	public void saveLoggedOut(App app1) {
-		if (!Browser.isiOS()) {
+		if (!NavigatorUtil.isiOS()) {
 			((DialogManagerW) app1.getDialogManager()).showSaveDialog();
 		} else {
 			showOfflineErrorTooltip((AppW) app1);

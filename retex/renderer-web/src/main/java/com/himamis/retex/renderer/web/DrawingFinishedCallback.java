@@ -43,10 +43,13 @@
  */
 package com.himamis.retex.renderer.web;
 
+import jsinterop.annotations.JsFunction;
+
 /**
  * If registered with Graphics2DW object, it will be notified when all the
  * drawing has finished.
  */
+@JsFunction
 public interface DrawingFinishedCallback {
 
 	/**

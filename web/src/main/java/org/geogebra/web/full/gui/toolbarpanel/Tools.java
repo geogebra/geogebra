@@ -7,8 +7,8 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolcategorization.ToolCategory;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.toolbar.ToolButton;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -240,7 +240,7 @@ public class Tools extends FlowPanel implements SetLabels {
 		// allow tooltips for iPad
 		boolean isIpad = Window.Navigator.getUserAgent().toLowerCase()
 				.contains("ipad");
-		return (!Browser.isMobile() || isIpad) && app.showToolBarHelp();
+		return (!NavigatorUtil.isMobile() || isIpad) && app.showToolBarHelp();
 	}
 
 	/**
