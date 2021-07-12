@@ -22,6 +22,7 @@ public class DownloadPngAction extends DefaultMenuAction<Void> {
 
 	@Override
 	public void execute(Void item, AppWFull app) {
+		app.getActiveEuclidianView().getEuclidianController().widgetsToBackground();
 		imageExporter.export(getUrl());
 	}
 
