@@ -403,7 +403,7 @@ public abstract class ProbabilityCalculatorView
 	 * Creates the required GeoElements for the currently selected distribution
 	 * type and parameters.
 	 */
-	protected void createGeoElements() {
+	public void createGeoElements() {
 		removeGeos();
 		createXAxisPoints();
 		createDistribution();
