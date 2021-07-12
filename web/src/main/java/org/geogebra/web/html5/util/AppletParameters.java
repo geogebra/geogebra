@@ -687,4 +687,18 @@ public class AppletParameters {
 	public boolean getParamShowSlides() {
 		return getBoolDataParam("showSlides", getDataParamApp());
 	}
+
+	/**
+	 * @return whether to localize digits (e.g. for Arabic)
+	 */
+	public boolean getParamUseLocalizedDigits() {
+		return getBoolDataParam("useLocalizedDigits", false);
+	}
+
+	/**
+	 * @return whether to localize point names
+	 */
+	public boolean getParamUseLocalizedPointNames() {
+		return getBoolDataParam("useLocalizedPointNames", true);
+	}
 }

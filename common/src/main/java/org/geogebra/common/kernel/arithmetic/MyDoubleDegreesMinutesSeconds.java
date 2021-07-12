@@ -129,7 +129,7 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 		 */
 		public void format(StringBuilder sbFormatAngle, StringTemplate tpl,
 				Kernel kernel) {
-			if (kernel.getLocalization().isRightToLeftDigits(tpl)) {
+			if (kernel.getLocalization().isMinusOnRight(tpl)) {
 				if (tpl.hasCASType()) {
 					if (needsMinus) {
 						sbFormatAngle.append(Unicode.MINUS);
