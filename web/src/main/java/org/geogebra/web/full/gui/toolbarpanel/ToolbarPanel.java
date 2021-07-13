@@ -84,7 +84,7 @@ public class ToolbarPanel extends FlowPanel
 	private ShowableTab tabContainer;
 	private boolean isOpen;
 	private final ScheduledCommand deferredOnRes = this::resize;
-	private UndoRedoPanel undoRedoPanel;
+	private @CheckForNull UndoRedoPanel undoRedoPanel;
 	private FlowPanel heading;
 
 	/**
@@ -127,12 +127,11 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	public void updateUndoRedoActions() {
 		if (undoRedoPanel == null) {
-			boolean panelAdded = maybeAddUndoRedoPanel();
-			if (!panelAdded) {
-				return;
-			}
+			maybeAddUndoRedoPanel();
 		}
-		undoRedoPanel.updateUndoActions();
+		if (undoRedoPanel != null) {
+			undoRedoPanel.updateUndoActions();
+		}
 	}
 
 	/**
@@ -162,6 +161,7 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void setUndoPosition(double top, double left) {
+		assert undoRedoPanel != null;
 		undoRedoPanel.setVisible(true);
 		undoRedoPanel.getElement().getStyle().setTop(top, Style.Unit.PX);
 		undoRedoPanel.getElement().getStyle().setLeft(left, Style.Unit.PX);
@@ -177,7 +177,7 @@ public class ToolbarPanel extends FlowPanel
 		}
 	}
 
-	private boolean maybeAddUndoRedoPanel() {
+	private void maybeAddUndoRedoPanel() {
 		boolean isAllowed = app.isUndoRedoEnabled() && app.isUndoRedoPanelAllowed();
 		if (isAllowed) {
 			addUndoRedoButtons();
@@ -185,7 +185,6 @@ public class ToolbarPanel extends FlowPanel
 			undoRedoPanel.removeFromParent();
 			undoRedoPanel = null;
 		}
-		return isAllowed;
 	}
 
 	private void addUndoRedoButtons() {
@@ -329,7 +328,9 @@ public class ToolbarPanel extends FlowPanel
 			setLastOpenWidth((int) targetSize);
 			dockParent.forceLayout();
 			updateDraggerStyle();
-			undoRedoPanel.addStyleName("withTransition");
+			if (undoRedoPanel != null) {
+				undoRedoPanel.addStyleName("withTransition");
+			}
 			dockParent.setWidgetSize(getToolbarDockPanel(),	targetSize);
 			dockParent.animate(OPEN_ANIM_TIME, fullscreenClose(dockParent));
 		}
@@ -340,7 +341,9 @@ public class ToolbarPanel extends FlowPanel
 			@Override
 			public void onAnimationComplete() {
 				navRail.setAnimating(false);
-				undoRedoPanel.removeStyleName("withTransition");
+				if (undoRedoPanel != null) {
+					undoRedoPanel.removeStyleName("withTransition");
+				}
 				setLastOpenWidth(getOffsetWidth());
 				updateUndoRedoPosition();
 				heading.setVisible(false);
