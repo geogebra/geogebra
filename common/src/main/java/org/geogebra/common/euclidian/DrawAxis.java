@@ -1180,14 +1180,25 @@ public class DrawAxis {
 				&& !view.isAutomaticAxesNumberingDistance()[axis]
 				&& view.getAxesDistanceObjects()[axis].getDefinition() != null
 				&& view.getAxesDistanceObjects()[axis].getDouble() > 0) {
-			return labelno == 1 ? view.getApplication().getKernel()
-					.format(labelno, StringTemplate.defaultTemplate)
-				: multiple(view.getAxesDistanceObjects()[axis].getDefinition(), labelno);
+			// multiplying by 1 does not return a localized number,
+			// so such product needs to be localized here
+			String productLabelNoAxesDist =
+					multiple(view.getAxesDistanceObjects()[axis].getDefinition(), labelno);
+			if (shouldBeLocalizedOne(view, labelno)) {
+				return view.kernel.internationalizeDigits(productLabelNoAxesDist,
+						StringTemplate.defaultTemplate);
+			}
+			return productLabelNoAxesDist;
 		}
 		return view.kernel.formatPiE(
 				DoubleUtil.checkDecimalFraction(
 						labelno * view.axesNumberingDistances[axis]),
 				view.axesNumberFormat[axis], StringTemplate.defaultTemplate);
+	}
+
+	private static boolean shouldBeLocalizedOne(EuclidianView view, long labelNo) {
+		return labelNo == 1 && view.kernel.getApplication().getLocalization()
+				.isUsingLocalizedDigits();
 	}
 
 	/**
