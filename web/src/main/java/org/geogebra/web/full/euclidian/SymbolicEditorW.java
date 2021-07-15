@@ -59,6 +59,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 				.getFontSettings().getAppFontSize() + 3;
 
 		decorator = new SymbolicEditorDecorator(editor, baseFontSize);
+		editor.setFontSize(baseFontSize);
 	}
 
 	@Override

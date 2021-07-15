@@ -18,7 +18,6 @@ public class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
 		super(editor);
 		this.fontSize = fontSize;
 		editor.addStyleName("evInputEditor");
-		editor.setFontSize(fontSize);
 	}
 
 	@Override
