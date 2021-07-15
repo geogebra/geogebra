@@ -51,11 +51,11 @@
             ");
         };
 
-        [0, 1, 2].forEach((n) => {
+        [0, 1].forEach((n) => {
             let eventBus = function(event) {
                 // dispatch events with a 1 second delay
                 setTimeout(() => {
-                    [0, 1, 2].filter(i => i !== n).forEach((i) => {
+                    [0, 1].filter(i => i !== n).forEach((i) => {
                         liveApis[i].dispatch(event);
                     })
                 }, 1000);

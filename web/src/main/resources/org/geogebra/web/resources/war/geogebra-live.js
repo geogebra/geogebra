@@ -135,9 +135,9 @@
 
             var definition = this.api.getCommandString(label);
             if (definition) {
-                this.sendEvent("evalXML", this.api.getAlgorithmXML(label), label);
+                this.sendEvent("addObject", this.api.getAlgorithmXML(label), label);
             } else {
-                this.sendEvent("evalXML", xml, label);
+                this.sendEvent("addObject", xml, label);
             }
             this.sendEvent("deselect");
             this.sendEvent("select", label, "true");
@@ -285,9 +285,31 @@
             this.api.unregisterRenameListener(renameListener);
         };
 
+        const conflictedObjects = [];
+
         this.dispatch = function(last) {
+            // reject events coming from conflicted objects
+            if (conflictedObjects.includes(last.label)) {
+                return;
+            }
+
             const target = last.embedLabel ? this.embeds[last.embedLabel] : this;
-            if (last.type == "evalXML") {
+            if (last.type == "addObject") {
+                if (target.api.exists(last.label)) {
+                    if (last.clientId > this.clientId) {
+                        const newLabel = last.label + "_1";
+                        target.api.renameObject(last.label, newLabel);
+                        target.evalXML(last.content);
+                        target.api.previewRefresh();
+                        this.sendEvent("conflictResolution", target.api.getXML(newLabel), newLabel);
+                    } else {
+                        conflictedObjects.push(last.label);
+                    }
+                } else {
+                    target.evalXML(last.content);
+                    target.api.previewRefresh();
+                }
+            } else if (last.type == "evalXML") {
                 target.evalXML(last.content);
                 target.api.previewRefresh();
             } else if (last.type == "setXML") {
