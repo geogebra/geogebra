@@ -1188,7 +1188,7 @@ public class DrawAxis {
 				return view.kernel.internationalizeDigits(productLabelNoAxesDist,
 						StringTemplate.defaultTemplate);
 			}
-			return multiple(view.getAxesDistanceObjects()[axis].getDefinition(), labelno);
+			return productLabelNoAxesDist;
 		}
 		return view.kernel.formatPiE(
 				DoubleUtil.checkDecimalFraction(
@@ -1197,8 +1197,8 @@ public class DrawAxis {
 	}
 
 	private static boolean shouldBeLocalizedOne(EuclidianView view, long labelNo) {
-		return (labelNo == 1 && view.kernel.getApplication().getLocalization()
-				.isUsingLocalizedDigits());
+		return labelNo == 1 && view.kernel.getApplication().getLocalization()
+				.isUsingLocalizedDigits();
 	}
 
 	/**
