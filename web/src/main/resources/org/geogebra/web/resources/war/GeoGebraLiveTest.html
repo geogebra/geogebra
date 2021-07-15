@@ -7,9 +7,9 @@
     <title>GeoGebra Live conflict tester utility</title>
 </head>
 <body style="display: flex">
+<div id="ggbApplet0"></div>
 <div id="ggbApplet1"></div>
 <div id="ggbApplet2"></div>
-<div id="ggbApplet3"></div>
 
 <script>
     const userDatabase = [
@@ -19,15 +19,46 @@
     ]
 
     window.onload = function() {
-        const liveApis = [];
-        [1, 2, 3].forEach((n) => {
+        window.liveApis = [];
+        window.apis = [];
+
+        const test = () => {
+            apis[0].evalXML("<element type=\"inlinetext\" label=\"a\"> \
+                <show object=\"true\" label=\"true\"/> \
+                <objColor r=\"0\" g=\"0\" b=\"0\" alpha=\"0\"/> \
+                <layer val=\"0\"/> \
+                <ordering val=\"1\"/> \
+                <labelMode val=\"0\"/> \
+                <content val=\"[{&quot;text&quot;:&quot;asd\\n&quot;}]\"/> \
+                <contentSize width=\"100\" height=\"35\"/> \
+                <startPoint x=\"-2.44\" y=\"2.6\"/> \
+                <dimensions width=\"100\" height=\"35\" angle=\"0\"/> \
+                <borderColor r=\"0\" g=\"0\" b=\"0\"/> \
+                </element> \
+            ");
+            apis[1].evalXML("<element type=\"table\" label=\"a\"> \
+                <show object=\"true\" label=\"true\"/> \
+                <objColor r=\"0\" g=\"0\" b=\"0\" alpha=\"0\"/> \
+                <layer val=\"0\"/> \
+                <ordering val=\"1\"/> \
+                <labelMode val=\"0\"/> \
+                <content val=\"{&quot;rows&quot;:[36,36],&quot;columns&quot;:[100,100],&quot;content&quot;:[[{},{}],[{},{}]]}\"/> \
+                <contentSize width=\"100\" height=\"35\"/> \
+                <startPoint x=\"-2.44\" y=\"2.6\"/> \
+                <dimensions width=\"100\" height=\"35\" angle=\"0\"/> \
+                <borderColor r=\"0\" g=\"0\" b=\"0\"/> \
+                </element> \
+            ");
+        };
+
+        [0, 1, 2].forEach((n) => {
             let eventBus = function(event) {
-                // dispatch events with a 100 millisecond delay
+                // dispatch events with a 1 second delay
                 setTimeout(() => {
-                    [1, 2, 3].filter(i => i !== n).forEach((i) => {
+                    [0, 1, 2].filter(i => i !== n).forEach((i) => {
                         liveApis[i].dispatch(event);
                     })
-                }, 100);
+                }, 1000);
             };
 
             let parameters = {
@@ -56,18 +87,23 @@
 
             parameters.appletOnLoad = function(api) {
                 console.log(`applet${n} loaded`);
+                apis[n] = api;
                 liveApis[n] = new GeoGebraLive(api, n);
                 userDatabase.forEach(function(user) {
                     liveApis[n].addUser(user);
                 });
                 liveApis[n].addEventListener("construction", eventBus);
+
+                if (n === 1) {
+                    setTimeout(test, 1000);
+                }
             }
 
             const applet = new GGBApplet(parameters, '5.0');
             const codebase = location.href.replace(/\/[^\/]*$/, "/web3d");
             applet.setHTML5Codebase(codebase);
             applet.inject('ggbApplet' + n);
-        })
+        });
     };
 </script>
 </body>
