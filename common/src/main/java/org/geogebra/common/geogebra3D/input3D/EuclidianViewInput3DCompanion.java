@@ -412,9 +412,8 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			if (input3D.currentlyUseMouse2D()) {
 				stylusBeamIsVisible = false;
 			} else {
-				if (input3D.isLeftPressed()) { // show stylus beam only if
-												// object is
-												// moved
+				if (input3D.isLeftPressed()) {
+					// show stylus beam only if object is moved
 					if (getView().getEuclidianController()
 							.getMoveMode() == EuclidianController.MOVE_NONE) {
 						stylusBeamIsVisible = false;
@@ -425,7 +424,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 						|| input3D.isThirdButtonPressed()) {
 					stylusBeamIsVisible = false;
 				} else {
-					stylusBeamIsVisible = true;
+					stylusBeamIsVisible = hasMouse();
 				}
 			}
 			stylusBeamDrawable.update();
