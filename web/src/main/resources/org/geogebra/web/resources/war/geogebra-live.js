@@ -286,89 +286,87 @@
         };
 
         this.dispatch = function(last) {
-            if (last && last.clientId != this.clientId) {
-                target = last.embedLabel ? this.embeds[last.embedLabel] : this;
-                if (last.type == "evalXML") {
-                    target.evalXML(last.content);
-                    target.api.previewRefresh();
-                } else if (last.type == "setXML") {
-                    target.setXML(last.content);
-                } else if (last.type == "evalCommand") {
-                    target.evalCommand(last.content);
-                    target.api.previewRefresh();
-                } else if (last.type == "deleteObject") {
-                    target.unregisterListeners();
-                    if (target === this) {
-                        delete(this.embeds[last.content]);
-                    }
-                    target.api.deleteObject(last.content);
-                    target.registerListeners();
-                } else if (last.type == "setEditorState") {
-                    target.unregisterListeners();
-                    target.api.setEditorState(last.content, last.label);
-                    target.registerListeners();
-                } else if (last.type == "addImage") {
-                    var file = JSON.parse(last.content);
-                    target.api.addImage(file.fileName, file.fileContent);
-                } else if (last.type == "addSlide"
-                    || last.type == "removeSlide"
-                    || last.type == "moveSlide"
-                    || last.type == "clearSlide") {
-                    target.api.handleSlideAction(last.type, last.content);
-                } else if (last.type == "selectSlide") {
-                    target.unregisterListeners();
-                    target.api.selectSlide(last.content);
-                    target.registerListeners();
-                } else if (last.type == "renameObject") {
-                    target.unregisterListeners();
-                    target.api.renameObject(last.content, last.label);
-                    target.registerListeners();
-                } else if (last.type == "pasteSlide") {
-                    target.api.handleSlideAction(last.type, last.content, last.label);
-                } else if (last.type == "evalGMContent") {
-                    var gmApi = target.api.getEmbeddedCalculators(true)[last.label];
-                    if (gmApi) {
-                        gmApi.loadFromJSON(last.content);
-                    }
-                } else if (last.type == "startAnimation") {
-                    target.api.setAnimating(last.label, true);
-                    target.api.startAnimation();
-                } else if (last.type == "stopAnimation") {
-                    target.api.setAnimating(last.label, false);
-                } else if (last.type == "select") {
-                    let user = this.users[last.clientId];
-                    if (user && last.content) {
-                    	// user name, user color, label of geo selected, 'true' if the geo was just added
-                        target.api.addMultiuserSelection(user.name, user.color, last.content, !!last.label);
-                    }
-                } else if (last.type == "deselect") {
-                    let user = this.users[last.clientId];
-                    if (user) {
-                        target.api.removeMultiuserSelections(user.name);
-                    }
-                } else if (last.type == "orderingChange") {
-                    target.api.updateOrdering(last.content);
-                } else if (last.type == "groupObjects") {
-                    target.api.groupObjects(last.content);
-                } else if (last.type == "ungroupObjects") {
-                    target.api.ungroupObjects(last.content);
-                } else if (last.type == "addToGroup") {
-                    target.api.addToGroup(last.content, last.label);
-                } else if (last.type == "embeddedContentChanged") {
-                    target.api.setEmbedContent(last.label, last.content);
-                } else if (last.type == "addGeoToTV") {
-                	target.api.addGeoToTV(last.content);
-                } else if (last.type == "setValuesOfTV") {
-                	target.api.setValuesOfTV(last.content);
-                } else if (last.type == "removeGeoFromTV") {
-                	target.api.removeGeoFromTV(last.content);
-                } else if (last.type == "showPointsTV") {
-                	target.api.showPointsTV(last.content, last.label);
-                } else if (last.type == "lockTextElement") {
-                	target.api.lockTextElement(last.content);
-                } else if (last.type == "unlockTextElement") {
-                	target.api.unlockTextElement(last.content);
+            const target = last.embedLabel ? this.embeds[last.embedLabel] : this;
+            if (last.type == "evalXML") {
+                target.evalXML(last.content);
+                target.api.previewRefresh();
+            } else if (last.type == "setXML") {
+                target.setXML(last.content);
+            } else if (last.type == "evalCommand") {
+                target.evalCommand(last.content);
+                target.api.previewRefresh();
+            } else if (last.type == "deleteObject") {
+                target.unregisterListeners();
+                if (target === this) {
+                    delete(this.embeds[last.content]);
                 }
+                target.api.deleteObject(last.content);
+                target.registerListeners();
+            } else if (last.type == "setEditorState") {
+                target.unregisterListeners();
+                target.api.setEditorState(last.content, last.label);
+                target.registerListeners();
+            } else if (last.type == "addImage") {
+                var file = JSON.parse(last.content);
+                target.api.addImage(file.fileName, file.fileContent);
+            } else if (last.type == "addSlide"
+                || last.type == "removeSlide"
+                || last.type == "moveSlide"
+                || last.type == "clearSlide") {
+                target.api.handleSlideAction(last.type, last.content);
+            } else if (last.type == "selectSlide") {
+                target.unregisterListeners();
+                target.api.selectSlide(last.content);
+                target.registerListeners();
+            } else if (last.type == "renameObject") {
+                target.unregisterListeners();
+                target.api.renameObject(last.content, last.label);
+                target.registerListeners();
+            } else if (last.type == "pasteSlide") {
+                target.api.handleSlideAction(last.type, last.content, last.label);
+            } else if (last.type == "evalGMContent") {
+                var gmApi = target.api.getEmbeddedCalculators(true)[last.label];
+                if (gmApi) {
+                    gmApi.loadFromJSON(last.content);
+                }
+            } else if (last.type == "startAnimation") {
+                target.api.setAnimating(last.label, true);
+                target.api.startAnimation();
+            } else if (last.type == "stopAnimation") {
+                target.api.setAnimating(last.label, false);
+            } else if (last.type == "select") {
+                let user = this.users[last.clientId];
+                if (user && last.content) {
+                    // user name, user color, label of geo selected, 'true' if the geo was just added
+                    target.api.addMultiuserSelection(user.name, user.color, last.content, !!last.label);
+                }
+            } else if (last.type == "deselect") {
+                let user = this.users[last.clientId];
+                if (user) {
+                    target.api.removeMultiuserSelections(user.name);
+                }
+            } else if (last.type == "orderingChange") {
+                target.api.updateOrdering(last.content);
+            } else if (last.type == "groupObjects") {
+                target.api.groupObjects(last.content);
+            } else if (last.type == "ungroupObjects") {
+                target.api.ungroupObjects(last.content);
+            } else if (last.type == "addToGroup") {
+                target.api.addToGroup(last.content, last.label);
+            } else if (last.type == "embeddedContentChanged") {
+                target.api.setEmbedContent(last.label, last.content);
+            } else if (last.type == "addGeoToTV") {
+                target.api.addGeoToTV(last.content);
+            } else if (last.type == "setValuesOfTV") {
+                target.api.setValuesOfTV(last.content);
+            } else if (last.type == "removeGeoFromTV") {
+                target.api.removeGeoFromTV(last.content);
+            } else if (last.type == "showPointsTV") {
+                target.api.showPointsTV(last.content, last.label);
+            } else if (last.type == "lockTextElement") {
+                target.api.lockTextElement(last.content);
+            } else if (last.type == "unlockTextElement") {
+                target.api.unlockTextElement(last.content);
             }
         };
    }
@@ -380,18 +378,57 @@
         mainSession.registerListeners();
         mainSession.delay = delay;
 
-        this.dispatch = function(last) {
-            mainSession.dispatch(last);
-        },
+        let sentEvents = [];
+        let receivedEvents = [];
+
+        this.dispatch = function(event) {
+            if (event && event.clientId !== id) {
+                mainSession.dispatch(event);
+                receivedEvents.push({
+                    ...event,
+                    timestamp: new Date().getTime()
+                });
+            }
+        }
+
         this.addUser = function(user) {
             mainSession.users[user.id] = user;
         }
+
         this.addEventListener = function(eventCategory, callback) {
-           var eventCategories = typeof eventCategory == "string" ? [eventCategory] : eventCategory;
-           eventCategories.forEach(function(category) {
-               mainSession.eventCallbacks[category] = mainSession.eventCallbacks[category] || [];
-               mainSession.eventCallbacks[category].push(callback);
-           });
-       }
+            let eventCategories = typeof eventCategory == "string" ? [eventCategory] : eventCategory;
+            eventCategories.forEach(function(category) {
+                mainSession.eventCallbacks[category] = mainSession.eventCallbacks[category] || [];
+                mainSession.eventCallbacks[category].push(callback);
+            });
+        }
+
+        this.addEventListener(["construction", "editor"], (event) => {
+            sentEvents.push({
+                ...event,
+                timestamp: new Date().getTime()
+            });
+        })
+
+        this.startLogging = () => {
+            sentEvents = [];
+            receivedEvents = [];
+        }
+
+        function download(object, fileName) {
+            const a = document.createElement("a");
+            a.href = "data:text/json;charset=utf-8,"
+                + encodeURIComponent(JSON.stringify(object, null, 4));
+            a.setAttribute("download", fileName);
+            a.click();
+        }
+
+        this.getSent = () => {
+            download(sentEvents, "events-sent.json");
+        }
+
+        this.getReceived = () => {
+            download(receivedEvents, "events-received.json");
+        }
     }
 })();
