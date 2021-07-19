@@ -188,14 +188,14 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 	}
 
 	private static GeoElementND getPrevious(final GeoElementND geo, final String[] vars) {
-		return geo.getConstruction().getPrevious(geo, newEquationInspecting(geo, vars));
+		return geo.getConstruction().getPrevious(geo, newEquationInspecting(vars));
 	}
 
 	private static GeoElementND getNext(final GeoElementND geo, final String[] vars) {
-		return geo.getConstruction().getNext(geo, newEquationInspecting(geo, vars));
+		return geo.getConstruction().getNext(geo, newEquationInspecting(vars));
 	}
 
-	private static Inspecting newEquationInspecting(GeoElementND geo, final String[] vars) {
+	private static Inspecting newEquationInspecting(final String[] vars) {
 		return new Inspecting() {
 
 			@Override

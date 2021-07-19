@@ -3616,6 +3616,13 @@ public class Construction {
 		return null;
 	}
 
+	/**
+	 * @param ce1
+	 *            construction element
+	 * @param check
+	 *            filter
+	 * @return next element in construction order that fits the filter
+	 */
 	public GeoElementND getNext(GeoElementND ce1, Inspecting check) {
 		ConstructionElement ce = getConstructionElement(ce1);
 
