@@ -116,8 +116,6 @@ public class InlineTableControllerW implements InlineTableController {
 
 			setWidth(table.getWidth());
 			setHeight(table.getHeight());
-
-			setAngle(table.getAngle());
 		}
 	}
 
@@ -376,11 +374,6 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
-	public void setAngle(double angle) {
-		style.setProperty("transform", "rotate(" + angle + "rad)");
-	}
-
-	@Override
 	public void removeFromDom() {
 		if (tableElement != null) {
 			tableElement.removeFromParent();
@@ -466,8 +459,8 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
-	public void setScale(double sx, double sy) {
-		style.setProperty("transform", "scale(" + sx + "," + sy + ")");
+	public void setTransform(double angle, double sx, double sy) {
+		style.setProperty("transform", "rotate(" + angle + "rad) scale(" + sx + "," + sy + ")");
 		tableImpl.setExternalScale(sx);
 	}
 }
