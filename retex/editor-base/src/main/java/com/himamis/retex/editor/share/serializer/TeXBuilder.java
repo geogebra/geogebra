@@ -420,19 +420,6 @@ public class TeXBuilder {
 	}
 
 	/**
-	 * @param rootComponent
-	 *            root
-	 * @param currentField1
-	 *            selected field
-	 * @return atom representing the whole sequence
-	 */
-	public Atom build(MathSequence rootComponent, MathSequence currentField1) {
-		this.currentField = currentField1;
-		this.atomToComponent = new HashMap<>();
-		return build(rootComponent);
-	}
-
-	/**
 	 * Access the internal mapping atom-&gt; component
 	 * 
 	 * @param atom
