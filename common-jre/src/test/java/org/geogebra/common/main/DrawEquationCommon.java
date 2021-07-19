@@ -46,7 +46,7 @@ public class DrawEquationCommon extends DrawEquation {
 	@Override
 	public GDimension measureEquation(App app, GeoElement geo0, String text,
 			GFont font, boolean serif) {
-		return null;
+		return AwtFactory.getPrototype().newDimension(0, 0);
 	}
 
 }

@@ -56,8 +56,7 @@ public abstract class CanvasDrawable extends Drawable {
 	 */
 	protected GDimension measureLatex(GGraphics2D g2, GeoElement geo0,
 			GFont font, String text) {
-		return drawLatex(g2, geo0, font, text, Integer.MIN_VALUE,
-				Integer.MIN_VALUE, false);
+		return measureLatex(view.getApplication(), geo0, font, text);
 	}
 
 	/**

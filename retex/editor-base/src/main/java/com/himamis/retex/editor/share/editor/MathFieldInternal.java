@@ -67,7 +67,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
  */
 public class MathFieldInternal
 		implements KeyListener, FocusListener, ClickListener {
-
+	public static final int PADDING_LEFT_SCROLL = 20;
 	@Weak
 	private MathField mathField;
 
@@ -112,6 +112,21 @@ public class MathFieldInternal
 		mathFieldController = new MathFieldController(mathField);
 		inputController.setMathField(mathField);
 		setupMathField();
+	}
+
+	/**
+	 * @param scrollLeft current scroll
+	 * @param parentWidth parent container width
+	 * @param cursorX cursor coordinate within formula
+	 * @return new horizontal scroll value
+	 */
+	public static int getHorizontalScroll(int scrollLeft, int parentWidth, int cursorX) {
+		if (parentWidth + scrollLeft - PADDING_LEFT_SCROLL < cursorX) {
+			return cursorX - parentWidth + PADDING_LEFT_SCROLL;
+		} else if (cursorX < scrollLeft + PADDING_LEFT_SCROLL) {
+			return Math.max(cursorX - PADDING_LEFT_SCROLL, 0);
+		}
+		return scrollLeft;
 	}
 
 	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {

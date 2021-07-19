@@ -1,19 +1,17 @@
-package org.geogebra.io.latex;
+package org.geogebra.common.io;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.geogebra.common.io.EditorStateDescription;
 import org.geogebra.common.util.StringUtil;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.himamis.retex.editor.desktop.MathFieldD;
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.event.KeyEvent;
+import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
-import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class EditorStateAPITest {
@@ -24,7 +22,7 @@ public class EditorStateAPITest {
 
 	@BeforeClass
 	public static void setupFactoryProvider() {
-		FactoryProvider.setInstance(new FactoryProviderDesktop());
+		FactoryProvider.setInstance(new FactoryProviderCommon());
 	}
 
 	@Test
@@ -41,7 +39,7 @@ public class EditorStateAPITest {
 
 	@Test
 	public void getPathShouldFollowExpressionStructure() {
-		MathFieldD mathField = new MathFieldD(null);
+		MathFieldCommon mathField = new MathFieldCommon(new MetaModel(), null);
 		mathField.insertString("x+x*(x+1)");
 
 		for (int i = 0; i < expectedPaths.length; i++) {
@@ -52,14 +50,14 @@ public class EditorStateAPITest {
 		}
 	}
 
-	private static void moveLeft(MathFieldD mathField) {
+	private static void moveLeft(MathFieldCommon mathField) {
 		mathField.getInternal()
 				.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
 	}
 
 	@Test
 	public void setPathGetPathShouldBeCompatible() {
-		MathFieldD mathField = new MathFieldD(null);
+		MathFieldCommon mathField = new MathFieldCommon(new MetaModel(), null);
 		mathField.insertString("x+x*(x+1)");
 
 		for (int i = 0; i < expectedPaths.length; i++) {
