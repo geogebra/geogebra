@@ -44,11 +44,6 @@ public class InlineTextControllerMock implements InlineTextController {
 	}
 
 	@Override
-	public void setAngle(double angle) {
-
-	}
-
-	@Override
 	public void toForeground(int x, int y) {
 
 	}
@@ -134,7 +129,7 @@ public class InlineTextControllerMock implements InlineTextController {
 	}
 
 	@Override
-	public void setScale(double sx, double sy) {
+	public void setTransform(double angle, double sx, double sy) {
 
 	}
 }

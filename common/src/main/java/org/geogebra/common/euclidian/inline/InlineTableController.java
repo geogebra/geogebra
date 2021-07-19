@@ -32,8 +32,6 @@ public interface InlineTableController extends HasTextFormat {
 	 */
 	void setHeight(double height);
 
-	void setAngle(double angle);
-
 	void removeFromDom();
 
 	void update();
@@ -100,5 +98,5 @@ public interface InlineTableController extends HasTextFormat {
 
 	int getSelectedColumn();
 
-	void setScale(double sx, double sy);
+	void setTransform(double angle, double sx, double sy);
 }

@@ -42,8 +42,6 @@ public interface InlineTextController extends HasTextFormat {
 	 */
 	void setHeight(int height);
 
-	void setAngle(double angle);
-
 	void toForeground(int x, int y);
 
 	/**
@@ -68,5 +66,5 @@ public interface InlineTextController extends HasTextFormat {
 
 	void saveContent();
 
-	void setScale(double sx, double sy);
+	void setTransform(double angle, double sx, double sy);
 }

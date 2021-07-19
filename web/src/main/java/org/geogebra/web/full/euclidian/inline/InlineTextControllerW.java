@@ -205,11 +205,6 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
-	public void setAngle(double angle) {
-		style.setProperty("transform", "rotate(" + angle + "rad)");
-	}
-
-	@Override
 	public void toBackground() {
 		editor.deselect();
 		if (!editor.getWidget().getElement().hasClassName(INVISIBLE)) {
@@ -303,8 +298,8 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
-	public void setScale(double sx, double sy) {
-		style.setProperty("transform", "scale(" + sx + "," + sy + ")");
+	public void setTransform(double angle, double sx, double sy) {
+		style.setProperty("transform", "rotate(" + angle + "rad) scale(" + sx + "," + sy + ")");
 		editor.setExternalScale(sx);
 	}
 
