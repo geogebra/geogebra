@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.ToolNameIconPanelW;
@@ -224,39 +223,32 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 					loc.getMenu("DontDeleteTool") };
 			appw.getGuiManager().getOptionPane().showOptionDialog(message,
 					question, 0, GOptionPane.QUESTION_MESSAGE, null, options,
-					new AsyncOperation<String[]>() {
+					dialogResult -> {
+						if ("0".equals(dialogResult[0])) {
 
-						@Override
-						public void callback(String[] dialogResult) {
+							List<Macro> macros = toolList
+									.getSelectedMacros();
+							// need this because of removing
 
-							if ("0".equals(dialogResult[0])) {
+							Collections.reverse(selIndexes);
 
-								List<Macro> macros = toolList
-										.getSelectedMacros();
-								// need this because of removing
-
-								Collections.reverse(selIndexes);
-
-								for (Integer idx : selIndexes) {
-									toolList.removeItem(idx);
-								}
-
-								if (!toolList.isEmpty()) {
-									toolList.setSelectedIndex(0);
-								} else {
-									macroPanel.setMacro(null);
-								}
-
-								updateMacroPanel();
-
-								if (model.deleteTools(macros)) {
-									applyChanges();
-									updateToolBar();
-								}
+							for (Integer idx : selIndexes) {
+								toolList.removeItem(idx);
 							}
 
-						}
+							if (!toolList.isEmpty()) {
+								toolList.setSelectedIndex(0);
+							} else {
+								macroPanel.setMacro(null);
+							}
 
+							updateMacroPanel();
+
+							if (model.deleteTools(macros)) {
+								applyChanges();
+								updateToolBar();
+							}
+						}
 					});
 		}
 	}

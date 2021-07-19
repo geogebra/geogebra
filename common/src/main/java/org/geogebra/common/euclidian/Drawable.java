@@ -38,6 +38,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.font.GTextLayout;
+import org.geogebra.common.euclidian.draw.DrawDynamicCaption;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -122,6 +123,7 @@ public abstract class Drawable extends DrawableND {
 	 */
 	protected boolean firstCall = true;
 	private GeoElement geoForLabel;
+	private DrawDynamicCaption drawDynamicCaption;
 
 	/**
 	 * Create a default drawable. GeoElement and the view must be set
@@ -142,7 +144,13 @@ public abstract class Drawable extends DrawableND {
 		this.geo = geo;
 	}
 
-	// boolean createdByDrawList = false;
+	public void initDynamicCaption() {
+		drawDynamicCaption = new DrawDynamicCaption(view, this);
+	}
+
+	public DrawDynamicCaption getDynamicCaption() {
+		return drawDynamicCaption;
+	}
 
 	@Override
 	public abstract void update();
@@ -234,6 +242,10 @@ public abstract class Drawable extends DrawableND {
 	 *            graphics
 	 */
 	public final void drawLabel(GGraphics2D g2) {
+		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
+			getDynamicCaption().draw(g2);
+			return;
+		}
 		if (labelDesc == null) {
 			return;
 		}

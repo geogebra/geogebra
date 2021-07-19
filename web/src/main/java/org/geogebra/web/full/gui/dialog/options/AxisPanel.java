@@ -17,10 +17,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
@@ -72,43 +68,20 @@ public class AxisPanel extends FlowPanel
 
 		// show axis
 		cbShowAxis = new CheckBox(loc.getMenu("Show" + strAxisEn));
-		cbShowAxis.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				model.showAxis(cbShowAxis.getValue());
-			}
-		});
+		cbShowAxis.addClickHandler(event -> model.showAxis(cbShowAxis.getValue()));
 
 		// show numbers
 		cbAxisNumber = new CheckBox(loc.getMenu("ShowAxisNumbers"));
-		cbAxisNumber.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				model.showAxisNumbers(cbAxisNumber.getValue());
-			}
-		});
+		cbAxisNumber.addClickHandler(event -> model.showAxisNumbers(cbAxisNumber.getValue()));
 
 		// show positive axis only
 		cbPositiveAxis = new CheckBox(loc.getMenu("PositiveDirectionOnly"));
-		cbPositiveAxis.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				model.applyPositiveAxis(cbPositiveAxis.getValue());
-			}
-		});
+		cbPositiveAxis.addClickHandler(event -> model.applyPositiveAxis(cbPositiveAxis.getValue()));
 
 		// allow axis selection
 		cbAllowSelection = new CheckBox(loc.getMenu("SelectionAllowed"));
-		cbAllowSelection.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				model.applyAllowSelection(cbAllowSelection.getValue());
-			}
-		});
+		cbAllowSelection.addClickHandler(
+				event -> model.applyAllowSelection(cbAllowSelection.getValue()));
 
 		// ticks
 		lbTickStyle = new ListBox();
@@ -116,15 +89,11 @@ public class AxisPanel extends FlowPanel
 				.setFor(lbTickStyle);
 		model.fillTicksCombo();
 
-		lbTickStyle.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				int type = lbTickStyle.getSelectedIndex();
-				model.applyTickStyle(type);
-				// view.updateBackground();
-				// updatePanel();
-			}
+		lbTickStyle.addChangeHandler(event -> {
+			int type = lbTickStyle.getSelectedIndex();
+			model.applyTickStyle(type);
+			// view.updateBackground();
+			// updatePanel();
 		});
 
 		FlowPanel showTicksPanel = new FlowPanel();
@@ -133,18 +102,14 @@ public class AxisPanel extends FlowPanel
 
 		// distance
 		cbManualTicks = new CheckBox(loc.getMenu("TickDistance") + ":");
-		cbManualTicks.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean isTickDistanceOn = cbManualTicks.getValue();
-				model.applyTickDistance(isTickDistanceOn);
-				ncbTickDist.setEnabled(isTickDistanceOn);
-				if (isTickDistanceOn) {
-					model.applyTickDistance(ncbTickDist.getValue());
-				}
-
+		cbManualTicks.addClickHandler(event -> {
+			boolean isTickDistanceOn = cbManualTicks.getValue();
+			model.applyTickDistance(isTickDistanceOn);
+			ncbTickDist.setEnabled(isTickDistanceOn);
+			if (isTickDistanceOn) {
+				model.applyTickDistance(ncbTickDist.getValue());
 			}
+
 		});
 
 		ncbTickDist = new NumberListBox(app) {
@@ -223,13 +188,7 @@ public class AxisPanel extends FlowPanel
 
 		crossAt = new FormLabel(loc.getMenu("CrossAt") + ":").setFor(tfCross);
 		cbDrawAtBorder = new CheckBox(loc.getMenu("StickToEdge"));
-		cbDrawAtBorder.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				model.applyDrawAtBorder(cbDrawAtBorder.getValue());
-			}
-		});
+		cbDrawAtBorder.addClickHandler(event -> model.applyDrawAtBorder(cbDrawAtBorder.getValue()));
 
 		FlowPanel crossPanel = LayoutUtilW.panelRow(crossAt, tfCross,
 				cbDrawAtBorder);

@@ -38,8 +38,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Command;
@@ -373,27 +371,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 		none = new MyToggleButtonW("0");
 		plus = new MyToggleButtonW("+1");
 
-		minus.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				actionPerformed(minus);
-			}
-		});
-
-		none.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				actionPerformed(none);
-			}
-		});
-
-		plus.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				actionPerformed(plus);
-			}
-		});
+		minus.addClickHandler(event -> actionPerformed(minus));
+		none.addClickHandler(event -> actionPerformed(none));
+		plus.addClickHandler(event -> actionPerformed(plus));
 
 		none.setValue(true);
 

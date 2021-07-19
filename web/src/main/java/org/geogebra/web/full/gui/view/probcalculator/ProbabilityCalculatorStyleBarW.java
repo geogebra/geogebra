@@ -17,8 +17,6 @@ import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -112,14 +110,8 @@ public class ProbabilityCalculatorStyleBarW extends
 		MyToggleButtonW btnCumulative = new MyToggleButtonW(
 				AppResources.INSTANCE.cumulative_distribution());
 		btnCumulative.setSelected(getProbCalc().isCumulative());
-		btnCumulative.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				((ProbabilityCalculatorViewW) getProbCalc())
-						.setCumulative(!getProbCalc().isCumulative());
-			}
-		});
+		btnCumulative.addClickHandler(event -> getProbCalc()
+				.setCumulative(!getProbCalc().isCumulative()));
 		
 		btnLineGraph = new GCheckBoxMenuItem(SafeHtmlFactory
 				.getImageHtml(AppResources.INSTANCE.line_graph()), false);

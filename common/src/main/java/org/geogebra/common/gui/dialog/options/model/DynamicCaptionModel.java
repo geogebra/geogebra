@@ -6,7 +6,6 @@ import java.util.List;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasDynamicCaption;
 import org.geogebra.common.main.App;
@@ -40,7 +39,7 @@ public class DynamicCaptionModel extends CommonOptionsModel<String> {
 
 	@Override
 	protected void apply(int index, String value) {
-		HasDynamicCaption geo = (HasDynamicCaption) getGeoAt(index);
+		HasDynamicCaption geo = getGeoAt(index);
 		if (StringUtil.empty(value)) {
 			geo.clearDynamicCaption();
 		} else {
@@ -58,13 +57,12 @@ public class DynamicCaptionModel extends CommonOptionsModel<String> {
 	@Override
 	protected boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
-		return geo instanceof HasDynamicCaption
-				&& ((HasDynamicCaption) geo).hasDynamicCaption();
+		return ((HasDynamicCaption) geo).hasDynamicCaption();
 	}
 
 	@Override
 	public void updateProperties() {
-		GeoText caption = ((GeoInputBox) getGeoAt(0)).getDynamicCaption();
+		GeoText caption = getGeoAt(0).getDynamicCaption();
 		if (caption == null) {
 			return;
 		}

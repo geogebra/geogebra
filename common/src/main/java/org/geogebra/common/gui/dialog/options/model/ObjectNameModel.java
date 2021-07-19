@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -22,7 +21,7 @@ public class ObjectNameModel extends OptionsModel {
 	private GeoElementND currentGeo;
 	private boolean redefinitionFailed;
 	private boolean busy;
-	private LabelController labelController=null;
+	private LabelController labelController = null;
 
 	public interface IObjectNameListener extends PropertyListener {
 		void setNameText(final String text);
@@ -68,9 +67,9 @@ public class ObjectNameModel extends OptionsModel {
 		// boolean showDefinition = !(currentGeo.isGeoText() ||
 		// currentGeo.isGeoImage());
 		boolean showDefinition = true;
-		if(getCurrentGeo().isGeoText()){
+		if (getCurrentGeo().isGeoText()) {
 			showDefinition = ((GeoText) getCurrentGeo()).isTextCommand();
-		}else{
+		} else {
 			showDefinition = getCurrentGeo().isAlgebraViewEditable();
 		}
 
@@ -119,18 +118,14 @@ public class ObjectNameModel extends OptionsModel {
 		resetLabel(name);
 		currentGeo.updateRepaint();
 		storeUndoInfo();
-
 	}
 
 	/**
-	 *
-	 * @param label
-	 * 				the new label
-	 *
+	 * @param label the new label
 	 * @return if label should change to the new one.
 	 */
 	public boolean noLabelUpdateNeeded(String label) {
-		return "".equals(label)  && !hasLabelOfCurrentGeo();
+		return "".equals(label) && !hasLabelOfCurrentGeo();
 	}
 
 	private boolean hasLabelOfCurrentGeo() {
@@ -150,11 +145,8 @@ public class ObjectNameModel extends OptionsModel {
 	}
 
 	/**
-	 *
-	 * @param app
-	 * 				The application.
+	 * @param app The application.
 	 * @return if app needs autolabeling.
-	 *
 	 */
 	public static boolean isAutoLabelNeeded(App app) {
 		if (!app.has(Feature.AUTOLABEL_CAS_SETTINGS)) {
@@ -175,22 +167,18 @@ public class ObjectNameModel extends OptionsModel {
 			ErrorHandler handler) {
 		if (!definition.equals(getDefText(currentGeo))) {
 			defInputHandler.processInput(definition, handler,
-					new AsyncOperation<Boolean>() {
-
-						@Override
-						public void callback(Boolean ok) {
-							if (ok) {
-								// if succeeded, switch current geo
-								currentGeo = defInputHandler.getGeoElement();
-								app.getSelectionManager()
-										.clearSelectedGeos(false, false);
-								app.getSelectionManager()
-										.addSelectedGeo(currentGeo);
-							} else {
-								setRedefinitionFailed(true);
-							}
-							storeUndoInfo();
+					ok -> {
+						if (ok) {
+							// if succeeded, switch current geo
+							currentGeo = defInputHandler.getGeoElement();
+							app.getSelectionManager()
+									.clearSelectedGeos(false, false);
+							app.getSelectionManager()
+									.addSelectedGeo(currentGeo);
+						} else {
+							setRedefinitionFailed(true);
 						}
+						storeUndoInfo();
 					});
 
 		}
@@ -198,10 +186,6 @@ public class ObjectNameModel extends OptionsModel {
 	}
 
 	public static String getDefText(GeoElementND geo) {
-		/*
-		 * return geo.isIndependent() ? geo.toOutputValueString() :
-		 * geo.getCommandDescription();
-		 */
 		return geo.getRedefineString(false, true);
 	}
 
@@ -231,17 +215,13 @@ public class ObjectNameModel extends OptionsModel {
 				listener.setDefinitionText(text);
 				defInputHandler.setGeoElement(geo);
 				defInputHandler.processInput(text, handler,
-						new AsyncOperation<Boolean>() {
-
-							@Override
-							public void callback(Boolean ok) {
-								if (ok) {
-									setCurrentGeo(
-											defInputHandler.getGeoElement());
-									storeUndoInfo();
-								}
-
+						ok -> {
+							if (ok) {
+								setCurrentGeo(
+										defInputHandler.getGeoElement());
+								storeUndoInfo();
 							}
+
 						});
 
 			}
@@ -306,20 +286,11 @@ public class ObjectNameModel extends OptionsModel {
 
 	@Override
 	protected boolean isValidAt(int index) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public PropertyListener getListener() {
 		return listener;
-	}
-
-	/**
-	 *
-	 * @return if caption can be GeoText or not.
-	 */
-	public boolean canCaptionBeGeoText() {
-		return currentGeo instanceof GeoInputBox;
 	}
 }

@@ -411,18 +411,14 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	}
 
 	private void addHeaderClickHandler() {
-		ClickHandler popupMenuClickHandler = new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				Element el = Element
-						.as(event.getNativeEvent().getEventTarget());
-				if (el != null && el.getParentNode() != null && el
-						.getParentElement().hasClassName("CP_popupImage")) { // three-dot
-																	// menu
-					popupMenu.show(el.getAbsoluteLeft(),
-							el.getAbsoluteBottom());
-				}
+		ClickHandler popupMenuClickHandler = event -> {
+			Element el = Element
+					.as(event.getNativeEvent().getEventTarget());
+			if (el != null && el.getParentNode() != null && el
+					.getParentElement().hasClassName("CP_popupImage")) { // three-dot
+																// menu
+				popupMenu.show(el.getAbsoluteLeft(),
+						el.getAbsoluteBottom());
 			}
 		};
 
