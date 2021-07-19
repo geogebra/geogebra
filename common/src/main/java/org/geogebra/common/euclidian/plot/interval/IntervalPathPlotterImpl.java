@@ -6,6 +6,9 @@ import org.geogebra.common.euclidian.GeneralPathClipped;
 public class IntervalPathPlotterImpl implements IntervalPathPlotter {
 	private final GeneralPathClipped gp;
 
+	/**
+	 * @param gp path
+	 */
 	public IntervalPathPlotterImpl(GeneralPathClipped gp) {
 		this.gp = gp;
 	}

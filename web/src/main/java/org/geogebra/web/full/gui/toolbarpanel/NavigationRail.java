@@ -17,17 +17,14 @@ import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * Navigation rail or bottom bar
  */
-class NavigationRail extends FlowPanel implements KeyDownHandler {
+class NavigationRail extends FlowPanel {
 	private MenuToggleButton btnMenu;
 	private StandardButton btnAlgebra;
 	private StandardButton btnTools;
@@ -104,7 +101,6 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 				"Algebra", 24);
 		btnAlgebra.addStyleName("tabButton");
 		btnAlgebra.addFastClickHandler(source -> onAlgebraPressed());
-		//btnAlgebra.addKeyDownHandler(this);
 		AriaHelper.hide(btnAlgebra);
 	}
 
@@ -114,7 +110,6 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 				"Tools", 24);
 		btnTools.addStyleName("tabButton");
 		btnTools.addFastClickHandler(source -> onToolsPressed());
-		//btnTools.addKeyDownHandler(this);
 		AriaHelper.hide(btnTools);
 	}
 
@@ -124,8 +119,6 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 				"Table", 24);
 		btnTableView.addStyleName("tabButton");
 		btnTableView.addFastClickHandler(source -> onTableViewPressed());
-
-		//btnTableView.addKeyDownHandler(this);
 		AriaHelper.hide(btnTableView);
 	}
 
@@ -444,23 +437,6 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 			focusableMenuButton.attachTo(app);
 		}
 		setAltTexts();
-	}
-
-	@Override
-	public void onKeyDown(KeyDownEvent event) {
-		int key = event.getNativeKeyCode();
-		if (key != GWTKeycodes.KEY_ENTER && key != GWTKeycodes.KEY_SPACE) {
-			return;
-		}
-		Object source = event.getSource();
-		if (source == null) {
-			return;
-		}
-		if (source == btnAlgebra) {
-			onAlgebraPressed();
-		} else if (source == btnTools) {
-			onToolsPressed();
-		}
 	}
 
 	/** Sets focus to Burger menu */
