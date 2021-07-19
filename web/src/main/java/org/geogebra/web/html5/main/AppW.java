@@ -3174,6 +3174,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return "geometry".equals(getSubAppCode());
 	}
 
+	@Override
+	public boolean isUnbundledProbability() {
+		return "probability".equals(getSubAppCode());
+	}
+
 	/**
 	 * @return whether we are running 3D grapher
 	 */

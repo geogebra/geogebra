@@ -558,9 +558,16 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isUnbundled3D()) {
 			p = Layout.getDefaultPerspectives(Perspective.GRAPHER_3D - 1);
 		}
+
+		if (isUnbundledProbability()) {
+			p = Layout.getDefaultPerspectives(Perspective.PROBABILITY - 1);
+			p.setShowToolBar(false);
+		}
+
 		if (isWhiteboardActive()) {
 			p = Layout.getDefaultPerspectives(Perspective.NOTES - 1);
 		}
+
 
 		if (isPortrait()) {
 			p.getSplitPaneData()[0].setDivider(PerspectiveDecoder.portraitRatio(
@@ -617,6 +624,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			final ToolbarDockPanelW dockPanel = (ToolbarDockPanelW) avPanel;
 			dockPanel.getToolbar().reset();
 			dockPanel.tryBuildZoomPanel();
+			if (isUnbundledProbability()) {
+				dockPanel.getToolbar().hideToolbar();
+			}
 		}
 	}
 
