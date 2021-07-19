@@ -1,7 +1,7 @@
 (function() {
     function LiveApp(parentClientId, embedLabel, users, delay) {
         this.api = null;
-        this.users = users || {};
+        this.users = users || [];
       	this.delay = delay || 200;
         this.clientId = parentClientId;
         this.currentAnimations = [];
@@ -297,7 +297,7 @@
             const target = last.embedLabel ? this.embeds[last.embedLabel] : this;
             if (last.type == "addObject") {
                 if (target.api.exists(last.label)) {
-                    if (last.clientId > this.clientId) {
+                    if (this.clientId == Math.min(...this.users.filter(Boolean).map(u => u.id))) {
                         this.unregisterListeners();
                         const newLabel = last.label + "_1";
                         target.api.renameObject(last.label, newLabel);
