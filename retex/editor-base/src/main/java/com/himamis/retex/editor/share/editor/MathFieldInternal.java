@@ -58,6 +58,7 @@ import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
+import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
@@ -262,6 +263,13 @@ public class MathFieldInternal
 
 	private void update(boolean focusEvent) {
 		mathFieldController.update(mathFormula, editorState, focusEvent);
+	}
+
+	/**
+	 * @return icon without placeholder
+	 */
+	public TeXIcon buildIconNoPlaceholder() {
+		return mathFieldController.buildIcon(mathFormula, editorState.getCurrentField());
 	}
 
 	@Override
