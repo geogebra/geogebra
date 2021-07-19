@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
@@ -3176,7 +3177,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean isUnbundledProbability() {
-		return "probability".equals(getSubAppCode());
+		return GeoGebraConstants.PROBABILITY_APPCODE.equals(getSubAppCode());
 	}
 
 	/**

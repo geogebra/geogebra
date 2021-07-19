@@ -561,7 +561,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		if (isUnbundledProbability()) {
 			p = Layout.getDefaultPerspectives(Perspective.PROBABILITY - 1);
-			p.setShowToolBar(false);
 		}
 
 		if (isWhiteboardActive()) {
@@ -599,6 +598,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			getGuiManager().getUnbundledToolbar()
 					.updateContent();
 		}
+
+		if (isUnbundledProbability()) {
+			updateToolbarClosedState(GeoGebraConstants.PROBABILITY_APPCODE);
+		}
 	}
 
 	private void resetAllToolbars() {
@@ -624,9 +627,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			final ToolbarDockPanelW dockPanel = (ToolbarDockPanelW) avPanel;
 			dockPanel.getToolbar().reset();
 			dockPanel.tryBuildZoomPanel();
-			if (isUnbundledProbability()) {
-				dockPanel.getToolbar().hideToolbar();
-			}
 		}
 	}
 
