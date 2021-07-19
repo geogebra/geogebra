@@ -540,21 +540,21 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void resetUI() {
 		resetEVs();
 		// make sure file->new->probability does not clear the prob. calc
-		if (getGuiManager() != null
-				&& getGuiManager().hasProbabilityCalculator()) {
+		if (getGuiManager() == null) {
+			return;
+		}
+		if (getGuiManager().hasProbabilityCalculator()) {
 			((ProbabilityCalculatorView) getGuiManager()
 					.getProbabilityCalculator()).updateAll();
 		}
 		// remove all Macros before loading preferences
 		kernel.removeAllMacros();
 		// reload the saved/(default) preferences
-		Perspective p = null;
 		if (isUnbundledOrWhiteboard()) {
 			LayoutW.resetPerspectives(this);
 		}
-		if (getGuiManager() != null) {
-			p = getGuiManager().getLayout().createPerspective();
-		}
+		Perspective p = getGuiManager().getLayout().createPerspective();
+
 		if (isUnbundledGeometry()) {
 			p = Layout.getDefaultPerspectives(Perspective.GEOMETRY - 1);
 		}
@@ -588,16 +588,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		resetToolbarPanel();
 
-		if (getGuiManager() != null) {
-			getGuiManager().updateGlobalOptions();
-		}
+		getGuiManager().updateGlobalOptions();
 
-		if (isUnbundled() && getGuiManager() != null
-				&& getGuiManager()
+		if (isUnbundled() && getGuiManager()
 				.getUnbundledToolbar() != null) {
 			getGuiManager().getUnbundledToolbar()
 					.updateContent();
 		}
+		getAppletFrame().setNotesMode(getMode());
 	}
 
 	private void resetAllToolbars() {

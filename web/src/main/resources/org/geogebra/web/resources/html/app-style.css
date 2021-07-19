@@ -252,11 +252,6 @@
     height: 24px;
 }
 
-.GeoGebraFrame .penSubMenu .colorPanel {
-    position: absolute;
-    left: 150px;
-    margin: 0px;
-}
 .GeoGebraFrame .penSubMenu .penPanel .plusMarginLeft {
     margin-left: 16px !important;
 }
