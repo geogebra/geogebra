@@ -128,7 +128,8 @@ public class TeXBuilder {
 	private Atom getPlaceholder(MathSequence sequence) {
 		MathContainer parent = sequence.getParent();
 		if (parent == null
-				|| (parent instanceof MathArray	&& parent.size() == 1)) {
+				|| (parent instanceof MathArray	&& parent.size() == 1)
+				|| !teXSerializer.isPlaceholderEnabled()) {
 			return getInvisiblePlaceholder();
 		}
 		if (parent instanceof MathFunction) {
@@ -379,6 +380,17 @@ public class TeXBuilder {
 			);
 		case VEC:
 			return new UnderOverArrowAtom(build(argument.getArgument(0)), false, true);
+		case ATOMIC_POST:
+			return new ScriptsAtom(
+					build(argument.getArgument(0)),
+					build(argument.getArgument(1)),
+					build(argument.getArgument(2))
+			);
+		case ATOMIC_PRE:
+			Atom arg1 = build(argument.getArgument(0));
+			Atom arg2 = build(argument.getArgument(1));
+			Atom arg3 = build(argument.getArgument(2));
+			return wrap(new ScriptsAtom(EmptyAtom.get(), arg1, arg2), arg3);
 		default:
 			StringBuilder functionName = new StringBuilder();
 			teXSerializer.serialize(argument.getArgument(0), functionName);
@@ -391,7 +403,7 @@ public class TeXBuilder {
 			return wrap(
 				function,
 				buildFenced(argument.getOpeningBracket(), argument.getClosingBracket(),
-						argument, 1)
+							argument, 1)
 			);
 		}
 	}
@@ -445,5 +457,9 @@ public class TeXBuilder {
 
 	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
 		teXSerializer.setSyntaxAdapter(syntaxAdapter);
+	}
+
+	public void enablePlaceholder(boolean enable) {
+		teXSerializer.setPlaceholderEnabled(enable);
 	}
 }

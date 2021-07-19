@@ -626,6 +626,20 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 				bgColor, null, ratio);
 	}
 
+	/**
+	 * @param ctx canvas
+	 * @param top top
+	 * @param bgColor background color
+	 */
+	public void paintFormulaNoPlaceholder(CanvasRenderingContext2D ctx,
+			double top, ColorW bgColor) {
+		TeXIcon iconNoPlaceholder = mathFieldInternal.buildIconNoPlaceholder();
+		if (iconNoPlaceholder != null) {
+			JlmLib.draw(iconNoPlaceholder, ctx, 0, top, foregroundColor,
+					bgColor, null, ratio);
+		}
+	}
+
 	private boolean isEdited() {
 		return instances.contains(this);
 	}
