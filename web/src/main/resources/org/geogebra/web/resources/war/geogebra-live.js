@@ -289,7 +289,8 @@
 
         this.dispatch = function(last) {
             // reject events coming from conflicted objects
-            if (conflictedObjects.includes(last.label)) {
+            if (conflictedObjects.includes(last.label)
+                && "conflictResolution" != last.type) {
                 return;
             }
 
@@ -297,11 +298,13 @@
             if (last.type == "addObject") {
                 if (target.api.exists(last.label)) {
                     if (last.clientId > this.clientId) {
+                        this.unregisterListeners();
                         const newLabel = last.label + "_1";
                         target.api.renameObject(last.label, newLabel);
                         target.evalXML(last.content);
                         target.api.previewRefresh();
-                        this.sendEvent("conflictResolution", target.api.getXML(newLabel), newLabel);
+                        this.registerListeners();
+                        this.sendEvent("conflictResolution", target.api.getXML(newLabel), last.label);
                     } else {
                         conflictedObjects.push(last.label);
                     }
@@ -309,6 +312,10 @@
                     target.evalXML(last.content);
                     target.api.previewRefresh();
                 }
+            } else if (last.type == "conflictResolution") {
+                conflictedObjects.splice(conflictedObjects.indexOf(last.label), 1);
+                target.evalXML(last.content);
+                target.api.previewRefresh();
             } else if (last.type == "evalXML") {
                 target.evalXML(last.content);
                 target.api.previewRefresh();

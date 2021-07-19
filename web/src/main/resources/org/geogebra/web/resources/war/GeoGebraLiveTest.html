@@ -36,26 +36,28 @@
                 <borderColor r=\"0\" g=\"0\" b=\"0\"/> \
                 </element> \
             ");
-            apis[1].evalXML("<element type=\"table\" label=\"a\"> \
+            apis[0].updateConstruction();
+            apis[1].evalXML("<element type=\"formula\" label=\"a\"> \
                 <show object=\"true\" label=\"true\"/> \
                 <objColor r=\"0\" g=\"0\" b=\"0\" alpha=\"0\"/> \
                 <layer val=\"0\"/> \
                 <ordering val=\"1\"/> \
                 <labelMode val=\"0\"/> \
-                <content val=\"{&quot;rows&quot;:[36,36],&quot;columns&quot;:[100,100],&quot;content&quot;:[[{},{}],[{},{}]]}\"/> \
-                <contentSize width=\"100\" height=\"35\"/> \
+                <content val=\"$vec(a)\"/> \
+                <contentSize width=\"250\" height=\"38\"/> \
                 <startPoint x=\"-2.44\" y=\"2.6\"/> \
-                <dimensions width=\"100\" height=\"35\" angle=\"0\"/> \
+                <dimensions width=\"250\" height=\"38\" angle=\"0\"/> \
                 <borderColor r=\"0\" g=\"0\" b=\"0\"/> \
                 </element> \
             ");
+            apis[1].updateConstruction();
         };
 
-        [0, 1].forEach((n) => {
+        [0, 1, 2].forEach((n) => {
             let eventBus = function(event) {
                 // dispatch events with a 1 second delay
                 setTimeout(() => {
-                    [0, 1].filter(i => i !== n).forEach((i) => {
+                    [0, 1, 2].filter(i => i !== n).forEach((i) => {
                         liveApis[i].dispatch(event);
                     })
                 }, 1000);
