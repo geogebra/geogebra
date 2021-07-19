@@ -54,6 +54,7 @@ import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.properties.DelegateProperties;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -69,7 +70,7 @@ import org.geogebra.common.util.debug.Log;
 public class GeoList extends GeoElement
 		implements ListValue, DelegateProperties, TextProperties, Traceable, Path,
 		Transformable, SpreadsheetTraceable, AbsoluteScreenLocateable, InequalityProperties,
-		AngleProperties, Animatable, SegmentProperties {
+		AngleProperties, Animatable, SegmentProperties, GeoEvaluatable {
 
 	private final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
 
@@ -133,6 +134,8 @@ public class GeoList extends GeoElement
 	private int totalHeight = 0;
 
 	private boolean wasDefinedWithCurlyBrackets = true;
+	private int tableColumn = -1;
+	private boolean pointsVisible;
 
 	/**
 	 * Creates new GeoList, size defaults to 20
@@ -3357,5 +3360,35 @@ public class GeoList extends GeoElement
 	@Override
 	public void calculateCornerPoint(GeoPoint corner, int double1) {
 		corner.setUndefined();
+	}
+
+	@Override
+	public int getTableColumn() {
+		return tableColumn;
+	}
+
+	@Override
+	public void setTableColumn(int column) {
+		tableColumn = column;
+	}
+
+	@Override
+	public void setPointsVisible(boolean pointsVisible) {
+		this.pointsVisible = pointsVisible;
+	}
+
+	@Override
+	public boolean isPointsVisible() {
+		return this.pointsVisible;
+	}
+
+	@Override
+	public double value(double x) {
+		return get((int) x).evaluateDouble();
+	}
+
+	@Override
+	public boolean hasTableOfValues() {
+		return getElementType() == GeoClass.NUMERIC;
 	}
 }

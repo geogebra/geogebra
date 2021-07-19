@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
@@ -9,9 +8,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CustomScrollbar;
 import org.geogebra.web.html5.util.TestHarness;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.UIObject;
 
 /**
  * HTML representation of the Table of Values View.
@@ -19,13 +16,11 @@ import com.google.gwt.user.client.ui.UIObject;
  * @author laszlo
  *
  */
-public class TableValuesPanel extends FlowPanel
-		implements SetLabels, TableValuesListener {
+public class TableValuesPanel extends FlowPanel implements TableValuesListener {
 
 	/** view of table values */
 	TableValuesView view;
 	private StickyValuesTable table;
-	private TableValuesEmptyPanel emptyPanel;
 	private TableTab parentTab;
 
 	/**
@@ -36,47 +31,15 @@ public class TableValuesPanel extends FlowPanel
 		super();
 		view = (TableValuesView) app.getGuiManager().getTableValuesView();
 		view.getTableValuesModel().registerListener(this);
-		emptyPanel = new TableValuesEmptyPanel(app);
 		table = new StickyValuesTable(app, view);
 		this.parentTab = parentTab;
 		TestHarness.setAttr(table, "TV_table");
-		add(emptyPanel);
 		add(table);
 	}
 
-	private void showEmptyView() {
-		show(emptyPanel);
-		hide(table);
-		setStyleForEmpty(true);
-	}
-
-	private void setStyleForEmpty(boolean empty) {
-		setStyleName("tvTable", !empty);
-		setStyleName("emptyTablePanel", empty);
-		CustomScrollbar.apply(parentTab);
-		addParentClassName("tableViewParent", empty);
-	}
-
 	private void showTableView() {
-		hide(emptyPanel);
-		show(table);
-		setStyleForEmpty(false);
-	}
-
-	private void addParentClassName(String className, boolean add) {
-		Element parent = getElement().getParentElement();
-		if (parent != null) {
-			if (add) {
-				parent.addClassName(className);
-			} else {
-				parent.removeClassName(className);
-			}
-		}
-	}
-
-	@Override
-	public void setLabels() {
-		emptyPanel.setLabels();
+		setStyleName("tvTable", true);
+		CustomScrollbar.apply(parentTab);
 	}
 
 	/**
@@ -104,9 +67,7 @@ public class TableValuesPanel extends FlowPanel
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
-		if (model.getColumnCount() == 1) {
-			showEmptyView();
-		}
+		// not used
 	}
 
 	@Override
@@ -130,20 +91,13 @@ public class TableValuesPanel extends FlowPanel
 
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
-		if (view.isEmpty()) {
-			showEmptyView();
-		}
+		// not used
 	}
 
 	@Override
 	public void onAttach() {
 		super.onAttach();
-
-		if (view.isEmpty()) {
-			showEmptyView();
-		} else {
-			showTableView();
-		}
+		showTableView();
 	}
 
 	/**
@@ -154,14 +108,6 @@ public class TableValuesPanel extends FlowPanel
 	 */
 	public void scrollTo(GeoEvaluatable geo) {
 		table.scrollTo(geo);
-	}
-
-	private static void show(UIObject object) {
-		object.removeStyleName("hidden");
-	}
-
-	private static void hide(UIObject object) {
-		object.addStyleName("hidden");
 	}
 
 }

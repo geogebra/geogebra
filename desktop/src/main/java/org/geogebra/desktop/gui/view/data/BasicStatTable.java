@@ -5,12 +5,12 @@ import java.awt.Font;
 
 import javax.swing.JPanel;
 
-import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.gui.view.data.StatTableModel;
 import org.geogebra.common.gui.view.data.StatTableModel.StatTableListener;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -118,7 +118,7 @@ public class BasicStatTable extends JPanel
 	}
 
 	@Override
-	public DataAnalysisModel.Regression getRegressionMode() {
+	public Regression getRegressionMode() {
 		return daView.getModel().getRegressionMode();
 	}
 

@@ -1995,6 +1995,24 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+	/**
+	 * Process given expression silently (without adding to construction or labeling)
+	 * @param ve expression
+	 * @return resulting elements
+	 * @throws MyError when expression is invalid
+	 * @throws Exception e.g. circular definition
+	 */
+	public GeoElement[] processValidExpressionSilent(ValidExpression ve)
+			throws MyError, Exception {
+		boolean oldSuppressLabel = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+		try {
+			return processValidExpression(ve, new EvalInfo(false));
+		} finally {
+			cons.setSuppressLabelCreation(oldSuppressLabel);
+		}
+	}
+
 	private void stripDefinition(GeoElement[] elements) {
 		for (GeoElement element: elements) {
 			element.setDefinition(null);

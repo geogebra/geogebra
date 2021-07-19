@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.DataAnalysisSettings;
 import org.geogebra.common.util.debug.Log;
@@ -103,29 +104,6 @@ public class DataAnalysisModel {
 	}
 
 	/**
-	 * Order determines order in Two Variable Regression Analysis menu For each
-	 * String, getMenu(s) must be defined
-	 * 
-	 * @author Michael Borcherds
-	 */
-	public enum Regression {
-		NONE("None"), LINEAR("Linear"), LOG("Log"), POLY("Polynomial"), POW(
-				"Power"), EXP("Exponential"), GROWTH(
-						"Growth"), SIN("Sin"), LOGISTIC("Logistic");
-
-		// getMenu(label) must be defined
-		private String label;
-
-		Regression(String s) {
-			this.label = s;
-		}
-
-		public String getLabel() {
-			return label;
-		}
-	}
-
-	/**
 	 * Constructs the model for DA view.
 	 * 
 	 * @param app
@@ -148,7 +126,6 @@ public class DataAnalysisModel {
 
 	private void setView(DataSource dataSource, int mode, PlotType plotType1,
 			PlotType plotType2, boolean forceModeUpdate) {
-
 		ctrl.setDataSource(dataSource);
 
 		if (dataSource == null) {
@@ -283,10 +260,6 @@ public class DataAnalysisModel {
 
 	public DataSource getDataSource() {
 		return ctrl.getDataSource();
-	}
-
-	public void setDataSource(DataSource dataSource) {
-		ctrl.setDataSource(dataSource);
 	}
 
 	public GroupType groupType() {

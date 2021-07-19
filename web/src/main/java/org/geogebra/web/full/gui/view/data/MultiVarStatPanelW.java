@@ -74,7 +74,7 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 
 	@Override
 	public void updatePanel() {
-		getModel().updatePanel();
+		app.getAsyncManager().scheduleCallback(getModel()::updatePanel);
 	}
 
 	@Override
@@ -85,11 +85,6 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 	@Override
 	public boolean isMinimalTable() {
 		return minimalTable;
-	}
-
-	@Override
-	public void setValueAt(double value, int row, int column) {
-		super.setValueAt(value, row, column + 1);
 	}
 
 }

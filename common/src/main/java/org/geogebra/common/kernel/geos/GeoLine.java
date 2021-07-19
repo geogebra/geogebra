@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
@@ -77,7 +78,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class GeoLine extends GeoVec3D implements Path, Translateable,
 		PointRotateable, Mirrorable, Dilateable, GeoLineND, MatrixTransformable,
 		GeoFunctionable, Transformable, GeoEvaluatable, SymbolicParametersAlgo,
-		SymbolicParametersBotanaAlgo, EquationValue, Lineable2D {
+		SymbolicParametersBotanaAlgo, EquationValue, Lineable2D, Functional {
 
 	// modes
 	/** implicit equation */

@@ -18,11 +18,11 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
-import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
+import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -45,7 +45,7 @@ public class RegressionPanelD extends JPanel
 	// regression panel objects
 	private JLabel lblRegEquation, lblEqn;
 
-	private JComboBox cbRegression, cbPolyOrder;
+	private JComboBox<String> cbRegression, cbPolyOrder;
 	private JLabel lblEvaluate;
 	private MyTextFieldD fldInputX;
 	private JLabel lblOutputY;
@@ -85,14 +85,14 @@ public class RegressionPanelD extends JPanel
 
 		// components
 		String[] orders = { "2", "3", "4", "5", "6", "7", "8", "9" };
-		cbPolyOrder = new JComboBox(orders);
+		cbPolyOrder = new JComboBox<>(orders);
 		cbPolyOrder.setSelectedIndex(0);
 		cbPolyOrder.addActionListener(this);
 		cbPolyOrder.setFocusable(false);
 
 		regressionLabels = new String[Regression.values().length];
 		setRegressionLabels();
-		cbRegression = new JComboBox(regressionLabels);
+		cbRegression = new JComboBox<>(regressionLabels);
 		cbRegression.addActionListener(this);
 		cbRegression.setFocusable(false);
 

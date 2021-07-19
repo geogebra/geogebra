@@ -8,7 +8,6 @@ import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -21,7 +20,7 @@ import com.google.gwt.view.client.ListDataProvider;
  *            Type of table cells.
  *
  */
-public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
+public abstract class StickyTable<T> extends FlowPanel {
 	private CellTable<T> cellTable;
 	private ListDataProvider<T> dataProvider;
 	private ScrollPanel scroller;
@@ -33,7 +32,6 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 		cellTable = new CellTable<>();
 
 		cellTable.addStyleName("values");
-		cellTable.addHandler(this, ClickEvent.getType());
 
 		scroller = new ScrollPanel();
 		scroller.addStyleName("scroller");
@@ -45,6 +43,26 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 		addStyleName("mainScrollPanel");
 		cellTable.setVisible(true);
 		createDataProvider();
+	}
+
+	protected void addCellClickHandler(CellClickHandler clickHandler) {
+		cellTable.addDomHandler(event -> {
+			Element element = event.getNativeEvent().getEventTarget().cast();
+			Element cell = getTargetCell(element);
+			if (cell != null) {
+				int col = getParentIndex(cell);
+				int row = getParentIndex(cell.getParentElement());
+				clickHandler.onClick(row, col, element);
+			}
+		}, ClickEvent.getType());
+	}
+
+	protected Element getTargetCell(Element start) {
+		Element cell = start;
+		while (cell != null && !cell.hasTagName("TD") && !cell.hasTagName("TH")) {
+			cell = cell.getParentElement();
+		}
+		return cell;
 	}
 
 	/**
@@ -92,48 +110,29 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	 */
 	protected abstract void fillValues(List<T> data);
 
-	@Override
-	public void onClick(ClickEvent event) {
-		Element el = Element.as(event.getNativeEvent().getEventTarget());
-		if (el != null && el.getParentNode() != null
-				&& el.getParentElement().hasClassName("MyToggleButton")) {
-			Node buttonParent = el.getParentNode().getParentNode();
-			toggleButtonClick(buttonParent.getParentNode(), el);
-		}
-	}
-
-	/**
-	 * @param buttonParent parent of the button
-	 * @param el           element for positioning
-	 */
-	protected void toggleButtonClick(Node buttonParent, Element el) {
-		if (buttonParent != null && buttonParent.getParentNode() != null
-				&& buttonParent.getParentNode().getParentElement() != null) {
-			// parent tag with the header children
-			Element parent = buttonParent.getParentNode().getParentElement();
-			// header column which was clicked on
-			Node currHeaderCell = buttonParent.getParentNode();
-			// get list of header cells
-			NodeList<Node> headerNodes = parent.getChildNodes();
-			for (int i = 0; i < headerNodes.getLength(); i++) {
-				Node node = headerNodes.getItem(i);
-				// check if header cell is the one it was clicked on
-				if (node.equals(currHeaderCell)) {
-					onHeaderClick(el, i);
-				}
+	protected int getParentIndex(Node currHeaderCell) {
+		Element parent = currHeaderCell.getParentElement();
+		NodeList<Node> headerNodes = parent.getChildNodes();
+		for (int i = 0; i < headerNodes.getLength(); i++) {
+			Node node = headerNodes.getItem(i);
+			// check if header cell is the one it was clicked on
+			if (node.equals(currHeaderCell)) {
+				return i;
 			}
 		}
+		return -1;
 	}
 
 	/**
-	 * Called when header is clicked.
-	 *
-	 * @param source
-	 *            of the click.
-	 * @param column
-	 *            header index clicked on
+	 * @param column to get
+	 * @return the header element.
 	 */
-	protected abstract void onHeaderClick(Element source, int column);
+	public static Element getHeaderElement(int column) {
+		// gives the columnth element of the header row. (nth-child is 1 indexed)
+		NodeList<Element> list = Dom.querySelectorAll(
+				".values tr th:nth-child(" + (column + 1) + ") .cell");
+		return list != null ? list.getItem(0) : null;
+	}
 
 	/**
 	 * @param column
@@ -141,7 +140,7 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	 * @return the list of the specified value column elements (without the header).
 	 */
 	public static NodeList<Element> getColumnElements(int column) {
-		// gives the (column+1)th element of each row of the value table
+		// gives the columnth element of each row of the value table. (nth-child is 1 indexed)
 		return Dom.querySelectorAll(".values tr td:nth-child(" + (column + 1) + ") .cell");
 	}
 

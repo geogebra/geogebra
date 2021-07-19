@@ -4,12 +4,12 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
-import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -209,12 +209,9 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	}
 
 	private void setRegressionLabels(Localization loc) {
-
 		for (Regression r : Regression.values()) {
-
 			regressionLabels[r.ordinal()] = loc.getMenu(r.getLabel());
 		}
-
 	}
 
 	/**

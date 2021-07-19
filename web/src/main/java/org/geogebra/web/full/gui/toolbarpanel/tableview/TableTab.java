@@ -41,7 +41,7 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 
 	@Override
 	public void setLabels() {
-		tableValuesPanel.setLabels();
+		// nothing to do
 	}
 
 	@Override

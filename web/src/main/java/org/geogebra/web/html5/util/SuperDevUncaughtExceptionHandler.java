@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.util;
 
+import org.geogebra.web.html5.util.debug.LoggerW;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.core.client.JavaScriptException;
@@ -24,10 +26,6 @@ public class SuperDevUncaughtExceptionHandler
 				&& ((JavaScriptException) cause).getThrown() != null
 						? ((JavaScriptException) cause).getThrown()
 						: cause;
-		log(nativeCause);
+		LoggerW.printErrorMessage(nativeCause);
 	}
-	
-	private static native void log(Object t) /*-{
-		console && console.log && console.log(t);
-	}-*/;
 }

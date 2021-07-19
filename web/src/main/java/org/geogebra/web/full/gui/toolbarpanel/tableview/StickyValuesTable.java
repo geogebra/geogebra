@@ -14,7 +14,6 @@ import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSEvents;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.StickyTable;
 import org.geogebra.web.html5.util.TestHarness;
 
@@ -85,24 +84,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	/**
-	 * Class to wrap callback after column delete.
-	 *
-	 * @author laszlo.
-	 *
-	 */
-	private class ColumnDelete implements Runnable {
-
-		protected ColumnDelete() {
-			// non-synthetic constructor
-		}
-
-		@Override
-		public void run() {
-			onDeleteColumn();
-		}
-	}
-
-	/**
 	 * @param app  {@link AppW}
 	 * @param view to feed table with data.
 	 */
@@ -113,11 +94,18 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		this.dimensions = view.getTableValuesDimensions();
 		tableModel.registerListener(this);
 		reset();
+		addCellClickHandler((row, column, el) -> {
+			if (el != null && el.getParentNode() != null
+					&& el.getParentElement().hasClassName("MyToggleButton")) {
+				onHeaderClick(el, column);
+			} else if (row >= 0) {
+				tableModel.setCell(row, column);
+			}
+		});
 	}
 
-	@Override
-	protected void onHeaderClick(Element source, int column) {
-		new ContextMenuTV(app, column > 0 ? view.getGeoAt(column - 1) : null, column - 1)
+	private void onHeaderClick(Element source, int column) {
+		new ContextMenuTV(app, view, view.getGeoAt(column), column)
 				.show(source.getAbsoluteLeft(), source.getAbsoluteTop() - 8);
 	}
 
@@ -234,7 +222,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 		header.addClassName("delete");
 
-		CSSEvents.runOnTransition(new ColumnDelete(), header, "delete");
+		CSSEvents.runOnTransition(this::onDeleteColumn, header, "delete");
 
 		for (int i = 0; i < elems.getLength(); i++) {
 			Element e = elems.getItem(i);
@@ -318,16 +306,5 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
 		reset();
-	}
-
-	/**
-	 * @param column to get
-	 * @return the header element.
-	 */
-	private static Element getHeaderElement(int column) {
-		// gives the (column+1)th element of the header row.
-		NodeList<Element> list = Dom.querySelectorAll(
-				".values tr th:nth-child(" + (column + 1) + ") .cell");
-		return list != null ? list.getItem(0) : null;
 	}
 }

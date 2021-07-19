@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.statistics.Stat;
 import org.geogebra.common.main.App;
 
 public class MultiVarStatTableModel extends StatTableModel {

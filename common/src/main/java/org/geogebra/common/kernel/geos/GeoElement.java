@@ -2886,14 +2886,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private String defaultNumberedLabel(final String plainKey) {
 		String trans = getLoc().getPlainLabel(plainKey, plainKey);
-		int counter = 0;
-		String str;
-		do {
-			counter++;
-			str = trans + kernel.internationalizeDigits(counter + "",
-					StringTemplate.defaultTemplate);
-		} while (!cons.isFreeLabel(str));
-		return str;
+		return cons.getLabelManager().getNextNumberedLabel(trans);
 	}
 
 	@Override

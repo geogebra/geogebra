@@ -32,7 +32,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.dialog.options.OptionsCAS;
-import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.gui.view.probcalculator.Procedure;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
@@ -66,6 +65,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.kernel.parser.Parser;
+import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
@@ -1973,11 +1973,11 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleDataAnalysis(LinkedHashMap<String, String> attrs) {
 		mode = MODE_DATA_ANALYSIS;
 		try {
+			app.getSettings().getDataAnalysis().reset();
 			app.getSettings().getDataAnalysis()
 					.setMode(Integer.parseInt(attrs.get("mode")));
 			app.getSettings().getDataAnalysis()
 					.setRegression(Regression.valueOf(attrs.get("regression")));
-			
 			app.getSettings().getDataAnalysis().setPlotType(0,
 					PlotType.valueOf(attrs.get("plot1")));
 			app.getSettings().getDataAnalysis().setPlotType(1,

@@ -3,7 +3,6 @@ package org.geogebra.common.gui.view.data;
 import java.util.ArrayList;
 
 import org.geogebra.common.gui.view.data.DataAnalysisModel.ICreateColor;
-import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.kernel.Construction;
@@ -20,6 +19,7 @@ import org.geogebra.common.kernel.algos.AlgoListMinMax;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.algos.AlgoText;
 import org.geogebra.common.kernel.algos.ConstructionElement;
+import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -34,13 +34,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.statistics.AlgoClasses;
 import org.geogebra.common.kernel.statistics.AlgoDotPlot;
-import org.geogebra.common.kernel.statistics.AlgoFitExp;
-import org.geogebra.common.kernel.statistics.AlgoFitGrowth;
-import org.geogebra.common.kernel.statistics.AlgoFitLog;
-import org.geogebra.common.kernel.statistics.AlgoFitLogistic;
-import org.geogebra.common.kernel.statistics.AlgoFitPoly;
-import org.geogebra.common.kernel.statistics.AlgoFitPow;
-import org.geogebra.common.kernel.statistics.AlgoFitSin;
 import org.geogebra.common.kernel.statistics.AlgoFrequencyTable;
 import org.geogebra.common.kernel.statistics.AlgoHistogram;
 import org.geogebra.common.kernel.statistics.AlgoMean;
@@ -48,9 +41,11 @@ import org.geogebra.common.kernel.statistics.AlgoNormalQuantilePlot;
 import org.geogebra.common.kernel.statistics.AlgoResidualPlot;
 import org.geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import org.geogebra.common.kernel.statistics.AlgoStemPlot;
+import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -993,46 +988,17 @@ public class StatGeo {
 	public GeoElement createRegressionPlot(GeoList dataList, Regression reg,
 			int order, boolean residual) {
 
-		boolean regNone = false;
-
-		AlgoElement algo;
-
-		switch (reg) {
-		case LOG:
-			algo = new AlgoFitLog(cons, dataList);
-			break;
-		case POLY:
-			algo = new AlgoFitPoly(cons, dataList, new GeoNumeric(cons, order));
-			break;
-		case POW:
-			algo = new AlgoFitPow(cons, dataList);
-			break;
-		case EXP:
-			algo = new AlgoFitExp(cons, dataList);
-			break;
-		case GROWTH:
-			algo = new AlgoFitGrowth(cons, dataList);
-			break;
-		case SIN:
-			algo = new AlgoFitSin(cons, dataList);
-			break;
-		case LOGISTIC:
-			algo = new AlgoFitLogistic(cons, dataList);
-			break;
-		case NONE:
-			regNone = true;
-			// fall through to linear
-		case LINEAR:
-		default:
-			algo = new AlgoFitPoly(cons, dataList, new GeoNumeric(cons, 1));
-			break;
-
+		boolean regNone = reg == Regression.NONE;
+		Command cmd = reg.buildCommand(kernel, order, dataList);
+		GeoElement geo = null;
+		try {
+			geo = kernel.getAlgebraProcessor().processValidExpressionSilent(cmd)[0];
+			cons.removeFromConstructionList(geo.getParentAlgorithm());
+		} catch (Exception e) {
+			Log.error(e);
 		}
 
-		removeFromConstructionList(algo);
-		GeoElement geo = algo.getOutput(0);
-
-		if (residual) {
+		if (residual && geo != null) {
 			AlgoResidualPlot algoRP = new AlgoResidualPlot(cons, dataList,
 					(GeoFunctionable) geo);
 			geo = algoRP.getOutput(0);
@@ -1040,7 +1006,7 @@ public class StatGeo {
 					listener.createColor(DataAnalysisModel.DOTPLOT_COLOR_IDX));
 			geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 			geo.setLineThickness(DataAnalysisModel.THICKNESS_CURVE);
-		} else {
+		} else if (geo != null) {
 
 			// set geo options
 			geo.setObjColor(listener
@@ -1066,9 +1032,7 @@ public class StatGeo {
 
 		if (settings.isAutomaticWindow()) {
 			getDataBoundsForPointList(dataList);
-
 			setXYBounds(settings, .25, .25);
-
 		}
 
 		settings.showYAxis = true;

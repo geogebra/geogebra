@@ -1,11 +1,18 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.plugin.Event;
@@ -27,6 +34,7 @@ import com.google.gwt.user.client.Command;
  *
  */
 public class ContextMenuTV {
+	private final TableValuesView view;
 	/**
 	 * popup for the context menu
 	 */
@@ -35,8 +43,8 @@ public class ContextMenuTV {
 	 * application
 	 */
 	protected AppW app;
-	private int columnIdx;
-	private GeoElement geo;
+	private final int columnIdx;
+	private final GeoElement geo;
 
 	/**
 	 * @param app
@@ -46,18 +54,12 @@ public class ContextMenuTV {
 	 * @param column
 	 *            index of column
 	 */
-	public ContextMenuTV(AppW app, GeoElement geo, int column) {
+	public ContextMenuTV(AppW app, TableValuesView view, GeoElement geo, int column) {
 		this.app = app;
+		this.view = view;
 		this.columnIdx = column;
 		this.geo = geo;
 		buildGui();
-	}
-
-	/**
-	 * @return geo element
-	 */
-	public GeoElement getGeo() {
-		return geo;
 	}
 
 	/**
@@ -76,42 +78,63 @@ public class ContextMenuTV {
 
 	private void buildGui() {
 		wrappedPopup = new GPopupMenuW(app);
-		if (getColumnIdx() >= 0) {
-			// column index >= 0 -> edit function
-			addShowHide();
-			addEdit(() -> {
-				GuiManagerInterfaceW guiManager = getApp().getGuiManager();
-				if (guiManager != null) {
-					guiManager.startEditing(getGeo());
-				}
-			});
+		if (getColumnIdx() > 0) {
+			// column index > 0 -> edit function
+			if (view.getTableValuesModel().isColumnEditable(getColumnIdx())) {
+				addStats("Statistics", view::getStatistics1Var);
+				addStats("Statistics2", view::getStatistics2Var);
+				addCommand(this::showRegression, "Regression",
+						"regression");
+			} else {
+				addShowHide();
+				addEdit(() -> {
+					GuiManagerInterfaceW guiManager = getApp().getGuiManager();
+					if (guiManager != null) {
+						guiManager.startEditing(geo);
+					}
+				});
+			}
 			addDelete();
 		} else {
-			// column index = -1 -> edit x-column
+			// column index = 0 -> edit x-column
 			addEdit(() -> {
 				DialogManager dialogManager = getApp().getDialogManager();
 				if (dialogManager != null) {
 					dialogManager.openTableViewDialog(null);
 				}
 			});
+			addStats("Statistics", view::getStatistics1Var);
+			addAdd();
 		}
+	}
+
+	private void addStats(String transKey, Function<Integer, List<StatisticGroup>> statFunction) {
+		addCommand(() -> showStats(statFunction), transKey,	transKey.toLowerCase(Locale.US));
+	}
+
+	private void showRegression() {
+		StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx());
+		dialog.addRegressionChooserAndShow();
+		dialog.show();
+	}
+
+	private void showStats(Function<Integer, List<StatisticGroup>> statFunction) {
+		StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx());
+		dialog.updateContent(statFunction);
 	}
 
 	private void addShowHide() {
 		final TableValuesPoints tvPoints = getApp().getGuiManager()
 				.getTableValuesPoints();
-		final int column = getColumnIdx() + 1;
+		final int column = getColumnIdx();
 		String transKey = tvPoints.arePointsVisible(column) ? "HidePoints"
 				: "ShowPoints";
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml((SVGResource) null,
-						app.getLocalization().getMenu(transKey)),
-				true, (Command) () -> {
-					dispatchShowPointsTV(column, !tvPoints.arePointsVisible(column));
-					tvPoints.setPointsVisible(column,
-						!tvPoints.arePointsVisible(column));
-				}) ;
-		addItem(mi, "showhide");
+		Command pointCommand = () -> {
+			dispatchShowPointsTV(column, !tvPoints.arePointsVisible(column));
+			tvPoints.setPointsVisible(column,
+				!tvPoints.arePointsVisible(column));
+		};
+		addCommand(pointCommand, transKey, "showhide");
 	}
 
 	private void dispatchShowPointsTV(int column, boolean show) {
@@ -121,18 +144,18 @@ public class ContextMenuTV {
 		app.dispatchEvent(new Event(EventType.SHOW_POINTS_TV).setJsonArgument(showPointsJson));
 	}
 
-	private void addItem(AriaMenuItem mi, String title) {
+	private void addCommand(Command pointCommand, String transKey, String title) {
+		AriaMenuItem mi = new AriaMenuItem(
+				MainMenu.getMenuBarHtml((SVGResource) null,
+						app.getLocalization().getMenu(transKey)),
+				true, pointCommand);
 		mi.addStyleName("no-image");
 		TestHarness.setAttr(mi, "menu_" + title);
 		wrappedPopup.addItem(mi);
 	}
 
 	private void addDelete() {
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(
-						(SVGResource) null,
-						app.getLocalization().getMenu("RemoveColumn")),
-				true, (Command) () -> {
+		Command deleteCommand = () -> {
 					GuiManagerInterfaceW guiManager = getApp().getGuiManager();
 					if (guiManager != null && guiManager.getTableValuesView() != null) {
 						TableValuesView tableValuesView = (TableValuesView) guiManager
@@ -142,17 +165,26 @@ public class ContextMenuTV {
 						tableValuesView.hideColumn(column);
 						app.dispatchEvent(new Event(EventType.REMOVE_TV, (GeoElement) column));
 					}
-				});
-		addItem(mi, "delete");
+				};
+		addCommand(deleteCommand, "RemoveColumn", "delete");
 	}
 
 	private void addEdit(Command cmd) {
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(
-						(SVGResource) null,
-						app.getLocalization().getMenu("Edit")),
-				true, cmd);
-		addItem(mi, "edit");
+		addCommand(cmd, "Edit", "edit");
+	}
+
+	private void addAdd() {
+		Command add = () -> {
+			Construction construction = app.getKernel().getConstruction();
+			GeoList gl = new GeoList(construction);
+			for (int i = 0; i < 5; i++) {
+				gl.add(new GeoNumeric(construction, 3));
+			}
+			gl.setLabel(construction.getLabelManager()
+					.getNextNumberedLabel("y"));
+			view.showColumn(gl);
+		};
+		addCommand(add, "Add", "add");
 	}
 
 	/**

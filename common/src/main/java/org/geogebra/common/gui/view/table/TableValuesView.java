@@ -1,20 +1,27 @@
 package org.geogebra.common.gui.view.table;
 
 import java.util.HashSet;
+import java.util.List;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.view.table.dialog.RegressionBuilder;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
+import org.geogebra.common.gui.view.table.dialog.StatsBuilder;
 import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -22,6 +29,7 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -108,9 +116,7 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public int getColumn(GeoEvaluatable evaluatable) {
-		int index = model.getEvaluatableIndex(evaluatable);
-		index += index > -1 ? 1 : 0;
-		return index;
+		return model.getEvaluatableIndex(evaluatable);
 	}
 
 	@Override
@@ -343,4 +349,50 @@ public class TableValuesView implements TableValues, SettingListener {
 		updateModelValues();
 	}
 
+	/**
+	 * @param column column
+	 * @return one variable stats
+	 */
+	public List<StatisticGroup> getStatistics1Var(int column) {
+		return new StatsBuilder(model.getEvaluatable(column))
+				.getStatistics1Var(model.getHeaderAt(column));
+	}
+
+	/**
+	 * @param column column
+	 * @return two variable stats for first and given column
+	 */
+	public List<StatisticGroup> getStatistics2Var(int column) {
+		return new StatsBuilder(model.getEvaluatable(0),
+				model.getEvaluatable(column)).getStatistics2Var(model.getHeaderAt(0),
+				model.getHeaderAt(1));
+	}
+
+	/**
+	 * @param column column
+	 * @param regression regression type
+	 * @param degree regression polynomial degree
+	 * @return regression parameters for first and given column
+	 */
+	public List<StatisticGroup> getRegression(int column, Regression regression, int degree) {
+		return new RegressionBuilder(model.getEvaluatable(0), model.getEvaluatable(column))
+				.getRegression(regression, degree);
+	}
+
+	/**
+	 * @param regression regression type
+	 * @param degree regression polynomial degree
+	 * @param column column
+	 */
+	public void plotRegression(int column, Regression regression, int degree) {
+		GeoEvaluatable xVal = model.getEvaluatable(0);
+		GeoEvaluatable yVal = model.getEvaluatable(column);
+		MyVecNode points = new MyVecNode(kernel, xVal, yVal);
+		Command cmd = regression.buildCommand(kernel, degree, points);
+		try {
+			kernel.getAlgebraProcessor().processValidExpression(cmd);
+		} catch (Exception e) {
+			Log.error(e);
+		}
+	}
 }
