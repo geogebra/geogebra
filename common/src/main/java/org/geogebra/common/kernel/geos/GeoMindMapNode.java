@@ -6,16 +6,19 @@ import java.util.List;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 
-public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextFormatter {
+public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextFormatter,
+		HasVericalAlignment {
 
 	public static final double MIN_WIDTH = 200;
 
 	public static final double ROOT_HEIGHT = 72;
 	public static final double CHILD_HEIGHT = 48;
 	private boolean parentPending = false;
+	private VerticalAlignment verticalAlignment;
 
 	public enum NodeAlignment {
 		// The order is intentionally inverted
@@ -236,5 +239,15 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 
 	public boolean isParentPending() {
 		return this.parentPending;
+	}
+
+	@Override
+	public VerticalAlignment getVerticalAlignment() {
+		return verticalAlignment;
+	}
+
+	@Override
+	public void setVerticalAlignment(VerticalAlignment valign) {
+		verticalAlignment = valign;
 	}
 }

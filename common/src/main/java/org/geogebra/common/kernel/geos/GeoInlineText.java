@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
@@ -17,7 +18,8 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Inline Geo Text element.
  */
-public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormatter {
+public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormatter,
+		HasVericalAlignment {
 
 	public static final int DEFAULT_WIDTH = 100;
 	public static final int DEFAULT_HEIGHT = 30;
@@ -26,6 +28,7 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 	private double minHeight;
 
 	private String content;
+	private VerticalAlignment verticalAlignment;
 
 	/**
 	 * Creates new GeoInlineText instance.
@@ -165,7 +168,17 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 		return defaultMultiplier;
 	}
 
-    private void setContentFromText(GeoText geo) {
+	@Override
+	public VerticalAlignment getVerticalAlignment() {
+		return verticalAlignment;
+	}
+
+	@Override
+	public void setVerticalAlignment(VerticalAlignment valign) {
+		verticalAlignment = valign;
+	}
+
+	private void setContentFromText(GeoText geo) {
 		int fontStyle = geo.getFontStyle();
 		double fontSize = geo.getFontSizeMultiplier();
 		try {
