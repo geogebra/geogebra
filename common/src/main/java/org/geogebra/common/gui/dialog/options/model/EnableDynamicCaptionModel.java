@@ -1,6 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
-import org.geogebra.common.kernel.geos.HasDynamicCaption;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 
 public class EnableDynamicCaptionModel extends BooleanOptionModel {
@@ -9,8 +9,8 @@ public class EnableDynamicCaptionModel extends BooleanOptionModel {
 		super(listener, app);
 	}
 
-	private HasDynamicCaption at(int index) {
-		return (HasDynamicCaption) getObjectAt(index);
+	private GeoElementND at(int index) {
+		return (GeoElementND) getObjectAt(index);
 	}
 
 	@Override
@@ -20,12 +20,12 @@ public class EnableDynamicCaptionModel extends BooleanOptionModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		return getObjectAt(index) instanceof HasDynamicCaption;
+		return getObjectAt(index) instanceof GeoElementND;
 	}
 
 	@Override
 	public void apply(int index, boolean value) {
-		HasDynamicCaption asGeoText = at(index);
+		GeoElementND asGeoText = at(index);
 		if (value) {
 			asGeoText.clearDynamicCaption();
 		} else {

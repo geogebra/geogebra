@@ -54,7 +54,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.geos.HasAlignment;
-import org.geogebra.common.kernel.geos.HasDynamicCaption;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -67,6 +66,7 @@ import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -2437,7 +2437,7 @@ public class ConsElementXMLHandler {
 			for (GeoExpPair pair : dynamicCaptionList) {
 				GeoElement caption = xmlHandler.kernel.lookupLabel(pair.exp);
 				if (caption.isGeoText()) {
-					HasDynamicCaption text = pair.geoElement;
+					GeoElementND text = pair.geoElement;
 					text.setDynamicCaption((GeoText) caption);
 				} else {
 					Log.error("dynamicCaption is not a GeoText");

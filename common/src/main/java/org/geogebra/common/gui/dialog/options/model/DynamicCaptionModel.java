@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.HasDynamicCaption;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
@@ -39,7 +39,7 @@ public class DynamicCaptionModel extends CommonOptionsModel<String> {
 
 	@Override
 	protected void apply(int index, String value) {
-		HasDynamicCaption geo = getGeoAt(index);
+		GeoElementND geo = getGeoAt(index);
 		if (StringUtil.empty(value)) {
 			geo.clearDynamicCaption();
 		} else {
@@ -57,7 +57,7 @@ public class DynamicCaptionModel extends CommonOptionsModel<String> {
 	@Override
 	protected boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
-		return ((HasDynamicCaption) geo).hasDynamicCaption();
+		return geo.hasDynamicCaption();
 	}
 
 	@Override
