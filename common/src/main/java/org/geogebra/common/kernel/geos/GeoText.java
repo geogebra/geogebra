@@ -359,8 +359,7 @@ public class GeoText extends GeoElement
 		updateListeners.clear();
 
 		for (GeoElement geo : listenersCopy) {
-			HasDynamicCaption hasDynamicCaption = geo;
-			hasDynamicCaption.removeDynamicCaption();
+			geo.removeDynamicCaption();
 			kernel.notifyUpdate(geo);
 		}
 
