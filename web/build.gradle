@@ -1,3 +1,4 @@
+import io.miret.etienne.gradle.sass.CompileSass
 import org.apache.tools.ant.taskdefs.condition.Os
 
 buildscript {
@@ -12,6 +13,7 @@ plugins {
     id 'checkstyle'
     id "com.github.spotbugs" version "4.6.0"
     id 'de.aaschmid.cpd' version '3.1'
+    id "io.miret.etienne.sass" version "1.1.2"
 }
 
 description 'Parts of GeoGebra related to web platforms'
@@ -104,6 +106,35 @@ ext.appSpecs = [
     [id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel', pkg:'Mebis_Tafel',
          icon: 'notes.ico', vendor: "Mebis"]]
 
+compileSass {
+    // Directory where to output generated CSS:
+    outputDir = project.file ("${projectDir}/war/css")
+
+    // Source directory containing sass to compile:
+    sourceDir = project.file ("${projectDir}/src/main/resources/scss")
+
+    // Set the output style:
+    // Possible values are “expanded” and “compressed”, default is “expanded”.
+    style = compressed
+
+    // Source map style:
+    //  - file: output source map in a separate file (default)
+    //  - embed: embed source map in CSS
+    //  - none: do not emit source map.
+    sourceMap = none
+}
+
+task watchSass (type: CompileSass) {
+    outputDir = project.file ("${projectDir}/war/css")
+    sourceDir = project.file ("${projectDir}/src/main/resources/scss")
+    style = compressed
+    sourceMap = none
+
+    // Watch sass files in sourceDir for changes
+    // (Default is to not to watch, compile once and terminate)
+    watch ()
+}
+
 gwt {
     gwtVersion = gwtCompilerVersion
 
@@ -164,7 +195,7 @@ task cleanWar(type: Delete) {
 }
 
 apply from: "templates.gradle"
-task copyHtml {
+task copyHtml(dependsOn: 'compileSass') {
     description 'Generate app.html, app-release.html, graphing.html and others'
     group 'application'
 
@@ -270,11 +301,16 @@ def gwtGlobalCache = file('build/gwt/devModeCache')
 // https://issues.gradle.org/browse/GRADLE-1254
 task run(type: JavaExec, dependsOn: ['jar','copyHtml', 'createSolverHtml']) {
     description 'Starts a codeserver, and a simple webserver for development'
+    Process sassCompilation
     doFirst {
         delete {
             delete gwtGlobalCache
         }
         gwtGlobalCache.mkdirs()
+        ProcessBuilder pb = new ProcessBuilder(Os.isFamily(Os.FAMILY_WINDOWS)
+                        ? ['cmd', '/c', 'START', '/MIN', '..\\gradlew', 'watchSass']
+                        : ['gradlew', 'watchSass'])
+        sassCompilation = pb.start()
     }
     main 'com.google.gwt.dev.DevMode'
     maxHeapSize '4096m'
@@ -293,6 +329,9 @@ task run(type: JavaExec, dependsOn: ['jar','copyHtml', 'createSolverHtml']) {
         devModule
     systemProperty 'gwt.persistentunitcachedir', '../build/gwt/devModeCache'
     systemProperty 'java.io.tmpdir', gwtGlobalCache.getAbsolutePath()
+    doLast {
+        sassCompilation.destroy()
+    }
 }
 
 task createDraftBundleZip (type: Zip) {

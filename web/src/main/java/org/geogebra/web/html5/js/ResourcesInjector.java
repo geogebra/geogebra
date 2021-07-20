@@ -42,9 +42,6 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.visibilityJs());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.domvas());
 
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.reset());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyleGlobal());
-
 		injectScss();
 		injectResourcesGUI(ae);
 
@@ -74,11 +71,7 @@ public class ResourcesInjector {
 	}
 
 	private static void injectScss() {
-		StyleInjector
-				.inject(GuiResourcesSimple.INSTANCE.colorsScss());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.layoutScss());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.evStyleScss());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.sharedStyleScss());
+		StyleInjector.inject("css/bundles", "simple-bundle");
 	}
 
 	/**

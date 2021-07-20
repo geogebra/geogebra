@@ -3,6 +3,11 @@ def template = { fileName ->
     return file(templateDir + fileName).text
 }
 
+def css = { fileName ->
+    String fileDir = "war/css/bundles/" + fileName + ".css";
+    return "<style id=\"" + fileName + "\">" + file(fileDir).text + "</style>\n";
+}
+
 String html = template("app-template.html")
 String splash = template("classic-splash.html")
 
@@ -39,6 +44,7 @@ ext.english = { raw, appName ->
 
 ext.handlebars = { raw ->
     return raw.replace("<!--SIGN IN-->", "{{signIn}}")
+            .replace("<!--PRELOADED CSS-->", css('simple-bundle') + css('bundle'))
             .replace("<!--APP NAME-->", "{{appName}}")
             .replace("<!--LANG-->", "{{lang}}")
             .replace("<!--CODEBASE-->", "{{codebase}}")
@@ -78,7 +84,7 @@ ext.appHtml = { app, prerelease, offline = false ->
     def measurementId = app.measurementId ?: ""
     return replaceVendor(html, vendor)
             .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">$splashContent</div>")
-            .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px') + template("app-style.css"))
+            .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px'))
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
             .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/${appID}.ico")
             .replace("<!--APP ID-->", appID)
