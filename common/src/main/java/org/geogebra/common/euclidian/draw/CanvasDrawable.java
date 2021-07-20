@@ -56,7 +56,8 @@ public abstract class CanvasDrawable extends Drawable {
 	 */
 	protected GDimension measureLatex(GGraphics2D g2, GeoElement geo0,
 			GFont font, String text) {
-		return measureLatex(view.getApplication(), geo0, font, text);
+		return measureLatex(view.getApplication(), geo0, font, text,
+				shouldBeSerif(text, geo0, false));
 	}
 
 	/**
@@ -84,13 +85,7 @@ public abstract class CanvasDrawable extends Drawable {
 		App app = view.getApplication();
 
 		// eg $\math{x}$ for nice x
-		boolean serif = StringUtil.startsWithFormattingCommand(text);
-
-		if (!serif && geo0 instanceof TextProperties) {
-			serif = (geo0 instanceof GeoInputBox && isContentOfInputBox)
-					? ((GeoInputBox) geo0).isSerifContent()
-					: ((TextProperties) geo0).isSerifFont();
-		}
+		boolean serif = shouldBeSerif(text, geo0, isContentOfInputBox);
 
 		GDimension ret = app.getDrawEquation().drawEquation(app, geo0, g2, x, y,
 				text,
@@ -98,6 +93,17 @@ public abstract class CanvasDrawable extends Drawable {
 				false, false, view.getCallBack(geo, firstCall));
 		firstCall = false;
 		return ret;
+	}
+
+	protected boolean shouldBeSerif(String text, GeoElement geo0, boolean isContentOfInputBox) {
+		boolean serif = StringUtil.startsWithFormattingCommand(text);
+
+		if (!serif && geo0 instanceof TextProperties) {
+			serif = (geo0 instanceof GeoInputBox && isContentOfInputBox)
+					? ((GeoInputBox) geo0).isSerifContent()
+					: ((TextProperties) geo0).isSerifFont();
+		}
+		return serif;
 	}
 
 	/**
