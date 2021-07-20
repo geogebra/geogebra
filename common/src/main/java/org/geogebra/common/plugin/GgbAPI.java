@@ -2057,25 +2057,21 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	private AsyncOperation<GeoGebraExport> exportCallback(
 			final AsyncOperation<String> handler) {
-		return new AsyncOperation<GeoGebraExport>() {
-
-			@Override
-			public void callback(GeoGebraExport export) {
-				if (export == null) {
-					// not implemented eg Android, iOS)
-					handler.callback("");
-					return;
-				}
-
-				EuclidianView ev = app.getActiveEuclidianView();
-
-				ExportFrameMinimal frame = new ExportFrameMinimal(ev.getYmin(),
-						ev.getYmax());
-				export.setFrame(frame);
-				export.generateAllCode();
-
-				handler.callback(frame.getCode());
+		return export -> {
+			if (export == null) {
+				// not implemented eg Android, iOS)
+				handler.callback("");
+				return;
 			}
+
+			EuclidianView ev = app.getActiveEuclidianView();
+
+			ExportFrameMinimal frame = new ExportFrameMinimal(ev.getYmin(),
+					ev.getYmax());
+			export.setFrame(frame);
+			export.generateAllCode();
+
+			handler.callback(frame.getCode());
 		};
 	}
 

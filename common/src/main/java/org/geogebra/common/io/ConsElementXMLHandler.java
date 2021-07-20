@@ -2334,10 +2334,6 @@ public class ConsElementXMLHandler {
 	}
 
 	private void handleDynamicCaption(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoInputBox)) {
-			Log.error("wrong element type for <dynamicCaption>: " + geo.getClass());
-			return;
-		}
 		try {
 			String dynamicCaption = attrs.get("val");
 			if (dynamicCaption != null) {
@@ -2441,7 +2437,7 @@ public class ConsElementXMLHandler {
 			for (GeoExpPair pair : dynamicCaptionList) {
 				GeoElement caption = xmlHandler.kernel.lookupLabel(pair.exp);
 				if (caption.isGeoText()) {
-					HasDynamicCaption text = (HasDynamicCaption) pair.geoElement;
+					HasDynamicCaption text = pair.geoElement;
 					text.setDynamicCaption((GeoText) caption);
 				} else {
 					Log.error("dynamicCaption is not a GeoText");

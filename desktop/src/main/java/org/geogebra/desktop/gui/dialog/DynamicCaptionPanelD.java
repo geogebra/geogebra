@@ -72,6 +72,6 @@ public class DynamicCaptionPanelD extends OptionPanel implements SetLabels, ICom
 
 	@Override
 	public void updateVisualStyle(GeoElement geo) {
-
+		// nothing to do here
 	}
 }

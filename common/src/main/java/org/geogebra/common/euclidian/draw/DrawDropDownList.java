@@ -56,7 +56,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public final class DrawDropDownList extends CanvasDrawable
 		implements DropDownListener {
 	private static final int LABEL_COMBO_GAP = 10;
-	private static final int COMBO_TEXT_MARGIN = 5;
+	public static final int COMBO_TEXT_MARGIN = 5;
 
 	/** coresponding list as geo */
 	GeoList geoList;
@@ -1031,6 +1031,9 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
+		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
+			getDynamicCaption().update();
+		}
 		labelRectangle.setBounds(xLabel, yLabel,
 				(int) (getHitRect().getWidth()),
 				(int) (getHitRect().getHeight()));
@@ -1144,18 +1147,21 @@ public final class DrawDropDownList extends CanvasDrawable
 	}
 
 	private void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
-		boolean latex = isLatexString(text);
-		if (latex) {
-			drawLatex(g2, geo0, getLabelFont(), text, xLabel,
-					boxTop + (boxHeight - labelSize.y) / 2);
-
+		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
+			getDynamicCaption().draw(g2);
 		} else {
-			int textBottom = boxTop
-					+ (boxHeight + getLabelFontSize() - COMBO_TEXT_MARGIN) / 2;
-			g2.setPaint(geo.getObjectColor());
-			g2.setFont(getLabelFont());
-			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
-					xLabel, textBottom, false);
+			boolean latex = isLatexString(text);
+			if (latex) {
+				drawLatex(g2, geo0, getLabelFont(), text, xLabel,
+						boxTop + (boxHeight - labelSize.y) / 2);
+			} else {
+				int textBottom = boxTop
+						+ (boxHeight + getLabelFontSize() - COMBO_TEXT_MARGIN) / 2;
+				g2.setPaint(geo.getObjectColor());
+				g2.setFont(getLabelFont());
+				EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
+						xLabel, textBottom, false);
+			}
 		}
 	}
 
@@ -1164,7 +1170,6 @@ public final class DrawDropDownList extends CanvasDrawable
 		if (geo.isLabelVisible() && isHighlighted() && latex) {
 			g2.fillRect(xLabel, boxTop + (boxHeight - labelSize.y) / 2,
 					labelSize.x, labelSize.y);
-
 		} else {
 			super.highlightLabel(g2, latex);
 		}

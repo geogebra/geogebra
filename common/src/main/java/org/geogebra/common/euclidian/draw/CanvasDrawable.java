@@ -147,6 +147,10 @@ public abstract class CanvasDrawable extends Drawable {
 	 */
 	protected boolean measureLabel(GGraphics2D g2, GeoElement geo0,
 			String text) {
+		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
+			getDynamicCaption().measure(g2);
+			return getDynamicCaption().setLabelSize();
+		}
 		boolean latex = false;
 		if (geo.isLabelVisible()) {
 			latex = isLatexString(text);
@@ -203,7 +207,9 @@ public abstract class CanvasDrawable extends Drawable {
 	 *            whether the label is latex
 	 */
 	protected void highlightLabel(GGraphics2D g2, boolean latex) {
-		if (geo.isLabelVisible() && isHighlighted()) {
+		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
+			getDynamicCaption().highlight();
+		} else if (geo.isLabelVisible() && isHighlighted()) {
 			g2.setPaint(GColor.LIGHT_GRAY);
 			int labelHeight = latex ? labelSize.y : getLabelHeight();
 			g2.fillRect(xLabel, (int) getLabelTop(), labelSize.x, labelHeight);
@@ -219,7 +225,9 @@ public abstract class CanvasDrawable extends Drawable {
 	}
 
 	protected int getLabelTextHeight() {
-		return (int) (getLabelFontSize() * LABEL_FONT_MULTIPLIER + HIGHLIGHT_MARGIN);
+		return getDynamicCaption() != null && getDynamicCaption().isEnabled()
+				? getDynamicCaption().getHeight() : (int) (getLabelFontSize()
+				* LABEL_FONT_MULTIPLIER + HIGHLIGHT_MARGIN);
 	}
 
 	/**
@@ -265,7 +273,15 @@ public abstract class CanvasDrawable extends Drawable {
 	 */
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		return hitLabelBounds(x, y) || hitWidgetBounds(x, y);
+		boolean hitDynCaption = false;
+		if (getDynamicCaption() != null) {
+			hitDynCaption = getDynamicCaption().hit(x, y, hitThreshold);
+		}
+		return hitDynCaption || hitLabelBounds(x, y) || hitWidgetBounds(x, y);
+	}
+
+	public int getTextBottom() {
+		return (getPreferredHeight() / 2) + (int) (getLabelFontSize() * 0.4);
 	}
 
 	protected boolean hitWidgetBounds(int x, int y) {

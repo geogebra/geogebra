@@ -3,36 +3,41 @@ package org.geogebra.common.euclidian.draw;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 
 public class DrawDynamicCaption {
-	private final GeoInputBox inputBox;
+	private final GeoElement geo;
 	private final GeoText captionCopy;
 	private final DrawText drawCaption;
-	private final DrawInputBox drawInputBox;
+	private final Drawable drawable;
 	private int captionWidth;
 	private int captionHeight;
 
 	/**
 	 *
 	 * @param view {@link EuclidianView}
-	 * @param drawInputBox {@link DrawInputBox}
+	 * @param drawable {@link Drawable}
 	 */
-	public DrawDynamicCaption(EuclidianView view,
-			DrawInputBox drawInputBox) {
-		this.drawInputBox = drawInputBox;
-		this.inputBox = drawInputBox.getGeoInputBox();
-		captionCopy = new GeoText(inputBox.cons);
+	public DrawDynamicCaption(EuclidianView view, Drawable drawable) {
+		this.drawable = drawable;
+		this.geo = drawable.getGeoElement();
+		captionCopy = new GeoText(geo.getConstruction());
 		drawCaption = new DrawText(view, captionCopy);
 	}
 
 	public boolean isEnabled() {
-		return inputBox.hasDynamicCaption();
+		return geo.hasDynamicCaption();
 	}
 
-	void draw(GGraphics2D g2) {
+	/**
+	 * draw dynamic caption
+	 * @param g2 canvas
+	 */
+	public void draw(GGraphics2D g2) {
 		if (noCaption()) {
 			return;
 		}
@@ -44,7 +49,11 @@ public class DrawDynamicCaption {
 		drawCaption.draw(g2);
 	}
 
-	private void measure(GGraphics2D g2) {
+	/**
+	 * measure label
+	 * @param g2 canvas
+	 */
+	public void measure(GGraphics2D g2) {
 		drawCaption.xLabel = Integer.MIN_VALUE;
 		drawCaption.yLabel = Integer.MIN_VALUE;
 
@@ -76,14 +85,16 @@ public class DrawDynamicCaption {
 		captionCopy.set(getDynamicCaption());
 		captionCopy.setAllVisualPropertiesExceptEuclidianVisible(getDynamicCaption(),
 				false, false);
-		captionCopy.setFontSizeMultiplier(inputBox.getFontSizeMultiplier());
+		if (geo instanceof GeoInputBox) {
+			captionCopy.setFontSizeMultiplier(((GeoInputBox) geo).getFontSizeMultiplier());
+		}
 		captionCopy.setEuclidianVisible(true);
 		captionCopy.setAbsoluteScreenLocActive(true);
 		drawCaption.update();
 	}
 
 	private GeoText getDynamicCaption() {
-		return inputBox.getDynamicCaption();
+		return geo.getDynamicCaption();
 	}
 
 	/**
@@ -96,18 +107,43 @@ public class DrawDynamicCaption {
 			return false;
 		}
 
-		drawInputBox.labelSize.x = captionWidth;
-		drawInputBox.labelSize.y = captionHeight;
-		drawInputBox.calculateBoxBounds();
+		if (drawable instanceof CanvasDrawable) {
+			((CanvasDrawable) drawable).labelSize.x = captionWidth;
+			((CanvasDrawable) drawable).labelSize.y = captionHeight;
+			if (drawable instanceof DrawInputBox) {
+				((CanvasDrawable) drawable).calculateBoxBounds();
+			} else if (drawable instanceof DrawDropDownList) {
+				((CanvasDrawable) drawable).calculateBoxBounds(getDynamicCaption().isLaTeX());
+			}
+		}
 		return getDynamicCaption().isLaTeX();
 	}
 
 	private void position() {
-		drawCaption.xLabel = drawInputBox.xLabel - captionWidth;
-		int middle = drawInputBox.boxTop + drawInputBox.boxHeight / 2;
-		drawCaption.yLabel = getDynamicCaption().isLaTeX()
-				? middle - captionHeight / 2
-				: drawInputBox.yLabel + drawInputBox.getTextBottom();
+		if (drawable instanceof DrawInputBox) {
+			drawCaption.xLabel = drawable.xLabel - captionWidth;
+			int middle = ((CanvasDrawable) drawable).boxTop
+					+ ((CanvasDrawable) drawable).boxHeight / 2;
+			drawCaption.yLabel = getDynamicCaption().isLaTeX()
+					? middle - captionHeight / 2
+					: drawable.yLabel + ((CanvasDrawable) drawable).getTextBottom();
+		} else if (drawable instanceof DrawDropDownList) {
+			drawCaption.xLabel = drawable.xLabel;
+			drawCaption.yLabel = ((DrawDropDownList) drawable).boxTop
+					+ (((DrawDropDownList) drawable).boxHeight
+					+ ((DrawDropDownList) drawable).getLabelFontSize()
+					- DrawDropDownList.COMBO_TEXT_MARGIN) / 2;
+		} else if (drawable instanceof DrawBoolean) {
+			drawCaption.xLabel = geo.labelOffsetX
+					+ ((DrawBoolean) drawable).getCheckBoxIcon().getIconWidth()
+					+ DrawBoolean.LABEL_MARGIN_TEXT + DrawBoolean.LEGACY_OFFSET;
+			drawCaption.yLabel = geo.labelOffsetY
+					+ (((DrawBoolean) drawable).getCheckBoxIcon().getIconHeight()) / 2
+					+ DrawBoolean.LEGACY_OFFSET;
+		} else {
+			drawCaption.xLabel = drawable.xLabel;
+			drawCaption.yLabel = drawable.yLabel;
+		}
 	}
 
 	/**
@@ -121,7 +157,7 @@ public class DrawDynamicCaption {
 	}
 
 	private boolean isHighlighted() {
-		return drawInputBox.isHighlighted();
+		return drawable.isHighlighted();
 	}
 
 	public int getHeight() {
@@ -142,5 +178,9 @@ public class DrawDynamicCaption {
 			return false;
 		}
 		return drawCaption.hit(x, y, hitThreshold);
+	}
+
+	public String getDynCaptionText() {
+		return getDynamicCaption().getTextString();
 	}
 }
