@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.hamcrest.CoreMatchers.is;
+
 import java.util.Collections;
 
 import org.geogebra.common.jre.headless.AppCommon;
@@ -16,6 +18,7 @@ import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.Matcher;
+import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 
 public class BaseSymbolicTest {
@@ -60,6 +63,17 @@ public class BaseSymbolicTest {
                 false, TestErrorHandler.INSTANCE, info, null)[0];
         AlgebraTestHelper.assertOneOf(result, expected,
                 StringTemplate.testTemplate);
+    }
+
+    protected void assertThatEquals(String actual, String... expected) {
+        boolean equals = false;
+        for (String exp : expected) {
+            if (actual.equals(exp)) {
+                equals = true;
+                break;
+            }
+        }
+        MatcherAssert.assertThat(equals, is(true));
     }
 
     protected<T extends GeoElement> T add(String text) {
