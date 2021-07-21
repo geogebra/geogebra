@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
-import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.util.StringUtil;
@@ -204,22 +203,6 @@ public class JSONParserGGT {
 		return Integer.parseInt(str.toString());
 	}
 
-	private static long getLong(JSONObject obj, String string, long def) {
-		if (!obj.has(string)) {
-			return def;
-		}
-		Object str = null;
-		try {
-			str = obj.get(string);
-		} catch (Exception e) {
-			// ignore
-		}
-		if (str == null || "".equals(str)) {
-			return def;
-		}
-		return Long.parseLong(str.toString());
-	}
-
 	private static boolean getStringBoolean(JSONObject obj, String name,
 			boolean def) {
 		if (!obj.has(name)) {
@@ -235,57 +218,6 @@ public class JSONParserGGT {
 			// ignore
 		}
 		return "0".equals(value) ? false : true;
-	}
-
-	private static void addEvent(JSONObject object,
-			ArrayList<SyncEvent> events) {
-
-		SyncEvent se = new SyncEvent(getInt(object, "id", 0),
-				getLong(object, "ts", 0));
-		try {
-			if (object.has("deleted")
-					&& object.get("deleted") instanceof String) {
-				se.setDelete(true);
-			}
-		} catch (Exception e) {
-			Log.debug("error parsing deletion");
-		}
-		try {
-			if (object.has("favorite")
-					&& getBoolean(object, "favorite", false)) {
-				se.setFavorite(true);
-			}
-		} catch (Exception e) {
-			Log.debug("error parsing favorite");
-		}
-		try {
-			if (object.has("unfavorited")
-					&& object.get("unfavorited") instanceof String) {
-				se.setUnfavorite(true);
-			}
-		} catch (Exception e) {
-			Log.debug("error parsing unfavorite");
-		}
-		events.add(se);
-	}
-
-	/**
-	 * @param events
-	 *            output array of events
-	 * @param items
-	 *            parsed sync items
-	 * @throws JSONException
-	 *             for malformed JSON
-	 */
-	public void addEvents(ArrayList<SyncEvent> events, Object items)
-			throws JSONException {
-		if (items instanceof JSONArray) {
-			for (int i = 0; i < ((JSONArray) items).length(); i++) {
-				addEvent((JSONObject) ((JSONArray) items).get(i), events);
-			}
-		} else if (items instanceof JSONObject) {
-			addEvent((JSONObject) items, events);
-		}
 	}
 
 	/**

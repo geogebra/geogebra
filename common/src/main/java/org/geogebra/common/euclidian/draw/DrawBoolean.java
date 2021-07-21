@@ -43,7 +43,7 @@ public final class DrawBoolean extends Drawable {
 	 */
 	public static final int LEGACY_OFFSET = 5;
 
-	private static final int LABEL_MARGIN_TEXT = 9;
+	public static final int LABEL_MARGIN_TEXT = 9;
 	private static final int LABEL_MARGIN_LATEX = 5;
 
 	private GeoBoolean geoBool;
@@ -101,7 +101,9 @@ public final class DrawBoolean extends Drawable {
 		}
 
 		updateLabel();
-
+		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
+			getDynamicCaption().update();
+		}
 	}
 
 	private void updateLabel() {
@@ -111,7 +113,6 @@ public final class DrawBoolean extends Drawable {
 		int prefSize = size + 12;
 		labelRectangle.setBounds(xLabel, yLabel,
 				prefSize + textSize.x, prefSize);
-
 	}
 
 	@Override
@@ -124,7 +125,9 @@ public final class DrawBoolean extends Drawable {
 					isHighlighted(), g2, geoBool.labelOffsetX + LEGACY_OFFSET,
 					geoBool.labelOffsetY + LEGACY_OFFSET, view.getBooleanSize());
 
-			if (isLatexLabel()) {
+			if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
+				getDynamicCaption().draw(g2);
+			} else if (isLatexLabel()) {
 				GDimension d = CanvasDrawable.measureLatex(
 						view.getApplication(), geoBool, g2.getFont(),
 						labelDesc);
@@ -173,6 +176,10 @@ public final class DrawBoolean extends Drawable {
 
 			updateLabel();
 		}
+	}
+
+	public CheckBoxIcon getCheckBoxIcon() {
+		return checkBoxIcon;
 	}
 
 	/**

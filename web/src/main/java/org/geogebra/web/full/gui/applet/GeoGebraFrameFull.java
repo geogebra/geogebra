@@ -10,6 +10,7 @@ import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
@@ -37,7 +38,6 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.full.main.NullHeaderResizer;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -55,6 +55,7 @@ import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
+import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -113,7 +114,6 @@ public class GeoGebraFrameFull
 		panelTransitioner = new PanelTransitioner(this);
 		kbButtonSpace.addStyleName("kbButtonSpace");
 		this.add(kbButtonSpace);
-		headerResizer = NullHeaderResizer.get();
 		Event.addNativePreviewHandler(this);
 	}
 
@@ -138,8 +138,6 @@ public class GeoGebraFrameFull
 
 		this.glass = new DockGlassPaneW();
 		this.add(glass);
-		headerResizer = getApp().getActivity()
-				.getHeaderResizer(application.getAppletFrame());
 		return application;
 	}
 
@@ -229,7 +227,17 @@ public class GeoGebraFrameFull
 
 	@Override
 	public void updateHeaderSize() {
-		headerResizer.resizeHeader();
+		getHeaderResizer().resizeHeader();
+	}
+
+	private HeaderResizer getHeaderResizer() {
+		if (app == null) {
+			return new NullHeaderResizer();
+		}
+		if (headerResizer == null) {
+			headerResizer = getApp().getActivity().getHeaderResizer(this);
+		}
+		return headerResizer;
 	}
 
 	@Override
@@ -430,7 +438,7 @@ public class GeoGebraFrameFull
 	@Override
 	public boolean showKeyBoard(boolean show, MathKeyboardListener textField,
 			boolean forceShow) {
-		if (forceShow && (isKeyboardWantedFromStorage() || Browser.isMobile())) {
+		if (forceShow && (isKeyboardWantedFromStorage() || NavigatorUtil.isMobile())) {
 			doShowKeyBoard(show, textField);
 			return true;
 		}
@@ -455,7 +463,7 @@ public class GeoGebraFrameFull
 						.isOpen()) {
 			return false;
 		}
-		if (Browser.isMobile()
+		if (NavigatorUtil.isMobile()
 				|| isKeyboardShowing()
 									// showing, we don't have
 									// to handle the showKeyboardButton
@@ -695,12 +703,11 @@ public class GeoGebraFrameFull
 		if (app1.isWhiteboardActive()) {
 			attachNotesUI(app1);
 
-			if (app1.getVendorSettings().isMainMenuExternal()
+			if (GlobalHeader.isInDOM()
 					&& !app1.isApplet()) {
 				app1.getGuiManager().menuToGlobalHeader();
-			} else if ((app1.isApplet()
-						&& app1.getAppletParameters().getDataParamShowMenuBar(false))
-					|| app1.isMebis()) {
+			} else if (!app1.isApplet()
+						|| app1.getAppletParameters().getDataParamShowMenuBar(false)) {
 				notesLayout.getUndoRedoButtons().addStyleName("undoRedoPositionMebis");
 				attachMowMainMenu(app1);
 			}
@@ -1003,7 +1010,7 @@ public class GeoGebraFrameFull
 		if (isExternalHeaderHidden()) {
 			return 0;
 		}
-		return headerResizer.getSmallScreenHeight();
+		return getHeaderResizer().getSmallScreenHeight();
 	}
 
 	@Override

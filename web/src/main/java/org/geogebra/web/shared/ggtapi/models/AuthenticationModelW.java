@@ -3,12 +3,9 @@ package org.geogebra.web.shared.ggtapi.models;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
-import org.geogebra.web.full.gui.dialog.SessionExpireNotifyDialog;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.DialogData;
 
 import elemental2.dom.DomGlobal;
 
@@ -16,7 +13,7 @@ import elemental2.dom.DomGlobal;
  * @author gabor
  *
  */
-public class AuthenticationModelW extends AuthenticationModel implements GTimerListener {
+public class AuthenticationModelW extends AuthenticationModel  {
 
 	private static final String GGB_LAST_USER = "last_user";
 	/** token storage */
@@ -89,11 +86,5 @@ public class AuthenticationModelW extends AuthenticationModel implements GTimerL
 		String encrypted = MD5EncrypterGWTImpl
 				.encrypt(getLoginToken() + "T" + "1581341456" + secret);
 		return DomGlobal.btoa(getLoginToken()) + "|T|" + "1581341456" + "|" + encrypted;
-	}
-
-	@Override
-	public void onRun() {
-		DialogData data = new DialogData(null, "Cancel", "Save");
-		new SessionExpireNotifyDialog(app, data).show();
 	}
 }

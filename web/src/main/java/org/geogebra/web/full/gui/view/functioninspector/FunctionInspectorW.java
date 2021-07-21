@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.event.KeyEvent;
-import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.view.functioninspector.FunctionInspector;
 import org.geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -19,7 +17,6 @@ import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.PopupMenuHandler;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -27,15 +24,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -93,19 +82,8 @@ public class FunctionInspectorW extends FunctionInspector {
 	 */
 	public FunctionInspectorW(AppW app, GeoFunction selectedGeo) {
 		super(app, selectedGeo);
-		Window.addResizeHandler(new ResizeHandler() {
-			@Override
-			public void onResize(final ResizeEvent event) {
-				FunctionInspectorW.this.onResize();
-			}
-		});
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				onResize();
-			}
-		});
+		Window.addResizeHandler(event -> onResize());
+		Scheduler.get().scheduleDeferred(() -> onResize());
 	}
 
 	@Override
@@ -117,24 +95,20 @@ public class FunctionInspectorW extends FunctionInspector {
 	@Override
 	public void reset() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public boolean hasFocus() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void updateFonts() {
 		// TODO Auto-generated method stub
-
 	}
 
 	private static void debug(String msg) {
 		Log.debug(PREFIX + " " + msg);
-
 	}
 
 	@Override
@@ -150,13 +124,9 @@ public class FunctionInspectorW extends FunctionInspector {
 			tableXY.setCellEditable(row, 0);
 			tableXY.setSelectedRow(row);
 		} else {
-
 			modelXY.setRowCount(1);
 			tableXY.setSelectedRow(0);
 			tableXY.setCellEditable(0, 0);
-
-			// tableXY.changeSelection(0, 0, false, false);
-			// tableXY.setRowSelectionAllowed(false);
 		}
 
 		updateXYTable();
@@ -266,13 +236,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		tabPanel.add(intervalTab, "Interval");
 		tabPanel.add(pointsTab, "Points");
 		tabPanel.selectTab(TAB_INTERVAL_IDX);
-		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
-
-			@Override
-			public void onSelection(SelectionEvent<Integer> event) {
-				updateTabPanels();
-			}
-		});
+		tabPanel.addSelectionHandler(event -> updateTabPanels());
 		mainPanel.add(tabPanel);
 	}
 
@@ -282,13 +246,8 @@ public class FunctionInspectorW extends FunctionInspector {
 				null, 24);
 		btnHelp.addStyleName("MyCanvasButton");
 		btnHelp.addStyleName("fiButton");
-		btnHelp.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				app.getGuiManager().openHelp("Function_Inspector_Tool");
-			}
-		});
+		btnHelp.addFastClickHandler(
+				source -> app.getGuiManager().openHelp("Function_Inspector_Tool"));
 	}
 
 	@Override
@@ -366,13 +325,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		btnPanel.add(btnTangent);
 		btnPanel.add(btnOscCircle);
 
-		ClickHandler btnClick = new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				updateGUI();
-			}
-		};
+		ClickHandler btnClick = event -> updateGUI();
 
 		btnTable.addClickHandler(btnClick);
 		btnXYSegments.addClickHandler(btnClick);
@@ -384,38 +337,21 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	private void createBtnRemoveColumn() {
 		btnRemoveColumn = new MyCJButton();
-		btnRemoveColumn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				removeColumn();
-			}
-		});
+		btnRemoveColumn.addClickHandler(event -> removeColumn());
 	}
 
 	private void createXYtable() {
 		tableXY = new InspectorTableW(app, 2);
 		modelXY = tableXY.getModel();
 		modelXY.setHeaders(DEFAULT_XY_HEADERS);
-		// modelXY.setRowCount(pointCount);
 
-		tableXY.setKeyHandler(new KeyHandler() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					changeXYStart();
-				}
-			}
-		});
-
-		tableXY.setBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
+		tableXY.setKeyHandler(e -> {
+			if (e.isEnterKey()) {
 				changeXYStart();
 			}
 		});
+
+		tableXY.setBlurHandler(event -> changeXYStart());
 	}
 
     private void createStep() {
@@ -423,23 +359,13 @@ public class FunctionInspectorW extends FunctionInspector {
 		InputPanelW stepPanel = new InputPanelW(app, -1, false);
 		fldStep = stepPanel.getTextComponent();
 
-		fldStep.addKeyHandler(new KeyHandler() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					doTextFieldActionPerformed(fldStep);
-				}
-			}
-		});
-
-		fldStep.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
+		fldStep.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
 				doTextFieldActionPerformed(fldStep);
 			}
 		});
+
+		fldStep.addBlurHandler(event -> doTextFieldActionPerformed(fldStep));
 
 		fldStep.setWidthInEm(6);
     }
@@ -480,48 +406,25 @@ public class FunctionInspectorW extends FunctionInspector {
 		fldLow = lowPanel.getTextComponent();
 		fldLow.setWidthInEm(6);
 
-		fldLow.addKeyHandler(new KeyHandler() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					doTextFieldActionPerformed(fldLow);
-				}
-			}
-
-		});
-
-		fldLow.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
+		fldLow.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
 				doTextFieldActionPerformed(fldLow);
 			}
 		});
+
+		fldLow.addBlurHandler(event -> doTextFieldActionPerformed(fldLow));
 
 		InputPanelW highPanel = new InputPanelW(app, -1, false);
 		fldHigh = highPanel.getTextComponent();
 		fldHigh.setWidthInEm(6);
 
-		fldHigh.addKeyHandler(new KeyHandler() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					doTextFieldActionPerformed(fldHigh);
-				}
-			}
-
-		});
-
-		fldHigh.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
+		fldHigh.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
 				doTextFieldActionPerformed(fldHigh);
 			}
 		});
 
+		fldHigh.addBlurHandler(event -> doTextFieldActionPerformed(fldHigh));
 	}
 
 	void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
@@ -630,7 +533,6 @@ public class FunctionInspectorW extends FunctionInspector {
 	protected void doCopyToSpreadsheet() {
 		if (isIntervalTabSelected()) {
 			getModel().copyIntervalsToSpreadsheet(2, 9); // modelInterval.getColumnCount(),
-			// modelInterval.getRowCount());
 		} else {
 			getModel().copyPointsToSpreadsheet(modelXY.getColumnCount(),
 			        modelXY.getRowCount());
@@ -650,12 +552,9 @@ public class FunctionInspectorW extends FunctionInspector {
 	public void setLabels() {
 		debug("setLabels");
 		Localization loc = app.getLocalization();
-		// wrappedDialog.setTitle(loc.getMenu("FunctionInspector"));
 		lblStep.setText(loc.getMenu("Step") + ":");
 		lblInterval.setText(" \u2264 x \u2264 "); // <= x <=
-		//
-		// // header text
-		//
+
 		TabBar tabBar = tabPanel.getTabBar();
 		tabBar.setTabText(0, loc.getMenu("fncInspector.Interval"));
 		tabBar.setTabText(1, loc.getMenu("fncInspector.Points"));
@@ -675,9 +574,6 @@ public class FunctionInspectorW extends FunctionInspector {
 		        .getPlainTooltip("fncInspector.addColumn"));
 		btnRemoveColumn.setTitle(loc
 		        .getPlainTooltip("fncInspector.removeColumn"));
-		// fldStep.setToolTipText(loc.getPlainTooltip("fncInspector.step"));
-		// lblStep.setToolTipText(loc.getPlainTooltip("fncInspector.step"));
-		//
 		// // add/remove extra column buttons
 		btnRemoveColumn.setText("\u2718");
 		btnAddColumn.setText("\u271A");
@@ -690,18 +586,16 @@ public class FunctionInspectorW extends FunctionInspector {
 		        ImageOrText.convert(getModel().getColumnNames()));
 
 		modelInterval.setHeaders(getModel().getIntervalColumnNames());
-		debug("setLabels ended");
 	}
 
 	void onResize() {
-		if (this.mainPanel.getOffsetHeight() != 0) {
-			this.tabPanel.setHeight(this.mainPanel.getOffsetHeight()
+		if (mainPanel.getOffsetHeight() != 0) {
+			tabPanel.setHeight(mainPanel.getOffsetHeight()
 			        - HEADER_PADDING + "px");
-			this.intervalTab.setWidth(this.mainPanel.getOffsetWidth() - PADDING_RIGHT
+			intervalTab.setWidth(mainPanel.getOffsetWidth() - PADDING_RIGHT
 			        + "px");
-			this.pointsTab.setWidth(this.mainPanel.getOffsetWidth()
+			pointsTab.setWidth(mainPanel.getOffsetWidth()
 			        - PADDING_RIGHT + "px");
 		}
-
 	}
 }

@@ -16,7 +16,6 @@ import org.geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.view.properties.PropertiesView;
-import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -34,14 +33,17 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.export.PrintPreviewW;
 import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.full.gui.dialog.image.UploadImageWithoutDialog;
 import org.geogebra.web.full.gui.dialog.image.WebcamInputDialog;
 import org.geogebra.web.full.gui.dialog.template.TemplateChooser;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
+import org.geogebra.web.full.gui.util.ColorChooserW;
 import org.geogebra.web.full.gui.util.DoYouWantToSaveChangesDialog;
 import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.full.gui.util.SaveDialogMow;
@@ -54,9 +56,8 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.Clipboard;
+import org.geogebra.web.html5.main.ClipboardUtil;
 import org.geogebra.web.html5.util.debug.LoggerW;
-import org.geogebra.web.shared.components.ComponentInputDialog;
 import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.core.client.GWT;
@@ -131,7 +132,7 @@ public class DialogManagerW extends DialogManager
 				app.getKernel().getAlgebraProcessor(), callback, app);
 		ComponentInputDialog inputDialog = new NumberInputDialog((AppW) app,
 			new DialogData(title), false, true, handler, message,
-				initText, 1, -1, false);
+				initText, false);
 		inputDialog.show();
 	}
 
@@ -165,7 +166,7 @@ public class DialogManagerW extends DialogManager
 		DialogData data = new DialogData("Redefine");
 		ComponentInputDialog redefineInputDialog = new ComponentInputDialog((AppW) app, data,
 				false, false, handler, geo.getNameDescription(), str,
-				1, -1, true);
+				true);
 		redefineInputDialog.show();
 	}
 
@@ -246,7 +247,7 @@ public class DialogManagerW extends DialogManager
 		DialogData data = new DialogData("Rename");
 		ComponentInputDialog renameDialog = new RenameInputDialog((AppW) app, data, false, false,
 				handler, app.getLocalization().getPlain("NewNameForA", geo.getNameDescription()),
-				initText, 1, -1, false);
+				initText);
 		renameDialog.show();
 	}
 
@@ -327,7 +328,7 @@ public class DialogManagerW extends DialogManager
 	 */
 	@Override
 	public void showExportImageDialog(String base64Image) {
-		DialogData data = new DialogData("exportImage", Clipboard
+		DialogData data = new DialogData("exportImage", ClipboardUtil
 			.isCopyImageToClipboardAvailable() ? "CopyToClipboard" : null, "Download");
 		ExportImageDialog expImgDialog = new ExportImageDialog((AppW) app, data,
 				base64Image);
@@ -445,13 +446,17 @@ public class DialogManagerW extends DialogManager
 					? new DoYouWantToSaveChangesDialog((AppW) app, data, true)
 					: new SaveDialogMow((AppW) app, data, addTempCheckBox);
 		} else if (saveDialog == null || isSuite()) {
-			DialogData data = new DialogData(getSaveDialogTitle(), "DontSave", "Save");
+			DialogData data = getSaveDialogData();
 			saveDialog = new SaveDialogW((AppW) app, data, widgetFactory);
 		}
 		// set default saveType
 		saveDialog.setSaveType(
 				app.isWhiteboardActive() ? MaterialType.ggs : MaterialType.ggb);
 		return saveDialog;
+	}
+
+	public DialogData getSaveDialogData() {
+		return new DialogData(getSaveDialogTitle(), "DontSave", "Save");
 	}
 
 	private String getSaveDialogTitle() {
@@ -534,18 +539,6 @@ public class DialogManagerW extends DialogManager
 	}
 
 	/**
-	 * Shows alert dialog.
-	 *
-	 * @param text
-	 *            Alert message
-	 */
-	public void showAlertDialog(String text) {
-		((AppW) app).getGuiManager().getOptionPane().showConfirmDialog(
-				text, "", GOptionPane.OK_OPTION,
-				GOptionPane.INFORMATION_MESSAGE, null);
-	}
-
-	/**
 	 * Shows a loading animation
 	 */
 	@Override
@@ -594,13 +587,17 @@ public class DialogManagerW extends DialogManager
 	 */
 	public void showColorChooserDialog(GColor originalColor,
 			ColorChangeHandler handler) {
+		DialogData data = new DialogData("ChooseColor", "Cancel", "OK");
 		if (colChooser == null) {
-			colChooser = new ColorChooserDialog((AppW) app, originalColor, handler);
+			colChooser = new ColorChooserDialog((AppW) app, data, originalColor, handler);
 		} else {
-			colChooser.setOriginalColor(originalColor);
-			colChooser.setHandler(handler);
+			// we want to preserve the used colors panel,
+			// but also make sure that the language is updated
+			ColorChooserW colorChooserPanel = colChooser.getColorChooserPanel();
+			colChooser = new ColorChooserDialog((AppW) app, data, originalColor, handler,
+					colorChooserPanel);
 		}
-		colChooser.center();
+		colChooser.show();
 	}
 
 	/**
@@ -628,7 +625,8 @@ public class DialogManagerW extends DialogManager
 				|| app.getGuiManager().showView(App.VIEW_ALGEBRA)
 				|| app.getGuiManager()
 						.showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
-			new PrintPreviewW((AppW) app).show();
+			DialogData data = new DialogData("PrintPreview", "Cancel", "Print");
+			new PrintPreviewW((AppW) app, data).show();
 		}
 	}
 
@@ -660,5 +658,15 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void closeTemplateChooser() {
 		templateChooser.hide();
+	}
+
+	/**
+	 * @return session expire dialog listener
+	 */
+	public GTimerListener getSessionExpireDialog() {
+		return () -> {
+			DialogData data = new DialogData(null, "Cancel", "Save");
+			new SessionExpireNotifyDialog((AppW) app, data).show();
+		};
 	}
 }

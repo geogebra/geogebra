@@ -67,11 +67,6 @@ public interface KeyboardListener {
 	void insertString(String text);
 
 	/**
-	 * Method just used for RadioButtonTreeItem for now
-	 */
-	void scrollCursorIntoView();
-
-	/**
 	 * @return false
 	 */
 	boolean resetAfterEnter();

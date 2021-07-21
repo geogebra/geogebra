@@ -164,10 +164,6 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.initCAS();
 	}
 
-	public void uploadToGeoGebraTube() {
-		ggbAPI.uploadToGeoGebraTube();
-	}
-
 	public void setErrorDialogsActive(Object flag) {
 		ggbAPI.setErrorDialogsActive(Js.isTruthy(flag));
 	}
@@ -1025,5 +1021,13 @@ public class DefaultExportedApi implements ExportedApi {
 
 	public boolean hasUnlabeledPredecessors(String label) {
 		return ggbAPI.hasUnlabeledPredecessors(label);
+	}
+
+	public void lockTextElement(String label) {
+		ggbAPI.lockTextElement(label);
+	}
+
+	public void unlockTextElement(String label) {
+		ggbAPI.unlockTextElement(label);
 	}
 }

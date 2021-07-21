@@ -49,10 +49,6 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 
 	private JPopupMenu myPopup;
 
-	public JPopupMenu getMyPopup() {
-		return myPopup;
-	}
-
 	private JSlider mySlider;
 
 
@@ -107,7 +103,8 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	 * @param app
 	 */
 	public PopupMenuButtonD(AppD app) {
-		this(app, null, -1, -1, null, SelectionTable.UNKNOWN, false, false);
+		this(app, null, -1, -1, null, SelectionTable.UNKNOWN,
+				false, false);
 	}
 
 	/**
@@ -188,13 +185,6 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 				}
 			});
 
-			/*
-			 * // if displaying text only, then adjust the width if(mode ==
-			 * SelectionTable.MODE_TEXT){ Dimension d = this.getPreferredSize();
-			 * d.width = myTable.getColumnWidth(); setMinimumSize(d);
-			 * setMaximumSize(d); }
-			 */
-
 			myTable.setBackground(myPopup.getBackground());
 			myPopup.add(myTable);
 		}
@@ -272,10 +262,6 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		myPopup.add(component);
 	}
 
-	public void removePopupMenuItem(JComponent component) {
-		myPopup.remove(component);
-	}
-
 	public void removeAllMenuItems() {
 		myPopup.removeAll();
 	}
@@ -293,7 +279,6 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	 */
 	@Override
 	protected void processMouseEvent(MouseEvent e) {
-
 		if (e.getID() == MouseEvent.MOUSE_RELEASED) {
 			// mouse is over the popup triangle side of the button
 			if (isStandardButton
@@ -319,7 +304,6 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	// =============================================
 
 	private void updateGUI() {
-
 		if (isIniting) {
 			return;
 		}
@@ -337,13 +321,11 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	 * Create our JSlider
 	 */
 	private void initSlider() {
-
 		mySlider = new JSlider(0, 100);
 		mySlider.setMajorTickSpacing(25);
 		mySlider.setMinorTickSpacing(5);
 		mySlider.setPaintTicks(false);
 		mySlider.setPaintLabels(false);
-		// mySlider.setSnapToTicks(true);
 
 		mySlider.addChangeListener(this);
 
@@ -371,7 +353,6 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	 * must pass action events from the popup to the invoker
 	 */
 	public void handlePopupActionEvent() {
-		// System.out.println("handlepopup");
 		this.fireActionPerformed(new ActionEvent(this,
 				ActionEvent.ACTION_PERFORMED, getActionCommand()));
 		updateGUI();
@@ -386,16 +367,12 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
-
-		// if (mySlider.getValueIsAdjusting()) return;
-
 		if (mySlider != null) {
 			setSliderValue(mySlider.getValue());
 		}
-		// System.out.println(mySlider.getValue());
 		this.fireActionPerformed(new ActionEvent(this,
 				ActionEvent.ACTION_PERFORMED, getActionCommand()));
-
+		app.storeUndoInfo();
 		updateGUI();
 	}
 
@@ -465,7 +442,6 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	// ==============================================
 
 	public ImageIcon getButtonIcon() {
-
 		ImageIcon icon = (ImageIcon) this.getIcon();
 		if (isFixedIcon) {
 			return icon;
@@ -474,12 +450,10 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		// draw the icon for the current table selection
 		if (hasTable) {
 			switch (mode) {
-
 			case MODE_TEXT:
 				// Strings are converted to icons. We don't use setText so that
 				// the button size can be controlled
 				// regardless of the layout manager.
-
 				icon = GeoGebraIconD.createStringIcon(
 						(String) data[getSelectedIndex()], app.getPlainFont(),
 						false, false, true, iconSize, Color.BLACK, null);
@@ -503,7 +477,6 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	 */
 	@Override
 	public void setIcon(Icon icon0) {
-
 		if (isFixedIcon) {
 			super.setIcon(icon0);
 			return;
@@ -541,5 +514,4 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	public void setIndex(int mode) {
 		myTable.setSelectedIndex(mode);
 	}
-
 }

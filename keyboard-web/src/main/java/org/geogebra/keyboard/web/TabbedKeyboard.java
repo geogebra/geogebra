@@ -28,7 +28,6 @@ import org.geogebra.keyboard.web.factory.KeyboardInputBox;
 import org.geogebra.keyboard.web.factory.KeyboardMow;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -477,9 +476,6 @@ public class TabbedKeyboard extends FlowPanel
 		if ("-".equals(name)) {
 			return new KeyBoardButtonBase(Unicode.MINUS + "", b);
 		}
-		if (Unicode.EULER_STRING.equals(name)) {
-			return new KeyBoardButtonBase("e", Unicode.EULER_STRING, b);
-		}
 		if (name.equals(Action.SWITCH_TO_SPECIAL_SYMBOLS.name())
 				|| name.equals(Action.SWITCH_TO_GREEK_CHARACTERS.name())
 				|| name.equals(Action.SWITCH_TO_ABC.name())
@@ -664,6 +660,16 @@ public class TabbedKeyboard extends FlowPanel
 					KeyboardResources.INSTANCE.vector(),
 					button.getPrimaryActionName(), bh, false, loc,
 					"altText.Vector");
+		} else if (resourceName.equals(Resource.ATOMIC_POST.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.atomic_post(),
+					button.getPrimaryActionName(), bh, false, loc,
+					"altText.AtomicPost");
+		} else if (resourceName.equals(Resource.ATOMIC_PRE.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.atomic_pre(),
+					button.getPrimaryActionName(), bh, false, loc,
+					"altText.AtomicPre");
 		}
 
   		if (resourceName.equals(Resource.ROOT.name())) {
@@ -924,8 +930,6 @@ public class TabbedKeyboard extends FlowPanel
 		if (Action.SWITCH_TO_123.name().equals(btn.getSecondaryAction())) {
 			selectTab(KeyboardType.NUMBERS);
 		}
-
-		Scheduler.get().scheduleDeferred(this::scrollCursorIntoView);
 	}
 
 	private void process(Action action) {
@@ -1005,13 +1009,6 @@ public class TabbedKeyboard extends FlowPanel
 	 */
 	protected void ansPressed() {
 		// platform dependent
-	}
-
-	/**
-	 * Scroll cursor of selected textfield into view
-	 */
-	protected void scrollCursorIntoView() {
-		processField.scrollCursorIntoView();
 	}
 
 	/**

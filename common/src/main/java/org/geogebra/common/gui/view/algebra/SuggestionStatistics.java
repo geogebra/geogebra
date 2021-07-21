@@ -121,7 +121,7 @@ public class SuggestionStatistics extends Suggestion {
 
 		if (statGeoElement instanceof GeoList && ((GeoList) statGeoElement).size() > 0) {
 			GeoList geoList = (GeoList) statGeoElement;
-			for (GeoElement geoItem : geoList.elementsAsArray()) {
+			for (GeoElement geoItem : geoList.elements()) {
 				if (!(geoItem instanceof GeoNumeric)) {
 					return false;
 				}

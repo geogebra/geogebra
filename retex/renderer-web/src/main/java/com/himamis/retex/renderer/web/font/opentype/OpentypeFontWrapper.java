@@ -42,11 +42,12 @@
  */
 package com.himamis.retex.renderer.web.font.opentype;
 
-import elemental2.core.JsArray;
 import com.himamis.retex.renderer.web.font.FontWrapper;
 import com.himamis.retex.renderer.web.graphics.FontGlyph;
 
+import elemental2.core.JsArray;
 import elemental2.dom.CanvasRenderingContext2D;
+import jsinterop.base.Js;
 
 public class OpentypeFontWrapper implements FontWrapper {
 
@@ -70,7 +71,7 @@ public class OpentypeFontWrapper implements FontWrapper {
 		FontGlyph glyph = getGlyph(c);
 		if (glyph != null) {
 			glyph.size = size;
-			glyph.unitsPerEm = impl.getAt(0);
+			glyph.unitsPerEm = (double) impl.getAt(0);
 			drawPath(glyph, x, y, ctx);
 		}
 	}
@@ -85,7 +86,7 @@ public class OpentypeFontWrapper implements FontWrapper {
 			return null;
 		}
 		glyph.size = size;
-		glyph.unitsPerEm = impl.getAt(0);
+		glyph.unitsPerEm = (double) impl.getAt(0);
 		return glyph;
 	};
 
@@ -93,52 +94,51 @@ public class OpentypeFontWrapper implements FontWrapper {
 		return getGlyph(impl, c.codePointAt(0));
 	}
 
-	private static native FontGlyph getGlyph(JsArray<Object> font,
-			int code) /*-{
-		for (i = 1; i < font.length; i += 1) {
-			var glyph = font[i];
-			if (glyph[0] === code) {
-				return font[i];
-			}
-
-			for (j = 0; j < glyph[0].length; j += 1) {
-				if (glyph[0][j] === code) {
-					return font[i];
-				}
+	private static FontGlyph getGlyph(JsArray<Object> font,
+			int code) {
+		for (int i = 1; i < font.length; i += 1) {
+			FontGlyph glyph = Js.uncheckedCast(font.getAt(i));
+			Object at = glyph.getAt(0);
+			if (Js.asInt(at) == code) {
+				// no path => pointer to the next glyph
+				return "undefined".equals(Js.typeof(glyph.getAt(1)))
+						? Js.uncheckedCast(font.getAt(i + 1)) : glyph;
 			}
 		}
 		return null;
-	}-*/;
+	}
 
-	public static native void drawPath(FontGlyph path, double x, double y,
-			CanvasRenderingContext2D ctx) /*-{
-		if (!path) {
+	public static void drawPath(FontGlyph path, double x, double y,
+			CanvasRenderingContext2D ctx) {
+		if (Js.isFalsy(path)) {
 			return;
 		}
 
-		var xScale = path.size / path.unitsPerEm;
-		var yScale = path.size / path.unitsPerEm;
+		double xScale = path.size / path.unitsPerEm;
+		double yScale = path.size / path.unitsPerEm;
 
 		ctx.beginPath();
 
-		var j = 2;
-		for (i = 0; i < path[1].length; i += 1) {
-			var cmd = path[1][i][0];
-			if (cmd === 'M') {
-				ctx.moveTo(x + path[j] * xScale, y - path[j + 1] * yScale);
+		int j = 2;
+		String types = (String) path.getAt(1);
+		JsArray<Double> dPath = Js.uncheckedCast(path);
+		for (int i = 0; i < types.length(); i += 1) {
+			char cmd = types.charAt(i);
+			if (cmd == 'M') {
+				ctx.moveTo(x + dPath.getAt(j) * xScale, y - dPath.getAt(j + 1) * yScale);
 				j += 2;
-			} else if (cmd === 'L') {
-				ctx.lineTo(x + path[j] * xScale, y - path[j + 1] * yScale);
+			} else if (cmd == 'L') {
+				ctx.lineTo(x + dPath.getAt(j) * xScale, y - dPath.getAt(j + 1) * yScale);
 				j += 2;
-			} else if (cmd === 'Q') {
-				ctx.quadraticCurveTo(x + path[j + 2] * xScale, y - path[j + 3]
-						* yScale, x + path[j] * xScale, y - path[j + 1]
+			} else if (cmd == 'Q') {
+				ctx.quadraticCurveTo(x + dPath.getAt(j + 2) * xScale, y - dPath.getAt(j + 3)
+						* yScale, x + dPath.getAt(j) * xScale, y - dPath.getAt(j + 1)
 						* yScale);
 				j += 4;
-			} else if (cmd === 'C') {
-				ctx.bezierCurveTo(x + path[j + 2] * xScale, y - path[j + 3]
-						* yScale, x + path[j + 4] * xScale, y - path[j + 5]
-						* yScale, x + path[j] * xScale, y - path[j + 1]
+			} else if (cmd == 'C') {
+				ctx.bezierCurveTo(x + dPath.getAt(j + 2) * xScale, y - dPath.getAt(j + 3)
+						* yScale, x + dPath.getAt(j + 4) * xScale, y - dPath.getAt(j + 5)
+						* yScale, x + dPath.getAt(j) * xScale, y - dPath.getAt(j + 1)
 						* yScale);
 				j += 6;
 			}
@@ -146,6 +146,6 @@ public class OpentypeFontWrapper implements FontWrapper {
 
 		ctx.closePath();
 		ctx.fill();
-	}-*/;
+	}
 
 }

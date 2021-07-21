@@ -1,14 +1,11 @@
 package org.geogebra.cloud;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MaterialsManager;
-import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
-import org.geogebra.common.move.ggtapi.models.SyncEvent;
 
 public class TestMaterialsManager extends MaterialsManager {
 

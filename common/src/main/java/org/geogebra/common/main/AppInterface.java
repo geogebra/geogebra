@@ -197,11 +197,6 @@ public interface AppInterface {
 	public abstract void showURLinBrowser(String string);
 
 	/**
-	 * Opens the upload to GGT dialog
-	 */
-	public abstract void uploadToGeoGebraTube();
-
-	/**
 	 * Updates application layout
 	 */
 	public abstract void updateApplicationLayout();

@@ -12,7 +12,9 @@
     <public path="pub" />
     <resource path='resources'/>
     <resource path='pub/js'/>
-    <source path='simple'/>
+    <source path='simple'>
+        <exclude name="**/WebSimple*"/>
+    </source>
     <super-source path='html5-super' />
     <entry-point class='org.geogebra.web.solver.StepsEntry'/>
     <!-- #3511 -->

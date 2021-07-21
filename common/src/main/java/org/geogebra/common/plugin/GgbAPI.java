@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -736,11 +737,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
-	public void uploadToGeoGebraTube() {
-		app.uploadToGeoGebraTube();
-	}
-
-	@Override
 	public void startAnimation() {
 		kernel.getAnimatonManager().startAnimation();
 	}
@@ -1152,8 +1148,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public synchronized String getPerspectiveXML() {
 		if (app.getGuiManager() == null
 				|| app.getGuiManager().getLayout() == null) {
-			if (app.getTmpPerspective(null) != null) {
-				return app.getTmpPerspective(null).getXml();
+			if (app.getTmpPerspective() != null) {
+				return app.getTmpPerspective().getXml();
 			}
 			return "";
 		}
@@ -1765,10 +1761,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 						app));
 		if (app.getGuiManager() == null) {
 			if (ps != null) {
-				ArrayList<Perspective> perspectives = new ArrayList<>();
-				ps.setId("tmp");
-				perspectives.add(ps);
-				app.setTmpPerspectives(perspectives);
+				app.setTmpPerspective(ps);
 			}
 			return;
 		}
@@ -2064,25 +2057,21 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	private AsyncOperation<GeoGebraExport> exportCallback(
 			final AsyncOperation<String> handler) {
-		return new AsyncOperation<GeoGebraExport>() {
-
-			@Override
-			public void callback(GeoGebraExport export) {
-				if (export == null) {
-					// not implemented eg Android, iOS)
-					handler.callback("");
-					return;
-				}
-
-				EuclidianView ev = app.getActiveEuclidianView();
-
-				ExportFrameMinimal frame = new ExportFrameMinimal(ev.getYmin(),
-						ev.getYmax());
-				export.setFrame(frame);
-				export.generateAllCode();
-
-				handler.callback(frame.getCode());
+		return export -> {
+			if (export == null) {
+				// not implemented eg Android, iOS)
+				handler.callback("");
+				return;
 			}
+
+			EuclidianView ev = app.getActiveEuclidianView();
+
+			ExportFrameMinimal frame = new ExportFrameMinimal(ev.getYmin(),
+					ev.getYmax());
+			export.setFrame(frame);
+			export.generateAllCode();
+
+			handler.callback(frame.getCode());
 		};
 	}
 
@@ -2407,5 +2396,21 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public boolean hasUnlabeledPredecessors(String label) {
 		return kernel.getConstruction().hasUnlabeledPredecessors(label);
+	}
+
+	@Override
+	public void lockTextElement(String label) {
+		GeoElement geo = kernel.lookupLabel(label);
+		if (geo != null) {
+			((GeoInline) geo).setLockedForMultiuser(true);
+		}
+	}
+
+	@Override
+	public void unlockTextElement(String label) {
+		GeoElement geo = kernel.lookupLabel(label);
+		if (geo != null) {
+			((GeoInline) geo).setLockedForMultiuser(false);
+		}
 	}
 }

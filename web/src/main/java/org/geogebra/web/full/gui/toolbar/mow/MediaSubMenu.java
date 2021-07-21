@@ -46,11 +46,11 @@ public class MediaSubMenu extends SubMenuPanel {
 				|| mode == EuclidianConstants.MODE_GRAPHING
 				|| mode == EuclidianConstants.MODE_PDF
 				|| mode == EuclidianConstants.MODE_EXTENSION
-				|| mode == EuclidianConstants.MODE_H5P
 				|| mode == EuclidianConstants.MODE_TABLE
 				|| mode == EuclidianConstants.MODE_EQUATION
 				|| mode == EuclidianConstants.MODE_GRASPABLE_MATH
 				|| mode == EuclidianConstants.MODE_CAS
+				|| mode == EuclidianConstants.MODE_MIND_MAP
 				|| (app.isMebis() && mode == EuclidianConstants.MODE_H5P);
 	}
 }

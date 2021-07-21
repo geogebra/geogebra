@@ -19,8 +19,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
@@ -120,17 +118,19 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		}
 
 		// Alignment
-		Integer alignment = (Integer) formatHandler.getCellFormat(column, row,
-		        CellFormat.FORMAT_ALIGN);
-		if (alignment != null) {
-			s.setProperty("textAlign",
-			        alignment == CellFormat.ALIGN_LEFT ? "left"
-			                : (alignment == CellFormat.ALIGN_RIGHT ? "right"
-			                        : "center"));
-		} else if (cell != null && cell.isGeoText()) {
+		int alignment = formatHandler.getAlignment(column, row,
+				cell != null && cell.isGeoText());
+		switch (alignment) {
+                default:
+		case CellFormat.ALIGN_LEFT:
 			s.setProperty("textAlign", "left");
-		} else {
+			break;
+		case CellFormat.ALIGN_RIGHT:
 			s.setProperty("textAlign", "right");
+			break;
+		case CellFormat.ALIGN_CENTER:
+			s.setProperty("textAlign", "center");
+			break;
 		}
 
 		// Background color
@@ -483,16 +483,13 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 			final GeoBoolean geoBoolean = (GeoBoolean) cellGeo;
 
-			checkbox.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent ce) {
-					if (view.allowSpecialEditor()) {
-						geoBoolean.setValue(!geoBoolean.getBoolean());
+			checkbox.addClickHandler(ce -> {
+				if (view.allowSpecialEditor()) {
+					geoBoolean.setValue(!geoBoolean.getBoolean());
 
-						// Don't update all cell, see #5153
-						// kernel.updateConstruction();
-						geoBoolean.updateRepaint();
-					}
+					// Don't update all cell, see #5153
+					// kernel.updateConstruction();
+					geoBoolean.updateRepaint();
 				}
 			});
 
@@ -512,12 +509,9 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			        .setColor(cellGeo.getObjectColor().toString());
 			button.getElement().addClassName("geogebraweb-button-spreadsheet");
 
-			button.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent ce) {
-					gb.runClickScripts(null);
-					gb.getKernel().updateConstruction(true); // TODO: why ???
-				}
+			button.addClickHandler(ce -> {
+				gb.runClickScripts(null);
+				gb.getKernel().updateConstruction(true); // TODO: why ???
 			});
 
 			grid.setWidget(row, column, button);

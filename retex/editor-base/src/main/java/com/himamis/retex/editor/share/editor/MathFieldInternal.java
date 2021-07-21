@@ -46,6 +46,7 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
+import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
@@ -57,6 +58,7 @@ import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
+import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
@@ -66,7 +68,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
  */
 public class MathFieldInternal
 		implements KeyListener, FocusListener, ClickListener {
-
+	public static final int PADDING_LEFT_SCROLL = 20;
 	@Weak
 	private MathField mathField;
 
@@ -111,6 +113,21 @@ public class MathFieldInternal
 		mathFieldController = new MathFieldController(mathField);
 		inputController.setMathField(mathField);
 		setupMathField();
+	}
+
+	/**
+	 * @param scrollLeft current scroll
+	 * @param parentWidth parent container width
+	 * @param cursorX cursor coordinate within formula
+	 * @return new horizontal scroll value
+	 */
+	public static int getHorizontalScroll(int scrollLeft, int parentWidth, int cursorX) {
+		if (parentWidth + scrollLeft - PADDING_LEFT_SCROLL < cursorX) {
+			return cursorX - parentWidth + PADDING_LEFT_SCROLL;
+		} else if (cursorX < scrollLeft + PADDING_LEFT_SCROLL) {
+			return Math.max(cursorX - PADDING_LEFT_SCROLL, 0);
+		}
+		return scrollLeft;
 	}
 
 	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
@@ -246,6 +263,13 @@ public class MathFieldInternal
 
 	private void update(boolean focusEvent) {
 		mathFieldController.update(mathFormula, editorState, focusEvent);
+	}
+
+	/**
+	 * @return icon without placeholder
+	 */
+	public TeXIcon buildIconNoPlaceholder() {
+		return mathFieldController.buildIcon(mathFormula, editorState.getCurrentField());
 	}
 
 	@Override
@@ -659,17 +683,54 @@ public class MathFieldInternal
 	 * @param text ascii math string
 	 */
 	public void insertString(String text) {
+		MathSequence rootBefore = editorState.getRootComponent();
+		boolean allSelected = editorState.getSelectionStart() == rootBefore;
+		boolean rootProtected = rootBefore.isProtected();
 		InputController.deleteSelection(editorState);
 		try {
 			MathSequence root = new Parser(mathField.getMetaModel()).parse(text)
 					.getRootComponent();
-			for (int i = 0; i < root.getArgumentCount(); i++) {
-				getEditorState().addArgument(root.getArgument(i));
+
+			if (allSelected	&& isMatrixWithSameDimension(rootBefore, root)) {
+				replaceRoot(rootBefore, root);
+			} else {
+				addToMathField(root);
 			}
 		} catch (ParseException parseException) {
 			KeyboardInputAdapter.type(this, text);
 		}
 		onInsertString();
+
+		if (rootProtected) {
+			editorState.getRootComponent().setProtected();
+		}
+	}
+
+	private void addToMathField(MathSequence root) {
+		for (int i = 0; i < root.getArgumentCount(); i++) {
+			getEditorState().addArgument(root.getArgument(i));
+		}
+	}
+
+	private void replaceRoot(MathSequence rootBefore, MathSequence root) {
+		rootBefore.clearArguments();
+		for (int i = 0; i < root.getArgumentCount(); i++) {
+			rootBefore.addArgument(root.getArgument(i));
+		}
+		editorState.setCurrentField(((MathArray) root.getArgument(0)).getArgument(0, 0));
+		editorState.setCurrentOffset(0);
+	}
+
+	private boolean isMatrixWithSameDimension(MathSequence rootBefore, MathSequence root) {
+		MathArray matrix = asMatrix(root);
+		return matrix != null && matrix.hasSameDimension(asMatrix(rootBefore));
+	}
+
+	private MathArray asMatrix(MathSequence sequence) {
+		MathComponent argument1 = sequence.getArgument(0);
+		return argument1 instanceof MathArray && ((MathArray) argument1).isMatrix()
+				? (MathArray) argument1
+				: null;
 	}
 
 	/**

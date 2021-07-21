@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui;
 
-import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 
@@ -12,6 +11,11 @@ public class InlineTextControllerMock implements InlineTextController {
 
 	public InlineTextControllerMock(String url) {
 		this.url = url;
+	}
+
+	@Override
+	public boolean updateFontSize() {
+		return false;
 	}
 
 	@Override
@@ -36,11 +40,6 @@ public class InlineTextControllerMock implements InlineTextController {
 
 	@Override
 	public void setHeight(int height) {
-
-	}
-
-	@Override
-	public void setAngle(double angle) {
 
 	}
 
@@ -80,7 +79,7 @@ public class InlineTextControllerMock implements InlineTextController {
 	}
 
 	@Override
-	public void draw(GGraphics2D g2, GAffineTransform transform) {
+	public void draw(GGraphics2D g2) {
 
 	}
 
@@ -126,6 +125,11 @@ public class InlineTextControllerMock implements InlineTextController {
 
 	@Override
 	public void setSelectionText(String text) {
+
+	}
+
+	@Override
+	public void setTransform(double angle, double sx, double sy) {
 
 	}
 }

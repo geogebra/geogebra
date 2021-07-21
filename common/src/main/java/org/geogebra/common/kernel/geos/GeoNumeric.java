@@ -1967,8 +1967,14 @@ public class GeoNumeric extends GeoElement
 	}
 
 	private void addAuralSliderValue(ScreenReaderBuilder sb) {
+		sb.appendMenuDefault("Slider", "Slider");
+		sb.appendSpace();
+
 		if (!addAuralCaption(sb)) {
 			sb.append(getLabelSimple());
+		}
+
+		if (!getRawCaption().contains("%v")) {
 			sb.append(getLabelDelimiterWithSpace(StringTemplate.screenReader));
 			sb.append(toValueString(StringTemplate.defaultTemplate));
 		}
@@ -1979,10 +1985,6 @@ public class GeoNumeric extends GeoElement
 		if (!isSliderable()) {
 			super.addAuralName(sb);
 			return;
-		}
-		if (StringUtil.empty(getCaptionSimple())) {
-			sb.appendMenuDefault("Slider", "Slider");
-			sb.appendSpace();
 		}
 		addAuralSliderValue(sb);
 		sb.endSentence();

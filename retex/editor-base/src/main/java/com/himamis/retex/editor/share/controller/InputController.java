@@ -1078,12 +1078,17 @@ public class InputController {
 	private static void deleteMatrixElementValue(EditorState editorState) {
 		MathSequence matrixElement = (MathSequence) editorState.getSelectionAnchor().getParent();
 		matrixElement.clearArguments();
-		editorState.setCurrentOffset(1);
+		editorState.setCurrentOffset(0);
 		editorState.setCurrentField(matrixElement);
 		editorState.resetSelection();
 	}
 
-	private static boolean isProtected(MathComponent component) {
+	/**
+	 *
+	 * @param component to check.
+	 * @return if it is protected.
+	 */
+	public static boolean isProtected(MathComponent component) {
 		if (!(component instanceof MathContainer)) {
 			return false;
 		}

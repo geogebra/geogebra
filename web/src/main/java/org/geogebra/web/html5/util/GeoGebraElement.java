@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -19,7 +20,8 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 	 * @return cast element
 	 */
 	public static GeoGebraElement as(Element element) {
-		if (element != null) {
+		// tabindex -1 prevents slider reading on Android
+		if (element != null && !Browser.isAndroid()) {
 			element.setTabIndex(-1);
 		}
 		return (GeoGebraElement) element;

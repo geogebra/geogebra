@@ -5,68 +5,32 @@ import java.util.Locale;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.NavigatorUtil;
+import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.Window.Navigator;
 
 import elemental2.core.Function;
 import elemental2.core.Global;
+import elemental2.core.JsArray;
+import elemental2.core.Uint8Array;
+import elemental2.dom.Blob;
+import elemental2.dom.BlobPropertyBag;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLAnchorElement;
+import elemental2.dom.URL;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 public class Browser {
 	public static final String ACTION_RESET_URL = "{\"action\": \"resetUrl\"}";
 	private static Boolean webglSupported = null;
-
-	/**
-	 * UA string check, may not be reliable
-	 * @return whether the app is running in Firefox
-	 */
-	public static boolean isFirefox() {
-		return doesUserAgentContainRegex("firefox");
-	}
-
-	/**
-	 * Check if browser is Internet Explorer
-	 *
-	 * (Note: only IE11 is supported now)
-	 *
-	 * @return true if IE
-	 */
-	public static boolean isIE() {
-		// check if app is running in IE5 or greater
-		return doesUserAgentContainRegex("msie |trident/");
-	}
-
-	private static boolean doesUserAgentContainRegex(String regex) {
-		String userAgent = Navigator.getUserAgent().toLowerCase(Locale.US);
-		return userAgent.matches(".*(" + regex + ").*");
-	}
-
-	/**
-	 * Check if browser is Safari on iOS
-	 *
-	 * check isiOS() && isSafari() if you want just iOS browser & not webview
-	 *
-	 * (Note: returns true for Chrome on iOS as that's really an iOS Webview)
-	 *
-	 * @return true if iOS (WebView or Safari browser)
-	 */
-	public static boolean isiOS() {
-		return doesUserAgentContainRegex("iphone|ipad|ipod")
-				// only iPhones iPads and iPods support multitouch
-				|| ("MacIntel".equals(Navigator.getPlatform()) && getMaxPointTouch() > 1);
-	}
-
-	private static native int getMaxPointTouch() /*-{
-		return $wnd.navigator.maxTouchPoints;
-	}-*/;
 
 	/**
 	 * Check if browser is Safari. Note: user agent string contains Safari also
@@ -111,11 +75,11 @@ public class Browser {
 
 	/**
 	 * Check this to avoid exceptions thrown from Storage.get*StorageIfSupported
-	 * 
+	 *
 	 * @return whether session storage is supported
 	 */
 	public static boolean supportsSessionStorage() {
-		return !Browser.isIE() || Browser.isHTTP();
+		return !NavigatorUtil.isIE() || Browser.isHTTP();
 	}
 
 	/**
@@ -274,14 +238,6 @@ public class Browser {
 	}
 
 	/**
-	 * @return whether app is running in a mobile browser
-	 */
-	public static boolean isMobile() {
-		String browsers = "android|webos|blackberry|iemobile|opera mini";
-		return doesUserAgentContainRegex(browsers) || isiOS();
-	}
-
-	/**
 	 * @return CSS pixel ratio
 	 */
 	public static native double getPixelRatio() /*-{
@@ -313,150 +269,110 @@ public class Browser {
 		// can't use data:image/svg+xml;utf8 in IE11 / Edge
 		// so encode as Base64
 		return StringUtil.svgMarker + DomGlobal.btoa(
-				Global.unescape(URL.encodePathSegment(svg)));
+				Global.unescape(Global.encodeURIComponent(svg)));
 	}
 
-	public static native String encodeURIComponent(String txt) /*-{
-		return $wnd.encodeURIComponent(txt);
-	}-*/;
+	/**
+	 * Download an exported file/image
+	 * @param url data URL
+	 * @param title title
+	 */
+	public static void exportImage(String url, String title) {
+		String extension;
 
-	public static native void exportImage(String url, String title) /*-{
-		//idea from http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript/16245768#16245768
-
-		var extension;
-		var header;
-
-		// IE11 doesn't have String.startsWith()
-		var startsWith = function(data, input) {
-			return data.substring(0, input.length) === input;
-		}
 		//global function in Chrome Kiosk App
-		if (typeof $wnd.ggbExportFile == "function") {
-			$wnd.ggbExportFile(url, title);
+		if (GeoGebraGlobal.getGgbExportFile() != null) {
+			GeoGebraGlobal.getGgbExportFile().call(DomGlobal.window, url, title);
 			return;
 		}
 
-		var base64encoded = true;
+		boolean base64encoded = true;
 
-		if (startsWith(url, @org.geogebra.common.util.StringUtil::pngMarker)) {
+		if (url.startsWith(StringUtil.pngMarker)) {
 			extension = "image/png";
-			header = @org.geogebra.common.util.StringUtil::pngMarker;
-		} else if (startsWith(url,
-				@org.geogebra.common.util.StringUtil::svgMarker)) {
+		} else if (url.startsWith(StringUtil.svgMarker)) {
 			extension = "image/svg+xml";
-			header = @org.geogebra.common.util.StringUtil::svgMarker;
-		} else if (startsWith(url,
-				@org.geogebra.common.util.StringUtil::gifMarker)) {
+		} else if (url.startsWith(StringUtil.gifMarker)) {
 			extension = "image/gif";
-			header = @org.geogebra.common.util.StringUtil::gifMarker;
-		} else if (startsWith(url,
-				@org.geogebra.common.util.StringUtil::pdfMarker)) {
+		} else if (url.startsWith(StringUtil.pdfMarker)) {
 			extension = "application/pdf";
-			header = @org.geogebra.common.util.StringUtil::pdfMarker;
-		} else if (startsWith(url,
-				@org.geogebra.common.util.StringUtil::txtMarker)) {
+		} else if (url.startsWith(StringUtil.txtMarker)) {
 			extension = "text/plain";
-			header = @org.geogebra.common.util.StringUtil::txtMarker;
 			base64encoded = false;
-		} else if (startsWith(url,
-				@org.geogebra.common.util.StringUtil::txtMarkerForSafari)) {
+		} else if (url.startsWith(StringUtil.txtMarkerForSafari)) {
 			extension = "application/octet-stream";
-			header = @org.geogebra.common.util.StringUtil::txtMarkerForSafari;
 			base64encoded = false;
-		} else if (startsWith(url,
-				@org.geogebra.common.util.StringUtil::htmlMarker)) {
+		} else if (url.startsWith(StringUtil.htmlMarker)) {
 			extension = "text/html";
-			header = @org.geogebra.common.util.StringUtil::htmlMarker;
 			base64encoded = false;
 		} else {
-			$wnd.console.log("unknown extension " + url.substring(0, 30));
+			Log.debug("unknown extension " + url.substring(0, 30));
 			return;
 		}
 
-		// $wnd.android is set for Android, iOS, Win8
-		// Yes, really!
-		if ($wnd.android) {
-			$wnd.android.share(url, title, extension);
+		GeoGebraJSNativeBridge bridge = GeoGebraJSNativeBridge.get();
+		if (bridge != null) {
+			bridge.share(url, title, extension);
 			return;
 		}
 
 		// no downloading on iOS so just open image/file in new tab
-		if (@org.geogebra.web.html5.Browser::isiOS()()) {
-			@org.geogebra.web.html5.Browser::openWindow(Ljava/lang/String;)(url);
+		if (NavigatorUtil.isiOS()) {
+			Browser.openWindow(url);
 			return;
 		}
 
 		// Chrome limits to 2Mb so use Blob
 		// https://stackoverflow.com/questions/695151/data-protocol-url-size-limitations/41755526#41755526
 		// https://stackoverflow.com/questions/38781968/problems-downloading-big-filemax-15-mb-on-google-chrome/38845151#38845151
+		// idea from http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript/16245768#16245768
+		if (DomGlobal.navigator.userAgent.toLowerCase(Locale.US).contains("chrome")) {
 
-		// msSaveBlob: IE11, Edge
-		if ($wnd.navigator.msSaveBlob
-				|| $wnd.navigator.userAgent.toLowerCase().indexOf("chrome") > -1) {
-			var sliceSize = 512;
-
-			var byteCharacters = url.substring(header.length);
+			String byteCharacters = url.substring(url.indexOf(',') + 1);
 
 			if (base64encoded) {
-				byteCharacters = $wnd.atob(byteCharacters);
+				byteCharacters = DomGlobal.atob(byteCharacters);
 			}
+			int sliceSize = 512;
+			JsArray<Blob.ConstructorBlobPartsArrayUnionType> byteArrays = JsArray.of();
+			for (int offset = 0; offset < byteCharacters.length(); offset += sliceSize) {
+				String slice = byteCharacters.substring(offset, Math.min(byteCharacters.length(),
+						offset + sliceSize));
 
-			var byteArrays = [];
-
-			for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-				var slice = byteCharacters.slice(offset, offset + sliceSize);
-
-				var byteNumbers = new Array(slice.length);
-				for (var i = 0; i < slice.length; i++) {
-					byteNumbers[i] = slice.charCodeAt(i);
+				double[] byteNumbers = new double[slice.length()];
+				for (int i = 0; i < slice.length(); i++) {
+					byteNumbers[i] = slice.charAt(i);
 				}
 
-				var byteArray = new Uint8Array(byteNumbers);
-
-				byteArrays.push(byteArray);
+				Uint8Array byteArray = new Uint8Array(byteNumbers);
+				byteArrays.push(Blob.ConstructorBlobPartsArrayUnionType.of(byteArray));
 			}
-
-			var blob = new Blob(byteArrays, {
-				type : extension
-			});
-
-			if ($wnd.navigator.msSaveBlob) {
-				// IE11, Edge
-				$wnd.navigator.msSaveBlob(blob, title);
-			} else {
-				// Chrome
-				var url2 = $wnd.URL.createObjectURL(blob);
-				var a = $doc.createElement("a");
-				a.download = title;
-				a.href = url2;
-
-				a.onclick = function() {
-					requestAnimationFrame(function() {
-						$wnd.URL.revokeObjectURL(url2);
-					})
-				};
-
-				$wnd.setTimeout(function() {
-					a.click()
-				}, 10);
-			}
+			BlobPropertyBag bag = BlobPropertyBag.create();
+			bag.setType(extension);
+			Blob blob = new Blob(byteArrays, bag);
+			downloadURL(URL.createObjectURL(blob), title);
 		} else {
-			@org.geogebra.web.html5.Browser::downloadDataURL(Ljava/lang/String;Ljava/lang/String;)(url, title);
+			downloadURL(url, title);
 		}
+	}
 
-	}-*/;
-
-	public static native void downloadDataURL(String url, String title) /*-{
-		// Firefox, Safari
-		var a = $doc.createElement("a");
-		$doc.body.appendChild(a);
-		a.style = "display: none";
-		a.href = window.encodeURI(url);
+	/**
+	 * @param url URL, supports both data: and blob: schemes
+	 * @param title resulting filename
+	 */
+	public static void downloadURL(String url, String title) {
+		HTMLAnchorElement a = Js.uncheckedCast(DomGlobal.document.createElement("a"));
+		a.href = Global.encodeURI(url);
 		a.download = title;
-		$wnd.setTimeout(function() {
-			a.click()
+		a.onclick = (evt) -> {
+			DomGlobal.requestAnimationFrame(ignore -> URL.revokeObjectURL(url));
+			return true;
+		};
+		DomGlobal.setTimeout((ignore) -> {
+			Function click = Js.uncheckedCast(Js.asPropertyMap(a).get("click"));
+			click.call(a);
 		}, 10);
-	}-*/;
+	}
 
 	/**
 	 * Change URL if we are running on geogebra.org
@@ -574,14 +490,14 @@ public class Browser {
 
 	/**
 	 * it's true for android phones and iPads but false for iPhone
-	 * 
+	 *
 	 * @deprected isMobile might work better, alternatively isiOS() ||
 	 *            isAndroid()
 	 * @return whether this is iPad or Android
 	 */
 	@Deprecated
 	public static boolean isTabletBrowser() {
-		return isAndroid() || isiOS();
+		return isAndroid() || NavigatorUtil.isiOS();
 	}
 
 	public static native int getScreenWidth() /*-{
@@ -758,18 +674,18 @@ public class Browser {
 	 * @return valid data URL, browser dependent
 	 */
 	public static String addTxtMarker(String txt) {
-		return isiOS() && isSafariByVendor()
-				? StringUtil.txtMarkerForSafari + encodeURIComponent(txt)
+		return NavigatorUtil.isiOS() && isSafariByVendor()
+				? StringUtil.txtMarkerForSafari + Global.encodeURIComponent(txt)
 				: StringUtil.txtMarker + txt;
 	}
 
 	/**
 	 * Checks for screen readers that don't support keyboard event handling in
 	 * canvas.
-	 * 
+	 *
 	 * @return whether emulator of tab handler is needed
 	 */
 	public static boolean needsAccessibilityView() {
-		return isMobile();
+		return NavigatorUtil.isMobile();
 	}
 }

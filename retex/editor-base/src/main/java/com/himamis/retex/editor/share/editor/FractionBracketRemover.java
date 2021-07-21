@@ -19,7 +19,8 @@ public class FractionBracketRemover implements Traversing {
 			}
 			MathSequence bracketContent = ((MathArray) mathComponent).getArgument(0);
 			if (isFraction(bracketContent.getArgument(0)) && bracketContent.size() == 1) {
-				return bracketContent.getArgument(0);
+				MathComponent component = bracketContent.getArgument(0);
+				return component.traverse(this);
 			}
 		}
 		return mathComponent;

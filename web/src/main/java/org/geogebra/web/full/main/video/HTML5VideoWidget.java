@@ -1,11 +1,11 @@
 package org.geogebra.web.full.main.video;
 
-import org.geogebra.common.util.ExternalAccess;
-
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLVideoElement;
+import jsinterop.base.Js;
 
 /**
  * Widget to wrap HTML5 video tag
@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class HTML5VideoWidget extends Widget {
-	private Element elem;
+	private HTMLVideoElement elem;
 	private VideoListener listener;
 
 	/**
@@ -47,21 +47,22 @@ public class HTML5VideoWidget extends Widget {
 	 */
 	public HTML5VideoWidget(VideoListener listener) {
 		this.listener = listener;
-		elem = DOM.createElement("video");
-		setElement(elem);
+		elem = (HTMLVideoElement) DomGlobal.document.createElement("video");
+		setElement(Js.<Element>uncheckedCast(elem));
 		addHandlers(elem);
 	}
 
-	private native void addHandlers(JavaScriptObject video) /*-{
-		var that = this;
-		video.oncanplaythrough = function() {
-			that.@org.geogebra.web.full.main.video.HTML5VideoWidget::listenerOnLoad(II)(video.videoWidth, video.videoHeight);
-		}
+	private void addHandlers(HTMLVideoElement video) {
+		video.oncanplaythrough = (evt) -> {
+			listenerOnLoad(video.videoWidth, video.videoHeight);
+			return null;
+		};
 
-		video.onerror = function() {
-			that.@org.geogebra.web.full.main.video.HTML5VideoWidget::listenerOnError()();
-		}
-	}-*/;
+		video.onerror = (evt) -> {
+			listenerOnError();
+			return null;
+		};
+	}
 
 	/**
 	 * Constructor
@@ -83,12 +84,8 @@ public class HTML5VideoWidget extends Widget {
 	 */
 	public void setSrc(String src) {
 		elem.setAttribute("src", src);
-		load(elem); // needed for Safari https://stackoverflow.com/a/49794011
+		elem.load(); // needed for Safari https://stackoverflow.com/a/49794011
 	}
-
-	private native void load(Element video) /*-{
-		video.load();
-	}-*/;
 
 	/**
 	 * Sets the width of the video
@@ -123,23 +120,15 @@ public class HTML5VideoWidget extends Widget {
 	 * Play video tag
 	 */
 	public void play() {
-		play(elem);
+		elem.play();
 	}
 
 	/**
 	 * Pause video tag
 	 */
 	public void pause() {
-		pause(elem);
+		elem.pause();
 	}
-
-	private native void play(JavaScriptObject player) /*-{
-		player.play();
-	}-*/;
-
-	private native void pause(JavaScriptObject player) /*-{
-		player.pause();
-	}-*/;
 
 	private void switchAttribute(String name, boolean b) {
 		if (b) {
@@ -169,14 +158,12 @@ public class HTML5VideoWidget extends Widget {
 		switchAttribute("autoplay", b);
 	}
 
-	@ExternalAccess
 	private void listenerOnLoad(int width, int height) {
 		if (listener != null) {
 			listener.onLoad(width, height);
 		}
 	}
 
-	@ExternalAccess
 	private void listenerOnError() {
 		if (listener != null) {
 			listener.onError();

@@ -2,12 +2,12 @@ package org.geogebra.web.full.gui.pagecontrolpanel;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.StringUtil;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.CardInfoPanel;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
+import org.geogebra.web.html5.util.ArchiveEntry;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -34,7 +34,7 @@ public class PagePreviewCard extends FlowPanel
 	private Localization loc;
 	private int pageIndex;
 	private FlowPanel imagePanel;
-	private String image;
+	private ArchiveEntry image;
 	private CardInfoPanel infoPanel;
 	private ContextMenuButtonPreviewCard contextMenu;
 	private int grabY; // where the user grabbed the card when dragging.
@@ -80,7 +80,7 @@ public class PagePreviewCard extends FlowPanel
 	private void initGUI() {
 		resetTop();
 		addStyleName("mowPagePreviewCard");
-		if (!(Browser.isMobile())) {
+		if (!(NavigatorUtil.isMobile())) {
 			addStyleName("desktop");
 		}
 
@@ -95,7 +95,7 @@ public class PagePreviewCard extends FlowPanel
 
 		add(imagePanel);
 		add(infoPanel);
-		if (StringUtil.empty(image)) {
+		if (image == null || image.isEmpty()) {
 			updatePreviewImage();
 		} else {
 			setPreviewImage(image);
@@ -118,11 +118,11 @@ public class PagePreviewCard extends FlowPanel
 		this.file = file;
 	}
 
-	private void setPreviewImage(String img) {
+	private void setPreviewImage(ArchiveEntry img) {
 		image = img;
-		if (image != null && image.length() > 0) {
+		if (image != null && image.createUrl().length() > 0) {
 			imagePanel.getElement().getStyle().setBackgroundImage(
-					"url(" + Browser.normalizeURL(image) + ")");
+					"url(" + image.createUrl() + ")");
 		}
 	}
 
@@ -131,8 +131,9 @@ public class PagePreviewCard extends FlowPanel
 	 */
 	public void updatePreviewImage() {
 		imagePanel.clear();
-		setPreviewImage(((EuclidianViewWInterface) app.getActiveEuclidianView())
-				.getExportImageDataUrl(0.5, false, false));
+		String exportImageDataUrl = ((EuclidianViewWInterface) app.getActiveEuclidianView())
+				.getExportImageDataUrl(0.5, false, false);
+		setPreviewImage(new ArchiveEntry(exportImageDataUrl));
 	}
 
 	private void updateLabel() {

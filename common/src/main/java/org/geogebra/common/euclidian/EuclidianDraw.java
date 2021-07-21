@@ -24,6 +24,7 @@ import org.geogebra.common.euclidian.draw.DrawIntegralFunctions;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.draw.DrawLocus;
+import org.geogebra.common.euclidian.draw.DrawMindMap;
 import org.geogebra.common.euclidian.draw.DrawPieChart;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPointPlot;
@@ -55,6 +56,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -64,6 +66,7 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocusNDInterface;
+import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -355,9 +358,17 @@ public class EuclidianDraw {
 			break;
 		case INLINE_TEXT:
 			d = new DrawInlineText(ev, (GeoInlineText) geo);
+			d.update();
 			break;
 		case TABLE:
 			d = new DrawInlineTable(ev, (GeoInlineTable) geo);
+			break;
+		case MIND_MAP:
+			d = new DrawMindMap(ev, (GeoMindMapNode) geo);
+			d.update();
+		}
+		if (((GeoElement) geo).hasDynamicCaption()) {
+			((Drawable) d).initDynamicCaption();
 		}
 		return d;
 	}

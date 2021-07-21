@@ -265,7 +265,9 @@ public class ColorObjectModel extends OptionsModel {
 			GeoElement geo = getGeoAt(0);
 			for (int numBar = 1; numBar < getBarChartIntervals()
 					+ 1; numBar++) {
-				algo.setBarColor(null, numBar);
+				if (!updateAlphaOnly) {
+					algo.setBarColor(null, numBar);
+				}
 				algo.setBarAlpha(-1, numBar);
 			}
 
@@ -277,6 +279,7 @@ public class ColorObjectModel extends OptionsModel {
 
 			algo.setBarAlpha(alpha, idx);
 			kernel.notifyRepaint();
+			app.getUndoManager().storeUndoInfo();
 			return;
 
 		}

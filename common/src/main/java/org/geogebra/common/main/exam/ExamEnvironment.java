@@ -62,12 +62,15 @@ public class ExamEnvironment {
 	private boolean temporaryBlur;
 	private Boolean wasCasEnabled;
 
+	private TempStorage tempStorage;
+
 	/**
 	 * @param localization localization
 	 */
 	public ExamEnvironment(Localization localization) {
 		this.localization = localization;
 		cheatingEvents = new CheatingEvents();
+		tempStorage = new TempStorage();
 	}
 
 	public void setIncludingSettingsInLog(boolean includingSettingsInLog) {
@@ -127,6 +130,7 @@ public class ExamEnvironment {
 		examStartTime = time;
 		closed = -1;
 		clearClipboard();
+		tempStorage.clearTempMaterials();
 	}
 
 	/**
@@ -484,6 +488,7 @@ public class ExamEnvironment {
 		examStartTime = EXAM_START_TIME_NOT_STARTED;
 		disableExamCommandFilter();
 		setShowSyntax(true);
+		tempStorage.clearTempMaterials();
 	}
 
 	private void setShowSyntax(boolean showSyntax) {
@@ -706,4 +711,9 @@ public class ExamEnvironment {
 		}
 		commandDispatcher.addCommandFilter(noCASFilter);
 	}
+
+	public TempStorage getTempStorage() {
+		return tempStorage;
+	}
+
 }

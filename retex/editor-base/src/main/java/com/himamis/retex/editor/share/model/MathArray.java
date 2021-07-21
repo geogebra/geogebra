@@ -336,4 +336,17 @@ public class MathArray extends MathContainer {
 	public static boolean isLocked(MathComponent container) {
 		return container instanceof MathArray && container.getParent().isProtected();
 	}
+
+	/**
+	 *
+	 * @param other array.
+	 * @return if the two arrays has the same dimension or not.
+	 */
+	public boolean hasSameDimension(MathArray other) {
+		if (other == null) {
+			return false;
+		}
+
+		return rows == other.rows && columns == other.columns;
+	}
 }

@@ -152,11 +152,6 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	}
 
 	@Override
-	public boolean hasExam() {
-		return false;
-	}
-
-	@Override
 	public String getExamMenuItemText() {
 		return "";
 	}

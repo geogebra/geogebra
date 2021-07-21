@@ -17,8 +17,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
 
+import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
+import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.Commands;
@@ -167,7 +169,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testSubstituteCommand() {
 		t("Substitute(x^2+y^2, x=aaa)", "aaa^(2) + y^(2)");
-		t("Substitute(x^2+y^2, {x=ccc, y=bbb})", "ccc^(2) + bbb^(2)");
+		t("Substitute(x^2+y^2, {x=ccc, y=bbb})", "bbb^(2) + ccc^(2)");
 	}
 
 	@Test
@@ -1319,9 +1321,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testInnerNestedCommands() {
+		app.setUndoActive(true);
 		add("f(x)=x^2");
+		app.storeUndoInfo();
 		add("a(x)=Solve(Derivative(f))");
+		app.storeUndoInfo();
 		add("1+1");
+		app.storeUndoInfo();
 		undoRedo();
 		int n = kernel.getConstruction().steps();
 		assertThat(n, equalTo(3));
@@ -1418,6 +1424,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testFactorial() {
+		t("(1/2)!", "1 / 2 * sqrt(π)");
+		t("a=1/2", "1 / 2");
+		t("a!", "1 / 2 * sqrt(π)");
+	}
+
+	@Test
 	public void testLabelWithEquation() {
 		app.setUndoActive(true);
 		add("a:f = 1");
@@ -1475,5 +1488,84 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("f(x) = x");
 		r = (GeoSymbolic) lookup("r");
 		assertThat(r.isEuclidianShowable(), is(true));
+	}
+
+	@Test
+	public void testUndoRedoWithUndefinedVariableEquation() {
+		app.setUndoActive(true);
+
+		add("f(a,b,x):=a*ln(b x)");
+		app.storeUndoInfo();
+		add("eq: f(a,b,1)=1");
+		app.storeUndoInfo();
+		add("1+1");
+		app.storeUndoInfo();
+
+		undoRedo();
+		GeoSymbolic eq = (GeoSymbolic) lookup("eq");
+		assertThat(eq, notNullValue());
+	}
+
+	@Test
+	public void testCaching() {
+		CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
+
+		if (cas instanceof CASgiac) {
+			CASgiac casGiac = (CASgiac) cas;
+			int cacheSize = casGiac.getCasGiacCacheSize();
+
+			// test input is added to the cache
+			t("NSolve(x+x*x+1/2 = 13)", "{x = -4.070714214271, x = 3.070714214271}");
+			assertEquals(casGiac.getCasGiacCacheSize(), cacheSize + 1);
+
+			// test nothing is added to the cache, result read from cache
+			t("NSolve(x+x*x+1/2 = 13)", "{x = -4.070714214271, x = 3.070714214271}");
+			assertEquals(casGiac.getCasGiacCacheSize(), cacheSize + 1);
+
+			int cacheNewSize = casGiac.getCasGiacCacheSize();
+
+			t("Cross((1,1,1),Cross((2,3,4),(5,7,11)))", "(1, 6, -7)");
+			assertEquals(casGiac.getCasGiacCacheSize(), cacheNewSize + 2);
+
+			t("Cross((1,1,1),Cross((2,3,4),(5,7,11)))", "(1, 6, -7)");
+			assertEquals(casGiac.getCasGiacCacheSize(), cacheNewSize + 2);
+		}
+	}
+
+	@Test
+	public void testUndoRedoWithSolve() {
+		app.setUndoActive(true);
+
+		add("u(x)=-2*10^(-5) x^(3)+1.4*10^(-2) x^(2)-2.4 x+200");
+		app.storeUndoInfo();
+		add("a(x)=Integral(u,0,340)");
+		app.storeUndoInfo();
+		add("eq1: ((a)/(3))=Integral(u,0,s)");
+		app.storeUndoInfo();
+		add("solution = Solve(eq1,s)");
+		app.storeUndoInfo();
+
+		undoRedo();
+		GeoSymbolic eq = (GeoSymbolic) lookup("solution");
+		assertThat(eq, notNullValue());
+	}
+
+	@Test
+	public void orderShouldNotChange() {
+		app.setUndoActive(true);
+
+		t("f(a,x) = a*x^2", "a * x^(2)");
+		app.storeUndoInfo();
+		t("x", "x");
+		app.storeUndoInfo();
+		t("x", "x");
+		app.storeUndoInfo();
+		t("r:=f(a,a)", "a^(3)");
+		app.storeUndoInfo();
+
+		assertEquals(3, lookup("r").getConstructionIndex());
+
+		undoRedo();
+		assertEquals(3, lookup("r").getConstructionIndex());
 	}
 }

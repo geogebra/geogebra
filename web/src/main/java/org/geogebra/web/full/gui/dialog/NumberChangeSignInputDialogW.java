@@ -2,8 +2,8 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.ComponentInputDialog;
 import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.user.client.ui.CheckBox;
@@ -31,7 +31,7 @@ public class NumberChangeSignInputDialogW extends ComponentInputDialog {
 			String initString, NumberChangeSignInputHandler handler,
 			boolean changingSign, String checkBoxText) {
 		super(app, data, false, false, handler, message, initString,
-				1, -1, false);
+				false);
 		this.checkBox = new CheckBox(checkBoxText, true);
 		this.changingSign = changingSign;
 	}

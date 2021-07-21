@@ -19,7 +19,7 @@ public abstract class CASgiacB extends CASgiac {
      */
     private Context context;
 	/** result from thread */
-    protected String threadResult;
+    protected volatile String threadResult;
 
 	/**
 	 * @param casParser
@@ -67,6 +67,12 @@ public abstract class CASgiacB extends CASgiac {
 
 		debug("giac evalRaw input: ", exp);
 
+        String cachedResult = getResultFromCache(exp);
+
+        if (cachedResult != null && !cachedResult.isEmpty()) {
+            return cachedResult;
+        }
+
         Gen g = binding.createGen("caseval(" + exp + ")", context);
         g = g.eval(1, context);
         String ret = g.print(context);
@@ -76,6 +82,8 @@ public abstract class CASgiacB extends CASgiac {
         if (ret != null && ret.startsWith("\"") && ret.endsWith("\"")) {
             ret = ret.substring(1, ret.length() - 1);
         }
+
+        addResultToCache(exp, ret);
 
 		return ret;
     }

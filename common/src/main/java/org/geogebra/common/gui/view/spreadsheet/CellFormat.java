@@ -113,6 +113,18 @@ public class CellFormat implements CellFormatInterface {
 		}
 	}
 
+	@Override
+	public int getAlignment(int col, int row, boolean b) {
+		Integer alignment = (Integer) getCellFormat(col, row, CellFormat.FORMAT_ALIGN);
+		if (alignment != null) {
+			return alignment;
+		} else if (b) {
+			return ALIGN_LEFT;
+		} else {
+			return ALIGN_RIGHT;
+		}
+	}
+
 	// ========================================================
 	// MyHashMap
 	// ========================================================

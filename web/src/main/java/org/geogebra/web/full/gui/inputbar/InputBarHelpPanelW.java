@@ -18,8 +18,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.TextAlign;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -50,7 +48,6 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	private Button btnClose;
 	private LocaleSensitiveComparator comparator;
 	private SplitLayoutPanel sp;
-	private ScrollPanel detailScroller;
 	private InlineLabel lblSyntax;
 	private MyTreeItem itmFunction;
 	private AutoCompleteW inputField;
@@ -87,12 +84,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 		// create help button
 		btnOnlineHelp = new Button(app.getLocalization().getMenu("ShowOnlineHelp"));
-			btnOnlineHelp.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					openOnlineHelp();
-				}
-			});
+			btnOnlineHelp.addClickHandler(event -> openOnlineHelp());
 		render(app.getNetworkOperation().isOnline());
 		app.getNetworkOperation().getView().add(this);
 		btnOnlineHelp.addStyleName("inputHelp-OnlineHelpBtn");
@@ -100,12 +92,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 		// create close button
 		btnClose = new Button(app.getLocalization().getMenu("Close"));
-		btnClose.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				hide();
-			}
-		});
+		btnClose.addClickHandler(event -> hide());
 		btnClose.setStyleName("inputHelp-CancelBtn");
 		pnlButton.add(btnClose);
 
@@ -145,26 +132,18 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		indexTree.addStyleName("inputHelp-tree");
 		indexTree.setAnimationEnabled(true);
 
-		// show only mathematical functions for exam simple calculator
-		if (app.getAppletParameters().hasDataParamEnableGraphing()
-				&& !app.getAppletParameters().getDataParamEnableGraphing(true)) {
-			detailScroller = new ScrollPanel(detailPanel);
-			detailScroller.setStyleName("AVHelpDetailScroller");
-			add(detailScroller);
-		} else {
-			ScrollPanel treeScroller = new ScrollPanel(indexTree);
-			treeScroller.setSize("100%", "100%");
+		ScrollPanel treeScroller = new ScrollPanel(indexTree);
+		treeScroller.setSize("100%", "100%");
 
-			// put the detail panel and index tree side by side in a
-			// SplitLayoutPanel
-			sp = new SplitLayoutPanel();
-			sp.addStyleName("ggbdockpanelhack");
-			sp.addEast(treeScroller, 280);
-			sp.add(new ScrollPanel(detailPanel));
+		// put the detail panel and index tree side by side in a
+		// SplitLayoutPanel
+		sp = new SplitLayoutPanel();
+		sp.addStyleName("ggbdockpanelhack");
+		sp.addEast(treeScroller, 280);
+		sp.add(new ScrollPanel(detailPanel));
 
-			// now add the split panel to our main panel
-			add(sp);
-		}
+		// now add the split panel to our main panel
+		add(sp);
 	}
 
 	@Override
@@ -238,14 +217,8 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		double width = ((GuiManagerW) app.getGuiManager()).getRootComponent()
 				.getOffsetWidth() - 60;
 
-		if (app.getAppletParameters().hasDataParamEnableGraphing()
-				&& !app.getAppletParameters().getDataParamEnableGraphing(true)) {
-			int w = (int) Math.min(400, width);
-			detailScroller.setPixelSize(w, height);
-		} else {
-			int w = (int) Math.min(700, width);
-			sp.setPixelSize(w, height);
-		}
+		int w = (int) Math.min(700, width);
+		sp.setPixelSize(w, height);
 	}
 	
 	/**
@@ -256,12 +229,6 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	public int getPreferredWidth(double scale) {
 		double width = ((GuiManagerW) app.getGuiManager()).getRootComponent()
 				.getOffsetWidth() * scale - 60;
-
-		if (app.getAppletParameters().hasDataParamEnableGraphing()
-				&& !app.getAppletParameters().getDataParamEnableGraphing(true)) {
-			return (int) Math.min(400, width);
-		}
-		
 		return (int) Math.min(700, width);
 	}
 
@@ -328,17 +295,9 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 				addStyleName("inputHelp-leaf");
 			}
 
-			this.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					if (!isLeaf) {
-						item.setState(!item.getState());
-						updateDetailPanel();
-					} else {
-						item.setState(true);
-						updateDetailPanel();
-					}
-				}
+			this.addClickHandler(event -> {
+				item.setState(isLeaf || !item.getState());
+				updateDetailPanel();
 			});
 		}
 	}
@@ -438,9 +397,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 			}
 			// don't show cas specific syntax for exam graphing
 			boolean supportsCAS = app.getSettings().getCasSettings().isEnabled();
-			if (!app.getAppletParameters().hasDataParamEnableGraphing()
-					|| (app.getAppletParameters().hasDataParamEnableGraphing() && supportsCAS)) {
-
+			if (supportsCAS) {
 				Label headCAS = new Label(loc.getMenu("Type.CAS") + ":");
 				headCAS.addStyleName("inputHelp-headerCAS");
 				ret.add(headCAS);

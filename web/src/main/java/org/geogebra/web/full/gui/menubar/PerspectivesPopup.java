@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.gui.Layout;
+import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
@@ -11,7 +12,6 @@ import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Anchor;
@@ -83,7 +83,7 @@ public class PerspectivesPopup {
 		// add exam mode
 		if (app.getLAF().examSupported()) {
 			HorizontalPanel examRow = addPerspectiveRow(pr.menu_icon_exam_transparent(),
-					"exam_menu_entry", -1, 7);
+					"exam_menu_entry", null);
 			contentPanel.add(examRow);
 		}
 
@@ -134,14 +134,13 @@ public class PerspectivesPopup {
 	}
 
 	private void addPerspective(int i, ResourcePrototype icon) {
-		if (Layout.getDefaultPerspectives(i) == null) {
+		Perspective perspective = Layout.getDefaultPerspectives(i);
+		if (perspective == null) {
 			return;
 		}
-		final int index = i;
-		final int defID = Layout.getDefaultPerspectives(i).getDefaultID();
 		HorizontalPanel rowPanel = addPerspectiveRow(icon,
-				Layout.getDefaultPerspectives(i).getId(), index, defID);
-		if (app.getActivePerspective() == index) {
+				perspective.getId(), perspective);
+		if (perspective.equals(app.getActivePerspective())) {
 			rowPanel.addStyleName("perspectiveHighlighted");
 		} else {
 			rowPanel.removeStyleName("perspectiveHighlighted");
@@ -150,7 +149,7 @@ public class PerspectivesPopup {
 	}
 
 	private HorizontalPanel addPerspectiveRow(ResourcePrototype icon,
-			String menuID, final int index, final int defID) {
+			String menuID, final Perspective perspective) {
 		HorizontalPanel rowPanel = new HorizontalPanel();
 		// HorizontalPanel perspective = new HorizontalPanel();
 
@@ -164,28 +163,18 @@ public class PerspectivesPopup {
 
 		// help button
 
-		rowPanel.addDomHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (index >= 0) {
-					PerspectivesMenuW.setPerspective(app, index);
-					if (!(app.isExam() && app.getExam().getStart() >= 0)) {
-						app.showStartTooltip(defID);
-					}
-				} else if (index == -1) {
-					app.getLAF().toggleFullscreen(true);
-					app.setNewExam();
-					app.examWelcome();
-					// activePerspective = -1;
-				} else if (index == -2) {
-					String URL = app.getLocalization()
-							.getTutorialURL(app.getConfig());
-					// TODO check if online
-					app.getFileManager().open(URL);
+		rowPanel.addDomHandler(event -> {
+			if (perspective != null) {
+				PerspectivesMenuW.setPerspective(app, perspective);
+				if (!(app.isExam() && app.getExam().getStart() >= 0)) {
+					app.showStartTooltip(perspective);
 				}
-				closePerspectivesPopup();
+			} else {
+				app.getLAF().toggleFullscreen(true);
+				app.setNewExam();
+				app.examWelcome();
 			}
+			closePerspectivesPopup();
 		}, ClickEvent.getType());
 
 		return rowPanel;

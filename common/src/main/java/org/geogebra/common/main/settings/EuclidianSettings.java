@@ -879,7 +879,7 @@ public class EuclidianSettings extends AbstractSettings {
 	public void setCoordSystemFromXml(
 			double xZero, double yZero, double xscale, double yscale, boolean fire) {
 		double centeredXZero = xZero + visibleFromX / 2.0;
-		double centeredYZero = yZero - (getHeight() - getVisibleHeight()) / 2.0;
+		double centeredYZero = yZero - (getHeight() - getVisibleUntilY()) / 2.0;
 		setCoordSystem(centeredXZero, centeredYZero, xscale, yscale, fire);
 		setFileCoordSystem(centeredXZero, centeredYZero, xscale, yscale);
 	}
@@ -1455,6 +1455,10 @@ public class EuclidianSettings extends AbstractSettings {
 		return size.getHeight();
 	}
 
+	public int getRawHeight() {
+		return size != null ? size.getHeight() : -1;
+	}
+
 	/**
 	 * @param axis
 	 *            axis index
@@ -1737,14 +1741,6 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setLastHighlighterThinckness(int lastHighlighterThinckness) {
 		this.lastHighlighterThinckness = lastHighlighterThinckness;
-	}
-
-	public int getVisibleWidth() {
-		return getWidth() - visibleFromX;
-	}
-
-	public int getVisibleHeight() {
-		return getVisibleUntilY();
 	}
 
 	public void setVisibleFromX(int visibleFromX) {

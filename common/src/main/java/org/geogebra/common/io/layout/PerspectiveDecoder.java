@@ -181,11 +181,9 @@ public class PerspectiveDecoder {
 		if (code.length() == 0 || code.startsWith("search:")) {
 			return null;
 		}
-		for (int i = 0; i < Layout.getDefaultPerspectivesLength(); i++) {
-			Perspective defaultPerspective = Layout.getDefaultPerspectives(i);
-			if (defaultPerspective != null && code.equals(defaultPerspective.getDefaultID() + "")) {
-				return defaultPerspective;
-			}
+		Perspective defaultPerspective = getDefaultPerspective(code);
+		if (defaultPerspective != null) {
+			return defaultPerspective;
 		}
 		StringBuilder longCode = new StringBuilder();
 		for (int i = 0; i < code.length(); i++) {
@@ -214,6 +212,20 @@ public class PerspectiveDecoder {
 
 		return new Perspective(0, spData, dpData, defToolbar, true, false, true,
 				true, true, InputPosition.algebraView);
+	}
+
+	/**
+	 * @param code default ID as string
+	 * @return default prespective with given defaultID
+	 */
+	public static Perspective getDefaultPerspective(String code) {
+		for (int i = 0; i < Layout.getDefaultPerspectivesLength(); i++) {
+			Perspective defaultPerspective = Layout.getDefaultPerspectives(i);
+			if (defaultPerspective != null && code.equals(defaultPerspective.getDefaultID() + "")) {
+				return defaultPerspective;
+			}
+		}
+		return null;
 	}
 
 	private static void buildPerspective(ExpressionValue expr, String panelPath,

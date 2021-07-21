@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.util.ArchiveEntry;
 
 public class SVGPreprocessor implements ImagePreprocessor {
 	private static final List<String> tagsToCut = Arrays.asList("script",
@@ -19,10 +20,10 @@ public class SVGPreprocessor implements ImagePreprocessor {
 
 	@Override
 	public void process(ImageFile imageFile, SafeImageProvider provider) {
-		String content = toDecoded(imageFile.getContent());
+		String content = toDecoded(imageFile.getContent().string);
 		xml.setContent(content);
 		removeTags();
-		provider.onReady(new ImageFile(imageFile.getFileName(), encodeSVG()));
+		provider.onReady(new ImageFile(imageFile.getFileName(), new ArchiveEntry(encodeSVG())));
 	}
 
 	private String toDecoded(String content) {

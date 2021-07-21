@@ -2,14 +2,10 @@ package org.geogebra.web.full.gui.menubar.action;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.javax.swing.GOptionPane;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.exam.ExamLogBuilder;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.app.HTMLLogBuilder;
-import org.geogebra.web.full.gui.exam.ExamDialog;
 import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.exam.ExamUtil;
@@ -18,7 +14,6 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.components.DialogData;
 
@@ -33,6 +28,8 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	 */
 	protected static final int LINE_HEIGHT = 24;
 	private static final double PADDING = 24;
+	private static final GColor EXAM_LOCK_COLOR = GColor.newColorRGB(0x007AFF);
+	private static final GColor EXAM_OK_COLOR = GColor.newColorRGB(0x3DA196);
 
 	private AppWFull app;
 
@@ -46,37 +43,44 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	 * Show exit exam dialog
 	 */
 	protected void showExamExitDialog() {
-		Localization loc = app.getLocalization();
-		// set Firefox dom.allow_scripts_to_close_windows in about:config to
-		// true to make this work
-		String[] optionNames = {loc.getMenu("Cancel"), loc.getMenu("Exit")};
+		DialogData data = new DialogData(null,
+				"Cancel", "Exit");
+		Runnable returnHandler;
 
-		if (app.getConfig().hasExam()) {
-			DialogData data = new DialogData(null,
-					"Cancel", "Exit");
-			AsyncOperation<String> returnHandler = obj -> {
-				if ("exit".equals(obj)) {
+		String buttonText;
+		if (app.getAppletParameters().getParamLockExam()) {
+			buttonText = "Restart";
+			returnHandler = () -> {
+				if (app.getConfig().hasExam()) {
 					exitAndResetExamOffline();
+					new StartExamAction(app).execute(null, app);
+				} else { // classic
+					exitAndResetExam();
+					app.setNewExam();
+					app.examWelcome();
 				}
 			};
-			ExamExitConfirmDialog exit = new ExamExitConfirmDialog(app, data);
-			exit.setOnPositiveAction(() -> {
+		} else {
+			buttonText = "Exit";
+			returnHandler = () -> {
+				if (app.getConfig().hasExam()) {
+					exitAndResetExamOffline();
+				} else { // classic
+					exitAndResetExam();
+				}
+			};
+		}
+		ExamExitConfirmDialog exit = new ExamExitConfirmDialog(app, data);
+		exit.setOnPositiveAction(() -> {
+			if (app.getConfig().hasExam()) {
 				app.getExam().exit();
 				GlobalHeader.INSTANCE.resetAfterExam();
-				new ExamLogAndExitDialog((AppW) app, false, returnHandler, null).show();
-			});
-			exit.show();
-		} else {
-			app.getGuiManager().getOptionPane().showOptionDialog(
-					loc.getMenu("exam_exit_confirmation"), // ExitExamConfirm
-					loc.getMenu("exam_exit_header"), // ExitExamConfirmTitle
-					1, GOptionPane.WARNING_MESSAGE, null, optionNames,
-					obj -> {
-						if ("1".equals(obj[0])) {
-							exitAndResetExam();
-						}
-					});
-		}
+				new ExamLogAndExitDialog(app, false, returnHandler, null, buttonText).show();
+			} else { // classic
+				showClassicExamLogExitDialog(buttonText, returnHandler);
+			}
+		});
+		exit.show();
 	}
 
 	/**
@@ -84,55 +88,18 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	 */
 	protected void exitAndResetExam() {
 		app.getLAF().toggleFullscreen(false);
-		final Localization loc = app.getLocalization();
 		ExamEnvironment exam = app.getExam();
 		exam.exit();
-		boolean examFile = app.getAppletParameters().hasDataParamEnableGraphing();
-		String buttonText;
-		AsyncOperation<String[]> handler;
-		AsyncOperation<String[]> welcomeHandler;
-		if (examFile && !app.isUnbundledGraphing()) {
-			handler = dialogResult -> {
-				app.setNewExam();
-				ExamDialog.startExam(null, app);
-			};
-			welcomeHandler = obj -> {
-				app.getLAF().toggleFullscreen(true);
-				app.setNewExam();
-				app.examWelcome();
-			};
-			buttonText = loc.getMenu("Restart");
-			exam.setHasGraph(true);
-			boolean supportsCAS = app.getSettings().getCasSettings().isEnabled();
-			boolean supports3D = app.getSettings().getEuclidian(-1).isEnabled();
-			if (!supports3D && supportsCAS) {
-				showFinalLog(loc.getMenu("ExamCAS"), buttonText, handler);
-			} else if (!supports3D) {
-				if (app.enableGraphing()) {
-					showFinalLog(loc.getMenu("ExamGraphingCalc.long"), buttonText, handler);
-				} else {
-					showFinalLog(loc.getMenu("ExamSimpleCalc.long"), buttonText, handler);
-				}
-			} else {
-				showFinalLog(loc.getMenu("exam_log_header") + " " + app.getVersionString(),
-						buttonText, welcomeHandler);
-			}
-		} else {
-			handler = dialogResult -> app.fileNew();
-			buttonText = loc.getMenu("OK");
-			showFinalLog(loc.getMenu("exam_log_header") + " " + app.getVersionString(),
-					buttonText, handler);
-		}
+		saveScreenshot(app.getLocalization().getMenu("exam_log_header")
+				+ " " + app.getVersionString());
 		app.endExam();
 	}
 
-	private void showFinalLog(String menu, String buttonText,
-							  AsyncOperation<String[]> handler) {
+	private void showClassicExamLogExitDialog(String buttonText, Runnable handler) {
 		app.fileNew();
 		HTMLLogBuilder htmlBuilder = new HTMLLogBuilder();
 		app.getExam().getLog(app.getLocalization(), app.getSettings(), htmlBuilder);
-		app.showMessage(htmlBuilder.getHTML(), menu, buttonText, handler);
-		saveScreenshot(menu);
+		app.showClassicExamLogExitDialog(htmlBuilder.getHTML(), buttonText, handler);
 	}
 
 	private void saveScreenshot(String menu) {
@@ -143,7 +110,12 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		g2.setCoordinateSpaceSize(500, app.getExam().getEventCount() * LINE_HEIGHT + 350);
 		g2.setColor(GColor.WHITE);
 		g2.fillRect(0, 0, canvas.getCoordinateSpaceWidth(), canvas.getCoordinateSpaceHeight());
-		g2.setPaint(GColor.newColorRGB(app.getExam().isCheating() ? 0xD32F2F : 0x3DA196));
+		GColor color =  app.getAppletParameters().getParamLockExam() ? EXAM_LOCK_COLOR
+				: EXAM_OK_COLOR;
+		if (app.getExam().isCheating()) {
+			color = GColor.DARK_RED;
+		}
+		g2.setPaint(color);
 		g2.fillRect(0, 0, 500, header);
 		g2.setFont(new GFontW("SansSerif", GFont.PLAIN, 12));
 		g2.setColor(GColor.WHITE);
@@ -176,7 +148,6 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 					yOffset += LINE_HEIGHT;
 				}
 			}
-
 		};
 
 		app.getExam().getLog(app.getLocalization(), app.getSettings(), canvasLogBuilder);

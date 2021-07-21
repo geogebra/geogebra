@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
@@ -40,7 +41,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	private MyToggleButtonW btnSpeedUp;
 	private MyToggleButtonW btnPlay;
 	private boolean play = false;
-	private int speedIndex = 6;
+	private double speed = 1; // currently displayed speed
 	private FlowPanel speedPanel;
 	private final AnimPanelListener listener;
 	private Label lblSpeedValue;
@@ -68,7 +69,6 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		super();
 		this.radioTreeItem = radioTreeItem;
 		this.listener = listener;
-		addStyleName("elemRow");
 
 		buildGui();
 	}
@@ -213,9 +213,10 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		btnPlay.setVisible(value);
 	}
 
-	private void setSpeed() {
-		double speed = ANIM_SPEEDS[this.speedIndex];
-		this.radioTreeItem.geo.setAnimationSpeed(speed);
+	private void setSpeed(double newSpeed) {
+		speed = newSpeed;
+		getGeo().setAnimationSpeed(speed);
+		getGeo().getKernel().notifyUpdateVisualStyle(getGeo(), GProperty.COMBINED);
 		setSpeedText(speed);
 	}
 
@@ -241,16 +242,20 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	}
 
 	private void speedUp() {
-		if (this.speedIndex < ANIM_SPEEDS.length - 1) {
-			this.speedIndex++;
-			setSpeed();
+		for (double animSpeed : ANIM_SPEEDS) {
+			if (animSpeed > speed) {
+				setSpeed(animSpeed);
+				return;
+			}
 		}
 	}
 
 	private void speedDown() {
-		if (this.speedIndex > 0) {
-			this.speedIndex--;
-			setSpeed();
+		for (int speedIndex = ANIM_SPEEDS.length - 1; speedIndex >= 0; speedIndex--) {
+			if (ANIM_SPEEDS[speedIndex] < speed) {
+				setSpeed(ANIM_SPEEDS[speedIndex]);
+				return;
+			}
 		}
 	}
 
@@ -264,6 +269,10 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 			boolean v = isGeoAnimating();
 			setPlay(v);
 			btnPlay.setDown(v);
+		}
+		if (visible && getGeo().getAnimationSpeed() != speed) {
+			speed = getGeo().getAnimationSpeed();
+			setSpeedText(speed);
 		}
 		setVisible(visible);
 	}

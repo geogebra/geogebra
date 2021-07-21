@@ -2,6 +2,8 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
@@ -142,10 +144,8 @@ public abstract class BoundingBox<T extends GShape> {
 	 */
 	protected void drawRectangle(GGraphics2D g2) {
 		if (rectangle != null) {
-			g2.setColor(GColor.newColor(192, 192, 192, 0.0));
 			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f, GBasicStroke.CAP_BUTT,
 					GBasicStroke.JOIN_MITER));
-			g2.fill(rectangle);
 			g2.setColor(color);
 			g2.draw(rectangle);
 		}
@@ -211,7 +211,7 @@ public abstract class BoundingBox<T extends GShape> {
 	 *            - threshold
 	 * @return bounding box handler
 	 */
-	public EuclidianBoundingBoxHandler getHitHandler(int x, int y,
+	public @Nonnull EuclidianBoundingBoxHandler getHitHandler(int x, int y,
 			int hitThreshold) {
 		int hit = hitHandlers(x, y, hitThreshold);
 

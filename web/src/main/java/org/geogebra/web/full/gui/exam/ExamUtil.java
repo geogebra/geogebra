@@ -1,9 +1,15 @@
 package org.geogebra.web.full.gui.exam;
 
-import org.geogebra.common.util.ExternalAccess;
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
+
+import elemental2.dom.DomGlobal;
 
 /**
  * Utility class for exam mode
@@ -30,77 +36,42 @@ public class ExamUtil {
 	 * @param tabletMode
 	 *            whether we are in tablet app
 	 */
-	private native void visibilityEventMain(boolean tabletMode) /*-{
-		var gui = this;
-		// fix for firefox and iexplorer (e.g. fullscreen goes to 1079px instead of 1080px)
-		var fullscreen = true;
-		if ($wnd.innerHeight < screen.height - 5
-				|| $wnd.innerWidth < screen.width - 5) {
-			fullscreen = false;
-		}
-
-		var startCheating = function() {
-			gui.@org.geogebra.web.full.gui.exam.ExamUtil::startCheating()()
-		};
-		var stopCheating = function() {
-			gui.@org.geogebra.web.full.gui.exam.ExamUtil::stopCheating()()
-		};
-
+	private void visibilityEventMain(boolean tabletMode) {
 		if (tabletMode) {
-			$wnd.visibilityEventMain(startCheating, stopCheating);
+			GeoGebraGlobal.visibilityEventMain(this::startCheating, this::stopCheating);
 		} else {
 
-			$wnd.onblur = function(event) {
-				// Borrowed from http://www.quirksmode.org/js/events_properties.html
-				//$wnd.console.log("4");
-				var e = event ? event : $wnd.event;
-				var targ;
-				if (e.target) {
-					targ = e.target;
-				} else if (e.srcElement) {
-					targ = e.srcElement;
-				}
-				if (targ.nodeType == 3) { // defeat Safari bug
-					targ = targ.parentNode;
-				}
+			DomGlobal.window.onblur = (event) -> {
 				// The focusout event should not be caught:
-				if (e.type == "blur") { //&& fullscreen == true
-					//$wnd.console.log("5");
+				if ("blur".equals(event.type)) {
 					startCheating();
 				}
-
+				return null;
 			};
-			$wnd.onfocus = function(event) {
-				//$wnd.console.log("6");
-				if (fullscreen) {
+			DomGlobal.window.onfocus = (event) -> {
+				if (Browser.isCoveringWholeScreen()) {
 					stopCheating();
-					//	focus = true;
-					//	console.log("focus 3 " + focus);
 				}
-			}
-			// window resize has 2 cases: full screen and not full screen
-			$wnd
-					.addEventListener(
-							"resize",
-							function() {
-								fullscreen = @org.geogebra.web.html5.Browser::isCoveringWholeScreen()();
-								if (!fullscreen) {
-									startCheating();
-								} else {
-									stopCheating();
-								}
-							});
+				return null;
+			};
+			DomGlobal.window.addEventListener("resize",
+					(evt) -> {
+						boolean fullscreen = Browser.isCoveringWholeScreen();
+						if (!fullscreen) {
+							startCheating();
+						} else {
+							stopCheating();
+						}
+			});
 		}
-	}-*/ ;
+	}
 
-	@ExternalAccess
 	private void startCheating() {
 		if (app.getExam() != null && !app.getExam().isClosed()) {
 			app.getExam().checkedWindowLeft();
 		}
 	}
 
-	@ExternalAccess
 	private void stopCheating() {
 		if (app.getExam() != null) {
 			app.getExam().stopCheating();
@@ -136,10 +107,14 @@ public class ExamUtil {
 	 * @param red
 	 *            whether it should be red
 	 */
-	public static native void makeRed(Element element, boolean red) /*-{
-		element.style.setProperty("background-color", red ? "#D32F2F" : "",
-				red ? "important" : "");
-	}-*/;
+	public static void makeRed(Element element, boolean red) {
+		if (red) {
+			Dom.setImportant(element.getStyle(), "background-color",
+					StringUtil.toHtmlColor(GColor.DARK_RED));
+		} else {
+			element.getStyle().setBackgroundColor("");
+		}
+	}
 
 	/**
 	 * @param appW

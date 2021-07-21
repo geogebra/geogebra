@@ -326,7 +326,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 
 	@Override
 	public void onCursorMove() {
-		mf.scrollParentHorizontally(this, 20);
+		mf.scrollParentHorizontally(this);
 	}
 
 	@Override

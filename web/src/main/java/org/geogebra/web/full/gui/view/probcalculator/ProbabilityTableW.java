@@ -83,11 +83,6 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 	@Override
 	public void setSelectionByRowValue(int lowValue, int highValue) {
 		// TODO reuse desktop?
-		// if(!probManager.isDiscrete(distType))
-		// return;
-
-		// try {
-		// statTable.getTable().getSelectionModel().removeListSelectionListener(this);
 
 		int lowIndex = lowValue - getXMin();
 		if (lowIndex < 0) {
@@ -101,11 +96,22 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 			statTable.getTable().changeSelection(lowIndex, false, false);
 			statTable.getTable().changeSelection(highIndex, false, true);
 		}
-		// wrappedPanel.repaint();
-		// statTable.getTable().getSelectionModel().addListSelectionListener(this);
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
+	}
+
+	@Override
+	public void setTwoTailedSelection(int lowValue, int highValue) {
+		int lowIndex = lowValue - getXMin();
+		if (lowIndex < 0) {
+			lowIndex = 0;
+		}
+		int highIndex = highValue - getXMin();
+
+		if (isCumulative()) {
+			statTable.getTable().changeSelection(highIndex, false, false);
+		} else {
+			statTable.getTable().setTailSelection(lowIndex, highIndex);
+
+		}
 	}
 	
 	/**

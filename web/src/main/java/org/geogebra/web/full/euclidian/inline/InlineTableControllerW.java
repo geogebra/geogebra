@@ -116,8 +116,6 @@ public class InlineTableControllerW implements InlineTableController {
 
 			setWidth(table.getWidth());
 			setHeight(table.getHeight());
-
-			setAngle(table.getAngle());
 		}
 	}
 
@@ -134,6 +132,15 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public boolean hasSelection() {
 		return tableImpl.getSelection() != null;
+	}
+
+	@Override
+	public int getSelectedColumn() {
+		if (tableImpl.getSelection() == null) {
+			return 0;
+		}
+
+		return tableImpl.getSelection().col0;
 	}
 
 	@Override
@@ -157,6 +164,9 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void toBackground() {
 		if (style != null) {
+			if (isInEditMode()) {
+				table.unlockForMultiuser();
+			}
 			style.setVisibility(HIDDEN);
 			tableImpl.stopEditing();
 			tableImpl.removeSelection();
@@ -364,11 +374,6 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
-	public void setAngle(double angle) {
-		style.setProperty("transform", "rotate(" + angle + "rad)");
-	}
-
-	@Override
 	public void removeFromDom() {
 		if (tableElement != null) {
 			tableElement.removeFromParent();
@@ -376,7 +381,11 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	private void updateSizes() {
-		table.setSize(tableImpl.getTotalWidth(), tableImpl.getTotalHeight());
+		double scaleX = table.getWidth() / table.getContentWidth();
+		double scaleY = table.getHeight() / table.getContentHeight();
+		table.setSize(tableImpl.getTotalWidth() * scaleX, tableImpl.getTotalHeight() * scaleY);
+		table.setContentHeight(tableImpl.getTotalHeight());
+		table.setContentWidth(tableImpl.getTotalWidth());
 		table.setMinWidth(tableImpl.getMinWidth());
 		table.setMinHeight(tableImpl.getMinHeight());
 		saveContent();
@@ -436,7 +445,7 @@ public class InlineTableControllerW implements InlineTableController {
 		}
 
 		table.setContent(content);
-		table.notifyUpdate();
+		table.updateCascade();
 		return true;
 	}
 
@@ -447,5 +456,11 @@ public class InlineTableControllerW implements InlineTableController {
 			tableImpl.repaint();
 			table.getKernel().notifyRepaint();
 		};
+	}
+
+	@Override
+	public void setTransform(double angle, double sx, double sy) {
+		style.setProperty("transform", "rotate(" + angle + "rad) scale(" + sx + "," + sy + ")");
+		tableImpl.setExternalScale(sx);
 	}
 }

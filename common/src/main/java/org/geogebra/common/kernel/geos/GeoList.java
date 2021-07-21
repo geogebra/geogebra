@@ -71,8 +71,6 @@ public class GeoList extends GeoElement
 		Transformable, SpreadsheetTraceable, AbsoluteScreenLocateable, InequalityProperties,
 		AngleProperties, Animatable, SegmentProperties {
 
-	private static final int MAX_ITEMS_FOR_SCREENREADER = 8;
-
 	private final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
 
 	private boolean trace;
@@ -3242,12 +3240,6 @@ public class GeoList extends GeoElement
 		return getItemDisplayString(get(idx), tpl);
 	}
 
-	private void addAuralLabelOrCaption(ScreenReaderBuilder sb) {
-		sb.append(" ");
-		String caption0 = getCaptionSimple();
-		sb.append(caption0 == null ? getLabelSimple() : caption0);
-	}
-
 	@Override
 	public void addAuralType(ScreenReaderBuilder sb) {
 		sb.appendMenuDefault("Dropdown", "dropdown");
@@ -3353,8 +3345,8 @@ public class GeoList extends GeoElement
 	/**
 	 * @return new array with elements
 	 */
-	public GeoElement[] elementsAsArray() {
-		return elements.toArray(new GeoElement[size()]);
+	public ArrayList<GeoElement> elements() {
+		return elements;
 	}
 
 	@Override

@@ -3,7 +3,12 @@
   @license: This file is subject to the GeoGebra Non-Commercial License Agreement, see http://www.geogebra.org/license. For questions please write us at office@geogebra.org.
 */
 
-/*global renderGGBElement, XDomainRequest, ggbApplets, console */
+/*global renderGGBElement, console */
+(function() {
+if (typeof window.GGBApplet == "function") {
+    console.warn("deployggb.js was loaded twice");
+    return;
+}
 
 var isRenderGGBElementEnabled = false;
 var scriptLoadStarted = false;
@@ -1873,8 +1878,10 @@ GGBAppletUtils.makeModule = function(name, permutation){
     return webModule;
 }
 if (typeof window.web3d !== "function") {
-    web3d = GGBAppletUtils.makeModule("web3d",'%WEB3D_PERMUTATION%');
+    window.web3d = GGBAppletUtils.makeModule("web3d",'%WEB3D_PERMUTATION%');
 }
 if (typeof window.webSimple !== "function") {
-    webSimple = GGBAppletUtils.makeModule("webSimple",'%WEBSIMPLE_PERMUTATION%');
+    window.webSimple = GGBAppletUtils.makeModule("webSimple",'%WEBSIMPLE_PERMUTATION%');
 }
+window.GGBApplet = GGBApplet;
+})();

@@ -16,6 +16,7 @@ import org.geogebra.web.html5.safeimage.ImagePreprocessor;
 import org.geogebra.web.html5.safeimage.SVGPreprocessor;
 import org.geogebra.web.html5.safeimage.SafeImage;
 import org.geogebra.web.html5.safeimage.SafeImageProvider;
+import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.ImageManagerW;
 
 import elemental2.dom.HTMLImageElement;
@@ -72,7 +73,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	 */
 	public GeoImage create(String fileName, String content) {
 		ensureResultImageExists();
-		ImageFile imageFile = new ImageFile(fileName, content);
+		ImageFile imageFile = new ImageFile(fileName, new ArchiveEntry(content));
 		SafeImage safeImage = new SafeImage(imageFile, this, getPreprocessors());
 		safeImage.process();
 		return geoImage;

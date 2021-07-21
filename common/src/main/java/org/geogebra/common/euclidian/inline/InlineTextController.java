@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian.inline;
 
-import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 
@@ -8,6 +7,8 @@ import org.geogebra.common.euclidian.draw.HasTextFormat;
  * Controller for the inline text editor.
  */
 public interface InlineTextController extends HasTextFormat {
+
+	boolean updateFontSize();
 
 	/**
 	 * Create the inline text editor.
@@ -41,8 +42,6 @@ public interface InlineTextController extends HasTextFormat {
 	 */
 	void setHeight(int height);
 
-	void setAngle(double angle);
-
 	void toForeground(int x, int y);
 
 	/**
@@ -58,14 +57,14 @@ public interface InlineTextController extends HasTextFormat {
 	/**
 	 * @param g2
 	 * 	          graphics
-	 * @param transform
-	 *            transform w.r.t. top left corner, does not include padding
 	 */
-	void draw(GGraphics2D g2, GAffineTransform transform);
+	void draw(GGraphics2D g2);
 
 	String urlByCoordinate(int x, int y);
 
 	void updateContentIfChanged();
 
 	void saveContent();
+
+	void setTransform(double angle, double sx, double sy);
 }

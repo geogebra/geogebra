@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.prover.adapters.IntersectConicsAdapter;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -57,6 +58,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	 * one point
 	 **/
 	static final int DIST_MEMORY_SIZE = 8;
+	private final GeoPoint helper;
 
 	private GeoConic A;
 	private GeoConic B;
@@ -109,6 +111,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	 */
 	public AlgoIntersectConics(Construction cons) {
 		super(cons);
+		helper = new GeoPoint(cons, true);
 		init(cons);
 	}
 
@@ -118,6 +121,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	 */
 	public AlgoIntersectConics(Construction cons, boolean addToConstructionList) {
 		super(cons, addToConstructionList);
+		helper = new GeoPoint(cons, true);
 		init(cons);
 	}
 
@@ -363,8 +367,31 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 			return false;
 		}
 
-		// intersect the two circles
-		intersectConicsWithEqualSubmatrixS(A, B, Q, Kernel.STANDARD_PRECISION);
+		// centres and radii of the circles
+		double r1 = A.getCircleRadius();
+		double x1 = A.b.getX();
+		double y1 = A.b.getY();
+		double r2 = B.getCircleRadius();
+		double x2 = B.b.getX();
+		double y2 = B.b.getY();
+
+		// distance between centres
+		double dist = MyMath.length(x1 - x2, y1 - y2);
+
+		if (DoubleUtil.isZero(r1 + r2 - dist)) {
+			// circles (externally) tangential
+			Q[0].setCoords(((r1 * x2) + (r2 * x1)), ((r1 * y2) + (r2 * y1)), (r1 + r2));
+			Q[1].setUndefined();
+
+		} else if (DoubleUtil.isZero(Math.abs(r1 - r2) - dist)) {
+			// circles tangential, one inside the other
+			Q[0].setCoords(((r1 * x2) - (r2 * x1)), ((r1 * y2) - (r2 * y1)), (r1 - r2));
+			Q[1].setUndefined();
+
+		} else {
+			// more general case (2 circles)
+			intersectConicsWithEqualSubmatrixS(A, B, Q, Kernel.STANDARD_PRECISION);
+		}
 
 		// pointOnConic should be first intersection point
 		// Note: if the first intersection point was already set when a file
@@ -759,7 +786,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	/**
 	 * Tests if at least one point lies on conics A and B.
 	 */
-	final private static boolean testPoints(GeoConic A, GeoConic B, GeoPoint[] P, double eps) {
+	final private boolean testPoints(GeoConic A, GeoConic B, GeoPoint[] P, double eps) {
 		boolean foundPoint = false;
 		for (int i = 0; i < P.length; i++) {
 			if (P[i].isDefined()) {
@@ -770,10 +797,10 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 				double x2 = DoubleUtil.checkDecimalFraction(x, 100000000);
 				double y2 = DoubleUtil.checkDecimalFraction(y, 100000000);
 				if (x != x2 || y != y2) {
-					GeoPoint pt = new GeoPoint(P[i].getConstruction(), x2, y2, 1);
-
-					if (DoubleUtil.isGreaterEqual(B.distance(P[i]), B.distance(pt))
-							&& DoubleUtil.isGreaterEqual(A.distance(P[i]), A.distance(pt))) {
+					if (DoubleUtil.isGreaterEqual(B.distance(x, y, helper),
+							B.distance(x2, y2, helper))
+							&& DoubleUtil.isGreaterEqual(A.distance(x, y, helper),
+							A.distance(x2, y2, helper))) {
 						// rounded point is at least as close to both conics
 						// -> let's take that one instead
 						// eg Intersect(-x² + 6x + 20y = -291, -x y - x + 2y = -83)

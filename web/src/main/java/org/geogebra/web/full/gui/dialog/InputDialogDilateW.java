@@ -7,8 +7,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.ComponentInputDialog;
 import org.geogebra.web.shared.components.DialogData;
 
 /**
@@ -40,7 +40,7 @@ public class InputDialogDilateW extends ComponentInputDialog {
 			GeoPointND[] points, GeoElement[] selGeos, Kernel kernel, EuclidianController ec) {
 		super(app, data, false, false, handler,
 				app.getLocalization().getMenu("Dilate.Factor"), "",
-				1, -1, false);
+				false);
 		setInputHandler(handler);
 		addStyleName("dilate");
 

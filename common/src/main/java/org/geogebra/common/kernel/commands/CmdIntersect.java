@@ -659,21 +659,6 @@ public class CmdIntersect extends CommandProcessor {
 	}
 
 	/**
-	 * get single intersection points of two implicitPolys
-	 * 
-	 * @param idx
-	 *            index of choosen point
-	 */
-	final private GeoPoint intersectImplicitpolysSingle(String label,
-			GeoImplicit p1, GeoImplicit p2, GeoNumberValue idx) {
-		AlgoIntersectImplicitpolys algo = getAlgoDispatcher()
-				.getIntersectionAlgorithm(p1, p2);
-		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);
-		GeoPoint point = salgo.getPoint();
-		return point;
-	}
-
-	/**
 	 * get single intersection points of a implicitPoly and a line
 	 * 
 	 * @param idx

@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -343,12 +342,6 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 
 		inputBox.updateLinkedGeo("10");
 		Assert.assertEquals(5, numeric.getValue(), Kernel.MAX_PRECISION);
-	}
-
-	private void t(String input, String... expected) {
-		AlgebraTestHelper.testSyntaxSingle(input, expected,
-				getApp().getKernel().getAlgebraProcessor(),
-				StringTemplate.xmlTemplate);
 	}
 
 	private void hasType(String label, GeoClass geoClass) {

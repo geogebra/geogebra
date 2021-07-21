@@ -5,6 +5,7 @@ import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.AppletParameters;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.gwtproject.timer.client.Timer;
 
@@ -73,7 +74,7 @@ public class SplashDialog extends SimplePanel {
 			sstyle.setMarginLeft(-8, Unit.PX);
 
 			panel.add(spinner);
-			addNativeLoadHandler(spinner.getElement());
+			Dom.addEventListener(spinner.getElement(), "load", evt -> triggerImageLoaded());
 			add(panel);
 		} else {
 			Timer afterConstructor = new Timer() {
@@ -81,7 +82,6 @@ public class SplashDialog extends SimplePanel {
 				@Override
 				public void run() {
 					triggerImageLoaded();
-
 				}
 			};
 			afterConstructor.schedule(0);
@@ -89,13 +89,6 @@ public class SplashDialog extends SimplePanel {
 
 		t.schedule(GeoGebraConstants.SPLASH_DIALOG_DELAY);
 	}
-
-	protected native void addNativeLoadHandler(Element img) /*-{
-		var t = this;
-		img.addEventListener("load", function() {
-			t.@org.geogebra.web.html5.gui.SplashDialog::triggerImageLoaded()();
-		});
-	}-*/;
 
 	private void triggerImageLoaded() {
 		geogebraFrame.runAsyncAfterSplash();

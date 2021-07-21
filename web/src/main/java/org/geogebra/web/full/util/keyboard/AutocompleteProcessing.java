@@ -88,11 +88,6 @@ public class AutocompleteProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public void scrollCursorIntoView() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public void endEditing() {
 		field.endOnscreenKeyboardEditing();
 	}

@@ -50,6 +50,16 @@ public abstract class ProbabilityTable {
 	public abstract void setSelectionByRowValue(int lowValue, int highValue);
 
 	/**
+	 * Select rows 0 - lowValue and highValue to the last one.
+	 *
+	 * @param lowValue
+	 *            lowest value
+	 * @param highValue
+	 *            highest value
+	 */
+	public abstract void setTwoTailedSelection(int lowValue, int highValue);
+
+	/**
 	 * Update localized column names
 	 */
 	public void setColumnNames() {

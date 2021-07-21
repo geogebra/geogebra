@@ -5,8 +5,8 @@ import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.ComponentInputDialog;
 import org.geogebra.web.shared.components.DialogData;
 
 /**
@@ -32,7 +32,7 @@ public abstract class InputDialogRadiusW extends ComponentInputDialog {
 	public InputDialogRadiusW(AppW app, DialogData data, InputHandler handler,
 			Kernel kernel) {
 		super(app, data, false, false, handler, "Radius",
-				"", 1, -1, false);
+				"", false);
 		this.kernel = kernel;
 	}
 

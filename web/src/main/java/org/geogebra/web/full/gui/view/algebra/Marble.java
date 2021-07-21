@@ -4,8 +4,8 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 
@@ -39,7 +39,7 @@ public class Marble extends SimplePanel {
 	public Marble(final RadioTreeItem gc) {
 		this.gc = gc;
 		if (gc.getApplication().isUnbundledOrWhiteboard()
-				&& !Browser.isMobile()) {
+				&& !NavigatorUtil.isMobile()) {
 			this.getElement().removeAttribute("title");
 		}
 		if (gc.isTextItem()) {
@@ -78,18 +78,7 @@ public class Marble extends SimplePanel {
 	 *            true tfor visible, false for invisible geo
 	 */
 	public void setChecked(boolean value) {
-		if (value) {
-			// Steffi: Marbles will be drawn by css now
-			// setImage(showUrl.asString());
-			this.removeStyleName("elemHidden");
-			this.addStyleName("elemShown");
-			updateMarble(true);
-		} else {
-			// setImage(hiddenUrl.asString());
-			this.removeStyleName("elemShown");
-			this.addStyleName("elemHidden");
-			updateMarble(false);
-		}
+		updateMarble(value);
 	}
 
 	/**

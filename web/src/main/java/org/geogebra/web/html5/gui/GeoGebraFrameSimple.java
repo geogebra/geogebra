@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.factories.CASFactory;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AppWsimple;
@@ -17,14 +18,18 @@ import com.google.gwt.user.client.ui.RootPanel;
  *
  */
 public class GeoGebraFrameSimple extends GeoGebraFrameW {
+	private final CASFactory casFactory;
+
 	/**
 	 * Frame for simple applets (only EV showing)
 	 *
 	 * @param articleElement
 	 *            article with parameters
 	 */
-	public GeoGebraFrameSimple(GeoGebraElement articleElement, AppletParameters parameters) {
+	public GeoGebraFrameSimple(GeoGebraElement articleElement, AppletParameters parameters,
+			CASFactory factory) {
 		super(null, articleElement, parameters);
+		this.casFactory = factory;
 	}
 
 	@Override
@@ -39,10 +44,10 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 * @param geoGebraMobileTags
 	 *            list of &lt;article&gt; elements of the web page
 	 */
-	public static void main(ArrayList<GeoGebraElement> geoGebraMobileTags) {
+	public static void main(ArrayList<GeoGebraElement> geoGebraMobileTags, CASFactory factory) {
 		for (final GeoGebraElement geoGebraElement : geoGebraMobileTags) {
 			AppletParameters parameters = new AppletParameters(geoGebraElement);
-			GeoGebraFrameW inst = new GeoGebraFrameSimple(geoGebraElement, parameters);
+			GeoGebraFrameW inst = new GeoGebraFrameSimple(geoGebraElement, parameters, factory);
 			LoggerW.startLogger(parameters);
 			inst.createSplash();
 			RootPanel.get(geoGebraElement.getId()).add(inst);
@@ -54,10 +59,12 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 *            html element to render into
 	 * @param clb
 	 *            callback
+	 * @param factory CAS factory
 	 */
-	public static void renderArticleElement(GeoGebraElement el, JavaScriptObject clb) {
+	public static void renderArticleElement(GeoGebraElement el, JavaScriptObject clb,
+			CASFactory factory) {
 		AppletParameters parameters = new AppletParameters(el);
-		new GeoGebraFrameSimple(el, parameters).renderArticleElementWithFrame(el, clb);
+		new GeoGebraFrameSimple(el, parameters, factory).renderArticleElementWithFrame(el, clb);
 	}
 
 	@Override
@@ -90,5 +97,12 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	@Override
 	public void initPageControlPanel(AppW appW) {
 		// no page control
+	}
+
+	/** Init  CAS factory if needed */
+	public void initCasFactory() {
+		if (!CASFactory.isInitialized()) {
+			CASFactory.setPrototype(casFactory);
+		}
 	}
 }

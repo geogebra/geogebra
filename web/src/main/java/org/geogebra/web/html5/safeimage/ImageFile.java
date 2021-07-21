@@ -3,6 +3,7 @@ package org.geogebra.web.html5.safeimage;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.html5.util.ArchiveEntry;
 
 /**
  * Class to hold image file information.
@@ -11,7 +12,7 @@ import org.geogebra.common.util.StringUtil;
  */
 public class ImageFile {
 	private final String fileName;
-	private final String content;
+	private final ArchiveEntry content;
 	private final FileExtensions extension;
 
 	/**
@@ -19,7 +20,7 @@ public class ImageFile {
 	 * @param fileName file name.
 	 * @param content the content.
 	 */
-	public ImageFile(String fileName, String content) {
+	public ImageFile(String fileName, ArchiveEntry content) {
 		this.fileName = fileName;
 		this.content = content;
 		extension = StringUtil.getFileExtension(fileName);
@@ -37,7 +38,7 @@ public class ImageFile {
 	 *
 	 * @return the file content
 	 */
-	public String getContent() {
+	public ArchiveEntry getContent() {
 		return content;
 	}
 

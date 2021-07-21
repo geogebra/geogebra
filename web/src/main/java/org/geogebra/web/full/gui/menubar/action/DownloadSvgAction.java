@@ -22,6 +22,7 @@ public class DownloadSvgAction extends DefaultMenuAction<Void> {
 	@Override
 	public void execute(Void item, AppWFull app) {
 		EuclidianViewWInterface ev = (EuclidianViewWInterface) app.getActiveEuclidianView();
+		ev.getEuclidianController().widgetsToBackground();
 		ev.getExportSVG(1, false, (svg) -> {
 			imageExporter.export(Browser.encodeSVG(svg));
 		});

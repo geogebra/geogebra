@@ -45,6 +45,7 @@ import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.full.gui.inputbar.HasHelpButton;
@@ -56,7 +57,6 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.util.Resizer;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
@@ -72,8 +72,6 @@ import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
@@ -108,8 +106,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	private static final int DEFINITION_ROW_EDIT_MARGIN = 5;
 	private static final int MARGIN_RESIZE = 50;
-
-	static final int BROWSER_SCROLLBAR_WIDTH = 17;
 
 	protected static final int LATEX_MAX_EDIT_LENGHT = 1500;
 
@@ -249,7 +245,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 		createAvexWidget();
 		addAVEXWidget(content);
-		getWidget().addStyleName("latexEditor");
 		if (app.isUnbundled() && geo0.getParentAlgorithm() != null
 				&& geo0.getParentAlgorithm() instanceof AlgoPointOnPath) {
 			getWidget().getElement().getStyle().setProperty("minHeight", 72,
@@ -259,7 +254,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	protected void addMarble() {
 		main.addStyleName("elem");
-		main.addStyleName("panelRow");
 
 		marblePanel = app.getActivity().createAVItemHeader(this);
 		setIndexLast();
@@ -409,8 +403,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		} else {
 			buildItemWithSingleRow();
 		}
-
-		adjustToPanel(content);
 	}
 
 	private void buildItemWithTwoRows() {
@@ -549,7 +541,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private void rebuildPlaintextContent() {
 		content.clear();
 		content.add(definitionValuePanel);
-		adjustToPanel(definitionValuePanel);
 		if (geo != null && geo.getParentAlgorithm() != null
 				&& geo.getParentAlgorithm().getOutput(0) != geo
 				&& mayNeedOutput()) {
@@ -566,8 +557,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	protected void updateFont(Widget w) {
-		int size = app.getFontSizeWeb() + 2;
-		w.getElement().getStyle().setFontSize(size, Unit.PX);
+		w.getElement().getStyle().setFontSize(app.getFontSizeWeb(), Unit.PX);
 	}
 
 	protected void styleContentPanel() {
@@ -680,24 +670,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					getFontSize());
 
 			content.add(canvas);
-		}
-	}
-
-	protected void adjustToPanel(final FlowPanel panel) {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				int width = panel.getOffsetWidth()
-						+ marblePanel.getOffsetWidth();
-				setAVItemWidths(width);
-			}
-		});
-	}
-
-	void setAVItemWidths(int width) {
-		if (getOffsetWidth() < width) {
-			getAV().setItemWidth(width);
 		}
 	}
 
@@ -1089,8 +1061,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					+ controls.getOffsetWidth() + DEFINITION_ROW_EDIT_MARGIN
 					+ MARGIN_RESIZE;
 		} else if (geo != null && geo.isIndependent()) {
-			return marblePanel.getOffsetWidth() + content.getOffsetWidth()
-					+ MARGIN_RESIZE;
+			return content.getOffsetWidth();
 		} else {
 			return 0;
 		}
@@ -1562,7 +1533,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		if (marblePanel != null) {
 			marblePanel.updateIcons(error != null);
-			if (!Browser.isMobile()) {
+			if (!NavigatorUtil.isMobile()) {
 				marblePanel.setError(error == null ? "" : error);
 			}
 		}
@@ -1817,7 +1788,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * Cursor listener
 	 */
 	public void onCursorMove() {
-		getMathField().scrollParentHorizontally(latexItem, 20);
+		getMathField().scrollParentHorizontally(latexItem);
 	}
 
 	/**
@@ -2085,11 +2056,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		insertHelpToggle();
 
 		content.addStyleName("scrollableTextBox");
-		if (isInputTreeItem()) {
-			content.addStyleName("inputBorder");
-		}
-
-		getWidget().addStyleName("latexEditor");
 		content.addStyleName("noPreview");
 		renderLatex("", false);
 		new FocusableWidget(AccessibilityGroup.ALGEBRA_ITEM, null, content) {

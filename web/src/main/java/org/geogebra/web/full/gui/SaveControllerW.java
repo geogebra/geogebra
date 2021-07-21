@@ -444,27 +444,6 @@ public class SaveControllerW implements SaveController {
 		};
 	}
 
-	private StringConsumer newBase64Callback() {
-		return new StringConsumer() {
-
-			@Override
-			public void consume(String s) {
-				((FileManager) getAppW().getFileManager()).saveFile(s,
-						getCurrentTimestamp(getAppW()),
-						new SaveCallback(getAppW(), SaveState.OK) {
-							@Override
-							public void onSaved(final Material mat, final boolean isLocal) {
-								super.onSaved(mat, isLocal);
-								runAfterSaveCallback(true);
-							}
-						});
-				if (getListener() != null) {
-					getListener().hide();
-				}
-			}
-		};
-	}
-
 	@Override
 	public void runAfterSaveCallback(boolean activeMaterial) {
 		if (getRunAfterSave() != null) {

@@ -19,6 +19,7 @@ import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.share.CursorBox;
+import com.himamis.retex.renderer.web.graphics.ColorW;
 
 import elemental2.core.Global;
 import jsinterop.base.Js;
@@ -44,6 +45,7 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 	public EvaluatorEditor(AppW app) {
 		this.app = app;
 		mathFieldEditor = new MathFieldEditor(app, this);
+		mathFieldEditor.getMathField().setUseSimpleScripts(false);
 		mathFieldEditor.setTextMode(app.getAppletParameters().getParamTextMode());
 		mathFieldEditor.addStyleName("evaluatorEditor");
 		mathFieldEditor.addBlurHandler(this);
@@ -53,8 +55,8 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 		String bgColor = app.getAppletParameters().getDataParamEditorBackgroundColor();
 		String fgColor = app.getAppletParameters().getDataParamEditorForegroundColor();
 
-		mathFieldEditor.getMathField().setBackgroundCssColor(bgColor);
-		mathFieldEditor.getMathField().setForegroundCssColor(fgColor);
+		mathFieldEditor.getMathField().setBackgroundColor(bgColor);
+		mathFieldEditor.getMathField().setForegroundColor(fgColor);
 
 		app.getFrameElement().getStyle().setBackgroundColor(bgColor);
 
@@ -157,7 +159,7 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 	 * @param callback called with {svg: base64 encoded SVG,
 	 * 		baseline: relative baseline position} or error
 	 */
-	public void exportImage(String type,
+	public void exportImage(String type, boolean transparent,
 			EvaluatorExportedApi.EquationExportImageConsumer callback) {
 		EquationExportImage ret = new EquationExportImage();
 		if (!"svg".equals(type)) {
@@ -178,10 +180,11 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 				callback.accept(ret);
 				return;
 			}
-			Canvas2Svg ctx = new Canvas2Svg(width, height + depth);
+			Canvas2Svg ctx = new Canvas2Svg(width, height);
 			CursorBox.setBlink(false);
-			mathField.paint(Js.uncheckedCast(ctx), 0);
-			ret.setBaseline(height / (double) (height + depth));
+			ColorW bgColor = transparent ? null : mathField.getBackgroundColor();
+			mathField.paintFormulaNoPlaceholder(Js.uncheckedCast(ctx), 0, bgColor);
+			ret.setBaseline((height - depth) / (double) height);
 			ret.setSvg(SVG_PREFIX + Global.escape(ctx.getSerializedSvg(true)));
 
 			callback.accept(ret);

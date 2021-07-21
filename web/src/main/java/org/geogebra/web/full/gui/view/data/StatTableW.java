@@ -250,25 +250,24 @@ public class StatTableW extends FlowPanel {
 
 		}
 
-		private void selectTableRows(int from, int to) {
-			int fr = from > -1 ? from : firstRow;
-			int t = to > this.getRowCount() ? this.getRowCount() : to;
-			if (fr > this.getRowCount()) {
-				fr = this.getRowCount();
+		private void selectTableRows(int rowFrom, int rowTo) {
+			int maxRows = getRowCount() - 1;
+			int from = Math.min(rowFrom > -1 ? rowFrom : firstRow,
+					maxRows);
+			int to = Math.min(Math.max(0, rowTo), maxRows);
+
+			if (from > to) {
+				int tmp = from;
+				from = to;
+				to = tmp;
 			}
-			if (t < 0) {
-				t = 0;
-			}
-			if (fr <= t) {
-				for (int i = fr; i <= t; i++) {
-					this.getRowFormatter().getElement(i)
-							.addClassName("selected");
-				}
-			} else {
-				for (int i = fr; i >= t; i--) {
-					this.getRowFormatter().getElement(i)
-							.addClassName("selected");
-				}
+
+			selectCells(from, to, getRowFormatter());
+		}
+
+		private void selectCells(int from, int to, RowFormatter rowFormatter) {
+			for (int i = from; i <= to; i++) {
+				rowFormatter.getElement(i).addClassName("selected");
 			}
 		}
 
@@ -322,6 +321,18 @@ public class StatTableW extends FlowPanel {
 		 */
 		public void setValueAt(String value, int row, int col) {
 			setWidget(row, col, new Label(value));
+		}
+
+		/**
+		 * @param lowIndex select from beginning to.
+		 * @param highIndex select from to the end.
+		 */
+		public void setTailSelection(int lowIndex, int highIndex) {
+			clearSelection(null);
+			int start = Math.min(lowIndex, highIndex) + 1;
+			int end = Math.max(lowIndex, highIndex) + 1;
+			selectTableRows(1, start);
+			selectTableRows(end, numRows - 1);
 		}
 	}
 

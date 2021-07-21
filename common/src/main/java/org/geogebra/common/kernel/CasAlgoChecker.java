@@ -31,6 +31,10 @@ public class CasAlgoChecker implements Inspecting {
 	public boolean isAlgoUsingCas(AlgoElement algo) {
 		return algo instanceof UsesCAS || algo instanceof AlgoCasCellInterface
 				|| (algo instanceof DependentAlgo
-				&& (((DependentAlgo) algo).getExpression()).inspect(this));
+					&& hasExpressionWithCasOperations((DependentAlgo) algo));
+	}
+
+	private boolean hasExpressionWithCasOperations(DependentAlgo algo) {
+		return algo.getExpression() != null && algo.getExpression().inspect(this);
 	}
 }

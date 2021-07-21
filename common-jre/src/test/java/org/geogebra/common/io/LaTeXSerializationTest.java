@@ -67,33 +67,33 @@ public class LaTeXSerializationTest {
 
 	@Test
 	public void testPrime() {
-		checkCanonical("f'''(x)/2", "(f'''(x))/(2)");
+		checkCanonical("f'''(x)/2", "((f'''(x))/(2))");
 	}
 
 	@Test
 	public void testInverseTrig() {
 		checkCanonical("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2",
-				"(cos^(-1)(1))/(2)");
+				"((cos^(-1)(1))/(2))");
 		checkCanonical("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + " (1)/2",
-				"cos^(-1) (1)/(2)");
+				"cos^(-1) ((1)/(2))");
 	}
 
 	@Test
 	public void testDiv() {
-		checkCanonical("1/n^2", "(1)/(n^(2))");
-		checkCanonical("1/n_2", "(1)/(n_{2})");
-		checkCanonical("1/2", "(1)/(2)");
-		checkCanonical("1/2+3", "(1)/(2)+3");
-		checkCanonical("1/ ( 2)", "(1)/( 2)");
-		checkCanonical("1/ (2+3)", "(1)/(2+3)");
-		checkCanonical("1/ ((2+3)+4)", "(1)/((2+3)+4)");
-		checkCanonical("1/(2/3)", "(1)/((2)/(3))");
-		checkCanonical("x^2/ 3", "(x^(2))/(3)");
-		checkCanonical("x^2 / 2", "(x^(2))/(2)");
-		checkCanonical("2/cos(x)", "(2)/(cos(x))");
-		checkCanonical("1/(2^3)", "(1)/(2^(3))");
-		checkCanonical("1/2^3", "(1)/(2^(3))");
-		checkCanonical("1/2" + Unicode.SUPERSCRIPT_3, "(1)/(2^(3))");
+		checkCanonical("1/n^2", "((1)/(n^(2)))");
+		checkCanonical("1/n_2", "((1)/(n_{2}))");
+		checkCanonical("1/2", "((1)/(2))");
+		checkCanonical("1/2+3", "((1)/(2))+3");
+		checkCanonical("1/ ( 2)", "((1)/( 2))");
+		checkCanonical("1/ (2+3)", "((1)/(2+3))");
+		checkCanonical("1/ ((2+3)+4)", "((1)/((2+3)+4))");
+		checkCanonical("1/(2/3)", "((1)/(((2)/(3))))");
+		checkCanonical("x^2/ 3", "((x^(2))/(3))");
+		checkCanonical("x^2 / 2", "((x^(2))/(2))");
+		checkCanonical("2/cos(x)", "((2)/(cos(x)))");
+		checkCanonical("1/(2^3)", "((1)/(2^(3)))");
+		checkCanonical("1/2^3", "((1)/(2^(3)))");
+		checkCanonical("1/2" + Unicode.SUPERSCRIPT_3, "((1)/(2^(3)))");
 	}
 
 	@Test
@@ -183,7 +183,7 @@ public class LaTeXSerializationTest {
 	@Test
 	public void testComma() {
 		checkCanonical("If[x<1/x,x/2,sqrt(x/2)]",
-				"If[x<(1)/(x),(x)/(2),sqrt((x)/(2))]");
+				"If[x<((1)/(x)),((x)/(2)),sqrt(((x)/(2)))]");
 		checkCanonical("(1;sqrt(2))", "(1;sqrt(2))");
 		checkCanonical("(t^n;t)", "(t^(n);t)");
 	}
@@ -244,7 +244,7 @@ public class LaTeXSerializationTest {
 				Unicode.IS_SUBSET_OF_STRICT }) {
 			checkCanonical("5 " + op + " 3", "5 " + op + " 3");
 			checkCanonical("5 " + op + " (2/3*x+5/3)",
-					"5 " + op + " ((2)/(3)*x+(5)/(3))");
+					"5 " + op + " (((2)/(3))*x+((5)/(3)))");
 		}
 	}
 

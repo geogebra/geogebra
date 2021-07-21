@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.geogebra.common.cas.error.TimeoutException;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.CASGenericInterface;
@@ -151,6 +152,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			// return original input
 			return casInput.toString(tpl);
 		}
+		if (exception instanceof TimeoutException) {
+			return "?";
+		}
 
 		// pass on exception
 		if (exception != null) {
@@ -164,6 +168,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			// e.g. "ggbtmpvara" needs to be changed to "a"
 			result = Kernel.removeCASVariablePrefix(result, " ");
 		}
+
+		resetCounter();
 
 		return result;
 	}
@@ -1224,5 +1230,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		if (cas != null) {
 			cas.clearResult();
 		}
+	}
+
+	private void resetCounter() {
+		counter = 1;
 	}
 }

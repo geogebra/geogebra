@@ -2,6 +2,7 @@ package org.geogebra.web.simple;
 
 import java.util.ArrayList;
 
+import org.geogebra.web.cas.giac.CASFactoryW;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -29,12 +30,13 @@ public class WebSimple implements EntryPoint {
 	}
 
 	static void startGeoGebra(ArrayList<GeoGebraElement> geoGebraMobileTags) {
-		GeoGebraFrameSimple.main(geoGebraMobileTags);
+		GeoGebraFrameSimple.main(geoGebraMobileTags, new CASFactoryW());
 	}
 
 	private void exportGGBElementRenderer() {
 		GeoGebraGlobal.setRenderGGBElement((el, callback) -> {
-			GeoGebraFrameSimple.renderArticleElement(GeoGebraElement.as(el), callback);
+			GeoGebraFrameSimple.renderArticleElement(GeoGebraElement.as(el), callback,
+					new CASFactoryW());
 		});
 		GeoGebraFrameW.renderGGBElementReady();
 	}

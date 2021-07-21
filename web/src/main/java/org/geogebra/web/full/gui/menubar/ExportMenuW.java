@@ -224,14 +224,10 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 	 */
 	protected static AsyncOperation<String> exportCallback(final String string,
 			final AppW app) {
-		return new AsyncOperation<String>() {
-
-			@Override
-			public void callback(String obj) {
-				String url = Browser.addTxtMarker(obj);
-				app.getFileManager().showExportAsPictureDialog(url,
-						app.getExportTitle(), "txt", "Export", app);
-			}
+		return obj -> {
+			String url = Browser.addTxtMarker(obj);
+			app.getFileManager().showExportAsPictureDialog(url,
+					app.getExportTitle(), "txt", "Export", app);
 		};
 	}
 

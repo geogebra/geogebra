@@ -1,7 +1,10 @@
 package org.geogebra.common.io;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.util.SyntaxAdapterImpl;
 
+import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.editor.SyntaxAdapter;
@@ -152,5 +155,9 @@ public class MathFieldCommon implements MathField {
 
 	public void setFormatConverter(SyntaxAdapterImpl formatConverter) {
 		internal.getInputController().setFormatConverter(formatConverter);
+	}
+
+	public ArrayList<Integer> getCaretPath() {
+		return CursorController.getPath(internal.getEditorState());
 	}
 }

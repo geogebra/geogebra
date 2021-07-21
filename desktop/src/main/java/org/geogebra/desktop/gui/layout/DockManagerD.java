@@ -1485,7 +1485,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	 *            the dock panel to maximize
 	 */
 	public void maximize(DockPanelD dp) {
-		restorePerspective = layout.createPerspective("tmp");
+		restorePerspective = layout.createPerspective();
 		for (int i = 0; i < getPanels().length; i++) {
 			if (getPanels()[i] != dp) {
 				hide(getPanels()[i], false);

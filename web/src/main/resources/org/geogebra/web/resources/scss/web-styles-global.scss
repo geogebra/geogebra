@@ -122,7 +122,7 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 	padding-left: 40px;
 }
 
-body.application[dir=rtl] .GeoGebraFrame .AlgebraViewObjectStylebar {
+body.application[dir=rtl] .GeoGebraFrame .algebraViewObjectStylebar {
 	right: auto;
 	left: 0;
 	border-bottom-right-radius: 5px;
@@ -132,11 +132,6 @@ body.application[dir=rtl] .GeoGebraFrame .AlgebraViewObjectStylebar {
 body.application[dir=rtl] .TitleBarPanel {
 	left: 0 !important;
 	right: auto !important;
-}
-
-body.application[dir=rtl] .GeoGebraFrame .elemRow > * {
-	padding-left: 0;
-	padding-right: 4px;
 }
 
 body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {

@@ -64,4 +64,6 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	void setLabels();
 
 	boolean loadURL(String urlString, boolean suppressErrorMsg);
+
+	void showURLinBrowser(String strURL);
 }

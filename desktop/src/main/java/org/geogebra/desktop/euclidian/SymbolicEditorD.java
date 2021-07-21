@@ -3,7 +3,6 @@ package org.geogebra.desktop.euclidian;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.SwingUtilities;
 
@@ -27,8 +26,8 @@ import com.himamis.retex.renderer.share.TeXFont;
 
 public class SymbolicEditorD extends SymbolicEditor {
 
-	private Box box;
-	private MathFieldD mathField;
+	private final Box box;
+	private final MathFieldD mathField;
 	private double baseline;
 
 	protected SymbolicEditorD(App app, EuclidianView view) {
@@ -36,7 +35,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 		box = Box.createHorizontalBox();
 
-		mathField = new MathFieldD(new SyntaxAdapterImpl(app.kernel));
+		mathField = new MathFieldD(new SyntaxAdapterImpl(app.kernel), view::repaintView);
 
 		mathField.getInternal().setFieldListener(this);
 		mathField.setVisible(true);
@@ -75,13 +74,9 @@ public class SymbolicEditorD extends SymbolicEditor {
 		}
 	}
 
+	@Override
 	protected void showRedefinedBox(final DrawInputBox drawable) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				drawable.setWidgetVisible(true);
-			}
-		});
+		SwingUtilities.invokeLater(() -> drawable.setWidgetVisible(true));
 	}
 
 	@Override
@@ -135,15 +130,13 @@ public class SymbolicEditorD extends SymbolicEditor {
 		g.translate(box.getX(), baseline - (double) (box.getHeight()) / 2);
 		view.getTextField().drawBounds(g, bgColor, 0, 0, box.getWidth(), box.getHeight());
 
-		g.translate(DrawInputBox.TF_PADDING_HORIZONTAL, 0);
 		mathField.setForeground(GColorD.getAwtColor(getGeoInputBox().getObjectColor()));
-		if (getDrawInputBox() != null && getDrawInputBox().hasError()) {
-			box.setBorder(BorderFactory.createDashedBorder(GColorD.getAwtColor(GColor.ERROR_RED),
-					4, 1, 1, true));
-		} else {
-			box.setBorder(null);
-		}
+		box.setBorder(null);
+		g.setClip(0, 0, box.getWidth(), box.getHeight());
+		mathField.scrollHorizontally(box.getWidth());
+		g.translate(DrawInputBox.TF_PADDING_HORIZONTAL - mathField.getScrollX(), 0);
 		box.paint(GGraphics2DD.getAwtGraphics(g));
+		g.resetClip();
 
 		g.restoreTransform();
 	}
@@ -157,6 +150,11 @@ public class SymbolicEditorD extends SymbolicEditor {
 		box.setBounds(box.getX(), box.getY(), box.getWidth(),
 				Math.max((int) currentHeight, DrawInputBox.SYMBOLIC_MIN_HEIGHT));
 		box.revalidate();
+		view.repaintView();
+	}
+
+	@Override
+	public void onCursorMove() {
 		view.repaintView();
 	}
 

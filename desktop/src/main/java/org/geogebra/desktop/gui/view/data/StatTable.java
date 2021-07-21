@@ -105,9 +105,6 @@ public class StatTable extends JScrollPane {
 		myTable.setShowGrid(true);
 		myTable.setGridColor(TABLE_GRID_COLOR);
 		myTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-		// ((JLabel)
-		// statTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-
 		myTable.setBackground(Color.white);
 
 	}
@@ -663,6 +660,18 @@ public class StatTable extends JScrollPane {
 				return comboBoxRendererMap.get(cell);
 			}
 			return super.getCellRenderer(row, column);
+		}
+
+		/**
+		 * @param lowIndex select from beginning to.
+		 * @param highIndex select from to the end.
+		 */
+		public void setTailSelection(int lowIndex, int highIndex) {
+			clearSelection();
+			int start = Math.min(lowIndex, highIndex);
+			int end = Math.max(lowIndex, highIndex);
+			selectionModel.addSelectionInterval(0, start);
+			selectionModel.addSelectionInterval(end, getRowCount() - 1);
 		}
 	}
 

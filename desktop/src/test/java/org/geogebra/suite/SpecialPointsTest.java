@@ -7,7 +7,6 @@ import static org.hamcrest.Matchers.is;
 import java.util.List;
 
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
-import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.SpecialPointsManager;
 import org.geogebra.common.plugin.EuclidianStyleConstants;

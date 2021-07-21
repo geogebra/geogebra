@@ -117,16 +117,14 @@ public class LoadFilePresenter {
 			// only do this after app initialized
 			app.setUndoActive(undoActive);
 
-			app.getAsyncManager().scheduleCallback(new Runnable() {
-				@Override
-				public void run() {
-					app.getScriptManager().ggbOnInit();
-				}
-			});
+			app.getAsyncManager().scheduleCallback(() -> app.getScriptManager().ggbOnInit());
 		} else {
 			// only do this after app initialized
 			app.setUndoActive(undoActive);
 		}
+		app.getLocalization().setUseLocalizedDigits(view.getParamUseLocalizedDigits(), app);
+		app.getLocalization().setUseLocalizedLabels(view.getParamUseLocalizedPointNames());
+
 	}
 
 	/**
@@ -252,9 +250,7 @@ public class LoadFilePresenter {
 	 *            perspective
 	 */
 	void finishEmptyLoading(AppW app, Perspective p) {
-		if (p != null) {
-			app.setActivePerspective(p.getDefaultID() - 1);
-		}
+		app.setActivePerspective(p);
 		app.getAppletFrame().updateHeaderSize();
 		app.setPreferredSize(
 				new Dimension(app.getAppletWidth(), app.getAppletHeight()));
@@ -271,9 +267,7 @@ public class LoadFilePresenter {
 		app.set1rstMode();
 
 		app.setUndoActive(true);
-		if (p != null) {
-			app.setActivePerspective(p.getDefaultID() - 1);
-		}
+		app.setActivePerspective(p);
 
 		// no Feature.ADJUST_VIEWS: returns false.
 		if (!app.isUnbundled() && app.isPortrait()) {

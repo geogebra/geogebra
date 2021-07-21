@@ -150,6 +150,7 @@ public class PolygonFactory {
 			p[i] = kernel.getAlgebraProcessor().evaluateToPoint(sb, ErrorHelper.silent(),
 					true);
 			p[i].setEuclidianVisible(false);
+			p[i].getParentAlgorithm().addToConstructionList();
 			p[i].setLabel(null);
 		}
 

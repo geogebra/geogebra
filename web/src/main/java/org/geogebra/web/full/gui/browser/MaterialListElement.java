@@ -24,7 +24,6 @@ import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -105,22 +104,19 @@ public class MaterialListElement extends FlowPanel
 		addInfoPanel();
 		showDetails(false);
 
-		this.addDomHandler(new ClickHandler() {
-			@Override
-			public void onClick(final ClickEvent event) {
-				event.preventDefault();
-				if (state == State.Disabled) {
-					return;
-				} else if (state == State.Default) {
-					if (app.getConfig().isSimpleMaterialPicker()) {
-						onEdit();
-					} else {
-						markSelected();
-					}
-					event.stopPropagation();
+		this.addDomHandler(event -> {
+			event.preventDefault();
+			if (state == State.Disabled) {
+				return;
+			} else if (state == State.Default) {
+				if (app.getConfig().isSimpleMaterialPicker()) {
+					onEdit();
 				} else {
-					event.stopPropagation();
+					markSelected();
 				}
+				event.stopPropagation();
+			} else {
+				event.stopPropagation();
 			}
 		}, ClickEvent.getType());
 

@@ -2,13 +2,14 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.UserPreferredLanguage;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.shared.SuiteHeaderAppPicker;
+import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -77,7 +78,7 @@ public class AppSwitcherPopup extends GPopupPanel {
 		rowPanel.addDomHandler(event -> {
 			hide();
 			appPickerButton.setIconAndLabel(subAppCode);
-			appPickerButton.checkButtonVisibility();
+			GlobalHeader.onResize();
 			((AppWFull) app).switchToSubapp(subAppCode);
 		}, ClickEvent.getType());
 		contentPanel.add(rowPanel);

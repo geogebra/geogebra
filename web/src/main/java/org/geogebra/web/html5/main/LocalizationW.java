@@ -12,6 +12,9 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.GeoGebraGlobal;
+import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.MyDictionary;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
@@ -19,6 +22,10 @@ import org.geogebra.web.html5.util.ScriptLoadCallback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ScriptElement;
+
+import elemental2.core.Global;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * JSON based localization for Web
@@ -72,23 +79,24 @@ public final class LocalizationW extends Localization {
 	 * @return translation or English if translation not found; fallback is
 	 *         empty string
 	 */
-	public native String getPropertyNative(String language, String key,
-	        String section) /*-{
-
-		if (!$wnd["__GGB__keysVar"]) {
+	public String getPropertyNative(String language, String key,
+	        String section) {
+		// null check needed for tests
+		if (Js.isFalsy(GeoGebraGlobal.__GGB__keysVar)
+			|| GeoGebraGlobal.__GGB__keysVar == null) {
 			return "";
 		}
 
-		if ($wnd["__GGB__keysVar"][language]) {
+		if (Js.isTruthy(GeoGebraGlobal.__GGB__keysVar.get(language))) {
 			// translated
-			return $wnd["__GGB__keysVar"][language][section][key];
-		} else if ($wnd["__GGB__keysVar"]["en"]) { // English (probably available)
-			return $wnd["__GGB__keysVar"]["en"][section][key];
+			return GeoGebraGlobal.__GGB__keysVar.get(language).get(section).get(key);
+		} else if (Js.isTruthy(GeoGebraGlobal.__GGB__keysVar.get("en"))) {
+			// translated
+			return GeoGebraGlobal.__GGB__keysVar.get("en").get(section).get(key);
 		} else {
 			return "";
 		}
-
-	}-*/;
+	}
 
 	@Override
 	public String getCommand(String key) {
@@ -294,47 +302,45 @@ public final class LocalizationW extends Localization {
 	 *            app version
 	 * @return true when available
 	 */
-	static native boolean loadPropertiesFromStorage(String lang0,
-			String version) /*-{
-		var storedTranslation = {};
-		if ($wnd.localStorage && $wnd.localStorage.translation) {
+	static boolean loadPropertiesFromStorage(String lang0,
+			String version) {
+		String translationJson = BrowserStorage.LOCAL.getItem("translation");
+		if (Js.isTruthy(translationJson)) {
 			try {
-				storedTranslation = JSON.parse(localStorage.translation);
-				if (version.length > 0 && storedTranslation
-						&& storedTranslation["version"] != version) {
-					storedTranslation = {};
+				JsPropertyMap<Object>
+						storedTranslation = Js.uncheckedCast(Global.JSON.parse(translationJson));
+				if (version.length() > 0 && Js.isTruthy(storedTranslation)
+						&& !version.equals(storedTranslation.get("version"))) {
+					storedTranslation = null;
 				}
-			} catch (e) {
-				$wnd.console && $wnd.console.log(e.message);
+				if (storedTranslation != null
+						&& Js.isTruthy(storedTranslation.get(lang0))) {
+					GeoGebraGlobal.__GGB__keysVar = Js.uncheckedCast(JsPropertyMap.of());
+					GeoGebraGlobal.__GGB__keysVar.set(lang0,
+							Js.uncheckedCast(storedTranslation.get(lang0)));
+					return true;
+				}
+			} catch (Throwable e) {
+				Log.debug(e);
 			}
 		}
-		if (storedTranslation && storedTranslation[lang0]) {
-			$wnd["__GGB__keysVar"] = {};
-			$wnd["__GGB__keysVar"][lang0] = storedTranslation[lang0];
-			return true;
-		}
 		return false;
-	}-*/;
+	}
 
 	/**
 	 * Saves properties loaded from external JSON to localStorage
-	 *
-	 * @param lang0
+	 *  @param lang0
 	 *            language
-	 * @param version
-	 *            app version
 	 */
-	static native void savePropertiesToStorage(String lang0,
-			String version) /*-{
-		var storedTranslation = {};
-		if ($wnd.localStorage && $wnd["__GGB__keysVar"]
-				&& $wnd["__GGB__keysVar"][lang0]) {
-			var obj = {};
-			obj.version = version;
-			obj[lang0] = $wnd.__GGB__keysVar[lang0];
-			$wnd.localStorage.translation = JSON.stringify(obj);
+	static void savePropertiesToStorage(String lang0) {
+		if (Js.isTruthy(GeoGebraGlobal.__GGB__keysVar)
+				&& Js.isTruthy(GeoGebraGlobal.__GGB__keysVar.get(lang0))) {
+			JsPropertyMap<Object> obj = JsPropertyMap.of();
+			obj.set("version", GeoGebraConstants.VERSION_STRING);
+			obj.set(lang0, GeoGebraGlobal.__GGB__keysVar.get(lang0));
+			BrowserStorage.LOCAL.setItem("translation", Global.JSON.stringify(obj));
 		}
-	}-*/;
+	}
 
 	@Override
 	protected ArrayList<Locale> getSupportedLocales() {
@@ -384,8 +390,8 @@ public final class LocalizationW extends Localization {
 					app.doSetLanguage(lang0, true);
 
 					if (Browser.supportsSessionStorage()) {
-						LocalizationW.savePropertiesToStorage(lang0,
-								GeoGebraConstants.VERSION_STRING);
+						LocalizationW.savePropertiesToStorage(lang0
+						);
 					}
 				}
 
@@ -410,11 +416,11 @@ public final class LocalizationW extends Localization {
 
 	}
 
-	private native void saveLanguageToSettings(String lang0) /*-{
-		if ($wnd.android && $wnd.android.savePreference) {
-			$wnd.android.savePreference("language", lang0);
+	private void saveLanguageToSettings(String lang0) {
+		if (GeoGebraJSNativeBridge.get() != null) {
+			GeoGebraJSNativeBridge.get().savePreference("language", lang0);
 		}
-	}-*/;
+	}
 
 	/**
 	 * @param localizedUI

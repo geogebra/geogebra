@@ -5,8 +5,8 @@ import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.gui.dialog.handler.SegmentHandler;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.ComponentInputDialog;
 import org.geogebra.web.shared.components.DialogData;
 
 /**
@@ -31,7 +31,7 @@ public class InputDialogSegmentFixedW extends ComponentInputDialog {
 	public InputDialogSegmentFixedW(AppW app, DialogData data,
 			InputHandler handler, GeoPointND point1, Kernel kernel) {
 		super(app, data, false, false, handler, app.getLocalization().getMenu("Length"),
-				"", 1, -1, false);
+				"", false);
 		this.kernel = kernel;
 		geoPoint1 = point1;
 	}

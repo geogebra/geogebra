@@ -71,7 +71,7 @@ public class EvaluatorExportedApi implements ExportedApi {
 
 	public void exportImage(JsPropertyMap<String> settings, EquationExportImageConsumer callback) {
 		String type = Js.isTruthy(settings) ? settings.get("type") : null;
-		evaluatorActivity.exportImage(type, callback);
+		evaluatorActivity.exportImage(type, Js.isTruthy(settings.get("transparent")), callback);
 	}
 
 	public void setEditorState(Object state) {

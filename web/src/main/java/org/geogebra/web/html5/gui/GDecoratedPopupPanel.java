@@ -92,18 +92,6 @@ public class GDecoratedPopupPanel extends GPopupPanel {
 	private GDecoratorPanel decPanel;
 
 	/**
-	 * Creates an empty decorated popup panel, specifying its "auto-hide"
-	 * property.
-	 * 
-	 * @param autoHide
-	 *            <code>true</code> if the popup should be automatically hidden
-	 *            when the user clicks outside of it
-	 */
-	public GDecoratedPopupPanel(boolean autoHide, Panel root, App app) {
-		this(autoHide, false, root, app);
-	}
-
-	/**
 	 * Creates an empty decorated popup panel, specifying its "auto-hide" and
 	 * "modal" properties.
 	 * 

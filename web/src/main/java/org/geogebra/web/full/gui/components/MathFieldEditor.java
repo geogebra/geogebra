@@ -38,7 +38,6 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 		ClickListener, BlurHandler {
 
-	private static final int PADDING_LEFT_SCROLL = 20;
 	private static final int PADDING_TOP = 8;
 
 	private final Kernel kernel;
@@ -91,7 +90,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 		mathField.setClickListener(this);
 		mathField.setOnBlur(this);
 
-		getMathField().setBackgroundCssColor("rgba(255,255,255,0)");
+		getMathField().setBackgroundColor("rgba(255,255,255,0)");
 		main.add(mathField);
 		retexListener = new RetexKeyboardListener(canvas, mathField);
 		initEventHandlers();
@@ -145,7 +144,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 * Scroll content horizontally if needed.
 	 */
 	public void scrollHorizontally() {
-		mathField.scrollParentHorizontally(main, PADDING_LEFT_SCROLL);
+		mathField.scrollParentHorizontally(main);
 	}
 
 	/**

@@ -50,10 +50,8 @@ public class ItemControls extends FlowPanel
 	public ItemControls(RadioTreeItem radioTreeItem) {
 		this.radioTreeItem = radioTreeItem;
 		this.ctrl = radioTreeItem.getLatexController();
-		addStyleName("AlgebraViewObjectStylebar");
+		addStyleName("algebraViewObjectStylebar");
 		TestHarness.setAttr(this, "algebraViewObjectStylebar");
-		addStyleName("smallStylebar");
-		addStyleName("withContextMenu");
 		buildGUI();
 		if (!radioTreeItem.isInputTreeItem() && hasMoreMenu()) {
 			add(getMoreButton());
@@ -77,8 +75,6 @@ public class ItemControls extends FlowPanel
 					.setImage(new NoDragImage(
 							MaterialDesignResources.INSTANCE.more_vert_purple(),
 							24));
-			btnMore.addStyleName("XButton");
-			btnMore.addStyleName("shown");
 			btnMore.addStyleName("more");
 			TestHarness.setAttr(btnMore, "avItemMoreButton");
 			ClickStartHandler.init(btnMore, new ClickStartHandler(true, true) {
@@ -128,20 +124,16 @@ public class ItemControls extends FlowPanel
 	 * @return callback for context menu after geo is created from preview
 	 */
 	AsyncOperation<GeoElementND[]> createOpenMenuCallback() {
-		return new AsyncOperation<GeoElementND[]>() {
+		return obj -> {
+			GeoElement geo = null;
+			if (obj != null && obj.length == 1)  {
+				geo = (GeoElement) obj[0];
+			}
 
-			@Override
-			public void callback(GeoElementND[] obj) {
-				GeoElement geo = null;
-				if (obj != null && obj.length == 1)  {
-					geo = (GeoElement) obj[0];
-				}
-
-				if (geo == null) {
-					showDeleteItem();
-				} else {
-					openMenuFor(geo);
-				}
+			if (geo == null) {
+				showDeleteItem();
+			} else {
+				openMenuFor(geo);
 			}
 		};
 	}

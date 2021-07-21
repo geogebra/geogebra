@@ -76,6 +76,8 @@ public class InlineFormattingItemsTest {
 				"ContextMenu.textRotation",
 				"ContextMenu.Heading",
 				"SEPARATOR",
+				"ContextMenu.CreateChart",
+				"SEPARATOR",
 				"Cut", "Copy", "Paste",
 				"SEPARATOR",
 				"ContextMenu.insertRowAbove",
@@ -100,7 +102,9 @@ public class InlineFormattingItemsTest {
 				"Link",
 				"ContextMenu.textWrapping",
 				"ContextMenu.textRotation",
-				"ContextMenu.Heading"
+				"ContextMenu.Heading",
+				"SEPARATOR",
+				"ContextMenu.CreateChart"
 		);
 
 		assertEquals(expected, contextMenu.getEntriesFor(geos));
@@ -115,6 +119,8 @@ public class InlineFormattingItemsTest {
 				"ContextMenu.textWrapping",
 				"ContextMenu.textRotation",
 				"ContextMenu.Heading",
+				"SEPARATOR",
+				"ContextMenu.CreateChart",
 				"SEPARATOR", "Cut", "Copy", "Paste",
 				"SEPARATOR", "General.Order",
 				"SEPARATOR",

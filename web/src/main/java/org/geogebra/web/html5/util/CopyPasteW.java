@@ -17,22 +17,29 @@ import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
-import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.InternalClipboard;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.Browser;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.Clipboard;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.TextAreaElement;
+import com.himamis.retex.editor.web.DocumentUtil;
 
 import elemental2.core.Global;
+import elemental2.core.JsArray;
 import elemental2.dom.Blob;
+import elemental2.dom.BlobPropertyBag;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.FileReader;
 import elemental2.dom.HTMLImageElement;
+import elemental2.promise.Promise;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 public class CopyPasteW extends CopyPaste {
 
@@ -59,61 +66,66 @@ public class CopyPasteW extends CopyPaste {
 		return true;
 	}
 
-	public static native void writeToExternalClipboard(String toWrite) /*-{
-		if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.write) {
+	/**
+	 * @param toWrite string to be copied
+	 */
+	public static void writeToExternalClipboard(String toWrite) {
+		if (copyToExternalSupported()) {
 			// Supported in Chrome
+			BlobPropertyBag bag =
+					BlobPropertyBag.create();
+			bag.setType("text/plain");
+			Blob blob = new Blob(new Blob.ConstructorBlobPartsArrayUnionType[]{
+					Blob.ConstructorBlobPartsArrayUnionType.of(toWrite)}, bag);
+			Clipboard.ClipboardItem data = new Clipboard.ClipboardItem(JsPropertyMap.of(
+				"text/plain", blob));
 
-			var data = new ClipboardItem({
-				'text/plain': new Blob([toWrite], {
-					type: 'text/plain'
-				})
+			Clipboard.write(JsArray.of(data)).then(ignore -> {
+				Log.debug("successfully wrote gegeobra data to clipboard");
+				return null;
+			}, (ignore) -> {
+				Log.debug("writing geogebra data to clipboard failed");
+				return null;
 			});
-
-			$wnd.navigator.clipboard.write([data]).then(function() {
-				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("successfully wrote gegeobra data to clipboard");
-			}, function() {
-				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("writing geogebra data to clipboard failed");
-			});
-		} else if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.writeText) {
+		} else if (navigatorSupports("clipboard.writeText")) {
 			// Supported in Firefox
 
-			$wnd.navigator.clipboard.writeText(toWrite).then(function() {
-				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("successfully wrote text to clipboard");
-			}, function() {
-				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("writing text to clipboard failed");
+			Clipboard.writeText(toWrite).then((ignore) -> {
+				Log.debug("successfully wrote text to clipboard");
+				return null;
+			}, (ignore) -> {
+				Log.debug("writing text to clipboard failed");
+				return null;
 			});
 		} else {
 			// Supported in Safari
 
-			var copyFrom = @org.geogebra.web.html5.main.AppW::getHiddenTextArea()();
-			copyFrom.value = toWrite;
+			TextAreaElement copyFrom = AppW.getHiddenTextArea();
+			copyFrom.setValue(toWrite);
 			copyFrom.select();
-			$doc.execCommand('copy');
-			$wnd.setTimeout(function() {
-				$doc.body.focus();
-			}, 0);
+			DocumentUtil.copySelection();
+			DomGlobal.setTimeout((ignore) -> DomGlobal.document.body.focus(), 0);
 		}
-	}-*/;
+	}
 
 	private static void saveToClipboard(String toSave) {
 		String escapedContent = Global.escape(toSave);
 		String encoded = pastePrefix + DomGlobal.btoa(escapedContent);
-		if (!Browser.isiOS() || copyToExternalSupported()) {
+		if (!NavigatorUtil.isiOS() || copyToExternalSupported()) {
 			writeToExternalClipboard(encoded);
 		}
 		BrowserStorage.LOCAL.setItem(pastePrefix, encoded);
 	}
 
-	private static native boolean copyToExternalSupported() /*-{
-		return !!($wnd.navigator.clipboard && $wnd.navigator.clipboard.write);
-	}-*/;
+	private static boolean copyToExternalSupported() {
+		return navigatorSupports("clipboard.write");
+	}
 
 	@Override
 	public void pasteFromXML(final App app) {
-		paste(app, text -> pasteText((AppW) app, text));
+		paste(app, text -> pasteText(app, text));
 	}
 
-	@ExternalAccess
 	private static void handleStorageFallback(AsyncOperation<String> callback) {
 		callback.callback(BrowserStorage.LOCAL.getItem(pastePrefix));
 	}
@@ -122,69 +134,71 @@ public class CopyPasteW extends CopyPaste {
 	public void paste(App app, AsyncOperation<String> plainTextFallback) {
 		pasteNative(app, text -> {
 			if (text.startsWith(pastePrefix)) {
-				pasteEncoded((AppW) app, text);
+				pasteEncoded(app, text);
 			} else {
 				plainTextFallback.callback(text);
 			}
 		});
 	}
 
-	public static native void pasteNative(App app, AsyncOperation<String> callback) /*-{
-		function storageFallback() {
-			@org.geogebra.web.html5.util.CopyPasteW::handleStorageFallback(*)(callback);
-		}
-
-		if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.read) {
+	/**
+	 * @param app application
+	 * @param callback consumer for the pasted string
+	 */
+	public static void pasteNative(App app, AsyncOperation<String> callback) {
+		if (navigatorSupports("clipboard.read")) {
 			// supported in Chrome
-
-			$wnd.navigator.clipboard
+			Clipboard
 				.read()
-				.then(function(data) {
-						for (var i = 0; i < data.length; i++) {
-							for (var j = 0; j < data[i].types.length; j++) {
-								if (data[i].types[j] === 'image/png') {
-									var reader = new FileReader();
+				.then((data) -> {
+						for (int i = 0; i < data.length; i++) {
+							for (int j = 0; j < data.getAt(i).types.length; j++) {
+								String type = data.getAt(i).types.getAt(j);
+								if (type.equals("image/png")) {
+									FileReader reader = new FileReader();
 
-									reader.addEventListener("load", function() {
-										@org.geogebra.web.html5.util.CopyPasteW::pasteImage(*)(app, this.result);
-									}, false);
+									reader.addEventListener("load", (ignore) ->
+											pasteImage(app, reader.result.asString()), false);
 
-									data[i].getType('image/png').then(function(item) {
+									data.getAt(i).getType("image/png").then((item) -> {
 										reader.readAsDataURL(item);
+										return null;
 									});
-								} else if (data[i].types[j] === 'text/plain'
-										|| data[i].types[j] === 'text/uri-list') {
-									data[i].getType(data[i].types[j]).then(function(item) {
-										@org.geogebra.web.html5.util.CopyPasteW::readBlob(*)(item, callback);
+								} else if (type.equals("text/plain")
+										|| type.equals("text/uri-list")) {
+									data.getAt(i).getType(type).then((item) -> {
+										readBlob(item, callback);
+										return null;
 									});
-									return;
+									return null;
 								}
 							}
 						}
+						return null;
 					},
-					function(reason) {
-						@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("reading data from clipboard failed " + reason);
-						storageFallback();
+					(reason) -> {
+						Log.debug("reading data from clipboard failed " + reason);
+						handleStorageFallback(callback);
+						return null;
 					});
-		} else if ($wnd.navigator.clipboard
-			&& $wnd.navigator.clipboard.readText) {
+		} else if (navigatorSupports("clipboard.readText")) {
 			// not sure if any browser enters this at the time of writing
-
-			$wnd.navigator.clipboard.readText().then(
-				function(text) {
-					@org.geogebra.web.html5.util.CopyPasteW::pasteText(*)(app, text);
+			Clipboard.readText().then(
+				(text) -> {
+					pasteText(app, text);
+					return null;
 				},
-				function(reason) {
-					@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("reading text from clipboard failed: " + reason);
-					storageFallback();
-				})
+				(reason) -> {
+					Log.debug("reading text from clipboard failed: " + reason);
+					handleStorageFallback(callback);
+					return null;
+				});
 		} else {
-			storageFallback();
+			handleStorageFallback(callback);
 		}
-	}-*/;
+	}
 
-	@ExternalAccess
-	private static void pasteText(AppW app, String text) {
+	private static void pasteText(App app, String text) {
 		if (text.startsWith(pastePrefix)) {
 			pasteEncoded(app, text);
 		} else {
@@ -192,12 +206,11 @@ public class CopyPasteW extends CopyPaste {
 		}
 	}
 
-	private static void pasteEncoded(AppW app, String text) {
+	private static void pasteEncoded(App app, String text) {
 		String escapedContent = DomGlobal.atob(text.substring(pastePrefix.length()));
 		pasteGeoGebraXML(app, Global.unescape(escapedContent));
 	}
 
-	@ExternalAccess
 	private static void pasteImage(App app, String encodedImage) {
 		((AppW) app).urlDropHappened(encodedImage, null, null, null);
 	}
@@ -250,8 +263,7 @@ public class CopyPasteW extends CopyPaste {
 		return new ArrayList<>(Arrays.asList(clipboardContent.substring(0, endline).split(" ")));
 	}
 
-	@ExternalAccess
-	private static void pasteGeoGebraXML(AppW app, String clipboardContent) {
+	private static void pasteGeoGebraXML(App app, String clipboardContent) {
 		int endline = clipboardContent.indexOf('\n');
 
 		ArrayList<String> copiedXMLlabels = separateXMLLabels(clipboardContent, endline);
@@ -276,14 +288,14 @@ public class CopyPasteW extends CopyPaste {
 				() -> InternalClipboard.pasteGeoGebraXMLInternal(app, copiedXMLlabels, copiedXML));
 	}
 
-	private static void handleSpecialLine(String[] tokens, AppW app) {
+	private static void handleSpecialLine(String[] tokens, App app) {
 		String prefix = tokens[0];
 		String name = Global.unescape(tokens[1]);
 		String content = tokens[2];
 		if (InternalClipboard.imagePrefix.equals(prefix)) {
-			ImageManagerW imageManager = app.getImageManager();
+			ImageManagerW imageManager = ((AppW) app).getImageManager();
 			imageManager.addExternalImage(name, content);
-			HTMLImageElement img = imageManager.getExternalImage(name, app, true);
+			HTMLImageElement img = imageManager.getExternalImage(name, (AppW) app, true);
 			img.src = content;
 		} else {
 			EmbedManager embedManager = app.getEmbedManager();
@@ -299,10 +311,9 @@ public class CopyPasteW extends CopyPaste {
 	}
 
 	@Override
-	public native void clearClipboard() /*-{
-		$wnd.localStorage.setItem(
-			@org.geogebra.web.html5.util.CopyPasteW::pastePrefix, '');
-	}-*/;
+	public void clearClipboard() {
+		BrowserStorage.LOCAL.setItem(pastePrefix, "");
+	}
 
 	@Override
 	public void copyTextToSystemClipboard(String text) {
@@ -366,7 +377,6 @@ public class CopyPasteW extends CopyPaste {
 		}
 	}
 
-	@ExternalAccess
 	private static void readBlob(Blob blob, AsyncOperation<String> callback) {
 		// in Chrome one could use blob.text().then(callback)
 		// but the FileReader code is also compatible with Safari 13.1
@@ -379,49 +389,57 @@ public class CopyPasteW extends CopyPaste {
 		reader.readAsText(blob);
 	}
 
+	private static void onPermission(AsyncOperation<Boolean> callback) {
+		Clipboard.read().then((data) -> {
+			if (data.length == 0 || data.getAt(0).types.length == 0) {
+				callback.callback(false);
+				return null;
+			}
+
+			if ("image/png".equals(data.getAt(0).types.getAt(0))) {
+				callback.callback(true);
+			} else if ("text/plain".equals(data.getAt(0).types.getAt(0))) {
+				data.getAt(0).getType("text/plain").then((item) -> {
+					callback.callback(item.size > 0);
+					return null;
+				});
+			}
+			return null;
+		}, (ignore) -> {
+			callback.callback(true);
+			return null;
+		});
+	}
+
 	/**
 	 * Check if there is any readable content in the system clipboard (if supported),
 	 * or the internal clipboard (if not)
 	 */
-	public static native void checkClipboard(AsyncOperation<Boolean> callback) /*-{
-		if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.read) {
-			var onPermission = function() {
-				$wnd.navigator.clipboard.read().then(function(data) {
-					if (data.length === 0 || data[0].types.length === 0) {
-						callback.@org.geogebra.common.util.AsyncOperation::callback(*)(false);
-						return
-					}
+	public static void checkClipboard(AsyncOperation<Boolean> callback) {
+		if (navigatorSupports("clipboard.read")) {
+			if (navigatorSupports("permissions")) {
+				Promise<Permissions.Permission> promise =
+						Permissions.query(JsPropertyMap.of("name", "clipboard-read"));
 
-					if (data[0].types[0] === 'image/png') {
-						callback.@org.geogebra.common.util.AsyncOperation::callback(*)(true);
-					} else if (data[0].types[0] === 'text/plain') {
-						data[0].getType('text/plain').then(function(item) {
-							callback.@org.geogebra.common.util.AsyncOperation::callback(*)(item.size > 0);
-						});
-					}
-				}, function() {
-					callback.@org.geogebra.common.util.AsyncOperation::callback(*)(true);
-				})
-			}
-			if ($wnd.navigator.permissions) {
-				$wnd.navigator.permissions.query({
-					name: 'clipboard-read'
-				}).then(function(result) {
-					if (result.state === "granted") {
-						onPermission();
+				promise.then((result) -> {
+					if ("granted".equals(result.state)) {
+						onPermission(callback);
 					} else {
-						callback.@org.geogebra.common.util.AsyncOperation::callback(*)(true);
+						callback.callback(true);
 					}
+					return null;
 				});
 			} else {
 				// Safari doesn't have navigator.permissions, checking content
 				// directly triggers an extra popup on Mac -> just assume we can paste
-				callback.@org.geogebra.common.util.AsyncOperation::callback(*)(true);
+				callback.callback(true);
 			}
 		} else {
-			var pastePrefix = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix;
-			var stored = $wnd.localStorage.getItem(pastePrefix);
-			callback.@org.geogebra.common.util.AsyncOperation::callback(*)(!!stored);
+			callback.callback(!StringUtil.empty(BrowserStorage.LOCAL.getItem(pastePrefix)));
 		}
-	}-*/;
+	}
+
+	private static boolean navigatorSupports(String s) {
+		return Js.isTruthy(Js.asPropertyMap(DomGlobal.navigator).nestedGet(s));
+	}
 }

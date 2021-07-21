@@ -132,7 +132,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox = add("B = Inputbox(A)");
 
 		String wrongSyntax = "(1,1)+";
-		inputBox.updateLinkedGeo(wrongSyntax);
+		inputBox.updateLinkedGeo(wrongSyntax, wrongSyntax);
 
 		App app = getApp();
 		String appXML = app.getXML();
@@ -151,8 +151,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		savedInputBox.setAuxiliaryObject(true);
 		savedInputBox.setLength(50);
 		savedInputBox.setAlignment(HorizontalAlignment.CENTER);
-		savedInputBox.setTempUserDisplayInput("abcde");
-		savedInputBox.setTempUserEvalInput("?");
+		savedInputBox.setTempUserInput("?", "abcde");
 		savedInputBox.setDynamicCaption(text);
 		String appXML = getApp().getXML();
 		XmlTestUtil.testCurrentXML(getApp());
@@ -172,8 +171,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		add("a = 5");
 		GeoInputBox inputBox =  add("Inputbox(a)");
 		String tempDisplayInput = "\\frac{5}{\\nbsp}";
-		inputBox.setTempUserDisplayInput(tempDisplayInput);
-		inputBox.updateLinkedGeo("5/");
+		inputBox.updateLinkedGeo("5/", tempDisplayInput);
 		inputBox.setSymbolicMode(true);
 		assertEquals(tempDisplayInput, inputBox.getDisplayText());
 		assertEquals("5/", inputBox.getText());
@@ -491,7 +489,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		addAvInput("f(x) = x");
 		GeoInputBox inputBox = addAvInput("a = InputBox(f)");
 		app.storeUndoInfo();
-		inputBox.updateLinkedGeo("x+()");
+		inputBox.updateLinkedGeo("x+()", "x+()");
 
 		inputBox = undoRedo.getAfterUndo("a");
 		assertThat(inputBox.getText(), equalTo("x"));

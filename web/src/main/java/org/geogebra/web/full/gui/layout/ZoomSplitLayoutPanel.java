@@ -4,7 +4,7 @@
 
 package org.geogebra.web.full.gui.layout;
 
-import org.geogebra.web.html5.Browser;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.util.GeoGebraElement;
 
 import com.google.gwt.core.client.Duration;
@@ -120,7 +120,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
 		private ZoomSplitLayoutPanel splitPanel;
 
-		protected SplitterImpl impl = Browser.isMobile() ? new SplitterImplTouch()
+		protected SplitterImpl impl = NavigatorUtil.isMobile() ? new SplitterImplTouch()
 				: new SplitterImpl();
 
 		/**

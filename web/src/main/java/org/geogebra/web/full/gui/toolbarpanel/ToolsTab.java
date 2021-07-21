@@ -26,17 +26,17 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 	/**
 	 * panel containing the tools
 	 */
-	Tools toolsPanel;
+	private Tools toolsPanel;
 
 	/**
 	 * button to get more tools
 	 */
-	StandardButton moreBtn;
+	private StandardButton moreBtn;
 
 	/**
 	 * button to get less tools
 	 */
-	StandardButton lessBtn;
+	private StandardButton lessBtn;
 
 	/**
 	 * tab containing the tools
@@ -199,5 +199,14 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 	@Override
 	protected void onActive() {
 		// unused
+	}
+
+	@Override
+	public void setLabels() {
+		toolsPanel.setLabels();
+		if (moreBtn != null && lessBtn != null) {
+			moreBtn.setText(app.getLocalization().getMenu("Tools.More"));
+			lessBtn.setText(app.getLocalization().getMenu("Tools.Less"));
+		}
 	}
 }

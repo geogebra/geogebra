@@ -5,8 +5,8 @@ import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.ComponentInputDialog;
 import org.geogebra.web.shared.components.DialogData;
 
 /**
@@ -39,7 +39,7 @@ public class InputDialogRegularPolygonW extends ComponentInputDialog {
 			GeoCoordSys2D direction) {
 		super(app, data, false, false, handler,
 				app.getLocalization().getMenu("Points"), "4",
-				1, -1, false);
+				false);
 		geoPoint1 = point1;
 		geoPoint2 = point2;
 		this.direction = direction;

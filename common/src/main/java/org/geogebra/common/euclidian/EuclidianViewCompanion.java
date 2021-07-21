@@ -317,12 +317,18 @@ public class EuclidianViewCompanion {
 				int visibleHeight = view.getVisibleHeight();
 				if (visibleWidth > EuclidianView.MIN_WIDTH
 						&& visibleHeight > EuclidianView.MIN_HEIGHT) {
-					x0 = evs.getVisibleFromX() + visibleWidth / 2.0;
-					y0 = visibleHeight / 2.0;
+					int settingsVisibleWidth = view.calcVisibleWidthFromSettings();
+					int settingsVisibleHeight = view.calcVisibleHeightFromSettings();
+					if (settingsVisibleWidth == 0) {
+						// no dimension from file: center the view
+						settingsVisibleWidth = (int) Math.round(x0 * 2);
+						settingsVisibleHeight = (int) Math.round(y0 * 2);
+					}
+					x0 += (visibleWidth - settingsVisibleWidth) / 2.0;
+					y0 += (visibleHeight - settingsVisibleHeight) / 2.0;
 					evs.setSize(view.getWidth(), view.getHeight());
 					evs.setOriginNoUpdate(x0, y0);
 				}
-				// Log.debug(">> x0:" + x0 + ", y0:" + y0);
 			}
 
 			view.setCoordSystem(x0, y0, evs.getXscale(), evs.getYscale(), true);

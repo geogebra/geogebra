@@ -17,17 +17,15 @@ import org.geogebra.web.full.gui.ToolNameIconPanelW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.OptionElement;
 import com.google.gwt.dom.client.SelectElement;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -139,24 +137,18 @@ public class ToolCreationDialogW extends DialogBoxW implements
 		// Create panel with ListBoxes for input and output objects and
 		// add ChangeHandler
 		outputAddLB = new ListBox();
-		outputAddLB.addChangeHandler(new ChangeHandler() {
-			@Override
-			public void onChange(ChangeEvent event) {
-				// added empty option at top, so use index-1
-				toolModel.addToOutput(outputAddLB.getSelectedIndex() - 1);
-			}
+		outputAddLB.addChangeHandler(event -> {
+			// added empty option at top, so use index-1
+			toolModel.addToOutput(outputAddLB.getSelectedIndex() - 1);
 		});
 		outputLB = new ListBox();
 		VerticalPanel outputObjectPanel = createInputOutputPanel(outputAddLB,
 				outputLB);
 
 		inputAddLB = new ListBox();
-		inputAddLB.addChangeHandler(new ChangeHandler() {
-			@Override
-			public void onChange(ChangeEvent event) {
-				// added empty option at top, so use index-1
-				toolModel.addToInput(inputAddLB.getSelectedIndex() - 1);
-			}
+		inputAddLB.addChangeHandler(event -> {
+			// added empty option at top, so use index-1
+			toolModel.addToInput(inputAddLB.getSelectedIndex() - 1);
 		});
 		inputLB = new ListBox();
 		VerticalPanel inputObjectPanel = createInputOutputPanel(inputAddLB,
@@ -235,14 +227,10 @@ public class ToolCreationDialogW extends DialogBoxW implements
 	}
 
 	private SelectionHandler<Integer> getSelectionHandler() {
-		SelectionHandler<Integer> handler = new SelectionHandler<Integer>() {
+		SelectionHandler<Integer> handler = event -> {
+			int tab = event.getSelectedItem();
 
-			@Override
-			public void onSelection(SelectionEvent<Integer> event) {
-				int tab = event.getSelectedItem();
-
-				updateBackNextButtons(tab);
-			}
+			updateBackNextButtons(tab);
 		};
 		return handler;
 	}
@@ -388,13 +376,9 @@ public class ToolCreationDialogW extends DialogBoxW implements
 							loc.getMenu("Question"),
  0,
 							GOptionPane.QUESTION_MESSAGE, null, options,
-							new AsyncOperation<String[]>() {
-
-								@Override
-								public void callback(String[] dialogResult) {
-									if ("0".equals(dialogResult[0])) {
-										saveMacro(appToSave);
-									}
+							dialogResult -> {
+								if ("0".equals(dialogResult[0])) {
+									saveMacro(appToSave);
 								}
 							});
 		} else {
@@ -422,15 +406,12 @@ public class ToolCreationDialogW extends DialogBoxW implements
 			if (returnHandler == null) {
 				ToolTipManagerW.sharedInstance().showBottomMessage(
 						loc.getMenu("Tool.CreationSuccess"), appw);
-
 			}
 		} else {
-			appw.getGuiManager()
-					.getOptionPane()
-					.showConfirmDialog(loc.getMenu("Tool.NotCompatible"),
-							appw.getLocalization().getError("Error"),
-							GOptionPane.OK_OPTION, GOptionPane.ERROR_MESSAGE,
-							null);
+			DialogData data = new DialogData(appw.getLocalization().getError("Error"),
+					null, "OK");
+			new ErrorInfoDialog((AppW) app, data,
+					loc.getMenu("Tool.NotCompatible"), true).show();
 		}
 
 		if (appw.isToolLoadedFromStorage()) {
@@ -475,5 +456,4 @@ public class ToolCreationDialogW extends DialogBoxW implements
 					.setColor(GColor.getColorString(geos[i].getAlgebraColor()));
 		}
 	}
-
 }

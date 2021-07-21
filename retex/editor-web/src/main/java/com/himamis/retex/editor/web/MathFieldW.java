@@ -28,11 +28,13 @@ package com.himamis.retex.editor.web;
 
 import java.util.ArrayList;
 
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -42,10 +44,12 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.controller.CursorController;
@@ -80,6 +84,7 @@ import elemental2.dom.CSSProperties;
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.ClipboardEvent;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLTextAreaElement;
 import elemental2.dom.KeyboardEvent;
 import jsinterop.base.Js;
 
@@ -120,8 +125,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
 	private static int counter = 0;
-	private String foregroundCssColor = "#000000";
-	private String backgroundCssColor = "#ffffff";
+	private ColorW foregroundColor = new ColorW("#000000");
+	private ColorW backgroundColor = new ColorW("#ffffff");
 	private ChangeHandler changeHandler;
 	private int fixMargin = 0;
 	private int minHeight = 0;
@@ -453,13 +458,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		event.stopPropagation();
 	}
 
-	native boolean checkPowerKeyInput(Element element) /*-{
-		if (element.value.match(/\^$/)) {
-			element.value = '';
+	private boolean checkPowerKeyInput(Element element) {
+		HTMLTextAreaElement textArea = Js.uncheckedCast(element);
+		if (textArea.value.matches(".*\\^")) {
+			textArea.value = "";
 			return true;
 		}
 		return false;
-	}-*/;
+	}
 
 	/**
 	 * @param nativeEvent
@@ -603,7 +609,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 		double margin = getMargin(lastIcon);
 
-		paint(ctx, margin);
+		paint(ctx, margin, backgroundColor);
 		lastIcon.paintCursor(new Graphics2DW(ctx), margin);
 	}
 
@@ -615,9 +621,23 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * Paints the formula on a canvas
 	 * @param ctx canvas context
 	 */
-	public void paint(CanvasRenderingContext2D ctx, double top) {
-		JlmLib.draw(lastIcon, ctx, 0, top, new ColorW(foregroundCssColor),
-				new ColorW(backgroundCssColor), null, ratio);
+	public void paint(CanvasRenderingContext2D ctx, double top, ColorW bgColor) {
+		JlmLib.draw(lastIcon, ctx, 0, top, foregroundColor,
+				bgColor, null, ratio);
+	}
+
+	/**
+	 * @param ctx canvas
+	 * @param top top
+	 * @param bgColor background color
+	 */
+	public void paintFormulaNoPlaceholder(CanvasRenderingContext2D ctx,
+			double top, ColorW bgColor) {
+		TeXIcon iconNoPlaceholder = mathFieldInternal.buildIconNoPlaceholder();
+		if (iconNoPlaceholder != null) {
+			JlmLib.draw(iconNoPlaceholder, ctx, 0, top, foregroundColor,
+					bgColor, null, ratio);
+		}
 	}
 
 	private boolean isEdited() {
@@ -770,9 +790,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private void focusTextArea() {
-		inputTextArea.getElement().focus();
-		if (html.getElement().getParentElement() != null) {
-			html.getElement().getParentElement().setScrollTop(0);
+		Element parentElement = html.getElement().getParentElement();
+		if (parentElement != null) {
+			int scroll = parentElement.getScrollLeft();
+			inputTextArea.getElement().focus();
+			parentElement.setScrollLeft(scroll);
+			parentElement.setScrollTop(0);
+		} else {
+			inputTextArea.getElement().focus();
 		}
 		startBlink();
 	}
@@ -849,6 +874,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (clip == null) {
 			clip = new SimplePanel();
 			Element el = getHiddenTextAreaNative(counter++, clip.getElement());
+
 			inputTextArea = MyTextArea.wrap(el);
 
 			new EditorCompositionHandler(this).attachTo(inputTextArea);
@@ -921,49 +947,50 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		this.onTextfieldFocus = run;
 	}
 
-	private static native Element getHiddenTextAreaNative(int counter,
-			Element clipDiv) /*-{
-		var hiddenTextArea = $doc.getElementById('hiddenCopyPasteLatexArea'
+	private static Element getHiddenTextAreaNative(int counter,
+			Element clipDiv) {
+		Element hiddenTextArea = DOM.getElementById("hiddenCopyPasteLatexArea"
 				+ counter);
-		if (!hiddenTextArea) {
-			hiddenTextArea = $doc.createElement("textarea");
-			hiddenTextArea.id = 'hiddenCopyPasteLatexArea' + counter;
-			hiddenTextArea.style.opacity = 0;
-			clipDiv.style.zIndex = -32000;
+		if (hiddenTextArea == null) {
+			hiddenTextArea = DOM.createTextArea();
+			hiddenTextArea.setId("hiddenCopyPasteLatexArea" + counter);
+			hiddenTextArea.getStyle().setOpacity(0);
+			clipDiv.getStyle().setZIndex(-32000);
 			//* although clip is for absolute position, necessary! 
 			//* as it is deprecated, may cause CSS challenges later 
-			clipDiv.style.clip = "rect(1em 1em 1em 1em)";
+			clipDiv.getStyle().setProperty("clip", "rect(1em 1em 1em 1em)");
 			//* top/left will be specified dynamically, depending on scrollbar
-			clipDiv.style.width = "1px";
-			clipDiv.style.height = "1px";
-			clipDiv.style.position = "relative";
-			clipDiv.style.top = "-100%";
-			clipDiv.className = "textAreaClip";
-			hiddenTextArea.style.width = "1px";
-			hiddenTextArea.style.padding = 0;
-			hiddenTextArea.style.border = 0;
-			hiddenTextArea.style.minHeight = 0;
-			hiddenTextArea.style.height = "1px";//prevent messed up scrolling in FF/IE
-			$doc.body.appendChild(hiddenTextArea);
-			if (@org.geogebra.web.html5.Browser::isMobile()()) {
+			clipDiv.getStyle().setHeight(1, Style.Unit.PX);
+			clipDiv.getStyle().setWidth(1, Style.Unit.PX);
+			clipDiv.getStyle().setPosition(Style.Position.RELATIVE);
+			clipDiv.getStyle().setTop(-100, Style.Unit.PCT);
+			clipDiv.setClassName("textAreaClip");
+			hiddenTextArea.getStyle().setWidth(1, Style.Unit.PX);
+			hiddenTextArea.getStyle().setPadding(0, Style.Unit.PX);
+			hiddenTextArea.getStyle().setProperty("border", "0");
+			hiddenTextArea.getStyle().setProperty("minHeight", "0");
+			//prevent messed up scrolling in FF/IE
+			hiddenTextArea.getStyle().setHeight(1, Style.Unit.PX);
+			RootPanel.getBodyElement().appendChild(hiddenTextArea);
+			if (NavigatorUtil.isMobile()) {
 				hiddenTextArea.setAttribute("readonly", "true");
 			}
 		}
 		//hiddenTextArea.value = '';
 		return hiddenTextArea;
-	}-*/;
+	}
 
 	@Override
 	public void copy() {
 		nativeCopy(mathFieldInternal.copy());
 	}
 
-	private native void nativeCopy(String value) /*-{
-		var copyFrom = this.@com.himamis.retex.editor.web.MathFieldW::getHiddenTextArea()();
+	private void nativeCopy(String value) {
+		HTMLTextAreaElement copyFrom = Js.uncheckedCast(getHiddenTextArea());
 		copyFrom.value = value;
 		copyFrom.select();
-		$doc.execCommand('copy');
-	}-*/;
+		DocumentUtil.copySelection();
+	}
 
 	@Override
 	public boolean useCustomPaste() {
@@ -1164,8 +1191,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param cssColor
 	 * 			to set.
 	 */
-	public void setForegroundCssColor(String cssColor) {
-		this.foregroundCssColor = cssColor;
+	public void setForegroundColor(String cssColor) {
+		this.foregroundColor = new ColorW(cssColor);
 	}
 
 	/**
@@ -1174,8 +1201,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param cssColor
 	 * 			to set.
 	 */
-	public void setBackgroundCssColor(String cssColor) {
-		this.backgroundCssColor = cssColor;
+	public void setBackgroundColor(String cssColor) {
+		this.backgroundColor = new ColorW(cssColor);
 	}
 
 	/**
@@ -1207,11 +1234,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *
 	 * @param parentPanel
 	 *            panel to be scrolled
-	 * @param margin
-	 *            minimal distance from cursor to left/right border
 	 */
-	public void scrollParentHorizontally(FlowPanel parentPanel, int margin) {
-		MathFieldScroller.scrollHorizontallyToCursor(parentPanel, margin, lastIcon.getCursorX());
+	public void scrollParentHorizontally(FlowPanel parentPanel) {
+		MathFieldScroller.scrollHorizontallyToCursor(parentPanel, lastIcon.getCursorX());
 	}
 
 	/**
@@ -1224,5 +1249,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public void scrollParentVertically(FlowPanel parentPanel, int margin) {
 		MathFieldScroller.scrollVerticallyToCursor(parentPanel, margin, lastIcon.getCursorY());
+	}
+
+	public ColorW getBackgroundColor() {
+		return backgroundColor;
 	}
 }

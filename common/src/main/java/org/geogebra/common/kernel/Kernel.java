@@ -1462,12 +1462,25 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return localized number
 	 */
 	public String internationalizeDigits(String num, StringTemplate tpl) {
-
 		if (!tpl.internationalizeDigits()
 				|| !getLocalization().isUsingLocalizedDigits()) {
 			return num;
 		}
 
+		// make sure minus sign is on right side
+		boolean isMinusOnRight = getLocalization().isMinusOnRight(tpl);
+
+		// instead of -12E-34 we have localized 34-E12-
+		if (isMinusOnRight && num.indexOf('E') > 0) {
+			String[] expNumbers = num.split("E");
+			return localizeDigits(expNumbers[1], true) + "E"
+					+ localizeDigits(expNumbers[0], true);
+		}
+
+		return localizeDigits(num, isMinusOnRight);
+	}
+
+	private String localizeDigits(String num, boolean isMinusOnRight) {
 		if (formatSB == null) {
 			formatSB = new StringBuilder(17);
 		} else {
@@ -1475,24 +1488,18 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		}
 
 		boolean negative = num.charAt(0) == '-';
-
 		int start = 0;
 
-		// make sure minus sign works in Arabic
-		boolean RTL = getLocalization().isRightToLeftDigits(tpl);
-
-		if (RTL) {
-			formatSB.append(Unicode.RIGHT_TO_LEFT_MARK);
-			if (negative) {
-				formatSB.append(Unicode.RIGHT_TO_LEFT_UNARY_MINUS_SIGN);
-				start = 1;
+		if (negative) {
+			if (!isMinusOnRight) {
+				formatSB.append('-');
 			}
+			start = 1;
 		}
 
 		for (int i = start; i < num.length(); i++) {
 
-			char c = RTL ? num.charAt(num.length() - (negative ? 0 : 1) - i)
-					: num.charAt(i);
+			char c = num.charAt(i);
 			if (c == '.') {
 				c = getLocalization().getDecimalPoint();
 			} else if ((c >= '0') && (c <= '9')) {
@@ -1504,10 +1511,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			formatSB.append(c);
 		}
 
-		if (RTL) {
-			formatSB.append(Unicode.RIGHT_TO_LEFT_MARK);
+		if (negative && isMinusOnRight) {
+			formatSB.append('-');
 		}
-
 		return formatSB.toString();
 	}
 
@@ -2244,13 +2250,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			}
 
 			if (forceDegrees || degreesMode()) {
-				boolean rtl = getLocalization().isRightToLeftDigits(tpl);
-				if (rtl) {
-					if (tpl.hasCASType()) {
-						sbFormatAngle.append("pi/180*");
-					} else {
-						sbFormatAngle.append(Unicode.DEGREE_CHAR);
-					}
+				boolean isMinusOnRight = getLocalization().isMinusOnRight(tpl);
+				if (isMinusOnRight) {
+					sbFormatAngle.append(Unicode.DEGREE_CHAR);
 				}
 
 				phi = Math.toDegrees(phi);
@@ -2274,7 +2276,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 					sbFormatAngle.append("*");
 				}
 
-				if (!rtl) {
+				if (!isMinusOnRight) {
 					if (tpl.hasCASType()) {
 						sbFormatAngle.append("*pi/180");
 					} else {

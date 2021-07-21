@@ -34,7 +34,7 @@ public class ProbabilityTableD extends ProbabilityTable
 		wrappedPanel.setLayout(new BorderLayout());
 		statTable = new StatTable(app);
 		statTable.getTable()
-				.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		statTable.getTable().setColumnSelectionAllowed(false);
 		statTable.getTable().setRowSelectionAllowed(true);
 		statTable.getTable().getSelectionModel().addListSelectionListener(this);
@@ -205,6 +205,22 @@ public class ProbabilityTableD extends ProbabilityTable
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void setTwoTailedSelection(int lowValue, int highValue) {
+		int lowIndex = lowValue - getXMin();
+		if (lowIndex < 0) {
+			lowIndex = 0;
+		}
+		int highIndex = highValue - getXMin();
+
+		if (isCumulative()) {
+			statTable.getTable().changeSelection(highIndex, 0, false, false);
+		} else {
+			statTable.getTable().setTailSelection(lowIndex, highIndex);
+
 		}
 	}
 

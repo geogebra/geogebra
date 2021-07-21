@@ -4,7 +4,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Default error handler
@@ -22,15 +21,10 @@ public class ErrorHandlerW implements ErrorHandler {
 
 	@Override
 	public void showError(String msg) {
-		Log.trace("");
 		if (!app.isErrorDialogsActive()) {
 			return;
 		}
-		String title = GeoGebraConstants.APPLICATION_NAME + " - "
-				+ app.getLocalization().getError("Error");
-
-		app.getOptionPane().showConfirmDialog(msg, title,
-				GOptionPane.DEFAULT_OPTION, GOptionPane.ERROR_MESSAGE, null);
+		app.showErrorInfoDialog(msg);
 	}
 
 	@Override
@@ -56,15 +50,11 @@ public class ErrorHandlerW implements ErrorHandler {
 				app.getLocalization().getMenu("ShowOnlineHelp") };
 		app.getOptionPane().showOptionDialog(message, title, 0,
 				GOptionPane.ERROR_MESSAGE, null, optionNames,
-				new AsyncOperation<String[]>() {
-					@Override
-					public void callback(String[] dialogResult) {
-						if ("1".equals(dialogResult[0])) {
-							openCommandHelp(command);
-						}
+				dialogResult -> {
+					if ("1".equals(dialogResult[0])) {
+						openCommandHelp(command);
 					}
 				});
-
 	}
 
 	/**
@@ -81,5 +71,4 @@ public class ErrorHandlerW implements ErrorHandler {
 	public String getCurrentCommand() {
 		return null;
 	}
-
 }

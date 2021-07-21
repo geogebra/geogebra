@@ -58,15 +58,15 @@ public class InputBoxProcessor {
 
 		// first clear temp input, so that the string representation of the input
 		// box is correct when updating dependencies
-		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
+		inputBox.clearTempUserInput();
 		InputBoxErrorHandler errorHandler = new InputBoxErrorHandler();
 		updateLinkedGeoNoErrorHandling(tpl, errorHandler, content);
 
 		if (errorHandler.errorOccured) {
 			if ("?".equals(inputText)) {
-				updateTempInput("", "");
+				inputBox.setTempUserInput("", "");
 			} else {
-				updateTempInput(inputText, tempUserDisplayInput);
+				inputBox.setTempUserInput(inputText, content.getLaTeX());
 			}
 			linkedGeo.setUndefined();
 			makeGeoIndependent();
@@ -97,11 +97,6 @@ public class InputBoxProcessor {
 		return inputText;
 	}
 
-	private void updateTempInput(String inputText, String tempUserDisplayInput) {
-		inputBox.setTempUserDisplayInput(tempUserDisplayInput);
-		inputBox.setTempUserEvalInput(inputText);
-	}
-
 	/**
 	 * Make sure linked geo is independent; otherwise null definition causes NPE
 	 */
@@ -116,12 +111,6 @@ public class InputBoxProcessor {
 		} catch (Throwable e) {
 			Log.warn(e.getMessage());
 		}
-	}
-
-	private String getAndClearTempUserDisplayInput(String inputText) {
-		String tempUserInput = inputBox.getTempUserDisplayInput();
-		inputBox.clearTempUserInput();
-		return tempUserInput == null ? inputText : tempUserInput;
 	}
 
 	private void updateLinkedGeoNoErrorHandling(

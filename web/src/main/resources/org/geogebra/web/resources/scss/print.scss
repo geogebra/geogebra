@@ -38,13 +38,6 @@
 		}
 	}
 	
-	.printableView {
-		visibility: visible;
-		position: absolute;
-		top: 0px;
-		left: 0px;
-	}
-	
 	.GeoGebraPopup {
 		width: 95%;
 		height: 95%;
@@ -68,7 +61,7 @@
 		margin-top: auto;
 	}
 	
-	.avItemContent .panelRow, .AlgebraViewObjectStylebar{
+	.algebraViewObjectStylebar{
 		display: none;
 	}
 }

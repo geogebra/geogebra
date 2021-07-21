@@ -43,8 +43,6 @@ public interface MaterialsManagerI {
 
 	void getFromTube(int id, boolean fromAnotherDevice);
 
-	boolean isSyncing();
-
 	void export(App app);
 
 	void exportImage(String url, String string, String extension);

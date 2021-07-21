@@ -69,6 +69,7 @@ ext.appHtml = { app, prerelease, offline = false ->
     def appID = app.id.split("-")[0]
     def appTransKey = app.transKey
     def header = vendor == "Mebis" ? "" : template("app-header-beta.html")
+    header = header.replace("<!--PICKER-->", offline ? "" : template("partials/picker.html"))
     header = partials(header, app.partials)
     def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
     def startscreenStyle = "startscreen " + appID + (offline ? " offline" : "")

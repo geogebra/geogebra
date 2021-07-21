@@ -12,8 +12,9 @@ the Free Software Foundation.
 
 package com.himamis.retex.editor.web;
 
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.DomEvent;
+
+import jsinterop.base.Js;
 
 /**
  * Represents a native focus event.
@@ -54,12 +55,12 @@ public class CompositionUpdateEvent extends DomEvent<CompositionHandler> {
 		handler.onCompositionUpdate(this);
 	}
 
+	/**
+	 * @return event data
+	 */
 	public String getData() {
-		return getData(getNativeEvent());
+		CompositionEvent ce = Js.uncheckedCast(getNativeEvent());
+		return ce.data;
 	}
-
-	public native String getData(NativeEvent evt) /*-{
-		return evt.data;
-	}-*/;
 
 }

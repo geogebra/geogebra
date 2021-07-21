@@ -134,4 +134,22 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 		IntervalFunction function = new IntervalFunction(geo);
 		shouldBeXPowerOnMinusThird(function);
 	}
+
+	@Test
+	public void evaluateXPowerOfZero() throws Exception {
+		GeoFunction geo = add("x^0");
+		IntervalFunction function = new IntervalFunction(geo);
+		shouldBeOne(function);
+	}
+
+	@Test
+	public void evaluateZeroPowerOfZeroMultipliedByXPowerOfZero() throws Exception {
+		GeoFunction geo = add("0^0*x^0");
+		IntervalFunction function = new IntervalFunction(geo);
+		shouldBeOne(function);
+	}
+
+	private void shouldBeOne(IntervalFunction function) throws Exception {
+		assertEquals(IntervalConstants.one(), function.evaluate(IntervalConstants.whole()));
+	}
 }

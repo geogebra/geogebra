@@ -7,7 +7,6 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -99,15 +98,12 @@ public class GroupButtonMow extends FlowPanel {
 	}
 
 	private void addClickHandler() {
-		addDomHandler(new ClickHandler() {
-			@Override
-			public void onClick(final ClickEvent event) {
-				updateToSelected();
-				setSelected(!isSelected());
-				getCallBack().callback(
-						new SimpleEntry<>(
-						getGroupName(), isSelected()));
-			}
+		addDomHandler(event -> {
+			updateToSelected();
+			setSelected(!isSelected());
+			getCallBack().callback(
+					new SimpleEntry<>(
+					getGroupName(), isSelected()));
 		}, ClickEvent.getType());
 	}
 

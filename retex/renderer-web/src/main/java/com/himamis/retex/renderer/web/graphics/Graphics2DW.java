@@ -120,33 +120,15 @@ public class Graphics2DW implements Graphics2DInterface {
 		context.setMiterLimit(basicStroke.getMiterLimit());
 
 		float[] dasharr = basicStroke.getDash();
+		JsArray<Double> jsarrn = JsArray.of();
 		if (dasharr != null) {
-			JsArray<Float> jsarrn = JsArray.of();
 			jsarrn.setLength(dasharr.length);
 			for (float i: dasharr)  {
-				jsarrn.push(i);
+				jsarrn.push((double) i);
 			}
-			setStrokeDash(context, jsarrn);
-		} else {
-			setStrokeDash(context, null);
 		}
+		context.setLineDash(jsarrn);
 	}
-
-	public native void setStrokeDash(JLMContext2d ctx,
-			JsArray<Float> dasharray) /*-{
-		if (dasharray === undefined || dasharray === null) {
-			dasharray = [];
-		}
-
-		if (typeof ctx.setLineDash === 'function') {
-			ctx.setLineDash(dasharray);
-		} else if (typeof ctx.mozDash !== 'undefined') {
-			ctx.mozDash = dasharray;
-		} else if (typeof ctx.webkitLineDash !== 'undefined') {
-			ctx.webkitLineDash = dasharray;
-		}
-
-	}-*/;
 
 	@Override
 	public Stroke getStroke() {

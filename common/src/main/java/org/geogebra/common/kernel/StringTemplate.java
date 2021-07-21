@@ -53,6 +53,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private boolean forceNF;
 	private boolean allowMoreDigits;
 	private boolean useRealLabels;
+	private boolean useSimplifications;
 
 	private boolean changeArcTrig = true;
 
@@ -899,6 +900,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return copy;
 	}
 
+	/**
+	 * @return copy of this template that simplifies 1*a and -1*a
+	 * to a and -a respectively
+	 */
+	public StringTemplate deriveWithSimplification() {
+		StringTemplate copy = copy();
+		copy.useSimplifications = true;
+		return copy;
+	}
+
 	private StringTemplate copy() {
 		StringTemplate result = new StringTemplate("CopyOf:" + name);
 		result.stringType = stringType;
@@ -915,6 +926,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		result.forceSF = forceSF;
 		result.supportsFractions = supportsFractions;
 		result.questionMarkForNaN = questionMarkForNaN;
+		result.useSimplifications = useSimplifications;
 		return result;
 	}
 
@@ -934,7 +946,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return label depending on given string type
 	 */
 	public String printVariableName(final String label) {
-
 		switch (getStringType()) {
 		case GIAC:
 			// make sure we don't interfere with reserved names
@@ -943,12 +954,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return addTempVariablePrefix(label.replace("$", ""));
 
 		case LATEX:
-			if ("l".equals(label)) {
-				return "\\ell";
-			}
-			
 			// eg $1 in "Keep Input" mode
 			return label.replace("$", "\\$");
+
 		default:
 			// standard case
 			return label;
@@ -1792,6 +1800,19 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		case LATEX:
 		case LIBRE_OFFICE:
+			if (useSimplifications && !Unicode.DEGREE_STRING.equals(rightStr)
+					&& !RAD.equals(rightStr)) {
+				Operation operation = Operation.MULTIPLY;
+				// check for 1 at left
+				if ("1".equals(leftStr)) {
+					append(sb, rightStr, right, operation);
+					break;
+				} else if ("-1".equals(leftStr)) {
+					sb.append("-");
+					append(sb, rightStr, right, operation);
+					break;
+				}
+			}
 
 			boolean nounary = true;
 
@@ -1916,7 +1937,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				// show parentheses around these cases
 				if (((rtlMinus = rightStr
 						.startsWith(Unicode.RIGHT_TO_LEFT_UNARY_MINUS_SIGN))
-						|| (rightStr.charAt(0) == '-')) // 2 (-5) or -(-5)
+						|| (!rightStr.isEmpty() && (rightStr.charAt(0) == '-')))  // 2 (-5) or -(-5)
 						|| (!nounary && !right.isLeaf() // -(x*a) or -(x/a)
 								&& (opIDright <= Operation.DIVIDE.ordinal()))) {
 					if (rtlMinus) {
@@ -2038,9 +2059,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 				|| rightStr.equals(Unicode.DEGREE_STRING)) {
 
-			boolean rtl = loc.isRightToLeftDigits(this);
+			boolean isMinusOnRight = loc.isMinusOnRight(this);
 
-			if (rtl) {
+			if (isMinusOnRight) {
 				sb.append(Unicode.DEGREE_STRING);
 			}
 
@@ -2052,7 +2073,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(')'); // needed for eg (a+b)\u00b0
 			}
 
-			if (!rtl) {
+			if (!isMinusOnRight) {
 				sb.append(Unicode.DEGREE_STRING);
 			}
 		}
@@ -2249,6 +2270,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 					&& ExpressionNode.isConstantDouble(
 							((ExpressionNode) left).getRight(), Math.PI)) {
 				sb.append(leftStr);
+			} else if (left.isLeaf() && !isSinglePowerArg(left)) {
+				appendWithBrackets(sb, leftStr);
 			} else {
 				append(sb, leftStr, left, Operation.DIVIDE);
 			}
@@ -2256,7 +2279,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append("/");
 			appendOptionalSpace(sb);
 			// right wing
-			append(sb, rightStr, right, Operation.POWER); // not +, -, *, /
+			if (right.isLeaf() && !isSinglePowerArg(right)) {
+				appendWithBrackets(sb, rightStr);
+			} else {
+				append(sb, rightStr, right, Operation.POWER); // not +, -, *, /
+			}
 		}
 		return sb.toString();
 	}
@@ -2844,10 +2871,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 					sb.append("(");
 					sb.append(leftStr);
-					// Log.debug(left.evaluatesToList());
-					// Log.debug(left instanceof ListValue);
-					// Log.debug(((ListValue)left).getListElement(0).evaluatesToList());
-					
+
 					// if list && !matrix
 					if (left.evaluatesToList()
 							&& left.getListDepth() != 2) {

@@ -46,10 +46,6 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 
 	@Override
 	public void onMouseMove(MouseMoveEvent evt) {
-		if (slider.sliderPanel == null) {
-			evt.stopPropagation();
-			return;
-		}
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
@@ -77,10 +73,8 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 		slider.setForceControls(true);
 		slider.expandSize(slider.getWidthForEdit());
 
-		boolean minHit = slider.sliderPanel != null
-				&& isWidgetHit(slider.getSlider().getWidget(0), x, y);
-		boolean maxHit = slider.sliderPanel != null
-				&& isWidgetHit(slider.getSlider().getWidget(2), x, y);
+		boolean minHit = isWidgetHit(slider.getSlider().getWidget(0), x, y);
+		boolean maxHit = isWidgetHit(slider.getSlider().getWidget(2), x, y);
 		// Min max panel should be closed
 		if (isAnotherMinMaxOpen() || isClickedOutMinMax(x, y)) {
 			MinMaxPanel.closeMinMaxPanel(!(minHit || maxHit));
@@ -96,8 +90,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 			return false;
 		}
 
-		if (slider.sliderPanel != null && slider.sliderPanel.isVisible()
-				&& !rightClick) {
+		if (slider.isVisible() && !rightClick) {
 
 			if (minHit || maxHit) {
 				handleMinMaxHit(minHit);

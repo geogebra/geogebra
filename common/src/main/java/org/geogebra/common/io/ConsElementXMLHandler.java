@@ -33,15 +33,19 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInline;
+import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
+import org.geogebra.common.kernel.geos.GeoMindMapNode;
+import org.geogebra.common.kernel.geos.GeoMindMapNode.NodeAlignment;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
@@ -50,7 +54,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.geos.HasAlignment;
-import org.geogebra.common.kernel.geos.HasDynamicCaption;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -63,6 +66,7 @@ import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -264,8 +268,18 @@ public class ConsElementXMLHandler {
 					((GeoEmbed) geo).setContentWidth(widthD);
 					((GeoEmbed) geo).setContentHeight(heightD);
 				} else {
-					((RectangleTransformable) geo).setSize(widthD, heightD);
 					((RectangleTransformable) geo).setAngle(angleD);
+					if (geo instanceof GeoInlineText || geo instanceof GeoFormula
+							|| geo instanceof GeoInlineTable) {
+						((GeoInline) geo).setWidth(widthD);
+						((GeoInline) geo).setHeight(heightD);
+						if (((GeoInline) geo).isZoomingEnabled()) {
+							((GeoInline) geo).setContentWidth(widthD);
+							((GeoInline) geo).setContentHeight(heightD);
+						}
+					} else {
+						((RectangleTransformable) geo).setSize(widthD, heightD);
+					}
 				}
 			}
 
@@ -1229,8 +1243,7 @@ public class ConsElementXMLHandler {
 			if (inputBox.getLinkedGeo().isGeoText() && !inputBox.getLinkedGeo().isLabelSet()) {
 				((GeoText) inputBox.getLinkedGeo()).setTextString(eval);
 			} else {
-				inputBox.setTempUserDisplayInput(display);
-				inputBox.setTempUserEvalInput(eval);
+				inputBox.setTempUserInput(eval, display);
 			}
 		} else {
 			Log.error("temp user input not supported for " + geo.getGeoClassType());
@@ -1560,14 +1573,14 @@ public class ConsElementXMLHandler {
 	}
 
 	private void handleBorderColor(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoInlineText)) {
+		if (!(geo instanceof GeoInline)) {
 			return;
 		}
 		int red = Integer.parseInt(attrs.get("r"));
 		int green = Integer.parseInt(attrs.get("g"));
 		int blue = Integer.parseInt(attrs.get("b"));
 		GColor col = GColor.newColor(red, green, blue);
-		((GeoInlineText) geo).setBorderColor(col);
+		((GeoInline) geo).setBorderColor(col);
 	}
 
 	private void handleBoundingBox(LinkedHashMap<String, String> attrs) {
@@ -2238,6 +2251,9 @@ public class ConsElementXMLHandler {
 			case "outlyingIntersections":
 				handleOutlyingIntersections(attrs);
 				break;
+			case "parent":
+				handleParent(attrs);
+				break;
 			case "parentLabel":
 				handleParentLabel(attrs);
 				break;
@@ -2318,10 +2334,6 @@ public class ConsElementXMLHandler {
 	}
 
 	private void handleDynamicCaption(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoInputBox)) {
-			Log.error("wrong element type for <dynamicCaption>: " + geo.getClass());
-			return;
-		}
 		try {
 			String dynamicCaption = attrs.get("val");
 			if (dynamicCaption != null) {
@@ -2334,29 +2346,52 @@ public class ConsElementXMLHandler {
 	}
 
 	private void handleContentSize(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoEmbed)) {
+		if (!(geo instanceof GeoEmbed || geo instanceof GeoInline)) {
 			Log.error("wrong element type for <contentSize>: " + geo.getClass());
 			return;
 		}
-
-		GeoEmbed geoEmbed = (GeoEmbed) geo;
-
+		double width = -1;
+		double height = -1;
 		try {
-			double width = Double.parseDouble(attrs.get("width"));
-			double height = Double.parseDouble(attrs.get("height"));
-
-			geoEmbed.setContentWidth(width);
-			geoEmbed.setContentHeight(height);
+			width = Double.parseDouble(attrs.get("width"));
+			height = Double.parseDouble(attrs.get("height"));
 		} catch (NumberFormatException e) {
 			Log.error("malformed <contentSize>");
 		}
+
+		if (geo instanceof GeoEmbed) {
+			GeoEmbed geoEmbed = (GeoEmbed) geo;
+			geoEmbed.setContentWidth(width);
+			geoEmbed.setContentHeight(height);
+		} else {
+			GeoInline geoInline = (GeoInline) geo;
+			geoInline.setContentWidth(width);
+			geoInline.setContentHeight(height);
+			geoInline.setZoomingEnabled(false);
+		}
+	}
+
+	private void handleParent(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoMindMapNode)) {
+			Log.error("wrong element type for <parent>: " + geo.getClass());
+			return;
+		}
+
+		String val = attrs.get("val");
+		GeoElement parent = "_".equals(val) ? null : xmlHandler.kernel.lookupLabel(val);
+		NodeAlignment alignment = NodeAlignment.valueOf(attrs.get("align"));
+
+		if (parent != null && !(parent instanceof GeoMindMapNode)) {
+			Log.error("<parent> has incorrect type: " + parent.getClass());
+			return;
+		}
+		((GeoMindMapNode) geo).setParent((GeoMindMapNode) parent, alignment);
 	}
 
 	private void handleParentLabel(LinkedHashMap<String, String> attrs) {
 		if (geo instanceof GeoLocusStroke) {
 			((GeoLocusStroke) geo).setSplitParentLabel(attrs.get("val"));
 		}
-
 	}
 
 	protected void initDefault(LinkedHashMap<String, String> attrs) {
@@ -2402,7 +2437,7 @@ public class ConsElementXMLHandler {
 			for (GeoExpPair pair : dynamicCaptionList) {
 				GeoElement caption = xmlHandler.kernel.lookupLabel(pair.exp);
 				if (caption.isGeoText()) {
-					HasDynamicCaption text = (HasDynamicCaption) pair.geoElement;
+					GeoElementND text = pair.geoElement;
 					text.setDynamicCaption((GeoText) caption);
 				} else {
 					Log.error("dynamicCaption is not a GeoText");

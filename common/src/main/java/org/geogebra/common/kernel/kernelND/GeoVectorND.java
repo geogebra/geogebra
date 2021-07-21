@@ -105,4 +105,13 @@ public interface GeoVectorND
 	 * @return the column vector that can be rendered by editor.
 	 */
 	String toValueStringAsColumnVector(StringTemplate tpl);
+
+	/**
+	 * @param rwTransVec
+	 *            translation vector
+	 * @param endPosition
+	 *            end position
+	 * @return true if successful
+	 */
+	boolean moveVector(final Coords rwTransVec, final Coords endPosition);
 }

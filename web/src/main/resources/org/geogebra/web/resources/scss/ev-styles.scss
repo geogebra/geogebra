@@ -453,44 +453,6 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		right: 22px !important;
 	}
 
-	.speechBtnPanel {
-
-		.speechBtn {
-		 	height: 36px;
-			width: 36px;
-			background-color: #fff;
-			border-radius: 50%;
-			box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2), 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12);
-			transition: background-color 150ms ease 0ms;
-			cursor: pointer;
-			z-index: $z-on-top-of-graphics;
-			position: relative;
-			bottom: 52px;
-			margin: 0px 0px 16px 16px;
-			display: inline-block;
-
-			img {
-			   padding: 6px;
-			   opacity: 0.54;
-			}
-
-			&:hover {
-				background-color: $selected-menuitem-background;
-
-				img {
-					opacity: 1;
-				}
-			}
-
-			&:focus {
-				img {
-					opacity: 1;
-					outline: $focus-black 5px auto;
-				}
-			}
-		}
-	}
-
 	.undoRedoPanel {
 		padding-left: 12px;
 		position: absolute;
@@ -598,44 +560,9 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		border-color: #DCDCDC;
 	}
 
-	.scrollableTextBox{
-		width: 100%;
-		display: inline-block;
-	}
-
-	.scrollableTextBox > div{
-		width: calc(100% - 18px);
-		overflow-x: hidden;
-		display: inline-block;
-	}
-
-	.scrollableTextBox > div.gwt-PushButton{
-		width: auto;
-	}
-
-	.scrollableTextBox > div::-webkit-scrollbar{
-		display: none;
-	}
-
 	/* Slider top row: no extra padding*/
 	.gwt-TreeItem .noPadding{
 		padding-left: 0;
-	}
-
-	.latexEditor .scrollableTextBox{
-		padding-left:40px;
-		padding-top:5px;
-		padding-bottom:5px;
-		padding-right:10px;
-		box-sizing: border-box;
-	}
-
-	.scrollableTextBox {
-		overflow: hidden;
-	}
-
-	.scrollableTextBox >* {
-		overflow: hidden;
 	}
 
 	.NoHorizontalScroll .InputTreeItem .hasCursorPermanent {
@@ -657,14 +584,6 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		margin-top: -0.66em;
 	}
 
-	.InputTreeItemParent .XButton,
-	.InputTreeItemParent .XButtonNeighbour,
-	.XButtonPanelParent .XButton,
-	.XButtonPanelParent .XButtonNeighbour {
-		cursor: pointer;
-		padding-left: 4px;
-	}
-
 	.advanced-TextButtonPanel .AutoCompleteTextFieldW .SymbolToggleButton {
 		right: 1.6em;
 	}
@@ -675,14 +594,6 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 
 	.AutoCompleteTextFieldW.SymbolCanBeShown input:focus.TextField {
 		padding-right: 40px;
-	}
-
-	.InputTreeItemParent .XButton.shown,
-	.InputTreeItemParent .XButton.ShowSymbolButtonFocused,
-	.InputTreeItemParent .XButtonNeighbour.shown,
-	.XButtonPanelParent .XButton.shown,
-	.XButtonPanelParent .XButtonNeighbour.shown {
-		display: inline-block;
 	}
 
 	/* avoid 'x' in IE */

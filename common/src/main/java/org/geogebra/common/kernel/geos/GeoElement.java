@@ -34,6 +34,7 @@ import javax.annotation.Nullable;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -320,20 +321,15 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private boolean descriptionNeedsUpdateInAV;
 
+	private GeoText dynamicCaption;
+
 	private AlgebraOutputFilter algebraOutputFilter;
 
 	private Group parentGroup;
 
 	private int ordering = -1;
 
-	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
-
-		@Override
-		public int compare(AlgoElement o1, AlgoElement o2) {
-			return o1.compareTo(o2);
-		}
-
-	};
+	private static Comparator<AlgoElement> algoComparator = (o1, o2) -> o1.compareTo(o2);
 
 	/**
 	 * Creates new GeoElement for given construction
@@ -1313,6 +1309,15 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 		bgColor = geo.bgColor;
 		isColorSet = geo.isColorSet();
+
+		if (geo.getParentAlgorithm() instanceof ChartStyleAlgo && this
+				.getParentAlgorithm() instanceof ChartStyleAlgo) {
+			int barNumber = ((ChartStyleAlgo) geo.getParentAlgorithm()).getIntervals();
+			for (int i = 0; i <= barNumber; i++) {
+				((ChartStyleAlgo) this.getParentAlgorithm()).getStyle().setBarColor(
+						((ChartStyleAlgo) geo.getParentAlgorithm()).getStyle().getBarColor(i), i);
+			}
+		}
 	}
 
 	/**
@@ -2968,6 +2973,16 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 					this, false, !cons.isRemovingGeoToReplaceIt());
 		}
 
+		if (getParentGroup() != null) {
+			cons.removeGroupFromGroupList(getParentGroup());
+			for (GeoElement geo : getParentGroup().getGroupedGeos()) {
+				if (geo != this) {
+					geo.setParentGroup(null);
+					geo.remove();
+				}
+			}
+		}
+
 		// notify views before we change labelSet
 		notifyRemove();
 
@@ -2979,10 +2994,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			// remove old key from cache
 			// JLaTeXMathCache.removeCachedTeXFormula(keyLaTeX);
 			latexCache.remove();
-		}
-
-		if (getParentGroup() != null) {
-			cons.removeGroupFromGroupList(getParentGroup());
 		}
 	}
 
@@ -3120,6 +3131,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            whether this was triggered by drag
 	 */
 	public void update(boolean dragging) {
+		if (hasDynamicCaption()) {
+			dynamicCaption.update(dragging);
+		}
 		updateGeo(!cons.isUpdateConstructionRunning(), dragging);
 		maybeUpdateSpecialPoints();
 
@@ -4606,6 +4620,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            string builder
 	 */
 	final public void getCaptionXML(StringBuilder sb) {
+		getXMLDynCaptionTag(sb);
 		// caption text
 		if ((caption != null) && (caption.length() > 0)
 				&& !caption.equals(label)) {
@@ -4613,9 +4628,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			sb.append("\t<caption val=\"");
 			StringUtil.encodeXML(sb, caption);
 			sb.append("\"/>\n");
-
 		}
-
 	}
 
 	/**
@@ -4735,6 +4748,20 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			sb.append((isAnimating() ? "true" : "false"));
 			sb.append("\"");
 			sb.append("/>\n");
+		}
+	}
+
+	/**
+	 * Appends dynamic caption tag to given builder
+	 *
+	 * @param sb
+	 *            string builder
+	 */
+	protected void getXMLDynCaptionTag(final StringBuilder sb) {
+		if (dynamicCaption != null && dynamicCaption.getLabelSimple() != null) {
+			sb.append("\t<dynamicCaption val=\"");
+			sb.append(dynamicCaption.getLabelSimple());
+			sb.append("\"/>\n");
 		}
 	}
 
@@ -5426,45 +5453,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			tempSet = new TreeSet<>(algoComparator);
 		}
 		return tempSet;
-	}
-
-	/**
-	 * @param rwTransVec
-	 *            translation vector
-	 * @param endPosition
-	 *            end position
-	 * @return true if successful
-	 */
-	protected boolean moveVector(final Coords rwTransVec,
-			final Coords endPosition) {
-
-		boolean movedGeo = false;
-
-		final GeoVector vector = (GeoVector) this;
-		if (endPosition != null) {
-			vector.setCoords(endPosition.getX(), endPosition.getY(), 0);
-			movedGeo = true;
-		}
-
-		// translate point
-		else {
-			double x = vector.getX() + rwTransVec.getX();
-			double y = vector.getY() + rwTransVec.getY();
-
-			// round to decimal fraction, e.g. 2.800000000001 to 2.8
-			if (Math.abs(rwTransVec.getX()) > Kernel.MIN_PRECISION) {
-				x = DoubleUtil.checkDecimalFraction(x);
-			}
-			if (Math.abs(rwTransVec.getY()) > Kernel.MIN_PRECISION) {
-				y = DoubleUtil.checkDecimalFraction(y);
-			}
-
-			// set translated point coords
-			vector.setCoords(x, y, 0);
-			movedGeo = true;
-		}
-
-		return movedGeo;
 	}
 
 	/**
@@ -7246,5 +7234,54 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public boolean isOperation(Operation operation) {
 		return false;
+	}
+
+	@Override
+	public boolean hasDynamicCaption() {
+		return dynamicCaption != null;
+	}
+
+	@Override
+	public GeoText getDynamicCaption() {
+		return dynamicCaption;
+	}
+
+	@Override
+	public void setDynamicCaption(GeoText caption) {
+		unregisterDynamicCaption();
+		dynamicCaption = caption;
+		Drawable d = (Drawable) app.getActiveEuclidianView().getDrawableFor(this);
+		if (d != null) {
+			d.initDynamicCaption();
+		}
+		registerDynamicCaption();
+	}
+
+	protected void unregisterDynamicCaption() {
+		if (dynamicCaption == null) {
+			return;
+		}
+
+		dynamicCaption.unregisterUpdateListener(this);
+	}
+
+	private void registerDynamicCaption() {
+		if (dynamicCaption == null) {
+			return;
+		}
+
+		dynamicCaption.registerUpdateListener(this);
+	}
+
+	@Override
+	public void clearDynamicCaption() {
+		unregisterDynamicCaption();
+		dynamicCaption = new GeoText(cons, "");
+	}
+
+	@Override
+	public void removeDynamicCaption() {
+		unregisterDynamicCaption();
+		dynamicCaption = null;
 	}
 }

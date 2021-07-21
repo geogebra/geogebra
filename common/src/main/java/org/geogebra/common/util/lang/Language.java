@@ -24,7 +24,7 @@ public enum Language {
 			false, "af", "Afrikaans", Script.LATIN),
 
 	Albanian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
-			"sq", "Albanian / Gjuha Shqipe", Script.LATIN, ','),
+			"sq", "Albanian / Gjuha Shqipe", Script.LATIN, ',', '0'),
 
 	Amharic(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
 			"\u134b\u12ed\u120d", false, "am",
@@ -37,7 +37,7 @@ public enum Language {
 					+ " / " + Unicode.RIGHT_TO_LEFT_MARK
 					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629"
 					+ Unicode.RIGHT_TO_LEFT_MARK,
-			Script.ARABIC),
+			Script.ARABIC, '.', '\u0660'),
 
 	Arabic_Morocco(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
 			true, "arMA", "ar",
@@ -47,7 +47,7 @@ public enum Language {
 					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629"
 					+ " (\u0627\u0644\u0645\u063A\u0631\u0628)"
 					+ Unicode.RIGHT_TO_LEFT_MARK,
-			Script.ARABIC, ','),
+			Script.ARABIC, ',', '0'),
 
 	Arabic_Tunisia(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
 			true, "arTN", "ar",
@@ -56,7 +56,7 @@ public enum Language {
 					+ Unicode.RIGHT_TO_LEFT_MARK
 					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629 (\u062A\u0648\u0646\u0633)"
 					+ Unicode.RIGHT_TO_LEFT_MARK,
-			Script.ARABIC, ','),
+			Script.ARABIC, ',', '0'),
 
 	Arabic_Syria(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
 			false, "arSY", "ar",
@@ -64,7 +64,7 @@ public enum Language {
 					+ " / " + Unicode.RIGHT_TO_LEFT_MARK
 					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629 (\u0633\u0648\u0631\u064A\u0627)"
 					+ Unicode.RIGHT_TO_LEFT_MARK,
-			Script.ARABIC, ','), // TODO assuming based on other arabic countries
+			Script.ARABIC, ',', '0'), // TODO assuming based on other arabic countries
 
 	Armenian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, "\u0570",
 			true, "hy",
@@ -76,7 +76,7 @@ public enum Language {
 
 	Basque(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "eu", "eu",
-			"Basque / Euskara", Script.LATIN, ','),
+			"Basque / Euskara", Script.LATIN, ',', '0'),
 
 	Bengali(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "bn",
@@ -95,19 +95,19 @@ public enum Language {
 
 	Catalan(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "ca", "ca",
-			"Catalan / Catal\u00E0", Script.LATIN, ','),
+			"Catalan / Catal\u00E0", Script.LATIN, ',', '0'),
 
 	Valencian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "caXV", "ca",
-			"Catalan / Catal\u00E0 (Valenci\u00E0)", Script.LATIN, ','),
+			"Catalan / Catal\u00E0 (Valenci\u00E0)", Script.LATIN, ',', '0'),
 
 	Chinese_Simplified(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
 			"\u984F", true, "zhCN", "zh",
-			"Chinese Simplified / \u7B80\u4F53\u4E2D\u6587", Script.HANS, ','),
+			"Chinese Simplified / \u7B80\u4F53\u4E2D\u6587", Script.HANS, ',', '0'),
 
 	Chinese_Traditional(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
 			"\u984F", true, "zhTW", "zh",
-			"Chinese Traditional / \u7E41\u9AD4\u4E2D\u6587", Script.HANT, ','),
+			"Chinese Traditional / \u7E41\u9AD4\u4E2D\u6587", Script.HANT, ',', '0'),
 
 	Croatian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "hr", 
@@ -122,11 +122,11 @@ public enum Language {
 
 	Dutch_Belgium(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "nl", "nl_BE",
-			"Dutch / Nederlands (Belgi\u00eb)", Script.LATIN, ','),
+			"Dutch / Nederlands (Belgi\u00eb)", Script.LATIN, ',', '0'),
 
 	Dutch(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "nlNL", "nl",
-			"Dutch / Nederlands (Nederland)", Script.LATIN, ','),
+			"Dutch / Nederlands (Nederland)", Script.LATIN, ',', '0'),
 
 	English_US(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_DOLLAR + "" + "", null, true, "en", 
@@ -134,11 +134,11 @@ public enum Language {
 
 	English_UK(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_POUND + "", null, true, "enGB", "en",
-			"English (UK)", Script.LATIN, '.'),
+			"English (UK)", Script.LATIN, '.', '0'),
 
 	English_Australia(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_DOLLAR + "", null, true, "enAU", "en",
-			"English (Australia)", Script.LATIN, '.'),
+			"English (Australia)", Script.LATIN, '.', '0'),
 
 	Esperanto(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
 			false, "eo", "Esperanto", Script.LATIN),
@@ -148,7 +148,7 @@ public enum Language {
 			"Estonian / Eesti keel", Script.LATIN, ','),
 
 	Filipino(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
-			"tl", "fil", "Filipino", Script.LATIN, ','), //TODO separator?
+			"tl", "fil", "Filipino", Script.LATIN, ',', '0'), //TODO separator?
 
 	Finnish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "fi",
@@ -160,7 +160,7 @@ public enum Language {
 
 	Galician(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "gl", "gl",
-			"Galician / Galego", Script.LATIN, ','),
+			"Galician / Galego", Script.LATIN, ',', '0'),
 
 	Georgian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, "\u10d8",
 			true, "ka",
@@ -174,7 +174,7 @@ public enum Language {
 
 	German_Austria(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT,
 			Unicode.CURRENCY_EURO + "", null, true, "deAT", "de",
-			"German / Deutsch (\u00D6sterreich)", Script.LATIN, ','),
+			"German / Deutsch (\u00D6sterreich)", Script.LATIN, ',', '0'),
 
 	Greek(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "el",
@@ -184,7 +184,7 @@ public enum Language {
 	Hebrew(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_SHEKEL + "", "\u05d9", true, "iw", "he",
 			"Hebrew / \u05E2\u05B4\u05D1\u05B0\u05E8\u05B4\u05D9\u05EA",
-			Script.HEBREW, '.'),
+			Script.HEBREW, '.', '0'),
 
 	Hindi(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_INDIAN_RUPEE + "", "\u0be7", true, "hi",
@@ -207,7 +207,7 @@ public enum Language {
 	 */
 	Indonesian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
 			true, "in", "id", "Indonesian / Bahasa Indonesia",
-			Script.LATIN, ','),
+			Script.LATIN, ',', '0'),
 
 	Italian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "it", 
@@ -233,7 +233,7 @@ public enum Language {
 	Khmer(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"km",
 			"Khmer",
-			Script.LATIN),
+			Script.LATIN, '.', '\u17e0'),
 
 	Korean(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_WON + "", "\u1103", true, "ko",
@@ -253,7 +253,7 @@ public enum Language {
 	Malayalam(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, "\u0D2E",
 			false, "ml",
 			"Malayalam / \u0D2E\u0D32\u0D2F\u0D3E\u0D33\u0D02",
-			Script.MALAYALAM),
+			Script.MALAYALAM, '.', '\u0d66'),
 
 	Macedonian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "mk",
@@ -268,7 +268,7 @@ public enum Language {
 	Mongolian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_TUGHRIK + "", null, true, "mn",
 			"Mongolian / \u041C\u043E\u043D\u0433\u043E\u043B \u0445\u044D\u043B",
-			Script.MONG, ','),
+			Script.MONG, ',', '\u1810'),
 
 	Nepalese(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_RUPEE + "", "\u0947", true, "ne",
@@ -277,15 +277,15 @@ public enum Language {
 
 	Norwegian_Bokmal(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
 			null, true, "noNO", "nb", "Norwegian / Bokm\u00e5l",
-			Script.LATIN, ','),
+			Script.LATIN, ',', '0'),
 
 	Norwegian_Nynorsk(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
 			null, true, "noNONY", "nn", "Norwegian / Nynorsk",
-			Script.LATIN, ','),
+			Script.LATIN, ',', '0'),
 
 	Persian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"fa", "Persian / \u0641\u0627\u0631\u0633\u06CC",
-			Script.ARABIC),
+			Script.ARABIC, '.', '\u06f0'),
 
 	Polish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT,
 			Unicode.CURRENCY_EURO + "", null, true, "pl",
@@ -298,7 +298,7 @@ public enum Language {
 
 	Portuguese_Portugal(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "ptPT", "pt",
-			"Portuguese / Portugu\u00EAs (Portugal)", Script.LATIN, ','),
+			"Portuguese / Portugu\u00EAs (Portugal)", Script.LATIN, ',', '0'),
 
 	Romanian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "ro",
@@ -331,11 +331,11 @@ public enum Language {
 
 	Spanish_UY(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_DOLLAR + "", null, true, "esUY", "es",
-			"Spanish / Espa\u00F1ol (Uruguay)", Script.LATIN, ','),
+			"Spanish / Espa\u00F1ol (Uruguay)", Script.LATIN, ',', '0'),
 
 	Spanish_ES(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "esES", "es",
-			"Spanish / Espa\u00F1ol (Espa\u00F1a)", Script.LATIN, ','),
+			"Spanish / Espa\u00F1ol (Espa\u00F1a)", Script.LATIN, ',', '0'),
 
 	Swedish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "sv", 
@@ -343,7 +343,7 @@ public enum Language {
 
 	Tamil(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_RUPEE + "", "\u0be7", true, "ta",
-			"Tamil / \u0BA4\u0BAE\u0BBF\u0BB4\u0BCD", Script.TAMIL),
+			"Tamil / \u0BA4\u0BAE\u0BBF\u0BB4\u0BCD", Script.TAMIL, '.', '\u0be6'),
 
 	Tajik(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, false,
 			"tg", "Tajik", Script.LATIN),
@@ -353,7 +353,8 @@ public enum Language {
 
 	Thai(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_BAHT + "", null, true, "th",
-			"Thai / \u0E20\u0E32\u0E29\u0E32\u0E44\u0E17\u0E22", Script.THAI),
+			"Thai / \u0E20\u0E32\u0E29\u0E32\u0E44\u0E17\u0E22", Script.THAI,
+			'.', '\u0e50'),
 
 	Turkish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "tr",
@@ -376,7 +377,7 @@ public enum Language {
 			"Vietnamese / Ti\u1EBFng Vi\u1EC7t", Script.LATIN, ','),
 
 	Welsh(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
-			"cy", "cy", "Welsh / Cymraeg", Script.LATIN, '.'),
+			"cy", "cy", "Welsh / Cymraeg", Script.LATIN, '.', '0'),
 
 	Xhosa(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"xh", "Xhosa / isiXhosa", Script.LATIN, ','),
@@ -390,7 +391,7 @@ public enum Language {
 	Yiddish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_SHEKEL + "", "\u05d9\u05b4", true, "ji", "yi",
 			"Yiddish / \u05D9\u05D9\u05B4\u05D3\u05D9\u05E9",
-			Script.HEBREW, '.');
+			Script.HEBREW, '.', '0');
 
 	// Interlingua(null, true, "ia", "ia", "Interlingua",
 	// Country.UnitedStatesofAmerica);
@@ -411,12 +412,14 @@ public enum Language {
 	// https://en.wikipedia.org/wiki/Right_angle
 	private int rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
 	private char decimalSeparator;
+	private char unicodeZero;
 
 	/**
 	 */
 	Language(int rightAngleStyle, String currency, String testChar,
 			boolean fullyTranslated, String locale,
-			String localeISO6391, String name, Script scriptISO15924, char decimalSeparator) {
+			String localeISO6391, String name, Script scriptISO15924, char decimalSeparator,
+			char unicodeZero) {
 		this.rightAngleStyle = rightAngleStyle;
 		this.currency = currency == null ? "$" : currency;
 		this.locale = locale;
@@ -426,20 +429,29 @@ public enum Language {
 		this.fullyTranslated = fullyTranslated;
 		this.testChar = testChar;
 		this.decimalSeparator = decimalSeparator;
+		this.unicodeZero = unicodeZero;
 	}
 
 	Language(int rightAngleStyle, String currency, String testChar,
 			boolean fullyTranslated, String locale,
 			String name, Script scriptISO15924) {
 		this(rightAngleStyle, currency, testChar, fullyTranslated, locale,
-				locale, name, scriptISO15924, '.');
+				locale, name, scriptISO15924, '.', '0');
+	}
+
+	Language(int rightAngleStyle, String currency, String testChar,
+			boolean fullyTranslated, String locale,
+			String name, Script scriptISO15924, char decimalSeparator,
+			char unicodeZero) {
+		this(rightAngleStyle, currency, testChar, fullyTranslated, locale,
+				locale, name, scriptISO15924, decimalSeparator, unicodeZero);
 	}
 
 	Language(int rightAngleStyle, String currency, String testChar,
 			boolean fullyTranslated, String locale,
 			String name, Script scriptISO15924, char decimalSeparator) {
 		this(rightAngleStyle, currency, testChar, fullyTranslated, locale,
-				locale, name, scriptISO15924, decimalSeparator);
+				locale, name, scriptISO15924, decimalSeparator, '0');
 	}
 
 	/**
@@ -556,6 +568,10 @@ public enum Language {
 		return Unicode.CURRENCY_DOLLAR + "";
 	}
 
+	final public static char getUnicodeZero(String language) {
+		return getLanguage(language).getUnicodeZero();
+	}
+
 	final public static int getRightAngleStyle(String language) {
 		return getLanguage(language).getRightAngleStyle();
 	}
@@ -566,6 +582,10 @@ public enum Language {
 
 	final public int getRightAngleStyle() {
 		return this.rightAngleStyle;
+	}
+
+	final public char getUnicodeZero() {
+		return this.unicodeZero;
 	}
 
 	/**
