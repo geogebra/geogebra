@@ -11123,6 +11123,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            zoom factor
 	 */
 	public void onPinchPhone(int x, int y, double scaleFactor) {
+		disableLiveFeedback();
 		double newX = x + (view.getXZeroOld() - twoTouchStartX) * scaleFactor;
 		double newY = y + (view.getYZeroOld() - twoTouchStartY) * scaleFactor;
 		view.setCoordSystem(newX, newY, view.getXScaleStart() * scaleFactor,
@@ -11140,6 +11141,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            zoom factor
 	 */
 	public void onPinch(int x, int y, double scaleFactor) {
+		disableLiveFeedback();
 		this.mouseLoc = new GPoint(x, y);
 		zoomInOut(scaleFactor,
 				scaleFactor < EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR ? 1 : 2, x,

@@ -24,8 +24,7 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 	@Test
 	public void cotX() {
 		IntervalTupleList result = functionValues("cot(x)", 0, PI, -9, 9);
-		assertTrue(result.get(0).y().isUndefined()
-				&& result.get(100).y().isUndefined());
+		assertTrue(result.get(0).y().isUndefined());
 	}
 
 	@Test
