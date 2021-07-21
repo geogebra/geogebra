@@ -546,27 +546,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isUnbundledOrWhiteboard()) {
 			LayoutW.resetPerspectives(this);
 		}
+
 		if (getGuiManager() != null) {
 			p = getGuiManager().getLayout().createPerspective();
 		}
-		if (isUnbundledGeometry()) {
-			p = Layout.getDefaultPerspectives(Perspective.GEOMETRY - 1);
-		}
-		if (isUnbundledGraphing() || isUnbundledCas()) {
-			p = Layout.getDefaultPerspectives(Perspective.GRAPHING - 1);
-		}
-		if (isUnbundled3D()) {
-			p = Layout.getDefaultPerspectives(Perspective.GRAPHER_3D - 1);
-		}
 
-		if (isUnbundledProbability()) {
-			p = Layout.getDefaultPerspectives(Perspective.PROBABILITY - 1);
+		if (isUnbundledOrWhiteboard()) {
+			p = PerspectiveDecoder.getDefaultPerspective(getConfig().getForcedPerspective());
 		}
-
-		if (isWhiteboardActive()) {
-			p = Layout.getDefaultPerspectives(Perspective.NOTES - 1);
-		}
-
 
 		if (isPortrait()) {
 			p.getSplitPaneData()[0].setDivider(PerspectiveDecoder.portraitRatio(
@@ -599,9 +586,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					.updateContent();
 		}
 
-		if (isUnbundledProbability()) {
-			updateToolbarClosedState(GeoGebraConstants.PROBABILITY_APPCODE);
-		}
+		updateToolbarClosedState(GeoGebraConstants.PROBABILITY_APPCODE);
 	}
 
 	private void resetAllToolbars() {

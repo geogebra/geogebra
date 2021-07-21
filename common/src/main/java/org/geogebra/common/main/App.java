@@ -3958,10 +3958,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return false;
 	}
 
-	public boolean isUnbundledProbability() {
-		return false;
-	}
-
 	public boolean isWhiteboardActive() {
 		return false;
 	}
