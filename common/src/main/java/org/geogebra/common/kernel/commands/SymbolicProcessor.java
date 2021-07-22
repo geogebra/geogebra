@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
+import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -29,7 +30,6 @@ import com.google.j2objc.annotations.Weak;
 
 /**
  * Processor for symbolic elements
- *
  * @author Zbynek
  */
 public class SymbolicProcessor {
@@ -60,6 +60,24 @@ public class SymbolicProcessor {
 			}
 			return v instanceof GeoDummyVariable && ((GeoDummyVariable) v)
 					.getVarName().equals(label);
+		}
+	}
+
+	private static final class MyArbitraryConstantExtractor implements Inspecting {
+
+		private MyArbitraryConstant constant;
+
+		public MyArbitraryConstant getConstant() {
+			return constant;
+		}
+
+		@Override
+		public boolean check(ExpressionValue v) {
+			if (v instanceof GeoSymbolic) {
+				constant = ((GeoSymbolic) v).getArbitraryConstant();
+				return true;
+			}
+			return false;
 		}
 	}
 
@@ -140,7 +158,7 @@ public class SymbolicProcessor {
 		if (noDummyVars.size() > 0) {
 			AlgoDependentSymbolic ads =
 					new AlgoDependentSymbolic(cons,
-					replaced, noDummyVars, info.getArbitraryConstant());
+							replaced, noDummyVars, info.getArbitraryConstant());
 			if (info.isLabelOutput()) {
 				ads.addToConstructionList();
 			}
@@ -159,8 +177,7 @@ public class SymbolicProcessor {
 	}
 
 	/**
-	 * @param ve
-	 *            input expression
+	 * @param ve input expression
 	 * @return processed geo
 	 */
 	protected GeoSymbolic evalSymbolicNoLabel(ExpressionValue ve, EvalInfo info) {
@@ -174,8 +191,13 @@ public class SymbolicProcessor {
 			}
 		}
 		EvalInfo subInfo = new EvalInfo().withArbitraryConstant(info.getArbitraryConstant());
-		ExpressionNode replaced = ve
-				.traverse(new SubExpressionEvaluator(this, ve, subInfo)).wrap();
+		MyArbitraryConstantExtractor extractor = new MyArbitraryConstantExtractor();
+		SubExpressionEvaluator evaluator = new SubExpressionEvaluator(this, ve, subInfo);
+		ExpressionNode replaced = ve.traverse(evaluator).wrap();
+		replaced.inspect(extractor);
+		if (extractor.getConstant() != null) {
+			info = info.withArbitraryConstant(extractor.getConstant());
+		}
 		if (replaced.inspect(new RecursiveEquationFinder(ve))) {
 			replaced = new Equation(kernel,
 					new GeoDummyVariable(cons, ve.wrap().getLabel()), replaced)
@@ -186,10 +208,8 @@ public class SymbolicProcessor {
 	}
 
 	/**
-	 * @param equ
-	 *            equation
-	 * @param info
-	 *            evaluation flags
+	 * @param equ equation
+	 * @param info evaluation flags
 	 * @return equation or assignment
 	 */
 	protected ValidExpression extractAssignment(Equation equ, EvalInfo info) {
@@ -242,10 +262,8 @@ public class SymbolicProcessor {
 	}
 
 	/**
-	 * @param expression
-	 *            expression
-	 * @param info
-	 *            evaluation flags
+	 * @param expression expression
+	 * @param info evaluation flags
 	 */
 	public void updateLabel(ValidExpression expression, EvalInfo info) {
 		if (expression.unwrap() instanceof Equation) {

@@ -12,11 +12,14 @@ the Free Software Foundation.
 
 /**
  * Used as internal return type in Parser.
- * Stores a label. 
+ * Stores a label.
  */
 
 package org.geogebra.common.kernel.arithmetic;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
@@ -32,14 +35,15 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Common class for objects obtained from the parser that are not yet processed
  * to GeoElements. They may also persist in ExpressionNodes of functions
- * 
+ *
  * @author Markus
- * 
+ *
  */
 public abstract class ValidExpression
 		implements ExpressionValue, HasDebugString {
 
 	private Vector<String> labels;
+	private List<String> localVariables = new ArrayList<>();
 	private boolean inTree; // used by ExpressionNode
 
 	/**
@@ -137,6 +141,14 @@ public abstract class ValidExpression
 		}
 	}
 
+	public List<String> getLocalVariables() {
+		return Collections.unmodifiableList(localVariables);
+	}
+
+	public void setLocalVariables(List<String> variables) {
+		localVariables = new ArrayList<>(variables);
+	}
+
 	@Override
 	public boolean isVariable() {
 		return false;
@@ -181,7 +193,7 @@ public abstract class ValidExpression
 	/**
 	 * Includes the label and assignment operator. E.g. while toString() would
 	 * return x^2, this method would return f(x) := x^2
-	 * 
+	 *
 	 * @param tpl
 	 *            String template
 	 * @param assignmentType
@@ -227,7 +239,7 @@ public abstract class ValidExpression
 	}
 
 	/**
-	 * 
+	 *
 	 * @param tpl
 	 *            string template
 	 * @param assignmentType
@@ -302,7 +314,7 @@ public abstract class ValidExpression
 
 	/**
 	 * Evaluates to number (if not numeric, returns undefined MyDouble)
-	 * 
+	 *
 	 * @return number or undefined double
 	 */
 	@Override
@@ -392,13 +404,13 @@ public abstract class ValidExpression
 		if (s.isGeoElement()) {
 			return (((GeoElement) s)
 					.getConstruction() instanceof MacroConstruction ? "Macro"
-							: "")
+					: "")
 					+ s.getClass().getName()
-							.replaceAll("org.geogebra.common.kernel.geos.Geo",
-									"G")
-							.replaceAll(
-									"org.geogebra.common.geogebra3D.kernel3D.geos.Geo",
-									"G")
+					.replaceAll("org.geogebra.common.kernel.geos.Geo",
+							"G")
+					.replaceAll(
+							"org.geogebra.common.geogebra3D.kernel3D.geos.Geo",
+							"G")
 					+ "(" + s.toString(StringTemplate.defaultTemplate) + ")";
 		}
 		return s.getClass().getName()
@@ -438,7 +450,7 @@ public abstract class ValidExpression
 
 	/**
 	 * print expression as value or geo label
-	 * 
+	 *
 	 * @param x2
 	 *            expression
 	 * @param values
@@ -514,7 +526,7 @@ public abstract class ValidExpression
 
 	/**
 	 * Unlike contains does not stop on lists and equations
-	 * 
+	 *
 	 * @param needle
 	 *            subexpression
 	 * @return whether expression is included

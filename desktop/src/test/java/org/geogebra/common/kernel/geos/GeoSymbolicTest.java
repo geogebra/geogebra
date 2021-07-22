@@ -1568,4 +1568,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		undoRedo();
 		assertEquals(3, lookup("r").getConstructionIndex());
 	}
+
+	@Test
+	public void testArgumentOrderRemainsUnchanged() {
+		add("f(x, a) = x^2 + a");
+		GeoSymbolic symbolic = add("fs(x,a)=Derivative(f(x,a),x)");
+		assertThat(symbolic.getFunctionVariables().length, is(2));
+		assertThat(symbolic.getFunctionVariables()[0].getSetVarString(), is("x"));
+		assertThat(symbolic.getFunctionVariables()[1].getSetVarString(), is("a"));
+	}
 }
