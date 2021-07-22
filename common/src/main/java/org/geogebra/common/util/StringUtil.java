@@ -1444,12 +1444,15 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * @return input with inserted degree symbol if needed
 	 */
 	public static String addDegreeSignIfNumber(char c, String inputText) {
-		// return unless digit typed
-		if (!StringUtil.isDigit(c)) {
-			return inputText;
-		}
+		return !StringUtil.isDigit(c) ? inputText : addDegreeSignIfNumber(inputText);
+	}
 
-		// if text already contains degree symbol or variable
+	/**
+	 *
+	 * @param inputText input
+	 * @return input with inserted degree symbol if needed
+	 */
+	public static String addDegreeSignIfNumber(String inputText) {
 		for (int i = 0; i < inputText.length(); i++) {
 			if (!StringUtil.isDigit(inputText.charAt(i))) {
 				return inputText;
