@@ -1620,7 +1620,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 					+ (conic.isInRegion(realX + x3, realY - y3) ? 1 : 0)
 					+ (conic.isInRegion(realX - x3, realY + y3) ? 1 : 0)
 					+ (conic.isInRegion(realX + x3, realY + y3) ? 1 : 0);
-			if (conic.isInverseFill()) {
+			if (conic.isInverseFill() && !conic.isSpotlight()) {
 				isOnFilling = (insideNeigbors < 5);
 			} else {
 				isOnFilling = (insideNeigbors > 0);

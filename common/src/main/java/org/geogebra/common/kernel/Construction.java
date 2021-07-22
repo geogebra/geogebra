@@ -3780,5 +3780,4 @@ public class Construction {
 		}
 		return false;
 	}
-
 }
