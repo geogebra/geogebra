@@ -18,7 +18,7 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 	public static final double ROOT_HEIGHT = 72;
 	public static final double CHILD_HEIGHT = 48;
 	private boolean parentPending = false;
-	private VerticalAlignment verticalAlignment;
+	private VerticalAlignment verticalAlignment = VerticalAlignment.TOP;
 
 	public enum NodeAlignment {
 		// The order is intentionally inverted
@@ -169,7 +169,7 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
-		XMLBuilder.appendBorder(sb, this);
+		XMLBuilder.appendBorderAndAlignment(sb, this, verticalAlignment);
 		XMLBuilder.appendParent(sb, parent, nodeAlignment);
 		if (getLineThickness() != 0) {
 			getLineStyleXML(sb);

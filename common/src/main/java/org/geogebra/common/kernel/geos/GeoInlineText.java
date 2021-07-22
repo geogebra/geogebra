@@ -28,7 +28,7 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 	private double minHeight;
 
 	private String content;
-	private VerticalAlignment verticalAlignment;
+	private VerticalAlignment verticalAlignment = VerticalAlignment.TOP;
 
 	/**
 	 * Creates new GeoInlineText instance.
@@ -206,7 +206,7 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
-		XMLBuilder.appendBorder(sb, this);
+		XMLBuilder.appendBorderAndAlignment(sb, this, verticalAlignment);
 		if (getLineThickness() != 0) {
 			getLineStyleXML(sb);
 		}
