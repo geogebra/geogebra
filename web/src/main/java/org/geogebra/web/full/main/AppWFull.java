@@ -546,20 +546,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isUnbundledOrWhiteboard()) {
 			LayoutW.resetPerspectives(this);
 		}
+
 		if (getGuiManager() != null) {
 			p = getGuiManager().getLayout().createPerspective();
 		}
-		if (isUnbundledGeometry()) {
-			p = Layout.getDefaultPerspectives(Perspective.GEOMETRY - 1);
-		}
-		if (isUnbundledGraphing() || isUnbundledCas()) {
-			p = Layout.getDefaultPerspectives(Perspective.GRAPHING - 1);
-		}
-		if (isUnbundled3D()) {
-			p = Layout.getDefaultPerspectives(Perspective.GRAPHER_3D - 1);
-		}
-		if (isWhiteboardActive()) {
-			p = Layout.getDefaultPerspectives(Perspective.NOTES - 1);
+
+		if (isUnbundledOrWhiteboard()) {
+			p = PerspectiveDecoder.getDefaultPerspective(getConfig().getForcedPerspective());
 		}
 
 		if (isPortrait()) {
@@ -592,6 +585,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			getGuiManager().getUnbundledToolbar()
 					.updateContent();
 		}
+
+		updateToolbarClosedState(getConfig().getSubAppCode());
 	}
 
 	private void resetAllToolbars() {
@@ -2391,7 +2386,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void updateToolbarClosedState(String subAppCode) {
-		if (subAppCode.equals("probability")) {
+		if ("probability".equals(subAppCode)) {
 			((ProbabilityCalculatorView) getGuiManager()
 					.getProbabilityCalculator()).updateAll();
 			DockPanel avPanel = getGuiManager().getLayout().getDockManager()

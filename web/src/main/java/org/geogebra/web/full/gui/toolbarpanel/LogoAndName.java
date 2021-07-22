@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -35,11 +34,8 @@ public class LogoAndName implements IsWidget, SetLabels {
 
 	@Override
 	public void setLabels() {
-		String transKey = app.getConfig().getVersion().getTransKey();
-		if (app.getConfig().getSubAppCode() != null) {
-			transKey = GeoGebraConstants.Version.SUITE.getTransKey();
-		}
-		name.setText(app.getLocalization().getMenu(transKey));
+		name.setText(app.getLocalization().getMenu(
+				app.getConfig().getAppTransKey()));
 	}
 
 	@Override

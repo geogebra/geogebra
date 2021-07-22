@@ -176,7 +176,7 @@ public class ExamLogAndExitDialog extends DialogBoxW implements SetLabels {
 	@Override
 	public void setLabels() {
 		// title panel
-		calcType.setText(app.getLocalization().getMenu(app.getConfig().getAppName()));
+		calcType.setText(app.getLocalization().getMenu(app.getConfig().getAppTransKey()));
 		examTitle.setText(ExamUtil.status((AppW) app));
 		// content panel
 		teacherText.setText(app.getLocalization()
