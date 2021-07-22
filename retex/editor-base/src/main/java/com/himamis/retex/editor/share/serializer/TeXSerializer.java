@@ -294,11 +294,11 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("}");
 			break;
 		case ATOMIC_PRE:
-			stringBuilder.append("{}_{");
-			serialize(function.getArgument(0), stringBuilder);
-			stringBuilder.append("}^{");
+			stringBuilder.append("\\ce{^{");
 			serialize(function.getArgument(1), stringBuilder);
-			stringBuilder.append("}{");
+			stringBuilder.append("}_{");
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append("}");
 			serialize(function.getArgument(2), stringBuilder);
 			stringBuilder.append("}");
 			break;
