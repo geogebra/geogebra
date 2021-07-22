@@ -39,6 +39,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	private String cornerLabel1 = null;
 	private String cornerLabel2 = null;
 	private String cornerLabel4 = null;
+	private boolean storeUndoInfo = true;
 
 	/**
 	 * Constructor
@@ -76,6 +77,13 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 		ImageFile imageFile = new ImageFile(fileName, new ArchiveEntry(content));
 		SafeImage safeImage = new SafeImage(imageFile, this, getPreprocessors());
 		safeImage.process();
+		return geoImage;
+	}
+
+	public GeoImage create(String fileName, String content, boolean storeUndoInfo, boolean isRuler) {
+		this.storeUndoInfo = storeUndoInfo;
+		GeoImage geoImage = create(fileName, content);
+		geoImage.setRuler(isRuler);
 		return geoImage;
 	}
 
@@ -128,7 +136,9 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 					.selectAndShowSelectionUI(geoImage);
 		}
 		app.setDefaultCursor();
-		app.storeUndoInfo();
+		if (storeUndoInfo) {
+			app.storeUndoInfo();
+		}
 	}
 
 	private void setManualCorners() {

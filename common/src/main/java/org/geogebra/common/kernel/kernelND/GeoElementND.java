@@ -1615,4 +1615,6 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	 * (vector, matrix, point whose elements can be edited, as opposed to sth like A+B)
 	 */
 	boolean hasSpecialEditor();
+
+	boolean isRuler();
 }

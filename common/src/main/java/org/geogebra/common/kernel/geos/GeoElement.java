@@ -1921,7 +1921,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public boolean isProtected(EventType type) {
 		return !kernel.getLoadingMode() && isLocked()
 				&& this.getSpreadsheetCoords() != null
-				&& (type == EventType.REMOVE || !(this instanceof GeoFunction));
+				&& (type == EventType.REMOVE || !(this instanceof GeoFunction))
+				|| (type == EventType.REMOVE && isRuler());
 	}
 
 	@Override
@@ -7221,6 +7222,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public boolean isOperation(Operation operation) {
+		return false;
+	}
+
+	@Override
+	public boolean isRuler() {
 		return false;
 	}
 }

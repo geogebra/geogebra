@@ -5285,4 +5285,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void setActiveMaterial(Material material) {
 		activeMaterial = material;
 	}
+
+	public GeoImage addRuler() {
+		return null;
+	}
 }

@@ -78,6 +78,8 @@ public class GeoImage extends GeoElement implements Locateable,
 	private GRectangle2D cropBox;
 	private boolean cropped = false;
 
+	private boolean isRuler = false;
+
 	/**
 	 * Creates new image
 	 * 
@@ -1422,5 +1424,14 @@ public class GeoImage extends GeoElement implements Locateable,
 			cropBox = AwtFactory.getPrototype().newRectangle2D();
 			cropBox.setFrame(0, 0, pixelWidth, pixelHeight);
 		}
+	}
+
+	@Override
+	public boolean isRuler() {
+		return isRuler;
+	}
+
+	public void setRuler(boolean ruler) {
+		isRuler = ruler;
 	}
 }
