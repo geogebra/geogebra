@@ -12,6 +12,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -2393,12 +2394,15 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		SafeGeoImageFactory factory = new SafeGeoImageFactory(this);
 		String path = ImageManagerW.getMD5FileName("Ruler.svg", GuiResources.INSTANCE.ruler().getSafeUri().asString());
 		ruler = factory.create(path, GuiResources.INSTANCE.ruler().getSafeUri().asString(), false, true);
-
 		invokeLater(() -> {
 			kernel.getConstruction().removeFromConstructionList(ruler);
 			ruler.isProtected(EventType.REMOVE);
 			double sizeFactor = 72 / 42.52;
 			ruler.setSize(sizeFactor * 878.74, 72);
+			GPoint2D loc = new GPoint2D(euclidianView.toRealWorldCoordX(72), euclidianView
+					.toRealWorldCoordY(euclidianView.getHeight() / 2.
+							- 36)); // half of screen height - half of ruler height
+			ruler.setLocation(loc);
 			ruler.update();
 		});
 		return ruler;

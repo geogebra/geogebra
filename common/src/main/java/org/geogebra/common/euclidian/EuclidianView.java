@@ -2068,7 +2068,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				|| geo.isGeoInputBox()
 				|| (geo.getTrace() && !tracing)
 				|| geo.isMask()
-				|| geo instanceof GeoMindMapNode;
+				|| geo instanceof GeoMindMapNode
+				|| geo.isRuler();
 	}
 
 	/**
