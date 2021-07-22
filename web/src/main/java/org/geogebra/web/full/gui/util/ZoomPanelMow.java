@@ -7,11 +7,11 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -32,13 +32,13 @@ import com.google.gwt.user.client.ui.SimplePanel;
  */
 public class ZoomPanelMow extends FlowPanel
 		implements SetLabels, CoordSystemListener {
-	private AppW appW;
+	private final AppW appW;
 	private StandardButton spotlightOnBtn;
 	private StandardButton dragPadBtn;
 	private StandardButton zoomInBtn;
 	private StandardButton zoomOutBtn;
 	private StandardButton homeBtn;
-	private ZoomController zoomController;
+	private final ZoomController zoomController;
 
 	/**
 	 * @param app
