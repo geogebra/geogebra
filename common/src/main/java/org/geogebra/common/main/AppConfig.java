@@ -314,4 +314,11 @@ public interface AppConfig {
 	 * @return true if the app has at least one Euclidian View
 	 */
 	boolean hasEuclidianView();
+
+	/**
+	 *
+	 * @return the traslation key of the application
+	 * (always thed key of suite if in a subApp)
+	 */
+	String getAppTransKey();
 }

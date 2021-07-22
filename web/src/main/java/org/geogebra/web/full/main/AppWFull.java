@@ -586,7 +586,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					.updateContent();
 		}
 
-		updateToolbarClosedState(GeoGebraConstants.PROBABILITY_APPCODE);
+		updateToolbarClosedState(getConfig().getSubAppCode());
 	}
 
 	private void resetAllToolbars() {
@@ -2386,7 +2386,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void updateToolbarClosedState(String subAppCode) {
-		if (subAppCode.equals("probability")) {
+		if ("probability".equals(subAppCode)) {
 			((ProbabilityCalculatorView) getGuiManager()
 					.getProbabilityCalculator()).updateAll();
 			DockPanel avPanel = getGuiManager().getLayout().getDockManager()
