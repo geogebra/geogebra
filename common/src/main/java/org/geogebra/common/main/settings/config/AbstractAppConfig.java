@@ -30,7 +30,6 @@ abstract class AbstractAppConfig implements AppConfig {
         return subAppCode;
     }
 
-
     @Override
     public String getAppTransKey() {
         if (getSubAppCode() != null) {
