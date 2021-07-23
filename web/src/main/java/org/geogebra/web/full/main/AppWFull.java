@@ -12,7 +12,6 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -39,10 +38,8 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
@@ -64,7 +61,6 @@ import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -73,7 +69,6 @@ import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.cas.giac.CASFactoryW;
-import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.full.euclidian.inline.InlineFormulaControllerW;
 import org.geogebra.web.full.euclidian.inline.InlineTableControllerW;
@@ -147,12 +142,10 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
-import org.geogebra.web.html5.main.SafeGeoImageFactory;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
-import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
@@ -2387,24 +2380,5 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public void clearSubAppCons() {
 		constructionJson.clear();
-	}
-
-	public GeoImage addRuler() {
-		GeoImage ruler;
-		SafeGeoImageFactory factory = new SafeGeoImageFactory(this);
-		String path = ImageManagerW.getMD5FileName("Ruler.svg", GuiResources.INSTANCE.ruler().getSafeUri().asString());
-		ruler = factory.create(path, GuiResources.INSTANCE.ruler().getSafeUri().asString(), false, true);
-		invokeLater(() -> {
-			kernel.getConstruction().removeFromConstructionList(ruler);
-			ruler.isProtected(EventType.REMOVE);
-			double sizeFactor = 72 / 42.52;
-			ruler.setSize(sizeFactor * 878.74, 72);
-			GPoint2D loc = new GPoint2D(euclidianView.toRealWorldCoordX(72), euclidianView
-					.toRealWorldCoordY(euclidianView.getHeight() / 2.
-							- 36)); // half of screen height - half of ruler height
-			ruler.setLocation(loc);
-			ruler.update();
-		});
-		return ruler;
 	}
 }

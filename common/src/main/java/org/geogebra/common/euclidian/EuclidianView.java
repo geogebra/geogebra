@@ -57,6 +57,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
@@ -3630,6 +3631,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		adjustObjects();
 		drawMasks(g2);
+		drawRuler(g2);
 	}
 
 	/**
@@ -4261,6 +4263,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void drawMasks(GGraphics2D g2) {
 		for (Drawable d : allDrawableList) {
 			if (d.geo.isMask()) {
+				d.updateIfNeeded();
+				d.draw(g2);
+			}
+		}
+	}
+
+	private void drawRuler(GGraphics2D g2) {
+		for (Drawable d : allDrawableList) {
+			if (d.geo.isRuler()) {
 				d.updateIfNeeded();
 				d.draw(g2);
 			}
@@ -6752,5 +6763,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			coordSystemInfo.setXAxisZoom(false);
 			euclidianController.notifyZoomerStopped();
 		}
+	}
+
+	/**
+	 * adds ruler image to canvas
+	 * @return geoImage containing ruler
+	 */
+	public GeoImage addRuler() {
+		return null;
 	}
 }

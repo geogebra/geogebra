@@ -80,7 +80,16 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 		return geoImage;
 	}
 
-	public GeoImage create(String fileName, String content, boolean storeUndoInfo, boolean isRuler) {
+	/**
+	 * Create the GeoImage setup by the factory.
+	 * @param fileName of the image.
+	 * @param content of the image
+	 * @param storeUndoInfo if creation of geoImage has to be stored in undo info
+	 * @param isRuler if geoImage is a notes ruler
+	 * @return the corresponding GeoImage object
+	 */
+	public GeoImage create(String fileName, String content, boolean storeUndoInfo,
+			boolean isRuler) {
 		this.storeUndoInfo = storeUndoInfo;
 		GeoImage geoImage = create(fileName, content);
 		geoImage.setRuler(isRuler);

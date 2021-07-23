@@ -9,6 +9,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.EmbedManager;
@@ -27,17 +28,20 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
+import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
@@ -53,9 +57,11 @@ import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
+import org.geogebra.web.html5.main.SafeGeoImageFactory;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -1475,5 +1481,29 @@ public class EuclidianViewW extends EuclidianView implements
 		penCanvas.setStroke(EuclidianStatic.getStroke(pen.getPenSize(),
 				pen.getPenLineStyle(), GBasicStroke.JOIN_ROUND));
 		penCanvas.setColor(pen.getPenColor());
+	}
+
+	@Override
+	public GeoImage addRuler() {
+		GeoImage ruler;
+		SafeGeoImageFactory factory = new SafeGeoImageFactory(appW);
+		String path = ImageManagerW
+				.getMD5FileName("Ruler.svg", GuiResources.INSTANCE.ruler().getSafeUri().asString());
+		ruler = factory.create(path, GuiResources.INSTANCE.ruler().getSafeUri().asString(), false,
+				true);
+		app.invokeLater(() -> {
+			setRuler(ruler);
+		});
+		return ruler;
+	}
+
+	private void setRuler(GeoImage ruler) {
+		kernel.getConstruction().removeFromConstructionList(ruler);
+		ruler.isProtected(EventType.REMOVE);
+		ruler.setSize(1488, 72);
+		GPoint2D loc =
+				new GPoint2D(toRealWorldCoordX(72), toRealWorldCoordY(getHeight() / 2. - 36));
+		ruler.setLocation(loc);
+		ruler.update();
 	}
 }
