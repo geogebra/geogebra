@@ -256,8 +256,4 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 
 	@Source("org/geogebra/web/resources/scss/evaluator-styles.scss")
 	SassResource evaluatorScss();
-
-	// RULER
-	@Source("org/geogebra/common/icons/svg/web/ruler_protractor/ruler.svg")
-	SVGResource ruler();
 }

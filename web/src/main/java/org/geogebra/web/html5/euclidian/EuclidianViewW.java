@@ -41,7 +41,6 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
-import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
@@ -1488,8 +1487,10 @@ public class EuclidianViewW extends EuclidianView implements
 		GeoImage ruler;
 		SafeGeoImageFactory factory = new SafeGeoImageFactory(appW);
 		String path = ImageManagerW
-				.getMD5FileName("Ruler.svg", GuiResources.INSTANCE.ruler().getSafeUri().asString());
-		ruler = factory.create(path, GuiResources.INSTANCE.ruler().getSafeUri().asString(), false,
+				.getMD5FileName("Ruler.svg",
+						GuiResourcesSimple.INSTANCE.ruler().getSafeUri().asString());
+		ruler = factory.create(path, GuiResourcesSimple.INSTANCE.ruler().getSafeUri().asString(),
+				false,
 				true);
 		app.invokeLater(() -> {
 			setRuler(ruler);
