@@ -45,6 +45,20 @@ $deleteTime: 120ms;
 		
 		.values {
 			@include textSelect(text);
+			position: relative;
+
+			&:after {
+				content: '';
+				display: block;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				width: 100%;
+				pointer-events: none;
+				background: linear-gradient(to left, #fff 70px, transparent 120px, transparent),
+					linear-gradient(to top, #fff 20px, transparent 52px, transparent);
+			}
 
 			thead {
 				&.transitioning {

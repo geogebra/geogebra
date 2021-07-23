@@ -98,8 +98,13 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			if (el != null && el.getParentNode() != null
 					&& el.getParentElement().hasClassName("MyToggleButton")) {
 				onHeaderClick(el, column);
-			} else if (row >= 0) {
+			} else if (row < tableModel.getRowCount()
+					&& column < tableModel.getColumnCount()) {
 				tableModel.setCell(row, column);
+			} else if (column == tableModel.getColumnCount()) {
+				// do nothing now, start editing empty column in follow up ticket
+			} else if (row == tableModel.getRowCount()) {
+				// do nothing now, start editing empty row in follow up ticket
 			}
 		});
 	}
@@ -114,6 +119,19 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		for (int column = 0; column < tableModel.getColumnCount(); column++) {
 			addColumn(column);
 		}
+		addEmptyColumn();
+		addEmptyColumn();
+	}
+
+	private void addEmptyColumn() {
+		getTable().addColumn(new Column<TVRowData, SafeHtml>(new SafeHtmlCell()) {
+			@Override
+			public SafeHtml getValue(TVRowData object) {
+				return makeCell(() -> "", MIN_COLUMN_WIDTH,
+						dimensions.getRowHeight(object.getRow()));
+			}
+		}, new SafeHtmlHeader(makeCell(() -> "", MIN_COLUMN_WIDTH,
+				dimensions.getHeaderHeight())));
 	}
 
 	@Override
@@ -136,13 +154,11 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	protected void fillValues(List<TVRowData> rows) {
 		rows.clear();
-		if (tableModel.getColumnCount() < 2) {
-			// quit now, otherwise 5 empty rows will be initialized
-			return;
-		}
 		for (int row = 0; row < tableModel.getRowCount(); row++) {
 			rows.add(new TVRowData(row, tableModel));
 		}
+		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
+		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
 	}
 
 	/**
