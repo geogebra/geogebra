@@ -67,4 +67,6 @@ public interface InlineTextController extends HasTextFormat {
 	void saveContent();
 
 	void setTransform(double angle, double sx, double sy);
+
+	boolean isEditing();
 }

@@ -3,6 +3,8 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GGraphics2D;
@@ -27,7 +29,7 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	public static final int PADDING = 8;
 
 	protected final GeoInline text;
-	protected InlineTextController textController;
+	protected @CheckForNull InlineTextController textController;
 
 	protected final TransformableRectangle rectangle;
 
@@ -137,6 +139,11 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	@Override
 	public void draw(GGraphics2D g2) {
 		draw(g2, 0);
+	}
+
+	@Override
+	public boolean isInteractiveEditor() {
+		return textController != null && textController.isEditing();
 	}
 
 	protected void draw(GGraphics2D g2, int borderRadius) {

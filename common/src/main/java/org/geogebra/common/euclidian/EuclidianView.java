@@ -3637,13 +3637,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void drawObjects(GGraphics2D g2) {
 		drawGeometricObjects(g2);
+		drawMasks(g2);
 		drawActionObjects(g2);
 
 		if (previewDrawable != null) {
 			previewDrawable.drawPreview(g2);
 		}
 		adjustObjects();
-		drawMasks(g2);
+
 		if (hasSpotlight()) {
 			GeoElementND spotlight = euclidianController.getSpotlight();
 			Drawable d = (Drawable) getDrawableFor(spotlight);
@@ -4241,10 +4242,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		for (Drawable d : allDrawableList) {
 			if (d instanceof DrawDropDownList) {
 				DrawDropDownList dl = (DrawDropDownList) d;
-				if (dl.needsUpdate()) {
-					dl.setNeedsUpdate(false);
-					dl.update();
-				}
+				dl.updateIfNeeded();
 
 				if (selected == null && dl.isSelected()) {
 					selected = dl;
@@ -4256,12 +4254,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 				dl.draw(g);
 			} else if (d instanceof DrawInputBox) {
-
-				if (d.needsUpdate()) {
-					d.setNeedsUpdate(false);
-					d.update();
-				}
-
+				d.updateIfNeeded();
+				d.draw(g);
+			} else if (d.isInteractiveEditor()) {
 				d.draw(g);
 			}
 		}
@@ -4279,7 +4274,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param g2
 	 *            graphics
 	 */
-	public void drawMasks(GGraphics2D g2) {
+	private void drawMasks(GGraphics2D g2) {
 		for (Drawable d : allDrawableList) {
 			if (d.geo.isMask()) {
 				d.updateIfNeeded();

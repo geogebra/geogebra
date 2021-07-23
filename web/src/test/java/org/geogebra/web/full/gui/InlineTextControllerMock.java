@@ -132,4 +132,9 @@ public class InlineTextControllerMock implements InlineTextController {
 	public void setTransform(double angle, double sx, double sy) {
 
 	}
+
+	@Override
+	public boolean isEditing() {
+		return false;
+	}
 }

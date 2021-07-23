@@ -955,4 +955,11 @@ public abstract class Drawable extends DrawableND {
 	public GBasicStroke getDecoStroke() {
 		return decoStroke;
 	}
+
+	/**
+	 * @return whether the drawable is interactive
+	 */
+	public boolean isInteractiveEditor() {
+		return false;
+	}
 }
