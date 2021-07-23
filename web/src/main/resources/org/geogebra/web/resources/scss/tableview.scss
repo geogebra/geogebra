@@ -34,7 +34,9 @@ $deleteTime: 120ms;
 		}
 
 		td, th {
-			border: 0px;
+			border-width: 0 1px 1px 0;
+			border-color: $black-12;
+			border-style: solid;
 		}
 
 		%cellTransition {
@@ -45,56 +47,60 @@ $deleteTime: 120ms;
 			@include textSelect(text);
 
 			thead {
-                &.transitioning {
-                    @extend %cellTransition;
-                }
+				&.transitioning {
+					@extend %cellTransition;
+				}
 
-                @include textSelect(none);
+				@include textSelect(none);
 
-                colgroup {
-                    col {
-                        @extend .delete;
-                    }
-                }
+				colgroup {
+					col {
+						@extend .delete;
+					}
+				}
 
-                th {
-                    padding: 0;
-                    border: 0px;
-                    position: sticky;
-                    top: 0;
-                    background: $white;
+				th {
+					padding: 0;
+					position: sticky;
+					top: 0;
+					background: $tableview-header;
 
-                    .cell {
-                        @extend %cellTransition;
-                        margin-left: 0px;
-                        margin-right: 0px;
-                        border-bottom: 0px;
-                        text-align: center;
-                        padding: 0px;
-                        .content {
-                            display: inline-flex;
-                            margin: auto;
-                            float: right;
-                            color: $text-secondary;
+					.cell {
+						@extend %cellTransition;
+						margin-left: 0px;
+						margin-right: 0px;
+						text-align: center;
+						padding: 0px;
+						.content {
+							display: inline-flex;
+							margin: auto;
+							float: right;
+							color: $text-primary;
 
-                            .MyToggleButton {
-                                    margin: auto 0px auto 0px;
-                                    padding-left: 6px;
-                                    padding-right: 6px;
-                                    border: 0px;
-                                    img {
-                                        opacity: 0.54;
-                                    }
-                            }
-                        }
-                    }
+							.gwt-Label {
+								font-weight: bold;
+							}
 
-                    .delete {
-                        @extend %colDelete;
-                        text-align: right;
-                    }
-                }
-            }
+							.MyToggleButton {
+								margin: auto 3px auto 0;
+								padding: 0;
+								border: 0;
+								background-color: transparent;
+
+								img {
+									opacity: 0.54;
+									display: block;
+								}
+							}
+						}
+					}
+
+					.delete {
+						@extend %colDelete;
+						text-align: right;
+					}
+				}
+			}
 			
 			td {
 				div {
@@ -117,16 +123,8 @@ $deleteTime: 120ms;
 			
 				.content {
 					float: right;
-					margin-right: 32px;
+					margin-right: 28px;
 				}
-			}
-
-			tbody tr:nth-child(odd) {
-				background: $tableview-row;
-			}
-
-			tbody tr:nth-child(even) {
-				background: $white; // for IE11
 			}
 		}
 

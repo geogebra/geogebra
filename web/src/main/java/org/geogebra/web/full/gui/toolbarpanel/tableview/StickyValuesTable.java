@@ -41,7 +41,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	// margin to align value cells to header - 3dot empty place
 	private static final int VALUE_RIGHT_MARGIN = 36;
 	private static final int X_LEFT_PADDING = 16;
-	private static final int MIN_COLUMN_WIDTH = 72;
+	private static final int MIN_COLUMN_WIDTH = 120;
 
 	private TableValuesModel tableModel;
 	private TableValuesDimensions dimensions;
@@ -179,7 +179,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		if (column == 0) {
 			w += X_LEFT_PADDING;
 		}
-		return Math.max(w, MIN_COLUMN_WIDTH + X_LEFT_PADDING);
+		return Math.max(w, MIN_COLUMN_WIDTH);
 	}
 
 	private static Column<TVRowData, SafeHtml> getColumnValue(final int col,
