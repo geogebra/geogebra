@@ -262,8 +262,11 @@ public class EuclidianViewW extends EuclidianView implements
 				|| kernel.needToShowAnimationButton()
 				|| getBackgroundType() != BackgroundType.NONE) {
 			g2.drawImage(bgImage, 0, 0);
-		} else {
+		} else if (!hasSpotlight()) {
 			((GGraphics2DWI) g2).fillWith(getBackgroundCommon());
+		} else {
+			g2.clearRect(0, 0, ((GGraphics2DWI) g2).getCoordinateSpaceWidth(),
+					((GGraphics2DWI) g2).getCoordinateSpaceHeight());
 		}
 	}
 
