@@ -195,8 +195,9 @@ public class SymbolicProcessor {
 		SubExpressionEvaluator evaluator = new SubExpressionEvaluator(this, ve, subInfo);
 		ExpressionNode replaced = ve.traverse(evaluator).wrap();
 		replaced.inspect(extractor);
+		EvalInfo newInfo = info;
 		if (extractor.getConstant() != null) {
-			info = info.withArbitraryConstant(extractor.getConstant());
+			newInfo = info.withArbitraryConstant(extractor.getConstant());
 		}
 		if (replaced.inspect(new RecursiveEquationFinder(ve))) {
 			replaced = new Equation(kernel,
@@ -204,7 +205,7 @@ public class SymbolicProcessor {
 					.wrap();
 			ve.wrap().setLabel(null);
 		}
-		return doEvalSymbolicNoLabel(replaced, info);
+		return doEvalSymbolicNoLabel(replaced, newInfo);
 	}
 
 	/**
