@@ -1568,4 +1568,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		undoRedo();
 		assertEquals(3, lookup("r").getConstructionIndex());
 	}
+
+	@Test
+	public void testRedefinitionWithTwoVariables() {
+		add("f(a)=k a^2");
+		GeoSymbolic symbolic = add("f(a, k)=k+a^2");
+		assertThat(symbolic.toString(StringTemplate.defaultTemplate), is("f(a, k) = a² + k"));
+		GeoSymbolic result = add("f(1,2)");
+		assertThat(result.toString(StringTemplate.defaultTemplate), is("a = 3"));
+	}
 }
