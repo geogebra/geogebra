@@ -806,7 +806,7 @@ public abstract class Drawable extends DrawableND {
 	 *            graphics
 	 * @return text layout
 	 */
-	public GTextLayout getTextLayout(String text, GFont font, GGraphics2D g2) {
+	public static GTextLayout getTextLayout(String text, GFont font, GGraphics2D g2) {
 		if (text == null || text.isEmpty()) {
 			return null;
 		}
@@ -954,5 +954,9 @@ public abstract class Drawable extends DrawableND {
 
 	public GBasicStroke getDecoStroke() {
 		return decoStroke;
+	}
+
+	public int getCaptionY(boolean laTeX, int captionHeight) {
+		return yLabel;
 	}
 }

@@ -1153,16 +1153,21 @@ public final class DrawDropDownList extends CanvasDrawable
 			boolean latex = isLatexString(text);
 			if (latex) {
 				drawLatex(g2, geo0, getLabelFont(), text, xLabel,
-						boxTop + (boxHeight - labelSize.y) / 2);
+						getCaptionY(true, labelSize.y));
 			} else {
-				int textBottom = boxTop
-						+ (boxHeight + getLabelFontSize() - COMBO_TEXT_MARGIN) / 2;
+				int textBottom = getCaptionY(false, labelSize.y);
 				g2.setPaint(geo.getObjectColor());
 				g2.setFont(getLabelFont());
 				EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 						xLabel, textBottom, false);
 			}
 		}
+	}
+
+	@Override
+	public int getCaptionY(boolean latex, int height) {
+		return latex ? boxTop + (boxHeight - height) / 2
+				: boxTop + (boxHeight + getLabelFontSize() - COMBO_TEXT_MARGIN) / 2;
 	}
 
 	@Override
