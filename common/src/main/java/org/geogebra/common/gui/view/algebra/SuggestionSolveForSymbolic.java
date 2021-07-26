@@ -173,6 +173,13 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 					: null;
 
 		}
+
+		GeoElementND next = isValid(geo) ? getNext(geo, vars) : null;
+		while (next != null && geos.size() < vars.length) {
+			geos.add(next);
+			next  = isValid(next) ? getNext(next, vars) : null;
+		}
+
 		if (geos.size() != vars.length) {
 			return null;
 		}
@@ -181,16 +188,23 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 	}
 
 	private static GeoElementND getPrevious(final GeoElementND geo, final String[] vars) {
-		return geo.getConstruction().getPrevious(geo,
-				new Inspecting() {
+		return geo.getConstruction().getPrevious(geo, newEquationInspecting(vars));
+	}
 
-					@Override
-					public boolean check(ExpressionValue var) {
-						return isAlgebraEquation((GeoElement) var)
-								&& subset(getVariables((GeoSymbolic) var), vars)
-								&& !SuggestionSolve.checkDependentAlgo((GeoElement) var,
-								SINGLE_SOLVE, null);
-					}
-				});
+	private static GeoElementND getNext(final GeoElementND geo, final String[] vars) {
+		return geo.getConstruction().getNext(geo, newEquationInspecting(vars));
+	}
+
+	private static Inspecting newEquationInspecting(final String[] vars) {
+		return new Inspecting() {
+
+			@Override
+			public boolean check(ExpressionValue var) {
+				return isAlgebraEquation((GeoElement) var)
+						&& subset(getVariables((GeoSymbolic) var), vars)
+						&& !SuggestionSolve
+						.checkDependentAlgo((GeoElement) var, SINGLE_SOLVE, null);
+			}
+		};
 	}
 }
