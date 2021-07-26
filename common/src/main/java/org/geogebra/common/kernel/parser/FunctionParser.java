@@ -437,7 +437,7 @@ public class FunctionParser {
 				lhs = new ExpressionNode(kernel, existing, Operation.FUNCTION,
 						new FunctionVariable(kernel, localVars.get(0)));
 
-			} else if (localVars.size() > 1) {
+			} else { // assume localVars.size() > 1
 				MyList argList = new MyList(kernel);
 				for (String localVar : localVars) {
 					argList.addListElement(new FunctionVariable(kernel, localVar));
