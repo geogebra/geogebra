@@ -124,6 +124,7 @@ public abstract class Drawable extends DrawableND {
 	protected boolean firstCall = true;
 	private GeoElement geoForLabel;
 	private DrawDynamicCaption drawDynamicCaption;
+	private int labelMargin = 3;
 
 	/**
 	 * Create a default drawable. GeoElement and the view must be set
@@ -409,6 +410,7 @@ public abstract class Drawable extends DrawableND {
 	public final void drawMultilineLaTeX(GGraphics2D g2, GFont font,
 			GColor fgColor, GColor bgColor) {
 		if (labelDesc != null) {
+
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
 					view.getTempGraphics2D(font), geo, g2, font, fgColor,
 					bgColor, labelDesc, xLabel, yLabel, isSerif(),
@@ -443,7 +445,7 @@ public abstract class Drawable extends DrawableND {
 			// sets labelRectangle
 			EuclidianStatic.drawMultiLineText(
 					view.getApplication(), labelDesc, xLabel, yLabel, g2,
-					isSerif(), textFont, labelRectangle, geo);
+					isSerif(), textFont, labelRectangle, geo, labelMargin);
 		} else {
 			// text with indices
 			// label description has changed, search for possible indices
@@ -452,7 +454,7 @@ public abstract class Drawable extends DrawableND {
 			labelHasIndex = EuclidianStatic
 					.drawIndexedMultilineString(view.getApplication(),
 							labelDesc, g2, labelRectangle, textFont, isSerif(),
-							xLabel, yLabel);
+							xLabel, yLabel, labelMargin);
 		}
 	}
 
@@ -958,5 +960,9 @@ public abstract class Drawable extends DrawableND {
 
 	public int getCaptionY(boolean laTeX, int captionHeight) {
 		return yLabel;
+	}
+
+	public void setLabelMargin(int labelMargin) {
+		this.labelMargin = labelMargin;
 	}
 }

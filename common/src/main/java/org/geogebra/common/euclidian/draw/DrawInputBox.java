@@ -419,6 +419,11 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	@Override
+	protected int getLabelGap() {
+		return 2;
+	}
+
+	@Override
 	public void drawWidget(GGraphics2D g2) {
 		final GFont font = g2.getFont();
 		g2.setFont(getLabelFont());

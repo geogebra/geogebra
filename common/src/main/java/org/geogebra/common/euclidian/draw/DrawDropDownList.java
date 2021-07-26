@@ -1172,7 +1172,8 @@ public final class DrawDropDownList extends CanvasDrawable
 
 	@Override
 	protected void highlightLabel(GGraphics2D g2, boolean latex) {
-		if (geo.isLabelVisible() && isHighlighted() && latex) {
+		if (geo.isLabelVisible() && isHighlighted() && latex
+				&& !geo.hasDynamicCaption()) {
 			g2.fillRect(xLabel, boxTop + (boxHeight - labelSize.y) / 2,
 					labelSize.x, labelSize.y);
 		} else {
@@ -1189,21 +1190,8 @@ public final class DrawDropDownList extends CanvasDrawable
 	}
 
 	@Override
-	protected void calculateBoxBounds(boolean latex) {
-		boxLeft = xLabel + labelSize.x + LABEL_COMBO_GAP;
-		boxTop = latex
-				? yLabel + (labelSize.y - getPreferredHeight()) / 2
-				: yLabel;
-		boxWidth = getPreferredWidth();
-		boxHeight = getPreferredHeight() + COMBO_TEXT_MARGIN;
-	}
-
-	@Override
-	protected void calculateBoxBounds() {
-		boxLeft = xLabel + LABEL_COMBO_GAP;
-		boxTop = yLabel;
-		boxWidth = getPreferredWidth();
-		boxHeight = getPreferredHeight();
+	protected int getLabelGap() {
+		return LABEL_COMBO_GAP;
 	}
 
 	private void updateMetrics(GGraphics2D g2) {
@@ -1508,7 +1496,8 @@ public final class DrawDropDownList extends CanvasDrawable
 			return 0;
 		}
 
-		return selectedDimension.getHeight() + COMBO_TEXT_MARGIN;
+		int margin = geo.isLabelVisible() ? 2 * COMBO_TEXT_MARGIN : COMBO_TEXT_MARGIN;
+		return selectedDimension.getHeight() + margin;
 	}
 
 	/**

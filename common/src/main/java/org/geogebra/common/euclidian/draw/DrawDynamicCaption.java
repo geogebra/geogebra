@@ -31,6 +31,7 @@ public class DrawDynamicCaption {
 		this.geo = drawable.getGeoElement();
 		captionCopy = new GeoText(geo.getConstruction());
 		drawCaption = new DrawText(view, captionCopy);
+		drawCaption.setLabelMargin(0);
 	}
 
 	public boolean isEnabled() {
@@ -62,15 +63,17 @@ public class DrawDynamicCaption {
 		if (getDynamicCaption().isLaTeX()) {
 			App app = drawCaption.getView().getApplication();
 			boolean serif = StringUtil.startsWithFormattingCommand(textString);
+
 			GDimension size = app.getDrawEquation().measureEquation(app,
 					drawCaption.getGeoElement(),
-					textString, g2.getFont(), serif);
+					textString, drawCaption.getTextFont(), serif);
 			if (size != null) {
 				captionWidth = size.getWidth();
-				captionHeight = size.getHeight();
+				captionHeight = Math.max(size.getHeight(),
+						(int) (1.5 * drawCaption.getTextFont().getSize()));
 			}
 		} else {
-			GFont font = drawCaption.getView().getFontPoint();
+			GFont font = drawCaption.getTextFont();
 			GTextLayout layout = Drawable.getTextLayout(textString,
 					font, g2);
 			if (layout != null) {
@@ -128,18 +131,14 @@ public class DrawDynamicCaption {
 		if (drawable instanceof CanvasDrawable) {
 			((CanvasDrawable) drawable).labelSize.x = captionWidth;
 			((CanvasDrawable) drawable).labelSize.y = captionHeight;
-			if (drawable instanceof DrawInputBox) {
-				((CanvasDrawable) drawable).calculateBoxBounds();
-			} else if (drawable instanceof DrawDropDownList) {
-				((CanvasDrawable) drawable).calculateBoxBounds(getDynamicCaption().isLaTeX());
-			}
+			((CanvasDrawable) drawable).calculateBoxBounds();
 		}
 		return getDynamicCaption().isLaTeX();
 	}
 
 	private void position() {
 		drawCaption.yLabel = drawable.getCaptionY(getDynamicCaption().isLaTeX(), captionHeight);
-		if (drawable instanceof DrawInputBox) {
+		if (drawable instanceof CanvasDrawable) {
 			drawCaption.xLabel = drawable.xLabel - captionWidth;
 		} else if (drawable instanceof DrawBoolean) {
 			int margin = getDynamicCaption().isLaTeX() ? DrawBoolean.LABEL_MARGIN_LATEX
@@ -163,7 +162,7 @@ public class DrawDynamicCaption {
 	}
 
 	private boolean isHighlighted() {
-		return drawable.isHighlighted();
+		return (drawable instanceof CanvasDrawable) && drawable.isHighlighted();
 	}
 
 	public int getHeight() {

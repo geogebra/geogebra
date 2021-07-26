@@ -188,10 +188,11 @@ public abstract class CanvasDrawable extends Drawable {
 		if (labelSize == null) {
 			return;
 		}
-		boxLeft = xLabel + labelSize.x + 2;
+		boxLeft = xLabel + labelSize.x + getLabelGap();
 		boxTop = latex
 				? yLabel + (labelSize.y - getPreferredHeight()) / 2
 				: yLabel;
+		/*boxTop = yLabel;*/
 		boxWidth = getPreferredWidth();
 		boxHeight = getPreferredHeight();
 	}
@@ -200,11 +201,13 @@ public abstract class CanvasDrawable extends Drawable {
 	 * Update box bounds.
 	 */
 	protected void calculateBoxBounds() {
-		boxLeft = xLabel + 2;
+		boxLeft = xLabel + getLabelGap();
 		boxTop = yLabel;
 		boxWidth = getPreferredWidth();
 		boxHeight = getPreferredHeight();
 	}
+
+	protected abstract int getLabelGap();
 
 	/**
 	 * @param g2
