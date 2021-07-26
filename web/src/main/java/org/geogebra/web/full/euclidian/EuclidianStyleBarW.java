@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 
 import javax.annotation.CheckForNull;
 
@@ -37,6 +36,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoWidget;
+import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.TextStyle;
 import org.geogebra.common.kernel.geos.properties.BorderType;
@@ -1327,12 +1327,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 			@Override
 			public void update(List<GeoElement> geos) {
-				boolean geosOK = checkGeoTable(geos);
+				boolean geosOK = checkGeos(geos, geo -> geo instanceof HasTextFormatter);
 				super.setVisible(geosOK);
 
 				if (geosOK) {
-					InlineTableController formatter
-							= getTableFormatter(geos.get(0));
+					HasTextFormat formatter
+							= ((HasTextFormatter) geos.get(0)).getFormatter();
 
 					HorizontalAlignment alignment = formatter != null
 							? formatter.getHorizontalAlignment() : null;
@@ -1370,12 +1370,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 			@Override
 			public void update(List<GeoElement> geos) {
-				boolean geosOK = checkGeoTable(geos);
+				boolean geosOK = checkGeos(geos, geo -> geo instanceof HasTextFormatter);
 				super.setVisible(geosOK);
 
 				if (geosOK) {
-					InlineTableController formatter
-							= getTableFormatter(geos.get(0));
+					HasTextFormat formatter
+							= ((HasTextFormatter) geos.get(0)).getFormatter();
 
 					VerticalAlignment alignment = formatter != null
 							? formatter.getVerticalAlignment() : null;
@@ -1582,7 +1582,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		} else if (source == btnHorizontalAlignment) {
 			HorizontalAlignment alignment
 					= HorizontalAlignment.values()[btnHorizontalAlignment.getSelectedIndex()];
-			needUndo = applyInlineTableFormatting(targetGeos, (formatter) -> {
+			needUndo = inlineFormatter.formatInlineText(targetGeos, (formatter) -> {
 				if (alignment != null && !alignment.equals(formatter.getHorizontalAlignment())) {
 					formatter.setHorizontalAlignment(alignment);
 					return true;
@@ -1602,7 +1602,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		} else if (source == btnVerticalAlignment) {
 			VerticalAlignment alignment
 					= VerticalAlignment.values()[btnVerticalAlignment.getSelectedIndex()];
-			needUndo = applyInlineTableFormatting(targetGeos, (formatter) -> {
+			needUndo = inlineFormatter.formatInlineText(targetGeos, (formatter) -> {
 				if (alignment != null && !alignment.equals(formatter.getVerticalAlignment())) {
 					formatter.setVerticalAlignment(alignment);
 					return true;
@@ -1732,19 +1732,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 					geo.updateVisualStyle(GProperty.LINE_STYLE);
 					changed = true;
 				}
-			}
-		}
-
-		return changed;
-	}
-
-	private boolean applyInlineTableFormatting(ArrayList<GeoElement> targetGeos,
-			Function<InlineTableController, Boolean> formatFn) {
-		boolean changed = false;
-		for (GeoElement geo : targetGeos) {
-			if (geo instanceof GeoInlineTable) {
-				InlineTableController formatter = getTableFormatter(geo);
-				changed = formatFn.apply(formatter) || changed;
 			}
 		}
 

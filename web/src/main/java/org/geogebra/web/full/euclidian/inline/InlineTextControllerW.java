@@ -1,5 +1,7 @@
 package org.geogebra.web.full.euclidian.inline;
 
+import java.util.Locale;
+
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
@@ -9,6 +11,9 @@ import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInline;
+import org.geogebra.common.kernel.geos.HasVericalAlignment;
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
+import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -34,7 +39,7 @@ public class InlineTextControllerW implements InlineTextController {
 	private static final String INVISIBLE = "invisible";
 	private final GeoInline geo;
 
-	private Element parent;
+	private final Element parent;
 	private Editor editor;
 	private Style style;
 
@@ -158,6 +163,7 @@ public class InlineTextControllerW implements InlineTextController {
 					if (oldMinHeight < actualMinHeight) {
 						geo.updateRepaint();
 					}
+					updateVerticalAlign();
 				}
 			}
 
@@ -166,6 +172,10 @@ public class InlineTextControllerW implements InlineTextController {
 				geo.getKernel().notifyUpdateVisualStyle(geo, GProperty.TEXT_SELECTION);
 			}
 		});
+	}
+
+	private void updateVerticalAlign() {
+		style.setPaddingTop(getValignPadding(), Style.Unit.PX);
 	}
 
 	@Override
@@ -254,10 +264,22 @@ public class InlineTextControllerW implements InlineTextController {
 	public void draw(GGraphics2D g2) {
 		if (editor.getWidget().getElement().hasClassName(INVISIBLE)) {
 			GAffineTransform res = AwtFactory.getTranslateInstance(DrawInlineText.PADDING,
-					DrawInlineText.PADDING);
+					DrawInlineText.PADDING + getValignPadding());
 			g2.transform(res);
 			g2.setColor(GColor.BLACK);
 			editor.draw(((GGraphics2DWI) g2).getContext());
+		}
+	}
+
+	private int getValignPadding() {
+		if (getVerticalAlignment() == VerticalAlignment.MIDDLE) {
+			return (int) (geo.getContentHeight() - editor.getMinHeight()) / 2
+					- DrawInlineText.PADDING;
+		} else if (getVerticalAlignment() == VerticalAlignment.BOTTOM) {
+			return (int) (geo.getContentHeight() - editor.getMinHeight())
+					- 2 * DrawInlineText.PADDING;
+		} else {
+			return 0;
 		}
 	}
 
@@ -288,6 +310,28 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
+	public VerticalAlignment getVerticalAlignment() {
+		return ((HasVericalAlignment) geo).getVerticalAlignment();
+	}
+
+	@Override
+	public void setVerticalAlignment(VerticalAlignment alignment) {
+		((HasVericalAlignment) geo).setVerticalAlignment(alignment);
+		updateVerticalAlign();
+		geo.getKernel().notifyRepaint();
+	}
+
+	@Override
+	public HorizontalAlignment getHorizontalAlignment() {
+		return HorizontalAlignment.fromString(getFormat("align", "left"));
+	}
+
+	@Override
+	public void setHorizontalAlignment(HorizontalAlignment alignment) {
+		format("align", alignment.name().toLowerCase(Locale.US));
+	}
+
+	@Override
 	public void switchListTo(String listType) {
 		editor.switchListTo(listType);
 	}
@@ -299,6 +343,7 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void setTransform(double angle, double sx, double sy) {
+		updateVerticalAlign();
 		style.setProperty("transform", "rotate(" + angle + "rad) scale(" + sx + "," + sy + ")");
 		editor.setExternalScale(sx);
 	}

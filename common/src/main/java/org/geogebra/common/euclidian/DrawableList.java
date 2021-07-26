@@ -66,7 +66,8 @@ public class DrawableList extends ArrayList<Drawable> {
 			GeoElement geo = d.getGeoElement();
 			if (geo.isDefined()
 					&& !(geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
-					&& !geo.isGeoInputBox() && !geo.isMask()) {
+					&& !geo.isGeoInputBox() && !geo.isMask()
+					&& !geo.isSpotlight()) {
 				d.updateIfNeeded();
 				d.draw(g2);
 			}
