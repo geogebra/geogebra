@@ -1715,9 +1715,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			}
 
 			if (right.isLeaf() || (ExpressionNode
-					.opID(right) >= Operation.MULTIPLY.ordinal())) { // not
-				// +,
-				// -
+					.opID(right) >= Operation.MULTIPLY.ordinal())) { // not +, -
 
 				if (rightStr.charAt(0) == '-') { // convert - - to +
 					if (stringType.equals(StringType.LATEX)

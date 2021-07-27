@@ -404,14 +404,6 @@ public enum TestGeo {
 		}
 	},
 
-	/** Test for GEOUSERINPUTELEMENT */
-	GEOUSERINPUTELEMENT {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof GeoUserInputElement;
-		}
-	},
-
 	/** Test for GEOCOORDSYS2D, not GEOPLANEND */
 	GEOCOORDSYS2DNOTPLANE {
 		@Override
