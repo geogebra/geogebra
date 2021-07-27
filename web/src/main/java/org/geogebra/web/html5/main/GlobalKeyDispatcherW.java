@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.util.CopyPaste;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -97,7 +98,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					handled = true;
 				}
 
-				if (Browser.isiOS() && isControlKeyDown(event)) {
+				if (NavigatorUtil.isiOS() && isControlKeyDown(event)) {
 					handleIosKeyboard((char) event.getCharCode());
 					handled = true;
 				}
@@ -162,7 +163,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	/**
 	 * Handles key event by disassembling it into primitive types and handling
-	 * it using the mothod from common
+	 * it using the method from common
 	 *
 	 * @param event
 	 *            event
@@ -181,7 +182,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	private static boolean isControlKeyDown(NativeEvent event) {
 		return event.getCtrlKey()
-				|| (Browser.isMacOS() || Browser.isiOS()) && event.getMetaKey();
+				|| (Browser.isMacOS() || NavigatorUtil.isiOS()) && event.getMetaKey();
 	}
 
 	/**

@@ -6,6 +6,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -30,50 +31,6 @@ import jsinterop.base.JsPropertyMap;
 public class Browser {
 	public static final String ACTION_RESET_URL = "{\"action\": \"resetUrl\"}";
 	private static Boolean webglSupported = null;
-
-	/**
-	 * UA string check, may not be reliable
-	 * @return whether the app is running in Firefox
-	 */
-	public static boolean isFirefox() {
-		return doesUserAgentContainRegex("firefox");
-	}
-
-	/**
-	 * Check if browser is Internet Explorer
-	 *
-	 * (Note: only IE11 is supported now)
-	 *
-	 * @return true if IE
-	 */
-	public static boolean isIE() {
-		// check if app is running in IE5 or greater
-		return doesUserAgentContainRegex("msie |trident/");
-	}
-
-	private static boolean doesUserAgentContainRegex(String regex) {
-		String userAgent = Navigator.getUserAgent().toLowerCase(Locale.US);
-		return userAgent.matches(".*(" + regex + ").*");
-	}
-
-	/**
-	 * Check if browser is Safari on iOS
-	 *
-	 * check isiOS() && isSafari() if you want just iOS browser & not webview
-	 *
-	 * (Note: returns true for Chrome on iOS as that's really an iOS Webview)
-	 *
-	 * @return true if iOS (WebView or Safari browser)
-	 */
-	public static boolean isiOS() {
-		return doesUserAgentContainRegex("iphone|ipad|ipod")
-				// only iPhones iPads and iPods support multitouch
-				|| ("MacIntel".equals(Navigator.getPlatform()) && getMaxPointTouch() > 1);
-	}
-
-	private static native int getMaxPointTouch() /*-{
-		return $wnd.navigator.maxTouchPoints;
-	}-*/;
 
 	/**
 	 * Check if browser is Safari. Note: user agent string contains Safari also
@@ -122,7 +79,7 @@ public class Browser {
 	 * @return whether session storage is supported
 	 */
 	public static boolean supportsSessionStorage() {
-		return !Browser.isIE() || Browser.isHTTP();
+		return !NavigatorUtil.isIE() || Browser.isHTTP();
 	}
 
 	/**
@@ -281,14 +238,6 @@ public class Browser {
 	}
 
 	/**
-	 * @return whether app is running in a mobile browser
-	 */
-	public static boolean isMobile() {
-		String browsers = "android|webos|blackberry|iemobile|opera mini";
-		return doesUserAgentContainRegex(browsers) || isiOS();
-	}
-
-	/**
 	 * @return CSS pixel ratio
 	 */
 	public static native double getPixelRatio() /*-{
@@ -368,7 +317,7 @@ public class Browser {
 		}
 
 		// no downloading on iOS so just open image/file in new tab
-		if (Browser.isiOS()) {
+		if (NavigatorUtil.isiOS()) {
 			Browser.openWindow(url);
 			return;
 		}
@@ -548,7 +497,7 @@ public class Browser {
 	 */
 	@Deprecated
 	public static boolean isTabletBrowser() {
-		return isAndroid() || isiOS();
+		return isAndroid() || NavigatorUtil.isiOS();
 	}
 
 	public static native int getScreenWidth() /*-{
@@ -725,7 +674,7 @@ public class Browser {
 	 * @return valid data URL, browser dependent
 	 */
 	public static String addTxtMarker(String txt) {
-		return isiOS() && isSafariByVendor()
+		return NavigatorUtil.isiOS() && isSafariByVendor()
 				? StringUtil.txtMarkerForSafari + Global.encodeURIComponent(txt)
 				: StringUtil.txtMarker + txt;
 	}
@@ -737,6 +686,6 @@ public class Browser {
 	 * @return whether emulator of tab handler is needed
 	 */
 	public static boolean needsAccessibilityView() {
-		return isMobile();
+		return NavigatorUtil.isMobile();
 	}
 }

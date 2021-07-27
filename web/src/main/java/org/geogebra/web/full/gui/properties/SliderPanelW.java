@@ -27,8 +27,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -295,15 +293,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private void createBlobColorChooserBtn(final AppW app) {
 		blobColorChooserBtn = new MyCJButton();
 		updateBlobOrLineColorButton(model.getBlobColor(), true);
-		blobColorChooserBtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				((DialogManagerW) app.getDialogManager())
-						.showColorChooserDialog(getModel().getBlobColor(),
-								getBlobColorHandler());
-			}
-		});
+		blobColorChooserBtn.addClickHandler(event -> ((DialogManagerW) app.getDialogManager())
+				.showColorChooserDialog(getModel().getBlobColor(),
+						getBlobColorHandler()));
 	}
 
 	protected ColorChangeHandler getBlobColorHandler() {
@@ -358,15 +350,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		lineColorChooserBtn = new MyCJButton();
 		updateBlobOrLineColorButton(getColorWithOpacity(model.getLineColor()),
 				false);
-		lineColorChooserBtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				((DialogManagerW) app.getDialogManager())
-						.showColorChooserDialog(getModel().getLineColor(),
-								getLineColorHandler());
-			}
-		});
+		lineColorChooserBtn.addClickHandler(event -> ((DialogManagerW) app.getDialogManager())
+				.showColorChooserDialog(getModel().getLineColor(),
+						getLineColorHandler()));
 	}
 
 	protected ColorChangeHandler getLineColorHandler() {

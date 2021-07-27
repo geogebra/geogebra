@@ -946,7 +946,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return label depending on given string type
 	 */
 	public String printVariableName(final String label) {
-
 		switch (getStringType()) {
 		case GIAC:
 			// make sure we don't interfere with reserved names
@@ -955,12 +954,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return addTempVariablePrefix(label.replace("$", ""));
 
 		case LATEX:
-			if ("l".equals(label)) {
-				return "\\ell";
-			}
-
 			// eg $1 in "Keep Input" mode
 			return label.replace("$", "\\$");
+
 		default:
 			// standard case
 			return label;
@@ -2063,9 +2059,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 				|| rightStr.equals(Unicode.DEGREE_STRING)) {
 
-			boolean rtl = loc.isRightToLeftDigits(this);
+			boolean isMinusOnRight = loc.isMinusOnRight(this);
 
-			if (rtl) {
+			if (isMinusOnRight) {
 				sb.append(Unicode.DEGREE_STRING);
 			}
 
@@ -2077,7 +2073,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(')'); // needed for eg (a+b)\u00b0
 			}
 
-			if (!rtl) {
+			if (!isMinusOnRight) {
 				sb.append(Unicode.DEGREE_STRING);
 			}
 		}

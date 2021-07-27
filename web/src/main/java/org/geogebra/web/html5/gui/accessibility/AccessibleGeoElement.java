@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.web.html5.Browser;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 
 import com.google.gwt.user.client.ui.Button;
@@ -63,7 +63,7 @@ public class AccessibleGeoElement implements AccessibleWidget {
 
 	private ScreenReaderBuilder getBuilder() {
 		return new ScreenReaderBuilder(geo.getKernel().getLocalization(),
-				Browser.isMobile());
+				NavigatorUtil.isMobile());
 	}
 
 	@Override

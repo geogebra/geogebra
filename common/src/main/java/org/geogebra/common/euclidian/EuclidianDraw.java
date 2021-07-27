@@ -56,6 +56,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -365,6 +366,9 @@ public class EuclidianDraw {
 		case MIND_MAP:
 			d = new DrawMindMap(ev, (GeoMindMapNode) geo);
 			d.update();
+		}
+		if (((GeoElement) geo).hasDynamicCaption()) {
+			((Drawable) d).initDynamicCaption();
 		}
 		return d;
 	}

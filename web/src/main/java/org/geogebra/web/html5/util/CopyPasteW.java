@@ -20,7 +20,7 @@ import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.InternalClipboard;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.Browser;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.Clipboard;
@@ -28,8 +28,8 @@ import org.geogebra.web.html5.main.Clipboard;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TextAreaElement;
+import com.himamis.retex.editor.web.DocumentUtil;
 
-import elemental2.core.Function;
 import elemental2.core.Global;
 import elemental2.core.JsArray;
 import elemental2.dom.Blob;
@@ -87,8 +87,7 @@ public class CopyPasteW extends CopyPaste {
 				Log.debug("writing geogebra data to clipboard failed");
 				return null;
 			});
-		} else if (Js.isTruthy(Js.asPropertyMap(DomGlobal.navigator)
-				.nestedGet("clipboard.writeText"))) {
+		} else if (navigatorSupports("clipboard.writeText")) {
 			// Supported in Firefox
 
 			Clipboard.writeText(toWrite).then((ignore) -> {
@@ -104,10 +103,7 @@ public class CopyPasteW extends CopyPaste {
 			TextAreaElement copyFrom = AppW.getHiddenTextArea();
 			copyFrom.setValue(toWrite);
 			copyFrom.select();
-			Function exec =
-					(Function) Js.asPropertyMap(DomGlobal.document)
-							.get("execCommand");
-			exec.call(DomGlobal.document, "copy");
+			DocumentUtil.copySelection();
 			DomGlobal.setTimeout((ignore) -> DomGlobal.document.body.focus(), 0);
 		}
 	}
@@ -115,7 +111,7 @@ public class CopyPasteW extends CopyPaste {
 	private static void saveToClipboard(String toSave) {
 		String escapedContent = Global.escape(toSave);
 		String encoded = pastePrefix + DomGlobal.btoa(escapedContent);
-		if (!Browser.isiOS() || copyToExternalSupported()) {
+		if (!NavigatorUtil.isiOS() || copyToExternalSupported()) {
 			writeToExternalClipboard(encoded);
 		}
 		BrowserStorage.LOCAL.setItem(pastePrefix, encoded);

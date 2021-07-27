@@ -79,6 +79,7 @@ public class ToolbarMow extends FlowPanel
 
 		createPanels();
 		setLabels();
+		appW.getLoginOperation().getView().add(evt -> updateMediaPanel());
 	}
 
 	private void createPanels() {

@@ -1,6 +1,6 @@
 package com.himamis.retex.editor.web;
 
-import org.geogebra.web.html5.gui.util.NativePointerEvent;
+import org.geogebra.gwtutil.NativePointerEvent;
 
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;

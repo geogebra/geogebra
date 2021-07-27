@@ -30,13 +30,11 @@ public abstract class CommonOptionsModel<T> extends OptionsModel {
 
 	public abstract List<T> getChoices(Localization loc);
 
-
 	@Override
 	public void updateProperties() {
 		T value0 = getValueAt(0);
 		listener.setSelectedIndex(getChoices(app.getLocalization()).indexOf(value0));
 	}
-
 
 	@Override
 	public IComboListener getListener() {
@@ -56,6 +54,4 @@ public abstract class CommonOptionsModel<T> extends OptionsModel {
 			listener.addItem(item.toString());
 		}
 	}
-
-
 }

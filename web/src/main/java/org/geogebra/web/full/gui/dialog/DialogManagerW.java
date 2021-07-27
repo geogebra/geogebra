@@ -33,9 +33,11 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.export.PrintPreviewW;
 import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.full.gui.dialog.image.UploadImageWithoutDialog;
 import org.geogebra.web.full.gui.dialog.image.WebcamInputDialog;
@@ -56,7 +58,6 @@ import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ClipboardUtil;
 import org.geogebra.web.html5.util.debug.LoggerW;
-import org.geogebra.web.shared.components.ComponentInputDialog;
 import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.core.client.GWT;
@@ -657,5 +658,15 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void closeTemplateChooser() {
 		templateChooser.hide();
+	}
+
+	/**
+	 * @return session expire dialog listener
+	 */
+	public GTimerListener getSessionExpireDialog() {
+		return () -> {
+			DialogData data = new DialogData(null, "Cancel", "Save");
+			new SessionExpireNotifyDialog((AppW) app, data).show();
+		};
 	}
 }

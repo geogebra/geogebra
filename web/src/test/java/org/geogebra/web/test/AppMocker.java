@@ -2,6 +2,7 @@ package org.geogebra.web.test;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.cas.giac.CASFactoryW;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
@@ -85,7 +86,8 @@ public class AppMocker {
 	public static AppWsimple mockAppletSimple(AppletParameters ae) {
 		useCommonFakeProviders();
 		useProviderForSchedulerImpl();
-		GeoGebraFrameSimple frame = new GeoGebraFrameSimple(DomMocker.getGeoGebraElement(), ae);
+		GeoGebraFrameSimple frame = new GeoGebraFrameSimple(DomMocker.getGeoGebraElement(), ae,
+				 new CASFactoryW());
 		AppWsimple app = new AppWSimpleMock(ae, frame, false);
 		setAppDefaults(app);
 		return app;

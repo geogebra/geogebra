@@ -292,7 +292,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	/** max corner for objects enclosing bounding box */
 	protected Coords boundsMax;
 	private double fontScale = 1;
-	private EuclidianView3DCompanion companion3D;
+	protected EuclidianView3DCompanion companion3D;
 
 	private CoordMatrix4x4 cursorMatrix = new CoordMatrix4x4();
 	private Coords cursorNormal = new Coords(3);

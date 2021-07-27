@@ -53,7 +53,6 @@ import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.geom.Shape;
 import com.himamis.retex.renderer.web.font.FontW;
-import com.himamis.retex.renderer.web.font.FontWrapper;
 import com.himamis.retex.renderer.web.geom.ShapeW;
 import com.himamis.retex.renderer.web.graphics.FontGlyph;
 

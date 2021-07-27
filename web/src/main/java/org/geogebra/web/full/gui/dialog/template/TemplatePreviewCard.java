@@ -12,9 +12,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -34,22 +32,14 @@ public class TemplatePreviewCard extends FlowPanel
         this.callback = callback;
         buildGUI(app, hasMoreButton);
         // select card on click
-        this.addDomHandler(new ClickHandler() {
-            @Override
-            public void onClick(final ClickEvent event) {
-                runCallback();
-            }
-        }, ClickEvent.getType());
+        this.addDomHandler(event -> runCallback(), ClickEvent.getType());
         // load material on double click
-        this.addDomHandler(new DoubleClickHandler() {
-            @Override
-            public void onDoubleClick(DoubleClickEvent event) {
-                app.getDialogManager().closeTemplateChooser();
-                if (getController().getMaterial() == null) {
-                    app.fileNew();
-                } else {
-                    getController().loadOnlineFile();
-                }
+        this.addDomHandler(event -> {
+            app.getDialogManager().closeTemplateChooser();
+            if (getController().getMaterial() == null) {
+                app.fileNew();
+            } else {
+                getController().loadOnlineFile();
             }
         }, DoubleClickEvent.getType());
     }

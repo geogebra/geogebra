@@ -17,8 +17,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
 
+import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
+import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.Commands;
@@ -1502,5 +1504,78 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		undoRedo();
 		GeoSymbolic eq = (GeoSymbolic) lookup("eq");
 		assertThat(eq, notNullValue());
+	}
+
+	@Test
+	public void testCaching() {
+		CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
+
+		if (cas instanceof CASgiac) {
+			CASgiac casGiac = (CASgiac) cas;
+			int cacheSize = casGiac.getCasGiacCacheSize();
+
+			// test input is added to the cache
+			t("NSolve(x+x*x+1/2 = 13)", "{x = -4.070714214271, x = 3.070714214271}");
+			assertEquals(casGiac.getCasGiacCacheSize(), cacheSize + 1);
+
+			// test nothing is added to the cache, result read from cache
+			t("NSolve(x+x*x+1/2 = 13)", "{x = -4.070714214271, x = 3.070714214271}");
+			assertEquals(casGiac.getCasGiacCacheSize(), cacheSize + 1);
+
+			int cacheNewSize = casGiac.getCasGiacCacheSize();
+
+			t("Cross((1,1,1),Cross((2,3,4),(5,7,11)))", "(1, 6, -7)");
+			assertEquals(casGiac.getCasGiacCacheSize(), cacheNewSize + 2);
+
+			t("Cross((1,1,1),Cross((2,3,4),(5,7,11)))", "(1, 6, -7)");
+			assertEquals(casGiac.getCasGiacCacheSize(), cacheNewSize + 2);
+		}
+	}
+
+	@Test
+	public void testUndoRedoWithSolve() {
+		app.setUndoActive(true);
+
+		add("u(x)=-2*10^(-5) x^(3)+1.4*10^(-2) x^(2)-2.4 x+200");
+		app.storeUndoInfo();
+		add("a(x)=Integral(u,0,340)");
+		app.storeUndoInfo();
+		add("eq1: ((a)/(3))=Integral(u,0,s)");
+		app.storeUndoInfo();
+		add("solution = Solve(eq1,s)");
+		app.storeUndoInfo();
+
+		undoRedo();
+		GeoSymbolic eq = (GeoSymbolic) lookup("solution");
+		assertThat(eq, notNullValue());
+	}
+
+	@Test
+	public void orderShouldNotChange() {
+		app.setUndoActive(true);
+
+		t("f(a,x) = a*x^2", "a * x^(2)");
+		app.storeUndoInfo();
+		t("x", "x");
+		app.storeUndoInfo();
+		t("x", "x");
+		app.storeUndoInfo();
+		t("r:=f(a,a)", "a^(3)");
+		app.storeUndoInfo();
+
+		assertEquals(3, lookup("r").getConstructionIndex());
+
+		undoRedo();
+		assertEquals(3, lookup("r").getConstructionIndex());
+	}
+
+	@Test
+	public void matrixInvertSymbolic() {
+		add("A={{1,2},{3,4}}");
+		GeoElement geo = add("Invert(A)");
+		assertThat(AlgebraItem.isSymbolicDiffers(geo), is(true));
+		assertThat(geo.getAlgebraDescriptionLaTeX(),
+				is("m1\\, = \\,\\left(\\begin{array}{rr}-2&1"
+						+ "\\\\\\frac{3}{2}&\\frac{-1}{2}\\\\ \\end{array}\\right)"));
 	}
 }

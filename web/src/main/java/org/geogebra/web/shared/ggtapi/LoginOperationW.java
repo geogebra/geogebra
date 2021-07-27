@@ -2,14 +2,12 @@ package org.geogebra.web.shared.ggtapi;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.events.BaseEvent;
-import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.URLEncoderW;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
@@ -32,18 +30,11 @@ public class LoginOperationW extends LogInOperation {
 	private class LanguageLoginCallback implements EventRenderable {
 		@Override
 		public void renderEvent(BaseEvent event) {
-			if (isLoggedIn()) {
+			if (isLoggedIn() && "".equals(app.getAppletParameters().getDataParamLanguage())) {
 				app.setLanguage(getUserLanguage());
 			} else {
 				app.setLabels();
 			}
-		}
-	}
-
-	private class ShowH5PCallback implements EventRenderable {
-		@Override
-		public void renderEvent(BaseEvent event) {
-			((GeoGebraFrameFull) app.getAppletFrame()).updateNotesMediaToolbarPanel();
 		}
 	}
 
@@ -58,13 +49,8 @@ public class LoginOperationW extends LogInOperation {
 		super();
 		this.app = appWeb;
 		getView().add(new LanguageLoginCallback());
-		getView().add(new ShowH5PCallback());
 		AuthenticationModelW model = new AuthenticationModelW(appWeb);
 		setModel(model);
-		if (app.getVendorSettings().canSessionExpire()) {
-			model.setSessionExpireTimer(app.newTimer(model,
-					AuthenticationModel.SESSION_TIME));
-		}
 
 		iniNativeEvents();
 		apiFactory = new BackendAPIFactory(app);

@@ -71,10 +71,9 @@ public class DrawInlineText extends Drawable implements DrawInline {
 
 			textController.setLocation(view.toScreenCoordX(point.getX()),
 					view.toScreenCoordY(point.getY()));
-			textController.setHeight((int) contentHeight);
-			textController.setWidth((int) (contentWidth - PADDING));
-			textController.setAngle(angle);
-			textController.setScale(width / contentWidth, height / contentHeight);
+			textController.setHeight((int) contentHeight - 2 * PADDING);
+			textController.setWidth((int) contentWidth - 2 * PADDING);
+			textController.setTransform(angle, width / contentWidth, height / contentHeight);
 			if (textController.updateFontSize()) {
 				textController.updateContent();
 			}

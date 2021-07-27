@@ -2018,14 +2018,13 @@ public abstract class ProbabilityCalculatorView
 		boolean isDiscrete = probmanagerIsDiscrete();
 		int oldProbMode = probMode;
 		this.getPlotDimensions();
+		setBoundsFromSettings();
 		if (probMode == PROB_INTERVAL) {
 			xAxis.showBothPoints(showProbGeos);
 			resultPanel.showInterval();
-			setBoundsFromSettings();
 		} else if (probMode == PROB_TWO_TAILED) {
 			xAxis.showBothPoints(showProbGeos);
 			showTwoTailed(resultPanel);
-			setBoundsFromSettings();
 		} else if (probMode == PROB_LEFT) {
 			resultPanel.showLeft();
 			switchToLeftProbability(oldProbMode, isDiscrete);
@@ -2104,6 +2103,14 @@ public abstract class ProbabilityCalculatorView
 		} else {
 			setLowDefault();
 			setHighDefault();
+		}
+
+		if (probMode == PROB_LEFT) {
+			setLow(Double.NEGATIVE_INFINITY);
+		}
+
+		if (probMode == PROB_RIGHT) {
+			setHigh(Double.POSITIVE_INFINITY);
 		}
 
 		updateOutputForIntervals();

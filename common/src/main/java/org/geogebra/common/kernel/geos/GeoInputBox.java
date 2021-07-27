@@ -37,8 +37,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @author Michael
  *
  */
-public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignment,
-		HasDynamicCaption {
+public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignment {
 
 	private static final int defaultLength = 20;
 
@@ -63,8 +62,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private String tempUserEvalInput;
 	private String tempUserDisplayInput;
 
-	private GeoText dynamicCaption;
-	private static GeoText emptyText;
 	private boolean serifContent = true;
 
 	/**
@@ -73,7 +70,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 */
 	public GeoInputBox(Construction cons, GeoElement linkedGeo) {
 		super(cons);
-		createEmptyText(cons);
 		if (linkedGeo == null) {
 			this.linkedGeo = new GeoText(cons, "");
 		} else {
@@ -81,12 +77,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		}
 		inputBoxRenderer = new InputBoxRenderer(this);
 		inputBoxProcessor = new InputBoxProcessor(this, this.linkedGeo);
-	}
-
-	private static void createEmptyText(Construction cons) {
-		if (emptyText == null) {
-			emptyText = new GeoText(cons, "");
-		}
 	}
 
 	/**
@@ -275,12 +265,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		if (linkedGeo.isGeoText() && !linkedGeo.isLabelSet()) {
 			sb.append("\t<tempUserInput eval=\"");
 			StringUtil.encodeXML(sb, ((GeoText) linkedGeo).getTextStringSafe());
-			sb.append("\"/>\n");
-		}
-
-		if (dynamicCaption != null && dynamicCaption.getLabelSimple() != null) {
-			sb.append("\t<dynamicCaption val=\"");
-			sb.append(dynamicCaption.getLabelSimple());
 			sb.append("\"/>\n");
 		}
 	}
@@ -529,59 +513,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	public void setSerifContent(boolean serifContent) {
 		this.serifContent = serifContent;
-	}
-
-	@Override
-	public boolean hasDynamicCaption() {
-		return dynamicCaption != null;
-	}
-
-	@Override
-	public GeoText getDynamicCaption() {
-		return dynamicCaption;
-	}
-
-	@Override
-	public void setDynamicCaption(GeoText caption) {
-		unregisterDynamicCaption();
-		dynamicCaption = caption;
-		registerDynamicCaption();
-	}
-
-	protected void unregisterDynamicCaption() {
-		if (dynamicCaption == null) {
-			return;
-		}
-
-		dynamicCaption.unregisterUpdateListener(this);
-	}
-
-	private void registerDynamicCaption() {
-		if (dynamicCaption == null) {
-			return;
-		}
-
-		dynamicCaption.registerUpdateListener(this);
-	}
-
-	@Override
-	public void clearDynamicCaption() {
-		unregisterDynamicCaption();
-		dynamicCaption = emptyText;
-	}
-
-	@Override
-	public void removeDynamicCaption() {
-		unregisterDynamicCaption();
-		dynamicCaption = null;
-	}
-
-	@Override
-	public void update(boolean dragging) {
-		if (hasDynamicCaption()) {
-			dynamicCaption.update(dragging);
-		}
-		super.update(dragging);
 	}
 
 	public boolean hasError() {

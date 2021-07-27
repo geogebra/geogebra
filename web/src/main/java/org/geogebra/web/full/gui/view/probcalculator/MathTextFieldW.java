@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.util.JsRunnable;
 
 import com.google.gwt.dom.client.Style;
@@ -25,7 +25,7 @@ public class MathTextFieldW extends MathFieldEditor  implements MathFieldListene
 		createMathField(this);
 		addBlurHandler(event -> onEnter());
 		addStyleName("mathTextField");
-		setUseKeyboardButton(!Browser.isMobile());
+		setUseKeyboardButton(!NavigatorUtil.isMobile());
 	}
 
 	@Override

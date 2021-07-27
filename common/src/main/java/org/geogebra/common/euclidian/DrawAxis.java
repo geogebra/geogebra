@@ -38,6 +38,7 @@ public class DrawAxis {
 	private Integer beforeZeroY;
 	private boolean firstCallX = true;
 	private boolean firstCallY = true;
+	private String zeroStr = "0";
 
 	/**
 	 * @param euclidianView
@@ -609,7 +610,7 @@ public class DrawAxis {
 			return;
 		}
 
-		GTextLayout layout = AwtFactory.getPrototype().newTextLayout("0",
+		GTextLayout layout = AwtFactory.getPrototype().newTextLayout(zeroStr,
 				view.getFontAxes(), g2.getFontRenderContext());
 		double width = layout.getAdvance();
 		double xoffset = -4 - (fontsize / 4d);
@@ -622,7 +623,7 @@ public class DrawAxis {
 					|| view.positiveAxes[0] && view.positiveAxes[1]
 							&& !view.showAxesNumbers[1]
 					|| !view.showAxes[1]) {
-				x = (int) (xCrossPix - (EuclidianView.estimateTextWidth("0",
+				x = (int) (xCrossPix - (EuclidianView.estimateTextWidth(zeroStr,
 						view.getFontAxes()) / 2));
 			} else {
 				x = (int) ((xCrossPix + xoffset) - width); // left
@@ -667,7 +668,7 @@ public class DrawAxis {
 			y = (int) yoffset;
 		}
 
-		drawString(g2, "0", x, y);
+		drawString(g2, zeroStr, x, y);
 	}
 
 	private class TickNumber {
@@ -976,6 +977,8 @@ public class DrawAxis {
 
 						if (!bothNull) {
 							drawString(g2, sb.toString(), x, y);
+						} else {
+							zeroStr = sb.toString();
 						}
 
 						// store position of number, so grid line can avoid
@@ -1177,13 +1180,25 @@ public class DrawAxis {
 				&& !view.isAutomaticAxesNumberingDistance()[axis]
 				&& view.getAxesDistanceObjects()[axis].getDefinition() != null
 				&& view.getAxesDistanceObjects()[axis].getDouble() > 0) {
-			return multiple(view.getAxesDistanceObjects()[axis].getDefinition(),
-					labelno);
+			// multiplying by 1 does not return a localized number,
+			// so such product needs to be localized here
+			String productLabelNoAxesDist =
+					multiple(view.getAxesDistanceObjects()[axis].getDefinition(), labelno);
+			if (shouldBeLocalizedOne(view, labelno)) {
+				return view.kernel.internationalizeDigits(productLabelNoAxesDist,
+						StringTemplate.defaultTemplate);
+			}
+			return productLabelNoAxesDist;
 		}
 		return view.kernel.formatPiE(
 				DoubleUtil.checkDecimalFraction(
 						labelno * view.axesNumberingDistances[axis]),
 				view.axesNumberFormat[axis], StringTemplate.defaultTemplate);
+	}
+
+	private static boolean shouldBeLocalizedOne(EuclidianView view, long labelNo) {
+		return labelNo == 1 && view.kernel.getApplication().getLocalization()
+				.isUsingLocalizedDigits();
 	}
 
 	/**

@@ -21,9 +21,9 @@ import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.pagecontrolpanel.DragController.Cards;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
@@ -549,7 +549,7 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
-		if (Browser.isMobile()) {
+		if (NavigatorUtil.isMobile()) {
 			return;
 		}
 		event.preventDefault();
@@ -559,7 +559,7 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void onMouseMove(MouseMoveEvent event) {
-		if (Browser.isMobile()) {
+		if (NavigatorUtil.isMobile()) {
 			return;
 		}
 		dragCtrl.move(event.getClientY(), false);
@@ -567,7 +567,7 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
-		if (Browser.isMobile()) {
+		if (NavigatorUtil.isMobile()) {
 			return;
 		}
 		dragCtrl.stop();

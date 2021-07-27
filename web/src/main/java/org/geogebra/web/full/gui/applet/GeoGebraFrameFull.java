@@ -10,6 +10,7 @@ import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
@@ -27,7 +28,6 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
-import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -37,7 +37,6 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.full.main.NullHeaderResizer;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -433,7 +432,7 @@ public class GeoGebraFrameFull
 	@Override
 	public boolean showKeyBoard(boolean show, MathKeyboardListener textField,
 			boolean forceShow) {
-		if (forceShow && (isKeyboardWantedFromStorage() || Browser.isMobile())) {
+		if (forceShow && (isKeyboardWantedFromStorage() || NavigatorUtil.isMobile())) {
 			doShowKeyBoard(show, textField);
 			return true;
 		}
@@ -457,7 +456,7 @@ public class GeoGebraFrameFull
 				&& !getGuiManager().showView(App.VIEW_PROBABILITY_CALCULATOR)) {
 			return false;
 		}
-		if (Browser.isMobile()
+		if (NavigatorUtil.isMobile()
 				|| isKeyboardShowing()
 									// showing, we don't have
 									// to handle the showKeyboardButton
@@ -751,21 +750,26 @@ public class GeoGebraFrameFull
 		add(openMenuButton);
 	}
 
-	private void attachNotesUI(AppW app) {
+	/**
+	 * Adds the notes toolbar and (if allowed) the undo panel and page control
+	 */
+	public void attachNotesUI(AppW app) {
 		initNotesLayoutIfNull(app);
 		add(notesLayout.getToolbar());
-		add(notesLayout.getUndoRedoButtons());
+		if (app.getAppletParameters().getDataParamEnableUndoRedo()) {
+			add(notesLayout.getUndoRedoButtons());
+		}
 		setPageControlButtonVisible(app.isMultipleSlidesOpen()
 				|| app.getAppletParameters().getParamShowSlides());
 	}
 
 	/**
-	 * update tools after login/logout
+	 * Remove notes toolbar and undo panel
 	 */
-	public void updateNotesMediaToolbarPanel() {
-		if (notesLayout != null && notesLayout.getToolbar() != null) {
-			((ToolbarMow) notesLayout.getToolbar()).updateMediaPanel();
-		}
+	public void detachNotesToolbarAndUndo(AppW app) {
+		initNotesLayoutIfNull(app);
+		remove(notesLayout.getToolbar());
+		remove(notesLayout.getUndoRedoButtons());
 	}
 
 	/**

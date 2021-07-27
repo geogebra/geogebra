@@ -9,6 +9,8 @@ import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.base.model.impl.AccentModifier;
 import org.geogebra.keyboard.base.model.impl.CapsLockModifier;
 import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
+import org.geogebra.keyboard.base.model.impl.factory.CharacterProvider;
+import org.geogebra.keyboard.base.model.impl.factory.DefaultCharProvider;
 import org.geogebra.keyboard.base.model.impl.factory.DefaultKeyboardFactory;
 import org.geogebra.keyboard.base.model.impl.factory.FunctionKeyboardFactory;
 import org.geogebra.keyboard.base.model.impl.factory.GreekKeyboardFactory;
@@ -34,8 +36,16 @@ public class KeyboardFactory {
 	 * for keyboard model factories.
 	 */
 	public KeyboardFactory() {
-		mathKeyboardFactory = new MathKeyboardFactory();
-		defaultKeyboardFactory = new DefaultKeyboardFactory();
+		this(new DefaultCharProvider());
+	}
+
+	/**
+	 * Creates a KeyboardFactory with default implementations
+	 * for keyboard model factories.
+	 */
+	public KeyboardFactory(CharacterProvider characterProvider) {
+		mathKeyboardFactory = new MathKeyboardFactory(characterProvider);
+		defaultKeyboardFactory = new DefaultKeyboardFactory(characterProvider);
 		greekKeyboardFactory = new GreekKeyboardFactory();
 		functionKeyboardFactory = new FunctionKeyboardFactory();
 		letterKeyboardFactory = new LetterKeyboardFactory();

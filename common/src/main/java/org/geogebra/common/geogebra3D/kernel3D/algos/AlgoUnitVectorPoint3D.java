@@ -39,7 +39,9 @@ public class AlgoUnitVectorPoint3D extends AlgoUnitVector {
 		} else if (DoubleUtil.isZero(length)) {
 			u.setUndefined();
 		} else {
-			((GeoVector3D) u).setCoords(coords.mul(1 / length));
+			Coords divided = coords.mul(1 / length);
+			divided.setW(0);
+			((GeoVector3D) u).setCoords(divided);
 		}
 	}
 

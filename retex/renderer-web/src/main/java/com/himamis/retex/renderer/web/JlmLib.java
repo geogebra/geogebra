@@ -43,7 +43,6 @@
  */
 package com.himamis.retex.renderer.web;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.himamis.retex.renderer.share.Colors;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
@@ -74,7 +73,7 @@ public class JlmLib {
 			final double size, final int type, final int x, final int y,
 			final int topInset, final int leftInset, final int bottomInset,
 			final int rightInset, final String fgColorString,
-			final String bgColorString, final JavaScriptObject callback) {
+			final String bgColorString, final DrawingFinishedCallback callback) {
 
 		// init jlm with the given string
 		if (initString.length() > 0) {
@@ -94,14 +93,18 @@ public class JlmLib {
 
 	public static JsPropertyMap<Object> draw(TeXIcon icon, CanvasRenderingContext2D ctx,
 			final int x, final int y, final String fgColorString,
-			final String bgColorString, final JavaScriptObject callback) {
-		return draw(icon, ctx, x, y, Colors.decode(fgColorString),
-				Colors.decode(bgColorString), callback, getPixelRatio());
+			final String bgColorString, final DrawingFinishedCallback callback) {
+		return draw(icon, ctx, x, y, decode(fgColorString),
+				decode(bgColorString), callback, getPixelRatio());
+	}
+
+	public static Color decode(String color) {
+		return color == null ? null : Colors.decode(color);
 	}
 
 	public static JsPropertyMap<Object> draw(TeXIcon icon, CanvasRenderingContext2D ctx,
 			final double x, final double y, final Color fgColor,
-			final Color bgColor, final JavaScriptObject callback,
+			final Color bgColor, final DrawingFinishedCallback callback,
 			double ratio) {
 		Graphics2DW g2 = new Graphics2DW(ctx);
 
@@ -116,7 +119,7 @@ public class JlmLib {
 		}
 
 		// set the callback
-		g2.setDrawingFinishedCallback(async -> callJavascriptCallback(callback, async));
+		g2.setDrawingFinishedCallback(callback);
 
 		// paint the icon
 
@@ -131,13 +134,6 @@ public class JlmLib {
 		// return {width, height}
 		return createReturnValue(icon, ratio);
 	}
-
-	private static native void callJavascriptCallback(JavaScriptObject cb,
-			boolean async) /*-{
-		if (cb != null) {
-			cb(async);
-		}
-	}-*/;
 
 	public static TeXIcon createIcon(final String latex, final double size,
 			final int type, Insets insets) {

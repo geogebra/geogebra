@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.dialog.image;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.web.html5.Browser;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.webcam.WebcamDialogInterface;
 import org.geogebra.web.shared.components.ComponentDialog;
@@ -27,7 +27,7 @@ public class WebcamInputDialog extends ComponentDialog
 		super(app, data, false, true);
 		addStyleName("camera");
 		buildContent();
-		if (Browser.isMobile()) {
+		if (NavigatorUtil.isMobile()) {
 			this.setAutoHideEnabled(true);
 		}
 	}

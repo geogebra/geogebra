@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.gui.util;
 
-import org.geogebra.web.html5.Browser;
+import org.geogebra.gwtutil.NavigatorUtil;
 
 import com.google.gwt.user.client.ui.UIObject;
 
@@ -19,7 +19,7 @@ public class AriaHelper {
 	 *            title
 	 */
 	public static void setTitle(UIObject ui, String title) {
-		if (!Browser.isMobile()) {
+		if (!NavigatorUtil.isMobile()) {
 			ui.getElement().setAttribute("data-title", title);
 		}
 		ui.getElement().removeAttribute("title");

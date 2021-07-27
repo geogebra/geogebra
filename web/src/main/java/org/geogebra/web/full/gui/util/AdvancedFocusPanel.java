@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.util;
 
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetKeyListenerW;
-import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TextAreaElement;
@@ -41,7 +41,7 @@ public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPane
 		// the only problem with focusTextarea seems to be its style:
 		// so it is still visible on the page, unless we hide it!
 		focusTextarea.addClassName("AdvancedFocusPanelsTextarea");
-		if (Browser.isMobile()) {
+		if (NavigatorUtil.isMobile()) {
 			focusTextarea.setDisabled(true);
 			this.disabledTextarea = true;
 			getContainerElement().setTabIndex(1);

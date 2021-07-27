@@ -9,8 +9,6 @@ import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -104,25 +102,12 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 						new NoDragImage(ImgResourceHelper.safeURI(res), 24),
 						viewId);
 
-				btn.addClickHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						selectAndUpdate(btn, viewId);
-					}
-				});
+				btn.addClickHandler(event -> selectAndUpdate(btn, viewId));
 
 				buttons.add(btn);
 			}
 		}
-		btnGeneral.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				selectAndUpdate(btnGeneral, GENERAL);
-
-			}
-		});
+		btnGeneral.addClickHandler(event -> selectAndUpdate(btnGeneral, GENERAL));
 
 		selectedViewId = GENERAL;
 

@@ -1078,7 +1078,7 @@ public class InputController {
 	private static void deleteMatrixElementValue(EditorState editorState) {
 		MathSequence matrixElement = (MathSequence) editorState.getSelectionAnchor().getParent();
 		matrixElement.clearArguments();
-		editorState.setCurrentOffset(1);
+		editorState.setCurrentOffset(0);
 		editorState.setCurrentField(matrixElement);
 		editorState.resetSelection();
 	}

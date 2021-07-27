@@ -3345,8 +3345,8 @@ public class GeoList extends GeoElement
 	/**
 	 * @return new array with elements
 	 */
-	public GeoElement[] elementsAsArray() {
-		return elements.toArray(new GeoElement[size()]);
+	public ArrayList<GeoElement> elements() {
+		return elements;
 	}
 
 	@Override

@@ -57,6 +57,8 @@ import com.himamis.retex.renderer.web.font.FontW;
 import com.himamis.retex.renderer.web.resources.PreloadFontResources;
 
 import elemental2.core.JsArray;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 public class Opentype implements FontLoaderWrapper {
 
@@ -189,11 +191,11 @@ public class Opentype implements FontLoaderWrapper {
 				}).inject();
 	}
 
-	private native void ensureMapExists() /*-{
-		if (typeof $wnd.__JLM2_GWT_FONTS__ === 'undefined') {
-			$wnd.__JLM2_GWT_FONTS__ = {};
+	private void ensureMapExists() {
+		if (Js.isFalsy(OpentypeFontMap.map)) {
+			OpentypeFontMap.map = Js.uncheckedCast(JsPropertyMap.of());
 		}
-	}-*/;
+	}
 
 	private boolean checkPreloadNative(String familyName,
 			TextResource resource) {
@@ -212,10 +214,13 @@ public class Opentype implements FontLoaderWrapper {
 		fireFontActiveEvent(familyName);
 	}
 
-	private native JsArray<Object> getFontNative(String familyName) /*-{
-		var lib = $wnd.__JLM2_GWT_FONTS__;
-		return lib ? lib[familyName] : null;
-	}-*/;
+	private JsArray<Object> getFontNative(String familyName) {
+		if (OpentypeFontMap.map != null) {
+			return OpentypeFontMap.map.get(familyName);
+		} else {
+			return null;
+		}
+	}
 
 	@Override
 	public FontW createNativeFont(String pathName, String fontName, int style,
@@ -230,7 +235,7 @@ public class Opentype implements FontLoaderWrapper {
 	 * @param url
 	 *            base URL
 	 */
-	public void setFontBaseUrl(String url) {
-		fontBaseUrl = url;
+	public static void setFontBaseUrl(String url) {
+		INSTANCE.fontBaseUrl = url;
 	}
 }

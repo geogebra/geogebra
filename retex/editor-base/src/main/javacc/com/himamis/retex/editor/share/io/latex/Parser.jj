@@ -110,6 +110,8 @@ PARSER_END(Parser)
 	| < SUM_EQ : "$sumeq" >
 	| < LIM_EQ : "$limeq(" >
 	| < VEC : "$vec(" >
+	| < ATOMIC_POST : "$atomicpost" >
+	| < ATOMIC_PRE : "$atomicpre" >
 	| < COMMA : "," >
 	| < SPACE : " " >
 	| < OPERATOR : ["*", "+", "-", "/", "=", ";", "<", ">", "\u2264", "\u2265",
@@ -139,6 +141,8 @@ void mathContainer(MathContainer currentField) : {}
 		log(currentField)
 	|
 		defintSumProduct(currentField)
+	|
+		atomicPrePost(currentField)
 	|
 		absVecLimeq(currentField)
 	|
@@ -299,6 +303,27 @@ void defintSumProduct(MathContainer currentField) : {
 		defint.setArgument(0, param0);
 		defint.setArgument(1, param1);
 		currentField.addArgument(defint);
+	} <PARANTHESES_CLOSE>
+}
+
+void atomicPrePost(MathContainer currentField) : {
+	Token symbol;
+}
+{
+	(symbol = <ATOMIC_POST> | symbol = <ATOMIC_PRE>) <PARANTHESES_OPEN> {
+		MathFunction atomic = new MathFunction(metaModel.getGeneral(Tag.lookup(symbol.image)));
+		MathSequence param0 = new MathSequence();
+		mathContainer(param0);
+	} <COMMA> {
+		MathSequence param1 = new MathSequence();
+		mathContainer(param1);
+	} <COMMA> {
+		MathSequence param2 = new MathSequence();
+        mathContainer(param2);
+		atomic.setArgument(0, param0);
+		atomic.setArgument(1, param1);
+		atomic.setArgument(2, param2);
+		currentField.addArgument(atomic);
 	} <PARANTHESES_CLOSE>
 }
 

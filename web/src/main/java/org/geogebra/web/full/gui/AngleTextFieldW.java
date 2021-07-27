@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui;
 
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.DummyCursor;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
@@ -166,7 +167,7 @@ public class AngleTextFieldW extends GTextBox
 				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_BACKSPACE
 				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_ENTER
 				&& e.getNativeEvent().getKeyCode() != 0) {
-			if (!Browser.isiOS()) {
+			if (!NavigatorUtil.isiOS()) {
 				setCursorPos(removeDummyCursor(), false);
 			}
 			insert(Character.toString(e.getCharCode()));

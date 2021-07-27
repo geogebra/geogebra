@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.debug.Log;
 import org.gwtproject.regexp.shared.MatchResult;
 import org.gwtproject.regexp.shared.RegExp;
@@ -487,6 +488,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	public long timeoutMillis = 5000;
 	final private static String EVALFA = "evalfa(";
 	private StringBuilder expSB = new StringBuilder(EVALFA);
+	private MaxSizeHashMap<String, String> casGiacCache = new MaxSizeHashMap<>(Kernel.GEOGEBRA_CAS_CACHE_SIZE);
 
 	// eg {(ggbtmpvarx>(-sqrt(110)/5)) && ((sqrt(110)/5)>ggbtmpvarx)}
 	// eg {(ggbtmpvarx>=(-sqrt(110)/5)) && ((sqrt(110)/5)>=ggbtmpvarx)}
@@ -552,6 +554,12 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		Log.debug("input = " + input);
 
+		String cachedResult = getResultFromCache(input);
+
+		if (cachedResult != null && !cachedResult.isEmpty()) {
+			return cachedResult;
+		}
+
 		String result = evaluate(exp, getTimeoutMilliseconds());
 
 		// FIXME: This check is too heuristic: in giac.js we can get results
@@ -567,7 +575,17 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		Log.debug("result = " + result);
 
+		addResultToCache(input, result);
+
 		return result;
+	}
+
+	protected void addResultToCache(String input, String result) {
+		casGiacCache.put(input, result);
+	}
+
+	protected String getResultFromCache(String input) {
+		return casGiacCache.get(input);
 	}
 
 	/**
@@ -1480,4 +1498,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		return true;
 	}
 
+	public int getCasGiacCacheSize() {
+		return casGiacCache.size();
+	}
 }

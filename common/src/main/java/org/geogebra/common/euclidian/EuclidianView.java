@@ -514,7 +514,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	private Rectangle visibleRect;
 
-	public static class Rectangle {
+		public static class Rectangle {
 
 		private double minX;
 		private double maxX;
@@ -672,7 +672,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				5);
         setXscale(SCALE_STANDARD);
         setYscale(SCALE_STANDARD);
-
    }
 
 	protected void setMinMaxObjects() {
@@ -680,6 +679,21 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		xmaxObject = new GeoNumeric(kernel.getConstruction());
 		yminObject = new GeoNumeric(kernel.getConstruction());
 		ymaxObject = new GeoNumeric(kernel.getConstruction());
+	}
+
+	/**
+	 *
+	 * @return if spotlight is active or not
+	 */
+	public boolean hasSpotlight() {
+		return euclidianController.getSpotlight() != null;
+	}
+
+	/**
+	 * Clears spotlight
+	 */
+	public void clearSpotlight() {
+		euclidianController.clearSpotlight();
 	}
 
 	/**
@@ -2068,7 +2082,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				|| geo.isGeoInputBox()
 				|| (geo.getTrace() && !tracing)
 				|| geo.isMask()
-				|| geo instanceof GeoMindMapNode;
+				|| geo instanceof GeoMindMapNode
+				|| geo.isSpotlight();
 	}
 
 	/**
@@ -3629,6 +3644,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		adjustObjects();
 		drawMasks(g2);
+		if (hasSpotlight()) {
+			GeoElementND spotlight = euclidianController.getSpotlight();
+			Drawable d = (Drawable) getDrawableFor(spotlight);
+			if (d != null) {
+				d.draw(g2);
+			}
+		}
 	}
 
 	/**

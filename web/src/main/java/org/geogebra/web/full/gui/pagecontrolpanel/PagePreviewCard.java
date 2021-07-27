@@ -2,8 +2,8 @@ package org.geogebra.web.full.gui.pagecontrolpanel;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.CardInfoPanel;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
@@ -80,7 +80,7 @@ public class PagePreviewCard extends FlowPanel
 	private void initGUI() {
 		resetTop();
 		addStyleName("mowPagePreviewCard");
-		if (!(Browser.isMobile())) {
+		if (!(NavigatorUtil.isMobile())) {
 			addStyleName("desktop");
 		}
 
