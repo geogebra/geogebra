@@ -2070,7 +2070,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				|| (geo.getTrace() && !tracing)
 				|| geo.isMask()
 				|| geo instanceof GeoMindMapNode
-				|| geo.isRuler();
+				|| geo.isMeasurementTool();
 	}
 
 	/**
@@ -4271,7 +4271,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	private void drawRuler(GGraphics2D g2) {
 		for (Drawable d : allDrawableList) {
-			if (d.geo.isRuler()) {
+			if (d.geo.isMeasurementTool()) {
 				d.updateIfNeeded();
 				d.draw(g2);
 			}
@@ -6769,7 +6769,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * adds ruler image to canvas
 	 * @return geoImage containing ruler
 	 */
-	public GeoImage addRuler() {
+	public GeoImage addMeasurementTool(int mode, int width, int height, int posLeftCorner) {
 		return null;
 	}
 }

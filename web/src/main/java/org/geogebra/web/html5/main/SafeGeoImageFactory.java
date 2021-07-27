@@ -39,7 +39,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	private String cornerLabel1 = null;
 	private String cornerLabel2 = null;
 	private String cornerLabel4 = null;
-	private boolean storeUndoInfo = true;
+	private boolean isRuler = true;
 
 	/**
 	 * Constructor
@@ -84,15 +84,13 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	 * Create the GeoImage setup by the factory.
 	 * @param fileName of the image.
 	 * @param content of the image
-	 * @param storeUndoInfo if creation of geoImage has to be stored in undo info
 	 * @param isRuler if geoImage is a notes ruler
 	 * @return the corresponding GeoImage object
 	 */
-	public GeoImage create(String fileName, String content, boolean storeUndoInfo,
-			boolean isRuler) {
-		this.storeUndoInfo = storeUndoInfo;
+	public GeoImage create(String fileName, String content, boolean isRuler) {
+		this.isRuler = isRuler;
 		GeoImage geoImage = create(fileName, content);
-		geoImage.setRuler(isRuler);
+		geoImage.setMeasurementTool(isRuler);
 		return geoImage;
 	}
 
@@ -145,7 +143,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 					.selectAndShowSelectionUI(geoImage);
 		}
 		app.setDefaultCursor();
-		if (storeUndoInfo) {
+		if (!isRuler) {
 			app.storeUndoInfo();
 		}
 	}

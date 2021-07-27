@@ -2,7 +2,7 @@ package org.geogebra.common.euclidian;
 
 import org.geogebra.common.awt.GGraphics2D;
 
-public class RulerBoundingBox extends MediaBoundingBox {
+public class MeasurementToolBoundingBox extends MediaBoundingBox {
 
 	@Override
 	protected void drawLineToRotateHandler(GGraphics2D g2) {

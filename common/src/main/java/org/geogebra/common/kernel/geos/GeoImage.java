@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Image with given filename and corners
@@ -78,7 +79,8 @@ public class GeoImage extends GeoElement implements Locateable,
 	private GRectangle2D cropBox;
 	private boolean cropped = false;
 
-	private boolean isRuler = false;
+	//ruler or protractor
+	private boolean isMeasurementTool = false;
 
 	/**
 	 * Creates new image
@@ -1427,11 +1429,11 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	@Override
-	public boolean isRuler() {
-		return isRuler;
+	public boolean isMeasurementTool() {
+		return isMeasurementTool;
 	}
 
-	public void setRuler(boolean ruler) {
-		isRuler = ruler;
+	public void setMeasurementTool(boolean measurementTool) {
+		isMeasurementTool = measurementTool;
 	}
 }

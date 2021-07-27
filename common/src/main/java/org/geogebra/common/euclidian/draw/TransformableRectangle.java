@@ -12,7 +12,7 @@ import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.euclidian.MindMapBoundingBox;
-import org.geogebra.common.euclidian.RulerBoundingBox;
+import org.geogebra.common.euclidian.MeasurementToolBoundingBox;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
@@ -273,9 +273,13 @@ public class TransformableRectangle {
 	 */
 	public MediaBoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = geo instanceof GeoMindMapNode
-					? new MindMapBoundingBox(view, (GeoMindMapNode) geo)
-					: (geo.isRuler() ? new RulerBoundingBox() : new MediaBoundingBox());
+			if (geo instanceof GeoMindMapNode) {
+				boundingBox = new MindMapBoundingBox(view, (GeoMindMapNode) geo);
+			} else if (geo.isMeasurementTool()) {
+				boundingBox = new MeasurementToolBoundingBox();
+			} else {
+				boundingBox = new MediaBoundingBox();
+			}
 			boundingBox.setRectangle(getBounds());
 			boundingBox.setColor(view.getApplication().getPrimaryColor());
 			boundingBox.setSecondaryColor(view.getApplication().isMebis()

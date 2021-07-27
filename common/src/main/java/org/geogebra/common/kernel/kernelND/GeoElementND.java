@@ -1616,5 +1616,5 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	 */
 	boolean hasSpecialEditor();
 
-	boolean isRuler();
+	boolean isMeasurementTool();
 }

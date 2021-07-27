@@ -1922,7 +1922,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return !kernel.getLoadingMode() && isLocked()
 				&& this.getSpreadsheetCoords() != null
 				&& (type == EventType.REMOVE || !(this instanceof GeoFunction))
-				|| (type == EventType.REMOVE && isRuler());
+				|| (type == EventType.REMOVE && isMeasurementTool());
 	}
 
 	@Override
@@ -7226,7 +7226,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	@Override
-	public boolean isRuler() {
+	public boolean isMeasurementTool() {
 		return false;
 	}
 }

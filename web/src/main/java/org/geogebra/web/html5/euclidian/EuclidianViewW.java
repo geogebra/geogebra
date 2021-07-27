@@ -13,6 +13,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.EmbedManager;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianPen;
@@ -34,13 +35,13 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
@@ -1483,28 +1484,32 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public GeoImage addRuler() {
-		GeoImage ruler;
+	public GeoImage addMeasurementTool(int mode, int width, int height, int posLeftCorner) {
+		GeoImage tool;
+		SVGResource toolSVG =
+				mode == EuclidianConstants.MODE_RULER ? GuiResourcesSimple.INSTANCE.ruler() :
+						null;
 		SafeGeoImageFactory factory = new SafeGeoImageFactory(appW);
 		String path = ImageManagerW
-				.getMD5FileName("Ruler.svg",
-						GuiResourcesSimple.INSTANCE.ruler().getSafeUri().asString());
-		ruler = factory.create(path, GuiResourcesSimple.INSTANCE.ruler().getSafeUri().asString(),
-				false,
-				true);
-		app.invokeLater(() -> {
-			setRuler(ruler);
-		});
-		return ruler;
+				.getMD5FileName("MeasurementTool.svg", toolSVG.getSafeUri().asString());
+		tool = factory.create(path, toolSVG.getSafeUri().asString(), true);
+		if (NavigatorUtil.isFirefox()) {
+			app.invokeLater(() -> setMeasurementTool(tool, width, height, posLeftCorner));
+		} else {
+			setMeasurementTool(tool, width, height, posLeftCorner);
+		}
+		return tool;
 	}
 
-	private void setRuler(GeoImage ruler) {
-		kernel.getConstruction().removeFromConstructionList(ruler);
-		ruler.isProtected(EventType.REMOVE);
-		ruler.setSize(1488, 72);
-		GPoint2D loc =
-				new GPoint2D(toRealWorldCoordX(72), toRealWorldCoordY(getHeight() / 2. - 36));
-		ruler.setLocation(loc);
-		ruler.update();
+	private void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {
+		app.invokeLater(() -> {
+			kernel.getConstruction().removeFromConstructionList(tool);
+			tool.setSize(width, height);
+			GPoint2D loc =
+					new GPoint2D(toRealWorldCoordX(posLeftCorner),
+							toRealWorldCoordY(getHeight() / 2. - height / 2.));
+			tool.setLocation(loc);
+			tool.update();
+		});
 	}
 }

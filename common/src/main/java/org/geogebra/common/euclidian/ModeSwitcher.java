@@ -62,7 +62,9 @@ public class ModeSwitcher {
 				ruler.remove();
 				cons.setRuler(null);
 			} else {
-				cons.setRuler(cons.getApplication().getActiveEuclidianView().addRuler());
+				cons.setRuler(
+						cons.getApplication().getActiveEuclidianView()
+								.addMeasurementTool(EuclidianConstants.MODE_RULER, 1488, 72, 72));
 			}
 			break;
 
