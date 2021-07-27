@@ -37,6 +37,8 @@ $deleteTime: 120ms;
 			border-width: 0 1px 1px 0;
 			border-color: $black-12;
 			border-style: solid;
+			box-sizing: border-box;
+			min-width: 120px;
 		}
 
 		%cellTransition {
@@ -74,37 +76,34 @@ $deleteTime: 120ms;
 				}
 
 				th {
+					height: 56px;
 					padding: 0;
 					position: sticky;
 					top: 0;
 					background: $tableview-header;
 
-					.cell {
+					.content {
 						@extend %cellTransition;
-						margin-left: 0px;
-						margin-right: 0px;
 						text-align: center;
-						padding: 0px;
-						.content {
-							display: inline-flex;
-							margin: auto;
-							float: right;
-							color: $text-primary;
+						padding: 0;
+						display: inline-flex;
+						margin: auto;
+						float: right;
+						color: $text-primary;
 
-							.gwt-Label {
-								font-weight: bold;
-							}
+						.gwt-Label {
+							font-weight: bold;
+						}
 
-							.MyToggleButton {
-								margin: auto 3px auto 0;
-								padding: 0;
-								border: 0;
-								background-color: transparent;
+						.MyToggleButton {
+							margin: auto 4px auto 0;
+							padding: 0;
+							border: 0;
+							background-color: transparent;
 
-								img {
-									opacity: 0.54;
-									display: block;
-								}
+							img {
+								opacity: 0.54;
+								display: block;
 							}
 						}
 					}
@@ -117,27 +116,22 @@ $deleteTime: 120ms;
 			}
 			
 			td {
-				div {
+				height: 52px;
+
+				@extend %cellTransition;
+				text-align: right;
+
+				.content {
 					color: $text-primary;
 					text-align: right;
+					float: right;
+					margin-right: 28px;
 				}
-				
+
 				.delete {
 					@extend %colDelete;
 					margin-left: 16px;
 					margin-right: 32px;
-				}
-			}
-			
-			.cell {
-				@extend %cellTransition;
-				margin-left: 0px;
-				margin-right: 0px;
-				text-align: right;
-			
-				.content {
-					float: right;
-					margin-right: 28px;
 				}
 			}
 		}
