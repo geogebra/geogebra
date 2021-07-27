@@ -3602,9 +3602,7 @@ public class Construction {
 	 * @return previous element in construction order that fits the filter
 	 */
 	public GeoElementND getPrevious(GeoElementND ce1, Inspecting check) {
-		ConstructionElement ce = ce1.getParentAlgorithm() != null
-				? ce1.getParentAlgorithm()
-				: ce1.toGeoElement();
+		ConstructionElement ce = getConstructionElement(ce1);
 
 		int idx = ceList.indexOf(ce);
 		if (idx < 0) {
@@ -3616,6 +3614,32 @@ public class Construction {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * @param ce1
+	 *            construction element
+	 * @param check
+	 *            filter
+	 * @return next element in construction order that fits the filter
+	 */
+	public GeoElementND getNext(GeoElementND ce1, Inspecting check) {
+		ConstructionElement ce = getConstructionElement(ce1);
+
+		int idx = ceList.indexOf(ce);
+		if (idx < 0) {
+			return null;
+		}
+		for (int i = idx + 1; i < ceList.size(); i++) {
+			if (check.check(ceList.get(i).getGeoElements()[0])) {
+				return ceList.get(i).getGeoElements()[0];
+			}
+		}
+		return null;
+	}
+
+	private ConstructionElement getConstructionElement(GeoElementND geo) {
+		return geo.getParentAlgorithm() != null ? geo.getParentAlgorithm() : geo.toGeoElement();
 	}
 
 	/**

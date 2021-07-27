@@ -869,9 +869,13 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-		return twinGeo != null
-				? twinGeo.toLaTeXString(symbolic, isSymbolicMode(), tpl)
-				: symbolic ? getDefinition(tpl) : toValueString(tpl);
+		if (symbolicMode) {
+			return symbolic ? getDefinition(tpl) : toValueString(tpl);
+		} else if (twinGeo != null) {
+			return twinGeo.toLaTeXString(symbolic, isSymbolicMode(), tpl);
+		} else {
+			return getDefinition(tpl);
+		}
 	}
 
 	@Override
