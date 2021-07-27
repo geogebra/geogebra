@@ -27,8 +27,7 @@ class DimensionCache {
      */
     void resetCache() {
         widths = new LinkedList<>();
-        for (int i = 0; i < Math.min(dimensions.maxColumns,
-                dimensions.tableModel.getColumnCount()); i++) {
+        for (int i = 0; i < dimensions.maxColumns; i++) {
             widths.add(null);
         }
         medianWidth = null;
@@ -50,7 +49,7 @@ class DimensionCache {
         return width;
     }
 
-    private int getMedianWidth() {
+    public int getMedianWidth() {
         if (medianWidth == null) {
             medianWidth = calculateMedianWidth();
         }
@@ -59,7 +58,8 @@ class DimensionCache {
 
     private int calculateMedianWidth() {
         int[] exactWidths = new int[dimensions.maxColumns];
-        for (int i = 0; i < dimensions.maxColumns; i++) {
+        int columnCount = Math.min(dimensions.tableModel.getColumnCount(), dimensions.maxColumns);
+        for (int i = 0; i < columnCount; i++) {
             exactWidths[i] = getExactWidth(i);
         }
         return median(exactWidths);

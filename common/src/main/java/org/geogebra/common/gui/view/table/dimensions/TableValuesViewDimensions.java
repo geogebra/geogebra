@@ -93,6 +93,11 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
     }
 
     @Override
+    public int getDefaultColumnWidth() {
+        return columnCache.getMedianWidth();
+    }
+
+    @Override
     public int getColumnWidth(int column) {
         return columnCache.getWidth(column);
     }
@@ -100,6 +105,11 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
     @Override
     public int getHeaderHeight() {
 		return font.getSize() + 2 * PADDING;
+    }
+
+    @Override
+    public int getDefaultHeaderWidth() {
+        return headerCache.getMedianWidth();
     }
 
     @Override
