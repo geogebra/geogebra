@@ -991,9 +991,13 @@ public class ConstructionDefaults {
 				geo.setLabelVisible(geo.isGeoPoint() || geo.isGeoNumeric());
 				break;
 
-			default:
 			case LABEL_VISIBLE_USE_DEFAULTS:
-				// don't change anything
+				// override for 3D objects: only points and angles
+				if (geo.isGeoElement3D()) {
+					geo.setLabelVisible(geo.isGeoPoint() || geo.isGeoNumeric());
+				}
+				break;
+			default: // do nothing
 				break;
 			}
 		}
