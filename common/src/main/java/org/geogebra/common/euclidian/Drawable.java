@@ -410,7 +410,6 @@ public abstract class Drawable extends DrawableND {
 	public final void drawMultilineLaTeX(GGraphics2D g2, GFont font,
 			GColor fgColor, GColor bgColor) {
 		if (labelDesc != null) {
-
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
 					view.getTempGraphics2D(font), geo, g2, font, fgColor,
 					bgColor, labelDesc, xLabel, yLabel, isSerif(),
@@ -814,7 +813,6 @@ public abstract class Drawable extends DrawableND {
 		}
 		return AwtFactory.getPrototype().newTextLayout(text, font,
 				g2.getFontRenderContext());
-
 	}
 
 	/**
@@ -962,6 +960,12 @@ public abstract class Drawable extends DrawableND {
 		return yLabel;
 	}
 
+	/**
+	 * Label margin is used for multiline plain text rendering
+	 * (space between actual text and classic bounding box)
+	 * For consistency with normal captions set to 0 for dynamic captions.
+	 * @param labelMargin label margin
+	 */
 	public void setLabelMargin(int labelMargin) {
 		this.labelMargin = labelMargin;
 	}

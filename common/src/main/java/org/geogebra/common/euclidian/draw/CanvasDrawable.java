@@ -192,7 +192,6 @@ public abstract class CanvasDrawable extends Drawable {
 		boxTop = latex
 				? yLabel + (labelSize.y - getPreferredHeight()) / 2
 				: yLabel;
-		/*boxTop = yLabel;*/
 		boxWidth = getPreferredWidth();
 		boxHeight = getPreferredHeight();
 	}
