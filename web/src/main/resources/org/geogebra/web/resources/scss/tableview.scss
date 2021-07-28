@@ -41,6 +41,12 @@ $deleteTime: 120ms;
 			min-width: 120px;
 		}
 
+		@media screen and (max-width: 675px) {
+			td, th {
+				border-width: 1px 1px 0 0;
+			}
+		}
+
 		%cellTransition {
 			transition: width $deleteTime, margin $deleteTime ease-in;
 		}
@@ -93,17 +99,21 @@ $deleteTime: 120ms;
 
 						.gwt-Label {
 							font-weight: bold;
+							line-height: 32px;
 						}
 
 						.MyToggleButton {
-							margin: auto 4px auto 0;
-							padding: 0;
+							margin: auto 0 auto 0;
+							padding: 4px 4px 4px 0;
 							border: 0;
 							background-color: transparent;
 
 							img {
 								opacity: 0.54;
-								display: block;
+							}
+
+							&:hover img {
+								opacity: 1;
 							}
 						}
 					}
@@ -125,7 +135,7 @@ $deleteTime: 120ms;
 					color: $text-primary;
 					text-align: right;
 					float: right;
-					margin-right: 28px;
+					padding: 14px 28px 14px 16px;
 				}
 
 				.delete {
@@ -146,7 +156,6 @@ $deleteTime: 120ms;
 		}
 	
 		.outerScrollPanel{
-			/*overflow-y: hidden !important;*/
 			overflow: hidden !important;
 		}
 	
