@@ -552,20 +552,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isUnbundledOrWhiteboard()) {
 			LayoutW.resetPerspectives(this);
 		}
+
 		if (getGuiManager() != null) {
 			p = getGuiManager().getLayout().createPerspective();
 		}
-		if (isUnbundledGeometry()) {
-			p = Layout.getDefaultPerspectives(Perspective.GEOMETRY - 1);
-		}
-		if (isUnbundledGraphing() || isUnbundledCas()) {
-			p = Layout.getDefaultPerspectives(Perspective.GRAPHING - 1);
-		}
-		if (isUnbundled3D()) {
-			p = Layout.getDefaultPerspectives(Perspective.GRAPHER_3D - 1);
-		}
-		if (isWhiteboardActive()) {
-			p = Layout.getDefaultPerspectives(Perspective.NOTES - 1);
+
+		if (isUnbundledOrWhiteboard()) {
+			p = PerspectiveDecoder.getDefaultPerspective(getConfig().getForcedPerspective());
 		}
 
 		if (isPortrait()) {
@@ -598,6 +591,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			getGuiManager().getUnbundledToolbar()
 					.updateContent();
 		}
+
+		updateToolbarClosedState(getConfig().getSubAppCode());
 	}
 
 	private void resetAllToolbars() {
@@ -1672,7 +1667,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		ToolbarPanel toolbarPanel = getGuiManager().getUnbundledToolbar();
 		if (!isAvVisible) {
-			toolbarPanel.hideToolbar();
+			toolbarPanel.hideToolbarImmediate();
 			toolbarPanel.setLastOpenWidth(ToolbarPanel.OPEN_START_WIDTH_LANDSCAPE);
 		} else if (isEvVisible) {
 			invokeLater(() -> {
@@ -2014,7 +2009,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			String appCode = getConfig().getSubAppCode();
 			if (appCode != null && !appCode.equals(subApp)) {
 				this.activity = new SuiteActivity(subApp);
-				updateSymbolicFlag(subApp, p);
+				updateSidebarAndMenu(subApp, p);
 				setSuiteHeaderButton(subApp);
 			}
 		}
@@ -2250,18 +2245,16 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void reinitAlgebraView() {
-		GuiManagerW gm = getGuiManager();
-		DockPanel avPanel = gm.getLayout().getDockManager()
-				.getPanel(VIEW_ALGEBRA);
-		if (avPanel instanceof ToolbarDockPanelW) {
-			((ToolbarDockPanelW) avPanel).getToolbar().initGUI();
+		ToolbarPanel toolbar = getGuiManager().getUnbundledToolbar();
+		if (toolbar != null) {
+			toolbar.initGUI();
 		}
 	}
 
 	/**
 	 * Switch suite to the given subapp, clearing all construction, and resetting almost
 	 * all the settings
-	 * @param subAppCode "graphing", "3d", "cas" or "geometry"
+	 * @param subAppCode "graphing", "3d", "cas", "geometry" or "probability"
 	 */
 	public void switchToSubapp(String subAppCode) {
 		storeCurrentUndoHistory();
@@ -2272,13 +2265,25 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		resetToolbarPanel();
 		Perspective perspective = PerspectiveDecoder.getDefaultPerspective(
 				getConfig().getForcedPerspective());
-		updateSymbolicFlag(subAppCode, perspective);
+		updateSidebarAndMenu(subAppCode, perspective);
 		reinitSettings();
 		clearConstruction();
 		setTmpPerspective(null);
 		getGuiManager().getLayout().applyPerspective(perspective);
 		clearConstruction();
-		restoreMaterial(subAppCode);
+		if (restoreMaterial(subAppCode)) {
+			registerOpenFileListener(() -> {
+				afterMaterialRestored();
+				return true;
+			});
+		} else {
+			afterMaterialRestored();
+			updateToolbarClosedState(subAppCode);
+		}
+	}
+
+	private void afterMaterialRestored() {
+		getGuiManager().getLayout().getDockManager().adjustViews(true);
 		resetFullScreenBtn();
 		if (isExam()) {
 			Material material = getExam().getTempStorage().newMaterial();
@@ -2296,7 +2301,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		setActiveMaterial(null);
 	}
 
-	private void restoreMaterial(String subAppCode) {
+	private boolean restoreMaterial(String subAppCode) {
 		Material material = constructionJson.get(subAppCode);
 		if (material != null) {
 			Object oldConstruction = material.getContent();
@@ -2306,13 +2311,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			if (material.getId() != -1) {
 				setActiveMaterial(material);
 				updateMaterialURL(material);
-				return;
+				return true;
 			}
 		}
 
 		resetEVs();
 		resetUrl();
 		setTitle();
+		return material != null;
 	}
 
 	private void storeCurrentUndoHistory() {
@@ -2325,12 +2331,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		undoManager.undoHistoryFrom(undoHistory);
 	}
 
-	private void updateSymbolicFlag(String subAppCode, Perspective perspective) {
+	private void updateSidebarAndMenu(String subAppCode, Perspective perspective) {
 		getKernel().setSymbolicMode(
 				GeoGebraConstants.CAS_APPCODE.equals(subAppCode)
 						? SymbolicMode.SYMBOLIC_AV
 						: SymbolicMode.NONE);
 		setPerspective(perspective);
+		setUndoRedoPanelAllowed(!"probability".equals(subAppCode));
 		reinitAlgebraView();
 		if (menuViewController != null) {
 			menuViewController.resetMenuOnAppSwitch(this);
@@ -2382,5 +2389,19 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public void clearSubAppCons() {
 		constructionJson.clear();
+	}
+
+	private void updateToolbarClosedState(String subAppCode) {
+		if ("probability".equals(subAppCode)) {
+			((ProbabilityCalculatorView) getGuiManager()
+					.getProbabilityCalculator()).updateAll();
+			DockPanel avPanel = getGuiManager().getLayout().getDockManager()
+					.getPanel(VIEW_ALGEBRA);
+			if (avPanel instanceof ToolbarDockPanelW) {
+				hideKeyboard();
+				((ToolbarDockPanelW) avPanel).getToolbar().close(true, 0);
+				((ToolbarDockPanelW) avPanel).getToolbar().setAVIconNonSelect(isExam());
+			}
+		}
 	}
 }
