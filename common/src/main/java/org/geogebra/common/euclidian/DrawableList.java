@@ -64,11 +64,12 @@ public class DrawableList extends ArrayList<Drawable> {
 	public final void drawAll(GGraphics2D g2) {
 		for (Drawable d : this) {
 			GeoElement geo = d.getGeoElement();
-			if (geo.isDefined()
+			if (d.isInteractiveEditor()) {
+				d.updateIfNeeded();
+			} else if (geo.isDefined()
 					&& !(geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
 					&& !geo.isGeoInputBox() && !geo.isMask()
-					&& !geo.isSpotlight()
-					&& !d.isInteractiveEditor()) {
+					&& !geo.isSpotlight()) {
 				d.updateIfNeeded();
 				d.draw(g2);
 			}
