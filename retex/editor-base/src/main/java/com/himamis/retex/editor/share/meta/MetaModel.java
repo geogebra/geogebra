@@ -28,7 +28,9 @@
 
 package com.himamis.retex.editor.share.meta;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeSet;
 
 import com.himamis.retex.editor.share.util.Greek;
@@ -67,6 +69,7 @@ public class MetaModel {
 	private HashMap<String, MetaCharacter> mergeLookup = new HashMap<>();
 	private TreeSet<String> reverseSuffixes = new TreeSet<>();
 	private MapMetaGroup symbolGroup;
+	private List<String> inputBoxFunctionVars = new ArrayList<>();
 
 	/**
 	 * Create new meta model.
@@ -99,13 +102,39 @@ public class MetaModel {
 			if (!"psi".equals(name) && name.contains("psi")) {
 				name = name.replace("psi", Unicode.psi + "");
 			}
+			String unicode = letter.getUnicodeNonCurly() + "";
+			if (name.equals("phi")) {
+				unicode = getPhiUnicode();
+			}
 			addNamedSymbol(name,
-					symbolGroup.getComponent(letter.getUnicodeNonCurly() + ""));
+					symbolGroup.getComponent(unicode));
 		}
 		addNamedSymbol("inf",
 				symbolGroup.getComponent(Unicode.INFINITY + ""));
 		addNamedSymbol("deg",
 				symbolGroup.getComponent(Unicode.DEGREE_STRING));
+	}
+
+	/**
+	 * @return right phi unicode based on the function variable
+	 */
+	public String getPhiUnicode() {
+		if (inputBoxFunctionVars.contains(Unicode.phi + "")) {
+			return Unicode.phi + "";
+		}
+		if (inputBoxFunctionVars.contains(Unicode.Phi + "")) {
+			return Unicode.Phi + "";
+		}
+		return Unicode.phi_symbol + "";
+	}
+
+	/**
+	 *
+	 * @param functionVars function variable list
+	 */
+	public void setInputBoxFunctionVars(List<String> functionVars) {
+		inputBoxFunctionVars.clear();
+		inputBoxFunctionVars.addAll(functionVars);
 	}
 
 	/**

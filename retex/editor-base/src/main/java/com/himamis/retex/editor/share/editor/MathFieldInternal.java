@@ -349,6 +349,10 @@ public class MathFieldInternal
 			String str = AltKeys.getAltSymbols(keyCode,
 					(keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0,
 					true);
+			// handle alt+f for correct phi unicode
+			if (keyCode == 70) {
+				str = mathField.getMetaModel().getPhiUnicode();
+			}
 
 			for (int i = 0; str != null && i < str.length(); i++) {
 				keyListener.onKeyTyped(str.charAt(i), editorState);

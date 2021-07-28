@@ -130,6 +130,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 */
 	public void requestFocus() {
 		if (editable) {
+			mathField.setInputBoxFunctionVariables(app.getInputBoxFunctionVars());
 			mathField.requestViewFocus(() -> preventBlur = false);
 			app.sendKeyboardEvent(true);
 			setKeyboardVisibility(true);
