@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.app;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -35,6 +36,9 @@ public class ShowKeyboardButton extends SimplePanel {
 	public ShowKeyboardButton(final UpdateKeyBoardListener listener,
 			final DockManagerW dm, final AppWFull app) {
 		this.addStyleName("matOpenKeyboardBtn");
+		if (app.isApplet() || app.getConfig().getKeyboardType() == AppKeyboardType.SCIENTIFIC) {
+			addStyleName("cornerPosition");
+		}
 		NoDragImage showKeyboard = new NoDragImage(KeyboardResources.INSTANCE
 				.keyboard_show_material().getSafeUri().asString());
 		this.add(showKeyboard);

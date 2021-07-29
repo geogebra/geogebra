@@ -68,7 +68,7 @@ public class ToolbarPanel extends FlowPanel
 	public static final int OPEN_START_WIDTH_LANDSCAPE = 380;
 	/** Closed height of header in portrait mode */
 	public static final int CLOSED_HEIGHT_PORTRAIT = 56;
-	private static final int OPEN_ANIM_TIME = 200;
+	public static final int OPEN_ANIM_TIME = 200;
 	public static final int HEADING_HEIGHT = 48;
 	/** Header of the panel with buttons and tabs */
 	NavigationRail navRail;
@@ -84,7 +84,7 @@ public class ToolbarPanel extends FlowPanel
 	private ShowableTab tabContainer;
 	private boolean isOpen;
 	private final ScheduledCommand deferredOnRes = this::resize;
-	private UndoRedoPanel undoRedoPanel;
+	private @CheckForNull UndoRedoPanel undoRedoPanel;
 	private FlowPanel heading;
 
 	/**
@@ -127,12 +127,11 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	public void updateUndoRedoActions() {
 		if (undoRedoPanel == null) {
-			boolean panelAdded = maybeAddUndoRedoPanel();
-			if (!panelAdded) {
-				return;
-			}
+			maybeAddUndoRedoPanel();
 		}
-		undoRedoPanel.updateUndoActions();
+		if (undoRedoPanel != null) {
+			undoRedoPanel.updateUndoActions();
+		}
 	}
 
 	/**
@@ -162,35 +161,30 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void setUndoPosition(double top, double left) {
+		assert undoRedoPanel != null;
 		undoRedoPanel.setVisible(true);
 		undoRedoPanel.getElement().getStyle().setTop(top, Style.Unit.PX);
 		undoRedoPanel.getElement().getStyle().setLeft(left, Style.Unit.PX);
 	}
 
 	/**
-	 * Show the undo/redo panel.
+	 * show or hide the undo/redo panel
+	 * @param show true if show, false otherwise
 	 */
-	public void showUndoRedoPanel() {
+	public void showHideUndoRedoPanel(boolean show) {
 		if (undoRedoPanel != null) {
-			undoRedoPanel.removeStyleName("hidden");
+			Dom.toggleClass(undoRedoPanel, "hidden", !show);
 		}
 	}
 
-	/**
-	 * Hide the entire undo/redo panel (eg. during animation).
-	 */
-	public void hideUndoRedoPanel() {
-		if (undoRedoPanel != null) {
-			undoRedoPanel.addStyleName("hidden");
-		}
-	}
-
-	private boolean maybeAddUndoRedoPanel() {
+	private void maybeAddUndoRedoPanel() {
 		boolean isAllowed = app.isUndoRedoEnabled() && app.isUndoRedoPanelAllowed();
 		if (isAllowed) {
 			addUndoRedoButtons();
+		} else if (undoRedoPanel != null) {
+			undoRedoPanel.removeFromParent();
+			undoRedoPanel = null;
 		}
-		return isAllowed;
 	}
 
 	private void addUndoRedoButtons() {
@@ -334,7 +328,9 @@ public class ToolbarPanel extends FlowPanel
 			setLastOpenWidth((int) targetSize);
 			dockParent.forceLayout();
 			updateDraggerStyle();
-			undoRedoPanel.addStyleName("withTransition");
+			if (undoRedoPanel != null) {
+				undoRedoPanel.addStyleName("withTransition");
+			}
 			dockParent.setWidgetSize(getToolbarDockPanel(),	targetSize);
 			dockParent.animate(OPEN_ANIM_TIME, fullscreenClose(dockParent));
 		}
@@ -345,7 +341,9 @@ public class ToolbarPanel extends FlowPanel
 			@Override
 			public void onAnimationComplete() {
 				navRail.setAnimating(false);
-				undoRedoPanel.removeStyleName("withTransition");
+				if (undoRedoPanel != null) {
+					undoRedoPanel.removeStyleName("withTransition");
+				}
 				setLastOpenWidth(getOffsetWidth());
 				updateUndoRedoPosition();
 				heading.setVisible(false);
@@ -375,6 +373,9 @@ public class ToolbarPanel extends FlowPanel
 		if ((Perspective.GRAPHER_3D + "").equals(
 				app.getConfig().getForcedPerspective())) {
 			viewId = App.VIEW_EUCLIDIAN3D;
+		} else if ((Perspective.PROBABILITY + "").equals(
+				app.getConfig().getForcedPerspective())) {
+			viewId = App.VIEW_PROBABILITY_CALCULATOR;
 		}
 		DockPanelW opposite =
 				(DockPanelW) app.getGuiManager().getLayout().getDockManager().getPanel(viewId);
@@ -487,15 +488,19 @@ public class ToolbarPanel extends FlowPanel
 	private void doOpen() {
 		isOpen = true;
 		updateDraggerStyle();
-		updateSizes(null);
+		updateSizes(null, OPEN_ANIM_TIME);
 		updateKeyboardVisibility();
 		updatePanelVisibility(isOpen);
+	}
+
+	public void close(boolean snap) {
+		close(snap, OPEN_ANIM_TIME);
 	}
 
 	/**
 	 * Closes the toolbar.
 	 */
-	public void close(boolean snap) {
+	public void close(boolean snap, int time) {
 		if (!isOpen) {
 			return;
 		}
@@ -508,7 +513,7 @@ public class ToolbarPanel extends FlowPanel
 		}
 		updateDraggerStyle();
 		app.invokeLater(() -> {
-			updateSizes(() -> setLastOpenWidth(finalWidth));
+			updateSizes(() -> setLastOpenWidth(finalWidth), time);
 			updateKeyboardVisibility();
 			dispatchEvent(EventType.SIDE_PANEL_CLOSED);
 			updatePanelVisibility(isOpen);
@@ -544,16 +549,17 @@ public class ToolbarPanel extends FlowPanel
 		return dockPanel != null ? dockPanel.getParentSplitPane() : null;
 	}
 
-	private void updateSizes(Runnable callback) {
+	private void updateSizes(Runnable callback, int time) {
 		if (app.isPortrait()) {
 			updateHeight();
 		} else {
-			updateWidth(callback);
+			updateWidth(callback, time);
 		}
 	}
 
 	private void updateKeyboardVisibility() {
-		getFrame().showKeyboardButton(isOpen() && getSelectedTabId() != TabIds.TOOLS);
+		getFrame().showKeyboardButton((isOpen() && getSelectedTabId() != TabIds.TOOLS)
+			|| app.getGuiManager().showView(App.VIEW_PROBABILITY_CALCULATOR));
 	}
 
 	/**
@@ -568,7 +574,7 @@ public class ToolbarPanel extends FlowPanel
 	/**
 	 * updates panel width according to its state in landscape mode.
 	 */
-	public void updateWidth(Runnable callback) {
+	public void updateWidth(Runnable callback, int time) {
 		if (app.isPortrait()) {
 			return;
 		}
@@ -604,7 +610,7 @@ public class ToolbarPanel extends FlowPanel
 					}
 				};
 			}
-			dockParent.animate(OPEN_ANIM_TIME, animCallback);
+			dockParent.animate(time, animCallback);
 		}
 	}
 
@@ -1321,6 +1327,10 @@ public class ToolbarPanel extends FlowPanel
 		navRail.onClosePressed(true);
 	}
 
+	public void hideToolbarImmediate() {
+		navRail.onClose(true, 0);
+	}
+
 	private void animateHeadingHeight(int from, int to) {
 		if (!app.isPortrait()) {
 			setHeadingHeight(from);
@@ -1378,5 +1388,9 @@ public class ToolbarPanel extends FlowPanel
 		 * Called when tab is activated.
 		 */
 		protected abstract void onActive();
+	}
+
+	public void setAVIconNonSelect(boolean exam) {
+		navRail.setAVIconNonSelect(exam);
 	}
 }

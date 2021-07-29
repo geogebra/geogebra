@@ -390,7 +390,9 @@ public class TeXBuilder {
 			Atom arg1 = build(argument.getArgument(0));
 			Atom arg2 = build(argument.getArgument(1));
 			Atom arg3 = build(argument.getArgument(2));
-			return wrap(new ScriptsAtom(EmptyAtom.get(), arg1, arg2), arg3);
+			ScriptsAtom scriptsAtom = new ScriptsAtom(EmptyAtom.get(), arg1, arg2,
+					TeXConstants.Align.RIGHT);
+			return wrap(scriptsAtom, arg3);
 		default:
 			StringBuilder functionName = new StringBuilder();
 			teXSerializer.serialize(argument.getArgument(0), functionName);

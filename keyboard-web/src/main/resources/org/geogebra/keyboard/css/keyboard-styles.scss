@@ -29,16 +29,28 @@ $purple-default: #6557D2;
 		}
 	}
 
-	&.portrait.newToolbar .matOpenKeyboardBtn{
+	&.portrait.newToolbar .matOpenKeyboardBtn {
 		bottom: 64px;
+
+		&.cornerPosition {
+			bottom: 8px;
+		}
 	}
 
-	&.landscape.newToolbar .matOpenKeyboardBtn{
+	&.landscape.newToolbar .matOpenKeyboardBtn {
 		left: 72px;
+
+		&.cornerPosition {
+			left: 0;
+		}
 	}
 
-	&.landscape.newToolbar.small .matOpenKeyboardBtn{
+	&.landscape.newToolbar.small .matOpenKeyboardBtn {
 		left: 56px;
+
+		&.cornerPosition {
+			left: 0;
+		}
 	}
 
 	.matOpenKeyboardBtn:hover {

@@ -10057,7 +10057,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				&& EuclidianConstants
 						.isMoveOrSelectionModeCompatibleWithDragging(mode,
 								isDraggingOccuredBeyondThreshold())
-				&& !event.isRightClick()) {
+				&& !event.isRightClick() && !view.isPlotPanel()) {
 			if (app.getConfig().hasPreviewPoints() && previewPointHits != null
 					&& !previewPointHits.isEmpty()) {
 				hideDynamicStylebar();

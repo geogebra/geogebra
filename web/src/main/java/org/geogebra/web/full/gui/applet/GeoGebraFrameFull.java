@@ -28,7 +28,6 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
-import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -282,9 +281,7 @@ public class GeoGebraFrameFull
 		Timer timer = new Timer() {
 			@Override
 			public void run() {
-
 				scrollToInputField();
-
 			}
 		};
 		timer.schedule(0);
@@ -302,12 +299,9 @@ public class GeoGebraFrameFull
 		app.updateSplitPanelHeight();
 
 		keyboardHeight = 0;
-		keyBoard.remove(new Runnable() {
-			@Override
-			public void run() {
-				keyBoard.resetKeyboardState();
-				getApp().centerAndResizeViews();
-			}
+		keyBoard.remove(() -> {
+			keyBoard.resetKeyboardState();
+			getApp().centerAndResizeViews();
 		});
 	}
 
@@ -457,10 +451,9 @@ public class GeoGebraFrameFull
 		}
 
 		if (app.isUnbundled() && !app.isWhiteboardActive()
-				&& getGuiManager()
-						.getUnbundledToolbar() != null
-				&& !getGuiManager().getUnbundledToolbar()
-						.isOpen()) {
+				&& getGuiManager().getUnbundledToolbar() != null
+				&& !getGuiManager().getUnbundledToolbar().isOpen()
+				&& !getGuiManager().showView(App.VIEW_PROBABILITY_CALCULATOR)) {
 			return false;
 		}
 		if (NavigatorUtil.isMobile()
@@ -517,7 +510,8 @@ public class GeoGebraFrameFull
 
 	private boolean isButtonNeeded(MathKeyboardListener textField) {
 		MathKeyboardListener keyboardListener = getGuiManager().getKeyboardListener();
-		if (app.getGuiManager().hasSpreadsheetView() || app.isUnbundled()) {
+		if (app.getGuiManager().hasSpreadsheetView() || (app.isUnbundled()
+				&& !getGuiManager().showView(App.VIEW_PROBABILITY_CALCULATOR))) {
 			return keyboardListener != null;
 		}
 
@@ -756,21 +750,26 @@ public class GeoGebraFrameFull
 		add(openMenuButton);
 	}
 
-	private void attachNotesUI(AppW app) {
+	/**
+	 * Adds the notes toolbar and (if allowed) the undo panel and page control
+	 */
+	public void attachNotesUI(AppW app) {
 		initNotesLayoutIfNull(app);
 		add(notesLayout.getToolbar());
-		add(notesLayout.getUndoRedoButtons());
+		if (app.getAppletParameters().getDataParamEnableUndoRedo()) {
+			add(notesLayout.getUndoRedoButtons());
+		}
 		setPageControlButtonVisible(app.isMultipleSlidesOpen()
 				|| app.getAppletParameters().getParamShowSlides());
 	}
 
 	/**
-	 * update tools after login/logout
+	 * Remove notes toolbar and undo panel
 	 */
-	public void updateNotesMediaToolbarPanel() {
-		if (notesLayout != null && notesLayout.getToolbar() != null) {
-			((ToolbarMow) notesLayout.getToolbar()).updateMediaPanel();
-		}
+	public void detachNotesToolbarAndUndo(AppW app) {
+		initNotesLayoutIfNull(app);
+		remove(notesLayout.getToolbar());
+		remove(notesLayout.getUndoRedoButtons());
 	}
 
 	/**
