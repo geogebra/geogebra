@@ -288,7 +288,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
     		 }
 	}
 
-	.graphicsWithSpotlight {
+	.graphicsWithSpotlight .overlayGraphics {
 		z-index: $z-spotlight-graphics;
 	}
 

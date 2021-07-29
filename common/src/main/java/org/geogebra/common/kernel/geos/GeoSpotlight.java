@@ -17,9 +17,9 @@ public class GeoSpotlight extends GeoConic {
 	 */
 	public GeoSpotlight(Construction c) {
 		super(c);
-		setLabel("eq1");
 		setSphere();
 		setVisualStyle();
+		setLabel(null);
 	}
 
 	private void setSphere() {
