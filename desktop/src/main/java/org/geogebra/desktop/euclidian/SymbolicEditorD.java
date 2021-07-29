@@ -132,6 +132,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 		mathField.setForeground(GColorD.getAwtColor(getGeoInputBox().getObjectColor()));
 		box.setBorder(null);
+		g.setClip(null);
 		g.setClip(0, 0, box.getWidth(), box.getHeight());
 		mathField.scrollHorizontally(box.getWidth());
 		g.translate(DrawInputBox.TF_PADDING_HORIZONTAL - mathField.getScrollX(), 0);
