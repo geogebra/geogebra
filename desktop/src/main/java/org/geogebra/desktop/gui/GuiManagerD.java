@@ -3341,4 +3341,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
+	public void closeFullscreenView() {
+		// nothing to do here
+	}
 }

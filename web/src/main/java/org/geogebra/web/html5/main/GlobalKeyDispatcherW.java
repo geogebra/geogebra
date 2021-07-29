@@ -97,12 +97,16 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					handleCtrlAltX();
 					handled = true;
 				}
-
 				if (NavigatorUtil.isiOS() && isControlKeyDown(event)) {
 					handleIosKeyboard((char) event.getCharCode());
 					handled = true;
 				}
-
+				if (event.getCtrlKey()) {
+					event.preventDefault();
+					handleCtrlKeys(KeyCodes.translateGWTcode(event.getKeyCode()),
+							event.getShiftKey(), false, true);
+					handled = true;
+				}
 				KeyCodes kc = KeyCodes.translateGWTcode(event.getKeyCode());
 				if (kc == KeyCodes.TAB) {
 					if (!escPressed) {
@@ -309,5 +313,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	public void setEscPressed(boolean escPressed) {
 		this.escPressed = escPressed;
+	}
+
+	public boolean isEscPressed() {
+		return escPressed;
 	}
 }

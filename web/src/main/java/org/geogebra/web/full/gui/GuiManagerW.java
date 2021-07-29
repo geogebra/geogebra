@@ -2298,4 +2298,13 @@ public class GuiManagerW extends GuiManager
 	public void resetBrowserGUI() {
 		browseGUI = null;
 	}
+
+	@Override
+	public void closeFullscreenView() {
+		if (getUnbundledToolbar() != null) {
+			getUnbundledToolbar().showOppositeView();
+			getUnbundledToolbar().resizeTabs();
+			getUnbundledToolbar().closeAnimation();
+		}
+	}
 }

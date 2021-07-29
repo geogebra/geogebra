@@ -3963,6 +3963,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * @return whether we are running suite
+	 */
+	public boolean isSuite() {
+		return false;
+	}
+
+	/**
 	 * Is running mebis app.
 	 *
 	 * @return true if mebis is running.
@@ -5284,9 +5291,5 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public void setActiveMaterial(Material material) {
 		activeMaterial = material;
-	}
-
-	public boolean isSuite() {
-		return false;
 	}
 }
