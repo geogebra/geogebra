@@ -49,7 +49,7 @@ class DimensionCache {
         return width;
     }
 
-    public int getMedianWidth() {
+    private int getMedianWidth() {
         if (medianWidth == null) {
             medianWidth = calculateMedianWidth();
         }
@@ -58,8 +58,7 @@ class DimensionCache {
 
     private int calculateMedianWidth() {
         int[] exactWidths = new int[dimensions.maxColumns];
-        int columnCount = Math.min(dimensions.tableModel.getColumnCount(), dimensions.maxColumns);
-        for (int i = 0; i < columnCount; i++) {
+        for (int i = 0; i < dimensions.maxColumns; i++) {
             exactWidths[i] = getExactWidth(i);
         }
         return median(exactWidths);

@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
  */
 public class TableValuesViewDimensions implements TableValuesDimensions, TableValuesListener {
 
-	private static final int MAX_WIDTH = 280;
 	private static final int PADDING = 12;
 
     private AwtFactory factory;
@@ -93,11 +92,6 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
     }
 
     @Override
-    public int getDefaultColumnWidth() {
-        return columnCache.getMedianWidth();
-    }
-
-    @Override
     public int getColumnWidth(int column) {
         return columnCache.getWidth(column);
     }
@@ -105,11 +99,6 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
     @Override
     public int getHeaderHeight() {
 		return font.getSize() + 2 * PADDING;
-    }
-
-    @Override
-    public int getDefaultHeaderWidth() {
-        return headerCache.getMedianWidth();
     }
 
     @Override
@@ -143,8 +132,7 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
     private int getWidth(String text) {
         GTextLayout layout = factory.newTextLayout(text, font, context);
         GRectangle2D rectangle = layout.getBounds();
-        long width = Math.min(MAX_WIDTH, Math.round(Math.ceil(rectangle.getWidth())));
-        return (int) width;
+        return (int) Math.round(Math.ceil(rectangle.getWidth()));
     }
 
     /**

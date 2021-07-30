@@ -25,11 +25,6 @@ public interface TableValuesDimensions {
     int getRowHeight(int row);
 
     /**
-     * @return the default column width
-     */
-    int getDefaultColumnWidth();
-
-    /**
      * Returns the column width.
      *
      * @param column column
@@ -43,11 +38,6 @@ public interface TableValuesDimensions {
      * @return the header height
      */
     int getHeaderHeight();
-
-    /**
-     * @return the default header width
-     */
-    int getDefaultHeaderWidth();
 
     /**
      * Returns the header width.
