@@ -39,7 +39,8 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	private String cornerLabel1 = null;
 	private String cornerLabel2 = null;
 	private String cornerLabel4 = null;
-	private boolean isRuler = true;
+	private boolean isInternalFile = false;
+	private String internalFileContent;
 
 	/**
 	 * Constructor
@@ -84,14 +85,13 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	 * Create the GeoImage setup by the factory.
 	 * @param fileName of the image.
 	 * @param content of the image
-	 * @param isRuler if geoImage is a notes ruler
+	 * @param isInternalFile true if image should be put in the archive
 	 * @return the corresponding GeoImage object
 	 */
-	public GeoImage create(String fileName, String content, boolean isRuler) {
-		this.isRuler = isRuler;
-		GeoImage geoImage = create(fileName, content);
-		geoImage.setMeasurementTool(isRuler);
-		return geoImage;
+	public GeoImage create(String fileName, String content, boolean isInternalFile) {
+		this.isInternalFile = isInternalFile;
+		internalFileContent = content;
+		return create(fileName, content);
 	}
 
 	private List<ImagePreprocessor> getPreprocessors() {
@@ -114,11 +114,17 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	@Override
 	public void onReady(ImageFile imageFile) {
 		this.imageFile = imageFile;
-		imageManager.addExternalImage(imageFile.getFileName(),
-				imageFile.getContent());
-		imageManager.triggerSingleImageLoading(imageFile.getFileName(),
-				geoImage);
-		imageElement = imageManager.getExternalImage(imageFile.getFileName(), app, true);
+		if (isInternalFile) {
+			imageElement =
+					imageManager.addInternalImage(imageFile.getFileName(), internalFileContent);
+			imageElement.addEventListener("load", (event) -> geoImage.updateRepaint());
+		} else {
+			imageManager.addExternalImage(imageFile.getFileName(),
+					imageFile.getContent());
+			imageManager.triggerSingleImageLoading(imageFile.getFileName(),
+					geoImage);
+			imageElement = imageManager.getExternalImage(imageFile.getFileName(), app, true);
+		}
 
 		imageElement.addEventListener("load", (event) -> onLoad());
 		imageElement.addEventListener("error",
@@ -126,8 +132,13 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	}
 
 	private void onLoad() {
-		geoImage.setImageFileName(imageFile.getFileName(),
-				imageElement.width, imageElement.height);
+		if (isInternalFile) {
+			geoImage.setInternalImageFileName(imageFile.getFileName(),
+					imageElement.width, imageElement.height);
+		} else {
+			geoImage.setImageFileName(imageFile.getFileName(),
+					imageElement.width, imageElement.height);
+		}
 
 		if (autoCorners) {
 			app.getGuiManager().setImageCornersFromSelection(geoImage);
@@ -143,7 +154,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 					.selectAndShowSelectionUI(geoImage);
 		}
 		app.setDefaultCursor();
-		if (!isRuler) {
+		if (!isInternalFile) {
 			app.storeUndoInfo();
 		}
 	}

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -35,7 +36,6 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Image with given filename and corners
@@ -252,18 +252,36 @@ public class GeoImage extends GeoElement implements Locateable,
 	 *            height
 	 */
 	public void setImageFileName(String fileName, int width, int height) {
-
 		if (fileName == null) {
 			return;
 		}
 		if (fileName.equals(this.getGraphicsAdapter().getImageFileName())) {
 			return;
 		}
+		MyImage myImage = kernel.getApplication().getExternalImageAdapter(fileName, width, height);
+		setImageFileName(fileName, myImage);
+	}
 
+	/**
+	 * @param fileName filename
+	 * @param width width
+	 * @param height height
+	 */
+	public void setInternalImageFileName(String fileName, int width, int height) {
+		if (fileName == null) {
+			return;
+		}
+		if (fileName.equals(this.getGraphicsAdapter().getImageFileName())) {
+			return;
+		}
+		MyImage myImage = kernel.getApplication().getInternalImageAdapter(fileName, width, height);
+		setImageFileName(fileName, myImage);
+	}
+
+	private void setImageFileName(String fileName, MyImage myImage) {
 		this.getGraphicsAdapter().setImageFileNameOnly(fileName);
 
-		this.getGraphicsAdapter().setImageOnly(kernel.getApplication()
-				.getExternalImageAdapter(fileName, width, height));
+		this.getGraphicsAdapter().setImageOnly(myImage);
 		if (this.getGraphicsAdapter().getImageOnly() != null) {
 			pixelWidth = this.getGraphicsAdapter().getImageOnly().getWidth();
 			pixelHeight = this.getGraphicsAdapter().getImageOnly().getHeight();

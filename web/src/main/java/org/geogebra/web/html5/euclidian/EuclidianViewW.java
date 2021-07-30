@@ -13,7 +13,6 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.EmbedManager;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianPen;
@@ -1484,17 +1483,22 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public GeoImage addMeasurementTool(int mode, int width, int height, int posLeftCorner) {
-		GeoImage tool;
-		SVGResource toolSVG =
-				mode == EuclidianConstants.MODE_RULER ? GuiResourcesSimple.INSTANCE.ruler() :
-						null;
-		SafeGeoImageFactory factory = new SafeGeoImageFactory(appW);
-		String path = ImageManagerW
-				.getMD5FileName("MeasurementTool.svg", toolSVG.getSafeUri().asString());
+	public GeoImage addMeasurementTool(int mode, int width, int height, int posLeftCorner,
+			String fileName) {
+		GeoImage tool = new GeoImage(getKernel().getConstruction());
+		SVGResource toolSVG = GuiResourcesSimple.INSTANCE.ruler();
+		//TODO: add protractor
+//		SVGResource toolSVG =
+//				mode == EuclidianConstants.MODE_RULER ? GuiResourcesSimple.INSTANCE.ruler()
+//						: GuiResourcesSimple.INSTANCE.protractor();
+		tool.setMeasurementTool(true);
+		SafeGeoImageFactory factory = new SafeGeoImageFactory(appW, tool);
+		String path = ImageManagerW.getMD5FileName(fileName, toolSVG.getSafeUri().asString());
 		tool = factory.create(path, toolSVG.getSafeUri().asString(), true);
+
 		if (NavigatorUtil.isFirefox()) {
-			app.invokeLater(() -> setMeasurementTool(tool, width, height, posLeftCorner));
+			GeoImage finalTool = tool;
+			app.invokeLater(() -> setMeasurementTool(finalTool, width, height, posLeftCorner));
 		} else {
 			setMeasurementTool(tool, width, height, posLeftCorner);
 		}
