@@ -557,15 +557,12 @@ public abstract class GlobalKeyDispatcher {
 			break;
 
 		case A:
-			Log.debug("case A is reached");
 			if (isShiftDown) {
-				Log.debug("shift is reached");
 				if (keyboardShortcutsEnabled() && app.isUsingFullGui()
 						&& app.getGuiManager() != null) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(App.VIEW_ALGEBRA),
 							App.VIEW_ALGEBRA);
-					Log.debug("view toggled");
 					consumed = true;
 				}
 			} else {
