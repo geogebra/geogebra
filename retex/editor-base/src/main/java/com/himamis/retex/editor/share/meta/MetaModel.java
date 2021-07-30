@@ -122,9 +122,6 @@ public class MetaModel {
 		if (inputBoxFunctionVars.contains(Unicode.phi + "")) {
 			return Unicode.phi + "";
 		}
-		if (inputBoxFunctionVars.contains(Unicode.Phi + "")) {
-			return Unicode.Phi + "";
-		}
 		return Unicode.phi_symbol + "";
 	}
 

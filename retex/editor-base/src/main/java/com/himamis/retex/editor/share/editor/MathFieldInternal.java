@@ -350,7 +350,7 @@ public class MathFieldInternal
 					(keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0,
 					true);
 			// handle alt+f for correct phi unicode
-			if (keyCode == 70) {
+			if (keyCode == 70 && !((keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0)) {
 				str = mathField.getMetaModel().getPhiUnicode();
 			}
 
