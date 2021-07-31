@@ -969,4 +969,11 @@ public abstract class Drawable extends DrawableND {
 	public void setLabelMargin(int labelMargin) {
 		this.labelMargin = labelMargin;
 	}
+
+	/**
+	 * @return whether the drawable is interactive
+	 */
+	public boolean isInteractiveEditor() {
+		return false;
+	}
 }

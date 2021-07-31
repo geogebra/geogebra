@@ -53,4 +53,7 @@ public class CarotaDocument implements HasContent {
 
 	@JsProperty
 	public native void setExternalScale(double sx);
+
+	@JsProperty
+	public native void setExternalPaint(boolean externalPaint);
 }

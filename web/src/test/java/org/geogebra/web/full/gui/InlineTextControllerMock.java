@@ -135,6 +135,11 @@ public class InlineTextControllerMock implements InlineTextController {
 
 	}
 
+	@Override
+	public boolean isEditing() {
+		return false;
+	}
+
 	public VerticalAlignment getVerticalAlignment() {
 		return VerticalAlignment.TOP;
 	}
