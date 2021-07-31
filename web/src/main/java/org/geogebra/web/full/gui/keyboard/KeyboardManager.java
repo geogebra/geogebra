@@ -91,7 +91,7 @@ public class KeyboardManager
 	 */
 	public boolean shouldDetach() {
 		if (!"undef".equals(app.getAppletParameters().getParamDetachKeyboard())) {
-			return Boolean.getBoolean(app.getAppletParameters().getParamDetachKeyboard());
+			return Boolean.parseBoolean(app.getAppletParameters().getParamDetachKeyboard());
 		}
 		for (Integer viewId : this.getKeyboardViewsNoEV()) {
 			if (app.showView(viewId)) {
