@@ -1496,24 +1496,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public int getCurrentLabelingStyle() {
 		if (getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
-
 			if ((getGuiManager() != null)
-					&& getGuiManager().hasAlgebraViewShowing()) {
-				if (getAlgebraView().isVisible()) {
-					if (isView3D(getGuiManager().getLayout().getDockManager()
-							.getFocusedViewId())) {
-						// only points (and sliders and angles) are labeled
-						// for 3D
-						return ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
-					}
+					&& getGuiManager().hasAlgebraViewShowing()
+					&& getAlgebraView().isVisible()) {
 					// default behaviour for other views
 					return ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS;
-				}
-				// no AV: no label
-				return ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
 			}
+			// no AV: no label
 			return ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
-
 		}
 		return getLabelingStyle();
 	}
