@@ -230,43 +230,37 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void insertRowAbove() {
 		tableImpl.insertRowAbove();
-		updateSizes();
-		view.getApplication().storeUndoInfo();
+		updateAndStoreUndoPoint();
 	}
 
 	@Override
 	public void insertRowBelow() {
 		tableImpl.insertRowBelow();
-		updateSizes();
-		view.getApplication().storeUndoInfo();
+		updateAndStoreUndoPoint();
 	}
 
 	@Override
 	public void insertColumnLeft() {
 		tableImpl.insertColumnLeft();
-		updateSizes();
-		view.getApplication().storeUndoInfo();
+		updateAndStoreUndoPoint();
 	}
 
 	@Override
 	public void insertColumnRight() {
 		tableImpl.insertColumnRight();
-		updateSizes();
-		view.getApplication().storeUndoInfo();
+		updateAndStoreUndoPoint();
 	}
 
 	@Override
 	public void removeRow() {
 		tableImpl.removeRow();
-		updateSizes();
-		view.getApplication().storeUndoInfo();
+		updateAndStoreUndoPoint();
 	}
 
 	@Override
 	public void removeColumn() {
 		tableImpl.removeColumn();
-		updateSizes();
-		view.getApplication().storeUndoInfo();
+		updateAndStoreUndoPoint();
 	}
 
 	@Override
@@ -467,5 +461,10 @@ public class InlineTableControllerW implements InlineTableController {
 	public void setTransform(double angle, double sx, double sy) {
 		style.setProperty("transform", "rotate(" + angle + "rad) scale(" + sx + "," + sy + ")");
 		tableImpl.setExternalScale(sx);
+	}
+
+	private void updateAndStoreUndoPoint() {
+		updateSizes();
+		view.getApplication().storeUndoInfo();
 	}
 }
