@@ -231,36 +231,42 @@ public class InlineTableControllerW implements InlineTableController {
 	public void insertRowAbove() {
 		tableImpl.insertRowAbove();
 		updateSizes();
+		view.getApplication().storeUndoInfo();
 	}
 
 	@Override
 	public void insertRowBelow() {
 		tableImpl.insertRowBelow();
 		updateSizes();
+		view.getApplication().storeUndoInfo();
 	}
 
 	@Override
 	public void insertColumnLeft() {
 		tableImpl.insertColumnLeft();
 		updateSizes();
+		view.getApplication().storeUndoInfo();
 	}
 
 	@Override
 	public void insertColumnRight() {
 		tableImpl.insertColumnRight();
 		updateSizes();
+		view.getApplication().storeUndoInfo();
 	}
 
 	@Override
 	public void removeRow() {
 		tableImpl.removeRow();
 		updateSizes();
+		view.getApplication().storeUndoInfo();
 	}
 
 	@Override
 	public void removeColumn() {
 		tableImpl.removeColumn();
 		updateSizes();
+		view.getApplication().storeUndoInfo();
 	}
 
 	@Override
