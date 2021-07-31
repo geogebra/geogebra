@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -757,8 +758,9 @@ public class SelectionManager {
 	 * @return whether next element exists
 	 */
 	public boolean hasNext(GeoElement geo) {
-		List<GeoElement> tabbingOrder = getEVFilteredTabbingSet();
-		return tabbingOrder.size() != 0 && tabbingOrder.indexOf(geo) < tabbingOrder.size() - 1;
+		Stream<GeoElement> tabbingOrder = getEVFilteredTabbingStream();
+		GeoElement lastGeo = tabbingOrder.reduce((ignore, second) -> second).orElse(null);
+		return lastGeo != null && lastGeo != geo;
 	}
 
 	/**
@@ -807,7 +809,7 @@ public class SelectionManager {
 	/**
 	 * Gets the set of all objects in the order they would appear in AV if AV is
 	 * visible. For objects actually accessible by the user use
-	 * {@link #getEVFilteredTabbingSet()}
+	 * {@link #getEVFilteredTabbingStream()}
 	 * 
 	 * TODO add support for layer / object type sorting of AV
 	 *
@@ -839,9 +841,16 @@ public class SelectionManager {
 	 * @return set over which TAB iterates and belongs to the active Euclidian View.
 	 */
 	public List<GeoElement> getEVFilteredTabbingSet() {
+		return getEVFilteredTabbingStream().collect(Collectors.toList());
+	}
+
+	/**
+	 *
+	 * @return set over which TAB iterates and belongs to the active Euclidian View.
+	 */
+	public Stream<GeoElement> getEVFilteredTabbingStream() {
 		Collection<GeoElement> tabbingSet = getTabbingSet();
-		return tabbingSet.stream().filter(this::isSelectableForEV)
-				.collect(Collectors.toList());
+		return tabbingSet.stream().filter(this::isSelectableForEV);
 	}
 
 	private boolean isSelectableForEV(GeoElement geo) {
@@ -1187,8 +1196,8 @@ public class SelectionManager {
 			return false;
 		}
 
-		List<GeoElement> tabbingOrder = getEVFilteredTabbingSet();
-		return tabbingOrder.indexOf(selectedGeos.get(0)) == 0;
+		Stream<GeoElement> tabbingOrder = getEVFilteredTabbingStream();
+		return tabbingOrder.findFirst().orElse(null) == selectedGeos.get(0);
 	}
 
 	/**
@@ -1200,8 +1209,7 @@ public class SelectionManager {
 			return false;
 		}
 
-		List<GeoElement> tabbingOrder = getEVFilteredTabbingSet();
-		return tabbingOrder.indexOf(selectedGeos.get(0)) == tabbingOrder.size() - 1;
+		return !hasNext(selectedGeos.get(0));
 	}
 
 	/**

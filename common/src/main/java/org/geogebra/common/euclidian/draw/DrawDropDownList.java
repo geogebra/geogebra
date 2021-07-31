@@ -1153,10 +1153,9 @@ public final class DrawDropDownList extends CanvasDrawable
 			boolean latex = isLatexString(text);
 			if (latex) {
 				drawLatex(g2, geo0, getLabelFont(), text, xLabel,
-						boxTop + (boxHeight - labelSize.y) / 2);
+						getCaptionY(true, labelSize.y));
 			} else {
-				int textBottom = boxTop
-						+ (boxHeight + getLabelFontSize() - COMBO_TEXT_MARGIN) / 2;
+				int textBottom = getCaptionY(false, labelSize.y);
 				g2.setPaint(geo.getObjectColor());
 				g2.setFont(getLabelFont());
 				EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
@@ -1166,8 +1165,15 @@ public final class DrawDropDownList extends CanvasDrawable
 	}
 
 	@Override
+	public int getCaptionY(boolean latex, int height) {
+		return latex ? boxTop + (boxHeight - height) / 2
+				: boxTop + (boxHeight + getLabelFontSize() - COMBO_TEXT_MARGIN) / 2;
+	}
+
+	@Override
 	protected void highlightLabel(GGraphics2D g2, boolean latex) {
-		if (geo.isLabelVisible() && isHighlighted() && latex) {
+		if (geo.isLabelVisible() && isHighlighted() && latex
+				&& !geo.hasDynamicCaption()) {
 			g2.fillRect(xLabel, boxTop + (boxHeight - labelSize.y) / 2,
 					labelSize.x, labelSize.y);
 		} else {
@@ -1184,21 +1190,8 @@ public final class DrawDropDownList extends CanvasDrawable
 	}
 
 	@Override
-	protected void calculateBoxBounds(boolean latex) {
-		boxLeft = xLabel + labelSize.x + LABEL_COMBO_GAP;
-		boxTop = latex
-				? yLabel + (labelSize.y - getPreferredHeight()) / 2
-				: yLabel;
-		boxWidth = getPreferredWidth();
-		boxHeight = getPreferredHeight() + COMBO_TEXT_MARGIN;
-	}
-
-	@Override
-	protected void calculateBoxBounds() {
-		boxLeft = xLabel + LABEL_COMBO_GAP;
-		boxTop = yLabel;
-		boxWidth = getPreferredWidth();
-		boxHeight = getPreferredHeight();
+	protected int getLabelGap() {
+		return LABEL_COMBO_GAP;
 	}
 
 	private void updateMetrics(GGraphics2D g2) {
@@ -1503,7 +1496,8 @@ public final class DrawDropDownList extends CanvasDrawable
 			return 0;
 		}
 
-		return selectedDimension.getHeight() + COMBO_TEXT_MARGIN;
+		int margin = geo.isLabelVisible() ? 2 * COMBO_TEXT_MARGIN : COMBO_TEXT_MARGIN;
+		return selectedDimension.getHeight() + margin;
 	}
 
 	/**

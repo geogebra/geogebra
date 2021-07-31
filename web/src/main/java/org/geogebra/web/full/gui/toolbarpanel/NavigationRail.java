@@ -169,16 +169,15 @@ class NavigationRail extends FlowPanel {
 	 */
 	protected void onClosePressed(boolean snap) {
 		app.hideMenu();
-		onClose(snap);
+		onClose(snap, ToolbarPanel.OPEN_ANIM_TIME);
 		toolbarPanel.getFrame().showKeyBoard(false, null, true);
 	}
 
-	private void onClose(boolean snap) {
-		setAnimating(true);
+	protected void onClose(boolean snap, int time) {
 		updateIcons(null, app.isExamStarted());
 		addCloseOrientationStyles();
 		toolbarPanel.setMoveMode();
-		toolbarPanel.close(snap);
+		toolbarPanel.close(snap, time);
 		app.getAccessibilityManager().focusAnchorOrMenu();
 	}
 
@@ -292,7 +291,7 @@ class NavigationRail extends FlowPanel {
 	 * Hide the entire undo/redo panel (eg. during animation).
 	 */
 	public void hideUndoRedoPanel() {
-		toolbarPanel.hideUndoRedoPanel();
+		toolbarPanel.showHideUndoRedoPanel(false);
 	}
 
 	/**
@@ -459,7 +458,7 @@ class NavigationRail extends FlowPanel {
 		toolbarPanel.onResize();
 
 		Scheduler.get().scheduleDeferred(() -> {
-			toolbarPanel.showUndoRedoPanel();
+			toolbarPanel.showHideUndoRedoPanel(true);
 			toolbarPanel.updateUndoRedoPosition();
 			resize();
 		});
@@ -489,5 +488,9 @@ class NavigationRail extends FlowPanel {
 		setSelected(btnAlgebra, tabId == TabIds.ALGEBRA, exam);
 		setSelected(btnTools, tabId == TabIds.TOOLS, exam);
 		setSelected(btnTableView, tabId == TabIds.TABLE, exam);
+	}
+
+	public void setAVIconNonSelect(boolean exam) {
+		setSelected(btnAlgebra, false, exam);
 	}
 }

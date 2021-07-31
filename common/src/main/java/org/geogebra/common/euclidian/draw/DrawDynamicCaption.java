@@ -1,13 +1,17 @@
 package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.App;
+import org.geogebra.common.util.StringUtil;
 
 public class DrawDynamicCaption {
 	private final GeoElement geo;
@@ -27,6 +31,7 @@ public class DrawDynamicCaption {
 		this.geo = drawable.getGeoElement();
 		captionCopy = new GeoText(geo.getConstruction());
 		drawCaption = new DrawText(view, captionCopy);
+		drawCaption.setLabelMargin(0);
 	}
 
 	public boolean isEnabled() {
@@ -54,14 +59,30 @@ public class DrawDynamicCaption {
 	 * @param g2 canvas
 	 */
 	public void measure(GGraphics2D g2) {
-		drawCaption.xLabel = Integer.MIN_VALUE;
-		drawCaption.yLabel = Integer.MIN_VALUE;
+		String textString = getDynamicCaption().getTextString();
+		if (getDynamicCaption().isLaTeX()) {
+			App app = drawCaption.getView().getApplication();
+			boolean serif = StringUtil.startsWithFormattingCommand(textString);
 
-		drawCaption.draw(g2);
-		GRectangle bounds = drawCaption.getBounds();
-		if (bounds != null) {
-			captionWidth = (int) bounds.getWidth();
-			captionHeight = (int) bounds.getHeight();
+			GDimension size = app.getDrawEquation().measureEquation(app,
+					drawCaption.getGeoElement(),
+					textString, drawCaption.getTextFont(), serif);
+			if (size != null) {
+				captionWidth = size.getWidth();
+				captionHeight = Math.max(size.getHeight(),
+						(int) (1.5 * drawCaption.getTextFont().getSize()));
+			}
+		} else {
+			GFont font = drawCaption.getTextFont();
+			GTextLayout layout = Drawable.getTextLayout(textString,
+					font, g2);
+			if (layout != null) {
+				captionHeight = (int) layout.getBounds().getHeight();
+				captionWidth = (int) layout.getBounds().getWidth();
+			} else {
+				captionWidth = 0;
+				captionHeight = font.getSize();
+			}
 		}
 	}
 
@@ -110,39 +131,23 @@ public class DrawDynamicCaption {
 		if (drawable instanceof CanvasDrawable) {
 			((CanvasDrawable) drawable).labelSize.x = captionWidth;
 			((CanvasDrawable) drawable).labelSize.y = captionHeight;
-			if (drawable instanceof DrawInputBox) {
-				((CanvasDrawable) drawable).calculateBoxBounds();
-			} else if (drawable instanceof DrawDropDownList) {
-				((CanvasDrawable) drawable).calculateBoxBounds(getDynamicCaption().isLaTeX());
-			}
+			((CanvasDrawable) drawable).calculateBoxBounds();
 		}
 		return getDynamicCaption().isLaTeX();
 	}
 
 	private void position() {
-		if (drawable instanceof DrawInputBox) {
+		drawCaption.yLabel = drawable.getCaptionY(getDynamicCaption().isLaTeX(), captionHeight);
+		if (drawable instanceof CanvasDrawable) {
 			drawCaption.xLabel = drawable.xLabel - captionWidth;
-			int middle = ((CanvasDrawable) drawable).boxTop
-					+ ((CanvasDrawable) drawable).boxHeight / 2;
-			drawCaption.yLabel = getDynamicCaption().isLaTeX()
-					? middle - captionHeight / 2
-					: drawable.yLabel + ((CanvasDrawable) drawable).getTextBottom();
-		} else if (drawable instanceof DrawDropDownList) {
-			drawCaption.xLabel = drawable.xLabel;
-			drawCaption.yLabel = ((DrawDropDownList) drawable).boxTop
-					+ (((DrawDropDownList) drawable).boxHeight
-					+ ((DrawDropDownList) drawable).getLabelFontSize()
-					- DrawDropDownList.COMBO_TEXT_MARGIN) / 2;
 		} else if (drawable instanceof DrawBoolean) {
+			int margin = getDynamicCaption().isLaTeX() ? DrawBoolean.LABEL_MARGIN_LATEX
+					: DrawBoolean.LABEL_MARGIN_TEXT;
 			drawCaption.xLabel = geo.labelOffsetX
 					+ ((DrawBoolean) drawable).getCheckBoxIcon().getIconWidth()
-					+ DrawBoolean.LABEL_MARGIN_TEXT + DrawBoolean.LEGACY_OFFSET;
-			drawCaption.yLabel = geo.labelOffsetY
-					+ (((DrawBoolean) drawable).getCheckBoxIcon().getIconHeight()) / 2
-					+ DrawBoolean.LEGACY_OFFSET;
+					+ margin + DrawBoolean.LEGACY_OFFSET;
 		} else {
 			drawCaption.xLabel = drawable.xLabel;
-			drawCaption.yLabel = drawable.yLabel;
 		}
 	}
 
@@ -157,7 +162,7 @@ public class DrawDynamicCaption {
 	}
 
 	private boolean isHighlighted() {
-		return drawable.isHighlighted();
+		return (drawable instanceof CanvasDrawable) && drawable.isHighlighted();
 	}
 
 	public int getHeight() {

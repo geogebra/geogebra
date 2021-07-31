@@ -1729,9 +1729,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.calcChooser {
-			 max-width: 608px;
+			 max-width: 760px;
 			 min-height: 232px;
-			 width: 100%;
+			 width: calc(100% - 72px);
 			 padding: 48px 36px;
 			 border-radius: 2px;
 			 box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
@@ -1740,7 +1740,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				height: 48px;
 				font-size: 175%;
 				line-height: 48px;
-				max-width: 608px;
+				max-width: 760px;
 				margin-bottom: 32px;
 				text-align: center;
 			}
