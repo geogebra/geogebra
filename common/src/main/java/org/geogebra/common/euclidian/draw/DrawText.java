@@ -45,6 +45,7 @@ public final class DrawText extends Drawable {
 	 * color used to draw rectangle around text when highlighted
 	 */
 	public static final GColor HIGHLIGHT_COLOR = GColor.LIGHT_GRAY;
+	public static final int DEFAULT_MARGIN = 3;
 
 	private GeoText text;
 	private boolean isVisible;

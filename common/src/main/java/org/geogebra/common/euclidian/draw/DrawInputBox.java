@@ -86,6 +86,12 @@ public class DrawInputBox extends CanvasDrawable {
 		update();
 	}
 
+	@Override
+	public int getCaptionY(boolean laTeX, int captionHeight) {
+		return laTeX ? boxTop + boxHeight / 2 - captionHeight / 2
+				: yLabel + getTextBottom();
+	}
+
 	/**
 	 * Listens to events in this textfield
 	 * 
@@ -410,6 +416,11 @@ public class DrawInputBox extends CanvasDrawable {
 
 	private int getTextLeft() {
 		return boxLeft + TF_PADDING_HORIZONTAL;
+	}
+
+	@Override
+	protected int getLabelGap() {
+		return 2;
 	}
 
 	@Override

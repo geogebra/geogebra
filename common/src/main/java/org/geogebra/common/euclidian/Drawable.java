@@ -124,6 +124,7 @@ public abstract class Drawable extends DrawableND {
 	protected boolean firstCall = true;
 	private GeoElement geoForLabel;
 	private DrawDynamicCaption drawDynamicCaption;
+	private int labelMargin = 3;
 
 	/**
 	 * Create a default drawable. GeoElement and the view must be set
@@ -443,7 +444,7 @@ public abstract class Drawable extends DrawableND {
 			// sets labelRectangle
 			EuclidianStatic.drawMultiLineText(
 					view.getApplication(), labelDesc, xLabel, yLabel, g2,
-					isSerif(), textFont, labelRectangle, geo);
+					isSerif(), textFont, labelRectangle, geo, labelMargin);
 		} else {
 			// text with indices
 			// label description has changed, search for possible indices
@@ -452,7 +453,7 @@ public abstract class Drawable extends DrawableND {
 			labelHasIndex = EuclidianStatic
 					.drawIndexedMultilineString(view.getApplication(),
 							labelDesc, g2, labelRectangle, textFont, isSerif(),
-							xLabel, yLabel);
+							xLabel, yLabel, labelMargin);
 		}
 	}
 
@@ -806,13 +807,12 @@ public abstract class Drawable extends DrawableND {
 	 *            graphics
 	 * @return text layout
 	 */
-	public GTextLayout getTextLayout(String text, GFont font, GGraphics2D g2) {
+	public static GTextLayout getTextLayout(String text, GFont font, GGraphics2D g2) {
 		if (text == null || text.isEmpty()) {
 			return null;
 		}
 		return AwtFactory.getPrototype().newTextLayout(text, font,
 				g2.getFontRenderContext());
-
 	}
 
 	/**
@@ -954,5 +954,19 @@ public abstract class Drawable extends DrawableND {
 
 	public GBasicStroke getDecoStroke() {
 		return decoStroke;
+	}
+
+	public int getCaptionY(boolean laTeX, int captionHeight) {
+		return yLabel;
+	}
+
+	/**
+	 * Label margin is used for multiline plain text rendering
+	 * (space between actual text and classic bounding box)
+	 * For consistency with normal captions set to 0 for dynamic captions.
+	 * @param labelMargin label margin
+	 */
+	public void setLabelMargin(int labelMargin) {
+		this.labelMargin = labelMargin;
 	}
 }

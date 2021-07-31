@@ -44,7 +44,7 @@ public final class DrawBoolean extends Drawable {
 	public static final int LEGACY_OFFSET = 5;
 
 	public static final int LABEL_MARGIN_TEXT = 9;
-	private static final int LABEL_MARGIN_LATEX = 5;
+	public static final int LABEL_MARGIN_LATEX = 5;
 
 	private GeoBoolean geoBool;
 
@@ -56,7 +56,7 @@ public final class DrawBoolean extends Drawable {
 	private CheckBoxIcon checkBoxIcon;
 
 	/**
-	 * Creates new DrawText
+	 * Creates new DrawBoolean
 	 * 
 	 * @param view
 	 *            view
@@ -137,19 +137,15 @@ public final class DrawBoolean extends Drawable {
 
 				int posX = geoBool.labelOffsetX + checkBoxIcon.getIconWidth()
 						+ LABEL_MARGIN_LATEX + LEGACY_OFFSET;
-				int posY = geoBool.labelOffsetY
-						+ (checkBoxIcon.getIconHeight() - d.getHeight()) / 2 + LEGACY_OFFSET;
+				int posY = getCaptionY(true, d.getHeight());
 
 				App app = view.getApplication();
 				g2.setPaint(geo.getObjectColor());
 				g2.setColor(GColor.RED);
 
-				String caption = geoBool
-						.getCaption(StringTemplate.defaultTemplate);
-
 				app.getDrawEquation().drawEquation(app, geoBool, g2, posX, posY,
-						caption, g2.getFont(),
-						StringUtil.startsWithFormattingCommand(caption),
+						labelDesc, g2.getFont(),
+						StringUtil.startsWithFormattingCommand(labelDesc),
 						geoBool.getObjectColor(), geoBool.getBackgroundColor(),
 						false, false,
 						view.getCallBack(geo, firstCall));
@@ -167,8 +163,7 @@ public final class DrawBoolean extends Drawable {
 					textSize.x = width;
 					int left = geoBool.labelOffsetX
 							+ checkBoxIcon.getIconWidth() + LABEL_MARGIN_TEXT + LEGACY_OFFSET;
-					int top = geoBool.labelOffsetY
-							+ (checkBoxIcon.getIconHeight() + height) / 2 + LEGACY_OFFSET;
+					int top = getCaptionY(false, height);
 					EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 							labelDesc, left, top, false);
 				}
@@ -176,6 +171,14 @@ public final class DrawBoolean extends Drawable {
 
 			updateLabel();
 		}
+	}
+
+	@Override
+	public int getCaptionY(boolean latex, int height) {
+		return latex ? geoBool.labelOffsetY
+				+ (checkBoxIcon.getIconHeight() - height) / 2 + LEGACY_OFFSET
+				: geoBool.labelOffsetY
+				+ (checkBoxIcon.getIconHeight() + height) / 2 + LEGACY_OFFSET;
 	}
 
 	public CheckBoxIcon getCheckBoxIcon() {
