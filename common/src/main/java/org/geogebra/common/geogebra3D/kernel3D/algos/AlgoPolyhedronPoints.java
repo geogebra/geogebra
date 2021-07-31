@@ -483,6 +483,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 		// update height and volume
 		double h;
+		updateBottom();
 		if (height != null) {
 			h = height.getDouble();
 		} else {
@@ -509,7 +510,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	 * @param heightVal
 	 *            height
 	 */
-	protected void updateVolume(double heightVal) {
+	protected abstract void updateVolume(double heightVal);
+
+	private void updateBottom() {
 		// calc bottom area if needed
 		if (!bottomAsInput) {
 			((GeoPolygon3D) getBottom()).updateCoordSys();
