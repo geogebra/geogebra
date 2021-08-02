@@ -2768,15 +2768,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public static void addAddAllGreekLowerCaseNoPi(
 			IAxisModelListener listener) {
-
 		for (Greek greek : Greek.values()) {
 			if (!greek.upperCase && greek.unicode != Unicode.pi) {
-
-				// \u03d5 in place of \u03c6
 				listener.addAxisLabelItem(greek.getUnicodeNonCurly() + "");
 			}
 		}
-
 	}
 
 	/**

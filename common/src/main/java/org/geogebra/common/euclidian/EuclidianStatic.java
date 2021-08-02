@@ -611,7 +611,7 @@ public class EuclidianStatic {
 	 */
 	public final static GRectangle drawMultiLineText(App app, String labelDesc,
 			int xLabel, int yLabel, GGraphics2D g2, boolean serif,
-			GFont textFont, GRectangle ret, GeoElement geo) {
+			GFont textFont, GRectangle ret, GeoElement geo, int margin) {
 
 		int lines = 0;
 		int fontSize = textFont.getSize();
@@ -666,7 +666,8 @@ public class EuclidianStatic {
 		// labelRectangle.setLocation(xLabel, yLabel - fontSize);
 		int height = (int) ((lines + 1) * lineSpread);
 
-		ret.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6, height + 6);
+		ret.setBounds(xLabel - margin, yLabel - fontSize - margin,
+				xoffset + 2 * margin, height + 2 * margin);
 		return ret;
 	}
 
@@ -691,7 +692,7 @@ public class EuclidianStatic {
 	 */
 	public static boolean drawIndexedMultilineString(App app, String labelDesc,
 			GGraphics2D g2, GRectangle labelRectangle, GFont textFont,
-			boolean serif, int xLabel, int yLabel) {
+			boolean serif, int xLabel, int yLabel, int margin) {
 		// draw text line by line
 		int lineBegin = 0;
 		int lines = 0;
@@ -734,7 +735,8 @@ public class EuclidianStatic {
 		}
 
 		int height = (int) ((lines + 1) * lineSpread);
-		labelRectangle.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6, height + 6);
+		labelRectangle.setBounds(xLabel - margin, yLabel - fontSize - margin,
+				xoffset + 2 * margin, height + 2 * margin);
 
 		return yoffset > 0;
 	}

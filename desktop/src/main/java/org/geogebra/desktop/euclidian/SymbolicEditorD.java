@@ -127,18 +127,19 @@ public class SymbolicEditorD extends SymbolicEditor {
 				? getGeoInputBox().getBackgroundColor() : view.getBackgroundCommon();
 
 		g.saveTransform();
-		g.translate(box.getX(), baseline - (double) (box.getHeight()) / 2);
-		view.getTextField().drawBounds(g, bgColor, 0, 0, box.getWidth(), box.getHeight());
+		int boxY = (int) (baseline - (double) (box.getHeight()) / 2);
+		int boxX = box.getX();
+		view.getTextField().drawBounds(g, bgColor, boxX, boxY, box.getWidth(), box.getHeight());
 
 		mathField.setForeground(GColorD.getAwtColor(getGeoInputBox().getObjectColor()));
 		box.setBorder(null);
-		g.setClip(0, 0, box.getWidth(), box.getHeight());
+		g.setClip(boxX, boxY, box.getWidth(), box.getHeight());
 		mathField.scrollHorizontally(box.getWidth());
-		g.translate(DrawInputBox.TF_PADDING_HORIZONTAL - mathField.getScrollX(), 0);
+		g.translate(boxX + DrawInputBox.TF_PADDING_HORIZONTAL - mathField.getScrollX(), boxY);
 		box.paint(GGraphics2DD.getAwtGraphics(g));
-		g.resetClip();
 
 		g.restoreTransform();
+		g.resetClip();
 	}
 
 	@Override

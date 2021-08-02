@@ -262,13 +262,11 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		if (editor.getWidget().getElement().hasClassName(INVISIBLE)) {
-			GAffineTransform res = AwtFactory.getTranslateInstance(DrawInlineText.PADDING,
-					DrawInlineText.PADDING + getValignPadding());
-			g2.transform(res);
-			g2.setColor(GColor.BLACK);
-			editor.draw(((GGraphics2DWI) g2).getContext());
-		}
+		GAffineTransform res = AwtFactory.getTranslateInstance(DrawInlineText.PADDING,
+				DrawInlineText.PADDING + getValignPadding());
+		g2.transform(res);
+		g2.setColor(GColor.BLACK);
+		editor.draw(((GGraphics2DWI) g2).getContext());
 	}
 
 	private int getValignPadding() {
@@ -346,6 +344,11 @@ public class InlineTextControllerW implements InlineTextController {
 		updateVerticalAlign();
 		style.setProperty("transform", "rotate(" + angle + "rad) scale(" + sx + "," + sy + ")");
 		editor.setExternalScale(sx);
+	}
+
+	@Override
+	public boolean isEditing() {
+		return !editor.getWidget().getElement().hasClassName(INVISIBLE);
 	}
 
 }
