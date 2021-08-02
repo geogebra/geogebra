@@ -11,6 +11,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
+import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
@@ -116,7 +117,7 @@ public class EuclidianViewW extends EuclidianView implements
 	private GGraphics2DWI g2p = null;
 	private GGraphics2D g2dtemp;
 	private GGraphics2DW g4copy = null;
-	private GGraphics2DWI penCanvas;
+	private GGraphics2DWI overlayGraphics;
 
 	private GColor backgroundColor = GColor.WHITE;
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
@@ -145,6 +146,7 @@ public class EuclidianViewW extends EuclidianView implements
 	// needed to make sure outline doesn't get dashed
 	private GBasicStroke outlineStroke = AwtFactory.getPrototype()
 			.newBasicStroke(3, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_BEVEL);
+
 	/**
 	 * cache state
 	 * true: currently using cache
@@ -262,11 +264,8 @@ public class EuclidianViewW extends EuclidianView implements
 				|| kernel.needToShowAnimationButton()
 				|| getBackgroundType() != BackgroundType.NONE) {
 			g2.drawImage(bgImage, 0, 0);
-		} else if (!hasSpotlight()) {
-			((GGraphics2DWI) g2).fillWith(getBackgroundCommon());
 		} else {
-			g2.clearRect(0, 0, ((GGraphics2DWI) g2).getCoordinateSpaceWidth(),
-					((GGraphics2DWI) g2).getCoordinateSpaceHeight());
+			((GGraphics2DWI) g2).fillWith(getBackgroundCommon());
 		}
 	}
 
@@ -278,17 +277,20 @@ public class EuclidianViewW extends EuclidianView implements
 		long time = System.currentTimeMillis();
 
 		if (cacheGraphics != null && cacheGraphics) {
-			penCanvas.clearRect(0, 0, getWidth(), getHeight());
-			getEuclidianController().getPen().repaintIfNeeded(penCanvas);
+			overlayGraphics.clearRect(0, 0, getWidth(), getHeight());
+			getEuclidianController().getPen().repaintIfNeeded(overlayGraphics);
 		} else {
 			g2p.resetLayer();
 			updateBackgroundIfNecessary();
 			paint(g2p);
 			MultiuserManager.INSTANCE.paintInteractionBoxes(this, g2p);
 
-			if (cacheGraphics != null) {
+			if (cacheGraphics != null && getEuclidianController().getSpotlight() == null) {
 				cacheGraphics = null;
-				penCanvas.clearAll();
+				overlayGraphics.clearAll();
+
+			} else if (hasSpotlight()) {
+				drawSpotlight();
 			}
 		}
 
@@ -1454,7 +1456,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void invalidateCache() {
-		if (penCanvas != null) {
+		if (overlayGraphics != null) {
 			cacheGraphics = false;
 		}
 	}
@@ -1465,18 +1467,44 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public void cacheGraphics() {
 		cacheGraphics = true;
-		if (penCanvas == null) {
+		initOverlayGraphics();
+	}
+
+	private void initOverlayGraphics() {
+		if (overlayGraphics == null) {
 			Canvas pCanvas = Canvas.createIfSupported();
-			penCanvas = new GGraphics2DW(pCanvas);
-			penCanvas.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
-			penCanvas.setDevicePixelRatio(appW.getPixelRatio());
+			overlayGraphics = new GGraphics2DW(pCanvas);
+			overlayGraphics.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+			overlayGraphics.setDevicePixelRatio(appW.getPixelRatio());
 			g2p.getElement().getParentElement()
-					.appendChild(penCanvas.getElement());
+					.appendChild(overlayGraphics.getElement());
+			overlayGraphics.getElement().addClassName("overlayGraphics");
 		}
 		EuclidianPen pen = getEuclidianController().getPen();
-		penCanvas.setCoordinateSpaceSize(getWidth(), getHeight());
-		penCanvas.setStroke(EuclidianStatic.getStroke(pen.getPenSize(),
+		overlayGraphics.setCoordinateSpaceSize(getWidth(), getHeight());
+		overlayGraphics.setStroke(EuclidianStatic.getStroke(pen.getPenSize(),
 				pen.getPenLineStyle(), GBasicStroke.JOIN_ROUND));
-		penCanvas.setColor(pen.getPenColor());
+		overlayGraphics.setColor(pen.getPenColor());
+	}
+
+	@Override
+	public void clearSpotlight() {
+		super.clearSpotlight();
+		overlayGraphics.clearAll();
+	}
+
+	private void drawSpotlight() {
+		if (overlayGraphics == null) {
+			initOverlayGraphics();
+		}
+		overlayGraphics.clearAll();
+		GeoElementND spotlight = euclidianController.getSpotlight();
+		Drawable d = (Drawable) getDrawableFor(spotlight);
+		if (d != null) {
+			d.draw(overlayGraphics);
+		}
+		if (getBoundingBox() != null) {
+			getBoundingBox().draw(overlayGraphics);
+		}
 	}
 }
