@@ -430,9 +430,20 @@ public class FunctionParser {
 			return new Equation(kernel, buildOpNode(op, vars), rhs).wrap();
 		}
 		GeoElement existing = kernel.lookupLabel(funLabel);
-		if (existing instanceof GeoSymbolic) {
-			ExpressionNode lhs = new ExpressionNode(kernel, existing, Operation.FUNCTION,
-					new FunctionVariable(kernel, localVars.get(0)));
+		if (existing instanceof GeoSymbolic && functionVariablesAreEqual(
+				((GeoSymbolic) existing).getFunctionVariables(), localVars)) {
+			ExpressionNode lhs = null;
+			if (localVars.size() == 1) {
+				lhs = new ExpressionNode(kernel, existing, Operation.FUNCTION,
+						new FunctionVariable(kernel, localVars.get(0)));
+
+			} else { // assume localVars.size() > 1
+				MyList argList = new MyList(kernel);
+				for (String localVar : localVars) {
+					argList.addListElement(new FunctionVariable(kernel, localVar));
+				}
+				lhs = new ExpressionNode(kernel, existing, Operation.FUNCTION_NVAR, argList);
+			}
 			return new Equation(kernel, lhs, rhs).wrap();
 		}
 		FunctionVariable[] funVar = new FunctionVariable[n];
@@ -444,6 +455,20 @@ public class FunctionParser {
 		rhs = new ExpressionNode(kernel, fun);
 		rhs.setLabel(funLabel);
 		return rhs;
+	}
+
+	private boolean functionVariablesAreEqual(FunctionVariable[] vars, List<String> localVars) {
+		if (vars.length != localVars.size()) {
+			return false;
+		}
+		for (int i = 0; i < vars.length; i++) {
+			FunctionVariable var = vars[i];
+			String localVar = localVars.get(i);
+			if (!localVar.equals(var.getSetVarString())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
