@@ -701,4 +701,8 @@ public class AppletParameters {
 	public boolean getParamUseLocalizedPointNames() {
 		return getBoolDataParam("useLocalizedPointNames", true);
 	}
+
+	public String getParamDetachKeyboard() {
+		return getStringDataParam("detachKeyboard", "undef");
+	}
 }
