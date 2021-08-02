@@ -284,8 +284,6 @@ public class GGraphics2DD implements GGraphics2D {
 
 	@Override
 	public void setClip(int x, int y, int width, int height) {
-		impl.setClip(x, y, width, height);
-
 		Shape oldClip = impl.getClip();
 		if (oldClip == null) {
 			impl.setClip(x, y, width, height);
