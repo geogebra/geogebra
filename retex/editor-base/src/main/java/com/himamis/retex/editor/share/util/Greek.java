@@ -157,8 +157,6 @@ public enum Greek {
 		int i = 0;
 		for (Greek greek : Greek.values()) {
 			if (!greek.upperCase && greek.unicode != Unicode.pi) {
-
-				// \u03d5 in place of \u03c6
 				greekLowerCaseNoPi[i++] = greek.getUnicodeNonCurly();
 			}
 		}

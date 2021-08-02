@@ -27,6 +27,7 @@
 package com.himamis.retex.editor.web;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.gwtproject.timer.client.Timer;
@@ -1253,5 +1254,13 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	public ColorW getBackgroundColor() {
 		return backgroundColor;
+	}
+
+	/**
+	 * @param funcVars function variables of the input box
+	 */
+	public void setInputBoxFunctionVariables(List<String> funcVars) {
+		metaModel.setInputBoxFunctionVars(funcVars);
+		metaModel.enableSubstitutions();
 	}
 }
