@@ -409,6 +409,7 @@ public class FunctionParser {
 		// Derivative[f(x)]+x #4533
 		if (rhs.getLeft() instanceof Command && !rhs.containsFreeFunctionVariable(null)) {
 			rhs.setLabel(funLabel);
+			rhs.setLocalVariables(localVars);
 			return rhs;
 		}
 

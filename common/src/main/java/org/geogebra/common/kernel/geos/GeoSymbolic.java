@@ -348,6 +348,10 @@ public class GeoSymbolic extends GeoElement
 		ExpressionValue def = getDefinition().unwrap();
 		if (def instanceof FunctionNVar) {
 			setVariables(((FunctionNVar) def).getFunctionVariables());
+		} else if (getDefinition().getLocalVariables().size() > 0) {
+			for (String localVar : getDefinition().getLocalVariables()) {
+				fVars.add(new FunctionVariable(kernel, localVar));
+			}
 		} else if (def instanceof Command || getDefinition().containsFreeFunctionVariable(null)) {
 			FunctionVarCollector functionVarCollector = FunctionVarCollector
 					.getCollector();
