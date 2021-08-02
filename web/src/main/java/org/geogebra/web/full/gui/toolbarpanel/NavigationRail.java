@@ -259,9 +259,6 @@ class NavigationRail extends FlowPanel {
 		}
 		boolean external = isHeaderExternal();
 		btnMenu.setExternal(external);
-		if (center != null) {
-			center.setStyleName("withMenu", !external);
-		}
 		if (external) {
 			btnMenu.addToGlobalHeader();
 			addShareButton();
@@ -358,7 +355,6 @@ class NavigationRail extends FlowPanel {
 		if (isAnimating()) {
 			return;
 		}
-		updateMenuPosition();
 		updateStyle();
 	}
 
