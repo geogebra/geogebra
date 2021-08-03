@@ -298,12 +298,19 @@
             if (last.type == "addObject") {
                 if (target.api.exists(last.label)) {
                     if (this.clientId == Math.min(...this.users.filter(Boolean).map(u => u.id))) {
+                        let counter = 1;
+                        let newLabel;
+                        do {
+                            newLabel = last.label + "_" + counter;
+                            counter++;
+                        } while (target.api.exists(newLabel));
+
                         this.unregisterListeners();
-                        const newLabel = last.label + "_1";
                         target.api.renameObject(last.label, newLabel);
+                        this.registerListeners();
+
                         target.evalXML(last.content);
                         target.api.previewRefresh();
-                        this.registerListeners();
                         this.sendEvent("conflictResolution", target.api.getXML(newLabel), last.label);
                     } else {
                         conflictedObjects.push(last.label);
