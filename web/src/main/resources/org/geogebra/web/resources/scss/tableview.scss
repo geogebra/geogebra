@@ -26,6 +26,12 @@ $deleteTime: 120ms;
 		visibility: hidden;
 	}
 
+	&.portrait .tvTable {
+		td, th {
+			border-width: 1px 1px 0 0;
+		}
+	}
+
 	.tvTable {
 		@mixin textSelect($type) {
 			user-select: $type;
@@ -39,12 +45,6 @@ $deleteTime: 120ms;
 			border-style: solid;
 			box-sizing: border-box;
 			min-width: 120px;
-		}
-
-		@media screen and (max-width: 675px) {
-			td, th {
-				border-width: 1px 1px 0 0;
-			}
 		}
 
 		%cellTransition {
@@ -91,13 +91,14 @@ $deleteTime: 120ms;
 					.content {
 						@extend %cellTransition;
 						text-align: center;
-						padding: 0;
+						padding: 12px 0 12px 16px;
 						display: inline-flex;
 						margin: auto;
 						float: right;
 						color: $text-primary;
 
 						.gwt-Label {
+							font-size: 100%;
 							font-weight: bold;
 							line-height: 32px;
 						}
@@ -132,6 +133,7 @@ $deleteTime: 120ms;
 				text-align: right;
 
 				.content {
+					font-size: 100%;
 					color: $text-primary;
 					text-align: right;
 					float: right;

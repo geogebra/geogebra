@@ -81,8 +81,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		tableModel.registerListener(this);
 		reset();
 		addCellClickHandler((row, column, el) -> {
-			if (el != null && el.getParentNode() != null
-					&& el.getParentElement().hasClassName("MyToggleButton")) {
+			if (el != null && (el.hasClassName("MyToggleButton") || el.getParentNode() != null
+					&& el.getParentElement().hasClassName("MyToggleButton"))) {
 				onHeaderClick(el, column);
 			} else if (row < tableModel.getRowCount()
 					&& column < tableModel.getColumnCount()) {
