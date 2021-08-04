@@ -78,7 +78,7 @@ public class AlgoAngleLines3D extends AlgoAngleLinesND {
 
 	@Override
 	public void compute() {
-
+		o = Coords.UNDEFINED; // for drawing
 		if (!getg().isDefined() || !geth().isDefined()) {
 			getAngle().setUndefined();
 			return;
@@ -99,7 +99,6 @@ public class AlgoAngleLines3D extends AlgoAngleLinesND {
 					|| !((GeoElement) geth()).isGeoRay()
 					|| DoubleUtil.isGreaterEqual(v1.dotproduct(v2), 0)) {
 				getAngle().setValue(0);
-				o = Coords.UNDEFINED; // for drawing
 				return;
 			}
 
@@ -199,7 +198,12 @@ public class AlgoAngleLines3D extends AlgoAngleLinesND {
 
 	@Override
 	public AlgoAngleLines3D copy() {
-		return new AlgoAngleLines3D(g.copy(), h.copy());
+		AlgoAngleLines3D copy = new AlgoAngleLines3D(g.copy(), h.copy());
+		copy.o = o.copy();
+		copy.v1 = v1.copy();
+		copy.v2 = v2.copy();
+		copy.vn = vn.copy();
+		return copy;
 	}
 
 }

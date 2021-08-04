@@ -5,8 +5,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.properties.BorderType;
-import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
-import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 
 public interface InlineTableController extends HasTextFormat {
 
@@ -31,8 +29,6 @@ public interface InlineTableController extends HasTextFormat {
 	 * @param height height
 	 */
 	void setHeight(double height);
-
-	void setAngle(double angle);
 
 	void removeFromDom();
 
@@ -82,14 +78,6 @@ public interface InlineTableController extends HasTextFormat {
 
 	String getRotation();
 
-	VerticalAlignment getVerticalAlignment();
-
-	void setVerticalAlignment(VerticalAlignment alignment);
-
-	HorizontalAlignment getHorizontalAlignment();
-
-	void setHorizontalAlignment(HorizontalAlignment alignment);
-
 	void setHeading(GColor color, boolean isRow);
 
 	void saveContent();
@@ -100,5 +88,5 @@ public interface InlineTableController extends HasTextFormat {
 
 	int getSelectedColumn();
 
-	void setScale(double sx, double sy);
+	void setTransform(double angle, double sx, double sy);
 }

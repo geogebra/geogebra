@@ -1788,7 +1788,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * Cursor listener
 	 */
 	public void onCursorMove() {
-		getMathField().scrollParentHorizontally(latexItem, 20);
+		getMathField().scrollParentHorizontally(latexItem);
 	}
 
 	/**

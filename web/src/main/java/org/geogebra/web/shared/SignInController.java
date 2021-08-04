@@ -9,8 +9,6 @@ import org.geogebra.web.html5.gui.util.Cookies;
 import org.geogebra.web.shared.ggtapi.StaticFileUrls;
 import org.gwtproject.timer.client.Timer;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 
 /**
@@ -58,8 +56,8 @@ public class SignInController implements EventRenderable, SignInControllerI {
 
 	@Override
 	public void renderEvent(BaseEvent event) {
-		if (event instanceof LoginEvent && this.loginChecker != null) {
-			this.loginChecker.cancel();
+		if (event instanceof LoginEvent && loginChecker != null) {
+			loginChecker.cancel();
 		}
 	}
 
@@ -69,12 +67,9 @@ public class SignInController implements EventRenderable, SignInControllerI {
 	public Button getButton() {
 		Button button = new Button(app.getLocalization().getMenu("SignIn"));
 		button.addStyleName("signInButton");
-		button.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				SignInController.this.login();
-				initLoginTimer();
-			}
+		button.addClickHandler(event -> {
+			login();
+			initLoginTimer();
 		});
 		return button;
 	}
@@ -93,7 +88,7 @@ public class SignInController implements EventRenderable, SignInControllerI {
 					if (cookie != null && !cookie.equals(oldCookie)) {
 						app.getLoginOperation().getGeoGebraTubeAPI()
 								.performCookieLogin(app.getLoginOperation());
-						this.oldCookie = cookie;
+						oldCookie = cookie;
 					}
 				}
 			};

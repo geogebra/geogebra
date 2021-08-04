@@ -32,6 +32,9 @@ public final class AppDescription {
 		case GeoGebraConstants.CAS_APPCODE:
 			return new AppDescription(res.cas_white_bg(),
 					"CAS");
+		case GeoGebraConstants.PROBABILITY_APPCODE:
+			return new AppDescription(res.menu_icon_probability_transparent(),
+					"Probability");
 		case GeoGebraConstants.GRAPHING_APPCODE:
 		default:
 			return new AppDescription(res.menu_icon_algebra_transparent(),

@@ -25,9 +25,6 @@ import org.geogebra.desktop.main.AppD;
 class ComboPanel extends JPanel implements ActionListener,
 		SetLabels, UpdateFonts, UpdateablePropertiesPanel,
 		GeoComboListener {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	private final Localization loc;
 	private JLabel label;
@@ -110,7 +107,7 @@ class ComboPanel extends JPanel implements ActionListener,
 
 	@Override
 	public void updateVisualStyle(GeoElement geo) {
-		// TODO Auto-generated method stub
+		// nothing to do here
 	}
 
 	@Override

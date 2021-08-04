@@ -47,7 +47,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -374,12 +373,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		gridPanel.addBitlessDomHandler(ml, TouchEndEvent.getType());
 		gridPanel.addDomHandler(ml, MouseOutEvent.getType());
 
-		upperLeftCorner.addBitlessDomHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				selectAll();
-			}
-		}, ClickEvent.getType());
+		upperLeftCorner.addBitlessDomHandler(event -> selectAll(), ClickEvent.getType());
 
 		ClickStartHandler.init(gridPanel, new ClickStartHandler() {
 

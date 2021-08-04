@@ -8,6 +8,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianStatic;
+import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
@@ -276,7 +277,7 @@ public class DrawLabel3D {
 		
 		GRectangle rectangle = EuclidianStatic.drawMultiLineText(
 				view.getApplication(), text, 0, 0, tempGraphics, false, font,
-				AwtFactory.getPrototype().newRectangle(), null);
+				AwtFactory.getPrototype().newRectangle(), null, DrawText.DEFAULT_MARGIN);
 		if (text.contains("_")) { // text contains subscript
 			hasIndex = true;
 			GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(),

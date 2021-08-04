@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the ReTeX library - https://github.com/himamis/ReTeX
  *
  * Copyright (C) 2015 Balazs Bencze
@@ -28,35 +28,46 @@ package com.himamis.retex.editor.desktop.event;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import com.himamis.retex.editor.desktop.MathFieldD;
 import com.himamis.retex.editor.share.event.ClickListener;
 
 public class ClickListenerAdapter extends MouseAdapter {
 
-	private ClickListener clickListener;
-	
-	public ClickListenerAdapter(ClickListener clickListener) {
+	private final MathFieldD mathField;
+	private final ClickListener clickListener;
+
+	/**
+	 * @param field math field component
+	 * @param clickListener xross-platform listener
+	 */
+	public ClickListenerAdapter(MathFieldD field,ClickListener clickListener) {
 		this.clickListener = clickListener;
+		this.mathField = field;
 	}
-	
+
 	@Override
 	public void mousePressed(MouseEvent e) {
-		clickListener.onPointerDown(e.getX(), e.getY());
+		clickListener.onPointerDown(getX(e), e.getY());
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		clickListener.onPointerMove(e.getX(), e.getY());
+		clickListener.onPointerMove(getX(e), e.getY());
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		clickListener.onPointerUp(e.getX(), e.getY());
+		clickListener.onPointerUp(getX(e), e.getY());
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getClickCount() > 1) {
-			clickListener.onLongPress(e.getX(), e.getY());
+			clickListener.onLongPress(getX(e), e.getY());
 		}
+	}
+
+	private int getX(MouseEvent e) {
+		return e.getX() + mathField.getScrollX();
 	}
 }

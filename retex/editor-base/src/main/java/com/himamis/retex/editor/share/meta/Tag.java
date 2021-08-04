@@ -41,6 +41,10 @@ public enum Tag {
 
 	VEC("$vec"),
 
+	ATOMIC_PRE("$atomicpre"),
+
+	ATOMIC_POST("$atomicpost"),
+
 	APPLY,
 
 	ABS("abs"),

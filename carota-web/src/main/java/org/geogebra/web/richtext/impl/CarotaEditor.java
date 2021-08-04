@@ -27,6 +27,7 @@ public class CarotaEditor implements Editor {
 	public CarotaEditor(int padding) {
 		widget = createWidget(padding);
 		editor = Carota.get().getEditor().create(widget.getElement());
+		editor.setExternalPaint(true);
 	}
 
 	private Widget createWidget(int padding) {

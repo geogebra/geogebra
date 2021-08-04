@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -12,6 +13,8 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
+import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -29,7 +32,6 @@ import com.google.j2objc.annotations.Weak;
 
 /**
  * Processor for symbolic elements
- *
  * @author Zbynek
  */
 public class SymbolicProcessor {
@@ -60,6 +62,24 @@ public class SymbolicProcessor {
 			}
 			return v instanceof GeoDummyVariable && ((GeoDummyVariable) v)
 					.getVarName().equals(label);
+		}
+	}
+
+	private static final class MyArbitraryConstantExtractor implements Inspecting {
+
+		private MyArbitraryConstant constant;
+
+		public MyArbitraryConstant getConstant() {
+			return constant;
+		}
+
+		@Override
+		public boolean check(ExpressionValue v) {
+			if (v instanceof GeoSymbolic) {
+				constant = ((GeoSymbolic) v).getArbitraryConstant();
+				return true;
+			}
+			return false;
 		}
 	}
 
@@ -140,7 +160,7 @@ public class SymbolicProcessor {
 		if (noDummyVars.size() > 0) {
 			AlgoDependentSymbolic ads =
 					new AlgoDependentSymbolic(cons,
-					replaced, noDummyVars, info.getArbitraryConstant());
+							replaced, noDummyVars, info.getArbitraryConstant());
 			if (info.isLabelOutput()) {
 				ads.addToConstructionList();
 			}
@@ -159,8 +179,7 @@ public class SymbolicProcessor {
 	}
 
 	/**
-	 * @param ve
-	 *            input expression
+	 * @param ve input expression
 	 * @return processed geo
 	 */
 	protected GeoSymbolic evalSymbolicNoLabel(ExpressionValue ve, EvalInfo info) {
@@ -174,34 +193,45 @@ public class SymbolicProcessor {
 			}
 		}
 		EvalInfo subInfo = new EvalInfo().withArbitraryConstant(info.getArbitraryConstant());
-		ExpressionNode replaced = ve
-				.traverse(new SubExpressionEvaluator(this, ve, subInfo)).wrap();
+		MyArbitraryConstantExtractor extractor = new MyArbitraryConstantExtractor();
+		SubExpressionEvaluator evaluator = new SubExpressionEvaluator(this, ve, subInfo);
+		ExpressionNode replaced = ve.traverse(evaluator).wrap();
+		replaced.inspect(extractor);
+		EvalInfo newInfo = info;
+		if (extractor.getConstant() != null) {
+			newInfo = info.withArbitraryConstant(extractor.getConstant());
+		}
 		if (replaced.inspect(new RecursiveEquationFinder(ve))) {
 			replaced = new Equation(kernel,
 					new GeoDummyVariable(cons, ve.wrap().getLabel()), replaced)
 					.wrap();
 			ve.wrap().setLabel(null);
 		}
-		return doEvalSymbolicNoLabel(replaced, info);
+		return doEvalSymbolicNoLabel(replaced, newInfo);
 	}
 
 	/**
-	 * @param equ
-	 *            equation
-	 * @param info
-	 *            evaluation flags
+	 * @param equ equation
+	 * @param info evaluation flags
 	 * @return equation or assignment
 	 */
 	protected ValidExpression extractAssignment(Equation equ, EvalInfo info) {
 		String lhsName = extractLabel(equ, info);
 		if (lhsName != null) {
+			ExpressionNode lhs = equ.getLHS();
 			ExpressionNode rhs = equ.getRHS();
-			FunctionNVar lhs = getRedefiningFunction(equ);
-
+			FunctionNVar lhsDefinition = getRedefiningFunction(equ);
 			ValidExpression extractedFunction = rhs;
-			if (lhs != null) {
-				extractedFunction =
-						kernel.getArithmeticFactory().newFunction(rhs, lhs.getFunctionVariables());
+			FunctionVariable[] vars = null;
+			if (isFunctionCall(lhs)) {
+				vars = extractFunctionVariables(lhs);
+			} else if (isFunctionNCall(lhs)) {
+				vars = extractFunctionNVariables(lhs);
+			} else if (lhsDefinition != null) {
+				vars = lhsDefinition.getFunctionVariables();
+			}
+			if (vars != null) {
+				extractedFunction = kernel.getArithmeticFactory().newFunction(rhs, vars);
 			}
 			extractedFunction.setLabel(lhsName);
 			return extractedFunction;
@@ -221,12 +251,51 @@ public class SymbolicProcessor {
 
 	private GeoSymbolic getRedefinitionObject(Equation equation) {
 		ExpressionNode lhs = equation.getLHS();
-		if (lhs.getOperation() == Operation.FUNCTION
-				&& lhs.getLeft() instanceof GeoSymbolic
-				&& lhs.getRight() instanceof FunctionVariable) {
+		if (lhs.getLeft() instanceof GeoSymbolic && (isFunctionCall(lhs) || isFunctionNCall(lhs))) {
 			return (GeoSymbolic) lhs.getLeft();
 		}
 		return null;
+	}
+
+	private boolean isFunctionCall(ExpressionNode value) {
+		return value.getOperation() == Operation.FUNCTION
+				&& value.getRight() instanceof FunctionVariable;
+	}
+
+	private boolean isFunctionNCall(ExpressionNode value) {
+		if (value.getOperation() == Operation.FUNCTION_NVAR
+				&& value.getRight() instanceof MyList) {
+			MyList args = (MyList) value.getRight();
+			for (int i = 0; i < args.size(); i++) {
+				ExpressionValue arg = args.getItem(i);
+				if (!(arg instanceof FunctionVariable)) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	private FunctionVariable[] extractFunctionVariables(ExpressionNode value) {
+		assert isFunctionCall(value);
+		return new FunctionVariable[]{(FunctionVariable) value.getRight()};
+	}
+
+	private FunctionVariable[] extractFunctionNVariables(ExpressionNode value) {
+		assert isFunctionNCall(value);
+		MyList args = (MyList) value.getRight();
+		FunctionVariable[] vars = new FunctionVariable[args.size()];
+		for (int i = 0; i < args.size(); i++) {
+			ExpressionValue arg = args.getItem(i);
+			if (arg instanceof FunctionVariable) {
+				vars[i] = (FunctionVariable) arg;
+			} else {
+				vars[i] =
+						new FunctionVariable(kernel, arg.toString(StringTemplate.defaultTemplate));
+			}
+		}
+		return vars;
 	}
 
 	private FunctionNVar getRedefiningFunction(Equation equation) {
@@ -242,10 +311,8 @@ public class SymbolicProcessor {
 	}
 
 	/**
-	 * @param expression
-	 *            expression
-	 * @param info
-	 *            evaluation flags
+	 * @param expression expression
+	 * @param info evaluation flags
 	 */
 	public void updateLabel(ValidExpression expression, EvalInfo info) {
 		if (expression.unwrap() instanceof Equation) {

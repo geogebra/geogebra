@@ -107,12 +107,13 @@ public class GeoGebraSerializer implements Serializer {
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			serializeArgs(mathFunction, stringBuilder, 1);
 			break;
-
 		case DEF_INT:
 		case SUM_EQ:
 		case PROD_EQ:
 		case LIM_EQ:
 		case VEC:
+		case ATOMIC_POST:
+		case ATOMIC_PRE:
 			stringBuilder.append(mathFunction.getName().getFunction());
 			serializeArgs(mathFunction, stringBuilder, 0);
 			break;

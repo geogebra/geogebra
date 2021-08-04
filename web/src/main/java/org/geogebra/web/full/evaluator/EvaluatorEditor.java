@@ -45,6 +45,7 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 	public EvaluatorEditor(AppW app) {
 		this.app = app;
 		mathFieldEditor = new MathFieldEditor(app, this);
+		mathFieldEditor.getMathField().setUseSimpleScripts(false);
 		mathFieldEditor.setTextMode(app.getAppletParameters().getParamTextMode());
 		mathFieldEditor.addStyleName("evaluatorEditor");
 		mathFieldEditor.addBlurHandler(this);
@@ -182,7 +183,7 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 			Canvas2Svg ctx = new Canvas2Svg(width, height);
 			CursorBox.setBlink(false);
 			ColorW bgColor = transparent ? null : mathField.getBackgroundColor();
-			mathField.paint(Js.uncheckedCast(ctx), 0, bgColor);
+			mathField.paintFormulaNoPlaceholder(Js.uncheckedCast(ctx), 0, bgColor);
 			ret.setBaseline((height - depth) / (double) height);
 			ret.setSvg(SVG_PREFIX + Global.escape(ctx.getSerializedSvg(true)));
 

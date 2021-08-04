@@ -18,8 +18,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.TextAlign;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -86,12 +84,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 		// create help button
 		btnOnlineHelp = new Button(app.getLocalization().getMenu("ShowOnlineHelp"));
-			btnOnlineHelp.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					openOnlineHelp();
-				}
-			});
+			btnOnlineHelp.addClickHandler(event -> openOnlineHelp());
 		render(app.getNetworkOperation().isOnline());
 		app.getNetworkOperation().getView().add(this);
 		btnOnlineHelp.addStyleName("inputHelp-OnlineHelpBtn");
@@ -99,12 +92,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 		// create close button
 		btnClose = new Button(app.getLocalization().getMenu("Close"));
-		btnClose.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				hide();
-			}
-		});
+		btnClose.addClickHandler(event -> hide());
 		btnClose.setStyleName("inputHelp-CancelBtn");
 		pnlButton.add(btnClose);
 
