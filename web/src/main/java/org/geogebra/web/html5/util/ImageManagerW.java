@@ -36,6 +36,7 @@ public class ImageManagerW extends ImageManager {
 
 	private HashMap<String, HTMLImageElement> externalImageTable = new HashMap<>();
 	private HashMap<String, ArchiveEntry> externalImageSrcs = new HashMap<>();
+	private HashMap<String, HTMLImageElement> internalImageTable = new HashMap<>();
 	private boolean preventAuxImage;
 	protected int imagesLoaded = 0;
 
@@ -135,6 +136,14 @@ public class ImageManagerW extends ImageManager {
 		return externalImageTable.get(StringUtil.removeLeadingSlash(fileName));
 	}
 
+	/**
+	 * @param fileName filename
+	 * @return corresponding image element
+	 */
+	public HTMLImageElement getInternalImage(String fileName) {
+		return internalImageTable.get(StringUtil.removeLeadingSlash(fileName));
+	}
+
 	static void onError(GeoImage gi) {
 		gi.getCorner(0).remove();
 		gi.getCorner(1).remove();
@@ -197,6 +206,19 @@ public class ImageManagerW extends ImageManager {
 	public static HTMLImageElement getInternalImage(ResourcePrototype resource) {
 		HTMLImageElement img = Dom.createImage();
 		img.src = NoDragImage.safeURI(resource);
+		return img;
+	}
+
+	/**
+	 * @param fileName of the image
+	 * @param content of the image
+	 * @return img element corresponding to the resource
+	 */
+	public HTMLImageElement addInternalImage(String fileName, String content) {
+		String fn = StringUtil.removeLeadingSlash(fileName);
+		HTMLImageElement img = Dom.createImage();
+		internalImageTable.put(fn, img);
+		img.src = content;
 		return img;
 	}
 

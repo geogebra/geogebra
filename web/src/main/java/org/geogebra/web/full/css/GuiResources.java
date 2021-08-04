@@ -256,5 +256,4 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 
 	@Source("org/geogebra/web/resources/scss/evaluator-styles.scss")
 	SassResource evaluatorScss();
-
 }

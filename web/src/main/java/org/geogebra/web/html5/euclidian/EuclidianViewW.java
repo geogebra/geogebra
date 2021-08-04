@@ -9,6 +9,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.EmbedManager;
@@ -27,6 +28,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -53,9 +55,11 @@ import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
+import org.geogebra.web.html5.main.SafeGeoImageFactory;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -1475,5 +1479,31 @@ public class EuclidianViewW extends EuclidianView implements
 		penCanvas.setStroke(EuclidianStatic.getStroke(pen.getPenSize(),
 				pen.getPenLineStyle(), GBasicStroke.JOIN_ROUND));
 		penCanvas.setColor(pen.getPenColor());
+	}
+
+	@Override
+	public GeoImage addMeasurementTool(int mode, String fileName) {
+		GeoImage tool = new GeoImage(getKernel().getConstruction());
+		SVGResource toolSVG = GuiResourcesSimple.INSTANCE.ruler();
+		//TODO: add protractor
+//		SVGResource toolSVG =
+//				mode == EuclidianConstants.MODE_RULER ? GuiResourcesSimple.INSTANCE.ruler()
+//						: GuiResourcesSimple.INSTANCE.protractor();
+		tool.setMeasurementTool(true);
+		SafeGeoImageFactory factory = new SafeGeoImageFactory(appW, tool);
+		String path = ImageManagerW.getMD5FileName(fileName, toolSVG.getSafeUri().asString());
+		tool = factory.createInternalFile(path, toolSVG.getSafeUri().asString());
+		return tool;
+	}
+
+	@Override
+	public void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {
+		kernel.getConstruction().removeFromConstructionList(tool);
+		tool.setSize(width, height);
+		GPoint2D loc =
+				new GPoint2D(toRealWorldCoordX(posLeftCorner),
+						toRealWorldCoordY(getHeight() / 2. - height / 2.));
+		tool.setLocation(loc);
+		tool.update();
 	}
 }

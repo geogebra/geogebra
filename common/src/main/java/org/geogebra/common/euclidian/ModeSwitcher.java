@@ -57,7 +57,15 @@ public class ModeSwitcher {
 			break;
 
 		case EuclidianConstants.MODE_RULER:
-			cons.setRuler(cons.getRuler() == null ? new GeoImage(cons) : null);
+			GeoImage ruler = cons.getRuler();
+			if (ruler != null) {
+				ruler.remove();
+				cons.setRuler(null);
+			} else {
+				cons.setRuler(
+						cons.getApplication().getActiveEuclidianView()
+								.addMeasurementTool(EuclidianConstants.MODE_RULER, "Ruler.svg"));
+			}
 			break;
 
 		case EuclidianConstants.MODE_PROTRACTOR:

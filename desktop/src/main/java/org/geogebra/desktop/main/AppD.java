@@ -2028,6 +2028,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
+	public MyImage getInternalImageAdapter(String filename, int width, int height) {
+		return null;
+	}
+
+	@Override
 	public void addExternalImage(String filename, MyImageJre image) {
 		imageManager.addExternalImage(filename, image);
 	}
