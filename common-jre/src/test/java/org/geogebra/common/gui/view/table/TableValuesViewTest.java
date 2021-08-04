@@ -181,7 +181,7 @@ public class TableValuesViewTest extends BaseUnitTest {
         }
         view.clearView();
 		assertEquals(1, model.getColumnCount());
-		assertEquals(5, model.getRowCount());
+		assertEquals(0, model.getRowCount());
 		assertEquals("x", model.getHeaderAt(0));
 		assertEquals(TableSettings.DEFAULT_MIN, view.getValuesMin(), .1);
 		assertEquals(TableSettings.DEFAULT_MAX, view.getValuesMax(), .1);
@@ -360,7 +360,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		setValuesSafe(10, 20, 2);
 		getKernel().clearConstruction(true);
 		assertEquals(-1, view.getColumn(fn));
-		assertEquals(2, view.getValuesMax(), .1);
+		assertEquals(TableSettings.DEFAULT_MAX, view.getValuesMax(), .1);
 		getApp().setXML(xml, true);
 		GeoEvaluatable fnReload = lookupFunction("f");
 		assertEquals(10, view.getValuesMax(), .1);
