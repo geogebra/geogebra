@@ -26,6 +26,15 @@ $deleteTime: 120ms;
 		visibility: hidden;
 	}
 
+	// we want upper border when we are in portrait mode, but the table of
+	// values view is not in fullscreen (.withShadow is set on the header
+	// in fullscreen mode, we need the neighbouring .main component)
+	&.portrait .toolPanelHeading:not(.withShadow) ~ .main .tvTable {
+		td, th {
+			border-width: 1px 1px 0 0;
+		}
+	}
+
 	.tvTable {
 		@mixin textSelect($type) {
 			user-select: $type;
@@ -34,7 +43,11 @@ $deleteTime: 120ms;
 		}
 
 		td, th {
-			border: 0px;
+			border-width: 0 1px 1px 0;
+			border-color: $black-12;
+			border-style: solid;
+			box-sizing: border-box;
+			min-width: 120px;
 		}
 
 		%cellTransition {
@@ -43,90 +56,98 @@ $deleteTime: 120ms;
 		
 		.values {
 			@include textSelect(text);
+			position: relative;
+
+			&:after {
+				content: '';
+				display: block;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				width: 100%;
+				pointer-events: none;
+				background: linear-gradient(to left, #fff 70px, transparent 120px, transparent),
+					linear-gradient(to top, #fff 20px, transparent 52px, transparent);
+			}
 
 			thead {
-                &.transitioning {
-                    @extend %cellTransition;
-                }
+				&.transitioning {
+					@extend %cellTransition;
+				}
 
-                @include textSelect(none);
+				@include textSelect(none);
 
-                colgroup {
-                    col {
-                        @extend .delete;
-                    }
-                }
+				colgroup {
+					col {
+						@extend .delete;
+					}
+				}
 
-                th {
-                    padding: 0;
-                    border: 0px;
-                    position: sticky;
-                    top: 0;
-                    background: $white;
+				th {
+					height: 56px;
+					padding: 0;
+					position: sticky;
+					top: 0;
+					background: $tableview-header;
 
-                    .cell {
-                        @extend %cellTransition;
-                        margin-left: 0px;
-                        margin-right: 0px;
-                        border-bottom: 0px;
-                        text-align: center;
-                        padding: 0px;
-                        .content {
-                            display: inline-flex;
-                            margin: auto;
-                            float: right;
-                            color: $text-secondary;
+					.content {
+						@extend %cellTransition;
+						text-align: center;
+						padding: 12px 0 12px 16px;
+						display: inline-flex;
+						margin: auto;
+						float: right;
+						color: $text-primary;
 
-                            .MyToggleButton {
-                                    margin: auto 0px auto 0px;
-                                    padding-left: 6px;
-                                    padding-right: 6px;
-                                    border: 0px;
-                                    img {
-                                        opacity: 0.54;
-                                    }
-                            }
-                        }
-                    }
+						.gwt-Label {
+							font-size: 100%;
+							font-weight: bold;
+							line-height: 32px;
+						}
 
-                    .delete {
-                        @extend %colDelete;
-                        text-align: right;
-                    }
-                }
-            }
+						.MyToggleButton {
+							margin: auto 0 auto 0;
+							padding: 4px 4px 4px 0;
+							border: 0;
+							background-color: transparent;
+
+							img {
+								opacity: 0.54;
+							}
+
+							&:hover img {
+								opacity: 1;
+							}
+						}
+					}
+
+					.delete {
+						@extend %colDelete;
+						text-align: right;
+					}
+				}
+			}
 			
 			td {
-				div {
+				height: 52px;
+
+				@extend %cellTransition;
+				text-align: right;
+
+				.content {
+					font-size: 100%;
 					color: $text-primary;
 					text-align: right;
+					float: right;
+					padding: 14px 28px 14px 16px;
 				}
-				
+
 				.delete {
 					@extend %colDelete;
 					margin-left: 16px;
 					margin-right: 32px;
 				}
-			}
-			
-			.cell {
-				@extend %cellTransition;
-				margin-left: 0px;
-				margin-right: 0px;
-				text-align: right;
-			
-				.content {
-					float: right;
-					margin-right: 32px;
-				}
-			}
-
-			tbody tr:nth-child(odd) {
-				background: $tableview-row;
-			}
-
-			tbody tr:nth-child(even) {
-				background: $white; // for IE11
 			}
 		}
 
@@ -140,7 +161,6 @@ $deleteTime: 120ms;
 		}
 	
 		.outerScrollPanel{
-			/*overflow-y: hidden !important;*/
 			overflow: hidden !important;
 		}
 	
