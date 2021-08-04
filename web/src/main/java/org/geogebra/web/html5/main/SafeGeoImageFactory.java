@@ -39,8 +39,6 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	private String cornerLabel1 = null;
 	private String cornerLabel2 = null;
 	private String cornerLabel4 = null;
-	private boolean isInternalFile = false;
-	private String internalFileContent;
 
 	/**
 	 * Constructor
@@ -82,16 +80,16 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	}
 
 	/**
-	 * Create the GeoImage setup by the factory.
+	 * Create the GeoImage setup by the factory for an internal file.
 	 * @param fileName of the image.
 	 * @param content of the image
-	 * @param isInternalFile true if image should be put in the archive
 	 * @return the corresponding GeoImage object
 	 */
-	public GeoImage create(String fileName, String content, boolean isInternalFile) {
-		this.isInternalFile = isInternalFile;
-		internalFileContent = content;
-		return create(fileName, content);
+	public GeoImage createInternalFile(String fileName, String content) {
+		ensureResultImageExists();
+		ImageFile imageFile = new ImageFile(fileName, new ArchiveEntry(content));
+		onReadyInternal(imageFile, content);
+		return geoImage;
 	}
 
 	private List<ImagePreprocessor> getPreprocessors() {
@@ -114,24 +112,28 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	@Override
 	public void onReady(ImageFile imageFile) {
 		this.imageFile = imageFile;
-		if (isInternalFile) {
-			imageElement =
-					imageManager.addInternalImage(imageFile.getFileName(), internalFileContent);
-			imageElement.addEventListener("load", (event) -> geoImage.updateRepaint());
-		} else {
-			imageManager.addExternalImage(imageFile.getFileName(),
-					imageFile.getContent());
-			imageManager.triggerSingleImageLoading(imageFile.getFileName(),
-					geoImage);
-			imageElement = imageManager.getExternalImage(imageFile.getFileName(), app, true);
-		}
+		imageManager.addExternalImage(imageFile.getFileName(),
+				imageFile.getContent());
+		imageManager.triggerSingleImageLoading(imageFile.getFileName(),
+				geoImage);
+		imageElement = imageManager.getExternalImage(imageFile.getFileName(), app, true);
 
-		imageElement.addEventListener("load", (event) -> onLoad());
+		imageElement.addEventListener("load", (event) -> onLoad(false));
 		imageElement.addEventListener("error",
 				(event) -> imageElement.src = imageManager.getErrorURL());
 	}
 
-	private void onLoad() {
+	private void onReadyInternal(ImageFile imageFile, String content) {
+		this.imageFile = imageFile;
+		imageElement =
+				imageManager.addInternalImage(imageFile.getFileName(), content);
+		imageElement.addEventListener("load", (event) -> geoImage.updateRepaint());
+		imageElement.addEventListener("load", (event) -> onLoad(true));
+		imageElement.addEventListener("error",
+				(event) -> imageElement.src = imageManager.getErrorURL());
+	}
+
+	private void onLoad(boolean isInternalFile) {
 		if (isInternalFile) {
 			geoImage.setInternalImageFileName(imageFile.getFileName(),
 					imageElement.width, imageElement.height);
@@ -157,6 +159,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 		if (!isInternalFile) {
 			app.storeUndoInfo();
 		}
+		geoImage.setImagePropertiesIfNecessary();
 	}
 
 	private void setManualCorners() {

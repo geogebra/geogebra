@@ -1318,11 +1318,17 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public double getMinWidth() {
+		if (isMeasurementTool) {
+			return 1;
+		}
 		return IMG_SIZE_THRESHOLD;
 	}
 
 	@Override
 	public double getMinHeight() {
+		if (isMeasurementTool) {
+			return 1;
+		}
 		return IMG_SIZE_THRESHOLD;
 	}
 
@@ -1453,5 +1459,17 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	public void setMeasurementTool(boolean measurementTool) {
 		isMeasurementTool = measurementTool;
+	}
+
+	/**
+	 * set properties of image if it's a ruler or protractor
+	 */
+	public void setImagePropertiesIfNecessary() {
+		if (isMeasurementTool) {
+			if (getImageFileName().contains("Ruler.svg")) {
+				app.getActiveEuclidianView().setMeasurementTool(this, 1488, 72, 72);
+			}
+			//TODO: else branch for protractor
+		}
 	}
 }

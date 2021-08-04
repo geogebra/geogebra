@@ -40,7 +40,6 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
-import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
@@ -1483,8 +1482,7 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public GeoImage addMeasurementTool(int mode, int width, int height, int posLeftCorner,
-			String fileName) {
+	public GeoImage addMeasurementTool(int mode, String fileName) {
 		GeoImage tool = new GeoImage(getKernel().getConstruction());
 		SVGResource toolSVG = GuiResourcesSimple.INSTANCE.ruler();
 		//TODO: add protractor
@@ -1494,26 +1492,18 @@ public class EuclidianViewW extends EuclidianView implements
 		tool.setMeasurementTool(true);
 		SafeGeoImageFactory factory = new SafeGeoImageFactory(appW, tool);
 		String path = ImageManagerW.getMD5FileName(fileName, toolSVG.getSafeUri().asString());
-		tool = factory.create(path, toolSVG.getSafeUri().asString(), true);
-
-		if (NavigatorUtil.isFirefox()) {
-			GeoImage finalTool = tool;
-			app.invokeLater(() -> setMeasurementTool(finalTool, width, height, posLeftCorner));
-		} else {
-			setMeasurementTool(tool, width, height, posLeftCorner);
-		}
+		tool = factory.createInternalFile(path, toolSVG.getSafeUri().asString());
 		return tool;
 	}
 
-	private void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {
-		app.invokeLater(() -> {
-			kernel.getConstruction().removeFromConstructionList(tool);
-			tool.setSize(width, height);
-			GPoint2D loc =
-					new GPoint2D(toRealWorldCoordX(posLeftCorner),
-							toRealWorldCoordY(getHeight() / 2. - height / 2.));
-			tool.setLocation(loc);
-			tool.update();
-		});
+	@Override
+	public void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {
+		kernel.getConstruction().removeFromConstructionList(tool);
+		tool.setSize(width, height);
+		GPoint2D loc =
+				new GPoint2D(toRealWorldCoordX(posLeftCorner),
+						toRealWorldCoordY(getHeight() / 2. - height / 2.));
+		tool.setLocation(loc);
+		tool.update();
 	}
 }
