@@ -1636,7 +1636,7 @@ public class DockManagerW extends DockManager {
 		double appHeight = app.getHeight();
 		ToolbarPanel toolbar = null;
 		double visibleKB = kbHeight;
-		if (app.isUnbundled()) {
+		if (avPanel instanceof ToolbarDockPanelW) {
 			toolbar = ((ToolbarDockPanelW) avPanel).getToolbar();
 			avHeight = toolbar.isOpen() ? avHeight
 					: ToolbarPanel.CLOSED_HEIGHT_PORTRAIT;
