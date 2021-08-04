@@ -26,7 +26,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.OpenFileListener;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.AsyncOperation;
@@ -1242,5 +1244,18 @@ public class GgbAPIW extends GgbAPI {
 		if (guiManagerW != null) {
 			guiManagerW.showPointsTV(column, show);
 		}
+	}
+
+	/**
+	 *	Save callback after successful login
+	 * @param title material title
+	 * @param visibility material visibility
+	 */
+	public void startSaveCallback(String title, String visibility) {
+		app.getSaveController().setSaveType(Material.MaterialType.ggs);
+		app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
+		MaterialVisibility matVisibility = MaterialVisibility.value(visibility);
+		app.getSaveController().saveAs(title, matVisibility, null);
+		((AppW) app).tryLoadTemplatesOnFileNew();
 	}
 }
