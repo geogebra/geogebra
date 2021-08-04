@@ -175,8 +175,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 						.evaluateToPoint(cornerLabel2, null, true);
 			} else {
 				corner2 = new GeoPoint(construction, 0, 0, 1);
-				geoImage.calculateCornerPoint(corner2,
-						2);
+				geoImage.calculateCornerPoint(corner2, 2);
 			}
 			geoImage.setCorner(corner2, 1);
 
