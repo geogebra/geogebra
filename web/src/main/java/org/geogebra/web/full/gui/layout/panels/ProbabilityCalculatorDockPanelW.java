@@ -56,12 +56,6 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 	}
 
 	@Override
-	protected Widget loadStyleBar() {
-		return ((ProbabilityCalculatorViewW) app.getGuiManager()
-				.getProbabilityCalculator()).getStyleBar().getWrappedToolBar();
-	}
-
-	@Override
 	public boolean isStyleBarEmpty() {
 		return true;
 	}
@@ -76,4 +70,12 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 		return null;
 	}
 
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if (visible) {
+			((ProbabilityCalculatorViewW) app.getGuiManager()
+					.getProbabilityCalculator()).createGeoElements();
+		}
+	}
 }

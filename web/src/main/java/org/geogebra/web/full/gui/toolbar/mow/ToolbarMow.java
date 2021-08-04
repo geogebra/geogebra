@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.toolbar.mow;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 
@@ -80,8 +79,7 @@ public class ToolbarMow extends FlowPanel
 
 		createPanels();
 		setLabels();
-		appW.getLoginOperation().getView().add(evt ->
-				((GeoGebraFrameFull) appW.getAppletFrame()).updateNotesMediaToolbarPanel());
+		appW.getLoginOperation().getView().add(evt -> updateMediaPanel());
 	}
 
 	private void createPanels() {

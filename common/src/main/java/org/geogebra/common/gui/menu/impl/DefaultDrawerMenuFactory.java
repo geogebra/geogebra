@@ -113,13 +113,17 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		MenuItem save = enableFileFeatures && logInOperation != null ? saveFile() : null;
 		MenuItem share = enableFileFeatures ? share() : null;
 		MenuItem downloadAs = isDesktop() ? showDownloadAs() : null;
-		MenuItem printPreview = isDesktop() ? previewPrint() : null;
+		MenuItem printPreview = hasPrintPreview() ? previewPrint() : null;
 		MenuItem startExamMode = createExamEntry ? startExamMode() : null;
 		if (version == GeoGebraConstants.Version.SCIENTIFIC) {
 			return new MenuItemGroupImpl(removeNulls(clearConstruction, startExamMode));
 		}
 		return new MenuItemGroupImpl(removeNulls(clearConstruction, openFile, save, share,
 				exportImage(), downloadAs, printPreview, startExamMode));
+	}
+
+	private boolean hasPrintPreview() {
+		return isDesktop() && version != GeoGebraConstants.Version.PROBABILITY;
 	}
 
 	private MenuItemGroup createSecondaryMenuItemGroup() {
@@ -201,20 +205,23 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		ActionableItem pdf = new ActionableItemImpl(null,
 				"Download.PDFDocument", Action.DOWNLOAD_PDF);
 		switch (version) {
+		case PROBABILITY:
+			return buildDownloadAs(createDownloadGgb(), png);
 		case NOTES:
-			return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs",
-					createDownloadSlides(), png, svg, pdf);
+			return buildDownloadAs(createDownloadSlides(), png, svg, pdf);
 		case GRAPHING_3D:
 			ActionableItem dae = new ActionableItemImpl(
 					"Download.ColladaDae", Action.DOWNLOAD_COLLADA_DAE);
 			ActionableItem html = new ActionableItemImpl(
 					"Download.ColladaHtml", Action.DOWNLOAD_COLLADA_HTML);
-			return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", createDownloadGgb(),
-					png, createDownloadStl(), dae, html);
+			return buildDownloadAs(createDownloadGgb(), png, createDownloadStl(), dae, html);
 		default:
-			return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", createDownloadGgb(),
-					png, svg, pdf, createDownloadStl());
+			return buildDownloadAs(createDownloadGgb(), png, svg, pdf, createDownloadStl());
 		}
+	}
+
+	private MenuItem buildDownloadAs(ActionableItem... items) {
+		return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", items);
 	}
 
 	private static ActionableItem createDownloadGgb() {

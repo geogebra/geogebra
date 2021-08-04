@@ -115,6 +115,33 @@ public class MathFieldController {
 		}
 	}
 
+	/**
+	 * @param mathFormula formula
+	 * @param currentField field
+	 * @return return icon without placeholders
+	 */
+	public TeXIcon buildIcon(MathFormula mathFormula, MathSequence currentField) {
+		TeXFormula texFormula = new TeXFormula();
+		boolean textMode = mathField.getInternal().getInputController().getPlainTextMode();
+		texBuilder.enablePlaceholder(false);
+		texFormula.root = texBuilder.build(mathFormula.getRootComponent(),
+				currentField, textMode);
+
+		try {
+			final TeXIcon renderer = texFormula.new TeXIconBuilder()
+					.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
+					.setType(type).build();
+			renderer.setInsets(new Insets(1, 1, 1, 1));
+
+			texBuilder.enablePlaceholder(true);
+			return renderer;
+		} catch (Throwable t) {
+			FactoryProvider
+					.debugS("" + (t.getCause() != null ? t.getCause() : t));
+		}
+		return null;
+	}
+
 	private void updateFormula(MathFormula mathFormula,
 			MathSequence currentField, int currentOffset,
 			MathComponent selectionStart, MathComponent selectionEnd) {

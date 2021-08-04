@@ -366,6 +366,9 @@ public class EuclidianDraw {
 			d = new DrawMindMap(ev, (GeoMindMapNode) geo);
 			d.update();
 		}
+		if (geo.hasDynamicCaption()) {
+			((Drawable) d).initDynamicCaption();
+		}
 		return d;
 	}
 

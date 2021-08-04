@@ -169,4 +169,6 @@ public class CarotaTable implements HasContentAndFormat {
 	}
 
 	public native void setExternalScale(double sx);
+
+	public native void setExternalPaint(boolean externalPaint);
 }

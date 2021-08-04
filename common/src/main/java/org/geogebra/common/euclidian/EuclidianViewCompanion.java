@@ -380,8 +380,8 @@ public class EuclidianViewCompanion {
 			view.drawZoomRectangle(g2);
 		}
 
-		// draw bounding box
-		if (view.getBoundingBox() != null) {
+		// draw bounding box; spotlight bounding box drawn elsewhere
+		if (view.getBoundingBox() != null && !view.hasSpotlight()) {
 			view.getBoundingBox().draw(g2);
 		}
 

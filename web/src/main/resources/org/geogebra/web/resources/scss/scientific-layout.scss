@@ -98,6 +98,10 @@
         cursor: default;
     }
 
+    .algebraPanelScientific .newRadioButtonTreeItemParent {
+        border-width: 0;
+    }
+
     .avItemNumber, .avWarningScientific {
         color: $text-secondary;
         font-size: 75%;

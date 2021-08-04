@@ -90,8 +90,17 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/common/icons/svg/web/probability/interval_two_tailed.svg")
 	SVGResource interval_two_tailed();
 
-	@Source("org/geogebra/common/icons/png/web/probability_calculator_normal_overlay.png")
-	ImageResource normal_overlay();
+	@Source("org/geogebra/common/icons/svg/web/probability/normal_overlay.svg")
+	SVGResource normal_overlay();
+
+	@Source("org/geogebra/common/icons/svg/web/probability/bar_chart.svg")
+	SVGResource bar_chart();
+
+	@Source("org/geogebra/common/icons/svg/web/probability/line_graph.svg")
+	SVGResource line_graph();
+
+	@Source("org/geogebra/common/icons/svg/web/probability/step_graph.svg")
+	SVGResource step_graph();
 
 	// OBJECT PROPERTIES
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_properties_object.png")

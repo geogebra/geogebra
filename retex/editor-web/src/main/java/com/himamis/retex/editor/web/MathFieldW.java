@@ -27,6 +27,7 @@
 package com.himamis.retex.editor.web;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.gwtproject.timer.client.Timer;
@@ -626,6 +627,20 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 				bgColor, null, ratio);
 	}
 
+	/**
+	 * @param ctx canvas
+	 * @param top top
+	 * @param bgColor background color
+	 */
+	public void paintFormulaNoPlaceholder(CanvasRenderingContext2D ctx,
+			double top, ColorW bgColor) {
+		TeXIcon iconNoPlaceholder = mathFieldInternal.buildIconNoPlaceholder();
+		if (iconNoPlaceholder != null) {
+			JlmLib.draw(iconNoPlaceholder, ctx, 0, top, foregroundColor,
+					bgColor, null, ratio);
+		}
+	}
+
 	private boolean isEdited() {
 		return instances.contains(this);
 	}
@@ -776,9 +791,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private void focusTextArea() {
-		inputTextArea.getElement().focus();
-		if (html.getElement().getParentElement() != null) {
-			html.getElement().getParentElement().setScrollTop(0);
+		Element parentElement = html.getElement().getParentElement();
+		if (parentElement != null) {
+			int scroll = parentElement.getScrollLeft();
+			inputTextArea.getElement().focus();
+			parentElement.setScrollLeft(scroll);
+			parentElement.setScrollTop(0);
+		} else {
+			inputTextArea.getElement().focus();
 		}
 		startBlink();
 	}
@@ -1215,11 +1235,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *
 	 * @param parentPanel
 	 *            panel to be scrolled
-	 * @param margin
-	 *            minimal distance from cursor to left/right border
 	 */
-	public void scrollParentHorizontally(FlowPanel parentPanel, int margin) {
-		MathFieldScroller.scrollHorizontallyToCursor(parentPanel, margin, lastIcon.getCursorX());
+	public void scrollParentHorizontally(FlowPanel parentPanel) {
+		MathFieldScroller.scrollHorizontallyToCursor(parentPanel, lastIcon.getCursorX());
 	}
 
 	/**
@@ -1236,5 +1254,13 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	public ColorW getBackgroundColor() {
 		return backgroundColor;
+	}
+
+	/**
+	 * @param funcVars function variables of the input box
+	 */
+	public void setInputBoxFunctionVariables(List<String> funcVars) {
+		metaModel.setInputBoxFunctionVars(funcVars);
+		metaModel.enableSubstitutions();
 	}
 }

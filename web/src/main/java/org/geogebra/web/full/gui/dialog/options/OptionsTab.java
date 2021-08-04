@@ -85,8 +85,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -443,13 +441,9 @@ public class OptionsTab extends FlowPanel {
 			if (isDefaults) {
 				sequential = new CheckBox("Sequential");
 				mainPanel.add(sequential);
-				sequential.addClickHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						// TODO we may need to update the GUI here
-						getModel().setSequential(getSequential().getValue());
-					}
+				sequential.addClickHandler(event -> {
+					// TODO we may need to update the GUI here
+					getModel().setSequential(getSequential().getValue());
 				});
 			}
 			setWidget(mainPanel);
@@ -1150,18 +1144,8 @@ public class OptionsTab extends FlowPanel {
 			tfButtonWidth.addKeyHandler(keyHandler);
 			tfButtonHeight.addKeyHandler(keyHandler);
 
-			cbUseFixedSize.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					getModel().applyChanges(getCbUseFixedSize().getValue());
-
-				}
-			});
-			// tfButtonHeight.setInputVerifier(new SizeVerify());
-			// tfButtonWidth.setInputVerifier(new SizeVerify());
-			// tfButtonHeight.setEnabled(cbUseFixedSize.getValue());
-			// tfButtonWidth..setEnabled(cbUseFixedSize.getValue());
+			cbUseFixedSize.addClickHandler(
+					event -> getModel().applyChanges(getCbUseFixedSize().getValue()));
 
 			FlowPanel mainPanel = new FlowPanel();
 			mainPanel.setStyleName("textPropertiesTab");

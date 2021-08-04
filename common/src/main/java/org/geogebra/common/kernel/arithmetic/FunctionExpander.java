@@ -117,11 +117,20 @@ public class FunctionExpander implements Traversing {
 					if (en2.getLeft() instanceof GeoSurfaceCartesianND) {
 						FunctionNVar[] fun = ((GeoSurfaceCartesianND) en2
 								.getLeft()).getFunctions();
-						MyVec3DNode vect = new MyVec3DNode(
-								((ExpressionNode) ev).getKernel(),
-								fun[0].getExpression(), fun[1].getExpression(),
-								fun[2].getExpression());
-						en2 = new ExpressionNode(en.getKernel(), vect);
+						MyVecNDNode vector;
+						if (fun.length > 2) {
+							vector = new MyVec3DNode(
+									((ExpressionNode) ev).getKernel(),
+									fun[0].getExpression(),
+									fun[1].getExpression(),
+									fun[2].getExpression());
+						} else {
+							vector = new MyVecNode(
+									((ExpressionNode) ev).getKernel(),
+									fun[0].getExpression(),
+									fun[1].getExpression());
+						}
+						en2 = new ExpressionNode(en.getKernel(), vector);
 						if (en.getRight() instanceof MyList
 								&& ((MyList) en.getRight()).getListElement(
 										0) instanceof ExpressionNode
@@ -150,11 +159,19 @@ public class FunctionExpander implements Traversing {
 							.getFunctions();
 					fv = fun[0].getFunctionVariables();
 					Kernel kernel = fun[0].getKernel();
-					MyVec3DNode vect = new MyVec3DNode(
-							((ExpressionNode) ev).getKernel(), fun[0]
-									.getExpression().deepCopy(kernel), fun[1]
-									.getExpression().deepCopy(kernel), fun[2]
-									.getExpression().deepCopy(kernel));
+					MyVecNDNode vect;
+					if (fun.length > 2) {
+						vect = new MyVec3DNode(
+								((ExpressionNode) ev).getKernel(),
+								fun[0].getExpression().deepCopy(kernel),
+								fun[1].getExpression().deepCopy(kernel),
+								fun[2].getExpression().deepCopy(kernel));
+					} else {
+						vect = new MyVecNode(
+								((ExpressionNode) ev).getKernel(),
+								fun[0].getExpression().deepCopy(kernel),
+								fun[1].getExpression().deepCopy(kernel));
+					}
 					en2 = new ExpressionNode(en.getKernel(), vect);
 				}
 				if (deriv != null) {

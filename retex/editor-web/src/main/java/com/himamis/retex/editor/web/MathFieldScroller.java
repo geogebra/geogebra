@@ -4,6 +4,7 @@ import static com.himamis.retex.editor.web.MathFieldW.SCROLL_THRESHOLD;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
 
 /**
  * Class to handle scrolling of the mathfield container.
@@ -12,19 +13,15 @@ public class MathFieldScroller {
 
 	/**
 	 * Scrolls content horizontally,  based on the cursor position
-	 *
-	 * @param margin
-	 *            minimal distance from cursor to left/right border
 	 */
-	public static void scrollHorizontallyToCursor(FlowPanel parent, int margin, int cursorX) {
+	public static void scrollHorizontallyToCursor(FlowPanel parent, int cursorX) {
 		Element parentElement = parent.getElement();
 		int parentWidth = parent.getOffsetWidth();
 		int scrollLeft = parentElement.getScrollLeft();
 
-		if (parentWidth + scrollLeft - margin < cursorX) {
-			parentElement.setScrollLeft(cursorX - parentWidth + margin);
-		} else if (cursorX < scrollLeft + margin) {
-			parentElement.setScrollLeft(cursorX - margin);
+		int scroll = MathFieldInternal.getHorizontalScroll(scrollLeft, parentWidth, cursorX);
+		if (scroll != scrollLeft) {
+			parentElement.setScrollLeft(scroll);
 		}
 	}
 

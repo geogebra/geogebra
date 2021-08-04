@@ -25,8 +25,6 @@ import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.dom.client.TableRowElement;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -164,14 +162,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 		GColor[] geoColors = (GColor[]) datas[1];
 
 		final SymbolTableW symTable = newSymbolTable(geoLabels, false, 2,
-				new AsyncOperation<String>() {
-
-					@Override
-					public void callback(String s) {
-						insertGeo(s);
-
-					}
-				}, geoColors);
+				s -> insertGeo(s), geoColors);
 		symTable.getColumnFormatter().setStyleName(0, "geoSelectFirst");
 		geoPanel.add(symTable);
 	}
@@ -256,14 +247,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 	        boolean addSeparator) {
 
 		final SymbolTableW symTable = newSymbolTable(tableSymbols, isLatex,
-				rowSize, new AsyncOperation<String>() {
-
-					@Override
-					public void callback(String s) {
-						editPanel.insertTextString(s, isLatex);
-
-					}
-				}, null);
+				rowSize, s -> editPanel.insertTextString(s, isLatex), null);
 
 		if (addSeparator) {
 			symbolPanel.add(new HTML("<hr>"));
@@ -314,13 +298,9 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 	        int rowSize, boolean addSeparator) {
 
 		final SymbolTableW symTable = newSymbolTable(tableSymbols, true,
-				rowSize, new AsyncOperation<String>() {
-
-					@Override
-					public void callback(String s) {
-						editPanel.insertTextString(s, true);
-						editPanel.ensureLaTeX();
-					}
+				rowSize, s -> {
+					editPanel.insertTextString(s, true);
+					editPanel.ensureLaTeX();
 				}, null);
 
 		if (addSeparator) {
@@ -343,45 +323,29 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 				isLatexSymbol, rowSize, app, colors);
 
 		if (NavigatorUtil.isIE()) {
-		symTable.addDomHandler(new MouseDownHandler() {
-			@Override
-			public void onMouseDown(MouseDownEvent event) {
-				/*
-				 * Cell clickCell = ((HTMLTable) event.getSource())
-				 * .getCellForEvent(event); if (clickCell == null) { return; }
-				 * String text = symTable.getSymbolText(clickCell.getRowIndex(),
-				 * clickCell.getCellIndex());
-				 */
-
-				Element td = ((SymbolTableW) event.getSource())
-						.getEventTargetCell(Event
-						.as(event.getNativeEvent()));
-				if (td != null) {
-					int row = TableRowElement.as(td.getParentElement())
-							.getSectionRowIndex();
-					int column = TableCellElement.as(td).getCellIndex();
-						onChange.callback(symTable.getSymbolText(row, column));
-				}
-				event.preventDefault();
-				event.stopPropagation();
-				// editPanel.insertTextString(clickCell.getElement()
-				// .getInnerText(), false);
+		symTable.addDomHandler(event -> {
+			Element td = ((SymbolTableW) event.getSource())
+					.getEventTargetCell(Event
+					.as(event.getNativeEvent()));
+			if (td != null) {
+				int row = TableRowElement.as(td.getParentElement())
+						.getSectionRowIndex();
+				int column = TableCellElement.as(td).getCellIndex();
+					onChange.callback(symTable.getSymbolText(row, column));
 			}
+			event.preventDefault();
+			event.stopPropagation();
 		}, MouseDownEvent.getType());
 		} else {
-			symTable.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-
-					HTMLTable.Cell clickCell = ((HTMLTable) event
-							.getSource()).getCellForEvent(event);
-					if (clickCell == null) {
-						return;
-					}
-					String text = symTable.getSymbolText(
-							clickCell.getRowIndex(), clickCell.getCellIndex());
-					onChange.callback(text);
+			symTable.addClickHandler(event -> {
+				HTMLTable.Cell clickCell = ((HTMLTable) event
+						.getSource()).getCellForEvent(event);
+				if (clickCell == null) {
+					return;
 				}
+				String text = symTable.getSymbolText(
+						clickCell.getRowIndex(), clickCell.getCellIndex());
+				onChange.callback(text);
 			});
 		}
 		return symTable;

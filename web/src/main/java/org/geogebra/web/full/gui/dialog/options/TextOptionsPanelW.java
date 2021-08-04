@@ -28,8 +28,6 @@ import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -207,28 +205,18 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		btnPanel.setStyleName("optionsPanel");
 		btnOk = new Button();
 		btnPanel.add(btnOk);
-		btnOk.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				model.applyEditedGeo(editor.getDynamicTextList(), isLatex(),
-						isSerif(), appw.getDefaultErrorHandler());
-				((PropertiesViewW) appw.getGuiManager().getPropertiesView())
-						.getOptionPanel(OptionType.OBJECTS, 1);
-			}
+		btnOk.addClickHandler(event -> {
+			model.applyEditedGeo(editor.getDynamicTextList(), isLatex(),
+					isSerif(), appw.getDefaultErrorHandler());
+			((PropertiesViewW) appw.getGuiManager().getPropertiesView())
+					.getOptionPanel(OptionType.OBJECTS, 1);
 		});
 
 		btnCancel = new Button();
 		btnPanel.add(btnCancel);
 		btnOk.addStyleName("okBtn");
 		btnCancel.addStyleName("cancelBtn");
-		btnCancel.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				model.cancelEditGeo();
-			}
-		});
+		btnCancel.addClickHandler(event -> model.cancelEditGeo());
 
 		mainPanel.add(btnPanel);
 		setWidget(mainPanel);
@@ -236,15 +224,11 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 	private void addStyleClickListener(final String propertyName, final int mask,
 									   final MyToggleButtonW toggle) {
-		toggle.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				model.setEditGeoText(editor.getText());
-				model.applyFontStyle(mask, toggle.getValue());
-				inlineFormat(propertyName, toggle.getValue());
-				updatePreviewPanel();
-			}
+		toggle.addClickHandler(event -> {
+			model.setEditGeoText(editor.getText());
+			model.applyFontStyle(mask, toggle.getValue());
+			inlineFormat(propertyName, toggle.getValue());
+			updatePreviewPanel();
 		});
 	}
 

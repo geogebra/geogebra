@@ -163,5 +163,6 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 				.getAppName())));
 		app.endExam();
 		app.fileNew();
+		app.clearSubAppCons();
 	}
 }

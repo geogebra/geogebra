@@ -58,6 +58,7 @@ import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
+import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
@@ -67,7 +68,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
  */
 public class MathFieldInternal
 		implements KeyListener, FocusListener, ClickListener {
-
+	public static final int PADDING_LEFT_SCROLL = 20;
 	@Weak
 	private MathField mathField;
 
@@ -112,6 +113,21 @@ public class MathFieldInternal
 		mathFieldController = new MathFieldController(mathField);
 		inputController.setMathField(mathField);
 		setupMathField();
+	}
+
+	/**
+	 * @param scrollLeft current scroll
+	 * @param parentWidth parent container width
+	 * @param cursorX cursor coordinate within formula
+	 * @return new horizontal scroll value
+	 */
+	public static int getHorizontalScroll(int scrollLeft, int parentWidth, int cursorX) {
+		if (parentWidth + scrollLeft - PADDING_LEFT_SCROLL < cursorX) {
+			return cursorX - parentWidth + PADDING_LEFT_SCROLL;
+		} else if (cursorX < scrollLeft + PADDING_LEFT_SCROLL) {
+			return Math.max(cursorX - PADDING_LEFT_SCROLL, 0);
+		}
+		return scrollLeft;
 	}
 
 	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
@@ -249,6 +265,13 @@ public class MathFieldInternal
 		mathFieldController.update(mathFormula, editorState, focusEvent);
 	}
 
+	/**
+	 * @return icon without placeholder
+	 */
+	public TeXIcon buildIconNoPlaceholder() {
+		return mathFieldController.buildIcon(mathFormula, editorState.getCurrentField());
+	}
+
 	@Override
 	public void onFocusGained() {
 		update(true);
@@ -326,6 +349,10 @@ public class MathFieldInternal
 			String str = AltKeys.getAltSymbols(keyCode,
 					(keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0,
 					true);
+			// handle alt+f for correct phi unicode
+			if (keyCode == 70 && (keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) <= 0) {
+				str = mathField.getMetaModel().getPhiUnicode();
+			}
 
 			for (int i = 0; str != null && i < str.length(); i++) {
 				keyListener.onKeyTyped(str.charAt(i), editorState);
