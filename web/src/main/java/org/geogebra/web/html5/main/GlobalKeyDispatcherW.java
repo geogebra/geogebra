@@ -210,10 +210,12 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 		boolean handled = handleSelectedGeosKeys(event.getNativeEvent());
 
+		if (handled) {
+			event.stopPropagation();
+		}
 		if (handled || preventBrowserCtrl(kc, event.isShiftKeyDown())
 				&& event.isControlKeyDown()) {
 			event.preventDefault();
-			event.stopPropagation();
 		}
 	}
 

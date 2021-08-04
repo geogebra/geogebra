@@ -781,7 +781,7 @@ public abstract class GlobalKeyDispatcher {
 		case S:
 			if (isShiftDown) {
 				if (keyboardShortcutsEnabled() && app.isUsingFullGui()
-						&& app.getGuiManager() != null) {
+						&& app.getGuiManager() != null && !(app.isUnbundled() || app.isSuite())) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(App.VIEW_SPREADSHEET),
 							App.VIEW_SPREADSHEET);
