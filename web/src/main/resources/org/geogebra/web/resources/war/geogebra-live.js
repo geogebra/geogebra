@@ -311,7 +311,7 @@
 
                         target.evalXML(last.content);
                         target.api.previewRefresh();
-                        this.sendEvent("conflictResolution", target.api.getXML(newLabel), last.label);
+                        this.sendEvent("conflictResolution", target.api.getAlgorithmXML(newLabel), last.label);
                     } else {
                         conflictedObjects.push(last.label);
                     }
