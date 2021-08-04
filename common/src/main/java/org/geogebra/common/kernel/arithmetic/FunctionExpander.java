@@ -34,7 +34,7 @@ public class FunctionExpander implements Traversing {
 					.deepCopy(geo.getKernel()).traverse(this).unwrap();
 		}
 		return geo;
-			}
+	}
 
 	private boolean contains(GeoDummyVariable gdv) {
 		if (variables == null) {
@@ -238,7 +238,7 @@ public class FunctionExpander implements Traversing {
 					if (geo != null) {
 						en.setLeft(expand(geo));
 					}
-						}
+				}
 				if (en.getLeft() instanceof Variable) {
 					geo = ((Variable) en.getLeft())
 							.getKernel()
@@ -252,10 +252,10 @@ public class FunctionExpander implements Traversing {
 								.getCopy(((FunctionalNVar) geo).getKernel())
 								.traverse(this);
 						return en2;
-							}
-						}
-
 					}
+				}
+
+			}
 			if (en.getRight() != null) {
 				GeoElement geo = null;
 				if (en.getRight() instanceof GeoDummyVariable
@@ -265,14 +265,14 @@ public class FunctionExpander implements Traversing {
 					if (geo != null) {
 						en.setRight(expand(geo));
 					}
-						}
-					}
+				}
+			}
 		} else if (ev instanceof GeoDummyVariable
 				&& !contains((GeoDummyVariable) ev)) {
 			GeoElement geo = ((GeoDummyVariable) ev).getElementWithSameName();
 			if (geo != null) {
 				return expand(geo);
-					}
+			}
 		} else if (ev instanceof GeoCasCell) {
 			// expanding the cell here is necessary #4126
 			if (((GeoCasCell) ev).isKeepInputUsed()) {
@@ -284,7 +284,8 @@ public class FunctionExpander implements Traversing {
 			}
 		} else if (ev instanceof FunctionNVar) {
 			variables = ((FunctionNVar) ev).fVars;
-				}
+		}
+
 		return ev;
 	}
 

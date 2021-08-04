@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.MinusOne;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
@@ -1714,10 +1715,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				break;
 			}
 
-			if (right.isLeaf() || (ExpressionNode
-					.opID(right) >= Operation.MULTIPLY.ordinal())) { // not
-				// +,
-				// -
+			if (!requiresBrackets(right, valueForm)) { // not +, -
 
 				if (rightStr.charAt(0) == '-') { // convert - - to +
 					if (stringType.equals(StringType.LATEX)
@@ -1763,6 +1761,29 @@ public class StringTemplate implements ExpressionNodeConstants {
 			break;
 		}
 		return sb.toString();
+	}
+
+	private boolean requiresBrackets(ExpressionValue value, boolean valueForm) {
+		if (value.isLeaf()) {
+			if (!valueForm) {
+				return false;
+			}
+
+			if (value instanceof FunctionalNVar
+					&& ((FunctionalNVar) value).getFunctionExpression() != null) {
+				ExpressionValue fun = ((FunctionalNVar) value).getFunctionExpression().unwrap();
+				int opId = ExpressionNode.opID(fun);
+				return opId != -1 && opId < Operation.MULTIPLY.ordinal();
+			}
+
+			return false;
+		}
+
+		if (value.wrap().getOperation() == Operation.FUNCTION) {
+			return requiresBrackets(value.wrap().getLeft(), valueForm);
+		}
+
+		return ExpressionNode.opID(value.unwrap()) < Operation.MULTIPLY.ordinal();
 	}
 
 	/**
@@ -1824,8 +1845,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			}
 
 			// left wing
-			if (left.isLeaf() || (ExpressionNode
-					.opID(left) >= Operation.MULTIPLY.ordinal())) { // not +, -
+			if (!requiresBrackets(left, valueForm)) { // not +, -
 				if (left instanceof MinusOne) { // unary minus
 					nounary = false;
 					sb.append('-');
@@ -1851,9 +1871,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			if (opIDright == Operation.DIVIDE.ordinal() && !nounary
 					&& stringType == StringType.LATEX) {
 				sb.append(rightStr);
-			} else  if (right.isLeaf() || (opIDright >= Operation.MULTIPLY.ordinal())) { // not
-				// +,
-				// -
+			} else if (!requiresBrackets(right, valueForm)) {
 				boolean showMultiplicationSign = false;
 				boolean multiplicationSpaceNeeded = true;
 				if (nounary) {
