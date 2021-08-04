@@ -26,7 +26,10 @@ $deleteTime: 120ms;
 		visibility: hidden;
 	}
 
-	&.portrait .tvTable {
+	// we want upper border when we are in portrait mode, but the table of
+	// values view is not in fullscreen (.withShadow is set on the header
+	// in fullscreen mode, we need the neighbouring .main component)
+	&.portrait .toolPanelHeading:not(.withShadow) ~ .main .tvTable {
 		td, th {
 			border-width: 1px 1px 0 0;
 		}
