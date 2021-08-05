@@ -35,7 +35,7 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class StickyValuesTable extends StickyTable<TVRowData> implements TableValuesListener {
 
-	private static final int CONTEXT_MENU_OFFSET = 12; // distance from three-dot button
+	private static final int CONTEXT_MENU_OFFSET = 4; // distance from three-dot button
 	private final TableValuesModel tableModel;
 	private final TableValuesView view;
 	private final AppW app;
