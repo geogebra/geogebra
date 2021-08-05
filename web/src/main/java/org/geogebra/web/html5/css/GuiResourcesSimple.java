@@ -24,10 +24,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/base64.js")
 	TextResource base64Js();
 
-	// used by ExamUtil (eg toggleFullScreen)
-	@Source("org/geogebra/web/resources/js/visibility.js")
-	TextResource visibilityJs();
-
 	@Source("org/geogebra/web/resources/js/domvas.js")
 	TextResource domvas();
 

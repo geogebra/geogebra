@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.main;
 
+import org.geogebra.web.html5.util.GlobalHandlerRegistry;
+
 import com.google.gwt.dom.client.Element;
 
 import elemental2.dom.DataTransfer;
@@ -11,6 +13,7 @@ import jsinterop.base.Js;
  * Handles files dropped into GeoGebra.
  */
 public class FileDropHandlerW {
+
 	/**
 	 * Register file drop handlers for the canvas of this application
 	 * 
@@ -19,26 +22,27 @@ public class FileDropHandlerW {
 	 * @param appl
 	 *            application
 	 */
-	protected static void registerDropHandler(Element ce, AppW appl) {
+	protected static void registerDropHandler(Element ce, AppW appl,
+			GlobalHandlerRegistry list) {
 		if (ce == null) {
 			return;
 		}
 
 		elemental2.dom.HTMLElement frameElement = Js.uncheckedCast(ce);
 
-		frameElement.addEventListener("dragover", (e) -> {
+		list.addEventListener(frameElement, "dragover", (e) -> {
 			e.preventDefault();
 			e.stopPropagation();
 			frameElement.style.borderColor = "#ff0000";
-		}, false);
+		});
 
-		frameElement.addEventListener("dragleave", (e) -> {
+		list.addEventListener(frameElement, "dragleave", (e) -> {
 			e.preventDefault();
 			e.stopPropagation();
 			frameElement.style.borderColor = "#000000";
-		}, false);
+		});
 
-		frameElement.addEventListener("drop", (event) -> {
+		list.addEventListener(frameElement, "drop", (event) -> {
 			DragEvent e = (DragEvent) event;
 			e.preventDefault();
 			e.stopPropagation();
@@ -53,6 +57,6 @@ public class FileDropHandlerW {
 					appl.openFile(fileToHandle);
 				}
 			}
-		}, false);
+		});
 	}
 }

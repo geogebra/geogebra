@@ -178,13 +178,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		super(app, ec);
 		this.app = app;
 
-		Window.addWindowScrollHandler(new Window.ScrollHandler() {
-
-			@Override
-			public void onWindowScroll(Window.ScrollEvent event) {
-				calculateEnvironment();
-			}
-		});
+		app.getGlobalHandlers().add(Window.addWindowScrollHandler(e -> calculateEnvironment()));
 		app.addWindowResizeListener(this);
 		longTouchManager = LongTouchManager.getInstance();
 		this.cssZoom = Browser.isSafariByVendor();

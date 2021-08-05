@@ -247,7 +247,7 @@ public class GGWToolBar extends Composite
 
 		});
 		// check and log window resize and focus on window
-		new ExamUtil(app).visibilityEventMain();
+		new ExamUtil(app).addVisibilityAndBlurHandlers();
 
 		FlowPanel fp = new FlowPanel();
 		fp.add(timer);

@@ -1,7 +1,5 @@
 package org.geogebra.web.html5;
 
-import org.geogebra.web.html5.util.JsRunnable;
-
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 
@@ -35,9 +33,6 @@ public class GeoGebraGlobal {
 
 	@JsProperty
 	public static native Function getGgbHeaderResize();
-
-	public static native void visibilityEventMain(JsRunnable startCheating,
-			JsRunnable stopCheating);
 
 	@JsFunction
 	public interface RenderGgbElementFunction {

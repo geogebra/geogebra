@@ -146,9 +146,16 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	/**
-	 * Initialize the settings button if it's on the header
+	 * Initialize the settings, undo and redo buttons if they are on the header
 	 */
-	public void initSettingButtonIfOnHeader() {
+	public void initButtonsIfOnHeader() {
+		if (app != null) {
+			initSettingButtonIfOnHeader();
+			initUndoRedoButtonsIfOnHeader();
+		}
+	}
+
+	private void initSettingButtonIfOnHeader() {
 		ActionButton settingsButton = getActionButton("settingsButton");
 		if (settingsButton != null) {
 			setTitle(settingsButton, "Settings");
@@ -161,10 +168,7 @@ public class GlobalHeader implements EventRenderable {
 		app.getLocalization().registerLocalizedUI(settingsButton);
 	}
 
-	/**
-	 * Initialize the undo and redo buttons if these are on the header
-	 */
-	public void initUndoRedoButtonsIfOnHeader() {
+	private void initUndoRedoButtonsIfOnHeader() {
 		ActionButton undoButton = getUndoButton();
 		ActionButton redoButton = getRedoButton();
 		if (undoButton != null && redoButton != null) {

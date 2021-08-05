@@ -35,9 +35,12 @@ import elemental2.core.JsArray;
 import elemental2.dom.Blob;
 import elemental2.dom.BlobPropertyBag;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.EventListener;
+import elemental2.dom.EventTarget;
 import elemental2.dom.FileReader;
 import elemental2.dom.HTMLImageElement;
 import elemental2.promise.Promise;
+import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -241,19 +244,16 @@ public class CopyPasteW extends CopyPaste {
 			if (drawText != null) {
 				drawText.update();
 				((DrawInlineText) drawText).updateContent();
-				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-					@Override
-					public void execute() {
-						int x = (ev.getWidth() - defaultTextWidth) / 2;
-						int y = (int) ((ev.getHeight() - txt.getHeight()) / 2);
-						txt.setLocation(new GPoint2D(
-								ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y)
-						));
-						drawText.update();
+				Scheduler.get().scheduleDeferred(() -> {
+					int x = (ev.getWidth() - defaultTextWidth) / 2;
+					int y = (int) ((ev.getHeight() - txt.getHeight()) / 2);
+					txt.setLocation(new GPoint2D(
+							ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y)
+					));
+					drawText.update();
 
-						ev.getEuclidianController().selectAndShowSelectionUI(txt);
-						app.storeUndoInfo();
-					}
+					ev.getEuclidianController().selectAndShowSelectionUI(txt);
+					app.storeUndoInfo();
 				});
 			}
 		}
@@ -321,50 +321,47 @@ public class CopyPasteW extends CopyPaste {
 		writeToExternalClipboard(text);
 	}
 
-	public static native void installCutCopyPaste(AppW app, Element target) /*-{
-		function incorrectTarget(target) {
-			return target.tagName.toUpperCase() === 'INPUT'
-				|| target.tagName.toUpperCase() === 'TEXTAREA'
-				|| target.tagName.toUpperCase() === 'BR'
-				|| target.parentElement.classList.contains('mowTextEditor');
-		}
-
-		target.addEventListener('paste', function(a) {
+	/**
+	 * @param app application
+	 * @param element event target
+	 */
+	public static void installCutCopyPaste(AppW app, Element element) {
+		EventTarget target = Js.uncheckedCast(element);
+		app.getGlobalHandlers().addEventListener(target, "paste", (a) -> {
 			if (incorrectTarget(a.target)) {
 				return;
 			}
+			ClipboardData clipboardData = Js.uncheckedCast(Js.asPropertyMap(a)
+					.get("clipboardData"));
+			if (clipboardData.files.length > 0) {
+				FileReader reader = new FileReader();
+				reader.addEventListener("load",
+						(ignore) -> pasteImage(app, reader.result.asString()));
 
-			if (a.clipboardData.files.length > 0) {
-				var reader = new FileReader();
-
-				reader.addEventListener("load", function() {
-					@org.geogebra.web.html5.util.CopyPasteW::pasteImage(*)(app, this.result);
-				}, false);
-
-				reader.readAsDataURL(a.clipboardData.files[0]);
+				reader.readAsDataURL(clipboardData.files.getAt(0));
 				return;
 			}
 
-			var text = a.clipboardData.getData("text/plain");
-			if (text) {
-				@org.geogebra.web.html5.util.CopyPasteW::pasteText(*)(app, text);
+			String text = clipboardData.getData("text/plain");
+			if (Js.isTruthy(text)) {
+				pasteText(app, text);
 				return;
 			}
 
-			@org.geogebra.web.html5.util.CopyPasteW::pasteInternal(*)(app);
+			pasteInternal(app);
 		});
 
-		function cutCopy(event) {
+		EventListener cutCopy = (event) -> {
 			if (incorrectTarget(event.target)) {
 				return;
 			}
 
-			@org.geogebra.common.util.CopyPaste::handleCutCopy(*)(app, event.type === 'cut');
-		}
+			handleCutCopy(app, "cut".equals(event.type));
+		};
 
-		target.addEventListener('copy', cutCopy);
-		target.addEventListener('cut', cutCopy)
-	}-*/;
+		app.getGlobalHandlers().addEventListener(target, "copy", cutCopy);
+		app.getGlobalHandlers().addEventListener(target, "cut", cutCopy);
+	}
 
 	/**
 	 * Paste from internal keyboard
@@ -375,6 +372,14 @@ public class CopyPasteW extends CopyPaste {
 		if (!StringUtil.empty(stored)) {
 			pasteGeoGebraXML(app, stored);
 		}
+	}
+
+	private static boolean incorrectTarget(EventTarget tgt) {
+		elemental2.dom.Element target = Js.uncheckedCast(tgt);
+		return "INPUT".equalsIgnoreCase(target.tagName)
+				|| "TEXTAREA".equalsIgnoreCase(target.tagName)
+				|| "BR".equalsIgnoreCase(target.tagName)
+				|| target.parentElement.classList.contains("mowTextEditor");
 	}
 
 	private static void readBlob(Blob blob, AsyncOperation<String> callback) {
@@ -441,5 +446,12 @@ public class CopyPasteW extends CopyPaste {
 
 	private static boolean navigatorSupports(String s) {
 		return Js.isTruthy(Js.asPropertyMap(DomGlobal.navigator).nestedGet(s));
+	}
+
+	@JsType(isNative = true)
+	private static class ClipboardData {
+		public JsArray<Blob> files;
+
+		public native String getData(String s);
 	}
 }

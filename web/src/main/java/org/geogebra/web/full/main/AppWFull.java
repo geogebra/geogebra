@@ -269,8 +269,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		Browser.removeDefaultContextMenu(geoGebraElement);
 		if (getAppletParameters().getDataParamApp() && !this.getLAF().isSmart()) {
 			RootPanel.getBodyElement().addClassName("application");
+			setupHeader();
 		}
-		setupHeader();
 
 		startActivity();
 	}
@@ -2188,7 +2188,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				guiManager.resetMenu();
 				guiManager.updateUnbundledToolbarContent();
 				GlobalHeader.INSTANCE.addExamTimer();
-				new ExamUtil(this).visibilityEventMain();
+				new ExamUtil(this).addVisibilityAndBlurHandlers();
 				guiManager.initInfoBtnAction();
 			}
 		}
