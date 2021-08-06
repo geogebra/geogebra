@@ -1470,7 +1470,7 @@ public class GeoImage extends GeoElement implements Locateable,
 				app.getActiveEuclidianView().setMeasurementTool(this, 1472, 72, 72);
 			}
 			if (getImageFileName().contains("Protractor.svg")) {
-				int middle = (app.getActiveEuclidianView().getWidth() - 500) / 2;
+				int middle = (app.getActiveEuclidianView().getWidth() - 558) / 2;
 				app.getActiveEuclidianView().setMeasurementTool(this, 558, 296, middle);
 			}
 		}
