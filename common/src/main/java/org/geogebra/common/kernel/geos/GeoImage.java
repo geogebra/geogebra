@@ -1467,11 +1467,11 @@ public class GeoImage extends GeoElement implements Locateable,
 	public void setImagePropertiesIfNecessary() {
 		if (isMeasurementTool) {
 			if (getImageFileName().contains("Ruler.svg")) {
-				app.getActiveEuclidianView().setMeasurementTool(this, 1488, 72, 72);
+				app.getActiveEuclidianView().setMeasurementTool(this, 1472, 72, 72);
 			}
 			if (getImageFileName().contains("Protractor.svg")) {
 				int middle = (app.getActiveEuclidianView().getWidth() - 500) / 2;
-				app.getActiveEuclidianView().setMeasurementTool(this, 500, 250, middle);
+				app.getActiveEuclidianView().setMeasurementTool(this, 558, 296, middle);
 			}
 		}
 	}
