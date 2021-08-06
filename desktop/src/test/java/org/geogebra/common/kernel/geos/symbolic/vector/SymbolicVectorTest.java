@@ -112,11 +112,11 @@ public class SymbolicVectorTest extends BaseSymbolicTest {
 		GeoSymbolic sum = add("sum = u + v");
 		assertThat(
 				sum.getLaTeXDescriptionRHS(true, StringTemplate.latexTemplate),
-				equalTo("\\left( \\begin{align}3 \\\\ 3 \\\\ \\end{align} \\right)"));
+				equalTo("\\left( \\begin{align}3 \\\\ 3 \\end{align} \\right)"));
 
 		add("u = (1, 2)");
 		assertThat(
 				sum.getLaTeXDescriptionRHS(true, StringTemplate.latexTemplate),
-				equalTo("\\left( \\begin{align}3 \\\\ 3 \\\\ \\end{align} \\right)"));
+				equalTo("\\left( \\begin{align}3 \\\\ 3 \\end{align} \\right)"));
 	}
 }

@@ -114,8 +114,8 @@ public class InlineTableControllerW implements InlineTableController {
 			setLocation(view.toScreenCoordX(location.x),
 					view.toScreenCoordY(location.y));
 
-			setWidth(table.getWidth());
-			setHeight(table.getHeight());
+			setWidth(table.getContentWidth());
+			setHeight(table.getContentHeight());
 		}
 	}
 
@@ -145,12 +145,10 @@ public class InlineTableControllerW implements InlineTableController {
 
 	@Override
 	public void draw(GGraphics2D g2, GAffineTransform transform) {
-		if (!isInEditMode()) {
-			g2.saveTransform();
-			g2.transform(transform);
-			tableImpl.draw(((GGraphics2DW) g2).getContext());
-			g2.restoreTransform();
-		}
+		g2.saveTransform();
+		g2.transform(transform);
+		tableImpl.draw(((GGraphics2DW) g2).getContext());
+		g2.restoreTransform();
 	}
 
 	@Override
@@ -232,37 +230,37 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void insertRowAbove() {
 		tableImpl.insertRowAbove();
-		updateSizes();
+		updateAndStoreUndoPoint();
 	}
 
 	@Override
 	public void insertRowBelow() {
 		tableImpl.insertRowBelow();
-		updateSizes();
+		updateAndStoreUndoPoint();
 	}
 
 	@Override
 	public void insertColumnLeft() {
 		tableImpl.insertColumnLeft();
-		updateSizes();
+		updateAndStoreUndoPoint();
 	}
 
 	@Override
 	public void insertColumnRight() {
 		tableImpl.insertColumnRight();
-		updateSizes();
+		updateAndStoreUndoPoint();
 	}
 
 	@Override
 	public void removeRow() {
 		tableImpl.removeRow();
-		updateSizes();
+		updateAndStoreUndoPoint();
 	}
 
 	@Override
 	public void removeColumn() {
 		tableImpl.removeColumn();
-		updateSizes();
+		updateAndStoreUndoPoint();
 	}
 
 	@Override
@@ -405,6 +403,7 @@ public class InlineTableControllerW implements InlineTableController {
 		style.setProperty("transformOrigin", "0 0");
 		style.setVisibility(HIDDEN);
 		tableImpl = Carota.get().getTable().create(tableElement);
+		tableImpl.setExternalPaint(true);
 		tableImpl.init(2, 2);
 
 		updateContent();
@@ -421,7 +420,7 @@ public class InlineTableControllerW implements InlineTableController {
 
 			@Override
 			public void onInput() {
-				// not needed
+				view.repaintView(); // make sure to repaint after cell resizing
 			}
 
 			@Override
@@ -462,5 +461,10 @@ public class InlineTableControllerW implements InlineTableController {
 	public void setTransform(double angle, double sx, double sy) {
 		style.setProperty("transform", "rotate(" + angle + "rad) scale(" + sx + "," + sy + ")");
 		tableImpl.setExternalScale(sx);
+	}
+
+	private void updateAndStoreUndoPoint() {
+		updateSizes();
+		view.getApplication().storeUndoInfo();
 	}
 }

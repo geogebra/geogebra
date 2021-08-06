@@ -566,10 +566,6 @@ body .startscreen .GeoGebraFrame img.gwt-Image,body .startscreen .GeoGebraFrame 
     border-bottom-left-radius: 0px;
 }
 
-.GeoGebraFrame .algebraPanelScientific .newRadioButtonTreeItemParent {
-    border-width: 0;
-}
-
 .avItemHeaderScientific {
         position: absolute;
 }

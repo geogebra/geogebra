@@ -73,11 +73,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 */
 	abstract public EuclidianView getEuclidianView();
 
-	@Override
-	public void setVisible(boolean sv) {
-		super.setVisible(sv);
-	}
-
 	/**
 	 * Adds navigation bar
 	 */

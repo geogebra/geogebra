@@ -1568,4 +1568,32 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		undoRedo();
 		assertEquals(3, lookup("r").getConstructionIndex());
 	}
+
+	@Test
+	public void matrixInvertSymbolic() {
+		add("A={{1,2},{3,4}}");
+		GeoElement geo = add("Invert(A)");
+		assertThat(AlgebraItem.isSymbolicDiffers(geo), is(true));
+		assertThat(geo.getAlgebraDescriptionLaTeX(),
+				is("m1\\, = \\,\\left(\\begin{array}{rr}-2&1"
+						+ "\\\\\\frac{3}{2}&\\frac{-1}{2}\\\\ \\end{array}\\right)"));
+	}
+
+	@Test
+	public void testRedefinitionWithTwoVariables() {
+		add("f(a)=k a^2");
+		GeoSymbolic symbolic = add("f(a, k)=k+a^2");
+		assertThat(symbolic.toString(StringTemplate.defaultTemplate), is("f(a, k) = a² + k"));
+		GeoSymbolic result = add("f(1,2)");
+		assertThat(result.toString(StringTemplate.defaultTemplate), is("a = 3"));
+	}
+
+	@Test
+	public void testArgumentOrderRemainsUnchanged() {
+		add("f(x, a) = x^2 + a");
+		GeoSymbolic symbolic = add("fs(x,a)=Derivative(f(x,a),x)");
+		assertThat(symbolic.getFunctionVariables().length, is(2));
+		assertThat(symbolic.getFunctionVariables()[0].getSetVarString(), is("x"));
+		assertThat(symbolic.getFunctionVariables()[1].getSetVarString(), is("a"));
+	}
 }

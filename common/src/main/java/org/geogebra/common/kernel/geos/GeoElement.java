@@ -1558,6 +1558,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	final public void removeOrSetUndefinedIfHasFixedDescendent() {
+		if (isSpotlight()) {
+			return;
+		}
+
 		// can't delete a fixed object at all
 		if (isProtected(EventType.REMOVE)) {
 			return;
@@ -2764,15 +2768,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public static void addAddAllGreekLowerCaseNoPi(
 			IAxisModelListener listener) {
-
 		for (Greek greek : Greek.values()) {
 			if (!greek.upperCase && greek.unicode != Unicode.pi) {
-
-				// \u03d5 in place of \u03c6
 				listener.addAxisLabelItem(greek.getUnicodeNonCurly() + "");
 			}
 		}
-
 	}
 
 	/**
@@ -4477,6 +4477,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public void getXML(boolean getListenersToo, final StringBuilder sb) {
+		if (isSpotlight()) {
+			return;
+		}
 		getExpressionXML(sb);
 		getElementOpenTagXML(sb);
 		getXMLtags(sb);
@@ -6150,6 +6153,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public boolean isInverseFill() {
 		return inverseFill;
+	}
+
+	public boolean isSpotlight() {
+		return false;
 	}
 
 	@Override

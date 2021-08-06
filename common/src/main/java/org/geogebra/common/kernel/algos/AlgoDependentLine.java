@@ -53,16 +53,11 @@ public class AlgoDependentLine extends AlgoElement
 		super(cons, false); // don't add to construction list yet
 		equation = equ;
 		equation.initEquation();
-		// Log.debug("Start algo");
-		// Log.debug(equation.getLHS());
-		// Log.debug(equation.getRHS());
 		Polynomial lhs = equ.getNormalForm();
 
 		ev[0] = lhs.getCoefficient("x");
 		ev[1] = lhs.getCoefficient("y");
 		ev[2] = lhs.getConstantCoefficient();
-		// Log.debug(lhs);
-		// Log.debug(ev[0]);
 
 		// check coefficients
 		for (int i = 0; i < 3; i++) {

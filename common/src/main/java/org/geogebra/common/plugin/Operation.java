@@ -755,6 +755,10 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().acos(false);
+			} else if (lt instanceof VectorValue) {
+				GeoVec2D vec = ((VectorValue) lt).getVector();
+				GeoVec2D.complexAcos(vec, vec);
+				return vec;
 			}
 			throw ev.polynomialOrDie(lt, "acos(");
 
@@ -782,6 +786,10 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().asin(false);
+			} else if (lt instanceof VectorValue) {
+				GeoVec2D vec = ((VectorValue) lt).getVector();
+				GeoVec2D.complexAsin(vec, vec);
+				return vec;
 			}
 			throw ev.polynomialOrDie(lt, "asin(");
 
@@ -809,9 +817,12 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().atan(false);
+			} else if (lt instanceof VectorValue) {
+				GeoVec2D vec = ((VectorValue) lt).getVector();
+				GeoVec2D.complexAtan(vec, vec);
+				return vec;
 			}
 			throw ev.polynomialOrDie(lt, "atan(");
-
 		}
 	},
 	/*

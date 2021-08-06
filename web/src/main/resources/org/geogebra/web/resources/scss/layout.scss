@@ -112,8 +112,8 @@
 	}
 
 	.moveUpDragger {
-		div {
-			overflow: visible !important;
+		.toolbar {
+			overflow: visible;
 		}
 
 		.draggerParentVerical {
