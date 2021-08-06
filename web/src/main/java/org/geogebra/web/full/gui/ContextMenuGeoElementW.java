@@ -7,7 +7,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
-import org.geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -132,7 +131,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (labelController == null) {
 			labelController = new LabelController();
 		}
-		return ObjectNameModel.isAutoLabelNeeded(app)
+		return !app.getConfig().hasAutomaticLabels()
 				&& !labelController.hasLabel(getGeo());
 	}
 

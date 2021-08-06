@@ -26,9 +26,6 @@ public enum Feature {
 	/** MOB-1319 */
 	MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11,
 
-	/** GGB-2215 */
-	ARIA_CONTEXT_MENU,
-
 	/** MOB-1537 */
 	MOB_PREVIEW_WHEN_EDITING,
 
@@ -40,7 +37,4 @@ public enum Feature {
 
 	/** G3D-343 */
 	G3D_SELECT_META,
-
-	/** APPS-890 */
-	AUTOLABEL_CAS_SETTINGS,
 }
