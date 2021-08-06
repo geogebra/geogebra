@@ -28,7 +28,6 @@ import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.io.layout.DockPanelData;
@@ -539,12 +538,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void resetUI() {
 		resetEVs();
-		// make sure file->new->probability does not clear the prob. calc
-		if (getGuiManager() != null
-				&& getGuiManager().hasProbabilityCalculator()) {
-			((ProbabilityCalculatorView) getGuiManager()
-					.getProbabilityCalculator()).updateAll();
-		}
 		// remove all Macros before loading preferences
 		kernel.removeAllMacros();
 		// reload the saved/(default) preferences
@@ -2017,7 +2010,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			String appCode = getConfig().getSubAppCode();
 			if (appCode != null && !appCode.equals(subApp)) {
 				this.activity = new SuiteActivity(subApp);
-				updateSidebarAndMenu(subApp, p);
+				setPerspective(p);
+				updateSidebarAndMenu(subApp);
 				setSuiteHeaderButton(subApp);
 			}
 		}
@@ -2273,12 +2267,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		resetToolbarPanel();
 		Perspective perspective = PerspectiveDecoder.getDefaultPerspective(
 				getConfig().getForcedPerspective());
-		updateSidebarAndMenu(subAppCode, perspective);
+		updateSidebarAndMenu(subAppCode);
 		reinitSettings();
 		clearConstruction();
 		setTmpPerspective(null);
 		getGuiManager().getLayout().applyPerspective(perspective);
-		clearConstruction();
+		kernel.initUndoInfo();
 		if (restoreMaterial(subAppCode)) {
 			registerOpenFileListener(() -> {
 				afterMaterialRestored();
@@ -2339,12 +2333,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		undoManager.undoHistoryFrom(undoHistory);
 	}
 
-	private void updateSidebarAndMenu(String subAppCode, Perspective perspective) {
+	private void updateSidebarAndMenu(String subAppCode) {
 		getKernel().setSymbolicMode(
 				GeoGebraConstants.CAS_APPCODE.equals(subAppCode)
 						? SymbolicMode.SYMBOLIC_AV
 						: SymbolicMode.NONE);
-		setPerspective(perspective);
+
 		setUndoRedoPanelAllowed(!"probability".equals(subAppCode));
 		reinitAlgebraView();
 		if (menuViewController != null) {
@@ -2401,8 +2395,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void updateToolbarClosedState(String subAppCode) {
 		if ("probability".equals(subAppCode)) {
-			((ProbabilityCalculatorView) getGuiManager()
-					.getProbabilityCalculator()).updateAll();
 			DockPanel avPanel = getGuiManager().getLayout().getDockManager()
 					.getPanel(VIEW_ALGEBRA);
 			if (avPanel instanceof ToolbarDockPanelW) {
