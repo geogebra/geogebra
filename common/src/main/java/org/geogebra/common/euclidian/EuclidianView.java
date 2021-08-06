@@ -3631,7 +3631,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		adjustObjects();
 		drawMasks(g2);
-		drawRuler(g2);
+		drawMeasurementTools(g2);
 	}
 
 	/**
@@ -4269,7 +4269,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	private void drawRuler(GGraphics2D g2) {
+	private void drawMeasurementTools(GGraphics2D g2) {
 		for (Drawable d : allDrawableList) {
 			if (d.geo.isMeasurementTool()) {
 				d.updateIfNeeded();
@@ -6766,8 +6766,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * adds ruler image to canvas
-	 * @return geoImage containing ruler
+	 * adds ruler or protractor image to canvas
+	 * @return geoImage containing ruler or protractor
 	 */
 	public GeoImage addMeasurementTool(int mode, String fileName) {
 		return null;

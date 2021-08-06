@@ -69,7 +69,16 @@ public class ModeSwitcher {
 			break;
 
 		case EuclidianConstants.MODE_PROTRACTOR:
-			cons.setProtractor(cons.getProtractor() == null ? new GeoImage(cons) : null);
+			GeoImage protractor = cons.getProtractor();
+			if (protractor != null) {
+				protractor.remove();
+				cons.setProtractor(null);
+			} else {
+				cons.setProtractor(
+						cons.getApplication().getActiveEuclidianView()
+								.addMeasurementTool(EuclidianConstants.MODE_PROTRACTOR,
+										"Protractor.svg"));
+			}
 			break;
 
 		default:

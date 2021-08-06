@@ -162,4 +162,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 	// RULER AND PROTRACTOR
 	@Source("org/geogebra/common/icons/svg/web/ruler_protractor/ruler.svg")
 	SVGResource ruler();
+
+	@Source("org/geogebra/common/icons/svg/web/ruler_protractor/protractor.svg")
+	SVGResource protractor();
 }

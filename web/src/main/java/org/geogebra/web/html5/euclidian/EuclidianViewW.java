@@ -13,6 +13,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.EmbedManager;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianPen;
@@ -1484,11 +1485,9 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public GeoImage addMeasurementTool(int mode, String fileName) {
 		GeoImage tool = new GeoImage(getKernel().getConstruction());
-		SVGResource toolSVG = GuiResourcesSimple.INSTANCE.ruler();
-		//TODO: add protractor
-//		SVGResource toolSVG =
-//				mode == EuclidianConstants.MODE_RULER ? GuiResourcesSimple.INSTANCE.ruler()
-//						: GuiResourcesSimple.INSTANCE.protractor();
+		SVGResource toolSVG =
+				mode == EuclidianConstants.MODE_RULER ? GuiResourcesSimple.INSTANCE.ruler()
+						: GuiResourcesSimple.INSTANCE.protractor();
 		tool.setMeasurementTool(true);
 		SafeGeoImageFactory factory = new SafeGeoImageFactory(appW, tool);
 		String path = ImageManagerW.getMD5FileName(fileName, toolSVG.getSafeUri().asString());
