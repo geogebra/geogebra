@@ -848,4 +848,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 	protected TableValuesView createTableValuesView() {
 		return new TableValuesView(kernel);
 	}
+
+	@Override
+	public void closeFullscreenView() {
+		// only needed in web
+	}
 }
