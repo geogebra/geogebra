@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.AsyncOperation;
@@ -99,7 +98,7 @@ public class ObjectNameModel extends OptionsModel {
 	}
 
 	public void applyNameChange(final String name, ErrorHandler handler) {
-		if (isAutoLabelNeeded()) {
+		if (!app.getConfig().hasAutomaticLabels()) {
 			getLabelController().ensureHasLabel(currentGeo);
 		}
 
@@ -138,22 +137,6 @@ public class ObjectNameModel extends OptionsModel {
 		if (!strName.equals(name)) {
 			listener.setNameText(strName);
 		}
-	}
-
-	private boolean isAutoLabelNeeded() {
-		return isAutoLabelNeeded(app);
-	}
-
-	/**
-	 * @param app The application.
-	 * @return if app needs autolabeling.
-	 */
-	public static boolean isAutoLabelNeeded(App app) {
-		if (!app.has(Feature.AUTOLABEL_CAS_SETTINGS)) {
-			return false;
-		}
-
-		return !app.getConfig().hasAutomaticLabels();
 	}
 
 	private LabelController getLabelController() {

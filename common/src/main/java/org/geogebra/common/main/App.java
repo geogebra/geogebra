@@ -3909,10 +3909,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case GEOMETRIC_DISCOVERY:
 			return prerelease;
 
-		/** APPS-890 */
-		case AUTOLABEL_CAS_SETTINGS:
-			return true;
-
 		// **********************************************************************
        // G3D START
        //
