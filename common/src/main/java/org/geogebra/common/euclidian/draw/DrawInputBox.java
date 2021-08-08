@@ -420,7 +420,8 @@ public class DrawInputBox extends CanvasDrawable {
 
 	@Override
 	protected int getLabelGap() {
-		return 2;
+		return getDynamicCaption() != null && getDynamicCaption().isEnabled()
+				&& geoInputBox.getDynamicCaption().isLaTeX() ? 30 : 2;
 	}
 
 	@Override
