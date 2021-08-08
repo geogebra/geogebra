@@ -27,6 +27,7 @@ import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialVisibility;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.plugin.EventType;
@@ -34,6 +35,8 @@ import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.menubar.FileChooser;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -1247,15 +1250,33 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 *	Save callback after successful login
+	 * Save callback after successful login
 	 * @param title material title
 	 * @param visibility material visibility
+	 * @param callbackAction what should happen after successful login
 	 */
-	public void startSaveCallback(String title, String visibility) {
+	public void startSaveCallback(String title, String visibility, String callbackAction) {
 		app.getSaveController().setSaveType(Material.MaterialType.ggs);
 		app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
 		MaterialVisibility matVisibility = MaterialVisibility.value(visibility);
 		app.getSaveController().saveAs(title, matVisibility, null);
-		((AppW) app).tryLoadTemplatesOnFileNew();
+		app.getSaveController().setRunAfterSave((success)-> {
+			if (success) {
+				if ("clearAll".equals(callbackAction)) {
+					((AppW) app).tryLoadTemplatesOnFileNew();
+				}
+				if ("openOfflineFile".equals(callbackAction)) {
+					app.invokeLater(() -> {
+						FileChooser fileChooser = new FileChooser((AppW) app);
+						fileChooser.addStyleName("hidden");
+						((AppWFull) app).getPanel().add(fileChooser);
+						fileChooser.open();
+					});
+				}
+			} else {
+				app.showError(MyError.Errors.SaveFileFailed);
+			}
+		});
+
 	}
 }
