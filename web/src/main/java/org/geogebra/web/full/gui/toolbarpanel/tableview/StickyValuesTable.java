@@ -35,11 +35,13 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class StickyValuesTable extends StickyTable<TVRowData> implements TableValuesListener {
 
+	private static final int CONTEXT_MENU_OFFSET = 4; // distance from three-dot button
 	private final TableValuesModel tableModel;
 	private final TableValuesView view;
 	private final AppW app;
 	private final HeaderCell headerCell = new HeaderCell();
 	private boolean transitioning;
+	private ContextMenuTV contextMenu;
 
 	private static class HeaderCell {
 		private final String value;
@@ -96,8 +98,9 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	private void onHeaderClick(Element source, int column) {
-		new ContextMenuTV(app, view, view.getGeoAt(column), column)
-				.show(source.getAbsoluteLeft(), source.getAbsoluteTop() - 8);
+		this.contextMenu = new ContextMenuTV(app, view, view.getGeoAt(column), column);
+		contextMenu.show(source.getAbsoluteLeft(), source.getAbsoluteTop()
+						+ source.getClientHeight() + CONTEXT_MENU_OFFSET);
 	}
 
 	@Override
@@ -227,6 +230,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 */
 	public void setHeight(int height) {
 		setBodyHeight(height);
+		if (contextMenu != null) {
+			contextMenu.hide(); // hide context menu on resize
+			contextMenu = null;
+		}
 	}
 
 	/**

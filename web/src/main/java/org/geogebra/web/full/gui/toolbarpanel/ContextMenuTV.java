@@ -9,10 +9,7 @@ import java.util.function.Function;
 import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.plugin.Event;
@@ -103,8 +100,7 @@ public class ContextMenuTV {
 					dialogManager.openTableViewDialog(null);
 				}
 			});
-			addStats("Statistics", view::getStatistics1Var);
-			addAdd();
+			addClear();
 		}
 	}
 
@@ -173,18 +169,11 @@ public class ContextMenuTV {
 		addCommand(cmd, "Edit", "edit");
 	}
 
-	private void addAdd() {
+	private void addClear() {
 		Command add = () -> {
-			Construction construction = app.getKernel().getConstruction();
-			GeoList gl = new GeoList(construction);
-			for (int i = 0; i < 5; i++) {
-				gl.add(new GeoNumeric(construction, 3));
-			}
-			gl.setLabel(construction.getLabelManager()
-					.getNextNumberedLabel("y"));
-			view.showColumn(gl);
+			// APPS-3122
 		};
-		addCommand(add, "Add", "add");
+		addCommand(add, "ClearColumn", "clear");
 	}
 
 	/**
@@ -198,5 +187,9 @@ public class ContextMenuTV {
 	public void show(int x, int y) {
 		wrappedPopup.show(x, y);
 		wrappedPopup.getPopupMenu().focusDeferred();
+	}
+
+	public void hide() {
+		wrappedPopup.hideMenu();
 	}
 }
