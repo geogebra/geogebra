@@ -1258,7 +1258,7 @@ public class GgbAPIW extends GgbAPI {
 		app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
 		MaterialVisibility matVisibility = MaterialVisibility.value(visibility);
 		app.getSaveController().saveAs(title, matVisibility, null);
-		app.getSaveController().setRunAfterSave((success)-> {
+		app.getSaveController().setRunAfterSave((success) -> {
 			if (success) {
 				if ("clearAll".equals(callbackAction)) {
 					((AppW) app).tryLoadTemplatesOnFileNew();
