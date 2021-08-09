@@ -35,7 +35,6 @@ import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.menubar.FileChooser;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -1265,10 +1264,7 @@ public class GgbAPIW extends GgbAPI {
 					((AppW) app).tryLoadTemplatesOnFileNew();
 				}
 				if ("openOfflineFile".equals(callbackAction)) {
-					FileChooser fileChooser = new FileChooser((AppW) app);
-					fileChooser.addStyleName("hidden");
-					((AppW) app).getPanel().add(fileChooser);
-					fileChooser.open();
+					// TODO handle open offline file after login
 				}
 			} else {
 				app.showError(MyError.Errors.SaveFileFailed);
