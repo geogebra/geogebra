@@ -420,7 +420,7 @@ public class DrawInputBox extends CanvasDrawable {
 
 	@Override
 	protected int getLabelGap() {
-		return 2;
+		return 5;
 	}
 
 	@Override
