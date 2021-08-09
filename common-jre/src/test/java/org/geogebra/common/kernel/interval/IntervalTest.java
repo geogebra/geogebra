@@ -35,6 +35,12 @@ public class IntervalTest {
 		return new Interval(low, high);
 	}
 
+	static Interval invertedInterval(double low, double high) {
+		Interval interval = interval(low, high);
+		interval.setInverted();
+		return interval;
+	}
+
 	static Interval interval(double singleton) {
 		return new Interval(singleton);
 	}

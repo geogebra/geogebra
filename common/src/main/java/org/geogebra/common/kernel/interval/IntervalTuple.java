@@ -130,4 +130,12 @@ public class IntervalTuple {
 	public boolean contains(IntervalTuple tuple) {
 		return x.contains(tuple.x) && y.contains(tuple.y);
 	}
+
+	/**
+	 *
+	 * @return if tuple y value is inverted or not
+	 */
+	public boolean isInverted() {
+		return y.isInverted();
+	}
 }

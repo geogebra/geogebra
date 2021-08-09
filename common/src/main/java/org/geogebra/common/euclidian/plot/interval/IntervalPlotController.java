@@ -38,7 +38,7 @@ public class IntervalPlotController implements CoordSystemAnimationListener {
 
 	@Override
 	public void onMoveStop() {
-		model.updateAll();
+		//model.updateAll();
 	}
 
 	@Override

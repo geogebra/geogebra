@@ -1,7 +1,5 @@
 package org.geogebra.common.kernel.interval;
 
-import org.geogebra.common.kernel.arithmetic.MyDouble;
-
 /**
  * Class to detect and fix asymptotes and cut off points
  *
@@ -26,46 +24,13 @@ public class IntervalAsymptotes {
 	public void process() {
 		for (int index = 1; index < samples.count() - 1; index++) {
 			Interval value = value(index);
-			if (value.isWhole()) {
-				checkAsymptote(index);
-			} else if (value.isUndefined()) {
-				fixGraph(index);
-			} else if (value(index).isSemiInfinite()) {
-				fixSemiInfinite(index);
+			if (value.isUninverted()) {
+				connectIfNeighboursAreClose(index);
 			}
 		}
 	}
 
-	private void fixSemiInfinite(int index) {
-		Interval value = value(index);
-		Interval left = leftValue(index);
-		if (left.isFinite()) {
-			completeSemiInfinite(value, left);
-		} else {
-			Interval right = rightValue(index);
-			if (right.isFinite()) {
-				completeSemiInfinite(value, right);
-			}
-		}
-	}
-
-	private void completeSemiInfinite(Interval value, Interval neighbour) {
-		if (value.isLowInfinite()) {
-			value.setHigh(neighbour.getLow());
-		} else {
-			value.setLow(neighbour.getHigh());
-		}
-	}
-
-	private void checkAsymptote(int index) {
-		Interval leftValue = leftValue(index);
-		Interval rightValue = rightValue(index);
-		if (MyDouble.isFinite(leftValue.getHigh()) || MyDouble.isFinite(rightValue.getLow())) {
-			samples.get(index).markAsAsymptote();
-		}
-	}
-
-	private void fixGraph(int index) {
+	private void connectIfNeighboursAreClose(int index) {
 
 		Interval left = leftValue(index);
 		Interval right = rightValue(index);
@@ -79,6 +44,7 @@ public class IntervalAsymptotes {
 		double diffLow = right.getLow() - left.getLow();
 		double diffHigh = right.getHigh() - left.getHigh();
 		value.set(left.getLow() + diffLow / 2, left.getHigh() + diffHigh / 2);
+		value.uninvert();
 	}
 
 	private boolean isCloseTo(Interval left, Interval right) {

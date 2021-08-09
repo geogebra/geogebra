@@ -17,7 +17,7 @@ class IntervalTrigonometric {
 	}
 
 	Interval cos() {
-		if (interval.isUndefined()) {
+		if (interval.isUndefined() || interval.isUninverted()) {
 			return interval;
 		}
 
@@ -26,8 +26,8 @@ class IntervalTrigonometric {
 			return interval;
 		}
 
-		if (interval.isWhole()) {
-			interval.set(-1, 1);
+		if (interval.isWhole() || interval.isInverted()) {
+			setDefaultInterval();
 			return interval;
 		}
 
@@ -89,10 +89,12 @@ class IntervalTrigonometric {
 	 * @return sine of the interval
 	 */
 	public Interval sin() {
-		if (interval.isUndefined()) {
+		if (interval.isUndefined() || interval.isUninverted()) {
 			return interval;
-		} if (interval.isWhole()) {
-			interval.set(-1, 1);
+		}
+
+		if (interval.isInverted()) {
+			setDefaultInterval();
 		} else if (interval.isEmpty() || interval.isOnlyInfinity()) {
 			interval.setEmpty();
 		} else {
@@ -101,11 +103,19 @@ class IntervalTrigonometric {
 		return interval;
 	}
 
+	private void setDefaultInterval() {
+		interval.set(-1, 1);
+		interval.resetInversion();
+	}
+
 	/**
 	 *
 	 * @return secant of the interval
 	 */
 	public Interval sec() {
+		if (interval.isUninverted()) {
+			setDefaultInterval();
+		}
 		Interval interval = new Interval(this.interval);
 		return interval.cos().multiplicativeInverse();
 	}
@@ -124,7 +134,7 @@ class IntervalTrigonometric {
 	 * @return tangent of the interval.
 	 */
 	public Interval tan() {
-		if (interval.isEmpty() || interval.isOnlyInfinity()) {
+		if (interval.isEmpty()) {
 			interval.setEmpty();
 			return interval;
 		}
@@ -134,7 +144,6 @@ class IntervalTrigonometric {
 		}
 
 		if (interval.isWhole()) {
-			interval.setUndefined();
 			return interval;
 		}
 
@@ -148,6 +157,7 @@ class IntervalTrigonometric {
 
 		if (cache.getLow() <= -PI_HALF_LOW || cache.getHigh() >= PI_HALF_LOW) {
 			interval.setWhole();
+			interval.setInverted();
 		} else {
 			interval.set(RMath.tanLow(cache.getLow()), RMath.tanHigh(cache.getHigh()));
 		}
@@ -249,6 +259,9 @@ class IntervalTrigonometric {
 	 * @return 1 / sin(x)
 	 */
 	public Interval csc() {
+		if (interval.isUninverted()) {
+			setDefaultInterval();
+		}
 		Interval interval = new Interval(this.interval);
 		return interval.sin().multiplicativeInverse();
 	}

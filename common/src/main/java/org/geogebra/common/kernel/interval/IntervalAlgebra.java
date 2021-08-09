@@ -203,6 +203,9 @@ class IntervalAlgebra {
 		} else {
 			interval.set(powLow(interval.getLow(), power),
 					powHigh(interval.getHigh(), power));
+			if (interval.hasZero()) {
+				interval.setInverted();
+			}
 		}
 		return interval;
 	}

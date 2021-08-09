@@ -5,6 +5,7 @@ import static java.lang.Double.POSITIVE_INFINITY;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -13,13 +14,20 @@ public class IntervalDivisionTest {
 
 	@Test
 	public void testDivisionPositiveWithZero() {
-		assertEquals(undefined(), interval(1, 2).divide(interval(-1, 1)));
+		assertEquals(invertedInterval(-1, 2),
+				interval(1, 2).divide(interval(-1, 1)));
 		assertEquals(undefined(), interval(0, 2).divide(interval(0, 1)));
 		assertEquals(undefined(), interval(0, 2).divide(interval(-1, 0)));
 		assertEquals(interval(1, Double.POSITIVE_INFINITY),
 				interval(1, 2).divide(interval(0, 1)));
 		assertEquals(interval(NEGATIVE_INFINITY, -1),
 				interval(1, 2).divide(interval(-1, 0)));
+	}
+
+	@Test
+	public void testDivisionByZeroShouldBeInverted() {
+		assertEquals(invertedInterval(-3, 4),
+				interval(3, 4).divide(interval(-1, 1)));
 	}
 
 	@Test

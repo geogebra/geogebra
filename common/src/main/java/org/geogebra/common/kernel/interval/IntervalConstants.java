@@ -1,8 +1,5 @@
 package org.geogebra.common.kernel.interval;
 
-import static java.lang.Double.NEGATIVE_INFINITY;
-import static java.lang.Double.POSITIVE_INFINITY;
-
 public class IntervalConstants {
 	public static final double PI_LOW = Math.PI - 1E-16;
 	public static final double PI_HIGH = Math.PI + 1E-16;
@@ -10,6 +7,8 @@ public class IntervalConstants {
 	public static final double PI_HALF_HIGH = PI_HIGH / 2.0;
 	public static final double PI_TWICE_LOW = PI_LOW * 2.0;
 	public static final double PI_TWICE_HIGH = PI_HIGH * 2.0;
+	public static final double NEGATIVE_INFINITY = -1E-4;
+	public static final double POSITIVE_INFINITY = 1E-4;
 
 	/**
 	 *

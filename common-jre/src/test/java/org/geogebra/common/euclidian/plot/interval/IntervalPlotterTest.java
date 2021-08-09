@@ -1,70 +1,92 @@
 package org.geogebra.common.euclidian.plot.interval;
 
-import static org.junit.Assert.assertEquals;
-
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.kernel.geos.GeoFunction;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 
-@Ignore
 public class IntervalPlotterTest extends BaseUnitTest {
 
-	public static final String EMPTY_PATH = "R";
+	private final IntervalPlotterCommon common = new IntervalPlotterCommon();
 
-	@Test
-	public void testDiscontinuity() {
-		EuclidianView view = getApp().getActiveEuclidianView();
-		view.setRealWorldCoordSystem(Math.PI - 0.0001, 2 * Math.PI + 0.0001, -2, 2);
-		IntervalPathPlotterMock gp = new IntervalPathPlotterMock();
-		IntervalPlotter plotter = new IntervalPlotter(view, gp);
-		GeoFunction function = add("sqrt(sin(x))");
-		plotter.enableFor(function);
-		assertEquals(EMPTY_PATH, gp.getLog());
+	@Before
+	public void setUp() throws Exception {
+		common.setup();
 	}
 
 	@Test
-	public void testDiscontinoutyOfArgument() {
-		EuclidianView view = getApp().getActiveEuclidianView();
-		view.setRealWorldCoordSystem(-1, -1E-7, -9, 9);
-		IntervalPathPlotterMock gp = new IntervalPathPlotterMock();
-		IntervalPlotter plotter = new IntervalPlotter(view, gp);
-		GeoFunction function = add("-1sqrt(-1/x)");
-		plotter.enableFor(function);
-		assertEquals(EMPTY_PATH, gp.getLog());
+	public void sinX() {
+		common.withDefaultScreen();
+		common.withFunction("sin(x)");
+		common.valuesShouldBeBetween(-1, 1);
 	}
 
 	@Test
-	public void testSinLnx() {
-		EuclidianView view = getApp().getActiveEuclidianView();
-		view.setRealWorldCoordSystem(-10, 0, -9, 9);
-		IntervalPathPlotterMock gp = new IntervalPathPlotterMock();
-		IntervalPlotter plotter = new IntervalPlotter(view, gp);
-		GeoFunction function = add("sin(ln(x))");
-		plotter.enableFor(function);
-		assertEquals(EMPTY_PATH, gp.getLog());
+	public void sinXInverseInverse() {
+		common.withDefaultScreen();
+		common.withFunction("1/(1/sin(x))");
+		common.valuesShouldBeBetween(-1, 1);
 	}
 
 	@Test
-	public void testSqrtReciprocalX() {
-		EuclidianView view = getApp().getActiveEuclidianView();
-		view.setRealWorldCoordSystem(-10, 0, -9, 9);
-		IntervalPathPlotterMock gp = new IntervalPathPlotterMock();
-		IntervalPlotter plotter = new IntervalPlotter(view, gp);
-		GeoFunction function = add("sqrt(1/x)");
-		plotter.enableFor(function);
-		assertEquals(EMPTY_PATH, gp.getLog());
+	public void secSecXInverse() {
+		common.withDefaultScreen();
+		common.withFunction("1/sec(sec(x))");
+		common.valuesShouldBeBetween(-1, 1);
 	}
 
 	@Test
-	public void testSecLnXInverse() {
-		EuclidianView view = getApp().getActiveEuclidianView();
-		view.setRealWorldCoordSystem(0, 1, -7, 7);
-		IntervalPathPlotterMock gp = new IntervalPathPlotterMock();
-		IntervalPlotter plotter = new IntervalPlotter(view, gp);
-		GeoFunction function = add("(-8)/sec(ln(x))");
-		plotter.enableFor(function);
-		assertEquals(EMPTY_PATH, gp.getLog());
+	public void cscTanXInverse() {
+		common.withDefaultScreen();
+		common.withFunction("1/csc(tan(x))");
+		common.valuesShouldBeBetween(-1, 1);
 	}
+
+	@Test
+	public void sqrtLnSecX() {
+		common.withBounds(-2, 10, -15, -15);
+		common.withScreenSize(100, 100);
+		common.withFunction("sqrt(ln(sec(x)))");
+		common.valuesShouldBeBetween(0, 4.4);
+	}
+
+	@Test
+	public void lnCosX() {
+		common.withBounds(-2, 2, -15, -15);
+		common.withScreenSize(500, 100);
+		common.withFunction("ln(cos(x))");
+		common.valuesShouldBeBetween(-19, 0);
+	}
+
+	@Test
+	public void cotLnCotX() {
+		common.withBounds(0, 3.2, -15, -15);
+		common.withScreenSize(100, 100);
+		common.withFunction("cot(ln(cot(x)))");
+		common.valuesShouldBeBetween(-19, 0);
+	}
+
+	@Test
+	public void sqrtSecCotX() {
+		common.withDefaultScreen();
+		common.withFunction("sqrt(sec(cot(x)))");
+		common.valuesShouldNotBe(entry -> entry.y - 625 > 1);
+	}
+
+	@Test
+	public void fillUpDownNoBetween() {
+		common.withBounds(-0.6, 0.6, -10, -10);
+		common.withScreenSize(100, 100);
+		common.withFunction("sec((-9/x))");
+		common.valuesShouldNotBe(entry -> entry.y < 1 - 1E-6 && entry.y > -1 + 1E-6);
+
+	}
+
+	@Test
+	public void secMinus9InverseX() {
+		common.withBounds(-1, 1, -10, -10);
+		common.withScreenSize(100, 100);
+		common.withFunction("cot(1/tan(x))");
+		common.valuesShouldBeBetween(-1, 10);
+	}
+
 }

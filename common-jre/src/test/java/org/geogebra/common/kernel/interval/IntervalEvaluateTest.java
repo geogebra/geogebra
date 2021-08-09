@@ -3,7 +3,10 @@ package org.geogebra.common.kernel.interval;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.PI;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.plugin.Operation;
@@ -71,6 +74,54 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 		Interval result = interval(PI, PI).add(interval(0, PI / 2))
 				.sin();
 		assertEquals(interval(-1, 0), result);
+	}
+
+	@Test
+	public void testSqrtXInverse() {
+		Interval result = interval(0, 1).multiplicativeInverse().sqrt();
+		assertEquals(interval(-1, 0), result);
+	}
+
+	@Test
+	public void testXOnFractionPower() {
+		Interval result = interval(0, 1).pow(IntervalConstants.one().negative().divide(
+				new Interval(3)));
+		assertTrue(result.isInverted());
+	}
+
+	@Test
+	public void testMultiplyInvertedWithZero() {
+		Interval result = invertedInterval(-1, 1).multiply(IntervalConstants.zero());
+		assertFalse(result.isInverted());
+	}
+
+	@Test
+	public void testSecSecX() {
+		Interval result = interval(-4.8, -4.7).sec().sec();
+		assertTrue(interval(-1, 1).almostEqual(result));
+	}
+
+	@Test
+	public void testSecSecXInverse() {
+		Interval secInner = interval(-4.600000000000001, -4.500000000000002)
+				.sec();
+		Interval secOuter = secInner.sec();
+		Interval result = secOuter.multiplicativeInverse();
+		assertTrue(result.getLow() >= -1 && result.getHigh() <= 1);
+	}
+
+	@Test
+	public void testCscTanXInverse() {
+		Interval result = interval(-4.600000000000001, -4.500000000000002)
+				.tan().csc().multiplicativeInverse();
+
+		assertTrue(result.getLow() >= -1 && result.getHigh() <= 1);
+	}
+
+	private Interval uninvertedInterval(double low, double high) {
+		Interval interval = new Interval(low, high);
+		interval.uninvert();
+		return interval;
 	}
 
 	@Test

@@ -189,6 +189,8 @@ public class IntervalAlgebraTest {
 		assertTrue(interval(2, 3).almostEqual(interval(4, 9).sqrt()));
 		assertTrue(interval(0, 3).almostEqual(interval(-4, 9).sqrt()));
 		assertTrue(interval(-9, -4).sqrt().isEmpty());
+		assertTrue(interval(0, 0).sqrt().isInverted());
+		assertTrue(interval(0, 1).sqrt().isInverted());
 	}
 
 	@Test

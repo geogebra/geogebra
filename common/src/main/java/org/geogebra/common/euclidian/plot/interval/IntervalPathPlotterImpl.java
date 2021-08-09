@@ -21,11 +21,13 @@ public class IntervalPathPlotterImpl implements IntervalPathPlotter {
 	@Override
 	public void moveTo(double x, double y) {
 		gp.moveTo(x, y);
+//		Log.debug("M " + x + " " + y);
 	}
 
 	@Override
 	public void lineTo(double x, double y) {
 		gp.lineTo(x, y);
+//		Log.debug("L " + x + " " + y);
 	}
 
 	@Override

@@ -21,6 +21,11 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	private double low;
 	private double high;
 
+
+	private enum Inversion { NONE, INVERTED, UNINVERTED }
+
+	private Inversion inverted = Inversion.NONE;
+
 	/**
 	 * Creates a singleton interval [value, value]
 	 *
@@ -58,6 +63,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 */
 	public Interval(Interval other) {
 		this(other.low, other.high);
+		inverted = other.inverted;
 	}
 
 	/**
@@ -113,6 +119,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	public Interval add(Interval other) {
 		low += other.low;
 		high += other.high;
+		inverted = other.inverted;
 		return this;
 	}
 
@@ -155,6 +162,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 		} else {
 			low -= other.high;
 			high -= other.low;
+			inverted = other.inverted;
 		}
 		return this;
 	}
@@ -174,8 +182,9 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return if interval has zero in it.
 	 */
 	public boolean hasZero() {
-		return low <= 0 && high >= 0;
+		return contains(0);
 	}
+
 
 	/**
 	 *
@@ -256,8 +265,9 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 			return true;
 		}
 
-		return DoubleUtil.isEqual(low, other.low, 1E-7)
-			&& DoubleUtil.isEqual(high, other.high, 1E-7);
+		return inverted == other.inverted
+				&& DoubleUtil.isEqual(low, other.low, 1E-7)
+				&& DoubleUtil.isEqual(high, other.high, 1E-7);
 	}
 
 	/**
@@ -273,11 +283,20 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 			return this;
 		}
 
+		if (isInverted()) {
+			uninvert();
+			set(RMath.divLow(1, low), RMath.divHigh(1, high));
+			return this;
+		}
+
 		if (hasZero()) {
 			if (low != 0) {
 				if (high != 0) {
 					// [negative, positive]
-					setUndefined();
+					Interval interval =
+								new Interval(RMath.divLow(1, low), RMath.divHigh(1, high));
+					interval.setInverted();
+					return interval;
 				} else {
 					// [negative, zero]
 					double d = low;
@@ -291,9 +310,10 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 					high = Double.POSITIVE_INFINITY;
 				} else {
 					// [zero, zero]
-					setUndefined();
+					setInverted();
 				}
 			}
+			setInverted();
 		} else {
 			// [positive, positive]
 			return new Interval(RMath.divLow(1, high), RMath.divHigh(1, low));
@@ -320,6 +340,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 */
 	public void set(Interval other) {
 		set(other.low, other.high);
+		inverted = other.inverted;
 	}
 
 	/**
@@ -574,10 +595,18 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 		return misc.hull(other);
 	}
 
+	/**
+	 * Sets interval to [0].
+	 */
 	public void setZero() {
 		set(IntervalConstants.zero());
+		inverted = Inversion.NONE;
 	}
 
+	/**
+	 *
+	 * @return if interval is [0].
+	 */
 	public boolean isZero() {
 		return low == 0 && high == 0;
 	}
@@ -602,8 +631,31 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 		return misc.abs();
 	}
 
-	public boolean contains(Interval interval) {
-		return interval.low > low && interval.high < high;
+	/**
+	 *
+	 * @param other to check
+	 * @return if this interval contains the other.
+	 */
+	public boolean contains(Interval other) {
+		return other.low > low && other.high < high;
+	}
+
+	/**
+	 *
+	 * @param value to check
+	 * @return if value os in this interval.
+	 */
+	public boolean contains(double value) {
+		return low <= value && value <= high;
+	}
+
+	/**
+	 *
+	 * @param value to check
+	 * @return if value os in this interval but not bounds.
+	 */
+	public boolean containsExclusive(double value) {
+		return low < value && value < high;
 	}
 
 	/**
@@ -612,12 +664,21 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return if this interval is greater than the other.
 	 */
 	public boolean isGreaterThan(Interval other) {
-		if (isEmpty() || other.isEmpty()) {
+		if (isEmpty() || other == null || other.isEmpty()) {
 			return false;
 		}
 		return high > other.high;
 	}
 
+	/**
+	 * Evaluate interval with given operation and param.
+	 *
+	 * @param operation to execute.
+	 * @param other parameter for the operation
+	 * @return the result of the operation.
+	 * @throws Exception in case of division by zero
+	 *
+	 */
 	public Interval evaluate(Operation operation,
 			Interval other) throws Exception {
 		return evaluate.evaluate(operation, other);
@@ -747,6 +808,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 */
 	public void setUndefined() {
 		set(Double.NaN, Double.NaN);
+		inverted = Inversion.NONE;
 	}
 
 	/**
@@ -770,6 +832,14 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 
 	/**
 	 *
+	 * @return if both bounds are >= 0.
+	 */
+	public boolean isNatural() {
+		return !isEmpty() && low > 0;
+	}
+
+	/**
+	 *
 	 * @return if both bounds are negative.
 	 */
 	public boolean isNegative() {
@@ -782,5 +852,49 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 */
 	public boolean isSingletonInteger() {
 		return isSingleton() && DoubleUtil.isEqual(low, Math.round(low));
+	}
+
+	/**
+	 * Sets interval [low, high] inverted. This really means:
+	 * [-∞, low] union [high, ∞]
+	 * Note: zero interval cannot be inverted.
+	 */
+	public void setInverted() {
+		if (!isZero()) {
+			inverted = Inversion.INVERTED;
+		}
+	}
+
+	/**
+	 * Clears interval as inverted.
+	 */
+	public void uninvert() {
+		if (isInverted()) {
+			inverted = Inversion.UNINVERTED;
+		}
+	}
+
+	/**
+	 *
+	 * @return if interval is inverted,
+	 * ie equals [-∞, low] union [high, ∞].
+	 */
+	public boolean isInverted() {
+		return inverted == Inversion.INVERTED;
+	}
+
+	/**
+	 *
+	 * @return if interval was uninverted at some point,
+	 */
+	public boolean isUninverted() {
+		return inverted == Inversion.UNINVERTED;
+	}
+
+	/**
+	 * Resets inversion as it never was touched.
+	 */
+	public void resetInversion() {
+		inverted = Inversion.NONE;
 	}
 }

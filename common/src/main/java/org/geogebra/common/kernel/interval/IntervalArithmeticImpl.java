@@ -27,7 +27,7 @@ public class IntervalArithmeticImpl implements IntervalArithmetic {
 		if (other.hasZero()) {
 			if (other.getLow() != 0) {
 				if (other.getHigh() != 0) {
-					return divisionByZero();
+					return divideAndInvert(other);
 				} else {
 					return divisionByNegative(other.getLow());
 				}
@@ -106,16 +106,35 @@ public class IntervalArithmeticImpl implements IntervalArithmetic {
 		return interval;
 	}
 
-	private Interval divisionByZero() {
+	private Interval divideAndInvert(Interval other) {
 		if (interval.isZero()) {
 			return interval;
 		}
-		interval.setUndefined();
-		return interval;
+		if (interval.isInverted()) {
+			interval.setUndefined();
+			return interval;
+		}
+		Interval result = new Interval(interval.getLow() / other.getLow(),
+				interval.getHigh() / other.getHigh());
+		result.setInverted();
+		return result;
 	}
 
 	@Override
 	public Interval multiply(Interval other) {
+		if (other.isZero()) {
+			interval.setZero();
+			return interval;
+		}
+
+		if (other.isOne()) {
+			return interval;
+		}
+
+		if (interval.isOne()) {
+			return other;
+		}
+
 		if (interval.isEmpty() || other.isEmpty()) {
 			return empty();
 		}
@@ -190,6 +209,9 @@ public class IntervalArithmeticImpl implements IntervalArithmetic {
 				// zero * any other value
 				interval.setZero();
 			}
+		}
+		if (other.isInverted()) {
+			interval.setInverted();
 		}
 		return interval;
 	}

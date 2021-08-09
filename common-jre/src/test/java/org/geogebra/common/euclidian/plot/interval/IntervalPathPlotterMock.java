@@ -4,25 +4,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.DoubleUtil;
 
 public class IntervalPathPlotterMock implements IntervalPathPlotter {
-	private List<String> log = new ArrayList<>();
+	private final List<IntervalPathMockEntry> log = new ArrayList<>();
+	private final EuclidianViewBounds bounds;
+
+	public IntervalPathPlotterMock(EuclidianViewBounds bounds) {
+		this.bounds = bounds;
+	}
 
 	@Override
 	public void reset() {
 		log.clear();
-		log.add("R");
+		log.add(new IntervalPathMockEntry());
 	}
 
 	@Override
 	public void moveTo(double x, double y) {
-		log.add("M " + x + " " + y);
+		log.add(
+				new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.MOVE_TO,
+						rwX(x),
+						rwY(y)));
+	}
+
+	private double rwX(double x) {
+		return bounds == null ? x : bounds.toRealWorldCoordX(x);
+	}
+
+	private double rwY(double y) {
+		double realWorldY = bounds.toRealWorldCoordY(y);
+		if (DoubleUtil.isEqual(realWorldY, bounds.getYmin())) {
+			return bounds.getXmin();
+		} else if (DoubleUtil.isEqual(realWorldY, bounds.getYmax())) {
+			return bounds.getYmax();
+		}
+
+		return realWorldY;
 	}
 
 	@Override
 	public void lineTo(double x, double y) {
-		log.add("L " + x + " " + y);
+		log.add(new IntervalPathMockEntry(
+				IntervalPathMockEntry.PathOperation.LINE_TO,
+				rwX(x),
+				rwY(y)));
 
 	}
 
@@ -31,8 +57,8 @@ public class IntervalPathPlotterMock implements IntervalPathPlotter {
 		// stub.
 	}
 
-	public String getLog() {
-		return StringUtil.join(",", log);
+	public List<IntervalPathMockEntry> getLog() {
+		return log;
 	}
 
 	@Override

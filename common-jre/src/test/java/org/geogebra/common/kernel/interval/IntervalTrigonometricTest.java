@@ -6,9 +6,9 @@ import static java.lang.Math.PI;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE_HIGH;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE_LOW;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -82,16 +82,20 @@ public class IntervalTrigonometricTest {
 		assertEquals(interval(-1, 1), interval(-PI / 4, PI / 4).tan());
 		assertEquals(interval(-1, 1), interval(-9 * PI / 4, -7 * PI / 4).tan());
 		assertEquals(interval(-1, 1), interval(7 * PI / 4, 9 * PI / 4).tan());
-		assertEquals(whole(),
-				interval(PI / 2, PI / 2).tan());
-		assertEquals(whole(),
-				interval(5 * PI / 2, 5 * PI / 2).tan());
-		assertEquals(whole(),
-				interval(-5 * PI / 2, -5 * PI / 2).tan());
-		assertEquals(whole(),
-				interval(0, PI / 2).tan());
 		assertEquals(interval(0.16767801556, 0.18877817478),
 				interval(-2.975460122699386, -2.955010224948875).tan());
+	}
+
+	@Test
+	public void testTanCut() {
+		assertTrue(interval(PI / 2, PI / 2).tan().isInverted());
+//		assertEquals(whole(),
+//				interval(5 * PI / 2, 5 * PI / 2).tan());
+//		assertEquals(whole(),
+//				interval(-5 * PI / 2, -5 * PI / 2).tan());
+//		assertEquals(whole(),
+//				interval(0, PI / 2).tan());
+//
 	}
 
 	@Test
@@ -153,6 +157,16 @@ public class IntervalTrigonometricTest {
 	@Test
 	public void testSinUndefinedShouldReturnUndefined() {
 		assertEquals(undefined(), undefined().sin());
+	}
+
+	@Test
+	public void testInvertedSinShouldReturnInMinusOneOneRange() {
+		assertEquals(interval(-1, 1), invertedInterval(2, 3).sin());
+	}
+
+	@Test
+	public void testInvertedCosShouldReturnInMinusOneOneRange() {
+		assertEquals(interval(-1, 1), invertedInterval(2, 3).cos());
 	}
 
 	@Test

@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -125,7 +126,8 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 	public void evaluatePowerOfFraction1underMinus3() throws Exception {
 		GeoFunction geo = add("x^(1/-3)");
 		IntervalFunction function = new IntervalFunction(geo);
-		shouldBeXPowerOnMinusThird(function);
+		Interval result = function.evaluate(interval(-1, 1));
+		assertTrue(result.isInverted());
 	}
 
 	@Test

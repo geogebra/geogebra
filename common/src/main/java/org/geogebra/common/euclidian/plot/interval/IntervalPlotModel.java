@@ -17,21 +17,21 @@ public class IntervalPlotModel {
 	private final IntervalFunctionSampler sampler;
 	private IntervalTupleList points;
 	private IntervalPath path;
-	private final EuclidianView view;
+	private final EuclidianViewBounds bounds;
 	private Interval oldDomain;
 
 	/**
 	 * Constructor
 	 * @param range to plot.
 	 * @param sampler to retrieve function data from.
-	 * @param view {@link EuclidianView}
+	 * @param bounds {@link EuclidianView}
 	 */
 	public IntervalPlotModel(IntervalTuple range,
 			IntervalFunctionSampler sampler,
-			EuclidianView view) {
+			EuclidianViewBounds bounds) {
 		this.range = range;
 		this.sampler = sampler;
-		this.view = view;
+		this.bounds = bounds;
 	}
 
 	public void setPath(IntervalPath path) {
@@ -45,9 +45,9 @@ public class IntervalPlotModel {
 		updatePath();
 	}
 
-		/**
-		 * Updates the entire model.
-		 */
+	/**
+	 * Updates the entire model.
+	 */
 	public void updateAll() {
 		updateRanges();
 		updateSampler();
@@ -55,8 +55,8 @@ public class IntervalPlotModel {
 	}
 
 	private void updateRanges() {
-		range.set(view.domain(), view.range());
-		oldDomain = view.domain();
+		range.set(bounds.domain(), bounds.range());
+		oldDomain = bounds.domain();
 	}
 
 	void updateSampler() {
@@ -82,9 +82,9 @@ public class IntervalPlotModel {
 	public void updateDomain() {
 		double oldMin = oldDomain.getLow();
 		double oldMax = oldDomain.getHigh();
-		oldDomain = view.domain();
-		double min = view.domain().getLow();
-		double max = view.domain().getHigh();
+		oldDomain = bounds.domain();
+		double min = bounds.domain().getLow();
+		double max = bounds.domain().getHigh();
 		if (oldMax < max && oldMin > min) {
 			extendDomain();
 		} else if (oldMax > max && oldMin < min) {
@@ -92,6 +92,7 @@ public class IntervalPlotModel {
 		} else {
 			moveDomain(oldMax - max);
 		}
+		updatePath();
 	}
 
 	private void shrinkDomain() {
@@ -109,12 +110,12 @@ public class IntervalPlotModel {
 	}
 
 	private void extendMin() {
-		IntervalTupleList newPoints = sampler.extendMin(view.getXmin());
+		IntervalTupleList newPoints = sampler.extendMin(bounds.getXmin());
 		points.prepend(newPoints);
 	}
 
 	private void shrinkMin() {
-		int offscreenCount = sampler.shrinkMin(view.getXmin());
+		int offscreenCount = sampler.shrinkMin(bounds.getXmin());
 		int maxPointsToRemove = Math.min(points.count(), offscreenCount);
 		int keepPointCount = countVisibleFrom(maxPointsToRemove);
 
@@ -127,7 +128,7 @@ public class IntervalPlotModel {
 	private int countVisibleFrom(int maxPointsToRemove) {
 		int count = 0;
 		for (int i = 0; i < maxPointsToRemove; i++) {
-			if (points.get(i).x().getLow() > view.getXmin()) {
+			if (points.get(i).x().getLow() > bounds.getXmin()) {
 				count++;
 			}
 		}
@@ -135,10 +136,10 @@ public class IntervalPlotModel {
 	}
 
 	private void shrinkMax() {
-		int removeCount = sampler.shrinkMax(view.getXmax());
+		int removeCount = sampler.shrinkMax(bounds.getXmax());
 		int count = 0;
 		for (int i = points.count() - 1; i > points.count() - 1 - removeCount; i--) {
-			if (i >= 0 && points.get(i).x().getHigh() < view.getXmax()) {
+			if (i >= 0 && points.get(i).x().getHigh() < bounds.getXmax()) {
 				count++;
 			}
 		}
@@ -150,7 +151,7 @@ public class IntervalPlotModel {
 	}
 
 	private void extendMax() {
-		IntervalTupleList newPoints = sampler.extendMax(view.getXmax());
+		IntervalTupleList newPoints = sampler.extendMax(bounds.getXmax());
 		points.append(newPoints);
 	}
 
@@ -179,16 +180,55 @@ public class IntervalPlotModel {
 	}
 
 	/**
-	 *
 	 * @param point to check around
 	 * @return if the function is ascending from point to the right.
 	 */
-	public boolean isAscending(IntervalTuple point) {
+	public boolean isAscendingBefore(IntervalTuple point) {
 		if (point.index() > points.count() - 1) {
 			return false;
 		}
 
-		IntervalTuple next = pointAt(point.index() + 1);
-		return next != null && next.y().isGreaterThan(point.y());
+		return isAscendingBefore(point.index() + 1);
+	}
+
+	/**
+	 * @param index of the point to check around
+	 * @return if the function is ascending from point to the left.
+	 */
+	public boolean isAscendingBefore(int index) {
+		return points.isAscendingBefore(index);
+	}
+
+	/**
+	 * @param index of the point to check around
+	 * @return if the function is ascending from point to the right.
+	 */
+	public boolean isAscendingAfter(int index) {
+		return points.isAscendingAfter(index);
+	}
+
+	/**
+	 *
+	 * @param index of the tuple.
+	 * @return if the tuple of a given index is empty or not.
+	 */
+	public boolean isEmptyAt(int index) {
+		return index >= points.count() || pointAt(index).isEmpty();
+	}
+
+	public boolean isInvertedAt(int index) {
+		return index >= points.count() || pointAt(index).isInverted();
+	}
+
+	public boolean isUndefinedAt(int index) {
+		return index >= points.count() || pointAt(index).isUndefined();
+	}
+
+	/**
+	 *
+	 * @return count of points in model
+	 */
+	public int getCount() {
+		return points.count();
 	}
 }
