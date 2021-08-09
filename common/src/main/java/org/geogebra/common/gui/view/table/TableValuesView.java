@@ -38,7 +38,7 @@ import com.google.j2objc.annotations.Weak;
  */
 public class TableValuesView implements TableValues, SettingListener {
 
-	private static final double[] DEFAULT_RANGE = new double[] {-2.0, -1.0, 0.0, 1.0, 2.0};
+	private static final double[] DEFAULT_RANGE = new double[] {};
 	private static final int MAX_ROWS = 200;
 
 	@Weak
@@ -173,7 +173,12 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	private double[] createRangeOrDefault() {
 		try {
-			return DoubleUtil.range(getValuesMin(), getValuesMax(), getValuesStep());
+			double min = getValuesMin();
+			double max = getValuesMax();
+			double step = getValuesStep();
+			return min == 0 && max == 0 && step == 0
+					? DEFAULT_RANGE
+					: DoubleUtil.range(min, max, step);
 		} catch (OutOfMemoryError error) {
 			return DEFAULT_RANGE;
 		}

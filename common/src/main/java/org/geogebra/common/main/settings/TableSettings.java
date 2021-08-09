@@ -8,13 +8,13 @@ package org.geogebra.common.main.settings;
 public class TableSettings extends AbstractSettings {
 
 	/** The default value for valuesMin */
-	public static final double DEFAULT_MIN = -2.0;
+	public static final double DEFAULT_MIN = 0;
 
 	/** The default value for valuesMax */
-	public static final double DEFAULT_MAX = 2.0;
+	public static final double DEFAULT_MAX = 0;
 
 	/** The default value for valuesStep */
-	public static final double DEFAULT_STEP = 1.0;
+	public static final double DEFAULT_STEP = 0;
 
 	private double valuesMin = DEFAULT_MIN;
 	private double valuesMax = DEFAULT_MAX;
