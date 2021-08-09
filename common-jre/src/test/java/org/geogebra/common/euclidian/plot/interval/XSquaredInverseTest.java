@@ -19,7 +19,7 @@ public class XSquaredInverseTest {
 		common.withBounds(-8.5, 8.5, -11, 7);
 		common.withScreenSize(393, 412);
 		common.withFunction("1/(-15+x^2)");
-		common.logShouldBeAt(213, LINE_TO ,-3.8931297709923784, 0.0);
+		common.logShouldBeAt(213, LINE_TO, -3.8931297709923784, 0.0);
 		common.logShouldBeAt(214, MOVE_TO, -3.8931297709923784, 412.0);
 		common.logShouldBeAt(215, LINE_TO, -3.871501272264643,
 				-2.9023719927283493);

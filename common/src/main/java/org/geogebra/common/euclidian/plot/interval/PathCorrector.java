@@ -21,7 +21,8 @@ public class PathCorrector {
 	 * @param bounds {@link EuclidianViewBounds}
 	 * @param model {@link IntervalPlotModel}
 	 */
-	public PathCorrector(IntervalPathPlotter gp, IntervalPlotModel model, EuclidianViewBounds bounds) {
+	public PathCorrector(IntervalPathPlotter gp, IntervalPlotModel model,
+			EuclidianViewBounds bounds) {
 		this.gp = gp;
 		this.model = model;
 		this.bounds = bounds;
@@ -60,7 +61,7 @@ public class PathCorrector {
 	}
 
 	private boolean isInvertedAround(int idx) {
-		return (model.isInvertedAt(idx - 1)&& model.isInvertedAt(idx + 1));
+		return (model.isInvertedAt(idx - 1) && model.isInvertedAt(idx + 1));
 	}
 
 	private void completePathAt(int idx) {
@@ -88,13 +89,11 @@ public class PathCorrector {
 				: bounds.getHeight();
 		if (ascending) {
 			if (yLow >= 0) {
-				if (yLow < bounds.getHeight() / 2) {
-					gp.lineTo(xMiddle, 0);
-				}
+				gp.lineTo(xMiddle, 0);
 			}
 		} else if (lastY.isInverted()) {
 			gp.lineTo(xMiddle, lastY.getLow());
-		} else if (!DoubleUtil.isEqual(lastY.getLow(),yLow) && yLow < bounds.getHeight()) {
+		} else if (!DoubleUtil.isEqual(lastY.getLow(), yLow) && yLow < bounds.getHeight()) {
 			gp.lineTo(xMiddle, bounds.getHeight());
 		}
 	}

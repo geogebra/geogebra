@@ -21,7 +21,6 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	private double low;
 	private double high;
 
-
 	private enum Inversion { NONE, INVERTED, UNINVERTED }
 
 	private Inversion inverted = Inversion.NONE;
@@ -184,7 +183,6 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	public boolean hasZero() {
 		return contains(0);
 	}
-
 
 	/**
 	 *

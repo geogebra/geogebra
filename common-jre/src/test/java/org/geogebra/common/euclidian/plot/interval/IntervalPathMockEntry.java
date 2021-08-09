@@ -11,7 +11,6 @@ public class IntervalPathMockEntry {
 	double x;
 	double y;
 
-
 	public enum PathOperation {
 		MOVE_TO("M"),
 		LINE_TO("L"),
