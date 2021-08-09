@@ -48,6 +48,7 @@ public class EmbedInputDialog extends MediaDialog
 		} else {
 			urlChecker = new MarvlURLChecker();
 		}
+		updateInfo();
 	}
 
 	@Override
@@ -58,7 +59,6 @@ public class EmbedInputDialog extends MediaDialog
 
 	private void addInfoLabel() {
 		mediaInputPanel.addInfoLabel();
-		updateInfo();
 	}
 
 	private void updateInfo() {

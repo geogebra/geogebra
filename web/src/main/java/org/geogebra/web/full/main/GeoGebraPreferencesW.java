@@ -5,7 +5,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
-import org.geogebra.web.html5.main.AppW;
 
 /**
  * Preferences in Web (Local Storage)
@@ -75,7 +74,7 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 	 * @param p0
 	 *            selected perspective
 	 */
-	public void loadForApp(AppW app, Perspective p0) {
+	public void loadForApp(AppWFull app, Perspective p0) {
 		Perspective p = p0;
 		// code moved here from AppWapplication.afterCoreObjectsInited - end
 		BrowserStorage stockStore = BrowserStorage.LOCAL;
@@ -97,8 +96,9 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 		}
 
 		readObjectDefaults(app, stockStore);
-
-		if (app.getGuiManager() != null) {
+		if (app.isUnbundled()) {
+			app.setPerspectiveForUnbundled(p);
+		} else if (app.getGuiManager() != null) {
 			app.getGuiManager().getLayout()
 					.setPerspectiveOrDefault(p);
 		}

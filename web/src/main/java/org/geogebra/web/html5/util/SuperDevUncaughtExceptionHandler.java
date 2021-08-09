@@ -15,7 +15,7 @@ public class SuperDevUncaughtExceptionHandler
 	public static void register() {
 		GWT.setUncaughtExceptionHandler(new SuperDevUncaughtExceptionHandler());
 	}
-	
+
 	@Override
 	public void onUncaughtException(Throwable t) {
 		Throwable cause = t;

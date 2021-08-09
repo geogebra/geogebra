@@ -3909,10 +3909,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case GEOMETRIC_DISCOVERY:
 			return prerelease;
 
-		/** APPS-890 */
-		case AUTOLABEL_CAS_SETTINGS:
-			return true;
-
 		// **********************************************************************
        // G3D START
        //
@@ -3949,6 +3945,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public boolean isWhiteboardActive() {
+		return false;
+	}
+
+	/**
+	 * @return whether we are running suite
+	 */
+	public boolean isSuite() {
 		return false;
 	}
 
@@ -5274,9 +5277,5 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public void setActiveMaterial(Material material) {
 		activeMaterial = material;
-	}
-
-	public boolean isSuite() {
-		return false;
 	}
 }

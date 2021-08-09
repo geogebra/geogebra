@@ -1601,8 +1601,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		restoreCurrentUndoHistory();
 	}
 
-	private void setPerspectiveForUnbundled(Perspective p) {
-		Perspective fromXml = getTmpPerspective(p);
+	/**
+	 * Like Layout.setPerspective, but with additional checks for unbundled
+	 *
+	 * @param perspective perspective
+	 */
+	public void setPerspectiveForUnbundled(Perspective perspective) {
+		Perspective fromXml = getTmpPerspective(perspective);
 
 		Perspective forcedPerspective = PerspectiveDecoder
 				.getDefaultPerspective(getConfig().getForcedPerspective());
@@ -1613,7 +1618,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		layout.updateLayout(forcedPerspective);
 
 		getGuiManager().setGeneralToolBarDefinition(fromXml.getToolbarDefinition());
-		getGuiManager().getUnbundledToolbar().updateContent();
+		ToolbarPanel unbundledToolbar = getGuiManager().getUnbundledToolbar();
+		if (unbundledToolbar != null) {
+			unbundledToolbar.updateContent();
+		}
 
 		layout.getDockManager().setActiveTab(fromXml);
 
