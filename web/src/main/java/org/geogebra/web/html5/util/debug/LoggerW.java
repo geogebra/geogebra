@@ -70,11 +70,18 @@ public class LoggerW extends Log {
 		}
 	}
 
-	private void printErrorMessage(Throwable t) {
+	/**
+	 * @param thrown exception
+	 */
+	public static void printErrorMessage(Object thrown) {
 		// This contains the stacktrace in gwt dev mode.
-		Object backingJsObject = Js.asPropertyMap(t).nestedGet("backingJsObject.stack");
+		Object backingJsObject = Js.asPropertyMap(thrown).nestedGet("backingJsObject.stack");
 		if (Browser.hasProperty(DomGlobal.console, "error")) {
-			DomGlobal.console.error(t, backingJsObject);
+			if (Js.isTruthy(backingJsObject)) {
+				DomGlobal.console.error(backingJsObject);
+			} else {
+				DomGlobal.console.error(thrown);
+			}
 		}
 	}
 
