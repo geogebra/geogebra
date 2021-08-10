@@ -26,7 +26,10 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MaterialVisibility;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.OpenFileListener;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.AsyncOperation;
@@ -1242,5 +1245,31 @@ public class GgbAPIW extends GgbAPI {
 		if (guiManagerW != null) {
 			guiManagerW.showPointsTV(column, show);
 		}
+	}
+
+	/**
+	 * Save callback after successful login
+	 * @param title material title
+	 * @param visibility material visibility
+	 * @param callbackAction what should happen after successful login
+	 */
+	public void startSaveCallback(String title, String visibility, String callbackAction) {
+		app.getSaveController().setSaveType(Material.MaterialType.ggs);
+		app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
+		MaterialVisibility matVisibility = MaterialVisibility.value(visibility);
+		app.getSaveController().saveAs(title, matVisibility, null);
+		app.getSaveController().setRunAfterSave((success) -> {
+			if (success) {
+				if ("clearAll".equals(callbackAction)) {
+					((AppW) app).tryLoadTemplatesOnFileNew();
+				}
+				if ("openOfflineFile".equals(callbackAction)) {
+					// TODO handle open offline file after login
+				}
+			} else {
+				app.showError(MyError.Errors.SaveFileFailed);
+			}
+		});
+
 	}
 }

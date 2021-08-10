@@ -160,6 +160,10 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.isSaved();
 	}
 
+	public void startSaveCallback(String title, String visibility, String callbackAction) {
+		ggbAPI.startSaveCallback(title, visibility, callbackAction);
+	}
+
 	public void initCAS() {
 		ggbAPI.initCAS();
 	}
