@@ -24,7 +24,7 @@ public class ResourcesInjectorFull extends ResourcesInjector {
 
 		StyleInjector.inject("css", "keyboard-styles");
 		StyleInjector.inject("css", "fonts");
-		StyleInjector.inject("css", "greek-fonts");
+		StyleInjector.inject("css", "greek-font");
 	}
 
 	private boolean isMebis(AppletParameters parameters) {

@@ -108,10 +108,10 @@ ext.appSpecs = [
 
 compileSass {
     // Directory where to output generated CSS:
-    outputDir = project.file ("${projectDir}/war/css")
+    outputDir = file("${projectDir}/war/css")
 
     // Source directory containing sass to compile:
-    sourceDir = project.file ("${projectDir}/src/main/resources/scss")
+    sourceDir = file("${projectDir}/src/main/resources/scss")
 
     // Set the output style:
     // Possible values are “expanded” and “compressed”, default is “expanded”.
@@ -125,10 +125,10 @@ compileSass {
 }
 
 task watchSass (type: CompileSass) {
-    outputDir = project.file ("${projectDir}/war/css")
-    sourceDir = project.file ("${projectDir}/src/main/resources/scss")
+    outputDir = file("${projectDir}/war/css")
+    sourceDir = file("${projectDir}/src/main/resources/scss")
     style = compressed
-    sourceMap = none
+    sourceMap = embed
 
     // Watch sass files in sourceDir for changes
     // (Default is to not to watch, compile once and terminate)
@@ -322,7 +322,7 @@ task run(type: JavaExec, dependsOn: ['jar', 'copyDevHtml', 'createSolverHtml']) 
         }
         gwtGlobalCache.mkdirs()
         ProcessBuilder pb = new ProcessBuilder(Os.isFamily(Os.FAMILY_WINDOWS)
-                        ? ['cmd', '/c', 'START', '/MIN', '..\\gradlew', 'watchSass']
+                        ? ['cmd', '/c', 'START', '/MIN', file('..\\gradlew.bat').absolutePath, 'watchSass']
                         : ['gradlew', 'watchSass'])
         sassCompilation = pb.start()
     }
