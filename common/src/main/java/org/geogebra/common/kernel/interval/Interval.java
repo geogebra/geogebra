@@ -189,7 +189,17 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return if interval represents all the real numbers R.
 	 */
 	public boolean isWhole() {
-		return low == Double.NEGATIVE_INFINITY && high == Double.POSITIVE_INFINITY;
+		return (DoubleUtil.isEqual(low, Double.NEGATIVE_INFINITY)
+				&& DoubleUtil.isEqual(high, Double.POSITIVE_INFINITY));
+	}
+
+	/**
+	 *
+	 * @return if interval represents all the real numbers R with limits.
+	 */
+	public boolean is1EWhole() {
+		return (DoubleUtil.isEqual(low, IntervalConstants.NEGATIVE_INFINITY)
+				&& DoubleUtil.isEqual(high, IntervalConstants.POSITIVE_INFINITY));
 	}
 
 	/**
@@ -283,7 +293,11 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 
 		if (isInverted()) {
 			uninvert();
-			set(RMath.divLow(1, low), RMath.divHigh(1, high));
+			if (is1EWhole()) {
+				setZero();
+			} else {
+				set(RMath.divLow(1, low), RMath.divHigh(1, high));
+			}
 			return this;
 		}
 

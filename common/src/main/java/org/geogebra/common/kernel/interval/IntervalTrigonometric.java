@@ -134,7 +134,7 @@ class IntervalTrigonometric {
 	 * @return tangent of the interval.
 	 */
 	public Interval tan() {
-		if (interval.isEmpty()) {
+		if (interval.is1EWhole() || interval.isOnlyInfinity()) {
 			interval.setEmpty();
 			return interval;
 		}
@@ -143,7 +143,8 @@ class IntervalTrigonometric {
 			return interval;
 		}
 
-		if (interval.isWhole()) {
+		if (interval.isInverted()) {
+			interval.setZero();
 			return interval;
 		}
 

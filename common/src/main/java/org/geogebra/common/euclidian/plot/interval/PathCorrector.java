@@ -36,7 +36,9 @@ public class PathCorrector {
 	 */
 	public Interval handleInvertedInterval(int idx) {
 		IntervalTuple tuple = model.pointAt(idx);
-		if (isInvertedAround(idx)) {
+		if (tuple.y().isWhole()) {
+			lastY.setEmpty();
+		} else if (isInvertedAround(idx)) {
 			handleFill(tuple);
 		} else if (bounds.isOnView(tuple.y())) {
 			completePathAt(idx);

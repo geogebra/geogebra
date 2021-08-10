@@ -135,4 +135,21 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 					.evaluate(Operation.PLUS, interval(2, 3)));
 
 	}
+
+	@Test
+	public void testTanOfXInverse() {
+		Interval result =
+				interval(-0.6399999999999988, -0.5999999999999988).multiplicativeInverse()
+						.tan();
+		assertTrue(result.isEmpty());
+	}
+
+	@Test
+	public void testSqrtSecCotX() {
+		Interval cot = interval(IntervalConstants.PI_HALF_LOW,
+				IntervalConstants.PI_HALF_HIGH).cot();
+		Interval sec = cot.sec();
+		Interval result = sec.sqrt();
+		assertEquals(IntervalConstants.one(), result);
+	}
 }
