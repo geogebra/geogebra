@@ -20,8 +20,8 @@ public class ResourcesInjectorFull extends ResourcesInjector {
 	protected void injectResourcesGUI(AppletParameters parameters) {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
 
+		StyleInjector.inject("css/bundles", "simple-bundle");
 		StyleInjector.inject("css/bundles", (isMebis(parameters) ? "mebis-" : "") + "bundle");
-
 		StyleInjector.inject("css", "keyboard-styles");
 		StyleInjector.inject("css", "fonts");
 		StyleInjector.inject("css", "greek-font");

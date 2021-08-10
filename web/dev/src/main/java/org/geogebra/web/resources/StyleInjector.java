@@ -15,6 +15,9 @@
  */
 package org.geogebra.web.resources;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.DOM;
 
 import elemental2.dom.DomGlobal;
@@ -29,6 +32,9 @@ public class StyleInjector {
 
 	public static final String CLASSNAME = "ggw_resource";
 
+	private static List<String> stylesInLoading = new ArrayList<>();
+	private static List<Runnable> onStylesReady = new ArrayList<>();
+
 	/**
 	 * @param baseUrl (relative or absolute) base url of css file
 	 * @param name name of the css file, without extension
@@ -37,6 +43,13 @@ public class StyleInjector {
 		if (DOM.getElementById(name) == null) {
 			HTMLLinkElement element
 					= (HTMLLinkElement) DomGlobal.document.createElement("link");
+
+			stylesInLoading.add(name);
+			element.onload = (e) -> {
+				stylesInLoading.remove(name);
+				checkIfAllStylesLoaded();
+			};
+
 			element.className = CLASSNAME;
 			element.id = name;
 			element.rel = "stylesheet";
@@ -46,11 +59,24 @@ public class StyleInjector {
 		}
 	}
 
+	private static void checkIfAllStylesLoaded() {
+		if (stylesInLoading.isEmpty()) {
+			for (Runnable r : onStylesReady) {
+				r.run();
+			}
+			onStylesReady.clear();
+		}
+	}
+
 	public static HTMLStyleElement injectStyleSheet(String style) {
 		HTMLStyleElement element
 				= (HTMLStyleElement) DomGlobal.document.createElement("style");
 		element.className = CLASSNAME;
 		element.innerHTML = style;
 		return element;
+	}
+
+	public static void onStylesLoaded(Runnable runnable) {
+		onStylesReady.add(runnable);
 	}
 }

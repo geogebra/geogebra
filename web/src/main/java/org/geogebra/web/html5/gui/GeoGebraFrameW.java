@@ -16,6 +16,7 @@ import org.geogebra.web.html5.util.LoadFilePresenter;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
+import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.DivElement;
@@ -436,27 +437,29 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * Splash screen callback
 	 */
 	public void runAsyncAfterSplash() {
-		ResourcesInjector resourcesInjector = getResourcesInjector(appletParameters);
+		ResourcesInjector resourcesInjector = getResourcesInjector();
 		resourcesInjector.injectResources(appletParameters);
 		resourcesInjector.loadWebFont(appletParameters.getDataParamFontsCssUrl());
 
-		app = createApplication(geoGebraElement, appletParameters, this.laf);
-		app.setCustomToolBar();
+		StyleInjector.onStylesLoaded(() -> {
+			app = createApplication(geoGebraElement, appletParameters, this.laf);
+			app.setCustomToolBar();
 
-		Event.sinkEvents(geoGebraElement.getElement(), Event.ONKEYPRESS | Event.ONKEYDOWN);
-		Event.setEventListener(geoGebraElement.getElement(),
-				app.getGlobalKeyDispatcher().getGlobalShortcutHandler());
+			Event.sinkEvents(geoGebraElement.getElement(), Event.ONKEYPRESS | Event.ONKEYDOWN);
+			Event.setEventListener(geoGebraElement.getElement(),
+					app.getGlobalKeyDispatcher().getGlobalShortcutHandler());
 
-		if (app.isPerspectivesPopupVisible()) {
-			app.showPerspectivesPopupIfNeeded();
-		}
-		// need to call setLabels here
-		// to print DockPanels' titles
-		app.setLabels();
-		fitSizeToScreen();
+			if (app.isPerspectivesPopupVisible()) {
+				app.showPerspectivesPopupIfNeeded();
+			}
+			// need to call setLabels here
+			// to print DockPanels' titles
+			app.setLabels();
+			fitSizeToScreen();
+		});
 	}
 
-	protected ResourcesInjector getResourcesInjector(AppletParameters appletParameters) {
+	protected ResourcesInjector getResourcesInjector() {
 		return new ResourcesInjector();
 	}
 
