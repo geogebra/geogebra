@@ -56,8 +56,8 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 	@Test
 	public void testMultipleAdd() throws Exception {
 		assertEquals(interval(2, 3), interval(0, 0)
-			.evaluate(Operation.PLUS, interval(0, 1))
-			.evaluate(Operation.PLUS, interval(2, 2))
+				.evaluate(Operation.PLUS, interval(0, 1))
+				.evaluate(Operation.PLUS, interval(2, 2))
 		);
 
 	}
@@ -131,8 +131,8 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 
 		assertEquals(interval(1, 3),
 				interval(PI, PI).evaluate(Operation.PLUS, interval(0, PI / 2))
-					.evaluate(Operation.SIN)
-					.evaluate(Operation.PLUS, interval(2, 3)));
+						.evaluate(Operation.SIN)
+						.evaluate(Operation.PLUS, interval(2, 3)));
 
 	}
 
@@ -149,6 +149,14 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 		Interval result =
 				interval(0).sqrt().sqrt();
 		assertEquals(IntervalConstants.zero(), result);
+	}
+
+	@Test
+	public void testLnLnX() {
+		Interval logInner = interval(0.999999999999998, 1.199999999999998).log();
+		Interval logOuter = logInner.log();
+		Interval result = logOuter.multiply(interval(-2));
+		assertEquals(interval(0, 0), result);
 	}
 
 	@Test

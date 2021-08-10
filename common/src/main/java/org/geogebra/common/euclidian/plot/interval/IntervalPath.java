@@ -85,6 +85,9 @@ public class IntervalPath {
 	private void moveToCurveBegin(int i, IntervalTuple point) {
 		Interval x = bounds.toScreenIntervalX(point.x());
 		Interval y = bounds.toScreenIntervalY(point.y());
+		if (y.isEmpty()) {
+			return;
+		}
 		boolean inverted = point.y().isInverted();
 		if (model.isAscendingAfter(i)) {
 			// -sqrt(1/x)
