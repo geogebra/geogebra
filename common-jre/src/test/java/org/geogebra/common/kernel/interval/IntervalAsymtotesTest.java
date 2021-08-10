@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.interval;
 
 import static java.lang.Math.PI;
+import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -16,19 +18,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.junit.Test;
 
 public class IntervalAsymtotesTest extends BaseUnitTest {
-
-	@Test
-	public void tanX() {
-		IntervalTupleList result = functionValues("tan(x)", -PI / 4, 3 * PI / 4, -10, 10);
-		assertTrue(result.get(74).isAsymptote());
-	}
-
-	@Test
-	public void tanXHighResolution() {
-		IntervalTupleList result = functionValuesWithSampleCount(
-				"tan(x)", -20, 20, -10, 10, 1920);
-		assertTrue(result.get(74).isAsymptote());
-	}
 
 	@Test
 	public void xInverseHighResolution() {
@@ -76,13 +65,6 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 		assertTrue(result.get(24).y().isInverted());
 		assertTrue(result.get(74).y().isInverted());
 		assertTrue(result.get(99).y().isInverted());
-	}
-
-	@Test
-	public void cotX() {
-		IntervalTupleList result = functionValues("cot(x)", 0, PI, -9, 9);
-		assertTrue(result.get(0).y().isUndefined()
-				&& result.get(100).y().isUndefined());
 	}
 
 	@Test
@@ -138,17 +120,6 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void tanSqrtCosX() {
-		IntervalTupleList tuples = functionValues("tan(sqrt(cos(x)))", -2, 2, 10, 10);
-		assertTrue(tuples.valueAt(0).isEmpty());
-		assertTrue(tuples.valueAt(1).hasZero());
-		assertEquals(new Interval(1.5560382788311629, 1.5574077246549032),
-				tuples.valueAt(41));
-		assertTrue(tuples.valueAt(80).hasZero());
-		assertTrue(tuples.valueAt(81).isEmpty());
-	}
-
-	@Test
 	public void squareRootOfSinX() {
 		IntervalTupleList tuples = functionValues("sqrt(sin(x))", 0, 3 * PI, -8, 8);
 		assertTrue(tuples.valueAt(33).hasZero());
@@ -160,27 +131,24 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 	@Test
 	public void absOfXInverse() {
 		IntervalTupleList tuples = functionValues("abs(1/x)", -1, 1, -8, 8);
-		assertTrue(tuples.valueAt(49).isUndefined());
+		assertEquals(invertedInterval(0.0, 1.6192717761332122E15), tuples.valueAt(49));
 	}
 
 	@Test
 	public void squareRootOfTanX() {
 		IntervalTupleList tuples = functionValues("sqrt(tan(x))", 0, 3 * PI, -8, 8);
-		assertEquals(tuples.valueAt(54).getLow(), tuples.valueAt(53).getHigh(), 0);
+		assertEquals(invertedInterval(0, 0.01), tuples.valueAt(54));
+		assertTrue(tuples.valueAt(55).isEmpty());
+		assertTrue(tuples.valueAt(56).isZero());
 	}
 
 	@Test
 	public void inverseSquareRootOfTanX() {
-		IntervalTupleList tuples = functionValues("1/sqrt(tan(x))", 0, 2 * PI, -8, 8);
-		assertEquals(tuples.valueAt(54).getLow(), tuples.valueAt(53).getHigh(), 0);
-	}
-
-	@Test
-	public void inspectFunctions() {
-		IntervalTupleList tuples = functionValuesWithSampleCount(
-				"1/(sec(sec(x)))",
-				-15, 15, -10, 10, 1280);
-		valuesShouldBeBetween(tuples, -1, 1);
+		IntervalTupleList tuples = functionValues("1/sqrt(tan(x))",
+				0, 2 * PI, -8, 8);
+		assertEquals(interval(0.2508279634603156, 0.3554284434961665),
+				tuples.valueAt(49));
+		assertTrue(tuples.valueAt(50).isEmpty());
 	}
 
 	@Test
@@ -188,14 +156,6 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 		IntervalTupleList tuples = functionValuesWithSampleCount(
 				"1/(csc(tan(x)))",
 				-15, 15, -10, 10, 1280);
-		valuesShouldBeBetween(tuples, -1, 1);
-	}
-
-	@Test
-	public void cotLnCotX() {
-		IntervalTupleList tuples = functionValues(
-				"cot(ln(cot(x)))",
-				0, 2, -10, 10);
 		valuesShouldBeBetween(tuples, -1, 1);
 	}
 
@@ -229,5 +189,4 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 				sampleCount);
 		return sampler.result();
 	}
-
 }

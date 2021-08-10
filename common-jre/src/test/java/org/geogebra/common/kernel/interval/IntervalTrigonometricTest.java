@@ -5,6 +5,7 @@ import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.PI;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE_HIGH;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE_LOW;
+import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
@@ -40,7 +41,14 @@ public class IntervalTrigonometricTest {
 		assertEquals(interval(-1, 0), interval(PI / 2, PI).cos());
 		assertEquals(interval(-1, 1), interval(-PI / 2, PI).cos());
 		assertEquals(interval(-1, 0), interval(PI / 2, PI).cos());
-		assertEquals(interval(-1, 1), IntervalConstants.whole().cos());
+		assertEquals(undefined(), IntervalConstants.undefined().cos());
+	}
+
+	@Test
+	public void testInverted() {
+		assertEquals(interval(-1, 1), invertedInterval(0, 3).cos());
+		assertEquals(interval(-1, 1), invertedInterval(0, 3).sin());
+
 	}
 
 	@Test
@@ -100,7 +108,7 @@ public class IntervalTrigonometricTest {
 
 	@Test
 	public void testTanWithInfinity() {
-		assertEquals(undefined(), IntervalConstants.whole().tan());
+		assertEquals(empty(), IntervalConstants.whole().tan());
 	}
 
 	@Test

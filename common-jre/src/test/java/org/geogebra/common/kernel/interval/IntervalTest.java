@@ -41,6 +41,12 @@ public class IntervalTest {
 		return interval;
 	}
 
+	static Interval uninvertedInterval(double low, double high) {
+		Interval interval = interval(low, high);
+		interval.uninvert();
+		return interval;
+	}
+
 	static Interval interval(double singleton) {
 		return new Interval(singleton);
 	}
