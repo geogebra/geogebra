@@ -152,6 +152,10 @@ class IntervalAlgebra {
 			return interval;
 		}
 
+		if (interval.isZero()) {
+			return interval;
+		}
+
 		return nthRoot(2);
 	}
 
@@ -164,6 +168,11 @@ class IntervalAlgebra {
 	Interval nthRoot(Interval other) {
 		if (!other.isSingleton()) {
 			interval.setEmpty();
+			return interval;
+		}
+
+		if (interval.hasZero()) {
+			interval.setZero();
 			return interval;
 		}
 
@@ -203,6 +212,11 @@ class IntervalAlgebra {
 		} else {
 			interval.set(powLow(interval.getLow(), power),
 					powHigh(interval.getHigh(), power));
+			if (interval.getLow() < 0) {
+				interval.setZero();
+				return interval;
+			}
+
 			if (interval.hasZero()) {
 				interval.setInverted();
 			}

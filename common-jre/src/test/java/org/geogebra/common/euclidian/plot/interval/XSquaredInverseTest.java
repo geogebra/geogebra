@@ -24,10 +24,10 @@ public class XSquaredInverseTest extends IntervalPlotterCommon {
 		}
 
 	@Test
-	public void tanOfXInverse() {
-		withBounds(1, 2, -10, 10);
+	public void inspect() {
+		withBounds(-50, 50, -50, 50);
 		withScreenSize(100, 100);
-		withFunction("sqrt(sec(cot(x)))");
+		withFunction("sqrt(sqrt(x))");
 		logShouldBeAt(213, LINE_TO, -3.8931297709923784, 0.0);
 		}
 }

@@ -145,6 +145,13 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testSqrtSqrtOfX() {
+		Interval result =
+				interval(0).sqrt().sqrt();
+		assertEquals(IntervalConstants.zero(), result);
+	}
+
+	@Test
 	public void testSqrtSecCotX() {
 		Interval cot = interval(IntervalConstants.PI_HALF_LOW,
 				IntervalConstants.PI_HALF_HIGH).cot();
