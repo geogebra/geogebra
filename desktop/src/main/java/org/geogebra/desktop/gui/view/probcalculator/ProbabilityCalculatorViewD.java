@@ -77,7 +77,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 	private JToggleButton btnExport;
 
-	private JPanel wrapperPanel;
+	private final JPanel wrapperPanel;
 
 	private JLabel lblMeanSigma;
 
@@ -85,9 +85,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 	private JPanel probCalcPanel;
 
-	private JTabbedPane tabbedPane;
+	private final JTabbedPane tabbedPane;
 
-	private StatisticsCalculator statCalculator;
+	private final StatisticsCalculator statCalculator;
 	private int defaultDividerSize;
 	private ResultPanelD resultPanel;
 
@@ -113,10 +113,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		tabbedPane.addTab(loc.getMenu("Distribution"), probCalcPanel);
 		tabbedPane.addTab(loc.getMenu("Statistics"),
 				((StatisticsCalculatorD) statCalculator).getWrappedPanel());
-		tabbedPane.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				updateStylebar();
+		tabbedPane.addChangeListener(e -> {
+			if (styleBar != null) {
+				styleBar.updateLayout();
 			}
 		});
 
@@ -136,7 +135,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	@Override
 	protected void updateStylebar() {
 		if (styleBar != null) {
-			styleBar.updateLayout();
+			styleBar.updateGUI();
 		}
 	}
 
@@ -640,7 +639,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 	@Override
 	protected void updateDiscreteTable() {
-		if (!probmanagerIsDiscrete()) {
+		if (!isDiscreteProbability()) {
 			return;
 		}
 		int[] firstXLastX = generateFirstXLastXCommon();

@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 
@@ -29,7 +30,7 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 
 	JToolBar wrappedToolbar;
 
-	private MyToggleButtonD btnCumulative, btnLineGraph, btnStepGraph,
+	private MyToggleButtonD btnLineGraph, btnStepGraph,
 			btnBarGraph, btnExport, btnNormalOverlay;
 
 	private final LocalizationD loc;
@@ -51,26 +52,22 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 		updateLayout();
 		updateGUI();
 		setLabels();
-
 	}
 
 	public void updateIcons() {
-		if (btnCumulative == null) {
+		if (btnLineGraph == null) {
 			return;
 		}
 		iconHeight = ((AppD) getApp()).getScaledIconSize();
-		btnCumulative.setIcon(((AppD) getApp())
-				.getScaledIcon(GuiResourcesD.CUMULATIVE_DISTRIBUTION));
-		btnLineGraph
-				.setIcon(((AppD) getApp()).getScaledIcon(GuiResourcesD.LINE_GRAPH));
-		btnStepGraph
-				.setIcon(((AppD) getApp()).getScaledIcon(GuiResourcesD.STEP_GRAPH));
-		btnBarGraph
-				.setIcon(((AppD) getApp()).getScaledIcon(GuiResourcesD.BAR_GRAPH));
-		btnExport.setIcon(((AppD) getApp()).getScaledIcon(GuiResourcesD.EXPORT16));
-		btnNormalOverlay.setIcon(
-				((AppD) getApp()).getScaledIcon(GuiResourcesD.NORMAL_OVERLAY));
+		btnLineGraph.setIcon(getScaledIcon(GuiResourcesD.LINE_GRAPH));
+		btnStepGraph.setIcon(getScaledIcon(GuiResourcesD.STEP_GRAPH));
+		btnBarGraph.setIcon(getScaledIcon(GuiResourcesD.BAR_GRAPH));
+		btnExport.setIcon(getScaledIcon(GuiResourcesD.EXPORT16));
+		btnNormalOverlay.setIcon(getScaledIcon(GuiResourcesD.NORMAL_OVERLAY));
+	}
 
+	private ImageIcon getScaledIcon(GuiResourcesD resource) {
+		return ((AppD) getApp()).getScaledIcon(resource);
 	}
 
 	private void createGUI() {
@@ -78,24 +75,18 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 
 		wrappedToolbar.removeAll();
 
-		btnCumulative = new MyToggleButtonD(((AppD) getApp()).getScaledIcon(
-				GuiResourcesD.CUMULATIVE_DISTRIBUTION), iconHeight);
-		btnCumulative.setSelected(getProbCalc().isCumulative());
-		btnCumulative.addActionListener(e -> getProbCalc()
-				.setCumulative(!getProbCalc().isCumulative()));
-
 		btnLineGraph = new MyToggleButtonD(
-				((AppD) getApp()).getScaledIcon(GuiResourcesD.LINE_GRAPH),
+				getScaledIcon(GuiResourcesD.LINE_GRAPH),
 				iconHeight);
 		btnLineGraph.addActionListener(this);
 
 		btnStepGraph = new MyToggleButtonD(
-				((AppD) getApp()).getScaledIcon(GuiResourcesD.STEP_GRAPH),
+				getScaledIcon(GuiResourcesD.STEP_GRAPH),
 				iconHeight);
 		btnStepGraph.addActionListener(this);
 
 		btnBarGraph = new MyToggleButtonD(
-				((AppD) getApp()).getScaledIcon(GuiResourcesD.BAR_GRAPH),
+				getScaledIcon(GuiResourcesD.BAR_GRAPH),
 				iconHeight);
 		btnBarGraph.addActionListener(this);
 
@@ -106,13 +97,13 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 
 		// create export button
 		btnExport = new MyToggleButtonD(
-				((AppD) getApp()).getScaledIcon(GuiResourcesD.EXPORT16), iconHeight);
+				getScaledIcon(GuiResourcesD.EXPORT16), iconHeight);
 		btnExport.setFocusable(false);
 		btnExport.addActionListener(this);
 
 		// create normal overlay button
 		btnNormalOverlay = new MyToggleButtonD(
-				((AppD) getApp()).getScaledIcon(GuiResourcesD.NORMAL_OVERLAY),
+				getScaledIcon(GuiResourcesD.NORMAL_OVERLAY),
 				iconHeight);
 		btnNormalOverlay.setFocusable(false);
 		btnNormalOverlay.addActionListener(this);
@@ -140,7 +131,6 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 		}
 		wrappedToolbar.revalidate();
 		wrappedToolbar.repaint();
-
 	}
 
 	/**
@@ -149,12 +139,9 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 	public void updateGUI() {
 
 		iconHeight = ((AppD) getApp()).getScaledIconSize();
-		btnLineGraph.setVisible(getProbCalc()
-				.getProbManager().isDiscrete(getProbCalc().getSelectedDist()));
-		btnStepGraph.setVisible(getProbCalc()
-				.getProbManager().isDiscrete(getProbCalc().getSelectedDist()));
-		btnBarGraph.setVisible(getProbCalc()
-				.getProbManager().isDiscrete(getProbCalc().getSelectedDist()));
+		btnLineGraph.setVisible(getProbCalc().isDiscreteProbability());
+		btnStepGraph.setVisible(getProbCalc().isDiscreteProbability());
+		btnBarGraph.setVisible(getProbCalc().isDiscreteProbability());
 
 		btnLineGraph.removeActionListener(this);
 		btnStepGraph.removeActionListener(this);
@@ -222,7 +209,6 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 					-menu.getPreferredSize().width + btnExport.getWidth(),
 					btnExport.getHeight());
 		}
-
 	}
 
 	/**

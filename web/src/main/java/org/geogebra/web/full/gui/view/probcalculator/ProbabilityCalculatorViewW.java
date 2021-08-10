@@ -408,7 +408,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	@Override
 	protected void updateDiscreteTable() {
-		if (!probmanagerIsDiscrete()) {
+		if (!isDiscreteProbability()) {
 			return;
 		}
 		int[] firstXLastX = generateFirstXLastXCommon();
@@ -581,7 +581,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	 * Tab resize callback
 	 */
 	public void tabResized() {
-		int tableWidth = probmanagerIsDiscrete() ? ((ProbabilityTableW) getTable()).getStatTable()
+		int tableWidth = isDiscreteProbability() ? ((ProbabilityTableW) getTable()).getStatTable()
 				.getTable().getOffsetWidth() + TABLE_PADDING_AND_SCROLLBAR : 0;
 		int width = mainSplitPane.getOffsetWidth()
 				- tableWidth
@@ -596,7 +596,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			plotSplitPane.setWidth(width + "px");
 		}
 
-		if (height > 0 && probmanagerIsDiscrete()) {
+		if (height > 0 && isDiscreteProbability()) {
 			((ProbabilityTableW) getTable()).getWrappedPanel()
 					.setPixelSize(tableWidth, height);
 		}
