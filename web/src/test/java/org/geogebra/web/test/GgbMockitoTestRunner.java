@@ -7,6 +7,7 @@ import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.geogebra.web.html5.main.FileDropHandlerW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.MyNumberFormat;
+import org.geogebra.web.resources.StyleInjector;
 import org.gwtproject.regexp.client.NativeRegExp;
 import org.junit.runners.model.InitializationError;
 
@@ -76,6 +77,8 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 Void.class);
         StubGenerator.replaceMethodWithMock(XMLHttpRequest.class, "send",
                 XMLHttpRequest.class);
+        StubGenerator.replaceMethodWithMock(StyleInjector.class, "inject",
+                Void.class);
     }
 
     @Override

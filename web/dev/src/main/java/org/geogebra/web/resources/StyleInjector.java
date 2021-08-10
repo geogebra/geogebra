@@ -78,5 +78,6 @@ public class StyleInjector {
 
 	public static void onStylesLoaded(Runnable runnable) {
 		onStylesReady.add(runnable);
+		checkIfAllStylesLoaded();
 	}
 }
