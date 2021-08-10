@@ -57,9 +57,11 @@ ext.handlebars = { raw ->
 
 ext.classicHtml = { app, prerelease, offline = false, inlineCss = false ->
     def platformSpecific = offline ? "<!--PLATFORM SPECIFIC CODE--><script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
+    def inlinedCss = inlineCss ? getCss(false) : ""
     return replaceVendor(html, "GeoGebra")
             .replace("<!--SPLASH-->", splash)
             .replace("<!--SPLASH STYLE-->", template("splash-style.css"))
+            .replace("<!--PRELOADED CSS-->", inlinedCss)
             .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/geogebra.ico")
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
             .injectMeasurementTemplate(app.firebaseAppId, app.measurementId, app.hotjar)
