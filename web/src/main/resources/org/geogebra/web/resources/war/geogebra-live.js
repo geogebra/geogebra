@@ -1,7 +1,7 @@
 (function() {
     function LiveApp(parentClientId, embedLabel, users, delay) {
         this.api = null;
-        this.users = users || {};
+        this.users = users || [];
       	this.delay = delay || 200;
         this.clientId = parentClientId;
         this.currentAnimations = [];
@@ -135,9 +135,9 @@
 
             var definition = this.api.getCommandString(label);
             if (definition) {
-                this.sendEvent("evalXML", this.api.getAlgorithmXML(label), label);
+                this.sendEvent("addObject", this.api.getAlgorithmXML(label), label);
             } else {
-                this.sendEvent("evalXML", xml, label);
+                this.sendEvent("addObject", xml, label);
             }
             this.sendEvent("deselect");
             this.sendEvent("select", label, "true");
@@ -285,9 +285,45 @@
             this.api.unregisterRenameListener(renameListener);
         };
 
+        const conflictedObjects = [];
+
         this.dispatch = function(last) {
+            // reject events coming from conflicted objects
+            if (conflictedObjects.includes(last.label)
+                && "conflictResolution" != last.type) {
+                return;
+            }
+
             const target = last.embedLabel ? this.embeds[last.embedLabel] : this;
-            if (last.type == "evalXML") {
+            if (last.type == "addObject") {
+                if (target.api.exists(last.label)) {
+                    if (this.clientId == Math.min(...this.users.filter(Boolean).map(u => u.id))) {
+                        let counter = 1;
+                        let newLabel;
+                        do {
+                            newLabel = last.label + "_" + counter;
+                            counter++;
+                        } while (target.api.exists(newLabel));
+
+                        this.unregisterListeners();
+                        target.api.renameObject(last.label, newLabel);
+                        this.registerListeners();
+
+                        target.evalXML(last.content);
+                        target.api.previewRefresh();
+                        this.sendEvent("conflictResolution", target.api.getAlgorithmXML(newLabel), last.label);
+                    } else {
+                        conflictedObjects.push(last.label);
+                    }
+                } else {
+                    target.evalXML(last.content);
+                    target.api.previewRefresh();
+                }
+            } else if (last.type == "conflictResolution") {
+                conflictedObjects.splice(conflictedObjects.indexOf(last.label), 1);
+                target.evalXML(last.content);
+                target.api.previewRefresh();
+            } else if (last.type == "evalXML") {
                 target.evalXML(last.content);
                 target.api.previewRefresh();
             } else if (last.type == "setXML") {
