@@ -19,6 +19,7 @@ import jsinterop.base.JsPropertyMap;
 public class GeoGebraGlobal {
 
 	public static GiacNative __ggb__giac;
+	public static Function evalGeoGebraCASExternal;
 	public static JsPropertyMap<JsPropertyMap<JsPropertyMap<String>>> __GGB__keysVar;
 
 	@JsProperty(name = "renderGGBElement")
