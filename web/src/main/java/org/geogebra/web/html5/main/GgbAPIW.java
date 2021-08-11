@@ -382,9 +382,12 @@ public class GgbAPIW extends GgbAPI {
 		return getZippedBase64Sync(archiveContent);
 	}
 
-	private String addDPI(String base64, double dpi) {
-		if (base64.startsWith(StringUtil.pngMarker)) {
-			base64 = base64.substring(StringUtil.pngMarker.length());
+	private String addDPI(String prefixedBase64, double dpi) {
+		String base64;
+		if (prefixedBase64.startsWith(StringUtil.pngMarker)) {
+			base64 = prefixedBase64.substring(StringUtil.pngMarker.length());
+		} else {
+			base64 = prefixedBase64;
 		}
 
 		Uint8Array bytes = Base64.base64ToBytes(base64);

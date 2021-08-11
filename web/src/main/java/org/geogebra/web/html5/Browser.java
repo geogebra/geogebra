@@ -46,10 +46,14 @@ public class Browser {
 	 * @return true if Safari browser
 	 */
 	public static boolean isSafariByVendor() {
-		String vendorString = (String) Js.asPropertyMap(DomGlobal.window.navigator).get("vendor");
+		String vendorString = (String) Js.asPropertyMap(DomGlobal.navigator).get("vendor");
 		return "Apple Computer, Inc.".equals(vendorString);
 	}
 
+	/**
+	 * Checks if window.evalGeoGebraCASExternal is set and it is working properly
+	 * @return whether external CAS is set up and working
+	 */
 	public static boolean externalCAS() {
 		return "function".equals(Js.typeof(GeoGebraGlobal.evalGeoGebraCASExternal))
 				&& "2".equals(GeoGebraGlobal.evalGeoGebraCASExternal.apply("1+1"));
@@ -167,8 +171,11 @@ public class Browser {
 					|| host.contains("apps-builds.s3-eu-central-1.amazonaws.com"));
 	}
 
+	/**
+	 * @return navigator.language or "en" if it is undefined or empty
+	 */
 	public static String navigatorLanguage() {
-		String language = DomGlobal.window.navigator.language;
+		String language = DomGlobal.navigator.language;
 		return Js.isTruthy(language) ? language : "en";
 	}
 
@@ -221,7 +228,7 @@ public class Browser {
 	 * @return whether webcam input is supported in the browser
 	 */
 	public static boolean supportsWebcam() {
-		return DomGlobal.window.navigator.mediaDevices != null;
+		return DomGlobal.navigator.mediaDevices != null;
 	}
 
 	/**
@@ -445,7 +452,7 @@ public class Browser {
 	}
 
 	public static boolean isAndroid() {
-		return DomGlobal.window.navigator.userAgent.contains("Android");
+		return DomGlobal.navigator.userAgent.contains("Android");
 	}
 
 	/**
@@ -454,7 +461,7 @@ public class Browser {
 	 */
 	@Deprecated
 	public static boolean isIPad() {
-		return DomGlobal.window.navigator.userAgent.contains("iPad");
+		return DomGlobal.navigator.userAgent.contains("iPad");
 	}
 
 	/**
@@ -478,7 +485,7 @@ public class Browser {
 	}
 
 	public static boolean isEdge() {
-		return DomGlobal.window.navigator.userAgent.contains("Edge");
+		return DomGlobal.navigator.userAgent.contains("Edge");
 	}
 
 	/**

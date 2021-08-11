@@ -6,7 +6,7 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
-public class RewritePhys {
+public final class RewritePhys {
 
 	private RewritePhys() {
 		// utility class, no instantiation
