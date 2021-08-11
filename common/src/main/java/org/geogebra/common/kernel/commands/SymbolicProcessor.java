@@ -65,24 +65,6 @@ public class SymbolicProcessor {
 		}
 	}
 
-	private static final class MyArbitraryConstantExtractor implements Inspecting {
-
-		private MyArbitraryConstant constant;
-
-		public MyArbitraryConstant getConstant() {
-			return constant;
-		}
-
-		@Override
-		public boolean check(ExpressionValue v) {
-			if (v instanceof GeoSymbolic) {
-				constant = ((GeoSymbolic) v).getArbitraryConstant();
-				return true;
-			}
-			return false;
-		}
-	}
-
 	private static final class SubExpressionEvaluator implements Traversing {
 		private ExpressionValue root;
 		private SymbolicProcessor processor;
@@ -193,21 +175,15 @@ public class SymbolicProcessor {
 			}
 		}
 		EvalInfo subInfo = new EvalInfo().withArbitraryConstant(info.getArbitraryConstant());
-		MyArbitraryConstantExtractor extractor = new MyArbitraryConstantExtractor();
 		SubExpressionEvaluator evaluator = new SubExpressionEvaluator(this, ve, subInfo);
 		ExpressionNode replaced = ve.traverse(evaluator).wrap();
-		replaced.inspect(extractor);
-		EvalInfo newInfo = info;
-		if (extractor.getConstant() != null) {
-			newInfo = info.withArbitraryConstant(extractor.getConstant());
-		}
 		if (replaced.inspect(new RecursiveEquationFinder(ve))) {
 			replaced = new Equation(kernel,
 					new GeoDummyVariable(cons, ve.wrap().getLabel()), replaced)
 					.wrap();
 			ve.wrap().setLabel(null);
 		}
-		return doEvalSymbolicNoLabel(replaced, newInfo);
+		return doEvalSymbolicNoLabel(replaced, info);
 	}
 
 	/**
