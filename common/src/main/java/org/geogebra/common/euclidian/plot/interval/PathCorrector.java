@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.IntervalTuple;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to correct interval path at limits
@@ -36,7 +35,7 @@ public class PathCorrector {
 	 */
 	public Interval handleInvertedInterval(int idx) {
 		IntervalTuple tuple = model.pointAt(idx);
-		if (tuple.y().isWhole()) {
+		if (tuple.y().isRealWhole()) {
 			lastY.setEmpty();
 		} else if (isInvertedAround(idx)) {
 			handleFill(tuple);
@@ -58,7 +57,6 @@ public class PathCorrector {
 			gp.moveTo(sx.getLow(), bounds.getHeight());
 			gp.lineTo(sx.getLow(), sy.getHigh());
 		}
-		Log.debug("tuple: " + tuple);
 		lastY.set(sy);
 	}
 

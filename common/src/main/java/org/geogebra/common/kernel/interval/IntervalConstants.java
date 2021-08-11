@@ -44,6 +44,15 @@ public class IntervalConstants {
 
 	/**
 	 *
+	 * @return a newly created whole interval with Double infinity.
+	 */
+	public static Interval wholeDouble() {
+		// TODO sync Double and 1E infinity.
+		return new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+	}
+
+	/**
+	 *
 	 * @return a newly created undefined interval.
 	 */
 	public static Interval undefined() {

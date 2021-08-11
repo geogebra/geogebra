@@ -77,12 +77,6 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSqrtXInverse() {
-		Interval result = interval(0, 1).multiplicativeInverse().sqrt();
-		assertEquals(interval(-1, 0), result);
-	}
-
-	@Test
 	public void testXOnFractionPower() {
 		Interval result = interval(0, 1).pow(IntervalConstants.one().negative().divide(
 				new Interval(3)));
@@ -93,12 +87,6 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 	public void testMultiplyInvertedWithZero() {
 		Interval result = invertedInterval(-1, 1).multiply(IntervalConstants.zero());
 		assertFalse(result.isInverted());
-	}
-
-	@Test
-	public void testSecSecX() {
-		Interval result = interval(-4.8, -4.7).sec().sec();
-		assertTrue(interval(-1, 1).almostEqual(result));
 	}
 
 	@Test
@@ -137,26 +125,10 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testTanOfXInverse() {
-		Interval result =
-				interval(-0.6399999999999988, -0.5999999999999988).multiplicativeInverse()
-						.tan();
-		assertTrue(result.isEmpty());
-	}
-
-	@Test
 	public void testSqrtSqrtOfX() {
 		Interval result =
 				interval(0).sqrt().sqrt();
 		assertEquals(IntervalConstants.zero(), result);
-	}
-
-	@Test
-	public void testLnLnX() {
-		Interval logInner = interval(0.999999999999998, 1.199999999999998).log();
-		Interval logOuter = logInner.log();
-		Interval result = logOuter.multiply(interval(-2));
-		assertEquals(interval(0, 0), result);
 	}
 
 	@Test

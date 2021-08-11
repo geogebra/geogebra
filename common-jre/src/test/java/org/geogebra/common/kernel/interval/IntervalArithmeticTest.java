@@ -2,7 +2,7 @@ package org.geogebra.common.kernel.interval;
 
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
-import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
+import static org.geogebra.common.kernel.interval.IntervalConstants.wholeDouble;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
@@ -104,7 +104,7 @@ public class IntervalArithmeticTest {
 		assertEquals(interval(-6, 4),
 				interval(-2, -1).multiply(interval(-2, 3)));
 
-		assertEquals(IntervalConstants.whole(),
+		assertEquals(wholeDouble(),
 				interval(NEGATIVE_INFINITY, -1).multiply(interval(-2, 3)));
 	}
 
@@ -119,7 +119,7 @@ public class IntervalArithmeticTest {
 		assertEquals(interval(-4, 6),
 				interval(-2, 3).multiply(interval(1, 2)));
 
-		assertEquals(whole(), interval(-2, 3).multiply(interval(1, POSITIVE_INFINITY)));
+		assertEquals(wholeDouble(), interval(-2, 3).multiply(interval(1, POSITIVE_INFINITY)));
 	}
 
 	@Test
@@ -127,7 +127,7 @@ public class IntervalArithmeticTest {
 		assertEquals(interval(-6, 4),
 				interval(-2, 3).multiply(interval(-2, -1)));
 
-		assertEquals(whole(),
+		assertEquals(wholeDouble(),
 				interval(-2, 3).multiply(interval(NEGATIVE_INFINITY, -1)));
 	}
 
@@ -136,7 +136,7 @@ public class IntervalArithmeticTest {
 		assertEquals(interval(-8, 12),
 				interval(-2, 3).multiply(interval(-1, 4)));
 
-		assertEquals(whole(),
+		assertEquals(wholeDouble(),
 				interval(NEGATIVE_INFINITY, 3).multiply(interval(-1, POSITIVE_INFINITY)));
 	}
 

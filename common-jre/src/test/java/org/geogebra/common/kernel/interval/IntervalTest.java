@@ -61,7 +61,7 @@ public class IntervalTest {
 	@Test
 	public void isWhole() {
 		Interval interval = new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-		assertTrue(interval.isWhole());
+		assertTrue(interval.isRealWhole());
 	}
 
 	@Test
@@ -144,7 +144,9 @@ public class IntervalTest {
 
 	@Test
 	public void testWholeIntervalToString() {
-		assertEquals("Interval [-Infinity, Infinity]", whole().toString());
+		assertEquals("Interval [-Infinity, Infinity] 1E", whole().toString());
+		assertEquals("Interval [-Infinity, Infinity] R",
+				interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY).toString());
 	}
 
 	@Test

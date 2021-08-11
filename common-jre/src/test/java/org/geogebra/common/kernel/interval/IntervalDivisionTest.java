@@ -7,6 +7,7 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -32,7 +33,9 @@ public class IntervalDivisionTest {
 
 	@Test
 	public void testDivisionNegativeWithZero() {
-		assertEquals(undefined(), interval(-2, -1).divide(interval(-1, 1)));
+		Interval invertedWhole = invertedInterval(POSITIVE_INFINITY, NEGATIVE_INFINITY);
+		assertEquals(invertedWhole,
+				interval(-2, -1).divide(interval(-1, 1)));
 		assertEquals(undefined(), interval(-2, 0).divide(interval(0, 1)));
 		assertEquals(undefined(), interval(-2, 0).divide(interval(-1, 0)));
 		assertEquals(interval(NEGATIVE_INFINITY, -1),
@@ -43,7 +46,7 @@ public class IntervalDivisionTest {
 
 	@Test
 	public void testDivisionMixedWithZero() {
-		assertEquals(undefined(), interval(-2, 3).divide(interval(-1, 1)));
+		assertTrue(interval(-2, 3).divide(interval(-1, 1)).isInverted());
 	}
 
 	@Test

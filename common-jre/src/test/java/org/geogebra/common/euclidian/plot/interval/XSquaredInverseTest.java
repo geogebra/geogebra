@@ -22,12 +22,4 @@ public class XSquaredInverseTest extends IntervalPlotterCommon {
 		logShouldBeAt(576, LINE_TO, 3.9147582697200747,
 				1.5017611411324263);
 		}
-
-	@Test
-	public void inspect() {
-		withBounds(-10, 10, -6, 6);
-		withScreenSize(100, 100);
-		withFunction("-2ln(ln(x))");
-		logShouldBeAt(213, LINE_TO, -3.8931297709923784, 0.0);
-		}
 }

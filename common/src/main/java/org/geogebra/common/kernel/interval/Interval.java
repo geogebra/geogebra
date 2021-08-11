@@ -137,6 +137,12 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 
 	@Override
 	public String toString() {
+		if (isWhole()) {
+			return "Interval [-Infinity, Infinity] 1E";
+		} else if (isRealWhole()) {
+			return "Interval [-Infinity, Infinity] R";
+		}
+
 		String result = "Interval [";
 		if (!isEmpty()) {
 			result += low;
@@ -188,16 +194,17 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 *
 	 * @return if interval represents all the real numbers R.
 	 */
-	public boolean isWhole() {
+	public boolean isRealWhole() {
 		return (DoubleUtil.isEqual(low, Double.NEGATIVE_INFINITY)
 				&& DoubleUtil.isEqual(high, Double.POSITIVE_INFINITY));
 	}
 
 	/**
 	 *
-	 * @return if interval represents all the real numbers R with limits.
+	 * @return if interval represents all the real numbers R with limits
+	 * defined in {@link IntervalConstants}.
 	 */
-	public boolean is1EWhole() {
+	public boolean isWhole() {
 		return (DoubleUtil.isEqual(low, IntervalConstants.NEGATIVE_INFINITY)
 				&& DoubleUtil.isEqual(high, IntervalConstants.POSITIVE_INFINITY));
 	}
@@ -293,7 +300,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 
 		if (isInverted()) {
 			uninvert();
-			if (is1EWhole()) {
+			if (isWhole()) {
 				setZero();
 			} else {
 				set(RMath.divLow(1, low), RMath.divHigh(1, high));

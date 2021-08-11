@@ -72,7 +72,7 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 		IntervalTupleList result = functionValues("1/sec(csc(x))", -2.9, 2.9, -8, 8);
 		List<Integer> cutOffIndexes = Arrays.asList(7, 38, 61, 92);
 		for (int index: cutOffIndexes) {
-			assertFalse(result.get(index).y().isWhole());
+			assertFalse(result.get(index).y().isRealWhole());
 		}
 	}
 

@@ -83,7 +83,7 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 	}
 
 	private void shouldBeUndefinedAtZero(IntervalFunction function) throws Exception {
-		assertEquals(IntervalConstants.undefined(), function.evaluate(IntervalConstants.zero()));
+		assertEquals(IntervalConstants.zero(), function.evaluate(IntervalConstants.zero()));
 	}
 
 	@Test

@@ -26,7 +26,7 @@ class IntervalTrigonometric {
 			return interval;
 		}
 
-		if (interval.isWhole() || interval.isInverted()) {
+		if (interval.isRealWhole() || interval.isInverted()) {
 			setDefaultInterval();
 			return interval;
 		}
@@ -134,7 +134,7 @@ class IntervalTrigonometric {
 	 * @return tangent of the interval.
 	 */
 	public Interval tan() {
-		if (interval.is1EWhole() || interval.isOnlyInfinity()) {
+		if (interval.isWhole() || interval.isOnlyInfinity()) {
 			interval.setEmpty();
 			return interval;
 		}
