@@ -745,7 +745,7 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	/**
-	 * @return whether geo is visible in euclidian views
+	 * @return whether geo can be visible in any euclidian view
 	 */
 	public final boolean isEuclidianVisible() {
 		return geo.isEuclidianVisible();

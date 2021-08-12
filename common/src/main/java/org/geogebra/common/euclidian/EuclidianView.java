@@ -2310,8 +2310,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		for (Drawable d : allDrawableList) {
 			if (d instanceof DrawInputBox
-					&& (d.hit(x, y, app.getCapturingThreshold(type))
-					|| d.hitLabel(x, y))) {
+					&& d.isEuclidianVisible()
+					&& (d.hit(x, y, app.getCapturingThreshold(type)) || d.hitLabel(x, y))) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible() && geo.isSelectionAllowed(this)) {
 					focusTextField((GeoInputBox) geo);
