@@ -177,7 +177,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			}
 
 			&:disabled {
-				background-color: $transparent;
+				background-color: $transparent-white;
 				opacity: 0.42;
 
 				&:hover {

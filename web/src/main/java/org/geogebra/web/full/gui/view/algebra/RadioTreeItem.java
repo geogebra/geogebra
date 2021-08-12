@@ -1569,14 +1569,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	/**
-	 * Show keyboard
-	 */
-	public void showKeyboard() {
-		// TODO default implementation is infinite recursion
-		getLatexController().showKeyboard();
-	}
-
-	/**
 	 * @param text0
 	 *            new text
 	 * @param showKeyboard

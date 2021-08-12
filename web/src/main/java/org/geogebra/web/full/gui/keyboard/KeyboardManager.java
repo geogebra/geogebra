@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
@@ -292,4 +293,12 @@ public class KeyboardManager
 		}
 	}
 
+	/**
+	 * @param tab tab to be activated
+	 */
+	public void selectTab(KeyboardType tab) {
+		if (keyboard != null) {
+			keyboard.selectTab(tab);
+		}
+	}
 }

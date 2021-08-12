@@ -50,7 +50,7 @@ public interface TableValuesModel {
 	 */
 	String getHeaderAt(int column);
 
-	void setCell(int row, int column);
+	void setCell(int row, int column, String content);
 
 	boolean isColumnEditable(int col);
 }

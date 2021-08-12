@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import java.util.function.Supplier;
+
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
@@ -294,7 +296,6 @@ public class ToolbarPanel extends FlowPanel
 		heading.setStyleName("toolPanelHeading");
 		add(heading);
 		add(main);
-		ClickStartHandler.initDefaults(main, false, true);
 		hideDragger();
 		doOpen();
 		if (app.isExamStarted() && !app.getExam().isCheating()) {
@@ -1028,12 +1029,18 @@ public class ToolbarPanel extends FlowPanel
 	/**
 	 * @return keyboard listener of AV.
 	 */
-	public MathKeyboardListener getKeyboardListener() {
-		if (tabAlgebra == null
-				|| app.getInputPosition() != InputPosition.algebraView) {
-			return null;
+	public MathKeyboardListener getKeyboardListener(Supplier<MathKeyboardListener> fallback) {
+		if (isAlgebraViewActive()) {
+			if (tabAlgebra == null
+					|| app.getInputPosition() != InputPosition.algebraView) {
+				return null;
+			}
+			return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
 		}
-		return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
+		if (getSelectedTabId() == TabIds.TABLE && tabTable != null) {
+			return tabTable.getKeyboardListener();
+		}
+		return fallback.get();
 	}
 
 	/**

@@ -31,6 +31,7 @@ import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.helper.ResourcesInjectorFull;
 import org.geogebra.web.full.main.AppWFull;
@@ -511,10 +512,9 @@ public class GeoGebraFrameFull
 	private boolean isButtonNeeded(MathKeyboardListener textField) {
 		MathKeyboardListener keyboardListener = getGuiManager().getKeyboardListener();
 		if (app.getGuiManager().hasSpreadsheetView() || (app.isUnbundled()
-				&& !getGuiManager().showView(App.VIEW_PROBABILITY_CALCULATOR))) {
+				&& keyboardListener instanceof RadioTreeItem)) {
 			return keyboardListener != null;
 		}
-
 		return app.isKeyboardNeeded()
 				&& (textField != null && textField.hasFocus()
 				|| keyboardListener != null && keyboardListener.hasFocus());

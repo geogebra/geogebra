@@ -62,11 +62,7 @@ public class ToolbarDockPanelW extends DockPanelW
 
 	@Override
 	public MathKeyboardListener getKeyboardListener() {
-		if (toolbar.isAlgebraViewActive()) {
-			return toolbar.getKeyboardListener();
-		}
-
-		return super.getKeyboardListener();
+		return toolbar.getKeyboardListener(super::getKeyboardListener);
 	}
 
 	/**
