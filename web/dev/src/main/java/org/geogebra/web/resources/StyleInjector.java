@@ -18,6 +18,7 @@ package org.geogebra.web.resources;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.DOM;
 
 import elemental2.dom.DomGlobal;
@@ -54,7 +55,7 @@ public class StyleInjector {
 			element.id = name;
 			element.rel = "stylesheet";
 			element.type = "text/css";
-			element.href = baseUrl + "/" + name + ".css";
+			element.href = GWT.getModuleBaseURL() + "../" + baseUrl + "/" + name + ".css";
 			DomGlobal.document.head.appendChild(element);
 		}
 	}
