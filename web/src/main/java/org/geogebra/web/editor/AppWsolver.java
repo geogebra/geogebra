@@ -59,8 +59,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
         this.useFullGui = false;
 
         Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
-                + GeoGebraConstants.BUILD_DATE + " "
-                + Window.Navigator.getUserAgent());
+                + GeoGebraConstants.BUILD_DATE);
         initCommonObjects();
         initing = true;
 
