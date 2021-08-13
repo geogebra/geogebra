@@ -132,6 +132,7 @@ import org.geogebra.web.html5.util.Base64;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
+import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.NetworkW;
 import org.geogebra.web.html5.util.UUIDW;
@@ -246,12 +247,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			updateConsBoundingBox();
 		}
 	};
-
-	Scheduler.ScheduledCommand sucCallback = () -> {
-		// 0.5 seconds is good for the user and maybe for the computer
-		// too
-		timeruc.schedule(500);
-	};
+	private final GlobalHandlerRegistry dropHandlers = new GlobalHandlerRegistry();
 
 	/**
 	 * @param geoGebraElement
@@ -279,11 +275,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		getTimerSystem();
 		this.showInputTop = InputPosition.algebraView;
-		Window.addResizeHandler(event -> {
+		dropHandlers.add(Window.addResizeHandler(event -> {
 			fitSizeToScreen();
 			windowResized();
 			closePopupsInRegistry();
-		});
+		}));
 		if (!StringUtil
 				.empty(getAppletParameters().getParamScaleContainerClass())) {
 			Browser.addMutationObserver(getParent(
@@ -1607,8 +1603,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		getScriptManager(); // gbOnInit() is only called after file loads
 							// completely
-
-		FileDropHandlerW.registerDropHandler(getFrameElement(), this);
+		FileDropHandlerW.registerDropHandler(getFrameElement(), this, dropHandlers);
 		setViewsEnabled();
 
 		getAppletFrame().setApplication(this);
@@ -2107,7 +2102,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		// set up a scheduler in case 0.5 seconds would not be enough for the
 		// computer
-		Scheduler.get().scheduleDeferred(sucCallback);
+		timeruc.schedule(500);
 	}
 
 	protected void updateConsBoundingBox() {
@@ -3527,5 +3522,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public boolean isMultipleSlidesOpen() {
 		return getPageController() != null && getPageController().getSlideCount() > 1;
+	}
+
+	public GlobalHandlerRegistry getGlobalHandlers() {
+		return dropHandlers;
 	}
 }

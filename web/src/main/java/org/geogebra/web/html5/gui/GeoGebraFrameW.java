@@ -652,10 +652,14 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	@Override
 	public void remove() {
 		removeFromParent();
+		clear();
 		// this does not do anything!
 		GeoGebraFrameW.getInstances().remove(this);
 		geoGebraElement.getElement().removeFromParent();
+		Event.setEventListener(geoGebraElement.getElement(),
+				null);
 		geoGebraElement = null;
+		app.getGlobalHandlers().removeAllListeners();
 		app = null;
 		if (GeoGebraFrameW.getInstanceCount() == 0) {
 			ResourcesInjector.removeResources();
