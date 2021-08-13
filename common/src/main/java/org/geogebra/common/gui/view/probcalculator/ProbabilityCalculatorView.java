@@ -272,7 +272,7 @@ public abstract class ProbabilityCalculatorView
 			graphTypePDF = type;
 		}
 
-		updateAll();
+		updateAll(true);
 	}
 
 	/**
@@ -292,10 +292,31 @@ public abstract class ProbabilityCalculatorView
 			graphType = graphTypePDF;
 		}
 		changeProbabilityType();
-		updateAll();
+		updateAll(true);
 	}
 
 	protected abstract void changeProbabilityType();
+
+	protected void validateLowHigh(int oldProbMode) {
+		if (probMode == PROB_LEFT && oldProbMode == PROB_RIGHT) {
+			setHigh(getLow());
+		} else if (probMode == PROB_RIGHT && oldProbMode == PROB_LEFT) {
+			setLow(getHigh());
+		}
+		if (probMode != PROB_LEFT && getLow() <= plotSettings.xMin) {
+			setLowDefault();
+		}
+		if (probMode != PROB_RIGHT && getHigh() >= plotSettings.xMax) {
+			setHighDefault();
+		}
+		if (getHigh() == getLow() && !isDiscreteProbability()) {
+			if (getHigh() < getDefaultHigh()) {
+				setHighDefault();
+			} else {
+				setLowDefault();
+			}
+		}
+	}
 
 	/**
 	 * @return graph type (one of GRAPH_BAR, GRAPH_STEP, GRAPH_LINE)
@@ -329,7 +350,7 @@ public abstract class ProbabilityCalculatorView
 	public void setProbabilityCalculator(Dist distributionType,
 			GeoNumberValue[] parameters, boolean isCumulative) {
 		setProbabilityCalculatorNoFire(distributionType, parameters, isCumulative);
-		updateAll();
+		updateAll(true);
 	}
 
 	protected void setProbabilityCalculatorNoFire(Dist distributionType,
@@ -366,7 +387,27 @@ public abstract class ProbabilityCalculatorView
 		this.showNormalOverlay = showNormalOverlay;
 	}
 
-	public abstract void updateAll();
+	/**
+	 * Update distribution, plot, table, UI and stylebar
+	 * @param setDefaultBounds whether to reset low/high to default too
+	 */
+	public void updateAll(boolean setDefaultBounds) {
+		updateOutput();
+		if (setDefaultBounds && !isIniting) {
+			setDefaultBounds();
+		}
+		updateProbabilityType(getResultPanel());
+		updateGUI();
+		updateStylebar();
+	}
+
+	protected abstract ResultPanel getResultPanel();
+
+	protected abstract void updateOutput();
+
+	protected void updateStylebar() {
+		// desktop only
+	}
 
 	// =================================================
 	// Getters/Setters
@@ -1002,14 +1043,12 @@ public abstract class ProbabilityCalculatorView
 	 */
 	public void updatePlotSettings() {
 
-		double xMin, xMax, yMin, yMax;
-
 		// get the plot window dimensions
 		double[] d = getPlotDimensions();
-		xMin = d[0];
-		xMax = d[1];
-		yMin = d[2];
-		yMax = d[3];
+		double xMin = d[0];
+		double xMax = d[1];
+		double yMin = d[2];
+		double yMax = d[3];
 
 		// System.out.println(d[0] + "," + d[1] + "," + d[2] + "," + d[3]);
 
@@ -1340,7 +1379,7 @@ public abstract class ProbabilityCalculatorView
 			setLow(pcSettings.getLow());
 			setHigh(pcSettings.getHigh());
 		}
-		updateAll();
+		updateAll(!pcSettings.isIntervalSet());
 		if (getStatCalculator() != null) {
 			getStatCalculator().settingsChanged();
 		}
@@ -1471,7 +1510,7 @@ public abstract class ProbabilityCalculatorView
 	 */
 	protected void updateIntervalProbability() {
 		probability = intervalProbability();
-		if (probmanagerIsDiscrete()) {
+		if (isDiscreteProbability()) {
 			if (isTwoTailedMode()) {
 
 				if (discreteTwoTailedGraph == null) {
@@ -1676,7 +1715,10 @@ public abstract class ProbabilityCalculatorView
 
 	protected abstract void updateGUI();
 
-	protected boolean probmanagerIsDiscrete() {
+	/**
+	 * @return whether selected probability distribution is discrete
+	 */
+	public boolean isDiscreteProbability() {
 		return probManager.isDiscrete(selectedDist);
 	}
 
@@ -1999,7 +2041,7 @@ public abstract class ProbabilityCalculatorView
 	protected void updateOutputForIntervals() {
 		hasIntegral = !isCumulative;
 		createGeoElements();
-		if (probmanagerIsDiscrete()) {
+		if (isDiscreteProbability()) {
 			addRemoveTable(true);
 		} else {
 			addRemoveTable(false);
@@ -2015,10 +2057,9 @@ public abstract class ProbabilityCalculatorView
 			return;
 		}
 
-		boolean isDiscrete = probmanagerIsDiscrete();
+		boolean isDiscrete = isDiscreteProbability();
 		int oldProbMode = probMode;
-		this.getPlotDimensions();
-		setBoundsFromSettings();
+		updateOutputForIntervals();
 		if (probMode == PROB_INTERVAL) {
 			xAxis.showBothPoints(showProbGeos);
 			resultPanel.showInterval();
@@ -2095,30 +2136,26 @@ public abstract class ProbabilityCalculatorView
 		setHigh(plotSettings.xMax + 1);
 	}
 
-	private void setBoundsFromSettings() {
-		ProbabilityCalculatorSettings settings = app.getSettings().getProbCalcSettings();
-		if (settings.isIntervalSet()) {
-			setLow(settings.getLow());
-			setHigh(settings.getHigh());
-		} else {
-			setLowDefault();
-			setHighDefault();
-		}
+	protected void setDefaultBounds() {
+		setLowDefault();
+		setHighDefault();
 
 		if (probMode == PROB_LEFT) {
-			setLow(Double.NEGATIVE_INFINITY);
+			setLow(isDiscreteProbability() ? getDiscreteXMin() : Double.NEGATIVE_INFINITY);
 		}
 
 		if (probMode == PROB_RIGHT) {
-			setHigh(Double.POSITIVE_INFINITY);
+			setHigh(isDiscreteProbability() ? getDiscreteXMax() : Double.POSITIVE_INFINITY);
 		}
-
-		updateOutputForIntervals();
 	}
 
-	private void setHighDefault() {
-		setHigh(plotSettings.xMin
-				+ 0.6 * (plotSettings.xMax - plotSettings.xMin));
+	protected void setHighDefault() {
+		setHigh(getDefaultHigh());
+	}
+
+	private double getDefaultHigh() {
+		return plotSettings.xMin
+				+ 0.6 * (plotSettings.xMax - plotSettings.xMin);
 	}
 
 	private void showTwoTailed(ResultPanel resultPanel) {
@@ -2178,7 +2215,7 @@ public abstract class ProbabilityCalculatorView
 		hasIntegral = !isCumulative;
 		createGeoElements();
 
-		if (probmanagerIsDiscrete()) {
+		if (isDiscreteProbability()) {
 			updateDiscreteGraphs();
 			addRemoveTable(true);
 		} else {

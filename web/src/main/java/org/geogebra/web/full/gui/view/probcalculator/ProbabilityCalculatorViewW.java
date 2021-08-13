@@ -338,7 +338,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	 */
 	protected void onOverlayClicked() {
 		setShowNormalOverlay(btnNormalOverlay.isSelected());
-		updateAll();
+		updateAll(false);
 	}
 
 	/**
@@ -349,13 +349,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	}
 
 	@Override
-	public void updateAll() {
-		updateOutput();
-		updateProbabilityType(resultPanel);
-		updateGUI();
+	public ResultPanelW getResultPanel() {
+		return resultPanel;
 	}
 
-	private void updateOutput() {
+	@Override
+	protected void updateOutput() {
 		updateDistribution();
 		updatePlotSettings();
 		updateIntervalProbability();
@@ -378,13 +377,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				addTwoTailedGraph();
 			}
 
-			if (probMode == ProbabilityCalculatorView.PROB_LEFT && oldProbMode == PROB_RIGHT) {
-					setHigh(getLow());
-
-			} else if (probMode == ProbabilityCalculatorView.PROB_RIGHT
-					&& oldProbMode == PROB_LEFT) {
-					setLow(getHigh());
-			}
+			validateLowHigh(oldProbMode);
 		}
 	}
 
@@ -415,7 +408,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	@Override
 	protected void updateDiscreteTable() {
-		if (!probmanagerIsDiscrete()) {
+		if (!isDiscreteProbability()) {
 			return;
 		}
 		int[] firstXLastX = generateFirstXLastXCommon();
@@ -555,19 +548,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		return probManager;
 	}
 
-	/**
-	 * @param decimals
-	 *			decimals
-	 * @param figures
-	 *			significant digits
-	 */
-	public void updatePrintFormat(int decimals, int figures) {
-		this.printDecimals = decimals;
-		this.printFigures = figures;
-		updateGUI();
-		updateDiscreteTable();
-	}
-	
 	private class MyTabLayoutPanel extends TabLayoutPanel implements ClickHandler {
 
 		public MyTabLayoutPanel(int splitterSize, Unit px) {
@@ -601,7 +581,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	 * Tab resize callback
 	 */
 	public void tabResized() {
-		int tableWidth = probmanagerIsDiscrete() ? ((ProbabilityTableW) getTable()).getStatTable()
+		int tableWidth = isDiscreteProbability() ? ((ProbabilityTableW) getTable()).getStatTable()
 				.getTable().getOffsetWidth() + TABLE_PADDING_AND_SCROLLBAR : 0;
 		int width = mainSplitPane.getOffsetWidth()
 				- tableWidth
@@ -616,7 +596,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			plotSplitPane.setWidth(width + "px");
 		}
 
-		if (height > 0 && probmanagerIsDiscrete()) {
+		if (height > 0 && isDiscreteProbability()) {
 			((ProbabilityTableW) getTable()).getWrappedPanel()
 					.setPixelSize(tableWidth, height);
 		}
@@ -624,7 +604,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	@Override
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
-		
 		Object source = event.getSource();
 		if (source == btnCumulative) {
 			setCumulative(btnCumulative.isSelected());
@@ -688,7 +667,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 						if (isValidParameterChange(value, i)) {
 							parameters[i] = numericValue;
 							if (intervalCheck) {
-								updateAll();
+								updateAll(true);
 							} else {
 								updateOutput();
 								updateLowHighResult();
