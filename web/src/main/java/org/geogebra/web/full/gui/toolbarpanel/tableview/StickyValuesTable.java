@@ -29,6 +29,8 @@ import com.google.gwt.user.cellview.client.SafeHtmlHeader;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
+import jsinterop.base.Js;
+
 /**
  * Sticky table of values.
  *
@@ -90,14 +92,15 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		tableModel.registerListener(this);
 		editor = new TableEditor(this, app);
 		reset();
-		addHeadClickHandler((row, column, el) -> {
+		addHeadClickHandler((row, column, evt) -> {
+			Element el = Js.uncheckedCast(evt.target);
 			if (el != null && (el.hasClassName("MyToggleButton") || el.getParentNode() != null
 					&& el.getParentElement().hasClassName("MyToggleButton"))) {
 				onHeaderClick(el, column);
 			}
 			return false;
 		});
-		addBodyPointerDownHandler((row, column, el) -> {
+		addBodyPointerDownHandler((row, column, evt) -> {
 			if (tableModel.getRowCount() == 0) {
 				try {
 					view.setValues(0, 10, 1);
@@ -108,7 +111,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			if (row < tableModel.getRowCount()
 					&& column < tableModel.getColumnCount()) {
 				if (tableModel.isColumnEditable(column)) {
-					editor.startEditing(row, column, getTargetCell(el));
+					editor.startEditing(row, column, evt);
 					return true;
 				}
 			} else if (column == tableModel.getColumnCount()) {

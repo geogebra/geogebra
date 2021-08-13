@@ -360,6 +360,11 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	}
 
 	@Override
+	public boolean acceptsCommandInserts() {
+		return false;
+	}
+
+	@Override
 	public AppW getApplication() {
 		return app;
 	}

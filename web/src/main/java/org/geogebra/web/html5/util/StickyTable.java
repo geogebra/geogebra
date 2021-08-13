@@ -67,7 +67,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 			if (cell != null) {
 				int col = getParentIndex(cell);
 				int row = getParentIndex(cell.getParentElement());
-				if (eventHandler.onClick(row, col, element)) {
+				if (eventHandler.onClick(row, col, event)) {
 					event.preventDefault();
 				}
 			}
@@ -231,6 +231,14 @@ public abstract class StickyTable<T> extends FlowPanel {
 
 	public Panel getTableWrapper() {
 		return (Panel) scroller.getWidget();
+	}
+
+	public Element getCell(int row, int column) {
+		return cellTable.getTableBodyElement().getChild(row).getChild(column).cast();
+	}
+
+	public void flush() {
+		cellTable.flush();
 	}
 
 	private class CellTableWithBody extends CellTable<T> {

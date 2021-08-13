@@ -37,12 +37,11 @@ $deleteTime: 120ms;
 
 	.tableEditor {
 		box-sizing: border-box;
-		position: absolute;
 		background-color: $white;
 		border: 1px $purple-default solid;
 		overflow: hidden;
 		text-align: right;
-		min-height: 52px;
+		min-height: 51px;
 
 		canvas {
 			transform: translateY(-50%);
@@ -52,7 +51,7 @@ $deleteTime: 120ms;
 	}
 
 	.editableCell {
-		cursor: pointer;
+		cursor: text;
 	}
 
 	.tvTable {
@@ -157,6 +156,7 @@ $deleteTime: 120ms;
 
 				.content {
 					font-size: 100%;
+					font-family: 'mathsans';
 					color: $text-primary;
 					text-align: right;
 					float: right;

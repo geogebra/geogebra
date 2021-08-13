@@ -32,7 +32,6 @@ import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
-import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.helper.ResourcesInjectorFull;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
@@ -371,10 +370,7 @@ public class GeoGebraFrameFull
 	}
 
 	private boolean shouldShowMoreButtonFor(MathKeyboardListener textField) {
-		boolean acceptsCommandInserts =
-				textField instanceof RetexKeyboardListener
-						&& ((RetexKeyboardListener) textField).acceptsCommandInserts();
-		return textField == null || acceptsCommandInserts;
+		return textField == null || textField.acceptsCommandInserts();
 	}
 
 	/**

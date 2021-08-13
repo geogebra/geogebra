@@ -202,6 +202,11 @@ public class ScriptArea extends TextArea
 		return isFocused;
 	}
 
+	@Override
+	public boolean acceptsCommandInserts() {
+		return false;
+	}
+
 	/**
 	 * Enable keyboard.
 	 */

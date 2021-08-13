@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.util;
 
-import com.google.gwt.dom.client.Element;
+import elemental2.dom.Event;
 
 public interface CellClickHandler {
 	/**
@@ -9,5 +9,5 @@ public interface CellClickHandler {
 	 * @param element cell element
 	 * @return whether to stop propagation
 	 */
-	boolean onClick(int row, int col, Element element);
+	boolean onClick(int row, int col, Event element);
 }
