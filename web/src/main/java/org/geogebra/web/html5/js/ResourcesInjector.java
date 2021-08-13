@@ -40,10 +40,6 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.base64Js());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.domvas());
 
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.reset());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyleGlobal());
-
-		injectScss();
 		injectResourcesGUI(ae);
 
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.xmlUtil());
@@ -62,21 +58,11 @@ public class ResourcesInjector {
 	}-*/;
 
 	/**
-	 * Inject resources for GUI, overridden in ReTeX injector (to add JQuery +
-	 * JqueryUI for sliders)
-	 *
-	 * @param ae article element
+	 * Inject resources for GUI, such as CSS, english properties, and fonts (only in full)
+	 * @param parameters applet parameters (for determining vendor)
 	 */
-	protected void injectResourcesGUI(AppletParameters ae) {
-		// overridden elsewhere
-	}
-
-	private static void injectScss() {
-		StyleInjector
-				.inject(GuiResourcesSimple.INSTANCE.colorsScss());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.layoutScss());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.evStyleScss());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.sharedStyleScss());
+	protected void injectResourcesGUI(AppletParameters parameters) {
+		StyleInjector.inject("css/bundles", "simple-bundle");
 	}
 
 	/**

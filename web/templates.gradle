@@ -3,6 +3,11 @@ def template = { fileName ->
     return file(templateDir + fileName).text
 }
 
+def css = { directory, fileName ->
+    String fileDir = "war/css/" + directory + "/" + fileName + ".css";
+    return "<style id=\"" + fileName + "\">" + file(fileDir).text + "</style>\n";
+}
+
 String html = template("app-template.html")
 String splash = template("classic-splash.html")
 
@@ -30,6 +35,10 @@ def replaceVendor = { htmlContent, vendor ->
             .replace("<!--PRECONNECT-->", vendor == "Mebis" ? "" : template("partials/preconnect.html"))
 }
 
+def getCss = { mebis ->
+    return css("bundles", "simple-bundle") + css("", "keyboard-styles") + (mebis ? css("bundles", "mebis-bundle") : css("bundles", "bundle"))
+}
+
 ext.english = { raw, appName ->
     return raw.replace("<!--SIGN IN-->", "Sign in")
             .replace("<!--APP NAME-->", appName)
@@ -39,17 +48,20 @@ ext.english = { raw, appName ->
 
 ext.handlebars = { raw ->
     return raw.replace("<!--SIGN IN-->", "{{signIn}}")
+            .replace("<!--PRELOADED CSS-->", getCss(false))
             .replace("<!--APP NAME-->", "{{appName}}")
             .replace("<!--LANG-->", "{{lang}}")
             .replace("<!--CODEBASE-->", "{{codebase}}")
             .replace("<!--LANGUAGE LINKS-->", "{{{languageLinks}}}")
 }
 
-ext.classicHtml = { app, prerelease, offline = false ->
+ext.classicHtml = { app, prerelease, offline = false, inlineCss = false ->
     def platformSpecific = offline ? "<!--PLATFORM SPECIFIC CODE--><script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
+    def inlinedCss = inlineCss ? getCss(false) : ""
     return replaceVendor(html, "GeoGebra")
             .replace("<!--SPLASH-->", splash)
             .replace("<!--SPLASH STYLE-->", template("splash-style.css"))
+            .replace("<!--PRELOADED CSS-->", inlinedCss)
             .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/geogebra.ico")
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
             .injectMeasurementTemplate(app.firebaseAppId, app.measurementId, app.hotjar)
@@ -62,13 +74,14 @@ String.metaClass.injectMeasurementTemplate = { firebaseAppId, measurementId, hot
                  .injectPartial("hotjar", !hotjar)
 }
 
-ext.appHtml = { app, prerelease, offline = false ->
+ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
     def vendor = app.vendor ?: "GeoGebra"
     def appID = app.id.split("-")[0]
     def appTransKey = app.transKey
     def header = vendor == "Mebis" ? "" : template("app-header-beta.html")
     header = header.replace("<!--PICKER-->", offline ? "" : template("partials/picker.html"))
     header = partials(header, app.partials)
+    def inlinedCss = inlineCss ? getCss(app.vendor == "Mebis") : ""
     def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
     def startscreenStyle = "startscreen " + appID + (offline ? " offline" : "")
     def appStoreBanner = app.appStoreId ? "<meta name=\"apple-itunes-app\" " +
@@ -78,7 +91,8 @@ ext.appHtml = { app, prerelease, offline = false ->
     def measurementId = app.measurementId ?: ""
     return replaceVendor(html, vendor)
             .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">$splashContent</div>")
-            .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px') + template("app-style.css"))
+            .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px'))
+            .replace("<!--PRELOADED CSS-->", inlinedCss)
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
             .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/${appID}.ico")
             .replace("<!--APP ID-->", appID)

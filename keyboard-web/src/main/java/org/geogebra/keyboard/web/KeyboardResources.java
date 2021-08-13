@@ -1,7 +1,6 @@
 package org.geogebra.keyboard.web;
 
 import org.geogebra.web.resources.SVGResource;
-import org.geogebra.web.resources.SassResource;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
@@ -60,12 +59,6 @@ public interface KeyboardResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_keyboard_black_24px.svg")
 	SVGResource keyboard_show_material();
-
-	@Source("org/geogebra/keyboard/css/keyboard-styles.scss")
-	SassResource keyboardStyle();
-
-	@Source("org/geogebra/keyboard/css/greek-font.css")
-	SassResource greekFonts();
 
 	@Source("org/geogebra/common/icons/png/keyboard/integral.png")
 	ImageResource integral();

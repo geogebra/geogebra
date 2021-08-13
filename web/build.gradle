@@ -1,3 +1,4 @@
+import io.miret.etienne.gradle.sass.CompileSass
 import org.apache.tools.ant.taskdefs.condition.Os
 
 buildscript {
@@ -12,6 +13,7 @@ plugins {
     id 'checkstyle'
     id "com.github.spotbugs" version "4.6.0"
     id 'de.aaschmid.cpd' version '3.1'
+    id "io.miret.etienne.sass" version "1.1.2"
 }
 
 description 'Parts of GeoGebra related to web platforms'
@@ -104,6 +106,35 @@ ext.appSpecs = [
     [id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel', pkg:'Mebis_Tafel',
          icon: 'notes.ico', vendor: "Mebis"]]
 
+compileSass {
+    // Directory where to output generated CSS:
+    outputDir = file("${projectDir}/war/css")
+
+    // Source directory containing sass to compile:
+    sourceDir = file("${projectDir}/src/main/resources/scss")
+
+    // Set the output style:
+    // Possible values are “expanded” and “compressed”, default is “expanded”.
+    style = compressed
+
+    // Source map style:
+    //  - file: output source map in a separate file (default)
+    //  - embed: embed source map in CSS
+    //  - none: do not emit source map.
+    sourceMap = none
+}
+
+task watchSass (type: CompileSass) {
+    outputDir = file("${projectDir}/war/css")
+    sourceDir = file("${projectDir}/src/main/resources/scss")
+    style = compressed
+    sourceMap = embed
+
+    // Watch sass files in sourceDir for changes
+    // (Default is to not to watch, compile once and terminate)
+    watch ()
+}
+
 gwt {
     gwtVersion = gwtCompilerVersion
 
@@ -164,34 +195,48 @@ task cleanWar(type: Delete) {
 }
 
 apply from: "templates.gradle"
-task copyHtml {
+
+def createHtml = { inlineCss ->
+    delete {
+        delete fileTree(dir:'war', include: "*.html")
+    }
+
+    copy {
+        from file("../common/src/main/resources/giac")
+        into warDirRel
+    }
+    copy {
+        from file("src/main/resources/org/geogebra/web/resources/war")
+        into warDirRel
+    }
+
+    appSpecs.each { app ->
+        def replaceHtml = app.id == "classic" ? classicHtml : appHtml
+        file("war/${app.id}-offline.html").text = english(replaceHtml(app, false, true, inlineCss), app.title)
+        file("war/${app.id}.html").text = english(replaceHtml(app, true, false, inlineCss), app.title)
+        if (app.vendor == "Mebis") {
+            file("war/${app.id}-template.html").text = replaceHtml(app, false).replace("<!--CODEBASE-->", "/")
+        }
+    }
+    file("war/calculator.html").text = file("war/suite.html").text
+    file("war/notes-murokdev.html").text = file("war/notes.html").text.replace('<!--LANGUAGE LINKS-->', '<script src="http://localhost:8080/murok.js"></script>');
+}
+
+task copyHtml(dependsOn: 'compileSass') {
     description 'Generate app.html, app-release.html, graphing.html and others'
     group 'application'
 
     doLast {
-        delete {
-            delete fileTree(dir:'war', include: "*.html")
-        }
+        createHtml(true)
+    }
+}
 
-        copy {
-            from file("../common/src/main/resources/giac")
-            into warDirRel
-        }
-        copy {
-            from file("src/main/resources/org/geogebra/web/resources/war")
-            into warDirRel
-        }
+task copyDevHtml(dependsOn: 'compileSass') {
+    description 'Generate app.html, app-release.html, graphing.html and others without inlined css'
+    group 'application'
 
-        appSpecs.each { app ->
-            def replaceHtml = app.id == "classic" ? classicHtml : appHtml
-            file("war/${app.id}-offline.html").text = english(replaceHtml(app, false, true), app.title)
-            file("war/${app.id}.html").text = english(replaceHtml(app, true), app.title)
-            if (app.vendor == "Mebis") {
-                file("war/${app.id}-template.html").text = replaceHtml(app, false).replace("<!--CODEBASE-->", "/")
-            }
-        }
-        file("war/calculator.html").text = file("war/suite.html").text
-        file("war/notes-murokdev.html").text = file("war/notes.html").text.replace('<!--LANGUAGE LINKS-->', '<script src="http://localhost:8080/murok.js"></script>');
+    doLast {
+        createHtml(false)
     }
 }
 
@@ -268,13 +313,18 @@ def gwtGlobalCache = file('build/gwt/devModeCache')
 // As now this task doesn't finish until the java process exits.
 // This causes some problems as the IDE cannot run any other tasks.
 // https://issues.gradle.org/browse/GRADLE-1254
-task run(type: JavaExec, dependsOn: ['jar','copyHtml', 'createSolverHtml']) {
+task run(type: JavaExec, dependsOn: ['jar', 'copyDevHtml', 'createSolverHtml']) {
     description 'Starts a codeserver, and a simple webserver for development'
+    Process sassCompilation
     doFirst {
         delete {
             delete gwtGlobalCache
         }
         gwtGlobalCache.mkdirs()
+        ProcessBuilder pb = new ProcessBuilder(Os.isFamily(Os.FAMILY_WINDOWS)
+                        ? ['cmd', '/c', 'START', '/MIN', file('..\\gradlew.bat').absolutePath, 'watchSass']
+                        : ['gradlew', 'watchSass'])
+        sassCompilation = pb.start()
     }
     main 'com.google.gwt.dev.DevMode'
     maxHeapSize '4096m'
@@ -293,6 +343,9 @@ task run(type: JavaExec, dependsOn: ['jar','copyHtml', 'createSolverHtml']) {
         devModule
     systemProperty 'gwt.persistentunitcachedir', '../build/gwt/devModeCache'
     systemProperty 'java.io.tmpdir', gwtGlobalCache.getAbsolutePath()
+    doLast {
+        sassCompilation.destroy()
+    }
 }
 
 task createDraftBundleZip (type: Zip) {
