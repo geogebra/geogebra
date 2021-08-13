@@ -15,7 +15,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.Window.Navigator;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import elemental2.core.Function;
@@ -484,10 +483,6 @@ public class Browser {
 		return DomGlobal.screen.height;
 	}
 
-	public static boolean isEdge() {
-		return DomGlobal.navigator.userAgent.contains("Edge");
-	}
-
 	/**
 	 * @param full
 	 *            whether to go fullscreen
@@ -614,22 +609,6 @@ public class Browser {
 		default:
 			return -1;
 		}
-	}
-
-	/**
-	 * @return whether current browser is Chrome
-	 */
-	public static boolean isChrome() {
-		// yep, Edge UA string contains Chrome too
-		return Navigator.getUserAgent().matches(".*Chrome/.*") && !isEdge();
-	}
-
-	/**
-	 * @return whether we're running in a Mac browser
-	 */
-	public static boolean isMacOS() {
-		return Navigator.getUserAgent().contains("Macintosh")
-				|| Navigator.getUserAgent().contains("Mac OS");
 	}
 
 	/**

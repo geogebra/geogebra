@@ -46,7 +46,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
@@ -231,7 +230,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private Element getElementForAriaLabel() {
-		if ((isIOS() || isMacOS() || isIE())) {
+		if ((NavigatorUtil.isiOS() || NavigatorUtil.isMacOS())) {
 			// mobile Safari: alttext is connected to parent so that screen
 			// reader doesn't read "dimmed" for the textarea
 			Element parentElement = parent.getElement();
@@ -258,22 +257,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			return target.getAttribute("aria-label");
 		}
 		return "";
-	}
-
-	/**
-	 * @return whether we're running in a Mac browser
-	 */
-	public static boolean isMacOS() {
-		return Navigator.getUserAgent().contains("Macintosh")
-				|| Navigator.getUserAgent().contains("Mac OS");
-	}
-
-	/**
-	 * @return whether we are running in IE
-	 */
-	public static boolean isIE() {
-		return Navigator.getUserAgent().toLowerCase().contains("trident")
-				|| Navigator.getUserAgent().toLowerCase().contains("msie");
 	}
 
 	private static void initTimer() {
@@ -535,9 +518,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @return MacOS: whether meta is down; other os: whether Ctrl is down
 	 */
 	boolean controlDown(com.google.gwt.event.dom.client.KeyEvent<?> event) {
-		return Navigator.getUserAgent().contains("Macintosh")
-				|| Navigator.getUserAgent().contains("Mac OS")
-						? event.isMetaKeyDown() : event.isControlKeyDown();
+		return NavigatorUtil.isMacOS() ? event.isMetaKeyDown() : event.isControlKeyDown();
 	}
 
 	protected char getChar(NativeEvent nativeEvent) {
@@ -643,10 +624,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private boolean isEdited() {
 		return instances.contains(this);
-	}
-
-	private static boolean isIOS() {
-		return Navigator.getUserAgent().toLowerCase().matches(".*(ipad|iphone|ipod).*");
 	}
 
 	private double computeHeight() {
