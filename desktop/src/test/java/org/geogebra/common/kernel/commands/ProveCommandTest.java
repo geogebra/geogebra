@@ -45,7 +45,7 @@ public class ProveCommandTest {
 	public void cmdProve() {
 		t("P=(1,1)", "(1, 1)");
 		t("Prove[ (1,1)==(1,1) ]", "true");
-		t("Prove[ (1,1)==P ]", "false");
+		t("Prove[ (1,1)==P ]", "?");
 	}
 
 	@Test
