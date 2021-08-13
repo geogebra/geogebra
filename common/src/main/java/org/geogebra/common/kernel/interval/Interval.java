@@ -18,6 +18,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	private final IntervalTrigonometric trigonometric = new IntervalTrigonometric(this);
 	private final IntervalMiscOperandsImpl misc = new IntervalMiscOperandsImpl(this);
 	private final IntervalEvaluate evaluate = new IntervalEvaluate(this);
+	private final IntervalMultiplicativeInverse multiplicativeInverse
+			= new IntervalMultiplicativeInverse(this);
 	private double low;
 	private double high;
 
@@ -290,54 +292,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return this as result.
 	 */
 	public Interval multiplicativeInverse() {
-		if (isEmpty()) {
-			return empty();
-		}
-
-		if (isUndefined()) {
-			return this;
-		}
-
-		if (isInverted()) {
-			uninvert();
-			if (isWhole()) {
-				setZero();
-			} else {
-				set(RMath.divLow(1, low), RMath.divHigh(1, high));
-			}
-			return this;
-		}
-
-		if (hasZero()) {
-			if (low != 0) {
-				if (high != 0) {
-					// [negative, positive]
-					Interval interval =
-								new Interval(RMath.divLow(1, low), RMath.divHigh(1, high));
-					interval.setInverted();
-					return interval;
-				} else {
-					// [negative, zero]
-					double d = low;
-					low = Double.NEGATIVE_INFINITY;
-					high = RMath.divHigh(1.0, d);
-				}
-			} else {
-				if (high != 0) {
-					// [zero, positive]
-					low = RMath.divLow(1, high);
-					high = Double.POSITIVE_INFINITY;
-				} else {
-					// [zero, zero]
-					setInverted();
-				}
-			}
-			setInverted();
-		} else {
-			// [positive, positive]
-			return new Interval(RMath.divLow(1, high), RMath.divHigh(1, low));
-		}
-		return this;
+		return multiplicativeInverse.getResult();
 	}
 
 	void setWhole() {

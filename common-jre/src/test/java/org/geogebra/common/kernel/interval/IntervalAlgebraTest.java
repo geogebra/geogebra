@@ -71,6 +71,11 @@ public class IntervalAlgebraTest {
 	}
 
 	@Test
+	public void testDoubleMultiplicativeInverseZero() {
+		assertEquals(zero(), zero().multiplicativeInverse().multiplicativeInverse());
+	}
+
+	@Test
 	public void testPowOne() {
 		Interval interval = interval(Math.exp(-1), Math.exp(1)).pow(1);
 		assertTrue(interval.almostEqual(interval(0.36787944117, 2.71828182846)));
