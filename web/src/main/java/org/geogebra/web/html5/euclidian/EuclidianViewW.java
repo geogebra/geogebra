@@ -141,6 +141,7 @@ public class EuclidianViewW extends EuclidianView implements
 	private GDimension preferredSize;
 
 	private ReaderWidget screenReader;
+	private String currentAltText;
 
 	// needed to make sure outline doesn't get dashed
 	private GBasicStroke outlineStroke = AwtFactory.getPrototype()
@@ -1120,8 +1121,9 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 		String content = getAltTextFrom(altGeo);
 
-		if (altGeo.isGeoText()) {
+		if (content != null && !content.equals(currentAltText) && altGeo.isGeoText()) {
 			getScreenReader().readText(content);
+			currentAltText = content;
 		}
 	}
 
