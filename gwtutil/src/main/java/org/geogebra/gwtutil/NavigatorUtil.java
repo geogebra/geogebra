@@ -24,10 +24,7 @@ public class NavigatorUtil {
 	}
 
 	/**
-	 * Check if browser is Internet Explorer
-	 *
-	 * (Note: only IE11 is supported now)
-	 *
+	 * Check if browser is Internet Explorer (not supported)
 	 * @return true if IE
 	 */
 	public static boolean isIE() {

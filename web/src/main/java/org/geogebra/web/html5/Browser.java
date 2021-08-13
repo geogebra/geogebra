@@ -78,19 +78,6 @@ public class Browser {
 		return hasGlobal("PointerEvent");
 	}
 
-	private static boolean isHTTP() {
-		return !"file:".equals(Location.getProtocol());
-	}
-
-	/**
-	 * Check this to avoid exceptions thrown from Storage.get*StorageIfSupported
-	 *
-	 * @return whether session storage is supported
-	 */
-	public static boolean supportsSessionStorage() {
-		return !NavigatorUtil.isIE() || Browser.isHTTP();
-	}
-
 	/**
 	 * @param thumb
 	 *            original URL
