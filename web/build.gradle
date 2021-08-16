@@ -323,7 +323,7 @@ task run(type: JavaExec, dependsOn: ['jar', 'copyDevHtml', 'createSolverHtml']) 
         gwtGlobalCache.mkdirs()
         ProcessBuilder pb = new ProcessBuilder(Os.isFamily(Os.FAMILY_WINDOWS)
                         ? ['cmd', '/c', 'START', '/MIN', file('..\\gradlew.bat').absolutePath, 'watchSass']
-                        : ['gradlew', 'watchSass'])
+                        : [file('../gradlew').absolutePath, 'watchSass'])
         sassCompilation = pb.start()
     }
     main 'com.google.gwt.dev.DevMode'
@@ -348,13 +348,17 @@ task run(type: JavaExec, dependsOn: ['jar', 'copyDevHtml', 'createSolverHtml']) 
     }
 }
 
-task createDraftBundleZip (type: Zip) {
+task createDraftBundleZip (type: Zip, dependsOn: 'compileSass') {
     description 'Creates the Math Apps Bundle file.'
     destinationDir = file(warDirRel)
     baseName = "geogebra-bundle"
     from compileGwt {
         include ("web3d/**")
         into "GeoGebra/HTML5/5.0"
+    }
+    from("war/css") {
+        include "**"
+        into "css"
     }
 }
 
