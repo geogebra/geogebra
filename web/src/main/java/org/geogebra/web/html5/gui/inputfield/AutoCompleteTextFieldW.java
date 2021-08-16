@@ -1378,6 +1378,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return isFocused;
 	}
 
+	@Override
+	public boolean acceptsCommandInserts() {
+		return false;
+	}
+
 	/**
 	 * @return if text must start with "=" to activate autocomplete
 	 */

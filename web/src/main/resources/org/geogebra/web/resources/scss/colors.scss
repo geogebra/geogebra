@@ -26,7 +26,7 @@ $exam-red: #D32F2F;
 $exam-lock: #007AFF;
 
 $black: #000000;
-$transparent: rgba(255,255,255,0);
+$transparent-white: rgba(255,255,255,0); // transparent white != transparent black when used in shadow
 $toolbar-header: #6161ff;
 $toolbar-header-dark10: #4848e6;
 $toolbar-header-light5: #6e6eff;

@@ -132,6 +132,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private int fixMargin = 0;
 	private int minHeight = 0;
 	private boolean wasPaintedWithCursor;
+	private int rightMargin = 30;
 
 	/**
 	 * @param converter
@@ -615,7 +616,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private double computeWidth() {
-		return roundUp(lastIcon.getIconWidth() + 30);
+		return roundUp(lastIcon.getIconWidth() + rightMargin);
 	}
 
 	/**
@@ -1262,5 +1263,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public void setInputBoxFunctionVariables(List<String> funcVars) {
 		metaModel.setInputBoxFunctionVars(funcVars);
 		metaModel.enableSubstitutions();
+	}
+
+	public void setRightMargin(int rightMargin) {
+		this.rightMargin = rightMargin;
 	}
 }

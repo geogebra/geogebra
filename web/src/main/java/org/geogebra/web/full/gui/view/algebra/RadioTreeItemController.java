@@ -371,7 +371,7 @@ public class RadioTreeItemController implements ClickHandler,
 				// initially (temporary fix)
 				item.ensureEditing();
 			}
-			item.showKeyboard();
+			showKeyboard();
 			item.removeDummy();
 			((PointerEvent) event).getWrappedEvent().stopPropagation();
 			if (item.isInputTreeItem()) {
@@ -494,8 +494,8 @@ public class RadioTreeItemController implements ClickHandler,
 		item.stopEditing(item.getText(), null, true);
 	}
 
-	protected void showKeyboard() {
-		item.showKeyboard();
+	public void showKeyboard() {
+		app.showKeyboard(item);
 	}
 
 	private void editOnTap(boolean active, MouseEvent<?> event) {

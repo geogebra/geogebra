@@ -82,6 +82,7 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 	 * @return Whether the commands can be inserted into this text field
 	 * from the keyboard's More button.
 	 */
+	@Override
 	public boolean acceptsCommandInserts() {
 		return acceptsCommandInserts;
 	}

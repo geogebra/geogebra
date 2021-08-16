@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import java.util.List;
 
+import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
@@ -10,22 +11,25 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
 import org.geogebra.web.full.gui.toolbarpanel.TVRowData;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.StickyTable;
 import org.geogebra.web.html5.util.TestHarness;
 
+import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SafeHtmlHeader;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+
+import jsinterop.base.Js;
 
 /**
  * Sticky table of values.
@@ -36,12 +40,18 @@ import com.google.gwt.user.client.ui.Label;
 public class StickyValuesTable extends StickyTable<TVRowData> implements TableValuesListener {
 
 	private static final int CONTEXT_MENU_OFFSET = 4; // distance from three-dot button
-	private final TableValuesModel tableModel;
+	private static final int LINE_HEIGHT = 56;
+	protected final TableValuesModel tableModel;
 	private final TableValuesView view;
 	private final AppW app;
 	private final HeaderCell headerCell = new HeaderCell();
 	private boolean transitioning;
 	private ContextMenuTV contextMenu;
+	private final TableEditor editor;
+
+	public MathKeyboardListener getKeybaordListener() {
+		return editor.getKeyboardListener();
+	}
 
 	private static class HeaderCell {
 		private final String value;
@@ -67,8 +77,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		 */
 		SafeHtmlHeader getHtmlHeader(String content) {
 			String stringHtmlContent = value.replace("%s", content);
-			SafeHtml safeHtmlContent = SafeHtmlUtils.fromTrustedString(stringHtmlContent);
-			return new SafeHtmlHeader(makeCell(safeHtmlContent));
+			return new SafeHtmlHeader(makeCell(stringHtmlContent));
 		}
 	}
 
@@ -81,19 +90,36 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		this.view = view;
 		this.tableModel = view.getTableValuesModel();
 		tableModel.registerListener(this);
+		editor = new TableEditor(this, app);
 		reset();
-		addCellClickHandler((row, column, el) -> {
+		addHeadClickHandler((row, column, evt) -> {
+			Element el = Js.uncheckedCast(evt.target);
 			if (el != null && (el.hasClassName("MyToggleButton") || el.getParentNode() != null
 					&& el.getParentElement().hasClassName("MyToggleButton"))) {
 				onHeaderClick(el, column);
-			} else if (row < tableModel.getRowCount()
+			}
+			return false;
+		});
+		addBodyPointerDownHandler((row, column, evt) -> {
+			if (tableModel.getRowCount() == 0) {
+				try {
+					view.setValues(0, 10, 1);
+				} catch (InvalidValuesException e) {
+					e.printStackTrace();
+				}
+			}
+			if (row < tableModel.getRowCount()
 					&& column < tableModel.getColumnCount()) {
-				tableModel.setCell(row, column);
+				if (tableModel.isColumnEditable(column)) {
+					editor.startEditing(row, column, evt);
+					return true;
+				}
 			} else if (column == tableModel.getColumnCount()) {
 				// do nothing now, start editing empty column in follow up ticket
 			} else if (row == tableModel.getRowCount()) {
 				// do nothing now, start editing empty row in follow up ticket
 			}
+			return false;
 		});
 	}
 
@@ -113,14 +139,9 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	private void addEmptyColumn() {
-		Column<TVRowData, SafeHtml> col = new Column<TVRowData, SafeHtml>(new SafeHtmlCell()) {
-			@Override
-			public SafeHtml getValue(TVRowData object) {
-				return makeCell(() -> "");
-			}
-		};
+		Column<TVRowData, SafeHtml> col = new DataTableSafeHtmlColumn(-1);
 
-		getTable().addColumn(col, new SafeHtmlHeader(makeCell(() -> "")));
+		getTable().addColumn(col, new SafeHtmlHeader(makeCell("")));
 	}
 
 	@Override
@@ -131,6 +152,9 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private void addColumn(int column) {
 		Column<TVRowData, ?> colValue = getColumnValue(column);
 		getTable().addColumn(colValue, getHeaderFor(column));
+		if (tableModel.isColumnEditable(column)) {
+			getTable().addColumnStyleName(column, "editableColumn");
+		}
 	}
 
 	private Header<SafeHtml> getHeaderFor(int columnIndex) {
@@ -155,20 +179,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 *            of the cell.
 	 * @return SafeHtml of the cell.
 	 */
-	static SafeHtml makeCell(SafeHtml content) {
-		return () -> "<div class=\"content\">" + content.asString() + "</div>";
+	static SafeHtml makeCell(String content) {
+		return () -> "<div class=\"content\">" + content + "</div>";
 	}
 
-	private static Column<TVRowData, SafeHtml> getColumnValue(final int col) {
-		return new Column<TVRowData, SafeHtml>(new SafeHtmlCell()) {
-
-			@Override
-			public SafeHtml getValue(TVRowData object) {
-				String valStr = object.getValue(col);
-				SafeHtml value = SafeHtmlUtils.fromSafeConstant(valStr);
-				return makeCell(value);
-			}
-		};
+	private Column<TVRowData, SafeHtml> getColumnValue(final int col) {
+		return new DataTableSafeHtmlColumn(col);
 	}
 
 	/**
@@ -248,8 +264,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			return;
 		}
 
-		int col = view.getColumn(geo);
-		setHorizontalScrollPosition(getHeaderElement(col).getAbsoluteLeft());
+		Element headerElement = getHeaderElement(view.getColumn(geo));
+		if (headerElement != null) {
+			setHorizontalScrollPosition(headerElement.getAbsoluteLeft());
+		}
 	}
 
 	@Override
@@ -278,5 +296,41 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
 		reset();
+	}
+
+	/**
+	 * Scroll so that cell at given offset is visible
+	 * @param pos offset top of the cell
+	 */
+	public void scrollIntoView(final int pos) {
+		if (pos - getScroller().getVerticalScrollPosition() < LINE_HEIGHT) {
+			getScroller().setVerticalScrollPosition(pos - LINE_HEIGHT);
+		} else if (pos - getScroller().getVerticalScrollPosition()
+				> getScroller().getOffsetHeight() - LINE_HEIGHT) {
+			getScroller().setVerticalScrollPosition(pos
+					- getScroller().getOffsetHeight() + LINE_HEIGHT);
+		}
+	}
+
+	private class DataTableSafeHtmlColumn extends Column<TVRowData, SafeHtml> {
+
+		private final int col;
+
+		public DataTableSafeHtmlColumn(int col) {
+			super(new SafeHtmlCell());
+			this.col = col;
+		}
+
+		@Override
+		public SafeHtml getValue(TVRowData object) {
+			String valStr = col < 0 ? "" : object.getValue(col);
+			return makeCell(valStr);
+		}
+
+		@Override
+		public String getCellStyleNames(Cell.Context context, TVRowData object) {
+			return super.getCellStyleNames(context, object)
+					+ (col < 0 || tableModel.isColumnEditable(col) ? " editableCell" : "");
+		}
 	}
 }

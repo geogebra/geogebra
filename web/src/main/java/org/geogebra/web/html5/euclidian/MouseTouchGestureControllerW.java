@@ -185,7 +185,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 				calculateEnvironment();
 			}
 		});
-		app.addWindowResizeListener(this);
+		app.addWindowResizeListener(this::calculateEnvironment);
 		longTouchManager = LongTouchManager.getInstance();
 		this.cssZoom = Browser.isSafariByVendor();
 	}

@@ -31,7 +31,7 @@ import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
+import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.helper.ResourcesInjectorFull;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
@@ -370,10 +370,7 @@ public class GeoGebraFrameFull
 	}
 
 	private boolean shouldShowMoreButtonFor(MathKeyboardListener textField) {
-		boolean acceptsCommandInserts =
-				textField instanceof RetexKeyboardListener
-						&& ((RetexKeyboardListener) textField).acceptsCommandInserts();
-		return textField == null || acceptsCommandInserts;
+		return textField == null || textField.acceptsCommandInserts();
 	}
 
 	/**
@@ -483,19 +480,16 @@ public class GeoGebraFrameFull
 	 *            whether to show keyboard button
 	 */
 	public void showKeyboardButton(boolean show) {
-		if (showKeyboardButton == null) {
-			if (show) {
-				DockManagerW dm = getGuiManager().getLayout()
-						.getDockManager();
-				DockPanelW dockPanelKB = dm.getPanelForKeyboard();
+		if (show && showKeyboardButton == null) {
+			DockManagerW dm = getGuiManager().getLayout()
+					.getDockManager();
+			DockPanelW dockPanelKB = dm.getPanelForKeyboard();
 
-				if (dockPanelKB != null) {
-					showKeyboardButton = new ShowKeyboardButton(this, dm,
-							(AppWFull) app);
-				}
+			if (dockPanelKB != null) {
+				showKeyboardButton = new ShowKeyboardButton(this, dm,
+						(AppWFull) app);
 			}
 		}
-
 		if (showKeyboardButton != null) {
 			add(showKeyboardButton);
 			showKeyboardButton.setVisible(show);
@@ -511,10 +505,9 @@ public class GeoGebraFrameFull
 	private boolean isButtonNeeded(MathKeyboardListener textField) {
 		MathKeyboardListener keyboardListener = getGuiManager().getKeyboardListener();
 		if (app.getGuiManager().hasSpreadsheetView() || (app.isUnbundled()
-				&& !getGuiManager().showView(App.VIEW_PROBABILITY_CALCULATOR))) {
+				&& keyboardListener instanceof RadioTreeItem)) {
 			return keyboardListener != null;
 		}
-
 		return app.isKeyboardNeeded()
 				&& (textField != null && textField.hasFocus()
 				|| keyboardListener != null && keyboardListener.hasFocus());

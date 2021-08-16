@@ -7,11 +7,15 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.dom.client.TableSectionElement;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.view.client.ListDataProvider;
+
+import elemental2.dom.EventListener;
+import jsinterop.base.Js;
 
 /**
  * Table with sticky header.
@@ -21,15 +25,15 @@ import com.google.gwt.view.client.ListDataProvider;
  *
  */
 public abstract class StickyTable<T> extends FlowPanel {
-	private CellTable<T> cellTable;
+	private final CellTableWithBody cellTable;
 	private ListDataProvider<T> dataProvider;
-	private ScrollPanel scroller;
+	private final ScrollPanel scroller;
 
 	/**
 	 * Create a sticky table.
 	 */
 	public StickyTable() {
-		cellTable = new CellTable<>();
+		cellTable = new CellTableWithBody();
 
 		cellTable.addStyleName("values");
 
@@ -37,24 +41,37 @@ public abstract class StickyTable<T> extends FlowPanel {
 		scroller.addStyleName("scroller");
 		CustomScrollbar.apply(scroller);
 		scroller.addStyleName("customScrollbar");
-
-		scroller.setWidget(cellTable);
+		FlowPanel wrapper = new FlowPanel();
+		wrapper.add(cellTable);
+		scroller.setWidget(wrapper);
 		add(scroller);
 		addStyleName("mainScrollPanel");
 		cellTable.setVisible(true);
 		createDataProvider();
 	}
 
-	protected void addCellClickHandler(CellClickHandler clickHandler) {
-		cellTable.addDomHandler(event -> {
-			Element element = event.getNativeEvent().getEventTarget().cast();
+	protected void addBodyPointerDownHandler(CellClickHandler clickHandler) {
+		Dom.addEventListener(cellTable.getTableBodyElement(), "pointerdown",
+				getDomEventHandler(clickHandler));
+	}
+
+	protected void addHeadClickHandler(CellClickHandler clickHandler) {
+		Dom.addEventListener(cellTable.getTableHeadElement(), "click",
+				getDomEventHandler(clickHandler));
+	}
+
+	private EventListener getDomEventHandler(CellClickHandler eventHandler) {
+		return event -> {
+			Element element = Js.uncheckedCast(event.target);
 			Element cell = getTargetCell(element);
 			if (cell != null) {
 				int col = getParentIndex(cell);
 				int row = getParentIndex(cell.getParentElement());
-				clickHandler.onClick(row, col, element);
+				if (eventHandler.onClick(row, col, event)) {
+					event.preventDefault();
+				}
 			}
-		}, ClickEvent.getType());
+		};
 	}
 
 	protected Element getTargetCell(Element start) {
@@ -158,7 +175,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 	 *
 	 * @return the values table.
 	 */
-	protected CellTable<T> getTable() {
+	public CellTable<T> getTable() {
 		return cellTable;
 	}
 
@@ -169,14 +186,13 @@ public abstract class StickyTable<T> extends FlowPanel {
 	 *            to scroll.
 	 */
 	public void setHorizontalScrollPosition(final int pos) {
-		Scheduler.get().scheduleDeferred(() -> getScroller().setHorizontalScrollPosition(pos));
+		Scheduler.get().scheduleDeferred(() -> scroller.setHorizontalScrollPosition(pos));
 	}
 
 	/**
-	 *
 	 * @return the scroll panel of the values.
 	 */
-	ScrollPanel getScroller() {
+	protected ScrollPanel getScroller() {
 		return scroller;
 	}
 
@@ -211,5 +227,30 @@ public abstract class StickyTable<T> extends FlowPanel {
 		addCells();
 		fillValues(dataProvider.getList());
 		refreshVisibleRange();
+	}
+
+	public Panel getTableWrapper() {
+		return (Panel) scroller.getWidget();
+	}
+
+	public Element getCell(int row, int column) {
+		return cellTable.getTableBodyElement().getChild(row).getChild(column).cast();
+	}
+
+	public void flush() {
+		cellTable.flush();
+	}
+
+	private class CellTableWithBody extends CellTable<T> {
+
+		@Override
+		public TableSectionElement getTableBodyElement() {
+			return super.getTableBodyElement();
+		}
+
+		@Override
+		public TableSectionElement getTableHeadElement() {
+			return super.getTableHeadElement();
+		}
 	}
 }

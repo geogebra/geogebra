@@ -35,6 +35,25 @@ $deleteTime: 120ms;
 		}
 	}
 
+	.tableEditor {
+		box-sizing: border-box;
+		background-color: $white;
+		border: 1px $purple-default solid;
+		overflow: hidden;
+		text-align: right;
+		min-height: 51px;
+
+		canvas {
+			transform: translateY(-50%);
+			position: relative;
+			top: 50%;
+		}
+	}
+
+	.editableCell {
+		cursor: text;
+	}
+
 	.tvTable {
 		@mixin textSelect($type) {
 			user-select: $type;
@@ -67,8 +86,8 @@ $deleteTime: 120ms;
 				right: 0;
 				width: 100%;
 				pointer-events: none;
-				background: linear-gradient(to left, #fff 70px, transparent 120px, transparent),
-					linear-gradient(to top, #fff 20px, transparent 52px, transparent);
+				background: linear-gradient(to left, #fff 70px, $transparent-white 120px, $transparent-white),
+					linear-gradient(to top, #fff 20px, $transparent-white 52px, $transparent-white);
 			}
 
 			thead {
@@ -137,6 +156,7 @@ $deleteTime: 120ms;
 
 				.content {
 					font-size: 100%;
+					font-family: 'mathsans';
 					color: $text-primary;
 					text-align: right;
 					float: right;
