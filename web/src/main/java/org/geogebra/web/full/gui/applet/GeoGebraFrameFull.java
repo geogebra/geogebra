@@ -480,19 +480,16 @@ public class GeoGebraFrameFull
 	 *            whether to show keyboard button
 	 */
 	public void showKeyboardButton(boolean show) {
-		if (showKeyboardButton == null) {
-			if (show) {
-				DockManagerW dm = getGuiManager().getLayout()
-						.getDockManager();
-				DockPanelW dockPanelKB = dm.getPanelForKeyboard();
+		if (show && showKeyboardButton == null) {
+			DockManagerW dm = getGuiManager().getLayout()
+					.getDockManager();
+			DockPanelW dockPanelKB = dm.getPanelForKeyboard();
 
-				if (dockPanelKB != null) {
-					showKeyboardButton = new ShowKeyboardButton(this, dm,
-							(AppWFull) app);
-				}
+			if (dockPanelKB != null) {
+				showKeyboardButton = new ShowKeyboardButton(this, dm,
+						(AppWFull) app);
 			}
 		}
-
 		if (showKeyboardButton != null) {
 			add(showKeyboardButton);
 			showKeyboardButton.setVisible(show);

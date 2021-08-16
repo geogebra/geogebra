@@ -1,13 +1,10 @@
 package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.keyboard.base.KeyboardType;
-import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.dom.client.Element;
 
@@ -46,10 +43,6 @@ public class TableEditor {
 
 			mathTextField.editorClicked();
 			mathTextField.adjustCaret(((MouseEvent) event).x, ((MouseEvent) event).y);
-			KeyboardManagerInterface keyboardManager = app.getKeyboardManager();
-			if (keyboardManager != null) {
-				((KeyboardManager) keyboardManager).selectTab(KeyboardType.NUMBERS);
-			}
 			editRow = row;
 			editColumn = column;
 		});
@@ -58,7 +51,6 @@ public class TableEditor {
 	private void setPosition(Element cell) {
 		table.scrollIntoView(cell.getOffsetTop());
 		mathTextField.setPxWidth(cell.getOffsetWidth() - 1);
-		mathTextField.asWidget().setStyleName("tableEditor");
 	}
 
 	private void stopEditing() {
@@ -75,6 +67,7 @@ public class TableEditor {
 			mathTextField.setRightMargin(26);
 			mathTextField.addChangeHandler(this::stopEditing);
 			mathTextField.setTextMode(true);
+			mathTextField.asWidget().setStyleName("tableEditor");
 			ClickStartHandler.init(mathTextField.asWidget(), new ClickStartHandler() {
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {

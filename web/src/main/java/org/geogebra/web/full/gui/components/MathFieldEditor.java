@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.SyntaxAdapterImpl;
-import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
@@ -272,9 +271,6 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 			frame.showKeyBoard(show, retexListener, true);
 		} else {
 			frame.doShowKeyBoard(show, retexListener);
-		}
-		if (show) {
-			app.getKeyboardManager().selectTab(KeyboardType.ABC);
 		}
 	}
 

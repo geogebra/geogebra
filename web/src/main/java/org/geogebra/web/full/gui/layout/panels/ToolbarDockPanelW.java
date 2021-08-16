@@ -77,6 +77,9 @@ public class ToolbarDockPanelW extends DockPanelW
 		if (toolbar.isAlgebraViewActive()) {
 			return toolbar.updateKeyboardListener(ml);
 		}
+		if (toolbar.getSelectedTabId() == DockPanelData.TabIds.TABLE) {
+			return ml;
+		}
 		return null;
 	}
 
