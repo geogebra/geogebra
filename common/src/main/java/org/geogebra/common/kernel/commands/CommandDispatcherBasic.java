@@ -266,6 +266,8 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdKeepIf(kernel);
 		case IsInteger:
 			return new CmdIsInteger(kernel);
+		case IsFactored:
+			return new CmdIsFactored(kernel);
 		case Defined:
 		case IsDefined:
 			return new CmdDefined(kernel);
