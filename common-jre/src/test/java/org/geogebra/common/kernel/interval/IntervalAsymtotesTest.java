@@ -93,7 +93,8 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 		IntervalFunctionSampler sampler =
 				new IntervalFunctionSampler(function, range, 100);
 		IntervalTupleList result = sampler.result();
-		assertTrue(result.get(0).isInverted());
+		assertEquals(interval(Double.NEGATIVE_INFINITY, -3.162277660168378),
+				result.get(0).isInverted());
 	}
 
 	@Test

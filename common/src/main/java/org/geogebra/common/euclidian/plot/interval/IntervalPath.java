@@ -45,18 +45,18 @@ public class IntervalPath {
 	private void plotAll() {
 		for (int i = 0; i < model.getPoints().count(); i++) {
 			IntervalTuple tuple = model.pointAt(i);
-			boolean moveNeeded = isMoveNeeded(tuple);
-			if (moveNeeded) {
+			boolean shouldSkip = shouldSkip(tuple);
+			if (shouldSkip) {
 				skip();
 			} else {
 				drawTuple(i, tuple);
 			}
-			moveTo = moveNeeded;
+			moveTo = shouldSkip;
 		}
 	}
 
 	private void drawTuple(int i, IntervalTuple tuple) {
-		if (lastY.isEmpty()) {
+		if (lastY.isEmpty() || tuple.isInvertedWhole()) {
 			moveToCurveBegin(i, tuple);
 			storeY(tuple);
 		} else {
@@ -77,7 +77,7 @@ public class IntervalPath {
 		lastY.setEmpty();
 	}
 
-	private boolean isMoveNeeded(IntervalTuple tuple) {
+	private boolean shouldSkip(IntervalTuple tuple) {
 		return tuple.isEmpty()
 				|| tuple.isUndefined();
 	}

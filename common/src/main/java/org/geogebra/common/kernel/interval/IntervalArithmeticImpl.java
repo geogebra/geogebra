@@ -131,6 +131,10 @@ public class IntervalArithmeticImpl implements IntervalArithmetic {
 			return interval;
 		}
 
+		if (interval.isWhole()) {
+			return IntervalConstants.whole();
+		}
+
 		if (interval.isOne()) {
 			return other;
 		}

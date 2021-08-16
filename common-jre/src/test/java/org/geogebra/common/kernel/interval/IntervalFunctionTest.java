@@ -137,6 +137,14 @@ public class IntervalFunctionTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void evaluateMinusTanXAtThreeTimesQuoterPi() throws Exception {
+		GeoFunction geo = add("-tan(x)");
+		IntervalFunction function = new IntervalFunction(geo);
+		Interval actual = function.evaluate(interval(3 * PI / 4, 3 * PI / 4));
+		assertEquals(interval(1), actual);
+	}
+
+	@Test
 	public void evaluateTanXAtIntervalMinus1To3QuotersOfPi() throws Exception {
 		GeoFunction geo = add("tan(x)");
 		IntervalFunction function = new IntervalFunction(geo);

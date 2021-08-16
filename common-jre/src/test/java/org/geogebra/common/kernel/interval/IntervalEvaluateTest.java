@@ -139,4 +139,12 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 		Interval result = sec.sqrt();
 		assertEquals(IntervalConstants.one(), result);
 	}
+
+	@Test
+	public void testMinTanX() {
+		Interval tan = interval(IntervalConstants.PI_HALF_LOW,
+				IntervalConstants.PI_HALF_HIGH).tan();
+		Interval result = tan.multiply(interval(-1));
+ 		assertEquals(IntervalConstants.whole(), result);
+	}
 }

@@ -138,4 +138,8 @@ public class IntervalTuple {
 	public boolean isInverted() {
 		return y.isInverted();
 	}
+
+	public boolean isInvertedWhole() {
+		return y().isInverted() && y().isWhole();
+	}
 }
