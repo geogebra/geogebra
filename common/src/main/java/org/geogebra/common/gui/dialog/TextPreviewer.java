@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.parser.ParseException;
-import org.geogebra.common.kernel.parser.TokenMgrError;
+import org.geogebra.common.kernel.parser.TokenMgrException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 
@@ -160,12 +160,7 @@ public abstract class TextPreviewer {
 			if (inputValue.length() > 0) {
 				showErrorMessage = true;
 			}
-		} catch (MyError e) {
-			isIndependent = true;
-			hasParseError = true; // odd numbers of quotes give parse errors
-			showErrorMessage = true;
-
-		} catch (TokenMgrError e) {
+		} catch (MyError | TokenMgrException e) {
 			isIndependent = true;
 			hasParseError = true; // odd numbers of quotes give parse errors
 			showErrorMessage = true;

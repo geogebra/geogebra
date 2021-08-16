@@ -109,7 +109,6 @@ import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
-import org.geogebra.common.kernel.parser.TokenMgrError;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -899,10 +898,7 @@ public class AlgebraProcessor {
 			ErrorHelper.handleException(e, app, handler);
 		} catch (MyError e) {
 			ErrorHelper.handleError(e, cmd, loc, handler);
-		} catch (TokenMgrError e) {
-			// Sometimes TokenManagerError comes from parser
-			ErrorHelper.handleException(new Exception(e), app, handler);
- 		}
+		}
 		if (callback0 != null) {
 			callback0.callback(null);
 		}
@@ -1384,7 +1380,7 @@ public class AlgebraProcessor {
 	public double convertToDouble(String string) throws NumberFormatException {
 		try {
 			return evaluateToNumberValue(parser.parseExpression(string)).getDouble();
-		} catch (MyError | TokenMgrError | RuntimeException | ParseException e) {
+		} catch (MyError | RuntimeException | ParseException e) {
 			throw new NumberFormatException(e.getMessage());
 		}
 	}
