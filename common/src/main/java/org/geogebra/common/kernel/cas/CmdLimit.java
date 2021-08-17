@@ -42,19 +42,6 @@ public class CmdLimit extends CommandProcessor implements UsesCAS {
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-		case 3:
-			if ((ok[0] = arg[0].isGeoFunction())
-					&& (ok[1] = arg[0].isGeoFunction())
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
-
-				AlgoLimit algo = new AlgoLimit(cons, c.getLabel(),
-						(GeoFunction) arg[0], (GeoNumberValue) arg[2]);
-
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
-			// more than one argument
 		default:
 			throw argNumErr(c);
 		}
