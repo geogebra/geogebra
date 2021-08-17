@@ -1,10 +1,5 @@
 package org.geogebra.common.gui.view.table.dimensions;
 
-import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.GFontRenderContext;
-import org.geogebra.common.awt.GRectangle2D;
-import org.geogebra.common.awt.font.GTextLayout;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.view.table.TableValuesDimensions;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
@@ -14,16 +9,8 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
  * Implementation of TableValuesDimensions.
  */
 public class TableValuesViewDimensions implements TableValuesDimensions, TableValuesListener {
-
-	public static final int MIN_WIDTH = 120;
-	public static final int MAX_WIDTH = 180;
-	private static final int PADDING = 12;
-
-	private AwtFactory factory;
-	private GFontRenderContext context;
-	private GFont font;
-
 	private DimensionCache columnCache;
+	private TextSizeMeasurer measurer;
 
 	/** Table values model */
 	TableValuesModel tableModel;
@@ -31,26 +18,17 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
 	/**
 	 * Construct a new TableValuesViewDimensions object.
 	 * @param model table values model
-	 * @param factory awt factory
-	 * @param context font render context
+	 * @param measurer text size measurer
 	 */
-	public TableValuesViewDimensions(TableValuesModel model, AwtFactory factory,
-			GFontRenderContext context) {
+	public TableValuesViewDimensions(TableValuesModel model, TextSizeMeasurer measurer) {
 		this.tableModel = model;
-		this.factory = factory;
-		this.context = context;
 		this.columnCache = new DimensionCache(this);
-	}
-
-	@Override
-	public void setFont(GFont font) {
-		this.font = font;
-		resetCache();
+		this.measurer = measurer;
 	}
 
 	@Override
 	public int getRowHeight(int row) {
-		return font.getSize() + 2 * PADDING;
+		return ROW_HEIGHT;
 	}
 
 	@Override
@@ -63,7 +41,7 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
 	 * @return the calculated width.
 	 */
 	int calculateExactColumnWidth(int column) {
-		int maxWidth = MIN_WIDTH;
+		int maxWidth = MIN_COLUMN_WIDTH;
 		for (int i = 0; i < tableModel.getRowCount(); i++) {
 			String text = tableModel.getCellAt(i, column);
 			int width = getWidth(text);
@@ -74,10 +52,9 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
 	}
 
 	private int getWidth(String text) {
-		GTextLayout layout = factory.newTextLayout(text, font, context);
-		GRectangle2D rectangle = layout.getBounds();
-		int cellWidth = (int) Math.round(Math.ceil(rectangle.getWidth()));
-		return Math.max(Math.min(MAX_WIDTH, cellWidth), MIN_WIDTH);
+		int cellWidth = measurer.getWidth(text);
+		cellWidth += CELL_LEFT_MARGIN + CELL_RIGHT_MARGIN;
+		return Math.max(Math.min(MAX_COLUMN_WIDTH, cellWidth), MIN_COLUMN_WIDTH);
 	}
 
 	private void resetCache() {

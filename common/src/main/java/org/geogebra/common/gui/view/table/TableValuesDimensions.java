@@ -1,24 +1,22 @@
 package org.geogebra.common.gui.view.table;
 
-import org.geogebra.common.awt.GFont;
-
 /**
- * Has information about table cell dimensions. Make sure to call
- *  * {@link TableValuesDimensions#setFont(GFont)} before
- *  * using this object, to make width calculations more specific.
+ * Has information about table cell dimensions.
  */
 public interface TableValuesDimensions {
+	public static final int ROW_HEIGHT = 40;
+	/** Minimum column width */
+	public static final int MIN_COLUMN_WIDTH = 120;
+	/** Maximum column width */
+	public static final int MAX_COLUMN_WIDTH = 180;
 
-	/**
-	 * Set the font which is used for the calculations.
-	 *
-	 * @param font font
-	 */
-	void setFont(GFont font);
+	/** Left margin of the cell */
+	public static final int CELL_LEFT_MARGIN = 16;
+	/** Right margin of the cell */
+	public static final int CELL_RIGHT_MARGIN = 28;
 
 	/**
 	 * Returns the row height.
-	 *
 	 * @param row row
 	 * @return the height of the row
 	 */
@@ -26,7 +24,6 @@ public interface TableValuesDimensions {
 
 	/**
 	 * Returns the column width.
-	 *
 	 * @param column column
 	 * @return the width of the colum
 	 */
