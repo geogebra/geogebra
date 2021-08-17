@@ -9,11 +9,10 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.ui.Label;
 
 public class SessionExpireNotifyDialog extends ComponentDialog
-		implements ResizeHandler, GTimerListener {
+		implements GTimerListener {
 
 	/**
 	 * dialog to notify user that will be logged out when session expires

@@ -449,7 +449,7 @@ public class CopyPasteW extends CopyPaste {
 	}
 
 	@JsType(isNative = true)
-	private static class ClipboardData {
+	public static class ClipboardData {
 		public JsArray<Blob> files;
 
 		public native String getData(String s);

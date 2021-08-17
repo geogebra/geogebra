@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.GeoGebraGlobal;
@@ -16,6 +17,7 @@ import org.geogebra.web.html5.util.LoadFilePresenter;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
+import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -103,15 +105,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		}
 	}
 
-	private native void addFocusHandlers(Element e) /*-{
-		var that = this;
-		e.addEventListener('focusin', function() {
-			that.@org.geogebra.web.html5.gui.GeoGebraFrameW::useFocusedBorder()();
-		});
-		e.addEventListener('focusout', function() {
-			that.@org.geogebra.web.html5.gui.GeoGebraFrameW::useDataParamBorder()();
-		});
-	}-*/;
+	private void addFocusHandlers(Element e) {
+		Dom.addEventListener(e, "focusin", evt -> useFocusedBorder());
+		Dom.addEventListener(e, "focusout", evt -> useDataParamBorder());
+	}
 
 	/**
 	 * The application loading continues in the splashDialog onLoad handler
@@ -509,13 +506,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	protected abstract AppW createApplication(GeoGebraElement article,
 			AppletParameters parameters, GLookAndFeelI lookAndFeel);
 
-	/**
-	 * @return list of instances of GeogebraFrame
-	 */
-	public static ArrayList<GeoGebraFrameW> getInstances() {
-		return instances;
-	}
-
 	@Override
 	public void onBrowserEvent(Event event) {
 		// do nothing
@@ -656,14 +646,23 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public void remove() {
 		removeFromParent();
 		clear();
-		// this does not do anything!
-		GeoGebraFrameW.getInstances().remove(this);
+		GeoGebraFrameW.instances.remove(this);
 		geoGebraElement.getElement().removeFromParent();
 		Event.setEventListener(geoGebraElement.getElement(),
 				null);
 		geoGebraElement = null;
 		app.getGlobalHandlers().removeAllListeners();
+		SymbolicEditor symbolicEditor = app.getEuclidianView1().getSymbolicEditor();
+		if (symbolicEditor != null) {
+			symbolicEditor.removeListeners();
+		}
+		KeyboardManagerInterface km = app.getKeyboardManager();
+		if (km != null) {
+			km.removeFromDom();
+		}
 		app = null;
+		splash = null;
+
 		if (GeoGebraFrameW.getInstanceCount() == 0) {
 			ResourcesInjector.removeResources();
 		}

@@ -54,14 +54,12 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingsBuilder;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.undo.UndoManager;
-import org.geogebra.common.move.events.BaseEventPool;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
-import org.geogebra.common.move.operations.Network;
 import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -159,6 +157,7 @@ import com.google.gwt.user.client.ui.Widget;
 import elemental2.core.ArrayBuffer;
 import elemental2.core.Uint8Array;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.EventTarget;
 import elemental2.dom.File;
 import elemental2.dom.FileReader;
 import elemental2.dom.HTMLImageElement;
@@ -1255,16 +1254,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * Initialize online/offline state listener
 	 */
 	protected void initNetworkEventFlow() {
-
-		Network network = new NetworkW();
-
-		networkOperation = new NetworkOperation(network);
-		BaseEventPool offlineEventPool = new BaseEventPool(networkOperation,
-				false);
-		NetworkW.attach("offline", offlineEventPool);
-		BaseEventPool onlineEventPool = new BaseEventPool(networkOperation,
-				true);
-		NetworkW.attach("online", onlineEventPool);
+		networkOperation = new NetworkOperation(NetworkW.isOnline());
+		EventTarget[] targets = {DomGlobal.window, DomGlobal.document};
+		for (EventTarget target: targets) {
+			getGlobalHandlers().addEventListener(target, "offline",
+					e -> networkOperation.setOnline(false));
+			getGlobalHandlers().addEventListener(target, "online",
+					e -> networkOperation.setOnline(true));
+		}
 	}
 
 	/**

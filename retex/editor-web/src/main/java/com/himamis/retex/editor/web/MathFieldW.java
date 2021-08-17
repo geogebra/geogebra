@@ -118,8 +118,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private double scale = 1.0;
 
-	private final SyntaxAdapter converter;
-
 	private ExpressionReader expressionReader;
 
 	private static final ArrayList<MathFieldW> instances = new ArrayList<>();
@@ -164,7 +162,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public MathFieldW(SyntaxAdapter converter, Panel parent, Canvas canvas,
 			MathFieldListener listener, MetaModel metaModel) {
 
-		this.converter = converter;
 		this.metaModel = metaModel;
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderGWT());
@@ -173,7 +170,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		bottomOffset = 10;
 		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this);
-		mathFieldInternal.getInputController().setFormatConverter(converter);
 		mathFieldInternal.setSyntaxAdapter(converter);
 		getHiddenTextArea();
 
@@ -808,8 +804,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			ClipboardEvent event = (ClipboardEvent) e;
 			if (event.clipboardData != null) {
 				String exp = event.clipboardData.getData("text/plain");
-				exp = convert(exp);
-				insertString(exp);
+				mathFieldInternal.convertAndInsert(exp);
 			}
 			return null;
 		};
@@ -847,19 +842,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	@Override
 	public void paste() {
 		// insertString(getSystemClipboardChromeWebapp(html.getElement()));
-	}
-
-	/**
-	 * @param exp
-	 *            inserted string (latex/mathml/...)
-	 * @return ASCII math syntax
-	 */
-	protected String convert(String exp) {
-		if (converter != null) {
-			return converter.convert(exp);
-		}
-
-		return exp;
 	}
 
 	/**

@@ -15,11 +15,11 @@ public class NetworkOperation extends BaseOperation<BooleanRenderable> {
 	/**
 	 * Creates a new offlineOperation class for Offline functionality
 	 * 
-	 * @param network
-	 *            The implementation of the Network interface
+	 * @param online
+	 *            whether the initial state is online
 	 */
-	public NetworkOperation(Network network) {
-		this.online = network.onLine();
+	public NetworkOperation(boolean online) {
+		this.online = online;
 	}
 
 	/**

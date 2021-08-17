@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
 public class ComponentSnackbar extends FlowPanel {
-	private AppW app;
+
 	private StandardButton actionBtn;
 	private Runnable btnAction;
 	private Timer fadeIn = new Timer() {
@@ -28,7 +28,7 @@ public class ComponentSnackbar extends FlowPanel {
 	private Timer remove = new Timer() {
 		@Override
 		public void run() {
-			removeSnackbar();
+			removeFromParent();
 		}
 	};
 
@@ -40,7 +40,6 @@ public class ComponentSnackbar extends FlowPanel {
 	 * @param buttonText snackbar button text
 	 */
 	public ComponentSnackbar(AppW app, String title, String text, String buttonText) {
-		this.app = app;
 		addStyleName("snackbarComponent");
 		if (app.isWhiteboardActive()) {
 			addStyleName("mowPosition");
@@ -94,9 +93,7 @@ public class ComponentSnackbar extends FlowPanel {
 	 */
 	public void hide() {
 		fadeOut.run();
+		btnAction = null;
 	}
 
-	private void removeSnackbar() {
-		app.getPanel().remove(this);
-	}
 }

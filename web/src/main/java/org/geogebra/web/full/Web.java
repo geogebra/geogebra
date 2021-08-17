@@ -1,6 +1,7 @@
 package org.geogebra.web.full;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.BundleLookAndFeel;
@@ -50,6 +51,7 @@ public abstract class Web implements EntryPoint {
 	 * Load UI of all applets.
 	 */
 	public void loadAppletAsync() {
+		Parser.initStatic();
 		GeoGebraFrameFull.main(GeoGebraElement.getGeoGebraMobileTags(),
 				getAppletFactory(), getLAF(), null);
 	}

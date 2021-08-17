@@ -597,6 +597,10 @@ public class InputController {
 		return false;
 	}
 
+	public String convert(String exp) {
+		return formatConverter.convert(exp);
+	}
+
 	/**
 	 * Insert field.
 	 *

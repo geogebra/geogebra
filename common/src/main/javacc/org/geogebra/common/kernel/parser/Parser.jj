@@ -64,6 +64,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.BracketsError;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.parser.cashandlers.CommandDispatcherGiac;
@@ -100,6 +101,10 @@ public class Parser implements ParserInterface {
         app = kernel.getApplication();
         loc = app.getLocalization();
         highPrecisionParsing = false;
+    }
+
+    public static void initStatic() {
+       if (jj_ls == null) {Log.debug("Lookahead mot initialized");}
     }
 
     public Kernel getKernel()
