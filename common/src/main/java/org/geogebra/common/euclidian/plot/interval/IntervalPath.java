@@ -61,7 +61,7 @@ public class IntervalPath {
 			storeY(tuple);
 		} else {
 			if (tuple.isInverted()) {
-				lastY = corrector.handleInvertedInterval(i);
+				lastY = corrector.handleInvertedInterval(i, lastY);
 			} else {
 				plotInterval(lastY, tuple.x(), tuple.y());
 				storeY(tuple);
@@ -92,11 +92,16 @@ public class IntervalPath {
 		if (model.isAscendingAfter(i)) {
 			// -sqrt(1/x)
 			gp.moveTo(x.getLow(), inverted ? bounds.getHeight() : y.getHigh());
-			gp.lineTo(x.getHigh(), inverted ? bounds.getHeight() : y.getLow());
+			gp.lineTo(x.getHigh(), y.getHigh());
 		} else {
-			// sqrt(1/x)
-			gp.moveTo(x.getLow(), inverted ? 0 : y.getLow());
-			gp.lineTo(x.getHigh(), inverted ? 0 : y.getHigh());
+			IntervalTuple next = model.pointAt(point.index() + 1);
+			if (next != null) {
+				// sqrt(1/x)
+				Interval nextX = bounds.toScreenIntervalX(next.x());
+				Interval nextY = bounds.toScreenIntervalY(next.y());
+				gp.moveTo(x.getLow(), inverted ? 0 : y.getLow());
+				gp.lineTo(nextX.getHigh(), nextY.getHigh());
+			}
 		}
 	}
 

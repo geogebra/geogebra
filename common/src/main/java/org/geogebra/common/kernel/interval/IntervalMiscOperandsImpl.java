@@ -129,6 +129,16 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 			return interval;
 		}
 
+		if (interval.isUninverted()) {
+			return IntervalConstants.positiveInfinity();
+		}
+
+		if (interval.isWhole()) {
+			interval.set(IntervalConstants.POSITIVE_INFINITY, IntervalConstants.POSITIVE_INFINITY);
+			interval.uninvert();
+			return interval;
+		}
+
 		if (interval.getHigh() <= 0) {
 			interval.negative();
 		} else {

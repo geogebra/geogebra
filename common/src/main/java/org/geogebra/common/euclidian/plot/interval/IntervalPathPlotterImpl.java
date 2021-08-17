@@ -27,6 +27,8 @@ public class IntervalPathPlotterImpl implements IntervalPathPlotter {
 	@Override
 	public void lineTo(double x, double y) {
 		gp.lineTo(x, y);
+
+
 //		Log.debug("L " + x + " " + y);
 	}
 

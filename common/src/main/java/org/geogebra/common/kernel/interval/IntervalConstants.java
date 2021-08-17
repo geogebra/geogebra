@@ -82,4 +82,8 @@ public class IntervalConstants {
 	public static Interval piHalf() {
 		return new Interval(PI_HALF_LOW, PI_HALF_HIGH);
 	}
+
+	public static Interval positiveInfinity() {
+		return new Interval(IntervalConstants.POSITIVE_INFINITY, IntervalConstants.POSITIVE_INFINITY);
+	}
 }

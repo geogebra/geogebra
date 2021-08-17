@@ -12,7 +12,7 @@ public class PathCorrector {
 	private final IntervalPathPlotter gp;
 	private final IntervalPlotModel model;
 	private final EuclidianViewBounds bounds;
-	private final Interval lastY = new Interval();
+	private Interval lastY = new Interval();
 
 	/**
 	 * Constructor.
@@ -31,20 +31,25 @@ public class PathCorrector {
 	 * Coplete inverted interval on demand.
 	 *
 	 * @param idx tuple index in model
+	 * @param y
 	 * @return the last y interval.
 	 */
-	public Interval handleInvertedInterval(int idx) {
+	public Interval handleInvertedInterval(int idx,
+			Interval y) {
+		lastY = y;
 		IntervalTuple tuple = model.pointAt(idx);
-		if (tuple.y().isRealWhole()) {
-			lastY.setEmpty();
+		if (this.lastY.isEmpty()) {
+			this.lastY.setEmpty();
+		} else if (tuple.y().isRealWhole()) {
+			this.lastY.setEmpty();
 		} else if (isInvertedAround(idx)) {
 			handleFill(tuple);
 		} else if (bounds.isOnView(tuple.y())) {
 			completePathAt(idx);
 		} else {
-			lastY.setEmpty();
+			this.lastY.setEmpty();
 		}
-		return lastY;
+		return this.lastY;
 	}
 
 	private void handleFill(IntervalTuple tuple) {
@@ -66,8 +71,10 @@ public class PathCorrector {
 
 	private void completePathAt(int idx) {
 		IntervalTuple tuple = model.pointAt(idx);
-		completePathFromLeft(tuple, model.isAscendingBefore(idx));
-		if (hasPointNextTo(idx)) {
+		boolean before = model.isAscendingBefore(idx);
+		boolean after = model.isAscendingAfter(idx);
+		completePathFromLeft(tuple, before);
+		if (hasPointNextTo(idx) && before == after) {
 			Interval other = completePathFromRight(tuple, model.isAscendingBefore(idx));
 			lastY.set(other);
 		} else {

@@ -113,9 +113,12 @@ class IntervalTrigonometric {
 	 * @return secant of the interval
 	 */
 	public Interval sec() {
-		if (interval.isUninverted()) {
-			setDefaultInterval();
+		if (interval.isWhole()) {
+			return IntervalConstants.one();
 		}
+//		if (interval.isUninverted()) {
+//			setDefaultInterval();
+//		}
 		Interval interval = new Interval(this.interval);
 		return interval.cos().multiplicativeInverse();
 	}

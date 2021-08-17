@@ -147,4 +147,28 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 		Interval result = tan.multiply(interval(-1));
  		assertEquals(IntervalConstants.whole(), result);
 	}
+
+	@Test
+	public void testSecXInverseInverse() {
+		Interval inverse1 = interval(0 - 1E-4, 0 + 1E-4).multiplicativeInverse();
+		Interval inverse2 = inverse1.multiplicativeInverse();
+		Interval result = inverse2.sec();
+		assertEquals(IntervalConstants.one(), result);
+	}
+
+	@Test
+	public void testSecZeroInverseInverse() {
+		Interval inverse1 = IntervalConstants.zero().multiplicativeInverse();
+		Interval inverse2 = inverse1.multiplicativeInverse();
+		Interval result = inverse2.sec();
+		assertEquals(IntervalConstants.one(), result);
+	}
+
+	@Test
+	public void testInverseOfLnTanX() {
+		Interval tan = interval(2, 3).tan();
+		Interval ln = tan.log();
+		Interval result = ln.multiplicativeInverse();
+		assertEquals(IntervalConstants.empty(), result);
+	}
 }
