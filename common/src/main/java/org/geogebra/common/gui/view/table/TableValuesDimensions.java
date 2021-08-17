@@ -9,41 +9,26 @@ import org.geogebra.common.awt.GFont;
  */
 public interface TableValuesDimensions {
 
-    /**
-     * Set the font which is used for the calculations.
-     *
-     * @param font font
-     */
-    void setFont(GFont font);
+	/**
+	 * Set the font which is used for the calculations.
+	 *
+	 * @param font font
+	 */
+	void setFont(GFont font);
 
-    /**
-     * Returns the row height.
-     *
-     * @param row row
-     * @return the height of the row
-     */
-    int getRowHeight(int row);
+	/**
+	 * Returns the row height.
+	 *
+	 * @param row row
+	 * @return the height of the row
+	 */
+	int getRowHeight(int row);
 
-    /**
-     * Returns the column width.
-     *
-     * @param column column
-     * @return the width of the colum
-     */
-    int getColumnWidth(int column);
-
-    /**
-     * Returns the header height.
-     *
-     * @return the header height
-     */
-    int getHeaderHeight();
-
-    /**
-     * Returns the header width.
-     *
-     * @param header the header index
-     * @return the header width
-     */
-    int getHeaderWidth(int header);
+	/**
+	 * Returns the column width.
+	 *
+	 * @param column column
+	 * @return the width of the colum
+	 */
+	int getColumnWidth(int column);
 }
