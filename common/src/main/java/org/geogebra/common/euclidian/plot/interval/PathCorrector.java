@@ -132,4 +132,27 @@ public class PathCorrector {
 		}
 		return IntervalConstants.empty();
 	}
+
+	public Interval beginFromInfinity(int index, Interval x, Interval y) {
+		if (model.isAscendingAfter(index)) {
+			completeToNegativeInfinity(x, y);
+		} else {
+			completeToPositiveInfinity(x, y);
+		}
+		return lastY;
+	}
+
+	private void completeToPositiveInfinity(Interval x, Interval y) {
+		gp.moveTo(x.getHigh(), 0);
+		gp.lineTo(x.getHigh(), y.getLow());
+		lastY.set(0, y.getLow());
+	}
+
+	private void completeToNegativeInfinity(Interval x, Interval y) {
+		int yMax = bounds.getHeight();
+		gp.moveTo(x.getHigh(), yMax);
+		gp.lineTo(x.getHigh(), y.getLow());
+		lastY.set(y.getLow(), yMax);
+	}
+
 }

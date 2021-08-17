@@ -54,11 +54,25 @@ public class IntervalPath {
 			moveTo = shouldSkip;
 		}
 	}
+	private void moveToFirst(int i, IntervalTuple point) {
+		Interval x = bounds.toScreenIntervalX(point.x());
+		Interval y = bounds.toScreenIntervalY(point.y());
+
+		if (y.isEmpty()) {
+			lastY.setEmpty();
+			return;
+		}
+
+		if (point.y().isInverted()) {
+			lastY.set(corrector.beginFromInfinity(i, x, y));
+		} else {
+			line(x, y);
+		}
+	}
 
 	private void drawTuple(int i, IntervalTuple tuple) {
 		if (lastY.isEmpty() || tuple.isInvertedWhole()) {
-			moveToCurveBegin(i, tuple);
-			storeY(tuple);
+			moveToFirst(i, tuple);
 		} else {
 			if (tuple.isInverted()) {
 				lastY = corrector.handleInvertedInterval(i, lastY);
@@ -82,27 +96,10 @@ public class IntervalPath {
 				|| tuple.isUndefined();
 	}
 
-	private void moveToCurveBegin(int i, IntervalTuple point) {
-		Interval x = bounds.toScreenIntervalX(point.x());
-		Interval y = bounds.toScreenIntervalY(point.y());
-		if (y.isEmpty()) {
-			return;
-		}
-		boolean inverted = point.y().isInverted();
-		if (model.isAscendingAfter(i)) {
-			// -sqrt(1/x)
-			gp.moveTo(x.getLow(), inverted ? bounds.getHeight() : y.getHigh());
-			gp.lineTo(x.getHigh(), y.getHigh());
-		} else {
-			IntervalTuple next = model.pointAt(point.index() + 1);
-			if (next != null) {
-				// sqrt(1/x)
-				Interval nextX = bounds.toScreenIntervalX(next.x());
-				Interval nextY = bounds.toScreenIntervalY(next.y());
-				gp.moveTo(x.getLow(), inverted ? 0 : y.getLow());
-				gp.lineTo(nextX.getHigh(), nextY.getHigh());
-			}
-		}
+	private void line(Interval x, Interval y) {
+		gp.moveTo(x.getHigh(), y.getLow());
+		gp.lineTo(x.getHigh(), y.getHigh());
+		lastY.set(y);
 	}
 
 	/**
