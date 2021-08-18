@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
@@ -62,24 +61,6 @@ public class SymbolicProcessor {
 			}
 			return v instanceof GeoDummyVariable && ((GeoDummyVariable) v)
 					.getVarName().equals(label);
-		}
-	}
-
-	private static final class MyArbitraryConstantExtractor implements Inspecting {
-
-		private MyArbitraryConstant constant;
-
-		public MyArbitraryConstant getConstant() {
-			return constant;
-		}
-
-		@Override
-		public boolean check(ExpressionValue v) {
-			if (v instanceof GeoSymbolic) {
-				constant = ((GeoSymbolic) v).getArbitraryConstant();
-				return true;
-			}
-			return false;
 		}
 	}
 
@@ -193,21 +174,15 @@ public class SymbolicProcessor {
 			}
 		}
 		EvalInfo subInfo = new EvalInfo().withArbitraryConstant(info.getArbitraryConstant());
-		MyArbitraryConstantExtractor extractor = new MyArbitraryConstantExtractor();
 		SubExpressionEvaluator evaluator = new SubExpressionEvaluator(this, ve, subInfo);
 		ExpressionNode replaced = ve.traverse(evaluator).wrap();
-		replaced.inspect(extractor);
-		EvalInfo newInfo = info;
-		if (extractor.getConstant() != null) {
-			newInfo = info.withArbitraryConstant(extractor.getConstant());
-		}
 		if (replaced.inspect(new RecursiveEquationFinder(ve))) {
 			replaced = new Equation(kernel,
 					new GeoDummyVariable(cons, ve.wrap().getLabel()), replaced)
 					.wrap();
 			ve.wrap().setLabel(null);
 		}
-		return doEvalSymbolicNoLabel(replaced, newInfo);
+		return doEvalSymbolicNoLabel(replaced, info);
 	}
 
 	/**

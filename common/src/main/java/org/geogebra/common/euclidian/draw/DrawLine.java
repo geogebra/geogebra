@@ -707,7 +707,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 	 */
 	@Override
 	final public boolean hit(int screenx, int screeny, int hitThreshold) {
-		return isVisible && line.intersects(screenx - hitThreshold,
+		return line.intersects(screenx - hitThreshold,
 				screeny - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 	}
 
