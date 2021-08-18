@@ -912,40 +912,33 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 	private void startProbabilityCalculatorElement(String eName,
 			LinkedHashMap<String, String> attrs) {
-		boolean ok = true;
-
 		switch (eName) {
 		case "distribution":
-			ok = handleProbabilityDistribution(attrs);
+			handleProbabilityDistribution(attrs);
 			break;
 		case "interval":
-			ok = handleProbabilityInterval(attrs);
+			handleProbabilityInterval(attrs);
 			break;
 		case "statisticsCollection":
-			ok = handleStatisticsCollection(attrs);
+			handleStatisticsCollection(attrs);
 			break;
 		case "entry":
-			ok = handleEntry(attrs);
+			handleEntry(attrs);
 			break;
 		default:
 			Log.error("unknown tag in <probabilityCalculator>: " + eName);
 		}
-
-		if (!ok) {
-			Log.error("error in <probabilityCalculator>: " + eName);
-		}
 	}
 
-	private boolean handleEntry(LinkedHashMap<String, String> attrs) {
+	private void handleEntry(LinkedHashMap<String, String> attrs) {
 		if (entries == null) {
 			entries = new ArrayList<>();
 		}
 		String val = attrs.get("val");
 		entries.add("".equals(val) ? null : val);
-		return true;
 	}
 
-	private boolean handleProbabilityDistribution(
+	private void handleProbabilityDistribution(
 			LinkedHashMap<String, String> attrs) {
 
 		try {
@@ -967,32 +960,30 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			app.getSettings().getProbCalcSettings().setParameters(parameters);
-
-			return true;
 		} catch (RuntimeException e) {
-			return false;
+			logError(e);
 		}
 	}
 
-	private boolean handleProbabilityInterval(
+	private void handleProbabilityInterval(
 			LinkedHashMap<String, String> attrs) {
 
 		try {
 			int probMode = Integer.parseInt(attrs.get("mode"));
-			app.getSettings().getProbCalcSettings().setProbMode(probMode);
-
-			app.getSettings().getProbCalcSettings()
-					.setLow(getNumber(attrs.get("low")));
-			app.getSettings().getProbCalcSettings()
-					.setHigh(getNumber(attrs.get("high")));
-
-			return true;
+			app.getSettings().getProbCalcSettings().setProbInterval(probMode,
+					getNumber(attrs.get("low")),
+					getNumber(attrs.get("high")));
 		} catch (RuntimeException e) {
-			return false;
+			logError(e);
 		}
 	}
 
-	private boolean handleStatisticsCollection(
+	private static void logError(Throwable e) {
+		Log.warn("Problem parsing XML");
+		Log.debug(e.getCause() == null ? e : e.getCause());
+	}
+
+	private void handleStatisticsCollection(
 			LinkedHashMap<String, String> attrs) {
 
 		try {
@@ -1022,11 +1013,8 @@ public class MyXMLHandler implements DocHandler {
 				stats.columns = (int) StringUtil
 					.parseDouble(attrs.get("columns"));
 			}
-
-			return true;
 		} catch (RuntimeException e) {
-			e.printStackTrace();
-			return false;
+			logError(e);
 		}
 	}
 
@@ -1328,7 +1316,7 @@ public class MyXMLHandler implements DocHandler {
 			return true;
 
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			logError(e);
 			return false;
 		}
 	}
@@ -1395,25 +1383,6 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	// private boolean handleCASSize(CasManager casView, LinkedHashMap<String,
-	// String> attrs) {
-	// if (app.isApplet())
-	// return true;
-	//
-	// try {
-	// int width = Integer.parseInt((String) attrs.get("width"));
-	// int height = Integer.parseInt((String) attrs.get("height"));
-	//
-	// // it seems that this statement does not work, because now cas use
-	// // its own frame. --Quan Yuan
-	// ((JComponent) app.getCasView()).setPreferredSize(new Dimension(
-	// width, height));
-	// return true;
-	// } catch(RuntimeException e) {
-	// e.printStackTrace();
-	// return false;
-	// }
-	// }
 	/**
 	 * Background color handlig for view
 	 * 
@@ -1549,7 +1518,7 @@ public class MyXMLHandler implements DocHandler {
 			ev.setAxesLabelsSerif("true".equals(attrs.get("serif")));
 			return true;
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			logError(e);
 			return false;
 		}
 	}
@@ -1576,7 +1545,7 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			logError(e);
 			return false;
 		}
 	}
@@ -1708,7 +1677,7 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 		} catch (RuntimeException e) {
-			// e.printStackTrace();
+			logError(e);
 			return false;
 		}
 	}
@@ -2015,7 +1984,7 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 		} catch (RuntimeException e) {
-			Log.debug(e);
+			logError(e);
 			return false;
 		}
 	}
@@ -2070,7 +2039,7 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			logError(e);
 			return false;
 		}
 	}
@@ -2101,8 +2070,7 @@ public class MyXMLHandler implements DocHandler {
 			tmp_perspective.setShowInputPanelCommands(parseBooleanRev(str));
 			return true;
 		} catch (RuntimeException e) {
-			e.printStackTrace();
-			Log.error(e.getMessage() + ": " + e.getCause());
+			logError(e);
 			return false;
 		}
 	}
@@ -2141,8 +2109,7 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 		} catch (RuntimeException e) {
-			e.printStackTrace();
-			Log.warn(e.getMessage() + ": " + e.getCause());
+			logError(e);
 			return false;
 		}
 	}
@@ -2219,7 +2186,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 			return true;
 		} catch (RuntimeException e) {
-			Log.warn(e.getMessage() + ": " + e.getCause());
+			logError(e);
 			return false;
 		}
 	}
@@ -2242,7 +2209,7 @@ public class MyXMLHandler implements DocHandler {
 			app.setPreferredSize(size);
 			return true;
 		} catch (RuntimeException e) {
-			Log.warn(e.getMessage() + ": " + e.getCause());
+			logError(e);
 			return false;
 		}
 	}
@@ -2396,7 +2363,7 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 		} catch (RuntimeException e) {
-			Log.debug(e.getMessage() + ": " + e.getCause());
+			logError(e);
 			return false;
 		}
 	}
@@ -2457,7 +2424,7 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 		} catch (RuntimeException e) {
-			Log.debug(e.getMessage() + ": " + e.getCause());
+			logError(e);
 			return false;
 		}
 	}
@@ -2469,7 +2436,7 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 		} catch (RuntimeException e) {
-			Log.debug(e.getMessage() + ": " + e.getCause());
+			logError(e);
 			return false;
 		}
 	}
@@ -2546,7 +2513,7 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 		} catch (RuntimeException e) {
-			Log.debug(e.getMessage() + ": " + e.getCause());
+			logError(e);
 			return false;
 		}
 	}
@@ -2604,7 +2571,7 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 		} catch (RuntimeException e) {
-			Log.debug(e.getMessage() + ": " + e.getCause());
+			logError(e);
 			return false;
 		}
 	}
@@ -2857,8 +2824,7 @@ public class MyXMLHandler implements DocHandler {
 				KernelCAS.dependentCasCell(geoCasCell);
 			}
 		} catch (RuntimeException e) {
-			Log.error("error when processing <cellpair>: " + e.getMessage());
-			e.printStackTrace();
+			logError(e);
 		}
 	}
 
@@ -3196,7 +3162,7 @@ public class MyXMLHandler implements DocHandler {
 			geoCasCell.setEvalCommand(evalCmd);
 			return true;
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			logError(e);
 			return false;
 		}
 	}
@@ -3233,7 +3199,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 			return true;
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			logError(e);
 			return false;
 		}
 	}
@@ -3394,10 +3360,10 @@ public class MyXMLHandler implements DocHandler {
 				}
 				cmd.addArgument(en);
 			} catch (Exception e) {
-				e.printStackTrace();
+				logError(e);
 				errors.add("unknown command input: " + arg);
 			} catch (Error e) {
-				e.printStackTrace();
+				logError(e);
 				errors.add("unknown command input: " + arg);
 			}
 		}
@@ -3623,7 +3589,7 @@ public class MyXMLHandler implements DocHandler {
 			String msg = "error in <expression>: label=" + label + ", exp= "
 					+ exp;
 			Log.error(msg);
-			Log.debug(e);
+			logError(e);
 			errors.add(msg);
 		}
 	}

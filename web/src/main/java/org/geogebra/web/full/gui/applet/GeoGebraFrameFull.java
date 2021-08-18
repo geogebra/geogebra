@@ -1015,7 +1015,7 @@ public class GeoGebraFrameFull
 	}
 
 	@Override
-	protected ResourcesInjectorFull getResourcesInjector(AppletParameters appletParameters) {
+	protected ResourcesInjectorFull getResourcesInjector() {
 		return new ResourcesInjectorFull();
 	}
 

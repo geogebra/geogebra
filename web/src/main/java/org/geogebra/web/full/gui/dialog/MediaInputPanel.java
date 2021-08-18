@@ -118,7 +118,9 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * @param info permanent information message
 	 */
 	public void showInfo(String info) {
-		infoLabel.setText(info);
+		if (infoLabel != null) {
+			infoLabel.setText(info);
+		}
 	}
 
 	/**

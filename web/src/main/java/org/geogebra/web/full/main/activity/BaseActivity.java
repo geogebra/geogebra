@@ -2,6 +2,7 @@ package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -138,6 +139,11 @@ public class BaseActivity implements GeoGebraActivity {
 
 	@Override
 	public void markSaveOpen() {
+		// nothing to do
+	}
+
+	@Override
+	public void markSaveProcess(String title, MaterialVisibility visibility) {
 		// nothing to do
 	}
 }

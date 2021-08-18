@@ -2,6 +2,7 @@ package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.web.full.css.ResourceIconProvider;
 import org.geogebra.web.full.gui.layout.DockPanelW;
@@ -129,12 +130,19 @@ public interface GeoGebraActivity {
 	SVGResource getExamIcon();
 
 	/**
-	 * mark search view has opened
+	 * mark search view was open before login
 	 */
 	void markSearchOpen();
 
 	/**
-	 * mark search view has opened
+	 * mark save dialog was open before login
 	 */
 	void markSaveOpen();
+
+	/**
+	 * mark saving process
+	 * @param title material title
+	 * @param visibility material visibility
+	 */
+	void markSaveProcess(String title, MaterialVisibility visibility);
 }
