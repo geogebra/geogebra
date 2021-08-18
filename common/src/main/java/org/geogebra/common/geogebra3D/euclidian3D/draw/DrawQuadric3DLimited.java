@@ -5,6 +5,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -312,6 +313,15 @@ public class DrawQuadric3DLimited extends Drawable3D {
 		drawBottom.enlargeBounds(min, max, dontExtend);
 		drawTop.enlargeBounds(min, max, dontExtend);
 		drawSide.enlargeBounds(min, max, dontExtend);
+	}
+
+	@Override
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
+		if (isVisible()) {
+			drawBottom.exportToPrinter3D(exportToPrinter3D, exportSurface);
+			drawTop.exportToPrinter3D(exportToPrinter3D, exportSurface);
+			drawSide.exportToPrinter3D(exportToPrinter3D, exportSurface);
+		}
 	}
 
 }
