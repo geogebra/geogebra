@@ -42,6 +42,7 @@ $deleteTime: 120ms;
 		overflow: hidden;
 		text-align: right;
 		min-height: 51px;
+		padding-left: 16px;
 
 		canvas {
 			transform: translateY(-50%);
@@ -67,6 +68,7 @@ $deleteTime: 120ms;
 			border-style: solid;
 			box-sizing: border-box;
 			min-width: 120px;
+			max-width: 180px;
 		}
 
 		%cellTransition {
@@ -161,6 +163,10 @@ $deleteTime: 120ms;
 					text-align: right;
 					float: right;
 					padding: 14px 28px 14px 16px;
+					text-overflow: ellipsis;
+					overflow: hidden;
+					width: 100%;
+					box-sizing: border-box;
 				}
 
 				.delete {
