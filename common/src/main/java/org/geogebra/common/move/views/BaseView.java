@@ -6,10 +6,10 @@ import java.util.List;
 import org.geogebra.common.move.events.GenericEvent;
 
 /**
- * @author gabor Base of all views
+ * Simple event bus
  * @param <T>
  *            type of handlers this view contains
- * 
+ * @author gabor
  */
 public class BaseView<T> {
 

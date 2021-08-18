@@ -103,8 +103,12 @@ public class Parser implements ParserInterface {
         highPrecisionParsing = false;
     }
 
-    public static void initStatic() {
-       if (jj_ls == null) {Log.debug("Lookahead mot initialized");}
+    /**
+     * Needed to prevent memory leaks in Web
+     * @return the static exception instance
+     */
+    public static Throwable getLookaheadSuccess() {
+       return jj_ls;
     }
 
     public Kernel getKernel()

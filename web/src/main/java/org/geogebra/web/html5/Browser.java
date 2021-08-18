@@ -674,4 +674,11 @@ public class Browser {
 	public static boolean needsAccessibilityView() {
 		return NavigatorUtil.isMobile();
 	}
+
+	/**
+	 * @return whether the browser is online
+	 */
+	public static boolean isOnline() {
+		return DomGlobal.navigator == null || DomGlobal.navigator.onLine;
+	}
 }

@@ -23,6 +23,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import jsinterop.base.Js;
+
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  * @author Arpad
@@ -51,9 +53,18 @@ public abstract class Web implements EntryPoint {
 	 * Load UI of all applets.
 	 */
 	public void loadAppletAsync() {
-		Parser.initStatic();
+		removeBackingObject(Parser.getLookaheadSuccess());
+		removeBackingObject(com.himamis.retex.editor.share.io.latex.Parser.getLookaheadSuccess());
 		GeoGebraFrameFull.main(GeoGebraElement.getGeoGebraMobileTags(),
 				getAppletFactory(), getLAF(), null);
+	}
+
+	/**
+	 * Calling Parser.getLookaheadSuccess() makes sure parser doesn't keep a link to App.
+	 * By removing the backing object we make sure it has no link to Web either.
+	 */
+	private void removeBackingObject(Throwable t) {
+		Js.asPropertyMap(t).delete("backingJsObject");
 	}
 
 	private void exportGGBElementRenderer() {

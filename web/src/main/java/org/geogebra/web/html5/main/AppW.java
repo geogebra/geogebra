@@ -132,7 +132,6 @@ import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.html5.util.ImageManagerW;
-import org.geogebra.web.html5.util.NetworkW;
 import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
@@ -1254,7 +1253,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * Initialize online/offline state listener
 	 */
 	protected void initNetworkEventFlow() {
-		networkOperation = new NetworkOperation(NetworkW.isOnline());
+		networkOperation = new NetworkOperation(Browser.isOnline());
 		EventTarget[] targets = {DomGlobal.window, DomGlobal.document};
 		for (EventTarget target: targets) {
 			getGlobalHandlers().addEventListener(target, "offline",

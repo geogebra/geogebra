@@ -3,8 +3,8 @@ package org.geogebra.common.move.operations;
 import org.geogebra.common.move.views.BooleanRenderable;
 
 /**
- * @author gabor Base for offline and online operations
- *
+ * Base for offline and online operations
+ * @author gabor
  */
 public class NetworkOperation extends BaseOperation<BooleanRenderable> {
 	/**
