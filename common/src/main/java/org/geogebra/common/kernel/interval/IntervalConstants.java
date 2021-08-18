@@ -86,4 +86,7 @@ public class IntervalConstants {
 	public static Interval positiveInfinity() {
 		return new Interval(IntervalConstants.POSITIVE_INFINITY, IntervalConstants.POSITIVE_INFINITY);
 	}
+	public static Interval negativeInfinity() {
+		return new Interval(IntervalConstants.NEGATIVE_INFINITY, IntervalConstants.NEGATIVE_INFINITY);
+	}
 }

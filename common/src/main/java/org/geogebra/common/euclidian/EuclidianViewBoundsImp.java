@@ -59,6 +59,10 @@ public class EuclidianViewBoundsImp implements EuclidianViewBounds {
 
 	@Override
 	public Interval toScreenIntervalY(Interval y) {
+		if (y.isWhole()) {
+			return y;
+		}
+
 		if (y.isOnlyInfinity()) {
 			return IntervalConstants.zero();
 		}

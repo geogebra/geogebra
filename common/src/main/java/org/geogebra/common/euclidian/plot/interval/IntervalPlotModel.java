@@ -231,4 +231,14 @@ public class IntervalPlotModel {
 	public int getCount() {
 		return points.count();
 	}
+
+
+	/**
+	 *
+	 * @param index of the tuple.
+	 * @return if the tuple value of a given index is whole or not.
+	 */
+	public boolean isWholeAt(int index) {
+		return index >= points.count() || pointAt(index).y().isWhole();
+	}
 }
