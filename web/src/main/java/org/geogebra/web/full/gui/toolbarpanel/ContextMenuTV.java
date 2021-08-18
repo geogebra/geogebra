@@ -10,6 +10,7 @@ import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.plugin.Event;
@@ -77,7 +78,7 @@ public class ContextMenuTV {
 		wrappedPopup = new GPopupMenuW(app);
 		if (getColumnIdx() > 0) {
 			// column index > 0 -> edit function
-			if (view.getTableValuesModel().isColumnEditable(getColumnIdx())) {
+			if (view.getEvaluatable(getColumnIdx()) instanceof GeoList) {
 				addStats("Statistics", view::getStatistics1Var);
 				addStats("Statistics2", view::getStatistics2Var);
 				addCommand(this::showRegression, "Regression",
