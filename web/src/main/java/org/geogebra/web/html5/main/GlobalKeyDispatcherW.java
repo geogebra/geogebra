@@ -102,7 +102,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					handled = true;
 				}
 				if (event.getCtrlKey()) {
-					event.preventDefault();
 					handleCtrlKeys(KeyCodes.translateGWTcode(event.getKeyCode()),
 							event.getShiftKey(), false, true);
 					handled = true;
@@ -118,7 +117,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				}
 
 				if (handled) {
-					event.preventDefault();
 					event.stopPropagation();
 				}
 			}
