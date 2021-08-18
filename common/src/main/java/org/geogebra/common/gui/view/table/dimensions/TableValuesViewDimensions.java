@@ -27,11 +27,6 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
 	}
 
 	@Override
-	public int getRowHeight(int row) {
-		return ROW_HEIGHT;
-	}
-
-	@Override
 	public int getColumnWidth(int column) {
 		return columnCache.getWidth(column);
 	}
