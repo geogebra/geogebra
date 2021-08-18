@@ -18,7 +18,7 @@ public class DiscreteSpaceImp implements DiscreteSpace {
 	public DiscreteSpaceImp(double low, double high, double step) {
 		interval = new Interval(low, high);
 		this.step = step;
-		count = (int) Math.floor(interval.getLength() / step);
+		count = step != 0 ? (int) Math.floor(interval.getLength() / step) : 0;
 	}
 
 	public DiscreteSpaceImp() {
@@ -27,6 +27,10 @@ public class DiscreteSpaceImp implements DiscreteSpace {
 
 	@Override
 	public void update(Interval interval, int count) {
+		if (count == 0) {
+			return;
+		}
+
 		this.interval = interval;
 		this.count = count;
 		step = interval.getLength() / count;
@@ -34,6 +38,9 @@ public class DiscreteSpaceImp implements DiscreteSpace {
 
 	@Override
 	public void setInterval(double min, double max) {
+		if (count == 0) {
+			return;
+		}
 		interval.set(min, max);
 		step = interval.getLength() / count;
 	}
@@ -50,6 +57,10 @@ public class DiscreteSpaceImp implements DiscreteSpace {
 
 	@Override
 	public Stream<Interval> values() {
+		if (interval == null) {
+			return Stream.empty();
+		}
+
 		return DoubleStream.iterate(interval.getLow(), d -> d + step)
 				.limit(count)
 				.mapToObj(value -> new Interval(value, value + step));
