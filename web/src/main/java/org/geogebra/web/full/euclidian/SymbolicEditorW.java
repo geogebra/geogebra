@@ -196,4 +196,9 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	public void onChange(ChangeEvent event) {
 		decorator.update();
 	}
+
+	@Override
+	public void onCursorMove() {
+		editor.scrollHorizontally();
+	}
 }

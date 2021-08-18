@@ -75,11 +75,11 @@ public class TableValuesColumn {
 		headerName = evaluatable.isGeoList() ? labelSimple : labelSimple + "(x)";
 	}
 
-	void setCell(int row) {
+	void setCell(int row, String content) {
 		stringValues[row] = null;
 		doubleValues[row] = null;
 		GeoNumeric cell = (GeoNumeric) ((GeoList) evaluatable).get(row);
-		cell.setValue(cell.getValue() + 1); //TODO
+		cell.setValue(Double.parseDouble(content)); //TODO
 	}
 
 	private double evaluateAt(int row) {

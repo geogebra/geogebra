@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import java.util.List;
 
-import org.geogebra.common.gui.view.table.TableValuesDimensions;
+import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
@@ -11,24 +11,25 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
 import org.geogebra.web.full.gui.toolbarpanel.TVRowData;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.StickyTable;
 import org.geogebra.web.html5.util.TestHarness;
 
+import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.safecss.shared.SafeStylesBuilder;
 import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SafeHtmlHeader;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+
+import jsinterop.base.Js;
 
 /**
  * Sticky table of values.
@@ -38,20 +39,22 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class StickyValuesTable extends StickyTable<TVRowData> implements TableValuesListener {
 
-	// margin to align value cells to header - 3dot empty place
-	private static final int VALUE_RIGHT_MARGIN = 36;
-	private static final int X_LEFT_PADDING = 16;
-	private static final int MIN_COLUMN_WIDTH = 72;
-
-	private TableValuesModel tableModel;
-	private TableValuesDimensions dimensions;
-	private TableValuesView view;
-	private AppW app;
-	private HeaderCell headerCell = new HeaderCell();
+	private static final int CONTEXT_MENU_OFFSET = 4; // distance from three-dot button
+	private static final int LINE_HEIGHT = 56;
+	protected final TableValuesModel tableModel;
+	private final TableValuesView view;
+	private final AppW app;
+	private final HeaderCell headerCell = new HeaderCell();
 	private boolean transitioning;
+	private ContextMenuTV contextMenu;
+	private final TableEditor editor;
+
+	public MathKeyboardListener getKeybaordListener() {
+		return editor.getKeyboardListener();
+	}
 
 	private static class HeaderCell {
-		private String value;
+		private final String value;
 
 		/**
 		 * Header
@@ -69,17 +72,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		/**
 		 * @param content
 		 *            cell text content
-		 * @param width
-		 *            width in pixels
-		 * @param height
-		 *            height in pixels
 		 * @return cell HTML markup
 		 *
 		 */
-		SafeHtmlHeader getHtmlHeader(String content, int width, int height) {
+		SafeHtmlHeader getHtmlHeader(String content) {
 			String stringHtmlContent = value.replace("%s", content);
-			SafeHtml safeHtmlContent = SafeHtmlUtils.fromTrustedString(stringHtmlContent);
-			return new SafeHtmlHeader(makeCell(safeHtmlContent, width, height));
+			return new SafeHtmlHeader(makeCell(stringHtmlContent));
 		}
 	}
 
@@ -91,22 +89,44 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		this.app = app;
 		this.view = view;
 		this.tableModel = view.getTableValuesModel();
-		this.dimensions = view.getTableValuesDimensions();
 		tableModel.registerListener(this);
+		editor = new TableEditor(this, app);
 		reset();
-		addCellClickHandler((row, column, el) -> {
-			if (el != null && el.getParentNode() != null
-					&& el.getParentElement().hasClassName("MyToggleButton")) {
+		addHeadClickHandler((row, column, evt) -> {
+			Element el = Js.uncheckedCast(evt.target);
+			if (el != null && (el.hasClassName("MyToggleButton") || el.getParentNode() != null
+					&& el.getParentElement().hasClassName("MyToggleButton"))) {
 				onHeaderClick(el, column);
-			} else if (row >= 0) {
-				tableModel.setCell(row, column);
 			}
+			return false;
+		});
+		addBodyPointerDownHandler((row, column, evt) -> {
+			if (tableModel.getRowCount() == 0) {
+				try {
+					view.setValues(0, 10, 1);
+				} catch (InvalidValuesException e) {
+					e.printStackTrace();
+				}
+			}
+			if (row < tableModel.getRowCount()
+					&& column < tableModel.getColumnCount()) {
+				if (tableModel.isColumnEditable(column)) {
+					editor.startEditing(row, column, evt);
+					return true;
+				}
+			} else if (column == tableModel.getColumnCount()) {
+				// do nothing now, start editing empty column in follow up ticket
+			} else if (row == tableModel.getRowCount()) {
+				// do nothing now, start editing empty row in follow up ticket
+			}
+			return false;
 		});
 	}
 
 	private void onHeaderClick(Element source, int column) {
-		new ContextMenuTV(app, view, view.getGeoAt(column), column)
-				.show(source.getAbsoluteLeft(), source.getAbsoluteTop() - 8);
+		this.contextMenu = new ContextMenuTV(app, view, view.getGeoAt(column), column);
+		contextMenu.show(source.getAbsoluteLeft(), source.getAbsoluteTop()
+						+ source.getClientHeight() + CONTEXT_MENU_OFFSET);
 	}
 
 	@Override
@@ -114,6 +134,14 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		for (int column = 0; column < tableModel.getColumnCount(); column++) {
 			addColumn(column);
 		}
+		addEmptyColumn();
+		addEmptyColumn();
+	}
+
+	private void addEmptyColumn() {
+		Column<TVRowData, SafeHtml> col = new DataTableSafeHtmlColumn(-1);
+
+		getTable().addColumn(col, new SafeHtmlHeader(makeCell("")));
 	}
 
 	@Override
@@ -122,27 +150,26 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	private void addColumn(int column) {
-		Column<TVRowData, ?> colValue = getColumnValue(column, dimensions);
+		Column<TVRowData, ?> colValue = getColumnValue(column);
 		getTable().addColumn(colValue, getHeaderFor(column));
+		if (tableModel.isColumnEditable(column)) {
+			getTable().addColumnStyleName(column, "editableColumn");
+		}
 	}
 
 	private Header<SafeHtml> getHeaderFor(int columnIndex) {
 		String content = tableModel.getHeaderAt(columnIndex);
-		int width = getColumnWidth(dimensions, columnIndex);
-		int height = dimensions.getHeaderHeight();
-		return headerCell.getHtmlHeader(content, width, height);
+		return headerCell.getHtmlHeader(content);
 	}
 
 	@Override
 	protected void fillValues(List<TVRowData> rows) {
 		rows.clear();
-		if (tableModel.getColumnCount() < 2) {
-			// quit now, otherwise 5 empty rows will be initialized
-			return;
-		}
 		for (int row = 0; row < tableModel.getRowCount(); row++) {
 			rows.add(new TVRowData(row, tableModel));
 		}
+		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
+		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
 	}
 
 	/**
@@ -150,53 +177,14 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 *
 	 * @param content
 	 *            of the cell.
-	 * @param width
-	 *            of the cell.
-	 * @param height
-	 *            of the cell.
 	 * @return SafeHtml of the cell.
 	 */
-	static SafeHtml makeCell(SafeHtml content, int width, int height) {
-		SafeStylesBuilder sb = new SafeStylesBuilder();
-		sb.width(width, Unit.PX).height(height, Unit.PX).trustedNameAndValue("line-height", height,
-				Unit.PX);
-		return  () -> "<div style=\"" + sb.toSafeStyles().asString() + "\" class=\"cell\">"
-				+ "<div class=\"content\">" + content.asString() + "</div></div>";
+	static SafeHtml makeCell(String content) {
+		return () -> "<div class=\"content\">" + content + "</div>";
 	}
 
-	/**
-	 * Gives the preferred width of a column.
-	 *
-	 * @param dimensions
-	 *            The column sizes
-	 * @param column
-	 *            particular column index.
-	 * @return the calculated width of the column.
-	 */
-	static int getColumnWidth(TableValuesDimensions dimensions, int column) {
-		int w = Math.max(dimensions.getColumnWidth(column), dimensions.getHeaderWidth(column))
-				+ VALUE_RIGHT_MARGIN;
-		if (column == 0) {
-			w += X_LEFT_PADDING;
-		}
-		return Math.max(w, MIN_COLUMN_WIDTH + X_LEFT_PADDING);
-	}
-
-	private static Column<TVRowData, SafeHtml> getColumnValue(final int col,
-			final TableValuesDimensions dimensions) {
-		Column<TVRowData, SafeHtml> column = new Column<TVRowData, SafeHtml>(new SafeHtmlCell()) {
-
-			@Override
-			public SafeHtml getValue(TVRowData object) {
-				String valStr = object.getValue(col);
-				boolean empty = "".equals(valStr);
-				SafeHtml value = SafeHtmlUtils.fromSafeConstant(valStr);
-				int width = empty ? 0 : getColumnWidth(dimensions, col);
-				int height = empty ? 0 : dimensions.getRowHeight(object.getRow());
-				return makeCell(value, width, height);
-			}
-		};
-		return column;
+	private Column<TVRowData, SafeHtml> getColumnValue(final int col) {
+		return new DataTableSafeHtmlColumn(col);
 	}
 
 	/**
@@ -258,6 +246,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 */
 	public void setHeight(int height) {
 		setBodyHeight(height);
+		if (contextMenu != null) {
+			contextMenu.hide(); // hide context menu on resize
+			contextMenu = null;
+		}
 	}
 
 	/**
@@ -272,12 +264,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			return;
 		}
 
-		int pos = 0;
-		int col = view.getColumn(geo);
-		for (int i = 0; i < col; i++) {
-			pos += getColumnWidth(dimensions, i);
+		Element headerElement = getHeaderElement(view.getColumn(geo));
+		if (headerElement != null) {
+			setHorizontalScrollPosition(headerElement.getAbsoluteLeft());
 		}
-		setHorizontalScrollPosition(pos);
 	}
 
 	@Override
@@ -306,5 +296,41 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
 		reset();
+	}
+
+	/**
+	 * Scroll so that cell at given offset is visible
+	 * @param pos offset top of the cell
+	 */
+	public void scrollIntoView(final int pos) {
+		if (pos - getScroller().getVerticalScrollPosition() < LINE_HEIGHT) {
+			getScroller().setVerticalScrollPosition(pos - LINE_HEIGHT);
+		} else if (pos - getScroller().getVerticalScrollPosition()
+				> getScroller().getOffsetHeight() - LINE_HEIGHT) {
+			getScroller().setVerticalScrollPosition(pos
+					- getScroller().getOffsetHeight() + LINE_HEIGHT);
+		}
+	}
+
+	private class DataTableSafeHtmlColumn extends Column<TVRowData, SafeHtml> {
+
+		private final int col;
+
+		public DataTableSafeHtmlColumn(int col) {
+			super(new SafeHtmlCell());
+			this.col = col;
+		}
+
+		@Override
+		public SafeHtml getValue(TVRowData object) {
+			String valStr = col < 0 ? "" : object.getValue(col);
+			return makeCell(valStr);
+		}
+
+		@Override
+		public String getCellStyleNames(Cell.Context context, TVRowData object) {
+			return super.getCellStyleNames(context, object)
+					+ (col < 0 || tableModel.isColumnEditable(col) ? " editableCell" : "");
+		}
 	}
 }

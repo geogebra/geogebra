@@ -64,5 +64,9 @@ public enum Resource {
 
     LIM,
 
-    VECTOR
+    VECTOR,
+
+    ATOMIC_POST,
+
+    ATOMIC_PRE
 }

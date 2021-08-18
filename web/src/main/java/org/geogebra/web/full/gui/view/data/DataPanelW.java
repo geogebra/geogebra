@@ -65,13 +65,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		buildDataTable();
 	
 		cbEnableAll = new CheckBox("");
-		cbEnableAll.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				enableAll();
-			}
-		});
+		cbEnableAll.addClickHandler(event -> enableAll());
 		
 		populateDataTable(statController.getDataArray());
 		createGUI();

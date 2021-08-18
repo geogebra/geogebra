@@ -3205,19 +3205,6 @@ public class AlgebraProcessor {
 			}
 		}
 
-		// REMOVED due to issue 131:
-		// http://code.google.com/p/geogebra/issues/detail?id=131
-		// // expressions like 2 a (where a:x + y = 1)
-		// // A1=b doesn't work for these objects
-		// else if (eval instanceof GeoLine) {
-		// if (((GeoLine)eval).getParentAlgorithm() instanceof
-		// AlgoDependentLine) {
-		// GeoElement[] ret = {(GeoElement) eval };
-		// return ret;
-		// }
-		//
-		// }
-
 		// if we get here, nothing worked
 		Log.debug("Unhandled ExpressionNode: " + eval + ", " + eval.getClass());
 		return null;

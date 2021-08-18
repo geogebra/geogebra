@@ -38,7 +38,6 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 		ClickListener, BlurHandler {
 
-	private static final int PADDING_LEFT_SCROLL = 20;
 	private static final int PADDING_TOP = 8;
 
 	private final Kernel kernel;
@@ -90,11 +89,17 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		mathField.setClickListener(this);
 		mathField.setOnBlur(this);
+		updatePixelRatio();
+		app.addWindowResizeListener(this::updatePixelRatio);
 
 		getMathField().setBackgroundColor("rgba(255,255,255,0)");
 		main.add(mathField);
 		retexListener = new RetexKeyboardListener(canvas, mathField);
 		initEventHandlers();
+	}
+
+	private void updatePixelRatio() {
+		mathField.setPixelRatio(app.getPixelRatio());
 	}
 
 	private void initEventHandlers() {
@@ -119,7 +124,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	/**
 	 * Called when editor was clicked.
 	 */
-	private void editorClicked() {
+	public void editorClicked() {
 		if (editable) {
 			preventBlur = true;
 		}
@@ -131,6 +136,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 */
 	public void requestFocus() {
 		if (editable) {
+			mathField.setInputBoxFunctionVariables(app.getInputBoxFunctionVars());
 			mathField.requestViewFocus(() -> preventBlur = false);
 			app.sendKeyboardEvent(true);
 			setKeyboardVisibility(true);
@@ -145,7 +151,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 * Scroll content horizontally if needed.
 	 */
 	public void scrollHorizontally() {
-		mathField.scrollParentHorizontally(main, PADDING_LEFT_SCROLL);
+		mathField.scrollParentHorizontally(main);
 	}
 
 	/**
@@ -361,5 +367,13 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 
 	protected String getErrorMessage() {
 		return AccessibleInputBox.getErrorText(app.getLocalization());
+	}
+
+	public void setRightMargin(int rightMargin) {
+		mathField.setRightMargin(rightMargin);
+	}
+
+	public void adjustCaret(double x, double y) {
+		mathField.adjustCaret((int) x, (int) y);
 	}
 }

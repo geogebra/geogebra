@@ -217,7 +217,7 @@ public class GlobalHeader implements EventRenderable {
 			return;
 		}
 		getExamPanel().getElement().removeFromParent();
-		getButtonElement().getStyle().setDisplay(Display.FLEX);
+		getButtonElement().getStyle().clearDisplay();
 		getHomeLink().setHref(oldHref);
 		onResize();
 	}

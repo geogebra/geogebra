@@ -82,11 +82,10 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						app.getSelectionManager().clearSelectedGeos();
 						EuclidianViewWInterface ev
 								= (EuclidianViewWInterface) app.getActiveEuclidianView();
-						ev.getExportSVG(1, false, (svg) -> {
-							app.getFileManager().showExportAsPictureDialog(Browser.encodeSVG(svg),
-									app.getExportTitle(), "svg", "ExportAsPicture",
-									app);
-						});
+						ev.getExportSVG(1, false, (svg) ->
+								app.getFileManager().showExportAsPictureDialog(
+										Browser.encodeSVG(svg),	app.getExportTitle(), "svg",
+										"ExportAsPicture", app));
 					}
 				});
 		menu.addItem(menuText(app.getLocalization().getMenu("Download.PDFDocument")),
@@ -224,14 +223,10 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 	 */
 	protected static AsyncOperation<String> exportCallback(final String string,
 			final AppW app) {
-		return new AsyncOperation<String>() {
-
-			@Override
-			public void callback(String obj) {
-				String url = Browser.addTxtMarker(obj);
-				app.getFileManager().showExportAsPictureDialog(url,
-						app.getExportTitle(), "txt", "Export", app);
-			}
+		return obj -> {
+			String url = Browser.addTxtMarker(obj);
+			app.getFileManager().showExportAsPictureDialog(url,
+					app.getExportTitle(), "txt", "Export", app);
 		};
 	}
 

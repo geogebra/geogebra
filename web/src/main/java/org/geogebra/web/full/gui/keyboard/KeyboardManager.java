@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
@@ -90,6 +91,9 @@ public class KeyboardManager
 	 * @return keyboard is detachable, no view uses it
 	 */
 	public boolean shouldDetach() {
+		if (!"undef".equals(app.getAppletParameters().getParamDetachKeyboard())) {
+			return Boolean.parseBoolean(app.getAppletParameters().getParamDetachKeyboard());
+		}
 		for (Integer viewId : this.getKeyboardViewsNoEV()) {
 			if (app.showView(viewId)) {
 				return false;
@@ -289,4 +293,12 @@ public class KeyboardManager
 		}
 	}
 
+	/**
+	 * @param tab tab to be activated
+	 */
+	public void selectTab(KeyboardType tab) {
+		if (keyboard != null) {
+			keyboard.selectTab(tab);
+		}
+	}
 }

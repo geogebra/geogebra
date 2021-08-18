@@ -450,7 +450,7 @@ public class MyXMLHandler implements DocHandler {
 	private static String nomalizeApp(String string) {
 		if (string != null && string
 				.matches(
-						"graphing|geometry|classic|3d|3D|scientific|suite|cas|notes")) {
+						"graphing|geometry|classic|3d|3D|scientific|suite|cas|notes|probability")) {
 			return string;
 		}
 		return null;

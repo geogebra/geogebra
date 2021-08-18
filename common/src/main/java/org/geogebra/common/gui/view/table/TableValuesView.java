@@ -68,7 +68,6 @@ public class TableValuesView implements TableValues, SettingListener {
 		this.kernel = kernel;
 		this.labelController = new LabelController();
 		createTableDimensions();
-		updateModelValues();
 		settings.addListener(this);
 	}
 

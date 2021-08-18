@@ -86,10 +86,10 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	@Override
-	public void setCell(int row, int column) {
+	public void setCell(int row, int column, String content) {
 		TableValuesColumn col = columns.get(column);
 		if (col.isModifiable()) {
-			col.setCell(row);
+			col.setCell(row, content);
 			if (column == 0) {
 				updateAllEvaluatables();
 			}

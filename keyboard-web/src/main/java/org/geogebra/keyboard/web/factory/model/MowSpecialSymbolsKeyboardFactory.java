@@ -21,7 +21,6 @@ import static org.geogebra.keyboard.base.model.impl.factory.Characters.NOT_EQUAL
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.NOT_SIGN;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.PARALLEL_TO;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.PERPENDICULAR;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.POINT;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.QUESTIONED_EQUAL_TO;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.QUOTATION_MARK;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.RIGHTWARDS_ARROW;
@@ -70,20 +69,7 @@ public class MowSpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 		addInputButton(row, buttonFactory, FOR_ALL);
 		addInputButton(row, buttonFactory, THERE_EXISTS);
 		addInputButton(row, buttonFactory, HASHTAG);
-		addInputButton(row, buttonFactory, "$");
-
-		row = mathKeyboard.nextRow(10.0f);
-		addInputButton(row, buttonFactory, LEFT_SQUARE_BRACKET);
-		addInputButton(row, buttonFactory, RIGHT_SQUARE_BRACKET);
-		addInputButton(row, buttonFactory, QUOTATION_MARK);
-		addInputButton(row, buttonFactory, POINT);
-		addInputButton(row, buttonFactory, COLON);
-		addInputButton(row, buttonFactory, MINUTES);
-		addInputButton(row, buttonFactory, SECONDS);
-		addInputButton(row, buttonFactory, AMPERSAND);
 		addInputButton(row, buttonFactory, AT);
-		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
-				Action.BACKSPACE_DELETE);
 
 		row = mathKeyboard.nextRow(10.0f);
 		addConstantInputCommandButton(row, buttonFactory, Resource.FLOOR,
@@ -100,6 +86,21 @@ public class MowSpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 				"$limeq", 1.0f);
 		addConstantInputCommandButton(row, buttonFactory, Resource.VECTOR,
 				"$vec", 1.0f);
+		addConstantInputCommandButton(row, buttonFactory, Resource.ATOMIC_PRE,
+				"$atomicpre", 1.0f);
+		addConstantInputCommandButton(row, buttonFactory, Resource.ATOMIC_POST,
+				"$atomicpost", 1.0f);
+		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
+				Action.BACKSPACE_DELETE);
+
+		row = mathKeyboard.nextRow(10.0f);
+		addInputButton(row, buttonFactory, LEFT_SQUARE_BRACKET);
+		addInputButton(row, buttonFactory, RIGHT_SQUARE_BRACKET);
+		addInputButton(row, buttonFactory, QUOTATION_MARK);
+		addInputButton(row, buttonFactory, COLON);
+		addInputButton(row, buttonFactory, MINUTES);
+		addInputButton(row, buttonFactory, SECONDS);
+		addInputButton(row, buttonFactory, AMPERSAND);
 		addConstantCustomButton(row, buttonFactory, Resource.LEFT_ARROW,
 				Action.LEFT_CURSOR);
 		addConstantCustomButton(row, buttonFactory, Resource.RIGHT_ARROW,

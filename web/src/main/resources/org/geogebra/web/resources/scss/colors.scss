@@ -26,7 +26,7 @@ $exam-red: #D32F2F;
 $exam-lock: #007AFF;
 
 $black: #000000;
-$transparent: rgba(255,255,255,0);
+$transparent-white: rgba(255,255,255,0); // transparent white != transparent black when used in shadow
 $toolbar-header: #6161ff;
 $toolbar-header-dark10: #4848e6;
 $toolbar-header-light5: #6e6eff;
@@ -125,4 +125,4 @@ $mow_material_card_bgd: $mow_card_background;
 $mow_white_hover: #f5f5f5;
 $teal-default-hover: #3DA196;
 $teal-default-20: rgba(0, 132, 117, 0.2);
-$tableview-row: rgba(216, 216, 216, 0.2);
+$tableview-header: #f5f5f5;

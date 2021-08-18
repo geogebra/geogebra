@@ -1605,9 +1605,7 @@ public class DockManagerW extends DockManager {
 
 		Widget opposite = split.getOpposite(avPanel);
 
-		if (opposite instanceof EuclidianDockPanelWAbstract) {
-			adjustGraphicsAndAvPosition(landscapeRatio, orientationChanged, avPanel, split);
-		}
+		adjustGraphicsAndAvPosition(landscapeRatio, orientationChanged, avPanel, split);
 
 		int newOrientation = app.isPortrait() ? SwingConstants.VERTICAL_SPLIT
 				: SwingConstants.HORIZONTAL_SPLIT;
@@ -1638,7 +1636,7 @@ public class DockManagerW extends DockManager {
 		double appHeight = app.getHeight();
 		ToolbarPanel toolbar = null;
 		double visibleKB = kbHeight;
-		if (app.isUnbundled()) {
+		if (avPanel instanceof ToolbarDockPanelW) {
 			toolbar = ((ToolbarDockPanelW) avPanel).getToolbar();
 			avHeight = toolbar.isOpen() ? avHeight
 					: ToolbarPanel.CLOSED_HEIGHT_PORTRAIT;
@@ -1662,7 +1660,7 @@ public class DockManagerW extends DockManager {
 			if (split.getLeftComponent() == avPanel
 					&& split
 					.getDividerLocation() <= closedWidth) {
-				toolbar.close(false);
+				toolbar.close(false, 0);
 			}
 			if (toolbar != null && !toolbar.isOpen()) {
 				ratio = closedWidth / app.getWidth();

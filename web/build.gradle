@@ -100,7 +100,7 @@ ext.appSpecs = [
          pkg:'GeoGebra_Calculator', exe: 'GeoGebraCalculator', releases: 'Releases-suite',],
     [id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes', pkg:'GeoGebra_Notes',
          releases: 'Releases-notes', icon: 'notes.ico', measurementId: 'G-MWHBRQSXTL',
-         firebaseAppId: '1:895270214636:web:aece5066924cacb084fec9'],
+         firebaseAppId: '1:895270214636:web:aece5066924cacb084fec9', 'hotjar': true],
     [id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel', pkg:'Mebis_Tafel',
          icon: 'notes.ico', vendor: "Mebis"]]
 

@@ -39,7 +39,7 @@ public class DrawLabel3DForText extends DrawLabel3D {
 		} else {
 			EuclidianStatic.drawIndexedMultilineString(view.getApplication(),
 					text, tempGraphics, bounds, font,
-					((TextProperties) geo).isSerifFont(), 0, 0);
+					((TextProperties) geo).isSerifFont(), 0, 0, DrawText.DEFAULT_MARGIN);
 		}
 		return bounds;
 
@@ -58,7 +58,8 @@ public class DrawLabel3DForText extends DrawLabel3D {
 		} else {
 			EuclidianStatic.drawIndexedMultilineString(view.getApplication(),
 					text, g2d, AwtFactory.getPrototype().newRectangle(),
-					g2d.getFont(), ((TextProperties) geo).isSerifFont(), 0, 0);
+					g2d.getFont(), ((TextProperties) geo).isSerifFont(), 0, 0,
+					DrawText.DEFAULT_MARGIN);
 		}
 
 		return bimg;

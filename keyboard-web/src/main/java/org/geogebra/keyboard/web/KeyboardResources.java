@@ -126,4 +126,10 @@ public interface KeyboardResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/keyboard/vector.svg")
 	SVGResource vector();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/atomic_post.svg")
+	SVGResource atomic_post();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/atomic_pre.svg")
+	SVGResource atomic_pre();
 }

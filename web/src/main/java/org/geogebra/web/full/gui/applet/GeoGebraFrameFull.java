@@ -28,11 +28,10 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
-import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
+import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.helper.ResourcesInjectorFull;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
@@ -282,9 +281,7 @@ public class GeoGebraFrameFull
 		Timer timer = new Timer() {
 			@Override
 			public void run() {
-
 				scrollToInputField();
-
 			}
 		};
 		timer.schedule(0);
@@ -302,12 +299,9 @@ public class GeoGebraFrameFull
 		app.updateSplitPanelHeight();
 
 		keyboardHeight = 0;
-		keyBoard.remove(new Runnable() {
-			@Override
-			public void run() {
-				keyBoard.resetKeyboardState();
-				getApp().centerAndResizeViews();
-			}
+		keyBoard.remove(() -> {
+			keyBoard.resetKeyboardState();
+			getApp().centerAndResizeViews();
 		});
 	}
 
@@ -376,10 +370,7 @@ public class GeoGebraFrameFull
 	}
 
 	private boolean shouldShowMoreButtonFor(MathKeyboardListener textField) {
-		boolean acceptsCommandInserts =
-				textField instanceof RetexKeyboardListener
-						&& ((RetexKeyboardListener) textField).acceptsCommandInserts();
-		return textField == null || acceptsCommandInserts;
+		return textField == null || textField.acceptsCommandInserts();
 	}
 
 	/**
@@ -457,10 +448,9 @@ public class GeoGebraFrameFull
 		}
 
 		if (app.isUnbundled() && !app.isWhiteboardActive()
-				&& getGuiManager()
-						.getUnbundledToolbar() != null
-				&& !getGuiManager().getUnbundledToolbar()
-						.isOpen()) {
+				&& getGuiManager().getUnbundledToolbar() != null
+				&& !getGuiManager().getUnbundledToolbar().isOpen()
+				&& !getGuiManager().showView(App.VIEW_PROBABILITY_CALCULATOR)) {
 			return false;
 		}
 		if (NavigatorUtil.isMobile()
@@ -490,19 +480,16 @@ public class GeoGebraFrameFull
 	 *            whether to show keyboard button
 	 */
 	public void showKeyboardButton(boolean show) {
-		if (showKeyboardButton == null) {
-			if (show) {
-				DockManagerW dm = getGuiManager().getLayout()
-						.getDockManager();
-				DockPanelW dockPanelKB = dm.getPanelForKeyboard();
+		if (show && showKeyboardButton == null) {
+			DockManagerW dm = getGuiManager().getLayout()
+					.getDockManager();
+			DockPanelW dockPanelKB = dm.getPanelForKeyboard();
 
-				if (dockPanelKB != null) {
-					showKeyboardButton = new ShowKeyboardButton(this, dm,
-							(AppWFull) app);
-				}
+			if (dockPanelKB != null) {
+				showKeyboardButton = new ShowKeyboardButton(this, dm,
+						(AppWFull) app);
 			}
 		}
-
 		if (showKeyboardButton != null) {
 			add(showKeyboardButton);
 			showKeyboardButton.setVisible(show);
@@ -517,10 +504,10 @@ public class GeoGebraFrameFull
 
 	private boolean isButtonNeeded(MathKeyboardListener textField) {
 		MathKeyboardListener keyboardListener = getGuiManager().getKeyboardListener();
-		if (app.getGuiManager().hasSpreadsheetView() || app.isUnbundled()) {
+		if (app.getGuiManager().hasSpreadsheetView() || (app.isUnbundled()
+				&& keyboardListener instanceof RadioTreeItem)) {
 			return keyboardListener != null;
 		}
-
 		return app.isKeyboardNeeded()
 				&& (textField != null && textField.hasFocus()
 				|| keyboardListener != null && keyboardListener.hasFocus());
@@ -756,21 +743,26 @@ public class GeoGebraFrameFull
 		add(openMenuButton);
 	}
 
-	private void attachNotesUI(AppW app) {
+	/**
+	 * Adds the notes toolbar and (if allowed) the undo panel and page control
+	 */
+	public void attachNotesUI(AppW app) {
 		initNotesLayoutIfNull(app);
 		add(notesLayout.getToolbar());
-		add(notesLayout.getUndoRedoButtons());
+		if (app.getAppletParameters().getDataParamEnableUndoRedo()) {
+			add(notesLayout.getUndoRedoButtons());
+		}
 		setPageControlButtonVisible(app.isMultipleSlidesOpen()
 				|| app.getAppletParameters().getParamShowSlides());
 	}
 
 	/**
-	 * update tools after login/logout
+	 * Remove notes toolbar and undo panel
 	 */
-	public void updateNotesMediaToolbarPanel() {
-		if (notesLayout != null && notesLayout.getToolbar() != null) {
-			((ToolbarMow) notesLayout.getToolbar()).updateMediaPanel();
-		}
+	public void detachNotesToolbarAndUndo(AppW app) {
+		initNotesLayoutIfNull(app);
+		remove(notesLayout.getToolbar());
+		remove(notesLayout.getUndoRedoButtons());
 	}
 
 	/**
