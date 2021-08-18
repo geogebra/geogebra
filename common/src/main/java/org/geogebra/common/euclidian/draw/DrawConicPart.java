@@ -559,10 +559,6 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		if (!isVisible) {
-			return false;
-		}
-
 		boolean pathHit = false, regionHit = false;
 		switch (draw_type) {
 

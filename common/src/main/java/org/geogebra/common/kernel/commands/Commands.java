@@ -72,6 +72,8 @@ public enum Commands implements CommandsConstants,
 
 	PreviousPrime(TABLE_ALGEBRA),
 
+	IsFactored(TABLE_ALGEBRA),
+
 	// =================================================================
 	// Geometry
 	// =============================================================

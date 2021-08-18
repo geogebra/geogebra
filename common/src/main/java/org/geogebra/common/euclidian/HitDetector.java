@@ -19,11 +19,11 @@ public class HitDetector {
 	private ArrayList<GeoElement> hitFilling;
 	private ArrayList<GeoElement> hitLabel;
 	@Weak
-	private final EuclidianView view;
+	private final EuclidianView ev;
 	private Hits hits;
 
-	public HitDetector(EuclidianView view) {
-		this.view = view;
+	public HitDetector(EuclidianView ev) {
+		this.ev = ev;
 	}
 
 	private void setHits(GPoint p, int hitThreshold) {
@@ -42,7 +42,7 @@ public class HitDetector {
 		}
 		boolean hitMask = false;
 
-		for (Drawable d : view.getAllDrawableList()) {
+		for (Drawable d : ev.getAllDrawableList()) {
 			if (d.isEuclidianVisible()) {
 				if (d.hit(p.x, p.y, hitThreshold)) {
 					GeoElement geo = d.getGeoElement();
@@ -71,7 +71,7 @@ public class HitDetector {
 
 		// then regions
 		for (GeoElement geo : hitFilling) {
-			if (geo.isSelectionAllowed(view)) {
+			if (geo.isSelectionAllowed(ev)) {
 				hits.add(geo);
 			}
 		}
@@ -109,19 +109,19 @@ public class HitDetector {
 	}
 
 	private void addXAxis(GPoint p, int hitThreshold) {
-		if (view.showAxes[0] && (Math.abs(view.getYAxisCrossingPixel() - p.y) < hitThreshold)) {
+		if (ev.showAxes[0] && (Math.abs(ev.getYAxisCrossingPixel() - p.y) < hitThreshold)) {
 			// handle positive axis only
-			if (!view.positiveAxes[0] || (view.getXAxisCrossingPixel() < p.x - hitThreshold)) {
-				hits.add(view.getKernel().getXAxis());
+			if (!ev.positiveAxes[0] || (ev.getXAxisCrossingPixel() < p.x - hitThreshold)) {
+				hits.add(ev.getKernel().getXAxis());
 			}
 		}
 	}
 
 	private void addYAxis(GPoint p, int hitThreshold) {
-		if (view.showAxes[1] && (Math.abs(view.getXAxisCrossingPixel() - p.x) < hitThreshold)) {
+		if (ev.showAxes[1] && (Math.abs(ev.getXAxisCrossingPixel() - p.x) < hitThreshold)) {
 			// handle positive axis only
-			if (!view.positiveAxes[1] || (view.getYAxisCrossingPixel() > p.y - hitThreshold)) {
-				hits.add(view.getKernel().getYAxis());
+			if (!ev.positiveAxes[1] || (ev.getYAxisCrossingPixel() > p.y - hitThreshold)) {
+				hits.add(ev.getKernel().getYAxis());
 			}
 		}
 	}
@@ -134,7 +134,7 @@ public class HitDetector {
 		for (int i = size - 1; i >= 0; i--) {
 			GeoElement geoElement = hits.get(i);
 			if (geoElement instanceof GeoButton) {
-				DrawableND drawable = view.getDrawableFor(geoElement);
+				DrawableND drawable = ev.getDrawableFor(geoElement);
 				if (drawable instanceof DrawButton) {
 					return ((DrawButton) drawable).myButton;
 				}
@@ -170,9 +170,9 @@ public class HitDetector {
 			return;
 		}
 
-		for (Drawable d : view.getAllDrawableList()) {
+		for (Drawable d : ev.getAllDrawableList()) {
 			GeoElement geo = d.getGeoElement();
-			if (geo.isEuclidianVisible() && geo.isSelectionAllowed(view)
+			if (geo.isEuclidianVisible() && geo.isSelectionAllowed(ev)
 					&& filter.check(geo) && !hits.contains(geo)
 					&& d.intersectsRectangle(rect)) {
 				d.setPartialHitClip(rect);
@@ -201,7 +201,7 @@ public class HitDetector {
 			return;
 		}
 
-		for (Drawable d : view.getAllDrawableList()) {
+		for (Drawable d : ev.getAllDrawableList()) {
 			GeoElement geo = d.getGeoElement();
 			if (geo.isEuclidianVisible() && d.isInside(rect)) {
 				hits.add(geo);
@@ -229,10 +229,10 @@ public class HitDetector {
 	 *            event type
 	 */
 	public void setHits(GPoint p, PointerEventType type) {
-		if (view.getBoundingBoxHandlerHit(p, type) != null) {
-			setOnlyHit(view.getEuclidianController().getResizedShape());
+		if (ev.getBoundingBoxHandlerHit(p, type) != null) {
+			setOnlyHit(ev.getEuclidianController().getResizedShape());
 		} else {
-			int capturingThreshold = view.getApplication().getCapturingThreshold(type);
+			int capturingThreshold = ev.getApplication().getCapturingThreshold(type);
 			setHits(p, capturingThreshold);
 			if (type == PointerEventType.TOUCH && getHits().size() == 0) {
 				setHits(p, capturingThreshold * 3);

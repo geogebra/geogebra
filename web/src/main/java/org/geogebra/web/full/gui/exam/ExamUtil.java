@@ -3,13 +3,13 @@ package org.geogebra.web.full.gui.exam;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
 
 import elemental2.dom.DomGlobal;
+import jsinterop.base.Js;
 
 /**
  * Utility class for exam mode
@@ -36,25 +36,29 @@ public class ExamUtil {
 	 * @param tabletMode
 	 *            whether we are in tablet app
 	 */
-	private void visibilityEventMain(boolean tabletMode) {
+	private void addVisibilityAndBlurHandlers(boolean tabletMode) {
 		if (tabletMode) {
-			GeoGebraGlobal.visibilityEventMain(this::startCheating, this::stopCheating);
+			app.getGlobalHandlers().addEventListener(DomGlobal.document,
+					"visibilitychange", (e) -> {
+				if (Js.isTruthy(DomGlobal.document.hidden)) {
+					startCheating();
+				} else {
+					stopCheating();
+				}
+			});
 		} else {
-
-			DomGlobal.window.onblur = (event) -> {
+			app.getGlobalHandlers().addEventListener(DomGlobal.window, "blur", (event) -> {
 				// The focusout event should not be caught:
 				if ("blur".equals(event.type)) {
 					startCheating();
 				}
-				return null;
-			};
-			DomGlobal.window.onfocus = (event) -> {
+			});
+			app.getGlobalHandlers().addEventListener(DomGlobal.window, "focus", (event) -> {
 				if (Browser.isCoveringWholeScreen()) {
 					stopCheating();
 				}
-				return null;
-			};
-			DomGlobal.window.addEventListener("resize",
+			});
+			app.getGlobalHandlers().addEventListener(DomGlobal.window, "resize",
 					(evt) -> {
 						boolean fullscreen = Browser.isCoveringWholeScreen();
 						if (!fullscreen) {
@@ -92,8 +96,8 @@ public class ExamUtil {
 	/**
 	 * Listen to focus / blur / resize events on the browser window.
 	 */
-	public void visibilityEventMain() {
-		visibilityEventMain(isTablet());
+	public void addVisibilityAndBlurHandlers() {
+		addVisibilityAndBlurHandlers(isTablet());
 	}
 
 	private boolean isTablet() {

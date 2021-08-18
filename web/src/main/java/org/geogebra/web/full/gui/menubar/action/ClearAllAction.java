@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.menubar.action;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -24,6 +25,7 @@ public class ClearAllAction extends DefaultMenuAction<Void> implements AsyncOper
 	public void execute(Void item, AppWFull app) {
 		this.app = app;
 		if (askForSave) {
+			BrowserStorage.SESSION.setItem("saveAction", "clearAll");
 			app.getSaveController().showDialogIfNeeded(this, false);
 		} else {
 			callback(true);

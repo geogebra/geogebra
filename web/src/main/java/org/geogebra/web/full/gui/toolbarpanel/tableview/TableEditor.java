@@ -36,7 +36,7 @@ public class TableEditor {
 		app.invokeLater(() -> {
 			mathTextField.setText(table.tableModel.getCellAt(row, column));
 			Element cell = table.getCell(row, column);
-			setPosition(cell);
+			table.scrollIntoView(cell.getOffsetTop());
 			table.getTableWrapper().add(mathTextField); // first add to GWT tree
 			cell.removeAllChildren();
 			cell.appendChild(mathTextField.asWidget().getElement()); // then move in DOM
@@ -46,11 +46,6 @@ public class TableEditor {
 			editRow = row;
 			editColumn = column;
 		});
-	}
-
-	private void setPosition(Element cell) {
-		table.scrollIntoView(cell.getOffsetTop());
-		mathTextField.setPxWidth(cell.getOffsetWidth() - 1);
 	}
 
 	private void stopEditing() {

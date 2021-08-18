@@ -5,8 +5,11 @@ import java.util.Collection;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.geogebra.web.html5.main.FileDropHandlerW;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.html5.util.MyNumberFormat;
+import org.geogebra.web.resources.StyleInjector;
 import org.gwtproject.regexp.client.NativeRegExp;
 import org.junit.runners.model.InitializationError;
 
@@ -68,6 +71,10 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 Integer.class);
         StubGenerator.replaceMethodWithMock(Dom.class, "addEventListener",
                 Void.class);
+        StubGenerator.replaceMethodWithMock(GlobalHandlerRegistry.class, "addEventListener",
+                Void.class);
+        StubGenerator.replaceMethodWithMock(CopyPasteW.class, "installCutCopyPaste",
+                Void.class);
         StubGenerator.replaceMethodWithMock(MyNumberFormat.class, "toPrecision",
                 String.class);
         StubGenerator.replaceMethodWithMock(NativeRegExp.class, "exec",
@@ -76,6 +83,8 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 Void.class);
         StubGenerator.replaceMethodWithMock(XMLHttpRequest.class, "send",
                 XMLHttpRequest.class);
+        StubGenerator.replaceMethodWithMock(StyleInjector.class, "inject",
+                Void.class);
     }
 
     @Override

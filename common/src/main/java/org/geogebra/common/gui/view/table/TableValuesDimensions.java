@@ -12,7 +12,6 @@ public interface TableValuesDimensions {
 	public static final int MIN_COLUMN_WIDTH = 120;
 	/** Maximum column width */
 	public static final int MAX_COLUMN_WIDTH = 180;
-
 	/** Left margin of the cell */
 	public static final int CELL_LEFT_MARGIN = 16;
 	/** Right margin of the cell */

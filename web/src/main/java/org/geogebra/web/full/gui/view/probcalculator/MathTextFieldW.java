@@ -30,7 +30,6 @@ public class MathTextFieldW extends MathFieldEditor  implements MathFieldListene
 
 	@Override
 	public void onEnter() {
-		asWidget().setWidth(getMathField().getIconWidth() + "px");
 		scrollHorizontally();
 		for (JsRunnable listener: changeHandlers) {
 			listener.run();

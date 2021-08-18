@@ -540,74 +540,67 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		if (isVisible) {
-			if (dataExpression != null) {
-				for (int i = 0; i < nPoints; i++) {
-					if (MyMath.length(x - points.get(i).getX(),
-							y - points.get(i).getY()) < hitThreshold) {
-						return true;
-					}
+		if (dataExpression != null) {
+			for (int i = 0; i < nPoints; i++) {
+				if (MyMath.length(x - points.get(i).getX(),
+						y - points.get(i).getY()) < hitThreshold) {
+					return true;
 				}
+			}
+			return false;
+		}
+		GShape t = geo.isInverseFill() ? getShape() : gp;
+
+		if (strokedShape == null) {
+			// AND-547, initial buffer size
+			try {
+				strokedShape = objStroke.createStrokedShape(gp, 800);
+			} catch (Exception e) {
+				Log.error(
+						"problem creating Curve shape: " + e.getMessage());
 				return false;
 			}
-			GShape t = geo.isInverseFill() ? getShape() : gp;
-
-			if (strokedShape == null) {
-				// AND-547, initial buffer size
-				try {
-					strokedShape = objStroke.createStrokedShape(gp, 800);
-				} catch (Exception e) {
-					Log.error(
-							"problem creating Curve shape: " + e.getMessage());
-					return false;
-				}
-			}
-			if (geo.isFilled()) {
-				return t.intersects(x - hitThreshold, y - hitThreshold,
-						2 * hitThreshold, 2 * hitThreshold);
-			}
-
-			// workaround for #2364
-			if (geo.isGeoFunction()) {
-				GeoFunction f = (GeoFunction) geo;
-				double rwx = view.toRealWorldCoordX(x);
-				double low = view.toRealWorldCoordY(y + hitThreshold);
-				double high = view.toRealWorldCoordY(y - hitThreshold);
-				double dx = hitThreshold * view.getInvXscale();
-				double left = f.value(rwx - dx);
-				if (left >= low && left <= high) {
-					return true;
-				}
-				double right = f.value(rwx + dx);
-				if (right >= low && right <= high) {
-					return true;
-				}
-				double middle = f.value(rwx);
-				if (middle >= low && middle <= high) {
-					return true;
-				}
-				if ((right < low && left < low && middle < low)
-						|| (right > high && left > high && middle > high)
-						|| (!MyDouble.isFinite(right)
-								&& !MyDouble.isFinite(left)
-								&& !MyDouble.isFinite(middle))) {
-					return false;
-				}
-				return gp.intersects(x - hitThreshold, y - hitThreshold,
-						2 * hitThreshold, 2 * hitThreshold)
-						&& !gp.contains(x - hitThreshold, y - hitThreshold,
-								2 * hitThreshold, 2 * hitThreshold);
-			}
-
-			// not GeoFunction, eg parametric
-			return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
-					2 * hitThreshold, 2 * hitThreshold);
-
 		}
-		return false;
-		/*
-		 * return gp.intersects(x-3,y-3,6,6) && !gp.contains(x-3,y-3,6,6);
-		 */
+		if (geo.isFilled()) {
+			return t.intersects(x - hitThreshold, y - hitThreshold,
+					2 * hitThreshold, 2 * hitThreshold);
+		}
+
+		// workaround for #2364
+		if (geo.isGeoFunction()) {
+			GeoFunction f = (GeoFunction) geo;
+			double rwx = view.toRealWorldCoordX(x);
+			double low = view.toRealWorldCoordY(y + hitThreshold);
+			double high = view.toRealWorldCoordY(y - hitThreshold);
+			double dx = hitThreshold * view.getInvXscale();
+			double left = f.value(rwx - dx);
+			if (left >= low && left <= high) {
+				return true;
+			}
+			double right = f.value(rwx + dx);
+			if (right >= low && right <= high) {
+				return true;
+			}
+			double middle = f.value(rwx);
+			if (middle >= low && middle <= high) {
+				return true;
+			}
+			if ((right < low && left < low && middle < low)
+					|| (right > high && left > high && middle > high)
+					|| (!MyDouble.isFinite(right)
+					&& !MyDouble.isFinite(left)
+					&& !MyDouble.isFinite(middle))) {
+				return false;
+			}
+			return gp.intersects(x - hitThreshold, y - hitThreshold,
+					2 * hitThreshold, 2 * hitThreshold)
+					&& !gp.contains(x - hitThreshold, y - hitThreshold,
+					2 * hitThreshold, 2 * hitThreshold);
+		}
+
+		// not GeoFunction, eg parametric
+		return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
+				2 * hitThreshold, 2 * hitThreshold);
 	}
 
 	@Override

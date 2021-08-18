@@ -63,7 +63,6 @@ import org.geogebra.web.resources.SVGResource;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
@@ -142,6 +141,7 @@ public class EuclidianViewW extends EuclidianView implements
 	private GDimension preferredSize;
 
 	private ReaderWidget screenReader;
+	private String currentAltText;
 
 	// needed to make sure outline doesn't get dashed
 	private GBasicStroke outlineStroke = AwtFactory.getPrototype()
@@ -180,16 +180,9 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	private void attachFocusinHandler() {
-		addFocusEventHandler(Document.get().getBody());
+		((AppW) app).getGlobalHandlers().addEventListener(DomGlobal.document.body, "focusin",
+				e -> setResetIconSelected(false));
 	}
-
-	private native void addFocusEventHandler(Element element) /*-{
-        var that = this;
-        var handler = function(e) {
-            that.@org.geogebra.web.html5.euclidian.EuclidianViewW::setResetIconSelected(Z)(false);
-        }
-        element.addEventListener("focusin", handler);
-    }-*/;
 
 	/**
 	 * @param euclidiancontroller
@@ -726,7 +719,7 @@ public class EuclidianViewW extends EuclidianView implements
 		if (Browser.supportsPointerEvents()) {
 			pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
 					euclidiancontroller.getOffsets());
-			PointerEventHandler.attachTo(absPanel.getElement(), pointerHandler);
+			pointerHandler.attachTo(absPanel.getElement(), ((AppW) app).getGlobalHandlers());
 			CancelEventTimer.killTouch(absPanel);
 		} else {
 			absPanel.addDomHandler(euclidiancontroller,
@@ -1128,8 +1121,9 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 		String content = getAltTextFrom(altGeo);
 
-		if (altGeo.isGeoText()) {
+		if (content != null && !content.equals(currentAltText) && altGeo.isGeoText()) {
 			getScreenReader().readText(content);
+			currentAltText = content;
 		}
 	}
 

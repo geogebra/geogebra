@@ -2,17 +2,16 @@ package org.geogebra.web.full.gui.exam.classic;
 
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.LayoutW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.StyleInjector;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -174,7 +173,7 @@ public class ExamClassicStartDialog extends ComponentDialog implements ClickHand
 		if (examStyle) {
 			return;
 		}
-		StyleInjector.inject(GuiResources.INSTANCE.examStyle().getText());
+		StyleInjector.inject("css", "exam");
 		examStyle = true;
 	}
 

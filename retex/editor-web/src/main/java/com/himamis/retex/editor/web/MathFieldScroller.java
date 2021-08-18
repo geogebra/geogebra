@@ -14,9 +14,9 @@ public class MathFieldScroller {
 	/**
 	 * Scrolls content horizontally,  based on the cursor position
 	 */
-	public static void scrollHorizontallyToCursor(FlowPanel parent, int cursorX) {
+	public static void scrollHorizontallyToCursor(FlowPanel parent, int rightMargin, int cursorX) {
 		Element parentElement = parent.getElement();
-		int parentWidth = parent.getOffsetWidth();
+		int parentWidth = parent.getOffsetWidth() - rightMargin;
 		int scrollLeft = parentElement.getScrollLeft();
 
 		int scroll = MathFieldInternal.getHorizontalScroll(scrollLeft, parentWidth, cursorX);
