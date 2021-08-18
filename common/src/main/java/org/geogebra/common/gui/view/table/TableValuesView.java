@@ -3,14 +3,10 @@ package org.geogebra.common.gui.view.table;
 import java.util.HashSet;
 import java.util.List;
 
-import org.geogebra.common.awt.GBufferedImage;
-import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.GFontRenderContext;
-import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.view.table.dialog.RegressionBuilder;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.gui.view.table.dialog.StatsBuilder;
+import org.geogebra.common.gui.view.table.dimensions.LaTeXTextSizeMeasurer;
 import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
@@ -38,7 +34,7 @@ import com.google.j2objc.annotations.Weak;
  */
 public class TableValuesView implements TableValues, SettingListener {
 
-	private static final double[] DEFAULT_RANGE = new double[] {};
+	private static final double[] DEFAULT_RANGE = new double[]{};
 	private static final int MAX_ROWS = 200;
 
 	@Weak
@@ -55,9 +51,7 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	/**
 	 * Create a new Table Value View.
-	 * 
-	 * @param kernel
-	 *            {@link Kernel}
+	 * @param kernel {@link Kernel}
 	 */
 	public TableValuesView(Kernel kernel) {
 		this.model = new SimpleTableValuesModel(kernel);
@@ -72,14 +66,8 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	private void createTableDimensions() {
-		AwtFactory factory = AwtFactory.getPrototype();
-		GFont font = factory.newFont("SansSerif", GFont.PLAIN, 16);
-		GBufferedImage bufferedImage = factory.createBufferedImage(2, 2, false);
-		GGraphics2D graphics = bufferedImage.createGraphics();
-		GFontRenderContext fontRenderContext = graphics.getFontRenderContext();
-		dimensions = new TableValuesViewDimensions(model, AwtFactory.getPrototype(),
-				fontRenderContext);
-		dimensions.setFont(font);
+		LaTeXTextSizeMeasurer measurer = new LaTeXTextSizeMeasurer(16);
+		dimensions = new TableValuesViewDimensions(model, measurer);
 		model.registerListener(dimensions);
 	}
 
@@ -189,8 +177,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	/**
-	 * @param column
-	 *            index of column
+	 * @param column index of column
 	 * @return geo at the given column
 	 */
 	public GeoElement getGeoAt(int column) {
