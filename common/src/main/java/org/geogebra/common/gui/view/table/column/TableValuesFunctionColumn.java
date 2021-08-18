@@ -5,23 +5,23 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
 public class TableValuesFunctionColumn extends AbstractTableValuesColumn {
 
-    private final GeoEvaluatable evaluatable;
-    private final GeoList values;
+	private final GeoEvaluatable evaluatable;
+	private final GeoList values;
 
-    public TableValuesFunctionColumn(GeoEvaluatable evaluatable, GeoList values) {
-        super(evaluatable);
-        this.evaluatable = evaluatable;
-        this.values = values;
-    }
+	public TableValuesFunctionColumn(GeoEvaluatable evaluatable, GeoList values) {
+		super(evaluatable);
+		this.evaluatable = evaluatable;
+		this.values = values;
+	}
 
-    @Override
-    protected double calculateValue(int row) {
-        double xValue = values.get(row).evaluateDouble();
-        return evaluatable.value(xValue);
-    }
+	@Override
+	protected double calculateValue(int row) {
+		double xValue = values.get(row).evaluateDouble();
+		return evaluatable.value(xValue);
+	}
 
-    @Override
-    protected String getHeaderName() {
-        return evaluatable.getLabelSimple() + "(x)";
-    }
+	@Override
+	protected String getHeaderName() {
+		return evaluatable.getLabelSimple() + "(x)";
+	}
 }
