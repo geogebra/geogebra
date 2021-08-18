@@ -15,6 +15,8 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.scientific.LabelController;
@@ -623,4 +625,39 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertFalse(line.isAlgebraLabelVisible());
 	}
 
+	@Test
+	public void testList() {
+		GeoList list = (GeoList) getElementFactory().create("A = {4 ,7, 11}");
+		setValuesSafe(0, 2, 1);
+		showColumn(list);
+
+		assertEquals(2, model.getColumnCount());
+		assertEquals(3, model.getRowCount());
+		assertEquals(model.getCellAt(0, 1), "4");
+		assertEquals(model.getCellAt(1, 1), "7");
+		assertEquals(model.getCellAt(2, 1), "11");
+
+		GeoNumeric numeric = (GeoNumeric) getElementFactory().create("99");
+		list.setListElement(0, numeric);
+		list.notifyUpdate();
+		assertEquals("99", model.getCellAt(0, 1));
+	}
+
+	@Test
+	public void testChangingValues() {
+		GeoList list = (GeoList) getElementFactory().create("A = {4 ,7, 11}");
+		setValuesSafe(0, 2, 1);
+		showColumn(list);
+
+		assertEquals(2, model.getColumnCount());
+		assertEquals(3, model.getRowCount());
+		assertEquals(model.getCellAt(0, 1), "4");
+		assertEquals(model.getCellAt(1, 1), "7");
+		assertEquals(model.getCellAt(2, 1), "11");
+
+		GeoNumeric numeric = (GeoNumeric) getElementFactory().create("99");
+		list.setListElement(0, numeric);
+		list.notifyUpdate();
+		assertEquals("99", model.getCellAt(0, 1));
+	}
 }
