@@ -49,12 +49,4 @@ public interface TableValuesModel {
      * @return the header string
      */
     String getHeaderAt(int column);
-
-    /**
-     * Return whether the column is editable
-     *
-     * @param column column
-     * @return editable
-     */
-    boolean isColumnEditable(int column);
 }

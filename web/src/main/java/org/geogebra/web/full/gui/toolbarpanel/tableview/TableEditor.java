@@ -1,6 +1,9 @@
 package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -50,8 +53,14 @@ public class TableEditor {
 
 	private void stopEditing() {
 		mathTextField.asWidget().removeFromParent();
-		table.tableModel.setCell(editRow, editColumn,
-				mathTextField.getText());
+		GeoEvaluatable evaluatable = table.view.getEvaluatable(editColumn);
+		if (evaluatable instanceof GeoList) {
+			GeoList list = (GeoList) evaluatable;
+			double value = Double.parseDouble(mathTextField.getText());
+			GeoNumeric numeric = new GeoNumeric(app.getKernel().getConstruction(), value);
+			list.setListElement(editRow, numeric);
+			list.notifyUpdate();
+		}
 		editRow = -1;
 		editColumn = -1;
 	}
