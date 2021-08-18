@@ -3,12 +3,12 @@ package org.geogebra.common.gui.view.table.column;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
-public class FunctionColumn extends AbstractTableValuesColumn {
+public class TableValuesFunctionColumn extends AbstractTableValuesColumn {
 
     private final GeoEvaluatable evaluatable;
     private final GeoList values;
 
-    public FunctionColumn(GeoEvaluatable evaluatable, GeoList values) {
+    public TableValuesFunctionColumn(GeoEvaluatable evaluatable, GeoList values) {
         super(evaluatable);
         this.evaluatable = evaluatable;
         this.values = values;
@@ -23,10 +23,5 @@ public class FunctionColumn extends AbstractTableValuesColumn {
     @Override
     protected String getHeaderName() {
         return evaluatable.getLabelSimple() + "(x)";
-    }
-
-    @Override
-    public boolean isModifiable() {
-        return true;
     }
 }

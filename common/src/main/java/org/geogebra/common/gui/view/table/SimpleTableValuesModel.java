@@ -3,8 +3,8 @@ package org.geogebra.common.gui.view.table;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.gui.view.table.column.FunctionColumn;
-import org.geogebra.common.gui.view.table.column.ListColumn;
+import org.geogebra.common.gui.view.table.column.TableValuesFunctionColumn;
+import org.geogebra.common.gui.view.table.column.TableValuesListColumn;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -84,11 +84,6 @@ class SimpleTableValuesModel implements TableValuesModel {
         return columns.get(column).getHeader();
     }
 
-    @Override
-    public boolean isColumnEditable(int col) {
-        return columns.get(col).isModifiable();
-    }
-
     /**
      * Add an evaluatable to the model.
      *
@@ -111,9 +106,9 @@ class SimpleTableValuesModel implements TableValuesModel {
 
     private TableValuesColumn createColumn(GeoEvaluatable evaluatable) {
         if (evaluatable.isGeoList()) {
-            return new ListColumn((GeoList) evaluatable);
+            return new TableValuesListColumn((GeoList) evaluatable);
         }
-        return new FunctionColumn(evaluatable, values);
+        return new TableValuesFunctionColumn(evaluatable, values);
     }
 
     private void ensureIncreasingIndices(int idx) {
@@ -220,7 +215,7 @@ class SimpleTableValuesModel implements TableValuesModel {
     }
 
     private void initializeModel() {
-        columns.add(new ListColumn(values));
+        columns.add(new TableValuesListColumn(values));
     }
 
     /**

@@ -28,13 +28,6 @@ public interface TableValuesColumn {
     String getHeader();
 
     /**
-     * Whether the column is modifiable or not
-     *
-     * @return modifiable
-     */
-    boolean isModifiable();
-
-    /**
      * Invalidates the header name, forcing the column to recompute.
      */
     void invalidateHeader();
