@@ -88,6 +88,10 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 		@Override
 		public void onBrowserEvent(Event event) {
+			if (CopyPasteW.incorrectTarget(event.getEventTarget().cast())) {
+				return;
+			}
+
 			if (DOM.eventGetType(event) == Event.ONKEYDOWN) {
 				boolean handled = false;
 
@@ -102,9 +106,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					handled = true;
 				}
 				if (event.getCtrlKey()) {
-					handleCtrlKeys(KeyCodes.translateGWTcode(event.getKeyCode()),
+					handled = handleCtrlKeys(KeyCodes.translateGWTcode(event.getKeyCode()),
 							event.getShiftKey(), false, true);
-					handled = true;
 				}
 				KeyCodes kc = KeyCodes.translateGWTcode(event.getKeyCode());
 				if (kc == KeyCodes.TAB) {
@@ -117,6 +120,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				}
 
 				if (handled) {
+					event.preventDefault();
 					event.stopPropagation();
 				}
 			}
