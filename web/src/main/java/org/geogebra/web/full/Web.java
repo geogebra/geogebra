@@ -23,6 +23,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import elemental2.core.JsArray;
 import jsinterop.base.Js;
 
 /**
@@ -61,10 +62,13 @@ public abstract class Web implements EntryPoint {
 
 	/**
 	 * Calling Parser.getLookaheadSuccess() makes sure parser doesn't keep a link to App.
-	 * By removing the backing object we make sure it has no link to Web either.
+	 * By removing the backing object's stacktrace we make sure it has no link to Web either.
 	 */
 	private void removeBackingObject(Throwable t) {
-		Js.asPropertyMap(t).delete("backingJsObject");
+		Object back  = Js.asPropertyMap(t).get("backingJsObject");
+		if (Js.isTruthy(back)) {
+			Js.asPropertyMap(back).set("stack", JsArray.of());
+		}
 	}
 
 	private void exportGGBElementRenderer() {
