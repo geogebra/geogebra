@@ -71,7 +71,7 @@ public class IntervalPath {
 	}
 
 	private void drawTuple(int i, IntervalTuple tuple) {
-		if (lastY.isEmpty() || tuple.isInvertedWhole()) {
+		if (lastY.isEmpty()) {
 			moveToFirst(i, tuple);
 		} else {
 			if (tuple.isInverted()) {

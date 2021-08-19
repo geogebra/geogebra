@@ -12,8 +12,8 @@ public class IntervalPathMockEntry {
 	double y;
 
 	public enum PathOperation {
-		MOVE_TO("M"),
-		LINE_TO("L"),
+		MOVE_TO("MOVE_TO"),
+		LINE_TO("LINE_TO"),
 		RESET("R");
 
 		private final String text;
@@ -48,7 +48,7 @@ public class IntervalPathMockEntry {
 	public String toString() {
 		return  operation == PathOperation.RESET
 				? operation.toString()
-				: operation	+ " " + x + " "  + y;
+				: operation	+ " " + x + ", "  + y;
 	}
 
 	@Override
