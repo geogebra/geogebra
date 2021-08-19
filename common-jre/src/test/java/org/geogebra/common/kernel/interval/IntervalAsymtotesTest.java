@@ -8,16 +8,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.plot.interval.PlotterUtils;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.junit.Test;
 
-public class IntervalAsymtotesTest extends BaseUnitTest {
+public class IntervalAsymtotesTest extends SamplerTest {
 
 	@Test
 	public void xInverseHighResolution() {
@@ -168,26 +165,5 @@ public class IntervalAsymtotesTest extends BaseUnitTest {
 		valuesShouldBeBetween(tuples, 0, 10);
 	}
 
-	private void valuesShouldBeBetween(IntervalTupleList tuples, double low, double high) {
-		List<IntervalTuple> result =
-				tuples.stream().filter(entry -> entry.y().getLow() < low - 1E-6
-						|| entry.y().getHigh() > high + 1E-6).collect(Collectors.toList());
-		assertEquals(Collections.emptyList(), result);
-	}
 
-	private IntervalTupleList functionValues(String functionDescription,
-			double xmin, double xmax, double ymin, double ymax) {
-		return functionValuesWithSampleCount(functionDescription,
-				xmin, xmax, ymin, ymax,
-				100);
-	}
-
-	private IntervalTupleList functionValuesWithSampleCount(String functionDescription,
-			double xmin, double xmax, double ymin, double ymax, int sampleCount) {
-		GeoFunction function = add(functionDescription);
-		IntervalTuple range = PlotterUtils.newRange(xmin, xmax, ymin, ymax);
-		IntervalFunctionSampler sampler = PlotterUtils.newSampler(function, range,
-				sampleCount);
-		return sampler.result();
-	}
 }

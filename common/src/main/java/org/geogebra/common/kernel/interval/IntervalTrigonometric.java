@@ -116,9 +116,6 @@ class IntervalTrigonometric {
 		if (interval.isWhole()) {
 			return IntervalConstants.one();
 		}
-//		if (interval.isUninverted()) {
-//			setDefaultInterval();
-//		}
 		Interval interval = new Interval(this.interval);
 		return interval.cos().multiplicativeInverse();
 	}
