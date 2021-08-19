@@ -8,13 +8,14 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
+import org.geogebra.web.html5.util.Dom;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.Window.Navigator;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import elemental2.core.Function;
 import elemental2.core.Global;
@@ -24,6 +25,9 @@ import elemental2.dom.Blob;
 import elemental2.dom.BlobPropertyBag;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLAnchorElement;
+import elemental2.dom.KeyboardEvent;
+import elemental2.dom.MutationObserver;
+import elemental2.dom.MutationObserverInit;
 import elemental2.dom.URL;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
@@ -40,14 +44,19 @@ public class Browser {
 	 *
 	 * @return true if Safari browser
 	 */
-	public static native boolean isSafariByVendor() /*-{
-		return "Apple Computer, Inc." === $wnd.navigator.vendor;
-	}-*/;
+	public static boolean isSafariByVendor() {
+		String vendorString = (String) Js.asPropertyMap(DomGlobal.navigator).get("vendor");
+		return "Apple Computer, Inc.".equals(vendorString);
+	}
 
-	public native static boolean externalCAS() /*-{
-		return typeof $wnd.evalGeoGebraCASExternal == 'function'
-				&& $wnd.evalGeoGebraCASExternal("1+1") == "2";
-	}-*/;
+	/**
+	 * Checks if window.evalGeoGebraCASExternal is set and it is working properly
+	 * @return whether external CAS is set up and working
+	 */
+	public static boolean externalCAS() {
+		return "function".equals(Js.typeof(GeoGebraGlobal.evalGeoGebraCASExternal))
+				&& "2".equals(GeoGebraGlobal.evalGeoGebraCASExternal.apply("1+1"));
+	}
 
 	/**
 	 *
@@ -67,19 +76,6 @@ public class Browser {
 
 	public static boolean supportsPointerEvents() {
 		return hasGlobal("PointerEvent");
-	}
-
-	private static boolean isHTTP() {
-		return !"file:".equals(Location.getProtocol());
-	}
-
-	/**
-	 * Check this to avoid exceptions thrown from Storage.get*StorageIfSupported
-	 *
-	 * @return whether session storage is supported
-	 */
-	public static boolean supportsSessionStorage() {
-		return !NavigatorUtil.isIE() || Browser.isHTTP();
 	}
 
 	/**
@@ -130,17 +126,16 @@ public class Browser {
 	 *
 	 * @return whether WebGL is supported
 	 */
-	public static native boolean supportsWebGLNative()/*-{
+	public static boolean supportsWebGLNative() {
 		try {
-			var canvas = $doc.createElement('canvas');
-			var ret = !!$wnd.WebGLRenderingContext
-					&& (canvas.getContext('webgl') || canvas
-							.getContext('experimental-webgl'));
-			return !!ret;
-		} catch (e) {
+			Canvas canvas = Canvas.createIfSupported();
+			return hasGlobal("WebGLRenderingContext")
+					&& (canvas.getContext("webgl") != null
+						|| canvas.getContext("experimental-webgl") != null);
+		} catch (Throwable t) {
 			return false;
 		}
-	}-*/;
+	}
 
 	/**
 	 * @return whether we are running on geogebra.org
@@ -162,21 +157,13 @@ public class Browser {
 					|| host.contains("apps-builds.s3-eu-central-1.amazonaws.com"));
 	}
 
-	public native static String navigatorLanguage() /*-{
-		return $wnd.navigator.language || "en";
-	}-*/;
-
-	public static native boolean isAndroidVersionLessThan(double d) /*-{
-		var navString = $wnd.navigator.userAgent.toLowerCase();
-		if (navString.indexOf("android") < 0) {
-			return false;
-		}
-		if (parseFloat(navString.substring(navString.indexOf("android") + 8)) < d) {
-			return true;
-		}
-		return false;
-
-	}-*/;
+	/**
+	 * @return navigator.language or "en" if it is undefined or empty
+	 */
+	public static String navigatorLanguage() {
+		String language = DomGlobal.navigator.language;
+		return Js.isTruthy(language) ? language : "en";
+	}
 
 	/**
 	 * @param parent
@@ -227,30 +214,15 @@ public class Browser {
 	 * @return whether webcam input is supported in the browser
 	 */
 	public static boolean supportsWebcam() {
-		return DomGlobal.window.navigator.mediaDevices != null;
-	}
-
-	/**
-	 * @return true if Javascript CAS is supported.
-	 */
-	public static boolean supportsJsCas() {
-		return !Browser.isAndroidVersionLessThan(4.0);
+		return DomGlobal.navigator.mediaDevices != null;
 	}
 
 	/**
 	 * @return CSS pixel ratio
 	 */
-	public static native double getPixelRatio() /*-{
-		var testCanvas = $doc.createElement("canvas"), testCtx = testCanvas
-				.getContext("2d");
-		devicePixelRatio = $wnd.devicePixelRatio || 1;
-		backingStorePixelRatio = testCtx.webkitBackingStorePixelRatio
-				|| testCtx.mozBackingStorePixelRatio
-				|| testCtx.msBackingStorePixelRatio
-				|| testCtx.oBackingStorePixelRatio
-				|| testCtx.backingStorePixelRatio || 1;
-		return devicePixelRatio / backingStorePixelRatio;
-	}-*/;
+	public static double getPixelRatio() {
+		return DomGlobal.window.devicePixelRatio;
+	}
 
 	/**
 	 *
@@ -439,59 +411,49 @@ public class Browser {
 	 *
 	 * @return decoded string
 	 */
-	public static native String decodeBase64(String base64)/*-{
-		return decodeURIComponent(escape($wnd.atob(base64)));
-	}-*/;
+	public static String decodeBase64(String base64) {
+		return Global.decodeURIComponent(Global.escape(DomGlobal.atob(base64)));
+	}
 
 	public static void removeDefaultContextMenu(Element element) {
 		setAllowContextMenu(element, false);
 	}
 
 	/**
-	 * Allow or diallow context menu for an element.
+	 * Allow or disallow context menu for an element.
 	 *
 	 * @param element
 	 *            element
 	 * @param allow
 	 *            whether to allow context menu
 	 */
-	public static native void setAllowContextMenu(Element element,
-			boolean allow) /*-{
-		if (element.addEventListener) {
-			element.addEventListener("MSHoldVisual", function(e) {
-				allow ? e.stopPropagation() : e.preventDefault();
-			}, false);
-			element.addEventListener('contextmenu', function(e) {
-				allow ? e.stopPropagation() : e.preventDefault();
-			}, false);
-		}
-	}-*/;
+	public static void setAllowContextMenu(Element element, boolean allow) {
+		Dom.addEventListener(element, "contextmenu", (event) -> {
+			if (allow) {
+				event.stopPropagation();
+			} else {
+				event.preventDefault();
+			}
+		});
+	}
 
-	public native static boolean isAndroid()/*-{
-		var userAgent = $wnd.navigator.userAgent;
-		if (userAgent) {
-			return userAgent.indexOf("Android") != -1;
-		}
-		return false;
-	}-*/;
+	public static boolean isAndroid() {
+		return DomGlobal.navigator.userAgent.contains("Android");
+	}
 
 	/**
 	 * @deprecated you most likely want to use isiOS() instead
 	 * @return check this is an iPad browser
 	 */
 	@Deprecated
-	public native static boolean isIPad()/*-{
-		var userAgent = $wnd.navigator.userAgent;
-		if (userAgent) {
-			return userAgent.indexOf("iPad") != -1;
-		}
-		return false;
-	}-*/;
+	public static boolean isIPad() {
+		return DomGlobal.navigator.userAgent.contains("iPad");
+	}
 
 	/**
 	 * it's true for android phones and iPads but false for iPhone
 	 *
-	 * @deprected isMobile might work better, alternatively isiOS() ||
+	 * @deprecated isMobile might work better, alternatively isiOS() ||
 	 *            isAndroid()
 	 * @return whether this is iPad or Android
 	 */
@@ -500,17 +462,13 @@ public class Browser {
 		return isAndroid() || NavigatorUtil.isiOS();
 	}
 
-	public static native int getScreenWidth() /*-{
-		return $wnd.screen.width;
-	}-*/;
+	public static int getScreenWidth() {
+		return DomGlobal.screen.width;
+	}
 
-	public static native int getScreenHeight() /*-{
-		return $wnd.screen.height;
-	}-*/;
-
-	public static native boolean isEdge() /*-{
-		return $wnd.navigator.userAgent.indexOf("Edge") > -1;
-	}-*/;
+	public static int getScreenHeight() {
+		return DomGlobal.screen.height;
+	}
 
 	/**
 	 * @param full
@@ -518,34 +476,26 @@ public class Browser {
 	 * @param element
 	 *            element to be scaled
 	 */
-	public static native void toggleFullscreen(boolean full,
-			JavaScriptObject element)/*-{
-		var el = element || $doc.documentElement;
+	public static void toggleFullscreen(boolean full, Element element) {
+		elemental2.dom.HTMLElement el = element != null
+				? Js.uncheckedCast(element)
+				: DomGlobal.document.documentElement;
 		if (full) { // current working methods
-			if (el.requestFullscreen) {
+			if (hasProperty(el, "requestFullscreen")) {
 				el.requestFullscreen();
-			} else if ($doc.documentElement.msRequestFullscreen) {
-				el.msRequestFullscreen();
-			} else if ($doc.documentElement.mozRequestFullScreen) {
-				el.mozRequestFullScreen();
-			} else if ($doc.documentElement.webkitRequestFullScreen) {
+			} else if (hasProperty(el, "webkitRequestFullScreen")) {
 				el.style.setProperty("width", "100%", "important");
 				el.style.setProperty("height", "100%", "important");
 				el.webkitRequestFullScreen();
-				//Element.ALLOW_KEYBOARD_INPUT);
 			}
 		} else {
-			if ($doc.exitFullscreen) {
-				$doc.exitFullscreen();
-			} else if ($doc.msExitFullscreen) {
-				$doc.msExitFullscreen();
-			} else if ($doc.mozCancelFullScreen) {
-				$doc.mozCancelFullScreen();
-			} else if ($doc.webkitCancelFullScreen) {
-				$doc.webkitCancelFullScreen();
+			if (hasProperty(DomGlobal.document, "exitFullscreen")) {
+				DomGlobal.document.exitFullscreen();
+			} else if (hasProperty(DomGlobal.document, "webkitCancelFullScreen")) {
+				DomGlobal.document.webkitCancelFullScreen();
 			}
 		}
-	}-*/;
+	}
 
 	/**
 	 * Register handler for fullscreen event.
@@ -582,18 +532,15 @@ public class Browser {
 	/**
 	 * @return whether current window covers whole screen
 	 */
-	public static native boolean isCoveringWholeScreen()/*-{
-		var height = $wnd.innerHeight;
-		var width = $wnd.innerWidth;
+	public static boolean isCoveringWholeScreen() {
+		int height = DomGlobal.window.innerHeight;
+		int width = DomGlobal.window.innerWidth;
 
-		var screenHeight = screen.height - 5;
-		var screenWidth = screen.width - 5;
-
-		//$wnd.console.log("height: " + height, screenHeight);
-		//$wnd.console.log("width: " + width, screenWidth);
+		int screenHeight = DomGlobal.screen.height - 5;
+		int screenWidth = DomGlobal.screen.width - 5;
 
 		return height >= screenHeight && width >= screenWidth;
-	}-*/;
+	}
 
 	/**
 	 * Add mutation observer to element and all its parents.
@@ -603,28 +550,29 @@ public class Browser {
 	 * @param asyncOperation
 	 *            callback
 	 */
-	public static native void addMutationObserver(Element el,
-			AsyncOperation<String> asyncOperation) /*-{
+	public static void addMutationObserver(Element el, AsyncOperation<String> asyncOperation) {
 		try {
-			var current = el;
-			while (current) {
-				var observer = new MutationObserver(
-						function(mutations) {
-							mutations
-									.forEach(function(mutation) {
-										asyncOperation.@org.geogebra.common.util.AsyncOperation::callback(*)(mutation.type);
-									});
+			elemental2.dom.Element current = Js.uncheckedCast(el);
+			while (current != null) {
+				MutationObserver observer = new MutationObserver((mutations, _0) -> {
+						mutations.forEach((mutation, _1, _2) -> {
+								asyncOperation.callback(mutation.type);
+								return null;
 						});
-				observer.observe(current, {
-					attributes : true,
-					attributeFilter : [ "class", "style" ]
+						return null;
 				});
+
+				MutationObserverInit init = MutationObserverInit.create();
+				init.setAttributes(true);
+				init.setAttributeFilter(new String[] {"class", "style"});
+
+				observer.observe(current, init);
 				current = current.parentElement;
 			}
-		} catch (ex) {
+		} catch (Throwable t) {
 			//Mutation observer not supported
 		}
-	}-*/;
+	}
 
 	/**
 	 * gets keycodes of iOS arrow keys iOS arrows have a different identifier
@@ -634,38 +582,20 @@ public class Browser {
 	 *            native key event
 	 * @return JavaKeyCodes of arrow keys, -1 if pressed key was not an arrow
 	 */
-	public native static int getIOSArrowKeys(NativeEvent event) /*-{
-
-		var key = event.key;
-		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)("KeyDownEvent: " + key);
+	public static int getIOSArrowKeys(NativeEvent event) {
+		String key = Js.<KeyboardEvent>uncheckedCast(event).key;
 		switch (key) {
 		case "UIKeyInputUpArrow":
-			return @com.himamis.retex.editor.share.util.GWTKeycodes::KEY_UP;
+			return GWTKeycodes.KEY_UP;
 		case "UIKeyInputDownArrow":
-			return @com.himamis.retex.editor.share.util.GWTKeycodes::KEY_DOWN;
+			return GWTKeycodes.KEY_DOWN;
 		case "UIKeyInputLeftArrow":
-			return @com.himamis.retex.editor.share.util.GWTKeycodes::KEY_LEFT;
+			return GWTKeycodes.KEY_LEFT;
 		case "UIKeyInputRightArrow":
-			return @com.himamis.retex.editor.share.util.GWTKeycodes::KEY_RIGHT;
+			return GWTKeycodes.KEY_RIGHT;
 		default:
 			return -1;
 		}
-	}-*/;
-
-	/**
-	 * @return whether current browser is Chrome
-	 */
-	public static boolean isChrome() {
-		// yep, Edge UA string contains Chrome too
-		return Navigator.getUserAgent().matches(".*Chrome/.*") && !isEdge();
-	}
-
-	/**
-	 * @return whether we're running in a Mac browser
-	 */
-	public static boolean isMacOS() {
-		return Navigator.getUserAgent().contains("Macintosh")
-				|| Navigator.getUserAgent().contains("Mac OS");
 	}
 
 	/**

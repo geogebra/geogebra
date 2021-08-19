@@ -54,10 +54,8 @@ public class CASgiacW extends CASgiac {
 		if (externalCAS) {
 			Log.debug("switching to external");
 			// CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
-		} else if (Browser.supportsJsCas()) {
-			initialize(Browser.webAssemblySupported());
 		} else {
-			Log.debug("CAS not possible");
+			initialize(Browser.webAssemblySupported());
 		}
 	}
 

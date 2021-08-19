@@ -61,7 +61,9 @@ import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.CanvasPixelArray;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
@@ -379,25 +381,22 @@ public class EuclidianViewW extends EuclidianView implements
 		return ret;
 	}
 
-	private native void convertToGreyScale(Context2d ctx, int width,
-			int height) /*-{
-		var imageData = ctx.getImageData(0, 0, width, height);
+	private void convertToGreyScale(Context2d ctx, int width, int height) {
+		ImageData imageData = ctx.getImageData(0, 0, width, height);
+		CanvasPixelArray content = imageData.getData();
 
-		for (y = 0; y < height; y++) {
-			for (x = 0; x < width; x++) {
-				var index = (y * 4) + (x * 4) * width;
-				var r = imageData.data[index];
-				var g = imageData.data[index + 1];
-				var b = imageData.data[index + 2];
-				var grey = Math.round((r + g + b) / 3);
-				imageData.data[index] = grey;
-				imageData.data[index + 1] = grey;
-				imageData.data[index + 2] = grey;
-			}
+		for (int index = 0; index < width * height; index++) {
+			int r = content.get(4 * index);
+			int g = content.get(4 * index + 1);
+			int b = content.get(4 * index + 2);
+			int grey = (int) Math.round((r + g + b) / 3.0);
+			content.set(4 * index, grey);
+			content.set(4 * index + 1, grey);
+			content.set(4 * index + 2, grey);
 		}
 
 		ctx.putImageData(imageData, 0, 0);
-	}-*/;
+	}
 
 	@Override
 	public String getExportImageDataUrl(double scale, boolean transparency,

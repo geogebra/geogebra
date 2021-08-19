@@ -13,7 +13,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
-import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.ContextMenuGraphicsWindowW;
 import org.geogebra.web.full.gui.app.ShowKeyboardButton;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -502,7 +501,7 @@ public abstract class DockPanelW extends ResizeComposite
 	public void paintToCanvas(CanvasRenderingContext2D context2d,
 			Runnable callback, int left, int top) {
 		getElement().addClassName("ggbScreenshot");
-		if (component == null || NavigatorUtil.isIE()) {
+		if (component == null) {
 			callback.run();
 			return;
 		}

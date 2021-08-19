@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.laf;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.html5.Browser;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInController;
@@ -78,6 +78,6 @@ public class BundleLookAndFeel extends GLookAndFeel {
 
 	@Override
 	public boolean isExternalLoginAllowed() {
-		return !Browser.isMacOS();
+		return !NavigatorUtil.isMacOS();
 	}
 }

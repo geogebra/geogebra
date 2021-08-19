@@ -2288,12 +2288,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean supportsView(int viewID) {
-		if (viewID == App.VIEW_CAS && !getLAF().isSmart()) {
-			if (!Browser.supportsJsCas()) {
-				return false;
-			}
-		}
-
 		if (viewID == App.VIEW_CAS) {
 			return (getSettings().getCasSettings().isEnabled())
 					&& getAppletParameters().getDataParamEnableCAS(true)

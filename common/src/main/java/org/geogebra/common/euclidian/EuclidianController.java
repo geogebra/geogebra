@@ -10082,7 +10082,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (this.pointerUpCallback != null) {
-			runPointerCallback(pointerUpCallback);
+			pointerUpCallback.run();
 			this.pointerUpCallback = null;
 		}
 
@@ -10116,16 +10116,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		geoElement.setHighlighted(true);
 		geoElement.updateRepaint();
-	}
-
-	/**
-	 * Needs to be synchronous in some environments and asynchronous in others
-	 *
-	 * @param callback
-	 *            callback for pointer up
-	 */
-	protected void runPointerCallback(Runnable callback) {
-		callback.run();
 	}
 
 	private boolean isDragTool() {
