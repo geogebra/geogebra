@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.plot.CurvePlotterUtils;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
@@ -109,6 +110,13 @@ public class DrawLocus3D extends Drawable3DCurves {
 	@Override
 	protected void setGeometriesVisibility(boolean visible) {
 		setGeometriesVisibilityNoSurface(visible);
+	}
+
+	@Override
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
+		if (isVisible() && getGeoElement().getLineThickness() > 0) {
+			exportToPrinter3D.exportCurve(this, ExportToPrinter3D.Type.CURVE);
+		}
 	}
 
 }
