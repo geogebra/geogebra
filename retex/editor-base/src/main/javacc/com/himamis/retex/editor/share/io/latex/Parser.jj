@@ -24,6 +24,14 @@ public class Parser {
 		this.inputController = new InputController(metaModel);
 	}
 
+    /**
+     * Needed to prevent memory leaks in Web
+     * @return the static exception instance
+     */
+    public static Throwable getLookaheadSuccess() {
+       return jj_ls;
+    }
+
 	private static MathComponent convertSuperscriptToNormal(MetaModel metaModel, char sup) {
 		if (sup >= '\u2070' && sup <= '\u2079' && sup != '\u2071' && sup != '\u2072' && sup != '\u2073') {
 			return createCharacter(Character.toString((char) (sup - '\u2070' + '0')), metaModel);

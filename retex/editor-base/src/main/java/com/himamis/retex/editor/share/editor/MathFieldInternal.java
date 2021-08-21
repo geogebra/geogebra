@@ -130,8 +130,12 @@ public class MathFieldInternal
 		return scrollLeft;
 	}
 
+	/**
+	 * @param syntaxAdapter syntax converter / function name checker
+	 */
 	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
 		mathFieldController.setSyntaxAdapter(syntaxAdapter);
+		inputController.setFormatConverter(syntaxAdapter);
 	}
 
 	private void setupMathField() {
@@ -680,6 +684,10 @@ public class MathFieldInternal
 	public String copy() {
 		return GeoGebraSerializer.serialize(
 					InputController.getSelectionText(getEditorState()));
+	}
+
+	public void convertAndInsert(String text) {
+		insertString(inputController.convert(text));
 	}
 
 	/**

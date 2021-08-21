@@ -498,36 +498,22 @@ public class Browser {
 	}
 
 	/**
-	 * Register handler for fullscreen event.
-	 *
-	 * @param callback
-	 *            callback for fullscreen event
+	 * @return event name for fullscreen event.
 	 */
-	public static native void addFullscreenListener(
-			AsyncOperation<String> callback) /*-{
-		function listen(pfx, eventName) {
-			$doc
-					.addEventListener(
-							eventName,
-							function(e) {
-								var fsElement = $doc[pfx + "FullscreenElement"];
-								// mozFullScreen still needed for FF60 ESR
-								var fsState = (fsElement
-										|| $doc.fullscreenElement || $doc.mozFullScreen) ? "true"
-										: "false";
-								callback.@org.geogebra.common.util.AsyncOperation::callback(*)(fsState);
-							});
+	public static String getFullscreenEventName() {
+		if (!hasProperty(DomGlobal.document, "onfullscreenchange")) {
+			return "webkitfullscreenchange";
 		}
+		return "fullscreenchange";
+	}
 
-		if (typeof document.onfullscreenchange === "undefined") {
-			listen("webkit", "webkitfullscreenchange");
-			listen("ms", "MSFullscreenChange");
-			listen("moz", "mozfullscreenchange");
-		} else {
-			listen("", "fullscreenchange");
-		}
-
-	}-*/;
+	/**
+	 * @return whether applet fullscreen is used
+	 */
+	public static Boolean isFullscreen() {
+		return Js.isTruthy(DomGlobal.document.fullscreenElement)
+				|| hasProperty(DomGlobal.document, "webkitFullscreenElement");
+	}
 
 	/**
 	 * @return whether current window covers whole screen
@@ -617,5 +603,12 @@ public class Browser {
 	 */
 	public static boolean needsAccessibilityView() {
 		return NavigatorUtil.isMobile();
+	}
+
+	/**
+	 * @return whether the browser is online
+	 */
+	public static boolean isOnline() {
+		return DomGlobal.navigator == null || DomGlobal.navigator.onLine;
 	}
 }
