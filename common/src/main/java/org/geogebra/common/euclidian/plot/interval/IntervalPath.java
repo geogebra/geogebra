@@ -63,7 +63,7 @@ public class IntervalPath {
 			return;
 		}
 
-		if (point.y().isInverted()) {
+		if (point.y().isInverted() && !model.isInvertedAt(point.index() + 1)) {
 			lastY.set(corrector.beginFromInfinity(i, x, y));
 		} else {
 			line(x, y);

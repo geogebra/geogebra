@@ -116,6 +116,13 @@ public class TanSamplerTest extends SamplerTest {
 	}
 
 	@Test
+	public void tanXHiRes() {
+		for (IntervalTuple tuple: hiResFunction("tan(x)")) {
+			assertEquals(IntervalConstants.whole().invert(), tuple.y());
+		}
+	}
+
+		@Test
 	public void minusTanX() {
 		IntervalTupleList tuples = functionValuesWithSampleCount("-tan(x)",
 				0, PI, -8, 8, 100);
@@ -222,4 +229,10 @@ public class TanSamplerTest extends SamplerTest {
 		assertEquals(interval(-0.031426266043346536, 4.440892098500628E-15), tuples.valueAt(100));
 	}
 
+	@Test
+	public void minusTanXHiRes() {
+		for (IntervalTuple tuple: hiResFunction("-tan(x)")) {
+			assertEquals(IntervalConstants.whole().invert(), tuple.y());
+		}
+	}
 }

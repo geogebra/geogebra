@@ -21,4 +21,14 @@ public class TanTest extends IntervalPlotterCommon {
 		logShouldBeAt(195, LINE_TO, 3.1042687637859485, -0.037341231098253616);
 		logShouldBeAt(196, LINE_TO, 3.1515926535897956, 0.01000033334666966);
 	}
+
+	@Test
+	public void testHiResTanX() {
+		super.withHiResFunction(TAN_X);
+		logShouldBeAt(1, MOVE_TO, -4994.791666666667, -1.0E-4);
+		logShouldBeAt(2, LINE_TO, -4994.791666666667, 1.0E-4 );
+		logShouldBeAt(3, MOVE_TO, -4994.791666666667, 0.0);
+		logShouldBeAt(4, LINE_TO, -4989.583333333334, -1.0E-4);
+		logShouldBeAt(5, MOVE_TO, -4994.791666666667, 1280.0);
+	}
 }

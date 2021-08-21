@@ -43,4 +43,11 @@ public class SamplerTest extends BaseUnitTest {
 		}
 		return result;
 	}
+
+	protected IntervalTupleList hiResFunction(String description) {
+		return functionValuesWithSampleCount(description,
+				-5500, 5500, -5000, 6000, 1920);
+
+
+	}
 }

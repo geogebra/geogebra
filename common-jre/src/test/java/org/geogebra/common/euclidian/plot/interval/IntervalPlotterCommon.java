@@ -52,4 +52,10 @@ public class IntervalPlotterCommon extends BaseUnitTest {
 			double y) {
 		assertEquals(gp.getLog().get(index), new IntervalPathMockEntry(op, x, y));
 	}
+
+	protected void withHiResFunction(String description) {
+		withBounds(-5000, 5000, 6000, -4000);
+		withScreenSize(1920,1280);
+		withFunction(description);
+	}
 }

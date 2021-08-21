@@ -840,13 +840,25 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 		}
 	}
 
+
+	/**
+	 * Inverts interval
+	 * @return this
+	 */
+	public Interval invert() {
+		setInverted();
+		return this;
+	}
+
 	/**
 	 * Clears interval as inverted.
+	 * @return this
 	 */
-	public void uninvert() {
+	public Interval uninvert() {
 		if (isInverted()) {
 			inverted = Inversion.UNINVERTED;
 		}
+		return this;
 	}
 
 	/**
