@@ -374,12 +374,16 @@ public class CopyPasteW extends CopyPaste {
 		}
 	}
 
-	private static boolean incorrectTarget(EventTarget tgt) {
+	/**
+	 * @param tgt the target element of the event
+	 * @return true if the event targets an input element,
+	 * in which case it should be handled by the browser
+	 */
+	public static boolean incorrectTarget(EventTarget tgt) {
 		elemental2.dom.Element target = Js.uncheckedCast(tgt);
 		return "INPUT".equalsIgnoreCase(target.tagName)
 				|| "TEXTAREA".equalsIgnoreCase(target.tagName)
-				|| "BR".equalsIgnoreCase(target.tagName)
-				|| target.parentElement.classList.contains("mowTextEditor");
+				|| "BR".equalsIgnoreCase(target.tagName);
 	}
 
 	private static void readBlob(Blob blob, AsyncOperation<String> callback) {
