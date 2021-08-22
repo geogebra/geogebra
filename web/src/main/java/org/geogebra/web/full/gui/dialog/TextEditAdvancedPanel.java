@@ -13,23 +13,18 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
 import org.geogebra.web.html5.gui.inputfield.SymbolTableW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.TableCellElement;
-import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Image;
@@ -322,32 +317,16 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 		final SymbolTableW symTable = new SymbolTableW(table, 
 				isLatexSymbol, rowSize, app, colors);
 
-		if (NavigatorUtil.isIE()) {
-		symTable.addDomHandler(event -> {
-			Element td = ((SymbolTableW) event.getSource())
-					.getEventTargetCell(Event
-					.as(event.getNativeEvent()));
-			if (td != null) {
-				int row = TableRowElement.as(td.getParentElement())
-						.getSectionRowIndex();
-				int column = TableCellElement.as(td).getCellIndex();
-					onChange.callback(symTable.getSymbolText(row, column));
+		symTable.addClickHandler(event -> {
+			HTMLTable.Cell clickCell = ((HTMLTable) event
+					.getSource()).getCellForEvent(event);
+			if (clickCell == null) {
+				return;
 			}
-			event.preventDefault();
-			event.stopPropagation();
-		}, MouseDownEvent.getType());
-		} else {
-			symTable.addClickHandler(event -> {
-				HTMLTable.Cell clickCell = ((HTMLTable) event
-						.getSource()).getCellForEvent(event);
-				if (clickCell == null) {
-					return;
-				}
-				String text = symTable.getSymbolText(
-						clickCell.getRowIndex(), clickCell.getCellIndex());
-				onChange.callback(text);
-			});
-		}
+			String text = symTable.getSymbolText(
+					clickCell.getRowIndex(), clickCell.getCellIndex());
+			onChange.callback(text);
+		});
 		return symTable;
 	}
 

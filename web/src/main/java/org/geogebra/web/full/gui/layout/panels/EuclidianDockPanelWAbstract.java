@@ -24,6 +24,8 @@ import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.EventListener;
 import elemental2.dom.HTMLCanvasElement;
 import jsinterop.base.Js;
 
@@ -183,14 +185,11 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 
 		// hack to fix GGB-697
-		private native void checkFocus() /*-{
-			var that = this;
-			var forceResize = function() {
-				that.@org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract.EuclidianPanel::forceResize()()
-			};
-
-			$wnd.visibilityEventMain(forceResize, forceResize);
-		}-*/ ;
+		private void checkFocus() {
+			final EventListener focusCheck = (e) -> forceResize();
+			dockPanel.app.getGlobalHandlers().addEventListener(DomGlobal.document,
+					"visibilitychange", focusCheck);
+		}
 
 		private void forceResize() {
 			EuclidianView view = dockPanel.getEuclidianView();
@@ -359,13 +358,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		if (zoomPanel != null) {
 			zoomPanel.addStyleName("narrowscreen");
 		}
-	}
-
-	/**
-	 * @return if the EV panel has zoom or fullscreen buttons at all.
-	 */
-	public boolean hasZoomButtons() {
-		return zoomPanel != null && zoomPanel.hasButtons();
 	}
 
 	/**

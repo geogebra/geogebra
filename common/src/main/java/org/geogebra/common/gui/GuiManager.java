@@ -567,7 +567,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		lastUsedPlotPanelID--;
 		int viewID = lastUsedPlotPanelID;
 		getPlotPanelIDMap().put(viewID, plotPanel);
-		Log.debug(viewID);
 		return viewID;
 	}
 

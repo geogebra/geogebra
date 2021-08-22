@@ -46,22 +46,6 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 		POISSON
 	}
 
-	/*
-	 * // continuous distribution identifiers public static final int
-	 * DIST_NORMAL = 0; public static final int DIST_STUDENT = 1; public static
-	 * final int DIST_CHISQUARE = 2; public static final int DIST_F = 3; public
-	 * static final int DIST_CAUCHY = 4; public static final int
-	 * DIST_EXPONENTIAL = 5; public static final int DIST_GAMMA = 6; public
-	 * static final int DIST_WEIBULL = 7; public static final int DIST_LOGISTIC
-	 * = 8; public static final int DIST_LOGNORMAL = 9; public static final int
-	 * DIST_ERLANG = 10; //public static final int DIST_UNIFORM = 11; //public
-	 * static final int DIST_TRIANGULAR = 12;
-	 * 
-	 * // discrete distribution identifiers public static final int
-	 * DIST_BINOMIAL = 11; public static final int DIST_PASCAL = 12; public
-	 * static final int DIST_HYPERGEOMETRIC = 13; public static final int
-	 * DIST_POISSON = 14;
-	 */
 	/** number of distributions */
 	public static final int distCount = Dist.values().length;
 
@@ -155,30 +139,14 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	/**
 	 * @param probMode
 	 *            mode (left / right / interval)
+	 * @param high interval upper bound
+	 * @param low interval lower bound
 	 */
-	public void setProbMode(int probMode) {
+	public void setProbInterval(int probMode, GeoNumberValue low, GeoNumberValue high) {
 		intervalSet = true;
 		this.probMode = probMode;
-		settingChanged();
-	}
-
-	/**
-	 * @param low
-	 *            lower bound
-	 */
-	public void setLow(GeoNumberValue low) {
-		intervalSet = true;
-		this.low = low;
-		settingChanged();
-	}
-
-	/**
-	 * @param high
-	 *            upper bound
-	 */
-	public void setHigh(GeoNumberValue high) {
-		intervalSet = true;
 		this.high = high;
+		this.low = low;
 		settingChanged();
 	}
 
@@ -226,5 +194,15 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 			stats = new StatisticsCollection();
 		}
 		return stats;
+	}
+
+	/**
+	 * Independent on resetDefaults
+	 */
+	public void reset() {
+		intervalSet = false;
+		low = null;
+		high = null;
+		settingChanged();
 	}
 }

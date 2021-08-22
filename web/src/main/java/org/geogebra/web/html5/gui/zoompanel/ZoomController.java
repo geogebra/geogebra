@@ -21,17 +21,17 @@ import org.gwtproject.timer.client.Timer;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.StyleElement;
 import com.google.gwt.user.client.Window;
 
 import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLStyleElement;
 
 /**
  * @author csilla
  *
  */
 public class ZoomController {
-	private StyleElement transformOverride;
+	private HTMLStyleElement transformOverride;
 	private AppW app;
 	/**
 	 * is in fullscreen mode
@@ -374,13 +374,12 @@ public class ZoomController {
 	 */
 	protected void removeTransformOverride() {
 		if (transformOverride != null) {
-			transformOverride.removeFromParent();
+			transformOverride.remove();
 		}
 	}
 
 	private void overrideParentTransform() {
-		transformOverride = new StyleInjector.StyleInjectorImpl()
-				.injectStyleSheet(
+		transformOverride = StyleInjector.injectStyleSheet(
 						"*:not(.ggbTransform){transform: none !important;}");
 	}
 

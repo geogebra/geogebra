@@ -228,6 +228,9 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	@Override
 	final public String toValueString(StringTemplate tpl) {
+		if (!isDefined) {
+			return "?";
+		}
 		return value ? "true" : "false";
 	}
 

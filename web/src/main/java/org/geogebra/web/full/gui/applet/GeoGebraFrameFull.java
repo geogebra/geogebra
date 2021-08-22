@@ -1022,7 +1022,7 @@ public class GeoGebraFrameFull
 	}
 
 	@Override
-	protected ResourcesInjectorFull getResourcesInjector(AppletParameters appletParameters) {
+	protected ResourcesInjectorFull getResourcesInjector() {
 		return new ResourcesInjectorFull();
 	}
 
@@ -1035,5 +1035,19 @@ public class GeoGebraFrameFull
 		Canvas c = Canvas.createIfSupported();
 		DockManager dockManager = app.getGuiManager().getLayout().getDockManager();
 		((DockManagerW) dockManager).paintPanels(c, callback, scale);
+	}
+
+	@Override
+	public void remove() {
+		if (ggwToolBar != null) {
+			ggwToolBar.removeFromParent();
+		}
+		if (showKeyboardButton != null) {
+			showKeyboardButton.removeFromParent();
+		}
+		super.remove();
+		ggwToolBar = null;
+		ggwMenuBar = null;
+		showKeyboardButton = null;
 	}
 }

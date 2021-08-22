@@ -309,7 +309,7 @@ div.SymbolTablePopup{
   z-index:501;
 }
 
-.perspImage{
+.perspectivesBox .perspectivesRow .perspImage{
 	width:24px;
 	height:24px;
 }

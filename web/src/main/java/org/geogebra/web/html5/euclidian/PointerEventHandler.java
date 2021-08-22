@@ -10,11 +10,12 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 
 import com.google.gwt.dom.client.Element;
 
 import elemental2.dom.DomGlobal;
+import elemental2.dom.EventListener;
 import jsinterop.base.Js;
 
 /**
@@ -224,27 +225,26 @@ public class PointerEventHandler {
 	}
 
 	/**
-	 * @param element
-	 *            listening element (EV)
-	 * @param zoomer
-	 *            event handler
+	 * @param element listening element (EV)
+	 * @param globalHandlers global registrations
 	 */
-	public static void attachTo(Element element, PointerEventHandler zoomer) {
-		zoomer.reset();
-		Dom.addEventListener(element, "pointermove",
-				evt -> zoomer.onPointerMove(Js.uncheckedCast(evt)));
+	public void attachTo(Element element, GlobalHandlerRegistry globalHandlers) {
+		reset();
+		// treat as global to avoid memory leak
+		globalHandlers.addEventListener(element, "pointermove",
+				evt -> onPointerMove(Js.uncheckedCast(evt)));
 
-		Dom.addEventListener(element, "pointerdown",
-				evt -> zoomer.onPointerDown(Js.uncheckedCast(evt), element));
+		globalHandlers.addEventListener(element, "pointerdown",
+				evt -> onPointerDown(Js.uncheckedCast(evt), element));
 
-		Dom.addEventListener(element, "pointerout",
-				evt -> zoomer.onPointerOut(Js.uncheckedCast(evt)));
+		globalHandlers.addEventListener(element, "pointerout",
+				evt -> onPointerOut(Js.uncheckedCast(evt)));
 
-		Dom.addEventListener(element, "pointercanel",
-				evt -> zoomer.onPointerOut(Js.uncheckedCast(evt)));
+		globalHandlers.addEventListener(element, "pointercanel",
+				evt -> onPointerOut(Js.uncheckedCast(evt)));
 
-		DomGlobal.window.addEventListener("pointerup",
-				evt -> zoomer.onPointerUp(Js.uncheckedCast(evt), element));
+		EventListener clickOutsideHandler = evt -> onPointerUp(Js.uncheckedCast(evt), element);
+		globalHandlers.addEventListener(DomGlobal.window, "pointerup", clickOutsideHandler);
 	}
 
 	public static void startCapture(EuclidianViewW view) {

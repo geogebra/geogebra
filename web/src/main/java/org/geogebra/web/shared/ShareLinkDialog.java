@@ -9,7 +9,6 @@ import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -151,9 +150,9 @@ public class ShareLinkDialog extends ComponentDialog {
 	}
 
 	@Override
-	public void onResize(ResizeEvent resizeEvent) {
+	public void onResize() {
 		if (anchor == null) {
-			super.onResize(resizeEvent);
+			super.onResize();
 		} else {
 			setPopupPosition(anchor.getAbsoluteLeft() - (this.getOffsetWidth()
 							- anchor.getOffsetWidth()), anchor.getAbsoluteTop() - 27);

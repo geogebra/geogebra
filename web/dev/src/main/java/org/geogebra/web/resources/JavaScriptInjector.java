@@ -9,7 +9,6 @@ import com.google.gwt.user.client.DOM;
 
 /**
  * Injects scripts into parent document
- *
  */
 public class JavaScriptInjector {
 	private static HeadElement head;

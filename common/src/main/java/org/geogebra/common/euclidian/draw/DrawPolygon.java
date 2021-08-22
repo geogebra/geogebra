@@ -342,9 +342,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		if (!isVisible) {
-			return false;
-		}
 		GShape t = geo.isInverseFill() ? getShape() : gp;
 		boolean contains = t.contains(AwtFactory.getPrototype().newRectangle(x - hitThreshold,
 				y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold));

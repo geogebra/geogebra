@@ -1,7 +1,6 @@
 package org.geogebra.web.full.css;
 
 import org.geogebra.web.resources.SVGResource;
-import org.geogebra.web.resources.SassResource;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
@@ -9,7 +8,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.TextResource;
 
 @SuppressWarnings("javadoc")
-public interface GuiResources extends ClientBundle, StylesProvider {
+public interface GuiResources extends ClientBundle {
 
 	GuiResources INSTANCE = GWT.create(GuiResources.class);
 
@@ -67,12 +66,6 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 
 	@Source("org/geogebra/common/icons/png/web/dockbar_triangle_right.png")
 	ImageResource dockbar_triangle_right();
-
-	@Source("org/geogebra/common/icons/png/web/dockbar_drag.png")
-	ImageResource dockbar_drag();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-view-close.png")
-	ImageResource dockbar_close();
 
 	// PROPABILITY CALCULATOR
 	@Source("org/geogebra/common/icons/png/web/probability_calculator_cumulative_distribution.png")
@@ -182,88 +175,9 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/common/icons_view_perspectives/p24/menu_view_construction_protocol.png")
 	ImageResource icons_view_construction_protocol_p24();
 
-	@Source("org/geogebra/web/resources/css/fonts.css")
-	TextResource fonts();
-
-	@Source("org/geogebra/web/resources/scss/exam.scss")
-	SassResource examStyle();
-
-	@Override
-	@Source("org/geogebra/web/resources/scss/mow.scss")
-	SassResource mowStyle();
-
-	@Override
-	@Source("org/geogebra/web/resources/scss/mow-toolbar.scss")
-	SassResource mowToolbarStyle();
-
-	@Source("org/geogebra/web/resources/scss/web-styles.scss")
-	SassResource modernStyle();
-
-	@Source("org/geogebra/web/resources/scss/spreadsheet.scss")
-	SassResource spreadsheetStyle();
-
-	@Override
-	@Source("org/geogebra/web/resources/scss/open-screen.scss")
-	SassResource openScreenStyle();
-
-	@Source("org/geogebra/web/resources/scss/av-styles.scss")
-	SassResource avStyleScss();
-
-	@Source("org/geogebra/web/resources/scss/context-menu.scss")
-	SassResource contextMenuStyles();
-
-	@Source("org/geogebra/web/resources/scss/general.scss")
-	SassResource generalStyle();
-
-	@Source("org/geogebra/web/resources/scss/headerbar.scss")
-	SassResource headerbarStyle();
-
-	@Source("org/geogebra/web/resources/scss/toolbar-styles.scss")
-	SassResource toolBarStyleScss();
-
-	@Source("org/geogebra/web/resources/scss/tableview.scss")
-	SassResource tableViewStyleScss();
-
 	@Source("org/geogebra/web/pub/js/properties_keys_en.js")
 	TextResource propertiesKeysJS();
 
-	@Source("org/geogebra/web/resources/scss/menu-styles.scss")
-	SassResource menuStyleScss();
-
-	@Source("org/geogebra/web/resources/scss/popup-styles.scss")
-	SassResource popupStyleScss();
-
-	@Override
-	@Source("org/geogebra/web/resources/scss/settings-styles.scss")
-	SassResource settingsStyleScss();
-
-	@Source("org/geogebra/web/resources/scss/perspectives-popup.scss")
-	SassResource perspectivesPopupScss();
-
-	@Source("org/geogebra/web/resources/scss/snackbar.scss")
-	SassResource snackbarScss();
-
 	@Source("org/geogebra/common/icons/png/web/arrow-submenu-up.png")
 	ImageResource arrow_submenu_up();
-
-	@Source("org/geogebra/web/resources/scss/print.scss")
-	SassResource printStyle();
-
-	@Override
-	@Source("org/geogebra/web/resources/scss/component-styles.scss")
-	SassResource componentStyles();
-
-	@Source("org/geogebra/web/resources/scss/scientific-layout.scss")
-	SassResource scientificLayoutScss();
-
-	@Source("org/geogebra/web/resources/scss/header.scss")
-	SassResource headerScss();
-
-	@Override
-	@Source("org/geogebra/web/resources/scss/dialog-styles.scss")
-	SassResource dialogStylesScss();
-
-	@Source("org/geogebra/web/resources/scss/evaluator-styles.scss")
-	SassResource evaluatorScss();
-
 }

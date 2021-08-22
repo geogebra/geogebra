@@ -55,7 +55,9 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 			// force loading the algebra view,
 			// as loadComponent should only load when needed
 			setAlgebraView((AlgebraViewW) app.getAlgebraView());
-			aview.setInputPanel();
+			if (app.showAlgebraInput()) {
+				aview.setInputPanel();
+			}
 		}
 		if (decorator == null) {
 			return algebrap;

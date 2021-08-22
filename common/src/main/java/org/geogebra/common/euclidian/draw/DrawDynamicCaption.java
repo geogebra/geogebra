@@ -62,7 +62,8 @@ public class DrawDynamicCaption {
 		String textString = getDynamicCaption().getTextString();
 		if (getDynamicCaption().isLaTeX()) {
 			App app = drawCaption.getView().getApplication();
-			boolean serif = StringUtil.startsWithFormattingCommand(textString);
+			boolean serif = StringUtil.startsWithFormattingCommand(textString)
+					|| getDynamicCaption().isSerifFont();
 
 			GDimension size = app.getDrawEquation().measureEquation(app,
 					drawCaption.getGeoElement(),

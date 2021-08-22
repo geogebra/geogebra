@@ -661,6 +661,7 @@ public abstract class CommandDispatcher {
 			case FractionText:
 			case KeepIf:
 			case IsInteger:
+			case IsFactored:
 
 			case Defined:
 			case IsDefined:

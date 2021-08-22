@@ -12,7 +12,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-	compile project(':editor-base')
+    javacc 'net.java.dev.javacc:javacc:7.0.10'
+    compile project(':editor-base')
 	compile project(':renderer-base')
     compile 'com.google.j2objc:annotations:2.8'
     compile ("com.google.code.findbugs:annotations:3.0.1") {

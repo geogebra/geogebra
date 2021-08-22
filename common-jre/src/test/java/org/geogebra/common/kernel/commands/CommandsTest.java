@@ -2102,13 +2102,55 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdIsFactored() {
+		t("IsFactored[ x ]", "true");
+		t("IsFactored[ 0.5 ]", "true");
+		t("IsFactored[ 5 ]", "true");
+		t("IsFactored[ x^2-1 ]", "false");
+		t("IsFactored[ x(x+1) ]", "true");
+		t("IsFactored[ x(2x+2) ]", "false");
+		t("IsFactored[ x^3-1 ]", "false");
+		t("IsFactored[ x(x/2+1/2) ]", "false");
+		t("IsFactored[ sin^2(x)-cos^2(x) ]", "?");
+		t("IsFactored[ (sin(x)+cos(x))(sin(x)+cos(x)) ]", "?");
+		t("IsFactored[ 0.5(x+1)2 ]", "false");
+		t("IsFactored[ (x+1)(x^2-1) ]", "false");
+		t("IsFactored[ (x+1)^2(x+2)^2((x+1)(2x+2))^2 ]", "?");
+		t("IsFactored[ (x+1)(2x+2) ]", "false");
+		t("IsFactored[ -2x-2 ]", "false");
+		t("IsFactored[ -x-1 ]", "false");
+		t("IsFactored[ 2*(x+0.5) ]", "false");
+		t("IsFactored[ 2x+2 ]", "false");
+		t("IsFactored[ 5(6/5x+2/5) ]", "false");
+		t("IsFactored[ (1-x)(1+x) ]", "true");
+		t("IsFactored[ 3x-2x ]", "false");
+		t("IsFactored[ x^2-x ]", "false");
+		t("IsFactored[ (x-1)^2+2 ]", "false");
+		t("IsFactored[ x^2-2 ]", "true");
+		t("IsFactored[ 3(x+1)^2+1 ]", "false");
+		t("IsFactored[ (x+1)x+2 ]", "false");
+		t("IsFactored[ x^3-64 ]", "false");
+		t("IsFactored[ x^4+4 ]", "false");
+		t("IsFactored[ 5(x-16/5)(x+3) ]", "false");
+		t("IsFactored[ 49(x-3/7)(x+3/7) ]", "false");
+		t("IsFactored[ 45x^4+15x^3-34x^2+86x-60 ]", "false");
+		t("IsFactored[ (x^2+1)^2 ]", "true");
+		t("IsFactored[ x^4+2x^2+1 ]", "false");
+		t("IsFactored[ x^4+3x^2+1+2x^3+2x ]", "false");
+		t("IsFactored[ -4x^4+24x^3+5x^2+18x+6 ]", "false");
+		t("IsFactored[ -36x^4-56x^3+69x^2+53x-18 ]", "false");
+		t("IsFactored[ 26x^4+16x^3-69x^2-53x+18 ]", "true");
+		t("IsFactored[ -x^4+3x^2+1 ]", "true");
+	}
+
+	@Test
 	public void cmdIsInteger() {
 		t("IsInteger[ 42 ]", "true");
 	}
 
 	@Test
 	public void cmdIsPrime() {
-		t("IsPrime[0]", "false");
+		t("IsPrime[0]", "?");
 	}
 
 	@Test

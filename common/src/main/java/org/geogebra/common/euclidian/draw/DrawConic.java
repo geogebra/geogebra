@@ -1604,9 +1604,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 
 	@Override
 	final public boolean hit(int hitX, int hitY, int hitThreshold) {
-		if (!isVisible) {
-			return false;
-		}
 		// set a flag that says if the point is on the filling
 		boolean isOnFilling = false;
 		if (checkIsOnFilling()) {
