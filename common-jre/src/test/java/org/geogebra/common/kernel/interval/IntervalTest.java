@@ -42,7 +42,7 @@ public class IntervalTest {
 	}
 
 	static Interval uninvertedInterval(double low, double high) {
-		Interval interval = interval(low, high);
+		Interval interval = invertedInterval(low, high);
 		interval.uninvert();
 		return interval;
 	}

@@ -33,15 +33,29 @@ public class SamplerTest extends BaseUnitTest {
 		IntervalFunctionSampler sampler = PlotterUtils.newSampler(function, range,
 				sampleCount);
 		IntervalTupleList result = sampler.result();
+		logSamples(result);
+		return result;
+	}
+
+	private void logSamples(IntervalTupleList result) {
 		for (int i = 0; i < result.count(); i++) {
 			IntervalTuple tuple = result.get(i);
 			Log.debug("assertEquals(" +
-					(tuple.isInverted() ? "invertedInterval": "interval") + "("
+					makeInterval(tuple) + "("
 					+ tuple.y().getLow() + ", " + tuple.y().getHigh()
 					+ "), tuples.valueAt(" + i + "));");
 
 		}
-		return result;
+	}
+
+	private String makeInterval(IntervalTuple tuple) {
+		if (tuple.isInverted()) {
+			return "invertedInterval";
+		} else if (tuple.y().isUninverted()) {
+			return "uninvertedInterval";
+		}
+
+		return "interval";
 	}
 
 	protected IntervalTupleList hiResFunction(String description) {

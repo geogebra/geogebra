@@ -48,6 +48,7 @@ public class IntervalPlotterCommon extends BaseUnitTest {
 		assertEquals(Collections.emptyList(), result);
 	}
 
+
 	public void logShouldBeAt(int index, IntervalPathMockEntry.PathOperation op, double x,
 			double y) {
 		assertEquals(gp.getLog().get(index), new IntervalPathMockEntry(op, x, y));

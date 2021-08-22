@@ -687,6 +687,9 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 		}
 
 		result += "]";
+		if (inverted != Inversion.NONE) {
+			result += inverted == Inversion.INVERTED ? " I" : " U";
+		}
 		return result;
 	}
 

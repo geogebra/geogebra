@@ -30,7 +30,24 @@ public class TanEvaluateTest extends BaseUnitTest {
 		Interval tan = interval(IntervalConstants.PI_HALF_LOW,
 				IntervalConstants.PI_HALF_HIGH).tan();
 		Interval result = tan.multiplicativeInverse();
-		assertEquals(IntervalConstants.zero(), result);
+		assertEquals(IntervalConstants.whole().invert().uninvert(), result);
+	}
+
+	@Test
+	public void testMinusTanXInverse() {
+		Interval tan = interval(IntervalConstants.PI_HALF_LOW,
+				IntervalConstants.PI_HALF_HIGH).tan();
+		Interval minusTan = tan.multiply(interval(-1));
+		Interval result = minusTan.multiplicativeInverse();
+		assertEquals(IntervalConstants.whole().invert().uninvert(), result);
+	}
+
+	@Test
+	public void testMinusTanXDividedByMinusOne() {
+		Interval tan = interval(IntervalConstants.PI_HALF_LOW,
+				IntervalConstants.PI_HALF_HIGH).tan();
+		Interval result = interval(1).divide(tan);
+		assertEquals(IntervalConstants.whole().invert().uninvert(), result);
 	}
 
 	@Test

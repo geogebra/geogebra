@@ -132,7 +132,7 @@ public class IntervalArithmeticImpl implements IntervalArithmetic {
 		}
 
 		if (interval.isWhole()) {
-			return IntervalConstants.whole();
+			return interval;
 		}
 
 		if (interval.isOne()) {
@@ -216,6 +216,9 @@ public class IntervalArithmeticImpl implements IntervalArithmetic {
 		}
 		if (other.isInverted()) {
 			interval.setInverted();
+		}
+		if (other.isUninverted()) {
+			interval.uninvert();
 		}
 		return interval;
 	}
