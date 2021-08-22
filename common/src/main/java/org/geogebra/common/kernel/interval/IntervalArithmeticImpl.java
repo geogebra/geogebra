@@ -2,19 +2,18 @@ package org.geogebra.common.kernel.interval;
 
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
-import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.RMath.mulHigh;
-import static org.geogebra.common.kernel.interval.RMath.mulLow;
 
 import com.google.j2objc.annotations.Weak;
 
 public class IntervalArithmeticImpl implements IntervalArithmetic {
 	@Weak
 	private final Interval interval;
+	private final IntervalMultiply intervalMultiply;
 
 	public IntervalArithmeticImpl(Interval interval) {
 		this.interval = interval;
+		intervalMultiply = new IntervalMultiply(interval);
 	}
 
 	@Override
@@ -122,104 +121,6 @@ public class IntervalArithmeticImpl implements IntervalArithmetic {
 
 	@Override
 	public Interval multiply(Interval other) {
-		if (other.isZero()) {
-			interval.setZero();
-			return interval;
-		}
-
-		if (other.isOne()) {
-			return interval;
-		}
-
-		if (interval.isWhole()) {
-			return interval;
-		}
-
-		if (interval.isOne()) {
-			return other;
-		}
-
-		if (interval.isEmpty() || other.isEmpty()) {
-			return empty();
-		}
-
-		if (interval.isUndefined() || other.isUndefined()) {
-			return undefined();
-		}
-
-		double xl = interval.getLow();
-		double xh = interval.getHigh();
-		double yl = other.getLow();
-		double yh = other.getHigh();
-		if (xl < 0) {
-			if (xh > 0) {
-				if (yl < 0) {
-					if (yh > 0) {
-						// mixed * mixed
-						interval.set(Math.min(mulLow(xl, yh), mulLow(xh, yl)),
-							Math.max(mulHigh(xl, yl), mulHigh(xh, yh)));
-					} else {
-						// mixed * negative
-						interval.set(mulLow(xh, yl), mulHigh(xl, yl));
-					}
-				} else {
-					if (yh > 0) {
-						// mixed * positive
-						interval.set(mulLow(xl, yh), mulHigh(xh, yh));
-					} else {
-						// mixed * zero
-						interval.setZero();
-					}
-				}
-			} else {
-				if (yl < 0) {
-					if (yh > 0) {
-						// negative * mixed
-						interval.set(mulLow(xl, yh), mulHigh(xl, yl));
-					} else {
-						// negative * negative
-						interval.set(mulLow(xh, yh), mulHigh(xl, yl));
-					}
-				} else {
-					if (yh > 0) {
-						// negative * positive
-						interval.set(mulLow(xl, yh), mulHigh(xh, yl));
-					} else {
-						// negative * zero
-						interval.setZero();
-					}
-				}
-			}
-		} else {
-			if (xh > 0) {
-				if (yl < 0) {
-					if (yh > 0) {
-						// positive * mixed
-						interval.set(mulLow(xh, yl), mulHigh(xh, yh));
-					} else {
-						// positive * negative
-						interval.set(mulLow(xh, yl), mulHigh(xl, yh));
-					}
-				} else {
-					if (yh > 0) {
-						// positive * positive
-						interval.set(mulLow(xl, yl), mulHigh(xh, yh));
-					} else {
-						// positive * zero
-						interval.setZero();
-					}
-				}
-			} else {
-				// zero * any other value
-				interval.setZero();
-			}
-		}
-		if (other.isInverted()) {
-			interval.setInverted();
-		}
-		if (other.isUninverted()) {
-			interval.uninvert();
-		}
-		return interval;
+		return intervalMultiply.multiply(other);
 	}
 }

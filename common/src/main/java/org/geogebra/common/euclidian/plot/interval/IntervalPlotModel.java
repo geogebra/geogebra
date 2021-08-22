@@ -76,7 +76,7 @@ public class IntervalPlotModel {
 	 * update function domain to plot due to the visible x range.
 	 */
 	public void updateDomain() {
-		if (view.domain().equals(oldDomain)) {
+		if (bounds.domain().equals(oldDomain)) {
 			return;
 		}
 		double oldMin = oldDomain.getLow();
@@ -98,10 +98,10 @@ public class IntervalPlotModel {
 			return;
 		}
 
-		IntervalTupleList newPoints = sampler.evaluateOn(view.getXmin(),
+		IntervalTupleList newPoints = sampler.evaluateOn(bounds.getXmin(),
 				points.get(0).x().getLow());
 		points.prepend(newPoints);
-		points.cutFrom(view.getXmax());
+		points.cutFrom(bounds.getXmax());
 	}
 
 	private void extendMax() {
@@ -111,9 +111,9 @@ public class IntervalPlotModel {
 
 		IntervalTupleList newPoints = sampler.evaluateOn(
 				points.get(points.count() - 1).x().getHigh(),
-				view.getXmax());
+				bounds.getXmax());
 		points.append(newPoints);
-		points.cutTo(view.getXmin());
+		points.cutTo(bounds.getXmin());
 	}
 
 	/**

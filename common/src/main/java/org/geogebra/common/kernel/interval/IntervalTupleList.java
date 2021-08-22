@@ -177,7 +177,6 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	public Stream<IntervalTuple> stream() {
 		return list.stream();
 	}
-}
 
 	/**
 	 * Removing all (x, y) pairs such that the x interval starts lower than a given value.
