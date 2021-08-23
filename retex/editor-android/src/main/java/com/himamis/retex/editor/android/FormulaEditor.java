@@ -392,7 +392,7 @@ public class FormulaEditor extends View implements MathField {
         //noinspection MagicNumber
         int y = Math.round((getMeasuredHeight() - teXIcon.getIconHeight()) / 2.0f);
         int left = mAlignment == ALIGN_LEFT ? shiftX : (getWidth() - teXIcon.getIconWidth());
-        int cursorOffset = mAlignment == ALIGN_LEFT ? 0 : cursorOffsetForRightAlignment(teXIcon, shiftX);
+        int cursorOffset = mAlignment == ALIGN_LEFT ? 0 : cursorOffsetForRightAlignment(teXIcon);
         // draw latex
         mGraphics.setCanvas(canvas);
         teXIcon.setForeground(mForegroundColor);
@@ -402,11 +402,11 @@ public class FormulaEditor extends View implements MathField {
         mGraphics.translate(-left, 0);
     }
 
-    private int cursorOffsetForRightAlignment(TeXIcon teXIcon, int shitfX) {
-        if (mIconWidth < getWidth()) {
-            return (getWidth() - teXIcon.getIconWidth());
+    private int cursorOffsetForRightAlignment(TeXIcon teXIcon) {
+        if (teXIcon.getIconWidth() > getWidth()) {
+            return teXIcon.getIconWidth() - getWidth();
         } else {
-            return shitfX;
+            return 0;
         }
     }
 
