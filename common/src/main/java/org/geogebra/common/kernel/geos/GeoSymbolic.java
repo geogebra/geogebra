@@ -216,7 +216,25 @@ public class GeoSymbolic extends GeoElement
 				.traverse(FunctionExpander.getCollector());
 
 		Command casInput = getCasInput(fixMatrixInput(casInputArg));
+		String casResult = calculateCASResult(casInput);
 
+		if ("?".equals(casResult)) {
+			casResult = tryNumericCommand(casInput);
+		}
+
+		setSymbolicMode(!isTopLevelCommandNumeric(), false);
+		casOutputString = casResult;
+		ExpressionValue casOutput = parseOutputString(casResult);
+		setValue(casOutput);
+
+		computeFunctionVariables();
+
+		isTwinUpToDate = false;
+		isEuclidianShowable = shouldBeEuclidianVisible(casInput);
+		numericValue = maybeComputeNumericValue(casOutput);
+	}
+
+	private String calculateCASResult(Command casInput) {
 		MyArbitraryConstant constant = getArbitraryConstant();
 		constant.setSymbolic(!shouldBeEuclidianVisible(casInput));
 
@@ -230,16 +248,19 @@ public class GeoSymbolic extends GeoElement
 			casResult = evaluateGeoGebraCAS(casInput, constant);
 		}
 
-		setSymbolicMode(!isTopLevelCommandNumeric(), false);
-		casOutputString = casResult;
-		ExpressionValue casOutput = parseOutputString(casResult);
-		setValue(casOutput);
+		return casResult;
+	}
 
-		computeFunctionVariables();
+	private String tryNumericCommand(Command casInput) {
+		if (Commands.Integral.name().equals(casInput.getName())) {
+			casInput.setName(Commands.NIntegral.name());
+		}
 
-		isTwinUpToDate = false;
-		isEuclidianShowable = shouldBeEuclidianVisible(casInput);
-		numericValue = maybeComputeNumericValue(casOutput);
+		if (Commands.Solve.name().equals(casInput.getName())) {
+			casInput.setName(Commands.NSolve.name());
+		}
+
+		return calculateCASResult(casInput);
 	}
 
 	private boolean isTopLevelCommandNumeric() {
