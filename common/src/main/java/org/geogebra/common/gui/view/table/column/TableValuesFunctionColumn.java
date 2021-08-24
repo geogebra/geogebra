@@ -8,6 +8,11 @@ public class TableValuesFunctionColumn extends AbstractTableValuesColumn {
 	private final GeoEvaluatable evaluatable;
 	private final GeoList values;
 
+	/**
+	 * Creates a function column
+	 * @param evaluatable function
+	 * @param values values to evaluate function at
+	 */
 	public TableValuesFunctionColumn(GeoEvaluatable evaluatable, GeoList values) {
 		super(evaluatable);
 		this.evaluatable = evaluatable;

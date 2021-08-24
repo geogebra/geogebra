@@ -11,6 +11,10 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	private Construction cons;
 	private GeoNumeric emptyNumeric;
 
+	/**
+	 * Creates a TableValuesInputProcessor
+	 * @param cons construction
+	 */
 	public TableValuesInputProcessor(Construction cons) {
 		this.cons = cons;
 		this.emptyNumeric = new GeoNumeric(cons, Double.NaN);

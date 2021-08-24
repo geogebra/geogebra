@@ -3,13 +3,13 @@ package org.geogebra.common.gui.view.table;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.gui.view.table.column.TableValuesColumn;
 import org.geogebra.common.gui.view.table.column.TableValuesFunctionColumn;
 import org.geogebra.common.gui.view.table.column.TableValuesListColumn;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.geogebra.common.gui.view.table.column.TableValuesColumn;
 
 import com.google.j2objc.annotations.Weak;
 

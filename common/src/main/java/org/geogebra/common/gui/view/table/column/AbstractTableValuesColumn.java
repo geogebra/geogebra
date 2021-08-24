@@ -12,6 +12,10 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 	private Double[] doubleValues;
 	private String header;
 
+	/**
+	 * Creates an AbstractTableValuesColumn
+	 * @param element evaluatable
+	 */
 	public AbstractTableValuesColumn(GeoEvaluatable element) {
 		this.element = element;
 		this.kernel = element.getKernel();

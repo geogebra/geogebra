@@ -7,6 +7,10 @@ public class TableValuesListColumn extends AbstractTableValuesColumn {
 
 	private final GeoList list;
 
+	/**
+	 * Creates a list column.
+	 * @param list list
+	 */
 	public TableValuesListColumn(GeoList list) {
 		super(list);
 		this.list = list;
