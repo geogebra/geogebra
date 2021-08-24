@@ -119,4 +119,9 @@ public interface TableValues extends View {
 	 */
 	String getValuesStepStr();
 
+	/**
+	 * Return the object for processing input.
+	 * @return processor
+	 */
+	TableValuesProcessor getProcessor();
 }

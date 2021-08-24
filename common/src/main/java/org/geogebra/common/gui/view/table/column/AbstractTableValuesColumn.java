@@ -38,10 +38,17 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 		String value = stringValues[row];
 		if (value == null) {
 			double doubleValue = getDoubleValue(row);
-			value = kernel.format(doubleValue, StringTemplate.defaultTemplate);
+			value = formatValue(doubleValue);
 			stringValues[row] = value;
 		}
 		return value;
+	}
+
+	private String formatValue(double value) {
+		if (Double.isNaN(value)) {
+			return "";
+		}
+		return kernel.format(value, StringTemplate.defaultTemplate);
 	}
 
 	@Override
