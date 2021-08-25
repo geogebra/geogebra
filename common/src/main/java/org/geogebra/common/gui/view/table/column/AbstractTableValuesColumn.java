@@ -81,6 +81,12 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 		stringValues = new String[size];
 	}
 
+	@Override
+	public void invalidateValue(int row) {
+		doubleValues[row] = null;
+		stringValues[row] = null;
+	}
+
 	protected abstract Double calculateValue(int row);
 
 	protected abstract String getHeaderName();

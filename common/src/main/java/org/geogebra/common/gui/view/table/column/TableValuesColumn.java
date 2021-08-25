@@ -32,11 +32,15 @@ public interface TableValuesColumn {
 
 	/**
 	 * Resets the cache values of the column.
-	 * Ensure to call this before calling any of the
-	 * {@link #getDoubleValue(int)} or {@link #getStringValue(int)}
 	 * @param size size
 	 */
 	void invalidateValues(int size);
+
+	/**
+	 * Invalidates the value at the row.
+	 * @param row row
+	 */
+	void invalidateValue(int row);
 
 	/**
 	 * Get the evaluatable.

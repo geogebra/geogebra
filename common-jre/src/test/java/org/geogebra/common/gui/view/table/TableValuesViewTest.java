@@ -674,4 +674,12 @@ public class TableValuesViewTest extends BaseUnitTest {
 		view.getProcessor().processInput("1", view.getValues(), 0);
 		assertEquals("1", model.getCellAt(0, 0));
 	}
+
+	@Test
+	public void testOverwriteCachedValue() throws InvalidInputException {
+		view.getProcessor().processInput("1", view.getValues(), 0);
+		assertEquals("1", model.getCellAt(0, 0));
+		view.getProcessor().processInput("2", view.getValues(), 0);
+		assertEquals("2", model.getCellAt(0, 0));
+	}
 }

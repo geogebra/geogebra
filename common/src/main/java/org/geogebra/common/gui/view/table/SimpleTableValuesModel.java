@@ -166,7 +166,8 @@ class SimpleTableValuesModel implements TableValuesModel {
 			if (evaluatable instanceof GeoList) {
 				GeoList list = (GeoList) evaluatable;
 				int index = list.find(element);
-				if (index >= 0) {
+				if (index > -1) {
+					columns.get(index).invalidateValue(i);
 					notifyCellChanged(evaluatable, i, index);
 				}
 			}
