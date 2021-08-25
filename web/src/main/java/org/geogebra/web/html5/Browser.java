@@ -41,7 +41,6 @@ public class Browser {
 	 * in Chrome =&gt; use vendor instead
 	 *
 	 * check isiOS() && isSafari() if you want just iOS browser & not webview
-	 *
 	 * @return true if Safari browser
 	 */
 	public static boolean isSafariByVendor() {
@@ -59,7 +58,6 @@ public class Browser {
 	}
 
 	/**
-	 *
 	 * @return true if WebAssembly supported
 	 */
 	public static boolean webAssemblySupported() {
@@ -79,8 +77,7 @@ public class Browser {
 	}
 
 	/**
-	 * @param thumb
-	 *            original URL
+	 * @param thumb original URL
 	 * @return URL using appropriate protocol (data or https)
 	 */
 	public static String normalizeURL(String thumb) {
@@ -123,7 +120,6 @@ public class Browser {
 	 * Native check for WebGL support based on
 	 * http://stackoverflow.com/questions/11871077/proper-way-to-detect-webgl-
 	 * support
-	 *
 	 * @return whether WebGL is supported
 	 */
 	public static boolean supportsWebGLNative() {
@@ -131,7 +127,7 @@ public class Browser {
 			Canvas canvas = Canvas.createIfSupported();
 			return hasGlobal("WebGLRenderingContext")
 					&& (canvas.getContext("webgl") != null
-						|| canvas.getContext("experimental-webgl") != null);
+					|| canvas.getContext("experimental-webgl") != null);
 		} catch (Throwable t) {
 			return false;
 		}
@@ -153,8 +149,8 @@ public class Browser {
 		String host = Location.getHost();
 		return host != null
 				&& (host.contains("geogebra.org")
-					|| host.contains("localhost")
-					|| host.contains("apps-builds.s3-eu-central-1.amazonaws.com"));
+				|| host.contains("localhost")
+				|| host.contains("apps-builds.s3-eu-central-1.amazonaws.com"));
 	}
 
 	/**
@@ -166,14 +162,10 @@ public class Browser {
 	}
 
 	/**
-	 * @param parent
-	 *            element to be scaled
-	 * @param externalScale
-	 *            scale
-	 * @param x
-	 *            origin x-coord in %
-	 * @param y
-	 *            origin y-coord in %
+	 * @param parent element to be scaled
+	 * @param externalScale scale
+	 * @param x origin x-coord in %
+	 * @param y origin y-coord in %
 	 */
 	public static void scale(Element parent, double externalScale, int x, int y) {
 		if (externalScale < 0 || parent == null) {
@@ -225,16 +217,13 @@ public class Browser {
 	}
 
 	/**
-	 *
 	 * Returns a base64 encoding of the specified (binary) string
 	 *
 	 * extra encoding needed for file from Generator: Adobe Illustrator 11.0,
 	 * SVG Export Plug-In
 	 *
 	 * xpacket begin='\uFEFF'
-	 *
-	 * @param svg
-	 *            A binary string (obtained for instance by the FileReader API)
+	 * @param svg A binary string (obtained for instance by the FileReader API)
 	 * @return a base64 encoded string.
 	 */
 	public static String encodeSVG(String svg) {
@@ -348,9 +337,7 @@ public class Browser {
 
 	/**
 	 * Change URL if we are running on geogebra.org
-	 *
-	 * @param string
-	 *            new URL
+	 * @param string new URL
 	 */
 	public static void changeUrl(String string) {
 		if (isAppsServer() || string.startsWith("?")) {
@@ -395,9 +382,7 @@ public class Browser {
 
 	/**
 	 * Opens GeoGebraTube material in a new window
-	 *
-	 * @param url
-	 *            GeoGebraTube url
+	 * @param url GeoGebraTube url
 	 */
 	public static void openWindow(String url) {
 		DomGlobal.window.open(url, "_blank");
@@ -405,10 +390,7 @@ public class Browser {
 
 	/**
 	 * Returns a string based on base 64 encoded value
-	 *
-	 * @param base64
-	 *            a base64 encoded string
-	 *
+	 * @param base64 a base64 encoded string
 	 * @return decoded string
 	 */
 	public static String decodeBase64(String base64) {
@@ -421,11 +403,8 @@ public class Browser {
 
 	/**
 	 * Allow or disallow context menu for an element.
-	 *
-	 * @param element
-	 *            element
-	 * @param allow
-	 *            whether to allow context menu
+	 * @param element element
+	 * @param allow whether to allow context menu
 	 */
 	public static void setAllowContextMenu(Element element, boolean allow) {
 		Dom.addEventListener(element, "contextmenu", (event) -> {
@@ -442,8 +421,8 @@ public class Browser {
 	}
 
 	/**
-	 * @deprecated you most likely want to use isiOS() instead
 	 * @return check this is an iPad browser
+	 * @deprecated you most likely want to use isiOS() instead
 	 */
 	@Deprecated
 	public static boolean isIPad() {
@@ -452,10 +431,9 @@ public class Browser {
 
 	/**
 	 * it's true for android phones and iPads but false for iPhone
-	 *
-	 * @deprecated isMobile might work better, alternatively isiOS() ||
-	 *            isAndroid()
 	 * @return whether this is iPad or Android
+	 * @deprecated isMobile might work better, alternatively isiOS() ||
+	 * isAndroid()
 	 */
 	@Deprecated
 	public static boolean isTabletBrowser() {
@@ -471,10 +449,8 @@ public class Browser {
 	}
 
 	/**
-	 * @param full
-	 *            whether to go fullscreen
-	 * @param element
-	 *            element to be scaled
+	 * @param full whether to go fullscreen
+	 * @param element element to be scaled
 	 */
 	public static void toggleFullscreen(boolean full, Element element) {
 		elemental2.dom.HTMLElement el = element != null
@@ -496,6 +472,37 @@ public class Browser {
 			}
 		}
 	}
+
+
+	/**
+	 * Register handler for fullscreen event.
+	 * @param callback callback for fullscreen event
+	 */
+	public static native void addFullscreenListener(
+			AsyncOperation<String> callback) /*-{
+		function listen(pfx, eventName) {
+			$doc
+					.addEventListener(
+							eventName,
+							function(e) {
+								var fsElement = $doc[pfx + "FullscreenElement"];
+								// mozFullScreen still needed for FF60 ESR
+								var fsState = (fsElement
+										|| $doc.fullscreenElement || $doc.mozFullScreen) ? "true"
+										: "false";
+								callback.@org.geogebra.common.util.AsyncOperation::callback(*)(fsState);
+							});
+		}
+
+		if (typeof document.onfullscreenchange === "undefined") {
+			listen("webkit", "webkitfullscreenchange");
+			listen("ms", "MSFullscreenChange");
+			listen("moz", "mozfullscreenchange");
+		} else {
+			listen("", "fullscreenchange");
+		}
+	}-*/;
+
 
 	/**
 	 * @return event name for fullscreen event.
