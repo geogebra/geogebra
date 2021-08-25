@@ -8,23 +8,37 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public class TableValuesInputProcessor implements TableValuesProcessor {
 
-	private Construction cons;
+	private final Construction cons;
+	private final TableValues tableValues;
 
 	/**
 	 * Creates a TableValuesInputProcessor
 	 * @param cons construction
+	 * @param tableValues Table Values view
 	 */
-	public TableValuesInputProcessor(Construction cons) {
+	public TableValuesInputProcessor(Construction cons, TableValues tableValues) {
 		this.cons = cons;
+		this.tableValues = tableValues;
 	}
 
 	@Override
-	public void processInput(@Nonnull String input, @Nonnull GeoList list, int index)
+	public void processInput(@Nonnull String input, GeoList list, int index)
 			throws InvalidInputException {
-		ensureCapacity(list, index);
+		GeoList column = ensureList(list);
+		ensureCapacity(column, index);
 		GeoNumeric numeric = parseInput(input);
-		list.setListElement(index, numeric);
+		column.setListElement(index, numeric);
 		numeric.notifyUpdate();
+	}
+
+	private GeoList ensureList(GeoList list) {
+		if (list == null) {
+			GeoList column = new GeoList(cons);
+			column.notifyAdd();
+			tableValues.showColumn(column);
+			return column;
+		}
+		return list;
 	}
 
 	private void ensureCapacity(GeoList list, int index) {

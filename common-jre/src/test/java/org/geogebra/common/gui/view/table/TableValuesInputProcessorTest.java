@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.table;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
@@ -12,12 +13,17 @@ import org.junit.Test;
 
 public class TableValuesInputProcessorTest extends BaseUnitTest {
 
+	private TableValues view;
+	private TableValuesModel model;
 	private TableValuesInputProcessor processor;
 	private GeoList list;
 
 	@Before
 	public void setUp() {
-		processor = new TableValuesInputProcessor(getConstruction());
+		view = new TableValuesView(getKernel());
+		getKernel().attach(view);
+		model = view.getTableValuesModel();
+		processor = new TableValuesInputProcessor(getConstruction(), view);
 		list = new GeoList(getConstruction());
 	}
 
@@ -67,5 +73,18 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	@Test(expected = InvalidInputException.class)
 	public void testInvalidInputWithLetters() throws InvalidInputException {
 		processor.processInput("a", list, 0);
+	}
+
+	@Test
+	public void testProcessorWithEmptyList() throws InvalidInputException {
+		processor.processInput("1", null, 2);
+		assertEquals("1", model.getCellAt(2, 1));
+		assertEquals("", model.getCellAt(0, 1));
+		assertEquals("", model.getCellAt(1, 1));
+		assertEquals("", model.getCellAt(0, 0));
+		assertEquals("", model.getCellAt(1, 0));
+		assertEquals("", model.getCellAt(2, 0));
+		assertEquals(3, model.getRowCount());
+		assertEquals(2, model.getColumnCount());
 	}
 }

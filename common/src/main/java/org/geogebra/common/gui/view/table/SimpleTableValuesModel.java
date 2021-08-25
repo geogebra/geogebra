@@ -54,7 +54,15 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	@Override
 	public int getRowCount() {
-		return values.size();
+		int rowCount = 0;
+		for (TableValuesColumn column : columns) {
+			GeoEvaluatable evaluatable = column.getEvaluatable();
+			if (evaluatable instanceof GeoList) {
+				GeoList list = (GeoList) evaluatable;
+				rowCount = Math.max(rowCount, list.size());
+			}
+		}
+		return rowCount;
 	}
 
 	@Override
@@ -150,7 +158,11 @@ class SimpleTableValuesModel implements TableValuesModel {
 		} else {
 			int index = getEvaluatableIndex(evaluatable);
 			if (index > -1) {
-				columns.get(index).invalidateValues(values.size());
+				int size = values.size();
+				if (evaluatable instanceof GeoList) {
+					size = ((GeoList) evaluatable).size();
+				}
+				columns.get(index).invalidateValues(size);
 				notifyColumnChanged(evaluatable, index);
 			}
 		}
@@ -167,7 +179,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 				GeoList list = (GeoList) evaluatable;
 				int index = list.find(element);
 				if (index > -1) {
-					columns.get(index).invalidateValue(i);
+					columns.get(i).invalidateValue(index);
 					notifyCellChanged(evaluatable, i, index);
 				}
 			}
