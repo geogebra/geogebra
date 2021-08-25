@@ -28,9 +28,13 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	}
 
 	private void ensureCapacity(GeoList list, int index) {
+		boolean listWillChange = list.size() < index + 1;
 		list.ensureCapacity(index + 1);
 		for (int i = list.size(); i < index + 1; i++) {
 			list.add(new GeoNumeric(cons, Double.NaN));
+		}
+		if (listWillChange) {
+			list.notifyUpdate();
 		}
 	}
 

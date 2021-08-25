@@ -668,4 +668,10 @@ public class TableValuesViewTest extends BaseUnitTest {
 		view.getProcessor().processInput("", list, 0);
 		assertEquals("", model.getCellAt(0, 1));
 	}
+
+	@Test
+	public void testProcessFirstInput() throws InvalidInputException {
+		view.getProcessor().processInput("1", view.getValues(), 0);
+		assertEquals("1", model.getCellAt(0, 0));
+	}
 }

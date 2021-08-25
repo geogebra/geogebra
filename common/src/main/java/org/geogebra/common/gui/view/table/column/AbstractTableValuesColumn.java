@@ -15,10 +15,12 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 	/**
 	 * Creates an AbstractTableValuesColumn
 	 * @param element evaluatable
+	 * @param initialSize size of the cache
 	 */
-	public AbstractTableValuesColumn(GeoEvaluatable element) {
+	public AbstractTableValuesColumn(GeoEvaluatable element, int initialSize) {
 		this.element = element;
 		this.kernel = element.getKernel();
+		invalidateValues(initialSize);
 	}
 
 	@Override

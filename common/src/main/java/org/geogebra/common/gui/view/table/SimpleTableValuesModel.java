@@ -96,7 +96,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 				idx++;
 			}
 			TableValuesColumn column = createColumn(evaluatable);
-			column.invalidateValues(values.size());
 			columns.add(idx, column);
 			ensureIncreasingIndices(idx);
 			notifyColumnAdded(evaluatable, idx);
@@ -105,9 +104,9 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	private TableValuesColumn createColumn(GeoEvaluatable evaluatable) {
 		if (evaluatable.isGeoList()) {
-			return new TableValuesListColumn((GeoList) evaluatable);
+			return new TableValuesListColumn((GeoList) evaluatable, values.size());
 		}
-		return new TableValuesFunctionColumn(evaluatable, values);
+		return new TableValuesFunctionColumn(evaluatable, values, values.size());
 	}
 
 	private void ensureIncreasingIndices(int idx) {
@@ -227,7 +226,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	private void initializeModel() {
-		columns.add(new TableValuesListColumn(values));
+		columns.add(new TableValuesListColumn(values, values.size()));
 	}
 
 	/**
