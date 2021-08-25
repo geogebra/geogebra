@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
@@ -223,7 +225,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testGetValuesChaningValues() {
+	public void testGetValuesChangingValues() {
 		setValuesSafe(0, 10, 2);
 		GeoElementFactory factory = getElementFactory();
 		GeoFunction function = factory.createFunction("g(x) = sqrt(x)");
@@ -265,22 +267,27 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testListeners() {
+	public void testListeners() throws InvalidInputException {
 		model.registerListener(listener);
+		setValuesSafe(0, 2, 1);
+		verify(listener).notifyDatasetChanged(model);
 		GeoLine[] lines = createLines(2);
 		showColumn(lines[0]);
-		Mockito.verify(listener).notifyColumnAdded(model, lines[0], 1);
+		verify(listener).notifyColumnAdded(model, lines[0], 1);
 		showColumn(lines[1]);
-		Mockito.verify(listener).notifyColumnAdded(model, lines[1], 2);
+		verify(listener).notifyColumnAdded(model, lines[1], 2);
 
 		hideColumn(lines[1]);
-		Mockito.verify(listener).notifyColumnRemoved(model, lines[1], 2);
+		verify(listener).notifyColumnRemoved(model, lines[1], 2);
 
 		view.update(lines[0]);
-		Mockito.verify(listener).notifyColumnChanged(model, lines[0], 1);
+		verify(listener).notifyColumnChanged(model, lines[0], 1);
 
 		view.clearView();
-		Mockito.verify(listener).notifyDatasetChanged(model);
+		verify(listener, times(2)).notifyDatasetChanged(model);
+
+		view.getProcessor().processInput("10", view.getValues(), 1);
+		verify(listener).notifyCellChanged(view.getTableValuesModel(), view.getValues(), 0, 1);
 	}
 
 	@Test
@@ -559,17 +566,6 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertEquals(expected, getKernel().getConstruction()
 				.getUndoManager().getHistorySize());
 		assertEquals(expectCols, model.getColumnCount());
-	}
-
-	@Test
-	public void testRemoveLastColumnResetsValues() {
-		GeoLine[] lines = createLines(1);
-		setValuesSafe(-5, 5, 2);
-		showColumn(lines[0]);
-		hideColumn(lines[0]);
-		assertEquals(TableSettings.DEFAULT_MIN, view.getValuesMin(), .1);
-		assertEquals(TableSettings.DEFAULT_MAX, view.getValuesMax(), .1);
-		assertEquals(TableSettings.DEFAULT_STEP, view.getValuesStep(), .1);
 	}
 
 	@Test

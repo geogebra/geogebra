@@ -80,6 +80,12 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
 	}
 
 	@Override
+	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
+			int row) {
+		notifyColumnChanged(model, evaluatable, column);
+	}
+
+	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
 		resetCache();
 	}

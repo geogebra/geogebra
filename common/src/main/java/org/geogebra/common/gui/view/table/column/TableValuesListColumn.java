@@ -17,9 +17,10 @@ public class TableValuesListColumn extends AbstractTableValuesColumn {
 	}
 
 	@Override
-	protected double calculateValue(int row) {
+	protected Double calculateValue(int row) {
 		GeoElement element = list.get(row);
-		return element.evaluateDouble();
+		double doubleValue = element.evaluateDouble();
+		return Double.isNaN(doubleValue) ? null : doubleValue;
 	}
 
 	@Override

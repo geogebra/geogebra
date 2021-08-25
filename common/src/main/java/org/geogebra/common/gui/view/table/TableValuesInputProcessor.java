@@ -26,7 +26,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		ensureCapacity(list, index);
 		GeoNumeric numeric = parseInput(input);
 		list.setListElement(index, numeric);
-		list.notifyUpdate();
+		numeric.notifyUpdate();
 	}
 
 	private void ensureCapacity(GeoList list, int index) {

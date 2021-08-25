@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.statistics.Regression;
@@ -100,9 +101,6 @@ public class TableValuesView implements TableValues, SettingListener {
 	public void hideColumn(GeoEvaluatable evaluatable) {
 		evaluatable.setTableColumn(-1);
 		model.removeEvaluatable(evaluatable);
-		if (model.getColumnCount() == 1) {
-			setDefaultValues();
-		}
 		app.storeUndoInfo();
 	}
 
@@ -266,18 +264,15 @@ public class TableValuesView implements TableValues, SettingListener {
 			} else {
 				model.removeEvaluatable(evaluatable);
 			}
+		} else if (geo instanceof GeoNumeric) {
+			model.maybeUpdateListElement(geo);
 		}
 	}
 
 	@Override
 	public void clearView() {
 		model.clearModel();
-		setDefaultValues();
-	}
-
-	private void setDefaultValues() {
-		setSettingsValues(TableSettings.DEFAULT_MIN, TableSettings.DEFAULT_MAX,
-				TableSettings.DEFAULT_STEP);
+		setSettingsValues(0, 0, 0);
 	}
 
 	@Override

@@ -60,6 +60,12 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	}
 
 	@Override
+	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
+			int row) {
+		notifyColumnChanged(model, evaluatable, column);
+	}
+
+	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
 		for (int i = points.size() - 1; i >= 0; i--) {
 			removePointsFromList(i);

@@ -7,9 +7,10 @@ public interface TableValuesColumn {
 	/**
 	 * Get the double value for the row.
 	 * @param row row
-	 * @return double value
+	 * @return double value. NaN when the input is invalid,
+	 * or null when non-existent
 	 */
-	double getDoubleValue(int row);
+	Double getDoubleValue(int row);
 
 	/**
 	 * Get the string value for the row

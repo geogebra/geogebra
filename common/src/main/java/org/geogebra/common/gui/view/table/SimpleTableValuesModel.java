@@ -7,6 +7,7 @@ import org.geogebra.common.gui.view.table.column.TableValuesColumn;
 import org.geogebra.common.gui.view.table.column.TableValuesFunctionColumn;
 import org.geogebra.common.gui.view.table.column.TableValuesListColumn;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -142,15 +143,34 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 * @param evaluatable object to update in table
 	 */
 	void updateEvaluatable(GeoEvaluatable evaluatable) {
-		int index = getEvaluatableIndex(evaluatable);
-		if (index > -1) {
-			columns.get(index).invalidateValues(values.size());
-			notifyColumnChanged(evaluatable, index);
-		} else if (evaluatable == values) {
+		if (evaluatable == values) {
 			for (TableValuesColumn column : columns) {
 				column.invalidateValues(values.size());
 			}
 			notifyDatasetChanged();
+		} else {
+			int index = getEvaluatableIndex(evaluatable);
+			if (index > -1) {
+				columns.get(index).invalidateValues(values.size());
+				notifyColumnChanged(evaluatable, index);
+			}
+		}
+	}
+
+	/**
+	 * Optionally updates a cell of a column
+	 * @param element element that might be part of a list
+	 */
+	void maybeUpdateListElement(GeoElement element) {
+		for (int i = 0; i < columns.size(); i++) {
+			GeoEvaluatable evaluatable = columns.get(i).getEvaluatable();
+			if (evaluatable instanceof GeoList) {
+				GeoList list = (GeoList) evaluatable;
+				int index = list.find(element);
+				if (index >= 0) {
+					notifyCellChanged(evaluatable, i, index);
+				}
+			}
 		}
 	}
 
@@ -203,7 +223,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 		for (double value : valuesArray) {
 			values.add(new GeoNumeric(kernel.getConstruction(), value));
 		}
-		values.notifyUpdate();
+		updateEvaluatable(values);
 	}
 
 	private void initializeModel() {
@@ -263,6 +283,14 @@ class SimpleTableValuesModel implements TableValuesModel {
 		if (!batchUpdate) {
 			for (TableValuesListener listener : listeners) {
 				listener.notifyColumnHeaderChanged(this, evaluatable, column);
+			}
+		}
+	}
+
+	private void notifyCellChanged(GeoEvaluatable evaluatable, int column, int row) {
+		if (!batchUpdate) {
+			for (TableValuesListener listener : listeners) {
+				listener.notifyCellChanged(this, evaluatable, column, row);
 			}
 		}
 	}

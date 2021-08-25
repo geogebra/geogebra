@@ -22,9 +22,9 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 	}
 
 	@Override
-	public double getDoubleValue(int row) {
+	public Double getDoubleValue(int row) {
 		if (doubleValues == null || doubleValues.length <= row) {
-			return Double.NaN;
+			return null;
 		}
 		Double value = doubleValues[row];
 		if (value == null) {
@@ -41,15 +41,15 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 		}
 		String value = stringValues[row];
 		if (value == null) {
-			double doubleValue = getDoubleValue(row);
+			Double doubleValue = getDoubleValue(row);
 			value = formatValue(doubleValue);
 			stringValues[row] = value;
 		}
 		return value;
 	}
 
-	private String formatValue(double value) {
-		if (Double.isNaN(value)) {
+	private String formatValue(Double value) {
+		if (value == null) {
 			return "";
 		}
 		return kernel.format(value, StringTemplate.defaultTemplate);
@@ -79,7 +79,7 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 		stringValues = new String[size];
 	}
 
-	protected abstract double calculateValue(int row);
+	protected abstract Double calculateValue(int row);
 
 	protected abstract String getHeaderName();
 }
