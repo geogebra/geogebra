@@ -473,7 +473,6 @@ public class Browser {
 		}
 	}
 
-
 	/**
 	 * Register handler for fullscreen event.
 	 * @param callback callback for fullscreen event
@@ -502,7 +501,6 @@ public class Browser {
 			listen("", "fullscreenchange");
 		}
 	}-*/;
-
 
 	/**
 	 * @return event name for fullscreen event.
