@@ -24,11 +24,19 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	@Override
 	public void processInput(@Nonnull String input, GeoList list, int index)
 			throws InvalidInputException {
+		GeoNumeric numeric = parseInput(input);
+		if (isEmptyValue(numeric) && (list == null || index >= list.size())) {
+			// Do not process empty input at the end of the table
+			return;
+		}
 		GeoList column = ensureList(list);
 		ensureCapacity(column, index);
-		GeoNumeric numeric = parseInput(input);
 		column.setListElement(index, numeric);
 		numeric.notifyUpdate();
+	}
+
+	private boolean isEmptyValue(GeoNumeric numeric) {
+		return Double.isNaN(numeric.getDouble());
 	}
 
 	private GeoList ensureList(GeoList list) {

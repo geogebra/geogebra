@@ -87,4 +87,12 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		assertEquals(3, model.getRowCount());
 		assertEquals(2, model.getColumnCount());
 	}
+
+	@Test
+	public void testEmptyInputAtTheEnd() throws InvalidInputException {
+		processor.processInput("", view.getValues(), 0);
+		assertEquals(0, model.getRowCount());
+		processor.processInput("", null, 0);
+		assertEquals(1, model.getColumnCount());
+	}
 }
