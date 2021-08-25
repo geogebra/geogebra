@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class IntervalDivisionTest {
+public class IntervalDivideTest {
 
 	@Test
 	public void testDivisionPositiveWithZero() {

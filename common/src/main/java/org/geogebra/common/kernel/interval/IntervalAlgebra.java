@@ -147,7 +147,7 @@ class IntervalAlgebra {
 	 * @return square root of the interval.
 	 */
 	Interval sqrt() {
-		if (interval.isEmpty()) {
+		if (interval.isEmpty() || interval.isNegative()) {
 			interval.setEmpty();
 			return interval;
 		}
@@ -212,14 +212,16 @@ class IntervalAlgebra {
 		} else {
 			interval.set(powLow(interval.getLow(), power),
 					powHigh(interval.getHigh(), power));
+
+			if (interval.hasZero()) {
+				interval.setInverted();
+			}
+
 			if (interval.getLow() < 0) {
 				interval.setZero();
 				return interval;
 			}
 
-			if (interval.hasZero()) {
-				interval.setInverted();
-			}
 		}
 		return interval;
 	}

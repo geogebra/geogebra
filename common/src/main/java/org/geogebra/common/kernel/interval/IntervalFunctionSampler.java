@@ -98,6 +98,17 @@ public class IntervalFunctionSampler {
 				});
 	}
 
+	private Interval normalize(Interval interval) {
+		if (interval.getLow() < IntervalConstants.NEGATIVE_INFINITY) {
+			interval.set(IntervalConstants.NEGATIVE_INFINITY, interval.getHigh());
+		}
+
+		if (interval.getHigh() > IntervalConstants.POSITIVE_INFINITY) {
+			interval.set(interval.getLow(), IntervalConstants.POSITIVE_INFINITY);
+		}
+		return interval;
+	}
+
 	/**
 	 * Updates the range on which sampler has to run.
 	 *

@@ -171,4 +171,12 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 		Interval result = ln.multiplicativeInverse();
 		assertEquals(IntervalConstants.empty(), result);
 	}
+
+	@Test
+	public void testMinusSqrtInverseOfX() {
+		Interval inverse = interval(-0.08, 0.04).multiplicativeInverse();
+		Interval sqrt = inverse.sqrt();
+		Interval result = sqrt.multiply(new Interval(-1));
+		assertEquals(IntervalConstants.empty(), result);
+	}
 }

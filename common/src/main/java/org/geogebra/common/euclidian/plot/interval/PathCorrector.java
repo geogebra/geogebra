@@ -151,7 +151,7 @@ public class PathCorrector {
 	private void completeToNegativeInfinity(Interval x, Interval y) {
 		int yMax = bounds.getHeight();
 		gp.moveTo(x.getHigh(), yMax);
-		gp.lineTo(x.getHigh(), y.getLow());
-		lastY.set(y.getLow(), yMax);
+		gp.lineTo(x.getHigh(), y.getHigh());
+		lastY.set(y.getHigh(), yMax);
 	}
 }
