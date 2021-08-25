@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 public class TableValuesInputProcessor implements TableValuesProcessor {
 
 	private Construction cons;
-	private GeoNumeric emptyNumeric;
 
 	/**
 	 * Creates a TableValuesInputProcessor
@@ -17,7 +16,6 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	 */
 	public TableValuesInputProcessor(Construction cons) {
 		this.cons = cons;
-		this.emptyNumeric = new GeoNumeric(cons, Double.NaN);
 	}
 
 	@Override
@@ -32,14 +30,14 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	private void ensureCapacity(GeoList list, int index) {
 		list.ensureCapacity(index + 1);
 		for (int i = list.size(); i < index + 1; i++) {
-			list.add(emptyNumeric);
+			list.add(new GeoNumeric(cons, Double.NaN));
 		}
 	}
 
 	private GeoNumeric parseInput(String input) throws InvalidInputException {
 		String trimmedInput = input.trim();
 		if (trimmedInput.equals("")) {
-			return emptyNumeric;
+			return new GeoNumeric(cons, Double.NaN);
 		}
 		try {
 			double parsedInput = Double.parseDouble(trimmedInput);

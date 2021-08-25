@@ -288,6 +288,9 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 		view.getProcessor().processInput("10", view.getValues(), 1);
 		verify(listener).notifyCellChanged(view.getTableValuesModel(), view.getValues(), 0, 1);
+
+		view.getProcessor().processInput("10", view.getValues(), 2);
+		verify(listener).notifyCellChanged(view.getTableValuesModel(), view.getValues(), 0, 2);
 	}
 
 	@Test
