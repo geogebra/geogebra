@@ -24,8 +24,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import elemental2.dom.DomGlobal;
-
 /**
  * Place of the zoom buttons.
  * 
@@ -136,9 +134,8 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 			setFullScreenAuralText();
 		});
 
-		app.getGlobalHandlers().addEventListener(DomGlobal.document,
-		Browser.getFullscreenEventName(), event -> {
-			if (Browser.isFullscreen()) {
+		Browser.addFullscreenListener(obj -> {
+			if (!"true".equals(obj)) {
 				onExitFullscreen();
 			}
 		});
