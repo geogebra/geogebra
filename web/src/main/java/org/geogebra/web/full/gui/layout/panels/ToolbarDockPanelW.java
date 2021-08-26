@@ -53,7 +53,6 @@ public class ToolbarDockPanelW extends DockPanelW
 		if (toolbar != null) {
 			toolbar.resize();
 		}
-
 	}
 
 	@Override

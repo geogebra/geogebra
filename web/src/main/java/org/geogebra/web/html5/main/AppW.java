@@ -54,14 +54,12 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingsBuilder;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.undo.UndoManager;
-import org.geogebra.common.move.events.BaseEventPool;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
-import org.geogebra.common.move.operations.Network;
 import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -132,8 +130,8 @@ import org.geogebra.web.html5.util.Base64;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
+import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.html5.util.ImageManagerW;
-import org.geogebra.web.html5.util.NetworkW;
 import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
@@ -158,6 +156,7 @@ import com.google.gwt.user.client.ui.Widget;
 import elemental2.core.ArrayBuffer;
 import elemental2.core.Uint8Array;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.EventTarget;
 import elemental2.dom.File;
 import elemental2.dom.FileReader;
 import elemental2.dom.HTMLImageElement;
@@ -246,12 +245,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			updateConsBoundingBox();
 		}
 	};
-
-	Scheduler.ScheduledCommand sucCallback = () -> {
-		// 0.5 seconds is good for the user and maybe for the computer
-		// too
-		timeruc.schedule(500);
-	};
+	private final GlobalHandlerRegistry dropHandlers = new GlobalHandlerRegistry();
 
 	/**
 	 * @param geoGebraElement
@@ -279,11 +273,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		getTimerSystem();
 		this.showInputTop = InputPosition.algebraView;
-		Window.addResizeHandler(event -> {
+		dropHandlers.add(Window.addResizeHandler(event -> {
 			fitSizeToScreen();
 			windowResized();
 			closePopupsInRegistry();
-		});
+		}));
 		if (!StringUtil
 				.empty(getAppletParameters().getParamScaleContainerClass())) {
 			Browser.addMutationObserver(getParent(
@@ -1259,16 +1253,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * Initialize online/offline state listener
 	 */
 	protected void initNetworkEventFlow() {
-
-		Network network = new NetworkW();
-
-		networkOperation = new NetworkOperation(network);
-		BaseEventPool offlineEventPool = new BaseEventPool(networkOperation,
-				false);
-		NetworkW.attach("offline", offlineEventPool);
-		BaseEventPool onlineEventPool = new BaseEventPool(networkOperation,
-				true);
-		NetworkW.attach("online", onlineEventPool);
+		networkOperation = new NetworkOperation(Browser.isOnline());
+		EventTarget[] targets = {DomGlobal.window, DomGlobal.document};
+		for (EventTarget target: targets) {
+			getGlobalHandlers().addEventListener(target, "offline",
+					e -> networkOperation.setOnline(false));
+			getGlobalHandlers().addEventListener(target, "online",
+					e -> networkOperation.setOnline(true));
+		}
 	}
 
 	/**
@@ -1607,8 +1599,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		getScriptManager(); // gbOnInit() is only called after file loads
 							// completely
-
-		FileDropHandlerW.registerDropHandler(getFrameElement(), this);
+		FileDropHandlerW.registerDropHandler(getFrameElement(), this, dropHandlers);
 		setViewsEnabled();
 
 		getAppletFrame().setApplication(this);
@@ -2107,7 +2098,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		// set up a scheduler in case 0.5 seconds would not be enough for the
 		// computer
-		Scheduler.get().scheduleDeferred(sucCallback);
+		timeruc.schedule(500);
 	}
 
 	protected void updateConsBoundingBox() {
@@ -2293,12 +2284,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean supportsView(int viewID) {
-		if (viewID == App.VIEW_CAS && !getLAF().isSmart()) {
-			if (!Browser.supportsJsCas()) {
-				return false;
-			}
-		}
-
 		if (viewID == App.VIEW_CAS) {
 			return (getSettings().getCasSettings().isEnabled())
 					&& getAppletParameters().getDataParamEnableCAS(true)
@@ -3175,9 +3160,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return "3d".equals(getSubAppCode());
 	}
 
-	/**
-	 * @return whether we are running suite
-	 */
+	@Override
 	public boolean isSuite() {
 		return "suite".equals(getConfig().getAppCode());
 	}
@@ -3529,5 +3512,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public boolean isMultipleSlidesOpen() {
 		return getPageController() != null && getPageController().getSlideCount() > 1;
+	}
+
+	public GlobalHandlerRegistry getGlobalHandlers() {
+		return dropHandlers;
 	}
 }

@@ -17,10 +17,12 @@ public class ScientificHeaderResizer implements HeaderResizer {
 	@Override
 	public void resizeHeader() {
 		Element header = Dom.querySelector("GeoGebraHeader");
-		if (frame.hasSmallWindowOrCompactHeader()) {
-			header.addClassName("smallScreen");
-		} else {
-			header.removeClassName("smallScreen");
+		if (header != null) {
+			if (frame.hasSmallWindowOrCompactHeader()) {
+				header.addClassName("smallScreen");
+			} else {
+				header.removeClassName("smallScreen");
+			}
 		}
 	}
 

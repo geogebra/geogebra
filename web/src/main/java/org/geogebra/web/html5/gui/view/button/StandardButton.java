@@ -5,6 +5,7 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.resources.client.ImageResource;
@@ -218,6 +219,17 @@ public class StandardButton extends Widget implements HasResource {
 	 */
 	public void addFastClickHandler(FastClickHandler handler) {
 		Dom.addEventListener(this.getElement(), "click", (e) -> {
+			handler.onClick(this);
+			e.stopPropagation();
+		});
+	}
+
+	/**
+	 * Add a regular click handler to the button
+	 * @param handler click handler
+	 */
+	public void addClickHandler(GlobalHandlerRegistry globalHandlers, FastClickHandler handler) {
+		globalHandlers.addEventListener(this.getElement(), "click", (e) -> {
 			handler.onClick(this);
 			e.stopPropagation();
 		});

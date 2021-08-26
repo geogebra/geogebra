@@ -23,12 +23,6 @@ public final class FunctionSoundW extends FunctionSound
 	 */
 	private FunctionSoundW() {
 		super();
-		if (waw.isSupported()) {
-			Log.debug("[WEB AUDIO] Initialization is OK.");
-		} else {
-			Log.debug("[WEB AUDIO] Initialization has FAILED.");
-		}
-
 		if (!initStreamingAudio(getSampleRate(), getBitDepth())) {
 			Log.error("Cannot initialize streaming audio");
 		}

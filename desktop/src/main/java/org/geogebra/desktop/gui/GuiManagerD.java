@@ -3340,5 +3340,4 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public void loadWebcam() {
 		// TODO Auto-generated method stub
 	}
-
 }

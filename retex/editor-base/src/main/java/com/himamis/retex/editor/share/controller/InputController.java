@@ -597,6 +597,10 @@ public class InputController {
 		return false;
 	}
 
+	public String convert(String exp) {
+		return formatConverter.convert(exp);
+	}
+
 	/**
 	 * Insert field.
 	 *
@@ -1078,7 +1082,7 @@ public class InputController {
 	private static void deleteMatrixElementValue(EditorState editorState) {
 		MathSequence matrixElement = (MathSequence) editorState.getSelectionAnchor().getParent();
 		matrixElement.clearArguments();
-		editorState.setCurrentOffset(1);
+		editorState.setCurrentOffset(0);
 		editorState.setCurrentField(matrixElement);
 		editorState.resetSelection();
 	}

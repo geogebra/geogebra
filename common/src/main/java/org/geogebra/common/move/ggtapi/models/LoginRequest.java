@@ -4,8 +4,8 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * @author gabor Handles LoginRequests to GGTApi
- *
+ * Handles Login requests to geogebra.org JSON API
+ * @author gabor
  */
 public class LoginRequest implements Request {
 

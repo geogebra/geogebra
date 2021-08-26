@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.view.functioninspector;
 
 import java.util.List;
 
-import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
@@ -10,10 +9,7 @@ import org.geogebra.web.full.gui.view.functioninspector.GridModel.DataCell;
 import org.geogebra.web.full.gui.view.functioninspector.GridModel.IGridListener;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 
-import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -46,38 +42,25 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		keyHandler = null;
 		blurHandler = null;
 		
-		addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				Cell cell = getCellForEvent(event);
-				if (cell == null) {
-					return;
-				}
-				updateRowStyle(cell, "selected");
+		addClickHandler(event -> {
+			Cell cell = getCellForEvent(event);
+			if (cell == null) {
+				return;
+			}
+			updateRowStyle(cell, "selected");
+		});
+		
+		cellEditor.addKeyHandler(e -> {
+			if (keyHandler != null) {
+				keyHandler.keyReleased(e);
 			}
 		});
 		
-		cellEditor.addKeyHandler(new KeyHandler() {
-			
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (keyHandler != null) {
-					keyHandler.keyReleased(e);
-				}
+		cellEditor.addBlurHandler(event -> {
+			if (blurHandler != null) {
+				blurHandler.onBlur(event);
 			}
 		});
-		
-		cellEditor.addBlurHandler(new BlurHandler() {
-			
-			@Override
-			public void onBlur(BlurEvent event) {
-				if (blurHandler != null) {
-					blurHandler.onBlur(event);
-				}
-			}
-		});
-		
 	}
 
 	/**

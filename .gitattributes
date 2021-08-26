@@ -1,0 +1,35 @@
+* text=auto
+
+# Common java and web files
+*.java text diff=java
+*.gradle text diff=java
+*.gradle.kts text diff=java
+*.html text diff=html
+*.htm text diff=html
+*.css text diff=css
+*.scss text
+*.js text
+*.json text
+*.jflex text
+*.xml text
+*.properties text
+*.h text
+*.m text
+*.md text
+*.yml text
+
+
+# Unity
+*.cginc text
+*.cs text diff=csharp
+*.shader text
+*.inl text
+
+# Unity YAML
+*.mat merge=unityyamlmerge eol=lf
+*.anim merge=unityyamlmerge eol=lf
+*.unity merge=unityyamlmerge eol=lf
+*.prefab merge=unityyamlmerge eol=lf
+*.asset merge=unityyamlmerge eol=lf
+*.meta merge=unityyamlmerge eol=lf
+*.controller merge=unityyamlmerge eol=lf

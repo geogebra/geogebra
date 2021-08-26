@@ -1,0 +1,14 @@
+files:
+  include: '**/*.s+(a|c)ss'
+  ignore:
+    - 'sass/vendor/**/*.scss'
+    - 'sass/tests/**/*.scss'
+rules:
+  class-name-format:
+   - 2
+   - convention: ^[A-Za-z0-9\-]+$
+  zero-unit:
+    - 2
+  indentation:
+    - 2
+    - size: 'tab'

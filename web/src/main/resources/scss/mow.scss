@@ -1,0 +1,529 @@
+@import 'colors';
+@import 'info-card';
+@import 'z-index';
+
+.GeoGebraFrame{
+	$pagecontrolpanelWidth: 269px;
+	$always_on_top: 60;
+
+	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
+	$pagecontrol-transition: right 0.25s cubic-bezier(0.4, 0, 1, 1);
+	$floatingbtn-hover-transition: background-color 0.15s;
+	$floatingbtn-appear-transition: width 0.2s, height 0.2s, right 0.2s, margin-bottom 0.2s, visibility 0.2s;
+	$floatingbtn-img-appear-transition: width 0.2s, height 0.2s, padding 0.2s;
+
+	$shadow-elevation-2: 0px 3px 1px -2px $black-20, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
+	$shadow-elevation-8: 0px 5px 5px -3px $black-20, 0px 8px 10px 1px $black-14, 0px 3px 14px 2px $black-12;
+	$shadow-elevation-16: 0px 8px 10px -5px $black-20, 0px 16px 24px 2px $black-14, 0px 6px 30px 5px $black-12;
+
+	.SelectionTable {
+		border-collapse: collapse;
+
+		td {
+			padding: 2px;
+		}
+
+		.gwt-Label.borderButton {
+			border: 1px solid;
+			border-radius: 5px;
+			height: 24px;
+			width: 24px;
+		}
+
+		.gwt-Label {
+			background-repeat: no-repeat;
+			background-position: center center;
+			padding: 3px;
+			cursor: pointer;
+
+			&.selected {
+				color: $mow-primary;
+			}
+
+			&:hover {
+				background-color: $menu-focus-default;
+			}
+
+			&.border.selected, &.border:hover {
+				background-color: transparent !important;
+				border: 1px solid $mow_primary;
+			}
+		}
+
+		.plusButton {
+			text-align: center;
+			font-size: larger;
+		}
+	}
+
+	.MyCanvasButton, .MyToggleButton {
+		border: $tool-border solid 1px;
+
+		&:hover, &.active, &.selected, &.gwt-ToggleButton-down {
+			border: $mow_primary solid 1px;
+		}
+	}
+
+	&.withIcon {
+		.buttonContent {
+			opacity: 0.7;
+		}
+	}
+
+/*****************
+*   STYLEBAR with Feature.MOW_COLOR_FILLING_LINE
+******************/
+	.mowDynStyleBar {
+		.btnCrop,.btnBold,.btnItalic,.btnUnderline,
+		 {
+			border-radius: 2px;
+			margin-left: 0px;
+			margin-right: 8px;
+
+			img {
+				opacity: 0.7;
+			}
+
+			&:hover, &:focus {
+				border: $mow_primary solid 1px !important;
+			}
+
+			&.gwt-ToggleButton-down {
+				border: $mow_primary solid 1px !important;
+			}
+		}
+
+		.matDynStyleContextButton:hover {
+			margin-right: 0px !important;
+			margin-left: 0px !important;
+			border: none !important;
+		}
+	}
+
+	.mowPopup{
+		.gwt-Label.border.selected,
+		.gwt-Label.border:hover,
+		.gwt-Label.border.active{
+			border: 1px solid $mow_primary !important;
+		}
+		.plusButton:hover {
+			border: 1px solid $mow_primary !important;
+		}
+
+		.panelRow.panelRow2.showSlider {
+			 width: 180px !important;
+
+			 input[type=range] {
+				width: calc(100% - 74px);
+			 }
+		}
+
+		.noColBtn {
+			display: inline-flex;
+			cursor: pointer;
+			margin: 1px 1px 4px 1px;
+			width: calc(100% - 2px);
+
+			&:hover {
+				background-color: $black-04;
+			}
+
+			img {
+				opacity: 0.54;
+				padding: 2px 0px 2px 2px;
+			}
+
+			.gwt-Label {
+				font-size: 14px;
+				margin: 4px 0px 4px 12px;
+				height: 20px;
+				line-height: 20px;
+				cursor: pointer;
+			}
+		}
+
+		.gwt-Label.stylebarButton {
+			opacity: 0.7;
+		}
+	}
+
+/*****************
+*   BURGER MENU
+******************/
+
+	.mowOpenMenuButton {
+		position: absolute;
+		top: 0px;
+		padding: 6px;
+		margin: 10px 6px 6px 10px;
+		left: 0px;
+		z-index: $z-on-top-of-graphics;
+		border-radius: 50%;
+		width: 24px;
+		height: 24px;
+		cursor: pointer;
+		transition: background-color 150ms ease 0ms;
+
+		img{
+			width: 24px;
+			height: 24px;
+		}
+
+		&:focus {
+			outline: $focus-black 5px auto;
+		}
+
+		&.button-up img {
+			opacity: 0.54;
+		}
+
+		&.button-up-hovering {
+			img {
+				opacity: 1;
+			}
+			background-color: $mow_card_background_hover;
+		}
+	}
+
+	.mowMenubar {
+		  position: absolute;
+		  width: 100%;
+		  top: 45px;
+		  background-color: $white !important;
+
+		  .menuPanel {
+			width: 267px !important;
+			border: 1px solid $tool-border;
+		}
+	}
+	.subMenuRightSidePopup {
+		box-shadow: none;
+		padding: 0px;
+		border-radius: 0px;
+		left: 280px;
+	}
+	.subMenuRightSide {
+		left: -15px;
+
+		.arrowSubmenu {
+			position: absolute;
+			top: 0px;
+			left: -15px;
+		}
+	}
+/*****************
+*   FLOATING ACTION BUTTONS
+******************/
+	.mowFloatingButton {
+		cursor: pointer;
+		position: absolute;
+		border-radius: 50%;
+		will-change: transform;
+		z-index: $z-page-control-button;
+
+		background-color: $mow_primary;
+		box-shadow: 0px 2px 10px $black-30, 0px 0px 1px $black-10, inset 0px 1px 0px $white-25, inset 0px -1px 0px $black-15;
+		transition: $floatingbtn-hover-transition, $mowsubmenu-transition;
+
+		&:hover {
+			background-color: $mow_primary_variant;
+		}
+		&.keyboardFocus:focus {
+			outline: $focus-black 5px auto;
+		}
+	}
+
+	.mowPlusButton{
+		bottom: 0px;
+	}
+
+	.hideMowFloatingButton {
+		@extend .mowFloatingButton;
+		cursor: default;
+		width: 0px !important;
+		height: 0px !important;
+		right: 40px;
+		margin-bottom: 40px;
+		visibility: hidden;
+		transition: $floatingbtn-appear-transition;
+
+		img {
+			width: 0px !important;
+			height: 0px !important;
+			padding: 0px;
+			transition: $floatingbtn-img-appear-transition;
+		}
+	}
+	.showMowFloatingButton {
+		@extend .mowFloatingButton;
+		width: 48px;
+		height: 48px;
+		right: 16px;
+		margin-bottom: 16px;
+		visibility: visible;
+		transition: $floatingbtn-hover-transition, $floatingbtn-appear-transition, $mowsubmenu-transition;
+
+		img {
+			width: 24px !important;
+			height: 24px !important;
+			padding: 12px;
+			transition: $floatingbtn-img-appear-transition;
+		}
+	}
+
+/*****************
+*   PAGE CONTROL PANEL
+******************/
+	.mowPageControlPanel {
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		box-shadow: $shadow-elevation-16;
+		background-color: $white;
+		z-index: $z-page-control-panel;
+		height: 100%;
+		width: $pagecontrolpanelWidth;
+		overflow: hidden;
+
+		.mowPageControlScrollPanel{
+			height: 100%;
+			overflow-x: hidden;
+			overflow-y: auto;
+		}
+
+		.mowPageControlContentPanel {
+			width: 100%;
+			margin-bottom: 64px;
+		}
+	}
+	.mowPageControlPanel.animateIn {
+		animation-duration: 0.25s;
+		animation-name: pCPanimateIn;
+		overflow: auto;
+	}
+
+	@keyframes pCPanimateIn {
+		0% {right: -$pagecontrolpanelWidth; top: 0px;}
+		50% {right: -calc($pagecontrolpanelWidth/3); top: 0px;}
+		100% {right: 0px; top: 0px;}
+	}
+
+	.mowPageControlPanel.animateOut {
+		animation-duration: 0.25s;
+		animation-name: pCPanimateOut;
+		overflow-y: auto;
+	}
+
+	@keyframes pCPanimateOut {
+		0% {right: 0px; top: 0px;}
+		50% {right: -calc($pagecontrolpanelWidth*2/3); top: 0px;}
+		100% {right: -$pagecontrolpanelWidth; top: 0px;}
+	}
+
+/*****************
+*   PAGE PREVIEW CARD
+******************/
+
+	.mowPagePreviewCard {
+		position: absolute;
+		width: calc(100% - 32px);
+		margin-left: 16px;
+		border-radius: 2px;
+		background-color: $white;
+		box-shadow: $shadow-elevation-2;
+		transition: box-shadow .25s;
+		cursor: pointer;
+
+		.mowImagePanel {
+			width: 100%;
+			height: 124px; /* 220px*9/16 */
+			border: 2px solid transparent;
+			border-bottom: none;
+			box-sizing: border-box;
+			border-radius: 2px 2px 0 0 ;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: 110%;
+		}
+
+		.mowTitlePanel {
+			@extend .cardInfo;
+			height: 60px;
+			flex-direction: column;
+
+			.cardTitle {
+				padding-bottom: 4px;
+				height: 20px;
+				line-height: 20px;
+			}
+
+			.cardAuthor {
+				padding-top: 4px;
+				padding-bottom: 8px;
+				position: inherit;
+				display: block;
+			}
+
+			.mowMoreButton {
+				width: 24px;
+				height: 24px;
+				padding: 8px 6px 12px 16px;
+				right: 0;
+				position: absolute;
+				opacity: 0.54;
+
+				&:hover {
+					opacity: 0.85;
+				}
+			}
+
+			.mowMoreButton.active {
+				opacity: 1;
+			}
+		}
+	}
+
+	.mowPagePreviewCard.selected {
+		box-shadow: $shadow-elevation-2;
+		transition: box-shadow .25s;
+
+		.mowImagePanel {
+			border: 2px solid $mow_primary;
+			border-bottom: none;
+		}
+		.mowTitlePanel {
+			border: 2px solid $mow_primary;
+			border-top: none;
+		}
+		.gwt-Label {
+			padding-bottom: 14px;
+			padding-left: 14px;
+		}
+		.mowMoreButton {
+			padding-bottom: 10px;
+		}
+	}
+
+	.mowPagePreviewCard.desktop {
+		&:hover {
+			box-shadow: $shadow-elevation-8;
+		}
+	}
+
+	.mowPagePreviewCard.dragged {
+		z-index: $z-on-top-of-graphics;
+	}
+
+	.mowPagePreviewCard.dragCanStart {
+		box-shadow: $shadow-elevation-8 !important;
+	}
+
+/*****************
+*   PAGE PREVIEW CARD CONTEXT MENU
+******************/
+	.mowMatMenu.gwt-PopupPanel {
+		width: 168px;
+		min-width: 112px !important;
+		z-index: $z-dialog-context-menu;
+		.gwt-MenuItem {
+			width: 168px;
+			min-width: 112px !important;
+			padding-left: 56px !important;
+		}
+	}
+
+	.mowCalcLabel{
+		font-size: 16px;
+		width: fit-content;
+		visibility: hidden;
+	}
+
+
+// widgets: video, audio
+	.mowWidget {
+		position: absolute;
+		border-style: none;
+		overflow: hidden;
+		z-index: $z-mow-video;
+		.gwt-Frame{
+			box-sizing: border-box;
+			width: 100%;
+			height: 100%;
+		}
+		&.mowVideo {
+			border-style: none;
+		}
+	}
+
+	.mowWidget.background {
+		@extend .mowVideo;
+	}
+
+	.mowVideo video {
+		width: 100%;
+		height: 100%;
+		object-fit: fill;
+	}
+
+	.mowWidget.error {
+		@extend .mowVideo;
+		div {
+			width: 50%;
+			margin: auto;
+			text-align: center;
+			padding: 33% 0;
+		}
+		box-sizing: border-box;
+		border: 1px solid;
+	}
+
+	.inlineTextToolbar {
+		padding: 0 16px 6px 16px;
+
+		&.selectedItem {
+			background: none;
+		}
+
+		.MyToggleButton {
+			border-radius: 2px;
+			display: inline-block;
+			margin: 0 8px 0 0;
+
+			.gwt-Image {
+				opacity: 0.7;
+				margin-left: 0;
+				position: relative;
+			}
+
+			&.selected {
+				border-color: $mow_primary;
+			}
+
+			&:hover {
+				border-color: $mow_primary;
+			}
+		}
+	}
+
+	 // unit rectangle for mask to transform with matrix
+	 .maskWidget {
+		position: absolute;
+		z-index: $z-mask;
+		top: 0;
+		left: 0;
+		width: 100px;
+		height: 100px;
+		transform-origin: left top;
+	}
+
+	.embedContainer .EuclidianPanel {
+		z-index: 0;
+	}
+
+	.h5pPreview {
+		width: 600px;
+		height: 300px;
+		box-sizing: border-box;
+		border: $mow_primary 2px solid;
+	}
+}

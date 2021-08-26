@@ -15,7 +15,6 @@ public class NavigatorUtil {
 		return doesUserAgentContainRegex(browsers) || isiOS();
 	}
 
-
 	/**
 	 * UA string check, may not be reliable
 	 * @return whether the app is running in Firefox
@@ -25,17 +24,13 @@ public class NavigatorUtil {
 	}
 
 	/**
-	 * Check if browser is Internet Explorer
-	 *
-	 * (Note: only IE11 is supported now)
-	 *
+	 * Check if browser is Internet Explorer (not supported)
 	 * @return true if IE
 	 */
 	public static boolean isIE() {
 		// check if app is running in IE5 or greater
 		return doesUserAgentContainRegex("msie |trident/");
 	}
-
 
 	/**
 	 * Check if browser is Safari on iOS
@@ -60,5 +55,13 @@ public class NavigatorUtil {
 	private static int getMaxPointTouch() {
 		Object touchPoints =  Js.asPropertyMap(DomGlobal.navigator).get("maxTouchPoints");
 		return touchPoints == null ? 0 : Js.asInt(touchPoints);
+	}
+
+	/**
+	 * @return whether we're running in a Mac browser
+	 */
+	public static boolean isMacOS() {
+		return DomGlobal.navigator.userAgent.contains("Macintosh")
+				|| DomGlobal.navigator.userAgent.contains("Mac OS");
 	}
 }

@@ -10,9 +10,9 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "13 July 2021";
+	public static final String BUILD_DATE = "26 August 2021";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.653.0";
+	public static final String VERSION_STRING = "5.0.662.0";
 
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
@@ -30,7 +30,8 @@ public interface GeoGebraConstants {
 		SCIENTIFIC,
 		SUITE,
 		MIXED_REALITY,
-		NOTES;
+		NOTES,
+		PROBABILITY;
 
 		public String getTransKey() {
 			switch (this) {
@@ -137,6 +138,7 @@ public interface GeoGebraConstants {
 	String CLASSIC_APPCODE = "classic";
 	String EVALUATOR_APPCODE = "evaluator";
 	String NOTES_APPCODE = "notes";
+	String PROBABILITY_APPCODE = "probability";
 
 	String SUITE_SHORT_NAME = "CalculatorSuite.short";
 

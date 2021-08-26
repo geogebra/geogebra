@@ -16,7 +16,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Expands f as f(x) or f(x,y) in CAS
- * 
+ *
  * @author Zbynek Konecny
  */
 public class FunctionExpander implements Traversing {
@@ -34,7 +34,7 @@ public class FunctionExpander implements Traversing {
 					.deepCopy(geo.getKernel()).traverse(this).unwrap();
 		}
 		return geo;
-			}
+	}
 
 	private boolean contains(GeoDummyVariable gdv) {
 		if (variables == null) {
@@ -52,7 +52,7 @@ public class FunctionExpander implements Traversing {
 	@Override
 	public ExpressionValue process(ExpressionValue ev) {
 		if (ev instanceof ExpressionNode) {
-			boolean surface = false;
+			boolean surfaceNoComplex = false;
 			final ExpressionNode en = (ExpressionNode) ev;
 			if (en.getOperation() == Operation.FUNCTION
 					|| en.getOperation() == Operation.FUNCTION_NVAR
@@ -117,11 +117,20 @@ public class FunctionExpander implements Traversing {
 					if (en2.getLeft() instanceof GeoSurfaceCartesianND) {
 						FunctionNVar[] fun = ((GeoSurfaceCartesianND) en2
 								.getLeft()).getFunctions();
-						MyVec3DNode vect = new MyVec3DNode(
-								((ExpressionNode) ev).getKernel(),
-								fun[0].getExpression(), fun[1].getExpression(),
-								fun[2].getExpression());
-						en2 = new ExpressionNode(en.getKernel(), vect);
+						MyVecNDNode vector;
+						if (fun.length > 2) {
+							vector = new MyVec3DNode(
+									((ExpressionNode) ev).getKernel(),
+									fun[0].getExpression(),
+									fun[1].getExpression(),
+									fun[2].getExpression());
+						} else {
+							vector = new MyVecNode(
+									((ExpressionNode) ev).getKernel(),
+									fun[0].getExpression(),
+									fun[1].getExpression());
+						}
+						en2 = new ExpressionNode(en.getKernel(), vector);
 						if (en.getRight() instanceof MyList
 								&& ((MyList) en.getRight()).getListElement(
 										0) instanceof ExpressionNode
@@ -136,26 +145,39 @@ public class FunctionExpander implements Traversing {
 					fv = ((GeoCasCell) geo).getFunctionVariables();
 				}
 				if (geo instanceof GeoSurfaceCartesianND) {
-					surface = true;
-							if (en.getRight() instanceof MyList
-									&& ((MyList) en.getRight()).getListElement(
-											0) instanceof ExpressionNode
+					if (en.getRight() instanceof MyList
+							&& ((MyList) en.getRight()).getListElement(
+							0) instanceof ExpressionNode
 							&& ((ExpressionNode) ((MyList) en.getRight())
-									.getListElement(0))
-													.getLeft() instanceof MyList) {
+							.getListElement(0))
+							.getLeft() instanceof MyList) {
 						en.setRight(((ExpressionNode) ((MyList) en.getRight())
 								.getListElement(0)).getLeft());
 					}
-					FunctionNVar[] fun = ((GeoSurfaceCartesianND) geo)
-							.getFunctions();
-					fv = fun[0].getFunctionVariables();
-					Kernel kernel = fun[0].getKernel();
-					MyVec3DNode vect = new MyVec3DNode(
-							((ExpressionNode) ev).getKernel(), fun[0]
-									.getExpression().deepCopy(kernel), fun[1]
-									.getExpression().deepCopy(kernel), fun[2]
-									.getExpression().deepCopy(kernel));
-					en2 = new ExpressionNode(en.getKernel(), vect);
+					GeoSurfaceCartesianND geoSurface = (GeoSurfaceCartesianND) geo;
+					Kernel kernel = geoSurface.kernel;
+					fv = geoSurface.getFunctionVariables();
+					if (geoSurface.getComplexVariable() != null) {
+						en2 = geoSurface.getDefinition().deepCopy(kernel);
+					} else {
+						surfaceNoComplex = true;
+						FunctionNVar[] fun = ((GeoSurfaceCartesianND) geo)
+								.getFunctions();
+						MyVecNDNode vect;
+						if (fun.length > 2) {
+							vect = new MyVec3DNode(
+									((ExpressionNode) ev).getKernel(),
+									fun[0].getExpression().deepCopy(kernel),
+									fun[1].getExpression().deepCopy(kernel),
+									fun[2].getExpression().deepCopy(kernel));
+						} else {
+							vect = new MyVecNode(
+									((ExpressionNode) ev).getKernel(),
+									fun[0].getExpression().deepCopy(kernel),
+									fun[1].getExpression().deepCopy(kernel));
+						}
+						en2 = new ExpressionNode(en.getKernel(), vect);
+					}
 				}
 				if (deriv != null) {
 					CASGenericInterface cas = en.getKernel().getGeoGebraCAS()
@@ -182,7 +204,7 @@ public class FunctionExpander implements Traversing {
 					// or else replacing f(x,y) with f(y,x)
 					// will result in f(x, x)
 					for (int i = 0; i < fv.length; i++) {
-						if (en.getOperation() == Operation.FUNCTION_NVAR || surface) {
+						if (en.getOperation() == Operation.FUNCTION_NVAR || surfaceNoComplex) {
 							if (argument instanceof MyList) {
 								ithArg = ((MyList) argument).getListElement(i);
 							} else {
@@ -221,7 +243,7 @@ public class FunctionExpander implements Traversing {
 					if (geo != null) {
 						en.setLeft(expand(geo));
 					}
-						}
+				}
 				if (en.getLeft() instanceof Variable) {
 					geo = ((Variable) en.getLeft())
 							.getKernel()
@@ -235,10 +257,10 @@ public class FunctionExpander implements Traversing {
 								.getCopy(((FunctionalNVar) geo).getKernel())
 								.traverse(this);
 						return en2;
-							}
-						}
-
 					}
+				}
+
+			}
 			if (en.getRight() != null) {
 				GeoElement geo = null;
 				if (en.getRight() instanceof GeoDummyVariable
@@ -248,14 +270,14 @@ public class FunctionExpander implements Traversing {
 					if (geo != null) {
 						en.setRight(expand(geo));
 					}
-						}
-					}
+				}
+			}
 		} else if (ev instanceof GeoDummyVariable
 				&& !contains((GeoDummyVariable) ev)) {
 			GeoElement geo = ((GeoDummyVariable) ev).getElementWithSameName();
 			if (geo != null) {
 				return expand(geo);
-					}
+			}
 		} else if (ev instanceof GeoCasCell) {
 			// expanding the cell here is necessary #4126
 			if (((GeoCasCell) ev).isKeepInputUsed()) {
@@ -267,7 +289,8 @@ public class FunctionExpander implements Traversing {
 			}
 		} else if (ev instanceof FunctionNVar) {
 			variables = ((FunctionNVar) ev).fVars;
-				}
+		}
+
 		return ev;
 	}
 

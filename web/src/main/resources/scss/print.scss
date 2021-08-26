@@ -1,0 +1,92 @@
+@media screen {
+	.printPanel{	
+		left: 10000px;
+		
+	}
+}
+
+@media print {
+	.printPanel{	
+		left: 0px;
+		top: 0px;
+	}
+}
+
+.printPanel {
+	position: absolute;
+	max-width: 10000px !important;
+}
+
+.pagebreakbefore {
+	display: block;
+	page-break-before: always;	
+}
+
+@media print {
+	.avPlainText {
+		width: 100vw;
+		white-space: normal;	
+	}
+	
+	.GeoGebraFrame {
+	     & , *{
+			visibility: hidden;
+		}
+
+		.mowFloatingButton{
+			visibility: hidden;
+		}
+	}
+	
+	.GeoGebraPopup {
+		width: 95%;
+		height: 95%;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+//		top: 0px !important;
+//		left: 0px !important;
+	}	
+	
+	@page{
+		margin: 2cm;
+	}
+	
+	.avItem{
+		page-break-inside: avoid;
+	}
+	
+	.marble{
+		-webkit-print-color-adjust: exact;
+		margin-top: auto;
+	}
+	
+	.algebraViewObjectStylebar{
+		display: none;
+	}
+}
+
+@media print and (orientation:portrait){		
+	.preview_portrait{
+		display: block;
+		visibility: visible;
+	} 
+	
+	.preview_landscape{
+		display: none;
+		visibility: hidden;
+	}
+	
+}
+
+@media print and (orientation:landscape){		
+	.preview_portrait{
+		display: none;
+		visibility: hidden;
+	}
+	
+	.preview_landscape{
+		display: block;
+		visibility: visible;
+	}
+}

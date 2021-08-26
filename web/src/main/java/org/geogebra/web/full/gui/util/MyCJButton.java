@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.util;
 import org.geogebra.web.html5.gui.util.HasSetIcon;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -143,15 +142,11 @@ public class MyCJButton extends Composite
 	 *            {@link ClickHandler}
 	 */
 	public void addActionListener(final ClickHandler handler) {
-		button.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!enabled) {
-					return;
-				}
-				handler.onClick(event);
+		button.addClickHandler(event -> {
+			if (!enabled) {
+				return;
 			}
+			handler.onClick(event);
 		});
 	}
 

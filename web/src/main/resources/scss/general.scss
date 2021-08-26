@@ -1,0 +1,110 @@
+/** Created by stefanie.bogner
+*	14.09.2015
+*	contains general styles for web
+*
+*	Make sure everything is placed in .GeoGebraFrame!
+**/
+
+@import 'colors';
+
+.GeoGebraFrame {
+	background-color: $white;
+	color: $text-primary;
+	font-size: 16px;
+
+	label,
+	span,
+	td,
+	th {
+		color: $text-primary;
+		font-size: 16px;
+	}
+
+	img {
+		vertical-align: baseline;
+	}
+
+	button {
+		font-family: geogebra-sans-serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-size: 16px;
+	}
+
+	.button,
+	.gwt-PushButton,
+	.gwt-MenuItem {
+		cursor: pointer;
+
+		&.button-up-disabled,
+		&.gwt-PushButton-up-disabled {
+			cursor: default;
+			opacity: 0.3;
+		}
+	}
+
+	.SpreadsheetEditorCell input[type="text"]:disabled {
+		background-color: #FFFFFF;
+		opacity: 1;
+	}
+
+	input[type="text"]:disabled {
+		background-color: rgb(235, 235, 228);
+	}
+
+	.disabledTextfieldEditing input[type="text"] {
+		background-color: #FFFFFF;
+	}
+
+	.gwt-MenuBar {
+		cursor: default;
+	}
+
+	input[type="text"], input[type="number"], select {
+		min-height: 0;
+		min-width: 0;
+	}
+
+	.Dialog-messagePanel {
+		margin-bottom: 10px;
+	}
+
+	.Dialog-errorPanel, .Dialog-errorPanel td {
+		color: red;
+	}
+
+	.Dialog-errorPanel {
+		color: red;
+		display: block;
+	}
+
+	.Dialog-messagePanel img {
+		margin-right: 10px;
+	}
+
+
+	.DialogRbPanel {
+		margin-top: 10px;
+	}
+
+	.DialogRbPanel td {
+		padding-right: 20px;
+	}
+
+	.DialogBox .infoText {
+		padding-bottom: 10px;
+	}
+
+	.DialogBox .dialogToolIcon {
+		padding: 3px;
+		border-radius: 5px;
+		border: 1px solid #DCDCDC;
+		background-color: #FFF;
+	}
+
+	.DialogBox .DialogButtonPanel .gwt-Button.button-up-disabled,
+	.DialogBox .buttonPanel .button.button-up-disabled,
+	.DialogBox .buttonPanel .button.button-up-disabled:hover,
+	.DialogBox .buttonPanel .button.button-up-disabled:active {
+		opacity: 0.3;
+		cursor: default;
+	}
+}

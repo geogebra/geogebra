@@ -15,9 +15,6 @@ import org.geogebra.desktop.main.LocalizationD;
 class CheckboxPanel extends OptionPanel
 		implements BooleanOptionModel.IBooleanOptionListener, ItemListener {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	private final LocalizationD loc;
 	private BooleanOptionModel model;
@@ -61,8 +58,7 @@ class CheckboxPanel extends OptionPanel
 
 	@Override
 	public void updateVisualStyle(GeoElement geo) {
-		// TODO Auto-generated method stub
-
+		// nothing to do here
 	}
 
 	@Override

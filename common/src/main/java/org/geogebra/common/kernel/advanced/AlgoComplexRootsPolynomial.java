@@ -4,7 +4,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationSolverInterface;
 import org.geogebra.common.kernel.algos.AlgoRootsPolynomial;
+import org.geogebra.common.kernel.algos.Solution;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
@@ -38,14 +40,23 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 		if (f.isDefined()) {
 			Function fun = f.getFunctionForRoot();
 			// get polynomial factors anc calc roots
-			calcComplexRoots(fun);
+			curComplexRoots = calcComplexRoots(fun, solution, curComplexRoots, eqnSolver);
 		} else {
 			solution.resetRoots();
 		}
 	}
 
-	final void calcComplexRoots(Function fun) {
+	/**
+	 * @param fun Function
+	 * @param solution Solution
+	 * @param curComplexRoots current complex roots
+	 * @param eqnSolver equation solver
+	 * @return array of current complex roots
+	 */
+	public static double[] calcComplexRoots(Function fun, Solution solution,
+			double[] curComplexRoots, EquationSolverInterface eqnSolver) {
 		LinkedList<PolyFunction> factorList;
+		double[] complexRoots = curComplexRoots;
 
 		// get polynomial factors for this function
 
@@ -67,23 +78,24 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 				if (!polyFun.updateCoeffValues()) {
 					// current coefficients are not defined
 					solution.curRealRoots = 0;
-					return;
+					return complexRoots;
 				}
 
 				// now let's compute the roots of this factor
 				// compute all roots of polynomial polyFun
 				if (polyFun.hasZeroRoot()) {
-					addToCurrentRoots(new double[] { 0 }, new double[] { 0 },
-							1);
+					complexRoots = addToCurrentRoots(new double[]{0}, new double[]{0},
+							1, solution, complexRoots);
 				}
 				real = polyFun.getCoeffsCopyNoTrailingZeros();
 				complex = new double[real.length];
 				noOfRoots = eqnSolver.polynomialComplexRoots(real, complex);
-				addToCurrentRoots(real, complex, noOfRoots);
+				complexRoots =
+						addToCurrentRoots(real, complex, noOfRoots, solution, complexRoots);
 			}
-		} else {
-			return;
+			return complexRoots;
 		}
+		return complexRoots;
 
 		/*
 		 * if (solution.curRealRoots > 1) { // sort roots and eliminate
@@ -101,30 +113,32 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 	}
 
 	// add first number of doubles in roots to current roots
-	private void addToCurrentRoots(double[] real, double[] complex,
-			int number) {
+	private static double[] addToCurrentRoots(double[] real, double[] complex,
+			int number, Solution solution, double[] curComplexRoots) {
+		double[] complexRoots = curComplexRoots;
 		int length = solution.curRealRoots + number;
 		if (length >= solution.curRoots.length) { // ensure space
 			double[] temp = new double[2 * length];
 			double[] temp2 = new double[2 * length];
 			for (int i = 0; i < solution.curRealRoots; i++) {
 				temp[i] = solution.curRoots[i];
-				temp2[i] = curComplexRoots[i];
+				temp2[i] = complexRoots[i];
 			}
 			solution.curRoots = temp;
-			curComplexRoots = temp2;
+			complexRoots = temp2;
 		}
 
-		if (curComplexRoots == null) {
-			curComplexRoots = new double[solution.curRoots.length];
+		if (complexRoots == null) {
+			complexRoots = new double[solution.curRoots.length];
 		}
 
 		// insert new roots
 		for (int i = 0; i < number; i++) {
 			solution.curRoots[solution.curRealRoots + i] = real[i];
-			curComplexRoots[solution.curRealRoots + i] = complex[i];
+			complexRoots[solution.curRealRoots + i] = complex[i];
 		}
 		solution.curRealRoots += number;
+		return complexRoots;
 	}
 
 	// roots array and number of roots

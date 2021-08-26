@@ -11,6 +11,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
+import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
@@ -60,9 +61,10 @@ import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.CanvasPixelArray;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
@@ -116,7 +118,7 @@ public class EuclidianViewW extends EuclidianView implements
 	private GGraphics2DWI g2p = null;
 	private GGraphics2D g2dtemp;
 	private GGraphics2DW g4copy = null;
-	private GGraphics2DWI penCanvas;
+	private GGraphics2DWI overlayGraphics;
 
 	private GColor backgroundColor = GColor.WHITE;
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
@@ -141,10 +143,12 @@ public class EuclidianViewW extends EuclidianView implements
 	private GDimension preferredSize;
 
 	private ReaderWidget screenReader;
+	private String currentAltText;
 
 	// needed to make sure outline doesn't get dashed
 	private GBasicStroke outlineStroke = AwtFactory.getPrototype()
 			.newBasicStroke(3, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_BEVEL);
+
 	/**
 	 * cache state
 	 * true: currently using cache
@@ -178,16 +182,9 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	private void attachFocusinHandler() {
-		addFocusEventHandler(Document.get().getBody());
+		((AppW) app).getGlobalHandlers().addEventListener(DomGlobal.document.body, "focusin",
+				e -> setResetIconSelected(false));
 	}
-
-	private native void addFocusEventHandler(Element element) /*-{
-        var that = this;
-        var handler = function(e) {
-            that.@org.geogebra.web.html5.euclidian.EuclidianViewW::setResetIconSelected(Z)(false);
-        }
-        element.addEventListener("focusin", handler);
-    }-*/;
 
 	/**
 	 * @param euclidiancontroller
@@ -275,17 +272,20 @@ public class EuclidianViewW extends EuclidianView implements
 		long time = System.currentTimeMillis();
 
 		if (cacheGraphics != null && cacheGraphics) {
-			penCanvas.clearRect(0, 0, getWidth(), getHeight());
-			getEuclidianController().getPen().repaintIfNeeded(penCanvas);
+			overlayGraphics.clearRect(0, 0, getWidth(), getHeight());
+			getEuclidianController().getPen().repaintIfNeeded(overlayGraphics);
 		} else {
 			g2p.resetLayer();
 			updateBackgroundIfNecessary();
 			paint(g2p);
 			MultiuserManager.INSTANCE.paintInteractionBoxes(this, g2p);
 
-			if (cacheGraphics != null) {
+			if (cacheGraphics != null && getEuclidianController().getSpotlight() == null) {
 				cacheGraphics = null;
-				penCanvas.clearAll();
+				overlayGraphics.clearAll();
+
+			} else if (hasSpotlight()) {
+				drawSpotlight();
 			}
 		}
 
@@ -381,25 +381,22 @@ public class EuclidianViewW extends EuclidianView implements
 		return ret;
 	}
 
-	private native void convertToGreyScale(Context2d ctx, int width,
-			int height) /*-{
-		var imageData = ctx.getImageData(0, 0, width, height);
+	private void convertToGreyScale(Context2d ctx, int width, int height) {
+		ImageData imageData = ctx.getImageData(0, 0, width, height);
+		CanvasPixelArray content = imageData.getData();
 
-		for (y = 0; y < height; y++) {
-			for (x = 0; x < width; x++) {
-				var index = (y * 4) + (x * 4) * width;
-				var r = imageData.data[index];
-				var g = imageData.data[index + 1];
-				var b = imageData.data[index + 2];
-				var grey = Math.round((r + g + b) / 3);
-				imageData.data[index] = grey;
-				imageData.data[index + 1] = grey;
-				imageData.data[index + 2] = grey;
-			}
+		for (int index = 0; index < width * height; index++) {
+			int r = content.get(4 * index);
+			int g = content.get(4 * index + 1);
+			int b = content.get(4 * index + 2);
+			int grey = (int) Math.round((r + g + b) / 3.0);
+			content.set(4 * index, grey);
+			content.set(4 * index + 1, grey);
+			content.set(4 * index + 2, grey);
 		}
 
 		ctx.putImageData(imageData, 0, 0);
-	}-*/;
+	}
 
 	@Override
 	public String getExportImageDataUrl(double scale, boolean transparency,
@@ -721,7 +718,7 @@ public class EuclidianViewW extends EuclidianView implements
 		if (Browser.supportsPointerEvents()) {
 			pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
 					euclidiancontroller.getOffsets());
-			PointerEventHandler.attachTo(absPanel.getElement(), pointerHandler);
+			pointerHandler.attachTo(absPanel.getElement(), ((AppW) app).getGlobalHandlers());
 			CancelEventTimer.killTouch(absPanel);
 		} else {
 			absPanel.addDomHandler(euclidiancontroller,
@@ -1123,8 +1120,9 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 		String content = getAltTextFrom(altGeo);
 
-		if (altGeo.isGeoText()) {
+		if (content != null && !content.equals(currentAltText) && altGeo.isGeoText()) {
 			getScreenReader().readText(content);
+			currentAltText = content;
 		}
 	}
 
@@ -1451,7 +1449,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void invalidateCache() {
-		if (penCanvas != null) {
+		if (overlayGraphics != null) {
 			cacheGraphics = false;
 		}
 	}
@@ -1462,18 +1460,44 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public void cacheGraphics() {
 		cacheGraphics = true;
-		if (penCanvas == null) {
+		initOverlayGraphics();
+	}
+
+	private void initOverlayGraphics() {
+		if (overlayGraphics == null) {
 			Canvas pCanvas = Canvas.createIfSupported();
-			penCanvas = new GGraphics2DW(pCanvas);
-			penCanvas.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
-			penCanvas.setDevicePixelRatio(appW.getPixelRatio());
+			overlayGraphics = new GGraphics2DW(pCanvas);
+			overlayGraphics.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+			overlayGraphics.setDevicePixelRatio(appW.getPixelRatio());
 			g2p.getElement().getParentElement()
-					.appendChild(penCanvas.getElement());
+					.appendChild(overlayGraphics.getElement());
+			overlayGraphics.getElement().addClassName("overlayGraphics");
 		}
 		EuclidianPen pen = getEuclidianController().getPen();
-		penCanvas.setCoordinateSpaceSize(getWidth(), getHeight());
-		penCanvas.setStroke(EuclidianStatic.getStroke(pen.getPenSize(),
+		overlayGraphics.setCoordinateSpaceSize(getWidth(), getHeight());
+		overlayGraphics.setStroke(EuclidianStatic.getStroke(pen.getPenSize(),
 				pen.getPenLineStyle(), GBasicStroke.JOIN_ROUND));
-		penCanvas.setColor(pen.getPenColor());
+		overlayGraphics.setColor(pen.getPenColor());
+	}
+
+	@Override
+	public void clearSpotlight() {
+		super.clearSpotlight();
+		overlayGraphics.clearAll();
+	}
+
+	private void drawSpotlight() {
+		if (overlayGraphics == null) {
+			initOverlayGraphics();
+		}
+		overlayGraphics.clearAll();
+		GeoElementND spotlight = euclidianController.getSpotlight();
+		Drawable d = (Drawable) getDrawableFor(spotlight);
+		if (d != null) {
+			d.draw(overlayGraphics);
+		}
+		if (getBoundingBox() != null) {
+			getBoundingBox().draw(overlayGraphics);
+		}
 	}
 }
