@@ -453,7 +453,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			// to print DockPanels' titles
 			app.setLabels();
 			fitSizeToScreen();
+			initSize();
 		});
+	}
+
+	protected void initSize() {
+		// init size in webSimple
 	}
 
 	protected ResourcesInjector getResourcesInjector() {
