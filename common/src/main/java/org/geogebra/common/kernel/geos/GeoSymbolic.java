@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
@@ -216,10 +217,14 @@ public class GeoSymbolic extends GeoElement
 				.traverse(FunctionExpander.getCollector());
 
 		Command casInput = getCasInput(fixMatrixInput(casInputArg));
-		String casResult = calculateCASResult(casInput);
 
-		if ("?".equals(casResult)) {
-			casResult = tryNumericCommand(casInput);
+		MyArbitraryConstant constant = getArbitraryConstant();
+		constant.setSymbolic(!shouldBeEuclidianVisible(casInput));
+
+		String casResult = evaluateGeoGebraCAS(casInput, constant);
+
+		if (GeoFunction.isUndefined(casResult) && argumentsDefined(casInput)) {
+			casResult = tryNumericCommand(casInput, casResult);
 		}
 
 		setSymbolicMode(!isTopLevelCommandNumeric(), false);
@@ -234,11 +239,21 @@ public class GeoSymbolic extends GeoElement
 		numericValue = maybeComputeNumericValue(casOutput);
 	}
 
-	private String calculateCASResult(Command casInput) {
-		MyArbitraryConstant constant = getArbitraryConstant();
-		constant.setSymbolic(!shouldBeEuclidianVisible(casInput));
+	private boolean argumentsDefined(Command casInput) {
+		boolean argsDefined = casInput.inspect(new Inspecting() {
+			@Override
+			public boolean check(ExpressionValue v) {
+				return !v.toValueString(StringTemplate.defaultTemplate).contains("?");
+			}
+		});
+		return argsDefined;
+	}
 
-		String casResult = evaluateGeoGebraCAS(casInput, constant);
+	private String tryNumericCommand(Command casInput, String casResult) {
+		if (Commands.Integral.name().equals(casInput.getName())) {
+			casInput.setName(Commands.NIntegral.name());
+			casResult = evaluateGeoGebraCAS(casInput, constant);
+		}
 
 		if (Commands.Solve.name().equals(casInput.getName()) && GeoFunction
 				.isUndefined(casResult)) {
@@ -249,18 +264,6 @@ public class GeoSymbolic extends GeoElement
 		}
 
 		return casResult;
-	}
-
-	private String tryNumericCommand(Command casInput) {
-		if (Commands.Integral.name().equals(casInput.getName())) {
-			casInput.setName(Commands.NIntegral.name());
-		}
-
-		if (Commands.Solve.name().equals(casInput.getName())) {
-			casInput.setName(Commands.NSolve.name());
-		}
-
-		return calculateCASResult(casInput);
 	}
 
 	private boolean isTopLevelCommandNumeric() {
