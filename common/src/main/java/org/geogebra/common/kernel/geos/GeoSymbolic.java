@@ -250,20 +250,21 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private String tryNumericCommand(Command casInput, String casResult) {
+		String result = casResult;
 		if (Commands.Integral.name().equals(casInput.getName())) {
 			casInput.setName(Commands.NIntegral.name());
-			casResult = evaluateGeoGebraCAS(casInput, constant);
+			result = evaluateGeoGebraCAS(casInput, constant);
 		}
 
 		if (Commands.Solve.name().equals(casInput.getName()) && GeoFunction
 				.isUndefined(casResult)) {
 			getDefinition().getTopLevelCommand().setName(Commands.NSolve.name());
-			casInput = getCasInput(getDefinition().deepCopy(kernel)
+			Command input = getCasInput(getDefinition().deepCopy(kernel)
 					.traverse(FunctionExpander.getCollector()));
-			casResult = evaluateGeoGebraCAS(casInput, constant);
+			result = evaluateGeoGebraCAS(input, constant);
 		}
 
-		return casResult;
+		return result;
 	}
 
 	private boolean isTopLevelCommandNumeric() {

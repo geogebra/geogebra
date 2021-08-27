@@ -1601,6 +1601,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void numericAlternativeCommand() {
 		add("f(x) = -x^2 * e^(-x)");
 		add("g(x) = 1 + (f'(x))^2");
-		t("Integral(sqrt(g),0,20)","20.12144888423");
+		t("Integral(sqrt(g),0,20)", "20.12144888423");
 	}
 }
