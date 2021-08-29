@@ -85,28 +85,12 @@ public class IntervalFunctionSampler {
 		space.values().forEach(x -> {
 					try {
 						Interval y = function.evaluate(x);
-						if (!y.isEmpty() || emptyTupleAllowed) {
-							IntervalTuple tuple = new IntervalTuple(x, y);
-							samples.add(tuple);
-						}
-
-						emptyTupleAllowed = !y.isEmpty();
-
+						IntervalTuple tuple = new IntervalTuple(x, y);
+						samples.add(tuple);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				});
-	}
-
-	private Interval normalize(Interval interval) {
-		if (interval.getLow() < IntervalConstants.NEGATIVE_INFINITY) {
-			interval.set(IntervalConstants.NEGATIVE_INFINITY, interval.getHigh());
-		}
-
-		if (interval.getHigh() > IntervalConstants.POSITIVE_INFINITY) {
-			interval.set(interval.getLow(), IntervalConstants.POSITIVE_INFINITY);
-		}
-		return interval;
 	}
 
 	/**

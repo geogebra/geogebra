@@ -261,9 +261,16 @@ class IntervalTrigonometric {
 	 * @return 1 / sin(x)
 	 */
 	public Interval csc() {
-		if (interval.isUninverted()) {
-			setDefaultInterval();
+		if (interval.isInverted() && interval.isWhole()) {
+			interval.setZero();
+			return interval;
 		}
+
+		if (interval.isWhole() || interval.isOnlyInfinity()) {
+			interval.setEmpty();
+			return interval;
+		}
+
 		Interval interval = new Interval(this.interval);
 		return interval.sin().multiplicativeInverse();
 	}

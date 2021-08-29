@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.IntervalTuple;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to correct interval path at limits
@@ -59,6 +60,7 @@ public class PathCorrector {
 		gp.lineTo(sx.getHigh(), sy.getLow());
 		Interval y = tuple.y();
 		if (y.containsExclusive(0)) {
+			Log.debug("handleFill: height - sy.getHigh()");
 			gp.moveTo(sx.getLow(), bounds.getHeight());
 			gp.lineTo(sx.getLow(), sy.getHigh());
 		}
@@ -91,9 +93,10 @@ public class PathCorrector {
 		Interval y = toScreenY(point);
 
 		double xMiddle = x.getLow() + (x .getWidth() / 2);
-		double yLow = y.getLow() < bounds.getHeight()
-				? Math.max(0, y.getLow())
-				: bounds.getHeight();
+		double yLow;
+		if (y.getLow() < bounds.getHeight()) yLow = Math.max(0, y.getLow());
+		else
+			yLow = bounds.getHeight();
 		if (ascending) {
 			if (yLow >= 0) {
 				gp.lineTo(xMiddle, 0);
@@ -149,6 +152,7 @@ public class PathCorrector {
 	}
 
 	private void completeToNegativeInfinity(Interval x, Interval y) {
+		Log.debug("completeToNegativeInfinity");
 		int yMax = bounds.getHeight();
 		gp.moveTo(x.getHigh(), yMax);
 		gp.lineTo(x.getHigh(), y.getHigh());

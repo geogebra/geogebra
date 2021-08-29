@@ -133,18 +133,6 @@ public class IntervalPlotModel {
 	}
 
 	/**
-	 * @param point to check around
-	 * @return if the function is ascending from point to the right.
-	 */
-	public boolean isAscendingBefore(IntervalTuple point) {
-		if (point.index() > points.count() - 1) {
-			return false;
-		}
-
-		return isAscendingBefore(point.index() + 1);
-	}
-
-	/**
 	 * @param index of the point to check around
 	 * @return if the function is ascending from point to the left.
 	 */

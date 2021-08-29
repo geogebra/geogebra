@@ -155,6 +155,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 		if (index < 2 || get(index - 1).isEmpty()) {
 			return false;
 		}
+
 		Interval y1 = get(index - 2).y();
 		Interval y2 = get(index - 1).y();
 		return y2 != null && y2.isGreaterThan(y1);
@@ -171,6 +172,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 		}
 		Interval y1 = get(index + 1).y();
 		Interval y2 = get(index + 2).y();
+
 		return y2 != null && y2.isGreaterThan(y1);
 	}
 

@@ -48,12 +48,24 @@ public class IntervalPath {
 			boolean shouldSkip = shouldSkip(tuple);
 			if (shouldSkip) {
 				skip();
+			} else if (lastY.isEmpty()) {
+				moveToFirst(i, tuple);
 			} else {
 				drawTuple(i, tuple);
+				calculateLabelPoint(tuple);
 			}
 			moveTo = shouldSkip;
 		}
 	}
+	private void drawTuple(int i, IntervalTuple tuple) {
+		if (tuple.isInverted()) {
+			lastY = corrector.handleInvertedInterval(i, lastY);
+		} else {
+			plotInterval(lastY, tuple);
+			storeY(tuple);
+		}
+	}
+
 	private void moveToFirst(int i, IntervalTuple point) {
 		Interval x = bounds.toScreenIntervalX(point.x());
 		Interval y = bounds.toScreenIntervalY(point.y());
@@ -67,19 +79,6 @@ public class IntervalPath {
 			lastY.set(corrector.beginFromInfinity(i, x, y));
 		} else {
 			line(x, y);
-		}
-	}
-
-	private void drawTuple(int i, IntervalTuple tuple) {
-		if (lastY.isEmpty()) {
-			moveToFirst(i, tuple);
-		} else {
-			if (tuple.isInverted()) {
-				lastY = corrector.handleInvertedInterval(i, lastY);
-			} else {
-				plotInterval(lastY, tuple.x(), tuple.y());
-				storeY(tuple);
-			}
 		}
 	}
 
@@ -111,18 +110,21 @@ public class IntervalPath {
 		lastY.setEmpty();
 	}
 
-	private void plotInterval(Interval lastY, Interval x0, Interval y0) {
-		Interval x = bounds.toScreenIntervalX(x0);
-		Interval y = bounds.toScreenIntervalY(y0);
+	private void plotInterval(Interval lastY, IntervalTuple tuple) {
+		Interval x = bounds.toScreenIntervalX(tuple.x());
+		Interval y = bounds.toScreenIntervalY(tuple.y());
 		if (y.isGreaterThan(lastY)) {
 			plotHigh(x, y);
 		} else {
 			plotLow(x, y);
 		}
+	}
 
-		if (labelPoint == null && bounds.isOnView(x0.getLow(), y0.getLow())) {
-			this.labelPoint = labelPositionCalculator.calculate(x0.getLow(),
-					y0.getLow());
+
+	private void calculateLabelPoint(IntervalTuple tuple) {
+		if (labelPoint == null && bounds.isOnView(tuple.x().getLow(), tuple.y().getLow())) {
+			this.labelPoint = labelPositionCalculator.calculate(tuple.x().getLow(),
+					tuple.y().getLow());
 		}
 	}
 

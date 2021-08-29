@@ -642,6 +642,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 		if (isEmpty() || other == null || other.isEmpty()) {
 			return false;
 		}
+
 		return high > other.high;
 	}
 

@@ -205,4 +205,12 @@ public class SqrtSamplerTest extends SamplerTest {
 		assertEquals(interval(-0.29185420270888945, -0.29025161208007066), tuples.valueAt(92));
 		assertEquals(interval(-0.29025161208007094, -0.28867513459481253), tuples.valueAt(93));
 	}
-}
+
+	@Test
+	public void sqrtSticks() {
+		IntervalTupleList tuples = functionValuesWithSampleCount("sqrt(1/sin(1/x))",
+				-10, 10, -12, 12, 100);
+		assertEquals(IntervalConstants.empty(), tuples.valueAt(0));
+	}
+
+	}
