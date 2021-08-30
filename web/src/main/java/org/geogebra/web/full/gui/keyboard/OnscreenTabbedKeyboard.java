@@ -33,7 +33,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	 */
 	public OnscreenTabbedKeyboard(HasKeyboard app, boolean hasMoreButton) {
 		super(app, hasMoreButton);
-		buildGUI(app.getInputBoxType());
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
 			@Override
