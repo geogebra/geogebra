@@ -2323,6 +2323,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 
+		app.hideKeyboard();
 		return false;
 	}
 

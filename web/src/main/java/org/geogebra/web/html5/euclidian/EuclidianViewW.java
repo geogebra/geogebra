@@ -68,6 +68,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.GestureChangeEvent;
 import com.google.gwt.event.dom.client.GestureEndEvent;
@@ -720,6 +721,7 @@ public class EuclidianViewW extends EuclidianView implements
 					euclidiancontroller.getOffsets());
 			pointerHandler.attachTo(absPanel.getElement(), ((AppW) app).getGlobalHandlers());
 			CancelEventTimer.killTouch(absPanel);
+			absPanel.addBitlessDomHandler(DomEvent::stopPropagation, MouseDownEvent.getType());
 		} else {
 			absPanel.addDomHandler(euclidiancontroller,
 					MouseMoveEvent.getType());
