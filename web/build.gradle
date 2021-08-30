@@ -3,7 +3,7 @@ import org.apache.tools.ant.taskdefs.condition.Os
 
 buildscript {
     dependencies {
-        classpath 'org.wisepersist:gwt-gradle-plugin:1.0.13'
+        classpath 'org.wisepersist:gwt-gradle-plugin:1.1.14'
     }
 }
 
@@ -11,8 +11,8 @@ plugins {
     id 'java'
     id 'pmd'
     id 'checkstyle'
-    id "com.github.spotbugs" version "4.6.0"
-    id 'de.aaschmid.cpd' version '3.1'
+    id "com.github.spotbugs" version "4.7.3"
+    id 'de.aaschmid.cpd' version '3.2'
     id "io.miret.etienne.sass" version "1.1.2"
 }
 

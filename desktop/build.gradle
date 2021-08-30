@@ -1,11 +1,11 @@
 buildscript {
     dependencies {
-        classpath "org.openjfx:javafx-plugin:0.0.8"
+        classpath "org.openjfx:javafx-plugin:0.0.10"
     }
 }
 
 plugins {
-    id "com.github.spotbugs" version "4.6.0"
+    id "com.github.spotbugs" version "4.7.3"
 }
 
 project.setDescription('Parts of GeoGebra related to desktop platforms')
@@ -78,13 +78,6 @@ compileTestJava {
     targetCompatibility = 1.8
 }
 
-List ext = [
-    'netscape.javascript:jsobject:1', 
-    'com.apple:mac_extensions:20040714', 
-    'com.ogprover:OpenGeoProver:20120725',
-    'com.sun:jna:4.1.0']
-
-
 dependencies {
     compile project(':common')
     compile project(':common-jre')
@@ -92,7 +85,11 @@ dependencies {
     compile project(':jogl2')
     compile project(':input3D:impl')
     compile project(':giac-jni')
-    compile ext, files(jfxrtLocation)
+    compile 'netscape.javascript:jsobject:1',
+            'com.apple:mac_extensions:20040714',
+            'com.ogprover:OpenGeoProver:20120725',
+            'com.sun:jna:4.1.0'
+    compile files(jfxrtLocation)
 
     runtime "com.jogamp:jogl-all:$joglVersion:natives-linux-amd64",
         "com.jogamp:jogl-all:$joglVersion:natives-windows-i586",

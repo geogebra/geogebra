@@ -2311,7 +2311,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			p = 0;
 			for (int j = 0; j < oldp; j++) {
 				if (m.orthoIndices[j] == 0) {
-					x[p++] = new Double(m.xB1.getEntry(0, j).toString());
+					x[p++] = Double.parseDouble(m.xB1.getEntry(0, j).toString());
 				}
 			}
 
@@ -2376,7 +2376,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				p = 0;
 				for (int j = 0; j < oldp; j++) {
 					if (m.orthoIndices[j] == 0) {
-						x[p++] = new Double(m.xB1.getEntry(0, j).toString());
+						x[p++] = Double.parseDouble(m.xB1.getEntry(0, j).toString());
 					}
 				}
 

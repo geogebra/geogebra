@@ -34,14 +34,17 @@ pipeline {
                 updateGitlabCommitStatus name: 'build', state: 'pending'
                 writeFile file: 'changes.csv', text: getChangelog()
                 sh label: 'build web', script: './gradlew :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true'
+            }
+        }
+        stage('tests and reports') {
+            when {
+               expression {return !env.BRANCH_NAME.matches("dependabot.*giac.*")}
+            }
+            steps {
                 sh label: 'test', script: "./gradlew :common-jre:test :desktop:test :common-jre:jacocoTestReport :web:test"
                 sh label: 'static analysis', script: './gradlew pmdMain :editor-base:spotbugsMain :web:spotbugsMain :desktop:spotbugsMain :ggbjdk:spotbugsMain :common-jre:spotbugsMain --max-workers=1'
                 sh label: 'spotbugs common', script: './gradlew :common:spotbugsMain'
                 sh label: 'code style', script: './gradlew :web:cpdCheck checkAllStyles'
-            }
-        }
-        stage('reports') {
-            steps {
                 junit '**/build/test-results/test/*.xml'
                 recordIssues tools: [
                     cpd(pattern: '**/build/reports/cpd/cpdCheck.xml')
@@ -54,6 +57,27 @@ pipeline {
                 publishCoverage adapters: [jacocoAdapter('**/build/reports/jacoco/test/*.xml')],
                     sourceFileResolver: sourceFiles('NEVER_STORE')
 
+            }
+        }
+        stage('giac test') {
+            when {
+                expression {return env.BRANCH_NAME.matches("dependabot.*giac.*")}
+            }
+            parallel {
+                stage('mac') {
+                    agent {label 'mac'}
+                    steps {
+                        sh label: 'test', script: "./gradlew :desktop:test"
+                        junit '**/build/test-results/test/*.xml'
+                    }
+                }
+                stage('linux') {
+                    agent {label 'Ubuntu'}
+                    steps {
+                        sh label: 'test', script: "./gradlew :desktop:test"
+                        junit '**/build/test-results/test/*.xml'
+                    }
+                }
             }
         }
         stage('archive') {

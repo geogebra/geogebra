@@ -1,22 +1,2 @@
-ext.getGeogebraVersion = { root = ".."->
-	    def version = "undef"
-	    file("$root/common/src/main/java/org/geogebra/common/GeoGebraConstants.java").eachLine { line ->
-	        def pattern = ~/ VERSION_STRING = "(.*)"/
-	        def matcher = (line =~ pattern)
-	        if (matcher) {
-	            version = line.substring(matcher.start(1), matcher.end(1))
-	        }
-	    }
-	    return version
-}
-
-ext.gwtCompilerVersion = '2.9.0'
-ext.gwtGradlePluginVersion = '1.0.10'
-ext.gradleVersionGGB = "6.7.1"
-ext.joglVersion = '2.2.0'
-ext.junitVersion = '4.13'
-ext.mockitoVersion = '3.2.4'
-ext.hamcrestVersion = '2.2'
-// This is automatically updated when there is a new version of Giac out:
-ext.javaGiacVersion = '69880'
-// Please don't change this line since the automatism looks for exact match.
+print("[WARNING] Builds should depend on dependencies.gradle directly")
+apply from: project(":common").file('../gradle-scripts/dependencies.gradle')

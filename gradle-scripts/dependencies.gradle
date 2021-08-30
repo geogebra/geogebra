@@ -1,0 +1,56 @@
+// This file should contain all repositories being used in all GeoGebra projects.
+// Please include it in the root build.gradle file and do not add any extra repositories
+// in the subprojects, since all of them should be listed here.
+//
+// Just use
+//
+//    apply from: "gradle-scripts/dependencies.gradle"
+//
+// in the top of the build.gradle file somewhere.
+//
+// The repositories below are not double checked if they are really required for both the
+// buildscripts or just in general, that is, this list is not minimalist at the moment.
+// But this should not be a problem.
+
+allprojects {
+    buildscript {
+        repositories {
+            maven { url 'https://plugins.gradle.org/m2/' }
+            maven { url 'http://storage.googleapis.com/r8-releases/raw'} // can be removed after Android Studio 3.5 update
+            maven { url 'https://jitpack.io' }
+            mavenCentral()
+            jcenter()
+            google()
+            maven { url 'http://dev.geogebra.org/maven2' }
+        }
+    }
+
+    repositories {
+        maven { url 'http://dev.geogebra.org/maven2' }
+        mavenCentral()
+        jcenter()
+        google()
+    }
+}
+
+
+ext.getGeogebraVersion = { root = ".."->
+    def version = "undef"
+    file("$root/common/src/main/java/org/geogebra/common/GeoGebraConstants.java").eachLine { line ->
+        def pattern = ~/ VERSION_STRING = "(.*)"/
+        def matcher = (line =~ pattern)
+        if (matcher) {
+            version = line.substring(matcher.start(1), matcher.end(1))
+        }
+    }
+    return version
+}
+
+ext.gwtCompilerVersion = '2.9.0'
+ext.gwtGradlePluginVersion = '1.0.10'
+ext.gradleVersionGGB = "6.7.1"
+ext.joglVersion = '2.2.0'
+ext.junitVersion = '4.13.2'
+ext.mockitoVersion = '3.12.4'
+ext.hamcrestVersion = '2.2'
+ext.javaGiacVersion = '69880'
