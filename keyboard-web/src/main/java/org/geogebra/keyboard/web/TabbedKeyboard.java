@@ -132,12 +132,10 @@ public class TabbedKeyboard extends FlowPanel
 		if (inputBoxType != null) {
 			factory = new KeyboardInputBox(inputBoxType, hasKeyboard.getInputBoxFunctionVars());
 		} else {
-			switch (hasKeyboard.getKeyboardType()) {
-			case MOW:
-				factory = new KeyboardMow();
-				break;
-			default:
-				factory = new KeyboardFactory();
+			if (hasKeyboard.getKeyboardType() == AppKeyboardType.MOW) {
+				factory = KeyboardMow.INSTANCE;
+			} else {
+				factory = KeyboardFactory.INSTANCE;
 			}
 		}
 		return factory;
@@ -246,7 +244,7 @@ public class TabbedKeyboard extends FlowPanel
 	}
 
 	private void buildGUIScientific() {
-		KeyboardFactory kbf = new KeyboardFactory();
+		KeyboardFactory kbf = KeyboardFactory.INSTANCE;
 		this.tabs = new FlowPanel();
 
 		KeyPanelBase keyboard = buildPanel(

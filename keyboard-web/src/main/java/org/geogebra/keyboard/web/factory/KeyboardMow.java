@@ -5,10 +5,12 @@ import org.geogebra.keyboard.web.factory.model.MowSpecialSymbolsKeyboardFactory;
 
 public class KeyboardMow extends KeyboardFactory {
 
+	public static final KeyboardMow INSTANCE = new KeyboardMow();
+
 	/**
 	 * Keyboard layout for MOW
 	 */
-	public KeyboardMow() {
+	private KeyboardMow() {
 		super();
 		setSpecialSymbolsKeyboardFactory(new MowSpecialSymbolsKeyboardFactory());
 	}

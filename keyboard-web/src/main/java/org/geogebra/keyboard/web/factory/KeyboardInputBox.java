@@ -23,7 +23,6 @@ public class KeyboardInputBox extends KeyboardFactory {
 	 * @param functionVars function vars in case of a function
 	 */
 	public KeyboardInputBox(InputBoxType inputBoxType, List<String> functionVars) {
-		super();
 		setDefaultKeyboardFactory(getMathKeyboard(inputBoxType, functionVars));
 		setMathKeyboardFactory(getMathKeyboard(inputBoxType, functionVars));
 		setFunctionKeyboardFactory(getFunctionKeyboard(inputBoxType));
