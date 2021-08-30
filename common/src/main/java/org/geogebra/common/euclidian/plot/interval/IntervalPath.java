@@ -57,6 +57,7 @@ public class IntervalPath {
 			moveTo = shouldSkip;
 		}
 	}
+
 	private void drawTuple(int i, IntervalTuple tuple) {
 		if (tuple.isInverted()) {
 			lastY = corrector.handleInvertedInterval(i, lastY);
@@ -119,7 +120,6 @@ public class IntervalPath {
 			plotLow(x, y);
 		}
 	}
-
 
 	private void calculateLabelPoint(IntervalTuple tuple) {
 		if (labelPoint == null && bounds.isOnView(tuple.x().getLow(), tuple.y().getLow())) {

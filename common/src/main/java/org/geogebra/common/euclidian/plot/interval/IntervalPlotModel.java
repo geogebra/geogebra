@@ -173,7 +173,6 @@ public class IntervalPlotModel {
 		return points.count();
 	}
 
-
 	/**
 	 *
 	 * @param index of the tuple.

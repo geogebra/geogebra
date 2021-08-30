@@ -32,7 +32,7 @@ public class PathCorrector {
 	 * Coplete inverted interval on demand.
 	 *
 	 * @param idx tuple index in model
-	 * @param y
+	 * @param y inverted value to handle.
 	 * @return the last y interval.
 	 */
 	public Interval handleInvertedInterval(int idx,
@@ -60,7 +60,7 @@ public class PathCorrector {
 		gp.lineTo(sx.getHigh(), sy.getLow());
 		Interval y = tuple.y();
 		if (y.containsExclusive(0)) {
-			Log.debug("handleFill: height - sy.getHigh()");
+			Log.debug("[PC] handleFill: height - sy.getHigh()");
 			gp.moveTo(sx.getLow(), bounds.getHeight());
 			gp.lineTo(sx.getLow(), sy.getHigh());
 		}
@@ -91,7 +91,7 @@ public class PathCorrector {
 	private void completePathFromLeft(IntervalTuple point, boolean ascending) {
 		Interval x = toScreenX(point);
 		Interval y = toScreenY(point);
-
+		Log.debug("[PC] completePathFromLeft");
 		double xMiddle = x.getLow() + (x .getWidth() / 2);
 		double yLow;
 		if (y.getLow() < bounds.getHeight()) yLow = Math.max(0, y.getLow());
@@ -119,6 +119,7 @@ public class PathCorrector {
 	private Interval completePathFromRight(IntervalTuple point, boolean ascending) {
 		Interval x = toScreenX(point);
 		Interval y = toScreenY(point);
+		Log.debug("[PC] completePathFromRight ");
 		double xMiddle = x.getLow() + (x.getWidth() / 2);
 		double yLow = y.getLow() < bounds.getHeight()
 				? Math.max(0, y.getLow())
@@ -136,6 +137,15 @@ public class PathCorrector {
 		return IntervalConstants.empty();
 	}
 
+	/**
+	 * Begins drawing the function (for the first time or after empty tuple)
+	 * from infinity.
+	 *
+	 * @param index of tuple to draw
+	 * @param x interval
+	 * @param y interval
+	 * @return the last y value needed to continue drawing.
+	 */
 	public Interval beginFromInfinity(int index, Interval x, Interval y) {
 		if (model.isAscendingAfter(index)) {
 			completeToNegativeInfinity(x, y);
@@ -146,13 +156,14 @@ public class PathCorrector {
 	}
 
 	private void completeToPositiveInfinity(Interval x, Interval y) {
+		Log.debug("[PC] completeToPositiveInfinity");
 		gp.moveTo(x.getHigh(), 0);
 		gp.lineTo(x.getHigh(), y.getLow());
 		lastY.set(0, y.getLow());
 	}
 
 	private void completeToNegativeInfinity(Interval x, Interval y) {
-		Log.debug("completeToNegativeInfinity");
+		Log.debug("[PC] completeToNegativeInfinity");
 		int yMax = bounds.getHeight();
 		gp.moveTo(x.getHigh(), yMax);
 		gp.lineTo(x.getHigh(), y.getHigh());

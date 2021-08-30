@@ -35,7 +35,8 @@ public class IntervalAsymtotesTest extends SamplerTest {
 	public void xInverseInverse() {
 		IntervalTupleList result = functionValuesWithSampleCount(
 				"1/(1/x)", -10, 10, -30, 30, 100);
-		assertTrue(result.getInvertedTuples().isEmpty());
+		TuplesQuery query = new TuplesQuery(result);
+		assertTrue(query.inverted().isEmpty());
 	}
 
 	@Test

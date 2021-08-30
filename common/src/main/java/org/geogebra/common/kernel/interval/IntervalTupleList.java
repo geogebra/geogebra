@@ -142,10 +142,6 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 				.collect(Collectors.toList());
 	}
 
-	public List<IntervalTuple> getInvertedTuples() {
-		return list.stream().filter(t -> t.y().isInverted()).collect(Collectors.toList());
-	}
-
 	/**
 	 *
 	 * @param index of the tuple to check before.

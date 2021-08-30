@@ -83,10 +83,21 @@ public class IntervalConstants {
 		return new Interval(PI_HALF_LOW, PI_HALF_HIGH);
 	}
 
+	/**
+	 *
+	 * @return a newly created positive infinity singleton interval.
+	 */
 	public static Interval positiveInfinity() {
-		return new Interval(IntervalConstants.POSITIVE_INFINITY, IntervalConstants.POSITIVE_INFINITY);
+		return new Interval(IntervalConstants.POSITIVE_INFINITY,
+				IntervalConstants.POSITIVE_INFINITY);
 	}
+
+	/**
+	 *
+	 * @return a newly created negative infinity singleton interval.
+	 */
 	public static Interval negativeInfinity() {
-		return new Interval(IntervalConstants.NEGATIVE_INFINITY, IntervalConstants.NEGATIVE_INFINITY);
+		return new Interval(IntervalConstants.NEGATIVE_INFINITY,
+				IntervalConstants.NEGATIVE_INFINITY);
 	}
 }

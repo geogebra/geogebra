@@ -582,8 +582,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return if interval is [0].
 	 */
 	public boolean isZero() {
-		return DoubleUtil.isEqual(low, 0, 1E-6) &&
-				DoubleUtil.isEqual(high, 0, 1E-6);
+		return DoubleUtil.isEqual(low, 0, 1E-6)
+				&& DoubleUtil.isEqual(high, 0, 1E-6);
 	}
 
 	@Override
@@ -843,7 +843,6 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 			inverted = Inversion.INVERTED;
 		}
 	}
-
 
 	/**
 	 * Inverts interval

@@ -8,6 +8,10 @@ public class IntervalArithmeticImpl implements IntervalArithmetic {
 	private final IntervalMultiply intervalMultiply;
 	private final IntervalDivide intervalDivide;
 
+	/**
+	 *
+	 * @param interval to do math with.
+	 */
 	public IntervalArithmeticImpl(Interval interval) {
 		this.interval = interval;
 		intervalMultiply = new IntervalMultiply(interval);

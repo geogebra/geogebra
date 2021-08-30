@@ -16,6 +16,12 @@ public class IntervalDivide {
 		this.interval = interval;
 	}
 
+	/**
+	 * Divide intervals.
+	 *
+	 * @param other interval to divide by.
+	 * @return the result of interval divided by other.
+	 */
 	public Interval divide(Interval other) {
 		if (interval.isEmpty() || other.isEmpty()) {
 			interval.setEmpty();
@@ -84,8 +90,8 @@ public class IntervalDivide {
 	}
 
 	private void divideNegativeByPositive(Interval other) {
-		interval.set(RMath.divLow(interval.getLow(), other.getLow()), RMath.divHigh(interval.getHigh(),
-				other.getHigh()));
+		interval.set(RMath.divLow(interval.getLow(), other.getLow()),
+				RMath.divHigh(interval.getHigh(), other.getHigh()));
 	}
 
 	private void divideNegativeByNegative(Interval other) {
