@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.TestHarness;
 
@@ -54,7 +53,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 					// contain it, so in this case the dynamic stylebar
 					// will
 					// be visible yet.
-					DynamicStyleBar.this.updateStyleBar();
+					updateStyleBar();
 				});
 		EventUtil.stopPointer(getElement());
 	}
