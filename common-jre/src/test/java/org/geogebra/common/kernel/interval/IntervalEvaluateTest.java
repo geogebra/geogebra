@@ -145,7 +145,7 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 		Interval tan = interval(IntervalConstants.PI_HALF_LOW,
 				IntervalConstants.PI_HALF_HIGH).tan();
 		Interval result = tan.multiply(interval(-1));
- 		assertEquals(IntervalConstants.whole(), result);
+ 		assertEquals(IntervalConstants.whole().invert(), result);
 	}
 
 	@Test

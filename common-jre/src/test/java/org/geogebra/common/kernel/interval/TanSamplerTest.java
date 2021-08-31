@@ -113,7 +113,6 @@ public class TanSamplerTest extends SamplerTest {
 		assertEquals(interval(-0.094527831179286, -0.06291466725365384), tuples.valueAt(97));
 		assertEquals(interval(-0.06291466725365387, -0.031426266043355404), tuples.valueAt(98));
 		assertEquals(interval(-0.03142626604335542, -4.440892098500625E-15), tuples.valueAt(99));
-		assertEquals(interval(-4.440892098500627E-15, 0.03142626604334653), tuples.valueAt(100));
 	}
 
 	@Test
@@ -344,9 +343,6 @@ public class TanSamplerTest extends SamplerTest {
 		assertEquals(interval(-15.894544843864274, -10.578894993405193), tuples.valueAt(97));
 		assertEquals(interval(-31.820515953769654, -15.894544843864264), tuples.valueAt(98));
 		assertEquals(interval(-2.2517998136852488E14, -31.820515953769632), tuples.valueAt(99));
-		assertEquals(invertedInterval(-2.2517998136852478E14,
-				31.82051595377864), tuples.valueAt(100));
-
 	}
 
 	@Test

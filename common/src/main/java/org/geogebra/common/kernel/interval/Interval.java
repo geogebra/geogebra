@@ -761,6 +761,14 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 		return low == 1 && high == 1;
 	}
 
+	/**
+	 *
+	 * @return if the interval is the negative unit one.
+	 */
+	public boolean isMinusOne() {
+		return low == -1 && high == -1;
+	}
+
 	public boolean isFinite() {
 		return MyDouble.isFinite(low) && MyDouble.isFinite(high);
 	}

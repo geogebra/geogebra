@@ -41,21 +41,31 @@ public class SamplerTest extends BaseUnitTest {
 		for (int i = 0; i < result.count(); i++) {
 			IntervalTuple tuple = result.get(i);
 			Log.debug("assertEquals("
-					+ makeInterval(tuple) + "("
-					+ tuple.y().getLow() + ", " + tuple.y().getHigh()
-					+ "), tuples.valueAt(" + i + "));");
+					+ makeInterval(tuple)
+					+ ", tuples.valueAt(" + i + "));");
 
 		}
 	}
 
 	private String makeInterval(IntervalTuple tuple) {
-		if (tuple.isInverted()) {
-			return "invertedInterval";
-		} else if (tuple.y().isUninverted()) {
-			return "uninvertedInterval";
+		if (tuple.y().isEmpty()) {
+			return "empty()";
 		}
 
-		return "interval";
+		StringBuilder sb = new StringBuilder();
+		if (tuple.isInverted()) {
+			sb.append("invertedInterval");
+		} else if (tuple.y().isUninverted()) {
+			sb.append("uninvertedInterval");
+		} else {
+			sb.append("interval");
+		}
+		sb.append("(");
+		sb.append(tuple.y().getLow());
+		sb.append(", ");
+		sb.append(tuple.y().getHigh());
+		sb.append(")");
+		return sb.toString();
 	}
 
 	protected IntervalTupleList hiResFunction(String description) {

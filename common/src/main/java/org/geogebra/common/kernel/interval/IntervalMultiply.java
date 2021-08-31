@@ -34,6 +34,10 @@ public class IntervalMultiply {
 			return other;
 		}
 
+		if (interval.isMinusOne()) {
+			return other.negative();
+		}
+
 		if (interval.isEmpty() || other.isEmpty()) {
 			return IntervalConstants.empty();
 		}
