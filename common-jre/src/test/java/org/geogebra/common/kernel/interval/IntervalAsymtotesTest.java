@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
 import static java.lang.Math.PI;
+import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertEquals;
@@ -91,8 +92,8 @@ public class IntervalAsymtotesTest extends SamplerTest {
 		IntervalFunctionSampler sampler =
 				new IntervalFunctionSampler(function, range, 100);
 		IntervalTupleList result = sampler.result();
-		assertEquals(interval(Double.NEGATIVE_INFINITY, -3.162277660168378),
-				result.get(0).isInverted());
+		assertEquals(interval(Double.NEGATIVE_INFINITY, -3.1622776601683786),
+				result.get(0).y());
 	}
 
 	@Test
@@ -115,39 +116,19 @@ public class IntervalAsymtotesTest extends SamplerTest {
 		for (IntervalTuple tuple: result) {
 			assertFalse(tuple.y().isHalfNegativeInfinity());
 		}
-
-	}
-
-	@Test
-	public void squareRootOfSinX() {
-		IntervalTupleList tuples = functionValues("sqrt(sin(x))", 0, 3 * PI, -8, 8);
-		assertTrue(tuples.valueAt(33).hasZero());
-		assertTrue(tuples.valueAt(34).isEmpty());
-		assertTrue(tuples.valueAt(35).hasZero());
-		assertTrue(tuples.valueAt(68).hasZero());
 	}
 
 	@Test
 	public void absOfXInverse() {
 		IntervalTupleList tuples = functionValues("abs(1/x)", -1, 1, -8, 8);
-		assertEquals(invertedInterval(0.0, 1.6192717761332122E15), tuples.valueAt(49));
+		assertEquals(empty().invert(), tuples.valueAt(49));
 	}
 
 	@Test
 	public void squareRootOfTanX() {
 		IntervalTupleList tuples = functionValues("sqrt(tan(x))", 0, 3 * PI, -8, 8);
-		assertEquals(invertedInterval(0, 0.01), tuples.valueAt(54));
-		assertTrue(tuples.valueAt(55).isEmpty());
-		assertTrue(tuples.valueAt(56).isZero());
-	}
-
-	@Test
-	public void inverseSquareRootOfTanX() {
-		IntervalTupleList tuples = functionValues("1/sqrt(tan(x))",
-				0, 2 * PI, -8, 8);
-		assertEquals(interval(0.2508279634603156, 0.3554284434961665),
-				tuples.valueAt(49));
-		assertTrue(tuples.valueAt(50).isEmpty());
+		assertEquals(invertedInterval(0, 0.01), tuples.valueAt(16));
+		assertTrue(tuples.valueAt(51).isEmpty());
 	}
 
 	@Test
