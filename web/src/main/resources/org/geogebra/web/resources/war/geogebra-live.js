@@ -311,7 +311,9 @@
 
                         target.evalXML(last.content);
                         target.api.previewRefresh();
-                        this.sendEvent("conflictResolution", target.api.getAlgorithmXML(newLabel), last.label);
+                        this.sendEvent("conflictResolution",
+                            target.api.getAlgorithmXML(newLabel) + target.api.getAlgorithmXML(last.label), last.label);
+                        this.sendEvent("orderingChange", target.api.getOrdering(), null)
                     } else {
                         conflictedObjects.push(last.label);
                     }
