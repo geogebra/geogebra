@@ -2,11 +2,6 @@ package org.geogebra.common.euclidian.plot.interval;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
 
@@ -35,20 +30,6 @@ public class IntervalPlotterCommon extends BaseUnitTest {
 		plotter.enableFor(function);
 	}
 
-	void valuesShouldBeBetween(double low, double high) {
-		List<IntervalPathMockEntry> result =
-				gp.getLog().stream().filter(entry -> entry.y < low - 1E-6
-						|| entry.y > high + 1E-6).collect(Collectors.toList());
-		assertEquals(Collections.emptyList(), result);
-	}
-
-	void valuesShouldNotBe(Predicate<? super IntervalPathMockEntry> predicate) {
-		List<IntervalPathMockEntry> result =
-				gp.getLog().stream().filter(predicate).collect(Collectors.toList());
-		assertEquals(Collections.emptyList(), result);
-	}
-
-
 	public void logShouldBeAt(int index, IntervalPathMockEntry.PathOperation op, double x,
 			double y) {
 		assertEquals(gp.getLog().get(index), new IntervalPathMockEntry(op, x, y));
@@ -56,7 +37,7 @@ public class IntervalPlotterCommon extends BaseUnitTest {
 
 	protected void withHiResFunction(String description) {
 		withBounds(-5000, 5000, 6000, -4000);
-		withScreenSize(1920,1280);
+		withScreenSize(1920, 1280);
 		withFunction(description);
 	}
 }

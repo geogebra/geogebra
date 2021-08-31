@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.interval;
 
-
 import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
@@ -28,8 +27,8 @@ public class IntervalMultiplicativeInverseTest {
 
 	@Test
 	public void testInverseWithBoundsZeroAndPositive() {
-		assertEquals(interval(RMath.divLow(1, 4), Double.POSITIVE_INFINITY)
-				, interval(0, 4).multiplicativeInverse());
+		assertEquals(interval(RMath.divLow(1, 4), Double.POSITIVE_INFINITY),
+				interval(0, 4).multiplicativeInverse());
 	}
 
 	@Test

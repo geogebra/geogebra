@@ -165,6 +165,4 @@ public class IntervalAsymtotesTest extends SamplerTest {
 				0, 2, -10, 10);
 		valuesShouldBeBetween(tuples, 0, 10);
 	}
-
-
 }

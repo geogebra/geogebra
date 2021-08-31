@@ -40,8 +40,8 @@ public class SamplerTest extends BaseUnitTest {
 	private void logSamples(IntervalTupleList result) {
 		for (int i = 0; i < result.count(); i++) {
 			IntervalTuple tuple = result.get(i);
-			Log.debug("assertEquals(" +
-					makeInterval(tuple) + "("
+			Log.debug("assertEquals("
+					+ makeInterval(tuple) + "("
 					+ tuple.y().getLow() + ", " + tuple.y().getHigh()
 					+ "), tuples.valueAt(" + i + "));");
 
@@ -61,7 +61,5 @@ public class SamplerTest extends BaseUnitTest {
 	protected IntervalTupleList hiResFunction(String description) {
 		return functionValuesWithSampleCount(description,
 				-5500, 5500, -5000, 6000, 1920);
-
-
 	}
 }

@@ -13,7 +13,7 @@ public class TanTest extends IntervalPlotterCommon {
 
 	@Test
 	public void testTanX() {
-		withBounds(-PI/2 -1E-2, PI + 1E-2, -6, 6);
+		withBounds(-PI / 2 - 1E-2, PI + 1E-2, -6, 6);
 		withScreenSize((int) (2 * PI + 2E-2), 12);
 		withFunction(TAN_X);
 		logShouldBeAt(1, MOVE_TO, -1.486148547187203, -26.78004903932306);
@@ -28,7 +28,7 @@ public class TanTest extends IntervalPlotterCommon {
 	public void testHiResTanX() {
 		super.withHiResFunction(TAN_X);
 		logShouldBeAt(1, MOVE_TO, -4994.791666666667, -1.0E-4);
-		logShouldBeAt(2, LINE_TO, -4994.791666666667, 1.0E-4 );
+		logShouldBeAt(2, LINE_TO, -4994.791666666667, 1.0E-4);
 		logShouldBeAt(3, MOVE_TO, -4994.791666666667, 0.0);
 		logShouldBeAt(4, LINE_TO, -4989.583333333334, -1.0E-4);
 		logShouldBeAt(5, MOVE_TO, -4994.791666666667, 1280.0);
@@ -36,7 +36,7 @@ public class TanTest extends IntervalPlotterCommon {
 
 	@Test
 	public void testMinusTanX() {
-		withBounds(-PI/2 -1E-2, PI + 1E-2, -6, 6);
+		withBounds(-PI / 2 - 1E-2, PI + 1E-2, -6, 6);
 		withScreenSize((int) (2 * PI + 2E-2), 12);
 		withFunction(MINUS_TAN_X);
 		logShouldBeAt(1, MOVE_TO, -0.792064830064115, 0.0);

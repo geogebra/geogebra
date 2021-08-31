@@ -114,7 +114,8 @@ public class SqrtSamplerTest extends SamplerTest {
 				-1, 12, -12, 12, 100);
 		assertEquals(IntervalConstants.empty(), tuples.valueAt(0));
 		assertEquals(invertedInterval(-5.0, 4.9E-324), tuples.valueAt(1));
-		assertEquals(interval(-5.0, -2.4253562503633286), tuples.valueAt(2));		assertEquals(interval(-1.8257418583505542, -1.5249857033260459), tuples.valueAt(4));
+		assertEquals(interval(-5.0, -2.4253562503633286), tuples.valueAt(2));
+		assertEquals(interval(-1.8257418583505542, -1.5249857033260459), tuples.valueAt(4));
 		assertEquals(interval(-1.5249857033260472, -1.3363062095621214), tuples.valueAt(5));
 		assertEquals(interval(-1.3363062095621223, -1.2038585308576915), tuples.valueAt(6));
 		assertEquals(interval(-1.2038585308576923, -1.104315260748465), tuples.valueAt(7));
