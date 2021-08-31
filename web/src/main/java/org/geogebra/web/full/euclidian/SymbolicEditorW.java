@@ -88,6 +88,11 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	}
 
 	@Override
+	public void removeListeners() {
+		editor.removeListeners();
+	}
+
+	@Override
 	public MathKeyboardListener getKeyboardListener() {
 		return editor.getKeyboardListener();
 	}
@@ -195,5 +200,10 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	@Override
 	public void onChange(ChangeEvent event) {
 		decorator.update();
+	}
+
+	@Override
+	public void onCursorMove() {
+		editor.scrollHorizontally();
 	}
 }

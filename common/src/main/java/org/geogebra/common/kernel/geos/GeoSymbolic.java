@@ -348,6 +348,10 @@ public class GeoSymbolic extends GeoElement
 		ExpressionValue def = getDefinition().unwrap();
 		if (def instanceof FunctionNVar) {
 			setVariables(((FunctionNVar) def).getFunctionVariables());
+		} else if (getDefinition().getLocalVariables().size() > 0) {
+			for (String localVar : getDefinition().getLocalVariables()) {
+				fVars.add(new FunctionVariable(kernel, localVar));
+			}
 		} else if (def instanceof Command || getDefinition().containsFreeFunctionVariable(null)) {
 			FunctionVarCollector functionVarCollector = FunctionVarCollector
 					.getCollector();
@@ -869,9 +873,13 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-		return twinGeo != null
-				? twinGeo.toLaTeXString(symbolic, isSymbolicMode(), tpl)
-				: symbolic ? getDefinition(tpl) : toValueString(tpl);
+		if (symbolicMode) {
+			return symbolic ? getDefinition(tpl) : toValueString(tpl);
+		} else if (twinGeo != null) {
+			return twinGeo.toLaTeXString(symbolic, isSymbolicMode(), tpl);
+		} else {
+			return getDefinition(tpl);
+		}
 	}
 
 	@Override

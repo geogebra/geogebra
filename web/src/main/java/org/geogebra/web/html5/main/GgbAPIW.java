@@ -26,7 +26,10 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MaterialVisibility;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.OpenFileListener;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.AsyncOperation;
@@ -379,44 +382,23 @@ public class GgbAPIW extends GgbAPI {
 		return getZippedBase64Sync(archiveContent);
 	}
 
-	private native String addDPI(String base64, double dpi) /*-{
-		var pngHeader = "data:image/png;base64,";
-
-		if (base64.startsWith(pngHeader)) {
-			base64 = base64.substr(pngHeader.length);
+	private String addDPI(String prefixedBase64, double dpi) {
+		String base64;
+		if (prefixedBase64.startsWith(StringUtil.pngMarker)) {
+			base64 = prefixedBase64.substring(StringUtil.pngMarker.length());
+		} else {
+			base64 = prefixedBase64;
 		}
 
-		// convert dots per inch into dots per metre
-		var pixelsPerM = dpi * 100 / 2.54;
-
-		//console.log("base64 = " + base64);
-
-		// encode PNG as Uint8Array
-		var binary_string = $wnd.atob(base64);
-		var len = binary_string.length;
-		//console.log("len = " + len);
-		var bytes = new Uint8Array(len);
-		for (var i = 0; i < len; i++) {
-			bytes[i] = binary_string.charCodeAt(i);
-		}
+		Uint8Array bytes = Base64.base64ToBytes(base64);
 
 		// change / add pHYs chunk
 		// pixels per metre
-		var ppm = Math.round(dpi / 2.54 * 100);
+		double ppm = Math.round(dpi / 2.54 * 100);
 
-		var b64encoded;
-
-		if (base64.length > 100000) {
-			// slower but works with large images
-			b64encoded = $wnd.rewrite_pHYs_chunk(bytes, ppm, ppm, true);
-		} else {
-			// faster but not good for large images eg 4000 x 4000
-			bytes = $wnd.rewrite_pHYs_chunk(bytes, ppm, ppm, false);
-			b64encoded = btoa(String.fromCharCode.apply(null, bytes));
-		}
-		return 'data:image/png;base64,' + b64encoded;
-
-	}-*/;
+		String b64encoded = RewritePhys.rewritePhysChunk(bytes, ppm, ppm);
+		return StringUtil.pngMarker + b64encoded;
+	}
 
 	/**
 	 * @param includeThumbnail
@@ -1242,5 +1224,31 @@ public class GgbAPIW extends GgbAPI {
 		if (guiManagerW != null) {
 			guiManagerW.showPointsTV(column, show);
 		}
+	}
+
+	/**
+	 * Save callback after successful login
+	 * @param title material title
+	 * @param visibility material visibility
+	 * @param callbackAction what should happen after successful login
+	 */
+	public void startSaveCallback(String title, String visibility, String callbackAction) {
+		app.getSaveController().setSaveType(Material.MaterialType.ggs);
+		app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
+		MaterialVisibility matVisibility = MaterialVisibility.value(visibility);
+		app.getSaveController().saveAs(title, matVisibility, null);
+		app.getSaveController().setRunAfterSave((success) -> {
+			if (success) {
+				if ("clearAll".equals(callbackAction)) {
+					((AppW) app).tryLoadTemplatesOnFileNew();
+				}
+				if ("openOfflineFile".equals(callbackAction)) {
+					// TODO handle open offline file after login
+				}
+			} else {
+				app.showError(MyError.Errors.SaveFileFailed);
+			}
+		});
+
 	}
 }

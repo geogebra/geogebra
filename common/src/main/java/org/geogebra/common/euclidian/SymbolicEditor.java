@@ -158,4 +158,8 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		}
 		return false;
 	}
+
+	public void removeListeners() {
+		// web only
+	}
 }

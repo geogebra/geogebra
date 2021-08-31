@@ -1460,14 +1460,15 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 				ret.setUndefined();
 			}
-			if (ret instanceof GeoFunction) {
 
+			if (ret instanceof GeoFunction) {
 				MyList list = lv.getMyList();
 				FunctionVariable fv = new FunctionVariable(kernel);
 				list.addListElement(fv);
 				return new Function(new ExpressionNode(kernel, lt,
 						Operation.ELEMENT_OF, list), fv);
 			}
+
 			if (ret instanceof GeoFunctionNVar) {
 				MyList list = lv.getMyList();
 				FunctionVariable[] vars = ((GeoFunctionNVar) ret)
@@ -1478,6 +1479,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return new FunctionNVar(new ExpressionNode(kernel, lt,
 						Operation.ELEMENT_OF, list), vars);
 			}
+
 			return ret;
 		}
 		throw illegalArgument(lt);

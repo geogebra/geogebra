@@ -2,8 +2,6 @@ package org.geogebra.web.full.gui.dialog.options;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.euclidian.event.KeyEvent;
-import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import org.geogebra.common.gui.util.SelectionTable;
@@ -29,12 +27,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -151,20 +144,10 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		cbFillInverse = new CheckBox();
 		fillTypePanel.add(cbFillInverse);
-		lbFillType.addChangeHandler(new ChangeHandler() {
+		lbFillType.addChangeHandler(event -> model.applyFillType(lbFillType.getSelectedIndex()));
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				model.applyFillType(lbFillType.getSelectedIndex());
-			}
-		});
-
-		cbFillInverse.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				model.applyFillingInverse(cbFillInverse.getValue());
-			}
-		});
+		cbFillInverse.addClickHandler(event ->
+				model.applyFillingInverse(cbFillInverse.getValue()));
 
 		FlowPanel panel = new FlowPanel();
 		panel.add(fillTypePanel);
@@ -255,60 +238,33 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		fillTypePanel.add(lbBars);
 
-		lbBars.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				model.updateProperties();
-			}
-		});
+		lbBars.addChangeHandler(event -> model.updateProperties());
 
 		setWidget(mainWidget);
 
-		opacitySlider.addChangeHandler(new ChangeHandler() {
+		opacitySlider.addChangeHandler(event -> model.applyOpacity(opacitySlider.getValue()));
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				model.applyOpacity(opacitySlider.getValue());
-			}
-		});
-
-		ChangeHandler angleAndDistanceHandler = new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				model.applyAngleAndDistance(angleSlider.getValue(),
-						distanceSlider.getValue());
-
-			}
-		};
+		ChangeHandler angleAndDistanceHandler =	event -> model.applyAngleAndDistance(
+				angleSlider.getValue(),	distanceSlider.getValue());
 
 		angleSlider.addChangeHandler(angleAndDistanceHandler);
 		distanceSlider.addChangeHandler(angleAndDistanceHandler);
 
-		tfInsertUnicode.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
-				String symbolText = tfInsertUnicode.getText();
-				if (symbolText.isEmpty()) {
-					return;
-				}
-				selectSymbol(symbolText);
-				model.applyUnicode(symbolText);
+		tfInsertUnicode.addBlurHandler(event -> {
+			String symbolText = tfInsertUnicode.getText();
+			if (symbolText.isEmpty()) {
+				return;
 			}
+			selectSymbol(symbolText);
+			model.applyUnicode(symbolText);
 		});
 
-		tfInsertUnicode.addKeyHandler(new KeyHandler() {
+		tfInsertUnicode.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
+				String symbolText = tfInsertUnicode.getText();
+				selectSymbol(symbolText);
+				model.applyUnicode(symbolText);
 
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					String symbolText = tfInsertUnicode.getText();
-					selectSymbol(symbolText);
-					model.applyUnicode(symbolText);
-
-				}
 			}
 		});
 
@@ -392,23 +348,11 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		btnImage.setKeepVisible(false);
 		btnClearImage = new GPushButton(
 				new NoDragImage(MaterialDesignResources.INSTANCE.delete_black(), 24));
-		btnClearImage.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				model.applyImage("");
-			}
-
-		});
+		btnClearImage.addClickHandler(event -> model.applyImage(""));
 		btnOpenFile = new Button();
 		btnOpenFile.addStyleName("openFileBtn");
 		btnClearImage.addStyleName("clearImgBtn");
-		btnOpenFile.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				new MyImageFileInputDialog(app).center();
-			}
-		});
+		btnOpenFile.addClickHandler(event -> new MyImageFileInputDialog(app).center());
 
 		btnPanel.add(btnImage);
 		btnPanel.add(btnClearImage);

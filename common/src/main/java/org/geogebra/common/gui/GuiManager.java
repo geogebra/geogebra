@@ -567,7 +567,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		lastUsedPlotPanelID--;
 		int viewID = lastUsedPlotPanelID;
 		getPlotPanelIDMap().put(viewID, plotPanel);
-		Log.debug(viewID);
 		return viewID;
 	}
 
@@ -847,5 +846,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 */
 	protected TableValuesView createTableValuesView() {
 		return new TableValuesView(kernel);
+	}
+
+	@Override
+	public void closeFullscreenView() {
+		// only needed in web
 	}
 }

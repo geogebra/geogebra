@@ -44,7 +44,7 @@ public class ColorChooserDialog extends ComponentDialog {
 		this.handler = handler;
 		this.originalColor = originalColor;
 		colorChooserW = colorChooser;
-		colorChooserW.setSelectedColor(originalColor);
+		colorChooserW.onCustomColor(originalColor);
 		setSelectedColor(originalColor);
 		setDialogContent(colorChooserW);
 		setHandlers();
@@ -55,7 +55,7 @@ public class ColorChooserDialog extends ComponentDialog {
 		colorChooserW = new ColorChooserW(app, 400, 210, colorIconSizeW, 4);
 		colorChooserW.enableOpacity(false);
 		colorChooserW.enableBackgroundColorPanel(false);
-		colorChooserW.setSelectedColor(originalColor);
+		colorChooserW.onCustomColor(originalColor);
 		setSelectedColor(originalColor);
 		setDialogContent(colorChooserW);
 	}

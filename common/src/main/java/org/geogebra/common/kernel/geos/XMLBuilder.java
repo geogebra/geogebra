@@ -1,9 +1,12 @@
 package org.geogebra.common.kernel.geos;
 
+import java.util.Locale;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
+import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -435,13 +438,20 @@ public class XMLBuilder {
 	 * Adds border color for inline texts
 	 * @param sb XML builder
 	 * @param text inline text
+	 * @param alignment vertical alignment
 	 */
-	public static void appendBorder(StringBuilder sb, GeoInline text) {
+	public static void appendBorderAndAlignment(StringBuilder sb, GeoInline text,
+			VerticalAlignment alignment) {
 		GColor borderColor = text.getBorderColor();
 		if (borderColor != null) {
 			sb.append("\t<borderColor");
 			appendRGB(sb, borderColor);
 			sb.append("/>\n");
+		}
+		if (alignment != VerticalAlignment.TOP) {
+			sb.append("\t<verticalAlign val=\"");
+			sb.append(alignment.name().toLowerCase(Locale.ROOT));
+			sb.append("\"/>\n");
 		}
 	}
 

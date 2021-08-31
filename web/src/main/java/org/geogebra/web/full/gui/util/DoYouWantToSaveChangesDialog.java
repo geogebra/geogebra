@@ -7,6 +7,7 @@ import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogUtil;
@@ -80,6 +81,8 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 			} else {
 				if (!app.getLoginOperation().isLoggedIn()) {
 					hide();
+					((AppWFull) app).getActivity().markSaveProcess(getInputField().getText(),
+							getSaveVisibility());
 					((AppW) app).getGuiManager().listenToLogin();
 					app.getLoginOperation().showLoginDialog();
 					((AppW) app).getGuiManager().setRunAfterLogin(this::onSave);

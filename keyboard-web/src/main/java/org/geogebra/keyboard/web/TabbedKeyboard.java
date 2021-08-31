@@ -660,6 +660,16 @@ public class TabbedKeyboard extends FlowPanel
 					KeyboardResources.INSTANCE.vector(),
 					button.getPrimaryActionName(), bh, false, loc,
 					"altText.Vector");
+		} else if (resourceName.equals(Resource.ATOMIC_POST.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.atomic_post(),
+					button.getPrimaryActionName(), bh, false, loc,
+					"altText.AtomicPost");
+		} else if (resourceName.equals(Resource.ATOMIC_PRE.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.atomic_pre(),
+					button.getPrimaryActionName(), bh, false, loc,
+					"altText.AtomicPre");
 		}
 
   		if (resourceName.equals(Resource.ROOT.name())) {

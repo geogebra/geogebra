@@ -1,8 +1,11 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.ComponentOrDivider;
 
 import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
 import elemental2.dom.File;
@@ -45,13 +48,13 @@ public class H5PInputDialog extends EmbedInputDialog {
 		mediaInputPanel.addPlaceholder(app.getLocalization().getMenu("pasteLink"));
 		addDialogContent(mediaInputPanel);
 
-		//addDialogContent(new ComponentOrDivider(app.getLocalization().getMenu("Symbol.Or")));
-		//addSelectFileButton();
+		addDialogContent(new ComponentOrDivider(app.getLocalization().getMenu("Symbol.Or")));
+		addSelectFileButton();
 
 		setPosBtnDisabled(true);
 	}
 
-	/*private void addSelectFileButton() {
+	private void addSelectFileButton() {
 		FlowPanel container = new FlowPanel();
 		container.addStyleName("btnContainer");
 
@@ -63,7 +66,7 @@ public class H5PInputDialog extends EmbedInputDialog {
 
 		container.add(selectFileBtn);
 		addDialogContent(container);
-	}*/
+	}
 
 	/**
 	 * loads the h5p element

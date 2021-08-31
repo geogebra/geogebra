@@ -1,16 +1,13 @@
 package org.geogebra.web.solver;
 
 import org.geogebra.common.factories.CASFactoryDummy;
-import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.editor.AppWsolver;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.resources.StyleInjector;
-import org.geogebra.web.shared.SharedResources;
 import org.geogebra.web.simple.Stub3DFragment;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -37,11 +34,11 @@ public class StepsEntry implements EntryPoint {
 
 		parameters.setAttribute("marginTop", "64");
 
-		StyleInjector.inject(SharedResources.INSTANCE.solverStyleScss());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.sharedStyleScss());
-		StyleInjector.inject(SharedResources.INSTANCE.stepTreeStyleScss());
-		StyleInjector.inject(SharedResources.INSTANCE.dialogStylesScss());
-		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
+		StyleInjector.inject("css", "solver");
+		StyleInjector.inject("css", "shared");
+		StyleInjector.inject("css", "step-tree");
+		StyleInjector.inject("css", "dialog-styles");
+		StyleInjector.inject("css", "keyboard-styles");
 
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderGWT());

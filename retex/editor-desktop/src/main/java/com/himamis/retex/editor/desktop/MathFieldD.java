@@ -36,7 +36,6 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -45,7 +44,6 @@ import javax.swing.Timer;
 import com.himamis.retex.editor.desktop.event.ClickListenerAdapter;
 import com.himamis.retex.editor.desktop.event.FocusListenerAdapter;
 import com.himamis.retex.editor.desktop.event.KeyListenerAdapter;
-import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.editor.SyntaxAdapter;
@@ -73,8 +71,10 @@ public class MathFieldD extends JLabel implements MathField {
 	private static final long serialVersionUID = 1L;
 	
 	private MathFieldInternal mathFieldInternal;
+	private int cursorX;
+	private int scrollX = 0;
 
-	public MathFieldD(SyntaxAdapter syntaxAdapter) {
+	public MathFieldD(SyntaxAdapter syntaxAdapter, Runnable repaint) {
 		SelectionBox.touchSelection = false;
 		setBackground(Color.white);
 		setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
@@ -88,7 +88,7 @@ public class MathFieldD extends JLabel implements MathField {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CursorBox.toggleBlink();
-				repaint();
+				repaint.run();
 			}
 		});
 		t.setRepeats(true);
@@ -109,6 +109,7 @@ public class MathFieldD extends JLabel implements MathField {
 		setFocusTraversalKeysEnabled(true);
 		setFocusable(true);
 		setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
+		this.cursorX = icon.getCursorX();
 	}
 
 	@Override
@@ -118,7 +119,7 @@ public class MathFieldD extends JLabel implements MathField {
 
 	@Override
 	public void setClickListener(ClickListener clickListener) {
-		ClickListenerAdapter adapter = new ClickListenerAdapter(clickListener);
+		ClickListenerAdapter adapter = new ClickListenerAdapter(this, clickListener);
 		addMouseListener(adapter);
 		addMouseMotionListener(adapter);
 	}
@@ -239,14 +240,17 @@ public class MathFieldD extends JLabel implements MathField {
 	@Override
 	public void tab(boolean shiftDown) {
 		// TODO Auto-generated method stub
-		
+	}
+
+	public int getScrollX() {
+		return scrollX;
 	}
 
 	/**
-	 * @return caret path as indices in the formula tree
+	 * Scroll to get caret into view
+	 * @param width parent width
 	 */
-	public ArrayList<Integer> getCaretPath() {
-		return CursorController.getPath(mathFieldInternal.getEditorState());
+	public void scrollHorizontally(int width) {
+		scrollX = MathFieldInternal.getHorizontalScroll(scrollX, width, cursorX);
 	}
-
 }

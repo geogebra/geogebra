@@ -1,57 +1,5 @@
-/* adapted from https://github.com/hughsk/png-chunks-extract (MIT license) and https://github.com/SheetJS/js-crc32 (Apache 2.0) (C) 2014-present SheetJS -- http://sheetjs.com https://github.com/alexhorn/uint8array-base64 (Public Domain) */
-window.rewrite_pHYs_chunk = function(data, ppmx, ppmy, base64) {
-
-
-    // https://github.com/alexhorn/uint8array-base64
-    const base64chars = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'];
-    //const base64inv = {'0':52,'1':53,'2':54,'3':55,'4':56,'5':57,'6':58,'7':59,'8':60,'9':61,'A':0,'B':1,'C':2,'D':3,'E':4,'F':5,'G':6,'H':7,'I':8,'J':9,'K':10,'L':11,'M':12,'N':13,'O':14,'P':15,'Q':16,'R':17,'S':18,'T':19,'U':20,'V':21,'W':22,'X':23,'Y':24,'Z':25,'a':26,'b':27,'c':28,'d':29,'e':30,'f':31,'g':32,'h':33,'i':34,'j':35,'k':36,'l':37,'m':38,'n':39,'o':40,'p':41,'q':42,'r':43,'s':44,'t':45,'u':46,'v':47,'w':48,'x':49,'y':50,'z':51,'+':62,'/':63};
-
-    function encodeBase64(buf) {
-        let str = new Array(Math.ceil(buf.length * 4 / 3));
-        for (let i = 0; i < buf.length; i += 3) {
-            const b0 = buf[i],
-                b1 = buf[i + 1],
-                b2 = buf[i + 2],
-                b3 = buf[i + 3];
-            str[i * 4 / 3] = base64chars[b0 >>> 2];
-            str[i * 4 / 3 + 1] = base64chars[b0 << 4 & 63 | (b1 || 0) >>> 4];
-            if (i + 1 < buf.length) {
-                str[i * 4 / 3 + 2] = base64chars[b1 << 2 & 63 | (b2 || 0) >>> 6];
-                if (i + 2 < buf.length) {
-                    str[i * 4 / 3 + 3] = base64chars[b2 & 63];
-                } else {
-                    return str.join('') + '=';
-                }
-            } else {
-                return str.join('') + '==';
-            }
-        }
-        return str.join('');
-    }
-    /*
-    function decodeBase64 (str) {
-      let pad = 0;
-      for (let i = str.length - 1; i >= 0; --i) {
-        if (str.charAt(i) == '=') {
-          ++pad;
-        } else {
-          break;
-        }
-      }
-      let buf = new Uint8Array(str.length * 3 / 4 - pad);
-      for (let i = 0; i < str.length - pad; i += 4) {
-        const c0 = base64inv[str.charAt(i)], c1 = base64inv[str.charAt(i + 1)], c2 = base64inv[str.charAt(i + 2)], c3 = base64inv[str.charAt(i + 3)];
-        buf[i * 3 / 4] = c0 << 2 & 255 | c1 >>> 4;
-        if (i + 2 < str.length - pad) {
-          buf[i * 3 / 4 + 1] = c1 << 4 & 255 | c2 >>> 2;
-          if (i + 3 < str.length - pad) {
-            buf[i * 3 / 4 + 2] = c2 << 6 & 255 | c3;
-          }
-        }
-      }
-      return buf;
-    }*/
-
+/* adapted from https://github.com/hughsk/png-chunks-extract (MIT license) and https://github.com/SheetJS/js-crc32 (Apache 2.0) (C) 2014-present SheetJS -- http://sheetjs.com (Public Domain) */
+window.rewrite_pHYs_chunk = function(data, ppmx, ppmy) {
     /* crc32.js (C) 2014-present SheetJS -- http://sheetjs.com */
     /* vim: set ts=2: */
     /*exported CRC32 */
@@ -165,13 +113,10 @@ window.rewrite_pHYs_chunk = function(data, ppmx, ppmy, base64) {
     var int32 = new Int32Array(uint8.buffer);
     var uint32 = new Uint32Array(uint8.buffer);
 
-    var pHYsFound = false;
-
     if (data[0] !== 0x89 || data[1] !== 0x50 || data[2] !== 0x4E || data[3] !== 0x47 || data[4] !== 0x0D || data[5] !== 0x0A || data[6] !== 0x1A || data[7] !== 0x0A) {
         throw new Error('Invalid .png file header: possibly caused by DOS-Unix line ending conversion?');
     }
 
-    var ended = false
     var idx = 8
 
     while (idx < data.length) {
@@ -200,7 +145,6 @@ window.rewrite_pHYs_chunk = function(data, ppmx, ppmy, base64) {
 
         console.log("chunk found " + name + ", length = " + (length - 4));
 
-
         var chunkDataStart = idx;
 
         // Read the contents of the chunk out of the main buffer.
@@ -227,7 +171,6 @@ window.rewrite_pHYs_chunk = function(data, ppmx, ppmy, base64) {
         }
 
         if (name == "IDAT") {
-
             chunkDataStart = chunkDataStart - 8;
 
             var len = data.length;
@@ -261,19 +204,20 @@ window.rewrite_pHYs_chunk = function(data, ppmx, ppmy, base64) {
             phys[i++] = data2[chunkDataStart++] = 'Y'.charCodeAt(0);
             phys[i++] = data2[chunkDataStart++] = 's'.charCodeAt(0);
 
-
             // x
             uint32[0] = ppmx;
             phys[i++] = data2[chunkDataStart++] = uint8[3];
             phys[i++] = data2[chunkDataStart++] = uint8[2];
             phys[i++] = data2[chunkDataStart++] = uint8[1];
             phys[i++] = data2[chunkDataStart++] = uint8[0];
+
             // y 
             uint32[0] = ppmy;
             phys[i++] = data2[chunkDataStart++] = uint8[3];
             phys[i++] = data2[chunkDataStart++] = uint8[2];
             phys[i++] = data2[chunkDataStart++] = uint8[1];
             phys[i++] = data2[chunkDataStart++] = uint8[0];
+
             // unit = meters
             phys[i++] = data2[chunkDataStart++] = 1;
 
@@ -285,16 +229,11 @@ window.rewrite_pHYs_chunk = function(data, ppmx, ppmy, base64) {
             data2[chunkDataStart++] = uint8[1];
             data2[chunkDataStart++] = uint8[0];
 
-            if (base64) {
-                return encodeBase64(data2);
-            }
-            return data2;
-
-
+            return base64Util.bytesToBase64(data2);
         }
 
         if (name == "pHYs") {
-            console.log("pHYs chunk found, rewriting!!!!!!!!!!!!!");
+            console.log("pHYs chunk found, rewriting");
 
             uint8[3] = data[chunkDataStart];
             uint8[2] = data[chunkDataStart + 1];
@@ -318,18 +257,21 @@ window.rewrite_pHYs_chunk = function(data, ppmx, ppmy, base64) {
             phys[i++] = 'H'.charCodeAt(0);
             phys[i++] = 'Y'.charCodeAt(0);
             phys[i++] = 's'.charCodeAt(0);
+
             // x
             uint32[0] = ppmx;
             phys[i++] = data[chunkDataStart++] = uint8[3];
             phys[i++] = data[chunkDataStart++] = uint8[2];
             phys[i++] = data[chunkDataStart++] = uint8[1];
             phys[i++] = data[chunkDataStart++] = uint8[0];
+
             // y 
             uint32[0] = ppmy;
             phys[i++] = data[chunkDataStart++] = uint8[3];
             phys[i++] = data[chunkDataStart++] = uint8[2];
             phys[i++] = data[chunkDataStart++] = uint8[1];
             phys[i++] = data[chunkDataStart++] = uint8[0];
+
             // unit = meters
             phys[i++] = data[chunkDataStart++] = 1;
 
@@ -341,14 +283,9 @@ window.rewrite_pHYs_chunk = function(data, ppmx, ppmy, base64) {
             data[crcStart++] = uint8[1];
             data[crcStart++] = uint8[0];
 
-            if (base64) {
-                return encodeBase64(data);
-            }
-            return data;
+            return base64Util.bytesToBase64(data);
         }
-
     }
 
     throw new Error('.png file ended prematurely: no IEND or pHYs header was found');
-
 }

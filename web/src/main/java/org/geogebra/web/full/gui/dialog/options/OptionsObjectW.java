@@ -82,8 +82,6 @@ import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -157,23 +155,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			labelMode = new ListBox();
 			labelMode.setMultipleSelect(false);
 
-			showLabelCB.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					model.applyShowChanges(showLabelCB.getValue());
-				}
-			});
+			showLabelCB.addClickHandler(event -> model.applyShowChanges(showLabelCB.getValue()));
 
-			labelMode.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					model.applyModeChanges(
-							model.fromDropdown(labelMode.getSelectedIndex()),
-							true);
-				}
-
-			});
+			labelMode.addChangeHandler(event -> model.applyModeChanges(
+					model.fromDropdown(labelMode.getSelectedIndex()),
+					true));
 			mainWidget.add(labelMode);
 		}
 
@@ -470,25 +456,15 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 			btRemove = new Label();
 			btRemove.addStyleName("textButton");
-			btRemove.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					model.removeAll();
-				}
-			});
+			btRemove.addClickHandler(event -> model.removeAll());
 
 			cbColorSpace = new ListBox();
-			cbColorSpace.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					colorSpace = cbColorSpace.getSelectedIndex();
-					allowSetComboBoxLabels = false;
-					setLabels();
-					execute();
-					cbColorSpace.setSelectedIndex(colorSpace);
-				}
+			cbColorSpace.addChangeHandler(event -> {
+				colorSpace = cbColorSpace.getSelectedIndex();
+				allowSetComboBoxLabels = false;
+				setLabels();
+				execute();
+				cbColorSpace.setSelectedIndex(colorSpace);
 			});
 
 			FlowPanel redColorPanel = new FlowPanel();
@@ -672,47 +648,21 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			cbGraphicsView2 = new CheckBox();
 			cbGraphicsView3D = new CheckBox();
 			cbGraphicsViewForPlane = new CheckBox();
-			cbGraphicsView.addClickHandler(new ClickHandler() {
+			cbGraphicsView.addClickHandler(
+					event -> model.applyToEuclidianView1(cbGraphicsView.getValue()));
 
-				@Override
-				public void onClick(ClickEvent event) {
-					model.applyToEuclidianView1(cbGraphicsView.getValue());
-				}
-			});
+			cbGraphicsView2.addClickHandler(
+					event -> model.applyToEuclidianView2(cbGraphicsView2.getValue()));
 
-			cbGraphicsView2.addClickHandler(new ClickHandler() {
+			cbGraphicsView3D.addClickHandler(
+					event -> model.applyToEuclidianView3D(cbGraphicsView3D.getValue()));
 
-				@Override
-				public void onClick(ClickEvent event) {
-					model.applyToEuclidianView2(cbGraphicsView2.getValue());
-				}
-			});
-
-			cbGraphicsView3D.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					model.applyToEuclidianView3D(cbGraphicsView3D.getValue());
-				}
-			});
-
-			cbGraphicsViewForPlane.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					model.applyToEuclidianViewForPlane(
-							cbGraphicsViewForPlane.getValue());
-				}
-			});
+			cbGraphicsViewForPlane.addClickHandler(event -> model.applyToEuclidianViewForPlane(
+					cbGraphicsViewForPlane.getValue()));
 
 			cbAlgebraView = new CheckBox();
-			cbAlgebraView.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					model.applyToAlgebraView(cbAlgebraView.getValue());
-				}
-			});
+			cbAlgebraView.addClickHandler(
+					event -> model.applyToAlgebraView(cbAlgebraView.getValue()));
 
 			FlowPanel mainPanel = new FlowPanel();
 			FlowPanel checkBoxPanel = new FlowPanel();

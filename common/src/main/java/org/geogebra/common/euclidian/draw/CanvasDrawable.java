@@ -56,8 +56,8 @@ public abstract class CanvasDrawable extends Drawable {
 	 */
 	protected GDimension measureLatex(GGraphics2D g2, GeoElement geo0,
 			GFont font, String text) {
-		return drawLatex(g2, geo0, font, text, Integer.MIN_VALUE,
-				Integer.MIN_VALUE, false);
+		return measureLatex(view.getApplication(), geo0, font, text,
+				shouldBeSerif(text, geo0, false));
 	}
 
 	/**
@@ -85,13 +85,7 @@ public abstract class CanvasDrawable extends Drawable {
 		App app = view.getApplication();
 
 		// eg $\math{x}$ for nice x
-		boolean serif = StringUtil.startsWithFormattingCommand(text);
-
-		if (!serif && geo0 instanceof TextProperties) {
-			serif = (geo0 instanceof GeoInputBox && isContentOfInputBox)
-					? ((GeoInputBox) geo0).isSerifContent()
-					: ((TextProperties) geo0).isSerifFont();
-		}
+		boolean serif = shouldBeSerif(text, geo0, isContentOfInputBox);
 
 		GDimension ret = app.getDrawEquation().drawEquation(app, geo0, g2, x, y,
 				text,
@@ -99,6 +93,17 @@ public abstract class CanvasDrawable extends Drawable {
 				false, false, view.getCallBack(geo, firstCall));
 		firstCall = false;
 		return ret;
+	}
+
+	protected boolean shouldBeSerif(String text, GeoElement geo0, boolean isContentOfInputBox) {
+		boolean serif = StringUtil.startsWithFormattingCommand(text);
+
+		if (!serif && geo0 instanceof TextProperties) {
+			serif = (geo0 instanceof GeoInputBox && isContentOfInputBox)
+					? ((GeoInputBox) geo0).isSerifContent()
+					: ((TextProperties) geo0).isSerifFont();
+		}
+		return serif;
 	}
 
 	/**
@@ -148,6 +153,10 @@ public abstract class CanvasDrawable extends Drawable {
 	 */
 	protected boolean measureLabel(GGraphics2D g2, GeoElement geo0,
 			String text) {
+		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
+			getDynamicCaption().measure(g2);
+			return getDynamicCaption().setLabelSize();
+		}
 		boolean latex = false;
 		if (geo.isLabelVisible()) {
 			latex = isLatexString(text);
@@ -179,7 +188,7 @@ public abstract class CanvasDrawable extends Drawable {
 		if (labelSize == null) {
 			return;
 		}
-		boxLeft = xLabel + labelSize.x + 2;
+		boxLeft = xLabel + labelSize.x + getLabelGap();
 		boxTop = latex
 				? yLabel + (labelSize.y - getPreferredHeight()) / 2
 				: yLabel;
@@ -191,11 +200,13 @@ public abstract class CanvasDrawable extends Drawable {
 	 * Update box bounds.
 	 */
 	protected void calculateBoxBounds() {
-		boxLeft = xLabel + 2;
+		boxLeft = xLabel + getLabelGap();
 		boxTop = yLabel;
 		boxWidth = getPreferredWidth();
 		boxHeight = getPreferredHeight();
 	}
+
+	protected abstract int getLabelGap();
 
 	/**
 	 * @param g2
@@ -204,7 +215,9 @@ public abstract class CanvasDrawable extends Drawable {
 	 *            whether the label is latex
 	 */
 	protected void highlightLabel(GGraphics2D g2, boolean latex) {
-		if (geo.isLabelVisible() && isHighlighted()) {
+		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
+			getDynamicCaption().highlight();
+		} else if (geo.isLabelVisible() && isHighlighted()) {
 			g2.setPaint(GColor.LIGHT_GRAY);
 			int labelHeight = latex ? labelSize.y : getLabelHeight();
 			g2.fillRect(xLabel, (int) getLabelTop(), labelSize.x, labelHeight);
@@ -220,7 +233,9 @@ public abstract class CanvasDrawable extends Drawable {
 	}
 
 	protected int getLabelTextHeight() {
-		return (int) (getLabelFontSize() * LABEL_FONT_MULTIPLIER + HIGHLIGHT_MARGIN);
+		return getDynamicCaption() != null && getDynamicCaption().isEnabled()
+				? getDynamicCaption().getHeight() : (int) (getLabelFontSize()
+				* LABEL_FONT_MULTIPLIER + HIGHLIGHT_MARGIN);
 	}
 
 	/**
@@ -266,7 +281,15 @@ public abstract class CanvasDrawable extends Drawable {
 	 */
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		return hitLabelBounds(x, y) || hitWidgetBounds(x, y);
+		boolean hitDynCaption = false;
+		if (getDynamicCaption() != null) {
+			hitDynCaption = getDynamicCaption().hit(x, y, hitThreshold);
+		}
+		return hitDynCaption || hitLabelBounds(x, y) || hitWidgetBounds(x, y);
+	}
+
+	public int getTextBottom() {
+		return (getPreferredHeight() / 2) + (int) (getLabelFontSize() * 0.4);
 	}
 
 	protected boolean hitWidgetBounds(int x, int y) {

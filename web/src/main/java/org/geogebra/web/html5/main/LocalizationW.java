@@ -11,7 +11,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
@@ -364,9 +363,8 @@ public final class LocalizationW extends Localization {
 	 *            callback
 	 */
 	public void loadScript(final String lang0, final HasLanguage app) {
-		if (Browser.supportsSessionStorage()
-				&& LocalizationW.loadPropertiesFromStorage(lang0,
-						GeoGebraConstants.VERSION_STRING)) {
+		if (LocalizationW.loadPropertiesFromStorage(lang0,
+				GeoGebraConstants.VERSION_STRING)) {
 			app.doSetLanguage(lang0, false);
 		} else {
 			// load keys (into a JavaScript <script> tag)
@@ -389,10 +387,7 @@ public final class LocalizationW extends Localization {
 					// force reload
 					app.doSetLanguage(lang0, true);
 
-					if (Browser.supportsSessionStorage()) {
-						LocalizationW.savePropertiesToStorage(lang0
-						);
-					}
+					LocalizationW.savePropertiesToStorage(lang0);
 				}
 
 				@Override

@@ -33,25 +33,25 @@ import com.himamis.retex.editor.share.util.Unicode;
  * ExpressionNode and MyVecNode(3D) structure to perform some action, e.g.
  * replace one type of objects by another or just count some occurences of
  * certain types of objects.
- * 
+ *
  * Each public class in this file which implements Traversing solves a usual
  * task. To support transparency and good coding style, such tasks should be
  * called by the same convention.
- * 
+ *
  * Example code which collects GeoElements in an ExpressionNode with
  * multiplicities: {@code
- * ExpressionNode root = ...; 
+ * ExpressionNode root = ...;
  * HashMap<GeoElement, Integer> gSet = new HashMap<GeoElement, Integer>();
  * GeoCollector gc = GeoCollector.getCollector(gSet);
  * root.traverse(gc);
  * } Now the GeoElements are collected in {@code gSet}.
- * 
+ *
  * @author Zbynek Konecny
  */
 public interface Traversing {
 	/**
 	 * Processes a value locally (no recursion)
-	 * 
+	 *
 	 * @param ev
 	 *            value to process
 	 * @return processed value
@@ -76,7 +76,7 @@ public interface Traversing {
 
 		/**
 		 * Creates a replacer
-		 * 
+		 *
 		 * @param original
 		 *            object to be replaced
 		 * @param replacement
@@ -112,7 +112,7 @@ public interface Traversing {
 
 		/**
 		 * Creates a replacer
-		 * 
+		 *
 		 * @param original
 		 *            object to be replaced
 		 * @param replacement
@@ -247,20 +247,8 @@ public interface Traversing {
 		public boolean check(ExpressionValue ev) {
 			if (ev instanceof ExpressionNode) {
 				ExpressionNode en = (ExpressionNode) ev;
-
 				Operation op = en.getOperation();
-				ExpressionValue arg;
-
-				if (op.hasDegreeInput() && (arg = en.getLeft()
-						.unwrap()) instanceof FunctionVariable) {
-
-					FunctionVariable fv = (FunctionVariable) arg;
-
-					// change sin(x) to sin(x deg)
-					if ("x".equals(fv.getSetVarString())) {
-						return true;
-					}
-				}
+				return op.hasDegreeInput();
 			}
 			return false;
 		}
@@ -452,7 +440,7 @@ public interface Traversing {
 
 	/**
 	 * Replaces Variables with given name by given object
-	 * 
+	 *
 	 * @author Zbynek Konecny
 	 *
 	 */
@@ -542,10 +530,10 @@ public interface Traversing {
 		/**
 		 * When calling this method, make sure you initialize the replacer with
 		 * the {@link #addVars(String, ExpressionValue)} method
-		 * 
+		 *
 		 * @param kernel1
 		 *            kernel
-		 * 
+		 *
 		 * @return replacer
 		 */
 		public static VariableReplacer getReplacer(Kernel kernel1) {
@@ -646,10 +634,10 @@ public interface Traversing {
 		/**
 		 * When calling this method, make sure you initialize the replacer with
 		 * the {@link #addVars(GeoNumeric, ExpressionValue)} method
-		 * 
+		 *
 		 * @param kernel1
 		 *            kernel
-		 * 
+		 *
 		 * @return replacer
 		 */
 		public static GeoNumericReplacer getReplacer(Kernel kernel1) {
@@ -664,7 +652,7 @@ public interface Traversing {
 
 	/**
 	 * Renames Spreadsheet Variables with new name according to offset (dx,dy)
-	 * 
+	 *
 	 * @author michael
 	 *
 	 */
@@ -676,7 +664,7 @@ public interface Traversing {
 		/**
 		 * Renames Spreadsheet Variables with new name according to offset
 		 * (dx,dy)
-		 * 
+		 *
 		 * @param dx
 		 *            x-offset
 		 * @param dy
@@ -744,7 +732,7 @@ public interface Traversing {
 
 	/**
 	 * Replaces undefined variables by sliders
-	 * 
+	 *
 	 * @author michael
 	 *
 	 */
@@ -756,14 +744,14 @@ public interface Traversing {
 
 		/**
 		 * Replaces undefined variables by sliders
-		 * 
+		 *
 		 * @param kernel
 		 *            kernel
 		 * @param undefined
 		 *            list of undefined vars (write only)
 		 * @param skip
 		 *            list of labels to skip
-		 * 
+		 *
 		 */
 		public ReplaceUndefinedVariables(Kernel kernel,
 				TreeSet<GeoNumeric> undefined, String[] skip) {
@@ -857,7 +845,7 @@ public interface Traversing {
 
 	/**
 	 * Collect undefined variables
-	 * 
+	 *
 	 * @author michael
 	 *
 	 */
@@ -876,7 +864,7 @@ public interface Traversing {
 		}
 
 		/**
-		 * 
+		 *
 		 * @return list of undefined variables (repeats removed)
 		 */
 		public TreeSet<String> getResult() {
@@ -966,7 +954,7 @@ public interface Traversing {
 
 	/**
 	 * Collect FunctionVariables
-	 * 
+	 *
 	 * @author michael
 	 *
 	 */
@@ -975,7 +963,7 @@ public interface Traversing {
 		private ArrayList<FunctionVariable> al = new ArrayList<>();
 
 		/**
-		 * 
+		 *
 		 * @return list of undefined variables (repeats removed)
 		 */
 		public ArrayList<FunctionVariable> getResult() {
@@ -1025,7 +1013,7 @@ public interface Traversing {
 
 	/**
 	 * Replaces diff function comming from GIAC
-	 * 
+	 *
 	 * @author Zbynek Konecny
 	 *
 	 */
@@ -1118,7 +1106,7 @@ public interface Traversing {
 
 		/**
 		 * Resets and returns the collector
-		 * 
+		 *
 		 * @return derivative collector
 		 */
 		public static PrefixRemover getCollector() {
@@ -1145,7 +1133,7 @@ public interface Traversing {
 
 		/**
 		 * Resets and returns the collector
-		 * 
+		 *
 		 * @param commands
 		 *            set into which we want to collect the commands
 		 * @return derivative collector
@@ -1158,7 +1146,7 @@ public interface Traversing {
 
 	/**
 	 * Collects all geos with multiplicities
-	 * 
+	 *
 	 * @author Zoltan Kovacs
 	 */
 	public class GeoCollector implements Traversing {
@@ -1182,7 +1170,7 @@ public interface Traversing {
 
 		/**
 		 * Resets and returns the collector
-		 * 
+		 *
 		 * @param commands
 		 *            set into which we want to collect the commands
 		 * @return derivative collector
@@ -1196,7 +1184,7 @@ public interface Traversing {
 
 	/**
 	 * Collects all function variables
-	 * 
+	 *
 	 * @author Zbynek Konecny
 	 */
 	public class NonFunctionCollector implements Traversing {
@@ -1234,7 +1222,7 @@ public interface Traversing {
 
 		/**
 		 * Resets and returns the collector
-		 * 
+		 *
 		 * @param commands
 		 *            set into which we want to collect the commands
 		 * @return derivative collector
@@ -1248,7 +1236,7 @@ public interface Traversing {
 	/**
 	 * Collects all dummy variables and function variables except those that are
 	 * in the role of a function eg. for f(x) we will collect x, but not f
-	 * 
+	 *
 	 * @author Balazs Bencze
 	 */
 	public class DummyVariableCollector implements Traversing {
@@ -1288,7 +1276,7 @@ public interface Traversing {
 
 		/**
 		 * Resets and returns the collector
-		 * 
+		 *
 		 * @param commands
 		 *            set into which we want to collect the commands
 		 * @return derivative collector
@@ -1331,7 +1319,7 @@ public interface Traversing {
 
 		/**
 		 * Resets and returns the collector
-		 * 
+		 *
 		 * @param labels
 		 *            set into which we want to collect the geoNumeric labels
 		 * @return derivative collector
@@ -1346,7 +1334,7 @@ public interface Traversing {
 	/**
 	 * Replaces function calls by multiplications in cases where left argument
 	 * is clearly not a function (see NonFunctionCollector)
-	 * 
+	 *
 	 * @author Zbynek Konecny
 	 */
 	public class NonFunctionReplacer implements Traversing {
@@ -1405,7 +1393,7 @@ public interface Traversing {
 
 		/**
 		 * Resets and returns the collector
-		 * 
+		 *
 		 * @param commands
 		 *            set into which we want to collect the commands
 		 * @return derivative collector
@@ -1418,7 +1406,7 @@ public interface Traversing {
 
 	/**
 	 * Returns the RHS side of an equation if LHS is y. E.g. y=x! returns x!.
-	 * 
+	 *
 	 * @author Balazs Bencze
 	 */
 	public class FunctionCreator implements Traversing {
@@ -1472,7 +1460,7 @@ public interface Traversing {
 
 		/**
 		 * Get the remover
-		 * 
+		 *
 		 * @param commands1
 		 *            commands to be removed
 		 * @return command remover
@@ -1486,7 +1474,7 @@ public interface Traversing {
 	/**
 	 * Replaces some of the unknown commands from CAS to known
 	 * commands/expression node values to GeoGebra
-	 * 
+	 *
 	 * @author Balazs Bencze
 	 */
 	public class CASCommandReplacer implements Traversing {

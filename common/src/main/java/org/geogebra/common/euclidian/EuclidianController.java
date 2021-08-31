@@ -117,6 +117,7 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoPriorityComparator;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.GeoSpotlight;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
@@ -241,6 +242,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	@Weak
 	protected final SelectionManager selection;
 	protected final Localization localization;
+	private final SpotlightController spotlightController;
 	public double xRW;
 	public double yRW;
 	public GeoPointND movedGeoPoint;
@@ -436,6 +438,22 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		zoomerAnimationListeners.clear();
 	}
 
+	public void spotlightOn() {
+		spotlightController.turnOn();
+	}
+
+	public void spotlightOff() {
+		spotlightController.turnOff();
+	}
+
+	public GeoSpotlight getSpotlight() {
+		return spotlightController.spotlight();
+	}
+
+	public void clearSpotlight() {
+		spotlightController.clear();
+	}
+
 	/**
 	 * state for selection tool over press/release
 	 */
@@ -465,6 +483,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		this.selection = app.getSelectionManager();
 		this.localization = app.getLocalization();
 		this.priorityComparator = app.getGeoPriorityComparator();
+		spotlightController = new SpotlightController(app);
 		createCompanions();
 	}
 
@@ -8385,6 +8404,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				return;
 			}
 		}
+		if (view.hasSpotlight()) {
+			spotlightController.keepBox();
+		}
+
 		clearJustCreatedGeos();
 
 		if (!draggingBeyondThreshold && isDraggingBeyondThreshold()) {
@@ -9192,6 +9215,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		setViewHits(event.getType());
 		dispatchMouseDownEvent(event);
 
+		spotlightController.turnOff();
+
 		if (shallMoveView(event)) {
 			// Michael Borcherds 2007-12-08 BEGIN
 			// bugfix: couldn't select multiple objects with Ctrl
@@ -9867,6 +9892,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			rotationCenter = null;
 		}
 
+		if (view.hasSpotlight()) {
+			spotlightController.disappearBox();
+		}
+
 		if (this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS) {
 			view.setPreview(null);
 			if (firstSelectedPoint != null
@@ -9974,7 +10003,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				&& EuclidianConstants
 						.isMoveOrSelectionModeCompatibleWithDragging(mode,
 								isDraggingOccuredBeyondThreshold())
-				&& !event.isRightClick()) {
+				&& !event.isRightClick() && !view.isPlotPanel()) {
 			if (app.getConfig().hasPreviewPoints() && previewPointHits != null
 					&& !previewPointHits.isEmpty()) {
 				hideDynamicStylebar();
@@ -9999,7 +10028,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (this.pointerUpCallback != null) {
-			runPointerCallback(pointerUpCallback);
+			pointerUpCallback.run();
 			this.pointerUpCallback = null;
 		}
 
@@ -10033,16 +10062,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		geoElement.setHighlighted(true);
 		geoElement.updateRepaint();
-	}
-
-	/**
-	 * Needs to be synchronous in some environments and asynchronous in others
-	 *
-	 * @param callback
-	 *            callback for pointer up
-	 */
-	protected void runPointerCallback(Runnable callback) {
-		callback.run();
 	}
 
 	private boolean isDragTool() {
@@ -11069,6 +11088,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            zoom factor
 	 */
 	public void onPinchPhone(int x, int y, double scaleFactor) {
+		disableLiveFeedback();
 		double newX = x + (view.getXZeroOld() - twoTouchStartX) * scaleFactor;
 		double newY = y + (view.getYZeroOld() - twoTouchStartY) * scaleFactor;
 		view.setCoordSystem(newX, newY, view.getXScaleStart() * scaleFactor,
@@ -11086,6 +11106,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            zoom factor
 	 */
 	public void onPinch(int x, int y, double scaleFactor) {
+		disableLiveFeedback();
 		this.mouseLoc = new GPoint(x, y);
 		zoomInOut(scaleFactor,
 				scaleFactor < EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR ? 1 : 2, x,

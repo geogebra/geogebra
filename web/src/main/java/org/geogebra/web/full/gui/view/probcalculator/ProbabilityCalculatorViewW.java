@@ -77,10 +77,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private FlowPanel probCalcPanel;
 	private final StatisticsCalculatorW statCalculator;
 	private MyTabLayoutPanel tabbedPane;
-	private ProbabilityCalculatorStyleBarW styleBar;
 	private HandlerRegistration comboDistributionHandler;
 	private GPopupMenuW btnExport;
 	private MyToggleButtonW btnNormalOverlay;
+	private MyToggleButtonW btnLineGraph;
+	private MyToggleButtonW btnStepGraph;
+	private MyToggleButtonW btnBarGraph;
 	private ResultPanelW resultPanel;
 
 	/**
@@ -101,11 +103,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		statCalculator = new StatisticsCalculatorW(app);
 
 		tabbedPane = new MyTabLayoutPanel(30, Unit.PX);
+		tabbedPane.addStyleName("probCalcViewTab");
 		tabbedPane.add(probCalcPanel, loc.getMenu("Distribution"));
 		tabbedPane.add(statCalculator.getWrappedPanel(),
 				loc.getMenu("Statistics"));
-
-		tabbedPane.addSelectionHandler(event -> updateStylebarLayout());
 
 		tabbedPane.onResize();
 
@@ -116,15 +117,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		tabbedPane.selectTab(getApp().getSettings().getProbCalcSettings()
 				.getCollection().isActive() ? 1 : 0);
-	}
-
-	/**
-	 * Updates stylebar layout
-	 */
-	protected void updateStylebarLayout() {
-		if (styleBar != null) {
-			styleBar.updateLayout();
-		}
 	}
 
 	@Override
@@ -144,30 +136,20 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		if (getTable() != null) {
 			getTable().setLabels();
 		}
-		if (styleBar != null) {
-			styleBar.setLabels();
-		}
 
 		btnCumulative.setToolTipText(loc.getMenu("Cumulative"));
 
 		modeGroup.setLabels();
+
+		btnLineGraph.setTitle(loc.getMenu("LineGraph"));
+		btnStepGraph.setTitle(loc.getMenu("StepGraph"));
+		btnBarGraph.setTitle(loc.getMenu("BarChart"));
 
 		btnNormalOverlay.setTitle(loc.getMenu("OverlayNormalCurve"));
 		for (int i = 0; i < ProbabilityManager.getParmCount(selectedDist); i++) {
 			lblParameterArray[i]
 					.setText(getParameterLabels()[selectedDist.ordinal()][i]);
 		}
-	}
-	
-	/**
-	 * @return The style bar for this view.
-	 */
-	public ProbabilityCalculatorStyleBarW getStyleBar() {
-		if (styleBar == null) {
-			styleBar = new ProbabilityCalculatorStyleBarW(app, this);
-		}
-
-		return styleBar;
 	}
 
 	/**
@@ -237,11 +219,14 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		FlowPanel plotPanelOptions = new FlowPanel();
 		plotPanelOptions.setStyleName("plotPanelOptions");
 		plotPanelOptions.add(lblMeanSigma);
-		if (!getApp().isExam()) {
+		if (!getApp().isExam() && app.getConfig().getAppCode().equals("classic")) {
 			plotPanelOptions.add(btnExport.getPopupMenu());
 		}
 		plotPanelOptions.add(btnNormalOverlay);
-		plotPanelOptions.add(new ClearPanel());
+		plotPanelOptions.add(btnBarGraph);
+		plotPanelOptions.add(btnStepGraph);
+		plotPanelOptions.add(btnLineGraph);
+		updateGraphButtons();
 		
 		plotPanelPlus = new FlowPanel();
 		plotPanelPlus.addStyleName("PlotPanelPlus");
@@ -250,8 +235,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		
 		//table panel
 		setTable(new ProbabilityTableW(app, this));
-		//tablePanel = new FlowPanel();
-		//tablePanel.add(((ProbabilityTableW)table).getWrappedPanel());	
 	}
 
 	private void createControlPanel() {
@@ -332,8 +315,22 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		btnNormalOverlay = new MyToggleButtonW(
 				GuiResources.INSTANCE.normal_overlay());
-		btnNormalOverlay.addStyleName("btnNormalOverlay");
+		btnNormalOverlay.addStyleName("probCalcStylbarBtn");
 		btnNormalOverlay.addClickHandler(event -> onOverlayClicked());
+
+		btnLineGraph = new MyToggleButtonW(GuiResources.INSTANCE.line_graph());
+		btnLineGraph.addStyleName("probCalcStylbarBtn");
+		btnLineGraph.addClickHandler(event -> {
+			setGraphType(GRAPH_LINE);
+		});
+
+		btnStepGraph = new MyToggleButtonW(GuiResources.INSTANCE.step_graph());
+		btnStepGraph.addStyleName("probCalcStylbarBtn");
+		btnStepGraph.addClickHandler(event -> setGraphType(GRAPH_STEP));
+
+		btnBarGraph = new MyToggleButtonW(GuiResources.INSTANCE.bar_chart());
+		btnBarGraph.addStyleName("probCalcStylbarBtn");
+		btnBarGraph.addClickHandler(event -> setGraphType(GRAPH_BAR));
 	}
 	
 	/**
@@ -341,7 +338,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	 */
 	protected void onOverlayClicked() {
 		setShowNormalOverlay(btnNormalOverlay.isSelected());
-		updateAll();
+		updateAll(false);
 	}
 
 	/**
@@ -352,16 +349,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	}
 
 	@Override
-	public void updateAll() {
-		updateOutput();
-		updateProbabilityType(resultPanel);
-		updateGUI();
-		if (styleBar != null) {
-			styleBar.updateGUI();
-		}
+	public ResultPanelW getResultPanel() {
+		return resultPanel;
 	}
 
-	private void updateOutput() {
+	@Override
+	protected void updateOutput() {
 		updateDistribution();
 		updatePlotSettings();
 		updateIntervalProbability();
@@ -384,13 +377,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				addTwoTailedGraph();
 			}
 
-			if (probMode == ProbabilityCalculatorView.PROB_LEFT && oldProbMode == PROB_RIGHT) {
-					setHigh(getLow());
-
-			} else if (probMode == ProbabilityCalculatorView.PROB_RIGHT
-					&& oldProbMode == PROB_LEFT) {
-					setLow(getHigh());
-			}
+			validateLowHigh(oldProbMode);
 		}
 	}
 
@@ -421,7 +408,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	@Override
 	protected void updateDiscreteTable() {
-		if (!probmanagerIsDiscrete()) {
+		if (!isDiscreteProbability()) {
 			return;
 		}
 		int[] firstXLastX = generateFirstXLastXCommon();
@@ -440,9 +427,23 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		updateParameters();
 		updateLowHighResult();
 		updateDistributionCombo();
+		updateGraphButtons();
 		btnCumulative.setValue(isCumulative);
 		modeGroup.setMode(probMode);
 		btnNormalOverlay.setValue(isShowNormalOverlay());
+	}
+
+	private void updateGraphButtons() {
+		btnLineGraph.setVisible(getProbManager().isDiscrete(getSelectedDist()));
+		btnStepGraph.setVisible(getProbManager().isDiscrete(getSelectedDist()));
+		btnBarGraph.setVisible(getProbManager().isDiscrete(getSelectedDist()));
+
+		btnLineGraph.setSelected(getGraphType()
+				== ProbabilityCalculatorView.GRAPH_LINE);
+		btnStepGraph.setSelected(getGraphType()
+				== ProbabilityCalculatorView.GRAPH_STEP);
+		btnBarGraph.setSelected(getGraphType()
+				== ProbabilityCalculatorView.GRAPH_BAR);
 	}
 
 	private void updateDistributionCombo() {
@@ -547,19 +548,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		return probManager;
 	}
 
-	/**
-	 * @param decimals
-	 *			decimals
-	 * @param figures
-	 *			significant digits
-	 */
-	public void updatePrintFormat(int decimals, int figures) {
-		this.printDecimals = decimals;
-		this.printFigures = figures;
-		updateGUI();
-		updateDiscreteTable();
-	}
-	
 	private class MyTabLayoutPanel extends TabLayoutPanel implements ClickHandler {
 
 		public MyTabLayoutPanel(int splitterSize, Unit px) {
@@ -593,7 +581,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	 * Tab resize callback
 	 */
 	public void tabResized() {
-		int tableWidth = probmanagerIsDiscrete() ? ((ProbabilityTableW) getTable()).getStatTable()
+		int tableWidth = isDiscreteProbability() ? ((ProbabilityTableW) getTable()).getStatTable()
 				.getTable().getOffsetWidth() + TABLE_PADDING_AND_SCROLLBAR : 0;
 		int width = mainSplitPane.getOffsetWidth()
 				- tableWidth
@@ -608,7 +596,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			plotSplitPane.setWidth(width + "px");
 		}
 
-		if (height > 0 && probmanagerIsDiscrete()) {
+		if (height > 0 && isDiscreteProbability()) {
 			((ProbabilityTableW) getTable()).getWrappedPanel()
 					.setPixelSize(tableWidth, height);
 		}
@@ -616,7 +604,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	@Override
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
-		
 		Object source = event.getSource();
 		if (source == btnCumulative) {
 			setCumulative(btnCumulative.isSelected());
@@ -680,7 +667,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 						if (isValidParameterChange(value, i)) {
 							parameters[i] = numericValue;
 							if (intervalCheck) {
-								updateAll();
+								updateAll(true);
 							} else {
 								updateOutput();
 								updateLowHighResult();
@@ -760,14 +747,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	}
 
 	private void createExportMenu() {
-
 		btnExport = new GPopupMenuW((AppW) app, true) {
 			@Override
 			public int getPopupLeft() {
 				return getPopupMenu().getAbsoluteLeft();
 			}
 		};
-		btnExport.getPopupMenu().addStyleName("btnExport");
+		btnExport.getPopupMenu().addStyleName("probCalcStylbarBtn");
 
 		AriaMenuBar menu = new AriaMenuBar();
 
@@ -776,7 +762,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 					loc.getMenu("CopyToGraphics"), false,
 					() -> exportToEVAction.execute());
 
-		menu.addItem(miToGraphich);
+			menu.addItem(miToGraphich);
 		}
 		if (((AppW) app).getLAF().copyToClipboardSupported()) {
 			AriaMenuItem miAsPicture = new AriaMenuItem(

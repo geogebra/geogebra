@@ -167,7 +167,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			PointerEventHandler pointerHandler = new PointerEventHandler(
 					(IsEuclidianController) euclidianController,
 					euclidiancontroller.getOffsets());
-			PointerEventHandler.attachTo(absPanel.getElement(), pointerHandler);
+			pointerHandler.attachTo(absPanel.getElement(), ((AppW) app).getGlobalHandlers());
 			CancelEventTimer.killTouch(absPanel);
 		} else {
 			absPanel.addDomHandler(euclidiancontroller,

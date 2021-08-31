@@ -82,7 +82,8 @@ public abstract class Layout implements SettingListener {
 
 		perspectives.add(graphing3D);
 
-		Perspective probability = createProbabilityPerspective(avPercent, defToolbar);
+		boolean needAV = app.isSuite();
+		Perspective probability = createProbabilityPerspective(avPercent, defToolbar, needAV);
 		perspectives.add(probability);
 
 		if (app.isWhiteboardActive()) {
@@ -279,13 +280,14 @@ public abstract class Layout implements SettingListener {
 				InputPosition.algebraView);
 	}
 
-	private static Perspective createProbabilityPerspective(double avPercent, String defToolbar) {
+	private static Perspective createProbabilityPerspective(double avPercent, String defToolbar,
+			boolean needAV) {
 		DockPanelData[] dpData = new DockPanelData[7];
 		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN, null, false, false,
 				false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "3",
 				500);
-		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, false, false,
+		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, needAV, false,
 				false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 250, 400),
 				"1,3", 200);

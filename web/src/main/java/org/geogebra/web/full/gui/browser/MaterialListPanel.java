@@ -16,11 +16,8 @@ import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ScrollEvent;
-import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -64,34 +61,22 @@ public class MaterialListPanel extends FlowPanel
 					(int) app.getHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
 		}
 		this.setStyleName("materialListPanel");
-		this.addDomHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(final ClickEvent event) {
-				if (lastSelected != null) {
-					setDefaultStyle(true);
-				}
+		this.addDomHandler(event -> {
+			if (lastSelected != null) {
+				setDefaultStyle(true);
 			}
 		}, ClickEvent.getType());
 
-		this.addDomHandler(new ScrollHandler() {
-
-			@Override
-			public void onScroll(final ScrollEvent event) {
-				if (lastSelected != null && System.currentTimeMillis()
-						- lastScroll > MIN_DIFFERNCE_TO_SCROLL) {
-					setDefaultStyle(false);
-				}
+		this.addDomHandler(event -> {
+			if (lastSelected != null && System.currentTimeMillis()
+					- lastScroll > MIN_DIFFERNCE_TO_SCROLL) {
+				setDefaultStyle(false);
 			}
 		}, ScrollEvent.getType());
 
-		this.addBitlessDomHandler(new TouchMoveHandler() {
-
-			@Override
-			public void onTouchMove(final TouchMoveEvent event) {
-				if (lastSelected != null) {
-					setDefaultStyle(false);
-				}
+		this.addBitlessDomHandler(event -> {
+			if (lastSelected != null) {
+				setDefaultStyle(false);
 			}
 		}, TouchMoveEvent.getType());
 	}

@@ -1,7 +1,6 @@
 package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
@@ -20,13 +19,13 @@ import org.geogebra.common.util.debug.Log;
 public class DrawBoxPlot extends Drawable {
 	private boolean isVisible;
 	private boolean labelVisible;
-	private double[] coords = new double[2];
+	private final double[] coords = new double[2];
 	private GeneralPathClipped gp;
 	private GeoNumeric sum;
 	private AlgoBoxPlot algo;
 	private NumberValue a;
 	private NumberValue b;
-	private double OUTLIER_SIZE = 4;
+	private static final double OUTLIER_SIZE = 4;
 
 	/**
 	 * @param view
@@ -204,13 +203,18 @@ public class DrawBoxPlot extends Drawable {
 		view.toScreenCoords(coords);
 		gp.lineTo(coords[0], coords[1]);
 
+		if (labelVisible) {
+			xLabel = (int) coords[0];
+			yLabel = (int) coords[1] - view.getFontSize();
+			labelDesc = geo.getLabelDescription();
+			addLabelOffset();
+		}
+
 		ArrayList<Double> outliers = algo.getOutliers();
 
 		if (outliers != null) {
-			Iterator<Double> it = outliers.iterator();
-
-			while (it.hasNext()) {
-				coords[0] = it.next().doubleValue();
+			for (Double outlier : outliers) {
+				coords[0] = outlier;
 				coords[1] = yOff;
 				view.toScreenCoords(coords);
 
@@ -225,17 +229,7 @@ public class DrawBoxPlot extends Drawable {
 		// gp on screen?
 		if (!view.intersects(gp)) {
 			isVisible = false;
-			// don't return here to make sure that getBounds() works for
-			// offscreen points too
 		}
-
-		if (labelVisible) {
-			xLabel = (int) coords[0];
-			yLabel = (int) coords[1] - view.getFontSize();
-			labelDesc = geo.getLabelDescription();
-			addLabelOffset();
-		}
-
 	}
 
 	/**

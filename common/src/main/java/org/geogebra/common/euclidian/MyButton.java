@@ -333,8 +333,12 @@ public class MyButton implements Observer {
 					view.getCallBack(geoButton, firstCall));
 			firstCall = false;
 		} else {
-			g.drawString(geoButton.getCaption(StringTemplate.defaultTemplate),
-					xPos, yPos);
+			String caption = geoButton.getCaption(StringTemplate.defaultTemplate);
+			Drawable d = (Drawable) view.getDrawableFor(geoButton);
+			if (d != null && d.getDynamicCaption() != null && d.getDynamicCaption().isEnabled()) {
+				caption = d.getDynamicCaption().getDynCaptionText();
+			}
+			g.drawString(caption, xPos, yPos);
 		}
 	}
 

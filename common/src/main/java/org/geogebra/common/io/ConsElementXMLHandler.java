@@ -54,8 +54,8 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.geos.HasAlignment;
-import org.geogebra.common.kernel.geos.HasDynamicCaption;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
+import org.geogebra.common.kernel.geos.HasVericalAlignment;
 import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.RectangleTransformable;
@@ -64,9 +64,11 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
+import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -1252,7 +1254,7 @@ public class ConsElementXMLHandler {
 		return true;
 	}
 
-	private boolean handleTextAlign(LinkedHashMap<String, String> attrs) {
+	private void handleTextAlign(LinkedHashMap<String, String> attrs) {
 		HorizontalAlignment align = HorizontalAlignment.fromString(attrs.get("val"));
 
 		if (align != null && geo instanceof HasAlignment) {
@@ -1260,8 +1262,16 @@ public class ConsElementXMLHandler {
 		} else {
 			Log.error("Text alignment not supported for " + geo.getGeoClassType());
 		}
+	}
 
-		return true;
+	private void handleVerticalAlign(LinkedHashMap<String, String> attrs) {
+		VerticalAlignment align = VerticalAlignment.fromString(attrs.get("val"));
+
+		if (align != null && geo instanceof HasVericalAlignment) {
+			((HasVericalAlignment) geo).setVerticalAlignment(align);
+		} else {
+			Log.error("Vertical alignment not supported for " + geo.getGeoClassType());
+		}
 	}
 
 	private boolean handleListType(LinkedHashMap<String, String> attrs) {
@@ -2326,6 +2336,9 @@ public class ConsElementXMLHandler {
 			case "textAlign":
 				handleTextAlign(attrs);
 				break;
+			case "verticalAlign":
+				handleVerticalAlign(attrs);
+				break;
 			default:
 				Log.error("unknown tag in <element>: " + eName);
 			}
@@ -2334,10 +2347,6 @@ public class ConsElementXMLHandler {
 	}
 
 	private void handleDynamicCaption(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoInputBox)) {
-			Log.error("wrong element type for <dynamicCaption>: " + geo.getClass());
-			return;
-		}
 		try {
 			String dynamicCaption = attrs.get("val");
 			if (dynamicCaption != null) {
@@ -2441,7 +2450,7 @@ public class ConsElementXMLHandler {
 			for (GeoExpPair pair : dynamicCaptionList) {
 				GeoElement caption = xmlHandler.kernel.lookupLabel(pair.exp);
 				if (caption.isGeoText()) {
-					HasDynamicCaption text = (HasDynamicCaption) pair.geoElement;
+					GeoElementND text = pair.geoElement;
 					text.setDynamicCaption((GeoText) caption);
 				} else {
 					Log.error("dynamicCaption is not a GeoText");

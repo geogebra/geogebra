@@ -18,8 +18,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragEnterEvent;
 import com.google.gwt.event.dom.client.DragEnterHandler;
 import com.google.gwt.event.dom.client.DragLeaveEvent;
@@ -613,24 +611,16 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 	private void addFooter() {
 		btDefalutToolbar = new Button();
-		btDefalutToolbar.addClickHandler(new ClickHandler() {
+		btDefalutToolbar.addClickHandler(event -> {
+			Log.debug("[Customize] reset");
+			resetDefaultToolbar();
 
-			@Override
-			public void onClick(ClickEvent event) {
-				Log.debug("[Customize] reset");
-				resetDefaultToolbar();
-
-			}
 		});
 
 		btApply = new Button();
-		btApply.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				Log.debug("[Customize] apply");
-				apply();
-			}
+		btApply.addClickHandler(event -> {
+			Log.debug("[Customize] apply");
+			apply();
 		});
 
 		FlowPanel btPanel = new FlowPanel();

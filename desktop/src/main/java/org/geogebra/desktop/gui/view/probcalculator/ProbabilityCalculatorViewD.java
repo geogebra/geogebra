@@ -77,7 +77,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 	private JToggleButton btnExport;
 
-	private JPanel wrapperPanel;
+	private final JPanel wrapperPanel;
 
 	private JLabel lblMeanSigma;
 
@@ -85,9 +85,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 	private JPanel probCalcPanel;
 
-	private JTabbedPane tabbedPane;
+	private final JTabbedPane tabbedPane;
 
-	private StatisticsCalculator statCalculator;
+	private final StatisticsCalculator statCalculator;
 	private int defaultDividerSize;
 	private ResultPanelD resultPanel;
 
@@ -113,10 +113,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		tabbedPane.addTab(loc.getMenu("Distribution"), probCalcPanel);
 		tabbedPane.addTab(loc.getMenu("Statistics"),
 				((StatisticsCalculatorD) statCalculator).getWrappedPanel());
-		tabbedPane.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				updateStylebar();
+		tabbedPane.addChangeListener(e -> {
+			if (styleBar != null) {
+				styleBar.updateLayout();
 			}
 		});
 
@@ -133,11 +132,10 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 				.getCollection().isActive() ? 1 : 0);
 	}
 
-	/**************** end constructor ****************/
-
+	@Override
 	protected void updateStylebar() {
 		if (styleBar != null) {
-			styleBar.updateLayout();
+			styleBar.updateGUI();
 		}
 	}
 
@@ -431,7 +429,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			btnIntervalTwoTailed.removeActionListener(this);
 			btnIntervalRight.removeActionListener(this);
 
-
 			if (!isCumulative) {
 				changeProbabilityType();
 				updateProbabilityType(resultPanel);
@@ -508,7 +505,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 					if (source == fldParameterArray[i]) {
 						if (isValidParameterChange(value, i)) {
 							parameters[i] = numericValue;
-							updateAll();
+							updateAll(true);
 						}
 					}
 				}
@@ -541,19 +538,18 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	// =================================================
 
 	@Override
-	public void updateAll() {
+	public ResultPanelD getResultPanel() {
+		return resultPanel;
+	}
+
+	@Override
+	public void updateOutput() {
 		updateFonts();
 		updateDistribution();
 		updatePlotSettings();
 		updateIntervalProbability();
 		updateDiscreteTable();
 		setXAxisPoints();
-		updateProbabilityType(resultPanel);
-		updateGUI();
-
-		if (styleBar != null) {
-			styleBar.updateGUI();
-		}
 	}
 
 	@Override
@@ -621,6 +617,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		if (isCumulative) {
 			probMode = PROB_LEFT;
 		} else {
+			int oldProbMode = probMode;
 			if (btnIntervalLeft.isSelected()) {
 				probMode = ProbabilityCalculatorView.PROB_LEFT;
 			} else if (btnIntervalBetween.isSelected()) {
@@ -630,6 +627,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			} else {
 				probMode = ProbabilityCalculatorView.PROB_RIGHT;
 			}
+			validateLowHigh(oldProbMode);
 		}
 	}
 
@@ -641,19 +639,12 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 	@Override
 	protected void updateDiscreteTable() {
-		if (!probmanagerIsDiscrete()) {
+		if (!isDiscreteProbability()) {
 			return;
 		}
 		int[] firstXLastX = generateFirstXLastXCommon();
 		getTable().setTable(selectedDist, parameters,
 				firstXLastX[0], firstXLastX[1]);
-	}
-
-	protected void updatePrintFormat(int printDecimals1, int printFigures1) {
-		this.printDecimals = printDecimals1;
-		this.printFigures = printFigures1;
-		updateGUI();
-		updateDiscreteTable();
 	}
 
 	@Override

@@ -96,14 +96,13 @@ public class DrawEquationD extends DrawEquation {
 	 * the correct dimensions.
 	 * 
 	 * @param app
-	 *            needed for
-	 *            {@link #drawEquationJLaTeXMath(AppD, GeoElement, Graphics2D, int, int, String, GFont, boolean, Color, Color, boolean, Integer, Float)}
+	 *            needed for {@link #drawEquation}
 	 * @param latexIcon
 	 *            the LaTeX String will be drawn there
 	 * @param latex
 	 *            the LaTeX String to be drawn
-	 * @param font
-	 * @param serif
+	 * @param font font
+	 * @param serif whether to use serif font
 	 * @param fgColor
 	 *            foreground color
 	 * @param bgColor
@@ -123,10 +122,10 @@ public class DrawEquationD extends DrawEquation {
 
 		GGraphics2DD.setAntialiasing(g2image);
 
-		GDimension d = drawEquation(app, null, new GGraphics2DD(g2image), 0, 0,
+		GDimension d = drawEquation(app, null,	new Graphics2DD(g2image), 0, 0,
 				latex,
-				new GFontD(font), serif, GColorD.newColor(fgColor),
-				GColorD.newColor(bgColor), true, false, null);
+				new GFontD(font), serif, ColorD.get(fgColor),
+				ColorD.get(bgColor), true, null, null);
 
 		// Now use this size and draw again to get the final image
 		image = new BufferedImage(d.getWidth(), d.getHeight(),
@@ -137,9 +136,9 @@ public class DrawEquationD extends DrawEquation {
 
 		GGraphics2DD.setAntialiasing(g2image);
 
-		drawEquation(app, null, new GGraphics2DD(g2image), 0, 0, latex,
-				new GFontD(font), serif, GColorD.newColor(fgColor),
-				GColorD.newColor(bgColor), true, false, null);
+		drawEquation(app, null, new Graphics2DD(g2image), 0, 0, latex,
+				new GFontD(font), serif, ColorD.get(fgColor),
+				ColorD.get(bgColor), true, null, null);
 
 		latexIcon.setImage(image);
 	}
@@ -162,7 +161,7 @@ public class DrawEquationD extends DrawEquation {
 	public Image getCachedDimensions(String text, GeoElementND geo,
 			com.himamis.retex.renderer.share.platform.graphics.Color fgColor,
 			GFont font, int style, int[] ret) {
-		Object key = null;
+		Object key;
 		// if geoText != null then keep track of which key goes with the
 		// GeoText
 		// so that we can remove it from the cache if it changes

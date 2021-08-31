@@ -164,6 +164,12 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 	}
 
 	@Override
+	protected boolean handleCtrlKey(KeyCodes key, boolean isShiftDown, boolean fromSpreadsheet,
+			boolean fromEuclidianView) {
+		return handleCtrlKeys(key, isShiftDown, fromSpreadsheet, fromEuclidianView);
+	}
+
+	@Override
 	protected boolean handleEnter() {
 		if (super.handleEnter()) {
 			return true;

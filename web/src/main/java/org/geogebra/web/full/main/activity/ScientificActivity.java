@@ -51,8 +51,7 @@ public class ScientificActivity extends BaseActivity {
 
 	private static void initHeaderButtons(AppW app) {
 		app.getGuiManager().menuToGlobalHeader();
-		GlobalHeader.INSTANCE.initSettingButtonIfOnHeader();
-		GlobalHeader.INSTANCE.initUndoRedoButtonsIfOnHeader();
+		GlobalHeader.INSTANCE.initButtonsIfOnHeader();
 	}
 
 	@Override

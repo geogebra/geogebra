@@ -137,7 +137,6 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	}
 
 	private void compute(boolean first) {
-		// Equation equation = (Equation) geoElement.getDefinition().unwrap();
 		if (!first) {
 			boolean recomputeCoeff = false;
 			if (equation != geoElement.getDefinition().unwrap()) {
@@ -351,10 +350,6 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	 */
 	public GeoElement getGeo() {
 		return geoElement.toGeoElement();
-		// if (type==GeoElement.GEO_CLASS_IMPLICIT_POLY)
-		// return (GeoImplicitPoly)geoElement;
-		// else
-		// return null;
 	}
 
 	@Override

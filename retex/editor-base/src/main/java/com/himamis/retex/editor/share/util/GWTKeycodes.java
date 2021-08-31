@@ -16,13 +16,12 @@ public interface GWTKeycodes {
 	 * These constants are defined with an int data type in order to be
 	 * compatible with the constants defined in
 	 * {@link com.google.gwt.user.client.ui.KeyboardListener}.
-	 * 
-	 * @author gabor Because the original KeyCodes class has a private
-	 *         constructor, can't be extended, so I must create an own one.
-	 * 
-	 *         Useful reference:
-	 *         http://www.cambiaresearch.com/articles/15/javascript
-	 *         -char-codes-key-codes
+	 *
+	 * Because the original KeyCodes class has a private constructor,
+	 * it can't be extended, so I must create an own one.
+	 *
+	 * Useful reference: http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
+	 * @author gabor
 	 */
 
 	/**

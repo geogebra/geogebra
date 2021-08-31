@@ -118,66 +118,58 @@ public class EvaluateInput {
 
 	private AsyncOperation<GeoElementND[]> evaluationCallback(final boolean keepFocus) {
 		final int oldStep = app.getKernel().getConstructionStep();
-		return new AsyncOperation<GeoElementND[]>() {
-
-			@Override
-			public void callback(GeoElementND[] geos) {
-				if (geos == null) {
-					ctrl.setFocus(true);
-					return;
-				}
-
-				if (!app.getConfig().hasAutomaticLabels()) {
-					new LabelHiderCallback().callback(geos);
-				}
-				if (geos.length == 1) {
-					// need label if we type just eg
-					// lnx
-					if (!geos[0].isLabelSet()) {
-						geos[0].setLabel(geos[0].getDefaultLabel());
-					}
-
-					if (AlgebraItem.isTextItem(geos[0]) && !(geos[0] instanceof AlgoFractionText)) {
-						geos[0].setEuclidianVisible(false);
-					}
-
-					AlgebraItem.addSelectedGeoWithSpecialPoints(geos[0], app);
-				}
-
-				InputHelper.updateProperties(geos, app.getActiveEuclidianView(),
-						oldStep);
-				app.storeUndoInfo();
-				app.setScrollToShow(false);
-
-				Scheduler.get()
-						.scheduleDeferred(new Scheduler.ScheduledCommand() {
-							@Override
-							public void execute() {
-								item.scrollIntoView();
-								if (keepFocus) {
-									ctrl.setFocus(true);
-								} else {
-									item.setFocus(false);
-								}
-							}
-						});
-
-				item.setText("");
-				item.removeOutput();
+		return geos -> {
+			if (geos == null) {
+				ctrl.setFocus(true);
+				return;
 			}
+
+			if (!app.getConfig().hasAutomaticLabels()) {
+				new LabelHiderCallback().callback(geos);
+			}
+			if (geos.length == 1) {
+				// need label if we type just eg
+				// lnx
+				if (!geos[0].isLabelSet()) {
+					geos[0].setLabel(geos[0].getDefaultLabel());
+				}
+
+				if (AlgebraItem.isTextItem(geos[0]) && !(geos[0] instanceof AlgoFractionText)) {
+					geos[0].setEuclidianVisible(false);
+				}
+
+				AlgebraItem.addSelectedGeoWithSpecialPoints(geos[0], app);
+			}
+
+			InputHelper.updateProperties(geos, app.getActiveEuclidianView(),
+					oldStep);
+			app.storeUndoInfo();
+			app.setScrollToShow(false);
+
+			Scheduler.get()
+					.scheduleDeferred(new Scheduler.ScheduledCommand() {
+						@Override
+						public void execute() {
+							item.scrollIntoView();
+							if (keepFocus) {
+								ctrl.setFocus(true);
+							} else {
+								item.setFocus(false);
+							}
+						}
+					});
+
+			item.setText("");
+			item.removeOutput();
 		};
 	}
 
 	private AsyncOperation<GeoElementND[]> createEvaluationCallback(
 			final AsyncOperation<GeoElementND[]> afterEvalCb) {
 		final AsyncOperation<GeoElementND[]> evalCb = evaluationCallback(false);
-		return new AsyncOperation<GeoElementND[]>() {
-
-			@Override
-			public void callback(GeoElementND[] obj) {
-				evalCb.callback(obj);
-				afterEvalCb.callback(obj);
-			}
+		return obj -> {
+			evalCb.callback(obj);
+			afterEvalCb.callback(obj);
 		};
 	}
 }

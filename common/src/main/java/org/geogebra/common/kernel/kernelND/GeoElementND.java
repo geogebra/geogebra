@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -1617,4 +1618,28 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	boolean hasSpecialEditor();
 
 	boolean isMeasurementTool();
+
+	boolean hasDynamicCaption();
+
+	/**
+	 *
+	 * @return the GeoText as the dynamic caption
+	 */
+	GeoText getDynamicCaption();
+
+	/**
+	 * Sets GeoText as dynamic caption.
+	 * @param caption to set.
+	 */
+	void setDynamicCaption(GeoText caption);
+
+	/**
+	 * Clears dynamic caption but does not disable it.
+	 */
+	void clearDynamicCaption();
+
+	/**
+	 * Removes dynamic capiton completely.
+	 */
+	void removeDynamicCaption();
 }

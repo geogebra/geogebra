@@ -327,6 +327,16 @@ public class ArithmeticTest extends Assert {
 	}
 
 	@Test
+	public void complexTrigonometry() {
+		t("tan(atan(1+0.5i))", "1 + 0.5" + Unicode.IMAGINARY,
+				StringTemplate.editTemplate);
+		t("sin(asin(1+0.5i))", "1 + 0.5" + Unicode.IMAGINARY,
+				StringTemplate.editTemplate);
+		t("cos(acos(1+0.5i))", "1 + 0.5" + Unicode.IMAGINARY,
+				StringTemplate.editTemplate);
+	}
+
+	@Test
 	public void powerWithNegativeFractionAsExponent() {
 		t("(-8)^(-(1/3))", "-0.5");
 		t("-8^(-1/3)", "-0.5");

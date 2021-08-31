@@ -23,8 +23,6 @@ import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.InitializeEvent;
@@ -126,24 +124,20 @@ public class GeoTextEditor extends RichTextArea {
 			}
 		});
 
-		addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
+		addClickHandler(event -> {
 
-				showEditPopup(false);
+			showEditPopup(false);
 
-				Element target = Element
-						.as(event.getNativeEvent().getEventTarget());
+			Element target = Element
+					.as(event.getNativeEvent().getEventTarget());
 
-				if (DYNAMIC_TEXT_CLASS
-						.equalsIgnoreCase(target.getClassName())) {
-					editBox.setText(target.getAttribute("value"));
-					editBox.setTarget(target);
-					showEditPopup(true);
-				}
+			if (DYNAMIC_TEXT_CLASS
+					.equalsIgnoreCase(target.getClassName())) {
+				editBox.setText(target.getAttribute("value"));
+				editBox.setTarget(target);
+				showEditPopup(true);
 			}
 		});
-
 	}
 
 	/**
