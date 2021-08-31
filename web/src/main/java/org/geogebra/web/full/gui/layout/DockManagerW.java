@@ -1811,9 +1811,11 @@ public class DockManagerW extends DockManager {
 		context2d.scale(scale, scale);
 		for (DockPanelW panel: dockPanels) {
 			if (panel.isAttached() && panel.isVisible()) {
-				panel.paintToCanvas(context2d, counter,
-						panel.getAbsoluteLeft() - rootPane.getAbsoluteLeft(),
-						panel.getAbsoluteTop() - rootPane.getAbsoluteTop());
+				int left = (int) ((panel.getAbsoluteLeft() - rootPane.getAbsoluteLeft()) / app
+						.getGeoGebraElement().getScaleX());
+				int top = (int) ((panel.getAbsoluteTop() - rootPane.getAbsoluteTop()) / app
+						.getGeoGebraElement().getScaleY());
+				panel.paintToCanvas(context2d, counter, left, top);
 			} else {
 				counter.run();
 			}
