@@ -36,7 +36,7 @@ public class IntervalAsymtotesTest extends SamplerTest {
 		IntervalTupleList result = functionValuesWithSampleCount(
 				"1/(1/x)", -10, 10, -30, 30, 100);
 		TuplesQuery query = new TuplesQuery(result);
-		assertTrue(query.inverted().isEmpty());
+		assertTrue(query.invertedTuples().isEmpty());
 	}
 
 	@Test

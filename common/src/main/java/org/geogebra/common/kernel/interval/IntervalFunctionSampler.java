@@ -16,7 +16,6 @@ public class IntervalFunctionSampler {
 	private EuclidianViewBounds bounds;
 	private int numberOfSamples;
 	private final DiscreteSpace space;
-	private boolean emptyTupleAllowed;
 
 	/**
 	 * @param geoFunction function to get sampled
@@ -74,7 +73,6 @@ public class IntervalFunctionSampler {
 
 	private IntervalTupleList evaluateOnSpace(DiscreteSpace space) {
 		IntervalTupleList samples = new IntervalTupleList();
-		emptyTupleAllowed = true;
 		evaluateOnEach(space, samples);
 		IntervalAsymptotes asymptotes = new IntervalAsymptotes(samples);
 		asymptotes.process();

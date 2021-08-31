@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.IntervalTuple;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to correct interval path at limits
@@ -60,7 +59,6 @@ public class PathCorrector {
 		gp.lineTo(sx.getHigh(), sy.getLow());
 		Interval y = tuple.y();
 		if (y.containsExclusive(0)) {
-			Log.debug("[PC] handleFill: height - sy.getHigh()");
 			gp.moveTo(sx.getLow(), bounds.getHeight());
 			gp.lineTo(sx.getLow(), sy.getHigh());
 		}
@@ -91,16 +89,13 @@ public class PathCorrector {
 	private void completePathFromLeft(IntervalTuple point, boolean ascending) {
 		Interval x = toScreenX(point);
 		Interval y = toScreenY(point);
-		Log.debug("[PC] completePathFromLeft");
 		double xMiddle = x.getLow() + (x .getWidth() / 2);
-		double yLow;
-		if (y.getLow() < bounds.getHeight()) yLow = Math.max(0, y.getLow());
-		else
-			yLow = bounds.getHeight();
-		if (ascending) {
-			if (yLow >= 0) {
-				gp.lineTo(xMiddle, 0);
-			}
+		double yLow = y.getLow() < bounds.getHeight()
+				? Math.max(0, y.getLow())
+				: bounds.getHeight();
+
+		if (ascending && yLow >= 0) {
+			gp.lineTo(xMiddle, 0);
 		} else if (lastY.isInverted()) {
 			gp.lineTo(xMiddle, lastY.getLow());
 		} else if (!DoubleUtil.isEqual(lastY.getLow(), yLow) && yLow < bounds.getHeight()) {
@@ -119,7 +114,6 @@ public class PathCorrector {
 	private Interval completePathFromRight(IntervalTuple point, boolean ascending) {
 		Interval x = toScreenX(point);
 		Interval y = toScreenY(point);
-		Log.debug("[PC] completePathFromRight ");
 		double xMiddle = x.getLow() + (x.getWidth() / 2);
 		double yLow = y.getLow() < bounds.getHeight()
 				? Math.max(0, y.getLow())
@@ -156,14 +150,12 @@ public class PathCorrector {
 	}
 
 	private void completeToPositiveInfinity(Interval x, Interval y) {
-		Log.debug("[PC] completeToPositiveInfinity");
 		gp.moveTo(x.getHigh(), 0);
 		gp.lineTo(x.getHigh(), y.getLow());
 		lastY.set(0, y.getLow());
 	}
 
 	private void completeToNegativeInfinity(Interval x, Interval y) {
-		Log.debug("[PC] completeToNegativeInfinity");
 		int yMax = bounds.getHeight();
 		gp.moveTo(x.getHigh(), yMax);
 		gp.lineTo(x.getHigh(), y.getHigh());

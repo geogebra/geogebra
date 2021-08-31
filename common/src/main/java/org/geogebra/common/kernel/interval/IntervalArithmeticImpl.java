@@ -4,7 +4,6 @@ import com.google.j2objc.annotations.Weak;
 
 public class IntervalArithmeticImpl implements IntervalArithmetic {
 	@Weak
-	private final Interval interval;
 	private final IntervalMultiply intervalMultiply;
 	private final IntervalDivide intervalDivide;
 
@@ -13,7 +12,6 @@ public class IntervalArithmeticImpl implements IntervalArithmetic {
 	 * @param interval to do math with.
 	 */
 	public IntervalArithmeticImpl(Interval interval) {
-		this.interval = interval;
 		intervalMultiply = new IntervalMultiply(interval);
 		intervalDivide = new IntervalDivide(interval);
 	}

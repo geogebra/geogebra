@@ -16,8 +16,10 @@ public class SqrtTest extends IntervalPlotterCommon {
 
 	@Test
 	public void testSqrtSinInverseInverseHiRes() {
-		withBounds(-20, 20, -18, 18);
-		withHiResFunction("sqrt(1/sin(1/x))");
+		withBounds(-2.93321, 4.3528,
+				-4.54197, 3.70966);
+		withScreenSize(412, 400);
+		withFunction("1/sin(1/x)");
 		assertTrue(false);
 	}
 
