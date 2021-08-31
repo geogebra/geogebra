@@ -42,23 +42,19 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		TestHarness.setAttr(this, "dynamicStyleBar");
 
 		app.getSelectionManager()
-				.addSelectionListener(new GeoElementSelectionListener() {
-					@Override
-					public void geoElementSelected(GeoElement geo,
-							boolean addToSelection) {
-						if (addToSelection) {
-							return;
-						}
-						// If the activeGeoList will be null or empty, this
-						// will
-						// hide the dynamic stylebar.
-						// If we clicked on a locked geo, the activeGeoList
-						// will
-						// contain it, so in this case the dynamic stylebar
-						// will
-						// be visible yet.
-						DynamicStyleBar.this.updateStyleBar();
+				.addSelectionListener((geo, addToSelection) -> {
+					if (addToSelection) {
+						return;
 					}
+					// If the activeGeoList will be null or empty, this
+					// will
+					// hide the dynamic stylebar.
+					// If we clicked on a locked geo, the activeGeoList
+					// will
+					// contain it, so in this case the dynamic stylebar
+					// will
+					// be visible yet.
+					DynamicStyleBar.this.updateStyleBar();
 				});
 		EventUtil.stopPointer(getElement());
 	}

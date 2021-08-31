@@ -430,10 +430,14 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public void showDynamicStylebar() {
-		if (((AppW) app).allowStylebar()) {
+		if (((AppW) app).allowStylebar() && !hasMeasurementObjSelected()) {
 			getView().getDynamicStyleBar().setVisible(true);
 			getView().getDynamicStyleBar().updateStyleBar();
 		}
+	}
+
+	private boolean hasMeasurementObjSelected() {
+		return getAppSelectedGeos().stream().anyMatch(f -> f.isMeasurementTool());
 	}
 
 	@Override

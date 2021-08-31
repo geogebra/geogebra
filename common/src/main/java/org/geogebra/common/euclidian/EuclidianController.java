@@ -9919,7 +9919,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 
 			selectAndShowSelectionUI(geo);
-			showDynamicStylebar();
 			app.getUndoManager().storeAddGeo(geo);
 			return;
 		}
