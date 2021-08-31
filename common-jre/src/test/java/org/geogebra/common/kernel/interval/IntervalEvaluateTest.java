@@ -80,7 +80,7 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 	public void testXOnFractionPower() {
 		Interval result = interval(0, 1).pow(IntervalConstants.one().negative().divide(
 				new Interval(3)));
-		assertTrue(result.isInverted());
+		assertEquals(interval(1, POSITIVE_INFINITY), result);
 	}
 
 	@Test
@@ -177,6 +177,6 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 		Interval inverse = interval(-0.08, 0.04).multiplicativeInverse();
 		Interval sqrt = inverse.sqrt();
 		Interval result = sqrt.multiply(new Interval(-1));
-		assertEquals(IntervalConstants.empty(), result);
+		assertEquals(invertedInterval(-5, 0), result);
 	}
 }
