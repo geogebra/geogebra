@@ -126,7 +126,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		setMode(EuclidianConstants.MODE_MOVE);
 		super.updateStyleBar();
 
-		if (activeGeoList == null || activeGeoList.size() == 0 || ev.hasSpotlight()) {
+		if (activeGeoList == null || activeGeoList.size() == 0) {
 			setVisible(false);
 			return;
 		}
