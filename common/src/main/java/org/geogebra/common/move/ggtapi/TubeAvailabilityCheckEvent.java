@@ -3,8 +3,8 @@ package org.geogebra.common.move.ggtapi;
 import org.geogebra.common.move.events.BaseEvent;
 
 /**
- * @author gabor Event for login operations
- * 
+ * Event for geogebra.org availability check
+ * @author gabor
  */
 public class TubeAvailabilityCheckEvent extends BaseEvent {
 	private boolean available;

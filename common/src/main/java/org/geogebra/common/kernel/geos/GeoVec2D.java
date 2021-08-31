@@ -664,13 +664,9 @@ final public class GeoVec2D extends ValidExpression
 	 * 
 	 */
 	public static void complexDivide(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
-
 		Complex out = new Complex(a.x, a.y);
 		out = out.divide(new Complex(b.x, b.y));
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-		c.setMode(Kernel.COORD_COMPLEX);
-
+		fromComplex(c, out);
 	}
 
 	/**
@@ -686,17 +682,9 @@ final public class GeoVec2D extends ValidExpression
 	 */
 	public static void complexDivide(NumberValue a, GeoVec2D b,
 			GeoVec2D c) {
-		// NB temporary variables *crucial*: a and c can be the same variable
-		// double x1=a.getDouble(), x2 = b.x, y2 = b.y;
-		// complex division
-		// c.x = (x1 * x2 )/(x2 * x2 + y2 * b.y);
-		// c.y = ( - x1 * y2)/(x2 * x2 + y2 * b.y);
-
 		Complex out = new Complex(a.getDouble(), 0);
 		out = out.divide(new Complex(b.x, b.y));
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-		c.setMode(Kernel.COORD_COMPLEX);
+		fromComplex(c, out);
 	}
 
 	/**
@@ -713,10 +701,7 @@ final public class GeoVec2D extends ValidExpression
 			GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.multiply(new Complex(b.x, b.y));
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-
-		c.setMode(Kernel.COORD_COMPLEX);
+		fromComplex(c, out);
 	}
 
 	/**
@@ -762,11 +747,8 @@ final public class GeoVec2D extends ValidExpression
 	 *            c
 	 */
 	public static void complexSqrt(GeoVec2D a, GeoVec2D c) {
-		Complex out = new Complex(a.x, a.y);
-		out = out.sqrt();
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-		c.setMode(Kernel.COORD_COMPLEX);
+		Complex out = new Complex(a.x, a.y).sqrt();
+		fromComplex(c, out);
 	}
 
 	/**
@@ -778,11 +760,8 @@ final public class GeoVec2D extends ValidExpression
 	 *            c
 	 */
 	public static void complexSin(GeoVec2D a, GeoVec2D c) {
-		Complex out = new Complex(a.x, a.y);
-		out = out.sin();
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-		c.setMode(Kernel.COORD_COMPLEX);
+		Complex out = new Complex(a.x, a.y).sin();
+		fromComplex(c, out);
 	}
 
 	/**
@@ -794,27 +773,51 @@ final public class GeoVec2D extends ValidExpression
 	 *            c
 	 */
 	public static void complexCos(GeoVec2D a, GeoVec2D c) {
-		Complex out = new Complex(a.x, a.y);
-		out = out.cos();
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-		c.setMode(Kernel.COORD_COMPLEX);
+		Complex out = new Complex(a.x, a.y).cos();
+		fromComplex(c, out);
 	}
 
 	/**
 	 * c = tan(a)
 	 * 
 	 * @param a
-	 *            a
+	 *            input
 	 * @param c
-	 *            c
+	 *            output
 	 */
 	public static void complexTan(GeoVec2D a, GeoVec2D c) {
-		Complex out = new Complex(a.x, a.y);
-		out = out.tan();
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-		c.setMode(Kernel.COORD_COMPLEX);
+		Complex out = new Complex(a.x, a.y).tan();
+		fromComplex(c, out);
+	}
+
+	/**
+	 * c = atan(a)
+	 * @param a input
+	 * @param c output
+	 */
+	public static void complexAtan(GeoVec2D a, GeoVec2D c) {
+		Complex out = new Complex(a.x, a.y).atan();
+		fromComplex(c, out);
+	}
+
+	/**
+	 * c = asin(a)
+	 * @param a input
+	 * @param c output
+	 */
+	public static void complexAsin(GeoVec2D a, GeoVec2D c) {
+		Complex out = new Complex(a.x, a.y).asin();
+		fromComplex(c, out);
+	}
+
+	/**
+	 * c = acos(a)
+	 * @param a input
+	 * @param c output
+	 */
+	public static void complexAcos(GeoVec2D a, GeoVec2D c) {
+		Complex out = new Complex(a.x, a.y).acos();
+		fromComplex(c, out);
 	}
 
 	/**
@@ -828,9 +831,7 @@ final public class GeoVec2D extends ValidExpression
 	public static void complexSinh(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.sinh();
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-		c.setMode(Kernel.COORD_COMPLEX);
+		fromComplex(c, out);
 	}
 
 	/**
@@ -844,9 +845,7 @@ final public class GeoVec2D extends ValidExpression
 	public static void complexCosh(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.cosh();
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-		c.setMode(Kernel.COORD_COMPLEX);
+		fromComplex(c, out);
 	}
 
 	/**
@@ -858,11 +857,8 @@ final public class GeoVec2D extends ValidExpression
 	 *            c
 	 */
 	public static void complexTanh(GeoVec2D a, GeoVec2D c) {
-		Complex out = new Complex(a.x, a.y);
-		out = out.tanh();
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-		c.setMode(Kernel.COORD_COMPLEX);
+		Complex out = new Complex(a.x, a.y).tanh();
+		fromComplex(c, out);
 	}
 
 	/**
@@ -876,11 +872,7 @@ final public class GeoVec2D extends ValidExpression
 	public static void complexSec(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = Complex.ONE.divide(out.cos());
-
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-
-		c.setMode(Kernel.COORD_COMPLEX);
+		fromComplex(c, out);
 	}
 
 	/**
@@ -894,11 +886,7 @@ final public class GeoVec2D extends ValidExpression
 	public static void complexCsc(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = Complex.ONE.divide(out.sin());
-
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-
-		c.setMode(Kernel.COORD_COMPLEX);
+		fromComplex(c, out);
 	}
 
 	/**
@@ -912,11 +900,7 @@ final public class GeoVec2D extends ValidExpression
 	public static void complexCot(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = Complex.ONE.divide(out.tan());
-
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-
-		c.setMode(Kernel.COORD_COMPLEX);
+		fromComplex(c, out);
 	}
 
 	/**
@@ -930,10 +914,7 @@ final public class GeoVec2D extends ValidExpression
 	public static void complexSech(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = Complex.ONE.divide(out.cosh());
-
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-		c.setMode(Kernel.COORD_COMPLEX);
+		fromComplex(c, out);
 	}
 
 	/**
@@ -947,11 +928,7 @@ final public class GeoVec2D extends ValidExpression
 	public static void complexCsch(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = Complex.ONE.divide(out.sinh());
-
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-
-		c.setMode(Kernel.COORD_COMPLEX);
+		fromComplex(c, out);
 	}
 
 	/**
@@ -965,10 +942,7 @@ final public class GeoVec2D extends ValidExpression
 	public static void complexCoth(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = Complex.ONE.divide(out.tanh());
-
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-		c.setMode(Kernel.COORD_COMPLEX);
+		fromComplex(c, out);
 	}
 
 	/**
@@ -998,9 +972,7 @@ final public class GeoVec2D extends ValidExpression
 	public static void complexCbrt(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.pow(new Complex(1 / 3d, 0));
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-		c.setMode(Kernel.COORD_COMPLEX);
+		fromComplex(c, out);
 	}
 
 	/**
@@ -1014,9 +986,7 @@ final public class GeoVec2D extends ValidExpression
 	public static void complexConjugate(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.conjugate();
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-		c.setMode(Kernel.COORD_COMPLEX);
+		fromComplex(c, out);
 	}
 
 	/**
@@ -1042,9 +1012,7 @@ final public class GeoVec2D extends ValidExpression
 			out = new Complex(a.getDouble(), 0);
 			out = out.pow(new Complex(b.x, b.y));
 		}
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-		c.setMode(Kernel.COORD_COMPLEX);
+		fromComplex(c, out);
 	}
 
 	/**
@@ -1058,9 +1026,7 @@ final public class GeoVec2D extends ValidExpression
 	public static void complexExp(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.exp();
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-		c.setMode(Kernel.COORD_COMPLEX);
+		fromComplex(c, out);
 	}
 
 	/**
@@ -1074,9 +1040,7 @@ final public class GeoVec2D extends ValidExpression
 	public static void complexLog(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.log();
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-		c.setMode(Kernel.COORD_COMPLEX);
+		fromComplex(c, out);
 	}
 
 	/**
@@ -1105,34 +1069,7 @@ final public class GeoVec2D extends ValidExpression
 	public static void complexPower(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.pow(new Complex(b.x, b.y));
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-		c.setMode(Kernel.COORD_COMPLEX);
-	}
-
-	/**
-	 * c = a * b Michael Borcherds 2007-12-09
-	 * 
-	 * @param a
-	 *            factor
-	 * @param b
-	 *            factor
-	 * @param c
-	 *            result
-	 */
-	public static void complexMultiply(GeoVec2D a, NumberValue b,
-			GeoVec2D c) {
-		// NB temporary variables *crucial*: a and c can be the same variable
-		// double x1=a.x,y1=a.y,x2=b.getDouble();
-		// do multiply
-		// c.x = (x1 * x2);
-		// c.y = (x2 * y1);
-		Complex out = new Complex(a.x, a.y);
-		out = out.multiply(new Complex(b.getDouble(), 0));
-		c.x = out.getReal();
-		c.y = out.getImaginary();
-
-		c.setMode(Kernel.COORD_COMPLEX);
+		fromComplex(c, out);
 	}
 
 	/**
@@ -1175,6 +1112,12 @@ final public class GeoVec2D extends ValidExpression
 	public static void div(GeoVec2D a, double b, GeoVec2D c) {
 		c.x = a.x / b;
 		c.y = a.y / b;
+	}
+
+	private static void fromComplex(GeoVec2D c, Complex out) {
+		c.x = out.getReal();
+		c.y = out.getImaginary();
+		c.setMode(Kernel.COORD_COMPLEX);
 	}
 
 	@Override

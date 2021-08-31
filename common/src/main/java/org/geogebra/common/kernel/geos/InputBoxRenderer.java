@@ -18,7 +18,7 @@ class InputBoxRenderer {
 	}
 
 	String getText() {
-		if (linkedGeo.isGeoText() && linkedGeo.isIndependent()) {
+		if (linkedGeo.isGeoText()) {
 			String str = ((GeoText) linkedGeo).getTextStringSafe()
 					.replace("\n", GeoText.NEW_LINE);
 			if (inputBox.symbolicMode) {

@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.interval;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -122,31 +123,31 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 		return hashCode;
 	}
 
-	public Interval domain() {
-		return new Interval(list.get(0).x().getLow(), list.get(list.size() - 1).x().getHigh());
-	}
-
-	public void remove(IntervalTuple tuple) {
-		list.remove(tuple);
-	}
-
-	public void remove(int index) {
-		list.remove(index);
-	}
-
-	public void removeFromTail(int count) {
-		list = list.subList(0, list.size() - count - 1);
-	}
-
-	public void removeFromHead(int count) {
-		list = list.subList(count + 1, list.size());
-	}
-
 	public void clear() {
 		list.clear();
 	}
 
 	public Interval valueAt(int index) {
 		return get(index).y();
+	}
+
+	/**
+	 * Removing all (x, y) pairs such that the x interval ends higher than a given value.
+	 *  - ie can cut tuples that are offscreen from right.
+	 * @param high to remove from
+	 */
+	public void cutFrom(double high) {
+		list = list.stream().filter(tuple -> tuple.x().getHigh() <= high)
+				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Removing all (x, y) pairs such that the x interval starts lower than a given value.
+	 *  - ie can cut tuples that are offscreen from left.
+	 * @param low to remove to.
+	 */
+	public void cutTo(double low) {
+		list = list.stream().filter(tuple -> tuple.x().getLow() >= low)
+				.collect(Collectors.toList());
 	}
 }

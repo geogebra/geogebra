@@ -14,10 +14,11 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.DomGlobal;
 
 /**
  * @author judit Content of tools tab of Toolbar panel.
@@ -238,7 +239,7 @@ public class Tools extends FlowPanel implements SetLabels {
 
 	private boolean allowTooltips() {
 		// allow tooltips for iPad
-		boolean isIpad = Window.Navigator.getUserAgent().toLowerCase()
+		boolean isIpad = DomGlobal.navigator.userAgent.toLowerCase()
 				.contains("ipad");
 		return (!NavigatorUtil.isMobile() || isIpad) && app.showToolBarHelp();
 	}

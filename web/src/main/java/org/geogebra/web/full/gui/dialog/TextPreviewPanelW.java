@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.dialog.TextPreviewer;
 import org.geogebra.common.kernel.Kernel;
@@ -76,7 +77,6 @@ public class TextPreviewPanelW extends TextPreviewer {
 
 		GRectangle rect = AwtFactory.getPrototype().newRectangle();
 		if (isLatex) {
-		
 			EuclidianStatic.drawMultilineLaTeX(getApp(),
 					ev.getTempGraphics2D(textFont), previewGeo,
 					ev.getTempGraphics2D(textFont), textFont, GColor.BLACK,
@@ -84,19 +84,15 @@ public class TextPreviewPanelW extends TextPreviewer {
 					previewGeo.getTextString(), 0, 0, serif, null, rect);
 			
 		} else {
-			
-			rect = EuclidianStatic.drawMultiLineText(getApp(),
+			EuclidianStatic.drawMultiLineText(getApp(),
 					previewGeo.getTextString(), 0, 0,
 					((EuclidianViewW) ev).getG2P(),
-					serif, textFont, rect, null);
+					serif, textFont, rect, null, DrawText.DEFAULT_MARGIN);
 		}
-		//App.debug("text rect: " + rect.getWidth() + " x " +
-	//	rect.getHeight());
 		int w = (int) rect.getWidth() + padding;
 		int h = (int) rect.getHeight() + padding;
 		((EuclidianViewW) ev).setPreferredSize(w, h);
 		evPanel.setSize(w + "px", h + "px");
-
 	}
 
 	@Override

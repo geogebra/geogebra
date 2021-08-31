@@ -1,7 +1,8 @@
 package org.geogebra.common.move.ggtapi.models;
 
 /**
- * @author gabor All GGT Request class should implement it
+ * Interface for all geogebra.org JSON API requests
+ * @author gabor
  */
 public interface Request {
 

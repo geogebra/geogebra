@@ -326,6 +326,9 @@ public class PerspectiveDecoder {
 		if (String.valueOf(Perspective.GRAPHER_3D).equals(forcedPerspective)) {
 			return viewId == App.VIEW_ALGEBRA || viewId == App.VIEW_EUCLIDIAN3D;
 		}
+		if (String.valueOf(Perspective.PROBABILITY).equals(forcedPerspective)) {
+			return viewId == App.VIEW_ALGEBRA || viewId == App.VIEW_PROBABILITY_CALCULATOR;
+		}
 		return viewId == App.VIEW_ALGEBRA || viewId == App.VIEW_EUCLIDIAN;
 	}
 }

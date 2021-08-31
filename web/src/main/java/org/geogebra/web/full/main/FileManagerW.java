@@ -15,7 +15,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.full.util.SaveCallback.SaveState;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.StringConsumer;
@@ -215,26 +214,24 @@ public class FileManagerW extends FileManager {
 
 	@Override
 	public String getAutosaveJSON() {
-		if (Browser.supportsSessionStorage()) {
-
-			if (stockStore != null) {
-				String timestamp = stockStore.getItem(TIMESTAMP);
-				if (timestamp != null) {
-					long l = 0;
-					try {
-						l = Long.parseLong(timestamp);
-					} catch (Exception e) {
-						Log.warn("Invalid timestamp.");
-					}
-					if (l > System.currentTimeMillis() - 2000) {
-						Log.debug(
-								"App still running, autosave timestamp: " + l);
-						return null;
-					}
+		if (stockStore != null) {
+			String timestamp = stockStore.getItem(TIMESTAMP);
+			if (timestamp != null) {
+				long l = 0;
+				try {
+					l = Long.parseLong(timestamp);
+				} catch (Exception e) {
+					Log.warn("Invalid timestamp.");
 				}
-				return stockStore.getItem(getAutosaveKey());
+				if (l > System.currentTimeMillis() - 2000) {
+					Log.debug(
+							"App still running, autosave timestamp: " + l);
+					return null;
+				}
 			}
+			return stockStore.getItem(getAutosaveKey());
 		}
+
 		return null;
 	}
 

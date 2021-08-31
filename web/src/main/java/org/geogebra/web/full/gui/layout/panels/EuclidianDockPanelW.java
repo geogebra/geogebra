@@ -20,24 +20,6 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	Canvas eview1 = null; // static foreground
 
 	/**
-	 * This constructor is used by the Application
-	 * and by the other constructor
-	 * 
-	 * @param stylebar
-	 *            (is there stylebar?)
-	 */
-	public EuclidianDockPanelW(boolean stylebar) {
-		super(App.VIEW_EUCLIDIAN, null, stylebar, true);
-
-		//TODO: temporary fix to make applets work until
-		// dockpanels works for applets
-		component = loadComponent();
-		if (!stylebar) {
-			buildDockPanel();
-		}
-	}
-	
-	/**
 	 * This constructor is used by the applet
 	 * 
 	 * @param application
@@ -46,17 +28,18 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	 *            whether to use stylebar
 	 */
 	public EuclidianDockPanelW(AppW application, boolean stylebar) {
-		this(stylebar);
-		attachApp(application);
+		super(App.VIEW_EUCLIDIAN, null, stylebar, true);
+
+		// TODO: run loadComponent later like for other panels (check if it works in all applets)
+		app = application;
+		component = loadComponent();
+		if (!stylebar) {
+			buildDockPanel();
+		}
+		initNavigationBar();
 	}
 
-	/**
-	 * @param application
-	 *            application
-	 */
-	public void attachApp(AppW application) {
-		app = application;
-
+	private void initNavigationBar() {
 		// GuiManager can be null at the startup of the application,
 		// but then the addNavigationBar method will be called explicitly.
 		if (app.getGuiManager() != null

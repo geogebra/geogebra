@@ -380,7 +380,7 @@ public class DrawImage extends Drawable {
 	 */
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		if (!isVisible || geoImage.isInBackground()) {
+		if (geoImage.isInBackground()) {
 			return false;
 		}
 

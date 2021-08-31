@@ -656,9 +656,6 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 * @return Default preferences
 	 */
 	private static String getDefaultPreferences(App app) {
-
-		Log.debug(GeoGebraPreferencesXML.getXML(app));
-
 		return GeoGebraPreferencesXML.getXML(app);
 	}
 

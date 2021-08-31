@@ -2773,4 +2773,10 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	public void fractionsWithScientificNotation() {
 		tk("1/2E-12", "1 / (2 * 10^(-12))");
 	}
+
+	@Test
+	public void testFunctionExpanderWithComplexGeoSurfaceCartesian() {
+		in("f(x)=x * (1 + i)");
+		t("f(x) + 1", "x * (1 + ί) + 1", "(1 + ί) * x + 1");
+	}
 }

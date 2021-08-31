@@ -4,8 +4,8 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 
 /**
- * @author gabor common interface for plotpaneleuclidianviews
- *
+ * common interface for plotpaneleuclidianviews
+ * @author gabor
  */
 public interface PlotPanelEuclidianViewInterface
 		extends EuclidianViewInterfaceCommon {

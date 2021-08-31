@@ -115,8 +115,11 @@ public class InputBoxProcessor {
 
 	private void updateLinkedGeoNoErrorHandling(
 			StringTemplate tpl, ErrorHandler errorHandler, EditorContent content) {
-		if (linkedGeo.isGeoText() && linkedGeo.isIndependent()) {
+		if (linkedGeo.isGeoText()) {
+			// set content first, make independent later, otherwise there is a conflict
+			// between Enter and blur handlers in Web
 			((GeoText) linkedGeo).setTextString(content.getEditorInput());
+			makeGeoIndependent();
 			linkedGeo.updateRepaint();
 			return;
 		}

@@ -673,7 +673,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				5);
         setXscale(SCALE_STANDARD);
         setYscale(SCALE_STANDARD);
-
    }
 
 	protected void setMinMaxObjects() {
@@ -681,6 +680,21 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		xmaxObject = new GeoNumeric(kernel.getConstruction());
 		yminObject = new GeoNumeric(kernel.getConstruction());
 		ymaxObject = new GeoNumeric(kernel.getConstruction());
+	}
+
+	/**
+	 *
+	 * @return if spotlight is active or not
+	 */
+	public boolean hasSpotlight() {
+		return euclidianController.getSpotlight() != null;
+	}
+
+	/**
+	 * Clears spotlight
+	 */
+	public void clearSpotlight() {
+		euclidianController.clearSpotlight();
 	}
 
 	/**
@@ -2070,7 +2084,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				|| (geo.getTrace() && !tracing)
 				|| geo.isMask()
 				|| geo instanceof GeoMindMapNode
-				|| geo.isMeasurementTool();
+				|| geo.isMeasurementTool()
+				|| geo.isSpotlight();
 	}
 
 	/**
@@ -2297,8 +2312,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		for (Drawable d : allDrawableList) {
 			if (d instanceof DrawInputBox
-					&& (d.hit(x, y, app.getCapturingThreshold(type))
-					|| d.hitLabel(x, y))) {
+					&& d.isEuclidianVisible()
+					&& (d.hit(x, y, app.getCapturingThreshold(type)) || d.hitLabel(x, y))) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible() && geo.isSelectionAllowed(this)) {
 					focusTextField((GeoInputBox) geo);
@@ -4222,10 +4237,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		for (Drawable d : allDrawableList) {
 			if (d instanceof DrawDropDownList) {
 				DrawDropDownList dl = (DrawDropDownList) d;
-				if (dl.needsUpdate()) {
-					dl.setNeedsUpdate(false);
-					dl.update();
-				}
+				dl.updateIfNeeded();
 
 				if (selected == null && dl.isSelected()) {
 					selected = dl;
@@ -4237,12 +4249,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 				dl.draw(g);
 			} else if (d instanceof DrawInputBox) {
-
-				if (d.needsUpdate()) {
-					d.setNeedsUpdate(false);
-					d.update();
-				}
-
+				d.updateIfNeeded();
+				d.draw(g);
+			} else if (d.isInteractiveEditor()) {
 				d.draw(g);
 			}
 		}
@@ -4260,7 +4269,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param g2
 	 *            graphics
 	 */
-	public void drawMasks(GGraphics2D g2) {
+	private void drawMasks(GGraphics2D g2) {
 		for (Drawable d : allDrawableList) {
 			if (d.geo.isMask()) {
 				d.updateIfNeeded();

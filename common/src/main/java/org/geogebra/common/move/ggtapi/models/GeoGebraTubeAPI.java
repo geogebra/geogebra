@@ -19,7 +19,8 @@ import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * @author gabor Common base for GeoGebraTubeApi
+ * Common base for geogebra.org JSON API
+ * @author gabor
  */
 public abstract class GeoGebraTubeAPI implements BackendAPI {
 

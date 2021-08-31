@@ -65,7 +65,6 @@ public class DrawInputBox extends CanvasDrawable {
 	private GFont textFont;
 	private TextRenderer textRenderer;
 	private GDimension labelDimension = null;
-	private final DrawDynamicCaption drawDynamicCaption;
 
 	/**
 	 * @param view
@@ -84,8 +83,13 @@ public class DrawInputBox extends CanvasDrawable {
 
 		}
 		textFont = getTextFont(geo.getText());
-		drawDynamicCaption = new DrawDynamicCaption(view, this);
 		update();
+	}
+
+	@Override
+	public int getCaptionY(boolean laTeX, int captionHeight) {
+		return laTeX ? boxTop + boxHeight / 2 - captionHeight / 2
+				: yLabel + getTextBottom();
 	}
 
 	/**
@@ -266,7 +270,9 @@ public class DrawInputBox extends CanvasDrawable {
 
 		xLabel = getGeoInputBox().getScreenLocX(view);
 		yLabel = getGeoInputBox().getScreenLocY(view);
-		drawDynamicCaption.update();
+		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
+			getDynamicCaption().update();
+		}
 
 		labelRectangle.setBounds(xLabel, yLabel, getPreferredWidth(), getPreferredHeight());
 
@@ -352,15 +358,6 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	@Override
-	protected void highlightLabel(GGraphics2D g2, boolean latex) {
-		if (drawDynamicCaption.isEnabled()) {
-			drawDynamicCaption.highlight();
-		} else {
-			super.highlightLabel(g2, latex);
-		}
-	}
-
-	@Override
 	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
             String txt = getGeoInputBox().getText();
@@ -421,8 +418,9 @@ public class DrawInputBox extends CanvasDrawable {
 		return boxLeft + TF_PADDING_HORIZONTAL;
 	}
 
-	int getTextBottom() {
-		return (getPreferredHeight() / 2) + (int) (getLabelFontSize() * 0.4);
+	@Override
+	protected int getLabelGap() {
+		return 2;
 	}
 
 	@Override
@@ -464,30 +462,10 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	@Override
-	protected boolean measureLabel(GGraphics2D g2, GeoElement geo0, String text) {
-		return drawDynamicCaption.isEnabled()
-				? drawDynamicCaption.setLabelSize()
-				: super.measureLabel(g2, geo0, text);
-	}
-
-	@Override
 	protected boolean hitWidgetBounds(int x, int y) {
 		return geoInputBox.isSymbolicMode()
 			? getInputFieldBounds().contains(x, y)
 			: super.hitWidgetBounds(x, y);
-	}
-
-	@Override
-	public boolean hit(int x, int y, int hitThreshold) {
-		return super.hit(x, y, hitThreshold)
-				|| drawDynamicCaption.hit(x, y, hitThreshold);
-	}
-
-	@Override
-	protected int getLabelTextHeight() {
-		return drawDynamicCaption.isEnabled()
-				? drawDynamicCaption.getHeight()
-				: super.getLabelTextHeight();
 	}
 
 	/**
@@ -499,8 +477,8 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	private void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
-		if (drawDynamicCaption.isEnabled()) {
-			drawDynamicCaption.draw(g2);
+		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
+			getDynamicCaption().draw(g2);
 		} else if (isLatexString(text)) {
 			labelDimension = drawLatex(g2, geo0, getLabelFont(), text, xLabel, (int) getLabelTop());
 		} else {

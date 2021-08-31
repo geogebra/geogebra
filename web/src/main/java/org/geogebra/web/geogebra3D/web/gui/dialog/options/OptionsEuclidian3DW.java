@@ -95,16 +95,11 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 			super.addMiscPanel();
 
-			cbUseLight.addClickHandler(new ClickHandler() {
-				
-				@Override
-				public void onClick(ClickEvent event) {
-					get3dview().getSettings()
-							.setUseLight(cbUseLight.getValue());
-					repaintView();
-				}
+			cbUseLight.addClickHandler(event -> {
+				get3dview().getSettings()
+						.setUseLight(cbUseLight.getValue());
+				repaintView();
 			});
-
 		}
 
 		@Override
@@ -115,24 +110,16 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		@Override
 		protected void addAxesOptionsPanel() {
 			cbYAxisVertical = new CheckBox();
-			cbYAxisVertical.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					get3dview().setYAxisVertical(cbYAxisVertical.getValue());
-					repaintView();
-				}
+			cbYAxisVertical.addClickHandler(event -> {
+				get3dview().setYAxisVertical(cbYAxisVertical.getValue());
+				repaintView();
 			});
 
 			cbAxesColored = new CheckBox();
-			cbAxesColored.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					get3dview().getSettings()
-							.setHasColoredAxes(cbAxesColored.getValue());
-					repaintView();
-				}
+			cbAxesColored.addClickHandler(event -> {
+				get3dview().getSettings()
+						.setHasColoredAxes(cbAxesColored.getValue());
+				repaintView();
 			});
 
 			super.addAxesOptionsPanel();
@@ -165,22 +152,14 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			add(clippingOptionsTitle);
 			indent(clippingOptionsPanel);
 
-			cbUseClipping.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					get3dview().setUseClippingCube(cbUseClipping.getValue());
-					repaintView();
-				}
+			cbUseClipping.addClickHandler(event -> {
+				get3dview().setUseClippingCube(cbUseClipping.getValue());
+				repaintView();
 			});
 
-			cbShowClipping.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					get3dview().setShowClippingCube(cbShowClipping.getValue());
-					repaintView();
-				}
+			cbShowClipping.addClickHandler(event -> {
+				get3dview().setShowClippingCube(cbShowClipping.getValue());
+				repaintView();
 			});
 
 			// clipping box size
@@ -197,34 +176,22 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			add(boxSizeTitle);
 			indent(boxSizePanel);
 
-			radioClippingSmall.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					get3dview().getSettings().setClippingReduction(
-							GeoClippingCube3D.REDUCTION_SMALL);
-					repaintView();
-				}
+			radioClippingSmall.addClickHandler(event -> {
+				get3dview().getSettings().setClippingReduction(
+						GeoClippingCube3D.REDUCTION_SMALL);
+				repaintView();
 			});
 
-			radioClippingMedium.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					get3dview().getSettings().setClippingReduction(
-							GeoClippingCube3D.REDUCTION_MEDIUM);
-					repaintView();
-				}
+			radioClippingMedium.addClickHandler(event -> {
+				get3dview().getSettings().setClippingReduction(
+						GeoClippingCube3D.REDUCTION_MEDIUM);
+				repaintView();
 			});
 
-			radioClippingLarge.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					get3dview().getSettings().setClippingReduction(
-							GeoClippingCube3D.REDUCTION_LARGE);
-					repaintView();
-				}
+			radioClippingLarge.addClickHandler(event -> {
+				get3dview().getSettings().setClippingReduction(
+						GeoClippingCube3D.REDUCTION_LARGE);
+				repaintView();
 			});
 		}
 
@@ -470,23 +437,15 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				}
 			});
 			cbGlassesGray = new CheckBox(loc.getMenu("GrayScale"));
-			cbGlassesGray.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					get3dview().setGlassesGrayScaled(cbGlassesGray.getValue());
-					repaintView();
-				}
+			cbGlassesGray.addClickHandler(event -> {
+				get3dview().setGlassesGrayScaled(cbGlassesGray.getValue());
+				repaintView();
 			});
 			cbGlassesShutDownGreen = new CheckBox(loc.getMenu("ShutDownGreen"));
-			cbGlassesShutDownGreen.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					get3dview().setGlassesShutDownGreen(
-							cbGlassesShutDownGreen.getValue());
-					repaintView();
-				}
+			cbGlassesShutDownGreen.addClickHandler(event -> {
+				get3dview().setGlassesShutDownGreen(
+						cbGlassesShutDownGreen.getValue());
+				repaintView();
 			});
 			FlowPanel tfGlassesPanel = new FlowPanel();
 			tfGlassesPanel.setStyleName("panelRowCell");
@@ -509,43 +468,23 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 			tfObliqueAngle = getTextField();
 			tfObliqueAngleLabel = new FormLabel().setFor(tfObliqueAngle);
-			tfObliqueAngle.addKeyHandler(new KeyHandler() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					if (e.isEnterKey()) {
-						processObliqueAngleText();
-					}
-				}
-			});
-
-			tfObliqueAngle.addBlurHandler(new BlurHandler() {
-
-				@Override
-				public void onBlur(BlurEvent event) {
+			tfObliqueAngle.addKeyHandler(e -> {
+				if (e.isEnterKey()) {
 					processObliqueAngleText();
 				}
 			});
 
+			tfObliqueAngle.addBlurHandler(event -> processObliqueAngleText());
+
 			tfObliqueFactor = getTextField();
 			tfObliqueFactorLabel = new FormLabel().setFor(tfObliqueFactor);
-			tfObliqueFactor.addKeyHandler(new KeyHandler() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					if (e.isEnterKey()) {
-						processObliqueFactorText();
-					}
-				}
-			});
-
-			tfObliqueFactor.addBlurHandler(new BlurHandler() {
-
-				@Override
-				public void onBlur(BlurEvent event) {
+			tfObliqueFactor.addKeyHandler(e -> {
+				if (e.isEnterKey()) {
 					processObliqueFactorText();
 				}
 			});
+
+			tfObliqueFactor.addBlurHandler(event -> processObliqueFactorText());
 			FlowPanel tfObliquePanel = new FlowPanel();
 			tfObliquePanel.setStyleName("panelRowCell");
 			tfObliquePanel.add(tfObliqueAngleLabel);

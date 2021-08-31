@@ -27,6 +27,7 @@
 package com.himamis.retex.editor.web;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.gwtproject.timer.client.Timer;
@@ -45,7 +46,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
@@ -117,8 +117,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private double scale = 1.0;
 
-	private final SyntaxAdapter converter;
-
 	private ExpressionReader expressionReader;
 
 	private static final ArrayList<MathFieldW> instances = new ArrayList<>();
@@ -163,7 +161,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public MathFieldW(SyntaxAdapter converter, Panel parent, Canvas canvas,
 			MathFieldListener listener, MetaModel metaModel) {
 
-		this.converter = converter;
 		this.metaModel = metaModel;
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderGWT());
@@ -172,7 +169,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		bottomOffset = 10;
 		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this);
-		mathFieldInternal.getInputController().setFormatConverter(converter);
 		mathFieldInternal.setSyntaxAdapter(converter);
 		getHiddenTextArea();
 
@@ -230,7 +226,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private Element getElementForAriaLabel() {
-		if ((isIOS() || isMacOS() || isIE())) {
+		if ((NavigatorUtil.isiOS() || NavigatorUtil.isMacOS())) {
 			// mobile Safari: alttext is connected to parent so that screen
 			// reader doesn't read "dimmed" for the textarea
 			Element parentElement = parent.getElement();
@@ -257,22 +253,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			return target.getAttribute("aria-label");
 		}
 		return "";
-	}
-
-	/**
-	 * @return whether we're running in a Mac browser
-	 */
-	public static boolean isMacOS() {
-		return Navigator.getUserAgent().contains("Macintosh")
-				|| Navigator.getUserAgent().contains("Mac OS");
-	}
-
-	/**
-	 * @return whether we are running in IE
-	 */
-	public static boolean isIE() {
-		return Navigator.getUserAgent().toLowerCase().contains("trident")
-				|| Navigator.getUserAgent().toLowerCase().contains("msie");
 	}
 
 	private static void initTimer() {
@@ -534,9 +514,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @return MacOS: whether meta is down; other os: whether Ctrl is down
 	 */
 	boolean controlDown(com.google.gwt.event.dom.client.KeyEvent<?> event) {
-		return Navigator.getUserAgent().contains("Macintosh")
-				|| Navigator.getUserAgent().contains("Mac OS")
-						? event.isMetaKeyDown() : event.isControlKeyDown();
+		return NavigatorUtil.isMacOS() ? event.isMetaKeyDown() : event.isControlKeyDown();
 	}
 
 	protected char getChar(NativeEvent nativeEvent) {
@@ -626,12 +604,22 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 				bgColor, null, ratio);
 	}
 
-	private boolean isEdited() {
-		return instances.contains(this);
+	/**
+	 * @param ctx canvas
+	 * @param top top
+	 * @param bgColor background color
+	 */
+	public void paintFormulaNoPlaceholder(CanvasRenderingContext2D ctx,
+			double top, ColorW bgColor) {
+		TeXIcon iconNoPlaceholder = mathFieldInternal.buildIconNoPlaceholder();
+		if (iconNoPlaceholder != null) {
+			JlmLib.draw(iconNoPlaceholder, ctx, 0, top, foregroundColor,
+					bgColor, null, ratio);
+		}
 	}
 
-	private static boolean isIOS() {
-		return Navigator.getUserAgent().toLowerCase().matches(".*(ipad|iphone|ipod).*");
+	private boolean isEdited() {
+		return instances.contains(this);
 	}
 
 	private double computeHeight() {
@@ -776,9 +764,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private void focusTextArea() {
-		inputTextArea.getElement().focus();
-		if (html.getElement().getParentElement() != null) {
-			html.getElement().getParentElement().setScrollTop(0);
+		Element parentElement = html.getElement().getParentElement();
+		if (parentElement != null) {
+			int scroll = parentElement.getScrollLeft();
+			inputTextArea.getElement().focus();
+			parentElement.setScrollLeft(scroll);
+			parentElement.setScrollTop(0);
+		} else {
+			inputTextArea.getElement().focus();
 		}
 		startBlink();
 	}
@@ -788,8 +781,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			ClipboardEvent event = (ClipboardEvent) e;
 			if (event.clipboardData != null) {
 				String exp = event.clipboardData.getData("text/plain");
-				exp = convert(exp);
-				insertString(exp);
+				mathFieldInternal.convertAndInsert(exp);
 			}
 			return null;
 		};
@@ -827,19 +819,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	@Override
 	public void paste() {
 		// insertString(getSystemClipboardChromeWebapp(html.getElement()));
-	}
-
-	/**
-	 * @param exp
-	 *            inserted string (latex/mathml/...)
-	 * @return ASCII math syntax
-	 */
-	protected String convert(String exp) {
-		if (converter != null) {
-			return converter.convert(exp);
-		}
-
-		return exp;
 	}
 
 	/**
@@ -1215,11 +1194,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *
 	 * @param parentPanel
 	 *            panel to be scrolled
-	 * @param margin
-	 *            minimal distance from cursor to left/right border
 	 */
-	public void scrollParentHorizontally(FlowPanel parentPanel, int margin) {
-		MathFieldScroller.scrollHorizontallyToCursor(parentPanel, margin, lastIcon.getCursorX());
+	public void scrollParentHorizontally(FlowPanel parentPanel) {
+		MathFieldScroller.scrollHorizontallyToCursor(parentPanel, lastIcon.getCursorX());
 	}
 
 	/**
@@ -1236,5 +1213,13 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	public ColorW getBackgroundColor() {
 		return backgroundColor;
+	}
+
+	/**
+	 * @param funcVars function variables of the input box
+	 */
+	public void setInputBoxFunctionVariables(List<String> funcVars) {
+		metaModel.setInputBoxFunctionVars(funcVars);
+		metaModel.enableSubstitutions();
 	}
 }

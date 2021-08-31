@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
@@ -17,21 +19,18 @@ import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * Navigation rail or bottom bar
  */
-class NavigationRail extends FlowPanel implements KeyDownHandler {
+class NavigationRail extends FlowPanel {
 	private MenuToggleButton btnMenu;
-	private StandardButton btnAlgebra;
-	private StandardButton btnTools;
-	private StandardButton btnTableView;
+	private @CheckForNull StandardButton btnAlgebra;
+	private @CheckForNull StandardButton btnTools;
+	private @CheckForNull StandardButton btnTableView;
 	private final Image imgMenu;
 	private final FlowPanel contents;
 	private FlowPanel center;
@@ -99,34 +98,28 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 	}
 
 	private void createAlgebraButton() {
-		btnAlgebra = new StandardButton(
-				MaterialDesignResources.INSTANCE.toolbar_algebra_graphing(),
-				"Algebra", 24);
-		btnAlgebra.addStyleName("tabButton");
+		btnAlgebra = createTabButton("Algebra",
+				MaterialDesignResources.INSTANCE.toolbar_algebra_graphing());
 		btnAlgebra.addFastClickHandler(source -> onAlgebraPressed());
-		//btnAlgebra.addKeyDownHandler(this);
-		AriaHelper.hide(btnAlgebra);
 	}
 
 	private void createToolsButton() {
-		btnTools = new StandardButton(
-				MaterialDesignResources.INSTANCE.toolbar_tools(),
-				"Tools", 24);
-		btnTools.addStyleName("tabButton");
+		btnTools = createTabButton("Tools",
+				MaterialDesignResources.INSTANCE.toolbar_tools());
 		btnTools.addFastClickHandler(source -> onToolsPressed());
-		//btnTools.addKeyDownHandler(this);
-		AriaHelper.hide(btnTools);
 	}
 
 	private void createTableViewButton() {
-		btnTableView = new StandardButton(
-				MaterialDesignResources.INSTANCE.toolbar_table_view_black(),
-				"Table", 24);
-		btnTableView.addStyleName("tabButton");
+		btnTableView = createTabButton("Table",
+				MaterialDesignResources.INSTANCE.toolbar_table_view_black());
 		btnTableView.addFastClickHandler(source -> onTableViewPressed());
+	}
 
-		//btnTableView.addKeyDownHandler(this);
-		AriaHelper.hide(btnTableView);
+	private StandardButton createTabButton(String label, SVGResource icon) {
+		StandardButton btn = new StandardButton(icon, label, 24);
+		btn.addStyleName("tabButton");
+		AriaHelper.hide(btn);
+		return btn;
 	}
 
 	/**
@@ -176,16 +169,15 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 	 */
 	protected void onClosePressed(boolean snap) {
 		app.hideMenu();
-		onClose(snap);
+		onClose(snap, ToolbarPanel.OPEN_ANIM_TIME);
 		toolbarPanel.getFrame().showKeyBoard(false, null, true);
 	}
 
-	private void onClose(boolean snap) {
-		setAnimating(true);
+	protected void onClose(boolean snap, int time) {
 		updateIcons(null, app.isExamStarted());
 		addCloseOrientationStyles();
 		toolbarPanel.setMoveMode();
-		toolbarPanel.close(snap);
+		toolbarPanel.close(snap, time);
 		app.getAccessibilityManager().focusAnchorOrMenu();
 	}
 
@@ -233,12 +225,14 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 	}
 
 	private void setSelected(StandardButton btn, boolean selected, boolean exam) {
-		GColor color = GColor.WHITE;
-		if (!exam) {
-			color = selected ? app.getVendorSettings().getPrimaryColor() : GColor.BLACK;
+		if (btn != null) {
+			GColor color = GColor.WHITE;
+			if (!exam) {
+				color = selected ? app.getVendorSettings().getPrimaryColor() : GColor.BLACK;
+			}
+			btn.setIcon(((SVGResource) btn.getIcon()).withFill(color.toString()));
+			Dom.toggleClass(btn, "selected", selected);
 		}
-		btn.setIcon(((SVGResource) btn.getIcon()).withFill(color.toString()));
-		Dom.toggleClass(btn, "selected", selected);
 	}
 
 	/**
@@ -267,9 +261,6 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 		}
 		boolean external = isHeaderExternal();
 		btnMenu.setExternal(external);
-		if (center != null) {
-			center.setStyleName("withMenu", !external);
-		}
 		if (external) {
 			btnMenu.addToGlobalHeader();
 			addShareButton();
@@ -299,7 +290,7 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 	 * Hide the entire undo/redo panel (eg. during animation).
 	 */
 	public void hideUndoRedoPanel() {
-		toolbarPanel.hideUndoRedoPanel();
+		toolbarPanel.showHideUndoRedoPanel(false);
 	}
 
 	/**
@@ -366,7 +357,6 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 		if (isAnimating()) {
 			return;
 		}
-		updateMenuPosition();
 		updateStyle();
 	}
 
@@ -446,23 +436,6 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 		setAltTexts();
 	}
 
-	@Override
-	public void onKeyDown(KeyDownEvent event) {
-		int key = event.getNativeKeyCode();
-		if (key != GWTKeycodes.KEY_ENTER && key != GWTKeycodes.KEY_SPACE) {
-			return;
-		}
-		Object source = event.getSource();
-		if (source == null) {
-			return;
-		}
-		if (source == btnAlgebra) {
-			onAlgebraPressed();
-		} else if (source == btnTools) {
-			onToolsPressed();
-		}
-	}
-
 	/** Sets focus to Burger menu */
 	public void focusMenu() {
 		if (btnMenu != null) {
@@ -483,7 +456,7 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 		toolbarPanel.onResize();
 
 		Scheduler.get().scheduleDeferred(() -> {
-			toolbarPanel.showUndoRedoPanel();
+			toolbarPanel.showHideUndoRedoPanel(true);
 			toolbarPanel.updateUndoRedoPosition();
 			resize();
 		});
@@ -513,5 +486,9 @@ class NavigationRail extends FlowPanel implements KeyDownHandler {
 		setSelected(btnAlgebra, tabId == TabIds.ALGEBRA, exam);
 		setSelected(btnTools, tabId == TabIds.TOOLS, exam);
 		setSelected(btnTableView, tabId == TabIds.TABLE, exam);
+	}
+
+	public void setAVIconNonSelect(boolean exam) {
+		setSelected(btnAlgebra, false, exam);
 	}
 }

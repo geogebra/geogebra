@@ -9,9 +9,6 @@ import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-
 /**
  * Button to get popup with filling options.
  */
@@ -41,15 +38,7 @@ public class FillingStyleButton extends PopupMenuButtonW {
 			icons[i] = GeoGebraIconW.createFillStyleIcon(fillTypes[i]);
 		}
 		getMyTable().populateModel(icons);
-		getMyTable().addClickHandler(new ClickHandler() {
-
-			@Override
-
-			public void onClick(ClickEvent event) {
-				handlePopupActionEvent();
-			}
-
-		});
+		getMyTable().addClickHandler(event -> handlePopupActionEvent());
 	}
 
 	private static ImageOrText[] createDummyIcons(int count) {

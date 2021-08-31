@@ -1642,6 +1642,14 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void showToolBar(final boolean show) {
+		if (app.isWhiteboardActive()) {
+			if (show) {
+				frame.attachNotesUI(getApp());
+			} else {
+				frame.detachNotesToolbarAndUndo(getApp());
+			}
+			return;
+		}
 		ToolBarInterface tb = getApp().getToolbar();
 		boolean currentlyVisible = tb != null && tb
 				.isShown();
@@ -2289,5 +2297,14 @@ public class GuiManagerW extends GuiManager
 	 */
 	public void resetBrowserGUI() {
 		browseGUI = null;
+	}
+
+	@Override
+	public void closeFullscreenView() {
+		if (getUnbundledToolbar() != null) {
+			getUnbundledToolbar().showOppositeView();
+			getUnbundledToolbar().resizeTabs();
+			getUnbundledToolbar().closeAnimation();
+		}
 	}
 }

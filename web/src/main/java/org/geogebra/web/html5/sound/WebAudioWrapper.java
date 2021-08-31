@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.sound;
 
-import org.geogebra.gwtutil.NavigatorUtil;
-
 import elemental2.core.Float32Array;
 import elemental2.media.AudioContext;
 import elemental2.media.AudioProcessingEvent;
@@ -12,8 +10,6 @@ public class WebAudioWrapper {
 	private static WebAudioWrapper INSTANCE;
 
 	private FunctionAudioListener listener = null;
-
-	private final boolean supported;
 
 	private double time;
 	private double deltaTime;
@@ -27,7 +23,6 @@ public class WebAudioWrapper {
 	}
 
 	private WebAudioWrapper() {
-		supported = !NavigatorUtil.isIE();
 		init();
 	}
 
@@ -43,10 +38,6 @@ public class WebAudioWrapper {
 	}
 
 	private void init() {
-		if (!supported) {
-			return;
-		}
-
 		context = new AudioContext();
 		deltaTime = 1 / context.sampleRate;
 
@@ -57,10 +48,6 @@ public class WebAudioWrapper {
 	}
 
 	void start(double min, double max) {
-		if (!supported) {
-			return;
-		}
-
 		time = min;
 		stopTime = max;
 		processor.connect(context.destination);
@@ -81,10 +68,6 @@ public class WebAudioWrapper {
 	}
 
 	void stop() {
-		if (!supported) {
-			return;
-		}
-
 		processor.disconnect();
 	}
 
@@ -94,9 +77,5 @@ public class WebAudioWrapper {
 
 	public void setListener(FunctionAudioListener listener) {
 		this.listener = listener;
-	}
-
-	public boolean isSupported() {
-		return supported;
 	}
 }

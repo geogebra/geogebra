@@ -1,5 +1,8 @@
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
+import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
+
 public interface HasTextFormat {
 
 	/**
@@ -54,4 +57,12 @@ public interface HasTextFormat {
 	boolean copySelection();
 
 	void setSelectionText(String text);
+
+	VerticalAlignment getVerticalAlignment();
+
+	void setVerticalAlignment(VerticalAlignment alignment);
+
+	HorizontalAlignment getHorizontalAlignment();
+
+	void setHorizontalAlignment(HorizontalAlignment alignment);
 }

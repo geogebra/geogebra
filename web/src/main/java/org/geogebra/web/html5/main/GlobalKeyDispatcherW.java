@@ -8,7 +8,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.gwtutil.NavigatorUtil;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.util.CopyPasteW;
@@ -88,6 +87,10 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 		@Override
 		public void onBrowserEvent(Event event) {
+			if (CopyPasteW.incorrectTarget(event.getEventTarget().cast())) {
+				return;
+			}
+
 			if (DOM.eventGetType(event) == Event.ONKEYDOWN) {
 				boolean handled = false;
 
@@ -97,12 +100,14 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					handleCtrlAltX();
 					handled = true;
 				}
-
 				if (NavigatorUtil.isiOS() && isControlKeyDown(event)) {
 					handleIosKeyboard((char) event.getCharCode());
 					handled = true;
 				}
-
+				if (event.getCtrlKey()) {
+					handled = handleCtrlKeys(KeyCodes.translateGWTcode(event.getKeyCode()),
+							event.getShiftKey(), false, true);
+				}
 				KeyCodes kc = KeyCodes.translateGWTcode(event.getKeyCode());
 				if (kc == KeyCodes.TAB) {
 					if (!escPressed) {
@@ -182,7 +187,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	private static boolean isControlKeyDown(NativeEvent event) {
 		return event.getCtrlKey()
-				|| (Browser.isMacOS() || NavigatorUtil.isiOS()) && event.getMetaKey();
+				|| (NavigatorUtil.isMacOS() || NavigatorUtil.isiOS()) && event.getMetaKey();
 	}
 
 	/**
@@ -206,10 +211,12 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 		boolean handled = handleSelectedGeosKeys(event.getNativeEvent());
 
+		if (handled) {
+			event.stopPropagation();
+		}
 		if (handled || preventBrowserCtrl(kc, event.isShiftKeyDown())
 				&& event.isControlKeyDown()) {
 			event.preventDefault();
-			event.stopPropagation();
 		}
 	}
 
@@ -309,5 +316,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	public void setEscPressed(boolean escPressed) {
 		this.escPressed = escPressed;
+	}
+
+	public boolean isEscPressed() {
+		return escPressed;
 	}
 }
