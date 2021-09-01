@@ -54,18 +54,14 @@ public class MediaFactory {
 				app.getKernel().getConstruction(),
 				videoUrl);
 		video.setBackground(true);
-		video.afterSizeSet(new Runnable() {
-
-			@Override
-			public void run() {
-				video.getLocation().setLocation(
-						ev.toRealWorldCoordX((ev.getWidth() - video.getWidth()) / 2),
-						ev.toRealWorldCoordY((ev.getHeight() - video.getHeight()) / 2)
-				);
-				video.notifyUpdate();
-				ev.getEuclidianController().selectAndShowSelectionUI(video);
-				app.storeUndoInfo();
-			}
+		video.afterSizeSet(() -> {
+			video.getLocation().setLocation(
+					ev.toRealWorldCoordX((ev.getWidth() - video.getWidth()) / 2),
+					ev.toRealWorldCoordY((ev.getHeight() - video.getHeight()) / 2)
+			);
+			video.notifyUpdate();
+			ev.getEuclidianController().selectAndShowSelectionUI(video);
+			app.storeUndoInfo();
 		});
 
 		video.setLabel(null);

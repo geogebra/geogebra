@@ -19,6 +19,7 @@ import org.geogebra.common.move.ggtapi.operations.URLStatus;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.full.main.EmbedFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.MarvlURLChecker;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
@@ -37,11 +38,9 @@ public class EmbedInputDialog extends MediaDialog
 	/**
 	 * @param app
 	 *            see {@link AppW}
-	 * @param title
-	 * 			  dialog title
 	 */
-	EmbedInputDialog(AppW app, String title) {
-		super(app, title);
+	EmbedInputDialog(AppW app) {
+		super(app, "Web");
 		if (Window.Location.getHost() != null
 				&& Window.Location.getHost().contains("geogebra")) {
 			urlChecker = new EmbedURLChecker(app.getAppletParameters().getParamBackendURL());

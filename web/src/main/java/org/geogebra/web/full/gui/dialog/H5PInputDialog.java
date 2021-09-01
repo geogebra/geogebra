@@ -2,7 +2,9 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.ComponentOrDivider;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -12,8 +14,9 @@ import elemental2.dom.File;
 import elemental2.dom.HTMLInputElement;
 import jsinterop.base.Js;
 
-public class H5PInputDialog extends EmbedInputDialog {
+public class H5PInputDialog extends ComponentDialog {
 
+	private MediaInputPanel mediaInputPanel;
 	private FileUpload h5pChooser = getH5PChooser();
 
 	private FileUpload getH5PChooser() {
@@ -31,14 +34,15 @@ public class H5PInputDialog extends EmbedInputDialog {
 	 * @param app - see {@link AppW}
 	 */
 	public H5PInputDialog(AppW app) {
-		super(app, "H5P");
-		addStyleName("h5pDialog");
-
+		super(app, new DialogData("H5P", "Cancel", "Insert"),
+				false, true);
+		addStyleName("mediaDialog");
+		addStyleName("H5P");
+		buildContent();
 		addDialogContent(h5pChooser);
 		h5pChooser.addStyleName("hidden");
 	}
 
-	@Override
 	public void buildContent() {
 		Label helpTxt = new Label(app.getLocalization().getMenu("H5PDialog.InsertHelpTxt"));
 		helpTxt.setStyleName("helpTxt");
@@ -52,6 +56,14 @@ public class H5PInputDialog extends EmbedInputDialog {
 		addSelectFileButton();
 
 		setPosBtnDisabled(true);
+	}
+
+	@Override
+	public void onPositiveAction() {
+		if (app.getGuiManager() != null) {
+			String input = mediaInputPanel.getInput();
+			//addEmbed(input);
+		}
 	}
 
 	private void addSelectFileButton() {
@@ -80,4 +92,11 @@ public class H5PInputDialog extends EmbedInputDialog {
 		hide();
 	}
 
+	@Override
+	public void show() {
+		super.show();
+		if (mediaInputPanel != null) {
+			mediaInputPanel.focusDeferred();
+		}
+	}
 }

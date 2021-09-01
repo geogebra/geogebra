@@ -30,7 +30,6 @@ public abstract class MediaDialog extends ComponentDialog {
 				false, true);
 		addStyleName("mediaDialog");
 		addStyleName(dialogTitle);
-		addStyleName("mebis");
 		buildContent();
 	}
 
