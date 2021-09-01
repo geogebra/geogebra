@@ -75,7 +75,6 @@ public class IntervalAsymtotesTest extends SamplerTest {
 		}
 	}
 
-
 	@Test
 	public void minusSqrtXInverse() {
 		GeoFunction function = add("-sqrt(1/x)");
