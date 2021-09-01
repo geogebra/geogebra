@@ -434,6 +434,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private GeoPriorityComparator priorityComparator;
 
+	/**
+	 * Clears the zoomer animation listeners.
+	 */
 	public void clearZoomerAnimationListeners() {
 		synchronized (zoomerAnimationListeners) {
 			zoomerAnimationListeners.clear();
