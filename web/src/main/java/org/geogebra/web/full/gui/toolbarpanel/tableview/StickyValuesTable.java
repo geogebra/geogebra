@@ -6,6 +6,7 @@ import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
@@ -42,7 +43,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private static final int CONTEXT_MENU_OFFSET = 4; // distance from three-dot button
 	private static final int LINE_HEIGHT = 56;
 	protected final TableValuesModel tableModel;
-	private final TableValuesView view;
+	protected final TableValuesView view;
 	private final AppW app;
 	private final HeaderCell headerCell = new HeaderCell();
 	private boolean transitioning;
@@ -110,7 +111,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			}
 			if (row < tableModel.getRowCount()
 					&& column < tableModel.getColumnCount()) {
-				if (tableModel.isColumnEditable(column)) {
+				if (isColumnEditable(column)) {
 					editor.startEditing(row, column, evt);
 					return true;
 				}
@@ -121,6 +122,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			}
 			return false;
 		});
+	}
+
+	private boolean isColumnEditable(int column) {
+		return view.getEvaluatable(column) instanceof GeoList;
 	}
 
 	private void onHeaderClick(Element source, int column) {
@@ -152,7 +157,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private void addColumn(int column) {
 		Column<TVRowData, ?> colValue = getColumnValue(column);
 		getTable().addColumn(colValue, getHeaderFor(column));
-		if (tableModel.isColumnEditable(column)) {
+		if (isColumnEditable(column)) {
 			getTable().addColumnStyleName(column, "editableColumn");
 		}
 	}
@@ -283,6 +288,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	@Override
+	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
+			int row) {
+		//
+	}
+
+	@Override
 	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		onColumnAdded();
 	}
@@ -330,7 +341,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		@Override
 		public String getCellStyleNames(Cell.Context context, TVRowData object) {
 			return super.getCellStyleNames(context, object)
-					+ (col < 0 || tableModel.isColumnEditable(col) ? " editableCell" : "");
+					+ (col < 0 || isColumnEditable(col) ? " editableCell" : "");
 		}
 	}
 }

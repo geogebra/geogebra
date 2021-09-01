@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
@@ -15,6 +17,8 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.scientific.LabelController;
@@ -35,104 +39,104 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class TableValuesViewTest extends BaseUnitTest {
 
-    private TableValues view;
-    private TableValuesModel model;
+	private TableValues view;
+	private TableValuesModel model;
 
-    @Mock
-    private TableValuesListener listener;
+	@Mock
+	private TableValuesListener listener;
 
 	private TableValuesPointsImpl tablePoints;
 
 	/**
 	 * Clear construction & initialize table view
 	 */
-    @Before
-    public void setupTest() {
+	@Before
+	public void setupTest() {
 		getKernel().clearConstruction(true);
 		getKernel().detach(view);
-        view = new TableValuesView(getKernel());
+		view = new TableValuesView(getKernel());
 		getKernel().attach(view);
-        model = view.getTableValuesModel();
+		model = view.getTableValuesModel();
 		view.clearView();
-    }
+	}
 
-    @Test
-    public void testInvalidValuesThrowException() {
-        try {
-            view.setValues(0, 10, -1);
-            Assert.fail("This should have thrown an exception");
-        } catch (InvalidValuesException exception) {
-            // expected
-        }
-        try {
-            view.setValues(10, 0, 1);
-            Assert.fail("This should have thrown an exception");
-        } catch (InvalidValuesException exception) {
-            // expected
-        }
-        try {
-            view.setValues(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 1);
-            Assert.fail("This should have thrown an exception");
-        } catch (InvalidValuesException exception) {
-            // expected
-        }
-    }
+	@Test
+	public void testInvalidValuesThrowException() {
+		try {
+			view.setValues(0, 10, -1);
+			Assert.fail("This should have thrown an exception");
+		} catch (InvalidValuesException exception) {
+			// expected
+		}
+		try {
+			view.setValues(10, 0, 1);
+			Assert.fail("This should have thrown an exception");
+		} catch (InvalidValuesException exception) {
+			// expected
+		}
+		try {
+			view.setValues(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 1);
+			Assert.fail("This should have thrown an exception");
+		} catch (InvalidValuesException exception) {
+			// expected
+		}
+	}
 
-    @Test
-    public void testValues() {
-        setValuesSafe(0, 10, 1);
+	@Test
+	public void testValues() {
+		setValuesSafe(0, 10, 1);
 		assertEquals(11, model.getRowCount());
 
-        setValuesSafe(0, 10, 3);
+		setValuesSafe(0, 10, 3);
 		assertEquals(5, model.getRowCount());
 
-        setValuesSafe(0, 1.5, 0.7);
+		setValuesSafe(0, 1.5, 0.7);
 		assertEquals(4, model.getRowCount());
 		assertTrue(DoubleUtil.isEqual(view.getValuesMin(), 0));
 		assertTrue(DoubleUtil.isEqual(view.getValuesMax(), 1.5));
 		assertTrue(DoubleUtil.isEqual(view.getValuesStep(), 0.7));
-    }
+	}
 
-    private void setValuesSafe(double valuesMin, double valuesMax, double valuesStep) {
-        try {
-            view.setValues(valuesMin, valuesMax, valuesStep);
-        } catch (InvalidValuesException exception) {
-            // ignore
-        }
-    }
+	private void setValuesSafe(double valuesMin, double valuesMax, double valuesStep) {
+		try {
+			view.setValues(valuesMin, valuesMax, valuesStep);
+		} catch (InvalidValuesException exception) {
+			// ignore
+		}
+	}
 
-    @Test
-    public void testShowColumn() {
-        GeoElementFactory factory = getElementFactory();
+	@Test
+	public void testShowColumn() {
+		GeoElementFactory factory = getElementFactory();
 		assertEquals(1, model.getColumnCount());
-        showColumn(factory.createGeoLine());
+		showColumn(factory.createGeoLine());
 
 		assertEquals(2, model.getColumnCount());
-        showColumn(factory.createGeoLine());
+		showColumn(factory.createGeoLine());
 
 		assertEquals(3, model.getColumnCount());
-    }
+	}
 
 	private void showColumn(GeoElement element) {
 		assertTrue(element instanceof GeoEvaluatable);
-        view.add(element);
+		view.add(element);
 		view.showColumn((GeoEvaluatable) element);
-    }
+	}
 
-    @Test
-    public void testHideColumn() {
-        GeoElementFactory factory = getElementFactory();
-        GeoLine firstLine = factory.createGeoLine();
-        GeoLine secondLine = factory.createGeoLine();
-        showColumn(firstLine);
-        showColumn(secondLine);
+	@Test
+	public void testHideColumn() {
+		GeoElementFactory factory = getElementFactory();
+		GeoLine firstLine = factory.createGeoLine();
+		GeoLine secondLine = factory.createGeoLine();
+		showColumn(firstLine);
+		showColumn(secondLine);
 		assertEquals(3, model.getColumnCount());
 
 		hideColumn(firstLine);
 		assertEquals(2, model.getColumnCount());
 		hideColumn(secondLine);
 		assertEquals(1, model.getColumnCount());
-    }
+	}
 
 	@Test
 	public void testConics() {
@@ -147,152 +151,160 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertEquals(2, model.getColumnCount());
 	}
 
-    @Test
-    public void testHeaders() {
+	@Test
+	public void testHeaders() {
 		assertEquals("x", model.getHeaderAt(0));
 
-        GeoLine[] lines = createLines(2);
+		GeoLine[] lines = createLines(2);
 
-        lines[0].setLabel("f");
-        showColumn(lines[0]);
+		lines[0].setLabel("f");
+		showColumn(lines[0]);
 		assertEquals("f(x)", model.getHeaderAt(1));
 
-        lines[1].setLabel("h");
-        showColumn(lines[1]);
+		lines[1].setLabel("h");
+		showColumn(lines[1]);
 		assertEquals("h(x)", model.getHeaderAt(2));
 
 		hideColumn(lines[0]);
 		assertEquals("h(x)", model.getHeaderAt(1));
-    }
+	}
 
-    private GeoLine[] createLines(int number) {
-        GeoElementFactory factory = getElementFactory();
-        GeoLine[] lines = new GeoLine[number];
-        for (int i = 0; i < number; i++) {
-            lines[i] = factory.createGeoLine();
-        }
-        return lines;
-    }
+	private GeoLine[] createLines(int number) {
+		GeoElementFactory factory = getElementFactory();
+		GeoLine[] lines = new GeoLine[number];
+		for (int i = 0; i < number; i++) {
+			lines[i] = factory.createGeoLine();
+		}
+		return lines;
+	}
 
-    @Test
-    public void testClearView() {
-        for (int i = 0; i < 5; i++) {
-            showColumn(getElementFactory().createGeoLine());
-        }
-        view.clearView();
+	@Test
+	public void testClearView() {
+		for (int i = 0; i < 5; i++) {
+			showColumn(getElementFactory().createGeoLine());
+		}
+		view.clearView();
 		assertEquals(1, model.getColumnCount());
 		assertEquals(0, model.getRowCount());
 		assertEquals("x", model.getHeaderAt(0));
 		assertEquals(TableSettings.DEFAULT_MIN, view.getValuesMin(), .1);
 		assertEquals(TableSettings.DEFAULT_MAX, view.getValuesMax(), .1);
 		assertEquals(TableSettings.DEFAULT_STEP, view.getValuesStep(), .1);
-    }
+	}
 
-    @Test
-    public void testGetValues() {
-	    setValuesSafe(0, 10, 2);
+	@Test
+	public void testGetValues() {
+		setValuesSafe(0, 10, 2);
 		assertEquals("0", model.getCellAt(0, 0));
 		assertEquals("2", model.getCellAt(1, 0));
 		assertEquals("10", model.getCellAt(5, 0));
 
-        GeoElementFactory factory = getElementFactory();
-        GeoFunction function = factory.createFunction("f(x) = x^2");
-        showColumn(function);
+		GeoElementFactory factory = getElementFactory();
+		GeoFunction function = factory.createFunction("f(x) = x^2");
+		showColumn(function);
 		assertEquals("0", model.getCellAt(0, 1));
 		assertEquals("4", model.getCellAt(1, 1));
 		assertEquals("100", model.getCellAt(5, 1));
 
-        function = factory.createFunction("g(x) = sqrt(x)");
-        showColumn(function);
+		function = factory.createFunction("g(x) = sqrt(x)");
+		showColumn(function);
 		assertEquals("0", model.getCellAt(0, 2));
 		assertEquals("1.41", model.getCellAt(1, 2));
 		assertEquals("3.16", model.getCellAt(5, 2));
-    }
-
-    @Test
-    public void testInvalidGetValues() {
-        setValuesSafe(-10, 10, 2);
-
-        GeoElementFactory factory = getElementFactory();
-        GeoFunction function = factory.createFunction("f(x) = sqrt(x)");
-        showColumn(function);
-
-		assertEquals("?", model.getCellAt(0, 1));
-    }
+	}
 
 	@Test
-    public void testGetValuesChaningValues() {
-        setValuesSafe(0, 10, 2);
-        GeoElementFactory factory = getElementFactory();
-        GeoFunction function = factory.createFunction("g(x) = sqrt(x)");
-        showColumn(function);
+	public void testInvalidGetValues() {
+		setValuesSafe(-10, 10, 2);
+
+		GeoElementFactory factory = getElementFactory();
+		GeoFunction function = factory.createFunction("f(x) = sqrt(x)");
+		showColumn(function);
+
+		assertEquals("?", model.getCellAt(0, 1));
+	}
+
+	@Test
+	public void testGetValuesChangingValues() {
+		setValuesSafe(0, 10, 2);
+		GeoElementFactory factory = getElementFactory();
+		GeoFunction function = factory.createFunction("g(x) = sqrt(x)");
+		showColumn(function);
 		assertEquals("1.41", model.getCellAt(1, 1));
 
-        setValuesSafe(2.5, 22.3, 1.3);
+		setValuesSafe(2.5, 22.3, 1.3);
 		assertEquals("1.95", model.getCellAt(1, 1));
-    }
+	}
 
-    @Test
-    public void testCachingOfGetValues() {
+	@Test
+	public void testCachingOfGetValues() {
 		final long sleepTime = 10;
 		Function slowFunction = mock(Function.class);
-        Mockito.when(slowFunction.value(1.0)).then(invocation -> {
+		Mockito.when(slowFunction.value(1.0)).then(invocation -> {
 			Thread.sleep(sleepTime);
 			return 0.0;
 		});
 		Mockito.when(slowFunction.getExpression()).thenReturn(new ExpressionNode(getKernel(), 0));
-        setValuesSafe(1, 2, 1);
+		setValuesSafe(1, 2, 1);
 
-        GeoElementFactory factory = getElementFactory();
-        GeoFunction geoFunction = factory.createFunction(slowFunction);
-        showColumn(geoFunction);
+		GeoElementFactory factory = getElementFactory();
+		GeoFunction geoFunction = factory.createFunction(slowFunction);
+		showColumn(geoFunction);
 
-        Stopwatch stopwatch = new Stopwatch();
+		Stopwatch stopwatch = new Stopwatch();
 
-        stopwatch.start();
-        model.getCellAt(0, 1);
-        long elapsed = stopwatch.stop();
+		stopwatch.start();
+		model.getCellAt(0, 1);
+		long elapsed = stopwatch.stop();
 
-        stopwatch.start();
-        model.getCellAt(0, 1);
-        long cachedElapsed = stopwatch.stop();
+		stopwatch.start();
+		model.getCellAt(0, 1);
+		long cachedElapsed = stopwatch.stop();
 
 		assertThat(
 				"Querying with the cache is not at least 10 times faster",
 				elapsed, OrderingComparison.greaterThan(cachedElapsed * 10));
-    }
+	}
 
-    @Test
-    public void testListeners() {
-        model.registerListener(listener);
-        GeoLine[] lines = createLines(2);
-        showColumn(lines[0]);
-        Mockito.verify(listener).notifyColumnAdded(model, lines[0], 1);
-        showColumn(lines[1]);
-		Mockito.verify(listener).notifyColumnAdded(model, lines[1], 2);
+	@Test
+	public void testListeners() throws InvalidInputException {
+		model.registerListener(listener);
+		setValuesSafe(0, 2, 1);
+		verify(listener).notifyDatasetChanged(model);
+		GeoLine[] lines = createLines(2);
+		showColumn(lines[0]);
+		verify(listener).notifyColumnAdded(model, lines[0], 1);
+		showColumn(lines[1]);
+		verify(listener).notifyColumnAdded(model, lines[1], 2);
 
 		hideColumn(lines[1]);
-		Mockito.verify(listener).notifyColumnRemoved(model, lines[1], 2);
+		verify(listener).notifyColumnRemoved(model, lines[1], 2);
 
-        view.update(lines[0]);
-        Mockito.verify(listener).notifyColumnChanged(model, lines[0], 1);
+		view.update(lines[0]);
+		verify(listener).notifyColumnChanged(model, lines[0], 1);
 
-        view.clearView();
-        Mockito.verify(listener).notifyDatasetChanged(model);
-    }
+		view.clearView();
+		verify(listener, times(2)).notifyDatasetChanged(model);
 
-    @Test
-    public void testUpdate() {
-        setValuesSafe(0, 10, 2);
+		view.getProcessor().processInput("10", view.getValues(), 1);
+		verify(listener).notifyCellChanged(view.getTableValuesModel(), view.getValues(), 0, 1);
 
-        GeoElementFactory factory = getElementFactory();
-        GeoFunction fn = factory.createFunction("x^2");
-        showColumn(fn);
+		view.getProcessor().processInput("10", view.getValues(), 2);
+		verify(listener).notifyCellChanged(view.getTableValuesModel(), view.getValues(), 0, 2);
+	}
+
+	@Test
+	public void testUpdate() {
+		setValuesSafe(0, 10, 2);
+
+		GeoElementFactory factory = getElementFactory();
+		GeoFunction fn = factory.createFunction("x^2");
+		showColumn(fn);
 		assertEquals("0", model.getCellAt(0, 0));
 
-        view.update(fn);
+		view.update(fn);
 		assertEquals("0", model.getCellAt(0, 0));
-    }
+	}
 
 	@Test
 	public void testOrdering() {
@@ -412,29 +424,29 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	@Test
-    public void testTableValuesPointsVisibility() {
+	public void testTableValuesPointsVisibility() {
 		TableValuesPoints points = setupPointListener();
 
-        GeoLine[] lines = createLines(2);
+		GeoLine[] lines = createLines(2);
 
-        showColumn(lines[0]);
+		showColumn(lines[0]);
 		assertTrue(points.arePointsVisible(1));
 
-        showColumn(lines[1]);
+		showColumn(lines[1]);
 		assertTrue(points.arePointsVisible(2));
-        points.setPointsVisible(2, false);
+		points.setPointsVisible(2, false);
 		assertFalse(points.arePointsVisible(2));
 
 		hideColumn(lines[0]);
 		assertFalse(points.arePointsVisible(1));
 
-        points.setPointsVisible(1, true);
+		points.setPointsVisible(1, true);
 		assertTrue(points.arePointsVisible(1));
 
-        // Possible to set visibility without adding to view
-        points.setPointsVisible(1, false);
+		// Possible to set visibility without adding to view
+		points.setPointsVisible(1, false);
 		assertFalse(points.arePointsVisible(1));
-    }
+	}
 
 	private TableValuesPoints setupPointListener() {
 		tablePoints = new TableValuesPointsImpl(getConstruction(),
@@ -559,17 +571,6 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertEquals(expectCols, model.getColumnCount());
 	}
 
-    @Test
-    public void testRemoveLastColumnResetsValues() {
-        GeoLine[] lines = createLines(1);
-        setValuesSafe(-5, 5, 2);
-        showColumn(lines[0]);
-        hideColumn(lines[0]);
-		assertEquals(TableSettings.DEFAULT_MIN, view.getValuesMin(), .1);
-		assertEquals(TableSettings.DEFAULT_MAX, view.getValuesMax(), .1);
-		assertEquals(TableSettings.DEFAULT_STEP, view.getValuesStep(), .1);
-    }
-
 	@Test
 	public void reloadShouldPreservePointOrder() {
 		GeoLine[] lines = createLines(3);
@@ -623,4 +624,62 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertFalse(line.isAlgebraLabelVisible());
 	}
 
+	@Test
+	public void testList() {
+		GeoList list = (GeoList) getElementFactory().create("A = {4 ,7, 11}");
+		setValuesSafe(0, 2, 1);
+		showColumn(list);
+
+		assertEquals(2, model.getColumnCount());
+		assertEquals(3, model.getRowCount());
+		assertEquals(model.getCellAt(0, 1), "4");
+		assertEquals(model.getCellAt(1, 1), "7");
+		assertEquals(model.getCellAt(2, 1), "11");
+
+		GeoNumeric numeric = (GeoNumeric) getElementFactory().create("99");
+		list.setListElement(0, numeric);
+		list.notifyUpdate();
+		assertEquals("99", model.getCellAt(0, 1));
+	}
+
+	@Test
+	public void testChangingValues() {
+		GeoList list = (GeoList) getElementFactory().create("A = {4 ,7, 11}");
+		setValuesSafe(0, 2, 1);
+		showColumn(list);
+
+		assertEquals(2, model.getColumnCount());
+		assertEquals(3, model.getRowCount());
+		assertEquals(model.getCellAt(0, 1), "4");
+		assertEquals(model.getCellAt(1, 1), "7");
+		assertEquals(model.getCellAt(2, 1), "11");
+
+		GeoNumeric numeric = (GeoNumeric) getElementFactory().create("99");
+		list.setListElement(0, numeric);
+		list.notifyUpdate();
+		assertEquals("99", model.getCellAt(0, 1));
+	}
+
+	@Test
+	public void testEmptyCell() throws InvalidInputException {
+		GeoList list = (GeoList) getElementFactory().create("A = {4 ,7, 11}");
+		setValuesSafe(0, 2, 1);
+		showColumn(list);
+		view.getProcessor().processInput("", list, 0);
+		assertEquals("", model.getCellAt(0, 1));
+	}
+
+	@Test
+	public void testProcessFirstInput() throws InvalidInputException {
+		view.getProcessor().processInput("1", view.getValues(), 0);
+		assertEquals("1", model.getCellAt(0, 0));
+	}
+
+	@Test
+	public void testOverwriteCachedValue() throws InvalidInputException {
+		view.getProcessor().processInput("1", view.getValues(), 0);
+		assertEquals("1", model.getCellAt(0, 0));
+		view.getProcessor().processInput("2", view.getValues(), 0);
+		assertEquals("2", model.getCellAt(0, 0));
+	}
 }

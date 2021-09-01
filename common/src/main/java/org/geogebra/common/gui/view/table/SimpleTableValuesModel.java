@@ -3,7 +3,11 @@ package org.geogebra.common.gui.view.table;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.gui.view.table.column.TableValuesColumn;
+import org.geogebra.common.gui.view.table.column.TableValuesFunctionColumn;
+import org.geogebra.common.gui.view.table.column.TableValuesListColumn;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -16,26 +20,23 @@ import com.google.j2objc.annotations.Weak;
 class SimpleTableValuesModel implements TableValuesModel {
 
 	@Weak
-	private Kernel kernel;
+	private final Kernel kernel;
 
-	private List<TableValuesListener> listeners;
-	private List<TableValuesColumn> columns;
-	private GeoList values;
+	private final List<TableValuesListener> listeners;
+	private final List<TableValuesColumn> columns;
+	private final GeoList values;
 
 	private boolean batchUpdate;
 
 	/**
 	 * Construct a SimpleTableValuesModel.
-	 *
 	 * @param kernel kernel
 	 */
-	SimpleTableValuesModel(Kernel kernel) {
+	SimpleTableValuesModel(Kernel kernel, GeoList values) {
 		this.kernel = kernel;
+		this.values = values;
 		this.listeners = new ArrayList<>();
-
 		this.columns = new ArrayList<>();
-		this.values = new GeoList(kernel.getConstruction());
-
 		this.batchUpdate = false;
 
 		initializeModel();
@@ -53,7 +54,15 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	@Override
 	public int getRowCount() {
-		return values.size();
+		int rowCount = 0;
+		for (TableValuesColumn column : columns) {
+			GeoEvaluatable evaluatable = column.getEvaluatable();
+			if (evaluatable instanceof GeoList) {
+				GeoList list = (GeoList) evaluatable;
+				rowCount = Math.max(rowCount, list.size());
+			}
+		}
+		return rowCount;
 	}
 
 	@Override
@@ -63,18 +72,16 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	@Override
 	public String getCellAt(int row, int column) {
-		return columns.get(column).getCellAt(row);
+		return columns.get(column).getStringValue(row);
 	}
 
 	/**
-	 * @param row
-	 *            row index
-	 * @param column
-	 *            column index
+	 * @param row row index
+	 * @param column column index
 	 * @return function value
 	 */
 	double getValueAt(int row, int column) {
-		return columns.get(column).getValueAt(row);
+		return columns.get(column).getDoubleValue(row);
 	}
 
 	@Override
@@ -82,58 +89,46 @@ class SimpleTableValuesModel implements TableValuesModel {
 		if (column == 0) {
 			return "x";
 		}
-		return columns.get(column).getHeaderName();
-	}
-
-	@Override
-	public void setCell(int row, int column, String content) {
-		TableValuesColumn col = columns.get(column);
-		if (col.isModifiable()) {
-			col.setCell(row, content);
-			if (column == 0) {
-				updateAllEvaluatables();
-			}
-			col.updateRepaint();
-			notifyDatasetChanged();
-		}
-	}
-
-	@Override
-	public boolean isColumnEditable(int col) {
-		return columns.get(col).isModifiable();
+		return columns.get(column).getHeader();
 	}
 
 	/**
 	 * Add an evaluatable to the model.
-	 *
 	 * @param evaluatable evaluatable
 	 */
 	void addEvaluatable(GeoEvaluatable evaluatable) {
 		if (getEvaluatableIndex(evaluatable) == -1) {
 			int idx = 0;
 			while (idx < columns.size() && columns.get(idx)
-					.getTableColumn() < evaluatable.getTableColumn()) {
+					.getEvaluatable().getTableColumn() < evaluatable.getTableColumn()) {
 				idx++;
 			}
-			columns.add(idx, new TableValuesColumn(evaluatable, values));
+			TableValuesColumn column = createColumn(evaluatable);
+			columns.add(idx, column);
 			ensureIncreasingIndices(idx);
 			notifyColumnAdded(evaluatable, idx);
 		}
 	}
 
+	private TableValuesColumn createColumn(GeoEvaluatable evaluatable) {
+		if (evaluatable.isGeoList()) {
+			return new TableValuesListColumn((GeoList) evaluatable, values.size());
+		}
+		return new TableValuesFunctionColumn(evaluatable, values, values.size());
+	}
+
 	private void ensureIncreasingIndices(int idx) {
-		int lastColumn = columns.get(idx).getTableColumn();
+		int lastColumn = columns.get(idx).getEvaluatable().getTableColumn();
 		for (int i = idx + 1; i < columns.size(); i++) {
-			if (columns.get(i).getTableColumn() <= lastColumn) {
+			if (columns.get(i).getEvaluatable().getTableColumn() <= lastColumn) {
 				lastColumn++;
-				columns.get(i).setTableColumn(lastColumn);
+				columns.get(i).getEvaluatable().setTableColumn(lastColumn);
 			}
 		}
 	}
 
 	/**
 	 * Remove an evaluatable from the model.
-	 *
 	 * @param evaluatable evaluatable
 	 */
 	void removeEvaluatable(GeoEvaluatable evaluatable) {
@@ -144,35 +139,56 @@ class SimpleTableValuesModel implements TableValuesModel {
 			}
 			columns.remove(index);
 			for (int i = 0; i < columns.size(); i++) {
-				columns.get(i).setTableColumn(i);
+				columns.get(i).getEvaluatable().setTableColumn(i);
 			}
 			notifyColumnRemoved(evaluatable, index);
 		}
 	}
 
-	private void updateAllEvaluatables() {
-		for (TableValuesColumn column : columns) {
-			updateEvaluatable(column.getEvaluatable());
+	/**
+	 * Update the column for the Evaluatable object.
+	 * @param evaluatable object to update in table
+	 */
+	void updateEvaluatable(GeoEvaluatable evaluatable) {
+		if (evaluatable == values) {
+			for (TableValuesColumn column : columns) {
+				column.invalidateValues(values.size());
+			}
+			notifyDatasetChanged();
+		} else {
+			int index = getEvaluatableIndex(evaluatable);
+			if (index > -1) {
+				int size = values.size();
+				if (evaluatable instanceof GeoList) {
+					size = ((GeoList) evaluatable).size();
+				}
+				columns.get(index).invalidateValues(size);
+				notifyColumnChanged(evaluatable, index);
+			}
 		}
 	}
 
 	/**
-	 * Update the column for the Evaluatable object.
-	 *
-	 * @param evaluatable object to update in table
+	 * Optionally updates a cell of a column
+	 * @param element element that might be part of a list
 	 */
-	void updateEvaluatable(GeoEvaluatable evaluatable) {
-		int index = getEvaluatableIndex(evaluatable);
-		if (index > -1) {
-			columns.get(index).clearCache();
-			notifyColumnChanged(evaluatable, index);
+	void maybeUpdateListElement(GeoElement element) {
+		for (int i = 0; i < columns.size(); i++) {
+			GeoEvaluatable evaluatable = columns.get(i).getEvaluatable();
+			if (evaluatable instanceof GeoList) {
+				GeoList list = (GeoList) evaluatable;
+				int index = list.find(element);
+				if (index > -1) {
+					columns.get(i).invalidateValue(index);
+					notifyCellChanged(evaluatable, i, index);
+				}
+			}
 		}
 	}
 
 	/**
 	 * Returns the index of the evaluatable in the model
 	 * or -1 if it's not in the model.
-	 *
 	 * @param evaluatable object to check
 	 * @return index of the object, -1 if it's not present
 	 */
@@ -188,7 +204,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	/**
 	 * Get the evaluatable from the model.
-	 *
 	 * @param index index of the object
 	 * @return evaluatable if present in the model
 	 */
@@ -201,35 +216,30 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	/**
 	 * Update the name of the Evaluatable object (if it has any)
-	 *
 	 * @param evaluatable the evaluatable object
 	 */
 	void updateEvaluatableName(GeoEvaluatable evaluatable) {
 		int index = getEvaluatableIndex(evaluatable);
 		if (index > -1) {
-			columns.get(index).updateHeaderName();
+			columns.get(index).invalidateHeader();
 			notifyColumnHeaderChanged(evaluatable, index);
 		}
 	}
 
 	/**
 	 * Set the x-values of the model.
-	 *
-	 * @param values x-values
+	 * @param valuesArray x-values
 	 */
-	void setValues(double[] values) {
-		this.values.clear();
-		for (double value : values) {
-			this.values.add(new GeoNumeric(kernel.getConstruction(), value));
+	void setValues(double[] valuesArray) {
+		values.clear();
+		for (double value : valuesArray) {
+			values.add(new GeoNumeric(kernel.getConstruction(), value));
 		}
-		for (TableValuesColumn column : columns) {
-			column.clearCache();
-		}
-		notifyDatasetChanged();
+		updateEvaluatable(values);
 	}
 
 	private void initializeModel() {
-		columns.add(new TableValuesColumn(values, values));
+		columns.add(new TableValuesListColumn(values, values.size()));
 	}
 
 	/**
@@ -255,15 +265,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 	void endBatchUpdate() {
 		batchUpdate = false;
 		notifyDatasetChanged();
-	}
-
-	/**
-	 * Get the x-values of the model.
-	 *
-	 * @return x-values
-	 */
-	GeoList getValues() {
-		return values;
 	}
 
 	private void notifyColumnRemoved(GeoEvaluatable evaluatable, int column) {
@@ -294,6 +295,14 @@ class SimpleTableValuesModel implements TableValuesModel {
 		if (!batchUpdate) {
 			for (TableValuesListener listener : listeners) {
 				listener.notifyColumnHeaderChanged(this, evaluatable, column);
+			}
+		}
+	}
+
+	private void notifyCellChanged(GeoEvaluatable evaluatable, int column, int row) {
+		if (!batchUpdate) {
+			for (TableValuesListener listener : listeners) {
+				listener.notifyCellChanged(this, evaluatable, column, row);
 			}
 		}
 	}

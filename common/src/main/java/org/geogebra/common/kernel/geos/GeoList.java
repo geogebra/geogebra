@@ -3389,6 +3389,7 @@ public class GeoList extends GeoElement
 
 	@Override
 	public boolean hasTableOfValues() {
-		return getElementType() == GeoClass.NUMERIC;
+		return getElementType() == GeoClass.NUMERIC
+				|| getElementType() == GeoClass.DEFAULT;
 	}
 }

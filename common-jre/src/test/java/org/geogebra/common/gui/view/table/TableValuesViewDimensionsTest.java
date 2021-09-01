@@ -4,6 +4,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
 import org.geogebra.common.gui.view.table.dimensions.TextSizeMeasurer;
 import org.geogebra.common.io.FactoryProviderCommon;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +25,7 @@ public class TableValuesViewDimensionsTest extends BaseUnitTest {
 	public void setupTest() {
 		FactoryProvider.setInstance(new FactoryProviderCommon());
 		measurer = Mockito.mock(TextSizeMeasurer.class);
-		model = new SimpleTableValuesModel(getKernel());
+		model = new SimpleTableValuesModel(getKernel(), new GeoList(getConstruction()));
 		dimensions = new TableValuesViewDimensions(model, measurer);
 		model.registerListener(dimensions);
 	}

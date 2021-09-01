@@ -15,6 +15,8 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.statistics.Regression;
@@ -44,23 +46,27 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Weak
 	private TableSettings settings;
 
+	private GeoList values;
 	private SimpleTableValuesModel model;
 	private TableValuesViewDimensions dimensions;
 	private LabelController labelController;
 	private HashSet<GeoElementND> elements;
+	private TableValuesInputProcessor processor;
 
 	/**
 	 * Create a new Table Value View.
 	 * @param kernel {@link Kernel}
 	 */
 	public TableValuesView(Kernel kernel) {
-		this.model = new SimpleTableValuesModel(kernel);
+		this.values = new GeoList(kernel.getConstruction());
+		this.model = new SimpleTableValuesModel(kernel, values);
 		this.app = kernel.getApplication();
 		Settings set = app.getSettings();
 		this.settings = set.getTable();
 		this.elements = new HashSet<>();
 		this.kernel = kernel;
 		this.labelController = new LabelController();
+		this.processor = new TableValuesInputProcessor(kernel.getConstruction(), this);
 		createTableDimensions();
 		settings.addListener(this);
 	}
@@ -95,9 +101,6 @@ public class TableValuesView implements TableValues, SettingListener {
 	public void hideColumn(GeoEvaluatable evaluatable) {
 		evaluatable.setTableColumn(-1);
 		model.removeEvaluatable(evaluatable);
-		if (model.getColumnCount() == 1) {
-			setDefaultValues();
-		}
 		app.storeUndoInfo();
 	}
 
@@ -143,6 +146,11 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Override
 	public double getValuesStep() {
 		return settings.getValuesStep();
+	}
+
+	@Override
+	public GeoList getValues() {
+		return values;
 	}
 
 	private static void assertValidValues(double min, double max, double step)
@@ -251,23 +259,20 @@ public class TableValuesView implements TableValues, SettingListener {
 	public void update(GeoElement geo) {
 		if (geo instanceof GeoEvaluatable) {
 			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
-			if (geo.hasTableOfValues()) {
+			if (geo.hasTableOfValues() || geo == values) {
 				model.updateEvaluatable(evaluatable);
 			} else {
 				model.removeEvaluatable(evaluatable);
 			}
+		} else if (geo instanceof GeoNumeric) {
+			model.maybeUpdateListElement(geo);
 		}
 	}
 
 	@Override
 	public void clearView() {
 		model.clearModel();
-		setDefaultValues();
-	}
-
-	private void setDefaultValues() {
-		setSettingsValues(TableSettings.DEFAULT_MIN, TableSettings.DEFAULT_MAX,
-				TableSettings.DEFAULT_STEP);
+		setSettingsValues(0, 0, 0);
 	}
 
 	@Override
@@ -385,5 +390,10 @@ public class TableValuesView implements TableValues, SettingListener {
 		} catch (Exception e) {
 			Log.error(e);
 		}
+	}
+
+	@Override
+	public TableValuesProcessor getProcessor() {
+		return processor;
 	}
 }
