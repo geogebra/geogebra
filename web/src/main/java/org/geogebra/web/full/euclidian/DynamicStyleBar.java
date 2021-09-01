@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.TestHarness;
 
@@ -42,23 +41,19 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		TestHarness.setAttr(this, "dynamicStyleBar");
 
 		app.getSelectionManager()
-				.addSelectionListener(new GeoElementSelectionListener() {
-					@Override
-					public void geoElementSelected(GeoElement geo,
-							boolean addToSelection) {
-						if (addToSelection) {
-							return;
-						}
-						// If the activeGeoList will be null or empty, this
-						// will
-						// hide the dynamic stylebar.
-						// If we clicked on a locked geo, the activeGeoList
-						// will
-						// contain it, so in this case the dynamic stylebar
-						// will
-						// be visible yet.
-						DynamicStyleBar.this.updateStyleBar();
+				.addSelectionListener((geo, addToSelection) -> {
+					if (addToSelection) {
+						return;
 					}
+					// If the activeGeoList will be null or empty, this
+					// will
+					// hide the dynamic stylebar.
+					// If we clicked on a locked geo, the activeGeoList
+					// will
+					// contain it, so in this case the dynamic stylebar
+					// will
+					// be visible yet.
+					updateStyleBar();
 				});
 		EventUtil.stopPointer(getElement());
 	}
@@ -131,7 +126,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		setMode(EuclidianConstants.MODE_MOVE);
 		super.updateStyleBar();
 
-		if (activeGeoList == null || activeGeoList.size() == 0 || ev.hasSpotlight()) {
+		if (activeGeoList == null || activeGeoList.size() == 0) {
 			setVisible(false);
 			return;
 		}
