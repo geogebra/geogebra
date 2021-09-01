@@ -140,7 +140,9 @@ class BufferPack extends BufferPackAbstract {
 		} else {
 			textureBuffer.set(manager.textureArray, offset * 2, length * 2);
 		}
-		setColorAndLayer(manager.color, manager.layer, offset, length);
+		if (manager.color != null) {
+			setColorAndLayer(manager.color, manager.layer, offset, length);
+		}
 	}
 
 	/**

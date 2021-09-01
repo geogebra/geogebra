@@ -860,99 +860,100 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		int next = 0;
 		int shift = 1;
 
-		while (next < latitudeMax) {
+		if (nextJump != 0) {
+			while (next < latitudeMax) {
 
-			next = Math.min(latitudeMax, latitude - nextJump);
-			debug("latitude : " + latitude + " , latitudeMin : " + latitudeMin
-					+ " , next : " + next + " , latitudeMax : " + latitudeMax);
-			while (next < latitudeMin + 2) {
-				nextJump = dse.updateNextJump(nextJump, latitude);
 				next = Math.min(latitudeMax, latitude - nextJump);
-				debug(">> next : " + next);
-			}
-
-			// until next jump
-			while (vi < next) {
-
-				drawTop = dse.drawTop(vi);
-				drawBottom = dse.drawBottom(vi);
-
-				dse.computeRadiusAndZ(vi, latitude, rz);
-				for (int ui = 0; ui < longitudeLength; ui += shift) {
-					sphericalCoords(ui, longitude, longitudeStart, rz, n);
-					if (drawTop) { // top vertices
-						dse.drawNCr(n);
-					}
-					if (drawBottom) { // bottom vertices
-						dse.drawNCrm(n);
-					}
+				debug("latitude : " + latitude + " , latitudeMin : " + latitudeMin
+						+ " , next : " + next + " , latitudeMax : " + latitudeMax);
+				while (next < latitudeMin + 2) {
+					nextJump = dse.updateNextJump(nextJump, latitude);
+					next = Math.min(latitudeMax, latitude - nextJump);
+					debug(">> next : " + next);
 				}
 
-				debug("vi : " + vi);
+				// until next jump
+				while (vi < next) {
 
-				lastLength = currentLength;
+					drawTop = dse.drawTop(vi);
+					drawBottom = dse.drawBottom(vi);
 
-				if (drawTop) { // top triangles
-					if (longitudeLength == longitude) {
-						arrayIndex += 6 * lastLength;
-					} else {
-						arrayIndex += 6 * (lastLength - 1);
+					dse.computeRadiusAndZ(vi, latitude, rz);
+					for (int ui = 0; ui < longitudeLength; ui += shift) {
+						sphericalCoords(ui, longitude, longitudeStart, rz, n);
+						if (drawTop) { // top vertices
+							dse.drawNCr(n);
+						}
+						if (drawBottom) { // bottom vertices
+							dse.drawNCrm(n);
+						}
 					}
 
+					debug("vi : " + vi);
+
+					lastLength = currentLength;
+
+					if (drawTop) { // top triangles
+						if (longitudeLength == longitude) {
+							arrayIndex += 6 * lastLength;
+						} else {
+							arrayIndex += 6 * (lastLength - 1);
+						}
+
+					}
+
+					if (drawBottom) { // bottom triangles
+						if (longitudeLength == longitude) {
+							arrayIndex += 6 * lastLength;
+						} else {
+							arrayIndex += 6 * (lastLength - 1);
+						}
+					}
+
+					vi++;
 				}
 
-				if (drawBottom) { // bottom triangles
-					if (longitudeLength == longitude) {
-						arrayIndex += 6 * lastLength;
-					} else {
-						arrayIndex += 6 * (lastLength - 1);
+				// jump
+				if (next < latitudeMax) {
+
+					shift *= 2;
+					dse.computeRadiusAndZ(vi, latitude, rz);
+					for (int ui = 0; ui < longitudeLength; ui += shift) {
+						sphericalCoords(ui, longitude, longitudeStart, rz, n);
+						if (drawTop) { // top vertices
+							dse.drawNCr(n);
+						}
+						if (drawBottom) { // bottom vertices
+							dse.drawNCrm(n);
+						}
 					}
+
+					lastLength = currentLength;
+					currentLength /= 2;
+
+					if (drawTop) { // top triangles
+						if (longitudeLength == longitude) {
+							arrayIndex += 9 * currentLength;
+						} else {
+							arrayIndex += 9 * (currentLength - 1);
+						}
+					}
+
+					if (drawBottom) { // bottom triangles
+						if (longitudeLength == longitude) {
+							arrayIndex += 9 * currentLength;
+						} else {
+							arrayIndex += 9 * (currentLength - 1);
+						}
+					}
+
+					vi++;
+
+					nextJump = dse.updateNextJump(nextJump, latitude);
 				}
-
-				vi++;
-			}
-
-			// jump
-			if (next < latitudeMax) {
-
-				shift *= 2;
-				dse.computeRadiusAndZ(vi, latitude, rz);
-				for (int ui = 0; ui < longitudeLength; ui += shift) {
-					sphericalCoords(ui, longitude, longitudeStart, rz, n);
-					if (drawTop) { // top vertices
-						dse.drawNCr(n);
-					}
-					if (drawBottom) { // bottom vertices
-						dse.drawNCrm(n);
-					}
-				}
-
-				lastLength = currentLength;
-				currentLength /= 2;
-
-				if (drawTop) { // top triangles
-					if (longitudeLength == longitude) {
-						arrayIndex += 9 * currentLength;
-					} else {
-						arrayIndex += 9 * (currentLength - 1);
-					}
-				}
-
-				if (drawBottom) { // bottom triangles
-					if (longitudeLength == longitude) {
-						arrayIndex += 9 * currentLength;
-					} else {
-						arrayIndex += 9 * (currentLength - 1);
-					}
-				}
-
-				vi++;
-
-				nextJump = dse.updateNextJump(nextJump, latitude);
 			}
 
 		}
-
 		lastLength = currentLength;
 
 		if (dse.drawPoles()) {
@@ -1028,276 +1029,278 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				+ (latitude - nextJump));
 		int next = 0;
 
-		while (next < latitudeMax) {
+		if (nextJump != 0) {
+			while (next < latitudeMax) {
 
-			next = Math.min(latitudeMax, latitude - nextJump);
-			debug("latitude : " + latitude + " , latitudeMin : " + latitudeMin
-					+ " , next : " + next + " , latitudeMax : " + latitudeMax);
-			while (next < latitudeMin + 2) {
-				nextJump = dse.updateNextJump(nextJump, latitude);
 				next = Math.min(latitudeMax, latitude - nextJump);
-				debug(">> next : " + next);
-			}
-
-			// until next jump
-			while (vi < next) {
-
-				lastDrawTop = drawTop;
-				lastDrawBottom = drawBottom;
-				drawTop = dse.drawTop(vi);
-				drawBottom = dse.drawBottom(vi);
-
-				lastBoth = both;
-				both = 0;
-				if (drawTop) { // top vertices
-					both++;
-				}
-				if (drawBottom) { // bottom vertices
-					both++;
+				debug("latitude : " + latitude + " , latitudeMin : " + latitudeMin
+						+ " , next : " + next + " , latitudeMax : " + latitudeMax);
+				while (next < latitudeMin + 2) {
+					nextJump = dse.updateNextJump(nextJump, latitude);
+					next = Math.min(latitudeMax, latitude - nextJump);
+					debug(">> next : " + next);
 				}
 
-				debug("vi : " + vi + " -- both : " + both);
+				// until next jump
+				while (vi < next) {
 
-				lastStartIndex = currentStartIndex;
-				lastLength = currentLength;
-				currentStartIndex += lastLength * lastBoth;
+					lastDrawTop = drawTop;
+					lastDrawBottom = drawBottom;
+					drawTop = dse.drawTop(vi);
+					drawBottom = dse.drawBottom(vi);
 
-				if (lastDrawTop && drawTop) { // top triangles
-					short currentIndex = currentStartIndex;
-					short lastIndex;
-					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
-							- lastBoth; lastIndex += lastBoth) {
-
-						arrayI.put(lastIndex);
-						arrayIndex++;
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
-						arrayI.put(currentIndex);
-						arrayIndex++;
-
-						arrayI.put(currentIndex);
-						arrayIndex++;
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
-						arrayI.put((short) (currentIndex + both));
-						arrayIndex++;
-
-						currentIndex += both;
+					lastBoth = both;
+					both = 0;
+					if (drawTop) { // top vertices
+						both++;
+					}
+					if (drawBottom) { // bottom vertices
+						both++;
 					}
 
-					if (longitudeLength == longitude) {
-						arrayI.put(lastIndex);
-						arrayIndex++;
-						arrayI.put(lastStartIndex);
-						arrayIndex++;
-						arrayI.put(currentIndex);
-						arrayIndex++;
+					debug("vi : " + vi + " -- both : " + both);
 
-						arrayI.put(currentIndex);
-						arrayIndex++;
-						arrayI.put(lastStartIndex);
-						arrayIndex++;
-						arrayI.put(currentStartIndex);
-						arrayIndex++;
-					}
+					lastStartIndex = currentStartIndex;
+					lastLength = currentLength;
+					currentStartIndex += lastLength * lastBoth;
 
-				}
+					if (lastDrawTop && drawTop) { // top triangles
+						short currentIndex = currentStartIndex;
+						short lastIndex;
+						for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
+								- lastBoth; lastIndex += lastBoth) {
 
-				// shift to draw also bottom
-				if (lastBoth == 2) {
-					lastStartIndex += 1;
-				}
-				if (both == 2) {
-					currentStartIndex += 1;
-				}
+							arrayI.put(lastIndex);
+							arrayIndex++;
+							arrayI.put((short) (lastIndex + lastBoth));
+							arrayIndex++;
+							arrayI.put(currentIndex);
+							arrayIndex++;
 
-				if (lastDrawBottom && drawBottom) { // bottom triangles
-					short currentIndex = currentStartIndex;
-					short lastIndex;
-					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
-							- both; lastIndex += lastBoth) {
-						arrayI.put(lastIndex);
-						arrayIndex++;
-						arrayI.put(currentIndex);
-						arrayIndex++;
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
+							arrayI.put(currentIndex);
+							arrayIndex++;
+							arrayI.put((short) (lastIndex + lastBoth));
+							arrayIndex++;
+							arrayI.put((short) (currentIndex + both));
+							arrayIndex++;
 
-						arrayI.put(currentIndex);
-						arrayIndex++;
-						arrayI.put((short) (currentIndex + both));
-						arrayIndex++;
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
+							currentIndex += both;
+						}
 
-						currentIndex += both;
-					}
+						if (longitudeLength == longitude) {
+							arrayI.put(lastIndex);
+							arrayIndex++;
+							arrayI.put(lastStartIndex);
+							arrayIndex++;
+							arrayI.put(currentIndex);
+							arrayIndex++;
 
-					if (longitudeLength == longitude) {
-						arrayI.put(lastIndex);
-						arrayIndex++;
-						arrayI.put(currentIndex);
-						arrayIndex++;
-						arrayI.put(lastStartIndex);
-						arrayIndex++;
-
-						arrayI.put(currentIndex);
-						arrayIndex++;
-						arrayI.put(currentStartIndex);
-						arrayIndex++;
-						arrayI.put(lastStartIndex);
-						arrayIndex++;
-					}
-				}
-
-				// shift back
-				if (lastBoth == 2) {
-					lastStartIndex -= 1;
-				}
-				if (both == 2) {
-					currentStartIndex -= 1;
-				}
-				vi++;
-			}
-
-			// jump
-			if (next < latitudeMax) {
-
-				lastBoth = both;
-
-				lastStartIndex = currentStartIndex;
-				lastLength = currentLength;
-				currentStartIndex += lastLength * lastBoth;
-				currentLength /= 2;
-
-				if (lastDrawTop && drawTop) { // top triangles
-					short currentIndex = currentStartIndex;
-					short lastIndex;
-					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
-							- 2 * lastBoth; lastIndex += 2 * lastBoth) {
-
-						arrayI.put(lastIndex);
-						arrayIndex++;
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
-						arrayI.put(currentIndex);
-						arrayIndex++;
-
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
-						arrayI.put((short) (lastIndex + 2 * lastBoth));
-						arrayIndex++;
-						arrayI.put((short) (currentIndex + both));
-						arrayIndex++;
-
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
-						arrayI.put((short) (currentIndex + both));
-						arrayIndex++;
-						arrayI.put(currentIndex);
-						arrayIndex++;
-
-						currentIndex += both;
+							arrayI.put(currentIndex);
+							arrayIndex++;
+							arrayI.put(lastStartIndex);
+							arrayIndex++;
+							arrayI.put(currentStartIndex);
+							arrayIndex++;
+						}
 
 					}
 
-					if (longitudeLength == longitude) {
-						// close the parallel
-						arrayI.put(lastIndex);
-						arrayIndex++;
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
-						arrayI.put(currentIndex);
-						arrayIndex++;
-
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
-						arrayI.put(lastStartIndex);
-						arrayIndex++;
-						arrayI.put(currentStartIndex);
-						arrayIndex++;
-
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
-						arrayI.put(currentStartIndex);
-						arrayIndex++;
-						arrayI.put(currentIndex);
-						arrayIndex++;
+					// shift to draw also bottom
+					if (lastBoth == 2) {
+						lastStartIndex += 1;
+					}
+					if (both == 2) {
+						currentStartIndex += 1;
 					}
 
-					// shift for maybe draw bottom
-					lastStartIndex += 1;
-					currentStartIndex += 1;
+					if (lastDrawBottom && drawBottom) { // bottom triangles
+						short currentIndex = currentStartIndex;
+						short lastIndex;
+						for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
+								- both; lastIndex += lastBoth) {
+							arrayI.put(lastIndex);
+							arrayIndex++;
+							arrayI.put(currentIndex);
+							arrayIndex++;
+							arrayI.put((short) (lastIndex + lastBoth));
+							arrayIndex++;
 
-				}
+							arrayI.put(currentIndex);
+							arrayIndex++;
+							arrayI.put((short) (currentIndex + both));
+							arrayIndex++;
+							arrayI.put((short) (lastIndex + lastBoth));
+							arrayIndex++;
 
-				if (lastDrawBottom && drawBottom) { // bottom triangles
-					short currentIndex = currentStartIndex;
-					short lastIndex;
-					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
-							- 2 * lastBoth; lastIndex += 2 * lastBoth) {
-						arrayI.put(lastIndex);
-						arrayIndex++;
-						arrayI.put(currentIndex);
-						arrayIndex++;
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
+							currentIndex += both;
+						}
 
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
-						arrayI.put((short) (currentIndex + both));
-						arrayIndex++;
-						arrayI.put((short) (lastIndex + 2 * lastBoth));
-						arrayIndex++;
+						if (longitudeLength == longitude) {
+							arrayI.put(lastIndex);
+							arrayIndex++;
+							arrayI.put(currentIndex);
+							arrayIndex++;
+							arrayI.put(lastStartIndex);
+							arrayIndex++;
 
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
-						arrayI.put(currentIndex);
-						arrayIndex++;
-						arrayI.put((short) (currentIndex + both));
-						arrayIndex++;
-
-						currentIndex += both;
-
+							arrayI.put(currentIndex);
+							arrayIndex++;
+							arrayI.put(currentStartIndex);
+							arrayIndex++;
+							arrayI.put(lastStartIndex);
+							arrayIndex++;
+						}
 					}
 
-					if (longitudeLength == longitude) {
-						// close the parallel
-						arrayI.put(lastIndex);
-						arrayIndex++;
-						arrayI.put(currentIndex);
-						arrayIndex++;
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
-
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
-						arrayI.put(currentStartIndex);
-						arrayIndex++;
-						arrayI.put(lastStartIndex);
-						arrayIndex++;
-
-						arrayI.put((short) (lastIndex + lastBoth));
-						arrayIndex++;
-						arrayI.put(currentIndex);
-						arrayIndex++;
-						arrayI.put(currentStartIndex);
-						arrayIndex++;
-					}
-
-				}
-
-				if (drawTop) {
 					// shift back
-					lastStartIndex -= 1;
-					currentStartIndex -= 1;
+					if (lastBoth == 2) {
+						lastStartIndex -= 1;
+					}
+					if (both == 2) {
+						currentStartIndex -= 1;
+					}
+					vi++;
 				}
 
-				vi++;
+				// jump
+				if (next < latitudeMax) {
 
-				nextJump = dse.updateNextJump(nextJump, latitude);
+					lastBoth = both;
+
+					lastStartIndex = currentStartIndex;
+					lastLength = currentLength;
+					currentStartIndex += lastLength * lastBoth;
+					currentLength /= 2;
+
+					if (lastDrawTop && drawTop) { // top triangles
+						short currentIndex = currentStartIndex;
+						short lastIndex;
+						for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
+								- 2 * lastBoth; lastIndex += 2 * lastBoth) {
+
+							arrayI.put(lastIndex);
+							arrayIndex++;
+							arrayI.put((short) (lastIndex + lastBoth));
+							arrayIndex++;
+							arrayI.put(currentIndex);
+							arrayIndex++;
+
+							arrayI.put((short) (lastIndex + lastBoth));
+							arrayIndex++;
+							arrayI.put((short) (lastIndex + 2 * lastBoth));
+							arrayIndex++;
+							arrayI.put((short) (currentIndex + both));
+							arrayIndex++;
+
+							arrayI.put((short) (lastIndex + lastBoth));
+							arrayIndex++;
+							arrayI.put((short) (currentIndex + both));
+							arrayIndex++;
+							arrayI.put(currentIndex);
+							arrayIndex++;
+
+							currentIndex += both;
+
+						}
+
+						if (longitudeLength == longitude) {
+							// close the parallel
+							arrayI.put(lastIndex);
+							arrayIndex++;
+							arrayI.put((short) (lastIndex + lastBoth));
+							arrayIndex++;
+							arrayI.put(currentIndex);
+							arrayIndex++;
+
+							arrayI.put((short) (lastIndex + lastBoth));
+							arrayIndex++;
+							arrayI.put(lastStartIndex);
+							arrayIndex++;
+							arrayI.put(currentStartIndex);
+							arrayIndex++;
+
+							arrayI.put((short) (lastIndex + lastBoth));
+							arrayIndex++;
+							arrayI.put(currentStartIndex);
+							arrayIndex++;
+							arrayI.put(currentIndex);
+							arrayIndex++;
+						}
+
+						// shift for maybe draw bottom
+						lastStartIndex += 1;
+						currentStartIndex += 1;
+
+					}
+
+					if (lastDrawBottom && drawBottom) { // bottom triangles
+						short currentIndex = currentStartIndex;
+						short lastIndex;
+						for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
+								- 2 * lastBoth; lastIndex += 2 * lastBoth) {
+							arrayI.put(lastIndex);
+							arrayIndex++;
+							arrayI.put(currentIndex);
+							arrayIndex++;
+							arrayI.put((short) (lastIndex + lastBoth));
+							arrayIndex++;
+
+							arrayI.put((short) (lastIndex + lastBoth));
+							arrayIndex++;
+							arrayI.put((short) (currentIndex + both));
+							arrayIndex++;
+							arrayI.put((short) (lastIndex + 2 * lastBoth));
+							arrayIndex++;
+
+							arrayI.put((short) (lastIndex + lastBoth));
+							arrayIndex++;
+							arrayI.put(currentIndex);
+							arrayIndex++;
+							arrayI.put((short) (currentIndex + both));
+							arrayIndex++;
+
+							currentIndex += both;
+
+						}
+
+						if (longitudeLength == longitude) {
+							// close the parallel
+							arrayI.put(lastIndex);
+							arrayIndex++;
+							arrayI.put(currentIndex);
+							arrayIndex++;
+							arrayI.put((short) (lastIndex + lastBoth));
+							arrayIndex++;
+
+							arrayI.put((short) (lastIndex + lastBoth));
+							arrayIndex++;
+							arrayI.put(currentStartIndex);
+							arrayIndex++;
+							arrayI.put(lastStartIndex);
+							arrayIndex++;
+
+							arrayI.put((short) (lastIndex + lastBoth));
+							arrayIndex++;
+							arrayI.put(currentIndex);
+							arrayIndex++;
+							arrayI.put(currentStartIndex);
+							arrayIndex++;
+						}
+
+					}
+
+					if (drawTop) {
+						// shift back
+						lastStartIndex -= 1;
+						currentStartIndex -= 1;
+					}
+
+					vi++;
+
+					nextJump = dse.updateNextJump(nextJump, latitude);
+				}
+
 			}
-
 		}
 
 		lastBoth = both;
@@ -2136,9 +2139,9 @@ public class PlotterSurfaceElements extends PlotterSurface {
 	}
 
 	final private static void debug(String s) {
-		if (DEBUG) {
+		//if (DEBUG) {
 			Log.debug(s);
-		}
+		//}
 	}
 
 }
