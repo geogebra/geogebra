@@ -46,7 +46,8 @@ public class HitDetector {
 			if (d.isEuclidianVisible()) {
 				if (d.hit(p.x, p.y, hitThreshold)) {
 					GeoElement geo = d.getGeoElement();
-					hitMask = hitMask || geo.isMask() || geo.isMeasurementTool();
+					hitMask = hitMask || (geo.isMask() || geo.isMeasurementTool())
+							&& !ev.hasSpotlight();
 
 					if (geo.getLastHitType() == HitType.ON_BOUNDARY) {
 						hitPointOrBoundary.add(geo);
