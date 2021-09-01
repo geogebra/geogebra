@@ -2139,9 +2139,9 @@ public class PlotterSurfaceElements extends PlotterSurface {
 	}
 
 	final private static void debug(String s) {
-		//if (DEBUG) {
+		if (DEBUG) {
 			Log.debug(s);
-		//}
+		}
 	}
 
 }
