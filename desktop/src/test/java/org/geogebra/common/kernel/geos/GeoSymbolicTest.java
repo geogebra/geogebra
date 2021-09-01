@@ -1533,6 +1533,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testIsNotCachingRandomValues() {
+		GeoSymbolic symbolic1 = add("RandomBetween(0, 9999999999)");
+		GeoSymbolic symbolic2 = add("RandomBetween(0, 9999999999)");
+		assertNotEquals(symbolic1.toValueString(StringTemplate.defaultTemplate),
+				symbolic2.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
 	public void testUndoRedoWithSolve() {
 		app.setUndoActive(true);
 

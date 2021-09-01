@@ -3,6 +3,7 @@ package org.geogebra.common.cas.giac;
 import java.math.BigInteger;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -56,6 +57,10 @@ public abstract class CASgiac implements CASGenericInterface {
 	 * Random number generator
 	 */
 	protected static final Random rand = new Random();
+
+	/** Inputs that contain any of the strings should be excluded from caching */
+	private static final List<String> EXCLUDE_FROM_CACHE =
+			Arrays.asList("rand(", "randnorm(", "randpoly(", "randperm(");
 
 	/**
 	 * String that will force an error when evaluated in GeoGebra
@@ -581,7 +586,11 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	protected void addResultToCache(String input, String result) {
-		casGiacCache.put(input, result);
+		boolean inputContainsExcludedString =
+				EXCLUDE_FROM_CACHE.stream().anyMatch(str -> input.contains(str));
+		if (!inputContainsExcludedString) {
+			casGiacCache.put(input, result);
+		}
 	}
 
 	protected String getResultFromCache(String input) {
