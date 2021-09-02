@@ -123,9 +123,7 @@ public abstract class ValidExpression
 	public void setLabel(String label) {
 		initLabels();
 		labels.clear();
-		if (label != null) {
-			labels.add(label);
-		}
+		labels.add(label);
 	}
 
 	/**
@@ -250,7 +248,7 @@ public abstract class ValidExpression
 	 */
 	public final String toAssignmentLaTeXString(StringTemplate tpl,
 			AssignmentType assignmentType) {
-		if (labelCount() == 0) {
+		if (labels != null) {
 			return toLaTeXString(true, tpl);
 		}
 
