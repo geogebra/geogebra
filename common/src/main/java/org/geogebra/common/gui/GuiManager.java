@@ -94,7 +94,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public GuiManager(App app) {
 		this.app = app;
 		this.kernel = app.getKernel();
-		app.getSettings().getMenuLabelSettings().addListener(this);
+		app.getSettings().getLabelSettings().addListener(this);
 	}
 
 	@Override

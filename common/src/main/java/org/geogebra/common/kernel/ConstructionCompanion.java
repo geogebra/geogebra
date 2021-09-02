@@ -79,7 +79,7 @@ public class ConstructionCompanion {
 		ConstructionDefaults constructionDefaults = new ConstructionDefaults(cons);
 		cons.getApplication()
 				.getSettings()
-				.getObjectLabelSettings()
+				.getLabelSettings()
 				.addListener(constructionDefaults);
 		return constructionDefaults;
 	}

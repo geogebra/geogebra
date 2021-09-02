@@ -25,8 +25,7 @@ public class SettingsBuilder {
 	public Settings newSettings() {
 		Settings settings = new Settings(app, getEuclidianLength());
 		settings.setFontSettings(newFontSettings());
-		settings.setObjectLabelSettings(newObjectLabelSettings());
-		settings.setMenuLabelSettings(newMenuLabelSettings());
+		settings.setLabelSettings(newLabelSettings());
 		settings.setAlgebraSettings(newAlgebraSettings());
 		return settings;
 	}
@@ -43,12 +42,8 @@ public class SettingsBuilder {
 		return new FontSettings(defaultSettings);
 	}
 
-	private ObjectLabelSettings newObjectLabelSettings() {
-		return new ObjectLabelSettings();
-	}
-
-	private MenuLabelSettings newMenuLabelSettings() {
-		return new MenuLabelSettings();
+	private LabelSettings newLabelSettings() {
+		return new LabelSettings();
 	}
 
 	protected AlgebraSettings newAlgebraSettings() {

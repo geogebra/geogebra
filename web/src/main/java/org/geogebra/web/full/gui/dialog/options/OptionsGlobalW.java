@@ -4,6 +4,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.full.main.GeoGebraPreferencesW;
 import org.geogebra.web.html5.gui.FastClickHandler;

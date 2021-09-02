@@ -17,6 +17,6 @@ public class GeometrySettingsUpdater extends SettingsUpdater {
 	@Override
 	public void resetSettingsAfterClearAll() {
 		super.resetSettingsAfterClearAll();
-		getSettings().getObjectLabelSettings().setLabelVisibility(LabelVisibility.PointsOnly);
+		getSettings().getLabelSettings().setLabelVisibility(LabelVisibility.PointsOnly);
 	}
 }
