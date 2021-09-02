@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.Settings;
 
 /**
  * 3D construction companion
@@ -37,8 +38,8 @@ public class ConstructionCompanion3D extends ConstructionCompanion {
 	 * @param cons
 	 *            construction
 	 */
-	public ConstructionCompanion3D(Construction cons) {
-		super(cons);
+	public ConstructionCompanion3D(Construction cons, Settings settings) {
+		super(cons, settings);
 
 	}
 

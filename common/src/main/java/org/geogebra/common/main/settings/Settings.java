@@ -48,7 +48,9 @@ public class Settings {
 
 	private FontSettings fontSettings;
 
-	private LabelSettings labelSettings;
+	private ObjectLabelSettings objectLabelSettings;
+
+	private MenuLabelSettings menuLabelSettings;
 
 	private StyleSettings styleSettings;
 
@@ -407,12 +409,20 @@ public class Settings {
 		this.fontSettings = fontSettings;
 	}
 
-	public LabelSettings getLabelSettings() {
-		return labelSettings;
+	public ObjectLabelSettings getObjectLabelSettings() {
+		return objectLabelSettings;
 	}
 
-	void setLabelSettings(LabelSettings labelSettings) {
-		this.labelSettings = labelSettings;
+	void setObjectLabelSettings(ObjectLabelSettings objectLabelSettings) {
+		this.objectLabelSettings = objectLabelSettings;
+	}
+
+	public MenuLabelSettings getMenuLabelSettings() {
+		return menuLabelSettings;
+	}
+
+	void setMenuLabelSettings(MenuLabelSettings menuLabelSettings) {
+		this.menuLabelSettings = menuLabelSettings;
 	}
 
 	void setAlgebraSettings(AlgebraSettings algebraSettings) {

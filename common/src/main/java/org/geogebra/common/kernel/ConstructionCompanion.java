@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Construction.Constants;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.main.settings.Settings;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -14,9 +15,15 @@ import com.google.j2objc.annotations.Weak;
  *
  */
 public class ConstructionCompanion {
+
 	/** construction */
 	@Weak
 	protected Construction cons;
+
+	/**
+	 * settings
+	 */
+	protected Settings settings;
 
 	/**
 	 * default constructor
@@ -25,8 +32,9 @@ public class ConstructionCompanion {
 	 *            construction
 	 * 
 	 */
-	public ConstructionCompanion(Construction cons) {
+	public ConstructionCompanion(Construction cons, Settings settings) {
 		this.cons = cons;
+		this.settings = settings;
 	}
 
 	/**
@@ -68,7 +76,12 @@ public class ConstructionCompanion {
 	 * @return the ConstructionDefaults consDefaults
 	 */
 	public ConstructionDefaults newConstructionDefaults() {
-		return new ConstructionDefaults(cons);
+		ConstructionDefaults constructionDefaults = new ConstructionDefaults(cons);
+		cons.getApplication()
+				.getSettings()
+				.getObjectLabelSettings()
+				.addListener(constructionDefaults);
+		return constructionDefaults;
 	}
 
 	/**
