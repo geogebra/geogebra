@@ -952,7 +952,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			}
 		}
 
-
 		lastLength = currentLength;
 
 		if (dse.drawPoles()) {
@@ -1299,7 +1298,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			}
 
 		}
-
 
 		lastBoth = both;
 
