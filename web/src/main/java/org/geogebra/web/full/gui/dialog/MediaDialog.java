@@ -61,7 +61,7 @@ public abstract class MediaDialog extends ComponentDialog {
 	 *            url that may or may not include a protocol
 	 * @return URL including protocol
 	 */
-	protected static String addProtocol(String url) {
+	public static String addProtocol(String url) {
 		String value = url.replaceFirst(GeoGebraConstants.HTTP, "");
 
 		if (!url.startsWith(GeoGebraConstants.HTTPS) && !url.startsWith("data:")) {

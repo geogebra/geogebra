@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.web.full.main.EmbedFactory;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.ComponentDialog;
@@ -18,6 +19,7 @@ public class H5PInputDialog extends ComponentDialog {
 
 	private MediaInputPanel mediaInputPanel;
 	private FileUpload h5pChooser = getH5PChooser();
+	private EmbedFactory embedFactory;
 
 	private FileUpload getH5PChooser() {
 		FileUpload h5pChooser = new FileUpload();
@@ -41,6 +43,7 @@ public class H5PInputDialog extends ComponentDialog {
 		buildContent();
 		addDialogContent(h5pChooser);
 		h5pChooser.addStyleName("hidden");
+		embedFactory = new EmbedFactory(app, this, mediaInputPanel);
 	}
 
 	public void buildContent() {
@@ -61,8 +64,7 @@ public class H5PInputDialog extends ComponentDialog {
 	@Override
 	public void onPositiveAction() {
 		if (app.getGuiManager() != null) {
-			String input = mediaInputPanel.getInput();
-			//addEmbed(input);
+			embedFactory.addEmbed();
 		}
 	}
 
@@ -89,7 +91,7 @@ public class H5PInputDialog extends ComponentDialog {
 	 */
 	void loadH5PElement(File file) {
 		new H5PReader(app).load(file);
-		hide();
+		embedFactory.hide();
 	}
 
 	@Override
