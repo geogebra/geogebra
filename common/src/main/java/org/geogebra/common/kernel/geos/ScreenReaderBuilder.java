@@ -11,6 +11,7 @@ import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
  * @author Zbynek
  */
 public class ScreenReaderBuilder {
+	public static final int MANY_PRIMES = 4;
 	private final Localization loc;
 	private StringBuilder sb = new StringBuilder();
 	private boolean isMobile = false;
@@ -111,17 +112,22 @@ public class ScreenReaderBuilder {
 	}
 
 	private static void convertPrimes(String label, Localization loc, StringBuilder sb) {
-		int apIdx = label.length() - 1;
+		int apostropheIdx = label.length() - 1;
 		int count = 0;
-		while (apIdx > 0 && label.charAt(apIdx) == '\'') {
+		while (apostropheIdx > 0 && label.charAt(apostropheIdx) == '\'') {
 			count++;
-			apIdx--;
+			apostropheIdx--;
 		}
 		sb.append(label, 0, label.length() - count);
-		appendPrime(sb, count, loc);
+
+		if (count < MANY_PRIMES) {
+			appendNamedPrime(sb, count, loc);
+		} else {
+			appendManyPrimes(sb, count, loc);
+		}
 	}
 
-	public static void appendPrime(StringBuilder sb, int count, Localization loc) {
+	private static void appendNamedPrime(StringBuilder sb, int count, Localization loc) {
 		sb.append(" ");
 		if (count == 2) {
 			sb.append(loc.getMenu("double"));
@@ -130,6 +136,17 @@ public class ScreenReaderBuilder {
 			sb.append(loc.getMenu("triple"));
 			sb.append(" ");
 		}
-		sb.append(loc.getMenu("prime"));
+		sb.append(getPrime(loc));
+	}
+
+	private static void appendManyPrimes(StringBuilder sb, int count, Localization loc) {
+		for (int i = 0; i < count; i++) {
+			sb.append(" ");
+			sb.append(getPrime(loc));
+		}
+	}
+
+	private static String getPrime(Localization loc) {
+		return loc.getMenu("prime");
 	}
 }

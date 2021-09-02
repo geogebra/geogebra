@@ -225,8 +225,7 @@ public class TeXAtomSerializer {
 		if (script.getSup() != null) {
 			sup = serialize(script.getSup());
 		}
-		return
-				adapter.subscriptContent(base, sub, sup);
+		return adapter.subscriptContent(base, sub, sup);
 	}
 
 }
