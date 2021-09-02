@@ -101,4 +101,34 @@ public class ScreenReaderBuilder {
 	public void appendMenuDefault(String key, String fallback) {
 		sb.append(loc.getMenuDefault(key, fallback));
 	}
+
+	public void appendLabel(String label) {
+		if (label.endsWith("'")) {
+			convertPrimes(label, loc, sb);
+		} else  {
+			sb.append(label);
+		}
+	}
+
+	private static void convertPrimes(String label, Localization loc, StringBuilder sb) {
+		int apIdx = label.length() - 1;
+		int count = 0;
+		while (apIdx > 0 && label.charAt(apIdx) == '\'') {
+			count++;
+			apIdx--;
+		}
+		appendPrime(sb, count, loc);
+	}
+
+	public static void appendPrime(StringBuilder sb, int count, Localization loc) {
+		sb.append(" ");
+		if (count == 2) {
+			sb.append(loc.getMenu("double"));
+			sb.append(" ");
+		} else if (count == 3) {
+			sb.append(loc.getMenu("triple"));
+			sb.append(" ");
+		}
+		sb.append(loc.getMenu("prime"));
+	}
 }

@@ -19,9 +19,14 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 		if (sub != null) {
 			ret.append(" start subscript ").append(sub).append(" end subscript ");
 		}
+
 		if (sup != null) {
 			ret.append(' ');
-			ScreenReader.appendPower(ret, sup, loc);
+			if ("\u2218".equals(sup)) {
+				ScreenReader.appendDegrees(ret, base, loc);
+			} else {
+				ScreenReader.appendPower(ret, sup, loc);
+			}
 		}
 		return ret.toString();
 	}
@@ -63,6 +68,8 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 			return " open bracket ";
 		case ']':
 			return " close bracket ";
+		case '\'':
+			return "";
 		}
 		return character + "";
 	}

@@ -7016,7 +7016,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public void addAuralLabel(ScreenReaderBuilder sb) {
-		sb.append(getLabelSimple());
+		sb.appendLabel(getLabelSimple());
+
 		sb.endSentence();
 	}
 

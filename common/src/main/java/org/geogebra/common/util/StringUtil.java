@@ -1872,4 +1872,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return pngURL.substring(pngMarker.length());
 	}
 
+	public static boolean isAllTheSame(String message, char c) {
+		for (int idx = 0; idx < message.length(); idx++) {
+			char x = message.charAt(idx);
+			if (x != ' ' && x != c)  {
+				return false;
+			}
+		}
+		return true;
+	}
 }

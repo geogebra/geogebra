@@ -203,6 +203,14 @@ public class ScreenReader {
 		return localize(loc, "cubed", "cubed");
 	}
 
+	public static String getDegree(Localization loc) {
+		return localize(loc, "degreee", "degree");
+	}
+
+	public static String getDegrees(Localization loc) {
+		return localize(loc, "degreees", "degrees");
+	}
+
 	public static String getStartPower(Localization loc) {
 		return localize(loc, "startPower", "to the power of");
 	}
@@ -363,6 +371,20 @@ public class ScreenReader {
 	}
 
 	/**
+	 * Appends degree(s) to the StringBuilder
+	 * @param sb builder
+	 * @param value degree value
+	 * @param loc localization
+	 */
+	public static void appendDegrees(StringBuilder sb, String value, Localization loc) {
+		if ("1".equals(value) || "-1".equals(value)) {
+			sb.append(getDegree(loc));
+		} else {
+			sb.append(getDegrees(loc));
+		}
+	}
+
+	/**
 	 * @param leftStr
 	 *            radicand
 	 * @param rightStr
@@ -498,11 +520,16 @@ public class ScreenReader {
 			if (character == '_') {
 				sb.append(" subscript ");
 			} else {
-				sb.append(adapter.convertCharacter(character));
+				String str = adapter.convertCharacter(character);
+				if (!"".equals(str)) {
+					sb.append(str);
+				}
 			}
 		}
+
 		return sb.toString();
 	}
+
 
 	/**
 	 * @param text
