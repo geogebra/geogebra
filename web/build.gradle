@@ -240,7 +240,7 @@ task copyDevHtml(dependsOn: 'compileSass') {
     }
 }
 
-task copyHandlebars {
+task copyHandlebars(dependsOn: 'compileSass') {
     doLast {
         def handlebarsDir = project.getProperty("handlebarsDir")
         appSpecs.each { app ->
