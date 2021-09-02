@@ -117,6 +117,7 @@ public class ScreenReaderBuilder {
 			count++;
 			apIdx--;
 		}
+		sb.append(label, 0, label.length() - count);
 		appendPrime(sb, count, loc);
 	}
 
