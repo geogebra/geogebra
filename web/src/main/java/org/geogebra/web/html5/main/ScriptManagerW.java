@@ -14,7 +14,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.util.JsRunnable;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 
 import elemental2.core.Function;
@@ -132,9 +131,9 @@ public class ScriptManagerW extends ScriptManager {
 		// only the named parameters are documented. Maybe if
 		// you are reading this years in the future, you can remove them
 		JsArrayString args = JsArrayString.createArray().cast();
-
+		JsPropertyMap asMap = Js.asPropertyMap(args);
 		args.push(evt.type.getName());
-		set(args, "type", evt.type.getName());
+		asMap.set("type", evt.type.getName());
 
 		if (evt.targets != null) {
 			JsArrayString targets = JsArrayString.createArray().cast();
@@ -144,17 +143,17 @@ public class ScriptManagerW extends ScriptManager {
 				targets.push(geo.getLabelSimple());
 			}
 
-			set(args, "targets", targets);
+			asMap.set("targets", targets);
 		} else if (evt.target != null) {
 			args.push(evt.target.getLabelSimple());
-			set(args, "target", evt.target.getLabelSimple());
+			asMap.set("target", evt.target.getLabelSimple());
 		} else {
 			args.push("");
 		}
 
 		if (evt.argument != null) {
 			args.push(evt.argument);
-			set(args, "argument", evt.argument);
+			asMap.set("argument", evt.argument);
 		}
 
 		if (evt.jsonArgument != null) {
@@ -190,10 +189,6 @@ public class ScriptManagerW extends ScriptManager {
 	private static int unbox(Integer object) {
 		return object;
 	}
-
-	private static native void set(JavaScriptObject json, String key, Object value) /*-{
-		json[key] = value;
-	}-*/;
 
 	/**
 	 * @param toExport API object

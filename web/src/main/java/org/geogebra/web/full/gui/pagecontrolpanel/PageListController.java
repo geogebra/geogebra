@@ -26,6 +26,7 @@ import org.geogebra.web.full.gui.pagecontrolpanel.DragController.Cards;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.export.Canvas2Pdf;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
@@ -48,8 +49,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
-
-import elemental2.dom.CanvasRenderingContext2D;
 
 /**
  * controller for page actions, such as delete or add slide
@@ -180,7 +179,7 @@ public class PageListController implements PageListControllerInterface,
 		int currentIndex = selectedCard.getPageIndex();
 		savePreviewCard(selectedCard);
 
-		CanvasRenderingContext2D ctx = PDFEncoderW.getContext(width, height);
+		Canvas2Pdf.PdfContext ctx = PDFEncoderW.getContext(width, height);
 
 		if (ctx == null) {
 			Log.debug("canvas2PDF not found");
@@ -201,7 +200,7 @@ public class PageListController implements PageListControllerInterface,
 				ev = app.getEuclidianView1();
 
 				if (i > 0) {
-					PDFEncoderW.addPagePDF(ctx);
+					ctx.addPage();
 				}
 				ev.exportPaintPre(g4copy, scale, false);
 				ev.drawObjects(g4copy);
@@ -215,7 +214,7 @@ public class PageListController implements PageListControllerInterface,
 		app.setExporting(ExportType.NONE, 1);
 		loadSlide(currentIndex);
 
-		return PDFEncoderW.getPDF(ctx);
+		return ctx.getPDFbase64();
 	}
 
 	/**

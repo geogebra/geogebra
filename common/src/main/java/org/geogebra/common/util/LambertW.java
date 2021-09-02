@@ -87,7 +87,7 @@ public class LambertW {
 		return c[0] + r * t_1;
 	}
 
-	/*-*-*-*-*-*-*-*-*-*-*-* Functions with Error Codes *-*-*-*-*-*-*-*-*-*-*-*/
+	/* --------- Functions with Error Codes */
 	private static double gsl_sf_lambert_W0_e(double x) {
 		final double one_over_E = 1.0 / Math.E;
 		final double q = x + one_over_E;

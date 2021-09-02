@@ -718,3 +718,14 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	will-change: transform;
 	z-index: $z-on-top-of-graphics;
 }
+
+.ggbLightBox {
+	width: 80%;
+	height: 80%;
+	position: fixed;
+	top: 10%;
+	left: 10%;
+	border: 7px solid rgba(0, 0, 0, 0.5);
+	background: #FFF;
+	z-index: 100000000;
+}

@@ -24,14 +24,14 @@ import org.geogebra.ggbjdk.java.awt.geom.Shape;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.main.MyImageW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.dom.client.Element;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
+import elemental2.core.JsArray;
 import elemental2.dom.CanvasPattern;
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLImageElement;
@@ -44,8 +44,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	private GFontW currentFont = new GFontW("normal");
 	protected GColor color = GColor.newColor(255, 255, 255, 255);
-
-	GPaint currentPaint = GColor.newColor(255, 255, 255, 255);
 
 	private double[] dashArray = null;
 
@@ -104,17 +102,11 @@ public class GGraphics2DW implements GGraphics2DWI {
 	public void setImageInterpolation(boolean interpolate) {
 		// canvas.getContext2d() doesn't work with canvas2svg.js
 		try {
-			setImageInterpolationNative(context, interpolate);
+			context.imageSmoothingEnabled = interpolate;
 		} catch (Exception e) {
 			// do nothing
 		}
 	}
-
-	private native void setImageInterpolationNative(JLMContext2d ctx, boolean b) /*-{
-		ctx['imageSmoothingEnabled'] = b;
-		// IE11+ only
-		ctx['msImageSmoothingEnabled'] = b;
-	}-*/;
 
 	/**
 	 * If we allow right-to left direction * checkboxes have their labels to the
@@ -138,13 +130,12 @@ public class GGraphics2DW implements GGraphics2DWI {
 		}
 	}
 
-	private native void preventContextMenu(Element element) /*-{
-		element.addEventListener("contextmenu", function(e) {
+	private void preventContextMenu(Element element) {
+		Dom.addEventListener(element, "contextmenu", (e) -> {
 			e.preventDefault();
 			e.stopPropagation();
-			return false;
 		});
-	}-*/;
+	}
 
 	@Override
 	public void drawStraightLine(double x1, double y1, double x2, double y2) {
@@ -340,7 +331,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 			setColor((GColor) paint);
 		} else if (paint instanceof GGradientPaintW) {
 			((GGradientPaintW) paint).apply(context);
-			currentPaint = new GGradientPaintW((GGradientPaintW) paint);
 			color = null;
 		} else if (paint instanceof GTexturePaintW) {
 			try { // bug in Firefox
@@ -350,21 +340,17 @@ public class GGraphics2DW implements GGraphics2DWI {
 				final GBufferedImageW bi = ((GTexturePaintW) paint).getImg();
 				CanvasPattern ptr;
 				if (bi.hasCanvas()) {
-					currentPaint = new GTexturePaintW((GTexturePaintW) paint);
 					ptr = context.createPattern(bi.getCanvasElement(),
 							"repeat");
 					context.setFillStyle(ptr);
 					color = null;
 				} else if (bi.isLoaded()) {
-					currentPaint = new GTexturePaintW((GTexturePaintW) paint);
 					ptr = context.createPattern(bi.getImageElement(),
 					        "repeat");
 					context.setFillStyle(ptr);
 					color = null;
 				} else {
 					bi.getImageElement().addEventListener("load", (event) -> {
-							currentPaint = new GTexturePaintW(
-									(GTexturePaintW) paint);
 							CanvasPattern ptr1 = context.createPattern(
 									bi.getImageElement(), "repeat");
 							context.setFillStyle(ptr1);
@@ -388,38 +374,17 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 			double[] dasharr = stroke.getDashArray();
 			if (dasharr != null) {
-				JsArrayNumber jsarrn = JavaScriptObject.createArray().cast();
-				jsarrn.setLength(dasharr.length);
-				for (int i = 0; i < dasharr.length; i++) {
-					jsarrn.set(i, dasharr[i]);
-				}
-				setStrokeDash(context, jsarrn);
+				context.setLineDash(dasharr);
 			} else {
-				setStrokeDash(context, null);
+				context.setLineDash(JsArray.of());
 			}
 			dashArray = dasharr;
 		}
 	}
 
-	public native void setStrokeDash(JLMContext2d ctx, JsArrayNumber dasharray) /*-{
-		if (dasharray === undefined || dasharray === null) {
-			dasharray = [];
-		}
-
-		if (typeof ctx.setLineDash === 'function') {
-			ctx.setLineDash(dasharray);
-		} else if (typeof ctx.mozDash !== 'undefined') {
-			ctx.mozDash = dasharray;
-		} else if (typeof ctx.webkitLineDash !== 'undefined') {
-			ctx.webkitLineDash = dasharray;
-		}
-
-	}-*/;
-
 	@Override
 	public void setRenderingHint(int hintKey, int hintValue) {
 		// nothing to do
-
 	}
 
 	@Override
@@ -563,7 +528,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 		this.color = fillColor;
 		updateCanvasColor();
-		this.currentPaint = fillColor;
 	}
 
 	@Override

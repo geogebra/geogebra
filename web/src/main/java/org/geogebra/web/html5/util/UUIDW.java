@@ -16,7 +16,7 @@
 
 package org.geogebra.web.html5.util;
 
-import java.io.Serializable;
+import java.util.Random;
 
 /**
  * A simplified implementation of {@link java.util.UUID} as a translatable class
@@ -28,90 +28,9 @@ import java.io.Serializable;
  *
  * @author Ross M. Lodge
  */
-public final class UUIDW implements Serializable, Comparable<UUIDW> {
+public final class UUIDW {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private String uuidValue;
-
-	/**
-	 * Default constructor to make this work for GWT serialization.
-	 */
-	private UUIDW() {
-		// Intentionally blank
-	}
-
-	/**
-	 * Constructs a new UUID from a string representation.
-	 *
-	 * @param name
-	 *            value
-	 *
-	 * @return string wrapped in UUID
-	 */
-	public static UUIDW fromString(String name) {
-		UUIDW newUUID = new UUIDW();
-		newUUID.uuidValue = name;
-		return newUUID;
-	}
-
-	/**
-	 * Generates a random UUID that <em>should</em> be RFC-4122 Version 4
-	 * compliant, although we can't really guarantee much about it's randomness.
-	 *
-	 * @return random UUID
-	 */
-	public static UUIDW randomUUID() {
-		return fromString(generateUUIDString());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-	@Override
-	public int compareTo(UUIDW o) {
-		return uuidValue.compareTo(o.toString());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		return uuidValue.hashCode();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null || getClass() != obj.getClass()) {
-			return false;
-		}
-		return uuidValue.equals(obj.toString());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return uuidValue;
-	}
+	private static final Random rnd = new Random();
 
 	/**
 	 * Generates an RFC-4122, version 4, random UUID as a formatted string. Code
@@ -120,11 +39,8 @@ public final class UUIDW implements Serializable, Comparable<UUIDW> {
 	 *
 	 * @return UUID string
 	 */
-	private static native String generateUUIDString() /*-{
-		var chars = '0123456789ABCDEF'.split(''), uuid = [];
-		radix = chars.length;
-
-		var r;
+	public static String generateUUIDString() {
+		char[] uuid = new char[36];
 
 		// rfc4122 requires these characters
 		uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
@@ -132,14 +48,14 @@ public final class UUIDW implements Serializable, Comparable<UUIDW> {
 
 		// Fill in random data.  At i==19 set the high bits of clock sequence
 		// as per rfc4122, sec. 4.1.5
-		for (var i = 0; i < 36; i++) {
-			if (!uuid[i]) {
-				r = 0 | Math.random() * 16;
-				uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
+		for (int i = 0; i < 36; i++) {
+			if (uuid[i] == 0) {
+				int r = rnd.nextInt(16);
+				uuid[i] = Integer.toString((i == 19) ? (r & 0x3) | 0x8 : r, 16).charAt(0);
 			}
 		}
 
-		return uuid.join('');
-	}-*/;
+		return new String(uuid);
+	}
 
 }

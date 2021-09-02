@@ -1,34 +1,29 @@
 package org.geogebra.web.resources;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import org.geogebra.gwtutil.DOMParser;
+import org.geogebra.gwtutil.XMLSerializer;
+
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.safehtml.shared.UriUtils;
 
+import elemental2.dom.CSSStyleDeclaration;
+import elemental2.dom.Document;
 import elemental2.dom.DomGlobal;
+import jsinterop.base.Js;
 
 /**
  * Implementation of SVGResource.
  */
 public class DefaultSVGResource implements SVGResource {
 
-	@SuppressWarnings({"unused", "FieldCanBeLocal"})
-	private static JavaScriptObject parser;
+	private static DOMParser parser;
 
-	@SuppressWarnings({"unused", "FieldCanBeLocal"})
-	private static JavaScriptObject serializer;
+	private static XMLSerializer serializer;
 
 	static {
-		parser = createParser();
-		serializer = createSerializer();
+		parser = new DOMParser();
+		serializer = new XMLSerializer();
 	}
-
-	private static native JavaScriptObject createParser() /*-{
-		return new DOMParser();
-	}-*/;
-
-	private static native JavaScriptObject createSerializer() /*-{
-		return new XMLSerializer();
-	}-*/;
 
 
 	private String svg;
@@ -61,16 +56,13 @@ public class DefaultSVGResource implements SVGResource {
 		return new DefaultSVGResource(filled, name);
 	}
 
-	private native String createFilled(String color) /*-{
-	    var that = this;
-		var parser = @org.geogebra.web.resources.DefaultSVGResource::parser;
-		var serializer = @org.geogebra.web.resources.DefaultSVGResource::serializer;
-		var svg = that.@org.geogebra.web.resources.DefaultSVGResource::svg;
-		var doc = parser.parseFromString(svg, "image/svg+xml");
-		doc.rootElement.style.fill = color;
-		var xml = serializer.serializeToString(doc);
-		return xml;
-	}-*/;
+	private String createFilled(String color) {
+		Document doc = parser.parseFromString(svg, "image/svg+xml");
+		CSSStyleDeclaration style = Js.uncheckedCast(Js.asPropertyMap(doc)
+				.nestedGet("rootElement.style"));
+		style.setProperty("fill", color);
+		return serializer.serializeToString(doc);
+	}
 
 	@Override
 	public String getUrl() {

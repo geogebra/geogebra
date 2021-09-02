@@ -45,8 +45,7 @@ public class CASViewW extends CASView implements PrintableW {
 		CASTableControllerW ml = new CASTableControllerW(this, app);
 		consoleTable = new CASTableW(app, ml, this);
 		component.add(consoleTable);
-		// SelectionHandler.disableTextSelectInternal(component.getElement(),
-		// true);
+
 		// input handler
 		setCasInputHandler(new CASInputHandler(this));
 

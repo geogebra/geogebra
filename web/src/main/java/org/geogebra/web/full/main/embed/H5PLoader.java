@@ -5,9 +5,6 @@ import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.h5pviewer.H5PPaths;
 
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.ScriptElement;
-
 /**
  * 
  * Loader for H5P
@@ -35,10 +32,8 @@ public class H5PLoader {
 		if (loadingStarted) {
 			return;
 		}
-		ScriptElement h5pInject = Document.get().createScriptElement();
-		h5pInject.setSrc(H5PPaths.MAIN_JS);
 		loadingStarted = true;
-		ResourcesInjector.loadJS(h5pInject, new ScriptLoadCallback() {
+		ResourcesInjector.loadJS(H5PPaths.MAIN_JS, new ScriptLoadCallback() {
 
 			@Override
 			public void onLoad() {

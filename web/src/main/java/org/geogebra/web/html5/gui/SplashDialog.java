@@ -18,6 +18,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 
+import jsinterop.base.Js;
+
 public class SplashDialog extends SimplePanel {
 
 	boolean appLoaded = false;
@@ -94,17 +96,16 @@ public class SplashDialog extends SimplePanel {
 		geogebraFrame.runAsyncAfterSplash();
 	}
 
-	private native boolean checkIfPreviewExists(Element thisArticle) /*-{
-		if (thisArticle && thisArticle.querySelector(".ggb_preview") !== null) {
+	private boolean checkIfPreviewExists(Element thisArticle) {
+		if (thisArticle != null && Dom.querySelectorForElement(thisArticle,
+				".ggb_preview") != null) {
 			return true;
 		}
-		if (thisArticle
-				&& thisArticle.parentElement
-				&& thisArticle.parentElement.querySelector(".ggb_preview") !== null) {
-			return true;
-		}
-		return false;
-	}-*/;
+		return thisArticle != null
+				&& thisArticle.getParentElement() != null
+				&& Dom.querySelectorForElement(thisArticle.getParentElement(),
+				".ggb_preview") != null;
+	}
 
 	/**
 	 * Hide the splash popup.
@@ -114,15 +115,14 @@ public class SplashDialog extends SimplePanel {
 		removePreviewImg(geoGebraElement);
 	}
 
-	private native void removePreviewImg(Element thisArticle) /*-{
-		var img;
-		if (thisArticle) {
-			img = thisArticle.querySelector(".ggb_preview");
+	private void removePreviewImg(Element thisArticle) {
+		if (Js.isTruthy(thisArticle)) {
+			Element img = Dom.querySelectorForElement(thisArticle, ".ggb_preview");
+			if (Js.isTruthy(img)) {
+				img.getParentNode().removeChild(img);
+			}
 		}
-		if (img) {
-			img.parentNode.removeChild(img);
-		}
-	}-*/;
+	}
 
 	/**
 	 * Notify about app load; hide popup if it was shown logng enough.
