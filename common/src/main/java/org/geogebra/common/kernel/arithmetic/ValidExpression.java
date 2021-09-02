@@ -42,7 +42,7 @@ import org.geogebra.common.util.debug.Log;
 public abstract class ValidExpression
 		implements ExpressionValue, HasDebugString {
 
-	private Vector<String> labels;
+	private List<String> labels;
 	private List<String> localVariables = new ArrayList<>();
 	private boolean inTree; // used by ExpressionNode
 
@@ -53,12 +53,14 @@ public abstract class ValidExpression
 	public void addLabel(String label) {
 		initLabels();
 		// App.printStacktrace(label+":"+(label==null));
-		labels.add(label);
+		if (label != null) {
+			labels.add(label);
+		}
 	}
 
 	private void initLabels() {
 		if (labels == null) {
-			labels = new Vector<>();
+			labels = new ArrayList<>();
 		}
 	}
 
@@ -66,7 +68,7 @@ public abstract class ValidExpression
 	 * @param labellist
 	 *            list of labels to be added
 	 */
-	public void addLabel(Vector<String> labellist) {
+	public void addLabel(List<String> labellist) {
 		initLabels();
 		labels.addAll(labellist);
 	}
@@ -123,7 +125,9 @@ public abstract class ValidExpression
 	public void setLabel(String label) {
 		initLabels();
 		labels.clear();
-		labels.add(label);
+		if (label != null) {
+			labels.add(label);
+		}
 	}
 
 	/**
@@ -214,7 +218,7 @@ public abstract class ValidExpression
 	 */
 	public String toAssignmentString(String rhs,
 			AssignmentType assignmentType) {
-		if (labels == null) {
+		if (labelCount() == 0) {
 			return rhs;
 		}
 
