@@ -218,9 +218,9 @@ public class GeoSymbolic extends GeoElement
 
 		Command casInput = getCasInput(fixMatrixInput(casInputArg));
 
+		String casResult = calculateCasResult(casInput);
 		setSymbolicMode(!isTopLevelCommandNumeric(), false);
 
-		String casResult = calculateCasResult(casInput);
 		casOutputString = casResult;
 		ExpressionValue casOutput = parseOutputString(casResult);
 		setValue(casOutput);
