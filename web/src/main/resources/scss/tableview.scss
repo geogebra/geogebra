@@ -19,13 +19,6 @@ $deleteTime: 120ms;
 		margin-right: 0px;
 	}
 
-	%colDelete {
-		overflow: hidden !important;
-		width: 0px !important;
-		margin-left: -81px !important;
-		visibility: hidden;
-	}
-
 	// we want upper border when we are in portrait mode, but the table of
 	// values view is not in fullscreen (.withShadow is set on the header
 	// in fullscreen mode, we need the neighbouring .main component)
@@ -69,12 +62,23 @@ $deleteTime: 120ms;
 			box-sizing: border-box;
 			min-width: 120px;
 			max-width: 180px;
+			transition: min-width $deleteTime;
+			.content {
+				transition: width $deleteTime, opacity $deleteTime, margin $deleteTime ease-in;
+			}
+			&.deleteCol {
+				min-width: 0;
+
+				.content {
+					overflow: hidden !important;
+					width: 0px !important;
+					margin-left: -81px !important;
+					text-align: right;
+					opacity: 0;
+				}
+			}
 		}
 
-		%cellTransition {
-			transition: width $deleteTime, margin $deleteTime ease-in;
-		}
-		
 		.values {
 			@include textSelect(text);
 			position: relative;
@@ -93,17 +97,8 @@ $deleteTime: 120ms;
 			}
 
 			thead {
-				&.transitioning {
-					@extend %cellTransition;
-				}
 
 				@include textSelect(none);
-
-				colgroup {
-					col {
-						@extend .delete;
-					}
-				}
 
 				th {
 					height: 56px;
@@ -113,7 +108,6 @@ $deleteTime: 120ms;
 					background: $tableview-header;
 
 					.content {
-						@extend %cellTransition;
 						text-align: center;
 						padding: 12px 0 12px 16px;
 						display: inline-flex;
@@ -142,18 +136,13 @@ $deleteTime: 120ms;
 							}
 						}
 					}
-
-					.delete {
-						@extend %colDelete;
-						text-align: right;
-					}
 				}
+
+
 			}
 			
 			td {
 				height: 52px;
-
-				@extend %cellTransition;
 				text-align: right;
 
 				.content {
@@ -169,8 +158,7 @@ $deleteTime: 120ms;
 					box-sizing: border-box;
 				}
 
-				.delete {
-					@extend %colDelete;
+				&.deleteCol .content {
 					margin-left: 16px;
 					margin-right: 32px;
 				}

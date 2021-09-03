@@ -29,18 +29,6 @@ public class CSSEvents {
 
 	/**
 	 * @param runnable
-	 *            transition callback
-	 * @param root
-	 *            the transition element
-	 * @param classname
-	 *            class to be checked for transition and removed afterwards
-	 */
-	public static void runOnTransition(Runnable runnable, Element root, String classname) {
-		runOnEvent(runnable, "transitionend", root, classname);
-	}
-
-	/**
-	 * @param runnable
 	 *            animation callback
 	 * @param root
 	 *            animated element
