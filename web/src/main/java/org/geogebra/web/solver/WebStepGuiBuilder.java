@@ -112,7 +112,7 @@ public class WebStepGuiBuilder {
             Widget toAdd;
             if (s.latex != null) {
                 toAdd = DrawEquationW.paintOnCanvas(gn, s.latex, null,
-                        app.getFontSizeWeb());
+                        app.getFontSize());
                 toAdd.getElement().setInnerText(s.plain);
 				ClickStartHandler.init(toAdd, new ClickStartHandler() {
 					@Override

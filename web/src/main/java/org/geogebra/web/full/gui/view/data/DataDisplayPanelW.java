@@ -687,7 +687,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		btnExport.setVisible(false);
 		
 		DrawEquationW.paintOnCanvas(sample, latex, latexCanvas,
-				app.getFontSizeWeb());
+				app.getFontSize());
 
 		if (hasControlPanel) {
 			controlDecks.showWidget(STEM_IDX);

@@ -144,8 +144,9 @@ public class OptionsMenuController {
 			return;
 		}
 
-		int pos = app.getLabelingStyleForMenu();
-		menuLabeling.setSelected(pos);
+		LabelVisibility labelVisibility =
+				app.getSettings().getLabelSettings().getLabelVisibilityForMenu();
+		menuLabeling.setSelected(labelVisibility.getValue());
 	}
 
 	public void addFontSizeMenu(MenuInterface menu) {
