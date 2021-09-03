@@ -1,5 +1,5 @@
-@import 'colors';
-@import 'z-index';
+@use 'colors';
+@use 'z-index';
 
 $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 $classicToolbar: 50px;
@@ -14,10 +14,10 @@ $menuWidth: 320px;
 		position: absolute;
 		top: 0px;
 		box-shadow: 0 6px 16px rgba(0,0,0,0.28);
-		z-index: $z-main-menu-floating;
+		z-index: z-index.$z-main-menu-floating;
 		height: 100%;
 		width: $menuWidth;
-		background-color: $white;
+		background-color: colors.$white;
 		transition-property: left;
 		overflow: auto;
 		overflow-x: hidden;
@@ -46,7 +46,7 @@ $menuWidth: 320px;
 			width: 100%;
 			padding-right: 10px;
 			.groupLabel {
-				color: $text-secondary;
+				color: colors.$text-secondary;
 				font-size: 75%;
 				text-transform: uppercase;
 				margin: 8px 16px 8px 16px;
@@ -70,7 +70,7 @@ $menuWidth: 320px;
 				.gwt-Label, .html-face {
 					display: inline-block;
 					font-size: 87%;
-					color: $text-primary;
+					color: colors.$text-primary;
 					vertical-align: middle;
 				}
 				.gwt-Label {
@@ -83,7 +83,7 @@ $menuWidth: 320px;
 						object-fit: cover;
 					}
 					.gwt-Label {
-						color: $text-secondary;
+						color: colors.$text-secondary;
 						text-transform: uppercase;
 						font-size: 75%;
 						padding-left: 0;
@@ -104,7 +104,7 @@ $menuWidth: 320px;
 
 	.titleHeader {
 		> div {
-			color: $text-secondary !important;
+			color: colors.$text-secondary !important;
 		}
 	}
 
@@ -133,12 +133,12 @@ $menuWidth: 320px;
 		position: absolute;
 		height: 100%;
 		width: 100%;
-		z-index: $z-main-menu-submenu;
+		z-index: z-index.$z-main-menu-submenu;
 		&.transitionIn {
 		    overflow: auto;
 			transition-timing-function: $submenuTimingFunction;
 			transition-duration: $submenuTransitionDuration;
-			box-shadow: -2px 0px 20px 0px $black-30;
+			box-shadow: -2px 0px 20px 0px colors.$black-30;
 			left: 0px;
 		}
 		&.transitionOut {

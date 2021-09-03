@@ -1,4 +1,4 @@
-@import 'colors';
+@use 'colors';
 $emptyHeight: 212px;
 $deleteTime: 120ms;
 
@@ -14,7 +14,7 @@ $deleteTime: 120ms;
 		position: absolute;
 		top: 50%;
 		transform: translateY(-50%) translateY(-28px);
-		color: $text-secondary;
+		color: colors.$text-secondary;
 		height: $emptyHeight;
 	}
 
@@ -23,7 +23,7 @@ $deleteTime: 120ms;
 	}
 
 	.emptyTableImageWrap {
-		background-color: $white-5-overlay;
+		background-color: colors.$white-5-overlay;
 		border-radius: 50%;
 		padding: 28px;
 		margin: auto;
@@ -47,7 +47,7 @@ $deleteTime: 120ms;
 		font-size: 18px;
 		font-weight: 500;
 		margin: 4px auto;
-		color: $text-primary;
+		color: colors.$text-primary;
 	}
 
 	.main >* {
@@ -104,7 +104,7 @@ $deleteTime: 120ms;
                     border: 0px;
                     position: sticky;
                     top: 0;
-                    background: $white;
+                    background: colors.$white;
 
                     .cell {
                         @extend %cellTransition;
@@ -117,7 +117,7 @@ $deleteTime: 120ms;
                             display: inline-flex;
                             margin: auto;
                             float: right;
-                            color: $text-secondary;
+                            color: colors.$text-secondary;
 
                             .MyToggleButton {
                                     margin: auto 0px auto 0px;
@@ -140,7 +140,7 @@ $deleteTime: 120ms;
 			
 			td {
 				div {
-					color: $text-primary;
+					color: colors.$text-primary;
 					text-align: right;
 				}
 				
@@ -164,11 +164,11 @@ $deleteTime: 120ms;
 			}
 
 			tbody tr:nth-child(odd) {
-				background: $tableview-row;
+				background: colors.$tableview-row;
 			}
 
 			tbody tr:nth-child(even) {
-				background: $white; // for IE11
+				background: colors.$white; // for IE11
 			}
 		}
 
