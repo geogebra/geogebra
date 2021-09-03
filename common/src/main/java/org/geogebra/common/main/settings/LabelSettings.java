@@ -38,6 +38,11 @@ public class LabelSettings extends AbstractSettings implements Resetable {
 		notifyListeners();
 	}
 
+	public void resetDefaultForMenu() {
+		labelVisibilityForMenu = LabelVisibility.NotSet;
+		notifyListeners();
+	}
+
 	@Override
 	public void resetDefaults() {
 		initLabelVisibility();
