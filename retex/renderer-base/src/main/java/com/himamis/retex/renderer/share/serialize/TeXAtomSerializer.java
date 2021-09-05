@@ -32,8 +32,14 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
  *
  */
 public class TeXAtomSerializer {
+	public static final String DEGREE = "\u2218";
 	private SerializationAdapter adapter;
 
+	private enum DegreePlural {
+		None,
+		Degree,
+		Degrees
+	}
 	/**
 	 * @param ad
 	 *            adapter
@@ -176,7 +182,12 @@ public class TeXAtomSerializer {
 		// BoldAtom, ItAtom, TextStyleAtom, StyleAtom, RomanAtom
 		// TODO: probably more atoms need to implement HasTrueBase
 		if (root instanceof HasTrueBase) {
-			return serialize(((HasTrueBase) root).getTrueBase());
+			Atom trueBase = ((HasTrueBase) root).getTrueBase();
+			DegreePlural degreePlural = checkDegrees(trueBase);
+			if (degreePlural != DegreePlural.None) {
+				return serialize(trueBase) + serializeDegrees(degreePlural);
+			}
+			return serialize(trueBase);
 		}
 		if (root instanceof BigDelimiterAtom) {
 			return serialize(((BigDelimiterAtom) root).getDelimiter());
@@ -187,6 +198,36 @@ public class TeXAtomSerializer {
 		// FactoryProvider.getInstance().printStacktrace();
 
 		return "?";
+	}
+
+	private DegreePlural checkDegrees(Atom trueBase) {
+		if (!(trueBase instanceof RowAtom)) {
+			return DegreePlural.None;
+		}
+		RowAtom row = (RowAtom) trueBase;
+		if (!(row.last() instanceof ScriptsAtom)) {
+			return DegreePlural.None;
+		}
+
+		ScriptsAtom scripts = (ScriptsAtom) (row.last());
+		boolean degree = DEGREE.equals(serialize(scripts.getSup()));
+		if (degree && "1".equals(serialize(row.getBase())) && noNumberIn(row)) {
+			return DegreePlural.Degree;
+		}
+		return degree ? DegreePlural.Degrees : DegreePlural.None;
+	}
+
+	private boolean noNumberIn(RowAtom row) {
+		for (int i = 0; i < row.size(); i++) {
+			if (row.getElement(i) instanceof CharAtom) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private String serializeDegrees(DegreePlural plural) {
+		return plural == DegreePlural.Degree ? "degree" : "degrees";
 	}
 
 	private String serializeFractionAtom(FractionAtom frac) {

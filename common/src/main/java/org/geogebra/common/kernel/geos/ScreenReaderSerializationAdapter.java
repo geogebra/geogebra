@@ -22,9 +22,7 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 
 		if (sup != null) {
 			ret.append(' ');
-			if ("\u2218".equals(sup)) {
-				ScreenReader.appendDegrees(ret, base, loc);
-			} else {
+			if (!"\u2218".equals(sup)) {
 				ScreenReader.appendPower(ret, sup, loc);
 			}
 		}

@@ -149,4 +149,6 @@ public class ScreenReaderBuilder {
 	private static String getPrime(Localization loc) {
 		return loc.getMenu("prime");
 	}
+
+
 }

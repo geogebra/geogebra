@@ -52,12 +52,15 @@ import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * 
@@ -1976,8 +1979,23 @@ public class GeoNumeric extends GeoElement
 
 		if (!getRawCaption().contains("%v")) {
 			sb.append(getLabelDelimiterWithSpace(StringTemplate.screenReader));
-			sb.append(toValueString(StringTemplate.defaultTemplate));
+			String valueString = toValueString(StringTemplate.defaultTemplate);
+			if (valueString.endsWith(Unicode.DEGREE_STRING)) {
+				sb.append(valueString.replace(Unicode.DEGREE_STRING,
+						" " + (
+								isSingularValue()
+								? ScreenReader.getDegree(getLoc())
+								: ScreenReader.getDegrees(getLoc())))
+				);
+			} else {
+				sb.append(valueString);
+			}
 		}
+	}
+
+	private boolean isSingularValue() {
+		return DoubleUtil.isEqual(Math.toRadians(1), value)
+				|| DoubleUtil.isEqual(Math.toRadians(0), value);
 	}
 
 	@Override
