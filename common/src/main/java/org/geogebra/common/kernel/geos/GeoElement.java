@@ -6345,6 +6345,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return isLocked();
 	}
 
+	protected boolean isSingularValue() {
+		return false;
+	}
+
 	/** Used by TraceDialog for "Trace as... value of/copy of */
 	public enum TraceModesEnum {
 		/** no value for this geo, only copy */
@@ -6997,10 +7001,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (!StringUtil.empty(getCaptionSimple())) {
 			if (CanvasDrawable.isLatexString(caption)) {
 				String myCaption = getCaption(StringTemplate.latexTemplate);
-				sb.appendLaTeX(myCaption);
+				sb.appendLatexDegreeIfNeeded(this, myCaption);
 			} else {
 				String myCaption = getCaption(StringTemplate.screenReader);
-				sb.append(ScreenReader.convertToReadable(myCaption, getLoc()));
+				String convertedCaption = ScreenReader.convertToReadable(myCaption, getLoc());
+				sb.appendDegreeIfNeeded(this, convertedCaption);
 			}
 			sb.endSentence();
 			return true;

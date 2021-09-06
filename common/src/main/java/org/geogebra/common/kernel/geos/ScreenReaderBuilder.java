@@ -1,7 +1,9 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.ScreenReader;
 
+import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
@@ -104,10 +106,14 @@ public class ScreenReaderBuilder {
 	}
 
 	public void appendLabel(String label) {
+		if (label == null) {
+			return;
+		}
+
 		if (label.endsWith("'")) {
 			convertPrimes(label, loc, sb);
 		} else  {
-			sb.append(label);
+			sb.append(ScreenReader.convertToReadable(label, loc));
 		}
 	}
 
@@ -150,5 +156,30 @@ public class ScreenReaderBuilder {
 		return loc.getMenu("prime");
 	}
 
+
+	protected void appendDegreeIfNeeded(GeoElement geo, String valueString) {
+		append(degreeReplaced(geo, valueString, " "));
+	}
+
+	protected void appendLatexDegreeIfNeeded(GeoElement geo, String valueString) {
+		appendLaTeX(degreeReplaced(geo, valueString, "\\ "));
+		appendSpace();
+	}
+
+	private String degreeReplaced(GeoElement geo,
+			String valueString, String space) {
+
+		String degreeReadable =
+				geo.isSingularValue() ? ScreenReader.getDegree(loc) : ScreenReader.getDegrees(loc);
+
+		return endsWithDegree(valueString)
+				? valueString.replace(Unicode.DEGREE_STRING, space + degreeReadable)
+				: valueString;
+	}
+
+	private boolean endsWithDegree(String valueString) {
+		return valueString.endsWith(Unicode.DEGREE_STRING)
+				|| valueString.endsWith(Unicode.DEGREE_STRING + "$");
+	}
 
 }

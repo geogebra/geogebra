@@ -348,7 +348,11 @@ public class ScreenReader {
 		StringBuilder sb = new StringBuilder();
 		sb.append(leftStr);
 		sb.append(" ");
-		appendPower(sb, rightStr, loc);
+		if ("\u2218".equals(rightStr)) {
+			sb.append(rightStr);
+		} else {
+			appendPower(sb, rightStr, loc);
+		}
 		return sb.toString();
 	}
 

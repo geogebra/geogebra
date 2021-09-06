@@ -8,9 +8,10 @@ import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
 public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 
 	private final Localization loc;
-
+	private final SymbolReaderMap symbols;
 	public ScreenReaderSerializationAdapter(Localization loc) {
 		this.loc = loc;
+		symbols = new SymbolReaderMap(loc);
 	}
 
 	@Override
@@ -48,28 +49,7 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 
 	@Override
 	public String convertCharacter(char character) {
-		switch (character) {
-		case '+': return " plus ";
-		case '-': return " minus ";
-		case '=': return " equals ";
-		case ',':
-			return ScreenReader.getComma();
-		case '(':
-			return ScreenReader.getOpenParenthesis();
-		case ')':
-			return ScreenReader.getCloseParenthesis();
-		case '{':
-			return " open brace ";
-		case '}':
-			return " close brace ";
-		case '[':
-			return " open bracket ";
-		case ']':
-			return " close bracket ";
-		case '\'':
-			return "";
-		}
-		return character + "";
+		return symbols.get(character);
 	}
 
 	@Override

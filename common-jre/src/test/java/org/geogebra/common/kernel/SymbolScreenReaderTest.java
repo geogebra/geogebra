@@ -44,17 +44,20 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 
 	@Test
 	public void testSliderDegreesPlural() {
-		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(getApp(), true);
-		GeoNumeric slider = add("α = 10°", info);
-		slider.createSlider();
+		GeoNumeric slider = addSlider("α = 10°");
 		shouldRead(slider, readSlider("α equals 10 degrees"));
+	}
+
+	private GeoNumeric addSlider(String definition) {
+		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(getApp(), true);
+		GeoNumeric slider = add(definition, info);
+		slider.createSlider();
+		return slider;
 	}
 
 	@Test
 	public void testSliderDegreeSingle() {
-		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(getApp(), true);
-		GeoNumeric slider = add("α = 1°", info);
-		slider.createSlider();
+		GeoNumeric slider = addSlider("α = 1°");
 		shouldRead(slider, readSlider("α equals 1 degree"));
 		slider.setValue(0);
 		shouldRead(slider, readSliderUpOnly("α equals 0 degree"));
@@ -72,5 +75,12 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 				+ " Press space to start animation"
 				+ " Press up arrow to increase the value"
 				+ " Press enter to edit Press tab to select controls";
+	}
+
+	@Test
+	public void testSliderDegreeCaption() {
+		GeoNumeric slider = addSlider("a = 10");
+		slider.setCaption("β=%v°");
+		shouldRead(slider, readSlider("beta equals 10 degrees"));
 	}
 }

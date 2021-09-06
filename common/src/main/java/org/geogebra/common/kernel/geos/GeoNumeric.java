@@ -60,8 +60,6 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import com.himamis.retex.editor.share.util.Unicode;
-
 /**
  * 
  * @author Markus
@@ -1974,26 +1972,18 @@ public class GeoNumeric extends GeoElement
 		sb.appendSpace();
 
 		if (!addAuralCaption(sb)) {
-			sb.append(getLabelSimple());
+			sb.append(ScreenReader.convertToReadable(getLabelSimple(), getLoc()));
 		}
 
 		if (!getRawCaption().contains("%v")) {
 			sb.append(getLabelDelimiterWithSpace(StringTemplate.screenReader));
 			String valueString = toValueString(StringTemplate.defaultTemplate);
-			if (valueString.endsWith(Unicode.DEGREE_STRING)) {
-				sb.append(valueString.replace(Unicode.DEGREE_STRING,
-						" " + (
-								isSingularValue()
-								? ScreenReader.getDegree(getLoc())
-								: ScreenReader.getDegrees(getLoc())))
-				);
-			} else {
-				sb.append(valueString);
-			}
+			sb.appendDegreeIfNeeded(this, valueString);
 		}
 	}
 
-	private boolean isSingularValue() {
+	@Override
+	protected boolean isSingularValue() {
 		return DoubleUtil.isEqual(Math.toRadians(1), value)
 				|| DoubleUtil.isEqual(Math.toRadians(0), value);
 	}
