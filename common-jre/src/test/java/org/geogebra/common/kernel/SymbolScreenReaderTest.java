@@ -7,8 +7,10 @@ import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.ScreenReader;
+import org.junit.Ignore;
 import org.junit.Test;
 
 @SuppressWarnings("javadoc")
@@ -82,5 +84,44 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 		GeoNumeric slider = addSlider("a = 10");
 		slider.setCaption("β=%v°");
 		shouldRead(slider, readSlider("beta equals 10 degrees"));
+	}
+
+	@Test
+	public void testOneDegreeInGeoText() {
+		shouldRead(this.<GeoText>add("\"sin(y)=1°\""),
+				"sin open parenthesis y close parenthesis  equals 1 degree"
+						+ " Press enter to edit Press tab to select controls");
+	}
+
+	@Ignore
+	@Test
+	public void testZeroPointOneDegreeInGeoText() {
+		shouldRead(this.<GeoText>add("\"sin(y)=0.1°\""),
+				"sin open parenthesis y close parenthesis  equals 0.1 degree"
+						+ " Press enter to edit Press tab to select controls");
+	}
+
+	@Test
+	public void testMinusOneDegreeInGeoText() {
+		shouldRead(this.<GeoText>add("\"sin(y)=-1°\""),
+				"sin open parenthesis y close parenthesis  equals  minus 1 degree"
+				+ " Press enter to edit Press tab to select controls");
+	}
+
+	@Test
+	public void testDegreeInGeoTextPlurar() {
+		shouldRead(this.<GeoText>add("\"sin(y)=35°\""),
+				"sin open parenthesis y close parenthesis  equals 35 degrees"
+				+ " Press enter to edit Press tab to select controls");
+	}
+
+	@Ignore
+	@Test
+	public void testDegreeInGeoTextWithEqPlurar() {
+		GeoText text = add("\"sin(x)=75°\"");
+		text.setLaTeX(true, false);
+		shouldRead(text,
+				"sin open parenthesis y close parenthesis   equals 75 degrees"
+				+ " Press enter to edit Press tab to select controls");
 	}
 }
