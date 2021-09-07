@@ -124,4 +124,12 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 				"sin open parenthesis y close parenthesis   equals 75 degrees"
 				+ " Press enter to edit Press tab to select controls");
 	}
+
+	@Ignore
+	@Test
+	public void testArcSinLatex() {
+		GeoText geo = add("\"\\sin^{-1}(x)\"");
+		geo.setLaTeX(true, true);
+		shouldRead(geo, "arc sin open parenthesis x close parenthesis");
+	}
 }

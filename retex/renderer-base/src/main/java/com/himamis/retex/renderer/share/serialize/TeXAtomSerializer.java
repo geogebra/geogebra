@@ -33,6 +33,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
  */
 public class TeXAtomSerializer {
 	public static final String DEGREE = "\u2218";
+	public static final String INVERTABLES = "sin cos tan cot sec csc";
 	private SerializationAdapter adapter;
 
 	private enum DegreePlural {
@@ -244,15 +245,25 @@ public class TeXAtomSerializer {
 	}
 
 	private String serializeBigOperator(BigOperatorAtom bigOp) {
-		String op = serialize(bigOp.getTrueBase());
+		Atom trueBase = bigOp.getTrueBase();
+		String op = serialize(trueBase);
 
 		if ("log".equals(op)) {
 			return "log_" + serialize(bigOp.getBottom());
 		}
 
+		if (isInvertable(trueBase, bigOp.getTop())) {
+			return " arc " + serialize(trueBase);
+		}
+
 		// eg sum/product
-		return serialize(bigOp.getTrueBase()) + " from " + serialize(bigOp.getBottom()) + " to "
+		return serialize(trueBase) + " from " + serialize(bigOp.getBottom()) + " to "
 				+ serialize(bigOp.getTop());
+	}
+
+	private boolean isInvertable(Atom trueBase, Atom top) {
+		return INVERTABLES.contains(serialize(trueBase))
+				&& " minus 1".equals(serialize(top));
 	}
 
 	private String subSup(ScriptsAtom script) {
