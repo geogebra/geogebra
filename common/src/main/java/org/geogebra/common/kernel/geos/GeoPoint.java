@@ -2877,8 +2877,13 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 */
 	public static String pointMovedAural(Localization loc,
 			GeoPointND geoPoint) {
+
+		ScreenReaderBuilder sbCaption = new ScreenReaderBuilder(loc);
+		ScreenReaderBuilder sbValue = new ScreenReaderBuilder(loc);
+		geoPoint.addAuralCaption(sbCaption);
+
 		return loc.getPlain("PointAMovedToB",
-				geoPoint.getCaption(StringTemplate.defaultTemplate),
+				sbCaption.toString(),
 				geoPoint.getValueForInputBar());
 
 	}
