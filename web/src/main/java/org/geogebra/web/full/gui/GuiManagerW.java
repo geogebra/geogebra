@@ -2307,4 +2307,9 @@ public class GuiManagerW extends GuiManager
 			getUnbundledToolbar().closeAnimation();
 		}
 	}
+
+	@Override
+	public boolean isAlgebraViewActive() {
+		return getUnbundledToolbar().getAlgebraTab().isActive();
+	}
 }
