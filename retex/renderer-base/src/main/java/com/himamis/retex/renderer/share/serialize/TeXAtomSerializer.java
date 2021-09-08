@@ -34,7 +34,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 public class TeXAtomSerializer {
 	public static final String DEGREE = "\u2218";
 	public static final String HYPERBOLICS = "sinh cosh tanh";
-	public static final String INVERTABLES = "sin cos tan cot sec csc" + HYPERBOLICS;
+	public static final String TRIGONOMETRICS = "sin cos tan cot sec csc" + HYPERBOLICS;
 	private SerializationAdapter adapter;
 
 	private enum DegreePlural {
@@ -253,9 +253,14 @@ public class TeXAtomSerializer {
 			return "log_" + serialize(bigOp.getBottom());
 		}
 
-		if (isInvertable(trueBase, bigOp.getTop())) {
-			return " arc"
-					+ getFunctionName(trueBase);
+		if (isTrigonometric(trueBase)) {
+			if (isInverse(bigOp.getTop())) {
+				return " arc" + getFunctionName(trueBase);
+			} else {
+				return adapter.subscriptContent(
+						serialize(trueBase),
+						null, serialize(bigOp.getTop()));
+			}
 		}
 
 		// eg sum/product
@@ -263,17 +268,24 @@ public class TeXAtomSerializer {
 				+ serialize(bigOp.getTop());
 	}
 
-	private boolean isInvertable(Atom trueBase, Atom top) {
-		return INVERTABLES.contains(serialize(trueBase))
-				&& " minus 1".equals(serialize(top));
+	private boolean isTrigonometric(Atom trueBase) {
+		return TRIGONOMETRICS.contains(serialize(trueBase));
+	}
+
+	private boolean isInverse(Atom top) {
+		return " minus 1".equals(serialize(top));
 	}
 
 	private String getFunctionName(Atom trueBase) {
 		String name = serialize(trueBase);
-		if (INVERTABLES.contains(name) && name.endsWith("h")) {
+		if (isHyperbolic(name)) {
 			return " hyperbolic " + name.substring(0, name.length() - 1);
 		}
 		return " " + name;
+	}
+
+	private boolean isHyperbolic(String name) {
+		return name.endsWith("h");
 	}
 
 	private String subSup(ScriptsAtom script) {
