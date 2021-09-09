@@ -8,8 +8,10 @@ import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.ScreenReader;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -197,5 +199,35 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 		shouldRead(geo, " arc hyperbolic " + trigonometric.replace("h", "")
 				+ " open parenthesis x close parenthesis"
 				+ " Press enter to edit Press tab to select controls");
+	}
+
+	@Test
+	public void testPointMoved() {
+		GeoPoint point = add("A=(1, 1)");
+		point.setCaption("$%v%$");
+		point.movePoint(new Coords(1,1,0), null);
+		assertEquals("Point  moved to  open parenthesis 2 comma  2 close parenthesis ",
+				point.getAuralTextForMove());
+	}
+
+	@Test
+	public void testSinSquared() {
+		GeoText text = add("\"sin^2\"");
+		text.setLaTeX(true, true);
+		shouldRead(text, "sin squared Press enter to edit Press tab to select controls");
+	}
+
+	@Test
+	public void testSinCubed() {
+		GeoText text = add("\"sin^3\"");
+		text.setLaTeX(true, true);
+		shouldRead(text, "sin cubed Press enter to edit Press tab to select controls");
+	}
+
+	@Test
+	public void testSin4() {
+		GeoText text = add("\"sin^4\"");
+		text.setLaTeX(true, true);
+		shouldRead(text, "sin to the power of 4 end power Press enter to edit Press tab to select controls");
 	}
 }

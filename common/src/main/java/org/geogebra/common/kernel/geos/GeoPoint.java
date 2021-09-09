@@ -74,6 +74,7 @@ import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -2879,12 +2880,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			GeoPointND geoPoint) {
 
 		ScreenReaderBuilder sbCaption = new ScreenReaderBuilder(loc);
-		ScreenReaderBuilder sbValue = new ScreenReaderBuilder(loc);
 		geoPoint.addAuralCaption(sbCaption);
 
 		return loc.getPlain("PointAMovedToB",
 				sbCaption.toString(),
-				geoPoint.getValueForInputBar());
+				ScreenReader.convertToReadable(geoPoint.getValueForInputBar(), loc));
 
 	}
 
