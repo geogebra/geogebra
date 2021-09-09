@@ -33,7 +33,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
  */
 public class TeXAtomSerializer {
 	public static final String DEGREE = "\u2218";
-	public static final String HYPERBOLICS = "sinh cosh tanh";
+	public static final String HYPERBOLICS = "sinh cosh tanh coth sech csch";
 	public static final String TRIGONOMETRICS = "sin cos tan cot sec csc" + HYPERBOLICS;
 	private SerializationAdapter adapter;
 
