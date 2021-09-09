@@ -240,14 +240,14 @@ task copyDevHtml(dependsOn: 'compileSass') {
     }
 }
 
-task copyHandlebars {
+task copyHandlebars(dependsOn: 'compileSass') {
     doLast {
         def handlebarsDir = project.getProperty("handlebarsDir")
         appSpecs.each { app ->
             def replaceHtml = app.id == "classic" ? classicHtml : appHtml
 
             def templatePath =  "${handlebarsDir}/${app.id}-template.handlebars"
-            file(templatePath).text = handlebars(replaceHtml(app, false))
+            file(templatePath).text = handlebars(replaceHtml(app, false, false, true))
         }
         String solver = solverHtml()
         def solverPath = "${handlebarsDir}/solver-template.handlebars"

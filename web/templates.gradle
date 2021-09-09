@@ -48,7 +48,6 @@ ext.english = { raw, appName ->
 
 ext.handlebars = { raw ->
     return raw.replace("<!--SIGN IN-->", "{{signIn}}")
-            .replace("<!--PRELOADED CSS-->", getCss(false))
             .replace("<!--APP NAME-->", "{{appName}}")
             .replace("<!--LANG-->", "{{lang}}")
             .replace("<!--CODEBASE-->", "{{codebase}}")

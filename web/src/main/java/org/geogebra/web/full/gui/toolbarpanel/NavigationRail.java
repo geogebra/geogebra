@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
@@ -26,9 +28,9 @@ import com.google.gwt.user.client.ui.Image;
  */
 class NavigationRail extends FlowPanel {
 	private MenuToggleButton btnMenu;
-	private StandardButton btnAlgebra;
-	private StandardButton btnTools;
-	private StandardButton btnTableView;
+	private @CheckForNull StandardButton btnAlgebra;
+	private @CheckForNull StandardButton btnTools;
+	private @CheckForNull StandardButton btnTableView;
 	private final Image imgMenu;
 	private final FlowPanel contents;
 	private FlowPanel center;
@@ -96,30 +98,28 @@ class NavigationRail extends FlowPanel {
 	}
 
 	private void createAlgebraButton() {
-		btnAlgebra = new StandardButton(
-				MaterialDesignResources.INSTANCE.toolbar_algebra_graphing(),
-				"Algebra", 24);
-		btnAlgebra.addStyleName("tabButton");
+		btnAlgebra = createTabButton("Algebra",
+				MaterialDesignResources.INSTANCE.toolbar_algebra_graphing());
 		btnAlgebra.addFastClickHandler(source -> onAlgebraPressed());
-		AriaHelper.hide(btnAlgebra);
 	}
 
 	private void createToolsButton() {
-		btnTools = new StandardButton(
-				MaterialDesignResources.INSTANCE.toolbar_tools(),
-				"Tools", 24);
-		btnTools.addStyleName("tabButton");
+		btnTools = createTabButton("Tools",
+				MaterialDesignResources.INSTANCE.toolbar_tools());
 		btnTools.addFastClickHandler(source -> onToolsPressed());
-		AriaHelper.hide(btnTools);
 	}
 
 	private void createTableViewButton() {
-		btnTableView = new StandardButton(
-				MaterialDesignResources.INSTANCE.toolbar_table_view_black(),
-				"Table", 24);
-		btnTableView.addStyleName("tabButton");
+		btnTableView = createTabButton("Table",
+				MaterialDesignResources.INSTANCE.toolbar_table_view_black());
 		btnTableView.addFastClickHandler(source -> onTableViewPressed());
-		AriaHelper.hide(btnTableView);
+	}
+
+	private StandardButton createTabButton(String label, SVGResource icon) {
+		StandardButton btn = new StandardButton(icon, label, 24);
+		btn.addStyleName("tabButton");
+		AriaHelper.hide(btn);
+		return btn;
 	}
 
 	/**
@@ -225,12 +225,14 @@ class NavigationRail extends FlowPanel {
 	}
 
 	private void setSelected(StandardButton btn, boolean selected, boolean exam) {
-		GColor color = GColor.WHITE;
-		if (!exam) {
-			color = selected ? app.getVendorSettings().getPrimaryColor() : GColor.BLACK;
+		if (btn != null) {
+			GColor color = GColor.WHITE;
+			if (!exam) {
+				color = selected ? app.getVendorSettings().getPrimaryColor() : GColor.BLACK;
+			}
+			btn.setIcon(((SVGResource) btn.getIcon()).withFill(color.toString()));
+			Dom.toggleClass(btn, "selected", selected);
 		}
-		btn.setIcon(((SVGResource) btn.getIcon()).withFill(color.toString()));
-		Dom.toggleClass(btn, "selected", selected);
 	}
 
 	/**
