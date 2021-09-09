@@ -1,7 +1,7 @@
-@import 'colors';
-@import 'text-styles';
-@import 'info-card';
-@import 'z-index';
+@use 'colors';
+@use 'text-styles';
+@use 'info-card';
+@use 'z-index';
 
 $duration: 0.2s;
 $shadow-card-default: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px
@@ -22,14 +22,14 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		textarea:focus:not([readonly]),
 		.gwt-TextArea:focus:not([readonly]),
 		iframe.objectPropertiesTextEditor:focus:not([readonly]) {
-			border: 1px $teal-default solid;
+			border: 1px colors.$teal-default solid;
 		}
 	}
 
 	.dialogComponent .gwt-TextBox:focus:not([readonly]) {
 		border: none;
 		padding-bottom: 3px;
-		border-bottom: 1px $teal-default solid;
+		border-bottom: 1px colors.$teal-default solid;
 	}
 
 	.MaterialDialogBox {
@@ -78,12 +78,12 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	/* image tool dialog */
 	.dialogComponent.image {
 		.gwt-Label:hover {
-			color: $teal-default;
+			color: colors.$teal-default;
 			cursor: pointer;
 		}
 
 		.gwt-Label-highlighted {
-			color: $teal-default;
+			color: colors.$teal-default;
 
 			&:hover {
 				cursor: default;
@@ -105,12 +105,12 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin-right: 16px;
 			display: block;
 			cursor: default;
-			color: $teal-default;
-			border-bottom: 1px solid $teal-default;
+			color: colors.$teal-default;
+			border-bottom: 1px solid colors.$teal-default;
 		}
 
 		.AutoCompleteTextFieldW {
-			border-bottom: 1px solid $teal-default !important;
+			border-bottom: 1px solid colors.$teal-default !important;
 		}
 	}
 
@@ -131,7 +131,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.AutoCompleteTextFieldW {
-			border-bottom: 1px solid $teal-default !important;
+			border-bottom: 1px solid colors.$teal-default !important;
 		}
 	}
 
@@ -141,7 +141,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.AutoCompleteTextFieldW {
 			max-width: 382px;
-			border-bottom: 1px solid $teal-default !important;
+			border-bottom: 1px solid colors.$teal-default !important;
 		}
 	}
 
@@ -151,7 +151,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			.infoText {
 				font-size: 100%;
 				margin-bottom: 24px;
-				color: $text-secondary;
+				color: colors.$text-secondary;
 			}
 	}
 
@@ -165,7 +165,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.titlePanel input[type="text"] {
 			border: none;
 			box-shadow: none;
-			border-bottom: 1px solid $teal-default;
+			border-bottom: 1px solid colors.$teal-default;
 			border-radius: 0px;
 		}
 
@@ -180,8 +180,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 				&.selected {
 					.background {
-						border-color: $teal-default;
-						background-color: $teal-default;
+						border-color: colors.$teal-default;
+						background-color: colors.$teal-default;
 					}
 				}
 			}
@@ -190,7 +190,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				font-size: 100%;
 				height: 28px;
 				line-height: 28px;
-				color: $text-primary;
+				color: colors.$text-primary;
 			}
 		}
 
@@ -237,11 +237,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		 }
 
 		.MyToggleButton.gwt-ToggleButton-down, .MyToggleButton.gwt-ToggleButton-down-hovering {
-			border-color: $teal-default;
+			border-color: colors.$teal-default;
 		}
 
 		.MyToggleButton.gwt-ToggleButton-up-hovering {
-			border-color: $teal-light;
+			border-color: colors.$teal-light;
 		}
 
 		.textEditor {
@@ -262,13 +262,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 
 			.SymbolTable td:hover, .GeoGebraFrame .SymbolTable td.focus {
-				background: $white;
-				color: $teal-default;
+				background: colors.$white;
+				color: colors.$teal-default;
 			}
 		}
 
 		.gwt-TabLayoutPanelTabInner:hover {
-			color: $teal-light;
+			color: colors.$teal-light;
 		}
 	}
 
@@ -280,7 +280,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		border: none;
 		outline: none;
 		background: transparent;
-		color: $teal-default;
+		color: colors.$teal-default;
 		font-size: 90%;
 		font-weight: 500;
 		letter-spacing: .04em;
@@ -302,14 +302,14 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		&:hover {
-			background: $mow_card_background_hover !important;
-			color: $teal-dark;
+			background: colors.$mow_card_background_hover !important;
+			color: colors.$teal-dark;
 		}
 	}
 
 	.MaterialDialogBox, .dialogComponent {
-		z-index: $z-dialog-over-keyboard;
-		background-color: $white;
+		z-index: z-index.$z-dialog-over-keyboard;
+		background-color: colors.$white;
 		border-radius: 2px;
 		padding-left: 24px;
 		padding-right: 8px;
@@ -320,13 +320,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.Caption {
 			font-size: 125%;
 			margin-bottom: 20px;
-			color: $text-primary;
+			color: colors.$text-primary;
 			border: none;
 			cursor: default;
 		}
 
 		.SymbolToggleButton:hover, .SymbolToggleButton:focus {
-			color: $teal-default;
+			color: colors.$teal-default;
 		}
 
 		.Dialog-messagePanel {
@@ -334,13 +334,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 			.gwt-Label {
 				margin-top: 0px;
-				color: $teal-default;
+				color: colors.$teal-default;
 			}
 		}
 
 		.coloredLabel {
 			font-size: 80%;
-			color: $teal-default;
+			color: colors.$teal-default;
 		}
 
 		.gwt-RadioButton label {
@@ -376,7 +376,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin-top: 10px;
 
 			.gwt-TextBox {
-				border-bottom: 1px solid $teal-default !important;
+				border-bottom: 1px solid colors.$teal-default !important;
 				border-radius: 0px;
 			}
 
@@ -394,7 +394,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.gwt-TabPanelBottom {
 			padding: 0px;
 			select:focus {
-				border: 1px $teal-default solid;
+				border: 1px colors.$teal-default solid;
 			}
 
 			.optionsPanel {
@@ -422,7 +422,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin-bottom: 10px;
 			border-radius: 0px;
 			border: none;
-			border-bottom: 1px solid $teal-default;
+			border-bottom: 1px solid colors.$teal-default;
 		}
 
 		.DialogRbPanel {
@@ -475,11 +475,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		padding: 0px;
 
 		.gwt-Label-highlighted {
-			color: $toolbar-header;
+			color: colors.$toolbar-header;
 		}
 
 		:not(.textField)>.AutoCompleteTextFieldW {
-			border-bottom: 1px solid $mow-primary;
+			border-bottom: 1px solid colors.$mow-primary;
 		}
 	}
 
@@ -491,7 +491,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.message {
-			color: $text-secondary;
+			color: colors.$text-secondary;
 			margin-bottom: 24px;
 		}
 	}
@@ -509,12 +509,12 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 					&.emptyState {
 						.inputLabel {
-							color: $text-secondary;
+							color: colors.$text-secondary;
 							font-size: 75%;
 						}
 
 						.AutoCompleteTextFieldW {
-							border-bottom: 1px solid $black-42;
+							border-bottom: 1px solid colors.$black-42;
 
 							.TextField {
 								border: none;
@@ -523,9 +523,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 								margin-bottom: 8px;
 								margin-top: 0px;
 								font-size: 100%;
-								color: $text-primary;
+								color: colors.$text-primary;
 								&::placeholder {
-									color: $text-secondary;
+									color: colors.$text-secondary;
 								}
 							}
 						}
@@ -533,11 +533,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 					&.hoverState {
 						.inputLabel {
-							color: $black-87;
+							color: colors.$black-87;
 						}
 
 						.AutoCompleteTextFieldW {
-							border-bottom: 2px solid $black-87;
+							border-bottom: 2px solid colors.$black-87;
 							margin: 8px 16px 15px 0px;
 						}
 					}
@@ -545,11 +545,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					&.focusState, &.focusState:hover {
 						@extend .emptyState;
 						.inputLabel {
-							color: $mow_dark_87;
+							color: colors.$mow_dark_87;
 						}
 
 						.AutoCompleteTextFieldW {
-							border-bottom: 2px solid $mow_dark;
+							border-bottom: 2px solid colors.$mow_dark;
 							margin: 8px 16px 15px 0px;
 						}
 					}
@@ -580,12 +580,12 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 			&.emptyState {
 				.inputLabel {
-					color: $text-secondary;
+					color: colors.$text-secondary;
 					font-size: 75%;
 				}
 
 				.AutoCompleteTextFieldW {
-					border-bottom: 1px solid $black-42;
+					border-bottom: 1px solid colors.$black-42;
 					.TextField {
 						border: none;
 						box-shadow: none;
@@ -593,9 +593,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 						margin-bottom: 8px;
 						margin-top: 0px;
 						font-size: 100%;
-						color: $text-primary;
+						color: colors.$text-primary;
 						&::placeholder {
-							color: $text-secondary;
+							color: colors.$text-secondary;
 						}
 					}
 				}
@@ -605,7 +605,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 
 				.msgLabel {
-					color: $text-secondary;
+					color: colors.$text-secondary;
 					margin-top: 0;
 					font-size: 75%;
 					min-height: 20px;
@@ -615,11 +615,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 				&.hoverState {
 					.inputLabel {
-						color: $black-87;
+						color: colors.$black-87;
 					}
 
 					.AutoCompleteTextFieldW {
-						border-bottom: 2px solid $black-87;
+						border-bottom: 2px solid colors.$black-87;
 					}
 
 					.errorLabel {
@@ -632,17 +632,17 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			&.errorState, &.errorState:hover {
 				@extend .emptyState;
 				.inputLabel {
-					color: $red-A400-87;
+					color: colors.$red-A400-87;
 				}
 
 				.AutoCompleteTextFieldW {
-					border-bottom: 2px solid $red;
+					border-bottom: 2px solid colors.$red;
 				}
 
 				.errorLabel {
 					line-height: 19px;
 					min-height: 19px;
-					color: $red-A400-87;
+					color: colors.$red-A400-87;
 					opacity: 1;
 				}
 			}
@@ -650,11 +650,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			&.focusState, &.focusState:hover {
 				@extend .emptyState;
 				.inputLabel {
-					color: $mow_dark_87;
+					color: colors.$mow_dark_87;
 				}
 
 				.AutoCompleteTextFieldW {
-					border-bottom: 2px solid $mow_dark;
+					border-bottom: 2px solid colors.$mow_dark;
 				}
 
 				.errorLabel {
@@ -667,7 +667,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent {
 		.globalErrorLabel {
-			color: $error;
+			color: colors.$error;
 			max-width: (20em/0.75);
 			font-size: 75%;
 			line-height: 16px;
@@ -689,13 +689,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.rightClickHelpText {
 			font-size: 80%;
 			margin-bottom: 20px;
-			color: $text-secondary;
+			color: colors.$text-secondary;
 		}
 
 		.prevImg {
 			max-width: 420px;
 			max-height: 420px;
-			border: 1px solid $black-20;
+			border: 1px solid colors.$black-20;
 			border-radius: 2px 2px 0 0 ;
 			cursor: pointer;
 		}
@@ -725,7 +725,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		 }
 
 		.pdfContainer {
-			border: 4px dashed $mow_pdf_dialog_border;
+			border: 4px dashed colors.$mow_pdf_dialog_border;
 			box-sizing: border-box;
 			border-radius: 8px;
 			height: 100%;
@@ -752,7 +752,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.pdfDialogText {
-			color: $text-secondary;
+			color: colors.$text-secondary;
 			margin-top: 20px;
 			text-align: center;
 			max-width: 190px;
@@ -764,7 +764,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.errorText {
 			font-size: 12px;
-			color: $red-A400;
+			color: colors.$red-A400;
 		}
 
 		.loadText {
@@ -796,11 +796,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 			.leftBtn {
 				left: 0%;
-				z-index: $z-pdf-dialog-arrow;
+				z-index: z-index.$z-pdf-dialog-arrow;
 			}
 
 			.leftBtn:hover, .rightBtn:hover {
-				background: $mow_pdf_left_right_hover;
+				background: colors.$mow_pdf_left_right_hover;
 				opacity: 1;
 			}
 
@@ -836,7 +836,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				.curPageField {
 					margin-left: 16px;
 					margin-bottom: 0px;
-					border-bottom-color: $black-42;
+					border-bottom-color: colors.$black-42;
 
 					.TextField {
 						margin: 0px;
@@ -846,19 +846,19 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 						box-shadow: none;
 						border: none;
 						border-radius: 0px;
-						border-bottom: 1px solid $black-42;
+						border-bottom: 1px solid colors.$black-42;
 					}
 
 					&.default {
-						border-bottom: 1px solid $black-42;
+						border-bottom: 1px solid colors.$black-42;
 					}
 
 					&.hover {
-						border-bottom: 2px solid $black-87;
+						border-bottom: 2px solid colors.$black-87;
 					}
 
 					&.focus, &.focus:hover {
-						border-bottom: 2px solid $mow_dark_87;
+						border-bottom: 2px solid colors.$mow_dark_87;
 					}
 				}
 
@@ -872,15 +872,15 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			max-width: unset;
 
 			.button {
-				color: $mow_dark;
+				color: colors.$mow_dark;
 				&:hover {
-					color: $mow_dark;
+					color: colors.$mow_dark;
 				}
 			}
 
 			.insertBtn.button-up-disabled {
 				opacity: 1;
-				color: $mow_dark_26;
+				color: colors.$mow_dark_26;
 
 				&:hover {
 					background: none !important;
@@ -891,13 +891,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.progressBar {
 			margin-left: auto;
 			margin-right: auto;
-			background: $mow_light;
+			background: colors.$mow_light;
 			height: 4px;
 			max-width: 300px;
 			width: 80%;
 
 			div {
-				background: $mow_dark;
+				background: colors.$mow_dark;
 				height: 100%;
 			}
 		}
@@ -912,7 +912,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			padding-right: 0px;
 		}
 		.linkLabel {
-			color: $text-secondary;
+			color: colors.$text-secondary;
 			font-size: 75%;
 			line-height: 1;
 		}
@@ -924,11 +924,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				margin: 0;
 				border: none;
 				box-shadow: none;
-				border-bottom: 2px solid $teal-default;
+				border-bottom: 2px solid colors.$teal-default;
 				border-radius: 0;
 			}
 			.linkBox::selection {
-				background: $teal-default-20;
+				background: colors.$teal-default-20;
 			}
 			.copyButton {
 				cursor: pointer;
@@ -941,12 +941,12 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				align-items: center;
 				justify-content: center;
 				vertical-align: middle;
-				color: $text-primary;
+				color: colors.$text-primary;
 				text-transform: uppercase;
 				transition: background-color 0.15s;
 
 				&:hover {
-					background-color: $mow_card_background_hover;
+					background-color: colors.$mow_card_background_hover;
 				}
 			}
 		}
@@ -965,22 +965,22 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				transition: background-color, color 0.15s;
 				img {
 					opacity: 1;
-					background-color: $teal-default;
+					background-color: colors.$teal-default;
 					border-radius: 50%;
 					padding: 6px;
 				}
 				.gwt-Label {
-					color: $text-primary;
+					color: colors.$text-primary;
 					font-size: 100%;
 					margin: 10px auto 0px 12px;
 					cursor: pointer;
 				}
 				&:hover {
 					img {
-						background-color: $teal-default-hover;
+						background-color: colors.$teal-default-hover;
 					}
 					.gwt-Label {
-						color: $black;
+						color: colors.$black;
 					}
 				}
 			}
@@ -994,7 +994,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			font-size: 100%;
 			margin: 0px;
 			padding-bottom: 24px;
-			color: $text-secondary;
+			color: colors.$text-secondary;
 		}
 	}
 
@@ -1010,7 +1010,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			font-size: 100%;
 			margin: 0px;
 			padding-bottom: 24px;
-			color: $text-secondary;
+			color: colors.$text-secondary;
 		}
 	}
 
@@ -1022,13 +1022,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.titlePanel {
-			background-color: $teal-default;
+			background-color: colors.$teal-default;
 			padding: 20px 24px;
 			&.locked {
-				background-color: $exam-lock;
+				background-color: colors.$exam-lock;
 			}
 			&.cheating {
-				background-color: $exam-red;
+				background-color: colors.$exam-red;
 
 				.panelRowIndent {
 					padding: 0px;
@@ -1045,12 +1045,12 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 			.calcType {
 				font-size: 75%;
-				color: $text-light-secondary;
+				color: colors.$text-light-secondary;
 			}
 
 			.examTitle {
 				font-size: 100%;
-				color: $text-light-primary;
+				color: colors.$text-light-primary;
 			}
 		}
 
@@ -1059,13 +1059,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			padding: 20px 24px 24px 24px;
 
 			.textStyle {
-				color: $text-primary;
+				color: colors.$text-primary;
 			}
 
 			.captionStyle {
 				margin-top: 20px;
 				font-size: 75%;
-				color: $text-secondary;
+				color: colors.$text-secondary;
 
 				&.noMargin {
 					margin-top: 0px;
@@ -1078,7 +1078,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			padding-top: 8px;
 
 			&.withDivider {
-				border-top: 1px solid $black-12;
+				border-top: 1px solid colors.$black-12;
 			}
 		}
 	}
@@ -1126,10 +1126,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin-right: 16px;
 
 			.linkBox {
-				border-bottom: 2px solid $mow_dark;
+				border-bottom: 2px solid colors.$mow_dark;
 			}
 			.linkBox::selection {
-				background: rgba($mow_primary, 0.2)
+				background: rgba(colors.$mow_primary, 0.2)
 			}
 		}
 
@@ -1141,7 +1141,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.DialogButtonPanel {
 			.button {
-				color: $mow_dark;
+				color: colors.$mow_dark;
 			}
 		}
 	}
@@ -1178,7 +1178,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				font-size: 100%;
 				height: 28px;
 				line-height: 28px;
-				color: $text-primary;
+				color: colors.$text-primary;
 			}
 		}
 
@@ -1186,7 +1186,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			padding-top: 8px;
 
 			.button {
-				color: $mow_dark;
+				color: colors.$mow_dark;
 			}
 		}
 	}
@@ -1198,7 +1198,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		max-width: 500px;
 		max-height: 177px;
 		.dialogContent .gwt-Label {
-			color: $text-secondary;
+			color: colors.$text-secondary;
 			font-size: 80%;
 			margin-bottom: 20px;
 		}
@@ -1229,21 +1229,21 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.MaterialDialogBox.mow {
 			.previewLbl {
-				color: $mow_dark !important;
+				color: colors.$mow_dark !important;
 			}
 			.CustomColorButton:hover {
-				background-color: $mow_light !important;
+				background-color: colors.$mow_light !important;
 			}
 			.DialogButtonPanel {
 				.gwt-Button {
-					color: $mow_dark;
+					color: colors.$mow_dark;
 					&:hover {
-						color: $mow_dark;
+						color: colors.$mow_dark;
 					}
 				}
 			}
 		.AutoCompleteTextFieldW {
-			border-bottom: 1px solid $mow_dark;
+			border-bottom: 1px solid colors.$mow_dark;
 		}
 	}
 
@@ -1271,7 +1271,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.selGrLbl {
-			color: $text-secondary;
+			color: colors.$text-secondary;
 			font-size: 100%;
 			margin-top: 0px;
 			margin-bottom: 20px;
@@ -1279,22 +1279,22 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.groupPanel {
-			border-top: 1px solid $black-12;
-			border-bottom: 1px solid $black-12;
+			border-top: 1px solid colors.$black-12;
+			border-bottom: 1px solid colors.$black-12;
 			max-height: 200px;
 			overflow: auto;
 			padding: 16px 0px 0px 20px;
 		}
 
 		.noGroupPanel {
-			border-bottom: 1px solid $black-12;
+			border-bottom: 1px solid colors.$black-12;
 
 			.groupImgHolder {
 				width: 48px;
 				height: 48px;
 				padding: 12px;
 				border-radius: 50%;
-				background-color: $mow_grey_button;
+				background-color: colors.$mow_grey_button;
 				display: block;
 				margin: 0px auto;
 				margin-top: 16px;
@@ -1310,7 +1310,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				display: block;
 				margin: 0px auto;
 				margin-top: 16px;
-				color: $text-primary;
+				color: colors.$text-primary;
 			}
 
 			.noGroupsHelpLbl {
@@ -1322,7 +1322,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				margin-bottom: 20px;
 				font-size: 87%;
 				text-align: center;
-				color: $text-secondary;
+				color: colors.$text-secondary;
 			}
 
 		}
@@ -1353,7 +1353,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				.linkShareOnOff {
 					margin-top: 0px;
 					font-size: 100%;
-					color: $text-primary;
+					color: colors.$text-primary;
 					line-height: 16px;
 				}
 
@@ -1361,7 +1361,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					margin-top: 0px;
 					font-size: 87%;
 					line-height: 16px;
-					color: $text-secondary;
+					color: colors.$text-secondary;
 				}
 			}
 
@@ -1376,10 +1376,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					border-radius: 0;
 					box-shadow: none;
 					border: none;
-					border-bottom: 2px solid $mow_dark;
+					border-bottom: 2px solid colors.$mow_dark;
 				}
 				.linkBox::selection {
-					background: rgba($mow_primary, 0.2);
+					background: rgba(colors.$mow_primary, 0.2);
 				}
 
 				.copyButton {
@@ -1393,19 +1393,19 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					align-items: center;
 					justify-content: center;
 					vertical-align: middle;
-					color: $text-primary;
+					color: colors.$text-primary;
 					text-transform: uppercase;
 					transition: background-color 0.15s;
 
 					&:hover {
-						background-color: $mow_card_background_hover;
+						background-color: colors.$mow_card_background_hover;
 					}
 				}
 			}
 		}
 
 		.shareLinkAvailableInfo {
-			color: $text-secondary;
+			color: colors.$text-secondary;
 			max-width: 474px;
 			margin: 14px 24px 0px 24px;
 			font-size: 87%;
@@ -1430,7 +1430,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			height: 24px;
 			padding: 10px;
 			border-radius: 50%;
-			border: 2px solid $black-24;
+			border: 2px solid colors.$black-24;
 			display: block;
 			margin: 0px auto;
 			margin-top: 4px;
@@ -1441,7 +1441,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.groupName {
-			color: $text-secondary;
+			color: colors.$text-secondary;
 			margin-top: 8px;
 			padding-bottom: 4px;
 			font-size: 75%;
@@ -1457,7 +1457,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.checkMark {
 			padding: 1px;
 			border-radius: 50%;
-			background-color: $mow_primary;
+			background-color: colors.$mow_primary;
 			position: relative;
 			top: -44px;
 			right: -56px;
@@ -1466,7 +1466,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		&.selected {
 			.groupImgHolder {
-				border: 2px solid $mow_primary;
+				border: 2px solid colors.$mow_primary;
 			}
 			.checkMark {
 				visibility: visible;
@@ -1559,7 +1559,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.mowInputPanelContent  {
 		.TextField::selection {
-			background: rgba($mow_primary, 0.2)
+			background: rgba(colors.$mow_primary, 0.2)
 		}
 	}
 
@@ -1576,7 +1576,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			height: calc(100% - 72px);
 
 			&.withBorder {
-				border-bottom: 1px solid $black-12;
+				border-bottom: 1px solid colors.$black-12;
 
 				.templatesPanel {
 					max-width: 665px;
@@ -1610,7 +1610,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 
 				&.selected {
-					outline: 2px solid $mow_primary;
+					outline: 2px solid colors.$mow_primary;
 					box-shadow: $shadow-card-default;
 					transition: box-shadow .25s;
 				}
@@ -1651,7 +1651,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		height: unset;
 
 		.sessionExpireTxt {
-			color: $text-secondary;
+			color: colors.$text-secondary;
 			max-width: 400px;
 			margin-bottom: 20px;
 		}
@@ -1665,13 +1665,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			padding-left: 35px;
 
 			&:after {
-				background-color: $teal-default;
+				background-color: colors.$teal-default;
 			}
 		}
 
 		.AutoCompleteTextFieldW {
 			// ignore this for now, we need new design
-			border-bottom: 1px solid $teal-default !important;
+			border-bottom: 1px solid colors.$teal-default !important;
 		}
 
 		.gwt-TabPanelBottom {
@@ -1757,7 +1757,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 				.imgHolder {
 					border-radius: 50%;
-					background-color: $white-5-overlay;
+					background-color: colors.$white-5-overlay;
 					width: 120px;
 					height: 120px;
 				}
@@ -1777,11 +1777,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 
 				&:hover .imgHolder {
-					background-color: $hover-calc-btn-bg;
+					background-color: colors.$hover-calc-btn-bg;
 				}
 
 				&.selected .imgHolder {
-					background-color: $selected-calc-btn-bg;
+					background-color: colors.$selected-calc-btn-bg;
 				}
 			}
 		}
@@ -1795,7 +1795,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.helpTxt {
 			margin-bottom: 24px;
 			font-size: 75%;
-			color: $text-secondary;
+			color: colors.$text-secondary;
 		}
 
 		.AutoCompleteTextFieldW {
@@ -1812,8 +1812,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin: 24px 0px;
 
 			.uploadFileBtn {
-				border: solid 1px $black-12;
-				color: $mebis-text-btn-col;
+				border: solid 1px colors.$black-12;
+				color: colors.$mebis-text-btn-col;
 				padding: 0px 16px;
 			}
 		}
