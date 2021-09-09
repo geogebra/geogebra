@@ -34,6 +34,11 @@ public class EmbedFactory implements AsyncOperation<URLStatus>, MaterialCallback
 	private Runnable hideDialogCallback;
 	private MediaInputPanel mediaInputPanel;
 
+	/**
+	 * constructor
+	 * @param app see {@link AppW}
+	 * @param mediaInputPanel input text field
+	 */
 	public EmbedFactory(AppW app, MediaInputPanel mediaInputPanel) {
 		this.app = app;
 		this.mediaInputPanel = mediaInputPanel;
@@ -41,7 +46,7 @@ public class EmbedFactory implements AsyncOperation<URLStatus>, MaterialCallback
 	}
 
 	/**
-	 * return url checker
+	 * @return url checker
 	 */
 	public URLChecker getUrlChecker() {
 		return urlChecker;
