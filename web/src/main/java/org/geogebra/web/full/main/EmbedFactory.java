@@ -40,6 +40,9 @@ public class EmbedFactory implements AsyncOperation<URLStatus>, MaterialCallback
 		initURLChecker();
 	}
 
+	/**
+	 * return url checker
+	 */
 	public URLChecker getUrlChecker() {
 		return urlChecker;
 	}

@@ -53,7 +53,7 @@ public class H5PInputDialog extends ComponentDialog {
 		});
 	}
 
-	public void buildContent() {
+	private void buildContent() {
 		Label helpTxt = new Label(app.getLocalization().getMenu("H5PDialog.InsertHelpTxt"));
 		helpTxt.setStyleName("helpTxt");
 		addDialogContent(helpTxt);
