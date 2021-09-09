@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.web.full.main.EmbedFactory;
 import org.geogebra.web.html5.main.AppW;
 
@@ -14,7 +16,12 @@ public class EmbedInputDialog extends MediaDialog {
 	 */
 	EmbedInputDialog(AppW app) {
 		super(app, "Web");
-		embedFactory = new EmbedFactory(app, this, mediaInputPanel);
+		embedFactory = new EmbedFactory(app, mediaInputPanel);
+		embedFactory.setHideDialogCallback(() -> {
+			super.hide();
+			app.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
+					ModeSetter.TOOLBAR);
+		});
 		updateInfo();
 	}
 

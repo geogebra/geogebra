@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.web.full.main.EmbedFactory;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -43,7 +45,12 @@ public class H5PInputDialog extends ComponentDialog {
 		buildContent();
 		addDialogContent(h5pChooser);
 		h5pChooser.addStyleName("hidden");
-		embedFactory = new EmbedFactory(app, this, mediaInputPanel);
+		embedFactory = new EmbedFactory(app, mediaInputPanel);
+		embedFactory.setHideDialogCallback(() -> {
+			super.hide();
+			app.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
+					ModeSetter.TOOLBAR);
+		});
 	}
 
 	public void buildContent() {
@@ -91,7 +98,7 @@ public class H5PInputDialog extends ComponentDialog {
 	 */
 	void loadH5PElement(File file) {
 		new H5PReader(app).load(file);
-		embedFactory.hide();
+		embedFactory.runHideCallback();
 	}
 
 	@Override

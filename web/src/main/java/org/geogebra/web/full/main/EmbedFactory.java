@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.EmbedManager;
-import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.media.EmbedURLChecker;
@@ -22,7 +20,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.dialog.MediaDialog;
 import org.geogebra.web.full.gui.dialog.MediaInputPanel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.ggtapi.MarvlURLChecker;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 
@@ -34,12 +31,11 @@ import com.google.gwt.user.client.Window;
 public class EmbedFactory implements AsyncOperation<URLStatus>, MaterialCallbackI {
 	private URLChecker urlChecker;
 	final AppW app;
-	private ComponentDialog dialog;
+	private Runnable hideDialogCallback;
 	private MediaInputPanel mediaInputPanel;
 
-	public EmbedFactory(AppW app, ComponentDialog dialog, MediaInputPanel mediaInputPanel) {
+	public EmbedFactory(AppW app, MediaInputPanel mediaInputPanel) {
 		this.app = app;
-		this.dialog = dialog;
 		this.mediaInputPanel = mediaInputPanel;
 		initURLChecker();
 	}
@@ -125,14 +121,14 @@ public class EmbedFactory implements AsyncOperation<URLStatus>, MaterialCallback
 			app.storeUndoInfo();
 		}
 
-		hide();
+		runHideCallback();
 	}
 
 	@Override
 	public void callback(URLStatus obj) {
 		if (obj.getErrorKey() == null) {
 			GeoElement geo = createAndShowEmbeddedElement(obj.getUrl());
-			hide();
+			runHideCallback();
 			app.getActiveEuclidianView()
 					.getEuclidianController().selectAndShowSelectionUI(geo);
 		} else {
@@ -152,12 +148,19 @@ public class EmbedFactory implements AsyncOperation<URLStatus>, MaterialCallback
 	@Override
 	public void onError(Throwable exception) {
 		showEmptyEmbeddedElement();
-		hide();
+		runHideCallback();
 	}
 
-	public void hide() {
-		dialog.hide();
-		app.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
-				ModeSetter.TOOLBAR);
+	public void setHideDialogCallback(Runnable callback) {
+		hideDialogCallback = callback;
+	}
+
+	/**
+	 * hide dialog and set defined mode
+	 */
+	public void runHideCallback() {
+		if (hideDialogCallback != null) {
+			hideDialogCallback.run();
+		}
 	}
 }
