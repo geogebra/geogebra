@@ -392,7 +392,7 @@ public class Inequality {
 	 */
 	public GeoPoint[] getZeros() {
 		if (zeros == null && funBorder != null) {
-			rootMultiple(funBorder);
+			zeros = rootMultiple(funBorder);
 		}
 		return zeros;
 	}
