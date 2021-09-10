@@ -17,11 +17,7 @@ public class EmbedInputDialog extends MediaDialog {
 	EmbedInputDialog(AppW app) {
 		super(app, "Web");
 		embedFactory = new EmbedFactory(app, mediaInputPanel);
-		embedFactory.setHideDialogCallback(() -> {
-			super.hide();
-			app.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
-					ModeSetter.TOOLBAR);
-		});
+		embedFactory.setHideDialogCallback(this::hide);
 		updateInfo();
 	}
 
@@ -47,5 +43,12 @@ public class EmbedInputDialog extends MediaDialog {
 		if (app.getGuiManager() != null) {
 			embedFactory.addEmbed();
 		}
+	}
+
+	@Override
+	public void hide() {
+		super.hide();
+		app.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
+				ModeSetter.TOOLBAR);
 	}
 }

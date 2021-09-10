@@ -46,11 +46,7 @@ public class H5PInputDialog extends ComponentDialog {
 		addDialogContent(h5pChooser);
 		h5pChooser.addStyleName("hidden");
 		embedFactory = new EmbedFactory(app, mediaInputPanel);
-		embedFactory.setHideDialogCallback(() -> {
-			super.hide();
-			app.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
-					ModeSetter.TOOLBAR);
-		});
+		embedFactory.setHideDialogCallback(this::hide);
 	}
 
 	private void buildContent() {
@@ -107,5 +103,12 @@ public class H5PInputDialog extends ComponentDialog {
 		if (mediaInputPanel != null) {
 			mediaInputPanel.focusDeferred();
 		}
+	}
+
+	@Override
+	public void hide() {
+		super.hide();
+		app.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
+				ModeSetter.TOOLBAR);
 	}
 }
