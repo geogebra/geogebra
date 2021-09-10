@@ -4,8 +4,11 @@ import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 
+import com.google.j2objc.annotations.Weak;
+
 public class IntervalDivide {
 
+	@Weak
 	private final Interval interval;
 
 	/**

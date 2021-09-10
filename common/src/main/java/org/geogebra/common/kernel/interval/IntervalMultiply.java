@@ -1,11 +1,15 @@
 package org.geogebra.common.kernel.interval;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Multiplication of intervals.
  *
  * Note: an interval [high, low] is called mixed when low < 0 < high.
  */
 public class IntervalMultiply {
+
+	@Weak
 	private final Interval interval;
 
 	/**

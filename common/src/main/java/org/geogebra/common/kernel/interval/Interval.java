@@ -14,7 +14,8 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	private final IntervalAlgebra algebra = new IntervalAlgebra(this);
-	private final IntervalArithmeticImpl arithmetic = new IntervalArithmeticImpl(this);
+	private final IntervalMultiply multiply = new IntervalMultiply(this);
+	private final IntervalDivide divide = new IntervalDivide(this);
 	private final IntervalTrigonometric trigonometric = new IntervalTrigonometric(this);
 	private final IntervalMiscOperandsImpl misc = new IntervalMiscOperandsImpl(this);
 	private final IntervalEvaluate evaluate = new IntervalEvaluate(this);
@@ -176,12 +177,12 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 
 	@Override
 	public Interval multiply(Interval other) {
-		return arithmetic.multiply(other);
+		return multiply.multiply(other);
 	}
 
 	@Override
 	public Interval divide(Interval other) {
-		return arithmetic.divide(other);
+		return divide.divide(other);
 	}
 
 	/**
@@ -209,7 +210,6 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	public boolean isWhole() {
 		return DoubleUtil.isEqual(low, IntervalConstants.NEGATIVE_INFINITY)
 				&& DoubleUtil.isEqual(high, IntervalConstants.POSITIVE_INFINITY);
-				&& DoubleUtil.isEqual(high, IntervalConstants.POSITIVE_INFINITY));
 	}
 
 	/**

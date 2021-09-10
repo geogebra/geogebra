@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public  class IntervalMultiplyTest {
+public class IntervalMultiplyTest {
 
 	@Test
 	public void testMultiplicationEmpty() {
