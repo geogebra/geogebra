@@ -3,8 +3,10 @@ package org.geogebra.common.gui.view.table;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
 public class TableValuesInputProcessor implements TableValuesProcessor {
 
@@ -32,6 +34,14 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		GeoList column = ensureList(list);
 		ensureCapacity(column, index);
 		column.setListElement(index, numeric);
+		if (isEmptyValue(numeric) && index == list.size() - 1) {
+			if (list.size() == 1) {
+				column.remove();
+			}
+			while (tableValues.getTableValuesModel().getRowCount() > 0 && isLastRowEmpty()) {
+				removeLastRow();
+			}
+		}
 		numeric.notifyUpdate();
 	}
 
@@ -73,4 +83,38 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		}
 	}
 
+	private boolean isLastRowEmpty() {
+		TableValuesModel model = tableValues.getTableValuesModel();
+		int lastRowIndex = model.getRowCount() - 1;
+		for (int columnIndex = 1; columnIndex < model.getColumnCount(); columnIndex++) {
+			if (!isEmptyValue(columnIndex, lastRowIndex)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean isEmptyValue(int columnIndex, int rowIndex) {
+		GeoEvaluatable evaluatable = tableValues.getEvaluatable(columnIndex);
+		GeoList column;
+		if (evaluatable instanceof GeoList) {
+			column = (GeoList) evaluatable;
+		} else {
+			return false;
+		}
+		GeoElement value = column.get(rowIndex);
+		return (value == null || (value instanceof GeoNumeric && isEmptyValue((GeoNumeric) value)));
+	}
+
+	private void removeLastRow() {
+		TableValuesModel model = tableValues.getTableValuesModel();
+		int lastRowIndex = model.getRowCount() - 1;
+		for (int columnIndex = 1; columnIndex < model.getColumnCount(); columnIndex++) {
+			GeoList column = (GeoList) tableValues.getEvaluatable(columnIndex);
+			column.remove(lastRowIndex);
+			if (column.size() == 0) {
+				column.remove();
+			}
+		}
+	}
 }
