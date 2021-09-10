@@ -95,4 +95,45 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		processor.processInput("", null, 0);
 		assertEquals(1, model.getColumnCount());
 	}
+
+	@Test
+	public void testRemoveLastValueFromRow() throws InvalidInputException {
+		processor.processInput("0", null, 0);
+		GeoList column = (GeoList) view.getEvaluatable(1);
+		processor.processInput("1", column, 1);
+		processor.processInput("2", column, 2);
+		assertEquals(3, model.getRowCount());
+		assertEquals(2, model.getColumnCount());
+
+		processor.processInput("", column, 2);
+		assertEquals(2, model.getRowCount());
+
+		processor.processInput("", column, 0);
+		assertEquals(1, model.getRowCount());
+
+		processor.processInput("", column, 0);
+		assertEquals(0, model.getRowCount());
+
+		assertEquals(1, model.getColumnCount());
+	}
+
+	@Test
+	public void testRemoveLastValueFromColumn() throws InvalidInputException {
+		processor.processInput("1", null, 0);
+		processor.processInput("2", null, 0);
+		processor.processInput("3", null, 0);
+		assertEquals(4, model.getColumnCount());
+		assertEquals(1, model.getRowCount());
+
+		processor.processInput("", (GeoList) view.getEvaluatable(3), 0);
+		assertEquals(3, model.getColumnCount());
+
+		processor.processInput("", (GeoList) view.getEvaluatable(1), 0);
+		assertEquals(2, model.getColumnCount());
+
+		processor.processInput("", (GeoList) view.getEvaluatable(1), 0);
+		assertEquals(1, model.getColumnCount());
+
+		assertEquals(0, model.getRowCount());
+	}
 }
