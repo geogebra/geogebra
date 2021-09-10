@@ -207,7 +207,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * defined in {@link IntervalConstants}.
 	 */
 	public boolean isWhole() {
-		return (DoubleUtil.isEqual(low, IntervalConstants.NEGATIVE_INFINITY)
+		return DoubleUtil.isEqual(low, IntervalConstants.NEGATIVE_INFINITY)
+				&& DoubleUtil.isEqual(high, IntervalConstants.POSITIVE_INFINITY);
 				&& DoubleUtil.isEqual(high, IntervalConstants.POSITIVE_INFINITY));
 	}
 
