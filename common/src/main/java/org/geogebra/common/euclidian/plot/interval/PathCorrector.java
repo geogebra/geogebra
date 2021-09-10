@@ -66,7 +66,7 @@ public class PathCorrector {
 	}
 
 	private boolean isInvertedAround(int idx) {
-		return (model.isInvertedAt(idx - 1) && model.isInvertedAt(idx + 1));
+		return model.isInvertedAt(idx - 1) && model.isInvertedAt(idx + 1);
 	}
 
 	private void completePathAt(int idx) {
