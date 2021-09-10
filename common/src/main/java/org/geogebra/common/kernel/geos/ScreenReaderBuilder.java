@@ -105,6 +105,10 @@ public class ScreenReaderBuilder {
 		sb.append(loc.getMenuDefault(key, fallback));
 	}
 
+	/**
+	 * Appends the label in readable form.
+	 * @param label to append.
+	 */
 	public void appendLabel(String label) {
 		if (label == null) {
 			return;
@@ -155,7 +159,6 @@ public class ScreenReaderBuilder {
 	private static String getPrime(Localization loc) {
 		return loc.getMenu("prime");
 	}
-
 
 	protected void appendDegreeIfNeeded(GeoElement geo, String valueString) {
 		append(degreeReplaced(geo, valueString, " "));

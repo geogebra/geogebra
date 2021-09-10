@@ -18,8 +18,11 @@ import org.junit.Test;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-@SuppressWarnings("javadoc")
 public class SymbolScreenReaderTest extends BaseUnitTest {
+
+	/**
+	 * Setup LaTeX
+	 */
 	@BeforeClass
 	public static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
@@ -143,14 +146,17 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 	public void testArcCosLatex() {
 		atMinus1ShouldReadAsArc("cos");
 	}
+
 	@Test
 	public void testArcTanLatex() {
 		atMinus1ShouldReadAsArc("tan");
 	}
+
 	@Test
 	public void testArcCotLatex() {
 		atMinus1ShouldReadAsArc("cot");
 	}
+
 	@Test
 	public void testArcCSCLatex() {
 		atMinus1ShouldReadAsArc("sin");
@@ -205,7 +211,7 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 	public void testPointMoved() {
 		GeoPoint point = add("A=(1, 1)");
 		point.setCaption("$%v%$");
-		point.movePoint(new Coords(1,1,0), null);
+		point.movePoint(new Coords(1, 1, 0), null);
 		assertEquals("Point  moved to  open parenthesis 2 comma  2 close parenthesis ",
 				point.getAuralTextForMove());
 	}
@@ -228,6 +234,7 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 	public void testSin4() {
 		GeoText text = add("\"sin^4\"");
 		text.setLaTeX(true, true);
-		shouldRead(text, "sin to the power of 4 end power Press enter to edit Press tab to select controls");
+		shouldRead(text, "sin to the power of 4 end power "
+				+ "Press enter to edit Press tab to select controls");
 	}
 }

@@ -8,9 +8,18 @@ import org.geogebra.common.main.ScreenReader;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class SymbolReaderMap {
+/**
+ * Class that converts symbols to readable text for screen readers.
+ *
+ */
+public class SymbolReader {
 	private final Map<Character, String> map;
-	public SymbolReaderMap(Localization loc) {
+
+	/**
+	 * Constructor
+	 * @param loc {@link Localization}
+	 */
+	public SymbolReader(Localization loc) {
 		map = new HashMap<>();
 		addOperatorsAndBraces();
 		addGreekLowerLetters(loc);
@@ -77,7 +86,13 @@ public class SymbolReaderMap {
 		map.put(Unicode.Upsilon, loc.getMenuDefault("upsilon", "upsilon"));
 	}
 
-	public String get(Character ch) {
-		return map.getOrDefault(ch, ch + "");
+	/**
+	 * Query the symbol for readable text.
+	 *
+	 * @param symbol to read.
+	 * @return the readable text of the symbol.
+	 */
+	public String get(Character symbol) {
+		return map.getOrDefault(symbol, symbol + "");
 	}
 }

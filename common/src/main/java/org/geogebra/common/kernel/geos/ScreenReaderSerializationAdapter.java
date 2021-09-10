@@ -8,10 +8,15 @@ import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
 public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 
 	private final Localization loc;
-	private final SymbolReaderMap symbols;
+	private final SymbolReader symbols;
+
+	/**
+	 *
+	 * @param loc {@link Localization}
+	 */
 	public ScreenReaderSerializationAdapter(Localization loc) {
 		this.loc = loc;
-		symbols = new SymbolReaderMap(loc);
+		symbols = new SymbolReader(loc);
 	}
 
 	@Override

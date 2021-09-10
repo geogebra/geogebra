@@ -534,7 +534,6 @@ public class ScreenReader {
 		return sb.toString();
 	}
 
-
 	/**
 	 * @param text
 	 *            debug string with a prefix (for console filter)
