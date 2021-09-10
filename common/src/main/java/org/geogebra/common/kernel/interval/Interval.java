@@ -197,8 +197,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return if interval represents all the real numbers R.
 	 */
 	public boolean isRealWhole() {
-		return (DoubleUtil.isEqual(low, Double.NEGATIVE_INFINITY)
-				&& DoubleUtil.isEqual(high, Double.POSITIVE_INFINITY));
+		return DoubleUtil.isEqual(low, Double.NEGATIVE_INFINITY)
+				&& DoubleUtil.isEqual(high, Double.POSITIVE_INFINITY);
 	}
 
 	/**
