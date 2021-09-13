@@ -86,7 +86,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		} else {
 			return false;
 		}
-		GeoElement value = column.get(rowIndex);
+		GeoElement value = rowIndex < column.size() ? column.get(rowIndex) : null;
 		return (value == null || (value instanceof GeoNumeric && isEmptyValue((GeoNumeric) value)));
 	}
 
@@ -117,7 +117,9 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		int lastRowIndex = model.getRowCount() - 1;
 		for (int columnIndex = 1; columnIndex < model.getColumnCount(); columnIndex++) {
 			GeoList column = (GeoList) tableValues.getEvaluatable(columnIndex);
-			column.remove(lastRowIndex);
+			if (lastRowIndex < column.size()) {
+				column.remove(lastRowIndex);
+			}
 			if (column.size() == 0) {
 				column.remove();
 			}
