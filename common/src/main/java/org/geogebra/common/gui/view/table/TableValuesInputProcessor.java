@@ -78,7 +78,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		}
 	}
 
-	private boolean isEmptyValue(int columnIndex, int rowIndex) {
+	private boolean hasEmptyValue(int columnIndex, int rowIndex) {
 		GeoEvaluatable evaluatable = tableValues.getEvaluatable(columnIndex);
 		GeoList column;
 		if (evaluatable instanceof GeoList) {
@@ -87,25 +87,38 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			return false;
 		}
 		GeoElement value = rowIndex < column.size() ? column.get(rowIndex) : null;
-		return (value == null || (value instanceof GeoNumeric && isEmptyValue((GeoNumeric) value)));
+		return isEmptyValue(value);
+	}
+
+	private boolean isEmptyValue(GeoElement value) {
+		return value == null || (value instanceof GeoNumeric && isEmptyValue((GeoNumeric) value));
 	}
 
 	private void removeEmptyColumnAndRows(GeoList column, int index) {
+		removeColumnIfEmpty(column);
+
 		if (index == column.size() - 1) {
-			if (column.size() == 1) {
-				column.remove();
-			}
 			while (tableValues.getTableValuesModel().getRowCount() > 0 && isLastRowEmpty()) {
 				removeLastRow();
 			}
 		}
 	}
 
+	private void removeColumnIfEmpty(GeoList column) {
+		for (int i = 0; i < column.size(); i++) {
+			GeoElement element = column.get(i);
+			if (!isEmptyValue(element)) {
+				return;
+			}
+		}
+		column.remove();
+	}
+
 	private boolean isLastRowEmpty() {
 		TableValuesModel model = tableValues.getTableValuesModel();
 		int lastRowIndex = model.getRowCount() - 1;
 		for (int columnIndex = 1; columnIndex < model.getColumnCount(); columnIndex++) {
-			if (!isEmptyValue(columnIndex, lastRowIndex)) {
+			if (!hasEmptyValue(columnIndex, lastRowIndex)) {
 				return false;
 			}
 		}
