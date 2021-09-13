@@ -3,7 +3,7 @@ package org.geogebra.common.main.settings;
 /**
  * Label settings.
  */
-public class LabelSettings extends AbstractSettings implements Resetable {
+public class LabelSettings extends AbstractSettings {
 
 	private LabelVisibility labelVisibility;
 	private LabelVisibility labelVisibilityForMenu;
