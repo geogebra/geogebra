@@ -105,18 +105,19 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		assertEquals(3, model.getRowCount());
 		assertEquals(2, model.getColumnCount());
 
+		processor.processInput("", column, 0);
+		// emptying any row above the last row shouldn't reduce the row count
+		assertEquals(3, model.getRowCount());
+		assertEquals(2, model.getColumnCount());
+
 		processor.processInput("", column, 2);
 		// emptying last row should reduce the row count
 		assertEquals(2, model.getRowCount());
-
-		processor.processInput("", column, 0);
-		// emptying any row above the last row shouldn't reduce the row count
-		assertEquals(2, model.getRowCount());
+		assertEquals(2, model.getColumnCount());
 
 		processor.processInput("", column, 1);
 		// emptying last row should remove all the empty rows on the bottom fo the table
 		assertEquals(0, model.getRowCount());
-
 		assertEquals(1, model.getColumnCount());
 	}
 
@@ -135,27 +136,6 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		assertEquals(2, model.getColumnCount());
 
 		processor.processInput("", (GeoList) view.getEvaluatable(1), 0);
-		assertEquals(1, model.getColumnCount());
-
-		assertEquals(0, model.getRowCount());
-	}
-
-	@Test
-	public void testRemoveAllValuesFromColumn() throws InvalidInputException {
-		processor.processInput("0", null, 0);
-		GeoList column = (GeoList) view.getEvaluatable(1);
-		processor.processInput("1", column, 1);
-		processor.processInput("2", column, 2);
-		assertEquals(2, model.getColumnCount());
-		assertEquals(3, model.getRowCount());
-
-		processor.processInput("", column, 2);
-		assertEquals(2, model.getColumnCount());
-
-		processor.processInput("", column, 0);
-		assertEquals(2, model.getColumnCount());
-
-		processor.processInput("", column, 1);
 		assertEquals(1, model.getColumnCount());
 
 		assertEquals(0, model.getRowCount());
