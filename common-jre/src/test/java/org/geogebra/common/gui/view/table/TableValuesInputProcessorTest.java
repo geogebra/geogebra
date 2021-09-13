@@ -122,22 +122,23 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testClearColumns() throws InvalidInputException {
+	public void testClearRowsAndColumns() throws InvalidInputException {
 		processor.processInput("1", null, 0);
-		processor.processInput("2", null, 0);
-		processor.processInput("3", null, 0);
+		processor.processInput("2", null, 1);
+		processor.processInput("3", null, 2);
 		assertEquals(4, model.getColumnCount());
-		assertEquals(1, model.getRowCount());
+		assertEquals(3, model.getRowCount());
 
-		processor.processInput("", (GeoList) view.getEvaluatable(3), 0);
+		processor.processInput("", (GeoList) view.getEvaluatable(3), 2);
 		assertEquals(3, model.getColumnCount());
+		assertEquals(2, model.getRowCount());
 
 		processor.processInput("", (GeoList) view.getEvaluatable(1), 0);
 		assertEquals(2, model.getColumnCount());
+		assertEquals(2, model.getRowCount());
 
-		processor.processInput("", (GeoList) view.getEvaluatable(1), 0);
+		processor.processInput("", (GeoList) view.getEvaluatable(1), 1);
 		assertEquals(1, model.getColumnCount());
-
 		assertEquals(0, model.getRowCount());
 	}
 
