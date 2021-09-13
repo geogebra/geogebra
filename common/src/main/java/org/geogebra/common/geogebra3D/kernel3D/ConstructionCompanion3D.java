@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.settings.Settings;
 
 /**
  * 3D construction companion
