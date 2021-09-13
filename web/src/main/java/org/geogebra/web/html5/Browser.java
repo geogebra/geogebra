@@ -74,6 +74,10 @@ public class Browser {
 		return base != null && Js.isTruthy(Js.asPropertyMap(base).get(propertyName));
 	}
 
+	public static boolean hasDeclaredProperty(Object base, String propertyName) {
+		return base != null && Js.asPropertyMap(base).has(propertyName);
+	}
+
 	public static boolean supportsPointerEvents() {
 		return hasGlobal("PointerEvent");
 	}
@@ -498,39 +502,10 @@ public class Browser {
 	}
 
 	/**
-	 * Register handler for fullscreen event.
-	 * @param callback callback for fullscreen event
-	 */
-	public static native void addFullscreenListener(
-			AsyncOperation<String> callback) /*-{
-		function listen(pfx, eventName) {
-			$doc
-					.addEventListener(
-							eventName,
-							function(e) {
-								var fsElement = $doc[pfx + "FullscreenElement"];
-								// mozFullScreen still needed for FF60 ESR
-								var fsState = (fsElement
-										|| $doc.fullscreenElement || $doc.mozFullScreen) ? "true"
-										: "false";
-								callback.@org.geogebra.common.util.AsyncOperation::callback(*)(fsState);
-							});
-		}
-
-		if (typeof document.onfullscreenchange === "undefined") {
-			listen("webkit", "webkitfullscreenchange");
-			listen("ms", "MSFullscreenChange");
-			listen("moz", "mozfullscreenchange");
-		} else {
-			listen("", "fullscreenchange");
-		}
-	}-*/;
-
-	/**
 	 * @return event name for fullscreen event.
 	 */
 	public static String getFullscreenEventName() {
-		if (!hasProperty(DomGlobal.document, "onfullscreenchange")) {
+		if (!hasDeclaredProperty(DomGlobal.document, "onfullscreenchange")) {
 			return "webkitfullscreenchange";
 		}
 		return "fullscreenchange";
