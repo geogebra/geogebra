@@ -7,11 +7,6 @@
      </Match>
     <Match>
        <Bug pattern="MS_EXPOSE_REP" />
-     </Match>
-    <Match>
-        <!-- do not report this for all the factory prototype setters -->
-        <Class name="~.*(Factory|StringUtil|Log)" />
-        <Bug pattern="EI_EXPOSE_STATIC_REP2" />
     </Match>
     <Match>
          <!-- https://github.com/spotbugs/spotbugs/issues/1539 -->

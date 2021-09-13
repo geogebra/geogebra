@@ -3,6 +3,8 @@ package org.geogebra.common.util.debug;
 import java.util.Arrays;
 import java.util.Locale;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Common logging class
  * 
@@ -304,6 +306,8 @@ public abstract class Log {
 	 * @param log
 	 *            sets the logger to this
 	 */
+	@SuppressFBWarnings(value = "EI_EXPOSE_STATIC_REP2",
+			justification = "all settings are done on startup, no concurrency issues")
 	public static void setLogger(Log log) {
 		synchronized (lock) {
 			logger = log;

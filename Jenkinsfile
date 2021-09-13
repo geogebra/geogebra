@@ -12,6 +12,9 @@ def getChangelog() {
     return lines.join("\n").toString()
 }
 
+def isGiac = env.BRANCH_NAME.matches("dependabot.*giac.*")
+def nodeLabel = isGiac ? "Ubuntu" : "posix"
+
 def s3uploadDefault = { dir, pattern, encoding ->
     withAWS (region:'eu-central-1', credentials:'aws-credentials') {
         if (!pattern.contains(".zip")) {
@@ -27,7 +30,7 @@ pipeline {
     options {
         gitLabConnection('git.geogebra.org')
     }
-    agent any
+    agent {label nodeLabel}
     stages {
         stage('build') {
             steps {
@@ -38,7 +41,7 @@ pipeline {
         }
         stage('tests and reports') {
             when {
-               expression {return !env.BRANCH_NAME.matches("dependabot.*giac.*")}
+               expression {return !isGiac}
             }
             steps {
                 sh label: 'test', script: "./gradlew :common-jre:test :desktop:test :common-jre:jacocoTestReport :web:test"
@@ -61,7 +64,7 @@ pipeline {
         }
         stage('giac test') {
             when {
-                expression {return env.BRANCH_NAME.matches("dependabot.*giac.*")}
+                expression {return isGiac}
             }
             parallel {
                 stage('mac') {
