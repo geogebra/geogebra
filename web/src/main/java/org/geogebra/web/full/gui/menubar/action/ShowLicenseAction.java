@@ -19,7 +19,7 @@ public class ShowLicenseAction extends DefaultMenuAction<Void> {
 	@Override
 	public void execute(Void item, AppWFull app) {
 		app.getFileManager()
-				.open(app.getVendorSettings().getLicenseURL() + "&version="
+				.openWithFeatures(app.getVendorSettings().getLicenseURL() + "&version="
 						+ app.getVersionString() + "&date="
 						+ GeoGebraConstants.BUILD_DATE, ABOUT_WINDOW_PARAMS);
 	}

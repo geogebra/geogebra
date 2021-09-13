@@ -17,7 +17,14 @@ import org.geogebra.web.touch.FileManagerT;
 
 import com.google.gwt.core.client.Callback;
 
+import jsinterop.annotations.JsProperty;
+import jsinterop.annotations.JsType;
+
+@JsType
 public class TabletFileManager extends FileManagerT {
+
+	@JsProperty
+	public static TabletFileManager INSTANCE;
 
 	private final static int NO_CALLBACK = 0;
 	private TreeMap<Integer, MyCallback> callbacks;
@@ -44,12 +51,16 @@ public class TabletFileManager extends FileManagerT {
 	 */
 	public TabletFileManager(AppW tabletApp) {
 		super(tabletApp);
+		INSTANCE = this;
 		init();
 	}
 
 	protected void init() {
 		callbacks = new TreeMap<>();
-		exportJavascriptMethods();
+	}
+
+	public static TabletFileManager getInstance() {
+		return INSTANCE;
 	}
 
 	protected int addNewCallback(MyCallback callback) {
@@ -286,7 +297,7 @@ public class TabletFileManager extends FileManagerT {
 	}
 
 	@Override
-	public void open(String url, String features) {
+	public void openWithFeatures(String url, String features) {
 		openUrlInBrowser(url);
 	}
 
@@ -399,39 +410,6 @@ public class TabletFileManager extends FileManagerT {
 		mat.setBase64("");
 		overwriteMetaDataNative(localID, mat.toJson().toString(), NO_CALLBACK);
 	}
-
-	private native void exportJavascriptMethods() /*-{
-		var that = this;
-		$wnd.tabletFileManager_catchListLocalFiles = $entry(function(length,
-				callback) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchListLocalFiles(II)(length, callback);
-		});
-		$wnd.tabletFileManager_catchMetaData = $entry(function(name, data,
-				callback) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchMetaData(Ljava/lang/String;Ljava/lang/String;I)(name, data, callback);
-		});
-		$wnd.tabletFileManager_catchMetaDataError = $entry(function(callback) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchMetaDataError(I)(callback);
-		});
-		$wnd.tabletFileManager_catchBase64 = $entry(function(data, callback) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchBase64(Ljava/lang/String;I)(data, callback);
-		});
-		$wnd.tabletFileManager_catchSaveFileResult = $entry(function(result,
-				callback) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchSaveFileResult(II)(result, callback);
-		});
-		$wnd.tabletFileManager_catchDeleteResult = $entry(function(data,
-				callback) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchDeleteResult(Ljava/lang/String;I)(data, callback);
-		});
-		$wnd.tabletFileManager_catchRename = $entry(function(callback) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchRename(I)(callback);
-		});
-		$wnd.tabletFileManager_catchOverwriteMetaData = $entry(function(
-				callback) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchOverwriteMetaData(I)(callback);
-		});
-	}-*/;
 
 	protected void debug(String s) {
 		Log.debug(s);

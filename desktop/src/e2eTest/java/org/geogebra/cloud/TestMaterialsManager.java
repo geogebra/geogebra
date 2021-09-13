@@ -192,7 +192,7 @@ public class TestMaterialsManager extends MaterialsManager {
 	}
 
 	@Override
-	public void open(String url, String features) {
+	public void openWithFeatures(String url, String features) {
 		// TODO: implement this?
 	}
 

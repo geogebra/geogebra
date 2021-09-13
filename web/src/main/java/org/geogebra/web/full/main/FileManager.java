@@ -232,11 +232,11 @@ public abstract class FileManager extends MaterialsManager {
 
 	@Override
 	public void open(String url) {
-		open(url, "");
+		openWithFeatures(url, "");
 	}
 
 	@Override
-	public void open(String url, String features) {
+	public void openWithFeatures(String url, String features) {
 		Window.open(url, "_blank", features);
 	}
 
