@@ -574,12 +574,12 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.openMaterial(material + "");
 	}
 
-	public void undo(Object repaint) {
-		ggbAPI.undo(Js.isTruthy(repaint));
+	public void undo() {
+		ggbAPI.undo();
 	}
 
-	public void redo(Object repaint) {
-		ggbAPI.redo(Js.isTruthy(repaint));
+	public void redo() {
+		ggbAPI.redo();
 	}
 
 	public void newConstruction() {
