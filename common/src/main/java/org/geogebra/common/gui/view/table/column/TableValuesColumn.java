@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.table.column;
 
+import org.geogebra.common.gui.view.table.TableValuesCell;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
 public interface TableValuesColumn {
@@ -7,17 +8,16 @@ public interface TableValuesColumn {
 	/**
 	 * Get the double value for the row.
 	 * @param row row
-	 * @return double value. NaN when the input is invalid,
-	 * or null when non-existent
+	 * @return double value. NaN when the input is not a number.
 	 */
-	Double getDoubleValue(int row);
+	double getDoubleValue(int row);
 
 	/**
 	 * Get the string value for the row
 	 * @param row row
-	 * @return string value
+	 * @return cell value
 	 */
-	String getStringValue(int row);
+	TableValuesCell getCellValue(int row);
 
 	/**
 	 * Get the header name

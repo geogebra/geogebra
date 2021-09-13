@@ -3,8 +3,10 @@ package org.geogebra.common.gui.view.table;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 
 public class TableValuesInputProcessor implements TableValuesProcessor {
 
@@ -22,21 +24,19 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	}
 
 	@Override
-	public void processInput(@Nonnull String input, GeoList list, int index)
-			throws InvalidInputException {
-		GeoNumeric numeric = parseInput(input);
-		if (isEmptyValue(numeric) && (list == null || index >= list.size())) {
+	public void processInput(@Nonnull String input, @Nonnull GeoList list, int index) {
+		GeoElement element = parseInput(input);
+		if (isEmptyValue(element) && index >= list.size()) {
 			// Do not process empty input at the end of the table
 			return;
 		}
-		GeoList column = ensureList(list);
-		ensureCapacity(column, index);
-		column.setListElement(index, numeric);
-		numeric.notifyUpdate();
+		ensureCapacity(list, index);
+		list.setListElement(index, element);
+		element.notifyUpdate();
 	}
 
-	private boolean isEmptyValue(GeoNumeric numeric) {
-		return Double.isNaN(numeric.getDouble());
+	private boolean isEmptyValue(GeoElement element) {
+		return element instanceof GeoNumeric && Double.isNaN(((GeoNumeric) element).getDouble());
 	}
 
 	private GeoList ensureList(GeoList list) {
@@ -53,24 +53,27 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		boolean listWillChange = list.size() < index + 1;
 		list.ensureCapacity(index + 1);
 		for (int i = list.size(); i < index + 1; i++) {
-			list.add(new GeoNumeric(cons, Double.NaN));
+			list.add(createEmptyInput());
 		}
 		if (listWillChange) {
 			list.notifyUpdate();
 		}
 	}
 
-	private GeoNumeric parseInput(String input) throws InvalidInputException {
+	private GeoElement parseInput(String input) {
 		String trimmedInput = input.trim();
 		if (trimmedInput.equals("")) {
-			return new GeoNumeric(cons, Double.NaN);
+			return createEmptyInput();
 		}
 		try {
 			double parsedInput = Double.parseDouble(trimmedInput);
 			return new GeoNumeric(cons, parsedInput);
 		} catch (NumberFormatException e) {
-			throw new InvalidInputException();
+			return new GeoText(cons, input);
 		}
 	}
 
+	private GeoElement createEmptyInput() {
+		return new GeoText(cons, "");
+	}
 }

@@ -71,8 +71,8 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	@Override
-	public String getCellAt(int row, int column) {
-		return columns.get(column).getStringValue(row);
+	public TableValuesCell getCellAt(int row, int column) {
+		return columns.get(column).getCellValue(row);
 	}
 
 	/**
