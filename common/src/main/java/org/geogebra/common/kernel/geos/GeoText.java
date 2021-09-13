@@ -1511,6 +1511,11 @@ public class GeoText extends GeoElement
 			sb.append(valueString.charAt(idx));
 			idx--;
 		}
+
+		if (sb.length() == 0) {
+			return true;
+		}
+
 		int maxi = Character.digit(sb.reverse().toString().charAt(0), 10);
 		return maxi == 1;
 	}

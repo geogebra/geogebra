@@ -129,6 +129,19 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testDegreeInLabel() {
+		shouldRead((GeoText) add("\"15°=(1,1)\""),
+				"15 degrees  equals  open parenthesis 1 comma 1 close parenthesis"
+						+ " Press enter to edit Press tab to select controls");
+	}
+
+	@Test
+	public void testDegreeAsLabel() {
+		shouldRead((GeoText) add("\"°=(1,1)\""), " degree  equals  open parenthesis"
+				+ " 1 comma 1 close parenthesis Press enter to edit Press tab to select controls");
+	}
+
+	@Test
 	public void testDegreeInGeoTextWithEqPlurar() {
 		GeoText text = add("text1 = \"sin(x)=75°\"");
 		text.setLaTeX(true, false);

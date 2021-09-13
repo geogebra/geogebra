@@ -175,14 +175,14 @@ public class ScreenReaderBuilder {
 		String degreeReadable =
 				geo.isSingularValue() ? ScreenReader.getDegree(loc) : ScreenReader.getDegrees(loc);
 
-		return endsWithDegree(valueString)
+		return containsDegree(valueString)
 				? valueString.replace(Unicode.DEGREE_STRING, space + degreeReadable)
 				: valueString;
 	}
 
-	private boolean endsWithDegree(String valueString) {
-		return valueString.endsWith(Unicode.DEGREE_STRING)
-				|| valueString.endsWith(Unicode.DEGREE_STRING + "$");
+	private boolean containsDegree(String valueString) {
+		return valueString.contains(Unicode.DEGREE_STRING)
+				|| valueString.contains(Unicode.DEGREE_STRING + "$");
 	}
 
 }
