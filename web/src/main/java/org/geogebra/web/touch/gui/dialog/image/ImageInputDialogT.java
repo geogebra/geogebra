@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import jsinterop.annotations.JsIgnore;
 import jsinterop.annotations.JsType;
 
 /**
@@ -37,16 +38,21 @@ public class ImageInputDialogT extends UploadImageDialog implements ClickHandler
 	 * @param app
 	 *            {@link App}
 	 */
+	@JsIgnore
 	public ImageInputDialogT(final AppW app) {
 		super(app, PREVIEW_WIDTH, PREVIEW_HEIGHT);
-		INSTANCE = this;
 
 		setOnNegativeAction(() -> app.getImageManager().setPreventAuxImage(false));
 		setOnPositiveAction(this::positiveAction);
+		setInstance();
 	}
 
 	public static ImageInputDialogT getInstance() {
 		return INSTANCE;
+	}
+
+	private void setInstance() {
+		INSTANCE = this;
 	}
 
 	private void positiveAction() {
@@ -112,6 +118,7 @@ public class ImageInputDialogT extends UploadImageDialog implements ClickHandler
 		camera.addClickHandler(this);
 	}
 
+	@JsIgnore
 	@Override
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();

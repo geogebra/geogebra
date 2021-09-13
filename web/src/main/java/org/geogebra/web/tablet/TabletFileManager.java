@@ -17,15 +17,13 @@ import org.geogebra.web.touch.FileManagerT;
 
 import com.google.gwt.core.client.Callback;
 
-import jsinterop.annotations.JsProperty;
+import jsinterop.annotations.JsIgnore;
 import jsinterop.annotations.JsType;
 
 @JsType
 public class TabletFileManager extends FileManagerT {
 
-	@JsProperty
-	public static TabletFileManager INSTANCE;
-
+	private static TabletFileManager INSTANCE;
 	private final static int NO_CALLBACK = 0;
 	private TreeMap<Integer, MyCallback> callbacks;
 	private int callbacksCount = NO_CALLBACK;
@@ -49,10 +47,11 @@ public class TabletFileManager extends FileManagerT {
 	/**
 	 * @param tabletApp application
 	 */
+	@JsIgnore
 	public TabletFileManager(AppW tabletApp) {
 		super(tabletApp);
-		INSTANCE = this;
 		init();
+		setInstance();
 	}
 
 	protected void init() {
@@ -61,6 +60,10 @@ public class TabletFileManager extends FileManagerT {
 
 	public static TabletFileManager getInstance() {
 		return INSTANCE;
+	}
+
+	private void setInstance() {
+		INSTANCE = this;
 	}
 
 	protected int addNewCallback(MyCallback callback) {
@@ -164,6 +167,7 @@ public class TabletFileManager extends FileManagerT {
 		runCallback(callback, false, null);
 	}
 
+	@JsIgnore
 	@Override
 	public void openMaterial(final Material material) {
 		String fileName = getFileKey(material);
@@ -195,6 +199,7 @@ public class TabletFileManager extends FileManagerT {
 		runCallback(callback, true, data);
 	}
 
+	@JsIgnore
 	@Override
 	public void saveFile(final String base64, final long modified,
 			final SaveCallback cb) {
@@ -238,6 +243,7 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}
 
+	@JsIgnore
 	@Override
 	public void upload(final Material mat) {
 		int callback = addNewCallback(new MyCallback() {
@@ -312,6 +318,7 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}
 
+	@JsIgnore
 	@Override
 	public void rename(final String newTitle, final Material mat,
 			final Runnable callback) {
@@ -353,6 +360,7 @@ public class TabletFileManager extends FileManagerT {
 		runCallback(callback, true, null);
 	}
 
+	@JsIgnore
 	@Override
 	public void delete(final Material mat, boolean permanent,
 			final Runnable onSuccess) {
@@ -405,6 +413,7 @@ public class TabletFileManager extends FileManagerT {
 		runCallback(callback, result != null && !"0".equals(result), result);
 	}
 
+	@JsIgnore
 	@Override
 	public void setTubeID(String localID, Material mat) {
 		mat.setBase64("");
