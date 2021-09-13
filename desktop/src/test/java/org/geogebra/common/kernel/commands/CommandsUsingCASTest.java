@@ -3,8 +3,8 @@ package org.geogebra.common.kernel.commands;
 import static com.himamis.retex.editor.share.util.Unicode.INFINITY;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
 
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -509,6 +509,6 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		t("Solve(0.05>=(1-x)^50)",
 				"{(-nroot(1 / 20,50)) + 1 ≤ x ≤ nroot(1 / 20,50) + 1}");
 		t("NSolve((x-1)^99<1)", "?");
-		assertThat(1E4, greaterThan(System.currentTimeMillis() - time));
+		assertThat(System.currentTimeMillis() - time, lessThan(1E4));
 	}
 }
