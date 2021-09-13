@@ -445,6 +445,6 @@ public class Kernel3D extends Kernel {
 	@Override
 	public ConstructionCompanion createConstructionCompanion(
 			Construction cons1) {
-		return new ConstructionCompanion3D(cons1, app.getSettings());
+		return new ConstructionCompanion3D(cons1);
 	}
 }

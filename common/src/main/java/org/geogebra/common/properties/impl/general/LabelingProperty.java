@@ -20,10 +20,8 @@ public class LabelingProperty extends AbstractEnumerableProperty {
     private LabelSettings labelSettings;
 
     /**
-     * Constructs a labeling property.
-     *
-     * @param app          app
      * @param localization localization
+     * @param labelSettings labelSettings
      */
     public LabelingProperty(Localization localization, LabelSettings labelSettings) {
         super(localization, "Labeling");

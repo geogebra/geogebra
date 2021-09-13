@@ -38,6 +38,9 @@ public class LabelSettings extends AbstractSettings {
 		notifyListeners();
 	}
 
+	/**
+	 * Sets the labelVisibilityForMenu to NotSet and notifies listeners.
+	 */
 	public void resetDefaultForMenu() {
 		labelVisibilityForMenu = LabelVisibility.NotSet;
 		notifyListeners();

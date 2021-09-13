@@ -38,9 +38,8 @@ public class ConstructionCompanion3D extends ConstructionCompanion {
 	 * @param cons
 	 *            construction
 	 */
-	public ConstructionCompanion3D(Construction cons, Settings settings) {
-		super(cons, settings);
-
+	public ConstructionCompanion3D(Construction cons) {
+		super(cons);
 	}
 
 	@Override

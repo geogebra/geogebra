@@ -21,20 +21,14 @@ public class ConstructionCompanion {
 	protected Construction cons;
 
 	/**
-	 * settings
-	 */
-	protected Settings settings;
-
-	/**
 	 * default constructor
 	 * 
 	 * @param cons
 	 *            construction
 	 * 
 	 */
-	public ConstructionCompanion(Construction cons, Settings settings) {
+	public ConstructionCompanion(Construction cons) {
 		this.cons = cons;
-		this.settings = settings;
 	}
 
 	/**

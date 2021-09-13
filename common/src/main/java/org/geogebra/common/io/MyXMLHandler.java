@@ -76,11 +76,9 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DataAnalysisSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.main.settings.TableSettings;
-import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
@@ -96,7 +94,6 @@ import com.himamis.retex.editor.share.util.Unicode;
  * 
  * @author Markus Hohenwarter
  */
-// public class MyXMLHandler extends DefaultHandler {
 public class MyXMLHandler implements DocHandler {
 
 	private static final double FORMAT = StringUtil
@@ -110,7 +107,6 @@ public class MyXMLHandler implements DocHandler {
 	protected static final int MODE_EUCLIDIAN_VIEW3D = 101; // only for 3D
 	private static final int MODE_SPREADSHEET_VIEW = 150;
 	private static final int MODE_ALGEBRA_VIEW = 151;
-	// private static final int MODE_CAS_VIEW = 160;
 	private static final int MODE_CONST_CAS_CELL = 161;
 	private static final int MODE_CAS_CELL_PAIR = 162;
 	private static final int MODE_CAS_INPUT_CELL = 163;

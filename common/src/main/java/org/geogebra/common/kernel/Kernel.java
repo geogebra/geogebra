@@ -5187,7 +5187,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	public ConstructionCompanion createConstructionCompanion(
 			Construction cons1) {
-		return new ConstructionCompanion(cons1, app.getSettings());
+		return new ConstructionCompanion(cons1);
 	}
 
 	public boolean userStopsLoading() {

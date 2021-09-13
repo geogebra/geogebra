@@ -1958,7 +1958,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Sets labeling style. See the constants in ConstructionDefaults (e.g.
 	 * LABEL_VISIBLE_AUTOMATIC)
 	 *
-	 * @param labelingStyle
+	 * @param labelVisibility
 	 *            labeling style for new objects
 	 */
 	public void setLabelingStyle(int labelVisibility) {

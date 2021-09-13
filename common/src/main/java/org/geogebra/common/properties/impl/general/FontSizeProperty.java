@@ -1,6 +1,5 @@
 package org.geogebra.common.properties.impl.general;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
@@ -16,10 +15,9 @@ public class FontSizeProperty extends AbstractEnumerableProperty {
     private FontSettingsUpdater fontSettingsUpdater;
 
     /**
-     * Constructs a font size property.
-     *
-     * @param app          app
      * @param localization localization
+     * @param fontSettings font settings
+     * @param fontSettingsUpdater font settings updater
      */
     public FontSizeProperty(
             Localization localization,

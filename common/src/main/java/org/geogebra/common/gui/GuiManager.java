@@ -88,7 +88,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	/**
 	 * Abstract constructor
 	 * 
-	 * @param app2
+	 * @param app
 	 *            application
 	 */
 	public GuiManager(App app) {
