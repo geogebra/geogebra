@@ -37,7 +37,7 @@ public class TableEditor {
 	public void startEditing(int row, int column, Event event) {
 		ensureMathTextFieldExists();
 		app.invokeLater(() -> {
-			mathTextField.setText(table.tableModel.getCellAt(row, column));
+			mathTextField.setText(table.tableModel.getCellAt(row, column).getInput());
 			Element cell = table.getCell(row, column);
 			table.scrollIntoView(cell.getOffsetTop());
 			table.getTableWrapper().add(mathTextField); // first add to GWT tree
