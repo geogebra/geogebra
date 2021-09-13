@@ -34,13 +34,8 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		GeoList column = ensureList(list);
 		ensureCapacity(column, index);
 		column.setListElement(index, numeric);
-		if (isEmptyValue(numeric) && index == list.size() - 1) {
-			if (list.size() == 1) {
-				column.remove();
-			}
-			while (tableValues.getTableValuesModel().getRowCount() > 0 && isLastRowEmpty()) {
-				removeLastRow();
-			}
+		if (isEmptyValue(numeric)) {
+			removeEmptyColumnAndRows(column, index);
 		}
 		numeric.notifyUpdate();
 	}
@@ -83,17 +78,6 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		}
 	}
 
-	private boolean isLastRowEmpty() {
-		TableValuesModel model = tableValues.getTableValuesModel();
-		int lastRowIndex = model.getRowCount() - 1;
-		for (int columnIndex = 1; columnIndex < model.getColumnCount(); columnIndex++) {
-			if (!isEmptyValue(columnIndex, lastRowIndex)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 	private boolean isEmptyValue(int columnIndex, int rowIndex) {
 		GeoEvaluatable evaluatable = tableValues.getEvaluatable(columnIndex);
 		GeoList column;
@@ -104,6 +88,28 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		}
 		GeoElement value = column.get(rowIndex);
 		return (value == null || (value instanceof GeoNumeric && isEmptyValue((GeoNumeric) value)));
+	}
+
+	private void removeEmptyColumnAndRows(GeoList column, int index) {
+		if (index == column.size() - 1) {
+			if (column.size() == 1) {
+				column.remove();
+			}
+			while (tableValues.getTableValuesModel().getRowCount() > 0 && isLastRowEmpty()) {
+				removeLastRow();
+			}
+		}
+	}
+
+	private boolean isLastRowEmpty() {
+		TableValuesModel model = tableValues.getTableValuesModel();
+		int lastRowIndex = model.getRowCount() - 1;
+		for (int columnIndex = 1; columnIndex < model.getColumnCount(); columnIndex++) {
+			if (!isEmptyValue(columnIndex, lastRowIndex)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private void removeLastRow() {
