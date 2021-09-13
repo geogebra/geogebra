@@ -38,6 +38,7 @@ public class SymbolReader {
 		map.put('}', " close brace ");
 		map.put('[', " open bracket ");
 		map.put(']', " close bracket ");
+		map.put(';', " semicolon ");
 		map.put('\'', "");
 	}
 

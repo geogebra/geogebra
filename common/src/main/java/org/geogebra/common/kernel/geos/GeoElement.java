@@ -6996,6 +6996,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return true;
 	}
 
+
 	@Override
 	public boolean addAuralCaption(ScreenReaderBuilder sb) {
 		if (!StringUtil.empty(getCaptionSimple())) {
@@ -7030,7 +7031,13 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		addAuralType(sb);
 		if (!addAuralCaption(sb)) {
 			addAuralLabel(sb);
+			addAuralValue(sb);
 		}
+	}
+
+	@Override
+	public void addAuralValue(ScreenReaderBuilder sb) {
+		// implement this to make geo value read without the caption.
 	}
 
 	@Override
