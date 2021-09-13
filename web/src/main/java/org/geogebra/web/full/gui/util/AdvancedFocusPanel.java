@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.util;
 
 import org.geogebra.gwtutil.NavigatorUtil;
-import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetKeyListenerW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TextAreaElement;
@@ -111,8 +110,4 @@ public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPane
 		focusTextarea.select();
 	}
 
-	@Override
-	public void addPasteHandler(SpreadsheetKeyListenerW sskl) {
-		sskl.addPasteHandlerTo(getTextarea());
-	}
 }

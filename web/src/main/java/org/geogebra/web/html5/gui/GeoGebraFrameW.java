@@ -279,7 +279,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	private void updateHeaderVisible() {
-		Element header = Dom.querySelector("GeoGebraHeader");
+		Element header = Dom.querySelector(".GeoGebraHeader");
 		if (header != null) {
 			boolean visible = !forcedHeaderHidden;
 			header.getStyle().setProperty("display", visible ? "" : "none");

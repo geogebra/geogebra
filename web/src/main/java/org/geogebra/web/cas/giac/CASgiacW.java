@@ -167,9 +167,9 @@ public class CASgiacW extends CASgiac {
 		};
 	}
 
-	private native String nativeEvaluateRawExternal(String s) /*-{
-		return $wnd.evalGeoGebraCASExternal(s);
-	}-*/;
+	private String nativeEvaluateRawExternal(String s) {
+		return Js.asString(GeoGebraGlobal.evalGeoGebraCASExternal.call(DomGlobal.window, s));
+	}
 
 	private String nativeEvaluateRaw(String s) {
 		if (!Browser.hasGlobal("Float64Array")) {

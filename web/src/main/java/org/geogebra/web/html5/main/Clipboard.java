@@ -27,8 +27,9 @@ public class Clipboard {
 
 		public native Promise<Blob> getType(String type);
 
+		@SuppressWarnings("unused")
 		@JsConstructor
-		public ClipboardItem(JsPropertyMap<Object> flavors) { // NOPMD
+		public ClipboardItem(JsPropertyMap<Object> flavors) {
 			// native
 		}
 	}

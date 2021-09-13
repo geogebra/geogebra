@@ -18,8 +18,11 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
 
+import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLImageElement;
 import elemental2.webgl.WebGLRenderingContext;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * 
@@ -225,12 +228,12 @@ public class RendererWithImplW extends Renderer implements
 				.getContext("experimental-webgl");
 	}
 
-	private static native WebGLRenderingContext getBufferedContext(
-			Element element) /*-{
-		return element.getContext("experimental-webgl", {
-			preserveDrawingBuffer : true
-		});
-	}-*/;
+	private static WebGLRenderingContext getBufferedContext(
+			Element element) {
+		HTMLCanvasElement canvas = Js.uncheckedCast(element);
+		JsPropertyMap<?> options = JsPropertyMap.of("preserveDrawingBuffer", true);
+		return Js.uncheckedCast(canvas.getContext("experimental-webgl", options));
+	}
 
 	@Override
 	public void setPixelRatio(double ratio) {

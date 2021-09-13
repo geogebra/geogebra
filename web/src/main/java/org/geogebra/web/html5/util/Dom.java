@@ -6,13 +6,13 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.UIObject;
 
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.EventListener;
+import elemental2.dom.HTMLCollection;
 import elemental2.dom.HTMLImageElement;
 import jsinterop.base.Js;
 
@@ -29,28 +29,30 @@ public final class Dom {
 	 *            class name
 	 * @return NodeList of elements found by className
 	 */
-	public static native NodeList<Element> getElementsByClassName(
-	        String className) /*-{
-		return $doc.getElementsByClassName(className);
+	public static HTMLCollection<elemental2.dom.Element> getElementsByClassName(
+	        String className) {
+		return DomGlobal.document.getElementsByClassName(className);
+	}
+
+	/**
+         * TODO remove when data-table is merged
+	 * @param selector
+	 *            CSS selector
+	 * @return Nodelist of elements found by the selector
+	 */
+	public static native com.google.gwt.dom.client.NodeList<Element> querySelectorAll(
+			String selector) /*-{
+		return $doc.querySelectorAll(selector);
 	}-*/;
 
 	/**
 	 * @param selector
 	 *            CSS selector
-	 * @return Nodelist of elements found by the selector
-	 */
-	public static native NodeList<Element> querySelectorAll(String selector) /*-{
-		return $doc.querySelectorAll(selector);
-	}-*/;
-
-	/**
-	 * @param className
-	 *            class name
 	 * @return first Element found by selector className
 	 */
-	public static native Element querySelector(String className) /*-{
-		return $doc.querySelector("." + className);
-	}-*/;
+	public static Element querySelector(String selector) {
+		return Js.uncheckedCast(DomGlobal.document.querySelector(selector));
+	}
 
 	/**
 	 * @param elem
@@ -59,10 +61,11 @@ public final class Dom {
 	 *            selector
 	 * @return first Element found by selector className
 	 */
-	public static native Element querySelectorForElement(JavaScriptObject elem,
-			String selector) /*-{
-		return elem.querySelector(selector);
-	}-*/;
+	public static Element querySelectorForElement(JavaScriptObject elem,
+			String selector) {
+		elemental2.dom.Element parent = Js.uncheckedCast(elem);
+		return Js.uncheckedCast(parent.querySelector(selector));
+	}
 
 	/**
 	 * @param style
@@ -149,9 +152,9 @@ public final class Dom {
 	/**
 	 * @return active element
 	 */
-	public static native Element getActiveElement() /*-{
-		return $doc.activeElement;
-	}-*/;
+	public static Element getActiveElement() {
+		return Js.uncheckedCast(DomGlobal.document.activeElement);
+	}
 
 	/**
 	 * Element.addEventListener extracted to static method for safe cast in tests.

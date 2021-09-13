@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.util;
 
-import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetKeyListenerW;
-
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -34,7 +32,5 @@ public interface AdvancedFocusPanelI extends IsWidget {
 	void setHeight(String string);
 
 	void setWidth(String string);
-	
-	void addPasteHandler(SpreadsheetKeyListenerW sskl);
 
 }

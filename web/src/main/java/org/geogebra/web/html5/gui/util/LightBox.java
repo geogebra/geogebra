@@ -1,54 +1,55 @@
 package org.geogebra.web.html5.gui.util;
 
+import elemental2.dom.CSSProperties;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.Element;
+import elemental2.dom.HTMLElement;
+import jsinterop.base.Js;
+
 public class LightBox {
 
-	public static native boolean showImage(String imageBase64,
-			boolean pdf) /*-{
-
-		//closeLightbox();
-		var div = $wnd.document.getElementById("myLightboxDiv");
-		if (div) {
-			$wnd.document.body.removeChild(div);
+	/**
+	 * @param dataUrl data URL of image or PDF
+	 * @param pdf whether it's PDF
+	 */
+	public static void showImage(String dataUrl, boolean pdf) {
+		Element oldDiv = DomGlobal.document.getElementById("myLightboxDiv");
+		if (Js.isTruthy(oldDiv)) {
+			oldDiv.remove();
 		}
 
-		div = $wnd.document.createElement("div");
+		HTMLElement div = createElement("div");
 		div.id = "myLightboxDiv";
-		div.style.width = "80%";
-		div.style.height = "80%";
-		div.style.position = "fixed";
-		div.style.top = "10%";
-		div.style.left = "10%";
-		div.style.border = "7px solid rgba(0, 0, 0, 0.5)";
-		div.style.background = "#FFF";
+		div.classList.add("ggbLightBox");
+
 		if (!pdf) {
-			div.style["background-image"] = "url('" + imageBase64 + "')";
-			div.style["background-size"] = "contain";
-			div.style["background-repeat"] = "no-repeat";
-			div.style["background-position"] = "center";
-			div.style.zIndex = 100000000;
+			div.style.backgroundImage = "url('" + dataUrl + "')";
+			div.style.backgroundSize =  "contain";
+			div.style.backgroundRepeat = "no-repeat";
+			div.style.backgroundPosition = "center";
 		}
 
-		div.onclick = function() {
-			$wnd.document.body.removeChild(div);
-		};
+		div.addEventListener("click", e -> div.remove());
 
-		$wnd.document.body.appendChild(div);
-
-		// now add transparent image over it
-		// so that "Save image as..." works
-		// remove this if you don't need it
-		var elem;
+		DomGlobal.document.body.appendChild(div);
+		HTMLElement elem;
 
 		if (pdf) {
-			elem = $wnd.document.createElement("iframe");
+			elem = createElement("iframe");
 			elem.style.position = "relative";
 		} else {
-			elem = $wnd.document.createElement("img");
-			elem.style.opacity = 0;
+			// now add transparent image over it
+			// so that "Save image as..." works
+			elem = createElement("img");
+			elem.style.opacity = CSSProperties.OpacityUnionType.of(0);
 		}
-		elem.src = imageBase64;
-		elem.style.height = "100%";
-		elem.style.width = "100%";
+		elem.setAttribute("src", dataUrl);
+		elem.style.height = CSSProperties.HeightUnionType.of("100%");
+		elem.style.width = CSSProperties.WidthUnionType.of("100%");
 		div.appendChild(elem);
-	}-*/;
+	}
+
+	private static HTMLElement createElement(String div) {
+		return Js.uncheckedCast(DomGlobal.document.createElement(div));
+	}
 }
