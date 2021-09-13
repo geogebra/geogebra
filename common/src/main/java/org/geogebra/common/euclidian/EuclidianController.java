@@ -5676,8 +5676,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		movedLabelGeoElement.setLabelOffset(
 				(oldLoc.x + mouseLoc.x) - startLoc.x,
 				(oldLoc.y + mouseLoc.y) - startLoc.y);
-		// no update cascade needed
-		movedLabelGeoElement.update();
+		movedLabelGeoElement.notifyUpdate();
 		kernel.notifyRepaint();
 	}
 
