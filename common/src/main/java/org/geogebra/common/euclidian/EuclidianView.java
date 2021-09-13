@@ -1435,8 +1435,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	final public void setRealWorldCoordSystem(double xmin2, double xmax2,
 			double ymin2, double ymax2) {
-		double calcXscale = getVisibleWidth() / (xmax2 - xmin2);
-		double calcYscale = getVisibleHeight() / (ymax2 - ymin2);
+		double calcXscale = getWidth() / (xmax2 - xmin2);
+		double calcYscale = getHeight() / (ymax2 - ymin2);
 
 		int visibleFromX = settings != null ? settings.getVisibleFromX() : 0;
 		double calcXzero = calcXscale * -xmin2 + visibleFromX;
