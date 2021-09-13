@@ -15,12 +15,16 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import jsinterop.annotations.JsType;
+
 /**
  * image input dialog for touch
  */
+@JsType
 public class ImageInputDialogT extends UploadImageDialog implements ClickHandler {
 	private static final int PREVIEW_HEIGHT = 155;
 	private static final int PREVIEW_WIDTH = 213;
+	private static ImageInputDialogT INSTANCE;
 	private SimplePanel cameraPanel;
 	private SimplePanel picturePanel;
 	private Label camera;
@@ -35,11 +39,14 @@ public class ImageInputDialogT extends UploadImageDialog implements ClickHandler
 	 */
 	public ImageInputDialogT(final AppW app) {
 		super(app, PREVIEW_WIDTH, PREVIEW_HEIGHT);
-
-		exportJavascriptMethods();
+		INSTANCE = this;
 
 		setOnNegativeAction(() -> app.getImageManager().setPreventAuxImage(false));
 		setOnPositiveAction(this::positiveAction);
+	}
+
+	public static ImageInputDialogT getInstance() {
+		return INSTANCE;
 	}
 
 	private void positiveAction() {
@@ -180,13 +187,6 @@ public class ImageInputDialogT extends UploadImageDialog implements ClickHandler
 		this.pictureFromCameraString = "";
 		this.pictureFromFileString = "";
 	}
-
-	private native void exportJavascriptMethods() /*-{
-		var that = this;
-		$wnd.imageInputDialogT_catchImage = $entry(function(data) {
-			that.@org.geogebra.web.touch.gui.dialog.image.ImageInputDialogT::catchImage(Ljava/lang/String;)(data);
-		});
-	}-*/;
 
 	/**
 	 * this method is called through js (see exportGeoGebraAndroidMethods())
