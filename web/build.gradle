@@ -296,8 +296,9 @@ task mergeDeploy(){
    description 'merge deploy.js and web3d.nocache.js'
    mustRunAfter 'compileGwt'
    doLast {
-      def web3dPermutation = file("./build/gwt/out/web3d/deferredjs").listFiles()[0].name
-      def webSimplePermutation = file("./build/gwt/out/webSimple/deferredjs").listFiles()[0].name
+      def firstFolder = {files -> files.listFiles() ? files.listFiles()[0].name : ""};
+      def web3dPermutation = firstFolder(file("./build/gwt/out/web3d/deferredjs"))
+      def webSimplePermutation = firstFolder(file("./build/gwt/out/webSimple/deferredjs"))
       def templateJs = "src/main/resources/org/geogebra/web/resources/js/deployggb-template.js"
       def deployText = file(templateJs).text.replace('%WEB3D_PERMUTATION%', web3dPermutation)
                           .replace('%WEBSIMPLE_PERMUTATION%', webSimplePermutation)
