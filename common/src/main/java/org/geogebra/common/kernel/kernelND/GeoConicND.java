@@ -3578,7 +3578,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		// line thickness and type
 		getLineStyleXML(sb);
 
-		sb.append("\t<eigenvectors ");
+		sb.append("\t<eigenvectors");
 		sb.append(" x0=\"" + eigenvec[0].getX() + "\"");
 		sb.append(" y0=\"" + eigenvec[0].getY() + "\"");
 		sb.append(" z0=\"1.0\"");

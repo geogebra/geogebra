@@ -3359,7 +3359,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		getLineStyleXML(sb);
 
-		sb.append("\t<eigenvectors ");
+		sb.append("\t<eigenvectors");
 		sb.append(" x0=\"" + eigenvecND[0].getX() + "\"");
 		sb.append(" y0=\"" + eigenvecND[0].getY() + "\"");
 		sb.append(" z0=\"" + eigenvecND[0].getZ() + "\"");
