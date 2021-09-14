@@ -21,6 +21,9 @@ public class TableValuesListColumn extends AbstractTableValuesColumn {
 
 	@Override
 	protected double calculateValue(int row) {
+		if (row >= list.size()) {
+			return Double.NaN;
+		}
 		GeoElement element = list.get(row);
 		return element.evaluateDouble();
 	}
@@ -32,11 +35,21 @@ public class TableValuesListColumn extends AbstractTableValuesColumn {
 
 	@Override
 	protected String getInputValue(int row) {
+		if (row >= list.size()) {
+			return "";
+		}
 		GeoElement element = list.get(row);
 		if (element instanceof GeoText) {
 			return ((GeoText) element).getTextString();
 		}
 		return super.getInputValue(row);
+	}
+
+	private GeoElement getListElement(int row) {
+		if (row >= list.size()) {
+			return null;
+		}
+		return list.get(row);
 	}
 }
 

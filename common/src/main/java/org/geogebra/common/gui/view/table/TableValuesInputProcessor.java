@@ -26,8 +26,9 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	@Override
 	public void processInput(@Nonnull String input, @Nonnull GeoList list, int index) {
 		GeoElement element = parseInput(input);
-		if (isEmptyValue(element) && index >= list.size()) {
+		if (isEmptyValue(element) && (index >= list.size() || list.size() == 0)) {
 			// Do not process empty input at the end of the table
+			// And do not add empty element to an already empty list
 			return;
 		}
 		ensureCapacity(list, index);
@@ -36,7 +37,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	}
 
 	private boolean isEmptyValue(GeoElement element) {
-		return element instanceof GeoNumeric && Double.isNaN(((GeoNumeric) element).getDouble());
+		return element instanceof GeoText && "".equals(((GeoText) element).getTextString());
 	}
 
 	private GeoList ensureList(GeoList list) {
