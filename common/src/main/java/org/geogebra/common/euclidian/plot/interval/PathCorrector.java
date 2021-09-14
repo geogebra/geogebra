@@ -141,10 +141,15 @@ public class PathCorrector {
 	 * @return the last y value needed to continue drawing.
 	 */
 	public Interval beginFromInfinity(int index, Interval x, Interval y) {
+		if (index + 1 >= model.pointCount()) {
+			return IntervalConstants.empty();
+		}
+
+		Interval nextY = toScreenY(model.pointAt(index + 1));
 		if (model.isAscendingAfter(index)) {
-			completeToNegativeInfinity(x, y);
+			completeToNegativeInfinity(x, nextY);
 		} else {
-			completeToPositiveInfinity(x, y);
+			completeToPositiveInfinity(x, nextY);
 		}
 		return lastY;
 	}

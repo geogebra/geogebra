@@ -7,8 +7,8 @@ public class IntervalConstants {
 	public static final double PI_HALF_HIGH = PI_HIGH / 2.0;
 	public static final double PI_TWICE_LOW = PI_LOW * 2.0;
 	public static final double PI_TWICE_HIGH = PI_HIGH * 2.0;
-	public static final double NEGATIVE_INFINITY = -1E-4;
-	public static final double POSITIVE_INFINITY = 1E-4;
+	public static final double NEGATIVE_INFINITY = -1E4;
+	public static final double POSITIVE_INFINITY = 1E4;
 
 	/**
 	 *

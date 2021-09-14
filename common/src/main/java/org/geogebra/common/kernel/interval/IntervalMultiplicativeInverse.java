@@ -71,7 +71,13 @@ public class IntervalMultiplicativeInverse {
 	}
 
 	private void inverseOfZero() {
-		interval.setInverted();
+		if (interval.isInverted()) {
+			invertBounds();
+			interval.uninvert();
+		} else {
+			interval.setWhole();
+			interval.setInverted();
+		}
 	}
 
 	private void inverseWithBoundsZeroAndPositive() {

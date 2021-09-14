@@ -107,7 +107,7 @@ public class IntervalAsymtotesTest extends SamplerTest {
 	@Test
 	public void squareRootOfTanX() {
 		IntervalTupleList tuples = functionValues("sqrt(tan(x))", 0, 3 * PI, -8, 8);
-		assertEquals(invertedInterval(0, 0.01), tuples.valueAt(16));
+		assertEquals(invertedInterval(0, 100), tuples.valueAt(16));
 		assertTrue(tuples.valueAt(51).isEmpty());
 	}
 
