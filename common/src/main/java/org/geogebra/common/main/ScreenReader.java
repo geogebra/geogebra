@@ -204,11 +204,11 @@ public class ScreenReader {
 	}
 
 	public static String getDegree(Localization loc) {
-		return localize(loc, "degreee", "degree");
+		return localize(loc, "degree", "degree");
 	}
 
 	public static String getDegrees(Localization loc) {
-		return localize(loc, "degreees", "degrees");
+		return localize(loc, "degrees", "degrees");
 	}
 
 	public static String getStartPower(Localization loc) {

@@ -86,15 +86,15 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 		shouldRead(slider, readSliderUpOnly("alpha equals 0 degree"));
 	}
 
-	private String readSlider(String sider) {
-		return "Slider " + sider
+	private String readSlider(String slider) {
+		return "Slider " + slider
 				+ " Press space to start animation Press up arrow to increase the value"
 				+ " Press down arrow to decrease the value"
 				+ " Press enter to edit Press tab to select controls";
 	}
 
-	private String readSliderUpOnly(String sider) {
-		return "Slider " + sider
+	private String readSliderUpOnly(String slider) {
+		return "Slider " + slider
 				+ " Press space to start animation"
 				+ " Press up arrow to increase the value"
 				+ " Press enter to edit Press tab to select controls";
@@ -219,7 +219,6 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 				+ " open parenthesis x close parenthesis"
 				+ " Press enter to edit Press tab to select controls");
 	}
-
 
 	@Test
 	public void testPointMoved() {

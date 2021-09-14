@@ -116,7 +116,7 @@ public class ScreenReaderBuilder {
 
 		if (label.endsWith("'")) {
 			convertPrimes(label, loc, sb);
-		} else  {
+		} else {
 			sb.append(ScreenReader.convertToReadable(label, loc));
 		}
 	}
@@ -169,9 +169,7 @@ public class ScreenReaderBuilder {
 		appendSpace();
 	}
 
-	private String degreeReplaced(GeoElement geo,
-			String valueString, String space) {
-
+	private String degreeReplaced(GeoElement geo, String valueString, String space) {
 		String degreeReadable =
 				geo.isSingularValue() ? ScreenReader.getDegree(loc) : ScreenReader.getDegrees(loc);
 
@@ -184,5 +182,4 @@ public class ScreenReaderBuilder {
 		return valueString.contains(Unicode.DEGREE_STRING)
 				|| valueString.contains(Unicode.DEGREE_STRING + "$");
 	}
-
 }
