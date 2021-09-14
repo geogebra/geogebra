@@ -4,6 +4,7 @@ import org.geogebra.common.gui.view.table.TableValuesCell;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.util.StringUtil;
 
 abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 
@@ -61,7 +62,7 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 				input = "?";
 			} else {
 				// the input is erroneous or empty
-				isErroneus = !input.trim().isEmpty();
+				isErroneus = !StringUtil.isTrimmedEmpty(input);
 			}
 		} else {
 			input = formatValue(doubleValue);

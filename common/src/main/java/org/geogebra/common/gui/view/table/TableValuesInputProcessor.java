@@ -40,16 +40,6 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		return element instanceof GeoText && "".equals(((GeoText) element).getTextString());
 	}
 
-	private GeoList ensureList(GeoList list) {
-		if (list == null) {
-			GeoList column = new GeoList(cons);
-			column.notifyAdd();
-			tableValues.showColumn(column);
-			return column;
-		}
-		return list;
-	}
-
 	private void ensureCapacity(GeoList list, int index) {
 		boolean listWillChange = list.size() < index + 1;
 		list.ensureCapacity(index + 1);
