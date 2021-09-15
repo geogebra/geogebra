@@ -8356,6 +8356,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
+		app.hideKeyboard();
+
 		if (shouldHideDynamicStyleBar(event)) {
 			this.hideDynamicStylebar();
 		}

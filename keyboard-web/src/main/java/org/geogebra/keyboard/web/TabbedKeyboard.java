@@ -3,6 +3,7 @@ package org.geogebra.keyboard.web;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
@@ -76,6 +77,7 @@ public class TabbedKeyboard extends FlowPanel
 	private FlowPanel tabs;
 	protected KeyboardSwitcher switcher;
 	private Map<KeyboardType, Widget> keyboardMap;
+	private KeyboardFactory factory;
 	/**
 	 * true if keyboard wanted
 	 */
@@ -132,25 +134,21 @@ public class TabbedKeyboard extends FlowPanel
 		if (inputBoxType != null) {
 			factory = new KeyboardInputBox(inputBoxType, hasKeyboard.getInputBoxFunctionVars());
 		} else {
-			switch (hasKeyboard.getKeyboardType()) {
-			case MOW:
-				factory = new KeyboardMow();
-				break;
-			default:
-				factory = new KeyboardFactory();
+			if (hasKeyboard.getKeyboardType() == AppKeyboardType.MOW) {
+				factory = KeyboardMow.INSTANCE;
+			} else {
+				factory = KeyboardFactory.INSTANCE;
 			}
 		}
 		return factory;
 	}
 
-	private void buildGUIGgb(InputBoxType inputBoxType) {
+	private void buildGUIGgb() {
 		// more button must be first because of float (Firefox)
 		if (hasMoreButton) {
 			switcher.addMoreButton();
 		}
 		tabs = new FlowPanel();
-
-		KeyboardFactory factory = initKeyboardFactory(inputBoxType);
 
 		createAnsMathKeyboard(factory);
 		createDefaultKeyboard(factory);
@@ -246,17 +244,16 @@ public class TabbedKeyboard extends FlowPanel
 	}
 
 	private void buildGUIScientific() {
-		KeyboardFactory kbf = new KeyboardFactory();
 		this.tabs = new FlowPanel();
 
 		KeyPanelBase keyboard = buildPanel(
-				kbf.getImpl(new ScientificKeyboardFactory()), this);
+				factory.getImpl(new ScientificKeyboardFactory()), this);
 		addTab(keyboard, KeyboardType.NUMBERS);
 		//skip more button
 		switcher.addSwitch(keyboard, KeyboardType.NUMBERS, "123");
 		
 		keyboard = buildPanel(
-				kbf.getImpl(new ScientificFunctionKeyboardFactory()), this);
+				factory.getImpl(new ScientificFunctionKeyboardFactory()), this);
 		addTab(keyboard, KeyboardType.OPERATORS);
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, KeyboardType.OPERATORS, "f(x)");
@@ -267,7 +264,7 @@ public class TabbedKeyboard extends FlowPanel
 				filter(locale.getKeyboardRow(3)), ",'",
 				LetterKeyboardFactory.ACTION_SHIFT, null);
 		keyboard = buildPanel(
-				kbf.getImpl(letterFactory, new CapsLockModifier(upperKeys)),
+				factory.getImpl(letterFactory, new CapsLockModifier(upperKeys)),
 				this);
 		addTab(keyboard, KeyboardType.ABC);
 		keyboard.setVisible(false);
@@ -753,27 +750,34 @@ public class TabbedKeyboard extends FlowPanel
 		}
 
 		clear();
-		buildGUI(hasKeyboard.getInputBoxType());
+		buildGUI();
 	}
 
 	/**
 	 * rebuilds the keyboard layout based on the inputbox type
 	 */
 	public void clearAndUpdate() {
+		KeyboardFactory newFactory = initKeyboardFactory(hasKeyboard.getInputBoxType());
+		if (Objects.equals(factory, newFactory)) {
+			return;
+		} else {
+			factory = newFactory;
+		}
+
 		switcher.clear();
 		switcher.setup();
 		clear();
-		buildGUI(hasKeyboard.getInputBoxType());
+		buildGUI();
 	}
 
 	/**
 	 * (Re)build the UI.
 	 */
-	public void buildGUI(InputBoxType inputBoxType) {
-		if (hasKeyboard.getKeyboardType().equals(AppKeyboardType.SCIENTIFIC)) {
+	public void buildGUI() {
+		if (hasKeyboard.getKeyboardType() == AppKeyboardType.SCIENTIFIC) {
 			buildGUIScientific();
 		} else {
-			buildGUIGgb(inputBoxType);
+			buildGUIGgb();
 		}
 	}
 

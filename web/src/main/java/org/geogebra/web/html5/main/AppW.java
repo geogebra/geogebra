@@ -2619,13 +2619,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * hide the on-screen keyboard (if it is visible)
-	 */
-	public void hideKeyboard() {
-		// Overwritten in subclass - nothing to do here
-	}
-
-	/**
 	 * @return whether app is offline
 	 */
 	public boolean isOffline() {
