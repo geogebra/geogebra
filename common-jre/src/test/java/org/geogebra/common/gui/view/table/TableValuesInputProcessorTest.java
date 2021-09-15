@@ -23,7 +23,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	public void setUp() {
 		TableValues view = new TableValuesView(getKernel());
 		getKernel().attach(view);
-		processor = new TableValuesInputProcessor(getConstruction(), view);
+		processor = new TableValuesInputProcessor(getConstruction());
 		list = new GeoList(getConstruction());
 	}
 

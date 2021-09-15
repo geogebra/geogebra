@@ -12,22 +12,19 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 public class TableValuesInputProcessor implements TableValuesProcessor {
 
 	private final Construction cons;
-	private final TableValues tableValues;
 
 	/**
 	 * Creates a TableValuesInputProcessor
 	 * @param cons construction
-	 * @param tableValues Table Values view
 	 */
-	public TableValuesInputProcessor(Construction cons, TableValues tableValues) {
+	public TableValuesInputProcessor(Construction cons) {
 		this.cons = cons;
-		this.tableValues = tableValues;
 	}
 
 	@Override
 	public void processInput(@Nonnull String input, @Nonnull GeoList list, int index) {
 		GeoElement element = parseInput(input);
-		if (isEmptyValue(element) && (index >= list.size() || list.size() == 0)) {
+		if (isEmptyValue(element) && index >= list.size()) {
 			// Do not process empty input at the end of the table
 			// And do not add empty element to an already empty list
 			return;

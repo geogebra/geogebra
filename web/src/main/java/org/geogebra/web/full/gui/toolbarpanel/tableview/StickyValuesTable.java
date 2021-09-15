@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import java.util.List;
 
-import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
@@ -102,13 +101,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			return false;
 		});
 		addBodyPointerDownHandler((row, column, evt) -> {
-			if (tableModel.getRowCount() == 0) {
-				try {
-					view.setValues(0, 10, 1);
-				} catch (InvalidValuesException e) {
-					e.printStackTrace();
-				}
-			}
 			if (row < tableModel.getRowCount()
 					&& column < tableModel.getColumnCount()) {
 				if (isColumnEditable(column)) {
@@ -118,7 +110,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			} else if (column == tableModel.getColumnCount()) {
 				// do nothing now, start editing empty column in follow up ticket
 			} else if (row == tableModel.getRowCount()) {
-				// do nothing now, start editing empty row in follow up ticket
+				editor.startEditing(row, column, evt);
 			}
 			return false;
 		});
@@ -284,13 +276,13 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
-		//
+		reset();
 	}
 
 	@Override
 	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
 			int row) {
-		//
+		reset();
 	}
 
 	@Override
