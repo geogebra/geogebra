@@ -21,7 +21,7 @@ public class TableValuesFunctionColumn extends AbstractTableValuesColumn {
 	}
 
 	@Override
-	protected Double calculateValue(int row) {
+	protected double calculateValue(int row) {
 		double xValue = values.get(row).evaluateDouble();
 		return evaluatable.value(xValue);
 	}

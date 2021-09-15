@@ -14,8 +14,6 @@ public interface TableValuesProcessor {
 	 * @param input string input
 	 * @param list the list that should contain the value
 	 * @param index the index of the value
-	 * @throws InvalidInputException if the input is not valid.
 	 */
-	public void processInput(@Nonnull String input, GeoList list, int index)
-			throws InvalidInputException;
+	public void processInput(@Nonnull String input, @Nonnull GeoList list, int index);
 }

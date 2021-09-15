@@ -35,7 +35,7 @@ public interface TableValuesModel {
 	 * @param column the column of the entry
 	 * @return the value of the table at the specified location
 	 */
-	String getCellAt(int row, int column);
+	TableValuesCell getCellAt(int row, int column);
 
 	/**
 	 * Return the header for the specified column.

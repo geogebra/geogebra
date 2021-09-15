@@ -195,22 +195,22 @@ public class TableValuesViewTest extends BaseUnitTest {
 	@Test
 	public void testGetValues() {
 		setValuesSafe(0, 10, 2);
-		assertEquals("0", model.getCellAt(0, 0));
-		assertEquals("2", model.getCellAt(1, 0));
-		assertEquals("10", model.getCellAt(5, 0));
+		assertEquals("0", model.getCellAt(0, 0).getInput());
+		assertEquals("2", model.getCellAt(1, 0).getInput());
+		assertEquals("10", model.getCellAt(5, 0).getInput());
 
 		GeoElementFactory factory = getElementFactory();
 		GeoFunction function = factory.createFunction("f(x) = x^2");
 		showColumn(function);
-		assertEquals("0", model.getCellAt(0, 1));
-		assertEquals("4", model.getCellAt(1, 1));
-		assertEquals("100", model.getCellAt(5, 1));
+		assertEquals("0", model.getCellAt(0, 1).getInput());
+		assertEquals("4", model.getCellAt(1, 1).getInput());
+		assertEquals("100", model.getCellAt(5, 1).getInput());
 
 		function = factory.createFunction("g(x) = sqrt(x)");
 		showColumn(function);
-		assertEquals("0", model.getCellAt(0, 2));
-		assertEquals("1.41", model.getCellAt(1, 2));
-		assertEquals("3.16", model.getCellAt(5, 2));
+		assertEquals("0", model.getCellAt(0, 2).getInput());
+		assertEquals("1.41", model.getCellAt(1, 2).getInput());
+		assertEquals("3.16", model.getCellAt(5, 2).getInput());
 	}
 
 	@Test
@@ -221,7 +221,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		GeoFunction function = factory.createFunction("f(x) = sqrt(x)");
 		showColumn(function);
 
-		assertEquals("?", model.getCellAt(0, 1));
+		assertEquals("?", model.getCellAt(0, 1).getInput());
 	}
 
 	@Test
@@ -230,10 +230,10 @@ public class TableValuesViewTest extends BaseUnitTest {
 		GeoElementFactory factory = getElementFactory();
 		GeoFunction function = factory.createFunction("g(x) = sqrt(x)");
 		showColumn(function);
-		assertEquals("1.41", model.getCellAt(1, 1));
+		assertEquals("1.41", model.getCellAt(1, 1).getInput());
 
 		setValuesSafe(2.5, 22.3, 1.3);
-		assertEquals("1.95", model.getCellAt(1, 1));
+		assertEquals("1.95", model.getCellAt(1, 1).getInput());
 	}
 
 	@Test
@@ -267,7 +267,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testListeners() throws InvalidInputException {
+	public void testListeners() {
 		model.registerListener(listener);
 		setValuesSafe(0, 2, 1);
 		verify(listener).notifyDatasetChanged(model);
@@ -300,10 +300,10 @@ public class TableValuesViewTest extends BaseUnitTest {
 		GeoElementFactory factory = getElementFactory();
 		GeoFunction fn = factory.createFunction("x^2");
 		showColumn(fn);
-		assertEquals("0", model.getCellAt(0, 0));
+		assertEquals("0", model.getCellAt(0, 0).getInput());
 
 		view.update(fn);
-		assertEquals("0", model.getCellAt(0, 0));
+		assertEquals("0", model.getCellAt(0, 0).getInput());
 	}
 
 	@Test
@@ -632,14 +632,14 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 		assertEquals(2, model.getColumnCount());
 		assertEquals(3, model.getRowCount());
-		assertEquals(model.getCellAt(0, 1), "4");
-		assertEquals(model.getCellAt(1, 1), "7");
-		assertEquals(model.getCellAt(2, 1), "11");
+		assertEquals(model.getCellAt(0, 1).getInput(), "4");
+		assertEquals(model.getCellAt(1, 1).getInput(), "7");
+		assertEquals(model.getCellAt(2, 1).getInput(), "11");
 
 		GeoNumeric numeric = (GeoNumeric) getElementFactory().create("99");
 		list.setListElement(0, numeric);
 		list.notifyUpdate();
-		assertEquals("99", model.getCellAt(0, 1));
+		assertEquals("99", model.getCellAt(0, 1).getInput());
 	}
 
 	@Test
@@ -650,36 +650,36 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 		assertEquals(2, model.getColumnCount());
 		assertEquals(3, model.getRowCount());
-		assertEquals(model.getCellAt(0, 1), "4");
-		assertEquals(model.getCellAt(1, 1), "7");
-		assertEquals(model.getCellAt(2, 1), "11");
+		assertEquals(model.getCellAt(0, 1).getInput(), "4");
+		assertEquals(model.getCellAt(1, 1).getInput(), "7");
+		assertEquals(model.getCellAt(2, 1).getInput(), "11");
 
 		GeoNumeric numeric = (GeoNumeric) getElementFactory().create("99");
 		list.setListElement(0, numeric);
 		list.notifyUpdate();
-		assertEquals("99", model.getCellAt(0, 1));
+		assertEquals("99", model.getCellAt(0, 1).getInput());
 	}
 
 	@Test
-	public void testEmptyCell() throws InvalidInputException {
+	public void testEmptyCell() {
 		GeoList list = (GeoList) getElementFactory().create("A = {4 ,7, 11}");
 		setValuesSafe(0, 2, 1);
 		showColumn(list);
 		view.getProcessor().processInput("", list, 0);
-		assertEquals("", model.getCellAt(0, 1));
+		assertEquals("", model.getCellAt(0, 1).getInput());
 	}
 
 	@Test
-	public void testProcessFirstInput() throws InvalidInputException {
+	public void testProcessFirstInput() {
 		view.getProcessor().processInput("1", view.getValues(), 0);
-		assertEquals("1", model.getCellAt(0, 0));
+		assertEquals("1", model.getCellAt(0, 0).getInput());
 	}
 
 	@Test
-	public void testOverwriteCachedValue() throws InvalidInputException {
+	public void testOverwriteCachedValue() {
 		view.getProcessor().processInput("1", view.getValues(), 0);
-		assertEquals("1", model.getCellAt(0, 0));
+		assertEquals("1", model.getCellAt(0, 0).getInput());
 		view.getProcessor().processInput("2", view.getValues(), 0);
-		assertEquals("2", model.getCellAt(0, 0));
+		assertEquals("2", model.getCellAt(0, 0).getInput());
 	}
 }

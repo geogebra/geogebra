@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
 public class TableValuesInputProcessor implements TableValuesProcessor {
@@ -24,57 +25,46 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	}
 
 	@Override
-	public void processInput(@Nonnull String input, GeoList list, int index)
-			throws InvalidInputException {
-		GeoNumeric numeric = parseInput(input);
-		if (isEmptyValue(numeric) && (list == null || index >= list.size())) {
+	public void processInput(@Nonnull String input, @Nonnull GeoList list, int index) {
+		GeoElement element = parseInput(input);
+		if (isEmptyValue(element) && (index >= list.size() || list.size() == 0)) {
 			// Do not process empty input at the end of the table
+			// And do not add empty element to an already empty list
 			return;
 		}
-		GeoList column = ensureList(list);
-		ensureCapacity(column, index);
-		column.setListElement(index, numeric);
+		ensureCapacity(list, index);
+		list.setListElement(index, element);
 		if (isEmptyValue(numeric)) {
-			removeEmptyColumnAndRows(column, index);
+			removeEmptyColumnAndRows(list, index);
 		}
-		numeric.notifyUpdate();
+		element.notifyUpdate();
 	}
 
-	private boolean isEmptyValue(GeoNumeric numeric) {
-		return Double.isNaN(numeric.getDouble());
-	}
-
-	private GeoList ensureList(GeoList list) {
-		if (list == null) {
-			GeoList column = new GeoList(cons);
-			column.notifyAdd();
-			tableValues.showColumn(column);
-			return column;
-		}
-		return list;
+	private boolean isEmptyValue(GeoElement element) {
+		return element instanceof GeoText && "".equals(((GeoText) element).getTextString());
 	}
 
 	private void ensureCapacity(GeoList list, int index) {
 		boolean listWillChange = list.size() < index + 1;
 		list.ensureCapacity(index + 1);
 		for (int i = list.size(); i < index + 1; i++) {
-			list.add(new GeoNumeric(cons, Double.NaN));
+			list.add(createEmptyInput());
 		}
 		if (listWillChange) {
 			list.notifyUpdate();
 		}
 	}
 
-	private GeoNumeric parseInput(String input) throws InvalidInputException {
+	private GeoElement parseInput(String input) {
 		String trimmedInput = input.trim();
 		if (trimmedInput.equals("")) {
-			return new GeoNumeric(cons, Double.NaN);
+			return createEmptyInput();
 		}
 		try {
 			double parsedInput = Double.parseDouble(trimmedInput);
 			return new GeoNumeric(cons, parsedInput);
 		} catch (NumberFormatException e) {
-			throw new InvalidInputException();
+			return new GeoText(cons, input);
 		}
 	}
 
@@ -137,5 +127,9 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 				column.remove();
 			}
 		}
+	}
+
+	private GeoElement createEmptyInput() {
+		return new GeoText(cons, "");
 	}
 }

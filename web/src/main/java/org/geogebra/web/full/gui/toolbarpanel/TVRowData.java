@@ -40,7 +40,7 @@ public class TVRowData {
 	 */
 	public String getValue(int col) {
 		if (row < model.getRowCount() && col < model.getColumnCount()) {
-			return model.getCellAt(row, col);
+			return model.getCellAt(row, col).getInput();
 		}
 		return "";
 	}

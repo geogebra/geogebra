@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.table.dimensions;
 
+import org.geogebra.common.gui.view.table.TableValuesCell;
 import org.geogebra.common.gui.view.table.TableValuesDimensions;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
@@ -38,8 +39,8 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
 	int calculateExactColumnWidth(int column) {
 		int maxWidth = MIN_COLUMN_WIDTH;
 		for (int i = 0; i < tableModel.getRowCount(); i++) {
-			String text = tableModel.getCellAt(i, column);
-			int width = getWidth(text);
+			TableValuesCell cell = tableModel.getCellAt(i, column);
+			int width = getWidth(cell.getInput());
 			maxWidth = Math.max(maxWidth, width);
 		}
 
