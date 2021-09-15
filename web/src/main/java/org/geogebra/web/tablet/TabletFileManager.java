@@ -302,11 +302,13 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}
 
+	@JsIgnore
 	@Override
-	public void openWithFeatures(String url, String features) {
+	public void open(String url, String features) {
 		openUrlInBrowser(url);
 	}
 
+	@JsIgnore
 	@Override
 	public void open(String url) {
 		openUrlInBrowser(url);

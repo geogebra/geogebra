@@ -67,7 +67,7 @@ public interface MaterialsManagerI {
 	 * @param features
 	 *            the features to be enabled/disabled on this window
 	 */
-	public void openWithFeatures(String url, String features);
+	public void open(String url, String features);
 
 	/**
 	 * Opens Link in a new window
