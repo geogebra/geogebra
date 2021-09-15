@@ -91,7 +91,6 @@ public abstract class StickyTable<T> extends FlowPanel {
 	private void createDataProvider() {
 		dataProvider = new ListDataProvider<>();
 		dataProvider.addDataDisplay(cellTable);
-
 	}
 
 	/**
@@ -103,7 +102,6 @@ public abstract class StickyTable<T> extends FlowPanel {
 	 * Decreases the number of columns by removing the last column.
 	 */
 	protected void decreaseColumnNumber() {
-
 		// In AbstractCellTable model each column remembers its index
 		// so deleting last column and let dataProvider do the rest we need.
 		cellTable.removeColumn(cellTable.getColumnCount() - 1);
