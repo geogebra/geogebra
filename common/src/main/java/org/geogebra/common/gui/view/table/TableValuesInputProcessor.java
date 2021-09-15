@@ -77,7 +77,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			return false;
 		}
 		GeoElement value = rowIndex < column.size() ? column.get(rowIndex) : null;
-		return isEmptyValue(value);
+		return value == null || isEmptyValue(value);
 	}
 
 	private void removeEmptyColumnAndRows(GeoList column, int index) {
