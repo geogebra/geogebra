@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.statistics.Regression;
@@ -66,7 +67,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		this.elements = new HashSet<>();
 		this.kernel = kernel;
 		this.labelController = new LabelController();
-		this.processor = new TableValuesInputProcessor(kernel.getConstruction(), this);
+		this.processor = new TableValuesInputProcessor(kernel.getConstruction());
 		createTableDimensions();
 		settings.addListener(this);
 	}
@@ -264,7 +265,7 @@ public class TableValuesView implements TableValues, SettingListener {
 			} else {
 				model.removeEvaluatable(evaluatable);
 			}
-		} else if (geo instanceof GeoNumeric) {
+		} else if (geo instanceof GeoNumeric || geo instanceof GeoText) {
 			model.maybeUpdateListElement(geo);
 		}
 	}

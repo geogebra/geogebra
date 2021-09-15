@@ -1,14 +1,16 @@
 package org.geogebra.common.gui.view.table.column;
 
+import org.geogebra.common.gui.view.table.TableValuesCell;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.util.StringUtil;
 
 abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 
 	private final GeoEvaluatable element;
 	private final Kernel kernel;
-	private String[] stringValues;
+	private TableValuesCell[] cells;
 	private Double[] doubleValues;
 	private String header;
 
@@ -24,9 +26,9 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 	}
 
 	@Override
-	public Double getDoubleValue(int row) {
+	public double getDoubleValue(int row) {
 		if (doubleValues == null || doubleValues.length <= row) {
-			return null;
+			return Double.NaN;
 		}
 		Double value = doubleValues[row];
 		if (value == null) {
@@ -37,17 +39,35 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 	}
 
 	@Override
-	public String getStringValue(int row) {
-		if (stringValues == null || stringValues.length <= row) {
-			return "";
+	public TableValuesCell getCellValue(int row) {
+		if (cells == null || cells.length <= row) {
+			return new TableValuesCell("", false);
 		}
-		String value = stringValues[row];
-		if (value == null) {
-			Double doubleValue = getDoubleValue(row);
-			value = formatValue(doubleValue);
-			stringValues[row] = value;
+		TableValuesCell cell = cells[row];
+		if (cell == null) {
+			cell = createTableValuesCell(row);
+			cells[row] = cell;
 		}
-		return value;
+		return cell;
+	}
+
+	private TableValuesCell createTableValuesCell(int row) {
+		double doubleValue = getDoubleValue(row);
+		boolean isErroneus = false;
+		String input;
+		if (Double.isNaN(doubleValue)) {
+			input = getInputValue(row);
+			if (input == null) {
+				// the double value cannot be calculated for this x-value
+				input = "?";
+			} else {
+				// the input is erroneous or empty
+				isErroneus = !StringUtil.isTrimmedEmpty(input);
+			}
+		} else {
+			input = formatValue(doubleValue);
+		}
+		return new TableValuesCell(input, isErroneus);
 	}
 
 	private String formatValue(Double value) {
@@ -78,16 +98,30 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 	@Override
 	public void invalidateValues(int size) {
 		doubleValues = new Double[size];
-		stringValues = new String[size];
+		cells = new TableValuesCell[size];
 	}
 
 	@Override
 	public void invalidateValue(int row) {
 		doubleValues[row] = null;
-		stringValues[row] = null;
+		cells[row] = null;
 	}
 
-	protected abstract Double calculateValue(int row);
+	/**
+	 * Get the actual input value at the row index.
+	 * @param row index
+	 * @return the string value at the index or null if it's calculated.
+	 */
+	protected String getInputValue(int row) {
+		return null;
+	}
+
+	/**
+	 * Calculate the value at the row index.
+	 * @param row index
+	 * @return the value at row, or Double.NaN if the input is not a number.
+	 */
+	protected abstract double calculateValue(int row);
 
 	protected abstract String getHeaderName();
 }
