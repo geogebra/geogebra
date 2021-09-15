@@ -6996,7 +6996,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return true;
 	}
 
-
 	@Override
 	public boolean addAuralCaption(ScreenReaderBuilder sb) {
 		if (!StringUtil.empty(getCaptionSimple())) {
