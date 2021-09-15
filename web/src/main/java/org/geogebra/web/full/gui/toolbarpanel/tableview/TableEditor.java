@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.view.table.InvalidInputException;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
@@ -56,11 +55,7 @@ public class TableEditor {
 		GeoEvaluatable evaluatable = table.view.getEvaluatable(editColumn);
 		if (evaluatable instanceof GeoList) {
 			GeoList list = (GeoList) evaluatable;
-			try {
-				table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
-			} catch (InvalidInputException e) {
-				e.printStackTrace();
-			}
+			table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
 		}
 		editRow = -1;
 		editColumn = -1;
