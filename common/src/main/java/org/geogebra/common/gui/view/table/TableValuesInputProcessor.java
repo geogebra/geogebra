@@ -1,5 +1,8 @@
 package org.geogebra.common.gui.view.table;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.Construction;
@@ -91,6 +94,9 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	}
 
 	private void removeColumnIfEmpty(GeoList column) {
+		if (column == tableValues.getValues()) {
+			return;
+		}
 		for (int i = 0; i < column.size(); i++) {
 			GeoElement element = column.get(i);
 			if (!isEmptyValue(element)) {
@@ -103,7 +109,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	private boolean isLastRowEmpty() {
 		TableValuesModel model = tableValues.getTableValuesModel();
 		int lastRowIndex = model.getRowCount() - 1;
-		for (int columnIndex = 1; columnIndex < model.getColumnCount(); columnIndex++) {
+		for (int columnIndex = 0; columnIndex < model.getColumnCount(); columnIndex++) {
 			if (!hasEmptyValue(columnIndex, lastRowIndex)) {
 				return false;
 			}
@@ -114,14 +120,18 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	private void removeLastRow() {
 		TableValuesModel model = tableValues.getTableValuesModel();
 		int lastRowIndex = model.getRowCount() - 1;
-		for (int columnIndex = 1; columnIndex < model.getColumnCount(); columnIndex++) {
+		List<GeoList> columnsToRemove = new ArrayList<>();
+		for (int columnIndex = 0; columnIndex < model.getColumnCount(); columnIndex++) {
 			GeoList column = (GeoList) tableValues.getEvaluatable(columnIndex);
 			if (lastRowIndex < column.size()) {
 				column.remove(lastRowIndex);
 			}
-			if (column.size() == 0) {
-				column.remove();
+			if (columnIndex != 0 && column.size() == 0) {
+				columnsToRemove.add(column);
 			}
+		}
+		for (GeoList column : columnsToRemove) {
+			column.remove();
 		}
 	}
 

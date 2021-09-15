@@ -145,6 +145,8 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 
 		processor.processInput("3", newColumn(), 0);
 
+		processor.processInput("0", view.getValues(), 1);
+
 		assertEquals(2, model.getRowCount());
 		assertEquals(4, model.getColumnCount());
 
@@ -153,6 +155,10 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		assertEquals(4, model.getColumnCount());
 
 		processor.processInput("", c2, 1);
+		assertEquals(2, model.getRowCount());
+		assertEquals(4, model.getColumnCount());
+
+		processor.processInput("", view.getValues(), 1);
 		assertEquals(1, model.getRowCount());
 		assertEquals(4, model.getColumnCount());
 	}
