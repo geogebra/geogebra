@@ -10,7 +10,9 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 
+import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLCollection;
+import elemental2.dom.ViewCSS;
 import jsinterop.base.Js;
 
 public final class GeoGebraElement extends Element implements AttributeProvider {
@@ -87,15 +89,10 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 	 *
 	 * @return that the article element has (inherited) direction attribute
 	 */
-	public native boolean isRTL() /*-{
-        // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
-        if (!$wnd.getComputedStyle) {
-            return false;
-        }
-
-        var style = $wnd.getComputedStyle(this);
-        return style && style.direction === "rtl";
-    }-*/;
+	public boolean isRTL() {
+		ViewCSS view = Js.cast(DomGlobal.window);
+		return "rtl".equals(view.getComputedStyle(Js.uncheckedCast(this)).direction);
+    }
 
 	private native double envScale(JavaScriptObject current, String type,
 			boolean deep) /*-{
