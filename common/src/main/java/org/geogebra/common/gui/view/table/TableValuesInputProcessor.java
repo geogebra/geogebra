@@ -12,13 +12,16 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 public class TableValuesInputProcessor implements TableValuesProcessor {
 
 	private final Construction cons;
+	private final TableValues tableValues;
 
 	/**
 	 * Creates a TableValuesInputProcessor
 	 * @param cons construction
+	 * @param tableValues Table Values view
 	 */
-	public TableValuesInputProcessor(Construction cons) {
+	public TableValuesInputProcessor(Construction cons, TableValues tableValues) {
 		this.cons = cons;
+		this.tableValues = tableValues;
 	}
 
 	@Override
