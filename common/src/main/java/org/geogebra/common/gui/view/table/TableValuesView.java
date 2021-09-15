@@ -67,7 +67,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		this.elements = new HashSet<>();
 		this.kernel = kernel;
 		this.labelController = new LabelController();
-		this.processor = new TableValuesInputProcessor(kernel.getConstruction(), this);
+		this.processor = new TableValuesInputProcessor(kernel.getConstruction());
 		createTableDimensions();
 		settings.addListener(this);
 	}

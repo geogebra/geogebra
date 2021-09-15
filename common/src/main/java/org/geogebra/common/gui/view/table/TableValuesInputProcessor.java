@@ -11,16 +11,13 @@ import org.geogebra.common.kernel.geos.GeoText;
 public class TableValuesInputProcessor implements TableValuesProcessor {
 
 	private final Construction cons;
-	private final TableValues tableValues;
 
 	/**
 	 * Creates a TableValuesInputProcessor
 	 * @param cons construction
-	 * @param tableValues Table Values view
 	 */
-	public TableValuesInputProcessor(Construction cons, TableValues tableValues) {
+	public TableValuesInputProcessor(Construction cons) {
 		this.cons = cons;
-		this.tableValues = tableValues;
 	}
 
 	@Override
