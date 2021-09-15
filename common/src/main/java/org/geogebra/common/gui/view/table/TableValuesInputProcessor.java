@@ -23,7 +23,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	@Override
 	public void processInput(@Nonnull String input, @Nonnull GeoList list, int index) {
 		GeoElement element = parseInput(input);
-		if (isEmptyValue(element) && (index >= list.size() || list.size() == 0)) {
+		if (isEmptyValue(element) && index >= list.size()) {
 			// Do not process empty input at the end of the table
 			// And do not add empty element to an already empty list
 			return;
