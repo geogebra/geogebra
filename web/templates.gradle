@@ -5,7 +5,7 @@ def template = { fileName ->
 
 def css = { directory, fileName ->
     String fileDir = "war/css/" + directory + "/" + fileName + ".css";
-    return "<style id=\"" + fileName + "\">" + file(fileDir).text + "</style>\n";
+    return "<style id=\"ggbstyle_" + fileName + "\">" + file(fileDir).text + "</style>\n";
 }
 
 String html = template("app-template.html")
