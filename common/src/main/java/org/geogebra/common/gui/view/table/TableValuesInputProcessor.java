@@ -34,7 +34,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		}
 		ensureCapacity(list, index);
 		list.setListElement(index, element);
-		if (isEmptyValue(numeric)) {
+		if (isEmptyValue(element)) {
 			removeEmptyColumnAndRows(list, index);
 		}
 		element.notifyUpdate();
@@ -78,10 +78,6 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		}
 		GeoElement value = rowIndex < column.size() ? column.get(rowIndex) : null;
 		return isEmptyValue(value);
-	}
-
-	private boolean isEmptyValue(GeoElement value) {
-		return value == null || (value instanceof GeoNumeric && isEmptyValue((GeoNumeric) value));
 	}
 
 	private void removeEmptyColumnAndRows(GeoList column, int index) {

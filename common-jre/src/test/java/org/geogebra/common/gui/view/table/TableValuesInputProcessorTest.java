@@ -16,12 +16,15 @@ import org.junit.Test;
 
 public class TableValuesInputProcessorTest extends BaseUnitTest {
 
+	private TableValues view;
+	private TableValuesModel model;
 	private TableValuesInputProcessor processor;
 	private GeoList list;
 
 	@Before
 	public void setUp() {
-		TableValues view = new TableValuesView(getKernel());
+		view = new TableValuesView(getKernel());
+		model = view.getTableValuesModel();
 		getKernel().attach(view);
 		processor = new TableValuesInputProcessor(getConstruction(), view);
 		list = new GeoList(getConstruction());
@@ -85,7 +88,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testClearValuesFromColumn() throws InvalidInputException {
+	public void testClearValuesFromColumn() {
 		processor.processInput("0", null, 0);
 		GeoList column = (GeoList) view.getEvaluatable(1);
 		processor.processInput("1", column, 1);
@@ -110,7 +113,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testClearRowsAndColumns() throws InvalidInputException {
+	public void testClearRowsAndColumns() {
 		processor.processInput("1", null, 0);
 		processor.processInput("2", null, 1);
 		processor.processInput("3", null, 2);
@@ -131,7 +134,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testClearLastRow() throws InvalidInputException {
+	public void testClearLastRow() {
 		processor.processInput("1", null, 0);
 		GeoList c1 = (GeoList) view.getEvaluatable(1);
 		processor.processInput("1", c1, 1);
