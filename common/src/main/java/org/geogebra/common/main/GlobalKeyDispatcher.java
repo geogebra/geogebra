@@ -1281,8 +1281,6 @@ public abstract class GlobalKeyDispatcher {
 			return false;
 		}
 
-		Iterator<GeoElement> it;
-
 		// FUNCTION and DELETE keys
 		switch (key) {
 		case F3:
