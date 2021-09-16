@@ -8,7 +8,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.Drawable;
@@ -963,10 +962,9 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void add(Widget box, GPoint position) {
+	public void add(Widget box) {
 		if (evPanel != null) {
-			evPanel.getAbsolutePanel().add(box,
-					position.getX(), position.getY());
+			evPanel.getAbsolutePanel().add(box);
 		}
 	}
 

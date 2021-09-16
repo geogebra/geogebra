@@ -5,7 +5,6 @@ import java.util.function.Consumer;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
@@ -350,10 +349,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public void add(Widget box, GPoint position) {
+	public void add(Widget box) {
 		if (evPanel != null) {
-			evPanel.getAbsolutePanel().add(box,
-					position.getX(), position.getY());
+			evPanel.getAbsolutePanel().add(box);
 		}
 	}
 
