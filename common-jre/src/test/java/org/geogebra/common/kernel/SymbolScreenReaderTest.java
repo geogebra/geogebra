@@ -221,6 +221,15 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testPointWithDegrees() {
+		GeoPoint point = add("A=(1; 15°)");
+		shouldRead(point, "Point A  equals  open parenthesis 1 semicolon "
+				+ " 15 degrees  close parenthesis"
+				+ " Press the arrow keys to move the object"
+				+ " Press enter to edit Press tab to select controls");
+	}
+
+	@Test
 	public void testPointMoved() {
 		GeoPoint point = add("A=(1, 1)");
 		point.movePoint(new Coords(1, 1, 0), null);
@@ -238,12 +247,12 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testPointWithDegrees() {
+	public void testPointMovedWithDegrees() {
 		GeoPoint point = add("A=(1; 15°)");
-		shouldRead(point, "Point A  equals  open parenthesis 1 semicolon "
-				+ " 15 degrees  close parenthesis"
-				+ " Press the arrow keys to move the object"
-				+ " Press enter to edit Press tab to select controls");
+		GeoPoint endPosition = add("(2; 30°)");
+		point.movePoint(null, endPosition.getCoords());
+		assertEquals("Point A  moved to  open parenthesis 2 semicolon  30 degrees"
+						+ "  close parenthesis ", point.getAuralTextForMove());
 	}
 
 	@Test
