@@ -45,9 +45,9 @@ public class MoveGeos {
 		final ArrayList<GeoElement> geos = new ArrayList<>();
 
 		for (GeoElement geo: geosToMove) {
-			if (!geo.isLockedPosition()) {
-				addWithSiblingsAndChildNodes(geo, geos, view); // also removes duplicates
-			}
+
+			addWithSiblingsAndChildNodes(geo, geos, view); // also removes duplicates
+
 		}
 		boolean moved = false;
 		final int size = geos.size();
@@ -169,6 +169,9 @@ public class MoveGeos {
 	private static boolean moveMoveableGeo(GeoElement geo1, final Coords rwTransVec,
 			final Coords endPosition,
 			final ArrayList<GeoElement> updateGeos, EuclidianView view) {
+		if (geo1.isLockedPosition()) {
+			return false;
+		}
 		boolean movedGeo = false;
 		GeoElement geo = geo1;
 		// point
