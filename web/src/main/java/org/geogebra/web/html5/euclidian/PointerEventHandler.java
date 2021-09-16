@@ -44,8 +44,8 @@ public class PointerEventHandler {
 
 		public PointerState(NativePointerEvent e) {
 			id = e.getPointerId();
-			x = e.getClientX();
-			y = e.getClientY();
+			x = e.getOffsetX();
+			y = e.getOffsetY();
 		}
 	}
 
@@ -73,11 +73,11 @@ public class PointerEventHandler {
 	}
 
 	private int touchEventX(PointerState touch) {
-		return off.touchEventX((int) touch.x);
+		return (int) touch.x;
 	}
 
 	private int touchEventY(PointerState touch) {
-		return off.touchEventY((int) touch.y);
+		return (int) touch.y;
 	}
 
 	private void singleDown(PointerEvent e) {
@@ -135,12 +135,12 @@ public class PointerEventHandler {
 	private void onPointerMove(NativePointerEvent e) {
 		if (first != null && second != null) {
 			if (second.id == e.getPointerId()) {
-				second.x = e.getClientX();
-				second.y = e.getClientY();
+				second.x = e.getOffsetX();
+				second.y = e.getOffsetY();
 				twoPointersMove(first, second);
 			} else if (first.id == e.getPointerId()) {
-				first.x = e.getClientX();
-				first.y = e.getClientY();
+				first.x = e.getOffsetX();
+				first.y = e.getOffsetY();
 			}
 		} else if (match(first, e) || match(second, e)
 				|| "mouse".equals(e.getPointerType())) {
@@ -186,8 +186,8 @@ public class PointerEventHandler {
 	}
 
 	private PointerEvent convertEvent(NativePointerEvent e) {
-		PointerEvent ex = new PointerEvent(e.getClientX(), e.getClientY(),
-				types(e.getPointerType()), off, false);
+		PointerEvent ex = new PointerEvent(e.getOffsetX(), e.getOffsetY(),
+				types(e.getPointerType()), off);
 		adjust(ex, e);
 		return ex;
 	}

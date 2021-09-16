@@ -472,8 +472,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		// don't want to roll the scrollbar
 		double delta = event.getDeltaY();
 		// we are on device where many small scrolls come, we want to merge them
-		int x = mouseEventX(event.getClientX() - style.getxOffset());
-		int y = mouseEventX(event.getClientY() - style.getyOffset());
+		int x = event.getClientX();
+		int y = event.getClientY();
 		boolean shiftOrMeta = event.isShiftKeyDown() || event.isMetaKeyDown();
 		if (delta == 0) {
 			deltaSum += getNativeDelta(event);
@@ -763,50 +763,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	public void setComboboxFocused(boolean flag) {
 		this.comboboxFocused = flag;
-	}
-
-	@Override
-	public int touchEventX(int clientX) {
-		return mouseEventX(clientX - style.getxOffset());
-	}
-
-	@Override
-	public int touchEventY(int clientY) {
-		return mouseEventY(clientY - style.getyOffset());
-	}
-
-	/**
-	 * @return the multiplier that must be used to multiply the native event
-	 *         coordinates
-	 */
-	public double getScaleXMultiplier() {
-		return style.getScaleXMultiplier();
-	}
-
-	/**
-	 * @return the multiplier that must be used to multiply the native event
-	 *         coordinates
-	 */
-	public double getScaleYMultiplier() {
-		return style.getScaleYMultiplier();
-	}
-
-	@Override
-	public int mouseEventX(int clientX) {
-		return getEventCoordInGraphics(clientX, style.getZoomXOffset(),
-				style.getScaleX());
-	}
-
-	private static int getEventCoordInGraphics(int relativePosition,
-			double zoomOffset, double scale) {
-		double absPosition = relativePosition + zoomOffset;
-		return (int) Math.round(absPosition / scale - zoomOffset);
-	}
-
-	@Override
-	public int mouseEventY(int clientY) {
-		return getEventCoordInGraphics(clientY, style.getZoomYOffset(),
-				style.getScaleY());
 	}
 
 	@Override

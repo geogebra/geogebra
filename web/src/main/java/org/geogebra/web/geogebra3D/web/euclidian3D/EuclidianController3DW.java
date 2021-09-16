@@ -221,22 +221,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		return mtg.hitResetIcon();
 	}
 
-	/**
-	 * @return the multiplier that must be used to multiply the native event
-	 *         coordinates
-	 */
-	public double getScaleXMultiplier() {
-		return mtg.getScaleXMultiplier();
-	}
-
-	/**
-	 * @return the multiplier that must be used to multiply the native event
-	 *         coordinates
-	 */
-	public double getScaleYMultiplier() {
-		return mtg.getScaleYMultiplier();
-	}
-
 	@Override
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
 		oldCenterX3D = (int) (x1 + x2) / 2;

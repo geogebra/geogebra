@@ -316,26 +316,6 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.setComboboxFocused(flag);
 	}
 
-	/**
-	 * @return the multiplier that must be used to multiply the native event
-	 *         coordinates
-	 */
-	public double getScaleXMultiplier() {
-		return mtg.getScaleXMultiplier();
-	}
-
-	/**
-	 * @return the multiplier that must be used to multiply the native event
-	 *         coordinates
-	 */
-	public double getScaleYMultiplier() {
-		return mtg.getScaleYMultiplier();
-	}
-
-	/*
-	 * @Override public int getEvID() { return view.getViewID(); }
-	 */
-
 	@Override
 	public void twoTouchMove(double x1d, double y1d, double x2d, double y2d) {
 		mtg.twoTouchMove(x1d, y1d, x2d, y2d);
@@ -403,8 +383,8 @@ public class EuclidianControllerW extends EuclidianController implements
 			int x = event.getNativeEvent().getClientX();
 			int y = event.getNativeEvent().getClientY();
 
-			geo0.setRealWorldLoc(getView().toRealWorldCoordX(mtg.touchEventX(x)),
-					getView().toRealWorldCoordY(mtg.touchEventY(y)));
+			geo0.setRealWorldLoc(getView().toRealWorldCoordX(x),
+					getView().toRealWorldCoordY(y));
 			geo0.updateRepaint();
 		}
 	}
