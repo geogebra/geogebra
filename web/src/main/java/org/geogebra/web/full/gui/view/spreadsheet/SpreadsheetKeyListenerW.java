@@ -11,7 +11,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -25,7 +24,7 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
  * Key event handler for spreadsheet
  */
 public class SpreadsheetKeyListenerW
-		implements KeyDownHandler, KeyPressHandler, KeyUpHandler {
+		implements KeyDownHandler, KeyPressHandler, KeyUpHandler, CopyPasteHandler {
 
 	private AppW app;
 	private SpreadsheetViewW view;
@@ -593,50 +592,7 @@ public class SpreadsheetKeyListenerW
 		});
 	}
 
-	/**
-	 * @param elem
-	 *            element for catching copy/paste events
-	 */
-	public native void addPasteHandlerTo(Element elem) /*-{
-		var self = this;
-		elem.onpaste = function(event) {
-			var text, cbd;
-			if ($wnd.clipboardData) {
-				// Windows Internet Explorer
-				cbd = $wnd.clipboardData;
-				if (cbd.getData) {
-					text = cbd.getData('Text');
-				}
-			}
-			if (text === undefined) {
-				// all the other browsers
-				if (event.clipboardData) {
-					cbd = event.clipboardData;
-					if (cbd.getData) {
-						text = cbd.getData('text/plain');
-					}
-				}
-			}
-			if (text !== undefined) {
-				self.@org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetKeyListenerW::onPaste(Ljava/lang/String;)(text);
-			}
-		}
-		elem.oncopy = function(even2) {
-			self.@org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetKeyListenerW::onCopy(Z)(even2.altKey);
-			// do not prevent default!!!
-			// it will take care of the copy...
-		}
-		elem.oncut = function(even3) {
-			self.@org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetKeyListenerW::onCut()();
-			// do not prevent default!!!
-			// it will take care of the cut...
-		}
-	}-*/;
-
-	/**
-	 * @param text
-	 *            pasted text
-	 */
+	@Override
 	public void onPaste(String text) {
 		boolean storeUndo = table.paste(text);
 		view.rowHeaderRevalidate();
@@ -645,12 +601,7 @@ public class SpreadsheetKeyListenerW
 		}
 	}
 
-	/**
-	 * Handle copy
-	 * 
-	 * @param altDown
-	 *            whether alt is pressed
-	 */
+	@Override
 	public void onCopy(final boolean altDown) {
 		// the default action of the browser just modifies
 		// the textarea of the AdvancedFocusPanel, does
@@ -661,15 +612,10 @@ public class SpreadsheetKeyListenerW
 		// not sure one ScheduleDeferred is enough...
 		// but in theory, it should be as code continues from
 		// here towards the default action, as we are in the event
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				table.copy(altDown, true);
-			}
-		});
+		Scheduler.get().scheduleDeferred(() -> table.copy(altDown, true));
 	}
 
-	/** Handle Cut */
+	@Override
 	public void onCut() {
 		// the default action of the browser just modifies
 		// the textarea of the AdvancedFocusPanel, does
@@ -679,13 +625,10 @@ public class SpreadsheetKeyListenerW
 		// not sure one ScheduleDeferred is enough...
 		// but in theory, it should be as code continues from
 		// here towards the default action, as we are in the event
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				boolean storeUndo = table.cut(true);
-				if (storeUndo) {
-					app.storeUndoInfo();
-				}
+		Scheduler.get().scheduleDeferred(() -> {
+			boolean storeUndo = table.cut(true);
+			if (storeUndo) {
+				app.storeUndoInfo();
 			}
 		});
 	}

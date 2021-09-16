@@ -24,6 +24,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Window;
 
 import elemental2.dom.DomGlobal;
+import elemental2.dom.Event;
 import elemental2.dom.HTMLStyleElement;
 
 /**
@@ -201,17 +202,9 @@ public class ZoomController {
 	/**
 	 * forces a resize event.
 	 */
-	protected native void dispatchResize() /*-{
-		if (navigator.userAgent.indexOf('MSIE') !== -1
-				|| navigator.appVersion.indexOf('Trident/') > 0) {
-			var evt = document.createEvent('UIEvents');
-			evt.initUIEvent('resize', true, false, window, 0);
-			window.dispatchEvent(evt);
-		} else {
-			window.dispatchEvent(new Event('resize'));
-
-		}
-	}-*/;
+	protected void dispatchResize() {
+		DomGlobal.window.dispatchEvent(new Event("resize"));
+	}
 
 	/**
 	 * @param elem

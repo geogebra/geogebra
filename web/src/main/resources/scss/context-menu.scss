@@ -1,8 +1,8 @@
-@import 'colors';
+@use 'colors';
 
 .GeoGebraFrame {
 	.gwt-PopupPanel {
-		background-color: $white;
+		background-color: colors.$white;
 		padding: 8px 0 8px 0;
 		border-radius: 2px;
 
@@ -77,7 +77,7 @@
 		&.contextSubMenu {
 			padding: 8px 0 8px 0;
 			min-width: 112px;
-			background-color: $white;
+			background-color: colors.$white;
 			scrollbar-width: thin;
 			overflow-y: auto;
 
@@ -113,7 +113,7 @@
 			opacity: 0.38;
 		}
 
-		color: $black;
+		color: colors.$black;
 		opacity: 0.38;
 	}
 }

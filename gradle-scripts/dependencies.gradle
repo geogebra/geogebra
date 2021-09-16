@@ -15,11 +15,9 @@
 allprojects {
     buildscript {
         repositories {
-            maven { url 'https://plugins.gradle.org/m2/' }
-            maven { url 'http://storage.googleapis.com/r8-releases/raw'} // can be removed after Android Studio 3.5 update
             maven { url 'https://jitpack.io' }
             mavenCentral()
-            jcenter()
+            maven { url 'https://plugins.gradle.org/m2/' }
             google()
             maven { url 'http://dev.geogebra.org/maven2' }
         }
@@ -28,7 +26,6 @@ allprojects {
     repositories {
         maven { url 'http://dev.geogebra.org/maven2' }
         mavenCentral()
-        jcenter()
         google()
     }
 }

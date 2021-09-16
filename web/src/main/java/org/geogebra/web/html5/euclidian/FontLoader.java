@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.geogebra.web.html5.gui.laf.FontFamily;
+import org.geogebra.web.html5.util.WebFont;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.StyleInjector;
 
+import elemental2.core.JsArray;
 import jsinterop.annotations.JsFunction;
+import jsinterop.base.JsPropertyMap;
 
 public final class FontLoader {
 	private static Map<String, FontState> injected = new HashMap<>();
@@ -59,13 +62,15 @@ public final class FontLoader {
 		}
 	}
 
-	private static native void loadWebFont(String family, FontLoadCallback callback) /*-{
-		var toLoad = {
-			fontactive: callback,
-			custom : {
-				families : [ family ]
-			}
-		};
-		$wnd.WebFont && $wnd.WebFont.load(toLoad);
-	}-*/;
+	private static void loadWebFont(String family, FontLoadCallback callback) {
+		JsPropertyMap<?> toLoad = JsPropertyMap.of(
+			"fontactive", callback,
+			"custom", JsPropertyMap.of(
+				"families", JsArray.of(family)
+			)
+		);
+		if (WebFont.get() != null) {
+			WebFont.get().load(toLoad);
+		}
+	}
 }

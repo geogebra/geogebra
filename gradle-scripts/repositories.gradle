@@ -1,3 +1,2 @@
 print("[WARNING] Builds should depend on dependencies.gradle directly")
 apply from: project(":common").file('../gradle-scripts/dependencies.gradle')
-

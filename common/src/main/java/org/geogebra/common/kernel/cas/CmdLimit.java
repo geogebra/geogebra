@@ -35,28 +35,29 @@ public class CmdLimit extends CommandProcessor implements UsesCAS {
 			if ((ok[0] = arg[0].isGeoFunction())
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
-				AlgoLimit algo = new AlgoLimit(cons, c.getLabel(),
-						(GeoFunction) arg[0], (GeoNumberValue) arg[1]);
-
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+				return process(c.getLabel(), arg[0], arg[1]);
 			}
 			throw argErr(c, getBadArg(ok, arg));
 		case 3:
+			/* Same as for 2 args but second arg is ignored. The 3 args syntax used in Classic CAS
+				eg: Limit(If(x<-1,x+2,-1<=x<=1, 1,1<x<2,x^2,4),x,2)
+				We need to keep it for backwards compatibility, see APPS-2791 */
 			if ((ok[0] = arg[0].isGeoFunction())
-					&& (ok[1] = arg[0].isGeoFunction())
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
-				AlgoLimit algo = new AlgoLimit(cons, c.getLabel(),
-						(GeoFunction) arg[0], (GeoNumberValue) arg[2]);
-
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+				return process(c.getLabel(), arg[0], arg[2]);
 			}
 			throw argErr(c, getBadArg(ok, arg));
 			// more than one argument
 		default:
 			throw argNumErr(c);
 		}
+	}
+
+	private GeoElement[] process(String label, GeoElement arg1, GeoElement arg2) {
+		AlgoLimit algo = new AlgoLimit(cons, label,
+				(GeoFunction) arg1, (GeoNumberValue) arg2);
+		GeoElement[] ret = {algo.getResult()};
+		return ret;
 	}
 }

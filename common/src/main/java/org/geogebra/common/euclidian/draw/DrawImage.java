@@ -388,7 +388,7 @@ public class DrawImage extends Drawable {
 		hitCoords[1] = y;
 
 		// convert screen to image coordinate system
-		if (!geoImage.isAbsoluteScreenLocActive()) {
+		if (!geoImage.isAbsoluteScreenLocActive() && atInverse != null) {
 			atInverse.transform(hitCoords, 0, hitCoords, 0, 1);
 		}
 		if (geoImage.isCropped()) {

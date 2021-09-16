@@ -5,9 +5,12 @@ import org.geogebra.common.main.ScreenReader;
 import org.geogebra.web.html5.Browser;
 import org.gwtproject.timer.client.Timer;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.SimplePanel;
+
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLElement;
+import jsinterop.base.Js;
 
 /**
  * Widget to able screen readers to read text from
@@ -19,6 +22,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	private Timer timer;
 	private Element anchor;
+	private HTMLElement scrollElement;
 
 	/**
 	 * Constructor.
@@ -114,27 +118,24 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	}
 
 	private void readTextImmediate(String text) {
-		JavaScriptObject scrollState = JavaScriptObject.createObject();
-		int scrolltop = getScrollTop(scrollState);
+		updateScrollElement();
+		double scrollTop = scrollElement.scrollTop;
 		read(text);
 		anchor.focus();
-		setScrollTop(scrolltop, scrollState);
+		scrollElement.scrollTop = scrollTop;
 	}
 
-	private static native int getScrollTop(JavaScriptObject scrollState)/*-{
-		scrollState.element = $doc.body;
-		if ($doc.documentElement.scrollTop && !$doc.body.scrollTop) {
-			scrollState.element = $doc.documentElement;
+	private void updateScrollElement() {
+		if (Js.isTruthy(DomGlobal.document.documentElement.scrollTop)
+			&& Js.isFalsy(DomGlobal.document.body.scrollTop)) {
+			scrollElement = DomGlobal.document.documentElement;
+		} else {
+			scrollElement = DomGlobal.document.body;
 		}
-		return scrollState.element.scrollTop;
-	}-*/;
+	}
 
-	private static native boolean hasParentWindow()/*-{
-		return $wnd.parent !== $wnd;
-	}-*/;
+	private static boolean hasParentWindow() {
+		return DomGlobal.window.parent != DomGlobal.window;
+	}
 
-	private static native void setScrollTop(int st,
-			JavaScriptObject scrollState)/*-{
-		scrollState.element.scrollTop = st;
-	}-*/;
 }

@@ -1,4 +1,4 @@
-@import 'z-index';
+@use 'z-index';
 
 .GeoGebraFrame{
 	/**
@@ -78,12 +78,12 @@
 	}
 	
 	.geogebraweb-popup-spreadsheet {
-		z-index: $z-spreadsheet-popup;
+		z-index: z-index.$z-spreadsheet-popup;
 	}
  
 	.geogebraweb-button-spreadsheet,.geogebraweb-checkbox-spreadsheet,.geogebraweb-select-spreadsheet {
 		position: relative;
-		z-index: $z-spreadsheet-button;
+		z-index: z-index.$z-spreadsheet-button;
 	}
 
 	 .geogebraweb-button-spreadsheet {
@@ -104,7 +104,7 @@
 	}
 	
 	.geogebraweb-selectionframe-spreadsheet {
-		z-index: $z-spreadsheet-selection-frame;
+		z-index: z-index.$z-spreadsheet-selection-frame;
 		border-style: solid;
 		/*border-width: 2px;*/
 		border-color: #0000FF;
