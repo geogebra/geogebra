@@ -247,7 +247,7 @@ public class GeoGebraFrameFull
 			return;
 		}
 
-		if (this.isKeyboardShowing() == show) {
+		if (this.isKeyboardShowing() && show) {
 			getKeyboardManager().clearAndUpdateKeyboard();
 			getKeyboardManager().setOnScreenKeyboardTextField(textField);
 			return;
@@ -288,7 +288,7 @@ public class GeoGebraFrameFull
 	}
 
 	private void removeKeyboard() {
-		final VirtualKeyboardGUI keyBoard = getOnScreenKeyboard(null);
+		final VirtualKeyboardGUI keyBoard = getKeyboardManager().getOnScreenKeyboard();
 		this.setKeyboardShowing(false);
 
 		ToolbarPanel toolbarPanel = getGuiManager()
