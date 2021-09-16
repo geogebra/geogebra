@@ -34,6 +34,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import elemental2.core.JsString;
 
 /**
  * @author G. Sturr
@@ -335,9 +336,9 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		}
 
 		@Override
-		public native int compare(String source, String target) /*-{
-			return source.localeCompare(target);
-		}-*/;
+		public int compare(String source, String target) {
+			return new JsString(source).localeCompare(target);
+		}
 	}
 
 	private TreeSet<String> getAllCommandsTreeSet() {

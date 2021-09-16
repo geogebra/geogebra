@@ -29,7 +29,7 @@ import com.google.gwt.user.client.Window.Location;
 import elemental2.core.ArrayBuffer;
 import elemental2.core.Global;
 import elemental2.core.JsArray;
-import elemental2.core.JsObject;
+import elemental2.dom.Blob;
 import elemental2.dom.FileReader;
 import elemental2.dom.XMLHttpRequest;
 import jsinterop.base.Js;
@@ -195,19 +195,21 @@ public class GoogleDriveOperationW implements GoogleDriveOperation {
 		xhr.setRequestHeader("Authorization", "Bearer " + accessToken);
 
 		xhr.onload = (e) -> {
-			JsObject content = xhr.response.asJsObject();
+			Blob content = Js.uncheckedCast(xhr.response.asJsObject());
 			FileReader reader = new FileReader();
 			reader.onloadend = (e2) -> {
 				if (e2.target.result.asString().startsWith("UEsDBBQ")) {
 					processGoogleDriveFileContentAsBase64(e2.target.result.asString(),
 							name, id);
 				} else {
-					processGoogleDriveFileContentAsBinary(Js.uncheckedCast(content),
-							name, id);
+					content.arrayBuffer().then(arrayBuffer -> {
+						processGoogleDriveFileContentAsBinary(arrayBuffer, name, id);
+						return null;
+					});
 				}
 				return null;
 			};
-			reader.readAsText(Js.uncheckedCast(content));
+			reader.readAsText(content);
 		};
 
 		xhr.send();

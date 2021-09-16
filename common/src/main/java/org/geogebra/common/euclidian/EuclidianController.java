@@ -5676,8 +5676,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		movedLabelGeoElement.setLabelOffset(
 				(oldLoc.x + mouseLoc.x) - startLoc.x,
 				(oldLoc.y + mouseLoc.y) - startLoc.y);
-		// no update cascade needed
-		movedLabelGeoElement.update();
+		movedLabelGeoElement.notifyUpdate();
 		kernel.notifyRepaint();
 	}
 
@@ -8356,6 +8355,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			getPen().handleMouseDraggedForPenMode(event);
 			return;
 		}
+
+		app.hideKeyboard();
 
 		if (shouldHideDynamicStyleBar(event)) {
 			this.hideDynamicStylebar();

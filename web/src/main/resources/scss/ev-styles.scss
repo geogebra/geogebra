@@ -1,17 +1,17 @@
-@import 'colors';
-@import 'z-index';
+@use 'colors';
+@use 'z-index';
 
 $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 
 .GeoGebraFrame {
 
 	.TitleBarPanel {
-		z-index: $z-on-top-of-graphics;
+		z-index: z-index.$z-on-top-of-graphics;
 	}
 
 	.graphicsControlsPanel {
 		left: auto !important;
-		z-index: $z-on-top-of-graphics;
+		z-index: z-index.$z-on-top-of-graphics;
 	}
 
 	.flatButton.graphicsContextMenuBtn {
@@ -32,7 +32,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		}
 
 		&.mow:hover {
-			background-color: $mow_card_background_hover;
+			background-color: colors.$mow_card_background_hover;
 			img {
 				opacity: 1;
 			}
@@ -40,18 +40,18 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	}
 
 	.flatButton.keyboardFocus:focus{
-		outline: $focus-black 5px auto;
+		outline: colors.$focus-black 5px auto;
 	}
 
 	/*dyn stylebar*/
 	.matDynStyleBar {
 		// popup has 500
-		z-index: $z-dialog-under-keyboard;
+		z-index: z-index.$z-dialog-under-keyboard;
 		position: absolute;
 	    border-radius: 2px;
 	    padding: 8px 4px 8px 16px;
-	    background-color: $white;
-	    box-shadow: 0 0 2px 1px $popup-shadow;
+	    background-color: colors.$white;
+	    box-shadow: 0 0 2px 1px colors.$popup-shadow;
 
 	    &.noContextBtn {
 	    	padding: 8px 0px 8px 8px;
@@ -61,8 +61,8 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	    .MyCanvasButton {
 			text-align: center;
 			border-radius: 2px;
-			border: $tool-border solid 1px;
-			background-color: $white;
+			border: colors.$tool-border solid 1px;
+			background-color: colors.$white;
 			width: 24px;
 			height: 24px;
 			margin-left: 0px;
@@ -84,11 +84,11 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			}
 
 			&:hover, &:focus {
-				border: $purple-default solid 1px;
+				border: colors.$purple-default solid 1px;
 			}
 
 			&.gwt-ToggleButton-down {
-				border: $purple-default solid 1px;
+				border: colors.$purple-default solid 1px;
 			}
 		}
 
@@ -136,7 +136,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
     			line-height: 24px;
 
     			&:hover {
-    				background-color: $selected-menuitem-background;
+    				background-color: colors.$selected-menuitem-background;
     			}
     		}
     	}
@@ -147,9 +147,9 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	.matPopupPanel {
 		border-radius: 2px;
 		padding: 5px !important;
-		background-color: $white;
-		box-shadow: 0 0 2px 1px $tool-border;
-		z-index: $z-dialog-over-keyboard;
+		background-color: colors.$white;
+		box-shadow: 0 0 2px 1px colors.$tool-border;
+		z-index: z-index.$z-dialog-over-keyboard;
 		min-height: 30px;
 
         .ButtonPopupMenu .panelRow2.showSlider {
@@ -277,19 +277,19 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
     			}
 
     			&.plusButton {
-    				border: $black-30 solid 1px;
+    				border: colors.$black-30 solid 1px;
     				opacity: 0.54;
 
     				&:hover {
     					opacity: 1;
-    					background-color: $white-90;
+    					background-color: colors.$white-90;
     				}
     			}
     		 }
 	}
 
 	.graphicsWithSpotlight .overlayGraphics {
-		z-index: $z-spotlight-graphics;
+		z-index: z-index.$z-spotlight-graphics;
 	}
 
 	.spotlightOffBtn {
@@ -301,7 +301,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		border-radius: 50%;
 		background-color: white;
 		cursor: pointer;
-		z-index: $z-spotlightOff-button;
+		z-index: z-index.$z-spotlightOff-button;
 
 		img {
 			opacity: 0.54;
@@ -314,7 +314,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		cursor: default;
 		top: auto !important;
 		left: auto !important;
-		z-index: $z-on-top-of-graphics;
+		z-index: z-index.$z-on-top-of-graphics;
 		will-change: transform;
 
     	.zoomPanelBtn {
@@ -323,9 +323,9 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
     		width: 36px;
     		height: 36px;
     		margin-bottom: 8px;
-    		background-color: $white;
+    		background-color: colors.$white;
     		border-radius: 50%;
-    		box-shadow: 0 1px 3px 0 $black-20, 0 1px 1px 0 $black-14, 0 2px 1px -1px $black-12;
+    		box-shadow: 0 1px 3px 0 colors.$black-20, 0 1px 1px 0 colors.$black-14, 0 2px 1px -1px colors.$black-12;
     		cursor: pointer;
     		transition: background-color 150ms ease 0ms;
 
@@ -336,7 +336,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 
     		&:hover {
     			/*background-color: #666;*/
-    			background-color: $selected-menuitem-background;
+    			background-color: colors.$selected-menuitem-background;
 
     			img {
     				opacity: 1;
@@ -346,7 +346,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
     		&.keyboardFocus:focus {
     			img {
     				opacity: 1;
-    				outline: $focus-black 5px auto;
+    				outline: colors.$focus-black 5px auto;
     			}
     		}
     	}
@@ -371,7 +371,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 
     		&:hover, &:focus {
     			/*background-color: #666;*/
-    			background-color: $selected-menuitem-background;
+    			background-color: colors.$selected-menuitem-background;
 
     			img {
     				opacity: 0;
@@ -440,7 +440,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		  		img {
 		  			opacity: 1;
 		  		}
-		  		background-color: $mow_card_background_hover;
+		  		background-color: colors.$mow_card_background_hover;
 		  	}
 		}
 		.zoomPanelHomeIn {
@@ -460,7 +460,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
     		}
 
     		&:hover, &:focus {
-    			background-color: $mow_card_background_hover;
+    			background-color: colors.$mow_card_background_hover;
 
     			img {
     				opacity: 1;
@@ -477,7 +477,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	.undoRedoPanel {
 		padding-left: 12px;
 		position: absolute;
-		z-index: $z-on-top-of-graphics;
+		z-index: z-index.$z-on-top-of-graphics;
 		&.withTransition {
 			transition: left 0.2s;
 		}
@@ -501,7 +501,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				img {
 		  			opacity: 1;
 		  		}
-		  		background-color: $mow_card_background_hover;
+		  		background-color: colors.$mow_card_background_hover;
 			}
 		}
 	}
@@ -570,7 +570,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 
 	.AutoCompleteTextFieldW.FromDrawTextFieldNew.errorStyle input[type="text"].TextField,
 		.evInputEditor.errorStyle, .mathTextField.errorStyle {
-		border: 4px $error dotted;
+		border: 4px colors.$error dotted;
 	}
 
 	.AutoCompleteTextFieldW.FromDrawTextField .TextField {
@@ -623,8 +623,8 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	}
 
 	.SymbolTablePopup {
-		z-index: $z-dialog-over-keyboard;
-		background-color: $white;
+		z-index: z-index.$z-dialog-over-keyboard;
+		background-color: colors.$white;
 		border-radius: 0px;
 		padding: 16px;
 		-webkit-box-shadow: 0 2px 10px rgba(0,0,0,.2);
@@ -640,8 +640,8 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		}
 
 		.SymbolTable td:hover, .GeoGebraFrame .SymbolTable td.focus {
-			background: $white;
-			color: $teal-light;
+			background: colors.$white;
+			color: colors.$teal-light;
 		}
 	}
 
@@ -676,7 +676,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	.accessibleInput {
 		width: 20px;
 		height: 20px;
-		z-index: $z-accessible-input;
+		z-index: z-index.$z-accessible-input;
 		position: absolute;
 	}
 
@@ -694,7 +694,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		cursor: default;
 		height: 18px;
 		box-sizing: border-box;
-		z-index: $z-on-top-of-graphics;
+		z-index: z-index.$z-on-top-of-graphics;
 	}
 	.mathFieldEditor {
 		will-change: transform;
@@ -711,10 +711,21 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	background-color: black;
 	top: 0px;
 	left: 0px;
-	z-index: $z-fullscreen-container;
+	z-index: z-index.$z-fullscreen-container;
 }
 
 .gbox {
 	will-change: transform;
-	z-index: $z-on-top-of-graphics;
+	z-index: z-index.$z-on-top-of-graphics;
+}
+
+.ggbLightBox {
+	width: 80%;
+	height: 80%;
+	position: fixed;
+	top: 10%;
+	left: 10%;
+	border: 7px solid rgba(0, 0, 0, 0.5);
+	background: #FFF;
+	z-index: 100000000;
 }

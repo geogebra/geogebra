@@ -12,7 +12,6 @@ import org.geogebra.web.full.gui.laf.OfficeLookAndFeel;
 import org.geogebra.web.full.gui.laf.SmartLookAndFeel;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
-import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
@@ -20,10 +19,10 @@ import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import elemental2.core.JsArray;
+import elemental2.dom.HTMLCollection;
 import jsinterop.base.Js;
 
 /**
@@ -99,10 +98,10 @@ public abstract class Web implements EntryPoint {
 	 * @return look and feel based the first article that has laf parameter
 	 */
 	public static GLookAndFeel getLAF() {
-		NodeList<Element> nodes = Dom
-				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
+		HTMLCollection<elemental2.dom.Element> nodes =
+				Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		for (int i = 0; i < nodes.getLength(); i++) {
-			String laf = new AppletParameters((GeoGebraElement) nodes.getItem(i)).getDataParamLAF();
+			String laf = nodes.getAt(i).getAttribute("data-param-laf");
 			switch (laf) {
 			case "smart":
 				return new SmartLookAndFeel();

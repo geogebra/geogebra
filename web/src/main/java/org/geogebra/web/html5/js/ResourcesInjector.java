@@ -2,15 +2,13 @@ package org.geogebra.web.html5.js;
 
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.util.AppletParameters;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
 
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.dom.client.ScriptElement;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.Element;
+import elemental2.dom.NodeList;
 
 /**
  * @author gabor
@@ -70,47 +68,38 @@ public class ResourcesInjector {
 	 */
 	public static void removeResources() {
 		resourcesInjected = false;
-		// this list is live
-		NodeList<Element> resources = Dom
-				.getElementsByClassName(StyleInjector.CLASSNAME);
-		while (resources.getLength() > 0) {
-			resources.getItem(resources.getLength() - 1).removeFromParent();
+		NodeList<Element> resources = DomGlobal.document
+				.querySelectorAll("." + StyleInjector.CLASSNAME);
+		for (int i = 0; i < resources.getLength(); i++) {
+			resources.getAt(i).remove();
 		}
 
-		// this is not :-) Love DOM!
-		NodeList<Element> scripts = Dom
+		NodeList<Element> scripts = DomGlobal.document
 		        .querySelectorAll("script[src$=\"cache.js\"]");
 		for (int i = 0; i < scripts.getLength(); i++) {
-			scripts.getItem(i).removeFromParent();
+			scripts.getAt(i).remove();
 		}
 	}
 
-	private static native void addLoadHandler(ScriptElement el,
-			ScriptLoadCallback handler) /*-{
-		el
-				.addEventListener(
-						"load",
-						function() {
-							handler.@org.geogebra.web.html5.util.ScriptLoadCallback::onLoad()();
-						}, false);
-		el
-				.addEventListener(
-						"error",
-						function() {
-							handler.@org.geogebra.web.html5.util.ScriptLoadCallback::onError()();
-						}, false);
-	}-*/;
+	private static void addLoadHandler(Element el, ScriptLoadCallback handler) {
+		el.addEventListener("load", (evt) -> handler.onLoad());
+		el.addEventListener("error", (evt) -> handler.onError());
+	}
 
 	/**
-	 * @param el
-	 *            script element
+	 * @param url
+	 *            script url
 	 * @param handler
 	 *            if script loaded, calls the callback that implements interface
 	 *            ScriptLoadHandler
 	 */
-	public static void loadJS(ScriptElement el, ScriptLoadCallback handler) {
-		addLoadHandler(el, handler);
-		Document.get().getBody().appendChild(el);
+	public static void loadJS(String url, ScriptLoadCallback handler) {
+		Element script = DomGlobal.document.createElement("script");
+		script.setAttribute("src", url);
+		if (handler != null) {
+			addLoadHandler(script, handler);
+		}
+		DomGlobal.document.body.appendChild(script);
 	}
 
 	/**

@@ -3,7 +3,7 @@ package org.geogebra.web.solver.keyboard;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.KeyboardSwitcher;
 import org.geogebra.keyboard.web.TabbedKeyboard;
-import org.geogebra.web.html5.util.CSSAnimation;
+import org.geogebra.web.html5.util.CSSEvents;
 
 public class SolverKeyboard extends TabbedKeyboard {
 
@@ -30,15 +30,10 @@ public class SolverKeyboard extends TabbedKeyboard {
 	/**
 	 * Hide the keyboard.
 	 */
-    public void hide() {
-        addStyleName("animatingOut");
-        CSSAnimation.runOnAnimation(new Runnable() {
-            @Override
-            public void run() {
-                setVisible(false);
-            }
-        }, getElement(), "animatingOut");
-    }
+	public void hide() {
+		addStyleName("animatingOut");
+		CSSEvents.runOnAnimation(() -> setVisible(false), getElement(), "animatingOut");
+	}
 
     @Override
     public void show() {

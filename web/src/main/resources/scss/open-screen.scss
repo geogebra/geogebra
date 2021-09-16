@@ -1,7 +1,7 @@
-@import 'colors';
-@import 'shared';
-@import 'header';
-@import 'z-index';
+@use 'colors';
+@use 'shared';
+@use 'header';
+@use 'z-index';
 
 .GeoGebraFrame {
 	.providers {
@@ -56,20 +56,20 @@
 		position: absolute;
 		top: 6px;
 		left: 6px;
-		z-index: $z-open-screen-search-button;
+		z-index: z-index.$z-open-screen-search-button;
 		cursor: pointer;
 	}
 	
 	.searchDiv input.gwt-TextBox {
 		padding-left: 35px;
 		padding-right: 35px;
-		z-index: $z-open-screen-search-input;
+		z-index: z-index.$z-open-screen-search-input;
 		color: #999999;
 		width: 100%;
 	}
 	
 	.searchDiv .cancelButton {
-		z-index: $z-open-screen-search-button;
+		z-index: z-index.$z-open-screen-search-button;
 		position: absolute;
 		top: 8px;
 		right: 8px;
@@ -153,7 +153,7 @@
 		border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 		cursor: default;
 		padding: 15px;
-		z-index: $z-open-screen-card-content;
+		z-index: z-index.$z-open-screen-card-content;
 		background-color: rgba(255, 255, 255, 0.9);
 		box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
 		position: absolute;
@@ -281,7 +281,7 @@
 
 	.profileOptionsPanel {
 		position: relative;
-		z-index: $z-profile-options-panel;
+		z-index: z-index.$z-profile-options-panel;
 	}
 
 	.profileOptionsPanel .arrow {
@@ -291,11 +291,11 @@
 	.profileOptionsPanel .profileOptionsContent {
 		position: relative;
 		margin-left: 5px;
-		z-index: $z-profile-options-panel;
+		z-index: z-index.$z-profile-options-panel;
 		top: -5px;
 		border-radius: 2px;
 		padding: 5px;
-		background-color: $white;
+		background-color: colors.$white;
 		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);		
 	
 		.username {
@@ -304,7 +304,7 @@
 		    margin: 4px;
 		    line-height: 24px;
 		    text-align: center;
-		    color: $purple-default;
+		    color: colors.$purple-default;
 		}
 		 .editButton {
 			@extend %primaryButton;
@@ -318,11 +318,11 @@
 			@extend %matButton;
 			display: block;
 			width: calc(100% - 48px);
-			color: $black;
+			color: colors.$black;
 			border: 0;
 
 			&:hover {			
-				background-color: $white;
+				background-color: colors.$white;
 			}
 			div {
 				text-align: center;
@@ -349,12 +349,12 @@
 					cursor: pointer;
 					float: left;
 					min-width: 64px;
-					height: $button_height;
+					height: header.$button_height;
 					border-radius: 2px;
-					background-color: $mow_grey_button;
-					transition: $button_hover_transition;
+					background-color: colors.$mow_grey_button;
+					transition: header.$button_hover_transition;
 					&:hover {
-						background-color: $mow_card_background_hover;
+						background-color: colors.$mow_card_background_hover;
 					}
 					img {
 						float: left;
@@ -369,7 +369,7 @@
 						text-transform: uppercase;
 						font-size: 87.5%; // (=14px)
 						line-height: 1;
-						color: $text-secondary;
+						color: colors.$text-secondary;
 					}
 					form {
 						height: 0;
@@ -380,7 +380,7 @@
 							top: -48px;
 							right: 0px; 
 							width: 100%; 
-							height: $button_height;
+							height: header.$button_height;
 							font-size: 0px;
 							opacity: 0; 
 						}
@@ -393,7 +393,7 @@
 					margin-left: 24px;
 				}
 				.hover {
-					background-color: $mow_card_background_hover;
+					background-color: colors.$mow_card_background_hover;
 				}
 			}
 			.center {
@@ -409,11 +409,11 @@
 	    		border: none;
 	    		padding: 8px;
 	    		font-size: 90%;
-	    		border-bottom: 1px solid $tool-border;
+	    		border-bottom: 1px solid colors.$tool-border;
 	    		transition: border-bottom 0.3s ease-out;
 	    		
 	    		&:hover {
-	    		  	border-bottom: 1px solid $mow_primary !important;
+	    		  	border-bottom: 1px solid colors.$mow_primary !important;
 	    		}
 	    	}
 	    	.materialPanel {
@@ -429,13 +429,13 @@
    					margin: 0 16px 16px 0;
    					height: 206px;
    					width: 232px;
-    				background-color: $mow_material_card_bgd;
-    				box-shadow: 0 1px 1px 0 $black-14, 0 2px 1px -1px $black-12, 0 1px 3px 0 $black-20;
+    				background-color: colors.$mow_material_card_bgd;
+    				box-shadow: 0 1px 1px 0 colors.$black-14, 0 2px 1px -1px colors.$black-12, 0 1px 3px 0 colors.$black-20;
     				transition: box-shadow .25s;
     				cursor: pointer;
     				
     				&:hover {
-    					box-shadow: 0 8px 10px 1px $black-14, 0 3px 14px 2px $black-12, 0 5px 5px -3px $black-20;
+    					box-shadow: 0 8px 10px 1px colors.$black-14, 0 3px 14px 2px colors.$black-12, 0 5px 5px -3px colors.$black-20;
     				}
     				
 		    		.cardImgPanel {
@@ -451,7 +451,7 @@
 						
 						.cardTitle {
 							font-size: 125%;
-							color: $text-primary;
+							color: colors.$text-primary;
 							line-height: 1;
 							letter-spacing: 0.25px;
 							padding: 8px 24px 1px 16px;
@@ -464,7 +464,7 @@
 					
 						.cardAuthor {
 							font-size: 87.5%;
-							color: $text-secondary;
+							color: colors.$text-secondary;
 							line-height: 20px;
 							letter-spacing: 0.25px;
 							padding: 6px 0px 12px 16px;
@@ -501,7 +501,7 @@
 
 							.gwt-Label {
 								font-size: 88%;
-								color: $text-secondary;
+								color: colors.$text-secondary;
 								line-height: 20px;
 								letter-spacing: 0.25px;
 								text-overflow: ellipsis;
@@ -532,8 +532,8 @@
    					min-width: 64px;
    					height: 48px;
    					border-radius: 2px;
-				    box-shadow: 0 1px 3px 0px $black-20;
-				    transition: $button_hover_transition;
+				    box-shadow: 0 1px 3px 0px colors.$black-20;
+				    transition: header.$button_hover_transition;
    					vertical-align: middle;
    					display: table-cell;
    					width: 50%;
@@ -570,28 +570,28 @@
 					}	
 				}
 				.FABteal {
-					background-color: $mow_primary;
+					background-color: colors.$mow_primary;
 					&:hover {
-						background-color: $mow_primary_variant;
+						background-color: colors.$mow_primary_variant;
 					}
 					img {
 						opacity: 1;
 						filter: invert(100%);
 					}
 					.gwt-Label {
-						color: $white;
+						color: colors.$white;
 					}
 				}
 				.FABwhite {
-					background-color: $white;
+					background-color: colors.$white;
 					&:hover {
-						background-color: $mow_white_hover;
+						background-color: colors.$mow_white_hover;
 					}
 					img {
 						opacity: 0.54;
 					}
 					.gwt-Label {
-						color: $text-secondary;
+						color: colors.$text-secondary;
 					}
 				}
 			}		

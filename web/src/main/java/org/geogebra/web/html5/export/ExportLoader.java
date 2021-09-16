@@ -5,8 +5,6 @@ import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.ScriptElement;
 
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
@@ -82,8 +80,7 @@ public final class ExportLoader {
 
 	@JsOverlay
 	private static void load(Runnable callback, String name) {
-		ScriptElement scriptElement = Document.get().createScriptElement();
-		scriptElement.setSrc(GWT.getModuleBaseURL() + "js/" + name + ".min.js");
+		String  src = GWT.getModuleBaseURL() + "js/" + name + ".min.js";
 		ScriptLoadCallback loadCallback = new ScriptLoadCallback() {
 			@Override
 			public void onLoad() {
@@ -101,6 +98,6 @@ public final class ExportLoader {
 				// only for localization files
 			}
 		};
-		ResourcesInjector.loadJS(scriptElement, loadCallback);
+		ResourcesInjector.loadJS(src, loadCallback);
 	}
 }

@@ -81,14 +81,9 @@ public final class EventUtil {
 	 * @param element
 	 *            element
 	 */
-	public static native void stopPointer(Element element) /*-{
-		if ($wnd.PointerEvent) {
-			var evts = [ "PointerDown", "PointerUp" ];
-			for ( var k in evts) {
-				element.addEventListener(evts[k].toLowerCase(), function(e) {
-					e.stopPropagation()
-				});
-			}
+	public static void stopPointer(Element element) {
+		for (String evtName : new String[]{"pointerup", "pointerdown"}) {
+			Dom.addEventListener(element, evtName, e -> e.stopPropagation());
 		}
-	}-*/;
+	}
 }
