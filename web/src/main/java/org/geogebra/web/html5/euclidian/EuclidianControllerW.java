@@ -41,11 +41,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	private MouseTouchGestureControllerW mtg;
 
 	@Override
-	public EnvironmentStyleW getEnvironmentStyle() {
-		return mtg.getEnvironmentStyle();
-	}
-
-	@Override
 	protected void showSpecialPointPopup(
 			final ArrayList<GeoElement> previewPoints) {
 		if (!app.getConfig().hasPreviewPoints()) {

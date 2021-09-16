@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.profiler.FpsProfilerW;
 import org.geogebra.web.html5.euclidian.profiler.drawer.DrawingEmulator;
 import org.geogebra.web.html5.euclidian.profiler.drawer.DrawingRecorder;
@@ -39,9 +38,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	private PointerEvent waitingTouchMove = null;
 	private PointerEvent waitingMouseMove = null;
 
-	private EnvironmentStyleW style = new EnvironmentStyleW();
-	private boolean cssZoom = false;
-
 	private int delayUntilMoveFinish = 150;
 
 	private LongTouchManager longTouchManager;
@@ -58,10 +54,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	private DrawingRecorder drawingRecorder;
 	private boolean isRecording;
 
-	public EnvironmentStyleW getEnvironmentStyle() {
-		return style;
-	}
-
 	/**
 	 * recalculates cached styles concerning browser environment
 	 */
@@ -70,47 +62,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			return;
 		}
 
-		style = new EnvironmentStyleW();
-		style.setxOffset(getEnvXoffset());
-		style.setyOffset(getEnvYoffset());
-		double scaleX = ((AppW) app).getGeoGebraElement().getScaleX();
-		style.setScaleX(scaleX);
-		style.setScaleY(((AppW) app).getGeoGebraElement().getScaleY());
-
-		setZoomOffsets(scaleX);
-
-		style.setScrollLeft(Window.getScrollLeft());
-		style.setScrollTop(Window.getScrollTop());
 		ec.getView().setPixelRatio(((AppW) app).getPixelRatio());
-	}
-
-	private void setZoomOffsets(double scale) {
-		if (!cssZoom || scale == 1) {
-			style.setZoomXOffset(0);
-			style.setZoomYOffset(0);
-		} else {
-			style.setZoomXOffset(
-					ec.getView().getAbsoluteLeft());
-			style.setZoomYOffset(ec.getView().getAbsoluteTop());
-		}
-	}
-
-	private int getEnvXoffset() {
-		// return EuclidianViewXOffset;
-		// the former solution doesn't update on scrolling
-		return (((EuclidianViewWInterface) ec.getView()).getAbsoluteLeft()
-				- Window.getScrollLeft());
-
-	}
-
-	/**
-	 * @return offset to get correct getY() in mouseEvents
-	 */
-	private int getEnvYoffset() {
-		// return EuclidianViewYOffset;
-		// the former solution doesn't update on scrolling
-		return ((EuclidianViewWInterface) ec.getView()).getAbsoluteTop()
-		        - Window.getScrollTop();
 	}
 
 	/**
@@ -142,7 +94,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		app.getGlobalHandlers().add(Window.addWindowScrollHandler(e -> calculateEnvironment()));
 		app.addWindowResizeListener(this);
 		longTouchManager = LongTouchManager.getInstance();
-		this.cssZoom = Browser.isSafariByVendor();
 	}
 
 	/**
