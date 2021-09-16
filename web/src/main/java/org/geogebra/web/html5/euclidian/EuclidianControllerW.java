@@ -27,43 +27,16 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
-import com.google.gwt.event.dom.client.GestureChangeEvent;
-import com.google.gwt.event.dom.client.GestureChangeHandler;
-import com.google.gwt.event.dom.client.GestureEndEvent;
-import com.google.gwt.event.dom.client.GestureEndHandler;
-import com.google.gwt.event.dom.client.GestureStartEvent;
-import com.google.gwt.event.dom.client.GestureStartHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.MouseWheelHandler;
-import com.google.gwt.event.dom.client.TouchCancelEvent;
-import com.google.gwt.event.dom.client.TouchCancelHandler;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 
 /**
  * Web version of Euclidian controller
  *
  */
 public class EuclidianControllerW extends EuclidianController implements
-        MouseDownHandler, MouseUpHandler, MouseMoveHandler, MouseOutHandler,
-        MouseOverHandler, MouseWheelHandler, TouchStartHandler,
-        TouchEndHandler, TouchMoveHandler, TouchCancelHandler,
-        GestureStartHandler, GestureEndHandler, GestureChangeHandler,
-		IsEuclidianController, DropHandler {
+		MouseWheelHandler, IsEuclidianController, DropHandler {
 
 	private MouseTouchGestureControllerW mtg;
 
@@ -130,31 +103,6 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.handleLongTouch(x, y);
 	}
 
-	@Override
-	public void onGestureChange(GestureChangeEvent event) {
-		mtg.onGestureChange(event);
-	}
-
-	@Override
-	public void onGestureEnd(GestureEndEvent event) {
-		mtg.onGestureEnd(event);
-	}
-
-	@Override
-	public void onGestureStart(GestureStartEvent event) {
-		mtg.onGestureStart(event);
-	}
-
-	@Override
-	public void onTouchCancel(TouchCancelEvent event) {
-		mtg.onTouchCancel(event);
-	}
-
-	@Override
-	public void onTouchMove(TouchMoveEvent event) {
-		mtg.onTouchMove(event);
-	}
-
 	/**
 	 * @param touch
 	 *            first finger
@@ -163,28 +111,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	 */
 	public void twoTouchMove(Touch touch, Touch touch2) {
 		mtg.twoTouchMove(touch, touch2);
-	}
-
-	@Override
-	public void onTouchEnd(TouchEndEvent event) {
-		mtg.onTouchEnd(event);
-	}
-
-	@Override
-	public void onTouchStart(TouchStartEvent event) {
-		if ((app.getGuiManager() != null) && shouldSetToolbar()) {
-			// Probability calculator plot panel view should not set active
-			// toolbar ID
-			// this is used by DataDisplayPanelW and PlotPanelEuclidianViewW,
-			// #plotpanelevno
-			// probably both are Okay not changing the toolbar to full Graphics
-			// view toolbar
-			((GuiManagerInterfaceW) app.getGuiManager())
-					.setActivePanelAndToolbar(App.VIEW_EUCLIDIAN);
-		} else {
-			setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
-		}
-		mtg.onTouchStart(event);
 	}
 
 	/**
@@ -211,31 +137,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	public void onMouseOver(MouseOverEvent event) {
-		mtg.onMouseOver(event);
-	}
-
-	@Override
-	public void onMouseOut(MouseOutEvent event) {
-		mtg.onMouseOut(event);
-	}
-
-	@Override
-	public void onMouseMove(MouseMoveEvent event) {
-		mtg.onMouseMove(event);
-	}
-
-	@Override
-	public void onMouseUp(MouseUpEvent event) {
-		mtg.onMouseUp(event);
-	}
-
-	@Override
-	public void onMouseDown(MouseDownEvent event) {
-		mtg.onMouseDown(event);
-	}
-
-	@Override
 	public void onPointerEventStart(AbstractEvent event) {
 		if (temporaryMode) {
 			mtg.setComboboxFocused(false);
@@ -255,8 +156,6 @@ public class EuclidianControllerW extends EuclidianController implements
 					|| mode == EuclidianConstants.MODE_SELECTION_LISTENER) {
 				setMode(mode, ModeSetter.TOOLBAR);
 			}
-			// app.setMode(EuclidianConstants.MODE_MOVE);
-			// app.getGuiManager().updateToolbar();
 		}
 		mtg.onPointerEventStart(event);
 	}

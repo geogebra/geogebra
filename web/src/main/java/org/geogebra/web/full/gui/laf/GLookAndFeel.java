@@ -10,7 +10,6 @@ import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.full.gui.browser.MaterialListElement;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.Cookies;
@@ -22,7 +21,6 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Represents different designs/platforms of GeoGebra deployment
@@ -156,11 +154,6 @@ public class GLookAndFeel implements GLookAndFeelI {
 	public boolean isExternalLoginAllowed() {
 		return true;
 	}
-
-	@Override
-    public boolean registerHandlers(Widget evPanel, EuclidianControllerW euclidiancontroller) {
-	    return false;
-    }
 
 	@Override
     public boolean autosaveSupported() {

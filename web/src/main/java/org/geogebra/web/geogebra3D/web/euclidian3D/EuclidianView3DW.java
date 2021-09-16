@@ -26,7 +26,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWInterface;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.geogebra.web.geogebra3D.web.euclidian3DnoWebGL.RendererWnoWebGL;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -47,19 +46,8 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.event.dom.client.GestureChangeEvent;
-import com.google.gwt.event.dom.client.GestureEndEvent;
-import com.google.gwt.event.dom.client.GestureStartEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
-import com.google.gwt.event.dom.client.TouchCancelEvent;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
@@ -164,33 +152,12 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		Widget absPanel = euclidianViewPanel.getAbsolutePanel();
 		absPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
 
-		if (Browser.supportsPointerEvents()) {
-			PointerEventHandler pointerHandler = new PointerEventHandler(
-					(IsEuclidianController) euclidianController,
-					euclidiancontroller.getOffsets());
-			pointerHandler.attachTo(absPanel.getElement(), ((AppW) app).getGlobalHandlers());
-			CancelEventTimer.killTouch(absPanel);
-			absPanel.addBitlessDomHandler(DomEvent::stopPropagation, MouseDownEvent.getType());
-		} else {
-			absPanel.addDomHandler(euclidiancontroller,
-					MouseMoveEvent.getType());
-			absPanel.addDomHandler(euclidiancontroller,
-					MouseOverEvent.getType());
-			absPanel.addDomHandler(euclidiancontroller, MouseOutEvent.getType());
-			if (((AppW) app).getLAF() == null
-					|| !((AppW) app).getLAF().isSmart()) {
-				absPanel.addDomHandler(euclidiancontroller,
-						MouseDownEvent.getType());
-			}
-			absPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
-			absPanel.addBitlessDomHandler(euclidiancontroller, TouchStartEvent.getType());
-			absPanel.addBitlessDomHandler(euclidiancontroller, TouchEndEvent.getType());
-			absPanel.addBitlessDomHandler(euclidiancontroller, TouchMoveEvent.getType());
-			absPanel.addBitlessDomHandler(euclidiancontroller, TouchCancelEvent.getType());
-			absPanel.addDomHandler(euclidiancontroller, GestureStartEvent.getType());
-			absPanel.addDomHandler(euclidiancontroller, GestureChangeEvent.getType());
-			absPanel.addDomHandler(euclidiancontroller, GestureEndEvent.getType());
-		}
+		PointerEventHandler pointerHandler = new PointerEventHandler(
+				(IsEuclidianController) euclidianController,
+				euclidiancontroller.getOffsets());
+		pointerHandler.attachTo(absPanel.getElement(), ((AppW) app).getGlobalHandlers());
+		CancelEventTimer.killTouch(absPanel);
+		absPanel.addBitlessDomHandler(DomEvent::stopPropagation, MouseDownEvent.getType());
 	}
 
 	/**

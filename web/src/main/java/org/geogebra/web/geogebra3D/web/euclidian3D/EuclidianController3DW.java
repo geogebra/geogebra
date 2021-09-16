@@ -19,32 +19,8 @@ import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.GestureChangeEvent;
-import com.google.gwt.event.dom.client.GestureChangeHandler;
-import com.google.gwt.event.dom.client.GestureEndEvent;
-import com.google.gwt.event.dom.client.GestureEndHandler;
-import com.google.gwt.event.dom.client.GestureStartEvent;
-import com.google.gwt.event.dom.client.GestureStartHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.MouseWheelHandler;
-import com.google.gwt.event.dom.client.TouchCancelEvent;
-import com.google.gwt.event.dom.client.TouchCancelHandler;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Event;
 
 /**
@@ -52,11 +28,8 @@ import com.google.gwt.user.client.Event;
  *
  */
 public class EuclidianController3DW extends EuclidianController3D implements
-        MouseDownHandler, MouseUpHandler, MouseMoveHandler, MouseOutHandler,
-        MouseOverHandler, MouseWheelHandler, TouchStartHandler,
-        TouchEndHandler, TouchMoveHandler, TouchCancelHandler,
-        GestureStartHandler, GestureEndHandler, GestureChangeHandler,
-		IsEuclidianController {
+		MouseWheelHandler, IsEuclidianController {
+
 	private MouseTouchGestureControllerW mtg;
 	/**
 	 * x-coordinates of the center of the multitouch-event
@@ -100,8 +73,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	public EuclidianController3DW(Kernel kernel) {
 		super(kernel.getApplication());
 		setKernel(kernel);
-		// RealSense.initIfSupported(this);
-		// RealSense.createInstance();
 	}
 
 	@Override
@@ -118,59 +89,12 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	}
 
 	@Override
-	public void onGestureChange(GestureChangeEvent event) {
-		mtg.onGestureChange(event);
-	}
-
-	@Override
-	public void onGestureEnd(GestureEndEvent event) {
-		mtg.onGestureEnd(event);
-	}
-
-	@Override
-	public void onGestureStart(GestureStartEvent event) {
-		mtg.onGestureStart(event);
-	}
-
-	@Override
-	public void onTouchCancel(TouchCancelEvent event) {
-		mtg.onTouchCancel(event);
-	}
-
-	@Override
-	public void onTouchMove(TouchMoveEvent event) {
-		mtg.onTouchMove(event);
-	}
-
-	@Override
-	public void onTouchEnd(TouchEndEvent event) {
-		mtg.onTouchEnd(event);
-	}
-
-	@Override
-	public void onTouchStart(TouchStartEvent event) {
-		app.closePopups();
-		if (app.getGuiManager() != null) {
-			((GuiManagerW) app.getGuiManager())
-					.setActivePanelAndToolbar(App.VIEW_EUCLIDIAN3D);
-		} else {
-			setMode(EuclidianConstants.MODE_MOVE, ModeSetter.DOCK_PANEL);
-			// app.setMode(EuclidianConstants.MODE_MOVE);
-			// app.getGuiManager().updateToolbar();
-		}
-		mtg.onTouchStart(event);
-
-	}
-
-	@Override
 	public void onPointerEventStart(AbstractEvent event) {
 		if (app.getGuiManager() != null) {
 			((GuiManagerW) app.getGuiManager())
 					.setActivePanelAndToolbar(App.VIEW_EUCLIDIAN3D);
 		} else {
 			setMode(EuclidianConstants.MODE_MOVE, ModeSetter.DOCK_PANEL);
-			// app.setMode(EuclidianConstants.MODE_MOVE);
-			// app.getGuiManager().updateToolbar();
 		}
 		mtg.onPointerEventStart(event);
 	}
@@ -178,32 +102,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	@Override
 	public void onMouseWheel(MouseWheelEvent event) {
 		mtg.onMouseWheel(event);
-	}
-
-	@Override
-	public void onMouseOver(MouseOverEvent event) {
-		mtg.onMouseOver(event);
-	}
-
-	@Override
-	public void onMouseOut(MouseOutEvent event) {
-		mtg.onMouseOut(event);
-	}
-
-	@Override
-	public void onMouseMove(MouseMoveEvent event) {
-		mtg.onMouseMove(event);
-	}
-
-	@Override
-	public void onMouseUp(MouseUpEvent event) {
-		mtg.onMouseUp(event);
-	}
-
-	@Override
-	public void onMouseDown(MouseDownEvent event) {
-		app.closePopups();
-		mtg.onMouseDown(event);
 	}
 
 	@Override
