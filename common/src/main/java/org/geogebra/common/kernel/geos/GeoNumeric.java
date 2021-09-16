@@ -1983,7 +1983,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	protected boolean isSingularValue() {
+	public boolean isSingularValue() {
 		return DoubleUtil.isEqual(Math.toRadians(1), value)
 				|| DoubleUtil.isEqual(Math.toRadians(0), value);
 	}

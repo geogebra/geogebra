@@ -2891,9 +2891,12 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			geoPoint.addAuralLabel(sb);
 		}
 
+		ScreenReaderBuilder sbWithValue = new ScreenReaderBuilder(loc);
+		sbWithValue.appendDegreeIfNeeded(geoPoint,
+				ScreenReader.convertToReadable(geoPoint.getValueForInputBar(), loc));
 		return loc.getPlain("PointAMovedToB",
 				sb.toString(),
-				ScreenReader.convertToReadable(geoPoint.getValueForInputBar(), loc));
+				sbWithValue.toString());
 
 	}
 

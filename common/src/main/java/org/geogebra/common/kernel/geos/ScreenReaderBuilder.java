@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
 
@@ -160,7 +161,7 @@ public class ScreenReaderBuilder {
 		return loc.getMenu("prime");
 	}
 
-	protected void appendDegreeIfNeeded(GeoElement geo, String valueString) {
+	protected void appendDegreeIfNeeded(GeoElementND geo, String valueString) {
 		append(degreeReplaced(geo, valueString, " "));
 	}
 
@@ -169,7 +170,7 @@ public class ScreenReaderBuilder {
 		appendSpace();
 	}
 
-	private String degreeReplaced(GeoElement geo, String valueString, String space) {
+	private String degreeReplaced(GeoElementND geo, String valueString, String space) {
 		String degreeReadable =
 				geo.isSingularValue() ? ScreenReader.getDegree(loc) : ScreenReader.getDegrees(loc);
 

@@ -1648,4 +1648,11 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	 * Removes dynamic capiton completely.
 	 */
 	void removeDynamicCaption();
+
+	/**
+	 *
+	 * @return if value should read as singular
+	 * (ie for numbers. 1, 0) or plural.
+	 */
+	boolean isSingularValue();
 }

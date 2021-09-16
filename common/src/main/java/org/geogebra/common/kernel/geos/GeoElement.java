@@ -6345,7 +6345,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return isLocked();
 	}
 
-	protected boolean isSingularValue() {
+	@Override
+	public boolean isSingularValue() {
 		return false;
 	}
 

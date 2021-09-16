@@ -1500,7 +1500,7 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
-	protected boolean isSingularValue() {
+	public boolean isSingularValue() {
 		String valueString = toValueString(StringTemplate.defaultTemplate);
 		if (!valueString.contains(Unicode.DEGREE_STRING)) {
 			return false;
