@@ -51,11 +51,11 @@ class Drawer extends Timer {
 
 	private void moveTouch() {
 		mouseTouchGestureController
-				.onTouchMoveNow(pointerEvent, coordinate.getTime(), false);
+				.onMouseMoveNow(pointerEvent, coordinate.getTime(), false);
 	}
 
 	private void endTouch() {
-		mouseTouchGestureController.onTouchEnd();
+		mouseTouchGestureController.onPointerEventEnd(pointerEvent);
 		fpsProfiler.notifyTouchEnd();
 	}
 

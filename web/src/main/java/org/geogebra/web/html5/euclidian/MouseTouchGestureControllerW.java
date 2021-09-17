@@ -16,7 +16,6 @@ import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.main.AppW;
@@ -27,7 +26,6 @@ import com.google.gwt.user.client.Window;
 import elemental2.dom.WheelEvent;
 import jsinterop.base.Js;
 
-@SuppressWarnings("javadoc")
 public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		implements HasOffsets {
 
@@ -85,51 +83,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			event.setIsRightClick(true);
 		}
 		ec.wrapMouseReleased(event);
-	}
-
-	/**
-	 * Handle touch move event immediately.
-	 *
-	 * @param event
-	 *            touch move
-	 * @param time
-	 *            current time
-	 * @param startCapture
-	 *            whether to start capturing
-	 */
-	public void onTouchMoveNow(PointerEvent event, long time,
-	        boolean startCapture) {
-		// in SMART we actually get move events even if mouse button is up ...
-		if (!dragModeMustBeSelected) {
-			ec.wrapMouseMoved(event);
-		} else {
-			wrapMouseDraggedWithProfiling(event, startCapture);
-		}
-
-		int dragTime = (int) (System.currentTimeMillis() - time);
-		if (dragTime > delayUntilMoveFinish) {
-			delayUntilMoveFinish = dragTime + 10;
-		}
-
-		moveCounter++;
-	}
-
-	/**
-	 * Ends the touch without the TouchEndEvent object.
-	 */
-	public void onTouchEnd() {
-		dragModeMustBeSelected = false;
-		if (moveCounter < 2) {
-			ec.resetModeAfterFreehand();
-		}
-
-		resetDelay();
-		longTouchManager.cancelTimer();
-		ec.wrapMouseReleased(new PointerEvent(ec.mouseLoc.x,
-				ec.mouseLoc.y,
-				PointerEventType.TOUCH, ZeroOffset.INSTANCE));
-		CancelEventTimer.touchEventOccured();
-		ec.resetModeAfterFreehand();
 	}
 
 	/**
