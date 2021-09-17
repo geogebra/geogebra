@@ -30,7 +30,7 @@ $deleteTime: 120ms;
 
 	.tableEditor {
 		box-sizing: border-box;
-		background-color: $white;
+		background-color: colors.$white;
 		border: 1px colors.$purple-default solid;
 		overflow: hidden;
 		text-align: right;
