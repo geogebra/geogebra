@@ -45,9 +45,7 @@ public class MoveGeos {
 		final ArrayList<GeoElement> geos = new ArrayList<>();
 
 		for (GeoElement geo: geosToMove) {
-
 			addWithSiblingsAndChildNodes(geo, geos, view); // also removes duplicates
-
 		}
 		boolean moved = false;
 		final int size = geos.size();
