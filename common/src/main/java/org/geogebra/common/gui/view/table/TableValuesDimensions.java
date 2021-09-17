@@ -23,4 +23,13 @@ public interface TableValuesDimensions {
 	 * @return the width of the colum
 	 */
 	int getColumnWidth(int column);
+
+	/**
+	 * Calculates the minimum width for the currently edited cell
+	 *
+	 * @param column column of the currently edited cell
+	 * @param row row of the currently edited cell
+	 * @return the width of the column excluding the currently edited cell
+	 */
+	int getMinEditingColumnWidth(int row, int column);
 }
