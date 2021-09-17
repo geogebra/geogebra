@@ -429,7 +429,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		GeoGebraProfiler.addRepaint(lastRepaint);
 
 		if (objectsWaitingForNewRepaint > 0) {
-			kernel.notifyControllersMoveIfWaiting();
 			waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
 			objectsWaitingForNewRepaint--;
 		} else {

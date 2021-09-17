@@ -24,12 +24,10 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.MouseWheelHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
 
 /**
  * Web version of Euclidian controller
@@ -72,11 +70,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	public void moveIfWaiting() {
-		mtg.moveIfWaiting();
-	}
-
-	@Override
 	protected void createCompanions() {
 		super.createCompanions();
 		mtg = new MouseTouchGestureControllerW((AppW) app, this);
@@ -96,34 +89,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	@Override
 	public void handleLongTouch(int x, int y) {
 		mtg.handleLongTouch(x, y);
-	}
-
-	/**
-	 * @param touch
-	 *            first finger
-	 * @param touch2
-	 *            second finger
-	 */
-	public void twoTouchMove(Touch touch, Touch touch2) {
-		mtg.twoTouchMove(touch, touch2);
-	}
-
-	/**
-	 * @param event
-	 *            touch event
-	 */
-	public void preventTouchIfNeeded(TouchStartEvent event) {
-		mtg.preventTouchIfNeeded(event);
-	}
-
-	/**
-	 * @param touch
-	 *            first finger
-	 * @param touch2
-	 *            second finger
-	 */
-	public void twoTouchStart(Touch touch, Touch touch2) {
-		mtg.twoTouchStart(touch, touch2);
 	}
 
 	@Override
@@ -200,14 +165,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	@Override
 	public boolean isComboboxFocused() {
 		return mtg.isComboboxFocused();
-	}
-
-	/**
-	 * @param flag
-	 *            whether a combobox has focus
-	 */
-	public void setComboboxFocused(boolean flag) {
-		mtg.setComboboxFocused(flag);
 	}
 
 	@Override

@@ -48,11 +48,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	}
 
 	@Override
-	public void moveIfWaiting() {
-		mtg.moveIfWaiting();
-	}
-
-	@Override
 	protected void createCompanions() {
 		super.createCompanions();
 		mtg = new MouseTouchGestureControllerW((AppW) app, this);
