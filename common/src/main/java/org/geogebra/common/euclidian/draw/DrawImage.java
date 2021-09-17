@@ -269,6 +269,9 @@ public class DrawImage extends Drawable {
 
 	@Override
 	public void draw(GGraphics2D g3) {
+		if (geoImage.isMeasurementTool() && view.getApplication().isExporting()) {
+			return;
+		}
 		if (isVisible) {
 			GComposite oldComp = g3.getComposite();
 			if (alpha >= 0f && alpha < 1f) {
