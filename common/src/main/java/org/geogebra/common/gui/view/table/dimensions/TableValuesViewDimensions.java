@@ -92,10 +92,10 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
 	}
 
 	@Override
-	public int getMinEditingColumnWidth(int row, int column) {
+	public int getColumnWidth(int column, int exceptRow) {
 		int maxWidth = MIN_COLUMN_WIDTH;
 		for (int i = 0; i < tableModel.getRowCount(); i++) {
-			if (i != row && column < tableModel.getColumnCount()) {
+			if (i != exceptRow && column < tableModel.getColumnCount()) {
 				TableValuesCell cell = tableModel.getCellAt(i, column);
 				int width = getWidth(cell.getInput());
 				maxWidth = Math.max(maxWidth, width);

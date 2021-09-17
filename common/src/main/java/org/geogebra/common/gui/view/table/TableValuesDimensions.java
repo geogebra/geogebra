@@ -25,11 +25,11 @@ public interface TableValuesDimensions {
 	int getColumnWidth(int column);
 
 	/**
-	 * Calculates the minimum width for the currently edited cell
+	 * Calculating the column width excluding a row
 	 *
-	 * @param column column of the currently edited cell
-	 * @param row row of the currently edited cell
-	 * @return the width of the column excluding the currently edited cell
+	 * @param column column
+	 * @param exceptRow row which should be excluded
+	 * @return the width of the column excluding the exceptRow
 	 */
-	int getMinEditingColumnWidth(int row, int column);
+	int getColumnWidth(int column, int exceptRow);
 }
