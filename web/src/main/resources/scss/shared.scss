@@ -1,12 +1,12 @@
-@import 'colors';
-@import 'z-index';
+@use 'colors';
+@use 'z-index';
 
 %matButton {
 	margin: 8px !important;
 	padding: 0 16px;
-	border: 1px solid $purple-default;
+	border: 1px solid colors.$purple-default;
 	border-radius: 2px;
-	box-shadow: 0 3px 1px -2px $black-20, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
+	box-shadow: 0 3px 1px -2px colors.$black-20, 0px 2px 2px 0px colors.$black-14, 0px 1px 5px 0px colors.$black-12;
 	min-width: 44px;
 	height: 28px;
 	vertical-align: middle;
@@ -23,11 +23,11 @@
 
 %primaryButton {	
 	@extend %matButton;
-	background-color: $purple-default;
-	color: $white;
+	background-color: colors.$purple-default;
+	color: colors.$white;
 	&:hover {
-		background-color: $purple-dark;
-		border: 1px solid $purple-dark;
+		background-color: colors.$purple-dark;
+		border: 1px solid colors.$purple-dark;
 	}
 }
 
@@ -35,7 +35,7 @@
 .GeoGebraFrame {
 .DialogBox,
 	.gwt-DialogBox {
-		z-index: $z-dialog-over-keyboard;
+		z-index: z-index.$z-dialog-over-keyboard;
 		/*box-shadow: 1px 1px 6px 1px #666666;*/
 
 		background-color: rgba(255,255,255,0.9);

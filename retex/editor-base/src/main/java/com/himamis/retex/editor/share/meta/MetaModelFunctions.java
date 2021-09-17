@@ -88,7 +88,7 @@ class MetaModelFunctions {
 		}));
 
 		functions.add(
-				createFunctionInsert(Tag.ATOMIC_PRE, "\\atomicpre", 2,
+				createFunctionInsert(Tag.ATOMIC_PRE, "\\atomicpre", 0,
 						new MetaParameter[] {
 								createParameterUp(1), createParameterDown(0), MetaParameter.BASIC
 						}));

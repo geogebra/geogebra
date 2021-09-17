@@ -38,7 +38,7 @@ public class IntervalPath {
 		reset();
 		Interval lastY = new Interval();
 
-		int pointCount = model.getPoints().count();
+		int pointCount = model.pointCount();
 		if (pointCount == 1) {
 			return;
 		}

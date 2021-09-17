@@ -3,8 +3,8 @@ package org.geogebra.web.html5.main;
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
- * @author gabor suggests wheter the AppWapplet, AppWsimple has applet
- *         properties, so behaves like an applet.
+ * Interface for GeoGebra applet frame
+ * @author gabor
  */
 public interface HasAppletProperties {
 

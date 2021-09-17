@@ -6,6 +6,7 @@ import com.google.gwt.dom.client.Element;
  * Utility class for CSS events
  */
 public class CSSEvents {
+
 	private static native void runOnEvent(Runnable runnable, String eventName, Element root,
 			String classname) /*-{
 		var reClass = RegExp(classname);

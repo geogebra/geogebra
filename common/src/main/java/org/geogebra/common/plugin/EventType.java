@@ -210,7 +210,12 @@ public enum EventType {
 	LOCK_TEXT_ELEMENT("lockTextElement"),
 
 	/** unlock text element for other users */
-	UNLOCK_TEXT_ELEMENT("unlockTextElement");
+	UNLOCK_TEXT_ELEMENT("unlockTextElement"),
+
+	/**
+	 * Toolbar settings changed
+	 */
+	TOOLBAR_CHANGED("toolbarChanged");
 
 	private String eventName;
 

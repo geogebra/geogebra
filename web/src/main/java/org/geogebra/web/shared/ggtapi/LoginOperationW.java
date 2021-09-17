@@ -52,7 +52,7 @@ public class LoginOperationW extends LogInOperation {
 		AuthenticationModelW model = new AuthenticationModelW(appWeb);
 		setModel(model);
 
-		iniNativeEvents();
+		iniNativeEvents(app);
 		apiFactory = new BackendAPIFactory(app);
 	}
 
@@ -65,9 +65,8 @@ public class LoginOperationW extends LogInOperation {
 	 * <li>loginpassive: passive login, uses cookies
 	 * </ul>
 	 */
-	private void iniNativeEvents() {
-		DomGlobal.window
-				.addEventListener(
+	private void iniNativeEvents(AppW app) {
+		app.getGlobalHandlers().addEventListener(DomGlobal.window,
 						"message",
 						event -> {
 							Object data = Js.asPropertyMap(event).get("data");

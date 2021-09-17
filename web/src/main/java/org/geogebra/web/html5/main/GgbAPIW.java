@@ -382,44 +382,23 @@ public class GgbAPIW extends GgbAPI {
 		return getZippedBase64Sync(archiveContent);
 	}
 
-	private native String addDPI(String base64, double dpi) /*-{
-		var pngHeader = "data:image/png;base64,";
-
-		if (base64.startsWith(pngHeader)) {
-			base64 = base64.substr(pngHeader.length);
+	private String addDPI(String prefixedBase64, double dpi) {
+		String base64;
+		if (prefixedBase64.startsWith(StringUtil.pngMarker)) {
+			base64 = prefixedBase64.substring(StringUtil.pngMarker.length());
+		} else {
+			base64 = prefixedBase64;
 		}
 
-		// convert dots per inch into dots per metre
-		var pixelsPerM = dpi * 100 / 2.54;
-
-		//console.log("base64 = " + base64);
-
-		// encode PNG as Uint8Array
-		var binary_string = $wnd.atob(base64);
-		var len = binary_string.length;
-		//console.log("len = " + len);
-		var bytes = new Uint8Array(len);
-		for (var i = 0; i < len; i++) {
-			bytes[i] = binary_string.charCodeAt(i);
-		}
+		Uint8Array bytes = Base64.base64ToBytes(base64);
 
 		// change / add pHYs chunk
 		// pixels per metre
-		var ppm = Math.round(dpi / 2.54 * 100);
+		double ppm = Math.round(dpi / 2.54 * 100);
 
-		var b64encoded;
-
-		if (base64.length > 100000) {
-			// slower but works with large images
-			b64encoded = $wnd.rewrite_pHYs_chunk(bytes, ppm, ppm, true);
-		} else {
-			// faster but not good for large images eg 4000 x 4000
-			bytes = $wnd.rewrite_pHYs_chunk(bytes, ppm, ppm, false);
-			b64encoded = btoa(String.fromCharCode.apply(null, bytes));
-		}
-		return 'data:image/png;base64,' + b64encoded;
-
-	}-*/;
+		String b64encoded = RewritePhys.rewritePhysChunk(bytes, ppm, ppm);
+		return StringUtil.pngMarker + b64encoded;
+	}
 
 	/**
 	 * @param includeThumbnail

@@ -7,6 +7,8 @@ import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.CustomizeToolbarHeaderPanel.CustomizeToolbarListener;
 import org.geogebra.web.full.gui.app.GGWToolBar;
@@ -258,12 +260,9 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			return (y > last.getAbsoluteTop() + last.getOffsetHeight());
 		}
 
-		native void toolbarChanged(String toolbarString) /*-{
-			if ($wnd.onGgbToolbarChanged) {
-				$wnd.onGgbToolbarChanged(toolbarString);
-			}
-
-		}-*/;
+		void toolbarChanged(String toolbarString) {
+			app.dispatchEvent(new Event(EventType.TOOLBAR_CHANGED, null, toolbarString));
+		}
 
 		public TreeItem setupItem(final TreeItem item, final DraggableTool tool) {
 			item.setUserObject(tool);

@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.FileDropHandlerW;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
@@ -85,6 +86,10 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 XMLHttpRequest.class);
         StubGenerator.replaceMethodWithMock(StyleInjector.class, "inject",
                 Void.class);
+        StubGenerator.replaceMethodWithMock(Browser.class, "isSafariByVendor",
+                Boolean.class);
+        StubGenerator.replaceMethodWithMock(Dom.class, "querySelector", Void.class);
+        StubGenerator.replaceMethodWithMock(Dom.class, "querySelectorForElement", Void.class);
     }
 
     @Override

@@ -254,8 +254,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				|| parameters.getDataParamEnableRightClick() || !isStartedWithFile();
 
 		Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
-				+ GeoGebraConstants.BUILD_DATE + " "
-				+ Window.Navigator.getUserAgent());
+				+ GeoGebraConstants.BUILD_DATE);
 		initCommonObjects();
 		initing = true;
 

@@ -89,8 +89,8 @@ public class SelectionTableW extends Grid implements ClickHandler {
 		}
 	}
 
-	private void clearSelection(int def) {
-		selectedColumn = def;
+	private void clearSelection() {
+		selectedColumn = -1;
 		selectedRow = 0;
 		clearSelectedCells();
 	}
@@ -119,15 +119,12 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	}
 
 	/**
-	 * sets the given index as selected. if {@code index = -1} the selection is
-	 * removed.
-	 * 
-	 * @param index
-	 *            {@code int}
+	 * Sets the given index as selected. If the index is invalid, the selection is removed.
+	 * @param index {@code int}
 	 */
 	public void setSelectedIndex(int index) {
-		if (index == -1) {
-			this.clearSelection(-1);
+		if (index < 0 || index > getColumnCount() * getRowCount()) {
+			this.clearSelection();
 			return;
 		}
 		int row = index / getColumnCount();

@@ -11,7 +11,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
@@ -20,8 +19,6 @@ import org.geogebra.web.html5.util.MyDictionary;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.ScriptElement;
 
 import elemental2.core.Global;
 import jsinterop.base.Js;
@@ -364,19 +361,16 @@ public final class LocalizationW extends Localization {
 	 *            callback
 	 */
 	public void loadScript(final String lang0, final HasLanguage app) {
-		if (Browser.supportsSessionStorage()
-				&& LocalizationW.loadPropertiesFromStorage(lang0,
-						GeoGebraConstants.VERSION_STRING)) {
+		if (LocalizationW.loadPropertiesFromStorage(lang0,
+				GeoGebraConstants.VERSION_STRING)) {
 			app.doSetLanguage(lang0, false);
 		} else {
 			// load keys (into a JavaScript <script> tag)
-			ScriptElement script = Document.get().createScriptElement();
 			String url = GWT.getModuleBaseURL();
 			if (url.startsWith(GeoGebraConstants.CDN_APPS + "latest")) {
 				url = GeoGebraConstants.CDN_APPS
 						+ GeoGebraConstants.VERSION_STRING + "/web3d/";
 			}
-			script.setSrc(url + "js/properties_keys_" + lang0 + ".js");
 			scriptCallback = new ScriptLoadCallback() {
 				private boolean canceled = false;
 
@@ -389,10 +383,7 @@ public final class LocalizationW extends Localization {
 					// force reload
 					app.doSetLanguage(lang0, true);
 
-					if (Browser.supportsSessionStorage()) {
-						LocalizationW.savePropertiesToStorage(lang0
-						);
-					}
+					LocalizationW.savePropertiesToStorage(lang0);
 				}
 
 				@Override
@@ -411,7 +402,8 @@ public final class LocalizationW extends Localization {
 				}
 
 			};
-			ResourcesInjector.loadJS(script, scriptCallback);
+			ResourcesInjector.loadJS(url + "js/properties_keys_" + lang0 + ".js",
+					scriptCallback);
 		}
 
 	}

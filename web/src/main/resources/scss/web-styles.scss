@@ -1,8 +1,8 @@
 /**
  * The file contains some styles.
  */
-@import 'colors';
-@import 'z-index';
+@use 'colors';
+@use 'z-index';
 
 .GeoGebraFrame {
 	display: block;
@@ -43,7 +43,7 @@
 		left: 0;
 		width: 1px;
 		height: 1px;
-		z-index: $z-hidden;
+		z-index: z-index.$z-hidden;
 		clip: rect(1em 1em 1em 1em);
 		padding: 0;
 		resize: none;
@@ -268,7 +268,7 @@
 
 	.gwt-MenuBarPopup {
 		margin: 0 0 0 3px;
-		z-index: $z-menubar-popup;
+		z-index: z-index.$z-menubar-popup;
 	}
 
 	.gwt-PasswordTextBox {
@@ -284,7 +284,7 @@
 
 	.gwt-PopupPanel {
 		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
-		z-index: $z-dialog-over-keyboard;
+		z-index: z-index.$z-dialog-over-keyboard;
 		will-change: transform;
 
 		&.loadinganimation {
@@ -328,9 +328,9 @@
 	}
 
 	.gwt-PopupPanelGlass {
-		background-color: $black;
+		background-color: colors.$black;
 		opacity: 0.32;
-		z-index: $z-dialog;
+		z-index: z-index.$z-dialog;
 	}
 
 	.gwt-RadioButton-disabled {
@@ -450,13 +450,13 @@
 		font-size: 100%;
 		font-weight: normal;
 		text-align: center;
-		background: $white;
+		background: colors.$white;
 		border-radius: 3px 3px 0 0;
-		border: 1px solid $tool-border;
+		border: 1px solid colors.$tool-border;
 		box-sizing: border-box;
 
 		&:hover {
-			color: $teal-light;
+			color: colors.$teal-light;
 		}
 	}
 
@@ -471,7 +471,7 @@
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected, .gwt-TabBar .gwt-TabBarItem-selected {
 		cursor: default;
 		background: white;
-		color: $teal-default;
+		color: colors.$teal-default;
 		border-bottom: 1px solid white;
 	}
 
@@ -942,7 +942,7 @@
 		padding: 5px 10px;
 		background-color: rgba(255, 255, 255, 0.9);
 		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
-		z-index: $z-tooltip-classic;
+		z-index: z-index.$z-tooltip-classic;
 	}
 
 	.toolTipHTML {
@@ -958,7 +958,7 @@
 		padding: 3px;
 		background-color: rgba(51, 51, 51, 0.7);
 		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
-		z-index: $z-tooltip-classic;
+		z-index: z-index.$z-tooltip-classic;
 		position: absolute;
 		color: #FFFFFF;
 	}
@@ -1223,7 +1223,7 @@
 	.CAS_table_first_row_selected {
 		background-color: white;
 		position: relative;
-		z-index: $z-cas-table-first-row-selected;
+		z-index: z-index.$z-cas-table-first-row-selected;
 	}
 
 	.CAS_subDialog .gwt-Button {
@@ -1621,7 +1621,7 @@
 
 	.ggb-AlgebraViewSuggestionPopup {
 		/* overcoming the z-index of the onScreen keyboard PopupPanel */
-		z-index: $z-dialog-over-keyboard;
+		z-index: z-index.$z-dialog-over-keyboard;
 	}
 
 	.ggb-AlgebraViewSuggestionList {
@@ -1663,10 +1663,10 @@
 		margin-top: 16px;
 		padding-bottom: 0px;
 		display: block;
-		color: $black;
+		color: colors.$black;
 		font-size: 95%;
 		opacity: 0.7;
-		border-bottom: 1px solid $tool-border;
+		border-bottom: 1px solid colors.$tool-border;
 	}
 
 	.panelRow, .panelRowIndent, .panelIndent, .listBoxPanel, .optionsInput, .optionsPanel,
@@ -2089,7 +2089,7 @@
 		height: 61px;
 		box-sizing: border-box;
 		position: relative;
-		z-index: $z-open-screen-header-bar;
+		z-index: z-index.$z-open-screen-header-bar;
 		width: 100%;
 		margin-bottom: 1px;
 	}
@@ -2698,7 +2698,7 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		z-index: $z-unsupported-browser-message;
+		z-index: z-index.$z-unsupported-browser-message;
 		background-color: white;
 	}
 

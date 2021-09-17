@@ -23,18 +23,19 @@ import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.RootPanel;
+
+import elemental2.dom.DomGlobal;
 
 /**
  * Handles creating, showing and updating the keyboard
  */
 public class KeyboardManager
-		implements ResizeHandler, KeyboardManagerInterface {
+		implements RequiresResize, KeyboardManagerInterface {
 
 	private static final int SWITCHER_HEIGHT = 42;
 	private AppW app;
@@ -155,7 +156,8 @@ public class KeyboardManager
 		container.appendChild(detachedKeyboardParent);
 		String keyboardParentId = app.getAppletId() + "keyboard";
 		detachedKeyboardParent.setId(keyboardParentId);
-		Window.addResizeHandler(this);
+		app.getGlobalHandlers().addEventListener(DomGlobal.window, "resize",
+				e -> onResize());
 		return RootPanel.get(keyboardParentId);
 	}
 
@@ -169,7 +171,7 @@ public class KeyboardManager
 	}
 
 	@Override
-	public void onResize(ResizeEvent event) {
+	public void onResize() {
 		if (keyboard != null) {
 			keyboard.onResize();
 		}
@@ -222,6 +224,16 @@ public class KeyboardManager
 	public void clearAndUpdateKeyboard() {
 		if (keyboard != null) {
 			keyboard.clearAndUpdate();
+		}
+	}
+
+	@Override
+	public void removeFromDom() {
+		if (keyboardRoot != null) {
+			// both clear and remove to save memory
+			keyboardRoot.removeFromParent();
+			keyboardRoot.clear();
+			keyboard = null;
 		}
 	}
 

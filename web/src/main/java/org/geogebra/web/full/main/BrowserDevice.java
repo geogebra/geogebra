@@ -18,6 +18,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 
+import elemental2.dom.File;
+import elemental2.dom.HTMLInputElement;
+import jsinterop.base.Js;
+
 /**
  * Device class for case we are running in the browser (eg Chrome app)
  */
@@ -72,22 +76,16 @@ public class BrowserDevice implements GDevice {
 		 *            open file view
 		 */
 		public void setOpenFileView(BrowseViewI of) {
-			addGgbChangeHandler(input, of);
-		}
+			HTMLInputElement fileInput = Js.uncheckedCast(input);
 
-		private native void addGgbChangeHandler(Element el,
-				BrowseViewI bg) /*-{
-			var dialog = this;
-
-			el.onchange = function(event) {
-				var files = this.files;
-				if (files.length) {
-					var fileToHandle = files[0];
-					bg.@org.geogebra.web.html5.gui.view.browser.BrowseViewI::openFile(Lelemental2/dom/File;)(fileToHandle);
-					el.value = [];
+			fileInput.addEventListener("change", (event) -> {
+				if (fileInput.files.length > 0) {
+					File fileToHandle = fileInput.files.getAt(0);
+					of.openFile(fileToHandle);
+					fileInput.value = "";
 				}
-			};
-		}-*/;
+			});
+		}
 
 		/**
 		 * @param imgUrl

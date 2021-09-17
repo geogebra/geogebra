@@ -5215,6 +5215,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 	}
 
+	/**
+	 * hide the on-screen keyboard (if it is visible)
+	 */
+	public void hideKeyboard() {
+		// Overwritten in subclass - nothing to do here
+	}
+
 	public void closeMenuHideKeyboard() {
 		// nothing here
 	}

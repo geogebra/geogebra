@@ -1,5 +1,6 @@
-@import 'colors';
-@import 'z-index';
+@use 'colors';
+@use 'z-index';
+@use "menu-styles";
 
 $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
@@ -11,9 +12,9 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		right: 0px;
 		/*box-shadow: 0 0 16px $black-28;*/
 		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
-		background-color: $white;
+		background-color: colors.$white;
 		/* keep shadow under keyboard */
-		z-index: $z-dialog-under-keyboard;
+		z-index: z-index.$z-dialog-under-keyboard;
 		height: 100%;
 		width: 500px;
 		overflow: hidden;
@@ -165,7 +166,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			border-radius: 0px;
 			border: none;
 			box-shadow: none;
-			border-bottom: 1px solid $tool-border;
+			border-bottom: 1px solid colors.$tool-border;
 			padding: 0px;
 			padding-left: 8px;
 			margin-bottom: 2px;
@@ -173,15 +174,15 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
 			&:hover, &:focus {
 				border: none;
-				border-bottom: 1px solid $teal-default;
+				border-bottom: 1px solid colors.$teal-default;
 			}
 
 			&:disabled {
-				background-color: $transparent-white;
+				background-color: colors.$transparent-white;
 				opacity: 0.42;
 
 				&:hover {
-					border-bottom: 1px solid $tool-border;
+					border-bottom: 1px solid colors.$tool-border;
 				}
 			}
 		}
@@ -192,7 +193,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				right: 20px;
 
 				&.shown:hover {
-					color: $teal-default;
+					color: colors.$teal-default;
 				}
 			}
 
@@ -218,7 +219,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			margin-bottom: 10px;
 
 			.gwt-Label {
-				color: $teal-default;
+				color: colors.$teal-default;
 				font-size: 80%;
 			}
 
@@ -236,7 +237,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		.sliderWidthPanel {
 			.gwt-Label {
 				font-size: 80%;
-				color: $teal-default;
+				color: colors.$teal-default;
 			}
 
 			select {
@@ -321,26 +322,26 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			width: 100% !important;
 			min-width: 64px;
 			max-width: 128px;
-			color: $black;
+			color: colors.$black;
 			margin-top: 0px;
 			margin-left: 16px;
 
 			&:hover {
-				background-color: $white;
+				background-color: colors.$white;
 				text-decoration: none;
 			}
 		}
 
 		.openFileBtn {
 			width: 150px !important;
-			color: $black;
+			color: colors.$black;
 			margin-top: 0px;
 			margin-left: 16px;
 			font-size: 90%;
 
 			&:hover {
 				text-decoration: none;
-				background-color: $white;
+				background-color: colors.$white;
 			}
 		}
 
@@ -372,17 +373,17 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			}
 
 			&:hover {
-				border: $teal-default solid 1px;
+				border: colors.$teal-default solid 1px;
 			}
 
 			&.gwt-ToggleButton-down {
-				border: $teal-default solid 1px;
+				border: colors.$teal-default solid 1px;
 			}
 		}
 
 		.CustomColorButton:hover {
-			border: 2px solid $teal-default !important;
-			background-color: $white !important;
+			border: 2px solid colors.$teal-default !important;
+			background-color: colors.$white !important;
 		}
 
 		.gwt-ToggleButton {
@@ -434,8 +435,8 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		}
 
 		iframe.objectPropertiesTextEditor {
-			border: $tool-border solid 1px;
-			background: $white;
+			border: colors.$tool-border solid 1px;
+			background: colors.$white;
 			padding: 4px 5px;
 			color: #666;
 			border-radius: 2px;
@@ -461,7 +462,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
 		.selected,
 		.gwt-MenuItem.selected:hover {
-			background-image: linear-gradient(right, $tool-border, #f8f8f8);
+			background-image: linear-gradient(right, colors.$tool-border, #f8f8f8);
 		}
 
 		.menuProperties {
@@ -496,13 +497,13 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		padding: 8px;
 		border-radius: 0;
 		border: none;
-		border-bottom: 1px solid $tool-border;
+		border-bottom: 1px solid colors.$tool-border;
 		transition: border-bottom 0.3s ease-out;
 		background-color: transparent;
 
 		&:hover {
 			background-color: transparent;
-			border-bottom: 1px solid $teal-default;
+			border-bottom: 1px solid colors.$teal-default;
 		}
 	}
 
@@ -535,11 +536,11 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
 			&-active {
 				.image {
-					border: 1px solid $mow_primary;
+					border: 1px solid colors.$mow_primary;
 				}
 
 				.title {
-					color: $mow_primary;
+					color: colors.$mow_primary;
 				}
 			}
 		}

@@ -91,7 +91,7 @@ public class AppSwitcherPopup extends GPopupPanel {
 	}
 
 	private void updateLanguage(App app) {
-		Element suitePopup = Dom.querySelector("popupPanelForTranslation");
+		Element suitePopup = Dom.querySelector(".popupPanelForTranslation");
 		if (suitePopup != null) {
 			UserPreferredLanguage.translate(app, suitePopup);
 		}

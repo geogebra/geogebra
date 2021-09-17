@@ -190,7 +190,7 @@ public class GGWToolBar extends Composite
 		redoButton = new StandardButton(pr.menu_header_redo(), null, 32);
 		redoButton.addStyleName("redoButton");
 
-		redoButton.addFastClickHandler(source -> {
+		redoButton.addClickHandler(app.getGlobalHandlers(), source -> {
 			app.getGuiManager().redo();
 			app.hideKeyboard();
 		});
@@ -198,7 +198,7 @@ public class GGWToolBar extends Composite
 		undoButton = new StandardButton(pr.menu_header_undo(), null, 32);
 		undoButton.addStyleName("undoButton");
 
-		undoButton.addFastClickHandler(source -> {
+		undoButton.addClickHandler(app.getGlobalHandlers(), source -> {
 			app.getGuiManager().undo();
 			app.hideKeyboard();
 		});
@@ -1172,5 +1172,4 @@ public class GGWToolBar extends Composite
 	public boolean isShown() {
 		return isVisible() && isAttached();
 	}
-
 }

@@ -154,7 +154,7 @@ public class MathFieldCommon implements MathField {
 	}
 
 	public void setFormatConverter(SyntaxAdapterImpl formatConverter) {
-		internal.getInputController().setFormatConverter(formatConverter);
+		internal.setSyntaxAdapter(formatConverter);
 	}
 
 	public ArrayList<Integer> getCaretPath() {
