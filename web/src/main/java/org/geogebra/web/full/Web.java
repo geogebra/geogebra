@@ -1,6 +1,7 @@
 package org.geogebra.web.full;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.BundleLookAndFeel;
@@ -11,7 +12,6 @@ import org.geogebra.web.full.gui.laf.OfficeLookAndFeel;
 import org.geogebra.web.full.gui.laf.SmartLookAndFeel;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
-import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
@@ -19,8 +19,11 @@ import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
+
+import elemental2.core.JsArray;
+import elemental2.dom.HTMLCollection;
+import jsinterop.base.Js;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -50,8 +53,21 @@ public abstract class Web implements EntryPoint {
 	 * Load UI of all applets.
 	 */
 	public void loadAppletAsync() {
+		removeBackingObject(Parser.getLookaheadSuccess());
+		removeBackingObject(com.himamis.retex.editor.share.io.latex.Parser.getLookaheadSuccess());
 		GeoGebraFrameFull.main(GeoGebraElement.getGeoGebraMobileTags(),
 				getAppletFactory(), getLAF(), null);
+	}
+
+	/**
+	 * Calling Parser.getLookaheadSuccess() makes sure parser doesn't keep a link to App.
+	 * By removing the backing object's stacktrace we make sure it has no link to Web either.
+	 */
+	private void removeBackingObject(Throwable t) {
+		Object back  = Js.asPropertyMap(t).get("backingJsObject");
+		if (Js.isTruthy(back)) {
+			Js.asPropertyMap(back).set("stack", JsArray.of());
+		}
 	}
 
 	private void exportGGBElementRenderer() {
@@ -82,10 +98,10 @@ public abstract class Web implements EntryPoint {
 	 * @return look and feel based the first article that has laf parameter
 	 */
 	public static GLookAndFeel getLAF() {
-		NodeList<Element> nodes = Dom
-				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
+		HTMLCollection<elemental2.dom.Element> nodes =
+				Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		for (int i = 0; i < nodes.getLength(); i++) {
-			String laf = new AppletParameters((GeoGebraElement) nodes.getItem(i)).getDataParamLAF();
+			String laf = nodes.getAt(i).getAttribute("data-param-laf");
 			switch (laf) {
 			case "smart":
 				return new SmartLookAndFeel();

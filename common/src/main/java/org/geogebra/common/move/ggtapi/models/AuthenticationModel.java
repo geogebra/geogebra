@@ -7,8 +7,8 @@ import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.util.GTimer;
 
 /**
- * @author gabor Base class for login logout operations
- *
+ * Base class for login logout operations
+ * @author gabor
  */
 public abstract class AuthenticationModel {
 	private GeoGebraTubeUser loggedInUser = null;

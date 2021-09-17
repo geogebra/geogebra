@@ -1,10 +1,10 @@
-@import 'colors';
-@import 'z-index';
+@use 'colors';
+@use 'z-index';
 
 $header_shadow:
-    0 4px 5px 0 $black-14,
-    0 1px 10px 0 $black-12,
-    0 2px 4px -1px $black-20;
+    0 4px 5px 0 colors.$black-14,
+    0 1px 10px 0 colors.$black-12,
+    0 2px 4px -1px colors.$black-20;
 $header_height: 64px;
 $small_header_height: 48px;
 $button_height: 36px;
@@ -21,7 +21,7 @@ $button_hover_transition: background-color 0.15s;
 		width: 100%;
 		background-color: white;
 		box-shadow: $header_shadow;
-		z-index: $z-open-file-view-header;
+		z-index: z-index.$z-open-file-view-header;
 		
 		.headerBackButton {
 			cursor: pointer;
@@ -41,7 +41,7 @@ $button_hover_transition: background-color 0.15s;
             display: inline-block;
         	font-size: 125%;
         	vertical-align: middle;
-        	color: $text-primary;
+        	color: colors.$text-primary;
         	letter-spacing: 0.25px;
         }
         > .headerCaption:first-child {

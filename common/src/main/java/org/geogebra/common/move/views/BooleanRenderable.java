@@ -1,8 +1,8 @@
 package org.geogebra.common.move.views;
 
 /**
- * @author gabor must be implemented by views, that added to the view list of
- *         BaseView
+ * Interface for views listening to boolean events
+ * @author gabor
  */
 public interface BooleanRenderable {
 	/**

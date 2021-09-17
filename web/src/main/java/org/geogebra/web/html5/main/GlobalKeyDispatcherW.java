@@ -8,7 +8,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.gwtutil.NavigatorUtil;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.util.CopyPasteW;
@@ -88,6 +87,10 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 		@Override
 		public void onBrowserEvent(Event event) {
+			if (CopyPasteW.incorrectTarget(event.getEventTarget().cast())) {
+				return;
+			}
+
 			if (DOM.eventGetType(event) == Event.ONKEYDOWN) {
 				boolean handled = false;
 
@@ -102,10 +105,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					handled = true;
 				}
 				if (event.getCtrlKey()) {
-					event.preventDefault();
-					handleCtrlKeys(KeyCodes.translateGWTcode(event.getKeyCode()),
+					handled = handleCtrlKeys(KeyCodes.translateGWTcode(event.getKeyCode()),
 							event.getShiftKey(), false, true);
-					handled = true;
 				}
 				KeyCodes kc = KeyCodes.translateGWTcode(event.getKeyCode());
 				if (kc == KeyCodes.TAB) {
@@ -186,7 +187,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	private static boolean isControlKeyDown(NativeEvent event) {
 		return event.getCtrlKey()
-				|| (Browser.isMacOS() || NavigatorUtil.isiOS()) && event.getMetaKey();
+				|| (NavigatorUtil.isMacOS() || NavigatorUtil.isiOS()) && event.getMetaKey();
 	}
 
 	/**

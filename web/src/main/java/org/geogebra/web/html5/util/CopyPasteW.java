@@ -27,18 +27,19 @@ import org.geogebra.web.html5.main.Clipboard;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.TextAreaElement;
 import com.himamis.retex.editor.web.DocumentUtil;
 
 import elemental2.core.Global;
 import elemental2.core.JsArray;
 import elemental2.dom.Blob;
 import elemental2.dom.BlobPropertyBag;
+import elemental2.dom.CSSProperties;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.EventListener;
 import elemental2.dom.EventTarget;
 import elemental2.dom.FileReader;
 import elemental2.dom.HTMLImageElement;
+import elemental2.dom.HTMLTextAreaElement;
 import elemental2.promise.Promise;
 import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
@@ -103,12 +104,29 @@ public class CopyPasteW extends CopyPaste {
 		} else {
 			// Supported in Safari
 
-			TextAreaElement copyFrom = AppW.getHiddenTextArea();
-			copyFrom.setValue(toWrite);
+			HTMLTextAreaElement copyFrom = getHiddenTextArea();
+			copyFrom.value = toWrite;
 			copyFrom.select();
 			DocumentUtil.copySelection();
 			DomGlobal.setTimeout((ignore) -> DomGlobal.document.body.focus(), 0);
 		}
+	}
+
+	private static HTMLTextAreaElement getHiddenTextArea() {
+		HTMLTextAreaElement hiddenTextArea = Js.uncheckedCast(
+				DomGlobal.document.getElementById("hiddenCopyPasteTextArea"));
+		if (Js.isFalsy(hiddenTextArea)) {
+			hiddenTextArea = Js.uncheckedCast(DomGlobal.document.createElement("textarea"));
+			hiddenTextArea.id = "hiddenCopyPasteTextArea";
+			hiddenTextArea.style.position = "absolute";
+			hiddenTextArea.style.width = CSSProperties.WidthUnionType.of("10px");
+			hiddenTextArea.style.height = CSSProperties.HeightUnionType.of("10px");
+			hiddenTextArea.style.zIndex = CSSProperties.ZIndexUnionType.of(100);
+			hiddenTextArea.style.left = "-1000px";
+			hiddenTextArea.style.top = "0px";
+			DomGlobal.document.body.appendChild(hiddenTextArea);
+		}
+		return Js.uncheckedCast(hiddenTextArea);
 	}
 
 	private static void saveToClipboard(String toSave) {
@@ -374,12 +392,16 @@ public class CopyPasteW extends CopyPaste {
 		}
 	}
 
-	private static boolean incorrectTarget(EventTarget tgt) {
+	/**
+	 * @param tgt the target element of the event
+	 * @return true if the event targets an input element,
+	 * in which case it should be handled by the browser
+	 */
+	public static boolean incorrectTarget(EventTarget tgt) {
 		elemental2.dom.Element target = Js.uncheckedCast(tgt);
 		return "INPUT".equalsIgnoreCase(target.tagName)
 				|| "TEXTAREA".equalsIgnoreCase(target.tagName)
-				|| "BR".equalsIgnoreCase(target.tagName)
-				|| target.parentElement.classList.contains("mowTextEditor");
+				|| "BR".equalsIgnoreCase(target.tagName);
 	}
 
 	private static void readBlob(Blob blob, AsyncOperation<String> callback) {
@@ -449,7 +471,7 @@ public class CopyPasteW extends CopyPaste {
 	}
 
 	@JsType(isNative = true)
-	private static class ClipboardData {
+	public static class ClipboardData {
 		public JsArray<Blob> files;
 
 		public native String getData(String s);

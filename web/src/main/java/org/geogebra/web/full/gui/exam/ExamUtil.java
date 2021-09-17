@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.exam;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 
@@ -17,6 +18,7 @@ import jsinterop.base.Js;
 public class ExamUtil {
 
 	private AppW app;
+	private static boolean examModeRunning = false;
 
 	/**
 	 * @param app
@@ -86,12 +88,12 @@ public class ExamUtil {
 	 * @param full
 	 *            whether to switch to fullscreen
 	 */
-	public native static void toggleFullscreen(boolean full) /*-{
-		if ($wnd.ggbExamMode && (full == !$wnd.ggbExamMode.running)) {
-			$wnd.ggbExamMode.running = full;
-			$wnd.ggbExamMode(full);
+	public static void toggleFullscreen(boolean full) {
+		if (GeoGebraGlobal.getGgbExamMode() != null && (full == !examModeRunning)) {
+			examModeRunning = full;
+			GeoGebraGlobal.getGgbExamMode().accept(false);
 		}
-	}-*/;
+	}
 
 	/**
 	 * Listen to focus / blur / resize events on the browser window.

@@ -20,7 +20,6 @@ import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.util.AdvancedFocusPanel;
-import org.geogebra.web.full.gui.util.AdvancedFocusPanelI;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
@@ -54,7 +53,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// TODO: should traceDialog belong to the SpreadsheetTraceManager?
 	// private TraceDialog traceDialog;
 
-	protected AdvancedFocusPanelI spreadsheetWrapper;
+	protected AdvancedFocusPanel spreadsheetWrapper;
 	private SpreadsheetStyleBarW styleBar;
 
 	// toolbar manager
@@ -145,7 +144,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		spreadsheetWrapper.addDomHandler(sskl, KeyDownEvent.getType());
 		spreadsheetWrapper.addDomHandler(sskl, KeyPressEvent.getType());
 		spreadsheetWrapper.addDomHandler(sskl, KeyUpEvent.getType());
-		spreadsheetWrapper.addPasteHandler(sskl);
+		SpreadsheetRowHeaderW.addPasteHandlerTo(spreadsheetWrapper.getTextarea(), sskl);
 	}
 
 	private void buildSpreadsheet() {

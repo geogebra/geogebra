@@ -247,7 +247,7 @@ public class GeoGebraFrameFull
 			return;
 		}
 
-		if (this.isKeyboardShowing() == show) {
+		if (this.isKeyboardShowing() && show) {
 			getKeyboardManager().clearAndUpdateKeyboard();
 			getKeyboardManager().setOnScreenKeyboardTextField(textField);
 			return;
@@ -288,7 +288,7 @@ public class GeoGebraFrameFull
 	}
 
 	private void removeKeyboard() {
-		final VirtualKeyboardGUI keyBoard = getOnScreenKeyboard(null);
+		final VirtualKeyboardGUI keyBoard = getKeyboardManager().getOnScreenKeyboard();
 		this.setKeyboardShowing(false);
 
 		ToolbarPanel toolbarPanel = getGuiManager()
@@ -1028,5 +1028,19 @@ public class GeoGebraFrameFull
 		Canvas c = Canvas.createIfSupported();
 		DockManager dockManager = app.getGuiManager().getLayout().getDockManager();
 		((DockManagerW) dockManager).paintPanels(c, callback, scale);
+	}
+
+	@Override
+	public void remove() {
+		if (ggwToolBar != null) {
+			ggwToolBar.removeFromParent();
+		}
+		if (showKeyboardButton != null) {
+			showKeyboardButton.removeFromParent();
+		}
+		super.remove();
+		ggwToolBar = null;
+		ggwMenuBar = null;
+		showKeyboardButton = null;
 	}
 }

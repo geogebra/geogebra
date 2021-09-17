@@ -1,4 +1,4 @@
-@import 'colors';
+@use 'colors';
 $emptyHeight: 212px;
 $deleteTime: 120ms;
 
@@ -31,7 +31,7 @@ $deleteTime: 120ms;
 	.tableEditor {
 		box-sizing: border-box;
 		background-color: $white;
-		border: 1px $purple-default solid;
+		border: 1px colors.$purple-default solid;
 		overflow: hidden;
 		text-align: right;
 		min-height: 51px;
@@ -57,7 +57,7 @@ $deleteTime: 120ms;
 
 		td, th {
 			border-width: 0 1px 1px 0;
-			border-color: $black-12;
+			border-color: colors.$black-12;
 			border-style: solid;
 			box-sizing: border-box;
 			min-width: 120px;
@@ -92,8 +92,8 @@ $deleteTime: 120ms;
 				right: 0;
 				width: 100%;
 				pointer-events: none;
-				background: linear-gradient(to left, #fff 70px, $transparent-white 120px, $transparent-white),
-					linear-gradient(to top, #fff 20px, $transparent-white 52px, $transparent-white);
+				background: linear-gradient(to left, #fff 70px, colors.$transparent-white 120px, colors.$transparent-white),
+					linear-gradient(to top, #fff 20px, colors.$transparent-white 52px, colors.$transparent-white);
 			}
 
 			thead {
@@ -105,7 +105,7 @@ $deleteTime: 120ms;
 					padding: 0;
 					position: sticky;
 					top: 0;
-					background: $tableview-header;
+					background: colors.$tableview-header;
 
 					.content {
 						text-align: center;
@@ -113,7 +113,7 @@ $deleteTime: 120ms;
 						display: inline-flex;
 						margin: auto;
 						float: right;
-						color: $text-primary;
+						color: colors.$text-primary;
 
 						.gwt-Label {
 							font-size: 100%;
@@ -140,7 +140,7 @@ $deleteTime: 120ms;
 
 
 			}
-			
+
 			td {
 				height: 52px;
 				text-align: right;
@@ -148,7 +148,7 @@ $deleteTime: 120ms;
 				.content {
 					font-size: 100%;
 					font-family: 'mathsans';
-					color: $text-primary;
+					color: colors.$text-primary;
 					text-align: right;
 					float: right;
 					padding: 14px 28px 14px 16px;

@@ -88,6 +88,11 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	}
 
 	@Override
+	public void removeListeners() {
+		editor.removeListeners();
+	}
+
+	@Override
 	public MathKeyboardListener getKeyboardListener() {
 		return editor.getKeyboardListener();
 	}

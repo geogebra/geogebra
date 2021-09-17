@@ -1290,7 +1290,7 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void updateHeadingStyle(boolean alone) {
-		Element globalHeader = Dom.querySelector("GeoGebraHeader");
+		Element globalHeader = Dom.querySelector(".GeoGebraHeader");
 		boolean localShadow = app.isPortrait() && alone;
 		if (globalHeader != null) {
 			if (localShadow) {

@@ -46,7 +46,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
@@ -118,8 +117,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private double scale = 1.0;
 
-	private final SyntaxAdapter converter;
-
 	private ExpressionReader expressionReader;
 
 	private static final ArrayList<MathFieldW> instances = new ArrayList<>();
@@ -165,7 +162,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public MathFieldW(SyntaxAdapter converter, Panel parent, Canvas canvas,
 			MathFieldListener listener, MetaModel metaModel) {
 
-		this.converter = converter;
 		this.metaModel = metaModel;
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderGWT());
@@ -174,7 +170,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		bottomOffset = 10;
 		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this);
-		mathFieldInternal.getInputController().setFormatConverter(converter);
 		mathFieldInternal.setSyntaxAdapter(converter);
 		getHiddenTextArea();
 
@@ -232,7 +227,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private Element getElementForAriaLabel() {
-		if ((isIOS() || isMacOS() || isIE())) {
+		if ((NavigatorUtil.isiOS() || NavigatorUtil.isMacOS())) {
 			// mobile Safari: alttext is connected to parent so that screen
 			// reader doesn't read "dimmed" for the textarea
 			Element parentElement = parent.getElement();
@@ -259,22 +254,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			return target.getAttribute("aria-label");
 		}
 		return "";
-	}
-
-	/**
-	 * @return whether we're running in a Mac browser
-	 */
-	public static boolean isMacOS() {
-		return Navigator.getUserAgent().contains("Macintosh")
-				|| Navigator.getUserAgent().contains("Mac OS");
-	}
-
-	/**
-	 * @return whether we are running in IE
-	 */
-	public static boolean isIE() {
-		return Navigator.getUserAgent().toLowerCase().contains("trident")
-				|| Navigator.getUserAgent().toLowerCase().contains("msie");
 	}
 
 	private static void initTimer() {
@@ -536,9 +515,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @return MacOS: whether meta is down; other os: whether Ctrl is down
 	 */
 	boolean controlDown(com.google.gwt.event.dom.client.KeyEvent<?> event) {
-		return Navigator.getUserAgent().contains("Macintosh")
-				|| Navigator.getUserAgent().contains("Mac OS")
-						? event.isMetaKeyDown() : event.isControlKeyDown();
+		return NavigatorUtil.isMacOS() ? event.isMetaKeyDown() : event.isControlKeyDown();
 	}
 
 	protected char getChar(NativeEvent nativeEvent) {
@@ -644,10 +621,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private boolean isEdited() {
 		return instances.contains(this);
-	}
-
-	private static boolean isIOS() {
-		return Navigator.getUserAgent().toLowerCase().matches(".*(ipad|iphone|ipod).*");
 	}
 
 	private double computeHeight() {
@@ -809,8 +782,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			ClipboardEvent event = (ClipboardEvent) e;
 			if (event.clipboardData != null) {
 				String exp = event.clipboardData.getData("text/plain");
-				exp = convert(exp);
-				insertString(exp);
+				mathFieldInternal.convertAndInsert(exp);
 			}
 			return null;
 		};
@@ -848,19 +820,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	@Override
 	public void paste() {
 		// insertString(getSystemClipboardChromeWebapp(html.getElement()));
-	}
-
-	/**
-	 * @param exp
-	 *            inserted string (latex/mathml/...)
-	 * @return ASCII math syntax
-	 */
-	protected String convert(String exp) {
-		if (converter != null) {
-			return converter.convert(exp);
-		}
-
-		return exp;
 	}
 
 	/**

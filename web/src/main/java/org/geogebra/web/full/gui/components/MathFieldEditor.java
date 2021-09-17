@@ -25,7 +25,6 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.web.MathFieldW;
@@ -35,8 +34,7 @@ import com.himamis.retex.editor.web.MathFieldW;
  *
  * @author Laszlo
  */
-public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
-		ClickListener, BlurHandler {
+public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler {
 
 	private static final int PADDING_TOP = 8;
 
@@ -87,12 +85,16 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 		mathField = new MathFieldW(new SyntaxAdapterImpl(kernel), main,
 				canvas, listener, model);
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
-		mathField.setClickListener(this);
 		mathField.setOnBlur(this);
 		updatePixelRatio();
 		app.addWindowResizeListener(this::updatePixelRatio);
 
 		getMathField().setBackgroundColor("rgba(255,255,255,0)");
+		app.getGlobalHandlers().addEventListener(mathField.asWidget().getElement(),
+				"pointerdown", (evt) -> {
+			app.sendKeyboardEvent(true);
+			setKeyboardVisibility(true);
+		});
 		main.add(mathField);
 		retexListener = new RetexKeyboardListener(canvas, mathField);
 		initEventHandlers();
@@ -219,32 +221,6 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	}
 
 	@Override
-	public void onPointerDown(int x, int y) {
-		app.sendKeyboardEvent(true);
-		setKeyboardVisibility(true);
-	}
-
-	@Override
-	public void onPointerUp(int x, int y) {
-		// not used
-	}
-
-	@Override
-	public void onPointerMove(int x, int y) {
-		// not used
-	}
-
-	@Override
-	public void onLongPress(int x, int y) {
-		// not used
-	}
-
-	@Override
-	public void onScroll(int dx, int dy) {
-		// not used
-	}
-
-	@Override
 	public void onBlur(BlurEvent event) {
 		if (preventBlur || !mathField.hasFocus()) {
 			return;
@@ -367,6 +343,21 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 
 	protected String getErrorMessage() {
 		return AccessibleInputBox.getErrorText(app.getLocalization());
+	}
+
+	/**
+	 * Remove all listeners
+	 */
+	public void removeListeners() {
+		blurHandlers.clear();
+		main.clear();
+		main.removeFromParent();
+		mathField.asWidget().removeFromParent();
+		mathField.setOnBlur(null);
+		mathField.setChangeListener(null);
+		mathField.getInternal().setFieldListener(null);
+		mathField.getInternal().setSyntaxAdapter(null);
+		mathField.setExpressionReader(null);
 	}
 
 	public void setRightMargin(int rightMargin) {

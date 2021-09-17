@@ -10,7 +10,6 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 
 import com.google.gwt.dom.client.Element;
@@ -231,16 +230,17 @@ public class PointerEventHandler {
 	 */
 	public void attachTo(Element element, GlobalHandlerRegistry globalHandlers) {
 		reset();
-		Dom.addEventListener(element, "pointermove",
+		// treat as global to avoid memory leak
+		globalHandlers.addEventListener(element, "pointermove",
 				evt -> onPointerMove(Js.uncheckedCast(evt)));
 
-		Dom.addEventListener(element, "pointerdown",
+		globalHandlers.addEventListener(element, "pointerdown",
 				evt -> onPointerDown(Js.uncheckedCast(evt), element));
 
-		Dom.addEventListener(element, "pointerout",
+		globalHandlers.addEventListener(element, "pointerout",
 				evt -> onPointerOut(Js.uncheckedCast(evt)));
 
-		Dom.addEventListener(element, "pointercanel",
+		globalHandlers.addEventListener(element, "pointercanel",
 				evt -> onPointerOut(Js.uncheckedCast(evt)));
 
 		EventListener clickOutsideHandler = evt -> onPointerUp(Js.uncheckedCast(evt), element);

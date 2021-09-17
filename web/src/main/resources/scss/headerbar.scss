@@ -6,8 +6,9 @@
 *	Make sure everything is placed in .GeoGebraFrame!
 **/
 
-@import 'colors';
-@import 'z-index';
+@use 'colors';
+@use 'z-index';
+@use "menu-styles";
 
 $shadow_dark: 0 0 2px 1px rgba(102, 102, 102, 0.3); // used for popups
 $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
@@ -24,7 +25,7 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 
 	.toolPanelHeading {
 		height: 48px;
-		border-bottom: 1px $black-10 solid;
+		border-bottom: 1px colors.$black-10 solid;
 		position: relative;
 		transition: height 0.2s;
 		.gwt-Image {
@@ -34,7 +35,7 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 			border-bottom: none;
 		}
 		&.withShadow {
-			z-index: $z-toolbar-heading;
+			z-index: z-index.$z-toolbar-heading;
 			border-bottom: none;
 			box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
 		}
@@ -43,11 +44,11 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 
 	.toolbarPanel {
 		position: relative;
-		background-color: $classic-toolbar-bg;
+		background-color: colors.$classic-toolbar-bg;
 		box-shadow: $shadow;
 		padding: 5px;
 		box-sizing: border-box;
-		z-index: $z-toolbar-classic;
+		z-index: z-index.$z-toolbar-classic;
 
 		.toolBPanelMobile {
 			overflow: hidden;
@@ -101,23 +102,23 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 
 			.toolbar_button {
 				border-radius: 5px;
-				border: 1px solid $tool-border;
-				background-color: $white;
+				border: 1px solid colors.$tool-border;
+				background-color: colors.$white;
 				padding: 3px;
 				width: 32px;
 				height: 32px;
 
 				&[isSelected=false] {
-					border-color: $tool-border;
+					border-color: colors.$tool-border;
 				}
 
 				&:hover[isSelected=false][isMobile=false],
 				&:focus[isSelected=false][isMobile=false] {
-					border-color: $toolbar-header;
+					border-color: colors.$toolbar-header;
 				}
 
 				&[isSelected=true] {
-					border: 2px solid $toolbar-header;
+					border: 2px solid colors.$toolbar-header;
 					padding: 2px;
 				}
 
@@ -129,12 +130,12 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 			}
 
 			.touched {
-				border-color: $toolbar-header !important;
+				border-color: colors.$toolbar-header !important;
 			}
 
 			.toolbar_submenu {
 				position: absolute;
-				z-index: $z-dialog-over-keyboard;
+				z-index: z-index.$z-dialog-over-keyboard;
 				display: none;
 
 				&.visible {
@@ -143,18 +144,18 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 
 				.submenuArrow {
 					position: absolute;
-					z-index: $z-toolbar-classic-submenu-arrow;
+					z-index: z-index.$z-toolbar-classic-submenu-arrow;
 					left: 4px;
 				}
 
 				.submenuContent {
 					position: absolute;
 
-					z-index: $z-toolbar-classic-submenu;
+					z-index: z-index.$z-toolbar-classic-submenu;
 					border-radius: 10px;
 					padding-top: 3px !important;
-					background-color: $white-90;
-					box-shadow: $shadow_dark;
+					background-color: colors.$white-90;
+					box-shadow: menu-styles.$shadow_dark;
 					overflow-y: auto;
 					overflow-x: hidden;
 					-webkit-overflow-scrolling: touch;
@@ -169,8 +170,8 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 
 						&:hover,
 						&:focus {
-							color: $selected-tool-text;
-							background-color: $marble-border;
+							color: colors.$selected-tool-text;
+							background-color: colors.$marble-border;
 						}
 
 						img.gwt-Image.plusPadding {
@@ -228,14 +229,14 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 
 			.submenu_button {
 				border-radius: 5px;
-				border: 1px solid $tool-border;
-				background-color: $white;
+				border: 1px solid colors.$tool-border;
+				background-color: colors.$white;
 				padding: 3px;
 				width: 32px;
 				height: 32px;
 
 				&[isSelected=false] {
-					border-color: $tool-border;
+					border-color: colors.$tool-border;
 				}
 			}
 
@@ -290,7 +291,7 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 	}
 
 	.toolbarPanelSouth {
-		border-top: 1px solid $tool-border;
+		border-top: 1px solid colors.$tool-border;
 
 		.submenuArrow {
 			bottom: 45px;
@@ -303,7 +304,7 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 	}
 
 	.toolbarPanelNorth {
-		border-bottom: 1px solid $tool-border;
+		border-bottom: 1px solid colors.$tool-border;
 
 		.submenuContent {
 			top: 15px;
@@ -316,7 +317,7 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 	.menuContainer {
 		left: auto !important;
 		top: 53px !important; /* should be equal to GLookAndFeelI.TOOLBAR_HEIGHT */
-		z-index: $z-toolbar-classic;
+		z-index: z-index.$z-toolbar-classic;
 	}
 
 	.ggbmenubarwrapper {
@@ -327,9 +328,9 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 
 	.menubarSMART {
 		overflow-y: auto;
-		background-color: $classic-toolbar-bg;
+		background-color: colors.$classic-toolbar-bg;
 		border-left: 1px;
-		border-left-color: $tool-border;
+		border-left-color: colors.$tool-border;
 		border-left-style: solid;
 		height: 100%;
 
@@ -365,7 +366,7 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 
 			.gwt-MenuItem:hover,
 			.gwt-MenuItem:active {
-				background: $marble-border;
+				background: colors.$marble-border;
 			}
 
 			.RadioButtonMenuItem label {
@@ -384,11 +385,11 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 			white-space: nowrap;
 			top: -5px;
 			position: absolute;
-			z-index: $z-dialog-over-keyboard;
+			z-index: z-index.$z-dialog-over-keyboard;
 			border-radius: 10px;
 			padding: 5px;
-			background-color: $white-90;
-			box-shadow: $shadow_dark;
+			background-color: colors.$white-90;
+			box-shadow: menu-styles.$shadow_dark;
 
 			.arrowSubmenu {
 				position: absolute;

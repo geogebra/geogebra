@@ -39,4 +39,6 @@ public interface KeyboardManagerInterface {
 	 * Update keyboard layout
 	 */
 	void clearAndUpdateKeyboard();
+
+	void removeFromDom();
 }

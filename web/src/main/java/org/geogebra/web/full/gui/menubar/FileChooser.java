@@ -7,6 +7,8 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FileUpload;
 
 import elemental2.dom.File;
+import elemental2.dom.HTMLInputElement;
+import jsinterop.base.Js;
 
 public class FileChooser extends FileUpload implements ChangeHandler {
 	private AppW app;
@@ -33,10 +35,10 @@ public class FileChooser extends FileUpload implements ChangeHandler {
 		this.removeFromParent();
 	}
 
-	private native File getSelectedFile()/*-{
-			var files = $doc.querySelector('input[type=file]');
-			var fileToHandle = files.files[0];
-			files.value = [];
-			return fileToHandle;
-		}-*/;
+	private File getSelectedFile() {
+		HTMLInputElement fileInput = Js.uncheckedCast(getElement());
+		File fileToHandle = fileInput.files.getAt(0);
+		fileInput.value = "";
+		return fileToHandle;
+	}
 }
