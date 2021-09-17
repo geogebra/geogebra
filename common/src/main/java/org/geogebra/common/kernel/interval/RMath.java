@@ -199,4 +199,12 @@ public class RMath {
 	public static double secHigh(double x) {
 		return next(1 / Math.cos(x));
 	}
+
+	public static double nrootLow(double x, double n) {
+		return powLow(x, 1 / n);
+	}
+
+	public static double nrootHigh(double x, double n) {
+		return powHigh(x, 1 / n);
+	}
 }

@@ -86,7 +86,7 @@ import org.geogebra.common.util.debug.Log;
 			case POWER:
 				return left.pow(right);
 			case NROOT:
-				return left.nthRoot(right);
+				return left.nRoot(right);
 			case DIFF:
 				return left.difference(right);
 			case SIN:

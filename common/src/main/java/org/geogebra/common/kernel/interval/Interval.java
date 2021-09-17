@@ -21,6 +21,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	private final IntervalEvaluate evaluate = new IntervalEvaluate(this);
 	private final IntervalMultiplicativeInverse multiplicativeInverse
 			= new IntervalMultiplicativeInverse(this);
+	private final IntervalRoot root = new IntervalRoot(this);
 	private double low;
 	private double high;
 
@@ -387,7 +388,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return square root of the interval.
 	 */
 	public Interval sqrt() {
-		return algebra.sqrt();
+		return root.sqrt();
 	}
 
 	/**
@@ -397,8 +398,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @param other interval
 	 * @return nth root of the interval.
 	 */
-	public Interval nthRoot(Interval other) {
-		return algebra.nthRoot(other);
+	public Interval nRoot(Interval other) {
+		return root.nRoot(other);
 	}
 
 	/**
@@ -407,8 +408,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @param n the root
 	 * @return nth root of the interval.
 	 */
-	public Interval nthRoot(double n) {
-		return algebra.nthRoot(n);
+	public Interval nRoot(double n) {
+		return root.nRoot(n);
 	}
 
 	/**

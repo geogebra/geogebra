@@ -156,14 +156,16 @@ public class PathCorrector {
 
 	private void completeToPositiveInfinity(Interval x, Interval y) {
 		gp.moveTo(x.getHigh(), 0);
-		gp.lineTo(x.getHigh(), y.getLow());
-		lastY.set(0, y.getLow());
+		double y1 = Math.min(y.getLow(), bounds.getHeight());
+		gp.lineTo(x.getHigh(), y1);
+		lastY.set(0, y1);
 	}
 
 	private void completeToNegativeInfinity(Interval x, Interval y) {
 		int yMax = bounds.getHeight();
+		double y1 = Math.max(0, y.getHigh());
 		gp.moveTo(x.getHigh(), yMax);
-		gp.lineTo(x.getHigh(), y.getHigh());
+		gp.lineTo(x.getHigh(), y1);
 		lastY.set(y.getHigh(), yMax);
 	}
 }

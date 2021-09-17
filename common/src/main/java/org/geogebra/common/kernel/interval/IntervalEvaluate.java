@@ -41,7 +41,7 @@ class IntervalEvaluate {
 		case POWER:
 			return interval.pow(other);
 		case NROOT:
-			return interval.nthRoot(other);
+			return interval.nRoot(other);
 		case INTEGRAL:
 		case INVERSE_NORMAL:
 			break;

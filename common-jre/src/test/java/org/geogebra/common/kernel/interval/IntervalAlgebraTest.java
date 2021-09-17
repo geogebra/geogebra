@@ -192,48 +192,4 @@ public class IntervalAlgebraTest {
 		assertEquals(Double.POSITIVE_INFINITY, halfOpen.getHigh(), 0);
 
 	}
-
-	@Test
-	public void testSqrt() {
-		assertTrue(interval(2, 3).almostEqual(interval(4, 9).sqrt()));
-		assertTrue(interval(0, 3).almostEqual(interval(-4, 9).sqrt()));
-		assertTrue(interval(-9, -4).sqrt().isEmpty());
-		assertTrue(interval(0, 0).sqrt().isZero());
-		assertTrue(interval(0, 1).sqrt().isZero());
-	}
-
-	@Test
-	public void testNthRoot() {
-		assertTrue(interval(-27, -8).nthRoot(-3).isEmpty());
-		assertTrue(interval(-27, -8).nthRoot(2).isEmpty());
-		assertTrue(interval(-3, -2).almostEqual(interval(-27, -8).nthRoot(3)));
-		assertTrue(interval(-2, -2).almostEqual(interval(-8, -8).nthRoot(3)));
-		assertTrue(interval(0, 3).almostEqual(interval(-4, 9).nthRoot(2)));
-		assertTrue(interval(-3, 2).almostEqual(interval(-27, 8).nthRoot(3)));
-		assertTrue(interval(2, 3).almostEqual(interval(4, 9).nthRoot(2)));
-		assertTrue(interval(2, 3).almostEqual(interval(8, 27).nthRoot(3)));
-		assertTrue(interval(2, 2).almostEqual(interval(8, 8).nthRoot(3)));
-	}
-
-	@Test
-	public void testNthRootWithInterval() {
-		assertTrue(interval(-3, -2).almostEqual(interval(-27, -8).nthRoot(interval(3, 3))));
-		assertTrue(interval(-27, -8).nthRoot(interval(4, 3)).isEmpty());
-
-	}
-
-	@Test
-	public void testSqrtSinUndef() {
-		assertTrue(interval(4, 5).sin().sqrt().isEmpty());
-	}
-
-	@Test
-	public void testNegativeDividedZero() {
-		assertEquals(undefined(),  interval(-7, -3).divide(zero()));
-	}
-
-	@Test
-	public void testPowerOnPositiveFraction() {
-		assertEquals(interval(1, 2).sqrt(), interval(1, 2).pow(0.5));
-	}
 }

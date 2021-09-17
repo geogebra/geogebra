@@ -34,7 +34,7 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 	@Test
 	public void evaluateXPowerHalf() throws Exception {
 		assertEquals(
-				interval(1, 16).nthRoot(2),
+				interval(1, 16).nRoot(2),
 				evalOnInterval("x^(1/2)", 1, 16));
 	}
 
@@ -45,13 +45,13 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 
 	@Test
 	public void evaluateXPowerForth() throws Exception {
-		assertEquals(interval(1, 16).nthRoot(4),
+		assertEquals(interval(1, 16).nRoot(4),
 				evalOnInterval("x^(1/4)", 1, 16));
 	}
 
 	@Test
 	public void evaluateXPowerTwoThird() throws Exception {
-		assertEquals(interval(1, 16).pow(2).nthRoot(3),
+		assertEquals(interval(1, 16).pow(2).nRoot(3),
 				evalOnInterval("x^(2/3)", 1, 16));
 	}
 
