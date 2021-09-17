@@ -22,8 +22,8 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 	 * constructor
 	 * @param app see {@link AppW}
 	 */
-	public CalculatorSwitcherDialog(AppW app) {
-		super(true, app.getPanel(), app);
+	public CalculatorSwitcherDialog(AppW app, boolean autoHide) {
+		super(autoHide, app.getPanel(), app);
 		setGlassEnabled(true);
 		addStyleName("calcChooser");
 		buildGUI();

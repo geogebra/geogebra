@@ -220,7 +220,11 @@ public class GeoEmbed extends GeoWidget {
 	 *            app name of the embedded applet
 	 */
 	public void setAppName(String appName) {
-		this.appName = appName;
+		if ("graphing".equals(appName) || "cas".equals(appName)) {
+			this.appName = "suite";
+		} else {
+			this.appName = appName;
+		}
 	}
 
 	/**

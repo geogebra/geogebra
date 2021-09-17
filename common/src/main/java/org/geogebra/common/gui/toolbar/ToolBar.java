@@ -346,19 +346,11 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_EQUATION);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_GRAPHING);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_CAS);
-		if (includeGraspableMath) {
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_GRASPABLE_MATH);
-		}
+		sb.append(EuclidianConstants.MODE_CALCULATOR);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_EXTENSION);
-		if (includeH5P) {
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_H5P);
-		}
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_MIND_MAP);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_IMAGE);
 		sb.append(" ");
@@ -369,9 +361,14 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_AUDIO);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PDF);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_MIND_MAP);
-		sb.append(" | ");
+		if (includeGraspableMath) {
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_GRASPABLE_MATH);
+		}
+		if (includeH5P) {
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_H5P);
+		}
 		return sb.toString();
 	}
 

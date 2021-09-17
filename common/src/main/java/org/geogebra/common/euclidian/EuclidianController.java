@@ -766,9 +766,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 
 			if (embedManager != null
-					&& (newMode == EuclidianConstants.MODE_GRAPHING
-					|| newMode == EuclidianConstants.MODE_CAS)) {
-					setUpEmbedManager(embedManager, newMode);
+					&& newMode == EuclidianConstants.MODE_CALCULATOR) {
+					setUpEmbedManager(embedManager);
 			}
 
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
@@ -810,21 +809,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		kernel.notifyRepaint();
 	}
 
-	private void setUpEmbedManager(EmbedManager embedManager, int mode) {
+	private void setUpEmbedManager(EmbedManager embedManager) {
 		final GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
-		if (mode == EuclidianConstants.MODE_CAS) {
-			ge.setAppName("cas");
-		}
+		ge.setAppName("suite");
 		ge.initDefaultPosition(view);
 		embedManager.initAppEmbed(ge);
 		ge.setLabel(null);
 		app.storeUndoInfo();
-		app.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				selectAndShowSelectionUI(ge);
-			}
+		app.invokeLater(() -> {
+			selectAndShowSelectionUI(ge);
+			ge.setBackground(false);
+			view.update(ge); // force painting in the foreground
 		});
 	}
 

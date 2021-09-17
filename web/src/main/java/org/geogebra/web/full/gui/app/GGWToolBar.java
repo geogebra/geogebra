@@ -787,9 +787,6 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_GRASPABLE_MATH:
 			return resourceBundle.mode_graspablemath_32();
 
-		case EuclidianConstants.MODE_CAS:
-			return resourceBundle.mode_cas_32();
-
 		case EuclidianConstants.MODE_VECTOR:
 			return resourceBundle.mode_vector_32();
 
@@ -924,14 +921,14 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_AUDIO:
 			return resourceBundle.mode_audio_32();
 
-		case EuclidianConstants.MODE_GRAPHING:
-			return resourceBundle.mode_graphing_32();
+		case EuclidianConstants.MODE_CALCULATOR:
+			return resourceBundle.mode_calculator();
 
 		case EuclidianConstants.MODE_EXTENSION:
 			return ToolbarSvgResourcesSync.INSTANCE.mode_extension();
 
 		case EuclidianConstants.MODE_H5P:
-			return ToolbarSvgResourcesSync.INSTANCE.mode_h5p();
+			return resourceBundle.mode_h5p();
 
 		case EuclidianConstants.MODE_PDF:
 			return resourceBundle.mode_pdf_32();
