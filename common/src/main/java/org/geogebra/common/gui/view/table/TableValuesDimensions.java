@@ -23,4 +23,13 @@ public interface TableValuesDimensions {
 	 * @return the width of the colum
 	 */
 	int getColumnWidth(int column);
+
+	/**
+	 * Calculating the column width excluding a row
+	 *
+	 * @param column column
+	 * @param exceptRow row which should be excluded
+	 * @return the width of the column excluding the exceptRow
+	 */
+	int getColumnWidth(int column, int exceptRow);
 }
