@@ -234,6 +234,18 @@ public interface JavaScriptAPI {
 	 */
 	void setFixed(String objName, boolean fixed, boolean selectionAllowed);
 
+	/**
+	 * @param objName object name
+	 * @return whether it's fixed
+	 */
+	boolean isFixed(String objName);
+
+	/**
+	 * @param objName object name
+	 * @return whether selection is allowed
+	 */
+	boolean isSelectionAllowed(String objName);
+
 	void setAuxiliary(String objName, boolean flag);
 
 	/**
