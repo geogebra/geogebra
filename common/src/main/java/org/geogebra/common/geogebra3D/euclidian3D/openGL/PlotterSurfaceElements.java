@@ -860,7 +860,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		int next = 0;
 		int shift = 1;
 
-		while (next < latitudeMax) {
+		while (next < latitudeMax && (nextJump != 0 || next != 0)) {
 
 			next = Math.min(latitudeMax, latitude - nextJump);
 			debug("latitude : " + latitude + " , latitudeMin : " + latitudeMin
@@ -950,7 +950,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 				nextJump = dse.updateNextJump(nextJump, latitude);
 			}
-
 		}
 
 		lastLength = currentLength;
@@ -1028,7 +1027,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				+ (latitude - nextJump));
 		int next = 0;
 
-		while (next < latitudeMax) {
+		while (next < latitudeMax && (nextJump != 0 || next != 0)) {
 
 			next = Math.min(latitudeMax, latitude - nextJump);
 			debug("latitude : " + latitude + " , latitudeMin : " + latitudeMin
