@@ -56,7 +56,7 @@ public class IntervalRoot {
 			return interval;
 		}
 
-		double power = 1/n;
+		double power = 1 / n;
 		double low = interval.getLow();
 		double signLow = Math.signum(low);
 		double high = interval.getHigh();
@@ -75,6 +75,6 @@ public class IntervalRoot {
 	}
 
 	private boolean isPositiveOdd(double n) {
-		return n > 0 && DoubleUtil.isInteger(n) && (int) n % 2 == 1;
+		return n > 0 && DoubleUtil.isInteger(n) && (int) n % 2 != 0;
 	}
 }
