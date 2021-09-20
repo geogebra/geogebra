@@ -125,6 +125,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			GeoList column = (GeoList) tableValues.getEvaluatable(columnIndex);
 			if (lastRowIndex < column.size()) {
 				column.remove(lastRowIndex);
+				column.notifyUpdate();
 			}
 			if (columnIndex != 0 && column.size() == 0) {
 				columnsToRemove.add(column);
