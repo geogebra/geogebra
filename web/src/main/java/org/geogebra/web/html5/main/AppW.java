@@ -367,7 +367,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void scaleWithRatio(double scale) {
 		Browser.scale(geoGebraElement.getParentElement(), scale, 0, 0);
-		geoGebraElement.resetScale(scale);
+		geoGebraElement.resetScale();
 		deferredForceResize();
 	}
 
