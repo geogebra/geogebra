@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
@@ -72,7 +73,7 @@ public class IntervalAlgebraTest {
 
 	@Test
 	public void testDoubleMultiplicativeInverseZero() {
-		assertEquals(zero(), zero().multiplicativeInverse().multiplicativeInverse());
+		assertEquals(whole(), zero().multiplicativeInverse().multiplicativeInverse());
 	}
 
 	@Test
