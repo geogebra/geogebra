@@ -63,21 +63,11 @@ public class PointerEventHandler {
 	private void twoPointersDown(PointerState pointer1, PointerState pointer2) {
 		tc.getLongTouchManager().cancelTimer();
 		tc.setExternalHandling(true);
-		tc.twoTouchStart(touchEventX(pointer1), touchEventY(pointer1),
-				touchEventX(pointer2), touchEventY(pointer2));
+		tc.twoTouchStart(pointer1.x, pointer1.y, pointer2.x, pointer2.y);
 	}
 
 	private void twoPointersMove(PointerState pointer1, PointerState pointer2) {
-		this.tc.twoTouchMove(touchEventX(pointer1),	touchEventY(pointer1),
-				touchEventX(pointer2), touchEventY(pointer2));
-	}
-
-	private int touchEventX(PointerState touch) {
-		return (int) touch.x;
-	}
-
-	private int touchEventY(PointerState touch) {
-		return (int) touch.y;
+		this.tc.twoTouchMove(pointer1.x, pointer1.y, pointer2.x, pointer2.y);
 	}
 
 	private void singleDown(PointerEvent e) {
@@ -112,8 +102,8 @@ public class PointerEventHandler {
 
 	private void startLongTouch(PointerState touchState) {
 		if (tc.getMode() == EuclidianConstants.MODE_MOVE) {
-			tc.getLongTouchManager().scheduleTimer(tc, touchEventX(touchState),
-					touchEventY(touchState));
+			tc.getLongTouchManager().scheduleTimer(tc, (int) touchState.x,
+					(int) touchState.y);
 		}
 	}
 
