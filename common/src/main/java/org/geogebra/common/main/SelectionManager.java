@@ -697,25 +697,29 @@ public class SelectionManager {
 		}
 
 		int nextIndex = -1;
+		boolean elementNotFound = true;
 		if (tempSelectedBoolean != null && selectedGeos.size() == 0) {
 			nextIndex = tabbingOrder.indexOf(tempSelectedBoolean) + 1;
 		} else {
 			if (selectionSize == 1 && !tabbingOrder.contains(selectedGeos.get(0))) {
-				boolean elementNotFound = true;
-				List<GeoElement> tabOrderFull = new ArrayList<>(getTabbingSet());
-				int index = tabOrderFull.indexOf(selectedGeos.get(0));
-				for (int i = index; i < tabOrderFull.size(); i++) {
-					if (tabbingOrder.contains(tabOrderFull.get(i))) {
-						nextIndex = tabbingOrder.indexOf(tabOrderFull.get(i));
-						elementNotFound = false;
-						break;
+				Iterator<GeoElement> iterator = getTabbingSet().iterator();
+				boolean foundSelected = false;
+				while (iterator.hasNext()) {
+					if (foundSelected) {
+						GeoElement nextElement = iterator.next();
+						if (tabbingOrder.contains(nextElement)) {
+							elementNotFound = false;
+							nextIndex = tabbingOrder.indexOf(nextElement);
+							break;
+						}
+					} else {
+						if (iterator.next().equals(selectedGeos.get(0))) {
+							foundSelected = true;
+						}
 					}
 				}
-				if (elementNotFound) {
-					GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
-					nextIndex = tabbingOrder.indexOf(lastSelected) + 1;
-				}
-			} else {
+			}
+			if (elementNotFound) {
 				GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
 				nextIndex = tabbingOrder.indexOf(lastSelected) + 1;
 			}
@@ -753,14 +757,32 @@ public class SelectionManager {
 
 		int selectionSize = selectedGeos.size();
 
-		if (selectionSize == 0) {
+		if (selectionSize == 0 && tempSelectedBoolean == null) {
 			addSelectedGeoForEV(tabbingOrder.get(tabbingOrder.size() - 1));
 			return true;
 		}
 
-		GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
-
-		int previousIndex = tabbingOrder.indexOf(lastSelected) - 1;
+		int previousIndex = -1;
+		boolean elementNotFound = true;
+		if (tempSelectedBoolean != null && selectedGeos.size() == 0) {
+			previousIndex = tabbingOrder.indexOf(tempSelectedBoolean) - 1;
+		} else {
+			if (selectionSize == 1 && !tabbingOrder.contains(selectedGeos.get(0))) {
+				List<GeoElement> tabOrderFull = new ArrayList<>(getTabbingSet());
+				int index = tabOrderFull.indexOf(selectedGeos.get(0));
+				for (int i = index - 1; i >= 0; i--) {
+					if (tabbingOrder.contains(tabOrderFull.get(i))) {
+						previousIndex = tabbingOrder.indexOf(tabOrderFull.get(i));
+						elementNotFound = false;
+						break;
+					}
+				}
+			}
+			if (elementNotFound) {
+				GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
+				previousIndex = tabbingOrder.indexOf(lastSelected) - 1;
+			}
+		}
 
 		clearSelectedGeos();
 
