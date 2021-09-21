@@ -152,7 +152,9 @@ class SimpleTableValuesModel implements TableValuesModel {
 	void updateEvaluatable(GeoEvaluatable evaluatable) {
 		if (evaluatable == values) {
 			for (TableValuesColumn column : columns) {
-				column.invalidateValues(values.size());
+				GeoEvaluatable e = column.getEvaluatable();
+				int columnSize = e instanceof GeoList ? ((GeoList) e).size() : 0;
+				column.invalidateValues(Math.max(columnSize, values.size()));
 			}
 			notifyDatasetChanged();
 		} else {
