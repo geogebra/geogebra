@@ -85,11 +85,8 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 
 	private void removeEmptyColumnAndRows(GeoList column, int index) {
 		removeColumnIfEmpty(column);
-
 		if (index == column.size() - 1) {
-			while (tableValues.getTableValuesModel().getRowCount() > 0 && isLastRowEmpty()) {
-				removeLastRow();
-			}
+			removeEmptyRowsFromBottom();
 		}
 	}
 
@@ -104,6 +101,12 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			}
 		}
 		column.remove();
+	}
+
+	private void removeEmptyRowsFromBottom() {
+		while (tableValues.getTableValuesModel().getRowCount() > 0 && isLastRowEmpty()) {
+			removeLastRow();
+		}
 	}
 
 	private boolean isLastRowEmpty() {
