@@ -53,7 +53,6 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	private AlgoAngle algo;
 
-	// private Arc2D.Double fillArc = new Arc2D.Double();
 	private GArc2D drawArc = AwtFactory.getPrototype().newArc2D();
 	private GGeneralPath polygon = AwtFactory.getPrototype().newGeneralPath();
 	private GEllipse2DDouble dot90degree;
@@ -241,9 +240,11 @@ public class DrawAngle extends Drawable implements Previewable {
 		double as = Math.toDegrees(angSt);
 		double ae = Math.toDegrees(angExt);
 
+		double scale = Math.min(view.getInvXscale(), view.getInvYscale());
+
 		int arcSize = Math.min((int) maxRadius, angle.getArcSize());
 
-		double r = arcSize * view.getInvXscale();
+		double r = arcSize * scale;
 
 		// check whether we need to take care for a special 90 degree angle
 		// appearance
@@ -368,7 +369,7 @@ public class DrawAngle extends Drawable implements Previewable {
 				break;
 			case GeoElementND.DECORATION_ANGLE_TWO_ARCS:
 				rdiff = 4 + geo.getLineThickness() / 2d;
-				r = (arcSize - rdiff) * view.getInvXscale();
+				r = (arcSize - rdiff) * scale;
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
 				// transform arc to screen coords
 				shapeArc1 = view.getCoordTransform()
@@ -377,12 +378,12 @@ public class DrawAngle extends Drawable implements Previewable {
 
 			case GeoElementND.DECORATION_ANGLE_THREE_ARCS:
 				rdiff = 4 + geo.getLineThickness() / 2d;
-				r = (arcSize - rdiff) * view.getInvXscale();
+				r = (arcSize - rdiff) * scale;
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
 				// transform arc to screen coords
 				shapeArc1 = view.getCoordTransform()
 						.createTransformedShape(decoArc);
-				r = (arcSize - 2 * rdiff) * view.getInvXscale();
+				r = (arcSize - 2 * rdiff) * scale;
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
 				// transform arc to screen coords
 				shapeArc2 = view.getCoordTransform()
@@ -448,9 +449,6 @@ public class DrawAngle extends Drawable implements Previewable {
 					v[1] = -n[0];
 				}
 
-				rdiff = 4 + geo.getLineThickness() / 2d;
-				r = (arcSize) * view.getInvXscale();
-
 				double[] p1 = new double[2]; // arrow tip
 				p1[0] = m[0] + r * n2[0];
 				p1[1] = m[1] + r * n2[1];
@@ -459,15 +457,15 @@ public class DrawAngle extends Drawable implements Previewable {
 				double size = 4d + geo.getLineThickness() / 4d;
 				size = size * 0.9d;
 				p2[0] = p1[0]
-						+ (1 * n[0] + 3 * v[0]) * size * view.getInvXscale();
+						+ (1 * n[0] + 3 * v[0]) * size * scale;
 				p2[1] = p1[1]
-						+ (1 * n[1] + 3 * v[1]) * size * view.getInvYscale();
+						+ (1 * n[1] + 3 * v[1]) * size * scale;
 
 				double[] p3 = new double[2]; // arrow vertex 2
 				p3[0] = p1[0]
-						+ (-1 * n[0] + 3 * v[0]) * size * view.getInvXscale();
+						+ (-1 * n[0] + 3 * v[0]) * size * scale;
 				p3[1] = p1[1]
-						+ (-1 * n[1] + 3 * v[1]) * size * view.getInvYscale();
+						+ (-1 * n[1] + 3 * v[1]) * size * scale;
 
 				view.toScreenCoords(p1);
 				view.toScreenCoords(p2);
@@ -480,7 +478,6 @@ public class DrawAngle extends Drawable implements Previewable {
 				polygon.closePath();
 				break;
 			}
-			// END
 		}
 
 		// shape on screen?
@@ -505,12 +502,6 @@ public class DrawAngle extends Drawable implements Previewable {
 				xLabel = (int) (coords[0] + 2 * geo.getLineThickness());
 			}
 		}
-
-		// G.Sturr 2010-6-28 spreadsheet trace is now handled in
-		// GeoElement.update()
-		// if (angle.getSpreadsheetTrace())
-		// recordToSpreadsheet(angle);
-
 	}
 
 	@Override
@@ -597,7 +588,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	// update coords for the tick decoration
 	// tick is at distance radius and oriented towards angle
 	// id = 0,1, or 2 for tick[0],tick[1] or tick[2]
-	private void updateTick(double angle1, int radius, int id) {
+	private void updateTick(double angle1, double radius, int id) {
 		// coords have to be set to screen coords of m before calling this
 		// method
 		if (tick == null) {
@@ -612,10 +603,13 @@ public class DrawAngle extends Drawable implements Previewable {
 
 		double length = 2.5 + geo.getLineThickness() / 4d;
 
-		tick[id].setLine(coords[0] + (radius - length) * cos,
-				coords[1] + (radius - length) * sin * view.getScaleRatio(),
-				coords[0] + (radius + length) * cos,
-				coords[1] + (radius + length) * sin * view.getScaleRatio());
+		double scaleX = 1 / Math.max(1, view.getScaleRatio());
+		double scaleY = Math.min(1, view.getScaleRatio());
+
+		tick[id].setLine(coords[0] + (radius - length) * cos * scaleX,
+				coords[1] + (radius - length) * sin * scaleY,
+				coords[0] + (radius + length) * cos * scaleX,
+				coords[1] + (radius + length) * sin * scaleY);
 	}
 
 	@Override
