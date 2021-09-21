@@ -323,7 +323,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 	 * @param c
 	 *            construction
 	 * @param labels
-	 *            output labels
+	 *            output labels (null for no labeling, [] for auto-labeling)
 	 * @param plane
 	 *            plane
 	 * @param p
@@ -334,7 +334,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 	public AlgoIntersectRegionPlanePolyhedron(Construction c, String[] labels,
 			GeoPlane3D plane, GeoPolyhedron p, int[] outputSizes) {
 
-		this(c, plane, p, true);
+		this(c, plane, p, labels != null);
 
 		// set labels
 		if (labels == null) {
