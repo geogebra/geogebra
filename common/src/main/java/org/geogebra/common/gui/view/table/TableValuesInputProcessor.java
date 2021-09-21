@@ -28,23 +28,34 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	}
 
 	@Override
-	public void processInput(@Nonnull String input, @Nonnull GeoList list, int index) {
+	public void processInput(@Nonnull String input, GeoList list, int index) {
 		GeoElement element = parseInput(input);
-		if (isEmptyValue(element) && index >= list.size()) {
+		if (isEmptyValue(element) && (list == null ||index >= list.size())) {
 			// Do not process empty input at the end of the table
 			// And do not add empty element to an already empty list
 			return;
 		}
-		ensureCapacity(list, index);
-		list.setListElement(index, element);
+		GeoList column = ensureList(list);
+		ensureCapacity(column, index);
+		column.setListElement(index, element);
 		if (isEmptyValue(element)) {
-			removeEmptyColumnAndRows(list, index);
+			removeEmptyColumnAndRows(column, index);
 		}
 		element.notifyUpdate();
 	}
 
 	private boolean isEmptyValue(GeoElement element) {
 		return element instanceof GeoText && "".equals(((GeoText) element).getTextString());
+	}
+
+	private GeoList ensureList(GeoList list) {
+		if (list == null) {
+			GeoList column = new GeoList(cons);
+			column.notifyAdd();
+			tableValues.showColumn(column);
+			return column;
+		}
+		return list;
 	}
 
 	private void ensureCapacity(GeoList list, int index) {

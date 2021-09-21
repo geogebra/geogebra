@@ -173,6 +173,27 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		assertThat(model.getCellAt(1, 2).getInput(), equalTo("2"));
 	}
 
+	@Test
+	public void testProcessorWithEmptyList() {
+		processor.processInput("1", null, 2);
+		assertEquals("1", model.getCellAt(2, 1).getInput());
+		assertEquals("", model.getCellAt(0, 1).getInput());
+		assertEquals("", model.getCellAt(1, 1).getInput());
+		assertEquals("", model.getCellAt(0, 0).getInput());
+		assertEquals("", model.getCellAt(1, 0).getInput());
+		assertEquals("", model.getCellAt(2, 0).getInput());
+		assertEquals(3, model.getRowCount());
+		assertEquals(2, model.getColumnCount());
+	}
+
+	@Test
+	public void testEmptyInputAtTheEnd() {
+		processor.processInput("", view.getValues(), 0);
+		assertEquals(0, model.getRowCount());
+		processor.processInput("", null, 0);
+		assertEquals(1, model.getColumnCount());
+	}
+
 	private GeoList newColumn() {
 		GeoList newColumn = new GeoList(getConstruction());
 		view.add(newColumn);
