@@ -7,6 +7,7 @@ import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigProbability;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
+import org.geogebra.web.html5.main.AppW;
 
 /**
  * Activity class for the GeoGebra Suite app
@@ -34,5 +35,11 @@ public class SuiteActivity extends BaseActivity {
 		case GeoGebraConstants.PROBABILITY_APPCODE:
 			return new AppConfigProbability(GeoGebraConstants.SUITE_APPCODE);
 		}
+	}
+
+	@Override
+	public void start(AppW app) {
+		super.start(app);
+		app.getKernel().getGeoGebraCAS().initCurrentCAS();
 	}
 }
