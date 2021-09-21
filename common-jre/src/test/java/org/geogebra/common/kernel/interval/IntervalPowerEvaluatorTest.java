@@ -127,7 +127,7 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 		GeoFunction geo = add("x^(1/-3)");
 		IntervalFunction function = new IntervalFunction(geo);
 		Interval result = function.evaluate(interval(-1, 1));
-		assertTrue(result.isInverted());
+		assertTrue("result should be inverted", result.isInverted());
 	}
 
 	@Test
