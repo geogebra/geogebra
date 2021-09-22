@@ -77,6 +77,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -974,12 +975,17 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	boolean showCurrentError() {
 		if (commandError != null) {
-			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-					errorMessage, null, app.getLocalization().getMenu("Help"),
-					app.getGuiManager().getHelpURL(Help.COMMAND, commandError), app);
-			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
-			return true;
+			Element snackbar = DOM.getElementById("snackbarID");
+			if (snackbar != null) {
+				snackbar.removeFromParent();
+			} else {
+				ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+				ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
+						errorMessage, null, app.getLocalization().getMenu("Help"),
+						app.getGuiManager().getHelpURL(Help.COMMAND, commandError), app);
+				ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+				return true;
+			}
 		}
 
 		if (errorMessage != null) {
