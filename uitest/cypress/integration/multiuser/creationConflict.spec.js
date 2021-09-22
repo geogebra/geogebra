@@ -36,19 +36,20 @@ describe('Multiuser object creation conflict tests', () => {
 
 	const testConicConflict = (firstUser, secondUser) => {
 		cy.window().then((win) => {
-			win.onAppletsLoaded = () => {
-				win.apis[firstUser].evalCommand(conicCommandA);
-				win.apis[firstUser].updateConstruction();
-				win.apis[secondUser].evalCommand(conicCommandB);
-				win.apis[secondUser].updateConstruction();
-			}
-		});
-
-		cy.get(".jsloaded")
-
-		cy.wait(7000);
-
-		cy.window().then((win) => {
+			return new Promise((resolve, _) => {
+				win.onAppletsLoaded = () => {
+					win.apis[firstUser].evalCommand(conicCommandA);
+					win.apis[firstUser].updateConstruction();
+					win.apis[secondUser].evalCommand(conicCommandB);
+					win.apis[secondUser].updateConstruction();
+					resolve(win);
+				}
+			});
+		}).then((win) => {
+			// wait until synchronization happens
+			cy.wait(5000);
+			cy.wrap(win);
+		}).then((win) => {
 			[0, 1, 2].forEach((user) => {
 				expect(win.apis[user].getAllObjectNames()).to.have.members(['conicElement', 'conicElement_1']);
 				expect(cleanup(win.apis[user].getXML('conicElement')))
