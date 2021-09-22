@@ -25,7 +25,7 @@
         };
         this.sendEvent = function(type, content, label) {
             var event = this.createEvent(type, content, label);
-            event.fire(this.eventCallbacks['construction']);
+            event.fire(this.session.eventCallbacks['construction']);
         }
         this.evalCommand = function(command) {
             this.unregisterListeners();
@@ -57,9 +57,8 @@
             }
             var calc = (this.api.getEmbeddedCalculators() || {})[label];
             if (calc && calc.registerClientListener) {
-                var calcLive = new LiveApp(this.clientId, label, this.users, this.delay);
+                var calcLive = new LiveApp(this.session, label);
                 calcLive.api = calc;
-                calcLive.eventCallbacks = this.eventCallbacks;
                 calcLive.registerListeners();
                 this.embeds[label] = calcLive;
             }
@@ -160,7 +159,7 @@
 
         // *** CLIENT LISTENERS ***
         var clientListener = (function(event) {
-            var editorEventBus = this.eventCallbacks["editor"];
+            var editorEventBus = this.session.eventCallbacks["editor"];
             switch (event[0]) {
                 case "updateStyle":
                     var label = event[1];
@@ -408,18 +407,19 @@
    }
 
     window.GeoGebraLive = function(api, id, delay) {
-        var mainSession = new LiveApp(id);
-        mainSession.api = api;
-        mainSession.eventCallbacks = {"construction": []}
+        var session = {clientId: id, delay: delay, timestamp: 0};
+        var mainApp = new LiveApp(id, session);
+        mainApp.api = api;
+        session.eventCallbacks = {"construction": []}
         mainSession.registerListeners();
-        mainSession.delay = delay;
 
         let sentEvents = [];
         let receivedEvents = [];
 
         this.dispatch = function(event) {
             if (event && event.clientId !== id) {
-                mainSession.dispatch(event);
+                mainApp.dispatch(event);
+                session.timestamp++;
                 receivedEvents.push({
                     ...event,
                     timestamp: new Date().getTime()
@@ -428,14 +428,14 @@
         }
 
         this.addUser = function(user) {
-            mainSession.users[user.id] = user;
+            session.users[user.id] = user;
         }
 
         this.addEventListener = function(eventCategory, callback) {
             let eventCategories = typeof eventCategory == "string" ? [eventCategory] : eventCategory;
             eventCategories.forEach(function(category) {
-                mainSession.eventCallbacks[category] = mainSession.eventCallbacks[category] || [];
-                mainSession.eventCallbacks[category].push(callback);
+                session.eventCallbacks[category] = session.eventCallbacks[category] || [];
+                session.eventCallbacks[category].push(callback);
             });
         }
 
