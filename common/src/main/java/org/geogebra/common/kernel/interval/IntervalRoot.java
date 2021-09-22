@@ -9,7 +9,7 @@ import com.google.j2objc.annotations.Weak;
 
 public class IntervalRoot {
 	@Weak
-	private Interval interval;
+	private final Interval interval;
 
 	public IntervalRoot(Interval interval) {
 		this.interval = interval;
@@ -64,6 +64,7 @@ public class IntervalRoot {
 		if (isPositiveOdd(n)) {
 			interval.set(pow(abs(low), power) * signLow,
 					pow(abs(high), power) * signHigh);
+			return interval;
 		} else if (high < 0) {
 			interval.setEmpty();
 			return interval;
