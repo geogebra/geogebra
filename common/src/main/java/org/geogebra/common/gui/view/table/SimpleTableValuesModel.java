@@ -252,19 +252,13 @@ class SimpleTableValuesModel implements TableValuesModel {
 		initializeModel();
 	}
 
-	/**
-	 * Starts batch update.
-	 * This batch update call cannot be nested.
-	 */
-	void startBatchUpdate() {
+	@Override
+	public void startBatchUpdate() {
 		batchUpdate = true;
 	}
 
-	/**
-	 * Ends the batch update.
-	 * Calls {@link TableValuesListener#notifyDatasetChanged(TableValuesModel)}.
-	 */
-	void endBatchUpdate() {
+	@Override
+	public void endBatchUpdate() {
 		batchUpdate = false;
 		notifyDatasetChanged();
 	}
