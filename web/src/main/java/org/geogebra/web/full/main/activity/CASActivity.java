@@ -42,10 +42,7 @@ public class CASActivity extends BaseActivity {
 
 	@Override
 	public void start(AppW app) {
-		loadCas(app.getKernel());
-	}
-
-	static void loadCas(Kernel kernel) {
+		Kernel kernel = app.getKernel();
 		kernel.getGeoGebraCAS().initCurrentCAS();
 		CommandDispatcher dispatcher = kernel.getAlgebraProcessor().getCommandDispatcher();
 		tryLoadingCasDispatcher(dispatcher);
@@ -53,7 +50,7 @@ public class CASActivity extends BaseActivity {
 		tryLoadingScriptingDispatcher(dispatcher);
 	}
 
-	private static void tryLoadingCasDispatcher(CommandDispatcher dispatcher) {
+	private void tryLoadingCasDispatcher(CommandDispatcher dispatcher) {
 		try {
 			dispatcher.getCASDispatcher();
 		} catch (CommandNotLoadedError error) {
@@ -61,7 +58,7 @@ public class CASActivity extends BaseActivity {
 		}
 	}
 
-	private static void tryLoadingAdvancedDispatcher(CommandDispatcher dispatcher) {
+	private void tryLoadingAdvancedDispatcher(CommandDispatcher dispatcher) {
 		try {
 			dispatcher.getAdvancedDispatcher();
 		} catch (CommandNotLoadedError e) {
@@ -69,7 +66,7 @@ public class CASActivity extends BaseActivity {
 		}
 	}
 
-	private static void tryLoadingScriptingDispatcher(CommandDispatcher dispatcher) {
+	private void tryLoadingScriptingDispatcher(CommandDispatcher dispatcher) {
 		try {
 			dispatcher.getScriptingDispatcher();
 		} catch (CommandNotLoadedError e) {

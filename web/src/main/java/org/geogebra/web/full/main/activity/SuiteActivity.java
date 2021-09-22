@@ -14,7 +14,6 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MenuItemCollection;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollection3D;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionCAS;
-import org.geogebra.web.html5.main.AppW;
 
 /**
  * Activity class for the GeoGebra Suite app
@@ -45,16 +44,10 @@ public class SuiteActivity extends BaseActivity {
 	}
 
 	@Override
-	public void start(AppW app) {
-		super.start(app);
-		if (GeoGebraConstants.CAS_APPCODE.equals(getConfig().getSubAppCode())) {
-			CASActivity.loadCas(app.getKernel());
-		}
-	}
-
-	@Override
 	public MenuItemCollection<GeoElement> getAVMenuItems(AlgebraViewW view) {
-		switch (Objects.requireNonNull(getConfig().getSubAppCode())) {
+		String subAppCode = getConfig().getSubAppCode();
+		assert subAppCode != null;
+		switch (subAppCode) {
 		case GeoGebraConstants.CAS_APPCODE:
 			return new AlgebraMenuItemCollectionCAS(view);
 		case GeoGebraConstants.G3D_APPCODE:
