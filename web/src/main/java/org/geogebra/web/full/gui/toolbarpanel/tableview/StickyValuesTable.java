@@ -108,7 +108,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 					return true;
 				}
 			} else if (column == tableModel.getColumnCount()) {
-				// do nothing now, start editing empty column in follow up ticket
+				editor.startEditing(row, column, evt);
 			} else if (row == tableModel.getRowCount()) {
 				editor.startEditing(row, column, evt);
 			}

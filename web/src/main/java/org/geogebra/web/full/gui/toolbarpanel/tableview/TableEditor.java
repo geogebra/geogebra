@@ -36,7 +36,10 @@ public class TableEditor {
 	public void startEditing(int row, int column, Event event) {
 		ensureMathTextFieldExists();
 		app.invokeLater(() -> {
-			mathTextField.setText(table.tableModel.getCellAt(row, column).getInput());
+			boolean newColumn = table.tableModel.getColumnCount() > column;
+				mathTextField.setText(newColumn
+						? table.tableModel.getCellAt(row, column).getInput()
+						: ""); // make sure we don't load content of previously edited cell
 			Element cell = table.getCell(row, column);
 			table.scrollIntoView(cell.getOffsetTop());
 			table.getTableWrapper().add(mathTextField); // first add to GWT tree
@@ -55,6 +58,13 @@ public class TableEditor {
 		GeoEvaluatable evaluatable = table.view.getEvaluatable(editColumn);
 		if (evaluatable instanceof GeoList) {
 			GeoList list = (GeoList) evaluatable;
+			table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
+		}
+		// edited an empty column
+		if (evaluatable == null && !mathTextField.getText().isEmpty() && editRow >= 0) {
+			GeoList list = new GeoList(app.getKernel().getConstruction());
+			list.setTableColumn(editColumn);
+			table.view.add(list);
 			table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
 		}
 		editRow = -1;
