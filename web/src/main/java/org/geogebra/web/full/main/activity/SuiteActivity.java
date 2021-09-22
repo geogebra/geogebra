@@ -12,7 +12,6 @@ import org.geogebra.common.main.settings.config.AppConfigProbability;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MenuItemCollection;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollection;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollection3D;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionCAS;
 import org.geogebra.web.html5.main.AppW;
@@ -48,7 +47,9 @@ public class SuiteActivity extends BaseActivity {
 	@Override
 	public void start(AppW app) {
 		super.start(app);
-		app.getKernel().getGeoGebraCAS().initCurrentCAS();
+		if (GeoGebraConstants.CAS_APPCODE.equals(getConfig().getSubAppCode())) {
+			CASActivity.loadCas(app.getKernel());
+		}
 	}
 
 	@Override
