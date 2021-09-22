@@ -46,6 +46,20 @@ public class TVRowData {
 	}
 
 	/**
+	 *
+	 * @param col
+	 *            the column
+	 * @return if cell is erroneous
+	 */
+	public boolean isCellErroneous(int col) {
+		if (row < model.getRowCount() && col < model.getColumnCount()
+			&& model.getCellAt(row, col) != null) {
+			return model.getCellAt(row, col).isErroneous();
+		}
+		return false;
+	}
+
+	/**
 	 * @return the row.
 	 */
 	public int getRow() {

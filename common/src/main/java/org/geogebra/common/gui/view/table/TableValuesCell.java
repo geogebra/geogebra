@@ -4,21 +4,21 @@ import java.util.Objects;
 
 public class TableValuesCell {
 
-	private final boolean erroneus;
+	private final boolean erroneous;
 	private final String input;
 
 	/**
 	 * Create a TableValuesCell model.
 	 * @param input input string
-	 * @param erroneus if the input has errors
+	 * @param erroneous if the input has errors
 	 */
-	public TableValuesCell(String input, boolean erroneus) {
+	public TableValuesCell(String input, boolean erroneous) {
 		this.input = input;
-		this.erroneus = erroneus;
+		this.erroneous = erroneous;
 	}
 
-	public boolean isErroneus() {
-		return erroneus;
+	public boolean isErroneous() {
+		return erroneous;
 	}
 
 	public String getInput() {
@@ -34,11 +34,11 @@ public class TableValuesCell {
 			return false;
 		}
 		TableValuesCell that = (TableValuesCell) o;
-		return erroneus == that.erroneus && input.equals(that.input);
+		return erroneous == that.erroneous && input.equals(that.input);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(erroneus, input);
+		return Objects.hash(erroneous, input);
 	}
 }

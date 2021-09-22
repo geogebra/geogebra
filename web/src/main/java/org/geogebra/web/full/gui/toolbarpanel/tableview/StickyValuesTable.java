@@ -53,7 +53,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		return editor.getKeyboardListener();
 	}
 
-	private static class HeaderCell {
+	private class HeaderCell {
 		private final String value;
 
 		/**
@@ -77,7 +77,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		 */
 		SafeHtmlHeader getHtmlHeader(String content) {
 			String stringHtmlContent = value.replace("%s", content);
-			return new SafeHtmlHeader(makeCell(stringHtmlContent));
+			return new SafeHtmlHeader(makeCell(stringHtmlContent, false));
 		}
 	}
 
@@ -138,7 +138,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private void addEmptyColumn() {
 		Column<TVRowData, SafeHtml> col = new DataTableSafeHtmlColumn(-1);
 
-		getTable().addColumn(col, new SafeHtmlHeader(makeCell("")));
+		getTable().addColumn(col, new SafeHtmlHeader(makeCell("", false)));
 	}
 
 	@Override
@@ -174,10 +174,15 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 *
 	 * @param content
 	 *            of the cell.
+	 * @param erroneous
+	 * 			  if cell has error
 	 * @return SafeHtml of the cell.
 	 */
-	static SafeHtml makeCell(String content) {
-		return () -> "<div class=\"content\">" + content + "</div>";
+	SafeHtml makeCell(String content, boolean erroneous) {
+		return (SafeHtml) () -> {
+			TableCell cell = new TableCell(content, erroneous, this.app);
+			return cell.getElement().getInnerHTML();
+		};
 	}
 
 	private Column<TVRowData, SafeHtml> getColumnValue(final int col) {
@@ -327,13 +332,15 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		@Override
 		public SafeHtml getValue(TVRowData object) {
 			String valStr = col < 0 ? "" : object.getValue(col);
-			return makeCell(valStr);
+			boolean hasError = col < 0 ? false : object.isCellErroneous(col);
+			return makeCell(valStr, hasError);
 		}
 
 		@Override
 		public String getCellStyleNames(Cell.Context context, TVRowData object) {
 			return super.getCellStyleNames(context, object)
-					+ (col < 0 || isColumnEditable(col) ? " editableCell" : "");
+					+ (col < 0 || isColumnEditable(col) ? " editableCell" : "")
+					+ (col >= 0 && object.isCellErroneous(col) ? " errorCell" : "");
 		}
 	}
 }
