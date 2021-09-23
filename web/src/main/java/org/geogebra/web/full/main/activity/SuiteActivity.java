@@ -1,7 +1,5 @@
 package org.geogebra.web.full.main.activity;
 
-import java.util.Objects;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppConfig;

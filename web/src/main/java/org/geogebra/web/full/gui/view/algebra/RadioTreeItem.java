@@ -536,7 +536,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			updateItemColor();
 			rebuildPlaintextContent();
 		}
-		removeSymbolicButton(controls);
+		AlgebraOutputPanel.removeSymbolicButton(controls);
 	}
 
 	private void rebuildPlaintextContent() {
@@ -554,14 +554,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					app.getActivity().getOutputPrefixIcon(), 24, 24);
 			arrow.setStyleName("arrowOutputImg");
 			content.insert(arrow, 0);
-		}
-	}
-
-	private void removeSymbolicButton(FlowPanel parent) {
-		for (int i = 0; i < parent.getWidgetCount(); i++) {
-			if (parent.getWidget(i).getStyleName().contains("symbolicButton")) {
-				parent.getWidget(i).removeFromParent();
-			}
 		}
 	}
 
