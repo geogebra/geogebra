@@ -1166,6 +1166,18 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testFunctionVariableFollowsConstOrder() {
+		GeoSymbolic symbolic1 = add("f(u)=u^2");
+		assertThat(symbolic1.toValueString(StringTemplate.latexTemplate), is("u^{2}"));
+		GeoSymbolic symbolic2 = add("f(5)");
+		assertThat(symbolic2.toValueString(StringTemplate.latexTemplate), is("25"));
+		GeoSymbolic symbolic3 = add("u=10");
+		assertThat(symbolic3.toValueString(StringTemplate.latexTemplate), is("10"));
+		GeoSymbolic symbolic4 = add("f(5)");
+		assertThat(symbolic4.toValueString(StringTemplate.latexTemplate), is("25"));
+	}
+
+	@Test
 	public void testIntegralTwinGeoHasSliderValue() {
 		GeoSymbolic symbolic = add("Integral(x)");
 		GeoNumeric slider = (GeoNumeric) lookup("c_1");
