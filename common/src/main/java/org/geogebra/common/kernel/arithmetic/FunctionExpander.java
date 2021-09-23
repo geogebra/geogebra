@@ -241,7 +241,7 @@ public class FunctionExpander implements Traversing {
 						&& !contains((GeoDummyVariable) en.getLeft())) {
 					geo = ((GeoDummyVariable) en.getLeft())
 							.getElementWithSameName();
-					if (geo != null && isSetConsIndexValid(geo.getConstructionIndex())) {
+					if (geo != null && hasLowerConstructionIndex(geo)) {
 						en.setLeft(expand(geo));
 					}
 				}
@@ -268,7 +268,7 @@ public class FunctionExpander implements Traversing {
 						&& !contains((GeoDummyVariable) en.getRight())) {
 					geo = ((GeoDummyVariable) en.getRight())
 							.getElementWithSameName();
-					if (geo != null && isSetConsIndexValid(geo.getConstructionIndex())) {
+					if (geo != null && hasLowerConstructionIndex(geo)) {
 						en.setRight(expand(geo));
 					}
 				}
@@ -276,7 +276,7 @@ public class FunctionExpander implements Traversing {
 		} else if (ev instanceof GeoDummyVariable
 				&& !contains((GeoDummyVariable) ev)) {
 			GeoElement geo = ((GeoDummyVariable) ev).getElementWithSameName();
-			if (geo != null && isSetConsIndexValid(geo.getConstructionIndex())) {
+			if (geo != null && hasLowerConstructionIndex(geo)) {
 				return expand(geo);
 			}
 		} else if (ev instanceof GeoCasCell) {
@@ -295,8 +295,8 @@ public class FunctionExpander implements Traversing {
 		return ev;
 	}
 
-	private boolean isSetConsIndexValid(int geoConsIndex) {
-		return geoConsIndex < constructionIndex;
+	private boolean hasLowerConstructionIndex(GeoElement element) {
+		return element.getConstructionIndex() < constructionIndex;
 	}
 
 	/**
@@ -314,7 +314,8 @@ public class FunctionExpander implements Traversing {
 	 * @return function expander
 	 */
 	public static FunctionExpander getCollector(GeoElement element) {
-		collector.constructionIndex = element == null ? Integer.MAX_VALUE : element.getConstructionIndex();
+		collector.constructionIndex = element == null ?
+				Integer.MAX_VALUE : element.getConstructionIndex();
 		collector.variables = null;
 		return collector;
 	}
