@@ -23,6 +23,7 @@
         };
         this.sendEvent = function(type, content, label) {
             var event = this.createEvent(type, content, label);
+            event.time = this.session.time++;
             event.fire(this.session.eventCallbacks['construction']);
         }
         this.evalCommand = function(command) {
@@ -282,11 +283,30 @@
 
         const conflictedObjects = [];
 
+        this.hasConflict = function(event, oldEvents) {
+            for (let i = 0; i < oldEvents.length; i++) {
+                const oldEvent = oldEvents[oldEvents.length - 1 - i];
+                if (oldEvent.time < event.time) {
+                    return false;
+                }
+                if (oldEvent.label && oldEvent.label == event.label) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         this.dispatch = function(last) {
             // reject events coming from conflicted objects
             if (conflictedObjects.includes(last.label)
                 && "conflictResolution" != last.type) {
                 return;
+            }
+
+            if (last.time < this.session.time) {
+                 if (this.hasConflict(last, session.receivedEvents) || this.hasConflict(last, session.sentEvents)) {
+                     this.sendErrorEvent();
+                 }
             }
 
             const target = last.embedLabel ? this.embeds[last.embedLabel] : this;
@@ -420,7 +440,7 @@
         };
 
         this.sendErrorEvent = function(label) {
-            this.createEvent("error", label).fire(this.eventCallbacks['error']);
+            this.createEvent("error", label).fire(this.session.eventCallbacks['error']);
         };
 
         this.checkInline = function(label) {
@@ -434,7 +454,7 @@
 
         this.checkExists = function(label) {
             if (label && !this.api.exists(label)) {
-                 this.createEvent("error", label).fire(this.eventCallbacks['error']);
+                 this.sendErrorEvent(label);
                  return false;
             }
             return true;
@@ -442,20 +462,24 @@
    }
 
     window.GeoGebraLive = function(api, id, delay) {
-        var session = {clientId: id, delay: delay, timestamp: 0, users: []};
+        var session = {
+            clientId: id,
+            delay: delay || 200,
+            time: 0,
+            users: [],
+            sentEvents: [],
+            receivedEvents: []
+        };
         var mainApp = new LiveApp(session);
         mainApp.api = api;
         session.eventCallbacks = {"construction": [], "error": []}
         mainApp.registerListeners();
 
-        let sentEvents = [];
-        let receivedEvents = [];
-
         this.dispatch = function(event) {
             if (event && event.clientId !== id) {
                 mainApp.dispatch(event);
-                session.timestamp++;
-                receivedEvents.push({
+                session.time = Math.max(session.time, event.time) + 1;
+                session.receivedEvents.push({
                     ...event,
                     timestamp: new Date().getTime()
                 });
@@ -475,15 +499,15 @@
         }
 
         this.addEventListener(["construction", "editor"], (event) => {
-            sentEvents.push({
+            session.sentEvents.push({
                 ...event,
                 timestamp: new Date().getTime()
             });
-        })
+        });
 
         this.startLogging = () => {
-            sentEvents = [];
-            receivedEvents = [];
+            session.sentEvents = [];
+            session.receivedEvents = [];
         }
 
         function download(object, fileName) {
@@ -495,11 +519,11 @@
         }
 
         this.getSent = () => {
-            download(sentEvents, "events-sent.json");
+            download(session.sentEvents, "events-sent.json");
         }
 
         this.getReceived = () => {
-            download(receivedEvents, "events-received.json");
+            download(session.receivedEvents, "events-received.json");
         }
     }
 })();
