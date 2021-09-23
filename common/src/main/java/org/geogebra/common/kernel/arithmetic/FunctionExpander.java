@@ -314,8 +314,8 @@ public class FunctionExpander implements Traversing {
 	 * @return function expander
 	 */
 	public static FunctionExpander getCollector(GeoElement element) {
-		collector.constructionIndex = element == null ?
-				Integer.MAX_VALUE : element.getConstructionIndex();
+		collector.constructionIndex = element == null
+				? Integer.MAX_VALUE : element.getConstructionIndex();
 		collector.variables = null;
 		return collector;
 	}
