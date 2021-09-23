@@ -92,7 +92,8 @@ public class IntervalAlgebraTest {
 
 	@Test
 	public void testNegativePowerOfEven() {
-		assertTrue(interval(4, 4).almostEqual(interval(-2, -2).pow(2)));
+		assertEquals(interval(4), interval(-2).pow(2));
+		assertEquals(interval(4), interval(-2).pow(1 + 1. / 3 + 1. / 3 + 1. / 3));
 	}
 
 	@Test
