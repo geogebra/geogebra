@@ -1,9 +1,7 @@
 (function() {
-    function LiveApp(parentClientId, embedLabel, users, delay) {
+    function LiveApp(session, embedLabel) {
         this.api = null;
-        this.users = users || [];
-      	this.delay = delay || 200;
-        this.clientId = parentClientId;
+        this.session = session;
         this.currentAnimations = [];
         this.embeds = {};
         this.createEvent = function(type, content, label) {
@@ -11,7 +9,7 @@
                 "type": type,
                 "content": content,
                 "embedLabel": embedLabel,
-                "clientId": this.clientId
+                "clientId": session.clientId
             }
             if (label) {
                 event.label = label;
@@ -101,7 +99,7 @@
                     }
 
                     updateCallback = null;
-                }, that.delay);
+                }, that.session.delay);
             }
         }).bind(this);
 
@@ -138,8 +136,6 @@
             } else {
                 this.sendEvent("addObject", xml, label);
             }
-            this.sendEvent("deselect");
-            this.sendEvent("select", label, "true");
             window.setTimeout(function(){
                 that.initEmbed(label);
             },500); //TODO avoid timeout
@@ -296,7 +292,7 @@
             const target = last.embedLabel ? this.embeds[last.embedLabel] : this;
             if (last.type == "addObject") {
                 if (target.api.exists(last.label)) {
-                    if (this.clientId == Math.min(...this.users.filter(Boolean).map(u => u.id))) {
+                    if (this.session.clientId == Math.min(...this.session.users.filter(Boolean).map(u => u.id))) {
                         let counter = 1;
                         let newLabel;
                         do {
@@ -318,18 +314,28 @@
                     target.evalXML(last.content);
                     target.api.previewRefresh();
                 }
+                let user = this.session.users[last.clientId];
+                if (user && last.content) {
+                    target.api.removeMultiuserSelections(user.name);
+                    // user name, user color, label of geo selected, 'true' if the geo was just added
+                    target.api.addMultiuserSelection(user.name, user.color, last.content, true);
+                }
             } else if (last.type == "conflictResolution") {
                 conflictedObjects.splice(conflictedObjects.indexOf(last.label), 1);
                 target.evalXML(last.content);
                 target.api.previewRefresh();
             } else if (last.type == "evalXML") {
-                target.evalXML(last.content);
-                target.api.previewRefresh();
+                if (target.checkExists(last.label)) {
+                    target.evalXML(last.content);
+                    target.api.previewRefresh();
+                }
             } else if (last.type == "setXML") {
                 target.setXML(last.content);
             } else if (last.type == "evalCommand") {
-                target.evalCommand(last.content);
-                target.api.previewRefresh();
+                if (target.checkExists(last.label)) {
+                    target.evalCommand(last.content);
+                    target.api.previewRefresh();
+                }
             } else if (last.type == "deleteObject") {
                 target.unregisterListeners();
                 if (target === this) {
@@ -348,7 +354,11 @@
                 || last.type == "removeSlide"
                 || last.type == "moveSlide"
                 || last.type == "clearSlide") {
-                target.api.handleSlideAction(last.type, last.content);
+                try {
+                    target.api.handleSlideAction(last.type, last.content);
+                } catch (ex) {
+                    this.sendErrorEvent();
+                }
             } else if (last.type == "selectSlide") {
                 target.unregisterListeners();
                 target.api.selectSlide(last.content);
@@ -370,13 +380,13 @@
             } else if (last.type == "stopAnimation") {
                 target.api.setAnimating(last.label, false);
             } else if (last.type == "select") {
-                let user = this.users[last.clientId];
+                let user = this.session.users[last.clientId];
                 if (user && last.content) {
                     // user name, user color, label of geo selected, 'true' if the geo was just added
-                    target.api.addMultiuserSelection(user.name, user.color, last.content, !!last.label);
+                    target.api.addMultiuserSelection(user.name, user.color, last.content, false);
                 }
             } else if (last.type == "deselect") {
-                let user = this.users[last.clientId];
+                let user = this.session.users[last.clientId];
                 if (user) {
                     target.api.removeMultiuserSelections(user.name);
                 }
@@ -399,19 +409,44 @@
             } else if (last.type == "showPointsTV") {
                 target.api.showPointsTV(last.content, last.label);
             } else if (last.type == "lockTextElement") {
-                target.api.lockTextElement(last.content);
+                if (target.checkInline(last.content)) {
+                    target.api.lockTextElement(last.content);
+                }
             } else if (last.type == "unlockTextElement") {
-                target.api.unlockTextElement(last.content);
+                if (target.checkInline(last.content)) {
+                    target.api.unlockTextElement(last.content);
+                }
             }
         };
+
+        this.sendErrorEvent = function(label) {
+            this.createEvent("error", label).fire(this.eventCallbacks['error']);
+        };
+
+        this.checkInline = function(label) {
+            const inlineTypes = ['inlinetext', 'table', 'formula', 'mindmap'];
+            if (label && !inlineTypes.includes(this.api.getObjectType(label))) {
+                 this.sendErrorEvent()
+                 return false;
+            }
+            return true;
+        };
+
+        this.checkExists = function(label) {
+            if (label && !this.api.exists(label)) {
+                 this.createEvent("error", label).fire(this.eventCallbacks['error']);
+                 return false;
+            }
+            return true;
+        }
    }
 
     window.GeoGebraLive = function(api, id, delay) {
-        var session = {clientId: id, delay: delay, timestamp: 0};
-        var mainApp = new LiveApp(id, session);
+        var session = {clientId: id, delay: delay, timestamp: 0, users: []};
+        var mainApp = new LiveApp(session);
         mainApp.api = api;
-        session.eventCallbacks = {"construction": []}
-        mainSession.registerListeners();
+        session.eventCallbacks = {"construction": [], "error": []}
+        mainApp.registerListeners();
 
         let sentEvents = [];
         let receivedEvents = [];
