@@ -23,6 +23,7 @@ public class FunctionExpander implements Traversing {
 	private static FunctionExpander collector = new FunctionExpander();
 	// store function variables if needed
 	private FunctionVariable[] variables = null;
+	private int constructionIndex = -1;
 
 	private ExpressionValue expand(GeoElement geo) {
 		if (geo instanceof FunctionalNVar) {
@@ -240,7 +241,7 @@ public class FunctionExpander implements Traversing {
 						&& !contains((GeoDummyVariable) en.getLeft())) {
 					geo = ((GeoDummyVariable) en.getLeft())
 							.getElementWithSameName();
-					if (geo != null) {
+					if (geo != null && isSetConsIndexValid(geo.getConstructionIndex())) {
 						en.setLeft(expand(geo));
 					}
 				}
@@ -267,7 +268,7 @@ public class FunctionExpander implements Traversing {
 						&& !contains((GeoDummyVariable) en.getRight())) {
 					geo = ((GeoDummyVariable) en.getRight())
 							.getElementWithSameName();
-					if (geo != null) {
+					if (geo != null && isSetConsIndexValid(geo.getConstructionIndex())) {
 						en.setRight(expand(geo));
 					}
 				}
@@ -275,7 +276,7 @@ public class FunctionExpander implements Traversing {
 		} else if (ev instanceof GeoDummyVariable
 				&& !contains((GeoDummyVariable) ev)) {
 			GeoElement geo = ((GeoDummyVariable) ev).getElementWithSameName();
-			if (geo != null) {
+			if (geo != null && isSetConsIndexValid(geo.getConstructionIndex())) {
 				return expand(geo);
 			}
 		} else if (ev instanceof GeoCasCell) {
@@ -294,12 +295,26 @@ public class FunctionExpander implements Traversing {
 		return ev;
 	}
 
+	private boolean isSetConsIndexValid(int geoConsIndex) {
+		return constructionIndex == -1 || geoConsIndex < constructionIndex;
+	}
+
 	/**
 	 * Resets and returns the collector
 	 *
 	 * @return function expander
 	 */
 	public static FunctionExpander getCollector() {
+		return getCollector(null);
+	}
+
+	/**
+	 * Resets and returns the collector
+	 * @param element geo element to use collector for
+	 * @return function expander
+	 */
+	public static FunctionExpander getCollector(GeoElement element) {
+		collector.constructionIndex = element == null ? -1 : element.getConstructionIndex();
 		collector.variables = null;
 		return collector;
 	}

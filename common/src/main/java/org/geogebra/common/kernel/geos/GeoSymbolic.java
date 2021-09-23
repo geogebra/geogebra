@@ -213,7 +213,7 @@ public class GeoSymbolic extends GeoElement
 	@Override
 	public void computeOutput() {
 		ExpressionValue casInputArg = getDefinition().deepCopy(kernel)
-				.traverse(FunctionExpander.getCollector());
+				.traverse(FunctionExpander.getCollector(this));
 
 		Command casInput = getCasInput(fixMatrixInput(casInputArg));
 
@@ -226,7 +226,7 @@ public class GeoSymbolic extends GeoElement
 				.isUndefined(casResult)) {
 			getDefinition().getTopLevelCommand().setName(Commands.NSolve.name());
 			casInput = getCasInput(getDefinition().deepCopy(kernel)
-					.traverse(FunctionExpander.getCollector()));
+					.traverse(FunctionExpander.getCollector(this)));
 			casResult = evaluateGeoGebraCAS(casInput, constant);
 		}
 
