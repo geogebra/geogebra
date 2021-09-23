@@ -23,7 +23,7 @@ public class FunctionExpander implements Traversing {
 	private static FunctionExpander collector = new FunctionExpander();
 	// store function variables if needed
 	private FunctionVariable[] variables = null;
-	private int constructionIndex = -1;
+	private int constructionIndex = Integer.MAX_VALUE;
 
 	private ExpressionValue expand(GeoElement geo) {
 		if (geo instanceof FunctionalNVar) {
@@ -296,7 +296,7 @@ public class FunctionExpander implements Traversing {
 	}
 
 	private boolean isSetConsIndexValid(int geoConsIndex) {
-		return constructionIndex == -1 || geoConsIndex < constructionIndex;
+		return geoConsIndex < constructionIndex;
 	}
 
 	/**
@@ -314,7 +314,7 @@ public class FunctionExpander implements Traversing {
 	 * @return function expander
 	 */
 	public static FunctionExpander getCollector(GeoElement element) {
-		collector.constructionIndex = element == null ? -1 : element.getConstructionIndex();
+		collector.constructionIndex = element == null ? Integer.MAX_VALUE : element.getConstructionIndex();
 		collector.variables = null;
 		return collector;
 	}
