@@ -77,7 +77,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		 */
 		SafeHtmlHeader getHtmlHeader(String content) {
 			String stringHtmlContent = value.replace("%s", content);
-			return new SafeHtmlHeader(makeCell(stringHtmlContent, false));
+			TableCell headerCell = new TableCell(stringHtmlContent);
+			return new SafeHtmlHeader(headerCell.getHTML());
 		}
 	}
 
@@ -137,8 +138,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	private void addEmptyColumn() {
 		Column<TVRowData, SafeHtml> col = new DataTableSafeHtmlColumn(-1);
-
-		getTable().addColumn(col, new SafeHtmlHeader(makeCell("", false)));
+		TableCell cell = new TableCell("", false);
+		getTable().addColumn(col, new SafeHtmlHeader(cell.getHTML()));
 	}
 
 	@Override
@@ -167,22 +168,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		}
 		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
 		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
-	}
-
-	/**
-	 * Makes a cell as SafeHtml.
-	 *
-	 * @param content
-	 *            of the cell.
-	 * @param erroneous
-	 * 			  if cell has error
-	 * @return SafeHtml of the cell.
-	 */
-	SafeHtml makeCell(String content, boolean erroneous) {
-		return (SafeHtml) () -> {
-			TableCell cell = new TableCell(content, erroneous, this.app);
-			return cell.getElement().getInnerHTML();
-		};
 	}
 
 	private Column<TVRowData, SafeHtml> getColumnValue(final int col) {
@@ -333,7 +318,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		public SafeHtml getValue(TVRowData object) {
 			String valStr = col < 0 ? "" : object.getValue(col);
 			boolean hasError = col < 0 ? false : object.isCellErroneous(col);
-			return makeCell(valStr, hasError);
+			TableCell cell = new TableCell(valStr, hasError);
+			return cell.getHTML();
 		}
 
 		@Override

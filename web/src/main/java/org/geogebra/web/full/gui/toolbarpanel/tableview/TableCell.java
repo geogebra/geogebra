@@ -1,15 +1,17 @@
 package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class TableCell extends FlowPanel {
 
-	public TableCell(String content, boolean hasError, AppW app) {
+	/**
+	 * constructor for cell
+	 * @param content content of the cell
+	 * @param hasError true if is erroneous cell
+	 */
+	public TableCell(String content, boolean hasError) {
 		SimplePanel contentPanel = new SimplePanel();
 		contentPanel.addStyleName("content");
 		contentPanel.getElement().setInnerText(content);
@@ -17,11 +19,26 @@ public class TableCell extends FlowPanel {
 
 		if (hasError) {
 			SimplePanel errorTriangle = new SimplePanel();
-			errorTriangle.addHandler(event -> {
-						ToolTipManagerW.sharedInstance().showBottomMessage("Use numbers only", app);
-			}, MouseOverEvent.getType());
 			errorTriangle.addStyleName("errorStyle");
 			this.add(errorTriangle);
 		}
+	}
+
+	/**
+	 * constructor for header cell
+	 * @param htmlContent HTML content of the cell (including 3dot button)
+	 */
+	public TableCell(String htmlContent) {
+		SimplePanel contentPanel = new SimplePanel();
+		contentPanel.addStyleName("content");
+		contentPanel.getElement().setInnerHTML(htmlContent);
+		this.add(contentPanel);
+	}
+
+	/**
+	 * @return SafeHtml of the cell.
+	 */
+	SafeHtml getHTML() {
+		return (SafeHtml) () -> this.getElement().getInnerHTML();
 	}
 }

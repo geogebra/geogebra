@@ -44,6 +44,7 @@ public class TableEditor {
 			table.scrollIntoView(cell.getOffsetTop());
 			table.getTableWrapper().add(mathTextField); // first add to GWT tree
 			cell.removeAllChildren();
+			cell.removeClassName("errorCell");
 			cell.appendChild(mathTextField.asWidget().getElement()); // then move in DOM
 
 			mathTextField.editorClicked();

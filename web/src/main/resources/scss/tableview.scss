@@ -80,9 +80,13 @@ $deleteTime: 120ms;
 
 			&.errorCell {
 				cursor: pointer;
-              	border-width: 1px;
-                border-color: colors.$tableview-error;
-            }
+				border-width: 1px;
+				border-color: colors.$tableview-error;
+
+				.content {
+					height: 50px;
+				}
+			}
 		}
 
 		.values {
@@ -166,8 +170,8 @@ $deleteTime: 120ms;
 
 				.errorStyle {
 					border-top: 16px solid colors.$tableview-error;
-                    border-left: 16px solid transparent;
-                    display: inline-block;
+					border-left: 16px solid transparent;
+					display: inline-block;
 				}
 
 				&.deleteCol .content {
