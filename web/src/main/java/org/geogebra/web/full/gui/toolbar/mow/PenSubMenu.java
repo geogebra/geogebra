@@ -1,7 +1,9 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -42,7 +44,7 @@ public class PenSubMenu extends SubMenuPanel {
 	boolean colorsEnabled;
 	// preset colors black, green, teal, blue, purple, magenta, red, carrot,
 	// yellow
-	private HashMap<MOWToolbarColor, Label> colorMap;
+	private Map<MOWToolbarColor, Label> colorMap;
 
 	@Override
 	public void setAriaHidden(boolean hidden) {
@@ -66,19 +68,14 @@ public class PenSubMenu extends SubMenuPanel {
 
 	/**
 	 * Create color buttons for selecting pen color
-	 * 
-	 * @param aColor
-	 *            color
-	 * @param ariaLabelTransKey
-	 * 			  ggbtrans key for the aria-label
-	 *
+	 * @param colorData translation key and hex code for the color
 	 * @return button
 	 */
-	private Label createColorButton(final GColor aColor, String ariaLabelTransKey) {
+	private Label createColorButton(MOWToolbarColor colorData) {
 		ImageOrText color = GeoGebraIconW.createColorSwatchIcon(1, null,
-				aColor);
+				colorData.getGColor());
 		Label label = new Label();
-		AriaHelper.setLabel(label, app.getLocalization().getColor(ariaLabelTransKey));
+		AriaHelper.setLabel(label, app.getLocalization().getColor(colorData.getGgbTransKey()));
 		label.getElement().setAttribute("role", "button");
 		label.getElement().setTabIndex(0);
 		color.applyToLabel(label);
@@ -90,30 +87,17 @@ public class PenSubMenu extends SubMenuPanel {
 				if (!colorsEnabled) {
 					return;
 				}
-				setSelectedColor(aColor);
+				setSelectedColor(colorData.getGColor());
 			}
 		});
 		return label;
 	}
 
 	private void fillColorButtonMap() {
-		colorMap = new HashMap<>();
-		addToColorMap(MOWToolbarColor.BLACK);
-		addToColorMap(MOWToolbarColor.GREEN);
-		addToColorMap(MOWToolbarColor.TEAL);
-		addToColorMap(MOWToolbarColor.BLUE);
-		addToColorMap(MOWToolbarColor.PURPLE);
-		addToColorMap(MOWToolbarColor.PINK);
-		addToColorMap(MOWToolbarColor.RED);
-		addToColorMap(MOWToolbarColor.ORANGE);
-		addToColorMap(MOWToolbarColor.YELLOW);
+		colorMap = Arrays.stream(MOWToolbarColor.values())
+				.collect(Collectors.toMap(Function.identity(), this::createColorButton));
 		new FocusableWidget(AccessibilityGroup.NOTES_COLOR_PANEL, null,
 				colorMap.values().toArray(new Widget[0])).attachTo(app);
-	}
-
-	private void addToColorMap(MOWToolbarColor color) {
-		colorMap.put(color, createColorButton(color.getGColor(),
-				color.getGgbTransKey()));
 	}
 
 	private void createMoreColorButton() {
