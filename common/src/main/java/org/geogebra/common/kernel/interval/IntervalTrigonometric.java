@@ -266,12 +266,12 @@ class IntervalTrigonometric {
 			return interval;
 		}
 
-		if (interval.isWhole() || interval.isOnlyInfinity()) {
+		if (interval.isOnlyInfinity()) {
 			interval.setEmpty();
 			return interval;
 		}
 
-		Interval interval = new Interval(this.interval);
-		return interval.sin().multiplicativeInverse();
+		Interval result = new Interval(this.interval);
+		return result.sin().multiplicativeInverse();
 	}
 }
