@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.interval;
 
-import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
@@ -8,7 +7,6 @@ import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class IntervalAlgebraTest {
@@ -68,12 +66,13 @@ public class IntervalAlgebraTest {
 
 	@Test
 	public void testMultiplicativeInverseZero() {
-		assertEquals(zero(), zero().multiplicativeInverse());
+		assertEquals(whole().invert(), zero().multiplicativeInverse());
 	}
 
 	@Test
 	public void testDoubleMultiplicativeInverseZero() {
-		assertEquals(whole(), zero().multiplicativeInverse().multiplicativeInverse());
+		assertEquals(whole().invert().uninvert(),
+				zero().multiplicativeInverse().multiplicativeInverse());
 	}
 
 	@Test
@@ -157,28 +156,6 @@ public class IntervalAlgebraTest {
 
 		assertTrue(interval(-1 / 8.0, -1 / 27.0).almostEqual(
 				interval(-3, -2).pow(-3)));
-	}
-
-	@Ignore
-	@Test
-	public void testPositiveAndZeroPowerOfNegatives() {
-		assertTrue(interval(1 / 4.0, Double.POSITIVE_INFINITY).almostEqual(
-				interval(0, 2).pow(-2)));
-
-		assertTrue(interval(1 / 8.0, Double.POSITIVE_INFINITY).almostEqual(
-				interval(0, 2).pow(-3)));
-
-		assertTrue(interval(1 / 4.0, Double.POSITIVE_INFINITY).almostEqual(
-				interval(-2, 0).pow(-2)));
-
-		assertTrue(interval(Double.NEGATIVE_INFINITY, -1 / 8.0).almostEqual(
-				interval(-2, 0).pow(-3)));
-	}
-
-	@Ignore
-	@Test
-	public void testNegativeAndPositivePowerOfNegatives() {
-		assertEquals(undefined(), interval(-2, 3).pow(-3));
 	}
 
 	@Test

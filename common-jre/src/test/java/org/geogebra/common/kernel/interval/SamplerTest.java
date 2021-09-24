@@ -14,8 +14,10 @@ import org.geogebra.common.util.debug.Log;
 public class SamplerTest extends BaseUnitTest {
 	protected void valuesShouldBeBetween(IntervalTupleList tuples, double low, double high) {
 		List<IntervalTuple> result =
-				tuples.stream().filter(entry -> entry.y().getLow() < low - 1E-6
-						|| entry.y().getHigh() > high + 1E-6).collect(Collectors.toList());
+				tuples.stream().filter(
+						entry -> (entry.y().getLow() < low - 1E-6
+								|| entry.y().getHigh() > high + 1E-6)
+								&& !entry.isInvertedWhole()).collect(Collectors.toList());
 		assertEquals(Collections.emptyList(), result);
 	}
 
@@ -32,11 +34,10 @@ public class SamplerTest extends BaseUnitTest {
 		IntervalTuple range = PlotterUtils.newRange(xmin, xmax, ymin, ymax);
 		IntervalFunctionSampler sampler = PlotterUtils.newSampler(function, range,
 				sampleCount);
-		IntervalTupleList result = sampler.result();
-		logSamples(result);
-		return result;
+		return sampler.result();
 	}
 
+	@SuppressWarnings("for sample tests")
 	private void logSamples(IntervalTupleList result) {
 		for (int i = 0; i < result.count(); i++) {
 			IntervalTuple tuple = result.get(i);

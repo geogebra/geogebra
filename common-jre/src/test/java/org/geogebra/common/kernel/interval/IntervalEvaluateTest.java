@@ -136,7 +136,7 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 		Interval result =
 				interval(0).sqrt().sqrt();
 		Interval inverse = result.multiplicativeInverse();
-		assertEquals(IntervalConstants.positiveInfinity().invert(), inverse);
+		assertEquals(IntervalConstants.whole().invert(), inverse);
 	}
 
 	@Test

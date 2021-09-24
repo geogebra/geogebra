@@ -82,15 +82,16 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 
 	}
 
-	private void shouldBeUndefinedAtZero(IntervalFunction function) throws Exception {
-		assertEquals(IntervalConstants.zero(), function.evaluate(IntervalConstants.zero()));
+	private void shouldBeInvertedAtZero(IntervalFunction function) throws Exception {
+		assertTrue("function should be inverted at zero",
+				function.evaluate(IntervalConstants.zero()).isInverted());
 	}
 
 	@Test
 	public void evaluatePowerOfFractionNegativeNominator() throws Exception {
 		GeoFunction geo = add("x^(-2/9)");
 		IntervalFunction function = new IntervalFunction(geo);
-		shouldBeUndefinedAtZero(function);
+		shouldBeInvertedAtZero(function);
 		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
 				function.evaluate(interval(-6, -5.88)));
 		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
@@ -101,7 +102,7 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 	public void evaluatePowerOfNegativeFractionDenominator() throws Exception {
 		GeoFunction geo = add("x^(2/-9)");
 		IntervalFunction function = new IntervalFunction(geo);
-		shouldBeUndefinedAtZero(function);
+		shouldBeInvertedAtZero(function);
 		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
 				function.evaluate(interval(-6, -5.88)));
 		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
@@ -116,7 +117,7 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 	}
 
 	private void shouldBeXPowerOnMinusThird(IntervalFunction function) throws Exception {
-		shouldBeUndefinedAtZero(function);
+		shouldBeInvertedAtZero(function);
 		assertEquals(IntervalConstants.one(), function.evaluate(IntervalConstants.one()));
 		assertEquals(IntervalConstants.one().negative(),
 				function.evaluate(IntervalConstants.one().negative()));

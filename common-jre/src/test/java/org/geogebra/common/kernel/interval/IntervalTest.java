@@ -133,6 +133,12 @@ public class IntervalTest {
 	}
 
 	@Test
+	public void testInvertedIntervalToString() {
+		assertEquals("Interval [-1.0, 1.0] (I)",
+				interval(-1, 1).invert().toString());
+	}
+
+	@Test
 	public void testIntervalSingletonToString() {
 		assertEquals("Interval [-1.0]", new Interval(-1).toString());
 	}
@@ -145,8 +151,14 @@ public class IntervalTest {
 	@Test
 	public void testWholeIntervalToString() {
 		assertEquals("Interval [-Infinity, Infinity] 1E", whole().toString());
+		assertEquals("Interval [-Infinity, Infinity] 1E (I)",
+				whole().invert().toString());
 		assertEquals("Interval [-Infinity, Infinity] R",
 				interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY).toString());
+
+		assertEquals("Interval [-Infinity, Infinity] R (I)",
+				interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY)
+						.invert().toString());
 	}
 
 	@Test

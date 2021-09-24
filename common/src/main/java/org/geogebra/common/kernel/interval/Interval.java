@@ -25,7 +25,18 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	private double low;
 	private double high;
 
-	private enum Inversion { NONE, INVERTED, UNINVERTED }
+	private enum Inversion { NONE(""), INVERTED("I"), UNINVERTED("U");
+
+		private final String postfix;
+
+		Inversion(String postfix) {
+			this.postfix = postfix;
+		}
+
+		public String getPostfix() {
+			return "".equals(postfix) ?  "" : " (" + postfix + ")";
+		}
+	}
 
 	private Inversion inverted = Inversion.NONE;
 
@@ -142,9 +153,9 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	@Override
 	public String toString() {
 		if (isWhole()) {
-			return "Interval [-Infinity, Infinity] 1E";
+			return "Interval [-Infinity, Infinity] 1E" + inverted.getPostfix();
 		} else if (isRealWhole()) {
-			return "Interval [-Infinity, Infinity] R";
+			return "Interval [-Infinity, Infinity] R"  + inverted.getPostfix();
 		}
 
 		String result = "Interval [";
@@ -155,7 +166,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 			}
 		}
 
-		result += "]";
+		result += "]" + inverted.getPostfix();
 		return result;
 	}
 

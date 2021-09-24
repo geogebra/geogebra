@@ -1,8 +1,5 @@
 package org.geogebra.common.kernel.interval;
 
-import static java.lang.Math.abs;
-import static java.lang.Math.pow;
-
 import org.geogebra.common.util.DoubleUtil;
 
 import com.google.j2objc.annotations.Weak;
@@ -57,22 +54,7 @@ public class IntervalRoot {
 		}
 
 		double power = 1 / n;
-		double low = interval.getLow();
-		double signLow = Math.signum(low);
-		double high = interval.getHigh();
-		double signHigh = Math.signum(high);
-		if (isPositiveOdd(n)) {
-			interval.set(pow(abs(low), power) * signLow,
-					pow(abs(high), power) * signHigh);
-			return interval;
-		} else if (high < 0) {
-			interval.setEmpty();
-			return interval;
-		}
-
-		interval.set(pow(Math.max(0, low), power),
-				pow(high, power));
-		return interval;
+		return interval.pow(power);
 	}
 
 	private boolean isPositiveOdd(double n) {

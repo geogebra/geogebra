@@ -12,6 +12,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.util.DoubleUtil;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -173,25 +174,25 @@ public class IntervalFunctionTest extends BaseUnitTest {
 		GeoFunction geo = add("1/x");
 		IntervalFunction function = new IntervalFunction(geo);
 		Interval actual = function.evaluate(interval(0, 0));
-		assertEquals(zero(), actual);
+		assertEquals(whole().invert(), actual);
 	}
 
-	@Ignore
 	@Test
 	public void evaluateSqrtReciprocalX() throws Exception {
 		GeoFunction geo = add("sqrt(1/x)");
 		IntervalFunction function = new IntervalFunction(geo);
 		Interval actual = function.evaluate(interval(-0.1, 0.1));
-		assertEquals(undefined(), actual);
+		assertTrue("Result should be inverted and interval should "
+						+ "begin from 0",
+			actual.isInverted() && DoubleUtil.isEqual(0, actual.getLow()));
 	}
 
-	@Ignore
 	@Test
 	public void evaluateReciprocalReciprocalX() throws Exception {
 		GeoFunction geo = add("1/(1/x)");
 		IntervalFunction function = new IntervalFunction(geo);
 		Interval actual = function.evaluate(interval(-1E-7, 1E-7));
-		assertEquals(undefined(), actual);
+		assertEquals(zero(), actual);
 	}
 
 	@Ignore
