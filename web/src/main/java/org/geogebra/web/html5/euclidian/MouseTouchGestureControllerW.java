@@ -831,7 +831,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 * Close all popups.
 	 */
 	public void closePopups(PointerEvent e) {
-		((AppW) app).onUnhandledClick();
 		app.closePopups(e.getX(), e.getY());
 	}
 

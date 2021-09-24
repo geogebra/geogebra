@@ -23,6 +23,8 @@ import org.geogebra.keyboard.base.model.impl.factory.SpecialSymbolsKeyboardFacto
  */
 public class KeyboardFactory {
 
+	public static final KeyboardFactory INSTANCE = new KeyboardFactory();
+
 	private ButtonFactory defaultButtonFactory = new ButtonFactory(null);
 	private KeyboardModelFactory mathKeyboardFactory;
 	private KeyboardModelFactory defaultKeyboardFactory;
@@ -35,7 +37,7 @@ public class KeyboardFactory {
 	 * Creates a KeyboardFactory with default implementations
 	 * for keyboard model factories.
 	 */
-	public KeyboardFactory() {
+	protected KeyboardFactory() {
 		this(new DefaultCharProvider());
 	}
 

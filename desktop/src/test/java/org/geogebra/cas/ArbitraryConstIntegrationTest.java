@@ -433,8 +433,8 @@ public class ArbitraryConstIntegrationTest {
 					.processAlgebraCommand("P=(1,1)", true);
 			app.getKernel().getAlgebraProcessor()
 					.processAlgebraCommand("Q=(1,1)", true);
-			app.getGgbApi().undo(true);
-			app.getGgbApi().undo(true);
+			app.getGgbApi().undo();
+			app.getGgbApi().undo();
 		}
 		Assert.assertEquals(app.getGgbApi().getValueString("$2", true),
 				"F(x):=-cos(x) + c_{1}");

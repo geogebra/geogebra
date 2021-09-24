@@ -3656,10 +3656,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 	}
 
-	public void doRepaintViews() {
-		// TODO Auto-generated method stub
-	}
-
 	/**
 	 * @return SignInOperation eventFlow
 	 */
@@ -5213,6 +5209,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		} else {
 			return new DefaultGeoPriorityComparator();
 		}
+	}
+
+	/**
+	 * hide the on-screen keyboard (if it is visible)
+	 */
+	public void hideKeyboard() {
+		// Overwritten in subclass - nothing to do here
 	}
 
 	public void closeMenuHideKeyboard() {

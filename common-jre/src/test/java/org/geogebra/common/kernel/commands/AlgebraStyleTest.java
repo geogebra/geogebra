@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.junit.Assert.assertEquals;
+
+import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
@@ -30,7 +33,7 @@ import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class AlgebraStyleTest extends Assert {
+public class AlgebraStyleTest extends BaseUnitTest {
 	static AppCommon app;
 	static AlgebraProcessor ap;
 
@@ -71,7 +74,7 @@ public class AlgebraStyleTest extends Assert {
 					null);
 			String res = val ? geo[0].toValueString(tpl)
 					: geo[0].toGeoElement().getLaTeXDescriptionRHS(false, tpl);
-			Assert.assertEquals(expect.replace("%p", Unicode.PI_STRING), res);
+			assertEquals(expect.replace("%p", Unicode.PI_STRING), res);
 			return this;
 		}
 	}
@@ -466,17 +469,17 @@ public class AlgebraStyleTest extends Assert {
 		gp.setLabel("P");
 		IndexHTMLBuilder builder = new IndexHTMLBuilder(false);
 		AlgebraItem.buildPlainTextItemSimple(getGeo("P"), builder);
-		Assert.assertEquals("Point P", builder.toString());
+		assertEquals("Point P", builder.toString());
 		t("P=(1,0)");
 		AlgebraItem.buildPlainTextItemSimple(getGeo("P"), builder);
-		Assert.assertEquals("Point P", builder.toString());
+		assertEquals("Point P", builder.toString());
 		t("Q=Dilate[P,2]");
 		AlgebraItem.buildPlainTextItemSimple(getGeo("Q"), builder);
-		Assert.assertEquals("Q = P dilated by factor 2 from (0, 0)",
+		assertEquals("Q = P dilated by factor 2 from (0, 0)",
 				builder.toString());
 		t("R=2*P");
 		AlgebraItem.buildPlainTextItemSimple(getGeo("R"), builder);
-		Assert.assertEquals("R = 2P", builder.toString());
+		assertEquals("R = 2P", builder.toString());
 
 	}
 
@@ -486,14 +489,14 @@ public class AlgebraStyleTest extends Assert {
 		IndexHTMLBuilder builder = new IndexHTMLBuilder(false);
 		t("P=(1,0)");
 		AlgebraItem.buildPlainTextItemSimple(getGeo("P"), builder);
-		Assert.assertEquals("Point P", builder.toString());
+		assertEquals("Point P", builder.toString());
 		t("Q=Dilate[P,2]");
 		AlgebraItem.buildPlainTextItemSimple(getGeo("Q"), builder);
-		Assert.assertEquals("Q = P dilated by factor 2 from (0, 0)",
+		assertEquals("Q = P dilated by factor 2 from (0, 0)",
 				builder.toString());
 		t("R=2*P");
 		AlgebraItem.buildPlainTextItemSimple(getGeo("R"), builder);
-		Assert.assertEquals("R = 2P", builder.toString());
+		assertEquals("R = 2P", builder.toString());
 	}
 
 	@Test
@@ -502,7 +505,7 @@ public class AlgebraStyleTest extends Assert {
 		t("1+1");
 		GeoElement geo = getGeo("a");
 		String previewFormula = AlgebraItem.getPreviewFormula(geo, StringTemplate.defaultTemplate);
-		Assert.assertEquals("\\text{a = 2}", previewFormula);
+		assertEquals("\\text{a = 2}", previewFormula);
 	}
 
 	@Test
@@ -592,7 +595,7 @@ public class AlgebraStyleTest extends Assert {
 		GeoElement parabola = getGeo("f");
 		Assert.assertNotNull(SuggestionRootExtremum.get(parabola));
 		SuggestionRootExtremum.get(parabola).execute(parabola);
-		Assert.assertEquals(4,
+		assertEquals(4,
 				app.getGgbApi().getAllObjectNames("point").length);
 	}
 
@@ -608,11 +611,11 @@ public class AlgebraStyleTest extends Assert {
 		t("f:x");
 		GeoElement line = getGeo("f");
 		SuggestionRootExtremum.get(line).execute(line);
-		Assert.assertEquals(3, app.getGgbApi().getObjectNumber());
+		assertEquals(3, app.getGgbApi().getObjectNumber());
 		getGeo("B").remove();
-		Assert.assertEquals(2, app.getGgbApi().getObjectNumber());
+		assertEquals(2, app.getGgbApi().getObjectNumber());
 		SuggestionRootExtremum.get(line).execute(line);
-		Assert.assertEquals(3, app.getGgbApi().getObjectNumber());
+		assertEquals(3, app.getGgbApi().getObjectNumber());
 	}
 
 	@Test
@@ -620,11 +623,11 @@ public class AlgebraStyleTest extends Assert {
 		t("f:1/x");
 		GeoElement line = getGeo("f");
 		SuggestionRootExtremum.get(line).execute(line);
-		Assert.assertEquals(4, app.getGgbApi().getObjectNumber());
+		assertEquals(4, app.getGgbApi().getObjectNumber());
 		getGeo("B").remove();
-		Assert.assertEquals(3, app.getGgbApi().getObjectNumber());
+		assertEquals(3, app.getGgbApi().getObjectNumber());
 		SuggestionRootExtremum.get(line).execute(line);
-		Assert.assertEquals(4, app.getGgbApi().getObjectNumber());
+		assertEquals(4, app.getGgbApi().getObjectNumber());
 	}
 
 	@Test
@@ -649,7 +652,7 @@ public class AlgebraStyleTest extends Assert {
 		Assert.assertNotNull(SuggestionStatistics.get(list));
 
 		SuggestionStatistics.get(list).execute(list);
-		Assert.assertEquals(4, app.getGgbApi().getObjectNumber());
+		assertEquals(4, app.getGgbApi().getObjectNumber());
 	}
 
 	@Test
@@ -659,7 +662,7 @@ public class AlgebraStyleTest extends Assert {
 		Assert.assertNotNull(SuggestionStatistics.get(list));
 
 		SuggestionStatistics.get(list).execute(list);
-		Assert.assertEquals(6, app.getGgbApi().getObjectNumber());
+		assertEquals(6, app.getGgbApi().getObjectNumber());
 	}
 
 	@Test
@@ -677,10 +680,19 @@ public class AlgebraStyleTest extends Assert {
 				.getUndoManager().getHistorySize());
 
 		SuggestionStatistics.get(list).execute(list);
-		Assert.assertEquals(6, app.getGgbApi().getObjectNumber());
+		assertEquals(6, app.getGgbApi().getObjectNumber());
 
 		assertEquals(2, app.getKernel().getConstruction()
 				.getUndoManager().getHistorySize());
+	}
+
+	@Test
+	public void definitionLaTeXShouldHandleFunctionsOfLists() {
+		add("g={1,2}");
+		add("f(x,y)=x+y");
+		GeoElement check = add("f(g)==3");
+		assertEquals("f\\left(g \\right) \\questeq  3",
+				check.getDefinition(StringTemplate.latexTemplate));
 	}
 
 	private static void deg(String def, String expect) {
@@ -688,7 +700,7 @@ public class AlgebraStyleTest extends Assert {
 				false, TestErrorHandler.INSTANCE,
 				new EvalInfo(true, true).addDegree(true), null);
 		String res = geo[0].toValueString(StringTemplate.editTemplate);
-		Assert.assertEquals(expect, res);
+		assertEquals(expect, res);
 	}
 
 	private static void rad(String def, String expect) {
@@ -696,7 +708,7 @@ public class AlgebraStyleTest extends Assert {
 				false, TestErrorHandler.INSTANCE, new EvalInfo(true, true),
 				null);
 		String res = geo[0].toValueString(StringTemplate.maxPrecision13);
-		Assert.assertEquals(expect, res);
+		assertEquals(expect, res);
 	}
 
 	/** GGB-2183 */
@@ -841,7 +853,7 @@ public class AlgebraStyleTest extends Assert {
 				"B1", "B2" };
 		for (int i = 0; i < ordered.length; i++) {
 			for (int j = 0; j < ordered.length; j++) {
-				Assert.assertEquals(
+				assertEquals(
 						Math.signum(GeoElement.compareLabels(ordered[i],
 								ordered[j])),
 						Math.signum(i - j), .1);

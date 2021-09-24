@@ -8,8 +8,10 @@ import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.DOM;
+
+import elemental2.dom.HTMLCollection;
+import jsinterop.base.Js;
 
 public final class GeoGebraElement extends Element implements AttributeProvider {
 
@@ -32,11 +34,11 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 	 *         {@value GeoGebraConstants#GGM_CLASS_NAME})
 	 */
 	public static ArrayList<GeoGebraElement> getGeoGebraMobileTags() {
-		NodeList<Element> nodes = Dom
+		HTMLCollection<elemental2.dom.Element> nodes = Dom
 				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		ArrayList<GeoGebraElement> articleNodes = new ArrayList<>();
 		for (int i = 0; i < nodes.getLength(); i++) {
-			GeoGebraElement ae = GeoGebraElement.as(nodes.getItem(i));
+			GeoGebraElement ae = GeoGebraElement.as(Js.uncheckedCast(nodes.getAt(i)));
 			ae.initID(i);
 			articleNodes.add(ae);
 		}

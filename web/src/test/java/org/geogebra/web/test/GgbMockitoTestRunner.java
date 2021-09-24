@@ -88,6 +88,8 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 Void.class);
         StubGenerator.replaceMethodWithMock(Browser.class, "isSafariByVendor",
                 Boolean.class);
+        StubGenerator.replaceMethodWithMock(Dom.class, "querySelector", Void.class);
+        StubGenerator.replaceMethodWithMock(Dom.class, "querySelectorForElement", Void.class);
     }
 
     @Override

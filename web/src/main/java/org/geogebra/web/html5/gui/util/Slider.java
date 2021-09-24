@@ -1,9 +1,11 @@
 package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
@@ -22,7 +24,7 @@ import com.google.gwt.user.client.ui.HasValue;
 public class Slider extends FocusWidget implements HasChangeHandlers,
         HasValue<Integer>, MouseDownHandler, MouseUpHandler, MouseMoveHandler {
 
-	private Element range;
+	private InputElement range;
 	private boolean valueChangeHandlerInitialized;
 	private Integer valueOnDragStart;
 
@@ -35,37 +37,26 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 	 *            slider max
 	 */
 	public Slider(int min, int max) {
-		range = Document.get().createElement("input");
+		range = Document.get().createTextInputElement();
 		range.setAttribute("type", "range");
 		range.setAttribute("min", String.valueOf(min));
 		range.setAttribute("max", String.valueOf(max));
-		setRangeValue(range, String.valueOf(min));
+		range.setValue(String.valueOf(min));
 		setElement(range);
 		addMouseDownHandler(this);
 		// addMouseMoveHandler(this);
 		addMouseUpHandler(this);
 	}
 
-	public static native void addInputHandler(Element el,
-			SliderInputHandler handler)/*-{
-		el.oninput = function() {
-			handler.@org.geogebra.web.html5.gui.util.SliderInputHandler::onSliderInput()();
-		}
-	}-*/;
-
-	private native void setRangeValue(Element range, String value) /*-{
-		range.value = value;
-	}-*/;
+	public static void addInputHandler(Element el, SliderInputHandler handler) {
+		Dom.addEventListener(el, "input", evt -> handler.onSliderInput());
+	}
 
 	@Override
 	public Integer getValue() {
-		return StringUtil.empty(getRangeValue(range)) ? Integer.valueOf(0)
-				: Integer.valueOf(getRangeValue(range));
+		return StringUtil.empty(range.getValue()) ? Integer.valueOf(0)
+				: Integer.valueOf(range.getValue());
 	}
-
-	private native String getRangeValue(Element rangeElement) /*-{
-		return rangeElement.value;
-	}-*/;
 
 	public void setMinimum(int min) {
 		range.setAttribute("min", String.valueOf(min));
@@ -100,7 +91,7 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 	}
 
 	private void setSliderValue(String value) {
-		setRangeValue(range, value);
+		range.setValue(value);
 	}
 
 	@Override

@@ -54,8 +54,9 @@ public class Browser {
 	 * @return whether external CAS is set up and working
 	 */
 	public static boolean externalCAS() {
-		return "function".equals(Js.typeof(GeoGebraGlobal.evalGeoGebraCASExternal))
-				&& "2".equals(GeoGebraGlobal.evalGeoGebraCASExternal.apply("1+1"));
+		Function evalFn = GeoGebraGlobal.evalGeoGebraCASExternal;
+		return "function".equals(Js.typeof(evalFn))
+				&& "2".equals(evalFn.call(DomGlobal.window, "1+1"));
 	}
 
 	/**
@@ -72,6 +73,10 @@ public class Browser {
 
 	public static boolean hasProperty(Object base, String propertyName) {
 		return base != null && Js.isTruthy(Js.asPropertyMap(base).get(propertyName));
+	}
+
+	public static boolean hasDeclaredProperty(Object base, String propertyName) {
+		return base != null && Js.asPropertyMap(base).has(propertyName);
 	}
 
 	public static boolean supportsPointerEvents() {
@@ -501,7 +506,7 @@ public class Browser {
 	 * @return event name for fullscreen event.
 	 */
 	public static String getFullscreenEventName() {
-		if (!hasProperty(DomGlobal.document, "onfullscreenchange")) {
+		if (!hasDeclaredProperty(DomGlobal.document, "onfullscreenchange")) {
 			return "webkitfullscreenchange";
 		}
 		return "fullscreenchange";

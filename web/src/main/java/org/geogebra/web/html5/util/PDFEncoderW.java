@@ -5,8 +5,7 @@ import org.geogebra.common.main.App.ExportType;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-
-import elemental2.dom.CanvasRenderingContext2D;
+import org.geogebra.web.html5.export.Canvas2Pdf;
 
 /**
  * Wrapper class for the canvas2pdf.js library to allow multi-page PDF export
@@ -15,9 +14,9 @@ import elemental2.dom.CanvasRenderingContext2D;
  */
 public class PDFEncoderW implements Encoder {
 
-	private EuclidianViewW ev;
+	private final EuclidianViewW ev;
 
-	private CanvasRenderingContext2D ctx;
+	private Canvas2Pdf.PdfContext ctx;
 
 	private GGraphics2D g4copy;
 
@@ -43,7 +42,7 @@ public class PDFEncoderW implements Encoder {
 		if (firstPage) {
 			firstPage = false;
 		} else {
-			addPagePDF(ctx);
+			ctx.addPage();
 		}
 		ev.exportPaintPre(g4copy, 1, false);
 		ev.drawObjects(g4copy);
@@ -56,7 +55,7 @@ public class PDFEncoderW implements Encoder {
 	public String finish(int width, int height) {
 		ev.getApplication().setExporting(ExportType.NONE, 1);
 
-		return getPDF(ctx);
+		return ctx.getPDFbase64();
 	}
 
 	/**
@@ -76,39 +75,20 @@ public class PDFEncoderW implements Encoder {
 	}
 
 	/**
-	 * 
 	 * @param width
 	 *            width
 	 * @param height
 	 *            height
 	 * @return canvas2pdf object
 	 */
-	public static native CanvasRenderingContext2D getCanvas2PDF(double width,
-			double height) /*-{
-		if ($wnd.canvas2pdf) {
-			return new $wnd.canvas2pdf.PdfContext(width, height);
+	public static Canvas2Pdf.PdfContext getCanvas2PDF(double width,
+			double height) {
+		if (Canvas2Pdf.get() != null) {
+			return new Canvas2Pdf.PdfContext(width, height);
 		}
 
 		return null;
-	}-*/;
-
-	/**
-	 * 
-	 * @param pdfcontext
-	 *            canvas2pdf object
-	 * @return the resulting PDF (as base64 URL)
-	 */
-	public static native String getPDF(CanvasRenderingContext2D pdfcontext) /*-{
-		return pdfcontext.getPDFbase64();
-	}-*/;
-
-	/**
-	 * @param ctx
-	 *            context
-	 */
-	public static native void addPagePDF(CanvasRenderingContext2D ctx) /*-{
-		ctx.addPage();
-	}-*/;
+	}
 
 	/**
 	 * @param width
@@ -117,7 +97,7 @@ public class PDFEncoderW implements Encoder {
 	 *            height
 	 * @return context if available (or null)
 	 */
-	public static CanvasRenderingContext2D getContext(int width, int height) {
+	public static Canvas2Pdf.PdfContext getContext(int width, int height) {
 		return PDFEncoderW.getCanvas2PDF(width, height);
 	}
 }

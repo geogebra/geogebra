@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.gui.view.algebra.AlgebraController;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -82,7 +85,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	protected final Kernel kernel;
 	private final AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	/** Input item */
-	private RadioTreeItem inputPanelLatex;
+	private @CheckForNull RadioTreeItem inputPanelLatex;
 	private AlgebraStyleBarW styleBar;
 	private boolean editItem = false;
 	private GeoElement draggedGeo;
@@ -1510,32 +1513,35 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public void setInputPanel() {
 
 		// usually, inputPanel is here, but not in use (not attached)
-		boolean forceKeyboard = false;
-		boolean inputJustCreated = false;
-		if (inputPanelLatex == null) {
-			inputPanelLatex = createInputPanel();
-			forceKeyboard = GuiManagerW.mayForceKeyboard(app);
 
-			inputJustCreated = true;
-		} else {
-			inputPanelLatex.removeFromParent();
-		}
+		boolean inputJustCreated = inputPanelLatex == null;
+		boolean forceKeyboard = inputJustCreated && GuiManagerW.mayForceKeyboard(app);
+		RadioTreeItem inputPanel = prepareInputPanel();
 		hideAlgebraInput();
-		this.inputPanelTreeItem = new TreeItem(inputPanelLatex.getWidget());
+		this.inputPanelTreeItem = new TreeItem(inputPanel.getWidget());
 		inputPanelTreeItem.addStyleName("avInputItem");
-		inputPanelLatex.getWidget().getElement().getParentElement()
+		inputPanel.getWidget().getElement().getParentElement()
 				.addClassName("newRadioButtonTreeItemParent");
 
 		if (inputJustCreated) {
 			if (isNodeTableEmpty()) {
-				inputPanelLatex.updateGUIfocus(false);
+				inputPanel.updateGUIfocus(false);
 			}
 		}
 		showAlgebraInput(forceKeyboard);
 	}
 
-	private RadioTreeItem createInputPanel() {
-		return new RadioTreeItem(kernel).initInput();
+	/**
+	 * Make sure input panel exists and is not part of DOM
+	 * @return input panel
+	 */
+	private @Nonnull RadioTreeItem prepareInputPanel() {
+		if (inputPanelLatex == null) {
+			inputPanelLatex = new RadioTreeItem(kernel).initInput();
+		} else {
+			inputPanelLatex.removeFromParent();
+		}
+		return inputPanelLatex;
 	}
 
 	@Override
@@ -1575,42 +1581,34 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 			// inputPanel.removeFromParent();//?
 		}
-		boolean inputJustCreated = false;
-		boolean forceKeyboard = false;
-		boolean suggestKeyboard = false;
-		if (inputPanelLatex == null) {
-			suggestKeyboard = true;
-			forceKeyboard = forceKeyboard0 || GuiManagerW.mayForceKeyboard(app);
-			inputPanelLatex = createInputPanel();
-			// open the keyboard (or show the keyboard-open-button) at
-			// when the application is started
+		boolean inputJustCreated = inputPanelLatex == null;
+		// open the keyboard (or show the keyboard-open-button)
+		// when the application is started
+		boolean forceKeyboard = inputJustCreated
+				&& (forceKeyboard0 || GuiManagerW.mayForceKeyboard(app));
+		RadioTreeItem inputPanel = prepareInputPanel();
 
-			inputJustCreated = true;
-		} else {
-			inputPanelLatex.removeFromParent();
-		}
-
-		inputPanelTreeItem = super.addItem(inputPanelLatex.getWidget());
-		inputPanelLatex.setIndexLast();
+		inputPanelTreeItem = super.addItem(inputPanel.getWidget());
+		inputPanel.setIndexLast();
 		inputPanelTreeItem.addStyleName("avInputItem");
-		inputPanelLatex.getWidget().getElement().getParentElement()
+		inputPanel.getWidget().getElement().getParentElement()
 				.addClassName("newRadioButtonTreeItemParent");
 
 		if (inputJustCreated) {
 			if (isNodeTableEmpty()) {
-				inputPanelLatex.updateGUIfocus(false);
+				inputPanel.updateGUIfocus(false);
 			}
 		}
 
 		if (app.showView(App.VIEW_ALGEBRA) && isAvInputMode()) {
 			if (forceKeyboard) {
 				doShowKeyboard();
-			} else if (suggestKeyboard) {
+			} else if (inputJustCreated) {
 				app.getAppletFrame().showKeyboardOnFocus();
 			}
 		}
 		if (inputWidth != null) {
-			inputPanelLatex.setItemWidth(inputWidth);
+			inputPanel.setItemWidth(inputWidth);
 		}
 		updateFonts();
 	}
@@ -1761,7 +1759,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			if (geos.length > 0 && getActiveTreeItem() != null) {
 				getActiveTreeItem().previewValue(geos[0]);
 			}
-		} else {
+		} else if (inputPanelLatex != null) {
 			if (WarningErrorHandler.getUndefinedValiables(kernel) != null) {
 				inputPanelLatex.clearUndefinedVariables();
 			} else {

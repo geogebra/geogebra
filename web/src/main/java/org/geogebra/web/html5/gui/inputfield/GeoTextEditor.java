@@ -11,6 +11,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -82,8 +83,8 @@ public class GeoTextEditor extends RichTextArea {
 				getBody().setAttribute("oncontextmenu", "return false");
 				getBody().setAttribute("word-wrap", "normal");
 
-				addCutHandler(getBody());
-				addPasteHandler(getBody());
+				Dom.addEventListener(getBody(), "cut", e -> handleCut());
+				Dom.addEventListener(getBody(), "paste", e -> handlePaste());
 				if (dynamicList != null) {
 					setDynamicText();
 				}
@@ -186,28 +187,6 @@ public class GeoTextEditor extends RichTextArea {
 			super.onBrowserEvent(event);
 		}
 	}
-
-	/**
-	 * @param elem
-	 *            target element
-	 */
-	public native void addCutHandler(Element elem) /*-{
-		var temp = this;
-		elem.oncut = function(e) {
-			temp.@org.geogebra.web.html5.gui.inputfield.GeoTextEditor::handleCut()();
-		}
-	}-*/;
-
-	/**
-	 * @param elem
-	 *            target element
-	 */
-	public native void addPasteHandler(Element elem) /*-{
-		var temp = this;
-		elem.onpaste = function(e) {
-			temp.@org.geogebra.web.html5.gui.inputfield.GeoTextEditor::handlePaste()();
-		}
-	}-*/;
 
 	/**
 	 * 

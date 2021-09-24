@@ -8,6 +8,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.util.CopyPasteW;
 
+import elemental2.core.Function;
+import elemental2.dom.DomGlobal;
+import jsinterop.base.Js;
+
 public class CopyPasteCutW extends CopyPasteCut {
 
 	public CopyPasteCutW(App app) {
@@ -66,12 +70,14 @@ public class CopyPasteCutW extends CopyPasteCut {
 		copy(column1, row1, column2, row2, skipGeoCopy, false);
 	}
 
-	public static native boolean checkClipboardSupported() /*-{
-		if ($doc.queryCommandSupported("copy")) {
-			return true;
-		}
-		return false;
-	}-*/;
+	/**
+	 * @return whether copy to clipboard is supported
+	 */
+	public static boolean checkClipboardSupported() {
+		Function commandCheck = Js.uncheckedCast(Js.asPropertyMap(DomGlobal.document)
+				.get("queryCommandSupported")) ;
+		return Js.isTruthy(commandCheck.call(DomGlobal.document, "copy"));
+	}
 
 	/**
 	 * @param column1
@@ -157,14 +163,10 @@ public class CopyPasteCutW extends CopyPasteCut {
 	public boolean paste(int column1, int row1, int column2, int row2,
 			String contents) {
 
-		boolean succ = false;
+		boolean succ;
 		//boolean isCSV = false;
-		String transferString = null;
 
-		// extract a String from the Transferable contents
-		transferString = contents;
-	
-		if (transferString == null) {
+		if (contents == null) {
 			return false;
 		}
 
@@ -176,7 +178,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 		// can paste them with relative cell references
 
 		boolean doInternalPaste = getCellBufferStr() != null
-				&& transferString.equals(getCellBufferStr().toString());
+				&& contents.equals(getCellBufferStr().toString());
 	
 		if (doInternalPaste && getCellBufferGeo() != null) {
 
@@ -191,7 +193,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 			
 			boolean isCSV = false;
 
-			String[][] data = DataImport.parseExternalData(app, transferString, isCSV);
+			String[][] data = DataImport.parseExternalData(app, contents, isCSV);
 			succ = pasteExternalMultiple(data, column1, row1, column2, row2);
 		}
 

@@ -16,7 +16,7 @@ public class BaseHeaderResizer implements HeaderResizer {
 
 	@Override
 	public void resizeHeader() {
-		Element header = Dom.querySelector("GeoGebraHeader");
+		Element header = Dom.querySelector(".GeoGebraHeader");
 		if (header != null) {
 			boolean smallScreen = frame.shouldHaveSmallScreenLayout();
 			if (smallScreen) {

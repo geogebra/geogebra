@@ -1,6 +1,7 @@
 package org.geogebra.web.html5;
 
 import org.geogebra.common.util.InjectJsInterop;
+import org.geogebra.web.html5.util.JsConsumer;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -38,6 +39,18 @@ public class GeoGebraGlobal {
 
 	@JsProperty
 	public static native Function getGgbHeaderResize();
+
+	@JsProperty
+	public static native JsConsumer<Object> getLoadWorksheet();
+
+	@JsProperty
+	public static native Function getSetUnsavedMessage();
+
+	@JsProperty
+	public static native JsConsumer<Boolean> getGgbExamMode();
+
+	@JsProperty
+	public static native JsConsumer<String> getGgbAppletOnLoad();
 
 	@JsFunction
 	public interface RenderGgbElementFunction {

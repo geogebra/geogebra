@@ -1,5 +1,5 @@
-@import 'colors';
-@import 'z-index';
+@use 'colors';
+@use 'z-index';
 
 .GeoGebraFrame {
 
@@ -32,16 +32,16 @@
 		background: #616161;
 		color: white;
 		opacity: 0.9;
-		z-index: $z-snackbar;
+		z-index: z-index.$z-snackbar;
 	} 
 
 	.matDragger {
 		.splitPaneDragger {
-			background-color: $white;
+			background-color: colors.$white;
 		}
 
 		.gwt-SplitLayoutPanel-HDragger {
-			z-index: $z-on-top-of-graphics; /* for MOW double canvas */
+			z-index: z-index.$z-on-top-of-graphics; /* for MOW double canvas */
 			cursor: ew-resize;
 			border-left: none;
 			padding-right: 8px;
@@ -156,7 +156,7 @@
 		img {
 			opacity: 0.85;
 		}
-		z-index: $z-flat-button;
+		z-index: z-index.$z-flat-button;
 	}
 	.tabButton {
 		position: relative;
@@ -181,13 +181,13 @@
 			height: 24px;
 		}
 		&.selected .gwt-Label {
-			color: $purple-default;
+			color: colors.$purple-default;
 		}
 		&:hover {
-			background-color: $black-08;
+			background-color: colors.$black-08;
 		}
 		&.selected:hover {
-			background-color: $purple-default-12;
+			background-color: colors.$purple-default-12;
 		}
 		&.selected  {
 			opacity: 1;
@@ -199,8 +199,8 @@
 	}
 
 	.advanced-ListPopupPanel {
-		z-index: $z-dialog;
-		background: $white;
+		z-index: z-index.$z-dialog;
+		background: colors.$white;
 		border: 1px solid #dcdcdc;
 		cursor: pointer;
 		border-radius: 2px;
@@ -208,8 +208,8 @@
 		box-shadow: none;
 
 		.item:hover {
-			color: $teal-default;
-			background: $white;
+			color: colors.$teal-default;
+			background: colors.$white;
 		}
 
 		.gwt-Label {

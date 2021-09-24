@@ -10,7 +10,7 @@ import org.junit.Test;
 public class KeyboardLayoutTest {
 	@Test
 	public void testSpecialTab() {
-		KeyboardFactory kbf = new KeyboardFactory();
+		KeyboardFactory kbf = KeyboardFactory.INSTANCE;
 		KeyboardModel kb = kbf.createSpecialSymbolsKeyboard().getModel();
 		StringBuilder actions = new StringBuilder();
 		StringBuilder resources = new StringBuilder();

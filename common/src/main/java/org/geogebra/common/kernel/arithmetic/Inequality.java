@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
@@ -72,10 +71,11 @@ public class Inequality {
 	private ExpressionNode normal;
 	private FunctionVariable[] fv;
 	private MyDouble coef;
-	private GeoPoint[] zeros;
+	private double[] zeros;
 	// if variable x or y appears with 0 coef, we want to replace the
 	// variable by 0 itself to avoid errors on computation
 	private MyDouble[] zeroDummy = new MyDouble[2];
+	private AlgoRootsPolynomial rootAlgo;
 
 	/**
 	 * check whether ExpressionNodes are evaluable to instances of Polynomial or
@@ -281,15 +281,18 @@ public class Inequality {
 
 	}
 
-	final private static GeoPoint[] rootMultiple(GeoFunction f) {
+	final private double[] rootMultiple(GeoFunction f) {
 		// allow functions that can be simplified to factors of polynomials
 		if (!f.isPolynomialFunction(true)) {
 			return null;
 		}
-
-		AlgoRootsPolynomial algo = new AlgoRootsPolynomial(f);
-		GeoPoint[] g = algo.getRootPoints();
-		return g;
+		Function fun = f.getFunctionForRoot();
+		// get polynomial factors anc calc roots
+		if (rootAlgo == null) {
+			rootAlgo = new AlgoRootsPolynomial(f);
+		}
+		rootAlgo.calcRoots(fun, 0);
+		return rootAlgo.getRealRoots();
 	}
 
 	/**
@@ -390,7 +393,7 @@ public class Inequality {
 	/**
 	 * @return zero points for 1var ineqs
 	 */
-	public GeoPoint[] getZeros() {
+	public double[] getZeros() {
 		return zeros;
 	}
 
