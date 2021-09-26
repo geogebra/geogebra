@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
+import org.geogebra.web.html5.main.AppW;
+
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -11,7 +13,7 @@ public class TableCell extends FlowPanel {
 	 * @param content content of the cell
 	 * @param hasError true if is erroneous cell
 	 */
-	public TableCell(String content, boolean hasError) {
+	public TableCell(String content, boolean hasError, AppW app) {
 		SimplePanel contentPanel = new SimplePanel();
 		contentPanel.addStyleName("content");
 		contentPanel.getElement().setInnerText(content);

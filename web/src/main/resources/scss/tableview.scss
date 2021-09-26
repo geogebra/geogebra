@@ -1,4 +1,5 @@
 @use 'colors';
+@use 'z-index';
 $emptyHeight: 212px;
 $deleteTime: 120ms;
 
@@ -207,5 +208,20 @@ $deleteTime: 120ms;
 			width: 100%;
 			overflow: hidden !important;
 		}		
+	}
+
+	.errorToast {
+		position: absolute;
+		height: 22px;
+        line-height: 22px;
+        padding-left: 8px;
+        padding-right: 8px;
+        vertical-align: middle;
+        border-radius: 2px;
+        background: #616161;
+        color: white;
+        opacity: 0.9;
+        z-index: z-index.$z-snackbar;
+        font-size: 80%;
 	}
 }

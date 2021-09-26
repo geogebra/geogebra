@@ -60,6 +60,16 @@ public abstract class StickyTable<T> extends FlowPanel {
 				getDomEventHandler(clickHandler));
 	}
 
+	protected void addMouseOverHandler(CellClickHandler clickHandler) {
+		Dom.addEventListener(cellTable.getTableBodyElement(), "mouseover",
+				getDomEventHandler(clickHandler));
+	}
+
+	protected void addMouseOutHandler(CellClickHandler clickHandler) {
+		Dom.addEventListener(cellTable.getTableBodyElement(), "mouseout",
+				getDomEventHandler(clickHandler));
+	}
+
 	private EventListener getDomEventHandler(CellClickHandler eventHandler) {
 		return event -> {
 			Element element = Js.uncheckedCast(event.target);

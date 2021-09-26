@@ -21,10 +21,12 @@ import org.geogebra.web.html5.util.TestHarness;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SafeHtmlHeader;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -115,6 +117,25 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			}
 			return false;
 		});
+		addMouseOverHandler((row, column, evt) -> {
+			Element el = Js.uncheckedCast(evt.target);
+			if (el != null && el.hasClassName("errorStyle")) {
+				Label toast = new Label("Use only numbers");
+				toast.addStyleName("errorToast");
+				toast.getElement().setId("errorToastID");
+				toast.getElement().getStyle().setLeft(el.getAbsoluteRight() + 8, Style.Unit.PX);
+				toast.getElement().getStyle().setTop(el.getAbsoluteTop() - 66, Style.Unit.PX);
+				app.getAppletFrame().add(toast);
+			}
+			return false;
+		});
+		addMouseOutHandler((row, column, evt) -> {
+			Element toast = DOM.getElementById("errorToastID");
+			if (toast != null) {
+				toast.removeFromParent();
+			}
+			return false;
+		});
 	}
 
 	private boolean isColumnEditable(int column) {
@@ -138,7 +159,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	private void addEmptyColumn() {
 		Column<TVRowData, SafeHtml> col = new DataTableSafeHtmlColumn(-1);
-		TableCell cell = new TableCell("", false);
+		TableCell cell = new TableCell("", false, app);
 		getTable().addColumn(col, new SafeHtmlHeader(cell.getHTML()));
 	}
 
@@ -318,7 +339,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		public SafeHtml getValue(TVRowData object) {
 			String valStr = col < 0 ? "" : object.getValue(col);
 			boolean hasError = col < 0 ? false : object.isCellErroneous(col);
-			TableCell cell = new TableCell(valStr, hasError);
+			TableCell cell = new TableCell(valStr, hasError, app);
 			return cell.getHTML();
 		}
 
