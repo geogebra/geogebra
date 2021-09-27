@@ -170,4 +170,8 @@ import org.geogebra.common.util.debug.Log;
 		}
 		return expression.inspect(new MultipleVariableChecker());
 	}
+
+	public GeoFunction getFunction() {
+		return function;
+	}
 }

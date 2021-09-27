@@ -7291,4 +7291,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		unregisterDynamicCaption();
 		dynamicCaption = null;
 	}
+
+	public void removeZoomerAnimationListenerIfNeeded() {
+		// implemented in GeoFunction
+	}
 }

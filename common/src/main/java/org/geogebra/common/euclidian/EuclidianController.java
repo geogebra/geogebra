@@ -46,6 +46,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
 import org.geogebra.common.euclidian.modes.ModeMacro;
 import org.geogebra.common.euclidian.modes.ModeShape;
+import org.geogebra.common.euclidian.plot.interval.IntervalPlotController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
@@ -412,7 +413,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected double newScale;
 	private boolean objectMenuActive;
 	private List<CoordSystemListener> zoomerListeners = new LinkedList<>();
-	private List<CoordSystemAnimationListener> zoomerAnimationListeners = new LinkedList<>();
+	private final HashMap<GeoElement, CoordSystemAnimationListener> zoomerAnimationListeners =
+			new HashMap<>();
 	private MyModeChangedListener modeChangeListener = null;
 
 	private SelectionToolPressResult lastSelectionPressResult = SelectionToolPressResult.DEFAULT;
@@ -12190,16 +12192,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param listener
 	 *            coord system animation listener
 	 */
-	public void addZoomerAnimationListener(CoordSystemAnimationListener listener) {
-		zoomerAnimationListeners.add(listener);
+	public void addZoomerAnimationListener(CoordSystemAnimationListener listener, GeoElement geo) {
+		zoomerAnimationListeners.put(geo, listener);
 	}
 
 	/**
-	 * @param listener
-	 *            coord system listener
+	 * @param geo
+	 *            GeoElement linked to coord system listener
 	 */
-	public void removeZoomerAnimationListener(CoordSystemAnimationListener listener) {
-		zoomerAnimationListeners.remove(listener);
+	public void removeZoomerAnimationListener(GeoElement geo) {
+		zoomerAnimationListeners.remove(geo);
 	}
 
 	public void onCoordSystemChanged() {
@@ -12215,7 +12217,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			info.setCenterView(false);
 		}
 
-		for (CoordSystemAnimationListener listener: zoomerAnimationListeners) {
+		for (CoordSystemAnimationListener listener: zoomerAnimationListeners.values()) {
 			listener.onZoomStop(info);
 		}
 	}
@@ -12230,7 +12232,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			notifyCoordSystemMoveStop();
 			return;
 		}
-		for (CoordSystemAnimationListener listener: zoomerAnimationListeners) {
+		for (CoordSystemAnimationListener listener: zoomerAnimationListeners.values()) {
 			listener.onMove(info);
 		}
 	}
@@ -12240,7 +12242,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *
 	 */
 	public void notifyCoordSystemMoveStop() {
-		for (CoordSystemAnimationListener listener: zoomerAnimationListeners) {
+		for (CoordSystemAnimationListener listener: zoomerAnimationListeners.values()) {
 			listener.onMoveStop();
 		}
 	}
