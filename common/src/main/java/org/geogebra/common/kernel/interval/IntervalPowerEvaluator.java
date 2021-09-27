@@ -45,7 +45,7 @@ public class IntervalPowerEvaluator {
 
 	private Interval handle(Interval base, Interval exponent, ExpressionValue right) {
 		if (MyDouble.exactEqual(base.getLow(), Math.E)) {
-			return exponent.exp();
+			return exponent.getEvaluate().exp();
 		}
 
 		if (base.isNegative() && right.isExpressionNode()) {
@@ -59,7 +59,7 @@ public class IntervalPowerEvaluator {
 			}
 		}
 
-		return base.pow(exponent);
+		return base.getEvaluate().pow(exponent);
 	}
 
 	private Interval calculateNegPower(ExpressionNode node, Interval base) throws Exception {
@@ -109,14 +109,14 @@ public class IntervalPowerEvaluator {
 		Interval interval = new Interval(x);
 		Interval base = nominator == 1
 				? interval
-				: interval.pow(nominator);
+				: interval.getEvaluate().pow(nominator);
 
 		if (base.isPositive()) {
-			return base.pow(1d / denominator);
+			return base.getEvaluate().pow(1d / denominator);
 		}
 
 		if (isOdd(denominator)) {
-			return base.negative().pow(1d / denominator).negative();
+			return base.negative().getEvaluate().pow(1d / denominator).negative();
 		}
 
 		return undefined();

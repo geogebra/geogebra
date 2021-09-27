@@ -80,51 +80,51 @@ import org.geogebra.common.util.debug.Log;
 			case MINUS:
 				return left.subtract(right);
 			case MULTIPLY:
-				return left.multiply(right);
+				return left.getEvaluate().multiply(right);
 			case DIVIDE:
 				return divide(left, right);
 			case POWER:
-				return left.pow(right);
+				return left.getEvaluate().pow(right);
 			case NROOT:
-				return left.nthRoot(right);
+				return left.getEvaluate().nthRoot(right);
 			case DIFF:
-				return left.difference(right);
+				return left.getEvaluate().difference(right);
 			case SIN:
-				return left.sin();
+				return left.getEvaluate().sin();
 			case SEC:
-				return left.sec();
+				return left.getEvaluate().sec();
 			case COS:
-				return left.cos();
+				return left.getEvaluate().cos();
 			case CSC:
-				return left.csc();
+				return left.getEvaluate().csc();
 			case COT:
-				return left.cot();
+				return left.getEvaluate().cot();
 			case SQRT:
-				return left.sqrt();
+				return left.getEvaluate().sqrt();
 			case TAN:
-				return left.tan();
+				return left.getEvaluate().tan();
 			case EXP:
-				return left.exp();
+				return left.getEvaluate().exp();
 			case LOG:
-				return left.log();
+				return left.getEvaluate().log();
 			case ARCCOS:
-				return left.acos();
+				return left.getEvaluate().acos();
 			case ARCSIN:
-				return left.asin();
+				return left.getEvaluate().asin();
 			case ARCTAN:
-				return left.atan();
+				return left.getEvaluate().atan();
 			case ABS:
-				return left.abs();
+				return left.getEvaluate().abs();
 			case COSH:
-				return left.cosh();
+				return left.getEvaluate().cosh();
 			case SINH:
-				return left.sinh();
+				return left.getEvaluate().sinh();
 			case TANH:
-				return left.tanh();
+				return left.getEvaluate().tanh();
 			case LOG10:
-				return left.log10();
+				return left.getEvaluate().log10();
 			case LOG2:
-				return left.log2();
+				return left.getEvaluate().log2();
 
 			default:
 				Log.warn("No interval operation for " + operation);
@@ -134,9 +134,9 @@ import org.geogebra.common.util.debug.Log;
 
 	private static Interval divide(Interval left, Interval right) {
 		if (left.isSingleton()) {
-			return right.multiplicativeInverse().multiply(left);
+			return right.multiplicativeInverse().getEvaluate().multiply(left);
 		}
-		return left.divide(right);
+		return left.getEvaluate().divide(right);
 	}
 
 	/**
