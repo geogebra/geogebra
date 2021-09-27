@@ -1610,4 +1610,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(symbolic.getFunctionVariables()[0].getSetVarString(), is("x"));
 		assertThat(symbolic.getFunctionVariables()[1].getSetVarString(), is("a"));
 	}
+
+	@Test
+	public void numericAlternativeCommand() {
+		add("f(x) = -x^2 * e^(-x)");
+		add("g(x) = 1 + (f'(x))^2");
+		t("Integral(sqrt(g),0,20)", "20.12144888423");
+	}
 }
