@@ -1195,6 +1195,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testNoToggleButtonForSymbolicUndefined() {
+		GeoSymbolic solve = add("Solve(0.05>=(1-x)^50)");
+		assertThat(AlgebraItem.isSymbolicDiffers(solve), is(false));
+	}
+
+	@Test
 	public void testToggleSymbolicNumeric() {
 		GeoSymbolic solveX = add("Solve(2x=5)");
 		GeoSymbolic solveA = add("NSolve(a*a=5)");

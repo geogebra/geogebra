@@ -638,10 +638,14 @@ public class AlgebraItem {
 		String textOpposite = symbolic.getLaTeXAlgebraDescription(true,
 				StringTemplate.latexTemplate);
 
+		boolean isOppositeDefined = symbolic.getTwinGeo() != null
+				? symbolic.getTwinGeo().isDefined()
+				: symbolic.isDefined();
+
 		topLevelCommand.setName(original.getCommand());
 		symbolic.computeOutput();
 
-		return !textOriginal.equals(textOpposite);
+		return isOppositeDefined && !textOriginal.equals(textOpposite);
 	}
 
 	private static void toggleNumeric(GeoSymbolic symbolic) {
