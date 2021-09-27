@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
 import org.gwtproject.regexp.shared.MatchResult;
 import org.gwtproject.regexp.shared.RegExp;
@@ -127,7 +128,7 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 				sy *= mul;
 			}
 
-			if (Js.asPropertyMap(style).has("zoom")
+			if (!StringUtil.empty((String) Js.asPropertyMap(style).get("zoom"))
 					&& current != Document.get().getBody().getParentElement()) {
 				double zoom = Double.parseDouble((String) Js.asPropertyMap(style).get("zoom"));
 				sx *= zoom;
