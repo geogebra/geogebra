@@ -46,7 +46,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	public AccessibilityManagerW(App app) {
 		this.app = app;
 		selection = app.getSelectionManager();
-		this.geoTabber =  new GeoTabber(app);
+		this.geoTabber = new GeoTabber(app);
 		altGeoTabber = new AltGeoTabber(app.getActiveEuclidianView());
 		components.add(altGeoTabber);
 		components.add(geoTabber);
