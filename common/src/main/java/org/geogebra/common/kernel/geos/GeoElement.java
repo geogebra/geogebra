@@ -495,8 +495,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	private void resetLabelSetting() {
 		App app = getKernel().getApplication();
 		if (app != null) {
-			app.getSettingsUpdater().getLabelSettingsUpdater()
-					.resetLabelVisibilityForMenu();
+			app.getSettings().getLabelSettings().resetDefaultForMenu();
 		}
 	}
 

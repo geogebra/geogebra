@@ -87,7 +87,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		// Font style
 		Integer fontStyle = (Integer) formatHandler.getCellFormat(column, row,
 		        CellFormat.FORMAT_FONTSTYLE);
-		s.setFontSize(app.getFontSizeWeb(), Unit.PX);
+		s.setFontSize(app.getFontSize(), Unit.PX);
 		if (fontStyle == null) {
 			s.setFontStyle(Style.FontStyle.NORMAL);
 			s.setFontWeight(Style.FontWeight.NORMAL);
@@ -435,7 +435,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		if (c == null) {
 			table1.setText(row, column, text);
 		} else {
-			DrawEquationW.paintOnCanvas(geo, latex, c, app.getFontSizeWeb());
+			DrawEquationW.paintOnCanvas(geo, latex, c, app.getFontSize());
 		}
 	}
 
