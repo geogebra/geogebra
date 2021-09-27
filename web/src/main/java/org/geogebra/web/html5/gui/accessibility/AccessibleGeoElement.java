@@ -3,7 +3,6 @@ package org.geogebra.web.html5.gui.accessibility;
 import java.util.Collections;
 import java.util.List;
 
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -26,9 +25,10 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class AccessibleGeoElement implements AccessibleWidget {
 
-	private Button button;
-	private GeoElement geo;
-	private Label label;
+	private final AccessibilityView view;
+	private final Button button;
+	private final GeoElement geo;
+	private final Label label;
 	private Widget activeWidget;
 
 	/**
@@ -46,6 +46,7 @@ public class AccessibleGeoElement implements AccessibleWidget {
 		this.geo = geo;
 		this.label = factory.newLabel();
 		this.button = factory.newButton();
+		this.view = view;
 		update();
 		button.addClickHandler(event -> {
 			view.select(geo);
@@ -92,7 +93,7 @@ public class AccessibleGeoElement implements AccessibleWidget {
 	 */
 	private String getAction(GeoElement sel) {
 		if (sel instanceof GeoButton || sel instanceof GeoBoolean) {
-			return sel.getCaption(StringTemplate.screenReader);
+			return view.getCaption(sel);
 		}
 		if (sel != null && sel.getScript(EventType.CLICK) != null) {
 			return ScreenReader.getAuralText(sel, getBuilder());
