@@ -12,28 +12,28 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 	@Test
 	public void evaluateXSquared() throws Exception {
 		assertEquals(
-				interval(1, 2).pow(2),
+				interval(1, 2).getEvaluate().pow(2),
 				evalOnInterval("x^2", 1, 2));
 	}
 
 	@Test
 	public void evaluateXExponental() throws Exception {
 		assertEquals(
-				interval(1, 2).pow(Math.E),
+				interval(1, 2).getEvaluate().pow(Math.E),
 				evalOnInterval("x^e", 1, 2));
 	}
 
 	@Test
 	public void evaluateXOnNegativePower() throws Exception {
 		assertEquals(
-				interval(1, 2).pow(2).multiplicativeInverse(),
+				interval(1, 2).getEvaluate().pow(2).multiplicativeInverse(),
 				evalOnInterval("x^-2", 1, 2));
 	}
 
 	@Test
 	public void evaluateXPowerHalf() throws Exception {
 		assertEquals(
-				interval(1, 16).nthRoot(2),
+				interval(1, 16).getEvaluate().nthRoot(2),
 				evalOnInterval("x^(1/2)", 1, 16));
 	}
 
@@ -44,25 +44,26 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 
 	@Test
 	public void evaluateXPowerForth() throws Exception {
-		assertEquals(interval(1, 16).nthRoot(4),
+		assertEquals(interval(1, 16).getEvaluate().nthRoot(4),
 				evalOnInterval("x^(1/4)", 1, 16));
 	}
 
 	@Test
 	public void evaluateXPowerTwoThird() throws Exception {
-		assertEquals(interval(1, 16).pow(2).nthRoot(3),
+		assertEquals(interval(1, 16).getEvaluate().pow(2).getEvaluate().nthRoot(3),
 				evalOnInterval("x^(2/3)", 1, 16));
 	}
 
 	@Test
 	public void evaluateXOnNegativeFractionPower() throws Exception {
-		assertEquals(interval(9, 10).pow(3).sqrt().multiplicativeInverse(),
+		assertEquals(
+				interval(9, 10).getEvaluate().pow(3).getEvaluate().sqrt().multiplicativeInverse(),
 				evalOnInterval("x^(-3/2)", 9, 10));
 	}
 
 	@Test
 	public void evaluateXOnDoublePower() throws Exception {
-		assertEquals(interval(9, 10).sqrt(),
+		assertEquals(interval(9, 10).getEvaluate().sqrt(),
 				evalOnInterval("x^0.5", 9, 10));
 	}
 

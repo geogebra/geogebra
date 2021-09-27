@@ -144,6 +144,16 @@ class IntervalEvaluate {
 		return algebra.nthRoot(interval, other);
 	}
 
+	/**
+	 * Computes x^(1/n)
+	 *
+	 * @param n the root
+	 * @return nth root of the interval.
+	 */
+	public Interval nthRoot(double n) {
+		return algebra.nthRoot(interval, n);
+	}
+
 	public Interval difference(Interval other) throws IntervalsDifferenceException {
 		return misc.difference(interval, other);
 	}
@@ -281,5 +291,17 @@ class IntervalEvaluate {
 
 	public Interval log2() {
 		return misc.log2(interval);
+	}
+
+	public Interval hull(Interval other) {
+		return misc.hull(interval, intersect(other));
+	}
+
+	public Interval intersect(Interval other) {
+		return misc.intersect(interval, other);
+	}
+
+	public Interval union(Interval other) throws IntervalsNotOverlapException {
+		return misc.union(interval, other);
 	}
 }
