@@ -119,7 +119,8 @@ public class IntervalArithmeticTest {
 		assertEquals(interval(-4, 6),
 				interval(-2, 3).getEvaluate().multiply(interval(1, 2)));
 
-		assertEquals(whole(), interval(-2, 3).getEvaluate().multiply(interval(1, POSITIVE_INFINITY)));
+		assertEquals(whole(),
+				interval(-2, 3).getEvaluate().multiply(interval(1, POSITIVE_INFINITY)));
 	}
 
 	@Test
@@ -137,7 +138,8 @@ public class IntervalArithmeticTest {
 				interval(-2, 3).getEvaluate().multiply(interval(-1, 4)));
 
 		assertEquals(whole(),
-				interval(NEGATIVE_INFINITY, 3).getEvaluate().multiply(interval(-1, POSITIVE_INFINITY)));
+				interval(NEGATIVE_INFINITY, 3).getEvaluate()
+						.multiply(interval(-1, POSITIVE_INFINITY)));
 	}
 
 	@Test

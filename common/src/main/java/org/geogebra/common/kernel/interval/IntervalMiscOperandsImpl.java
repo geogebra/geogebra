@@ -91,7 +91,8 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 	}
 
 	@Override
-	public Interval difference(Interval interval, Interval other) throws IntervalsDifferenceException {
+	public Interval difference(Interval interval, Interval other)
+			throws IntervalsDifferenceException {
 		if (interval.isEmpty() || other.isWhole()) {
 			interval.setEmpty();
 			return interval;

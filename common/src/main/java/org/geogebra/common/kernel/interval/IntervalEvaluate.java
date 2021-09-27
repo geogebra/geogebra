@@ -294,7 +294,7 @@ class IntervalEvaluate {
 	}
 
 	public Interval hull(Interval other) {
-		return misc.hull(interval, intersect(other));
+		return misc.hull(interval, other);
 	}
 
 	public Interval intersect(Interval other) {
