@@ -38,7 +38,7 @@ public class NotesLayout implements SetLabels {
 	 */
 	public NotesLayout(AppW appW) {
 		this.appW = appW;
-		this.toolbar = new ToolbarMow(appW, this);
+		this.toolbar = appW.showToolBar() ? new ToolbarMow(appW, this) : null;
 		createUndoRedoButtons();
 		createPageControlButton();
 		setLabels();
@@ -159,7 +159,9 @@ public class NotesLayout implements SetLabels {
 
 	@Override
 	public void setLabels() {
-		toolbar.setLabels();
+		if (toolbar != null) {
+			toolbar.setLabels();
+		}
 		pageControlButton
 				.setTitle(appW.getLocalization().getMenu("PageControl"));
 		btnUndo.setTitle(appW.getLocalization().getMenu("Undo"));
@@ -218,7 +220,9 @@ public class NotesLayout implements SetLabels {
 	}
 
 	public void setMode(int mode) {
-		toolbar.setMode(mode);
+		if (toolbar != null) {
+			toolbar.setMode(mode);
+		}
 	}
 
 	public Widget getToolbar() {
@@ -229,13 +233,15 @@ public class NotesLayout implements SetLabels {
 	 * @return true if toolbar open, false otherwise
 	 */
 	public boolean isNotesToolbarOpen() {
-		return toolbar.isOpen();
+		return toolbar != null && toolbar.isOpen();
 	}
 
 	/**
 	 * @param open true if should open notes toolbar
 	 */
 	public void setToolbarOpen(boolean open) {
-		toolbar.openCloseNotesToolbar(open);
+		if (toolbar != null) {
+			toolbar.openCloseNotesToolbar(open);
+		}
 	}
 }
