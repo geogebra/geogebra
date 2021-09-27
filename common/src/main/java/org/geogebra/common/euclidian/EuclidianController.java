@@ -11654,13 +11654,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * move mouse cursor if waiting for
-	 */
-	public void moveIfWaiting() {
-		// used in web
-	}
-
-	/**
 	 * set view hits for current mouse location
 	 *
 	 * @param type
