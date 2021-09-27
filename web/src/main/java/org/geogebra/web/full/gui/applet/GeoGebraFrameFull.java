@@ -764,7 +764,9 @@ public class GeoGebraFrameFull
 	 */
 	public void detachNotesToolbarAndUndo(AppW app) {
 		initNotesLayoutIfNull(app);
-		remove(notesLayout.getToolbar());
+		if (notesLayout.getToolbar() != null) {
+			remove(notesLayout.getToolbar());
+		}
 		remove(notesLayout.getUndoRedoButtons());
 	}
 
