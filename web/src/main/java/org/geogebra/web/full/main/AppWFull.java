@@ -28,6 +28,8 @@ import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
+import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.io.layout.DockPanelData;
@@ -35,11 +37,13 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppKeyboardType;
@@ -48,6 +52,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.main.undo.UndoHistory;
@@ -927,25 +932,35 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void appSplashCanNowHide() {
-		String cmds = Location.getParameter("command");
-
-		if (cmds != null) {
-			Log.debug("exectuing commands: " + cmds);
-
-			for (final String cmd : cmds.split(";")) {
-				Runnable r = new Runnable() {
-					@Override
-					public void run() {
-						getKernel().getAlgebraProcessor()
-								.processAlgebraCommandNoExceptionsOrErrors(cmd,
-										false);
-					}
-				};
-
-				getAsyncManager().scheduleCallback(r);
-			}
+		String commands = Location.getParameter("command");
+		if (commands != null) {
+			executeCommands(commands);
 		}
 		removeSplash();
+	}
+
+	private void executeCommands(String commands) {
+		Log.debug("Executing commands: " + commands);
+		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(this);
+		AsyncOperation<GeoElementND[]> callback =
+				getConfig().hasAutomaticLabels() ? null : new LabelHiderCallback();
+		for (String command : commands.split(";")) {
+			Runnable r = () -> {
+				executeCommand(command, info, callback);
+			};
+			getAsyncManager().scheduleCallback(r);
+		}
+	}
+
+	private void executeCommand(String command, EvalInfo info,
+			AsyncOperation<GeoElementND[]> callback) {
+		try {
+			getKernel().getAlgebraProcessor()
+					.processAlgebraCommandNoExceptionHandling(command, false,
+							ErrorHelper.silent(), info, callback);
+		} catch (Throwable throwable) {
+			Log.error("Error evaluating input: " + command);
+		}
 	}
 
 	@Override
