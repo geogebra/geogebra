@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -96,6 +97,7 @@ public class SelectionManager {
 	private boolean geoToggled = false;
 
 	private ArrayList<GeoElement> tempMoveGeoList;
+	private GeoBoolean tempSelectedBoolean;
 	private GeoElement focusedGroupElement;
 
 	/**
@@ -180,16 +182,11 @@ public class SelectionManager {
 		int size = selectedGeos.size();
 		if (size > 0) {
 			focusedGroupElement = null;
-			for (int i = 0; i < size; i++) {
-				GeoElement geo = selectedGeos.get(i);
+			for (GeoElement geo : selectedGeos) {
 				boolean oldSelected = geo.isSelected();
 				geo.setSelected(false);
-				if (kernel.getApplication()
-						.isUnbundledOrWhiteboard()
-						&& oldSelected) {
-
+				if (kernel.getApplication().isUnbundledOrWhiteboard() && oldSelected) {
 					notifyListeners(geo);
-
 				}
 			}
 			selectedGeos.clear();
@@ -200,6 +197,8 @@ public class SelectionManager {
 			if (updateSelection) {
 				updateSelection();
 			}
+
+			tempSelectedBoolean = null;
 
 			dispatchDeselected(null);
 		}
@@ -692,14 +691,39 @@ public class SelectionManager {
 
 		int selectionSize = selectedGeos.size();
 
-		if (selectionSize == 0) {
+		if (selectionSize == 0 && tempSelectedBoolean == null) {
 			addSelectedGeoForEV(tabbingOrder.get(0));
 			return true;
 		}
 
-		GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
-
-		int nextIndex = tabbingOrder.indexOf(lastSelected) + 1;
+		int nextIndex = -1;
+		boolean elementNotFound = true;
+		if (tempSelectedBoolean != null && selectedGeos.size() == 0) {
+			nextIndex = tabbingOrder.indexOf(tempSelectedBoolean) + 1;
+		} else {
+			if (selectionSize == 1 && !tabbingOrder.contains(selectedGeos.get(0))) {
+				Iterator<GeoElement> iterator = getTabbingSet().iterator();
+				boolean foundSelected = false;
+				while (iterator.hasNext()) {
+					if (foundSelected) {
+						GeoElement nextElement = iterator.next();
+						if (tabbingOrder.contains(nextElement)) {
+							elementNotFound = false;
+							nextIndex = tabbingOrder.indexOf(nextElement);
+							break;
+						}
+					} else {
+						if (iterator.next().equals(selectedGeos.get(0))) {
+							foundSelected = true;
+						}
+					}
+				}
+			}
+			if (elementNotFound) {
+				GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
+				nextIndex = tabbingOrder.indexOf(lastSelected) + 1;
+			}
+		}
 
 		clearSelectedGeos();
 
@@ -733,14 +757,32 @@ public class SelectionManager {
 
 		int selectionSize = selectedGeos.size();
 
-		if (selectionSize == 0) {
+		if (selectionSize == 0 && tempSelectedBoolean == null) {
 			addSelectedGeoForEV(tabbingOrder.get(tabbingOrder.size() - 1));
 			return true;
 		}
 
-		GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
-
-		int previousIndex = tabbingOrder.indexOf(lastSelected) - 1;
+		int previousIndex = -1;
+		boolean elementNotFound = true;
+		if (tempSelectedBoolean != null && selectedGeos.size() == 0) {
+			previousIndex = tabbingOrder.indexOf(tempSelectedBoolean) - 1;
+		} else {
+			if (selectionSize == 1 && !tabbingOrder.contains(selectedGeos.get(0))) {
+				List<GeoElement> tabOrderFull = new ArrayList<>(getTabbingSet());
+				int index = tabOrderFull.indexOf(selectedGeos.get(0));
+				for (int i = index - 1; i >= 0; i--) {
+					if (tabbingOrder.contains(tabOrderFull.get(i))) {
+						previousIndex = tabbingOrder.indexOf(tabOrderFull.get(i));
+						elementNotFound = false;
+						break;
+					}
+				}
+			}
+			if (elementNotFound) {
+				GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
+				previousIndex = tabbingOrder.indexOf(lastSelected) - 1;
+			}
+		}
 
 		clearSelectedGeos();
 
@@ -1305,5 +1347,9 @@ public class SelectionManager {
 	 */
 	public GeoElement getFocusedGroupElement() {
 		return focusedGroupElement;
+	}
+
+	public void setTempSelectedBoolean(GeoBoolean tempSelectedBoolean) {
+		this.tempSelectedBoolean = tempSelectedBoolean;
 	}
 }

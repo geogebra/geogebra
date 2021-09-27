@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.timer.client.Timer;
@@ -55,6 +56,8 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.PopupImpl;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
+
+import jsinterop.base.Js;
 
 /**
  * A panel that can "pop up" over other widgets. It overlays the browser's
@@ -1172,19 +1175,6 @@ public class GPopupPanel extends SimplePanel implements
 	}
 
 	/**
-	 * Remove focus from an Element.
-	 *
-	 * @param elt
-	 *            The Element on which <code>blur()</code> will be invoked
-	 */
-	private native void blur(Element elt) /*-{
-		// Issue 2390: blurring the body causes IE to disappear to the background
-		if (elt.blur && elt != $doc.body) {
-			elt.blur();
-		}
-	}-*/;
-
-	/**
 	 * Does the event target one of the partner elements?
 	 *
 	 * @param event
@@ -1265,8 +1255,8 @@ public class GPopupPanel extends SimplePanel implements
 
 		// Calculate top position for the popup
 
-		int top = (relativeObject.getAbsoluteTop() - root.getAbsoluteTop())
-						/ getScale(root.getElement(), "y");
+		int top = (int) ((relativeObject.getAbsoluteTop() - root.getAbsoluteTop())
+								/ getScale(root.getElement(), "y"));
 
 		// Make sure scrolling is taken into account, since
 		// box.getAbsoluteTop() takes scrolling into account.
@@ -1302,8 +1292,8 @@ public class GPopupPanel extends SimplePanel implements
 	private int calculateLeftPositionRTL(UIObject relativeObject, int offsetWidth,
 			int textBoxOffsetWidth,	int offsetWidthDiff) {
 		int left;
-		int textBoxAbsoluteLeft = (relativeObject.getAbsoluteLeft() - root
-				.getAbsoluteLeft()) / getScale(root.getElement(), "x");
+		int textBoxAbsoluteLeft = (int) ((relativeObject.getAbsoluteLeft() - root
+						.getAbsoluteLeft()) / getScale(root.getElement(), "x"));
 
 		// Right-align the popup. Note that this computation is
 		// valid in the case where offsetWidthDiff is negative.
@@ -1358,8 +1348,8 @@ public class GPopupPanel extends SimplePanel implements
 
 	private int calculateLeftPosition(UIObject relativeObject, int offsetWidth,
 			int offsetWidthDiff) {
-		int left = (relativeObject.getAbsoluteLeft() - root.getAbsoluteLeft())
-						/ getScale(root.getElement(), "x");
+		int left = (int) ((relativeObject.getAbsoluteLeft() - root.getAbsoluteLeft())
+								/ getScale(root.getElement(), "x"));
 		// If the suggestion popup is not as wide as the text box, always
 		// align to
 		// the left edge of the text box. Otherwise, figure out whether to
@@ -1394,19 +1384,20 @@ public class GPopupPanel extends SimplePanel implements
 		return left;
 	}
 
-	private static int getScale(Element start, String dir) {
+	private static double getScale(Element start, String dir) {
 		return Browser.isSafariByVendor() ? 1 : getScaleNative(start, dir);
 	}
 
-	private static native int getScaleNative(Element start, String dir) /*-{
-		while (start) {
-			if (start.getAttribute("data-scale" + dir)) {
-				return start.getAttribute("data-scale" + dir);
+	private static double getScaleNative(Element start, String dir) {
+		Element current = start;
+		while (Js.isTruthy(current)) {
+			if (!StringUtil.empty(start.getAttribute("data-scale" + dir))) {
+				return Double.parseDouble(start.getAttribute("data-scale" + dir));
 			}
-			start = start.parentElement;
+			current = current.getParentElement();
 		}
 		return 1;
-	}-*/;
+	}
 
 	/**
 	 * Preview the {@link NativePreviewEvent}.
@@ -1491,7 +1482,7 @@ public class GPopupPanel extends SimplePanel implements
 		case Event.ONFOCUS: {
 			Element target = nativeEvent.getTarget();
 			if (modal && !eventTargetsPopupOrPartner && (target != null)) {
-				blur(target);
+				target.blur();
 				event.cancel();
 				return;
 			}

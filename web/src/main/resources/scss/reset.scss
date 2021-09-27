@@ -1,4 +1,4 @@
-@import 'colors';
+@use 'colors';
 $slider-diameter: 15px;
 
 .GeoGebraFrame {
@@ -121,7 +121,7 @@ $slider-diameter: 15px;
 	
 	input[type=range]::-webkit-slider-runnable-track {
 		height: 5px;
-		background-color: $slider-track;
+		background-color: colors.$slider-track;
 		border: none;
 	}
 	
@@ -131,7 +131,7 @@ $slider-diameter: 15px;
 		height: $slider-diameter;
 		width: $slider-diameter;
 		border-radius: 50%;
-		background-color: $black;
+		background-color: colors.$black;
 		transform-origin: 50% 50%;
 		margin: -5px 0 0 0;
 		transition: initial;
@@ -152,7 +152,7 @@ $slider-diameter: 15px;
 		
 	input[type=range]::-moz-range-track {
 		height: 5px;
-		background: $slider-track;
+		background: colors.$slider-track;
 		border: none;
 	}
 	
@@ -161,19 +161,19 @@ $slider-diameter: 15px;
 		height: $slider-diameter;
 		width: $slider-diameter;
 		border-radius: 50%;
-		background: $black;
+		background: colors.$black;
 		margin-top: -5px;
 		cursor: pointer;
 	}
 	
 	// hide the outline behind the border
 	input[type=range]:-moz-focusring {
-		outline: 1px solid $white;
+		outline: 1px solid colors.$white;
 		outline-offset: -1px;
 	}
 	
 	input[type=range]:focus::-moz-range-track {
-		background: $slider-track-focus;
+		background: colors.$slider-track-focus;
 	}
 	
 	input[type=range]::-ms-track {
@@ -191,11 +191,11 @@ $slider-diameter: 15px;
 	}
 	
 	input[type=range]::-ms-fill-lower {
-		background: $slider-track;
+		background: colors.$slider-track;
 	}
 	
 	input[type=range]::-ms-fill-upper {
-		background: $slider-track;
+		background: colors.$slider-track;
 	}
 
 	input[type=range]::-ms-thumb {
@@ -203,15 +203,15 @@ $slider-diameter: 15px;
 		height: $slider-diameter;
 		width: $slider-diameter;
 		border-radius: 50%;
-		background: $black;
+		background: colors.$black;
 	}
 	
 	input[type=range]:focus::-ms-fill-lower {
-		background: $slider-track-focus;
+		background: colors.$slider-track-focus;
 	}
 	
 	input[type=range]:focus::-ms-fill-upper {
-		background: $slider-track-focus;
+		background: colors.$slider-track-focus;
 	}
 	
 	/* Radio Buttons
@@ -270,7 +270,7 @@ $slider-diameter: 15px;
 
 [type="radio"]:not(:checked) + label:before,
 [type="radio"]:not(:checked) + label:after {
-  border: 2px solid $gray;
+  border: 2px solid colors.$gray;
 }
 
 [type="radio"]:not(:checked) + label:after {
@@ -297,12 +297,12 @@ $slider-diameter: 15px;
 	[type="radio"]:checked + label:after,
 [type="radio"].with-gap:checked + label:before,
 [type="radio"].with-gap:checked + label:after {
-  border: $teal-light;
+  border: colors.$teal-light;
 }
 
 [type="radio"]:checked + label:after,
 [type="radio"].with-gap:checked + label:after {
-  background-color: $teal-default;
+  background-color: colors.$teal-default;
 }
 }
 
@@ -322,32 +322,32 @@ $slider-diameter: 15px;
 
 /* Disabled Radio With gap */
 [type="radio"].with-gap:disabled:checked + label:before {
-  border: 2px solid $gray;
+  border: 2px solid colors.$gray;
 }
 
 [type="radio"].with-gap:disabled:checked + label:after {
   border: none;
-  background-color: $gray;
+  background-color: colors.$gray;
 }
 
 /* Disabled style */
 [type="radio"]:disabled:not(:checked) + label:before,
 [type="radio"]:disabled:checked + label:before {
   background-color: transparent;
-  border-color: $gray;
+  border-color: colors.$gray;
 }
 
 [type="radio"]:disabled + label {
-  color: $gray;
+  color: colors.$gray;
 }
 
 [type="radio"]:disabled:not(:checked) + label:before {
-  border-color: $gray;
+  border-color: colors.$gray;
 }
 
 [type="radio"]:disabled:checked + label:after {
-  background-color: $gray;
-  border-color: $gray;
+  background-color: colors.$gray;
+  border-color: colors.$gray;
 }
 	
 

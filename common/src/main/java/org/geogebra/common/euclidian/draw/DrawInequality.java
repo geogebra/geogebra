@@ -662,10 +662,7 @@ public class DrawInequality extends Drawable {
 		if (fun.getVarNumber() == coords.length) {
 			return fun.evaluateBoolean(coords);
 		}
-
-		Log.error("problem with hit calculation for "
-				+ geo.getDefinitionForInputBar());
-
+		// x + y + z > 0 not drawable, no hit
 		return false;
 	}
 

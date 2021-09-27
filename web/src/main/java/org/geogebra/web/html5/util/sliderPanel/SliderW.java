@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.util.sliderPanel;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.FocusWidget;
  */
 public class SliderW extends FocusWidget implements SliderWI {
 
-	private Element range;
+	private InputElement range;
 	private boolean valueChangeHandlerInitialized;
 	private Double curValue;
 
@@ -29,24 +29,20 @@ public class SliderW extends FocusWidget implements SliderWI {
 	 *            slider max
 	 */
 	public SliderW(double min, double max) {
-		range = Document.get().createElement("input");
+		range = Document.get().createTextInputElement();
 		range.setAttribute("type", "range");
 		range.setAttribute("min", String.valueOf(min));
 		range.setAttribute("max", String.valueOf(max));
-		setRangeValue(range, String.valueOf(min));
+		range.setValue(String.valueOf(min));
 		setElement(range);
 		addMouseDownHandler(this);
 		addMouseMoveHandler(this);
 		addMouseUpHandler(this);
 	}
 
-	private native void setRangeValue(Element range, String value) /*-{
-		range.value = value;
-	}-*/;
-
 	@Override
 	public Double getValue() {
-		return Double.valueOf(getRangeValue(range));
+		return Double.valueOf(range.getValue());
 	}
 
 	/**
@@ -62,10 +58,6 @@ public class SliderW extends FocusWidget implements SliderWI {
 			range.removeAttribute("disabled");
 		}
 	}
-
-	private native String getRangeValue(Element rangeEl) /*-{
-		return rangeEl.value;
-	}-*/;
 
 	@Override
 	public void setMinimum(double min) {
@@ -104,11 +96,7 @@ public class SliderW extends FocusWidget implements SliderWI {
 
 	@Override
 	public void setValue(Double value, boolean fireEvents) {
-		setSliderValue(String.valueOf(value));
-	}
-
-	private void setSliderValue(String value) {
-		setRangeValue(range, value);
+		range.setValue(String.valueOf(value));
 	}
 
 	@Override

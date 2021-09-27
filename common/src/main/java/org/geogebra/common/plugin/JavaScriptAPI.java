@@ -1012,19 +1012,13 @@ public interface JavaScriptAPI {
 
 	/**
 	 * Cast undo
-	 * 
-	 * @param repaint
-	 *            true to repaint the views afterwards
 	 */
-	void undo(boolean repaint);
+	void undo();
 
 	/**
 	 * Cast redo
-	 * 
-	 * @param repaint
-	 *            true to repaint the views afterwards
 	 */
-	void redo(boolean repaint);
+	void redo();
 
 	String getViewProperties(int viewID);
 

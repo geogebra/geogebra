@@ -1518,33 +1518,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
-	public void undo(boolean repaint) {
-		app.getKernel().undo();
-		if (repaint) {
-			app.doRepaintViews();
-		}
-	}
-
-	/**
-	 * Undo without forced repaint
-	 */
 	public void undo() {
-		undo(false);
-	}
-
-	/**
-	 * Redo without forced repaint
-	 */
-	public void redo() {
-		redo(false);
+		app.getKernel().undo();
 	}
 
 	@Override
-	public void redo(boolean repaint) {
+	public void redo() {
 		app.getKernel().redo();
-		if (repaint) {
-			app.doRepaintViews();
-		}
 	}
 
 	/**

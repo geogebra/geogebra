@@ -38,6 +38,7 @@ public class SettingsUpdater {
 		kernel.setPrintDecimals(appConfig.getDefaultPrintDecimals());
 		labelSettingsUpdater.setLabelVisibility(LabelVisibility.PointsOnly);
 		settings.getAlgebra().setStyle(AlgebraStyle.DEFINITION_AND_VALUE);
+		fontSettingsUpdater.resetFonts();
 	}
 
 	/**

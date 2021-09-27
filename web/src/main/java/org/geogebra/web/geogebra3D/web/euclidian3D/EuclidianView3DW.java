@@ -46,6 +46,7 @@ import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.GestureChangeEvent;
 import com.google.gwt.event.dom.client.GestureEndEvent;
 import com.google.gwt.event.dom.client.GestureStartEvent;
@@ -169,6 +170,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 					euclidiancontroller.getOffsets());
 			pointerHandler.attachTo(absPanel.getElement(), ((AppW) app).getGlobalHandlers());
 			CancelEventTimer.killTouch(absPanel);
+			absPanel.addBitlessDomHandler(DomEvent::stopPropagation, MouseDownEvent.getType());
 		} else {
 			absPanel.addDomHandler(euclidiancontroller,
 					MouseMoveEvent.getType());

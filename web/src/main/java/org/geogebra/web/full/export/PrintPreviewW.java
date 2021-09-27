@@ -11,8 +11,6 @@ import org.geogebra.web.resources.StyleInjector;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.Window;
@@ -20,6 +18,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+
+import elemental2.dom.HTMLCollection;
 
 /**
  * Print dialog
@@ -176,10 +176,10 @@ public class PrintPreviewW extends ComponentDialog implements ChangeHandler {
 	}
 
 	private static void removePrintPanelFromDOM() {
-		NodeList<Element> pp = Dom
+		HTMLCollection<elemental2.dom.Element> pp = Dom
 				.getElementsByClassName("printPanel");
 		if (pp.getLength() != 0) {
-			pp.getItem(0).removeFromParent();
+			pp.getAt(0).remove();
 		}
 	}
 }
