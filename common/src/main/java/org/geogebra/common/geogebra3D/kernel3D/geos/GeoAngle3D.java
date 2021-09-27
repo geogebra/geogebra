@@ -23,7 +23,8 @@ final public class GeoAngle3D extends GeoAngle {
 
 	@Override
 	public GeoAngle copy() {
-		GeoAngle angle = new GeoAngle3D(cons);
+		GeoAngle3D angle = new GeoAngle3D(cons);
+		angle.hasOrientation = hasOrientation;
 		copyPropertiesTo(angle);
 		return angle;
 	}
